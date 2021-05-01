@@ -522,15 +522,7 @@ function AssetGetActivity(Family, Name) {
  * @returns {Array.<{Name: string, Group: string}>} - The cleaned up array
  */
 function AssetCleanArray(AssetArray) {
-	var CleanArray = [];
-	// Only save the existing items
-	for (let A = 0; A < Asset.length; A++)
-		for (let AA = 0; AA < AssetArray.length; AA++)
-			if (AssetArray[AA].Name == Asset[A].Name && AssetArray[AA].Group == Asset[A].Group.Name) {
-				CleanArray.push(AssetArray[AA]);
-				break;
-			}
-	return CleanArray;
+	return AssetArray.filter(({ Group, Name }) => AssetGet('Female3DCG', Group, Name) != null);
 }
 
 /**
