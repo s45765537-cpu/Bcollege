@@ -1152,11 +1152,9 @@ function DialogMenuButtonClick() {
 				if (C.FocusGroup.Name == "ItemMouth") NewLayerName = "ItemMouth2";
 				if (C.FocusGroup.Name == "ItemMouth2") NewLayerName = "ItemMouth3";
 				if (C.FocusGroup.Name == "ItemMouth3") NewLayerName = "ItemMouth";
-				for (let A = 0; A < AssetGroup.length; A++)
-					if (AssetGroup[A].Name == NewLayerName) {
-						C.FocusGroup = AssetGroup[A];
-						DialogInventoryBuild(C);
-					}
+
+				C.FocusGroup = AssetGroupGet(C.AssetFamily, NewLayerName);
+				DialogInventoryBuild(C);
 			}
 
 
