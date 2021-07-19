@@ -152,12 +152,12 @@ function KinkyDungeonPickAttempt() {
 
 
 	if (!KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
-	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true)) escapeChance = Math.max(0.0, escapeChance - 0.25);
-	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true)) escapeChance = Math.max(0, escapeChance - 0.5);
+	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms")) escapeChance = Math.max(0.0, escapeChance - 0.25);
+	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands")) escapeChance = Math.max(0, escapeChance - 0.5);
 
 	escapeChance /= 1.0 + KinkyDungeonStatArousal/KinkyDungeonStatArousalMax*KinkyDungeonArousalUnlockSuccessMod;
 
-	if (KinkyDungeonStatStamina + KinkyDungeonStaminaRate < -cost) {
+	if (!KinkyDungeonHasStamina(-cost, true)) {
 		KinkyDungeonWaitMessage();
 	} else if (Math.random() < escapeChance)
 	{
@@ -178,8 +178,8 @@ function KinkyDungeonUnlockAttempt(lock) {
 	let escapeChance = 1.0;
 
 	if (!KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
-	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true)) escapeChance = Math.max(0.1, escapeChance - 0.25);
-	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true)) escapeChance = Math.max(0, escapeChance - 0.5);
+	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms")) escapeChance = Math.max(0.1, escapeChance - 0.25);
+	if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands")) escapeChance = Math.max(0, escapeChance - 0.5);
 
 	if (Math.random() < escapeChance)
 		Pass = "Success";
@@ -203,8 +203,8 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 
 	if (!KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
-	if (struggleGroup.group != "ItemArms" && InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true)) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
-	if (struggleGroup.group != "ItemHands" && InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true))
+	if (struggleGroup.group != "ItemArms" && (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms"))) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
+	if (struggleGroup.group != "ItemHands" && (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands")))
 		escapeChance = StruggleType == "Pick" ? Math.max(0, escapeChance - 0.5) : Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
 
 	if (StruggleType == "Pick" || StruggleType == "Unlock") escapeChance /= 1.0 + KinkyDungeonStatArousal/KinkyDungeonStatArousalMax*KinkyDungeonArousalUnlockSuccessMod;
@@ -232,7 +232,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : restraint.lock) + "Key"), "orange", 2);
 	} else {
 
-		if (KinkyDungeonStatStamina + KinkyDungeonStaminaRate < -cost) {
+		if (!KinkyDungeonHasStamina(-cost, true)) {
 			KinkyDungeonWaitMessage();
 		} else {
 			if (Math.random() < escapeChance && !(restraint.lock == "Blue" && (StruggleType == "Pick"  || StruggleType == "Cut" ))) {

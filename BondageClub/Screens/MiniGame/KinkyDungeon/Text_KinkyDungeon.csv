@@ -16,7 +16,8 @@ StatArousal,"Arousal: "
 StatStamina,"Stamina: "
 StatWillpower,"Willpower: "
 
-Wait,"You are exhausted."
+Wait,"You wait."
+WaitExhaustion,"You are exhausted."
 WaitSpellExhaustion,"You are exhausted from spellcasting."
 
 GameStart,Start New Game
@@ -114,6 +115,7 @@ PlayerAttack,"You attack the TargetEnemy for DamageDealt damage!"
 PlayerRanged,"AttackName hits the TargetEnemy for DamageDealt damage!"
 KinkyDungeonBasicAttack,attack
 PlayerMiss,"You miss the TargetEnemy!"
+PlayerMissArmor,"Your attack is too feeble to hurt the TargetEnemy!"
 KinkyDungeonStruggleStruggleFail,"You tug on the TargetRestraint but fail to make progress."
 KinkyDungeonStrugglePickFail,"You try to unlock the TargetRestraint but can't reach the lock."
 KinkyDungeonStrugglePickBreak,"You try to unlock the TargetRestraint but break your lockpick."
@@ -167,7 +169,7 @@ KinkyDungeonCloseDoorDone,"You slam the door and jam it shut!"
 KinkyDungeonShrineCharms,"mummies"
 KinkyDungeonShrineLeather,"leather"
 KinkyDungeonShrineMetal,"metal"
-KinkyDungeonShrineWill,"willpower"
+KinkyDungeonShrineWill,"Restoration"
 KinkyDungeonShrineElements,"the elements"
 KinkyDungeonShrineConjure,"conjuration"
 KinkyDungeonShrineIllusion,"illusions"
@@ -266,12 +268,12 @@ KinkyDungeonSpellDescriptionFirebolt,A slow moving ball of flame that does Damag
 KinkyDungeonSpellCastFirebolt,You a hurl a firebolt!
 KinkyDungeonSpellTargetFirebolt,Choose aim direction
 
-KinkyDungeonSpellBlink,Mistcall
+KinkyDungeonSpellBlink,Blink
 KinkyDungeonSpellDescriptionBlink,Teleport to a nearby location after DelayTime turns.
 KinkyDungeonSpellCastBlink,You call upon the mists to transport you!
 KinkyDungeonSpellTargetBlink,Choose target location
 
-KinkyDungeonSpellLeap,Rift Leap
+KinkyDungeonSpellLeap,Riftwalk
 KinkyDungeonSpellDescriptionLeap,Teleport to a location next turn.
 KinkyDungeonSpellCastLeap,You jump through a mystic portal!
 KinkyDungeonSpellTargetLeap,Choose target location
@@ -373,8 +375,7 @@ KinkyDungeonGame,"Return to Game"
 
 KinkyDungeonMagicLevel,"Level: "
 KinkyDungeonMagicCost,"Stamina Cost: "
-KinkyDungeonMagicExhaustion, "Blocks regen"
-KinkyDungeonMagicExhaustion2, "for TimeTaken turns"
+KinkyDungeonMagicManaCost, "Mana Cost: "
 
 KinkyDungeonSpell0,"Choose as Spell 1"
 KinkyDungeonSpell1,"Choose as Spell 2"

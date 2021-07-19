@@ -10,6 +10,7 @@ var KinkyDungeonMeleeDamageTypes = ["crush", "slash", "pierce", "grope", "pain",
 
 function KinkyDungeonEvasion(Enemy) {
 	var hitChance = Enemy.buffs.Evasion ? Enemy.buffs.Evasion.power : 1.0;
+	hitChance *= KinkyDungeonPlayerDamage.chance;
 
 	hitChance -= Math.min(3, KinkyDungeonPlayer.GetBlindLevel()) * KinkyDungeonMissChancePerBlind;
 	if (KinkyDungeonPlayer.IsDeaf()) hitChance *= 0.67;
@@ -35,6 +36,7 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 	var resistStun = 0;
 	let resistDamage = 0;
 	let dmgDealt = 0;
+	let armor = (Enemy.Enemy.armor) ? Enemy.Enemy.armor : 0;
 
 	if (Damage) {
 		if (Enemy.Enemy.tags) {
@@ -53,6 +55,8 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 				dmgDealt = Math.max(dmg+1, Math.floor(dmg*1.5)); // Enemies that are vulnerable take either dmg+1 or 1.5x damage, whichever is greater
 			else
 				dmgDealt = dmg
+			
+			dmgDealt = Math.max(dmgDealt - armor, 0);
 			Enemy.hp -= dmgDealt;
 		}
 		if ((resistStun < 2 && resistDamage < 2) && (Damage.type == "stun" || Damage.type == "chain" || Damage.type == "electric" || Damage.type == "ice")) { // Being immune to the damage stops the stun as well
@@ -70,7 +74,9 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 		KinkyDungeonKilledEnemy = Enemy;
 	}
 
-	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(3, (Damage) ? TextGet((Ranged) ? "PlayerRanged" : "PlayerAttack").replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)).replace("AttackName", atkname).replace("DamageDealt", dmgDealt) : TextGet("PlayerMiss").replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)),
+	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(3, (Damage > 0) ?
+		TextGet((Ranged) ? "PlayerRanged" : "PlayerAttack").replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)).replace("AttackName", atkname).replace("DamageDealt", dmgDealt)
+		: TextGet("PlayerMiss" + ((Damage) ? "Armor" : "")).replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)),
 			(Damage && (dmg > 0 || effect)) ? "orange" : "red", 2);
 
 	return dmg;
@@ -86,7 +92,7 @@ function KinkyDungeonAttackEnemy(Enemy, Damage) {
 	}
 
 
-	KinkyDungeonDamageEnemy(Enemy, (hit) ? Damage : null);
+	return KinkyDungeonDamageEnemy(Enemy, (hit) ? Damage : null);
 }
 
 function KinkyDungeonUpdateBullets(delta) {
@@ -280,7 +286,9 @@ function KinkyDungeonLaunchBullet(x, y, targetx, targety, speed, bullet, miscast
 		vy = 0;
 		lifetime = 1;
 	}
-	KinkyDungeonBullets.push({born: 1, time:lifetime, x:x, y:y, vx:vx, vy:vy, xx:x, yy:y, spriteID:bullet.name + CommonTime(), bullet:bullet, trail:bullet.spell.trail});
+	let b = {born: 1, time:lifetime, x:x, y:y, vx:vx, vy:vy, xx:x, yy:y, spriteID:bullet.name + CommonTime(), bullet:bullet, trail:bullet.spell.trail};
+	KinkyDungeonBullets.push(b);
+	return b;
 }
 
 function KinkyDungeonDrawFight(canvasOffsetX, canvasOffsetY, CamX, CamY) {
@@ -312,9 +320,13 @@ function KinkyDungeonDrawFight(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 
 		// Reset the transformation
 		spriteContext.setTransform(1, 0, 0, 1, 0, 0);
+		
+		KinkyDungeonUpdateVisualPosition(KinkyDungeonBullets[E], KinkyDungeonDrawDelta);
+		let tx = KinkyDungeonBullets[E].visual_x;
+		let ty = KinkyDungeonBullets[E].visual_y;
 
 		if (KinkyDungeonBullets[E].x >= CamX && KinkyDungeonBullets[E].y >= CamY && KinkyDungeonBullets[E].x < CamX + KinkyDungeonGridWidthDisplay && KinkyDungeonBullets[E].y < CamY + KinkyDungeonGridHeightDisplay) {
-			KinkyDungeonContext.drawImage(spriteCanvas,  (KinkyDungeonBullets[E].x - CamX - (bullet.width-1)/2)*KinkyDungeonGridSizeDisplay, (KinkyDungeonBullets[E].y - CamY - (bullet.height-1)/2)*KinkyDungeonGridSizeDisplay);
+			KinkyDungeonContext.drawImage(spriteCanvas,  (tx - CamX - (bullet.width-1)/2)*KinkyDungeonGridSizeDisplay, (ty - CamY - (bullet.height-1)/2)*KinkyDungeonGridSizeDisplay);
 		}
 
 

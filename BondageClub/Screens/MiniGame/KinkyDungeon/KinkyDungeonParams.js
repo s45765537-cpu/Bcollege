@@ -22,7 +22,6 @@ var KinkyDungeonMapParams = [
 			{Type: "Elements", Weight: 5},
 			{Type: "Conjure", Weight: 5},
 			{Type: "Illusion", Weight: 5},
-			{Type: "Charms", Weight: 9},
 			{Type: "Leather", Weight: 6},
 			{Type: "Metal", Weight: 3},
 			{Type: "Will", Weight: 10},]
@@ -44,6 +43,16 @@ var KinkyDungeonMapParams = [
 		"max_width" : 27,
 		"min_height" : 11,
 		"max_height" : 17,
+
+		"enemytags": ["zombie"],
+		"shrines": [
+			{Type: "Elements", Weight: 4},
+			{Type: "Conjure", Weight: 6},
+			{Type: "Illusion", Weight: 7},
+			{Type: "Leather", Weight: 6},
+			{Type: "Metal", Weight: 5},
+			{Type: "Will", Weight: 10},]
+
 	},
 	{
 		"openness" : 2,

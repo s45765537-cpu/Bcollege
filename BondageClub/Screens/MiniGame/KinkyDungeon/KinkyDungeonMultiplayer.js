@@ -147,6 +147,7 @@ function KinkyDungeonUpdateFromData() {
 		
 		if (KinkyDungeonGameData.meta.wp != null) KinkyDungeonStatWillpower = Math.round(KinkyDungeonGameData.meta.wp);
 		if (KinkyDungeonGameData.meta.sp != null) KinkyDungeonStatStamina = Math.round(KinkyDungeonGameData.meta.sp);
+		if (KinkyDungeonGameData.meta.mp != null) KinkyDungeonStatStaminaMana = Math.round(KinkyDungeonGameData.meta.mp);
 		if (KinkyDungeonGameData.meta.ap != null) KinkyDungeonStatArousal = Math.round(KinkyDungeonGameData.meta.ap);
 		if (KinkyDungeonGameData.meta.rk != null) KinkyDungeonRedKeys = Math.round(KinkyDungeonGameData.meta.rk);
 		if (KinkyDungeonGameData.meta.gk != null) KinkyDungeonGreenKeys = Math.round(KinkyDungeonGameData.meta.gk);
@@ -208,6 +209,7 @@ function KinkyDungeonPackData(IncludeMap, IncludeItems, IncludeInventory, Includ
 	if (IncludeStats) {
 		meta.wp = Math.round(KinkyDungeonStatWillpower);
 		meta.sp = Math.round(KinkyDungeonStatStamina);
+		meta.mp = Math.round(KinkyDungeonStatStaminaMana);
 		meta.ap = Math.round(KinkyDungeonStatArousal);
 		meta.rk = KinkyDungeonRedKeys;
 		meta.gk = KinkyDungeonGreenKeys;
