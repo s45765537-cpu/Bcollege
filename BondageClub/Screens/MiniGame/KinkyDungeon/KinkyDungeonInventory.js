@@ -54,16 +54,22 @@ function KinkyDungeonFilterInventory(Filter) {
 
 function KinkyDungeonDrawInventorySelected(List) {
 	let item = List[KinkyDungeonCurrentPageInventory];
-	let name = "Item";
+	if (!item) return false;
+	let name = item.name;
 	let prefix = "KinkyDungeonInventoryItem";
-	if (item.restraint || item.looserestraint) prefix = "Restraint";
+	if (item.item.restraint || item.item.looserestraint) prefix = "Restraint";
 	
 	DrawText(TextGet(prefix + name), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5, "black", "silver");
-	var textSplit = KinkyDungeonWordWrap(TextGet(prefix + name + "Desc")), 15).split('\n');
+	let textSplit = KinkyDungeonWordWrap(TextGet(prefix + name + "Desc"), 15).split('\n');
+	let textSplit2 = KinkyDungeonWordWrap(TextGet(prefix + name + "Desc2"), 15).split('\n');
 	
-	var i = 0;
+	let i = 2;
 	for (let N = 0; N < textSplit.length; N++) {
 		DrawText(textSplit[N],
+			canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + i * 40, "black", "silver"); i++;}
+	i = 0;
+	for (let N = 0; N < textSplit2.length; N++) {
+		DrawText(textSplit2[N],
 			canvasOffsetX + 640*KinkyDungeonBookScale*(1-1/3.35), canvasOffsetY + 483*KinkyDungeonBookScale/5 + i * 40, "black", "silver"); i++;}
 
 	i = 0;
@@ -79,7 +85,9 @@ function KinkyDungeonDrawInventory() {
 		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookNextPage"), "White", "", "");
 	}
 	
-	KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter));
+	let redraw = false;
+	if (!KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) {KinkyDungeonCurrentFilter = "Consumables"; redraw = true;}
+	if (redraw && !KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) KinkyDungeonCurrentFilter = "Equipped";
 	
 	for (let I = 0; I < KinkyDungeonFilters.length; I++) 
 		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60, TextGet("KinkyDungeonCategoryFilter" + KinkyDungeonFilters[I]), (KinkyDungeonCurrentFilter == KinkyDungeonFilters[I]) ? "White" : "Grey", "", "");
