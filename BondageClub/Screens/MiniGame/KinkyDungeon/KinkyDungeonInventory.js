@@ -92,6 +92,39 @@ function KinkyDungeonDrawInventorySelected(List) {
 	i = 0;
 }
 
+function KinkyDungeonGetInventoryItem(Name, Filter = "Consumable") {
+	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
+		let item = KinkyDungeonInventory[I];
+		if (item.name == Name) return item;
+	}
+	return null;
+}
+
+function KinkyDungeonChangeConsumable(Consumable, Quantity) {
+	let consumables = KinkyDungeonFilterInventory("Consumables");
+	for (let I = 0; I < consumables.length; I++) {
+		let item = consumables[I];
+		if (item.name == Consumable.Name) {
+			item.quantity += Quantity;
+			if (item.quantity <= 0) {
+				for (let II = 0; II < KinkyDungeonInventory.length; II++) {
+					if (KinkyDungeonInventory[II].consumable.name == Consumable.Name) {
+						KinkyDungeonInventory.splice(II, 1);
+						return true;
+					}
+				}
+			} 
+			return true;
+		}
+	}
+	
+	if (Quantity >= 0) {
+		KinkyDungeonInventory.push({consumable: Consumable, quantity: Quantity});
+	}
+	
+	return false;
+}
+
 function KinkyDungeonDrawInventory() {
 	DrawImageZoomCanvas(KinkyDungeonRootDirectory + "MagicBook.png", MainCanvas, 0, 0, 640, 483, canvasOffsetX, canvasOffsetY, 640*KinkyDungeonBookScale, 483*KinkyDungeonBookScale, false);
 
