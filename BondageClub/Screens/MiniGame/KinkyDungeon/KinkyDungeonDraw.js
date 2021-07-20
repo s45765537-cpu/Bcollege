@@ -281,7 +281,7 @@ function KinkyDungeonDrawGame() {
 					}
 				}
 				
-				//DrawButton(650, 925, 250, 60, TextGet("KinkyDungeonInventory"), "White", "", "");
+				DrawButton(650, 925, 250, 60, TextGet("KinkyDungeonInventory"), "White", "", "");
 				DrawButton(925, 925, 250, 60, TextGet("KinkyDungeonMagic"), "White", "", "");
 
 				if (KinkyDungeonSpells[KinkyDungeonSpellChoices[0]]) {
@@ -370,8 +370,8 @@ function KinkyDungeonHandleHUD() {
 		if (MouseIn(canvasOffsetX, canvasOffsetY, KinkyDungeonCanvas.width, KinkyDungeonCanvas.height))
 			KinkyDungeonSetTargetLocation();
 
-		//if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Inventory"}
-		//else
+		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Inventory"; return true;}
+		else
 		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Magic"; return true;}
 		else if (MouseIn(510, 925, 120, 60)) { KinkyDungeonDrawStruggle = !KinkyDungeonDrawStruggle; return true;}
 

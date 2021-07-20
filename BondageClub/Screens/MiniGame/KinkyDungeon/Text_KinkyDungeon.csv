@@ -177,40 +177,124 @@ KinkyDungeonShrineIllusion,"illusions"
 ClimbDown,"You climb down to the next level"
 
 
+KinkyDungeonCategoryFilterConsumables,Consumable
+KinkyDungeonCategoryFilterEquipped,Equipped
+KinkyDungeonCategoryFilterWeapons,Weapons
+KinkyDungeonCategoryFilterOutfits,Outfits
+KinkyDungeonCategoryFilterRestraints,Loose Restraints
+KinkyDungeonCategoryFilterMisc,Miscellaneous
+
+KinkyDungeonInventoryItemTrapArmbinder,Armbinder
+
+KinkyDungeonInventoryItemTrapCuffs,Handcuffs
+
+KinkyDungeonInventoryItemTrapHarness,Harness
+
+KinkyDungeonInventoryItemTrapGag,Ball Gag
+
+KinkyDungeonInventoryItemTrapBoots,Slave Heels
+
+KinkyDungeonInventoryItemTrapLegirons,Leg Irons
+
+KinkyDungeonInventoryItemTrapBlindfold,Blindfold
+
+KinkyDungeonInventoryItemTrapBelt,Steel Belt
+
+KinkyDungeonInventoryItemTrapVibe,Egg Vibe
+
 RestraintDuctTapeArms,Charms
+RestraintDuctTapeArmsDesc,"A band of faintly magic ribbon wrapped tight around your arms."
+RestraintDuctTapeArmsDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeLegs,Charms
+RestraintDuctTapeLegsDesc,"A band of faintly magic ribbon wrapped tight around your thighs."
+RestraintDuctTapeLegsDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeFeet,Charms
+RestraintDuctTapeFeetDesc,"A band of faintly magic ribbon wrapped tight around your ankles."
+RestraintDuctTapeFeetDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeHead,Charms
+RestraintDuctTapeHeadDesc,"A band of faintly magic ribbon wrapped tight around your eyes."
+RestraintDuctTapeHeadDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeMouth,Charms
+RestraintDuctTapeMouthDesc,"A band of faintly magic ribbon wrapped tight around your mouth."
+RestraintDuctTapeMouthDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeBoots,Charms
-RestraintDuctTapeFeet,Charms
+RestraintDuctTapeBootsDesc,"A layer of faintly magic ribbon wrapped tight around your feet."
+RestraintDuctTapeBootsDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeHeadMummy,Charms
+RestraintDuctTapeHeadMummyDesc,"A layer of faintly magic ribbon wrapped tight around your face."
+RestraintDuctTapeHeadMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeArmsMummy,Charms
+RestraintDuctTapeArmsMummyDesc,"A layer of faintly magic ribbon wrapped tight around your body."
+RestraintDuctTapeArmsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeFeetMummy,Charms
+RestraintDuctTapeFeetMummyDesc,"A layer of faintly magic ribbon wrapped tight around your shins."
+RestraintDuctTapeFeetMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintDuctTapeLegsMummy,Charms
+RestraintDuctTapeLegsMummyDesc,"A layer of faintly magic ribbon wrapped tight around your thighs."
+RestraintDuctTapeLegsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintStuffing,Stuffing
+RestraintStuffingDesc,"A stuffing of cloth."
+RestraintStuffingDesc2,"You could spit it out easily, provided nothing's covering it."
 RestraintWeakMagicRopeArms,Magic Rope
+RestraintWeakMagicRopeArmsDesc,"Faintly glowing ropes from a magic trap."
+RestraintWeakMagicRopeArmsDesc2,"I wonder who was responsible?"
 RestraintWeakMagicRopeLegs,Magic Rope
+RestraintWeakMagicRopeLegsDesc,"Faintly glowing ropes from a magic trap."
+RestraintWeakMagicRopeLegsDesc2,"I wonder who was responsible?"
 RestraintStickySlime,Sticky Slime
+RestraintStickySlimeDesc,"A sticky layer of slime keeping you anchored to the ground."
+RestraintStickySlimeDesc2,"It will slow you for a single turn."
 RestraintTrapArmbinder,Armbinder
+RestraintTrapArmbinderDesc,"A tight leather armbinder enclosing your hands and arms completely."
+RestraintTrapArmbinderDesc2,"It's quite snug and impossible to unlock by yourself."
 RestraintTrapCuffs,Handcuffs
+RestraintTrapCuffsDesc,"A pair of steel cuffs locked securely around your wrists."
+RestraintTrapCuffsDesc2,"The lock doesn't seem very complicated."
 RestraintTrapHarness,Harness
+RestraintTrapHarnessDesc,"A leather harness consisting of tight straps buckled around your torso."
+RestraintTrapHarnessDesc2,"It provides an anchor point for enemies to grab onto!"
 RestraintTrapGag,Ball Gag
-RestraintTrapBoots,Slave Heels
+RestraintTrapGagDesc,"A gag made of a red squishy material."
+RestraintTrapGagDesc2,"You can't seem to enunciate your spells properly with this in."
+RestraintTrapBoots,Ballet Heels
+RestraintTrapBootsDesc,"A pair of lockable shoes with heels so tall it forces you on your toes."
+RestraintTrapBootsDesc2,"These will take some getting used to."
 RestraintTrapLegirons,Leg Irons
+RestraintTrapLegironsDesc,"A pair of solid steel cuffs connecting your ankles inescapably."
+RestraintTrapLegironsDesc2,"The lock doesn't seem very complicated."
 RestraintTrapBlindfold,Blindfold
+RestraintTrapBlindfoldDesc,"A leather strap secured onto your face and blocking vision."
+RestraintTrapBlindfoldDesc2,"You can still see through the gap around your nose."
 RestraintTrapBelt,Steel Belt
-RestraintTrapVibe,Egg Vibe
+RestraintTrapBeltDesc,"A cruel device used for locking magical vibrators in place."
+RestraintTrapBeltDesc2,"It won't stop the dungeon's little curses, but will keep you from removing them."
+RestraintTrapVibe,Magic Egg
+RestraintTrapVibeDesc,"An energetic little friend that likes to tease you."
+RestraintTrapVibeDesc2,"It is charged by residual magic from your spells."
 RestraintRopeSnakeArms,Rope Tie
+RestraintRopeSnakeArmsDesc,"A box tie keeping your arms secured behind your back."
+RestraintRopeSnakeArmsDesc2,"The remaining magic squeezes you gently."
 RestraintRopeSnakeArmsWrist,Rope Tie
+RestraintRopeSnakeArmsWristDesc,"A wrist and elbow tie keeping your arms secured behind your back."
+RestraintRopeSnakeArmsWristDesc2,"The remaining magic squeezes you gently."
 RestraintRopeSnakeLegs,Rope Tie
+RestraintRopeSnakeLegsDesc,"A tie that hobbles your legs together.."
+RestraintRopeSnakeLegsDesc2,"The remaining magic squeezes you gently."
 RestraintRopeSnakeFeet,Rope Tie
-RestraintRopeSnakeLegs,Rope Tie
-RestraintRopeSnakeFeet,Rope Tie
+RestraintRopeSnakeFeetDesc,"A tie keeping your feet secured together."
+RestraintRopeSnakeFeetDesc2,"The remaining magic squeezes you gently."
 RestraintChainArms,Chains
+RestraintChainArmsDesc,"Heavy chains keeping your arms securely behind your back."
+RestraintChainArmsDesc2,"It doesn't look like a knife is up to the task..."
 RestraintChainLegs,Chains
+RestraintChainLegsDesc,"Heavy chains keeping your legs firmly hobbled."
+RestraintChainLegsDesc2,"It doesn't look like a knife is up to the task..."
 RestraintChainFeet,Chains
+RestraintChainFeetDesc,"Heavy chains keeping your feet bound together."
+RestraintChainFeetDesc2,"It doesn't look like a knife is up to the task..."
 RestraintChainCrotch,Chains
+RestraintChainCrotchDesc,"Heavy chains that serve as an anchor point around your waist."
+RestraintChainCrotchDesc2,"It doesn't look like a knife is up to the task..."
 
 KinkyDungeonGroupItemHead,Face
 KinkyDungeonGroupItemHood,Head

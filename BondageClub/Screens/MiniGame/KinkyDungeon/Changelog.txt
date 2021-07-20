@@ -58,6 +58,7 @@ Features
 - Enhanced graphics. Bullets, enemies, and the player all move fluidly across the screen now!
 - Mana system: Casting spells builds up mana, which lowers your stamina until you drink a mana potion or restore it at a shrine.
 - Enemy AI is now more diverse. Minion-type enemies such as zombies will now ignore you if you are harmless (cant cast any spells + arms and legs bound)
+- Removed the mummies shrine to focus on lockable restraint types
 - (WIP ) Inventory system with potions! Willpower potions keep you in the fight, energy potions enhance your drive for combat... and other things... mana potions reduce the paralyzing effects of mana exposure, and bitter potions help suppress distractions.
 - (WIP) Having hands covered or bound will not only make it more difficult to struggle, but using potions is impossible.
 - (WIP) While naked, you drop all your potions and need to find yourself some pockets to store things in!

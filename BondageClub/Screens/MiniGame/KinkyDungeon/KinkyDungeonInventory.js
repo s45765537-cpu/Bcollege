@@ -1,106 +1,86 @@
 "use strict";
 
-var KinkyDungeonDressesList = {};
 
-var KinkyDungeonCheckClothesLoss = false;
+var KinkyDungeonFilters = [
+	"Consumables",
+	"Equipped",
+	"Weapons",
+	"Outfits",
+	"Restraints",
+	"Misc"
+];
 
-function KinkyDungeonInitializeDresses() {
-	KinkyDungeonCheckClothesLoss = true;
-	KinkyDungeonUndress = 0;
-	KinkyDungeonDresses = {
-		"Default" : [
-		{Item: "WitchHat1", Group: "Hat", Color: "Default", Lost: false},
-		{Item: "LeatherCorsetTop1", Group: "Cloth", Color: "Default", Lost: false},
-		{Item: "LatexSkirt1", Group: "ClothLower", Color: "Default", Lost: false, Skirt: true},
-		{Item: "Socks4", Group: "Socks", Color: "#444444", Lost: false},
-		{Item: "Heels3", Group: "Shoes", Color: "#222222", Lost: false},
-		{Item: "KittyPanties1", Group: "Panties", Color: "#222222", Lost: false},
-		{Item: "FrameBra2", Group: "Bra", Color: "Default", Lost: false},
-		{Item: "LatexElbowGloves", Group: "Gloves", Color: "Default", Lost: false},
-		{Item: "Necklace4", Group: "Necklace", Color: "#222222", Lost: false},
-		]
-	};
-}
-
-
-
-function KinkyDungeonDressPlayer() {
-	if (KinkyDungeonCheckClothesLoss) {
-		CharacterNaked(KinkyDungeonPlayer);
-		KinkyDungeonUndress = 0;
-	}
-
-	for (let C = 0; C < KinkyDungeonDresses[KinkyDungeonCurrentDress].length; C++) {
-		let clothes = KinkyDungeonDresses[KinkyDungeonCurrentDress][C];
-		let PreviouslyLost = clothes.Lost;
-
-		if (!clothes.Lost && KinkyDungeonCheckClothesLoss) {
-			if (clothes.Group == "Necklace" || clothes.Group == "Bra") {
-				if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
-				if (KinkyDungeonGetRestraintItem("ItemBreast")) clothes.Lost = true;
-			}
-			if (clothes.Group == "Panties") {
-				if (KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = true;
-			}
-			if (clothes.Group == "ClothLower" && clothes.Skirt) {
-				if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
-			}
-			if (clothes.Group == "Shoes") {
-				if (KinkyDungeonGetRestraintItem("ItemBoots")) clothes.Lost = true;
-			}
-
-			if (clothes.Lost) KinkyDungeonUndress += 1/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
-		}
-
-		if (clothes.Lost != PreviouslyLost) KinkyDungeonStatArousal += 100/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
-
-		if (!clothes.Lost) {
-			if (KinkyDungeonCheckClothesLoss) {
-				InventoryWear(KinkyDungeonPlayer, clothes.Item, clothes.Group);
-				CharacterAppearanceSetColorForGroup(KinkyDungeonPlayer, clothes.Color, clothes.Group);
-			}
-		}
-		
-		if (clothes.Group == "Panties" && !KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = false; // A girl's best friend never leaves her
-	}
-
-	KinkyDungeonCheckClothesLoss = false;
-
-	let BlushCounter = 0;
-	let Blush = "";
-
-	if (KinkyDungeonStatArousal > 0) BlushCounter += 1;
-	if (KinkyDungeonStatArousal > 33) BlushCounter += 1;
-	if (KinkyDungeonStatArousal > 66) BlushCounter += 1;
-
-	if (KinkyDungeonUndress > 0.4) BlushCounter += 1;
-	if (KinkyDungeonUndress > 0.8) BlushCounter += 1;
-
-	if (BlushCounter == 1) Blush = "Low";
-	else if (BlushCounter == 2) Blush = "Medium";
-	else if (BlushCounter == 3) Blush = "High";
-	else if (BlushCounter == 4) Blush = "VeryHigh";
-	else if (BlushCounter == 5) Blush = "Extreme";
-
-	for (let A = 0; A < KinkyDungeonPlayer.Appearance.length; A++) {
-		if (KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Blush") {
-			let property = KinkyDungeonPlayer.Appearance[A].Property;
-			if (!property || property.Expression != Blush) {
-				KinkyDungeonPlayer.Appearance[A].Property = { Expression: Blush };
-				CharacterRefresh(KinkyDungeonPlayer);
-			}
-		}
-			
-	}
-
-}
-
+var KinkyDungeonCurrentFilter = KinkyDungeonFilters[0];
+var KinkyDungeonCurrentPageInventory = 0;
 
 
 function KinkyDungeonHandleInventory() {
+	
+	if (KinkyDungeonCurrentPageInventory > 0 && MouseIn(canvasOffsetX + 100, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60)) {
+		KinkyDungeonCurrentPageInventory -= 1;
+		return true;
+	}
+	if (KinkyDungeonCurrentPageInventory < KinkyDungeonInventory.length-1 && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60)) {
+		KinkyDungeonCurrentPageInventory += 1;
+		return true;
+	}
+	
+	for (let I = 0; I < KinkyDungeonFilters.length; I++) 
+		if (MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60)) {
+			KinkyDungeonCurrentFilter = KinkyDungeonFilters[I];
+			KinkyDungeonCurrentPageInventory = 0;
+			return true;
+		}
+	
 	return false;
 }
 
-function KinkyDungeonDrawInventory() {
 
+function KinkyDungeonFilterInventory(Filter) {
+	let ret = [];
+	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
+		let item = KinkyDungeonInventory[I];
+		
+		if (item.restraint && Filter == "Equipped") ret.push({name: item.restraint.name, item: item});
+		else if (item.looserestraint && Filter == "Restraints") ret.push({name: item.looserestraint.name, item: item});
+		else if (item.consumable && Filter == "Consumables") ret.push({name: item.consumable.name, item: item});
+		else if (item.weapon && Filter == "Weapons") ret.push({name: item.weapon.name, item: item});
+		else if (item.outfit && Filter == "Outfits") ret.push({name: item.outfit.name, item: item});
+		else if (Filter == "Misc") ret.push({name: item.name, item: item});
+	}
+	
+	return ret;
+}
+
+function KinkyDungeonDrawInventorySelected(List) {
+	let item = List[KinkyDungeonCurrentPageInventory];
+	let name = "Item";
+	let prefix = "KinkyDungeonInventoryItem";
+	if (item.restraint || item.looserestraint) prefix = "Restraint";
+	
+	DrawText(TextGet(prefix + name), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5, "black", "silver");
+	var textSplit = KinkyDungeonWordWrap(TextGet(prefix + name + "Desc")), 15).split('\n');
+	
+	var i = 0;
+	for (let N = 0; N < textSplit.length; N++) {
+		DrawText(textSplit[N],
+			canvasOffsetX + 640*KinkyDungeonBookScale*(1-1/3.35), canvasOffsetY + 483*KinkyDungeonBookScale/5 + i * 40, "black", "silver"); i++;}
+
+	i = 0;
+}
+
+function KinkyDungeonDrawInventory() {
+	DrawImageZoomCanvas(KinkyDungeonRootDirectory + "MagicBook.png", MainCanvas, 0, 0, 640, 483, canvasOffsetX, canvasOffsetY, 640*KinkyDungeonBookScale, 483*KinkyDungeonBookScale, false);
+
+	if (KinkyDungeonCurrentPageInventory > 0) {
+		DrawButton(canvasOffsetX + 100, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookLastPage"), "White", "", "");
+	}
+	if (KinkyDungeonCurrentPageInventory < KinkyDungeonInventory.length-1) {
+		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookNextPage"), "White", "", "");
+	}
+	
+	KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter));
+	
+	for (let I = 0; I < KinkyDungeonFilters.length; I++) 
+		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60, TextGet("KinkyDungeonCategoryFilter" + KinkyDungeonFilters[I]), (KinkyDungeonCurrentFilter == KinkyDungeonFilters[I]) ? "White" : "Grey", "", "");
 }
