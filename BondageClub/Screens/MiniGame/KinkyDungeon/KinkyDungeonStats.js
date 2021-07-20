@@ -23,8 +23,8 @@ var KinkyDungeonStatStaminaRegenMana = 0; // How fast stamina that is converted 
 var KinkyDungeonStatStaminaRegenManaLow = -0.33; // How fast stamina that is converted to mana regenerates when low
 var KinkyDungeonStatStaminaRegenManaLowThreshold = 10; // Threshold for fast mana regen
 var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.33; // It costs stamina to move while bound
-var KinkyDungeonStatStaminaCostStruggle = -16; // It costs stamina to struggle
-var KinkyDungeonStatStaminaCostTool = -8; // It costs stamina to pick or cut, but less
+var KinkyDungeonStatStaminaCostStruggle = -10; // It costs stamina to struggle
+var KinkyDungeonStatStaminaCostTool = -5; // It costs stamina to pick or cut, but less
 var KinkyDungeonStatStaminaCostAttack = -12; // Cost to attack
 var KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
 

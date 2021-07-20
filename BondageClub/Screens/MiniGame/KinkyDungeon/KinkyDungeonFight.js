@@ -10,6 +10,7 @@ var KinkyDungeonMeleeDamageTypes = ["crush", "slash", "pierce", "grope", "pain",
 
 function KinkyDungeonEvasion(Enemy) {
 	var hitChance = Enemy.buffs.Evasion ? Enemy.buffs.Evasion.power : 1.0;
+	if (Enemy.Enemy && Enemy.Enemy.evasion) hitChance *= (1 - Enemy.Enemy.evasion);
 	hitChance *= KinkyDungeonPlayerDamage.chance;
 
 	hitChance -= Math.min(3, KinkyDungeonPlayer.GetBlindLevel()) * KinkyDungeonMissChancePerBlind;
@@ -74,7 +75,7 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 		KinkyDungeonKilledEnemy = Enemy;
 	}
 
-	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(3, (Damage > 0) ?
+	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(3, (Damage && dmgDealt > 0) ?
 		TextGet((Ranged) ? "PlayerRanged" : "PlayerAttack").replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)).replace("AttackName", atkname).replace("DamageDealt", dmgDealt)
 		: TextGet("PlayerMiss" + ((Damage) ? "Armor" : "")).replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)),
 			(Damage && (dmg > 0 || effect)) ? "orange" : "red", 2);

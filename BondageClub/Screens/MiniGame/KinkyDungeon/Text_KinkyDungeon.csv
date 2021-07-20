@@ -141,6 +141,15 @@ KinkyDungeonAttemptPickSuccess,"You pick the lock on the TargetRestraint!"
 KinkyDungeonStruggleRemoveSuccess,"You unfasten the TargetRestraint and get it off your body!"
 KinkyDungeonStruggleCutSuccess,"You cut the TargetRestraint off!"
 
+KinkyLockable,Lockable
+KinkyNonLockable,Non-Lockable
+
+KinkyUnlocked,"Unlocked"
+KinkyLocked,"Lock Type: "
+KinkyRedLockType,"Red"
+KinkyGreenLockType,"Green"
+KinkyBlueLockType,"Blue"
+KinkyYellowLockType,"Yellow"
 KinkyRedLock,"Red Lock"
 KinkyGreenLock,"Green Lock"
 KinkyBlueLock,"Blue Lock"
@@ -176,6 +185,7 @@ KinkyDungeonShrineIllusion,"illusions"
 
 ClimbDown,"You climb down to the next level"
 
+KinkyDungeonRestraintLevel,Difficulty: RestraintLevel
 
 KinkyDungeonCategoryFilterConsumables,Consumable
 KinkyDungeonCategoryFilterEquipped,Equipped
@@ -246,18 +256,18 @@ RestraintStickySlimeDesc,"A sticky layer of slime keeping you anchored to the gr
 RestraintStickySlimeDesc2,"It will slow you for a single turn."
 RestraintTrapArmbinder,Armbinder
 RestraintTrapArmbinderDesc,"A tight leather armbinder enclosing your hands and arms completely."
-RestraintTrapArmbinderDesc2,"It's quite snug and impossible to unlock by yourself."
+RestraintTrapArmbinderDesc2,"It's quite snug and secured by lockable buckles in the back. Picking the locks yourself is impossible."
 RestraintTrapCuffs,Handcuffs
 RestraintTrapCuffsDesc,"A pair of steel cuffs locked securely around your wrists."
 RestraintTrapCuffsDesc2,"The lock doesn't seem very complicated."
 RestraintTrapHarness,Harness
-RestraintTrapHarnessDesc,"A leather harness consisting of tight straps buckled around your torso."
+RestraintTrapHarnessDesc,"A leather harness of tight straps buckled around your torso."
 RestraintTrapHarnessDesc2,"It provides an anchor point for enemies to grab onto!"
 RestraintTrapGag,Ball Gag
 RestraintTrapGagDesc,"A gag made of a red squishy material."
 RestraintTrapGagDesc2,"You can't seem to enunciate your spells properly with this in."
 RestraintTrapBoots,Ballet Heels
-RestraintTrapBootsDesc,"A pair of lockable shoes with heels so tall it forces you on your toes."
+RestraintTrapBootsDesc,"A pair of shoes with heels so tall it forces you on your toes."
 RestraintTrapBootsDesc2,"These will take some getting used to."
 RestraintTrapLegirons,Leg Irons
 RestraintTrapLegironsDesc,"A pair of solid steel cuffs connecting your ankles inescapably."
@@ -431,7 +441,8 @@ KinkyDungeonSpellTargetSlimeBall,Choose aim direction
 
 KinkyDungeonStartVibe,You feel your toys start to to buzz...
 KinkyDungeonPlugged,You feel the plugs inside you whil walking.
-KinkyDungeonVibing1,Your toys tease you gently..
+KinkyDungeonVibing0,You feel a gentle buzz...
+KinkyDungeonVibing1,Your toys tease you gently...
 KinkyDungeonVibing2,Your toys are vibrating.
 KinkyDungeonVibing3,Your toys are buzzing strongly!
 KinkyDungeonVibing4,Your toys vibrate intensely!

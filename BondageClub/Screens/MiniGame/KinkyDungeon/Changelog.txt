@@ -63,6 +63,8 @@ Features
 - (WIP) Having hands covered or bound will not only make it more difficult to struggle, but using potions is impossible.
 - (WIP) While naked, you drop all your potions and need to find yourself some pockets to store things in!
 
+TODO ValidationFindBlockCycles to prevent bugs
+
 Future content planned:
 - Exit stair puzzles (like for example a button or special key somewhere in the level, maybe with a high likelihood of traps)
 - Inescapable yoke that needs keys, but the trap also summons rats that steal the keys and run away
