@@ -1083,6 +1083,31 @@ var AssetFemale3DCGExtended = {
 		} // ShinySteelCollar
 	}, // ItemNeck
 	ItemHood: {
+		OldGasMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				Modules: [
+					{
+						Name: "Lenses", Key: "l",
+						Options: [
+							{}, 
+							{ Property: { Effect: ["BlindHeavy"] } }, 
+						],
+					},
+					{
+						Name: "Addons", Key: "a",
+						Options: [
+							{},
+							{ Property: { Effect: ["GagEasy"] } },
+							{ Property: { Effect: ["GagEasy"] } },
+							{ Property: { Effect: ["GagEasy"] } },
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		},
 		InflatedBallHood: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {

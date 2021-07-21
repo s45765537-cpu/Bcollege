@@ -382,12 +382,6 @@ ItemHoodLatexHoodOpenHairHood,Hood
 ItemHoodLeatherHoodHood,Hood
 ItemHoodLeatherHoodCollar,Collar
 ItemHoodLeatherHoodSnaps,Snaps
-ItemHoodAddonOldGasMaskLensesTube1Lenses,Lenses
-ItemHoodAddonOldGasMaskLensesTube1Tube1,Tube
-ItemHoodAddonOldGasMaskLensesTube2Lenses,Lenses
-ItemHoodAddonOldGasMaskLensesTube2Tube2,Tube
-ItemHoodAddonOldGasMaskLensesRebreatherLenses,Lenses
-ItemHoodAddonOldGasMaskLensesRebreatherRebreather,Rebreather
 ItemHoodKirugumiMaskMask,Face
 ItemHoodKirugumiMaskEyes1,Eyes
 ItemHoodKirugumiMaskMouth1,Mouth
@@ -398,6 +392,9 @@ ItemHoodGP9GasMaskMask,Mask
 ItemHoodGP9GasMaskEdges,Edges
 ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
+ItemHoodOldGasMaskMask,Mask
+ItemHoodOldGasMaskLenses,Blinding Lenses
+ItemHoodOldGasMaskTubeA,Attachment
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
