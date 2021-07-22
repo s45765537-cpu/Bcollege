@@ -200,7 +200,7 @@ const TypedItemConfig = {
 	Options: "[Object]", // ExtendedItemOption
 	Dialog: "Maybe { Load: Maybe String, TypePrefix: Maybe String, ChatPrefix: Maybe String, NpcPrefix: Maybe String }",
 	ChatTags: "Maybe [String]",
-	Dictionary: "Maybe []",
+	Dictionary: "Maybe [Object]",
 	ChatSetting: "Maybe String",
 	DrawImages: "Maybe Boolean",
 	ChangeWhenLocked: "Maybe Boolean",
