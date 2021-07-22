@@ -898,7 +898,7 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 
 	// Updates the character's stats
 	KinkyDungeonItemCheck(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, MiniGameKinkyDungeonLevel); //console.log("Item Check " + (performance.now() - now));
-	KinkyDungeonUpdateBuffs();
+	KinkyDungeonUpdateBuffs(delta);
 	KinkyDungeonUpdateBullets(delta); //console.log("Bullets Check " + (performance.now() - now));
 	KinkyDungeonUpdateEnemies(delta); //console.log("Enemy Check " + (performance.now() - now));
 	KinkyDungeonUpdateBulletsCollisions(delta); //console.log("Bullet Check " + (performance.now() - now));

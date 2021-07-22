@@ -131,13 +131,31 @@ function KinkyDungeonUpdateBullets(delta) {
 	}
 }
 
+// Decreases time left in buffs and also applies effects
+function KinkyDungeonTickBuffs(list, delta) {
+	for (const [key, value] of Object.entries(list)) {
+		if (value) {
+			if (!value.duration || value.duration < 0) list[key] = null;
+			else {
+				if (value.type == "restore_wp") KinkyDungeonStatWillpower += value.power;
+				if (value.type == "restore_mp") KinkyDungeonStatStaminaMana += value.power;
+				if (value.type == "restore_sp") KinkyDungeonStatStamina += value.power;
+				if (value.type == "restore_ap") KinkyDungeonStatArousal += value.power;
 
-function KinkyDungeonUpdateBuffs() {
-	// Reset the buffs
-	KinkyDungeonPlayerBuffs = {};
+				value.duration -= delta;
+			}
+		}
+	}
+}
+
+// Updates buffs for all creatures
+function KinkyDungeonUpdateBuffs(delta) {
+	// Tick down buffs the buffs
+	KinkyDungeonTickBuffs(KinkyDungeonPlayerBuffs, delta)
 	for (let EE = 0; EE < KinkyDungeonEntities.length; EE++) {
 		let enemy = KinkyDungeonEntities[EE];
-		enemy.buffs = {};
+		if (!enemy.buffs) enemy.buffs = {};
+		KinkyDungeonTickBuffs(enemy.buffs, delta)
 	}
 	
 	// Apply the buffs
@@ -168,6 +186,7 @@ function KinkyDungeonUpdateBuffs() {
 
 function KinkyDungeonApplyBuff(list, buff, player) {
 	if (!list[buff.type] || (list[buff.type].power && buff.power > list[buff.type].power)) list[buff.type] = buff;
+	if ((list[buff.type].power && buff.power == list[buff.type].power && buff.duration > list[buff.type].duration)) list[buff.type].duration = buff.duration;
 	
 	if (buff.tags)
 		for (let T = 0; T < buff.tags.length; T++) {

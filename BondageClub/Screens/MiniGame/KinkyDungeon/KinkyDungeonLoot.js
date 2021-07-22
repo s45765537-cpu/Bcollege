@@ -5,9 +5,13 @@ var KinkyDungeonLootTable = {
 		{name: "smallgold", minLevel: 0, weight:10, message:"LootRubbleSmallGold", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "knife", minLevel: 0, weight:6, message:"LootRubbleKnife", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "pick", minLevel: 0, weight:10, message:"LootRubbleLockpick", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "redkey", minLevel: 0, weight:3, message:"LootRubbleRedKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "greenkey", minLevel: 0, weight:2, message:"LootRubbleGreenKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "bluekey", minLevel: 0, weight:1, message:"LootRubbleBlueKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "redkey", minLevel: 1, weight:3, message:"LootRubbleRedKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "greenkey", minLevel: 2, weight:2, message:"LootRubbleGreenKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "bluekey", minLevel: 3, weight:1, message:"LootRubbleBlueKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_health", minLevel: 1, weight:4, message:"LootPotionHealth", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_mana", minLevel: 0, weight:10, message:"LootPotionMana", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_stamina", minLevel: 2, weight:6, message:"LootPotionStamina", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_frigid", minLevel: 2, weight:5, message:"LootPotionFrigid", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 	],
 	"chest": [
 		{name: "gold", minLevel: 0, weight:4, message:"LootChestGold", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
@@ -28,20 +32,20 @@ var KinkyDungeonLootTable = {
 };
 
 function KinkyDungeonLoot(Level, Index, Type) {
-	var lootWeightTotal = 0;
-	var lootWeights = [];
+	let lootWeightTotal = 0;
+	let lootWeights = [];
 
-	var lootType = KinkyDungeonLootTable[Type];
+	let lootType = KinkyDungeonLootTable[Type];
 	for (let L = 0; L < lootType.length; L++) {
-		var loot = lootType[L];
+		let loot = lootType[L];
 		if (Level >= loot.minLevel && loot.floors.includes(Index)) {
-			var prereqs = true;
+			let prereqs = true;
 
 			if (loot.prerequisites) {
 
-				var maxlevel = 999;
-				var minlevel = 0;
-				var SpellList = null;
+				let maxlevel = 999;
+				let minlevel = 0;
+				let SpellList = null;
 				if (loot.prerequisites.includes("lowlevel")) maxlevel = 5;
 				if (loot.prerequisites.includes("UnlearnedElements")) SpellList = KinkyDungeonSpellList.Elements;
 				if (loot.prerequisites.includes("UnlearnedConjure")) SpellList = KinkyDungeonSpellList.Conjure;
@@ -49,8 +53,8 @@ function KinkyDungeonLoot(Level, Index, Type) {
 
 				for (let P = 0; P < loot.prerequisites.length; P++) {
 					if (loot.prerequisites[P].startsWith("Group_")) {
-						var group = loot.prerequisites[P].substring(6);
-						var item = KinkyDungeonGetRestraintItem(group);
+						let group = loot.prerequisites[P].substring(6);
+						let item = KinkyDungeonGetRestraintItem(group);
 						if (item && item.restraint && item.restraint.power <= loot.power) {
 							prereqs = false;
 							break;
@@ -72,11 +76,11 @@ function KinkyDungeonLoot(Level, Index, Type) {
 		}
 	}
 
-	var selection = Math.random() * lootWeightTotal;
+	let selection = Math.random() * lootWeightTotal;
 
 	for (let L = lootWeights.length - 1; L >= 0; L--) {
 		if (selection > lootWeights[L].weight) {
-			var replace = false;
+			let replace = false;
 
 			replace = KinkyDungeonSendActionMessage(6, TextGet(lootWeights[L].loot.message), lootWeights[L].loot.messageColor, lootWeights[L].loot.messageTime);
 
@@ -89,7 +93,7 @@ function KinkyDungeonLoot(Level, Index, Type) {
 }
 
 function KinkyDungeonGetUnlearnedSpells(minlevel, maxlevel, SpellList) {
-	var SpellsUnlearned = [];
+	let SpellsUnlearned = [];
 
 	for (let S = 0; S < SpellList.length; S++) {
 		if (SpellList[S].level >= minlevel && SpellList[S].level <= maxlevel) {
@@ -150,6 +154,14 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 		KinkyDungeonGreenKeys += 1;
 	}  else if (Loot.name == "bluekey") {
 		KinkyDungeonBlueKeys += 1;
+	} else if (Loot.name == "potion_health") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 1);
+	} else if (Loot.name == "potion_mana") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionMana"], 1);
+	} else if (Loot.name == "potion_stamina") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionStamina"], 1);
+	} else if (Loot.name == "potion_frigid") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionFrigid"], 1);
 	} else if (Loot.name == "trap_armbinder") {
 		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
 		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapArmbinder"), MiniGameKinkyDungeonCheckpoint, true, false);

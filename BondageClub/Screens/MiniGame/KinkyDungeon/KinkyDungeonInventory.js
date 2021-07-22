@@ -33,6 +33,16 @@ function KinkyDungeonHandleInventory() {
 				return true;
 			}
 	
+	if (KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) {
+		if (KinkyDungeonCurrentFilter == "Consumables" && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60)) {
+			let item = KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter)[KinkyDungeonCurrentPageInventory];
+			if (!item || !item.name) return false;
+			
+			KinkyDungeonUseConsumable(item.name, 1);
+		}
+			
+	}
+	
 	return false;
 }
 
@@ -44,7 +54,7 @@ function KinkyDungeonFilterInventory(Filter) {
 		
 		if (item.restraint && Filter == "Equipped") ret.push({name: item.restraint.name, item: item, preview: `Assets/Female3DCG/${item.restraint.Group}/Preview/${item.restraint.Asset}.png`});
 		else if (item.looserestraint && Filter == "Restraints") ret.push({name: item.looserestraint.name, item: item, preview: `Assets/Female3DCG/${item.looserestraint.Group}/Preview/${item.looserestraint.Asset}.png`});
-		else if (item.consumable && Filter == "Consumables") ret.push({name: item.consumable.name, item: item});
+		else if (item.consumable && Filter == "Consumables") ret.push({name: item.consumable.name, item: item, preview: `Screens/MiniGame/KinkyDungeon/Consumables/${item.consumable.name}.png`});
 		else if (item.weapon && Filter == "Weapons") ret.push({name: item.weapon.name, item: item});
 		else if (item.outfit && Filter == "Outfits") ret.push({name: item.outfit.name, item: item});
 		else if (item && item.name && Filter == "Misc") ret.push({name: item.name, item: item});
@@ -72,11 +82,15 @@ function KinkyDungeonDrawInventorySelected(List) {
 	if (showpreview) {
 		DrawPreviewBox(canvasOffsetX + 640*KinkyDungeonBookScale/3.35 - 100, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 45, item.preview, "", {Background: "#00000000"});
 		let restraint = item.item.restraint ? item.item.restraint : (item.item.looserestraint ? item.item.looserestraint : null);
+		let consumable = item.item.consumable;
 		if (restraint) {
-			DrawText(TextGet("KinkyDungeonRestraintLevel").replace("RestraintLevel", Math.max(1, restraint.power)), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 330, "black", "silver");
+			DrawText(TextGet("KinkyDungeonRestraintLevel").replace("RestraintLevel", Math.max(1, restraint.power)).replace("Rarity", TextGet("KinkyDungeonRarity" + Math.max(0, Math.min(Math.floor(restraint.power/5))))), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 330, "black", "silver");
 			DrawText(
 			item.item.restraint ? (item.item.lock ? (TextGet("KinkyLocked") + " " + TextGet("Kinky" + item.item.lock + "LockType")) : TextGet("KinkyUnlocked"))
 			: (restraint.escapeChance["Pick"] != null ? TextGet("KinkyLockable") : TextGet("KinkyNonLockable")), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 370, "black", "silver");
+		} else if (consumable) {
+			DrawText(TextGet("KinkyDungeonConsumableQuantity") + item.item.quantity, canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 370, "black", "silver");
+			DrawText(TextGet("KinkyDungeonRarity" + consumable.rarity), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/5 + 330, "black", "silver");
 		}
 		
 	} else {
@@ -90,40 +104,11 @@ function KinkyDungeonDrawInventorySelected(List) {
 			canvasOffsetX + 640*KinkyDungeonBookScale*(1-1/3.35), canvasOffsetY + 483*KinkyDungeonBookScale/5 + i * 40, "black", "silver"); i++;}
 
 	i = 0;
+	
+	return true;
 }
 
-function KinkyDungeonGetInventoryItem(Name, Filter = "Consumable") {
-	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
-		let item = KinkyDungeonInventory[I];
-		if (item.name == Name) return item;
-	}
-	return null;
-}
 
-function KinkyDungeonChangeConsumable(Consumable, Quantity) {
-	let consumables = KinkyDungeonFilterInventory("Consumables");
-	for (let I = 0; I < consumables.length; I++) {
-		let item = consumables[I];
-		if (item.name == Consumable.Name) {
-			item.quantity += Quantity;
-			if (item.quantity <= 0) {
-				for (let II = 0; II < KinkyDungeonInventory.length; II++) {
-					if (KinkyDungeonInventory[II].consumable.name == Consumable.Name) {
-						KinkyDungeonInventory.splice(II, 1);
-						return true;
-					}
-				}
-			} 
-			return true;
-		}
-	}
-	
-	if (Quantity >= 0) {
-		KinkyDungeonInventory.push({consumable: Consumable, quantity: Quantity});
-	}
-	
-	return false;
-}
 
 function KinkyDungeonDrawInventory() {
 	DrawImageZoomCanvas(KinkyDungeonRootDirectory + "MagicBook.png", MainCanvas, 0, 0, 640, 483, canvasOffsetX, canvasOffsetY, 640*KinkyDungeonBookScale, 483*KinkyDungeonBookScale, false);
@@ -135,15 +120,23 @@ function KinkyDungeonDrawInventory() {
 		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookNextPage"), "White", "", "");
 	}
 	
+	
 	if (KinkyDungeonCurrentPageInventory >= KinkyDungeonInventory.length) KinkyDungeonCurrentPageInventory = 0;
 	
 	let defaultIndex = 0;
 	if (KinkyDungeonFilterInventory(KinkyDungeonFilters[0]).length == 0) defaultIndex = 1;
 	
-	for (let I = 0; I < KinkyDungeonFilters.length; I++) 
+	for (let I = 0; I < KinkyDungeonFilters.length; I++) {
+		let col = "#444444";
 		if (KinkyDungeonFilterInventory(KinkyDungeonFilters[I]).length > 0 || I == defaultIndex)
-			DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60, TextGet("KinkyDungeonCategoryFilter" + KinkyDungeonFilters[I]), (KinkyDungeonCurrentFilter == KinkyDungeonFilters[I]) ? "White" : "Grey", "", "");
+			col = "#888888";
 		else if (KinkyDungeonFilters.indexOf(KinkyDungeonCurrentFilter) == I) KinkyDungeonCurrentFilter = KinkyDungeonFilters[defaultIndex];
 		
-	KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter));
+		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60, TextGet("KinkyDungeonCategoryFilter" + KinkyDungeonFilters[I]), (KinkyDungeonCurrentFilter == KinkyDungeonFilters[I]) ? "White" : col, "", "");
+	}
+		
+	if (KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) {
+		if (KinkyDungeonCurrentFilter == "Consumables")
+			DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60, TextGet("KinkyDungeonConsume"), "White", "", "");
+	}
 }

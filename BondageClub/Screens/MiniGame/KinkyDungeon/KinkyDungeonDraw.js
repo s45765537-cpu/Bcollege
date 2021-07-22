@@ -53,6 +53,8 @@ const KinkyDungeonLastChatTimeout = 10000;
 // Draw function for the game portion
 function KinkyDungeonDrawGame() {
 	
+	KinkyDungeonCapStats();
+	
 	if (ChatRoomChatLog.length > 0) {
 		let LastChatObject = ChatRoomChatLog[ChatRoomChatLog.length - 1];
 		let LastChat = LastChatObject.Garbled;
@@ -323,6 +325,9 @@ function KinkyDungeonDrawGame() {
 		KinkyDungeonDrawInventory();
 	}
 
+	if (KinkyDungeonStatArousal > 0)
+		ChatRoomDrawArousalScreenFilter(0, 1000, 2000, KinkyDungeonStatArousal);
+	
 
 }
 

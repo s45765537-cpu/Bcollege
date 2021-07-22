@@ -268,13 +268,22 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonDressPlayer();//  console.log("Dress Check " + (performance.now() - now));
 
 	// Cap off the values between 0 and maximum
-	KinkyDungeonStatArousal = Math.max(0, Math.min(KinkyDungeonStatArousal + arousalRate*delta, KinkyDungeonStatArousalMax));
-	KinkyDungeonStatStamina = Math.max(0, Math.min(KinkyDungeonStatStamina + KinkyDungeonStaminaRate*delta, KinkyDungeonStatStaminaMax));
-	KinkyDungeonStatStaminaMana = Math.max(0, Math.min(KinkyDungeonStatStaminaMana + KinkyDungeonStatStaminaManaRate, KinkyDungeonStatStamina));
-	KinkyDungeonStatWillpower = Math.max(0, Math.min(KinkyDungeonStatWillpower + willpowerRate*delta, KinkyDungeonStatWillpowerMax));
+	KinkyDungeonStatArousal += arousalRate*delta
+	KinkyDungeonStatStamina += KinkyDungeonStaminaRate*delta; 
+	KinkyDungeonStatStaminaMana += KinkyDungeonStatStaminaManaRate;
+	KinkyDungeonStatWillpower += willpowerRate*delta
 	KinkyDungeonStatBlind = Math.max(0, KinkyDungeonStatBlind - delta);
+	
+	KinkyDungeonCapStats()
 
 
+}
+
+function KinkyDungeonCapStats() {
+	KinkyDungeonStatArousal = Math.max(0, Math.min(KinkyDungeonStatArousal, KinkyDungeonStatArousalMax));
+	KinkyDungeonStatStamina = Math.max(0, Math.min(KinkyDungeonStatStamina, KinkyDungeonStatStaminaMax));
+	KinkyDungeonStatStaminaMana = Math.max(0, Math.min(KinkyDungeonStatStaminaMana, KinkyDungeonStatStamina));
+	KinkyDungeonStatWillpower = Math.max(0, Math.min(KinkyDungeonStatWillpower, KinkyDungeonStatWillpowerMax));
 }
 
 function KinkyDungeonCalculateVibeLevel() {

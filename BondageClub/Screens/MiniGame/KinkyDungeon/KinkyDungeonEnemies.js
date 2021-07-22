@@ -4,9 +4,9 @@ var KinkyDungeonEnemies = [
 	{name: "FastZombie", tags: ["ignoreharmless", "zombie", "melee", "ribbonRestraints", "slashweakness"], ignorechance: 0.33, armor: 1, followRange: 1, AI: "hunt", visionRadius: 6, maxhp: 7, minLevel:4, weight:6, movePoints: 3, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {"secondhalf":10, "lastthird":14}, floors:[0], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 2}, {name: "Gold", amountMin: 15, amountMax: 29, weight: 5}]},
 	{name: "RopeSnake", tags: ["ignoreharmless", "construct", "melee", "ropeRestraints", "minor", "fireweakness", "slashweakness"], ignorechance: 0.75, followRange: 1, AI: "wander", attackWhileMoving: true, visionRadius: 3, maxhp: 4, minLevel: 1, weight:3, movePoints: 1, attackPoints: 2, attack: "MeleeBindSuicide", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {"secondhalf":4, "lastthird":2}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8]},
 	{name: "Rat", tags: ["beast", "melee", "minor"], followRange: 1, AI: "guard", visionRadius: 4, maxhp: 1, evasion: 0.7, minLevel:0, weight:8, movePoints: 1.5, attackPoints: 2, attack: "MeleeWill", attackWidth: 1, attackRange: 1, power: 4, dmgType: "pain", terrainTags: {"rubble":20}, floors:[0, 1, 2, 3]},
-	{name: "WitchShock", tags: ["opendoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricimmune", "glueweakness"], followRange: 2, castWhileMoving: true, spells: ["Electrify"], spellCooldownMult: 1, spellCooldownMod: 0, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 3}, {name: "GreenKey", weight: 3}, {name: "BlueKey", weight: 2}]},
-	{name: "WitchChain", tags: ["opendoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricweakness", "meleeresist", "fireresist"], followRange: 1, spells: ["ChainBolt"], spellCooldownMult: 2, spellCooldownMod: 2, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:5, weight:6, movePoints: 3, attackPoints: 4, attack: "MeleeLockAllWillSpell", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", terrainTags: {"secondhalf":3, "lastthird":3, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 3}, {name: "GreenKey", weight: 4}, {name: "BlueKey", weight: 1}]},
-	{name: "WitchSlime", tags: ["opendoors", "witch", "ranged", "elite", "miniboss", "unflinching", "glueimmune", "fireresist", "meleeresist", "electricweakness"], followRange: 5, castWhileMoving: true, spells: ["WitchSlimeBall", "WitchSlimeBall", "WitchSlime"], spellCooldownMult: 2, spellCooldownMod: 1, hp: 10, AI: "wander", visionRadius: 8, maxhp: 14, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -8}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 4}, {name: "GreenKey", weight: 3}, {name: "BlueKey", weight: 1}]},
+	{name: "WitchShock", tags: ["opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricimmune", "glueweakness"], followRange: 2, castWhileMoving: true, spells: ["Electrify"], spellCooldownMult: 1, spellCooldownMod: 0, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 3}, {name: "GreenKey", weight: 3}, {name: "BlueKey", weight: 2}]},
+	{name: "WitchChain", tags: ["opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricweakness", "meleeresist", "fireresist"], followRange: 1, spells: ["ChainBolt"], spellCooldownMult: 2, spellCooldownMod: 2, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:5, weight:6, movePoints: 3, attackPoints: 4, attack: "MeleeLockAllWillSpell", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", terrainTags: {"secondhalf":3, "lastthird":3, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 3}, {name: "GreenKey", weight: 4}, {name: "BlueKey", weight: 1}]},
+	{name: "WitchSlime", tags: ["opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "glueimmune", "fireresist", "meleeresist", "electricweakness"], followRange: 5, castWhileMoving: true, spells: ["WitchSlimeBall", "WitchSlimeBall", "WitchSlime"], spellCooldownMult: 2, spellCooldownMod: 1, hp: 10, AI: "wander", visionRadius: 8, maxhp: 14, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -8}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 4}, {name: "GreenKey", weight: 3}, {name: "BlueKey", weight: 1}]},
 	
 ];
 
@@ -379,11 +379,25 @@ function KinkyDungeonEnemyTryMove(enemy, Direction, delta, x, y) {
 
 	if (enemy.movePoints >= enemy.Enemy.movePoints) {
 		enemy.movePoints = 0;
+		let dist = Math.abs(x - KinkyDungeonPlayerEntity.x) + Math.abs(y - KinkyDungeonPlayerEntity.y);
+		
+		if (KinkyDungeonMapGet(enemy.x, enemy.y) == 'd' && enemy.Enemy && enemy.Enemy.tags.includes("closedoors") && Math.random() < 0.8 && dist > 5) {
+			KinkyDungeonMapSet(enemy.x, enemy.y, 'D');
+			if (dist < 10) {
+				KinkyDungeonSendTextMessage(4, TextGet("KinkyDungeonHearDoorCloseNear"), "#dddddd", 4);
+			} else if (dist < 20) 
+				KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonHearDoorCloseFar"), "#999999", 4);
+		}
+		
 		enemy.x += Direction.x;
 		enemy.y += Direction.y;
 
 		if (KinkyDungeonMapGet(x, y) == 'D') {
 			KinkyDungeonMapSet(x, y, 'd');
+			if (dist < 5) {
+				KinkyDungeonSendTextMessage(4, TextGet("KinkyDungeonHearDoorOpenNear"), "#dddddd", 4);
+			} else if (dist < 15) 
+				KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonHearDoorOpenFar"), "#999999", 4);
 		}
 
 		return true;

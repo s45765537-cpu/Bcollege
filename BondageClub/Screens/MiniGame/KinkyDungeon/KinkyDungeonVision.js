@@ -29,7 +29,7 @@ function KinkyDungeonMakeLightMap(width, height, Lights) {
 		KinkyDungeonLightGrid = KinkyDungeonLightGrid + '\n';
 	}
 
-	var maxPass = 0;
+	let maxPass = 0;
 
 	for (let L = 0; L < Lights.length; L++) {
 		maxPass = Math.max(maxPass, Lights[L].brightness);
@@ -42,11 +42,11 @@ function KinkyDungeonMakeLightMap(width, height, Lights) {
 		// Main grid square loop
 		for (let X = 0; X < KinkyDungeonGridWidth; X++) {
 			for (let Y = 0; Y < KinkyDungeonGridHeight; Y++) {
-				var tile = KinkyDungeonMapGet(X, Y);
+				let tile = KinkyDungeonMapGet(X, Y);
 				if (KinkyDungeonTransparentObjects.includes(tile)) {
-					var brightness = KinkyDungeonLightGet(X, Y);
+					let brightness = KinkyDungeonLightGet(X, Y);
 					if (brightness > 0) {
-						var nearbywalls = 0;
+						let nearbywalls = 0;
 						for (let XX = X-1; XX <= X+1; XX++)
 							for (let YY = Y-1; YY <= Y+1; YY++)
 								if (!KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(XX, YY))) nearbywalls += 1;
