@@ -4633,7 +4633,7 @@ var AssetFemale3DCG = [
 			{ Name: "Pole", Value: 40, Top: -150, Priority: 1, Difficulty: -5, RemoveTime: 10, HasType: false, RemoveAtLogin: true, Extended: true, FixedPosition: true },
 			{ Name: "Cushion", Priority: 34, Value: 4, Difficulty: -10, Time: 5, IsRestraint: false, AllowPose: ["AllFours", "Hogtied", "TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead", "Horse"], AllowType: ["Kneel"], Extended: true },
 			{ 
-				Name: "FuckMachine", Value: 300, Difficulty: 3, RemoveTime: 15, SetPose: ["LegsOpen"], Left: 125, Top: 425,
+				Name: "FuckMachine", Value: 300, Difficulty: 3, RemoveTime: 15, SetPose: ["Spread"], Left: 125, Top: 425,
 				Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste"],
 				Effect: ["FillVula", "Mounted", "Freeze", "Egged"], 
 				Block: ["ItemVulva", "ItemFeet", "ItemLegs", "ItemBoots"],
@@ -4642,6 +4642,7 @@ var AssetFemale3DCG = [
 				AllowActivityOn: ["ItemFeet", "ItemLegs", "ItemBoots"],
 				Layer: [
 					{ Name: "Box" },
+					{ Name: "Stick" },
 					{ Name: "Dildo" }
 				],
 		 	},

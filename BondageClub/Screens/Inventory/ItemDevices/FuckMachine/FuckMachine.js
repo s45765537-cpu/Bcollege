@@ -12,7 +12,7 @@ function InventoryItemDevicesFuckMachineClick() {
 
 
 function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, Y, Property }) {
-	if (L !== "_Dildo") return;
+	if (L !== "_Stick") return;
 	
 	const FuckLength = 25;
 	const Data = PersistentData();
