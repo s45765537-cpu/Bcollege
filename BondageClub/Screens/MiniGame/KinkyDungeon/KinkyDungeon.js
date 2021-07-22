@@ -33,12 +33,14 @@ function KinkyDungeonLoad() {
 
 	CurrentDarkFactor = 0;
 	
+	
 	if (!KinkyDungeonIsPlayer()) KinkyDungeonGameRunning = false;
 	
 	if (!KinkyDungeonGameRunning) {
 		if (!KinkyDungeonPlayer)
 			KinkyDungeonPlayer = CharacterLoadNPC("NPC_Avatar");
-	
+		
+		
 
 		//KinkyDungeonCreateMap(MiniGameDifficulty);
 		var appearance = CharacterAppearanceStringify(KinkyDungeonPlayerCharacter ? KinkyDungeonPlayerCharacter : Player);
@@ -53,6 +55,9 @@ function KinkyDungeonLoad() {
 		if (KinkyDungeonIsPlayer()) {
 			KinkyDungeonState = "Menu";
 			KinkyDungeonGameData = null;
+			
+			CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
+			ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Gaming", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
 		} else {
 			KinkyDungeonState = "Game";
 			if (!KinkyDungeonGameData) KinkyDungeonInitialize(1);
@@ -255,6 +260,11 @@ function KinkyDungeonClick() {
  */
 function KinkyDungeonExit() {
 	CommonDynamicFunction(MiniGameReturnFunction + "()");
+	
+	if (CharacterAppearancePreviousEmoticon) {
+		CharacterSetFacialExpression(Player, "Emoticon", CharacterAppearancePreviousEmoticon);
+		CharacterAppearancePreviousEmoticon = "";
+	}
 	
 	if (MiniGameKinkyDungeonLevel > Math.max(KinkyDungeonRep, ReputationGet("Gaming")) || Math.max(KinkyDungeonRep, ReputationGet("Gaming")) > KinkyDungeonMaxLevel) {
 		KinkyDungeonRep = Math.max(KinkyDungeonRep, MiniGameKinkyDungeonLevel);
