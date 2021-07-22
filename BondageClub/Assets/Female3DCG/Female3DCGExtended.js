@@ -2729,6 +2729,40 @@ var AssetFemale3DCGExtended = {
 		} // BunnyMask1
 	}, // Mask
 	ItemLegs: {
+		DuctTape: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				Options: [
+					{
+						Name: "Legs",
+						Property: { Type: null, Difficulty: 0 }
+					}, {
+						Name: "HalfLegs",
+						Prerequisite: ["NoClothLower"],
+						Property: { Type: "HalfLegs", Hide: ["ClothLower"], Difficulty: 2 }
+					}, {
+						Name: "MostLegs",
+						Prerequisite: ["NoClothLower"],
+						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4 }
+					}, {
+						Name: "CompleteLegs",
+						Prerequisite: ["NoClothLower"],
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6 }
+					}, {
+						Name: "PetLegs",
+						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
+						Property: { Type: "PetLegs", Hide: ["ClothLower"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 }
+					}
+				],
+				Dialog: {
+					Load: "SelectTapeWrapping",
+					TypePrefix: "DuctTapePose",
+					ChatPrefix: "DuctTapeRestrain",
+					NpcPrefix: "DuctTapePose",
+				},
+			},
+		}, // DuctTape
 		HempRope: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
