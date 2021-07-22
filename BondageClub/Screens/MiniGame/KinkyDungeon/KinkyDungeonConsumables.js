@@ -60,9 +60,9 @@ function KinkyDungeonUseConsumable(Name, Quantity) {
 	if (!item || item.quantity < Quantity) return false;
 	
 	for (let I = 0; I < Quantity; I++) {
-		KinkyDungeonConsumableEffect(KinkyDungeonConsumables[Name]);
+		KinkyDungeonConsumableEffect(item.consumable);
 	}
-	KinkyDungeonChangeConsumable(KinkyDungeonConsumables[Name], -Quantity);
+	KinkyDungeonChangeConsumable(item.consumable, -Quantity);
 	
 	KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonInventoryItem" + Name + "Use"), "#88FF88", 1);
 	return true;
