@@ -157,25 +157,30 @@ function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPr
 
 /**
  * Creates an asset's extended item chatroom message publishing function
- * @param {TypedItemData} data - The typed item data for the asset
+ * @param {TypedItemData} typedItemData - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreatePublishFunction(data) {
-	const { options, functionPrefix, dialog, chatSetting } = data;
+function TypedItemCreatePublishFunction(typedItemData) {
+	const { options, functionPrefix, dialog, chatSetting } = typedItemData;
 	const publishFunctionName = `${functionPrefix}PublishAction`;
 	window[publishFunctionName] = function (C, newOption, previousOption) {
-		const previousIndex = options.indexOf(previousOption);
-		const newIndex = options.indexOf(newOption);
+		const chatData = {
+			C,
+			previousOption,
+			newOption,
+			previousIndex: options.indexOf(previousOption),
+			newIndex:  options.indexOf(newOption),
+		};
 		
 		let msg = dialog.chatPrefix;
 		if (typeof msg === "function") {
-			msg = msg({ C, previousOption, newOption, previousIndex, newIndex });
+			msg = msg(chatData);
 		}
 		
 		if (chatSetting === TypedItemChatSetting.FROM_TO) msg += `${previousOption.Name}To`;
 		msg += newOption.Name;
 		
-		const dictionary = TypedItemBuildChatMessageDictionary(C, data);
+		const dictionary = TypedItemBuildChatMessageDictionary(chatData, typedItemData);
 		ChatRoomPublishCustomAction(msg, true, dictionary);
 	};
 }

@@ -1022,11 +1022,11 @@ type TypedItemChatCallback = (
  * @param {number} chatData.previousIndex - The index of the previously selected type option in the item's options
  * config
  * @param {number} chatData.newIndex - The index of the newly selected type option in the item's options config
- * @returns {[{ Tag: string, Value: string }]} - The dictionary entry to append to the dictionary.
+ * @returns {[{ Tag: string, Text: string }]} - The dictionary entry to append to the dictionary.
  */
 type TypedItemDictionaryCallback = (
 	chatData: TypedItemChatData
-) => [{ Tag: string, Value: string }];
+) => { Tag: string, Text: string };
 
 /**
  * @param {Character} C - A reference to the character wearing the item
