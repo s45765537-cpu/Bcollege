@@ -109,6 +109,25 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // ChineseDress2
+		LatexLacedSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Laced",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "NonLaced",
+						Property: {
+							Type: "NonLaced",
+						},
+					},
+				],
+			},
+		}, // LatexLacedSuit
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
