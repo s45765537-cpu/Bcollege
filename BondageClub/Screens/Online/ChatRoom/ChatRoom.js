@@ -26,6 +26,7 @@ var ChatRoomChatHidden = false;
 
 var ChatRoomCharacterCount = 0;
 var ChatRoomCharacterDrawlist = [];
+var ChatRoomSenseDepBypass = false;
 
 var ChatRoomGetUpTimer = 0;
 var ChatRoomLastName = "";
@@ -601,8 +602,10 @@ function ChatRoomUpdateDisplay() {
 	// The number of characters to show in the room
 	const RenderSingle = Player.GameplaySettings.SensDepChatLog == "SensDepExtreme" && Player.GetBlindLevel() >= 3 && !Player.Effect.includes("VRAvatars");
 	ChatRoomCharacterDrawlist = ChatRoomCharacter;
+	ChatRoomSenseDepBypass = false;
 	if (Player.Effect.includes("VRAvatars")) {
 		ChatRoomCharacterDrawlist = [];
+		ChatRoomSenseDepBypass = true;
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
 			if (ChatRoomCharacter[CC].Effect.includes("VRAvatars")) {
 				ChatRoomCharacterDrawlist.push(ChatRoomCharacter[CC]);
@@ -611,6 +614,7 @@ function ChatRoomUpdateDisplay() {
 	} else if (Player.GetBlindLevel() > 0 && Player.GetBlindLevel() < 3 && Player.ImmersionSettings.BlindAdjacent) {
 		// We hide all players except those who are adjacent
 		ChatRoomCharacterDrawlist = [];
+		ChatRoomSenseDepBypass = true;
 		let PlayerIndex = -1;
 		// First find the player index
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
@@ -1145,6 +1149,39 @@ function ChatRoomResize(load) {
 }
 
 /**
+ * Draws arousal screen filter
+ * @param {Y} - Y to draw filter at.
+ * @param {Height} - Height of filter
+ * @param {Width} - Width of filter
+ * @returns {void} - Nothing.
+ */
+function ChatRoomDrawArousalScreenFilter(y1, h, Width) {	
+	let amplitude = 0.24 * Math.min(1, 2 - 1.5 * Player.ArousalSettings.Progress/100); // Amplitude of the oscillation
+	let percent = Player.ArousalSettings.Progress/100.0;
+	let level = Math.min(0.5, percent) + 0.5 * Math.pow(Math.max(0, percent*2 - 1), 4);
+	let oscillation = Math.sin(CommonTime() / 1000 % Math.PI);
+	let alpha = 0.6 * level * (0.99 - amplitude + amplitude * oscillation);
+	
+	if (Player.ArousalSettings.VFXFilter == "VFXFilterHeavy") {
+		const Grad = MainCanvas.createLinearGradient(0, y1, 0, h);
+		let alphamin = Math.max(0, alpha / 2 - 0.05);
+		Grad.addColorStop(0, `rgba(255, 100, 176, ${alpha})`);
+		Grad.addColorStop(0.1 + 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(255, 100, 176, ${alphamin})`);
+		Grad.addColorStop(0.5, `rgba(255, 100, 176, ${alphamin/2})`);
+		Grad.addColorStop(0.9 - 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(255, 100, 176, ${alphamin})`);
+		Grad.addColorStop(1, `rgba(255, 100, 176, ${alpha})`);
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(0, y1, Width, h);
+	} else {
+		if (Player.ArousalSettings.VFXFilter != "VFXFilterMedium") {
+			alpha = (Player.ArousalSettings.Progress >= 91) ? 0.25 : 0;
+		} else alpha /= 2;
+		if (alpha > 0)
+			DrawRect(0, y1, Width, h, `rgba(255, 176, 176, ${alpha})`);
+	}
+}
+
+/**
  * Runs the chatroom screen.
  * @returns {void} - Nothing.
  */
@@ -1223,12 +1260,15 @@ function ChatRoomRun() {
 			if (ActivityOrgasmRuined) ActivityOrgasmControl();
 			if (Player.ArousalSettings.OrgasmStage == 2) DrawText(TextGet("OrgasmRecovering"), 500, 500, "White", "Black");
 			ActivityOrgasmProgressBar(50, 970);
-		} else if ((Player.ArousalSettings.Progress != null) && (Player.ArousalSettings.Progress >= 91) && (Player.ArousalSettings.Progress <= 99) && !CommonPhotoMode) {
-			if ((ChatRoomCharacterCount <= 2) || (ChatRoomCharacterCount >= 6) ||
-				(Player.GameplaySettings && (Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") && (Player.GetBlindLevel() >= 3))) DrawRect(0, 0, 1003, 1000, "#FFB0B040");
-			else if (ChatRoomCharacterCount == 3) DrawRect(0, 50, 1003, 900, "#FFB0B040");
-			else if (ChatRoomCharacterCount == 4) DrawRect(0, 150, 1003, 700, "#FFB0B040");
-			else if (ChatRoomCharacterCount == 5) DrawRect(0, 250, 1003, 500, "#FFB0B040");
+		} else if ((Player.ArousalSettings.Progress != null) && (Player.ArousalSettings.Progress >= 1) && (Player.ArousalSettings.Progress <= 99) && !CommonPhotoMode) {
+			let y1 = 0;
+			let h = 1000;
+			
+			if (ChatRoomCharacterCount == 3) {y1 = 50; h = 900;}
+			else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
+			else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
+			
+			ChatRoomDrawArousalScreenFilter(y1, h, 1003);
 		}
 	}
 
@@ -1768,8 +1808,18 @@ function ChatRoomMessage(data) {
 	// Make sure the message is valid (needs a Sender and Content)
 	if ((data != null) && (typeof data === "object") && (data.Content != null) && (typeof data.Content === "string") && (data.Content != "") && (data.Sender != null) && (typeof data.Sender === "number")) {
 
-		// If we must reset the current game played in the room
-		if (data.Content == "ServerUpdateRoom") OnlineGameReset();
+		if (data.Content == "ServerUpdateRoom") {
+			// If we must reset the current game played in the room
+			OnlineGameReset();
+			
+			// If we must garble the chatroom name (immersion settings.)
+			if (Array.isArray(data.Dictionary)) {
+				let ChatRoomNameDictTag = data.Dictionary.find(el => el.Tag === "ChatRoomName");
+				if (ChatRoomNameDictTag) {
+					ChatRoomNameDictTag.Text = ChatSearchMuffle(ChatRoomNameDictTag.Text);
+				}
+			}
+		}
 
 		// Exits right away if the sender is ghosted
 		if (Player.GhostList.indexOf(data.Sender) >= 0) return;
@@ -1863,6 +1913,7 @@ function ChatRoomMessage(data) {
 				if (data.Dictionary) {
 					var dictionary = data.Dictionary;
 					var SourceCharacter = null;
+					let TargetCharacter = null;
 					var IsPlayerInvolved = (SenderCharacter.MemberNumber == Player.MemberNumber);
 					let TargetMemberNumber = null;
 					let ActivityName = null;
@@ -1876,18 +1927,27 @@ function ChatRoomMessage(data) {
 
 							// Alters the message displayed in the chat room log, and stores the source & target in case they're required later
 							if ((dictionary[D].Tag == "DestinationCharacter") || (dictionary[D].Tag == "DestinationCharacterName")) {
-								msg = msg.replace(dictionary[D].Tag, ((SenderCharacter.MemberNumber == dictionary[D].MemberNumber) && (dictionary[D].Tag == "DestinationCharacter")) ? DialogFindPlayer("Her") : (PreferenceIsPlayerInSensDep() && dictionary[D].MemberNumber != Player.MemberNumber ? DialogFindPlayer("Someone").toLowerCase() : ChatRoomHTMLEntities(dictionary[D].Text) + DialogFindPlayer("'s")));
 								TargetMemberNumber = dictionary[D].MemberNumber;
+								for (let T = 0; T < ChatRoomCharacter.length; T++)
+									if (ChatRoomCharacter[T].MemberNumber == dictionary[D].MemberNumber)
+										TargetCharacter = ChatRoomCharacter[T];
+								msg = msg.replace(dictionary[D].Tag, ((SenderCharacter.MemberNumber == dictionary[D].MemberNumber) && (dictionary[D].Tag == "DestinationCharacter")) ? DialogFindPlayer("Her") : (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && dictionary[D].MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(TargetCharacter)) ? DialogFindPlayer("Someone").toLowerCase() : ChatRoomHTMLEntities(dictionary[D].Text) + DialogFindPlayer("'s")));
+								
 							}
 							else if ((dictionary[D].Tag == "TargetCharacter") || (dictionary[D].Tag == "TargetCharacterName")) {
-								msg = msg.replace(dictionary[D].Tag, ((SenderCharacter.MemberNumber == dictionary[D].MemberNumber) && (dictionary[D].Tag == "TargetCharacter")) ? DialogFindPlayer("Herself") : (PreferenceIsPlayerInSensDep() && dictionary[D].MemberNumber != Player.MemberNumber ? DialogFindPlayer("Someone").toLowerCase() : ChatRoomHTMLEntities(dictionary[D].Text)));
 								TargetMemberNumber = dictionary[D].MemberNumber;
+								for (let T = 0; T < ChatRoomCharacter.length; T++)
+									if (ChatRoomCharacter[T].MemberNumber == dictionary[D].MemberNumber)
+										TargetCharacter = ChatRoomCharacter[T];
+								msg = msg.replace(dictionary[D].Tag, ((SenderCharacter.MemberNumber == dictionary[D].MemberNumber) && (dictionary[D].Tag == "TargetCharacter")) ? DialogFindPlayer("Herself") : (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && dictionary[D].MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(TargetCharacter)) ? DialogFindPlayer("Someone").toLowerCase() : ChatRoomHTMLEntities(dictionary[D].Text)));
+								
 							}
 							else if (dictionary[D].Tag == "SourceCharacter") {
-								msg = msg.replace(dictionary[D].Tag, (PreferenceIsPlayerInSensDep() && (dictionary[D].MemberNumber != Player.MemberNumber)) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(dictionary[D].Text));
 								for (let T = 0; T < ChatRoomCharacter.length; T++)
 									if (ChatRoomCharacter[T].MemberNumber == dictionary[D].MemberNumber)
 										SourceCharacter = ChatRoomCharacter[T];
+									msg = msg.replace(dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (dictionary[D].MemberNumber != Player.MemberNumber) && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(SourceCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(dictionary[D].Text));
+								
 							}
 
 							// Sets if the player is involved in the action
@@ -1952,7 +2012,8 @@ function ChatRoomMessage(data) {
 				const HideOthersMessages = Player.ImmersionSettings.SenseDepMessages
 					&& PreferenceIsPlayerInSensDep()
 					&& SenderCharacter.ID !== 0
-					&& Player.GetDeafLevel() >= 4;
+					&& Player.GetDeafLevel() >= 4
+					&& (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(SenderCharacter));
 
 				if (data.Type == "Chat" || data.Type == "Whisper") {
 					msg = '<span class="ChatMessageName" style="color:' + (SenderCharacter.LabelColor || 'gray');
@@ -1961,7 +2022,7 @@ function ChatRoomMessage(data) {
 
 					// Garble names
 					let senderName = "";
-					if (PreferenceIsPlayerInSensDep() && SenderCharacter.MemberNumber != Player.MemberNumber && data.Type != "Whisper") {
+					if (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && SenderCharacter.MemberNumber != Player.MemberNumber && data.Type != "Whisper" && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(SenderCharacter))) {
 						if ((Player.GetDeafLevel() >= 4))
 							senderName = DialogFindPlayer("Someone");
 						else
@@ -1995,11 +2056,11 @@ function ChatRoomMessage(data) {
 
 					if (msg.indexOf("*") == 0) msg = msg + "*";
 					else if ((msg.indexOf("'") == 0) || (msg.indexOf(",") == 0)) msg = "*" + SenderCharacter.Name + msg + "*";
-					else if (PreferenceIsPlayerInSensDep() && SenderCharacter.MemberNumber != Player.MemberNumber) {
+					else if (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && SenderCharacter.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(SenderCharacter))) {
 						msg = "*" + DialogFindPlayer("Someone") + " " + msg + "*";
 
 						for (let C = 0; C < ChatRoomCharacter.length; C++) {
-							if (ChatRoomCharacter[C] && ChatRoomCharacter[C].Name && ChatRoomCharacter[C].ID != 0)
+							if (ChatRoomCharacter[C] && ChatRoomCharacter[C].Name && ChatRoomCharacter[C].ID != 0 && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(ChatRoomCharacter[C])))
 								msg = msg.replace(ChatRoomCharacter[C].Name.charAt(0).toUpperCase() + ChatRoomCharacter[C].Name.slice(1), DialogFindPlayer("Someone"));
 						}
 					}
@@ -2018,12 +2079,16 @@ function ChatRoomMessage(data) {
 				// Creates the output message using the activity dictionary and tags, keep some values to calculate the activity effects on the player
 				msg = "(" + ActivityDictionaryText(msg) + ")";
 				let TargetMemberNumber = null;
+				let TargetCharacter = null;
 				let ActivityName = null;
 				var ActivityGroup = null;
 				let ActivityCounter = 1;
 				if (data.Dictionary != null)
 					for (let D = 0; D < data.Dictionary.length; D++) {
-						if (data.Dictionary[D].MemberNumber != null) msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep() && (data.Dictionary[D].MemberNumber != Player.MemberNumber)) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
+						for (let T = 0; T < ChatRoomCharacter.length; T++)
+							if (ChatRoomCharacter[T].MemberNumber == data.Dictionary[D].MemberNumber)
+								TargetCharacter = ChatRoomCharacter[T];
+						if (data.Dictionary[D].MemberNumber != null) msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (ChatRoomSenseDepBypass && !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
 						if ((data.Dictionary[D].MemberNumber != null) && (data.Dictionary[D].Tag == "TargetCharacter")) TargetMemberNumber = data.Dictionary[D].MemberNumber;
 						if (data.Dictionary[D].Tag == "ActivityName") ActivityName = data.Dictionary[D].Text;
 						if (data.Dictionary[D].Tag == "ActivityGroup") ActivityGroup = data.Dictionary[D].Text;

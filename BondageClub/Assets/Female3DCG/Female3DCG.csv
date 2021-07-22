@@ -54,6 +54,8 @@ Cloth,LeatherBolero,Leather Bolero
 Cloth,Bodice1,Bodice
 Cloth,SummerDress,Summer Dress
 Cloth,Blouse1,Blouse
+Cloth,LatexTop,Laced Latex Top
+Cloth,LatexLacedSuit,Latex Laced Suit
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -216,6 +218,7 @@ Panties,LatexPanties2,Latex Panties
 Panties,PilotPanties,Pilot Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
+Panties,FloralPanties2,Floral Panties 2
 Socks,,Socks
 Socks,Socks0,Ankle
 Socks,Socks1,Short
@@ -787,6 +790,7 @@ ItemNipples,BellClamps,Nipple Bell Clamps
 ItemNipples,LactationPump,Lactation Pump
 ItemNipples,ShockClamps,Shock Clamps
 ItemNipples,PlateClamps, Plate Clamps
+ItemNipples,StretchClovers,Nipple Stretchers
 ItemNipplesPiercings,,Nipples
 ItemNipplesPiercings,StraightPiercing,Straight Piercings
 ItemNipplesPiercings,RoundPiercing,Round Piercings
@@ -927,6 +931,7 @@ ItemHands,SpankingToysPanties,Panties
 ItemHands,SpankingToysTapeRoll,Duct Tape Roll
 ItemHands,SpankingToysSpatula,Spatula
 ItemHands,SpankingToysBroom,Broom
+ItemHands,KeyProp,Key
 ItemHands,HoofMittens, Hoof Mittens
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
