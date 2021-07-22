@@ -1086,7 +1086,6 @@ var AssetFemale3DCGExtended = {
 		OldGasMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 				Modules: [
 					{
 						Name: "Lenses", Key: "l",
