@@ -57,10 +57,10 @@ function KinkyDungeonConsumableEffect(Consumable) {
 
 function KinkyDungeonUseConsumable(Name, Quantity) {
 	let item = KinkyDungeonGetInventoryItem(Name, "Consumables");
-	if (!item || item.quantity < Quantity) return false;
+	if (!item || item.item.quantity < Quantity) return false;
 	
 	for (let I = 0; I < Quantity; I++) {
-		KinkyDungeonConsumableEffect(item.consumable);
+		KinkyDungeonConsumableEffect(item.item.consumable);
 	}
 	KinkyDungeonChangeConsumable(item.consumable, -Quantity);
 	

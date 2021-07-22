@@ -78,6 +78,8 @@ LootChestTrapMagicVibe,"You find gold and a tormenting magical trap! (+Restraint
 
 LootPotionHealth,"You find a red potion with a sweet scent."
 LootPotionMana,"You find a blue potion that glows with magical essence."
+LootPotionsHealth,"You find several health potions."
+LootPotionsMana,"You find several mana potions."
 LootPotionStamina,"You find a green potion, glowing warm with energy."
 LootPotionFrigid,"You find a snow-like potion that's cold to the touch."
 

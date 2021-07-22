@@ -1,17 +1,17 @@
 "use strict";
 var KinkyDungeonLootTable = {
 	"rubble": [
-		{name: "nothing", minLevel: 0, weight:6, message:"LootRubbleFail", messageColor:"#aaaaaa", messageTime: 2, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "smallgold", minLevel: 0, weight:10, message:"LootRubbleSmallGold", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "nothing", minLevel: 0, weight:15, message:"LootRubbleFail", messageColor:"#aaaaaa", messageTime: 2, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "smallgold", minLevel: 0, weight:15, message:"LootRubbleSmallGold", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "knife", minLevel: 0, weight:6, message:"LootRubbleKnife", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "pick", minLevel: 0, weight:10, message:"LootRubbleLockpick", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "redkey", minLevel: 1, weight:3, message:"LootRubbleRedKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "greenkey", minLevel: 2, weight:2, message:"LootRubbleGreenKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 		{name: "bluekey", minLevel: 3, weight:1, message:"LootRubbleBlueKey", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "potion_health", minLevel: 1, weight:4, message:"LootPotionHealth", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "potion_mana", minLevel: 0, weight:10, message:"LootPotionMana", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "potion_stamina", minLevel: 2, weight:6, message:"LootPotionStamina", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
-		{name: "potion_frigid", minLevel: 2, weight:5, message:"LootPotionFrigid", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_health", minLevel: 1, weight:4, message:"LootPotionHealth", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_mana", minLevel: 0, weight:10, message:"LootPotionMana", messageColor:"lightblue", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_stamina", minLevel: 2, weight:6, message:"LootPotionStamina", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potion_frigid", minLevel: 2, weight:5, message:"LootPotionFrigid", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 	],
 	"chest": [
 		{name: "gold", minLevel: 0, weight:4, message:"LootChestGold", messageColor:"yellow", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
@@ -26,6 +26,8 @@ var KinkyDungeonLootTable = {
 		{name: "trap_boots", minLevel: 1, weight:1, message:"LootChestTrapMagic", messageColor:"red", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], prerequisites: ["Group_ItemBoots"], power: 8},
 		{name: "trap_legirons", minLevel: 1, weight:1, message:"LootChestTrapMagic", messageColor:"red", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], prerequisites: ["Group_ItemFeet"], power: 8},
 		{name: "trap_belt", minLevel: 1, weight:1, message:"LootChestTrapMagicVibe", messageColor:"red", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], prerequisites: ["Group_ItemPelvis"], power: 8},
+		{name: "potions_health", minLevel: 0, weight:2, message:"LootPotionsHealth", messageColor:"lightgreen", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
+		{name: "potions_mana", minLevel: 0, weight:3, message:"LootPotionsMana", messageColor:"lightblue", messageTime: 3, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]},
 	],
 
 
@@ -154,6 +156,10 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 		KinkyDungeonGreenKeys += 1;
 	}  else if (Loot.name == "bluekey") {
 		KinkyDungeonBlueKeys += 1;
+	} else if (Loot.name == "potions_health") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 2+Math.floor(Math.random()*2));
+	} else if (Loot.name == "potions_mana") {
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionMana"], 2+Math.floor(Math.random()*3));
 	} else if (Loot.name == "potion_health") {
 		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 1);
 	} else if (Loot.name == "potion_mana") {
