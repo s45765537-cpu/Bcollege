@@ -928,6 +928,25 @@ var AssetFemale3DCGExtended = {
 			}
 		} // ShinySteelCollar
 	}, // ItemNeck
+	ItemNeckAccessories: {
+		CustomCollarTag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				ChatSetting: ModularItemChatSetting.PER_MODULE,
+				Modules: [
+					{
+						Name: "Tag", Key: "t",
+						Options: [{}, {}, {}, {}, {}, {}],
+					},
+					{
+						Name: "Txt", Key: "x",
+						Options: [{ HasSubscreen: true }],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		} // CustomCollarTag
+	}, // ItemNeckAccessories
 	ItemHood: {
 		KirugumiMask: {
 			Archetype: ExtendedArchetype.MODULAR,
