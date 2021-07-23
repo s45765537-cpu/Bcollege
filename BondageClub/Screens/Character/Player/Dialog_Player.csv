@@ -2116,8 +2116,8 @@ SelectEyePatchType,,,Select an eyepatch style.
 EyePatchTypeLeft,,,Left,,
 EyePatchTypeRight,,,Right,,
 BraceletBand1Select,,,Select the style.
-BraceletBand1Both,,,Both,,
 BraceletBand1Left,,,Left,,
+BraceletBand1Both,,,Both,,
 BraceletBand1Right,,,Right,,
 GartersGarterBeltSelect,,,Select the style.
 GartersGarterBeltBoth,,,Both,,

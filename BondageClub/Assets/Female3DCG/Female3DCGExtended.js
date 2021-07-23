@@ -2453,21 +2453,21 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Both",
+						Name: "Left",
 						Property: {
 							Type: null,
+						},
+					},
+					{
+						Name: "Both",
+						Property: {
+							Type: "Both",
 						},
 					},
 					{
 						Name: "Right",
 						Property: {
 							Type: "Right",
-						},
-					},
-					{
-						Name: "Left",
-						Property: {
-							Type: "Left",
 						},
 					},
 				],

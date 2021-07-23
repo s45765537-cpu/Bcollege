@@ -1147,7 +1147,7 @@ var AssetFemale3DCG = [
 			{ Name: "BowBand", Value: 20},
 			{ Name: "KinkBracelet", Value: 25},
 			{ Name: "LesBand", Value: 30},
-			{ Name: "Band1", Value: 25, Extended: true},
+			{ Name: "Band1", Value: 25, HideForPose: ["BackCuffs"], Extended: true},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
