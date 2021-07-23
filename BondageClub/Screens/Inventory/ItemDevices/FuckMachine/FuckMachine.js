@@ -18,9 +18,7 @@ function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, X, Y, Prope
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 	
-	const YOffset = 27;
-	
-	if (L === "_Dildo") return { Y: Y + YOffset + Data.DildoState };
+	if (L === "_Dildo") return { Y: Y + Data.DildoState };
 	if (L !== "_Pole") return;
 	
 	const Properties = Property || {};
@@ -41,7 +39,7 @@ function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, X, Y, Prope
 	
 	Data.DildoState += Data.Modifier * Data.Speed * AnimationQualityRatio;
 	
-	return { Y: Y + YOffset + Data.DildoState };
+	return { Y: Y + Data.DildoState };
 }
 
 function AssetsItemDevicesFuckMachineScriptDraw(data) {

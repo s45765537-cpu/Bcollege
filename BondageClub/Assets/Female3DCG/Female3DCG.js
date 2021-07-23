@@ -4665,11 +4665,11 @@ var AssetFemale3DCG = [
 				ArousalZone: "ItemVulva",
 				Alpha: [{ Group: ["Pussy"], Masks: [[0, 524, 500, 40]] }],
 				Layer: [
-					{ Name: "Pole" },
+					{ Name: "Pole", Top: 492 },
 					{ Name: "Metal", ColorGroup: "Machine" },
 					{ Name: "Plastic", ColorGroup: "Machine" },
 					{ Name: "Caps", ColorGroup: "Machine" },
-					{ Name: "Dildo" },
+					{ Name: "Dildo", Top: 492 },
 					{ Name: "Pussy", AllowColorize: false, Top: 398, Left: 125, Priority: 11 },
 				],
 			},
