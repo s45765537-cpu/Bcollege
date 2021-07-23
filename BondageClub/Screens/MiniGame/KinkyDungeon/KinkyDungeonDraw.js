@@ -53,6 +53,8 @@ const KinkyDungeonLastChatTimeout = 10000;
 // Draw function for the game portion
 function KinkyDungeonDrawGame() {
 	
+	KinkyDungeonListenKeyMove();
+	
 	KinkyDungeonCapStats();
 	
 	if (ChatRoomChatLog.length > 0) {
@@ -113,9 +115,11 @@ function KinkyDungeonDrawGame() {
 				KinkyDungeonContext.fill();
 				// Draw the grid and tiles
 				let rows = KinkyDungeonGrid.split('\n');
-				for (let R = 0; R < KinkyDungeonGridHeightDisplay; R++)  {
-					for (let X = 0; X < KinkyDungeonGridWidthDisplay; X++)  {
-						let sprite = KinkyDungeonGetSprite(rows[R+CamY][X+CamX]);
+				for (let R = -1; R <= KinkyDungeonGridHeightDisplay; R++)  {
+					for (let X = -1; X <= KinkyDungeonGridWidthDisplay; X++)  {
+						let RY = Math.max(0, Math.min(R+CamY, KinkyDungeonGridHeight));
+						let RX = Math.max(0, Math.min(X+CamX, KinkyDungeonGridWidth));
+						let sprite = KinkyDungeonGetSprite(rows[RY][RX]);
 
 						DrawImageZoomCanvas(KinkyDungeonRootDirectory + "Floor" + KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint] + "/" + sprite + ".png", KinkyDungeonContext, 0, 0, KinkyDungeonSpriteSize, KinkyDungeonSpriteSize,
 						(-CamX_offset + X)*KinkyDungeonGridSizeDisplay, (-CamY_offset+R)*KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, false);
@@ -138,10 +142,14 @@ function KinkyDungeonDrawGame() {
 
 				// Draw fog of war
 				rows = KinkyDungeonLightGrid.split('\n');
-				for (let R = 0; R < KinkyDungeonGridHeightDisplay; R++)  {
-					for (let X = 0; X < KinkyDungeonGridWidthDisplay; X++)  {
+				for (let R = -1; R <= KinkyDungeonGridHeightDisplay; R++)  {
+					for (let X = -1; X <= KinkyDungeonGridWidthDisplay; X++)  {
+						
+						let RY = Math.max(0, Math.min(R+CamY, KinkyDungeonGridHeight));
+						let RX = Math.max(0, Math.min(X+CamX, KinkyDungeonGridWidth));
+						
 						KinkyDungeonContext.beginPath();
-						KinkyDungeonContext.fillStyle = "rgba(0,0,0," + Math.max(0, 1-Number(rows[R+CamY][X+CamX])/3) + ")";
+						KinkyDungeonContext.fillStyle = "rgba(0,0,0," + Math.max(0, 1-Number(rows[RY][RX])/3) + ")";
 
 						KinkyDungeonContext.fillRect((-CamX_offset + X)*KinkyDungeonGridSizeDisplay, (-CamY_offset + R)*KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay);
 						KinkyDungeonContext.fill();
@@ -268,16 +276,7 @@ function KinkyDungeonDrawGame() {
 						else if (KinkyDungeonTargetTile.Lock.includes("Blue"))
 							DrawText(TextGet("KinkyBlueLock"), 675, 850, "white", "silver");
 					} else if (KinkyDungeonTargetTile.Type == "Shrine") {
-						let cost = 0;
-						let type = KinkyDungeonTargetTile.Name;
-
-						if (KinkyDungeonShrineAvailable(type)) cost = KinkyDungeonShrineCost(type);
-
-
-						if (cost == 0) DrawText(TextGet("KinkyDungeonLockedShrine"), 850, 850, "white", "silver");
-						else {
-							DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonPayShrine").replace("XXX", cost), "White", "", "");
-						}
+						KinkyDungeonDrawShrine();
 					} else if (KinkyDungeonTargetTile.Type == "Door") {
 						DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"));
 					}
@@ -410,32 +409,7 @@ function KinkyDungeonHandleHUD() {
 					return true;
 				}
 			} else if (KinkyDungeonTargetTile.Type == "Shrine") {
-				let cost = 0;
-				let type = KinkyDungeonTargetTile.Name;
-
-				if (KinkyDungeonShrineAvailable(type)) cost = KinkyDungeonShrineCost(type);
-
-
-				if (cost > 0 && MouseIn(675, 825, 350, 60)) {
-					KinkyDungeonAdvanceTime(1, true);
-					KinkyDungeonTargetTile = null;
-					if (KinkyDungeonGold > cost) {
-						KinkyDungeonPayShrine(type)
-						delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation]
-						let x = KinkyDungeonTargetTileLocation.split(',')[0]
-						let y = KinkyDungeonTargetTileLocation.split(',')[1]
-						KinkyDungeonMapSet(parseInt(x), parseInt(y), "a")
-						KinkyDungeonUpdateStats(0)
-					} else if (1 >= KinkyDungeonActionMessagePriority) {
-						KinkyDungeonActionMessageTime = 1
-								
-						KinkyDungeonActionMessage = TextGet("KinkyDungeonPayShrineFail")
-						KinkyDungeonActionMessagePriority = 1
-						KinkyDungeonActionMessageColor = "red"
-					}
-					KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);
-					return true;
-				}
+				KinkyDungeonHandleShrine();
 
 			} else if (KinkyDungeonTargetTile.Type == "Door") {
 				if (MouseIn(675, 825, 350, 60)) {

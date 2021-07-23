@@ -1,10 +1,12 @@
 "use strict";
 
 var KinkyDungeonConsumables = {
-	"PotionHealth" : {name: "PotionHealth", rarity: 1, type: "restore", wp_instant: 10, wp_gradual: 40, duration: 10},
-	"PotionMana" : {name: "PotionMana", rarity: 0, type: "restore", mp_instant: -10, mp_gradual: -40, duration: 20},
-	"PotionStamina" : {name: "PotionStamina", rarity: 1, type: "restore", sp_gradual: 100, duration: 10},
-	"PotionFrigid" : {name: "PotionFrigid", rarity: 1, type: "restore", ap_instant: 0, ap_gradual: -50, duration: 5},
+	"PotionHealth" : {name: "PotionHealth", rarity: 1, shop: true, type: "restore", wp_instant: 10, wp_gradual: 20, duration: 10},
+	"PotionHealthGreater" : {name: "PotionHealthGreater", rarity: 2, shop: true, type: "restore", wp_instant: 10, wp_gradual: 40, duration: 10},
+	"PotionHealthUltimate" : {name: "PotionHealthUltimate", rarity: 3, shop: true, type: "restore", wp_instant: 20, wp_gradual: 80, duration: 10},
+	"PotionMana" : {name: "PotionMana", rarity: 0, shop: true, type: "restore", mp_instant: -10, mp_gradual: -40, duration: 20},
+	"PotionStamina" : {name: "PotionStamina", rarity: 1, shop: true, type: "restore", sp_gradual: 100, duration: 10},
+	"PotionFrigid" : {name: "PotionFrigid", rarity: 1, shop: true, type: "restore", ap_instant: 0, ap_gradual: -50, duration: 5},
 }
 
 function KinkyDungeonGetInventoryItem(Name, Filter = "Consumables") {
@@ -15,6 +17,28 @@ function KinkyDungeonGetInventoryItem(Name, Filter = "Consumables") {
 	}
 	return null;
 }
+
+function KinkyDungeonGetShopConsumable(Level, Rarity, Shop) {
+	let Table = [];
+	let params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
+	if (params.ShopExclusives) {
+		for (let S = 0; S < params.ShopExclusives.length; S++) {
+			Table.push(params.ShopExclusives[S]);
+		}
+	}
+	let Shopable = Object.entries(KinkyDungeonConsumables).filter(([k, v]) => (v.shop));
+	for (let S = 0; S < Shopable.length; S++) {
+		Table.push(Shopable[S][1]);
+	}
+	
+	for (let R = Rarity; R >= 0; R--) {
+		let available = Table.filter((item) => (item.rarity == R));
+		if (available.length > 0) return available[Math.floor(Math.random() * available.length)];
+	}
+	return null;
+}
+
+
 
 function KinkyDungeonChangeConsumable(Consumable, Quantity) {
 	let consumables = KinkyDungeonFilterInventory("Consumables");
@@ -62,7 +86,7 @@ function KinkyDungeonUseConsumable(Name, Quantity) {
 	for (let I = 0; I < Quantity; I++) {
 		KinkyDungeonConsumableEffect(item.item.consumable);
 	}
-	KinkyDungeonChangeConsumable(item.consumable, -Quantity);
+	KinkyDungeonChangeConsumable(item.item.consumable, -Quantity);
 	
 	KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonInventoryItem" + Name + "Use"), "#88FF88", 1);
 	return true;

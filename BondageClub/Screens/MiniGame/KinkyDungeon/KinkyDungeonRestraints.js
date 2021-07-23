@@ -200,7 +200,11 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	if (StruggleType == "Unlock") cost = 0;
 	let Pass = "Fail";
 	let escapeChance = (restraint.restraint.escapeChance[StruggleType] != null) ? restraint.restraint.escapeChance[StruggleType] : 1.0;
-
+	
+	if (escapeChance == 0) {
+		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + "Impossible"), "red", 2);
+		return false;
+	}
 
 	if ((struggleGroup.group != "ItemArms" && struggleGroup.group != "ItemHands" ) && !KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
 	if (struggleGroup.group != "ItemArms" && (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms"))) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
@@ -229,6 +233,11 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	
 	if (struggleGroup.group != "ItemNipples" || struggleGroup.group != "ItemNipplesPiercings") bra = KinkyDungeonGetRestraintItem("ItemBreast");
 	if (bra && bra.chastity) escapeChance = 0.0
+	
+	if (escapeChance == 0) {
+		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + "ImpossibleBound"), "red", 2);
+		return false;
+	}
 	
 	if (StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Green" && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Yellow" && KinkyDungeonRedKeys > 0 && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0))) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : restraint.lock) + "Key"), "orange", 2);
@@ -304,7 +313,9 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 
 		KinkyDungeonAdvanceTime(1);
+		return true;
 	}
+	return false;
 }
 
 function KinkyDungeonGetRestraintItem(group) {

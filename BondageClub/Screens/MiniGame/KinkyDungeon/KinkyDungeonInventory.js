@@ -134,9 +134,11 @@ function KinkyDungeonDrawInventory() {
 		
 		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 40, canvasOffsetY + 115 + I*65, 225, 60, TextGet("KinkyDungeonCategoryFilter" + KinkyDungeonFilters[I]), (KinkyDungeonCurrentFilter == KinkyDungeonFilters[I]) ? "White" : col, "", "");
 	}
-		
-	if (KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) {
+	
+	let filteredInventory = KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter);
+	if (KinkyDungeonDrawInventorySelected(filteredInventory)) {
 		if (KinkyDungeonCurrentFilter == "Consumables")
 			DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60, TextGet("KinkyDungeonConsume"), "White", "", "");
 	}
+	if (KinkyDungeonCurrentPageInventory > filteredInventory.length) KinkyDungeonCurrentPageInventory = Math.max(0, KinkyDungeonCurrentPageInventory - 1);
 }
