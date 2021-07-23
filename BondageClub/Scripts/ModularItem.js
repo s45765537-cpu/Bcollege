@@ -613,9 +613,11 @@ function ModularItemGenerateLayerAllowTypes(layer, data) {
 			});
 		});
 		
+		// Append to the existing AllowTypes
 		layer.AllowTypes = Array.isArray(layer.AllowTypes) ? layer.AllowTypes : [];	
-		layer.AllowTypes.concat(GeneratedAllowTypes);
+		layer.AllowTypes = layer.AllowTypes.concat(GeneratedAllowTypes);
 		
+		// When option 0 is an allowed module, it means the undefined/null type is allowed.
 		if (allowedModuleCombinations.find(arr => arr.find(combo => combo[1] === 0))) {
 			layer.AllowTypes.push("");
 		}
