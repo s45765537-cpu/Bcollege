@@ -606,11 +606,19 @@ function ModularItemGenerateLayerAllowTypes(layer, data) {
 			}
 			return values;
 		});
-		layer.AllowTypes = ModularItemGenerateAllowType(data, (combination) => {
+		
+		const GeneratedAllowTypes = ModularItemGenerateAllowType(data, (combination) => {
 			return allowedModuleCombinations.some(allowedCombination => {
 				return allowedCombination.every(combo => combination[combo[0]] === combo[1]);
 			});
 		});
+		
+		layer.AllowTypes = Array.isArray(layer.AllowTypes) ? layer.AllowTypes : [];	
+		layer.AllowTypes.concat(GeneratedAllowTypes);
+		
+		if (allowedModuleCombinations.find(arr => arr.find(combo => combo[1] === 0))) {
+			layer.AllowTypes.push("");
+		}
 	}
 }
 
