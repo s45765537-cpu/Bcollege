@@ -1,3 +1,5 @@
+"use strict";
+
 function InventoryItemDevicesFuckMachineLoad() {
 	VibratorModeLoad([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
 }
