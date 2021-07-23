@@ -26,6 +26,7 @@ function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, X, Y, Prope
 
 	
 	const FuckLength = 32;
+	const AnimationQualityRatio = (Player.GraphicsSettings ? Math.max(Player.GraphicsSettings.AnimationQuality * 0.6, 30) : 30) / 30;
 	Data.Speed = (Intensity + 1) * 2;
 	if (Data.DildoState >= FuckLength) {
 		Data.Modifier = -1;
@@ -33,7 +34,7 @@ function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, X, Y, Prope
 		Data.Modifier = 1;
 	}
 	
-	Data.DildoState += Data.Modifier * Data.Speed;
+	Data.DildoState += Data.Modifier * Data.Speed * AnimationQualityRatio;
 	
 	return { Y: Y + YOffset + Data.DildoState };
 }
@@ -42,7 +43,7 @@ function AssetsItemDevicesFuckMachineScriptDraw(data) {
 	VibratorModeScriptDraw(data);
 	const Data = data.PersistentData();
 	const Properties = data.Item.Property || {};
-	const FrameTime = 30;
+	const FrameTime = Player.GraphicsSettings ? Math.max(30, (Player.GraphicsSettings.AnimationQuality * 0.6)) : 30;
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;
 
 	if (typeof Data.FuckChangeTime !== "number") Data.FuckChangeTime = CommonTime() + FrameTime;
