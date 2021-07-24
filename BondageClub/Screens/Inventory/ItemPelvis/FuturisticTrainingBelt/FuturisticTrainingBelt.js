@@ -263,10 +263,7 @@ function InventoryItemPelvisFuturisticTrainingBeltExit() {
 		}
 		
 		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticChastityBeltSetGeneric");
-	} else {
-		ElementRemove("PunishRequiredSpeechWord");
-		InventoryItemMouthFuturisticPanelGagExitAccessDenied();
-	}
+	} else InventoryItemMouthFuturisticPanelGagExitAccessDenied();
 	
 	ElementRemove("PunishRequiredSpeechWord");
 }
