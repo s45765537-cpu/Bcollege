@@ -53,12 +53,8 @@ function KinkyDungeonDrawEnemies(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 					KinkyDungeonContext, 0, 0, KinkyDungeonSpriteSize, KinkyDungeonSpriteSize,
 					(KinkyDungeonEntities[E].x - CamX)*KinkyDungeonGridSizeDisplay, (KinkyDungeonEntities[E].y - CamY)*KinkyDungeonGridSizeDisplay,
 					KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, false);
-
 			}
-
 		}
-
-
 	}
 }
 
@@ -75,8 +71,6 @@ function KinkyDungeonDrawEnemiesWarning(canvasOffsetX, canvasOffsetY, CamX, CamY
 						KinkyDungeonContext, 0, 0, KinkyDungeonSpriteSize, KinkyDungeonSpriteSize,
 						(tx - CamX)*KinkyDungeonGridSizeDisplay, (ty - CamY)*KinkyDungeonGridSizeDisplay,
 						KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, false);
-
-
 				}
 			}
 		}
@@ -114,7 +108,6 @@ function KinkyDungeonUpdateEnemies(delta) {
 		// Delete the enemy
 		if (KinkyDungeonEnemyCheckHP(enemy, E)) { E -= 1; continue;}
 		
-
 		if (!enemy.castCooldown) enemy.castCooldown = 0;
 		if (enemy.castCooldown > 0) enemy.castCooldown = Math.max(0, enemy.castCooldown-delta);
 
@@ -146,8 +139,6 @@ function KinkyDungeonUpdateEnemies(delta) {
 			} else if (AI == "guard" && (enemy.Enemy.attackWhileMoving || !KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.followRange))) {
 				if (!enemy.gx) enemy.gx = enemy.x;
 				if (!enemy.gy) enemy.gy = enemy.y;
-
-
 
 				idle = true;
 				// try 12 times to find a moveable tile, with some random variance
@@ -331,13 +322,11 @@ function KinkyDungeonUpdateEnemies(delta) {
 			}
 		}
 
-
 		if (idle) {
 			enemy.movePoints = 0;
 			enemy.attackPoints = 0;
 			enemy.warningTiles = [];
 		}
-		
 		
 		// Delete the enemy
 		if (KinkyDungeonEnemyCheckHP(enemy, E)) { E -= 1;}
@@ -362,7 +351,6 @@ function KinkyDungeonEnemyAt(x, y) {
 }
 
 function KinkyDungeonEnemyTryMove(enemy, Direction, delta, x, y) {
-
 	enemy.movePoints += delta;
 
 	if (enemy.movePoints >= enemy.Enemy.movePoints) {
@@ -380,7 +368,6 @@ function KinkyDungeonEnemyTryMove(enemy, Direction, delta, x, y) {
 }
 
 function KinkyDungeonEnemyTryAttack(enemy, player, Tiles, delta, x, y, replace, msgColor) {
-
 	enemy.attackPoints += delta;
 
 	if (enemy.attackPoints >= enemy.Enemy.attackPoints) {
@@ -431,9 +418,7 @@ function KinkyDungeonGetWarningTiles(dx, dy, range, width) {
 			angleDiff += (angleDiff>Math.PI) ? -2*Math.PI : (angleDiff<-Math.PI) ? 2*Math.PI : 0;
 
 			if (Math.abs(angleDiff) < cone + 0.1 && Math.sqrt(X*X + Y*Y) < range + 0.5) arr.push({x:X, y:Y});
-
 		}
-
 
 	return arr;
 }

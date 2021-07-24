@@ -159,10 +159,7 @@ function KinkyDungeonPickAttempt() {
 
 	if (KinkyDungeonStatStamina + KinkyDungeonStaminaRate < -cost) {
 		KinkyDungeonWaitMessage();
-	} else if (Math.random() < escapeChance)
-	{
-
-
+	} else if (Math.random() < escapeChance){
 		KinkyDungeonStatStamina += cost;
 		Pass = "Success";
 	} else if (Math.random() < KinkyDungeonKeyPickBreakChance || lock.includes("Blue")) { // Blue locks cannot be picked or cut!
@@ -231,7 +228,6 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	if (StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Green" && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Yellow" && KinkyDungeonRedKeys > 0 && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0))) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : restraint.lock) + "Key"), "orange", 2);
 	} else {
-
 		if (KinkyDungeonStatStamina + KinkyDungeonStaminaRate < -cost) {
 			KinkyDungeonWaitMessage();
 		} else {
@@ -299,8 +295,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 				}
 			}
 		}
-
-
+		
 		KinkyDungeonAdvanceTime(1);
 	}
 }

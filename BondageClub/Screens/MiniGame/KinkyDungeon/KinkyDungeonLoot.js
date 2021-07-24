@@ -58,8 +58,6 @@ function KinkyDungeonLoot(Level, Index, Type) {
 					}
 				}
 
-
-
 				if (SpellList != null && KinkyDungeonGetUnlearnedSpells(minlevel, maxlevel, SpellList).length == 0) {
 					prereqs = false;
 				}
@@ -85,7 +83,6 @@ function KinkyDungeonLoot(Level, Index, Type) {
 			break;
 		}
 	}
-
 }
 
 function KinkyDungeonGetUnlearnedSpells(minlevel, maxlevel, SpellList) {
@@ -96,6 +93,7 @@ function KinkyDungeonGetUnlearnedSpells(minlevel, maxlevel, SpellList) {
 			SpellsUnlearned.push(SpellList[S]);
 		}
 	}
+	
 	for (let SS = 0; SS < KinkyDungeonSpells.length; SS++) {
 		for (let S = 0; S < SpellsUnlearned.length; S++) {
 			if (KinkyDungeonSpells[SS].name == SpellsUnlearned[S].name) {
@@ -108,7 +106,6 @@ function KinkyDungeonGetUnlearnedSpells(minlevel, maxlevel, SpellList) {
 }
 
 function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
-	//
 	let value = 0;
 	if (Loot.name == "spell_illusion_low") {
 		let SpellsUnlearned = KinkyDungeonGetUnlearnedSpells(0, 5, KinkyDungeonSpellList.Illusion);

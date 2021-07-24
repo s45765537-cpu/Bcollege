@@ -2,7 +2,6 @@
 var KinkyDungeonGroundItems = []; // Tracking all items on the ground
 
 function KinkyDungeonItemDrop(x, y, dropTable) {
-
 	if (dropTable) {
 		var dropWeightTotal = 0;
 		var dropWeights = [];
@@ -26,7 +25,7 @@ function KinkyDungeonItemDrop(x, y, dropTable) {
 	return false;
 }
 
-function KinkyDungeonItemEvent(Item, Index) {
+function KinkyDungeonItemEvent(Item) {
 	let color = "white";
 	let priority = 1;
 	if (Item.name == "Gold") {
@@ -54,13 +53,10 @@ function KinkyDungeonItemCheck(x, y, Index) {
 		var item = KinkyDungeonGroundItems[I];
 		if (KinkyDungeonPlayerEntity.x == item.x && KinkyDungeonPlayerEntity.y == item.y) {
 			KinkyDungeonGroundItems.splice(I, 1);
-			return KinkyDungeonItemEvent(item, Index);
+			return KinkyDungeonItemEvent(item);
 		}
 	}
 }
-
-
-
 
 function KinkyDungeonDrawItems(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 	for (let E = 0; E < KinkyDungeonGroundItems.length; E++) {
@@ -71,11 +67,7 @@ function KinkyDungeonDrawItems(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 				KinkyDungeonContext, 0, 0, KinkyDungeonSpriteSize, KinkyDungeonSpriteSize,
 				(KinkyDungeonGroundItems[E].x - CamX)*KinkyDungeonGridSizeDisplay, (KinkyDungeonGroundItems[E].y - CamY)*KinkyDungeonGridSizeDisplay,
 				KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay, false);
-
-
 		}
-
-
 	}
 }
 
