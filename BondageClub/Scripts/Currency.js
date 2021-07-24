@@ -1,4 +1,5 @@
-﻿var CurrencyList = [["USD", "$", 1], ["EURO", "€", 1], ["RUB", "₽", 100], ["JPY", "¥", 100], ["CNY", "¥", 5]];//[Currency,Symbol,Value] (exchange rates are not exact) (feel free to add more)
+﻿"use strict";
+var CurrencyList = [["USD", "$", 1], ["EURO", "€", 1], ["RUB", "₽", 100], ["JPY", "¥", 100], ["CNY", "¥", 5]];//[Currency,Symbol,Value] (exchange rates are not exact) (feel free to add more)
 var CurrencyCurrentIndex = 0;
 var CurrencyCurrent = "USD";
 
