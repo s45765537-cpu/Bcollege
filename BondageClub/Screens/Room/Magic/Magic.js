@@ -393,7 +393,7 @@ function MagicSongGwendoyn() {
  */
 function MagicSongBadGirl() {
 	var MagicMoney = Math.floor(Math.random() * 6) + 6;
-	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace("REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, MagicMoney));
+	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, MagicMoney));
 	CharacterChangeMoney(Player, MagicMoney);
 	MagicShowState = 4;
 }
