@@ -91,7 +91,7 @@ function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 		if (DialogFocusItem.Property.PublicModePermission >= FuturisticTrainingBeltPermissions.length || DialogFocusItem.Property.PublicModePermission < 0) DialogFocusItem.Property.PublicModePermission = 2;
 		if (DialogFocusItem.Property.PublicModeCurrent >= FuturisticTrainingBeltModes.length || DialogFocusItem.Property.PublicModeCurrent < 0) DialogFocusItem.Property.PublicModeCurrent = 0;
 		if (DialogFocusItem.Property.DeviceState >= FuturisticTrainingBeltStates.length || DialogFocusItem.Property.DeviceState < 0) DialogFocusItem.Property.DeviceState = 0;
-		if (DialogFocusItem.Property.DeviceStateTimer >= CommonTime + 3600000) DialogFocusItem.Property.DeviceStateTimer = 0; // Prevents people from hacking in ultra-long state timers
+		if (DialogFocusItem.Property.DeviceStateTimer >= CommonTime() + 3600000) DialogFocusItem.Property.DeviceStateTimer = 0; // Prevents people from hacking in ultra-long state timers
 		
 		
 		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "25");
@@ -263,7 +263,10 @@ function InventoryItemPelvisFuturisticTrainingBeltExit() {
 		}
 		
 		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticChastityBeltSetGeneric");
-	} else InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	} else {
+		ElementRemove("PunishRequiredSpeechWord");
+		InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	}
 	
 	ElementRemove("PunishRequiredSpeechWord");
 }
@@ -287,7 +290,7 @@ function InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, msg) {
 		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
 	];
-	ChatRoomPublishCustomAction(msg, true, Dictionary);
+	ChatRoomPublishCustomAction(msg, false, Dictionary);
 }
 
 function InventoryItemPelvisFuturisticTrainingBeltValidate(C, Item) {
