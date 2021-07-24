@@ -199,7 +199,7 @@ function MagicShowIncomeAdd() {
  * @returns {void} - Nothing
  */
 function MagicShowPayoff() {
-	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("REPLACEMONEY", MagicShowIncome.toString());
+	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, MagicShowIncome));
 	CharacterChangeMoney(Player, MagicShowIncome);
 	CharacterNaked(MagicAssistant);
 	CharacterNaked(Player);
@@ -358,7 +358,7 @@ function MagicTrickBoxWaterCell() {
  */
 function MagicTrickGetCoin() {
 	var MagicMoney = Math.floor(Math.random() * 6) + 1;
-	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("REPLACEMONEY", MagicMoney.toString());
+	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, MagicMoney));
 	CharacterChangeMoney(Player, MagicMoney);
 }
 
@@ -393,7 +393,7 @@ function MagicSongGwendoyn() {
  */
 function MagicSongBadGirl() {
 	var MagicMoney = Math.floor(Math.random() * 6) + 6;
-	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace("REPLACEMONEY", MagicMoney.toString());
+	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace("REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, MagicMoney));
 	CharacterChangeMoney(Player, MagicMoney);
 	MagicShowState = 4;
 }

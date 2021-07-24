@@ -129,7 +129,7 @@ function KidnapLeagueTakeBounty(Difficulty) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyRemind() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", (15 + KidnapLeagueBountyDifficulty * 2).toString());
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("$BOUNTYAMOUNT", CurrencyGetBoth(CurrencyCurrent, (15 + KidnapLeagueBountyDifficulty * 2)));
 }
 
 /**
@@ -177,7 +177,7 @@ function KidnapLeagueBountyFightEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyPay() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", (15 + KidnapLeagueBountyDifficulty * 2).toString());
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("$BOUNTYAMOUNT", CurrencyGetBoth(CurrencyCurrent, (15 + KidnapLeagueBountyDifficulty * 2)));
 	CharacterChangeMoney(Player, 15 + KidnapLeagueBountyDifficulty * 2);
 	KidnapLeagueBountyReset();
 }
@@ -347,7 +347,7 @@ function KidnapLeagueRandomEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomMoneyAmount() {
-	KidnapLeagueRandomKidnapper.CurrentDialog = KidnapLeagueRandomKidnapper.CurrentDialog.replace("DIALOGMONEY", (10 + KidnapLeagueRandomKidnapperDifficulty * 2).toString());
+	KidnapLeagueRandomKidnapper.CurrentDialog = KidnapLeagueRandomKidnapper.CurrentDialog.replace("$DIALOGMONEY", CurrencyGetBoth(CurrencyCurrent, (10 + KidnapLeagueRandomKidnapperDifficulty * 2)));
 }
 
 /**

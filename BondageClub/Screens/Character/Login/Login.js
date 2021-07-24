@@ -134,6 +134,7 @@ function LoginRun() {
 	ElementPosition("InputPassword", 1000, 410, 500);
 	DrawButton(775, 500, 200, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawButton(1025, 500, 200, 60, TextGet("Language"), "White", "");
+	DrawButton(900, 570, 200, 60, (TextGet("Currency") + " " + CurrencyGetSymbol(CurrencyCurrent) + " " + CurrencyCurrent), "White", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 740, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
 	DrawButton(825, 870, 350, 60, TextGet(CheatAllow ? "Cheats" : "PasswordReset"), CheatAllow || CanLogin ? "White" : "Grey", "");
@@ -674,6 +675,16 @@ function LoginClick() {
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");
 		LoginUpdateMessage();
+	}
+
+	//i would make this a preference setting, but once a price in the dialog has been replaced, you can't get the original anymore (not without some major changes)
+	//besides, i bet the language can only be changed here for the same reason
+	if (MouseIn(900, 570, 200, 60)) {
+		CurrencyCurrentIndex += 1;
+		if (CurrencyCurrentIndex >= CurrencyList.length) {
+			CurrencyCurrentIndex = 0;
+		}
+		CurrencyCurrent = CurrencyList[CurrencyCurrentIndex][0];
 	}
 
 }

@@ -505,7 +505,7 @@ function GamblingFoxController(FoxState) {
 			}
 		} else if (FoxState == "player_fox_win") {
 			GamblingSecondSub.AllowItem = false;
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, GamblingMoneyBet));
 			CharacterChangeMoney(Player, GamblingMoneyBet);
 			ReputationProgress("Gambling", 2);
 			GamblingPlayerDiceStack = [];
@@ -522,7 +522,7 @@ function GamblingFoxController(FoxState) {
 		} else if (FoxState == "player_hunter_win") {
 			InventoryWearRandom(GamblingSecondSub, "ItemArms");
 			GamblingSecondSub.AllowItem = true;
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, GamblingMoneyBet));
 			CharacterChangeMoney(Player, GamblingMoneyBet);
 			ReputationProgress("Gambling", 1);
 			GamblingPlayerDiceStack = [];

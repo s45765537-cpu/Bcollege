@@ -90,7 +90,7 @@ function EmptyShopEnd(Sold) {
 	DialogLeave();
 	CommonSetScreen("Room", "Shop");
 	CharacterSetCurrent(ShopVendor);
-	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (Sold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (Sold) ? "ItemSold" : "ItemNotSold").replace("$MoneyAmount", CurrencyGetBoth(CurrencyCurrent, ShopDemoItemPayment));
 	CharacterAppearanceFullRandom(ShopCustomer, false);
 	CharacterRandomName(ShopCustomer);
 }
@@ -161,7 +161,7 @@ function EmptySlaveMarketTrainingEnd(Status) {
 		IntroductionJobProgress("DomTrainer");
 	}
 	CommonSetScreen("Room", "SlaveMarket");
-	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
+	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("$MoneyAmount", CurrencyGetBoth(CurrencyCurrent, Money));
 	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
 	CharacterDelete("NPC_SlaveMarket_SlaveToTrain");
 	delete CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"];

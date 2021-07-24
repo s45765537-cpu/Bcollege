@@ -4,6 +4,7 @@ AccountName,Account Name
 Password,Password
 Login,Login
 Language,Language
+Currency,Currency
 CreateNewCharacter,Or create a new character
 NewCharacter,New Character
 ConnectingToServer,Connecting to server...

@@ -133,7 +133,7 @@ function CafeEquirePrice(Item) {
 	if (CafeAskedFor == "EnergyDrink") CafePrice = CafeEnergyDrinkPrice;
 	if (CafeAskedFor == "GlassMilk") CafePrice = CafeGlassMilkPrice;
 	if (CafeAskedFor == "Cupcake") CafePrice = CafeCupcakePrice;
-	CafeMaid.CurrentDialog = CafeMaid.CurrentDialog.replace("REPLACEMONEY", CafePrice.toString());
+	CafeMaid.CurrentDialog = CafeMaid.CurrentDialog.replace("$REPLACEMONEY", CurrencyGetBoth(CurrencyCurrent, CafePrice));
 
 }
 

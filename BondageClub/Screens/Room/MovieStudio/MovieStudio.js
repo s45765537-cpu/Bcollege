@@ -855,5 +855,5 @@ function MovieStudioGetLongDuster() {
  */
 function MovieStudioGetMoney() {
 	CharacterChangeMoney(Player, MovieStudioMoney);
-	MovieStudioDirector.CurrentDialog = DialogFind(MovieStudioDirector, "MovieSalary").replace("SALARYAMOUNT", (MovieStudioMoney).toString());
+	MovieStudioDirector.CurrentDialog = DialogFind(MovieStudioDirector, "MovieSalary").replace("$SALARYAMOUNT", CurrencyGetBoth(CurrencyCurrent, (MovieStudioMoney)));
 }

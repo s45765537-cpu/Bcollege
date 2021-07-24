@@ -434,6 +434,10 @@ function DialogAllowItemScreenException() {
  * @returns {string} - The name of the current dialog, if such a dialog exists, any empty string otherwise
  */
 function DialogIntro() {
+	if (CurrencyCurrent != "USD") {
+		CurrencyDialogChange()
+	}
+
 	for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
 		if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option == null) && (CurrentCharacter.Dialog[D].Result != null) && DialogPrerequisite(D))
 			return CurrentCharacter.Dialog[D].Result;

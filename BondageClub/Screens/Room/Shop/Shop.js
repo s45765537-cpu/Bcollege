@@ -110,7 +110,7 @@ function ShopRun() {
 		var Y = 125;
 		for (let A = ShopItemOffset; (A < ShopCart.length && A < ShopItemOffset + 12); A++) {
 			const Hidden = CharacterAppearanceItemIsHidden(ShopCart[A].Name, ShopCart[A].Group.Name);
-			const Description = ShopCart[A].Description + " $" + (Math.ceil(ShopCart[A].Value * (ShopBuyMode ? 1 : 0.5))).toString();
+			const Description = ShopCart[A].Description + " " + CurrencyGetSymbol(CurrencyCurrent) + (Math.ceil(ShopCart[A].Value * CurrencyGetCurrencyValue(CurrencyCurrent) * (ShopBuyMode ? 1 : 0.5))).toString();
 			const Background = MouseIn(X, Y, 225, 275) && !CommonIsMobile ? "cyan" : "#fff";
 			const Foreground = InventoryAvailable(Player, ShopCart[A].Name, ShopCart[A].Group.Name) ? "green" : "red";
 			if (Hidden) DrawPreviewBox(X, Y, "Icons/HiddenItem.png", Description, { Background, Foreground });
@@ -124,7 +124,7 @@ function ShopRun() {
 
 		// Draw the header and empty text if we need too
 		if (ShopText == "") ShopText = TextGet("SelectItemBuy");
-		DrawText(ShopText + " (" + Player.Money.toString() + " $)", 1375, 50, "White", "Black");
+		DrawText(ShopText + " (" + CurrencyGetBoth(CurrencyCurrent, Player.Money) + ")", 1375, 50, "White", "Black");
 		if ((X == 1000) && (Y == 125)) DrawText(TextGet("EmptyCategory"), 1500, 500, "White", "Black");
 
 	}
