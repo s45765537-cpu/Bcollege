@@ -84,6 +84,7 @@ LootPotionStamina,"You find a green potion, glowing warm with energy."
 LootPotionFrigid,"You find a snow-like potion that's cold to the touch."
 LootPotionsMedley,"You find a medley of potions."
 
+KinkyDungeonRarity,"Rarity: "
 KinkyDungeonRarity0,Trifle
 KinkyDungeonRarity1,Lesser
 KinkyDungeonRarity2,Common
