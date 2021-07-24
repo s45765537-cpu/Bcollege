@@ -3022,7 +3022,8 @@ var AssetFemale3DCG = [
 					{ Name: "Metal"},
 					{ Name: "Flowers"}
 				]
-		},
+			},
+			{ Name: "LatexCollar1", Fetish: ["Latex"], Value: 1, Difficulty: 50, Time: 5},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
