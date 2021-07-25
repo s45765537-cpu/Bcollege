@@ -138,6 +138,7 @@
 <script src="Screens/Online/ChatCreate/ChatCreate.js"></script>
 <script src="Screens/Online/ChatBlockItem/ChatBlockItem.js"></script>
 <script src="Screens/Online/ChatRoom/ChatRoom.js"></script>
+<script src="Screens/Online/ChatRoom/Commands.js"></script>
 <script src="Screens/Online/ChatAdmin/ChatAdmin.js"></script>
 <script src="Screens/Online/Game/OnlineGame.js"></script>
 <script src="Screens/Online/GameLARP/GameLARP.js"></script>
@@ -311,6 +312,7 @@ window.onload = function() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
+	CommandsLoad();
 	CommonSetScreen("Character", "Login");
 	ControllerActive = false;
 	ServerInit();
@@ -353,6 +355,8 @@ function DocumentKeyDown(event) {
 		} else if ((CurrentCharacter == null) && (CurrentScreen == "ChatRoom") && (document.getElementById("TextAreaChatLog") != null)) {
 			ElementScrollToEnd("TextAreaChatLog");
 		}
+	} else if (event.key == "Tab") {
+		KeyDown(event);
 	}
 }
 
