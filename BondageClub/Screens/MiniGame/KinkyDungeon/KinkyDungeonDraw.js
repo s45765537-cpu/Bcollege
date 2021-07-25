@@ -1,25 +1,25 @@
 "use strict";
 var KinkyDungeonStruggleGroups = [];
 var KinkyDungeonStruggleGroupsBase = [
-		"ItemHead",
-		"ItemHood",
-		"ItemM",
-		"ItemEars",
-		"ItemArms",
-		"ItemNeck",
-		"ItemHands",
-		"ItemBreast",
-		"ItemNipples",
-		"ItemNipplesPiercings",
-		"ItemPelvis",
-		"ItemTorso",
-		"ItemLegs",
-		"ItemButt",
-		"ItemVulva",
-		"ItemVulvaPiercings",
-		"ItemFeet",
-		"ItemBoots",
-	];
+	"ItemHead",
+	"ItemHood",
+	"ItemM",
+	"ItemEars",
+	"ItemArms",
+	"ItemNeck",
+	"ItemHands",
+	"ItemBreast",
+	"ItemNipples",
+	"ItemNipplesPiercings",
+	"ItemPelvis",
+	"ItemTorso",
+	"ItemLegs",
+	"ItemButt",
+	"ItemVulva",
+	"ItemVulvaPiercings",
+	"ItemFeet",
+	"ItemBoots",
+];
 var KinkyDungeonDrawStruggle = true;
 var KinkyDungeonDrawState = "Game";
 var KinkyDungeonSpellValid = false;
@@ -72,8 +72,6 @@ function KinkyDungeonDrawGame() {
 					if (!KinkyDungeonSendActionMessage(0, LastChat, "white", 1) && LastChat != KinkyDungeonTextMessage)
 						KinkyDungeonSendTextMessage(1, LastChat, "white", 1)
 		}
-		
-		
 	}
 	
 	
@@ -157,7 +155,6 @@ function KinkyDungeonDrawGame() {
 				}
 
 				// Draw targeting reticule
-
 				if (MouseIn(canvasOffsetX, canvasOffsetY, KinkyDungeonCanvas.width, KinkyDungeonCanvas.height) && KinkyDungeonIsPlayer()) {
 					if (KinkyDungeonTargetingSpell) {
 						KinkyDungeonSetTargetLocation();
@@ -192,23 +189,15 @@ function KinkyDungeonDrawGame() {
 					}
 				}
 				MainCanvas.drawImage(KinkyDungeonCanvas, canvasOffsetX, canvasOffsetY);
-
-
 			}
-
 
 			CharacterSetFacialExpression(KinkyDungeonPlayer, "Emoticon", null);
 
-			// Draw the large player pic
-			//KinkyDungeonContextPlayer.fillStyle = "rgba(0,0,0,1.0)";
-			//KinkyDungeonContextPlayer.fillRect(0, 0, KinkyDungeonCanvasPlayer.width, KinkyDungeonCanvasPlayer.height);
-			//KinkyDungeonContextPlayer.fill()
+			// Draw the player no matter what
 			KinkyDungeonContextPlayer.clearRect(0, 0, KinkyDungeonCanvasPlayer.width, KinkyDungeonCanvasPlayer.height);
 			DrawCharacter(KinkyDungeonPlayer, -KinkyDungeonGridSizeDisplay/2, 0, KinkyDungeonGridSizeDisplay/250, false, KinkyDungeonContextPlayer);
 
-
 			if (KinkyDungeonIsPlayer()) {
-
 				// Draw the struggle buttons if applicable
 				if (KinkyDungeonDrawStruggle && KinkyDungeonStruggleGroups)
 					for (let S = 0; S < KinkyDungeonStruggleGroups.length; S++) {
@@ -232,7 +221,6 @@ function KinkyDungeonDrawGame() {
 
 						let GroupText = sg.name ? ("Restraint" + sg.name) : ("KinkyDungeonGroup"+ sg.group); // The name of the group to draw.
 						
-
 						DrawText(TextGet(GroupText) + locktext, x + ((!sg.left) ? ButtonWidth : 0), y-24, color, "black");
 						MainCanvas.textAlign = "center";
 
@@ -278,7 +266,7 @@ function KinkyDungeonDrawGame() {
 					} else if (KinkyDungeonTargetTile.Type == "Shrine") {
 						KinkyDungeonDrawShrine();
 					} else if (KinkyDungeonTargetTile.Type == "Door") {
-						DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"));
+						DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"), "White");
 					}
 				}
 				
@@ -435,14 +423,12 @@ function KinkyDungeonHandleHUD() {
 				let i = 0;
 				if (MouseIn(x + ((!sg.left) ? -(ButtonWidth)*i : (ButtonWidth)*i), y, ButtonWidth, ButtonWidth)) {KinkyDungeonStruggle(sg, "Struggle"); return true;} i++;
 				if (!sg.blocked) {
-					let toolSprite = (sg.lock != "") ? "Key" : "Buckle";
 					if (MouseIn(x + ((!sg.left) ? -(ButtonWidth)*i : (ButtonWidth)*i), y, ButtonWidth, ButtonWidth) && sg.lock != "Jammed") {KinkyDungeonStruggle(sg, (sg.lock != "") ? "Unlock" : "Remove"); return true;} i++;
 					if (KinkyDungeonLockpicks > 0 && sg.lock != "")
 						{if (MouseIn(x + ((!sg.left) ? -(ButtonWidth)*i : (ButtonWidth)*i), y, ButtonWidth, ButtonWidth)) {KinkyDungeonStruggle(sg, "Pick"); return true;} i++;}
 					if (KinkyDungeonNormalBlades > 0 || KinkyDungeonEnchantedBlades > 0)
 						{if (MouseIn(x + ((!sg.left) ? -(ButtonWidth)*i : (ButtonWidth)*i), y, ButtonWidth, ButtonWidth)) {KinkyDungeonStruggle(sg, "Cut"); return true;} i++;}
 				}
-
 			}
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}

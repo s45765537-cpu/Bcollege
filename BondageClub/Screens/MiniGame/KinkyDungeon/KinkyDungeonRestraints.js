@@ -159,10 +159,7 @@ function KinkyDungeonPickAttempt() {
 
 	if (!KinkyDungeonHasStamina(-cost, true)) {
 		KinkyDungeonWaitMessage();
-	} else if (Math.random() < escapeChance)
-	{
-
-
+	} else if (Math.random() < escapeChance){
 		KinkyDungeonStatStamina += cost;
 		Pass = "Success";
 	} else if (Math.random() < KinkyDungeonKeyPickBreakChance || lock.includes("Blue")) { // Blue locks cannot be picked or cut!
@@ -310,8 +307,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 				}
 			}
 		}
-
-
+		
 		KinkyDungeonAdvanceTime(1);
 		return true;
 	}

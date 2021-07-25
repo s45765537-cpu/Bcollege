@@ -84,16 +84,7 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 }
 
 function KinkyDungeonAttackEnemy(Enemy, Damage) {
-	var hit = false;
-
-
-	if (KinkyDungeonEvasion(Enemy)) {
-		hit = true;
-
-	}
-
-
-	return KinkyDungeonDamageEnemy(Enemy, (hit) ? Damage : null);
+	KinkyDungeonDamageEnemy(Enemy, (KinkyDungeonEvasion(Enemy)) ? Damage : null);
 }
 
 function KinkyDungeonUpdateBullets(delta) {
@@ -178,8 +169,6 @@ function KinkyDungeonUpdateBuffs(delta) {
 					
 				}
 			}
-			
-			
 		}
 	}
 }
@@ -348,7 +337,5 @@ function KinkyDungeonDrawFight(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 		if (KinkyDungeonBullets[E].x >= CamX && KinkyDungeonBullets[E].y >= CamY && KinkyDungeonBullets[E].x < CamX + KinkyDungeonGridWidthDisplay && KinkyDungeonBullets[E].y < CamY + KinkyDungeonGridHeightDisplay) {
 			KinkyDungeonContext.drawImage(spriteCanvas,  (tx - CamX - (bullet.width-1)/2)*KinkyDungeonGridSizeDisplay, (ty - CamY - (bullet.height-1)/2)*KinkyDungeonGridSizeDisplay);
 		}
-
-
 	}
 }

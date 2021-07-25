@@ -221,5 +221,4 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 0.0,
 	},
-
 ];
