@@ -4103,8 +4103,8 @@ var AssetFemale3DCG = [
 				Name: "OldGasMask", Fetish: ["Leather"], Value: 85, Difficulty: 25, Time: 10, Random: false, AllowLock: true, Prerequisite: ["GasMask"], DefaultColor: "#313131", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"], HideItem: ["ItemHeadSnorkel", "ItemEarsFuturisticEarphones","HatFurHeadband"], Effect: ["BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"], Extended: true, Layer: [
 					{ Name: "Mask", AllowColorize: true, HasType: false },
 					{ Name: "Light", AllowColorize: false, HasType: false },
-					{ Name: "Lenses", AllowColorize: true, HasType: false, AllowModuleTypes: ["l1"], Left: 0, Top: -250 },
-					{ Name: "TubeA", AllowColorize: true, HasType: false, AllowModuleTypes: ["a1"], Left: 0, Top: -250 },
+					{ Name: "Lenses", AllowColorize: true, ColorGroup: "Attachments", HasType: false, AllowModuleTypes: ["l1"], Left: 0, Top: -250 },
+					{ Name: "TubeA", AllowColorize: true, ColorGroup: "Attachments", HasType: false, AllowModuleTypes: ["a1"], Left: 0, Top: -250 },
 					{ Name: "TubeB", AllowColorize: true, CopyLayerColor: "TubeA", HasType: false, AllowModuleTypes: ["a2"], Left: 0, Top: -250 },
 					{ Name: "Rebreather", AllowColorize: true, CopyLayerColor: "TubeA", HasType: false, AllowModuleTypes: ["a3"], Left: 0, Top: -250 },
 					{ Name: "Lock", LockLayer: true, HasType: false, AllowColorize: false },
