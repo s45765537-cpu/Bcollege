@@ -127,6 +127,14 @@ function KinkyDungeonDefaultStats() {
     KinkyDungeonInitializeDresses();
     KinkyDungeonDressPlayer();
     KinkyDungeonShrineInit();
+	
+	/*KinkyDungeonPlayers = [KinkyDungeonPlayerEntity]
+	for (let C = 0; C < ChatRoomCharacter.length; C++) {
+		if (ChatRoomCharacter[C].Effect.includes("KinkyDungeonParty") && ChatRoomCharacter[C].ID != 0) {
+			KinkyDungeonPlayers.push({MemberNumber: ChatRoomCharacter[C].MemberNumber, x:KinkyDungeonPlayerEntity.x, y: KinkyDungeonPlayerEntity.y})
+		}
+	}*/
+
 }
 
 function KinkyDungeonGetVisionRadius() {
@@ -179,7 +187,8 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 
 
 function KinkyDungeonUpdateStats(delta) {
-	KinkyDungeonPlayers = [KinkyDungeonPlayerEntity];
+	KinkyDungeonPlayers = [KinkyDungeonPlayerEntity]
+	//let now = performance.now()
 	// Initialize
 	KinkyDungeonCalculateVibeLevel();
 	
@@ -196,17 +205,18 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonStaminaRate += KinkyDungeonStatArousal / 100 * KinkyDungeonStatArousalRegenStaminaRegenFactor;
 
 	// If below a threshold, willpower starts to drain
-	if (KinkyDungeonStatStamina <= KinkyDungeonWillpowerDrainLowStaminaThreshold) willpowerRate += KinkyDungeonWillpowerDrainLowStamina;
+	if (KinkyDungeonStatStamina <= KinkyDungeonWillpowerDrainLowStaminaThreshold) willpowerRate += KinkyDungeonWillpowerDrainLowStamina;// console.log("Regen rate Check " + (performance.now() - now));
 
 	// Update the player tags based on the player's groups
-	KinkyDungeonPlayerTags = KinkyDungeonUpdateRestraints(delta);
+	KinkyDungeonPlayerTags = KinkyDungeonUpdateRestraints(delta);// console.log("Restraints Tags Check " + (performance.now() - now));
 
 	KinkyDungeonBlindLevel = Math.max(KinkyDungeonBlindLevelBase, KinkyDungeonPlayer.GetBlindLevel());
 	if (KinkyDungeonStatBlind > 0) KinkyDungeonBlindLevel = 3;
 	KinkyDungeonDeaf = KinkyDungeonPlayer.IsDeaf();
 
 	// Slowness calculation
-	KinkyDungeonCalculateSlowLevel();
+	KinkyDungeonCalculateSlowLevel();// console.log("Blind Check " + (performance.now() - now));
+	
 
 	// Unarmed damage calc
 	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageMax;
@@ -219,11 +229,13 @@ function KinkyDungeonUpdateStats(delta) {
 	if (KinkyDungeonPlayer.Pose.includes("Hogtied") || KinkyDungeonPlayer.Pose.includes("Kneel")) {
 		KinkyDungeonPlayerDamage /= 2;
 	}
+	//console.log("Unarmed Damage Check " + (performance.now() - now));
 
-	KinkyDungeonUpdateStruggleGroups();
 
-	KinkyDungeonDressPlayer();
-	
+	KinkyDungeonUpdateStruggleGroups();// console.log("Struggle Groups Check " + (performance.now() - now));
+
+	KinkyDungeonDressPlayer();//  console.log("Dress Check " + (performance.now() - now));
+
 	// Cap off the values between 0 and maximum
 	KinkyDungeonStatArousal = Math.max(0, Math.min(KinkyDungeonStatArousal + arousalRate*delta, KinkyDungeonStatArousalMax));
 	KinkyDungeonStatStamina = Math.max(0, Math.min(KinkyDungeonStatStamina + KinkyDungeonStaminaRate*delta, KinkyDungeonStatStaminaMax));
@@ -244,9 +256,9 @@ function KinkyDungeonCalculateVibeLevel() {
 				KinkyDungeonVibeLevel = Math.max(KinkyDungeonVibeLevel + drain/4, drain);
 			
 			vibe.battery = Math.max(0, vibe.battery - drain);
+			
 		}
 	}
-	
 	if (oldVibe > 0 && KinkyDungeonVibeLevel == 0) {
 		if (!KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2);
 	}
@@ -272,6 +284,7 @@ function KinkyDungeonCalculateSlowLevel() {
 		let boots = KinkyDungeonGetRestraintItem("ItemBoots");
 		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "KneelFreeze", true)) KinkyDungeonSlowLevel += 1.0;
 		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Freeze", true)) KinkyDungeonSlowLevel += 1;
+		//if (InventoryGet(KinkyDungeonPlayer, "ItemBoots") && InventoryGet(KinkyDungeonPlayer, "ItemBoots").Difficulty > 0) KinkyDungeonSlowLevel += 1;
 		if (boots && boots.restraint && boots.restraint.slowboots) KinkyDungeonSlowLevel += 1.0;
 		if (KinkyDungeonPlayer.Pose.includes("Kneel")) KinkyDungeonSlowLevel = Math.max(3, KinkyDungeonSlowLevel + 1);
 		if (KinkyDungeonPlayer.Pose.includes("Hogtied")) KinkyDungeonSlowLevel = Math.max(5, KinkyDungeonSlowLevel + 1);

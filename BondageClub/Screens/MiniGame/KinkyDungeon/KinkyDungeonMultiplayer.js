@@ -17,6 +17,13 @@ function KinkyDungeonMultiplayerUpdate(Delay) {
 		if (MN.length > 0) {
 			let data = KinkyDungeonPackData(KinkyDungeonGrid_Last != KinkyDungeonGrid, true, KinkyDungeonMultiplayerInventoryFlag, CommonTime() > KinkyDungeonNextDataSendStatsTime + KinkyDungeonNextDataSendStatsTimeDelay);
 			KinkyDungeonSendData(data);
+			//KinkyDungeonStreamingPlayers = [];
+			
+			//for (let C = 0; C < MN.length; C++) {
+				//KinkyDungeonStreamingPlayers.push(MN[C].MemberNumber); // Clean out the KinkyDungeonStreamingPlayers array
+				//ServerSend("ChatRoomChat", { Content: data, Type: "Hidden", Target: MN[C].MemberNumber });
+				
+			//}
 		}
 		
 		KinkyDungeonNextDataSendTime = CommonTime();
@@ -33,14 +40,15 @@ function KinkyDungeonMultiplayerUpdate(Delay) {
  * Converts a string into Kinky Game Data
  * @returns {void}
  */
+ 
 function KinkyDungeonUnpackData(KinkyData) {
-	if (CurrentScreen != "KinkyDungeon" || KinkyDungeonState != "Game" || !KinkyDungeonPlayerCharacter) return;
-	if (KinkyDungeonIsPlayer()) return; // Prevent griefing
-	let data = JSON.parse(LZString.decompressFromBase64(KinkyData));
+	if (CurrentScreen != "KinkyDungeon" || KinkyDungeonState != "Game" || !KinkyDungeonPlayerCharacter) return false;
+	if (KinkyDungeonIsPlayer()) return false; // Prevent griefing
+	let data = JSON.parse(LZString.decompressFromBase64(KinkyData))//);
 	
 	if (!KinkyDungeonGameData) KinkyDungeonGameData = {};
 
-	if (!data) return;
+	if (!data) return false;
 	
 	if (data.enemies != null) {
 		KinkyDungeonGameData.enemies = data.enemies;
@@ -63,6 +71,7 @@ function KinkyDungeonUnpackData(KinkyData) {
 	
 	KinkyDungeonUpdateFromData();
 	KinkyDungeonNextDataLastTimeReceived = CommonTime();
+	
 }
 
 function KinkyDungeonUpdateFromData() {
@@ -149,6 +158,7 @@ function KinkyDungeonUpdateFromData() {
 		if (KinkyDungeonGameData.meta.lv != null) MiniGameKinkyDungeonLevel = Math.round(KinkyDungeonGameData.meta.lv);
 	}
 }
+ 
 
 /**
  * Turns the game state into a string that can be sent over
@@ -218,7 +228,7 @@ function KinkyDungeonPackData(IncludeMap, IncludeItems, IncludeInventory, Includ
 		meta: meta,
 	};
 	let stringToSend = LZString.compressToBase64(JSON.stringify(result))// The replace is needed to avoid artifacts during decompression
-	
+	//console.log(stringToSend);
 	return stringToSend;
 }
 

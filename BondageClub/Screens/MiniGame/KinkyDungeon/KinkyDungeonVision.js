@@ -20,6 +20,7 @@ function KinkyDungeonCheckPath(x1, y1, x2, y2) {
 
 function KinkyDungeonMakeLightMap(width, height, Lights) {
 	KinkyDungeonBlindLevelBase = 0; // Set to 0 when consumed. We only redraw lightmap once so this is safe.
+	//let now = performance.now()
 	KinkyDungeonLightGrid = "";
 	// Generate the grid
 	for (let X = 0; X < KinkyDungeonGridHeight; X++) {
@@ -69,7 +70,43 @@ function KinkyDungeonMakeLightMap(width, height, Lights) {
 				}
 			}
 		}
+
+				/*var currBrightness = Number(KinkyDungeonLightGet(X, Y))
+				var brighestNeighbor = currBrightness
+
+				// Light doesn't travel efficiently along walls
+				var againstWall = 0
+
+				// Check neighbors
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X-1, Y)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X-1, Y))); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X+1, Y)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X+1, Y))); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X, Y-1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X, Y-1))); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X, Y+1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X, Y+1))); else againstWall += 1
+
+
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X-1, Y-1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X-1, Y-1))-(Math.random() > 0.4 ? 1 : 0)); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X+1, Y+1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X+1, Y+1))-(Math.random() > 0.4 ? 1 : 0)); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X+1, Y-1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X+1, Y-1))-(Math.random() > 0.4 ? 1 : 0)); else againstWall += 1
+				if (KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X-1, Y+1)))
+					brighestNeighbor = Math.max(brighestNeighbor, Number(KinkyDungeonLightGet(X-1, Y+1))-(Math.random() > 0.4 ? 1 : 0)); else againstWall += 1
+
+				if (againstWall > 4)
+					brighestNeighbor -= 1
+
+				if (brighestNeighbor > currBrightness && brighestNeighbor > 1) {
+					KinkyDungeonLightSet(X, Y, "" + (brighestNeighbor-1))
+				}*/
+
 	}
+	//console.log("Vision Check " + (performance.now() - now));
+
 }
 
 
