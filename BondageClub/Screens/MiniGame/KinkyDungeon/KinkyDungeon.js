@@ -269,17 +269,12 @@ function KinkyDungeonExit() {
 		DialogSetReputation("Gaming", KinkyDungeonRep);
 	}
 
-	if (CurrentScreen == "ChatRoom" && KinkyDungeonState != "Menu" && (MiniGameKinkyDungeonLevel > 1 || KinkyDungeonState == "Lose")) {
-		let Message = "KinkyDungeonExit";
-
-		if (KinkyDungeonState == "Lose") 
-			Message = "KinkyDungeonLose";
-
+	if (CurrentScreen == "ChatRoom" && KinkyDungeonState != "Menu" && KinkyDungeonState == "Lose") {
 		let Dictionary = [
 			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 			{ Tag: "KinkyDungeonLevel", Text: String(MiniGameKinkyDungeonLevel)},
 		];
-		ChatRoomPublishCustomAction(Message, false, Dictionary);
+		ChatRoomPublishCustomAction("KinkyDungeonLose", false, Dictionary);
 	}
 }
 
