@@ -1784,6 +1784,12 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 				],
+				Dialog: {
+					Load: "ItemMouthHarnessPonyBitsSelect",
+					TypePrefix: "ItemMouthHarnessPonyBits",
+					ChatPrefix: "ItemMouthHarnessPonyBitsSet",
+					NpcPrefix: "ItemMouthHarnessPonyBits",
+				}
 			},
 		}, // PonyBit
 		DentalGag: {
