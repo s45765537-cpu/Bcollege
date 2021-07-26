@@ -1560,67 +1560,56 @@ var AssetFemale3DCGExtended = {
 				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 				Options: [
 					{
-						Name: "Off",
+						Name: "Light",
 						Property: {
 							Type: null,
-							SuctionLevel: 0,
+							Difficulty: 0,
 						},
 					},
 					{
-						Name: "LowSuction",
+						Name: "Inflated",
 						Property: {
-							Type: "LowSuction",
-							SuctionLevel: 1,
+							Type: "Inflated",
+							Difficulty: 3,
 						},
 					},
 					{
-						Name: "MediumSuction",
+						Name: "Bloated",
 						Property: {
-							Type: "MediumSuction",
-							SuctionLevel: 2,
+							Type: "Bloated",
+							Difficulty: 6,
 						},
 					},
 					{
-						Name: "HighSuction",
+						Name: "Max",
 						Property: {
-							Type: "HighSuction",
-							SuctionLevel: 3,
-						},
-					},
-					{
-						Name: "MaximumSuction",
-						Property: {
-							Type: "MaximumSuction",
-							SuctionLevel: 4,
+							Type: "Max",
+							Difficulty: 9,
 						},
 					},
 				],
-				Dialog: {
-					Load: "LactationPumpSelectSetting",
-					TypePrefix: "LactationPump",
-					ChatPrefix: ({ newIndex, previousIndex }) => `LactationPumpPower${(newIndex > previousIndex) ? "tightens" : "loosens"}To`,
-				},
-				DrawImages: false,
 			},
 		}, // InflatableBodyBag
 		Pole: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 				Options: [
 					{
-						Name: "Loose",
+						Name: "Untied",
 						Property: {
 							Type: null,
-							SuctionLevel: 0,
-						},
+						}
 					},
 					{
-						Name: "Light",
+						Name: "Tied",
+						SelfBondageLevel: 2,
 						Property: {
-							Type: "Light",
-							SuctionLevel: 1,
-						},
+							Type: "Tied",
+							Difficulty: 8,
+							SetPose: ["BackBoxTie"],
+							Effect: ["Block", "Freeze", "Prone"],
+						}
 					},
 				],
 			},
