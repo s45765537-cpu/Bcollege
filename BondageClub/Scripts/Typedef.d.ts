@@ -40,7 +40,7 @@ interface HTMLCanvasElement {
 
 //#region Enums
 type ExtendedArchetype = "modular" | "typed";
-type TypedItemChatSetting = "toOnly" | "fromTo";
+type TypedItemChatSetting = "toOnly" | "fromTo" | "silent";
 type ModularItemChatSetting = "perModule" | "perOption";
 type CommonChatTags =
 	| "SourceCharacter"
@@ -842,6 +842,8 @@ interface ModularItemOption {
 	 * defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+	/** Whether or not the option should open a subscreen in the extended item menu */
+	HasSubscreen?: boolean;
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the
