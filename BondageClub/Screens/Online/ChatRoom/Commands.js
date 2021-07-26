@@ -347,7 +347,10 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'afk',
-		Action: () => CharacterSetFacialExpression(Player, "Emoticon", "Afk"),
+		Action: () => {
+			const expression = WardrobeGetExpression(Player).Emoticon != "Afk" ? "Afk" : null;
+			CharacterSetFacialExpression(Player, "Emoticon", expression);
+		}
 	},
 	{
 		Tag: 'bot',
