@@ -1983,7 +1983,7 @@ function ChatRoomMessage(data) {
 				else if (data.Type == "Action") msg = "(" + msg + ")";
 				else if (data.Type == "ServerMessage") msg = "<b>" + msg + "</b>";
 
-				// Local messages can have HTML enbeded in them
+				// Local messages can have HTML embedded in them
 				else if (data.Type == "LocalMessage") msg = data.Content;
 			}
 
