@@ -9,6 +9,7 @@ const AssetGroupType = {
 	AllowNone: "Maybe Boolean",
 	AllowColorize: "Maybe Boolean",
 	AllowCustomize: "Maybe Boolean",
+	Random: "Maybe Boolean",
 	Color: "Maybe [String]",
 	ParentSize: "Maybe String",
 	ParentColor: "Maybe String",
@@ -194,6 +195,7 @@ const ModularItemOption = {
 		HideItem: "Maybe [String]",
 		Property: "Maybe Object",
 		ChangeWhenLocked: "Maybe Boolean",
+		HasSubscreen: "Maybe Boolean",
 }
 
 const TypedItemConfig = {

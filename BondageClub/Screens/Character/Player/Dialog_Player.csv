@@ -1606,10 +1606,22 @@ SciFiPleasurePantiesBeepDenialModeDeactivate,,,"The special mode on DestinationC
 UnlockOrgasm,,,Normal Mode,,
 LockOrgasm,,,Edge Mode,,
 DenyOrgasm,,,Deny Mode,,
-CustomTagColor,,,Save text color,,
 CustomTagText,,,Save text,,
-CustomTagBoth,,,Save both,,
-ChangeCustomTag,,,SourceCharacter changes the custom name tag on DestinationCharacter collar.,,
+ItemNeckAccessoriesCustomCollarTagSelectBase,,,Select a module.,,
+ItemNeckAccessoriesCustomCollarTagSelectTag,,,Configure the tag.,,
+ItemNeckAccessoriesCustomCollarTagSelectTxt,,,Configure the text.,,
+ItemNeckAccessoriesCustomCollarTagModuleTag,,,Tag,,
+ItemNeckAccessoriesCustomCollarTagModuleTxt,,,Text,,
+ItemNeckAccessoriesCustomCollarTagModuleFont,,,Font,,
+ItemNeckAccessoriesCustomCollarTagOptiont0,,,Metal plate,,
+ItemNeckAccessoriesCustomCollarTagOptiont1,,,Livestock,,
+ItemNeckAccessoriesCustomCollarTagOptiont2,,,Bone,,
+ItemNeckAccessoriesCustomCollarTagOptiont3,,,Oval,,
+ItemNeckAccessoriesCustomCollarTagOptiont4,,,Fish,,
+ItemNeckAccessoriesCustomCollarTagOptiont5,,,Carrot,,
+ItemNeckAccessoriesCustomCollarTagOptionx0,,,Text,,
+ItemNeckAccessoriesCustomCollarTagSetTag,,,SourceCharacter changes the custom name tag on DestinationCharacter collar.,,
+ChangeCustomTag,,,SourceCharacter changes the text on DestinationCharacter collar name tag.,,
 WoodenSignChange,,,SourceCharacter changes the wooden sign on TargetCharacterName.,,
 SaveText,,,Save text,,
 SelectCollarNameTagType,,,Select what tag you want to use,,
@@ -2115,6 +2127,10 @@ ItemDevicesPoleSetTied,,,SourceCharacter ties TargetCharacter to the pole.,,
 SelectEyePatchType,,,Select an eyepatch style.
 EyePatchTypeLeft,,,Left,,
 EyePatchTypeRight,,,Right,,
+BraceletBand1Select,,,Select the style.
+BraceletBand1Left,,,<- This side,,
+BraceletBand1Both,,,<- Both sides ->,,
+BraceletBand1Right,,,That side ->,,
 GartersGarterBeltSelect,,,Select the style.
 GartersGarterBeltBoth,,,Both,,
 GartersGarterBeltLeft,,,Left,,
@@ -2292,6 +2308,9 @@ ClothChineseDress2Select,,,Select a dress pattern.
 ClothChineseDress2Red,,,Style 1
 ClothChineseDress2Purple,,,Style 2
 ClothChineseDress2Pink,,,Style 3
+ClothLatexLacedSuitSelect,,,Select your style.
+ClothLatexLacedSuitLaced,,,Laced body.
+ClothLatexLacedSuitNonLaced,,,Non-Laced body.
 BraSwimsuit1Select,,,Select an option.
 BraSwimsuit1Shiny,,,Shiny
 BraSwimsuit1Dull,,,No shine
@@ -2301,7 +2320,9 @@ PantiesDiapers4StrawBerry,,,Strawberries
 PantiesDiapers4Flower,,,Flowers
 PantiesDiapers4Butterflies,,,Butterflies
 PantiesDiapers4Spots,,,Spots
-PreviewIconFavorite,,,Favorited
+PreviewIconFavorite,,,Favorite
+PreviewIconFavoritePlayer,,,Favorite (yours)
+PreviewIconFavoriteBoth,,,Favorite (theirs & yours)
 PreviewIconHandheld,,,Held
 PreviewIconLocked,,,Locked
 PreviewIconLoverOnly,,,Lovers only

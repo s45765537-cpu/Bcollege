@@ -104,6 +104,7 @@ interface AssetGroup {
 	AllowNone: boolean;
 	AllowColorize: boolean;
 	AllowCustomize: boolean;
+	Random?: boolean;
 	ColorSchema: string[];
 	ParentSize: string;
 	ParentColor: string;
@@ -522,7 +523,7 @@ interface Character {
 		DisableAdvancedVibes: boolean;
 	};
 	AppearanceFull?: Item[];
-	Trait?: any[];
+	Trait?: NPCTrait[];
 	Event?: any[];
 	// Online character properties
 	Title?: string;
@@ -686,6 +687,11 @@ interface PlayerCharacter extends Character {
 	Infiltration?: any;
 }
 
+interface NPCTrait {
+	Name: string;
+	Value: number;
+}
+
 //#region Extended items
 
 interface ItemProperties {
@@ -817,6 +823,8 @@ interface ModularItemOption {
 	 * defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+	/** Whether or not the option should open a subscreen in the extended item menu */
+	HasSubscreen?: boolean;
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the

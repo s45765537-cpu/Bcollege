@@ -108,6 +108,25 @@ var AssetFemale3DCGExtended = {
 				],		
 			},
 		}, // ChineseDress2
+		LatexLacedSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Laced",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "NonLaced",
+						Property: {
+							Type: "NonLaced",
+						},
+					},
+				],
+			},
+		}, // LatexLacedSuit
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -1082,6 +1101,25 @@ var AssetFemale3DCGExtended = {
 			}
 		} // ShinySteelCollar
 	}, // ItemNeck
+	ItemNeckAccessories: {
+		CustomCollarTag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				ChatSetting: ModularItemChatSetting.PER_MODULE,
+				Modules: [
+					{
+						Name: "Tag", Key: "t",
+						Options: [{}, {}, {}, {}, {}, {}],
+					},
+					{
+						Name: "Txt", Key: "x",
+						Options: [{ HasSubscreen: true }],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		} // CustomCollarTag
+	}, // ItemNeckAccessories
 	ItemHood: {
 		OldGasMask: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1522,56 +1560,67 @@ var AssetFemale3DCGExtended = {
 				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 				Options: [
 					{
-						Name: "Light",
+						Name: "Off",
 						Property: {
 							Type: null,
-							Difficulty: 0,
+							SuctionLevel: 0,
 						},
 					},
 					{
-						Name: "Inflated",
+						Name: "LowSuction",
 						Property: {
-							Type: "Inflated",
-							Difficulty: 3,
+							Type: "LowSuction",
+							SuctionLevel: 1,
 						},
 					},
 					{
-						Name: "Bloated",
+						Name: "MediumSuction",
 						Property: {
-							Type: "Bloated",
-							Difficulty: 6,
+							Type: "MediumSuction",
+							SuctionLevel: 2,
 						},
 					},
 					{
-						Name: "Max",
+						Name: "HighSuction",
 						Property: {
-							Type: "Max",
-							Difficulty: 9,
+							Type: "HighSuction",
+							SuctionLevel: 3,
+						},
+					},
+					{
+						Name: "MaximumSuction",
+						Property: {
+							Type: "MaximumSuction",
+							SuctionLevel: 4,
 						},
 					},
 				],
+				Dialog: {
+					Load: "LactationPumpSelectSetting",
+					TypePrefix: "LactationPump",
+					ChatPrefix: ({ newIndex, previousIndex }) => `LactationPumpPower${(newIndex > previousIndex) ? "tightens" : "loosens"}To`,
+				},
+				DrawImages: false,
 			},
 		}, // InflatableBodyBag
 		Pole: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 				Options: [
 					{
-						Name: "Untied",
+						Name: "Loose",
 						Property: {
 							Type: null,
-						}
+							SuctionLevel: 0,
+						},
 					},
 					{
-						Name: "Tied",
-						SelfBondageLevel: 2,
+						Name: "Light",
 						Property: {
-							Type: "Tied",
-							Difficulty: 8,
-							SetPose: ["BackBoxTie"],
-							Effect: ["Block", "Freeze", "Prone"],
-						}
+							Type: "Light",
+							SuctionLevel: 1,
+						},
 					},
 				],
 			},
@@ -2581,20 +2630,26 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Detached",
-						Property: {
-							Type: "Detached",
-							Effect: ["OpenMouth"]
-						},
-					},
-					{
 						Name: "Attached",
 						Property: {
 							Type: null,
 							Effect: ["BlockMouth", "GagLight"]
 						},
 					},
+					{
+						Name: "Detached",
+						Property: {
+							Type: "Detached",
+							Effect: ["OpenMouth"]
+						},
+					},
 				],
+				Dialog: {
+					Load: "ItemMouthHarnessPonyBitsSelect",
+					TypePrefix: "ItemMouthHarnessPonyBits",
+					ChatPrefix: "ItemMouthHarnessPonyBitsSet",
+					NpcPrefix: "ItemMouthHarnessPonyBits",
+				}
 			},
 		}, // PonyBit
 		DentalGag: {
@@ -2664,6 +2719,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag" },
 		},
+		HarnessPonyBits: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HarnessPonyBits" },
+		},
 		DuctTape: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "DuctTape" },
@@ -2693,6 +2752,10 @@ var AssetFemale3DCGExtended = {
 		HarnessBallGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag" },
+		},
+		HarnessPonyBits: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HarnessPonyBits" },
 		},
 		DuctTape: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -3418,6 +3481,34 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // EyePatch1
 	}, // Glasses
+	Bracelet: {
+		Band1: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Left",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Both",
+						Property: {
+							Type: "Both",
+						},
+					},
+					{
+						Name: "Right",
+						Property: {
+							Type: "Right",
+						},
+					},
+				],
+				DrawImages: false,
+			},
+		}, // Band1
+	}, //Bracelet
 	Garters: {
 		GarterBelt: {
 			Archetype: ExtendedArchetype.TYPED,
