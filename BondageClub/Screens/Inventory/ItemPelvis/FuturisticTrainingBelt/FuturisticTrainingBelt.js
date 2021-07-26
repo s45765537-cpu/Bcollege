@@ -91,7 +91,7 @@ function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 		if (DialogFocusItem.Property.PublicModePermission >= FuturisticTrainingBeltPermissions.length || DialogFocusItem.Property.PublicModePermission < 0) DialogFocusItem.Property.PublicModePermission = 2;
 		if (DialogFocusItem.Property.PublicModeCurrent >= FuturisticTrainingBeltModes.length || DialogFocusItem.Property.PublicModeCurrent < 0) DialogFocusItem.Property.PublicModeCurrent = 0;
 		if (DialogFocusItem.Property.DeviceState >= FuturisticTrainingBeltStates.length || DialogFocusItem.Property.DeviceState < 0) DialogFocusItem.Property.DeviceState = 0;
-		if (DialogFocusItem.Property.DeviceStateTimer >= CommonTime + 3600000) DialogFocusItem.Property.DeviceStateTimer = 0; // Prevents people from hacking in ultra-long state timers
+		if (DialogFocusItem.Property.DeviceStateTimer >= CommonTime() + 3600000) DialogFocusItem.Property.DeviceStateTimer = 0; // Prevents people from hacking in ultra-long state timers
 		
 		
 		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "25");
@@ -287,40 +287,16 @@ function InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, msg) {
 		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
 	];
-	ChatRoomPublishCustomAction(msg, true, Dictionary);
+	ChatRoomPublishCustomAction(msg, false, Dictionary);
 }
 
 function InventoryItemPelvisFuturisticTrainingBeltValidate(C, Item) {
 	return InventoryItemMouthFuturisticPanelGagValidate(C, Item); // All futuristic items refer to the gag
 }
 
-/*
-function InventoryItemPelvisFuturisticTrainingBeltRunOrgasmControl(C) {
-	if (CurrentScreen == "ChatRoom" || CurrentScreen == "Private" && (C.ArousalSettings != null) && (C.ArousalSettings.Active != null) && (C.ArousalSettings.Active != "Inactive") && (C.ArousalSettings.Active != "NoMeter")) {
-		if ((C.ArousalSettings.OrgasmTimer != null) && (typeof C.ArousalSettings.OrgasmTimer === "number") && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0)) {
-			if (C.ArousalSettings.OrgasmStage == 0) {
-				ActivityOrgasmGameGenerate(0); // We generate the orgasm stage to deny the player the opportunity to surrender
-			}
-		}
-	}
-	if ((ActivityOrgasmGameTimer != null) && (ActivityOrgasmGameTimer > 0) && (CurrentTime < C.ArousalSettings.OrgasmTimer)) {
-		// Ruin the orgasm
-		if (ActivityOrgasmGameProgress >= ActivityOrgasmGameDifficulty - 3 || CurrentTime > C.ArousalSettings.OrgasmTimer - 3200) {
-			if (CurrentScreen == "ChatRoom") {
-				if (CurrentTime > C.ArousalSettings.OrgasmTimer - 3200) {
-					ChatRoomMessage({ Content: "FuturisticTrainingBeltOrgasmEdgedTimeout", Type: "Action", Sender: Player.MemberNumber });
-				} else {
-					ChatRoomMessage({ Content: "FuturisticTrainingBeltOrgasmEdged", Type: "Action", Sender: Player.MemberNumber });
-				}
-			}
-			ActivityOrgasmGameResistCount++;
-			ActivityOrgasmStop(C, 65 + Math.ceil(Math.random()*20));
-		}
-	}
-	
-}*/
-
-function InventoryItemPelvisFuturisticTrainingBeltNpcDialog(C, Option) { InventoryItemPelvisMetalChastityBeltNpcDialog(C, Option); }
+function InventoryItemPelvisFuturisticTrainingBeltNpcDialog(C, Option) {
+	InventoryItemPelvisMetalChastityBeltNpcDialog(C, Option);
+}
 
 function InventoryItemPelvisFuturisticTrainingBeltGetVibeMode(C, State, First) {
 	const ArousalActive = C.ArousalSettings && C.ArousalSettings.Progress && ["Manual", "Hybrid", "Automatic"].includes(C.ArousalSettings.Active);
@@ -387,7 +363,8 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, Item, Force)
 				CharacterSetFacialExpression(C, "Blush", "Extreme", 5);
 			else if (Item.Property.Intensity > 1)
 				CharacterSetFacialExpression(C, "Blush", "VeryHigh", 5);
-			else CharacterSetFacialExpression(C, "Blush", "Medium", 5);
+			else
+				CharacterSetFacialExpression(C, "Blush", "Medium", 5);
 		}
 	}
 }
@@ -402,11 +379,11 @@ function InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime) {
 		if (ChatRoomChatLog[CH].Time <= LastTime) break
 
 		// If the message is OOC, just return immediately
-		if (ChatRoomChatLog[CH].Chat.indexOf('(') == 0) return "";
+		if (ChatRoomChatLog[CH].Original.indexOf('(') == 0) return "";
 
 		if (ChatRoomChatLog[CH].SenderMemberNumber == Player.MemberNumber) {
-			let msg = ChatRoomChatLog[CH].Chat.toUpperCase().replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
-			let msgTruncated = ChatRoomChatLog[CH].Chat.toUpperCase().replace(/[^a-z0-9]/gmi, "").replace(/\s+/g, "");
+			let msg = ChatRoomChatLog[CH].Original.toUpperCase().replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
+			let msgTruncated = ChatRoomChatLog[CH].Original.toUpperCase().replace(/[^a-z0-9]/gmi, "").replace(/\s+/g, "");
 
 			if (Item.Property.PunishSpeech > 0 && msgTruncated.length > FuturisticTrainingBeltSpeechCharacterLimit) return "Speech";
 			
@@ -414,7 +391,7 @@ function InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime) {
 			if (Item.Property.PunishRequiredSpeech > 0 && Item.Property.PunishRequiredSpeechWord && msg.length > 0) {
 				let gagLevel = SpeechGetTotalGagLevel(Player)
 				if (gagLevel < 8) {
-					let checkWord = SpeechGarble(Player, Item.Property.PunishRequiredSpeechWord, true).replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ").toUpperCase();
+					let checkWord = Item.Property.PunishRequiredSpeechWord.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ").toUpperCase();
 					if (!msg.includes(checkWord)) return "RequiredSpeech";
 				}
 			}
