@@ -3648,7 +3648,7 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // WebBlindfold
-	}, // ItemHead             
+	}, // ItemHead
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,
