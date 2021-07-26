@@ -3473,6 +3473,35 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // Band1
+		SpikeBands: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Both",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Right",
+						Property: {
+							Type: "Right",
+						},
+					},
+					{
+						Name: "Left",
+						Property: {
+							Type: "Left",
+						},
+					},
+				],
+				Dialog: {
+					Load: "BraceletSpikeBandsSelect",
+					TypePrefix: "BraceletSpikeBands",
+				}
+			},
+		}, // SpikeBands
 	}, //Bracelet
 	Garters: {
 		GarterBelt: {
@@ -3619,38 +3648,7 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // WebBlindfold
-	}, // ItemHead
-	Bracelet: {
-		SpikeBands: {
-			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "Both",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Right",
-						Property: {
-							Type: "Right",
-						},
-					},
-					{
-						Name: "Left",
-						Property: {
-							Type: "Left",
-						},
-					},
-				],
-				Dialog: {
-					Load: "BraceletSpikeBandsSelect",
-					TypePrefix: "BraceletSpikeBands",
-				}
-			},
-		}, // SpikeBands
-	}, // Bracelet                
+	}, // ItemHead             
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -3745,6 +3743,7 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 				],
+				Dialog: {
 					Load: "SelectAttachmentState",
 					TypePrefix: "NoseRingPose",
 					ChatPrefix: "NoseRingRestrain",
