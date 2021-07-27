@@ -202,7 +202,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			? "RemoveClothesForItem" : "";
 
 		// Ensure crotch is empty
-		case "VulvaEmpty": return ((InventoryGet(C, "ItemVulva") != null)) ? "MustFreeVulvaFirst" : "";
+		case "VulvaEmpty": return ((InventoryGet(C, "ItemVulva") != null) || C.Effect.includes("FillVulva")) ? "MustFreeVulvaFirst" : "";
 		case "ClitEmpty": return ((InventoryGet(C, "ItemVulvaPiercings") != null)) ? "MustFreeClitFirst" : "";
 		case "ButtEmpty": return ((InventoryGet(C, "ItemButt") != null)) ? "MustFreeButtFirst" : "";
 
@@ -360,7 +360,7 @@ function InventoryAllow(C, Prerequisite, SetDialog) {
 * Gets the current item / cloth worn a specific area (AssetGroup)
 * @param {Character} C - The character on which we must check the appearance
 * @param {String} AssetGroup - The name of the asset group to scan
-* @returns {Item} - Returns the appearance which is the item / cloth asset, color and properties
+* @returns {Item|null} - Returns the appearance which is the item / cloth asset, color and properties
 */
 function InventoryGet(C, AssetGroup) {
 	for (let A = 0; A < C.Appearance.length; A++)
