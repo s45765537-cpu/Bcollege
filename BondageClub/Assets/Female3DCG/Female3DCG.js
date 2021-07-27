@@ -1578,14 +1578,14 @@ var AssetFemale3DCG = [
 			{ Name: "Zipties", Value: 20, Difficulty: 6, Time: 5, RemoveTime: 6, BuyGroup: "Zipties", SetPose: ["LegsClosed"], Audio: "ZipTie", Extended: true, AllowActivePose: ["Kneel"] },
 			{ Name: "Chains", Fetish: ["Metal"], Value: 90, Difficulty: 5, Time: 20, AllowLock: true, BuyGroup: "Chains", Audio: "ChainLong", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
 			{
-				Name: "SpreaderDildoBar", Fetish: ["Metal", "Leather"], Priority: 25, Value: 60, Difficulty: 5, Time: 10, Random: false, AllowLock: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Freeze", "Prone", "BlockKneel"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"],
+				Name: "SpreaderDildoBar", Fetish: ["Metal", "Leather"], Priority: 25, Value: 60, Difficulty: 5, Time: 10, Random: false, AllowLock: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Freeze", "Prone", "BlockKneel"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"],
 				Layer: [
 					{ Name: "DildoBar", AllowColorize: true },
 					{ Name: "Pussy", AllowColorize: false }
 				], RemoveAtLogin: true
 			},
 			{
-				Name: "SpreaderVibratingDildoBar", Fetish: ["Metal", "Leather"], Priority: 25, Value: 70, Difficulty: 5, Time: 10, Random: false, AllowLock: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Egged", "Freeze", "Prone", "BlockKneel"], AllowEffect: ["Egged", "Vibrating"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true,
+				Name: "SpreaderVibratingDildoBar", Fetish: ["Metal", "Leather"], Priority: 25, Value: 70, Difficulty: 5, Time: 10, Random: false, AllowLock: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Egged", "Freeze", "Prone", "BlockKneel"], AllowEffect: ["Egged", "Vibrating"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true,
 				Layer: [
 					{ Name: "DildoBar", AllowColorize: true },
 					{ Name: "Pussy", AllowColorize: false }
@@ -4659,10 +4659,11 @@ var AssetFemale3DCG = [
 			{ Name: "Pole", Value: 40, Top: -150, Priority: 1, Difficulty: -5, RemoveTime: 10, HasType: false, RemoveAtLogin: true, Extended: true, FixedPosition: true },
 			{ Name: "Cushion", Priority: 34, Value: 4, Difficulty: -10, Time: 5, IsRestraint: false, AllowPose: ["AllFours", "Hogtied", "TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead", "Horse"], Extended: true },
 			{ 
-				Name: "FuckMachine", Value: 200, Difficulty: 3, RemoveTime: 15, SetPose: ["Spread"], Left: 1, Top: 465, Priority: 5,
-				Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste"],
-				Effect: ["FillVula", "Mounted", "Freeze", "Egged"], 
-				Block: ["ItemVulva", "ItemFeet", "ItemLegs", "ItemBoots"],
+				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["LegsOpen"], Left: 1, Top: 465, Priority: 5,
+				AllowActivePose: ["LegsClosed"],
+				Prerequisite: ["AccessVulva", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"],
+				Effect: ["FillVulva", "Mounted", "Freeze", "Egged", "BlockKneel"], 
+				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				AllowEffect: ["Egged", "Vibrating", "Edged"], 
 				DynamicBeforeDraw: true, DynamicScriptDraw: true,
 				AllowActivityOn: ["ItemFeet", "ItemLegs", "ItemBoots"],
