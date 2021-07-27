@@ -703,7 +703,7 @@ function KinkyDungeonClickGame(Level) {
 }
 
 function KinkyDungeonListenKeyMove() {
-	if (KinkyDungeonLastMoveTimer < CommonTime()) {
+	if (KinkyDungeonLastMoveTimer < performance.now()) {
 		let moveDirection = null;
 		let moveDirectionDiag = null;
 		
@@ -724,18 +724,18 @@ function KinkyDungeonListenKeyMove() {
 		}
 		
 		if (moveDirection) {
-			if (KinkyDungeonLastMoveTimerStart < CommonTime() && KinkyDungeonLastMoveTimerStart > 0) {
+			if (KinkyDungeonLastMoveTimerStart < performance.now() && KinkyDungeonLastMoveTimerStart > 0) {
 				KinkyDungeonMove(moveDirection, 1, KinkyDungeonLastMoveTimer == 0);
-				KinkyDungeonLastMoveTimer = CommonTime() + KinkyDungeonLastMoveTimerCooldown;
+				KinkyDungeonLastMoveTimer = performance.now() + KinkyDungeonLastMoveTimerCooldown;
 			} else if (KinkyDungeonLastMoveTimerStart == 0) {
 				console.log("set cd > 0");
-				KinkyDungeonLastMoveTimerStart = CommonTime() + KinkyDungeonLastMoveTimerCooldownStart;
+				KinkyDungeonLastMoveTimerStart = performance.now()+ KinkyDungeonLastMoveTimerCooldownStart;
 			}
 				
 			
 		}
 	}
-	if (KinkyDungeonLastMoveTimerStart < CommonTime() && KinkyDungeonLastMoveTimer == 0) KinkyDungeonLastMoveTimerStart = 0;
+	if (KinkyDungeonLastMoveTimerStart < performance.now() && KinkyDungeonLastMoveTimer == 0) KinkyDungeonLastMoveTimerStart = 0;
 	if (!KinkyDungeonGameKey.keyPressed.some((element)=>{return element;})) { KinkyDungeonLastMoveTimer = 0; KinkyDungeonDoorCloseTimer = 0;}
 }
 
