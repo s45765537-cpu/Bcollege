@@ -1,6 +1,6 @@
 /,[Message]: Send message starting with /
 action,[Message]: Display the message as an action,without including your name. **[Message] does the same
-afk,: Set AFK emote
+afk,: Toggle AFK emote
 ban,[MemberNumber]: Ban the player from the room
 beep,[MemberNumber]: Send a beep to the player
 blacklistadd,[MemberNumber]: Add the player to your blacklist

@@ -471,7 +471,7 @@ ChatRoomStimulationMessageVibePlugFront2,,,"The vibrator inside of you keeps you
 ChatRoomStimulationMessageVibePlugBack0,,,"Your butt feels numb from the vibrations.",,
 ChatRoomStimulationMessageVibePlugBack1,,,"The vibrations in your butt leave you panting without release.",,
 ChatRoomStimulationMessageVibePlugBack2,,,"The vibrator inside your butt teases you constantly.",,
-ChatRoomHelp,,,"Use : /help [keyword] to get help for commands",,
+ChatRoomHelp,,,"Type /help for a list of commands",,
 ChatRoomLeashNotFriend,,,"You are not on that member's friendlist; ask her to friend you before leashing her.",,
 ActionSwap,,,SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.,,
 ActionUse,,,SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.,,

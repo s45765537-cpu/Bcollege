@@ -1581,8 +1581,8 @@ function ChatRoomSendEmote(msg) {
 		msg = "*" + msg.replace(/\*/g, "");
 	} else {
 		msg = msg.replace(/\*/g, "");
-		if (msg.startsWith(CommandsKey + "me")) msg = msg.replace(CommandsKey + "me", "");
-		if (msg.startsWith(CommandsKey + "action")) msg = msg.replace(CommandsKey + "action", "*");
+		if (msg.startsWith(CommandsKey + "me ")) msg = msg.replace(CommandsKey + "me ", "");
+		if (msg.startsWith(CommandsKey + "action ")) msg = msg.replace(CommandsKey + "action ", "*");
 	}
 	msg = msg.trim();
 	if (msg != "" && msg != "*") ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
