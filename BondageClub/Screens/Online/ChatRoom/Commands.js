@@ -253,6 +253,10 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: '/',
+		Action: (_, msg) => { ServerSend("ChatRoomChat", { Content: msg.substring(1), Type: "Chat" }); }
+	},
+	{
 		Tag: 'safeword',
 		Action: () => ChatRoomSafewordChatCommand(),
 	},
