@@ -62,7 +62,7 @@ function CommandCombine(add) {
  * @param {string} msg
  */
 function CommandParse(msg) {
-	if (msg.startsWith(CommandsKey) && !msg.startsWith(CommandsKey + CommandsKey)) {
+	if (msg.startsWith(CommandsKey)) {
 		CommandExecute(msg);
 		return;
 	} if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.indexOf(":") == 0 && msg.length > 3)) {
@@ -138,9 +138,10 @@ function CommandExecute(msg) {
 	const low = msg.toLowerCase();
 	const [key, ...parsed] = low.replace(/\s{2,}/g, ' ').split(' ');
 	const flt = GetCommands().filter(C => key.indexOf(CommandsKey + C.Tag) == 0);
-	let C = flt[0]
+	let C = flt[0];
+	
 	if (flt.length > 1) C = null;
-	if (C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
+	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
 		ElementValue("InputChat", CommandsKey + "invalid " + TextGet("CommandNoSuchCommand"));
 		return;
@@ -294,19 +295,19 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'showblacklist',
-		Action: () => ChatRoomSendLocal('Blacklist: ' + JSON.stringify(Player.BlackList)),
+		Action: () => ChatRoomSendLocal(TextGet('CommandBlacklist') + JSON.stringify(Player.BlackList)),
 	},
 	{
 		Tag: 'showwhitelist',
-		Action: () => ChatRoomSendLocal('Whitelist: ' + JSON.stringify(Player.WhiteList)),
+		Action: () => ChatRoomSendLocal(TextGet('CommandWhitelist') + JSON.stringify(Player.WhiteList)),
 	},
 	{
 		Tag: 'showghostlist',
-		Action: () => ChatRoomSendLocal('Ghostlist: ' + JSON.stringify(Player.GhostList)),
+		Action: () => ChatRoomSendLocal(TextGet('CommandGhostlist') + JSON.stringify(Player.GhostList)),
 	},
 	{
 		Tag: 'showfriendlist',
-		Action: () => ChatRoomSendLocal('Friendlist: ' + JSON.stringify(Player.FriendList)),
+		Action: () => ChatRoomSendLocal(TextGet('CommandFriendlist') + JSON.stringify(Player.FriendList)),
 	},
 	{
 		Tag: 'ban',
