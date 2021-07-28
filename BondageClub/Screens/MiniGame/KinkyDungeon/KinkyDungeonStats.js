@@ -79,9 +79,8 @@ var KinkyDungeonKeyJamChance = 0.33;
 var KinkyDungeonKeyPickBreakChance = 0.25;
 
 // Combat
-var KinkyDungeonPlayerDamage = {damage: 1, chance: 0.8, type: "crush", unarmed: true};
-var KinkyDungeonPlayerDamageMax = 2;
-var KinkyDungeonPlayerDamageType = "crush";
+var KinkyDungeonPlayerDamageDefault = {dmg: 2, chance: 0.8, type: "unarmed", unarmed: true};
+var KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 var KinkyDungeonPlayerWeapon = null;
 var KinkyDungeonTorsoGrabChance = 0.33;
 
@@ -103,7 +102,7 @@ var KinkyDungeonDresses = {};
 var KinkyDungeonPlayers = []
 
 function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
-	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) return {dmg: 2, chance: 0.8, type: "unarmed", unarmed: true};
+	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) return KinkyDungeonPlayerDamageDefault;
 	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) return {dmg: 2.5, chance: 0.8, type: "unarmed"};
 	else if (KinkyDungeonPlayerWeapon == "sword") return {dmg: 3, chance: 1.0, type: "slash"};
 	else if (KinkyDungeonPlayerWeapon == "axe") return {dmg: 4.5, chance: 0.67, type: "slash"};
@@ -127,6 +126,7 @@ function KinkyDungeonDefaultStats() {
 
 	KinkyDungeonStatArousal = 0;
 	KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
+	KinkyDungeonStatStaminaMana = 0;
 	KinkyDungeonStatWillpower = KinkyDungeonStatWillpowerMax;
 	KinkyDungeonStatWillpowerExhaustion = 0;
 
@@ -134,8 +134,7 @@ function KinkyDungeonDefaultStats() {
 	KinkyDungeonInventory = [];
 	KinkyDungeonPlayerTags = [];
 
-	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageMax;
-	KinkyDungeonPlayerDamageType = "pain";
+	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 
 	// Initialize all the other systems
 	KinkyDungeonResetMagic();

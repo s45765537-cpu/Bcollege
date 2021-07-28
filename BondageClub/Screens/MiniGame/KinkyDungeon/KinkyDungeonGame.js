@@ -85,7 +85,7 @@ var KinkyDungeonDoorCloseTimer = 0;
 var KinkyDungeonLastMoveDirection = null;
 var KinkyDungeonTargetingSpell = null;
 
-var KinkyDungeonMaxLevel = 10; // Game stops when you reach this level
+var KinkyDungeonMaxLevel = 20; // Game stops when you reach this level
 
 var KinkyDungeonLastMoveTimer = 0;
 var KinkyDungeonLastMoveTimerStart = 0;
@@ -728,7 +728,6 @@ function KinkyDungeonListenKeyMove() {
 				KinkyDungeonMove(moveDirection, 1, KinkyDungeonLastMoveTimer == 0);
 				KinkyDungeonLastMoveTimer = performance.now() + KinkyDungeonLastMoveTimerCooldown;
 			} else if (KinkyDungeonLastMoveTimerStart == 0) {
-				console.log("set cd > 0");
 				KinkyDungeonLastMoveTimerStart = performance.now()+ KinkyDungeonLastMoveTimerCooldownStart;
 			}
 				

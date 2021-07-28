@@ -15,12 +15,13 @@ var KinkyDungeonCurrentPageInventory = 0;
 
 
 function KinkyDungeonHandleInventory() {
+	let filteredInventory = KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter);
 	
 	if (KinkyDungeonCurrentPageInventory > 0 && MouseIn(canvasOffsetX + 100, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60)) {
 		KinkyDungeonCurrentPageInventory -= 1;
 		return true;
 	}
-	if (KinkyDungeonCurrentPageInventory < KinkyDungeonInventory.length-1 && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60)) {
+	if (KinkyDungeonCurrentPageInventory < filteredInventory.length-1 && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60)) {
 		KinkyDungeonCurrentPageInventory += 1;
 		return true;
 	}
@@ -33,7 +34,7 @@ function KinkyDungeonHandleInventory() {
 				return true;
 			}
 	
-	if (KinkyDungeonDrawInventorySelected(KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter))) {
+	if (KinkyDungeonDrawInventorySelected(filteredInventory)) {
 		if (KinkyDungeonCurrentFilter == "Consumables" && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60)) {
 			let item = KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter)[KinkyDungeonCurrentPageInventory];
 			if (!item || !item.name) return false;
@@ -113,13 +114,7 @@ function KinkyDungeonDrawInventorySelected(List) {
 function KinkyDungeonDrawInventory() {
 	DrawImageZoomCanvas(KinkyDungeonRootDirectory + "MagicBook.png", MainCanvas, 0, 0, 640, 483, canvasOffsetX, canvasOffsetY, 640*KinkyDungeonBookScale, 483*KinkyDungeonBookScale, false);
 
-	if (KinkyDungeonCurrentPageInventory > 0) {
-		DrawButton(canvasOffsetX + 100, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookLastPage"), "White", "", "");
-	}
-	if (KinkyDungeonCurrentPageInventory < KinkyDungeonInventory.length-1) {
-		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookNextPage"), "White", "", "");
-	}
-	
+
 	
 	if (KinkyDungeonCurrentPageInventory >= KinkyDungeonInventory.length) KinkyDungeonCurrentPageInventory = 0;
 	
@@ -140,5 +135,13 @@ function KinkyDungeonDrawInventory() {
 		if (KinkyDungeonCurrentFilter == "Consumables")
 			DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60, TextGet("KinkyDungeonConsume"), "White", "", "");
 	}
-	if (KinkyDungeonCurrentPageInventory > filteredInventory.length) KinkyDungeonCurrentPageInventory = Math.max(0, KinkyDungeonCurrentPageInventory - 1);
+	if (KinkyDungeonCurrentPageInventory >= filteredInventory.length) KinkyDungeonCurrentPageInventory = Math.max(0, KinkyDungeonCurrentPageInventory - 1);
+
+	if (KinkyDungeonCurrentPageInventory > 0) {
+		DrawButton(canvasOffsetX + 100, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookLastPage"), "White", "", "");
+	}
+	if (KinkyDungeonCurrentPageInventory < filteredInventory.length-1) {
+		DrawButton(canvasOffsetX + 640*KinkyDungeonBookScale - 325, canvasOffsetY + 483*KinkyDungeonBookScale, 250, 60, TextGet("KinkyDungeonBookNextPage"), "White", "", "");
+	}
+	
 }

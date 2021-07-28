@@ -198,7 +198,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	let Pass = "Fail";
 	let escapeChance = (restraint.restraint.escapeChance[StruggleType] != null) ? restraint.restraint.escapeChance[StruggleType] : 1.0;
 	
-	if (escapeChance == 0) {
+	if (escapeChance <= 0) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + "Impossible"), "red", 2);
 		return false;
 	}
@@ -231,7 +231,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	if (struggleGroup.group != "ItemNipples" || struggleGroup.group != "ItemNipplesPiercings") bra = KinkyDungeonGetRestraintItem("ItemBreast");
 	if (bra && bra.chastity) escapeChance = 0.0
 	
-	if (escapeChance == 0) {
+	if (escapeChance <= 0) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + "ImpossibleBound"), "red", 2);
 		return false;
 	}
