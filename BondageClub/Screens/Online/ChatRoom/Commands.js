@@ -174,7 +174,7 @@ function CommandAutoComplete(msg) {
 	if (CS.length == 0) return;
 
 	if (CS.length == 1) {
-		if (key != CS[0].Tag) {
+		if (key != (CommandsKey + CS[0].Tag)) {
 			ElementValue("InputChat", CommandsKey + CS[0].Tag + " ");
 			ElementFocus("InputChat");
 		} else if (CS[0].AutoComplete) {
