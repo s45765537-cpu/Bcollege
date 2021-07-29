@@ -381,6 +381,20 @@ RestraintChainCrotch,Chains
 RestraintChainCrotchDesc,"Heavy chains that serve as an anchor point around your waist."
 RestraintChainCrotchDesc2,"It doesn't look like a knife is up to the task..."
 
+
+RestraintWristShackles,Wrist Shackles
+RestraintWristShacklesDesc,"Heavy shackles with a rudimentary lock."
+RestraintWristShacklesDesc2,"You could pick these with a hairpin."
+RestraintAnkleShackles,Ankle Shackles
+RestraintAnkleShacklesDesc,"Heavy shackles with a rudimentary lock."
+RestraintAnkleShacklesDesc2,"You could pick these with a hairpin."
+RestraintLegShackles,Leg Shackles
+RestraintLegShacklesDesc,"Heavy shackles with a rudimentary lock."
+RestraintLegShacklesDesc2,"You could pick these with a hairpin."
+RestraintSteelMuzzleGag,Steel Muzzle
+RestraintSteelMuzzleGagDesc,"A heavy muzzle with a rudimentary lock."
+RestraintSteelMuzzleGagDesc2,"You could pick this with a hairpin."
+
 KinkyDungeonGroupItemHead,Face
 KinkyDungeonGroupItemHood,Head
 KinkyDungeonGroupItemMouth,Mouth

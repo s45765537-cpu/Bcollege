@@ -102,12 +102,12 @@ var KinkyDungeonDresses = {};
 var KinkyDungeonPlayers = []
 
 function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
-	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) return KinkyDungeonPlayerDamageDefault;
+	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) {KinkyDungeonPlayerDamage = {}; Object.assign(KinkyDungeonPlayerDamage, KinkyDungeonPlayerDamageDefault); return KinkyDungeonPlayerDamage; }
 	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) return {dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false};
 	else if (KinkyDungeonPlayerWeapon == "sword") return {dmg: 3, chance: 1.0, type: "slash", unarmed: false};
 	else if (KinkyDungeonPlayerWeapon == "axe") return {dmg: 4.5, chance: 0.67, type: "slash", unarmed: false};
 	else if (KinkyDungeonPlayerWeapon == "hammer") return {dmg: 4, chance: 0.75, type: "crush", unarmed: false};
-	return KinkyDungeonPlayerDamageDefault;
+	return KinkyDungeonPlayerDamage;
 }
 
 function KinkyDungeonDefaultStats() {
@@ -311,7 +311,7 @@ function KinkyDungeonCalculateSlowLevel() {
 	else {
 		let boots = KinkyDungeonGetRestraintItem("ItemBoots");
 		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "KneelFreeze", true)) KinkyDungeonSlowLevel += 1.0;
-		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Freeze", true)) KinkyDungeonSlowLevel += 1;
+		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Freeze", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Slow", true)) KinkyDungeonSlowLevel += 1;
 		if (boots && boots.restraint && boots.restraint.slowboots) KinkyDungeonSlowLevel += 1.0;
 		if (KinkyDungeonPlayer.Pose.includes("Kneel")) KinkyDungeonSlowLevel = Math.max(3, KinkyDungeonSlowLevel + 1);
 		if (KinkyDungeonPlayer.Pose.includes("Hogtied")) KinkyDungeonSlowLevel = Math.max(5, KinkyDungeonSlowLevel + 1);

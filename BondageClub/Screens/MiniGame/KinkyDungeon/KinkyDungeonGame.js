@@ -106,6 +106,8 @@ function KinkyDungeonInitialize(Level, Random) {
 	MiniGameKinkyDungeonLevel = Level;
 	KinkyDungeonSetCheckPoint();
 
+	KinkyDungeonMapIndex = [];
+
 	for (let I = 1; I < 10; I++)
 		KinkyDungeonMapIndex.push(I);
 
@@ -231,12 +233,13 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 			if (Floor % 10 >= 8) tags.push("lastthird");
 			if (miniboss) tags.push("miniboss");
 
-			var Enemy = KinkyDungeonGetEnemy(tags, Floor, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]);
+			var Enemy = KinkyDungeonGetEnemy(tags, Floor, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint], KinkyDungeonMapGet(X, Y));
 			if (Enemy) {
 				KinkyDungeonEntities.push({Enemy: Enemy, x:X, y:Y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
 				if (Enemy.tags.includes("minor")) count += 0.2; else count += 1; // Minor enemies count as 1/5th of an enemy
 				if (Enemy.tags.includes("elite")) count += 1; // Elite enemies count as 2 normal enemies
 				if (Enemy.tags.includes("miniboss")) miniboss = true; // Adds miniboss as a tag
+				if (Enemy.tags.includes("removeDoorSpawn")) KinkyDungeonMapSet(X, Y, '0');
 				//console.log("Created a " + Enemy.name)
 			}
 		}

@@ -42,7 +42,7 @@ var KinkyDungeonRestraints = [
 	{name: "StickySlime", Asset: "Web", Type: "Wrapped", Color: "#ff77ff", Group: "ItemArms", magic: false, power: 0, weight: 1, freeze: true, escapeChance: {"Struggle": 10, "Cut": 10, "Remove": 10}, enemyTags: {"slime":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Slime"]},
 
 	{inventory: true, name: "TrapArmbinder", Asset: "LeatherArmbinder", Type: "WrapStrap", Group: "ItemArms", magic: false, power: 8, weight: 2, escapeChance: {"Struggle": 0.1, "Cut": 0.33, "Remove": 0.4, "Pick": 0.0}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather", "Armbinders"]},
-	{inventory: true, name: "TrapCuffs", Asset: "MetalCuffs", Group: "ItemArms", magic: false, power: 4, weight: 2, escapeChance: {"Struggle": 0.0, "Cut": -0.25, "Remove": 10, "Pick": 2.5}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Metal", "Cuffs"]},
+	{inventory: true, name: "TrapCuffs", Asset: "MetalCuffs", Group: "ItemArms", magic: false, power: 4, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.0, "Cut": -0.25, "Remove": 10, "Pick": 2.5}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Metal", "Cuffs"]},
 	{inventory: true, name: "TrapHarness", Asset: "LeatherStrapHarness", Color: "#222222", Group: "ItemTorso", magic: false, power: 3, weight: 2, harness: true, escapeChance: {"Struggle": 0.0, "Cut": 0.5, "Remove": 0.8, "Pick": 1.0}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather"]},
 	{inventory: true, name: "TrapGag", Asset: "BallGag", Type: "Tight", Color: ["Default", "Default"], Group: "ItemMouth", magic: false, power: 4, weight: 2, escapeChance: {"Struggle": 0.15, "Cut": 0.4, "Remove": 0.65, "Pick": 0.5}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather", "Gags"]},
 	{inventory: true, name: "TrapBlindfold", Asset: "LeatherBlindfold", Color: "Default", Group: "ItemHead", magic: false, power: 3, weight: 2, escapeChance: {"Struggle": 0.3, "Cut": 0.4, "Remove": 0.65, "Pick": 0.5}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather", "Blindfolds"]},
@@ -51,15 +51,22 @@ var KinkyDungeonRestraints = [
 	{inventory: true, name: "TrapBelt", Asset: "PolishedChastityBelt", OverridePriority: 20, Color: "Default", Group: "ItemPelvis", magic: false, chastity: true, power: 4, weight: 2, escapeChance: {"Struggle": 0.0, "Cut": -0.10, "Remove": 100.0, "Pick": 1.0}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Metal", "Chastity"]},
 	{inventory: true, name: "TrapVibe", Asset: "TapedClitEgg", Color: "Default", Group: "ItemVulvaPiercings", magic: false, intensity: 1, orgasm: false, power: 1, battery: 0, maxbattery: 30, weight: 2, escapeChance: {"Struggle": 0.1, "Cut": -10, "Remove": 10}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Vibes"]},
 
-  {name: "RopeSnakeArms", Asset: "HempRope", Color: "Default", Group: "ItemArms", magic: false, power: 1, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.67, "Remove": 0.3}, enemyTags: {"ropeRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Rope"]},
+	{inventory: true, name: "WristShackles", Asset: "WristShackles", Group: "ItemArms", Type: "Behind", magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.1, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Metal", "Cuffs"]},
+	{inventory: true, name: "AnkleShackles", Asset: "AnkleShackles", Group: "ItemFeet", magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.1, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":2}, playerTags: {"ItemFeetFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Metal", "Cuffs"]},
+	{inventory: true, name: "LegShackles", Asset: "OrnateLegCuffs", Group: "ItemLegs", Type: "Closed", Color: ["#777777", "#AAAAAA"], magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.25, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":2}, playerTags: {"ItemLegsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Metal", "Cuffs"]},
+	{inventory: true, name: "SteelMuzzleGag", Asset: "SteelMuzzleGag", Group: "ItemMouth2", magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.2, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":2}, playerTags: {"ItemMouth1Full":3}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Metal", "Gags"]},
+
+	
+
+	{name: "RopeSnakeArms", Asset: "HempRope", Color: "Default", Group: "ItemArms", magic: false, power: 1, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.67, "Remove": 0.3}, enemyTags: {"ropeRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Rope"]},
 	{name: "RopeSnakeArmsWrist", Asset: "HempRope", Type: "WristElbowHarnessTie", Color: "Default", Group: "ItemArms", magic: false, power: 1, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.67, "Remove": 0.3}, enemyTags: {"ropeRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Rope"]},
 	{name: "RopeSnakeFeet", Asset: "HempRope", Color: "Default", Group: "ItemFeet", magic: false, power: 1, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.67, "Remove": 0.3}, enemyTags: {"ropeRestraints":2}, playerTags: {"ItemLegsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Rope"]},
 	{name: "RopeSnakeLegs", Asset: "HempRope", Type: "FullBinding", Color: "Default", Group: "ItemLegs", magic: false, power: 1, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.67, "Remove": 0.3}, enemyTags: {"ropeRestraints":2}, playerTags: {"ItemFeetFull":-1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Rope"]},
 
-	{name: "ChainArms", Asset: "Chains", Type: "WristElbowHarnessTie", Color: "Default", Group: "ItemArms", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
-	{name: "ChainLegs", Asset: "Chains", Type: "Strict", Color: "Default", Group: "ItemLegs", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemLegsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
+	{name: "ChainArms", Asset: "Chains", Type: "WristElbowHarnessTie", Color: "Default", Group: "ItemArms", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.1, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemArmsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
+	{name: "ChainLegs", Asset: "Chains", Type: "Strict", Color: "Default", Group: "ItemLegs", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.1, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemLegsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
 	{name: "ChainFeet", Asset: "Chains", Color: "Default", Group: "ItemFeet", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemFeetFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
-	{name: "ChainCrotch", Asset: "CrotchChain", OverridePriority: 25, Color: "Default", Group: "ItemTorso", magic: false, power: 5, weight: 0, harness: true, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemFeetFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
+	{name: "ChainCrotch", Asset: "CrotchChain", OverridePriority: 25, Color: "Default", Group: "ItemTorso", magic: false, power: 5, weight: 0, harness: true, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemPelvisFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], shrine: ["Chains", "Metal"]},
 ];
 
 function KinkyDungeonLock(item, lock) {
@@ -399,6 +406,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 					InventoryWear(Player, restraint.Asset, restraint.Group, restraint.power);
 					placedOnPlayer = true;
 				}
+			if (placed && !placed.Property) placed.Property = {};
 			if (restraint.Type) {
 				KinkyDungeonPlayer.FocusGroup = AssetGroupGet("Female3DCG", restraint.Group);
 				var options = window["Inventory" + ((restraint.Group.includes("ItemMouth")) ? "ItemMouth" : restraint.Group) + restraint.Asset + "Options"];
@@ -412,7 +420,6 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 				}
 				KinkyDungeonPlayer.FocusGroup = null;
 			}
-			if (placed && !placed.Property) placed.Property = {};
 			if (restraint.OverridePriority) {
 				if (!InventoryGet(KinkyDungeonPlayer, restraint.Group).Property) InventoryGet(KinkyDungeonPlayer, restraint.Group).Property = {OverridePriority: restraint.OverridePriority}
 			}
@@ -421,7 +428,11 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 				if (placedOnPlayer)
 					CharacterAppearanceSetColorForGroup(Player, restraint.Color, restraint.Group);
 			}
-			KinkyDungeonInventory.push({restraint: restraint, tightness: tight, lock: ""});
+			let item = {restraint: restraint, tightness: tight, lock: ""};
+			KinkyDungeonInventory.push(item);
+
+			if (restraint.DefaultLock) KinkyDungeonLock(item, restraint.DefaultLock);
+
 		}
 
 		KinkyDungeonUpdateRestraints(0); // We update the restraints but no time drain on batteries, etc

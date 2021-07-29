@@ -35,6 +35,14 @@ function KinkyDungeonMakeLightMap(width, height, Lights) {
 		KinkyDungeonLightSet(Lights[L].x, Lights[L].y, "" + Lights[L].brightness);
 	}
 
+	let visionBlockers = {};
+	for (let E = 0; E < KinkyDungeonEntities.length; E++) {
+		let EE = KinkyDungeonEntities[E];
+		let Enemy = EE.Enemy;
+		if (Enemy && Enemy.blockVision || (Enemy.blockVisionWhileStationary && !EE.moved && EE.idle)) // Add 
+			visionBlockers[EE.x + "," + EE.y] = true;
+	}
+
 	for (let L = maxPass; L > 0; L--) {
 		// if a grid square is next to a brighter transparent object, it gets that light minus one, or minus two if diagonal
 
@@ -42,13 +50,13 @@ function KinkyDungeonMakeLightMap(width, height, Lights) {
 		for (let X = 0; X < KinkyDungeonGridWidth; X++) {
 			for (let Y = 0; Y < KinkyDungeonGridHeight; Y++) {
 				let tile = KinkyDungeonMapGet(X, Y);
-				if (KinkyDungeonTransparentObjects.includes(tile)) {
+				if (KinkyDungeonTransparentObjects.includes(tile) && !visionBlockers[X + "," + Y]) {
 					let brightness = KinkyDungeonLightGet(X, Y);
 					if (brightness > 0) {
 						let nearbywalls = 0;
 						for (let XX = X-1; XX <= X+1; XX++)
 							for (let YY = Y-1; YY <= Y+1; YY++)
-								if (!KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(XX, YY))) nearbywalls += 1;
+								if (!KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(XX, YY)) || visionBlockers[XX + "," + YY]) nearbywalls += 1;
 
 						if (nearbywalls > 3 && brightness <= 3 && X != KinkyDungeonPlayerEntity.x && Y != KinkyDungeonPlayerEntity.y) brightness -= 1;
 
