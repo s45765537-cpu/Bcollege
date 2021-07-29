@@ -62,10 +62,13 @@ function CommandCombine(add) {
  * @param {string} msg
  */
 function CommandParse(msg) {
-	if (msg.startsWith(CommandsKey)) {
+	if (msg.startsWith(CommandsKey + CommandsKey)) {
+		msg = msg.substr(1);
+	} else if (msg.startsWith(CommandsKey)) {
 		CommandExecute(msg);
 		return;
-	} if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.indexOf(":") == 0 && msg.length > 3)) {
+	}
+	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
 		ChatRoomSendEmote(msg);
 		ElementValue("InputChat", "");
 		return;
@@ -255,7 +258,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: '/',
-		Action: (_, msg) => { ServerSend("ChatRoomChat", { Content: msg.substring(1), Type: "Chat" }); }
+		Action: () => { /* This Action will never be called */ }
 	},
 	{
 		Tag: 'safeword',
