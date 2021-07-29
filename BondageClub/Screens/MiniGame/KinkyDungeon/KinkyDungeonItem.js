@@ -46,7 +46,7 @@ function KinkyDungeonItemEvent(Item) {
 	} else if (Item.name == "PotionHealth") {
 		priority = 3;
 		color = "lightgreen";
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 1);
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionHealth, 1);
 	}
 	KinkyDungeonSendActionMessage(priority, TextGet("ItemPickup" + Item.name).replace("XXX", Item.amount), color, 2);
 }

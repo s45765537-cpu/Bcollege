@@ -29,8 +29,8 @@ function KinkyDungeonGetEnemy(tags, Level, Index, Tile) {
 		if (Level >= enemy.minLevel && enemy.floors.includes(Index) && (KinkyDungeonGroundTiles.includes(Tile) || !enemy.tags.includes("spawnFloorsOnly"))) {
 			enemyWeights.push({enemy: enemy, weight: enemyWeightTotal});
 			let weight = enemy.weight;
-			if (enemy.terrainTags["increasingWeight"])
-			    weight += enemy.terrainTags["increasingWeight"] * MiniGameKinkyDungeonCheckpoint;
+			if (enemy.terrainTags.increasingWeight)
+			    weight += enemy.terrainTags.increasingWeight * MiniGameKinkyDungeonCheckpoint;
 			for (let T = 0; T < tags.length; T++)
 				if (enemy.terrainTags[tags[T]]) weight += enemy.terrainTags[tags[T]];
 

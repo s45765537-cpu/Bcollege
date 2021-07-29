@@ -169,21 +169,21 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 	}  else if (Loot.name == "bluekey") {
 		KinkyDungeonBlueKeys += 1;
 	} else if (Loot.name == "potions_health") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 2+Math.floor(Math.random()*2));
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionHealth, 2+Math.floor(Math.random()*2));
 	} else if (Loot.name == "potions_mana") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionMana"], 2+Math.floor(Math.random()*3));
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 2+Math.floor(Math.random()*3));
 	} else if (Loot.name == "potions_many") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionMana"], 1+Math.floor(Math.random()*2));
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionStamina"], 1+Math.floor(Math.random()*3));
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionFrigid"], 1+Math.floor(Math.random()*3));
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1+Math.floor(Math.random()*2));
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionStamina, 1+Math.floor(Math.random()*3));
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionFrigid, 1+Math.floor(Math.random()*3));
 	} else if (Loot.name == "potion_health") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionHealth"], 1);
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionHealth, 1);
 	} else if (Loot.name == "potion_mana") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionMana"], 1);
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
 	} else if (Loot.name == "potion_stamina") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionStamina"], 1);
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionStamina, 1);
 	} else if (Loot.name == "potion_frigid") {
-		KinkyDungeonChangeConsumable(KinkyDungeonConsumables["PotionFrigid"], 1);
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionFrigid, 1);
 	} else if (Loot.name == "trap_armbinder") {
 		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
 		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapArmbinder"), MiniGameKinkyDungeonCheckpoint, true, false);
