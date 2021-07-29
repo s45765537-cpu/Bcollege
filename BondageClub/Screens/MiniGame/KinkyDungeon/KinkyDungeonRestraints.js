@@ -368,11 +368,13 @@ function KinkyDungeonGetRestraint(enemy, Level, Index, Bypass, Lock) {
 			(currentRestraint.lock ? currentRestraint.restraint.power * 2 : currentRestraint.restraint.power) <
 			(Lock ? restraint.power * 2 : restraint.power))
 			&& (!InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, restraint.Group) || Bypass)) {
-				let weight = restraint.weight;
+				restraintWeights.push({restraint: restraint, weight: restraintWeightTotal});
+				let weight = 0;
 				for (let T = 0; T < enemy.tags.length; T++)
 					if (restraint.enemyTags[enemy.tags[T]]) weight += restraint.enemyTags[enemy.tags[T]];
+				if (weight > 0) weight += restraint.weight;
 				restraintWeightTotal += Math.max(0, weight);
-				restraintWeights.push({restraint: restraint, weight: restraintWeightTotal});
+				
 		}
 	}
 

@@ -228,6 +228,21 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 		if (Math.sqrt((X - PlayerEntity.x) * (X - PlayerEntity.x) + (Y - PlayerEntity.y) * (Y - PlayerEntity.y)) > playerDist && KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(X, Y))) {
 			var tags = [];
 			if (KinkyDungeonMapGet(X, Y) == 'R' || KinkyDungeonMapGet(X, Y) == 'r') tags.push("rubble");
+			if (KinkyDungeonMapGet(X, Y) == 'D' || KinkyDungeonMapGet(X, Y) == 'd') tags.push("door");
+			if (KinkyDungeonMapGet(X, Y+1) == '1' && KinkyDungeonMapGet(X, Y-1) == '1') tags.push("passage");
+			else if (KinkyDungeonMapGet(X+1, Y) == '1' && KinkyDungeonMapGet(X-1, Y) == '1') tags.push("passage");
+			
+			for (let XX = X-1; XX <= X+1; XX += 1)
+				for (let YY = Y-1; YY <= Y+1; YY += 1)
+					if (!(XX == X && YY == Y)) {
+						if (KinkyDungeonMapGet(XX, YY) == '1' || KinkyDungeonMapGet(XX, YY) == 'X') tags.push("adjWall");
+						if (KinkyDungeonMapGet(XX, YY) == 'D' || KinkyDungeonMapGet(XX, YY) == 'd') tags.push("adjDoor");
+						if (KinkyDungeonMapGet(XX, YY) == 'D') tags.push("adjClosedDoor");
+						if (KinkyDungeonMapGet(XX, YY) == 'c' || KinkyDungeonMapGet(XX, YY) == 'C') tags.push("adjChest");
+						if (KinkyDungeonMapGet(XX, YY) == 'r' || KinkyDungeonMapGet(XX, YY) == 'R') tags.push("adjRubble");
+						
+					}
+						
 			if (Floor % 10 >= 5) tags.push("secondhalf");
 			if (Floor % 10 >= 8) tags.push("lastthird");
 			if (Floor % 10 >= 8) tags.push("lastthird");
@@ -239,7 +254,7 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 				if (Enemy.tags.includes("minor")) count += 0.2; else count += 1; // Minor enemies count as 1/5th of an enemy
 				if (Enemy.tags.includes("elite")) count += 1; // Elite enemies count as 2 normal enemies
 				if (Enemy.tags.includes("miniboss")) miniboss = true; // Adds miniboss as a tag
-				if (Enemy.tags.includes("removeDoorSpawn")) KinkyDungeonMapSet(X, Y, '0');
+				if (Enemy.tags.includes("removeDoorSpawn") && KinkyDungeonMapGet(X, Y) == "d") KinkyDungeonMapSet(X, Y, '0');
 				//console.log("Created a " + Enemy.name)
 			}
 		}

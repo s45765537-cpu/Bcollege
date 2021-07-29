@@ -1,7 +1,7 @@
 "use strict";
 var KinkyDungeonKilledEnemy = null;
 
-var KinkyDungeonMissChancePerBlind = 0.3; // Max 3
+var KinkyDungeonMissChancePerBlind = 0.2; // Max 3
 var KinkyDungeonBullets = []; // Bullets on the game board
 var KinkyDungeonBulletsID = {}; // Bullets on the game board
 

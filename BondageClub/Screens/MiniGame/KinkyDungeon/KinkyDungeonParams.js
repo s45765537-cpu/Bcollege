@@ -36,7 +36,7 @@ var KinkyDungeonMapParams = [
 		"chestcount" : 4,
 		"shrinecount" : 5,
 		"shrinechance" : 0.6,
-		"doorchance" : 0.5,
+		"doorchance" : 0.8,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.4,
 
