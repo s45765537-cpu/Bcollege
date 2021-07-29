@@ -59,7 +59,7 @@ function CommandCombine(add) {
 
 /**
  * Parse the input chat message
- * @param {string} msg
+ * @param {string} msg - Input string, cannot be empty
  */
 function CommandParse(msg) {
 	if (msg.startsWith(CommandsKey + CommandsKey)) {
@@ -74,7 +74,7 @@ function CommandParse(msg) {
 		return;
 	}
 	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
-	if (msg != "" && !((ChatRoomTargetMemberNumber != null || msg.indexOf("(") >= 0) && Player.ImmersionSettings && (Player.ImmersionSettings.BlockGaggedOOC && (!(Player.Effect.includes("HideRestraints") && Player.Effect.includes("VRAvatars")) || !WhisperTarget || !WhisperTarget.Effect.includes("VRAvatars"))) && !Player.CanTalk())) {
+	if (!ChatRoomShouldBlockGaggedOOCMessage(msg, WhisperTarget)) {
 		if (ChatRoomTargetMemberNumber == null) {
 			// Regular chat
 			ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
@@ -142,7 +142,7 @@ function CommandExecute(msg) {
 	const [key, ...parsed] = low.replace(/\s{2,}/g, ' ').split(' ');
 	const flt = GetCommands().filter(C => key.indexOf(CommandsKey + C.Tag) == 0);
 	let C = flt[0];
-	
+
 	if (flt.length > 1) C = null;
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
