@@ -48,7 +48,7 @@ function KinkyDungeonChangeConsumable(Consumable, Quantity) {
 			item.item.quantity += Quantity;
 			if (item.item.quantity <= 0) {
 				for (let II = 0; II < KinkyDungeonInventory.length; II++) {
-					if (KinkyDungeonInventory[II].consumable.name == Consumable.name) {
+					if (KinkyDungeonInventory[II].consumable && KinkyDungeonInventory[II].consumable.name == Consumable.name) {
 						KinkyDungeonInventory.splice(II, 1);
 						return true;
 					}

@@ -62,7 +62,10 @@ Features
 - Restraints are now saved in the inventory and can be viewed
 - Added the Goddess of commerce, who has an item shop that sells potions
 - Inventory system with potions! Willpower potions keep you in the fight, stamina potions enhance your drive for combat, mana potions reduce the paralyzing effects of mana exposure, and bitter potions help suppress distractions
-- New floor with lots of new enemy types! Find out what they do yourself!
+- New floor: The catacombs, full of skeletons and rats and necromancers! 
+ - Lots of shackle-themed restraints
+ - (WIP) Skeletons utilize a variety of ropes, chains, and shackles
+ - (WIP) Necromancers can summon more skeletons
 - (WIP) Can put on certain types of restraints as part of self bondage 
 - (WIP) Having hands covered or bound ought to do something
 - (WIP) Dropping potions, items, etc, especially while naked

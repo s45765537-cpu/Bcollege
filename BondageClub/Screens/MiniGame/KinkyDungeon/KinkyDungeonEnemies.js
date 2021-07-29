@@ -2,7 +2,9 @@
 var KinkyDungeonEnemies = [
 	{name: "BlindZombie", tags: ["ignoreharmless", "zombie", "melee", "ribbonRestraints", "slashweakness"], ignorechance: 0.33, armor: 1, followRange: 1, AI: "wander", visionRadius: 1, maxhp: 5, minLevel:0, weight:14, movePoints: 3, attackPoints: 3, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {}, floors:[0], dropTable: [{name: "Gold", amountMin: 20, amountMax: 40, weight: 2}, {name: "Gold", amountMin: 13, amountMax: 23, weight: 5}]},
 	{name: "FastZombie", tags: ["ignoreharmless", "zombie", "melee", "ribbonRestraints", "slashweakness"], ignorechance: 0.33, armor: 1, followRange: 1, AI: "hunt", visionRadius: 6, maxhp: 7, minLevel:4, weight:6, movePoints: 3, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {"secondhalf":10, "lastthird":14}, floors:[0], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 2}, {name: "Gold", amountMin: 15, amountMax: 29, weight: 5}]},
-	{name: "AnimatedArmor", blockVisionWhileStationary: true, tags: ["removeDoorSpawn", "ignoreharmless", "construct", "melee", "shackleRestraints", "slashresist", "fireresist", "electricresist", "crushweakness"], ignorechance: 1.0, armor: 2, followRange: 1, AI: "ambush", visionRadius: 100, ambushRadius: 1.9, blindSight: 100, maxhp: 10, minLevel:1, weight:6, movePoints: 4, attackPoints: 4, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {}, floors:[1], dropTable: [{name: "RedKey", weight: 1}, {name: "Gold", amountMin: 75, amountMax: 125, weight: 4}]},
+	{name: "Skeleton", tags: ["skeleton", "melee", "shackleRestraints", "ropeRestraints", "leatherRestraints", "clothRestraints", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt", visionRadius: 1, maxhp: 6, minLevel:0, weight:8, movePoints: 2, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4, terrainTags: {"secondhalf":4}, floors:[1], dropTable: [{name: "Gold", amountMin: 25, amountMax: 50, weight: 2}, {name: "Gold", amountMin: 20, amountMax: 35, weight: 5}]},
+	{name: "LesserSkeleton", tags: ["skeleton", "melee", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "wander", visionRadius: 1, maxhp: 3, minLevel:0, weight:16, movePoints: 2, attackPoints: 3, attack: "MeleeSlow", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4, terrainTags: {"secondhalf":-8, "lastthird":-8}, floors:[1], dropTable: [{name: "Gold", amountMin: 15, amountMax: 25, weight: 2}]},
+	{name: "AnimatedArmor", blockVisionWhileStationary: true, tags: ["removeDoorSpawn", "ignoreharmless", "construct", "melee", "shackleRestraints", "slashresist", "fireresist", "electricresist", "crushweakness"], ignorechance: 1.0, armor: 2, followRange: 1, AI: "ambush", visionRadius: 100, ambushRadius: 1.9, blindSight: 100, maxhp: 10, minLevel:1, weight:6, movePoints: 4, attackPoints: 4, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {"lastthird":4}, floors:[1], dropTable: [{name: "RedKey", weight: 1}, {name: "Gold", amountMin: 75, amountMax: 125, weight: 4}]},
 	{name: "RopeSnake", tags: ["ignoreharmless", "construct", "melee", "ropeRestraints", "minor", "fireweakness", "slashweakness"], ignorechance: 0.75, followRange: 1, AI: "wander", attackWhileMoving: true, visionRadius: 3, maxhp: 4, minLevel: 1, weight:3, movePoints: 1, attackPoints: 2, attack: "MeleeBindSuicide", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10, terrainTags: {"secondhalf":4, "lastthird":2}, floors:[0]},
 	{name: "Rat", tags: ["beast", "melee", "minor"], followRange: 1, AI: "guard", visionRadius: 4, maxhp: 1, evasion: 0.7, minLevel:0, weight:8, movePoints: 1.5, attackPoints: 2, attack: "MeleeWill", attackWidth: 1, attackRange: 1, power: 4, dmgType: "pain", terrainTags: {"rubble":20}, floors:[0, 1, 2, 3]},
 	{name: "WitchShock", tags: ["opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricimmune", "glueweakness"], followRange: 2, castWhileMoving: true, spells: ["WitchElectrify"], spellCooldownMult: 0, spellCooldownMod: 0, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dropTable: [{name: "RedKey", weight: 3}, {name: "GreenKey", weight: 3}, {name: "BlueKey", weight: 2}]},
@@ -282,6 +284,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 								willpowerDamage += enemy.Enemy.fullBoundBonus; // Some enemies deal bonus damage if they cannot put a binding on you
 						}
 
+						
+
 						if (enemy.Enemy.attack.includes("Suicide")) {
 							enemy.hp = 0;
 						}
@@ -295,12 +299,18 @@ function KinkyDungeonUpdateEnemies(delta) {
 						var bound = 0;
 						happened += KinkyDungeonDealDamage({damage: willpowerDamage, type: enemy.Enemy.dmgType});
 						bound += KinkyDungeonAddRestraint(restraintAdd, enemy.Enemy.power) * 10;
+						if (enemy.Enemy.attack.includes("Slow")) {
+								KinkyDungeonMovePoints = Math.max(KinkyDungeonMovePoints - 2, -1);
+								happened += 1;
+						}
 						happened += bound;
 
 						if (happened > 0) {
 							let suffix = "";
 							if (Locked) suffix = "Lock";
 							else if (bound > 0) suffix = "Bind";
+
+							
 							
 							KinkyDungeonSendTextMessage(happened+priorityBonus, TextGet("Attack"+enemy.Enemy.name + suffix), msgColor, 1);
 							if (replace)

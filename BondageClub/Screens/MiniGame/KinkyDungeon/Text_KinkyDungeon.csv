@@ -148,6 +148,16 @@ KillAnimatedArmor,"The Animated Armor falls into pieces."
 AttackAnimatedArmorBind,"The Animated Armor restrains you with shackles (+RestraintAdded)"
 AttackAnimatedArmor,"The Animated Armor hugs your body with an iron grip! (-DamageTaken WP)"
 
+NameSkeleton,Skeleton
+KillSkeleton,"The Skeleton falls into pieces."
+AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
+AttackSkeleton,"The Skeleton tackles you! (-DamageTaken WP)"
+
+NameLesserSkeleton,Skeleton
+KillLesserSkeleton,"The Skeleton falls into pieces."
+AttackLesserSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
+AttackLesserSkeleton,"The Skeleton latches onto you!"
+
 NameRopeSnake,Magic Rope
 KillRopeSnake,"The magic rope returns to being a normal rope."
 AttackRopeSnakeBind,"The magic rope wraps itself tightly around your body! (+RestraintAdded)"
@@ -381,6 +391,22 @@ RestraintChainCrotch,Chains
 RestraintChainCrotchDesc,"Heavy chains that serve as an anchor point around your waist."
 RestraintChainCrotchDesc2,"It doesn't look like a knife is up to the task..."
 
+RestraintClothBlindfold,Cloth Blindfold
+RestraintClothBlindfoldDesc,"A piece of cloth secured onto your face and blocking vision."
+RestraintClothBlindfoldDesc2,"You can still see through the gap around your nose."
+RestraintClothGag,Cloth Gag
+RestraintClothGagDesc,"A piece of cloth tightened over your mouth."
+RestraintClothGagDesc2,"On its own it's not very restrictive."
+
+RestraintSturdyLeatherBeltsArms,Belt Bindings
+RestraintSturdyLeatherBeltsArmsDesc,"A ludicrous amount of belts secured with a buckle."
+RestraintSturdyLeatherBeltsArmsDesc2,"Lockable and fully adjustable to ensure snugness."
+RestraintSturdyLeatherBeltsLegs,Belt Bindings
+RestraintSturdyLeatherBeltsLegsDesc,"A ludicrous amount of belts secured with a buckle."
+RestraintSturdyLeatherBeltsLegsDesc2,"Lockable and fully adjustable to ensure snugness."
+RestraintSturdyLeatherBeltsFeet,Belt Bindings
+RestraintSturdyLeatherBeltsFeetDesc,"A ludicrous amount of belts secured with a buckle."
+RestraintSturdyLeatherBeltsFeetDesc2,"Lockable and fully adjustable to ensure snugness."
 
 RestraintWristShackles,Wrist Shackles
 RestraintWristShacklesDesc,"Heavy shackles with a rudimentary lock."
