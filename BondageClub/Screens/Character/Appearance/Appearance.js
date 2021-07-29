@@ -734,7 +734,8 @@ function AppearanceGetPreviewImageColor(C, item, hover) {
 		return item.Worn ? "gray" : AppearancePermissionColors[permission][hover ? 1 : 0];
 	} else {
 		const Unusable = item.SortOrder.startsWith(DialogSortOrder.Unusable.toString())
-			|| item.SortOrder.startsWith(DialogSortOrder.FavoriteUnusable.toString());
+			|| item.SortOrder.startsWith(DialogSortOrder.TargetFavoriteUnusable.toString())
+			|| item.SortOrder.startsWith(DialogSortOrder.PlayerFavoriteUnusable.toString());
 		const Blocked = item.SortOrder.startsWith(DialogSortOrder.Blocked.toString());
 		if (hover && !Blocked) return "cyan";
 		else if (item.Worn) return "pink";
@@ -1069,7 +1070,7 @@ function AppearanceClick() {
 			for (let W = CharacterAppearanceWardrobeOffset; W < Player.Wardrobe.length && W < CharacterAppearanceWardrobeOffset + 6; W++)
 				if ((MouseY >= 430 + (W - CharacterAppearanceWardrobeOffset) * 95) && (MouseY <= 495 + (W - CharacterAppearanceWardrobeOffset) * 95)) {
 					WardrobeFastSave(C, W);
-					var LS = /^[a-zA-Z ]+$/;
+					var LS = /^[a-zA-Z0-9 ]+$/;
 					var Name = ElementValue("InputWardrobeName").trim();
 					if (Name.match(LS) || Name.length == 0) {
 						WardrobeSetCharacterName(W, Name);

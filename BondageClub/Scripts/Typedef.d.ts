@@ -38,6 +38,25 @@ interface HTMLCanvasElement {
 
 //#endregion
 
+//#region Enums
+type ExtendedArchetype = "modular" | "typed";
+type TypedItemChatSetting = "toOnly" | "fromTo" | "silent";
+type ModularItemChatSetting = "perModule" | "perOption";
+type CommonChatTags =
+	| "SourceCharacter"
+	| "DestinationCharacter"
+	| "DestinationCharacterName"
+	| "TargetCharacter"
+	| "TargetCharacterName"
+	| "AssetName";
+
+type NotificationAudioType = 0 | 1 | 2;
+type NotificationAlertType = 0 | 1 | 3 | 2;
+
+type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+//#endregion
+
 //#region index.html
 
 /**
@@ -277,10 +296,10 @@ interface Asset {
 	DynamicDescription: (C: Character) => string;
 	DynamicPreviewImage: (C: Character) => string;
 	DynamicAllowInventoryAdd: (C: Character) => boolean;
-	DynamicExpressionTrigger: (C: Character) => ExpressionTrigger[];
-	DynamicName: (C?: Character) => string;
+	DynamicExpressionTrigger: (C: Character) => ExpressionTrigger[] | null | undefined;
+	DynamicName: (C: Character) => string;
 	DynamicGroupName: string;
-	DynamicActivity: (C: Character) => string[] | string | undefined;
+	DynamicActivity: (C: Character) => string[] | string | null | undefined;
 	DynamicAudio: ((C: Character) => string) | null;
 	CharacterRestricted: boolean;
 	AllowRemoveExclusive: boolean;
@@ -570,6 +589,7 @@ interface PlayerCharacter extends Character {
 		ColorActivities: boolean;
 		ShrinkNonDialogue: boolean;
 		MuStylePoses: boolean;
+		ShowChatHelp: boolean;
 	};
 	VisualSettings?: {
 		ForceFullHeight: boolean;
@@ -823,6 +843,8 @@ interface ModularItemOption {
 	 * defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+	/** Whether or not the option should open a subscreen in the extended item menu */
+	HasSubscreen?: boolean;
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the
@@ -910,6 +932,10 @@ interface TypedItemConfig {
 	 * items to run additional validation for cases that aren't covered by configuration
 	 */
 	Validate?: TypedItemValidateCallback;
+	/**
+	 * Contains custom dictionary entries in the event that the base ones do not suffice.
+	 */
+	Dictionary?: TypedItemDictionaryCallback[];
 }
 
 interface TypedItemDialogConfig {
@@ -969,6 +995,10 @@ interface TypedItemData {
 	 */
 	chatTags: CommonChatTags[];
 	/**
+	 * Contains custom dictionary entries in the event that the base ones do not suffice.
+	 */
+	dictionary?: TypedItemDictionaryCallback[];
+	/**
 	 * The chat message setting for the item. This can be provided to allow
 	 * finer-grained chatroom message keys for the item. Defaults to {@link TypedItemChatSetting.TO_ONLY}
 	 */
@@ -988,6 +1018,31 @@ interface TypedItemData {
 }
 
 /**
+ * An object containing data about the type change that triggered the chat message
+ * @param {Character} C - A reference to the character wearing the item
+ * @param {ExtendedItemOption} previousOption - The previously selected type option
+ * @param {ExtendedItemOption} newOption - The newly selected type option
+ * @param {number} previousIndex - The index of the previously selected type option in the item's options
+ * config
+ * @param {number} newIndex - The index of the newly selected type option in the item's options config
+ */
+interface TypedItemChatData {
+	C: Character;
+	previousOption: ExtendedItemOption;
+	newOption: ExtendedItemOption;
+	previousIndex: number;
+	newIndex: number;
+}
+
+/**
+ * @param {TypedItemChatData} chatData - An object containing data about the type change that triggered the chat message
+ * @returns {string} - The chat prefix that should be used for this type change
+ */
+type TypedItemChatCallback = (
+	chatData: TypedItemChatData
+) => string;
+
+/**
  * @param {object} chatData - An object containing data about the type change that triggered the chat message
  * @param {Character} chatData.C - A reference to the character wearing the item
  * @param {ExtendedItemOption} chatData.previousOption - The previously selected type option
@@ -995,17 +1050,11 @@ interface TypedItemData {
  * @param {number} chatData.previousIndex - The index of the previously selected type option in the item's options
  * config
  * @param {number} chatData.newIndex - The index of the newly selected type option in the item's options config
- * @returns {string} - The chat prefix that should be used for this type change
+ * @returns {[{ Tag: string, Text: string }]} - The dictionary entry to append to the dictionary.
  */
-type TypedItemChatCallback = (
-	chatData: {
-		C: Character;
-		previousOption: ExtendedItemOption;
-		newOption: ExtendedItemOption;
-		previousIndex: number;
-		newIndex: number;
-	}
-) => string;
+type TypedItemDictionaryCallback = (
+	chatData: TypedItemChatData
+) => { Tag: string, Text: string };
 
 /**
  * @param {Character} C - A reference to the character wearing the item
@@ -1081,3 +1130,15 @@ interface AppearanceValidationWrapper {
 }
 
 //#endregion
+
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+interface ICommand {
+	Tag: string;
+	Description?: string;
+	Reference?: string;
+	Action?: (this: Optional<ICommand, 'Tag'>, args: string, msg: string, parsed: string[]) => void
+	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
+	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
+	Clear?: false;
+}

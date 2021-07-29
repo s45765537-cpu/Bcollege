@@ -144,6 +144,8 @@ TailStrapsFoxTailStrap1Base,Tail
 TailStrapsFoxTailStrap1Tip,Tip
 TailStrapsFoxTailStrap2Base,Tail
 TailStrapsFoxTailStrap2Tip,Tip
+TailStrapsDragonTailStrap1Primary,Primary
+TailStrapsDragonTailStrap1Secondary,Secondary
 ItemFeetOrnateAnkleCuffsCuffs,Cuffs
 ItemFeetOrnateAnkleCuffsGems,Gems
 ItemLegsOrnateLegCuffsCuffs,Cuffs
@@ -377,6 +379,11 @@ ItemDevicesVacBedDeluxeUpper,Upper
 ItemDevicesVacBedDeluxeLower,Lower
 ItemDevicesVacBedDeluxeBody,Body
 ItemDevicesVacBedDeluxeFrame,Frame
+ItemDevicesFuckMachineCaps,Caps
+ItemDevicesFuckMachinePlastic,Plastic
+ItemDevicesFuckMachineMetal,Metal
+ItemDevicesFuckMachinePole,Pole
+ItemDevicesFuckMachineDildo,Dildo
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -388,12 +395,6 @@ ItemHoodLatexHoodOpenHairHood,Hood
 ItemHoodLeatherHoodHood,Hood
 ItemHoodLeatherHoodCollar,Collar
 ItemHoodLeatherHoodSnaps,Snaps
-ItemHoodAddonOldGasMaskLensesTube1Lenses,Lenses
-ItemHoodAddonOldGasMaskLensesTube1Tube1,Tube
-ItemHoodAddonOldGasMaskLensesTube2Lenses,Lenses
-ItemHoodAddonOldGasMaskLensesTube2Tube2,Tube
-ItemHoodAddonOldGasMaskLensesRebreatherLenses,Lenses
-ItemHoodAddonOldGasMaskLensesRebreatherRebreather,Rebreather
 ItemHoodKirugumiMaskMask,Face
 ItemHoodKirugumiMaskEyes1,Eyes
 ItemHoodKirugumiMaskMouth1,Mouth
@@ -404,6 +405,9 @@ ItemHoodGP9GasMaskMask,Mask
 ItemHoodGP9GasMaskEdges,Edges
 ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
+ItemHoodOldGasMaskMask,Mask
+ItemHoodOldGasMaskLenses,Blinding Lenses
+ItemHoodOldGasMaskTubeA,Breathing Attachment
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
@@ -720,3 +724,5 @@ BraSexyBikini1Sides,Sides
 ItemMiscServingTrayTray,Tray
 ItemMiscServingTrayObjects,Refreshments
 ItemMiscServingTrayDetails,Details
+BraceletSpikeBandsBands,Bands
+BraceletSpikeBandsSpikes,Spikes
