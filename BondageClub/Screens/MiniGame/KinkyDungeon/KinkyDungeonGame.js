@@ -225,7 +225,7 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 		var playerDist = 4;
 		let PlayerEntity = KinkyDungeonNearestPlayer({x:X, y:Y})
 
-		if (Math.sqrt((X - PlayerEntity.x) * (X - PlayerEntity.x) + (Y - PlayerEntity.y) * (Y - PlayerEntity.y)) > playerDist && (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(X, Y))) || (Enemy.tags.includes("removeDoorSpawn") && ["D", "d"].includes(KinkyDungeonMapGet(X, Y)))) {
+		if (Math.sqrt((X - PlayerEntity.x) * (X - PlayerEntity.x) + (Y - PlayerEntity.y) * (Y - PlayerEntity.y)) > playerDist && KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(X, Y))) {
 			var tags = [];
 			if (KinkyDungeonMapGet(X, Y) == 'R' || KinkyDungeonMapGet(X, Y) == 'r') tags.push("rubble");
 			if (Floor % 10 >= 5) tags.push("secondhalf");

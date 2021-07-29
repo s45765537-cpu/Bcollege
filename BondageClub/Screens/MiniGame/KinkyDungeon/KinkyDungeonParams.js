@@ -36,7 +36,7 @@ var KinkyDungeonMapParams = [
 		"chestcount" : 4,
 		"shrinecount" : 5,
 		"shrinechance" : 0.6,
-		"doorchance" : 0.9,
+		"doorchance" : 0.5,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.4,
 
@@ -45,7 +45,7 @@ var KinkyDungeonMapParams = [
 		"min_height" : 11,
 		"max_height" : 17,
 
-		"enemytags": ["zombie"],
+		"enemytags": ["skeleton"],
 		"shrines": [
 			{Type: "Commerce", Weight: 15},
 			{Type: "Elements", Weight: 4},
