@@ -103,11 +103,11 @@ var KinkyDungeonPlayers = []
 
 function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
 	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) return KinkyDungeonPlayerDamageDefault;
-	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) return {dmg: 2.5, chance: 0.8, type: "unarmed"};
-	else if (KinkyDungeonPlayerWeapon == "sword") return {dmg: 3, chance: 1.0, type: "slash"};
-	else if (KinkyDungeonPlayerWeapon == "axe") return {dmg: 4.5, chance: 0.67, type: "slash"};
-	else if (KinkyDungeonPlayerWeapon == "hammer") return {dmg: 4, chance: 0.75, type: "crush"};
-	
+	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) return {dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false};
+	else if (KinkyDungeonPlayerWeapon == "sword") return {dmg: 3, chance: 1.0, type: "slash", unarmed: false};
+	else if (KinkyDungeonPlayerWeapon == "axe") return {dmg: 4.5, chance: 0.67, type: "slash", unarmed: false};
+	else if (KinkyDungeonPlayerWeapon == "hammer") return {dmg: 4, chance: 0.75, type: "crush", unarmed: false};
+	return KinkyDungeonPlayerDamageDefault;
 }
 
 function KinkyDungeonDefaultStats() {
