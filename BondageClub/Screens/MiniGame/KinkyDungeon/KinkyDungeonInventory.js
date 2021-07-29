@@ -44,7 +44,7 @@ function KinkyDungeonHandleInventory() {
 			
 	}
 	
-	return false;
+	return true;
 }
 
 

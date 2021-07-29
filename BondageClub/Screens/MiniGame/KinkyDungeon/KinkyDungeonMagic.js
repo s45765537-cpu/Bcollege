@@ -300,7 +300,7 @@ function KinkyDungeonHandleMagic() {
 			}
 		}
 	}
-	return false;
+	return true;
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
