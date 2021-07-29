@@ -153,6 +153,10 @@ KillSkeleton,"The Skeleton falls into pieces."
 AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
 AttackSkeleton,"The Skeleton tackles you! (-DamageTaken WP)"
 
+NameGreaterSkeleton,Skeleton Warrior
+KillGreaterSkeleton,"The Skeleton Warrior collapses and falls into pieces."
+AttackGreaterSkeleton,"The Skeleton lands a wide, crippling blow! (-DamageTaken WP)"
+
 NameLesserSkeleton,Skeleton
 KillLesserSkeleton,"The Skeleton falls into pieces."
 AttackLesserSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
@@ -173,6 +177,12 @@ AttackWitchChain,"The chain witch tugs sensually at your restraints!"
 
 NameWitchSlime,Slime Witch
 KillWitchSlime,"The slime witch vanishes into a pool of pink slime, leaving behind a keyring."
+
+
+NameNecromancer,Necromancer
+KillNecromancer,"The necromancer perishes. Ironic that she couldn't save herself."
+AttackNecromancerLock,"The necromancer locks all of your restraints!"
+AttackNecromancer,"The necromancer tugs sensually at your restraints!"
 
 NameRat,Filthy Rat
 KillRat,"The rat skitters back into a hole in the wall."
@@ -448,6 +458,7 @@ ItemPickupGold,"You picked up XXX gold."
 ItemPickupRedKey,"You picked up a red key."
 ItemPickupGreenKey,"You picked up a green key."
 ItemPickupBlueKey,"You picked up a blue key."
+ItemPickupPotionHealth,"You picked up a willpower potion."
 
 
 KinkyDungeonBookElements,Ars Pyrotecnica
@@ -554,6 +565,11 @@ KinkyDungeonSpellWitchSlimeBall,Witch's Slime Ball
 KinkyDungeonSpellDescriptionSlimeBall,A ball of slime leaves a trail of sticky slime. It deals DamageDealt damage on a hit.
 KinkyDungeonSpellCastSlimeBall,You hurl a ball of slime!
 KinkyDungeonSpellTargetSlimeBall,Choose aim direction
+
+KinkyDungeonSpellSummonSkeleton,Summon Skeleton
+KinkyDungeonSpellSummonSkeletons,Mass Summon Skeleton
+KinkyDungeonSummonSingleLesserSkeleton,A skeleton arises from bones on the floor!
+KinkyDungeonSummonMultiLesserSkeleton,A gang of SummonCount skeletons forms around you!
 
 KinkyDungeonStartVibe,You feel your toys start to to buzz...
 KinkyDungeonPlugged,You feel the plugs inside you whil walking.

@@ -52,9 +52,13 @@ function KinkyDungeonFilterInventory(Filter) {
 	let ret = [];
 	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 		let item = KinkyDungeonInventory[I];
+		let Group = "";
+		if (item.restraint.Group) Group = item.restraint.Group;
+		else if (item.looserestraint.Group) Group = item.looserestraint.Group;
+		if (Group == "ItemMouth2" || Group == "ItemMouth3") Group = "ItemMouth";
 		
-		if (item.restraint && Filter == "Equipped") ret.push({name: item.restraint.name, item: item, preview: `Assets/Female3DCG/${item.restraint.Group}/Preview/${item.restraint.Asset}.png`});
-		else if (item.looserestraint && Filter == "Restraints") ret.push({name: item.looserestraint.name, item: item, preview: `Assets/Female3DCG/${item.looserestraint.Group}/Preview/${item.looserestraint.Asset}.png`});
+		if (item.restraint && Filter == "Equipped") ret.push({name: item.restraint.name, item: item, preview: `Assets/Female3DCG/${Group}/Preview/${item.restraint.Asset}.png`});
+		else if (item.looserestraint && Filter == "Restraints") ret.push({name: item.looserestraint.name, item: item, preview: `Assets/Female3DCG/${Group}/Preview/${item.looserestraint.Asset}.png`});
 		else if (item.consumable && Filter == "Consumables") ret.push({name: item.consumable.name, item: item, preview: `Screens/MiniGame/KinkyDungeon/Consumables/${item.consumable.name}.png`});
 		else if (item.weapon && Filter == "Weapons") ret.push({name: item.weapon.name, item: item});
 		else if (item.outfit && Filter == "Outfits") ret.push({name: item.outfit.name, item: item});
