@@ -241,13 +241,15 @@ function KinkyDungeonBulletHit(b, born) {
 			}
 
 		let created = 0;
-		for (let C = 0; C < count && KinkyDungeonEntities.length < 100; C++) {
+		let maxcounter = 0;
+		for (let C = 0; C < count && KinkyDungeonEntities.length < 100 && maxcounter < count * 10; C++) {
 			let slot = slots[Math.floor(Math.random() * slots.length)];
 			if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(b.x+slot.x, b.y+slot.y)) && KinkyDungeonNoEnemy(b.x+slot.x, b.y+slot.y, true)) {
 				let Enemy = KinkyDungeonEnemies.find(element => element.name == summonType);
 				KinkyDungeonEntities.push({Enemy: Enemy, x:b.x+slot.x, y:b.y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
 				created += 1;
-			}
+			} else C -= 1;
+			maxcounter += 1;
 		}
 		if (created == 1) KinkyDungeonSendTextMessage(6, TextGet("KinkyDungeonSummonSingle"+summonType), "white", 2);
 		else if (created > 1) KinkyDungeonSendTextMessage(8, TextGet("KinkyDungeonSummonMulti"+summonType).replace("SummonCount", "" + created), "white", 3);

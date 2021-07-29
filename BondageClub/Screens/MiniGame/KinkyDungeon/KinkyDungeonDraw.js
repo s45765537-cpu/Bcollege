@@ -214,10 +214,12 @@ function KinkyDungeonDrawGame() {
 
 						let color = "white";
 						let locktext = "";
-						if (sg.lock == "Red") {color = "#ff8888"; locktext = TextGet("KinkyRedLockAbr");}
-						if (sg.lock == "Yellow") {color = "#ffff88"; locktext = TextGet("KinkyYellowLockAbr");}
-						if (sg.lock == "Green") {color = "#88FF88"; locktext = TextGet("KinkyGreenLockAbr");}
-						if (sg.lock == "Blue") {color = "#8888FF"; locktext = TextGet("KinkyBlueLockAbr");}
+						if (KinkyDungeonPlayer.IsBlind() < 1) {
+							if (sg.lock == "Red") {color = "#ff8888"; locktext = TextGet("KinkyRedLockAbr");}
+							if (sg.lock == "Yellow") {color = "#ffff88"; locktext = TextGet("KinkyYellowLockAbr");}
+							if (sg.lock == "Green") {color = "#88FF88"; locktext = TextGet("KinkyGreenLockAbr");}
+							if (sg.lock == "Blue") {color = "#8888FF"; locktext = TextGet("KinkyBlueLockAbr");}
+						}
 
 						let GroupText = sg.name ? ("Restraint" + sg.name) : ("KinkyDungeonGroup"+ sg.group); // The name of the group to draw.
 						

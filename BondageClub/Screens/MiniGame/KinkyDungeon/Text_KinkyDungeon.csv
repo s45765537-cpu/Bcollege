@@ -207,8 +207,9 @@ KinkyDungeonStruggleUnlockFail,"You try to unlock the TargetRestraint but you ca
 KinkyDungeonStruggleUnlockNoRedKey,"The red padlock only accepts red keys."
 KinkyDungeonStruggleUnlockNoGreenKey,"The green padlock only accepts green keys."
 KinkyDungeonStruggleUnlockNoYellowKey,"The yellow padlock requires a red and a green key."
-KinkyDungeonStruggleUnlockNoBlueKey,"The magical lock only accepts blue keys."
+KinkyDungeonStruggleUnlockNoBlueKey,"The magical lock only accepts blue keys and can't be picked."
 KinkyDungeonStruggleUnlockNoUnknownKey,"You don't have a key for this lock."
+KinkyDungeonStruggleCantPickBlueLock,"The lock seems to be magical and rejects all picking attempts!"
 
 KinkyDungeonStruggleUnlockJammed,"The key sticks in the lock and jams!"
 
