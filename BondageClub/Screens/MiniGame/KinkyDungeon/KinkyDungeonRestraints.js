@@ -412,6 +412,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 				}
 				KinkyDungeonPlayer.FocusGroup = null;
 			}
+			if (placed && !placed.Property) placed.Property = {};
 			if (restraint.OverridePriority) {
 				if (!InventoryGet(KinkyDungeonPlayer, restraint.Group).Property) InventoryGet(KinkyDungeonPlayer, restraint.Group).Property = {OverridePriority: restraint.OverridePriority}
 			}

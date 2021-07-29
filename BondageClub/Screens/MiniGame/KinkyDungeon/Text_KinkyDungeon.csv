@@ -143,6 +143,11 @@ KillFastZombie,"The zombie screeches and tumbles to the floor."
 AttackFastZombieBind,"The zombie viciously wraps you in charms (+RestraintAdded)"
 AttackFastZombie,"The zombie gropes your body! (-DamageTaken WP)"
 
+NameAnimatedArmor,Animated Armor
+KillAnimatedArmor,"The Animated Armor falls into pieces."
+AttackAnimatedArmorBind,"The Animated Armor restrains you with shackles (+RestraintAdded)"
+AttackAnimatedArmor,"The Animated Armor hugs your body with an iron grip! (-DamageTaken WP)"
+
 NameRopeSnake,Magic Rope
 KillRopeSnake,"The magic rope returns to being a normal rope."
 AttackRopeSnakeBind,"The magic rope wraps itself tightly around your body! (+RestraintAdded)"
