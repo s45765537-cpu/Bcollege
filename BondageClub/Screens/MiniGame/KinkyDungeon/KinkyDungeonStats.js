@@ -132,6 +132,7 @@ function KinkyDungeonDefaultStats() {
 
 	KinkyDungeonMovePoints = 0;
 	KinkyDungeonInventory = [];
+	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
 	KinkyDungeonPlayerTags = [];
 
 	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;

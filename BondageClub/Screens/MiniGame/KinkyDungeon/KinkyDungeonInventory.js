@@ -37,8 +37,18 @@ function KinkyDungeonHandleInventory() {
 	if (KinkyDungeonDrawInventorySelected(filteredInventory)) {
 		if (KinkyDungeonCurrentFilter == "Consumables" && MouseIn(canvasOffsetX + 640*KinkyDungeonBookScale + 25, canvasOffsetY + 483*KinkyDungeonBookScale, 350, 60)) {
 			let item = KinkyDungeonFilterInventory(KinkyDungeonCurrentFilter)[KinkyDungeonCurrentPageInventory];
-			if (!item || !item.name) return false;
+			if (!item || !item.name) return true;
 			
+			if (!KinkyDungeonPlayer.CanInteract() && (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"))) {
+				KinkyDungeonAdvanceTime(1);
+				KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonCantUsePotions"), "red", 2);
+
+				if (KinkyDungeonTextMessageTime > 0)
+					KinkyDungeonDrawState = "Game";
+
+				return true;
+			}
+
 			KinkyDungeonUseConsumable(item.name, 1);
 		}
 			
@@ -53,8 +63,8 @@ function KinkyDungeonFilterInventory(Filter) {
 	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 		let item = KinkyDungeonInventory[I];
 		let Group = "";
-		if (item.restraint.Group) Group = item.restraint.Group;
-		else if (item.looserestraint.Group) Group = item.looserestraint.Group;
+		if (item.restraint && item.restraint.Group) Group = item.restraint.Group;
+		else if (item.looserestraint && item.looserestraint.Group) Group = item.looserestraint.Group;
 		if (Group == "ItemMouth2" || Group == "ItemMouth3") Group = "ItemMouth";
 		
 		if (item.restraint && Filter == "Equipped") ret.push({name: item.restraint.name, item: item, preview: `Assets/Female3DCG/${Group}/Preview/${item.restraint.Asset}.png`});
