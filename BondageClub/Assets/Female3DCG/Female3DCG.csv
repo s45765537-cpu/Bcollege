@@ -56,6 +56,7 @@ Cloth,SummerDress,Summer Dress
 Cloth,Blouse1,Blouse
 Cloth,LatexTop,Laced Latex Top
 Cloth,LatexLacedSuit,Latex Laced Suit
+Cloth,FurCoat,Fur Coat
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -67,6 +68,7 @@ ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,LeatherStraps,Leather Straps
+ClothAccessory,FurBolero,Fur Bolero
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -387,6 +389,8 @@ Bracelet,,Bracelet
 Bracelet,BowBand,Bow Band
 Bracelet,KinkBracelet, Kinky Band
 Bracelet,LesBand,5 Color Band
+Bracelet,SpikeBands,Spiked Wristbands
+Bracelet,Band1,Band 1
 Glasses,,Glasses
 Glasses,Glasses1,Style 1
 Glasses,Glasses2,Style 2
@@ -438,6 +442,7 @@ TailStraps,MouseTailStrap1,Mouse Tail Strap 1
 TailStraps,MouseTailStrap2,Mouse Tail Strap 2
 TailStraps,CowtailStrap,Cow Tail Strap
 TailStraps,BunnyTailStrap,Bunny Tail Strap
+TailStraps,DragonTailStrap1,Dragon Tail Strap
 Wings,,Wings
 Wings,SuccubusFeather,Succubus Feather 
 Wings,SuccubusWings,Succubus Wings
@@ -1300,14 +1305,7 @@ ItemDevices,Pole,Pole
 ItemDevices,Cushion,Cushion
 ItemDevices,WetFloor,Wet Floor Sign
 ItemDevices,VacBedDeluxe,Vacuum Bed Deluxe
-ItemHoodAddon,,Hood
-ItemHoodAddon,OldGasMaskLenses,Blinding Lenses
-ItemHoodAddon,OldGasMaskTube1,Gas Mask Tube
-ItemHoodAddon,OldGasMaskTube2,Gas Mask Tube
-ItemHoodAddon,OldGasMaskRebreather,Rebreather
-ItemHoodAddon,OldGasMaskLensesTube1,Gas Mask Tube & Lenses
-ItemHoodAddon,OldGasMaskLensesTube2,Gas Mask Tube & Lenses
-ItemHoodAddon,OldGasMaskLensesRebreather,Rebreather & Lenses
+ItemDevices,FuckMachine,Fuck Machine
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes
@@ -1334,3 +1332,4 @@ ItemBoots,LockingBoots1,Locking Boots
 ItemBoots,LeatherFootMitts1,Short Leather Foot Mittens
 ItemBoots,ToeTape,Toe Tape
 ItemBoots,Zipties,Zip Ties
+ItemBoots,HighThighBoots,High Thigh Boots
