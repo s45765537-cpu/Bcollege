@@ -114,8 +114,11 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick(ExitCallback) {
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
+	const pw = (Property.Password || "").toUpperCase();
+	const isValid = pw.match(InventoryItemMiscPasswordPadlockPasswordRegex);
 	// Opens the padlock
-	if (ElementValue("Password").toUpperCase() === (Property.Password || "").toUpperCase()) {
+	if (!isValid || ElementValue("Password").toUpperCase() === pw) {
+		if (!isValid) console.warn(`Invalid password for password lock detected (${pw}). Lock opened.`);
 		CommonPadlockUnlock(C, DialogFocusSourceItem);
 		ExitCallback();
 	}
