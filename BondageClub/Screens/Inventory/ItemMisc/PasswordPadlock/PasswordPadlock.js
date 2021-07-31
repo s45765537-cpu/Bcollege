@@ -115,7 +115,7 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick(ExitCallback) {
 	const C = CharacterGetCurrent();
 
 	// Opens the padlock
-	if (ElementValue("Password").toUpperCase() === Property.Password) {
+	if (ElementValue("Password").toUpperCase() === (Property.Password || "").toUpperCase()) {
 		CommonPadlockUnlock(C, DialogFocusSourceItem);
 		ExitCallback();
 	}
