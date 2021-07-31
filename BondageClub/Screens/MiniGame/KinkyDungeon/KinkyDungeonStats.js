@@ -229,7 +229,7 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonCalculateSlowLevel();
 
 	// Unarmed damage calc
-	KinkyDungeonPlayerDamage = KinkyDungeonGetPlayerWeaponDamage(InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"));
+	KinkyDungeonPlayerDamage = KinkyDungeonGetPlayerWeaponDamage(!InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) && !InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"));
 	
 	if (!KinkyDungeonPlayer.CanInteract()) {
 		KinkyDungeonPlayerDamage.chance /= 2;
