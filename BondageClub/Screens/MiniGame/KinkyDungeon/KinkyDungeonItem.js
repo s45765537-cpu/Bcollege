@@ -8,8 +8,10 @@ function KinkyDungeonItemDrop(x, y, dropTable) {
 
 		for (let L = 0; L < dropTable.length; L++) {
 			let drop = dropTable[L];
+			let weight = drop.weight;
 			dropWeights.push({drop: drop, weight: dropWeightTotal});
-			dropWeightTotal += drop.weight;
+			if (drop.ignoreInInventory && KinkyDungeonInventoryGet(drop.name)) weight = 0;
+			dropWeightTotal += weight;
 		}
 
 		let selection = Math.random() * dropWeightTotal;
@@ -66,10 +68,16 @@ function KinkyDungeonItemEvent(Item) {
 	if (Item.name == "Gold") {
 		color = "yellow";
 		KinkyDungeonAddGold(Item.amount);
+	} else if (Item.name == "Lore") {
+		KinkyDungeonNewLore();
 	} else if (Item.name == "Pick") {
 		priority = 2;
 		color = "lightgreen";
 		KinkyDungeonLockpicks += 1;
+	} else if (Item.name == "Hammer") {
+		priority = 4;
+		color = "orange";
+		KinkyDungeonInventoryAddWeapon("Hammer");
 	} else if (Item.name == "Knife") {
 		priority = 2;
 		color = "lightgreen";
