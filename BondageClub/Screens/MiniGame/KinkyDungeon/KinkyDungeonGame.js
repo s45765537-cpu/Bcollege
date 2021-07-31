@@ -107,7 +107,7 @@ function KinkyDungeonInitialize(Level, Random) {
 	KinkyDungeonSetCheckPoint();
 
 	KinkyDungeonMapIndex = [];
-	
+
 
 	for (let I = 1; I < 10; I++)
 		KinkyDungeonMapIndex.push(I);
@@ -345,7 +345,6 @@ function KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Fl
 		}
 		chestlist.splice(N, 1);
 	}
-
 }
 
 
