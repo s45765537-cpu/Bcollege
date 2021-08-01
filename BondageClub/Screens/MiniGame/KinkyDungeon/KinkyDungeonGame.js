@@ -846,12 +846,18 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 	var moveY = moveDirection.y + KinkyDungeonPlayerEntity.y;
 	let moved = false;
 	var Enemy = KinkyDungeonEnemyAt(moveX, moveY);
-	if (Enemy && KinkyDungeonHasStamina(Math.abs(KinkyDungeonStatStaminaCostAttack), true)) {
+	if (Enemy) {
 		if (AllowInteract) {
-			KinkyDungeonAttackEnemy(Enemy, {damage: KinkyDungeonPlayerDamage.dmg, type: KinkyDungeonPlayerDamage.type});
+			if (KinkyDungeonHasStamina(Math.abs(KinkyDungeonStatStaminaCostAttack), true)) {
+				KinkyDungeonAttackEnemy(Enemy, {damage: KinkyDungeonPlayerDamage.dmg, type: KinkyDungeonPlayerDamage.type});
 
-			KinkyDungeonStatStamina += KinkyDungeonStatStaminaCostAttack;
+				KinkyDungeonStatStamina += KinkyDungeonStatStaminaCostAttack;
 
+			} else {
+				KinkyDungeonWaitMessage();
+			}
+			
+			
 			KinkyDungeonAdvanceTime(1);
 		}
 	} else {
