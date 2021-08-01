@@ -16,7 +16,7 @@ var KinkyDungeonWeapons = {
 	"Knife": {name: "Knife", dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false, rarity: 0, shop: false, noequip: true},
 	"Sword": {name: "Sword", dmg: 3, chance: 1.0, type: "slash", unarmed: false, rarity: 2, shop: true},
 	"Axe": {name: "Axe", dmg: 4, chance: 0.75, type: "slash", unarmed: false, rarity: 2, shop: true},
-	"Hammer": {name: "Hammer", dmg: 4.5, chance: 0.67, type: "crush", unarmed: false, rarity: 2, shop: true},
+	"Hammer": {name: "Hammer", dmg: 5, chance: 0.6, type: "crush", unarmed: false, rarity: 2, shop: true},
 }
 
 function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
