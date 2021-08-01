@@ -33,7 +33,7 @@ function KinkyDungeonDropItem(Item) {
 		for (let Y = -Math.ceil(1); Y <= Math.ceil(1); Y++) {
 			slots.push({x:X, y:Y});
 		}
-		 
+		
 	let foundslot = null;
 	for (let C = 0; C < 100; C++) {
 		let slot = slots[Math.floor(Math.random() * slots.length)];
