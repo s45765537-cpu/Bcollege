@@ -255,8 +255,10 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 	let handsBound = KinkyDungeonIsHandsBound();
 	let armsBound = KinkyDungeonIsArmsBound();
-	if ((struggleGroup.group != "ItemArms" && struggleGroup.group != "ItemHands" ) && !KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
-	if (struggleGroup.group != "ItemArms" && armsBound) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
+
+	// Struggling is unaffected by having arms bound
+	if (StruggleType != "Struggle" && (struggleGroup.group != "ItemArms" && struggleGroup.group != "ItemHands" ) && !KinkyDungeonPlayer.CanInteract()) escapeChance /= 2;
+	if (StruggleType != "Struggle" && struggleGroup.group != "ItemArms" && armsBound) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.25);
 	
 	// Covered hands makes it harder to unlock, and twice as hard to remove
 	if ((StruggleType == "Pick" || StruggleType == "Unlock" || StruggleType == "Remove") && struggleGroup.group != "ItemHands" && handsBound)
@@ -266,6 +268,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 	if (InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, struggleGroup.group)) escapeChance = 0;
 
+	// Struggling is affected by tightness
 	if (escapeChance > 0 && StruggleType == "Struggle") {
 		for (let T = 0; T < restraint.tightness; T++) {
 			escapeChance *= 0.8; // Tougher for each tightness, however struggling will reduce the tightness
@@ -377,7 +380,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 					for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 						if (KinkyDungeonInventory[I].restraint) {
-							tightness_reduction *= 0.8; // Reduced tightness reduction for each restraint
+							tightness_reduction *= 0.85; // Reduced tightness reduction for each restraint currently worn
 						}
 					}
 
