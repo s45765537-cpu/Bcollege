@@ -348,6 +348,7 @@ HairAccessory1,MouseEars1,Mouse Ears 1
 HairAccessory1,MouseEars2,Mouse Ears 2
 HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,CowHorns,Cow Horns
+HairAccessory1,Antennae,Antennae
 HairAccessory1,Halo,Halo
 HairAccessory2,,Ears
 HairAccessory2,Ears1,Ears Small
@@ -374,6 +375,7 @@ HairAccessory2,MouseEars1,Mouse Ears 1
 HairAccessory2,MouseEars2,Mouse Ears 2
 HairAccessory2,ElfEars,Elf Ears
 HairAccessory2,CowHorns,Cow Horns
+HairAccessory2,Antennae,Antennae
 Gloves,,Gloves
 Gloves,Gloves1,Short Gloves
 Gloves,Gloves2,Long Gloves
@@ -398,6 +400,7 @@ Glasses,Glasses3,Style 3
 Glasses,Glasses4,Style 4
 Glasses,Glasses5,Style 5
 Glasses,Glasses6,Style 6
+Glasses,CatGlasses,Cat-Eye Glasses
 Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
@@ -557,6 +560,7 @@ HairBack,HairBack48,Style 43
 HairBack,HairBack49,Style 44
 HairBack,HairBack50,Style 45
 HairBack,HairBack51,Style 46
+HairBack,HairBack52,Style 47
 Eyes,,Left eye
 Eyes,Eyes1,Style 1
 Eyes,Eyes2,Style 2
