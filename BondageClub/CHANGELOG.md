@@ -12,8 +12,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
 * Changelog last updated: 2021-07-16
-* Last recorded PR: [#2818](https://github.com/Ben987/Bondage-College/pull/2818)
-* Last recorded commit hash: `193717b5e32792df1b505a3429e52ff9db446979`
+* Last recorded PR: [#2819](https://github.com/Ben987/Bondage-College/pull/2819)
+* Last recorded commit hash: `c1e4fc391dd9f1dbed9d1b94f70124da33eb11ed`
 
 ## [R71]
 
@@ -89,7 +89,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Technical changes, fixes and improvements:
   * Jomshir - [#2775](https://github.com/Ben987/Bondage-College/pull/2775)
   * Ace - [#2763](https://github.com/Ben987/Bondage-College/pull/2763), [#2773](https://github.com/Ben987/Bondage-College/pull/2773), [#2762](https://github.com/Ben987/Bondage-College/pull/2762), [#2791](https://github.com/Ben987/Bondage-College/pull/2791), [#2779](https://github.com/Ben987/Bondage-College/pull/2779), [#2801](https://github.com/Ben987/Bondage-College/pull/2801)
-  * Sekkmer - [#2807](https://github.com/Ben987/Bondage-College/pull/2807)
+  * Sekkmer - [#2807](https://github.com/Ben987/Bondage-College/pull/2807), [#2819](https://github.com/Ben987/Bondage-College/pull/2819)
 
 ### [Beta Fixes]
 
