@@ -665,7 +665,7 @@ function KinkyDungeonLightGet(X, Y) {
 	var height = KinkyDungeonLightGrid.split('\n').length;
 	var width = KinkyDungeonLightGrid.split('\n')[0].length;
 
-	return KinkyDungeonLightGrid[X + Y*(width+1)];
+	return parseFloat(KinkyDungeonLightGrid[X + Y*(width+1)]);
 }
 
 const canvasOffsetX = 500;
@@ -809,7 +809,9 @@ function KinkyDungeonGameKeyDown() {
 
 	if (moveDirection) {
 		KinkyDungeonMove(moveDirection, 1);
+	// @ts-ignore
 	} else if (KinkyDungeonKeySpell.includes(KeyPress)) {
+		// @ts-ignore
 		KinkyDungeonSpellPress = KeyPress;
 		KinkyDungeonHandleSpell();
 	}
