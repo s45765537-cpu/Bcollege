@@ -79,8 +79,6 @@ var KinkyDungeonKeyJamChance = 0.33;
 var KinkyDungeonKeyPickBreakChance = 0.25;
 
 // Combat
-var KinkyDungeonPlayerDamageDefault = {dmg: 2, chance: 0.8, type: "unarmed", unarmed: true};
-var KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 var KinkyDungeonTorsoGrabChance = 0.33;
 
 // Your inventory contains items that are on you
@@ -123,6 +121,7 @@ function KinkyDungeonDefaultStats() {
 	KinkyDungeonMovePoints = 0;
 	KinkyDungeonInventory = [];
 	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
+	KinkyDungeonInventoryAddWeapon("Knife");
 	KinkyDungeonPlayerTags = [];
 
 	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
