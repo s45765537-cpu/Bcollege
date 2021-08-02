@@ -227,7 +227,7 @@ KinkyDungeonStruggleUnlockNoBlueKey,"The magical lock only accepts blue keys and
 KinkyDungeonStruggleUnlockNoUnknownKey,"You don't have a key for this lock."
 KinkyDungeonStruggleCantPickBlueLock,"The lock seems to be magical and rejects all picking attempts!"
 
-KinkyDungeonStruggleUnlockJammed,"The key sticks in the lock and jams!"
+KinkyDungeonStruggleUnlockJammed,"The key sticks in the lock and jams, mangling the key!"
 
 KinkyDungeonStruggleUnlockSuccess,"You unlock the TargetRestraint."
 KinkyDungeonStruggleStruggleSuccess,"You manage to squeeze out of the TargetRestraint!"

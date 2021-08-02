@@ -16,6 +16,11 @@ var KinkyDungeonRestraintsLocked = [];
 var KinkyDungeonMultiplayerInventoryFlag = false;
 var KinkyDungeonItemDropChanceArmsBound = 0.2; // Chance to drop item with just bound arms and not bound hands.
 
+var KinkyDungeonKnifeBreakChance = 0.2;
+var KinkyDungeonKeyJamChance = 0.33;
+var KinkyDungeonKeyPickBreakAmount = 4; // Number of tries per pick on average
+var KinkyDungeonPickBreakProgress = 0;
+
 var KinkyDungeonRestraints = [
 	{name: "DuctTapeArms", Asset: "DuctTape", Color: "#AA2222", Group: "ItemArms", magic: false, power: -2, weight: 0, escapeChance: {"Struggle": 0.5, "Cut": 0.9, "Remove": 0.3}, enemyTags: {"ribbonRestraints":5}, playerTags: {"ItemArmsFull":8}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
 	{name: "DuctTapeFeet", Asset: "DuctTape", Color: "#AA2222", Group: "ItemFeet", magic: false, power: -2, weight: 0, escapeChance: {"Struggle": 0.5, "Cut": 0.9, "Remove": 0.3}, enemyTags: {"ribbonRestraints":5}, playerTags: {"ItemLegsFull":8}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
@@ -75,6 +80,17 @@ var KinkyDungeonRestraints = [
 	{name: "ChainFeet", Asset: "Chains", Color: "Default", Group: "ItemFeet", magic: false, power: 5, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemFeetFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], shrine: ["Chains", "Metal"]},
 	{name: "ChainCrotch", Asset: "CrotchChain", OverridePriority: 25, Color: "Default", Group: "ItemTorso", magic: false, power: 5, weight: 0, harness: true, escapeChance: {"Struggle": 0.0, "Cut": -0.1, "Remove": 0.5, "Pick": 1.5}, enemyTags: {"chainRestraints":2}, playerTags: {"ItemPelvisFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], shrine: ["Chains", "Metal"]},
 ];
+
+function KinkyDungeonKeyGetPickBreakChance(modifier) {
+	let mult = (modifier) ? modifier : 1.0;
+	let chance = 0;
+	
+	KinkyDungeonPickBreakProgress += mult;
+	
+	if (KinkyDungeonPickBreakProgress > KinkyDungeonKeyPickBreakAmount/2) chance = (KinkyDungeonPickBreakProgress - KinkyDungeonKeyPickBreakAmount/2) / (KinkyDungeonKeyPickBreakAmount + 1); // Picks last anywhere from 2-6 uses
+	
+	return chance;
+}
 
 function KinkyDungeonLock(item, lock) {
 	item.lock = lock;
@@ -171,7 +187,7 @@ function KinkyDungeonIsArmsBound() {
 }
 
 function KinkyDungeonGetPickBaseChance() {
-	return 0.2 / (1.0 + 0.005 * MiniGameKinkyDungeonLevel);
+	return 0.33 / (1.0 + 0.02 * MiniGameKinkyDungeonLevel);
 }
 
 function KinkyDungeonPickAttempt() {
@@ -179,6 +195,7 @@ function KinkyDungeonPickAttempt() {
 	let escapeChance = KinkyDungeonGetPickBaseChance();
 	var cost = KinkyDungeonStatStaminaCostTool;
 	let lock = KinkyDungeonTargetTile.Lock;
+	if (!KinkyDungeonTargetTile.pickProgress) KinkyDungeonTargetTile.pickProgress = 0;
 
 	if (lock.includes("Blue") && KinkyDungeonBlueKeys < 1) {
 		if ((KinkyDungeonPlayer.IsBlind() < 1) || !lock.includes("Blue"))
@@ -198,15 +215,18 @@ function KinkyDungeonPickAttempt() {
 
 	if (!KinkyDungeonHasStamina(-cost, true)) {
 		KinkyDungeonWaitMessage();
-	} else if (Math.random() < escapeChance){
+	} else if (KinkyDungeonTargetTile && KinkyDungeonTargetTile.pickProgress >= 1){//Math.random() < escapeChance
 		KinkyDungeonStatStamina += cost;
 		Pass = "Success";
-	} else if (Math.random() < KinkyDungeonKeyPickBreakChance || lock.includes("Blue")) { // Blue locks cannot be picked or cut!
+	} else if (Math.random() < KinkyDungeonKeyGetPickBreakChance() || lock.includes("Blue")) { // Blue locks cannot be picked or cut!
 		Pass = "Break";
 		KinkyDungeonLockpicks -= 1;
+		KinkyDungeonPickBreakProgress = 0;
 	} else if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
 		KinkyDungeonDropItem({name: "Pick"});
 		KinkyDungeonLockpicks -= 1;
+	} else {
+		KinkyDungeonTargetTile.pickProgress += escapeChance;
 	}
 	KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonAttemptPick" + Pass).replace("TargetRestraint", TextGet("KinkyDungeonObject")), (Pass == "Success") ? "lightgreen" : "red", 1);
 	return Pass == "Success";
@@ -302,7 +322,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 		if (!KinkyDungeonHasStamina(-cost, true)) {
 			KinkyDungeonWaitMessage();
 		} else {
-			if (Math.random() < escapeChance && !(restraint.lock == "Blue" && (StruggleType == "Pick"  || StruggleType == "Cut" ))) {
+			if (((StruggleType != "Pick" && Math.random() < escapeChance) || (restraint.pickProgress && restraint.pickProgress >= 1)) && !(restraint.lock == "Blue" && (StruggleType == "Pick"  || StruggleType == "Cut" ))) {
 				Pass = "Success";
 				if (StruggleType == "Pick" || StruggleType == "Unlock") {
 					if (StruggleType == "Unlock") {
@@ -312,8 +332,9 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 								KinkyDungeonLock(restraint, "");
 							} else {
 								Pass = "Jammed";
-								restraint.lock = "Jammed";
+								//restraint.lock = "Jammed";
 								KinkyDungeonGreenKeys -= 1;
+								restraint.pickProgress = 0;
 							}
 						}
 					} else {
@@ -350,12 +371,16 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						}
 					}
 				} else if (StruggleType == "Pick") {
-					if (Math.random() < KinkyDungeonKeyPickBreakChance || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
+					if (Math.random() < KinkyDungeonKeyGetPickBreakChance() || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
 						Pass = "Break";
 						KinkyDungeonLockpicks -= 1;
+						KinkyDungeonPickBreakProgress = 0;
 					} else if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
 						KinkyDungeonDropItem({name: "Pick"});
 						KinkyDungeonLockpicks -= 1;
+					} else {
+						if (!restraint.pickProgress) restraint.pickProgress = 0;
+						restraint.pickProgress += escapeChance;
 					}
 				} else if (StruggleType == "Unlock") {
 					if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
