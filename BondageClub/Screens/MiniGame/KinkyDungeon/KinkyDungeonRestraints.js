@@ -427,21 +427,21 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 				// Reduce the progress
 				if (StruggleType == "Struggle") {
-					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
-					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
-					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.01);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.9 - 0.01);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.8 - 0.01);
 				} else if (StruggleType == "Pick") {
-					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);
-					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
-					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);;
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.8 - 0.01);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.8 - 0.01);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.9 - 0.01);;
 				} else if (StruggleType == "Unlock") {
-					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
-					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
-					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);;
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.01);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.8 - 0.01);
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.8 - 0.01);;
 				} if (StruggleType == "Remove") {
-					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
-					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);
-					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);;
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.01);
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.8 - 0.01);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.9 - 0.01);;
 				}
 
 				// reduces the tightness of the restraint slightly
