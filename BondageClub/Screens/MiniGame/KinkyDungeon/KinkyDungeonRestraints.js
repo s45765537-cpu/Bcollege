@@ -96,6 +96,7 @@ function KinkyDungeonLock(item, lock) {
 	item.lock = lock;
 	if (item.restraint && InventoryGet(KinkyDungeonPlayer, item.restraint.Group) && lock != "") {
 		InventoryLock(KinkyDungeonPlayer, InventoryGet(KinkyDungeonPlayer, item.restraint.Group), "IntricatePadlock", Player.MemberNumber, true)
+		item.pickProgress = 0;
 		if (!KinkyDungeonRestraintsLocked.includes(item.restraint.Group))
 			InventoryLock(Player, InventoryGet(Player, item.restraint.Group), "IntricatePadlock", null, true)
 	} else {
@@ -267,6 +268,11 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	if (StruggleType == "Unlock") cost = 0;
 	let Pass = "Fail";
 	let escapeChance = (restraint.restraint.escapeChance[StruggleType] != null) ? restraint.restraint.escapeChance[StruggleType] : 1.0;
+	if (!restraint.removeProgress) restraint.removeProgress = 0;
+	if (!restraint.pickProgress) restraint.pickProgress = 0;
+	if (!restraint.struggleProgress) restraint.struggleProgress = 0;
+	if (!restraint.unlockProgress) restraint.unlockProgress = 0;
+	if (!restraint.cutProgress) restraint.cutProgress = 0;
 	
 	if (escapeChance <= 0) {
 		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + "Impossible"), "red", 2);
@@ -311,6 +317,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 		return false;
 	}
 	
+	// Handle cases where you can't even attempt to unlock
 	if ((StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Green" && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Yellow" && KinkyDungeonRedKeys > 0 && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)))
 		|| (StruggleType == "Pick" && (restraint.lock == "Blue" && KinkyDungeonBlueKeys < 1))) {
 		if ((KinkyDungeonPlayer.IsBlind() < 1) || !restraint.lock.includes("Blue"))
@@ -319,10 +326,17 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleCantPickBlueLock"), "orange", 2);
 	} else {
 
+		// Main struggling block
 		if (!KinkyDungeonHasStamina(-cost, true)) {
 			KinkyDungeonWaitMessage();
 		} else {
-			if (((StruggleType != "Pick" && Math.random() < escapeChance) || (restraint.pickProgress && restraint.pickProgress >= 1)) && !(restraint.lock == "Blue" && (StruggleType == "Pick"  || StruggleType == "Cut" ))) {
+			// Pass block
+			if (((StruggleType == "Cut" && restraint.cutProgress >= 1 - escapeChance) 
+					|| (StruggleType == "Pick" && restraint.pickProgress >= 1 - escapeChance) 
+					|| (StruggleType == "Unlock" && restraint.unlockProgress >= 1 - escapeChance)
+					|| (StruggleType == "Remove" && restraint.removeProgress >= 1 - escapeChance)
+					|| (restraint.struggleProgress >= 1 - escapeChance))
+				&& !(restraint.lock == "Blue" && (StruggleType == "Pick"  || StruggleType == "Cut" ))) {
 				Pass = "Success";
 				if (StruggleType == "Pick" || StruggleType == "Unlock") {
 					if (StruggleType == "Unlock") {
@@ -335,6 +349,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 								//restraint.lock = "Jammed";
 								KinkyDungeonGreenKeys -= 1;
 								restraint.pickProgress = 0;
+								restraint.unlockProgress = 0;
 							}
 						}
 					} else {
@@ -344,6 +359,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 					KinkyDungeonRemoveRestraint(restraint.restraint.Group, StruggleType != "Cut");
 				}
 			} else {
+				// Failure block for the different failure types
 				if (StruggleType == "Cut") {
 					if (restraint.restraint.magic && KinkyDungeonEnchantedBlades == 0) Pass = "Fail";
 					if (Math.random() < KinkyDungeonKnifeBreakChance || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
@@ -369,6 +385,8 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 								KinkyDungeonEnchantedBlades -= 1;
 							}
 						}
+					} else {
+						restraint.cutProgress += escapeChance * (0.3 + 0.2 * Math.random() + 0.6 * Math.max(0, (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax));
 					}
 				} else if (StruggleType == "Pick") {
 					if (Math.random() < KinkyDungeonKeyGetPickBreakChance() || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
@@ -380,7 +398,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						KinkyDungeonLockpicks -= 1;
 					} else {
 						if (!restraint.pickProgress) restraint.pickProgress = 0;
-						restraint.pickProgress += escapeChance;
+						restraint.pickProgress += escapeChance * (0.9 + 0.2 * Math.random());
 					}
 				} else if (StruggleType == "Unlock") {
 					if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
@@ -389,9 +407,17 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						if (keytype == "Blue") KinkyDungeonBlueKeys -= 1;
 						else if (keytype == "Red") KinkyDungeonRedKeys -= 1;
 						else if (keytype == "Green") KinkyDungeonGreenKeys -= 1;
+					} else {
+						restraint.unlockProgress += escapeChance * (0.75 + 0.5 * Math.random());
 					}
+				} else if (StruggleType == "Remove") {
+					restraint.removeProgress += escapeChance * (0.55 + 0.2 * Math.random() + 0.35 * Math.max(0, (KinkyDungeonStatWillpower)/KinkyDungeonStatWillpowerMax)) - 0.7 * Math.max(0, Math.min(0.5, KinkyDungeonStatArousal/KinkyDungeonStatArousalMax));
+				} else if (StruggleType == "Struggle") {
+					restraint.struggleProgress += escapeChance * (0.2 + 0.2 * Math.random() + 0.7 * Math.max(0, (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax));
 				}
 			}
+			
+			// Aftermath
 			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggle" + StruggleType + Pass).replace("TargetRestraint", TextGet("Restraint" + restraint.restraint.name)), (Pass == "Success") ? "lightgreen" : "red", 2);
 
 			KinkyDungeonStatStamina += cost;
@@ -399,13 +425,32 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 			if (Pass != "Success") {
 				KinkyDungeonStatWillpower += KinkyDungeonStatWillpowerCostStruggleFail;
 
+				// Reduce the progress
+				if (StruggleType == "Struggle") {
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);
+				} else if (StruggleType == "Pick") {
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);;
+				} else if (StruggleType == "Unlock") {
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
+					restraint.removeProgress = Math.max(0, restraint.removeProgress * 0.5 - 0.1);
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);;
+				} if (StruggleType == "Remove") {
+					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.1);
+					restraint.struggleProgress = Math.max(0, restraint.struggleProgress * 0.5 - 0.1);
+					restraint.unlockProgress = Math.max(0, restraint.unlockProgress * 0.7 - 0.1);;
+				}
+
 				// reduces the tightness of the restraint slightly
 				if (StruggleType == "Struggle") {
 					var tightness_reduction = 1;
 
 					for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 						if (KinkyDungeonInventory[I].restraint) {
-							tightness_reduction *= 0.85; // Reduced tightness reduction for each restraint currently worn
+							tightness_reduction *= 0.8; // Reduced tightness reduction for each restraint currently worn
 						}
 					}
 
