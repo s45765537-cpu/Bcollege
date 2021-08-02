@@ -15,7 +15,7 @@ Loot and Rewards
 	Red locks are the most common in early levels, and can be only opened with red keys.
 	Green locks are less common, and have a chance of jamming, making them impossible to unlock.
 	Yellow locks require both a red and a green key to unlock.
-	Blue locks require blue keys, and can't be picked or cut off. 
+	Blue locks require blue keys, and can't be picked or cut off.
 Shrines
 - Added Shrines! These allow you to offer gold and will basically take restraints off in exchange.
 - Shrines for the goddesses of the elements, conjuration, and illusion who grant spells
@@ -36,7 +36,7 @@ New Enemies:
 - Chain witch who fights by throwing chains at you. She will attempt to close the gap, and will lock the chains in place if she gets near!
 - Slime witch that hurls slime balls and conjures pools of slime at you! She is a formidable opponent, be careful not to get trapped against her as she can create tremendous amounts of slime!
 Spells
-- Electrify spell which is a delayed blast that also briefly stuns 
+- Electrify spell which is a delayed blast that also briefly stuns
 - Chain bolt spell which stuns enemies
 - Slime ball spell which conjures a ball of slime that leaves a sticky trail. Use with caution!
 - Shield and Barrier, two Conjuration spells for blocking projectiles
@@ -65,17 +65,21 @@ Features
 - Inventory system with potions! Willpower potions keep you in the fight, stamina potions enhance your drive for combat, mana potions reduce the paralyzing effects of mana exposure, and bitter potions help suppress distractions
 - You can't use potions if your hands are covered or unavailable
 - (WIP TODO) The shop costs more as the game goes on
-- New floor: The catacombs, full of skeletons and rats and necromancers! 
+- New floor: The catacombs, full of skeletons and rats and necromancers!
  - Skeletons utilize a variety of ropes and chains
  - Necromancers can summon more skeletons
  - (WIP) Trapped floors and doors
  - (WIP) Bondage gates which require you to be wearing a certain type of restraint to pass
-- (WIP) Can put on certain types of restraints as part of self bondage 
+- (WIP) Can put on certain types of restraints as part of self bondage
 - (WIP) Dropping potions, items, etc, especially while naked
 
 1.52 (Aug 2021)
 Features
 - Some balance changes to struggling, too many to count. Should be less random now.
+
+1.53 (Aug 2021)
+Features
+- Adds streaming income in chatrooms. Each player watching now adds 1% income, similar to the devious dungeon challenge!
 
 TODO ValidationFindBlockCycles to prevent bugs
 

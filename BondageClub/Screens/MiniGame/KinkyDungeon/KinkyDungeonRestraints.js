@@ -30,7 +30,7 @@ var KinkyDungeonRestraints = [
 	{name: "DuctTapeMouth", Asset: "DuctTape", Color: "#AA2222", Group: "ItemMouth2", magic: false, power: -2, weight: 0, escapeChance: {"Struggle": 0.5, "Cut": 0.9, "Remove": 0.3}, enemyTags: {"ribbonRestraints":5}, playerTags: {"ItemMouth1Full":8}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
 	{name: "DuctTapeHeadMummy", Type: "Mummy", Asset: "DuctTape", Color: "#AA2222", Group: "ItemHead", magic: false, power: 2, weight: 0,  escapeChance: {"Struggle": 0.4, "Cut": 0.8, "Remove": 0.1},
 		enemyTags: {"ribbonRestraints":1}, playerTags: {"ItemMouth1Full":2, "ItemMouth2Full":1}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
-	{name: "DuctTapeArmsMummy", Type: "Complete", Asset: "DuctTape", Color: "#AA2222", Group: "ItemArms", magic: false, power: 2, weight: 0,  escapeChance: {"Struggle": 0.4, "Cut": 0.8, "Remove": 0.1},
+	{name: "DuctTapeArmsMummy", Type: "Complete", Asset: "DuctTape", Color: "#AA2222", Group: "ItemArms", removeClothGroup: ["Cloth", "ClothLower"], magic: false, power: 2, weight: 0,  escapeChance: {"Struggle": 0.4, "Cut": 0.8, "Remove": 0.1},
 		enemyTags: {"ribbonRestraints":1}, playerTags: {"ItemArmsFull":3}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
 	{name: "DuctTapeLegsMummy", Type: "CompleteLegs", Asset: "DuctTape", Color: "#AA2222", Group: "ItemLegs", magic: false, power: 2, weight: 0,  escapeChance: {"Struggle": 0.4, "Cut": 0.8, "Remove": 0.1},
 		enemyTags: {"ribbonRestraints":1}, playerTags: {"ItemLegsFull":3}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Charms"]},
@@ -545,12 +545,22 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 	if (restraint) {
 		if (!InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, restraint.Group) || Bypass) {
 			KinkyDungeonRemoveRestraint(restraint.Group);
+			if (restraint.removeClothGroup) {
+				for (let C = 0; C < restraint.removeClothGroup.length; C++) {
+					InventoryRemove(KinkyDungeonPlayer, restraint.removeClothGroup[C]);
+				}
+			}
 			InventoryWear(KinkyDungeonPlayer, restraint.Asset, restraint.Group, restraint.power);
 			let placed = InventoryGet(KinkyDungeonPlayer, restraint.Group);
 			let placedOnPlayer = false;
 			if (placed && ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable() && !KinkyDungeonRestraintsLocked.includes(restraint.Group) && restraint.Group != "ItemHead" && InventoryAllow(Player, placed.Asset.Prerequisite) &&
 				(!InventoryGetLock(InventoryGet(Player, restraint.Group))
 				|| (InventoryGetLock(InventoryGet(Player, restraint.Group)).Asset.OwnerOnly == false && InventoryGetLock(InventoryGet(Player, restraint.Group)).Asset.LoverOnly == false))) {
+				if (restraint.removeClothGroup) {
+					for (let C = 0; C < restraint.removeClothGroup.length; C++) {
+						InventoryRemove(Player, restraint.removeClothGroup[C]);
+					}
+				}
 				InventoryWear(Player, restraint.Asset, restraint.Group, restraint.power);
 				placedOnPlayer = true;
 			}
