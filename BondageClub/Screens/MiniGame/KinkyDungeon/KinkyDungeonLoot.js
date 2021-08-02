@@ -245,4 +245,9 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 function KinkyDungeonAddGold(value) {
 	KinkyDungeonGold += value;
 	if (ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable()) CharacterChangeMoney(Player, Math.round(value/10));
+	else if (KinkyDungeonStreamingPlayerTrimmed.length > 0) {
+		let percent = KinkyDungeonStreamingPlayerTrimmed.length / 100;
+
+		CharacterChangeMoney(Player, Math.ceil(value * percent));
+	}
 }

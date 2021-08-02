@@ -317,6 +317,11 @@ function KinkyDungeonDrawGame() {
 		KinkyDungeonDrawLore();
 	}
 
+	if ( KinkyDungeonStreamingPlayerTrimmed.length > 0) {
+
+		DrawText(TextGet("KinkyDungeonStreamCount").replace("PERCENTAGE", "" + KinkyDungeonStreamingPlayerTrimmed.length), 1850, 140, "white", "silver");
+	}
+
 	if (KinkyDungeonStatArousal > 0)
 		ChatRoomDrawArousalScreenFilter(0, 1000, 2000, KinkyDungeonStatArousal);
 

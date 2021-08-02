@@ -1,20 +1,22 @@
 "use strict";
 
+var KinkyDungeonStreamingPlayerTrimmed = [];
+
 /**
  * Sends a multiplayer update, trimming off stuff that doesnt need to get sent yet
  * @returns {void}
  */
 function KinkyDungeonMultiplayerUpdate(Delay) {
 	if (KinkyDungeonIsPlayer() && ChatRoomCharacter && ChatRoomCharacter.length > 1 && DialogGamingPreviousRoom == "ChatRoom" && KinkyDungeonNextDataSendTime + Delay < CommonTime()) {
-		let MN = [];
+		KinkyDungeonStreamingPlayerTrimmed = []; // This second list is for truncating to only members in the room
 
 		for (let C = 0; C < ChatRoomCharacter.length; C++) {
 			let Char = ChatRoomCharacter[C];
 
-			if (KinkyDungeonStreamingPlayers.includes(Char.MemberNumber) && Char.ID != 0 && Char.Effect.includes("VR")) MN.push(Char.MemberNumber);
+			if (KinkyDungeonStreamingPlayers.includes(Char.MemberNumber) && Char.ID != 0 && Char.Effect.includes("VR")) KinkyDungeonStreamingPlayerTrimmed.push(Char.MemberNumber);
 		}
 
-		if (MN.length > 0) {
+		if (KinkyDungeonStreamingPlayerTrimmed.length > 0) {
 			let data = KinkyDungeonPackData(KinkyDungeonGrid_Last != KinkyDungeonGrid, true, KinkyDungeonMultiplayerInventoryFlag, CommonTime() > KinkyDungeonNextDataSendStatsTime + KinkyDungeonNextDataSendStatsTimeDelay);
 			KinkyDungeonSendData(data);
 		}
