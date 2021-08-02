@@ -398,7 +398,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						KinkyDungeonLockpicks -= 1;
 					} else {
 						if (!restraint.pickProgress) restraint.pickProgress = 0;
-						restraint.pickProgress += escapeChance * (0.9 + 0.2 * Math.random());
+						restraint.pickProgress += escapeChance * (0.5 + 1.0 * Math.random());
 					}
 				} else if (StruggleType == "Unlock") {
 					if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
