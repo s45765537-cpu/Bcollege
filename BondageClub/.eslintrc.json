@@ -9,10 +9,7 @@
 	},
 	"root": true,
 	"ignorePatterns": [
-		"Scripts/lib/*",
-		"Screens/MiniGame/Chess/chess.min.js",
-		"Screens/MiniGame/Chess/chessboard-0.3.0.js",
-		"Screens/MiniGame/Chess/jquery-3.2.1.min.js"
+		"Scripts/lib/**/*.js"
 	],
 	"rules": {
 		"dot-notation": "error",
