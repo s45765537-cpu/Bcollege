@@ -100,7 +100,7 @@ function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 		//if (DialogFocusItem.Property.DeviceStateTimer >= CommonTime() + 3600000) DialogFocusItem.Property.DeviceStateTimer = 0; // Prevents people from hacking in ultra-long state timers
 
 
-		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "25");
+		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "70");
 		if (input) input.placeholder = DialogFocusItem.Property.PunishRequiredSpeechWord;
 		const input2 = ElementCreateInput("PunishProhibitedSpeechWords", "text", "", "70");
 		if (input2) input2.placeholder = DialogFocusItem.Property.PunishProhibitedSpeechWords;
@@ -276,7 +276,7 @@ function InventoryItemPelvisFuturisticTrainingBeltExit() {
 		FuturisticTrainingBeltPage = 0; // Reset for future
 
 		if (ElementValue("PunishRequiredSpeechWord") && ElementValue("PunishRequiredSpeechWord").length > 1) {
-			DialogFocusItem.Property.PunishRequiredSpeechWord = ElementValue("PunishRequiredSpeechWord").replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ");
+			DialogFocusItem.Property.PunishRequiredSpeechWord = ElementValue("PunishRequiredSpeechWord").replace(/[^a-z0-9,]/gmi, " ").replace(/\s+/g, " ");
 		}
 
 		if (ElementValue("PunishProhibitedSpeechWords") && ElementValue("PunishProhibitedSpeechWords").length > 1) {
@@ -414,9 +414,14 @@ function InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime) {
 
 			if (Item.Property.PunishRequiredSpeech > 0 && Item.Property.PunishRequiredSpeechWord && msg.length > 0) {
 				let gagLevel = SpeechGetTotalGagLevel(Player)
+				let words =  Item.Property.PunishRequiredSpeechWord.split(",");
 				if (gagLevel < 8) {
-					let checkWord = Item.Property.PunishRequiredSpeechWord.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ").toUpperCase();
-					if (!msg.includes(checkWord)) return "RequiredSpeech";
+					let pass = false;
+					for (let W = 0; W <  words.length; W++) {
+						let checkWord = words[W].replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " ").toUpperCase();
+						if (msg.match(`\\b${checkWord}\\b`)) {pass = true; break;}
+					}
+					if (!pass) return "RequiredSpeech";
 				}
 			}
 
@@ -498,7 +503,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, LastTime
 					InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, PersistentData, Item);
 				}
 
-				AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "RequiredSpeech", Item.Property.PunishRequiredSpeechWord.replace(/[^a-z0-9]/gmi, " ").replace(/\s+/g, " "), NoShock);
+				AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "RequiredSpeech", Item.Property.PunishRequiredSpeechWord.replace(/[^a-z0-9,]/gmi, " ").replace(/\s+/g, " ").replace(",", "/"), NoShock);
 			// @ts-ignore
 			} else if (punishment && punishment.name == "ProhibitedSpeech" && punishment.word)  {
 				let NoShock = true;
