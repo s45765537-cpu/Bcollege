@@ -27,10 +27,12 @@ var DialogItemPermissionMode = false;
 var DialogExtendedMessage = "";
 var DialogActivityMode = false;
 var DialogActivity = [];
-/** @enum {number} */
+/** @type {Record<"Enabled" | "Equipped" | "BothFavoriteUsable" | "TargetFavoriteUsable" | "PlayerFavoriteUsable" | "Usable" | "TargetFavoriteUnusable" | "PlayerFavoriteUnusable" | "Unusable" | "Blocked", DialogSortOrder>} */
 var DialogSortOrder = {
-	Enabled: 1, Equipped: 2, FavoriteUsable: 3,
-	Usable: 4, FavoriteUnusable: 5, Unusable: 6, Blocked: 7
+	Enabled: 1, Equipped: 2, BothFavoriteUsable: 3,
+	TargetFavoriteUsable: 4, PlayerFavoriteUsable: 5, Usable: 6,
+	TargetFavoriteUnusable: 7, PlayerFavoriteUnusable: 8, Unusable: 9,
+	Blocked: 10
 };
 var DialogSelfMenuSelected = null;
 var DialogLeaveDueToItem = false; // This allows dynamic items to call DialogLeave() without crashing the game
@@ -41,6 +43,37 @@ var DialogGamingPreviousModule = "";
 
 /** @type {Map<string, string>} */
 var PlayerDialog = new Map();
+
+var DialogFavoriteStateDetails = [
+	{
+		TargetFavorite: true,
+		PlayerFavorite: true,
+		Icon: "FavoriteBoth",
+		UsableOrder: DialogSortOrder.BothFavoriteUsable,
+		UnusableOrder: DialogSortOrder.TargetFavoriteUnusable
+	},
+	{
+		TargetFavorite: true,
+		PlayerFavorite: false,
+		Icon: "Favorite",
+		UsableOrder: DialogSortOrder.TargetFavoriteUsable,
+		UnusableOrder: DialogSortOrder.TargetFavoriteUnusable
+	},
+	{
+		TargetFavorite: false,
+		PlayerFavorite: true,
+		Icon: "FavoritePlayer",
+		UsableOrder: DialogSortOrder.PlayerFavoriteUsable,
+		UnusableOrder: DialogSortOrder.PlayerFavoriteUnusable
+	},
+	{
+		TargetFavorite: false,
+		PlayerFavorite: false,
+		Icon: null,
+		UsableOrder: DialogSortOrder.Usable,
+		UnusableOrder: DialogSortOrder.Unusable
+	},
+];
 
 /**
  * The list of menu types available when clicking on yourself
@@ -107,7 +140,7 @@ function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, Amount); }
 /**
  * Alters the current player's reputation by a given amount
  * @param {string} RepType - The name of the reputation to change
- * @param {string} Value - The value, the player's reputation should be altered by
+ * @param {number|string} Value - The value, the player's reputation should be altered by
  * @returns {void} - Nothing
  */
 function DialogSetReputation(RepType, Value) { ReputationChange(RepType, (parseInt(ReputationGet(RepType)) * -1) + parseInt(Value)); } // Sets a fixed number for the player specific reputation
@@ -617,7 +650,7 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
  */
 function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 	const asset = item.Asset;
-	const isFavorite = InventoryIsFavorite(C, asset.Name, asset.Group.Name, null);
+	const favoriteStateDetails = DialogGetFavoriteStateDetails(C, asset);
 
 	// Determine the sorting order for the item
 	if (!DialogItemPermissionMode) {
@@ -629,9 +662,9 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 				sortOrder = asset.DialogSortOverride;
 			} else {
 				if (InventoryAllow(C, asset.Prerequisite, false) && InventoryChatRoomAllow(asset.Category)) {
-					sortOrder = isFavorite ? DialogSortOrder.FavoriteUsable : DialogSortOrder.Usable;
+					sortOrder = favoriteStateDetails.UsableOrder;
 				} else {
-					sortOrder = isFavorite ? DialogSortOrder.FavoriteUnusable : DialogSortOrder.Unusable;
+					sortOrder = favoriteStateDetails.UnusableOrder;
 				}
 			}
 		}
@@ -639,11 +672,9 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 
 	// Determine the icons to display in the preview image
 	let icons = [];
-	if (isFavorite) icons.push("Favorite");
+	if (favoriteStateDetails.Icon) icons.push(favoriteStateDetails.Icon);
 	if (InventoryItemHasEffect(item, "Lock", true)) icons.push(isWorn ? "Locked" : "Unlocked");
-	icons = icons.concat(asset.PreviewIcons);
-	if (asset.OwnerOnly) icons.push("OwnerOnly");
-	if (asset.LoverOnly) icons.push("LoverOnly");
+	icons = icons.concat(DialogGetAssetIcons(asset));
 
 	/** @type {DialogInventoryItem} */
 	const inventoryItem = {
@@ -655,6 +686,32 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 		Vibrating: isWorn && InventoryItemHasEffect(item, "Vibrating", true)
 	};
 	return inventoryItem;
+}
+
+/**
+ * Returns settings for an item based on whether the player and target have favorited it, if any
+ * @param {Character} C - The targeted character
+ * @param {Asset} asset - The asset to check favorite settings for
+ * @returns {any} - The details to use for the asset
+ */
+function DialogGetFavoriteStateDetails(C, asset) {
+	const isTargetFavorite = InventoryIsFavorite(C, asset.Name, asset.Group.Name, null);
+	const isPlayerFavorite = C.ID !== 0 && InventoryIsFavorite(Player, asset.Name, asset.Group.Name, null);
+	const details = DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite);
+	return details;
+}
+
+/**
+ * Returns a list of icons associated with the asset
+ * @param {Asset} asset - The asset to get icons for
+ * @returns {string[]} - A list of icon names
+ */
+function DialogGetAssetIcons(asset) {
+	let icons = [];
+	icons = icons.concat(asset.PreviewIcons);
+	if (asset.OwnerOnly) icons.push("OwnerOnly");
+	if (asset.LoverOnly) icons.push("LoverOnly");
+	return icons;
 }
 
 /**
@@ -1057,8 +1114,7 @@ function DialogMenuButtonClick() {
 						DialogItemToLock = Item;
 						for (let A = 0; A < Player.Inventory.length; A++)
 							if ((Player.Inventory[A].Asset != null) && Player.Inventory[A].Asset.IsLock) {
-								let isFavorite = InventoryIsFavorite(C, Player.Inventory[A].Name, Player.Inventory[A].Group.Name, null);
-								DialogInventoryAdd(C, Player.Inventory[A], false, isFavorite ? DialogSortOrder.FavoriteUsable: DialogSortOrder.Usable);
+								DialogInventoryAdd(C, Player.Inventory[A], false);
 							}
 						DialogInventorySort();
 						DialogMenuButtonBuild(C);
@@ -1198,7 +1254,7 @@ function DialogPublishAction(C, ClickItem) {
 		var TargetItem = (InventoryGet(C, C.FocusGroup.Name));
 		if (InventoryItemHasEffect(ClickItem, "TriggerShock") && InventoryItemHasEffect(TargetItem, "ReceiveShock")) {
 			if (TargetItem.Property && typeof TargetItem.Property.TriggerCount == "number")
-				TargetItem.Property.TriggerCount++
+				TargetItem.Property.TriggerCount++;
 			if (CurrentScreen == "ChatRoom") {
 				let intensity = TargetItem.Property ? TargetItem.Property.Intensity : 0;
 				InventoryExpressionTrigger(C, ClickItem);
@@ -1888,17 +1944,17 @@ function DialogDraw() {
 				DrawTextWrap(SpeechGarble(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 840, 165, "white", null, 3);
 				DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 			} else DrawTextWrap(SpeechGarble(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 950, 165, "white", null, 3);
-			
-		// Draws the possible answers
-		var pos = 0;
-		for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
-			if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-				DrawTextWrap(SpeechGarble(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + pos * 105) && (MouseY <= 250 + pos * 105) && !CommonIsMobile) ? "cyan" : "white", 2);
-				pos++;
-			}
 
-		// The more time you spend with an NPC, the more the love will rise
-		NPCInteraction();
+			// Draws the possible answers
+			var pos = 0;
+			for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
+				if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
+					DrawTextWrap(SpeechGarble(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + pos * 105) && (MouseY <= 250 + pos * 105) && !CommonIsMobile) ? "cyan" : "white", 2);
+					pos++;
+				}
+
+			// The more time you spend with an NPC, the more the love will rise
+			NPCInteraction();
 
 		}
 	}

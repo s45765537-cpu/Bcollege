@@ -54,6 +54,9 @@ Cloth,LeatherBolero,Leather Bolero
 Cloth,Bodice1,Bodice
 Cloth,SummerDress,Summer Dress
 Cloth,Blouse1,Blouse
+Cloth,LatexTop,Laced Latex Top
+Cloth,LatexLacedSuit,Latex Laced Suit
+Cloth,FurCoat,Fur Coat
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -65,6 +68,7 @@ ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,LeatherStraps,Leather Straps
+ClothAccessory,FurBolero,Fur Bolero
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -216,6 +220,7 @@ Panties,LatexPanties2,Latex Panties
 Panties,PilotPanties,Pilot Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
+Panties,FloralPanties2,Floral Panties 2
 Socks,,Socks
 Socks,Socks0,Ankle
 Socks,Socks1,Short
@@ -344,6 +349,7 @@ HairAccessory1,MouseEars2,Mouse Ears 2
 HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,CowHorns,Cow Horns
 HairAccessory1,Halo,Halo
+HairAccessory1,Antennae,Antennae
 HairAccessory2,,Ears
 HairAccessory2,Ears1,Ears Small
 HairAccessory2,Ears2,Ears Large
@@ -369,6 +375,7 @@ HairAccessory2,MouseEars1,Mouse Ears 1
 HairAccessory2,MouseEars2,Mouse Ears 2
 HairAccessory2,ElfEars,Elf Ears
 HairAccessory2,CowHorns,Cow Horns
+HairAccessory2,Antennae,Antennae
 Gloves,,Gloves
 Gloves,Gloves1,Short Gloves
 Gloves,Gloves2,Long Gloves
@@ -384,6 +391,8 @@ Bracelet,,Bracelet
 Bracelet,BowBand,Bow Band
 Bracelet,KinkBracelet, Kinky Band
 Bracelet,LesBand,5 Color Band
+Bracelet,SpikeBands,Spiked Wristbands
+Bracelet,Band1,Band 1
 Glasses,,Glasses
 Glasses,Glasses1,Style 1
 Glasses,Glasses2,Style 2
@@ -395,6 +404,7 @@ Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
 Glasses,EyePatch1,Eye Patch
+Glasses,CatGlasses,Cat-Eye Glasses
 Mask,,Mask
 Mask,VenetianMask,Venetian Mask
 Mask,DominoMask,Domino Mask
@@ -435,6 +445,7 @@ TailStraps,MouseTailStrap1,Mouse Tail Strap 1
 TailStraps,MouseTailStrap2,Mouse Tail Strap 2
 TailStraps,CowtailStrap,Cow Tail Strap
 TailStraps,BunnyTailStrap,Bunny Tail Strap
+TailStraps,DragonTailStrap1,Dragon Tail Strap
 Wings,,Wings
 Wings,SuccubusFeather,Succubus Feather 
 Wings,SuccubusWings,Succubus Wings
@@ -549,6 +560,7 @@ HairBack,HairBack48,Style 43
 HairBack,HairBack49,Style 44
 HairBack,HairBack50,Style 45
 HairBack,HairBack51,Style 46
+HairBack,HairBack52,Style 47
 Eyes,,Left eye
 Eyes,Eyes1,Style 1
 Eyes,Eyes2,Style 2
@@ -787,6 +799,7 @@ ItemNipples,BellClamps,Nipple Bell Clamps
 ItemNipples,LactationPump,Lactation Pump
 ItemNipples,ShockClamps,Shock Clamps
 ItemNipples,PlateClamps, Plate Clamps
+ItemNipples,StretchClovers,Nipple Stretchers
 ItemNipplesPiercings,,Nipples
 ItemNipplesPiercings,StraightPiercing,Straight Piercings
 ItemNipplesPiercings,RoundPiercing,Round Piercings
@@ -1298,14 +1311,7 @@ ItemDevices,Pole,Pole
 ItemDevices,Cushion,Cushion
 ItemDevices,WetFloor,Wet Floor Sign
 ItemDevices,VacBedDeluxe,Vacuum Bed Deluxe
-ItemHoodAddon,,Hood
-ItemHoodAddon,OldGasMaskLenses,Blinding Lenses
-ItemHoodAddon,OldGasMaskTube1,Gas Mask Tube
-ItemHoodAddon,OldGasMaskTube2,Gas Mask Tube
-ItemHoodAddon,OldGasMaskRebreather,Rebreather
-ItemHoodAddon,OldGasMaskLensesTube1,Gas Mask Tube & Lenses
-ItemHoodAddon,OldGasMaskLensesTube2,Gas Mask Tube & Lenses
-ItemHoodAddon,OldGasMaskLensesRebreather,Rebreather & Lenses
+ItemDevices,FuckMachine,Fuck Machine
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes
@@ -1332,3 +1338,4 @@ ItemBoots,LockingBoots1,Locking Boots
 ItemBoots,LeatherFootMitts1,Short Leather Foot Mittens
 ItemBoots,ToeTape,Toe Tape
 ItemBoots,Zipties,Zip Ties
+ItemBoots,HighThighBoots,High Thigh Boots

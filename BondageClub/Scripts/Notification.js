@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 /**
  * An enum for the events in the game that notifications can be raised for
@@ -15,7 +15,7 @@ const NotificationEventType = {
 
 /**
  * An enum for the types of notifications that can be raised
- * @enum {number}
+ * @type {Record<"NONE"|"TITLEPREFIX"|"FAVICON"|"POPUP",NotificationAlertType>}
  */
 const NotificationAlertType = {
 	NONE: 0,
@@ -26,7 +26,7 @@ const NotificationAlertType = {
 
 /**
  * An enum for the audio settings for notifications
- * @enum {number}
+ * @type {Record<"NONE"|"FIRST"|"REPEAT", NotificationAlertType>}
  */
 const NotificationAudioType = {
 	NONE: 0,
@@ -311,5 +311,5 @@ function NotificationDrawFavicon(resetingAll) {
 		// Convert the image into a Data URL
 		iconUrl = IconCanvas.canvas.toDataURL("image/x-icon");
 	}
-	document.getElementById('favicon').href = iconUrl;
+	/** @type {HTMLLinkElement} */ (document.getElementById('favicon')).href = iconUrl;
 }

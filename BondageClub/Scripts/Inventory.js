@@ -73,7 +73,7 @@ function InventoryAddMany(C, NewItems, Push) {
  * @param {Character} C - The character to create the item for
  * @param {string} Group - The name of the asset group the item belongs to
  * @param {string} Name - The name of the asset for the item
- * @return {Item} A new item for character using the specified asset name, or null if the specified asset could not be
+ * @return {InventoryItem | null} A new item for character using the specified asset name, or null if the specified asset could not be
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
@@ -183,6 +183,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "CuffedArms": return  !C.Effect.includes("CuffedArms") ? "MustBeArmCuffedFirst" : "";
 		case "CuffedFeet": return !C.Effect.includes("CuffedFeet") ? "MustBeFeetCuffedFirst" : "";
 		case "NoOuterClothes": return InventoryHasItemInAnyGroup(C, ["Cloth", "ClothLower"]) ? "RemoveClothesForItem" : "";
+		case "NoClothLower": return InventoryHasItemInAnyGroup(C, ["ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoMaidTray": return InventoryIsItemInList(C, "ItemMisc", ["WoodenMaidTray", "WoodenMaidTrayFull"]) ? "CannotBeUsedWhileServingDrinks" : "";
 		case "CanBeCeilingTethered": return InventoryHasItemInAnyGroup(C, ["ItemArms", "ItemTorso", "ItemPelvis"]) ? "" : "AddItemsToUse";
 
@@ -201,7 +202,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			? "RemoveClothesForItem" : "";
 
 		// Ensure crotch is empty
-		case "VulvaEmpty": return ((InventoryGet(C, "ItemVulva") != null)) ? "MustFreeVulvaFirst" : "";
+		case "VulvaEmpty": return ((InventoryGet(C, "ItemVulva") != null) || C.Effect.includes("FillVulva")) ? "MustFreeVulvaFirst" : "";
 		case "ClitEmpty": return ((InventoryGet(C, "ItemVulvaPiercings") != null)) ? "MustFreeClitFirst" : "";
 		case "ButtEmpty": return ((InventoryGet(C, "ItemButt") != null)) ? "MustFreeButtFirst" : "";
 
@@ -359,7 +360,7 @@ function InventoryAllow(C, Prerequisite, SetDialog) {
 * Gets the current item / cloth worn a specific area (AssetGroup)
 * @param {Character} C - The character on which we must check the appearance
 * @param {String} AssetGroup - The name of the asset group to scan
-* @returns {Item} - Returns the appearance which is the item / cloth asset, color and properties
+* @returns {Item|null} - Returns the appearance which is the item / cloth asset, color and properties
 */
 function InventoryGet(C, AssetGroup) {
 	for (let A = 0; A < C.Appearance.length; A++)
@@ -373,7 +374,7 @@ function InventoryGet(C, AssetGroup) {
 * @param {Character} C - The character that must wear the item
 * @param {string} AssetName - The name of the asset to wear
 * @param {string} AssetGroup - The name of the asset group to wear
-* @param {string} [ItemColor] - The hex color of the item, can be undefined or "Default"
+* @param {string | string[]} [ItemColor] - The hex color of the item, can be undefined or "Default"
 * @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
 * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
 */

@@ -14,6 +14,7 @@ var CurrentCharacter = null;
 var CurrentOnlinePlayers = 0;
 var CurrentDarkFactor = 1.0;
 var CommonIsMobile = false;
+/** @type {Record<string, string[][]>} */
 var CommonCSVCache = {};
 var CutsceneStage = 0;
 
@@ -33,7 +34,7 @@ var CommonVersionUpdated = false;
  * Additionally, sending the following tags will ensure that asset names in messages are correctly translated by
  * recipients:
  * ASSET_NAME: (substituted with the localized name of the asset, if available)
- * @enum {string}
+ * @type {Record<"SOURCE_CHAR"|"DEST_CHAR"|"DEST_CHAR_NAME"|"TARGET_CHAR"|"TARGET_CHAR_NAME"|"ASSET_NAME", CommonChatTags>}
  */
 const CommonChatTags = {
 	SOURCE_CHAR: "SourceCharacter",
@@ -748,7 +749,7 @@ function CommonUnpackItemArray(arr) {
  * Compares two version numbers and returns -1/0/1 if Other number is smaller/same/larger than Current one
  * @param {string} Current Current version number
  * @param {string} Other Other version number
- * @returns {-1|0|1} Comparsion result
+ * @returns {-1|0|1} Comparison result
  */
 function CommonCompareVersion(Current, Other) {
 	const CurrentMatch = GameVersionFormat.exec(Current);

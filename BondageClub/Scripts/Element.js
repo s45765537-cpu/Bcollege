@@ -51,7 +51,7 @@ function ElementCreateTextArea(ID) {
  * @param {string} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
- * @param {string} MaxLength - Maximum input tag of the input to create.
+ * @param {string} [MaxLength] - Maximum input tag of the input to create.
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateInput(ID, Type, Value, MaxLength) {
@@ -171,7 +171,7 @@ function ElementCreateDropdown(ID, Options, ClickEventListener) {
 			Select.appendChild(Option);
 			DivOptions.appendChild(InnerDiv);
 		}
-		// Cretae the div for the selected item
+		// Create the div for the selected item
 		var SelectedItem = document.createElement("DIV");
 		SelectedItem.setAttribute("class", "select-selected");
 		SelectedItem.innerHTML = Select.options[0].innerHTML;

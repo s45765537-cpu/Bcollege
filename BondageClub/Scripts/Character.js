@@ -329,7 +329,7 @@ function CharacterRandomName(C) {
 /**
  * Builds the dialog objects from the character CSV file
  * @param {Character} C - Character for which to build the dialog
- * @param {string} CSV - Content of the CSV file
+ * @param {string[][]} CSV - Content of the CSV file
  * @returns {void} - Nothing
  */
 function CharacterBuildDialog(C, CSV) {
@@ -975,7 +975,7 @@ function CharacterRefreshDialog(C) {
 			DialogInventory = [];
 			for (let A = 0; A < Player.Inventory.length; A++)
 				if ((Player.Inventory[A].Asset != null) && Player.Inventory[A].Asset.IsLock)
-					DialogInventoryAdd(C, Player.Inventory[A], false, DialogSortOrder.Usable);
+					DialogInventoryAdd(C, Player.Inventory[A], false);
 			DialogInventorySort();
 			DialogMenuButtonBuild(C);
 		} else {

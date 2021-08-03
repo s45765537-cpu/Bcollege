@@ -5,10 +5,10 @@ var LoginCredits = null;
 var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
-var LoginThankYouList = ["Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "bryce", "Christian", "DarkStar", "Dini", "ElCriminal", 
- 						 "Epona", "Escurse", "FanRunner", "Greendragon", "JoeyDubDee", "John", "KamiKaze", "Kimuriel", "Longwave", "Michal", 
-						 "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Mzklopyu", "Nick", "Nightcore", "Rashiash", "Ray", 
-						 "Rika", "Rutherford", "Ryner", "Samuel", "SeraDenoir", "Shadow", "Somononon", "Stephanie", "Tam", "TKSonix", 
+var LoginThankYouList = ["Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "bryce", "Christian", "DarkStar", "Dini", "ElCriminal",
+ 						 "Epona", "Escurse", "FanRunner", "Greendragon", "JoeyDubDee", "John", "KamiKaze", "Kimuriel", "Longwave", "Michal",
+						 "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Mzklopyu", "Nick", "Nightcore", "Rashiash", "Ray",
+						 "Rika", "Rutherford", "Ryner", "Samuel", "SeraDenoir", "Shadow", "Somononon", "Stephanie", "Tam", "TKSonix",
 						 "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"];
 /* eslint-enable */
 var LoginThankYouNext = 0;
@@ -110,6 +110,7 @@ function LoginLoad() {
 	OnlneGameDictionaryLoad();
 	ElementCreateInput("InputName", "text", "", "20");
 	ElementCreateInput("InputPassword", "password", "", "20");
+	TextPrefetch("Room", "Mainhall");
 
 }
 
@@ -235,6 +236,8 @@ function LoginMaidItems() {
 		InventoryAdd(Player, "MaidOutfit2", "Cloth", false);
 		InventoryAdd(Player, "MaidHairband1", "Cloth", false);
 		InventoryAdd(Player, "MaidApron1", "Cloth", false);
+		InventoryAdd(Player, "MaidApron2", "Cloth", false);
+		InventoryAdd(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryAdd(Player, "MaidHairband1", "Hat", false);
 		InventoryAdd(Player, "ServingTray", "ItemMisc", false);
 	} else {
@@ -242,6 +245,8 @@ function LoginMaidItems() {
 		InventoryDelete(Player, "MaidOutfit2", "Cloth", false);
 		InventoryDelete(Player, "MaidHairband1", "Cloth", false);
 		InventoryDelete(Player, "MaidApron1", "Cloth", false);
+		InventoryDelete(Player, "MaidApron2", "Cloth", false);
+		InventoryDelete(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryDelete(Player, "MaidHairband1", "Hat", false);
 		InventoryDelete(Player, "ServingTray", "ItemMisc", false);
 	}
@@ -484,6 +489,7 @@ function LoginResponse(C) {
 			Player.LabelColor = C.LabelColor;
 			Player.ItemPermission = C.ItemPermission;
 			Player.KinkyDungeonKeybindings = C.KinkyDungeonKeybindings;
+			Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 			Player.ArousalSettings = C.ArousalSettings;
 			Player.ChatSettings = C.ChatSettings;
 			Player.VisualSettings = C.VisualSettings;
@@ -657,11 +663,7 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 740, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
-		CharacterAppearanceSetDefault(Player);
-		InventoryRemove(Player, "ItemFeet");
-		InventoryRemove(Player, "ItemLegs");
-		InventoryRemove(Player, "ItemArms");
-		CharacterAppearanceLoadCharacter(Player);
+		CommonSetScreen("Character", "Disclaimer");
 	}
 
 	// Try to login
