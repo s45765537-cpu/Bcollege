@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-07-16
-* Last recorded PR: [#2819](https://github.com/Ben987/Bondage-College/pull/2819)
-* Last recorded commit hash: `c1e4fc391dd9f1dbed9d1b94f70124da33eb11ed`
+* Changelog last updated: 2021-08-09
+* Last recorded PR: [#2835](https://github.com/Ben987/Bondage-College/pull/2835)
+* Last recorded commit hash: `a7070211cfe3ee2c5e6ea7d586e7d5104e906781`
 
 ## [R71]
 
@@ -21,7 +21,6 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 * Ace/Dordimar - Added multi-coloring support to the Witch Hat ([#2756](https://github.com/Ben987/Bondage-College/pull/2756))
 * Emily R - Added a "No shine" variant of Swimsuit style 1 ([#2760](https://github.com/Ben987/Bondage-College/pull/2760))
-* Emily R - Added a new handheld Key item ([#2760](https://github.com/Ben987/Bondage-College/pull/2760))
 * Emily R - Added new Lingerie Shop and Red Sci-Fi Room backgrounds ([#2760](https://github.com/Ben987/Bondage-College/pull/2760))
 * Ada - Added new graphics preferences for arousal screen filters ([#2767](https://github.com/Ben987/Bondage-College/pull/2767))
 * gatetrek - Added 4 new items ([#2782](https://github.com/Ben987/Bondage-College/pull/2782), [#2786](https://github.com/Ben987/Bondage-College/pull/2786))
@@ -34,17 +33,22 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ace - Added support for different tag shapes to the Custom Collar Tag ([#2787](https://github.com/Ben987/Bondage-College/pull/2787))
 * Ace - Added support for the hogtied pose to neck restraints (leashes, chains, etc.) ([#2790](https://github.com/Ben987/Bondage-College/pull/2790))
 * Nina - Improved the favorite icons (and item ordering) to indicate whether the player or target (or both) have favorited an item ([#2794](https://github.com/Ben987/Bondage-College/pull/2794))
-* Emily R - Added 4 new items ([#2783](https://github.com/Ben987/Bondage-College/pull/2783))
+* Emily R - Added 6 new items ([#2783](https://github.com/Ben987/Bondage-College/pull/2783), [#2760](https://github.com/Ben987/Bondage-College/pull/2760), [#2833](https://github.com/Ben987/Bondage-College/pull/2833))
+  * handheld Key item (hands)
   * Spiked Wristbands (bracelet)
   * Antennae (hair accessory)
   * Cat-Eye Glasses
   * Back hair Style 47
+  * Lace Armbands (bracelet)
 * RedStacey - Added 2 new items ([#2800](https://github.com/Ben987/Bondage-College/pull/2800))
   * Fur Coat
   * Fur Bolero
 * Ace/Rui - Added a new animated Fuck Machine item ([#2785](https://github.com/Ben987/Bondage-College/pull/2785))
 * Ayesha - Added a new Dragon Tail Strap item ([#2802](https://github.com/Ben987/Bondage-College/pull/2802))
-* Ada - Kinky Dungeon update - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#2809](https://github.com/Ben987/Bondage-College/pull/2809), [#2816](https://github.com/Ben987/Bondage-College/pull/2816))
+* Ada - Kinky Dungeon update - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#2809](https://github.com/Ben987/Bondage-College/pull/2809), [#2816](https://github.com/Ben987/Bondage-College/pull/2816), [#2822](https://github.com/Ben987/Bondage-College/pull/2822), [#2824](https://github.com/Ben987/Bondage-College/pull/2824), [#2829](https://github.com/Ben987/Bondage-College/pull/2829))
+* Natsuki - Added 2 new latex collar items ([#2831](https://github.com/Ben987/Bondage-College/pull/2831))
+* Ada - Added new word-banning functions to the Futuristic Training Belt ([#2834](https://github.com/Ben987/Bondage-College/pull/2834))
+* Emily R - Added multicolor support to the Student Black dress ([#2835](https://github.com/Ben987/Bondage-College/pull/2835))
 
 ### [Removed]
 
@@ -82,14 +86,16 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ace - Fixed some missing color picker layer names, and added French translations for layer names ([#2803](https://github.com/Ben987/Bondage-College/pull/2803))
 * Natsuki - Fixed a missing asset for the Plastic Wrap when kneeling ([#2811](https://github.com/Ben987/Bondage-College/pull/2811), [#2814](https://github.com/Ben987/Bondage-College/pull/2814))
 * Ace - Fixed an issue where some maid items would never get removed from the player's inventory when they should ([#2813](https://github.com/Ben987/Bondage-College/pull/2813))
+* Kimei - Fixed some 404 errors with the Vacbed Deluxe when locked ([#2830](https://github.com/Ben987/Bondage-College/pull/2830))
 
 ### [Technical]
 
 * Jomshir - Changed the asset check (used for Github PR checks) to use TypeScript for improved type checking ([#2776](https://github.com/Ben987/Bondage-College/pull/2776))
 * Technical changes, fixes and improvements:
-  * Jomshir - [#2775](https://github.com/Ben987/Bondage-College/pull/2775)
-  * Ace - [#2763](https://github.com/Ben987/Bondage-College/pull/2763), [#2773](https://github.com/Ben987/Bondage-College/pull/2773), [#2762](https://github.com/Ben987/Bondage-College/pull/2762), [#2791](https://github.com/Ben987/Bondage-College/pull/2791), [#2779](https://github.com/Ben987/Bondage-College/pull/2779), [#2801](https://github.com/Ben987/Bondage-College/pull/2801)
-  * Sekkmer - [#2807](https://github.com/Ben987/Bondage-College/pull/2807), [#2819](https://github.com/Ben987/Bondage-College/pull/2819)
+  * Jomshir - [#2775](https://github.com/Ben987/Bondage-College/pull/2775), [#2821](https://github.com/Ben987/Bondage-College/pull/2821), [#2826](https://github.com/Ben987/Bondage-College/pull/2826), [#2827](https://github.com/Ben987/Bondage-College/pull/2827)
+  * Ace - [#2763](https://github.com/Ben987/Bondage-College/pull/2763), [#2773](https://github.com/Ben987/Bondage-College/pull/2773), [#2762](https://github.com/Ben987/Bondage-College/pull/2762), [#2791](https://github.com/Ben987/Bondage-College/pull/2791), [#2779](https://github.com/Ben987/Bondage-College/pull/2779), [#2801](https://github.com/Ben987/Bondage-College/pull/2801), [#2825](https://github.com/Ben987/Bondage-College/pull/2825)
+  * Sekkmer - [#2807](https://github.com/Ben987/Bondage-College/pull/2807), [#2819](https://github.com/Ben987/Bondage-College/pull/2819), [#2823](https://github.com/Ben987/Bondage-College/pull/2823)
+  * Natsuki - [#2832](https://github.com/Ben987/Bondage-College/pull/2832)
 
 ### [Beta Fixes]
 
