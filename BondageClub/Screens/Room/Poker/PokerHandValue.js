@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable */
 
 // Sort the current hand from highest to lowest
 function PokerHandValueSortHand(Hand) {
@@ -260,7 +261,8 @@ function PokerHandValueThreeOfAKind(Hand) {
 
 			// Fetch the highest card
 			let High = 0;
-			for (X = 0; X < 7; X++)
+			let Pos = 0;
+			for (let X = 0; X < 7; X++)
 				if ((Used[X] == false) && (((Hand[X] - 1) % 13) + 2 > High)) {
 					High = ((Hand[X] - 1) % 13) + 2;
 					Pos = X;
@@ -293,8 +295,10 @@ function PokerHandValueTwoPairs(Hand) {
 					LowPair = HighPair;
 					HighPair = ((Hand[X] - 1) % 13) + 2;
 				}
-				else
-					LowPair = ((Hand[X] - 1) % 13) + 2;
+				else {
+					if (((Hand[X] - 1) % 13) + 2 > LowPair)
+						LowPair = ((Hand[X] - 1) % 13) + 2;
+				}
 
 				Used[X] = true;
 				Used[Y] = true;
@@ -391,11 +395,11 @@ function PokerHandValueHighestCards(Hand) {
 }
 
 // Return a decimal to express the hand value
-function PokerHandValueCalcHandValue(C1, C2, GameType, CurrentMode, Cards) {
+function PokerHandValueCalcHandValue(C1, C2, GameType, CurrentMode, TableCards) {
 	let Value = 0;
 	
 	// In a two cards game, the value is the card * 10000 for a pair or the highest card * 100 + lowest card
-	if (GameType == "TWOCARD") {
+	if (GameType == "TwoCards") {
 		C1 = ((C1 - 1) % 13) + 2;
 		C2 = ((C2 - 1) % 13) + 2;
 		if (C1 == C2) Value = C1 * 10000;
@@ -404,17 +408,17 @@ function PokerHandValueCalcHandValue(C1, C2, GameType, CurrentMode, Cards) {
 	}
 	
 	// In a Texas Hold 'em game, the value before the decimal is the type of hand (straight, flush), after the decimals are the highest remaining cards
-	if (GameType == "TEXAS") {
+	if (GameType == "TexasHoldem") {
 
 		// Allocate the full hand to calculate it's value
 		let Hand = [-1, -1, -1, -1, -1, -1, -1];
 		Hand[0] = C1;
 		Hand[1] = C2;
-		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[2] = Cards[8];
-		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[3] = Cards[9];
-		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[4] = Cards[10];
-		if ((CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[5] = Cards[11];
-		if ((CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[6] = Cards[12];
+		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[2] = TableCards[0];
+		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[3] = TableCards[1];
+		if ((CurrentMode == "FLOP") || (CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[4] = TableCards[2];
+		if ((CurrentMode == "TURN") || (CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[5] = TableCards[3];
+		if ((CurrentMode == "RIVER") || (CurrentMode == "RESULT")) Hand[6] = TableCards[4];
 
 		// Sort the hand from highest to lowest before beginning
 		PokerHandValueSortHand(Hand);
@@ -437,15 +441,20 @@ function PokerHandValueCalcHandValue(C1, C2, GameType, CurrentMode, Cards) {
 
 // Return a text version of a decimal hand value
 function PokerHandValueTextHandValue(Value) {
-	if (Value < 2) return "Nothing";
-	else if (Value < 3) return "One pair";
-	else if (Value < 4) return "Two pairs";
-	else if (Value < 5) return "Three of a kind";
-	else if (Value < 6) return "Straight";
-	else if (Value < 7) return "Flush";
-	else if (Value < 8) return "Full house";
-	else if (Value < 9) return "Four of a kind";
-	else if (Value < 10) return "Straight flush";
-	else if (Value < 11) return "Royal flush";
-	return "";
+	if (PokerGame == "TwoCards") {
+		if (Value >= 10000) return "OnePair";
+		return "HighestCards";
+	}
+	if (PokerGame == "TexasHoldem") {
+		if (Value < 3) return "OnePair";
+		else if (Value < 4) return "TwoPairs";
+		else if (Value < 5) return "ThreeOfAKind";
+		else if (Value < 6) return "Straight";
+		else if (Value < 7) return "Flush";
+		else if (Value < 8) return "FullHouse";
+		else if (Value < 9) return "FourOfAKind";
+		else if (Value < 10) return "StraightFlush";
+		else if (Value < 11) return "RoyalFlush";
+		return "HighestCards";
+	}
 }

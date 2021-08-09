@@ -1,7 +1,33 @@
+IntroTitle,Welcome to Bondage Poker!  Select your game type and opponents below.
+Exit,Return to the main hall
+Start,Start the game
 ShowPlayer,View yourself
 RulesTexasHoldem,Texas Hold'em
 RulesTwoCards,Two Cards
-OpponentNone,None
-OpponentFriend,Private Friend
-OpponentImageSet,Image Set
-OpponentModelSet,Real Model
+FamilyNone,None
+FamilyFriend,Private Friend
+FamilyComic,Comic Set
+FamilyDrawing,Drawing Set
+FamilyModel,Real Model
+Chip,Chip
+Deal,Deal
+Bet,Bet
+Raise,Raise
+Fold,Fold
+Watch,Watch
+Win,won
+WinGame,won the game!
+EndGame,Finish this game
+Ante,Ante:
+SplitPot,Split pot
+Pot,Pot:
+HandHighestCards,Highest cards
+HandOnePair,One pair
+HandTwoPairs,Two pairs
+HandThreeOfAKind,Three of a kind
+HandStraight,Straight
+HandFlush,Flush
+HandFullHouse,Full house
+HandFourOfAKind,Four of a kind
+HandStraightFlush,Straight flush
+HandRoyalFlush,Royal flush

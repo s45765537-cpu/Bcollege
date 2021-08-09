@@ -74,13 +74,9 @@ var KinkyDungeonBlueKeys = 0;
 var KinkyDungeonNormalBlades = 1;
 var KinkyDungeonEnchantedBlades = 0;
 
-var KinkyDungeonKnifeBreakChance = 0.2;
-var KinkyDungeonKeyJamChance = 0.33;
-var KinkyDungeonKeyPickBreakChance = 0.25;
+
 
 // Combat
-var KinkyDungeonPlayerDamageDefault = {dmg: 2, chance: 0.8, type: "unarmed", unarmed: true};
-var KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 var KinkyDungeonTorsoGrabChance = 0.33;
 
 // Your inventory contains items that are on you
@@ -98,16 +94,7 @@ var KinkyDungeonPlayerBuffs = {};
 var KinkyDungeonDresses = {};
 
 // Temp - for multiplayer in future
-var KinkyDungeonPlayers = []
-
-function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
-	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || !KinkyDungeonPlayerWeapon)) {KinkyDungeonPlayerDamage = {}; Object.assign(KinkyDungeonPlayerDamage, KinkyDungeonPlayerDamageDefault); return KinkyDungeonPlayerDamage; }
-	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) return {dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false};
-	else if (KinkyDungeonPlayerWeapon == "sword") return {dmg: 3, chance: 1.0, type: "slash", unarmed: false};
-	else if (KinkyDungeonPlayerWeapon == "axe") return {dmg: 4.5, chance: 0.67, type: "slash", unarmed: false};
-	else if (KinkyDungeonPlayerWeapon == "hammer") return {dmg: 4, chance: 0.75, type: "crush", unarmed: false};
-	return KinkyDungeonPlayerDamage;
-}
+var KinkyDungeonPlayers = [];
 
 function KinkyDungeonDefaultStats() {
 	KinkyDungeonGold = 0;
@@ -132,15 +119,16 @@ function KinkyDungeonDefaultStats() {
 	KinkyDungeonMovePoints = 0;
 	KinkyDungeonInventory = [];
 	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
+	KinkyDungeonInventoryAddWeapon("Knife");
 	KinkyDungeonPlayerTags = [];
 
 	KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 
 	// Initialize all the other systems
 	KinkyDungeonResetMagic();
-    KinkyDungeonInitializeDresses();
-    KinkyDungeonDressPlayer();
-    KinkyDungeonShrineInit();
+	KinkyDungeonInitializeDresses();
+	KinkyDungeonDressPlayer();
+	KinkyDungeonShrineInit();
 }
 
 function KinkyDungeonGetVisionRadius() {
@@ -172,7 +160,7 @@ function KinkyDungeonHasStamina(Cost, AddRate, IgnoreMana) {
 	let m = KinkyDungeonStatStaminaMana;
 	if (AddRate) s += KinkyDungeonStaminaRate;
 	if (IgnoreMana) m = 0;
-	
+
 	return s - m >= Cost;
 }
 
@@ -180,17 +168,17 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 	// Draw labels
 	if (KinkyDungeonStatArousal > 0)
 		DrawText(TextGet("StatArousal"), x+width/2, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
-		DrawText(TextGet("StatStamina"), x+width/2, y + 25 + heightPerBar, (KinkyDungeonStatStamina > KinkyDungeonWillpowerDrainLowStaminaThreshold) ? "white" : "pink", "silver");
-		DrawText(TextGet("StatWillpower"), x+width/2, y + 25 + 2 * heightPerBar, (KinkyDungeonStatWillpower > 10) ? "white" : "pink", "silver");
+	DrawText(TextGet("StatStamina"), x+width/2, y + 25 + heightPerBar, (KinkyDungeonStatStamina > KinkyDungeonWillpowerDrainLowStaminaThreshold) ? "white" : "pink", "silver");
+	DrawText(TextGet("StatWillpower"), x+width/2, y + 25 + 2 * heightPerBar, (KinkyDungeonStatWillpower > 10) ? "white" : "pink", "silver");
 
 	// Draw arousal
 	if (KinkyDungeonStatArousal > 0)
 		DrawProgressBarColor(x, y + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatArousal/KinkyDungeonStatArousalMax, "pink", "#111111");
-		DrawProgressBarColor(x, y + heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatStamina/KinkyDungeonStatStaminaMax, "#22AA22", "#111111");
-		
-		DrawRect(x + 2 + Math.max(0, Math.floor((width - 4) * (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax)), y + heightPerBar + heightPerBar/2 + 2,
-			Math.floor((width - 4) * Math.min(KinkyDungeonStatStaminaMana, KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax),  heightPerBar/3 - 4, "#3377AA");
-		DrawProgressBarColor(x, y + 2*heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatWillpower/KinkyDungeonStatWillpowerMax, "#DDCCCC", "#881111");
+	DrawProgressBarColor(x, y + heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatStamina/KinkyDungeonStatStaminaMax, "#22AA22", "#111111");
+
+	DrawRect(x + 2 + Math.max(0, Math.floor((width - 4) * (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax)), y + heightPerBar + heightPerBar/2 + 2,
+		Math.floor((width - 4) * Math.min(KinkyDungeonStatStaminaMana, KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax),  heightPerBar/3 - 4, "#3377AA");
+	DrawProgressBarColor(x, y + 2*heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatWillpower/KinkyDungeonStatWillpowerMax, "#DDCCCC", "#881111");
 
 	var i = 3;
 	DrawText(TextGet("CurrentGold") + KinkyDungeonGold, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
@@ -208,7 +196,7 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonPlayers = [KinkyDungeonPlayerEntity];
 	// Initialize
 	KinkyDungeonCalculateVibeLevel();
-	
+
 	var arousalRate = (KinkyDungeonVibeLevel == 0) ? KinkyDungeonStatArousalRegen : (KinkyDungeonArousalPerVibe * KinkyDungeonVibeLevel);
 	// Dont regen while exhausted
 	if (KinkyDungeonStatWillpowerExhaustion > 0) {
@@ -239,7 +227,7 @@ function KinkyDungeonUpdateStats(delta) {
 
 	// Unarmed damage calc
 	KinkyDungeonPlayerDamage = KinkyDungeonGetPlayerWeaponDamage(!InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) && !InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"));
-	
+
 	if (!KinkyDungeonPlayer.CanInteract()) {
 		KinkyDungeonPlayerDamage.chance /= 2;
 	}
@@ -253,15 +241,15 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonUpdateStruggleGroups();
 
 	KinkyDungeonDressPlayer();
-	
+
 	// Cap off the values between 0 and maximum
-	KinkyDungeonStatArousal += arousalRate*delta
-	KinkyDungeonStatStamina += KinkyDungeonStaminaRate*delta; 
+	KinkyDungeonStatArousal += arousalRate*delta;
+	KinkyDungeonStatStamina += KinkyDungeonStaminaRate*delta;
 	KinkyDungeonStatStaminaMana += KinkyDungeonStatStaminaManaRate;
-	KinkyDungeonStatWillpower += willpowerRate*delta
+	KinkyDungeonStatWillpower += willpowerRate*delta;
 	KinkyDungeonStatBlind = Math.max(0, KinkyDungeonStatBlind - delta);
-	
-	KinkyDungeonCapStats()
+
+	KinkyDungeonCapStats();
 
 
 }
@@ -282,17 +270,17 @@ function KinkyDungeonCalculateVibeLevel() {
 			let drain = vibe.battery - Math.max(0, vibe.battery - vibe.intensity/2);
 			if (drain > 0)
 				KinkyDungeonVibeLevel = Math.max(KinkyDungeonVibeLevel + drain/4, drain);
-			
+
 			vibe.battery = Math.max(0, vibe.battery - drain);
 		}
 	}
-	
+
 	if (oldVibe > 0 && KinkyDungeonVibeLevel == 0) {
 		if (!KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2);
 	}
-	
+
 	if (KinkyDungeonVibeLevel > 0) {
-		KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonVibing" + Math.max(0, Math.min(Math.floor(KinkyDungeonVibeLevel), 4))), "#FFaadd", 1)
+		KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonVibing" + Math.max(0, Math.min(Math.floor(KinkyDungeonVibeLevel), 4))), "#FFaadd", 1);
 	}
 }
 
