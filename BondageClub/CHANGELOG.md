@@ -12,8 +12,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
 * Changelog last updated: 2021-08-09
-* Last recorded PR: [#2835](https://github.com/Ben987/Bondage-College/pull/2835)
-* Last recorded commit hash: `a7070211cfe3ee2c5e6ea7d586e7d5104e906781`
+* Last recorded PR: [#2836](https://github.com/Ben987/Bondage-College/pull/2836)
+* Last recorded commit hash: `1f54a29c5ba6171a915a66e28943e202e692346e`
+
 
 ## [R71]
 
@@ -68,6 +69,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sekkmer - Reworked the chat commands system and made several improvements to the `/help` command ([#2798](https://github.com/Ben987/Bondage-College/pull/2798), [#2805](https://github.com/Ben987/Bondage-College/pull/2805))
 * Ace - Changed the Lovers Timer Padlock to allow owners to change the settings (provided they are allowed by lover rules) ([#2804](https://github.com/Ben987/Bondage-College/pull/2804))
 * Kimei - Changed the Ceiling Chain so that it cannot be changed when locked (unless the player can unlock it) ([#2810](https://github.com/Ben987/Bondage-College/pull/2810))
+* Elda - Modified the Duct Tape arms item to allow nipple piercing items to be visible underneath it ([#2836](https://github.com/Ben987/Bondage-College/pull/2836))
 
 ### [Fixed]
 
