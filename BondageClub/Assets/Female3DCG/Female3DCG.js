@@ -4708,8 +4708,8 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["LegsOpen"], Left: 1, Top: 465, Priority: 5,
 				AllowActivePose: ["LegsClosed"],
-				Prerequisite: ["AccessVulva", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"],
-				Effect: ["Mounted", "Freeze", "Egged", "BlockKneel"],
+				Prerequisite: ["AccessVulva", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty", "VulvaNotBlocked"],
+				Effect: ["Mounted", "FillVulva", "Freeze", "Egged", "BlockKneel"],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				AllowEffect: ["Egged", "Vibrating", "Edged"],
 				DynamicBeforeDraw: true, DynamicScriptDraw: true,
