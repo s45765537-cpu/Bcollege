@@ -203,7 +203,6 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 
 		// Ensure crotch is empty
 		case "VulvaEmpty": return (InventoryGet(C, "ItemVulva") != null) ? "MustFreeVulvaFirst" : "";
-		case "VulvaNotBlocked": return (InventoryGroupIsBlocked(C, "ItemVulva")) ? "MustFreeVulvaFirst" : "";
 		case "ClitEmpty": return ((InventoryGet(C, "ItemVulvaPiercings") != null)) ? "MustFreeClitFirst" : "";
 		case "ButtEmpty": return ((InventoryGet(C, "ItemButt") != null)) ? "MustFreeButtFirst" : "";
 
