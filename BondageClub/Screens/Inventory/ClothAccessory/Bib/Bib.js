@@ -59,11 +59,11 @@ function AssetsClothAccessoryBibAfterDraw({
 		if (!Type.includes("x1")) return;
 
 		// We set up a canvas
-		let Height = 60;
+		let Height = 65;
 		let Width = 120;
 		let XOffset = 10;
 		let YOffset = 40;
-		const FontName = "sans-serif";
+		const FontName = "Pacifico";
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 		const text1 = Property && typeof Property.Text === "string" && InventoryClothAccessoryBibAllowedChars.test(Property.Text) ? Property.Text : "";
@@ -71,7 +71,7 @@ function AssetsClothAccessoryBibAfterDraw({
 		const isAlone = !text1 || !text2;
 
 		const drawOptions = {
-			fontSize: 18,
+			fontSize: 20,
 			fontFamily: FontName,
 			color: Color,
 			width: Width,

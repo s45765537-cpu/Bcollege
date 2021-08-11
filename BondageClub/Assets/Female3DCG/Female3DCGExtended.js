@@ -177,7 +177,7 @@ var AssetFemale3DCGExtended = {
 				Modules: [
 				{
 				Name: "Pattern", Key: "p",
-				Options: [{}, {}, {}, {}],
+				Options: [{}, {}, {}, {}, {}, {}],
 				},
 				{
 				Name: "Txt", Key: "x",
