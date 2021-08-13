@@ -956,8 +956,22 @@ var AssetFemale3DCG = [
 			{ Name: "Veil2", Fetish: ["Lingerie"], Value: 40 },
 			{ Name: "BakerBoyHat", Value: 40, },
 			{ Name: "ReindeerBand", Value: 10 },
-			{ Name: "FurHeadband", Value: 5}
-
+			{ Name: "FurHeadband", Value: 5},
+			{
+				Name: "RoseCrown", Value: 20, DefaultColor: ["#24D925", "#d10505"], Layer: [
+					{ Name: "Leaves" },
+					{ Name: "Roses" }
+				]
+			},
+			{ Name: "FlowerCrown1", Value: 20, DefaultColor: ["#F4B8CD"] },
+			{
+				Name: "FlowerCrown2", Value: 20, DefaultColor: ["#373636", "#373636", "#373636", "#373636"], Layer: [
+					{ Name: "Leaves" },
+					{ Name: "Zinna" },
+					{ Name: "SidePoppy" },
+					{ Name: "CenterPoppy" }
+				]
+			}
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -990,7 +1004,9 @@ var AssetFemale3DCG = [
 					{ Name: "Base", MinOpacity: 1 },
 					{ Name: "Core", Opacity: 0, }
 				]
-			}
+			},
+			{ Name: "Pansy", Value: 15, BuyGroup: "PansyPin", DefaultColor: ["#F4B8CD"] },
+			{ Name: "Zinnia", Value: 15, BuyGroup: "ZinniaPin", DefaultColor: ["#FBA802"] },
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1066,6 +1082,8 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Antennae", Value: 10, BuyGroup: "Antennae", BodyCosplay: true, DefaultColor: "#151A1F" },
+			{ Name: "Pansy", Value: 15, BuyGroup: "PansyPin", DefaultColor: ["#F4B8CD"] },
+			{ Name: "Zinnia", Value: 15, BuyGroup: "ZinniaPin", DefaultColor: ["#FBA802"] },
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

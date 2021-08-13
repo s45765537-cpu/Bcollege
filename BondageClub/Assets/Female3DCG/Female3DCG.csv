@@ -305,6 +305,9 @@ Hat,Veil2,Veil Full Face
 Hat,BakerBoyHat,Baker Boy Hat
 Hat,ReindeerBand,Reindeer Hairband
 Hat,FurHeadband,Fur Headband
+Hat,RoseCrown,Rose Crown
+Hat,FlowerCrown1,Flower Crown 1
+Hat,FlowerCrown2,Flower Crown 2
 HairAccessory3,,Hair Accessory
 HairAccessory3,Ribbons1,Hair Ribbon 1
 HairAccessory3,Ribbons2,Hair Ribbon 2
@@ -315,6 +318,8 @@ HairAccessory3,HairFlower1, Flower
 HairAccessory3,WeddingVeil1,Wedding Veil
 HairAccessory3,HairFeathers1,Feathers
 HairAccessory3,Halo,Halo
+HairAccessory3,Pansy,Pansy
+HairAccessory3,Zinnia,Zinnia
 HairAccessory1,,Hair Accessory (All)
 HairAccessory1,Ears1,Ears Small
 HairAccessory1,Ears2,Ears Large
@@ -350,6 +355,8 @@ HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,CowHorns,Cow Horns
 HairAccessory1,Halo,Halo
 HairAccessory1,Antennae,Antennae
+HairAccessory1,Pansy,Pansy
+HairAccessory1,Zinnia,Zinnia
 HairAccessory2,,Ears
 HairAccessory2,Ears1,Ears Small
 HairAccessory2,Ears2,Ears Large
