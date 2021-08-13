@@ -4213,7 +4213,7 @@ var AssetFemale3DCG = [
 				],
 				Extended: true
 			},
-			{ Name: "FacePaint", Value: 50, Priority: 7, Difficulty: 1, Time: 1, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#9A7F76"], Hide: ["Head"] },
+			{ Name: "FacePaint", Value: 10, Priority: 7, Difficulty: 1, Time: 1, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#9A7F76"], Hide: ["Head"], Block: [] },
 			{
 				Name: "PumpkinHead", Priority: 54, Value: 40, Difficulty: 2, Time: 10, Random: false, AllowLock: false,  Hide: ["HairBack"], HideItem: ["ItemHeadSnorkel", "ItemEarsFuturisticEarphones","HatFurHeadband"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"],
 				Alpha: [{ Masks: [[150, 0, 200, 80]] }],
