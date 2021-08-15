@@ -970,11 +970,12 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "PoppyCrown", Value: 20, DefaultColor: ["#F7B405", "#D816DA", "#15229A", "#54BF28"], Layer: [
+				Name: "PoppyCrown", Value: 20, DefaultColor: ["#F7B405", "#D816DA", "#2635C4", "#54BF28", "#F7B405"], Layer: [
 					{ Name: "EndFlowers" },
 					{ Name: "MainFlower" },
 					{ Name: "SideFlowers" },
-					{ Name: "Leaves" }
+					{ Name: "Leaves" },
+					{ Name: "Center" }
 				]
 			}
 		],
