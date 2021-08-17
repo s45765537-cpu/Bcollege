@@ -69,6 +69,7 @@ ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,FurBolero,Fur Bolero
+ClothAccessory,FacePaint, Face Paint
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -305,6 +306,7 @@ Hat,Veil2,Veil Full Face
 Hat,BakerBoyHat,Baker Boy Hat
 Hat,ReindeerBand,Reindeer Hairband
 Hat,FurHeadband,Fur Headband
+Hat,FacePaint, Face Paint
 HairAccessory3,,Hair Accessory
 HairAccessory3,Ribbons1,Hair Ribbon 1
 HairAccessory3,Ribbons2,Hair Ribbon 2
@@ -423,6 +425,7 @@ Mask,LaceMask2,Venice Festival Mask
 Mask,FuturisticVisor,Futuristic Visor
 Mask,OpenFaceHood,Open Face Hood
 Mask,FaceVeil,Face Veil
+Mask,FacePaint, Face Paint
 TailStraps,,Tail Strap
 TailStraps,TailStrap,Kitty Tail Strap
 TailStraps,HorseTailStrap,Horse Tail Strap
@@ -1214,7 +1217,6 @@ ItemHood,PolishedSteelHood,Polished Steel Hood
 ItemHood,InflatedBallHood,Inflatable Hood
 ItemHood,OldGasMask,Gas Mask
 ItemHood,KirugumiMask,Kigurumi Mask
-ItemHood,FacePaint, Face Paint
 ItemHood,PumpkinHead,Pumpkin Head
 ItemHood,SackHood,Sack Hood
 ItemHood,LeatherHoodSensDep,Sensory Deprivation Hood
