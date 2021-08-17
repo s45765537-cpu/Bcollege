@@ -251,6 +251,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "LeatherStraps", Fetish: ["Leather"], ParentGroup: "BodyUpper", Value: 25, AllowPose: ["AllFours"], Extended: true },
 			{ Name: "FurBolero", Priority: 33, Value: 25, AllowPose: ["AllFours", "BackElbowTouch", "OverTheHead", "Hogtied", "Yoked", "BackCuffs"], Alpha: [{ Group: ["Cloth"], Masks: [[0, 0, 210, 270], [290, 0, 210, 270]] }] },
+			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -956,7 +957,8 @@ var AssetFemale3DCG = [
 			{ Name: "Veil2", Fetish: ["Lingerie"], Value: 40 },
 			{ Name: "BakerBoyHat", Value: 40, },
 			{ Name: "ReindeerBand", Value: 10 },
-			{ Name: "FurHeadband", Value: 5}
+			{ Name: "FurHeadband", Value: 5},
+			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -1259,6 +1261,7 @@ var AssetFemale3DCG = [
 					{ Name: "String" },
 				]
 			},
+			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 		],
 		Color: ["Default", "#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},
@@ -4213,7 +4216,6 @@ var AssetFemale3DCG = [
 				],
 				Extended: true
 			},
-			{ Name: "FacePaint", Value: 10, Priority: 7, Difficulty: 1, Time: 1, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#9A7F76"], Hide: ["Head"], Block: [] },
 			{
 				Name: "PumpkinHead", Priority: 54, Value: 40, Difficulty: 2, Time: 10, Random: false, AllowLock: false,  Hide: ["HairBack"], HideItem: ["ItemHeadSnorkel", "ItemEarsFuturisticEarphones","HatFurHeadband"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"],
 				Alpha: [{ Masks: [[150, 0, 200, 80]] }],
