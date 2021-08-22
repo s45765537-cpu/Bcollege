@@ -3375,6 +3375,21 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // HempRope
+		PoofyDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "RegularPadding",
+						Property: { Type: null, },
+					},
+					{
+						Name: "ExtraPadding",
+						Property: { Type: "Poofy", },
+					},
+				],
+			},
+		}, // PoofyDiaper
 	}, // ItemPelvis
 	ItemEars: {
 		HeadphoneEarPlugs: {
@@ -3552,6 +3567,21 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // Diapers4
+		PoofyDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Regular Padding",
+						Property: { Type: null, },
+					},
+					{
+						Name: "Extra Padding",
+						Property: { Type: "Poofy", },
+					},
+				],
+			},
+		}, // PoofyDiaper
 	}, // Panties
 	Glasses: {
 		EyePatch1: {

@@ -643,11 +643,38 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Diapers3", Priority: 23, Category: ["ABDL"], Fetish: ["ABDL"], Random: false,Value: 30, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
-			{ Name: "Diapers4", Priority: 23, Category: ["ABDL"], Fetish: ["ABDL"], Random: false,Value: 30, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"], Extended: true,
+			{ 
+				Name: "Diapers4", Priority: 23, Category: ["ABDL"], Fetish: ["ABDL"], Random: false,Value: 30, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"], Extended: true,
 				Layer: [
 					{ Name: "Diaper", HasType: false },
 					{ Name: "Tape", HasType: false },
 					{ Name: "Pattern", AllowTypes: ["StrawBerry", "Spots", "Butterfly", "Flower"] },
+				]
+			},
+			{ 
+				Name: "BulkyDiaper", BuyGroup: "BulkyDiapers", Priority: 25, Category: ["ABDL"], Fetish: ["ABDL"], Random: false, Value: 30, DefaultColor:["#C3E5FD", "#EAEAEA", "#F8CBEA", "#E94CB9"], AllowPose: ["LegsClosed", "Kneel"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"], Left: 49, Top: 360, SetPose: ["LegsOpen"], AllowActivePose: ["Kneel"], WhitelistActivePose: ["BaseLower", "Kneel"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "CrotchPiece" },
+					{ Name: "WaistBand" },
+					{ Name: "Tape", ParentGroup: null },
+				]
+			},
+			{ 
+				Name: "PoofyDiaper", BuyGroup: "PoofyDiapers", Priority: 25, Category: ["ABDL"], Fetish: ["ABDL"], Random: false, Value: 30, DefaultColor:["#DFA3F1", "#B6DEFA", "#F2B5E6", "#BD19E3"], AllowPose: ["LegsClosed", "Kneel"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"], Left: 49, Top: 360, SetPose: ["LegsOpen"], AllowActivePose: ["Kneel"], WhitelistActivePose: ["BaseLower", "Kneel"], Extended: true,
+				Layer: [
+					{ Name: "Base", HasType: false, AllowTypes: [""] },
+					{ Name: "PoofyBase", CopyLayerColor: "Base", HasType: false, AllowTypes: ["Poofy"] },
+					{ Name: "CrotchPatch", HasType: false },
+					{ Name: "Frills", HasType: false },
+					{ Name: "Tape", HasType: false, ParentGroup: null },
+				]
+			},
+			{ 
+				Name: "LatexDiaper", BuyGroup: "RubberDiapers", Priority: 25, Category: ["ABDL"], Fetish: ["ABDL", "Latex"], Random: false, Value: 30, DefaultColor:["#CD0D64"], AllowPose: ["LegsClosed", "Kneel"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"], Left: 49, Top: 360, SetPose: ["LegsOpen"], AllowActivePose: ["Kneel"], WhitelistActivePose: ["BaseLower", "Kneel"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shine" },
 				]
 			},
 			{ Name: "Panties16", Fetish: ["Lingerie"], Value: 20, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
