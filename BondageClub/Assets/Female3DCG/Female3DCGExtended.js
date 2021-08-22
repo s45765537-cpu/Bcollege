@@ -3572,11 +3572,11 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Regular Padding",
+						Name: "RegularPadding",
 						Property: { Type: null, },
 					},
 					{
-						Name: "Extra Padding",
+						Name: "ExtraPadding",
 						Property: { Type: "Poofy", },
 					},
 				],
