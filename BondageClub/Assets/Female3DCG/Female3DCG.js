@@ -251,15 +251,16 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "LeatherStraps", Fetish: ["Leather"], ParentGroup: "BodyUpper", Value: 25, AllowPose: ["AllFours"], Extended: true },
 			{ Name: "FurBolero", Priority: 33, Value: 25, AllowPose: ["AllFours", "BackElbowTouch", "OverTheHead", "Hogtied", "Yoked", "BackCuffs"], Alpha: [{ Group: ["Cloth"], Masks: [[0, 0, 210, 270], [290, 0, 210, 270]] }] },
-			{ 
+			{
 				Name: "Bib", Fetish: ["ABDL"], Priority: 34, Value: 5, Left: 179, Top: 220, Extended: true, DynamicAfterDraw: true,
 				Layer: [
 					{Name: "Base", HasType: false},
 					{Name: "Trim", HasType: false},
-					{Name: "Pattern", HasType: false, HasImage: false, AllowModuleTypes: ["p0"] },
-					{Name: "Pacis", Left: 194, Top: 232, HasType: false, CopyLayerColor: "Pattern", AllowModuleTypes: ["p1"] },
-					{Name: "Strawberries", Left: 195, Top: 229, HasType: false, CopyLayerColor: "Pattern", AllowModuleTypes: ["p2"] },
-					{Name: "PawPrints", Left: 193, Top: 229, HasType: false, CopyLayerColor: "Pattern", AllowModuleTypes: ["p3"] },
+					{Name: "Pacis", Left: 194, Top: 232, HasType: false, AllowModuleTypes: ["p1"] },
+					{Name: "Strawberries", Left: 195, Top: 229, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p2"] },
+					{Name: "PawPrints", Left: 193, Top: 229, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p3"] },
+					{Name: "Cows", Left: 191, Top: 228, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p4"] },
+					{Name: "Hearts", Left: 194, Top: 228, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p5"] },
 					{Name: "Text", HasType: false}
 				]
 			},
