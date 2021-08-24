@@ -200,6 +200,16 @@ var AssetFemale3DCG = [
 					{ Name: "Layer1" }
 				]
 			},
+			{
+				Name: "GrandMage", Value: 90, DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"], HideItem: [ "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerPencilSkirt", "ClothLowerShortPencilSkirt", "BraCamisole"], AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "BackSkirt", ParentGroup: null,  Priority: 3 },
+					{ Name: "Trim" },
+					{ Name: "Belt" },
+					{ Name: "Buckle" }
+				]
+			},
 			{ Name: "Blouse1", Value: 20, Top: 1, BuyGroup: "Blouse1", HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]},
 			{ Name: "LatexTop", Value: 30, Hide: ["ItemNipples"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]},
 			{ Name: "LatexLacedSuit", Priority: 22, Value: 35, Hide: ["Corset", "ItemNipples"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"], Extended: true},
@@ -587,6 +597,7 @@ var AssetFemale3DCG = [
 					{ Name: "Flowers", AllowColorize: true },
 				]
 			},
+			{ Name: "Bra10", Value: 30, Hide: ["ItemNipples"] },
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -969,8 +980,28 @@ var AssetFemale3DCG = [
 			{ Name: "Veil2", Fetish: ["Lingerie"], Value: 40 },
 			{ Name: "BakerBoyHat", Value: 40, },
 			{ Name: "ReindeerBand", Value: 10 },
-			{ Name: "FurHeadband", Value: 5}
-
+			{ Name: "FurHeadband", Value: 5},
+			{
+				Name: "RoseCrown", Value: 20, DefaultColor: ["#1B7E1B", "#BE2B2B"], Layer: [
+					{ Name: "Leaves" },
+					{ Name: "Roses" }
+				]
+			},
+			{
+				Name: "FlowerCrown", Value: 20, DefaultColor: ["#AA7386", "#B25576"], Layer: [
+					{ Name: "MainFlowers" },
+					{ Name: "Petals" }
+				]
+			},
+			{
+				Name: "PoppyCrown", Value: 20, DefaultColor: ["#F7B405", "#D816DA", "#2635C4", "#54BF28", "#F7B405"], Layer: [
+					{ Name: "EndFlowers" },
+					{ Name: "MainFlower" },
+					{ Name: "SideFlowers" },
+					{ Name: "Leaves" },
+					{ Name: "Center" }
+				]
+			}
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1003,7 +1034,7 @@ var AssetFemale3DCG = [
 					{ Name: "Base", MinOpacity: 1 },
 					{ Name: "Core", Opacity: 0, }
 				]
-			}
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1470,7 +1501,7 @@ var AssetFemale3DCG = [
 		Left: 235,
 		Top: 180,
 		AllowNone: false,
-		AllowExpression: ["Frown", "Sad", "Pained", "Angry", "HalfOpen", "Open", "Ahegao", "Moan", "TonguePinch", "LipBite", "Happy", "Devious", "Laughing", "Grin", "Smirk"],
+		AllowExpression: ["Frown", "Sad", "Pained", "Angry", "HalfOpen", "Open", "Ahegao", "Moan", "TonguePinch", "LipBite", "Happy", "Devious", "Laughing", "Grin", "Smirk", "Pout"],
 		PreviewZone: [190, 100, 120, 120],
 		Asset: [
 			{
@@ -3104,7 +3135,7 @@ var AssetFemale3DCG = [
 					{ Name: "Flowers"}
 				]
 			},
-			{ Name: "LatexCollar1", Fetish: ["Latex"], Value: 40, Difficulty: 50, Time: 5},
+			{ Name: "LatexCollar1", Fetish: ["Latex"], Value: 40, Difficulty: 50, Time: 5, Effect: ["FixedHead"]},
 			{ Name: "LatexCollar2", Fetish: ["Latex"], Value: 40, Difficulty: 50, Time: 5, AllowLock: true},
 			AssetSpankingToys
 		],
@@ -3121,7 +3152,7 @@ var AssetFemale3DCG = [
 		Zone: [[100, 200, 100, 70]],
 		Asset: [
 			{
-				Name: "CustomCollarTag", Value: 50, Difficulty: 20, Time: 5, Random: false, IsRestraint: false, AllowLock: true, DefaultColor: ["#aaa366", "#000000"], Prerequisite: "Collared", DynamicAfterDraw: true, Extended: true,
+				Name: "CustomCollarTag", Value: 50, Difficulty: 20, Time: 5, Random: false, IsRestraint: false, AllowLock: true, DefaultColor: ["#aaa366", "#000000"], Prerequisite: "Collared", DynamicAfterDraw: true, Extended: true, DrawLocks: false,
 				Layer: [
 					{ Name: "Tag", HasType: false, AllowModuleTypes: ["t0"] },
 					{ Name: "Tag2", HasType: false, CopyLayerColor: "Tag", AllowModuleTypes:["t1"]},
@@ -4719,11 +4750,11 @@ var AssetFemale3DCG = [
 			{ Name: "Pole", Value: 40, Top: -150, Priority: 1, Difficulty: -5, RemoveTime: 10, HasType: false, RemoveAtLogin: true, Extended: true, FixedPosition: true },
 			{ Name: "Cushion", Priority: 34, Value: 4, Difficulty: -10, Time: 5, IsRestraint: false, AllowPose: ["AllFours", "Hogtied", "TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead", "Horse"], Extended: true },
 			{
-				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["LegsOpen"], Left: 1, Top: 465, Priority: 5,
-				AllowActivePose: ["LegsClosed"],
+				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["BaseLower"], Left: 1, Top: 465, Priority: 5,
+				AllowActivePose: ["BaseLower", "LegsClosed"],
 				Prerequisite: ["AccessVulva", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"],
 				Effect: ["Mounted", "Freeze", "Egged", "BlockKneel"],
-				Block: ["ItemVulva", "ItemVulvaPiercings"],
+				Block: ["ItemVulva", "ItemPelvis", "ItemVulvaPiercings", "ItemLegs", "ItemFeet"],
 				AllowEffect: ["Egged", "Vibrating", "Edged"],
 				DynamicBeforeDraw: true, DynamicScriptDraw: true,
 				AllowActivityOn: ["ItemFeet", "ItemLegs", "ItemBoots"],

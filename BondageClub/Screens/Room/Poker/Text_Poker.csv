@@ -4,6 +4,7 @@ Start,Start the game
 ShowPlayer,View yourself
 RulesTexasHoldem,Texas Hold'em
 RulesTwoCards,Two Cards
+VisitArtist,Visit the artist
 FamilyNone,None
 FamilyFriend,Private Friend
 FamilyComic,Comic Set
@@ -21,7 +22,7 @@ EndGame,Finish this game
 Ante,Ante:
 SplitPot,Split pot
 Pot,Pot:
-HandHighestCards,Highest cards
+HandHighestCards,High card
 HandOnePair,One pair
 HandTwoPairs,Two pairs
 HandThreeOfAKind,Three of a kind
