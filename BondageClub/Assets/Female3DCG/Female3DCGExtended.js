@@ -3766,7 +3766,7 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 					{
-						Name: "OpenMummy",
+						Name: "Open",
 						Property: {
 							Type: "Open",
 							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
