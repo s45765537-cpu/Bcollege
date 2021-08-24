@@ -3771,7 +3771,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Open",
 							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
-							Effect: ["GagNormal", "Prone", "BlockMouth"],
+							Effect: ["GagNormal", "BlockMouth"],
 						},
 					}
 				]
