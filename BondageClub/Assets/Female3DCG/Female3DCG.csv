@@ -53,6 +53,7 @@ Cloth,BondageBustier2,Bondage Bustier 2
 Cloth,LeatherBolero,Leather Bolero
 Cloth,Bodice1,Bodice
 Cloth,SummerDress,Summer Dress
+Cloth,GrandMage,Grand Mage Dress
 Cloth,Blouse1,Blouse
 Cloth,LatexTop,Laced Latex Top
 Cloth,LatexLacedSuit,Latex Laced Suit
@@ -69,6 +70,7 @@ ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,FurBolero,Fur Bolero
+ClothAccessory,Bib,Bib
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -176,6 +178,7 @@ Bra,SilkStraps,Silk Straps
 Bra,FullLatexBra,Full Latex Bra
 Bra,HaremBra,Harem Bra
 Bra,FlowerBra,Flower Bra
+Bra,Bra10,Style 4
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -305,6 +308,9 @@ Hat,Veil2,Veil Full Face
 Hat,BakerBoyHat,Baker Boy Hat
 Hat,ReindeerBand,Reindeer Hairband
 Hat,FurHeadband,Fur Headband
+Hat,RoseCrown,Rose Crown
+Hat,FlowerCrown,Flower Crown
+Hat,PoppyCrown,Poppy Crown
 HairAccessory3,,Hair Accessory
 HairAccessory3,Ribbons1,Hair Ribbon 1
 HairAccessory3,Ribbons2,Hair Ribbon 2

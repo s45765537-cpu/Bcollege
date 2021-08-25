@@ -25,6 +25,11 @@ var PokerAsset = [
 		Family: "Drawing",
 		Type: "Set",
 		Opponent: ["Ann"]
+	},
+	{
+		Family: "Model",
+		Type: "Set",
+		Opponent: ["Andrea", "Akira"]
 	}
 ];
 var PokerPlayerCount = 4;
@@ -68,15 +73,21 @@ function PokerDrawPlayer(P, X, Y) {
 			// If there's no image loaded, we fetch a possible one based on the chip progress
 			if (P.Image == null) PokerGetImage(P);
 
-			// If a valid image is loaded, we show it
+			// If a valid image is loaded, we show it, we can move it a little to adjust the position on screen
 			if (P.Image != null) {
+				let Y2 = 0;
 				let W = 300;
-				if (DrawCacheImage.get(P.Image) != null)
-					W = DrawCacheImage.get(P.Image).width;
-				if (W >= 800)
-					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + 30, {Canvas: MainCanvas, Zoom: 1});
-				else
-					DrawImageEx(P.Image, X + 210 - W / 2, Y, {Canvas: MainCanvas, Zoom: 1.25});
+				let H = 440;
+				if (DrawCacheImage.get(P.Image) != null) W = DrawCacheImage.get(P.Image).width;
+				if (DrawCacheImage.get(P.Image) != null) H = DrawCacheImage.get(P.Image).height;
+				if (W >= 800) {
+					Y2 = (440 - H) * 0.5;
+					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + Y2 + 50, {Canvas: MainCanvas, Zoom: 1});
+				}
+				else {
+					if (H < 440) Y2 = (440 - H) * 1.25;
+					DrawImageEx(P.Image, X + 210 - W / 2, Y + Y2, {Canvas: MainCanvas, Zoom: 1.25});
+				}
 			}
 
 		}
@@ -205,7 +216,41 @@ function PokerGetImage(P) {
 
 	// For set images, a single opponent can have a large image, else we find a valid image from the game progress
 	if (P.Type == "Set") {
+		
+		// First try to get an alternate version of the image
 		let Images = [];
+		if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache["Alternate"] != null))
+			P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache["Alternate"])) + 1;
+		if (P.Alternate != null) {
+			if (PokerPlayerCount == 2) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(27, 100));
+					}
+					X++;
+				}
+			}
+			if (Images.length == 0) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(22, 100));
+					}
+					X++;
+				}
+			}
+		}
+
+		// Sets the non alternative images
 		if (PokerPlayerCount == 2) {
 			let X = 0;
 			while (P.Data.cache[X] != null) {
@@ -232,8 +277,11 @@ function PokerGetImage(P) {
 				X++;
 			}
 		}
+
+		// If an image was found
 		if (Images.length > 0)
 			P.Image = "Screens/Room/Poker/" + CommonRandomItemFromList("", Images);
+
 	}
 
 }
@@ -340,6 +388,7 @@ function PokerClearData(P) {
 	P.TextSingle = null;
 	P.TextMultiple = null;
 	P.WebLink = null;
+	P.Alternate = null;
 }
 
 /**

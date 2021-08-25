@@ -171,6 +171,21 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // BunnyCollarCuffs
+		Bib: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+				{
+				Name: "Pattern", Key: "p",
+				Options: [{}, {}, {}, {}, {}, {}],
+				},
+				{
+				Name: "Txt", Key: "x",
+				Options: [{}, { HasSubscreen: true }],
+				},
+			]
+			}
+		}, // Bib
 	}, // ClothAccessory
 	ItemBreast: {
 		Ribbons: {
@@ -3748,6 +3763,15 @@ var AssetFemale3DCGExtended = {
 							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
 							Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
+						},
+					},
+					{
+						Name: "Open",
+						Property: {
+							Type: "Open",
+							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
+							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
+							Effect: ["GagNormal", "BlockMouth"],
 						},
 					}
 				]
