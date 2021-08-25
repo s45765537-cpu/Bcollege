@@ -583,7 +583,10 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 					DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityTease");
 					DeviceTimer = FuturisticTrainingBeltRandomTeaseDurationMin + (FuturisticTrainingBeltRandomTeaseDurationMax - FuturisticTrainingBeltRandomTeaseDurationMin) * r * r * r;
 				}
-			} else DeviceTimer = 1;
+			} else {
+				DeviceTimer = 1;
+				if (StateTimerOver) DeviceSetToState = 0;
+			}
 		} else if (Mode == "RandomOrgasm") {
 			if (State != "LowPriorityMax")
 				DeviceSetToState = 0;
@@ -594,7 +597,10 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 					DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityMax");
 					DeviceTimer = FuturisticTrainingBeltRandomOrgasmDurationMin + (FuturisticTrainingBeltRandomOrgasmDurationMax - FuturisticTrainingBeltRandomOrgasmDurationMin) * r * r * r;
 				} else DeviceSetToState = -1;
-			} else DeviceTimer = 1;
+			} else {
+				DeviceTimer = 1;
+				if (StateTimerOver) DeviceSetToState = 0;
+			}
 		} else if (Mode == "FullPower") {
 			DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityMax");
 		} else if (Mode == "Tease") {
