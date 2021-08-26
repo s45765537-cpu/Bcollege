@@ -1509,6 +1509,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Hold",
 						Property: {
 							Type: null,
+							HideItem: ["ItemMiscTeddyBear"],
 						},
 					},
 					{
@@ -1567,6 +1568,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Blanket",
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
+							HideItem: ["ItemMiscTeddyBear"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
