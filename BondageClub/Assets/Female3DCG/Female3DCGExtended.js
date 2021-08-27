@@ -1509,6 +1509,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Hold",
 						Property: {
 							Type: null,
+							HideItem: ["ItemMiscTeddyBear"],
 						},
 					},
 					{
@@ -1567,6 +1568,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Blanket",
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
+							HideItem: ["ItemMiscTeddyBear"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
@@ -3763,6 +3765,15 @@ var AssetFemale3DCGExtended = {
 							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
 							Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
+						},
+					},
+					{
+						Name: "Open",
+						Property: {
+							Type: "Open",
+							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
+							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
+							Effect: ["GagNormal", "BlockMouth"],
 						},
 					}
 				]
