@@ -704,6 +704,10 @@ ItemDevicesFuturisticCrateFrame,Frame
 ItemDevicesFuturisticCrateLid_Closed,Lid
 ItemDevicesFuturisticCrateBody,Padding
 ItemDevicesFuturisticCrateGlass,Window
+ItemDevicesDollBoxBack,Back
+ItemDevicesDollBoxGlass,Glass
+ItemDevicesDollBoxCover,Cover
+ItemDevicesDollBoxText,Text
 PantiesPilotPantiesLayer1,Suit
 PantiesPilotPantiesLayer2,Highlights
 PantiesPilotPantiesLayer3,Center
