@@ -25,6 +25,11 @@ var PokerAsset = [
 		Family: "Drawing",
 		Type: "Set",
 		Opponent: ["Ann"]
+	},
+	{
+		Family: "Model",
+		Type: "Set",
+		Opponent: ["Andrea", "Akira", "Becky", "Dita", "Emily"]
 	}
 ];
 var PokerPlayerCount = 4;
@@ -67,13 +72,22 @@ function PokerDrawPlayer(P, X, Y) {
 			
 			// If there's no image loaded, we fetch a possible one based on the chip progress
 			if (P.Image == null) PokerGetImage(P);
-			
-			// If a valid image is loaded, we show it
+
+			// If a valid image is loaded, we show it, we can move it a little to adjust the position on screen
 			if (P.Image != null) {
+				let Y2 = 0;
 				let W = 300;
-				if (DrawCacheImage.get(P.Image) != null)
-					W = DrawCacheImage.get(P.Image).width;
-				DrawImageEx(P.Image, X + 210 - W / 2, Y, {Canvas: MainCanvas, Zoom: 1.25});
+				let H = 440;
+				if (DrawCacheImage.get(P.Image) != null) W = DrawCacheImage.get(P.Image).width;
+				if (DrawCacheImage.get(P.Image) != null) H = DrawCacheImage.get(P.Image).height;
+				if (W >= 800) {
+					Y2 = (440 - H) * 0.5;
+					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + Y2 + 50, {Canvas: MainCanvas, Zoom: 1});
+				}
+				else {
+					if (H < 440) Y2 = (440 - H) * 1.25;
+					DrawImageEx(P.Image, X + 210 - W / 2, Y + Y2, {Canvas: MainCanvas, Zoom: 1.25});
+				}
 			}
 
 		}
@@ -118,11 +132,15 @@ function PokerDrawPlayer(P, X, Y) {
  */
 function PokerGetProgress(P) {
 
-	// At 100 chips or less (or 2 players only), we cut the value in half to get the %
-	if ((P.Chip <= 100) || (PokerPlayerCount <= 2)) return Math.floor(P.Chip / 2);
-
 	// At more than 100 chips, the % varies based on the number of players
-	return 50 + Math.floor((P.Chip - 100) / ((PokerPlayerCount - 1) * 2));
+	let Progress = 50 + Math.floor((P.Chip - 100) / ((PokerPlayerCount - 1) * 2));
+
+	// At 100 chips or less (or 2 players only), we cut the value in half to get the %
+	if ((P.Chip <= 100) || (PokerPlayerCount <= 2)) Progress = Math.floor(P.Chip / 2);
+
+	// Can't be at fully zero if there are remaining chips
+	if ((Progress == 0) && (P.Chip > 0)) Progress = 1;
+	return Progress;
 
 }
 
@@ -138,8 +156,37 @@ function PokerGetText(P, Tag) {
 	T = (PokerPlayerCount <= 2) ? P.TextSingle : P.TextMultiple;
 	if (T == null) return P.Text = "";
 
+	// If there's an alternative text, we search for it first
+	let Texts = [];	
+	if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache["Alternate"] != null))
+		P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache["Alternate"])) + 1;
+	if (P.Alternate != null) {
+		let X = 0;
+		if (Tag != null) {
+			while (T.cache[X] != null) {
+				if (T.cache[X].substr(0, Tag.length + 6) == Tag + "-Alt" + P.Alternate.toString() + "=")
+					Texts.push(T.cache[X].substr(Tag.length + 6, 500));
+				X++;
+			}
+		} else {
+
+			// Without a tag, we find all values within the player progress
+			let Progress = PokerGetProgress(P);
+			while (T.cache[X] != null) {
+				if (T.cache[X].substr(8, 10) == "Chat-Alt" + P.Alternate.toString() + "=") {
+					let From = T.cache[X].substr(0, 3);
+					let To = T.cache[X].substr(4, 3);
+					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+							Texts.push(T.cache[X].substr(18, 500));
+				}
+				X++;
+			}
+
+		}		
+	}
+		
 	// If there's a tag, we search for it specifically
-	let Texts = [];
 	let X = 0;
 	if (Tag != null) {
 		while (T.cache[X] != null) {
@@ -200,21 +247,74 @@ function PokerGetImage(P) {
 		CharacterRefresh(P.Character);
 	}
 
+	// For set images, a single opponent can have a large image, else we find a valid image from the game progress
 	if (P.Type == "Set") {
-		let X = 0;
+		
+		// First try to get an alternate version of the image
 		let Images = [];
-		while (P.Data.cache[X] != null) {
-			if (P.Data.cache[X].substr(8, 9) == "Opponent=") {
-				let From = P.Data.cache[X].substr(0, 3);
-				let To = P.Data.cache[X].substr(4, 3);
-				if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-					if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-						Images.push(P.Data.cache[X].substr(17, 100));
+		if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache["Alternate"] != null))
+			P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache["Alternate"])) + 1;
+		if (P.Alternate != null) {
+			if (PokerPlayerCount == 2) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(27, 100));
+					}
+					X++;
+				}
 			}
-			X++;
+			if (Images.length == 0) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(22, 100));
+					}
+					X++;
+				}
+			}
 		}
+
+		// Sets the non alternative images
+		if (PokerPlayerCount == 2) {
+			let X = 0;
+			while (P.Data.cache[X] != null) {
+				if (P.Data.cache[X].substr(8, 14) == "OpponentLarge=") {
+					let From = P.Data.cache[X].substr(0, 3);
+					let To = P.Data.cache[X].substr(4, 3);
+					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+							Images.push(P.Data.cache[X].substr(22, 100));
+				}
+				X++;
+			}
+		}
+		if (Images.length == 0) {
+			let X = 0;
+			while (P.Data.cache[X] != null) {
+				if (P.Data.cache[X].substr(8, 9) == "Opponent=") {
+					let From = P.Data.cache[X].substr(0, 3);
+					let To = P.Data.cache[X].substr(4, 3);
+					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+							Images.push(P.Data.cache[X].substr(17, 100));
+				}
+				X++;
+			}
+		}
+
+		// If an image was found
 		if (Images.length > 0)
 			P.Image = "Screens/Room/Poker/" + CommonRandomItemFromList("", Images);
+
 	}
 
 }
@@ -238,12 +338,15 @@ function PokerRun() {
 		DrawButton(100, 790, 64, 64, "", "White", PokerShowPlayer ? "Icons/Checked.png" : "");
 		DrawText(TextGet("ShowPlayer"), 300, 822, "white", "gray");
 		DrawBackNextButton(50, 880, 400, 60, TextGet("Rules" + PokerGame), "White", "", () => "", () => "");
-		DrawBackNextButton(550, 790, 400, 60, TextGet("Family" + PokerPlayer[1].Family), "White", "", () => "", () => "");
-		DrawBackNextButton(1050, 790, 400, 60, TextGet("Family" + PokerPlayer[2].Family), "White", "", () => "", () => "");
-		DrawBackNextButton(1550, 790, 400, 60, TextGet("Family" + PokerPlayer[3].Family), "White", "", () => "", () => "");
+		DrawBackNextButton(550, 760, 400, 60, TextGet("Family" + PokerPlayer[1].Family), "White", "", () => "", () => "");
+		DrawBackNextButton(1050, 760, 400, 60, TextGet("Family" + PokerPlayer[2].Family), "White", "", () => "", () => "");
+		DrawBackNextButton(1550, 760, 400, 60, TextGet("Family" + PokerPlayer[3].Family), "White", "", () => "", () => "");
 		for (let P = 1; P < PokerPlayer.length; P++)
-			if (PokerPlayer[P].Type != "None")
-				DrawBackNextButton(50 + P * 500, 880, 400, 60, PokerPlayer[P].Name, "White", "", () => "", () => "");
+			if (PokerPlayer[P].Type != "None") {
+				DrawBackNextButton(50 + P * 500, 840, 400, 60, PokerPlayer[P].Name, "White", "", () => "", () => "");
+				if ((PokerPlayer[P].WebLink == null) && (PokerPlayer[P].Data != null)) PokerPlayer[P].WebLink = PokerPlayer[P].Data.cache["WebLink"];
+				if ((PokerPlayer[P].WebLink != null) && (PokerPlayer[P].WebLink != "")) DrawButton(50 + P * 500, 920, 400, 60, TextGet("VisitArtist"), "White");
+			}
 	}
 
 	// Draws the cards and chips
@@ -307,6 +410,21 @@ function PokerRun() {
 }
 
 /**
+ * Clears the player data for player P
+ * @returns {void} - Nothing
+ */
+function PokerClearData(P) {
+	P.Difficulty = null;
+	P.Data = null;
+	P.Image = null;
+	P.TextColor = null;
+	P.TextSingle = null;
+	P.TextMultiple = null;
+	P.WebLink = null;
+	P.Alternate = null;
+}
+
+/**
  * Picks the next/previous opponent family for a player P
  * @returns {void} - Nothing
  */
@@ -316,23 +434,12 @@ function PokerChangeOpponentFamily(P, Next) {
 			P.Family = PokerAsset[A + (Next ? 1 : -1)].Family;
 			P.Type = PokerAsset[A + (Next ? 1 : -1)].Type;
 			P.Name = PokerAsset[A + (Next ? 1 : -1)].Opponent[0];
-			P.Difficulty = null;
-			P.Data = null;
-			P.Image = null;
-			P.TextColor = null;
-			P.TextSingle = null;
-			P.TextMultiple = null;
-			return;
+			return PokerClearData(P);
 		}
 	P.Family = PokerAsset[(Next ? 0 : PokerAsset.length - 1)].Family;
 	P.Type = PokerAsset[(Next ? 0 : PokerAsset.length - 1)].Type;
 	P.Name = PokerAsset[(Next ? 0 : PokerAsset.length - 1)].Opponent[0];
-	P.Difficulty = null;
-	P.Data = null;
-	P.Image = null;
-	P.TextColor = null;
-	P.TextSingle = null;
-	P.TextMultiple = null;
+	PokerClearData(P);
 }
 
 /**
@@ -347,13 +454,7 @@ function PokerChangeOpponent(P, Next) {
 			if (Pos < 0) Pos = PokerAsset[A].Opponent.length - 1;
 			if (Pos > PokerAsset[A].Opponent.length - 1) Pos = 0;
 			P.Name = PokerAsset[A].Opponent[Pos];
-			P.Difficulty = null;
-			P.Data = null;
-			P.Image = null;
-			P.TextColor = null;
-			P.TextSingle = null;
-			P.TextMultiple = null;
-			return;
+			return PokerClearData(P);
 		}
 }
 
@@ -369,10 +470,12 @@ function PokerClick() {
 		if (MouseIn(50, 880, 400, 60)) PokerGame = (PokerGame == "TexasHoldem") ? "TwoCards" : "TexasHoldem";
 		if (MouseIn(1885, 25, 90, 90)) PokerExit();
 		for (let P = 1; P < PokerPlayer.length; P++) {
-			if (MouseIn(50 + P * 500, 790, 400, 60))
+			if (MouseIn(50 + P * 500, 760, 400, 60))
 				PokerChangeOpponentFamily(PokerPlayer[P], (MouseX >= 250 + P * 500));
-			if ((PokerPlayer[P].Type != "None") && MouseIn(50 + P * 500, 880, 400, 60))
+			if ((PokerPlayer[P].Type != "None") && MouseIn(50 + P * 500, 840, 400, 60))
 				PokerChangeOpponent(PokerPlayer[P], (MouseX >= 250 + P * 500));
+			if ((PokerPlayer[P].Type != "None") && MouseIn(50 + P * 500, 920, 400, 60) && (PokerPlayer[P].WebLink != null) && (PokerPlayer[P].WebLink != ""))
+				window.open(PokerPlayer[P].WebLink);
 		}
 	}
 
@@ -380,7 +483,6 @@ function PokerClick() {
 	if (MouseIn(1885, 140, 90, 90) && (PokerMode == "")) {
 		PokerPlayerCount = 0;
 		for (let P = 0; P < PokerPlayer.length; P++) {
-			PokerPlayer[P].Chip = (PokerPlayer[P].Type != "None") ? 100 : 0;
 			if (PokerPlayer[P].Type == "Character") {
 				PokerPlayer[P].Cloth = InventoryGet(PokerPlayer[P].Character, "Cloth");
 				PokerPlayer[P].ClothLower = InventoryGet(PokerPlayer[P].Character, "ClothLower");
@@ -392,6 +494,8 @@ function PokerClick() {
 			if (PokerPlayer[P].Type != "None") PokerPlayerCount++;
 		}
 		if (PokerPlayerCount >= 2) {
+			for (let P = 0; P < PokerPlayer.length; P++)
+				PokerPlayer[P].Chip = (PokerPlayer[P].Type != "None") ? 100 : 0;
 			PokerAnte = (PokerGame == "TwoCards") ? 2 : 1;
 			PokerAnteCount = 0;
 			PokerDealHands();

@@ -265,6 +265,7 @@
 <script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonLore.js"></script>
 <script src="Screens/Inventory/ItemDevices/VacBedDeluxe/VacBedDeluxe.js"></script>
 <script src="Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js"></script>
+<script src="Screens/Inventory/ClothAccessory/Bib/Bib.js"></script>
 <script>
 
 /*
@@ -280,7 +281,7 @@
 window.onload = function() {
 //	CheatImport();
 	ServerURL = "https://bondage-club-server.herokuapp.com/";
-	GameVersion = "R71Beta1";
+	GameVersion = "R71";
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
 	CommonIsMobile = CommonDetectMobile();
