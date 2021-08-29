@@ -2923,7 +2923,7 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6 }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6 }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
