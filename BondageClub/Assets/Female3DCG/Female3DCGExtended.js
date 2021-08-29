@@ -809,6 +809,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Bottom",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemVulvaPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 2,
 						},
 					},
@@ -831,6 +832,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Full",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 6,
 						}
 					},
@@ -842,6 +844,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Complete",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 7,
 						}
 					},
@@ -853,6 +856,7 @@ var AssetFemale3DCGExtended = {
 							Type: "ExposedComplete",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemVulvaPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 7,
 						}
 					},
@@ -2904,11 +2908,11 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "MostLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4 }
+						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6 }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
@@ -3385,7 +3389,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", },
+						Property: { Type: "Poofy", HideItem: ["ClothMaidOutfit1", "ClothMaidOutfit2", "ClothStudentOutfit1", "ClothBabydollDress1", "ClothChineseDress2", "ClothSummerDress", "ClothLowerPleatedSkirt", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
 					},
 				],
 			},
@@ -3577,7 +3581,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", },
+						Property: { Type: "Poofy", HideItem: ["ClothMaidOutfit1", "ClothMaidOutfit2", "ClothStudentOutfit1", "ClothBabydollDress1", "ClothChineseDress2", "ClothSummerDress", "ClothLowerPleatedSkirt", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
 					},
 				],
 			},
