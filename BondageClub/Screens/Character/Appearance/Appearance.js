@@ -331,7 +331,6 @@ function CharacterAppearanceSortLayers(C) {
 					});
 					if (item.Property) {
 						if (item.Property.Alpha) {
-							console.log(item);
 							item.Property.Alpha.forEach(alphaDef => {
 								if (alphaDef.Group && alphaDef.Group.length) {
 									alphaDef.Group.forEach(groupName => {
