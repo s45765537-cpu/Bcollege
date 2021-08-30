@@ -329,8 +329,22 @@ function CharacterAppearanceSortLayers(C) {
 							});
 						}
 					});
+					if (item.Property) {
+						if (item.Property.Alpha) {
+							console.log(item);
+							item.Property.Alpha.forEach(alphaDef => {
+								if (alphaDef.Group && alphaDef.Group.length) {
+									alphaDef.Group.forEach(groupName => {
+										groupAlphas[groupName] = groupAlphas[groupName] || [];
+										groupAlphas[groupName].push({ Pose: alphaDef.Pose, Masks: alphaDef.Masks });
+									});
+								}
+							});
+						}
+					}
 					// If the item has an OverridePriority property, it completely overrides the layer priority
 					if (item.Property && typeof item.Property.OverridePriority === "number") drawLayer.Priority = item.Property.OverridePriority;
+					
 					return drawLayer;
 				});
 			Array.prototype.push.apply(layersAcc, layersToDraw);
