@@ -3766,8 +3766,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Mummy",
 						Property: {
 							Type: "Mummy",
-							Hide: ["HairFront", "HairBack"],
-							Alpha: [{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[0, 220, 500, 500]] }],
+							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
 							Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
 						},
@@ -3776,8 +3775,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: "Open",
-							Hide: ["HairFront", "HairBack"],
-							Alpha: [{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[0, 220, 500, 500]] }],
+							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
 							Effect: ["GagNormal", "BlockMouth"],
 						},
