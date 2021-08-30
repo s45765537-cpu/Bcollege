@@ -79,7 +79,7 @@ interface AssetDefinition {
 	Top?: number;
 	Height?: number;
 	Zoom?: number;
-	Alpha?: { Group?: string[], Pose?: string[], Masks: [number, number, number, number][] }[];
+	Alpha?: AlphaDefinition[];
 	Prerequisite?: string | string[];
 	Extended?: boolean;
 	AlwaysExtend?: boolean;
