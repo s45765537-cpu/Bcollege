@@ -153,7 +153,7 @@ interface AssetLayerDefinition {
 	AllowPose?: string[];
 	Priority?: number;
 	InheritColor?: string;
-	Alpha?: { Group?: string[], Pose?: string[], Masks: [number, number, number, number][] }[],
+	Alpha?: AlphaDefinition[],
 	Left?: number;
 	Top?: number;
 	HideAs?: { Group: string, Asset: string };
