@@ -343,7 +343,6 @@ function CharacterAppearanceSortLayers(C) {
 					}
 					// If the item has an OverridePriority property, it completely overrides the layer priority
 					if (item.Property && typeof item.Property.OverridePriority === "number") drawLayer.Priority = item.Property.OverridePriority;
-					
 					return drawLayer;
 				});
 			Array.prototype.push.apply(layersAcc, layersToDraw);
