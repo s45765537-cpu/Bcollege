@@ -56,7 +56,7 @@ function AssetsItemDevicesFuturisticCrateBeforeDraw({ PersistentData, L, X, Y, P
 function AssetsItemDevicesFuturisticCrateScriptDraw(data) {
 	VibratorModeScriptDraw(data);
 
-    const Data = data.PersistentData();
+	const Data = data.PersistentData();
 	const Properties = data.Item.Property || {};
 	const FrameTime = Player.GraphicsSettings ? Math.max(30, (Player.GraphicsSettings.AnimationQuality * 0.6)) : 30;
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;
