@@ -713,7 +713,7 @@ var AssetFemale3DCGExtended = {
 					}
 				],
 			},
-		}, // SteelCuffs	
+		}, // SteelCuffs
 		StraitJacket: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1236,8 +1236,8 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Lenses", Key: "l",
 						Options: [
-							{}, 
-							{ Property: { Effect: ["BlindHeavy"] } }, 
+							{},
+							{ Property: { Effect: ["BlindHeavy"] } },
 						],
 					},
 					{
@@ -1415,6 +1415,81 @@ var AssetFemale3DCGExtended = {
 		}, // GwenHood
 	}, // ItemHood
 	ItemDevices: {
+		FuturisticCrate: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Window", Key: "w",
+						Options: [
+							{}, // d0 - Open
+							{
+								Property: {
+									Difficulty: 10,
+									Effect: ["BlindLight", "GagLight", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d1 - Smallwindow
+							{
+								Property: {
+									Difficulty: 10,
+									Effect: ["BlindNormal", "GagLight", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d2 - Normal window
+							{
+								Property: {
+									Difficulty: 50,
+									Effect: ["BlindHeavy", "GagLight", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d3 - Closed
+						],
+					},
+					{
+						Name: "Straps", Key: "s",
+						Options: [
+							{}, // s0 - No straps
+							{ // s1 - Arm straps
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 19,
+									SetPose: ["OverTheHead"],
+									Effect: ["Prone", "Freeze", "Block"],
+								},
+							},
+							{ // s2 - Leg straps
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty"],
+								Property: {
+									Difficulty: 19,
+									SetPose: ["Spread"],
+									Effect: ["Prone", "Freeze"],
+								},
+							},
+							{ // s3 - Full straps
+								Prerequisite: ["LegsOpen", "CuffedArmsOrEmpty", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty"],
+								Property: {
+									Difficulty: 19,
+									SetPose: ["OverTheHead", "Spread"],
+									Effect: ["Prone", "Freeze", "Block"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Device", Key: "d",
+						Options: [
+							{}, // d0 - No devvice
+							{ // s1 - Pleasure module
+								HasSubscreen: true,
+								Property: {
+									Effect: ["Egged"]
+								}
+							},
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		}, // FuturisticCrate
+
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -2954,7 +3029,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Mermaid",
 						BondageLevel: 4,
 						Property: { Type: "Mermaid", SetPose: ["LegsClosed"], Difficulty: 4 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectRopeBondage",
@@ -2977,7 +3052,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Strict",
 						BondageLevel: 2,
 						Property: { Type: "Strict", Difficulty: 2 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectChainBondage",
@@ -3175,7 +3250,7 @@ var AssetFemale3DCGExtended = {
 		SturdyLeatherBelts: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemArms", AssetName: "SturdyLeatherBelts" },
-		}, // SturdyLeatherBelts 
+		}, // SturdyLeatherBelts
 		LeatherAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "SteelAnkleCuffs" },
@@ -3477,7 +3552,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Open",
 						Property: {
-							Type: null, 
+							Type: null,
 						},
 					},
 					{
@@ -3509,7 +3584,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Dull",
 						Property: { Type: "Dull"},
 					},
-				],		
+				],
 			},
 		}, // ChineseDress2
 	}, // Bra
@@ -3818,7 +3893,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6, Effect: []}
 					}, {
 						Name: "Suspended",
-							Property: { 
+							Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],
@@ -3844,7 +3919,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6}
 					}, {
 						Name: "Suspended",
-						Property: { 
+						Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],
