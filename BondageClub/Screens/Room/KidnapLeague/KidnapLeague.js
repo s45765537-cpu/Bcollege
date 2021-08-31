@@ -177,8 +177,8 @@ function KidnapLeagueBountyFightEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyPay() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", (15 + KidnapLeagueBountyDifficulty * 2).toString());
-	CharacterChangeMoney(Player, 15 + KidnapLeagueBountyDifficulty * 2);
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", (25 + KidnapLeagueBountyDifficulty * 2).toString());
+	CharacterChangeMoney(Player, 25 + KidnapLeagueBountyDifficulty * 2);
 	KidnapLeagueBountyReset();
 }
 
