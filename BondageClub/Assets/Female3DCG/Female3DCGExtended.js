@@ -214,6 +214,34 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		}, // Ribbons
+		FuturisticBra2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Display", Key: "d",
+						Options: [
+							{}, // d0 - Display
+							{}, // d1 - No Display
+						],
+					},
+					{
+						Name: "Shiny", Key: "s",
+						Options: [
+							{}, // s0 - Shiny
+							{}, // s1 - No Shiny
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			}
+		}, // FuturisticBra2
 	}, // ItemBreast
 	ItemArms: {
 		Web: {

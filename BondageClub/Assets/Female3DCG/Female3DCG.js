@@ -2320,12 +2320,14 @@ var AssetFemale3DCG = [
 					{ Name: "Bra" , AllowColorize: true , AllowTypes: ["", "Heart", "Solid", "Show2", "Show2Heart", "Solid2"]},
 				]
 			},
-			{ Name: "FuturisticBra2", Category: ["SciFi"], Fetish: ["Metal"], Value: -1, BuyGroup: "FuturisticBra", Difficulty: 50, Time: 10, Random: false, AllowLock: true, DrawLocks: false, HideForPose: ["AllFours"], DefaultColor: ["#50913C", "Default", "#889FA7","Default",  "#404040"], AllowType: ["NoDisplay", "Matte", "NoDisplayMatte"], Audio: "FuturisticApply", Prerequisite: "AccessBreast", Hide: ["ItemNipples", "ItemNipplesPiercings"], FuturisticRecolor: true, Effect: ["BreastChaste", "UseRemote"], Block: ["ItemNipples", "ItemNipplesPiercings"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true,
+			{ Name: "FuturisticBra2", Category: ["SciFi"], Fetish: ["Metal"], Value: -1, BuyGroup: "FuturisticBra", Difficulty: 50, Time: 10, Random: false, AllowLock: true, DrawLocks: false, HideForPose: ["AllFours"], DefaultColor: ["#50913C", "Default", "#889FA7","Default",  "#404040"],
+				Audio: "FuturisticApply", Prerequisite: "AccessBreast", Hide: ["ItemNipples", "ItemNipplesPiercings"], FuturisticRecolor: true, Effect: ["BreastChaste", "UseRemote"], Block: ["ItemNipples", "ItemNipplesPiercings"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true,
 				Layer: [
-					{ Name: "Display", AllowColorize: true , HasType: false, AllowTypes: ["", "Matte"], ParentGroup: null},
+					{ Name: "Display", AllowColorize: true , HasType: false, AllowModuleTypes: ["d0"], ParentGroup: null},
 					{ Name: "Bra" , AllowColorize: true, HasType: false},
 					{ Name: "Mesh" , AllowColorize: true , HasType: false},
-					{ Name: "Shine" , AllowColorize: true, HasType: false, AllowTypes: ["", "NoDisplay"]},
+					{ Name: "Shine" , AllowColorize: true, HasType: false, AllowModuleTypes: ["s0"]},
 					{ Name: "Straps" , AllowColorize: true , HasType: false},
 					{ Name: "Lock", LockLayer: true,AllowColorize: true, HasType: true, ParentGroup: null},
 				]
