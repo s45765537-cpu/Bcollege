@@ -116,7 +116,7 @@ function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHo
 	let originalFunction = function () {
 		ExtendedItemLoad(options, dialog.load);
 	};
-	if (scriptHooks && scriptHooks.click) {
+	if (scriptHooks && scriptHooks.load) {
 		window[loadFunctionName] = function () {
 			scriptHooks.load(originalFunction, options, dialog.load);
 		};
@@ -133,7 +133,7 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
 	let originalFunction = function () {
 		ExtendedItemDraw(options, dialog.typePrefix, null, drawImages);
 	};
-	if (scriptHooks && scriptHooks.click) {
+	if (scriptHooks && scriptHooks.draw) {
 		window[drawFunctionName] = function () {
 			scriptHooks.draw(originalFunction, options, dialog.typePrefix, null, drawImages);
 		};
@@ -165,7 +165,7 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
  */
  function TypedItemCreateExitFunction({ functionPrefix, scriptHooks}) {
 	const exitFunctionName = `${functionPrefix}Exit`;
-	if (scriptHooks && scriptHooks.click) {
+	if (scriptHooks && scriptHooks.exit) {
 		window[exitFunctionName] = function () {
 			scriptHooks.exit();
 		};

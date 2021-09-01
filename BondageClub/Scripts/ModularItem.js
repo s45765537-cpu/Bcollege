@@ -112,7 +112,7 @@ function ModularItemCreateLoadFunction(data) {
 		}
 		DialogExtendedMessage = DialogFindPlayer(`${data.dialogSelectPrefix}${ModularItemBase}`);
 	};
-	if (data.scriptHooks && data.scriptHooks.click) {
+	if (data.scriptHooks && data.scriptHooks.load) {
 		window[loadFunctionName] = function () {
 			data.scriptHooks.load(originalFunction, data);
 		};
@@ -131,7 +131,7 @@ function ModularItemCreateDrawFunction(data) {
 		const drawFunction = data.drawFunctions[currentModule];
 		return drawFunction();
 	};
-	if (data.scriptHooks && data.scriptHooks.click) {
+	if (data.scriptHooks && data.scriptHooks.draw) {
 		window[drawFunctionName] = function () {
 			data.scriptHooks.draw(originalFunction, data);
 		};
@@ -164,7 +164,7 @@ function ModularItemCreateClickFunction(data) {
  */
  function ModularItemCreateExitFunction(data) {
 	const exitFunctionName = `${data.functionPrefix}Exit`;
-	if (data.scriptHooks && data.scriptHooks.click) {
+	if (data.scriptHooks && data.scriptHooks.exit) {
 		window[exitFunctionName] = function () {
 			data.scriptHooks.exit();
 		};
