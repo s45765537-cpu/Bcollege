@@ -114,7 +114,7 @@ function ModularItemCreateLoadFunction(data) {
 	};
 	if (data.scriptHooks && data.scriptHooks.load) {
 		window[loadFunctionName] = function () {
-			data.scriptHooks.load(originalFunction, data);
+			data.scriptHooks.load(originalFunction);
 		};
 	} else window[loadFunctionName] = originalFunction;
 }
@@ -133,7 +133,7 @@ function ModularItemCreateDrawFunction(data) {
 	};
 	if (data.scriptHooks && data.scriptHooks.draw) {
 		window[drawFunctionName] = function () {
-			data.scriptHooks.draw(originalFunction, data);
+			data.scriptHooks.draw(originalFunction);
 		};
 	} else window[drawFunctionName] = originalFunction;
 }
@@ -152,7 +152,7 @@ function ModularItemCreateClickFunction(data) {
 	};
 	if (data.scriptHooks && data.scriptHooks.click) {
 		window[clickFunctionName] = function () {
-			data.scriptHooks.click(originalFunction, data);
+			data.scriptHooks.click(originalFunction);
 		};
 	} else window[clickFunctionName] = originalFunction;
 }

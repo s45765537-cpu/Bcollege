@@ -118,7 +118,7 @@ function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHo
 	};
 	if (scriptHooks && scriptHooks.load) {
 		window[loadFunctionName] = function () {
-			scriptHooks.load(originalFunction, options, dialog.load);
+			scriptHooks.load(originalFunction);
 		};
 	} else window[loadFunctionName] = originalFunction;
 }
@@ -135,7 +135,7 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
 	};
 	if (scriptHooks && scriptHooks.draw) {
 		window[drawFunctionName] = function () {
-			scriptHooks.draw(originalFunction, options, dialog.typePrefix, null, drawImages);
+			scriptHooks.draw(originalFunction);
 		};
 	} else window[drawFunctionName] = originalFunction;
 }
@@ -152,7 +152,7 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
 	};
 	if (scriptHooks && scriptHooks.click) {
 		window[clickFunctionName] = function () {
-			scriptHooks.click(originalFunction, options, null, drawImages);
+			scriptHooks.click(originalFunction);
 		};
 	} else window[clickFunctionName] = originalFunction;
 }

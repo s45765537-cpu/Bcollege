@@ -828,9 +828,9 @@ interface ModularItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction : function, Data : ModularItemData) => void,
-		Click? : (OriginalFunction : function, Data : ModularItemData) => void,
-		Draw? : (OriginalFunction : function, Data : ModularItemData) => void,
+		Load? : (OriginalFunction : function) => void,
+		Click? : (OriginalFunction : function) => void,
+		Draw? : (OriginalFunction : function) => void,
 		Exit? : () => void,
 	};
 }
@@ -929,9 +929,9 @@ interface ModularItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction : function, Data : ModularItemData) => void,
-		click? : (OriginalFunction : function, Data : ModularItemData) => void,
-		draw? : (OriginalFunction : function, Data : ModularItemData) => void,
+		load? : (OriginalFunction : function) => void,
+		click? : (OriginalFunction : function) => void,
+		draw? : (OriginalFunction : function) => void,
 		exit? : () => void,
 
 	};
@@ -990,9 +990,9 @@ interface TypedItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogKey) => void,
-		Click? : (OriginalFunction : function, Options : ExtendedItemOption[], OptionsPerPage : number, ShowImages : boolean) => void,
-		Draw? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogPrefix : string, OptionsPerPage : number, ShowImages : boolean) => void,
+		Load? : (OriginalFunction : function) => void,
+		Click? : (OriginalFunction : function) => void,
+		Draw? : (OriginalFunction : function) => void,
 		Exit? : () => void,
 		Validate? : (OriginalFunction : function, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => void,
 	};
@@ -1080,9 +1080,9 @@ interface TypedItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogKey) => void,
-		click? : (OriginalFunction : function, Options : ExtendedItemOption[], OptionsPerPage : number, ShowImages : boolean) => void,
-		draw? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogPrefix : string, OptionsPerPage : number, ShowImages : boolean) => void,
+		load? : (OriginalFunction : function) => void,
+		click? : (OriginalFunction : function) => void,
+		draw? : (OriginalFunction : function) => void,
 		exit? : () => void,
 		validate? : (OriginalFunction : function, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => void,
 	};

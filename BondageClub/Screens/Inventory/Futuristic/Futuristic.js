@@ -44,11 +44,11 @@ var FuturisticAccessDeniedMessage = "";
  * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
- function FuturisticAccessLoad(OriginalFunction, Options, DialogKey) {
+ function FuturisticAccessLoad(OriginalFunction) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticLoadAccessDenied()
-	} else OriginalFunction(Options, DialogKey);
+	} else OriginalFunction();
 }
 
 /**
@@ -56,11 +56,11 @@ var FuturisticAccessDeniedMessage = "";
  * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
-function FuturisticAccessClick(OriginalFunction, Options, OptionsPerPage, ShowImages) {
+function FuturisticAccessClick(OriginalFunction) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticClickAccessDenied()
-	} else OriginalFunction(Options, OptionsPerPage, ShowImages);
+	} else OriginalFunction();
 }
 
 /**
@@ -68,11 +68,11 @@ function FuturisticAccessClick(OriginalFunction, Options, OptionsPerPage, ShowIm
  * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
- function FuturisticAccessDraw(OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) {
+ function FuturisticAccessDraw(OriginalFunction) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticDrawAccessDenied()
-	} else OriginalFunction(Options, DialogPrefix, OptionsPerPage, ShowImages);
+	} else OriginalFunction();
 }
 
 /**

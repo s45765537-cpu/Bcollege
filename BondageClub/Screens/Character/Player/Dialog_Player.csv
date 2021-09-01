@@ -905,6 +905,7 @@ ItemDevicesFuturisticCrateSetw0,,,SourceCharacter opens DestinationCharacter cra
 ItemDevicesFuturisticCrateSetw1,,,SourceCharacter opens the observation port on DestinationCharacter crate.,,
 ItemDevicesFuturisticCrateSetw2,,,SourceCharacter opens the large window on DestinationCharacter crate.,,
 ItemDevicesFuturisticCrateSetw3,,,SourceCharacter seals DestinationCharacter crate.,,
+ItemDevicesFuturisticCrateSets0,,,SourceCharacter releases DestinationCharacter from her crate's restraints.,,
 ItemDevicesFuturisticCrateSets1,,,SourceCharacter straps in DestinationCharacter arms.,,
 ItemDevicesFuturisticCrateSets2,,,SourceCharacter straps in DestinationCharacter legs.,,
 ItemDevicesFuturisticCrateSets3,,,SourceCharacter straps in DestinationCharacter arms and legs.,,
