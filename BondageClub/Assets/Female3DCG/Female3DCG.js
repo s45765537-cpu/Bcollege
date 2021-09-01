@@ -4513,6 +4513,7 @@ var AssetFemale3DCG = [
 				Effect: [], AllowEffect: ["GagLight", "Freeze", "Prone", "BlindLight", "Enclose", "BlindNormal", "BlindHeavy", "Freeze", "Block", "Egged", "Vibrating", "FillVulva", "Edged"],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
+				ArousalZone: "ItemVulva",
 				RemoveAtLogin: true, Extended: true, DynamicScriptDraw: true, DynamicBeforeDraw: true,
 				DefaultColor: ["#222222", "Default", "Default", "#FF1199", "Default", "#444444", "#555555", "#3B7F2C","Default", "Default", "#BBBBFF", "Default", ],
 				Layer: [
