@@ -3560,8 +3560,10 @@ var AssetFemale3DCG = [
 				Effect: [ "BlockMouth"], Prerequisite: "GagFlat", Hide: ["Mouth", "ItemNoseNoseRing"], Extended: true,
 				Layer: [
 					{ Name: "Straps", HasType: false, AllowModuleTypes: ["h1"]},
+					{ Name: "Nose", HasType: false, AllowModuleTypes: ["n1"]},
 					{ Name: "Mask", HasType: false,},
-					{ Name: "Icon", HasType: true, AllowModuleTypes: ["s1", "s2"]},
+					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
+					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
 				]
 			},
 			{
@@ -3825,8 +3827,10 @@ var AssetFemale3DCG = [
 				Effect: [ "BlockMouth"], Prerequisite: "GagFlat", Hide: ["Mouth", "ItemNoseNoseRing"], Block: ["ItemMouth"], Extended: true,
 				Layer: [
 					{ Name: "Straps", HasType: false, AllowModuleTypes: ["h1"]},
+					{ Name: "Nose", HasType: false, AllowModuleTypes: ["n1"]},
 					{ Name: "Mask", HasType: false,},
-					{ Name: "Icon", HasType: true, AllowModuleTypes: ["s1", "s2"]},
+					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
+					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
 				]
 			},
 			{
@@ -4065,8 +4069,10 @@ var AssetFemale3DCG = [
 				Effect: [ "BlockMouth"], Prerequisite: "GagFlat", Hide: ["Mouth", "ItemNoseNoseRing"], Block: ["ItemMouth", "ItemMouth2"], Extended: true,
 				Layer: [
 					{ Name: "Straps", HasType: false, AllowModuleTypes: ["h1"]},
+					{ Name: "Nose", HasType: false, AllowModuleTypes: ["n1"]},
 					{ Name: "Mask", HasType: false,},
-					{ Name: "Icon", HasType: true, AllowModuleTypes: ["s1", "s2"]},
+					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
+					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
 				]
 			},
 			{

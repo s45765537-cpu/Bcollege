@@ -2878,6 +2878,17 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Modules: [
 					{
+						Name: "Nose", Key: "n",
+						Options: [
+							{}, // n0 - No nose
+							{ // n1 - OTN
+								Property: {
+									Difficulty: 1,
+								},
+							},
+						],
+					},
+					{
 						Name: "Harness", Key: "h",
 						Options: [
 							{}, // h0 - No straps
