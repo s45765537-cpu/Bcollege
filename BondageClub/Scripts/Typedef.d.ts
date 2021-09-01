@@ -828,9 +828,9 @@ interface ModularItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction, Data) => void,
-		Click? : (OriginalFunction, Data) => void,
-		Draw? : (OriginalFunction, Data) => void,
+		Load? : (OriginalFunction : function, Data : ModularItemData) => void,
+		Click? : (OriginalFunction : function, Data : ModularItemData) => void,
+		Draw? : (OriginalFunction : function, Data : ModularItemData) => void,
 		Exit? : () => void,
 	};
 }
@@ -929,9 +929,9 @@ interface ModularItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction, Data) => void,
-		click? : (OriginalFunction, Data) => void,
-		draw? : (OriginalFunction, Data) => void,
+		load? : (OriginalFunction : function, Data : ModularItemData) => void,
+		click? : (OriginalFunction : function, Data : ModularItemData) => void,
+		draw? : (OriginalFunction : function, Data : ModularItemData) => void,
 		exit? : () => void,
 
 	};
@@ -990,11 +990,11 @@ interface TypedItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction, Options, DialogKey) => void,
-		Click? : (OriginalFunction, Options, OptionsPerPage, ShowImages) => void,
-		Draw? : (OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) => void,
+		Load? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogKey) => void,
+		Click? : (OriginalFunction : function, Options : ExtendedItemOption[], OptionsPerPage : number, ShowImages : boolean) => void,
+		Draw? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogPrefix : string, OptionsPerPage : number, ShowImages : boolean) => void,
 		Exit? : () => void,
-		Validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+		Validate? : (OriginalFunction : function, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => void,
 	};
 }
 
