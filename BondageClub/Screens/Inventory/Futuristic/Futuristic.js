@@ -44,7 +44,7 @@ var FuturisticAccessDeniedMessage = "";
  * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
- function FuturisticAccessLoad(OriginalFunction) {
+function FuturisticAccessLoad(OriginalFunction) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticLoadAccessDenied()
@@ -68,7 +68,7 @@ function FuturisticAccessClick(OriginalFunction) {
  * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
- function FuturisticAccessDraw(OriginalFunction) {
+function FuturisticAccessDraw(OriginalFunction) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticDrawAccessDenied()
