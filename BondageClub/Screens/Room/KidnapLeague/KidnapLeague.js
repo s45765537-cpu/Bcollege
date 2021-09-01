@@ -129,7 +129,7 @@ function KidnapLeagueTakeBounty(Difficulty) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyRemind() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", (15 + KidnapLeagueBountyDifficulty * 2).toString());
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", (25 + KidnapLeagueBountyDifficulty * 2).toString());
 }
 
 /**
