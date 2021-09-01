@@ -1883,6 +1883,29 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // ToeTape
+		FuturisticHeels: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Shoes",
+						Property: { Type: null, HeightModifier: 6 },
+					},
+					{
+						Name: "Heel",
+						Property: { Type: "Heel", HeightModifier: 16 },
+					},
+				],
+				ChangeWhenLocked: false,
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticHeels
 		FuturisticHeels2: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
