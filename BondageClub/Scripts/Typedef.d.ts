@@ -832,7 +832,6 @@ interface ModularItemConfig {
 		Click? : (OriginalFunction, Data) => void,
 		Draw? : (OriginalFunction, Data) => void,
 		Exit? : () => void,
-		Validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
 	};
 }
 
@@ -934,7 +933,7 @@ interface ModularItemData {
 		click? : (OriginalFunction, Data) => void,
 		draw? : (OriginalFunction, Data) => void,
 		exit? : () => void,
-		validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+
 	};
 }
 
