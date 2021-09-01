@@ -828,10 +828,10 @@ interface ModularItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction : () => void) => void,
-		Click? : (OriginalFunction : () => void) => void,
-		Draw? : (OriginalFunction : () => void) => void,
-		Exit? : () => void,
+		Load?: (next: () => void) => void,
+		Click?: (next: () => void) => void,
+		Draw?: (next: () => void) => void,
+		Exit?: () => void,
 	};
 }
 
@@ -929,11 +929,10 @@ interface ModularItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction : () => void) => void,
-		click? : (OriginalFunction : () => void) => void,
-		draw? : (OriginalFunction : () => void) => void,
-		exit? : () => void,
-
+		load?: (next: () => void) => void,
+		click?: (next: () => void) => void,
+		draw?: (next: () => void) => void,
+		exit?: () => void,
 	};
 }
 
@@ -990,11 +989,11 @@ interface TypedItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load? : (OriginalFunction : () => void) => void,
-		Click? : (OriginalFunction : () => void) => void,
-		Draw? : (OriginalFunction : () => void) => void,
-		Exit? : () => void,
-		Validate? : (OriginalFunction : () => string, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => string,
+		Load?: (next: () => void) => void,
+		Click?: (next: () => void) => void,
+		Draw?: (next: () => void) => void,
+		Exit?: () => void,
+		Validate? : (next: () => string, C: Character, Item: Item, Option: ExtendedItemOption, CurrentOption: ExtendedItemOption) => string,
 	};
 }
 
@@ -1080,11 +1079,11 @@ interface TypedItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction : () => void) => void,
-		click? : (OriginalFunction : () => void) => void,
-		draw? : (OriginalFunction : () => void) => void,
-		exit? : () => void,
-		validate? : (OriginalFunction : () => string, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => string,
+		load?: (next: () => void) => void,
+		click?: (next: () => void) => void,
+		draw?: (next: () => void) => void,
+		exit?: () => void,
+		validate?: (next: () => string, C: Character, Item: Item, Option: ExtendedItemOption, CurrentOption: ExtendedItemOption) => string,
 	};
 }
 

@@ -102,7 +102,7 @@ function ModularItemRegister(asset, config) {
  */
 function ModularItemCreateLoadFunction(data) {
 	const loadFunctionName = `${data.functionPrefix}Load`;
-	let originalFunction = function () {
+	const loadFunction = function () {
 		if (!DialogFocusItem.Property) {
 			const C = CharacterGetCurrent();
 			const currentModuleValues = ModularItemParseCurrent(data);
@@ -114,9 +114,9 @@ function ModularItemCreateLoadFunction(data) {
 	};
 	if (data.scriptHooks && data.scriptHooks.load) {
 		window[loadFunctionName] = function () {
-			data.scriptHooks.load(originalFunction);
+			data.scriptHooks.load(loadFunction);
 		};
-	} else window[loadFunctionName] = originalFunction;
+	} else window[loadFunctionName] = loadFunction;
 }
 
 /**
@@ -126,16 +126,16 @@ function ModularItemCreateLoadFunction(data) {
  */
 function ModularItemCreateDrawFunction(data) {
 	const drawFunctionName = `${data.functionPrefix}Draw`;
-	let originalFunction = function () {
+	const drawFunction = function () {
 		const currentModule = data.currentModule || ModularItemBase;
 		const drawFunction = data.drawFunctions[currentModule];
 		return drawFunction();
 	};
 	if (data.scriptHooks && data.scriptHooks.draw) {
 		window[drawFunctionName] = function () {
-			data.scriptHooks.draw(originalFunction);
+			data.scriptHooks.draw(drawFunction);
 		};
-	} else window[drawFunctionName] = originalFunction;
+	} else window[drawFunctionName] = drawFunction;
 }
 
 /**
@@ -145,16 +145,16 @@ function ModularItemCreateDrawFunction(data) {
  */
 function ModularItemCreateClickFunction(data) {
 	const clickFunctionName = `${data.functionPrefix}Click`;
-	let originalFunction = function () {
+	const clickFunction = function () {
 		const currentModule = data.currentModule || ModularItemBase;
 		const clickFunction = data.clickFunctions[currentModule];
 		return clickFunction();
 	};
 	if (data.scriptHooks && data.scriptHooks.click) {
 		window[clickFunctionName] = function () {
-			data.scriptHooks.click(originalFunction);
+			data.scriptHooks.click(clickFunction);
 		};
-	} else window[clickFunctionName] = originalFunction;
+	} else window[clickFunctionName] = clickFunction;
 }
 
 /**
@@ -177,7 +177,7 @@ function ModularItemCreateClickFunction(data) {
  * @param {ModularItemConfig} config - The item's extended item configuration
  * @returns {ModularItemData} - The generated modular item data for the asset
  */
-function ModularItemCreateModularData(asset, { Modules, ChatSetting, ChangeWhenLocked, ScriptHooks}) {
+function ModularItemCreateModularData(asset, { Modules, ChatSetting, ChangeWhenLocked, ScriptHooks }) {
 	const key = `${asset.Group.Name}${asset.Name}`;
 	/** @type {ModularItemData} */
 	const data = ModularItemDataLookup[key] = {

@@ -72,7 +72,7 @@ function TypedItemRegister(asset, config) {
  * @returns {TypedItemData} - The generated typed item data for the asset
  */
 function TypedItemCreateTypedItemData(asset,
-	{ Options, Dialog, ChatTags, Dictionary, ChatSetting, DrawImages, ChangeWhenLocked, Validate, ScriptHooks}
+	{ Options, Dialog, ChatTags, Dictionary, ChatSetting, DrawImages, ChangeWhenLocked, Validate, ScriptHooks }
 ) {
 	Dialog = Dialog || {};
 	const key = `${asset.Group.Name}${asset.Name}`;
@@ -111,16 +111,16 @@ function TypedItemCreateTypedItemData(asset,
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHooks}) {
+function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHooks }) {
 	const loadFunctionName = `${functionPrefix}Load`;
-	let originalFunction = function () {
+	const loadFunction = function () {
 		ExtendedItemLoad(options, dialog.load);
 	};
 	if (scriptHooks && scriptHooks.load) {
 		window[loadFunctionName] = function () {
-			scriptHooks.load(originalFunction);
+			scriptHooks.load(loadFunction);
 		};
-	} else window[loadFunctionName] = originalFunction;
+	} else window[loadFunctionName] = loadFunction;
 }
 
 /**
@@ -128,16 +128,16 @@ function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHo
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImages, scriptHooks}) {
+function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImages, scriptHooks }) {
 	const drawFunctionName = `${functionPrefix}Draw`;
-	let originalFunction = function () {
+	const drawFunction = function () {
 		ExtendedItemDraw(options, dialog.typePrefix, null, drawImages);
 	};
 	if (scriptHooks && scriptHooks.draw) {
 		window[drawFunctionName] = function () {
-			scriptHooks.draw(originalFunction);
+			scriptHooks.draw(drawFunction);
 		};
-	} else window[drawFunctionName] = originalFunction;
+	} else window[drawFunctionName] = drawFunction;
 }
 
 /**
@@ -145,16 +145,16 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
- function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scriptHooks}) {
+function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scriptHooks }) {
 	const clickFunctionName = `${functionPrefix}Click`;
-	let originalFunction = function () {
+	const clickFunction = function () {
 		ExtendedItemClick(options, null, drawImages);
 	};
 	if (scriptHooks && scriptHooks.click) {
 		window[clickFunctionName] = function () {
-			scriptHooks.click(originalFunction);
+			scriptHooks.click(clickFunction);
 		};
-	} else window[clickFunctionName] = originalFunction;
+	} else window[clickFunctionName] = clickFunction;
 }
 
 
@@ -176,9 +176,9 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
  *
  * @param {TypedItemData} data - The typed item data for the asset
  */
-function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPrefix, validate, scriptHooks}) {
+function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPrefix, validate, scriptHooks }) {
 	const validateFunctionName = `${functionPrefix}Validate`;
-	let originalFunction = function (C, item, option, currentOption) {
+	const validateFunction = function (C, item, option, currentOption) {
 		let message = "";
 
 		if (typeof validate === "function") {
@@ -194,9 +194,9 @@ function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPr
 	};
 	if (scriptHooks && scriptHooks.validate) {
 		window[validateFunctionName] = function (C, item, option, currentOption) {
-			scriptHooks.validate(originalFunction, C, item, option, currentOption);
+			scriptHooks.validate(validateFunction, C, item, option, currentOption);
 		};
-	} else window[validateFunctionName] = originalFunction;
+	} else window[validateFunctionName] = validateFunction;
 }
 
 /**
