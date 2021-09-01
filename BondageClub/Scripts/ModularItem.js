@@ -152,7 +152,7 @@ function ModularItemCreateClickFunction(data) {
 	};
 	if (data.scriptHooks && data.scriptHooks.click) {
 		window[clickFunctionName] = function () {
-			data.scriptHooks.draw(originalFunction, data);
+			data.scriptHooks.click(originalFunction, data);
 		};
 	} else window[clickFunctionName] = originalFunction;
 }
