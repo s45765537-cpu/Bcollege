@@ -1650,7 +1650,8 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "SteelAnkleCuffs", Top: 462, Left: 0, Fetish: ["Metal"], Priority: 24, Value: 30, Difficulty: 6, Time: 10, Random: false, AllowLock: true, DrawLocks: false, AllowPose: ["LegsClosed", "Spread"], HideForPose: ["Kneel"], Effect: ["CuffedFeet"], Extended: true, AllowActivePose: ["Kneel"], HasType: false, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }], FreezeActivePose: [] },
-			{ Name: "FuturisticAnkleCuffs", Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply", Priority: 24, Value: 45, Difficulty: 4, Time: 10, Random: false, AllowLock: true, DrawLocks: false, AllowPose: ["LegsClosed", "Spread"], FuturisticRecolor: true, Effect: [ "CuffedFeet"], AllowEffect: ["Freeze", "Prone"], Extended: true, AllowActivePose: ["Kneel"], AllowType: ["Closed"], HasType: false, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }], FreezeActivePose: [],
+			{ Name: "FuturisticAnkleCuffs", Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply", Priority: 24, Value: 45, Difficulty: 4, Time: 10, Random: false, AllowLock: true, DrawLocks: false,
+				AllowPose: ["LegsClosed", "Spread"], FuturisticRecolor: true, Effect: [ "CuffedFeet"], AllowEffect: ["Freeze", "Prone"], Extended: true, AllowActivePose: ["Kneel"], HasType: false, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }], FreezeActivePose: [],
 				Layer: [
 					{ Name: "Display", ParentGroup: null},
 					{ Name: "Cuffs" },
@@ -1729,7 +1730,8 @@ var AssetFemale3DCG = [
 					{ Name: "Rings" }
 				]
 			},
-			{ Name: "FuturisticLegCuffs",  Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply", Priority: 24, Value: 30, Difficulty: 3, Time: 10, Random: false, AllowLock: true, DrawLocks: false, AllowPose: ["Kneel", "LegsClosed"], FuturisticRecolor: true, Effect: ["CuffedLegs"], AllowEffect: ["Prone", "KneelFreeze", "Slow"], AllowType: ["Closed"], Extended: true, AllowActivePose: ["Kneel"], FreezeActivePose: [], HasType: false,
+			{ Name: "FuturisticLegCuffs",  Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply", Priority: 24, Value: 30, Difficulty: 3, Time: 10, Random: false, AllowLock: true, DrawLocks: false,
+				AllowPose: ["Kneel", "LegsClosed"], FuturisticRecolor: true, Effect: ["CuffedLegs"], AllowEffect: ["Prone", "KneelFreeze", "Slow"], Extended: true, AllowActivePose: ["Kneel"], FreezeActivePose: [], HasType: false,
 				Layer: [
 					{ Name: "Display", ParentGroup: null},
 					{ Name: "Cuffs" },
@@ -2415,7 +2417,8 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "SteelCuffs", Fetish: ["Metal"], Value: 50, Left: 0, Top: 0, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DrawLocks: false, AllowPose: ["OverTheHead", "BackCuffs", "Yoked"], HideForPose: ["BackBoxTie", "BackElbowTouch"], Effect: ["CuffedArms"], Extended: true, HasType: false, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }] },
-			{ Name: "FuturisticCuffs", Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply",  Priority: 29, Value: 100, Left: 0, Top: 0, Difficulty: 5, Time: 20, Random: false, AllowLock: true, DrawLocks: false, AllowPose: ["BackBoxTie", "BackElbowTouch", "OverTheHead", "BackCuffs", "Yoked"], FuturisticRecolor: true, Effect: [ "CuffedArms"], AllowEffect: ["Block", "Prone", "NotSelfPickable"], AllowType: ["Wrist", "Elbow", "Both"], Extended: true, HasType: false, Hide: ["Bracelet"], RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
+			{ Name: "FuturisticCuffs", Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#40812C", "#707070"], Audio: "FuturisticApply",  Priority: 29, Value: 100, Left: 0, Top: 0, Difficulty: 5, Time: 20, Random: false, AllowLock: true, DrawLocks: false,
+				AllowPose: ["BackBoxTie", "BackElbowTouch", "OverTheHead", "BackCuffs", "Yoked"], FuturisticRecolor: true, Effect: [ "CuffedArms"], AllowEffect: ["Block", "Prone", "NotSelfPickable"], Extended: true, HasType: false, Hide: ["Bracelet"], RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
 					{ Name: "Display", ParentGroup: null },
 					{ Name: "Cuffs" },
@@ -2465,8 +2468,8 @@ var AssetFemale3DCG = [
 					{ Name: "Display", AllowColorize: true, HasType: false, ParentGroup: null},
 					{ Name: "Band", AllowColorize: true, HasType: false},
 					{ Name: "Lock", LockLayer: true,AllowColorize: true, HasType: false, ParentGroup: null},
-					{ Name: "GlovesBack", CopyLayerColor: "Lower", HasType: false, Priority: 14, AllowTypes: ["HandsBack", "HandsBackChastity"]},
-					{ Name: "Gloves", CopyLayerColor: "Lower", HasType: false, Priority: 23, AllowTypes: ["HandsFront", ""]},
+					{ Name: "GlovesBack", CopyLayerColor: "Lower", HasType: false, Priority: 14, AllowModuleTypes: ["a1"]},
+					{ Name: "Gloves", CopyLayerColor: "Lower", HasType: false, Priority: 23, AllowModuleTypes: ["a0"]},
 				]
 			},
 			{ Name: "StraitJacket", Value: 150, Difficulty: 6, SelfBondage: 8, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#A0A0A0", Hide: ["Cloth", "ItemNipplesPiercings"], HideItemAttribute: ["Skirt"], HideItem: ["ItemNipplesLactationPump"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"], Extended: true, SelfUnlock: false, HasType: false },
@@ -2672,7 +2675,9 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "FuturisticArmbinder", Category: ["SciFi"], Fetish: ["Metal"], Random: false, Priority: 31, Value: 80, Difficulty: 10, Left: 0, Top: 0, SelfBondage: 6, Time: 20, RemoveTime: 15, Audio: "FuturisticApply", AllowLock: true, DrawLocks: false, DefaultColor: ["#40812C", "#555555", "#777777", "Default",], SetPose: ["BackElbowTouch"], FuturisticRecolor: true, Effect: [ "Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false, AllowType: ["Tight"], Extended: true,
+				Name: "FuturisticArmbinder", Category: ["SciFi"], Fetish: ["Metal"], Random: false, Priority: 31, Value: 80, Difficulty: 10, Left: 0, Top: 0, SelfBondage: 6, Time: 20, RemoveTime: 15, Audio: "FuturisticApply", AllowLock: true, DrawLocks: false,
+				DefaultColor: ["#40812C", "#555555", "#777777", "Default",], SetPose: ["BackElbowTouch"], FuturisticRecolor: true,
+				Effect: [ "Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false, Extended: true,
 				Layer: [
 					{ Name: "Display" , ParentGroup: null, HasType: false, Priority: 31, Left: 0, Top: 0,   },
 					{ Name: "Binder" , ParentGroup: null, AllowTypes: [""], Priority: 6, Left: 50, Top: 200,	},
