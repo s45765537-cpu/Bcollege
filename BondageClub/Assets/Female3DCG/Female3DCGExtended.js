@@ -1451,9 +1451,10 @@ var AssetFemale3DCGExtended = {
 								Prerequisite: ["CuffedArmsOrEmpty", "NotKneeling"],
 								Property: {
 									Difficulty: 19,
-									SetPose: ["OverTheHead"],
+									SetPose: ["OverTheHead", "BaseLower"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
 									Block: ["ItemArms"],
-									Effect: ["Prone", "Freeze", "Block", "BlockKneel"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
 								},
 							},
 							{ // s2 - Leg straps
@@ -1462,7 +1463,7 @@ var AssetFemale3DCGExtended = {
 									Difficulty: 19,
 									SetPose: ["Spread"],
 									Block: ["ItemFeet", "ItemLegs"],
-									Effect: ["Prone", "Freeze", "BlockKneel"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
 								},
 							},
 							{ // s3 - Full straps
@@ -1471,7 +1472,7 @@ var AssetFemale3DCGExtended = {
 									Difficulty: 19,
 									SetPose: ["OverTheHead", "Spread"],
 									Block: ["ItemFeet", "ItemLegs", "ItemArms"],
-									Effect: ["Prone", "Freeze", "Block", "BlockKneel"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
 								},
 							},
 						],
