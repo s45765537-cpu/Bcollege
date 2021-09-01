@@ -726,6 +726,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: "Tight", Difficulty: 7 },
 					},
 				],
+				ChangeWhenLocked: false,
 				Dialog: {
 					Load: "SelectFuturisticArmbinderType",
 					TypePrefix: "FuturisticArmbinderType",
@@ -3774,6 +3775,56 @@ var AssetFemale3DCGExtended = {
 		}, // HempRope
 	}, // ItemPelvis
 	ItemEars: {
+		FuturisticEarphones: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Off",
+						Property: {
+							Type: null,
+							Effect: [],
+						},
+					},
+					{
+						Name: "Light",
+						Property: {
+							Type: "Light",
+							Effect: ["DeafLight"],
+						},
+					},
+					{
+						Name: "Heavy",
+						Property: {
+							Type: "Heavy",
+							Effect: ["DeafHeavy"],
+						},
+					},
+					{
+						Name: "NoiseCancelling",
+						Property: {
+							Type: "NoiseCancelling",
+							Effect: ["DeafTotal"],
+						},
+					},
+				],
+				ChangeWhenLocked: false,
+				Dialog: {
+					Load: "HeadphoneEarPlugsSelectLoudness",
+					TypePrefix: "HeadphoneEarPlugsPose",
+					ChatPrefix: "HeadphoneEarPlugsRestrain",
+					NpcPrefix: "ItemEarsHeadphonePlugs",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticEarphones
 		HeadphoneEarPlugs: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
