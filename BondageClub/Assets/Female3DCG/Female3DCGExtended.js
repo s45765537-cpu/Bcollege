@@ -1464,6 +1464,7 @@ var AssetFemale3DCGExtended = {
 									SetPose: ["Spread"],
 									Block: ["ItemFeet", "ItemLegs"],
 									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"]
 								},
 							},
 							{ // s3 - Full straps
@@ -1473,6 +1474,7 @@ var AssetFemale3DCGExtended = {
 									SetPose: ["OverTheHead", "Spread"],
 									Block: ["ItemFeet", "ItemLegs", "ItemArms"],
 									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"]
 								},
 							},
 						],
@@ -1890,6 +1892,23 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // ToeTape
+		FuturisticHeels2: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{ Name: "Shiny", Property: { Type: null } },
+					{ Name: "Matte", Property: { Type: "Matte" } },
+				],
+				ChangeWhenLocked: false,
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticHeels2
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -2428,8 +2447,8 @@ var AssetFemale3DCGExtended = {
 					{ Name: "Matte", Property: { Type: "Matte" } },
 				]
 			},
-		}, // Shoes
-	}, // ItemTorso
+		}, // FuturisticHeels2
+	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
 			Archetype: ExtendedArchetype.TYPED,

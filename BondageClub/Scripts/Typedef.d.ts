@@ -820,6 +820,17 @@ interface ModularItemConfig {
 	 * item is locked (if set to false, the player must be able to unlock the item to change its type). Defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	ScriptHooks?: {
+		Load? : (OriginalFunction, Data) => void,
+		Click? : (OriginalFunction, Data) => void,
+		Draw? : (OriginalFunction, Data) => void,
+		Exit? : () => void,
+		Validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+	};
 }
 
 /** An object describing a single module for a modular item. */
@@ -911,6 +922,17 @@ interface ModularItemData {
 	 * item is locked (if set to `false`, the player must be able to unlock the item to change its type). Defaults to `true`
 	 */
 	changeWhenLocked: boolean;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	scriptHooks?: {
+		load? : (OriginalFunction, Data) => void,
+		click? : (OriginalFunction, Data) => void,
+		draw? : (OriginalFunction, Data) => void,
+		exit? : () => void,
+		validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+	};
 }
 
 /** A 3-tuple (or 2-tuple) containing data for drawing a button in a modular item screen. A button definition takes the
@@ -961,6 +983,17 @@ interface TypedItemConfig {
 	 * Contains custom dictionary entries in the event that the base ones do not suffice.
 	 */
 	Dictionary?: TypedItemDictionaryCallback[];
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	ScriptHooks?: {
+		Load? : (OriginalFunction, Options, DialogKey) => void,
+		Click? : (OriginalFunction, Options, OptionsPerPage, ShowImages) => void,
+		Draw? : (OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) => void,
+		Exit? : () => void,
+		Validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+	};
 }
 
 interface TypedItemDialogConfig {
@@ -1040,6 +1073,17 @@ interface TypedItemData {
 	 * items to run additional validation for cases that aren't covered by configuration
 	 */
 	validate?: TypedItemValidateCallback;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	scriptHooks?: {
+		load? : (OriginalFunction, Options, DialogKey) => void,
+		click? : (OriginalFunction, Options, OptionsPerPage, ShowImages) => void,
+		draw? : (OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) => void,
+		exit? : () => void,
+		validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+	};
 }
 
 /**

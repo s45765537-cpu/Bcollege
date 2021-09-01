@@ -40,25 +40,62 @@
 var FuturisticAccessDeniedMessage = "";
 
 /**
- * Loads the item extension properties
+ * Hook script for injecting futuristic features into an archetypical item
+ * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
  * @returns {void} - Nothing
  */
-function InventoryItemMouthFuturisticPanelGagLoad() {
+ function FuturisticAccessLoad(OriginalFunction, Options, DialogKey) {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		InventoryItemFuturisticLoadAccessDenied();
-	} else {
-		ExtendedItemLoad(InventoryItemMouthFuturisticPanelGagOptions, "SelectGagType");
-		if (DialogFocusItem.Property == null) DialogFocusItem.Property = { Type: null, Option: InventoryItemMouthFuturisticPanelGagOptions[0],
-			AutoPunish: 0, AutoPunishUndoTime: 300000 , OriginalSetting: "Padded", ChatMessage: true};
-		if (DialogFocusItem.Property.AutoPunish == null) DialogFocusItem.Property.AutoPunish = 0;
-		if (DialogFocusItem.Property.AutoPunishUndoTime == null) DialogFocusItem.Property.AutoPunishUndoTime = 0;
-		if (DialogFocusItem.Property.AutoPunishUndoTimeSetting == null) DialogFocusItem.Property.AutoPunishUndoTimeSetting = 300000;
-		if (DialogFocusItem.Property.OriginalSetting == null) DialogFocusItem.Property.OriginalSetting = null;
-		if (DialogFocusItem.Property.ChatMessage == null) DialogFocusItem.Property.ChatMessage = true;
-		if (DialogFocusItem.Property.BlinkState == null) DialogFocusItem.Property.BlinkState = true;
-	}
+		InventoryItemFuturisticLoadAccessDenied()
+	} else OriginalFunction(Options, DialogKey);
 }
+
+/**
+ * Hook script for injecting futuristic features into an archetypical item
+ * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
+ * @returns {void} - Nothing
+ */
+function FuturisticAccessClick(OriginalFunction, Options, OptionsPerPage, ShowImages) {
+	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied()
+	} else OriginalFunction(Options, OptionsPerPage, ShowImages);
+}
+
+/**
+ * Hook script for injecting futuristic features into an archetypical item
+ * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
+ * @returns {void} - Nothing
+ */
+ function FuturisticAccessDraw(OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) {
+	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied()
+	} else OriginalFunction(Options, DialogPrefix, OptionsPerPage, ShowImages);
+}
+
+/**
+ * Hook script for injecting futuristic features into an archetypical item
+ * @returns {void} - Nothing
+ */
+ function FuturisticAccessExit() {
+	InventoryItemFuturisticExitAccessDenied();
+}
+
+/**
+ * Hook script for injecting futuristic features into a typed or modular item
+ * @param {function} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
+ * @param {Character} C - The character to validate the option
+ * @param {Item} Item - The equipped item
+ * @returns {string} - Returns false and sets DialogExtendedMessage, if the chosen option is not possible.
+ */
+function FuturisticAccessValidate(OriginalFunction, C, Item, Option, CurrentOption) {
+	let futureString = InventoryItemFuturisticValidate(C, Item);
+	if (futureString) return futureString;
+	else return OriginalFunction(C, Item, Option, CurrentOption);
+}
+
 
 
 // Load the futuristic item ACCESS DENIED screen
