@@ -14,8 +14,8 @@ var InventoryItemHandsFuturisticMittensOptions = [
 // Loads the item extension properties
 function InventoryItemHandsFuturisticMittensLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 	ExtendedItemLoad(InventoryItemHandsFuturisticMittensOptions, "SelectFuturisticMittensType");
 }
@@ -23,8 +23,8 @@ function InventoryItemHandsFuturisticMittensLoad() {
 // Draw the item extension screen
 function InventoryItemHandsFuturisticMittensDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemHandsFuturisticMittensOptions, "FuturisticMittensType");
 }
@@ -32,18 +32,18 @@ function InventoryItemHandsFuturisticMittensDraw() {
 // Catches the item extension clicks
 function InventoryItemHandsFuturisticMittensClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemHandsFuturisticMittensOptions);
 }
 
 function InventoryItemHandsFuturisticMittensExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemHandsFuturisticMittensValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 function InventoryItemHandsFuturisticMittensPublishAction(C, Option) {

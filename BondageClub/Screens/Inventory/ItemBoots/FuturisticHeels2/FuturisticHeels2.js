@@ -13,16 +13,16 @@ var InventoryItemBootsFuturisticHeels2Options = [
 
 function InventoryItemBootsFuturisticHeels2Load() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 		ExtendedItemLoad(InventoryItemBootsFuturisticHeels2Options, "FuturisticHeels2Type");
 }
 
 function InventoryItemBootsFuturisticHeels2Draw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemBootsFuturisticHeels2Options, "FuturisticHeels2Type");
 
@@ -30,15 +30,15 @@ function InventoryItemBootsFuturisticHeels2Draw() {
 
 function InventoryItemBootsFuturisticHeels2Click() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else {
 		ExtendedItemClick(InventoryItemBootsFuturisticHeels2Options);
 	}
 }
 
 function InventoryItemBootsFuturisticHeels2Exit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemBootsFuturisticHeels2PublishAction(C, Option) {
@@ -51,6 +51,6 @@ function InventoryItemBootsFuturisticHeels2PublishAction(C, Option) {
 }
 
 function InventoryItemBootsFuturisticHeels2Validate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item); // All futuristic items refer to the gag
+	return InventoryItemFuturisticValidate(C, Item); // All futuristic items refer to the gag
 }
 

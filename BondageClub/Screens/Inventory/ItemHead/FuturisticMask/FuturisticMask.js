@@ -18,11 +18,11 @@ function InventoryItemHeadFuturisticMaskPublishAction(C, Option) {
 
 
 function InventoryItemHeadFuturisticMaskExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemHeadFuturisticMaskValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item); // All futuristic items refer to the gag
+	return InventoryItemFuturisticValidate(C, Item); // All futuristic items refer to the gag
 }
 
 function InventoryItemHeadFuturisticMaskNpcDialog(C, Option) {

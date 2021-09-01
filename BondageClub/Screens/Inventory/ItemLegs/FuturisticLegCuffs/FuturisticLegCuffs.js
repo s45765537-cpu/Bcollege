@@ -24,8 +24,8 @@ const InventoryItemLegsFuturisticLegCuffsOptions = [
 function InventoryItemLegsFuturisticLegCuffsLoad() {
 	ExtendedItemLoad(InventoryItemLegsFuturisticLegCuffsOptions, "SelectBondagePosition");
 	const C = CharacterGetCurrent();
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	}
 }
 
@@ -35,8 +35,8 @@ function InventoryItemLegsFuturisticLegCuffsLoad() {
  */
 function InventoryItemLegsFuturisticLegCuffsDraw() {
 	const C = CharacterGetCurrent();
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else {
 		ExtendedItemDraw(InventoryItemLegsFuturisticLegCuffsOptions, "ItemFeetSteelAnkleCuffs");
 	}
@@ -48,8 +48,8 @@ function InventoryItemLegsFuturisticLegCuffsDraw() {
  */
 function InventoryItemLegsFuturisticLegCuffsClick() {
 	const C = CharacterGetCurrent();
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else {
 		ExtendedItemClick(InventoryItemLegsFuturisticLegCuffsOptions);
 	}
@@ -87,7 +87,7 @@ function InventoryItemLegsFuturisticLegCuffsNpcDialog(C, Option) {
  * @returns {void} - Nothing
  */
 function InventoryItemLegsFuturisticLegCuffsExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 /**
@@ -97,5 +97,5 @@ function InventoryItemLegsFuturisticLegCuffsExit() {
  * @returns {string} - Returns a validation message if validation fails, or an empty string otherwise
  */
 function InventoryItemLegsFuturisticLegCuffsValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }

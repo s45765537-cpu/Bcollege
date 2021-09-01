@@ -40,24 +40,24 @@ var InventoryItemHeadInteractiveVRHeadsetOptions = [
 
 function InventoryItemHeadInteractiveVRHeadsetLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 		ExtendedItemLoad(InventoryItemHeadInteractiveVRHeadsetOptions, "SelectHeadsetType");
 }
 
 function InventoryItemHeadInteractiveVRHeadsetDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemHeadInteractiveVRHeadsetOptions, "InteractiveVRHeadsetHeadType");
 }
 
 function InventoryItemHeadInteractiveVRHeadsetClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemHeadInteractiveVRHeadsetOptions);
 }
@@ -74,11 +74,11 @@ function InventoryItemHeadInteractiveVRHeadsetPublishAction(C, Option) {
 
 
 function InventoryItemHeadInteractiveVRHeadsetExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemHeadInteractiveVRHeadsetValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item); // All futuristic items refer to the gag
+	return InventoryItemFuturisticValidate(C, Item); // All futuristic items refer to the gag
 }
 
 function InventoryItemHeadInteractiveVRHeadsetNpcDialog(C, Option) {

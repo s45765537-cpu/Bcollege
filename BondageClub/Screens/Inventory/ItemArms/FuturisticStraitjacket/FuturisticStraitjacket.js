@@ -46,8 +46,8 @@ var InventoryItemArmsFuturisticStraitjacketOptions = [
 // Loads the item extension properties
 function InventoryItemArmsFuturisticStraitjacketLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 	ExtendedItemLoad(InventoryItemArmsFuturisticStraitjacketOptions, "SelectFuturisticStraitjacketType");
 }
@@ -55,8 +55,8 @@ function InventoryItemArmsFuturisticStraitjacketLoad() {
 // Draw the item extension screen
 function InventoryItemArmsFuturisticStraitjacketDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemArmsFuturisticStraitjacketOptions, "FuturisticStraitjacketType");
 }
@@ -64,18 +64,18 @@ function InventoryItemArmsFuturisticStraitjacketDraw() {
 // Catches the item extension clicks
 function InventoryItemArmsFuturisticStraitjacketClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemArmsFuturisticStraitjacketOptions);
 }
 
 function InventoryItemArmsFuturisticStraitjacketExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemArmsFuturisticStraitjacketValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 function InventoryItemArmsFuturisticStraitjacketPublishAction(C, Option) {

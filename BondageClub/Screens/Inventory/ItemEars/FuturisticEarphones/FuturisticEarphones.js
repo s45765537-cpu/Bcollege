@@ -39,8 +39,8 @@ var InventoryItemEarsFuturisticEarphonesOptions = [
  */
 function InventoryItemEarsFuturisticEarphonesLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 		ExtendedItemLoad(InventoryItemEarsFuturisticEarphonesOptions, "HeadphoneEarPlugsSelectLoudness");
 }
@@ -51,8 +51,8 @@ function InventoryItemEarsFuturisticEarphonesLoad() {
  */
 function InventoryItemEarsFuturisticEarphonesDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemEarsFuturisticEarphonesOptions, "HeadphoneEarPlugsPose");
 }
@@ -64,15 +64,15 @@ function InventoryItemEarsFuturisticEarphonesDraw() {
  */
 function InventoryItemEarsFuturisticEarphonesClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemEarsFuturisticEarphonesOptions);
 }
 
 
 function InventoryItemEarsFuturisticEarphonesExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 /**

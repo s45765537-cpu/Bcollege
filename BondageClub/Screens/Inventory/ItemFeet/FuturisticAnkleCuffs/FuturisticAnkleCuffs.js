@@ -17,8 +17,8 @@ var InventoryItemFeetFuturisticAnkleCuffsOptions = [
 // Loads the item extension properties
 function InventoryItemFeetFuturisticAnkleCuffsLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 		ExtendedItemLoad(InventoryItemFeetFuturisticAnkleCuffsOptions, "SelectBondagePosition");
 }
@@ -26,8 +26,8 @@ function InventoryItemFeetFuturisticAnkleCuffsLoad() {
 // Draw the item extension screen
 function InventoryItemFeetFuturisticAnkleCuffsDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemFeetFuturisticAnkleCuffsOptions, "ItemFeetSteelAnkleCuffs");
 }
@@ -35,19 +35,19 @@ function InventoryItemFeetFuturisticAnkleCuffsDraw() {
 // Catches the item extension clicks
 function InventoryItemFeetFuturisticAnkleCuffsClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemFeetFuturisticAnkleCuffsOptions);
 }
 
 
 function InventoryItemFeetFuturisticAnkleCuffsExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemFeetFuturisticAnkleCuffsValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 function InventoryItemFeetFuturisticAnkleCuffsPublishAction(C, Option) {

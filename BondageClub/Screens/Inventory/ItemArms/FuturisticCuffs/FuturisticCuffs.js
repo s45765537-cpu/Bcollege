@@ -49,8 +49,8 @@ var InventoryItemArmsFuturisticCuffsOptions = [
  */
 function InventoryItemArmsFuturisticCuffsLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 		ExtendedItemLoad(InventoryItemArmsFuturisticCuffsOptions, "SelectBondagePosition");
 }
@@ -61,8 +61,8 @@ function InventoryItemArmsFuturisticCuffsLoad() {
  */
 function InventoryItemArmsFuturisticCuffsDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemArmsFuturisticCuffsOptions, "ItemArmsCuffs");
 }
@@ -73,8 +73,8 @@ function InventoryItemArmsFuturisticCuffsDraw() {
  */
 function InventoryItemArmsFuturisticCuffsClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemArmsFuturisticCuffsOptions);
 }
@@ -82,11 +82,11 @@ function InventoryItemArmsFuturisticCuffsClick() {
 
 
 function InventoryItemArmsFuturisticCuffsExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemArmsFuturisticCuffsValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 

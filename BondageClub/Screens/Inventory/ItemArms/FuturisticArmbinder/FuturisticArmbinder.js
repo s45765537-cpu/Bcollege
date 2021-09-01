@@ -14,8 +14,8 @@ var InventoryItemArmsFuturisticArmbinderOptions = [
 // Loads the item extension properties
 function InventoryItemArmsFuturisticArmbinderLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else
 	ExtendedItemLoad(InventoryItemArmsFuturisticArmbinderOptions, "SelectFuturisticArmbinderType");
 }
@@ -23,8 +23,8 @@ function InventoryItemArmsFuturisticArmbinderLoad() {
 // Draw the item extension screen
 function InventoryItemArmsFuturisticArmbinderDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else
 		ExtendedItemDraw(InventoryItemArmsFuturisticArmbinderOptions, "FuturisticArmbinderType");
 }
@@ -32,18 +32,18 @@ function InventoryItemArmsFuturisticArmbinderDraw() {
 // Catches the item extension clicks
 function InventoryItemArmsFuturisticArmbinderClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else
 		ExtendedItemClick(InventoryItemArmsFuturisticArmbinderOptions);
 }
 
 function InventoryItemArmsFuturisticArmbinderExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 function InventoryItemArmsFuturisticArmbinderValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 function InventoryItemArmsFuturisticArmbinderPublishAction(C, Option) {
