@@ -10,7 +10,8 @@ const neededFiles = [
 	"Scripts/ModularItem.js",
 	"Scripts/TypedItem.js",
 	"Assets/Female3DCG/Female3DCG.js",
-	"Assets/Female3DCG/Female3DCGExtended.js"
+	"Assets/Female3DCG/Female3DCGExtended.js",
+	"Screens/Inventory/Futuristic/Futuristic.js",
 ];
 
 let localError = false;
