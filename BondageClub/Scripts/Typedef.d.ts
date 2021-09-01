@@ -1080,11 +1080,11 @@ interface TypedItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load? : (OriginalFunction, Options, DialogKey) => void,
-		click? : (OriginalFunction, Options, OptionsPerPage, ShowImages) => void,
-		draw? : (OriginalFunction, Options, DialogPrefix, OptionsPerPage, ShowImages) => void,
+		load? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogKey) => void,
+		click? : (OriginalFunction : function, Options : ExtendedItemOption[], OptionsPerPage : number, ShowImages : boolean) => void,
+		draw? : (OriginalFunction : function, Options : ExtendedItemOption[], DialogPrefix : string, OptionsPerPage : number, ShowImages : boolean) => void,
 		exit? : () => void,
-		validate? : (OriginalFunction, C, Item, Option, CurrentOption) => void,
+		validate? : (OriginalFunction : function, C : Character, Item : Item, Option : ExtendedItemOption, CurrentOption : ExtendedItemOption) => void,
 	};
 }
 
