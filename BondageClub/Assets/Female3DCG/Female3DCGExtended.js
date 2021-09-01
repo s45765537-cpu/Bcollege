@@ -2873,6 +2873,33 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // Ribbons
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Harness", Key: "h",
+						Options: [
+							{}, // h0 - No straps
+							{ // h1 - Harness straps
+								Property: {
+									Difficulty: 1,
+								},
+							},
+						],
+					},
+					{
+						Name: "Symbol", Key: "s",
+						Options: [
+							{}, // s0 - Nothing
+							{}, // s1 - Lock symbol
+							{}, // s2 - Mute symbol
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		}, // FuturisticMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -2907,6 +2934,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "Ribbons" },
 		},
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticMuzzle" },
+		},
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -2940,6 +2971,10 @@ var AssetFemale3DCGExtended = {
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "Ribbons" },
+		},
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticMuzzle" },
 		},
 	}, // ItemMouth3
 	Mask: {
