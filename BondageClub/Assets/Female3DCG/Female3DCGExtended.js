@@ -171,6 +171,21 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // BunnyCollarCuffs
+		Bib: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+				{
+				Name: "Pattern", Key: "p",
+				Options: [{}, {}, {}, {}, {}, {}],
+				},
+				{
+				Name: "Txt", Key: "x",
+				Options: [{}, { HasSubscreen: true }],
+				},
+			]
+			}
+		}, // Bib
 	}, // ClothAccessory
 	ItemBreast: {
 		Ribbons: {
@@ -1577,6 +1592,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Hold",
 						Property: {
 							Type: null,
+							HideItem: ["ItemMiscTeddyBear"],
 						},
 					},
 					{
@@ -1618,38 +1634,6 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // Crib
-		TeddyBear: {
-			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
-				Options: [
-					{
-						Name: "Bear",
-						Property: { Type: null },
-					},
-					{
-						Name: "Fox",
-						Property: { Type: "Fox" },
-					},
-					{
-						Name: "Pup",
-						Property: { Type: "Pup" },
-					},
-					{
-						Name: "Pony",
-						Property: { Type: "Pony" },
-					},
-					{
-						Name: "Kitty",
-						Property: { Type: "Kitty" },
-					},
-					{
-						Name: "Bunny",
-						Property: { Type: "Bunny" },
-					},
-				],
-			},
-		}, // TeddyBear
 		PetBed: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1667,6 +1651,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Blanket",
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
+							HideItem: ["ItemMiscTeddyBear"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
@@ -3055,12 +3040,16 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6 }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6 }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
 						Property: { Type: "PetLegs", Hide: ["ClothLower"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
 						Random: false,
+					}, {
+						Name: "CutOut",
+						Prerequisite: ["NoClothLower"],
+						Property: { Type: "CutOut", Hide: ["ClothLower"], Difficulty: 6 }
 					}
 				],
 				Dialog: {
@@ -3417,6 +3406,38 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // WoodenMaidTray
+		TeddyBear: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				Options: [
+					{
+						Name: "Bear",
+						Property: { Type: null },
+					},
+					{
+						Name: "Fox",
+						Property: { Type: "Fox" },
+					},
+					{
+						Name: "Pup",
+						Property: { Type: "Pup" },
+					},
+					{
+						Name: "Pony",
+						Property: { Type: "Pony" },
+					},
+					{
+						Name: "Kitty",
+						Property: { Type: "Kitty" },
+					},
+					{
+						Name: "Bunny",
+						Property: { Type: "Bunny" },
+					},
+				],
+			},
+		}, // TeddyBear
 	}, // ItemMisc
 	ItemPelvis: {
 		SilkStraps: {
@@ -3892,9 +3913,18 @@ var AssetFemale3DCGExtended = {
 						Name: "Mummy",
 						Property: {
 							Type: "Mummy",
-							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
+							Hide: ["HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
 							Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
+						},
+					},
+					{
+						Name: "Open",
+						Property: {
+							Type: "Open",
+							Hide: ["HairFront", "HairBack"],
+							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
+							Effect: ["GagNormal", "BlockMouth"],
 						},
 					}
 				]

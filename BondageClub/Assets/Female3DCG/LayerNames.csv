@@ -29,12 +29,21 @@ ClothSummerDressLayer2,Buttons
 ClothSummerDressLayer3,Arm Puffs
 ClothSummerDressLayer4,Trim
 ClothSummerDressBase,Dress
+ClothGrandMageBase,Main Dress
+ClothGrandMageBackSkirt,Inside Skirt
+ClothGrandMageTrim,Dress Trim
+ClothGrandMageBelt,Belts
+ClothGrandMageBuckle,Buckle
 ClothTShirt2Shirt,Shirt
 ClothTShirt2Print,Print
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
 ClothAccessoryCapeBack,Back
+ClothAccessoryBibBase,Bib
+ClothAccessoryBibTrim,Trim
+ClothAccessoryBibPacis,Pattern
+ClothAccessoryBibText,Text
 NecklaceNecklaceLockChain,Chain
 NecklaceNecklaceLockLock,Lock
 NecklaceNecklaceKeyChain,Chain
@@ -107,6 +116,15 @@ HatCaptainHat1Top,Top
 HatCaptainHat1Insignia,Insignia
 HatCaptainHat1Rope,Rope
 HatCaptainHat1Brim,Brim
+HatRoseCrownLeaves,Leaves
+HatRoseCrownRoses,Roses
+HatFlowerCrownMainFlowers,Main Flowers
+HatFlowerCrownPetals,Petals
+HatPoppyCrownEndFlowers,End Flowers
+HatPoppyCrownMainFlower,Main Flower
+HatPoppyCrownSideFlowers,Side Flowers
+HatPoppyCrownLeaves,Leaves
+HatPoppyCrownCenter,Flower Center
 HairAccessory1KittenEars1Outer,Outer Ear
 HairAccessory1KittenEars1Inner,Inner Ear
 HairAccessory1FoxEars2Inner,Inner Ear
@@ -189,6 +207,8 @@ ItemVulvaFuturisticVibratorDisplay,Display
 ItemVulvaFuturisticVibratorLock,Lock
 ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
+ItemVulvaPiercingsTapedClitEggEgg,Egg
+ItemVulvaPiercingsTapedClitEggTape,Tape
 ItemButtFoxTail1Base,Tail
 ItemButtFoxTail1Tip,Tip
 ItemButtFoxTail2Base,Tail
@@ -535,6 +555,9 @@ ItemMouthGasMaskGagSides,Sides
 ItemMouthGasMaskGagHighlights,Highlights
 ItemMouthCageMuzzleStrap,Straps
 ItemMouthCageMuzzleMuzzle,Cage
+ItemMouthPaciGagBase,Pacifier
+ItemMouthPaciGagStraps,Straps
+ItemMouthPaciGagMetal,Buckles
 ItemMouth2WiffleGagStrap,Strap
 ItemMouth2WiffleGagBall,Ball
 ItemMouth2HarnessBallGagBall,Ball
@@ -594,6 +617,9 @@ ItemMouth2GasMaskGagSides,Sides
 ItemMouth2GasMaskGagHighlights,Highlights
 ItemMouth2CageMuzzleStrap,Straps
 ItemMouth2CageMuzzleMuzzle,Cage
+ItemMouth2PaciGagBase,Pacifier
+ItemMouth2PaciGagStraps,Straps
+ItemMouth2PaciGagMetal,Buckles
 ItemMouth3WiffleGagStrap,Strap
 ItemMouth3WiffleGagBall,Ball
 ItemMouth3HarnessBallGagBall,Ball
@@ -653,6 +679,9 @@ ItemMouth3CageMuzzleMuzzle,Cage
 ItemMouth3GasMaskGagMask,Mask
 ItemMouth3GasMaskGagSides,Sides
 ItemMouth3GasMaskGagHighlights,Highlights
+ItemMouth3PaciGagBase,Pacifier
+ItemMouth3PaciGagStraps,Straps
+ItemMouth3PaciGagMetal,Buckles
 MaskFoxMaskUpper,Upper
 MaskFoxMaskLower,Lower
 MaskKittyMask3Highlights,Highlights
