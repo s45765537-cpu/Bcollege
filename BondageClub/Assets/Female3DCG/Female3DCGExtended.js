@@ -2905,6 +2905,7 @@ var AssetFemale3DCGExtended = {
 							{}, // s0 - Nothing
 							{}, // s1 - Lock symbol
 							{}, // s2 - Mute symbol
+							{}, // s3 - X symbol
 						],
 					},
 				],

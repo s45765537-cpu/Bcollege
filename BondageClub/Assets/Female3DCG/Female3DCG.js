@@ -3564,6 +3564,7 @@ var AssetFemale3DCG = [
 					{ Name: "Mask", HasType: false,},
 					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
 					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
+					{ Name: "IconX", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s3"]},
 				]
 			},
 			{
@@ -3831,6 +3832,7 @@ var AssetFemale3DCG = [
 					{ Name: "Mask", HasType: false,},
 					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
 					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
+					{ Name: "IconX", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s3"]},
 				]
 			},
 			{
@@ -4073,6 +4075,7 @@ var AssetFemale3DCG = [
 					{ Name: "Mask", HasType: false,},
 					{ Name: "IconLock", HasType: false, AllowModuleTypes: ["s1"]},
 					{ Name: "IconMute", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s2"]},
+					{ Name: "IconX", CopyLayerColor: "IconLock", HasType: false, AllowModuleTypes: ["s3"]},
 				]
 			},
 			{
