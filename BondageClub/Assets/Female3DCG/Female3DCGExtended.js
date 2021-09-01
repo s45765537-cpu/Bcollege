@@ -1448,26 +1448,29 @@ var AssetFemale3DCGExtended = {
 						Options: [
 							{}, // s0 - No straps
 							{ // s1 - Arm straps
-								Prerequisite: ["CuffedArmsOrEmpty"],
+								Prerequisite: ["CuffedArmsOrEmpty", "NotKneeling"],
 								Property: {
 									Difficulty: 19,
 									SetPose: ["OverTheHead"],
+									Block: ["ItemArms"],
 									Effect: ["Prone", "Freeze", "Block"],
 								},
 							},
 							{ // s2 - Leg straps
-								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty"],
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
 								Property: {
 									Difficulty: 19,
 									SetPose: ["Spread"],
+									Block: ["ItemFeet", "ItemLegs"],
 									Effect: ["Prone", "Freeze"],
 								},
 							},
 							{ // s3 - Full straps
-								Prerequisite: ["LegsOpen", "CuffedArmsOrEmpty", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty"],
+								Prerequisite: ["LegsOpen", "CuffedArmsOrEmpty", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
 								Property: {
 									Difficulty: 19,
 									SetPose: ["OverTheHead", "Spread"],
+									Block: ["ItemFeet", "ItemLegs", "ItemArms"],
 									Effect: ["Prone", "Freeze", "Block"],
 								},
 							},
@@ -1480,7 +1483,9 @@ var AssetFemale3DCGExtended = {
 							{ // s1 - Pleasure module
 								HasSubscreen: true,
 								Property: {
-									Effect: ["Egged"]
+									SetPose: ["BaseLower"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Effect: ["Egged", "Prone", "Freeze"]
 								}
 							},
 						],
