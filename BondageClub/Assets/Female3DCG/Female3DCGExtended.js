@@ -2926,6 +2926,12 @@ var AssetFemale3DCGExtended = {
 					},
 				],
 				ChangeWhenLocked: false,
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
 			},
 		}, // FuturisticMuzzle
 	}, // ItemMouth
@@ -3989,6 +3995,201 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // WebBlindfold
+		FuturisticMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Transparent",
+						Property: {
+							Type: null,
+							SelfUnlock: true,
+							Effect: [],
+						},
+					},
+					{
+						Name: "LightTint",
+						Property: {
+							Type: "LightTint",
+							Effect: ["BlindLight", "Prone"],
+						},
+					},
+					{
+						Name: "HeavyTint",
+						Property: {
+							Type: "HeavyTint",
+							Effect: ["BlindNormal", "Prone"],
+						},
+					},
+					{
+						Name: "Blind",
+						Property: {
+							Type: "Blind",
+							Effect: ["BlindHeavy", "Prone"],
+						},
+					},
+				],
+				ChangeWhenLocked: false,
+				Dialog: {
+					Load: "SelectVisorType",
+					TypePrefix: "ItemHeadInteractiveVisorType",
+					ChatPrefix: "ItemHeadInteractiveVisorSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticMask
+		InteractiveVisor: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Transparent",
+						Property: {
+							Type: null,
+							SelfUnlock: true,
+							Effect: [],
+						},
+					},
+					{
+						Name: "LightTint",
+						Property: {
+							Type: "LightTint",
+							Effect: ["BlindLight", "Prone"],
+						},
+					},
+					{
+						Name: "HeavyTint",
+						Property: {
+							Type: "HeavyTint",
+							Effect: ["BlindNormal", "Prone"],
+						},
+					},
+					{
+						Name: "Blind",
+						Property: {
+							Type: "Blind",
+							Effect: ["BlindHeavy", "Prone"],
+						},
+					},
+				],
+				ChangeWhenLocked: false,
+				Dialog: {
+					Load: "SelectVisorType",
+					TypePrefix: "ItemHeadInteractiveVisorType",
+					ChatPrefix: "ItemHeadInteractiveVisorSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // InteractiveVisor
+		InteractiveVRHeadset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Background", Key: "b",
+						Options: [
+							//CustomBlindBackground: {"None" : "SynthWave", "FreeVR" : "SynthWave", "Gaming" : "Dungeon", "Off" : "", "AR" : ""},
+							{ // b0 - Passthrough
+								Property: {
+									CustomBlindBackground: "",
+								}
+							},
+							{ // b1 - SynthWave
+								Property: {
+									CustomBlindBackground: "SynthWave",
+									Effect: [],
+								}
+							},
+							{ // b2 - Dungeon
+								Property: {
+									CustomBlindBackground: "Dungeon",
+									Effect: [],
+								}
+							},
+							{ // b3 - SciFiCell
+								Property: {
+									CustomBlindBackground: "SciFiCell",
+									Effect: [],
+								}
+							},
+							{ // b4 - AncientRuins
+								Property: {
+									CustomBlindBackground: "AncientRuins",
+									Effect: [],
+								}
+							},
+							{ // b5 - HypnoticSpiral
+								Property: {
+									CustomBlindBackground: "HypnoticSpiral",
+									Effect: [],
+								}
+							},
+						],
+					},
+					{
+						Name: "Function", Key: "f",
+						Options: [
+							{ // f0 - Passthrough
+								Property: {
+									Effect: [],
+								}
+							},
+							{ // f1 - Off
+								Property: {
+									Effect: ["BlindHeavy", "Prone"],
+								}
+							},
+							{ // f2 - VR Avatar
+								Property: {
+									Effect: ["BlindHeavy", "Prone", "VRAvatars"],
+								}
+							},
+							{ // f3 - VR Avatar (hide restraints)
+								Property: {
+									Effect: ["BlindHeavy", "VRAvatars", "HideRestraints"],
+								}
+							},
+						],
+					},
+					{
+						Name: "Game", Key: "g",
+						Options: [
+							{ // g0 - None
+								Property: {
+									Effect: [],
+								}
+							},
+							{ // f1 - Kinky Dungeon
+								Property: {
+									Effect: ["KinkyDungeonParty"],
+								}
+							},
+						],
+					},
+				],
+				Dialog: {
+					Load: "SelectHeadsetType",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // InteractiveVRHeadset
 	}, // ItemHead
 	ItemAddon: {
 		CeilingChain: {
@@ -4001,7 +4202,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6, Effect: []}
 					}, {
 						Name: "Suspended",
-							Property: {
+						Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],

@@ -294,12 +294,12 @@ interface Asset {
 	Audio?: string;
 	Category?: string[];
 	Fetish?: string[];
-	CustomBlindBackground?: Record<string, string>;
+	CustomBlindBackground?: string;
 	ArousalZone: string;
 	IsRestraint: boolean;
 	BodyCosplay: boolean;
 	OverrideBlinking: boolean;
-	DialogSortOverride?: DialogSortOrder;
+	DialogSortOverride?: DialogSortOrder;CustomBlindBackground
 	DynamicDescription: (C: Character) => string;
 	DynamicPreviewImage: (C: Character) => string;
 	DynamicAllowInventoryAdd: (C: Character) => boolean;
@@ -785,6 +785,8 @@ interface ExtendedItemOption {
 	 * some of its options
 	 */
 	SelfBlockCheck?: boolean;
+	/** A custom background for this option that overrides the default */
+	CustomBlindBackground? : string;
 	/**
 	 * Whether or not it should be possible to change from this option to another
 	 * option while the item is locked (if set to `false`, the player must be able to unlock the item to change its type) -
@@ -867,6 +869,8 @@ interface ModularItemOption {
 	 * some of its options
 	 */
 	SelfBlockCheck?: boolean;
+	/** A custom background for this option that overrides the default */
+	CustomBlindBackground? : string;
 	/** A list of groups that this option blocks - defaults to [] */
 	Block?: string[];
 	/** A list of groups that this option hides - defaults to [] */

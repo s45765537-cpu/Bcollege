@@ -471,6 +471,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 	return options.reduce((mergedProperty, { Property }) => {
 		Property = Property || {};
 		mergedProperty.Difficulty += (Property.Difficulty || 0);
+		if (Property.CustomBlindBackground) mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
 		if (Property.Block) CommonArrayConcatDedupe(mergedProperty.Block, Property.Block);
 		if (Property.Effect) CommonArrayConcatDedupe(mergedProperty.Effect, Property.Effect);
 		if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);
@@ -482,6 +483,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 	}, {
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: asset.Difficulty,
+		CustomBlindBackground: "",
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
 		Effect: Array.isArray(asset.Effect) ? asset.Effect.slice() : [],
 		Hide: Array.isArray(asset.Hide) ? asset.Hide.slice() : [],
