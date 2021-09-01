@@ -726,7 +726,6 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: "Tight", Difficulty: 7 },
 					},
 				],
-				ChangeWhenLocked: false,
 				Dialog: {
 					Load: "SelectFuturisticArmbinderType",
 					TypePrefix: "FuturisticArmbinderType",
@@ -1330,7 +1329,6 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				],
-				ChangeWhenLocked: false,
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
@@ -2025,7 +2023,6 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: "Heel", HeightModifier: 16 },
 					},
 				],
-				ChangeWhenLocked: false,
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
@@ -2042,7 +2039,6 @@ var AssetFemale3DCGExtended = {
 					{ Name: "Shiny", Property: { Type: null } },
 					{ Name: "Matte", Property: { Type: "Matte" } },
 				],
-				ChangeWhenLocked: false,
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
@@ -3077,7 +3073,6 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				],
-				ChangeWhenLocked: false,
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
@@ -3809,7 +3804,6 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 				],
-				ChangeWhenLocked: false,
 				Dialog: {
 					Load: "HeadphoneEarPlugsSelectLoudness",
 					TypePrefix: "HeadphoneEarPlugsPose",
@@ -4297,7 +4291,6 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 				],
-				ChangeWhenLocked: false,
 				Dialog: {
 					Load: "SelectVisorType",
 					TypePrefix: "ItemHeadInteractiveVisorType",
@@ -4346,7 +4339,6 @@ var AssetFemale3DCGExtended = {
 						},
 					},
 				],
-				ChangeWhenLocked: false,
 				Dialog: {
 					Load: "SelectVisorType",
 					TypePrefix: "ItemHeadInteractiveVisorType",
@@ -4459,6 +4451,35 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // InteractiveVRHeadset
 	}, // ItemHead
+	ItemHands: {
+		FuturisticMittens: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Mittens",
+						Property: { Type: null, Difficulty: 8, Effect: ["Block", "Prone"], SelfUnlock: false},
+					},
+					{
+						Name: "Gloves",
+						Property: { Type: "Gloves", Difficulty: 0, Effect: [], SelfUnlock: true},
+					},
+				],
+				Dialog: {
+					Load: "SelectFuturisticMittensType",
+					TypePrefix: "FuturisticMittensType",
+					ChatPrefix: "FuturisticMittensSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticMittens
+	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,

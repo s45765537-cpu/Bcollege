@@ -294,12 +294,12 @@ interface Asset {
 	Audio?: string;
 	Category?: string[];
 	Fetish?: string[];
-	CustomBlindBackground?: string;
+	CustomBlindBackground? : string;
 	ArousalZone: string;
 	IsRestraint: boolean;
 	BodyCosplay: boolean;
 	OverrideBlinking: boolean;
-	DialogSortOverride?: DialogSortOrder;CustomBlindBackground
+	DialogSortOverride?: DialogSortOrder;
 	DynamicDescription: (C: Character) => string;
 	DynamicPreviewImage: (C: Character) => string;
 	DynamicAllowInventoryAdd: (C: Character) => boolean;
