@@ -716,6 +716,9 @@ ItemHeadBlackoutLensesLeft,Left Lens
 ItemHeadBlackoutLensesRight,Right Lens
 ItemHeadInteractiveVRHeadsetDisplay,Display
 ItemHeadInteractiveVRHeadsetBody,Body
+ItemHeadFuturisticMaskDisplay,Tint
+ItemHeadFuturisticMaskText,HUD
+ItemHeadFuturisticMaskLock,Lock Icon
 ClothAccessoryBunnyCollarCuffsCuffs,Cuffs
 ClothAccessoryBunnyCollarCuffsCollar,Collar
 ClothAccessoryBunnyCollarCuffsBow,Bow
