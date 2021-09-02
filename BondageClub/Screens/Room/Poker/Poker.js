@@ -3,9 +3,9 @@
 var PokerBackground = "White";
 var PokerPlayer = [
 	{ Type: "Character", Family: "Player", Name: "Player", Chip: 100 },
-	{ Type: "Set", Family: "Comic", Name: "Amanda", Chip: 100 },
-	{ Type: "Set", Family: "Comic", Name: "Sarah", Chip: 100 },
-	{ Type: "Set", Family: "Comic", Name: "Sophie", Chip: 100 }
+	{ Type: "Set", Family: "Illustration", Name: "Amanda", Chip: 100 },
+	{ Type: "Set", Family: "Illustration", Name: "Sarah", Chip: 100 },
+	{ Type: "Set", Family: "Illustration", Name: "Sophie", Chip: 100 }
 ];
 var PokerMode = "";
 var PokerGame = "TexasHoldem"
@@ -17,14 +17,14 @@ var PokerAsset = [
 		Opponent: ["None"]
 	},
 	{
-		Family: "Comic",
+		Family: "Illustration",
 		Type: "Set",
-		Opponent: ["Amanda", "Sarah", "Sophie"]
+		Opponent: ["Amanda", "Ann", "Aoi", "Lua", "Ornella", "Sally", "Sarah", "Sophie"]
 	},
 	{
-		Family: "Drawing",
+		Family: "Model",
 		Type: "Set",
-		Opponent: ["Ann"]
+		Opponent: ["Andrea", "Akira", "Becky", "Dita", "Emily", "Hannah", "Isanne", "Jasmine", "Jelena", "Lia", "Masuimi", "Missey", "Nadia", "Natalia", "Petra", "Sasha", "Supergirl", "Tasha", "Tigerr"]
 	}
 ];
 var PokerPlayerCount = 4;
@@ -51,6 +51,7 @@ function PokerLoad() {
 function PokerDrawPlayer(P, X, Y) {
 	
 	// For set images from the classic Bondage Poker game
+	let Large = false;
 	if ((P == null) || (P.Type == null) || (P.Type == "None") || (P.Name == null)) return;
 	if (P.Type == "Set") {
 		
@@ -68,15 +69,22 @@ function PokerDrawPlayer(P, X, Y) {
 			// If there's no image loaded, we fetch a possible one based on the chip progress
 			if (P.Image == null) PokerGetImage(P);
 
-			// If a valid image is loaded, we show it
+			// If a valid image is loaded, we show it, we can move it a little to adjust the position on screen
 			if (P.Image != null) {
+				let Y2 = 0;
 				let W = 300;
-				if (DrawCacheImage.get(P.Image) != null)
-					W = DrawCacheImage.get(P.Image).width;
-				if (W >= 800)
-					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + 30, {Canvas: MainCanvas, Zoom: 1});
-				else
-					DrawImageEx(P.Image, X + 210 - W / 2, Y, {Canvas: MainCanvas, Zoom: 1.25});
+				let H = 440;
+				if (DrawCacheImage.get(P.Image) != null) W = DrawCacheImage.get(P.Image).width;
+				if (DrawCacheImage.get(P.Image) != null) H = DrawCacheImage.get(P.Image).height;
+				if (W >= 800) {
+					Y2 = (440 - H) * 0.5;
+					Large = true;
+					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + Y2 + 50, {Canvas: MainCanvas, Zoom: 1});
+				}
+				else {
+					if (H < 440) Y2 = (440 - H) * 1.25;
+					DrawImageEx(P.Image, X + 210 - W / 2, Y + Y2, {Canvas: MainCanvas, Zoom: 1.25});
+				}
 			}
 
 		}
@@ -110,6 +118,7 @@ function PokerDrawPlayer(P, X, Y) {
 	if ((PokerMode != "") && (P.Text != "")) {
 		if ((P.TextColor == null) && (P.Data != null) && (P.Data.cache != null) && (P.Data.cache["TextColor"] != null))
 			P.TextColor = P.Data.cache["TextColor"];
+		if (Large) X = (PokerShowPlayer ? 0 : -250) + 1000
 		DrawTextWrap(P.Text, X + 10, Y - 82, 480, 60, (P.TextColor == null) ? "black" : "#" + P.TextColor, null, 2);
 	}
 
@@ -121,11 +130,15 @@ function PokerDrawPlayer(P, X, Y) {
  */
 function PokerGetProgress(P) {
 
-	// At 100 chips or less (or 2 players only), we cut the value in half to get the %
-	if ((P.Chip <= 100) || (PokerPlayerCount <= 2)) return Math.floor(P.Chip / 2);
-
 	// At more than 100 chips, the % varies based on the number of players
-	return 50 + Math.floor((P.Chip - 100) / ((PokerPlayerCount - 1) * 2));
+	let Progress = 50 + Math.floor((P.Chip - 100) / ((PokerPlayerCount - 1) * 2));
+
+	// At 100 chips or less (or 2 players only), we cut the value in half to get the %
+	if ((P.Chip <= 100) || (PokerPlayerCount <= 2)) Progress = Math.floor(P.Chip / 2);
+
+	// Can't be at fully zero if there are remaining chips
+	if ((Progress == 0) && (P.Chip > 0)) Progress = 1;
+	return Progress;
 
 }
 
@@ -141,8 +154,37 @@ function PokerGetText(P, Tag) {
 	T = (PokerPlayerCount <= 2) ? P.TextSingle : P.TextMultiple;
 	if (T == null) return P.Text = "";
 
+	// If there's an alternative text, we search for it first
+	let Texts = [];	
+	if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache["Alternate"] != null))
+		P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache["Alternate"])) + 1;
+	if (P.Alternate != null) {
+		let X = 0;
+		if (Tag != null) {
+			while (T.cache[X] != null) {
+				if (T.cache[X].substr(0, Tag.length + 6) == Tag + "-Alt" + P.Alternate.toString() + "=")
+					Texts.push(T.cache[X].substr(Tag.length + 6, 500));
+				X++;
+			}
+		} else {
+
+			// Without a tag, we find all values within the player progress
+			let Progress = PokerGetProgress(P);
+			while (T.cache[X] != null) {
+				if (T.cache[X].substr(8, 10) == "Chat-Alt" + P.Alternate.toString() + "=") {
+					let From = T.cache[X].substr(0, 3);
+					let To = T.cache[X].substr(4, 3);
+					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+							Texts.push(T.cache[X].substr(18, 500));
+				}
+				X++;
+			}
+
+		}		
+	}
+		
 	// If there's a tag, we search for it specifically
-	let Texts = [];
 	let X = 0;
 	if (Tag != null) {
 		while (T.cache[X] != null) {
@@ -205,8 +247,42 @@ function PokerGetImage(P) {
 
 	// For set images, a single opponent can have a large image, else we find a valid image from the game progress
 	if (P.Type == "Set") {
+		
+		// First try to get an alternate version of the image
 		let Images = [];
-		if (PokerPlayerCount == 2) {
+		if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache["Alternate"] != null))
+			P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache["Alternate"])) + 1;
+		if (P.Alternate != null) {
+			if ((PokerPlayerCount == 2) && (PokerMode != "")) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(27, 100));
+					}
+					X++;
+				}
+			}
+			if (Images.length == 0) {
+				let X = 0;
+				while (P.Data.cache[X] != null) {
+					if (P.Data.cache[X].substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
+						let From = P.Data.cache[X].substr(0, 3);
+						let To = P.Data.cache[X].substr(4, 3);
+						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
+							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
+								Images.push(P.Data.cache[X].substr(22, 100));
+					}
+					X++;
+				}
+			}
+		}
+
+		// Sets the non alternative images
+		if ((PokerPlayerCount == 2) && (PokerMode != "")) {
 			let X = 0;
 			while (P.Data.cache[X] != null) {
 				if (P.Data.cache[X].substr(8, 14) == "OpponentLarge=") {
@@ -232,8 +308,11 @@ function PokerGetImage(P) {
 				X++;
 			}
 		}
+
+		// If an image was found
 		if (Images.length > 0)
 			P.Image = "Screens/Room/Poker/" + CommonRandomItemFromList("", Images);
+
 	}
 
 }
@@ -340,6 +419,7 @@ function PokerClearData(P) {
 	P.TextSingle = null;
 	P.TextMultiple = null;
 	P.WebLink = null;
+	P.Alternate = null;
 }
 
 /**

@@ -29,12 +29,21 @@ ClothSummerDressLayer2,Buttons
 ClothSummerDressLayer3,Arm Puffs
 ClothSummerDressLayer4,Trim
 ClothSummerDressBase,Dress
+ClothGrandMageBase,Main Dress
+ClothGrandMageBackSkirt,Inside Skirt
+ClothGrandMageTrim,Dress Trim
+ClothGrandMageBelt,Belts
+ClothGrandMageBuckle,Buckle
 ClothTShirt2Shirt,Shirt
 ClothTShirt2Print,Print
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
 ClothAccessoryCapeBack,Back
+ClothAccessoryBibBase,Bib
+ClothAccessoryBibTrim,Trim
+ClothAccessoryBibPacis,Pattern
+ClothAccessoryBibText,Text
 NecklaceNecklaceLockChain,Chain
 NecklaceNecklaceLockLock,Lock
 NecklaceNecklaceKeyChain,Chain
@@ -43,6 +52,8 @@ NecklaceIDCardString,Lanyard
 NecklaceIDCardCard,Card
 NecklaceElegantHeartNecklaceNecklace,Necklace
 NecklaceElegantHeartNecklaceJewels,Jewels
+NecklaceNecklaceBallGagBall,Ball
+NecklaceNecklaceBallGagStrap,Strap
 SuitCatsuitBase,Suit
 SuitCatsuitZip,Zip
 SuitSeethroughSuitZipBase,Suit
@@ -107,6 +118,15 @@ HatCaptainHat1Top,Top
 HatCaptainHat1Insignia,Insignia
 HatCaptainHat1Rope,Rope
 HatCaptainHat1Brim,Brim
+HatRoseCrownLeaves,Leaves
+HatRoseCrownRoses,Roses
+HatFlowerCrownMainFlowers,Main Flowers
+HatFlowerCrownPetals,Petals
+HatPoppyCrownEndFlowers,End Flowers
+HatPoppyCrownMainFlower,Main Flower
+HatPoppyCrownSideFlowers,Side Flowers
+HatPoppyCrownLeaves,Leaves
+HatPoppyCrownCenter,Flower Center
 HairAccessory1KittenEars1Outer,Outer Ear
 HairAccessory1KittenEars1Inner,Inner Ear
 HairAccessory1FoxEars2Inner,Inner Ear
@@ -189,6 +209,8 @@ ItemVulvaFuturisticVibratorDisplay,Display
 ItemVulvaFuturisticVibratorLock,Lock
 ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
+ItemVulvaPiercingsTapedClitEggEgg,Egg
+ItemVulvaPiercingsTapedClitEggTape,Tape
 ItemButtFoxTail1Base,Tail
 ItemButtFoxTail1Tip,Tip
 ItemButtFoxTail2Base,Tail
@@ -392,6 +414,8 @@ ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
+ItemNosePigNoseNose,Nose
+ItemNosePigNoseStrap,Strap
 ItemHoodPumpkinHeadFront,Front
 ItemHoodPumpkinHeadBack,Back
 ItemHoodLatexHoodOpenHairHair,Hair
@@ -504,6 +528,18 @@ ItemMouthLipGagStraps,Straps
 ItemMouthLipGagRings,Rings
 ItemMouthMuzzleGagMuzzle,Muzzle
 ItemMouthMuzzleGagStraps,Straps
+ItemMouthFuturisticMuzzleMask,Muzzle
+ItemMouthFuturisticMuzzleNose,Nose
+ItemMouthFuturisticMuzzleStraps,Harness
+ItemMouthFuturisticMuzzleIconLock,Icon
+ItemMouth2FuturisticMuzzleMask,Muzzle
+ItemMouth2FuturisticMuzzleNose,Nose
+ItemMouth2FuturisticMuzzleStraps,Harness
+ItemMouth2FuturisticMuzzleIconLock,Icon
+ItemMouth3FuturisticMuzzleMask,Muzzle
+ItemMouth3FuturisticMuzzleNose,Nose
+ItemMouth3FuturisticMuzzleStraps,Harness
+ItemMouth3FuturisticMuzzleIconLock,Icon
 ItemMouthFuturisticPanelGagMask,Muzzle
 ItemMouthFuturisticPanelGagBall,Display
 ItemMouthFuturisticPanelGagLight,Light
@@ -523,6 +559,9 @@ ItemMouthGasMaskGagSides,Sides
 ItemMouthGasMaskGagHighlights,Highlights
 ItemMouthCageMuzzleStrap,Straps
 ItemMouthCageMuzzleMuzzle,Cage
+ItemMouthPaciGagBase,Pacifier
+ItemMouthPaciGagStraps,Straps
+ItemMouthPaciGagMetal,Buckles
 ItemMouth2WiffleGagStrap,Strap
 ItemMouth2WiffleGagBall,Ball
 ItemMouth2HarnessBallGagBall,Ball
@@ -582,6 +621,9 @@ ItemMouth2GasMaskGagSides,Sides
 ItemMouth2GasMaskGagHighlights,Highlights
 ItemMouth2CageMuzzleStrap,Straps
 ItemMouth2CageMuzzleMuzzle,Cage
+ItemMouth2PaciGagBase,Pacifier
+ItemMouth2PaciGagStraps,Straps
+ItemMouth2PaciGagMetal,Buckles
 ItemMouth3WiffleGagStrap,Strap
 ItemMouth3WiffleGagBall,Ball
 ItemMouth3HarnessBallGagBall,Ball
@@ -641,6 +683,9 @@ ItemMouth3CageMuzzleMuzzle,Cage
 ItemMouth3GasMaskGagMask,Mask
 ItemMouth3GasMaskGagSides,Sides
 ItemMouth3GasMaskGagHighlights,Highlights
+ItemMouth3PaciGagBase,Pacifier
+ItemMouth3PaciGagStraps,Straps
+ItemMouth3PaciGagMetal,Buckles
 MaskFoxMaskUpper,Upper
 MaskFoxMaskLower,Lower
 MaskKittyMask3Highlights,Highlights
@@ -685,10 +730,18 @@ ItemDevicesFuturisticCrateLock,Lock
 ItemDevicesFuturisticCrateFrame,Frame
 ItemDevicesFuturisticCrateLid_Closed,Lid
 ItemDevicesFuturisticCrateBody,Padding
+ItemDevicesFuturisticCrateStrapsArms,Restraint Frame
+ItemDevicesFuturisticCrateStrapsArmsMesh,Restraint Padding
+ItemDevicesFuturisticCrateDevicePleasure,Pleasure Module  Harness
+ItemDevicesFuturisticCrateDevicePleasureHolder,Pleasure Module Actuator
+ItemDevicesFuturisticCrateDevicePleasurePlug,Pleasure Module Dildo
+ItemDevicesFuturisticCrateDevicePleasureStructure,Module Structure
 ItemDevicesFuturisticCrateGlass,Window
 PantiesPilotPantiesLayer1,Suit
 PantiesPilotPantiesLayer2,Highlights
 PantiesPilotPantiesLayer3,Center
+PantiesRedBowPantiesPanties,Panties
+PantiesRedBowPantiesBow,Bow
 SuitLowerPilotSuitLayer1,Suit
 SuitLowerPilotSuitLayer2,Highlights
 SuitLowerPilotSuitLayer3,Center
@@ -714,6 +767,9 @@ ItemHeadBlackoutLensesLeft,Left Lens
 ItemHeadBlackoutLensesRight,Right Lens
 ItemHeadInteractiveVRHeadsetDisplay,Display
 ItemHeadInteractiveVRHeadsetBody,Body
+ItemHeadFuturisticMaskDisplay,Tint
+ItemHeadFuturisticMaskText,HUD
+ItemHeadFuturisticMaskLock,Lock Icon
 ClothAccessoryBunnyCollarCuffsCuffs,Cuffs
 ClothAccessoryBunnyCollarCuffsCollar,Collar
 ClothAccessoryBunnyCollarCuffsBow,Bow

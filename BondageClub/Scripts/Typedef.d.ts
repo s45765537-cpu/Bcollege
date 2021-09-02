@@ -214,6 +214,9 @@ alpha masks will be applied to every layer underneath the present one. */
 	/** A list of the poses that the given alpha masks should be applied to. If empty or not present, the alpha
 masks will be applied regardless of character pose. */
 	Pose?: string[];
+	/** A list of the extended types that the given alpha masks should be applied to. If empty or not present, the alpha
+masks will be applied regardless of the extended type. */
+	Type?: string[];
 	/** A list of alpha mask definitions. A definition is a 4-tuple of numbers defining the top left coordinate of
 a rectangle and the rectangle's width and height - e.g. [left, top, width, height] */
 	Masks: [number, number, number, number][];
@@ -291,7 +294,7 @@ interface Asset {
 	Audio?: string;
 	Category?: string[];
 	Fetish?: string[];
-	CustomBlindBackground?: Record<string, string>;
+	CustomBlindBackground? : string;
 	ArousalZone: string;
 	IsRestraint: boolean;
 	BodyCosplay: boolean;
@@ -782,6 +785,8 @@ interface ExtendedItemOption {
 	 * some of its options
 	 */
 	SelfBlockCheck?: boolean;
+	/** A custom background for this option that overrides the default */
+	CustomBlindBackground? : string;
 	/**
 	 * Whether or not it should be possible to change from this option to another
 	 * option while the item is locked (if set to `false`, the player must be able to unlock the item to change its type) -
@@ -820,6 +825,16 @@ interface ModularItemConfig {
 	 * item is locked (if set to false, the player must be able to unlock the item to change its type). Defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	ScriptHooks?: {
+		Load?: (next: () => void) => void,
+		Click?: (next: () => void) => void,
+		Draw?: (next: () => void) => void,
+		Exit?: () => void,
+	};
 }
 
 /** An object describing a single module for a modular item. */
@@ -854,6 +869,8 @@ interface ModularItemOption {
 	 * some of its options
 	 */
 	SelfBlockCheck?: boolean;
+	/** A custom background for this option that overrides the default */
+	CustomBlindBackground? : string;
 	/** A list of groups that this option blocks - defaults to [] */
 	Block?: string[];
 	/** A list of groups that this option hides - defaults to [] */
@@ -911,6 +928,16 @@ interface ModularItemData {
 	 * item is locked (if set to `false`, the player must be able to unlock the item to change its type). Defaults to `true`
 	 */
 	changeWhenLocked: boolean;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	scriptHooks?: {
+		load?: (next: () => void) => void,
+		click?: (next: () => void) => void,
+		draw?: (next: () => void) => void,
+		exit?: () => void,
+	};
 }
 
 /** A 3-tuple (or 2-tuple) containing data for drawing a button in a modular item screen. A button definition takes the
@@ -961,6 +988,17 @@ interface TypedItemConfig {
 	 * Contains custom dictionary entries in the event that the base ones do not suffice.
 	 */
 	Dictionary?: TypedItemDictionaryCallback[];
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	ScriptHooks?: {
+		Load?: (next: () => void) => void,
+		Click?: (next: () => void) => void,
+		Draw?: (next: () => void) => void,
+		Exit?: () => void,
+		Validate? : (next: () => string, C: Character, Item: Item, Option: ExtendedItemOption, CurrentOption: ExtendedItemOption) => string,
+	};
 }
 
 interface TypedItemDialogConfig {
@@ -1040,6 +1078,17 @@ interface TypedItemData {
 	 * items to run additional validation for cases that aren't covered by configuration
 	 */
 	validate?: TypedItemValidateCallback;
+	/**
+	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * and parameters passed on to them. If undefined, these are ignored
+	 */
+	scriptHooks?: {
+		load?: (next: () => void) => void,
+		click?: (next: () => void) => void,
+		draw?: (next: () => void) => void,
+		exit?: () => void,
+		validate?: (next: () => string, C: Character, Item: Item, Option: ExtendedItemOption, CurrentOption: ExtendedItemOption) => string,
+	};
 }
 
 /**
