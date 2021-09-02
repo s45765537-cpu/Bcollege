@@ -86,6 +86,8 @@ const ChatRoomFontSizes = {
 	Large: 44,
 };
 
+
+
 /**
  * Chat room resize manager object: Handles resize events for the chat log.
  * @constant
@@ -223,6 +225,53 @@ function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) 
  * @returns {boolean} - TRUE if the player can take a photo.
  */
 function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCategory && !ChatRoomData.BlockCategory.includes("Photos")) || !ChatRoomData; }
+
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCanTakeSuitcase() {
+	return ChatRoomCarryingBounty(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBounty(C) {
+	let misc = InventoryGet(C, "ItemMisc");
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcase() {
+	let misc = InventoryGet(CurrentCharacter, "ItemMisc");
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+}
+/**
+ * Attempts to take the suitcase from the current player
+ * @returns {void}
+ */
+function ChatRoomTryToTakeSuitcase() {
+	ServerSend("ChatRoomChat", { Content: "TakeSuitcase", Type: "Hidden", Target: CurrentCharacter.MemberNumber});
+
+	if (KidnapLeagueOnlineBountyTarget == 0) {
+		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
+	}
+	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
+	CurrentCharacter = null;
+}
+/**
+ * Receives money from the suitcase
+ * @returns {void}
+ */
+function ChatRoomReceiveSuitcaseMoney() {
+	let money = Math.max(1, Math.ceil(45 * Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration)));
+	CharacterChangeMoney(Player, money);
+	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: [{Tag: "MONEYAMOUNT", Text: ""+Math.ceil(money)}], Sender: Player.MemberNumber });
+	KidnapLeagueOnlineBountyTarget = 0;
+}
 
 /**
  * Checks if the player can give the target character her high security keys.
@@ -441,8 +490,6 @@ function DialogCanCallMaidsPunishmentOn() { return (DialogCanCallMaids() && (!Pl
  * @returns {boolean} - TRUE if the current character has been in the last chat room for more than 30 minutes
  */
 function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Player.RestrictionSettings && Player.RestrictionSettings.BypassNPCPunishments);}
-
-
 
 /**
  * Creates the chat room input elements.
@@ -733,6 +780,9 @@ function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
 		}
 		if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber)) {
 			DrawImageResize("Icons/Small/Admin.png", CharX + 125 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+		}
+		if (ChatRoomCarryingBounty(C)) {
+			DrawImageResize("Icons/Small/Money.png", CharX + 225 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
 		}
 		// Warning icon when game versions don't match
 		if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion) {
@@ -1154,9 +1204,10 @@ function ChatRoomResize(load) {
 
 /**
  * Draws arousal screen filter
- * @param {Y} - Y to draw filter at.
- * @param {Height} - Height of filter
- * @param {Width} - Width of filter
+ * @param {number} y1 - Y to draw filter at.
+ * @param {number} h - Height of filter
+ * @param {number} Width - Width of filter
+ * @param {number} ArousalOverride - Whether or not to override progress
  * @returns {void} - Nothing.
  */
 function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
@@ -1187,10 +1238,59 @@ function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
 }
 
 /**
+ * Runs the chatroom online bounty loop.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomUpdateOnlineBounty() {
+	if (Player.CanInteract()) {
+		KidnapLeagueSearchingPlayers = [];
+	} else if (KidnapLeagueSearchingPlayers.length > 0) {
+		let misc = InventoryGet(Player, "ItemMisc");
+		if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+			if (KidnapLeagueSearchFinishTime > 0 && CommonTime() > KidnapLeagueSearchFinishTime) {
+				for (let C = 0; C < ChatRoomCharacter.length; C++) {
+					if (KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+						ServerSend("ChatRoomChat", { Content: "ReceiveSuitcaseMoney", Type: "Hidden", Target: ChatRoomCharacter[C].MemberNumber});
+					}
+				}
+				InventoryRemove(Player, "ItemMisc");
+				InventoryWear(Player, "BountySuitcaseEmpty", "ItemMisc");
+				ChatRoomMessage({ Content: "OnlineBountySuitcaseEnd", Type: "Action", Sender: Player.MemberNumber });
+				KidnapLeagueSearchFinishTime = 0;
+				ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+			}
+			let KidnapLeagueSearchingPlayersNew = [];
+			for (let C = 0; C < ChatRoomCharacter.length; C++) {
+				if (ChatRoomCharacter[C].CanInteract() && KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+					KidnapLeagueSearchingPlayersNew.push(ChatRoomCharacter[C].MemberNumber);
+				}
+			}
+			KidnapLeagueSearchingPlayers = KidnapLeagueSearchingPlayersNew;
+		} else {
+			KidnapLeagueSearchingPlayers = [];
+			KidnapLeagueSearchFinishTime = 0;
+		}
+	} else {
+		if (KidnapLeagueSearchFinishTime > 0)
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
+				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+			]);
+		KidnapLeagueSearchFinishTime = 0;
+	}
+	if (!Player.CanInteract()) {
+		KidnapLeagueOnlineBountyTarget = 0;
+	}
+
+}
+
+/**
  * Runs the chatroom screen.
  * @returns {void} - Nothing.
  */
 function ChatRoomRun() {
+	// Handles online bounty game
+	ChatRoomUpdateOnlineBounty();
+
 	// Draws the chat room controls
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
@@ -1804,6 +1904,29 @@ function ChatRoomMessage(data) {
 					KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
 					if (CurrentScreen == "KinkyDungeon")
 						KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true), SenderCharacter.MemberNumber);
+				}
+				else if (msg == "TakeSuitcase"){
+					if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
+						if (KidnapLeagueSearchingPlayers.length == 0) {
+							KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+							ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+								{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+								{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+							]);
+						} else {
+							ServerSend("ChatRoomGame", { OnlineBounty: {
+								finishTime: KidnapLeagueSearchFinishTime,
+								target: SenderCharacter.MemberNumber,
+							} });
+						}
+						if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
+							KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
+						}
+
+					}
+				}
+				else if (msg == "ReceiveSuitcaseMoney"){
+					ChatRoomReceiveSuitcaseMoney();
 				}
 
 				// If the message is still hidden after any modifications, stop processing
@@ -3083,6 +3206,17 @@ function ChatRoomPayQuest(data) {
 }
 
 /**
+ * Triggered when online game data comes in
+ * @param {object} data - Game data to process, sent to the current game handler.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineBountyHandleData(data) {
+	if (data.finishTime && data.target == Player.MemberNumber) {
+		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: [{Tag: "TIMEREMAINING", Text: ""+Math.ceil((data.finishTime - CommonTime())/60000)}], Sender: Player.MemberNumber });
+	}
+}
+
+/**
  * Triggered when a game message comes in, we forward it to the current online game being played.
  * @param {object} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
@@ -3090,6 +3224,8 @@ function ChatRoomPayQuest(data) {
 function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
+		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 }
 
