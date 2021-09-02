@@ -446,11 +446,6 @@ ServerShuffle,,,SourceCharacter shuffles the position of everyone in the room ra
 ServerPromoteAdmin,,,TargetCharacterName was promoted to administrator by SourceCharacter.,,
 ServerDemoteAdmin,,,TargetCharacterName was demoted from administration by SourceCharacter.,,
 ServerUpdateRoom,,,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.,,
-OnlineBountySuitcaseStart,,,"SourceCharacter starts unlocking DestinationCharacterName suitcase! She will finish in 10 minutes."
-OnlineBountySuitcaseEndEarly,,,"SourceCharacter suitcase is safe... for now."
-OnlineBountySuitcaseOngoing,,,"Her suitcase will be open in TIMEREMAINING minutes. Make sure she is secure until then!"
-OnlineBountySuitcaseFinish,,,"The suitcase opens and you find MONEYAMOUNT$"
-OnlineBountySuitcaseEnd,,,"The money in the suitcase is gone. Go back to the league to report the loss."
 ChatRoomBlockGaggedOOC,,,"You have disabled OOC/whispers while gagged. You can change this in the Immersion preferences screen.",,
 ChatRoomStimulationMessageGag0,,,"You choke momentarily on the gag inside your throat.",,
 ChatRoomStimulationMessageGag1,,,"It is difficult to breath with the gag pushing inside your throat.",,
