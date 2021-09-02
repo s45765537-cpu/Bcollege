@@ -4256,7 +4256,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "PigNose", Fetish: ["Pet"], DefaultColor: "#D976D2", Priority: 38, Value: 25, Difficulty: 10, Time: 15, Random: false, AllowLock: true, DrawLocks: false, Layer: [
+				Name: "PigNose", Fetish: ["Pet"], Top: 18, Left: 151, DefaultColor: "#D976D2", Priority: 38, Value: 25, Difficulty: 10, Time: 15, Random: false, AllowLock: true, DrawLocks: false, Layer: [
 					{ Name: "Nose" },
 					{ Name: "Strap" },
 				]
