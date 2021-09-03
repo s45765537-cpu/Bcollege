@@ -421,11 +421,11 @@ var AssetFemale3DCG = [
 			{ Name: "LatexSkirt1", Fetish: ["Latex"], Value: 40, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
 			{ Name: "LatexSkirt2", Fetish: ["Latex"], Value: 60, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
 			{
-				Name: "HulaSkirt", Value: 30, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["Horse", "KneelingSpread"], Layer: [
-					{ Name: "Back", Priority: 6 },
-					{ Name: "Front", CopyLayerColor: "Back" },
-					{ Name: "Flowers1", ParentGroup: null },
-					{ Name: "Flowers2", ParentGroup: null },
+				Name: "HulaSkirt", Value: 30, DefaultColor: ["#19A740", "#E850D8", "#EBEBEB"], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["Horse", "KneelingSpread"], Layer: [
+					{ Name: "BackLeaves", Priority: 3 },
+					{ Name: "FrontLeaves", CopyLayerColor: "BackLeaves" },
+					{ Name: "Flowers", ParentGroup: null },
+					{ Name: "Pollen", ParentGroup: null },
 				]
 			},
 			{ Name: "ClothSkirt1", Value: 40, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
