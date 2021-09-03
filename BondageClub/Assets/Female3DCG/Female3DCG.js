@@ -4873,7 +4873,7 @@ var AssetFemale3DCG = [
 			{ Name: "Pole", Value: 40, Top: -150, Priority: 1, Difficulty: -5, RemoveTime: 10, HasType: false, RemoveAtLogin: true, Extended: true, FixedPosition: true },
 			{ Name: "Cushion", Priority: 34, Value: 4, Difficulty: -10, Time: 5, IsRestraint: false, AllowPose: ["AllFours", "Hogtied", "TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead", "Horse"], Extended: true },
 			{
-				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["BaseLower"], Left: 1, Top: 465, Priority: 5,
+				Name: "FuckMachine", Value: 200, Difficulty: -100, RemoveTime: 15, SetPose: ["BaseLower"], Left: 1, Top: 465, Priority: 6,
 				AllowActivePose: ["BaseLower", "LegsClosed"],
 				Prerequisite: ["AccessVulva", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty"],
 				Effect: ["Mounted", "Freeze", "Egged", "BlockKneel"],
@@ -4889,7 +4889,7 @@ var AssetFemale3DCG = [
 					{ Name: "Plastic", ColorGroup: "Machine" },
 					{ Name: "Caps", ColorGroup: "Machine" },
 					{ Name: "Dildo", Top: 492 },
-					{ Name: "Pussy", AllowColorize: false, Top: 398, Left: 125, Priority: 11 },
+					{ Name: "Pussy", AllowColorize: false, Top: 408, Left: 125, Priority: 11 },
 				],
 			},
 		],
