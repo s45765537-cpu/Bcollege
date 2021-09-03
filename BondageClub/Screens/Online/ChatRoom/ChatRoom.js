@@ -249,32 +249,28 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCarryingBounty(C) {
-	let misc = InventoryGet(C, "ItemMisc");
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCarryingBountyOpened(C) {
-	let misc = InventoryGet(C, "ItemMisc");
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty");
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCantTakeSuitcase() {
-	let misc = InventoryGet(CurrentCharacter, "ItemMisc");
-	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCantTakeSuitcaseOpened() {
-	let misc = InventoryGet(CurrentCharacter, "ItemMisc");
-	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty");
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
  * Attempts to take the suitcase from the current player
@@ -1328,13 +1324,11 @@ function ChatRoomUpdateOnlineBounty() {
 		}
 	} else {
 		if (KidnapLeagueSearchFinishTime > 0) {
-			let misc = InventoryGet(Player, "ItemMisc");
-
-			if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase")
+			if (InventoryIsWorn(Player,"BountySuitcase", "ItemMisc"))
 				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
 					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 				]);
-			else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty")
+			else if (InventoryIsWorn(Player,"BountySuitcaseEmpty", "ItemMisc"))
 				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarlyOpened", true, [
 					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 				]);

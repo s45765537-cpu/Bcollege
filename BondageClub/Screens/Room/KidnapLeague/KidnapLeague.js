@@ -18,7 +18,7 @@ var KidnapLeagueVisitRoom = false;
 
 var KidnapLeagueSearchingPlayers = [];
 var KidnapLeagueSearchFinishTime = 0;
-var KidnapLeagueSearchFinishDuration = 0.5*60*1000; // 15 mins
+var KidnapLeagueSearchFinishDuration = 15*60*1000; // 15 mins
 var KidnapLeagueOnlineBountyTarget = 0;
 var KidnapLeagueOnlineBountyTargetStartedTime = 0;
 
