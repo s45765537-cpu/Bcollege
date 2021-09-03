@@ -418,8 +418,8 @@ var AssetFemale3DCG = [
 				Name: "HulaSkirt", Value: 30, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["Horse", "KneelingSpread"], Layer: [
 					{ Name: "Back", Priority: 6 },
 					{ Name: "Front", CopyLayerColor: "Back" },
-					{ Name: "Flowers1" },
-					{ Name: "Flowers2" },
+					{ Name: "Flowers1", ParentGroup: null },
+					{ Name: "Flowers2", ParentGroup: null },
 				]
 			},
 			{ Name: "ClothSkirt1", Value: 40, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
