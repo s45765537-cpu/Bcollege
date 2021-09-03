@@ -241,9 +241,24 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
+ function ChatRoomCanTakeSuitcaseOpened() {
+	return ChatRoomCarryingBountyOpened(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
  function ChatRoomCarryingBounty(C) {
 	let misc = InventoryGet(C, "ItemMisc");
 	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBountyOpened(C) {
+	let misc = InventoryGet(C, "ItemMisc");
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty");
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
@@ -252,6 +267,14 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  function ChatRoomCantTakeSuitcase() {
 	let misc = InventoryGet(CurrentCharacter, "ItemMisc");
 	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && misc && misc.Asset && misc.Asset.Name == "BountySuitcase");
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcaseOpened() {
+	let misc = InventoryGet(CurrentCharacter, "ItemMisc");
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty");
 }
 /**
  * Attempts to take the suitcase from the current player
@@ -271,10 +294,11 @@ function ChatRoomTryToTakeSuitcase() {
  * @returns {void}
  */
 function ChatRoomReceiveSuitcaseMoney() {
-	let money = Math.max(1, Math.ceil(45 * Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration)));
+	let money = Math.max(1, Math.ceil(45 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
 	CharacterChangeMoney(Player, money);
 	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: [{Tag: "MONEYAMOUNT", Text: ""+Math.ceil(money)}], Sender: Player.MemberNumber });
 	KidnapLeagueOnlineBountyTarget = 0;
+	KidnapLeagueOnlineBountyTargetStartedTime = 0;
 }
 
 /**
@@ -1266,18 +1290,30 @@ function ChatRoomUpdateOnlineBounty() {
 		KidnapLeagueSearchingPlayers = [];
 	} else if (KidnapLeagueSearchingPlayers.length > 0) {
 		let misc = InventoryGet(Player, "ItemMisc");
-		if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+		if (misc && misc.Asset && (misc.Asset.Name == "BountySuitcase" || misc.Asset.Name == "BountySuitcaseEmpty")) {
 			if (KidnapLeagueSearchFinishTime > 0 && CommonTime() > KidnapLeagueSearchFinishTime) {
 				for (let C = 0; C < ChatRoomCharacter.length; C++) {
 					if (KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
 						ServerSend("ChatRoomChat", { Content: "ReceiveSuitcaseMoney", Type: "Hidden", Target: ChatRoomCharacter[C].MemberNumber});
 					}
 				}
-				InventoryRemove(Player, "ItemMisc");
-				InventoryWear(Player, "BountySuitcaseEmpty", "ItemMisc");
-				ChatRoomMessage({ Content: "OnlineBountySuitcaseEnd", Type: "Action", Sender: Player.MemberNumber });
-				KidnapLeagueSearchFinishTime = 0;
-				ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				if (misc.Asset.Name == "BountySuitcase") {
+					InventoryRemove(Player, "ItemMisc");
+					InventoryWear(Player, "BountySuitcaseEmpty", "ItemMisc");
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEnd", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				} else {
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEndOpened", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					if (!misc.Property) misc.Property = {};
+					if (!misc.Property.Iterations) misc.Property.Iterations = 0;
+					misc.Property.Iterations = misc.Property.Iterations + 1;
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				}
+
 			}
 			let KidnapLeagueSearchingPlayersNew = [];
 			for (let C = 0; C < ChatRoomCharacter.length; C++) {
@@ -1291,10 +1327,19 @@ function ChatRoomUpdateOnlineBounty() {
 			KidnapLeagueSearchFinishTime = 0;
 		}
 	} else {
-		if (KidnapLeagueSearchFinishTime > 0)
-			ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
-				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			]);
+		if (KidnapLeagueSearchFinishTime > 0) {
+			let misc = InventoryGet(Player, "ItemMisc");
+
+			if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase")
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+			else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty")
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarlyOpened", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+		}
+
 		KidnapLeagueSearchFinishTime = 0;
 	}
 	if (!Player.CanInteract()) {
@@ -1927,12 +1972,21 @@ function ChatRoomMessage(data) {
 				}
 				else if (msg == "TakeSuitcase"){
 					if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
+						let misc = InventoryGet(Player, "ItemMisc");
 						if (KidnapLeagueSearchingPlayers.length == 0) {
-							KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-							ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
-								{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
-								{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
-							]);
+							if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							}
 						} else {
 							ServerSend("ChatRoomGame", { OnlineBounty: {
 								finishTime: KidnapLeagueSearchFinishTime,
