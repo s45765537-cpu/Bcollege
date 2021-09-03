@@ -201,17 +201,17 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "GrandMage", Value: 90, DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"], AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead"],
+				Name: "GrandMage", Value: 90, DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"], HideForPose: ["AllFours"],
 				Alpha: [
 					{ Group: ["ClothAccessory"], Masks: [[0, 500, 500, 500]] },
 					{ Group: ["ClothLower"], Masks: [[0, 0, 220, 500], [290, 0, 210, 500]] },
 				],
 				Layer: [
 					{ Name: "Base" },
-					{ Name: "BackSkirt", ParentGroup: null,  Priority: 3 },
+					{ Name: "BackSkirt", ParentGroup: null,  Priority: 3, HideForPose: ["Hogtied"] },
 					{ Name: "Trim" },
-					{ Name: "Belt" },
-					{ Name: "Buckle" }
+					{ Name: "Belt", HideForPose: ["Hogtied"] },
+					{ Name: "Buckle", HideForPose: ["Hogtied"] }
 				]
 			},
 			{ Name: "Blouse1", Value: 20, Top: 1, BuyGroup: "Blouse1", HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]},
