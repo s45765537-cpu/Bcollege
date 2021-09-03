@@ -90,7 +90,7 @@ var ChatRoomCharacterX_Upper = 0;
 var ChatRoomCharacterX_Lower = 0;
 var ChatRoomCharacterZoom = 1;
 var ChatRoomSlideWeight = 9;
-var ChatRoomCharacterInitialize = true
+var ChatRoomCharacterInitialize = true;
 
 /**
  * Chat room resize manager object: Handles resize events for the chat log.
