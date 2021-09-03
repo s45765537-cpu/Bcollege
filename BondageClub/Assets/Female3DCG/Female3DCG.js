@@ -416,7 +416,8 @@ var AssetFemale3DCG = [
 			{ Name: "LatexSkirt2", Fetish: ["Latex"], Value: 60, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
 			{
 				Name: "HulaSkirt", Value: 30, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["Horse", "KneelingSpread"], Layer: [
-					{ Name: "Skirt" },
+					{ Name: "Back", Priority: 6 },
+					{ Name: "Front", CopyLayerColor: "Back" },
 					{ Name: "Flowers1" },
 					{ Name: "Flowers2" },
 				]
