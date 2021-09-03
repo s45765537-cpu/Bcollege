@@ -613,7 +613,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Bra10", Value: 30, Hide: ["ItemNipples"] },
-			{ Name: "CoconutBra", Value: 15, Hide: ["ItemNipples"], AllowPose: ["Yoked"], DefaultColor: "#83440B" },
+			{ Name: "CoconutBra", Value: 15, Hide: ["ItemNipples"], AllowPose: [], DefaultColor: "#83440B" },
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
