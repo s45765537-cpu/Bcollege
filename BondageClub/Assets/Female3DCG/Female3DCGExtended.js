@@ -1406,7 +1406,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 80
 							}
 						}, //c4 Strict Posture Collar
-					  ]
+					]
 					},
 					{
 						Name: "ShockModule", Key: "s",
