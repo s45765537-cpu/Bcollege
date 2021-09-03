@@ -201,7 +201,11 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "GrandMage", Value: 90, DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"], HideItem: [ "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerPencilSkirt", "ClothLowerShortPencilSkirt", "BraCamisole"], AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead"],
+				Name: "GrandMage", Value: 90, DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"], AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "OverTheHead"],
+				Alpha: [
+					{ Group: ["ClothAccessory"], Masks: [[0, 500, 500, 500]] },
+					{ Group: ["ClothLower"], Masks: [[0, 0, 220, 500], [290, 0, 210, 500]] },
+				],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "BackSkirt", ParentGroup: null,  Priority: 3 },
