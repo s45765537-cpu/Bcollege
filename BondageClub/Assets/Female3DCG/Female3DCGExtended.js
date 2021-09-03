@@ -1416,6 +1416,7 @@ var AssetFemale3DCGExtended = {
 						]
 					},
 				],
+				ChangeWhenLocked: false,
 			},
 		},
 	}, // ItemNeck
