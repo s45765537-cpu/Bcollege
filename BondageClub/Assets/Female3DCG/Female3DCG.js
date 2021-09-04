@@ -421,7 +421,7 @@ var AssetFemale3DCG = [
 			{ Name: "LatexSkirt1", Fetish: ["Latex"], Value: 40, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
 			{ Name: "LatexSkirt2", Fetish: ["Latex"], Value: 60, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
 			{
-				Name: "Tutu", Value: 30, Left: 40, ParentGroup: null, DefaultColor: [], AllowPose: [], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], Layer: [
+				Name: "Tutu", Value: 30, Top: 370, Left: 40, ParentGroup: null, DefaultColor: [], AllowPose: [], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], Layer: [
 					{ Name: "Layer1", ColorGroup: "Tutu" },
 					{ Name: "Layer2", ColorGroup: "Tutu" },
 					{ Name: "Layer3", ColorGroup: "Tutu" },
