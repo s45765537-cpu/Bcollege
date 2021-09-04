@@ -3389,7 +3389,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", HideItem: ["ClothMaidOutfit1", "ClothMaidOutfit2", "ClothStudentOutfit1", "ClothBabydollDress1", "ClothChineseDress2", "ClothSummerDress", "ClothLowerPleatedSkirt", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
+						Property: { Type: "Poofy", },
 					},
 				],
 			},
@@ -3581,7 +3581,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", HideItem: ["ClothMaidOutfit1", "ClothMaidOutfit2", "ClothStudentOutfit1", "ClothBabydollDress1", "ClothChineseDress2", "ClothSummerDress", "ClothLowerPleatedSkirt", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
+						Property: { Type: "Poofy", },
 					},
 				],
 			},
