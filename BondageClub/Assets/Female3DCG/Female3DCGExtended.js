@@ -14,7 +14,7 @@
 /**
  * An enum encapsulating the available extended item archetypes
  * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {Record<"MODULAR"|"TYPED", ExtendedArchetype>}
+ * @type {{MODULAR: "modular", TYPED: "typed"}}
  * @see {@link ModularItemConfig}
  * @see {@link TypedItemConfig}
  */
@@ -4507,9 +4507,6 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				],
-				Dialog: {
-					Load: "SelectHeadsetType",
-				},
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
