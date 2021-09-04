@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /** @type {ICommand[]} */
 var Commands = [];
@@ -311,6 +311,14 @@ const CommonCommands = [
 	{
 		Tag: 'showfriendlist',
 		Action: () => ChatRoomSendLocal(TextGet('CommandFriendlist') + JSON.stringify(Player.FriendList)),
+	},
+	{
+		Tag: 'openfriendlist',
+		Action: () => {
+			ElementHideGeneratedElements(CurrentScreen);
+			FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: true };
+			CommonSetScreen("Character", "FriendList");
+		},
 	},
 	{
 		Tag: 'ban',
