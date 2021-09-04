@@ -315,7 +315,7 @@ const CommonCommands = [
 	{
 		Tag: 'openfriendlist',
 		Action: () => {
-			ElementHideGeneratedElements(CurrentScreen);
+			ElementToggleGeneratedElements(CurrentScreen, false);
 			FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: true };
 			CommonSetScreen("Character", "FriendList");
 		},

@@ -646,7 +646,7 @@ function ServerClickBeep() {
 		CurrentScreen !== "FriendList"
 	) {
 		DialogLeave();
-		ElementHideGeneratedElements(CurrentScreen);
+		ElementToggleGeneratedElements(CurrentScreen, false);
 		FriendListModeIndex = 1;
 		FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: ServerPlayerIsInChatRoom() };
 		CommonSetScreen("Character", "FriendList");

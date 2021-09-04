@@ -170,14 +170,14 @@ function FriendListClick() {
 
 /**
  * This function is called, when the user exists the friend list. From here we either get back to the InformationSheet
- * or the ChatRoom serach, depending on the value of the global variable 'FriendListReturn'
+ * or the ChatRoom search, depending on the value of the global variable 'FriendListReturn'
  * @returns {void} - Nothing
  */
 function FriendListExit() {
 	FriendListBeepMenuClose();
 	ElementRemove("FriendList");
 	if (FriendListReturn != null) {
-		ElementShowGeneratedElements(FriendListReturn.Screen);
+		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
 		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
 		FriendListReturn = null;
 	} else CommonSetScreen("Character", "InformationSheet");
