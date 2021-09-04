@@ -114,6 +114,8 @@ declare function LoseFocus(event: MouseEvent): void;
 
 //#endregion
 
+//#region Assets
+
 type IAssetFamily = "Female3DCG";
 
 interface AssetGroup {
@@ -331,6 +333,8 @@ interface Asset {
 	PreviewIcons: string[];
 }
 
+//#endregion
+
 /** An ItemBundle is a minified version of the normal Item */
 interface ItemBundle {
 	Group: string;
@@ -458,6 +462,8 @@ interface ScreenFunctions {
 	/** Called when user presses Esc */
 	Exit?(): void;
 }
+
+//#region Characters
 
 interface Character {
 	ID: number;
@@ -741,6 +747,8 @@ interface NPCTrait {
 	Value: number;
 }
 
+//#endregion
+
 //#region Extended items
 
 interface ItemProperties {
@@ -806,7 +814,36 @@ interface ExtendedItemOption {
 	HasSubscreen?: boolean;
 	/** Whether or not this option can be selected randomly */
 	Random?: boolean;
+    /** Whether or not this option can be selected by the wearer */
+    AllowSelfSelect?: boolean;
 }
+
+/**
+ * An object containing data about the type change that triggered the chat message
+ * @param {Character} C - A reference to the character wearing the item
+ * @param {OptionType} previousOption - The previously selected type option
+ * @param {OptionType} newOption - The newly selected type option
+ * @param {number} previousIndex - The index of the previously selected type option in the item's options
+ * config
+ * @param {number} newIndex - The index of the newly selected type option in the item's options config
+ * @template OptionType
+ */
+interface ExtendedItemChatData<OptionType> {
+    C: Character;
+    previousOption: OptionType;
+    newOption: OptionType;
+    previousIndex: number;
+    newIndex: number;
+}
+
+/**
+ * @param {OptionType} chatData - An object containing data about the type change that triggered the chat message
+ * @returns {string} - The chat prefix that should be used for this type change
+ * @template OptionType
+ */
+type ExtendedItemChatCallback<OptionType> = (
+    chatData: ExtendedItemChatData<OptionType>
+) => string;
 
 //#endregion
 
@@ -821,11 +858,19 @@ interface ModularItemConfig {
 	 * granularity for chatroom messages when the item's module values change.
 	 */
 	ChatSetting?: ModularItemChatSetting;
+    /**
+     * An optional array of chat tags that should be included in the dictionary of
+     * the chatroom message when the item's type is changed.
+     * Defaults to {@link CommonChatTags.SOURCE_CHAR} and {@link CommonChatTags.DEST_CHAR}
+     */
+    ChatTags?: CommonChatTags[];
 	/**
 	 * A boolean indicating whether or not the item's type can be changed while the
 	 * item is locked (if set to false, the player must be able to unlock the item to change its type). Defaults to `true`
 	 */
 	ChangeWhenLocked?: boolean;
+    /** The optional text configuration for the item. Custom text keys can be configured within this object */
+    Dialog?: ModularItemDialogConfig;
 	/**
 	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored
@@ -836,6 +881,29 @@ interface ModularItemConfig {
 		Draw?: (next: () => void) => void,
 		Exit?: () => void,
 	};
+}
+
+interface ModularItemDialogConfig {
+    /**
+     * The key for the text that will be displayed on the base modular item screen (usually a prompt for the player to
+     * configure modules). Defaults to `"<groupName><assetName>Select"`
+     */
+    Select?: string;
+    /**
+     * A prefix for text keys for the display names of the item's modules. This will be suffixed with the module name to
+     * get the final key (i.e. `"<modulePrefix><moduleName>"`). Defaults to `"<groupName><assetName>Module"`.
+     */
+    ModulePrefix?: string;
+    /**
+     * A prefix for text keys for the display names of the item's options. This will be suffixed with the option key
+     * (i.e. `"<optionPrefix><optionKey>"`. The option key is the module key followed by the option's index within its
+     * parent module (e.g. `"a3"`). Defaults to `"<groupName><assetName>Option"`.
+     */
+    OptionPrefix?: string;
+    /**
+     * A prefix for text keys for chat messages triggered
+     */
+    ChatPrefix?: string | ExtendedItemChatCallback<ModularItemOption>;
 }
 
 /** An object describing a single module for a modular item. */
@@ -852,6 +920,8 @@ interface ModularItemModule {
 	Key: string;
 	/** The list of option definitions that can be chosen within this module. */
 	Options: ModularItemOption[];
+    /** Whether or not this module can be selected by the wearer */
+    AllowSelfSelect?: boolean;
 }
 
 /** An object describing a single option within a module for a modular item. */
@@ -888,6 +958,8 @@ interface ModularItemOption {
 	ChangeWhenLocked?: boolean;
 	/** Whether or not the option should open a subscreen in the extended item menu */
 	HasSubscreen?: boolean;
+    /** Whether or not this option can be selected by the wearer */
+    AllowSelfSelect?: boolean;
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the
@@ -900,6 +972,11 @@ interface ModularItemData {
 	 * granularity for chatroom messages when the item's module values change.
 	 */
 	chatSetting: ModularItemChatSetting;
+    /**
+     * An array of the chat message tags that should be included in the item's
+     * chatroom messages. Defaults to [{@link CommonChatTags.SOURCE_CHAR}, {@link CommonChatTags.DEST_CHAR}]
+     */
+    chatTags: CommonChatTags[];
 	/** The identifying key for the asset, in the format "<GroupName><AssetName>" */
 	key: string;
 	/** The prefix for generated functions */
@@ -911,7 +988,7 @@ interface ModularItemData {
 	/** The dialogue prefix for the name of each option */
 	dialogOptionPrefix: string;
 	/** The dialogue prefix that will be used for each of the item's chatroom messages */
-	chatMessagePrefix: string;
+	chatMessagePrefix: string | ExtendedItemChatCallback<ModularItemOption>;
 	/** The module definitions for the modular item */
 	modules: ModularItemModule[];
 	/** Name of currently active module */
@@ -950,7 +1027,7 @@ interface ModularItemData {
  * The textKey is the CSV key for the text that should be displayed in the button.
  * The background is an optional CSS color string defining the background color for the button.
  */
-type ModularItemButtonDefinition = string[];
+type ModularItemButtonDefinition = [string, string] | [string, string, string];
 
 //#endregion
 
@@ -1021,7 +1098,7 @@ interface TypedItemDialogConfig {
 	 * - For chat setting `TO_ONLY`: `<chatPrefix><newOptionName>`
 	 * Defaults to `"<GroupName><AssetName>Set"`
 	 */
-	ChatPrefix?: string | TypedItemChatCallback;
+	ChatPrefix?: string | ExtendedItemChatCallback<ExtendedItemOption>;
 	/**
 	 * A prefix for text keys for NPC dialog. This will be suffixed with the option name
 	 * to get the final NPC dialogue key (i.e. `"<npcPrefix><optionName>"`. Defaults to `"<groupName><assetName>"`
@@ -1049,7 +1126,7 @@ interface TypedItemData {
 		/** The prefix used for dialog keys representing the display names of the item's types */
 		typePrefix: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
-		chatPrefix: string | TypedItemChatCallback;
+		chatPrefix: string | ExtendedItemChatCallback<ExtendedItemOption>;
 		/** The prefix used for dialog keys representing an NPC's reactions to item type changes */
 		npcPrefix: string;
 	};
@@ -1093,31 +1170,6 @@ interface TypedItemData {
 }
 
 /**
- * An object containing data about the type change that triggered the chat message
- * @param {Character} C - A reference to the character wearing the item
- * @param {ExtendedItemOption} previousOption - The previously selected type option
- * @param {ExtendedItemOption} newOption - The newly selected type option
- * @param {number} previousIndex - The index of the previously selected type option in the item's options
- * config
- * @param {number} newIndex - The index of the newly selected type option in the item's options config
- */
-interface TypedItemChatData {
-	C: Character;
-	previousOption: ExtendedItemOption;
-	newOption: ExtendedItemOption;
-	previousIndex: number;
-	newIndex: number;
-}
-
-/**
- * @param {TypedItemChatData} chatData - An object containing data about the type change that triggered the chat message
- * @returns {string} - The chat prefix that should be used for this type change
- */
-type TypedItemChatCallback = (
-	chatData: TypedItemChatData
-) => string;
-
-/**
  * @param {object} chatData - An object containing data about the type change that triggered the chat message
  * @param {Character} chatData.C - A reference to the character wearing the item
  * @param {ExtendedItemOption} chatData.previousOption - The previously selected type option
@@ -1128,7 +1180,7 @@ type TypedItemChatCallback = (
  * @returns {[{ Tag: string, Text: string }]} - The dictionary entry to append to the dictionary.
  */
 type TypedItemDictionaryCallback = (
-	chatData: TypedItemChatData
+	chatData: ExtendedItemChatData<ExtendedItemOption>
 ) => { Tag: string, Text: string };
 
 /**

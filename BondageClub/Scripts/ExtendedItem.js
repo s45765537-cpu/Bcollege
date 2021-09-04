@@ -198,7 +198,7 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected)
 		}
 	} else {
 		const BlockedOrLimited = InventoryBlockedOrLimited(C, DialogFocusItem, Option.Property.Type);
-		const FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(Option, CurrentOption, IsSelfBondage);
+		const FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(Option, CurrentOption);
 
 		if (IsSelected && !Option.HasSubscreen) {
 			ButtonColor = "#888888";
@@ -232,7 +232,6 @@ function ExtendedItemClick(Options, OptionsPerPage, ShowImages = true) {
 		return;
 	}
 
-	const IsSelfBondage = C.ID === 0;
 	const ItemOptionsOffset = ExtendedItemGetOffset();
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
 	const XYPositions = !IsCloth ? ShowImages ? ExtendedXY : ExtendedXYWithoutImages : ExtendedXYClothes;
@@ -271,7 +270,7 @@ function ExtendedItemClick(Options, OptionsPerPage, ShowImages = true) {
 		const Y = XYPositions[OptionsPerPage][PageOffset][1];
 		const Option = Options[I];
 		if (MouseIn(X, Y, 225, 55 + ImageHeight)) {
-			ExtendedItemHandleOptionClick(C, Options, Option, IsSelfBondage);
+			ExtendedItemHandleOptionClick(C, Options, Option);
 		}
 	}
 }
@@ -290,7 +289,6 @@ function ExtendedItemExit() {
 		CommonCallFunctionByName(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Exit");
 	}
 }
-
 
 /**
  * Handler function for setting the type of an extended item
@@ -345,10 +343,9 @@ function ExtendedItemSetType(C, Options, Option) {
  * @param {ExtendedItemOption[]} Options - An Array of type definitions for each allowed extended type. The first item
  *     in the array should be the default option.
  * @param {ExtendedItemOption} Option - The selected type definition
- * @param {boolean} IsSelfBondage - Whether or not the player is applying the item to themselves
  * @returns {void} Nothing
  */
-function ExtendedItemHandleOptionClick(C, Options, Option, IsSelfBondage) {
+function ExtendedItemHandleOptionClick(C, Options, Option) {
 	if (ExtendedItemPermissionMode) {
 		if (Option.Property.Type == null) return;
 		const worn = C.ID == 0 && DialogFocusItem.Property.Type == Option.Property.Type;
@@ -361,7 +358,7 @@ function ExtendedItemHandleOptionClick(C, Options, Option, IsSelfBondage) {
 		const CurrentType = DialogFocusItem.Property.Type || null;
 		const CurrentOption = Options.find(O => O.Property.Type === CurrentType);
 		// use the unmemoized function to ensure we make a final check to the requirements
-		const RequirementMessage = ExtendedItemRequirementCheckMessage(Option, CurrentOption, IsSelfBondage);
+		const RequirementMessage = ExtendedItemRequirementCheckMessage(Option, CurrentOption);
 		if (RequirementMessage) {
 			DialogExtendedMessage = RequirementMessage;
 		} else if (Option.HasSubscreen) {
@@ -379,17 +376,31 @@ function ExtendedItemHandleOptionClick(C, Options, Option, IsSelfBondage) {
  * skill if applying the item to another character, or their Self Bondage skill if applying the item to themselves.
  * @param {ExtendedItemOption|ModularItemOption} Option - The selected type definition
  * @param {ExtendedItemOption|ModularItemOption} CurrentOption - The current type definition
- * @param {boolean} IsSelfBondage - Whether or not the player is applying the item to themselves
  * @returns {string|null} null if the player meets the option requirements. Otherwise a string message informing them
  * of the requirements they do not meet
  */
-function ExtendedItemRequirementCheckMessage(Option, CurrentOption, IsSelfBondage) {
+function ExtendedItemRequirementCheckMessage(Option, CurrentOption) {
 	const C = CharacterGetCurrent() || CharacterAppearanceSelection;
 	let ValidationMessage = TypedItemValidateOption(C, DialogFocusItem, Option, CurrentOption);
 	if (!ValidationMessage) {
+		ValidationMessage = ExtendedItemCheckSelfSelect(C, Option);
+	} else if (!ValidationMessage) {
 		ExtendedItemCheckSkillRequirements(C, DialogFocusItem, Option);
 	}
 	return ValidationMessage;
+}
+
+/**
+ * Checks whether the player is able to select an option based on it's self-selection criteria (whether or not the
+ * wearer may select the option)
+ * @param {Character} C - The character on whom the bondage is applied
+ * @param {ExtendedItemOption | ModularItemOption} Option - The option whose requirements should be checked against
+ * @returns {string | undefined} - undefined if the
+ */
+function ExtendedItemCheckSelfSelect(C, Option) {
+	if (C.ID === 0 && Option.AllowSelfSelect === false) {
+		return DialogFindPlayer("CannotSelfSelect");
+	}
 }
 
 /**
@@ -508,4 +519,27 @@ function ExtendedItemGetOffset() {
  */
 function ExtendedItemSetOffset(Offset) {
 	ExtendedItemOffsets[ExtendedItemOffsetKey()] = Offset;
+}
+
+/**
+ * Maps a chat tag to a dictionary entry for use in item chatroom messages.
+ * @param {Character} C - The target character
+ * @param {Asset} asset - The asset for the typed item
+ * @param {CommonChatTags} tag - The tag to map to a dictionary entry
+ * @returns {object} - The constructed dictionary entry for the tag
+ */
+function ExtendedItemMapChatTagToDictionaryEntry(C, asset, tag) {
+	switch (tag) {
+		case CommonChatTags.SOURCE_CHAR:
+			return { Tag: tag, Text: Player.Name, MemberNumber: Player.MemberNumber };
+		case CommonChatTags.DEST_CHAR:
+		case CommonChatTags.DEST_CHAR_NAME:
+		case CommonChatTags.TARGET_CHAR:
+		case CommonChatTags.TARGET_CHAR_NAME:
+			return { Tag: tag, Text: C.Name, MemberNumber: C.MemberNumber };
+		case CommonChatTags.ASSET_NAME:
+			return { Tag: tag, AssetName: asset.Name };
+		default:
+			return null;
+	}
 }

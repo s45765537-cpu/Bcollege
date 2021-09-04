@@ -2506,3 +2506,4 @@ PreviewIconLocked,,,Locked
 PreviewIconLoverOnly,,,Lovers only
 PreviewIconOwnerOnly,,,Owner only
 PreviewIconUnlocked,,,Automatically locks
+CannotSelfSelect,,,Cannot use this option when wearing the item
