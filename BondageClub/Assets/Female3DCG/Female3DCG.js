@@ -4404,7 +4404,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "OpenFaceHood", Fetish: ["Latex"], Value: 35, Priority: 40, Difficulty: 5, Time: 15, AllowLock: false, DefaultColor: "#404040", BuyGroup: "OpenFace", Block: ["ItemEars"], Hide: ["HairFront", "HairBack", "Ears"], HideItem: ["HatFurHeadband"]},
 			{ Name: "GwenHood", Fetish: ["Leather"], Value: 35, Difficulty: 5, Time: 15, AllowLock: true, DefaultColor: "#404040", Hide: ["HairFront", "Ears",], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars"], Extended: true, Alpha: [{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[0, 185, 400, 400]] }], HideItem: ["HatFurHeadband"], HasType: false },
-			{ Name: "TechnoHelmet1", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 7, AllowLock: true, DrawLocks: false, Hide: ["HairFront", "Ears", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "ItemEars"], Extended: true, 
+			{ Name: "TechnoHelmet1", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 7, AllowLock: true, DrawLocks: false, Effect: [], Hide: ["HairFront", "Ears", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "ItemEars"], Extended: true, 
 			},
 			AssetSpankingToys
 		],

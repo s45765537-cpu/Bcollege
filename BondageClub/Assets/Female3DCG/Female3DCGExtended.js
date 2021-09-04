@@ -1646,8 +1646,8 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Effect: ["DeafTotal"]
-								}, //h3 Noise-Cancelling
-							}
+								}, 
+							},
 						],
 					},
 				],
