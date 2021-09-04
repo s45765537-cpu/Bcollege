@@ -230,7 +230,7 @@ function ServerPlayerIsInChatRoom() {
 		|| ((CurrentScreen == "InformationSheet") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentScreen == "Title") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentScreen == "OnlineProfile") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null))
+		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null || FriendListReturn.IsInChatRoom))
 		|| ((CurrentScreen == "Preference") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
 }
@@ -585,6 +585,7 @@ function ServerAccountBeep(data) {
 				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\" " + (data.ChatRoomSpace === "Asylum" ? DialogFindPlayer("InAsylum") : '');
 			if (data.Message) {
 				ServerBeep.Message += `; ${DialogFindPlayer("BeepWithMessage")}`;
+				ServerBeep.IsMail = true;
 			}
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
@@ -633,6 +634,21 @@ function ServerDrawBeep() {
 		if (document.hasFocus()) {
 			NotificationReset(NotificationEventType.BEEP);
 		}
+	}
+}
+
+/** Handles a click on the beep rectangle if mail is included */
+function ServerClickBeep() {
+	if (
+		ServerBeep.IsMail &&
+		MouseIn((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50) &&
+		ServerBeep.Timer != null && ServerBeep.Timer > CurrentTime &&
+		CurrentScreen !== "FriendList"
+	) {
+		DialogLeave();
+		ElementHideGeneratedElements(CurrentScreen);
+		FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: ServerPlayerIsInChatRoom() };
+		CommonSetScreen("Character", "FriendList");
 	}
 }
 

@@ -39,6 +39,7 @@ function ElementCreateTextArea(ID) {
 	if (document.getElementById(ID) == null) {
 		var TextArea = document.createElement("TextArea");
 		TextArea.setAttribute("ID", ID);
+		TextArea.setAttribute("screen-generated", CurrentScreen);
 		TextArea.setAttribute("name", ID);
 		TextArea.addEventListener("keydown", KeyDown);
 		TextArea.className = "HideOnPopup";
@@ -61,6 +62,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength) {
 		Input.setAttribute("name", ID);
 		Input.setAttribute("type", Type);
 		Input.setAttribute("value", Value);
+		Input.setAttribute("screen-generated", CurrentScreen);
 		Input.setAttribute("maxlength", MaxLength);
 		Input.setAttribute("onfocus", "this.removeAttribute('readonly');");
 		Input.addEventListener("keydown", KeyDown);
@@ -221,6 +223,7 @@ function ElementCreateDiv(ID) {
 		var Div = document.createElement("div");
 		Div.setAttribute("ID", ID);
 		Div.setAttribute("name", ID);
+		Div.setAttribute("screen-generated", CurrentScreen);
 		Div.addEventListener("keydown", KeyDown);
 		Div.className = "HideOnPopup";
 		document.body.appendChild(Div);
@@ -378,4 +381,23 @@ function ElementIsScrolledToEnd(ID) {
 function ElementFocus(ID) {
 	if ((document.getElementById(ID) != null) && !CommonIsMobile)
 		document.getElementById(ID).focus();
+}
+
+/**
+ * Hides (Does not remove) HTML elements that were created by a given screen.
+ * Should only be used when it is known to have no conflicting element IDs.
+ * @param {string} Screen - Screen for which to hide the elements generated
+ */
+function ElementHideGeneratedElements(Screen) {
+	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
+	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = 'none');
+}
+
+/**
+ * Shows (Does not remove) HTML elements that were created by a given screen.
+ * @param {string} Screen - Screen for which to hide the elements generated
+ */
+function ElementShowGeneratedElements(Screen) {
+	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
+	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = '');
 }
