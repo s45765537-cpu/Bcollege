@@ -596,6 +596,31 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // BitchSuit
+		BitchSuitExposed: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Kneel",
+						Property: {
+							Type: null,
+							SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"],
+						},
+					},
+					{
+						Name: "AllFours",
+						Property: {
+							Type: "AllFours",
+							SetPose: ["AllFours"]
+						}
+					}
+				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuitExposed${C.ID === 0 ? "Self" : ""}Set`,
+				}
+			},
+		}, // BitchSuitExposed
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1251,8 +1276,8 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Lenses", Key: "l",
 						Options: [
-							{}, 
-							{ Property: { Effect: ["BlindHeavy"] } }, 
+							{},
+							{ Property: { Effect: ["BlindHeavy"] } },
 						],
 					},
 					{
@@ -2939,7 +2964,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Mermaid",
 						BondageLevel: 4,
 						Property: { Type: "Mermaid", SetPose: ["LegsClosed"], Difficulty: 4 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectRopeBondage",
@@ -2962,7 +2987,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Strict",
 						BondageLevel: 2,
 						Property: { Type: "Strict", Difficulty: 2 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectChainBondage",
@@ -3494,7 +3519,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Open",
 						Property: {
-							Type: null, 
+							Type: null,
 						},
 					},
 					{
@@ -3526,7 +3551,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Dull",
 						Property: { Type: "Dull"},
 					},
-				],		
+				],
 			},
 		}, // ChineseDress2
 	}, // Bra
@@ -3844,7 +3869,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6, Effect: []}
 					}, {
 						Name: "Suspended",
-							Property: { 
+							Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],
@@ -3870,7 +3895,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6}
 					}, {
 						Name: "Suspended",
-						Property: { 
+						Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],
