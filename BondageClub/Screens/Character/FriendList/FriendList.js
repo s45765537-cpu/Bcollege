@@ -136,7 +136,6 @@ function FriendListBeepMenuSend() {
 			const beep = { MemberNumber: FriendListBeepTarget, BeepType: "" };
 			if (msg) beep.Message = msg;
 			if (!FriendListBeepShowRoom) beep.IsSecret = true;
-			console.log(beep);
 			ServerSend("AccountBeep", beep);
 
 			FriendListBeepLog.push({
