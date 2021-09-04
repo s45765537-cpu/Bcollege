@@ -23,8 +23,8 @@ function InventoryItemDevicesDollBoxLoad() {
 		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 	}
 
-	const input1 = ElementCreateInput("WoodenSignText1", "text", DialogFocusItem.Property.Text, "22");
-	const input2 = ElementCreateInput("WoodenSignText2", "text", DialogFocusItem.Property.Text2, "22");
+	const input1 = ElementCreateInput("DollBoxText1", "text", DialogFocusItem.Property.Text, "22");
+	const input2 = ElementCreateInput("DollBoxText2", "text", DialogFocusItem.Property.Text2, "22");
 	if (input1) input1.pattern = DynamicDrawTextInputPattern;
 	if (input2) input2.pattern = DynamicDrawTextInputPattern;
 }
@@ -34,11 +34,11 @@ function InventoryItemDevicesDollBoxDraw() {
 	// Draw the header and item
 	DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
 
-	ElementPosition("WoodenSignText1", 1505, 600, 350);
-	ElementPosition("WoodenSignText2", 1505, 680, 350);
+	ElementPosition("DollBoxText1", 1505, 600, 350);
+	ElementPosition("DollBoxText2", 1505, 680, 350);
 	DrawButton(
 		1330, 731, 340, 64, DialogFindPlayer("SaveText"),
-		(ElementValue("WoodenSignText1") + ElementValue("WoodenSignText2")).match(DynamicDrawTextRegex) ? "White" : "#888", "",
+		(ElementValue("DollBoxText1") + ElementValue("DollBoxText2")).match(DynamicDrawTextRegex) ? "White" : "#888", "",
 	);
 }
 
@@ -49,17 +49,17 @@ function InventoryItemDevicesDollBoxClick() {
 		InventoryItemDevicesDollBoxExit();
 	}
 
-	if (MouseIn(1330, 731, 340, 64) && (ElementValue("WoodenSignText1") + ElementValue("WoodenSignText2")).match(DynamicDrawTextRegex)) {
-		DialogFocusItem.Property.Text = ElementValue("WoodenSignText1");
-		DialogFocusItem.Property.Text2 = ElementValue("WoodenSignText2");
+	if (MouseIn(1330, 731, 340, 64) && (ElementValue("DollBoxText1") + ElementValue("DollBoxText2")).match(DynamicDrawTextRegex)) {
+		DialogFocusItem.Property.Text = ElementValue("DollBoxText1");
+		DialogFocusItem.Property.Text2 = ElementValue("DollBoxText2");
 		InventoryItemDevicesDollBoxChange();
 	}
 }
 
 // Leaves the extended screen
 function InventoryItemDevicesDollBoxExit() {
-	ElementRemove("WoodenSignText1");
-	ElementRemove("WoodenSignText2");
+	ElementRemove("DollBoxText1");
+	ElementRemove("DollBoxText2");
 	PreferenceMessage = "";
 	DialogFocusItem = null;
 	if (DialogInventory != null) DialogMenuButtonBuild(CharacterGetCurrent());
@@ -73,7 +73,7 @@ function InventoryItemDevicesDollBoxChange() {
 		var Dictionary = [];
 		Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
 		Dictionary.push({ Tag: "TargetCharacterName", Text: C.Name, MemberNumber: C.MemberNumber });
-		ChatRoomPublishCustomAction("WoodenSignChange", true, Dictionary);
+		ChatRoomPublishCustomAction("DollBoxChange", true, Dictionary);
 		InventoryItemDevicesDollBoxExit();
 	}
 }
@@ -99,13 +99,6 @@ function AssetsItemDevicesDollBoxAfterDraw({C, A, X, Y, L, Property, drawCanvas,
 			effect: DynamicDrawTextEffect.BURN,
 			width,
 		};
-
-		// Reposition and orient the text when hanging upside-down
-		if (C.IsInverted()) {
-			ctx.rotate(Math.PI);
-			ctx.translate(-tempCanvas.width, -tempCanvas.height);
-			Y -= 168;
-		}
 
 		DynamicDrawText(text1, ctx, width / 2, height / (isAlone ? 2.4 : 3.5), drawOptions);
 		DynamicDrawText(text2, ctx, width / 2, height / (isAlone ? 2.4 : 1.85), drawOptions);
