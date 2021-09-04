@@ -604,24 +604,39 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // CeilingShackles
 		BitchSuit: {
-			Archetype: ExtendedArchetype.TYPED,
+			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
-				Options: [
+				Modules: [
 					{
-						Name: "Latex",
-						Property: {
-							Type: null,
-							Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						},
+						Name: "Zip",
+						Key: "z",
+						Options: [
+							{ // z0 - Zipped up
+								Property: { Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
+							},
+							{ // z1 - Unzipped
+								Property: { Block: [] },
+							},
+						],
+						AllowSelfSelect: false,
 					},
 					{
-						Name: "UnZip",
-						Property: {
-							Type: "UnZip",
-							Block: [],
-						},
+						Name: "Pose",
+						Key: "p",
+						Options: [
+							{ // p0 - Kneeling
+								Property: { SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"] },
+							},
+							{ // p1 - All fours
+								Property: { SetPose: ["AllFours"] },
+							},
+						],
 					},
 				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuit${C.ID === 0 ? "Self" : ""}Set`,
+				},
 			},
 		}, // BitchSuit
 		BitchSuitExposed: {
