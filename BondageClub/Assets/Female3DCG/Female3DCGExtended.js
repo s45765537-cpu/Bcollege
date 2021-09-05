@@ -1853,6 +1853,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 							HideItem: ["ItemMiscTeddyBear"],
+							HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
