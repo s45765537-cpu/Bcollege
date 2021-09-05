@@ -1622,7 +1622,7 @@ var AssetFemale3DCGExtended = {
 							}, // v4 Opaque Visor
 							{
 								Property: {
-									CustomBlindBackground: "HypnoticSpiral",
+									CustomBlindBackground: "HypnoSpiral2",
 									Effect: ["BlindHeavy", "Prone"]
 								},
 							}, // v5 Hypnotic Visor
@@ -1630,7 +1630,7 @@ var AssetFemale3DCGExtended = {
 
 					},
 					{
-						Name: "DeafeningModule", Key: "h",
+						Name: "DeafeningModule", Key: "d",
 						Options: [
 							{}, //h0 Disabled
 							{
@@ -1647,10 +1647,22 @@ var AssetFemale3DCGExtended = {
 								Property: {
 									Effect: ["DeafTotal"]
 								}, 
-							},
+							}, //h3 Noise-Cancelling
+						],
+					},
+					{
+						Name: "ChinStrap", Key: "c",
+						Options: [
+							{}, //c0 No Chin Strap
+							{
+								Property: {
+									Difficulty: 10
+								}
+							}, //h1 Chin Strap
 						],
 					},
 				],
+				ChangeWhenLocked: false,
 			}
 		}, // TechnoHelmet1
 	}, // ItemHood

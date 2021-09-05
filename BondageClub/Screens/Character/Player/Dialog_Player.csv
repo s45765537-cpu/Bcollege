@@ -2499,3 +2499,31 @@ PreviewIconLocked,,,Locked
 PreviewIconLoverOnly,,,Lovers only
 PreviewIconOwnerOnly,,,Owner only
 PreviewIconUnlocked,,,Automatically locks
+ItemHoodTechnoHelmet1SelectBase,,,Configure helmet,,
+ItemHoodTechnoHelmet1SelectVisor,,,Configure visor,,
+ItemHoodTechnoHelmet1SelectDeafeningModule,,,Configure deafening module,,
+ItemHoodTechnoHelmet1SelectChinStrap,,,Configure chin strap,,
+ItemHoodTechnoHelmet1ModuleVisor,,,Visor,,
+ItemHoodTechnoHelmet1ModuleDeafeningModule,,,Deafening Module,,
+ItemHoodTechnoHelmet1ModuleChinStrap,,,Chin Strap,,
+ItemHoodTechnoHelmet1Optionv0,,,No Visor,,
+ItemHoodTechnoHelmet1Optionv1,,,Transparent Visor,,
+ItemHoodTechnoHelmet1Optionv2,,,Lightly Tinted Visor,,
+ItemHoodTechnoHelmet1Optionv3,,,Heavily Tinted Visor,,
+ItemHoodTechnoHelmet1Optionv4,,,Opaque Visor,,
+ItemHoodTechnoHelmet1Optionv5,,,Hypnotic Visor,,
+ItemHoodTechnoHelmet1Optiond0,,,No Deafening Module,,
+ItemHoodTechnoHelmet1Optiond1,,,Light,,
+ItemHoodTechnoHelmet1Optiond2,,,Heavy,,
+ItemHoodTechnoHelmet1Optiond3,,,Noise-Cancelling,,
+ItemHoodTechnoHelmet1Optionc0,,,No Chin Strap,,
+ItemHoodTechnoHelmet1Optionc1,,,Chin Strap,,
+
+
+
+
+
+
+
+
+
