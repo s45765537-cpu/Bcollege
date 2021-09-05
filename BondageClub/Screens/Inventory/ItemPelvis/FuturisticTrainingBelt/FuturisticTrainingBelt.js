@@ -45,8 +45,8 @@ var FuturisticTrainingBeltMaxPage = 1;
 
 function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else{
 		if (DialogFocusItem.Property == null) DialogFocusItem.Property = {
 			Intensity: -1,
@@ -115,8 +115,8 @@ function InventoryItemPelvisFuturisticTrainingBeltDraw() {
 	const Item = DialogFocusItem;
 	var canViewMode = false;
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else if (DialogFocusItem && DialogFocusItem.Property) {
 		DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
 
@@ -202,9 +202,9 @@ function InventoryItemPelvisFuturisticTrainingBeltClick() {
 	const Item = DialogFocusItem;
 	var canViewMode = false;
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
+	if (InventoryItemFuturisticValidate(C) !== "") {
 		if (MouseIn(1885, 25, 90, 90)) InventoryItemPelvisFuturisticTrainingBeltExit();
-		else InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+		else InventoryItemFuturisticClickAccessDenied();
 	} else {
 		if (MouseIn(1885, 25, 90, 90)) InventoryItemPelvisFuturisticTrainingBeltExit();
 
@@ -286,7 +286,7 @@ function InventoryItemPelvisFuturisticTrainingBeltExit() {
 		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticChastityBeltSetGeneric");
 	}
 
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 
 	ElementRemove("PunishRequiredSpeechWord");
 	ElementRemove("PunishProhibitedSpeechWords");
@@ -315,7 +315,7 @@ function InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, msg) {
 }
 
 function InventoryItemPelvisFuturisticTrainingBeltValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item); // All futuristic items refer to the gag
+	return InventoryItemFuturisticValidate(C, Item); // All futuristic items refer to the gag
 }
 
 function InventoryItemPelvisFuturisticTrainingBeltNpcDialog(C, Option) {
@@ -352,7 +352,7 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, PersistentDa
 	var State = (Item.Property && PersistentData.DeviceState) ? FuturisticTrainingBeltStates[PersistentData.DeviceState] : "None";
 	var VibeMode = InventoryItemPelvisFuturisticTrainingBeltGetVibeMode(C, State, OldIntensity < 0);
 
-	if (Force || PersistentData.DeviceVibeMode != VibeMode) {
+	if (Force || PersistentData.DeviceVibeMode != VibeMode || (OldIntensity > -1 && VibeMode == "Off")) {
 		PersistentData.DeviceVibeMode = VibeMode;
 
 		var Option = VibratorModeGetOption(VibeMode);
@@ -367,6 +367,8 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, PersistentDa
 				{ Tag: "AssetName", AssetName: Item.Asset.Name },
 			];
 
+			Dictionary.push({ Automatic: true });
+
 			Message = "FuturisticTrainingBeltSetState" + FuturisticTrainingBeltStates[PersistentData.DeviceState] + VibeMode;
 			Dictionary.push({ Tag: "SourceCharacter", Text: C.Name, MemberNumber: Player.MemberNumber });
 			// This is meant to cut down on spam for other players
@@ -374,7 +376,6 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, PersistentDa
 				ChatRoomMessage({ Content: Message+"Self", Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary  });
 			else {
 				if (Item.Property && Item.Property.ChatMessage) {
-					Dictionary.push({ Automatic: true });
 					ServerSend("ChatRoomChat", { Content: Message, Type: "Action", Dictionary });
 				} else {
 					ChatRoomMessage({ Content: Message, Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary  });
@@ -583,7 +584,10 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 					DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityTease");
 					DeviceTimer = FuturisticTrainingBeltRandomTeaseDurationMin + (FuturisticTrainingBeltRandomTeaseDurationMax - FuturisticTrainingBeltRandomTeaseDurationMin) * r * r * r;
 				}
-			} else DeviceTimer = 1;
+			} else {
+				DeviceTimer = 1;
+				if (StateTimerOver) DeviceSetToState = 0;
+			}
 		} else if (Mode == "RandomOrgasm") {
 			if (State != "LowPriorityMax")
 				DeviceSetToState = 0;
@@ -594,7 +598,10 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 					DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityMax");
 					DeviceTimer = FuturisticTrainingBeltRandomOrgasmDurationMin + (FuturisticTrainingBeltRandomOrgasmDurationMax - FuturisticTrainingBeltRandomOrgasmDurationMin) * r * r * r;
 				} else DeviceSetToState = -1;
-			} else DeviceTimer = 1;
+			} else {
+				DeviceTimer = 1;
+				if (StateTimerOver) DeviceSetToState = 0;
+			}
 		} else if (Mode == "FullPower") {
 			DeviceSetToState = FuturisticTrainingBeltStates.indexOf("LowPriorityMax");
 		} else if (Mode == "Tease") {
@@ -617,6 +624,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 		}
 	} else if (State == "Cooldown" && StateTimerReady) PersistentData.DeviceState = FuturisticTrainingBeltStates.indexOf("None"); // Return to None state
 
+    if (State == "None" && Property.Intensity >= 0) update = true;
 	// In the cooldown state we decide when to get ready for another round of good vibrations
 	if (State == "Cooldown") {
 		var Cooldown = 0;

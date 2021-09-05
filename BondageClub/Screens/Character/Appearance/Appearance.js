@@ -322,7 +322,7 @@ function CharacterAppearanceSortLayers(C) {
 					var drawLayer = Object.assign({}, layer);
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alphaDef => {
-						if (alphaDef.Group && alphaDef.Group.length) {
+						if ((alphaDef.Group && alphaDef.Group.length) && (!alphaDef.Type || !Array.isArray(alphaDef.Type) || alphaDef.Type.includes(type))) {
 							alphaDef.Group.forEach(groupName => {
 								groupAlphas[groupName] = groupAlphas[groupName] || [];
 								groupAlphas[groupName].push({Pose: alphaDef.Pose, Masks: alphaDef.Masks});
