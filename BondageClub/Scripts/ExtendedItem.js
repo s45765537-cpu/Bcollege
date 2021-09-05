@@ -381,13 +381,9 @@ function ExtendedItemHandleOptionClick(C, Options, Option) {
  */
 function ExtendedItemRequirementCheckMessage(Option, CurrentOption) {
 	const C = CharacterGetCurrent() || CharacterAppearanceSelection;
-	let ValidationMessage = TypedItemValidateOption(C, DialogFocusItem, Option, CurrentOption);
-	if (!ValidationMessage) {
-		ValidationMessage = ExtendedItemCheckSelfSelect(C, Option);
-	} else if (!ValidationMessage) {
-		ExtendedItemCheckSkillRequirements(C, DialogFocusItem, Option);
-	}
-	return ValidationMessage;
+	return TypedItemValidateOption(C, DialogFocusItem, Option, CurrentOption)
+		|| ExtendedItemCheckSelfSelect(C, Option)
+		|| ExtendedItemCheckSkillRequirements(C, DialogFocusItem, Option);
 }
 
 /**
