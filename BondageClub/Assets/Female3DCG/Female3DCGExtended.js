@@ -35,8 +35,12 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Circles",
+						Name: "Plain",
 						Property: { Type: null, },
+					},
+					{
+						Name: "Circles",
+						Property: { Type: "Circles", },
 					},
 					{
 						Name: "Flowers",

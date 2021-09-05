@@ -961,8 +961,8 @@ var AssetFemale3DCG = [
 				Name: "Bandana", Value: 20, Left: 76, Top: -20, DefaultColor: ["#DC3434", "#FFFFFF"], AllowPose: [], Extended: true, Layer: [
 					{ Name: "Band", HasType: false, CopyLayerColor: "Bow" },
 					{ Name: "Bow", Priority: 6, HasType: false },
-					{ Name: "BandPattern", CopyLayerColor: "BowPattern" },
-					{ Name: "BowPattern", Priority: 6 },
+					{ Name: "BandPattern", CopyLayerColor: "BowPattern", AllowTypes: ["Circles", "Flowers", "PolkaDots", "Triangles"] },
+					{ Name: "BowPattern", Priority: 6, AllowTypes: ["Circles", "Flowers", "PolkaDots", "Triangles"] },
 				]
 			},
 			{
