@@ -230,14 +230,16 @@ function DrawArousalMeter(C, X, Y, Zoom) {
 					}
 
 					if (Progress > 0) { // -1 is disabled
-						const max_time = 5000; // 5 seconds
+						const animationTimeMax = 5000; // 5 seconds
+						const animationTimeLeft = Math.min(C.ArousalSettings.ChangeTime - CommonTime(), 0) + animationTimeMax;
+
 						DrawArousalGlow(
 							X + (C.ArousalZoom ? 50 : 90) * Zoom,
 							Y + (C.ArousalZoom ? 200 : 400) * Zoom,
 							C.ArousalZoom ? Zoom : Zoom * 0.2,
 							Progress,
-							Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && CommonTime() - C.ArousalSettings.ChangeTime < max_time),
-							Math.max(0, (max_time + C.ArousalSettings.ChangeTime - CommonTime()) / max_time),
+							Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && animationTimeLeft > 0),
+							Math.max(0, animationTimeLeft / animationTimeMax),
 							C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 					}
 				}
