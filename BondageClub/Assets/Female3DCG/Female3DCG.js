@@ -4416,7 +4416,7 @@ var AssetFemale3DCG = [
 					{ Name: "ChinStrap", HasType: false, AllowModuleTypes: ["c1"] },
 					{ Name: "HelmetMain", HasType: false, },
 					{ Name: "HelmetSecondary", HasType: false, },
-				] 
+				]
 			},
 			AssetSpankingToys
 		],
