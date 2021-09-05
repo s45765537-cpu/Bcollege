@@ -4410,7 +4410,6 @@ var AssetFemale3DCG = [
 					{ Name: "LightlyTintedVisor", HasType: false, CopyLayerColor: "TransparentVisor", AllowModuleTypes: ["v2"] },
 					{ Name: "HeavilyTintedVisor", HasType: false, CopyLayerColor: "TransparentVisor", AllowModuleTypes: ["v3"] },
 					{ Name: "OpaqueVisor", HasType: false, CopyLayerColor: "TransparentVisor", AllowModuleTypes: ["v4", "v5"] },
-					{ Name: "HypnoticVisor", HasType: false, CopyLayerColor: "TransparentVisor", AllowModuleTypes: ["v5"] },
 					{ Name: "HypnoSpiral", HasType: false, AllowModuleTypes: ["v5"] },
 					{ Name: "Shine", HasType: false, AllowColorize: false, AllowModuleTypes: ["v1", "v2", "v3", "v4", "v5"] },
 					{ Name: "ChinStrap", HasType: false, AllowModuleTypes: ["c1"] },
