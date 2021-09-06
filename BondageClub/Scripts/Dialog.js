@@ -1045,15 +1045,15 @@ function DialogBuildSavedExpressionsMenu() {
 function DialogDrawSavedExpressionsMenu() {
 	DrawText(DialogFindPlayer("SavedExpressions"), 210, 90, "White", "Black");
 
-	if (!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length || Player.SavedExpressions.some(expression => expression != null))
+	if ((!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length) && Player.SavedExpressions.some(expression => expression != null))
 		DialogBuildSavedExpressionsMenu();
 
 	for (let x = 0; x < 5; x++) {
 		if (Player.SavedExpressions[x] == null) {
-			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
+			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 180), "White", "Black");
 		} else {
-			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 0, 300, 220);
-			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 170), 260, 190);
+			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 30, 300, 220);
+			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 175), 260, 190);
 		}
 
 		DrawButton(290, 160 + (x * 170), 120, 50, DialogFindPlayer("SavedExpressionsSave"), "White");
@@ -1067,14 +1067,14 @@ function DialogDrawSavedExpressionsMenu() {
 function DialogClickSavedExpressionsMenu() {
 	if (MouseXIn(290, 120)) {
 		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(160 + (x * 170), 50)) {
+			if (MouseYIn(160 + (x * 180), 50)) {
 				DialogFacialExpressionsSave(x);
 			}
 		}
 	}
 	if (MouseXIn(290, 120)) {
 		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(220 + (x * 170), 50)) {
+			if (MouseYIn(220 + (x * 180), 50)) {
 				DialogFacialExpressionsLoad(x);
 			}
 		}
