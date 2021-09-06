@@ -995,6 +995,8 @@ function DialogFacialExpressionsSave(Slot) {
 	for (let x = 0; x < DialogFacialExpressions.length; x++) {
 		Player.SavedExpressions[Slot].push({ Group: DialogFacialExpressions[x].Group, CurrentExpression: DialogFacialExpressions[x].CurrentExpression });
 	}
+	if (Player.SavedExpressions[Slot].every(expression => !expression.CurrentExpression))
+		Player.SavedExpressions[Slot] = null;
 	ServerAccountUpdate.QueueData({ SavedExpressions: Player.SavedExpressions });
 	DialogBuildSavedExpressionsMenu();
 }
@@ -1029,6 +1031,7 @@ function DialogBuildSavedExpressionsMenu() {
 				PreviewCharacter.Appearance.push({ Asset: I.Asset, Color: I.Color })
 			);
 
+			console.log(i, "build", expression[1], PreviewCharacter.Appearance.filter(A => A.Asset.Group.AllowExpression));
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
 			}
@@ -1050,7 +1053,7 @@ function DialogDrawSavedExpressionsMenu() {
 
 	for (let x = 0; x < 5; x++) {
 		if (Player.SavedExpressions[x] == null) {
-			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 180), "White", "Black");
+			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
 		} else {
 			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 30, 300, 220);
 			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 175), 260, 190);
