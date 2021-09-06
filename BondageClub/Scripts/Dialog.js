@@ -1067,14 +1067,14 @@ function DialogDrawSavedExpressionsMenu() {
 function DialogClickSavedExpressionsMenu() {
 	if (MouseXIn(290, 120)) {
 		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(160 + (x * 180), 50)) {
+			if (MouseYIn(160 + (x * 170), 50)) {
 				DialogFacialExpressionsSave(x);
 			}
 		}
 	}
 	if (MouseXIn(290, 120)) {
 		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(220 + (x * 180), 50)) {
+			if (MouseYIn(220 + (x * 170), 50)) {
 				DialogFacialExpressionsLoad(x);
 			}
 		}
