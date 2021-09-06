@@ -1603,10 +1603,8 @@ function ChatRoomSendLocal(Content, Timeout) {
  */
 function ChatRoomSendEmote(msg) {
 	if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) msg = msg.substring(1);
-	else if (msg.indexOf("**") == 0) {
-		msg = "*" + msg.replace(/\*/g, "");
-	} else {
-		msg = msg.replace(/\*/g, "");
+	else {
+		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
 		if (msg.startsWith(CommandsKey + "me ")) msg = msg.replace(CommandsKey + "me ", "");
 		if (msg.startsWith(CommandsKey + "action ")) msg = msg.replace(CommandsKey + "action ", "*");
 	}
@@ -3340,7 +3338,7 @@ function ChatRoomNotificationRaiseChatJoin(C) {
 		const settings = Player.NotificationSettings.ChatJoin;
 		if (settings.AlertType === NotificationAlertType.NONE) raise = false;
 		else if (!settings.Owner && !settings.Lovers && !settings.Friendlist && !settings.Subs) raise = true;
-		else if (settings.Owner && C.IsOwner()) raise = true;
+		else if (settings.Owner && Player.IsOwnedByMemberNumber(C.MemberNumber)) raise = true;
 		else if (settings.Lovers && C.IsLoverOfPlayer()) raise = true;
 		else if (settings.Friendlist && Player.FriendList.includes(C.MemberNumber)) raise = true;
 		else if (settings.Subs && C.IsOwnedByPlayer()) raise = true;
