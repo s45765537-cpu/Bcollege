@@ -155,7 +155,6 @@ function ExtendedItemDraw(Options, DialogPrefix, OptionsPerPage, ShowImages = tr
 			const icons = [];
 			if (C.ID !== 0 && !InventoryBlockedOrLimited(C, DialogFocusItem, Option.Property.Type) && InventoryIsPermissionLimited(C, Asset.Name, Asset.Group.Name, Option.Property.Type))
 				icons.push("AllowedLimited");
-			console.log(C.ID, );
 			const FavoriteDetails = DialogGetFavoriteStateDetails(C, Asset, Option.Property.Type);
 			if (FavoriteDetails && FavoriteDetails.Icon) icons.push(FavoriteDetails.Icon);
 			DrawPreviewIcons(icons, X + 2, Y);
