@@ -2027,7 +2027,6 @@ function ChatRoomMessage(data) {
 							if (ChatRoomCharacter[T].MemberNumber == data.Dictionary[D].MemberNumber)
 								TargetCharacter = ChatRoomCharacter[T];
 						if (data.Dictionary[D].MemberNumber != null) {
-							console.log( PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass), ChatRoomSenseDepBypass, ChatRoomSenseDepBypass && !ChatRoomCharacterDrawlist.includes(TargetCharacter));
 							msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
 						}
 						if ((data.Dictionary[D].MemberNumber != null) && (data.Dictionary[D].Tag == "TargetCharacter")) TargetMemberNumber = data.Dictionary[D].MemberNumber;
