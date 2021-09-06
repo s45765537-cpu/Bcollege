@@ -1049,7 +1049,7 @@ function DialogDrawSavedExpressionsMenu() {
 			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
 		} else {
 			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 0, 300, 220);
-			MainCanvas.drawImage(PreviewCanvas, 0, 92 + (x * 170), 300, 190);
+			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 170), 260, 190);
 		}
 
 		DrawButton(290, 160 + (x * 170), 120, 50, DialogFindPlayer("SavedExpressionsSave"), "White");
