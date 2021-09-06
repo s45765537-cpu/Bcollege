@@ -1099,12 +1099,14 @@ function AppearanceClick() {
 					DialogInventoryTogglePermission(Item, worn);
 				} else {
 					if (InventoryBlockedOrLimited(C, Item)) return;
-					if (worn && CurrentItem.Asset.Extended) {
-						DialogExtendItem(CurrentItem);
-					} else if (InventoryAllow(C, Item.Asset.Prerequisite)) {
-						CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
-						DialogInventoryBuild(C, DialogInventoryOffset);
-						AppearanceMenuBuild(C);
+					if (InventoryAllow(C, Item.Asset.Prerequisite)) {
+						if (worn && CurrentItem.Asset.Extended) {
+							DialogExtendItem(CurrentItem);
+						} else {
+							CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
+							DialogInventoryBuild(C, DialogInventoryOffset);
+							AppearanceMenuBuild(C);
+						}
 					} else {
 						CharacterAppearanceHeaderTextTime = DialogTextDefaultTimer;
 						CharacterAppearanceHeaderText = DialogText;
