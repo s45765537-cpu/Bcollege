@@ -1401,8 +1401,16 @@ var AssetFemale3DCG = [
 			{ Name: "AngelWings", Value: 50 },
 			{ Name: "BatWings", Value: 20 },
 			{ Name: "FairyWings", Value: 50 },
+			{
+				Name: "SteampunkWings", Value: 90, Layer: [
+					{ Name: "Base" },
+					{ Name: "Gears" },
+					{ Name: "Wings" },
+					{ Name: "WingFrame" }
+				]
+			},
 		],
-		Color: ["Default"]
+		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
 
 	{
