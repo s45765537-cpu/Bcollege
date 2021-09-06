@@ -1421,7 +1421,7 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
 			const item = InventoryGet(C, C.FocusGroup.Name);
-			if (CharacterAppearanceColorPickerBackup !== item.Color) {
+			if (item && CharacterAppearanceColorPickerBackup !== item.Color) {
 				AppearancePreviewBuild(C, true);
 			}
 		}
