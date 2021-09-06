@@ -1031,7 +1031,6 @@ function DialogBuildSavedExpressionsMenu() {
 				PreviewCharacter.Appearance.push({ Asset: I.Asset, Color: I.Color })
 			);
 
-			console.log(i, "build", expression[1], PreviewCharacter.Appearance.filter(A => A.Asset.Group.AllowExpression));
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
 			}
