@@ -1017,7 +1017,7 @@ function DialogFacialExpressionsLoad(Slot) {
  * @returns {void} - Nothing
  */
 function DialogBuildSavedExpressionsMenu() {
-	const ExcludedGroups = ["Hat", "Mask", "ClothAccessory", "Glasses"];
+	const ExcludedGroups = ["Mask"];
 	const BaseAppearance = Player.Appearance.filter(A => A.Asset.Group.Category === "Appearance" && !ExcludedGroups.includes(A.Asset.Group.Name));
 	Player.SavedExpressions.forEach((expression, i) => {
 		if (expression) {
