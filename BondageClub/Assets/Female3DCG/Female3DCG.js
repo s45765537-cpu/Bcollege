@@ -1402,7 +1402,7 @@ var AssetFemale3DCG = [
 			{ Name: "BatWings", Value: 20 },
 			{ Name: "FairyWings", Value: 50 },
 			{
-				Name: "SteampunkWings", Value: 90, Layer: [
+				Name: "SteampunkWings", Value: 90, DynamicBeforeDraw: true, DynamicScriptDraw: true, Layer: [
 					{ Name: "Base" },
 					{ Name: "Gears" },
 					{ Name: "Wings" },
