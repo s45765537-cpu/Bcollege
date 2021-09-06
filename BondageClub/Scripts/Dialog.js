@@ -1041,7 +1041,7 @@ function DialogBuildSavedExpressionsMenu() {
 function DialogDrawSavedExpressionsMenu() {
 	DrawText(DialogFindPlayer("SavedExpressions"), 210, 90, "White", "Black");
 
-	if (!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length)
+	if (!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length || Player.SavedExpressions.some(expression => expression != null))
 		DialogBuildSavedExpressionsMenu();
 
 	for (let x = 0; x < 5; x++) {
