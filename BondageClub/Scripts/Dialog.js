@@ -1018,11 +1018,16 @@ function DialogFacialExpressionsLoad(Slot) {
  */
 function DialogBuildSavedExpressionsMenu() {
 	const ExcludedGroups = ["Mask"];
-	const BaseAppearance = Player.Appearance.filter(A => A.Asset.Group.Category === "Appearance" && !ExcludedGroups.includes(A.Asset.Group.Name) &&  !A.Asset.Group.AllowExpression);
+	const AppearanceItems = Player.Appearance.filter(A => A.Asset.Group.Category === "Appearance" && !ExcludedGroups.includes(A.Asset.Group.Name));
+	const BaseAppearance = AppearanceItems.filter(A => !A.Asset.Group.AllowExpression);
+	const ExpressionGroups = AppearanceItems.filter(A => A.Asset.Group.AllowExpression);
 	Player.SavedExpressions.forEach((expression, i) => {
 		if (expression) {
 			const PreviewCharacter = CharacterLoadSimple("SavedExpressionPreview-" + i);
 			PreviewCharacter.Appearance = BaseAppearance.slice();
+			ExpressionGroups.forEach(I =>
+				PreviewCharacter.Appearance.push({ Asset: I.Asset, Color: I.Color })
+			);
 
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
