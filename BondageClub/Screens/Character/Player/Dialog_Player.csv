@@ -1323,6 +1323,8 @@ PelvisRopeSetKikkouHip,,,SourceCharacter uses the rope on TargetCharacter to do 
 ItemPelvisPoofyDiaperSelect,,,Select the amount of padding.,,
 ItemPelvisPoofyDiaperRegularPadding,,,Regular Padding,,
 ItemPelvisPoofyDiaperExtraPadding,,,Extra Padding,,
+ItemPelvisPoofyDiaperSetRegularPadding,,,The extra padding is removed from DestinationCharacterName poofy diaper. Though it is still embarrassingly huge.,,
+ItemPelvisPoofyDiaperSetExtraPadding,,,Extra padding is added to DestinationCharacterName poofy diaper. Making it crinkle louder and force the baby to waddle.,,
 ResetShockCount,,,Reset trigger count,,
 ShockCount,,,Trigger count: ShockCount,,
 ShockCountReset,,,SourceCharacter resets DestinationCharacter AssetName trigger count.,,

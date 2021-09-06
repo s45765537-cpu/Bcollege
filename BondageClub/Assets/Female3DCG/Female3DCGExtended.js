@@ -3808,6 +3808,7 @@ var AssetFemale3DCGExtended = {
 		PoofyDiaper: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME],
 				Options: [
 					{
 						Name: "RegularPadding",
@@ -4049,6 +4050,7 @@ var AssetFemale3DCGExtended = {
 		PoofyDiaper: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME],
 				Options: [
 					{
 						Name: "RegularPadding",
