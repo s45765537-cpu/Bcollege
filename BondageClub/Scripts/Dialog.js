@@ -1045,9 +1045,9 @@ function DialogDrawSavedExpressionsMenu() {
 		DialogBuildSavedExpressionsMenu();
 
 	for (let x = 0; x < 5; x++) {
-		if (Player.SavedExpressions[x] == null)
+		if (Player.SavedExpressions[x] == null) {
 			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
-		else {
+		} else {
 			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 0, 300, 220);
 			MainCanvas.drawImage(PreviewCanvas, 0, 92 + (x * 170), 300, 190);
 		}
