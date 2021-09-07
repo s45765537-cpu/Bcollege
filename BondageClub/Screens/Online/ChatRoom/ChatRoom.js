@@ -1186,7 +1186,33 @@ function ChatRoomResize(load) {
 			DrawRect(0, y1, Width, h, `rgba(255, 176, 176, ${alpha})`);
 	}
 }
-
+/**
+ * Draws vibration screen filter for the specified player
+ * @param {number} y1 - Y to draw filter at.
+ * @param {number} h - Height of filter
+ * @param {number} Width - Width of filter
+ * @param {Character} C - Player to draw it for
+ * @returns {void} - Nothing.
+ */
+function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
+	let VibratorLevelLower = 0;
+	let VibratorLevelUpper = 0;
+	for (let A = 0; A < C.Appearance.length; A++) {
+		if (C.Appearance[A] && C.Appearance[A].Property) {
+			let property = C.Appearance[A].Property;
+			if (property.Effect && property.Effect.includes("Vibrating") && property.Intensity >= 0) {
+				let intensity = property.Intensity + 1;
+				let group = (C.Appearance[A].Asset && C.Appearance[A].Asset.Group) ? C.Appearance[A].Asset.Group.Name : "";
+				if (group == "ItemVulva" || group == "ItemPelvis" || group == "ItemButt" || group == "ItemVulvaPiercings") {
+					VibratorLevelLower += (100 -VibratorLevelLower) * 0.7*Math.min(1, intensity/4);
+				} else {
+					VibratorLevelUpper += (100 -VibratorLevelUpper) * 0.7*Math.min(1, intensity/4);
+				}
+			}
+		}
+	}
+	ChatRoomDrawVibrationScreenFilter(y1, h, Width, VibratorLevelLower, VibratorLevelUpper);
+}
 
 /**
  * Draws vibration screen filter
@@ -1329,23 +1355,12 @@ function ChatRoomRun() {
 	if (Player.ArousalSettings.VFXVibrator == "VFXVibratorSolid" || Player.ArousalSettings.VFXVibrator == "VFXVibratorAnimated") {
 		let y1 = 0;
 		let h = 1000;
-		let VibratorLevelLower = 0;
-		let VibratorLevelUpper = 0;
-		for (let A = 0; A < Player.Appearance.length; A++) {
-			if (Player.Appearance[A] && Player.Appearance[A].Property) {
-				let property = Player.Appearance[A].Property;
-				if (property.Effect && property.Effect.includes("Vibrating") && property.Intensity >= 0) {
-					let intensity = property.Intensity + 1;
-					let group = (Player.Appearance[A].Asset && Player.Appearance[A].Asset.Group) ? Player.Appearance[A].Asset.Group.Name : "";
-					if (group == "ItemVulva" || group == "ItemPelvis" || group == "ItemButt" || group == "ItemVulvaPiercings") {
-						VibratorLevelLower += (100 -VibratorLevelLower) * 0.7*Math.min(1, intensity/4);
-					} else {
-						VibratorLevelUpper += (100 -VibratorLevelUpper) * 0.7*Math.min(1, intensity/4);
-					}
-				}
-			}
-		}
-		ChatRoomDrawVibrationScreenFilter(y1, h, 1003, VibratorLevelLower, VibratorLevelUpper);
+
+		if (ChatRoomCharacterCount == 3) {y1 = 50; h = 900;}
+		else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
+		else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
+
+		ChatRoomVibrationScreenFilter(y1, h, 1003, Player);
 	}
 
 	if ((Player.ImmersionSettings != null && Player.GraphicsSettings != null) && (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash) && ChatRoomPinkFlashTime > CommonTime()) {
