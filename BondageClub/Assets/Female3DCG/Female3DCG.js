@@ -4430,8 +4430,8 @@ var AssetFemale3DCG = [
 		Asset: [
 			{ Name: "LightDutyEarPlugs", Value: 15, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafLight"] },
 			{ Name: "HeavyDutyEarPlugs", Value: 30, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafHeavy"] },
-			{ Name: "HeadphoneEarPlugs", Value: 50, Difficulty: 50, Time: 5, Visible: false, Effect: [], Extended: true },
-			{ Name: "BluetoothEarbuds", Value: 50, Difficulty: 50, Time: 5, Visible: false, Effect: [], Extended: true, AlwaysExtend: true },
+			{ Name: "HeadphoneEarPlugs", Value: 50, Difficulty: 50, Time: 5, Visible: false, Extended: true },
+			{ Name: "BluetoothEarbuds", Value: 50, Difficulty: 50, Time: 5, Visible: false, Extended: true, AlwaysExtend: true },
 			{ Name: "FuturisticEarphones", Priority: 54, Category: ["SciFi"], Value: 60, Difficulty: 50, Top: 20, Time: 12, DefaultColor: ["Default", "#50913C"], AllowLock: true, DrawLocks: false, Random: false, FuturisticRecolor: true, Effect: ["UseRemote"], Extended: true, HasType: false,
 				Layer: [
 					{ Name: "Band" },
@@ -4440,7 +4440,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "Headphones", Priority: 54, Value: 50, Time: 5, Random: false, Top: 20, Effect: [], Extended: true, AlwaysExtend: true, HasType: false,
+				Name: "Headphones", Priority: 54, Value: 50, Time: 5, Random: false, Top: 20, Extended: true, AlwaysExtend: true, HasType: false,
 				Layer: [
 					{ Name: "Light" },
 					{ Name: "Dark" },
@@ -5010,7 +5010,6 @@ var AssetFemale3DCG = [
 
 ];
 
-/* eslint-disable */
 /** 3D Custom Girl based pose
  * @type {Pose[]}
  */
@@ -5429,75 +5428,74 @@ var ActivityFemale3DCG = [
 var FetishFemale3DCG = [
 	{
 		Name: "Bondage",
-		GetFactor: function (C) { return C.IsRestrained() ? (PreferenceGetFetishFactor(C, "Bondage") - 2) : 0 }
+		GetFactor: function (C) { return C.IsRestrained() ? (PreferenceGetFetishFactor(C, "Bondage") - 2) : 0; }
 	},
 	{
 		Name: "Gagged",
-		GetFactor: function (C) { return !C.CanTalk() ? (PreferenceGetFetishFactor(C, "Gagged") - 2) : 0 }
+		GetFactor: function (C) { return !C.CanTalk() ? (PreferenceGetFetishFactor(C, "Gagged") - 2) : 0; }
 	},
 	{
 		Name: "Blindness",
-		GetFactor: function (C) { return C.IsBlind() ? (PreferenceGetFetishFactor(C, "Blindness") - 2) : 0 }
+		GetFactor: function (C) { return C.IsBlind() ? (PreferenceGetFetishFactor(C, "Blindness") - 2) : 0; }
 	},
 	{
 		Name: "Deafness",
-		GetFactor: function (C) { return C.IsDeaf() ? (PreferenceGetFetishFactor(C, "Deafness") - 2) : 0 }
+		GetFactor: function (C) { return C.IsDeaf() ? (PreferenceGetFetishFactor(C, "Deafness") - 2) : 0; }
 	},
 	{
 		Name: "Chastity",
-		GetFactor: function (C) { return C.IsChaste() ? (PreferenceGetFetishFactor(C, "Chastity") - 2) : 0 }
+		GetFactor: function (C) { return C.IsChaste() ? (PreferenceGetFetishFactor(C, "Chastity") - 2) : 0; }
 	},
 	{
 		Name: "Exhibitionist",
-		GetFactor: function (C) { return C.IsNaked() ? (PreferenceGetFetishFactor(C, "Exhibitionist") - 2) : 0 }
+		GetFactor: function (C) { return C.IsNaked() ? (PreferenceGetFetishFactor(C, "Exhibitionist") - 2) : 0; }
 	},
 	{
 		Name: "Masochism",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Masochism") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Masochism"); }
 	},
 	{
 		Name: "Sadism",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Sadism") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Sadism"); }
 	},
 	{
 		Name: "Rope",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Rope") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Rope"); }
 	},
 	{
 		Name: "Latex",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Latex") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Latex"); }
 	},
 	{
 		Name: "Leather",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Leather") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Leather"); }
 	},
 	{
 		Name: "Metal",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Metal") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Metal"); }
 	},
 	{
 		Name: "Tape",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Tape") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Tape"); }
 	},
 	{
 		Name: "Nylon",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Nylon") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Nylon"); }
 	},
 	{
 		Name: "Lingerie",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Lingerie") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Lingerie"); }
 	},
 	{
 		Name: "Pet",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pet") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pet"); }
 	},
 	{
 		Name: "Pony",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pony") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pony"); }
 	},
 	{
 		Name: "ABDL",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "ABDL") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "ABDL"); }
 	}
 ];
-/* eslint-enable */
