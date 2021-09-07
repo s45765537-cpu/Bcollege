@@ -261,7 +261,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "LeatherStraps", Fetish: ["Leather"], ParentGroup: "BodyUpper", Value: 25, AllowPose: ["AllFours"], Extended: true },
 			{ Name: "FurBolero", Priority: 33, Value: 25, AllowPose: ["AllFours", "BackElbowTouch", "OverTheHead", "Hogtied", "Yoked", "BackCuffs"], Alpha: [{ Group: ["Cloth"], Masks: [[0, 0, 210, 270], [290, 0, 210, 270]] }] },
-			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
+			{ Name: "FacePaint", Value: 10, Left: 150, Top: 20, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 			{
 				Name: "Bib", Fetish: ["ABDL"], Priority: 34, Value: 5, Left: 179, Top: 220, Extended: true, DynamicAfterDraw: true,
 				Layer: [
@@ -1003,7 +1003,7 @@ var AssetFemale3DCG = [
 			{ Name: "BakerBoyHat", Value: 40, },
 			{ Name: "ReindeerBand", Value: 10 },
 			{ Name: "FurHeadband", Value: 5},
-			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
+			{ Name: "FacePaint", Value: 10, Left: 150, Top: 20, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 			{
 				Name: "RoseCrown", Value: 20, DefaultColor: ["#1B7E1B", "#BE2B2B"], Layer: [
 					{ Name: "Leaves" },
@@ -1326,7 +1326,7 @@ var AssetFemale3DCG = [
 					{ Name: "String" },
 				]
 			},
-			{ Name: "FacePaint", Value: 10, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
+			{ Name: "FacePaint", Value: 10, Left: 150, Top: 20, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
 		],
 		Color: ["Default", "#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},
@@ -2889,7 +2889,7 @@ var AssetFemale3DCG = [
 					"FeatherDuster", "LongDuster", "IceCube", "WartenbergWheel", "VibratingWand", "SmallVibratingWand", "CandleWax", "LargeDildo",
 					"PetToy", "Vibrator", "Belt", "Hairbrush", "SmallDildo", "ElectricToothbrush", "Toothbrush", "ShockWand", "Lotion", "Ruler",
 					"Sword", "VibeRemote", "ShockRemote", "Towel", "RopeCoilLong", "RopeCoilShort", "Ballgag", "LongSock", "Baguette", "Panties",
-					"TapeRoll", "Spatula", "Broom"],
+					"TapeRoll", "Spatula", "Broom", "Phone1"],
 				DynamicPreviewImage: C => InventorySpankingToysGetType(C),
 				DynamicAllowInventoryAdd: C => { return InventorySpankingToysAvailableToys(C).length > 0; },
 				Extended: true,
@@ -3062,6 +3062,10 @@ var AssetFemale3DCG = [
 			{
 				Name: "SpankingToysBroom", Value: 15, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
+			},
+			{
+				Name: "SpankingToysPhone1", Value: 100, Random: false, Activity: "RubItem", DynamicAllowInventoryAdd: () => { return false; },
+				PrerequisiteBuyGroups: ["SpankingToys"]
 			},
 			{ Name: "HoofMittens", Fetish: ["Pony"], Value: -1, Difficulty: 5, SelfBondage: 4, Time: 15, RemoveTime: 5, AllowLock: true, AllowPose: ["BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours", "OverTheHead"], SetPose: ["TapedHands"], Effect: ["Block", "Prone"] },
 		],
@@ -4393,7 +4397,12 @@ var AssetFemale3DCG = [
 			{ Name: "LeatherHoodOpenEyes", Fetish: ["Leather"], Value: 40, Difficulty: 50, Time: 15, AllowLock: true, DefaultColor: "#404040", HideItem: ["HatBand1", "HatBand2", "HatTiara1", "ItemEarsFuturisticEarphones","HatFurHeadband"], Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3"], Effect: ["GagLight", "BlockMouth"], Block: ["ItemHead", "ItemNose", "ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNeck"] },
 			{ Name: "GasMask", Fetish: ["Leather"], Value: 50, Difficulty: 25, Time: 10, Random: false, AllowLock: true, DefaultColor: "#585858", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask", "ItemEars"], HideItem: ["ItemHeadSnorkel","HatFurHeadband"], Effect: ["BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNeck", "ItemHead", "ItemNose"] },
 			{ Name: "DogHood", Fetish: ["Leather", "Pet"], Value: 60, Difficulty: 50, Time: 15, Random: false, AllowLock: true, HideItem: ["HatBand1", "HatBand2", "HatTiara1", "ItemEarsFuturisticEarphones","HatFurHeadband"], DefaultColor: "#404040", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"], Effect: ["GagNormal", "BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHead", "ItemNose"] },
-			{ Name: "FoxyMask", Fetish: ["Pet"], Value: 50, Difficulty: 2, Time: 15, Random: false, AllowLock: true, Effect: ["GagLight", "BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose"] },
+			{
+				Name: "FoxyMask", Fetish: ["Pet"], Value: 50, Difficulty: 2, Time: 15, Random: false, AllowLock: true, Effect: ["GagLight", "BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose"], Layer: [
+					{ Name: "Upper" },
+					{ Name: "Lower" },
+				]
+			},
 			{ Name: "PonyHood", Fetish: ["Pony"], Value: -1, Difficulty: 50, Time: 15, Random: false, AllowLock: true, DefaultColor: "#404040", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask", "ItemEars"], HideItem: ["ItemHeadSnorkel","HatFurHeadband"], Effect: ["BlindLight", "GagNormal", "BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNeck", "ItemHead", "ItemNose"] },
 			{ Name: "LeatherHoodOpenMouth", Fetish: ["Leather"], Value: 50, Difficulty: 50, Time: 15, AllowLock: true, DefaultColor: "#404040", Hide: ["HairFront", "HairBack", "Glasses", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"], HideItem: ["ItemHeadSnorkel", "ItemNosePigNose", "ItemEarsFuturisticEarphones","HatFurHeadband"], Effect: ["Prone", "BlindHeavy"], Block: ["ItemEars", "ItemHead", "ItemNose"] },
 			{ Name: "CanvasHood", Value: 50, Difficulty: 20, Time: 15, AllowLock: true, DefaultColor: ["#a5a095", "#ce7210"], Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask", "ItemEars"], HideItem: ["ItemHeadSnorkel","HatFurHeadband"], Effect: ["Prone", "BlindHeavy", "GagHeavy", "BlockMouth", "DeafLight"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNose", "ItemHead"], Extended: true, DynamicAfterDraw: true,
@@ -4429,8 +4438,8 @@ var AssetFemale3DCG = [
 		Asset: [
 			{ Name: "LightDutyEarPlugs", Value: 15, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafLight"] },
 			{ Name: "HeavyDutyEarPlugs", Value: 30, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafHeavy"] },
-			{ Name: "HeadphoneEarPlugs", Value: 50, Difficulty: 50, Time: 5, Visible: false, Effect: [], Extended: true },
-			{ Name: "BluetoothEarbuds", Value: 50, Difficulty: 50, Time: 5, Visible: false, Effect: [], Extended: true, AlwaysExtend: true },
+			{ Name: "HeadphoneEarPlugs", Value: 50, Difficulty: 50, Time: 5, Visible: false, Extended: true },
+			{ Name: "BluetoothEarbuds", Value: 50, Difficulty: 50, Time: 5, Visible: false, Extended: true, AlwaysExtend: true },
 			{ Name: "FuturisticEarphones", Priority: 54, Category: ["SciFi"], Value: 60, Difficulty: 50, Top: 20, Time: 12, DefaultColor: ["Default", "#50913C"], AllowLock: true, DrawLocks: false, Random: false, FuturisticRecolor: true, Effect: ["UseRemote"], Extended: true, HasType: false,
 				Layer: [
 					{ Name: "Band" },
@@ -4439,7 +4448,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "Headphones", Priority: 54, Value: 50, Time: 5, Random: false, Top: 20, Effect: [], Extended: true, AlwaysExtend: true, HasType: false,
+				Name: "Headphones", Priority: 54, Value: 50, Time: 5, Random: false, Top: 20, Extended: true, AlwaysExtend: true, HasType: false,
 				Layer: [
 					{ Name: "Light" },
 					{ Name: "Dark" },
@@ -5009,7 +5018,6 @@ var AssetFemale3DCG = [
 
 ];
 
-/* eslint-disable */
 /** 3D Custom Girl based pose
  * @type {Pose[]}
  */
@@ -5428,75 +5436,74 @@ var ActivityFemale3DCG = [
 var FetishFemale3DCG = [
 	{
 		Name: "Bondage",
-		GetFactor: function (C) { return C.IsRestrained() ? (PreferenceGetFetishFactor(C, "Bondage") - 2) : 0 }
+		GetFactor: function (C) { return C.IsRestrained() ? (PreferenceGetFetishFactor(C, "Bondage") - 2) : 0; }
 	},
 	{
 		Name: "Gagged",
-		GetFactor: function (C) { return !C.CanTalk() ? (PreferenceGetFetishFactor(C, "Gagged") - 2) : 0 }
+		GetFactor: function (C) { return !C.CanTalk() ? (PreferenceGetFetishFactor(C, "Gagged") - 2) : 0; }
 	},
 	{
 		Name: "Blindness",
-		GetFactor: function (C) { return C.IsBlind() ? (PreferenceGetFetishFactor(C, "Blindness") - 2) : 0 }
+		GetFactor: function (C) { return C.IsBlind() ? (PreferenceGetFetishFactor(C, "Blindness") - 2) : 0; }
 	},
 	{
 		Name: "Deafness",
-		GetFactor: function (C) { return C.IsDeaf() ? (PreferenceGetFetishFactor(C, "Deafness") - 2) : 0 }
+		GetFactor: function (C) { return C.IsDeaf() ? (PreferenceGetFetishFactor(C, "Deafness") - 2) : 0; }
 	},
 	{
 		Name: "Chastity",
-		GetFactor: function (C) { return C.IsChaste() ? (PreferenceGetFetishFactor(C, "Chastity") - 2) : 0 }
+		GetFactor: function (C) { return C.IsChaste() ? (PreferenceGetFetishFactor(C, "Chastity") - 2) : 0; }
 	},
 	{
 		Name: "Exhibitionist",
-		GetFactor: function (C) { return C.IsNaked() ? (PreferenceGetFetishFactor(C, "Exhibitionist") - 2) : 0 }
+		GetFactor: function (C) { return C.IsNaked() ? (PreferenceGetFetishFactor(C, "Exhibitionist") - 2) : 0; }
 	},
 	{
 		Name: "Masochism",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Masochism") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Masochism"); }
 	},
 	{
 		Name: "Sadism",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Sadism") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Sadism"); }
 	},
 	{
 		Name: "Rope",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Rope") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Rope"); }
 	},
 	{
 		Name: "Latex",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Latex") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Latex"); }
 	},
 	{
 		Name: "Leather",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Leather") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Leather"); }
 	},
 	{
 		Name: "Metal",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Metal") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Metal"); }
 	},
 	{
 		Name: "Tape",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Tape") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Tape"); }
 	},
 	{
 		Name: "Nylon",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Nylon") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Nylon"); }
 	},
 	{
 		Name: "Lingerie",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Lingerie") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Lingerie"); }
 	},
 	{
 		Name: "Pet",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pet") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pet"); }
 	},
 	{
 		Name: "Pony",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pony") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "Pony"); }
 	},
 	{
 		Name: "ABDL",
-		GetFactor: function (C) { return ActivityFetishItemFactor(C, "ABDL") }
+		GetFactor: function (C) { return ActivityFetishItemFactor(C, "ABDL"); }
 	}
 ];
-/* eslint-enable */
