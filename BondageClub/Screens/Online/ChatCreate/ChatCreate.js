@@ -139,7 +139,6 @@ function ChatCreateResponse(data) {
  */
 function ChatCreateRoom() {
 	ChatRoomPlayerCanJoin = true;
-	ChatRoomPlayerJoiningAsAdmin = true;
 	var NewRoom = {
 		Name: ElementValue("InputName").trim(),
 		Description: ElementValue("InputDescription").trim(),
@@ -147,6 +146,7 @@ function ChatCreateRoom() {
 		Private: ChatCreatePrivate,
 		Space: ChatRoomSpace,
 		Game: ChatRoomGame,
+		Ban: ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList),
 		Limit: ElementValue("InputSize").trim(),
 		BlockCategory: ChatBlockItemCategory
 	};
