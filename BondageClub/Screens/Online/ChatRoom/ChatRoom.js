@@ -1229,8 +1229,8 @@ function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
 	let percentSides = VibratorSides/100.0;
 	let level = Math.min(0.5, Math.max(percentLower, percentSides)) + 0.5 * Math.pow(Math.max(0, Math.max(percentLower, percentSides)*2 - 1), 4);
 	let oscillation = Math.sin(CommonTime() / 1000 % Math.PI);
-	let alpha = 0.6 * level * (0.99 - amplitude + amplitude * oscillation);
 	if (Player.ArousalSettings.VFXVibrator != "VFXVibratorAnimated") oscillation = 0;
+	let alpha = 0.6 * level * (0.99 - amplitude + amplitude * oscillation);
 
 	if (VibratorLower > 0) {
 		const Grad = MainCanvas.createRadialGradient(Width/2, y1, 0, Width/2, y1, h);
