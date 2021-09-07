@@ -200,6 +200,16 @@ function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (Current
  */
 function ChatRoomIsCollaredByPlayer() { return ((CurrentCharacter != null) && (CurrentCharacter.Ownership != null) && (CurrentCharacter.Ownership.Stage == 1) && (CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber)); }
 /**
+ * Checks if the current character is owned by the player. (Including trial)
+ * @returns {boolean} - TRUE if the current character is owned by the player.
+ */
+function ChatRoomIsOwnedByPlayer() { return CurrentCharacter != null && CurrentCharacter.Ownership != null && CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber; }
+/**
+ * Checks if the current character is wearing any collar.
+ * @returns {boolean} - TRUE if the current character is owned by the player.
+ */
+function ChatRoomIsWearingCollar() { return CurrentCharacter != null && InventoryGet(CurrentCharacter, "ItemNeck") !== null; }
+/**
  * Checks if the current character is lover of the player.
  * @returns {boolean} - TRUE if the current character is lover of the player.
  */
@@ -1603,10 +1613,8 @@ function ChatRoomSendLocal(Content, Timeout) {
  */
 function ChatRoomSendEmote(msg) {
 	if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) msg = msg.substring(1);
-	else if (msg.indexOf("**") == 0) {
-		msg = "*" + msg.replace(/\*/g, "");
-	} else {
-		msg = msg.replace(/\*/g, "");
+	else {
+		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
 		if (msg.startsWith(CommandsKey + "me ")) msg = msg.replace(CommandsKey + "me ", "");
 		if (msg.startsWith(CommandsKey + "action ")) msg = msg.replace(CommandsKey + "action ", "*");
 	}
@@ -3340,7 +3348,7 @@ function ChatRoomNotificationRaiseChatJoin(C) {
 		const settings = Player.NotificationSettings.ChatJoin;
 		if (settings.AlertType === NotificationAlertType.NONE) raise = false;
 		else if (!settings.Owner && !settings.Lovers && !settings.Friendlist && !settings.Subs) raise = true;
-		else if (settings.Owner && C.IsOwner()) raise = true;
+		else if (settings.Owner && Player.IsOwnedByMemberNumber(C.MemberNumber)) raise = true;
 		else if (settings.Lovers && C.IsLoverOfPlayer()) raise = true;
 		else if (settings.Friendlist && Player.FriendList.includes(C.MemberNumber)) raise = true;
 		else if (settings.Subs && C.IsOwnedByPlayer()) raise = true;
