@@ -146,7 +146,7 @@ function ChatCreateRoom() {
 		Private: ChatCreatePrivate,
 		Space: ChatRoomSpace,
 		Game: ChatRoomGame,
-		Ban: ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList),
+		Ban: Player.OnlineSettings ? ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList) : [],
 		Limit: ElementValue("InputSize").trim(),
 		BlockCategory: ChatBlockItemCategory
 	};
