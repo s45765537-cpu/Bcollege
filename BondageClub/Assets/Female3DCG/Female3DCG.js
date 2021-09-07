@@ -1406,7 +1406,7 @@ var AssetFemale3DCG = [
 					{ Name: "Base" },
 					{ Name: "Gears" },
 					{ Name: "Wings" },
-					{ Name: "WingFrame" }
+					{ Name: "WingFrames" }
 				]
 			},
 		],
