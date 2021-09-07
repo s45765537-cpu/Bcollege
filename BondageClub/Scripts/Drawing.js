@@ -29,7 +29,7 @@ var DrawLastDarkFactor = 0;
 var DrawLastCharacters = [];
 
 /**
- * A list of elements to draw at the end of the drawing process. 
+ * A list of elements to draw at the end of the drawing process.
  * Mostly used for hovering button labels.
  * @type {Function[]}
  */
@@ -218,25 +218,39 @@ function DrawArousalThermometer(X, Y, Zoom, Progress, Automatic, Orgasm) {
  * @returns {void} - Nothing
  */
 function DrawArousalMeter(C, X, Y, Zoom) {
-	if (ActivityAllowed() && (C.ArousalSettings != null) && (C.ArousalSettings.Active != null) && ((C.ArousalSettings.Active == "Manual") || (C.ArousalSettings.Active == "Hybrid") || (C.ArousalSettings.Active == "Automatic")))
-		if ((C.ID == 0) || ((C.ArousalSettings.Visible != null) && (C.ArousalSettings.Visible == "Access") && C.AllowItem) || ((C.ArousalSettings.Visible != null) && (C.ArousalSettings.Visible == "All")))
-			if ((C.ID == 0) || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
+	if (ActivityAllowed() && C.ArousalSettings && (C.ArousalSettings.Active == "Manual" || C.ArousalSettings.Active == "Hybrid" || C.ArousalSettings.Active == "Automatic"))
+		if (C.ID == 0 || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
+			if (C.ID == 0 || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
 				ActivitySetArousal(C, C.ArousalSettings.Progress);
 
-				if (C.ArousalSettings != null && Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && ((C.ArousalSettings.Active == "Automatic") || (C.ArousalSettings.Active == "Hybrid"))) {
+				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && (C.ArousalSettings.Active == "Automatic" || C.ArousalSettings.Active == "Hybrid")) {
 					let Progress = 0;
-					if (!((C.ArousalSettings.VibratorLevel == null) || (typeof C.ArousalSettings.VibratorLevel !== "number") || isNaN(C.ArousalSettings.VibratorLevel))) {
+					if (!(C.ArousalSettings.VibratorLevel == null || typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel))) {
 						Progress = C.ArousalSettings.VibratorLevel;
 					}
 
 					if (Progress > 0) { // -1 is disabled
-						const max_time = 5000; // 5 seconds
-						DrawArousalGlow(X + ((C.ArousalZoom ? 50 : 90) * Zoom), Y + ((C.ArousalZoom ? 200 : 400) * Zoom), C.ArousalZoom ? Zoom : Zoom * 0.2, Progress, Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && CommonTime() - C.ArousalSettings.ChangeTime < max_time), Math.max(0, (max_time + C.ArousalSettings.ChangeTime - CommonTime()) / max_time), ((C.ArousalSettings.OrgasmTimer != null) && (typeof C.ArousalSettings.OrgasmTimer === "number") && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0)));
+						const animationTimeMax = 5000; // 5 seconds
+						const animationTimeLeft = Math.min(C.ArousalSettings.ChangeTime - CommonTime(), 0) + animationTimeMax;
+
+						DrawArousalGlow(
+							X + (C.ArousalZoom ? 50 : 90) * Zoom,
+							Y + (C.ArousalZoom ? 200 : 400) * Zoom,
+							C.ArousalZoom ? Zoom : Zoom * 0.2,
+							Progress,
+							Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && animationTimeLeft > 0),
+							Math.max(0, animationTimeLeft / animationTimeMax),
+							C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 					}
 				}
 
-				DrawArousalThermometer(X + ((C.ArousalZoom ? 50 : 90) * Zoom), Y + ((C.ArousalZoom ? 200 : 400) * Zoom), C.ArousalZoom ? Zoom : Zoom * 0.2, C.ArousalSettings.Progress, (C.ArousalSettings.Active == "Automatic"), ((C.ArousalSettings.OrgasmTimer != null) && (typeof C.ArousalSettings.OrgasmTimer === "number") && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0)));
-
+				DrawArousalThermometer(
+					X + (C.ArousalZoom ? 50 : 90) * Zoom,
+					Y + (C.ArousalZoom ? 200 : 400) * Zoom,
+					C.ArousalZoom ? Zoom : Zoom * 0.2,
+					C.ArousalSettings.Progress,
+					C.ArousalSettings.Active == "Automatic",
+					C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 
 				if (C.ArousalZoom && (typeof C.ArousalSettings.OrgasmCount === "number") && (C.ArousalSettings.OrgasmCount >= 0) && (C.ArousalSettings.OrgasmCount <= 9999)) {
 					MainCanvas.font = CommonGetFont(Math.round(36 * Zoom).toString());
@@ -1204,18 +1218,10 @@ function DrawGetCustomBackground() {
 	const hood = InventoryGet(Player, "ItemHood");
 	let customBG = "";
 
-	if (blindfold && blindfold.Asset && blindfold.Asset.CustomBlindBackground) {
-		let type = "None";
-		if (blindfold.Property && blindfold.Property.Type && blindfold.Asset.CustomBlindBackground[blindfold.Property.Type] != null)
-			type = blindfold.Property.Type;
-		if (blindfold.Asset.CustomBlindBackground[type])
-			customBG = blindfold.Asset.CustomBlindBackground[type];
-	} else if (hood && hood.Asset && hood.Asset.CustomBlindBackground) {
-		let type = "None";
-		if (hood.Property && hood.Property.Type && hood.Asset.CustomBlindBackground[hood.Property.Type])
-			type = hood.Property.Type;
-		if (hood.Asset.CustomBlindBackground[type])
-			customBG = hood.Asset.CustomBlindBackground[type];
+	if (blindfold && blindfold.Property && blindfold.Property.CustomBlindBackground) {
+		customBG = blindfold.Property.CustomBlindBackground;
+	} else if (hood && hood.Property && hood.Property.CustomBlindBackground) {
+		customBG = hood.Property.CustomBlindBackground;
 	}
 
 	return customBG;
@@ -1270,10 +1276,10 @@ function DrawProcess(time) {
 
 	// Draw Hovering text so they can be above everything else
 	DrawProcessHoverElements();
-	
+
 	// Draws beep from online player sent by the server
 	ServerDrawBeep();
-	
+
 
 	// Checks for screen resize/position change and calls appropriate function
 	const newCanvasPosition = [MainCanvas.canvas.offsetLeft, MainCanvas.canvas.offsetTop, MainCanvas.canvas.clientWidth, MainCanvas.canvas.clientHeight];

@@ -52,6 +52,8 @@ NecklaceIDCardString,Lanyard
 NecklaceIDCardCard,Card
 NecklaceElegantHeartNecklaceNecklace,Necklace
 NecklaceElegantHeartNecklaceJewels,Jewels
+NecklaceNecklaceBallGagBall,Ball
+NecklaceNecklaceBallGagStrap,Strap
 SuitCatsuitBase,Suit
 SuitCatsuitZip,Zip
 SuitSeethroughSuitZipBase,Suit
@@ -412,6 +414,8 @@ ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
+ItemNosePigNoseNose,Nose
+ItemNosePigNoseStrap,Strap
 ItemHoodPumpkinHeadFront,Front
 ItemHoodPumpkinHeadBack,Back
 ItemHoodLatexHoodOpenHairHair,Hair
@@ -432,6 +436,8 @@ ItemHoodCanvasHoodText,Text
 ItemHoodOldGasMaskMask,Mask
 ItemHoodOldGasMaskLenses,Blinding Lenses
 ItemHoodOldGasMaskTubeA,Breathing Attachment
+ItemHoodFoxyMaskUpper,Upper
+ItemHoodFoxyMaskLower,Lower
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
@@ -738,6 +744,8 @@ ItemDevicesFuturisticCrateGlass,Window
 PantiesPilotPantiesLayer1,Suit
 PantiesPilotPantiesLayer2,Highlights
 PantiesPilotPantiesLayer3,Center
+PantiesRedBowPantiesPanties,Panties
+PantiesRedBowPantiesBow,Bow
 SuitLowerPilotSuitLayer1,Suit
 SuitLowerPilotSuitLayer2,Highlights
 SuitLowerPilotSuitLayer3,Center
