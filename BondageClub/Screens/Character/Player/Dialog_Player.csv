@@ -2370,7 +2370,7 @@ TorsoRibbonsSetHarness2,,,SourceCharacter uses some ribbons on DestinationCharac
 RibbonTypeBasic,,,Basic,,
 RibbonTypeBow,,,Bow,,
 RibbonsGagSetBasic,,,SourceCharacter uses some ribbon on DestinationCharacter mouth.,,
-RibbonsGagSetBow,,,SourceCharacter  uses some ribbon on DestinationCharacter mouth with a bow to finish it.,,
+RibbonsGagSetBow,,,SourceCharacter uses some ribbon on DestinationCharacter mouth with a bow to finish it.,,
 ItemMouthHarnessPonyBitsSelect,,,Select where the bit will be,,
 ItemMouthHarnessPonyBitsDetached,,,Detached,,
 ItemMouthHarnessPonyBitsAttached,,,Attached,,
