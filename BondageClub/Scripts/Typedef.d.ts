@@ -672,6 +672,7 @@ interface PlayerCharacter extends Character {
 	LastChatRoomSize?: number;
 	LastChatRoomDesc?: string;
 	LastChatRoomAdmin?: any[];
+	LastChatRoomBan?: any[];
 	LastChatRoomTimer?: any;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
