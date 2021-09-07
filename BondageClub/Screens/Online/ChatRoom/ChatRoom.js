@@ -47,7 +47,6 @@ const ChatRoomArousalMsg_Chance = {
 	"StruggleFail" : 0.4,
 	"StruggleAction" : 0.05,
 	"Gag" : 0,
-	"Shock" : 0.0,
 };
 const ChatRoomArousalMsg_ChanceScaling = {
 	"Kneel" : 0.8,
@@ -55,7 +54,6 @@ const ChatRoomArousalMsg_ChanceScaling = {
 	"StruggleFail" : 0.4,
 	"StruggleAction" : 0.2,
 	"Gag" : 0,
-	"Shock" : 0.0,
 };
 const ChatRoomArousalMsg_ChanceVibeMod = {
 	"Kneel" : 0.0,
@@ -63,7 +61,6 @@ const ChatRoomArousalMsg_ChanceVibeMod = {
 	"StruggleFail" : 0.6,
 	"StruggleAction" : 0.3,
 	"Gag" : 0,
-	"Shock" : 0.0,
 };
 const ChatRoomArousalMsg_ChanceInflationMod = {
 	"Kneel" : 0.1,
@@ -71,7 +68,6 @@ const ChatRoomArousalMsg_ChanceInflationMod = {
 	"StruggleFail" : 0.4,
 	"StruggleAction" : 0.2,
 	"Gag" : 0,
-	"Shock" : 0.0,
 };
 const ChatRoomArousalMsg_ChanceGagMod = {
 	"Kneel" : 0,
@@ -79,7 +75,6 @@ const ChatRoomArousalMsg_ChanceGagMod = {
 	"StruggleFail" : 0,
 	"StruggleAction" : 0,
 	"Gag" : 0.3,
-	"Shock" : 0.0,
 };
 var ChatRoomPinkFlashTime = 0;
 var ChatRoomPinkFlashColor = "#FFB0B0";
