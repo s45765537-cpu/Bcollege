@@ -1,10 +1,14 @@
 ###Interface
 Enter your room information
 Entrez l'information de votre salon
-Room Name (Letters & numbers)
-Nom du salon (Lettres & chiffres)
-Room description
-Description du salon
+Room Name
+Nom du Salon
+(Letters & numbers only)
+(Lettres et chiffres seulement)
+Description
+Description
+Description of the room (Letters & numbers only)
+Description du salon (Lettres et chiffres seulement)
 Private (Need exact name to find it)
 Privé (Nom exact nécéssaire pour le retrouver)
 Locked (Only admins can leave or enter)
@@ -37,8 +41,10 @@ Administrator List
 Liste d'administratrices
 Select the background
 Sélection du fond
-Use member numbers, separated by commas (ex: 2313, 12401)
+Use member numbers separated by commas (ex: 2313, 12401, ...)
 Utiliser des numéros de membre séparés par des virgules (ex: 2313, 12401)
+Use member numbers separated by commas (ex: 16780, ...)
+Utiliser des numéros de membre séparés par des virgules (ex: 16780, ...)
 Ban blacklist
 Liste noire
 Ban ghostlist
@@ -53,3 +59,5 @@ No Game
 Pas de jeu
 LARP
 LARP
+(Click anywhere to return)
+(Cliquer pour revenir)

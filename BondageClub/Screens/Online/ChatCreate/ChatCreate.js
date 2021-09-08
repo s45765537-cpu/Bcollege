@@ -3,9 +3,6 @@
 /**
  * TODO:
  * 	- admin/ban list is lost on going in background/block categories
- *  - "add the use member numbers" as input placeholders
- *  - creating room misses two inputs (the lists still display)
- *  - add a show background toggle icon where the admin preview is
  */
 
 
@@ -19,14 +16,13 @@ var ChatCreateGameList = ["", "LARP"];
 var ChatCreateBackgroundIndex = 0;
 var ChatCreateBackgroundSelect = "";
 var ChatCreateBackgroundList = null;
+var ChatCreateShowBackgroundMode = false;
 
 /**
  * Loads the chat creation screen properties and creates the inputs
  * @returns {void} - Nothing
  */
 function ChatCreateLoad() {
-
-	CurrentDarkFactor = 0.5;
 
 	// Resets the room game statuses
 	if ((ChatRoomGame == "LARP") && (Player.Game.LARP.Status != "")) {
@@ -47,19 +43,24 @@ function ChatCreateLoad() {
 		// Prepares the controls to edit a room
 		ElementCreateInput("InputName", "text", "", "20");
 		document.getElementById("InputName").setAttribute("autocomplete", "off");
+		document.getElementById("InputName").placeholder = TextGet("NameExplanation");
 		ElementCreateInput("InputSize", "text", "10", "2");
 		document.getElementById("InputSize").setAttribute("autocomplete", "off");
 		ElementCreateTextArea("InputDescription");
 		document.getElementById("InputDescription").setAttribute("maxLength", 100);
 		document.getElementById("InputDescription").setAttribute("autocomplete", "off");
+		document.getElementById("InputDescription").placeholder = TextGet("DescriptionExplanation");
 		ElementValue("InputDescription", "");
 		ElementCreateTextArea("InputAdminList");
 		document.getElementById("InputAdminList").setAttribute("maxLength", 250);
 		document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
+		document.getElementById("InputAdminList").placeholder = TextGet("UseMemberNumbersAdmin");
+		console.log("before", ElementValue("InputAdminList"));
 		ElementValue("InputAdminList", Player.MemberNumber.toString());
 		ElementCreateTextArea("InputBanList");
 		document.getElementById("InputBanList").setAttribute("maxLength", 1000);
 		document.getElementById("InputBanList").setAttribute("autocomplete", "off");
+		document.getElementById("InputBanList").placeholder = TextGet("UseMemberNumbersBan");
 		ElementValue("InputBanList", CommonConvertArrayToString(Player.OnlineSettings ? ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList) : []));
 	}
 	ChatCreateMessage = "";
@@ -74,7 +75,19 @@ function ChatCreateLoad() {
  */
 function ChatCreateRun() {
 
+	if (ChatCreateShowBackgroundMode) {
+		ChatCreateBackground = ChatCreateBackgroundSelect;
+		DrawButton(40, 40, 260, 60, TextGet("ReturnMenu"), "White");
+		return;
+	}
+
 	// Draw the controls
+	if (!document.getElementById("InputName").placeholder) {
+		document.getElementById("InputName").placeholder = TextGet("NameExplanation");
+		document.getElementById("InputDescription").placeholder = TextGet("DescriptionExplanation");
+		document.getElementById("InputAdminList").placeholder = TextGet("UseMemberNumbersAdmin");
+		document.getElementById("InputBanList").placeholder = TextGet("UseMemberNumbersBan");
+	}
 	if (ChatCreateMessage == "") ChatCreateMessage = "EnterRoomInfo";
 	DrawText(TextGet(ChatCreateMessage), 650, 885, "Black", "Gray");
 	DrawText(TextGet("RoomName"), 535, 110, "Black", "Gray");
@@ -118,6 +131,14 @@ function ChatCreateRun() {
  */
 function ChatCreateClick() {
 
+	// Background preview mode
+	if (ChatCreateShowBackgroundMode || MouseIn(1300, 75, 600, 350)) {
+		ChatCreateShowBackgroundMode = !ChatCreateShowBackgroundMode;
+		ChatCreateBackground = "Sheet";
+		ElementToggleGeneratedElements("ChatCreate", !ChatCreateShowBackgroundMode);
+		return;
+	}
+
 	// When the user cancels/exits
 	if (MouseIn(1625, 840, 250, 65)) ChatCreateExit();
 
@@ -145,12 +166,8 @@ function ChatCreateClick() {
 	}
 
 	// Background selection button (Save values before entering)
-	if (MouseIn(1300, 75, 600, 350) || MouseIn(1840, 450, 60, 60)) {
-		ElementRemove("InputName");
-		ElementRemove("InputDescription");
-		ElementRemove("InputSize");
-		ElementRemove("InputAdminList");
-		ElementRemove("InputBanList");
+	if (MouseIn(1840, 450, 60, 60)) {
+		ChatRoomCreateRemoveInput();
 		BackgroundSelectionMake(ChatCreateBackgroundList, ChatCreateBackgroundIndex, Name => {
 			ChatCreateBackgroundSelect = Name;
 		});
@@ -181,11 +198,7 @@ function ChatCreateKeyDown() {
 function ChatCreateExit() {
 	ChatCreatePrivate = null;
 	ChatCreateLocked = null;
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputBanList");
+	ChatRoomCreateRemoveInput();
 	CommonSetScreen("Online", "ChatSearch");
 }
 
@@ -230,10 +243,17 @@ function ChatCreateRoom() {
  */
 function ChatCreateBlockItems() {
 	ChatBlockItemReturnData = { Screen: "ChatCreate", Name: ElementValue("InputName"), Description: ElementValue("InputDescription"), Limit: ElementValue("InputSize") };
+	ChatRoomCreateRemoveInput();
+	CommonSetScreen("Online", "ChatBlockItem");
+}
+
+/**
+ * Removes all chatroom creation inputs
+ */
+function ChatRoomCreateRemoveInput() {
 	ElementRemove("InputName");
 	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
 	ElementRemove("InputAdminList");
 	ElementRemove("InputBanList");
-	CommonSetScreen("Online", "ChatBlockItem");
+	ElementRemove("InputSize");
 }
