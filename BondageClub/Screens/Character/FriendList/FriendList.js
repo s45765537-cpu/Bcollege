@@ -9,6 +9,7 @@ var FriendListModeIndex = 0;
 var FriendListBeepLog = [];
 /** @type {number|null} MemberNumber of the player to send beep to */
 let FriendListBeepTarget = null;
+var FriendListBeepShowRoom = true;
 
 /**
  * @typedef {Object} FriendListBeepLogMessage
@@ -92,6 +93,16 @@ function FriendListBeep(MemberNumber, data = null) {
 	closeBtn.onclick = FriendListBeepMenuClose;
 	footer.append(closeBtn);
 	if (data === null) {
+		if (ServerPlayerIsInChatRoom()) {
+			const showRoomBtn = document.createElement("a");
+			showRoomBtn.innerText = FriendListBeepShowRoom ? TextGet("ToggleRoomOn") : TextGet("ToggleRoomOff");
+			showRoomBtn.onclick = () => {
+				FriendListBeepShowRoom = !FriendListBeepShowRoom;
+				showRoomBtn.innerText = FriendListBeepShowRoom ? TextGet("ToggleRoomOn") : TextGet("ToggleRoomOff");
+			};
+			footer.append(showRoomBtn);
+		}
+
 		const sendBtn = document.createElement("a");
 		sendBtn.innerText = "Send";
 		sendBtn.onclick = FriendListBeepMenuSend;
@@ -112,6 +123,7 @@ function FriendListBeep(MemberNumber, data = null) {
 function FriendListBeepMenuClose() {
 	ElementRemove("FriendListBeep");
 	FriendListBeepTarget = null;
+	FriendListBeepShowRoom = true;
 }
 
 /**
@@ -122,15 +134,15 @@ function FriendListBeepMenuSend() {
 		const textarea = /** @type {HTMLTextAreaElement} */ (document.getElementById("FriendListBeepTextArea"));
 		if (textarea) {
 			const msg = textarea.value;
-			if (msg) {
-				ServerSend("AccountBeep", { MemberNumber: FriendListBeepTarget, BeepType: "", Message: msg });
-			} else {
-				ServerSend("AccountBeep", { MemberNumber: FriendListBeepTarget, BeepType: "" });
-			}
+			const beep = { MemberNumber: FriendListBeepTarget, BeepType: "" };
+			if (msg) beep.Message = msg;
+			if (!FriendListBeepShowRoom) beep.IsSecret = true;
+			ServerSend("AccountBeep", beep);
+
 			FriendListBeepLog.push({
 				MemberNumber: FriendListBeepTarget,
 				MemberName: Player.FriendNames.get(FriendListBeepTarget),
-				ChatRoomName: Player.LastChatRoom || null,
+				ChatRoomName: !FriendListBeepShowRoom ? null : (Player.LastChatRoom || null),
 				Sent: true,
 				Private: false,
 				Time: new Date(),
@@ -172,14 +184,15 @@ function FriendListClick() {
 
 /**
  * This function is called, when the user exists the friend list. From here we either get back to the InformationSheet
- * or the ChatRoom serach, depending on the value of the global variable 'FriendListReturn'
+ * or the ChatRoom search, depending on the value of the global variable 'FriendListReturn'
  * @returns {void} - Nothing
  */
 function FriendListExit() {
 	FriendListBeepMenuClose();
 	ElementRemove("FriendList");
 	if (FriendListReturn != null) {
-		if (FriendListReturn == "ChatSearch") CommonSetScreen("Online", "ChatSearch");
+		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
+		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
 		FriendListReturn = null;
 	} else CommonSetScreen("Character", "InformationSheet");
 	FriendListModeIndex = 0;
@@ -190,12 +203,13 @@ function FriendListExit() {
  * @param {string} room The room to search for
  */
 function FriendListChatSearch(room) {
-	if (FriendListReturn !== "ChatSearch") return;
-	FriendListExit();
-	ElementValue("InputSearch", room);
-	ChatSearchQuery();
-	// Change the text box so the player still cant read it
-	ElementValue("InputSearch", ChatSearchMuffle(room));
+	if (FriendListReturn && FriendListReturn.Screen === "ChatSearch") {
+		FriendListExit();
+		ElementValue("InputSearch", room);
+		ChatSearchQuery();
+		// Change the text box so the player still cant read it
+		ElementValue("InputSearch", ChatSearchMuffle(room));
+	}
 
 }
 
@@ -273,7 +287,7 @@ function FriendListLoadFriendList(data) {
 				FriendListContent += `<div class='FriendListTextColumn'> ${friend.ChatRoomName} </div>`;
 			} else {
 				const Caption = `${friend.ChatRoomSpace ? friend.ChatRoomSpace.replace("Asylum", SpaceAsylumCaption) + " - " : ''} ${friend.ChatRoomName}`;
-				if (FriendListReturn === "ChatSearch" && ChatRoomSpace === (friend.ChatRoomSpace || "")) {
+				if (FriendListReturn && FriendListReturn.Screen === "ChatSearch" && ChatRoomSpace === (friend.ChatRoomSpace || "")) {
 					FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListChatSearch("${originalChatRoomName}")'> ${Caption} </div>`;
 				} else {
 					FriendListContent += `<div class='FriendListTextColumn'> ${Caption} </div>`;
@@ -290,7 +304,7 @@ function FriendListLoadFriendList(data) {
 			FriendListContent += `<div class='FriendListTextColumn FriendListFirstColumn'> ${B.MemberName}</div>`;
 			FriendListContent += `<div class='FriendListTextColumn'>${B.MemberNumber != null ? B.MemberNumber : "-"}</div>`;
 			const Caption = (B.ChatRoomName == null ? "-" : (B.ChatRoomSpace ? B.ChatRoomSpace.replace("Asylum", SpaceAsylumCaption) + " - " : "") + (B.Private ? PrivateRoomCaption + " - " : "") +  B.ChatRoomName);
-			if (FriendListReturn === "ChatSearch" && B.ChatRoomSpace !== undefined && ChatRoomSpace === (B.ChatRoomSpace || "") && B.ChatRoomName && !B.ChatRoomName.startsWith("-")) {
+			if (FriendListReturn && FriendListReturn.Screen === "ChatSearch" && B.ChatRoomSpace !== undefined && ChatRoomSpace === (B.ChatRoomSpace || "") && B.ChatRoomName && !B.ChatRoomName.startsWith("-")) {
 				FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListChatSearch("${B.ChatRoomName}")'> ${Caption} </div>`;
 			} else {
 				FriendListContent += `<div class='FriendListTextColumn'> ${Caption} </div>`;

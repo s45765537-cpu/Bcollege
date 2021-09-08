@@ -228,6 +228,8 @@ Panties,PilotPanties,Pilot Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
 Panties,FloralPanties2,Floral Panties 2
+Panties,BulkyDiaper,Bulky Diaper
+Panties,PoofyDiaper,Poofy Diaper
 Socks,,Socks
 Socks,Socks0,Ankle
 Socks,Socks1,Short
@@ -295,6 +297,7 @@ Hat,CaptainHat1,Captain's Hat
 Hat,BunnySuccubus2,Bunny Succubus
 Hat,WitchHat1, Witch Hat
 Hat,PirateBandana1,Pirate Bandana
+Hat,Bandana,Bandana
 Hat,PoliceWomanHat,Police Woman Hat
 Hat,HeadTowel1,Towel
 Hat,CollegeDunce,Dunce Hat
@@ -525,23 +528,35 @@ HairFront,HairFront17,Style 17
 HairFront,HairFront17b,Style 17b
 HairFront,HairFront18,Style 18
 HairFront,HairFront19,Style 19
+HairFront,HairFront20,Style 20
+HairFront,HairFront21,Style 21
 HairBack,,Back Hair
 HairBack,HairNone,None
 HairBack,HairBack1,Style 1
+HairBack,HairBack1b,Style 1b
 HairBack,HairBack2,Style 2
+HairBack,HairBack2b,Style 2b
 HairBack,HairBack4,Style 3
+HairBack,HairBack4b,Style 3b
 HairBack,HairBack10,Style 4
+HairBack,HairBack10b,Style 4b
 HairBack,HairBack14,Style 5
 HairBack,HairBack15,Style 6
+HairBack,HairBack15b,Style 6b
 HairBack,HairBack16,Style 7
 HairBack,HairBack17,Style 8
 HairBack,HairBack18,Style 9
+HairBack,HairBack18b,Style 9b
 HairBack,HairBack19,Style 10
+HairBack,HairBack19b,Style 10b
 HairBack,HairBack20,Style 11
+HairBack,HairBack20b,Style 11b
 HairBack,HairBack5,Style 12
+HairBack,HairBack5b,Style 12b
 HairBack,HairBack8,Style 13
 HairBack,HairBack11,Style 14
 HairBack,HairBack6,Style 15
+HairBack,HairBack6b,Style 15b
 HairBack,HairBack21,Style 16
 HairBack,HairBack22,Style 17
 HairBack,HairBack23,Style 18
@@ -771,6 +786,8 @@ ItemPelvis,DiaperHarness,Diaper Harness
 ItemPelvis,PelvisChainLeash,Pelvis Chain Leash
 ItemPelvis,Ribbons,Ribbons
 ItemPelvis,SilkStraps,Silk Straps
+ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
+ItemPelvis,PoofyDiaper,Poofy Chastity Diaper
 ItemTorso,,Torso
 ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,HempRopeHarness,Hemp Rope
@@ -910,7 +927,7 @@ ItemHands,FuturisticMittens,Futuristic Mittens
 ItemHands,PaddedLeatherMittens,Padded Leather Mittens
 ItemHands,PolishedMittens,Polished Steel Mittens
 ItemHands,DuctTape,Duct Tape
-ItemHands,SpankingToys,Handheld Toys
+ItemHands,SpankingToys,Handheld Items
 ItemHands,SpankingToysCrop,Crop
 ItemHands,SpankingToysFlogger,Flogger
 ItemHands,SpankingToysCane,Cane
@@ -954,6 +971,7 @@ ItemHands,SpankingToysTapeRoll,Duct Tape Roll
 ItemHands,SpankingToysSpatula,Spatula
 ItemHands,SpankingToysBroom,Broom
 ItemHands,KeyProp,Key
+ItemHands,SpankingToysPhone1,Mobile Phone
 ItemHands,HoofMittens, Hoof Mittens
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
@@ -991,6 +1009,7 @@ ItemNeck,NylonCollar,Nylon Collar
 ItemNeck,GothicCollar,Gothic Collar
 ItemNeck,LatexCollar1,Inflated Latex Collar
 ItemNeck,LatexCollar2,Latex Collar
+ItemNeck,TechnoCollar,Techno Collar
 ItemNeckAccessories,,Collar
 ItemNeckAccessories,CustomCollarTag,Custom Tag
 ItemNeckAccessories,ElectronicTag,Electronic Tag
@@ -1247,6 +1266,7 @@ ItemHood,Pantyhose,Pantyhose
 ItemHood,GP9GasMask,GP-9 Gas Mask
 ItemHood,OpenFaceHood,Open Face Hood
 ItemHood,GwenHood,Gwen Hood
+ItemHood,TechnoHelmet1,Techno Helmet 1
 ItemEars,,Ears
 ItemEars,LightDutyEarPlugs,Light Duty Ear Plugs
 ItemEars,HeavyDutyEarPlugs,Heavy Duty Ear Plugs
@@ -1280,6 +1300,8 @@ ItemMisc,MetalCuffsKey,Metal Cuffs Key
 ItemMisc,Lockpicks,Lockpicks
 ItemMisc,WoodenMaidTray,Wooden Maid Tray
 ItemMisc,WoodenMaidTrayFull,Wooden Maid Tray Full
+ItemMisc,BountySuitcase,Secret Suitcase
+ItemMisc,BountySuitcaseEmpty,Unlocked Suitcase
 ItemMisc,WoodenPaddle,Wooden Paddle
 ItemMisc,WoodenSign,Wooden Sign
 ItemMisc,ServingTray,Serving Tray
@@ -1308,6 +1330,7 @@ ItemDevices,StrapOnStuds,Studded Strap On
 ItemDevices,DisplayCase,Display Case
 ItemDevices,SmallDisplayCase,Small Display Case
 ItemDevices,FuturisticCrate,Futuristic Crate
+ItemDevices,DollBox,Doll Box
 ItemDevices,WoodenBoxOpenHead,Exposed Head Wooden Box
 ItemDevices,SmallWoodenBoxOpenHead,Exposed Head Small Wooden Box
 ItemDevices,WoodenStocks,Wooden Stocks
