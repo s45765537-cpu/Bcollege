@@ -228,6 +228,8 @@ Panties,PilotPanties,Pilot Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
 Panties,FloralPanties2,Floral Panties 2
+Panties,BulkyDiaper,Bulky Diaper
+Panties,PoofyDiaper,Poofy Diaper
 Socks,,Socks
 Socks,Socks0,Ankle
 Socks,Socks1,Short
@@ -771,6 +773,8 @@ ItemPelvis,DiaperHarness,Diaper Harness
 ItemPelvis,PelvisChainLeash,Pelvis Chain Leash
 ItemPelvis,Ribbons,Ribbons
 ItemPelvis,SilkStraps,Silk Straps
+ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
+ItemPelvis,PoofyDiaper,Poofy Chastity Diaper
 ItemTorso,,Torso
 ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,HempRopeHarness,Hemp Rope
@@ -910,7 +914,7 @@ ItemHands,FuturisticMittens,Futuristic Mittens
 ItemHands,PaddedLeatherMittens,Padded Leather Mittens
 ItemHands,PolishedMittens,Polished Steel Mittens
 ItemHands,DuctTape,Duct Tape
-ItemHands,SpankingToys,Handheld Toys
+ItemHands,SpankingToys,Handheld Items
 ItemHands,SpankingToysCrop,Crop
 ItemHands,SpankingToysFlogger,Flogger
 ItemHands,SpankingToysCane,Cane
@@ -954,6 +958,7 @@ ItemHands,SpankingToysTapeRoll,Duct Tape Roll
 ItemHands,SpankingToysSpatula,Spatula
 ItemHands,SpankingToysBroom,Broom
 ItemHands,KeyProp,Key
+ItemHands,SpankingToysPhone1,Mobile Phone
 ItemHands,HoofMittens, Hoof Mittens
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
