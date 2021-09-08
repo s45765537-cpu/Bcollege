@@ -1,11 +1,4 @@
 "use strict";
-
-/**
- * TODO:
- * 	- admin/ban list is lost on going in background/block categories
- */
-
-
 var ChatCreateBackground = "Sheet";
 var ChatCreateResult = [];
 var ChatCreateMessage = "";
@@ -17,6 +10,7 @@ var ChatCreateBackgroundIndex = 0;
 var ChatCreateBackgroundSelect = "";
 var ChatCreateBackgroundList = null;
 var ChatCreateShowBackgroundMode = false;
+var ChatCreateIsHidden = false;
 
 /**
  * Loads the chat creation screen properties and creates the inputs
@@ -80,6 +74,9 @@ function ChatCreateRun() {
 		DrawButton(40, 40, 260, 60, TextGet("ReturnMenu"), "White");
 		return;
 	}
+
+	if (ChatCreateIsHidden)
+		ElementToggleGeneratedElements("ChatCreate", true);
 
 	// Draw the controls
 	if (!document.getElementById("InputName").placeholder) {
@@ -162,12 +159,13 @@ function ChatCreateClick() {
 
 	// Item block button
 	if (MouseIn(1300, 540, 275, 60)) {
+		ElementToggleGeneratedElements("ChatCreate", false);
 		ChatCreateBlockItems();
 	}
 
 	// Background selection button (Save values before entering)
 	if (MouseIn(1840, 450, 60, 60)) {
-		ChatRoomCreateRemoveInput();
+		ElementToggleGeneratedElements("ChatCreate", false);
 		BackgroundSelectionMake(ChatCreateBackgroundList, ChatCreateBackgroundIndex, Name => {
 			ChatCreateBackgroundSelect = Name;
 		});
@@ -242,8 +240,7 @@ function ChatCreateRoom() {
  * @returns {void} - Nothing
  */
 function ChatCreateBlockItems() {
-	ChatBlockItemReturnData = { Screen: "ChatCreate", Name: ElementValue("InputName"), Description: ElementValue("InputDescription"), Limit: ElementValue("InputSize") };
-	ChatRoomCreateRemoveInput();
+	ChatBlockItemReturnData = { Screen: "ChatCreate" };
 	CommonSetScreen("Online", "ChatBlockItem");
 }
 
