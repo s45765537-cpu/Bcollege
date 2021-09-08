@@ -319,6 +319,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ChatSettings.ShrinkNonDialogue !== "boolean") C.ChatSettings.ShrinkNonDialogue = false;
 	if (typeof C.ChatSettings.MuStylePoses !== "boolean") C.ChatSettings.MuStylePoses = false;
 	if (typeof C.ChatSettings.ShowChatHelp !== "boolean") C.ChatSettings.ShowChatHelp = true;
+	if (typeof C.ChatSettings.ShowBeepChat !== "boolean") C.ChatSettings.ShowBeepChat = true;
 
 	// Visual settings
 	if (!C.VisualSettings) C.VisualSettings = {};
@@ -396,6 +397,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.LastChatRoomSize !== "number") C.LastChatRoomSize = 10;
 	if (typeof C.LastChatRoomDesc !== "string") C.LastChatRoomDesc = "";
 	if (!C.LastChatRoomAdmin) C.LastChatRoomAdmin = [];
+	if (!C.LastChatRoomBan) C.LastChatRoomBan = [];
 
 	// Restriction settings
 	if (!C.RestrictionSettings) C.RestrictionSettings = {};
@@ -1150,6 +1152,8 @@ function PreferenceSubscreenChatRun() {
 	DrawCheckbox(1200, 652, 64, 64, TextGet("ColorActivities"), Player.ChatSettings.ColorActivities);
 	DrawCheckbox(1200, 732, 64, 64, TextGet("ShrinkNonDialogue"), Player.ChatSettings.ShrinkNonDialogue);
 	DrawCheckbox(1200, 812, 64, 64, TextGet("MuStylePoses"), Player.ChatSettings.MuStylePoses);
+	DrawCheckbox(1200, 892, 64, 64, TextGet("ShowBeepChat"), Player.ChatSettings.ShowBeepChat);
+
 
 	MainCanvas.textAlign = "center";
 	PreferenceDrawBackNextButton(1000, 170, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
@@ -1559,7 +1563,7 @@ function PreferenceSubscreenChatClick() {
 		if (MouseYIn(652, 64)) Player.ChatSettings.ColorActivities = !Player.ChatSettings.ColorActivities;
 		if (MouseYIn(732, 64)) Player.ChatSettings.ShrinkNonDialogue = !Player.ChatSettings.ShrinkNonDialogue;
 		if (MouseYIn(812, 64)) Player.ChatSettings.MuStylePoses = !Player.ChatSettings.MuStylePoses;
-
+		if (MouseYIn(892, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
 	}
 
 	// If the user used one of the BackNextButtons

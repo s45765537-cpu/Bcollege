@@ -35,6 +35,7 @@ var ChatRoomLastPrivate = false;
 var ChatRoomLastSize = 0;
 var ChatRoomLastDesc = "";
 var ChatRoomLastAdmin = [];
+var ChatRoomLastBan = [];
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
 var ChatRoomLeashList = [];
@@ -239,6 +240,73 @@ function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) 
  * @returns {boolean} - TRUE if the player can take a photo.
  */
 function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCategory && !ChatRoomData.BlockCategory.includes("Photos")) || !ChatRoomData; }
+
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCanTakeSuitcase() {
+	return ChatRoomCarryingBounty(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCanTakeSuitcaseOpened() {
+	return ChatRoomCarryingBountyOpened(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBounty(C) {
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBountyOpened(C) {
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcase() {
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcaseOpened() {
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
+}
+/**
+ * Attempts to take the suitcase from the current player
+ * @returns {void}
+ */
+function ChatRoomTryToTakeSuitcase() {
+	ServerSend("ChatRoomChat", { Content: "TakeSuitcase", Type: "Hidden", Target: CurrentCharacter.MemberNumber});
+
+	if (KidnapLeagueOnlineBountyTarget == 0) {
+		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
+	}
+	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
+	CurrentCharacter = null;
+}
+/**
+ * Receives money from the suitcase
+ * @returns {void}
+ */
+function ChatRoomReceiveSuitcaseMoney() {
+	let money = Math.max(1, Math.ceil(45 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
+	CharacterChangeMoney(Player, money);
+	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: [{Tag: "MONEYAMOUNT", Text: ""+Math.ceil(money)}], Sender: Player.MemberNumber });
+	KidnapLeagueOnlineBountyTarget = 0;
+	KidnapLeagueOnlineBountyTargetStartedTime = 0;
+}
 
 /**
  * Checks if the player can give the target character her high security keys.
@@ -457,8 +525,6 @@ function DialogCanCallMaidsPunishmentOn() { return (DialogCanCallMaids() && (!Pl
  * @returns {boolean} - TRUE if the current character has been in the last chat room for more than 30 minutes
  */
 function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Player.RestrictionSettings && Player.RestrictionSettings.BypassNPCPunishments);}
-
-
 
 /**
  * Creates the chat room input elements.
@@ -766,6 +832,9 @@ function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
 		if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber)) {
 			DrawImageResize("Icons/Small/Admin.png", CharX + 125 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
 		}
+		if (ChatRoomCarryingBounty(C)) {
+			DrawImageResize("Icons/Small/Money.png", CharX + 225 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+		}
 		// Warning icon when game versions don't match
 		if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion) {
 			DrawImageResize("Icons/Small/Warning.png", CharX + 325 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
@@ -1009,6 +1078,8 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomDesc = ChatRoomData.Description;
 			if (ChatRoomData && ChatRoomData.Admin)
 				Player.LastChatRoomAdmin = ChatRoomData.Admin;
+			if (ChatRoomData && ChatRoomData.Ban)
+				Player.LastChatRoomBan = ChatRoomData.Ban;
 
 			ChatRoomLastName = ChatRoomData.Name;
 			ChatRoomLastBG = ChatRoomData.Background;
@@ -1016,6 +1087,7 @@ function ChatRoomSetLastChatRoom(room) {
 			ChatRoomLastPrivate = ChatRoomData.Private;
 			ChatRoomLastDesc = ChatRoomData.Description;
 			ChatRoomLastAdmin = ChatRoomData.Admin;
+			ChatRoomLastBan = ChatRoomData.Ban;
 		}
 	} else {
 		Player.LastChatRoomBG = "";
@@ -1026,6 +1098,7 @@ function ChatRoomSetLastChatRoom(room) {
 		ChatRoomLastPrivate = false;
 		ChatRoomLastDesc = "";
 		ChatRoomLastAdmin = [];
+		ChatRoomLastBan = [];
 	}
 	Player.LastChatRoom = room;
 	var P = {
@@ -1035,6 +1108,7 @@ function ChatRoomSetLastChatRoom(room) {
 		LastChatRoomSize: Player.LastChatRoomSize,
 		LastChatRoomDesc: Player.LastChatRoomDesc,
 		LastChatRoomAdmin: Player.LastChatRoomAdmin.toString(),
+		LastChatRoomBan: Player.LastChatRoomBan.toString(),
 
 	};
 	ServerAccountUpdate.QueueData(P);
@@ -1295,10 +1369,78 @@ function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
 }
 
 /**
+ * Runs the chatroom online bounty loop.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomUpdateOnlineBounty() {
+	if (Player.CanInteract()) {
+		KidnapLeagueSearchingPlayers = [];
+	} else if (KidnapLeagueSearchingPlayers.length > 0) {
+		let misc = InventoryGet(Player, "ItemMisc");
+		if (misc && misc.Asset && (misc.Asset.Name == "BountySuitcase" || misc.Asset.Name == "BountySuitcaseEmpty")) {
+			if (KidnapLeagueSearchFinishTime > 0 && CommonTime() > KidnapLeagueSearchFinishTime) {
+				for (let C = 0; C < ChatRoomCharacter.length; C++) {
+					if (KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+						ServerSend("ChatRoomChat", { Content: "ReceiveSuitcaseMoney", Type: "Hidden", Target: ChatRoomCharacter[C].MemberNumber});
+					}
+				}
+				if (misc.Asset.Name == "BountySuitcase") {
+					InventoryRemove(Player, "ItemMisc");
+					InventoryWear(Player, "BountySuitcaseEmpty", "ItemMisc");
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEnd", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				} else {
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEndOpened", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					if (!misc.Property) misc.Property = {};
+					if (!misc.Property.Iterations) misc.Property.Iterations = 0;
+					misc.Property.Iterations = misc.Property.Iterations + 1;
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				}
+
+			}
+			let KidnapLeagueSearchingPlayersNew = [];
+			for (let C = 0; C < ChatRoomCharacter.length; C++) {
+				if (ChatRoomCharacter[C].CanInteract() && KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+					KidnapLeagueSearchingPlayersNew.push(ChatRoomCharacter[C].MemberNumber);
+				}
+			}
+			KidnapLeagueSearchingPlayers = KidnapLeagueSearchingPlayersNew;
+		} else {
+			KidnapLeagueSearchingPlayers = [];
+			KidnapLeagueSearchFinishTime = 0;
+		}
+	} else {
+		if (KidnapLeagueSearchFinishTime > 0) {
+			if (InventoryIsWorn(Player,"BountySuitcase", "ItemMisc"))
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+			else if (InventoryIsWorn(Player,"BountySuitcaseEmpty", "ItemMisc"))
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarlyOpened", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+		}
+
+		KidnapLeagueSearchFinishTime = 0;
+	}
+	if (!Player.CanInteract()) {
+		KidnapLeagueOnlineBountyTarget = 0;
+	}
+
+}
+
+/**
  * Runs the chatroom screen.
  * @returns {void} - Nothing.
  */
 function ChatRoomRun() {
+	// Handles online bounty game
+	ChatRoomUpdateOnlineBounty();
+
 	// Draws the chat room controls
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
@@ -1922,6 +2064,38 @@ function ChatRoomMessage(data) {
 					if (CurrentScreen == "KinkyDungeon")
 						KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true), SenderCharacter.MemberNumber);
 				}
+				else if (msg == "TakeSuitcase"){
+					if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
+						let misc = InventoryGet(Player, "ItemMisc");
+						if (KidnapLeagueSearchingPlayers.length == 0) {
+							if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							}
+						} else {
+							ServerSend("ChatRoomGame", { OnlineBounty: {
+								finishTime: KidnapLeagueSearchFinishTime,
+								target: SenderCharacter.MemberNumber,
+							} });
+						}
+						if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
+							KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
+						}
+
+					}
+				}
+				else if (msg == "ReceiveSuitcaseMoney"){
+					ChatRoomReceiveSuitcaseMoney();
+				}
 
 				// If the message is still hidden after any modifications, stop processing
 				if (data.Type == "Hidden") return;
@@ -2123,7 +2297,9 @@ function ChatRoomMessage(data) {
 						for (let T = 0; T < ChatRoomCharacter.length; T++)
 							if (ChatRoomCharacter[T].MemberNumber == data.Dictionary[D].MemberNumber)
 								TargetCharacter = ChatRoomCharacter[T];
-						if (data.Dictionary[D].MemberNumber != null) msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (ChatRoomSenseDepBypass && !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
+						if (data.Dictionary[D].MemberNumber != null) {
+							msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
+						}
 						if ((data.Dictionary[D].MemberNumber != null) && (data.Dictionary[D].Tag == "TargetCharacter")) TargetMemberNumber = data.Dictionary[D].MemberNumber;
 						if (data.Dictionary[D].Tag == "ActivityName") ActivityName = data.Dictionary[D].Text;
 						if (data.Dictionary[D].Tag == "ActivityGroup") ActivityGroup = data.Dictionary[D].Text;
@@ -3200,6 +3376,17 @@ function ChatRoomPayQuest(data) {
 }
 
 /**
+ * Triggered when online game data comes in
+ * @param {object} data - Game data to process, sent to the current game handler.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineBountyHandleData(data) {
+	if (data.finishTime && data.target == Player.MemberNumber) {
+		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: [{Tag: "TIMEREMAINING", Text: ""+Math.max(1, Math.ceil((data.finishTime - CommonTime())/60000))}], Sender: Player.MemberNumber });
+	}
+}
+
+/**
  * Triggered when a game message comes in, we forward it to the current online game being played.
  * @param {object} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
@@ -3207,6 +3394,8 @@ function ChatRoomPayQuest(data) {
 function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
+		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 }
 
@@ -3461,7 +3650,7 @@ function ChatRoomRecreate() {
 			Background: Player.LastChatRoomBG,
 			Limit: "" + Player.LastChatRoomSize,
 			Admin: Player.LastChatRoomAdmin,
-			Ban: ChatRoomData.Ban,
+			Ban: Player.LastChatRoomBan,
 			BlockCategory: ChatRoomData.BlockCategory,
 			Game: ChatRoomData.Game,
 			Private: Player.LastChatRoomPrivate,
@@ -3507,7 +3696,8 @@ function ChatRoomDataChanged() {
 		ChatRoomLastSize != ChatRoomData.Limit ||
 		ChatRoomLastPrivate != ChatRoomData.Private ||
 		ChatRoomLastDesc != ChatRoomData.Description ||
-		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin);
+		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin) ||
+		!CommonArraysEqual(ChatRoomLastBan, ChatRoomData.Ban);
 }
 
 function ChatRoomRefreshFontSize() {
