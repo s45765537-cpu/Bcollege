@@ -228,6 +228,8 @@ Panties,PilotPanties,Pilot Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
 Panties,FloralPanties2,Floral Panties 2
+Panties,BulkyDiaper,Bulky Diaper
+Panties,PoofyDiaper,Poofy Diaper
 Socks,,Socks
 Socks,Socks0,Ankle
 Socks,Socks1,Short
@@ -771,6 +773,8 @@ ItemPelvis,DiaperHarness,Diaper Harness
 ItemPelvis,PelvisChainLeash,Pelvis Chain Leash
 ItemPelvis,Ribbons,Ribbons
 ItemPelvis,SilkStraps,Silk Straps
+ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
+ItemPelvis,PoofyDiaper,Poofy Chastity Diaper
 ItemTorso,,Torso
 ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,HempRopeHarness,Hemp Rope
@@ -1282,6 +1286,8 @@ ItemMisc,MetalCuffsKey,Metal Cuffs Key
 ItemMisc,Lockpicks,Lockpicks
 ItemMisc,WoodenMaidTray,Wooden Maid Tray
 ItemMisc,WoodenMaidTrayFull,Wooden Maid Tray Full
+ItemMisc,BountySuitcase,Secret Suitcase
+ItemMisc,BountySuitcaseEmpty,Unlocked Suitcase
 ItemMisc,WoodenPaddle,Wooden Paddle
 ItemMisc,WoodenSign,Wooden Sign
 ItemMisc,ServingTray,Serving Tray
