@@ -4190,6 +4190,158 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { AssetName: "NecklaceKey" },
 		}, // NecklaceLock
 	}, // Necklace
+	Suit: {
+		Catsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // Catsuit
+		SeamlessCatsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // SeamlessCatsuit
+		PilotSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // PilotSuit
+		SeethroughSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // SeethroughSuit
+		SeethroughSuitZip: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // SeethroughSuitZip
+		ReverseBunnySuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+							OverridePriority: 31
+						},
+					},
+					{
+						Name: "Tucked",
+						Property: {
+							Type: "Tucked",
+							OverridePriority: 29
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectPriorityType",
+					TypePrefix: "ClothPriorityType",
+				}
+			},
+		}, // ReverseBunnySuit
+	}, // Suit
 	ItemHead: {
 		DuctTape: {
 			Archetype: ExtendedArchetype.TYPED,
