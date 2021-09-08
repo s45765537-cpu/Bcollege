@@ -58,6 +58,8 @@ NecklaceIDCardString,Lanyard
 NecklaceIDCardCard,Card
 NecklaceElegantHeartNecklaceNecklace,Necklace
 NecklaceElegantHeartNecklaceJewels,Jewels
+NecklaceFlowerGarlandCenter,Center
+NecklaceFlowerGarlandPetals,Petals
 NecklaceNecklaceBallGagBall,Ball
 NecklaceNecklaceBallGagStrap,Strap
 SuitCatsuitBase,Suit
@@ -91,6 +93,9 @@ ClothLowerTutuLayer1,Layer 1
 ClothLowerTutuLayer2,Layer 2
 ClothLowerTutuLayer3,Layer 3
 ClothLowerTutuLayer4,Layer 4
+ClothLowerHulaSkirtBackLeaves,Leaves
+ClothLowerHulaSkirtFlowers,Flowers
+ClothLowerHulaSkirtPollen,Pollen
 SuitLowerCatsuitBase,Suit
 SuitLowerCatsuitZip,Zip
 SuitLowerSeethroughSuitZipBase,Suit
@@ -336,6 +341,10 @@ ItemArmsTransportJacketText,Text
 ItemArmsTransportJacketStripes,Jacket
 ItemArmsTransportJacketStripesLegs,Shorts
 ItemArmsTransportJacketStraps,Straps
+ItemArmsBitchSuitLatex,Suit
+ItemArmsBitchSuitLockKneel,Locks
+ItemArmsBitchSuitExposedLatex,Suit
+ItemArmsBitchSuitExposedLock,Locks
 ItemHandsFuturisticMittensBody,Body
 ItemHandsFuturisticMittensMesh,Mesh
 ItemHandsFuturisticMittensDisplay,Display
