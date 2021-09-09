@@ -4783,7 +4783,7 @@ var AssetFemale3DCG = [
 					{ Name: "DevicePleasure", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},
 					{ Name: "DevicePleasurePlug", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},
 					{ Name: "DevicePleasureHolder", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},
-					{ Name: "DevicePleasureStructure", ColorGroup: "Structure", Priority: 2, HasType: false, ModuleType: ["t"], AllowModuleTypes:["t0", "t1", "t2", "t3", "d1", "l1", "a1", "a2"]},
+					{ Name: "DevicePleasureStructure", ColorGroup: "Structure", Priority: 2, HasType: false, ModuleType: ["t"], AllowModuleTypes:["t1", "t2", "t3", "d1", "l1", "a1", "a2"]},
 					{ Name: "StrapsArmsMesh", ColorGroup: "Padding", Priority: 2, HasType: false, AllowModuleTypes:["a3"]},
 					{ Name: "Display", Priority: 58, HasType: false, },
 					{ Name: "Lock", Priority: 58, HasType: false, LockLayer: true },
