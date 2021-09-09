@@ -1614,20 +1614,31 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 					{
-						Name: "Straps", Key: "s",
+						Name: "LegCuffs", Key: "l",
 						Options: [
-							{}, // s0 - No straps
-							{ // s1 - Arm straps
-								Prerequisite: ["CuffedArmsOrEmpty", "NotKneeling"],
+							{}, // l0 - No leg straps
+							{ // l1 - Kneel leg restraints
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
 								Property: {
-									Difficulty: 22,
-									SetPose: ["OverTheHead", "BaseLower"],
-									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
-									Block: ["ItemArms"],
-									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									Difficulty: 18,
+									SetPose: ["Kneel"],
+									Block: ["ItemFeet", "ItemLegs"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"],
+									OverrideHeight: { Height: 0, Priority: 60 },
 								},
 							},
-							{ // s2 - Leg straps
+							{ // l2 - Closed leg restraints
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+								Property: {
+									Difficulty: 22,
+									SetPose: ["LegsClosed"],
+									Block: ["ItemFeet", "ItemLegs"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"]
+								},
+							},
+							{ // l3 - Spread leg restraints
 								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
 								Property: {
 									Difficulty: 22,
@@ -1637,14 +1648,43 @@ var AssetFemale3DCGExtended = {
 									Hide: ["ItemBoots", "Shoes"]
 								},
 							},
-							{ // s3 - Full straps
-								Prerequisite: ["LegsOpen", "CuffedArmsOrEmpty", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+						],
+					},
+					{
+						Name: "ArmCuffs", Key: "a",
+						Options: [
+							{}, // s0 - No arm cuffs
+							{ // s1 - Elbow cuffs
+								Prerequisite: ["CuffedArmsOrEmpty"],
 								Property: {
-									Difficulty: 32,
-									SetPose: ["OverTheHead", "Spread"],
-									Block: ["ItemFeet", "ItemLegs", "ItemArms"],
+									Difficulty: 18,
+									SetPose: ["BackElbowTouch"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
 									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
-									Hide: ["ItemBoots", "Shoes"]
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // s2 - Box cuffs
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 18,
+									SetPose: ["BackBoxTie"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // s3 - Overhead restraints
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 22,
+									SetPose: ["OverTheHead"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									OverrideHeight: { Height: 0, Priority: 60 },
 								},
 							},
 						],
