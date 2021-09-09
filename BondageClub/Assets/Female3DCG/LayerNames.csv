@@ -88,6 +88,11 @@ ClothLowerAdmiralSkirtStripe,Trim
 ClothLowerHaremPantsPanty,Panty
 ClothLowerHaremPantsVeil,Veil
 ClothLowerHaremPantsPantyline,Panty Line
+ClothLowerTutuBelt,Belt
+ClothLowerTutuLayer1,Layer 1
+ClothLowerTutuLayer2,Layer 2
+ClothLowerTutuLayer3,Layer 3
+ClothLowerTutuLayer4,Layer 4
 ClothLowerHulaSkirtBackLeaves,Leaves
 ClothLowerHulaSkirtFlowers,Flowers
 ClothLowerHulaSkirtPollen,Pollen
@@ -337,7 +342,7 @@ ItemArmsTransportJacketStripes,Jacket
 ItemArmsTransportJacketStripesLegs,Shorts
 ItemArmsTransportJacketStraps,Straps
 ItemArmsBitchSuitLatex,Suit
-ItemArmsBitchSuitLockKneel,Locks
+ItemArmsBitchSuitLock,Locks
 ItemArmsBitchSuitExposedLatex,Suit
 ItemArmsBitchSuitExposedLock,Locks
 ItemHandsFuturisticMittensBody,Body
@@ -524,6 +529,8 @@ ItemMouthCupholderGagHolder,Holder
 ItemMouthCupholderGagCup,Cup
 ItemMouthDildoGagStrap,Strap
 ItemMouthDildoGagDildo,Dildo
+ItemMouthDildoPlugGagStrap,Strap
+ItemMouthDildoPlugGagClose,Close
 ItemMouthBambooGagRod,Rod
 ItemMouthBambooGagRope,Rope
 ItemMouthHarnessBallGag1Ball,Ball
@@ -804,6 +811,9 @@ CorsetCorset6Leather,Leather
 CorsetCorset6Buttons,Buttons
 ItemEarsHeadphonesDark,Dark
 ItemEarsHeadphonesLight,Light
+ItemEarsFuturisticEarphonesBand,Band
+ItemEarsFuturisticEarphonesDisplay,Display
+ItemEarsFuturisticEarphonesLock,Lock
 ItemHandsPaddedMittensGloves,Gloves
 ItemHandsPaddedMittensStraps,Straps
 ItemHandsPaddedMittensBuckles,Buckles
