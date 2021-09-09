@@ -2866,14 +2866,17 @@ var AssetFemale3DCGExtended = {
 						Name: "MedSec",
 						Property: { Type: "h2" , Difficulty: 5 , Effect: ["CrotchRope"]}
 					}, {
+						Name: "MedSecBreast",
+						Property: { Type: "h3" , Difficulty: 5 }
+					}, {
 						Name: "MaxSec",
-						Property: { Type: "h3" , Difficulty: 10, Effect: ["CrotchRope"] }
+						Property: { Type: "h4" , Difficulty: 10, Effect: ["CrotchRope"] }
 					}
 				],
 				Dialog: {
-					Load: "FuturisticHarnessType",
-					TypePrefix: "FuturisticHarnessType",
-					ChatPrefix: "FuturisticHarnessSet",
+					Load: "HighSecurityHarnessType",
+					TypePrefix: "HighSecurityHarnessType",
+					ChatPrefix: "HighSecurityHarnessSet",
 				},
 			}
 		}, // HighSecurityHarness
