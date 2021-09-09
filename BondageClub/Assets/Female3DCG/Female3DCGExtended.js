@@ -2158,6 +2158,7 @@ var AssetFemale3DCGExtended = {
 					},
 				],
 				DrawImages: false,
+				ChangeWhenLocked: false,
 			},
 		}, // FurBlanketWrap
 		Pole: {
