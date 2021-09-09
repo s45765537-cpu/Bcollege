@@ -1795,22 +1795,28 @@ var AssetFemale3DCGExtended = {
 							{}, // d0 - Open
 							{
 								Property: {
-									Difficulty: 22,
-									Effect: ["BlindLight", "GagLight", "Prone", "Freeze", "Enclose"]
+									Difficulty: 20,
+									Effect: ["Prone", "Freeze", "Enclose"]
 								},
-							}, // d1 - Smallwindow
+							}, // d1 - Window
 							{
 								Property: {
 									Difficulty: 22,
-									Effect: ["BlindNormal", "GagLight", "Prone", "Freeze", "Enclose"]
+									Effect: ["BlindLight", "Prone", "Freeze", "Enclose"]
 								},
-							}, // d2 - Normal window
+							}, // d2 - Normal Window
+							{
+								Property: {
+									Difficulty: 22,
+									Effect: ["BlindNormal", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d3 - Small window
 							{
 								Property: {
 									Difficulty: 52,
 									Effect: ["BlindHeavy", "GagLight", "Prone", "Freeze", "Enclose"]
 								},
-							}, // d3 - Closed
+							}, // d4 - Closed
 						],
 					},
 					{
@@ -1898,7 +1904,8 @@ var AssetFemale3DCGExtended = {
 								Property: {
 									SetPose: ["BaseLower"],
 									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
-									Effect: ["Egged", "Prone", "Freeze", "BlockKneel"]
+									Effect: ["Egged", "Prone", "Freeze", "BlockKneel"],
+									OverrideHeight: { Height: 0, Priority: 60 },
 								}
 							},
 						],
@@ -1906,10 +1913,37 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Structure", Key: "t",
 						Options: [
-							{}, // t0 - Minimal
+							{}, // t0 - No harness
 							{}, // t1 - X
 							{}, // t2 - +
 							{}, // t3 - H
+						],
+					},
+					{
+						Name: "Harness", Key: "h",
+						Options: [
+							{}, // h0 - None
+							{ // h1 - Minimal
+								Property: {
+									Difficulty: 12,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h1 - Comprehensive
+								Property: {
+									Difficulty: 18,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h2 - High Security
+								Property: {
+									Difficulty: 24,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
 						],
 					},
 				],
