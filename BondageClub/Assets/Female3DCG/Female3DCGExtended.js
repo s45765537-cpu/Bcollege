@@ -14,7 +14,7 @@
 /**
  * An enum encapsulating the available extended item archetypes
  * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {Record<"MODULAR"|"TYPED", ExtendedArchetype>}
+ * @type {{MODULAR: "modular", TYPED: "typed"}}
  * @see {@link ModularItemConfig}
  * @see {@link TypedItemConfig}
  */
@@ -636,26 +636,66 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // CeilingShackles
 		BitchSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Zip",
+						Key: "z",
+						Options: [
+							{ // z0 - Zipped up
+								Property: { Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
+							},
+							{ // z1 - Unzipped
+								Property: { Block: [] },
+							},
+						],
+						AllowSelfSelect: false,
+					},
+					{
+						Name: "Pose",
+						Key: "p",
+						Options: [
+							{ // p0 - Kneeling
+								Property: { SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"] },
+							},
+							{ // p1 - All fours
+								Property: { SetPose: ["AllFours"] },
+							},
+						],
+					},
+				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuit${C.ID === 0 ? "Self" : ""}Set`,
+				},
+			},
+		}, // BitchSuit
+		BitchSuitExposed: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
 				Options: [
 					{
-						Name: "Latex",
+						Name: "Kneel",
 						Property: {
 							Type: null,
-							Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+							SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"],
 						},
 					},
 					{
-						Name: "UnZip",
+						Name: "AllFours",
 						Property: {
-							Type: "UnZip",
-							Block: [],
-						},
-					},
+							Type: "AllFours",
+							SetPose: ["AllFours"]
+						}
+					}
 				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuitExposed${C.ID === 0 ? "Self" : ""}Set`,
+				}
 			},
-		}, // BitchSuit
+		}, // BitchSuitExposed
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1340,6 +1380,7 @@ var AssetFemale3DCGExtended = {
 		StraitLeotard: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
 				Modules: [
 					{
 						Name: "Cloth", Key: "cl",
@@ -1974,6 +2015,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 							HideItem: ["ItemMiscTeddyBear"],
+							HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
@@ -2289,6 +2331,27 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // ClitSuctionCup
+		DoubleEndDildo: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Large",
+						Property: {
+							Type: "Large",
+						},
+					},
+				],
+				DrawImages: false,
+			},
+		},
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -4660,9 +4723,6 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				],
-				Dialog: {
-					Load: "SelectHeadsetType",
-				},
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
 					Click: FuturisticAccessClick,
