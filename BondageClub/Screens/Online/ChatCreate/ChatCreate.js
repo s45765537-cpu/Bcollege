@@ -49,7 +49,6 @@ function ChatCreateLoad() {
 		document.getElementById("InputAdminList").setAttribute("maxLength", 250);
 		document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
 		document.getElementById("InputAdminList").placeholder = TextGet("UseMemberNumbersAdmin");
-		console.log("before", ElementValue("InputAdminList"));
 		ElementValue("InputAdminList", Player.MemberNumber.toString());
 		ElementCreateTextArea("InputBanList");
 		document.getElementById("InputBanList").setAttribute("maxLength", 1000);
