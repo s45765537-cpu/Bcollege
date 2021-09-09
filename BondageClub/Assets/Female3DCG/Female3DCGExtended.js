@@ -1764,7 +1764,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Effect: ["DeafTotal"]
-								}, 
+								},
 							}, //h3 Noise-Cancelling
 						],
 					},
@@ -1901,6 +1901,15 @@ var AssetFemale3DCGExtended = {
 									Effect: ["Egged", "Prone", "Freeze", "BlockKneel"]
 								}
 							},
+						],
+					},
+					{
+						Name: "Structure", Key: "t",
+						Options: [
+							{}, // t0 - Minimal
+							{}, // t1 - X
+							{}, // t2 - +
+							{}, // t3 - H
 						],
 					},
 				],
