@@ -383,11 +383,12 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
 		let HidingItem = false;
-		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !item.Asset.HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
+		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
+		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if (item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
-		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0)) HidingItem = true;
+		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if ((item.Asset.HideItem != null) && (item.Asset.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		else if ((item.Property != null) && (item.Property.HideItem != null) && (item.Property.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		if (HidingItem) {
@@ -1091,19 +1092,22 @@ function AppearanceClick() {
 		for (let I = DialogInventoryOffset; (I < DialogInventory.length) && (I < DialogInventoryOffset + 9); I++) {
 			if ((MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275)) {
 				var Item = DialogInventory[I];
+				const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+				const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
+
 				// In permission mode, we toggle the settings for an item
 				if (DialogItemPermissionMode) {
-
-					const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-					const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
 					DialogInventoryTogglePermission(Item, worn);
-
 				} else {
 					if (InventoryBlockedOrLimited(C, Item)) return;
 					if (InventoryAllow(C, Item.Asset.Prerequisite)) {
-						CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
-						DialogInventoryBuild(C, DialogInventoryOffset);
-						AppearanceMenuBuild(C);
+						if (worn && CurrentItem.Asset.Extended) {
+							DialogExtendItem(CurrentItem);
+						} else {
+							CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
+							DialogInventoryBuild(C, DialogInventoryOffset);
+							AppearanceMenuBuild(C);
+						}
 					} else {
 						CharacterAppearanceHeaderTextTime = DialogTextDefaultTimer;
 						CharacterAppearanceHeaderText = DialogText;
@@ -1368,16 +1372,16 @@ function CharacterAppearanceWardrobeLoad(C) {
  * @returns {string} - A serialised version of the character's current appearance
  */
 function CharacterAppearanceStringify(C) {
-    return AppearanceItemStringify(C.Appearance);
+	return AppearanceItemStringify(C.Appearance);
 }
 
 function AppearanceItemStringify(Item) {
-    return JSON.stringify(Item, (key, value) => {
-        if (key === "Asset") {
-            return value.Group.Family + "/" + value.Group.Name + "/" + value.Name;
-        }
-        return value;
-    });
+	return JSON.stringify(Item, (key, value) => {
+		if (key === "Asset") {
+			return value.Group.Family + "/" + value.Group.Name + "/" + value.Name;
+		}
+		return value;
+	});
 }
 
 /**
@@ -1387,17 +1391,17 @@ function AppearanceItemStringify(Item) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceRestore(C, backup) {
-    C.Appearance = AppearanceItemParse(backup);
+	C.Appearance = AppearanceItemParse(backup);
 }
 
 function AppearanceItemParse(stringified) {
-    return JSON.parse(stringified, (key, value) => {
-        if (key === "Asset") {
-            const FGA = value.split("/");
-            return AssetGet(FGA[0], FGA[1], FGA[2]);
-        }
-        return value;
-    });
+	return JSON.parse(stringified, (key, value) => {
+		if (key === "Asset") {
+			const FGA = value.split("/");
+			return AssetGet(FGA[0], FGA[1], FGA[2]);
+		}
+		return value;
+	});
 }
 
 /**
@@ -1418,7 +1422,9 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
 			const item = InventoryGet(C, C.FocusGroup.Name);
-			if (CharacterAppearanceColorPickerBackup !== item.Color) {
+			const isDifferentColor = item && CharacterAppearanceColorPickerBackup !== item.Color;
+			const isRemoved = !item && CharacterAppearanceColorPickerBackup !== "None";
+			if (isDifferentColor || isRemoved) {
 				AppearancePreviewBuild(C, true);
 			}
 		}
