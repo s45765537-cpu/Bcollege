@@ -2287,6 +2287,12 @@ var AssetFemale3DCG = [
 					{ Name: "Lock2", LockLayer: true, CopyLayerColor: "Lock", ParentGroup: null, AllowTypes: ["", "Upper"], HasType: false},
 				]
 			},
+			{ Name: "HighSecurityHarness", Fetish: ["Metal"], Value: 50, Difficulty: 50, Time: 20, RemoveTime: 15, DefaultColor: ["#444444", "Default"], Effect: [], AllowLock: true, DrawLocks: false, Prerequisite: "AccessTorso", HideForPose: ["AllFours"], Extended: true,
+				Layer:[
+					{ Name: "StrapsHarness", AllowColorize: true, ParentGroup: null, Priority: 15 , HasType: true},
+					{ Name: "ClampsHarness", AllowColorize: true, ParentGroup: null, Priority: 15, HasType: true},
+				]
+			},
 			{ Name: "Corset3", Fetish: ["Lingerie"], Priority: 22, Value: 25, Difficulty: 8, Time: 15, RemoveTime: 10, AllowLock: true, Left: 150, BuyGroup: "Corset3", Prerequisite: "AccessTorso", Hide: ["ItemNipples", "ItemNipplesPiercings"], HideForPose: ["AllFours"], DynamicGroupName: "Corset" },
 			{ Name: "Corset4", Fetish: ["Lingerie"], Priority: 22, Value: 15, Difficulty: 8, Time: 15, RemoveTime: 10, AllowLock: true, Left: 150, BuyGroup: "Corset4", Prerequisite: "AccessTorso", Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], HideForPose: ["Hogtied", "AllFours"], DynamicGroupName: "Corset" },
 			{ Name: "Corset5", Fetish: ["Lingerie"], Priority: 22, Value: 20, Difficulty: 8, Time: 15, RemoveTime: 10, AllowLock: true, Left: 150, BuyGroup: "Corset5", Prerequisite: "AccessTorso", Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], HideForPose: ["Hogtied", "AllFours"], DynamicGroupName: "Corset" },
@@ -4780,8 +4786,8 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Body", ColorGroup: "Padding", Priority: 1, HasType: false},
 					{ Name: "StrapsArms", ColorGroup: "Structure", Priority: 40, HasType: false, AllowModuleTypes:["a3"]},
-					{ Name: "StrapsHarness", ColorGroup: "Harness", Priority: 25, HasType: false, ModuleType: ["h"], AllowModuleTypes:["h1", "h2", "h3"]},
-					{ Name: "ClampsHarness", ColorGroup: "Harness", Priority: 25, HasType: false, ModuleType: ["h"], AllowModuleTypes:["h1", "h2", "h3"]},
+					{ Name: "StrapsHarness", ColorGroup: "Harness", Priority: 25, HasType: false, ModuleType: ["h"], AllowModuleTypes:["h1", "h2", "h3", "h4"]},
+					{ Name: "ClampsHarness", ColorGroup: "Harness", Priority: 25, HasType: false, ModuleType: ["h"], AllowModuleTypes:["h1", "h2", "h3", "h4"]},
 					{ Name: "DevicePleasure", ColorGroup: "Pleasure", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},
 					{ Name: "DevicePleasurePlug", ColorGroup: "Pleasure", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},
 					{ Name: "DevicePleasureHolder", ColorGroup: "Pleasure", Priority: 25, HasType: false, AllowModuleTypes:["d1"]},

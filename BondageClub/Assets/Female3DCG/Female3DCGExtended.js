@@ -1930,14 +1930,21 @@ var AssetFemale3DCGExtended = {
 									OverrideHeight: { Height: 0, Priority: 60 },
 								},
 							},
-							{ // h1 - Comprehensive
+							{ // h2 - Comprehensive
 								Property: {
 									Difficulty: 18,
 									Effect: ["Prone", "Freeze"],
 									OverrideHeight: { Height: 0, Priority: 60 },
 								},
 							},
-							{ // h2 - High Security
+							{ // h3 - Comprehensive (breast)
+								Property: {
+									Difficulty: 18,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h4 - High Security
 								Property: {
 									Difficulty: 24,
 									Effect: ["Prone", "Freeze"],
@@ -2848,6 +2855,28 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		}, // Ribbons
+		HighSecurityHarness: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "LowSec",
+						Property: { Type: null }
+					}, {
+						Name: "MedSec",
+						Property: { Type: "h2" , Difficulty: 5 , Effect: ["CrotchRope"]}
+					}, {
+						Name: "MaxSec",
+						Property: { Type: "h3" , Difficulty: 10, Effect: ["CrotchRope"] }
+					}
+				],
+				Dialog: {
+					Load: "FuturisticHarnessType",
+					TypePrefix: "FuturisticHarnessType",
+					ChatPrefix: "FuturisticHarnessSet",
+				},
+			}
+		}, // HighSecurityHarness
 		LatexCorset1: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Corset", AssetName: "LatexCorset1" },
