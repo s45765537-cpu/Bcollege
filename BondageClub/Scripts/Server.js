@@ -8,7 +8,7 @@
 "use strict";
 /** @type {import("socket.io-client").Socket} */
 var ServerSocket = null;
-var ServerURL = "http://localhost:4588";
+var ServerURL = "http://localhost:4288";
 var ServerBeep = {};
 var ServerIsConnected = false;
 var ServerReconnectCount = 0;
