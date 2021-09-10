@@ -8,11 +8,6 @@ let TempCanvas;
 let ColorCanvas;
 /** @type {CanvasRenderingContext2D} */
 let CharacterCanvas;
-/** @type {Map<string, () => void>} */
-const DrawRunMap = new Map();
-let DrawRun = () => { };
-/** @type {string} */
-let DrawScreen;
 var DialogLeaveDueToItem = false;
 
 var BlindFlash = false;
@@ -26,6 +21,24 @@ let DrawCacheTotalImages = 0;
 
 // Last dark factor for blindflash
 var DrawLastDarkFactor = 0;
+
+/**
+ * A list of the characters that are drawn every frame
+ * @type {Character[]}
+ */
+var DrawLastCharacters = [];
+
+/**
+ * A list of elements to draw at the end of the drawing process.
+ * Mostly used for hovering button labels.
+ * @type {Function[]}
+ */
+var DrawHoverElements = [];
+
+/**
+ * The last canvas position in format `[left, top, width, height]`
+ */
+var DrawCanvasPosition = [0, 0, 0, 0];
 
 /**
  * Converts a hex color string to a RGB color
@@ -57,7 +70,7 @@ function DrawHexToRGB(color) {
  */
 function DrawRGBToHex(color) {
 	const rgb = color[2] | (color[1] << 8) | (color[0] << 16);
-	return '#' + (0x1000000 + rgb).toString(16).slice(1);
+	return '#' + (0x1000000 + rgb).toString(16).slice(1).toUpperCase();
 }
 
 /**
@@ -151,7 +164,7 @@ function DrawGetImageOnError(Img, IsAsset) {
  * @returns {string} - alpha of screen flash
  */
 function DrawGetScreenFlash(FlashTime) {
-	let alpha = Math.max(0, Math.min(255, Math.floor(140 * (1 - Math.exp(-FlashTime/2500))))).toString(16);
+	let alpha = Math.max(0, Math.min(255, Math.floor(ChatRoomPinkFlashAlphaStrength * (1 - Math.exp(-FlashTime/2500))))).toString(16);
 	if (alpha.length < 2) alpha = "0" + alpha;
 	return alpha;
 }
@@ -205,25 +218,39 @@ function DrawArousalThermometer(X, Y, Zoom, Progress, Automatic, Orgasm) {
  * @returns {void} - Nothing
  */
 function DrawArousalMeter(C, X, Y, Zoom) {
-	if (ActivityAllowed() && (C.ArousalSettings != null) && (C.ArousalSettings.Active != null) && ((C.ArousalSettings.Active == "Manual") || (C.ArousalSettings.Active == "Hybrid") || (C.ArousalSettings.Active == "Automatic")))
-		if ((C.ID == 0) || ((C.ArousalSettings.Visible != null) && (C.ArousalSettings.Visible == "Access") && C.AllowItem) || ((C.ArousalSettings.Visible != null) && (C.ArousalSettings.Visible == "All")))
-			if ((C.ID == 0) || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
+	if (ActivityAllowed() && C.ArousalSettings && (C.ArousalSettings.Active == "Manual" || C.ArousalSettings.Active == "Hybrid" || C.ArousalSettings.Active == "Automatic"))
+		if (C.ID == 0 || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
+			if (C.ID == 0 || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
 				ActivitySetArousal(C, C.ArousalSettings.Progress);
 
-				if (C.ArousalSettings != null && Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && ((C.ArousalSettings.Active == "Automatic") || (C.ArousalSettings.Active == "Hybrid"))) {
+				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && (C.ArousalSettings.Active == "Automatic" || C.ArousalSettings.Active == "Hybrid")) {
 					let Progress = 0;
-					if (!((C.ArousalSettings.VibratorLevel == null) || (typeof C.ArousalSettings.VibratorLevel !== "number") || isNaN(C.ArousalSettings.VibratorLevel))) {
+					if (!(C.ArousalSettings.VibratorLevel == null || typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel))) {
 						Progress = C.ArousalSettings.VibratorLevel;
 					}
 
 					if (Progress > 0) { // -1 is disabled
-						const max_time = 5000; // 5 seconds
-						DrawArousalGlow(X + ((C.ArousalZoom ? 50 : 90) * Zoom), Y + ((C.ArousalZoom ? 200 : 400) * Zoom), C.ArousalZoom ? Zoom : Zoom * 0.2, Progress, Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && CommonTime() - C.ArousalSettings.ChangeTime < max_time), Math.max(0, (max_time + C.ArousalSettings.ChangeTime - CommonTime()) / max_time), ((C.ArousalSettings.OrgasmTimer != null) && (typeof C.ArousalSettings.OrgasmTimer === "number") && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0)));
+						const animationTimeMax = 5000; // 5 seconds
+						const animationTimeLeft = Math.min(C.ArousalSettings.ChangeTime - CommonTime(), 0) + animationTimeMax;
+
+						DrawArousalGlow(
+							X + (C.ArousalZoom ? 50 : 90) * Zoom,
+							Y + (C.ArousalZoom ? 200 : 400) * Zoom,
+							C.ArousalZoom ? Zoom : Zoom * 0.2,
+							Progress,
+							Player.ArousalSettings.VFX == "VFXAnimated" || (Player.ArousalSettings.VFX == "VFXAnimatedTemp" && C.ArousalSettings.ChangeTime != null && animationTimeLeft > 0),
+							Math.max(0, animationTimeLeft / animationTimeMax),
+							C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 					}
 				}
 
-				DrawArousalThermometer(X + ((C.ArousalZoom ? 50 : 90) * Zoom), Y + ((C.ArousalZoom ? 200 : 400) * Zoom), C.ArousalZoom ? Zoom : Zoom * 0.2, C.ArousalSettings.Progress, (C.ArousalSettings.Active == "Automatic"), ((C.ArousalSettings.OrgasmTimer != null) && (typeof C.ArousalSettings.OrgasmTimer === "number") && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0)));
-
+				DrawArousalThermometer(
+					X + (C.ArousalZoom ? 50 : 90) * Zoom,
+					Y + (C.ArousalZoom ? 200 : 400) * Zoom,
+					C.ArousalZoom ? Zoom : Zoom * 0.2,
+					C.ArousalSettings.Progress,
+					C.ArousalSettings.Active == "Automatic",
+					C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 
 				if (C.ArousalZoom && (typeof C.ArousalSettings.OrgasmCount === "number") && (C.ArousalSettings.OrgasmCount >= 0) && (C.ArousalSettings.OrgasmCount <= 9999)) {
 					MainCanvas.font = CommonGetFont(Math.round(36 * Zoom).toString());
@@ -244,6 +271,9 @@ function DrawArousalMeter(C, X, Y, Zoom) {
  * @returns {void} - Nothing
  */
 function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
+	// Record that the character was drawn this frame
+	DrawLastCharacters.push(C);
+
 	if (!DrawCanvas) DrawCanvas = MainCanvas;
 
 	var OverrideDark = CurrentModule == "MiniGame" || ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars"))) || CurrentScreen == "InformationSheet";
@@ -349,7 +379,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the character name below herself
-		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private"))
+		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateRansom"))
 			if (!Player.IsBlind() || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 				DrawCanvas.font = CommonGetFont(30);
 				const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
@@ -851,24 +881,10 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
 function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
 	if (!Text) return;
 
-	// If it doesn't fit, test with smaller and smaller fonts until it fits
-	let S;
-	for (S = 36; S >= 10; S = S - 2) {
-		MainCanvas.font = CommonGetFont(S.toString());
-		const metrics = MainCanvas.measureText(Text);
-		if (metrics.width <= Width)
-			break;
-	}
-
-	// Cuts the text if it would go over the box
-	if (S <= 10) {
-		while (Text.length > 0) {
-			Text = Text.substr(1);
-			const metrics = MainCanvas.measureText(Text);
-			if (metrics.width <= Width)
-				break;
-		}
-	}
+	// Get text properties
+	let Result = DrawingGetTextSize(Text, Width);
+	Text = Result[0];
+	MainCanvas.font = CommonGetFont(Result[1].toString());
 
 	// Draw a back color relief text if needed
 	if ((BackColor != null) && (BackColor != "")) {
@@ -880,8 +896,33 @@ function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
 	MainCanvas.fillStyle = Color;
 	MainCanvas.fillText(Text, X, Y);
 	MainCanvas.font = CommonGetFont(36);
-
 }
+
+/**
+ * Gets the text size needed to fit inside a given width according to the current font.
+ * This function is memoized because <code>MainCanvas.measureText(Text)</code> is a major resource hog.
+ * @param {string} Text - Text to draw
+ * @param {number} Width - Width in which the text has to fit
+ * @returns {[string, number]} - Text to draw and its font size
+ */
+const DrawingGetTextSize = CommonMemoize((Text, Width) => {
+	// If it doesn't fit, test with smaller and smaller fonts until it fits
+	let S;
+	for (S = 36; S >= 10; S = S - 2) {
+		MainCanvas.font = CommonGetFont(S.toString());
+		const metrics = MainCanvas.measureText(Text);
+		if (metrics.width <= Width)
+			return [Text, S];
+	}
+
+	// Cuts the text if it would go over the box
+	while (Text.length > 0) {
+		Text = Text.substr(1);
+		const metrics = MainCanvas.measureText(Text);
+		if (metrics.width <= Width)
+			return [Text, S];
+	}
+});
 
 /**
  * Draws a text element on the canvas
@@ -943,7 +984,7 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image, HoveringText,
 
 	// Draw the hovering text
 	if ((HoveringText != null) && (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !CommonIsMobile) {
-		DrawButtonHover(Left, Top, Width, Height, HoveringText);
+		DrawHoverElements.push(() => DrawButtonHover(Left, Top, Width, Height, HoveringText));
 	}
 }
 
@@ -959,9 +1000,9 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image, HoveringText,
  * @param {string} [TextColor] - Color of the text
  * @returns {void} - Nothing
  */
-function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = false, TextColor = "Black") {
+function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = false, TextColor = "Black", CheckImage = "Icons/Checked.png") {
 	DrawText(Text, Left + 100, Top + 33, TextColor, "Gray");
-	DrawButton(Left, Top, Width, Height, "", Disabled ? "#ebebe4" : "White", IsChecked ? "Icons/Checked.png" : "", null, Disabled);
+	DrawButton(Left, Top, Width, Height, "", Disabled ? "#ebebe4" : "White", IsChecked ? CheckImage : "", null, Disabled);
 }
 
 /**
@@ -1048,7 +1089,7 @@ function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image, BackT
 	if (BackText == null) BackText = () => "MISSING VALUE FOR: BACK TEXT";
 	if (NextText == null) NextText = () => "MISSING VALUE FOR: NEXT TEXT";
 	if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !Disabled)
-		DrawButtonHover(Left, Top, Width, Height, MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : "");
+		DrawHoverElements.push(() => { DrawButtonHover(Left, Top, Width, Height, MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : "") });
 
 }
 
@@ -1177,18 +1218,10 @@ function DrawGetCustomBackground() {
 	const hood = InventoryGet(Player, "ItemHood");
 	let customBG = "";
 
-	if (blindfold && blindfold.Asset && blindfold.Asset.CustomBlindBackground) {
-		let type = "None";
-		if (blindfold.Property && blindfold.Property.Type && blindfold.Asset.CustomBlindBackground[blindfold.Property.Type] != null)
-			type = blindfold.Property.Type;
-		if (blindfold.Asset.CustomBlindBackground[type])
-			customBG = blindfold.Asset.CustomBlindBackground[type];
-	} else if (hood && hood.Asset && hood.Asset.CustomBlindBackground) {
-		let type = "None";
-		if (hood.Property && hood.Property.Type && hood.Asset.CustomBlindBackground[hood.Property.Type])
-			type = hood.Property.Type;
-		if (hood.Asset.CustomBlindBackground[type])
-			customBG = hood.Asset.CustomBlindBackground[type];
+	if (blindfold && blindfold.Property && blindfold.Property.CustomBlindBackground) {
+		customBG = blindfold.Property.CustomBlindBackground;
+	} else if (hood && hood.Property && hood.Property.CustomBlindBackground) {
+		customBG = hood.Property.CustomBlindBackground;
 	}
 
 	return customBG;
@@ -1202,14 +1235,12 @@ function DrawBlindFlash(intensity) {
 
 /**
  * Constantly looping draw process. Draws beeps, handles the screen size, handles the current blindfold state and draws the current screen.
+ * @param {number} time - The current time for frame
  * @returns {void} - Nothing
  */
-function DrawProcess() {
-	let RefreshDrawFunction = false;
-	if (DrawScreen != CurrentScreen) {
-		DrawScreen = CurrentScreen;
-		RefreshDrawFunction = true;
-	}
+function DrawProcess(time) {
+	// Clear the list of characters that were drawn last frame
+	DrawLastCharacters = [];
 
 	// Gets the current screen background and draw it, it becomes darker in dialog mode or if the character is blindfolded
 	let B = window[CurrentScreen + "Background"];
@@ -1239,25 +1270,25 @@ function DrawProcess() {
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
 	}
 
-	if (RefreshDrawFunction) {
-		DrawRun = DrawRunMap.get(CurrentScreen);
-		if (DrawRun == null) {
-			if (typeof window[CurrentScreen + "Run"] === 'function') {
-				DrawRun = window[CurrentScreen + "Run"];
-				DrawRunMap.set(CurrentScreen, DrawRun);
-			} else {
-				console.log("Trying to launch invalid function: " + CurrentScreen + "Run()");
-				DrawRun = () => { };
-			}
-		}
-	}
-
 	// Draws the dialog screen or current screen if there's no loaded character
 	if (CurrentCharacter != null) DialogDraw();
-	else DrawRun();
+	else CurrentScreenFunctions.Run(time);
+
+	// Draw Hovering text so they can be above everything else
+	DrawProcessHoverElements();
 
 	// Draws beep from online player sent by the server
 	ServerDrawBeep();
+
+
+	// Checks for screen resize/position change and calls appropriate function
+	const newCanvasPosition = [MainCanvas.canvas.offsetLeft, MainCanvas.canvas.offsetTop, MainCanvas.canvas.clientWidth, MainCanvas.canvas.clientHeight];
+	if (!CommonArraysEqual(newCanvasPosition, DrawCanvasPosition)) {
+		DrawCanvasPosition = newCanvasPosition;
+		if (CurrentScreenFunctions.Resize) {
+			CurrentScreenFunctions.Resize(false);
+		}
+	}
 
 	// Leave dialogs AFTER drawing everything
 	// If needed
@@ -1267,6 +1298,16 @@ function DrawProcess() {
 		DialogLeave();
 	}
 
+}
+
+/**
+ * Draws every element that is considered a "hover" element such has button tooltips.
+ * @returns {void} - Nothing
+ */
+function DrawProcessHoverElements() {
+	for (let E = 0; E < DrawHoverElements.length; E++)
+		if (typeof DrawHoverElements[0] === "function")
+			(DrawHoverElements.shift())();
 }
 
 /**
@@ -1284,14 +1325,16 @@ function DrawProcess() {
  * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
+ * @param {string[]} [Options.Icons] - A list of small icons to display in the top-left corner
  * @returns {void} - Nothing
  */
 function DrawAssetPreview(X, Y, A, Options) {
-	let {C, Description, Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled} = (Options || {});
-	const DynamicPreviewIcon = C ? A.DynamicPreviewIcon(C) : "";
-	const Path = `${AssetGetPreviewPath(A)}/${A.Name}${DynamicPreviewIcon}.png`;
+	let { C, Description, Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons} = (Options || {});
+	const DynamicPreviewImage = C ? A.DynamicPreviewImage(C) : "";
+	const Path = `${AssetGetPreviewPath(A)}/${A.Name}${DynamicPreviewImage}.png`;
 	if (Description == null) Description = C ? A.DynamicDescription(C) : A.Description;
-	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled });
+	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover,
+		HoverBackground, Disabled, Icons });
 }
 
 /**
@@ -1308,10 +1351,11 @@ function DrawAssetPreview(X, Y, A, Options) {
  * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
+ * @param {string[]} [Options.Icons] - A list of images to draw in the top-left of the preview box
  * @returns {void} - Nothing
  */
 function DrawPreviewBox(X, Y, Path, Description, Options) {
-	let {Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled} = (Options || {});
+	let {Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons} = (Options || {});
 	const Height = Description ? 275 : 225;
 	Background = Background || "#fff";
 	Foreground = Foreground || "#000";
@@ -1323,7 +1367,30 @@ function DrawPreviewBox(X, Y, Path, Description, Options) {
 	const ImageX = Vibrating ? X + 1 + Math.floor(Math.random() * 3) : X + 2;
 	const ImageY = Vibrating ? Y + 1 + Math.floor(Math.random() * 3) : Y + 2;
 	if (Path !== "") DrawImageResize(Path, ImageX, ImageY, 221, 221);
+	DrawPreviewIcons(Icons, X, Y);
 	if (Description) DrawTextFit(Description, X + 110, Y + 250, 221, Foreground);
+}
+
+/**
+ * Draws a list of small icons over a preview box
+ * @param {string[]} icons - An array of icon names
+ * @param {number} X - The X co-ordinate to start drawing from
+ * @param {number} Y - The Y co-ordinate to start drawing from
+ * @returns {void} - Nothing
+ */
+function DrawPreviewIcons(icons, X, Y) {
+	if (icons && icons.length) {
+		const iconsPerCol = 4;
+		const iconSize = 50;
+		icons.forEach((icon, index) => {
+			const iconX = X + (iconSize + 5) * Math.floor(index / iconsPerCol);
+			const iconY = Y + (iconSize + 5) * (index % iconsPerCol);
+			DrawImageResize(`Icons/Previews/${icon}.png`, iconX, iconY, iconSize, iconSize);
+			if (MouseIn(iconX, iconY, iconSize * 0.9, iconSize * 0.9)) {
+				DrawHoverElements.push(() => DrawButtonHover(iconX, iconY, 100, 65, DialogFindPlayer("PreviewIcon" + icon)));
+			}
+		});
+	}
 }
 
 /**

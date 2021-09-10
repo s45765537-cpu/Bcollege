@@ -170,7 +170,6 @@ function CafeConsumeSpeciiality() {
 	}
 }
 
-//
 /**
  * The cafe maid applies chosen bondage
  * @param {"Shibari" | "Tape" | "Leather" | "Latex" | "Heavy"} Style - The style of bondage chosen by the player
@@ -206,10 +205,7 @@ function CafeServiceBound(Style) {
 
 		// Gag Sub Types
 		if (Bondage == "ClothGag") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemMouth");
-			DialogExtendItem(InventoryGet(Player, "ItemMouth"));
-			Option = CommonRandomItemFromList(null, InventoryItemMouthClothGagOptions);
-			ExtendedItemSetType(Player, InventoryItemMouthClothGagOptions, Option);
+			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 	}
 
@@ -229,10 +225,7 @@ function CafeServiceBound(Style) {
         ExtendedItemSetType(Player, InventoryItemLegsDuctTapeOptions, Option);
 
         // Gag Sub Type
-        Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemMouth");
-        DialogExtendItem(InventoryGet(Player, "ItemMouth"));
-        Option = CommonRandomItemFromList(null, InventoryItemMouthDuctTapeOptions);
-        ExtendedItemSetType(Player, InventoryItemMouthDuctTapeOptions, Option);
+		TypedItemSetRandomOption(Player, "ItemMouth");
 	}
 
 	if (Style == "Leather") {
@@ -247,10 +240,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 15);
 
 		if (Bondage == "LeatherCuffs") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemArms");
-            DialogExtendItem(InventoryGet(Player, "ItemArms"));
-            Option = CommonRandomItemFromList(null, InventoryItemArmsLeatherCuffsOptions);
-            ExtendedItemSetType(Player, InventoryItemArmsLeatherCuffsOptions, Option);
+			TypedItemSetRandomOption(Player, "ItemArms");
 		}
 
 		// Legs
@@ -263,9 +253,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
 
 		if (Bondage == "LeatherLegCuffs") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemLegs");
-			DialogExtendItem(InventoryGet(Player, "ItemLegs"));
-			InventoryItemLegsLeatherLegCuffsSetPose("Closed");
+			TypedItemSetOptionByName(Player, "ItemLegs", "Closed");
 		}
 
 		// Gag
@@ -279,7 +267,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
 
 		// Locks
-		InventoryFullLockRandom(Player);
+		InventoryFullLockRandom(Player, false);
 	}
 
 	if (Style == "Latex") {
@@ -313,11 +301,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
 
 		if (Bondage == "PumpGag") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemMouth");
-            DialogExtendItem(InventoryGet(Player, "ItemMouth"));
-            Option = CommonRandomItemFromList(null, InventoryItemMouthPumpGagOptions);
-            ExtendedItemSetType(Player, InventoryItemMouthPumpGagOptions, Option);
-            CharacterLoadEffect(Player);
+			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 	}
 
@@ -333,10 +317,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 20);
 
 		if (Bondage == "StraitJacket") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemArms");
-			DialogExtendItem(InventoryGet(Player, "ItemArms"));
-			const Option = CommonRandomItemFromList(null, InventoryItemArmsStraitJacketOptions);
-			ExtendedItemSetType(Player, InventoryItemArmsStraitJacketOptions, Option);
+			TypedItemSetRandomOption(Player, "ItemArms");
 		}
 
 		// Legs
@@ -351,9 +332,7 @@ function CafeServiceBound(Style) {
 			InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
 
 			if (Bondage == "LeatherLegCuffs") {
-                Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemLegs");
-				DialogExtendItem(InventoryGet(Player, "ItemLegs"));
-				InventoryItemLegsLeatherLegCuffsSetPose("Closed");
+				TypedItemSetOptionByName(Player, "ItemLegs", "Closed");
 			}
 		}
 
@@ -369,18 +348,11 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemMouth");
 
 		if (Bondage == "PumpGag") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemMouth");
-            DialogExtendItem(InventoryGet(Player, "ItemMouth"));
-            Option = CommonRandomItemFromList(null, InventoryItemMouthPumpGagOptions);
-            ExtendedItemSetType(Player, InventoryItemMouthPumpGagOptions, Option);
-            CharacterLoadEffect(Player);
+			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 
 		if (Bondage == "PlugGag") {
-            Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemMouth");
-			DialogExtendItem(InventoryGet(Player, "ItemMouth"));
-			Option = CommonRandomItemFromList(null, InventoryItemMouthPlugGagOptions);
-			ExtendedItemSetType(Player, InventoryItemMouthPlugGagOptions, Option);
+			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 
 		// Head
@@ -398,7 +370,7 @@ function CafeServiceBound(Style) {
 		if (RandomNumber >= 4 && RandomNumber < 8) InventoryWear(Player, Bondage, "ItemHead");
 
 		// Locks
-		InventoryFullLockRandom(Player);
+		InventoryFullLockRandom(Player, false);
 	}
 
 	CharacterRefresh(Player);
@@ -443,6 +415,6 @@ function CafeGivenDildo() {
  */
 function CafeTurnDildoUp() {
 	DialogExtendItem(InventoryGet(Player, "ItemVulva"));
-	InventoryItemVulvaInflatableVibeDildoSetIntensity(1);
+	InventoryItemButtInflVibeButtPlugSetIntensity(1);
 	CafeVibeIncreased = true;
 }

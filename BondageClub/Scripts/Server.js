@@ -13,13 +13,19 @@ var ServerBeep = {};
 var ServerIsConnected = false;
 var ServerReconnectCount = 0;
 
+const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
+	"you know what you're doing and you trust the source. See " +
+	"https://github.com/Ben987/Bondage-College/wiki/Player-Safety#scripts--browser-extensions to learn more about " +
+	"script safety.";
+const ServerScriptWarningStyle = "display: inline-block; color: black; background: #ffe3ad; margin: 16px 0 8px 0; " +
+	"padding: 8px 4px; font-size: 20px; border: 6px solid #ffa600; font-family: 'Arial', sans-serif; line-height: 1.6;";
+
 /** Loads the server by attaching the socket events and their respective callbacks */
 function ServerInit() {
 	ServerSocket = io(ServerURL);
 	ServerSocket.on("connect", ServerConnect);
 	ServerSocket.on("disconnect", function () { ServerDisconnect(); });
 	ServerSocket.io.on("reconnect_attempt", ServerReconnecting);
-	ServerSocket.on("ServerMessage", function (data) { console.log(data); });
 	ServerSocket.on("ServerInfo", function (data) { ServerInfo(data); });
 	ServerSocket.on("CreationResponse", function (data) { CreationResponse(data); });
 	ServerSocket.on("LoginResponse", function (data) { LoginResponse(data); });
@@ -138,6 +144,14 @@ function ServerSetConnected(connected, errorMessage) {
 function ServerConnect() {
 	//console.info("Server connection established");
 	ServerSetConnected(true);
+	console.info("Connected to the Bondage Club Server.");
+
+	const userAgent = navigator.userAgent.toLowerCase();
+	if (userAgent.includes("chrome") || userAgent.includes("firefox")) {
+		console.log(`\n%c${ServerScriptMessage}%c \n`, ServerScriptWarningStyle, "");
+	} else {
+		console.log(ServerScriptMessage);
+	}
 }
 
 /**
@@ -193,12 +207,16 @@ function ServerDisconnect(data, close = false) {
 				RelogChatLog = document.getElementById("TextAreaChatLog").cloneNode(true);
 				RelogChatLog.id = "RelogChatLog";
 				RelogChatLog.name = "RelogChatLog";
+				RelogInputText = ElementValue("InputChat").trim();
 				ElementRemove("InputChat");
 				ElementRemove("TextAreaChatLog");
 				CurrentScreen = "ChatSearch";
 				CurrentModule = "Online";
 				CurrentCharacter = null;
-			} else RelogChatLog = null;
+			} else {
+				RelogChatLog = null;
+				RelogInputText = "";
+			}
 
 			// Keeps the relog data
 			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter };
@@ -226,7 +244,7 @@ function ServerPlayerIsInChatRoom() {
 		|| ((CurrentScreen == "InformationSheet") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentScreen == "Title") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentScreen == "OnlineProfile") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null))
+		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null || FriendListReturn.IsInChatRoom))
 		|| ((CurrentScreen == "Preference") && (InformationSheetPreviousScreen == "ChatRoom"))
 		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
 }
@@ -264,13 +282,14 @@ function ServerPlayerInventorySync() {
 }
 
 /**
- * Syncs player's blocked, limited and hidden items to the server
+ * Syncs player's favorite, blocked, limited and hidden items to the server
  * @returns {void} - Nothing
  */
 function ServerPlayerBlockItemsSync() {
 	ServerAccountUpdate.QueueData({
 		BlockItems: CommonPackItemArray(Player.BlockItems),
 		LimitedItems: CommonPackItemArray(Player.LimitedItems),
+		FavoriteItems: CommonPackItemArray(Player.FavoriteItems),
 		HiddenItems: Player.HiddenItems
 	}, true);
 }
@@ -356,7 +375,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 	if (SourceMemberNumber == null) SourceMemberNumber = C.MemberNumber;
 	const updateParams = ValidationCreateDiffParams(C, SourceMemberNumber);
 
-	const { appearance, updateValid } = Object.keys(appearanceDiffs)
+	let { appearance, updateValid } = Object.keys(appearanceDiffs)
 		.reduce(({ appearance, updateValid }, key) => {
 			const diff = appearanceDiffs[key];
 			const { item, valid } = ValidationResolveAppearanceDiff(diff[0], diff[1], updateParams);
@@ -364,6 +383,10 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 			updateValid = updateValid && valid;
 			return { appearance, updateValid };
 		}, { appearance: [], updateValid: true });
+
+	const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(appearance, appearanceDiffs);
+	appearance = cyclicBlockSanitizationResult.appearance;
+	updateValid = updateValid && cyclicBlockSanitizationResult.valid;
 
 	if (AppearanceFull) {
 		C.AppearanceFull = appearance;
@@ -526,6 +549,7 @@ function ServerPrivateCharacterSync() {
 				ArousalSettings: PrivateCharacter[ID].ArousalSettings,
 				Event: PrivateCharacter[ID].Event
 			};
+			if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
 			D.PrivateCharacter.push(C);
 		}
 		ServerAccountUpdate.QueueData(D);
@@ -542,15 +566,15 @@ function ServerAccountQueryResult(data) {
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Query != null) && (typeof data.Query === "string") && (data.Result != null)) {
 		if (data.Query == "OnlineFriends") FriendListLoadFriendList(data.Result);
 		if (data.Query == "EmailStatus" && data.Result && document.getElementById("InputEmailOld"))
-			document.getElementById("InputEmailOld").placeholder = TextGet("UpdateEmailLinked");
+			/** @type {HTMLInputElement} */ (document.getElementById("InputEmailOld")).placeholder = TextGet("UpdateEmailLinked");
 		if (data.Query == "EmailStatus" && !data.Result && document.getElementById("InputEmailNew"))
-			document.getElementById("InputEmailNew").placeholder = TextGet("UpdateEmailEmpty");
+			/** @type {HTMLInputElement} */ (document.getElementById("InputEmailNew")).placeholder = TextGet("UpdateEmailEmpty");
 		if (data.Query == "EmailUpdate") ElementValue("InputEmailNew", TextGet(data.Result ? "UpdateEmailSuccess" : "UpdateEmailFailure"));
 	}
 }
 
 /**
- * Callback used to parse received information related to ta beep from another account
+ * Callback used to parse received information related to a beep from another account
  * @param {object} data - Data object containing the beep object which contain at the very least a name and a member
  *     number
  * @returns {void} - Nothing
@@ -572,20 +596,24 @@ function ServerAccountBeep(data) {
 			}
 			ServerBeep.Message = `${DialogFindPlayer("BeepFrom")} ${ServerBeep.MemberName} (${ServerBeep.MemberNumber})`;
 			if (ServerBeep.ChatRoomName != null)
-				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\" " + (data.ChatRoomSpace === "Asylum" ? DialogFindPlayer("InAsylum") : '');
+				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + DialogFindPlayer("InAsylum") : '');
 			if (data.Message) {
 				ServerBeep.Message += `; ${DialogFindPlayer("BeepWithMessage")}`;
+				ServerBeep.IsMail = true;
 			}
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
 				MemberName: data.MemberName,
 				ChatRoomName: data.ChatRoomName,
 				ChatRoomSpace: data.ChatRoomSpace,
+				Private: data.Private,
 				Sent: false,
 				Time: new Date(),
 				Message: data.Message
 			});
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
+			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
+				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${ServerBeep.Message})</a>`);
 			if (!document.hasFocus()) {
 				NotificationRaise(NotificationEventType.BEEP, {
 					memberNumber: data.MemberNumber,
@@ -624,6 +652,28 @@ function ServerDrawBeep() {
 			NotificationReset(NotificationEventType.BEEP);
 		}
 	}
+}
+
+/** Handles a click on the beep rectangle if mail is included */
+function ServerClickBeep() {
+	if (
+		ServerBeep.IsMail &&
+		MouseIn((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50) &&
+		ServerBeep.Timer != null && ServerBeep.Timer > CurrentTime &&
+		CurrentScreen !== "FriendList"
+	) {
+		ServerOpenFriendList();
+		FriendListModeIndex = 1;
+		FriendListShowBeep(FriendListBeepLog.length - 1);
+	}
+}
+
+/** Opens the friendlist from any screen */
+function ServerOpenFriendList() {
+	DialogLeave();
+	ElementToggleGeneratedElements(CurrentScreen, false);
+	FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: ServerPlayerIsInChatRoom() };
+	CommonSetScreen("Character", "FriendList");
 }
 
 /**

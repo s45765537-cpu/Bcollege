@@ -4,11 +4,14 @@ var LoginMessage = "";
 var LoginCredits = null;
 var LoginCreditsPosition = 0;
 var LoginThankYou = "";
-var LoginThankYouList = ["Anna", "Aylea", "BlueEyedCat", "BlueWinter", "Brian", "Bryce", "Christian", "DarkStar", "Dini", "ElCriminal", 
-						"Epona", "Escurse", "FanRunner", "Greendragon", "KamiKaze", "Kimuriel", "Longwave", "Michal", "Michel", "Mike", 
-						"Mindtie", "Misa", "MrUniver", "Mzklopyu", "Nick", "Nightcore", "Overlord", "Rashiash", "Ray", "Remydy", 
-						"Rika", "RobinHood", "Rutherford", "Ryner", "Samuel", "SeraDenoir", "Shadow", "SkyLord", "Stephanie", "Tam", 
-						"TopHat", "Trent", "Troubadix", "William", "Xepherio", "Yuna", "Yurei", "Znarf"];
+/* eslint-disable */
+var LoginThankYouList = [
+						"Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "Bryce", "Chennifer", "Christian", "Clash", "DarkStar",
+						"Dini", "Edwin", "Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "JoeyDubDee", "KamiKaze", "Kimuriel",
+						"Longwave", "Michal", "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", "Rashiash",
+						"Ray", "Rika", "Robin", "Rutherford", "Ryner", "Samuel", "SeraDenoir", "Shadow", "Tam", "TBoneShark",
+						"TKSonix", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"];
+/* eslint-enable */
 var LoginThankYouNext = 0;
 var LoginSubmitted = false;
 var LoginIsRelog = false;
@@ -108,6 +111,7 @@ function LoginLoad() {
 	OnlneGameDictionaryLoad();
 	ElementCreateInput("InputName", "text", "", "20");
 	ElementCreateInput("InputPassword", "password", "", "20");
+	TextPrefetch("Room", "Mainhall");
 
 }
 
@@ -233,6 +237,8 @@ function LoginMaidItems() {
 		InventoryAdd(Player, "MaidOutfit2", "Cloth", false);
 		InventoryAdd(Player, "MaidHairband1", "Cloth", false);
 		InventoryAdd(Player, "MaidApron1", "Cloth", false);
+		InventoryAdd(Player, "MaidApron2", "Cloth", false);
+		InventoryAdd(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryAdd(Player, "MaidHairband1", "Hat", false);
 		InventoryAdd(Player, "ServingTray", "ItemMisc", false);
 	} else {
@@ -240,6 +246,8 @@ function LoginMaidItems() {
 		InventoryDelete(Player, "MaidOutfit2", "Cloth", false);
 		InventoryDelete(Player, "MaidHairband1", "Cloth", false);
 		InventoryDelete(Player, "MaidApron1", "Cloth", false);
+		InventoryDelete(Player, "MaidApron2", "Cloth", false);
+		InventoryDelete(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryDelete(Player, "MaidHairband1", "Hat", false);
 		InventoryDelete(Player, "ServingTray", "ItemMisc", false);
 	}
@@ -334,31 +342,46 @@ function LoginValidateArrays() {
 		Player.HiddenItems = CleanHiddenItems;
 		update = true;
 	}
+
+
+	var CleanFavoriteItems = AssetCleanArray(Player.FavoriteItems);
+	if (CleanFavoriteItems.length != Player.FavoriteItems.length) {
+		Player.FavoriteItems = CleanFavoriteItems;
+		update = true;
+	}
+
 	if (update)
 		ServerPlayerBlockItemsSync();
 }
 
 /**
  * Makes sure the difficulty restrictions are applied to the player
+ * @param {boolean} applyDefaults - If changing to the difficulty, set this to True to set LimitedItems to the default settings
  * @returns {void} Nothing
  */
-function LoginDifficulty() {
+function LoginDifficulty(applyDefaults) {
 
 	// If Extreme mode, the player cannot control her blocked items
 	if (Player.GetDifficulty() >= 3) {
-		LoginExtremeItemSettings();
+		LoginExtremeItemSettings(applyDefaults);
 		ServerPlayerBlockItemsSync();
 	}
 }
 
 /**
  * Set the item permissions for the Extreme difficulty
+ * @param {boolean} applyDefaults - When initially changing to extreme/whitelist, TRUE sets strong locks to limited permissions. When enforcing
+ * settings, FALSE allows them to remain as they are since the player could have changed them to fully open.
  * @returns {void} Nothing
  */
-function LoginExtremeItemSettings() {
+function LoginExtremeItemSettings(applyDefaults) {
 	Player.BlockItems = [];
-	// If the permissions are "Owner/Lover/Whitelist" don't limit the locks so that whitelist can use them
-	Player.LimitedItems = (Player.ItemPermission == 3) ? [] : MainHallStrongLocks;
+	if (applyDefaults) {
+		// If the item permissions are 3 = "Owner/Lover/Whitelist" don't limit the locks, since that just blocks whitelisted players
+		Player.LimitedItems = Player.ItemPermission == 3 ? [] : MainHallStrongLocks.map(L => { return { Name: L, Group: "ItemMisc", Type: null }; });
+	} else {
+		Player.LimitedItems = Player.LimitedItems.filter(item => MainHallStrongLocks.includes(item.Name));
+	}
 	Player.HiddenItems = [];
 }
 
@@ -369,7 +392,7 @@ function LoginExtremeItemSettings() {
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
 
-	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", Pos);
+	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
 }
 
 /**
@@ -388,10 +411,8 @@ function LoginResponse(C) {
 			LoginUpdateMessage();
 			ElementRemove("InputPassword");
 			Player.OnlineID = C.ID.toString();
-			CurrentModule = RelogData.Module;
-			CurrentScreen = RelogData.Screen;
 			CurrentCharacter = RelogData.Character;
-			TextLoad();
+			CommonSetScreen(RelogData.Module, RelogData.Screen);
 			var Elements = document.getElementsByClassName("HideOnDisconnect");
 			for (let E = 0; E < Elements.length; E++)
 				Elements[E].style.display = "";
@@ -431,6 +452,8 @@ function LoginResponse(C) {
 				typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
 			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems :
 				typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
+			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems :
+				typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
 			Player.HiddenItems = ((C.HiddenItems == null) || !Array.isArray(C.HiddenItems)) ? [] : C.HiddenItems;
 			// TODO: Migration code; remove after few versions (added R66)
 			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
@@ -450,6 +473,8 @@ function LoginResponse(C) {
 			Player.LastChatRoomTimer = C.LastChatRoomTimer;
 			if (typeof C.LastChatRoomAdmin == "string")
 				Player.LastChatRoomAdmin = CommonConvertStringToArray(C.LastChatRoomAdmin);
+			if (typeof C.LastChatRoomBan == "string")
+				Player.LastChatRoomBan = CommonConvertStringToArray(C.LastChatRoomBan);
 
 			// Loads the ownership data
 			Player.Ownership = C.Ownership;
@@ -467,6 +492,7 @@ function LoginResponse(C) {
 			Player.LabelColor = C.LabelColor;
 			Player.ItemPermission = C.ItemPermission;
 			Player.KinkyDungeonKeybindings = C.KinkyDungeonKeybindings;
+			Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 			Player.ArousalSettings = C.ArousalSettings;
 			Player.ChatSettings = C.ChatSettings;
 			Player.VisualSettings = C.VisualSettings;
@@ -488,6 +514,19 @@ function LoginResponse(C) {
 					Player.SavedExpressions.push(null);
 				}
 			}
+
+			// Load Favorited Colors
+			Player.SavedColors = C.SavedColors;
+			if (!Array.isArray(Player.SavedColors)) {
+				Player.SavedColors = [];
+			}
+			for (let i = 0; i < ColorPickerNumSaved; i++) {
+				if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V)) {
+					Player.SavedColors[i] = GetDefaultSavedColors()[i];
+				}
+			}
+			Player.SavedColors.length = ColorPickerNumSaved;
+
 			Player.WhiteList = ((C.WhiteList == null) || !Array.isArray(C.WhiteList)) ? [] : C.WhiteList;
 			Player.BlackList = ((C.BlackList == null) || !Array.isArray(C.BlackList)) ? [] : C.BlackList;
 			Player.FriendList = ((C.FriendList == null) || !Array.isArray(C.FriendList)) ? [] : C.FriendList;
@@ -505,7 +544,7 @@ function LoginResponse(C) {
 			Player.SubmissivesList = typeof C.SubmissivesList === "string" ? new Set(JSON.parse(LZString.decompressFromUTF16(C.SubmissivesList))) : new Set();
 			Player.GhostList = ((C.GhostList == null) || !Array.isArray(C.GhostList)) ? [] : C.GhostList;
 			Player.Infiltration = C.Infiltration;
-			LoginDifficulty();
+			LoginDifficulty(false);
 
 			// Loads the player character model and data
 			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
@@ -562,7 +601,7 @@ function LoginResponse(C) {
 			if (LogQuery("Locked", "Cell")) {
 				CommonSetScreen("Room", "Cell");
 			} else {
-				
+
 				// If the player must log back in Pandora's Box prison
 				if ((Player.Infiltration != null) && (Player.Infiltration.Punishment != null) && (Player.Infiltration.Punishment.Timer != null) && (Player.Infiltration.Punishment.Timer > CurrentTime)) {
 					PandoraWillpower = 0;
@@ -597,10 +636,10 @@ function LoginResponse(C) {
 			}
 
 		} else {
-            LoginStatusReset("ErrorLoadingCharacterData");
-        }
+			LoginStatusReset("ErrorLoadingCharacterData");
+		}
 	} else LoginStatusReset(C);
-    LoginUpdateMessage();
+	LoginUpdateMessage();
 }
 
 /**
@@ -627,11 +666,7 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 740, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
-		CharacterAppearanceSetDefault(Player);
-		InventoryRemove(Player, "ItemFeet");
-		InventoryRemove(Player, "ItemLegs");
-		InventoryRemove(Player, "ItemArms");
-		CharacterAppearanceLoadCharacter(Player);
+		CommonSetScreen("Character", "Disclaimer");
 	}
 
 	// Try to login
@@ -662,7 +697,7 @@ function LoginKeyDown() {
  */
 function LoginDoLogin() {
 
-    // Ensure the login request is not sent twice
+	// Ensure the login request is not sent twice
 	if (!LoginSubmitted && ServerIsConnected) {
 		var Name = ElementValue("InputName");
 		var Password = ElementValue("InputPassword");
@@ -672,7 +707,7 @@ function LoginDoLogin() {
 			ServerSend("AccountLogin", { AccountName: Name, Password: Password });
 		} else LoginStatusReset("InvalidNamePassword");
 	}
-    LoginUpdateMessage();
+	LoginUpdateMessage();
 
 }
 
@@ -681,20 +716,20 @@ function LoginDoLogin() {
  * @returns {void} Nothing
  */
 function LoginSetSubmitted() {
-    LoginSubmitted = true;
-    if (ServerIsConnected) LoginErrorMessage = "";
+	LoginSubmitted = true;
+	if (ServerIsConnected) LoginErrorMessage = "";
 }
 
 /**
  * Resets the login submission state
- * @param {boolean} IsRelog - whether or not we're on the relog screen
- * @param {string} ErrorMessage - the login error message to set if the login is invalid - if not specified, will clear the login error message
+ * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
+ * @param {boolean} [IsRelog=false] - whether or not we're on the relog screen
  * @returns {void} Nothing
  */
 function LoginStatusReset(ErrorMessage, IsRelog) {
-    LoginSubmitted = false;
-    LoginIsRelog = !!IsRelog;
-    if (ErrorMessage) LoginErrorMessage = ErrorMessage;
+	LoginSubmitted = false;
+	LoginIsRelog = !!IsRelog;
+	if (ErrorMessage) LoginErrorMessage = ErrorMessage;
 }
 
 /**
@@ -710,8 +745,8 @@ function LoginUpdateMessage() {
  * @returns {string} The key of the message to display
  */
 function LoginGetMessageKey() {
-    if (LoginErrorMessage) return LoginErrorMessage;
-    else if (!ServerIsConnected) return "ConnectingToServer";
-    else if (LoginSubmitted) return "ValidatingNamePassword";
-    else return LoginIsRelog ? "EnterPassword" : "EnterNamePassword";
+	if (LoginErrorMessage) return LoginErrorMessage;
+	else if (!ServerIsConnected) return "ConnectingToServer";
+	else if (LoginSubmitted) return "ValidatingNamePassword";
+	else return LoginIsRelog ? "EnterPassword" : "EnterNamePassword";
 }

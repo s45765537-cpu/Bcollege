@@ -110,11 +110,12 @@ function ShopRun() {
 		var Y = 125;
 		for (let A = ShopItemOffset; (A < ShopCart.length && A < ShopItemOffset + 12); A++) {
 			const Hidden = CharacterAppearanceItemIsHidden(ShopCart[A].Name, ShopCart[A].Group.Name);
-			const Description = ShopCart[A].Description + " " + (Math.ceil(ShopCart[A].Value * (ShopBuyMode ? 1 : 0.5))).toString()  + " $";
+			const Description = ShopCart[A].Description + " $" + (Math.ceil(ShopCart[A].Value * (ShopBuyMode ? 1 : 0.5))).toString();
 			const Background = MouseIn(X, Y, 225, 275) && !CommonIsMobile ? "cyan" : "#fff";
 			const Foreground = InventoryAvailable(Player, ShopCart[A].Name, ShopCart[A].Group.Name) ? "green" : "red";
+			const Icons = DialogGetAssetIcons(ShopCart[A]);
 			if (Hidden) DrawPreviewBox(X, Y, "Icons/HiddenItem.png", Description, { Background, Foreground });
-			else DrawAssetPreview(X, Y, ShopCart[A], { Description, Background, Foreground });
+			else DrawAssetPreview(X, Y, ShopCart[A], { Description, Background, Foreground, Icons });
 			X = X + 250;
 			if (X > 1800) {
 				X = 1000;
@@ -412,7 +413,7 @@ function ShopJobRestrain() {
 	// Add a random item on that body part and creates a customer
 	InventoryWearRandom(Player, ShopDemoItemGroup, 3);
 	ShopDemoItemPayment = Math.round(InventoryGet(Player, ShopDemoItemGroup).Asset.Value / 10);
-	if ((ShopDemoItemPayment == null) || (ShopDemoItemPayment < 5)) ShopDemoItemPayment = 5;
+	if ((ShopDemoItemPayment == null) || (ShopDemoItemPayment < 7)) ShopDemoItemPayment = 7;
 	ShopCustomer = CharacterLoadNPC("NPC_Shop_Customer");
 	ShopCustomer.AllowItem = false;
 	ShopCustomer.Stage = ShopDemoItemGroup + "0";

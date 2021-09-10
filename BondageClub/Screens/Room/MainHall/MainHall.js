@@ -14,11 +14,7 @@ var MainHallMaidWasCalledManually = false;
 
 var MainHallBeingPunished = false;
 var MainHallFirstFrame = false;
-var MainHallStrongLocks = [{ Name: "CombinationPadlock", Group: "ItemMisc", Type: null },
-	{ Name: "PasswordPadlock", Group: "ItemMisc", Type: null },
-	{ Name: "TimerPasswordPadlock", Group: "ItemMisc", Type: null },
-	{ Name: "HighSecurityPadlock", Group: "ItemMisc", Type: null },
-];
+var MainHallStrongLocks = ["CombinationPadlock", "PasswordPadlock", "TimerPasswordPadlock", "HighSecurityPadlock"];
 
 var MainHallPunishmentList = [
 	{ItemMouth:"BallGag", ItemHead: "LeatherBlindfold", ItemHands: "DuctTape"},
@@ -46,9 +42,8 @@ function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem() {
 			break;
 		}
 
-		let LockList = MainHallStrongLocks.map(L => L.Name);
-		for (let L = 0; L < LockList.length; L++) {
-			if (((Player.Appearance[E].Property != null) && (Player.Appearance[E].Property.LockedBy == LockList[L]))) {
+		for (let L = 0; L < MainHallStrongLocks.length; L++) {
+			if (((Player.Appearance[E].Property != null) && (Player.Appearance[E].Property.LockedBy == MainHallStrongLocks[L]))) {
 				needsHelp = true;
 				break;
 			}
@@ -149,8 +144,10 @@ function MainHallLoad() {
 	CommonReadCSV("NoArravVar", "Room", "AsylumEntrance", "Dialog_NPC_AsylumEntrance_KidnapNurse");
 	CommonReadCSV("NoArravVar", "Room", "AsylumEntrance", "Dialog_NPC_AsylumEntrance_EscapedPatient");
 	CommonReadCSV("NoArravVar", "Room", "Prison", "Dialog_NPC_Prison_Police");
-	CommonReadCSV("NoArravVar", "Character", "Relog", "Text_Relog");
-
+	TextPrefetch("Character", "Appearance");
+	TextPrefetch("Character", "InformationSheet");
+	TextPrefetch("Character", "Text_Relog");
+	TextPrefetch("Online", "ChatSearch");
 }
 
 /**
@@ -158,6 +155,7 @@ function MainHallLoad() {
  * @returns {void} - Nothing
  */
 function MainHallRun() {
+	KidnapLeagueResetOnlineBountyProgress();
 
 	// Out of punishment mode
 	if (!MainHallBeingPunished) {
@@ -246,6 +244,7 @@ function MainHallRun() {
 		DrawButton(1885, 625, 90, 90, "", "White", "Icons/Asylum.png", TextGet("Asylum"));
 
 		// Movie Studio (Must be able to change to enter it)
+		if (Player.CanChange() && !Player.IsRestrained() && Player.CanTalk()) DrawButton(1645, 745, 90, 90, "", "White", "Icons/Poker.png", TextGet("Poker"));
 		if (Player.CanChange()) DrawButton(1765, 745, 90, 90, "", "White", "Icons/Infiltration.png", TextGet("Infiltration"));
 		if (Player.CanChange()) DrawButton(1885, 745, 90, 90, "", "White", "Icons/MovieStudio.png", TextGet("MovieStudio"));
 
@@ -268,6 +267,9 @@ function MainHallRun() {
 		// Special permission to enter the maid quarters if doing the maid serving drinks quest while being restrained
 		if (Player.CanWalk() && (InventoryIsWorn(Player, "WoodenMaidTray", "ItemMisc") || InventoryIsWorn(Player, "WoodenMaidTrayFull", "ItemMisc")))
 			DrawButton(1765, 265, 90, 90, "", "White", "Icons/Maid.png", TextGet("MaidQuarters"));
+		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
+		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
+			DrawButton(1645, 385, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("KidnapLeague"));
 
 	}
 
@@ -321,7 +323,7 @@ function MainHallWalk(RoomName) {
 		var MeetKidnapper = ((ReputationGet("Kidnap") > 0) && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? Math.random() : 0;
 		var MeetClubSlave = Math.random();
 		var MeetPolice = (LogQuery("Joined", "BadGirl")) ? (Math.random() * PrisonWantedPlayer()) : 0;
-		var PandoraRevenge = (SkillGetLevel(Player, "Infiltration") >= 4) ? Math.random() * (SkillGetLevel(Player, "Infiltration") / 7) : 0;
+		var PandoraRevenge = (SkillGetLevel(Player, "Infiltration") >= 3) ? Math.random() * (SkillGetLevel(Player, "Infiltration") / 7) : 0;
 
 		// Starts the event with the highest value (picked at random)
 		if ((PandoraRevenge > MeetPolice) && (PandoraRevenge > PlayerClubSlave) && (PandoraRevenge > PlayerEscapedAsylum) && (PandoraRevenge > MeetEscapedPatient) && (PandoraRevenge > MeetKidnapper) && (PandoraRevenge > MeetClubSlave)) InfiltrationStartKidnapping();
@@ -391,6 +393,7 @@ function MainHallClick() {
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 625) && (MouseY < 715)) MainHallWalk("AsylumEntrance");
 
 		// Movie Studio (Must be able to change to enter it)
+		if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 745) && (MouseY < 855) && Player.CanChange() && !Player.IsRestrained() && Player.CanTalk()) MainHallWalk("Poker");
 		if ((MouseX >= 1765) && (MouseX < 1855) && (MouseY >= 745) && (MouseY < 855) && Player.CanChange()) MainHallWalk("Infiltration");
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 745) && (MouseY < 855) && Player.CanChange()) MainHallWalk("MovieStudio");
 
@@ -414,6 +417,11 @@ function MainHallClick() {
 		if (Player.CanWalk() && (InventoryIsWorn(Player, "WoodenMaidTray", "ItemMisc") || InventoryIsWorn(Player, "WoodenMaidTrayFull", "ItemMisc")))
 			if ((MouseX >= 1765) && (MouseX < 1855) && (MouseY >= 265) && (MouseY < 355))
 				MainHallWalk("MaidQuarters");
+
+		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
+		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
+			if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 385) && (MouseY < 475))
+				MainHallWalk("KidnapLeague");
 
 	}
 
@@ -449,9 +457,8 @@ function MainHallMaidReleasePlayer() {
 			if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
 		CharacterRelease(Player);
-		let LockList = MainHallStrongLocks.map(L => L.Name);
-		for (let L = 0; L < LockList.length; L++) {
-			CharacterReleaseFromLock(Player, LockList[L]);
+		for (let L = 0; L < MainHallStrongLocks.length; L++) {
+			CharacterReleaseFromLock(Player, MainHallStrongLocks[L]);
 		}
 		// Added to remove maids being disabled
 		if (LogQuery("MaidsDisabled", "Maid")) {

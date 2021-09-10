@@ -39,6 +39,7 @@ function ElementCreateTextArea(ID) {
 	if (document.getElementById(ID) == null) {
 		var TextArea = document.createElement("TextArea");
 		TextArea.setAttribute("ID", ID);
+		TextArea.setAttribute("screen-generated", CurrentScreen);
 		TextArea.setAttribute("name", ID);
 		TextArea.addEventListener("keydown", KeyDown);
 		TextArea.className = "HideOnPopup";
@@ -51,7 +52,7 @@ function ElementCreateTextArea(ID) {
  * @param {string} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
- * @param {string} MaxLength - Maximum input tag of the input to create.
+ * @param {string} [MaxLength] - Maximum input tag of the input to create.
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateInput(ID, Type, Value, MaxLength) {
@@ -61,6 +62,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength) {
 		Input.setAttribute("name", ID);
 		Input.setAttribute("type", Type);
 		Input.setAttribute("value", Value);
+		Input.setAttribute("screen-generated", CurrentScreen);
 		Input.setAttribute("maxlength", MaxLength);
 		Input.setAttribute("onfocus", "this.removeAttribute('readonly');");
 		Input.addEventListener("keydown", KeyDown);
@@ -171,7 +173,7 @@ function ElementCreateDropdown(ID, Options, ClickEventListener) {
 			Select.appendChild(Option);
 			DivOptions.appendChild(InnerDiv);
 		}
-		// Cretae the div for the selected item
+		// Create the div for the selected item
 		var SelectedItem = document.createElement("DIV");
 		SelectedItem.setAttribute("class", "select-selected");
 		SelectedItem.innerHTML = Select.options[0].innerHTML;
@@ -221,6 +223,7 @@ function ElementCreateDiv(ID) {
 		var Div = document.createElement("div");
 		Div.setAttribute("ID", ID);
 		Div.setAttribute("name", ID);
+		Div.setAttribute("screen-generated", CurrentScreen);
 		Div.addEventListener("keydown", KeyDown);
 		Div.className = "HideOnPopup";
 		document.body.appendChild(Div);
@@ -293,6 +296,12 @@ function ElementPosition(ElementID, X, Y, W, H) {
  * @returns {void} - Nothing
  */
 function ElementPositionFix(ElementID, Font, X, Y, W, H) {
+	var E = document.getElementById(ElementID);
+	// Verify the element exists
+	if (!E) {
+		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		return;
+	}
 
 	// Different positions based on the width/height ratio
 	const HRatio = MainCanvas.canvas.clientHeight / 1000;
@@ -304,7 +313,6 @@ function ElementPositionFix(ElementID, Font, X, Y, W, H) {
 	const Width = W * WRatio;
 
 	// Sets the element style
-	var E = document.getElementById(ElementID);
 	Object.assign(E.style, {
 		fontSize: Font + "px",
 		fontFamily: CommonGetFontName(),
@@ -348,7 +356,7 @@ function ElementScrollToEnd(ID) {
  * @param {string} ID - The id of the element to find the scroll percentage of.
  * @returns {(number|null)} - A float representing the scroll percentage.
  */
- function ElementGetScrollPercentage(ID) {
+function ElementGetScrollPercentage(ID) {
 	var element = document.getElementById(ID);
 	if (element != null) return (element.scrollTop + element.clientHeight) / element.scrollHeight;
 
@@ -373,4 +381,14 @@ function ElementIsScrolledToEnd(ID) {
 function ElementFocus(ID) {
 	if ((document.getElementById(ID) != null) && !CommonIsMobile)
 		document.getElementById(ID).focus();
+}
+
+/**
+ * Toggles HTML elements that were created by a given screen. When toggled off, they are hidden (not removed)
+ * @param {string} Screen - Screen for which to hide the elements generated
+ * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
+ */
+function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
+	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
+	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
 }

@@ -16,6 +16,7 @@ var ChatSearchPreviousActivePose = null;
 var ChatSearchIgnoredRooms = [];
 var ChatSearchMode = "";
 var ChatRoomJoinLeash = "";
+var ChatSearchRejoinIncrement = 1;
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
@@ -33,6 +34,12 @@ function ChatSearchLoad() {
 	ChatSearchQuery();
 	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
+
+	ChatSearchRejoinIncrement = 1;
+
+	TextPrefetch("Character", "FriendList");
+	TextPrefetch("Online", "ChatCreate");
+	TextPrefetch("Online", "ChatRoom");
 }
 
 /**
@@ -40,6 +47,7 @@ function ChatSearchLoad() {
  * @returns {void} - Nothing
  */
 function ChatSearchRun() {
+	KidnapLeagueResetOnlineBountyProgress();
 
 	if (ChatSearchMode == "")
 		ChatSearchNormalDraw();
@@ -80,7 +88,11 @@ function ChatSearchClick() {
 		ChatSearchMode = (ChatSearchMode == "Filter" ? "" : "Filter");
 		ChatSearchQuery();
 	}
-	if (MouseIn(1785, 885, 90, 90)) { ElementRemove("InputSearch"); CommonSetScreen("Character", "FriendList"); FriendListReturn = "ChatSearch"; }
+	if (MouseIn(1785, 885, 90, 90)) {
+		ElementRemove("InputSearch");
+		CommonSetScreen("Character", "FriendList");
+		FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule };
+	}
 	if (MouseIn(1885, 885, 90, 90)) ChatSearchExit();
 }
 
@@ -100,6 +112,7 @@ function ChatSearchExit() {
 	ChatSearchPreviousActivePose = Player.ActivePose;
 	ElementRemove("InputSearch");
 	CommonSetScreen("Room", ChatSearchLeaveRoom);
+	DrawingGetTextSize.clearCache();
 }
 
 /**
@@ -187,7 +200,6 @@ function ChatSearchNormalDraw() {
 }
 
 /**
- *
  * Garbles based on immersion settings
  * @param {string} Text - The text to garble
  * @returns {string} - Garbled text
@@ -372,7 +384,7 @@ function ChatSearchResponse(data) {
 
 /**
  * Handles the reception of the server data when it responds to the search query
- * @param {string} data - Response from the server, contains the room list matching the query
+ * @param {any[]} data - Response from the server, contains the room list matching the query
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {
@@ -419,7 +431,6 @@ function ChatSearchResultResponse(data) {
 			&& Player.LastChatRoomSize
 			&& Player.LastChatRoomDesc != null) {
 				ChatRoomPlayerCanJoin = true;
-				ChatRoomPlayerJoiningAsAdmin = true;
 				var block = [];
 				var ChatRoomName = Player.LastChatRoom;
 				var ChatRoomDesc = Player.LastChatRoomDesc;
@@ -427,27 +438,35 @@ function ChatSearchResultResponse(data) {
 					ChatRoomName = Player.Name + Player.MemberNumber
 					ChatRoomDesc = ""
 				} else*/
-				if (roomIsFull) {
-					ChatRoomName = ChatRoomName.substring(0, Math.min(ChatRoomName.length, 16)) + Math.floor(1+Math.random() * 998); // Added
-				}
-				if (ChatBlockItemCategory) block = ChatBlockItemCategory;
-				var NewRoom = {
-					Name: ChatRoomName.trim(),
-					Description: ChatRoomDesc.trim(),
-					Background: Player.LastChatRoomBG,
-					Private: Player.LastChatRoomPrivate,
-					Space: ChatRoomSpace,
-					Game: "",
-					Admin: [Player.MemberNumber],
-					Limit: ("" + Math.min(Math.max(Player.LastChatRoomSize, 2), 10)).trim(),
-					BlockCategory: block
-				};
-				ServerSend("ChatRoomCreate", NewRoom);
-				ChatCreateMessage = "CreatingRoom";
+				if ((ChatCreateMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
+					ChatSearchRejoinIncrement += 1;
+					let ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
+					ChatRoomName = ChatRoomName.substring(0, Math.min(ChatRoomName.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
 
-				if (Player.ImmersionSettings.ReturnToChatRoomAdmin && Player.LastChatRoomAdmin) {
-					NewRoom.Admin = Player.LastChatRoomAdmin;
-					ChatRoomNewRoomToUpdate = NewRoom;
+					Player.LastChatRoom = ChatRoomName;
+
+					ChatSearchQuery();
+				} else {
+					if (ChatBlockItemCategory) block = ChatBlockItemCategory;
+					var NewRoom = {
+						Name: ChatRoomName.trim(),
+						Description: ChatRoomDesc.trim(),
+						Background: Player.LastChatRoomBG,
+						Private: Player.LastChatRoomPrivate,
+						Space: ChatRoomSpace,
+						Game: "",
+						Admin: [Player.MemberNumber],
+						Limit: ("" + Math.min(Math.max(Player.LastChatRoomSize, 2), 10)).trim(),
+						BlockCategory: block
+					};
+					ServerSend("ChatRoomCreate", NewRoom);
+					ChatCreateMessage = "CreatingRoom";
+
+					if (Player.ImmersionSettings.ReturnToChatRoomAdmin && Player.LastChatRoomAdmin) {
+						NewRoom.Admin = Player.LastChatRoomAdmin;
+						ChatRoomNewRoomToUpdate = NewRoom;
+						ChatRoomNewRoomToUpdateTimer = CurrentTime + 1000;
+					}
 				}
 			} else {
 				ChatSearchMessage = roomIsFull ? "ResponseRoomFull" : "ResponseCannotFindRoom";
@@ -475,6 +494,8 @@ function ChatSearchQuery() {
 		} else {
 			ChatRoomSetLastChatRoom("");
 		}
+	} else {
+		ChatSearchRejoinIncrement = 1; // Reset the join increment
 	}
 
 	// Prevent spam searching the same thing.

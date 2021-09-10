@@ -114,8 +114,10 @@ function ItemColorDraw(c, group, x, y, width, height, includeResetButton) {
 	}
 
 	if (ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
-		if (ItemColorState.drawImportExport) {
+		if (ItemColorState.drawExport) {
 			DrawButton(ItemColorState.exportButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Export.png");
+		}
+		if (ItemColorState.drawImport) {
 			DrawButton(ItemColorState.importButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Import.png");
 		}
 		if (includeResetButton) {
@@ -183,7 +185,7 @@ function ItemColorDrawDefault(x, y) {
 		} else {
 			let currentColors;
 			const layerPage = ItemColorLayerPages[colorGroup.name];
-			const colorGroupName = ItemColorGroupNames.get(colorGroup.name);
+			const colorGroupName = ItemColorGroupNames.get(asset.Group.Name + asset.Name+ colorGroup.name);
 			if (layerPage === 0) {
 				currentColors = colorGroup.layers.map(layer => colors[layer.ColorIndex]);
 				groupName = colorGroupName + ": " + ItemColorText.get("All");
@@ -212,6 +214,7 @@ function ItemColorDrawDefault(x, y) {
  * @const {function(): void}
  */
 const ItemColorOnPickerChange = CommonLimitFunction((color) => {
+	if (!ItemColorState) return;
 	const newColors = ItemColorState.colors.slice();
 	ItemColorPickerIndices.forEach(i => newColors[i] = color);
 	ItemColorItem.Color = newColors;
@@ -247,18 +250,23 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 	}
 
 	if (ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
-		if (ItemColorState.drawImportExport && MouseIn(ItemColorState.exportButtonX, y, headerButtonSize, headerButtonSize)) {
-			return navigator.clipboard.writeText(ElementValue("InputColor"));
+		if (ItemColorState.drawExport && MouseIn(ItemColorState.exportButtonX, y, headerButtonSize, headerButtonSize)) {
+			navigator.clipboard
+				.writeText(ElementValue("InputColor"))
+				.catch(err => console.error("Clipboard write error: " + err));
+			return;
 		}
 
-		if (ItemColorState.drawImportExport && MouseIn(ItemColorState.importButtonX, y, headerButtonSize, headerButtonSize)) {
-			return navigator.clipboard.readText()
+		if (ItemColorState.drawImport && MouseIn(ItemColorState.importButtonX, y, headerButtonSize, headerButtonSize)) {
+			navigator.clipboard.readText()
 				.then(txt => ElementValue("InputColor", txt))
-				.catch(err => console.err("Clipboard error: " + err));
+				.catch(err => console.error("Clipboard read error: " + err));
+			return;
 		}
 
 		if (includeResetButton && MouseIn(ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize)) {
-			return ElementValue("InputColor", "Default");
+			ElementValue("InputColor", "Default");
+			return;
 		}
 	}
 
@@ -499,7 +507,7 @@ function ItemColorPreviousLayer(colorGroup) {
  * @param {boolean} [includeResetButton=false] - Whether or not to include the "Reset to default" button
  * @returns {void} - Nothing
  */
-function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton=false) {
+function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = false) {
 	ItemColorCharacter = c;
 	ItemColorItem = item;
 	const itemKey = AppearanceItemStringify({ item, x, y, width, height });
@@ -552,20 +560,24 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton=fa
 	const buttonHeight = ItemColorConfig.buttonSize;
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 
-	const drawImportExport = typeof navigator !== "undefined" && navigator.clipboard;
+	const drawExport = typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText;
+	const drawImport = typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.readText;
 	const paginationButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
 	const cancelButtonX = x + width - 2 * headerButtonSize - buttonSpacing;
 	const saveButtonX = x + width - headerButtonSize;
 	let importButtonX = 0;
 	let exportButtonX = 0;
 	let resetButtonX = 0;
-	if (drawImportExport) {
-		importButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
-		exportButtonX = x + width - 4 * headerButtonSize - 3 * buttonSpacing;
-		resetButtonX = x + width - 5 * headerButtonSize - 4 * buttonSpacing;
-	} else {
-		resetButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
+	let nbButtons = 2;
+	if (drawImport) {
+		importButtonX = x + width - (nbButtons + 1) * headerButtonSize - nbButtons * buttonSpacing;
+		nbButtons++;
 	}
+	if (drawExport) {
+		exportButtonX = x + width - (nbButtons + 1) * headerButtonSize - nbButtons * buttonSpacing;
+		nbButtons++;
+	}
+	resetButtonX = x + width - (nbButtons + 1) * headerButtonSize - nbButtons * buttonSpacing;
 	const colorPickerButtonX = x + width - colorPickerButtonWidth;
 	const colorDisplayButtonX = colorPickerButtonX - buttonSpacing - colorDisplayWidth;
 	const contentY = y + ItemColorConfig.headerButtonSize + buttonSpacing;
@@ -596,7 +608,8 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton=fa
 		exportButtonX,
 		importButtonX,
 		resetButtonX,
-		drawImportExport,
+		drawImport,
+		drawExport,
 	};
 }
 

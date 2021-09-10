@@ -30,8 +30,8 @@ var InventoryItemMouthFuturisticBallGagOptions = [
  */
 function InventoryItemMouthFuturisticHarnessBallGagLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else {
 		ExtendedItemLoad(InventoryItemMouthFuturisticBallGagOptions, "SelectGagType");
 		if (DialogFocusItem.Property == null) DialogFocusItem.Property = { Type: null, Option: InventoryItemMouthFuturisticBallGagOptions[0],
@@ -55,8 +55,8 @@ function InventoryItemMouthFuturisticHarnessBallGagExit() {
 */
 function InventoryItemMouthFuturisticHarnessBallGagDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else {
 		DrawAssetPreview(1387, 75, DialogFocusItem.Asset);
 
@@ -111,8 +111,8 @@ function InventoryItemMouthFuturisticHarnessBallGagDraw() {
  */
 function InventoryItemMouthFuturisticHarnessBallGagClick() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else {
 		if (MouseIn(1885, 25, 90, 90)) InventoryItemMouthFuturisticPanelGagExit();
 
@@ -157,10 +157,11 @@ function InventoryItemMouthFuturisticHarnessBallGagClick() {
 /**
  * Validates, if the chosen option is possible. Sets the global variable 'DialogExtendedMessage' to the appropriate error message, if not.
  * @param {Character} C - The character to validate the option for
+ * @param {Item} Item - The equipped item
  * @returns {string} - Returns false and sets DialogExtendedMessage, if the chosen option is not possible.
  */
-function InventoryItemMouthFuturisticHarnessBallGagValidate(C, Option) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Option) ;
+function InventoryItemMouthFuturisticHarnessBallGagValidate(C, Item) {
+	return InventoryItemFuturisticValidate(C, Item) ;
 }
 
 
@@ -184,6 +185,9 @@ function AssetsItemMouthFuturisticHarnessBallGagScriptDraw(data) {
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 	if (typeof property.BlinkState !== "number") property.BlinkState = 0;
+
+	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && data.Item && data.Item.Property && data.Item.Property.Sensitivity > 0) 
+		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime() + 400); // Trigger shortly after if the user speaks
 
 	if (persistentData.UpdateTime < CommonTime() && data.C == Player) {
 		if (CurrentScreen == "ChatRoom") {

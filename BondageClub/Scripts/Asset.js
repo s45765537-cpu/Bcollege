@@ -9,7 +9,11 @@ var AssetCurrentGroup;
 /** @type {Pose[]} */
 var Pose = [];
 
-// Adds a new asset group to the main list
+/**
+ * Adds a new asset group to the main list
+ * @param {IAssetFamily} NewAssetFamily
+ * @param {AssetGroupDefinition} NewAsset
+ */
 function AssetGroupAdd(NewAssetFamily, NewAsset) {
 	/** @type {AssetGroup} */
 	var A = {
@@ -23,6 +27,7 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		AllowNone: (NewAsset.AllowNone == null) ? true : NewAsset.AllowNone,
 		AllowColorize: (NewAsset.AllowColorize == null) ? true : NewAsset.AllowColorize,
 		AllowCustomize: (NewAsset.AllowCustomize == null) ? true : NewAsset.AllowCustomize,
+		Random: (NewAsset.Random == null) ? true : NewAsset.Random,
 		ColorSchema: (NewAsset.Color == null) ? ["Default"] : NewAsset.Color,
 		ParentSize: (NewAsset.ParentSize == null) ? "" : NewAsset.ParentSize,
 		ParentColor: (NewAsset.ParentColor == null) ? "" : NewAsset.ParentColor,
@@ -37,7 +42,7 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		SetPose: NewAsset.SetPose,
 		AllowPose: Array.isArray(NewAsset.AllowPose) ? NewAsset.AllowPose : [],
 		AllowExpression: NewAsset.AllowExpression,
-		Effect: NewAsset.Effect,
+		Effect: Array.isArray(NewAsset.Effect) ? NewAsset.Effect : [],
 		MirrorGroup: (NewAsset.MirrorGroup == null) ? "" : NewAsset.MirrorGroup,
 		RemoveItemOnRemove: (NewAsset.RemoveItemOnRemove == null) ? [] : NewAsset.RemoveItemOnRemove,
 		DrawingPriority: (NewAsset.Priority == null) ? AssetGroup.length : NewAsset.Priority,
@@ -54,7 +59,12 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 	AssetCurrentGroup = A;
 }
 
-// Adds a new asset to the main list
+/**
+ * Adds a new asset to the main list
+ * @param {AssetDefinition} NewAsset
+ * @param {ExtendedItemConfig} ExtendedConfig
+ * @returns {void} - Nothing
+ */
 function AssetAdd(NewAsset, ExtendedConfig) {
 	/** @type {Asset} */
 	var A = Object.assign({
@@ -81,8 +91,8 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		HideItemAttribute: NewAsset.HideItemAttribute || [],
 		Require: NewAsset.Require,
 		SetPose: (NewAsset.SetPose == null) ? AssetCurrentGroup.SetPose : NewAsset.SetPose,
-		AllowActivePose: (NewAsset.AllowActivePose == null) ? AssetCurrentGroup.AllowActivePose : NewAsset.AllowActivePose,
-		WhitelistActivePose: (NewAsset.WhitelistActivePose == null) ? AssetCurrentGroup.WhitelistActivePose : NewAsset.WhitelistActivePose,
+		AllowActivePose: NewAsset.AllowActivePose,
+		WhitelistActivePose: NewAsset.WhitelistActivePose,
 		Value: (NewAsset.Value == null) ? 0 : NewAsset.Value,
 		Difficulty: (NewAsset.Difficulty == null) ? 0 : NewAsset.Difficulty,
 		SelfBondage: (NewAsset.SelfBondage == null) ? 0 : NewAsset.SelfBondage,
@@ -105,6 +115,7 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		AlwaysExtend: (NewAsset.AlwaysExtend == null) ? false : NewAsset.AlwaysExtend,
 		AlwaysInteract: (NewAsset.AlwaysInteract == null) ? false : NewAsset.AlwaysInteract,
 		AllowLock: (NewAsset.AllowLock == null) ? false : NewAsset.AllowLock,
+		LayerVisibility: (NewAsset.LayerVisibility == null) ? false : NewAsset.LayerVisibility,
 		IsLock: (NewAsset.IsLock == null) ? false : NewAsset.IsLock,
 		PickDifficulty: (NewAsset.PickDifficulty == null) ? 0 : NewAsset.PickDifficulty,
 		OwnerOnly: (NewAsset.OwnerOnly == null) ? false : NewAsset.OwnerOnly,
@@ -121,14 +132,13 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		Audio: NewAsset.Audio,
 		Category: NewAsset.Category,
 		Fetish: NewAsset.Fetish,
-		CustomBlindBackground: NewAsset.CustomBlindBackground,
 		ArousalZone: (NewAsset.ArousalZone == null) ? AssetCurrentGroup.Name : NewAsset.ArousalZone,
 		IsRestraint: (NewAsset.IsRestraint == null) ? ((AssetCurrentGroup.IsRestraint == null) ? false : AssetCurrentGroup.IsRestraint) : NewAsset.IsRestraint,
 		BodyCosplay: (NewAsset.BodyCosplay == null) ? AssetCurrentGroup.BodyCosplay : NewAsset.BodyCosplay,
 		OverrideBlinking: (NewAsset.OverrideBlinking == null) ? false : NewAsset.OverrideBlinking,
 		DialogSortOverride: NewAsset.DialogSortOverride,
 		DynamicDescription: (typeof NewAsset.DynamicDescription === 'function') ? NewAsset.DynamicDescription : function () { return this.Description; },
-		DynamicPreviewIcon: (typeof NewAsset.DynamicPreviewIcon === 'function') ? NewAsset.DynamicPreviewIcon : function () { return ""; },
+		DynamicPreviewImage: (typeof NewAsset.DynamicPreviewImage === 'function') ? NewAsset.DynamicPreviewImage : function () { return ""; },
 		DynamicAllowInventoryAdd: (typeof NewAsset.DynamicAllowInventoryAdd === 'function') ? NewAsset.DynamicAllowInventoryAdd : function () { return true; },
 		DynamicExpressionTrigger: (typeof NewAsset.DynamicExpressionTrigger === 'function') ? NewAsset.DynamicExpressionTrigger : function () { return this.ExpressionTrigger; },
 		DynamicName: (typeof NewAsset.DynamicName === 'function') ? NewAsset.DynamicName : function () { return this.Name; },
@@ -154,9 +164,11 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		FixedPosition: typeof NewAsset.FixedPosition === "boolean" ? NewAsset.FixedPosition : false,
 		Layer: [],
 		ColorableLayerCount: 0,
+		CustomBlindBackground: typeof NewAsset.CustomBlindBackground === 'string' ? NewAsset.CustomBlindBackground : undefined,
 		FuturisticRecolor: typeof NewAsset.FuturisticRecolor === 'boolean' ? NewAsset.FuturisticRecolor : false,
 		FuturisticRecolorDisplay: typeof NewAsset.FuturisticRecolorDisplay === 'boolean' ? NewAsset.FuturisticRecolorDisplay : false,
 		Attribute: NewAsset.Attribute || [],
+		PreviewIcons: NewAsset.PreviewIcons || [],
 	}, AssetParsePoseProperties(NewAsset, AssetCurrentGroup.AllowPose.slice()));
 
 	// Ensure opacity value is valid
@@ -218,7 +230,7 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * Builds the layer array for an asset based on the asset definition. One layer is created for each drawable part of
  * the asset (excluding the lock). If the asset definition contains no layer definitions, a default layer definition
  * will be created.
- * @param {Object} AssetDefinition - The raw asset definition
+ * @param {AssetDefinition} AssetDefinition - The raw asset definition
  * @param {Asset} A - The built asset
  * @return {AssetLayer[]} - An array of layer objects representing the drawable layers of the asset
  */
@@ -229,8 +241,8 @@ function AssetBuildLayer(AssetDefinition, A) {
 
 /**
  * Maps a layer definition to a drawable layer object
- * @param {Object} Layer - The raw layer definition
- * @param {Object} AssetDefinition - The raw asset definition
+ * @param {AssetLayerDefinition} Layer - The raw layer definition
+ * @param {AssetDefinition} AssetDefinition - The raw asset definition
  * @param {Asset} A - The built asset
  * @param {number} I - The index of the layer within the asset
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
@@ -244,6 +256,8 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		ColorGroup: Layer.ColorGroup,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
 		AllowTypes: Array.isArray(Layer.AllowTypes) ? Layer.AllowTypes : null,
+		ModuleType: Array.isArray(Layer.ModuleType) ? Layer.ModuleType : null,
+		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
 		ParentGroupName: Layer.ParentGroup,
 		Priority: Layer.Priority || AssetDefinition.Priority || AssetCurrentGroup.DrawingPriority,
@@ -272,7 +286,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 
 /**
  * Resolves the AllowPose and HideForPose properties on a layer or an asset
- * @param {Asset | AssetLayer} obj - The asset or layer object
+ * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
  * @param {string[] | null} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
  * object
  * @return {{AllowPose?: string[], HideForPose: string[]}} - A partial object containing AllowPose and HideForPose
@@ -289,6 +303,11 @@ function AssetParsePoseProperties(obj, defaultAllowPose = null) {
 	return {AllowPose, HideForPose};
 }
 
+/**
+ * Parses and validates asset's opacity
+ * @param {number|undefined} opacity
+ * @returns {number}
+ */
 function AssetParseOpacity(opacity) {
 	if (typeof opacity === "number" && !isNaN(opacity)) {
 		return Math.max(0, Math.min(1, opacity));
@@ -298,8 +317,8 @@ function AssetParseOpacity(opacity) {
 
 /**
  * Determines whether a layer can be colorized, based on the layer definition and its parent asset/group definitions
- * @param {Object} Layer - The raw layer definition
- * @param {Object} NewAsset - The raw asset definition
+ * @param {AssetLayerDefinition} Layer - The raw layer definition
+ * @param {AssetDefinition} NewAsset - The raw asset definition
  * @return {boolean} - Whether or not the layer should be permit colors
  */
 function AssetLayerAllowColorize(Layer, NewAsset) {
@@ -310,8 +329,8 @@ function AssetLayerAllowColorize(Layer, NewAsset) {
 
 /**
  * Builds the alpha mask definitions for a layer, based on the
- * @param {Object} Layer - The raw layer definition
- * @param {Object} NewAsset - The raw asset definition
+ * @param {AssetLayerDefinition} Layer - The raw layer definition
+ * @param {AssetDefinition} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
  * @return {AlphaDefinition[]} - a list of alpha mask definitions for the layer
  */
@@ -348,9 +367,14 @@ function AssetAssignColorIndices(A) {
 	A.ColorableLayerCount = colorIndex;
 }
 
-// Builds the asset description from the CSV file
+/**
+ * Builds the asset description from the CSV file
+ * @param {IAssetFamily} Family
+ * @param {string[][]} CSV
+ */
 function AssetBuildDescription(Family, CSV) {
 
+	/** @type {Map<string, string>} */
 	const map = new Map();
 
 	for (const line of CSV) {
@@ -395,7 +419,10 @@ function AssetBuildDescription(Family, CSV) {
 
 }
 
-// Loads the description of the assets in a specific language
+/**
+ * Loads the description of the assets in a specific language
+ * @param {IAssetFamily} Family The asset family to load the description for
+ */
 function AssetLoadDescription(Family) {
 
 	// Finds the full path of the CSV file to use cache
@@ -415,7 +442,12 @@ function AssetLoadDescription(Family) {
 
 }
 
-// Loads a specific asset file
+/**
+ * Loads a specific asset file
+ * @param {AssetGroupDefinition[]} A
+ * @param {IAssetFamily} Family
+ * @param {ExtendedItemConfig} ExtendedConfig
+ */
 function AssetLoad(A, Family, ExtendedConfig) {
 
 	// For each group in the asset file

@@ -16,7 +16,11 @@ canvas {
     height: 100%;
   }
 }
-TextArea {
+input {
+	background: white;
+}
+textarea {
+	background: white;
 	resize: none;
 }
 * { -webkit-tap-highlight-color:rgba(0,0,0,0); }
@@ -75,11 +79,8 @@ TextArea {
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageWhisper, #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageWhisper {
   color: #555;
 }
-#TextAreaChatLog[data-colortheme="dark2"], #TextAreaChatLog[data-colortheme="light2"] {
-  font-size: 1.6rem !important;
-}
+
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessage, #TextAreaChatLog[data-colortheme="light2"] .ChatMessage {
-  font-size: 1.4rem;
   line-height: 1.4em;
   padding: 0.1em;
   padding-right: 2em;
@@ -425,4 +426,12 @@ input[type=range][data-thumb=player]::-moz-range-thumb {
 @font-face {
   font-family: 'Saira Stencil One';
   src: url('../Fonts/Saira Stencil One/SairaStencilOne-Regular.ttf');
+}
+@font-face {
+	font-family: 'Pacifico';
+	src: url('../Fonts/Pacifico/Pacifico-regular.ttf');
+}
+@font-face {
+    font-family: 'Satisfy';
+    src: url('../Fonts/Satisfy/Satisfy-Regular.ttf');
 }

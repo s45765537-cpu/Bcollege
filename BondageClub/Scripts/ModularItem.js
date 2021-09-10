@@ -61,7 +61,7 @@ const ModularItemDataLookup = {};
  * the same)
  * - PER_OPTION - The item has one chatroom message per option (for finer granularity - each individual option within a
  * module can have its own chatroom message)
- * @enum {string}
+ * @type {Record<"PER_MODULE"|"PER_OPTION", ModularItemChatSetting>}
  */
 const ModularItemChatSetting = {
 	PER_MODULE: "perModule",
@@ -91,6 +91,7 @@ function ModularItemRegister(asset, config) {
 	ModularItemCreateLoadFunction(data);
 	ModularItemCreateDrawFunction(data);
 	ModularItemCreateClickFunction(data);
+	ModularItemCreateExitFunction(data);
 	ModularItemGenerateValidationProperties(data);
 }
 
@@ -101,7 +102,7 @@ function ModularItemRegister(asset, config) {
  */
 function ModularItemCreateLoadFunction(data) {
 	const loadFunctionName = `${data.functionPrefix}Load`;
-	window[loadFunctionName] = function () {
+	const loadFunction = function () {
 		if (!DialogFocusItem.Property) {
 			const C = CharacterGetCurrent();
 			const currentModuleValues = ModularItemParseCurrent(data);
@@ -111,6 +112,11 @@ function ModularItemCreateLoadFunction(data) {
 		}
 		DialogExtendedMessage = DialogFindPlayer(`${data.dialogSelectPrefix}${ModularItemBase}`);
 	};
+	if (data.scriptHooks && data.scriptHooks.load) {
+		window[loadFunctionName] = function () {
+			data.scriptHooks.load(loadFunction);
+		};
+	} else window[loadFunctionName] = loadFunction;
 }
 
 /**
@@ -120,11 +126,16 @@ function ModularItemCreateLoadFunction(data) {
  */
 function ModularItemCreateDrawFunction(data) {
 	const drawFunctionName = `${data.functionPrefix}Draw`;
-	window[drawFunctionName] = function () {
+	const drawFunction = function () {
 		const currentModule = data.currentModule || ModularItemBase;
 		const drawFunction = data.drawFunctions[currentModule];
 		return drawFunction();
 	};
+	if (data.scriptHooks && data.scriptHooks.draw) {
+		window[drawFunctionName] = function () {
+			data.scriptHooks.draw(drawFunction);
+		};
+	} else window[drawFunctionName] = drawFunction;
 }
 
 /**
@@ -134,11 +145,30 @@ function ModularItemCreateDrawFunction(data) {
  */
 function ModularItemCreateClickFunction(data) {
 	const clickFunctionName = `${data.functionPrefix}Click`;
-	window[clickFunctionName] = function () {
+	const clickFunction = function () {
 		const currentModule = data.currentModule || ModularItemBase;
 		const clickFunction = data.clickFunctions[currentModule];
 		return clickFunction();
 	};
+	if (data.scriptHooks && data.scriptHooks.click) {
+		window[clickFunctionName] = function () {
+			data.scriptHooks.click(clickFunction);
+		};
+	} else window[clickFunctionName] = clickFunction;
+}
+
+/**
+ * Creates an asset's extended item exit function
+ * @param {ModularItemData} data - The typed item data for the asset
+ * @returns {void} - Nothing
+ */
+function ModularItemCreateExitFunction(data) {
+	const exitFunctionName = `${data.functionPrefix}Exit`;
+	if (data.scriptHooks && data.scriptHooks.exit) {
+		window[exitFunctionName] = function () {
+			data.scriptHooks.exit();
+		};
+	}
 }
 
 /**
@@ -147,23 +177,35 @@ function ModularItemCreateClickFunction(data) {
  * @param {ModularItemConfig} config - The item's extended item configuration
  * @returns {ModularItemData} - The generated modular item data for the asset
  */
-function ModularItemCreateModularData(asset, { Modules, ChatSetting, ChangeWhenLocked }) {
+function ModularItemCreateModularData(asset,
+	{ Modules, ChatSetting, ChatTags, ChangeWhenLocked, Dialog, ScriptHooks }) {
 	const key = `${asset.Group.Name}${asset.Name}`;
+	Dialog = Dialog || {};
 	/** @type {ModularItemData} */
 	const data = ModularItemDataLookup[key] = {
 		asset,
 		chatSetting: ChatSetting || ModularItemChatSetting.PER_OPTION,
 		key,
 		functionPrefix: `Inventory${key}`,
-		dialogSelectPrefix: `${key}Select`,
-		dialogModulePrefix: `${key}Module`,
-		dialogOptionPrefix: `${key}Option`,
-		chatMessagePrefix: `${key}Set`,
+		dialogSelectPrefix: Dialog.Select || `${key}Select`,
+		dialogModulePrefix: Dialog.ModulePrefix || `${key}Module`,
+		dialogOptionPrefix: Dialog.OptionPrefix || `${key}Option`,
+		chatMessagePrefix: Dialog.ChatPrefix || `${key}Set`,
+		chatTags: Array.isArray(ChatTags) ? ChatTags : [
+			CommonChatTags.SOURCE_CHAR,
+			CommonChatTags.DEST_CHAR,
+		],
 		modules: Modules,
 		currentModule: ModularItemBase,
 		pages: { [ModularItemBase]: 0 },
 		drawData: { [ModularItemBase]: ModularItemCreateDrawData(Modules.length) },
 		changeWhenLocked: typeof ChangeWhenLocked === "boolean" ? ChangeWhenLocked : true,
+		scriptHooks: {
+			load: ScriptHooks ? ScriptHooks.Load : undefined,
+			click: ScriptHooks ? ScriptHooks.Click : undefined,
+			draw: ScriptHooks ? ScriptHooks.Draw : undefined,
+			exit: ScriptHooks ? ScriptHooks.Exit : undefined,
+		},
 		drawFunctions: {},
 		clickFunctions: {},
 	};
@@ -223,6 +265,7 @@ function ModularItemCreateDrawBaseFunction(data) {
 		const buttonDefinitions = data.modules.map((module, i) => ([
 			`${AssetGetInventoryPath(data.asset)}/${module.Key}${currentModuleValues[i]}.png`,
 			`${data.dialogModulePrefix}${module.Name}`,
+			CharacterGetCurrent().ID === 0 && module.AllowSelfSelect === false ? "pink" : "white",
 		]));
 		return ModularItemDrawCommon(ModularItemBase, buttonDefinitions, data);
 	};
@@ -259,6 +302,11 @@ function ModularItemMapOptionToButtonDefinition(option, optionIndex, module,
  * @returns {void} - Nothing
  */
 function ModularItemDrawCommon(moduleName, buttonDefinitions, { asset, pages, drawData }) {
+	if (ExtendedItemSubscreen) {
+		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw");
+		return;
+	}
+
 	DrawAssetPreview(1387, 55, asset);
 	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 
@@ -313,7 +361,13 @@ function ModularItemCreateClickBaseFunction(data) {
 				const pageStart = pageNumber * ModularItemsPerPage;
 				const page = data.modules.slice(pageStart, pageStart + ModularItemsPerPage);
 				const module = page[i];
-				if (module) ModularItemModuleTransition(module.Name, data);
+				if (module) {
+					if (CharacterGetCurrent().ID === 0 && module.AllowSelfSelect === false) {
+						DialogExtendedMessage = DialogFindPlayer("CannotSelfSelect");
+						return;
+					}
+					ModularItemModuleTransition(module.Name, data);
+				}
 			},
 			(delta) => ModularItemChangePage(ModularItemBase, delta, data)
 		);
@@ -354,6 +408,11 @@ function ModularItemClickModule(module, data) {
  * @returns {void} - Nothing
  */
 function ModularItemClickCommon({ paginate, positions }, exitCallback, itemCallback, paginateCallback) {
+	if (ExtendedItemSubscreen) {
+		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
+		return;
+	}
+
 	// Exit button
 	if (MouseIn(1885, 25, 90, 90)) {
 		return exitCallback();
@@ -425,19 +484,38 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 	return options.reduce((mergedProperty, { Property }) => {
 		Property = Property || {};
 		mergedProperty.Difficulty += (Property.Difficulty || 0);
+		if (Property.CustomBlindBackground) mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
 		if (Property.Block) CommonArrayConcatDedupe(mergedProperty.Block, Property.Block);
 		if (Property.Effect) CommonArrayConcatDedupe(mergedProperty.Effect, Property.Effect);
 		if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);
 		if (Property.HideItem) CommonArrayConcatDedupe(mergedProperty.HideItem, Property.HideItem);
+		if (Property.SetPose) mergedProperty.SetPose = CommonArrayConcatDedupe(mergedProperty.SetPose || [], Property.SetPose);
+		if (typeof Property.OverridePriority === "number") mergedProperty.OverridePriority = Property.OverridePriority;
+		if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
+		if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
 		return mergedProperty;
 	}, {
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: asset.Difficulty,
+		CustomBlindBackground: asset.CustomBlindBackground,
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
 		Effect: Array.isArray(asset.Effect) ? asset.Effect.slice() : [],
 		Hide: Array.isArray(asset.Hide) ? asset.Hide.slice() : [],
 		HideItem: Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [],
 	});
+}
+
+/**
+ * Generates the type string for a modular item from its modules and their current values.
+ * @param {Record<string, { Height: number, Priority: number}>} currentValue - The OverrideHeight for the future item
+ * @param {Record<string, { Height: number, Priority: number}>} newValue - The OverrideHeight being merged
+ * @returns {Record<string, { Height: number, Priority: number}> | undefined} - A string type generated from the selected option values for each module
+ */
+function ModularItemMergeOverrideHeight(currentValue, newValue) {
+	if (typeof newValue.Height === "number" && typeof newValue.Priority === "number" &&
+	(!currentValue || (currentValue.Priority < currentValue.Priority)))
+		return {Height: newValue.Height, Priority: newValue.Priority};
+	return currentValue;
 }
 
 /**
@@ -512,7 +590,7 @@ function ModularItemSetType(module, index, data) {
 		ChatRoomCharacterItemUpdate(C, groupName);
 
 		if (ServerPlayerIsInChatRoom()) {
-			ModularItemChatRoomMessage(module, index, data);
+			ModularItemChatRoomMessage(module, currentModuleValues[moduleIndex], index, data);
 		} else if (C.ID === 0) {
 			DialogMenuButtonBuild(C);
 		} else {
@@ -520,19 +598,37 @@ function ModularItemSetType(module, index, data) {
 		}
 	}
 
-	ModularItemModuleTransition(ModularItemBase, data);
+	// If the module's option has a subscreen, transition to that screen instead of the main page of the item.
+	if (option.HasSubscreen) {
+		ExtendedItemSubscreen = module.Name + index;
+		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Load", C);
+	} else {
+		ModularItemModuleTransition(ModularItemBase, data);
+	}
 }
 
 /**
  * Publishes the chatroom message for a modular item when one of its modules has changed.
  * @param {ModularItemModule} module - The module that changed
+ * @param {number} previousIndex - The index of the previously selected option within the module
  * @param {number} index - The index of the newly chosen option within the module
- * @param {ModularItemData} - The modular item's data
+ * @param {ModularItemData} data - The modular item's data
  * @returns {void} - Nothing
  */
-function ModularItemChatRoomMessage(module, index, { chatSetting, chatMessagePrefix }) {
+function ModularItemChatRoomMessage(module, previousIndex, index, { asset, chatSetting, chatTags, chatMessagePrefix }) {
 	const C = CharacterGetCurrent();
 	let msg = chatMessagePrefix;
+	if (typeof msg === "function") {
+		/** @type ExtendedItemChatData<ModularItemOption> */
+		const chatData = {
+			C,
+			previousOption: module.Options[previousIndex],
+			newOption: module.Options[index],
+			previousIndex,
+			newIndex: index,
+		};
+		msg = msg(chatData);
+	}
 	switch (chatSetting) {
 		case ModularItemChatSetting.PER_OPTION:
 			msg += `${module.Key}${index}`;
@@ -541,10 +637,10 @@ function ModularItemChatRoomMessage(module, index, { chatSetting, chatMessagePre
 			msg += module.Name;
 			break;
 	}
-	var dictionary = [
-		{ Tag: CommonChatTags.SOURCE_CHAR, Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: CommonChatTags.DEST_CHAR, Text: C.Name, MemberNumber: C.MemberNumber },
-	];
+
+	const dictionary = chatTags
+		.map((tag) => ExtendedItemMapChatTagToDictionaryEntry(C, asset, tag))
+		.filter(Boolean);
 	ChatRoomPublishCustomAction(msg, false, dictionary);
 }
 
@@ -587,11 +683,21 @@ function ModularItemGenerateLayerAllowTypes(layer, data) {
 			}
 			return values;
 		});
-		layer.AllowTypes = ModularItemGenerateAllowType(data, (combination) => {
+
+		const GeneratedAllowTypes = ModularItemGenerateAllowType(data, (combination) => {
 			return allowedModuleCombinations.some(allowedCombination => {
 				return allowedCombination.every(combo => combination[combo[0]] === combo[1]);
 			});
 		});
+
+		// Append to the existing AllowTypes
+		layer.AllowTypes = Array.isArray(layer.AllowTypes) ? layer.AllowTypes : [];
+		layer.AllowTypes = layer.AllowTypes.concat(GeneratedAllowTypes);
+
+		// When option 0 is an allowed module, it means the undefined/null type is allowed.
+		if (allowedModuleCombinations.find(arr => arr.find(combo => combo[1] === 0))) {
+			layer.AllowTypes.push("");
+		}
 	}
 }
 
@@ -610,7 +716,7 @@ function ModularItemRequirementMessageCheck(option, currentOption, changeWhenLoc
 	if (!changeWhenLocked && itemLocked && !DialogCanUnlock(C, DialogFocusItem)) {
 		return DialogFindPlayer("CantChangeWhileLocked");
 	} else {
-		return ExtendedItemRequirementCheckMessage(option, currentOption, C.ID === 0);
+		return ExtendedItemRequirementCheckMessage(option, currentOption);
 	}
 }
 
