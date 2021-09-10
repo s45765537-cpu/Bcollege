@@ -68,12 +68,15 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ayesha - Added 2 new items ([#2881](https://github.com/Ben987/Bondage-College/pull/2881), [#2896](https://github.com/Ben987/Bondage-College/pull/2896))
   * Techno Collar
   * Techno helmet
-* Ace - Added the ability to view blocked categories from the chatroom admin screen, even for non-admins ([#2885](https://github.com/Ben987/Bondage-College/pull/2885))
-* Ace - Several friend list/beep improvements ([#2886](https://github.com/Ben987/Bondage-College/pull/2886), [#2893](https://github.com/Ben987/Bondage-College/pull/2893))
-  * Ability to click on beeps to open them
-  * New `/openfriendlist` chat command to open the friend list
-  * Beeps can now show up as a chat message to help prevent missed beeps (can be toggled via chat preferences)
-  * Option to hide room names from beeps
+* Ace - Added the ability to view blocked categories from the chatroom admin screen, even for
+  non-admins ([#2885](https://github.com/Ben987/Bondage-College/pull/2885))
+* Ace - Several friend list/beep improvements ([#2886](https://github.com/Ben987/Bondage-College/pull/2886)
+  , [#2893](https://github.com/Ben987/Bondage-College/pull/2893)
+  , [Server #103](https://github.com/Ben987/Bondage-Club-Server/pull/103))
+    * Ability to click on beeps to open them
+    * New `/openfriendlist` chat command to open the friend list
+    * Beeps can now show up as a chat message to help prevent missed beeps (can be toggled via chat preferences)
+    * Option to hide room names from beeps
 * Ace - Added previews to saved expressions ([#2904](https://github.com/Ben987/Bondage-College/pull/2904))
 * Akita/Aeren - Added 10 new back hair variants ([#2908](https://github.com/Ben987/Bondage-College/pull/2908))
 * Titania/Aeren - Added 2 new front hair variants ([#2908](https://github.com/Ben987/Bondage-College/pull/2908))
@@ -83,9 +86,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
   Exposed ([#2892](https://github.com/Ben987/Bondage-College/pull/2892)
   , [#2921](https://github.com/Ben987/Bondage-College/pull/2921))
 * Ace - Added labels to private rooms so that they are marked as private, even when revealed to
-  owners/lovers ([#2897](https://github.com/Ben987/Bondage-College/pull/2897))
+  owners/lovers ([#2897](https://github.com/Ben987/Bondage-College/pull/2897)
+  , [Server #104](https://github.com/Ben987/Bondage-Club-Server/pull/104))
 * Ace - Room recreation now preserves the room's ban list ([#2914](https://github.com/Ben987/Bondage-College/pull/2914)
-  , [#2916](https://github.com/Ben987/Bondage-College/pull/2916))
+  , [#2916](https://github.com/Ben987/Bondage-College/pull/2916)
+  , [Server #106](https://github.com/Ben987/Bondage-Club-Server/pull/106))
 * Aeren - Added a new large variant of the Double Ended
   Dildo ([#2915](https://github.com/Ben987/Bondage-College/pull/2915))
 * Ada - Added a new screen flash visual effect to shocks - controlled by the screen flash graphics
@@ -112,16 +117,28 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 * Nina - Fixed an issue where poker would report "One Pair" when it should be "High Card" ([#2860](https://github.com/Ben987/Bondage-College/pull/2860))
 * Ada - Fixed a bug where the Futuristic Training Belt would not turn off properly ([#2862](https://github.com/Ben987/Bondage-College/pull/2862))
-* Nina - Fixed a bug where players would receive a notification when someone with the same name as their owner entered the room ([#2890](https://github.com/Ben987/Bondage-College/pull/2890))
-* Nina - Fixed an issue where all asterisks were getting stripped from chat messages ([#2891](https://github.com/Ben987/Bondage-College/pull/2891))
-* Nina - Fixed an issue with the arousal meter glow sometimes rendering in the wrong place ([#2894](https://github.com/Ben987/Bondage-College/pull/2894))
-* Jomshir - Fixed an issue where text boxes would appear transparent on Android Chrome ([#2906](https://github.com/Ben987/Bondage-College/pull/2906))
-* Ace - Fixed a crash that could occur when taking a photo with a popup blocker enabled ([#2883](https://github.com/Ben987/Bondage-College/pull/2883))
-* Ace - Fixed a bug where names would not be hidden in activities when in sensory deprivation ([#2910](https://github.com/Ben987/Bondage-College/pull/2910))
+* Nina - Fixed a bug where players would receive a notification when someone with the same name as their owner entered
+  the room ([#2890](https://github.com/Ben987/Bondage-College/pull/2890))
+* Nina - Fixed an issue where all asterisks were getting stripped from chat
+  messages ([#2891](https://github.com/Ben987/Bondage-College/pull/2891))
+* Nina - Fixed an issue with the arousal meter glow sometimes rendering in the wrong
+  place ([#2894](https://github.com/Ben987/Bondage-College/pull/2894))
+* Jomshir - Fixed an issue where text boxes would appear transparent on Android
+  Chrome ([#2906](https://github.com/Ben987/Bondage-College/pull/2906))
+* Ace - Fixed a crash that could occur when taking a photo with a popup blocker
+  enabled ([#2883](https://github.com/Ben987/Bondage-College/pull/2883))
+* Ace - Fixed a bug where names would not be hidden in activities when in sensory
+  deprivation ([#2910](https://github.com/Ben987/Bondage-College/pull/2910))
 * Ace - Fixed an issue which could sometimes cause the color picker to
   crash ([#2911](https://github.com/Ben987/Bondage-College/pull/2911))
 * T-Bone Shark - Fixed some missing layer names for the Dildo Plug Gag & Futuristic Earphones, and fixed several
   chatroom action typos ([#2917](https://github.com/Ben987/Bondage-College/pull/2917))
+* Jomshir - Fixed an issue where shared settings (e.g. item permissions, whitelist/blacklist changes) would not properly
+  take effect immediately ([Server #97](https://github.com/Ben987/Bondage-Club-Server/pull/97))
+* Ace - Fixed a bug where lovers would incorrectly be labelled as submissives in the friend
+  list ([Server #99](https://github.com/Ben987/Bondage-Club-Server/pull/99))
+* Ace - Fixed an issue where players would sometimes appear to repeatedly join/leave a
+  chatroom ([Server #107](https://github.com/Ben987/Bondage-Club-Server/pull/107))
 
 ### [Technical]
 
@@ -135,10 +152,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
       , [#2909](https://github.com/Ben987/Bondage-College/pull/2909)
       , [#2879](https://github.com/Ben987/Bondage-College/pull/2879)
       , [#2913](https://github.com/Ben987/Bondage-College/pull/2913)
+      , [Server #108](https://github.com/Ben987/Bondage-Club-Server/pull/108)
     * Ada - [#2873](https://github.com/Ben987/Bondage-College/pull/2873)
       , [#2926](https://github.com/Ben987/Bondage-College/pull/2926)
     * Ellie - [#2888](https://github.com/Ben987/Bondage-College/pull/2888)
       , [#2920](https://github.com/Ben987/Bondage-College/pull/2920)
+    * Jomshir - [Server #98](https://github.com/Ben987/Bondage-Club-Server/pull/98)
 
 ### [Beta Fixes]
 
