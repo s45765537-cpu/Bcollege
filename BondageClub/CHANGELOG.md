@@ -19,6 +19,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Added]
 
+> ![Information](./Icons/Information.svg) There is a new page on [Player Safety](https://github.com/Ben987/Bondage-College/wiki/Player-Safety) in the game's wiki,
+containing safety & security tips for players. We'd encourage all players to give it a read.
+
 * Daddy Daubeny - Added 2 new items ([#2846](https://github.com/Ben987/Bondage-College/pull/2846)
   , [#2864](https://github.com/Ben987/Bondage-College/pull/2864))
     * Bib (Cloth Accessory)
@@ -60,10 +63,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ada - Added graphical preferences to center players in chatrooms and to smoothly zoom chatrooms when players enter/leave ([#2874](https://github.com/Ben987/Bondage-College/pull/2874))
 * Ace - Added multicolor support for the Foxy Mask in the hood slot ([#2895](https://github.com/Ben987/Bondage-College/pull/2895))
 * Verity - Added a new Mobile Phone handheld item ([#2902](https://github.com/Ben987/Bondage-College/pull/2902))
-* Ace - Clicking on a worn piece of clothing in the wardrobe will now open its extended options menu if it has one ([#2898](https://github.com/Ben987/Bondage-College/pull/2898))
-* Jomshir - Added the ability for owners to release their submissives ([#2537](https://github.com/Ben987/Bondage-College/pull/2537))
-  * To release a submissive, you need to first remove any collar they might be wearing
-* Ace - Added an icon to items to indicate when they are a limited permission item that you have access to ([#2905](https://github.com/Ben987/Bondage-College/pull/2905))
+* Ace - Clicking on a worn piece of clothing in the wardrobe will now open its extended options menu if it has
+  one ([#2898](https://github.com/Ben987/Bondage-College/pull/2898))
+* Jomshir - Added the ability for owners to release their
+  submissives ([#2537](https://github.com/Ben987/Bondage-College/pull/2537)
+  , [Server #91](https://github.com/Ben987/Bondage-Club-Server/pull/91))
+    * To release a submissive, you need to first remove any collar they might be wearing
+* Ace - Added an icon to items to indicate when they are a limited permission item that you have access
+  to ([#2905](https://github.com/Ben987/Bondage-College/pull/2905))
 * Ada - Added a new multiplayer minigame that can be accessed from the Kidnapper's League ([#2878](https://github.com/Ben987/Bondage-College/pull/2878))
 * Ayesha - Added 2 new items ([#2881](https://github.com/Ben987/Bondage-College/pull/2881), [#2896](https://github.com/Ben987/Bondage-College/pull/2896))
   * Techno Collar
@@ -157,7 +164,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
       , [#2926](https://github.com/Ben987/Bondage-College/pull/2926)
     * Ellie - [#2888](https://github.com/Ben987/Bondage-College/pull/2888)
       , [#2920](https://github.com/Ben987/Bondage-College/pull/2920)
-    * Jomshir - [Server #98](https://github.com/Ben987/Bondage-Club-Server/pull/98)
+  * Jomshir - [Server #98](https://github.com/Ben987/Bondage-Club-Server/pull/98)
+  * TessaTech - [Server #93](https://github.com/Ben987/Bondage-Club-Server/pull/93)
 
 ### [Beta Fixes]
 
