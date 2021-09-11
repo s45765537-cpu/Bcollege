@@ -583,7 +583,10 @@ var AssetFemale3DCG = [
 			{ Name: "Bra9", Value: 10, Hide: ["ItemNipples"] },
 			{ Name: "Bandeau1", Fetish: ["Lingerie"], Priority: 20, Value: 25, Hide: ["ItemNipples"] },
 			{ Name: "Bustier1", Fetish: ["Lingerie"], Value: 30, Hide: ["ItemNipples"] },
-			{ Name: "Bikini1", Value: 25, Hide: ["ItemNipples"] },
+			{
+				Name: "Bikini1", Value: 25, Hide: ["ItemNipples"],
+				PoseMapping: { Hogtied: "", Yoked: "" }
+			},
 			{ Name: "SexyBikini1", Value: 50, Hide: ["ItemNipples"], Extended: true,
 				Layer:[
 					{ Name: "Main", AllowColorize: true},
