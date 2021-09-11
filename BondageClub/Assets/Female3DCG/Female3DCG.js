@@ -288,7 +288,7 @@ var AssetFemale3DCG = [
 					{Name: "PawPrints", Left: 193, Top: 229, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p3"] },
 					{Name: "Cows", Left: 191, Top: 228, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p4"] },
 					{Name: "Hearts", Left: 194, Top: 228, HasType: false, CopyLayerColor: "Pacis", AllowModuleTypes: ["p5"] },
-					{Name: "Text", HasType: false}
+					{Name: "Text", HasImage: false}
 				]
 			},
 		],
