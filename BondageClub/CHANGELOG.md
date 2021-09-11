@@ -11,9 +11,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-09-10
-* Last recorded PR: [#2926](https://github.com/Ben987/Bondage-College/pull/2926)
-* Last recorded commit hash: `8564c09289bb2dfb2cac52b5e4480bde05926a6f`
+* Changelog last updated: 2021-09-11
+* Last recorded PR: [#2930](https://github.com/Ben987/Bondage-College/pull/2930)
+* Last recorded commit hash: `86a8d65072d7aac9bec91dd3d34009b27981c989`
+
 
 ## [R72]
 
@@ -80,6 +81,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ace - Several friend list/beep improvements ([#2886](https://github.com/Ben987/Bondage-College/pull/2886)
   , [#2893](https://github.com/Ben987/Bondage-College/pull/2893)
   , [Server #103](https://github.com/Ben987/Bondage-Club-Server/pull/103))
+  , [#2930](https://github.com/Ben987/Bondage-College/pull/2930)
     * Ability to click on beeps to open them
     * New `/openfriendlist` chat command to open the friend list
     * Beeps can now show up as a chat message to help prevent missed beeps (can be toggled via chat preferences)
