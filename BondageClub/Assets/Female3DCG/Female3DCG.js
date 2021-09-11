@@ -1684,7 +1684,7 @@ var AssetFemale3DCG = [
 		AllowColorize: false,
 		AllowCustomize: false,
 		AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "AllFours"],
-		Asset: ["Default"],
+		Asset: [{ Name: "Default", HideForPose: ["BackBoxTie", "BackCuffs", "BackElbowTouch"] }],
 		InheritColor: "BodyUpper",
 		Color: ["Default"],
 	},
