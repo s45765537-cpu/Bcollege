@@ -291,12 +291,12 @@ function CommonDrawAppearanceBuild(C, {
 		// const HideForPose = !!Pose && (A.HideForPose.find(P => Pose === P + "/") || Layer.HideForPose.find(P => Pose === P + "/"));
 		const ItemLocked = !!(Property && Property.LockedBy);
 
+		let PoseFolder = typeof Layer.PoseMapping[Pose] === "string" ? Layer.PoseMapping[Pose] : Pose;
+		if (PoseFolder) PoseFolder += '/';
 		// if (!HideForPose) {
 		if (Layer.HasImage && (!Layer.LockLayer || ItemLocked)) {
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
 			// that text)
-			let PoseFolder = Layer.PoseMapping[Pose] || Pose;
-			if (PoseFolder) PoseFolder += '/';
 			if ((Color != null) && (Color.indexOf("#") == 0) && Layer.AllowColorize) {
 
 				drawImageColorize(
@@ -332,12 +332,12 @@ function CommonDrawAppearanceBuild(C, {
 			// If we just drew the last drawable layer for this asset, draw the lock too (never colorized)
 			if (DrawableLayerCount === LayerCounts[CountKey]) {
 				drawImage(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + Pose + Expression + A.Name + (A.HasType ? Type : "") +
+					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + (A.HasType ? Type : "") +
 					"_Lock.png",
 					X, Y, AlphaMasks
 				);
 				drawImageBlink(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + Pose + BlinkExpression + A.Name + (A.HasType ? Type : "") +
+					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + (A.HasType ? Type : "") +
 					"_Lock.png", X, Y, AlphaMasks);
 			}
 		}
