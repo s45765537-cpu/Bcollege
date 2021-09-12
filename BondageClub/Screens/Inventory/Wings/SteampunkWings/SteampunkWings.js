@@ -1,17 +1,31 @@
 'use strict';
 
 function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt }) {
+	const MaxFrame = 8;
+	const MaxFrameGears = 2;
+	const Data = PersistentData();
+	if (typeof Data.State !== "number") Data.State = 0;
+	if (typeof Data.StateGears !== "number") Data.StateGears = 0;
+	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
+	if (typeof Data.ModifierGears !== "number") Data.ModifierGears = 1;
+
+	// Gears
+	if (L.includes("Gears")) {
+		return { LayerType: Data.StateGears === 0 ? '' : Data.StateGears};
+	}
+
+	// Others
 	if (!L.includes("Wing")) return;
 
-	const MaxFrame = 8;
-	const Data = PersistentData();
+	// Wings
 
-	if (typeof Data.State !== "number") Data.State = 0;
-	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 	if (Data.DrawRequested) {
 		if (Data.State == MaxFrame) Data.Modifier = -1;
 		if (Data.State == 0) Data.Modifier = 1;
+		if (Data.StateGears == MaxFrameGears) Data.ModifierGears = -1;
+		if (Data.StateGears == 0) Data.ModifierGears = 1;
 		Data.State += Data.Modifier;
+		Data.StateGears += Data.ModifierGears;
 	}
 
 	Data.DrawRequested = false;
@@ -21,7 +35,7 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 
 function AssetsWingsSteampunkWingsScriptDraw({ C, PersistentData }) {
 	const Data = PersistentData();
-	const FrameTime = 150;
+	const FrameTime = 250;
 
 	if (typeof Data.ChangeTime !== "number") Data.ChangeTime = CommonTime() + FrameTime;
 
