@@ -33,7 +33,10 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 	return { LayerType };
 }
 
-function AssetsWingsSteampunkWingsScriptDraw({ C, PersistentData }) {
+function AssetsWingsSteampunkWingsScriptDraw({ C, Item, PersistentData }) {
+	const Type = (Item.Property || {}).Type;
+	if (Type !== "On") return;
+
 	const Data = PersistentData();
 	const FrameTime = 250;
 

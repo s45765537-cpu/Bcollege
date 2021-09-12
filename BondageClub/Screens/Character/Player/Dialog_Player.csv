@@ -2486,6 +2486,9 @@ BraceletSpikeBandsSelect,,,Select a bracelet style.
 BraceletSpikeBandsBoth,,,Both arms
 BraceletSpikeBandsRight,,,Right arm
 BraceletSpikeBandsLeft,,,Left arm
+WingsSteampunkWingsSelect,,,Select the state.
+WingsSteampunkWingsOff,,,Off
+WingsSteampunkWingsOn,,,On
 PantiesDiapers4Select,,,Select a diaper pattern.
 PantiesDiapers4None,,,None
 PantiesDiapers4StrawBerry,,,Strawberries

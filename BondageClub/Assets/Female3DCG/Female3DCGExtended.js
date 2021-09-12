@@ -175,15 +175,15 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
 				Modules: [
-				{
-				Name: "Pattern", Key: "p",
-				Options: [{}, {}, {}, {}, {}, {}],
-				},
-				{
-				Name: "Txt", Key: "x",
-				Options: [{}, { HasSubscreen: true }],
-				},
-			]
+					{
+						Name: "Pattern", Key: "p",
+						Options: [{}, {}, {}, {}, {}, {}],
+					},
+					{
+						Name: "Txt", Key: "x",
+						Options: [{}, { HasSubscreen: true }],
+					},
+				]
 			}
 		}, // Bib
 	}, // ClothAccessory
@@ -249,7 +249,7 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 				Dictionary: [
-					({ newIndex, previousIndex }) => { return  { Tag: "Action", Text: newIndex > previousIndex ? "tightens" : "loosens" }},
+					({ newIndex, previousIndex }) => { return  { Tag: "Action", Text: newIndex > previousIndex ? "tightens" : "loosens" };},
 				],
 				Options: [
 					{
@@ -4612,4 +4612,26 @@ var AssetFemale3DCGExtended = {
 			}
 		}, // NoseRing
 	}, // ItemNose
+	Wings: {
+		SteampunkWings: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				DrawImages: false,
+				Options: [
+					{
+						Name: "Off",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "On",
+						Property: {
+							Type: "On",
+						},
+					},
+				],
+			}
+		}, // SteampunkWings
+	}, // Wings
 };
