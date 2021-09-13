@@ -104,10 +104,7 @@ async function prepareChangelog(release = "") {
 	// @ts-ignore
 	const git = simpleGit(bcRoot);
 
-	const commits = (await git.log({
-		'--remotes': 'upstream',
-		'--branches': 'master',
-	})).all;
+	const commits = (await git.log(['upstream/master'])).all;
 
 	const lastPos = commits.findIndex(c => c.hash === lastCommit);
 
