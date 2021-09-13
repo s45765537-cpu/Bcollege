@@ -11,10 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-09-11
-* Last recorded PR: [#2930](https://github.com/Ben987/Bondage-College/pull/2930)
-* Last recorded commit hash: `86a8d65072d7aac9bec91dd3d34009b27981c989`
-
+* Changelog last updated: 2021-09-13
+* Last recorded PR: [#2929](https://github.com/Ben987/Bondage-College/pull/2929)
+* Last recorded commit hash: `5c1a261e532d613219c442f72591e781359d5284`
 
 ## [R72]
 
@@ -63,7 +62,7 @@ containing safety & security tips for players. We'd encourage all players to giv
     * Bow Panties
 * Ada - Added graphical preferences to center players in chatrooms and to smoothly zoom chatrooms when players enter/leave ([#2874](https://github.com/Ben987/Bondage-College/pull/2874))
 * Ace - Added multicolor support for the Foxy Mask in the hood slot ([#2895](https://github.com/Ben987/Bondage-College/pull/2895))
-* Verity - Added a new Mobile Phone handheld item ([#2902](https://github.com/Ben987/Bondage-College/pull/2902))
+* Verity - Added two new Mobile Phone handheld items ([#2902](https://github.com/Ben987/Bondage-College/pull/2902), [#2929](https://github.com/Ben987/Bondage-College/pull/2929))
 * Ace - Clicking on a worn piece of clothing in the wardrobe will now open its extended options menu if it has
   one ([#2898](https://github.com/Ben987/Bondage-College/pull/2898))
 * Jomshir - Added the ability for owners to release their
@@ -171,7 +170,11 @@ containing safety & security tips for players. We'd encourage all players to giv
 
 ### [Beta Fixes]
 
-* Nothing... yet
+* Aeren - Fixed a 404 error for the Grand Mage Dress ([#2938](https://github.com/Ben987/Bondage-College/pull/2938))
+* Daddy Daubeny - Fixed a bug where all 3 versions of the Pacifier Gag needed to be bought individually from the shop ([#2941](https://github.com/Ben987/Bondage-College/pull/2941))
+* Ace - Fixed a bug where the spiral backgrounds from the Techno Helmet and VR Headset would appear as room background options ([#2943](https://github.com/Ben987/Bondage-College/pull/2943))
+* Ada - Fixed some incorrect dialogue for the Kidnapper's League NPC ([#2945](https://github.com/Ben987/Bondage-College/pull/2945))
+* Verity - Fixed an issue with the handheld icon no showing up for the phone ([#2929](https://github.com/Ben987/Bondage-College/pull/2929))
 
 
 ## [R71]
