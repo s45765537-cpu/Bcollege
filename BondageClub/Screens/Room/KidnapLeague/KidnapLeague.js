@@ -128,10 +128,10 @@ function KidnapLeagueCanKiss() { return (Player.CanTalk() && CurrentCharacter.Ca
  * @returns {void} - Nothing
  */
  function KidnapLeagueOnlineBountyFinish() {
-	let money = 20;
+	let money = 25;
 	let misc = InventoryGet(Player, "ItemMisc");
 	if (misc && misc.Property && misc.Property.Iterations && typeof misc.Property.Iterations === "number") {
-		money += 25 * misc.Property.Iterations;
+		money += 15 * misc.Property.Iterations;
 	}
 
 	InventoryRemove(Player, "ItemMisc");
