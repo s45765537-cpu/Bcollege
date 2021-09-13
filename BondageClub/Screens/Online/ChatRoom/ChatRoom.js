@@ -10,7 +10,6 @@ var ChatRoomTargetMemberNumber = null;
 var ChatRoomOwnershipOption = "";
 var ChatRoomLovershipOption = "";
 var ChatRoomPlayerCanJoin = false;
-var ChatRoomPlayerJoiningAsAdmin = false;
 var ChatRoomMoneyForOwner = 0;
 var ChatRoomQuestGiven = [];
 var ChatRoomSpace = "";
@@ -35,6 +34,7 @@ var ChatRoomLastPrivate = false;
 var ChatRoomLastSize = 0;
 var ChatRoomLastDesc = "";
 var ChatRoomLastAdmin = [];
+var ChatRoomLastBan = [];
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
 var ChatRoomLeashList = [];
@@ -77,6 +77,8 @@ const ChatRoomArousalMsg_ChanceGagMod = {
 	"Gag" : 0.3,
 };
 var ChatRoomPinkFlashTime = 0;
+var ChatRoomPinkFlashColor = "#FFB0B0";
+var ChatRoomPinkFlashAlphaStrength = 140;
 var ChatRoomHideIconState = 0;
 var ChatRoomMenuButtons = [];
 let ChatRoomFontSize = 30;
@@ -85,6 +87,12 @@ const ChatRoomFontSizes = {
 	Medium: 36,
 	Large: 44,
 };
+
+var ChatRoomCharacterX_Upper = 0;
+var ChatRoomCharacterX_Lower = 0;
+var ChatRoomCharacterZoom = 1;
+var ChatRoomSlideWeight = 9;
+var ChatRoomCharacterInitialize = true;
 
 /**
  * Chat room resize manager object: Handles resize events for the chat log.
@@ -194,6 +202,16 @@ function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (Current
  */
 function ChatRoomIsCollaredByPlayer() { return ((CurrentCharacter != null) && (CurrentCharacter.Ownership != null) && (CurrentCharacter.Ownership.Stage == 1) && (CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber)); }
 /**
+ * Checks if the current character is owned by the player. (Including trial)
+ * @returns {boolean} - TRUE if the current character is owned by the player.
+ */
+function ChatRoomIsOwnedByPlayer() { return CurrentCharacter != null && CurrentCharacter.Ownership != null && CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber; }
+/**
+ * Checks if the current character is wearing any collar.
+ * @returns {boolean} - TRUE if the current character is owned by the player.
+ */
+function ChatRoomIsWearingCollar() { return CurrentCharacter != null && InventoryGet(CurrentCharacter, "ItemNeck") !== null; }
+/**
  * Checks if the current character is lover of the player.
  * @returns {boolean} - TRUE if the current character is lover of the player.
  */
@@ -223,6 +241,73 @@ function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) 
  * @returns {boolean} - TRUE if the player can take a photo.
  */
 function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCategory && !ChatRoomData.BlockCategory.includes("Photos")) || !ChatRoomData; }
+
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCanTakeSuitcase() {
+	return ChatRoomCarryingBounty(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCanTakeSuitcaseOpened() {
+	return ChatRoomCarryingBountyOpened(CurrentCharacter) && CurrentCharacter.AllowItem;
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBounty(C) {
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCarryingBountyOpened(C) {
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcase() {
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
+}
+/**
+ * Checks if the player can start searching a player but the player is unbound
+ * @returns {boolean} - Returns TRUE if the player can start searching a player
+ */
+ function ChatRoomCantTakeSuitcaseOpened() {
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
+}
+/**
+ * Attempts to take the suitcase from the current player
+ * @returns {void}
+ */
+function ChatRoomTryToTakeSuitcase() {
+	ServerSend("ChatRoomChat", { Content: "TakeSuitcase", Type: "Hidden", Target: CurrentCharacter.MemberNumber});
+
+	if (KidnapLeagueOnlineBountyTarget == 0) {
+		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
+	}
+	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
+	CurrentCharacter = null;
+}
+/**
+ * Receives money from the suitcase
+ * @returns {void}
+ */
+function ChatRoomReceiveSuitcaseMoney() {
+	let money = Math.max(1, Math.ceil(45 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
+	CharacterChangeMoney(Player, money);
+	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: [{Tag: "MONEYAMOUNT", Text: ""+Math.ceil(money)}], Sender: Player.MemberNumber });
+	KidnapLeagueOnlineBountyTarget = 0;
+	KidnapLeagueOnlineBountyTargetStartedTime = 0;
+}
 
 /**
  * Checks if the player can give the target character her high security keys.
@@ -442,8 +527,6 @@ function DialogCanCallMaidsPunishmentOn() { return (DialogCanCallMaids() && (!Pl
  */
 function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Player.RestrictionSettings && Player.RestrictionSettings.BypassNPCPunishments);}
 
-
-
 /**
  * Creates the chat room input elements.
  * @returns {void} - Nothing.
@@ -502,6 +585,8 @@ function ChatRoomLoad() {
 		ChatRoomHideIconState = 0;
 	}
 	ChatRoomMenuBuild();
+
+	ChatRoomCharacterInitialize = true;
 
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
@@ -656,7 +741,18 @@ function ChatRoomDrawCharacter(DoClick) {
 
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
 	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
-	const Zoom = ChatRoomCharacterCount >= 3 ? Space / 400 : 1;
+
+	// Gradually slide the characters around to make room
+	let weight = ChatRoomSlideWeight;
+	if (ChatRoomCharacterInitialize || !(Player.GraphicsSettings && Player.GraphicsSettings.SmoothZoom)) {
+		ChatRoomCharacterInitialize = false;
+		weight = 0;
+	}
+	ChatRoomCharacterZoom = (ChatRoomCharacterZoom * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	ChatRoomCharacterX_Upper = (ChatRoomCharacterX_Upper * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
+	ChatRoomCharacterX_Lower = (ChatRoomCharacterX_Lower * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
+
+	const Zoom = ChatRoomCharacterZoom;
 	const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
 	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
 	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
@@ -668,7 +764,10 @@ function ChatRoomDrawCharacter(DoClick) {
 
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
-		const CharX = ChatRoomCharacterCount == 1 ? 0 : X + (C % 5) * Space;
+		let ChatRoomCharacterX = C >= 5 ? ChatRoomCharacterX_Lower : ChatRoomCharacterX_Upper;
+		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
+
+		const CharX = ChatRoomCharacterX + (ChatRoomCharacterCount == 1 ? 0 : X + (C % 5) * Space);
 		const CharY = ChatRoomCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
 		if (ChatRoomCharacterCount == 1 && ChatRoomCharacterDrawlist[C].ID !== 0) { // Only render the player!
 			continue;
@@ -733,6 +832,9 @@ function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
 		}
 		if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber)) {
 			DrawImageResize("Icons/Small/Admin.png", CharX + 125 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+		}
+		if (ChatRoomCarryingBounty(C)) {
+			DrawImageResize("Icons/Small/Money.png", CharX + 225 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
 		}
 		// Warning icon when game versions don't match
 		if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion) {
@@ -977,6 +1079,8 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomDesc = ChatRoomData.Description;
 			if (ChatRoomData && ChatRoomData.Admin)
 				Player.LastChatRoomAdmin = ChatRoomData.Admin;
+			if (ChatRoomData && ChatRoomData.Ban)
+				Player.LastChatRoomBan = ChatRoomData.Ban;
 
 			ChatRoomLastName = ChatRoomData.Name;
 			ChatRoomLastBG = ChatRoomData.Background;
@@ -984,6 +1088,7 @@ function ChatRoomSetLastChatRoom(room) {
 			ChatRoomLastPrivate = ChatRoomData.Private;
 			ChatRoomLastDesc = ChatRoomData.Description;
 			ChatRoomLastAdmin = ChatRoomData.Admin;
+			ChatRoomLastBan = ChatRoomData.Ban;
 		}
 	} else {
 		Player.LastChatRoomBG = "";
@@ -994,6 +1099,7 @@ function ChatRoomSetLastChatRoom(room) {
 		ChatRoomLastPrivate = false;
 		ChatRoomLastDesc = "";
 		ChatRoomLastAdmin = [];
+		ChatRoomLastBan = [];
 	}
 	Player.LastChatRoom = room;
 	var P = {
@@ -1003,6 +1109,7 @@ function ChatRoomSetLastChatRoom(room) {
 		LastChatRoomSize: Player.LastChatRoomSize,
 		LastChatRoomDesc: Player.LastChatRoomDesc,
 		LastChatRoomAdmin: Player.LastChatRoomAdmin.toString(),
+		LastChatRoomBan: Player.LastChatRoomBan.toString(),
 
 	};
 	ServerAccountUpdate.QueueData(P);
@@ -1012,7 +1119,7 @@ function ChatRoomSetLastChatRoom(room) {
  * Triggers a chat room event for things like plugs and crotch ropes, will send a chat message if the chance is right.
  * @returns {void} - Nothing.
  */
-function ChatRoomStimulationMessage(Context) {
+function ChatRoomStimulationMessage(Context, Color = "#FFB0B0", FlashIntensity = 0, AlphaStrength = 140) {
 	if (CurrentScreen == "ChatRoom" && Player.ImmersionSettings && Player.ImmersionSettings.StimulationEvents) {
 		var C = Player;
 		if (Context == null || Context == "") Context = "StruggleAction";
@@ -1035,103 +1142,115 @@ function ChatRoomStimulationMessage(Context) {
 		var trigGroup = "";
 		var trigPlug = "";
 		var arousalAmount = 0; // Increases based on how many items
-		for (let A = 0; A < C.Appearance.length; A++)
-			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Family == C.AssetFamily)) {
-				var trigChance = 0;
-				var trigMsgTemp = "";
-				var Intensity = InventoryItemHasEffect(C.Appearance[A], "Vibrating", true) ? InventoryGetItemProperty(C.Appearance[A], "Intensity", true) : 0;
-				if (InventoryItemHasEffect(C.Appearance[A], "CrotchRope", true)) {
-					if (trigChance == 0) trigChance = modBase;
-					trigMsgTemp = "CrotchRope";
-					arousalAmount += 2;
-				} else if (Intensity > 0) {
-					if (trigChance == 0 && modVibe > 0) trigChance = modBase; // Some things are not affected by vibration, like kneeling
-					trigChance += modVibe * Intensity;
-					trigMsgTemp = "Vibe";
-					arousalAmount += Intensity;
-					if (InventoryItemHasEffect(C.Appearance[A], "FillVulva", true) && Math.random() < 0.5) {
-						trigMsgTemp = "VibePlugFront";
-						arousalAmount += 1;
-						if (trigPlug == "Back") trigPlug = "Both";
-						else trigPlug = "Front";
-					}
-					if (InventoryItemHasEffect(C.Appearance[A], "IsPlugged", true) && Math.random() < 0.5) {
-						if (trigMsgTemp == "Vibe")
+
+		if (Context == "Flash") {
+			trigMsg = "Flash";
+			trigPriority = 2;
+		} else
+			for (let A = 0; A < C.Appearance.length; A++)
+				if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Family == C.AssetFamily)) {
+					var trigChance = 0;
+					var trigMsgTemp = "";
+					var Intensity = InventoryItemHasEffect(C.Appearance[A], "Vibrating", true) ? InventoryGetItemProperty(C.Appearance[A], "Intensity", true) : 0;
+					if (InventoryItemHasEffect(C.Appearance[A], "CrotchRope", true)) {
+						if (trigChance == 0) trigChance = modBase;
+						trigMsgTemp = "CrotchRope";
+						arousalAmount += 2;
+					} else if (Intensity > 0) {
+						if (trigChance == 0 && modVibe > 0) trigChance = modBase; // Some things are not affected by vibration, like kneeling
+						trigChance += modVibe * Intensity;
+						trigMsgTemp = "Vibe";
+						arousalAmount += Intensity;
+						if (InventoryItemHasEffect(C.Appearance[A], "FillVulva", true) && Math.random() < 0.5) {
 							trigMsgTemp = "VibePlugFront";
-						arousalAmount += 1;
-						if (trigPlug == "Front") trigPlug = "Both";
-						else trigPlug = "Back";
+							arousalAmount += 1;
+							if (trigPlug == "Back") trigPlug = "Both";
+							else trigPlug = "Front";
+						}
+						if (InventoryItemHasEffect(C.Appearance[A], "IsPlugged", true) && Math.random() < 0.5) {
+							if (trigMsgTemp == "Vibe")
+								trigMsgTemp = "VibePlugFront";
+							arousalAmount += 1;
+							if (trigPlug == "Front") trigPlug = "Both";
+							else trigPlug = "Back";
+						}
+					} else {
+						if (InventoryItemHasEffect(C.Appearance[A], "FillVulva", true)){
+							if (trigChance == 0) trigChance = modBase;
+							trigMsgTemp = "PlugFront";
+							arousalAmount += 1;
+							if (trigPlug == "Back") trigPlug = "Both";
+							else trigPlug = "Front";
+						}
+						if (InventoryItemHasEffect(C.Appearance[A], "IsPlugged", true)) {
+							if (trigChance == 0) trigChance = modBase;
+							if (trigMsgTemp == "")
+								trigMsgTemp = "PlugBack";
+							arousalAmount += 1;
+							if (trigPlug == "Front") trigPlug = "Both";
+							else trigPlug = "Back";
+						}
 					}
-				} else {
-					if (InventoryItemHasEffect(C.Appearance[A], "FillVulva", true)){
-						if (trigChance == 0) trigChance = modBase;
-						trigMsgTemp = "PlugFront";
-						arousalAmount += 1;
-						if (trigPlug == "Back") trigPlug = "Both";
-						else trigPlug = "Front";
+					if (trigMsgTemp != "" && Player.ArousalSettings && Player.ArousalSettings.Progress > 0) {
+						trigChance += modArousal * Player.ArousalSettings.Progress/100;
 					}
-					if (InventoryItemHasEffect(C.Appearance[A], "IsPlugged", true)) {
-						if (trigChance == 0) trigChance = modBase;
-						if (trigMsgTemp == "")
-							trigMsgTemp = "PlugBack";
-						arousalAmount += 1;
-						if (trigPlug == "Front") trigPlug = "Both";
-						else trigPlug = "Back";
+					if (trigMsgTemp != "") {
+						const Inflation = InventoryGetItemProperty(C.Appearance[A], "InflateLevel", true);
+						if (typeof Inflation === "number" && Inflation > 0) {
+							trigChance += modInflation * Inflation/4;
+							arousalAmount += Inflation/2;
+						}
 					}
-				}
-				if (trigMsgTemp != "" && Player.ArousalSettings && Player.ArousalSettings.Progress > 0) {
-					trigChance += modArousal * Player.ArousalSettings.Progress/100;
-				}
-				if (trigMsgTemp != "") {
-					const Inflation = InventoryGetItemProperty(C.Appearance[A], "InflateLevel", true);
-					if (typeof Inflation === "number" && Inflation > 0) {
-						trigChance += modInflation * Inflation/4;
-						arousalAmount += Inflation/2;
+
+					if (trigPlug == "Both") {
+						if ((trigMsgTemp == "VibePlugFront" || trigMsgTemp == "VibePlugBack"
+						|| trigMsgTemp == "PlugFront" || trigMsgTemp == "PlugBack") && Math.random() > 0.7) {
+							trigMsgTemp = "PlugBoth";
+							arousalAmount += 1;
+						}
 					}
-				}
 
-				if (trigPlug == "Both") {
-					if ((trigMsgTemp == "VibePlugFront" || trigMsgTemp == "VibePlugBack"
-					|| trigMsgTemp == "PlugFront" || trigMsgTemp == "PlugBack") && Math.random() > 0.7) {
-						trigMsgTemp = "PlugBoth";
-						arousalAmount += 1;
+
+					if (InventoryItemHasEffect(C.Appearance[A], "GagTotal", true) || InventoryItemHasEffect(C.Appearance[A], "GagTotal2", true)) {
+						if (trigChance == 0 && modGag > 0) trigChance = modBase; // Some things are not affected by vibration, like kneeling
+						trigChance += modGag;
+
+
+						if (trigChance > 0) {
+							arousalAmount += 12;
+							trigMsgTemp = "Gag";
+						}
 					}
-				}
 
-
-				if (InventoryItemHasEffect(C.Appearance[A], "GagTotal", true) || InventoryItemHasEffect(C.Appearance[A], "GagTotal2", true)) {
-					if (trigChance == 0 && modGag > 0) trigChance = modBase; // Some things are not affected by vibration, like kneeling
-					trigChance += modGag;
-
-
-					if (trigChance > 0) {
-						arousalAmount += 12;
-						trigMsgTemp = "Gag";
+					if (trigMsgTemp != "" && Math.random() < trigChance && trigChance >= trigPriority) {
+						trigPriority = trigChance;
+						trigMsg = trigMsgTemp;
+						trigGroup = C.Appearance[A].Asset.Group.Name;
 					}
-				}
 
-				if (trigMsgTemp != "" && Math.random() < trigChance && trigChance >= trigPriority) {
-					trigPriority = trigChance;
-					trigMsg = trigMsgTemp;
-					trigGroup = C.Appearance[A].Asset.Group.Name;
 				}
-
-			}
 
 		// Now we have a trigger message, hopefully!
 		if (trigMsg != "") {
-			// Increase player arousal to the zone
-			if (!Player.IsEdged() && Player.ArousalSettings && Player.ArousalSettings.Progress && Player.ArousalSettings.Progress < 70 - arousalAmount && trigMsgTemp != "Gag")
-				ActivityEffectFlat(Player, Player, arousalAmount, trigGroup, 1);
 
 			if ((Player.ChatSettings != null) && (Player.ChatSettings.ShowActivities != null) && !Player.ChatSettings.ShowActivities) return;
 
-			ChatRoomPinkFlashTime = CommonTime() + (Math.random() + arousalAmount/2.4) * 500;
+			if (Context == "Flash") {
+				ChatRoomPinkFlashTime = CommonTime() + (Math.random() + FlashIntensity) * 500;
+				ChatRoomPinkFlashColor = Color;
+				ChatRoomPinkFlashAlphaStrength = AlphaStrength;
+			} else {
+				// Increase player arousal to the zone
+				if (!Player.IsEdged() && Player.ArousalSettings && Player.ArousalSettings.Progress && Player.ArousalSettings.Progress < 70 - arousalAmount && trigMsgTemp != "Gag")
+					ActivityEffectFlat(Player, Player, arousalAmount, trigGroup, 1);
+				ChatRoomPinkFlashTime = CommonTime() + (Math.random() + arousalAmount/2.4) * 500;
+				ChatRoomPinkFlashColor = Color;
+				ChatRoomPinkFlashAlphaStrength = AlphaStrength;
+				CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil((ChatRoomPinkFlashTime - CommonTime())/250));
 
-			CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil((ChatRoomPinkFlashTime - CommonTime())/250));
-
-			var index = Math.floor(Math.random() * 3);
-			ChatRoomMessage({ Content: "ChatRoomStimulationMessage"+trigMsg+""+index, Type: "Action", Sender: Player.MemberNumber });
+				var index = Math.floor(Math.random() * 3);
+				ChatRoomMessage({ Content: "ChatRoomStimulationMessage"+trigMsg+""+index, Type: "Action", Sender: Player.MemberNumber });
+			}
 		}
 	}
 }
@@ -1154,12 +1273,13 @@ function ChatRoomResize(load) {
 
 /**
  * Draws arousal screen filter
- * @param {Y} - Y to draw filter at.
- * @param {Height} - Height of filter
- * @param {Width} - Width of filter
+ * @param {number} y1 - Y to draw filter at.
+ * @param {number} h - Height of filter
+ * @param {number} Width - Width of filter
+ * @param {number} ArousalOverride - Override to the existing arousal value
  * @returns {void} - Nothing.
  */
-function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
+ function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
 	let Progress = (ArousalOverride) ? ArousalOverride : Player.ArousalSettings.Progress;
 	let amplitude = 0.24 * Math.min(1, 2 - 1.5 * Progress/100); // Amplitude of the oscillation
 	let percent = Progress/100.0;
@@ -1185,12 +1305,155 @@ function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
 			DrawRect(0, y1, Width, h, `rgba(255, 176, 176, ${alpha})`);
 	}
 }
+/**
+ * Draws vibration screen filter for the specified player
+ * @param {number} y1 - Y to draw filter at.
+ * @param {number} h - Height of filter
+ * @param {number} Width - Width of filter
+ * @param {Character} C - Player to draw it for
+ * @returns {void} - Nothing.
+ */
+function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
+	let VibratorLevelLower = 0;
+	let VibratorLevelUpper = 0;
+	for (let A = 0; A < C.Appearance.length; A++) {
+		if (C.Appearance[A] && C.Appearance[A].Property) {
+			let property = C.Appearance[A].Property;
+			if (property.Effect && property.Effect.includes("Vibrating") && property.Intensity >= 0) {
+				let intensity = property.Intensity + 1;
+				let group = (C.Appearance[A].Asset && C.Appearance[A].Asset.Group) ? C.Appearance[A].Asset.Group.Name : "";
+				if (group == "ItemVulva" || group == "ItemPelvis" || group == "ItemButt" || group == "ItemVulvaPiercings") {
+					VibratorLevelLower += (100 -VibratorLevelLower) * 0.7*Math.min(1, intensity/4);
+				} else {
+					VibratorLevelUpper += (100 -VibratorLevelUpper) * 0.7*Math.min(1, intensity/4);
+				}
+			}
+		}
+	}
+	ChatRoomDrawVibrationScreenFilter(y1, h, Width, VibratorLevelLower, VibratorLevelUpper);
+}
+
+/**
+ * Draws vibration screen filter
+ * @param {number} y1 - Y to draw filter at.
+ * @param {number} h - Height of filter
+ * @param {number} Width - Width of filter
+ * @param {number} VibratorLower - 1-100 Strength of the vibrator "Down There"
+ * @param {number} VibratorSides - 1-100 Strength of the vibrator at the breasts/nipples
+ * @returns {void} - Nothing.
+ */
+ function ChatRoomDrawVibrationScreenFilter(y1, h, Width, VibratorLower, VibratorSides) {
+	let amplitude = 0.24; // Amplitude of the oscillation
+	let percentLower = VibratorLower/100.0;
+	let percentSides = VibratorSides/100.0;
+	let level = Math.min(0.5, Math.max(percentLower, percentSides)) + 0.5 * Math.pow(Math.max(0, Math.max(percentLower, percentSides)*2 - 1), 4);
+	let oscillation = Math.sin(CommonTime() / 1000 % Math.PI);
+	if (Player.ArousalSettings.VFXVibrator != "VFXVibratorAnimated") oscillation = 0;
+	let alpha = 0.6 * level * (0.99 - amplitude + amplitude * oscillation);
+
+	if (VibratorLower > 0) {
+		const Grad = MainCanvas.createRadialGradient(Width/2, y1, 0, Width/2, y1, h);
+		let alphamin = Math.max(0, alpha / 2 - 0.05);
+		let modifier = (Player.ArousalSettings.VFXVibrator == "VFXVibratorAnimated") ? Math.random() * 0.01: 0;
+		Grad.addColorStop(VibratorLower / 100 * (0.7 + modifier), `rgba(255, 100, 176, 0)`);
+		Grad.addColorStop(VibratorLower / 100 * (0.85 - 0.1*percentLower * (0.5 * oscillation)), `rgba(255, 100, 176, ${alphamin})`);
+		Grad.addColorStop(1, `rgba(255, 100, 176, ${alpha})`);
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(0, y1, Width, h);
+	}
+	if (VibratorSides > 0) {
+		let Grad = MainCanvas.createRadialGradient(0, 0, 0, 0, 0, Math.sqrt(h*h + Width*Width));
+		let alphamin = Math.max(0, alpha / 2 - 0.05);
+		let modifier = (Player.ArousalSettings.VFXVibrator == "VFXVibratorAnimated") ? Math.random() * 0.01: 0;
+		Grad.addColorStop(VibratorSides / 100 * (0.8 + modifier), `rgba(255, 100, 176, 0)`);
+		Grad.addColorStop(VibratorSides / 100 * (0.9 - 0.07*percentSides * (0.5 * oscillation)), `rgba(255, 100, 176, ${alphamin})`);
+		Grad.addColorStop(1, `rgba(255, 100, 176, ${alpha})`);
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(0, y1, Width, h);
+
+		Grad = MainCanvas.createRadialGradient(Width, 0, 0, Width, 0, Math.sqrt(h*h + Width*Width));
+		modifier = (Player.ArousalSettings.VFXVibrator == "VFXVibratorAnimated") ? Math.random() * 0.01: 0;
+		Grad.addColorStop(VibratorSides / 100 * (0.8 + modifier), `rgba(255, 100, 176, 0)`);
+		Grad.addColorStop(VibratorSides / 100 * (0.9 - 0.07*percentSides * (0.5 * oscillation)), `rgba(255, 100, 176, ${alphamin})`);
+		Grad.addColorStop(1, `rgba(255, 100, 176, ${alpha})`);
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(0, y1, Width, h);
+	}
+}
+
+/**
+ * Runs the chatroom online bounty loop.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomUpdateOnlineBounty() {
+	if (Player.CanInteract()) {
+		KidnapLeagueSearchingPlayers = [];
+	} else if (KidnapLeagueSearchingPlayers.length > 0) {
+		let misc = InventoryGet(Player, "ItemMisc");
+		if (misc && misc.Asset && (misc.Asset.Name == "BountySuitcase" || misc.Asset.Name == "BountySuitcaseEmpty")) {
+			if (KidnapLeagueSearchFinishTime > 0 && CommonTime() > KidnapLeagueSearchFinishTime) {
+				for (let C = 0; C < ChatRoomCharacter.length; C++) {
+					if (KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+						ServerSend("ChatRoomChat", { Content: "ReceiveSuitcaseMoney", Type: "Hidden", Target: ChatRoomCharacter[C].MemberNumber});
+					}
+				}
+				if (misc.Asset.Name == "BountySuitcase") {
+					InventoryRemove(Player, "ItemMisc");
+					InventoryWear(Player, "BountySuitcaseEmpty", "ItemMisc");
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEnd", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				} else {
+					ChatRoomMessage({ Content: "OnlineBountySuitcaseEndOpened", Type: "Action", Sender: Player.MemberNumber });
+					KidnapLeagueSearchFinishTime = 0;
+					KidnapLeagueSearchingPlayers = [];
+					if (!misc.Property) misc.Property = {};
+					if (!misc.Property.Iterations) misc.Property.Iterations = 0;
+					misc.Property.Iterations = misc.Property.Iterations + 1;
+					ChatRoomCharacterItemUpdate(Player, "ItemMisc");
+				}
+
+			}
+			let KidnapLeagueSearchingPlayersNew = [];
+			for (let C = 0; C < ChatRoomCharacter.length; C++) {
+				if (ChatRoomCharacter[C].CanInteract() && KidnapLeagueSearchingPlayers.includes(ChatRoomCharacter[C].MemberNumber)) {
+					KidnapLeagueSearchingPlayersNew.push(ChatRoomCharacter[C].MemberNumber);
+				}
+			}
+			KidnapLeagueSearchingPlayers = KidnapLeagueSearchingPlayersNew;
+		} else {
+			KidnapLeagueSearchingPlayers = [];
+			KidnapLeagueSearchFinishTime = 0;
+		}
+	} else {
+		if (KidnapLeagueSearchFinishTime > 0) {
+			if (InventoryIsWorn(Player,"BountySuitcase", "ItemMisc"))
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+			else if (InventoryIsWorn(Player,"BountySuitcaseEmpty", "ItemMisc"))
+				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarlyOpened", true, [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+				]);
+		}
+
+		KidnapLeagueSearchFinishTime = 0;
+	}
+	if (!Player.CanInteract()) {
+		KidnapLeagueOnlineBountyTarget = 0;
+	}
+
+}
 
 /**
  * Runs the chatroom screen.
  * @returns {void} - Nothing.
  */
 function ChatRoomRun() {
+	// Handles online bounty game
+	ChatRoomUpdateOnlineBounty();
+
 	// Draws the chat room controls
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
@@ -1273,8 +1536,19 @@ function ChatRoomRun() {
 			else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
 			else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
 
-			ChatRoomDrawArousalScreenFilter(y1, h, 1003);
+			ChatRoomDrawArousalScreenFilter(y1, h, 1003, Player.ArousalSettings.Progress);
 		}
+	}
+
+	if (Player.ArousalSettings.VFXVibrator == "VFXVibratorSolid" || Player.ArousalSettings.VFXVibrator == "VFXVibratorAnimated") {
+		let y1 = 0;
+		let h = 1000;
+
+		if (ChatRoomCharacterCount == 3) {y1 = 50; h = 900;}
+		else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
+		else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
+
+		ChatRoomVibrationScreenFilter(y1, h, 1003, Player);
 	}
 
 	if ((Player.ImmersionSettings != null && Player.GraphicsSettings != null) && (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash) && ChatRoomPinkFlashTime > CommonTime()) {
@@ -1284,10 +1558,10 @@ function ChatRoomRun() {
 			(ChatRoomCharacterCount <= 2) || (ChatRoomCharacterCount >= 6) ||
 			(Player.GameplaySettings && (Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") && (Player.GetBlindLevel() >= 3))
 		)
-			DrawRect(0, 0, 1003, 1000, "#FFB0B0" + PinkFlashAlpha);
-		else if (ChatRoomCharacterCount == 3) DrawRect(0, 50, 1003, 900, "#FFB0B0" + PinkFlashAlpha);
-		else if (ChatRoomCharacterCount == 4) DrawRect(0, 150, 1003, 700, "#FFB0B0" + PinkFlashAlpha);
-		else if (ChatRoomCharacterCount == 5) DrawRect(0, 250, 1003, 500, "#FFB0B0" + PinkFlashAlpha);
+			DrawRect(0, 0, 2000, 1000, ChatRoomPinkFlashColor + PinkFlashAlpha);
+		else if (ChatRoomCharacterCount == 3) DrawRect(0, 50, 1003, 900, ChatRoomPinkFlashColor + PinkFlashAlpha);
+		else if (ChatRoomCharacterCount == 4) DrawRect(0, 150, 1003, 700, ChatRoomPinkFlashColor + PinkFlashAlpha);
+		else if (ChatRoomCharacterCount == 5) DrawRect(0, 250, 1003, 500, ChatRoomPinkFlashColor + PinkFlashAlpha);
 	}
 
 
@@ -1581,10 +1855,8 @@ function ChatRoomSendLocal(Content, Timeout) {
  */
 function ChatRoomSendEmote(msg) {
 	if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) msg = msg.substring(1);
-	else if (msg.indexOf("**") == 0) {
-		msg = "*" + msg.replace(/\*/g, "");
-	} else {
-		msg = msg.replace(/\*/g, "");
+	else {
+		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
 		if (msg.startsWith(CommandsKey + "me ")) msg = msg.replace(CommandsKey + "me ", "");
 		if (msg.startsWith(CommandsKey + "action ")) msg = msg.replace(CommandsKey + "action ", "*");
 	}
@@ -1805,6 +2077,38 @@ function ChatRoomMessage(data) {
 					if (CurrentScreen == "KinkyDungeon")
 						KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true), SenderCharacter.MemberNumber);
 				}
+				else if (msg == "TakeSuitcase"){
+					if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
+						let misc = InventoryGet(Player, "ItemMisc");
+						if (KidnapLeagueSearchingPlayers.length == 0) {
+							if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
+								KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+								ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+									{ Tag: "SourceCharacter", Text: SenderCharacter.Name, MemberNumber: SenderCharacter.MemberNumber },
+									{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber },
+								]);
+							}
+						} else {
+							ServerSend("ChatRoomGame", { OnlineBounty: {
+								finishTime: KidnapLeagueSearchFinishTime,
+								target: SenderCharacter.MemberNumber,
+							} });
+						}
+						if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
+							KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
+						}
+
+					}
+				}
+				else if (msg == "ReceiveSuitcaseMoney"){
+					ChatRoomReceiveSuitcaseMoney();
+				}
 
 				// If the message is still hidden after any modifications, stop processing
 				if (data.Type == "Hidden") return;
@@ -1835,6 +2139,7 @@ function ChatRoomMessage(data) {
 					var GroupName = null;
 					let ActivityCounter = 1;
 					var Automatic = false;
+					var ShockIntensity = -1;
 					for (let D = 0; D < dictionary.length; D++) {
 
 						// If there's a member number in the dictionary packet, we use that number to alter the chat message
@@ -1889,7 +2194,13 @@ function ChatRoomMessage(data) {
 						}
 						else if (dictionary[D].ActivityCounter) ActivityCounter = dictionary[D].ActivityCounter;
 						else if (dictionary[D].Automatic) Automatic = true;
+						else if (dictionary[D].ShockIntensity != undefined) ShockIntensity = dictionary[D].ShockIntensity;
 						else if (msg != null) msg = msg.replace(dictionary[D].Tag, ChatRoomHTMLEntities(dictionary[D].Text));
+					}
+
+					// Trigger a shock if the player is a target
+					if (ShockIntensity >= 0 && TargetCharacter == Player) {
+						ChatRoomStimulationMessage("Flash", "#FFFFFF", ShockIntensity, 500);
 					}
 
 					// For automatic messages, do not show the message if the player is not involved, depending on their preferences
@@ -2006,7 +2317,9 @@ function ChatRoomMessage(data) {
 						for (let T = 0; T < ChatRoomCharacter.length; T++)
 							if (ChatRoomCharacter[T].MemberNumber == data.Dictionary[D].MemberNumber)
 								TargetCharacter = ChatRoomCharacter[T];
-						if (data.Dictionary[D].MemberNumber != null) msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (ChatRoomSenseDepBypass && !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
+						if (data.Dictionary[D].MemberNumber != null) {
+							msg = msg.replace(data.Dictionary[D].Tag, (PreferenceIsPlayerInSensDep(ChatRoomSenseDepBypass) && (data.Dictionary[D].MemberNumber != Player.MemberNumber) && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(TargetCharacter))) ? DialogFindPlayer("Someone") : ChatRoomHTMLEntities(data.Dictionary[D].Text));
+						}
 						if ((data.Dictionary[D].MemberNumber != null) && (data.Dictionary[D].Tag == "TargetCharacter")) TargetMemberNumber = data.Dictionary[D].MemberNumber;
 						if (data.Dictionary[D].Tag == "ActivityName") ActivityName = data.Dictionary[D].Text;
 						if (data.Dictionary[D].Tag == "ActivityGroup") ActivityGroup = data.Dictionary[D].Text;
@@ -2141,18 +2454,6 @@ function ChatRoomSync(data) {
 		if (ChatRoomPlayerCanJoin) {
 			ChatRoomPlayerCanJoin = false;
 			CommonSetScreen("Online", "ChatRoom");
-			if (ChatRoomPlayerJoiningAsAdmin) {
-				ChatRoomPlayerJoiningAsAdmin = false;
-				// Check if we should push banned members
-				if (Player.OnlineSettings && data.Character.length == 1) {
-					const BanList = ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList);
-					if (BanList.length > 0) {
-						data.Ban = BanList;
-						data.Limit = data.Limit.toString();
-						ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: data, Action: "Update" });
-					}
-				}
-			}
 		} else return;
 	}
 
@@ -3083,6 +3384,17 @@ function ChatRoomPayQuest(data) {
 }
 
 /**
+ * Triggered when online game data comes in
+ * @param {object} data - Game data to process, sent to the current game handler.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineBountyHandleData(data) {
+	if (data.finishTime && data.target == Player.MemberNumber) {
+		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: [{Tag: "TIMEREMAINING", Text: ""+Math.max(1, Math.ceil((data.finishTime - CommonTime())/60000))}], Sender: Player.MemberNumber });
+	}
+}
+
+/**
  * Triggered when a game message comes in, we forward it to the current online game being played.
  * @param {object} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
@@ -3090,6 +3402,8 @@ function ChatRoomPayQuest(data) {
 function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
+		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 }
 
@@ -3318,7 +3632,7 @@ function ChatRoomNotificationRaiseChatJoin(C) {
 		const settings = Player.NotificationSettings.ChatJoin;
 		if (settings.AlertType === NotificationAlertType.NONE) raise = false;
 		else if (!settings.Owner && !settings.Lovers && !settings.Friendlist && !settings.Subs) raise = true;
-		else if (settings.Owner && C.IsOwner()) raise = true;
+		else if (settings.Owner && Player.IsOwnedByMemberNumber(C.MemberNumber)) raise = true;
 		else if (settings.Lovers && C.IsLoverOfPlayer()) raise = true;
 		else if (settings.Friendlist && Player.FriendList.includes(C.MemberNumber)) raise = true;
 		else if (settings.Subs && C.IsOwnedByPlayer()) raise = true;
@@ -3344,7 +3658,7 @@ function ChatRoomRecreate() {
 			Background: Player.LastChatRoomBG,
 			Limit: "" + Player.LastChatRoomSize,
 			Admin: Player.LastChatRoomAdmin,
-			Ban: ChatRoomData.Ban,
+			Ban: Player.LastChatRoomBan,
 			BlockCategory: ChatRoomData.BlockCategory,
 			Game: ChatRoomData.Game,
 			Private: Player.LastChatRoomPrivate,
@@ -3390,7 +3704,8 @@ function ChatRoomDataChanged() {
 		ChatRoomLastSize != ChatRoomData.Limit ||
 		ChatRoomLastPrivate != ChatRoomData.Private ||
 		ChatRoomLastDesc != ChatRoomData.Description ||
-		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin);
+		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin) ||
+		!CommonArraysEqual(ChatRoomLastBan, ChatRoomData.Ban);
 }
 
 function ChatRoomRefreshFontSize() {

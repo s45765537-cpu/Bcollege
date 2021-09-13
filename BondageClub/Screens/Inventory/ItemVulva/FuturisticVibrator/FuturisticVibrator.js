@@ -5,8 +5,8 @@ var ItemVulvaFuturisticVibratorTriggerValues = [];
 
 function InventoryItemVulvaFuturisticVibratorLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else {
 		VibratorModeLoad([VibratorModeSet.ADVANCED, VibratorModeSet.STANDARD]);
 		if ((DialogFocusItem != null) && (DialogFocusItem.Property != null) && (DialogFocusItem.Property.TriggerValues == null)) DialogFocusItem.Property.TriggerValues = CommonConvertArrayToString(ItemVulvaFuturisticVibratorTriggers);
@@ -23,8 +23,8 @@ function InventoryItemVulvaFuturisticVibratorLoad() {
 
 function InventoryItemVulvaFuturisticVibratorDraw() {
 	var C = CharacterGetCurrent();
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else {
 		// Draw the preview & current mode
 		DrawAssetPreview(1387, 50, DialogFocusItem.Asset);
@@ -44,7 +44,7 @@ function InventoryItemVulvaFuturisticVibratorDraw() {
 
 function InventoryItemVulvaFuturisticVibratorClick() {
 	var C = CharacterGetCurrent();
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") InventoryItemFuturisticClickAccessDenied();
 	else if (MouseIn(1885, 25, 90, 90)) InventoryItemVulvaFuturisticVibratorExit();
 	else if (MouseIn(1325, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64)) InventoryItemVulvaFuturisticVibratorClickSet();
 }
@@ -77,7 +77,7 @@ function InventoryItemVulvaFuturisticVibratorClickSet() {
 }
 
 function InventoryItemVulvaFuturisticVibratorExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 	for (let I = 0; I <= ItemVulvaFuturisticVibratorTriggers.length; I++)
 		ElementRemove("FuturisticVibe" + ItemVulvaFuturisticVibratorTriggers[I]);
 }
@@ -100,7 +100,7 @@ function InventoryItemVulvaFuturisticVibratorDetectMsg(msg, TriggerValues) {
 
 		const triggerRegex = new RegExp(`\\b${regexString}\\b`);
 		const success = triggerRegex.test(msg);
-		
+
 		if (success) commandsReceived.push(ItemVulvaFuturisticVibratorTriggers[I]);
 	}
 	return commandsReceived;
@@ -156,6 +156,7 @@ function InventoryItemVulvaFuturisticVibratorTriggerShock(C, Item) {
 		var Dictionary = [];
 		Dictionary.push({ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber });
 		Dictionary.push({ Tag: "AssetName", AssetName: Item.Asset.Name});
+		Dictionary.push({ ShockIntensity : 2});
 
 		ServerSend("ChatRoomChat", { Content: "FuturisticVibratorShockTrigger", Type: "Action", Dictionary });
 	}
@@ -187,7 +188,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(C, Item, LastTime) {
 			else if (msg.includes("Disable")) InventoryItemVulvaFuturisticVibratorSetMode(C, Item, VibratorModeGetOption(VibratorMode.OFF));
 			else if (msg.includes("Increase")) InventoryItemVulvaFuturisticVibratorSetMode(C, Item, VibratorModeGetOption(InventoryItemVulvaFuturisticVibratorGetMode(Item, true)), true);
 			else if (msg.includes("Decrease")) InventoryItemVulvaFuturisticVibratorSetMode(C, Item, VibratorModeGetOption(InventoryItemVulvaFuturisticVibratorGetMode(Item, false)), true);
-			
+
 			//triggered actions
 			if (msg.includes("Shock")) InventoryItemVulvaFuturisticVibratorTriggerShock(C, Item);
 		}

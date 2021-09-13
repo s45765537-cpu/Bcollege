@@ -3,8 +3,8 @@
 // Loads the item extension properties
 function InventoryItemNeckFuturisticCollarLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	} else {
 		if (DialogFocusItem.Property == null) DialogFocusItem.Property = { OpenPermission: false };
 		if (DialogFocusItem.Property.OpenPermission == null) DialogFocusItem.Property.OpenPermission = false;
@@ -15,8 +15,8 @@ function InventoryItemNeckFuturisticCollarLoad() {
 // Draw the item extension screen
 function InventoryItemNeckFuturisticCollarDraw() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	} else {
 		DrawAssetPreview(1387, 65, DialogFocusItem.Asset);
 
@@ -69,15 +69,15 @@ function InventoryItemNeckFuturisticCollarDraw() {
 }
 
 function InventoryItemNeckFuturisticCollarExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }
 
 // Catches the item extension clicks
 function InventoryItemNeckFuturisticCollarClick() {
 
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	} else {
 
 		if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) InventoryItemNeckFuturisticCollarExit();
@@ -165,7 +165,7 @@ function InventoryItemNeckFuturisticCollarGetItems(C, OnlyUnlockable) {
 }
 
 function InventoryItemNeckFuturisticCollarValidate(C, Item) {
-	return InventoryItemMouthFuturisticPanelGagValidate(C, Item);
+	return InventoryItemFuturisticValidate(C, Item);
 }
 
 function InventoryItemNeckFuturisticCollarLockdown(C, LockType) {
@@ -215,7 +215,7 @@ function InventoryItemNeckFuturisticCollarUnlock(C) {
 function InventoryItemNeckFuturisticCollarColor(C, Item) {
 	for (let E = C.Appearance.length - 1; E >= 0; E--)
 		if (C.Appearance[E].Asset && C.Appearance[E].Asset.FuturisticRecolor && C.Appearance[E].Asset.Group.Name != "ItemNeck") {
-			
+
 			if (C.Appearance[E].Asset.Layer.length > 1 && typeof C.Appearance[E].Color === "string") {
 				let color = C.Appearance[E].Color;
 				C.Appearance[E].Color = [];
@@ -223,7 +223,7 @@ function InventoryItemNeckFuturisticCollarColor(C, Item) {
 					C.Appearance[E].Color.push(color);
 				}
 			}
-			
+
 			for (let L = C.Appearance[E].Asset.Layer.length - 1; L >= 0; L--) {
 
 				if (C.Appearance[E].Asset.Layer[L].Name != "Light" && C.Appearance[E].Asset.Layer[L].Name != "Shine") {
@@ -270,7 +270,7 @@ function InventoryItemNeckFuturisticCollarTogglePermission(C, Item) {
 
 		if (CurrentScreen == "ChatRoom")	{
 			var Message = "FuturisticCollarSetOpenPermission" + (Item.Property.OpenPermission ? "On" : "Off");
-			
+
 			var Dictionary = [
 				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
@@ -314,7 +314,7 @@ function InventoryItemNeckFuturisticCollarToggleRemotes(C, Item) {
 
 		if (CurrentScreen == "ChatRoom")	{
 			var Message = "FuturisticCollarSetBlockRemotes" + (Item.Property.BlockRemotes ? "On" : "Off");
-			
+
 			var Dictionary = [
 				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
