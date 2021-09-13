@@ -258,7 +258,7 @@ function InventorySpankingToysGetDescription(C) {
 			if (A != null) ToyDescription = A.Description;
 		}
 	}
-	return ToyDescription || "Handheld Toy";
+	return ToyDescription || "Handheld Item";
 }
 
 /**
