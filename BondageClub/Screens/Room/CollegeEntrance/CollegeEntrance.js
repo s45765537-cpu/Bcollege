@@ -81,13 +81,16 @@ function CollegeEntranceWearStudentClothes(C) {
 	InventoryWear(C, "CollegeOutfit1", "Cloth", "Default");
 	InventoryWear(C, "Socks4", "Socks", "#AAAAAA");
 	InventoryRemove(C, "ClothLower");
-	InventoryRemove(C, "Wings");
-	InventoryRemove(C, "TailStraps");
 	InventoryRemove(C, "Gloves");
-	InventoryRemove(C, "HairAccessory1");
-	InventoryRemove(C, "HairAccessory2");
 	InventoryRemove(C, "HairAccessory3");
 	InventoryRemove(C, "ClothAccessory");
+
+	if (C.IsNpc() || !C.OnlineSharedSettings.BlockBodyCosplay) {
+		InventoryRemove(C, "HairAccessory1");
+		InventoryRemove(C, "HairAccessory2");
+		InventoryRemove(C, "Wings");
+		InventoryRemove(C, "TailStraps");
+	}
 }
 
 /**
@@ -98,8 +101,6 @@ function CollegeEntranceIsWearingTennisClothes() {
 	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "TennisShirt1")) return false;
 	if ((InventoryGet(Player, "ClothLower") == null) || (InventoryGet(Player, "ClothLower").Asset.Name != "TennisSkirt1")) return false;
 	if ((InventoryGet(Player, "Shoes") == null) || ((InventoryGet(Player, "Shoes").Asset.Name != "Sneakers1") && (InventoryGet(Player, "Shoes").Asset.Name != "Sneakers2"))) return false;
-	if (InventoryGet(Player, "Wings") != null) return false;
-	if (InventoryGet(Player, "TailStraps") != null) return false;
 	return true;
 }
 
@@ -115,7 +116,5 @@ function CollegeEntranceIsWearingCollegeClothes() {
 
 	if (InventoryGet(Player, "Socks") == null) return false;
 	if (InventoryGet(Player, "Shoes") == null) return false;
-	if (InventoryGet(Player, "Wings") != null) return false;
-	if (InventoryGet(Player, "TailStraps") != null) return false;
 	return true;
 }

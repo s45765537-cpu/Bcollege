@@ -3,6 +3,7 @@ var CollegeTheaterBackground = "CollegeTheater";
 var CollegeTheaterJulia = null;
 var CollegeTheaterJuliaLove = 0;
 var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#AA44AA", "#44AAAA"];
+var CollegeTheaterPlayerAppearance = null;
 
 
 /**
@@ -75,6 +76,7 @@ function CollegeTheaterLoad() {
 		CharacterRefresh(CollegeTheaterJulia);
 
 	}
+	CollegeTheaterPlayerAppearance = Player.Appearance.slice();
 
 }
 
@@ -181,10 +183,10 @@ function CollegeTheaterJuliaLoveChange(LoveChange, Event) {
 function CollegeTheaterDressBack() {
 	CharacterRelease(Player);
 	CharacterRelease(CollegeTheaterJulia);
-	CollegeEntranceWearStudentClothes(Player);
 	CollegeTheaterJuliaClothes();
-	InventoryRemove(Player, "Hat");
 	InventoryRemove(CollegeTheaterJulia, "Hat");
+	Player.Appearance = CollegeTheaterPlayerAppearance.slice();
+	CharacterRefresh(Player);
 }
 
 /**
