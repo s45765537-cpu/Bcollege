@@ -247,28 +247,28 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCanTakeSuitcase() {
-	return ChatRoomCarryingBounty(CurrentCharacter) && CurrentCharacter.AllowItem;
+	return ChatRoomCarryingBounty(CurrentCharacter) && !CurrentCharacter.CanInteract();
 }
 /**
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCanTakeSuitcaseOpened() {
-	return ChatRoomCarryingBountyOpened(CurrentCharacter) && CurrentCharacter.AllowItem;
+	return ChatRoomCarryingBountyOpened(CurrentCharacter) && !CurrentCharacter.CanInteract();
 }
 /**
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCarryingBounty(C) {
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
  function ChatRoomCarryingBountyOpened(C) {
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && !C.CanInteract() && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
@@ -302,7 +302,7 @@ function ChatRoomTryToTakeSuitcase() {
  * @returns {void}
  */
 function ChatRoomReceiveSuitcaseMoney() {
-	let money = Math.max(1, Math.ceil(45 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
+	let money = Math.max(1, Math.ceil(15 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
 	CharacterChangeMoney(Player, money);
 	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: [{Tag: "MONEYAMOUNT", Text: ""+Math.ceil(money)}], Sender: Player.MemberNumber });
 	KidnapLeagueOnlineBountyTarget = 0;
@@ -1386,9 +1386,7 @@ function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
  * @returns {void} - Nothing.
  */
 function ChatRoomUpdateOnlineBounty() {
-	if (Player.CanInteract()) {
-		KidnapLeagueSearchingPlayers = [];
-	} else if (KidnapLeagueSearchingPlayers.length > 0) {
+	if (KidnapLeagueSearchingPlayers.length > 0) {
 		let misc = InventoryGet(Player, "ItemMisc");
 		if (misc && misc.Asset && (misc.Asset.Name == "BountySuitcase" || misc.Asset.Name == "BountySuitcaseEmpty")) {
 			if (KidnapLeagueSearchFinishTime > 0 && CommonTime() > KidnapLeagueSearchFinishTime) {
@@ -3532,10 +3530,11 @@ function ChatRoomPhotoFullRoom() {
 	let Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
 	let Zoom = ChatRoomCharacterCount >= 3 && ChatRoomCharacterCount < 6 ? Space / 400 : 1;
 	let Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	let X = ChatRoomCharacterCount === 1 ? 250 : 0;
 	let Width = ChatRoomCharacterCount === 1 ? 500 : 1000;
 
 	// Take the photo
-	ChatRoomPhoto(0, Y, Width, 1000 * Zoom, ChatRoomCharacter);
+	ChatRoomPhoto(X, Y, Width, 1000 * Zoom, ChatRoomCharacter);
 }
 
 /**
