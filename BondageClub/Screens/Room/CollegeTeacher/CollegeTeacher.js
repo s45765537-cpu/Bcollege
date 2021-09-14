@@ -2,6 +2,7 @@
 var CollegeTeacherBackground = "CollegeTeacherLounge";
 var CollegeTeacherMildred = null;
 var CollegeTeacherMildredLove = 0;
+var CollegeTeacherPlayerAppearance = null;
 
 // Returns TRUE if the dialog option should be shown
 /**
@@ -68,6 +69,7 @@ function CollegeTeacherLoad() {
 
 	}
 
+	CollegeTeacherPlayerAppearance = Player.Appearance.slice();
 }
 
 /**
@@ -123,8 +125,10 @@ function CollegeTeacherDressBack() {
 	CharacterRelease(Player);
 	CharacterRelease(CollegeTeacherMildred);
 	InventoryRemove(CollegeTeacherMildred, "ItemHands");
-	CollegeEntranceWearStudentClothes(Player);
 	CollegeTeacherMildredClothes();
+
+	Player.Appearance = CollegeTeacherPlayerAppearance.slice();
+	CharacterRefresh(Player);
 }
 
 /**
