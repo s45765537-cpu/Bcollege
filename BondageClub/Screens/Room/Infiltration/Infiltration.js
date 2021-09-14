@@ -177,7 +177,7 @@ function InfiltrationCompleteMission() {
  */
 function InfiltrationRandomClothes() {
 	CharacterNaked(Player);
-	CharacterAppearanceFullRandom(Player, true);
+	CharacterAppearanceFullRandom(Player, true, false);
 	CharacterRelease(Player);
 	InventoryRemove(Player, "ItemHands");
 	PandoraClothes = "Random";

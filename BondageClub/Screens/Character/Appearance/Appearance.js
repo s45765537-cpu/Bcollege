@@ -162,16 +162,19 @@ function CharacterAppearanceMustHide(C, GroupName) {
  * Sets a full random set of items for a character. Only items that do not have the "Random" property set to false will be used.
  * @param {Character} C - The character to dress
  * @param {boolean} [ClothOnly=false] - Defines, if only clothes should be used
+ * @param {boolean} [ClearAppearance=true] - Defines, if we should first clear the character's appearance
  * @returns {void} - Nothing
  */
-function CharacterAppearanceFullRandom(C, ClothOnly=false) {
+function CharacterAppearanceFullRandom(C, ClothOnly=false, ClearAppearance=true) {
 
 	// Clear the current appearance
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if (C.Appearance[A].Asset.Group.Category == "Appearance")
-			if (!ClothOnly || (C.Appearance[A].Asset.Group.AllowNone)) {
-				C.Appearance.splice(A, 1);
-			}
+	if (ClearAppearance) {
+		for (let A = C.Appearance.length - 1; A >= 0; A--)
+			if (C.Appearance[A].Asset.Group.Category == "Appearance")
+				if (!ClothOnly || (C.Appearance[A].Asset.Group.AllowNone)) {
+					C.Appearance.splice(A, 1);
+					}
+	}
 
 	// For each item group (non default items only show at a 8% rate, if it can occasionally happen)
 	for (let A = 0; A < AssetGroup.length; A++)
