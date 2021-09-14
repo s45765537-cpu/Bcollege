@@ -173,7 +173,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false, ClearAppearance=true)
 			if (C.Appearance[A].Asset.Group.Category == "Appearance")
 				if (!ClothOnly || (C.Appearance[A].Asset.Group.AllowNone)) {
 					C.Appearance.splice(A, 1);
-					}
+				}
 	}
 
 	// For each item group (non default items only show at a 8% rate, if it can occasionally happen)
