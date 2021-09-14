@@ -245,8 +245,8 @@ SophieOrgasmGameDefeat,,,"(You cannot control yourself, and surrender to the ple
 200,220,(Stare at the chastity bra.),(She grins and locks a metal chastity bra on your breast.),"SophiePunishEvent(""ChastityBra"", 0)",SophiePunishmentStageIs(3)
 200,220,No!  This is cruel!,You're not in control *esclave*.  (She locks a metal chastity bra on your breast.),"SophiePunishEvent(""ChastityBra"", -2)",SophiePunishmentStageIs(3)
 200,220,Yes Mistress Sophie.,Good girl.  (She smiles and locks a metal chastity bra on your breast.),"SophiePunishEvent(""ChastityBra"", 2)",SophiePunishmentStageIs(3)
-200,201,(Nod happily.),(She locks your friend breast under heavy steel and laughs.),"SophiePunishEvent(""ChastityBraOther"", 0)",SophiePunishmentStageIs(4)
-200,201,(Sigh and bow your head.),(She locks your friend breast under heavy steel and laughs.),"SophiePunishEvent(""ChastityBraOther"", -1)",SophiePunishmentStageIs(4)
+200,201,(Nod happily.),(She locks your friends' breasts under heavy steel and laughs.),"SophiePunishEvent(""ChastityBraOther"", 0)",SophiePunishmentStageIs(4)
+200,201,(Sigh and bow your head.),(She locks your friends' breasts under heavy steel and laughs.),"SophiePunishEvent(""ChastityBraOther"", -1)",SophiePunishmentStageIs(4)
 200,230,I guess so Miss.,*Bien*!  (She forces a butt plug inside your ass and puts a non-vibrating egg in your vagina.)  Do you enjoy that?,"SophiePunishEvent(""EggAndPlug"", 0)",SophiePunishmentStageIs(5)
 200,230,(Whimper silently.),(She smirks and forces a butt plug inside your ass and puts a non-vibrating egg in your vagina.)  Do you enjoy that?,"SophiePunishEvent(""EggAndPlug"", -2)",SophiePunishmentStageIs(5)
 200,230,Oh no!  Common!,(She grumbles and forces a butt plug inside your ass and puts a non-vibrating egg in your vagina.)  Do you enjoy that?,"SophiePunishEvent(""EggAndPlug"", 2)",SophiePunishmentStageIs(5)
@@ -333,9 +333,9 @@ SophieOrgasmGameDefeat,,,"(You cannot control yourself, and surrender to the ple
 287,,Thanks for your time.,,SophieLeaveRoom(),
 287,,(Wave bye bye.),,SophieLeaveRoom(),
 288,,Thanks!  See you later.,,TransferSophieToRoom(25),
-290,291,"I'm sorry, I couldn't control it.",(She stops everyone vibrator.)  You have much to learn on self-control girl.,"SophiePunishEvent("""", -2)",
-290,291,It was too hard!,(She stops everyone vibrator.)  You're *faible*.  I don't care for excuses.,"SophiePunishEvent("""", 1)",
-290,291,(Moan and tremble.),(She stops everyone vibrator.)  You have much to learn on self-control girl.,"SophiePunishEvent("""", -1)",
+290,291,"I'm sorry, I couldn't control it.",(She stops everyones' vibrator.)  You have much to learn on self-control girl.,"SophiePunishEvent("""", -2)",
+290,291,It was too hard!,(She stops everyones' vibrator.)  You're *faible*.  I don't care for excuses.,"SophiePunishEvent("""", 1)",
+290,291,(Moan and tremble.),(She stops everyones' vibrator.)  You have much to learn on self-control girl.,"SophiePunishEvent("""", -1)",
 291,,(Look at Amanda.),"(Amanda seems proud of having won the game, but she stays humble about it.)",DialogRemove(),AmandaIsInside()
 291,,(Look at Sarah.),(Sarah is still trembling and moaning very fast.  She hasn't recovered from the experiment.),DialogRemove(),SarahIsInside()
 291,292,I'll do better next time.,(She whips you with her crop.)  This should motivate you.  (She raises her crop again.),"DialogChangeReputation(""Dominant"", 1)",
