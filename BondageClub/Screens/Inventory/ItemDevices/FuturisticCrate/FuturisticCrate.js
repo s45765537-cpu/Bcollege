@@ -2,14 +2,14 @@
 
 function InventoryItemDevicesFuturisticCrateDevice1Load() {
 	if (DialogFocusItem && DialogFocusItem.Property) {
-		if (!DialogFocusItem.Property.Intensity) DialogFocusItem.Property.Intensity = -1;
+		if (DialogFocusItem.Property.Intensity == undefined) DialogFocusItem.Property.Intensity = -1;
 	}
 	VibratorModeLoad([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
 }
 
 function InventoryItemDevicesFuturisticCrateDevice1Draw() {
 	if (DialogFocusItem && DialogFocusItem.Property) {
-		if (!DialogFocusItem.Property.Intensity) DialogFocusItem.Property.Intensity = -1;
+		if (DialogFocusItem.Property.Intensity == undefined) DialogFocusItem.Property.Intensity = -1;
 	}
 	VibratorModeDraw([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
 }
