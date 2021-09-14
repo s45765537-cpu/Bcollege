@@ -169,6 +169,14 @@ const InventoryItemHandsSpankingToysOptions = [
 		Name: "Broom",
 		Property: { Type: "Broom" },
 		ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 5 }, { Group: "Eyebrows", Name: "Harsh", Timer: 5 }]
+	},{
+		Name: "Phone1",
+		Property: { Type: "Phone1" },
+		ExpressionTrigger: []
+	},{
+		Name: "Phone2",
+		Property: { Type: "Phone2" },
+		ExpressionTrigger: []
 	},
 ];
 
@@ -254,7 +262,7 @@ function InventorySpankingToysGetDescription(C) {
 			if (A != null) ToyDescription = A.Description;
 		}
 	}
-	return ToyDescription || "Handheld Toy";
+	return ToyDescription || "Handheld Item";
 }
 
 /**

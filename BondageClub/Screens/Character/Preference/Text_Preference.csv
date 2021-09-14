@@ -109,6 +109,7 @@ DisableAnimations,Disable scripted assets on others
 ShowAutomaticMessages,Show all automatic messages
 PreserveWhitespace,Preserve whitespace in messages
 ShowChatRoomHelp,Show help on first enter
+ShowBeepChat,Show beep notifications in chat
 AudioVolume,Audio volume
 AudioPlayBeeps,Audio alarm for beeps
 AudioPlayItem,Play item sounds in chatrooms
@@ -129,6 +130,8 @@ SensDepNames,Hide names
 SensDepTotal,Heavy
 SensDepExtreme,Total
 DoBlindFlash,Flash after blindness
+SmoothZoom,Zoom chatrooms smoothly
+CenterChatrooms,Center players in chatrooms
 AllowPlayerLeashing,"Players can drag you to rooms when leashed"
 DisableAutoMaid,Maids come automatically when restrained
 DisablePickingLocksOnSelf,Locks on you can't be picked
@@ -172,6 +175,10 @@ VFXInactive,Bare Meter
 VFXSolid,Solid Glow
 VFXAnimatedTemp,Temporary Animation
 VFXAnimated,Constant Animation
+VFXVibrator,Vibrator Screen Filters
+VFXVibratorInactive,None
+VFXVibratorSolid,Solid Glow
+VFXVibratorAnimated,Flickering Glow
 VFXFilter,Arousal Screen Filter
 VFXFilterHeavy,Strong Gradient
 VFXFilterMedium,Solid Color Filter
@@ -266,7 +273,7 @@ Georgia,Georgia
 CourierNew,Courier New
 Copperplate,Copperplate
 GraphicsInvertRoom,Flip the room vertically when upside-down
-GraphicsStimulationFlash,Screen filters when stimulated by events
+GraphicsStimulationFlash,Flash the screen for certain effects
 GraphicsAntialiasing,"Enable antialiasing (For this browser, if supported)"
 GraphicsNoWebGL,"Not running on WebGL, cannot edit rendering configurations."
 GraphicsPowerMode,"Preferred power consumption mode (For this browser, if supported)"

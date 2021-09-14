@@ -60,6 +60,7 @@ interface AssetDefinition {
 	SetPose?: string[];
 	AllowPose?: string[];
 	HideForPose?: string[];
+	PoseMapping?: { [index: string]: string};
 	AllowActivePose?: string[];
 	WhitelistActivePose?: string[];
 	Value?: number;
@@ -79,7 +80,7 @@ interface AssetDefinition {
 	Top?: number;
 	Height?: number;
 	Zoom?: number;
-	Alpha?: { Group?: string[], Pose?: string[], Masks: [number, number, number, number][] }[];
+	Alpha?: AlphaDefinition[];
 	Prerequisite?: string | string[];
 	Extended?: boolean;
 	AlwaysExtend?: boolean;
@@ -153,7 +154,7 @@ interface AssetLayerDefinition {
 	AllowPose?: string[];
 	Priority?: number;
 	InheritColor?: string;
-	Alpha?: { Group?: string[], Pose?: string[], Masks: [number, number, number, number][] }[],
+	Alpha?: AlphaDefinition[],
 	Left?: number;
 	Top?: number;
 	HideAs?: { Group: string, Asset: string };
@@ -164,5 +165,7 @@ interface AssetLayerDefinition {
 	LockLayer?: boolean;
 	MirrorExpression?: string;
 	HideForPose?: string[];
+	PoseMapping?: { [index: string]: string };
 	AllowModuleTypes?: string[];
+	ModuleType?: string[];
 }

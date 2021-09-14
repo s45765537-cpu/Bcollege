@@ -181,7 +181,11 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "AllFours": return CharacterItemsHavePose(C, "AllFours") ? "CannotUse" : "";
 		case "OnBed": return !C.Effect.includes("OnBed") ? "MustBeOnBed" : "";
 		case "CuffedArms": return  !C.Effect.includes("CuffedArms") ? "MustBeArmCuffedFirst" : "";
+		case "CuffedLegs": return !C.Effect.includes("CuffedFeet") ? "MustBeFeetCuffedFirst" : "";
 		case "CuffedFeet": return !C.Effect.includes("CuffedFeet") ? "MustBeFeetCuffedFirst" : "";
+		case "CuffedArmsOrEmpty": return (InventoryGet(C, "ItemArms") != null && !C.Effect.includes("CuffedArms")) ? "MustFreeArmsFirst" : "";
+		case "CuffedLegsOrEmpty": return (InventoryGet(C, "ItemLegs") != null && !C.Effect.includes("CuffedLegs")) ? "MustFreeLegsFirst" : "";
+		case "CuffedFeetOrEmpty": return (InventoryGet(C, "ItemFeet") != null && !C.Effect.includes("CuffedFeet")) ? "MustFreeFeetFirst" : "";
 		case "NoOuterClothes": return InventoryHasItemInAnyGroup(C, ["Cloth", "ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoClothLower": return InventoryHasItemInAnyGroup(C, ["ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoMaidTray": return InventoryIsItemInList(C, "ItemMisc", ["WoodenMaidTray", "WoodenMaidTrayFull"]) ? "CannotBeUsedWhileServingDrinks" : "";
@@ -381,7 +385,8 @@ function InventoryGet(C, AssetGroup) {
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber) {
 	for (let A = 0; A < Asset.length; A++)
 		if ((Asset[A].Name == AssetName) && (Asset[A].Group.Name == AssetGroup)) {
-			CharacterAppearanceSetItem(C, AssetGroup, Asset[A], ((ItemColor == null || ItemColor == "Default") && Asset[A].DefaultColor != null) ? Asset[A].DefaultColor : ItemColor, Difficulty, MemberNumber);
+			CharacterAppearanceSetItem(C, AssetGroup, Asset[A], ((ItemColor == null || ItemColor == "Default") && Asset[A].DefaultColor != null) ? Asset[A].DefaultColor : ItemColor, Difficulty, MemberNumber, false);
+			CharacterRefresh(C, true);
 			InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
 			return;
 		}

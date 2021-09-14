@@ -214,6 +214,7 @@ function ItemColorDrawDefault(x, y) {
  * @const {function(): void}
  */
 const ItemColorOnPickerChange = CommonLimitFunction((color) => {
+	if (!ItemColorState) return;
 	const newColors = ItemColorState.colors.slice();
 	ItemColorPickerIndices.forEach(i => newColors[i] = color);
 	ItemColorItem.Color = newColors;
@@ -251,8 +252,8 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 	if (ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
 		if (ItemColorState.drawExport && MouseIn(ItemColorState.exportButtonX, y, headerButtonSize, headerButtonSize)) {
 			navigator.clipboard
-					.writeText(ElementValue("InputColor"))
-					.catch(err => console.error("Clipboard write error: " + err));
+				.writeText(ElementValue("InputColor"))
+				.catch(err => console.error("Clipboard write error: " + err));
 			return;
 		}
 
@@ -370,7 +371,7 @@ function ItemColorSaveAndExit() {
  * @returns {void} - Nothing
  */
 function ItemColorCancelAndExit() {
-	if (ItemColorBackup && ItemColorCharacter) {
+	if (ItemColorItem && ItemColorBackup && ItemColorCharacter) {
 		Object.assign(ItemColorItem, AppearanceItemParse(ItemColorBackup));
 		CharacterLoadCanvas(ItemColorCharacter);
 	}
@@ -510,7 +511,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 	ItemColorCharacter = c;
 	ItemColorItem = item;
 	const itemKey = AppearanceItemStringify({ item, x, y, width, height });
-	if (ItemColorState && ItemColorStateKey === itemKey) {
+	if (!item || (ItemColorState && ItemColorStateKey === itemKey)) {
 		return;
 	}
 

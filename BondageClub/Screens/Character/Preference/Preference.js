@@ -18,6 +18,8 @@ var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "
 var PreferenceSettingsSensDepIndex = 0;
 var PreferenceSettingsVFXList = ["VFXInactive", "VFXSolid", "VFXAnimatedTemp", "VFXAnimated"];
 var PreferenceSettingsVFXIndex = 0;
+var PreferenceSettingsVFXVibratorList = ["VFXVibratorInactive", "VFXVibratorSolid", "VFXVibratorAnimated"];
+var PreferenceSettingsVFXVibratorIndex = 0;
 var PreferenceSettingsVFXFilterList = ["VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy"];
 var PreferenceSettingsVFXFilterIndex = 0;
 var PreferenceSettingsVolumeList = [1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
@@ -222,6 +224,7 @@ function PreferenceInit(C) {
 	if (typeof C.ArousalSettings.AffectExpression !== "boolean") C.ArousalSettings.AffectExpression = true;
 	if (typeof C.ArousalSettings.AffectStutter !== "string") C.ArousalSettings.AffectStutter = "All";
 	if (typeof C.ArousalSettings.VFX !== "string") C.ArousalSettings.VFX = "VFXAnimatedTemp";
+	if (typeof C.ArousalSettings.VFXVibrator !== "string") C.ArousalSettings.VFXVibrator = "VFXAnimated";
 	if (typeof C.ArousalSettings.Progress !== "number" || isNaN(C.ArousalSettings.Progress)) C.ArousalSettings.Progress = 0;
 	if (typeof C.ArousalSettings.ProgressTimer !== "number" || isNaN(C.ArousalSettings.ProgressTimer)) C.ArousalSettings.ProgressTimer = 0;
 	if (typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel)) C.ArousalSettings.VibratorLevel = 0;
@@ -316,6 +319,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ChatSettings.ShrinkNonDialogue !== "boolean") C.ChatSettings.ShrinkNonDialogue = false;
 	if (typeof C.ChatSettings.MuStylePoses !== "boolean") C.ChatSettings.MuStylePoses = false;
 	if (typeof C.ChatSettings.ShowChatHelp !== "boolean") C.ChatSettings.ShowChatHelp = true;
+	if (typeof C.ChatSettings.ShowBeepChat !== "boolean") C.ChatSettings.ShowBeepChat = true;
 
 	// Visual settings
 	if (!C.VisualSettings) C.VisualSettings = {};
@@ -393,6 +397,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.LastChatRoomSize !== "number") C.LastChatRoomSize = 10;
 	if (typeof C.LastChatRoomDesc !== "string") C.LastChatRoomDesc = "";
 	if (!C.LastChatRoomAdmin) C.LastChatRoomAdmin = [];
+	if (!C.LastChatRoomBan) C.LastChatRoomBan = [];
 
 	// Restriction settings
 	if (!C.RestrictionSettings) C.RestrictionSettings = {};
@@ -434,9 +439,11 @@ function PreferenceInitPlayer() {
 	if (!C.GraphicsSettings) C.GraphicsSettings = {};
 	if (typeof C.GraphicsSettings.Font !== "string") C.GraphicsSettings.Font = "Arial";
 	if (typeof C.GraphicsSettings.InvertRoom !== "boolean") C.GraphicsSettings.InvertRoom = true;
-	if (typeof C.GraphicsSettings.StimulationFlashes !== "boolean") C.GraphicsSettings.StimulationFlashes = true;
+	if (typeof C.GraphicsSettings.StimulationFlash !== "boolean") C.GraphicsSettings.StimulationFlash = false;
 	if (typeof C.GraphicsSettings.DoBlindFlash !== "boolean") C.GraphicsSettings.DoBlindFlash = false;
 	if (typeof C.GraphicsSettings.AnimationQuality !== "number") C.GraphicsSettings.AnimationQuality = 100;
+	if (typeof C.GraphicsSettings.SmoothZoom !== "boolean") C.GraphicsSettings.SmoothZoom = true;
+	if (typeof C.GraphicsSettings.CenterChatrooms !== "boolean") C.GraphicsSettings.CenterChatrooms = true;
 
 	// Notification settings
 	let NS = C.NotificationSettings;
@@ -574,7 +581,8 @@ function PreferenceLoad() {
 	PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog) < 0) ? 0 : PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog);
 	PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume);
 	PreferenceArousalActiveIndex = (PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active) < 0) ? 0 : PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active);
-	PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFXIndex) < 0) ? 0 : PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX);
+	PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX) < 0) ? 0 : PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX);
+	PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator) < 0) ? 0 : PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator);
 	PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter) < 0) ? 0 : PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter);
 	PreferenceArousalVisibleIndex = (PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible) < 0) ? 0 : PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible);
 	PreferenceArousalAffectStutterIndex = (PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter) < 0) ? 0 : PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter);
@@ -1144,6 +1152,8 @@ function PreferenceSubscreenChatRun() {
 	DrawCheckbox(1200, 652, 64, 64, TextGet("ColorActivities"), Player.ChatSettings.ColorActivities);
 	DrawCheckbox(1200, 732, 64, 64, TextGet("ShrinkNonDialogue"), Player.ChatSettings.ShrinkNonDialogue);
 	DrawCheckbox(1200, 812, 64, 64, TextGet("MuStylePoses"), Player.ChatSettings.MuStylePoses);
+	DrawCheckbox(1200, 892, 64, 64, TextGet("ShowBeepChat"), Player.ChatSettings.ShowBeepChat);
+
 
 	MainCanvas.textAlign = "center";
 	PreferenceDrawBackNextButton(1000, 170, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
@@ -1355,11 +1365,19 @@ function PreferenceSubscreenGraphicsRun() {
 		}
 	} else if (PreferencePageCurrent === 2) {
 		DrawText(TextGet("VFXFilter"), 1000, 216, "Black", "Gray");
+		DrawText(TextGet("VFXVibrator"), 1000, 456, "Black", "Gray");
+		DrawCheckbox(500, 270, 64, 64, TextGet("SmoothZoom"), Player.GraphicsSettings.SmoothZoom);
+		DrawCheckbox(500, 350, 64, 64, TextGet("CenterChatrooms"), Player.GraphicsSettings.CenterChatrooms);
 
 		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 182, 450, 64, TextGet(Player.ArousalSettings.VFXFilter || PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex]), "White", "",
 			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + PreferenceSettingsVFXFilterList.length - 1) % PreferenceSettingsVFXFilterList.length]),
 			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length]));
+
+		DrawBackNextButton(500, 422, 450, 64, TextGet(Player.ArousalSettings.VFXVibrator), "White", "",
+			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + PreferenceSettingsVFXVibratorList.length - 1) % PreferenceSettingsVFXVibratorList.length]),
+			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length]));
+
 	}
 }
 
@@ -1420,6 +1438,13 @@ function PreferenceSubscreenGraphicsClick() {
 			else PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length;
 			Player.ArousalSettings.VFXFilter = PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex];
 		}
+		if (MouseIn(500, 422, 450, 64)) {
+			if (MouseX <= 825) PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.length + PreferenceSettingsVFXVibratorIndex - 1) % PreferenceSettingsVFXVibratorList.length;
+			else PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length;
+			Player.ArousalSettings.VFXVibrator = PreferenceSettingsVFXVibratorList[PreferenceSettingsVFXVibratorIndex];
+		}
+		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
+		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
 	}
 }
 
@@ -1538,7 +1563,7 @@ function PreferenceSubscreenChatClick() {
 		if (MouseYIn(652, 64)) Player.ChatSettings.ColorActivities = !Player.ChatSettings.ColorActivities;
 		if (MouseYIn(732, 64)) Player.ChatSettings.ShrinkNonDialogue = !Player.ChatSettings.ShrinkNonDialogue;
 		if (MouseYIn(812, 64)) Player.ChatSettings.MuStylePoses = !Player.ChatSettings.MuStylePoses;
-
+		if (MouseYIn(892, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
 	}
 
 	// If the user used one of the BackNextButtons

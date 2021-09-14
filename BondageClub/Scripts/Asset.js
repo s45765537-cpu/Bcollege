@@ -42,7 +42,7 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		SetPose: NewAsset.SetPose,
 		AllowPose: Array.isArray(NewAsset.AllowPose) ? NewAsset.AllowPose : [],
 		AllowExpression: NewAsset.AllowExpression,
-		Effect: NewAsset.Effect,
+		Effect: Array.isArray(NewAsset.Effect) ? NewAsset.Effect : [],
 		MirrorGroup: (NewAsset.MirrorGroup == null) ? "" : NewAsset.MirrorGroup,
 		RemoveItemOnRemove: (NewAsset.RemoveItemOnRemove == null) ? [] : NewAsset.RemoveItemOnRemove,
 		DrawingPriority: (NewAsset.Priority == null) ? AssetGroup.length : NewAsset.Priority,
@@ -132,7 +132,6 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		Audio: NewAsset.Audio,
 		Category: NewAsset.Category,
 		Fetish: NewAsset.Fetish,
-		CustomBlindBackground: NewAsset.CustomBlindBackground,
 		ArousalZone: (NewAsset.ArousalZone == null) ? AssetCurrentGroup.Name : NewAsset.ArousalZone,
 		IsRestraint: (NewAsset.IsRestraint == null) ? ((AssetCurrentGroup.IsRestraint == null) ? false : AssetCurrentGroup.IsRestraint) : NewAsset.IsRestraint,
 		BodyCosplay: (NewAsset.BodyCosplay == null) ? AssetCurrentGroup.BodyCosplay : NewAsset.BodyCosplay,
@@ -165,10 +164,12 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		FixedPosition: typeof NewAsset.FixedPosition === "boolean" ? NewAsset.FixedPosition : false,
 		Layer: [],
 		ColorableLayerCount: 0,
+		CustomBlindBackground: typeof NewAsset.CustomBlindBackground === 'string' ? NewAsset.CustomBlindBackground : undefined,
 		FuturisticRecolor: typeof NewAsset.FuturisticRecolor === 'boolean' ? NewAsset.FuturisticRecolor : false,
 		FuturisticRecolorDisplay: typeof NewAsset.FuturisticRecolorDisplay === 'boolean' ? NewAsset.FuturisticRecolorDisplay : false,
 		Attribute: NewAsset.Attribute || [],
 		PreviewIcons: NewAsset.PreviewIcons || [],
+		PoseMapping: NewAsset.PoseMapping || {},
 	}, AssetParsePoseProperties(NewAsset, AssetCurrentGroup.AllowPose.slice()));
 
 	// Ensure opacity value is valid
@@ -256,7 +257,8 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		ColorGroup: Layer.ColorGroup,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
 		AllowTypes: Array.isArray(Layer.AllowTypes) ? Layer.AllowTypes : null,
-		Visibility:  typeof Layer.Visibility === "string" ? Layer.Visibility : null,
+		ModuleType: Array.isArray(Layer.ModuleType) ? Layer.ModuleType : null,
+		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
 		ParentGroupName: Layer.ParentGroup,
 		Priority: Layer.Priority || AssetDefinition.Priority || AssetCurrentGroup.DrawingPriority,
@@ -273,10 +275,11 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		AllowModuleTypes: Layer.AllowModuleTypes,
-		ColorIndex: 0
+		ColorIndex: 0,
+		PoseMapping: Layer.PoseMapping || A.PoseMapping,
 	}, AssetParsePoseProperties(
 		Layer,
-		Array.isArray(AssetDefinition.AllowPose) ? AssetDefinition.AllowPose.slice() : null)
+		Array.isArray(A.AllowPose) ? A.AllowPose.slice() : null)
 	);
 	if (L.MinOpacity > L.Opacity) L.MinOpacity = L.Opacity;
 	if (L.MaxOpacity < L.Opacity) L.MaxOpacity = L.Opacity;

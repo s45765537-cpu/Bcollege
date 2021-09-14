@@ -322,7 +322,7 @@ function CharacterAppearanceSortLayers(C) {
 					var drawLayer = Object.assign({}, layer);
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alphaDef => {
-						if (alphaDef.Group && alphaDef.Group.length) {
+						if ((alphaDef.Group && alphaDef.Group.length) && (!alphaDef.Type || !Array.isArray(alphaDef.Type) || alphaDef.Type.includes(type))) {
 							alphaDef.Group.forEach(groupName => {
 								groupAlphas[groupName] = groupAlphas[groupName] || [];
 								groupAlphas[groupName].push({Pose: alphaDef.Pose, Masks: alphaDef.Masks});
@@ -383,11 +383,12 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
 		let HidingItem = false;
-		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !item.Asset.HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
+		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
+		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if (item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
-		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0)) HidingItem = true;
+		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if ((item.Asset.HideItem != null) && (item.Asset.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		else if ((item.Property != null) && (item.Property.HideItem != null) && (item.Property.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		if (HidingItem) {
@@ -856,7 +857,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	}
 
 	// Draw the character canvas and calculate the effects on the character
-	if (Refresh == null || Refresh) CharacterRefresh(C);
+	if (Refresh == null || Refresh) CharacterRefresh(C, false);
 
 }
 
@@ -997,8 +998,10 @@ function AppearanceClick() {
 		if ((MouseX >= 1210) && (MouseX < 1275) && (MouseY >= 145) && (MouseY < 975))
 			for (let A = CharacterAppearanceOffset; A < AssetGroup.length && A < CharacterAppearanceOffset + CharacterAppearanceNumPerPage; A++)
 				if ((AssetGroup[A].Family == C.AssetFamily) && (AssetGroup[A].Category == "Appearance") && WardrobeGroupAccessible(C, AssetGroup[A]) && AssetGroup[A].AllowNone && (InventoryGet(C, AssetGroup[A].Name) != null))
-					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95))
-						InventoryRemove(C, AssetGroup[A].Name);
+					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95)) {
+						InventoryRemove(C, AssetGroup[A].Name, false);
+						CharacterRefresh(C, false);
+					}
 
 		// If we must enter the cloth selection mode
 		if ((MouseX >= 1300) && (MouseX < 1700) && (MouseY >= 145) && (MouseY < 975)) {
@@ -1091,19 +1094,22 @@ function AppearanceClick() {
 		for (let I = DialogInventoryOffset; (I < DialogInventory.length) && (I < DialogInventoryOffset + 9); I++) {
 			if ((MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275)) {
 				var Item = DialogInventory[I];
+				const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+				const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
+
 				// In permission mode, we toggle the settings for an item
 				if (DialogItemPermissionMode) {
-
-					const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-					const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
 					DialogInventoryTogglePermission(Item, worn);
-
 				} else {
 					if (InventoryBlockedOrLimited(C, Item)) return;
 					if (InventoryAllow(C, Item.Asset.Prerequisite)) {
-						CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
-						DialogInventoryBuild(C, DialogInventoryOffset);
-						AppearanceMenuBuild(C);
+						if (worn && CurrentItem.Asset.Extended) {
+							DialogExtendItem(CurrentItem);
+						} else {
+							CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
+							DialogInventoryBuild(C, DialogInventoryOffset);
+							AppearanceMenuBuild(C);
+						}
 					} else {
 						CharacterAppearanceHeaderTextTime = DialogTextDefaultTimer;
 						CharacterAppearanceHeaderText = DialogText;
@@ -1368,16 +1374,16 @@ function CharacterAppearanceWardrobeLoad(C) {
  * @returns {string} - A serialised version of the character's current appearance
  */
 function CharacterAppearanceStringify(C) {
-    return AppearanceItemStringify(C.Appearance);
+	return AppearanceItemStringify(C.Appearance);
 }
 
 function AppearanceItemStringify(Item) {
-    return JSON.stringify(Item, (key, value) => {
-        if (key === "Asset") {
-            return value.Group.Family + "/" + value.Group.Name + "/" + value.Name;
-        }
-        return value;
-    });
+	return JSON.stringify(Item, (key, value) => {
+		if (key === "Asset") {
+			return value.Group.Family + "/" + value.Group.Name + "/" + value.Name;
+		}
+		return value;
+	});
 }
 
 /**
@@ -1387,17 +1393,17 @@ function AppearanceItemStringify(Item) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceRestore(C, backup) {
-    C.Appearance = AppearanceItemParse(backup);
+	C.Appearance = AppearanceItemParse(backup);
 }
 
 function AppearanceItemParse(stringified) {
-    return JSON.parse(stringified, (key, value) => {
-        if (key === "Asset") {
-            const FGA = value.split("/");
-            return AssetGet(FGA[0], FGA[1], FGA[2]);
-        }
-        return value;
-    });
+	return JSON.parse(stringified, (key, value) => {
+		if (key === "Asset") {
+			const FGA = value.split("/");
+			return AssetGet(FGA[0], FGA[1], FGA[2]);
+		}
+		return value;
+	});
 }
 
 /**
@@ -1418,7 +1424,9 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
 			const item = InventoryGet(C, C.FocusGroup.Name);
-			if (CharacterAppearanceColorPickerBackup !== item.Color) {
+			const isDifferentColor = item && CharacterAppearanceColorPickerBackup !== item.Color;
+			const isRemoved = !item && CharacterAppearanceColorPickerBackup !== "None";
+			if (isDifferentColor || isRemoved) {
 				AppearancePreviewBuild(C, true);
 			}
 		}

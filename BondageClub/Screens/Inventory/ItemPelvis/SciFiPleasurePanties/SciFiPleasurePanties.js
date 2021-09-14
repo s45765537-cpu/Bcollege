@@ -1,8 +1,8 @@
 "use strict";
 function InventoryItemPelvisSciFiPleasurePantiesLoad() {
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagLoadAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticLoadAccessDenied();
 	}
     else{
         if (DialogFocusItem.Property == null) DialogFocusItem.Property = { Intensity: -1, ShockLevel: 0, ShowText: true, Effect: ["Egged"], LockButt: false, LockCrotch: false, Block: [], OrgasmLock: 0};
@@ -23,8 +23,8 @@ function InventoryItemPelvisSciFiPleasurePantiesDraw() {
 	DrawAssetPreview(1387, 175, DialogFocusItem.Asset, {Vibrating});
 
     var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagDrawAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticDrawAccessDenied();
 	}
     else if (DialogFocusItem && DialogFocusItem.Property) {
 
@@ -54,8 +54,8 @@ function InventoryItemPelvisSciFiPleasurePantiesDraw() {
 function InventoryItemPelvisSciFiPleasurePantiesClick() {
 
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
-	if (InventoryItemMouthFuturisticPanelGagValidate(C) !== "") {
-		InventoryItemMouthFuturisticPanelGagClickAccessDenied();
+	if (InventoryItemFuturisticValidate(C) !== "") {
+		InventoryItemFuturisticClickAccessDenied();
 	}
     else {
 
@@ -225,11 +225,12 @@ function InventoryItemPelvisSciFiPleasurePantiesShockTrigger() {
 	var Dictionary = [];
 	Dictionary.push({ Tag: "AssetName", Text: DialogFocusItem.Asset.Description.toLowerCase() });
 	Dictionary.push({ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber });
+	Dictionary.push({ ShockIntensity : DialogFocusItem.Property.Intensity * 1.5});
     ChatRoomPublishCustomAction("SciFiPleasurePantiesShockTrigger" + DialogFocusItem.Property.ShockLevel, true, Dictionary);
 
 	InventoryShockExpression(C);
 }
 
 function InventoryItemPelvisSciFiPleasurePantiesExit() {
-	InventoryItemMouthFuturisticPanelGagExitAccessDenied();
+	InventoryItemFuturisticExitAccessDenied();
 }

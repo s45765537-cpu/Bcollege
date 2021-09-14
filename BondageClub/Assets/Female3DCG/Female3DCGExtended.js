@@ -14,7 +14,7 @@
 /**
  * An enum encapsulating the available extended item archetypes
  * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {Record<"MODULAR"|"TYPED", ExtendedArchetype>}
+ * @type {{MODULAR: "modular", TYPED: "typed"}}
  * @see {@link ModularItemConfig}
  * @see {@link TypedItemConfig}
  */
@@ -29,6 +29,35 @@ const ExtendedArchetype = {
  * @const
  */
 var AssetFemale3DCGExtended = {
+	Hat: {
+		Bandana: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Plain",
+						Property: { Type: null, },
+					},
+					{
+						Name: "Circles",
+						Property: { Type: "Circles", },
+					},
+					{
+						Name: "Flowers",
+						Property: { Type: "Flowers", },
+					},
+					{
+						Name: "Dots",
+						Property: { Type: "PolkaDots", },
+					},
+					{
+						Name: "Triangles",
+						Property: { Type: "Triangles", },
+					},
+				],
+			},
+		}, //Bandana
+	},
 	Cloth: {
 		TShirt2: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -175,15 +204,15 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
 				Modules: [
-				{
-				Name: "Pattern", Key: "p",
-				Options: [{}, {}, {}, {}, {}, {}],
-				},
-				{
-				Name: "Txt", Key: "x",
-				Options: [{}, { HasSubscreen: true }],
-				},
-			]
+					{
+						Name: "Pattern", Key: "p",
+						Options: [{}, {}, {}, {}, {}, {}],
+					},
+					{
+						Name: "Txt", Key: "x",
+						Options: [{}, { HasSubscreen: true }],
+					},
+				]
 			}
 		}, // Bib
 	}, // ClothAccessory
@@ -214,6 +243,34 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		}, // Ribbons
+		FuturisticBra2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Display", Key: "d",
+						Options: [
+							{}, // d0 - Display
+							{}, // d1 - No Display
+						],
+					},
+					{
+						Name: "Shiny", Key: "s",
+						Options: [
+							{}, // s0 - Shiny
+							{}, // s1 - No Shiny
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			}
+		}, // FuturisticBra2
 	}, // ItemBreast
 	ItemArms: {
 		Web: {
@@ -221,7 +278,7 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 				Dictionary: [
-					({ newIndex, previousIndex }) => { return  { Tag: "Action", Text: newIndex > previousIndex ? "tightens" : "loosens" }},
+					({ newIndex, previousIndex }) => { return  { Tag: "Action", Text: newIndex > previousIndex ? "tightens" : "loosens" };},
 				],
 				Options: [
 					{
@@ -239,6 +296,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["LegsClosed", "BackElbowTouch"],
 							Effect: ["Block", "Freeze", "Prone"],
 							Block: ["ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
 					},
 					{
@@ -252,6 +310,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["LegsClosed", "BackElbowTouch"],
 							Effect: ["Block", "Freeze", "Prone"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
 						Random: false,
 					},
@@ -282,6 +341,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
 							Effect: ["Block", "Freeze", "Prone"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
 						Random: false,
 					},
@@ -576,26 +636,66 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // CeilingShackles
 		BitchSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Zip",
+						Key: "z",
+						Options: [
+							{ // z0 - Zipped up
+								Property: { Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], Hide: ["ItemNipples"] },
+							},
+							{ // z1 - Unzipped
+								Property: { Block: [] },
+							},
+						],
+						AllowSelfSelect: false,
+					},
+					{
+						Name: "Pose",
+						Key: "p",
+						Options: [
+							{ // p0 - Kneeling
+								Property: { SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"] },
+							},
+							{ // p1 - All fours
+								Property: { SetPose: ["AllFours"] },
+							},
+						],
+					},
+				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuit${C.ID === 0 ? "Self" : ""}Set`,
+				},
+			},
+		}, // BitchSuit
+		BitchSuitExposed: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
 				Options: [
 					{
-						Name: "Latex",
+						Name: "Kneel",
 						Property: {
 							Type: null,
-							Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+							SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"],
 						},
 					},
 					{
-						Name: "UnZip",
+						Name: "AllFours",
 						Property: {
-							Type: "UnZip",
-							Block: [],
-						},
-					},
+							Type: "AllFours",
+							SetPose: ["AllFours"],
+						}
+					}
 				],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				Dialog: {
+					ChatPrefix: ({ C }) => `ItemArmsBitchSuitExposed${C.ID === 0 ? "Self" : ""}Set`,
+				}
 			},
-		}, // BitchSuit
+		}, // BitchSuitExposed
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -654,6 +754,92 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // WristShackles
+		FuturisticCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "None",
+						Property: {
+							Type: null,
+							Difficulty: 0,
+							Effect: [],
+							SetPose: null,
+							SelfUnlock: true,
+						},
+					},
+					{
+						Name: "Wrist",
+						Property: {
+							Type: "Wrist",
+							Difficulty: 2,
+							Effect: ["Block", "Prone"],
+							SetPose: ["BackBoxTie"],
+							SelfUnlock: true,
+						},
+					},
+					{
+						Name: "Elbow",
+						Property: {
+							Type: "Elbow",
+							Difficulty: 4,
+							Effect: ["Block", "Prone", "NotSelfPickable"],
+							SetPose: ["BackElbowTouch"],
+							SelfUnlock: false,
+						},
+					},
+					{
+						Name: "Both",
+						Property: {
+							Type: "Both",
+							Difficulty: 6,
+							Effect: ["Block", "Prone", "NotSelfPickable"],
+							SetPose: ["BackElbowTouch"],
+							SelfUnlock: false,
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemArmsCuffs",
+					ChatPrefix: "FuturisticCuffsRestrain",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticCuffs
+		FuturisticArmbinder: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: { Type: null, Difficulty: 0 },
+					},
+					{
+						Name: "Tight",
+						Property: { Type: "Tight", Difficulty: 7 },
+					},
+				],
+				Dialog: {
+					Load: "SelectFuturisticArmbinderType",
+					TypePrefix: "FuturisticArmbinderType",
+					ChatPrefix: "FuturisticArmbinderSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticArmbinder
 		LeatherCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -728,7 +914,7 @@ var AssetFemale3DCGExtended = {
 					}
 				],
 			},
-		}, // SteelCuffs	
+		}, // SteelCuffs
 		StraitJacket: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -824,6 +1010,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Bottom",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemVulvaPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 2,
 						},
 					},
@@ -846,6 +1033,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Full",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 6,
 						}
 					},
@@ -857,6 +1045,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Complete",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 7,
 						}
 					},
@@ -868,6 +1057,7 @@ var AssetFemale3DCGExtended = {
 							Type: "ExposedComplete",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemVulvaPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							Difficulty: 7,
 						}
 					},
@@ -1190,6 +1380,7 @@ var AssetFemale3DCGExtended = {
 		StraitLeotard: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
 				Modules: [
 					{
 						Name: "Cloth", Key: "cl",
@@ -1211,6 +1402,47 @@ var AssetFemale3DCGExtended = {
 				ChangeWhenLocked: false,
 			},
 		}, // StraitLeotard
+		FuturisticStraitjacket: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Cloth", Key: "cl",
+						Options: [{ Property: { Hide: ["Cloth"] } }, {}],
+					},
+					{
+						Name: "Corset", Key: "co",
+						Options: [{ Property: { Hide: ["Corset", "ItemTorso"] } }, {}],
+					},
+					{
+						Name: "NipplesPiercings", Key: "np",
+						Options: [{ Property: { Hide: ["ItemNipplesPiercings", "ItemNipples", "ItemBreast"] } }, {}],
+					},
+					{
+						Name: "VulvaPiercings", Key: "vp",
+						Options: [{ Property: { Hide: ["ItemVulvaPiercings", "Panties", "ItemPelvis"] } }, {}],
+					},
+					{
+						Name: "Arms", Key: "a",
+						Options: [
+							{}, // a0 - Arms front
+							{ // a1 - Arms behind
+								Property: {
+									Difficulty: 2,
+								}
+							},
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticStraitjacket
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -1222,7 +1454,48 @@ var AssetFemale3DCGExtended = {
 				],
 				DrawImages: false
 			}
-		} // ShinySteelCollar
+		}, // ShinySteelCollar
+		TechnoCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "CollarType", Key: "c",
+						Options: [
+							{}, // c0 Slender Collar
+							{
+								Property: {
+									Difficulty: 65,
+								},
+							}, //c1 Choker Collar
+							{
+								Property: {
+									Difficulty: 70,
+								},
+							}, //c2 Full Collar
+							{
+								Property: {
+									Difficulty: 75,
+								},
+							}, //c3 Posture Collar
+							{
+								Property: {
+									Difficulty: 80,
+								},
+							}, //c4 Strict Posture Collar
+						],
+					},
+					{
+						Name: "ShockModule", Key: "s",
+						Options: [
+							{}, // s0 No Shock Module
+							{ HasSubscreen: true }, // s1 Shock Module
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+			},
+		}, //TechnoCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -1251,8 +1524,8 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Lenses", Key: "l",
 						Options: [
-							{}, 
-							{ Property: { Effect: ["BlindHeavy"] } }, 
+							{},
+							{ Property: { Effect: ["BlindHeavy"] } },
 						],
 					},
 					{
@@ -1428,8 +1701,269 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // GwenHood
+		TechnoHelmet1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Visor", Key: "v",
+						Options:[
+							{
+								Property: {
+									CustomBlindBackground: "",
+									Effect: [],
+								}
+							}, //v0 No Visor
+							{
+								Property: {
+									CustomBlindBackground: "",
+									Effect: [],
+								}
+							}, // v1 Transparent Visor
+							{
+								Property: {
+									CustomBlindBackground: "",
+									Effect: ["BlindLight", "Prone"]
+								},
+							}, // v2 Lightly Tinted Visor
+							{
+								Property: {
+									CustomBlindBackground: "",
+									Effect: ["BlindNormal", "Prone"]
+								},
+							}, // v3 Heavily Tinted Visor
+							{
+								Property: {
+									CustomBlindBackground: "",
+									Effect: ["BlindHeavy", "Prone"]
+								},
+							}, // v4 Opaque Visor
+							{
+								Property: {
+									CustomBlindBackground: "HypnoSpiral2",
+									Effect: ["BlindHeavy", "Prone"]
+								},
+							}, // v5 Hypnotic Visor
+						],
+
+					},
+					{
+						Name: "DeafeningModule", Key: "d",
+						Options: [
+							{}, //h0 Disabled
+							{
+								Property: {
+									Effect: ["DeafLight"]
+								},
+							}, //h1 Light
+							{
+								Property: {
+									Effect: ["DeafHeavy"],
+								},
+							}, //h2 Heavy
+							{
+								Property: {
+									Effect: ["DeafTotal"]
+								},
+							}, //h3 Noise-Cancelling
+						],
+					},
+					{
+						Name: "ChinStrap", Key: "c",
+						Options: [
+							{}, //c0 No Chin Strap
+							{
+								Property: {
+									Difficulty: 10
+								}
+							}, //h1 Chin Strap
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+			}
+		}, // TechnoHelmet1
 	}, // ItemHood
 	ItemDevices: {
+		FuturisticCrate: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Window", Key: "w",
+						Options: [
+							{}, // d0 - Open
+							{
+								Property: {
+									Difficulty: 20,
+									Effect: ["Prone", "Freeze", "Enclose"]
+								},
+							}, // d1 - Window
+							{
+								Property: {
+									Difficulty: 22,
+									Effect: ["BlindLight", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d2 - Normal Window
+							{
+								Property: {
+									Difficulty: 22,
+									Effect: ["BlindNormal", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d3 - Small window
+							{
+								Property: {
+									Difficulty: 52,
+									Effect: ["BlindHeavy", "GagLight", "Prone", "Freeze", "Enclose"]
+								},
+							}, // d4 - Closed
+						],
+					},
+					{
+						Name: "LegCuffs", Key: "l",
+						Options: [
+							{}, // l0 - No leg straps
+							{ // l1 - Kneel leg restraints
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+								Property: {
+									Difficulty: 18,
+									SetPose: ["Kneel"],
+									Block: ["ItemFeet", "ItemLegs"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // l2 - Closed leg restraints
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+								Property: {
+									Difficulty: 22,
+									SetPose: ["LegsClosed"],
+									Block: ["ItemFeet", "ItemLegs"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"]
+								},
+							},
+							{ // l3 - Spread leg restraints
+								Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+								Property: {
+									Difficulty: 22,
+									SetPose: ["Spread"],
+									Block: ["ItemFeet", "ItemLegs"],
+									Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									Hide: ["ItemBoots", "Shoes"]
+								},
+							},
+						],
+					},
+					{
+						Name: "ArmCuffs", Key: "a",
+						Options: [
+							{}, // s0 - No arm cuffs
+							{ // s1 - Elbow cuffs
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 18,
+									SetPose: ["BackElbowTouch"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // s2 - Box cuffs
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 18,
+									SetPose: ["BackBoxTie"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // s3 - Overhead restraints
+								Prerequisite: ["CuffedArmsOrEmpty"],
+								Property: {
+									Difficulty: 22,
+									SetPose: ["OverTheHead"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Block: ["ItemArms"],
+									Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+						],
+					},
+					{
+						Name: "Device", Key: "d",
+						Options: [
+							{}, // d0 - No devvice
+							{ // s1 - Pleasure module
+								HasSubscreen: true,
+								Property: {
+									SetPose: ["BaseLower"],
+									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+									Effect: ["Egged", "Prone", "Freeze", "BlockKneel"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								}
+							},
+						],
+					},
+					{
+						Name: "Structure", Key: "t",
+						Options: [
+							{}, // t0 - No harness
+							{}, // t1 - X
+							{}, // t2 - +
+							{}, // t3 - H
+						],
+					},
+					{
+						Name: "Harness", Key: "h",
+						Options: [
+							{}, // h0 - None
+							{ // h1 - Minimal
+								Property: {
+									Difficulty: 12,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h2 - Comprehensive
+								Property: {
+									Difficulty: 18,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h3 - Comprehensive (breast)
+								Property: {
+									Difficulty: 18,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+							{ // h4 - High Security
+								Property: {
+									Difficulty: 24,
+									Effect: ["Prone", "Freeze"],
+									OverrideHeight: { Height: 0, Priority: 60 },
+								},
+							},
+						],
+					},
+				],
+				ChangeWhenLocked: false,
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // FuturisticCrate
+
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1479,6 +2013,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["LegsClosed", "BaseUpper"],
 							Effect: ["Block", "Prone", "Freeze", "Mounted"],
 							Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
 					},
 					{
@@ -1491,6 +2026,7 @@ var AssetFemale3DCGExtended = {
 							SetPose: ["LegsClosed", "BaseUpper"],
 							Effect: ["Block", "Prone", "Freeze", "Mounted"],
 							Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
 					},
 				],
@@ -1509,6 +2045,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Hold",
 						Property: {
 							Type: null,
+							HideItem: ["ItemMiscTeddyBear"],
 						},
 					},
 					{
@@ -1550,38 +2087,6 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // Crib
-		TeddyBear: {
-			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
-				Options: [
-					{
-						Name: "Bear",
-						Property: { Type: null },
-					},
-					{
-						Name: "Fox",
-						Property: { Type: "Fox" },
-					},
-					{
-						Name: "Pup",
-						Property: { Type: "Pup" },
-					},
-					{
-						Name: "Pony",
-						Property: { Type: "Pony" },
-					},
-					{
-						Name: "Kitty",
-						Property: { Type: "Kitty" },
-					},
-					{
-						Name: "Bunny",
-						Property: { Type: "Bunny" },
-					},
-				],
-			},
-		}, // TeddyBear
 		PetBed: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1599,6 +2104,8 @@ var AssetFemale3DCGExtended = {
 							Type: "Blanket",
 							SetPose: ["AllFours"],
 							Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
+							HideItem: ["ItemMiscTeddyBear"],
+							HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed"],
 							Block: [
 								"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 								"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
@@ -1713,6 +2220,37 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // InflatableBodyBag
+		FurBlanketWrap: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME],
+				Options: [
+					{
+						Name: "Loose",
+						Property: {
+							Type: null,
+							Difficulty: 3,
+						},
+					},
+					{
+						Name: "Tight",
+						Property: {
+							Type: "Tight",
+							Difficulty: 5,
+						},
+					},
+					{
+						Name: "Belts",
+						Property: {
+							Type: "Belts",
+							Difficulty: 8,
+						},
+					},
+				],
+				DrawImages: false,
+				ChangeWhenLocked: false,
+			},
+		}, // FurBlanketWrap
 		Pole: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -1824,6 +2362,44 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // ToeTape
+		FuturisticHeels: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Shoes",
+						Property: { Type: null, HeightModifier: 6 },
+					},
+					{
+						Name: "Heel",
+						Property: { Type: "Heel", HeightModifier: 16 },
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticHeels
+		FuturisticHeels2: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{ Name: "Shiny", Property: { Type: null } },
+					{ Name: "Matte", Property: { Type: "Matte" } },
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticHeels2
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -1876,6 +2452,27 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // ClitSuctionCup
+		DoubleEndDildo: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Large",
+						Property: {
+							Type: "Large",
+						},
+					},
+				],
+				DrawImages: false,
+			},
+		},
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -2289,6 +2886,31 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		}, // Ribbons
+		HighSecurityHarness: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "LowSec",
+						Property: { Type: null }
+					}, {
+						Name: "MedSec",
+						Property: { Type: "h2" , Difficulty: 5 , Effect: ["CrotchRope"]}
+					}, {
+						Name: "MedSecBreast",
+						Property: { Type: "h3" , Difficulty: 5 }
+					}, {
+						Name: "MaxSec",
+						Property: { Type: "h4" , Difficulty: 10, Effect: ["CrotchRope"] }
+					}
+				],
+				Dialog: {
+					Load: "HighSecurityHarnessType",
+					TypePrefix: "HighSecurityHarnessType",
+					ChatPrefix: "HighSecurityHarnessSet",
+				},
+			}
+		}, // HighSecurityHarness
 		LatexCorset1: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Corset", AssetName: "LatexCorset1" },
@@ -2362,8 +2984,8 @@ var AssetFemale3DCGExtended = {
 					{ Name: "Matte", Property: { Type: "Matte" } },
 				]
 			},
-		}, // Shoes
-	}, // ItemTorso
+		}, // FuturisticHeels2
+	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -2813,6 +3435,50 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // Ribbons
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Nose", Key: "n",
+						Options: [
+							{}, // n0 - No nose
+							{ // n1 - OTN
+								Property: {
+									Difficulty: 1,
+								},
+							},
+						],
+					},
+					{
+						Name: "Harness", Key: "h",
+						Options: [
+							{}, // h0 - No straps
+							{ // h1 - Harness straps
+								Property: {
+									Difficulty: 1,
+								},
+							},
+						],
+					},
+					{
+						Name: "Symbol", Key: "s",
+						Options: [
+							{}, // s0 - Nothing
+							{}, // s1 - Lock symbol
+							{}, // s2 - Mute symbol
+							{}, // s3 - X symbol
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // FuturisticMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -2847,6 +3513,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "Ribbons" },
 		},
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticMuzzle" },
+		},
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -2880,6 +3550,10 @@ var AssetFemale3DCGExtended = {
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "Ribbons" },
+		},
+		FuturisticMuzzle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticMuzzle" },
 		},
 	}, // ItemMouth3
 	Mask: {
@@ -2919,16 +3593,20 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "MostLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4 }
+						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Difficulty: 6 }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
 						Property: { Type: "PetLegs", Hide: ["ClothLower"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
 						Random: false,
+					}, {
+						Name: "CutOut",
+						Prerequisite: ["NoClothLower"],
+						Property: { Type: "CutOut", Hide: ["ClothLower"], Difficulty: 6 }
 					}
 				],
 				Dialog: {
@@ -2969,7 +3647,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Mermaid",
 						BondageLevel: 4,
 						Property: { Type: "Mermaid", SetPose: ["LegsClosed"], Difficulty: 4 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectRopeBondage",
@@ -2992,7 +3670,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Strict",
 						BondageLevel: 2,
 						Property: { Type: "Strict", Difficulty: 2 }
-					}					
+					}
 				],
 				Dialog: {
 					Load: "SelectChainBondage",
@@ -3019,6 +3697,40 @@ var AssetFemale3DCGExtended = {
 				],
 			}
 		}, // SturdyLeatherBelts
+		FuturisticLegCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				Options: [
+					{
+						Name: "None",
+						Property: { Type: null },
+					},
+					{
+						Name: "Closed",
+						Property: {
+							Type: "Closed",
+							SetPose: ["LegsClosed"],
+							Effect: ["Prone", "KneelFreeze", "Slow"],
+							FreezeActivePose: ["BodyLower"],
+							Difficulty: 6,
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemLegsLeatherLegCuffs",
+					ChatPrefix: "FuturisticLegCuffsRestrain",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			}
+		}, // FuturisticLegCuffs
 		LeatherLegCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -3162,6 +3874,38 @@ var AssetFemale3DCGExtended = {
 				ChangeWhenLocked: false,
 			}
 		}, // Chains
+		FuturisticAnkleCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "None",
+						Property: {
+							Type: null, SetPose: null, Difficulty: null, Effect: null, FreezeActivePose: [],
+						}
+					},
+					{
+						Name: "Closed",
+						Property: {
+							Type: "Closed", Effect: ["Prone", "Freeze"], SetPose: ["LegsClosed"], Difficulty: 6, FreezeActivePose: ["BodyLower"],
+						}
+					}
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemFeetSteelAnkleCuffs",
+					ChatPrefix: "FuturisticAnkleCuffsRestrain",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			}
+		}, // FuturisticAnkleCuffs
 		SteelAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -3190,7 +3934,7 @@ var AssetFemale3DCGExtended = {
 		SturdyLeatherBelts: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemArms", AssetName: "SturdyLeatherBelts" },
-		}, // SturdyLeatherBelts 
+		}, // SturdyLeatherBelts
 		LeatherAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "SteelAnkleCuffs" },
@@ -3285,6 +4029,38 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // WoodenMaidTray
+		TeddyBear: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+				Options: [
+					{
+						Name: "Bear",
+						Property: { Type: null },
+					},
+					{
+						Name: "Fox",
+						Property: { Type: "Fox" },
+					},
+					{
+						Name: "Pup",
+						Property: { Type: "Pup" },
+					},
+					{
+						Name: "Pony",
+						Property: { Type: "Pony" },
+					},
+					{
+						Name: "Kitty",
+						Property: { Type: "Kitty" },
+					},
+					{
+						Name: "Bunny",
+						Property: { Type: "Bunny" },
+					},
+				],
+			},
+		}, // TeddyBear
 	}, // ItemMisc
 	ItemPelvis: {
 		SilkStraps: {
@@ -3390,8 +4166,73 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // HempRope
+		PoofyDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME],
+				Options: [
+					{
+						Name: "RegularPadding",
+						Property: { Type: null, },
+					},
+					{
+						Name: "ExtraPadding",
+						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"]	, },
+					},
+				],
+			},
+		}, // PoofyDiaper
 	}, // ItemPelvis
 	ItemEars: {
+		FuturisticEarphones: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Off",
+						Property: {
+							Type: null,
+							Effect: [],
+						},
+					},
+					{
+						Name: "Light",
+						Property: {
+							Type: "Light",
+							Effect: ["DeafLight"],
+						},
+					},
+					{
+						Name: "Heavy",
+						Property: {
+							Type: "Heavy",
+							Effect: ["DeafHeavy"],
+						},
+					},
+					{
+						Name: "NoiseCancelling",
+						Property: {
+							Type: "NoiseCancelling",
+							Effect: ["DeafTotal"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "HeadphoneEarPlugsSelectLoudness",
+					TypePrefix: "HeadphoneEarPlugsPose",
+					ChatPrefix: "HeadphoneEarPlugsRestrain",
+					NpcPrefix: "ItemEarsHeadphonePlugs",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticEarphones
 		HeadphoneEarPlugs: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -3492,7 +4333,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Open",
 						Property: {
-							Type: null, 
+							Type: null,
 						},
 					},
 					{
@@ -3524,7 +4365,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Dull",
 						Property: { Type: "Dull"},
 					},
-				],		
+				],
 			},
 		}, // ChineseDress2
 	}, // Bra
@@ -3567,6 +4408,22 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // Diapers4
+		PoofyDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.DEST_CHAR_NAME],
+				Options: [
+					{
+						Name: "RegularPadding",
+						Property: { Type: null, },
+					},
+					{
+						Name: "ExtraPadding",
+						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
+					},
+				],
+			},
+		}, // PoofyDiaper
 	}, // Panties
 	Glasses: {
 		EyePatch1: {
@@ -3760,9 +4617,18 @@ var AssetFemale3DCGExtended = {
 						Name: "Mummy",
 						Property: {
 							Type: "Mummy",
-							Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "HairFront", "HairBack"],
+							Hide: ["HairFront", "HairBack"],
 							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
 							Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
+						},
+					},
+					{
+						Name: "Open",
+						Property: {
+							Type: "Open",
+							Hide: ["HairFront", "HairBack"],
+							Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
+							Effect: ["GagNormal", "BlockMouth"],
 						},
 					}
 				]
@@ -3821,7 +4687,226 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // WebBlindfold
+		FuturisticMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Transparent",
+						Property: {
+							Type: null,
+							SelfUnlock: true,
+							Effect: [],
+						},
+					},
+					{
+						Name: "LightTint",
+						Property: {
+							Type: "LightTint",
+							Effect: ["BlindLight", "Prone"],
+						},
+					},
+					{
+						Name: "HeavyTint",
+						Property: {
+							Type: "HeavyTint",
+							Effect: ["BlindNormal", "Prone"],
+						},
+					},
+					{
+						Name: "Blind",
+						Property: {
+							Type: "Blind",
+							Effect: ["BlindHeavy", "Prone"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectVisorType",
+					TypePrefix: "ItemHeadInteractiveVisorType",
+					ChatPrefix: "ItemHeadInteractiveVisorSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticMask
+		InteractiveVisor: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Transparent",
+						Property: {
+							Type: null,
+							SelfUnlock: true,
+							Effect: [],
+						},
+					},
+					{
+						Name: "LightTint",
+						Property: {
+							Type: "LightTint",
+							Effect: ["BlindLight", "Prone"],
+						},
+					},
+					{
+						Name: "HeavyTint",
+						Property: {
+							Type: "HeavyTint",
+							Effect: ["BlindNormal", "Prone"],
+						},
+					},
+					{
+						Name: "Blind",
+						Property: {
+							Type: "Blind",
+							Effect: ["BlindHeavy", "Prone"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectVisorType",
+					TypePrefix: "ItemHeadInteractiveVisorType",
+					ChatPrefix: "ItemHeadInteractiveVisorSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // InteractiveVisor
+		InteractiveVRHeadset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Background", Key: "b",
+						Options: [
+							//CustomBlindBackground: {"None" : "SynthWave", "FreeVR" : "SynthWave", "Gaming" : "Dungeon", "Off" : "", "AR" : ""},
+							{ // b0 - Passthrough
+								Property: {
+									CustomBlindBackground: "",
+								}
+							},
+							{ // b1 - SynthWave
+								Property: {
+									CustomBlindBackground: "SynthWave",
+									Effect: [],
+								}
+							},
+							{ // b2 - Dungeon
+								Property: {
+									CustomBlindBackground: "Dungeon",
+									Effect: [],
+								}
+							},
+							{ // b3 - SciFiCell
+								Property: {
+									CustomBlindBackground: "SciFiCell",
+									Effect: [],
+								}
+							},
+							{ // b4 - AncientRuins
+								Property: {
+									CustomBlindBackground: "AncientRuins",
+									Effect: [],
+								}
+							},
+							{ // b5 - HypnoticSpiral
+								Property: {
+									CustomBlindBackground: "HypnoticSpiral",
+									Effect: [],
+								}
+							},
+						],
+					},
+					{
+						Name: "Function", Key: "f",
+						Options: [
+							{ // f0 - Passthrough
+								Property: {
+									Effect: [],
+								}
+							},
+							{ // f1 - Off
+								Property: {
+									Effect: ["BlindHeavy", "Prone"],
+								}
+							},
+							{ // f2 - VR Avatar
+								Property: {
+									Effect: ["BlindHeavy", "Prone", "VRAvatars"],
+								}
+							},
+							{ // f3 - VR Avatar (hide restraints)
+								Property: {
+									Effect: ["BlindHeavy", "VRAvatars", "HideRestraints"],
+								}
+							},
+						],
+					},
+					{
+						Name: "Game", Key: "g",
+						Options: [
+							{ // g0 - None
+								Property: {
+									Effect: [],
+								}
+							},
+							{ // f1 - Kinky Dungeon
+								Property: {
+									Effect: ["KinkyDungeonParty"],
+								}
+							},
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // InteractiveVRHeadset
 	}, // ItemHead
+	ItemHands: {
+		FuturisticMittens: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Mittens",
+						Property: { Type: null, Difficulty: 8, Effect: ["Block", "Prone"], SelfUnlock: false},
+					},
+					{
+						Name: "Gloves",
+						Property: { Type: "Gloves", Difficulty: 0, Effect: [], SelfUnlock: true},
+					},
+				],
+				Dialog: {
+					Load: "SelectFuturisticMittensType",
+					TypePrefix: "FuturisticMittensType",
+					ChatPrefix: "FuturisticMittensSet",
+				},
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+					Validate: FuturisticAccessValidate,
+				}
+			},
+		}, // FuturisticMittens
+	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -3833,7 +4918,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6, Effect: []}
 					}, {
 						Name: "Suspended",
-							Property: { 
+						Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],
@@ -3859,7 +4944,7 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null, Difficulty: 6}
 					}, {
 						Name: "Suspended",
-						Property: { 
+						Property: {
 							Type: "Suspended", Difficulty: 7,
 							OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
 							Effect: ["Lifted"],

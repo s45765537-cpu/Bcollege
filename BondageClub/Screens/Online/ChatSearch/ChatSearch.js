@@ -47,6 +47,7 @@ function ChatSearchLoad() {
  * @returns {void} - Nothing
  */
 function ChatSearchRun() {
+	KidnapLeagueResetOnlineBountyProgress();
 
 	if (ChatSearchMode == "")
 		ChatSearchNormalDraw();
@@ -87,7 +88,11 @@ function ChatSearchClick() {
 		ChatSearchMode = (ChatSearchMode == "Filter" ? "" : "Filter");
 		ChatSearchQuery();
 	}
-	if (MouseIn(1785, 885, 90, 90)) { ElementRemove("InputSearch"); CommonSetScreen("Character", "FriendList"); FriendListReturn = "ChatSearch"; }
+	if (MouseIn(1785, 885, 90, 90)) {
+		ElementRemove("InputSearch");
+		FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule };
+		CommonSetScreen("Character", "FriendList");
+	}
 	if (MouseIn(1885, 885, 90, 90)) ChatSearchExit();
 }
 
@@ -426,7 +431,6 @@ function ChatSearchResultResponse(data) {
 			&& Player.LastChatRoomSize
 			&& Player.LastChatRoomDesc != null) {
 				ChatRoomPlayerCanJoin = true;
-				ChatRoomPlayerJoiningAsAdmin = true;
 				var block = [];
 				var ChatRoomName = Player.LastChatRoom;
 				var ChatRoomDesc = Player.LastChatRoomDesc;

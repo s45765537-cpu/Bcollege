@@ -56,6 +56,7 @@ function TypedItemRegister(asset, config) {
 	TypedItemCreateLoadFunction(data);
 	TypedItemCreateDrawFunction(data);
 	TypedItemCreateClickFunction(data);
+	TypedItemCreateExitFunction(data);
 	TypedItemCreateValidateFunction(data);
 	TypedItemCreatePublishFunction(data);
 	TypedItemCreateNpcDialogFunction(data);
@@ -71,7 +72,7 @@ function TypedItemRegister(asset, config) {
  * @returns {TypedItemData} - The generated typed item data for the asset
  */
 function TypedItemCreateTypedItemData(asset,
-	{ Options, Dialog, ChatTags, Dictionary, ChatSetting, DrawImages, ChangeWhenLocked, Validate }
+	{ Options, Dialog, ChatTags, Dictionary, ChatSetting, DrawImages, ChangeWhenLocked, Validate, ScriptHooks }
 ) {
 	Dialog = Dialog || {};
 	const key = `${asset.Group.Name}${asset.Name}`;
@@ -90,6 +91,13 @@ function TypedItemCreateTypedItemData(asset,
 			CommonChatTags.SOURCE_CHAR,
 			CommonChatTags.DEST_CHAR,
 		],
+		scriptHooks: {
+			load: ScriptHooks ? ScriptHooks.Load : undefined,
+			click: ScriptHooks ? ScriptHooks.Click : undefined,
+			draw: ScriptHooks ? ScriptHooks.Draw : undefined,
+			exit: ScriptHooks ? ScriptHooks.Exit : undefined,
+			validate: ScriptHooks ? ScriptHooks.Validate : undefined,
+		},
 		dictionary: Dictionary || [],
 		chatSetting: ChatSetting || TypedItemChatSetting.TO_ONLY,
 		drawImages: typeof DrawImages === "boolean" ? DrawImages : true,
@@ -103,11 +111,16 @@ function TypedItemCreateTypedItemData(asset,
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateLoadFunction({ options, functionPrefix, dialog }) {
+function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHooks }) {
 	const loadFunctionName = `${functionPrefix}Load`;
-	window[loadFunctionName] = function () {
+	const loadFunction = function () {
 		ExtendedItemLoad(options, dialog.load);
 	};
+	if (scriptHooks && scriptHooks.load) {
+		window[loadFunctionName] = function () {
+			scriptHooks.load(loadFunction);
+		};
+	} else window[loadFunctionName] = loadFunction;
 }
 
 /**
@@ -115,11 +128,16 @@ function TypedItemCreateLoadFunction({ options, functionPrefix, dialog }) {
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImages }) {
+function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImages, scriptHooks }) {
 	const drawFunctionName = `${functionPrefix}Draw`;
-	window[drawFunctionName] = function () {
+	const drawFunction = function () {
 		ExtendedItemDraw(options, dialog.typePrefix, null, drawImages);
 	};
+	if (scriptHooks && scriptHooks.draw) {
+		window[drawFunctionName] = function () {
+			scriptHooks.draw(drawFunction);
+		};
+	} else window[drawFunctionName] = drawFunction;
 }
 
 /**
@@ -127,20 +145,40 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateClickFunction({ options, functionPrefix, drawImages }) {
+function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scriptHooks }) {
 	const clickFunctionName = `${functionPrefix}Click`;
-	window[clickFunctionName] = function () {
+	const clickFunction = function () {
 		ExtendedItemClick(options, null, drawImages);
 	};
+	if (scriptHooks && scriptHooks.click) {
+		window[clickFunctionName] = function () {
+			scriptHooks.click(clickFunction);
+		};
+	} else window[clickFunctionName] = clickFunction;
+}
+
+
+/**
+ * Creates an asset's extended item exit function
+ * @param {TypedItemData} data - The typed item data for the asset
+ * @returns {void} - Nothing
+ */
+ function TypedItemCreateExitFunction({ functionPrefix, scriptHooks}) {
+	const exitFunctionName = `${functionPrefix}Exit`;
+	if (scriptHooks && scriptHooks.exit) {
+		window[exitFunctionName] = function () {
+			scriptHooks.exit();
+		};
+	}
 }
 
 /**
  *
  * @param {TypedItemData} data - The typed item data for the asset
  */
-function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPrefix, validate }) {
+function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPrefix, validate, scriptHooks }) {
 	const validateFunctionName = `${functionPrefix}Validate`;
-	window[validateFunctionName] = function (C, item, option, currentOption) {
+	const validateFunction = function (C, item, option, currentOption) {
 		let message = "";
 
 		if (typeof validate === "function") {
@@ -154,6 +192,11 @@ function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPr
 
 		return message;
 	};
+	if (scriptHooks && scriptHooks.validate) {
+		window[validateFunctionName] = function (C, item, option, currentOption) {
+			scriptHooks.validate(validateFunction, C, item, option, currentOption);
+		};
+	} else window[validateFunctionName] = validateFunction;
 }
 
 /**
@@ -166,6 +209,7 @@ function TypedItemCreatePublishFunction(typedItemData) {
 	if (chatSetting === TypedItemChatSetting.SILENT) return;
 	const publishFunctionName = `${functionPrefix}PublishAction`;
 	window[publishFunctionName] = function (C, newOption, previousOption) {
+		/** @type ExtendedItemChatData<ExtendedItemOption> */
 		const chatData = {
 			C,
 			previousOption,
@@ -173,15 +217,15 @@ function TypedItemCreatePublishFunction(typedItemData) {
 			previousIndex: options.indexOf(previousOption),
 			newIndex:  options.indexOf(newOption),
 		};
-		
+
 		let msg = dialog.chatPrefix;
 		if (typeof msg === "function") {
 			msg = msg(chatData);
 		}
-		
+
 		if (chatSetting === TypedItemChatSetting.FROM_TO) msg += `${previousOption.Name}To`;
 		msg += newOption.Name;
-		
+
 		const dictionary = TypedItemBuildChatMessageDictionary(chatData, typedItemData);
 		ChatRoomPublishCustomAction(msg, true, dictionary);
 	};
@@ -236,41 +280,18 @@ function TypedItemGenerateAllowBlock({asset, options}) {
 
 /**
  * Constructs the chat message dictionary for the typed item based on the items configuration data.
- * @param {TypedItemChatData} ChatData - The chat data that triggered the message.
+ * @param {ExtendedItemChatData<ExtendedItemOption>} ChatData - The chat data that triggered the message.
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {object[]} - The dictionary for the item based on its required chat tags
  */
 function TypedItemBuildChatMessageDictionary(ChatData, { asset, chatTags, dictionary }) {
 	const BuiltDictionary = chatTags
-		.map((tag) => TypedItemMapChatTagToDictionaryEntry(ChatData.C, asset, tag))
+		.map((tag) => ExtendedItemMapChatTagToDictionaryEntry(ChatData.C, asset, tag))
 		.filter(Boolean);
-	
-	dictionary.forEach(entry => BuiltDictionary.push(entry(ChatData)));
-	
-	return BuiltDictionary;
-}
 
-/**
- * Maps a chat tag to a dictionary entry for use in item chatroom messages.
- * @param {Character} C - The target character
- * @param {Asset} asset - The asset for the typed item
- * @param {CommonChatTags} tag - The tag to map to a dictionary entry
- * @returns {object} - The constructed dictionary entry for the tag
- */
-function TypedItemMapChatTagToDictionaryEntry(C, asset, tag) {
-	switch (tag) {
-		case CommonChatTags.SOURCE_CHAR:
-			return { Tag: tag, Text: Player.Name, MemberNumber: Player.MemberNumber };
-		case CommonChatTags.DEST_CHAR:
-		case CommonChatTags.DEST_CHAR_NAME:
-		case CommonChatTags.TARGET_CHAR:
-		case CommonChatTags.TARGET_CHAR_NAME:
-			return { Tag: tag, Text: C.Name, MemberNumber: C.MemberNumber };
-		case CommonChatTags.ASSET_NAME:
-			return { Tag: tag, AssetName: asset.Name };
-		default:
-			return null;
-	}
+	dictionary.forEach(entry => BuiltDictionary.push(entry(ChatData)));
+
+	return BuiltDictionary;
 }
 
 /**
