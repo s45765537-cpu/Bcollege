@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-09-13
-* Last recorded PR: [#2929](https://github.com/Ben987/Bondage-College/pull/2929)
-* Last recorded commit hash: `5c1a261e532d613219c442f72591e781359d5284`
+* Changelog last updated: 2021-09-14
+* Last recorded PR: [#2932](https://github.com/Ben987/Bondage-College/pull/2932)
+* Last recorded commit hash: `b2dc2a2cbe8054a99cbadb5f3eaf4eb908e1099b`
 
 ## [R72]
 
@@ -108,6 +108,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * RedStacey/Ace - Added 2 new items ([#2924](https://github.com/Ben987/Bondage-College/pull/2924))
     * Fur Straitjacket (Arms item)
     * Fur Blanket Wrap (Devices item)
+* Nina - Added a message to notify players when they can't use an item due to room blocking rules ([#2948](https://github.com/Ben987/Bondage-College/pull/2948))
 
 ### [Removed]
 
@@ -147,6 +148,8 @@ containing safety & security tips for players. We'd encourage all players to giv
   list ([Server #99](https://github.com/Ben987/Bondage-Club-Server/pull/99))
 * Ace - Fixed an issue where players would sometimes appear to repeatedly join/leave a
   chatroom ([Server #107](https://github.com/Ben987/Bondage-Club-Server/pull/107))
+* Ace - Fixed a bug where clothing changes inside the wardrobe would be visible to other players in a chatroom ([#2951](https://github.com/Ben987/Bondage-College/pull/2951))
+* Ace - Fixed a crash in the color picker that could occur when the item being colored was removed by someone else ([#2935](https://github.com/Ben987/Bondage-College/pull/2935))
 
 ### [Technical]
 
@@ -161,12 +164,14 @@ containing safety & security tips for players. We'd encourage all players to giv
       , [#2879](https://github.com/Ben987/Bondage-College/pull/2879)
       , [#2913](https://github.com/Ben987/Bondage-College/pull/2913)
       , [Server #108](https://github.com/Ben987/Bondage-Club-Server/pull/108)
+      , [#2933](https://github.com/Ben987/Bondage-College/pull/2933)
+      , [#2932](https://github.com/Ben987/Bondage-College/pull/2932)
     * Ada - [#2873](https://github.com/Ben987/Bondage-College/pull/2873)
       , [#2926](https://github.com/Ben987/Bondage-College/pull/2926)
     * Ellie - [#2888](https://github.com/Ben987/Bondage-College/pull/2888)
       , [#2920](https://github.com/Ben987/Bondage-College/pull/2920)
-  * Jomshir - [Server #98](https://github.com/Ben987/Bondage-Club-Server/pull/98)
-  * TessaTech - [Server #93](https://github.com/Ben987/Bondage-Club-Server/pull/93)
+    * Jomshir - [Server #98](https://github.com/Ben987/Bondage-Club-Server/pull/98)
+    * TessaTech - [Server #93](https://github.com/Ben987/Bondage-Club-Server/pull/93)
 
 ### [Beta Fixes]
 
@@ -175,7 +180,17 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ace - Fixed a bug where the spiral backgrounds from the Techno Helmet and VR Headset would appear as room background options ([#2943](https://github.com/Ben987/Bondage-College/pull/2943))
 * Ada - Fixed some incorrect dialogue for the Kidnapper's League NPC ([#2945](https://github.com/Ben987/Bondage-College/pull/2945))
 * Verity - Fixed an issue with the handheld icon no showing up for the phone ([#2929](https://github.com/Ben987/Bondage-College/pull/2929))
-
+* Verity - Fixed an issue where the handheld item rename wasn't working properly ([#2952](https://github.com/Ben987/Bondage-College/pull/2952))
+* Ada - Balance adjustments for the new suitcase minigame ([#2947](https://github.com/Ben987/Bondage-College/pull/2947))
+* Ada - Fixed an issue with the new minigame where the $ icon would only appear over a player if they were bound ([#2946](https://github.com/Ben987/Bondage-College/pull/2946))
+* Ada - Fixed an issue where the chatroom camera function wouldn't work properly with the new chatroom centering option ([#2955](https://github.com/Ben987/Bondage-College/pull/2955))
+* Ada - Fixed a crash in the new minigame ([#2954](https://github.com/Ben987/Bondage-College/pull/2954))
+* Ada - Fixed a 404 error on the Futuristic Muzzle when locked ([#2953](https://github.com/Ben987/Bondage-College/pull/2953))
+* Ellie - Fixed some clipping issues with the new Pet Suit options ([#2949](https://github.com/Ben987/Bondage-College/pull/2949))
+* Ace - Fixed an issue with the Grand Mage Dress assets when hogtied ([#2944](https://github.com/Ben987/Bondage-College/pull/2944))
+* Ace - Fixed a missing asset for the large Double Ended Dildo option ([#2942](https://github.com/Ben987/Bondage-College/pull/2942))
+* Ace - Fixed a bug which could cause crashes when opening extended clothing in the wardrobe ([#2939](https://github.com/Ben987/Bondage-College/pull/2939))
+* Ace - Fixed a missing chatroom message for the Futuristic Muzzle ([#2937](https://github.com/Ben987/Bondage-College/pull/2937))
 
 ## [R71]
 
