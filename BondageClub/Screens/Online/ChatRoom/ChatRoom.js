@@ -1152,9 +1152,9 @@ function ChatRoomStimulationMessage(Context, Color = "#FFB0B0", FlashIntensity =
 					var trigChance = 0;
 					var trigMsgTemp = "";
 					var Intensity = InventoryItemHasEffect(C.Appearance[A], "Vibrating", true) ? InventoryGetItemProperty(C.Appearance[A], "Intensity", true) : 0;
-					if (InventoryItemHasEffect(C.Appearance[A], "CrotchRope", true)) {
+					if (InventoryItemHasEffect(C.Appearance[A], "RubCrotch", true)) {
 						if (trigChance == 0) trigChance = modBase;
-						trigMsgTemp = "CrotchRope";
+						trigMsgTemp = "RubCrotch";
 						arousalAmount += 2;
 					} else if (Intensity > 0) {
 						if (trigChance == 0 && modVibe > 0) trigChance = modBase; // Some things are not affected by vibration, like kneeling

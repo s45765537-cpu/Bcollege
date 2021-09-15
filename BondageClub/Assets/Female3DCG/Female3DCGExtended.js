@@ -2871,11 +2871,11 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "Harness1",
 						BondageLevel: 2,
-						Property: { Type: "Harness1" , Difficulty: 3 , Effect: ["CrotchRope"]}
+						Property: { Type: "Harness1" , Difficulty: 3 , Effect: ["RubCrotch"]}
 					}, {
 						Name: "Harness2",
 						BondageLevel: 3,
-						Property: { Type: "Harness2" , Difficulty: 4, Effect: ["CrotchRope"] }
+						Property: { Type: "Harness2" , Difficulty: 4, Effect: ["RubCrotch"] }
 					}
 				],
 				Dialog: {
@@ -2895,13 +2895,13 @@ var AssetFemale3DCGExtended = {
 						Property: { Type: null }
 					}, {
 						Name: "MedSec",
-						Property: { Type: "h2" , Difficulty: 5 , Effect: ["CrotchRope"]}
+						Property: { Type: "h2" , Difficulty: 5 , Effect: ["RubCrotch"]}
 					}, {
 						Name: "MedSecBreast",
 						Property: { Type: "h3" , Difficulty: 5 }
 					}, {
 						Name: "MaxSec",
-						Property: { Type: "h4" , Difficulty: 10, Effect: ["CrotchRope"] }
+						Property: { Type: "h4" , Difficulty: 10, Effect: ["RubCrotch"] }
 					}
 				],
 				Dialog: {
@@ -2948,14 +2948,14 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "Crotch",
-						Property: { Type: null, Difficulty: 1, Effect: ["CrotchRope"] }
+						Property: { Type: null, Difficulty: 1, Effect: ["RubCrotch"] }
 					}, {
 						Name: "Waist",
 						Property: { Type: "Waist", Difficulty: 1 }
 					}, {
 						Name: "Harness",
 						BondageLevel: 2,
-						Property: { Type: "Harness", Difficulty: 1, Effect: ["CrotchRope"] }
+						Property: { Type: "Harness", Difficulty: 1, Effect: ["RubCrotch"] }
 					}, {
 						Name: "Star",
 						BondageLevel: 3,
@@ -2963,7 +2963,7 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "Diamond",
 						BondageLevel: 4,
-						Property: { Type: "Diamond", Difficulty: 3, Effect: ["CrotchRope"] }
+						Property: { Type: "Diamond", Difficulty: 3, Effect: ["RubCrotch"] }
 					},
 				],
 				Dialog: {
@@ -4144,10 +4144,10 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "Crotch",
-						Property: { Type: null, Difficulty: 1, Effect: ["CrotchRope"] }
+						Property: { Type: null, Difficulty: 1, Effect: ["RubCrotch"] }
 					}, {
 						Name: "OverPanties",
-						Property: { Type: "OverPanties", Difficulty: 1, OverridePriority: 21, Effect: ["CrotchRope"] }
+						Property: { Type: "OverPanties", Difficulty: 1, OverridePriority: 21, Effect: ["RubCrotch"] }
 					}, {
 						Name: "SwissSeat",
 						BondageLevel: 4,
