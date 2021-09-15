@@ -383,11 +383,12 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
 		let HidingItem = false;
-		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !item.Asset.HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
+		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
+		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if (item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
-		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0)) HidingItem = true;
+		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
 		else if ((item.Asset.HideItem != null) && (item.Asset.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		else if ((item.Property != null) && (item.Property.HideItem != null) && (item.Property.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		if (HidingItem) {
@@ -856,7 +857,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	}
 
 	// Draw the character canvas and calculate the effects on the character
-	if (Refresh == null || Refresh) CharacterRefresh(C);
+	if (Refresh == null || Refresh) CharacterRefresh(C, false);
 
 }
 
@@ -997,8 +998,10 @@ function AppearanceClick() {
 		if ((MouseX >= 1210) && (MouseX < 1275) && (MouseY >= 145) && (MouseY < 975))
 			for (let A = CharacterAppearanceOffset; A < AssetGroup.length && A < CharacterAppearanceOffset + CharacterAppearanceNumPerPage; A++)
 				if ((AssetGroup[A].Family == C.AssetFamily) && (AssetGroup[A].Category == "Appearance") && WardrobeGroupAccessible(C, AssetGroup[A]) && AssetGroup[A].AllowNone && (InventoryGet(C, AssetGroup[A].Name) != null))
-					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95))
-						InventoryRemove(C, AssetGroup[A].Name);
+					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95)) {
+						InventoryRemove(C, AssetGroup[A].Name, false);
+						CharacterRefresh(C, false);
+					}
 
 		// If we must enter the cloth selection mode
 		if ((MouseX >= 1300) && (MouseX < 1700) && (MouseY >= 145) && (MouseY < 975)) {
@@ -1421,7 +1424,9 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
 			const item = InventoryGet(C, C.FocusGroup.Name);
-			if (CharacterAppearanceColorPickerBackup !== item.Color) {
+			const isDifferentColor = item && CharacterAppearanceColorPickerBackup !== item.Color;
+			const isRemoved = !item && CharacterAppearanceColorPickerBackup !== "None";
+			if (isDifferentColor || isRemoved) {
 				AppearancePreviewBuild(C, true);
 			}
 		}
