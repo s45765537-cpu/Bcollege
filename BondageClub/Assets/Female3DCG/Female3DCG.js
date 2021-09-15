@@ -369,13 +369,13 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Zip" },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{ Name: "SeamlessCatsuit", Fetish: ["Latex"], Value: -1, BuyGroup: "Catsuit", Hide: ["ItemNipplesPiercings", "BodyUpper"], HideItem: ["ItemNipplesChopStickNippleClamps"], Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], Extended: true,
 				Layer: [
 					{ Name: "Suit", AllowColorize: true },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{ Name: "PilotSuit", Fetish: ["Latex"], Value: 150, BuyGroup: "PilotSuit", DefaultColor: ["#3270C1", "#2B408B", "#969696", "#2B408B"], Hide: ["ItemNipplesPiercings", "BodyUpper"], HideItem: ["ItemNipplesChopStickNippleClamps"], Extended: true,
@@ -384,13 +384,13 @@ var AssetFemale3DCG = [
 					{ Name: "Layer2", AllowColorize: true },
 					{ Name: "Layer3", AllowColorize: true },
 					{ Name: "Layer4", AllowColorize: true },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{ Name: "SeethroughSuit", Fetish: ["Latex"], Value: 100, BuyGroup: "SeethroughSuit", HideItem: ["ItemNipplesChopStickNippleClamps"], Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], Extended: true,
 				Layer: [
 					{ Name: "Suit", AllowColorize: true },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{
@@ -398,13 +398,13 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Zip" },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{ Name: "ReverseBunnySuit", Fetish: ["Latex", "Pet"], Value: 100, BuyGroup: "ReverseBunnySuit", Expose: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemTorso"], Extended: true,
 				Layer: [
 					{ Name: "Suit", AllowColorize: true },
-					{ Name: "Gloves", AllowColorize: true, Priority: 28, AllowTypes: ["Gloves"] },
+					{ Name: "Gloves", AllowColorize: true, Priority: 27 },
 				]
 			},
 			{ Name: "Blouse1", Value: -1, Top: 1, Priority: 25,BuyGroup: "Blouse1", HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]},
