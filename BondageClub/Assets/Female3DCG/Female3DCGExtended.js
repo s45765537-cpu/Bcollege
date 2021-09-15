@@ -157,6 +157,36 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // LatexLacedSuit
+		ReverseBunnySuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // ReverseBunnySuit
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -4598,24 +4628,23 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Solid",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "Gloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // Catsuit
 		SeamlessCatsuit: {
@@ -4623,24 +4652,29 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Solid",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // SeamlessCatsuit
 		PilotSuit: {
@@ -4648,24 +4682,29 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Solid",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // PilotSuit
 		SeethroughSuit: {
@@ -4673,24 +4712,29 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Seethrough",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "AltGloves",
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // SeethroughSuit
 		SeethroughSuitZip: {
@@ -4698,24 +4742,29 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Seethrough",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "AltGloves",
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // SeethroughSuitZip
 		ReverseBunnySuit: {
@@ -4723,24 +4772,29 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{
-						Name: "Normal",
+						Name: "NoGloves",
 						Property: {
 							Type: null,
-							OverridePriority: 31
 						},
 					},
 					{
-						Name: "Tucked",
+						Name: "Solid",
 						Property: {
-							Type: "Tucked",
-							OverridePriority: 29
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
 						},
 					},
 				],
 				Dialog: {
-					Load: "SelectPriorityType",
-					TypePrefix: "ClothPriorityType",
-				}
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
 			},
 		}, // ReverseBunnySuit
 	}, // Suit
