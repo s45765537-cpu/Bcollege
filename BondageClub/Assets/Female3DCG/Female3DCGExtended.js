@@ -171,6 +171,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 					{
@@ -4637,6 +4638,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 				],
@@ -4661,6 +4663,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 					{
@@ -4691,6 +4694,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 					{
@@ -4727,6 +4731,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 				],
@@ -4757,6 +4762,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Solid",
 						Property: {
 							Type: "Gloves",
+							Hide: ["Hands"],
 						},
 					},
 				],
@@ -4780,7 +4786,8 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "Gloves", 
+							Hide: ["Hands"],
 						},
 					},
 					{
