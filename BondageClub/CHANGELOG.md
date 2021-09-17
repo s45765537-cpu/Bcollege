@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-09-16
-* Last recorded PR: [#2974](https://github.com/Ben987/Bondage-College/pull/2974)
-* Last recorded commit hash: `8dcb568961942ec9cc5ed115014d7b953a6f6bf0`
+* Changelog last updated: 2021-09-17
+* Last recorded PR: [#2984](https://github.com/Ben987/Bondage-College/pull/2984)
+* Last recorded commit hash: `d171ab57c04063573dad104807e44ca58a5c69f5`
 
 ## [R72]
 
@@ -210,6 +210,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ada - Fixed a typo in the suitcase minigame ([#2971](https://github.com/Ben987/Bondage-College/pull/2971))
 * Titania/Ace - Tutu asset fixes ([#2982](https://github.com/Ben987/Bondage-College/pull/2982))
 * Nina - Renamed another reference to handheld toys ([#2974](https://github.com/Ben987/Bondage-College/pull/2974))
+* Estsanatlehi - Fixed a crash when using the Techno Collar's shock module ([#2984](https://github.com/Ben987/Bondage-College/pull/2984))
 
 ## [R71]
 
