@@ -604,7 +604,7 @@ function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
  * @param {WebGLTextureData} textureInfo - Texture information
  * @returns {void} - Nothing
  */
-function GLDrawBingImageToTextureInfo(gl, Img, textureInfo) {
+function GLDrawBindImageToTextureInfo(gl, Img, textureInfo) {
 	textureInfo.width = Img.width;
 	textureInfo.height = Img.height;
 	gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
@@ -643,14 +643,14 @@ function GLDrawLoadImage(gl, url) {
 		let Img = GLDrawImageCache.get(url);
 
 		if (Img) {
-			GLDrawBingImageToTextureInfo(gl, Img, texInfo);
+			GLDrawBindImageToTextureInfo(gl, Img, texInfo);
 		} else {
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
 			const tmpImg = new Image();
 			GLDrawImageCache.set(url, tmpImg);
 
 			tmpImg.addEventListener('load', function () {
-				GLDrawBingImageToTextureInfo(gl, tmpImg, texInfo);
+				GLDrawBindImageToTextureInfo(gl, tmpImg, texInfo);
 				DrawRefreshCharacterForImage(tmpImg);
 			});
 			tmpImg.addEventListener('error', function () {
