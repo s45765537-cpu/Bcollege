@@ -434,7 +434,7 @@ function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
  * @param {{ width: number; height: number; texture: WebGLTexture; }} textureInfo - Texture information
  * @returns {void} - Nothing
  */
-function GLDrawBingImageToTextureInfo(gl, Img, textureInfo) {
+function GLDrawBindImageToTextureInfo(gl, Img, textureInfo) {
 	textureInfo.width = Img.width;
 	textureInfo.height = Img.height;
 	gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
@@ -465,7 +465,7 @@ function GLDrawLoadImage(gl, url) {
 		let Img = GLDrawImageCache.get(url);
 
 		if (Img) {
-			GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
+			GLDrawBindImageToTextureInfo(gl, Img, textureInfo);
 		} else {
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
 			Img = new Image();
@@ -473,7 +473,7 @@ function GLDrawLoadImage(gl, url) {
 
 			++GLDrawCacheTotalImages;
 			Img.addEventListener('load', function () {
-				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
+				GLDrawBindImageToTextureInfo(gl, Img, textureInfo);
 				++GLDrawCacheLoadedImages;
 				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
 			});
