@@ -1,11 +1,5 @@
 "use strict";
 
-/** @type {Map<string, HTMLImageElement>} */
-var GLDrawImageCache = new Map();
-
-var GLDrawCacheLoadedImages = 0;
-var GLDrawCacheTotalImages = 0;
-
 /** @type {"webgl2"|"webgl"|"No WebGL"} */
 var GLVersion;
 
@@ -104,7 +98,7 @@ function GLDrawRevertToCanvas2D() {
 	console.log(`WebGL context lost twice within ${seconds} seconds - reverting to canvas2D rendering`);
 	clearTimeout(GLDrawCrashTimeout);
 	GLDrawCanvas.remove();
-	GLDrawImageCache.clear();
+	ImageCache.clear();
 	GLDrawRebuildCharacters();
 }
 
@@ -125,7 +119,7 @@ function GLDrawOnContextRestored() {
  */
 function GLDrawResetCanvas() {
 	GLDrawCanvas.remove();
-	GLDrawImageCache.clear();
+	ImageCache.clear();
 	GLDrawLoad();
 	GLDrawRebuildCharacters();
 }
@@ -159,7 +153,6 @@ function GLDrawMakeGLProgam(gl) {
 	gl.programFull.u_color = gl.getUniformLocation(gl.programFull, "u_color");
 	gl.programHalf.u_color = gl.getUniformLocation(gl.programHalf, "u_color");
 
-	gl.textureCache = new Map();
 	gl.maskCache = new Map();
 }
 
@@ -412,6 +405,7 @@ function GLDrawImage(url, gl, dstX, dstY, offsetX, color, fullAlpha, alphaMasks,
  * @param {RectTuple[]} alphaMasks - A list of alpha masks to apply to the asset
  */
 function GLDraw2DCanvasBlink(gl, Img, X, Y, alphaMasks) { GLDraw2DCanvas(gl, Img, X + 500, Y, alphaMasks); }
+
 /**
  * Draws a canvas on the WebGL canvas
  * @param {WebGL2RenderingContext} gl - WebGL context
@@ -422,23 +416,8 @@ function GLDraw2DCanvasBlink(gl, Img, X, Y, alphaMasks) { GLDraw2DCanvas(gl, Img
  */
 function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
 	const TempCanvasName = Img.getAttribute("name");
-	gl.textureCache.delete(TempCanvasName);
-	GLDrawImageCache.set(TempCanvasName, Img);
+	ImageCache.set(TempCanvasName, Img);
 	GLDrawImage(TempCanvasName, gl, X, Y, 0, null, null, alphaMasks);
-}
-
-/**
- * Sets texture info from image data
- * @param {WebGLRenderingContext} gl - WebGL context
- * @param {HTMLImageElement} Img - Image to get the data of
- * @param {{ width: number; height: number; texture: WebGLTexture; }} textureInfo - Texture information
- * @returns {void} - Nothing
- */
-function GLDrawBindImageToTextureInfo(gl, Img, textureInfo) {
-	textureInfo.width = Img.width;
-	textureInfo.height = Img.height;
-	gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, Img);
 }
 
 /**
@@ -448,50 +427,28 @@ function GLDrawBindImageToTextureInfo(gl, Img, textureInfo) {
  * @returns {{ width: number; height: number; texture: WebGLTexture; }} - The texture info of a given image
  */
 function GLDrawLoadImage(gl, url) {
-
-	let textureInfo = gl.textureCache.get(url);
+	var image = ImageCache.get(url);
+	var textureInfo = image.textureInfo;
 
 	if (!textureInfo) {
-		const tex = gl.createTexture();
+		textureInfo = { width: 1, height: 1, texture: gl.createTexture() };
 
-		gl.bindTexture(gl.TEXTURE_2D, tex);
-		/** @type { { width: number; height: number; texture: WebGLTexture; } } */
-		textureInfo = { width: 1, height: 1, texture: tex, };
-		gl.textureCache.set(url, textureInfo);
+		gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
-		let Img = GLDrawImageCache.get(url);
-
-		if (Img) {
-			GLDrawBindImageToTextureInfo(gl, Img, textureInfo);
-		} else {
+		if (image.isLoaded()) {
+			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.element);
+			textureInfo.width = image.element.width;
+			textureInfo.height = image.element.height;
+			image.textureInfo = textureInfo;
+		} else  {
+			// Use a temporary 1-by-1 transparent pixel
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-			Img = new Image();
-			GLDrawImageCache.set(url, Img);
-
-			++GLDrawCacheTotalImages;
-			Img.addEventListener('load', function () {
-				GLDrawBindImageToTextureInfo(gl, Img, textureInfo);
-				++GLDrawCacheLoadedImages;
-				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
-			});
-			Img.addEventListener('error', function () {
-				if (Img.errorcount == null) Img.errorcount = 0;
-				Img.errorcount += 1;
-				if (Img.errorcount < 3) {
-					// eslint-disable-next-line no-self-assign
-					Img.src = Img.src;
-				} else {
-					console.log("Error loading image " + Img.src);
-					++GLDrawCacheLoadedImages;
-					if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) CharacterLoadCanvasAll();
-				}
-			});
-			Img.src = url;
 		}
 	}
+
 	return textureInfo;
 }
 
