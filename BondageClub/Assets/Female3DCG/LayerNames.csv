@@ -42,6 +42,8 @@ ClothAdultBabyDress2Bow,Bow
 ClothAdultBabyDress3Dress,Dress
 ClothAdultBabyDress3Belt,Belt
 ClothAdultBabyDress3Collar,Collar
+ClothReverseBunnySuitSuit,Suit
+ClothReverseBunnySuitGloves,Gloves
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
@@ -64,8 +66,15 @@ NecklaceNecklaceBallGagBall,Ball
 NecklaceNecklaceBallGagStrap,Strap
 SuitCatsuitBase,Suit
 SuitCatsuitZip,Zip
+SuitCatsuitGloves,Gloves
 SuitSeethroughSuitZipBase,Suit
 SuitSeethroughSuitZipZip,Zip
+SuitSeamlessCatsuitSuit,Suit
+SuitSeamlessCatsuitGloves,Gloves
+SuitSeethroughSuitSuit,Suit
+SuitSeethroughSuitGloves,Gloves
+SuitReverseBunnySuitSuit,Suit
+SuitReverseBunnySuitGloves,Gloves
 BraHaremBraFabric,Fabric
 BraHaremBraStraps,Straps
 BraHaremBraJewel,Jewel
@@ -450,6 +459,8 @@ ItemDevicesFuckMachinePlastic,Plastic
 ItemDevicesFuckMachineMetal,Metal
 ItemDevicesFuckMachinePole,Pole
 ItemDevicesFuckMachineDildo,Dildo
+ItemDevicesFurBlanketWrapBlanket,Blanket
+ItemDevicesFurBlanketWrapBelts,Belts
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -739,6 +750,8 @@ MaskFoxMaskUpper,Upper
 MaskFoxMaskLower,Lower
 MaskKittyMask3Highlights,Highlights
 MaskKittyMask3Mask,Mask
+ItemTorsoHighSecurityHarnessStrapsHarness,Straps
+ItemTorsoHighSecurityHarnessClampsHarness,Clasps
 ItemTorsoFuturisticHarnessBand,Straps
 ItemTorsoFuturisticHarnessDisplay,Display
 ItemTorsoFuturisticHarnessMesh,Module
@@ -780,11 +793,13 @@ ItemDevicesFuturisticCrateFrame,Frame
 ItemDevicesFuturisticCrateLid_Closed,Lid
 ItemDevicesFuturisticCrateBody,Padding
 ItemDevicesFuturisticCrateStrapsArms,Restraint Frame
+ItemDevicesFuturisticCrateStrapsHarness,Harness Straps
+ItemDevicesFuturisticCrateClampsHarness,Harness Clamps
 ItemDevicesFuturisticCrateStrapsArmsMesh,Restraint Padding
-ItemDevicesFuturisticCrateDevicePleasure,Pleasure Module  Harness
-ItemDevicesFuturisticCrateDevicePleasureHolder,Pleasure Module Actuator
-ItemDevicesFuturisticCrateDevicePleasurePlug,Pleasure Module Dildo
-ItemDevicesFuturisticCrateDevicePleasureStructure,Module Structure
+ItemDevicesFuturisticCrateDevicePleasure,Harness
+ItemDevicesFuturisticCrateDevicePleasureHolder,Actuator
+ItemDevicesFuturisticCrateDevicePleasurePlug,Dildo
+ItemDevicesFuturisticCrateDevicePleasureStructure,Structure
 ItemDevicesFuturisticCrateGlass,Window
 ItemDevicesDollBoxCover,Outside
 ItemDevicesDollBoxBack,Inside
@@ -801,6 +816,7 @@ SuitLowerPilotSuitLayer1,Suit
 SuitLowerPilotSuitLayer2,Highlights
 SuitLowerPilotSuitLayer3,Center
 SuitLowerPilotSuitLayer4,Underlayment
+SuitLowerPilotSuitGloves,Gloves
 SuitPilotSuitLayer1,Suit
 SuitPilotSuitLayer2,Highlights
 SuitPilotSuitLayer3,Center
@@ -846,3 +862,5 @@ BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
 BraceletLaceBandsLace,Lace
 BraceletLaceBandsBands,Bands
+GlassesVGlassesFrame,Frame
+GlassesVGlassesGlass,Lenses

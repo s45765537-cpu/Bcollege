@@ -185,6 +185,8 @@ interface AssetLayer {
 	AllowPose: string[] | null;
 	/** An array of poses that this layer should be hidden for. */
 	HideForPose: string[];
+	/** An array of objects mapping poses to other poses to determine their draw folder */
+	PoseMapping?: { [index: string]: string };
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
 	definition. */
 	Priority: number;
@@ -259,6 +261,7 @@ interface Asset {
 	SetPose?: string[];
 	AllowPose: string[];
 	HideForPose: string[];
+	PoseMapping?: { [index: string]: string };
 	AllowActivePose?: string[];
 	WhitelistActivePose?: string[];
 	Value: number;
@@ -706,7 +709,7 @@ interface PlayerCharacter extends Character {
 		DoBlindFlash: boolean;
 		AnimationQuality: number;
 		StimulationFlash: boolean;
-		NoSmoothZoom: boolean;
+		SmoothZoom: boolean;
 	}
 	NotificationSettings?: {
 		/** @deprecated */
@@ -1003,6 +1006,8 @@ interface ModularItemOption {
 	ChangeWhenLocked?: boolean;
 	/** Whether or not the option should open a subscreen in the extended item menu */
 	HasSubscreen?: boolean;
+	/** Override height, uses the highest priority of all modules*/
+	OverrideHeight?: Record<string, { Height: number, Priority: number}>;
 	/** Whether or not this option can be selected by the wearer */
 	AllowSelfSelect?: boolean;
 }

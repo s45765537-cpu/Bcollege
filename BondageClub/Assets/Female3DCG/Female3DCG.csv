@@ -424,6 +424,7 @@ Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
 Glasses,EyePatch1,Eye Patch
 Glasses,CatGlasses,Cat-Eye Glasses
+Glasses,VGlasses,V Glasses
 Mask,,Mask
 Mask,VenetianMask,Venetian Mask
 Mask,DominoMask,Domino Mask
@@ -802,6 +803,7 @@ ItemTorso,HarnessBra1,Bondage Harness
 ItemTorso,HarnessBra2,Leather Strap Harness
 ItemTorso,Corset2,Corset
 ItemTorso,FuturisticHarness,Futuristic Harness
+ItemTorso,HighSecurityHarness,High Security Harness
 ItemTorso,Corset3,Half Cup Corset
 ItemTorso,Corset4,Under Bust Corset
 ItemTorso,Corset5,Floral Corset
@@ -879,6 +881,7 @@ ItemArms,FuturisticStraitjacket,Futuristic Straitjacket
 ItemArms,StraitJacket,Straitjacket
 ItemArms,CollarCuffs,Collar Cuffs
 ItemArms,LeatherStraitJacket,Leather Straitjacket
+ItemArms,FurStraitJacket,Fur Straitjacket
 ItemArms,Bolero,Bolero Straitjacket
 ItemArms,DuctTape,Duct Tape
 ItemArms,BitchSuit,Pet Suit
@@ -965,8 +968,8 @@ ItemHands,SpankingToysSword,Foam Sword
 ItemHands,SpankingToysVibeRemote,Vibrator Remote
 ItemHands,SpankingToysShockRemote,Shock Remote
 ItemHands,SpankingToysTowel,Towel
-ItemHands,SpankingToysRopeCoilLong,Rope Coil (Long)
-ItemHands,SpankingToysRopeCoilShort,Rope Coil (Short)
+ItemHands,SpankingToysRopeCoilLong,Long Coiled Rope
+ItemHands,SpankingToysRopeCoilShort,Short Coiled Rope
 ItemHands,SpankingToysBallgag,Ballgag
 ItemHands,SpankingToysLongSock,Long Sock
 ItemHands,SpankingToysBaguette,Baguette
@@ -976,6 +979,7 @@ ItemHands,SpankingToysSpatula,Spatula
 ItemHands,SpankingToysBroom,Broom
 ItemHands,KeyProp,Key
 ItemHands,SpankingToysPhone1,Mobile Phone
+ItemHands,SpankingToysPhone2,Mobile Phone 2
 ItemHands,HoofMittens, Hoof Mittens
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
@@ -1320,6 +1324,7 @@ ItemDevices,LowCage,Kennel
 ItemDevices,SaddleStand,Saddle Stand
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,InflatableBodyBag,Inflatable Body Bag
+ItemDevices,FurBlanketWrap,Fur Blanket Wrap
 ItemDevices,BondageBench,Bondage Bench
 ItemDevices,BBQ,Grill
 ItemDevices,LittleMonster,Halloween Monster Set

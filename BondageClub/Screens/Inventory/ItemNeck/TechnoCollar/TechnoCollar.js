@@ -7,13 +7,17 @@ function InventoryItemNeckTechnoCollarShockModule1Load() {
 
 // Draw the item extension screen
 function InventoryItemNeckTechnoCollarShockModule1Draw() {
+	if (DialogFocusItem && DialogFocusItem.Property) {
+		if (DialogFocusItem.Property.Intensity == undefined) DialogFocusItem.Property.Intensity = -1;
+		if (DialogFocusItem.Property.TriggerCount == undefined) DialogFocusItem.Property.TriggerCount = 0;
+	}
 	InventoryItemNeckAccessoriesCollarShockUnitDraw();
 }
 
 // Catches the item extension clicks
 function InventoryItemNeckTechnoCollarShockModule1Click() {
 	InventoryItemNeckAccessoriesCollarShockUnitClick();
-	
+
 	// Exits the screen
 	if (MouseIn(1885, 25, 90, 90)) {
 		InventoryItemNeckTechnoCollarShockModule1Exit();
