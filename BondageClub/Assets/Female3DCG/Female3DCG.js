@@ -933,7 +933,14 @@ var AssetFemale3DCG = [
 					{ Name: "Right", HasType: false, AllowTypes: ["", "Right"] },
 				]
 			},
-			{ Name: "GarterBelt2", Value: 10 }
+			{ Name: "GarterBelt2", Value: 10 },
+			{
+				Name: "Tentacles", Category: ["Fantasy"], Left: 0, Value: 25, DefaultColor: "#9221ba",
+				Layer: [
+					{ Name: "Tentacle" },
+					{ Name: "Shine", AllowColorize: false },
+				],
+			},
 		],
 		Color: ["Default", "#bbbbbb", "#808080", "#202020", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1496,6 +1503,17 @@ var AssetFemale3DCG = [
 					{ Name: "Primary" },
 					{ Name: "Secondary" }
 				]
+			},
+			{
+				Name: "Tentacles", Category: ["Fantasy"], Value: 60, Top: 0,
+				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
+				Layer: [
+					{ Name: "Inner" },
+					{ Name: "Sucker" },
+					{ Name: "InnerShine", AllowColorize: false },
+					{ Name: "Outer" },
+					{ Name: "OuterShine", AllowColorize: false },
+				],
 			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
