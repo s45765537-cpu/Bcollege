@@ -170,6 +170,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily) {
 		IsVulvaFull: function() {
 			return this.Effect.indexOf("FillVulva") >= 0;
 		},
+		IsFixedHead: function() {
+			return this.Effect.includes("FixedHead");
+		},
 		IsOwned: function () {
 			return ((this.Owner != null) && (this.Owner.trim() != ""));
 		},

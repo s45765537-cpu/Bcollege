@@ -542,6 +542,7 @@ interface Character {
 	IsMouthBlocked: () => boolean;
 	IsMouthOpen: () => boolean;
 	IsVulvaFull: () => boolean;
+	IsFixedHead: () => boolean;
 	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
 	IsLover: (C: Character) => boolean;
 	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
