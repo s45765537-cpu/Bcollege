@@ -59,6 +59,7 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		FreezeActivePose: Array.isArray(NewAsset.FreezeActivePose) ? NewAsset.FreezeActivePose : [],
 		PreviewZone: NewAsset.PreviewZone,
 		DynamicGroupName: NewAsset.DynamicGroupName || NewAsset.Group,
+		MirrorActivitiesFrom: NewAsset.MirrorActivitiesFrom || null,
 	};
 	AssetGroupMap.set(A.Name, A);
 	AssetGroup.push(A);

@@ -158,6 +158,7 @@ interface AssetGroup {
 	FreezeActivePose: string[];
 	PreviewZone?: [number, number, number, number];
 	DynamicGroupName: string;
+	MirrorActivitiesFrom?: string;
 }
 
 /** An object defining a drawable layer of an asset */

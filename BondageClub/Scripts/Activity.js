@@ -82,6 +82,23 @@ function ActivityDictionaryText(KeyWord) {
 }
 
 /**
+ * Resolve a group name to the correct group for activities
+ * @param {string} family - The character on which the check is done
+ * @param {string} groupname - The group to check access on
+ * @returns {AssetGroup?} The resolved group
+ */
+function ActivityGetGroupOrMirror(family, groupname) {
+	const group = AssetGroupGet(family, groupname);
+	if (group.MirrorActivitiesFrom != null) {
+		const mirror = AssetGroupGet(family, group.MirrorActivitiesFrom);
+		if (mirror) {
+			return mirror;
+		}
+	}
+	return group;
+}
+
+/**
  * Check if any activities are possible for a character's given group.
  * @param {Character} char - The character on which the check is done
  * @param {string} groupname - The group to check access on
@@ -92,7 +109,7 @@ function ActivityPossibleOnGroup(char, groupname) {
 	if (!characterNotEnclosedOrSelfActivity || !ActivityAllowed() || !CharacterHasArousalEnabled(char))
 		return false;
 
-	const group = AssetGroupGet(char.AssetFamily, groupname);
+	const group = ActivityGetGroupOrMirror(char.AssetFamily, groupname);
 	const zone = char.ArousalSettings.Zone.find(z => z.Name === group.Name);
 	return zone && zone.Factor > 0;
 }
@@ -228,7 +245,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
 function ActivityAllowedForGroup(character, groupname) {
 	// Get the group and all possible activities
 	let activities = AssetAllActivities(character.AssetFamily);
-	let group = AssetGroupGet(character.AssetFamily, groupname);
+	let group = ActivityGetGroupOrMirror(character.AssetFamily, groupname);
 	if (!activities || !group) return [];
 
 	let allowed = activities.filter(activity => {
@@ -690,10 +707,11 @@ function ActivityRunSelf(Source, Target, Activity) {
  */
 function ActivityRun(C, Activity) {
 
+	let group = ActivityGetGroupOrMirror(C.AssetFamily, C.FocusGroup.Name);
 	// If the player does the activity on herself or an NPC, we calculate the result right away
 	if ((C.ArousalSettings.Active == "Hybrid") || (C.ArousalSettings.Active == "Automatic"))
 		if ((C.ID == 0) || C.IsNpc())
-			ActivityEffect(Player, C, Activity, C.FocusGroup.Name);
+			ActivityEffect(Player, C, Activity, group.Name);
 
 	if (C.ID == 0) {
 		if (Activity.MakeSound) {
@@ -712,11 +730,11 @@ function ActivityRun(C, Activity) {
 		var Dictionary = [];
 		Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
 		Dictionary.push({ Tag: "TargetCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
-		Dictionary.push({ Tag: "ActivityGroup", Text: C.FocusGroup.Name });
+		Dictionary.push({ Tag: "ActivityGroup", Text: group.Name });
 		Dictionary.push({ Tag: "ActivityName", Text: Activity.Name });
-		ServerSend("ChatRoomChat", { Content: ((C.ID == 0) ? "ChatSelf-" : "ChatOther-") + C.FocusGroup.Name + "-" + Activity.Name, Type: "Activity", Dictionary: Dictionary });
+		ServerSend("ChatRoomChat", { Content: ((C.ID == 0) ? "ChatSelf-" : "ChatOther-") + group.Name + "-" + Activity.Name, Type: "Activity", Dictionary: Dictionary });
 
-		if (C.ID == 0 && Activity.Name.indexOf("Struggle") >= 0 )
+		if (C.ID == 0 && Activity.Name.indexOf("Struggle") >= 0)
 
 			ChatRoomStimulationMessage("StruggleAction");
 
