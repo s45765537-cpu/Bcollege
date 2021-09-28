@@ -991,7 +991,7 @@ function CharacterRefreshDialog(C) {
 		} else {
 			DialogInventoryBuild(C, DialogInventoryOffset);
 		}
-		ActivityDialogBuild(C);
+		DialogBuildActivities(C);
 	}
 	if (DialogColor != null) {
 		const FocusItem = C && C.FocusGroup ? InventoryGet(C, C.FocusGroup.Name) : null;
@@ -1557,4 +1557,16 @@ function CharacterTransferItem(FromC, ToC, Group, Refresh) {
 	if (Item == null) return;
 	InventoryWear(ToC, Item.Asset.Name, Group, Item.Color, Item.Difficulty);
 	if (Refresh) CharacterRefresh(ToC);
+}
+
+/**
+ * Check if the given character can be aroused at all.
+ * @param {Character} C - The character to test
+ * @returns {boolean} That character can be aroused
+ */
+function CharacterHasArousalEnabled(C) {
+	return (C.ArousalSettings != null)
+		&& (C.ArousalSettings.Zone != null)
+		&& (C.ArousalSettings.Active != null)
+		&& (C.ArousalSettings.Active != "Inactive");
 }
