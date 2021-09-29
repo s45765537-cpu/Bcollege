@@ -3620,23 +3620,23 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "HalfLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "HalfLegs", Hide: ["ClothLower"], Difficulty: 2 }
+						Property: { Type: "HalfLegs", Hide: ["ClothLower", "Garters"], Difficulty: 2 }
 					}, {
 						Name: "MostLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
+						Property: { Type: "MostLegs", Hide: ["ClothLower", "Garters"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower", "Garters"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
-						Property: { Type: "PetLegs", Hide: ["ClothLower"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
+						Property: { Type: "PetLegs", Hide: ["ClothLower", "Garters"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
 						Random: false,
 					}, {
 						Name: "CutOut",
-						Prerequisite: ["NoClothLower"],
+						Prerequisite: ["NoClothLower", "Garters"],
 						Property: { Type: "CutOut", Hide: ["ClothLower"], Difficulty: 6 }
 					}
 				],
