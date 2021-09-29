@@ -1520,7 +1520,14 @@ var AssetFemale3DCGExtended = {
 						Name: "ShockModule", Key: "s",
 						Options: [
 							{}, // s0 No Shock Module
-							{ HasSubscreen: true }, // s1 Shock Module
+							{
+                HasSubscreen: true,
+                Property: {
+                  Intensity: 0,
+                  TriggerCount: 0,
+                  ShowText: true,
+                }
+              }, // s1 Shock Module
 						],
 					},
 				],
@@ -2369,6 +2376,46 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // Coffin
+		Net: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
+				Options: [
+					{
+						Name: "Kneel",
+						Property: {
+							Type: "Kneel",
+							Difficulty: 3,
+							Effect: ["Freeze", "Prone", "ForceKneel"],
+							SetPose: ["Kneel"],
+						},
+					},
+					{
+						Name: "AllFours",
+						Property: {
+							Type: "AllFours",
+							Difficulty: 6,
+							Effect: ["Freeze", "Prone"],
+							SetPose: ["AllFours"],
+						},
+					},
+					{
+						Name: "Suspended",
+						Property: {
+							Type: "Suspended",
+							Difficulty: 7,
+							Effect: ["Block","Freeze", "Prone",],
+							SetPose: ["Hogtied"],
+							OverrideHeight: { Height: 25, Priority: 51, HeightRatioProportion: 0 },
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemDevicesNet",
+				},
+			},
+		}, // Net
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -2688,7 +2735,6 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Chain",
 							Difficulty: 0,
-							Block: ["ItemNeck"],
 						},
 					},
 					{
@@ -2707,7 +2753,6 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "WeightedChain",
 							Difficulty: 0,
-							Block: ["ItemNeck"],
 						},
 					},
 				],
@@ -5224,4 +5269,26 @@ var AssetFemale3DCGExtended = {
 			}
 		}, // NoseRing
 	}, // ItemNose
+	Wings: {
+		SteampunkWings: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				DrawImages: false,
+				Options: [
+					{
+						Name: "Off",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "On",
+						Property: {
+							Type: "On",
+						},
+					},
+				],
+			}
+		}, // SteampunkWings
+	}, // Wings
 };

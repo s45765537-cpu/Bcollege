@@ -273,6 +273,9 @@ ItemNipplesTapedVibeEggsTape1,Left Tape Strip
 ItemNipplesTapedVibeEggsTape2,Right Tape Strip
 ItemNipplesStretchCloversFrame,Frame
 ItemNipplesStretchCloversClamps,Clamps
+ItemNipplesPiercingsRoundPiercingPiercings,Piercings
+ItemNipplesPiercingsRoundPiercingWeights,Weights
+ItemNipplesPiercingsRoundPiercingChain,Chain
 ItemNipplesPiercingsVibeHeartPiercingsHeart,Heart
 ItemNipplesPiercingsVibeHeartPiercingsRing,Ring
 ItemNipplesPiercingsNecklacePiercingChainChain,Chain
@@ -461,6 +464,8 @@ ItemDevicesFuckMachinePole,Pole
 ItemDevicesFuckMachineDildo,Dildo
 ItemDevicesFurBlanketWrapBlanket,Blanket
 ItemDevicesFurBlanketWrapBelts,Belts
+ItemDevicesNetFront,Net
+ItemDevicesNetWeightsFront,Weights
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -862,5 +867,8 @@ BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
 BraceletLaceBandsLace,Lace
 BraceletLaceBandsBands,Bands
+WingsSteampunkWingsGears,Gears
+WingsSteampunkWingsWings,Wings
+WingsSteampunkWingsWingFrames,Frame
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses

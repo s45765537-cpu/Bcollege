@@ -146,7 +146,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Dress2", Value: 100, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons"] },
-			{ Name: "LaceBabydoll", Fetish: ["Lingerie"], Value: 40, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesLactationPump"] },
+			{ Name: "LaceBabydoll", Fetish: ["Lingerie"], Value: 40, HideItem: ["ItemNipplesLactationPump"] },
 			{ Name: "SleevelessTop", Fetish: ["Lingerie"], Value: 20, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"] },
 			{
 				Name: "DressFur", Value: 70, HideItem: ["ClothLowerTutu", "ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
@@ -1537,8 +1537,16 @@ var AssetFemale3DCG = [
 			{ Name: "AngelWings", Value: 50 },
 			{ Name: "BatWings", Value: 20 },
 			{ Name: "FairyWings", Value: 50 },
+			{
+				Name: "SteampunkWings", Value: 90, DefaultColor: ["#707070", "#707070", "#2F2DCC", "#707070"], HasType: false, Extended: true, DynamicBeforeDraw: true, DynamicScriptDraw: true, Layer: [
+					{ Name: "Base" },
+					{ Name: "Gears" },
+					{ Name: "Wings" },
+					{ Name: "WingFrames" }
+				]
+			},
 		],
-		Color: ["Default"]
+		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
 
 	{
@@ -2447,7 +2455,15 @@ var AssetFemale3DCG = [
 		Zone: [[200, 270, 100, 70]],
 		Asset: [
 			{ Name: "StraightPiercing", Fetish: ["Metal"], Value: 10, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }] },
-			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true },
+			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
+				Layer: [
+					{ Name: "Piercings", HasType: false, AllowTypes: ["", "Weighted"] },
+					{ Name: "PiercingsChained", HasType: false, AllowTypes: ["Chain", "WeightedChain"], CopyLayerColor: "Piercings" },
+					{ Name: "Chain", HasType: false, AllowTypes: ["Chain", "WeightedChain"] },
+					{ Name: "Weights", HasType: false, AllowTypes: ["Weighted"] },
+					{ Name: "WeightsChained", HasType: false, AllowTypes: ["WeightedChain"], CopyLayerColor: "Weights" }
+				]
+			},
 			{
 				Name: "NecklacePiercingChain", Value: 80, Difficulty: 3, Time: 20, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], HideForPose: ["AllFours"],
 				Layer: [
@@ -2783,7 +2799,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemNipplesLactationPump"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				Effect: ["Block", "Prone", "Freeze", "BlockKneel", "Slow"],
-				AllowBlock: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulvaPiercings", "ItemButt"],
+				AllowBlock: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				AllowEffect: ["Egged", "Vibrating"],
 				AllowType: ["", "UnZip"],
 				Block: ["ItemBoots", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet"],
@@ -5142,6 +5158,20 @@ var AssetFemale3DCG = [
 					{ Name: "Pussy", AllowColorize: false, Top: 408, Left: 125, Priority: 11 },
 				],
 			},
+			{
+				Name: "Net", Value: 50, Difficulty: 20, Random: false, Top: 0, AllowLock: false,
+				Prerequisite: ["NotSuspended", "NotMounted", "NoFeetSpreader", "CanKneel",],
+				AllowPose: ["Kneel","AllFours","Yoked","Hogtied"],
+				SetPose: ["Kneel"],
+				Effect: ["Freeze","Block", "Prone", "ForceKneel",],
+				Extended: true,
+				Layer: [
+					{ Name: "Front"},
+					{ Name: "Back", Priority: 3, CopyLayerColor: "Front"},
+					{ Name: "WeightsFront", HideForPose:["Hogtied"]},
+					{ Name: "WeightsBack", Priority: 3, CopyLayerColor:"WeightsFront", HideForPose:["Hogtied"]},
+				]
+			}
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

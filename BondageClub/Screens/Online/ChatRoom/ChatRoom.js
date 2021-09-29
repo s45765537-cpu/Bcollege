@@ -274,14 +274,14 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCantTakeSuitcase() {
+function ChatRoomCantTakeSuitcase() {
 	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCantTakeSuitcaseOpened() {
+function ChatRoomCantTakeSuitcaseOpened() {
 	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
@@ -574,9 +574,7 @@ function ChatRoomCreateElement() {
  */
 function ChatRoomLoad() {
 	ElementRemove("InputSearch");
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
+	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 	ChatRoomCharacterUpdate(Player);
@@ -2856,6 +2854,11 @@ function ChatRoomSyncItem(data) {
 			let { item, valid } = ValidationResolveAppearanceDiff(previousItem, newItem, updateParams);
 
 			ChatRoomAllowCharacterUpdate = false;
+
+			if (!item || (previousItem && previousItem.Asset.Name !== item.Asset.Name)) {
+				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
+			}
+
 			if (item) {
 				CharacterAppearanceSetItem(
 					ChatRoomCharacter[C], data.Item.Group, item.Asset, item.Color, item.Difficulty, null, false);
@@ -2876,8 +2879,6 @@ function ChatRoomSyncItem(data) {
 				const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(ChatRoomCharacter[C].Appearance, diffMap);
 				ChatRoomCharacter[C].Appearance = cyclicBlockSanitizationResult.appearance;
 				valid = valid && cyclicBlockSanitizationResult.valid;
-			} else {
-				InventoryRemove(ChatRoomCharacter[C], data.Item.Group);
 			}
 
 			ChatRoomAllowCharacterUpdate = true;
