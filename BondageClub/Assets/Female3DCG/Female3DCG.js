@@ -2174,6 +2174,18 @@ var AssetFemale3DCG = [
 			{ Name: "ShockPlug", Fetish: ["Masochism"], Value: 60, Time: 10, Visible: false, Extended: true, AlwaysExtend: true, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Activity: "ShockItem" },
 			{ Name: "Cowtail", Fetish: ["Pet"], BuyGroup: "CowTails", Value: 20, Time: 10, Top: 80, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
 			{ Name: "HollowButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Time: 10, DynamicGroupName: "TailStraps",
+				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
+				AllowActivity: ["Penetrate"],
+				Layer: [
+					{ Name: "Inner" },
+					{ Name: "Sucker" },
+					{ Name: "InnerShine", AllowColorize: false },
+					{ Name: "Outer" },
+					{ Name: "OuterShine", AllowColorize: false },
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
