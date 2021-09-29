@@ -1020,6 +1020,8 @@ interface ItemPropertiesBase {
 	OverridePriority?: unknown;
 	DefaultColor?: string;
 
+	Attribute?: string[];
+
 	AllowActivity?: string[];
 	AllowActivityOn?: AssetGroupItemName[];
 

@@ -203,8 +203,6 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			break;
 		case "ZoneAccessible":
 			return ActivityGetAllMirrorGroups(acted.AssetFamily, group.Name).some((g) => !InventoryGroupIsBlocked(acted, g.Name, true));
-		case "WearingPenetrationItem":
-			return CharacterHasItemForActivity(acting, "Penetrate") && !acting.IsEnclose();
 		case "ZoneNaked":
 			if (group.Name === "ItemButt")
 				return InventoryPrerequisiteMessage(acted, "AccessButt") === "" && !acted.IsPlugged();
@@ -216,6 +214,11 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return InventoryPrerequisiteMessage(acted, "NakedFeet") === "";
 			else if (group.Name === "ItemHands")
 				return InventoryPrerequisiteMessage(acted, "NakedHands") === "";
+			break;
+		default:
+			if (prereq.startsWith("Needs-")) {
+				return !acting.IsEnclose() && !acted.IsEnclose() && CharacterHasItemWithAttribute(acting, prereq.substring(6));
+			}
 			break;
 	}
 	return true;
