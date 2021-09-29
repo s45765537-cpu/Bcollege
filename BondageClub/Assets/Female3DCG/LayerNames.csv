@@ -205,6 +205,9 @@ TailStrapsFoxTailStrap2Base,Tail
 TailStrapsFoxTailStrap2Tip,Tip
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
+TailStrapsTentaclesInner,Inner
+TailStrapsTentaclesOuter,Outer
+TailStrapsTentaclesSucker,Suckers
 ItemFeetOrnateAnkleCuffsCuffs,Cuffs
 ItemFeetOrnateAnkleCuffsGems,Gems
 ItemLegsOrnateLegCuffsCuffs,Cuffs
