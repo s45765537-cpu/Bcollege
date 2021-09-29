@@ -1507,6 +1507,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Top: 0,
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
+				AllowActivity: ["Penetrate"],
 				Layer: [
 					{ Name: "Inner" },
 					{ Name: "Sucker" },
