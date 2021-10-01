@@ -4639,7 +4639,7 @@ var AssetFemale3DCG = [
 		Left: 150,
 		Top: 50,
 		Zone: [[100, 0, 75, 130]],
-		Activity: ["Kiss", "GaggedKiss", "Lick", "Nibble", "Pinch", "Caress", "Whisper", "TickleItem", "RubItem", "RollItem", "Wiggle"],
+		Activity: ["Kiss", "GaggedKiss", "Lick", "Nibble", "Bite", "Pinch", "Caress", "Whisper", "TickleItem", "RubItem", "RollItem", "Wiggle"],
 		Asset: [
 			{ Name: "LightDutyEarPlugs", Value: 15, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafLight"] },
 			{ Name: "HeavyDutyEarPlugs", Value: 30, Difficulty: 50, Time: 5, Visible: false, Effect: ["DeafHeavy"] },
@@ -5421,7 +5421,7 @@ var ActivityFemale3DCG = [
 	{
 		Name: "Suck",
 		MaxProgress: 60,
-		TargetSelf: ["ItemHands", "ItemArms", "ItemBoots", "ItemNipples"],
+		TargetSelf: ["ItemHands", "ItemBoots", "ItemNipples"],
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"]
 	},
 	{
@@ -5444,13 +5444,13 @@ var ActivityFemale3DCG = [
 	{
 		Name: "Tickle",
 		MaxProgress: 50,
-		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemBreast", "ItemNipples", "ItemLegs", "ItemFeet", "ItemBoots", "ItemArms", "ItemHands"],
+		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemBreast", "ItemLegs", "ItemFeet", "ItemBoots", "ItemArms"],
 		Prerequisite: ["ZoneAccessible", "UseHands"]
 	},
 	{
 		Name: "Caress",
 		MaxProgress: 80,
-		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemBreast", "ItemNipples", "ItemLegs", "ItemFeet", "ItemBoots", "ItemArms", "ItemHands", "ItemButt", "ItemVulva", "ItemHead", "ItemNeck", "ItemMouth", "ItemEars", "ItemNose"],
+		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemBreast", "ItemNipples", "ItemLegs", "ItemFeet", "ItemArms", "ItemHands", "ItemButt", "ItemVulva", "ItemHead", "ItemNeck", "ItemMouth", "ItemEars", "ItemNose"],
 		Prerequisite: ["ZoneAccessible", "UseHands"]
 	},
 	{
@@ -5479,7 +5479,7 @@ var ActivityFemale3DCG = [
 	{
 		Name: "MassageHands",
 		MaxProgress: 60,
-		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemBreast", "ItemLegs", "ItemFeet", "ItemBoots", "ItemArms", "ItemHands", "ItemButt", "ItemVulva", "ItemHead", "ItemNeck"],
+		TargetSelf: ["ItemTorso", "ItemPelvis", "ItemLegs", "ItemFeet", "ItemBoots", "ItemArms", "ItemNeck"],
 		Prerequisite: ["ZoneAccessible", "UseHands"]
 	},
 	{
