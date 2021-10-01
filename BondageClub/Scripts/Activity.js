@@ -253,7 +253,8 @@ function ActivityAllowedForGroup(character, groupname) {
 		return true;
 	});
 
-	return allowed;
+	// Sort allowed activities by their group declaration order
+	return allowed.sort((a, b) => Math.sign(group.Activity.indexOf(a.Name) - group.Activity.indexOf(b.Name)));
 }
 
 /**
