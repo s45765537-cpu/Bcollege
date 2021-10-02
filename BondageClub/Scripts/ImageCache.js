@@ -73,7 +73,8 @@ class CachedImage {
 			image.cache._imageStateDidChange(image);
 		});
 
-		// Start loading
+		// Start loading, reset error count
+		this.errorCount = 0;
 		this._refresh();
 	}
 
@@ -83,7 +84,9 @@ class CachedImage {
 	 */
 	setElement(element) {
 		this.element = element;
+		this.errorCount = 0;
 		this.state = CachedImageState.LOADED;
+		this.cache._imageStateDidChange(this);
 	}
 
 	/**
@@ -91,6 +94,7 @@ class CachedImage {
 	 */
 	_refresh() {
 		this.state = CachedImageState.LOADING;
+		this.textureInfo = null;
 		this.element.src = this.url;
 	}
 
