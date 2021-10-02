@@ -189,6 +189,7 @@ class ImageCacheClass {
 	 * @param {CachedImage} image - The image whose state changed
 	 */
 	_imageStateDidChange(image) {
+		const RetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
 		if (image.state == CachedImageState.LOADED) {
 			this.loadedCount += 1;
 			if (image.loadCallback)
@@ -196,8 +197,8 @@ class ImageCacheClass {
 
 			if (this.loadedImages() == this.totalImages()) CharacterLoadCanvasAll();
 		} else if (image.state == CachedImageState.ERRORED) {
-			if (image.errorCount < 6) {
-				let backoff = (10 * image.errorCount) * 1000;
+			if (image.errorCount < RetryTimers.length) {
+				let backoff = RetryTimers[image.errorCount - 1];
 				console.log("Error loading image, retrying after " + backoff + "ms: " + image.url);
 				setTimeout(() => {
 					image._refresh();
