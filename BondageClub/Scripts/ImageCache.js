@@ -47,6 +47,8 @@ class CachedImage {
 		this.element = null;
 		/** @type {{ width: number; height: number; texture: WebGLTexture; }} */
 		this.textureInfo = null;
+		/** @type number */
+		this.lastUsed = null;
 	}
 
 	/**
@@ -109,6 +111,8 @@ class CachedImage {
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 }
 
+const ImageCachePurgeDelay = 20 * 60 * 1000; /* 30 minutes */
+
 /**
  * The class responsible for loading and caching images
  */
@@ -117,6 +121,7 @@ class ImageCacheClass {
 		/** @type {Map<string, CachedImage>} */
 		this.cache = new Map();
 		this.loadedCount = 0;
+		this.purgeTimer = setInterval(() => this.purge(), ImageCachePurgeDelay);
 	}
 
 	/**
@@ -132,6 +137,8 @@ class ImageCacheClass {
 			image = new CachedImage(this, url, loadCallback);
 			this.cache.set(url, image);
 		}
+
+		image.lastUsed = CommonTime();
 
 		// start loading the image
 		image.load();
@@ -210,6 +217,25 @@ class ImageCacheClass {
 				if (this.loadedImages() == this.totalImages()) CharacterLoadCanvasAll();
 			}
 		}
+	}
+
+	/**
+	 * Purge all images errored or not used in the last half-purge delay
+	 */
+	purge() {
+		let stats = { errored: 0, unused: 0 };
+		console.log(`Purging cache cleared, ${this.totalImages()} images`);
+		this.cache.forEach((image, url) => {
+			// Clear errored images
+			if (image.state == CachedImageState.ERRORED) {
+				stats.errored += 1;
+				this.cache.delete(url);
+			} else if ((image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
+				stats.unused += 1;
+				this.cache.delete(url);
+			}
+		});
+		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused`);
 	}
 
 	/**
