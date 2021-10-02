@@ -33,6 +33,7 @@ module.exports = {
 		// Until globals are properly documented
 		"no-undef": "off",
 		"no-var": "off",
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 	},
 	overrides: [
 		{

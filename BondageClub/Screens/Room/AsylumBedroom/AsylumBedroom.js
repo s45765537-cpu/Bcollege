@@ -86,10 +86,11 @@ function AsylumBedroomClick() {
 		CommonSetScreen("Room", "AsylumEntrance");
 	if (MouseIn(1885, 145, 90, 90))
 		InformationSheetLoadCharacter(Player);
-	// eslint-disable-next-line no-self-assign
 	if (
 		MouseIn(1885, 265, 90, 90) &&
 		LogValue("Committed", "Asylum") >= CurrentTime
-	)
+	) {
+		// eslint-disable-next-line no-self-assign
 		window.location = window.location;
+	}
 }

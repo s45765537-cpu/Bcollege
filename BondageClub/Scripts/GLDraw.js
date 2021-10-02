@@ -692,9 +692,10 @@ function GLDrawLoadImage(gl, url) {
 				if (Img.errorcount == null) Img.errorcount = 0;
 				Img.errorcount += 1;
 				if (Img.errorcount < GLDrawRetryTimers.length) {
-					// eslint-disable-next-line no-self-assign
 					setTimeout(
-						() => (Img.src = Img.src),
+						() =>
+							// eslint-disable-next-line no-self-assign
+							(Img.src = Img.src),
 						GLDrawRetryTimers[Img.errorcount - 1]
 					);
 				} else {
