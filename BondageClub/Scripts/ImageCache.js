@@ -60,17 +60,16 @@ class CachedImage {
 		this.element = new Image();
 
 		// Set up listeners to keep track of the loading process
-		let image = this;
-		this.element.addEventListener("load", function() {
-			image.errorCount = 0;
-			image.state = CachedImageState.LOADED;
-			image.cache._imageStateDidChange(image);
+		this.element.addEventListener("load", () => {
+			this.errorCount = 0;
+			this.state = CachedImageState.LOADED;
+			this.cache._imageStateDidChange(this);
 		});
 
-		this.element.addEventListener("error", function () {
-			image.errorCount += 1;
-			image.state = CachedImageState.ERRORED;
-			image.cache._imageStateDidChange(image);
+		this.element.addEventListener("error", () => {
+			this.errorCount += 1;
+			this.state = CachedImageState.ERRORED;
+			this.cache._imageStateDidChange(this);
 		});
 
 		// Start loading, reset error count
