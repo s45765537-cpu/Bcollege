@@ -5,10 +5,12 @@
   "scripts": {
     "changelog": "node GenerateChangelog generate",
     "changelogPrepare": "node GenerateChangelog prepare",
-    "checks": "npm run lintscripts && npm run assetcheck-typescript && npm run assetcheck",
+    "checks": "npm run lintscripts && npm run assetcheck-typescript && npm run assetcheck && npm run prettier",
     "lint": "eslint Assets/Female3DCG/Female3DCG.js",
     "lint:fix": "eslint --fix Assets/Female3DCG/Female3DCG.js",
     "lintscripts": "eslint --quiet \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Assets/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
+    "prettier": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write .",
     "assetcheck": "cd Tools/Node && node AssetCheck",
     "assetcheck-typescript": "cd .. && tsc -p BondageClub/Tools/Node/tsconfig-assetcheck.json",
     "test": "echo \\\"Error: no test specified\\\" && exit 1"
@@ -25,9 +27,10 @@
   "homepage": "https://github.com/Ben987/Bondage-College#readme",
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "eslint": "^6.8.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-sort-keys-custom": "^2.0.0",
     "marked": "^2.0.0",
+    "prettier": "2.4.1",
     "simple-git": "^2.42.0",
     "typescript": "^4.3.5"
   }

@@ -1,0 +1,7 @@
+node_modules/
+Scripts/lib/
+CSS/chessboard-0.3.0.css
+CHANGELOG.md
+package-lock.json
+Assets/Female3DCG/Female3DCG.js
+Assets/Female3DCG/Female3DCGExtended.js
