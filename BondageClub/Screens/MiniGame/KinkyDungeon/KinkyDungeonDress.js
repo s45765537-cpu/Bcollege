@@ -8,21 +8,65 @@ function KinkyDungeonInitializeDresses() {
 	KinkyDungeonCheckClothesLoss = true;
 	KinkyDungeonUndress = 0;
 	KinkyDungeonDresses = {
-		"Default" : [
-			{Item: "WitchHat1", Group: "Hat", Color: "Default", Lost: false},
-			{Item: "LeatherCorsetTop1", Group: "Cloth", Color: "Default", Lost: false},
-			{Item: "LatexSkirt1", Group: "ClothLower", Color: "Default", Lost: false, Skirt: true},
-			{Item: "Socks4", Group: "Socks", Color: "#444444", Lost: false},
-			{Item: "Heels3", Group: "Shoes", Color: "#222222", Lost: false},
-			{Item: "KittyPanties1", Group: "Panties", Color: "#222222", Lost: false},
-			{Item: "FrameBra2", Group: "Bra", Color: "Default", Lost: false},
-			{Item: "LatexElbowGloves", Group: "Gloves", Color: "Default", Lost: false},
-			{Item: "Necklace4", Group: "Necklace", Color: "#222222", Lost: false},
-		]
+		Default: [
+			{
+				Item: "WitchHat1",
+				Group: "Hat",
+				Color: "Default",
+				Lost: false,
+			},
+			{
+				Item: "LeatherCorsetTop1",
+				Group: "Cloth",
+				Color: "Default",
+				Lost: false,
+			},
+			{
+				Item: "LatexSkirt1",
+				Group: "ClothLower",
+				Color: "Default",
+				Lost: false,
+				Skirt: true,
+			},
+			{
+				Item: "Socks4",
+				Group: "Socks",
+				Color: "#444444",
+				Lost: false,
+			},
+			{
+				Item: "Heels3",
+				Group: "Shoes",
+				Color: "#222222",
+				Lost: false,
+			},
+			{
+				Item: "KittyPanties1",
+				Group: "Panties",
+				Color: "#222222",
+				Lost: false,
+			},
+			{
+				Item: "FrameBra2",
+				Group: "Bra",
+				Color: "Default",
+				Lost: false,
+			},
+			{
+				Item: "LatexElbowGloves",
+				Group: "Gloves",
+				Color: "Default",
+				Lost: false,
+			},
+			{
+				Item: "Necklace4",
+				Group: "Necklace",
+				Color: "#222222",
+				Lost: false,
+			},
+		],
 	};
 }
-
-
 
 function KinkyDungeonDressPlayer() {
 	if (KinkyDungeonCheckClothesLoss) {
@@ -30,38 +74,69 @@ function KinkyDungeonDressPlayer() {
 		KinkyDungeonUndress = 0;
 	}
 
-	for (let C = 0; C < KinkyDungeonDresses[KinkyDungeonCurrentDress].length; C++) {
+	for (
+		let C = 0;
+		C < KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
+		C++
+	) {
 		let clothes = KinkyDungeonDresses[KinkyDungeonCurrentDress][C];
 		let PreviouslyLost = clothes.Lost;
 
 		if (!clothes.Lost && KinkyDungeonCheckClothesLoss) {
 			if (clothes.Group == "Necklace" || clothes.Group == "Bra") {
-				if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
-				if (KinkyDungeonGetRestraintItem("ItemBreast")) clothes.Lost = true;
+				if (
+					KinkyDungeonGetRestraintItem("ItemTorso") &&
+					KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness
+				)
+					clothes.Lost = true;
+				if (KinkyDungeonGetRestraintItem("ItemBreast"))
+					clothes.Lost = true;
 			}
 			if (clothes.Group == "Panties") {
-				if (KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = true;
+				if (KinkyDungeonGetRestraintItem("ItemPelvis"))
+					clothes.Lost = true;
 			}
 			if (clothes.Group == "ClothLower" && clothes.Skirt) {
-				if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
+				if (
+					KinkyDungeonGetRestraintItem("ItemTorso") &&
+					KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness
+				)
+					clothes.Lost = true;
 			}
 			if (clothes.Group == "Shoes") {
-				if (KinkyDungeonGetRestraintItem("ItemBoots")) clothes.Lost = true;
+				if (KinkyDungeonGetRestraintItem("ItemBoots"))
+					clothes.Lost = true;
 			}
 
-			if (clothes.Lost) KinkyDungeonUndress += 1/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
+			if (clothes.Lost)
+				KinkyDungeonUndress +=
+					1 / KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
 		}
 
-		if (clothes.Lost != PreviouslyLost) KinkyDungeonStatArousal += 100/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
+		if (clothes.Lost != PreviouslyLost)
+			KinkyDungeonStatArousal +=
+				100 / KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
 
 		if (!clothes.Lost) {
 			if (KinkyDungeonCheckClothesLoss) {
-				InventoryWear(KinkyDungeonPlayer, clothes.Item, clothes.Group);
-				CharacterAppearanceSetColorForGroup(KinkyDungeonPlayer, clothes.Color, clothes.Group);
+				InventoryWear(
+					KinkyDungeonPlayer,
+					clothes.Item,
+					clothes.Group
+				);
+				CharacterAppearanceSetColorForGroup(
+					KinkyDungeonPlayer,
+					clothes.Color,
+					clothes.Group
+				);
 			}
 		}
 
-		if (clothes.Group == "Panties" && !KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = false; // A girl's best friend never leaves her
+		if (
+			clothes.Group == "Panties" &&
+			!KinkyDungeonGetRestraintItem("ItemPelvis")
+		)
+			clothes.Lost = false; // A girl's best friend never leaves her
 	}
 
 	KinkyDungeonCheckClothesLoss = false;
@@ -83,14 +158,16 @@ function KinkyDungeonDressPlayer() {
 	else if (BlushCounter == 5) Blush = "Extreme";
 
 	for (let A = 0; A < KinkyDungeonPlayer.Appearance.length; A++) {
-		if (KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Blush") {
+		if (
+			KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Blush"
+		) {
 			let property = KinkyDungeonPlayer.Appearance[A].Property;
 			if (!property || property.Expression != Blush) {
-				KinkyDungeonPlayer.Appearance[A].Property = { Expression: Blush };
+				KinkyDungeonPlayer.Appearance[A].Property = {
+					Expression: Blush,
+				};
 				CharacterRefresh(KinkyDungeonPlayer);
 			}
 		}
-
 	}
-
 }

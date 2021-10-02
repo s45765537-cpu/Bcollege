@@ -58,7 +58,7 @@ type CommonChatTags =
 type NotificationAudioType = 0 | 1 | 2;
 type NotificationAlertType = 0 | 1 | 3 | 2;
 
-type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type DialogSortOrder = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 //#endregion
 
@@ -124,7 +124,7 @@ interface AssetGroup {
 	Name: string;
 	Description: string;
 	ParentGroupName: string;
-	Category: 'Appearance' | 'Item';
+	Category: "Appearance" | "Item";
 	IsDefault: boolean;
 	IsRestraint: boolean;
 	AllowNone: boolean;
@@ -147,7 +147,11 @@ interface AssetGroup {
 	AllowExpression?: string[];
 	Effect?: string[];
 	MirrorGroup: string;
-	RemoveItemOnRemove: { Group: string; Name: string; Type?: string }[];
+	RemoveItemOnRemove: {
+		Group: string;
+		Name: string;
+		Type?: string;
+	}[];
 	DrawingPriority: number;
 	DrawingLeft: number;
 	DrawingTop: number;
@@ -291,7 +295,11 @@ interface Asset {
 	OwnerOnly: boolean;
 	LoverOnly: boolean;
 	ExpressionTrigger?: ExpressionTrigger[];
-	RemoveItemOnRemove: { Name: string; Group: string; Type?: string; }[];
+	RemoveItemOnRemove: {
+		Name: string;
+		Group: string;
+		Type?: string;
+	}[];
 	AllowEffect?: string[];
 	AllowBlock?: string[];
 	AllowType?: string[];
@@ -302,7 +310,7 @@ interface Asset {
 	Audio?: string;
 	Category?: string[];
 	Fetish?: string[];
-	CustomBlindBackground? : string;
+	CustomBlindBackground?: string;
 	ArousalZone: string;
 	IsRestraint: boolean;
 	BodyCosplay: boolean;
@@ -311,10 +319,14 @@ interface Asset {
 	DynamicDescription: (C: Character) => string;
 	DynamicPreviewImage: (C: Character) => string;
 	DynamicAllowInventoryAdd: (C: Character) => boolean;
-	DynamicExpressionTrigger: (C: Character) => ExpressionTrigger[] | null | undefined;
+	DynamicExpressionTrigger: (
+		C: Character
+	) => ExpressionTrigger[] | null | undefined;
 	DynamicName: (C: Character) => string;
 	DynamicGroupName: string;
-	DynamicActivity: (C: Character) => string[] | string | null | undefined;
+	DynamicActivity: (
+		C: Character
+	) => string[] | string | null | undefined;
 	DynamicAudio: ((C: Character) => string) | null;
 	CharacterRestricted: boolean;
 	AllowRemoveExclusive: boolean;
@@ -326,7 +338,11 @@ interface Asset {
 	AllowLockType?: string[];
 	AllowColorizeAll: boolean;
 	AvailableLocations: string[];
-	OverrideHeight?: { Height: number; Priority: number; HeightRatioProportion?: number };
+	OverrideHeight?: {
+		Height: number;
+		Priority: number;
+		HeightRatioProportion?: number;
+	};
 	FreezeActivePose: string[];
 	DrawLocks: boolean;
 	AllowExpression?: string[];
@@ -355,11 +371,11 @@ type AppearanceBundle = ItemBundle[];
 
 interface Pose {
 	Name: string;
-	Category?: 'BodyUpper' | 'BodyLower' | 'BodyFull';
+	Category?: "BodyUpper" | "BodyLower" | "BodyFull";
 	AllowMenu?: true;
-	OverrideHeight?: { Height: number; Priority: number; };
+	OverrideHeight?: { Height: number; Priority: number };
 	Hide?: string[];
-	MovePosition?: { Group: string; X: number; Y: number; }[];
+	MovePosition?: { Group: string; X: number; Y: number }[];
 }
 
 interface ChatMessageDictionaryEntry {
@@ -556,7 +572,11 @@ interface Character {
 	DrawAppearance?: Item[];
 	AppearanceLayers?: AssetLayer[];
 	Hooks: Map<string, Map<string, any>> | null;
-	RegisterHook: (hookName: string, hookInstance: string, callback: any) => boolean | any;
+	RegisterHook: (
+		hookName: string,
+		hookInstance: string,
+		callback: any
+	) => boolean | any;
 	UnregisterHook: (hookName: string, hookInstance: string) => boolean;
 	HeightRatioProportion?: number;
 	// Properties created in other places
@@ -710,7 +730,7 @@ interface PlayerCharacter extends Character {
 		AnimationQuality: number;
 		StimulationFlash: boolean;
 		SmoothZoom: boolean;
-	}
+	};
 	NotificationSettings?: {
 		/** @deprecated */
 		Audio?: boolean;
@@ -741,7 +761,10 @@ interface PlayerCharacter extends Character {
 	GhostList?: number[];
 	Wardrobe?: any[][];
 	WardrobeCharacterNames?: string[];
-	SavedExpressions?: ({ Group: string, CurrentExpression?: string }[] | null)[];
+	SavedExpressions?: (
+		| { Group: string; CurrentExpression?: string }[]
+		| null
+	)[];
 	SavedColors: HSVColor[];
 	FriendList?: number[];
 	FriendNames?: Map<number, string>;
@@ -768,13 +791,16 @@ interface ItemProperties {
  * An object containing the extended item definition for an asset.
  * @template Archetype, Config
  */
-interface ExtendedItemAssetConfig<Archetype extends ExtendedArchetype, Config> {
+interface ExtendedItemAssetConfig<
+	Archetype extends ExtendedArchetype,
+	Config
+> {
 	/** The extended item archetype that this asset uses. */
 	Archetype: Archetype;
 	/** The specific configuration for the item (type will vary based on the item's archetype) */
 	Config?: Config;
 	/** The group name and asset name of a configuration to copy - useful if multiple items share the same config */
-	CopyConfig?: {GroupName?: string, AssetName: string};
+	CopyConfig?: { GroupName?: string; AssetName: string };
 }
 
 /**
@@ -782,7 +808,10 @@ interface ExtendedItemAssetConfig<Archetype extends ExtendedArchetype, Config> {
  * Maps asset names within the group to their extended item configuration
  * @see {@link ExtendedItemAssetConfig}
  */
-type ExtendedItemGroupConfig = Record<string, TypedItemAssetConfig | ModularItemAssetConfig>;
+type ExtendedItemGroupConfig = Record<
+	string,
+	TypedItemAssetConfig | ModularItemAssetConfig
+>;
 
 /**
  * An object containing extended item configurations keyed by group name.
@@ -807,7 +836,7 @@ interface ExtendedItemOption {
 	 */
 	SelfBlockCheck?: boolean;
 	/** A custom background for this option that overrides the default */
-	CustomBlindBackground? : string;
+	CustomBlindBackground?: string;
 	/**
 	 * Whether or not it should be possible to change from this option to another
 	 * option while the item is locked (if set to `false`, the player must be able to unlock the item to change its type) -
@@ -854,7 +883,7 @@ interface ExtendedItemChatData<OptionType> {
  * @template OptionType
  */
 type ExtendedItemChatCallback<OptionType> = (
-	chatData: ExtendedItemChatData<OptionType>,
+	chatData: ExtendedItemChatData<OptionType>
 ) => string;
 
 /**
@@ -869,7 +898,7 @@ type ExtendedItemValidateCallback<OptionType> = (
 	C: Character,
 	Item: Item,
 	Option: OptionType,
-	CurrentOption: OptionType,
+	CurrentOption: OptionType
 ) => string;
 
 /**
@@ -886,7 +915,7 @@ type ExtendedItemValidateScriptHookCallback<OptionType> = (
 	C: Character,
 	Item: Item,
 	Option: OptionType,
-	CurrentOption: OptionType,
+	CurrentOption: OptionType
 ) => string;
 
 //#endregion
@@ -894,7 +923,10 @@ type ExtendedItemValidateScriptHookCallback<OptionType> = (
 //#region Modular items
 
 /** An object containing the extended item definition for a modular asset. */
-type ModularItemAssetConfig = ExtendedItemAssetConfig<"modular", ModularItemConfig>;
+type ModularItemAssetConfig = ExtendedItemAssetConfig<
+	"modular",
+	ModularItemConfig
+>;
 
 /** An object defining all of the required configuration for registering a modular item */
 interface ModularItemConfig {
@@ -989,7 +1021,7 @@ interface ModularItemOption {
 	 */
 	SelfBlockCheck?: boolean;
 	/** A custom background for this option that overrides the default */
-	CustomBlindBackground? : string;
+	CustomBlindBackground?: string;
 	/** A list of groups that this option blocks - defaults to [] */
 	Block?: string[];
 	/** A list of groups that this option hides - defaults to [] */
@@ -1007,7 +1039,10 @@ interface ModularItemOption {
 	/** Whether or not the option should open a subscreen in the extended item menu */
 	HasSubscreen?: boolean;
 	/** Override height, uses the highest priority of all modules*/
-	OverrideHeight?: Record<string, { Height: number, Priority: number}>;
+	OverrideHeight?: Record<
+		string,
+		{ Height: number; Priority: number }
+	>;
 	/** Whether or not this option can be selected by the wearer */
 	AllowSelfSelect?: boolean;
 }
@@ -1038,7 +1073,9 @@ interface ModularItemData {
 	/** The dialogue prefix for the name of each option */
 	dialogOptionPrefix: string;
 	/** The dialogue prefix that will be used for each of the item's chatroom messages */
-	chatMessagePrefix: string | ExtendedItemChatCallback<ModularItemOption>;
+	chatMessagePrefix:
+		| string
+		| ExtendedItemChatCallback<ModularItemOption>;
 	/** The module definitions for the modular item */
 	modules: ModularItemModule[];
 	/** Name of currently active module */
@@ -1046,7 +1083,10 @@ interface ModularItemData {
 	/** A lookup for the current page in the extended item menu for each of the item's modules */
 	pages: Record<string, number>;
 	/** A lookup for the draw data for each of the item's modules */
-	drawData: Record<string, { pageCount: number, paginate: boolean, positions: number[][] }>;
+	drawData: Record<
+		string,
+		{ pageCount: number; paginate: boolean; positions: number[][] }
+	>;
 	/** A lookup for the draw functions for each of the item's modules */
 	drawFunctions: Record<string, () => void>;
 	/** A lookup for the click functions for each of the item's modules */
@@ -1061,11 +1101,11 @@ interface ModularItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load?: (next: () => void) => void,
-		click?: (next: () => void) => void,
-		draw?: (next: () => void) => void,
-		exit?: () => void,
-		validate?: ExtendedItemValidateScriptHookCallback<ModularItemOption>,
+		load?: (next: () => void) => void;
+		click?: (next: () => void) => void;
+		draw?: (next: () => void) => void;
+		exit?: () => void;
+		validate?: ExtendedItemValidateScriptHookCallback<ModularItemOption>;
 	};
 }
 
@@ -1078,14 +1118,19 @@ interface ModularItemData {
  * The textKey is the CSV key for the text that should be displayed in the button.
  * The background is an optional CSS color string defining the background color for the button.
  */
-type ModularItemButtonDefinition = [string, string] | [string, string, string];
+type ModularItemButtonDefinition =
+	| [string, string]
+	| [string, string, string];
 
 //#endregion
 
 //#region Typed items
 
 /** An object containing the extended item definition for a modular asset. */
-type TypedItemAssetConfig = ExtendedItemAssetConfig<"typed", TypedItemConfig>;
+type TypedItemAssetConfig = ExtendedItemAssetConfig<
+	"typed",
+	TypedItemConfig
+>;
 
 /** An object defining all of the required configuration for registering a typed item */
 interface TypedItemConfig {
@@ -1125,11 +1170,11 @@ interface TypedItemConfig {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	ScriptHooks?: {
-		Load?: (next: () => void) => void,
-		Click?: (next: () => void) => void,
-		Draw?: (next: () => void) => void,
-		Exit?: () => void,
-		Validate? : ExtendedItemValidateScriptHookCallback<ExtendedItemOption>,
+		Load?: (next: () => void) => void;
+		Click?: (next: () => void) => void;
+		Draw?: (next: () => void) => void;
+		Exit?: () => void;
+		Validate?: ExtendedItemValidateScriptHookCallback<ExtendedItemOption>;
 	};
 }
 
@@ -1215,11 +1260,11 @@ interface TypedItemData {
 	 * and parameters passed on to them. If undefined, these are ignored
 	 */
 	scriptHooks?: {
-		load?: (next: () => void) => void,
-		click?: (next: () => void) => void,
-		draw?: (next: () => void) => void,
-		exit?: () => void,
-		validate?: ExtendedItemValidateScriptHookCallback<ExtendedItemOption>,
+		load?: (next: () => void) => void;
+		click?: (next: () => void) => void;
+		draw?: (next: () => void) => void;
+		exit?: () => void;
+		validate?: ExtendedItemValidateScriptHookCallback<ExtendedItemOption>;
 	};
 }
 
@@ -1235,7 +1280,7 @@ interface TypedItemData {
  */
 type TypedItemDictionaryCallback = (
 	chatData: ExtendedItemChatData<ExtendedItemOption>
-) => { Tag: string, Text: string };
+) => { Tag: string; Text: string };
 
 /**
  * A parameter object containing information used to validate and sanitize character appearance update diffs. An
@@ -1300,14 +1345,25 @@ interface AppearanceValidationWrapper {
 
 //#endregion
 
-type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+type Optional<T, K extends keyof T> = Omit<T, K> &
+	Partial<Pick<T, K>>;
 
 interface ICommand {
 	Tag: string;
 	Description?: string;
 	Reference?: string;
-	Action?: (this: Optional<ICommand, 'Tag'>, args: string, msg: string, parsed: string[]) => void
-	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
-	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
+	Action?: (
+		this: Optional<ICommand, "Tag">,
+		args: string,
+		msg: string,
+		parsed: string[]
+	) => void;
+	Prerequisite?: (this: Optional<ICommand, "Tag">) => boolean;
+	AutoComplete?: (
+		this: Optional<ICommand, "Tag">,
+		parsed: string[],
+		low: string,
+		msg: string
+	) => void;
 	Clear?: false;
 }

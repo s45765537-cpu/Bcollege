@@ -1,8 +1,11 @@
 "use strict";
-const InventoryItemHoodCanvasHoodAllowedChars = /^(?:\w|[ ~!$#%*+])*$/;
+const InventoryItemHoodCanvasHoodAllowedChars =
+	/^(?:\w|[ ~!$#%*+])*$/;
 const InventoryItemHoodCanvasHoodMaxLength = 12;
-const InventoryItemHoodCanvasHoodInputId = "InventoryItemHoodCanvasHoodText";
-const InventoryItemHoodCanvasHoodFont = "'Saira Stencil One', 'Arial', sans-serif";
+const InventoryItemHoodCanvasHoodInputId =
+	"InventoryItemHoodCanvasHoodText";
+const InventoryItemHoodCanvasHoodFont =
+	"'Saira Stencil One', 'Arial', sans-serif";
 
 /**
  * Loads the canvas hood's extended item properties
@@ -15,7 +18,8 @@ function InventoryItemHoodCanvasHoodLoad() {
 	const C = CharacterGetCurrent();
 	let MustRefresh = false;
 
-	const Property = DialogFocusItem.Property = DialogFocusItem.Property || {};
+	const Property = (DialogFocusItem.Property =
+		DialogFocusItem.Property || {});
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
 		MustRefresh = true;
@@ -26,7 +30,12 @@ function InventoryItemHoodCanvasHoodLoad() {
 		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 	}
 
-	ElementCreateInput(InventoryItemHoodCanvasHoodInputId, "text", Property.Text, InventoryItemHoodCanvasHoodMaxLength);
+	ElementCreateInput(
+		InventoryItemHoodCanvasHoodInputId,
+		"text",
+		Property.Text,
+		InventoryItemHoodCanvasHoodMaxLength
+	);
 }
 
 /**
@@ -37,10 +46,27 @@ function InventoryItemHoodCanvasHoodDraw() {
 	// Draw the header and item
 	DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
 
-	const updateAllowed = InventoryItemHoodCanvasHoodAllowedChars.test(InventoryItemHoodCanvasHoodGetText());
-	DrawTextFit(DialogFindPlayer("CanvasHoodLabel"), 1505, 620, 350, "#fff", "#000");
+	const updateAllowed = InventoryItemHoodCanvasHoodAllowedChars.test(
+		InventoryItemHoodCanvasHoodGetText()
+	);
+	DrawTextFit(
+		DialogFindPlayer("CanvasHoodLabel"),
+		1505,
+		620,
+		350,
+		"#fff",
+		"#000"
+	);
 	ElementPosition(InventoryItemHoodCanvasHoodInputId, 1505, 680, 350);
-	DrawButton(1330, 731, 340, 64, DialogFindPlayer("SaveText"), updateAllowed ? "White" : "#888", "");
+	DrawButton(
+		1330,
+		731,
+		340,
+		64,
+		DialogFindPlayer("SaveText"),
+		updateAllowed ? "White" : "#888",
+		""
+	);
 }
 
 /**
@@ -54,7 +80,10 @@ function InventoryItemHoodCanvasHoodClick() {
 	}
 
 	const text = InventoryItemHoodCanvasHoodGetText();
-	if (MouseIn(1330, 731, 340, 64) && InventoryItemHoodCanvasHoodAllowedChars.test(text)) {
+	if (
+		MouseIn(1330, 731, 340, 64) &&
+		InventoryItemHoodCanvasHoodAllowedChars.test(text)
+	) {
 		DialogFocusItem.Property.Text = text;
 		InventoryItemHoodCanvasHoodChange(text);
 	}
@@ -68,7 +97,8 @@ function InventoryItemHoodCanvasHoodExit() {
 	ElementRemove(InventoryItemHoodCanvasHoodInputId);
 	PreferenceMessage = "";
 	DialogFocusItem = null;
-	if (DialogInventory != null) DialogMenuButtonBuild(CharacterGetCurrent());
+	if (DialogInventory != null)
+		DialogMenuButtonBuild(CharacterGetCurrent());
 }
 
 /**
@@ -81,9 +111,17 @@ function InventoryItemHoodCanvasHoodChange(text) {
 	CharacterRefresh(C);
 	if (CurrentScreen == "ChatRoom") {
 		var Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
-			{ Tag: "NewText", Text: text }
+			{
+				Tag: "SourceCharacter",
+				Text: Player.Name,
+				MemberNumber: Player.MemberNumber,
+			},
+			{
+				Tag: "DestinationCharacterName",
+				Text: C.Name,
+				MemberNumber: C.MemberNumber,
+			},
+			{ Tag: "NewText", Text: text },
 		];
 		ChatRoomPublishCustomAction("CanvasHoodChange", true, Dictionary);
 		InventoryItemHoodCanvasHoodExit();
@@ -95,7 +133,10 @@ function InventoryItemHoodCanvasHoodChange(text) {
  * @returns {string} - The text in the canvas hood's input element
  */
 function InventoryItemHoodCanvasHoodGetText() {
-	return ElementValue(InventoryItemHoodCanvasHoodInputId).substring(0, InventoryItemHoodCanvasHoodMaxLength);
+	return ElementValue(InventoryItemHoodCanvasHoodInputId).substring(
+		0,
+		InventoryItemHoodCanvasHoodMaxLength
+	);
 }
 
 /**
@@ -103,17 +144,38 @@ function InventoryItemHoodCanvasHoodGetText() {
  * curvature of the character's head.
  * @returns {void} - Nothing
  */
-function AssetsItemHoodCanvasHoodAfterDraw({ C, A, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color }) {
+function AssetsItemHoodCanvasHoodAfterDraw({
+	C,
+	A,
+	X,
+	Y,
+	L,
+	Property,
+	drawCanvas,
+	drawCanvasBlink,
+	AlphaMasks,
+	Color,
+}) {
 	if (L === "_Text") {
 		// Fetch the text property and assert that it matches the character
 		// and length requirements
-		let text = Property && typeof Property.Text === "string" && InventoryItemHoodCanvasHoodAllowedChars.test(Property.Text) ? Property.Text : "";
+		let text =
+			Property &&
+			typeof Property.Text === "string" &&
+			InventoryItemHoodCanvasHoodAllowedChars.test(Property.Text)
+				? Property.Text
+				: "";
 		text = text.substring(0, InventoryItemHoodCanvasHoodMaxLength);
 
 		// Prepare a temporary canvas to draw the text to
 		const height = 50;
 		const width = 120;
-		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
+		const tempCanvas = AnimationGenerateTempCanvas(
+			C,
+			A,
+			width,
+			height
+		);
 		const ctx = tempCanvas.getContext("2d");
 
 		DynamicDrawTextArc(text, ctx, width / 2, height / 2, {

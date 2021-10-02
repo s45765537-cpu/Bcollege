@@ -3,7 +3,7 @@
 /** @type {TextCache | null} */
 let TextScreenCache = null;
 /** @type {Map<string, TextCache>} */
-const TextAllScreenCache = new Map;
+const TextAllScreenCache = new Map();
 
 /**
  * Finds the text value linked to the tag in the buffer
@@ -21,14 +21,23 @@ function TextGet(TextTag) {
  * @returns {void} - Nothing
  */
 function TextLoad(TextGroup) {
-
 	// Finds the full path of the CSV file to use cache
-	if ((TextGroup == null) || (TextGroup == "")) TextGroup = CurrentScreen;
-	const FullPath = "Screens/" + CurrentModule + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
+	if (TextGroup == null || TextGroup == "") TextGroup = CurrentScreen;
+	const FullPath =
+		"Screens/" +
+		CurrentModule +
+		"/" +
+		TextGroup +
+		"/Text_" +
+		TextGroup +
+		".csv";
 
 	TextScreenCache = TextAllScreenCache.get(FullPath);
 	if (!TextScreenCache) {
-		TextScreenCache = new TextCache(FullPath, "MISSING VALUE FOR TAG: ");
+		TextScreenCache = new TextCache(
+			FullPath,
+			"MISSING VALUE FOR TAG: "
+		);
 		TextAllScreenCache.set(FullPath, TextScreenCache);
 	}
 }
@@ -39,9 +48,19 @@ function TextLoad(TextGroup) {
  * @param {string} TextGroup
  */
 function TextPrefetch(Module, TextGroup) {
-	const FullPath = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
+	const FullPath =
+		"Screens/" +
+		Module +
+		"/" +
+		TextGroup +
+		"/Text_" +
+		TextGroup +
+		".csv";
 	if (TextAllScreenCache.has(FullPath)) {
-		TextAllScreenCache.set(FullPath, new TextCache(FullPath, "MISSING VALUE FOR TAG: "));
+		TextAllScreenCache.set(
+			FullPath,
+			new TextCache(FullPath, "MISSING VALUE FOR TAG: ")
+		);
 	}
 }
 
@@ -77,7 +96,7 @@ class TextCache {
 			this.buildCache();
 		}
 		const value = this.cache[key];
-		return (value != null) ? value : (this.warn + key);
+		return value != null ? value : this.warn + key;
 	}
 
 	/**
@@ -97,11 +116,14 @@ class TextCache {
 	 * file.
 	 */
 	fetchCsv() {
-		if (CommonCSVCache[this.path]) return Promise.resolve(CommonCSVCache[this.path]);
+		if (CommonCSVCache[this.path])
+			return Promise.resolve(CommonCSVCache[this.path]);
 		return new Promise((resolve) => {
 			CommonGet(this.path, (xhr) => {
 				if (xhr.status === 200) {
-					CommonCSVCache[this.path] = CommonParseCSV(xhr.responseText);
+					CommonCSVCache[this.path] = CommonParseCSV(
+						xhr.responseText
+					);
 					return resolve(CommonCSVCache[this.path]);
 				}
 				return Promise.resolve([]);
@@ -130,19 +152,34 @@ class TextCache {
 		const lang = (TranslationLanguage || "").trim().toUpperCase();
 		if (!lang || lang === "EN") return Promise.resolve(lines);
 
-		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/$1_${lang}.txt`);
+		const translationPath = this.path.replace(
+			/\/([^/]+)\.csv$/,
+			`/$1_${lang}.txt`
+		);
 		if (!TranslationAvailable(translationPath)) {
 			return Promise.resolve(lines);
 		}
 
 		if (TranslationCache[translationPath]) {
-			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
+			return Promise.resolve(
+				this.buildTranslations(
+					lines,
+					TranslationCache[translationPath]
+				)
+			);
 		} else {
 			return new Promise((resolve) => {
 				CommonGet(translationPath, (xhr) => {
 					if (xhr.status === 200) {
-						TranslationCache[translationPath] = TranslationParseTXT(xhr.responseText);
-						return resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
+						TranslationCache[translationPath] = TranslationParseTXT(
+							xhr.responseText
+						);
+						return resolve(
+							this.buildTranslations(
+								lines,
+								TranslationCache[translationPath]
+							)
+						);
 					}
 					return resolve(lines);
 				});
@@ -158,6 +195,9 @@ class TextCache {
 	 * values translated to the current game language
 	 */
 	buildTranslations(lines, translations) {
-		return lines.map(line => ([line[0], TranslationString(line[1], translations, "")]));
+		return lines.map((line) => [
+			line[0],
+			TranslationString(line[1], translations, ""),
+		]);
 	}
 }

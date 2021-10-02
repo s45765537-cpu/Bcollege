@@ -1,5 +1,6 @@
 "use strict";
-const InventoryItemDevicesVacBedDeluxeOpacityInputId = "InventoryItemDevicesVacBedDeluxeOpacity";
+const InventoryItemDevicesVacBedDeluxeOpacityInputId =
+	"InventoryItemDevicesVacBedDeluxeOpacity";
 
 const InventoryItemDevicesVacBedDeluxeSelectionOffsetX = 1000;
 const InventoryItemDevicesVacBedDeluxeSelectionOffsetY = 700;
@@ -13,28 +14,28 @@ let InventoryItemDevicesVacBedDeluxeOptions = [
 			Type: null,
 			SetPose: ["BaseLower"],
 		},
-		Prerequisite: ["LegsOpen"]
+		Prerequisite: ["LegsOpen"],
 	},
 	{
 		Name: "ArmsDownLegsTogether",
 		Property: {
 			Type: "ArmsDownLegsTogether",
-			SetPose: ["LegsClosed"]
-		}
+			SetPose: ["LegsClosed"],
+		},
 	},
 	{
 		Name: "ArmsUpLegsSpread",
 		Property: {
 			Type: "ArmsUpLegsSpread",
-			SetPose: ["Yoked", "BaseLower"]
-		}
+			SetPose: ["Yoked", "BaseLower"],
+		},
 	},
 	{
 		Name: "ArmsUpLegsTogether",
 		Property: {
 			Type: "ArmsUpLegsTogether",
-			SetPose: ["Yoked", "LegsClosed"]
-		}
+			SetPose: ["Yoked", "LegsClosed"],
+		},
 	},
 ];
 
@@ -48,7 +49,7 @@ function InventoryItemDevicesVacBedDeluxeLoad() {
 	let refresh = false;
 
 	/** @type {ItemProperties} */
-	const Property = item.Property = item.Property || { };
+	const Property = (item.Property = item.Property || {});
 	if (typeof Property.Opacity !== "number") {
 		Property.Opacity = item.Asset.Opacity;
 		refresh = true;
@@ -59,9 +60,23 @@ function InventoryItemDevicesVacBedDeluxeLoad() {
 		ChatRoomCharacterItemUpdate(character, item.Asset.Group.Name);
 	}
 
-	const opacitySlider = ElementCreateRangeInput(InventoryItemDevicesVacBedDeluxeOpacityInputId, Property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity, 0.01, "blindfold", false);
+	const opacitySlider = ElementCreateRangeInput(
+		InventoryItemDevicesVacBedDeluxeOpacityInputId,
+		Property.Opacity,
+		item.Asset.MinOpacity,
+		item.Asset.MaxOpacity,
+		0.01,
+		"blindfold",
+		false
+	);
 	if (opacitySlider) {
-		opacitySlider.addEventListener("input", () => InventoryItemDevicesVacBedDeluxeOpacityChange(character, item, opacitySlider.value));
+		opacitySlider.addEventListener("input", () =>
+			InventoryItemDevicesVacBedDeluxeOpacityChange(
+				character,
+				item,
+				opacitySlider.value
+			)
+		);
 	}
 }
 
@@ -76,22 +91,58 @@ function InventoryItemDevicesVacBedDeluxeDraw() {
 	DrawAssetPreview(1387, 125, asset);
 
 	MainCanvas.textAlign = "right";
-	DrawTextFit(DialogFindPlayer("VacBedDeluxeOpacityLabel"), 1375, 500, 400, "#FFFFFF", "#000");
-	ElementPosition(InventoryItemDevicesVacBedDeluxeOpacityInputId, 1625, 500, 400);
-	DrawTextFit(Math.round(DialogFocusItem.Property.Opacity * 100).toString()+"%", 1925, 500, 400, "#FFFFFF", "#000");
+	DrawTextFit(
+		DialogFindPlayer("VacBedDeluxeOpacityLabel"),
+		1375,
+		500,
+		400,
+		"#FFFFFF",
+		"#000"
+	);
+	ElementPosition(
+		InventoryItemDevicesVacBedDeluxeOpacityInputId,
+		1625,
+		500,
+		400
+	);
+	DrawTextFit(
+		Math.round(DialogFocusItem.Property.Opacity * 100).toString() +
+			"%",
+		1925,
+		500,
+		400,
+		"#FFFFFF",
+		"#000"
+	);
 	MainCanvas.textAlign = "center";
 
-	DrawTextFit(DialogFindPlayer("VacBedDeluxeTypeLabel"), 1500, 660, 800, "#FFFFFF", "#000");
+	DrawTextFit(
+		DialogFindPlayer("VacBedDeluxeTypeLabel"),
+		1500,
+		660,
+		800,
+		"#FFFFFF",
+		"#000"
+	);
 
 	InventoryItemDevicesVacBedDeluxeOptions.forEach((option, i) => {
-		const x = InventoryItemDevicesVacBedDeluxeSelectionOffsetX + (i * InventoryItemDevicesVacBedDeluxeSelectionWidth);
+		const x =
+			InventoryItemDevicesVacBedDeluxeSelectionOffsetX +
+			i * InventoryItemDevicesVacBedDeluxeSelectionWidth;
 		const y = InventoryItemDevicesVacBedDeluxeSelectionOffsetY;
-		const isSelected = DialogFocusItem.Property.Type === option.Property.Type;
-		DrawPreviewBox(x, y, `${AssetGetInventoryPath(asset)}/${option.Name}.png`, "", {
-			Border: true,
-			Hover: true,
-			Disabled: isSelected,
-		});
+		const isSelected =
+			DialogFocusItem.Property.Type === option.Property.Type;
+		DrawPreviewBox(
+			x,
+			y,
+			`${AssetGetInventoryPath(asset)}/${option.Name}.png`,
+			"",
+			{
+				Border: true,
+				Hover: true,
+				Disabled: isSelected,
+			}
+		);
 	});
 }
 
@@ -106,10 +157,16 @@ function InventoryItemDevicesVacBedDeluxeClick() {
 	}
 
 	InventoryItemDevicesVacBedDeluxeOptions.forEach((option, i) => {
-		const x = InventoryItemDevicesVacBedDeluxeSelectionOffsetX + (i * InventoryItemDevicesVacBedDeluxeSelectionWidth);
+		const x =
+			InventoryItemDevicesVacBedDeluxeSelectionOffsetX +
+			i * InventoryItemDevicesVacBedDeluxeSelectionWidth;
 		const y = InventoryItemDevicesVacBedDeluxeSelectionOffsetY;
 		if (MouseIn(x, y, 225, 275)) {
-			ExtendedItemSetType(CharacterGetCurrent(), InventoryItemDevicesVacBedDeluxeOptions, option);
+			ExtendedItemSetType(
+				CharacterGetCurrent(),
+				InventoryItemDevicesVacBedDeluxeOptions,
+				option
+			);
 		}
 	});
 }
@@ -122,7 +179,8 @@ function InventoryItemDevicesVacBedDeluxeExit() {
 	const character = CharacterGetCurrent();
 	const item = DialogFocusItem;
 
-	item.Property.Opacity = InventoryItemDevicesVacBedDeluxeGetInputOpacity();
+	item.Property.Opacity =
+		InventoryItemDevicesVacBedDeluxeGetInputOpacity();
 
 	CharacterRefresh(character);
 	ChatRoomCharacterItemUpdate(character, item.Asset.Group.Name);
@@ -131,18 +189,24 @@ function InventoryItemDevicesVacBedDeluxeExit() {
 
 	PreferenceMessage = "";
 	DialogFocusItem = null;
-	if (DialogInventory != null) DialogMenuButtonBuild(CharacterGetCurrent());
+	if (DialogInventory != null)
+		DialogMenuButtonBuild(CharacterGetCurrent());
 }
 
 /**
  * Handles vac bed opacity changes. Refreshes the character locally
  * @returns {void} - Nothing
  */
-const InventoryItemDevicesVacBedDeluxeOpacityChange = CommonLimitFunction((character, item, opacity) => {
-	item = DialogFocusItem || item;
-	item.Property.Opacity = Number(opacity);
-	CharacterRefresh(character, false);
-}, 0, 1000);
+const InventoryItemDevicesVacBedDeluxeOpacityChange =
+	CommonLimitFunction(
+		(character, item, opacity) => {
+			item = DialogFocusItem || item;
+			item.Property.Opacity = Number(opacity);
+			CharacterRefresh(character, false);
+		},
+		0,
+		1000
+	);
 
 /**
  * Publishes an action if the vac bed's type changes
@@ -150,9 +214,21 @@ const InventoryItemDevicesVacBedDeluxeOpacityChange = CommonLimitFunction((chara
  */
 function InventoryItemDevicesVacBedDeluxePublishAction(C, Option) {
 	let dictionary = [];
-	dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
-	dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
-	ChatRoomPublishCustomAction("VacBedDeluxeChangeType", true, dictionary);
+	dictionary.push({
+		Tag: "SourceCharacter",
+		Text: Player.Name,
+		MemberNumber: Player.MemberNumber,
+	});
+	dictionary.push({
+		Tag: "DestinationCharacter",
+		Text: C.Name,
+		MemberNumber: C.MemberNumber,
+	});
+	ChatRoomPublishCustomAction(
+		"VacBedDeluxeChangeType",
+		true,
+		dictionary
+	);
 }
 
 /**
@@ -160,5 +236,7 @@ function InventoryItemDevicesVacBedDeluxePublishAction(C, Option) {
  * @returns {number} - The value of the vac bed's opacity input slider
  */
 function InventoryItemDevicesVacBedDeluxeGetInputOpacity() {
-	return Number(ElementValue(InventoryItemDevicesVacBedDeluxeOpacityInputId));
+	return Number(
+		ElementValue(InventoryItemDevicesVacBedDeluxeOpacityInputId)
+	);
 }

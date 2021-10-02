@@ -22,13 +22,26 @@ var KidnapResultOpponent = "test";
 var KidnapResultUpperHand = "";
 var KidnapUpperHandVictim = null;
 var KidnapUpperHandSelection = 0;
-var KidnapMoveType = ["BruteForce", "Domination", "Sneakiness", "Meditation"];
-var KidnapUpperHandMoveType = ["Cloth", "ItemMouth", "ItemFeet", "UndoCloth", "UndoItemMouth", "UndoItemFeet", "Mercy"];
+var KidnapMoveType = [
+	"BruteForce",
+	"Domination",
+	"Sneakiness",
+	"Meditation",
+];
+var KidnapUpperHandMoveType = [
+	"Cloth",
+	"ItemMouth",
+	"ItemFeet",
+	"UndoCloth",
+	"UndoItemMouth",
+	"UndoItemFeet",
+	"Mercy",
+];
 var KidnapMoveMap = [
 	[1, 2, 0, 2], // BruteForce
 	[0, 1, 2, 2], // Domination
 	[2, 0, 1, 2], // Sneakiness
-	[0, 0, 0, 0] // Meditation
+	[0, 0, 0, 0], // Meditation
 ];
 var KidnapRPS = ["Rock", "Scissors", "Paper"];
 
@@ -39,14 +52,21 @@ var KidnapRPS = ["Rock", "Scissors", "Paper"];
  * @returns {void} - Nothing
  */
 function KidnapLoadStats(C, Bonus) {
-	let Pandora = (KidnapReturnFunction.indexOf("Pandora") == 0);
+	let Pandora = KidnapReturnFunction.indexOf("Pandora") == 0;
 	if (C.ID == 0)
-		C.KidnapStat = [6 + CharacterGetBonus(C, "Kidnap" + KidnapMoveType[0]) + ((Pandora && InfiltrationPerksActive("Strength")) ? 2 : 0),
-						6 + CharacterGetBonus(C, "Kidnap" + KidnapMoveType[1]) + ((Pandora && InfiltrationPerksActive("Charisma")) ? 2 : 0),
-						6 + CharacterGetBonus(C, "Kidnap" + KidnapMoveType[2]) + ((Pandora && InfiltrationPerksActive("Agility")) ? 2 : 0),
-						-1];
-	else
-		C.KidnapStat = [6 + Bonus, 6 + Bonus, 6 + Bonus, -1];
+		C.KidnapStat = [
+			6 +
+				CharacterGetBonus(C, "Kidnap" + KidnapMoveType[0]) +
+				(Pandora && InfiltrationPerksActive("Strength") ? 2 : 0),
+			6 +
+				CharacterGetBonus(C, "Kidnap" + KidnapMoveType[1]) +
+				(Pandora && InfiltrationPerksActive("Charisma") ? 2 : 0),
+			6 +
+				CharacterGetBonus(C, "Kidnap" + KidnapMoveType[2]) +
+				(Pandora && InfiltrationPerksActive("Agility") ? 2 : 0),
+			-1,
+		];
+	else C.KidnapStat = [6 + Bonus, 6 + Bonus, 6 + Bonus, -1];
 }
 
 /**
@@ -56,18 +76,25 @@ function KidnapLoadStats(C, Bonus) {
  */
 function KidnapBuildCards(C) {
 	let MoveTypeCount = [0, 0, 0];
-	while ((MoveTypeCount[0] == 0) || (MoveTypeCount[1] == 0) || (MoveTypeCount[2] == 0)) {
+	while (
+		MoveTypeCount[0] == 0 ||
+		MoveTypeCount[1] == 0 ||
+		MoveTypeCount[2] == 0
+	) {
 		C.KidnapCard = [];
 		MoveTypeCount = [0, 0, 0];
 		while (C.KidnapCard.length < 7) {
 			let MoveType = Math.floor(Math.random() * 3);
 			MoveTypeCount[MoveType]++;
-			C.KidnapCard.push({Move: MoveType, Value: Math.floor(Math.random() * C.KidnapStat[MoveType]) + 2});
+			C.KidnapCard.push({
+				Move: MoveType,
+				Value: Math.floor(Math.random() * C.KidnapStat[MoveType]) + 2,
+			});
 		}
 	}
-	C.KidnapCard.sort((a, b) => (a.Value > b.Value) ? 1 : -1)
-	C.KidnapCard.sort((a, b) => (a.Move > b.Move) ? 1 : -1)
-	C.KidnapCard.push({Move: 3});
+	C.KidnapCard.sort((a, b) => (a.Value > b.Value ? 1 : -1));
+	C.KidnapCard.sort((a, b) => (a.Move > b.Move ? 1 : -1));
+	C.KidnapCard.push({ Move: 3 });
 }
 
 /**
@@ -75,15 +102,24 @@ function KidnapBuildCards(C) {
  * @returns {void} - Nothing
  */
 function KidnapInventoryBuild() {
-
 	// Loop in the player inventory for that group for items that can be worn, is enable and is allowed for random events
 	DialogInventory = [];
 	if (KidnapOpponent.FocusGroup != null)
 		for (let A = 0; A < Player.Inventory.length; A++)
-			if ((Player.Inventory[A].Asset != null) && (Player.Inventory[A].Asset.Group.Name == KidnapOpponent.FocusGroup.Name) && Player.Inventory[A].Asset.Enable && Player.Inventory[A].Asset.Wear && Player.Inventory[A].Asset.Random)
-				DialogInventoryAdd(KidnapOpponent, Player.Inventory[A], false);
+			if (
+				Player.Inventory[A].Asset != null &&
+				Player.Inventory[A].Asset.Group.Name ==
+					KidnapOpponent.FocusGroup.Name &&
+				Player.Inventory[A].Asset.Enable &&
+				Player.Inventory[A].Asset.Wear &&
+				Player.Inventory[A].Asset.Random
+			)
+				DialogInventoryAdd(
+					KidnapOpponent,
+					Player.Inventory[A],
+					false
+				);
 	DialogInventorySort();
-
 }
 
 /**
@@ -92,30 +128,38 @@ function KidnapInventoryBuild() {
  * @returns {void} - Nothing
  */
 function KidnapSetMode(NewMode) {
-
 	// Removes the focus group if not selecting an item
 	if (NewMode != "SelectItem") KidnapOpponent.FocusGroup = null;
 
 	// If we must enter in Upper Hand mode
 	if (KidnapMode == "UpperHand") KidnapUpperHandVictim = null;
-	if ((NewMode == "SelectMove") && (KidnapUpperHandVictim != null)) NewMode = "UpperHand";
-	if ((NewMode == "UpperHand") && (KidnapUpperHandVictim.ID == 0)) KidnapAIMoveUpperHand();
+	if (NewMode == "SelectMove" && KidnapUpperHandVictim != null)
+		NewMode = "UpperHand";
+	if (NewMode == "UpperHand" && KidnapUpperHandVictim.ID == 0)
+		KidnapAIMoveUpperHand();
 
 	// If we must enter the sudden death mode
-	if ((NewMode == "SelectMove") && (Player.KidnapWillpower <= 0) && (KidnapOpponent.KidnapWillpower <= 0)) {
+	if (
+		NewMode == "SelectMove" &&
+		Player.KidnapWillpower <= 0 &&
+		KidnapOpponent.KidnapWillpower <= 0
+	) {
 		Player.KidnapWillpower = 1;
 		KidnapOpponent.KidnapWillpower = 1;
 		NewMode = "SuddenDeath";
 	}
 
 	// If we must end the mini game in defeat
-	if ((NewMode == "SelectMove") && (Player.KidnapWillpower <= 0)) {
+	if (NewMode == "SelectMove" && Player.KidnapWillpower <= 0) {
 		InventoryWearRandom(Player, "ItemArms", KidnapDifficulty);
 		NewMode = "End";
 	}
 
 	// If we must end the mini game in victory, one last item can be equipped
-	if ((NewMode == "SelectMove") && (KidnapOpponent.KidnapWillpower <= 0)) {
+	if (
+		NewMode == "SelectMove" &&
+		KidnapOpponent.KidnapWillpower <= 0
+	) {
 		if (!KidnapVictory) {
 			for (let A = 0; A < AssetGroup.length; A++)
 				if (AssetGroup[A].Name == "ItemArms") {
@@ -123,16 +167,21 @@ function KidnapSetMode(NewMode) {
 					KidnapInventoryBuild();
 					break;
 				}
-			NewMode = (KidnapOpponent.FocusGroup != null) ? "SelectItem" : "End";
+			NewMode =
+				KidnapOpponent.FocusGroup != null ? "SelectItem" : "End";
 			KidnapVictory = true;
 		} else NewMode = "End";
 	}
 
 	// Sets the mode and timer
 	KidnapMode = NewMode;
-	if ((NewMode == "Intro") || (NewMode == "SuddenDeath") || (NewMode == "End")) KidnapTimer = CommonTime() + 5000;
+	if (
+		NewMode == "Intro" ||
+		NewMode == "SuddenDeath" ||
+		NewMode == "End"
+	)
+		KidnapTimer = CommonTime() + 5000;
 	else KidnapTimer = CommonTime() + 15000;
-
 }
 
 /**
@@ -140,43 +189,74 @@ function KidnapSetMode(NewMode) {
  * @returns {number} - Returns the move type
  */
 function KidnapAIMove() {
-
 	// Builds a value for each moves and puts that value in an array
 	let MoveOdds = [];
 	for (let M = 0; M < KidnapOpponent.KidnapCard.length; M++) {
 		let Value = 10;
 		if (KidnapOpponent.KidnapCard[M].Move != 3)
 			for (let P = 0; P < Player.KidnapCard.length; P++) {
-				let PlaEff = Math.round(Player.KidnapCard[P].Value / (KidnapMoveEffective(Player, Player.KidnapCard[P].Move) ? 1 : 2));
-				let OppEff = Math.round(KidnapOpponent.KidnapCard[M].Value / (KidnapMoveEffective(KidnapOpponent, KidnapOpponent.KidnapCard[M].Move) ? 1 : 2));
-				if (KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][Player.KidnapCard[P].Move] == 0) Value = Value - PlaEff;
-				if (KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][Player.KidnapCard[P].Move] == 1) Value = Value + OppEff - PlaEff;
-				if (KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][Player.KidnapCard[P].Move] == 2) Value = Value + OppEff;
+				let PlaEff = Math.round(
+					Player.KidnapCard[P].Value /
+						(KidnapMoveEffective(Player, Player.KidnapCard[P].Move)
+							? 1
+							: 2)
+				);
+				let OppEff = Math.round(
+					KidnapOpponent.KidnapCard[M].Value /
+						(KidnapMoveEffective(
+							KidnapOpponent,
+							KidnapOpponent.KidnapCard[M].Move
+						)
+							? 1
+							: 2)
+				);
+				if (
+					KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][
+						Player.KidnapCard[P].Move
+					] == 0
+				)
+					Value = Value - PlaEff;
+				if (
+					KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][
+						Player.KidnapCard[P].Move
+					] == 1
+				)
+					Value = Value + OppEff - PlaEff;
+				if (
+					KidnapMoveMap[KidnapOpponent.KidnapCard[M].Move][
+						Player.KidnapCard[P].Move
+					] == 2
+				)
+					Value = Value + OppEff;
 			}
 		else
-			Value = (6 - KidnapOpponent.KidnapCard.length) * (Player.KidnapCard.length + 2);
+			Value =
+				(6 - KidnapOpponent.KidnapCard.length) *
+				(Player.KidnapCard.length + 2);
 		if (Value < 0) Value = 0;
 		MoveOdds.push(Value);
 	}
-	
+
 	// Builds the total, if it's zero, we return a random move
 	let Total = 0;
 	for (let M = 0; M < MoveOdds.length; M++)
 		Total = Total + MoveOdds[M];
-	if (Total <= 0) return Math.floor(Math.random() * KidnapOpponent.KidnapCard.length);
+	if (Total <= 0)
+		return Math.floor(
+			Math.random() * KidnapOpponent.KidnapCard.length
+		);
 
 	// Picks a random position in the best values, the higher the value, the higher the chance it will get picked
 	let Pos = Math.floor(Math.random() * Total);
 	let RunningTotal = 0;
 	for (let M = 0; M < MoveOdds.length; M++) {
-		if ((Pos >= RunningTotal) && (Pos <= RunningTotal + MoveOdds[M]))
+		if (Pos >= RunningTotal && Pos <= RunningTotal + MoveOdds[M])
 			return M;
 		RunningTotal = RunningTotal + MoveOdds[M];
 	}
-	
+
 	// No move found, we go full random
 	return Math.floor(Math.random() * KidnapOpponent.KidnapCard.length);
-
 }
 
 /**
@@ -186,13 +266,15 @@ function KidnapAIMove() {
  * @returns {boolean} - Returns TRUE if the upper hand move type is available
  */
 function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
-
 	// Mercy is always available
 	let MoveName = KidnapUpperHandMoveType[MoveType];
 	if (MoveName == "Mercy") return true;
 
 	// If we need to check to strip the opponent
-	if ((MoveName == "Cloth") && (InventoryGet(KidnapUpperHandVictim, "Cloth") != null)) {
+	if (
+		MoveName == "Cloth" &&
+		InventoryGet(KidnapUpperHandVictim, "Cloth") != null
+	) {
 		if (DoMove) {
 			InventoryRemove(KidnapUpperHandVictim, "Cloth");
 			InventoryRemove(KidnapUpperHandVictim, "ClothLower");
@@ -202,27 +284,64 @@ function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
 	}
 
 	// If we need to check to apply a restrain
-	if (((MoveName == "ItemFeet") || (MoveName == "ItemMouth")) && (InventoryGet(KidnapUpperHandVictim, MoveName) == null)) {
-		if (DoMove) InventoryWearRandom(KidnapUpperHandVictim, MoveName, (KidnapUpperHandVictim.ID == 0) ? KidnapDifficulty : 0);
+	if (
+		(MoveName == "ItemFeet" || MoveName == "ItemMouth") &&
+		InventoryGet(KidnapUpperHandVictim, MoveName) == null
+	) {
+		if (DoMove)
+			InventoryWearRandom(
+				KidnapUpperHandVictim,
+				MoveName,
+				KidnapUpperHandVictim.ID == 0 ? KidnapDifficulty : 0
+			);
 		return true;
 	}
 
 	// If we need to check to dress back
-	let C = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponent : Player;
-	let Cloth = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentCloth : KidnapPlayerCloth;
-	let ClothAccessory = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentClothAccessory : KidnapPlayerClothAccessory;
-	let ClothLower = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentClothLower : KidnapPlayerClothLower;
-	if ((MoveName == "UndoCloth") && (InventoryGet(C, "Cloth") == null) && (Cloth != null)) {
-		if (DoMove) InventoryWear(C, Cloth.Asset.Name, "Cloth", Cloth.Color);
-		if (DoMove && (ClothAccessory != null)) InventoryWear(C, ClothAccessory.Asset.Name, "ClothAccessory", ClothAccessory.Color);
-		if (DoMove && (ClothLower != null)) InventoryWear(C, ClothLower.Asset.Name, "ClothLower", ClothLower.Color);
+	let C = KidnapUpperHandVictim.ID == 0 ? KidnapOpponent : Player;
+	let Cloth =
+		KidnapUpperHandVictim.ID == 0
+			? KidnapOpponentCloth
+			: KidnapPlayerCloth;
+	let ClothAccessory =
+		KidnapUpperHandVictim.ID == 0
+			? KidnapOpponentClothAccessory
+			: KidnapPlayerClothAccessory;
+	let ClothLower =
+		KidnapUpperHandVictim.ID == 0
+			? KidnapOpponentClothLower
+			: KidnapPlayerClothLower;
+	if (
+		MoveName == "UndoCloth" &&
+		InventoryGet(C, "Cloth") == null &&
+		Cloth != null
+	) {
+		if (DoMove)
+			InventoryWear(C, Cloth.Asset.Name, "Cloth", Cloth.Color);
+		if (DoMove && ClothAccessory != null)
+			InventoryWear(
+				C,
+				ClothAccessory.Asset.Name,
+				"ClothAccessory",
+				ClothAccessory.Color
+			);
+		if (DoMove && ClothLower != null)
+			InventoryWear(
+				C,
+				ClothLower.Asset.Name,
+				"ClothLower",
+				ClothLower.Color
+			);
 		return true;
 	}
 
 	// If we need to check to remove the restrain
-	if ((MoveName == "UndoItemFeet") || (MoveName == "UndoItemMouth")) {
+	if (MoveName == "UndoItemFeet" || MoveName == "UndoItemMouth") {
 		let I = InventoryGet(C, MoveName.replace("Undo", ""));
-		if ((I != null) && ((C.ID != 0) || !InventoryItemHasEffect(I, "Lock", true))) {
+		if (
+			I != null &&
+			(C.ID != 0 || !InventoryItemHasEffect(I, "Lock", true))
+		) {
 			if (DoMove) InventoryRemove(C, MoveName.replace("Undo", ""));
 			return true;
 		}
@@ -230,7 +349,6 @@ function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
 
 	// Invalid move
 	return false;
-
 }
 
 /**
@@ -240,12 +358,19 @@ function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
 function KidnapAIMoveUpperHand() {
 	var Try = 0;
 	var MoveDone = false;
-	while ((Try < 100) && (MoveDone == false)) {
-		KidnapUpperHandSelection = Math.floor(Math.random() * (KidnapUpperHandMoveType.length - 1));
-		MoveDone = KidnapUpperHandMoveAvailable(KidnapUpperHandSelection, true);
+	while (Try < 100 && MoveDone == false) {
+		KidnapUpperHandSelection = Math.floor(
+			Math.random() * (KidnapUpperHandMoveType.length - 1)
+		);
+		MoveDone = KidnapUpperHandMoveAvailable(
+			KidnapUpperHandSelection,
+			true
+		);
 		Try++;
 	}
-	if (MoveDone == false) KidnapUpperHandSelection = KidnapUpperHandMoveType.indexOf("Mercy");
+	if (MoveDone == false)
+		KidnapUpperHandSelection =
+			KidnapUpperHandMoveType.indexOf("Mercy");
 }
 
 /**
@@ -253,14 +378,60 @@ function KidnapAIMoveUpperHand() {
  * @returns {void} - Nothing
  */
 function KidnapShowMove() {
-	DrawTextWrap(TextGet(KidnapDialog + "Action"), 10, 150, 580, 200, "white");
-	DrawTextWrap(Player.Name + ": " + SpeechGarble(Player, TextGet(KidnapDialog + "Player")), 10, 350, 580, 200, "white");
-	DrawTextWrap(KidnapOpponent.Name + ": " + SpeechGarble(KidnapOpponent, TextGet(KidnapDialog + "Opponent")), 10, 550, 580, 200, "white");
+	DrawTextWrap(
+		TextGet(KidnapDialog + "Action"),
+		10,
+		150,
+		580,
+		200,
+		"white"
+	);
+	DrawTextWrap(
+		Player.Name +
+			": " +
+			SpeechGarble(Player, TextGet(KidnapDialog + "Player")),
+		10,
+		350,
+		580,
+		200,
+		"white"
+	);
+	DrawTextWrap(
+		KidnapOpponent.Name +
+			": " +
+			SpeechGarble(
+				KidnapOpponent,
+				TextGet(KidnapDialog + "Opponent")
+			),
+		10,
+		550,
+		580,
+		200,
+		"white"
+	);
 	DrawTextWrap(KidnapResultPlayer, 1410, 150, 580, 200, "white");
 	DrawTextWrap(KidnapResultOpponent, 1410, 350, 580, 200, "white");
 	DrawTextWrap(KidnapResultUpperHand, 1410, 550, 580, 200, "white");
-	DrawText(TextGet(KidnapMoveType[KidnapPlayerMove]) + ((KidnapPlayerDamage != null) ? " - " + KidnapPlayerDamage.toString() : ""), 750, 25, "white", "gray");
-	DrawText(TextGet(KidnapMoveType[KidnapOpponentMove]) + ((KidnapOpponentDamage != null) ? " - " + KidnapOpponentDamage.toString() : ""), 1250, 25, "white", "gray");
+	DrawText(
+		TextGet(KidnapMoveType[KidnapPlayerMove]) +
+			(KidnapPlayerDamage != null
+				? " - " + KidnapPlayerDamage.toString()
+				: ""),
+		750,
+		25,
+		"white",
+		"gray"
+	);
+	DrawText(
+		TextGet(KidnapMoveType[KidnapOpponentMove]) +
+			(KidnapOpponentDamage != null
+				? " - " + KidnapOpponentDamage.toString()
+				: ""),
+		1250,
+		25,
+		"white",
+		"gray"
+	);
 }
 
 /**
@@ -270,8 +441,16 @@ function KidnapShowMove() {
  * @returns {boolean} - Returns TRUE if the move for that person is effective
  */
 function KidnapMoveEffective(C, MoveType) {
-	if ((KidnapUpperHandMoveType[MoveType] == "Cloth") && (InventoryGet(C, KidnapUpperHandMoveType[MoveType]) != null)) return true;
-	if ((KidnapUpperHandMoveType[MoveType] != "Cloth") && (InventoryGet(C, KidnapUpperHandMoveType[MoveType]) == null)) return true;
+	if (
+		KidnapUpperHandMoveType[MoveType] == "Cloth" &&
+		InventoryGet(C, KidnapUpperHandMoveType[MoveType]) != null
+	)
+		return true;
+	if (
+		KidnapUpperHandMoveType[MoveType] != "Cloth" &&
+		InventoryGet(C, KidnapUpperHandMoveType[MoveType]) == null
+	)
+		return true;
 	return false;
 }
 
@@ -281,14 +460,18 @@ function KidnapMoveEffective(C, MoveType) {
  * @returns {void} - Nothing
  */
 function KidnapSelectMove(CardIndex) {
-
 	// Gets both moves effectiveness
 	var OpponentCardIndex = KidnapAIMove();
 	var PlayerMove = Player.KidnapCard[CardIndex].Move;
-	var OpponentMove = KidnapOpponent.KidnapCard[OpponentCardIndex].Move;
+	var OpponentMove =
+		KidnapOpponent.KidnapCard[OpponentCardIndex].Move;
 	var PM = KidnapMoveMap[PlayerMove][OpponentMove];
 	var OM = KidnapMoveMap[OpponentMove][PlayerMove];
-	KidnapDialog = "Player" + KidnapMoveType[PlayerMove] + "Opponent" + KidnapMoveType[OpponentMove];
+	KidnapDialog =
+		"Player" +
+		KidnapMoveType[PlayerMove] +
+		"Opponent" +
+		KidnapMoveType[OpponentMove];
 
 	// Keep the move to show it later
 	KidnapPlayerMove = PlayerMove;
@@ -296,35 +479,66 @@ function KidnapSelectMove(CardIndex) {
 
 	// Gets the damage done by both sides
 	KidnapPlayerDamage = Player.KidnapCard[CardIndex].Value;
-	if (!KidnapMoveEffective(Player, PlayerMove)) KidnapPlayerDamage = Math.round(KidnapPlayerDamage / 2);
-	KidnapOpponentDamage = KidnapOpponent.KidnapCard[OpponentCardIndex].Value;
-	if (!KidnapMoveEffective(KidnapOpponent, OpponentMove)) KidnapOpponentDamage = Math.round(KidnapOpponentDamage / 2);
-	
+	if (!KidnapMoveEffective(Player, PlayerMove))
+		KidnapPlayerDamage = Math.round(KidnapPlayerDamage / 2);
+	KidnapOpponentDamage =
+		KidnapOpponent.KidnapCard[OpponentCardIndex].Value;
+	if (!KidnapMoveEffective(KidnapOpponent, OpponentMove))
+		KidnapOpponentDamage = Math.round(KidnapOpponentDamage / 2);
+
 	// If the move is effective, we lower the willpower and show it as text
 	if (PM >= 1) {
 		let Damage = KidnapPlayerDamage;
-		if (PlayerMove == OpponentMove) Damage = Damage - KidnapOpponentDamage;
+		if (PlayerMove == OpponentMove)
+			Damage = Damage - KidnapOpponentDamage;
 		if (Damage < 0) Damage = 0;
-		KidnapOpponent.KidnapWillpower = parseInt(KidnapOpponent.KidnapWillpower) - Damage;
-		KidnapResultOpponent = KidnapOpponent.Name + " " + TextGet("Lost") + " " + Damage.toString() + " " + TextGet("Willpower");
-	} else KidnapResultOpponent = KidnapOpponent.Name + " " + TextGet("NoLost");
+		KidnapOpponent.KidnapWillpower =
+			parseInt(KidnapOpponent.KidnapWillpower) - Damage;
+		KidnapResultOpponent =
+			KidnapOpponent.Name +
+			" " +
+			TextGet("Lost") +
+			" " +
+			Damage.toString() +
+			" " +
+			TextGet("Willpower");
+	} else
+		KidnapResultOpponent =
+			KidnapOpponent.Name + " " + TextGet("NoLost");
 	if (OM >= 1) {
 		let Damage = KidnapOpponentDamage;
-		if (PlayerMove == OpponentMove) Damage = Damage - KidnapPlayerDamage;
+		if (PlayerMove == OpponentMove)
+			Damage = Damage - KidnapPlayerDamage;
 		if (Damage < 0) Damage = 0;
-		Player.KidnapWillpower = parseInt(Player.KidnapWillpower) - Damage;
-		KidnapResultPlayer = Player.Name + " " + TextGet("Lost") + " " + Damage.toString() + " " + TextGet("Willpower");
+		Player.KidnapWillpower =
+			parseInt(Player.KidnapWillpower) - Damage;
+		KidnapResultPlayer =
+			Player.Name +
+			" " +
+			TextGet("Lost") +
+			" " +
+			Damage.toString() +
+			" " +
+			TextGet("Willpower");
 	} else KidnapResultPlayer = Player.Name + " " + TextGet("NoLost");
 
 	// Builds the "Upperhand" text
 	KidnapResultUpperHand = "";
 	KidnapUpperHandVictim = null;
-	if ((PM >= 2) && (PlayerMove != 3) && (OpponentMove != 3)) { KidnapUpperHandVictim = KidnapOpponent; KidnapResultUpperHand = Player.Name + " " + TextGet("UpperHand"); }
-	if ((OM >= 2) && (PlayerMove != 3) && (OpponentMove != 3)) { KidnapUpperHandVictim = Player; KidnapResultUpperHand = KidnapOpponent.Name + " " + TextGet("UpperHand"); }
+	if (PM >= 2 && PlayerMove != 3 && OpponentMove != 3) {
+		KidnapUpperHandVictim = KidnapOpponent;
+		KidnapResultUpperHand = Player.Name + " " + TextGet("UpperHand");
+	}
+	if (OM >= 2 && PlayerMove != 3 && OpponentMove != 3) {
+		KidnapUpperHandVictim = Player;
+		KidnapResultUpperHand =
+			KidnapOpponent.Name + " " + TextGet("UpperHand");
+	}
 
 	// Cannot go below zero
 	if (Player.KidnapWillpower < 0) Player.KidnapWillpower = 0;
-	if (KidnapOpponent.KidnapWillpower < 0) KidnapOpponent.KidnapWillpower = 0;
+	if (KidnapOpponent.KidnapWillpower < 0)
+		KidnapOpponent.KidnapWillpower = 0;
 
 	// Removes the card from the deck
 	Player.KidnapCard.splice(CardIndex, 1);
@@ -336,7 +550,6 @@ function KidnapSelectMove(CardIndex) {
 
 	// Shows the move dialog
 	KidnapSetMode("ShowMove");
-
 }
 
 /**
@@ -348,12 +561,17 @@ function KidnapSelectMoveUpperHand(PlayerMove) {
 	const MoveName = KidnapUpperHandMoveType[PlayerMove];
 
 	// Stripping or undoing something is automatic
-	if ((MoveName === "Cloth") || (MoveName === "UndoCloth") || (MoveName === "UndoItemFeet") || (MoveName === "UndoItemMouth"))
+	if (
+		MoveName === "Cloth" ||
+		MoveName === "UndoCloth" ||
+		MoveName === "UndoItemFeet" ||
+		MoveName === "UndoItemMouth"
+	)
 		if (KidnapUpperHandMoveAvailable(PlayerMove, true))
 			KidnapSetMode("SelectMove");
 
 	// Apply an item enters another mode with a focused group
-	if ((MoveName === "ItemFeet") || (MoveName === "ItemMouth"))
+	if (MoveName === "ItemFeet" || MoveName === "ItemMouth")
 		if (KidnapUpperHandMoveAvailable(PlayerMove, false))
 			for (let A = 0; A < AssetGroup.length; A++)
 				if (AssetGroup[A].Name === MoveName) {
@@ -384,28 +602,37 @@ function KidnapSurrender() {
  * @param {string} ReturnFunction - The callback to execute through CommonDynamicFunction
  * @returns {void} - Nothing
  */
-function KidnapStart(Opponent, Background, Difficulty, ReturnFunction) {
-	KidnapDifficulty = (Difficulty == null) ? 0 : Difficulty;
+function KidnapStart(
+	Opponent,
+	Background,
+	Difficulty,
+	ReturnFunction
+) {
+	KidnapDifficulty = Difficulty == null ? 0 : Difficulty;
 	KidnapVictory = false;
 	KidnapReturnFunction = ReturnFunction;
 	KidnapPlayerCloth = InventoryGet(Player, "Cloth");
 	KidnapPlayerClothAccessory = InventoryGet(Player, "ClothAccessory");
 	KidnapPlayerClothLower = InventoryGet(Player, "ClothLower");
 	KidnapOpponentCloth = InventoryGet(Opponent, "Cloth");
-	KidnapOpponentClothAccessory = InventoryGet(Opponent, "ClothAccessory");
+	KidnapOpponentClothAccessory = InventoryGet(
+		Opponent,
+		"ClothAccessory"
+	);
 	KidnapOpponentClothLower = InventoryGet(Opponent, "ClothLower");
 	KidnapOpponent = Opponent;
 	KidnapBackground = Background;
-	MiniGameCheatAvailable = (CheatFactor("MiniGameBonus", 0) == 0);
+	MiniGameCheatAvailable = CheatFactor("MiniGameBonus", 0) == 0;
 	CurrentCharacter = null;
 	if (KidnapReturnFunction.indexOf("Pandora") == 0) {
 		Player.KidnapMaxWillpower = PandoraMaxWillpower;
 		Player.KidnapWillpower = PandoraWillpower;
 	} else {
-		Player.KidnapMaxWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2);
+		Player.KidnapMaxWillpower =
+			20 + SkillGetLevel(Player, "Willpower") * 2;
 		Player.KidnapWillpower = Player.KidnapMaxWillpower;
 	}
-	KidnapOpponent.KidnapMaxWillpower = 20 + (KidnapDifficulty * 2);
+	KidnapOpponent.KidnapMaxWillpower = 20 + KidnapDifficulty * 2;
 	KidnapOpponent.KidnapWillpower = KidnapOpponent.KidnapMaxWillpower;
 	KidnapLoadStats(Player, 0);
 	KidnapLoadStats(KidnapOpponent, Math.round(KidnapDifficulty / 2.5));
@@ -425,13 +652,31 @@ function KidnapStart(Opponent, Background, Difficulty, ReturnFunction) {
 function KidnapDrawMove(C, Header, X, Side) {
 	DrawText(TextGet(Header), X, 50, "White", "Gray");
 	for (let M = 0; M < C.KidnapCard.length; M++) {
-		let Color = KidnapMoveEffective(C, C.KidnapCard[M].Move) ? "White" : "Silver";
-		let Value = KidnapMoveEffective(C, C.KidnapCard[M].Move) ? C.KidnapCard[M].Value : Math.round(C.KidnapCard[M].Value / 2);
+		let Color = KidnapMoveEffective(C, C.KidnapCard[M].Move)
+			? "White"
+			: "Silver";
+		let Value = KidnapMoveEffective(C, C.KidnapCard[M].Move)
+			? C.KidnapCard[M].Value
+			: Math.round(C.KidnapCard[M].Value / 2);
 		let Text = TextGet(KidnapMoveType[C.KidnapCard[M].Move]);
 		if (Value != null) Text = Text + " - " + Value.toString();
-		DrawButton(X - 240, (M * 100) + 100, 480, 80, "", Color);
-		DrawText(Text, X + ((Value != null) ? ((Side == "Left") ? -60 : 60) : 0), (M * 100) + 140, "Black", "Silver");
-		if (Value != null) DrawImage("Screens/MiniGame/Kidnap/" + Side + KidnapRPS[C.KidnapCard[M].Move] + ".png", X + ((Side == "Left") ? 115 : -220), (M * 100) + 100);
+		DrawButton(X - 240, M * 100 + 100, 480, 80, "", Color);
+		DrawText(
+			Text,
+			X + (Value != null ? (Side == "Left" ? -60 : 60) : 0),
+			M * 100 + 140,
+			"Black",
+			"Silver"
+		);
+		if (Value != null)
+			DrawImage(
+				"Screens/MiniGame/Kidnap/" +
+					Side +
+					KidnapRPS[C.KidnapCard[M].Move] +
+					".png",
+				X + (Side == "Left" ? 115 : -220),
+				M * 100 + 100
+			);
 	}
 }
 
@@ -440,11 +685,35 @@ function KidnapDrawMove(C, Header, X, Side) {
  * @returns {void} - Nothing
  */
 function KidnapDrawMoveUpperHand() {
-	var X = (KidnapUpperHandVictim.ID == 0) ? 1500 : 0;
-	if (KidnapUpperHandVictim.ID == 0) DrawTextWrap(TextGet("UpperHand" + KidnapUpperHandMoveType[KidnapUpperHandSelection]), 10, 300, 580, 200, "White");
+	var X = KidnapUpperHandVictim.ID == 0 ? 1500 : 0;
+	if (KidnapUpperHandVictim.ID == 0)
+		DrawTextWrap(
+			TextGet(
+				"UpperHand" +
+					KidnapUpperHandMoveType[KidnapUpperHandSelection]
+			),
+			10,
+			300,
+			580,
+			200,
+			"White"
+		);
 	DrawText(TextGet("UpperHandMove"), X + 250, 50, "white", "gray");
 	for (let M = 0; M <= KidnapUpperHandMoveType.length - 1; M++)
-		DrawButton(X + 50, (M * 100) + 100, 400, 70, TextGet(KidnapUpperHandMoveType[M]), (KidnapUpperHandVictim.ID != 0) ? ((KidnapUpperHandMoveAvailable(M, false)) ? "White" : "Pink") : ((KidnapUpperHandSelection == M) ? "Aquamarine" : "Pink"));
+		DrawButton(
+			X + 50,
+			M * 100 + 100,
+			400,
+			70,
+			TextGet(KidnapUpperHandMoveType[M]),
+			KidnapUpperHandVictim.ID != 0
+				? KidnapUpperHandMoveAvailable(M, false)
+					? "White"
+					: "Pink"
+				: KidnapUpperHandSelection == M
+				? "Aquamarine"
+				: "Pink"
+		);
 }
 
 /**
@@ -452,10 +721,21 @@ function KidnapDrawMoveUpperHand() {
  * @returns {void} - Nothing
  */
 function KidnapShowTimer() {
-	if ((KidnapMode == "SelectItem") || (KidnapMode == "SelectMove") || (KidnapMode == "UpperHand") || (KidnapMode == "ShowMove")) {
+	if (
+		KidnapMode == "SelectItem" ||
+		KidnapMode == "SelectMove" ||
+		KidnapMode == "UpperHand" ||
+		KidnapMode == "ShowMove"
+	) {
 		var Sec = Math.floor((KidnapTimer - CommonTime() + 1000) / 1000);
 		MainCanvas.font = "italic 300 " + CommonGetFont(200);
-		DrawText(Sec.toString(), (KidnapMode == "SelectItem") ? 500 : 1000, 500, (Sec <= 3) ? "red" : "white", "black");
+		DrawText(
+			Sec.toString(),
+			KidnapMode == "SelectItem" ? 500 : 1000,
+			500,
+			Sec <= 3 ? "red" : "white",
+			"black"
+		);
 		MainCanvas.font = CommonGetFont(36);
 	}
 }
@@ -477,7 +757,6 @@ function KidnapTitle(Title) {
  * @returns {void} - Nothing
  */
 function KidnapShowItem() {
-
 	// Draw the header
 	DrawText(TextGet("SelectItemToUse"), 1375, 50, "white", "black");
 	DrawButton(1750, 25, 225, 65, TextGet("Cancel"), "White");
@@ -488,7 +767,11 @@ function KidnapShowItem() {
 	for (let I = 0; I < DialogInventory.length; I++) {
 		const Item = DialogInventory[I];
 		const Hover = MouseIn(X, Y, 225, 275) && !CommonIsMobile;
-		const Background = Hover ? "cyan" : DialogInventory[I].Worn ? "pink" : "#fff";
+		const Background = Hover
+			? "cyan"
+			: DialogInventory[I].Worn
+			? "pink"
+			: "#fff";
 		DrawAssetPreview(X, Y, Item.Asset, { Background });
 
 		X = X + 250;
@@ -497,7 +780,6 @@ function KidnapShowItem() {
 			Y = Y + 300;
 		}
 	}
-
 }
 
 /**
@@ -505,31 +787,82 @@ function KidnapShowItem() {
  * @returns {void} - Nothing
  */
 function KidnapRun() {
-
 	// Draw the kidnap elements
 	var X = 500;
 	if (KidnapMode == "SelectItem") X = 0;
 	DrawCharacter(Player, X, 0, 1);
 	DrawCharacter(KidnapOpponent, X + 500, 0, 1);
-	DrawProgressBar(X + 100, 960, 300, 35, Math.round(Player.KidnapWillpower / Player.KidnapMaxWillpower * 100));
-	DrawProgressBar(X + 600, 960, 300, 35, Math.round(KidnapOpponent.KidnapWillpower / KidnapOpponent.KidnapMaxWillpower * 100));
-	DrawText(Player.KidnapWillpower.toString(), X + 250, 979, "black", "white");
-	DrawText(KidnapOpponent.KidnapWillpower.toString(), X + 750, 979, "black", "white");
-	if (KidnapMode == "Intro") KidnapTitle(Player.Name + " vs " + KidnapOpponent.Name);
-	if (KidnapMode == "SuddenDeath") KidnapTitle(TextGet("SuddenDeath"));
-	if (KidnapMode == "End") KidnapTitle(((KidnapVictory) ? Player.Name : KidnapOpponent.Name) + " " + TextGet("Wins"));
-	if (KidnapMode == "SelectMove") { KidnapDrawMove(Player, "SelectMove", 250, "Left"); KidnapDrawMove(KidnapOpponent, "OpponentMove", 1750, "Right"); }
+	DrawProgressBar(
+		X + 100,
+		960,
+		300,
+		35,
+		Math.round(
+			(Player.KidnapWillpower / Player.KidnapMaxWillpower) * 100
+		)
+	);
+	DrawProgressBar(
+		X + 600,
+		960,
+		300,
+		35,
+		Math.round(
+			(KidnapOpponent.KidnapWillpower /
+				KidnapOpponent.KidnapMaxWillpower) *
+				100
+		)
+	);
+	DrawText(
+		Player.KidnapWillpower.toString(),
+		X + 250,
+		979,
+		"black",
+		"white"
+	);
+	DrawText(
+		KidnapOpponent.KidnapWillpower.toString(),
+		X + 750,
+		979,
+		"black",
+		"white"
+	);
+	if (KidnapMode == "Intro")
+		KidnapTitle(Player.Name + " vs " + KidnapOpponent.Name);
+	if (KidnapMode == "SuddenDeath")
+		KidnapTitle(TextGet("SuddenDeath"));
+	if (KidnapMode == "End")
+		KidnapTitle(
+			(KidnapVictory ? Player.Name : KidnapOpponent.Name) +
+				" " +
+				TextGet("Wins")
+		);
+	if (KidnapMode == "SelectMove") {
+		KidnapDrawMove(Player, "SelectMove", 250, "Left");
+		KidnapDrawMove(KidnapOpponent, "OpponentMove", 1750, "Right");
+	}
 	if (KidnapMode == "UpperHand") KidnapDrawMoveUpperHand();
 	if (KidnapMode == "ShowMove") KidnapShowMove();
 	if (KidnapMode == "SelectItem") KidnapShowItem();
 
 	// If the time is over, we go to the next step
 	if (CommonTime() >= KidnapTimer) {
-		if (KidnapMode == "SelectMove") { KidnapSelectMove(Player.KidnapCard.length - 1); return; }
-		if (KidnapMode == "End") { CommonDynamicFunction(KidnapReturnFunction); return; }
-		if ((KidnapMode == "Intro") || (KidnapMode == "SuddenDeath") || (KidnapMode == "ShowMove") || (KidnapMode == "UpperHand") || (KidnapMode == "SelectItem")) KidnapSetMode("SelectMove");
+		if (KidnapMode == "SelectMove") {
+			KidnapSelectMove(Player.KidnapCard.length - 1);
+			return;
+		}
+		if (KidnapMode == "End") {
+			CommonDynamicFunction(KidnapReturnFunction);
+			return;
+		}
+		if (
+			KidnapMode == "Intro" ||
+			KidnapMode == "SuddenDeath" ||
+			KidnapMode == "ShowMove" ||
+			KidnapMode == "UpperHand" ||
+			KidnapMode == "SelectItem"
+		)
+			KidnapSetMode("SelectMove");
 	} else KidnapShowTimer();
-
 }
 
 /**
@@ -537,12 +870,19 @@ function KidnapRun() {
  * @returns {void} - Nothing
  */
 function KidnapClick() {
-
 	// If we must end the fight
-	if (KidnapMode == "End") { CommonDynamicFunction(KidnapReturnFunction); return; }
+	if (KidnapMode == "End") {
+		CommonDynamicFunction(KidnapReturnFunction);
+		return;
+	}
 
 	// When the user wants to skip the result or upper hand selection from the AI
-	if ((KidnapMode == "Intro") || (KidnapMode == "SuddenDeath") || (KidnapMode == "ShowMove") || ((KidnapMode == "UpperHand") && (KidnapUpperHandVictim.ID == 0))) {
+	if (
+		KidnapMode == "Intro" ||
+		KidnapMode == "SuddenDeath" ||
+		KidnapMode == "ShowMove" ||
+		(KidnapMode == "UpperHand" && KidnapUpperHandVictim.ID == 0)
+	) {
 		KidnapSetMode("SelectMove");
 		return;
 	}
@@ -550,34 +890,62 @@ function KidnapClick() {
 	// When the user selects a regular move
 	if (KidnapMode == "SelectMove") {
 		for (let M = 0; M < Player.KidnapCard.length; M++)
-			if ((MouseX >= 10) && (MouseX <= 490) && (MouseY >= 100 + (M * 100)) && (MouseY <= 180 + (M * 100)))
+			if (
+				MouseX >= 10 &&
+				MouseX <= 490 &&
+				MouseY >= 100 + M * 100 &&
+				MouseY <= 180 + M * 100
+			)
 				KidnapSelectMove(M);
 		return;
 	}
 
 	// When the user selects a upper hand move
-	if ((KidnapMode == "UpperHand") && (KidnapUpperHandVictim.ID > 0)) {
+	if (KidnapMode == "UpperHand" && KidnapUpperHandVictim.ID > 0) {
 		for (let M = 0; M <= KidnapUpperHandMoveType.length - 1; M++)
-			if ((MouseX >= 50) && (MouseX <= 450) && (MouseY >= 100 + (M * 100)) && (MouseY <= 170 + (M * 100)))
+			if (
+				MouseX >= 50 &&
+				MouseX <= 450 &&
+				MouseY >= 100 + M * 100 &&
+				MouseY <= 170 + M * 100
+			)
 				KidnapSelectMoveUpperHand(M);
 		return;
 	}
 
 	// If we must cancel out and don't select any item
-	if ((MouseX >= 1750) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 90))
+	if (
+		MouseX >= 1750 &&
+		MouseX <= 1975 &&
+		MouseY >= 25 &&
+		MouseY <= 90
+	)
 		KidnapSetMode("SelectMove");
 
 	// If the user clicks on one of the items to be applied to the opponent
-	if ((KidnapMode == "SelectItem") && (MouseX >= 1000) && (MouseX <= 1975) && (MouseY >= 125) && (MouseY <= 1000)) {
-
+	if (
+		KidnapMode == "SelectItem" &&
+		MouseX >= 1000 &&
+		MouseX <= 1975 &&
+		MouseY >= 125 &&
+		MouseY <= 1000
+	) {
 		// For each items in the player/opponent inventory
 		var X = 1000;
 		var Y = 125;
 		for (let I = 0; I < DialogInventory.length; I++) {
-
 			// If the item at position is clicked, we add the item to the opponent
-			if ((MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275)) {
-				InventoryWear(KidnapOpponent, DialogInventory[I].Asset.Name, DialogInventory[I].Asset.Group.Name);
+			if (
+				MouseX >= X &&
+				MouseX < X + 225 &&
+				MouseY >= Y &&
+				MouseY < Y + 275
+			) {
+				InventoryWear(
+					KidnapOpponent,
+					DialogInventory[I].Asset.Name,
+					DialogInventory[I].Asset.Group.Name
+				);
 				KidnapSetMode("SelectMove");
 				break;
 			}
@@ -588,11 +956,8 @@ function KidnapClick() {
 				X = 1000;
 				Y = Y + 300;
 			}
-
 		}
-
 	}
-
 }
 
 /**
@@ -602,6 +967,7 @@ function KidnapClick() {
 function KidnapKeyDown() {
 	if (MiniGameCheatKeyDown()) {
 		Player.KidnapWillpower = Player.KidnapWillpower + 6;
-		if (Player.KidnapWillpower > Player.KidnapMaxWillpower) Player.KidnapWillpower = Player.KidnapMaxWillpower;
+		if (Player.KidnapWillpower > Player.KidnapMaxWillpower)
+			Player.KidnapWillpower = Player.KidnapMaxWillpower;
 	}
 }

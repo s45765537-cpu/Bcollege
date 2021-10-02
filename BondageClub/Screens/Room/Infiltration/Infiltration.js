@@ -4,7 +4,15 @@ var InfiltrationSupervisor = null;
 var InfiltrationDifficulty = 0;
 var InfiltrationMission = "";
 var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve"];
-var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
+var InfiltrationObjectType = [
+	"USBKey",
+	"BDSMPainting",
+	"GoldCollar",
+	"GeneralLedger",
+	"SilverVibrator",
+	"DiamondRing",
+	"SignedPhoto",
+];
 var InfiltrationTarget = {};
 var InfiltrationCollectRansom = false;
 var InfiltrationKidnapper = null;
@@ -13,65 +21,118 @@ var InfiltrationKidnapper = null;
  * Returns TRUE if the mission can complete as a success
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanSuccess() { return ((InfiltrationTarget != null) && (InfiltrationTarget.Found != null) && (InfiltrationTarget.Found == true)); }
+function InfiltrationCanSuccess() {
+	return (
+		InfiltrationTarget != null &&
+		InfiltrationTarget.Found != null &&
+		InfiltrationTarget.Found == true
+	);
+}
 
 /**
  * Returns TRUE if the mission can complete as a failure
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanFail() { return ((InfiltrationTarget == null) || (InfiltrationTarget.Found == null) || (InfiltrationTarget.Found == false)); }
+function InfiltrationCanFail() {
+	return (
+		InfiltrationTarget == null ||
+		InfiltrationTarget.Found == null ||
+		InfiltrationTarget.Found == false
+	);
+}
 
 /**
  * Returns TRUE if the player can go back to Pandora's Box to pursue her mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanGoBack() { return (((InfiltrationTarget == null) || (InfiltrationTarget.Fail == null) || (InfiltrationTarget.Fail == false)) && !InfiltrationCanSuccess()); }
+function InfiltrationCanGoBack() {
+	return (
+		(InfiltrationTarget == null ||
+			InfiltrationTarget.Fail == null ||
+			InfiltrationTarget.Fail == false) &&
+		!InfiltrationCanSuccess()
+	);
+}
 
 /**
  * Returns TRUE if the player can start the Pandora Padlock Mission, needs to be missing the item and infiltration 6 or more
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanGetPandoraLock() { return (DialogSkillGreater("Infiltration", 6) && (!InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || !InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc"))); }
+function InfiltrationCanGetPandoraLock() {
+	return (
+		DialogSkillGreater("Infiltration", 6) &&
+		(!InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") ||
+			!InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc"))
+	);
+}
 
 /**
  * Returns TRUE if the player can ask to get Pandora's locks as a reward for the mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanAskForPandoraLock() { return ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type = "PandoraPadlockKeys")); }
+function InfiltrationCanAskForPandoraLock() {
+	return (
+		InfiltrationMission == "Retrieve" &&
+		(InfiltrationTarget.Type = "PandoraPadlockKeys")
+	);
+}
 
 /**
  * Loads the infiltration screen by generating the supervisor.
  * @returns {void} - Nothing
  */
 function InfiltrationLoad() {
-
 	// If there's a party coming with the player, it can complete the mission or trigger a ransom
 	InfiltrationBackground = "Infiltration";
 	InfiltrationCollectRansom = false;
-	if ((PandoraParty != null) && (PandoraParty.length > 0)) {
+	if (PandoraParty != null && PandoraParty.length > 0) {
 		for (let P = 0; P < PandoraParty.length; P++) {
-			if (PandoraParty[P].Name == InfiltrationTarget.Name) InfiltrationTarget.Found = true;
-			if (PandoraParty[P].AccountName.indexOf("RandomMistress") >= 0) InfiltrationCollectRansom = true;
+			if (PandoraParty[P].Name == InfiltrationTarget.Name)
+				InfiltrationTarget.Found = true;
+			if (PandoraParty[P].AccountName.indexOf("RandomMistress") >= 0)
+				InfiltrationCollectRansom = true;
 		}
 		PandoraParty = [];
 	}
 
 	// Creates the supervisor if she doesn't exist
 	if (InfiltrationSupervisor == null) {
-		InfiltrationSupervisor = CharacterLoadNPC("NPC_Infiltration_Supervisor");
+		InfiltrationSupervisor = CharacterLoadNPC(
+			"NPC_Infiltration_Supervisor"
+		);
 		InfiltrationSupervisor.AllowItem = false;
 		CharacterNaked(InfiltrationSupervisor);
-		InventoryWear(InfiltrationSupervisor, "ReverseBunnySuit", "Suit", "#400000");
-		InventoryWear(InfiltrationSupervisor, "ReverseBunnySuit", "SuitLower", "#400000");
-		InventoryWear(InfiltrationSupervisor, "FishnetBikini1", "Bra", "#222222");
+		InventoryWear(
+			InfiltrationSupervisor,
+			"ReverseBunnySuit",
+			"Suit",
+			"#400000"
+		);
+		InventoryWear(
+			InfiltrationSupervisor,
+			"ReverseBunnySuit",
+			"SuitLower",
+			"#400000"
+		);
+		InventoryWear(
+			InfiltrationSupervisor,
+			"FishnetBikini1",
+			"Bra",
+			"#222222"
+		);
 		InventoryWear(InfiltrationSupervisor, "BondageDress1", "Cloth");
-		InventoryWear(InfiltrationSupervisor, "LatexAnkleShoes", "Shoes", "#222222");
+		InventoryWear(
+			InfiltrationSupervisor,
+			"LatexAnkleShoes",
+			"Shoes",
+			"#222222"
+		);
 	}
 
 	// Make sure the infiltration data is setup
 	if (Player.Infiltration == null) Player.Infiltration = {};
-	if (Player.Infiltration.Perks == null) Player.Infiltration.Perks = "";
-
+	if (Player.Infiltration.Perks == null)
+		Player.Infiltration.Perks = "";
 }
 
 /**
@@ -81,9 +142,37 @@ function InfiltrationLoad() {
 function InfiltrationRun() {
 	DrawCharacter(Player, 500, 0, 1);
 	DrawCharacter(InfiltrationSupervisor, 1000, 0, 1);
-	if ((InfiltrationSupervisor.Stage !== "End") && Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	DrawButton(1885, 265, 90, 90, "", "White", "Icons/Infiltration.png", TextGet("Perks"));
+	if (InfiltrationSupervisor.Stage !== "End" && Player.CanWalk())
+		DrawButton(
+			1885,
+			25,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Exit.png",
+			TextGet("Exit")
+		);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
+	DrawButton(
+		1885,
+		265,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Infiltration.png",
+		TextGet("Perks")
+	);
 }
 
 /**
@@ -92,12 +181,20 @@ function InfiltrationRun() {
  */
 function InfiltrationClick() {
 	if (MouseIn(1000, 0, 500, 1000)) {
-		if (InfiltrationCollectRansom) InfiltrationSupervisor.Stage = "Ransom0";
+		if (InfiltrationCollectRansom)
+			InfiltrationSupervisor.Stage = "Ransom0";
 		CharacterSetCurrent(InfiltrationSupervisor);
 	}
-	if ((InfiltrationSupervisor.Stage !== "End") && MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90)) CommonSetScreen("Room", "InfiltrationPerks");
+	if (
+		InfiltrationSupervisor.Stage !== "End" &&
+		MouseIn(1885, 25, 90, 90) &&
+		Player.CanWalk()
+	)
+		CommonSetScreen("Room", "MainHall");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
+	if (MouseIn(1885, 265, 90, 90))
+		CommonSetScreen("Room", "InfiltrationPerks");
 }
 
 /**
@@ -113,21 +210,40 @@ function InfiltrationSelectChallenge(Difficulty) {
  * @returns {void} - Nothing
  */
 function InfiltrationPrepareMission() {
-	InfiltrationMission	= CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
-	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
+	InfiltrationMission = CommonRandomItemFromList(
+		InfiltrationMission,
+		InfiltrationMissionType
+	);
+	if (
+		InfiltrationMission == "Rescue" ||
+		InfiltrationMission == "Kidnap"
+	) {
 		let C = {};
 		CharacterRandomName(C);
 		InfiltrationTarget.Type = "NPC";
 		InfiltrationTarget.Name = C.Name;
 		InfiltrationTarget.PrivateRoom = false;
 	} else {
-		InfiltrationTarget.Type = CommonRandomItemFromList(InfiltrationTarget.Type, InfiltrationObjectType);
-		InfiltrationTarget.Name = DialogFind(InfiltrationSupervisor, "Object" + InfiltrationTarget.Type);
+		InfiltrationTarget.Type = CommonRandomItemFromList(
+			InfiltrationTarget.Type,
+			InfiltrationObjectType
+		);
+		InfiltrationTarget.Name = DialogFind(
+			InfiltrationSupervisor,
+			"Object" + InfiltrationTarget.Type
+		);
 	}
 	InfiltrationTarget.Found = false;
 	InfiltrationSupervisor.Stage = InfiltrationMission;
-	InfiltrationSupervisor.CurrentDialog = DialogFind(InfiltrationSupervisor, InfiltrationMission + "Intro");
-	InfiltrationSupervisor.CurrentDialog = InfiltrationSupervisor.CurrentDialog.replace("TargetName", InfiltrationTarget.Name);
+	InfiltrationSupervisor.CurrentDialog = DialogFind(
+		InfiltrationSupervisor,
+		InfiltrationMission + "Intro"
+	);
+	InfiltrationSupervisor.CurrentDialog =
+		InfiltrationSupervisor.CurrentDialog.replace(
+			"TargetName",
+			InfiltrationTarget.Name
+		);
 }
 
 /**
@@ -135,7 +251,11 @@ function InfiltrationPrepareMission() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartMission() {
-	PandoraWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2) + (InfiltrationPerksActive("Resilience") ? 5 : 0) + (InfiltrationPerksActive("Endurance") ? 5 : 0);
+	PandoraWillpower =
+		20 +
+		SkillGetLevel(Player, "Willpower") * 2 +
+		(InfiltrationPerksActive("Resilience") ? 5 : 0) +
+		(InfiltrationPerksActive("Endurance") ? 5 : 0);
 	PandoraMaxWillpower = PandoraWillpower;
 	DialogLeave();
 	CommonSetScreen("Room", "Pandora");
@@ -160,13 +280,20 @@ function InfiltrationCompleteMission() {
 	if (InfiltrationDifficulty == 1) SkillProgress("Infiltration", 200);
 	if (InfiltrationDifficulty == 2) SkillProgress("Infiltration", 350);
 	if (InfiltrationDifficulty == 3) SkillProgress("Infiltration", 600);
-	if (InfiltrationDifficulty == 4) SkillProgress("Infiltration", 1000);
-	let Money = 12 + (InfiltrationDifficulty * 6);
-	if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
+	if (InfiltrationDifficulty == 4)
+		SkillProgress("Infiltration", 1000);
+	let Money = 12 + InfiltrationDifficulty * 6;
+	if (InfiltrationPerksActive("Negotiation"))
+		Money = Math.round(Money * 1.2);
 	CharacterChangeMoney(Player, Money);
-	if ((InfiltrationMission == "Rescue") && (InfiltrationTarget.Type == "NPC") && InfiltrationTarget.PrivateRoom) {
+	if (
+		InfiltrationMission == "Rescue" &&
+		InfiltrationTarget.Type == "NPC" &&
+		InfiltrationTarget.PrivateRoom
+	) {
 		NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
-		if (PrivateRansomCharacter.Love < 50) PrivateRansomCharacter.Love = 50;
+		if (PrivateRansomCharacter.Love < 50)
+			PrivateRansomCharacter.Love = 50;
 		ServerPrivateCharacterSync();
 	}
 }
@@ -191,16 +318,22 @@ function InfiltrationRandomClothes() {
 function InfiltrationPayRansom(Type) {
 	InfiltrationCollectRansom = false;
 	if (Type == "Money") {
-		let Money = 10 + (InfiltrationDifficulty * 4);
-		if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
+		let Money = 10 + InfiltrationDifficulty * 4;
+		if (InfiltrationPerksActive("Negotiation"))
+			Money = Math.round(Money * 1.2);
 		CharacterChangeMoney(Player, Money);
 	}
 	if (Type == "Skill") {
-		if (InfiltrationDifficulty == 0) SkillProgress("Infiltration", 100);
-		if (InfiltrationDifficulty == 1) SkillProgress("Infiltration", 150);
-		if (InfiltrationDifficulty == 2) SkillProgress("Infiltration", 225);
-		if (InfiltrationDifficulty == 3) SkillProgress("Infiltration", 300);
-		if (InfiltrationDifficulty == 4) SkillProgress("Infiltration", 400);
+		if (InfiltrationDifficulty == 0)
+			SkillProgress("Infiltration", 100);
+		if (InfiltrationDifficulty == 1)
+			SkillProgress("Infiltration", 150);
+		if (InfiltrationDifficulty == 2)
+			SkillProgress("Infiltration", 225);
+		if (InfiltrationDifficulty == 3)
+			SkillProgress("Infiltration", 300);
+		if (InfiltrationDifficulty == 4)
+			SkillProgress("Infiltration", 400);
 	}
 }
 
@@ -210,14 +343,25 @@ function InfiltrationPayRansom(Type) {
  */
 function InfiltrationStartKidnapping() {
 	let Type = "Kidnapper";
-	if ((InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc")) && (Math.random() >= 0.5)) Type = "Dominatrix";
-	let IntroText = TextGet("Pandora" + Type + "Intro" + Math.floor(Math.random() * 5));
+	if (
+		(InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") ||
+			InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc")) &&
+		Math.random() >= 0.5
+	)
+		Type = "Dominatrix";
+	let IntroText = TextGet(
+		"Pandora" + Type + "Intro" + Math.floor(Math.random() * 5)
+	);
 	IntroText = IntroText.replace("DialogPlayerName", Player.Name);
 	CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
 	CharacterDelete("NPC_Infiltration_" + Type);
-	delete CommonCSVCache["Screens/Room/Infiltration/NPC_Infiltration_" + Type + ".csv"];
-	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
+	delete CommonCSVCache[
+		"Screens/Room/Infiltration/NPC_Infiltration_" + Type + ".csv"
+	];
+	InfiltrationKidnapper = CharacterLoadNPC(
+		"NPC_Infiltration_" + Type
+	);
 	CharacterRandomName(InfiltrationKidnapper);
 	CharacterRelease(InfiltrationKidnapper);
 	InfiltrationKidnapper.Stage = "0";
@@ -234,9 +378,11 @@ function InfiltrationStartKidnapping() {
  * @returns {void} - Nothing
  */
 function InfiltrationEndKidnapping(Reward) {
-	if ((Reward != null) && (Reward == "Money")) CharacterChangeMoney(Player, 18);
-	if ((Reward != null) && (Reward == "Skill")) SkillProgress("Infiltration", 400);
-	if ((Reward != null) && (Reward == "Private")) {
+	if (Reward != null && Reward == "Money")
+		CharacterChangeMoney(Player, 18);
+	if (Reward != null && Reward == "Skill")
+		SkillProgress("Infiltration", 400);
+	if (Reward != null && Reward == "Private") {
 		CurrentScreen = "Private";
 		PrivateAddCharacter(CurrentCharacter);
 		CommonSetScreen("Room", "Private");
@@ -268,10 +414,18 @@ function InfiltrationKidnapperSurrender() {
  * @returns {void} - Nothing
  */
 function InfiltrationKidnapperStartFight() {
-	let Difficulty = SkillGetLevel(Player, "Infiltration") - 3 + Math.floor(Math.random() * 7);
+	let Difficulty =
+		SkillGetLevel(Player, "Infiltration") -
+		3 +
+		Math.floor(Math.random() * 7);
 	if (Difficulty < 0) Difficulty = 0;
 	if (Difficulty > 10) Difficulty = 10;
-	KidnapStart(CurrentCharacter, InfiltrationBackground, Difficulty, "InfiltrationKidnapperEndFight()");
+	KidnapStart(
+		CurrentCharacter,
+		InfiltrationBackground,
+		Difficulty,
+		"InfiltrationKidnapperEndFight()"
+	);
 }
 
 /**
@@ -280,13 +434,22 @@ function InfiltrationKidnapperStartFight() {
  */
 function InfiltrationKidnapperEndFight() {
 	CharacterSetCurrent(InfiltrationKidnapper);
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CurrentCharacter.KidnapMaxWillpower - CurrentCharacter.KidnapWillpower)));
-	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
+	SkillProgress(
+		"Willpower",
+		Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(CurrentCharacter.KidnapMaxWillpower -
+				CurrentCharacter.KidnapWillpower)
+	);
+	CurrentCharacter.Stage = KidnapVictory ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
 	CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	CurrentCharacter.CurrentDialog = DialogFind(
+		CurrentCharacter,
+		KidnapVictory ? "FightVictory" : "FightDefeat"
+	);
 }
 
 /**
@@ -316,7 +479,10 @@ function InfiltrationKidnapperUngag() {
  * @returns {boolean} - TRUE if it's possible
  */
 function InfiltrationCanBringToRoom() {
-	return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax));
+	return (
+		LogQuery("RentRoom", "PrivateRoom") &&
+		PrivateCharacter.length < PrivateCharacterMax
+	);
 }
 
 /**
@@ -334,9 +500,12 @@ function InfiltrationStealItems() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartPandoraLock() {
-	InfiltrationMission	= "Retrieve";
+	InfiltrationMission = "Retrieve";
 	InfiltrationTarget.Type = "PandoraPadlockKeys";
-	InfiltrationTarget.Name = DialogFind(InfiltrationSupervisor, "Object" + InfiltrationTarget.Type);
+	InfiltrationTarget.Name = DialogFind(
+		InfiltrationSupervisor,
+		"Object" + InfiltrationTarget.Type
+	);
 	InfiltrationTarget.Found = false;
 	InfiltrationDifficulty = 4;
 	InfiltrationRandomClothes();
@@ -357,7 +526,8 @@ function InfiltrationGetPandoraLock() {
  */
 function InfiltrationRansomFriend() {
 	NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
-	if (PrivateRansomCharacter.Love < 0) PrivateRansomCharacter.Love = 0;
+	if (PrivateRansomCharacter.Love < 0)
+		PrivateRansomCharacter.Love = 0;
 	ServerPrivateCharacterSync();
 	CharacterChangeMoney(Player, -100);
 }
@@ -367,7 +537,7 @@ function InfiltrationRansomFriend() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartNPCRescue() {
-	InfiltrationMission	= "Rescue";
+	InfiltrationMission = "Rescue";
 	InfiltrationTarget.Type = "NPC";
 	InfiltrationTarget.Name = PrivateRansomCharacter.Name;
 	InfiltrationTarget.PrivateRoom = true;

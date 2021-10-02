@@ -13,7 +13,8 @@ var MiniGameEnded = false;
 var MiniGameCheatAvailable = false;
 
 function MiniGameLoad() {
-	if (CurrentScreen == "Kidnap" || CurrentScreen == "HorseWalk") CurrentDarkFactor = 0.5;
+	if (CurrentScreen == "Kidnap" || CurrentScreen == "HorseWalk")
+		CurrentDarkFactor = 0.5;
 }
 
 /**
@@ -29,12 +30,12 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGameDifficulty = Difficulty;
 	MiniGameDifficultyRatio = 1;
 	MiniGameReturnFunction = ReturnFunction;
-	MiniGameVictory = (Math.random() > 0.5);
+	MiniGameVictory = Math.random() > 0.5;
 	MiniGamePerfect = true;
 	MiniGameProgress = -1;
 	MiniGameTimer = 0;
 	MiniGameEnded = false;
-	MiniGameCheatAvailable = (CheatFactor("MiniGameBonus", 0) == 0);
+	MiniGameCheatAvailable = CheatFactor("MiniGameBonus", 0) == 0;
 	CommonSetScreen("MiniGame", GameType);
 }
 
@@ -43,7 +44,7 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
  * @returns {boolean} - TRUE if C and cheats are allowed
  */
 function MiniGameCheatKeyDown() {
-	if (MiniGameCheatAvailable && ((KeyPress == 67) || (KeyPress == 99))) {
+	if (MiniGameCheatAvailable && (KeyPress == 67 || KeyPress == 99)) {
 		MiniGameCheatAvailable = false;
 		return true;
 	} else return false;

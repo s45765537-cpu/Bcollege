@@ -20,8 +20,6 @@ function GetUpEnd(Victory) {
 	MiniGameTimer = CommonTime();
 }
 
-
-
 /**
  * Loads the Get Up mini game
  * @returns {void} - Nothing
@@ -36,7 +34,11 @@ function GetUpLoad() {
 		MiniGameTimer = CommonTime() + GetUpGameDuration; // 5 seconds base
 		GetUpChallenge = 0;
 	} else {
-		GetUpGameDuration = 5000 + 1000 * (MiniGameDifficulty-SkillGetLevel(Player, "Evasion")*0.33);
+		GetUpGameDuration =
+			5000 +
+			1000 *
+				(MiniGameDifficulty -
+					SkillGetLevel(Player, "Evasion") * 0.33);
 		MiniGameTimer = CommonTime() + GetUpGameDuration; // One extra second per challenge level, minus a third of a second per evasion.
 		GetUpChallenge = MiniGameDifficulty;
 	}
@@ -45,19 +47,26 @@ function GetUpLoad() {
 }
 
 function GetUpPhysics(delta) {
-	var timeElapsed = 3 + (GetUpGameDuration +  CommonTime() - MiniGameTimer) / 2000;
+	var timeElapsed =
+		3 + (GetUpGameDuration + CommonTime() - MiniGameTimer) / 2000;
 
 	if (CommonTime() > GetUpNextTick) {
 		GetUpNextTick = CommonTime() + 400;
-		GetUpAcceleration = -timeElapsed*1 + 1.3*timeElapsed*Math.random();
+		GetUpAcceleration =
+			-timeElapsed * 1 + 1.3 * timeElapsed * Math.random();
 	}
-	GetUpVelocity = Math.min(GetUpVelocity, GetUpVelocity + GetUpAcceleration * 0.25);
+	GetUpVelocity = Math.min(
+		GetUpVelocity,
+		GetUpVelocity + GetUpAcceleration * 0.25
+	);
 
 	if (Math.abs(GetUpPosition) <= GetUpMaxPosition)
-		GetUpPosition += GetUpVelocity / 1000 * delta * 3.5;
+		GetUpPosition += (GetUpVelocity / 1000) * delta * 3.5;
 
-
-	GetUpPosition = Math.max(-GetUpMaxPosition*1.1, Math.min(GetUpPosition, GetUpMaxPosition*1.1));
+	GetUpPosition = Math.max(
+		-GetUpMaxPosition * 1.1,
+		Math.min(GetUpPosition, GetUpMaxPosition * 1.1)
+	);
 }
 
 /**
@@ -71,13 +80,13 @@ function GetUpRun() {
 
 	// The game ends if the time runs out
 	var Time = CommonTime();
-	if (!MiniGameEnded && (Time >= MiniGameTimer)) {
+	if (!MiniGameEnded && Time >= MiniGameTimer) {
 		if (Math.abs(GetUpPosition) > GetUpMaxPosition) {
 			GetUpEnd(false);
 		} else {
 			GetUpEnd(true);
 		}
-		SkillProgress("Evasion",  GetUpChallenge/2 + 1);
+		SkillProgress("Evasion", GetUpChallenge / 2 + 1);
 	} else if (Time < MiniGameTimer) {
 		GetUpPhysics(TimerRunInterval);
 	}
@@ -86,11 +95,14 @@ function GetUpRun() {
 		MiniGameVictory = false;
 	}
 
-
-	DrawProgressBar(500 - GetUpMaxPosition, 500, 2*GetUpMaxPosition, 50, 50*((GetUpPosition + GetUpMaxPosition)/GetUpMaxPosition));
+	DrawProgressBar(
+		500 - GetUpMaxPosition,
+		500,
+		2 * GetUpMaxPosition,
+		50,
+		50 * ((GetUpPosition + GetUpMaxPosition) / GetUpMaxPosition)
+	);
 	DrawCharacter(Player, 400 + GetUpPosition, 300, 0.4);
-
-
 
 	if (Time < MiniGameTimer) {
 		GetUpText = TextGet("GetUpObjective");
@@ -103,9 +115,8 @@ function GetUpRun() {
 	}
 	DrawText(GetUpText, 500, 977, "white", "black");
 
-
-	if (Time >= MiniGameTimer + 750) CommonDynamicFunction(MiniGameReturnFunction + "()");
-
+	if (Time >= MiniGameTimer + 750)
+		CommonDynamicFunction(MiniGameReturnFunction + "()");
 }
 
 /**
@@ -115,5 +126,4 @@ function GetUpRun() {
 function GetUpClick() {
 	//CommonIsMobile
 	GetUpVelocity += 20;
-
 }

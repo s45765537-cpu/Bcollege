@@ -1,36 +1,55 @@
 "use strict";
-const InventoryItemDevicesLockerOpacityInputId = "InventoryItemDevicesLockerOpacity";
+const InventoryItemDevicesLockerOpacityInputId =
+	"InventoryItemDevicesLockerOpacity";
 
 const ItemDevicesLockerOptions = [
 	{
 		Name: "Vents",
-		Property: { Type: null }
-	}, {
+		Property: { Type: null },
+	},
+	{
 		Name: "Ventless",
-		Property: { Type: "Ventless", Effect: ["GagLight"] }
-	}
+		Property: { Type: "Ventless", Effect: ["GagLight"] },
+	},
 ];
 
 function InventoryItemDevicesLockerLoad() {
 	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
-	const property = item.Property = item.Property || {};
+	const property = (item.Property = item.Property || {});
 	let refresh = false;
 	if (typeof property.Opacity !== "number") {
 		property.Opacity = 0;
 		refresh = true;
 	}
 
-	if (!ItemDevicesLockerOptions.find(option => option.Property.Type === property.Type)) {
+	if (
+		!ItemDevicesLockerOptions.find(
+			(option) => option.Property.Type === property.Type
+		)
+	) {
 		property.Type = ItemDevicesLockerOptions[0].Property.Type;
 		refresh = true;
 	}
 
 	if (refresh) CharacterRefresh(C, false);
 
-	const opacitySlider = ElementCreateRangeInput(InventoryItemDevicesLockerOpacityInputId, property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity, 0.01, "blindfold");
+	const opacitySlider = ElementCreateRangeInput(
+		InventoryItemDevicesLockerOpacityInputId,
+		property.Opacity,
+		item.Asset.MinOpacity,
+		item.Asset.MaxOpacity,
+		0.01,
+		"blindfold"
+	);
 	if (opacitySlider) {
-		opacitySlider.addEventListener("input", (e) => InventoryItemDevicesLockerOpacityChange(C, item, Number(e.target.value)));
+		opacitySlider.addEventListener("input", (e) =>
+			InventoryItemDevicesLockerOpacityChange(
+				C,
+				item,
+				Number(e.target.value)
+			)
+		);
 	}
 }
 
@@ -42,21 +61,45 @@ function InventoryItemDevicesLockerDraw() {
 	DrawAssetPreview(1387, 55, asset);
 
 	MainCanvas.textAlign = "left";
-	DrawTextFit(DialogFindPlayer("InventoryItemDevicesLockerOpacity"), 1185, 430, 400, "#fff", "#000");
-	ElementPosition(InventoryItemDevicesLockerOpacityInputId, 1700, 430, 425);
+	DrawTextFit(
+		DialogFindPlayer("InventoryItemDevicesLockerOpacity"),
+		1185,
+		430,
+		400,
+		"#fff",
+		"#000"
+	);
+	ElementPosition(
+		InventoryItemDevicesLockerOpacityInputId,
+		1700,
+		430,
+		425
+	);
 	MainCanvas.textAlign = "center";
 
-	DrawTextFit(DialogFindPlayer("InventoryItemDevicesLockerType"), 1500, 530, 800, "#fff", "#000");
+	DrawTextFit(
+		DialogFindPlayer("InventoryItemDevicesLockerType"),
+		1500,
+		530,
+		800,
+		"#fff",
+		"#000"
+	);
 
 	ItemDevicesLockerOptions.forEach((option, i) => {
 		const x = ExtendedXY[ItemDevicesLockerOptions.length][i][0];
 		const y = ExtendedXY[ItemDevicesLockerOptions.length][i][1] + 80;
 		const isSelected = property.Type === option.Property.Type;
-		const description = DialogFindPlayer(`InventoryItemDevicesLockerType${option.Name}`);
+		const description = DialogFindPlayer(
+			`InventoryItemDevicesLockerType${option.Name}`
+		);
 
 		DrawPreviewBox(
-			x, y, `${AssetGetInventoryPath(asset)}/${option.Name}.png`, description,
-			{ Border: true, Hover: true, Disabled: isSelected },
+			x,
+			y,
+			`${AssetGetInventoryPath(asset)}/${option.Name}.png`,
+			description,
+			{ Border: true, Hover: true, Disabled: isSelected }
 		);
 	});
 }
@@ -74,7 +117,11 @@ function InventoryItemDevicesLockerClick() {
 		const y = ExtendedXY[ItemDevicesLockerOptions.length][i][1] + 80;
 
 		if (MouseIn(x, y, 225, 275)) {
-			ExtendedItemHandleOptionClick(C, ItemDevicesLockerOptions, option);
+			ExtendedItemHandleOptionClick(
+				C,
+				ItemDevicesLockerOptions,
+				option
+			);
 		}
 	});
 }
@@ -86,10 +133,14 @@ function InventoryItemDevicesLockerClick() {
  * @param {number} brightness - The new brightness to set on the item
  * @returns {void} - Nothing
  */
-const InventoryItemDevicesLockerOpacityChange = CommonLimitFunction((C, item, brightness) => {
-	item.Property.Opacity = brightness;
-	CharacterLoadCanvas(C);
-}, 0, 1000);
+const InventoryItemDevicesLockerOpacityChange = CommonLimitFunction(
+	(C, item, brightness) => {
+		item.Property.Opacity = brightness;
+		CharacterLoadCanvas(C);
+	},
+	0,
+	1000
+);
 
 /**
  * Exit handler for the item's extended item screen. Updates the character and removes UI components.
@@ -99,7 +150,9 @@ function InventoryItemDevicesLockerExit() {
 	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
 
-	item.Property.Opacity = Number(ElementValue(InventoryItemDevicesLockerOpacityInputId));
+	item.Property.Opacity = Number(
+		ElementValue(InventoryItemDevicesLockerOpacityInputId)
+	);
 	ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 
 	ElementRemove(InventoryItemDevicesLockerOpacityInputId);
@@ -116,8 +169,16 @@ function InventoryItemDevicesLockerExit() {
 function InventoryItemDevicesLockerPublishAction(C, Option) {
 	var msg = "InventoryItemDevicesLockerChange";
 	var Dictionary = [];
-	Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
-	Dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
+	Dictionary.push({
+		Tag: "SourceCharacter",
+		Text: Player.Name,
+		MemberNumber: Player.MemberNumber,
+	});
+	Dictionary.push({
+		Tag: "DestinationCharacter",
+		Text: C.Name,
+		MemberNumber: C.MemberNumber,
+	});
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
 
@@ -128,5 +189,9 @@ function InventoryItemDevicesLockerPublishAction(C, Option) {
  * @returns {void} - Nothing
  */
 function InventoryItemDevicesLockerNpcDialog(C, Option) {
-	C.CurrentDialog = DialogFind(C, "LockerState" + Option.Name, "ItemDevices");
+	C.CurrentDialog = DialogFind(
+		C,
+		"LockerState" + Option.Name,
+		"ItemDevices"
+	);
 }

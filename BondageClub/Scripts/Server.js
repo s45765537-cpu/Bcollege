@@ -13,60 +13,123 @@ var ServerBeep = {};
 var ServerIsConnected = false;
 var ServerReconnectCount = 0;
 
-const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
+const ServerScriptMessage =
+	"WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
 	"https://github.com/Ben987/Bondage-College/wiki/Player-Safety#scripts--browser-extensions to learn more about " +
 	"script safety.";
-const ServerScriptWarningStyle = "display: inline-block; color: black; background: #ffe3ad; margin: 16px 0 8px 0; " +
+const ServerScriptWarningStyle =
+	"display: inline-block; color: black; background: #ffe3ad; margin: 16px 0 8px 0; " +
 	"padding: 8px 4px; font-size: 20px; border: 6px solid #ffa600; font-family: 'Arial', sans-serif; line-height: 1.6;";
 
 /** Loads the server by attaching the socket events and their respective callbacks */
 function ServerInit() {
 	ServerSocket = io(ServerURL);
 	ServerSocket.on("connect", ServerConnect);
-	ServerSocket.on("disconnect", function () { ServerDisconnect(); });
+	ServerSocket.on("disconnect", function () {
+		ServerDisconnect();
+	});
 	ServerSocket.io.on("reconnect_attempt", ServerReconnecting);
-	ServerSocket.on("ServerInfo", function (data) { ServerInfo(data); });
-	ServerSocket.on("CreationResponse", function (data) { CreationResponse(data); });
-	ServerSocket.on("LoginResponse", function (data) { LoginResponse(data); });
-	ServerSocket.on("LoginQueue", function (data) { LoginQueue(data); });
-	ServerSocket.on("ForceDisconnect", function (data) { ServerDisconnect(data, true); });
-	ServerSocket.on("ChatRoomSearchResult", function (data) { ChatSearchResultResponse(data); });
-	ServerSocket.on("ChatRoomSearchResponse", function (data) { ChatSearchResponse(data); });
-	ServerSocket.on("ChatRoomCreateResponse", function (data) { ChatCreateResponse(data); });
-	ServerSocket.on("ChatRoomUpdateResponse", function (data) { ChatAdminResponse(data); });
-	ServerSocket.on("ChatRoomSync", function (data) { ChatRoomSync(data); });
-	ServerSocket.on("ChatRoomSyncMemberJoin", function (data) { ChatRoomSyncMemberJoin(data); });
-	ServerSocket.on("ChatRoomSyncMemberLeave", function (data) { ChatRoomSyncMemberLeave(data); });
-	ServerSocket.on("ChatRoomSyncRoomProperties", function (data) { ChatRoomSyncRoomProperties(data); });
-	ServerSocket.on("ChatRoomSyncCharacter", function (data) { ChatRoomSyncCharacter(data); });
-	ServerSocket.on("ChatRoomSyncSwapPlayers", function (data) { ChatRoomSyncSwapPlayers(data); });
-	ServerSocket.on("ChatRoomSyncMovePlayer", function (data) { ChatRoomSyncMovePlayer(data); });
-	ServerSocket.on("ChatRoomSyncReorderPlayers", function (data) { ChatRoomSyncReorderPlayers(data); });
-	ServerSocket.on("ChatRoomSyncSingle", function (data) { ChatRoomSyncSingle(data); });
-	ServerSocket.on("ChatRoomSyncExpression", function (data) { ChatRoomSyncExpression(data); });
-	ServerSocket.on("ChatRoomSyncPose", function (data) { ChatRoomSyncPose(data); });
-	ServerSocket.on("ChatRoomSyncArousal", function (data) { ChatRoomSyncArousal(data); });
-	ServerSocket.on("ChatRoomSyncItem", function (data) { ChatRoomSyncItem(data); });
-	ServerSocket.on("ChatRoomMessage", function (data) { ChatRoomMessage(data); });
-	ServerSocket.on("ChatRoomAllowItem", function (data) { ChatRoomAllowItem(data); });
-	ServerSocket.on("ChatRoomGameResponse", function (data) { ChatRoomGameResponse(data); });
-	ServerSocket.on("PasswordResetResponse", function (data) { PasswordResetResponse(data); });
-	ServerSocket.on("AccountQueryResult", function (data) { ServerAccountQueryResult(data); });
-	ServerSocket.on("AccountBeep", function (data) { ServerAccountBeep(data); });
-	ServerSocket.on("AccountOwnership", function (data) { ServerAccountOwnership(data); });
-	ServerSocket.on("AccountLovership", function (data) { ServerAccountLovership(data); });
+	ServerSocket.on("ServerInfo", function (data) {
+		ServerInfo(data);
+	});
+	ServerSocket.on("CreationResponse", function (data) {
+		CreationResponse(data);
+	});
+	ServerSocket.on("LoginResponse", function (data) {
+		LoginResponse(data);
+	});
+	ServerSocket.on("LoginQueue", function (data) {
+		LoginQueue(data);
+	});
+	ServerSocket.on("ForceDisconnect", function (data) {
+		ServerDisconnect(data, true);
+	});
+	ServerSocket.on("ChatRoomSearchResult", function (data) {
+		ChatSearchResultResponse(data);
+	});
+	ServerSocket.on("ChatRoomSearchResponse", function (data) {
+		ChatSearchResponse(data);
+	});
+	ServerSocket.on("ChatRoomCreateResponse", function (data) {
+		ChatCreateResponse(data);
+	});
+	ServerSocket.on("ChatRoomUpdateResponse", function (data) {
+		ChatAdminResponse(data);
+	});
+	ServerSocket.on("ChatRoomSync", function (data) {
+		ChatRoomSync(data);
+	});
+	ServerSocket.on("ChatRoomSyncMemberJoin", function (data) {
+		ChatRoomSyncMemberJoin(data);
+	});
+	ServerSocket.on("ChatRoomSyncMemberLeave", function (data) {
+		ChatRoomSyncMemberLeave(data);
+	});
+	ServerSocket.on("ChatRoomSyncRoomProperties", function (data) {
+		ChatRoomSyncRoomProperties(data);
+	});
+	ServerSocket.on("ChatRoomSyncCharacter", function (data) {
+		ChatRoomSyncCharacter(data);
+	});
+	ServerSocket.on("ChatRoomSyncSwapPlayers", function (data) {
+		ChatRoomSyncSwapPlayers(data);
+	});
+	ServerSocket.on("ChatRoomSyncMovePlayer", function (data) {
+		ChatRoomSyncMovePlayer(data);
+	});
+	ServerSocket.on("ChatRoomSyncReorderPlayers", function (data) {
+		ChatRoomSyncReorderPlayers(data);
+	});
+	ServerSocket.on("ChatRoomSyncSingle", function (data) {
+		ChatRoomSyncSingle(data);
+	});
+	ServerSocket.on("ChatRoomSyncExpression", function (data) {
+		ChatRoomSyncExpression(data);
+	});
+	ServerSocket.on("ChatRoomSyncPose", function (data) {
+		ChatRoomSyncPose(data);
+	});
+	ServerSocket.on("ChatRoomSyncArousal", function (data) {
+		ChatRoomSyncArousal(data);
+	});
+	ServerSocket.on("ChatRoomSyncItem", function (data) {
+		ChatRoomSyncItem(data);
+	});
+	ServerSocket.on("ChatRoomMessage", function (data) {
+		ChatRoomMessage(data);
+	});
+	ServerSocket.on("ChatRoomAllowItem", function (data) {
+		ChatRoomAllowItem(data);
+	});
+	ServerSocket.on("ChatRoomGameResponse", function (data) {
+		ChatRoomGameResponse(data);
+	});
+	ServerSocket.on("PasswordResetResponse", function (data) {
+		PasswordResetResponse(data);
+	});
+	ServerSocket.on("AccountQueryResult", function (data) {
+		ServerAccountQueryResult(data);
+	});
+	ServerSocket.on("AccountBeep", function (data) {
+		ServerAccountBeep(data);
+	});
+	ServerSocket.on("AccountOwnership", function (data) {
+		ServerAccountOwnership(data);
+	});
+	ServerSocket.on("AccountLovership", function (data) {
+		ServerAccountLovership(data);
+	});
 }
 
 /** @readonly */
-var ServerAccountUpdate = new class AccountUpdater {
-
+var ServerAccountUpdate = new (class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
 		 * @type {Map<string, object>}
 		 */
-		this.Queue = new Map;
+		this.Queue = new Map();
 		/**
 		 * @private
 		 * @type {null | number}
@@ -87,11 +150,11 @@ var ServerAccountUpdate = new class AccountUpdater {
 		if (this.Queue.size == 0) return;
 
 		const Queue = this.Queue;
-		this.Queue = new Map;
+		this.Queue = new Map();
 		const Data = {};
-		Queue.forEach((value, key) => Data[key] = value);
+		Queue.forEach((value, key) => (Data[key] = value));
 
-		ServerSocket.emit('AccountUpdate', Data);
+		ServerSocket.emit("AccountUpdate", Data);
 	}
 
 	/**
@@ -116,9 +179,10 @@ var ServerAccountUpdate = new class AccountUpdater {
 			}
 		} else this.Start = Date.now();
 
-		if (!this.Timeout) this.Timeout = setTimeout(this.SyncToServer.bind(this), 2000);
+		if (!this.Timeout)
+			this.Timeout = setTimeout(this.SyncToServer.bind(this), 2000);
 	}
-};
+})();
 
 /**
  * Sets the connection status of the server and updates the login page message
@@ -148,7 +212,11 @@ function ServerConnect() {
 
 	const userAgent = navigator.userAgent.toLowerCase();
 	if (userAgent.includes("chrome") || userAgent.includes("firefox")) {
-		console.log(`\n%c${ServerScriptMessage}%c \n`, ServerScriptWarningStyle, "");
+		console.log(
+			`\n%c${ServerScriptMessage}%c \n`,
+			ServerScriptWarningStyle,
+			""
+		);
 	} else {
 		console.log(ServerScriptMessage);
 	}
@@ -160,7 +228,8 @@ function ServerConnect() {
  */
 function ServerReconnecting() {
 	ServerReconnectCount++;
-	if (ServerReconnectCount >= 3) LoginErrorMessage = "ErrorUnableToConnect";
+	if (ServerReconnectCount >= 3)
+		LoginErrorMessage = "ErrorUnableToConnect";
 	LoginUpdateMessage();
 }
 
@@ -170,7 +239,8 @@ function ServerReconnecting() {
  * @returns {void} - Nothing
  */
 function ServerInfo(data) {
-	if (data.OnlinePlayers != null) CurrentOnlinePlayers = data.OnlinePlayers;
+	if (data.OnlinePlayers != null)
+		CurrentOnlinePlayers = data.OnlinePlayers;
 	if (data.Time != null) CurrentTime = data.Time;
 }
 
@@ -185,7 +255,9 @@ function ServerDisconnect(data, close = false) {
 	if (!ServerIsConnected) return;
 	console.warn("Server connection lost");
 	const ShouldRelog = Player.Name != "";
-	let msg = ShouldRelog ? "Disconnected" : "ErrorDisconnectedFromServer";
+	let msg = ShouldRelog
+		? "Disconnected"
+		: "ErrorDisconnectedFromServer";
 	if (data) {
 		console.warn(data);
 		msg = data;
@@ -201,10 +273,11 @@ function ServerDisconnect(data, close = false) {
 
 	if (ShouldRelog) {
 		if (CurrentScreen != "Relog") {
-
 			// Exits out of the chat room or a sub screen of the chatroom, so we'll be able to get in again when we log back
 			if (ServerPlayerIsInChatRoom()) {
-				RelogChatLog = document.getElementById("TextAreaChatLog").cloneNode(true);
+				RelogChatLog = document
+					.getElementById("TextAreaChatLog")
+					.cloneNode(true);
 				RelogChatLog.id = "RelogChatLog";
 				RelogChatLog.name = "RelogChatLog";
 				RelogInputText = ElementValue("InputChat").trim();
@@ -219,10 +292,13 @@ function ServerDisconnect(data, close = false) {
 			}
 
 			// Keeps the relog data
-			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter };
+			RelogData = {
+				Screen: CurrentScreen,
+				Module: CurrentModule,
+				Character: CurrentCharacter,
+			};
 			CurrentCharacter = null;
 			CommonSetScreen("Character", "Relog");
-
 		}
 	}
 
@@ -237,16 +313,26 @@ function ServerDisconnect(data, close = false) {
  * @returns {boolean} - True if in a chatroom
  */
 function ServerPlayerIsInChatRoom() {
-	return (CurrentScreen == "ChatRoom")
-		|| (CurrentScreen == "ChatAdmin")
-		|| (CurrentScreen == "GameLARP")
-		|| ((CurrentScreen == "Appearance") && (CharacterAppearanceReturnRoom == "ChatRoom"))
-		|| ((CurrentScreen == "InformationSheet") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "Title") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "OnlineProfile") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null || FriendListReturn.IsInChatRoom))
-		|| ((CurrentScreen == "Preference") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
+	return (
+		CurrentScreen == "ChatRoom" ||
+		CurrentScreen == "ChatAdmin" ||
+		CurrentScreen == "GameLARP" ||
+		(CurrentScreen == "Appearance" &&
+			CharacterAppearanceReturnRoom == "ChatRoom") ||
+		(CurrentScreen == "InformationSheet" &&
+			InformationSheetPreviousScreen == "ChatRoom") ||
+		(CurrentScreen == "Title" &&
+			InformationSheetPreviousScreen == "ChatRoom") ||
+		(CurrentScreen == "OnlineProfile" &&
+			InformationSheetPreviousScreen == "ChatRoom") ||
+		(CurrentScreen == "FriendList" &&
+			InformationSheetPreviousScreen == "ChatRoom" &&
+			(FriendListReturn == null || FriendListReturn.IsInChatRoom)) ||
+		(CurrentScreen == "Preference" &&
+			InformationSheetPreviousScreen == "ChatRoom") ||
+		(CurrentModule == "MiniGame" &&
+			DialogGamingPreviousRoom == "ChatRoom")
+	);
 }
 
 /** Sends a message with the given data to the server via socket.emit */
@@ -259,7 +345,11 @@ function ServerSend(Message, Data) {
  * @returns {void} - Nothing
  */
 function ServerPlayerSync() {
-	ServerAccountUpdate.QueueData({ Money: Player.Money, Owner: Player.Owner, Lover: Player.Lover });
+	ServerAccountUpdate.QueueData({
+		Money: Player.Money,
+		Owner: Player.Owner,
+		Lover: Player.Lover,
+	});
 	delete Player.Lover;
 }
 
@@ -286,12 +376,15 @@ function ServerPlayerInventorySync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerBlockItemsSync() {
-	ServerAccountUpdate.QueueData({
-		BlockItems: CommonPackItemArray(Player.BlockItems),
-		LimitedItems: CommonPackItemArray(Player.LimitedItems),
-		FavoriteItems: CommonPackItemArray(Player.FavoriteItems),
-		HiddenItems: Player.HiddenItems
-	}, true);
+	ServerAccountUpdate.QueueData(
+		{
+			BlockItems: CommonPackItemArray(Player.BlockItems),
+			LimitedItems: CommonPackItemArray(Player.LimitedItems),
+			FavoriteItems: CommonPackItemArray(Player.FavoriteItems),
+			HiddenItems: Player.HiddenItems,
+		},
+		true
+	);
 }
 
 /**
@@ -328,12 +421,19 @@ function ServerPlayerRelationsSync() {
 	D.GhostList = Player.GhostList;
 	D.WhiteList = Player.WhiteList;
 	D.BlackList = Player.BlackList;
-	Array.from(Player.FriendNames.keys()).forEach(k => {
-		if (!Player.FriendList.includes(k) && !Player.SubmissivesList.has(k))
+	Array.from(Player.FriendNames.keys()).forEach((k) => {
+		if (
+			!Player.FriendList.includes(k) &&
+			!Player.SubmissivesList.has(k)
+		)
 			Player.FriendNames.delete(k);
 	});
-	D.FriendNames = LZString.compressToUTF16(JSON.stringify(Array.from(Player.FriendNames)));
-	D.SubmissivesList = LZString.compressToUTF16(JSON.stringify(Array.from(Player.SubmissivesList)));
+	D.FriendNames = LZString.compressToUTF16(
+		JSON.stringify(Array.from(Player.FriendNames))
+	);
+	D.SubmissivesList = LZString.compressToUTF16(
+		JSON.stringify(Array.from(Player.SubmissivesList))
+	);
 	ServerAccountUpdate.QueueData(D, true);
 }
 
@@ -349,9 +449,18 @@ function ServerAppearanceBundle(Appearance) {
 		var N = {};
 		N.Group = Appearance[A].Asset.Group.Name;
 		N.Name = Appearance[A].Asset.Name;
-		if ((Appearance[A].Color != null) && (Appearance[A].Color != "Default")) N.Color = Appearance[A].Color;
-		if ((Appearance[A].Difficulty != null) && (Appearance[A].Difficulty != 0)) N.Difficulty = Appearance[A].Difficulty;
-		if (Appearance[A].Property != null) N.Property = Appearance[A].Property;
+		if (
+			Appearance[A].Color != null &&
+			Appearance[A].Color != "Default"
+		)
+			N.Color = Appearance[A].Color;
+		if (
+			Appearance[A].Difficulty != null &&
+			Appearance[A].Difficulty != 0
+		)
+			N.Difficulty = Appearance[A].Difficulty;
+		if (Appearance[A].Property != null)
+			N.Property = Appearance[A].Property;
 		Bundle.push(N);
 	}
 	return Bundle;
@@ -368,23 +477,47 @@ function ServerAppearanceBundle(Appearance) {
  * property
  * @returns {boolean} - Whether or not the appearance bundle update contained invalid items
  */
-function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumber, AppearanceFull=false) {
-	const appearanceDiffs = ServerBuildAppearanceDiff(AssetFamily, C.Appearance, Bundle);
+function ServerAppearanceLoadFromBundle(
+	C,
+	AssetFamily,
+	Bundle,
+	SourceMemberNumber,
+	AppearanceFull = false
+) {
+	const appearanceDiffs = ServerBuildAppearanceDiff(
+		AssetFamily,
+		C.Appearance,
+		Bundle
+	);
 	ServerAddRequiredAppearance(AssetFamily, appearanceDiffs);
 
 	if (SourceMemberNumber == null) SourceMemberNumber = C.MemberNumber;
-	const updateParams = ValidationCreateDiffParams(C, SourceMemberNumber);
+	const updateParams = ValidationCreateDiffParams(
+		C,
+		SourceMemberNumber
+	);
 
-	let { appearance, updateValid } = Object.keys(appearanceDiffs)
-		.reduce(({ appearance, updateValid }, key) => {
+	let { appearance, updateValid } = Object.keys(
+		appearanceDiffs
+	).reduce(
+		({ appearance, updateValid }, key) => {
 			const diff = appearanceDiffs[key];
-			const { item, valid } = ValidationResolveAppearanceDiff(diff[0], diff[1], updateParams);
+			const { item, valid } = ValidationResolveAppearanceDiff(
+				diff[0],
+				diff[1],
+				updateParams
+			);
 			if (item) appearance.push(item);
 			updateValid = updateValid && valid;
 			return { appearance, updateValid };
-		}, { appearance: [], updateValid: true });
+		},
+		{ appearance: [], updateValid: true }
+	);
 
-	const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(appearance, appearanceDiffs);
+	const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(
+		appearance,
+		appearanceDiffs
+	);
 	appearance = cyclicBlockSanitizationResult.appearance;
 	updateValid = updateValid && cyclicBlockSanitizationResult.valid;
 
@@ -396,7 +529,9 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 
 	// If the appearance update was invalid, send another update to correct any issues
 	if (!updateValid && C.ID === 0) {
-		console.warn("Invalid appearance update bundle received. Updating with sanitized appearance.");
+		console.warn(
+			"Invalid appearance update bundle received. Updating with sanitized appearance."
+		);
 		ChatRoomCharacterUpdate(C);
 	}
 	return updateValid;
@@ -417,9 +552,15 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
 		diffMap[item.Asset.Group.Name] = [item, null];
 	});
 	bundle.forEach((item) => {
-		const appearanceItem = ServerBundledItemToAppearanceItem(assetFamily, item);
+		const appearanceItem = ServerBundledItemToAppearanceItem(
+			assetFamily,
+			item
+		);
 		if (appearanceItem) {
-			const diff = diffMap[item.Group] = (diffMap[item.Group] || [null, null]);
+			const diff = (diffMap[item.Group] = diffMap[item.Group] || [
+				null,
+				null,
+			]);
 			diff[1] = appearanceItem;
 		}
 	});
@@ -434,15 +575,27 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
  * @returns {Item} - A full appearance item representation of the provided bundled appearance item
  */
 function ServerBundledItemToAppearanceItem(assetFamily, item) {
-	if (!item || typeof item !== "object" || typeof item.Name !== "string" || typeof item.Group !== "string") return null;
+	if (
+		!item ||
+		typeof item !== "object" ||
+		typeof item.Name !== "string" ||
+		typeof item.Group !== "string"
+	)
+		return null;
 
 	const asset = AssetGet(assetFamily, item.Group, item.Name);
 	if (!asset) return null;
 
 	return {
 		Asset: asset,
-		Difficulty: parseInt(item.Difficulty == null ? 0 : item.Difficulty),
-		Color: ServerParseColor(asset, item.Color, asset.Group.ColorSchema),
+		Difficulty: parseInt(
+			item.Difficulty == null ? 0 : item.Difficulty
+		),
+		Color: ServerParseColor(
+			asset,
+			item.Color,
+			asset.Group.ColorSchema
+		),
 		Property: item.Property,
 	};
 }
@@ -456,8 +609,11 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
  */
 function ServerParseColor(asset, color, schema) {
 	if (Array.isArray(color)) {
-		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
-		return color.map(c => ServerValidateColorAgainstSchema(c, schema));
+		if (color.length > asset.ColorableLayerCount)
+			color = color.slice(0, asset.ColorableLayerCount);
+		return color.map((c) =>
+			ServerValidateColorAgainstSchema(c, schema)
+		);
 	} else {
 		return ServerValidateColorAgainstSchema(color, schema);
 	}
@@ -471,27 +627,39 @@ function ServerParseColor(asset, color, schema) {
  * @returns {void} - Nothing
  */
 function ServerAddRequiredAppearance(assetFamily, diffMap) {
-	AssetGroup.forEach(group => {
+	AssetGroup.forEach((group) => {
 		// If it's not in the appearance category or is allowed to empty, return
 		if (group.Category !== "Appearance" || group.AllowNone) return;
 		// If the current source already has an item in the group, return
 		if (diffMap[group.Name] && diffMap[group.Name][0]) return;
 
-		const diff = diffMap[group.Name] = diffMap[group.Name] || [null, null];
+		const diff = (diffMap[group.Name] = diffMap[group.Name] || [
+			null,
+			null,
+		]);
 
 		if (group.MirrorGroup) {
 			// If we need to mirror an item, see if it exists
-			const itemToMirror = diffMap[group.MirrorGroup] && diffMap[group.MirrorGroup][0];
+			const itemToMirror =
+				diffMap[group.MirrorGroup] && diffMap[group.MirrorGroup][0];
 			if (itemToMirror) {
-				const mirroredAsset = AssetGet(assetFamily, group.Name, itemToMirror.Asset.Name);
+				const mirroredAsset = AssetGet(
+					assetFamily,
+					group.Name,
+					itemToMirror.Asset.Name
+				);
 				// If there is an item to mirror, copy it and its color
-				if (mirroredAsset) diff[0] = { Asset: mirroredAsset, Color: itemToMirror.Color };
+				if (mirroredAsset)
+					diff[0] = {
+						Asset: mirroredAsset,
+						Color: itemToMirror.Color,
+					};
 			}
 		}
 
 		// If the item still hasn't been filled, use the first item from the group's asset list
 		if (!diff[0]) {
-			const asset = Asset.find(a => a.Group.Name === group.Name);
+			const asset = Asset.find((a) => a.Group.Name === group.Name);
 			diff[0] = { Asset: asset, Color: group.ColorSchema[0] };
 		}
 	});
@@ -506,7 +674,11 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
  */
 function ServerValidateColorAgainstSchema(Color, Schema) {
 	var HexCodeRegex = /^#(?:[0-9a-f]{3}){1,2}$/i;
-	if (typeof Color === 'string' && (Schema.includes(Color) || HexCodeRegex.test(Color))) return Color;
+	if (
+		typeof Color === "string" &&
+		(Schema.includes(Color) || HexCodeRegex.test(Color))
+	)
+		return Color;
 	return Schema[0];
 }
 
@@ -515,7 +687,6 @@ function ServerValidateColorAgainstSchema(Color, Schema) {
  * @returns {void} - Nothing
  */
 function ServerPlayerAppearanceSync() {
-
 	// Creates a big parameter string of every appearance items and sends it to the server
 	if (Player.AccountName != "") {
 		var D = {};
@@ -523,7 +694,6 @@ function ServerPlayerAppearanceSync() {
 		D.Appearance = ServerAppearanceBundle(Player.Appearance);
 		ServerAccountUpdate.QueueData(D, true);
 	}
-
 }
 
 /**
@@ -544,12 +714,17 @@ function ServerPrivateCharacterSync() {
 				Owner: PrivateCharacter[ID].Owner,
 				Lover: PrivateCharacter[ID].Lover,
 				AssetFamily: PrivateCharacter[ID].AssetFamily,
-				Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
-				AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
+				Appearance: ServerAppearanceBundle(
+					PrivateCharacter[ID].Appearance
+				),
+				AppearanceFull: ServerAppearanceBundle(
+					PrivateCharacter[ID].AppearanceFull
+				),
 				ArousalSettings: PrivateCharacter[ID].ArousalSettings,
-				Event: PrivateCharacter[ID].Event
+				Event: PrivateCharacter[ID].Event,
 			};
-			if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
+			if (PrivateCharacter[ID].FromPandora != null)
+				C.FromPandora = PrivateCharacter[ID].FromPandora;
 			D.PrivateCharacter.push(C);
 		}
 		ServerAccountUpdate.QueueData(D);
@@ -563,13 +738,39 @@ function ServerPrivateCharacterSync() {
  * @returns {void} - Nothing
  */
 function ServerAccountQueryResult(data) {
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Query != null) && (typeof data.Query === "string") && (data.Result != null)) {
-		if (data.Query == "OnlineFriends") FriendListLoadFriendList(data.Result);
-		if (data.Query == "EmailStatus" && data.Result && document.getElementById("InputEmailOld"))
-			/** @type {HTMLInputElement} */ (document.getElementById("InputEmailOld")).placeholder = TextGet("UpdateEmailLinked");
-		if (data.Query == "EmailStatus" && !data.Result && document.getElementById("InputEmailNew"))
-			/** @type {HTMLInputElement} */ (document.getElementById("InputEmailNew")).placeholder = TextGet("UpdateEmailEmpty");
-		if (data.Query == "EmailUpdate") ElementValue("InputEmailNew", TextGet(data.Result ? "UpdateEmailSuccess" : "UpdateEmailFailure"));
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.Query != null &&
+		typeof data.Query === "string" &&
+		data.Result != null
+	) {
+		if (data.Query == "OnlineFriends")
+			FriendListLoadFriendList(data.Result);
+		if (
+			data.Query == "EmailStatus" &&
+			data.Result &&
+			document.getElementById("InputEmailOld")
+		)
+			/** @type {HTMLInputElement} */ (
+				document.getElementById("InputEmailOld")
+			).placeholder = TextGet("UpdateEmailLinked");
+		if (
+			data.Query == "EmailStatus" &&
+			!data.Result &&
+			document.getElementById("InputEmailNew")
+		)
+			/** @type {HTMLInputElement} */ (
+				document.getElementById("InputEmailNew")
+			).placeholder = TextGet("UpdateEmailEmpty");
+		if (data.Query == "EmailUpdate")
+			ElementValue(
+				"InputEmailNew",
+				TextGet(
+					data.Result ? "UpdateEmailSuccess" : "UpdateEmailFailure"
+				)
+			);
 	}
 }
 
@@ -580,7 +781,15 @@ function ServerAccountQueryResult(data) {
  * @returns {void} - Nothing
  */
 function ServerAccountBeep(data) {
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.MemberName != null) && (typeof data.MemberName === "string")) {
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.MemberNumber != null &&
+		typeof data.MemberNumber === "number" &&
+		data.MemberName != null &&
+		typeof data.MemberName === "string"
+	) {
 		if (!data.BeepType || data.BeepType == "") {
 			if (typeof data.Message === "string") {
 				data.Message = data.Message.substr(0, 1000);
@@ -594,11 +803,24 @@ function ServerAccountBeep(data) {
 			if (Player.AudioSettings.PlayBeeps) {
 				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
 			}
-			ServerBeep.Message = `${DialogFindPlayer("BeepFrom")} ${ServerBeep.MemberName} (${ServerBeep.MemberNumber})`;
+			ServerBeep.Message = `${DialogFindPlayer("BeepFrom")} ${
+				ServerBeep.MemberName
+			} (${ServerBeep.MemberNumber})`;
 			if (ServerBeep.ChatRoomName != null)
-				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + DialogFindPlayer("InAsylum") : '');
+				ServerBeep.Message =
+					ServerBeep.Message +
+					" " +
+					DialogFindPlayer("InRoom") +
+					' "' +
+					ServerBeep.ChatRoomName +
+					'"' +
+					(data.ChatRoomSpace === "Asylum"
+						? " " + DialogFindPlayer("InAsylum")
+						: "");
 			if (data.Message) {
-				ServerBeep.Message += `; ${DialogFindPlayer("BeepWithMessage")}`;
+				ServerBeep.Message += `; ${DialogFindPlayer(
+					"BeepWithMessage"
+				)}`;
 				ServerBeep.IsMail = true;
 			}
 			FriendListBeepLog.push({
@@ -609,21 +831,35 @@ function ServerAccountBeep(data) {
 				Private: data.Private,
 				Sent: false,
 				Time: new Date(),
-				Message: data.Message
+				Message: data.Message,
 			});
-			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
+			if (CurrentScreen == "FriendList")
+				ServerSend("AccountQuery", { Query: "OnlineFriends" });
 			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
-				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${ServerBeep.Message})</a>`);
+				ChatRoomSendLocal(
+					`<a onclick="ServerOpenFriendList()">(${ServerBeep.Message})</a>`
+				);
 			if (!document.hasFocus()) {
 				NotificationRaise(NotificationEventType.BEEP, {
 					memberNumber: data.MemberNumber,
 					characterName: data.MemberName,
 					chatRoomName: data.ChatRoomName,
-					body: data.Message
+					body: data.Message,
 				});
 			}
-		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
-			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
+		} else if (
+			data.BeepType == "Leash" &&
+			ChatRoomLeashPlayer == data.MemberNumber &&
+			data.ChatRoomName
+		) {
+			if (
+				Player.OnlineSharedSettings &&
+				Player.OnlineSharedSettings.AllowPlayerLeashing != false &&
+				(CurrentScreen != "ChatRoom" ||
+					!ChatRoomData ||
+					(CurrentScreen == "ChatRoom" &&
+						ChatRoomData.Name != data.ChatRoomName))
+			) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player)) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
@@ -632,8 +868,14 @@ function ServerAccountBeep(data) {
 					if (CurrentScreen == "ChatRoom") {
 						ServerSend("ChatRoomLeave", "");
 						CommonSetScreen("Online", "ChatSearch");
-					}
-					else ChatRoomStart("", "", "MainHall", "Introduction", BackgroundsTagList); //CommonSetScreen("Room", "ChatSearch")
+					} else
+						ChatRoomStart(
+							"",
+							"",
+							"MainHall",
+							"Introduction",
+							BackgroundsTagList
+						); //CommonSetScreen("Room", "ChatSearch")
 				} else {
 					ChatRoomLeashPlayer = null;
 				}
@@ -642,12 +884,18 @@ function ServerAccountBeep(data) {
 	}
 }
 
-
-
 /** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
 function ServerDrawBeep() {
-	if ((ServerBeep.Timer != null) && (ServerBeep.Timer > CurrentTime)) {
-		DrawButton((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50, ServerBeep.Message, "Pink", "");
+	if (ServerBeep.Timer != null && ServerBeep.Timer > CurrentTime) {
+		DrawButton(
+			CurrentScreen == "ChatRoom" ? 0 : 500,
+			0,
+			1000,
+			50,
+			ServerBeep.Message,
+			"Pink",
+			""
+		);
 		if (document.hasFocus()) {
 			NotificationReset(NotificationEventType.BEEP);
 		}
@@ -658,8 +906,9 @@ function ServerDrawBeep() {
 function ServerClickBeep() {
 	if (
 		ServerBeep.IsMail &&
-		MouseIn((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50) &&
-		ServerBeep.Timer != null && ServerBeep.Timer > CurrentTime &&
+		MouseIn(CurrentScreen == "ChatRoom" ? 0 : 500, 0, 1000, 50) &&
+		ServerBeep.Timer != null &&
+		ServerBeep.Timer > CurrentTime &&
 		CurrentScreen !== "FriendList"
 	) {
 		ServerOpenFriendList();
@@ -672,7 +921,11 @@ function ServerClickBeep() {
 function ServerOpenFriendList() {
 	DialogLeave();
 	ElementToggleGeneratedElements(CurrentScreen, false);
-	FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: ServerPlayerIsInChatRoom() };
+	FriendListReturn = {
+		Screen: CurrentScreen,
+		Module: CurrentModule,
+		IsInChatRoom: ServerPlayerIsInChatRoom(),
+	};
 	CommonSetScreen("Character", "FriendList");
 }
 
@@ -682,27 +935,51 @@ function ServerOpenFriendList() {
  * @returns {void} - Nothing
  */
 function ServerAccountOwnership(data) {
-
 	// If we get a result for a specific member number, we show that option in the online dialog
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.Result != null) && (typeof data.Result === "string"))
-		if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber == data.MemberNumber))
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.MemberNumber != null &&
+		typeof data.MemberNumber === "number" &&
+		data.Result != null &&
+		typeof data.Result === "string"
+	)
+		if (
+			CurrentCharacter != null &&
+			CurrentCharacter.MemberNumber == data.MemberNumber
+		)
 			ChatRoomOwnershipOption = data.Result;
 
 	// If we must update the character ownership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Owner != null) && (typeof data.Owner === "string") && (data.Ownership != null) && (typeof data.Ownership === "object")) {
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.Owner != null &&
+		typeof data.Owner === "string" &&
+		data.Ownership != null &&
+		typeof data.Ownership === "object"
+	) {
 		Player.Owner = data.Owner;
 		Player.Ownership = data.Ownership;
 		LoginValidCollar();
 	}
 
 	// If we must clear the character ownership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.ClearOwnership != null) && (typeof data.ClearOwnership === "boolean") && (data.ClearOwnership == true)) {
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.ClearOwnership != null &&
+		typeof data.ClearOwnership === "boolean" &&
+		data.ClearOwnership == true
+	) {
 		Player.Owner = "";
 		Player.Ownership = null;
 		LogDelete("ReleasedCollar", "OwnerRule");
 		LoginValidCollar();
 	}
-
 }
 
 /**
@@ -711,14 +988,30 @@ function ServerAccountOwnership(data) {
  * @returns {void} - Nothing
  */
 function ServerAccountLovership(data) {
-
 	// If we get a result for a specific member number, we show that option in the online dialog
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.Result != null) && (typeof data.Result === "string"))
-		if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber == data.MemberNumber))
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.MemberNumber != null &&
+		typeof data.MemberNumber === "number" &&
+		data.Result != null &&
+		typeof data.Result === "string"
+	)
+		if (
+			CurrentCharacter != null &&
+			CurrentCharacter.MemberNumber == data.MemberNumber
+		)
 			ChatRoomLovershipOption = data.Result;
 
 	// If we must update the character lovership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Lovership != null) && (typeof data.Lovership === "object")) {
+	if (
+		data != null &&
+		typeof data === "object" &&
+		!Array.isArray(data) &&
+		data.Lovership != null &&
+		typeof data.Lovership === "object"
+	) {
 		Player.Lovership = data.Lovership;
 		LoginLoversItems();
 	}
@@ -733,31 +1026,57 @@ function ServerAccountLovership(data) {
  * @returns {boolean}
  */
 function ServerChatRoomGetAllowItem(Source, Target) {
-
 	// Make sure we have the required data
-	if ((Source == null) || (Target == null)) return false;
+	if (Source == null || Target == null) return false;
 
 	// NPC
 	if (typeof Target.MemberNumber !== "number") return true;
 
 	// At zero permission level or if target is source or if owner, we allow it
-	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || ((Target.Ownership != null) && (Target.Ownership.MemberNumber != null) && (Target.Ownership.MemberNumber == Source.MemberNumber))) return true;
+	if (
+		Target.ItemPermission <= 0 ||
+		Source.MemberNumber == Target.MemberNumber ||
+		(Target.Ownership != null &&
+			Target.Ownership.MemberNumber != null &&
+			Target.Ownership.MemberNumber == Source.MemberNumber)
+	)
+		return true;
 
 	// At one, we allow if the source isn't on the blacklist
-	if ((Target.ItemPermission == 1) && (Target.BlackList.indexOf(Source.MemberNumber) < 0)) return true;
+	if (
+		Target.ItemPermission == 1 &&
+		Target.BlackList.indexOf(Source.MemberNumber) < 0
+	)
+		return true;
 
 	var LoversNumbers = CharacterGetLoversNumbers(Target, true);
 
 	// At two, we allow if the source is Dominant compared to the Target (25 points allowed) or on whitelist or a lover
-	if ((Target.ItemPermission == 2) && (Target.BlackList.indexOf(Source.MemberNumber) < 0) && ((ReputationCharacterGet(Source, "Dominant") + 25 >= ReputationCharacterGet(Target, "Dominant")) || (Target.WhiteList.indexOf(Source.MemberNumber) >= 0) || (LoversNumbers.indexOf(Source.MemberNumber) >= 0))) return true;
+	if (
+		Target.ItemPermission == 2 &&
+		Target.BlackList.indexOf(Source.MemberNumber) < 0 &&
+		(ReputationCharacterGet(Source, "Dominant") + 25 >=
+			ReputationCharacterGet(Target, "Dominant") ||
+			Target.WhiteList.indexOf(Source.MemberNumber) >= 0 ||
+			LoversNumbers.indexOf(Source.MemberNumber) >= 0)
+	)
+		return true;
 
 	// At three, we allow if the source is on the whitelist of the Target or a lover
-	if ((Target.ItemPermission == 3) && ((Target.WhiteList.indexOf(Source.MemberNumber) >= 0) || (LoversNumbers.indexOf(Source.MemberNumber) >= 0))) return true;
+	if (
+		Target.ItemPermission == 3 &&
+		(Target.WhiteList.indexOf(Source.MemberNumber) >= 0 ||
+			LoversNumbers.indexOf(Source.MemberNumber) >= 0)
+	)
+		return true;
 
 	// At four, we allow if the source is a lover
-	if ((Target.ItemPermission == 4) && (LoversNumbers.indexOf(Source.MemberNumber) >= 0)) return true;
+	if (
+		Target.ItemPermission == 4 &&
+		LoversNumbers.indexOf(Source.MemberNumber) >= 0
+	)
+		return true;
 
 	// No valid combo, we don't allow the item
 	return false;
-
 }

@@ -5,7 +5,15 @@ var SkillModifierMin = -10;
 var SkillLevelMaximum = 10;
 var SkillLevelMinimum = 0;
 var SkillBondageRatio = 1;
-var SkillValidSkills = ["Bondage", "SelfBondage", "LockPicking", "Evasion", "Willpower", "Infiltration", "Dressage"];
+var SkillValidSkills = [
+	"Bondage",
+	"SelfBondage",
+	"LockPicking",
+	"Evasion",
+	"Willpower",
+	"Infiltration",
+	"Dressage",
+];
 
 /**
  * When the player progresses in a skill. Also validates the values to make sure they are within the proper ranges once changed. (level 0-10, progress 0-100)
@@ -16,21 +24,19 @@ var SkillValidSkills = ["Bondage", "SelfBondage", "LockPicking", "Evasion", "Wil
  * @returns {void} - Nothing
  */
 function SkillChange(SkillType, SkillLevel, SkillProgress, Push) {
-
 	if (SkillValidSkills.includes(SkillType)) {
-
 		// Make sure the progress and level are valid
 		SkillProgress = parseInt(SkillProgress) || 0;
 		SkillLevel = parseInt(SkillLevel) || 0;
-		if ((SkillProgress < 0) || (SkillProgress >= 1000)) SkillProgress = 0;
-		if ((SkillLevel < 0) || (SkillLevel > 10)) SkillLevel = 0;
+		if (SkillProgress < 0 || SkillProgress >= 1000) SkillProgress = 0;
+		if (SkillLevel < 0 || SkillLevel > 10) SkillLevel = 0;
 
 		// If the skill already exists, we updated it
 		for (let S = 0; S < Player.Skill.length; S++)
 			if (Player.Skill[S].Type == SkillType) {
 				Player.Skill[S].Level = SkillLevel;
 				Player.Skill[S].Progress = SkillProgress;
-				if ((Push == null) || Push) ServerPlayerSkillSync();
+				if (Push == null || Push) ServerPlayerSkillSync();
 				return;
 			}
 
@@ -38,16 +44,13 @@ function SkillChange(SkillType, SkillLevel, SkillProgress, Push) {
 		var NewSkill = {
 			Type: SkillType,
 			Level: SkillLevel,
-			Progress: SkillProgress
+			Progress: SkillProgress,
 		};
 		Player.Skill.push(NewSkill);
-		if ((Push == null) || Push) ServerPlayerSkillSync();
-	}
-
-	else {
+		if (Push == null || Push) ServerPlayerSkillSync();
+	} else {
 		console.warn(`Invalid skill type "${SkillType}"`);
 	}
-
 }
 
 /**
@@ -56,18 +59,20 @@ function SkillChange(SkillType, SkillLevel, SkillProgress, Push) {
  * @returns {void} - Nothing
  */
 function SkillLoad(NewSkill) {
-
 	// Make sure we have something to load
 	if (NewSkill != null) {
-
 		// Add each skill entry one by one
 		for (let S = 0; S < NewSkill.length; S++) {
-			SkillChange(NewSkill[S].Type, NewSkill[S].Level, NewSkill[S].Progress, false);
-			if (NewSkill[S].Ratio != null) SkillSetRatio(NewSkill[S].Type, NewSkill[S].Ratio, false);
+			SkillChange(
+				NewSkill[S].Type,
+				NewSkill[S].Level,
+				NewSkill[S].Progress,
+				false
+			);
+			if (NewSkill[S].Ratio != null)
+				SkillSetRatio(NewSkill[S].Type, NewSkill[S].Ratio, false);
 		}
-
 	}
-
 }
 
 /**
@@ -79,28 +84,36 @@ function SkillLoad(NewSkill) {
 function SkillGetLevel(C, SkillType) {
 	for (let S = 0; S < C.Skill.length; S++)
 		if (C.Skill[S].Type == SkillType) {
-
 			// Skills modifier only apply to bondage and evasion
 			var Mod = 0;
-			if ((SkillType == "Bondage") || (SkillType == "Evasion")) {
-				if ((LogValue("ModifierDuration", "SkillModifier") > CurrentTime) && (LogValue("ModifierDuration", "SkillModifier") < CurrentTime + 3600000)) {
+			if (SkillType == "Bondage" || SkillType == "Evasion") {
+				if (
+					LogValue("ModifierDuration", "SkillModifier") >
+						CurrentTime &&
+					LogValue("ModifierDuration", "SkillModifier") <
+						CurrentTime + 3600000
+				) {
 					SkillModifier = LogValue("ModifierLevel", "SkillModifier");
 					if (SkillModifier == null) SkillModifier = 0;
-					if (SkillModifier < SkillModifierMin) SkillModifier = SkillModifierMin;
-					if (SkillModifier > SkillModifierMax) SkillModifier = SkillModifierMax;
+					if (SkillModifier < SkillModifierMin)
+						SkillModifier = SkillModifierMin;
+					if (SkillModifier > SkillModifierMax)
+						SkillModifier = SkillModifierMax;
 					Mod = SkillModifier;
 				} else {
 					SkillModifier = 0;
-					if (LogValue("ModifierLevel", "SkillModifier") != 0) LogAdd("ModifierLevel", "SkillModifier", 0);
+					if (LogValue("ModifierLevel", "SkillModifier") != 0)
+						LogAdd("ModifierLevel", "SkillModifier", 0);
 				}
 			}
 
 			// Gets the skill level and applies the modifier if needed, make sure we don't go over maximum or under minimum
-			var Level = (C.Skill[S].Level + Mod);
-			if (Level > (SkillLevelMaximum + SkillModifierMax)) Level = (SkillLevelMaximum + SkillModifierMax);
-			if (Level < (SkillLevelMinimum + SkillModifierMin)) Level = (SkillLevelMinimum + SkillModifierMin);
+			var Level = C.Skill[S].Level + Mod;
+			if (Level > SkillLevelMaximum + SkillModifierMax)
+				Level = SkillLevelMaximum + SkillModifierMax;
+			if (Level < SkillLevelMinimum + SkillModifierMin)
+				Level = SkillLevelMinimum + SkillModifierMin;
 			return Level;
-
 		}
 	return 0;
 }
@@ -113,8 +126,7 @@ function SkillGetLevel(C, SkillType) {
  */
 function SkillGetLevelReal(C, SkillType) {
 	for (let S = 0; S < C.Skill.length; S++)
-		if (C.Skill[S].Type == SkillType)
-			return C.Skill[S].Level;
+		if (C.Skill[S].Type == SkillType) return C.Skill[S].Level;
 	return 0;
 }
 
@@ -126,8 +138,7 @@ function SkillGetLevelReal(C, SkillType) {
  */
 function SkillGetProgress(C, SkillType) {
 	for (let S = 0; S < C.Skill.length; S++)
-		if (C.Skill[S].Type == SkillType)
-			return C.Skill[S].Progress;
+		if (C.Skill[S].Type == SkillType) return C.Skill[S].Progress;
 	return 0;
 }
 
@@ -138,13 +149,11 @@ function SkillGetProgress(C, SkillType) {
  * @returns {void} - Nothing
  */
 function SkillProgress(SkillType, SkillProgress) {
-
 	// Makes sure there's a progress, we cannot go beyond level 10
 	var L = SkillGetLevelReal(Player, SkillType);
-	var P = Math.round(SkillProgress * 3 / ((L * L) + 1));
+	var P = Math.round((SkillProgress * 3) / (L * L + 1));
 	P = P * CheatFactor("DoubleSkill", 2);
-	if ((P > 0) && (L < 10)) {
-
+	if (P > 0 && L < 10) {
 		// Raises the actual progress and gains a level if 1000 or more
 		P = P + SkillGetProgress(Player, SkillType);
 		if (P >= 1000) {
@@ -154,9 +163,7 @@ function SkillProgress(SkillType, SkillProgress) {
 
 		// Updates the skill object and push to the server
 		SkillChange(SkillType, L, P);
-
 	}
-
 }
 
 /**
@@ -173,7 +180,7 @@ function SkillSetRatio(SkillType, Ratio, Push) {
 			if (Ratio == 1) delete Player.Skill[S].Ratio;
 			else Player.Skill[S].Ratio = Ratio;
 		}
-	if ((Push == null) || Push) ServerPlayerSkillSync();
+	if (Push == null || Push) ServerPlayerSkillSync();
 }
 
 /**
@@ -184,7 +191,10 @@ function SkillSetRatio(SkillType, Ratio, Push) {
 function SkillGetRatio(SkillType) {
 	var Ratio = 1;
 	for (let S = 0; S < Player.Skill.length; S++)
-		if ((Player.Skill[S].Type == SkillType) && (Player.Skill[S].Ratio != null))
+		if (
+			Player.Skill[S].Type == SkillType &&
+			Player.Skill[S].Ratio != null
+		)
 			Ratio = Player.Skill[S].Ratio;
 	if (Ratio < 0) Ratio = 0;
 	if (Ratio > 1) Ratio = 1;
@@ -197,7 +207,9 @@ function SkillGetRatio(SkillType) {
  * @returns {number} - The skill level with the ratio % applied
  */
 function SkillGetWithRatio(SkillType) {
-	return Math.round(SkillGetLevel(Player, SkillType) * SkillGetRatio(SkillType));
+	return Math.round(
+		SkillGetLevel(Player, SkillType) * SkillGetRatio(SkillType)
+	);
 }
 
 /**

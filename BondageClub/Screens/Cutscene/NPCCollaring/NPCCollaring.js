@@ -27,9 +27,17 @@ function NPCCollaringRun() {
 	DrawCharacter(NPCCollaringMistressLeft, 200, 0, 1);
 	DrawCharacter(NPCCollaringMistressRight, 1300, 0, 1);
 	if (CutsceneStage > 0) DrawCharacter(NPCCollaringSub, 600, 0, 1);
-	if (CutsceneStage > 0) DrawCharacter(NPCCollaringGirlLeft, -200, 100, 1);
-	if (CutsceneStage > 0) DrawCharacter(NPCCollaringGirlRight, 1700, 100, 1);
-	DrawText(TextGet("NPCCollaring" + CutsceneStage.toString()), 1000, 980, "White", "Black");
+	if (CutsceneStage > 0)
+		DrawCharacter(NPCCollaringGirlLeft, -200, 100, 1);
+	if (CutsceneStage > 0)
+		DrawCharacter(NPCCollaringGirlRight, 1700, 100, 1);
+	DrawText(
+		TextGet("NPCCollaring" + CutsceneStage.toString()),
+		1000,
+		980,
+		"White",
+		"Black"
+	);
 }
 
 /**
@@ -39,12 +47,17 @@ function NPCCollaringRun() {
 function NPCCollaringClick() {
 	CutsceneStage++;
 	if (CutsceneStage == 2) CharacterNaked(NPCCollaringSub);
-	if (CutsceneStage == 4) CharacterSetActivePose(NPCCollaringSub, "Kneel", true);
-	if (CutsceneStage == 6) InventoryWear(NPCCollaringSub, "SlaveCollar", "ItemNeck");
+	if (CutsceneStage == 4)
+		CharacterSetActivePose(NPCCollaringSub, "Kneel", true);
+	if (CutsceneStage == 6)
+		InventoryWear(NPCCollaringSub, "SlaveCollar", "ItemNeck");
 	if (CutsceneStage > 8) {
 		ServerPrivateCharacterSync();
 		CommonSetScreen("Room", "Private");
 		CharacterSetCurrent(NPCCollaringSub);
-		NPCCollaringSub.CurrentDialog = DialogFind(NPCCollaringSub, "SubmissiveVow");
+		NPCCollaringSub.CurrentDialog = DialogFind(
+			NPCCollaringSub,
+			"SubmissiveVow"
+		);
 	}
 }

@@ -2,9 +2,11 @@
 
 // Loads the item extension properties
 function InventoryItemMiscSafewordPadlockLoad() {
-	if (!DialogFocusItem || !DialogFocusSourceItem) return InventoryItemMiscSafewordPadlockExit();
+	if (!DialogFocusItem || !DialogFocusSourceItem)
+		return InventoryItemMiscSafewordPadlockExit();
 
-	if (!DialogFocusSourceItem.Property) DialogFocusSourceItem.Property = {};
+	if (!DialogFocusSourceItem.Property)
+		DialogFocusSourceItem.Property = {};
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
@@ -23,14 +25,16 @@ function InventoryItemMiscSafewordPadlockLoad() {
 			C.IsOwnedByPlayer() ||
 			C.IsLoverOfPlayer()
 		) {
-			document.getElementById("Password").placeholder = Property.Password;
+			document.getElementById("Password").placeholder =
+				Property.Password;
 		}
 	} else {
 		// Set a password and hint
 		ElementCreateInput("SetHint", "text", "", "140");
 		ElementCreateInput("SetPassword", "text", "", "8");
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
-		document.getElementById("SetPassword").placeholder = Property.Password;
+		document.getElementById("SetPassword").placeholder =
+			Property.Password;
 		document.getElementById("SetHint").placeholder = Property.Hint;
 	}
 }
@@ -44,8 +48,13 @@ function InventoryItemMiscSafewordPadlockDraw() {
 
 	if (Property && Property.LockMemberNumber != null) {
 		DrawText(
-			DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber.toString(),
-			1500, 600, "white", "gray",
+			DialogFindPlayer("LockMemberNumber") +
+				" " +
+				Property.LockMemberNumber.toString(),
+			1500,
+			600,
+			"white",
+			"gray"
 		);
 	}
 
@@ -59,7 +68,9 @@ function InventoryItemMiscSafewordPadlockClick() {
 		return InventoryItemMiscSafewordPadlockExit();
 	}
 
-	InventoryItemMiscPasswordPadlockControlsClick(InventoryItemMiscSafewordPadlockExit);
+	InventoryItemMiscPasswordPadlockControlsClick(
+		InventoryItemMiscSafewordPadlockExit
+	);
 }
 
 function InventoryItemMiscSafewordPadlockExit() {

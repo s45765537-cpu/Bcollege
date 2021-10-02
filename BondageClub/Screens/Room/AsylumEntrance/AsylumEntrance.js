@@ -10,22 +10,43 @@ var AsylumEntranceEscapedPatientWillJoin = false;
  * Checks, if the player is able to leave the Asylum
  * @returns {boolean} - Returns true, if the player is able to leave, false otherwise
  */
-function AsylumEntranceCanWander() { return (Player.CanWalk() && ((LogValue("Committed", "Asylum") >= CurrentTime) || ((ReputationGet("Asylum") >= 1) && AsylumEntranceIsWearingNurseClothes()))); }
+function AsylumEntranceCanWander() {
+	return (
+		Player.CanWalk() &&
+		(LogValue("Committed", "Asylum") >= CurrentTime ||
+			(ReputationGet("Asylum") >= 1 &&
+				AsylumEntranceIsWearingNurseClothes()))
+	);
+}
 /**
  * Checks, if the player can bring the nurse to her private room
  * @returns {boolean} - Returns true, if the player can drag the nurse to her private roo, false otherwise
  */
-function AsylumEntranceCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function AsylumEntranceCanTransferToRoom() {
+	return (
+		LogQuery("RentRoom", "PrivateRoom") &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
 /**
  * CHecks if the player can kiss the nurse
  * @returns {boolean} - Returns true, if the player can kiss the nurse, false otherwise
  */
-function AsylumEntranceCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function AsylumEntranceCanKiss() {
+	return Player.CanTalk() && CurrentCharacter.CanTalk();
+}
 /**
  * Checks if the player can have a nurse uniform of her own
  * @returns {boolean} - Returns true, if the player can have her own nurse uniform, false otherwise
  */
-function AsylumEntranceCanGetNurseUniform() { return ((ReputationGet("Asylum") >= 50) && (!DialogInventoryAvailable("NurseUniform", "Cloth") || !DialogInventoryAvailable("NurseCap", "Hat"))); }
+function AsylumEntranceCanGetNurseUniform() {
+	return (
+		ReputationGet("Asylum") >= 50 &&
+		(!DialogInventoryAvailable("NurseUniform", "Cloth") ||
+			!DialogInventoryAvailable("NurseCap", "Hat"))
+	);
+}
 
 /**
  * Loads the room and generates the nurse. Is called dynamically
@@ -34,7 +55,9 @@ function AsylumEntranceCanGetNurseUniform() { return ((ReputationGet("Asylum") >
 function AsylumEntranceLoad() {
 	AsylumEntranceBackground = "AsylumEntrance";
 	if (AsylumEntranceNurse == null) {
-		AsylumEntranceNurse = CharacterLoadNPC("NPC_AsylumEntrance_Nurse");
+		AsylumEntranceNurse = CharacterLoadNPC(
+			"NPC_AsylumEntrance_Nurse"
+		);
 		AsylumEntranceWearNurseClothes(AsylumEntranceNurse);
 		AsylumEntranceNurse.AllowItem = false;
 	}
@@ -48,15 +71,83 @@ function AsylumEntranceLoad() {
 function AsylumEntranceRun() {
 	DrawCharacter(Player, 500, 0, 1);
 	DrawCharacter(AsylumEntranceNurse, 1000, 0, 1);
-	if (Player.CanWalk() && (LogValue("Committed", "Asylum") < CurrentTime)) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	if (AsylumEntranceCanWander()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Chat.png", TextGet("ChatRoom"));
-	if (AsylumEntranceCanWander()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Bedroom.png", TextGet("Bedroom"));
-	if (AsylumEntranceCanWander()) DrawButton(1885, 505, 90, 90, "", "White", "Icons/FriendList.png", TextGet("Meeting"));
-	if (AsylumEntranceCanWander()) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Therapy.png", TextGet("Therapy"));
+	if (
+		Player.CanWalk() &&
+		LogValue("Committed", "Asylum") < CurrentTime
+	)
+		DrawButton(
+			1885,
+			25,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Exit.png",
+			TextGet("Exit")
+		);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
+	if (AsylumEntranceCanWander())
+		DrawButton(
+			1885,
+			265,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Chat.png",
+			TextGet("ChatRoom")
+		);
+	if (AsylumEntranceCanWander())
+		DrawButton(
+			1885,
+			385,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Bedroom.png",
+			TextGet("Bedroom")
+		);
+	if (AsylumEntranceCanWander())
+		DrawButton(
+			1885,
+			505,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/FriendList.png",
+			TextGet("Meeting")
+		);
+	if (AsylumEntranceCanWander())
+		DrawButton(
+			1885,
+			625,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Therapy.png",
+			TextGet("Therapy")
+		);
 	if (LogValue("Committed", "Asylum") >= CurrentTime) {
 		DrawText(TextGet("RemainingTime"), 1800, 915, "white", "gray");
-		DrawText(TimerToString(LogValue("Committed", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
+		DrawText(
+			TimerToString(LogValue("Committed", "Asylum") - CurrentTime),
+			1800,
+			965,
+			"white",
+			"gray"
+		);
 	}
 }
 
@@ -67,18 +158,34 @@ function AsylumEntranceRun() {
 function AsylumEntranceClick() {
 	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000)) {
-		if (LogValue("Committed", "Asylum") >= CurrentTime) AsylumEntranceNurse.Stage = "100";
-		else if (AsylumEntranceNurse.Stage == "100") AsylumEntranceNurse.Stage = "0";
-		if ((LogValue("Escaped", "Asylum") >= CurrentTime) && !AsylumEntranceNurse.IsRestrained()) AsylumEntranceNurse.Stage = "140";
+		if (LogValue("Committed", "Asylum") >= CurrentTime)
+			AsylumEntranceNurse.Stage = "100";
+		else if (AsylumEntranceNurse.Stage == "100")
+			AsylumEntranceNurse.Stage = "0";
+		if (
+			LogValue("Escaped", "Asylum") >= CurrentTime &&
+			!AsylumEntranceNurse.IsRestrained()
+		)
+			AsylumEntranceNurse.Stage = "140";
 		ManagementClubSlaveDialog(AsylumEntranceNurse);
 		CharacterSetCurrent(AsylumEntranceNurse);
 	}
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk() && (LogValue("Committed", "Asylum") < CurrentTime)) CommonSetScreen("Room", "MainHall");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && AsylumEntranceCanWander()) AsylumEntranceStartChat();
-	if (MouseIn(1885, 385, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumBedroom");
-	if (MouseIn(1885, 505, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumMeeting");
-	if (MouseIn(1885, 625, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumTherapy");
+	if (
+		MouseIn(1885, 25, 90, 90) &&
+		Player.CanWalk() &&
+		LogValue("Committed", "Asylum") < CurrentTime
+	)
+		CommonSetScreen("Room", "MainHall");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
+	if (MouseIn(1885, 265, 90, 90) && AsylumEntranceCanWander())
+		AsylumEntranceStartChat();
+	if (MouseIn(1885, 385, 90, 90) && AsylumEntranceCanWander())
+		CommonSetScreen("Room", "AsylumBedroom");
+	if (MouseIn(1885, 505, 90, 90) && AsylumEntranceCanWander())
+		CommonSetScreen("Room", "AsylumMeeting");
+	if (MouseIn(1885, 625, 90, 90) && AsylumEntranceCanWander())
+		CommonSetScreen("Room", "AsylumTherapy");
 }
 
 /**
@@ -86,7 +193,9 @@ function AsylumEntranceClick() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceStartChat() {
-	ChatRoomStart("Asylum", "", "AsylumEntrance", "AsylumEntrance", [BackgroundsTagAsylum]);
+	ChatRoomStart("Asylum", "", "AsylumEntrance", "AsylumEntrance", [
+		BackgroundsTagAsylum,
+	]);
 }
 
 // Wears the nurse clothes on a character (same as nursery)
@@ -110,14 +219,18 @@ function AsylumEntranceWearNurseClothes(C) {
  * @returns {void} - Nothing
  */
 function AsylumEntranceWearPatientClothes(C) {
-	if ((typeof C === "string") && (C == "Player")) C = Player;
+	if (typeof C === "string" && C == "Player") C = Player;
 	InventoryWear(C, "TShirt1", "Cloth", "#500028");
 	InventoryWear(C, "Pajama1", "ClothLower", "#FF0080");
 	InventoryWear(C, "Socks2", "Socks", "#CCCCCC");
 	InventoryRemove(C, "Shoes");
 	InventoryRemove(C, "Gloves");
 	InventoryRemove(C, "HairAccessory1");
-	if (C.IsNpc() || C.OnlineSharedSettings && !C.OnlineSharedSettings.BlockBodyCosplay) {
+	if (
+		C.IsNpc() ||
+		(C.OnlineSharedSettings &&
+			!C.OnlineSharedSettings.BlockBodyCosplay)
+	) {
 		InventoryRemove(C, "HairAccessory2");
 		InventoryRemove(C, "Wings");
 		InventoryRemove(C, "TailStraps");
@@ -131,15 +244,39 @@ function AsylumEntranceWearPatientClothes(C) {
  * @returns {boolean} - Returns true, if the player is dressed as a patient, false otherwise
  */
 function AsylumEntranceIsWearingPatientClothes() {
-	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "TShirt1")) return false;
-	if ((InventoryGet(Player, "ClothLower") == null) || (InventoryGet(Player, "ClothLower").Asset.Name != "Pajama1")) return false;
-	if ((InventoryGet(Player, "Socks") == null) || (InventoryGet(Player, "Socks").Asset.Name != "Socks2")) return false;
+	if (
+		InventoryGet(Player, "Cloth") == null ||
+		InventoryGet(Player, "Cloth").Asset.Name != "TShirt1"
+	)
+		return false;
+	if (
+		InventoryGet(Player, "ClothLower") == null ||
+		InventoryGet(Player, "ClothLower").Asset.Name != "Pajama1"
+	)
+		return false;
+	if (
+		InventoryGet(Player, "Socks") == null ||
+		InventoryGet(Player, "Socks").Asset.Name != "Socks2"
+	)
+		return false;
 	if (InventoryGet(Player, "Shoes") != null) return false;
 	if (InventoryGet(Player, "Gloves") != null) return false;
 	if (InventoryGet(Player, "HairAccessory1") != null) return false;
-	if (InventoryGet(Player, "HairAccessory2") != null && !Player.OnlineSharedSettings.BlockBodyCosplay) return false;
-	if (InventoryGet(Player, "Wings") != null && !Player.OnlineSharedSettings.BlockBodyCosplay) return false;
-	if (InventoryGet(Player, "TailStraps") != null && !Player.OnlineSharedSettings.BlockBodyCosplay) return false;
+	if (
+		InventoryGet(Player, "HairAccessory2") != null &&
+		!Player.OnlineSharedSettings.BlockBodyCosplay
+	)
+		return false;
+	if (
+		InventoryGet(Player, "Wings") != null &&
+		!Player.OnlineSharedSettings.BlockBodyCosplay
+	)
+		return false;
+	if (
+		InventoryGet(Player, "TailStraps") != null &&
+		!Player.OnlineSharedSettings.BlockBodyCosplay
+	)
+		return false;
 	if (InventoryGet(Player, "HairAccessory3") != null) return false;
 	if (InventoryGet(Player, "Hat") != null) return false;
 	return true;
@@ -150,9 +287,21 @@ function AsylumEntranceIsWearingPatientClothes() {
  * @returns {boolean} - Returns true, if the player is dressed as a nurse, false otherwise
  */
 function AsylumEntranceIsWearingNurseClothes() {
-	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "NurseUniform")) return false;
-	if ((InventoryGet(Player, "Hat") == null) || (InventoryGet(Player, "Hat").Asset.Name != "NurseCap")) return false;
-	if ((InventoryGet(Player, "Socks") == null) || (InventoryGet(Player, "Socks").Asset.Name != "Stockings2")) return false;
+	if (
+		InventoryGet(Player, "Cloth") == null ||
+		InventoryGet(Player, "Cloth").Asset.Name != "NurseUniform"
+	)
+		return false;
+	if (
+		InventoryGet(Player, "Hat") == null ||
+		InventoryGet(Player, "Hat").Asset.Name != "NurseCap"
+	)
+		return false;
+	if (
+		InventoryGet(Player, "Socks") == null ||
+		InventoryGet(Player, "Socks").Asset.Name != "Stockings2"
+	)
+		return false;
 	return true;
 }
 
@@ -184,7 +333,12 @@ function AsylumEntranceStartNurse() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceFightNurse() {
-	KidnapStart(AsylumEntranceNurse, "AsylumEntrance", 7, "AsylumEntranceFightNurseEnd()");
+	KidnapStart(
+		AsylumEntranceNurse,
+		"AsylumEntrance",
+		7,
+		"AsylumEntranceFightNurseEnd()"
+	);
 }
 
 // When the fight against the nurse ends
@@ -193,8 +347,15 @@ function AsylumEntranceFightNurse() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceFightNurseEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceNurse.KidnapMaxWillpower - AsylumEntranceNurse.KidnapWillpower)) * 2);
-	AsylumEntranceNurse.Stage = (KidnapVictory) ? "120" : "130";
+	SkillProgress(
+		"Willpower",
+		(Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(AsylumEntranceNurse.KidnapMaxWillpower -
+				AsylumEntranceNurse.KidnapWillpower)) *
+			2
+	);
+	AsylumEntranceNurse.Stage = KidnapVictory ? "120" : "130";
 	DialogChangeReputation("Asylum", -6);
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceNurse);
 	else CharacterRelease(Player);
@@ -213,7 +374,10 @@ function AsylumEntranceFightNurseEnd() {
 	InventoryRemove(Player, "ItemFeet");
 	CommonSetScreen("Room", "AsylumEntrance");
 	CharacterSetCurrent(AsylumEntranceNurse);
-	AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	AsylumEntranceNurse.CurrentDialog = DialogFind(
+		AsylumEntranceNurse,
+		KidnapVictory ? "FightVictory" : "FightDefeat"
+	);
 }
 
 /**
@@ -225,7 +389,7 @@ function AsylumEntrancePlayerJacket(Pose) {
 	InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
 	Player.FocusGroup = AssetGroupGet("Female3DCG", "ItemArms");
 	const Options = TypedItemDataLookup.ItemArmsStraitJacket.options;
-	const Option = Options.find(o => o.Name === Pose);
+	const Option = Options.find((o) => o.Name === Pose);
 	if (Option) {
 		ExtendedItemSetType(Player, Options, Option);
 	}
@@ -290,10 +454,16 @@ function AsylumEntranceNurseCatchEscapedPlayer() {
 	AsylumEntranceBackground = "MainHall";
 	AsylumEntranceKidnapNurse = null;
 	CharacterDelete("NPC_AsylumEntrance_KidnapNurse");
-	AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
+	AsylumEntranceKidnapNurse = CharacterLoadNPC(
+		"NPC_AsylumEntrance_KidnapNurse"
+	);
 	AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
 	AsylumEntranceKidnapNurse.Stage = "0";
-	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, (Player.CanInteract() ? "Intro" : "Automatic") + (Math.floor(Math.random() * 3)).toString());
+	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(
+		AsylumEntranceKidnapNurse,
+		(Player.CanInteract() ? "Intro" : "Automatic") +
+			Math.floor(Math.random() * 3).toString()
+	);
 	AsylumEntranceKidnapNurse.AllowItem = false;
 	CharacterSetCurrent(AsylumEntranceKidnapNurse);
 }
@@ -304,7 +474,12 @@ function AsylumEntranceNurseCatchEscapedPlayer() {
  */
 function AsylumEntranceKidnapNurseFight() {
 	DialogChangeReputation("Dominant", 4);
-	KidnapStart(AsylumEntranceKidnapNurse, "MainHall", 7, "AsylumEntranceKidnapNurseFightOutro()");
+	KidnapStart(
+		AsylumEntranceKidnapNurse,
+		"MainHall",
+		7,
+		"AsylumEntranceKidnapNurseFightOutro()"
+	);
 }
 
 /**
@@ -314,12 +489,23 @@ function AsylumEntranceKidnapNurseFight() {
  */
 function AsylumEntranceKidnapNurseFightOutro(Surrender) {
 	CommonSetScreen("Room", "AsylumEntrance");
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceKidnapNurse.KidnapMaxWillpower - AsylumEntranceKidnapNurse.KidnapWillpower)) * 2);
-	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-	AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
+	SkillProgress(
+		"Willpower",
+		(Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(AsylumEntranceKidnapNurse.KidnapMaxWillpower -
+				AsylumEntranceKidnapNurse.KidnapWillpower)) *
+			2
+	);
+	if (Surrender != null && Surrender)
+		DialogChangeReputation("Dominant", -3);
+	AsylumEntranceKidnapNurse.Stage = KidnapVictory ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
 	CharacterSetCurrent(AsylumEntranceKidnapNurse);
-	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, ((KidnapVictory) ? "Victory" : "Defeat"));
+	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(
+		AsylumEntranceKidnapNurse,
+		KidnapVictory ? "Victory" : "Defeat"
+	);
 }
 
 /**
@@ -332,10 +518,16 @@ function AsylumEntranceKidnapNurseBribe(BribeAmount, BribeOdds) {
 	if (parseInt(BribeOdds) > Math.random() * 100) {
 		CharacterChangeMoney(Player, parseInt(BribeAmount) * -1);
 		AsylumEntranceKidnapNurse.Stage = "12";
-		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, "BribeSuccess");
+		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(
+			AsylumEntranceKidnapNurse,
+			"BribeSuccess"
+		);
 	} else {
 		AsylumEntranceKidnapNurse.Stage = "11";
-		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, "BribeFailure");
+		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(
+			AsylumEntranceKidnapNurse,
+			"BribeFailure"
+		);
 	}
 }
 
@@ -391,13 +583,19 @@ function AsylumEntranceEscapedPatientMeet() {
 	AsylumEntranceBackground = "MainHall";
 	AsylumEntranceEscapedPatient = null;
 	CharacterDelete("NPC_AsylumEntrance_EscapedPatient");
-	AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
+	AsylumEntranceEscapedPatient = CharacterLoadNPC(
+		"NPC_AsylumEntrance_EscapedPatient"
+	);
 	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
 	AsylumEntranceEscapedPatient.Stage = "0";
-	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, "Intro" + (Math.floor(Math.random() * 3)).toString());
+	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(
+		AsylumEntranceEscapedPatient,
+		"Intro" + Math.floor(Math.random() * 3).toString()
+	);
 	AsylumEntranceEscapedPatient.AllowItem = false;
-	AsylumEntranceEscapedPatientWillBribe = (Math.random() > 0.667);
-	AsylumEntranceEscapedPatientWillJoin = ((Math.random() > 0.667) && AsylumEntranceCanTransferToRoom());
+	AsylumEntranceEscapedPatientWillBribe = Math.random() > 0.667;
+	AsylumEntranceEscapedPatientWillJoin =
+		Math.random() > 0.667 && AsylumEntranceCanTransferToRoom();
 	CharacterSetCurrent(AsylumEntranceEscapedPatient);
 }
 
@@ -408,7 +606,12 @@ function AsylumEntranceEscapedPatientMeet() {
 function AsylumEntranceEscapedPatientFight() {
 	DialogChangeReputation("Asylum", 2);
 	DialogChangeReputation("Dominant", 2);
-	KidnapStart(AsylumEntranceEscapedPatient, "MainHall", 4, "AsylumEntranceEscapedPatientFightOutro()");
+	KidnapStart(
+		AsylumEntranceEscapedPatient,
+		"MainHall",
+		4,
+		"AsylumEntranceEscapedPatientFightOutro()"
+	);
 }
 
 // When the player fight ends against the escaped patient
@@ -420,14 +623,25 @@ function AsylumEntranceEscapedPatientFight() {
 function AsylumEntranceEscapedPatientFightOutro(Surrender) {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceEscapedPatient.KidnapMaxWillpower - AsylumEntranceEscapedPatient.KidnapWillpower)) * 2);
-	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-	AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
+	SkillProgress(
+		"Willpower",
+		(Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(AsylumEntranceEscapedPatient.KidnapMaxWillpower -
+				AsylumEntranceEscapedPatient.KidnapWillpower)) *
+			2
+	);
+	if (Surrender != null && Surrender)
+		DialogChangeReputation("Dominant", -3);
+	AsylumEntranceEscapedPatient.Stage = KidnapVictory ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(AsylumEntranceEscapedPatient, "ItemMouth");
 	CharacterSetCurrent(AsylumEntranceEscapedPatient);
-	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, ((KidnapVictory) ? "Victory" : "Defeat"));
+	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(
+		AsylumEntranceEscapedPatient,
+		KidnapVictory ? "Victory" : "Defeat"
+	);
 }
 
 /**
@@ -461,9 +675,21 @@ function AsylumEntranceEscapedPatientTransferToAsylum() {
 	DialogChangeReputation("Asylum", 4);
 	CharacterRelease(AsylumEntranceEscapedPatient);
 	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
-	InventoryWear(AsylumEntranceEscapedPatient, "StraitJacket", "ItemArms");
-	InventoryWear(AsylumEntranceEscapedPatient, "SmallBlindfold", "ItemHead");
-	InventoryWear(AsylumEntranceEscapedPatient, "MuzzleGag", "ItemMouth");
+	InventoryWear(
+		AsylumEntranceEscapedPatient,
+		"StraitJacket",
+		"ItemArms"
+	);
+	InventoryWear(
+		AsylumEntranceEscapedPatient,
+		"SmallBlindfold",
+		"ItemHead"
+	);
+	InventoryWear(
+		AsylumEntranceEscapedPatient,
+		"MuzzleGag",
+		"ItemMouth"
+	);
 }
 
 /**
@@ -481,8 +707,8 @@ function AsylumEntranceEscapedPatientLeave() {
  */
 function AsylumEntranceGiveNurseUniform() {
 	var ItemsToEarn = [];
-	ItemsToEarn.push({Name: "NurseUniform", Group: "Cloth"});
-	ItemsToEarn.push({Name: "NurseCap", Group: "Hat"});
+	ItemsToEarn.push({ Name: "NurseUniform", Group: "Cloth" });
+	ItemsToEarn.push({ Name: "NurseCap", Group: "Hat" });
 	InventoryAddMany(Player, ItemsToEarn);
 }
 
@@ -493,7 +719,11 @@ function AsylumEntranceGiveNurseUniform() {
  */
 function AsylumEntrancePatientCannotGetRestraints() {
 	const reputation = ReputationGet("Asylum");
-	return reputation <= -1 && reputation > -100 && !LogQuery("ReputationMaxed", "Asylum");
+	return (
+		reputation <= -1 &&
+		reputation > -100 &&
+		!LogQuery("ReputationMaxed", "Asylum")
+	);
 }
 
 /**
@@ -513,7 +743,11 @@ function AsylumEntrancePatientCanGetRestraints() {
  */
 function AsylumEntranceNurseCannotGetRestraints() {
 	const reputation = ReputationGet("Asylum");
-	return reputation >= 1 && reputation < 100 && !LogQuery("ReputationMaxed", "Asylum");
+	return (
+		reputation >= 1 &&
+		reputation < 100 &&
+		!LogQuery("ReputationMaxed", "Asylum")
+	);
 }
 
 /**
@@ -533,8 +767,8 @@ function AsylumEntranceNurseCanGetRestraints() {
 function AsylumEntranceGiveRestraints() {
 	LogAdd("ReputationMaxed", "Asylum");
 	InventoryAddMany(Player, [
-		{Name: "MedicalBedRestraints", Group: "ItemArms"},
-		{Name: "MedicalBedRestraints", Group: "ItemLegs"},
-		{Name: "MedicalBedRestraints", Group: "ItemFeet"},
+		{ Name: "MedicalBedRestraints", Group: "ItemArms" },
+		{ Name: "MedicalBedRestraints", Group: "ItemLegs" },
+		{ Name: "MedicalBedRestraints", Group: "ItemFeet" },
 	]);
 }

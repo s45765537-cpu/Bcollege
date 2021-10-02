@@ -1,6 +1,12 @@
 "use strict";
 var ChatBlockItemBackground = "Sheet";
-var ChatBlockItemList = ["ABDL", "SciFi", "Leashing", "Photos", "Arousal"];
+var ChatBlockItemList = [
+	"ABDL",
+	"SciFi",
+	"Leashing",
+	"Photos",
+	"Arousal",
+];
 var ChatBlockItemCategory = [];
 var ChatBlockItemEditable = true;
 var ChatBlockItemReturnData = {};
@@ -9,8 +15,7 @@ var ChatBlockItemReturnData = {};
  * Loads the chat room item blocking screen
  * @returns {void} - Nothing
  */
-function ChatBlockItemLoad() {
-}
+function ChatBlockItemLoad() {}
 
 /**
  * When the chat room item blocking screen runs, draws the screen
@@ -19,10 +24,26 @@ function ChatBlockItemLoad() {
 function ChatBlockItemRun() {
 	DrawText(TextGet("Title"), 1000, 150, "Black", "Gray");
 	for (let L = 0; L < ChatBlockItemList.length; L++) {
-		DrawButton(600, 200 + L * 100, 64, 64, "",
+		DrawButton(
+			600,
+			200 + L * 100,
+			64,
+			64,
+			"",
 			ChatBlockItemEditable ? "White" : "#ebebe4",
-			(ChatBlockItemCategory.indexOf(ChatBlockItemList[L]) >= 0) ? "Icons/Checked.png" : null, null, !ChatBlockItemEditable);
-		DrawText(TextGet(ChatBlockItemList[L]), 1000, 232 + L * 100, "Black", "Gray");
+			ChatBlockItemCategory.indexOf(ChatBlockItemList[L]) >= 0
+				? "Icons/Checked.png"
+				: null,
+			null,
+			!ChatBlockItemEditable
+		);
+		DrawText(
+			TextGet(ChatBlockItemList[L]),
+			1000,
+			232 + L * 100,
+			"Black",
+			"Gray"
+		);
 	}
 	DrawButton(850, 800, 300, 65, TextGet("Return"), "White");
 }
@@ -38,7 +59,10 @@ function ChatBlockItemClick() {
 				if (ChatBlockItemCategory.indexOf(ChatBlockItemList[L]) < 0)
 					ChatBlockItemCategory.push(ChatBlockItemList[L]);
 				else
-					ChatBlockItemCategory.splice(ChatBlockItemCategory.indexOf(ChatBlockItemList[L]), 1);
+					ChatBlockItemCategory.splice(
+						ChatBlockItemCategory.indexOf(ChatBlockItemList[L]),
+						1
+					);
 	}
 	if (MouseIn(850, 800, 300, 65)) ChatBlockItemExit();
 }

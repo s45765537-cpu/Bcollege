@@ -6,16 +6,32 @@ const ValidationPasswordRegex = /^[A-Z]{1,8}$/;
 const ValidationDefaultCombinationNumber = "0000";
 const ValidationDefaultPassword = "UNLOCK";
 const ValidationRemoveTimerToleranceMs = 5000;
-const ValidationNonModifiableLockProperties = ["LockedBy", "LockMemberNumber"];
-const ValidationRestrictedLockProperties = [
-	"EnableRandomInput", "RemoveItem", "ShowTimer", "CombinationNumber", "Password", "Hint", "LockSet", "LockPickSeed",
+const ValidationNonModifiableLockProperties = [
+	"LockedBy",
+	"LockMemberNumber",
 ];
-const ValidationTimerLockProperties = ["MemberNumberList", "RemoveTimer"];
-const ValidationAllLockProperties = ValidationNonModifiableLockProperties
-	.concat(ValidationRestrictedLockProperties)
-	.concat(ValidationTimerLockProperties)
-	.concat(["MemberNumberListKeys"]);
-const ValidationModifiableProperties = ValidationAllLockProperties.concat(["Effect", "Expression"]);
+const ValidationRestrictedLockProperties = [
+	"EnableRandomInput",
+	"RemoveItem",
+	"ShowTimer",
+	"CombinationNumber",
+	"Password",
+	"Hint",
+	"LockSet",
+	"LockPickSeed",
+];
+const ValidationTimerLockProperties = [
+	"MemberNumberList",
+	"RemoveTimer",
+];
+const ValidationAllLockProperties =
+	ValidationNonModifiableLockProperties.concat(
+		ValidationRestrictedLockProperties
+	)
+		.concat(ValidationTimerLockProperties)
+		.concat(["MemberNumberListKeys"]);
+const ValidationModifiableProperties =
+	ValidationAllLockProperties.concat(["Effect", "Expression"]);
 
 /**
  * Creates the appearance update parameters used to validate an appearance diff, based on the provided target character
@@ -27,9 +43,12 @@ const ValidationModifiableProperties = ValidationAllLockProperties.concat(["Effe
  */
 function ValidationCreateDiffParams(C, sourceMemberNumber) {
 	const fromSelf = sourceMemberNumber === C.MemberNumber;
-	const fromOwner = C.Ownership != null && (sourceMemberNumber === C.Ownership.MemberNumber || fromSelf);
+	const fromOwner =
+		C.Ownership != null &&
+		(sourceMemberNumber === C.Ownership.MemberNumber || fromSelf);
 	const loverNumbers = CharacterGetLoversNumbers(C);
-	let fromLover = loverNumbers.includes(sourceMemberNumber) || fromSelf;
+	let fromLover =
+		loverNumbers.includes(sourceMemberNumber) || fromSelf;
 	// An update from the player's owner is counted as being from a lover if lover locks aren't blocked by a lover rule
 	if (fromOwner && !fromLover) {
 		let ownerCanUseLoverLocks = true;
@@ -51,7 +70,11 @@ function ValidationCreateDiffParams(C, sourceMemberNumber) {
  * @returns {ItemDiffResolution} - The diff resolution - a wrapper object containing the final item and a flag
  * indicating whether or not the change was valid.
  */
-function ValidationResolveAppearanceDiff(previousItem, newItem, params) {
+function ValidationResolveAppearanceDiff(
+	previousItem,
+	newItem,
+	params
+) {
 	let result;
 	if (!previousItem && !newItem) {
 		result = { item: previousItem, valid: true };
@@ -60,13 +83,18 @@ function ValidationResolveAppearanceDiff(previousItem, newItem, params) {
 	} else if (!newItem) {
 		result = ValidationResolveRemoveDiff(previousItem, params);
 	} else if (previousItem.Asset === newItem.Asset) {
-		result = ValidationResolveModifyDiff(previousItem, newItem, params);
+		result = ValidationResolveModifyDiff(
+			previousItem,
+			newItem,
+			params
+		);
 	} else {
 		result = ValidationResolveSwapDiff(previousItem, newItem, params);
 	}
 	let { item, valid } = result;
 	// If the diff has resolved to an item, sanitize its properties
-	if (item) valid = !ValidationSanitizeProperties(params.C, item) && valid;
+	if (item)
+		valid = !ValidationSanitizeProperties(params.C, item) && valid;
 	return { item, valid };
 }
 
@@ -82,7 +110,12 @@ function ValidationResolveAppearanceDiff(previousItem, newItem, params) {
 function ValidationResolveAddDiff(newItem, params) {
 	const canAdd = ValidationCanAddItem(newItem, params);
 	if (!canAdd) {
-		console.warn(`Invalid addition of ${ValidationItemWarningMessage(newItem, params)}`);
+		console.warn(
+			`Invalid addition of ${ValidationItemWarningMessage(
+				newItem,
+				params
+			)}`
+		);
 		return { item: null, valid: false };
 	}
 	const itemWithoutProperties = {
@@ -90,7 +123,11 @@ function ValidationResolveAddDiff(newItem, params) {
 		Difficulty: newItem.Difficulty,
 		Color: newItem.Color,
 	};
-	return ValidationResolveModifyDiff(itemWithoutProperties, newItem, params);
+	return ValidationResolveModifyDiff(
+		itemWithoutProperties,
+		newItem,
+		params
+	);
 }
 
 /**
@@ -104,9 +141,18 @@ function ValidationResolveAddDiff(newItem, params) {
  * indicating whether or not the change was valid.
  */
 function ValidationResolveRemoveDiff(previousItem, params, isSwap) {
-	const canRemove = ValidationCanRemoveItem(previousItem, params, isSwap);
+	const canRemove = ValidationCanRemoveItem(
+		previousItem,
+		params,
+		isSwap
+	);
 	if (!canRemove) {
-		console.warn(`Invalid removal of ${ValidationItemWarningMessage(previousItem, params)}`);
+		console.warn(
+			`Invalid removal of ${ValidationItemWarningMessage(
+				previousItem,
+				params
+			)}`
+		);
 	}
 	return {
 		item: canRemove ? null : previousItem,
@@ -127,9 +173,14 @@ function ValidationResolveRemoveDiff(previousItem, params, isSwap) {
  */
 function ValidationResolveSwapDiff(previousItem, newItem, params) {
 	// First, attempt to remove the previous item
-	let result = ValidationResolveRemoveDiff(previousItem, params, true);
+	let result = ValidationResolveRemoveDiff(
+		previousItem,
+		params,
+		true
+	);
 	// If the removal result was valid, attempt to add the new item
-	if (result.valid) result = ValidationResolveAddDiff(newItem, params);
+	if (result.valid)
+		result = ValidationResolveAddDiff(newItem, params);
 	// If the result is valid, return it
 	if (result.valid) return result;
 	// Otherwise, return the previous item and an invalid status
@@ -156,45 +207,76 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 	const group = asset.Group;
 	const previousProperty = previousItem.Property || {};
 	/** @type {ItemProperties} */
-	const newProperty = newItem.Property = newItem.Property || {};
-	const itemBlocked = ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name) ||
-						ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name, newProperty.Type);
+	const newProperty = (newItem.Property = newItem.Property || {});
+	const itemBlocked =
+		ValidationIsItemBlockedOrLimited(
+			C,
+			sourceMemberNumber,
+			group.Name,
+			asset.Name
+		) ||
+		ValidationIsItemBlockedOrLimited(
+			C,
+			sourceMemberNumber,
+			group.Name,
+			asset.Name,
+			newProperty.Type
+		);
 
 	// If the type has changed and the new type is blocked/limited for the target character, prevent modifications
 	if (newProperty.Type !== previousProperty.Type && itemBlocked) {
 		return { item: previousItem, valid: false };
 	}
 
-	let valid = ValidationResolveLockModification(previousItem, newItem, params, itemBlocked);
+	let valid = ValidationResolveLockModification(
+		previousItem,
+		newItem,
+		params,
+		itemBlocked
+	);
 
 	// If the source wouldn't usually be able to add the item, ensure that some properties are not modified
 	if (!ValidationCanAddItem(newItem, params)) {
-		const warningSuffix = ValidationItemWarningMessage(previousItem, params);
+		const warningSuffix = ValidationItemWarningMessage(
+			previousItem,
+			params
+		);
 		// Block changing the color of non-clothing appearance items/cosplay items if the target does not permit that
 		if (!CommonColorsEqual(newItem.Color, previousItem.Color)) {
-			console.warn(`Invalid modification of color for item ${warningSuffix}`);
+			console.warn(
+				`Invalid modification of color for item ${warningSuffix}`
+			);
 			newItem.Color = previousItem.Color;
 			valid = false;
 		}
 
 		// Block changing the base difficulty of non-clothing appearance items/cosplay items
 		if (newItem.Difficulty !== previousItem.Difficulty) {
-			console.warn(`Invalid modification of difficulty for item ${warningSuffix}`);
+			console.warn(
+				`Invalid modification of difficulty for item ${warningSuffix}`
+			);
 			newItem.Difficulty = previousItem.Difficulty;
 			valid = false;
 		}
 
 		// Block changing properties, but exclude modifiable and lock-related properties, as they get handled separately
-		const previousKeys = Object.keys(previousProperty)
-			.filter(key => !ValidationModifiableProperties.includes(key));
-		const newKeys = Object.keys(newProperty).filter(key => !ValidationModifiableProperties.includes(key));
+		const previousKeys = Object.keys(previousProperty).filter(
+			(key) => !ValidationModifiableProperties.includes(key)
+		);
+		const newKeys = Object.keys(newProperty).filter(
+			(key) => !ValidationModifiableProperties.includes(key)
+		);
 
-		previousKeys.forEach(key => {
-			valid = !ValidationCopyProperty(previousProperty, newProperty, key) && valid;
+		previousKeys.forEach((key) => {
+			valid =
+				!ValidationCopyProperty(previousProperty, newProperty, key) &&
+				valid;
 		});
 		newKeys.forEach((key) => {
 			if (!previousKeys.includes(key)) {
-				console.warn(`Invalid modification of property "${key}" for item ${warningSuffix}`);
+				console.warn(
+					`Invalid modification of property "${key}" for item ${warningSuffix}`
+				);
 				valid = false;
 				delete newProperty[key];
 			}
@@ -215,54 +297,106 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
  * @param {boolean} itemBlocked - Whether or not the item is blocked or limited for the source player
  * @returns {boolean} - true if the lock modifications (if any) were valid, false otherwise
  */
-function ValidationResolveLockModification(previousItem, newItem, params, itemBlocked) {
+function ValidationResolveLockModification(
+	previousItem,
+	newItem,
+	params,
+	itemBlocked
+) {
 	const { C, sourceMemberNumber } = params;
 
 	const previousProperty = previousItem.Property || {};
-	const newProperty = newItem.Property = newItem.Property || {};
-	
+	const newProperty = (newItem.Property = newItem.Property || {});
+
 	const previousLock = InventoryGetLock(previousItem);
 	const newLock = InventoryGetLock(newItem);
 	const notLocked = !previousLock && !newLock;
-	
-	if (notLocked || !ValidationLockWasModified(previousProperty, newProperty)) {
+
+	if (
+		notLocked ||
+		!ValidationLockWasModified(previousProperty, newProperty)
+	) {
 		return true;
 	}
 
-	const lockSwapped = !!newLock && !!previousLock && newLock.Asset.Name !== previousLock.Asset.Name;
+	const lockSwapped =
+		!!newLock &&
+		!!previousLock &&
+		newLock.Asset.Name !== previousLock.Asset.Name;
 	const lockModified = !!newLock && !!previousLock && !lockSwapped;
 	const lockRemoved = lockSwapped || (!newLock && !!previousLock);
 	const lockAdded = lockSwapped || (!!newLock && !previousLock);
-	const newLockBlocked = !!newLock && ValidationIsItemBlockedOrLimited(
-		C, sourceMemberNumber, newLock.Asset.Group.Name, newLock.Asset.Name,
-	);
+	const newLockBlocked =
+		!!newLock &&
+		ValidationIsItemBlockedOrLimited(
+			C,
+			sourceMemberNumber,
+			newLock.Asset.Group.Name,
+			newLock.Asset.Name
+		);
 
-	const lockChangeInvalid = (lockRemoved && !ValidationIsLockChangePermitted(previousLock, params)) ||
-		(lockAdded && !ValidationIsLockChangePermitted(newLock, params)) ||
-		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked));
+	const lockChangeInvalid =
+		(lockRemoved &&
+			!ValidationIsLockChangePermitted(previousLock, params)) ||
+		(lockAdded &&
+			!ValidationIsLockChangePermitted(newLock, params)) ||
+		((lockAdded || lockModified || lockSwapped) &&
+			(newLockBlocked || itemBlocked));
 
 	if (lockChangeInvalid) {
 		if (previousLock) {
 			// If there was a lock previously, reapply the old lock
 			if (lockRemoved) {
-				console.warn(`Invalid removal of lock ${ValidationItemWarningMessage(previousLock, params)}`);
+				console.warn(
+					`Invalid removal of lock ${ValidationItemWarningMessage(
+						previousLock,
+						params
+					)}`
+				);
 			} else if (lockSwapped) {
-				console.warn(`Invalid addition of lock ${ValidationItemWarningMessage(newLock, params)}`);
+				console.warn(
+					`Invalid addition of lock ${ValidationItemWarningMessage(
+						newLock,
+						params
+					)}`
+				);
 			} else {
-				console.warn(`Invalid modification of lock ${ValidationItemWarningMessage(newLock, params)}`);
+				console.warn(
+					`Invalid modification of lock ${ValidationItemWarningMessage(
+						newLock,
+						params
+					)}`
+				);
 			}
-			InventoryLock(C, newItem, previousLock, previousProperty.LockMemberNumber, false);
+			InventoryLock(
+				C,
+				newItem,
+				previousLock,
+				previousProperty.LockMemberNumber,
+				false
+			);
 			ValidationCloneLock(previousProperty, newProperty);
 			return false;
 		} else {
 			// Otherwise, delete any lock
-			console.warn(`Invalid addition of lock ${ValidationItemWarningMessage(newLock, params)}`);
+			console.warn(
+				`Invalid addition of lock ${ValidationItemWarningMessage(
+					newLock,
+					params
+				)}`
+			);
 			return !ValidationDeleteLock(newItem.Property);
 		}
 	} else if (lockModified) {
 		// If the lock has been modified, then ensure lock properties don't change (except where they should be able to)
-		const hasLockPermissions = ValidationIsLockChangePermitted(previousLock, params) && !newLockBlocked;
-		return !ValidationRollbackInvalidLockProperties(previousProperty, newProperty, hasLockPermissions);
+		const hasLockPermissions =
+			ValidationIsLockChangePermitted(previousLock, params) &&
+			!newLockBlocked;
+		return !ValidationRollbackInvalidLockProperties(
+			previousProperty,
+			newProperty,
+			hasLockPermissions
+		);
 	}
 }
 
@@ -273,8 +407,13 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
  * @returns {boolean} - true if the item's lock was modified (added/removed/swapped/modified), false otherwise
  */
 function ValidationLockWasModified(previousProperty, newProperty) {
-	return previousProperty.LockedBy !== newProperty.LockedBy ||
-		ValidationAllLockProperties.some((key) => !CommonDeepEqual(previousProperty[key], newProperty[key]));
+	return (
+		previousProperty.LockedBy !== newProperty.LockedBy ||
+		ValidationAllLockProperties.some(
+			(key) =>
+				!CommonDeepEqual(previousProperty[key], newProperty[key])
+		)
+	);
 }
 
 /**
@@ -284,8 +423,15 @@ function ValidationLockWasModified(previousProperty, newProperty) {
  * @param {AppearanceUpdateParameters} params - The appearance update parameters that apply to the diff
  * @returns {string} - The warning message
  */
-function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
-	return `${item.Asset.Name} on member number ${C.IsNpc() ? C.Name : C.MemberNumber} by member number ${sourceMemberNumber || Player.MemberNumber} blocked`;
+function ValidationItemWarningMessage(
+	item,
+	{ C, sourceMemberNumber }
+) {
+	return `${item.Asset.Name} on member number ${
+		C.IsNpc() ? C.Name : C.MemberNumber
+	} by member number ${
+		sourceMemberNumber || Player.MemberNumber
+	} blocked`;
 }
 
 /**
@@ -296,7 +442,11 @@ function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
  * @param {boolean} [remove] - Whether the lock change is a removal
  * @returns {boolean} - TRUE if the lock can be modified, FALSE otherwise
  */
-function ValidationIsLockChangePermitted(lock, { C, fromOwner, fromLover }, remove) {
+function ValidationIsLockChangePermitted(
+	lock,
+	{ C, fromOwner, fromLover },
+	remove
+) {
 	if (!lock) return true;
 	if (lock.Asset.OwnerOnly && !fromOwner) return false;
 	if (lock.Asset.LoverOnly) {
@@ -317,18 +467,31 @@ function ValidationIsLockChangePermitted(lock, { C, fromOwner, fromLover }, remo
  * @returns {boolean} - TRUE if the target Property object was modified as a result of copying (indicating that there
  * were invalid changes to the lock), FALSE otherwise
  */
-function ValidationRollbackInvalidLockProperties(sourceProperty, targetProperty, hasLockPermissions) {
+function ValidationRollbackInvalidLockProperties(
+	sourceProperty,
+	targetProperty,
+	hasLockPermissions
+) {
 	let changed = false;
 	for (const key of ValidationNonModifiableLockProperties) {
-		changed = ValidationCopyProperty(sourceProperty, targetProperty, key) || changed;
+		changed =
+			ValidationCopyProperty(sourceProperty, targetProperty, key) ||
+			changed;
 	}
 	if (!hasLockPermissions) {
 		for (const key of ValidationRestrictedLockProperties) {
-			changed = ValidationCopyProperty(sourceProperty, targetProperty, key) || changed;
+			changed =
+				ValidationCopyProperty(sourceProperty, targetProperty, key) ||
+				changed;
 		}
 		if (!targetProperty.EnableRandomInput) {
 			for (const key of ValidationTimerLockProperties) {
-				changed = ValidationCopyProperty(sourceProperty, targetProperty, key) || changed;
+				changed =
+					ValidationCopyProperty(
+						sourceProperty,
+						targetProperty,
+						key
+					) || changed;
 			}
 		}
 	}
@@ -356,7 +519,10 @@ function ValidationCloneLock(sourceProperty, targetProperty) {
  * were invalid changes to the property), FALSE otherwise
  */
 function ValidationCopyProperty(sourceProperty, targetProperty, key) {
-	if (sourceProperty[key] != null && !CommonDeepEqual(targetProperty[key], sourceProperty[key])) {
+	if (
+		sourceProperty[key] != null &&
+		!CommonDeepEqual(targetProperty[key], sourceProperty[key])
+	) {
 		targetProperty[key] = sourceProperty[key];
 		return true;
 	}
@@ -372,7 +538,7 @@ function ValidationCopyProperty(sourceProperty, targetProperty, key) {
  * @returns {boolean} - TRUE if the new item can be equipped based on the appearance update parameters, FALSE otherwise
  */
 function ValidationCanAddItem(newItem, params) {
-	const {C, fromSelf, sourceMemberNumber} = params;
+	const { C, fromSelf, sourceMemberNumber } = params;
 
 	// If the update is coming from ourself, it's always permitted
 	if (fromSelf) return true;
@@ -382,7 +548,12 @@ function ValidationCanAddItem(newItem, params) {
 	// If the item is blocked/limited and the source doesn't have the correct permission, prevent it from being added
 	const type = (newItem.Property && newItem.Property.Type) || null;
 	const blockedOrLimited = ValidationIsItemBlockedOrLimited(
-		C, sourceMemberNumber, asset.Group.Name, asset.Name, type);
+		C,
+		sourceMemberNumber,
+		asset.Group.Name,
+		asset.Name,
+		type
+	);
 	if (blockedOrLimited && OnlineGameAllowBlockItems()) return false;
 
 	// Fall back to common item add/remove validation
@@ -401,13 +572,29 @@ function ValidationCanAddItem(newItem, params) {
  * @returns {boolean} - TRUE if the character with the provided source member number is _not_ allowed to equip the
  * described asset on the target character, FALSE otherwise.
  */
-function ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, groupName, assetName, type) {
+function ValidationIsItemBlockedOrLimited(
+	C,
+	sourceMemberNumber,
+	groupName,
+	assetName,
+	type
+) {
 	if (C.MemberNumber === sourceMemberNumber) return false;
-	if (InventoryIsPermissionBlocked(C, assetName, groupName, type)) return true;
-	if (!InventoryIsPermissionLimited(C, assetName, groupName, type)) return false;
-	if (C.IsLoverOfMemberNumber(sourceMemberNumber) || C.IsOwnedByMemberNumber(sourceMemberNumber)) return false;
+	if (InventoryIsPermissionBlocked(C, assetName, groupName, type))
+		return true;
+	if (!InventoryIsPermissionLimited(C, assetName, groupName, type))
+		return false;
+	if (
+		C.IsLoverOfMemberNumber(sourceMemberNumber) ||
+		C.IsOwnedByMemberNumber(sourceMemberNumber)
+	)
+		return false;
 	// If item permission is "Owner, Lover, whitelist & Dominants" or below, the source must be on their whitelist
-	if (C.ItemPermission < 3 && C.WhiteList.includes(sourceMemberNumber)) return false;
+	if (
+		C.ItemPermission < 3 &&
+		C.WhiteList.includes(sourceMemberNumber)
+	)
+		return false;
 	// Otherwise, the item is limited, and the source doesn't have permission
 	return true;
 }
@@ -425,7 +612,7 @@ function ValidationCanRemoveItem(previousItem, params, isSwap) {
 	// If we're not swapping, and the asset group can't be empty, always block removal
 	if (!previousItem.Asset.Group.AllowNone && !isSwap) return false;
 
-	const {fromSelf, fromOwner, fromLover} = params;
+	const { fromSelf, fromOwner, fromLover } = params;
 
 	// If the update is coming from ourself, it's always permitted
 	if (fromSelf) return true;
@@ -434,15 +621,24 @@ function ValidationCanRemoveItem(previousItem, params, isSwap) {
 
 	// If the previous item has AllowRemoveExclusive, allow owner/lover-only items to be removed if they're not locked
 	if (previousItem.Asset.AllowRemoveExclusive) {
-		if (InventoryOwnerOnlyItem(previousItem) && (!lock || !lock.Asset.OwnerOnly)) return true;
-		else if (InventoryLoverOnlyItem(previousItem) && (!lock || !lock.Asset.LoverOnly)) return true;
+		if (
+			InventoryOwnerOnlyItem(previousItem) &&
+			(!lock || !lock.Asset.OwnerOnly)
+		)
+			return true;
+		else if (
+			InventoryLoverOnlyItem(previousItem) &&
+			(!lock || !lock.Asset.LoverOnly)
+		)
+			return true;
 	}
 
 	// Owners can always remove lover locks, regardless of lover rules
 	if (lock && lock.Asset.LoverOnly && fromOwner) return true;
 
 	// Only owners/lovers can remove lover locks
-	if (lock && lock.Asset.LoverOnly && !fromLover && !fromOwner) return false;
+	if (lock && lock.Asset.LoverOnly && !fromLover && !fromOwner)
+		return false;
 
 	// Only owners can remove owner locks
 	if (lock && lock.Asset.OwnerOnly && !fromOwner) return false;
@@ -459,16 +655,32 @@ function ValidationCanRemoveItem(previousItem, params, isSwap) {
  * @return {boolean} - TRUE if the item can be added or removed based on the appearance update parameters, FALSE
  * otherwise
  */
-function ValidationCanAddOrRemoveItem(item, { C, fromOwner, fromLover }) {
+function ValidationCanAddOrRemoveItem(
+	item,
+	{ C, fromOwner, fromLover }
+) {
 	const asset = item.Asset;
 
 	// If the target does not permit full appearance modification, block changing non-clothing appearance items
-	const blockFullWardrobeAccess = !(C.OnlineSharedSettings && C.OnlineSharedSettings.AllowFullWardrobeAccess);
-	if (blockFullWardrobeAccess && asset.Group.Category === "Appearance" && !asset.Group.Clothing) return false;
+	const blockFullWardrobeAccess = !(
+		C.OnlineSharedSettings &&
+		C.OnlineSharedSettings.AllowFullWardrobeAccess
+	);
+	if (
+		blockFullWardrobeAccess &&
+		asset.Group.Category === "Appearance" &&
+		!asset.Group.Clothing
+	)
+		return false;
 
 	// If changing cosplay items is blocked and we're adding/removing a cosplay item, block it
-	const blockBodyCosplay = C.OnlineSharedSettings && C.OnlineSharedSettings.BlockBodyCosplay;
-	if (blockBodyCosplay && InventoryGetItemProperty(item, "BodyCosplay", true)) return false;
+	const blockBodyCosplay =
+		C.OnlineSharedSettings && C.OnlineSharedSettings.BlockBodyCosplay;
+	if (
+		blockBodyCosplay &&
+		InventoryGetItemProperty(item, "BodyCosplay", true)
+	)
+		return false;
 
 	// If the item is owner only, only the owner can add/remove it
 	if (asset.OwnerOnly) return fromOwner;
@@ -511,22 +723,31 @@ function ValidationSanitizeProperties(C, item) {
 	let changed = ValidationSanitizeEffects(C, item);
 	changed = ValidationSanitizeBlocks(C, item) || changed;
 	changed = ValidationSanitizeSetPose(C, item) || changed;
-	changed = ValidationSanitizeStringArray(property, "Hide") || changed;
+	changed =
+		ValidationSanitizeStringArray(property, "Hide") || changed;
 
 	const asset = item.Asset;
 
 	// If the property has a type, it needs to be in the asset's AllowType array
 	const allowType = asset.AllowType || [];
 	if (property.Type != null && !allowType.includes(property.Type)) {
-		console.warn(`Removing invalid type "${property.Type}" from ${asset.Name}`);
+		console.warn(
+			`Removing invalid type "${property.Type}" from ${asset.Name}`
+		);
 		delete property.Type;
 		changed = true;
 	}
 
 	// If the property has an expression, it needs to be in the asset or group's AllowExpression array
-	const allowExpression = asset.AllowExpression || asset.Group.AllowExpression || [];
-	if (property.Expression != null && !allowExpression.includes(property.Expression)) {
-		console.warn(`Removing invalid expression "${property.Expression}" from ${asset.Name}`);
+	const allowExpression =
+		asset.AllowExpression || asset.Group.AllowExpression || [];
+	if (
+		property.Expression != null &&
+		!allowExpression.includes(property.Expression)
+	) {
+		console.warn(
+			`Removing invalid expression "${property.Expression}" from ${asset.Name}`
+		);
 		delete property.Expression;
 		changed = true;
 	}
@@ -545,9 +766,11 @@ function ValidationSanitizeProperties(C, item) {
 
 	// Remove invalid properties from non-typed items
 	if (!asset.AllowType || !asset.AllowType.length) {
-		["SetPose", "Difficulty", "SelfUnlock", "Hide"].forEach(P => {
+		["SetPose", "Difficulty", "SelfUnlock", "Hide"].forEach((P) => {
 			if (property[P] != null) {
-				console.warn(`Removing invalid property "${P}" from ${asset.Name}`);
+				console.warn(
+					`Removing invalid property "${P}" from ${asset.Name}`
+				);
 				delete property[P];
 				changed = true;
 			}
@@ -555,8 +778,17 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Block advanced vibrator modes if disabled
-	if (typeof property.Mode === "string" && C.ArousalSettings && C.ArousalSettings.DisableAdvancedVibes && !VibratorModeOptions[VibratorModeSet.STANDARD].includes(VibratorModeGetOption(property.Mode))) {
-		console.warn(`Removing invalid mode "${property.Mode}" from ${asset.Name}`);
+	if (
+		typeof property.Mode === "string" &&
+		C.ArousalSettings &&
+		C.ArousalSettings.DisableAdvancedVibes &&
+		!VibratorModeOptions[VibratorModeSet.STANDARD].includes(
+			VibratorModeGetOption(property.Mode)
+		)
+	) {
+		console.warn(
+			`Removing invalid mode "${property.Mode}" from ${asset.Name}`
+		);
 		property.Mode = VibratorModeOptions[VibratorModeSet.STANDARD][0];
 		changed = true;
 	}
@@ -586,8 +818,14 @@ function ValidationSanitizeEffects(C, item) {
 		// The Lock effect is handled by ServerSanitizeLock
 		if (effect === "Lock") return true;
 		// All other effects must be included in the AllowEffect array to be permitted
-		else if (!assetEffect.includes(effect) && !allowEffect.includes(effect)) {
-			console.warn(`Filtering out invalid Effect entry on ${item.Asset.Name}:`, effect);
+		else if (
+			!assetEffect.includes(effect) &&
+			!allowEffect.includes(effect)
+		) {
+			console.warn(
+				`Filtering out invalid Effect entry on ${item.Asset.Name}:`,
+				effect
+			);
 			changed = true;
 			return false;
 		} else return true;
@@ -608,7 +846,11 @@ function ValidationSanitizeLock(C, item) {
 	const asset = item.Asset;
 	const property = item.Property;
 	// If there is no lock effect present, strip out any lock-related properties
-	if (!Array.isArray(property.Effect) || !property.Effect.includes("Lock")) return ValidationDeleteLock(property);
+	if (
+		!Array.isArray(property.Effect) ||
+		!property.Effect.includes("Lock")
+	)
+		return ValidationDeleteLock(property);
 
 	const lock = InventoryGetLock(item);
 
@@ -617,7 +859,8 @@ function ValidationSanitizeLock(C, item) {
 		!asset.AllowLock ||
 		!lock ||
 		property.AllowLock === false ||
-		(asset.AllowLockType && !asset.AllowLockType.includes(property.Type))
+		(asset.AllowLockType &&
+			!asset.AllowLockType.includes(property.Type))
 	) {
 		return ValidationDeleteLock(property);
 	}
@@ -640,21 +883,29 @@ function ValidationSanitizeLock(C, item) {
 
 		// Ensure the lock member number is valid on owner-only locks
 		if (lock.Asset.OwnerOnly && !lockedByOwner) {
-			console.warn(`Removing invalid owner-only lock with member number: ${lockNumber}`);
+			console.warn(
+				`Removing invalid owner-only lock with member number: ${lockNumber}`
+			);
 			return ValidationDeleteLock(property);
 		}
 
 		const lockedByLover = C.GetLoversNumbers().includes(lockNumber);
 		// Ensure the lock member number is valid on lover-only locks
 		if (lock.Asset.LoverOnly && !lockedByOwner && !lockedByLover) {
-			console.warn(`Removing invalid lover-only lock with member number: ${lockNumber}`);
+			console.warn(
+				`Removing invalid lover-only lock with member number: ${lockNumber}`
+			);
 			return ValidationDeleteLock(property);
 		}
 	}
 
 	// Sanitize combination lock number
 	if (typeof property.CombinationNumber === "string") {
-		if (!ValidationCombinationNumberRegex.test(property.CombinationNumber)) {
+		if (
+			!ValidationCombinationNumberRegex.test(
+				property.CombinationNumber
+			)
+		) {
 			// If the combination is invalid, reset to 0000
 			console.warn(
 				`Invalid combination number: ${property.CombinationNumber}. Combination will be reset to ${ValidationDefaultCombinationNumber}`
@@ -671,14 +922,20 @@ function ValidationSanitizeLock(C, item) {
 	if (typeof property.LockPickSeed === "string") {
 		const seed = CommonConvertStringToArray(property.LockPickSeed);
 		if (!seed.length) {
-			console.warn("Deleting invalid lockpicking seed: ", property.LockPickSeed);
+			console.warn(
+				"Deleting invalid lockpicking seed: ",
+				property.LockPickSeed
+			);
 			delete property.LockPickSeed;
 			changed = true;
 		} else {
 			// Check that every number from 0 up to the seed length is included in the seed
 			for (let i = 0; i < seed.length; i++) {
 				if (!seed.includes(i)) {
-					console.warn("Deleting invalid lockpicking seed: ", property.LockPickSeed);
+					console.warn(
+						"Deleting invalid lockpicking seed: ",
+						property.LockPickSeed
+					);
 					delete property.LockPickSeed;
 					changed = true;
 					break;
@@ -706,10 +963,18 @@ function ValidationSanitizeLock(C, item) {
 	}
 
 	// Sanitize timer lock remove timers
-	if (lock.Asset.RemoveTimer > 0 && typeof property.RemoveTimer === "number") {
+	if (
+		lock.Asset.RemoveTimer > 0 &&
+		typeof property.RemoveTimer === "number"
+	) {
 		// Ensure the lock's remove timer doesn't exceed the maximum for that lock type
-		if (property.RemoveTimer - ValidationRemoveTimerToleranceMs > CurrentTime + lock.Asset.MaxTimer * 1000) {
-			property.RemoveTimer = Math.round(CurrentTime + lock.Asset.MaxTimer * 1000);
+		if (
+			property.RemoveTimer - ValidationRemoveTimerToleranceMs >
+			CurrentTime + lock.Asset.MaxTimer * 1000
+		) {
+			property.RemoveTimer = Math.round(
+				CurrentTime + lock.Asset.MaxTimer * 1000
+			);
 			changed = true;
 		}
 	} else if (property.RemoveTimer != null) {
@@ -740,7 +1005,10 @@ function ValidationSanitizeBlocks(C, item) {
 	// Any Block entry must be included in the AllowBlock list to be permitted
 	property.Block = property.Block.filter((block) => {
 		if (!assetBlock.includes(block) && !allowBlock.includes(block)) {
-			console.warn(`Filtering out invalid Block entry on ${item.Asset.Name}:`, block);
+			console.warn(
+				`Filtering out invalid Block entry on ${item.Asset.Name}:`,
+				block
+			);
 			changed = true;
 			return false;
 		} else return true;
@@ -766,7 +1034,10 @@ function ValidationSanitizeSetPose(C, item) {
 	// The SetPose array must contain a list of valid pose names
 	property.SetPose = property.SetPose.filter((pose) => {
 		if (!PoseFemale3DCGNames.includes(pose)) {
-			console.warn(`Filtering out invalid SetPose entry on ${item.Asset.Name}:`, pose);
+			console.warn(
+				`Filtering out invalid SetPose entry on ${item.Asset.Name}:`,
+				pose
+			);
 			changed = true;
 			return false;
 		} else return true;
@@ -787,7 +1058,7 @@ function ValidationSanitizeStringArray(property, key) {
 	const value = property[key];
 	let changed = false;
 	if (Array.isArray(value)) {
-		value.filter(str => {
+		value.filter((str) => {
 			if (typeof str !== "string") {
 				console.warn(`Filtering out invalid ${key} entry:`, str);
 				changed = true;
@@ -815,20 +1086,23 @@ function ValidationSanitizeStringArray(property, key) {
 function ValidationDeleteLock(property, verbose = true) {
 	let changed = false;
 	if (property) {
-		ValidationAllLockProperties.forEach(key => {
+		ValidationAllLockProperties.forEach((key) => {
 			if (property[key] != null) {
 				// Special casing for RemoveTimer because it is used for both locks and expressions :(
-				if (key === "RemoveTimer" && property.Expression != null) return;
+				if (key === "RemoveTimer" && property.Expression != null)
+					return;
 				// Otherwise remove the property
-				if (verbose) console.warn("Removing invalid lock property:", key);
+				if (verbose)
+					console.warn("Removing invalid lock property:", key);
 				delete property[key];
 				changed = true;
 			}
 		});
 		if (Array.isArray(property.Effect)) {
-			property.Effect = property.Effect.filter(E => {
+			property.Effect = property.Effect.filter((E) => {
 				if (E === "Lock") {
-					if (verbose) console.warn("Filtering out invalid Lock effect");
+					if (verbose)
+						console.warn("Filtering out invalid Lock effect");
 					changed = true;
 					return false;
 				} else return true;
@@ -870,7 +1144,7 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 		// Sort the groups - groups that appear in more cycles should be removed first
 		const groupsByFrequency = Array.from(groupCounts.entries())
 			.sort(([, c1], [, c2]) => c2 - c1)
-			.map(entry => entry[0]);
+			.map((entry) => entry[0]);
 
 		const nonModifiedGroups = [];
 		/*
@@ -881,10 +1155,12 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 			if (diffMap[group]) {
 				const [prev, next] = diffMap[group];
 				if (!!prev !== !!next) return true;
-				if (!CommonDeepEqual(prev.Asset.Block, next.Asset.Block)) return true;
+				if (!CommonDeepEqual(prev.Asset.Block, next.Asset.Block))
+					return true;
 				const prevPropBlock = prev.Property && prev.Property.Block;
 				const nextPropBlock = next.Property && next.Property.Block;
-				if (!CommonDeepEqual(prevPropBlock, nextPropBlock)) return true;
+				if (!CommonDeepEqual(prevPropBlock, nextPropBlock))
+					return true;
 				const prevEnclose = InventoryItemHasEffect(prev, "Enclose");
 				const nextEnclose = InventoryItemHasEffect(next, "Enclose");
 				if (prevEnclose !== nextEnclose) return true;
@@ -898,14 +1174,19 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 		// Remove groups in priority order until there are no cycles left
 		while (cycles.length > 0 && i < groupsByPriority.length) {
 			const groupToRollback = groupsByPriority[i];
-			console.warn(`Rolling back group ${groupToRollback} due to block cycles`);
+			console.warn(
+				`Rolling back group ${groupToRollback} due to block cycles`
+			);
 			valid = false;
 			// Modify the appearance by rolling back or removing the item in the current group
 			appearance = appearance
 				.map((item) => {
 					const groupName = item.Asset.Group.Name;
 					if (groupName === groupToRollback) {
-						if (modifiedGroups.includes(groupName) && item !== diffMap[groupName][0]) {
+						if (
+							modifiedGroups.includes(groupName) &&
+							item !== diffMap[groupName][0]
+						) {
 							/*
 							 * If the group was modified as part of the diff map, and we're not already looking at the
 							 * rolled back item, roll back
@@ -922,7 +1203,9 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 				.filter(Boolean);
 
 			// Remove any cycles that contain the group we just removed/rolled back
-			cycles = cycles.filter(cycle => !cycle.includes(groupToRollback));
+			cycles = cycles.filter(
+				(cycle) => !cycle.includes(groupToRollback)
+			);
 			i++;
 		}
 
@@ -962,7 +1245,10 @@ function ValidationFindBlockCycles(appearance) {
 		for (const group of blockedGroups) {
 			recordEdge(item.Asset.Group.Name, group);
 		}
-		const blockingGroups = ValidationGetPrerequisiteBlockingGroups(item, appearance);
+		const blockingGroups = ValidationGetPrerequisiteBlockingGroups(
+			item,
+			appearance
+		);
 		for (const group of blockingGroups) {
 			recordEdge(group, item.Asset.Group.Name);
 		}
@@ -981,7 +1267,9 @@ function ValidationFindBlockCycles(appearance) {
  */
 function ValidationGetBlockedGroups(item, groupNames) {
 	if (InventoryItemHasEffect(item, "Enclose", true)) {
-		return groupNames.filter(groupName => groupName !== item.Asset.Group.Name);
+		return groupNames.filter(
+			(groupName) => groupName !== item.Asset.Group.Name
+		);
 	}
 
 	let blockedGroups = [];
@@ -991,7 +1279,9 @@ function ValidationGetBlockedGroups(item, groupNames) {
 	if (item.Property && Array.isArray(item.Property.Block)) {
 		blockedGroups = blockedGroups.concat(item.Property.Block);
 	}
-	return blockedGroups.filter(groupName => groupNames.includes(groupName));
+	return blockedGroups.filter((groupName) =>
+		groupNames.includes(groupName)
+	);
 }
 
 /**
@@ -1005,19 +1295,33 @@ function ValidationGetBlockedGroups(item, groupNames) {
 function ValidationGetPrerequisiteBlockingGroups(item, appearance) {
 	if (!item.Asset.Prerequisite) return [];
 
-	appearance = appearance.filter((appearanceItem) => appearanceItem.Asset !== item.Asset);
-	const char = CharacterLoadSimple(`PrerequisiteCheck${item.Asset.Group.Name}`);
+	appearance = appearance.filter(
+		(appearanceItem) => appearanceItem.Asset !== item.Asset
+	);
+	const char = CharacterLoadSimple(
+		`PrerequisiteCheck${item.Asset.Group.Name}`
+	);
 	/** @type {string[]} */
 	const blockingGroups = [];
 
 	for (const checkItem of appearance) {
 		char.Appearance = appearance;
 		CharacterRefresh(char, false);
-		const allowedWithCheckItem = InventoryAllow(char, item.Asset.Prerequisite, false);
+		const allowedWithCheckItem = InventoryAllow(
+			char,
+			item.Asset.Prerequisite,
+			false
+		);
 		if (!allowedWithCheckItem) {
-			char.Appearance = appearance.filter((appearanceItem) => appearanceItem.Asset !== checkItem.Asset);
+			char.Appearance = appearance.filter(
+				(appearanceItem) => appearanceItem.Asset !== checkItem.Asset
+			);
 			CharacterRefresh(char, false);
-			const allowedWithoutCheckItem = InventoryAllow(char, item.Asset.Prerequisite, false);
+			const allowedWithoutCheckItem = InventoryAllow(
+				char,
+				item.Asset.Prerequisite,
+				false
+			);
 			if (allowedWithoutCheckItem) {
 				blockingGroups.push(checkItem.Asset.Group.Name);
 			}

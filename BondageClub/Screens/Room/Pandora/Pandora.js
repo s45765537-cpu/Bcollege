@@ -11,7 +11,14 @@ var PandoraModeAppearance = null;
 var PandoraMessage = null;
 var PandoraParty = [];
 var PandoraFightCharacter = null;
-var PandoraRandomNPCList = ["MemberNew", "MemberOld", "Mistress", "Slave", "Maid", "Guard"];
+var PandoraRandomNPCList = [
+	"MemberNew",
+	"MemberOld",
+	"Mistress",
+	"Slave",
+	"Maid",
+	"Guard",
+];
 var PandoraMoveDirectionTimer = { Direction: "", Timer: 0 };
 var PandoraTargetRoom = null;
 var PandoraClothes = "Random";
@@ -22,22 +29,69 @@ var PandoraMaxWillpower = 20;
  * NPC Dialog functions
  * @returns {boolean} - TRUE if the dialog option will be available to the player
  */
-function PandoraCanStartRecruit() { return (((CurrentCharacter.Recruit == null) || (CurrentCharacter.Recruit == 0)) && !CurrentCharacter.IsNaked()); }
-function PandoraCanRecruit() { return (CurrentCharacter.Recruit + (InfiltrationPerksActive("Recruiter") ? 0.25 : 0) >= CurrentCharacter.RecruitOdds); }
-function PandoraCharacterCanJoin() { return ((PandoraParty.length == 0) || (PandoraParty[0].Name != CurrentCharacter.Name)); }
-function PandoraCharacterCanLeave() { return ((PandoraParty.length == 1) && (PandoraParty[0].Name == CurrentCharacter.Name) && ((PandoraCurrentRoom.Character == null) || (PandoraCurrentRoom.Character.length <= 1))); }
-function PandoraOdds75() { return ((CurrentCharacter.RandomOdds == null) || (CurrentCharacter.RandomOdds > 0.25)); }
-function PandoraOdds50() { return ((CurrentCharacter.RandomOdds == null) || (CurrentCharacter.RandomOdds > 0.50)); }
-function PandoraOdds25() { return ((CurrentCharacter.RandomOdds == null) || (CurrentCharacter.RandomOdds > 0.75)); }
-function PandoraCostumeIs(Costume) { return (PandoraClothes == Costume); }
-function PandoraQuizIs(Number) { return ((CurrentCharacter.QuizLog != null) && (CurrentCharacter.QuizLog[CurrentCharacter.QuizLog.length - 1].toString() == Number.toString())) }
+function PandoraCanStartRecruit() {
+	return (
+		(CurrentCharacter.Recruit == null ||
+			CurrentCharacter.Recruit == 0) &&
+		!CurrentCharacter.IsNaked()
+	);
+}
+function PandoraCanRecruit() {
+	return (
+		CurrentCharacter.Recruit +
+			(InfiltrationPerksActive("Recruiter") ? 0.25 : 0) >=
+		CurrentCharacter.RecruitOdds
+	);
+}
+function PandoraCharacterCanJoin() {
+	return (
+		PandoraParty.length == 0 ||
+		PandoraParty[0].Name != CurrentCharacter.Name
+	);
+}
+function PandoraCharacterCanLeave() {
+	return (
+		PandoraParty.length == 1 &&
+		PandoraParty[0].Name == CurrentCharacter.Name &&
+		(PandoraCurrentRoom.Character == null ||
+			PandoraCurrentRoom.Character.length <= 1)
+	);
+}
+function PandoraOdds75() {
+	return (
+		CurrentCharacter.RandomOdds == null ||
+		CurrentCharacter.RandomOdds > 0.25
+	);
+}
+function PandoraOdds50() {
+	return (
+		CurrentCharacter.RandomOdds == null ||
+		CurrentCharacter.RandomOdds > 0.5
+	);
+}
+function PandoraOdds25() {
+	return (
+		CurrentCharacter.RandomOdds == null ||
+		CurrentCharacter.RandomOdds > 0.75
+	);
+}
+function PandoraCostumeIs(Costume) {
+	return PandoraClothes == Costume;
+}
+function PandoraQuizIs(Number) {
+	return (
+		CurrentCharacter.QuizLog != null &&
+		CurrentCharacter.QuizLog[
+			CurrentCharacter.QuizLog.length - 1
+		].toString() == Number.toString()
+	);
+}
 
 /**
  * Loads the Pandora's Box screen
  * @returns {void} - Nothing
  */
-function PandoraLoad() {
-}
+function PandoraLoad() {}
 
 /**
  * Returns the color of the direction buttons, it can change if the direction was recently navigated to
@@ -46,10 +100,25 @@ function PandoraLoad() {
  * @returns {string} - The color to use
  */
 function PandoraDirectionButtonColor(Direction) {
-	if ((PandoraMoveDirectionTimer.Timer >= CommonTime()) && (PandoraMoveDirectionTimer.Direction === Direction))
-		return PandoraDirectionAvailable(Direction) ? (((Direction == PandoraCurrentRoom.DirectionMap[0]) && InfiltrationPerksActive("Cartographer") && (PandoraCurrentRoom.Background != "Entrance")) ? "#BFFF40" : "#80FF80") : "#408040";
-	else 
-		return PandoraDirectionAvailable(Direction) ? (((Direction == PandoraCurrentRoom.DirectionMap[0]) && InfiltrationPerksActive("Cartographer") && (PandoraCurrentRoom.Background != "Entrance")) ? "#FFFF00" : "White") : "#BF8080";
+	if (
+		PandoraMoveDirectionTimer.Timer >= CommonTime() &&
+		PandoraMoveDirectionTimer.Direction === Direction
+	)
+		return PandoraDirectionAvailable(Direction)
+			? Direction == PandoraCurrentRoom.DirectionMap[0] &&
+			  InfiltrationPerksActive("Cartographer") &&
+			  PandoraCurrentRoom.Background != "Entrance"
+				? "#BFFF40"
+				: "#80FF80"
+			: "#408040";
+	else
+		return PandoraDirectionAvailable(Direction)
+			? Direction == PandoraCurrentRoom.DirectionMap[0] &&
+			  InfiltrationPerksActive("Cartographer") &&
+			  PandoraCurrentRoom.Background != "Entrance"
+				? "#FFFF00"
+				: "White"
+			: "#BF8080";
 }
 
 /**
@@ -58,7 +127,7 @@ function PandoraDirectionButtonColor(Direction) {
  * @returns {boolean} - Whether the direction can be accessed
  */
 function PandoraDirectionAvailable(Direction) {
-	return (PandoraCurrentRoom.DirectionMap.indexOf(Direction) >= 0);
+	return PandoraCurrentRoom.DirectionMap.indexOf(Direction) >= 0;
 }
 
 /**
@@ -66,68 +135,180 @@ function PandoraDirectionAvailable(Direction) {
  * @returns {void} - Nothing
  */
 function PandoraRun() {
-
 	// Gets the current room & background
-	if ((PandoraRoom.length == 0) || (PandoraCurrentRoom == null)) return;
-	PandoraBackground = "Pandora/" + PandoraCurrentRoom.Floor + "/" + PandoraCurrentRoom.Background;
+	if (PandoraRoom.length == 0 || PandoraCurrentRoom == null) return;
+	PandoraBackground =
+		"Pandora/" +
+		PandoraCurrentRoom.Floor +
+		"/" +
+		PandoraCurrentRoom.Background;
 
 	// The search square are drawn even out of search mode
 	if (PandoraCurrentRoom.SearchSquare != null)
 		for (let S = 0; S < PandoraCurrentRoom.SearchSquare.length; S++)
-			DrawRect(PandoraCurrentRoom.SearchSquare[S].X, PandoraCurrentRoom.SearchSquare[S].Y, PandoraCurrentRoom.SearchSquare[S].W, PandoraCurrentRoom.SearchSquare[S].H, "#00FFFF7F");
-	
+			DrawRect(
+				PandoraCurrentRoom.SearchSquare[S].X,
+				PandoraCurrentRoom.SearchSquare[S].Y,
+				PandoraCurrentRoom.SearchSquare[S].W,
+				PandoraCurrentRoom.SearchSquare[S].H,
+				"#00FFFF7F"
+			);
+
 	// In search mode, we draw all previous searches done in that area
 	if (PandoraMode == "Search") {
-		DrawButton(1885, 885, 90, 90, "", "White", "Icons/Search.png", TextGet("SearchStop"));
+		DrawButton(
+			1885,
+			885,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Search.png",
+			TextGet("SearchStop")
+		);
 		return;
 	}
 
 	// In rest mode, the timer will tick slowly and heal the player for 1 willpower
 	if (PandoraMode == "Rest") {
-		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Rest.png", TextGet("RestStop"));
-		DrawProgressBar(1785, 954, 205, 36, Math.round(PandoraWillpower / PandoraMaxWillpower * 100));
-		DrawText(PandoraWillpower.toString(), 1888, 973, "black", "white");
+		DrawButton(
+			1885,
+			25,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/Rest.png",
+			TextGet("RestStop")
+		);
+		DrawProgressBar(
+			1785,
+			954,
+			205,
+			36,
+			Math.round((PandoraWillpower / PandoraMaxWillpower) * 100)
+		);
+		DrawText(
+			PandoraWillpower.toString(),
+			1888,
+			973,
+			"black",
+			"white"
+		);
 		DrawCharacter(Player, 750, 0, 1);
-		if (PandoraModeTimer < CommonTime()) {			
+		if (PandoraModeTimer < CommonTime()) {
 			PandoraWillpower = PandoraWillpower + 1;
-			if (PandoraWillpower > PandoraMaxWillpower) PandoraWillpower = PandoraMaxWillpower;
-			PandoraModeTimer = CommonTime() + ((InfiltrationPerksActive("Recovery")) ? 10000 : 12000);
+			if (PandoraWillpower > PandoraMaxWillpower)
+				PandoraWillpower = PandoraMaxWillpower;
+			PandoraModeTimer =
+				CommonTime() +
+				(InfiltrationPerksActive("Recovery") ? 10000 : 12000);
 		}
 		return;
 	}
 
 	// Draws up to 4 characters in the room, including the player
-	let Pos = 690 - (PandoraCurrentRoom.Character.length + PandoraParty.length) * 230;
+	let Pos =
+		690 -
+		(PandoraCurrentRoom.Character.length + PandoraParty.length) * 230;
 	DrawCharacter(Player, Pos, 0, 1);
 	let AllowMove = true;
 	for (let C = 0; C < PandoraParty.length; C++)
-		DrawCharacter(PandoraParty[C], Pos + ((C + 1) * 460), 0, 1);
+		DrawCharacter(PandoraParty[C], Pos + (C + 1) * 460, 0, 1);
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++) {
-		DrawCharacter(PandoraCurrentRoom.Character[C], Pos + ((C + 1 + PandoraParty.length) * 460), 0, 1);
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false)) AllowMove = false;
+		DrawCharacter(
+			PandoraCurrentRoom.Character[C],
+			Pos + (C + 1 + PandoraParty.length) * 460,
+			0,
+			1
+		);
+		if (
+			PandoraCurrentRoom.Character[C].AllowMove != null &&
+			PandoraCurrentRoom.Character[C].AllowMove == false
+		)
+			AllowMove = false;
 	}
 
 	// If we allow moving, we draw the paths
 	if (AllowMove) {
 		for (let P = 0; P < PandoraCurrentRoom.Path.length; P++)
-			DrawButton(1885, 25 + P * 115, 90, 90, "", "White", "Icons/" + PandoraCurrentRoom.Direction[P] + ".png", TextGet("Path" + PandoraCurrentRoom.Direction[P]));
-		DrawButton(1842, 620, 90, 90, "", PandoraDirectionButtonColor("North"), "Icons/North.png", TextGet("DirectionNorth"), !PandoraDirectionAvailable("North"));
-		DrawButton(1785, 735, 90, 90, "", PandoraDirectionButtonColor("West"), "Icons/West.png", TextGet("DirectionWest"), !PandoraDirectionAvailable("West"));
-		DrawButton(1842, 850, 90, 90, "", PandoraDirectionButtonColor("South"), "Icons/South.png", TextGet("DirectionSouth"), !PandoraDirectionAvailable("South"));
-		DrawButton(1900, 735, 90, 90, "", PandoraDirectionButtonColor("East"), "Icons/East.png", TextGet("DirectionEast"), !PandoraDirectionAvailable("East"));
+			DrawButton(
+				1885,
+				25 + P * 115,
+				90,
+				90,
+				"",
+				"White",
+				"Icons/" + PandoraCurrentRoom.Direction[P] + ".png",
+				TextGet("Path" + PandoraCurrentRoom.Direction[P])
+			);
+		DrawButton(
+			1842,
+			620,
+			90,
+			90,
+			"",
+			PandoraDirectionButtonColor("North"),
+			"Icons/North.png",
+			TextGet("DirectionNorth"),
+			!PandoraDirectionAvailable("North")
+		);
+		DrawButton(
+			1785,
+			735,
+			90,
+			90,
+			"",
+			PandoraDirectionButtonColor("West"),
+			"Icons/West.png",
+			TextGet("DirectionWest"),
+			!PandoraDirectionAvailable("West")
+		);
+		DrawButton(
+			1842,
+			850,
+			90,
+			90,
+			"",
+			PandoraDirectionButtonColor("South"),
+			"Icons/South.png",
+			TextGet("DirectionSouth"),
+			!PandoraDirectionAvailable("South")
+		);
+		DrawButton(
+			1900,
+			735,
+			90,
+			90,
+			"",
+			PandoraDirectionButtonColor("East"),
+			"Icons/East.png",
+			TextGet("DirectionEast"),
+			!PandoraDirectionAvailable("East")
+		);
 	}
 
 	// If we must draw a message in the middle of the screen
-	if ((PandoraMessage != null) && (PandoraMessage.Timer != null) && (PandoraMessage.Text != null) && (PandoraMessage.Timer >= CommonTime())) {
+	if (
+		PandoraMessage != null &&
+		PandoraMessage.Timer != null &&
+		PandoraMessage.Text != null &&
+		PandoraMessage.Timer >= CommonTime()
+	) {
 		DrawRect(450, 465, 1100, 70, "black");
 		DrawRect(452, 467, 1096, 66, "white");
 		DrawTextWrap(PandoraMessage.Text, 450, 465, 1100, 70, "black");
 	}
 
 	// Draw the willpower / max
-	DrawProgressBar(1785, 954, 205, 36, Math.round(PandoraWillpower / PandoraMaxWillpower * 100));
+	DrawProgressBar(
+		1785,
+		954,
+		205,
+		36,
+		Math.round((PandoraWillpower / PandoraMaxWillpower) * 100)
+	);
 	DrawText(PandoraWillpower.toString(), 1888, 973, "black", "white");
-
 }
 
 /**
@@ -135,9 +316,12 @@ function PandoraRun() {
  * @returns {void} - Nothing
  */
 function PandoraSetMode(NewMode) {
-	
 	// Exit from a previous mode if needed
-	if ((PandoraMode == "Rest") && (NewMode == "") && (PandoraModeAppearance != null)) {
+	if (
+		PandoraMode == "Rest" &&
+		NewMode == "" &&
+		PandoraModeAppearance != null
+	) {
 		Player.Appearance = PandoraModeAppearance.slice(0);
 		PandoraModeAppearance = null;
 		CharacterRefresh(Player, true);
@@ -152,15 +336,25 @@ function PandoraSetMode(NewMode) {
 		CharacterNaked(Player);
 		InventoryWear(Player, "BodyTowel1", "Cloth");
 		InventoryWear(Player, "HeadTowel1", "Hat");
-		PandoraModeTimer = CommonTime() + ((InfiltrationPerksActive("Recovery")) ? 10000 : 12000);
+		PandoraModeTimer =
+			CommonTime() +
+			(InfiltrationPerksActive("Recovery") ? 10000 : 12000);
 	}
 
 	// Cannot enter search mode if the item is already found
-	if ((NewMode == "Search") && (InfiltrationTarget.Found != null) && (InfiltrationTarget.Found == true)) {
-		PandoraMsgBox(TextGet("AlreadyFound").replace("TargetName", InfiltrationTarget.Name));
+	if (
+		NewMode == "Search" &&
+		InfiltrationTarget.Found != null &&
+		InfiltrationTarget.Found == true
+	) {
+		PandoraMsgBox(
+			TextGet("AlreadyFound").replace(
+				"TargetName",
+				InfiltrationTarget.Name
+			)
+		);
 		PandoraMode = "";
 	}
-
 }
 
 /**
@@ -168,24 +362,50 @@ function PandoraSetMode(NewMode) {
  * @returns {void} - Nothing
  */
 function PandoraClick() {
-
 	// Checks if we clicked on the player
 	if (PandoraRoom.length == 0) return;
 
 	// If there's a message running, we do not allow any clicks
-	if ((PandoraMessage != null) && (PandoraMessage.Timer != null) && (PandoraMessage.Text != null) && (PandoraMessage.Timer >= CommonTime()))
+	if (
+		PandoraMessage != null &&
+		PandoraMessage.Timer != null &&
+		PandoraMessage.Text != null &&
+		PandoraMessage.Timer >= CommonTime()
+	)
 		return;
 
 	// In search mode, we can click anywhere on the screen
 	if (PandoraMode == "Search") {
 		if (MouseIn(0, 0, 1850, 1000)) {
-			if (PandoraCurrentRoom.SearchSquare == null) PandoraCurrentRoom.SearchSquare = [];
-			let Radius = InfiltrationPerksActive("Investigation") ? 250 : 175;
-			PandoraCurrentRoom.SearchSquare.push({ X: MouseX - Radius, Y: MouseY - Radius, W: Radius * 2, H: Radius * 2 });
-			if ((PandoraCurrentRoom.ItemX != null) && (PandoraCurrentRoom.ItemY != null) && MouseIn(PandoraCurrentRoom.ItemX - Radius, PandoraCurrentRoom.ItemY - Radius, Radius * 2, Radius * 2)) {
+			if (PandoraCurrentRoom.SearchSquare == null)
+				PandoraCurrentRoom.SearchSquare = [];
+			let Radius = InfiltrationPerksActive("Investigation")
+				? 250
+				: 175;
+			PandoraCurrentRoom.SearchSquare.push({
+				X: MouseX - Radius,
+				Y: MouseY - Radius,
+				W: Radius * 2,
+				H: Radius * 2,
+			});
+			if (
+				PandoraCurrentRoom.ItemX != null &&
+				PandoraCurrentRoom.ItemY != null &&
+				MouseIn(
+					PandoraCurrentRoom.ItemX - Radius,
+					PandoraCurrentRoom.ItemY - Radius,
+					Radius * 2,
+					Radius * 2
+				)
+			) {
 				InfiltrationTarget.Found = true;
 				PandoraSetMode("");
-				PandoraMsgBox(TextGet("FoundItem").replace("TargetName", InfiltrationTarget.Name));
+				PandoraMsgBox(
+					TextGet("FoundItem").replace(
+						"TargetName",
+						InfiltrationTarget.Name
+					)
+				);
 			}
 		}
 		if (MouseIn(1885, 885, 90, 90)) PandoraSetMode("");
@@ -199,31 +419,80 @@ function PandoraClick() {
 	}
 
 	// Checks if we clicked on a character
-	let Pos = 690 - (PandoraCurrentRoom.Character.length + PandoraParty.length) * 230;
+	let Pos =
+		690 -
+		(PandoraCurrentRoom.Character.length + PandoraParty.length) * 230;
 	if (MouseIn(Pos, 0, 500, 1000)) return CharacterSetCurrent(Player);
 	let AllowMove = true;
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++) {
-		if (MouseIn(Pos + ((C + 1 + PandoraParty.length) * 460), 0, 500, 1000)) return CharacterSetCurrent(PandoraCurrentRoom.Character[C]);
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false)) AllowMove = false;
+		if (
+			MouseIn(Pos + (C + 1 + PandoraParty.length) * 460, 0, 500, 1000)
+		)
+			return CharacterSetCurrent(PandoraCurrentRoom.Character[C]);
+		if (
+			PandoraCurrentRoom.Character[C].AllowMove != null &&
+			PandoraCurrentRoom.Character[C].AllowMove == false
+		)
+			AllowMove = false;
 	}
 
 	// If we allow moving, we can switch room, rooms that start with "Rest" or "Search" have special modes
 	if (AllowMove) {
 		for (let C = 0; C < PandoraParty.length; C++)
-			if (MouseIn(Pos + ((C + 1) * 460), 0, 500, 1000))
+			if (MouseIn(Pos + (C + 1) * 460, 0, 500, 1000))
 				return CharacterSetCurrent(PandoraParty[C]);
 		for (let P = 0; P < PandoraCurrentRoom.Path.length; P++)
 			if (MouseIn(1900, 25 + P * 115, 90, 90)) {
-				if (PandoraCurrentRoom.Path[P].Floor == "Exit") return CommonSetScreen("Room", "Infiltration");
-				if ((PandoraCurrentRoom.Path[P].Floor == "Search") || (PandoraCurrentRoom.Path[P].Floor == "Rest")) return PandoraSetMode(PandoraCurrentRoom.Path[P].Floor);
+				if (PandoraCurrentRoom.Path[P].Floor == "Exit")
+					return CommonSetScreen("Room", "Infiltration");
+				if (
+					PandoraCurrentRoom.Path[P].Floor == "Search" ||
+					PandoraCurrentRoom.Path[P].Floor == "Rest"
+				)
+					return PandoraSetMode(PandoraCurrentRoom.Path[P].Floor);
 				return PandoraEnterRoom(PandoraCurrentRoom.Path[P]);
 			}
-		if (MouseIn(1842, 620, 90, 90) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		if (MouseIn(1785, 735, 90, 90) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		if (MouseIn(1842, 850, 90, 90) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		if (MouseIn(1900, 735, 90, 90) && (PandoraDirectionAvailable("East"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+		if (
+			MouseIn(1842, 620, 90, 90) &&
+			PandoraDirectionAvailable("North")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("North")
+				],
+				"North"
+			);
+		if (
+			MouseIn(1785, 735, 90, 90) &&
+			PandoraDirectionAvailable("West")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("West")
+				],
+				"West"
+			);
+		if (
+			MouseIn(1842, 850, 90, 90) &&
+			PandoraDirectionAvailable("South")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("South")
+				],
+				"South"
+			);
+		if (
+			MouseIn(1900, 735, 90, 90) &&
+			PandoraDirectionAvailable("East")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("East")
+				],
+				"East"
+			);
 	}
-
 }
 
 /**
@@ -233,13 +502,52 @@ function PandoraClick() {
 function PandoraKeyDown() {
 	let AllowMove = true;
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
+		if (
+			PandoraCurrentRoom.Character[C].AllowMove != null &&
+			PandoraCurrentRoom.Character[C].AllowMove == false
+		)
 			AllowMove = false;
 	if (AllowMove) {
-		if (((KeyPress == 87) || (KeyPress == 119)) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		if (((KeyPress == 65) || (KeyPress == 97)) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		if (((KeyPress == 83) || (KeyPress == 115)) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		if (((KeyPress == 68) || (KeyPress == 100)) && (PandoraDirectionAvailable("East"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+		if (
+			(KeyPress == 87 || KeyPress == 119) &&
+			PandoraDirectionAvailable("North")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("North")
+				],
+				"North"
+			);
+		if (
+			(KeyPress == 65 || KeyPress == 97) &&
+			PandoraDirectionAvailable("West")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("West")
+				],
+				"West"
+			);
+		if (
+			(KeyPress == 83 || KeyPress == 115) &&
+			PandoraDirectionAvailable("South")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("South")
+				],
+				"South"
+			);
+		if (
+			(KeyPress == 68 || KeyPress == 100) &&
+			PandoraDirectionAvailable("East")
+		)
+			return PandoraEnterRoom(
+				PandoraCurrentRoom.PathMap[
+					PandoraCurrentRoom.DirectionMap.indexOf("East")
+				],
+				"East"
+			);
 	}
 }
 
@@ -261,7 +569,9 @@ function PandoraMsgBox(Text) {
  */
 function PandoraGenerateNPC(Group, Type, Name, AllowItem) {
 	CharacterDelete("NPC_Pandora_" + Group + Type);
-	delete CommonCSVCache["Screens/Room/Pandora/Dialog_NPC_Pandora_" + Group + Type + ".csv"];
+	delete CommonCSVCache[
+		"Screens/Room/Pandora/Dialog_NPC_Pandora_" + Group + Type + ".csv"
+	];
 	let NPC = CharacterLoadNPC("NPC_Pandora_" + Group + Type);
 	if (Name == "RANDOM") CharacterRandomName(NPC);
 	else NPC.Name = Name;
@@ -278,22 +588,26 @@ function PandoraGenerateNPC(Group, Type, Name, AllowItem) {
  * @returns {void} - Nothing
  */
 function PandoraDress(C, Type) {
-
 	// The maids have a red outfit
 	if (Type == "Maid") {
 		InventoryRemove(C, "Gloves");
 		InventoryRemove(C, "ClothAccessory");
 		InventoryWear(C, "MaidOutfit2", "Cloth", "#804040");
 		InventoryWear(C, "MaidHairband1", "Hat", "#804040");
-		if (InventoryGet(C, "Socks") == null) InventoryWear(C, "Socks3", "Socks", "#804040");
+		if (InventoryGet(C, "Socks") == null)
+			InventoryWear(C, "Socks3", "Socks", "#804040");
 		else InventoryGet(C, "Socks").Color = "#804040";
-		if (InventoryGet(C, "Bra") == null) InventoryWear(C, "Bra1", "Bra", "#222222");
+		if (InventoryGet(C, "Bra") == null)
+			InventoryWear(C, "Bra1", "Bra", "#222222");
 		else InventoryGet(C, "Bra").Color = "#222222";
-		if (InventoryGet(C, "Panties") == null) InventoryWear(C, "Panties1", "Panties", "#222222");
+		if (InventoryGet(C, "Panties") == null)
+			InventoryWear(C, "Panties1", "Panties", "#222222");
 		else InventoryGet(C, "Panties").Color = "#222222";
-		if (InventoryGet(C, "Shoes") == null) InventoryWear(C, "Shoes1", "Shoes", "#222222");
+		if (InventoryGet(C, "Shoes") == null)
+			InventoryWear(C, "Shoes1", "Shoes", "#222222");
 		else InventoryGet(C, "Shoes").Color = "#222222";
-		if (C.ID != 0) InventoryWear(C, "MaidCollar", "ItemNeck", "#804040");
+		if (C.ID != 0)
+			InventoryWear(C, "MaidCollar", "ItemNeck", "#804040");
 		CharacterRefresh(C, false);
 		return;
 	}
@@ -336,7 +650,6 @@ function PandoraDress(C, Type) {
 	// Since no defined type is found, we fully randomize the clothes and appearance
 	CharacterAppearanceFullRandom(C);
 	CharacterRefresh(C, false);
-
 }
 
 /**
@@ -345,9 +658,12 @@ function PandoraDress(C, Type) {
  * @returns {void} - Nothing
  */
 function PandoraEnterRoom(Room, Direction) {
-
 	// Shoes the incoming direction for a little while
-	if ((Direction != null) && (Direction != "")) PandoraMoveDirectionTimer = { Direction: Direction, Timer: CommonTime() + 1500 };
+	if (Direction != null && Direction != "")
+		PandoraMoveDirectionTimer = {
+			Direction: Direction,
+			Timer: CommonTime() + 1500,
+		};
 
 	// Sets the new room and keep the previous
 	PandoraPreviousRoom = PandoraCurrentRoom;
@@ -355,7 +671,13 @@ function PandoraEnterRoom(Room, Direction) {
 
 	// 33% odds of removing a previous random NPC if she can walk
 	if (PandoraCurrentRoom.Character.length >= 1)
-		if ((PandoraCurrentRoom.Character[0].AccountName.indexOf("NPC_Pandora_Random") == 0) && (Math.random() > 0.667) && PandoraCurrentRoom.Character[0].CanWalk()) {
+		if (
+			PandoraCurrentRoom.Character[0].AccountName.indexOf(
+				"NPC_Pandora_Random"
+			) == 0 &&
+			Math.random() > 0.667 &&
+			PandoraCurrentRoom.Character[0].CanWalk()
+		) {
 			let Char = PandoraCurrentRoom.Character[0];
 			PandoraCurrentRoom.Character = [];
 			CharacterDelete(Char);
@@ -364,37 +686,105 @@ function PandoraEnterRoom(Room, Direction) {
 		}
 
 	// 4% odds of spawning a new random NPC in the room
-	if ((PandoraCurrentRoom.Background.indexOf("Entrance") < 0) && (PandoraCurrentRoom.Character.length == 0) && (Math.random() > 0.96)) {
+	if (
+		PandoraCurrentRoom.Background.indexOf("Entrance") < 0 &&
+		PandoraCurrentRoom.Character.length == 0 &&
+		Math.random() > 0.96
+	) {
 		let Type = CommonRandomItemFromList("", PandoraRandomNPCList);
-		let Char = PandoraGenerateNPC("Random", Type, "RANDOM", (Type === "Slave"));
+		let Char = PandoraGenerateNPC(
+			"Random",
+			Type,
+			"RANDOM",
+			Type === "Slave"
+		);
 		Char.Type = Type;
 		Char.Recruit = 0;
-		Char.RecruitOdds = (Type === "Slave") ? 1 : 0.75;
+		Char.RecruitOdds = Type === "Slave" ? 1 : 0.75;
 		Room.Character.push(Char);
 	}
 
 	// If we enter a room with a maid that's not bound, she can intercept the player if the mission is almost completed
-	if ((PandoraCurrentRoom.Character.length == 1) && (PandoraCurrentRoom.Character[0].AccountName.indexOf("Maid") >= 0) && PandoraCurrentRoom.Character[0].CanInteract()) {
+	if (
+		PandoraCurrentRoom.Character.length == 1 &&
+		PandoraCurrentRoom.Character[0].AccountName.indexOf("Maid") >=
+			0 &&
+		PandoraCurrentRoom.Character[0].CanInteract()
+	) {
 		let StartDialog = "";
-		if ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Found)) StartDialog = InfiltrationMission + ((PandoraClothes == "Maid") ? "Maid" : "Random") + "0";
-		if ((InfiltrationMission == "Rescue") && (PandoraParty.length == 1) && (PandoraParty[0].Name == InfiltrationTarget.Name)) StartDialog = InfiltrationMission + ((PandoraClothes == "Guard") ? "Guard" : "Random") + "0";
-		if ((InfiltrationMission == "Kidnap") && (PandoraParty.length == 1) && (PandoraParty[0].Name == InfiltrationTarget.Name) && PandoraParty[0].CanTalk()) StartDialog = InfiltrationMission + "Random" + "0";
-		if ((PandoraCurrentRoom.Character[0].AccountName.indexOf("EntranceMaid") >= 0) && (PandoraParty.length == 1) && (PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0) && (InventoryGet(PandoraCurrentRoom.Character[0], "ItemHood") == null)) StartDialog = "MistressArrest0";
+		if (InfiltrationMission == "Retrieve" && InfiltrationTarget.Found)
+			StartDialog =
+				InfiltrationMission +
+				(PandoraClothes == "Maid" ? "Maid" : "Random") +
+				"0";
+		if (
+			InfiltrationMission == "Rescue" &&
+			PandoraParty.length == 1 &&
+			PandoraParty[0].Name == InfiltrationTarget.Name
+		)
+			StartDialog =
+				InfiltrationMission +
+				(PandoraClothes == "Guard" ? "Guard" : "Random") +
+				"0";
+		if (
+			InfiltrationMission == "Kidnap" &&
+			PandoraParty.length == 1 &&
+			PandoraParty[0].Name == InfiltrationTarget.Name &&
+			PandoraParty[0].CanTalk()
+		)
+			StartDialog = InfiltrationMission + "Random" + "0";
+		if (
+			PandoraCurrentRoom.Character[0].AccountName.indexOf(
+				"EntranceMaid"
+			) >= 0 &&
+			PandoraParty.length == 1 &&
+			PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0 &&
+			InventoryGet(PandoraCurrentRoom.Character[0], "ItemHood") ==
+				null
+		)
+			StartDialog = "MistressArrest0";
 		if (StartDialog != "") {
 			CharacterRelease(PandoraCurrentRoom.Character[0]);
-			PandoraCurrentRoom.Character[0].RandomOdds = Math.random() + 0.2 - (InfiltrationDifficulty * 0.1);
+			PandoraCurrentRoom.Character[0].RandomOdds =
+				Math.random() + 0.2 - InfiltrationDifficulty * 0.1;
 			PandoraCurrentRoom.Character[0].AllowMove = false;
 			PandoraCurrentRoom.Character[0].Stage = StartDialog;
 		}
 	}
 
 	// If we enter a room with a guard that's not bound, she can intercept the player
-	if ((PandoraCurrentRoom.Character.length == 1) && (PandoraCurrentRoom.Character[0].AccountName.indexOf("RandomGuard") >= 0) && PandoraCurrentRoom.Character[0].CanInteract()) {
+	if (
+		PandoraCurrentRoom.Character.length == 1 &&
+		PandoraCurrentRoom.Character[0].AccountName.indexOf(
+			"RandomGuard"
+		) >= 0 &&
+		PandoraCurrentRoom.Character[0].CanInteract()
+	) {
 		let ArrestDialog = "";
-		if (!PandoraCurrentRoom.Character[0].AllowMove && (SkillGetLevel(Player, "Infiltration") >= Math.floor(Math.random() * 10))) ArrestDialog = "InfiltrationArrest";
-		if ((InfiltrationMission == "Kidnap") && (PandoraParty.length == 1) && (PandoraParty[0].Name == InfiltrationTarget.Name) && PandoraParty[0].CanTalk()) ArrestDialog = "KidnapArrest";
-		if ((PandoraParty.length == 1) && (PandoraParty[0].AccountName.indexOf("RandomGuard") >= 0)) ArrestDialog = "GuardArrest";
-		if ((PandoraParty.length == 1) && (PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0) && PandoraParty[0].CanTalk()) ArrestDialog = "MistressArrest";
+		if (
+			!PandoraCurrentRoom.Character[0].AllowMove &&
+			SkillGetLevel(Player, "Infiltration") >=
+				Math.floor(Math.random() * 10)
+		)
+			ArrestDialog = "InfiltrationArrest";
+		if (
+			InfiltrationMission == "Kidnap" &&
+			PandoraParty.length == 1 &&
+			PandoraParty[0].Name == InfiltrationTarget.Name &&
+			PandoraParty[0].CanTalk()
+		)
+			ArrestDialog = "KidnapArrest";
+		if (
+			PandoraParty.length == 1 &&
+			PandoraParty[0].AccountName.indexOf("RandomGuard") >= 0
+		)
+			ArrestDialog = "GuardArrest";
+		if (
+			PandoraParty.length == 1 &&
+			PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0 &&
+			PandoraParty[0].CanTalk()
+		)
+			ArrestDialog = "MistressArrest";
 		if (ArrestDialog != "") {
 			CharacterRelease(PandoraCurrentRoom.Character[0]);
 			PandoraCurrentRoom.Character[0].AllowMove = false;
@@ -403,19 +793,34 @@ function PandoraEnterRoom(Room, Direction) {
 	}
 
 	// If we enter a room with a Dominatrix that's not bound, she can intercept and challenge the player
-	if ((PandoraCurrentRoom.Character.length == 1) && (PandoraCurrentRoom.Character[0].AccountName.indexOf("RandomMistress") >= 0) && PandoraCurrentRoom.Character[0].CanInteract()) {
+	if (
+		PandoraCurrentRoom.Character.length == 1 &&
+		PandoraCurrentRoom.Character[0].AccountName.indexOf(
+			"RandomMistress"
+		) >= 0 &&
+		PandoraCurrentRoom.Character[0].CanInteract()
+	) {
 		let MistressDialog = "";
-		if (!PandoraCurrentRoom.Character[0].AllowMove && (SkillGetLevel(Player, "Infiltration") >= Math.floor(Math.random() * 10))) MistressDialog = "50";
+		if (
+			!PandoraCurrentRoom.Character[0].AllowMove &&
+			SkillGetLevel(Player, "Infiltration") >=
+				Math.floor(Math.random() * 10)
+		)
+			MistressDialog = "50";
 		if (PandoraClothes == "Mistress") MistressDialog = "60";
-		if ((PandoraParty.length == 1) && (PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0)) MistressDialog = "70";
+		if (
+			PandoraParty.length == 1 &&
+			PandoraParty[0].AccountName.indexOf("RandomMistress") >= 0
+		)
+			MistressDialog = "70";
 		if (MistressDialog != "") {
 			CharacterRelease(PandoraCurrentRoom.Character[0]);
-			PandoraCurrentRoom.Character[0].RandomOdds = Math.random() - (SkillGetLevel(Player, "Infiltration") / 10);
+			PandoraCurrentRoom.Character[0].RandomOdds =
+				Math.random() - SkillGetLevel(Player, "Infiltration") / 10;
 			PandoraCurrentRoom.Character[0].AllowMove = false;
 			PandoraCurrentRoom.Character[0].Stage = MistressDialog;
 		}
 	}
-
 }
 
 /**
@@ -425,21 +830,26 @@ function PandoraEnterRoom(Room, Direction) {
  * @param {number} RoomLevel - The room level, the higher it goes, the higher the chances it will be a dead-end
  * @returns {void} - Nothing
  */
-function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
-
+function PandoraGenerateRoom(
+	EntryRoom,
+	DirectionFrom,
+	RoomLevel,
+	MaxRoom
+) {
 	// Over the max number of rooms, the dungeon layout is always invalid
 	if (PandoraRoom.length >= MaxRoom) return;
 
 	// The higher the room level, the less paths there will be
 	let PathCount = 0;
-	if (EntryRoom.Background.indexOf("Entrance") == 0) PathCount = 2 + Math.floor(Math.random() * 3);
+	if (EntryRoom.Background.indexOf("Entrance") == 0)
+		PathCount = 2 + Math.floor(Math.random() * 3);
 	if (EntryRoom.Background.indexOf("Tunnel") == 0) PathCount = 1;
-	if (EntryRoom.Background.indexOf("Fork") == 0) PathCount = 1 + Math.floor(Math.random() * 3);
+	if (EntryRoom.Background.indexOf("Fork") == 0)
+		PathCount = 1 + Math.floor(Math.random() * 3);
 
 	// Generates all paths
 	let Path = [];
 	for (let P = 0; P < PathCount; P++) {
-
 		// Generates a valid path that's not already used
 		let Continue = false;
 		let PathNum;
@@ -447,10 +857,11 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
 			if (EntryRoom.Background.indexOf("Tunnel") == 0) {
 				PathNum = PandoraDirectionListFrom.indexOf(DirectionFrom);
 				Continue = true;
-			}
-			else {
+			} else {
 				PathNum = Math.floor(Math.random() * 4);
-				Continue = ((PandoraDirectionList.indexOf(DirectionFrom) != PathNum) && (Path.indexOf(PathNum) < 0));
+				Continue =
+					PandoraDirectionList.indexOf(DirectionFrom) != PathNum &&
+					Path.indexOf(PathNum) < 0;
 			}
 		}
 		Path.push(PathNum);
@@ -462,14 +873,19 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
 			RoomBack = "Cell";
 			let DeadEndOdds = (RoomLevel - InfiltrationDifficulty) * 0.25;
 			if (RoomLevel <= 2) DeadEndOdds = 0;
-			let TunnelOdds = 0.25 + (RoomLevel * 0.1);
+			let TunnelOdds = 0.25 + RoomLevel * 0.1;
 			if (TunnelOdds > 0.75) TunnelOdds = 0.75;
-			if (Math.random() >= DeadEndOdds) RoomBack = (Math.random() >= TunnelOdds) ? "Fork" : "Tunnel";
-			if ((RoomBack == "Cell") && (Math.random() >= 0.9)) RoomBack = "Rest0";
+			if (Math.random() >= DeadEndOdds)
+				RoomBack = Math.random() >= TunnelOdds ? "Fork" : "Tunnel";
+			if (RoomBack == "Cell" && Math.random() >= 0.9)
+				RoomBack = "Rest0";
 			else RoomBack = RoomBack + Math.floor(Math.random() * 7);
-			Continue = (RoomBack !== EntryRoom.Background);
-			for (let R = 0; Continue && (R < PandoraRoom.length); R++)
-				if ((PandoraRoom[R].Background == RoomBack) && (Math.random() >= 0.25))
+			Continue = RoomBack !== EntryRoom.Background;
+			for (let R = 0; Continue && R < PandoraRoom.length; R++)
+				if (
+					PandoraRoom[R].Background == RoomBack &&
+					Math.random() >= 0.25
+				)
 					Continue = false;
 		}
 
@@ -490,7 +906,10 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
 
 		// Creates sub-rooms if it's not a dead end room, generate the search and rest icon if needed
 		if (RoomBack.indexOf("Cell") == 0) {
-			if ((InfiltrationMission == "Retrieve") || (InfiltrationMission == "Steal")) {
+			if (
+				InfiltrationMission == "Retrieve" ||
+				InfiltrationMission == "Steal"
+			) {
 				let SearchRoom = { Floor: "Search" };
 				Room.Path.push(SearchRoom);
 				Room.Direction.push("Search");
@@ -499,10 +918,14 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
 			let RestRoom = { Floor: "Rest" };
 			Room.Path.push(RestRoom);
 			Room.Direction.push("Rest");
-		} else PandoraGenerateRoom(Room, PandoraDirectionListFrom[PathNum], RoomLevel + 1, MaxRoom);
-
+		} else
+			PandoraGenerateRoom(
+				Room,
+				PandoraDirectionListFrom[PathNum],
+				RoomLevel + 1,
+				MaxRoom
+			);
 	}
-
 }
 
 /**
@@ -513,8 +936,13 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
  * @param {string} DirectionTo - The opposite direction
  * @returns {void} - Nothing
  */
-function PandoraGenerateFloor(FloorName, EntryRoom, DirectionFrom, DirectionTo, MaxRoom) {
-
+function PandoraGenerateFloor(
+	FloorName,
+	EntryRoom,
+	DirectionFrom,
+	DirectionTo,
+	MaxRoom
+) {
 	// Always create the same entrance room
 	let Room = {};
 	Room.Character = [];
@@ -532,7 +960,6 @@ function PandoraGenerateFloor(FloorName, EntryRoom, DirectionFrom, DirectionTo, 
 
 	// Starts the room generation
 	PandoraGenerateRoom(Room, DirectionFrom, 1, MaxRoom);
-
 }
 
 /**
@@ -540,14 +967,15 @@ function PandoraGenerateFloor(FloorName, EntryRoom, DirectionFrom, DirectionTo, 
  * @returns {void} - Nothing
  */
 function PandoraBuildMainHall() {
-
 	// Creates the ground entrance room with a maid
 	PandoraParty = [];
 	let Room = {};
 	let Char = PandoraGenerateNPC("Entrance", "Maid", "RANDOM", false);
 	if (SkillGetLevel(Player, "Infiltration") >= 9) Char.Stage = "30";
-	else if (SkillGetLevel(Player, "Infiltration") >= 6) Char.Stage = "20";
-	else if (SkillGetLevel(Player, "Infiltration") >= 3) Char.Stage = "10";
+	else if (SkillGetLevel(Player, "Infiltration") >= 6)
+		Char.Stage = "20";
+	else if (SkillGetLevel(Player, "Infiltration") >= 3)
+		Char.Stage = "10";
 	Room.Character = [];
 	Room.Character.push(Char);
 	Room.Floor = "Ground";
@@ -559,20 +987,47 @@ function PandoraBuildMainHall() {
 	// Generates the floors and sets the starting room, there's a min-max number of rooms based on difficulty
 	let MinRoom = 25;
 	let MaxRoom = 39;
-	if (InfiltrationDifficulty == 1) { MinRoom = 35; MaxRoom = 59; }
-	if (InfiltrationDifficulty == 2) { MinRoom = 50; MaxRoom = 79; }
-	if (InfiltrationDifficulty == 3) { MinRoom = 70; MaxRoom = 109; }
-	if (InfiltrationDifficulty == 4) { MinRoom = 100; MaxRoom = 149; }
+	if (InfiltrationDifficulty == 1) {
+		MinRoom = 35;
+		MaxRoom = 59;
+	}
+	if (InfiltrationDifficulty == 2) {
+		MinRoom = 50;
+		MaxRoom = 79;
+	}
+	if (InfiltrationDifficulty == 3) {
+		MinRoom = 70;
+		MaxRoom = 109;
+	}
+	if (InfiltrationDifficulty == 4) {
+		MinRoom = 100;
+		MaxRoom = 149;
+	}
 	PandoraRoom = [];
-	while ((PandoraRoom.length < MinRoom) || (PandoraRoom.length > MaxRoom)) {
+	while (
+		PandoraRoom.length < MinRoom ||
+		PandoraRoom.length > MaxRoom
+	) {
 		PandoraRoom = [];
 		Room.Path = [];
 		Room.Path.push(ExitRoom);
 		Room.Direction = [];
 		Room.Direction.push("Exit");
 		PandoraRoom.push(Room);
-		PandoraGenerateFloor("Second", Room, "StairsDown", "StairsUp", MaxRoom);
-		PandoraGenerateFloor("Underground", Room, "StairsUp", "StairsDown", MaxRoom);
+		PandoraGenerateFloor(
+			"Second",
+			Room,
+			"StairsDown",
+			"StairsUp",
+			MaxRoom
+		);
+		PandoraGenerateFloor(
+			"Underground",
+			Room,
+			"StairsUp",
+			"StairsDown",
+			MaxRoom
+		);
 	}
 	PandoraCurrentRoom = Room;
 	PandoraPreviousRoom = null;
@@ -580,34 +1035,57 @@ function PandoraBuildMainHall() {
 
 	// Pick a random cell room for the final target, generates special NPCs if needed
 	while (PandoraTargetRoom == null) {
-		Room = PandoraRoom[Math.floor(Math.random() * PandoraRoom.length)];
+		Room =
+			PandoraRoom[Math.floor(Math.random() * PandoraRoom.length)];
 		if (Room.Background.indexOf("Cell") == 0) {
-			if ((InfiltrationMission == "Retrieve") || (InfiltrationMission == "Steal")) {
+			if (
+				InfiltrationMission == "Retrieve" ||
+				InfiltrationMission == "Steal"
+			) {
 				Room.ItemX = 50 + Math.floor(Math.random() * 1700);
 				Room.ItemY = 50 + Math.floor(Math.random() * 900);
 			}
 			if (InfiltrationMission == "Rescue") {
-				let Victim = PandoraGenerateNPC("Rescue", "Victim", InfiltrationTarget.Name, true);
-				if ((InfiltrationTarget.PrivateRoom != null) && InfiltrationTarget.PrivateRoom) {
-					Victim.Appearance = PrivateRansomCharacter.Appearance.slice(0);
+				let Victim = PandoraGenerateNPC(
+					"Rescue",
+					"Victim",
+					InfiltrationTarget.Name,
+					true
+				);
+				if (
+					InfiltrationTarget.PrivateRoom != null &&
+					InfiltrationTarget.PrivateRoom
+				) {
+					Victim.Appearance =
+						PrivateRansomCharacter.Appearance.slice(0);
 					CharacterRefresh(Victim);
 				} else {
-					if (Math.random() >= 0.333) CharacterRandomUnderwear(Victim);
+					if (Math.random() >= 0.333)
+						CharacterRandomUnderwear(Victim);
 					else if (Math.random() >= 0.5) CharacterNaked(Victim);
 					CharacterFullRandomRestrain(Victim, "LOT", true);
 				}
 				Room.Character.push(Victim);
-				let Guard = PandoraGenerateNPC("Rescue", "Guard", "RANDOM", false);
+				let Guard = PandoraGenerateNPC(
+					"Rescue",
+					"Guard",
+					"RANDOM",
+					false
+				);
 				Room.PathMap[0].Character.push(Guard);
 			}
 			if (InfiltrationMission == "Kidnap") {
-				let Target = PandoraGenerateNPC("Kidnap", "Target", InfiltrationTarget.Name, true);
+				let Target = PandoraGenerateNPC(
+					"Kidnap",
+					"Target",
+					InfiltrationTarget.Name,
+					true
+				);
 				Room.Character.push(Target);
 			}
 			PandoraTargetRoom = Room;
 		}
 	}
-
 }
 
 /**
@@ -665,9 +1143,16 @@ function PandoraCharacterLeave() {
  */
 function PandoraCharacterFight() {
 	PandoraFightCharacter = CurrentCharacter;
-	let Difficulty = (InfiltrationDifficulty * 2) + Math.floor(Math.random() * 3);
-	if (CurrentCharacter.AccountName.indexOf("RandomMistress") >= 0) Difficulty = InfiltrationDifficulty + 6;
-	KidnapStart(CurrentCharacter, PandoraBackground, Difficulty, "PandoraCharacterFightEnd()");
+	let Difficulty =
+		InfiltrationDifficulty * 2 + Math.floor(Math.random() * 3);
+	if (CurrentCharacter.AccountName.indexOf("RandomMistress") >= 0)
+		Difficulty = InfiltrationDifficulty + 6;
+	KidnapStart(
+		CurrentCharacter,
+		PandoraBackground,
+		Difficulty,
+		"PandoraCharacterFightEnd()"
+	);
 }
 
 /**
@@ -676,19 +1161,31 @@ function PandoraCharacterFight() {
  */
 function PandoraCharacterFightEnd() {
 	CharacterSetCurrent(PandoraFightCharacter);
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CurrentCharacter.KidnapMaxWillpower - CurrentCharacter.KidnapWillpower)));
+	SkillProgress(
+		"Willpower",
+		Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(CurrentCharacter.KidnapMaxWillpower -
+				CurrentCharacter.KidnapWillpower)
+	);
 	PandoraWillpower = Player.KidnapWillpower;
 	if (InfiltrationPerksActive("Recovery")) {
-		PandoraWillpower = PandoraWillpower + Math.round(PandoraMaxWillpower / 10);
-		if (PandoraWillpower > PandoraMaxWillpower) PandoraWillpower = PandoraMaxWillpower;
+		PandoraWillpower =
+			PandoraWillpower + Math.round(PandoraMaxWillpower / 10);
+		if (PandoraWillpower > PandoraMaxWillpower)
+			PandoraWillpower = PandoraMaxWillpower;
 	}
-	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
+	CurrentCharacter.Stage = KidnapVictory ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
 	if (KidnapVictory) CurrentCharacter.AllowMove = true;
-	if (KidnapVictory && (PandoraClothes != "Random")) PandoraDress(Player, PandoraClothes);
+	if (KidnapVictory && PandoraClothes != "Random")
+		PandoraDress(Player, PandoraClothes);
 	CommonSetScreen("Room", "Pandora");
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	CurrentCharacter.CurrentDialog = DialogFind(
+		CurrentCharacter,
+		KidnapVictory ? "FightVictory" : "FightDefeat"
+	);
 }
 
 /**
@@ -758,7 +1255,13 @@ function PandoraInfiltrationChange(Progress) {
  * Checks if the player can bring the NPC to her private room
  * @returns {boolean} - Returns true if the player can
  */
-function PandoraCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function PandoraCanJoinPrivateRoom() {
+	return (
+		LogQuery("RentRoom", "PrivateRoom") &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
 
 /**
  * When a random NPC joins the player private room, we add that character and exits the dialog
@@ -766,7 +1269,10 @@ function PandoraCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom
  */
 function PandoraCharacterJoinPrivateRoom() {
 	CurrentScreen = "Private";
-	PrivateAddCharacter(CurrentCharacter, (CurrentCharacter.Type === "Slave") ? "Submissive" : null);
+	PrivateAddCharacter(
+		CurrentCharacter,
+		CurrentCharacter.Type === "Slave" ? "Submissive" : null
+	);
 	let C = PrivateCharacter[PrivateCharacter.length - 1];
 	C.FromPandora = true;
 	ServerPrivateCharacterSync();
@@ -779,14 +1285,18 @@ function PandoraCharacterJoinPrivateRoom() {
  * @param {string} Type - The mission type
  * @returns {boolean} - Returns TRUE if it's the current mission
  */
-function PandoraMissionIs(Type) { return (InfiltrationMission === Type); }
+function PandoraMissionIs(Type) {
+	return InfiltrationMission === Type;
+}
 
 /**
  * Checks if the perk specified is currently selected
  * @param {string} Type - The perk type
  * @returns {boolean} - Returns TRUE if it's selected
  */
-function PandoraHasPerk(Type) { return InfiltrationPerksActive(Type); }
+function PandoraHasPerk(Type) {
+	return InfiltrationPerksActive(Type);
+}
 
 /**
  * Prepares an information text based on the bribe amount provided
@@ -797,14 +1307,25 @@ function PandoraHasPerk(Type) { return InfiltrationPerksActive(Type); }
 function PandoraBribeInfo(Amount, Type) {
 	let Money = parseInt(Amount);
 	CharacterChangeMoney(Player, Money * -1);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "BribeInfo" + InfiltrationMission + Type);
-	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("LevelName", TextGet("LevelName" + PandoraTargetRoom.Floor));
+	CurrentCharacter.CurrentDialog = DialogFind(
+		CurrentCharacter,
+		"BribeInfo" + InfiltrationMission + Type
+	);
+	CurrentCharacter.CurrentDialog =
+		CurrentCharacter.CurrentDialog.replace(
+			"LevelName",
+			TextGet("LevelName" + PandoraTargetRoom.Floor)
+		);
 	let Room = PandoraTargetRoom;
 	while (Room.PathMap[0].Background.indexOf("Entrance") != 0)
 		Room = Room.PathMap[0];
 	let Dir = Room.DirectionMap[0];
 	Dir = PandoraDirectionListFrom[PandoraDirectionList.indexOf(Dir)];
-	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("FirstDirection", TextGet("FirstDirection" + Dir));
+	CurrentCharacter.CurrentDialog =
+		CurrentCharacter.CurrentDialog.replace(
+			"FirstDirection",
+			TextGet("FirstDirection" + Dir)
+		);
 }
 
 /**
@@ -813,7 +1334,8 @@ function PandoraBribeInfo(Amount, Type) {
  */
 function PandoraRecruitBoost() {
 	if (CurrentCharacter.RecruitOdds >= 0.75)
-		CurrentCharacter.RecruitOdds = CurrentCharacter.RecruitOdds - 0.05;
+		CurrentCharacter.RecruitOdds =
+			CurrentCharacter.RecruitOdds - 0.05;
 }
 
 /**
@@ -822,16 +1344,30 @@ function PandoraRecruitBoost() {
  */
 function PandoraPunishmentIntro(FromKidnapper) {
 	let IntroText;
-	if (SkillGetLevel(Player, "Infiltration") >= 8) IntroText = DialogFind(CurrentCharacter, "Punishment8");
-	else if (SkillGetLevel(Player, "Infiltration") >= 5) IntroText = DialogFind(CurrentCharacter, "Punishment5");
-	else if (SkillGetLevel(Player, "Infiltration") >= 2) IntroText = DialogFind(CurrentCharacter, "Punishment2");
+	if (SkillGetLevel(Player, "Infiltration") >= 8)
+		IntroText = DialogFind(CurrentCharacter, "Punishment8");
+	else if (SkillGetLevel(Player, "Infiltration") >= 5)
+		IntroText = DialogFind(CurrentCharacter, "Punishment5");
+	else if (SkillGetLevel(Player, "Infiltration") >= 2)
+		IntroText = DialogFind(CurrentCharacter, "Punishment2");
 	else IntroText = DialogFind(CurrentCharacter, "Punishment0");
-	PandoraBackground = "Pandora/Underground/Cell" + Math.floor(Math.random() * 7).toString();
-	let Dominatrix = PandoraGenerateNPC("Punishment", "Mistress", "RANDOM", false);
-	if (SkillGetLevel(Player, "Infiltration") >= 2) Dominatrix.Stage = "20";
-	if (SkillGetLevel(Player, "Infiltration") >= 5) Dominatrix.Stage = "50";
-	if (SkillGetLevel(Player, "Infiltration") >= 8) Dominatrix.Stage = "80";
-	if ((FromKidnapper != null) && FromKidnapper) Dominatrix.Stage = "200";
+	PandoraBackground =
+		"Pandora/Underground/Cell" +
+		Math.floor(Math.random() * 7).toString();
+	let Dominatrix = PandoraGenerateNPC(
+		"Punishment",
+		"Mistress",
+		"RANDOM",
+		false
+	);
+	if (SkillGetLevel(Player, "Infiltration") >= 2)
+		Dominatrix.Stage = "20";
+	if (SkillGetLevel(Player, "Infiltration") >= 5)
+		Dominatrix.Stage = "50";
+	if (SkillGetLevel(Player, "Infiltration") >= 8)
+		Dominatrix.Stage = "80";
+	if (FromKidnapper != null && FromKidnapper)
+		Dominatrix.Stage = "200";
 	CharacterSetCurrent(Dominatrix);
 	CurrentCharacter.CurrentDialog = IntroText;
 	InfiltrationTarget.Fail = true;
@@ -853,10 +1389,13 @@ function PandoraRestrainPlayer() {
 function PandoraBuyMaidDrink(Money) {
 	Money = parseInt(Money);
 	CharacterChangeMoney(Player, Money * -1);
-	if (CurrentCharacter.DrinkValue == null) CurrentCharacter.DrinkValue = 0;
+	if (CurrentCharacter.DrinkValue == null)
+		CurrentCharacter.DrinkValue = 0;
 	if (Money > CurrentCharacter.DrinkValue) {
-		PandoraWillpower = PandoraWillpower + Money - CurrentCharacter.DrinkValue;
-		if (PandoraWillpower > PandoraMaxWillpower) PandoraWillpower = PandoraMaxWillpower;
+		PandoraWillpower =
+			PandoraWillpower + Money - CurrentCharacter.DrinkValue;
+		if (PandoraWillpower > PandoraMaxWillpower)
+			PandoraWillpower = PandoraMaxWillpower;
 		CurrentCharacter.DrinkValue = Money;
 	}
 }
@@ -866,7 +1405,8 @@ function PandoraBuyMaidDrink(Money) {
  * @returns {void} - Nothing
  */
 function PandoraCharacterGenerateRandomOdds() {
-	CurrentCharacter.RandomOdds = Math.random() + 0.2 - (InfiltrationDifficulty * 0.1);
+	CurrentCharacter.RandomOdds =
+		Math.random() + 0.2 - InfiltrationDifficulty * 0.1;
 }
 
 /**
@@ -884,11 +1424,14 @@ function PandoraQuizStart() {
  * @returns {void} - Nothing
  */
 function PandoraQuizNext() {
-	let Question = Math.floor(Math.random() * 11); 
+	let Question = Math.floor(Math.random() * 11);
 	while (CurrentCharacter.QuizLog.indexOf(Question) >= 0)
-		Question = Math.floor(Math.random() * 11); 
+		Question = Math.floor(Math.random() * 11);
 	CurrentCharacter.QuizLog.push(Question);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "QuizQuestion" + Question.toString());
+	CurrentCharacter.CurrentDialog = DialogFind(
+		CurrentCharacter,
+		"QuizQuestion" + Question.toString()
+	);
 }
 
 /**
@@ -899,12 +1442,26 @@ function PandoraQuizAnswer(Answer) {
 	if (Answer != "1") {
 		CurrentCharacter.QuizFail++;
 		CharacterSetFacialExpression(CurrentCharacter, "Blush", "Low", 3);
-		CharacterSetFacialExpression(CurrentCharacter, "Eyes", "Angry", 3);
-		CharacterSetFacialExpression(CurrentCharacter, "Eyes2", "Angry", 3);
+		CharacterSetFacialExpression(
+			CurrentCharacter,
+			"Eyes",
+			"Angry",
+			3
+		);
+		CharacterSetFacialExpression(
+			CurrentCharacter,
+			"Eyes2",
+			"Angry",
+			3
+		);
 	}
 	if (CurrentCharacter.QuizLog.length >= 5) {
-		CurrentCharacter.Stage = (CurrentCharacter.QuizFail >= 2) ? "Arrest" : "30";
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (CurrentCharacter.QuizFail >= 2) ? "QuizFail" : "QuizSuccess");
+		CurrentCharacter.Stage =
+			CurrentCharacter.QuizFail >= 2 ? "Arrest" : "30";
+		CurrentCharacter.CurrentDialog = DialogFind(
+			CurrentCharacter,
+			CurrentCharacter.QuizFail >= 2 ? "QuizFail" : "QuizSuccess"
+		);
 	} else PandoraQuizNext();
 }
 
@@ -912,13 +1469,13 @@ function PandoraQuizAnswer(Answer) {
  * When the player gets ungagged by an NPC, we remove everything on the head
  * @returns {void} - Nothing
  */
-function PandoraPlayerUngag() { 
+function PandoraPlayerUngag() {
 	InventoryRemove(Player, "ItemHead");
 	InventoryRemove(Player, "ItemHood");
 	InventoryRemove(Player, "ItemNose");
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemMouth2");
-	InventoryRemove(Player, "ItemMouth3");	
+	InventoryRemove(Player, "ItemMouth3");
 }
 
 /**
@@ -938,7 +1495,8 @@ function PandoraPunishmentSentence(Minutes) {
  */
 function PandoraPunishmentStart() {
 	PandoraWillpower = 0;
-	Player.Infiltration.Punishment.Timer = CurrentTime + (Player.Infiltration.Punishment.Minutes * 60000);
+	Player.Infiltration.Punishment.Timer =
+		CurrentTime + Player.Infiltration.Punishment.Minutes * 60000;
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
 	CommonSetScreen("Room", "PandoraPrison");

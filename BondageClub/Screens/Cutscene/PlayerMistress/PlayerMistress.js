@@ -17,8 +17,16 @@ function PlayerMistressLoad() {
 	PlayerMistressMaidRight = CharacterLoadNPC("NPC_MaidRight");
 	CharacterFullRandomRestrain(PlayerMistressMaidLeft, "LOT");
 	CharacterFullRandomRestrain(PlayerMistressMaidRight, "LOT");
-	InventoryWear(PlayerMistressMaidLeft, "WoodenMaidTrayFull", "ItemMisc");
-	InventoryWear(PlayerMistressMaidRight, "WoodenMaidTrayFull", "ItemMisc");
+	InventoryWear(
+		PlayerMistressMaidLeft,
+		"WoodenMaidTrayFull",
+		"ItemMisc"
+	);
+	InventoryWear(
+		PlayerMistressMaidRight,
+		"WoodenMaidTrayFull",
+		"ItemMisc"
+	);
 }
 
 /**
@@ -29,9 +37,17 @@ function PlayerMistressRun() {
 	DrawCharacter(Player, 750, 0, 1);
 	DrawCharacter(PlayerMistressMistressLeft, 250, 0, 1);
 	DrawCharacter(PlayerMistressMistressRight, 1250, 0, 1);
-	if (CutsceneStage > 2) DrawCharacter(PlayerMistressMaidLeft, -200, 100, 1);
-	if (CutsceneStage > 2) DrawCharacter(PlayerMistressMaidRight, 1700, 100, 1);
-	DrawText(TextGet("PlayerMistress" + CutsceneStage.toString()), 1000, 980, "White", "Black");
+	if (CutsceneStage > 2)
+		DrawCharacter(PlayerMistressMaidLeft, -200, 100, 1);
+	if (CutsceneStage > 2)
+		DrawCharacter(PlayerMistressMaidRight, 1700, 100, 1);
+	DrawText(
+		TextGet("PlayerMistress" + CutsceneStage.toString()),
+		1000,
+		980,
+		"White",
+		"Black"
+	);
 }
 
 /**

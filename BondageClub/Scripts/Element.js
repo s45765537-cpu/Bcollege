@@ -10,8 +10,7 @@ function ElementValue(ID, Value) {
 	if (document.getElementById(ID) != null)
 		if (Value == null)
 			return document.getElementById(ID).value.trim();
-		else
-			document.getElementById(ID).value = Value;
+		else document.getElementById(ID).value = Value;
 }
 
 // Returns the current HTML content of an element
@@ -24,10 +23,8 @@ function ElementValue(ID, Value) {
  */
 function ElementContent(ID, Content) {
 	if (document.getElementById(ID) != null)
-		if (Content == null)
-			return document.getElementById(ID).innerHTML;
-		else
-			document.getElementById(ID).innerHTML = Content;
+		if (Content == null) return document.getElementById(ID).innerHTML;
+		else document.getElementById(ID).innerHTML = Content;
 }
 
 /**
@@ -64,7 +61,10 @@ function ElementCreateInput(ID, Type, Value, MaxLength) {
 		Input.setAttribute("value", Value);
 		Input.setAttribute("screen-generated", CurrentScreen);
 		Input.setAttribute("maxlength", MaxLength);
-		Input.setAttribute("onfocus", "this.removeAttribute('readonly');");
+		Input.setAttribute(
+			"onfocus",
+			"this.removeAttribute('readonly');"
+		);
 		Input.addEventListener("keydown", KeyDown);
 		Input.className = "HideOnPopup";
 		document.body.appendChild(Input);
@@ -85,7 +85,15 @@ function ElementCreateInput(ID, Type, Value, MaxLength) {
  * @param {boolean} [vertical] - Whether this range input is a vertical slider (defaults to false)
  * @returns {HTMLInputElement} - The created HTML input element
  */
-function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical) {
+function ElementCreateRangeInput(
+	id,
+	value,
+	min,
+	max,
+	step,
+	thumbIcon,
+	vertical
+) {
 	if (document.getElementById(id) == null) {
 		const input = document.createElement("input");
 		input.setAttribute("id", id);
@@ -97,7 +105,10 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 		input.setAttribute("step", step);
 		input.value = value;
 		if (thumbIcon) input.setAttribute("data-thumb", thumbIcon);
-		input.setAttribute("onfocus", "this.removeAttribute('readonly');");
+		input.setAttribute(
+			"onfocus",
+			"this.removeAttribute('readonly');"
+		);
 		input.addEventListener("keydown", KeyDown);
 		input.classList.add("HideOnPopup");
 		if (vertical) input.classList.add("Vertical");
@@ -153,13 +164,18 @@ function ElementCreateDropdown(ID, Options, ClickEventListener) {
 			InnerDiv.innerHTML = Options[i];
 			InnerDiv.addEventListener("click", function () {
 				// when an item is clicked, update the original select box, and the selected item:
-				var s = this.parentNode.parentNode.getElementsByTagName("select")[0]; // Representation of the select tag
+				var s =
+					this.parentNode.parentNode.getElementsByTagName(
+						"select"
+					)[0]; // Representation of the select tag
 				var h = this.parentNode.previousSibling; // Representation of the dropdown box
 				for (let j = 0; j < s.length; j++) {
 					if (s.options[j].innerHTML == this.innerHTML) {
 						s.selectedIndex = j; // Fake the selection of an option
 						h.innerHTML = this.innerHTML; // Update the drop down box
-						var y = this.parentNode.getElementsByClassName("same-as-selected");
+						var y = this.parentNode.getElementsByClassName(
+							"same-as-selected"
+						);
 						for (let k = 0; k < y.length; k++) {
 							y[k].removeAttribute("class");
 						}
@@ -184,7 +200,8 @@ function ElementCreateDropdown(ID, Options, ClickEventListener) {
 			this.nextSibling.classList.toggle("select-hide");
 		});
 		// add an event listener to the <select> tag
-		if (ClickEventListener != null) Select.addEventListener("change", ClickEventListener);
+		if (ClickEventListener != null)
+			Select.addEventListener("change", ClickEventListener);
 		// Add alle the items to the enclosing <di>
 		CustomSelect.appendChild(Select);
 		CustomSelect.appendChild(SelectedItem);
@@ -237,7 +254,9 @@ function ElementCreateDiv(ID) {
  */
 function ElementRemove(ID) {
 	if (document.getElementById(ID) != null)
-		document.getElementById(ID).parentNode.removeChild(document.getElementById(ID));
+		document
+			.getElementById(ID)
+			.parentNode.removeChild(document.getElementById(ID));
 }
 
 /**
@@ -253,12 +272,20 @@ function ElementPosition(ElementID, X, Y, W, H) {
 	var E = document.getElementById(ElementID);
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementID + "'");
+		console.warn(
+			"A call to ElementPosition was made on non-existent element with ID '" +
+				ElementID +
+				"'"
+		);
 		return;
 	}
 
 	// For a vertical slider, swap the width and the height (the transformation is handled by CSS)
-	if (E.tagName.toLowerCase() === "input" && E.getAttribute("type") === "range" && E.classList.contains("Vertical")) {
+	if (
+		E.tagName.toLowerCase() === "input" &&
+		E.getAttribute("type") === "range" &&
+		E.classList.contains("Vertical")
+	) {
 		var tmp = W;
 		W = H;
 		H = tmp;
@@ -267,7 +294,11 @@ function ElementPosition(ElementID, X, Y, W, H) {
 	// Different positions based on the width/height ratio
 	const HRatio = MainCanvas.canvas.clientHeight / 1000;
 	const WRatio = MainCanvas.canvas.clientWidth / 2000;
-	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
+	const Font =
+		MainCanvas.canvas.clientWidth <=
+		MainCanvas.canvas.clientHeight * 2
+			? MainCanvas.canvas.clientWidth / 50
+			: MainCanvas.canvas.clientHeight / 25;
 	const Height = H ? H * HRatio : Font * 1.15;
 	const Width = W * WRatio - 18;
 	const Top = MainCanvas.canvas.offsetTop + Y * HRatio - Height / 2;
@@ -282,7 +313,7 @@ function ElementPosition(ElementID, X, Y, W, H) {
 		top: Top + "px",
 		width: Width + "px",
 		height: Height + "px",
-		display: "inline"
+		display: "inline",
 	});
 }
 
@@ -299,7 +330,11 @@ function ElementPositionFix(ElementID, Font, X, Y, W, H) {
 	var E = document.getElementById(ElementID);
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		console.warn(
+			"A call to ElementPositionFix was made on non-existent element with ID '" +
+				ElementID +
+				"'"
+		);
 		return;
 	}
 
@@ -321,9 +356,8 @@ function ElementPositionFix(ElementID, Font, X, Y, W, H) {
 		top: Top + "px",
 		width: Width + "px",
 		height: Height + "px",
-		display: "inline"
+		display: "inline",
 	});
-
 }
 
 /**
@@ -336,7 +370,10 @@ function ElementPositionFix(ElementID, Font, X, Y, W, H) {
 function ElementSetDataAttribute(ID, Name, Value) {
 	var element = document.getElementById(ID);
 	if (element != null) {
-		element.setAttribute(("data-" + Name).toLowerCase(), Value.toString().toLowerCase());
+		element.setAttribute(
+			("data-" + Name).toLowerCase(),
+			Value.toString().toLowerCase()
+		);
 	}
 }
 
@@ -358,7 +395,11 @@ function ElementScrollToEnd(ID) {
  */
 function ElementGetScrollPercentage(ID) {
 	var element = document.getElementById(ID);
-	if (element != null) return (element.scrollTop + element.clientHeight) / element.scrollHeight;
+	if (element != null)
+		return (
+			(element.scrollTop + element.clientHeight) /
+			element.scrollHeight
+		);
 
 	return null;
 }
@@ -370,7 +411,11 @@ function ElementGetScrollPercentage(ID) {
  */
 function ElementIsScrolledToEnd(ID) {
 	var element = document.getElementById(ID);
-	return element != null && element.scrollHeight - element.scrollTop - element.clientHeight < 1;
+	return (
+		element != null &&
+		element.scrollHeight - element.scrollTop - element.clientHeight <
+			1
+	);
 }
 
 /**
@@ -379,7 +424,7 @@ function ElementIsScrolledToEnd(ID) {
  * @returns {void} - Nothing
  */
 function ElementFocus(ID) {
-	if ((document.getElementById(ID) != null) && !CommonIsMobile)
+	if (document.getElementById(ID) != null && !CommonIsMobile)
 		document.getElementById(ID).focus();
 }
 
@@ -389,6 +434,11 @@ function ElementFocus(ID) {
  * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
  */
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
-	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
-	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
+	const generatedElements = Array.from(
+		document.querySelectorAll(`[screen-generated="${Screen}"]`)
+	);
+	generatedElements.forEach(
+		(/** @type {HTMLElement} */ element) =>
+			(element.style.display = ShouldDisplay ? "" : "none")
+	);
 }

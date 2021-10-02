@@ -1,7 +1,9 @@
 "use strict";
 const InventoryItemDevicesPetBowlMaxLength = 12;
-const InventoryItemDevicesPetBowlInputId = "InventoryItemDevicesPetBowlText";
-const InventoryItemDevicesPetBowlFont = "'Saira Stencil One', 'Arial', sans-serif";
+const InventoryItemDevicesPetBowlInputId =
+	"InventoryItemDevicesPetBowlText";
+const InventoryItemDevicesPetBowlFont =
+	"'Saira Stencil One', 'Arial', sans-serif";
 
 /**
  * Loads the extended item properties
@@ -14,7 +16,8 @@ function InventoryItemDevicesPetBowlLoad() {
 	const C = CharacterGetCurrent();
 	let MustRefresh = false;
 
-	const Property = (DialogFocusItem.Property = DialogFocusItem.Property || {});
+	const Property = (DialogFocusItem.Property =
+		DialogFocusItem.Property || {});
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
 		MustRefresh = true;
@@ -25,7 +28,12 @@ function InventoryItemDevicesPetBowlLoad() {
 		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 	}
 
-	const input = ElementCreateInput(InventoryItemDevicesPetBowlInputId, "text", Property.Text, InventoryItemDevicesPetBowlMaxLength);
+	const input = ElementCreateInput(
+		InventoryItemDevicesPetBowlInputId,
+		"text",
+		Property.Text,
+		InventoryItemDevicesPetBowlMaxLength
+	);
 	if (input) input.pattern = DynamicDrawTextInputPattern;
 }
 
@@ -37,10 +45,27 @@ function InventoryItemDevicesPetBowlDraw() {
 	// Draw the header and item
 	DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
 
-	const updateAllowed = DynamicDrawTextRegex.test(InventoryItemDevicesPetBowlGetText());
-	DrawTextFit(DialogFindPlayer("PetBowlLabel"), 1505, 620, 350, "#fff", "#000");
+	const updateAllowed = DynamicDrawTextRegex.test(
+		InventoryItemDevicesPetBowlGetText()
+	);
+	DrawTextFit(
+		DialogFindPlayer("PetBowlLabel"),
+		1505,
+		620,
+		350,
+		"#fff",
+		"#000"
+	);
 	ElementPosition(InventoryItemDevicesPetBowlInputId, 1505, 680, 350);
-	DrawButton(1330, 731, 340, 64, DialogFindPlayer("SaveText"), updateAllowed ? "White" : "#888", "");
+	DrawButton(
+		1330,
+		731,
+		340,
+		64,
+		DialogFindPlayer("SaveText"),
+		updateAllowed ? "White" : "#888",
+		""
+	);
 }
 
 /**
@@ -54,7 +79,10 @@ function InventoryItemDevicesPetBowlClick() {
 	}
 
 	const text = InventoryItemDevicesPetBowlGetText();
-	if (MouseIn(1330, 731, 340, 64) && DynamicDrawTextRegex.test(text)) {
+	if (
+		MouseIn(1330, 731, 340, 64) &&
+		DynamicDrawTextRegex.test(text)
+	) {
 		DialogFocusItem.Property.Text = text;
 		InventoryItemDevicesPetBowlChange(text);
 	}
@@ -78,9 +106,17 @@ function InventoryItemDevicesPetBowlChange(text) {
 	CharacterRefresh(C);
 	if (CurrentScreen == "ChatRoom") {
 		var Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
-			{ Tag: "NewText", Text: text }
+			{
+				Tag: "SourceCharacter",
+				Text: Player.Name,
+				MemberNumber: Player.MemberNumber,
+			},
+			{
+				Tag: "DestinationCharacter",
+				Text: C.Name,
+				MemberNumber: C.MemberNumber,
+			},
+			{ Tag: "NewText", Text: text },
 		];
 		ChatRoomPublishCustomAction("PetBowlChange", true, Dictionary);
 		InventoryItemDevicesPetBowlExit();
@@ -92,7 +128,10 @@ function InventoryItemDevicesPetBowlChange(text) {
  * @returns {string} - The text in the canvas hood's input element
  */
 function InventoryItemDevicesPetBowlGetText() {
-	return ElementValue(InventoryItemDevicesPetBowlInputId).substring(0, InventoryItemDevicesPetBowlMaxLength);
+	return ElementValue(InventoryItemDevicesPetBowlInputId).substring(
+		0,
+		InventoryItemDevicesPetBowlMaxLength
+	);
 }
 
 /**
@@ -108,17 +147,38 @@ function AssetsItemDevicesPetBowlBeforeDraw({ C, Y }) {
  * curvature of the bowl.
  * @returns {void} - Nothing
  */
-function AssetsItemDevicesPetBowlAfterDraw({ C, A, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color }) {
+function AssetsItemDevicesPetBowlAfterDraw({
+	C,
+	A,
+	X,
+	Y,
+	L,
+	Property,
+	drawCanvas,
+	drawCanvasBlink,
+	AlphaMasks,
+	Color,
+}) {
 	if (L === "_Text") {
 		// Fetch the text property and assert that it matches the character
 		// and length requirements
-		let text = Property && typeof Property.Text === "string" && DynamicDrawTextRegex.test(Property.Text) ? Property.Text : "";
+		let text =
+			Property &&
+			typeof Property.Text === "string" &&
+			DynamicDrawTextRegex.test(Property.Text)
+				? Property.Text
+				: "";
 		text = text.substring(0, InventoryItemDevicesPetBowlMaxLength);
 
 		// Prepare a temporary canvas to draw the text to
 		const height = 60;
 		const width = 130;
-		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
+		const tempCanvas = AnimationGenerateTempCanvas(
+			C,
+			A,
+			width,
+			height
+		);
 		const ctx = tempCanvas.getContext("2d");
 
 		DynamicDrawTextArc(text, ctx, width / 2, 42, {

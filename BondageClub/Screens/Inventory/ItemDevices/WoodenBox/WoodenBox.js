@@ -1,8 +1,11 @@
 "use strict";
 const InventoryItemDevicesWoodenBoxMaxLength = 20;
-const InventoryItemDevicesWoodenBoxTextInputId = "InventoryItemDevicesWoodenBoxText";
-const InventoryItemDevicesWoodenBoxOpacityInputId = "InventoryItemDevicesWoodenBoxOpacity";
-const InventoryItemDevicesWoodenBoxFont = "'Saira Stencil One', 'Arial', sans-serif";
+const InventoryItemDevicesWoodenBoxTextInputId =
+	"InventoryItemDevicesWoodenBoxText";
+const InventoryItemDevicesWoodenBoxOpacityInputId =
+	"InventoryItemDevicesWoodenBoxOpacity";
+const InventoryItemDevicesWoodenBoxFont =
+	"'Saira Stencil One', 'Arial', sans-serif";
 
 let InventoryItemDevicesWoodenBoxOriginalText = null;
 
@@ -32,18 +35,26 @@ function InventoryItemDevicesWoodenBoxLoad() {
 	const item = DialogFocusItem;
 	let mustRefresh = false;
 
-	const Property = item.Property = item.Property || {};
+	const Property = (item.Property = item.Property || {});
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
 		mustRefresh = true;
 	}
 	if (typeof Property.Opacity !== "number") {
 		Property.Opacity = 0;
-		InventoryItemDevicesWoodenBoxSetOpacity(Property, Property.Opacity);
+		InventoryItemDevicesWoodenBoxSetOpacity(
+			Property,
+			Property.Opacity
+		);
 		mustRefresh = true;
 	}
-	if (!InventoryItemDevicesWoodenBoxOptions.find(option => option.Property.Type === Property.Type)) {
-		Property.Type = InventoryItemDevicesWoodenBoxOptions[0].Property.Type;
+	if (
+		!InventoryItemDevicesWoodenBoxOptions.find(
+			(option) => option.Property.Type === Property.Type
+		)
+	) {
+		Property.Type =
+			InventoryItemDevicesWoodenBoxOptions[0].Property.Type;
 		mustRefresh = true;
 	}
 
@@ -57,15 +68,34 @@ function InventoryItemDevicesWoodenBoxLoad() {
 	}
 
 	const textInput = ElementCreateInput(
-		InventoryItemDevicesWoodenBoxTextInputId, "text", Property.Text, InventoryItemDevicesWoodenBoxMaxLength);
+		InventoryItemDevicesWoodenBoxTextInputId,
+		"text",
+		Property.Text,
+		InventoryItemDevicesWoodenBoxMaxLength
+	);
 	if (textInput) {
 		textInput.pattern = DynamicDrawTextInputPattern;
-		textInput.addEventListener("input", (e) => InventoryItemDevicesWoodenBoxTextChange(C, item, e.target.value));
+		textInput.addEventListener("input", (e) =>
+			InventoryItemDevicesWoodenBoxTextChange(C, item, e.target.value)
+		);
 	}
 
-	const opacitySlider = ElementCreateRangeInput(InventoryItemDevicesWoodenBoxOpacityInputId, Property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity, 0.01, "blindfold");
+	const opacitySlider = ElementCreateRangeInput(
+		InventoryItemDevicesWoodenBoxOpacityInputId,
+		Property.Opacity,
+		item.Asset.MinOpacity,
+		item.Asset.MaxOpacity,
+		0.01,
+		"blindfold"
+	);
 	if (opacitySlider) {
-		opacitySlider.addEventListener("input", (e) => InventoryItemDevicesWoodenBoxOpacityChange(C, item, e.target.value));
+		opacitySlider.addEventListener("input", (e) =>
+			InventoryItemDevicesWoodenBoxOpacityChange(
+				C,
+				item,
+				e.target.value
+			)
+		);
 	}
 }
 
@@ -80,23 +110,62 @@ function InventoryItemDevicesWoodenBoxDraw() {
 	DrawAssetPreview(1387, 125, asset);
 
 	MainCanvas.textAlign = "right";
-	DrawTextFit(DialogFindPlayer("WoodenBoxOpacityLabel"), 1475, 500, 400, "#fff", "#000");
-	ElementPosition(InventoryItemDevicesWoodenBoxOpacityInputId, 1725, 500, 400);
+	DrawTextFit(
+		DialogFindPlayer("WoodenBoxOpacityLabel"),
+		1475,
+		500,
+		400,
+		"#fff",
+		"#000"
+	);
+	ElementPosition(
+		InventoryItemDevicesWoodenBoxOpacityInputId,
+		1725,
+		500,
+		400
+	);
 
-	DrawTextFit(DialogFindPlayer("WoodenBoxTextLabel"), 1475, 580, 400, "#fff", "#000");
-	ElementPosition(InventoryItemDevicesWoodenBoxTextInputId, 1725, 580, 400);
+	DrawTextFit(
+		DialogFindPlayer("WoodenBoxTextLabel"),
+		1475,
+		580,
+		400,
+		"#fff",
+		"#000"
+	);
+	ElementPosition(
+		InventoryItemDevicesWoodenBoxTextInputId,
+		1725,
+		580,
+		400
+	);
 	MainCanvas.textAlign = "center";
 
-	DrawTextFit(DialogFindPlayer("WoodenBoxTypeLabel"), 1500, 660, 800, "#fff", "#000");
+	DrawTextFit(
+		DialogFindPlayer("WoodenBoxTypeLabel"),
+		1500,
+		660,
+		800,
+		"#fff",
+		"#000"
+	);
 
 	InventoryItemDevicesWoodenBoxOptions.forEach((option, i) => {
-		const x = ExtendedXY[InventoryItemDevicesWoodenBoxOptions.length][i][0];
-		const isSelected = DialogFocusItem.Property.Type === option.Property.Type;
-		DrawPreviewBox(x, 700, `${AssetGetInventoryPath(asset)}/${option.Name}.png`, "", {
-			Border: true,
-			Hover: true,
-			Disabled: isSelected,
-		});
+		const x =
+			ExtendedXY[InventoryItemDevicesWoodenBoxOptions.length][i][0];
+		const isSelected =
+			DialogFocusItem.Property.Type === option.Property.Type;
+		DrawPreviewBox(
+			x,
+			700,
+			`${AssetGetInventoryPath(asset)}/${option.Name}.png`,
+			"",
+			{
+				Border: true,
+				Hover: true,
+				Disabled: isSelected,
+			}
+		);
 	});
 }
 
@@ -111,7 +180,8 @@ function InventoryItemDevicesWoodenBoxClick() {
 	}
 
 	InventoryItemDevicesWoodenBoxOptions.some((option, i) => {
-		const x = ExtendedXY[InventoryItemDevicesWoodenBoxOptions.length][i][0];
+		const x =
+			ExtendedXY[InventoryItemDevicesWoodenBoxOptions.length][i][0];
 		if (MouseIn(x, 700, 225, 275)) {
 			DialogFocusItem.Property.Type = option.Property.Type;
 			CharacterRefresh(CharacterGetCurrent(), false);
@@ -127,19 +197,37 @@ function InventoryItemDevicesWoodenBoxExit() {
 	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
 
-	let setOpacity = window[`Inventory${item.Asset.Group.Name}${item.Asset.Name}SetOpacity`] || InventoryItemDevicesWoodenBoxSetOpacity;
-	setOpacity(item.Property, InventoryItemDevicesWoodenBoxGetInputOpacity());
+	let setOpacity =
+		window[
+			`Inventory${item.Asset.Group.Name}${item.Asset.Name}SetOpacity`
+		] || InventoryItemDevicesWoodenBoxSetOpacity;
+	setOpacity(
+		item.Property,
+		InventoryItemDevicesWoodenBoxGetInputOpacity()
+	);
 	const text = InventoryItemDevicesWoodenBoxGetText();
 	if (DynamicDrawTextRegex.test(text)) item.Property.Text = text;
 
-	if (CurrentScreen === "ChatRoom" && text !== InventoryItemDevicesWoodenBoxOriginalText) {
+	if (
+		CurrentScreen === "ChatRoom" &&
+		text !== InventoryItemDevicesWoodenBoxOriginalText
+	) {
 		const dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+			{
+				Tag: "SourceCharacter",
+				Text: Player.Name,
+				MemberNumber: Player.MemberNumber,
+			},
+			{
+				Tag: "DestinationCharacterName",
+				Text: C.Name,
+				MemberNumber: C.MemberNumber,
+			},
 			{ Tag: "NewText", Text: text },
 			{ Tag: "AssetName", AssetName: item.Asset.Name },
 		];
-		const msg = text === "" ? "WoodenBoxTextRemove" : "WoodenBoxTextChange";
+		const msg =
+			text === "" ? "WoodenBoxTextRemove" : "WoodenBoxTextChange";
 		ChatRoomPublishCustomAction(msg, false, dictionary);
 	}
 
@@ -151,7 +239,8 @@ function InventoryItemDevicesWoodenBoxExit() {
 	InventoryItemDevicesWoodenBoxOriginalText = null;
 	PreferenceMessage = "";
 	DialogFocusItem = null;
-	if (DialogInventory != null) DialogMenuButtonBuild(CharacterGetCurrent());
+	if (DialogInventory != null)
+		DialogMenuButtonBuild(CharacterGetCurrent());
 }
 
 /**
@@ -164,10 +253,16 @@ function InventoryItemDevicesWoodenBoxSetOpacity(property, opacity) {
 	if (opacity !== property.opacity) property.Opacity = opacity;
 	if (!Array.isArray(property.Effect)) property.Effect = [];
 	const transparent = property.Opacity < 0.15;
-	const effectsToApply = transparent ? ["Prone", "Enclose", "Freeze"] : ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"];
-	const effectsToRemoves = transparent ? ["BlindNormal", "GagLight"] : [];
-	property.Effect = property.Effect.filter(e => !effectsToRemoves.includes(e));
-	effectsToApply.forEach(e => {
+	const effectsToApply = transparent
+		? ["Prone", "Enclose", "Freeze"]
+		: ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"];
+	const effectsToRemoves = transparent
+		? ["BlindNormal", "GagLight"]
+		: [];
+	property.Effect = property.Effect.filter(
+		(e) => !effectsToRemoves.includes(e)
+	);
+	effectsToApply.forEach((e) => {
 		if (!property.Effect.includes(e)) property.Effect.push(e);
 	});
 }
@@ -176,30 +271,44 @@ function InventoryItemDevicesWoodenBoxSetOpacity(property, opacity) {
  * Handles wooden box opacity changes. Refreshes the character locally
  * @returns {void} - Nothing
  */
-const InventoryItemDevicesWoodenBoxOpacityChange = CommonLimitFunction((C, item, opacity) => {
-	item = DialogFocusItem || item;
-	item.Property.Opacity = Number(opacity);
-	CharacterLoadCanvas(C);
-}, 0, 1000);
+const InventoryItemDevicesWoodenBoxOpacityChange =
+	CommonLimitFunction(
+		(C, item, opacity) => {
+			item = DialogFocusItem || item;
+			item.Property.Opacity = Number(opacity);
+			CharacterLoadCanvas(C);
+		},
+		0,
+		1000
+	);
 
 /**
  * Handles wooden box text changes. Refreshes the character locally
  * @returns {void} - Nothing
  */
-const InventoryItemDevicesWoodenBoxTextChange = CommonLimitFunction((C, item, text) => {
-	item = DialogFocusItem || item;
-	if (DynamicDrawTextRegex.test(text)) {
-		item.Property.Text = text.substring(0, InventoryItemDevicesWoodenBoxMaxLength);
-		CharacterLoadCanvas(C);
-	}
-}, 0, 1000);
+const InventoryItemDevicesWoodenBoxTextChange = CommonLimitFunction(
+	(C, item, text) => {
+		item = DialogFocusItem || item;
+		if (DynamicDrawTextRegex.test(text)) {
+			item.Property.Text = text.substring(
+				0,
+				InventoryItemDevicesWoodenBoxMaxLength
+			);
+			CharacterLoadCanvas(C);
+		}
+	},
+	0,
+	1000
+);
 
 /**
  * Fetches the current text input value, trimmed appropriately
  * @returns {string} - The text in the wooden box's text input element
  */
 function InventoryItemDevicesWoodenBoxGetText() {
-	return ElementValue(InventoryItemDevicesWoodenBoxTextInputId).substring(0, InventoryItemDevicesWoodenBoxMaxLength);
+	return ElementValue(
+		InventoryItemDevicesWoodenBoxTextInputId
+	).substring(0, InventoryItemDevicesWoodenBoxMaxLength);
 }
 
 /**
@@ -207,7 +316,9 @@ function InventoryItemDevicesWoodenBoxGetText() {
  * @returns {number} - The value of the wooden box's opacity input slider
  */
 function InventoryItemDevicesWoodenBoxGetInputOpacity() {
-	return Number(ElementValue(InventoryItemDevicesWoodenBoxOpacityInputId));
+	return Number(
+		ElementValue(InventoryItemDevicesWoodenBoxOpacityInputId)
+	);
 }
 
 /**
@@ -215,21 +326,45 @@ function InventoryItemDevicesWoodenBoxGetInputOpacity() {
  * @param {object} DrawingData - The dynamic drawing data
  * @returns {void} - Nothing
  */
-function AssetsItemDevicesWoodenBoxAfterDraw({ C, A, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }) {
+function AssetsItemDevicesWoodenBoxAfterDraw({
+	C,
+	A,
+	X,
+	Y,
+	L,
+	Property,
+	drawCanvas,
+	drawCanvasBlink,
+	AlphaMasks,
+	Color,
+	Opacity,
+}) {
 	if (L === "_Text") {
 		const height = 900;
 		const width = 310;
-		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
+		const tmpCanvas = AnimationGenerateTempCanvas(
+			C,
+			A,
+			width,
+			height
+		);
 		const ctx = tmpCanvas.getContext("2d");
 
-		let text = Property && typeof Property.Text === "string" && DynamicDrawTextRegex.test(Property.Text) ? Property.Text : "";
+		let text =
+			Property &&
+			typeof Property.Text === "string" &&
+			DynamicDrawTextRegex.test(Property.Text)
+				? Property.Text
+				: "";
 		text = text.substring(0, InventoryItemDevicesWoodenBoxMaxLength);
 
 		let from = [0, 1];
 		let to = [1, 0];
 
 		if (Property && Property.Type) {
-			const option = InventoryItemDevicesWoodenBoxOptions.find(o => o.Property.Type === Property.Type);
+			const option = InventoryItemDevicesWoodenBoxOptions.find(
+				(o) => o.Property.Type === Property.Type
+			);
 			if (option) {
 				from = option.from;
 				to = option.to;
@@ -251,4 +386,3 @@ function AssetsItemDevicesWoodenBoxAfterDraw({ C, A, X, Y, L, Property, drawCanv
 		drawCanvasBlink(tmpCanvas, X + 90, Y + 300, AlphaMasks);
 	}
 }
-

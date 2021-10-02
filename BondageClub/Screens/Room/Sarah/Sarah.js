@@ -19,97 +19,301 @@ var SophieOrgasmGameCount = 0;
 var SophieOrgasmGamePleasure = 0;
 
 // Returns TRUE if a dialog condition matches
-function SarahStatusIs(QueryStatus) { return (QueryStatus == SarahStatus); }
-function SarahAmandaStatusIs(QueryStatus) { return (QueryStatus == AmandaStatus); }
-function SarahCanKissLover() { return (Player.CanTalk() && Sarah.CanTalk() && (Player.Lover == "NPC-Sarah")); }
-function SarahCanKissNotLover() { return (Player.CanTalk() && Sarah.CanTalk() && (Player.Lover != "NPC-Sarah")); }
-function SarahCanSpankOwner() { return (Player.CanInteract() && (Sarah.Owner == Player.Name)); }
-function SarahCanSpankNotOwner() { return (Player.CanInteract() && (Sarah.Owner != Player.Name)); }
-function SarahCanReleaseToClub() { return (!SophieInside && !DialogIsRestrained("CurrentCharacter")); }
-function SarahCanInviteToRoomFriend() { return (Player.CanWalk() && Sarah.CanWalk() && !SophieInside && (Sarah.Owner != Player.Name) && (PrivateCharacter.length < PrivateCharacterMax) && LogQuery("RentRoom", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
-function SarahCanInviteToRoomSlave() { return (Player.CanWalk() && Sarah.CanWalk() && !SophieInside && (Sarah.Owner == Player.Name) && (PrivateCharacter.length < PrivateCharacterMax) && LogQuery("RentRoom", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
-function SarahCanInviteAmandaToRoom() { return (Player.CanWalk() && Amanda.CanWalk() && !SophieInside && (PrivateCharacter.length < PrivateCharacterMax) && (!SarahInside || (Amanda.Owner == Player.Name)) && LogQuery("RentRoom", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
-function SarahCanInviteAmandaToRoomRefuse() { return (Player.CanWalk() && Amanda.CanWalk() && !SophieInside && (PrivateCharacter.length < PrivateCharacterMax) && SarahInside && (Amanda.Owner != Player.Name) && LogQuery("RentRoom", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
-function SarahCanInviteSophieToRoom() { return (Player.CanWalk() && Sophie.CanWalk() && (PrivateCharacter.length < PrivateCharacterMax)); }
-function SarahCanInviteSophieToRoomAccept() { return (Player.CanWalk() && Sophie.CanWalk() && (PrivateCharacter.length < PrivateCharacterMax) && (SophieUpsetCount >= 0) && (SophieUpsetCount <= 2)); }
-function SarahCanInviteSophieToRoomRefuse() { return (Player.CanWalk() && Sophie.CanWalk() && (PrivateCharacter.length < PrivateCharacterMax) && ((SophieUpsetCount < 0) || (SophieUpsetCount > 2))); }
-function SarahCanKickAmandaOut() { return (Amanda.CanWalk() && (Player.Owner != "NPC-Amanda") && (!SarahInside || (Amanda.Owner == Player.Name))); }
-function SarahCanKickAmandaOutRefuse() { return (Amanda.CanWalk() && (Player.Owner != "NPC-Amanda") && SarahInside && (Amanda.Owner != Player.Name)); }
-function SarahShackled() { return (SarahInside && (Sarah != null) && (InventoryGet(Sarah, "ItemArms") != null) && (InventoryGet(Sarah, "ItemArms").Asset.Name == "FourLimbsShackles")); }
-function SarahAmandaHasStrapon() { return (Player.CanInteract() && AmandaInside && (Amanda != null) && (InventoryGet(Amanda, "ItemPelvis") != null) && (InventoryGet(Amanda, "ItemPelvis").Asset.Name == "StraponPanties")); }
-function SarahAmandaHasNoStrapon() { return (Player.CanInteract() && AmandaInside && (Amanda != null) && !Amanda.IsVulvaChaste()); }
-function SarahKnowAmandaInRoom() { return (SarahInside && AmandaInside && (Sarah != null) && (Amanda != null) && !Sarah.CanInteract() && (!Sarah.IsBlind() || Amanda.CanTalk())); }
-function SarahAmandaCanKiss() { return (AmandaInside && (Amanda != null) && Player.CanTalk() && Amanda.CanTalk() && (Player.Lover == "NPC-Amanda")); }
-function SarahIsClubSlave() { return ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "ClubSlaveCollar")); }
-function SarahCanKissSophie() { return (Player.CanTalk() && Sophie.CanTalk()); }
-function SarahCanFightSophie() { return (!SophieFightDone && Player.CanInteract()); }
-function SarahSophiePunishmentStageIs(Stage) { return (SophiePunishmentStage == parseInt(Stage)); }
-function SarahSophieLikesPlayer() { return ((SophieUpsetCount >= 0) && (SophieUpsetCount <= 2)); }
-function SarahCanStrip() { return (!Sarah.IsRestrained() && !Sarah.IsNaked()); }
+function SarahStatusIs(QueryStatus) {
+	return QueryStatus == SarahStatus;
+}
+function SarahAmandaStatusIs(QueryStatus) {
+	return QueryStatus == AmandaStatus;
+}
+function SarahCanKissLover() {
+	return (
+		Player.CanTalk() && Sarah.CanTalk() && Player.Lover == "NPC-Sarah"
+	);
+}
+function SarahCanKissNotLover() {
+	return (
+		Player.CanTalk() && Sarah.CanTalk() && Player.Lover != "NPC-Sarah"
+	);
+}
+function SarahCanSpankOwner() {
+	return Player.CanInteract() && Sarah.Owner == Player.Name;
+}
+function SarahCanSpankNotOwner() {
+	return Player.CanInteract() && Sarah.Owner != Player.Name;
+}
+function SarahCanReleaseToClub() {
+	return !SophieInside && !DialogIsRestrained("CurrentCharacter");
+}
+function SarahCanInviteToRoomFriend() {
+	return (
+		Player.CanWalk() &&
+		Sarah.CanWalk() &&
+		!SophieInside &&
+		Sarah.Owner != Player.Name &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		LogQuery("RentRoom", "PrivateRoom") &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
+function SarahCanInviteToRoomSlave() {
+	return (
+		Player.CanWalk() &&
+		Sarah.CanWalk() &&
+		!SophieInside &&
+		Sarah.Owner == Player.Name &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		LogQuery("RentRoom", "PrivateRoom") &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
+function SarahCanInviteAmandaToRoom() {
+	return (
+		Player.CanWalk() &&
+		Amanda.CanWalk() &&
+		!SophieInside &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		(!SarahInside || Amanda.Owner == Player.Name) &&
+		LogQuery("RentRoom", "PrivateRoom") &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
+function SarahCanInviteAmandaToRoomRefuse() {
+	return (
+		Player.CanWalk() &&
+		Amanda.CanWalk() &&
+		!SophieInside &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		SarahInside &&
+		Amanda.Owner != Player.Name &&
+		LogQuery("RentRoom", "PrivateRoom") &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	);
+}
+function SarahCanInviteSophieToRoom() {
+	return (
+		Player.CanWalk() &&
+		Sophie.CanWalk() &&
+		PrivateCharacter.length < PrivateCharacterMax
+	);
+}
+function SarahCanInviteSophieToRoomAccept() {
+	return (
+		Player.CanWalk() &&
+		Sophie.CanWalk() &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		SophieUpsetCount >= 0 &&
+		SophieUpsetCount <= 2
+	);
+}
+function SarahCanInviteSophieToRoomRefuse() {
+	return (
+		Player.CanWalk() &&
+		Sophie.CanWalk() &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		(SophieUpsetCount < 0 || SophieUpsetCount > 2)
+	);
+}
+function SarahCanKickAmandaOut() {
+	return (
+		Amanda.CanWalk() &&
+		Player.Owner != "NPC-Amanda" &&
+		(!SarahInside || Amanda.Owner == Player.Name)
+	);
+}
+function SarahCanKickAmandaOutRefuse() {
+	return (
+		Amanda.CanWalk() &&
+		Player.Owner != "NPC-Amanda" &&
+		SarahInside &&
+		Amanda.Owner != Player.Name
+	);
+}
+function SarahShackled() {
+	return (
+		SarahInside &&
+		Sarah != null &&
+		InventoryGet(Sarah, "ItemArms") != null &&
+		InventoryGet(Sarah, "ItemArms").Asset.Name == "FourLimbsShackles"
+	);
+}
+function SarahAmandaHasStrapon() {
+	return (
+		Player.CanInteract() &&
+		AmandaInside &&
+		Amanda != null &&
+		InventoryGet(Amanda, "ItemPelvis") != null &&
+		InventoryGet(Amanda, "ItemPelvis").Asset.Name == "StraponPanties"
+	);
+}
+function SarahAmandaHasNoStrapon() {
+	return (
+		Player.CanInteract() &&
+		AmandaInside &&
+		Amanda != null &&
+		!Amanda.IsVulvaChaste()
+	);
+}
+function SarahKnowAmandaInRoom() {
+	return (
+		SarahInside &&
+		AmandaInside &&
+		Sarah != null &&
+		Amanda != null &&
+		!Sarah.CanInteract() &&
+		(!Sarah.IsBlind() || Amanda.CanTalk())
+	);
+}
+function SarahAmandaCanKiss() {
+	return (
+		AmandaInside &&
+		Amanda != null &&
+		Player.CanTalk() &&
+		Amanda.CanTalk() &&
+		Player.Lover == "NPC-Amanda"
+	);
+}
+function SarahIsClubSlave() {
+	return (
+		InventoryGet(Player, "ItemNeck") != null &&
+		InventoryGet(Player, "ItemNeck").Asset.Name == "ClubSlaveCollar"
+	);
+}
+function SarahCanKissSophie() {
+	return Player.CanTalk() && Sophie.CanTalk();
+}
+function SarahCanFightSophie() {
+	return !SophieFightDone && Player.CanInteract();
+}
+function SarahSophiePunishmentStageIs(Stage) {
+	return SophiePunishmentStage == parseInt(Stage);
+}
+function SarahSophieLikesPlayer() {
+	return SophieUpsetCount >= 0 && SophieUpsetCount <= 2;
+}
+function SarahCanStrip() {
+	return !Sarah.IsRestrained() && !Sarah.IsNaked();
+}
 
 // Returns TRUE to know if the girls are inside the room
-function SarahIsInside() { return (SarahInside && (Sarah != null)); }
-function SarahAmandaIsInside() { return (AmandaInside && (Amanda != null)); }
-function SarahAndAmandaAreInside() { return (SarahIsInside() && SarahAmandaIsInside()); }
-function SarahOrAmandaAreInside() { return (SarahIsInside() || SarahAmandaIsInside()); }
-function SarahIsPlayerSlave() { return ((Sarah != null) && (Sarah.Owner == Player.Name)); }
-function SarahAmandaIsPlayerSlave() { return ((Amanda != null) && (Amanda.Owner == Player.Name)); }
-function SarahAmandaAndSarahArePlayerSlave() { return (SarahAmandaIsPlayerSlave() && SarahIsPlayerSlave()); }
+function SarahIsInside() {
+	return SarahInside && Sarah != null;
+}
+function SarahAmandaIsInside() {
+	return AmandaInside && Amanda != null;
+}
+function SarahAndAmandaAreInside() {
+	return SarahIsInside() && SarahAmandaIsInside();
+}
+function SarahOrAmandaAreInside() {
+	return SarahIsInside() || SarahAmandaIsInside();
+}
+function SarahIsPlayerSlave() {
+	return Sarah != null && Sarah.Owner == Player.Name;
+}
+function SarahAmandaIsPlayerSlave() {
+	return Amanda != null && Amanda.Owner == Player.Name;
+}
+function SarahAmandaAndSarahArePlayerSlave() {
+	return SarahAmandaIsPlayerSlave() && SarahIsPlayerSlave();
+}
 
 // Returns the correct label for Sarah's room
 function SarahRoomLabel() {
 	if (!SarahInside) return "ExploreClub";
-	if ((SarahStatus != "") && (!SarahIntroDone) && (LogQuery("SarahWillBePunished", "NPC-SarahIntro") || LogQuery("SarahWillBePunished", "NPC-SarahIntro"))) return "SearchSarah";
-	if ((SarahStatus != "") && (!SarahIntroDone) && !LogQuery("SarahWillBePunished", "NPC-SarahIntro") && !LogQuery("SarahWillBePunished", "NPC-SarahIntro")) return "ExploreClub";
+	if (
+		SarahStatus != "" &&
+		!SarahIntroDone &&
+		(LogQuery("SarahWillBePunished", "NPC-SarahIntro") ||
+			LogQuery("SarahWillBePunished", "NPC-SarahIntro"))
+	)
+		return "SearchSarah";
+	if (
+		SarahStatus != "" &&
+		!SarahIntroDone &&
+		!LogQuery("SarahWillBePunished", "NPC-SarahIntro") &&
+		!LogQuery("SarahWillBePunished", "NPC-SarahIntro")
+	)
+		return "ExploreClub";
 	if (SarahIntroDone) return "SarahBedroom";
 	return "ExploreClub";
 }
 
 // Sets Sarah and Amanda status
 function SarahSetStatus() {
-
 	// Sarah status depends on Bondage College imported data
-	if (LogQuery("BondageCollege", "Import")) SarahStatus = "SchoolMate";
-	if (LogQuery("SarahLover", "NPC-Sarah") && (Player.Lover == "NPC-Sarah")) SarahStatus = "Lover";
-	if (LogQuery("SarahLover", "NPC-Sarah") && (Player.Lover != "NPC-Sarah")) SarahStatus = "ExLover";
+	if (LogQuery("BondageCollege", "Import"))
+		SarahStatus = "SchoolMate";
+	if (
+		LogQuery("SarahLover", "NPC-Sarah") &&
+		Player.Lover == "NPC-Sarah"
+	)
+		SarahStatus = "Lover";
+	if (
+		LogQuery("SarahLover", "NPC-Sarah") &&
+		Player.Lover != "NPC-Sarah"
+	)
+		SarahStatus = "ExLover";
 	if (LogQuery("SarahCollared", "NPC-Sarah")) SarahStatus = "Owned";
-	if (LogQuery("SarahCollaredWithCurfew", "NPC-Sarah")) SarahStatus = "Curfew";
-	if (LogQuery("SarahWillBePunished", "NPC-SarahIntro")) SarahStatus = "WillBePunished";
-	if (LogQuery("SarahCameWithPlayer", "NPC-SarahIntro")) SarahStatus = "CameWithPlayer";
+	if (LogQuery("SarahCollaredWithCurfew", "NPC-Sarah"))
+		SarahStatus = "Curfew";
+	if (LogQuery("SarahWillBePunished", "NPC-SarahIntro"))
+		SarahStatus = "WillBePunished";
+	if (LogQuery("SarahCameWithPlayer", "NPC-SarahIntro"))
+		SarahStatus = "CameWithPlayer";
 
 	// Amanda status depends on Bondage College imported data
-	if (LogQuery("BondageCollege", "Import")) AmandaStatus = "SchoolMate";
-	if (LogQuery("AmandaLover", "NPC-Amanda") && (Player.Lover == "NPC-Amanda")) AmandaStatus = "Lover";
-	if (LogQuery("AmandaLover", "NPC-Amanda") && (Player.Lover != "NPC-Amanda")) AmandaStatus = "ExLover";
-	if (LogQuery("AmandaCollared", "NPC-Amanda")) AmandaStatus = "Owned";
-	if (LogQuery("AmandaCollaredWithCurfew", "NPC-Amanda")) AmandaStatus = "Curfew";
-	if (LogQuery("AmandaMistress", "NPC-Amanda") && (Player.Owner == "NPC-Amanda")) AmandaStatus = "Owner";
-	if (LogQuery("AmandaMistress", "NPC-Amanda") && (Player.Owner != "NPC-Amanda")) AmandaStatus = "ExOwner";
+	if (LogQuery("BondageCollege", "Import"))
+		AmandaStatus = "SchoolMate";
+	if (
+		LogQuery("AmandaLover", "NPC-Amanda") &&
+		Player.Lover == "NPC-Amanda"
+	)
+		AmandaStatus = "Lover";
+	if (
+		LogQuery("AmandaLover", "NPC-Amanda") &&
+		Player.Lover != "NPC-Amanda"
+	)
+		AmandaStatus = "ExLover";
+	if (LogQuery("AmandaCollared", "NPC-Amanda"))
+		AmandaStatus = "Owned";
+	if (LogQuery("AmandaCollaredWithCurfew", "NPC-Amanda"))
+		AmandaStatus = "Curfew";
+	if (
+		LogQuery("AmandaMistress", "NPC-Amanda") &&
+		Player.Owner == "NPC-Amanda"
+	)
+		AmandaStatus = "Owner";
+	if (
+		LogQuery("AmandaMistress", "NPC-Amanda") &&
+		Player.Owner != "NPC-Amanda"
+	)
+		AmandaStatus = "ExOwner";
 
 	// They are not accessible if they already are in the private room
 	for (let P = 1; P < PrivateCharacter.length; P++) {
-		if (PrivateCharacter[P].Name.trim() == "Sarah") { SarahStatus = "InPrivateRoom"; SarahInside = false; }
-		if (PrivateCharacter[P].Name.trim() == "Amanda") AmandaStatus = "InPrivateRoom";
-		if (PrivateCharacter[P].Name.trim() == "Sophie") SophieStatus = "InPrivateRoom";
+		if (PrivateCharacter[P].Name.trim() == "Sarah") {
+			SarahStatus = "InPrivateRoom";
+			SarahInside = false;
+		}
+		if (PrivateCharacter[P].Name.trim() == "Amanda")
+			AmandaStatus = "InPrivateRoom";
+		if (PrivateCharacter[P].Name.trim() == "Sophie")
+			SophieStatus = "InPrivateRoom";
 	}
 }
 
 // Loads the Sarah room
 function SarahLoad() {
-
 	// Add the player if we need too
-	if (SarahCharacter.length == 0)
-		SarahCharacter.push(Player);
+	if (SarahCharacter.length == 0) SarahCharacter.push(Player);
 
 	// If Sarah is inside the room
-	if (SarahInside && (SarahStatus != "InPrivateRoom")) {
-
+	if (SarahInside && SarahStatus != "InPrivateRoom") {
 		// If we must show the intro scene
 		if (!SarahIntroDone) {
 			CommonSetScreen("Cutscene", "SarahIntro");
 			SarahIntroDone = true;
 		} else if (Sarah == null) {
-
 			// Creates Sarah and equips her like in the Bondage Club original story
 			Sarah = CharacterLoadNPC("NPC_Sarah");
 			Sarah.Name = "Sarah";
@@ -132,20 +336,22 @@ function SarahLoad() {
 			InventoryWear(Sarah, "FourLimbsShackles", "ItemArms");
 			InventoryWear(Sarah, "StuddedBlindfold", "ItemHead");
 			InventoryAdd(Sarah, "StuddedBlindfold", "ItemHead");
-			if ((SarahStatus == "Owned") || (SarahStatus == "Curfew")) {
+			if (SarahStatus == "Owned" || SarahStatus == "Curfew") {
 				InventoryWear(Sarah, "SlaveCollar", "ItemNeck");
 				Sarah.Owner = Player.Name;
 			}
 			CharacterSetActivePose(Sarah, "Kneel", true);
 			AmandaIntroTime = CurrentTime + 400000;
 			SarahCharacter.push(Sarah);
-
 		}
 	}
 
 	// Loads Amanda if we need
-	if (AmandaInside && (Amanda == null) && (AmandaStatus != "InPrivateRoom")) {
-
+	if (
+		AmandaInside &&
+		Amanda == null &&
+		AmandaStatus != "InPrivateRoom"
+	) {
 		// Creates Sarah and equips her like in the Bondage Club original story
 		Amanda = CharacterLoadNPC("NPC_Amanda");
 		Amanda.Name = "Amanda";
@@ -167,18 +373,20 @@ function SarahLoad() {
 		InventoryWear(Amanda, "StraponPanties", "ItemPelvis");
 		InventoryWear(Amanda, "HempRope", "ItemArms");
 		InventoryWear(Amanda, "DuctTape", "ItemMouth");
-		if ((AmandaStatus == "Owned") || (AmandaStatus == "Curfew")) {
+		if (AmandaStatus == "Owned" || AmandaStatus == "Curfew") {
 			InventoryWear(Amanda, "SlaveCollar", "ItemNeck");
 			Amanda.Owner = Player.Name;
 		}
 		SophieIntroTime = CurrentTime + 400000;
 		SarahCharacter.splice(1, 0, Amanda);
-
 	}
 
 	// Loads Mistress Sophie if we need
-	if (SophieInside && (Sophie == null) && (SophieStatus != "InPrivateRoom")) {
-
+	if (
+		SophieInside &&
+		Sophie == null &&
+		SophieStatus != "InPrivateRoom"
+	) {
 		// Creates Sophie and equips her like in the Bondage Club original story
 		Sophie = CharacterLoadNPC("NPC_Sophie");
 		Sophie.Name = "Mistress Sophie";
@@ -202,14 +410,11 @@ function SarahLoad() {
 		InventoryWear(Sophie, "HairFront1", "HairFront", "#CCCCCC");
 		CharacterArchetypeClothes(Sophie, "Mistress", "#222222");
 		SarahCharacter.splice(1, 0, Sophie);
-
 	}
-
 }
 
 // Loads the Amanda character
 function AmandaLoad() {
-
 	// If we must show the intro scene
 	if (!AmandaIntroDone) {
 		if (CurrentCharacter != null) DialogLeave();
@@ -218,12 +423,10 @@ function AmandaLoad() {
 		AmandaInside = true;
 		AmandaIntroDone = true;
 	}
-
 }
 
 // Loads the Sophie character
 function SophieLoad() {
-
 	// If we must show the intro scene
 	if (!SophieIntroDone) {
 		if (CurrentCharacter != null) DialogLeave();
@@ -232,28 +435,60 @@ function SophieLoad() {
 		SophieInside = true;
 		SophieIntroDone = true;
 	}
-
 }
 
 // Check to load new characters
 function SarahLoadNewCharacter() {
-
 	// Amanda can be loaded if Sarah isn't there or after a while with Sarah.  She must not be in the player room.
-	if (!AmandaInside && (AmandaStatus != "InPrivateRoom") && ((AmandaIntroTime <= CurrentTime) && (AmandaIntroTime > 0))) AmandaLoad();
-	if (!AmandaInside && (AmandaStatus != "InPrivateRoom") && !AmandaIntroDone && !SarahInside) AmandaLoad();
+	if (
+		!AmandaInside &&
+		AmandaStatus != "InPrivateRoom" &&
+		AmandaIntroTime <= CurrentTime &&
+		AmandaIntroTime > 0
+	)
+		AmandaLoad();
+	if (
+		!AmandaInside &&
+		AmandaStatus != "InPrivateRoom" &&
+		!AmandaIntroDone &&
+		!SarahInside
+	)
+		AmandaLoad();
 
 	// Sophie can be loaded if Sarah & Amanda aren't there or after a while with Amanda.  She must not be in the player room.
-	if (!SophieInside && (SophieStatus != "InPrivateRoom") && (SophieIntroTime <= 0) && ((AmandaIntroTime <= CurrentTime) && (AmandaIntroTime > 0)) && (AmandaStatus == "InPrivateRoom")) SophieLoad();
-	if (!SophieInside && (SophieStatus != "InPrivateRoom") && ((SophieIntroTime <= CurrentTime) && (SophieIntroTime > 0))) SophieLoad();
-	if (!SophieInside && (SophieStatus != "InPrivateRoom") && !SophieIntroDone && !AmandaInside && !SarahInside) SophieLoad();
-
+	if (
+		!SophieInside &&
+		SophieStatus != "InPrivateRoom" &&
+		SophieIntroTime <= 0 &&
+		AmandaIntroTime <= CurrentTime &&
+		AmandaIntroTime > 0 &&
+		AmandaStatus == "InPrivateRoom"
+	)
+		SophieLoad();
+	if (
+		!SophieInside &&
+		SophieStatus != "InPrivateRoom" &&
+		SophieIntroTime <= CurrentTime &&
+		SophieIntroTime > 0
+	)
+		SophieLoad();
+	if (
+		!SophieInside &&
+		SophieStatus != "InPrivateRoom" &&
+		!SophieIntroDone &&
+		!AmandaInside &&
+		!SarahInside
+	)
+		SophieLoad();
 }
 
 // Make sure the background is proper
 function SarahLoadBackground() {
 	SarahBackground = "SarahBedroom0";
-	SarahBackground = "SarahBedroom" + (SarahCharacter.length - 2).toString();
-	if (!SarahInside || (Sarah == null) || !Sarah.IsKneeling()) SarahBackground = "SarahBedroom3";
+	SarahBackground =
+		"SarahBedroom" + (SarahCharacter.length - 2).toString();
+	if (!SarahInside || Sarah == null || !Sarah.IsKneeling())
+		SarahBackground = "SarahBedroom3";
 }
 
 // Run the main introduction room, draw all 3 characters
@@ -261,19 +496,55 @@ function SarahRun() {
 	SarahLoadNewCharacter();
 	SarahLoadBackground();
 	for (let C = 0; C < SarahCharacter.length; C++)
-		DrawCharacter(SarahCharacter[C], 1000 - (SarahCharacter.length * 250) + (C * 500), (SarahCharacter[C].IsKneeling()) ? -270 : 0, 1);
-	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+		DrawCharacter(
+			SarahCharacter[C],
+			1000 - SarahCharacter.length * 250 + C * 500,
+			SarahCharacter[C].IsKneeling() ? -270 : 0,
+			1
+		);
+	if (Player.CanWalk())
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 }
 
 // When the user clicks in the introduction room
 function SarahClick() {
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
+	if (
+		MouseX >= 1885 &&
+		MouseX < 1975 &&
+		MouseY >= 25 &&
+		MouseY < 115 &&
+		Player.CanWalk()
+	)
+		CommonSetScreen("Room", "MainHall");
+	if (
+		MouseX >= 1885 &&
+		MouseX < 1975 &&
+		MouseY >= 145 &&
+		MouseY < 235
+	)
+		InformationSheetLoadCharacter(Player);
 	for (let C = 0; C < SarahCharacter.length; C++)
-		if ((MouseX >= 1000 - (SarahCharacter.length * 250) + (C * 500)) && (MouseX < 1500 - (SarahCharacter.length * 250) + (C * 500)) && (MouseY >= 0) && (MouseY < 1000) && (MouseX < 1885)) {
-			if ((SarahCharacter[C].Name == "Mistress Sophie") || (SarahCharacter[C].Name == "Sophie")) SarahSophieSetPunishmentIntro(0);
-			if ((SarahCharacter[C].ID == 0) || (SarahCharacter[C].Name == "Mistress Sophie") || (SarahCharacter[C].Name == "Sophie") || !SophieInside || (Sophie == null) || ((Sophie.Stage != "200") && (Sophie.Stage != "201")))
+		if (
+			MouseX >= 1000 - SarahCharacter.length * 250 + C * 500 &&
+			MouseX < 1500 - SarahCharacter.length * 250 + C * 500 &&
+			MouseY >= 0 &&
+			MouseY < 1000 &&
+			MouseX < 1885
+		) {
+			if (
+				SarahCharacter[C].Name == "Mistress Sophie" ||
+				SarahCharacter[C].Name == "Sophie"
+			)
+				SarahSophieSetPunishmentIntro(0);
+			if (
+				SarahCharacter[C].ID == 0 ||
+				SarahCharacter[C].Name == "Mistress Sophie" ||
+				SarahCharacter[C].Name == "Sophie" ||
+				!SophieInside ||
+				Sophie == null ||
+				(Sophie.Stage != "200" && Sophie.Stage != "201")
+			)
 				CharacterSetCurrent(SarahCharacter[C]);
 		}
 }
@@ -351,7 +622,8 @@ function SarahTransferToRoom() {
 		C.Lover = Player.Name;
 		C.Love = 100;
 	}
-	if (LogQuery("AmandaSarahLovers", "NPC-AmandaSarah")) C.Lover = "NPC-Amanda";
+	if (LogQuery("AmandaSarahLovers", "NPC-AmandaSarah"))
+		C.Lover = "NPC-Amanda";
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 }
@@ -368,7 +640,10 @@ function SarahAmandaLeaveRoom() {
 // When Sophie leaves the room
 function SarahSophieLeaveRoom() {
 	for (let C = 1; C < SarahCharacter.length; C++)
-		if ((SarahCharacter[C].Name == "Sophie") || (SarahCharacter[C].Name == "Mistress Sophie"))
+		if (
+			SarahCharacter[C].Name == "Sophie" ||
+			SarahCharacter[C].Name == "Mistress Sophie"
+		)
 			SarahCharacter.splice(C, 1);
 	SophieInside = false;
 	DialogLeave();
@@ -378,7 +653,11 @@ function SarahSophieLeaveRoom() {
 function SarahTransferAmandaToRoom() {
 	SarahAmandaLeaveRoom();
 	CharacterRelease(Amanda);
-	if ((InventoryGet(Amanda, "ItemPelvis") != null) && (InventoryGet(Amanda, "ItemPelvis").Asset.Name == "StraponPanties")) InventoryRemove(Amanda, "ItemPelvis");
+	if (
+		InventoryGet(Amanda, "ItemPelvis") != null &&
+		InventoryGet(Amanda, "ItemPelvis").Asset.Name == "StraponPanties"
+	)
+		InventoryRemove(Amanda, "ItemPelvis");
 	InventoryWear(Amanda, "CollegeOutfit1", "Cloth");
 	InventoryWear(Amanda, "Socks4", "Socks", "#AAAAAA");
 	InventoryWear(Amanda, "Shoes1", "Shoes", "#222222");
@@ -410,7 +689,8 @@ function SarahTransferAmandaToRoom() {
 		NPCEventAdd(C, "LastGift", CurrentTime);
 		C.Love = 100;
 	}
-	if (LogQuery("AmandaSarahLovers", "NPC-AmandaSarah")) C.Lover = "NPC-Sarah";
+	if (LogQuery("AmandaSarahLovers", "NPC-AmandaSarah"))
+		C.Lover = "NPC-Sarah";
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 }
@@ -431,7 +711,10 @@ function SarahRestrainedBySophie(Phase, DomRep) {
 	if (DomRep != 0) ReputationChange("Dominant", DomRep);
 	if (DomRep > 0) SarahUpsetSophie(DomRep);
 	if (SophieUpsetCount <= 4) {
-		if (Phase == 0) { InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "LeatherCuffs", "ItemArms"); }
+		if (Phase == 0) {
+			InventoryRemove(Player, "ItemArms");
+			InventoryWear(Player, "LeatherCuffs", "ItemArms");
+		}
 		if (Phase == 1) {
 			InventoryRemove(Player, "ItemFeet");
 			InventoryRemove(Player, "ItemLegs");
@@ -450,12 +733,18 @@ function SarahFightSophie() {
 
 // When the fight against Sophie ends
 function SarahFightSophieEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (Sophie.KidnapMaxWillpower - Sophie.KidnapWillpower)) * 2);
+	SkillProgress(
+		"Willpower",
+		(Player.KidnapMaxWillpower -
+			Player.KidnapWillpower +
+			(Sophie.KidnapMaxWillpower - Sophie.KidnapWillpower)) *
+			2
+	);
 	Sophie.Name = "Mistress Sophie";
 	SophieFightDone = true;
 	SophieUpsetCount = -100;
 	Sophie.AllowItem = KidnapVictory;
-	Sophie.Stage = (KidnapVictory) ? "60" : "70";
+	Sophie.Stage = KidnapVictory ? "60" : "70";
 	if (!KidnapVictory && Player.IsNaked()) Sophie.Stage = "50";
 	if (!KidnapVictory) CharacterRelease(Sophie);
 	else CharacterRelease(Player);
@@ -466,16 +755,21 @@ function SarahFightSophieEnd() {
 	InventoryRemove(Player, "ItemMouth");
 	CommonSetScreen("Room", "Sarah");
 	CharacterSetCurrent(Sophie);
-	Sophie.CurrentDialog = DialogFind(Sophie, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	Sophie.CurrentDialog = DialogFind(
+		Sophie,
+		KidnapVictory ? "FightVictory" : "FightDefeat"
+	);
 }
 
 // Gets the next punishment that Sophie will inflict to the girls
 function SarahSophiePunishGirls() {
-
 	// Sets the correct stage & dialog
-	if ((SophiePunishmentStage % 2 == 0) && !SarahInside && !AmandaInside) SophiePunishmentStage++;
-	Sophie.CurrentDialog = DialogFind(Sophie, "PlayerPunishmentStage" + SophiePunishmentStage.toString());
-
+	if (SophiePunishmentStage % 2 == 0 && !SarahInside && !AmandaInside)
+		SophiePunishmentStage++;
+	Sophie.CurrentDialog = DialogFind(
+		Sophie,
+		"PlayerPunishmentStage" + SophiePunishmentStage.toString()
+	);
 }
 
 // When Sophie frees Sarah because she's already owned
@@ -486,11 +780,14 @@ function SarahSophieFreeSarahAndLeave() {
 
 // When Sophie frees Amanda and kicks both her and the player out
 function SarahSophieFreePlayerAndAmandaTheyLeave() {
-	if (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")) {
+	if (
+		LogQuery("RentRoom", "PrivateRoom") &&
+		PrivateCharacter.length < PrivateCharacterMax &&
+		!LogQuery("LockOutOfPrivateRoom", "Rule")
+	) {
 		SarahTransferAmandaToRoom();
 		CommonSetScreen("Room", "Private");
-	}
-	else {
+	} else {
 		DialogLeave();
 		CommonSetScreen("Room", "MainHall");
 	}
@@ -509,9 +806,12 @@ function SarahTransferSophieToRoom(Love) {
 	if (SarahShackled()) SarahUnlock();
 	SarahSophieLeaveRoom();
 	var ItemsToEarn = [];
-	ItemsToEarn.push({Name: "LeatherCuffs", Group: "ItemArms"});
-	ItemsToEarn.push({Name: "LeatherCuffsKey", Group: "ItemArms"});
-	ItemsToEarn.push({Name: "SpankingToysBaguette", Group: "ItemHands"});
+	ItemsToEarn.push({ Name: "LeatherCuffs", Group: "ItemArms" });
+	ItemsToEarn.push({ Name: "LeatherCuffsKey", Group: "ItemArms" });
+	ItemsToEarn.push({
+		Name: "SpankingToysBaguette",
+		Group: "ItemHands",
+	});
 	InventoryAddMany(Player, ItemsToEarn);
 	CharacterRelease(Sophie);
 	CharacterArchetypeClothes(Sophie, "Mistress", "#333333");
@@ -529,7 +829,8 @@ function SarahTransferSophieToRoom(Love) {
 	C.Love = parseInt(Love);
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
-	C.AllowItem = (ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant"));
+	C.AllowItem =
+		ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant");
 	if (Love >= 0) CommonSetScreen("Room", "Sarah");
 }
 
@@ -578,35 +879,116 @@ function SarahSophiePunishEvent(EventType, DomRep) {
 	DomRep = parseInt(DomRep);
 	if (DomRep != 0) ReputationChange("Dominant", DomRep);
 	if (DomRep > 0) SophieUpsetCount = SophieUpsetCount + DomRep;
-	if ((EventType == "RestrainOther") && (Amanda != null) && AmandaInside) SarahSophiePreparePunishCharacter(Amanda);
-	if ((EventType == "RestrainOther") && (Sarah != null) && SarahInside) { SarahUnlock(); SarahSophiePreparePunishCharacter(Sarah); }
-	if (EventType == "Clamps") { InventoryRemove(Player, "ItemNipples"); InventoryWear(Player, "NippleClamp", "ItemNipples"); }
-	if ((EventType == "ClampsOther") && (Amanda != null) && AmandaInside) { InventoryRemove(Amanda, "ItemNipples"); InventoryWear(Amanda, "NippleClamp", "ItemNipples"); }
-	if ((EventType == "ClampsOther") && (Sarah != null) && SarahInside) { InventoryRemove(Sarah, "ItemNipples"); InventoryWear(Sarah, "NippleClamp", "ItemNipples"); }
-	if (EventType == "ChastityBra") { InventoryRemove(Player, "ItemBreast"); InventoryWear(Player, "MetalChastityBra", "ItemBreast"); InventoryLock(Player, "ItemBreast", "MistressPadlock", -1); }
-	if ((EventType == "ChastityBraOther") && (Amanda != null) && AmandaInside) { InventoryRemove(Amanda, "ItemBreast"); InventoryWear(Amanda, "MetalChastityBra", "ItemBreast"); InventoryLock(Amanda, "ItemBreast", "MistressPadlock", -1); }
-	if ((EventType == "ChastityBraOther") && (Sarah != null) && SarahInside) { InventoryRemove(Sarah, "ItemBreast"); InventoryWear(Sarah, "MetalChastityBra", "ItemBreast"); InventoryLock(Sarah, "ItemBreast", "MistressPadlock", -1); }
-	if (EventType == "EggAndPlug") { InventoryRemove(Player, "ItemVulva"); InventoryWear(Player, "VibratingEgg", "ItemVulva"); InventoryRemove(Player, "ItemButt"); InventoryWear(Player, "BlackButtPlug", "ItemButt"); }
-	if ((EventType == "EggAndPlugOther") && (Amanda != null) && AmandaInside) { InventoryRemove(Amanda, "ItemVulva"); InventoryWear(Amanda, "VibratingEgg", "ItemVulva"); InventoryRemove(Amanda, "ItemButt"); InventoryWear(Amanda, "BlackButtPlug", "ItemButt"); }
-	if ((EventType == "EggAndPlugOther") && (Sarah != null) && SarahInside) { InventoryRemove(Sarah, "ItemVulva"); InventoryWear(Sarah, "VibratingEgg", "ItemVulva"); InventoryRemove(Sarah, "ItemButt"); InventoryWear(Sarah, "BlackButtPlug", "ItemButt"); }
-	if (EventType == "ChastityBelt") { InventoryRemove(Player, "ItemPelvis"); InventoryWear(Player, "MetalChastityBelt", "ItemPelvis"); InventoryLock(Player,"ItemPelvis", "MistressPadlock", -1); }
-	if ((EventType == "ChastityBeltOther") && (Amanda != null) && AmandaInside) { InventoryRemove(Amanda, "ItemPelvis"); InventoryWear(Amanda, "MetalChastityBelt", "ItemPelvis"); InventoryLock(Amanda, "ItemPelvis", "MistressPadlock", -1); }
-	if ((EventType == "ChastityBeltOther") && (Sarah != null) && SarahInside) { InventoryRemove(Sarah, "ItemPelvis"); InventoryWear(Sarah, "MetalChastityBelt", "ItemPelvis"); InventoryLock(Sarah, "ItemPelvis", "MistressPadlock", -1); }
+	if (EventType == "RestrainOther" && Amanda != null && AmandaInside)
+		SarahSophiePreparePunishCharacter(Amanda);
+	if (EventType == "RestrainOther" && Sarah != null && SarahInside) {
+		SarahUnlock();
+		SarahSophiePreparePunishCharacter(Sarah);
+	}
+	if (EventType == "Clamps") {
+		InventoryRemove(Player, "ItemNipples");
+		InventoryWear(Player, "NippleClamp", "ItemNipples");
+	}
+	if (EventType == "ClampsOther" && Amanda != null && AmandaInside) {
+		InventoryRemove(Amanda, "ItemNipples");
+		InventoryWear(Amanda, "NippleClamp", "ItemNipples");
+	}
+	if (EventType == "ClampsOther" && Sarah != null && SarahInside) {
+		InventoryRemove(Sarah, "ItemNipples");
+		InventoryWear(Sarah, "NippleClamp", "ItemNipples");
+	}
+	if (EventType == "ChastityBra") {
+		InventoryRemove(Player, "ItemBreast");
+		InventoryWear(Player, "MetalChastityBra", "ItemBreast");
+		InventoryLock(Player, "ItemBreast", "MistressPadlock", -1);
+	}
+	if (
+		EventType == "ChastityBraOther" &&
+		Amanda != null &&
+		AmandaInside
+	) {
+		InventoryRemove(Amanda, "ItemBreast");
+		InventoryWear(Amanda, "MetalChastityBra", "ItemBreast");
+		InventoryLock(Amanda, "ItemBreast", "MistressPadlock", -1);
+	}
+	if (
+		EventType == "ChastityBraOther" &&
+		Sarah != null &&
+		SarahInside
+	) {
+		InventoryRemove(Sarah, "ItemBreast");
+		InventoryWear(Sarah, "MetalChastityBra", "ItemBreast");
+		InventoryLock(Sarah, "ItemBreast", "MistressPadlock", -1);
+	}
+	if (EventType == "EggAndPlug") {
+		InventoryRemove(Player, "ItemVulva");
+		InventoryWear(Player, "VibratingEgg", "ItemVulva");
+		InventoryRemove(Player, "ItemButt");
+		InventoryWear(Player, "BlackButtPlug", "ItemButt");
+	}
+	if (
+		EventType == "EggAndPlugOther" &&
+		Amanda != null &&
+		AmandaInside
+	) {
+		InventoryRemove(Amanda, "ItemVulva");
+		InventoryWear(Amanda, "VibratingEgg", "ItemVulva");
+		InventoryRemove(Amanda, "ItemButt");
+		InventoryWear(Amanda, "BlackButtPlug", "ItemButt");
+	}
+	if (
+		EventType == "EggAndPlugOther" &&
+		Sarah != null &&
+		SarahInside
+	) {
+		InventoryRemove(Sarah, "ItemVulva");
+		InventoryWear(Sarah, "VibratingEgg", "ItemVulva");
+		InventoryRemove(Sarah, "ItemButt");
+		InventoryWear(Sarah, "BlackButtPlug", "ItemButt");
+	}
+	if (EventType == "ChastityBelt") {
+		InventoryRemove(Player, "ItemPelvis");
+		InventoryWear(Player, "MetalChastityBelt", "ItemPelvis");
+		InventoryLock(Player, "ItemPelvis", "MistressPadlock", -1);
+	}
+	if (
+		EventType == "ChastityBeltOther" &&
+		Amanda != null &&
+		AmandaInside
+	) {
+		InventoryRemove(Amanda, "ItemPelvis");
+		InventoryWear(Amanda, "MetalChastityBelt", "ItemPelvis");
+		InventoryLock(Amanda, "ItemPelvis", "MistressPadlock", -1);
+	}
+	if (
+		EventType == "ChastityBeltOther" &&
+		Sarah != null &&
+		SarahInside
+	) {
+		InventoryRemove(Sarah, "ItemPelvis");
+		InventoryWear(Sarah, "MetalChastityBelt", "ItemPelvis");
+		InventoryLock(Sarah, "ItemPelvis", "MistressPadlock", -1);
+	}
 	if (EventType == "Buzz") SarahSophieStartBuzz(Player, 3);
-	if ((EventType == "Buzz") && (Amanda != null) && AmandaInside) SarahSophieStartBuzz(Amanda, 3);
-	if ((EventType == "Buzz") && (Sarah != null) && SarahInside) SarahSophieStartBuzz(Sarah, 3);
+	if (EventType == "Buzz" && Amanda != null && AmandaInside)
+		SarahSophieStartBuzz(Amanda, 3);
+	if (EventType == "Buzz" && Sarah != null && SarahInside)
+		SarahSophieStartBuzz(Sarah, 3);
 }
 
 // When the player plays Sophie Orgasm Game
 function SarahSophieOrgasmGame(Factor) {
-
 	// Increments the game parameters
 	SophieOrgasmGameCount++;
-	SophieOrgasmGamePleasure = SophieOrgasmGamePleasure + parseInt(Factor);
+	SophieOrgasmGamePleasure =
+		SophieOrgasmGamePleasure + parseInt(Factor);
 
 	// Once the factor reaches 12, the player loses
 	if (SophieOrgasmGamePleasure >= 12) {
-		Sophie.CurrentDialog = DialogFind(Sophie, "SophieOrgasmGameDefeat");
+		Sophie.CurrentDialog = DialogFind(
+			Sophie,
+			"SophieOrgasmGameDefeat"
+		);
 		Sophie.Stage = "290";
 		SophieUpsetCount = -100;
 		return;
@@ -619,11 +1001,13 @@ function SarahSophieOrgasmGame(Factor) {
 
 	// If the players held for long enough, she wins
 	if (SophieOrgasmGameCount >= WinCount) {
-		Sophie.CurrentDialog = DialogFind(Sophie, "SophieOrgasmGameVictory");
+		Sophie.CurrentDialog = DialogFind(
+			Sophie,
+			"SophieOrgasmGameVictory"
+		);
 		Sophie.Stage = "280";
 		return;
 	}
-
 }
 
 // When Sophie releases all the characters but Sarah
@@ -654,22 +1038,44 @@ function SarahPlayerPunishGirls() {
 // Returns TRUE if the current slave(s) are naked and without restrains
 function SarahSlaveNakedWithoutRestrains(C) {
 	if (C == null) {
-		if (SarahAndAmandaAreInside()) return SarahSlaveNakedWithoutRestrains(Sarah) && SarahSlaveNakedWithoutRestrains(Amanda);
-		else if (SarahIsInside()) return SarahSlaveNakedWithoutRestrains(Sarah);
+		if (SarahAndAmandaAreInside())
+			return (
+				SarahSlaveNakedWithoutRestrains(Sarah) &&
+				SarahSlaveNakedWithoutRestrains(Amanda)
+			);
+		else if (SarahIsInside())
+			return SarahSlaveNakedWithoutRestrains(Sarah);
 		else return SarahSlaveNakedWithoutRestrains(Amanda);
-	} else return (C.IsNaked() && C.HasNoItem());
+	} else return C.IsNaked() && C.HasNoItem();
 }
 
 // Returns TRUE if the current slave(s) are wearing clamps, egg and butt plug
 function SarahSlaveWithClampEggPlug(C) {
 	if (C == null) {
-		if (SarahAndAmandaAreInside()) return SarahSlaveWithClampEggPlug(Sarah) && SarahSlaveWithClampEggPlug(Amanda);
-		else if (SarahIsInside()) return SarahSlaveWithClampEggPlug(Sarah);
+		if (SarahAndAmandaAreInside())
+			return (
+				SarahSlaveWithClampEggPlug(Sarah) &&
+				SarahSlaveWithClampEggPlug(Amanda)
+			);
+		else if (SarahIsInside())
+			return SarahSlaveWithClampEggPlug(Sarah);
 		else return SarahSlaveWithClampEggPlug(Amanda);
 	} else {
-		if ((InventoryGet(C, "ItemNipples") == null) || (InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp")) return false;
-		if ((InventoryGet(C, "ItemVulva") == null) || (InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg")) return false;
-		if ((InventoryGet(C, "ItemButt") == null) || (InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug")) return false;
+		if (
+			InventoryGet(C, "ItemNipples") == null ||
+			InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemVulva") == null ||
+			InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemButt") == null ||
+			InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug"
+		)
+			return false;
 		return true;
 	}
 }
@@ -677,15 +1083,36 @@ function SarahSlaveWithClampEggPlug(C) {
 // Returns TRUE if the current slave(s) are wearing clamps, egg, butt plug, chastity belt & bra
 function SarahSlaveChaste(C) {
 	if (C == null) {
-		if (SarahAndAmandaAreInside()) return SarahSlaveChaste(Sarah) && SarahSlaveChaste(Amanda);
+		if (SarahAndAmandaAreInside())
+			return SarahSlaveChaste(Sarah) && SarahSlaveChaste(Amanda);
 		else if (SarahIsInside()) return SarahSlaveChaste(Sarah);
 		else return SarahSlaveChaste(Amanda);
 	} else {
-		if ((InventoryGet(C, "ItemNipples") == null) || (InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp")) return false;
-		if ((InventoryGet(C, "ItemVulva") == null) || (InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg")) return false;
-		if ((InventoryGet(C, "ItemButt") == null) || (InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug")) return false;
-		if ((InventoryGet(C, "ItemPelvis") == null) || (InventoryGet(C, "ItemPelvis").Asset.Name != "MetalChastityBelt")) return false;
-		if ((InventoryGet(C, "ItemBreast") == null) || (InventoryGet(C, "ItemBreast").Asset.Name != "MetalChastityBra")) return false;
+		if (
+			InventoryGet(C, "ItemNipples") == null ||
+			InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemVulva") == null ||
+			InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemButt") == null ||
+			InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemPelvis") == null ||
+			InventoryGet(C, "ItemPelvis").Asset.Name != "MetalChastityBelt"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemBreast") == null ||
+			InventoryGet(C, "ItemBreast").Asset.Name != "MetalChastityBra"
+		)
+			return false;
 		return true;
 	}
 }
@@ -693,24 +1120,56 @@ function SarahSlaveChaste(C) {
 // Returns TRUE if the current slave(s) are wearing clamps, egg, butt plug, chastity belt, bra & locked cuffs
 function SarahSlaveLockedCuffs(C) {
 	if (C == null) {
-		if (SarahAndAmandaAreInside()) return SarahSlaveLockedCuffs(Sarah) && SarahSlaveLockedCuffs(Amanda);
+		if (SarahAndAmandaAreInside())
+			return (
+				SarahSlaveLockedCuffs(Sarah) && SarahSlaveLockedCuffs(Amanda)
+			);
 		else if (SarahIsInside()) return SarahSlaveLockedCuffs(Sarah);
 		else return SarahSlaveLockedCuffs(Amanda);
 	} else {
-		if ((InventoryGet(C, "ItemNipples") == null) || (InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp")) return false;
-		if ((InventoryGet(C, "ItemVulva") == null) || (InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg")) return false;
-		if ((InventoryGet(C, "ItemButt") == null) || (InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug")) return false;
-		if ((InventoryGet(C, "ItemPelvis") == null) || (InventoryGet(C, "ItemPelvis").Asset.Name != "MetalChastityBelt")) return false;
-		if ((InventoryGet(C, "ItemBreast") == null) || (InventoryGet(C, "ItemBreast").Asset.Name != "MetalChastityBra")) return false;
-		if ((InventoryGet(C, "ItemArms") == null) || (InventoryGet(C, "ItemArms").Asset.Name != "LeatherCuffs")) return false;
-		if ((InventoryGet(C, "ItemArms").Property == null) || (InventoryGet(C, "ItemArms").Property.Type == null)) return false;
+		if (
+			InventoryGet(C, "ItemNipples") == null ||
+			InventoryGet(C, "ItemNipples").Asset.Name != "NippleClamp"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemVulva") == null ||
+			InventoryGet(C, "ItemVulva").Asset.Name != "VibratingEgg"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemButt") == null ||
+			InventoryGet(C, "ItemButt").Asset.Name != "BlackButtPlug"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemPelvis") == null ||
+			InventoryGet(C, "ItemPelvis").Asset.Name != "MetalChastityBelt"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemBreast") == null ||
+			InventoryGet(C, "ItemBreast").Asset.Name != "MetalChastityBra"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemArms") == null ||
+			InventoryGet(C, "ItemArms").Asset.Name != "LeatherCuffs"
+		)
+			return false;
+		if (
+			InventoryGet(C, "ItemArms").Property == null ||
+			InventoryGet(C, "ItemArms").Property.Type == null
+		)
+			return false;
 		return true;
 	}
 }
 
 // Returns TRUE if the current slave(s) had their orgasms
 function SarahSlaveOrgasm(C) {
-	if (SarahAndAmandaAreInside()) return Sarah.OrgasmDone && Amanda.OrgasmDone;
+	if (SarahAndAmandaAreInside())
+		return Sarah.OrgasmDone && Amanda.OrgasmDone;
 	else if (SarahIsInside()) return Sarah.OrgasmDone;
 	else return Amanda.OrgasmDone;
 }
@@ -771,11 +1230,16 @@ function SarahSlaveOrgasmBuild(Pleasure, Bonus, Intensity) {
 	Pleasure = parseInt(Pleasure);
 	Bonus = parseInt(Bonus);
 	Intensity = parseInt(Intensity);
-	CurrentCharacter.OrgasmMeter = CurrentCharacter.OrgasmMeter + Pleasure + Bonus;
-	if (Intensity >= -1) SarahSophieStartBuzz(CurrentCharacter, Intensity);
-	if ((CurrentCharacter.OrgasmMeter >= 10) && (Pleasure >= 2)) {
+	CurrentCharacter.OrgasmMeter =
+		CurrentCharacter.OrgasmMeter + Pleasure + Bonus;
+	if (Intensity >= -1)
+		SarahSophieStartBuzz(CurrentCharacter, Intensity);
+	if (CurrentCharacter.OrgasmMeter >= 10 && Pleasure >= 2) {
 		CurrentCharacter.OrgasmDone = true;
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "OrgasmStart");
+		CurrentCharacter.CurrentDialog = DialogFind(
+			CurrentCharacter,
+			"OrgasmStart"
+		);
 		CurrentCharacter.Stage = "1030";
 	}
 }

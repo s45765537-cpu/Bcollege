@@ -10,8 +10,18 @@ function LARPLoad() {
 	if (LARPOrganiser == null) {
 		LARPOrganiser = CharacterLoadNPC("NPC_LARP_Organiser");
 		CharacterNaked(LARPOrganiser);
-		InventoryWear(LARPOrganiser, "SteampunkCorsetTop1", "Cloth", "Default");
-		InventoryWear(LARPOrganiser, "LatexSkirt2", "ClothLower", "#666666");
+		InventoryWear(
+			LARPOrganiser,
+			"SteampunkCorsetTop1",
+			"Cloth",
+			"Default"
+		);
+		InventoryWear(
+			LARPOrganiser,
+			"LatexSkirt2",
+			"ClothLower",
+			"#666666"
+		);
 		InventoryWear(LARPOrganiser, "Sandals", "Shoes", "#666666");
 		LARPOrganiser.AllowItem = false;
 	}
@@ -23,11 +33,44 @@ function LARPLoad() {
  */
 function LARPRun() {
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(Player, 500, 0, 1);
-	if (!DailyJobSubSearchIsActive()) DrawCharacter(LARPOrganiser, 1000, 0, 1);
-	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Leave"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	if ((ReputationGet("LARP") >= 1) && (Player.Game != null) && (Player.Game.LARP != null) && (Player.Game.LARP.Class != null))
-		DrawButton(1885, 265, 90, 90, "", Player.CanChange() ? "White" : "Pink", "Icons/Battle.png", TextGet("Battle"));
+	if (!DailyJobSubSearchIsActive())
+		DrawCharacter(LARPOrganiser, 1000, 0, 1);
+	DrawButton(
+		1885,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Exit.png",
+		TextGet("Leave")
+	);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
+	if (
+		ReputationGet("LARP") >= 1 &&
+		Player.Game != null &&
+		Player.Game.LARP != null &&
+		Player.Game.LARP.Class != null
+	)
+		DrawButton(
+			1885,
+			265,
+			90,
+			90,
+			"",
+			Player.CanChange() ? "White" : "Pink",
+			"Icons/Battle.png",
+			TextGet("Battle")
+		);
 	DailyJobSubSearchRun();
 }
 
@@ -36,11 +79,28 @@ function LARPRun() {
  * @returns {void} - Nothing
  */
 function LARPClick() {
-	if (!DailyJobSubSearchIsActive() && MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
-	if (!DailyJobSubSearchIsActive() && MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(LARPOrganiser);
+	if (!DailyJobSubSearchIsActive() && MouseIn(500, 0, 500, 1000))
+		CharacterSetCurrent(Player);
+	if (!DailyJobSubSearchIsActive() && MouseIn(1000, 0, 500, 1000))
+		CharacterSetCurrent(LARPOrganiser);
 	if (MouseIn(1885, 25, 90, 90)) CommonSetScreen("Room", "MainHall");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && (ReputationGet("LARP") >= 1) && (Player.Game != null) && (Player.Game.LARP != null) && (Player.Game.LARP.Class != null) && Player.CanChange()) ChatRoomStart("", "LARP", "LARP", "WrestlingRing", BackgroundsTagList);
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
+	if (
+		MouseIn(1885, 265, 90, 90) &&
+		ReputationGet("LARP") >= 1 &&
+		Player.Game != null &&
+		Player.Game.LARP != null &&
+		Player.Game.LARP.Class != null &&
+		Player.CanChange()
+	)
+		ChatRoomStart(
+			"",
+			"LARP",
+			"LARP",
+			"WrestlingRing",
+			BackgroundsTagList
+		);
 	DailyJobSubSearchClick();
 }
 

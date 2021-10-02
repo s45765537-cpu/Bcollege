@@ -7,7 +7,9 @@ var AsylumTherapyPatient = null;
  * Checks if the therapy for the player can start
  * @returns {boolean} - Returns true, if the player is ready for therapy, false otherwise
  */
-function AsylumTherapyPatientReadyForTherapy() { return (!Player.IsRestrained() && Player.IsNaked()); }
+function AsylumTherapyPatientReadyForTherapy() {
+	return !Player.IsRestrained() && Player.IsNaked();
+}
 
 /**
  * Loads the room and initializes the nurse and the patient
@@ -20,7 +22,9 @@ function AsylumTherapyLoad() {
 		AsylumTherapyNurse.AllowItem = false;
 	}
 	if (AsylumTherapyPatient == null) {
-		AsylumTherapyPatient = CharacterLoadNPC("NPC_AsylumTherapy_Patient");
+		AsylumTherapyPatient = CharacterLoadNPC(
+			"NPC_AsylumTherapy_Patient"
+		);
 		AsylumEntranceWearPatientClothes(AsylumTherapyPatient);
 		AsylumTherapyPatient.AllowItem = false;
 	}
@@ -32,12 +36,31 @@ function AsylumTherapyLoad() {
  */
 function AsylumTherapyRun() {
 	DrawCharacter(Player, 500, 0, 1);
-	if (ReputationGet("Asylum") >= 1) DrawCharacter(AsylumTherapyPatient, 1000, 0, 1);
-	if (ReputationGet("Asylum") <= -1) DrawCharacter(AsylumTherapyNurse, 1000, 0, 1);
-	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+	if (ReputationGet("Asylum") >= 1)
+		DrawCharacter(AsylumTherapyPatient, 1000, 0, 1);
+	if (ReputationGet("Asylum") <= -1)
+		DrawCharacter(AsylumTherapyNurse, 1000, 0, 1);
+	if (Player.CanWalk())
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
-	if (Player.CanChange() && (LogValue("Committed", "Asylum") >= CurrentTime)) DrawButton(1885, 265, 90, 90, "", "White", "Icons/DressReset.png");
-	if (Player.CanChange() && (LogValue("Committed", "Asylum") >= CurrentTime)) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
+	if (
+		Player.CanChange() &&
+		LogValue("Committed", "Asylum") >= CurrentTime
+	)
+		DrawButton(
+			1885,
+			265,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/DressReset.png"
+		);
+	if (
+		Player.CanChange() &&
+		LogValue("Committed", "Asylum") >= CurrentTime
+	)
+		DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
 }
 
 /**
@@ -46,16 +69,38 @@ function AsylumTherapyRun() {
  */
 function AsylumTherapyClick() {
 	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
-	if (MouseIn(1000, 0, 500, 1000) && (ReputationGet("Asylum") >= 1)) CharacterSetCurrent(AsylumTherapyPatient);
-	if (MouseIn(1000, 0, 500, 1000) && (ReputationGet("Asylum") <= -1)) CharacterSetCurrent(AsylumTherapyNurse);
+	if (MouseIn(1000, 0, 500, 1000) && ReputationGet("Asylum") >= 1)
+		CharacterSetCurrent(AsylumTherapyPatient);
+	if (MouseIn(1000, 0, 500, 1000) && ReputationGet("Asylum") <= -1)
+		CharacterSetCurrent(AsylumTherapyNurse);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) {
-		if (Player.CanChange() && (LogValue("Committed", "Asylum") >= CurrentTime)) AsylumEntranceWearPatientClothes(Player);
-		if ((ReputationGet("Asylum") <= -50) && (LogValue("Committed", "Asylum") >= CurrentTime) && Player.CanInteract()) InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
+		if (
+			Player.CanChange() &&
+			LogValue("Committed", "Asylum") >= CurrentTime
+		)
+			AsylumEntranceWearPatientClothes(Player);
+		if (
+			ReputationGet("Asylum") <= -50 &&
+			LogValue("Committed", "Asylum") >= CurrentTime &&
+			Player.CanInteract()
+		)
+			InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
 		CommonSetScreen("Room", "AsylumEntrance");
 	}
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && Player.CanChange() && (LogValue("Committed", "Asylum") >= CurrentTime)) AsylumEntranceWearPatientClothes(Player);
-	if (MouseIn(1885, 385, 90, 90) && Player.CanChange() && (LogValue("Committed", "Asylum") >= CurrentTime)) CharacterNaked(Player);
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
+	if (
+		MouseIn(1885, 265, 90, 90) &&
+		Player.CanChange() &&
+		LogValue("Committed", "Asylum") >= CurrentTime
+	)
+		AsylumEntranceWearPatientClothes(Player);
+	if (
+		MouseIn(1885, 385, 90, 90) &&
+		Player.CanChange() &&
+		LogValue("Committed", "Asylum") >= CurrentTime
+	)
+		CharacterNaked(Player);
 }
 
 /**
@@ -85,9 +130,18 @@ function AsylumTherapyStripPlayer() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyBondageTherapyRestrain() {
-	if ((ReputationGet("Asylum") <= -1) && (ReputationGet("Asylum") >= -49)) CharacterFullRandomRestrain(Player, "FEW");
-	if ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") >= -99)) CharacterFullRandomRestrain(Player, "LOT");
-	if ((ReputationGet("Asylum") <= -100) && (ReputationGet("Asylum") >= -100)) CharacterFullRandomRestrain(Player, "ALL");
+	if (ReputationGet("Asylum") <= -1 && ReputationGet("Asylum") >= -49)
+		CharacterFullRandomRestrain(Player, "FEW");
+	if (
+		ReputationGet("Asylum") <= -50 &&
+		ReputationGet("Asylum") >= -99
+	)
+		CharacterFullRandomRestrain(Player, "LOT");
+	if (
+		ReputationGet("Asylum") <= -100 &&
+		ReputationGet("Asylum") >= -100
+	)
+		CharacterFullRandomRestrain(Player, "ALL");
 	if (Player.CanTalk()) InventoryWearRandom(Player, "ItemMouth");
 }
 
@@ -97,7 +151,8 @@ function AsylumTherapyBondageTherapyRestrain() {
  */
 function AsylumTherapyTherapyEnd() {
 	CharacterRelease(Player);
-	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples");
+	if (!Player.IsBreastChaste())
+		InventoryRemove(Player, "ItemNipples");
 	InventoryRemove(AsylumTherapyNurse, "ItemHands");
 	CharacterSetActivePose(Player, null);
 }
@@ -130,8 +185,17 @@ function AsylumTherapyPainTherapyRestrain() {
 	InventoryWear(Player, "FourLimbsShackles", "ItemArms");
 	CharacterSetActivePose(Player, "Kneel", true);
 	InventoryWear(AsylumTherapyNurse, "SpankingToys", "ItemHands");
-	if ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") >= -99)) InventoryGet(AsylumTherapyNurse, "ItemHands").Property = { Type: "Paddle" };
-	if (ReputationGet("Asylum") <= -100) InventoryGet(AsylumTherapyNurse, "ItemHands").Property = { Type: "Whip" };
+	if (
+		ReputationGet("Asylum") <= -50 &&
+		ReputationGet("Asylum") >= -99
+	)
+		InventoryGet(AsylumTherapyNurse, "ItemHands").Property = {
+			Type: "Paddle",
+		};
+	if (ReputationGet("Asylum") <= -100)
+		InventoryGet(AsylumTherapyNurse, "ItemHands").Property = {
+			Type: "Whip",
+		};
 	CharacterRefresh(AsylumTherapyNurse);
 }
 
@@ -148,9 +212,18 @@ function AsylumTherapyTickleTherapyRestrain() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyTickleTherapyBlindfold() {
-	if ((ReputationGet("Asylum") <= -1) && (ReputationGet("Asylum") >= -49)) InventoryWear(Player, "ClothBlindfold", "ItemHead");
-	if ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") >= -99)) InventoryWear(Player, "LeatherBlindfold", "ItemHead");
-	if ((ReputationGet("Asylum") <= -100) && (ReputationGet("Asylum") >= -100)) InventoryWear(Player, "LeatherHoodOpenMouth", "ItemHood");
+	if (ReputationGet("Asylum") <= -1 && ReputationGet("Asylum") >= -49)
+		InventoryWear(Player, "ClothBlindfold", "ItemHead");
+	if (
+		ReputationGet("Asylum") <= -50 &&
+		ReputationGet("Asylum") >= -99
+	)
+		InventoryWear(Player, "LeatherBlindfold", "ItemHead");
+	if (
+		ReputationGet("Asylum") <= -100 &&
+		ReputationGet("Asylum") >= -100
+	)
+		InventoryWear(Player, "LeatherHoodOpenMouth", "ItemHood");
 }
 
 /**
@@ -158,9 +231,18 @@ function AsylumTherapyTickleTherapyBlindfold() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyOrgasmTherapyRestrain() {
-	if ((ReputationGet("Asylum") <= -1) && (ReputationGet("Asylum") >= -49)) InventoryWear(Player, "TapedVibeEggs", "ItemNipples");
-	if ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") >= -99)) InventoryWear(Player, "NippleSuctionCups", "ItemNipples");
-	if ((ReputationGet("Asylum") <= -100) && (ReputationGet("Asylum") >= -100)) InventoryWear(Player, "NippleClamp", "ItemNipples");
+	if (ReputationGet("Asylum") <= -1 && ReputationGet("Asylum") >= -49)
+		InventoryWear(Player, "TapedVibeEggs", "ItemNipples");
+	if (
+		ReputationGet("Asylum") <= -50 &&
+		ReputationGet("Asylum") >= -99
+	)
+		InventoryWear(Player, "NippleSuctionCups", "ItemNipples");
+	if (
+		ReputationGet("Asylum") <= -100 &&
+		ReputationGet("Asylum") >= -100
+	)
+		InventoryWear(Player, "NippleClamp", "ItemNipples");
 }
 
 /**
@@ -169,7 +251,10 @@ function AsylumTherapyOrgasmTherapyRestrain() {
  * @param {"FEW" | "LOT" | "ALL" } RestraintsLevel - The level of restraints to use
  * @returns {void} - Nothing
  */
-function AsylumTherapyPatientBondageIntro(RepChange, RestraintsLevel) {
+function AsylumTherapyPatientBondageIntro(
+	RepChange,
+	RestraintsLevel
+) {
 	DialogChangeReputation("Dominant", RepChange);
 	CharacterFullRandomRestrain(AsylumTherapyPatient, RestraintsLevel);
 }
@@ -181,11 +266,17 @@ function AsylumTherapyPatientBondageIntro(RepChange, RestraintsLevel) {
  */
 function AsylumTherapyPatientPainIntro(RepChange) {
 	DialogChangeReputation("Dominant", RepChange);
-	InventoryWear(AsylumTherapyPatient, "FourLimbsShackles", "ItemArms");
+	InventoryWear(
+		AsylumTherapyPatient,
+		"FourLimbsShackles",
+		"ItemArms"
+	);
 	CharacterSetActivePose(AsylumTherapyPatient, "Kneel", true);
 	InventoryWear(Player, "SpankingToys", "ItemHands");
-	if ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") <= 99)) InventoryGet(Player, "ItemHands").Property = { Type: "Paddle" };
-	if (ReputationGet("Asylum") >= 100) InventoryGet(Player, "ItemHands").Property = { Type: "Whip" };
+	if (ReputationGet("Asylum") >= 50 && ReputationGet("Asylum") <= 99)
+		InventoryGet(Player, "ItemHands").Property = { Type: "Paddle" };
+	if (ReputationGet("Asylum") >= 100)
+		InventoryGet(Player, "ItemHands").Property = { Type: "Whip" };
 	CharacterRefresh(Player);
 }
 
@@ -196,10 +287,25 @@ function AsylumTherapyPatientPainIntro(RepChange) {
  */
 function AsylumTherapyPatientTickleIntro(RepChange) {
 	DialogChangeReputation("Dominant", RepChange);
-	InventoryWear(AsylumTherapyPatient, "FourLimbsShackles", "ItemArms");
-	if ((ReputationGet("Asylum") >= 1) && (ReputationGet("Asylum") <= 49)) InventoryWear(AsylumTherapyPatient, "ClothBlindfold", "ItemHead");
-	if ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") <= 99)) InventoryWear(AsylumTherapyPatient, "LeatherBlindfold", "ItemHead");
-	if (ReputationGet("Asylum") >= 100) InventoryWear(AsylumTherapyPatient, "LeatherHoodOpenMouth", "ItemHood");
+	InventoryWear(
+		AsylumTherapyPatient,
+		"FourLimbsShackles",
+		"ItemArms"
+	);
+	if (ReputationGet("Asylum") >= 1 && ReputationGet("Asylum") <= 49)
+		InventoryWear(AsylumTherapyPatient, "ClothBlindfold", "ItemHead");
+	if (ReputationGet("Asylum") >= 50 && ReputationGet("Asylum") <= 99)
+		InventoryWear(
+			AsylumTherapyPatient,
+			"LeatherBlindfold",
+			"ItemHead"
+		);
+	if (ReputationGet("Asylum") >= 100)
+		InventoryWear(
+			AsylumTherapyPatient,
+			"LeatherHoodOpenMouth",
+			"ItemHood"
+		);
 	CharacterRefresh(AsylumTherapyPatient);
 }
 
@@ -207,13 +313,28 @@ function AsylumTherapyPatientTickleIntro(RepChange) {
  * Initiates the orgasm therapy as a nurse
  * @param {number} RepChange - The amount, the player's reputation changes
  * @returns {void} - Nothing
-*/
+ */
 function AsylumTherapyPatientOrgasmIntro(RepChange) {
 	DialogChangeReputation("Dominant", RepChange);
-	InventoryWear(AsylumTherapyPatient, "FourLimbsShackles", "ItemArms");
-	if ((ReputationGet("Asylum") >= 1) && (ReputationGet("Asylum") <= 49)) InventoryWear(AsylumTherapyPatient, "TapedVibeEggs", "ItemNipples");
-	if ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") <= 99)) InventoryWear(AsylumTherapyPatient, "NippleSuctionCups", "ItemNipples");
-	if (ReputationGet("Asylum") >= 100) InventoryWear(AsylumTherapyPatient, "NippleClamp", "ItemNipples");
+	InventoryWear(
+		AsylumTherapyPatient,
+		"FourLimbsShackles",
+		"ItemArms"
+	);
+	if (ReputationGet("Asylum") >= 1 && ReputationGet("Asylum") <= 49)
+		InventoryWear(
+			AsylumTherapyPatient,
+			"TapedVibeEggs",
+			"ItemNipples"
+		);
+	if (ReputationGet("Asylum") >= 50 && ReputationGet("Asylum") <= 99)
+		InventoryWear(
+			AsylumTherapyPatient,
+			"NippleSuctionCups",
+			"ItemNipples"
+		);
+	if (ReputationGet("Asylum") >= 100)
+		InventoryWear(AsylumTherapyPatient, "NippleClamp", "ItemNipples");
 	CharacterRefresh(AsylumTherapyPatient);
 }
 
@@ -225,7 +346,11 @@ function AsylumTherapyPatientOrgasmIntro(RepChange) {
 function AsylumTherapyTherapyStart(Difficulty) {
 	TherapyCharacterLeft = Player;
 	TherapyCharacterRight = AsylumTherapyPatient;
-	MiniGameStart("Therapy", Difficulty, "AsylumTherapyTherapyMiniGameEnd");
+	MiniGameStart(
+		"Therapy",
+		Difficulty,
+		"AsylumTherapyTherapyMiniGameEnd"
+	);
 }
 
 /**
@@ -240,20 +365,24 @@ function AsylumTherapyTherapyMiniGameEnd() {
 	InventoryRemove(AsylumTherapyPatient, "ItemMouth");
 	CharacterSetCurrent(AsylumTherapyPatient);
 	AsylumTherapyPatient.Stage = MiniGameVictory ? "1100" : "1200";
-	AsylumTherapyPatient.CurrentDialog = DialogFind(AsylumTherapyPatient, MiniGameVictory ? "TherapyVictory" : "TherapyDefeat");
+	AsylumTherapyPatient.CurrentDialog = DialogFind(
+		AsylumTherapyPatient,
+		MiniGameVictory ? "TherapyVictory" : "TherapyDefeat"
+	);
 	if (!MiniGameVictory) {
 		DialogChangeReputation("Asylum", -2);
-		if (ReputationGet("Asylum") <= 0) DialogSetReputation("Asylum", 1);
+		if (ReputationGet("Asylum") <= 0)
+			DialogSetReputation("Asylum", 1);
 	}
-	if (MiniGameVictory && (MiniGameDifficulty == "Easy")) {
+	if (MiniGameVictory && MiniGameDifficulty == "Easy") {
 		DialogChangeReputation("Asylum", 2);
 		CharacterChangeMoney(Player, 15);
 	}
-	if (MiniGameVictory && (MiniGameDifficulty == "Normal")) {
+	if (MiniGameVictory && MiniGameDifficulty == "Normal") {
 		DialogChangeReputation("Asylum", 4);
 		CharacterChangeMoney(Player, 20);
 	}
-	if (MiniGameVictory && (MiniGameDifficulty == "Hard")) {
+	if (MiniGameVictory && MiniGameDifficulty == "Hard") {
 		DialogChangeReputation("Asylum", 6);
 		CharacterChangeMoney(Player, 25);
 	}
@@ -268,7 +397,9 @@ function AsylumTherapyPatientNew() {
 	CharacterRelease(AsylumTherapyPatient);
 	InventoryRemove(AsylumTherapyPatient, "ItemNeck");
 	InventoryRemove(Player, "ItemHands");
-	AsylumTherapyPatient = CharacterLoadNPC("NPC_AsylumTherapy_Patient");
+	AsylumTherapyPatient = CharacterLoadNPC(
+		"NPC_AsylumTherapy_Patient"
+	);
 	CharacterAppearanceFullRandom(AsylumTherapyPatient);
 	AsylumEntranceWearPatientClothes(AsylumTherapyPatient);
 	AsylumTherapyPatient.AllowItem = false;

@@ -990,5 +990,5 @@ var CharacterName = [
 	"Miya",
 	"Monserrat",
 	"Zendaya",
-	"Alora"
+	"Alora",
 ];

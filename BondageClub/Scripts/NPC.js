@@ -23,7 +23,10 @@ var NPCTrait = [
 function NPCTraitSet(C, TraitName, TraitValue) {
 	var ReverseName = NPCTraitReverse(TraitName);
 	for (let T = 0; T < C.Trait.length; T++)
-		if ((C.Trait[T].Name == TraitName) || (C.Trait[T].Name == ReverseName))
+		if (
+			C.Trait[T].Name == TraitName ||
+			C.Trait[T].Name == ReverseName
+		)
 			C.Trait.splice(T, 1);
 	C.Trait.push({ Name: TraitName, Value: TraitValue });
 }
@@ -40,7 +43,7 @@ function NPCTraitGenerate(C) {
 			if (Math.random() >= 0.3) {
 				var NewTrait = {
 					Name: NPCTrait[T][Math.floor(Math.random() * 2)],
-					Value: Math.floor(Math.random() * 100) + 1
+					Value: Math.floor(Math.random() * 100) + 1,
 				};
 				C.Trait.push(NewTrait);
 			}
@@ -61,7 +64,6 @@ function NPCTraitReverse(Trait) {
 	return "No opposite found";
 }
 
-
 /**
  * Returns the weight value of the specified option (The higher the value, the higher the chances the option will be picked, an opposite trait will always result as an option that's not picked)
  * @param {string} Dialog - Specified dialog line with the affecting traits.
@@ -69,14 +71,17 @@ function NPCTraitReverse(Trait) {
  * @returns {number} - Weight of the dialog option
  */
 function NPCTraitGetOptionValue(Dialog, NPCTrait) {
-	if ((Dialog != null) && (NPCTrait != null)) {
+	if (Dialog != null && NPCTrait != null) {
 		var Value = 0;
 		var DialogTrait = Dialog.split("|");
 		for (let T = 0; T < DialogTrait.length; T++)
 			for (let N = 0; N < NPCTrait.length; N++)
 				if (NPCTrait[N].Name.trim() == DialogTrait[T].trim())
 					Value = Value + NPCTrait[N].Value;
-				else if (NPCTrait[N].Name.trim() == NPCTraitReverse(DialogTrait[T].trim()))
+				else if (
+					NPCTrait[N].Name.trim() ==
+					NPCTraitReverse(DialogTrait[T].trim())
+				)
 					Value = Value - 10000;
 		return Value;
 	} else return 0;
@@ -89,25 +94,30 @@ function NPCTraitGetOptionValue(Dialog, NPCTrait) {
  * @returns {void} - Nothing.
  */
 function NPCTraitKeepBestOption(C, Group) {
-
 	// For each dialog option of that group
 	var Best = -1;
 	var Pos = -1;
 	for (let D = 0; D < C.Dialog.length; D++)
-		if ((C.Dialog[D].Group != null) && (C.Dialog[D].Group == Group)) {
+		if (C.Dialog[D].Group != null && C.Dialog[D].Group == Group) {
 			var Value = NPCTraitGetOptionValue(C.Dialog[D].Trait, C.Trait);
-			if (Value > Best) { Best = Value; Pos = D; }
+			if (Value > Best) {
+				Best = Value;
+				Pos = D;
+			}
 		}
 
 	// If we found the best possibility, we remove all the others
 	if (Pos >= 0)
 		for (let D = 0; D < C.Dialog.length; D++)
-			if ((D != Pos) && (C.Dialog[D].Group != null) && (C.Dialog[D].Group == Group)) {
+			if (
+				D != Pos &&
+				C.Dialog[D].Group != null &&
+				C.Dialog[D].Group == Group
+			) {
 				C.Dialog.splice(D, 1);
 				Pos--;
 				D--;
 			}
-
 }
 
 /**
@@ -116,15 +126,17 @@ function NPCTraitKeepBestOption(C, Group) {
  * @returns {void} - Nothing.
  */
 function NPCTraitDialog(C) {
-
 	// For each dialog option
 	for (let D = 0; D < C.Dialog.length; D++) {
-		if (C.Dialog[D].Group != null) NPCTraitKeepBestOption(C, C.Dialog[D].Group);
-		if (C.Dialog[D].Function != null) C.Dialog[D].Function = C.Dialog[D].Function.replace("MainHall", "");
+		if (C.Dialog[D].Group != null)
+			NPCTraitKeepBestOption(C, C.Dialog[D].Group);
+		if (C.Dialog[D].Function != null)
+			C.Dialog[D].Function = C.Dialog[D].Function.replace(
+				"MainHall",
+				""
+			);
 	}
-
 }
-
 
 /**
  * Sets the arousal settings for a NPC if it's not already done
@@ -132,10 +144,11 @@ function NPCTraitDialog(C) {
  * @returns {void} - Nothing.
  */
 function NPCArousal(C) {
-
 	// Generates new data if there isn't any
-	if (C.ArousalSettings == null || (C.ArousalSettings.Zone && C.ArousalSettings.Zone.length == 0)) {
-
+	if (
+		C.ArousalSettings == null ||
+		(C.ArousalSettings.Zone && C.ArousalSettings.Zone.length == 0)
+	) {
 		// Resets to the default settings in automatic mode
 		PreferenceInit(C);
 		var Dominant = NPCTraitGet(C, "Dominant");
@@ -143,9 +156,8 @@ function NPCArousal(C) {
 
 		// Generates love/hate for all activities
 		for (let P = 0; P < C.ArousalSettings.Activity.length; P++) {
-
 			// Picks a random love factor for the activity (highest values have less chances)
-			var LoveSelf = Math.round((Math.random() * 4) + 0.5);
+			var LoveSelf = Math.round(Math.random() * 4 + 0.5);
 
 			// Horny NPC have higher love for sexual activities
 			if (Horny + 125 > Math.random() * 250) LoveSelf = LoveSelf + 1;
@@ -153,10 +165,14 @@ function NPCArousal(C) {
 
 			// Dominant NPC usually prefer to do activities on others
 			var LoveOther = LoveSelf;
-			if (Dominant + 125 > Math.random() * 250) LoveSelf = LoveSelf - 1;
-			if (Dominant + 125 > Math.random() * 250) LoveOther = LoveOther + 1;
-			if (Dominant + 125 < Math.random() * 250) LoveSelf = LoveSelf + 1;
-			if (Dominant + 125 < Math.random() * 250) LoveOther = LoveOther - 1;
+			if (Dominant + 125 > Math.random() * 250)
+				LoveSelf = LoveSelf - 1;
+			if (Dominant + 125 > Math.random() * 250)
+				LoveOther = LoveOther + 1;
+			if (Dominant + 125 < Math.random() * 250)
+				LoveSelf = LoveSelf + 1;
+			if (Dominant + 125 < Math.random() * 250)
+				LoveOther = LoveOther - 1;
 
 			// 0 and 4 are the limits
 			if (LoveSelf < 0) LoveSelf = 0;
@@ -167,7 +183,6 @@ function NPCArousal(C) {
 			// Sets the final values
 			C.ArousalSettings.Activity[P].Self = LoveSelf;
 			C.ArousalSettings.Activity[P].Other = LoveOther;
-
 		}
 
 		// Picks a random zone that's sure to trigger an orgasm, each girl has a perfect zone
@@ -180,18 +195,22 @@ function NPCArousal(C) {
 				C.ArousalSettings.Zone[Z].Factor = 4;
 				C.ArousalSettings.Zone[Z].Orgasm = true;
 			} else {
-				C.ArousalSettings.Zone[Z].Factor = Math.round((Math.random() * 4) + 0.5);
-				if ((OrgasmZones.indexOf(C.ArousalSettings.Zone[Z].Name) >= 0) && (Math.random() > 0.5)) C.ArousalSettings.Zone[Z].Orgasm = true;
+				C.ArousalSettings.Zone[Z].Factor = Math.round(
+					Math.random() * 4 + 0.5
+				);
+				if (
+					OrgasmZones.indexOf(C.ArousalSettings.Zone[Z].Name) >= 0 &&
+					Math.random() > 0.5
+				)
+					C.ArousalSettings.Zone[Z].Orgasm = true;
 			}
 		}
-
 	}
 
 	// Forces the automatic meter and resets it
 	C.ArousalSettings.Active = "Automatic";
 	C.ArousalSettings.Progress = 0;
 	C.ArousalSettings.ProgressTimer = 0;
-
 }
 
 /**
@@ -201,7 +220,6 @@ function NPCArousal(C) {
  * @returns {number} - Value of the trait, returns 0 if it was never set.
  */
 function NPCTraitGet(C, TraitType) {
-
 	// For each NPC trait
 	var Reverse = NPCTraitReverse(TraitType);
 	for (let T = 0; T < C.Trait.length; T++) {
@@ -209,7 +227,6 @@ function NPCTraitGet(C, TraitType) {
 		if (Reverse == C.Trait[T].Name) return C.Trait[T].Value * -1;
 	}
 	return 0;
-
 }
 
 /**
@@ -228,11 +245,10 @@ function NPCEventAdd(C, EventName, EventValue) {
 		}
 	var NewEvent = {
 		Name: EventName,
-		Value: EventValue
+		Value: EventValue,
 	};
 	C.Event.push(NewEvent);
 }
-
 
 /**
  * Deletes a specified NPC event from the log
@@ -243,8 +259,7 @@ function NPCEventAdd(C, EventName, EventValue) {
 function NPCEventDelete(C, EventName) {
 	if (C.Event == null) C.Event = [];
 	for (let E = C.Event.length - 1; E >= 0; E--)
-		if (C.Event[E].Name == EventName)
-			C.Event.splice(E, 1);
+		if (C.Event[E].Name == EventName) C.Event.splice(E, 1);
 }
 
 /**
@@ -256,8 +271,7 @@ function NPCEventDelete(C, EventName) {
 function NPCEventGet(C, EventName) {
 	if (C.Event != null)
 		for (let E = 0; E < C.Event.length; E++)
-			if (C.Event[E].Name == EventName)
-				return C.Event[E].Value;
+			if (C.Event[E].Name == EventName) return C.Event[E].Value;
 	return 0;
 }
 
@@ -304,9 +318,16 @@ function NPCLoveChange(C, LoveFactor) {
  * @returns {void} - Nothing
  */
 function NPCInteraction() {
-	if ((CurrentCharacter != null) && (CurrentCharacter.ID != 0))
-		if (CurrentTime >= NPCEventGet(CurrentCharacter, "LastInteraction")) {
-			NPCEventAdd(CurrentCharacter, "LastInteraction", CurrentTime + 20000);
-			if (CurrentCharacter.Love < 60) NPCLoveChange(CurrentCharacter, 1);
+	if (CurrentCharacter != null && CurrentCharacter.ID != 0)
+		if (
+			CurrentTime >= NPCEventGet(CurrentCharacter, "LastInteraction")
+		) {
+			NPCEventAdd(
+				CurrentCharacter,
+				"LastInteraction",
+				CurrentTime + 20000
+			);
+			if (CurrentCharacter.Love < 60)
+				NPCLoveChange(CurrentCharacter, 1);
 		}
 }

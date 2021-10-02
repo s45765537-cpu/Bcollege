@@ -18,7 +18,7 @@ var MiniGameChessGame = null;
 function MiniGameChessStart(Depth, PlayerColor) {
 	const MinMaxDepth = Depth;
 	const PauseDepth = 2;
-	const chessOnMoveEvent = new Event('chessOnMove');
+	const chessOnMoveEvent = new Event("chessOnMove");
 	let moveInProgress = false;
 
 	/**
@@ -34,14 +34,16 @@ function MiniGameChessStart(Depth, PlayerColor) {
 			b: 350,
 			r: 525,
 			q: 1000,
-			k: 10000
+			k: 10000,
 		};
 
 		// Loop through all pieces on the board and sum up total
 		let value = 0;
 		for (const row of board) {
 			for (const piece of row) {
-				if (piece) value += pieceValue[piece.type] * (piece.color === color ? 1 : -1);
+				if (piece)
+					value +=
+						pieceValue[piece.type] * (piece.color === color ? 1 : -1);
 			}
 		}
 
@@ -49,7 +51,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 	}
 
 	function sleep() {
-		return new Promise(resolve => setTimeout(resolve, 25));
+		return new Promise((resolve) => setTimeout(resolve, 25));
 	}
 
 	/**
@@ -86,14 +88,25 @@ function MiniGameChessStart(Depth, PlayerColor) {
 		// Set random order for possible moves
 		possibleMoves.sort(() => 0.5 - Math.random());
 		// Set a default best move value
-		let bestMoveValue = isMaximizingPlayer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+		let bestMoveValue = isMaximizingPlayer
+			? Number.NEGATIVE_INFINITY
+			: Number.POSITIVE_INFINITY;
 		// Search through all possible moves
 		for (let i = 0; i < possibleMoves.length; i++) {
 			const move = possibleMoves[i];
 			// Make the move, but undo before exiting loop
 			game.move(move);
 			// Recursively get the value from this move
-			value = (await calcBestMove(depth - 1, game, playerColor, alpha, beta, !isMaximizingPlayer))[0];
+			value = (
+				await calcBestMove(
+					depth - 1,
+					game,
+					playerColor,
+					alpha,
+					beta,
+					!isMaximizingPlayer
+				)
+			)[0];
 			// Log the value of this move
 			//console.log(isMaximizingPlayer ? 'Max: ' : 'Min: ', depth, move, value, bestMove, bestMoveValue);
 
@@ -153,7 +166,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 		const move = game.move({
 			from: source,
 			to: target,
-			promotion: "q" // NOTE: always promote to a queen for example simplicity
+			promotion: "q", // NOTE: always promote to a queen for example simplicity
 		});
 
 		// If illegal move, snapback
@@ -176,7 +189,11 @@ function MiniGameChessStart(Depth, PlayerColor) {
 
 	// Check before pick pieces that it is the player's color and game is not over
 	function onDragStart(source, piece, position, orientation) {
-		if (game.game_over() === true || moveInProgress || piece.search(PlayerColor) === -1) {
+		if (
+			game.game_over() === true ||
+			moveInProgress ||
+			piece.search(PlayerColor) === -1
+		) {
 			return false;
 		}
 	}
@@ -204,7 +221,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 		// Handlers for user actions
 		onDragStart: onDragStart,
 		onDrop: onDrop,
-		onSnapEnd: onSnapEnd
+		onSnapEnd: onSnapEnd,
 	});
 
 	// Resets the board and shows it

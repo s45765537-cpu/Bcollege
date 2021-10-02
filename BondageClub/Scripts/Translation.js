@@ -7,13 +7,11 @@ var TranslationCache = {};
  * @constant
  */
 var TranslationDictionary = [
-
 	{
 		LanguageCode: "EN",
 		LanguageName: "English",
 		EnglishName: "English",
-		Files: [
-		]
+		Files: [],
 	},
 	{
 		LanguageCode: "DE",
@@ -106,8 +104,8 @@ var TranslationDictionary = [
 			"Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain_DE.txt",
 			"Screens/Room/Stable/Dialog_NPC_Stable_Pony_DE.txt",
 			"Screens/Room/Stable/Dialog_NPC_Stable_Trainer_DE.txt",
-			"Screens/Room/Stable/Text_Stable_DE.txt"
-		]
+			"Screens/Room/Stable/Text_Stable_DE.txt",
+		],
 	},
 	{
 		LanguageCode: "FR",
@@ -188,7 +186,7 @@ var TranslationDictionary = [
 			"Screens/Room/Shop/Text_Shop_FR.txt",
 			"Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain_FR.txt",
 			"Screens/Room/Stable/Text_Stable_FR.txt",
-		]
+		],
 	},
 	{
 		LanguageCode: "RU",
@@ -281,10 +279,9 @@ var TranslationDictionary = [
 			"Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain_RU.txt",
 			"Screens/Room/Stable/Dialog_NPC_Stable_Pony_RU.txt",
 			"Screens/Room/Stable/Dialog_NPC_Stable_Trainer_RU.txt",
-			"Screens/Room/Stable/Text_Stable_RU.txt"
-		]
-	}
-
+			"Screens/Room/Stable/Text_Stable_RU.txt",
+		],
+	},
 ];
 
 /**
@@ -297,7 +294,10 @@ function TranslationAvailable(FullPath) {
 	for (let L = 0; L < TranslationDictionary.length; L++)
 		if (TranslationDictionary[L].LanguageCode == TranslationLanguage)
 			for (let F = 0; F < TranslationDictionary[L].Files.length; F++)
-				if (TranslationDictionary[L].Files[F].trim().toUpperCase() == FileName)
+				if (
+					TranslationDictionary[L].Files[F].trim().toUpperCase() ==
+					FileName
+				)
 					return true;
 	return false;
 }
@@ -308,17 +308,19 @@ function TranslationAvailable(FullPath) {
  * @returns {string[]} - Array of strings with each line divided. For each translated line, the english string precedes the translated one in the array.
  */
 function TranslationParseTXT(str) {
-
 	const arr = [];
 	let c;
-	str = str.replace(/\r\n/g, '\n').trim();
+	str = str.replace(/\r\n/g, "\n").trim();
 
 	// iterate over each character, keep track of current row (of the returned array)
-	for (let row = c = 0; c < str.length; c++) {
-		let cc = str[c];        // current character, next character
-		arr[row] = arr[row] || "";             // create a new row if necessary
-		if (cc == '\n') { ++row; continue; }   // If it's a newline, move on to the next row
-		arr[row] += cc;                        // Otherwise, append the current character to the row
+	for (let row = (c = 0); c < str.length; c++) {
+		let cc = str[c]; // current character, next character
+		arr[row] = arr[row] || ""; // create a new row if necessary
+		if (cc == "\n") {
+			++row;
+			continue;
+		} // If it's a newline, move on to the next row
+		arr[row] += cc; // Otherwise, append the current character to the row
 	}
 
 	// Removes any comment rows (starts with ###)
@@ -341,11 +343,19 @@ function TranslationParseTXT(str) {
  * @returns {string} - The translated string
  */
 function TranslationString(S, T, CharacterName) {
-	if ((S != null) && (S.trim() != "")) {
+	if (S != null && S.trim() != "") {
 		S = S.trim();
 		for (let P = 0; P < T.length; P++)
-			if (S == T[P].replace("DialogCharacterName", CharacterName).replace("DialogPlayerName", Player.Name))
-				return T[P + 1].replace("DialogCharacterName", CharacterName).replace("DialogPlayerName", Player.Name);
+			if (
+				S ==
+				T[P].replace("DialogCharacterName", CharacterName).replace(
+					"DialogPlayerName",
+					Player.Name
+				)
+			)
+				return T[P + 1]
+					.replace("DialogCharacterName", CharacterName)
+					.replace("DialogPlayerName", Player.Name);
 	}
 	return S;
 }
@@ -358,8 +368,16 @@ function TranslationString(S, T, CharacterName) {
  */
 function TranslationDialogArray(C, T) {
 	for (let D = 0; D < C.Dialog.length; D++) {
-		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T, C.Name);
-		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T, C.Name);
+		C.Dialog[D].Option = TranslationString(
+			C.Dialog[D].Option,
+			T,
+			C.Name
+		);
+		C.Dialog[D].Result = TranslationString(
+			C.Dialog[D].Result,
+			T,
+			C.Name
+		);
 	}
 }
 
@@ -381,13 +399,28 @@ function TranslationTextArray(S, T) {
  * @returns {void} - Nothing
  */
 function TranslationDialog(C) {
-
 	// If we play in a foreign language
-	if ((TranslationLanguage != null) && (TranslationLanguage.trim() != "") && (TranslationLanguage.trim().toUpperCase() != "EN")) {
-
+	if (
+		TranslationLanguage != null &&
+		TranslationLanguage.trim() != "" &&
+		TranslationLanguage.trim().toUpperCase() != "EN"
+	) {
 		var OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
 		// Finds the full path of the translation file to use
-		var FullPath = (OnlinePlayer ? "Screens/Online/ChatRoom/Dialog_Online" :  (C.ID == 0) ? "Screens/Character/Player/Dialog_Player" : "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName) + "_" + TranslationLanguage + ".txt";
+		var FullPath =
+			(OnlinePlayer
+				? "Screens/Online/ChatRoom/Dialog_Online"
+				: C.ID == 0
+				? "Screens/Character/Player/Dialog_Player"
+				: "Screens/" +
+				  CurrentModule +
+				  "/" +
+				  CurrentScreen +
+				  "/Dialog_" +
+				  C.AccountName) +
+			"_" +
+			TranslationLanguage +
+			".txt";
 
 		// If the translation file is already loaded, we translate from it
 		if (TranslationCache[FullPath]) {
@@ -397,15 +430,15 @@ function TranslationDialog(C) {
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
 		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
+			CommonGet(FullPath, function () {
 				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+					TranslationCache[FullPath] = TranslationParseTXT(
+						this.responseText
+					);
 					TranslationDialogArray(C, TranslationCache[FullPath]);
 				}
 			});
-
 	}
-
 }
 
 /**
@@ -415,10 +448,22 @@ function TranslationDialog(C) {
  */
 function TranslationText(Text) {
 	// If we play in a foreign language
-	if ((TranslationLanguage != null) && (TranslationLanguage.trim() != "") && (TranslationLanguage.trim().toUpperCase() != "EN")) {
-
+	if (
+		TranslationLanguage != null &&
+		TranslationLanguage.trim() != "" &&
+		TranslationLanguage.trim().toUpperCase() != "EN"
+	) {
 		// Finds the full path of the translation file to use
-		var FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Text_" + CurrentScreen + "_" + TranslationLanguage + ".txt";
+		var FullPath =
+			"Screens/" +
+			CurrentModule +
+			"/" +
+			CurrentScreen +
+			"/Text_" +
+			CurrentScreen +
+			"_" +
+			TranslationLanguage +
+			".txt";
 
 		// If the translation file is already loaded, we translate from it
 		if (TranslationCache[FullPath]) {
@@ -428,15 +473,15 @@ function TranslationText(Text) {
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
 		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
+			CommonGet(FullPath, function () {
 				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+					TranslationCache[FullPath] = TranslationParseTXT(
+						this.responseText
+					);
 					TranslationTextArray(Text, TranslationCache[FullPath]);
 				}
 			});
-
 	}
-
 }
 
 /**
@@ -446,9 +491,17 @@ function TranslationText(Text) {
  */
 function TranslationAssetProcess(T) {
 	for (let A = 0; A < AssetGroup.length; A++)
-		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T, "");
+		AssetGroup[A].Description = TranslationString(
+			AssetGroup[A].Description,
+			T,
+			""
+		);
 	for (let A = 0; A < Asset.length; A++)
-		Asset[A].Description = TranslationString(Asset[A].Description, T, "");
+		Asset[A].Description = TranslationString(
+			Asset[A].Description,
+			T,
+			""
+		);
 }
 
 /**
@@ -457,12 +510,21 @@ function TranslationAssetProcess(T) {
  * @returns {void} - Nothing
  */
 function TranslationAsset(Family) {
-
 	// If we play in a foreign language
-	if ((TranslationLanguage != null) && (TranslationLanguage.trim() != "") && (TranslationLanguage.trim().toUpperCase() != "EN")) {
-
+	if (
+		TranslationLanguage != null &&
+		TranslationLanguage.trim() != "" &&
+		TranslationLanguage.trim().toUpperCase() != "EN"
+	) {
 		// Finds the full path of the translation file to use
-		var FullPath = "Assets/" + Family + "/" + Family + "_" + TranslationLanguage + ".txt";
+		var FullPath =
+			"Assets/" +
+			Family +
+			"/" +
+			Family +
+			"_" +
+			TranslationLanguage +
+			".txt";
 
 		// If the translation file is already loaded, we translate from it
 		if (TranslationCache[FullPath]) {
@@ -472,15 +534,15 @@ function TranslationAsset(Family) {
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
 		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
+			CommonGet(FullPath, function () {
 				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+					TranslationCache[FullPath] = TranslationParseTXT(
+						this.responseText
+					);
 					TranslationAssetProcess(TranslationCache[FullPath]);
 				}
 			});
-
 	}
-
 }
 
 /**
@@ -489,12 +551,18 @@ function TranslationAsset(Family) {
  */
 function TranslationNextLanguage() {
 	for (let L = 0; L < TranslationDictionary.length; L++)
-		if (TranslationDictionary[L].LanguageCode == TranslationLanguage) {
+		if (
+			TranslationDictionary[L].LanguageCode == TranslationLanguage
+		) {
 			if (L != TranslationDictionary.length - 1)
-				TranslationLanguage = TranslationDictionary[L + 1].LanguageCode;
+				TranslationLanguage =
+					TranslationDictionary[L + 1].LanguageCode;
 			else
 				TranslationLanguage = TranslationDictionary[0].LanguageCode;
-			localStorage.setItem("BondageClubLanguage", TranslationLanguage);
+			localStorage.setItem(
+				"BondageClubLanguage",
+				TranslationLanguage
+			);
 			return;
 		}
 }

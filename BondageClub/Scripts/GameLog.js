@@ -11,14 +11,13 @@ var Log = [];
  * @returns {void} - Nothing
  */
 function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
-
 	// Makes sure the value is numeric
 	if (NewLogValue != null) NewLogValue = parseInt(NewLogValue);
 
 	// Checks to make sure we don't duplicate a log
 	var AddToLog = true;
 	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == NewLogName) && (Log[L].Group == NewLogGroup)) {
+		if (Log[L].Name == NewLogName && Log[L].Group == NewLogGroup) {
 			Log[L].Value = NewLogValue;
 			AddToLog = false;
 			break;
@@ -29,15 +28,13 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
 		var NewLog = {
 			Name: NewLogName,
 			Group: NewLogGroup,
-			Value: NewLogValue
+			Value: NewLogValue,
 		};
 		Log.push(NewLog);
 	}
 
 	// Sends the log to the server
-	if ((Push == null) || Push)
-		ServerPlayerLogSync();
-
+	if (Push == null || Push) ServerPlayerLogSync();
 }
 
 /**
@@ -48,18 +45,15 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
  * @returns {void} - Nothing
  */
 function LogDelete(DelLogName, DelLogGroup, Push) {
-
 	// Finds the log entry and deletes it
 	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == DelLogName) && (Log[L].Group == DelLogGroup)) {
+		if (Log[L].Name == DelLogName && Log[L].Group == DelLogGroup) {
 			Log.splice(L, 1);
 			break;
 		}
 
 	// Sends the new log to the server
-	if ((Push == null) || Push)
-		ServerPlayerLogSync();
-
+	if (Push == null || Push) ServerPlayerLogSync();
 }
 
 // Checks if the log exists, return true if it does (if there's a value, it counts as an expiry time)
@@ -72,12 +66,11 @@ function LogDelete(DelLogName, DelLogGroup, Push) {
  */
 function LogQuery(QueryLogName, QueryLogGroup) {
 	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == QueryLogName) && (Log[L].Group == QueryLogGroup))
-			if ((Log[L].Value == null) || (Log[L].Value >= CurrentTime))
+		if (Log[L].Name == QueryLogName && Log[L].Group == QueryLogGroup)
+			if (Log[L].Value == null || Log[L].Value >= CurrentTime)
 				return true;
 	return false;
 }
-
 
 /**
  * Returns the value associated to a log.
@@ -87,7 +80,7 @@ function LogQuery(QueryLogName, QueryLogGroup) {
  */
 function LogValue(QueryLogName, QueryLogGroup) {
 	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == QueryLogName) && (Log[L].Group == QueryLogGroup))
+		if (Log[L].Name == QueryLogName && Log[L].Group == QueryLogGroup)
 			return Log[L].Value;
 	return null;
 }
@@ -98,18 +91,24 @@ function LogValue(QueryLogName, QueryLogGroup) {
  * @returns {void} - Nothing
  */
 function LogLoad(NewLog) {
-
 	// Make sure we have something to load
 	Log = [];
 	if (NewLog != null) {
-
 		// Add each log entry one by one, validates the type to prevent client crashes
 		for (let L = 0; L < NewLog.length; L++)
-			if ((typeof NewLog[L].Name === "string") && (typeof NewLog[L].Group === "string") && ((NewLog[L].Value == null) || (typeof NewLog[L].Value === "number")))
-				LogAdd(NewLog[L].Name, NewLog[L].Group, NewLog[L].Value, false);
-
+			if (
+				typeof NewLog[L].Name === "string" &&
+				typeof NewLog[L].Group === "string" &&
+				(NewLog[L].Value == null ||
+					typeof NewLog[L].Value === "number")
+			)
+				LogAdd(
+					NewLog[L].Name,
+					NewLog[L].Group,
+					NewLog[L].Value,
+					false
+				);
 	}
-
 }
 
 /**
@@ -122,8 +121,10 @@ function LogLoad(NewLog) {
 function LogQueryRemote(C, QueryLogName, QueryLogGroup) {
 	if (C.ID == 0) return LogQuery(QueryLogName, QueryLogGroup);
 	if (!C.Rule || !Array.isArray(C.Rule)) return false;
-	var R = C.Rule.find(r => r.Name == QueryLogName && r.Group == QueryLogGroup);
-	return (R != null) && ((R.Value == null) || (R.Value >= CurrentTime));
+	var R = C.Rule.find(
+		(r) => r.Name == QueryLogName && r.Group == QueryLogGroup
+	);
+	return R != null && (R.Value == null || R.Value >= CurrentTime);
 }
 
 /**
@@ -132,7 +133,12 @@ function LogQueryRemote(C, QueryLogName, QueryLogGroup) {
  * @returns {LogRecord[]} - A list of rules that the player's owner is permitted to see
  */
 function LogGetOwnerReadableRules(OwnerIsLover) {
-	return Log.filter(L => L.Group == "OwnerRule" || (L.Group == "LoverRule" && (OwnerIsLover || L.Name.includes("Owner"))));
+	return Log.filter(
+		(L) =>
+			L.Group == "OwnerRule" ||
+			(L.Group == "LoverRule" &&
+				(OwnerIsLover || L.Name.includes("Owner")))
+	);
 }
 
 /**
@@ -140,5 +146,5 @@ function LogGetOwnerReadableRules(OwnerIsLover) {
  * @returns {LogRecord[]} - A list of rules that the player's lover is permitted to see
  */
 function LogGetLoverReadableRules() {
-	return Log.filter(L => L.Group == "LoverRule");
+	return Log.filter((L) => L.Group == "LoverRule");
 }

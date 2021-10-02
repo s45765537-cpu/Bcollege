@@ -7,7 +7,6 @@ var OnlineGameDictionary = null;
  */
 function OnlneGameDictionaryLoad() {
 	if (OnlineGameDictionary == null) {
-
 		// Tries to read it from cache first
 		var FullPath = "Screens/Online/Game/OnlineGameDictionary.csv";
 		if (CommonCSVCache[FullPath]) {
@@ -24,12 +23,17 @@ function OnlneGameDictionaryLoad() {
 		});
 
 		// If a translation file is available, we open the txt file and keep it in cache
-		var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
+		var TranslationPath = FullPath.replace(
+			".csv",
+			"_" + TranslationLanguage + ".txt"
+		);
 		if (TranslationAvailable(TranslationPath))
-			CommonGet(TranslationPath, function() {
-				if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
+			CommonGet(TranslationPath, function () {
+				if (this.status == 200)
+					TranslationCache[TranslationPath] = TranslationParseTXT(
+						this.responseText
+					);
 			});
-
 	}
 }
 
@@ -51,7 +55,8 @@ function OnlineGameDictionaryText(KeyWord) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return GameLARPCharacterClick(C);
+	if (ChatRoomGame == "LARP" && GameLARPStatus != "")
+		return GameLARPCharacterClick(C);
 	return false;
 }
 
@@ -60,7 +65,8 @@ function OnlineGameClickCharacter(C) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClick() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return GameLARPClickProcess();
+	if (ChatRoomGame == "LARP" && GameLARPStatus != "")
+		return GameLARPClickProcess();
 	return false;
 }
 
@@ -69,10 +75,8 @@ function OnlineGameClick() {
  * @returns {void} - Nothing
  */
 function OnlineGameRun() {
-
 	// In LARP, the player turn can be skipped by an administrator after 20 seconds
 	if (ChatRoomGame == "LARP") GameLARPRunProcess();
-
 }
 
 /**
@@ -80,7 +84,7 @@ function OnlineGameRun() {
  * @returns {boolean} - Returns TRUE if there's no online game that currently blocks changing
  */
 function OnlineGameAllowChange() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return false;
+	if (ChatRoomGame == "LARP" && GameLARPStatus != "") return false;
 	return true;
 }
 
@@ -89,7 +93,7 @@ function OnlineGameAllowChange() {
  * @returns {boolean} - Returns TRUE if the online game allows you to block items
  */
 function OnlineGameAllowBlockItems() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return false;
+	if (ChatRoomGame == "LARP" && GameLARPStatus != "") return false;
 	return true;
 }
 
@@ -100,7 +104,12 @@ function OnlineGameAllowBlockItems() {
 function OnlineGameLoadStatus() {
 	if (ChatRoomGame == "LARP") {
 		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game.LARP.Status != "")) {
+			if (
+				ChatRoomData.Admin.indexOf(
+					ChatRoomCharacter[C].MemberNumber
+				) >= 0 &&
+				ChatRoomCharacter[C].Game.LARP.Status != ""
+			) {
 				GameLARPStatus = ChatRoomCharacter[C].Game.LARP.Status;
 				return;
 			}
@@ -137,12 +146,33 @@ function OnlineGameCharacterInChatRoom(MemberNumber) {
  * @returns {void} - Nothing
  */
 function OnlineGameDrawCharacter(C, X, Y, Zoom) {
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatRoomGame == "LARP")) {
+	if (
+		CurrentModule == "Online" &&
+		CurrentScreen == "ChatRoom" &&
+		ChatRoomGame == "LARP"
+	) {
 		GameLARPDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
-		if ((GameLARPPlayer.length > 0) && (C.MemberNumber == GameLARPPlayer[GameLARPTurnPosition].MemberNumber) && (GameLARPStatus == "Running") && (GameLARPTurnFocusCharacter == null)) {
+		if (
+			GameLARPPlayer.length > 0 &&
+			C.MemberNumber ==
+				GameLARPPlayer[GameLARPTurnPosition].MemberNumber &&
+			GameLARPStatus == "Running" &&
+			GameLARPTurnFocusCharacter == null
+		) {
 			MainCanvas.font = CommonGetFont(72);
-			var Time = Math.ceil((GameLARPTurnTimer - TimerGetTime()) / 1000);
-			DrawText(((Time < 0) || (Time > GameLARPTimerDelay[GameLARPTimerDelay.length - 1])) ? OnlineGameDictionaryText("TimerNA") : Time.toString(), X + 250 * Zoom, Y + 830 * Zoom, "Red", "Black");
+			var Time = Math.ceil(
+				(GameLARPTurnTimer - TimerGetTime()) / 1000
+			);
+			DrawText(
+				Time < 0 ||
+					Time > GameLARPTimerDelay[GameLARPTimerDelay.length - 1]
+					? OnlineGameDictionaryText("TimerNA")
+					: Time.toString(),
+				X + 250 * Zoom,
+				Y + 830 * Zoom,
+				"Red",
+				"Black"
+			);
 			MainCanvas.font = CommonGetFont(36);
 		}
 	}

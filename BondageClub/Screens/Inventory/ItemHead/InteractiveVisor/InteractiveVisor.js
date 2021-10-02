@@ -33,39 +33,55 @@ var InventoryItemHeadInteractiveVisorOptions = [
 ];
 
 function InventoryItemHeadInteractiveVisorLoad() {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticLoadAccessDenied();
 	} else
-		ExtendedItemLoad(InventoryItemHeadInteractiveVisorOptions, "SelectVisorType");
+		ExtendedItemLoad(
+			InventoryItemHeadInteractiveVisorOptions,
+			"SelectVisorType"
+		);
 }
 
 function InventoryItemHeadInteractiveVisorDraw() {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticDrawAccessDenied();
 	} else
-		ExtendedItemDraw(InventoryItemHeadInteractiveVisorOptions, "InteractiveVisorHeadType");
+		ExtendedItemDraw(
+			InventoryItemHeadInteractiveVisorOptions,
+			"InteractiveVisorHeadType"
+		);
 }
 
 function InventoryItemHeadInteractiveVisorClick() {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		InventoryItemFuturisticClickAccessDenied();
-	} else
-		ExtendedItemClick(InventoryItemHeadInteractiveVisorOptions);
+	} else ExtendedItemClick(InventoryItemHeadInteractiveVisorOptions);
 }
 
 function InventoryItemHeadInteractiveVisorPublishAction(C, Option) {
 	var Message = "InteractiveVisorHeadSet" + Option.Name;
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
-		{ Tag: "TargetCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{
+			Tag: "SourceCharacter",
+			Text: Player.Name,
+			MemberNumber: Player.MemberNumber,
+		},
+		{
+			Tag: "DestinationCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
+		{
+			Tag: "TargetCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
 	];
 	ChatRoomPublishCustomAction(Message, true, Dictionary);
 }
-
 
 function InventoryItemHeadInteractiveVisorExit() {
 	InventoryItemFuturisticExitAccessDenied();
@@ -76,5 +92,9 @@ function InventoryItemHeadInteractiveVisorValidate(C, Item) {
 }
 
 function InventoryItemHeadInteractiveVisorNpcDialog(C, Option) {
-	C.CurrentDialog = DialogFind(C, "ItemHeadInteractiveVisor" + Option.Name, "ItemHead");
+	C.CurrentDialog = DialogFind(
+		C,
+		"ItemHeadInteractiveVisor" + Option.Name,
+		"ItemHead"
+	);
 }

@@ -7,9 +7,19 @@ var CollegeChessPlayerAppearance = null;
 var CollegeChessOpponentAppearance = null;
 
 // Quick functions for player interactions with the chess opponent
-function CollegeChessCanStripPlayer() { return !CharacterIsNaked(Player); }
-function CollegeChessCanStripOpponent() { return !CharacterIsNaked(CollegeChessOpponent); }
-function CollegeChessCanMakeLove() { return (CharacterIsNaked(Player) && CharacterIsNaked(CollegeChessOpponent) && !Player.IsChaste()); }
+function CollegeChessCanStripPlayer() {
+	return !CharacterIsNaked(Player);
+}
+function CollegeChessCanStripOpponent() {
+	return !CharacterIsNaked(CollegeChessOpponent);
+}
+function CollegeChessCanMakeLove() {
+	return (
+		CharacterIsNaked(Player) &&
+		CharacterIsNaked(CollegeChessOpponent) &&
+		!Player.IsChaste()
+	);
+}
 
 /**
  * Loads the college chest screen by generating the opponent.
@@ -17,12 +27,16 @@ function CollegeChessCanMakeLove() { return (CharacterIsNaked(Player) && Charact
  */
 function CollegeChessLoad() {
 	if (CollegeChessOpponent == null) {
-		CollegeChessOpponent = CharacterLoadNPC("NPC_CollegeChess_Opponent");
+		CollegeChessOpponent = CharacterLoadNPC(
+			"NPC_CollegeChess_Opponent"
+		);
 		CollegeChessOpponent.AllowItem = false;
 		CollegeEntranceWearStudentClothes(CollegeChessOpponent);
-		CollegeChessOpponentAppearance = CollegeChessOpponent.Appearance.slice(0);
+		CollegeChessOpponentAppearance =
+			CollegeChessOpponent.Appearance.slice(0);
 	}
-	if (CollegeChessPlayerAppearance == null) CollegeChessPlayerAppearance = Player.Appearance.slice(0);
+	if (CollegeChessPlayerAppearance == null)
+		CollegeChessPlayerAppearance = Player.Appearance.slice(0);
 }
 
 /**
@@ -32,8 +46,26 @@ function CollegeChessLoad() {
 function CollegeChessRun() {
 	DrawCharacter(Player, 500, 0, 1);
 	DrawCharacter(CollegeChessOpponent, 1000, 0, 1);
-	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
+	DrawButton(
+		1885,
+		25,
+		90,
+		90,
+		"",
+		Player.CanWalk() ? "White" : "Pink",
+		"Icons/Exit.png",
+		TextGet("Exit")
+	);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
 }
 
 /**
@@ -41,9 +73,12 @@ function CollegeChessRun() {
  * @returns {void} - Nothing
  */
 function CollegeChessClick() {
-	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(CollegeChessOpponent);
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "CollegeEntrance");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
+	if (MouseIn(1000, 0, 500, 1000))
+		CharacterSetCurrent(CollegeChessOpponent);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk())
+		CommonSetScreen("Room", "CollegeEntrance");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
 }
 
 /**
@@ -55,11 +90,16 @@ function CollegeChessClick() {
 function CollegeChessGameStart(Difficulty, Bet) {
 	CollegeChessDifficulty = parseInt(Difficulty);
 	CollegeChessBet = Bet;
-	if (Bet == "Money") CharacterChangeMoney(Player, CollegeChessDifficulty * -10);
+	if (Bet == "Money")
+		CharacterChangeMoney(Player, CollegeChessDifficulty * -10);
 	const playerStarts = Math.random() < 0.5;
 	ChessCharacterWhite = playerStarts ? Player : CollegeChessOpponent;
 	ChessCharacterBlack = playerStarts ? CollegeChessOpponent : Player;
-	MiniGameStart("Chess", CollegeChessDifficulty, "CollegeChessGameEnd");
+	MiniGameStart(
+		"Chess",
+		CollegeChessDifficulty,
+		"CollegeChessGameEnd"
+	);
 	document.addEventListener("chessOnMove", CollegeChessGameProgress);
 }
 
@@ -68,11 +108,16 @@ function CollegeChessGameStart(Difficulty, Bet) {
  * @returns {void} - Nothing, the returns are quick exit short cuts
  */
 function CollegeChessStrip(C) {
-	if (InventoryGet(C, "Shoes") != null) return InventoryRemove(C, "Shoes");
-	if (InventoryGet(C, "Socks") != null) return InventoryRemove(C, "Socks");
-	if (InventoryGet(C, "Cloth") != null) return InventoryRemove(C, "Cloth");
-	if (InventoryGet(C, "Bra") != null) return InventoryRemove(C, "Bra");
-	if (InventoryGet(C, "Panties") != null) return InventoryRemove(C, "Panties");
+	if (InventoryGet(C, "Shoes") != null)
+		return InventoryRemove(C, "Shoes");
+	if (InventoryGet(C, "Socks") != null)
+		return InventoryRemove(C, "Socks");
+	if (InventoryGet(C, "Cloth") != null)
+		return InventoryRemove(C, "Cloth");
+	if (InventoryGet(C, "Bra") != null)
+		return InventoryRemove(C, "Bra");
+	if (InventoryGet(C, "Panties") != null)
+		return InventoryRemove(C, "Panties");
 }
 
 /**
@@ -80,13 +125,37 @@ function CollegeChessStrip(C) {
  * @returns {void} - Nothing, the returns are quick exit short cuts
  */
 function CollegeChessRestrain(C) {
-	if ((InventoryGet(C, "ItemLegs") == null) && !InventoryGroupIsBlocked(C, "ItemLegs")) return InventoryWearRandom(C, "ItemLegs");
-	if ((InventoryGet(C, "ItemFeet") == null) && !InventoryGroupIsBlocked(C, "ItemFeet")) return InventoryWearRandom(C, "ItemFeet");
-	if ((InventoryGet(C, "ItemNeck") == null) && !InventoryGroupIsBlocked(C, "ItemNeck")) return InventoryWearRandom(C, "ItemNeck");
+	if (
+		InventoryGet(C, "ItemLegs") == null &&
+		!InventoryGroupIsBlocked(C, "ItemLegs")
+	)
+		return InventoryWearRandom(C, "ItemLegs");
+	if (
+		InventoryGet(C, "ItemFeet") == null &&
+		!InventoryGroupIsBlocked(C, "ItemFeet")
+	)
+		return InventoryWearRandom(C, "ItemFeet");
+	if (
+		InventoryGet(C, "ItemNeck") == null &&
+		!InventoryGroupIsBlocked(C, "ItemNeck")
+	)
+		return InventoryWearRandom(C, "ItemNeck");
 	if (InventoryGet(C, "Cloth") != null) return;
-	if ((InventoryGet(C, "ItemTorso") == null) && !InventoryGroupIsBlocked(C, "ItemTorso")) return InventoryWearRandom(C, "ItemTorso");
-	if ((InventoryGet(C, "ItemBreast") == null) && !InventoryGroupIsBlocked(C, "ItemBreast")) return InventoryWearRandom(C, "ItemBreast");
-	if ((InventoryGet(C, "ItemPelvis") == null) && !InventoryGroupIsBlocked(C, "ItemPelvis")) return InventoryWearRandom(C, "ItemPelvis");
+	if (
+		InventoryGet(C, "ItemTorso") == null &&
+		!InventoryGroupIsBlocked(C, "ItemTorso")
+	)
+		return InventoryWearRandom(C, "ItemTorso");
+	if (
+		InventoryGet(C, "ItemBreast") == null &&
+		!InventoryGroupIsBlocked(C, "ItemBreast")
+	)
+		return InventoryWearRandom(C, "ItemBreast");
+	if (
+		InventoryGet(C, "ItemPelvis") == null &&
+		!InventoryGroupIsBlocked(C, "ItemPelvis")
+	)
+		return InventoryWearRandom(C, "ItemPelvis");
 }
 
 /**
@@ -94,12 +163,33 @@ function CollegeChessRestrain(C) {
  * @returns {void} - Nothing
  */
 function CollegeChessGameProgress() {
-	if ((CollegeChessBet != "Strip") && (CollegeChessBet != "Bondage")) return;
+	if (CollegeChessBet != "Strip" && CollegeChessBet != "Bondage")
+		return;
 	if (MiniGameChessGame.board() == null) return;
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterBlack);
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterWhite);
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Bondage")) return InventoryWearRandom(ChessCharacterBlack, "ItemArms", 5);
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Bondage")) return InventoryWearRandom(ChessCharacterWhite, "ItemArms", 5);
+	if (
+		MiniGameChessGame.in_checkmate() &&
+		MiniGameChessGame.turn() == "b" &&
+		CollegeChessBet == "Strip"
+	)
+		return CharacterNaked(ChessCharacterBlack);
+	if (
+		MiniGameChessGame.in_checkmate() &&
+		MiniGameChessGame.turn() == "w" &&
+		CollegeChessBet == "Strip"
+	)
+		return CharacterNaked(ChessCharacterWhite);
+	if (
+		MiniGameChessGame.in_checkmate() &&
+		MiniGameChessGame.turn() == "b" &&
+		CollegeChessBet == "Bondage"
+	)
+		return InventoryWearRandom(ChessCharacterBlack, "ItemArms", 5);
+	if (
+		MiniGameChessGame.in_checkmate() &&
+		MiniGameChessGame.turn() == "w" &&
+		CollegeChessBet == "Bondage"
+	)
+		return InventoryWearRandom(ChessCharacterWhite, "ItemArms", 5);
 	let MinorWhite = 0;
 	let MajorWhite = 0;
 	let MinorBlack = 0;
@@ -108,17 +198,39 @@ function CollegeChessGameProgress() {
 	for (let X = 0; X < Board.length; X++)
 		for (let Y = 0; Y < Board[X].length; Y++)
 			if (Board[X][Y] != null) {
-				if ((Board[X][Y].color == "b") && (Board[X][Y].type == "p")) MinorWhite++;
-				if ((Board[X][Y].color == "b") && (Board[X][Y].type != "p")) MajorWhite++;
-				if ((Board[X][Y].color == "w") && (Board[X][Y].type == "p")) MinorBlack++;
-				if ((Board[X][Y].color == "w") && (Board[X][Y].type != "p")) MajorBlack++;
+				if (Board[X][Y].color == "b" && Board[X][Y].type == "p")
+					MinorWhite++;
+				if (Board[X][Y].color == "b" && Board[X][Y].type != "p")
+					MajorWhite++;
+				if (Board[X][Y].color == "w" && Board[X][Y].type == "p")
+					MinorBlack++;
+				if (Board[X][Y].color == "w" && Board[X][Y].type != "p")
+					MajorBlack++;
 			}
-	if ((ChessMinorPieceWhite > MinorWhite) && (CollegeChessBet == "Bondage")) CollegeChessStrip(ChessCharacterBlack);
-	if ((ChessMinorPieceBlack > MinorBlack) && (CollegeChessBet == "Bondage")) CollegeChessStrip(ChessCharacterWhite);
-	if ((ChessMajorPieceWhite > MajorWhite) && (CollegeChessBet == "Strip")) CollegeChessStrip(ChessCharacterBlack);
-	if ((ChessMajorPieceBlack > MajorBlack) && (CollegeChessBet == "Strip")) CollegeChessStrip(ChessCharacterWhite);
-	if ((ChessMajorPieceWhite > MajorWhite) && (CollegeChessBet == "Bondage")) CollegeChessRestrain(ChessCharacterBlack);
-	if ((ChessMajorPieceBlack > MajorBlack) && (CollegeChessBet == "Bondage")) CollegeChessRestrain(ChessCharacterWhite);
+	if (
+		ChessMinorPieceWhite > MinorWhite &&
+		CollegeChessBet == "Bondage"
+	)
+		CollegeChessStrip(ChessCharacterBlack);
+	if (
+		ChessMinorPieceBlack > MinorBlack &&
+		CollegeChessBet == "Bondage"
+	)
+		CollegeChessStrip(ChessCharacterWhite);
+	if (ChessMajorPieceWhite > MajorWhite && CollegeChessBet == "Strip")
+		CollegeChessStrip(ChessCharacterBlack);
+	if (ChessMajorPieceBlack > MajorBlack && CollegeChessBet == "Strip")
+		CollegeChessStrip(ChessCharacterWhite);
+	if (
+		ChessMajorPieceWhite > MajorWhite &&
+		CollegeChessBet == "Bondage"
+	)
+		CollegeChessRestrain(ChessCharacterBlack);
+	if (
+		ChessMajorPieceBlack > MajorBlack &&
+		CollegeChessBet == "Bondage"
+	)
+		CollegeChessRestrain(ChessCharacterWhite);
 	ChessMinorPieceWhite = MinorWhite;
 	ChessMajorPieceWhite = MajorWhite;
 	ChessMinorPieceBlack = MinorBlack;
@@ -131,7 +243,8 @@ function CollegeChessGameProgress() {
  */
 function CollegeChessGameConcede() {
 	if (CollegeChessBet == "Strip") CharacterNaked(Player);
-	if (CollegeChessBet == "Bondage") InventoryWearRandom(Player, "ItemArms", 5);
+	if (CollegeChessBet == "Bondage")
+		InventoryWearRandom(Player, "ItemArms", 5);
 }
 
 /**
@@ -140,13 +253,26 @@ function CollegeChessGameConcede() {
  */
 function CollegeChessGameEnd() {
 	CommonSetScreen("Room", "CollegeChess");
-	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Draw")) CharacterChangeMoney(Player, CollegeChessDifficulty * 10);
-	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Victory")) CharacterChangeMoney(Player, CollegeChessDifficulty * 20);
-	if (((CollegeChessBet == "Bondage") || (CollegeChessBet == "Strip")) && (ChessEndStatus == "Draw")) CollegeChessRestoreAppearance();
-	CollegeChessOpponent.Stage = "Result" + ChessEndStatus + CollegeChessBet;
-	CollegeChessOpponent.CurrentDialog = DialogFind(CollegeChessOpponent, "Intro" + ChessEndStatus + CollegeChessBet);
+	if (CollegeChessBet == "Money" && ChessEndStatus == "Draw")
+		CharacterChangeMoney(Player, CollegeChessDifficulty * 10);
+	if (CollegeChessBet == "Money" && ChessEndStatus == "Victory")
+		CharacterChangeMoney(Player, CollegeChessDifficulty * 20);
+	if (
+		(CollegeChessBet == "Bondage" || CollegeChessBet == "Strip") &&
+		ChessEndStatus == "Draw"
+	)
+		CollegeChessRestoreAppearance();
+	CollegeChessOpponent.Stage =
+		"Result" + ChessEndStatus + CollegeChessBet;
+	CollegeChessOpponent.CurrentDialog = DialogFind(
+		CollegeChessOpponent,
+		"Intro" + ChessEndStatus + CollegeChessBet
+	);
 	CharacterSetCurrent(CollegeChessOpponent);
-	document.removeEventListener("chessOnMove", CollegeChessGameProgress);
+	document.removeEventListener(
+		"chessOnMove",
+		CollegeChessGameProgress
+	);
 }
 
 /**
@@ -154,7 +280,8 @@ function CollegeChessGameEnd() {
  * @returns {void} - Nothing
  */
 function CollegeChessRestoreAppearance() {
-	CollegeChessOpponent.Appearance = CollegeChessOpponentAppearance.slice(0);
+	CollegeChessOpponent.Appearance =
+		CollegeChessOpponentAppearance.slice(0);
 	CharacterRefresh(CollegeChessOpponent);
 	Player.Appearance = CollegeChessPlayerAppearance.slice(0);
 	CharacterRefresh(Player, true);
@@ -166,7 +293,12 @@ function CollegeChessRestoreAppearance() {
  * @returns {void} - Nothing
  */
 function CollegeChessOpponentBlush() {
-	CharacterSetFacialExpression(CollegeChessOpponent, "Blush", "Medium", 10);
+	CharacterSetFacialExpression(
+		CollegeChessOpponent,
+		"Blush",
+		"Medium",
+		10
+	);
 }
 
 /**

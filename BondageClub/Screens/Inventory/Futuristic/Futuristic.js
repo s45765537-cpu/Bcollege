@@ -45,9 +45,9 @@ var FuturisticAccessDeniedMessage = "";
  * @returns {void} - Nothing
  */
 function FuturisticAccessLoad(OriginalFunction) {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		InventoryItemFuturisticLoadAccessDenied()
+		InventoryItemFuturisticLoadAccessDenied();
 	} else OriginalFunction();
 }
 
@@ -57,9 +57,9 @@ function FuturisticAccessLoad(OriginalFunction) {
  * @returns {void} - Nothing
  */
 function FuturisticAccessClick(OriginalFunction) {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		InventoryItemFuturisticClickAccessDenied()
+		InventoryItemFuturisticClickAccessDenied();
 	} else OriginalFunction();
 }
 
@@ -69,9 +69,9 @@ function FuturisticAccessClick(OriginalFunction) {
  * @returns {void} - Nothing
  */
 function FuturisticAccessDraw(OriginalFunction) {
-	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+	var C = Player.FocusGroup != null ? Player : CurrentCharacter;
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		InventoryItemFuturisticDrawAccessDenied()
+		InventoryItemFuturisticDrawAccessDenied();
 	} else OriginalFunction();
 }
 
@@ -79,7 +79,7 @@ function FuturisticAccessDraw(OriginalFunction) {
  * Hook script for injecting futuristic features into an archetypical item
  * @returns {void} - Nothing
  */
- function FuturisticAccessExit() {
+function FuturisticAccessExit() {
 	InventoryItemFuturisticExitAccessDenied();
 }
 
@@ -93,13 +93,17 @@ function FuturisticAccessDraw(OriginalFunction) {
  * @returns {string} - Returns false and sets DialogExtendedMessage, if the chosen option is not possible.
  * @template OptionType
  */
-function FuturisticAccessValidate(OriginalFunction, C, Item, Option, CurrentOption) {
+function FuturisticAccessValidate(
+	OriginalFunction,
+	C,
+	Item,
+	Option,
+	CurrentOption
+) {
 	let futureString = InventoryItemFuturisticValidate(C, Item);
 	if (futureString) return futureString;
 	else return OriginalFunction(C, Item, Option, CurrentOption);
 }
-
-
 
 // Load the futuristic item ACCESS DENIED screen
 function InventoryItemFuturisticLoadAccessDenied() {
@@ -112,45 +116,94 @@ function InventoryItemFuturisticLoadAccessDenied() {
 function InventoryItemFuturisticDrawAccessDenied() {
 	DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
 
-	DrawText(DialogFindPlayer("FuturisticItemLoginScreen"), 1500, 600, "White", "Gray");
+	DrawText(
+		DialogFindPlayer("FuturisticItemLoginScreen"),
+		1500,
+		600,
+		"White",
+		"Gray"
+	);
 
 	ElementPosition("PasswordField", 1505, 750, 350);
-	DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
-	DrawButton(1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"), "White", "");
+	DrawText(
+		DialogFindPlayer("FuturisticItemPassword"),
+		1500,
+		700,
+		"White",
+		"Gray"
+	);
+	DrawButton(
+		1400,
+		800,
+		200,
+		64,
+		DialogFindPlayer("FuturisticItemLogIn"),
+		"White",
+		""
+	);
 
-	if (FuturisticAccessDeniedMessage && FuturisticAccessDeniedMessage != "") DrawText(FuturisticAccessDeniedMessage, 1500, 963, "Red", "Black");
-
+	if (
+		FuturisticAccessDeniedMessage &&
+		FuturisticAccessDeniedMessage != ""
+	)
+		DrawText(
+			FuturisticAccessDeniedMessage,
+			1500,
+			963,
+			"Red",
+			"Black"
+		);
 }
 
 // Click the futuristic item ACCESS DENIED screen
 function InventoryItemFuturisticClickAccessDenied() {
-	if (MouseIn(1885, 25, 90, 90)) InventoryItemFuturisticExitAccessDenied();
+	if (MouseIn(1885, 25, 90, 90))
+		InventoryItemFuturisticExitAccessDenied();
 
 	if (MouseIn(1400, 800, 200, 64)) {
 		var pw = ElementValue("PasswordField").toUpperCase();
-		if (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy == "PasswordPadlock" && pw == DialogFocusItem.Property.Password) {
-			let C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+		if (
+			DialogFocusItem &&
+			DialogFocusItem.Property &&
+			DialogFocusItem.Property.LockedBy == "PasswordPadlock" &&
+			pw == DialogFocusItem.Property.Password
+		) {
+			let C = Player.FocusGroup != null ? Player : CurrentCharacter;
 			CommonPadlockUnlock(C, DialogFocusItem);
 			DialogFocusItem = null;
 			Player.FocusGroup = null;
 			InventoryItemFuturisticExitAccessDenied();
-		} else if (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy == "TimerPasswordPadlock" && pw == DialogFocusItem.Property.Password) {
-			let C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+		} else if (
+			DialogFocusItem &&
+			DialogFocusItem.Property &&
+			DialogFocusItem.Property.LockedBy == "TimerPasswordPadlock" &&
+			pw == DialogFocusItem.Property.Password
+		) {
+			let C = Player.FocusGroup != null ? Player : CurrentCharacter;
 			CommonPadlockUnlock(C, DialogFocusItem);
 			DialogFocusItem = null;
 			Player.FocusGroup = null;
 			InventoryItemFuturisticExitAccessDenied();
-		} else if (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy == "CombinationPadlock" && pw == DialogFocusItem.Property.CombinationNumber) {
-			let C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
+		} else if (
+			DialogFocusItem &&
+			DialogFocusItem.Property &&
+			DialogFocusItem.Property.LockedBy == "CombinationPadlock" &&
+			pw == DialogFocusItem.Property.CombinationNumber
+		) {
+			let C = Player.FocusGroup != null ? Player : CurrentCharacter;
 			InventoryItemMiscCombinationPadlockUnlock(C, DialogFocusItem);
 			DialogFocusItem = null;
 			Player.FocusGroup = null;
 			InventoryItemFuturisticExitAccessDenied();
 		} else {
-			FuturisticAccessDeniedMessage = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+			FuturisticAccessDeniedMessage = DialogFindPlayer(
+				"CantChangeWhileLockedFuturistic"
+			);
 			AudioPlayInstantSound("Audio/AccessDenied.mp3");
 			if (CurrentScreen == "ChatRoom") {
-				InventoryItemFuturisticPublishAccessDenied((Player.FocusGroup != null) ? Player : CurrentCharacter);
+				InventoryItemFuturisticPublishAccessDenied(
+					Player.FocusGroup != null ? Player : CurrentCharacter
+				);
 			}
 		}
 	}
@@ -171,10 +224,21 @@ function InventoryItemFuturisticExitAccessDenied() {
 function InventoryItemFuturisticValidate(C, Item = DialogFocusItem) {
 	var Allowed = "";
 
-	if (Item && Item.Property && Item.Property.LockedBy && !DialogCanUnlock(C, Item)) {
+	if (
+		Item &&
+		Item.Property &&
+		Item.Property.LockedBy &&
+		!DialogCanUnlock(C, Item)
+	) {
 		var collar = InventoryGet(C, "ItemNeck");
-		if (!collar || (!collar.Property || collar.Property.OpenPermission != true)) {
-			Allowed = DialogExtendedMessage = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+		if (
+			!collar ||
+			!collar.Property ||
+			collar.Property.OpenPermission != true
+		) {
+			Allowed = DialogExtendedMessage = DialogFindPlayer(
+				"CantChangeWhileLockedFuturistic"
+			);
 		}
 	}
 
@@ -184,9 +248,17 @@ function InventoryItemFuturisticValidate(C, Item = DialogFocusItem) {
 function InventoryItemFuturisticPublishAccessDenied(C) {
 	var msg = "FuturisticItemLoginLoginAttempt";
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
-		{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name}
+		{
+			Tag: "SourceCharacter",
+			Text: Player.Name,
+			MemberNumber: Player.MemberNumber,
+		},
+		{
+			Tag: "DestinationCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
+		{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name },
 	];
 
 	ChatRoomPublishCustomAction(msg, true, Dictionary);

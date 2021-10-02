@@ -72,11 +72,13 @@ class NotificationEventHandler {
 				} else {
 					NotificationTitleUpdate();
 				}
-			}
-			else if (this.settings.AlertType === NotificationAlertType.TITLEPREFIX) {
+			} else if (
+				this.settings.AlertType === NotificationAlertType.TITLEPREFIX
+			) {
 				NotificationTitleUpdate();
-			}
-			else if (this.settings.AlertType === NotificationAlertType.FAVICON) {
+			} else if (
+				this.settings.AlertType === NotificationAlertType.FAVICON
+			) {
 				NotificationDrawFavicon(false);
 			}
 
@@ -97,27 +99,44 @@ class NotificationEventHandler {
 		let titleStart = "";
 		let titleEnd = "";
 		let C = data.character;
-		if (!C && data.memberNumber) C = Character.find(Char => Char.MemberNumber === data.memberNumber);
-		if (C && 'icon' in Notification.prototype) icon = DrawCharacterSegment(C, 168, 50, 164, 164).toDataURL("image/png");
+		if (!C && data.memberNumber)
+			C = Character.find(
+				(Char) => Char.MemberNumber === data.memberNumber
+			);
+		if (C && "icon" in Notification.prototype)
+			icon = DrawCharacterSegment(C, 168, 50, 164, 164).toDataURL(
+				"image/png"
+			);
 		if (data.characterName) titleStart = data.characterName + " - ";
 		else if (C) titleStart = C.Name + " - ";
-		if (data.chatRoomName) titleEnd = DialogFindPlayer("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
+		if (data.chatRoomName)
+			titleEnd = DialogFindPlayer(
+				"NotificationTitleFromRoom"
+			).replace("ChatRoomName", "'" + data.chatRoomName + "'");
 
 		// Define the (supported) options of the popup and create it
-		let title = titleStart + DialogFindPlayer("NotificationTitle" + this.eventType) + titleEnd;
+		let title =
+			titleStart +
+			DialogFindPlayer("NotificationTitle" + this.eventType) +
+			titleEnd;
 		let options = {};
-		if ('silent' in Notification.prototype) options.silent = !this.playAudio(true);
-		if ('body' in Notification.prototype && data.body) options.body = data.body;
-		if ('renotify' in Notification.prototype) options.renotify = true;
-		if ('tag' in Notification.prototype) options.tag = "BondageClub" + this.eventType;
-		if ('icon' in Notification.prototype) options.icon = icon;
-		if ('data' in Notification.prototype) options.data = this.eventType;
+		if ("silent" in Notification.prototype)
+			options.silent = !this.playAudio(true);
+		if ("body" in Notification.prototype && data.body)
+			options.body = data.body;
+		if ("renotify" in Notification.prototype) options.renotify = true;
+		if ("tag" in Notification.prototype)
+			options.tag = "BondageClub" + this.eventType;
+		if ("icon" in Notification.prototype) options.icon = icon;
+		if ("data" in Notification.prototype)
+			options.data = this.eventType;
 
 		// Create the notification
 		this.popup = new Notification(title, options);
-		if ('onclick' in Notification.prototype) {
+		if ("onclick" in Notification.prototype) {
 			this.popup.onclick = function () {
-				if ('data' in Notification.prototype) NotificationReset(this.data);
+				if ("data" in Notification.prototype)
+					NotificationReset(this.data);
 				window.focus();
 				this.close();
 			};
@@ -132,11 +151,21 @@ class NotificationEventHandler {
 	playAudio(usingPopup) {
 		if (this.settings.Audio === NotificationAudioType.NONE) {
 			return false;
-		} else if (this.eventType === NotificationEventType.BEEP && Player.AudioSettings.PlayBeeps) {
+		} else if (
+			this.eventType === NotificationEventType.BEEP &&
+			Player.AudioSettings.PlayBeeps
+		) {
 			return false; // Sound already played in ServerAccountBeep()
-		} else if (this.settings.AlertType === NotificationAlertType.POPUP && !usingPopup && 'silent' in Notification.prototype) {
+		} else if (
+			this.settings.AlertType === NotificationAlertType.POPUP &&
+			!usingPopup &&
+			"silent" in Notification.prototype
+		) {
 			return false; // The popup will play the sound instead
-		} else if (this.settings.Audio === NotificationAudioType.FIRST && this.raisedCount === 1) {
+		} else if (
+			this.settings.Audio === NotificationAudioType.FIRST &&
+			this.raisedCount === 1
+		) {
 			return true;
 		} else if (this.settings.Audio === NotificationAudioType.REPEAT) {
 			return true;
@@ -154,11 +183,13 @@ class NotificationEventHandler {
 
 			if (this.settings.AlertType === NotificationAlertType.POPUP) {
 				if (this.popup) this.popup.close();
-			}
-			else if (this.settings.AlertType === NotificationAlertType.TITLEPREFIX) {
+			} else if (
+				this.settings.AlertType === NotificationAlertType.TITLEPREFIX
+			) {
 				NotificationTitleUpdate();
-			}
-			else if (this.settings.AlertType === NotificationAlertType.FAVICON) {
+			} else if (
+				this.settings.AlertType === NotificationAlertType.FAVICON
+			) {
 				NotificationDrawFavicon(resetingAll);
 			}
 		}
@@ -176,16 +207,37 @@ var NotificationAudioTypeList = [];
 function NotificationLoad() {
 	// Create the list of event handlers
 	NotificationEventHandlers = {};
-	NotificationEventHandlerSetup(NotificationEventType.CHATMESSAGE, Player.NotificationSettings.ChatMessage);
-	NotificationEventHandlerSetup(NotificationEventType.CHATJOIN, Player.NotificationSettings.ChatJoin);
-	NotificationEventHandlerSetup(NotificationEventType.BEEP, Player.NotificationSettings.Beeps);
-	NotificationEventHandlerSetup(NotificationEventType.DISCONNECT, Player.NotificationSettings.Disconnect);
-	NotificationEventHandlerSetup(NotificationEventType.TEST, Player.NotificationSettings.Test);
-	NotificationEventHandlerSetup(NotificationEventType.LARP, Player.NotificationSettings.Larp);
+	NotificationEventHandlerSetup(
+		NotificationEventType.CHATMESSAGE,
+		Player.NotificationSettings.ChatMessage
+	);
+	NotificationEventHandlerSetup(
+		NotificationEventType.CHATJOIN,
+		Player.NotificationSettings.ChatJoin
+	);
+	NotificationEventHandlerSetup(
+		NotificationEventType.BEEP,
+		Player.NotificationSettings.Beeps
+	);
+	NotificationEventHandlerSetup(
+		NotificationEventType.DISCONNECT,
+		Player.NotificationSettings.Disconnect
+	);
+	NotificationEventHandlerSetup(
+		NotificationEventType.TEST,
+		Player.NotificationSettings.Test
+	);
+	NotificationEventHandlerSetup(
+		NotificationEventType.LARP,
+		Player.NotificationSettings.Larp
+	);
 
 	// Create the alert and audio type lists for the Preferences screen
 	NotificationAlertTypeList = Object.values(NotificationAlertType);
-	if (!("Notification" in window)) NotificationAlertTypeList.splice(NotificationAlertTypeList.indexOf(NotificationAlertType.POPUP));
+	if (!("Notification" in window))
+		NotificationAlertTypeList.splice(
+			NotificationAlertTypeList.indexOf(NotificationAlertType.POPUP)
+		);
 	NotificationAudioTypeList = Object.values(NotificationAudioType);
 
 	// Ensure the image is loaded for the first Favicon notification
@@ -198,7 +250,10 @@ function NotificationLoad() {
  * @param {NotificationSetting} setting
  */
 function NotificationEventHandlerSetup(eventType, setting) {
-	NotificationEventHandlers[eventType] = new NotificationEventHandler(eventType, setting);
+	NotificationEventHandlers[eventType] = new NotificationEventHandler(
+		eventType,
+		setting
+	);
 }
 
 /**
@@ -229,7 +284,9 @@ function NotificationReset(eventType) {
  * @returns {void} - Nothing
  */
 function NotificationResetAll() {
-	Object.values(NotificationEventHandlers).forEach(N => N.reset(true));
+	Object.values(NotificationEventHandlers).forEach((N) =>
+		N.reset(true)
+	);
 }
 
 /**
@@ -243,9 +300,9 @@ function NotificationPopupsEnabled(eventType, data) {
 		return false;
 	} else if (Notification.permission === "granted") {
 		return true;
-	} else if (Notification.permission === 'denied') {
+	} else if (Notification.permission === "denied") {
 		return false;
-	} else if (Notification.permission === 'default') {
+	} else if (Notification.permission === "default") {
 		Notification.requestPermission().then(() => {
 			if (Notification.permission === "granted") {
 				NotificationRaise(eventType, data);
@@ -264,7 +321,7 @@ function NotificationPopupsEnabled(eventType, data) {
  */
 function NotificationGetTotalCount(alertType) {
 	const totalRaisedCount = Object.values(NotificationEventHandlers)
-		.filter(n => n.settings.AlertType == alertType)
+		.filter((n) => n.settings.AlertType == alertType)
 		.reduce((a, b) => a + b.raisedCount, 0);
 	return totalRaisedCount;
 }
@@ -274,8 +331,13 @@ function NotificationGetTotalCount(alertType) {
  * @returns {void} - Nothing
  */
 function NotificationTitleUpdate() {
-	const totalRaisedCount = NotificationGetTotalCount(NotificationAlertType.TITLEPREFIX);
-	const titlePrefix = totalRaisedCount === 0 ? "" : "(" + totalRaisedCount.toString() + ") ";
+	const totalRaisedCount = NotificationGetTotalCount(
+		NotificationAlertType.TITLEPREFIX
+	);
+	const titlePrefix =
+		totalRaisedCount === 0
+			? ""
+			: "(" + totalRaisedCount.toString() + ") ";
 	document.title = titlePrefix + "Bondage Club";
 }
 
@@ -286,11 +348,16 @@ function NotificationTitleUpdate() {
  */
 function NotificationDrawFavicon(resetingAll) {
 	let iconUrl = "Icons/Logo.png";
-	const totalRaisedCount = Math.min(NotificationGetTotalCount(NotificationAlertType.FAVICON), 99);
+	const totalRaisedCount = Math.min(
+		NotificationGetTotalCount(NotificationAlertType.FAVICON),
+		99
+	);
 	if (totalRaisedCount > 0 && !resetingAll) {
 		// Draw the normal icon first
 		const iconLength = 75;
-		let IconCanvas = document.createElement("canvas").getContext("2d");
+		let IconCanvas = document
+			.createElement("canvas")
+			.getContext("2d");
 		IconCanvas.canvas.width = iconLength;
 		IconCanvas.canvas.height = iconLength;
 		DrawImageCanvas(iconUrl, IconCanvas, 0, 0);
@@ -299,17 +366,31 @@ function NotificationDrawFavicon(resetingAll) {
 		const radius = 29;
 		const lineWidth = 2;
 		const circleCentre = iconLength - (radius + lineWidth);
-		DrawCircle(circleCentre, circleCentre, radius, lineWidth, "Black", "Red", IconCanvas);
+		DrawCircle(
+			circleCentre,
+			circleCentre,
+			radius,
+			lineWidth,
+			"Black",
+			"Red",
+			IconCanvas
+		);
 		const fontSize = radius * 2 * (totalRaisedCount >= 10 ? 0.88 : 1); // Shrink for double-digits
 		IconCanvas.font = fontSize + "px Comic Sans MS";
 		IconCanvas.textAlign = "center";
 		IconCanvas.textBaseline = "middle";
 		IconCanvas.fillStyle = "White";
 		// y is being offset because it wasn't centring for some reason
-		IconCanvas.fillText(totalRaisedCount.toString(), circleCentre, circleCentre + (radius / 5));
+		IconCanvas.fillText(
+			totalRaisedCount.toString(),
+			circleCentre,
+			circleCentre + radius / 5
+		);
 
 		// Convert the image into a Data URL
 		iconUrl = IconCanvas.canvas.toDataURL("image/x-icon");
 	}
-	/** @type {HTMLLinkElement} */ (document.getElementById('favicon')).href = iconUrl;
+	/** @type {HTMLLinkElement} */ (
+		document.getElementById("favicon")
+	).href = iconUrl;
 }

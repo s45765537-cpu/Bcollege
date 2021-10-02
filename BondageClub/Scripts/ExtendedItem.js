@@ -21,41 +21,152 @@ var ExtendedItemOffsets = {};
 const ExtendedXY = [
 	[], //0 placeholder
 	[[1385, 500]], //1 option per page
-	[[1185, 500], [1590, 500]], //2 options per page
-	[[1080, 500], [1385, 500], [1695, 500]], //3 options per page
-	[[1185, 400], [1590, 400], [1185, 700], [1590, 700]], //4 options per page
-	[[1080, 400], [1385, 400], [1695, 400], [1185, 700], [1590, 700]], //5 options per page
-	[[1080, 400], [1385, 400], [1695, 400], [1080, 700], [1385, 700], [1695, 700]], //6 options per page
-	[[1020, 400], [1265, 400], [1510, 400], [1755, 400], [1080, 700], [1385, 700], [1695, 700]], //7 options per page
-	[[1020, 400], [1265, 400], [1510, 400], [1755, 400], [1020, 700], [1265, 700], [1510, 700], [1755, 700]], //8 options per page
+	[
+		[1185, 500],
+		[1590, 500],
+	], //2 options per page
+	[
+		[1080, 500],
+		[1385, 500],
+		[1695, 500],
+	], //3 options per page
+	[
+		[1185, 400],
+		[1590, 400],
+		[1185, 700],
+		[1590, 700],
+	], //4 options per page
+	[
+		[1080, 400],
+		[1385, 400],
+		[1695, 400],
+		[1185, 700],
+		[1590, 700],
+	], //5 options per page
+	[
+		[1080, 400],
+		[1385, 400],
+		[1695, 400],
+		[1080, 700],
+		[1385, 700],
+		[1695, 700],
+	], //6 options per page
+	[
+		[1020, 400],
+		[1265, 400],
+		[1510, 400],
+		[1755, 400],
+		[1080, 700],
+		[1385, 700],
+		[1695, 700],
+	], //7 options per page
+	[
+		[1020, 400],
+		[1265, 400],
+		[1510, 400],
+		[1755, 400],
+		[1020, 700],
+		[1265, 700],
+		[1510, 700],
+		[1755, 700],
+	], //8 options per page
 ];
 
 /** The X & Y co-ordinates of each option's button, based on the number to be displayed per page. */
 const ExtendedXYWithoutImages = [
 	[], //0 placeholder
 	[[1400, 450]], //1 option per page
-	[[1175, 450], [1425, 450]], //2 options per page
-	[[1175, 450], [1425, 450], [1675, 450]], //3 options per page
-	[[1175, 450], [1425, 450], [1175, 525], [1425, 525]], //4 options per page
-	[[1175, 450], [1425, 450], [1675, 450], [1175, 525], [1425, 525]], //5 options per page
-	[[1175, 450], [1425, 450], [1675, 450], [1175, 525], [1425, 525], [1675, 525]], //6 options per page
-	[[1050, 450], [1200, 450], [1450, 450], [1700, 450], [1050, 525], [1200, 525], [1425, 525]], //7 options per page
-	[[1050, 450], [1200, 450], [1450, 450], [1700, 450], [1050, 525], [1200, 525], [1425, 525], [1675, 525]], //8 options per page
+	[
+		[1175, 450],
+		[1425, 450],
+	], //2 options per page
+	[
+		[1175, 450],
+		[1425, 450],
+		[1675, 450],
+	], //3 options per page
+	[
+		[1175, 450],
+		[1425, 450],
+		[1175, 525],
+		[1425, 525],
+	], //4 options per page
+	[
+		[1175, 450],
+		[1425, 450],
+		[1675, 450],
+		[1175, 525],
+		[1425, 525],
+	], //5 options per page
+	[
+		[1175, 450],
+		[1425, 450],
+		[1675, 450],
+		[1175, 525],
+		[1425, 525],
+		[1675, 525],
+	], //6 options per page
+	[
+		[1050, 450],
+		[1200, 450],
+		[1450, 450],
+		[1700, 450],
+		[1050, 525],
+		[1200, 525],
+		[1425, 525],
+	], //7 options per page
+	[
+		[1050, 450],
+		[1200, 450],
+		[1450, 450],
+		[1700, 450],
+		[1050, 525],
+		[1200, 525],
+		[1425, 525],
+		[1675, 525],
+	], //8 options per page
 ];
 
 /** The X & Y co-ordinates of each option's button, based on the number to be displayed per page. */
 const ExtendedXYClothes = [
 	[], //0 placeholder
 	[[1385, 450]], //1 option per page
-	[[1220, 450], [1550, 450]], //2 options per page
-	[[1140, 450], [1385, 450], [1630, 450]], //3 options per page
-	[[1220, 400], [1550, 400], [1220, 700], [1550, 700]], //4 options per page
-	[[1140, 400], [1385, 400], [1630, 400], [1220, 700], [1550, 700]], //5 options per page
-	[[1140, 400], [1385, 400], [1630, 400], [1140, 700], [1385, 700], [1630, 700]], //6 options per page
+	[
+		[1220, 450],
+		[1550, 450],
+	], //2 options per page
+	[
+		[1140, 450],
+		[1385, 450],
+		[1630, 450],
+	], //3 options per page
+	[
+		[1220, 400],
+		[1550, 400],
+		[1220, 700],
+		[1550, 700],
+	], //4 options per page
+	[
+		[1140, 400],
+		[1385, 400],
+		[1630, 400],
+		[1220, 700],
+		[1550, 700],
+	], //5 options per page
+	[
+		[1140, 400],
+		[1385, 400],
+		[1630, 400],
+		[1140, 700],
+		[1385, 700],
+		[1630, 700],
+	], //6 options per page
 ];
 
 /** Memoization of the requirements check */
-const ExtendedItemRequirementCheckMessageMemo = CommonMemoize(ExtendedItemRequirementCheckMessage);
+const ExtendedItemRequirementCheckMessageMemo = CommonMemoize(
+	ExtendedItemRequirementCheckMessage
+);
 
 /**
  * The current display mode
@@ -81,21 +192,38 @@ var ExtendedItemSubscreen = null;
 function ExtendedItemLoad(Options, DialogKey) {
 	if (!DialogFocusItem.Property) {
 		// Default to the first option if no property is set
-		DialogFocusItem.Property = JSON.parse(JSON.stringify(Options[0].Property));
+		DialogFocusItem.Property = JSON.parse(
+			JSON.stringify(Options[0].Property)
+		);
 		// If the default type is not the null type, update the item to use this type
 		if (Options[0].Property.Type != null) {
 			const C = CharacterGetCurrent();
 			// If the first option is blocked by the character, switch to the null type option
-			if (InventoryBlockedOrLimited(C, DialogFocusItem, Options[0].Property.Type)) {
-				const BaseOption = Options.find(O => O.Property.Type == null);
-				if (BaseOption != null) DialogFocusItem.Property = JSON.parse(JSON.stringify(BaseOption));
+			if (
+				InventoryBlockedOrLimited(
+					C,
+					DialogFocusItem,
+					Options[0].Property.Type
+				)
+			) {
+				const BaseOption = Options.find(
+					(O) => O.Property.Type == null
+				);
+				if (BaseOption != null)
+					DialogFocusItem.Property = JSON.parse(
+						JSON.stringify(BaseOption)
+					);
 			}
 			CharacterRefresh(C);
-			ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+			ChatRoomCharacterItemUpdate(
+				C,
+				DialogFocusItem.Asset.Group.Name
+			);
 		}
 	}
 
-	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) ExtendedItemSetOffset(0);
+	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null)
+		ExtendedItemSetOffset(0);
 
 	DialogExtendedMessage = DialogFindPlayer(DialogKey);
 }
@@ -110,65 +238,166 @@ function ExtendedItemLoad(Options, DialogKey) {
  * @param {boolean} [ShowImages=true] - Denotes wether images should be shown for the specific item
  * @returns {void} Nothing
  */
-function ExtendedItemDraw(Options, DialogPrefix, OptionsPerPage, ShowImages = true) {
+function ExtendedItemDraw(
+	Options,
+	DialogPrefix,
+	OptionsPerPage,
+	ShowImages = true
+) {
 	// If an option's subscreen is open, it overrides the standard screen
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw");
+		CommonCallFunctionByNameWarn(
+			ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw"
+		);
 		return;
 	}
 
 	const C = CharacterGetCurrent();
 	const Asset = DialogFocusItem.Asset;
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-	const XYPositions = !Asset.Group.Clothing ? (ShowImages ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
+	const XYPositions = !Asset.Group.Clothing
+		? ShowImages
+			? ExtendedXY
+			: ExtendedXYWithoutImages
+		: ExtendedXYClothes;
 	const ImageHeight = ShowImages ? 220 : 0;
-	OptionsPerPage = OptionsPerPage || Math.min(Options.length, XYPositions.length - 1);
+	OptionsPerPage =
+		OptionsPerPage ||
+		Math.min(Options.length, XYPositions.length - 1);
 
 	// If we have to paginate, draw the back/next button
 	if (Options.length > OptionsPerPage) {
-		const currPage = Math.ceil(ExtendedItemGetOffset() / OptionsPerPage) + 1;
+		const currPage =
+			Math.ceil(ExtendedItemGetOffset() / OptionsPerPage) + 1;
 		const totalPages = Math.ceil(Options.length / OptionsPerPage);
-		DrawBackNextButton(1675, 240, 300, 90, DialogFindPlayer("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
+		DrawBackNextButton(
+			1675,
+			240,
+			300,
+			90,
+			DialogFindPlayer("Page") +
+				" " +
+				currPage.toString() +
+				" / " +
+				totalPages.toString(),
+			"White",
+			"",
+			() => "",
+			() => ""
+		);
 	}
 
 	// Draw the header and item
 	DrawAssetPreview(1387, 55, Asset);
 	DrawText(DialogExtendedMessage, 1500, 375, "white", "gray");
 
-	const CurrentOption = Options.find(O => O.Property.Type === DialogFocusItem.Property.Type);
+	const CurrentOption = Options.find(
+		(O) => O.Property.Type === DialogFocusItem.Property.Type
+	);
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
-	for (let I = ItemOptionsOffset; I < Options.length && I < ItemOptionsOffset + OptionsPerPage; I++) {
+	for (
+		let I = ItemOptionsOffset;
+		I < Options.length && I < ItemOptionsOffset + OptionsPerPage;
+		I++
+	) {
 		const PageOffset = I - ItemOptionsOffset;
 		const X = XYPositions[OptionsPerPage][PageOffset][0];
 		const Y = XYPositions[OptionsPerPage][PageOffset][1];
 
 		const Option = Options[I];
-		const Hover = MouseIn(X, Y, 225, 55 + ImageHeight) && !CommonIsMobile;
-		const IsSelected = DialogFocusItem.Property.Type == Option.Property.Type;
-		const IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Option.Property && Option.Property.Type ? Option.Property.Type : null);
-		const ButtonColor = ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected);
+		const Hover =
+			MouseIn(X, Y, 225, 55 + ImageHeight) && !CommonIsMobile;
+		const IsSelected =
+			DialogFocusItem.Property.Type == Option.Property.Type;
+		const IsFavorite = InventoryIsFavorite(
+			ExtendedItemPermissionMode ? Player : C,
+			Asset.Name,
+			Asset.Group.Name,
+			Option.Property && Option.Property.Type
+				? Option.Property.Type
+				: null
+		);
+		const ButtonColor = ExtendedItemGetButtonColor(
+			C,
+			Option,
+			CurrentOption,
+			Hover,
+			IsSelected
+		);
 
-		DrawButton(X, Y, 225, 55 + ImageHeight, "", ButtonColor, null, null, IsSelected);
+		DrawButton(
+			X,
+			Y,
+			225,
+			55 + ImageHeight,
+			"",
+			ButtonColor,
+			null,
+			null,
+			IsSelected
+		);
 		if (ShowImages) {
-			DrawImage(`${AssetGetInventoryPath(Asset)}/${Option.Name}.png`, X + 2, Y);
+			DrawImage(
+				`${AssetGetInventoryPath(Asset)}/${Option.Name}.png`,
+				X + 2,
+				Y
+			);
 			const icons = [];
-			if (C.ID !== 0 && !InventoryBlockedOrLimited(C, DialogFocusItem, Option.Property.Type) && InventoryIsPermissionLimited(C, Asset.Name, Asset.Group.Name, Option.Property.Type))
+			if (
+				C.ID !== 0 &&
+				!InventoryBlockedOrLimited(
+					C,
+					DialogFocusItem,
+					Option.Property.Type
+				) &&
+				InventoryIsPermissionLimited(
+					C,
+					Asset.Name,
+					Asset.Group.Name,
+					Option.Property.Type
+				)
+			)
 				icons.push("AllowedLimited");
-			const FavoriteDetails = DialogGetFavoriteStateDetails(C, Asset, Option.Property.Type);
-			if (FavoriteDetails && FavoriteDetails.Icon) icons.push(FavoriteDetails.Icon);
+			const FavoriteDetails = DialogGetFavoriteStateDetails(
+				C,
+				Asset,
+				Option.Property.Type
+			);
+			if (FavoriteDetails && FavoriteDetails.Icon)
+				icons.push(FavoriteDetails.Icon);
 			DrawPreviewIcons(icons, X + 2, Y);
 		}
-		DrawTextFit((IsFavorite && !ShowImages ? "★ " : "") + DialogFindPlayer(DialogPrefix + Option.Name), X + 112, Y + 30 + ImageHeight, 225, "black");
+		DrawTextFit(
+			(IsFavorite && !ShowImages ? "★ " : "") +
+				DialogFindPlayer(DialogPrefix + Option.Name),
+			X + 112,
+			Y + 30 + ImageHeight,
+			225,
+			"black"
+		);
 		if (ControllerActive == true) {
 			setButton(X + 112, Y + 30 + ImageHeight);
 		}
 	}
 
 	// Permission mode toggle
-	DrawButton(1775, 25, 90, 90, "", "White",
-		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"));
+	DrawButton(
+		1775,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		ExtendedItemPermissionMode
+			? "Icons/DialogNormalMode.png"
+			: "Icons/DialogPermissionMode.png",
+		DialogFindPlayer(
+			ExtendedItemPermissionMode
+				? "DialogNormalMode"
+				: "DialogPermissionMode"
+		)
+	);
 }
 
 /**
@@ -180,18 +409,33 @@ function ExtendedItemDraw(Options, DialogPrefix, OptionsPerPage, ShowImages = tr
  * @param {boolean} IsSelected - TRUE if the item's current type matches Option
  * @returns {string} The name or hex code of the color
  */
-function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected) {
+function ExtendedItemGetButtonColor(
+	C,
+	Option,
+	CurrentOption,
+	Hover,
+	IsSelected
+) {
 	const IsSelfBondage = C.ID === 0;
 	let ButtonColor;
 	if (ExtendedItemPermissionMode) {
 		const PlayerBlocked = InventoryIsPermissionBlocked(
-			Player, DialogFocusItem.Asset.DynamicName(Player), DialogFocusItem.Asset.Group.Name,
-			Option.Property.Type,
+			Player,
+			DialogFocusItem.Asset.DynamicName(Player),
+			DialogFocusItem.Asset.Group.Name,
+			Option.Property.Type
 		);
 		const PlayerLimited = InventoryIsPermissionLimited(
-			Player, DialogFocusItem.Asset.Name, DialogFocusItem.Asset.Group.Name, Option.Property.Type);
+			Player,
+			DialogFocusItem.Asset.Name,
+			DialogFocusItem.Asset.Group.Name,
+			Option.Property.Type
+		);
 
-		if ((IsSelfBondage && IsSelected) || Option.Property.Type == null) {
+		if (
+			(IsSelfBondage && IsSelected) ||
+			Option.Property.Type == null
+		) {
 			ButtonColor = "#888888";
 		} else if (PlayerBlocked) {
 			ButtonColor = Hover ? "red" : "pink";
@@ -201,8 +445,15 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected)
 			ButtonColor = Hover ? "green" : "lime";
 		}
 	} else {
-		const BlockedOrLimited = InventoryBlockedOrLimited(C, DialogFocusItem, Option.Property.Type);
-		const FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(Option, CurrentOption);
+		const BlockedOrLimited = InventoryBlockedOrLimited(
+			C,
+			DialogFocusItem,
+			Option.Property.Type
+		);
+		const FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(
+			Option,
+			CurrentOption
+		);
 
 		if (IsSelected && !Option.HasSubscreen) {
 			ButtonColor = "#888888";
@@ -227,25 +478,40 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected)
  * @param {boolean} [ShowImages=true] - Denotes wether images are shown for the specific item
  * @returns {void} Nothing
  */
-function ExtendedItemClick(Options, OptionsPerPage, ShowImages = true) {
+function ExtendedItemClick(
+	Options,
+	OptionsPerPage,
+	ShowImages = true
+) {
 	const C = CharacterGetCurrent();
 
 	// If an option's subscreen is open, pass the click into it
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click", C, Options);
+		CommonCallFunctionByNameWarn(
+			ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click",
+			C,
+			Options
+		);
 		return;
 	}
 
 	const ItemOptionsOffset = ExtendedItemGetOffset();
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
-	const XYPositions = !IsCloth ? ShowImages ? ExtendedXY : ExtendedXYWithoutImages : ExtendedXYClothes;
+	const XYPositions = !IsCloth
+		? ShowImages
+			? ExtendedXY
+			: ExtendedXYWithoutImages
+		: ExtendedXYClothes;
 	const ImageHeight = ShowImages ? 220 : 0;
-	OptionsPerPage = OptionsPerPage || Math.min(Options.length, XYPositions.length - 1);
+	OptionsPerPage =
+		OptionsPerPage ||
+		Math.min(Options.length, XYPositions.length - 1);
 
 	// Exit button
 	if (MouseIn(1885, 25, 90, 90)) {
 		DialogFocusItem = null;
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") ChatRoomCharacterUpdate(Player);
+		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom")
+			ChatRoomCharacterUpdate(Player);
 		ExtendedItemPermissionMode = false;
 		ExtendedItemExit();
 		return;
@@ -253,22 +519,37 @@ function ExtendedItemClick(Options, OptionsPerPage, ShowImages = true) {
 
 	// Permission toggle button
 	if (MouseIn(1775, 25, 90, 90)) {
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") ChatRoomCharacterUpdate(Player);
+		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom")
+			ChatRoomCharacterUpdate(Player);
 		ExtendedItemPermissionMode = !ExtendedItemPermissionMode;
 	}
 
 	// Pagination buttons
-	if (MouseIn(1675, 240, 150, 90) && Options.length > OptionsPerPage) {
-		if (ItemOptionsOffset - OptionsPerPage < 0) ExtendedItemSetOffset(OptionsPerPage * (Math.ceil(Options.length / OptionsPerPage) - 1));
+	if (
+		MouseIn(1675, 240, 150, 90) &&
+		Options.length > OptionsPerPage
+	) {
+		if (ItemOptionsOffset - OptionsPerPage < 0)
+			ExtendedItemSetOffset(
+				OptionsPerPage *
+					(Math.ceil(Options.length / OptionsPerPage) - 1)
+			);
 		else ExtendedItemSetOffset(ItemOptionsOffset - OptionsPerPage);
-	}
-	else if (MouseIn(1825, 240, 150, 90) && Options.length > OptionsPerPage) {
-		if (ItemOptionsOffset + OptionsPerPage >= Options.length) ExtendedItemSetOffset(0);
+	} else if (
+		MouseIn(1825, 240, 150, 90) &&
+		Options.length > OptionsPerPage
+	) {
+		if (ItemOptionsOffset + OptionsPerPage >= Options.length)
+			ExtendedItemSetOffset(0);
 		else ExtendedItemSetOffset(ItemOptionsOffset + OptionsPerPage);
 	}
 
 	// Options
-	for (let I = ItemOptionsOffset; I < Options.length && I < ItemOptionsOffset + OptionsPerPage; I++) {
+	for (
+		let I = ItemOptionsOffset;
+		I < Options.length && I < ItemOptionsOffset + OptionsPerPage;
+		I++
+	) {
 		const PageOffset = I - ItemOptionsOffset;
 		const X = XYPositions[OptionsPerPage][PageOffset][0];
 		const Y = XYPositions[OptionsPerPage][PageOffset][1];
@@ -290,7 +571,9 @@ function ExtendedItemExit() {
 
 	// Run the subscreen's Exit function if any
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByName(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Exit");
+		CommonCallFunctionByName(
+			ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Exit"
+		);
 	}
 }
 
@@ -304,7 +587,8 @@ function ExtendedItemExit() {
  */
 function ExtendedItemSetType(C, Options, Option) {
 	DialogFocusItem = InventoryGet(C, C.FocusGroup.Name);
-	const FunctionPrefix = ExtendedItemFunctionPrefix() + (ExtendedItemSubscreen || "");
+	const FunctionPrefix =
+		ExtendedItemFunctionPrefix() + (ExtendedItemSubscreen || "");
 
 	if (CurrentScreen == "ChatRoom") {
 		// Call the item's load function
@@ -312,7 +596,10 @@ function ExtendedItemSetType(C, Options, Option) {
 	}
 
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
-	const previousOption = TypedItemFindPreviousOption(DialogFocusItem, Options);
+	const previousOption = TypedItemFindPreviousOption(
+		DialogFocusItem,
+		Options
+	);
 
 	TypedItemSetOption(C, DialogFocusItem, Options, Option, !IsCloth); // Do not sync appearance while in the wardrobe
 
@@ -325,7 +612,12 @@ function ExtendedItemSetType(C, Options, Option) {
 		ChatRoomCharacterUpdate(C);
 		if (CurrentScreen === "ChatRoom") {
 			// If we're in a chatroom, call the item's publish function to publish a message to the chatroom
-			CommonCallFunctionByName(FunctionPrefix + "PublishAction", C, Option, previousOption);
+			CommonCallFunctionByName(
+				FunctionPrefix + "PublishAction",
+				C,
+				Option,
+				previousOption
+			);
 		} else {
 			CommonCallFunctionByName(FunctionPrefix + "Exit");
 			DialogFocusItem = null;
@@ -334,7 +626,12 @@ function ExtendedItemSetType(C, Options, Option) {
 				DialogMenuButtonBuild(C);
 			} else {
 				// Otherwise, call the item's NPC dialog function, if one exists
-				CommonCallFunctionByName(FunctionPrefix + "NpcDialog", C, Option, previousOption);
+				CommonCallFunctionByName(
+					FunctionPrefix + "NpcDialog",
+					C,
+					Option,
+					previousOption
+				);
 				C.FocusGroup = null;
 			}
 		}
@@ -352,22 +649,40 @@ function ExtendedItemSetType(C, Options, Option) {
 function ExtendedItemHandleOptionClick(C, Options, Option) {
 	if (ExtendedItemPermissionMode) {
 		if (Option.Property.Type == null) return;
-		const worn = C.ID == 0 && DialogFocusItem.Property.Type == Option.Property.Type;
-		InventoryTogglePermission(DialogFocusItem, Option.Property.Type, worn);
+		const worn =
+			C.ID == 0 &&
+			DialogFocusItem.Property.Type == Option.Property.Type;
+		InventoryTogglePermission(
+			DialogFocusItem,
+			Option.Property.Type,
+			worn
+		);
 	} else {
-		if (DialogFocusItem.Property.Type === Option.Property.Type && !Option.HasSubscreen) {
+		if (
+			DialogFocusItem.Property.Type === Option.Property.Type &&
+			!Option.HasSubscreen
+		) {
 			return;
 		}
 
 		const CurrentType = DialogFocusItem.Property.Type || null;
-		const CurrentOption = Options.find(O => O.Property.Type === CurrentType);
+		const CurrentOption = Options.find(
+			(O) => O.Property.Type === CurrentType
+		);
 		// use the unmemoized function to ensure we make a final check to the requirements
-		const RequirementMessage = ExtendedItemRequirementCheckMessage(Option, CurrentOption);
+		const RequirementMessage = ExtendedItemRequirementCheckMessage(
+			Option,
+			CurrentOption
+		);
 		if (RequirementMessage) {
 			DialogExtendedMessage = RequirementMessage;
 		} else if (Option.HasSubscreen) {
 			ExtendedItemSubscreen = Option.Name;
-			CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Load", C, Option);
+			CommonCallFunctionByNameWarn(
+				ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Load",
+				C,
+				Option
+			);
 		} else {
 			ExtendedItemSetType(C, Options, Option);
 			ExtendedItemExit();
@@ -385,9 +700,16 @@ function ExtendedItemHandleOptionClick(C, Options, Option) {
  */
 function ExtendedItemRequirementCheckMessage(Option, CurrentOption) {
 	const C = CharacterGetCurrent();
-	return TypedItemValidateOption(C, DialogFocusItem, Option, CurrentOption)
-		|| ExtendedItemCheckSelfSelect(C, Option)
-		|| ExtendedItemCheckSkillRequirements(C, DialogFocusItem, Option);
+	return (
+		TypedItemValidateOption(
+			C,
+			DialogFocusItem,
+			Option,
+			CurrentOption
+		) ||
+		ExtendedItemCheckSelfSelect(C, Option) ||
+		ExtendedItemCheckSkillRequirements(C, DialogFocusItem, Option)
+	);
 }
 
 /**
@@ -415,14 +737,21 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 	const SelfBondage = C.ID === 0;
 	if (SelfBondage) {
 		let RequiredLevel = Option.SelfBondageLevel;
-		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
+		if (typeof RequiredLevel !== "number")
+			RequiredLevel = Math.max(
+				Item.Asset.SelfBondage,
+				Option.BondageLevel
+			);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
 			return DialogFindPlayer("RequireSelfBondage" + RequiredLevel);
 		}
 	} else {
 		let RequiredLevel = Option.BondageLevel || 0;
 		if (SkillGetLevelReal(Player, "Bondage") < RequiredLevel) {
-			return DialogFindPlayer("RequireBondageLevel").replace("ReqLevel", `${RequiredLevel}`);
+			return DialogFindPlayer("RequireBondageLevel").replace(
+				"ReqLevel",
+				`${RequiredLevel}`
+			);
 		}
 	}
 }
@@ -435,22 +764,45 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
  * @param {ExtendedItemOption|ModularItemOption} CurrentOption - The currently applied option on the item
  * @returns {string} - Returns a non-empty message string if the item failed validation, or an empty string otherwise
  */
-function ExtendedItemValidate(C, Item, { Prerequisite, SelfBlockCheck, Property }, CurrentOption) {
+function ExtendedItemValidate(
+	C,
+	Item,
+	{ Prerequisite, SelfBlockCheck, Property },
+	CurrentOption
+) {
 	const CurrentProperty = Item && Item.Property;
 	const CurrentLockedBy = CurrentProperty && CurrentProperty.LockedBy;
 
-	if (CurrentOption && CurrentOption.ChangeWhenLocked === false && CurrentLockedBy && !DialogCanUnlock(C, Item)) {
+	if (
+		CurrentOption &&
+		CurrentOption.ChangeWhenLocked === false &&
+		CurrentLockedBy &&
+		!DialogCanUnlock(C, Item)
+	) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)
 		return DialogFindPlayer("CantChangeWhileLocked");
-	} else if (Prerequisite && SelfBlockCheck && !ExtendedItemSelfProofRequirementCheck(C, Prerequisite)) {
+	} else if (
+		Prerequisite &&
+		SelfBlockCheck &&
+		!ExtendedItemSelfProofRequirementCheck(C, Prerequisite)
+	) {
 		// If SelfBlockCheck is required, do a self-proof prerequisite check
 		return DialogText;
-	} else if (Prerequisite && !SelfBlockCheck && !InventoryAllow(C, Prerequisite, true)) {
+	} else if (
+		Prerequisite &&
+		!SelfBlockCheck &&
+		!InventoryAllow(C, Prerequisite, true)
+	) {
 		// Otherwise use the standard prerequisite check
 		return DialogText;
 	} else {
 		const OldEffect = CurrentProperty && CurrentProperty.Effect;
-		if (OldEffect && OldEffect.includes("Lock") && Property && Property.AllowLock === false) {
+		if (
+			OldEffect &&
+			OldEffect.includes("Lock") &&
+			Property &&
+			Property.AllowLock === false
+		) {
 			return DialogFindPlayer("ExtendedItemUnlockBeforeChange");
 		}
 	}
@@ -470,7 +822,7 @@ function ExtendedItemSelfProofRequirementCheck(C, Prerequisite) {
 
 	// Remove the item temporarily for prerequisite-checking
 	let CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-	C.Appearance = C.Appearance.filter(Item => Item !== CurrentItem);
+	C.Appearance = C.Appearance.filter((Item) => Item !== CurrentItem);
 	CharacterRefresh(C, false, false);
 
 	if (!InventoryAllow(C, Prerequisite, true)) {
@@ -531,7 +883,11 @@ function ExtendedItemSetOffset(Offset) {
 function ExtendedItemMapChatTagToDictionaryEntry(C, asset, tag) {
 	switch (tag) {
 		case CommonChatTags.SOURCE_CHAR:
-			return { Tag: tag, Text: Player.Name, MemberNumber: Player.MemberNumber };
+			return {
+				Tag: tag,
+				Text: Player.Name,
+				MemberNumber: Player.MemberNumber,
+			};
 		case CommonChatTags.DEST_CHAR:
 		case CommonChatTags.DEST_CHAR_NAME:
 		case CommonChatTags.TARGET_CHAR:

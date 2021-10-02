@@ -7,21 +7,51 @@ var MagicSchoolLaboratoryTeacher = null;
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryLoad() {
-
 	// Generates the teacher if she doesn't exist in memory
 	if (MagicSchoolLaboratoryTeacher == null) {
-		MagicSchoolLaboratoryTeacher = CharacterLoadNPC("NPC_MagicSchoolLaboratory_Teacher");
+		MagicSchoolLaboratoryTeacher = CharacterLoadNPC(
+			"NPC_MagicSchoolLaboratory_Teacher"
+		);
 		MagicSchoolLaboratoryTeacher.AllowItem = false;
 		CharacterNaked(MagicSchoolLaboratoryTeacher);
-		InventoryWear(MagicSchoolLaboratoryTeacher, "SpankingToys", "ItemHands");
-		InventoryGet(MagicSchoolLaboratoryTeacher, "ItemHands").Property = { Type: "Broom" };
-		InventoryWear(MagicSchoolLaboratoryTeacher, "GrandMage", "Cloth", "#555555");
-		InventoryWear(MagicSchoolLaboratoryTeacher, "WitchHat1", "Hat", "#777777");
-		InventoryWear(MagicSchoolLaboratoryTeacher, "BlackHeart", "Necklace", "#555555");
-		InventoryWear(MagicSchoolLaboratoryTeacher, "LongSkirt1", "ClothLower", "#777777");
-		InventoryWear(MagicSchoolLaboratoryTeacher, "ThighHighLatexHeels", "Shoes", "#555555");
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"SpankingToys",
+			"ItemHands"
+		);
+		InventoryGet(MagicSchoolLaboratoryTeacher, "ItemHands").Property =
+			{ Type: "Broom" };
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"GrandMage",
+			"Cloth",
+			"#555555"
+		);
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"WitchHat1",
+			"Hat",
+			"#777777"
+		);
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"BlackHeart",
+			"Necklace",
+			"#555555"
+		);
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"LongSkirt1",
+			"ClothLower",
+			"#777777"
+		);
+		InventoryWear(
+			MagicSchoolLaboratoryTeacher,
+			"ThighHighLatexHeels",
+			"Shoes",
+			"#555555"
+		);
 	}
-
 }
 
 /**
@@ -31,8 +61,26 @@ function MagicSchoolLaboratoryLoad() {
 function MagicSchoolLaboratoryRun() {
 	DrawCharacter(Player, 500, 0, 1);
 	DrawCharacter(MagicSchoolLaboratoryTeacher, 1000, 0, 1);
-	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
+	DrawButton(
+		1885,
+		25,
+		90,
+		90,
+		"",
+		Player.CanWalk() ? "White" : "Pink",
+		"Icons/Exit.png",
+		TextGet("Exit")
+	);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
 }
 
 /**
@@ -40,9 +88,12 @@ function MagicSchoolLaboratoryRun() {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryClick() {
-	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(MagicSchoolLaboratoryTeacher);
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
+	if (MouseIn(1000, 0, 500, 1000))
+		CharacterSetCurrent(MagicSchoolLaboratoryTeacher);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk())
+		CommonSetScreen("Room", "MainHall");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
 }
 
 /**
@@ -51,7 +102,11 @@ function MagicSchoolLaboratoryClick() {
  */
 function MagicSchoolLaboratorySpellPractice(SpellNumber) {
 	MagicPuzzleSpell = SpellNumber;
-	MiniGameStart("MagicPuzzle", 0, "MagicSchoolLaboratorySpellPracticeEnd");
+	MiniGameStart(
+		"MagicPuzzle",
+		0,
+		"MagicSchoolLaboratorySpellPracticeEnd"
+	);
 }
 
 /**
@@ -61,7 +116,10 @@ function MagicSchoolLaboratorySpellPractice(SpellNumber) {
 function MagicSchoolLaboratorySpellPracticeEnd() {
 	CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterSetCurrent(MagicSchoolLaboratoryTeacher);
-	MagicSchoolLaboratoryTeacher.CurrentDialog = DialogFind(MagicSchoolLaboratoryTeacher, MiniGameVictory ? "PracticeSuccess" : "PracticeFail");
+	MagicSchoolLaboratoryTeacher.CurrentDialog = DialogFind(
+		MagicSchoolLaboratoryTeacher,
+		MiniGameVictory ? "PracticeSuccess" : "PracticeFail"
+	);
 }
 
 /**
@@ -69,8 +127,14 @@ function MagicSchoolLaboratorySpellPracticeEnd() {
  * @returns {boolean} - TRUE if a member, FALSE if not
  */
 function MagicSchoolLaboratoryInHouse(House) {
-	if (House == "") return ((ReputationGet("HouseMaiestas") <= 0) && (ReputationGet("HouseVincula") <= 0) && (ReputationGet("HouseAmplector") <= 0) && (ReputationGet("HouseCorporis") <= 0));
-	return (ReputationGet("House" + House) > 0);
+	if (House == "")
+		return (
+			ReputationGet("HouseMaiestas") <= 0 &&
+			ReputationGet("HouseVincula") <= 0 &&
+			ReputationGet("HouseAmplector") <= 0 &&
+			ReputationGet("HouseCorporis") <= 0
+		);
+	return ReputationGet("House" + House) > 0;
 }
 
 /**

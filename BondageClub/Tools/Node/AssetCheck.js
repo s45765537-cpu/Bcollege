@@ -11,7 +11,7 @@ const neededFiles = [
 	"Scripts/TypedItem.js",
 	"Screens/Inventory/Futuristic/Futuristic.js",
 	"Assets/Female3DCG/Female3DCG.js",
-	"Assets/Female3DCG/Female3DCGExtended.js"
+	"Assets/Female3DCG/Female3DCGExtended.js",
 ];
 
 let localError = false;
@@ -89,36 +89,56 @@ function CommonParseCSV(str) {
  * @param {number} expectedWidth Expected number of columns
  */
 function loadCSV(path, expectedWidth) {
-	const data = CommonParseCSV(fs.readFileSync(BASE_PATH + path, { encoding: "utf-8" }));
+	const data = CommonParseCSV(
+		fs.readFileSync(BASE_PATH + path, { encoding: "utf-8" })
+	);
 	for (let line = 0; line < data.length; line++) {
 		if (data[line].length !== expectedWidth) {
-			error(`Bad width of line ${line + 1} (${data[line].length} vs ${expectedWidth}) in ${path}`);
+			error(
+				`Bad width of line ${line + 1} (${
+					data[line].length
+				} vs ${expectedWidth}) in ${path}`
+			);
 		}
 	}
 	return data;
 }
 
 (function () {
-	const context = vm.createContext({ OuterArray: Array, Object: Object });
+	const context = vm.createContext({
+		OuterArray: Array,
+		Object: Object,
+	});
 	for (const file of neededFiles) {
-		vm.runInContext(fs.readFileSync(BASE_PATH + file, { encoding: "utf-8" }), context, {
-			filename: file,
-			timeout: 1000
-		});
+		vm.runInContext(
+			fs.readFileSync(BASE_PATH + file, { encoding: "utf-8" }),
+			context,
+			{
+				filename: file,
+				timeout: 1000,
+			}
+		);
 	}
 
 	// We need to strigify and parse the asset array to have correct Array and Object prototypes, because VM uses different ones
 	// This unfortunately results in Functions being lost and replaced with undefined
 	/** @type {AssetGroupDefinition[]} */
-	const AssetFemale3DCG = JSON.parse(JSON.stringify(context.AssetFemale3DCG));
-	const AssetFemale3DCGExtended = JSON.parse(JSON.stringify(context.AssetFemale3DCGExtended));
+	const AssetFemale3DCG = JSON.parse(
+		JSON.stringify(context.AssetFemale3DCG)
+	);
+	const AssetFemale3DCGExtended = JSON.parse(
+		JSON.stringify(context.AssetFemale3DCGExtended)
+	);
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
 		return;
 	}
 
-	const assetDescriptions = loadCSV("Assets/Female3DCG/Female3DCG.csv", 3);
+	const assetDescriptions = loadCSV(
+		"Assets/Female3DCG/Female3DCG.csv",
+		3
+	);
 
 	// No further checks if initial data load failed
 	if (localError) {
@@ -143,7 +163,7 @@ function loadCSV(path, expectedWidth) {
 		for (const Asset of Group.Asset) {
 			if (typeof Asset === "string") {
 				GroupAssets.push({
-					Name: Asset
+					Name: Asset,
 				});
 				continue;
 			}
@@ -151,39 +171,65 @@ function loadCSV(path, expectedWidth) {
 
 			// Check any extended item config
 			if (Asset.Extended) {
-				const groupConfig = AssetFemale3DCGExtended[Group.Group] || {};
+				const groupConfig =
+					AssetFemale3DCGExtended[Group.Group] || {};
 				let assetConfig = groupConfig[Asset.Name];
 				if (assetConfig) {
 					if (assetConfig && assetConfig.CopyConfig) {
 						const Overrides = assetConfig.Config;
 						const { GroupName, AssetName } = assetConfig.CopyConfig;
-						assetConfig = (AssetFemale3DCGExtended[GroupName || Group.Group] || {} )[AssetName];
+						assetConfig = (AssetFemale3DCGExtended[
+							GroupName || Group.Group
+						] || {})[AssetName];
 						if (!assetConfig) {
-							error(`Asset ${Group.Group}:${Asset.Name}: CopyConfig target not found!`);
+							error(
+								`Asset ${Group.Group}:${Asset.Name}: CopyConfig target not found!`
+							);
 							assetConfig = groupConfig[Asset.Name];
 						} else if (Overrides) {
-							const MergedConfig = Object.assign({}, assetConfig.Config, Overrides);
-							assetConfig = Object.assign({}, assetConfig, {Config: MergedConfig});
+							const MergedConfig = Object.assign(
+								{},
+								assetConfig.Config,
+								Overrides
+							);
+							assetConfig = Object.assign({}, assetConfig, {
+								Config: MergedConfig,
+							});
 						}
 					}
 					if (assetConfig.Config) {
 						if (assetConfig.Archetype === "typed") {
-							const HasSubscreen = !localError && assetConfig.Config.Options.some(option => !!option.HasSubscreen);
+							const HasSubscreen =
+								!localError &&
+								assetConfig.Config.Options.some(
+									(option) => !!option.HasSubscreen
+								);
 							if (!HasSubscreen) {
 								if (Asset.AllowEffect !== undefined) {
-									error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowEffect (unless they use subscreens)`);
+									error(
+										`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowEffect (unless they use subscreens)`
+									);
 								}
 								if (Asset.AllowBlock !== undefined) {
-									error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowBlock (unless they use subscreens)`);
+									error(
+										`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowBlock (unless they use subscreens)`
+									);
 								}
 							}
 						}
 					}
-					if (assetConfig.Archetype === "typed" && Asset.AllowType !== undefined) {
-						error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowType`);
+					if (
+						assetConfig.Archetype === "typed" &&
+						Asset.AllowType !== undefined
+					) {
+						error(
+							`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowType`
+						);
 					}
 					if (!["modular", "typed"].includes(assetConfig.Archetype)) {
-						error(`Extended asset archetype for ${Group.Group}:${Asset.Name}: Unknown Archetype ${assetConfig.Archetype}`);
+						error(
+							`Extended asset archetype for ${Group.Group}:${Asset.Name}: Unknown Archetype ${assetConfig.Archetype}`
+						);
 					}
 				}
 			}
@@ -195,7 +241,9 @@ function loadCSV(path, expectedWidth) {
 	}
 
 	if (globalError) {
-		console.log("WARNING: Type errors detected, skipping other checks");
+		console.log(
+			"WARNING: Type errors detected, skipping other checks"
+		);
 		return;
 	}
 
@@ -207,7 +255,9 @@ function loadCSV(path, expectedWidth) {
 				group = assetDescriptions[line][0];
 			} else if (assetDescriptions[line][0] !== group) {
 				error(
-					`Asset descriptions line ${line + 1} not under it's matching group! ` +
+					`Asset descriptions line ${
+						line + 1
+					} not under it's matching group! ` +
 						`(${assetDescriptions[line][0]}:${assetDescriptions[line][1]} is in ${group} group)`
 				);
 			}
@@ -217,7 +267,9 @@ function loadCSV(path, expectedWidth) {
 	// Check all type-valid groups for specific data
 	for (const Group of Groups) {
 		// Description name
-		const descriptionIndex = assetDescriptions.findIndex(d => d[0] === Group.Group && d[1] === "");
+		const descriptionIndex = assetDescriptions.findIndex(
+			(d) => d[0] === Group.Group && d[1] === ""
+		);
 		if (descriptionIndex < 0) {
 			error(`No description for group "${Group.Group}"`);
 		} else {
@@ -227,13 +279,20 @@ function loadCSV(path, expectedWidth) {
 		// Check all type-valid assets for specific data
 		for (const Asset of Assets[Group.Group]) {
 			// Ignore SpankingToys, because it's a snowflake
-			if (Asset.Name === "SpankingToys" && Group.Group !== "ItemHands") continue;
-
+			if (
+				Asset.Name === "SpankingToys" &&
+				Group.Group !== "ItemHands"
+			)
+				continue;
 
 			// Description name
-			const descriptionIndexAsset = assetDescriptions.findIndex(d => d[0] === Group.Group && d[1] === Asset.Name);
+			const descriptionIndexAsset = assetDescriptions.findIndex(
+				(d) => d[0] === Group.Group && d[1] === Asset.Name
+			);
 			if (descriptionIndexAsset < 0) {
-				error(`No description for asset "${Group.Group}:${Asset.Name}"`);
+				error(
+					`No description for asset "${Group.Group}:${Asset.Name}"`
+				);
 			} else {
 				assetDescriptions.splice(descriptionIndexAsset, 1);
 			}

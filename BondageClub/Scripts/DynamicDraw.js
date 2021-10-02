@@ -75,7 +75,10 @@ const DynamicDrawTextInputPattern = "(?:\\w|[ ~!$#%*+])*";
  * An array of valid printable characters that are permitted for dynamic drawing (used internally for text measurement purposes)
  * @type {string[]}
  */
-const DynamicDrawValidTextCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ~!$#%*+".split("");
+const DynamicDrawValidTextCharacters =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ~!$#%*+".split(
+		""
+	);
 
 /**
  * A padding multiplier for text when drawn in an arc. The extra padding helps ensure that the bottoms of characters don't collide
@@ -179,17 +182,17 @@ function DynamicDrawLoadFont(fontFamily) {
 
 	// Measure each of the valid characters in the given font and record the maximum width
 	let maxWidth = 0;
-	const measurements = DynamicDrawValidTextCharacters.map(char => {
+	const measurements = DynamicDrawValidTextCharacters.map((char) => {
 		const width = ctx.measureText(char).width;
 		if (width > maxWidth) maxWidth = width;
 		return width;
 	});
 
 	// Capture the maximum character width for the font, and set up a relative map for character weights
-	const weightMap = DynamicDrawFontMeasurements[fontFamily] = {
+	const weightMap = (DynamicDrawFontMeasurements[fontFamily] = {
 		width: maxWidth,
 		weights: {},
-	};
+	});
 
 	// Normalise the width of each character as a weight relative to the max width
 	DynamicDrawValidTextCharacters.forEach((char, i) => {
@@ -223,7 +226,8 @@ function DynamicDrawText(text, ctx, x, y, options) {
  * @returns {void} - Nothing
  */
 function DynamicDrawTextFromTo(text, ctx, from, to, options) {
-	const { fontSize, contain } = options = DynamicDrawParseOptions(options);
+	const { fontSize, contain } = (options =
+		DynamicDrawParseOptions(options));
 
 	// From coordinate (x0, y0)
 	const x0 = from[0];
@@ -279,7 +283,16 @@ function DynamicDrawTextFromTo(text, ctx, from, to, options) {
  * @returns {void} - Nothing
  */
 function DynamicDrawTextArc(text, ctx, x, y, options) {
-	let { fontFamily, angle, radius, width, maxAngle, fontSize, direction, textCurve } = options = DynamicDrawParseOptions(options);
+	let {
+		fontFamily,
+		angle,
+		radius,
+		width,
+		maxAngle,
+		fontSize,
+		direction,
+		textCurve,
+	} = (options = DynamicDrawParseOptions(options));
 
 	// Load the font measurements if they haven't already been populated
 	DynamicDrawLoadFont(fontFamily);
@@ -304,17 +317,20 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
 		width = 2 * radius + fontSize;
 	}
 	// Check whether the maximum angle should be constrained by the maximum width
-	const angleConstraint = 2 * Math.asin(width / (fontSize + 2 * radius));
+	const angleConstraint =
+		2 * Math.asin(width / (fontSize + 2 * radius));
 	maxAngle = Math.min(maxAngle, angleConstraint);
 
 	// Check whether the font size should be constrained by the maximum angle
-	const baseWidth = weightMap.width * totalWeight * DynamicDrawTextArcPaddingRatio;
-	const fontSizeConstraint = (2 * maxAngle * radius) / (2 * baseWidth + maxAngle);
+	const baseWidth =
+		weightMap.width * totalWeight * DynamicDrawTextArcPaddingRatio;
+	const fontSizeConstraint =
+		(2 * maxAngle * radius) / (2 * baseWidth + maxAngle);
 	options.fontSize = Math.min(fontSize, fontSizeConstraint);
 
 	// Based on the computed font size, calculate the actual angle that the text will occupy (may be less than the max
 	// angle)
-	const actualAngle = options.fontSize * baseWidth / radius;
+	const actualAngle = (options.fontSize * baseWidth) / radius;
 
 	// Apply drawing options
 	DynamicDrawApplyOptions(ctx, options);
@@ -326,12 +342,17 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
 	ctx.translate(x, y);
 	ctx.translate(x - cx, y - cy);
 	ctx.rotate(-angle);
-	ctx.rotate(-1 * direction * actualAngle / 2);
+	ctx.rotate((-1 * direction * actualAngle) / 2);
 
 	// Draw each character in turn, rotating a little before and after each character to space them out evenly
 	for (let n = 0; n < text.length; n++) {
 		const char = text[n];
-		const rotationAngle = direction * 0.5 * actualAngle * (weightMap.weights[char] || 1) / totalWeight;
+		const rotationAngle =
+			(direction *
+				0.5 *
+				actualAngle *
+				(weightMap.weights[char] || 1)) /
+			totalWeight;
 		ctx.rotate(rotationAngle);
 		ctx.save();
 		ctx.translate(0, -radius);
@@ -357,9 +378,11 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
 function DynamicDrawTextAndEffects(text, ctx, x, y, options) {
 	DynamicDrawApplyOptions(ctx, options);
 	const effect = DynamicDrawTextEffects[options.effect] || {};
-	if (typeof effect.before === "function") effect.before(text, ctx, x, y, options);
+	if (typeof effect.before === "function")
+		effect.before(text, ctx, x, y, options);
 	ctx.fillText(text, x, y, options.width);
-	if (typeof effect.after === "function") effect.after(text, ctx, x, y, options);
+	if (typeof effect.after === "function")
+		effect.after(text, ctx, x, y, options);
 }
 
 /**
@@ -369,7 +392,11 @@ function DynamicDrawTextAndEffects(text, ctx, x, y, options) {
  */
 function DynamicDrawParseOptions(options) {
 	options = options || {};
-	const parsedOptions = Object.assign({}, DynamicDrawTextDefaultOptions, options);
+	const parsedOptions = Object.assign(
+		{},
+		DynamicDrawTextDefaultOptions,
+		options
+	);
 	return parsedOptions;
 }
 
@@ -380,7 +407,10 @@ function DynamicDrawParseOptions(options) {
  * @param {DynamicDrawOptions} options - The drawing options to apply
  * @returns {void} - Nothing
  */
-function DynamicDrawApplyOptions(ctx, { fontSize, fontFamily, textAlign, textBaseline, color }) {
+function DynamicDrawApplyOptions(
+	ctx,
+	{ fontSize, fontFamily, textAlign, textBaseline, color }
+) {
 	ctx.font = `${fontSize}px ${fontFamily}`;
 	ctx.textAlign = textAlign;
 	ctx.textBaseline = textBaseline;

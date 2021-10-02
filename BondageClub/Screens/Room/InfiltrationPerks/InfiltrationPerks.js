@@ -1,6 +1,19 @@
 "use strict";
 var InfiltrationPerksBackground = "Sheet";
-var InfiltrationPerksList = ["Strength", "Charisma", "Agility", "Resilience", "Endurance", "Investigation", "Bribery", "Negotiation", "Recruiter", "Forgery", "Recovery", "Cartographer"];
+var InfiltrationPerksList = [
+	"Strength",
+	"Charisma",
+	"Agility",
+	"Resilience",
+	"Endurance",
+	"Investigation",
+	"Bribery",
+	"Negotiation",
+	"Recruiter",
+	"Forgery",
+	"Recovery",
+	"Cartographer",
+];
 
 /**
  * Checks if a named perk is activated or not
@@ -9,7 +22,7 @@ var InfiltrationPerksList = ["Strength", "Charisma", "Agility", "Resilience", "E
 function InfiltrationPerksActive(PerkName) {
 	let Index = InfiltrationPerksList.indexOf(PerkName);
 	if (Index < 0) return false;
-	return (Player.Infiltration.Perks.substr(Index, 1) == "1");
+	return Player.Infiltration.Perks.substr(Index, 1) == "1";
 }
 
 /**
@@ -17,13 +30,19 @@ function InfiltrationPerksActive(PerkName) {
  * @returns {void} - Nothing
  */
 function InfiltrationPerksActivate(PerkName) {
-	while (Player.Infiltration.Perks.length < InfiltrationPerksList.length)
+	while (
+		Player.Infiltration.Perks.length < InfiltrationPerksList.length
+	)
 		Player.Infiltration.Perks = Player.Infiltration.Perks + "0";
 	let Index = InfiltrationPerksList.indexOf(PerkName);
 	if (Index < 0) return;
 	let Active = !InfiltrationPerksActive(PerkName);
-	if (Active && (InfiltrationPerksAvail() <= InfiltrationPerksTaken())) return;
-	Player.Infiltration.Perks = Player.Infiltration.Perks.substring(0, Index) + (Active ? "1" : "0") + Player.Infiltration.Perks.substring(Index + 1);
+	if (Active && InfiltrationPerksAvail() <= InfiltrationPerksTaken())
+		return;
+	Player.Infiltration.Perks =
+		Player.Infiltration.Perks.substring(0, Index) +
+		(Active ? "1" : "0") +
+		Player.Infiltration.Perks.substring(Index + 1);
 }
 
 /**
@@ -31,7 +50,7 @@ function InfiltrationPerksActivate(PerkName) {
  * @returns {number} - Number of perks taken by the player
  */
 function InfiltrationPerksTaken() {
-	return (Player.Infiltration.Perks.match(/1/g)||[]).length;
+	return (Player.Infiltration.Perks.match(/1/g) || []).length;
 }
 
 /**
@@ -47,7 +66,11 @@ function InfiltrationPerksAvail() {
  * @returns {void} - Nothing
  */
 function InfiltrationPerksLoad() {
-	if ((Player.Infiltration != null) && (Player.Infiltration.Perks != null) && (Player.Infiltration.Perks.length > InfiltrationPerksList.length))
+	if (
+		Player.Infiltration != null &&
+		Player.Infiltration.Perks != null &&
+		Player.Infiltration.Perks.length > InfiltrationPerksList.length
+	)
 		Player.Infiltration.Perks = "";
 }
 
@@ -56,20 +79,47 @@ function InfiltrationPerksLoad() {
  * @returns {void} - Nothing
  */
 function InfiltrationPerksRun() {
-
 	// List all the perks
 	MainCanvas.textAlign = "left";
 	for (let P = 0; P < InfiltrationPerksList.length; P++) {
-		DrawButton(150 + Math.floor(P / 8) * 850, 115 + ((P % 8) * 100), 64, 64, "", "White", InfiltrationPerksActive(InfiltrationPerksList[P]) ? "Icons/Checked.png" : "");
-		DrawText(TextGet(InfiltrationPerksList[P]), 250 + Math.floor(P / 8) * 850, 147 + ((P % 8) * 100), "Black", "Gray");
+		DrawButton(
+			150 + Math.floor(P / 8) * 850,
+			115 + (P % 8) * 100,
+			64,
+			64,
+			"",
+			"White",
+			InfiltrationPerksActive(InfiltrationPerksList[P])
+				? "Icons/Checked.png"
+				: ""
+		);
+		DrawText(
+			TextGet(InfiltrationPerksList[P]),
+			250 + Math.floor(P / 8) * 850,
+			147 + (P % 8) * 100,
+			"Black",
+			"Gray"
+		);
 	}
 
 	// Draw the exit button and avail perks
 	MainCanvas.textAlign = "center";
-	if (InfiltrationSupervisor.Stage === "End") DrawText(TextGet("CannotChange"), 1460, 745, "Red", "Gray");
-	DrawText(TextGet("Perks") + " " + InfiltrationPerksTaken().toString() + " / " + InfiltrationPerksAvail().toString(), 1460, 845, (InfiltrationPerksAvail() > InfiltrationPerksTaken()) ? "Blue" : "Black", "Gray");
+	if (InfiltrationSupervisor.Stage === "End")
+		DrawText(TextGet("CannotChange"), 1460, 745, "Red", "Gray");
+	DrawText(
+		TextGet("Perks") +
+			" " +
+			InfiltrationPerksTaken().toString() +
+			" / " +
+			InfiltrationPerksAvail().toString(),
+		1460,
+		845,
+		InfiltrationPerksAvail() > InfiltrationPerksTaken()
+			? "Blue"
+			: "Black",
+		"Gray"
+	);
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-
 }
 
 /**
@@ -80,7 +130,14 @@ function InfiltrationPerksClick() {
 	if (MouseIn(1815, 75, 90, 90)) InfiltrationPerksExit();
 	if (InfiltrationSupervisor.Stage !== "End")
 		for (let P = 0; P < InfiltrationPerksList.length; P++)
-			if (MouseIn(150 + Math.floor(P / 8) * 850, 115 + ((P % 8) * 100), 64, 64))
+			if (
+				MouseIn(
+					150 + Math.floor(P / 8) * 850,
+					115 + (P % 8) * 100,
+					64,
+					64
+				)
+			)
 				InfiltrationPerksActivate(InfiltrationPerksList[P]);
 }
 
@@ -89,6 +146,8 @@ function InfiltrationPerksClick() {
  * @returns {void} - Nothing
  */
 function InfiltrationPerksExit() {
-	ServerAccountUpdate.QueueData({ Infiltration: Player.Infiltration });
+	ServerAccountUpdate.QueueData({
+		Infiltration: Player.Infiltration,
+	});
 	CommonSetScreen("Room", "Infiltration");
 }

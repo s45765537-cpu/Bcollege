@@ -1,6 +1,6 @@
 "use strict";
 /* eslint-disable */
-var ControllerButtonsX = [];//there probably is a way to use just one list, but i don't want to bother and this works anyway
+var ControllerButtonsX = []; //there probably is a way to use just one list, but i don't want to bother and this works anyway
 var ControllerButtonsY = [];
 var ControllerActive = true;
 var ControllerCurrentButton = 0;
@@ -27,11 +27,8 @@ var ControllerSensitivity = 5;
 var ControllerIgnoreStick = [];
 var ControllerDeadZone = 0.01;
 
-
-
-
 /**
- *removes all buttons from the lists 
+ *removes all buttons from the lists
  */
 function ClearButtons() {
 	ControllerButtonsX = [];
@@ -74,11 +71,13 @@ function ButtonExists(X, Y) {
  * @param {any} axes the raw data of all axes of the controller
  */
 function ControllerAxis(axes) {
-
 	//if a value is over 1, it is from a d-pad (some d-pads register as buttons, some d-pads register like this)
 	var g = 0;
 	while (g < axes.length) {
-		if (Math.abs(axes[g]) > 1 && ControllerIgnoreStick.includes(g) == false) {
+		if (
+			Math.abs(axes[g]) > 1 &&
+			ControllerIgnoreStick.includes(g) == false
+		) {
 			ControllerIgnoreStick.push(g);
 		}
 		g += 1;
@@ -86,17 +85,30 @@ function ControllerAxis(axes) {
 	if (Calibrating == false) {
 		var g = 0;
 		while (g < axes.length && ControllerStick == false) {
-			if (Math.abs(axes[g]) > 0.1 && ControllerIgnoreStick.includes(g) == false) {
+			if (
+				Math.abs(axes[g]) > 0.1 &&
+				ControllerIgnoreStick.includes(g) == false
+			) {
 				ControllerStick = true;
 			}
 			g += 1;
 		}
 		if (ControllerStick == true && ControllerActive == true) {
-			if (Math.abs(axes[ControllerStickUpDown]) > ControllerDeadZone) {
-				MouseY += axes[ControllerStickUpDown] * ControllerStickDown * ControllerSensitivity;
+			if (
+				Math.abs(axes[ControllerStickUpDown]) > ControllerDeadZone
+			) {
+				MouseY +=
+					axes[ControllerStickUpDown] *
+					ControllerStickDown *
+					ControllerSensitivity;
 			}
-			if (Math.abs(axes[ControllerStickLeftRight]) > ControllerDeadZone) {
-				MouseX += axes[ControllerStickLeftRight] * ControllerStickRight * ControllerSensitivity;
+			if (
+				Math.abs(axes[ControllerStickLeftRight]) > ControllerDeadZone
+			) {
+				MouseX +=
+					axes[ControllerStickLeftRight] *
+					ControllerStickRight *
+					ControllerSensitivity;
 			}
 			if (MouseX < 0) {
 				MouseX = 0;
@@ -110,7 +122,6 @@ function ControllerAxis(axes) {
 			if (MouseY > 1000) {
 				MouseY = 1000;
 			}
-
 		}
 	}
 	if (Calibrating == true) {
@@ -118,7 +129,10 @@ function ControllerAxis(axes) {
 			var g = 0;
 			var f = false;
 			while (g < axes.length && f == false) {
-				if (Math.abs(axes[g]) > 0.8 && ControllerIgnoreStick.includes(g) == false) {
+				if (
+					Math.abs(axes[g]) > 0.8 &&
+					ControllerIgnoreStick.includes(g) == false
+				) {
 					ControllerStickUpDown = g;
 					Player.ControllerSettings.ControllerStickUpDown = g;
 					if (axes[g] > 0) {
@@ -141,7 +155,10 @@ function ControllerAxis(axes) {
 				var g = 0;
 				var f = false;
 				while (g < axes.length) {
-					if (Math.abs(axes[g]) > 0.1 && ControllerIgnoreStick.includes(g) == false) {
+					if (
+						Math.abs(axes[g]) > 0.1 &&
+						ControllerIgnoreStick.includes(g) == false
+					) {
 						f = true;
 					}
 					g += 1;
@@ -154,7 +171,10 @@ function ControllerAxis(axes) {
 				var g = 0;
 				var f = false;
 				while (g < axes.length && f == false) {
-					if (Math.abs(axes[g]) > 0.8 && ControllerIgnoreStick.includes(g) == false) {
+					if (
+						Math.abs(axes[g]) > 0.8 &&
+						ControllerIgnoreStick.includes(g) == false
+					) {
 						ControllerStickLeftRight = g;
 						Player.ControllerSettings.ControllerStickLeftRight = g;
 						if (axes[g] > 0) {
@@ -182,7 +202,6 @@ function ControllerAxis(axes) {
  */
 function ControllerButton(buttons) {
 	if (ControllerActive == true) {
-
 		//makes sure that no value is undefined
 		if (buttons[ControllerA] == undefined) {
 			ControllerA = 1;
@@ -221,7 +240,6 @@ function ControllerButton(buttons) {
 			ControllerDPadRight = 7;
 		}
 
-
 		if (ControllerButtonsRepeat == false) {
 			if (Calibrating == false) {
 				if (buttons[ControllerA].pressed == true) {
@@ -232,12 +250,22 @@ function ControllerButton(buttons) {
 				if (buttons[ControllerB].pressed == true) {
 					if (CurrentScreenFunctions.Exit) {
 						CurrentScreenFunctions.Exit();
-					} else if ((CurrentCharacter != null) && Array.isArray(DialogMenuButton) && (DialogMenuButton.indexOf("Exit") >= 0)) {
-						if (!DialogLeaveFocusItem())
-							DialogLeaveItemMenu();
-					} else if ((CurrentCharacter != null) && (CurrentScreen == "ChatRoom")) {
+					} else if (
+						CurrentCharacter != null &&
+						Array.isArray(DialogMenuButton) &&
+						DialogMenuButton.indexOf("Exit") >= 0
+					) {
+						if (!DialogLeaveFocusItem()) DialogLeaveItemMenu();
+					} else if (
+						CurrentCharacter != null &&
+						CurrentScreen == "ChatRoom"
+					) {
 						DialogLeave();
-					} else if ((CurrentCharacter == null) && (CurrentScreen == "ChatRoom") && (document.getElementById("TextAreaChatLog") != null)) {
+					} else if (
+						CurrentCharacter == null &&
+						CurrentScreen == "ChatRoom" &&
+						document.getElementById("TextAreaChatLog") != null
+					) {
 						ElementScrollToEnd("TextAreaChatLog");
 					}
 					ControllerButtonsRepeat = true;
@@ -412,7 +440,6 @@ function ControllerButton(buttons) {
 			}
 		}
 
-
 		if (ControllerButtonsRepeat == true) {
 			var g = 0;
 			var h = false;
@@ -420,7 +447,7 @@ function ControllerButton(buttons) {
 				if (buttons[g].pressed == true) {
 					h = true;
 				}
-				g += 1
+				g += 1;
 			}
 			if (h == false) {
 				ControllerButtonsRepeat = false;
@@ -429,18 +456,22 @@ function ControllerButton(buttons) {
 	}
 }
 
-
 //uncomment to test it with keyboard
 /**
- * handles keyboard inputs in controller mode 
+ * handles keyboard inputs in controller mode
  * @returns {void} Nothing
  */
 function ControllerSupportKeyDown() {
-	/*i*///    if (KeyPress == 105) ControllerUp();
-	/*k*///    if (KeyPress == 107) ControllerDown();
-	/*j*///    if (KeyPress == 106) ControllerLeft();
-	/*l*///    if (KeyPress == 108) ControllerRight();
-	/*space*///if (KeyPress == 32) ControllerClick();
+	/*i*/
+	//    if (KeyPress == 105) ControllerUp();
+	/*k*/
+	//    if (KeyPress == 107) ControllerDown();
+	/*j*/
+	//    if (KeyPress == 106) ControllerLeft();
+	/*l*/
+	//    if (KeyPress == 108) ControllerRight();
+	/*space*/
+	//if (KeyPress == 32) ControllerClick();
 }
 /**
  * A -> Click
@@ -462,7 +493,8 @@ function ControllerUp() {
 	MouseX = ControllerButtonsX[ControllerCurrentButton];
 	MouseY = ControllerButtonsY[ControllerCurrentButton];
 	// console.log("starting search");
-	if (ControllerCurrentButton > ControllerButtonsX.length) ControllerCurrentButton = 0;
+	if (ControllerCurrentButton > ControllerButtonsX.length)
+		ControllerCurrentButton = 0;
 	var CurrentY = ControllerButtonsY[ControllerCurrentButton];
 	var CurrentX = ControllerButtonsX[ControllerCurrentButton];
 	var found = false;
@@ -470,7 +502,10 @@ function ControllerUp() {
 		CurrentY -= 1;
 		var f = 0;
 		while (f < ControllerButtonsX.length && found == false) {
-			if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+			if (
+				CurrentY == ControllerButtonsY[f] &&
+				CurrentX == ControllerButtonsX[f]
+			) {
 				found = true;
 				MouseX = CurrentX;
 				MouseY = CurrentY;
@@ -494,7 +529,10 @@ function ControllerUp() {
 				CurrentX = CurrentXX + OffsetX;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -507,7 +545,10 @@ function ControllerUp() {
 				CurrentX = CurrentXX - OffsetX;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -534,7 +575,8 @@ function ControllerDown() {
 	MouseX = ControllerButtonsX[ControllerCurrentButton];
 	MouseY = ControllerButtonsY[ControllerCurrentButton];
 	// console.log("starting search");
-	if (ControllerCurrentButton > ControllerButtonsX.length) ControllerCurrentButton = 0;
+	if (ControllerCurrentButton > ControllerButtonsX.length)
+		ControllerCurrentButton = 0;
 	var CurrentY = ControllerButtonsY[ControllerCurrentButton];
 	var CurrentX = ControllerButtonsX[ControllerCurrentButton];
 	var found = false;
@@ -542,7 +584,10 @@ function ControllerDown() {
 		CurrentY += 1;
 		var f = 0;
 		while (f < ControllerButtonsX.length && found == false) {
-			if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+			if (
+				CurrentY == ControllerButtonsY[f] &&
+				CurrentX == ControllerButtonsX[f]
+			) {
 				found = true;
 				MouseX = CurrentX;
 				MouseY = CurrentY;
@@ -566,7 +611,10 @@ function ControllerDown() {
 				CurrentX = CurrentXX + OffsetX;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -579,7 +627,10 @@ function ControllerDown() {
 				CurrentX = CurrentXX - OffsetX;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -606,7 +657,8 @@ function ControllerLeft() {
 	MouseX = ControllerButtonsX[ControllerCurrentButton];
 	MouseY = ControllerButtonsY[ControllerCurrentButton];
 	// console.log("starting search");
-	if (ControllerCurrentButton > ControllerButtonsX.length) ControllerCurrentButton = 0;
+	if (ControllerCurrentButton > ControllerButtonsX.length)
+		ControllerCurrentButton = 0;
 	var CurrentY = ControllerButtonsY[ControllerCurrentButton];
 	var CurrentX = ControllerButtonsX[ControllerCurrentButton];
 	var found = false;
@@ -614,7 +666,10 @@ function ControllerLeft() {
 		CurrentX -= 1;
 		var f = 0;
 		while (f < ControllerButtonsX.length && found == false) {
-			if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+			if (
+				CurrentY == ControllerButtonsY[f] &&
+				CurrentX == ControllerButtonsX[f]
+			) {
 				found = true;
 				MouseX = CurrentX;
 				MouseY = CurrentY;
@@ -638,7 +693,10 @@ function ControllerLeft() {
 				CurrentY = CurrentYY + OffsetY;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -651,7 +709,10 @@ function ControllerLeft() {
 				CurrentY = CurrentYY - OffsetY;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -678,7 +739,8 @@ function ControllerRight() {
 	MouseX = ControllerButtonsX[ControllerCurrentButton];
 	MouseY = ControllerButtonsY[ControllerCurrentButton];
 	// console.log("starting search");
-	if (ControllerCurrentButton > ControllerButtonsX.length) ControllerCurrentButton = 0;
+	if (ControllerCurrentButton > ControllerButtonsX.length)
+		ControllerCurrentButton = 0;
 	var CurrentY = ControllerButtonsY[ControllerCurrentButton];
 	var CurrentX = ControllerButtonsX[ControllerCurrentButton];
 	var found = false;
@@ -686,7 +748,10 @@ function ControllerRight() {
 		CurrentX += 1;
 		var f = 0;
 		while (f < ControllerButtonsX.length && found == false) {
-			if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+			if (
+				CurrentY == ControllerButtonsY[f] &&
+				CurrentX == ControllerButtonsX[f]
+			) {
 				found = true;
 				MouseX = CurrentX;
 				MouseY = CurrentY;
@@ -710,7 +775,10 @@ function ControllerRight() {
 				CurrentY = CurrentYY + OffsetY;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -723,7 +791,10 @@ function ControllerRight() {
 				CurrentY = CurrentYY - OffsetY;
 				var f = 0;
 				while (f < ControllerButtonsX.length && found == false) {
-					if (CurrentY == ControllerButtonsY[f] && CurrentX == ControllerButtonsX[f]) {
+					if (
+						CurrentY == ControllerButtonsY[f] &&
+						CurrentX == ControllerButtonsX[f]
+					) {
 						found = true;
 						MouseX = CurrentX;
 						MouseY = CurrentY;
@@ -743,5 +814,3 @@ function ControllerRight() {
 		// console.log("not found");
 	}
 }
-
-

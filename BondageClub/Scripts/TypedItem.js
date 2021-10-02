@@ -71,12 +71,23 @@ function TypedItemRegister(asset, config) {
  * @param {TypedItemConfig} config - The item's extended item configuration
  * @returns {TypedItemData} - The generated typed item data for the asset
  */
-function TypedItemCreateTypedItemData(asset,
-	{ Options, Dialog, ChatTags, Dictionary, ChatSetting, DrawImages, ChangeWhenLocked, Validate, ScriptHooks }
+function TypedItemCreateTypedItemData(
+	asset,
+	{
+		Options,
+		Dialog,
+		ChatTags,
+		Dictionary,
+		ChatSetting,
+		DrawImages,
+		ChangeWhenLocked,
+		Validate,
+		ScriptHooks,
+	}
 ) {
 	Dialog = Dialog || {};
 	const key = `${asset.Group.Name}${asset.Name}`;
-	return TypedItemDataLookup[key] = {
+	return (TypedItemDataLookup[key] = {
 		asset,
 		options: Options,
 		key,
@@ -87,10 +98,9 @@ function TypedItemCreateTypedItemData(asset,
 			chatPrefix: Dialog.ChatPrefix || `${key}Set`,
 			npcPrefix: Dialog.NpcPrefix || key,
 		},
-		chatTags: Array.isArray(ChatTags) ? ChatTags : [
-			CommonChatTags.SOURCE_CHAR,
-			CommonChatTags.DEST_CHAR,
-		],
+		chatTags: Array.isArray(ChatTags)
+			? ChatTags
+			: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 		scriptHooks: {
 			load: ScriptHooks ? ScriptHooks.Load : undefined,
 			click: ScriptHooks ? ScriptHooks.Click : undefined,
@@ -101,9 +111,10 @@ function TypedItemCreateTypedItemData(asset,
 		dictionary: Dictionary || [],
 		chatSetting: ChatSetting || TypedItemChatSetting.TO_ONLY,
 		drawImages: typeof DrawImages === "boolean" ? DrawImages : true,
-		changeWhenLocked: typeof ChangeWhenLocked === "boolean" ? ChangeWhenLocked : true,
+		changeWhenLocked:
+			typeof ChangeWhenLocked === "boolean" ? ChangeWhenLocked : true,
 		validate: Validate,
-	};
+	});
 }
 
 /**
@@ -111,7 +122,12 @@ function TypedItemCreateTypedItemData(asset,
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHooks }) {
+function TypedItemCreateLoadFunction({
+	options,
+	functionPrefix,
+	dialog,
+	scriptHooks,
+}) {
 	const loadFunctionName = `${functionPrefix}Load`;
 	const loadFunction = function () {
 		ExtendedItemLoad(options, dialog.load);
@@ -128,7 +144,13 @@ function TypedItemCreateLoadFunction({ options, functionPrefix, dialog, scriptHo
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImages, scriptHooks }) {
+function TypedItemCreateDrawFunction({
+	options,
+	functionPrefix,
+	dialog,
+	drawImages,
+	scriptHooks,
+}) {
 	const drawFunctionName = `${functionPrefix}Draw`;
 	const drawFunction = function () {
 		ExtendedItemDraw(options, dialog.typePrefix, null, drawImages);
@@ -145,7 +167,12 @@ function TypedItemCreateDrawFunction({ options, functionPrefix, dialog, drawImag
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scriptHooks }) {
+function TypedItemCreateClickFunction({
+	options,
+	functionPrefix,
+	drawImages,
+	scriptHooks,
+}) {
 	const clickFunctionName = `${functionPrefix}Click`;
 	const clickFunction = function () {
 		ExtendedItemClick(options, null, drawImages);
@@ -157,13 +184,15 @@ function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scr
 	} else window[clickFunctionName] = clickFunction;
 }
 
-
 /**
  * Creates an asset's extended item exit function
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
- function TypedItemCreateExitFunction({ functionPrefix, scriptHooks}) {
+function TypedItemCreateExitFunction({
+	functionPrefix,
+	scriptHooks,
+}) {
 	const exitFunctionName = `${functionPrefix}Exit`;
 	if (scriptHooks && scriptHooks.exit) {
 		window[exitFunctionName] = function () {
@@ -176,7 +205,13 @@ function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scr
  *
  * @param {TypedItemData} data - The typed item data for the asset
  */
-function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPrefix, validate, scriptHooks }) {
+function TypedItemCreateValidateFunction({
+	changeWhenLocked,
+	options,
+	functionPrefix,
+	validate,
+	scriptHooks,
+}) {
 	const validateFunctionName = `${functionPrefix}Validate`;
 	const validateFunction = function (C, item, option, currentOption) {
 		let message = "";
@@ -185,16 +220,33 @@ function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPr
 			message = validate(C, item, option, currentOption);
 		}
 
-		const itemLocked = item && item.Property && item.Property.LockedBy;
-		if (!message && !changeWhenLocked && itemLocked && !DialogCanUnlock(C, item)) {
+		const itemLocked =
+			item && item.Property && item.Property.LockedBy;
+		if (
+			!message &&
+			!changeWhenLocked &&
+			itemLocked &&
+			!DialogCanUnlock(C, item)
+		) {
 			message = DialogFindPlayer("CantChangeWhileLocked");
 		}
 
 		return message;
 	};
 	if (scriptHooks && scriptHooks.validate) {
-		window[validateFunctionName] = function (C, item, option, currentOption) {
-			scriptHooks.validate(validateFunction, C, item, option, currentOption);
+		window[validateFunctionName] = function (
+			C,
+			item,
+			option,
+			currentOption
+		) {
+			scriptHooks.validate(
+				validateFunction,
+				C,
+				item,
+				option,
+				currentOption
+			);
 		};
 	} else window[validateFunctionName] = validateFunction;
 }
@@ -205,17 +257,22 @@ function TypedItemCreateValidateFunction({ changeWhenLocked, options, functionPr
  * @returns {void} - Nothing
  */
 function TypedItemCreatePublishFunction(typedItemData) {
-	const { options, functionPrefix, dialog, chatSetting } = typedItemData;
+	const { options, functionPrefix, dialog, chatSetting } =
+		typedItemData;
 	if (chatSetting === TypedItemChatSetting.SILENT) return;
 	const publishFunctionName = `${functionPrefix}PublishAction`;
-	window[publishFunctionName] = function (C, newOption, previousOption) {
+	window[publishFunctionName] = function (
+		C,
+		newOption,
+		previousOption
+	) {
 		/** @type ExtendedItemChatData<ExtendedItemOption> */
 		const chatData = {
 			C,
 			previousOption,
 			newOption,
 			previousIndex: options.indexOf(previousOption),
-			newIndex:  options.indexOf(newOption),
+			newIndex: options.indexOf(newOption),
 		};
 
 		let msg = dialog.chatPrefix;
@@ -223,10 +280,14 @@ function TypedItemCreatePublishFunction(typedItemData) {
 			msg = msg(chatData);
 		}
 
-		if (chatSetting === TypedItemChatSetting.FROM_TO) msg += `${previousOption.Name}To`;
+		if (chatSetting === TypedItemChatSetting.FROM_TO)
+			msg += `${previousOption.Name}To`;
 		msg += newOption.Name;
 
-		const dictionary = TypedItemBuildChatMessageDictionary(chatData, typedItemData);
+		const dictionary = TypedItemBuildChatMessageDictionary(
+			chatData,
+			typedItemData
+		);
 		ChatRoomPublishCustomAction(msg, true, dictionary);
 	};
 }
@@ -236,10 +297,18 @@ function TypedItemCreatePublishFunction(typedItemData) {
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
-function TypedItemCreateNpcDialogFunction({ asset, functionPrefix, dialog }) {
+function TypedItemCreateNpcDialogFunction({
+	asset,
+	functionPrefix,
+	dialog,
+}) {
 	const npcDialogFunctionName = `${functionPrefix}NpcDialog`;
 	window[npcDialogFunctionName] = function (C, option) {
-		C.CurrentDialog = DialogFind(C, `${dialog.npcPrefix}${option.Name}`, asset.Group.Name);
+		C.CurrentDialog = DialogFind(
+			C,
+			`${dialog.npcPrefix}${option.Name}`,
+			asset.Group.Name
+		);
 	};
 }
 
@@ -259,10 +328,15 @@ function TypedItemGenerateAllowType({ asset, options }) {
  * @param {TypedItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowEffect({asset, options}) {
-	asset.AllowEffect = Array.isArray(asset.Effect) ? asset.Effect.slice() : [];
+function TypedItemGenerateAllowEffect({ asset, options }) {
+	asset.AllowEffect = Array.isArray(asset.Effect)
+		? asset.Effect.slice()
+		: [];
 	for (const option of options) {
-		CommonArrayConcatDedupe(asset.AllowEffect, option.Property.Effect);
+		CommonArrayConcatDedupe(
+			asset.AllowEffect,
+			option.Property.Effect
+		);
 	}
 }
 
@@ -271,8 +345,10 @@ function TypedItemGenerateAllowEffect({asset, options}) {
  * @param {TypedItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowBlock({asset, options}) {
-	asset.AllowBlock = Array.isArray(asset.Block) ? asset.Block.slice() : [];
+function TypedItemGenerateAllowBlock({ asset, options }) {
+	asset.AllowBlock = Array.isArray(asset.Block)
+		? asset.Block.slice()
+		: [];
 	for (const option of options) {
 		CommonArrayConcatDedupe(asset.AllowBlock, option.Property.Block);
 	}
@@ -284,12 +360,19 @@ function TypedItemGenerateAllowBlock({asset, options}) {
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {object[]} - The dictionary for the item based on its required chat tags
  */
-function TypedItemBuildChatMessageDictionary(ChatData, { asset, chatTags, dictionary }) {
+function TypedItemBuildChatMessageDictionary(
+	ChatData,
+	{ asset, chatTags, dictionary }
+) {
 	const BuiltDictionary = chatTags
-		.map((tag) => ExtendedItemMapChatTagToDictionaryEntry(ChatData.C, asset, tag))
+		.map((tag) =>
+			ExtendedItemMapChatTagToDictionaryEntry(ChatData.C, asset, tag)
+		)
 		.filter(Boolean);
 
-	dictionary.forEach(entry => BuiltDictionary.push(entry(ChatData)));
+	dictionary.forEach((entry) =>
+		BuiltDictionary.push(entry(ChatData))
+	);
 
 	return BuiltDictionary;
 }
@@ -314,7 +397,7 @@ function TypedItemGetOptions(groupName, assetName) {
  */
 function TypedItemGetOptionNames(groupName, assetName) {
 	const options = TypedItemGetOptions(groupName, assetName);
-	return options ? options.map(option => option.Name) : [];
+	return options ? options.map((option) => option.Name) : [];
 }
 
 /**
@@ -326,7 +409,9 @@ function TypedItemGetOptionNames(groupName, assetName) {
  */
 function TypedItemGetOption(groupName, assetName, optionName) {
 	const options = TypedItemGetOptions(groupName, assetName);
-	return options ? options.find(option => option.Name === optionName) : null;
+	return options
+		? options.find((option) => option.Name === optionName)
+		: null;
 }
 
 /**
@@ -341,13 +426,28 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * message informing the player of the requirements that are not met.
  */
 function TypedItemValidateOption(C, item, option, previousOption) {
-	if (option.Property && option.Property.Type && InventoryBlockedOrLimited(C, item, option.Property.Type)) {
+	if (
+		option.Property &&
+		option.Property.Type &&
+		InventoryBlockedOrLimited(C, item, option.Property.Type)
+	) {
 		return DialogFindPlayer("ExtendedItemNoItemPermission");
 	}
 	const validationFunctionName = `Inventory${item.Asset.Group.Name}${item.Asset.Name}Validate`;
-	let validationMessage = CommonCallFunctionByName(validationFunctionName, C, item, option, previousOption);
+	let validationMessage = CommonCallFunctionByName(
+		validationFunctionName,
+		C,
+		item,
+		option,
+		previousOption
+	);
 	if (!validationMessage || typeof validationMessage !== "string") {
-		validationMessage = ExtendedItemValidate(C, item, option, previousOption);
+		validationMessage = ExtendedItemValidate(
+			C,
+			item,
+			option,
+			previousOption
+		);
 	}
 	return validationMessage;
 }
@@ -362,8 +462,16 @@ function TypedItemValidateOption(C, item, option, previousOption) {
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push = false) {
-	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
+function TypedItemSetOptionByName(
+	C,
+	itemOrGroupName,
+	optionName,
+	push = false
+) {
+	const item =
+		typeof itemOrGroupName === "string"
+			? InventoryGet(C, itemOrGroupName)
+			: itemOrGroupName;
 
 	if (!item) return;
 
@@ -378,7 +486,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push = false) 
 	}
 
 	const options = TypedItemGetOptions(groupName, assetName);
-	const option = options.find(o => o.Name === optionName);
+	const option = options.find((o) => o.Name === optionName);
 
 	if (!option) {
 		const msg = `${warningMessage}: option "${optionName}" does not exist`;
@@ -406,7 +514,12 @@ function TypedItemSetOption(C, item, options, option, push = false) {
 	const previousProperty = item.Property || options[0].Property;
 	const previousOption = TypedItemFindPreviousOption(item, options);
 
-	const requirementMessage = TypedItemValidateOption(C, item, option, previousOption);
+	const requirementMessage = TypedItemValidateOption(
+		C,
+		item,
+		option,
+		previousOption
+	);
 	if (requirementMessage) {
 		return requirementMessage;
 	}
@@ -418,11 +531,17 @@ function TypedItemSetOption(C, item, options, option, push = false) {
 		delete newProperty[key];
 	}
 	// Clone the new properties and use them to extend the existing properties
-	Object.assign(newProperty, JSON.parse(JSON.stringify(option.Property)));
+	Object.assign(
+		newProperty,
+		JSON.parse(JSON.stringify(option.Property))
+	);
 
 	// If the item is locked, ensure it has the "Lock" effect
-	if (newProperty.LockedBy && !(newProperty.Effect || []).includes("Lock")) {
-		newProperty.Effect = (newProperty.Effect || []);
+	if (
+		newProperty.LockedBy &&
+		!(newProperty.Effect || []).includes("Lock")
+	) {
+		newProperty.Effect = newProperty.Effect || [];
 		newProperty.Effect.push("Lock");
 	}
 
@@ -440,7 +559,10 @@ function TypedItemSetOption(C, item, options, option, push = false) {
 function TypedItemFindPreviousOption(item, options) {
 	const previousProperty = item.Property || options[0].Property;
 	const previousType = previousProperty.Type;
-	return options.find(o => o.Property.Type === previousType) || options[0];
+	return (
+		options.find((o) => o.Property.Type === previousType) ||
+		options[0]
+	);
 }
 
 /**
@@ -453,25 +575,36 @@ function TypedItemFindPreviousOption(item, options) {
  * informing the player of the requirements that are not met.
  */
 function TypedItemSetRandomOption(C, itemOrGroupName, push = false) {
-	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
+	const item =
+		typeof itemOrGroupName === "string"
+			? InventoryGet(C, itemOrGroupName)
+			: itemOrGroupName;
 
 	if (!item || item.Asset.Archetype !== ExtendedArchetype.TYPED) {
-		console.warn("Cannot set random option: item does not exist or does not use the typed archetype");
+		console.warn(
+			"Cannot set random option: item does not exist or does not use the typed archetype"
+		);
 		return;
 	}
 
 	/** @type {ExtendedItemOption[]} */
-	const allOptions = TypedItemGetOptions(item.Asset.Group.Name, item.Asset.Name);
+	const allOptions = TypedItemGetOptions(
+		item.Asset.Group.Name,
+		item.Asset.Name
+	);
 	// Avoid blocked & non-random options
 	const availableOptions = allOptions
-		.filter(option => option.Random !== false)
-		.filter(option => !InventoryBlockedOrLimited(C, item, option.Property.Type));
+		.filter((option) => option.Random !== false)
+		.filter(
+			(option) =>
+				!InventoryBlockedOrLimited(C, item, option.Property.Type)
+		);
 
 	/** @type {ExtendedItemOption} */
 	let option;
 	if (availableOptions.length === 0) {
 		// If no options are available, use the null type
-		option = allOptions.find(O => O.Property.Type == null);
+		option = allOptions.find((O) => O.Property.Type == null);
 	} else {
 		option = CommonRandomItemFromList(null, availableOptions);
 	}

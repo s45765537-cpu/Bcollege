@@ -13,14 +13,33 @@ var SophieIntroDone = false;
  */
 function SarahIntroLoad() {
 	CutsceneStage = 0;
-	if ((SarahIntroType == "SarahExplore") && (SarahStatus != "") && (LogQuery("SarahWillBePunished", "NPC-SarahIntro") || LogQuery("SarahWillBePunished", "NPC-SarahIntro"))) SarahIntroType = "SarahSearch";
-	if ((SarahIntroType == "SarahExplore") && (SarahStatus != "") && !LogQuery("SarahWillBePunished", "NPC-SarahIntro") && !LogQuery("SarahWillBePunished", "NPC-SarahIntro")) SarahIntroType = "SarahSurprise";
-	if ((SarahIntroType == "AmandaExplore") && (AmandaStatus != "")) SarahIntroType = "AmandaSearch";
-	if ((SarahStatus == "Owned") || (SarahStatus == "Curfew")) SarahIntroBackground = "SarahCollarIntro";
-	if ((SarahIntroType == "AmandaSearch") || (SarahIntroType == "AmandaExplore"))
-		if ((AmandaStatus == "Owned") || (AmandaStatus == "Curfew")) SarahIntroBackground = "AmandaCollarIntro";
+	if (
+		SarahIntroType == "SarahExplore" &&
+		SarahStatus != "" &&
+		(LogQuery("SarahWillBePunished", "NPC-SarahIntro") ||
+			LogQuery("SarahWillBePunished", "NPC-SarahIntro"))
+	)
+		SarahIntroType = "SarahSearch";
+	if (
+		SarahIntroType == "SarahExplore" &&
+		SarahStatus != "" &&
+		!LogQuery("SarahWillBePunished", "NPC-SarahIntro") &&
+		!LogQuery("SarahWillBePunished", "NPC-SarahIntro")
+	)
+		SarahIntroType = "SarahSurprise";
+	if (SarahIntroType == "AmandaExplore" && AmandaStatus != "")
+		SarahIntroType = "AmandaSearch";
+	if (SarahStatus == "Owned" || SarahStatus == "Curfew")
+		SarahIntroBackground = "SarahCollarIntro";
+	if (
+		SarahIntroType == "AmandaSearch" ||
+		SarahIntroType == "AmandaExplore"
+	)
+		if (AmandaStatus == "Owned" || AmandaStatus == "Curfew")
+			SarahIntroBackground = "AmandaCollarIntro";
 		else SarahIntroBackground = "AmandaIntro";
-	if (SarahIntroType == "Sophie") SarahIntroBackground = "SophieIntro";
+	if (SarahIntroType == "Sophie")
+		SarahIntroBackground = "SophieIntro";
 }
 
 /**
@@ -29,7 +48,13 @@ function SarahIntroLoad() {
  */
 function SarahIntroRun() {
 	TextLoad();
-	DrawText(TextGet(SarahIntroType + CutsceneStage.toString()), 1000, 980, (SarahIntroType.indexOf("Sarah") >= 0) ? "Black" : "White", (SarahIntroType.indexOf("Sarah") >= 0) ? "White" : "Black");
+	DrawText(
+		TextGet(SarahIntroType + CutsceneStage.toString()),
+		1000,
+		980,
+		SarahIntroType.indexOf("Sarah") >= 0 ? "Black" : "White",
+		SarahIntroType.indexOf("Sarah") >= 0 ? "White" : "Black"
+	);
 }
 
 /**
@@ -38,6 +63,7 @@ function SarahIntroRun() {
  */
 function SarahIntroClick() {
 	CutsceneStage++;
-	if ((CutsceneStage > 3) && (SarahIntroType == "Sophie")) CommonSetScreen("Room", "Sarah");
+	if (CutsceneStage > 3 && SarahIntroType == "Sophie")
+		CommonSetScreen("Room", "Sarah");
 	if (CutsceneStage > 5) CommonSetScreen("Room", "Sarah");
 }

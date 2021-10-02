@@ -40,7 +40,7 @@ function BackgroundSelectionMake(List, Idx, Callback, HideDropDown) {
  * @returns {number} - Returns -1 if the description of object a is less then that of b, 1 otherwise
  */
 function BackGroundSelectionSort(a, b) {
-	return (a.Description <= b.Description) ? -1: 1;
+	return a.Description <= b.Description ? -1 : 1;
 }
 
 /**
@@ -49,14 +49,31 @@ function BackGroundSelectionSort(a, b) {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionLoad() {
-	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
-	BackgroundSelectionSelectName = DialogFindPlayer(BackgroundSelectionSelect);
-	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
-	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] || "Introduction";
-	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackGroundSelectionSort);
+	BackgroundSelectionSelect =
+		BackgroundSelectionList[BackgroundSelectionIndex];
+	BackgroundSelectionSelectName = DialogFindPlayer(
+		BackgroundSelectionSelect
+	);
+	BackgroundSelectionOffset =
+		Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) *
+		BackgroundSelectionSize;
+	BackgroundSelectionBackground =
+		BackgroundSelectionList[BackgroundSelectionIndex] ||
+		"Introduction";
+	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(
+		BackGroundSelectionSort
+	);
 	ElementCreateInput("InputBackground", "text", "", "30");
-	document.getElementById("InputBackground").oninput = BackgroundSelectionInputChanged;
-	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, function() { BackgroundSelectionTagChanged(); });
+	document.getElementById("InputBackground").oninput =
+		BackgroundSelectionInputChanged;
+	if (BackgroundSelectionTagList.length >= 2)
+		ElementCreateDropdown(
+			"TagDropDown",
+			BackgroundsTagList,
+			function () {
+				BackgroundSelectionTagChanged();
+			}
+		);
 }
 
 /**
@@ -69,10 +86,15 @@ function BackgroundSelectionInputChanged() {
 	Input = Input.trim().toLowerCase();
 	if (Input == "") {
 		BackgroundSelectionView = BackgroundSelectionAll.slice();
-		BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
+		BackgroundSelectionOffset =
+			Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) *
+			BackgroundSelectionSize;
 	} else {
-		BackgroundSelectionView = BackgroundSelectionAll.filter(B => B.Low.includes(Input));
-		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
+		BackgroundSelectionView = BackgroundSelectionAll.filter((B) =>
+			B.Low.includes(Input)
+		);
+		if (BackgroundSelectionOffset >= BackgroundSelectionView.length)
+			BackgroundSelectionOffset = 0;
 	}
 	BackgroundSelectionView.sort(BackGroundSelectionSort);
 }
@@ -84,10 +106,17 @@ function BackgroundSelectionInputChanged() {
 function BackgroundSelectionTagChanged() {
 	var DD = document.getElementById("TagDropDown-select");
 	if (DD == null) return;
-	BackgroundSelectionList = BackgroundsGenerateList((DD.selectedIndex == 0) ? BackgroundSelectionTagList : [DD.options[DD.selectedIndex].text]);
-	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackGroundSelectionSort);
+	BackgroundSelectionList = BackgroundsGenerateList(
+		DD.selectedIndex == 0
+			? BackgroundSelectionTagList
+			: [DD.options[DD.selectedIndex].text]
+	);
+	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(
+		BackGroundSelectionSort
+	);
 	BackgroundSelectionInputChanged();
-	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
+	if (BackgroundSelectionOffset >= BackgroundSelectionView.length)
+		BackgroundSelectionOffset = 0;
 }
 
 /**
@@ -98,36 +127,132 @@ function BackgroundSelectionTagChanged() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionRun() {
+	DrawText(
+		TextGet("Selection").replace(
+			"SelectedBackground",
+			BackgroundSelectionSelectName
+		),
+		300,
+		65,
+		"White",
+		"Black"
+	);
+	if (BackgroundSelectionTagList.length >= 2)
+		ElementPositionFix("TagDropDown", 36, 550, 35, 300, 65);
+	DrawText(
+		TextGet("Filter")
+			.replace("Filtered", BackgroundSelectionView.length)
+			.replace("Total", BackgroundSelectionAll.length),
+		1000,
+		65,
+		"White",
+		"Black"
+	);
 
-	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundSelectionSelectName), 300, 65, "White", "Black");
-	if (BackgroundSelectionTagList.length >= 2) ElementPositionFix("TagDropDown", 36, 550, 35, 300, 65);
-	DrawText(TextGet("Filter").replace("Filtered", BackgroundSelectionView.length).replace("Total", BackgroundSelectionAll.length), 1000, 65, "White", "Black");
+	DrawButton(
+		1585,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Prev.png",
+		TextGet("Prev")
+	);
+	DrawButton(
+		1685,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Next.png",
+		TextGet("Next")
+	);
+	DrawButton(
+		1785,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Cancel.png",
+		TextGet("Cancel")
+	);
+	DrawButton(
+		1885,
+		25,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Accept.png",
+		TextGet("Accept")
+	);
 
-	DrawButton(1585, 25, 90, 90, "", "White", "Icons/Prev.png", TextGet("Prev"));
-	DrawButton(1685, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
-	DrawButton(1785, 25, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
-	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
-
-	if (!CommonIsMobile && (MouseIn(1585, 25, 90, 90) || MouseIn(1685, 25, 90, 90) || MouseIn(1785, 25, 90, 90) || MouseIn(1885, 25, 90, 90)))
+	if (
+		!CommonIsMobile &&
+		(MouseIn(1585, 25, 90, 90) ||
+			MouseIn(1685, 25, 90, 90) ||
+			MouseIn(1785, 25, 90, 90) ||
+			MouseIn(1885, 25, 90, 90))
+	)
 		document.getElementById("InputBackground").style.display = "none";
-	else
-		ElementPosition("InputBackground", 1350, 60, 400);
+	else ElementPosition("InputBackground", 1350, 60, 400);
 
 	var X = 45;
 	var Y = 150;
-	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
-		if (BackgroundSelectionView[i].Name == BackgroundSelectionSelect) DrawButton(X - 4, Y - 4, 450 + 8, 225 + 8, BackgroundSelectionView[i].Description, "Blue");
-		else DrawButton(X, Y, 450, 225, BackgroundSelectionView[i].Description, "White");
-		DrawImageResize("Backgrounds/" + BackgroundSelectionView[i].Name + ".jpg", X + 2, Y + 2, 446, 221);
-		DrawTextFit(BackgroundSelectionView[i].Description, X + 227, Y + 252, 450, "Black");
-		DrawTextFit(BackgroundSelectionView[i].Description, X + 225, Y + 250, 450, "White");
+	for (
+		let i = BackgroundSelectionOffset;
+		i < BackgroundSelectionView.length &&
+		i - BackgroundSelectionOffset < BackgroundSelectionSize;
+		++i
+	) {
+		if (BackgroundSelectionView[i].Name == BackgroundSelectionSelect)
+			DrawButton(
+				X - 4,
+				Y - 4,
+				450 + 8,
+				225 + 8,
+				BackgroundSelectionView[i].Description,
+				"Blue"
+			);
+		else
+			DrawButton(
+				X,
+				Y,
+				450,
+				225,
+				BackgroundSelectionView[i].Description,
+				"White"
+			);
+		DrawImageResize(
+			"Backgrounds/" + BackgroundSelectionView[i].Name + ".jpg",
+			X + 2,
+			Y + 2,
+			446,
+			221
+		);
+		DrawTextFit(
+			BackgroundSelectionView[i].Description,
+			X + 227,
+			Y + 252,
+			450,
+			"Black"
+		);
+		DrawTextFit(
+			BackgroundSelectionView[i].Description,
+			X + 225,
+			Y + 250,
+			450,
+			"White"
+		);
 		X += 450 + 35;
 		if (i % 4 == 3) {
 			X = 45;
 			Y += 225 + 55;
 		}
 	}
-
 }
 
 /**
@@ -142,33 +267,63 @@ function BackgroundSelectionRun() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionClick() {
-
 	// Exit by selecting or cancelling
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(true);
-	if ((MouseX >= 1785) && (MouseX < 1875) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(false);
+	if (MouseX >= 1885 && MouseX < 1975 && MouseY >= 25 && MouseY < 115)
+		BackgroundSelectionExit(true);
+	if (MouseX >= 1785 && MouseX < 1875 && MouseY >= 25 && MouseY < 115)
+		BackgroundSelectionExit(false);
 
 	// Set next offset backward
-	if ((MouseX >= 1585) && (MouseX < 1675) && (MouseY >= 25) && (MouseY < 115)) {
+	if (
+		MouseX >= 1585 &&
+		MouseX < 1675 &&
+		MouseY >= 25 &&
+		MouseY < 115
+	) {
 		BackgroundSelectionOffset -= BackgroundSelectionSize;
 		if (BackgroundSelectionOffset < 0)
-			BackgroundSelectionOffset = Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1) * BackgroundSelectionSize;
+			BackgroundSelectionOffset =
+				Math.ceil(
+					BackgroundSelectionView.length / BackgroundSelectionSize - 1
+				) * BackgroundSelectionSize;
 	}
 
 	// Set next offset forward
-	if ((MouseX >= 1685) && (MouseX < 1775) && (MouseY >= 25) && (MouseY < 115)) {
+	if (
+		MouseX >= 1685 &&
+		MouseX < 1775 &&
+		MouseY >= 25 &&
+		MouseY < 115
+	) {
 		BackgroundSelectionOffset += BackgroundSelectionSize;
-		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
+		if (BackgroundSelectionOffset >= BackgroundSelectionView.length)
+			BackgroundSelectionOffset = 0;
 	}
 
 	var X = 45;
 	var Y = 150;
-	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
-		if ((MouseX >= X) && (MouseX < X + 450) && (MouseY >= Y) && (MouseY < Y + 225)) {
+	for (
+		let i = BackgroundSelectionOffset;
+		i < BackgroundSelectionView.length &&
+		i - BackgroundSelectionOffset < BackgroundSelectionSize;
+		++i
+	) {
+		if (
+			MouseX >= X &&
+			MouseX < X + 450 &&
+			MouseY >= Y &&
+			MouseY < Y + 225
+		) {
 			BackgroundSelectionIndex = i;
-			if (BackgroundSelectionIndex >= BackgroundSelectionView.length) BackgroundSelectionIndex = 0;
-			if (BackgroundSelectionIndex < 0) BackgroundSelectionIndex = BackgroundSelectionView.length - 1;
-			BackgroundSelectionSelect = BackgroundSelectionView[BackgroundSelectionIndex].Name;
-			BackgroundSelectionSelectName = DialogFindPlayer(BackgroundSelectionSelect);
+			if (BackgroundSelectionIndex >= BackgroundSelectionView.length)
+				BackgroundSelectionIndex = 0;
+			if (BackgroundSelectionIndex < 0)
+				BackgroundSelectionIndex = BackgroundSelectionView.length - 1;
+			BackgroundSelectionSelect =
+				BackgroundSelectionView[BackgroundSelectionIndex].Name;
+			BackgroundSelectionSelectName = DialogFindPlayer(
+				BackgroundSelectionSelect
+			);
 			BackgroundSelectionBackground = BackgroundSelectionSelect;
 		}
 		X += 450 + 35;
@@ -177,7 +332,6 @@ function BackgroundSelectionClick() {
 			Y += 225 + 55;
 		}
 	}
-
 }
 
 /**
@@ -198,7 +352,11 @@ function BackgroundSelectionKeyDown() {
 function BackgroundSelectionExit(SetBackground) {
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
-	if (SetBackground && BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect);
+	if (SetBackground && BackgroundSelectionCallback)
+		BackgroundSelectionCallback(BackgroundSelectionSelect);
 	BackgroundSelectionCallback = null;
-	CommonSetScreen(BackgroundSelectionPreviousModule, BackgroundSelectionPreviousScreen);
+	CommonSetScreen(
+		BackgroundSelectionPreviousModule,
+		BackgroundSelectionPreviousScreen
+	);
 }

@@ -14,34 +14,76 @@ function InventoryItemArmsHempRopeSuspensionHogtiedLoad(C, Option) {
 	if (!HempRopeSuspensionHogtiedPrevProperty) {
 		// Initialise variables
 		const item = DialogFocusItem;
-		const property = item.Property && item.Property.Type == Option.Property.Type ? item.Property : JSON.parse(JSON.stringify(Option.Property));
+		const property =
+			item.Property && item.Property.Type == Option.Property.Type
+				? item.Property
+				: JSON.parse(JSON.stringify(Option.Property));
 
 		// Store the previously set properties, reverting to it by default upon exiting the screen
-		HempRopeSuspensionHogtiedPrevProperty = JSON.parse(JSON.stringify(item.Property));
+		HempRopeSuspensionHogtiedPrevProperty = JSON.parse(
+			JSON.stringify(item.Property)
+		);
 		HempRopeSuspensionHogtiedPrevProperty.revert = true;
 
 		// Define the upper/lower bounds
 		HempRopeSuspensionHogtiedMaxHeight = 0;
-		HempRopeSuspensionHogtiedMinHeight = Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
+		HempRopeSuspensionHogtiedMinHeight = Pose.find(
+			(p) => p.Name == "Hogtied"
+		).OverrideHeight.Height;
 
 		// Validate the height settings
-		if (typeof property.OverrideHeight !== "object") property.OverrideHeight = Option.Property;
-		if (typeof property.OverrideHeight.Height !== "number") property.OverrideHeight.Height = HempRopeSuspensionHogtiedMinHeight;
-		if (typeof property.OverrideHeight.HeightRatioProportion !== "number") property.OverrideHeight.HeightRatioProportion = 1;
+		if (typeof property.OverrideHeight !== "object")
+			property.OverrideHeight = Option.Property;
+		if (typeof property.OverrideHeight.Height !== "number")
+			property.OverrideHeight.Height =
+				HempRopeSuspensionHogtiedMinHeight;
+		if (
+			typeof property.OverrideHeight.HeightRatioProportion !==
+			"number"
+		)
+			property.OverrideHeight.HeightRatioProportion = 1;
 		DialogFocusItem.Property = property;
 		CharacterRefresh(C, false, false);
 
 		// Create the controls
-		const currHeight = 1 - property.OverrideHeight.HeightRatioProportion;
-		const heightSlider = ElementCreateRangeInput(HempRopeSuspensionHogtiedSliderId, currHeight, 0, 1, 0.01, "player", true);
+		const currHeight =
+			1 - property.OverrideHeight.HeightRatioProportion;
+		const heightSlider = ElementCreateRangeInput(
+			HempRopeSuspensionHogtiedSliderId,
+			currHeight,
+			0,
+			1,
+			0.01,
+			"player",
+			true
+		);
 		if (heightSlider) {
-			heightSlider.addEventListener("input", (e) => InventoryItemArmsHempRopeSuspensionHogtiedHeightChange(C, item, Number(e.target.value), heightSlider.id));
+			heightSlider.addEventListener("input", (e) =>
+				InventoryItemArmsHempRopeSuspensionHogtiedHeightChange(
+					C,
+					item,
+					Number(e.target.value),
+					heightSlider.id
+				)
+			);
 		}
-		const heightNumber = ElementCreateInput(HempRopeSuspensionHogtiedNumberId, "number", Math.round(currHeight * 100), "");
+		const heightNumber = ElementCreateInput(
+			HempRopeSuspensionHogtiedNumberId,
+			"number",
+			Math.round(currHeight * 100),
+			""
+		);
 		if (heightNumber) {
 			heightNumber.setAttribute("min", "0");
 			heightNumber.setAttribute("max", "100");
-			heightNumber.addEventListener("change", (e) => InventoryItemArmsHempRopeSuspensionHogtiedHeightChange(C, item, Number(e.target.value) / 100, heightNumber.id));
+			heightNumber.addEventListener("change", (e) =>
+				InventoryItemArmsHempRopeSuspensionHogtiedHeightChange(
+					C,
+					item,
+					Number(e.target.value) / 100,
+					heightNumber.id
+				)
+			);
 		}
 	}
 }
@@ -54,28 +96,41 @@ function InventoryItemArmsHempRopeSuspensionHogtiedLoad(C, Option) {
  * @param {string} fromElementId - The control that triggered the change
  * @returns {void} - Nothing
  */
-const InventoryItemArmsHempRopeSuspensionHogtiedHeightChange = CommonLimitFunction((C, item, height, fromElementId) => {
-	// Validate the value
-	if (isNaN(height) || height < 0 || height > 1) return;
+const InventoryItemArmsHempRopeSuspensionHogtiedHeightChange =
+	CommonLimitFunction(
+		(C, item, height, fromElementId) => {
+			// Validate the value
+			if (isNaN(height) || height < 0 || height > 1) return;
 
-	// Round to the nearest 0.01
-	height = Math.round(height * 100) / 100;
+			// Round to the nearest 0.01
+			height = Math.round(height * 100) / 100;
 
-	// Update other control values
-	if (fromElementId !== HempRopeSuspensionHogtiedSliderId) {
-		ElementValue(HempRopeSuspensionHogtiedSliderId, height);
-	}
-	if (fromElementId !== HempRopeSuspensionHogtiedNumberId) {
-		ElementValue(HempRopeSuspensionHogtiedNumberId, Math.round(height * 100));
-	}
+			// Update other control values
+			if (fromElementId !== HempRopeSuspensionHogtiedSliderId) {
+				ElementValue(HempRopeSuspensionHogtiedSliderId, height);
+			}
+			if (fromElementId !== HempRopeSuspensionHogtiedNumberId) {
+				ElementValue(
+					HempRopeSuspensionHogtiedNumberId,
+					Math.round(height * 100)
+				);
+			}
 
-	// Update the item properties
-	item.Property.OverrideHeight.HeightRatioProportion = 1 - height;
-	item.Property.OverrideHeight.Height = Math.round(HempRopeSuspensionHogtiedMaxHeight - (1 - height) * (HempRopeSuspensionHogtiedMaxHeight - HempRopeSuspensionHogtiedMinHeight));
+			// Update the item properties
+			item.Property.OverrideHeight.HeightRatioProportion = 1 - height;
+			item.Property.OverrideHeight.Height = Math.round(
+				HempRopeSuspensionHogtiedMaxHeight -
+					(1 - height) *
+						(HempRopeSuspensionHogtiedMaxHeight -
+							HempRopeSuspensionHogtiedMinHeight)
+			);
 
-	// Reload to see the change
-	CharacterLoadCanvas(C);
-}, 0, 1000);
+			// Reload to see the change
+			CharacterLoadCanvas(C);
+		},
+		0,
+		1000
+	);
 
 /**
  * Handles drawing the extended item's screen
@@ -84,14 +139,41 @@ const InventoryItemArmsHempRopeSuspensionHogtiedHeightChange = CommonLimitFuncti
 function InventoryItemArmsHempRopeSuspensionHogtiedDraw() {
 	// Draw controls
 	DrawAssetPreview(1387, 55, DialogFocusItem.Asset);
-	DrawText(DialogFindPlayer("ItemArmsSuspensionHempRopeSelect"), 1500, 375, "white", "gray");
+	DrawText(
+		DialogFindPlayer("ItemArmsSuspensionHempRopeSelect"),
+		1500,
+		375,
+		"white",
+		"gray"
+	);
 
-	ElementPosition(HempRopeSuspensionHogtiedSliderId, 1140, 500, 100, 800);
+	ElementPosition(
+		HempRopeSuspensionHogtiedSliderId,
+		1140,
+		500,
+		100,
+		800
+	);
 
-	DrawTextFit(DialogFindPlayer("ItemArmsSuspensionHempRopePercent"), 1405, 555, 250, "white", "gray");
+	DrawTextFit(
+		DialogFindPlayer("ItemArmsSuspensionHempRopePercent"),
+		1405,
+		555,
+		250,
+		"white",
+		"gray"
+	);
 	ElementPosition(HempRopeSuspensionHogtiedNumberId, 1640, 550, 125);
 
-	DrawButton(1350, 700, 300, 64, DialogFind(Player, "ItemArmsSuspensionHempRopeConfirm"), "White", "");
+	DrawButton(
+		1350,
+		700,
+		300,
+		64,
+		DialogFind(Player, "ItemArmsSuspensionHempRopeConfirm"),
+		"White",
+		""
+	);
 }
 
 /**
@@ -109,7 +191,12 @@ function InventoryItemArmsHempRopeSuspensionHogtiedClick(C, Options) {
 	// Confirm button
 	if (MouseIn(1350, 700, 300, 64)) {
 		HempRopeSuspensionHogtiedPrevProperty.revert = false;
-		let Option = Object.assign({}, Options.find(o => o.Property.Type == DialogFocusItem.Property.Type));
+		let Option = Object.assign(
+			{},
+			Options.find(
+				(o) => o.Property.Type == DialogFocusItem.Property.Type
+			)
+		);
 		Option.Property = DialogFocusItem.Property;
 		ExtendedItemSetType(C, Options, Option);
 	}
@@ -121,7 +208,10 @@ function InventoryItemArmsHempRopeSuspensionHogtiedClick(C, Options) {
  */
 function InventoryItemArmsHempRopeSuspensionHogtiedExit() {
 	// Revert the changes
-	if (HempRopeSuspensionHogtiedPrevProperty && HempRopeSuspensionHogtiedPrevProperty.revert) {
+	if (
+		HempRopeSuspensionHogtiedPrevProperty &&
+		HempRopeSuspensionHogtiedPrevProperty.revert
+	) {
 		const C = CharacterGetCurrent();
 		DialogFocusItem.Property = HempRopeSuspensionHogtiedPrevProperty;
 		CharacterRefresh(C, false, false);
@@ -140,18 +230,40 @@ function InventoryItemArmsHempRopeSuspensionHogtiedExit() {
  * @param {Option} Option - The currently selected Option
  * @returns {void} - Nothing
  */
-function InventoryItemArmsHempRopeSuspensionHogtiedPublishAction(C, Option) {
+function InventoryItemArmsHempRopeSuspensionHogtiedPublishAction(
+	C,
+	Option
+) {
 	const newHeight = Option.Property.OverrideHeight.Height;
-	const prevHeight = HempRopeSuspensionHogtiedPrevProperty
-		&& HempRopeSuspensionHogtiedPrevProperty.Type == Option.Property.Type
-		? HempRopeSuspensionHogtiedPrevProperty.OverrideHeight.Height : null;
-	const msgType = prevHeight !== null ? prevHeight < newHeight ? "Raise" : "Lower" : "";
+	const prevHeight =
+		HempRopeSuspensionHogtiedPrevProperty &&
+		HempRopeSuspensionHogtiedPrevProperty.Type == Option.Property.Type
+			? HempRopeSuspensionHogtiedPrevProperty.OverrideHeight.Height
+			: null;
+	const msgType =
+		prevHeight !== null
+			? prevHeight < newHeight
+				? "Raise"
+				: "Lower"
+			: "";
 
 	const msg = "ItemArmsSuspensionHempRopeChange" + msgType;
 	const Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
-		{ Tag: "TargetCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{
+			Tag: "SourceCharacter",
+			Text: Player.Name,
+			MemberNumber: Player.MemberNumber,
+		},
+		{
+			Tag: "DestinationCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
+		{
+			Tag: "TargetCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
 	];
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
@@ -162,6 +274,13 @@ function InventoryItemArmsHempRopeSuspensionHogtiedPublishAction(C, Option) {
  * @param {Option} Option - The chosen option for this extended item
  * @returns {void} - Nothing
  */
-function InventoryItemArmsHempRopeSuspensionHogtiedNpcDialog(C, Option) {
-	C.CurrentDialog = DialogFind(C, "RopeBondage" + Option.Name, "ItemArms");
+function InventoryItemArmsHempRopeSuspensionHogtiedNpcDialog(
+	C,
+	Option
+) {
+	C.CurrentDialog = DialogFind(
+		C,
+		"RopeBondage" + Option.Name,
+		"ItemArms"
+	);
 }

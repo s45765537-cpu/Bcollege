@@ -7,29 +7,49 @@ var EmptyCharacterOffset = 0;
  * Checks if the player struggled successfully within the allowed time
  * @returns {boolean} - Returns TRUE if the player managed to struggle out in time
  */
-function EmptyStruggleSuccess() { return (!Player.IsRestrained() && Player.CanTalk() && (CurrentTime < ManagementTimer)); }
+function EmptyStruggleSuccess() {
+	return (
+		!Player.IsRestrained() &&
+		Player.CanTalk() &&
+		CurrentTime < ManagementTimer
+	);
+}
 /**
  * Checks if the player has not managed to struggle out in time
  * @returns {boolean} - Returns TRUE if the player has failed to struggle out.
  */
-function EmptyStruggleFail() { return (CurrentTime >= ManagementTimer); }
+function EmptyStruggleFail() {
+	return CurrentTime >= ManagementTimer;
+}
 /**
  * Checks if the player is in struggle mode.
  * @returns {boolean} - Returns TRUE if the player still has time to try to struggle out.
  */
-function EmptyStruggleProgress() { return ((Player.IsRestrained() || !Player.CanTalk()) && (CurrentTime < ManagementTimer)); }
+function EmptyStruggleProgress() {
+	return (
+		(Player.IsRestrained() || !Player.CanTalk()) &&
+		CurrentTime < ManagementTimer
+	);
+}
 /**
  * Checks if the player can do a bondage training.
  * @returns {boolean} - Whether the player is ready to do a bondage training or not.
  */
-function EmptySlaveMarketReadyForBondageTraining() { return (Player.CanInteract() && !CurrentCharacter.CanTalk() && CurrentCharacter.IsBlind() && !CurrentCharacter.CanInteract() && !CurrentCharacter.CanWalk()); }
+function EmptySlaveMarketReadyForBondageTraining() {
+	return (
+		Player.CanInteract() &&
+		!CurrentCharacter.CanTalk() &&
+		CurrentCharacter.IsBlind() &&
+		!CurrentCharacter.CanInteract() &&
+		!CurrentCharacter.CanWalk()
+	);
+}
 
 /**
  * Loads the empty room screen. Does nothing, required for future use and because it is called dynamically when loading the screen.
  * @returns {void} - Nothing
  */
-function EmptyLoad() {
-}
+function EmptyLoad() {}
 
 /**
  * Runs and draws the empty room screen, it will place each character inside the room evenly
@@ -37,7 +57,15 @@ function EmptyLoad() {
  */
 function EmptyRun() {
 	for (let C = 0; C < EmptyCharacter.length; C++)
-		DrawCharacter(EmptyCharacter[C], 1000 - EmptyCharacter.length * 250 + C * 500 + EmptyCharacterOffset, 0, 1);
+		DrawCharacter(
+			EmptyCharacter[C],
+			1000 -
+				EmptyCharacter.length * 250 +
+				C * 500 +
+				EmptyCharacterOffset,
+			0,
+			1
+		);
 }
 
 /**
@@ -46,7 +74,20 @@ function EmptyRun() {
  */
 function EmptyClick() {
 	for (let C = 0; C < EmptyCharacter.length; C++)
-		if ((MouseX >= 1000 - EmptyCharacter.length * 250 + C * 500 + EmptyCharacterOffset) && (MouseX < 1500 - EmptyCharacter.length * 250 + C * 500 + EmptyCharacterOffset) && (MouseY >= 0) && (MouseY < 1000))
+		if (
+			MouseX >=
+				1000 -
+					EmptyCharacter.length * 250 +
+					C * 500 +
+					EmptyCharacterOffset &&
+			MouseX <
+				1500 -
+					EmptyCharacter.length * 250 +
+					C * 500 +
+					EmptyCharacterOffset &&
+			MouseY >= 0 &&
+			MouseY < 1000
+		)
 			CharacterSetCurrent(EmptyCharacter[C]);
 }
 
@@ -84,13 +125,16 @@ function EmptyShopRelease() {
  * @returns {void} - Nothing
  */
 function EmptyShopEnd(Sold) {
-	Sold = (Sold == "true");
-	ShopVendor.Stage = (Sold) ? "33" : "34";
+	Sold = Sold == "true";
+	ShopVendor.Stage = Sold ? "33" : "34";
 	if (Sold) CharacterChangeMoney(Player, ShopDemoItemPayment);
 	DialogLeave();
 	CommonSetScreen("Room", "Shop");
 	CharacterSetCurrent(ShopVendor);
-	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (Sold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+	ShopVendor.CurrentDialog = DialogFind(
+		ShopVendor,
+		Sold ? "ItemSold" : "ItemNotSold"
+	).replace("MoneyAmount", ShopDemoItemPayment.toString());
 	CharacterAppearanceFullRandom(ShopCustomer, false);
 	CharacterRandomName(ShopCustomer);
 }
@@ -110,11 +154,34 @@ function EmptySlaveMarketTrainingStart(TrainingType) {
  * @returns {boolean} - Returns TRUE if the intensity level matches the level to test
  */
 function EmptySlaveMarketTrainingLevelIs(TestLevel) {
-	if ((TestLevel == "Lowest") && (CurrentCharacter.TrainingIntensity <= 1)) return true;
-	if ((TestLevel == "Low") && (CurrentCharacter.TrainingIntensity >= 2) && (CurrentCharacter.TrainingIntensity <= 3)) return true;
-	if ((TestLevel == "Perfect") && (CurrentCharacter.TrainingIntensity >= 4) && (CurrentCharacter.TrainingIntensity <= 6)) return true;
-	if ((TestLevel == "High") && (CurrentCharacter.TrainingIntensity >= 7) && (CurrentCharacter.TrainingIntensity <= 8)) return true;
-	if ((TestLevel == "Highest") && (CurrentCharacter.TrainingIntensity >= 9)) return true;
+	if (
+		TestLevel == "Lowest" &&
+		CurrentCharacter.TrainingIntensity <= 1
+	)
+		return true;
+	if (
+		TestLevel == "Low" &&
+		CurrentCharacter.TrainingIntensity >= 2 &&
+		CurrentCharacter.TrainingIntensity <= 3
+	)
+		return true;
+	if (
+		TestLevel == "Perfect" &&
+		CurrentCharacter.TrainingIntensity >= 4 &&
+		CurrentCharacter.TrainingIntensity <= 6
+	)
+		return true;
+	if (
+		TestLevel == "High" &&
+		CurrentCharacter.TrainingIntensity >= 7 &&
+		CurrentCharacter.TrainingIntensity <= 8
+	)
+		return true;
+	if (
+		TestLevel == "Highest" &&
+		CurrentCharacter.TrainingIntensity >= 9
+	)
+		return true;
 	return false;
 }
 
@@ -124,27 +191,53 @@ function EmptySlaveMarketTrainingLevelIs(TestLevel) {
  * @returns {void} - Nothing
  */
 function EmptySlaveMarketTrainingProgress(Intensity) {
-
 	// Intensity of activity gets added minus from 0 to 3 of random decay
-	CurrentCharacter.TrainingIntensity = CurrentCharacter.TrainingIntensity + parseInt(Intensity) - Math.floor(Math.random() * 4);
-	if (CurrentCharacter.TrainingIntensity < 0) CurrentCharacter.TrainingIntensity = 0;
-	if (CurrentCharacter.TrainingIntensity > 10) CurrentCharacter.TrainingIntensity = 10;
+	CurrentCharacter.TrainingIntensity =
+		CurrentCharacter.TrainingIntensity +
+		parseInt(Intensity) -
+		Math.floor(Math.random() * 4);
+	if (CurrentCharacter.TrainingIntensity < 0)
+		CurrentCharacter.TrainingIntensity = 0;
+	if (CurrentCharacter.TrainingIntensity > 10)
+		CurrentCharacter.TrainingIntensity = 10;
 	CurrentCharacter.TrainingCount++;
 
 	// Between 4 and 6 intensity is the sweet spot where training is successful
-	if (CurrentCharacter.TrainingIntensity <= 3) CurrentCharacter.TrainingCountLow++;
-	if ((CurrentCharacter.TrainingIntensity >= 4) && (CurrentCharacter.TrainingIntensity <= 6)) CurrentCharacter.TrainingCountPerfect++;
-	if (CurrentCharacter.TrainingIntensity >= 7) CurrentCharacter.TrainingCountHigh++;
+	if (CurrentCharacter.TrainingIntensity <= 3)
+		CurrentCharacter.TrainingCountLow++;
+	if (
+		CurrentCharacter.TrainingIntensity >= 4 &&
+		CurrentCharacter.TrainingIntensity <= 6
+	)
+		CurrentCharacter.TrainingCountPerfect++;
+	if (CurrentCharacter.TrainingIntensity >= 7)
+		CurrentCharacter.TrainingCountHigh++;
 
 	// When training is over, we take a different path depending if it was too soft, too rough or perfect
 	if (CurrentCharacter.TrainingCount == 10) {
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "TrainingEnd");
-		if (CurrentCharacter.CurrentTraining != CurrentCharacter.ExpectedTraining) CurrentCharacter.Stage = "1930";
-		else if ((CurrentCharacter.TrainingCountPerfect >= CurrentCharacter.TrainingCountHigh) && (CurrentCharacter.TrainingCountPerfect >= CurrentCharacter.TrainingCountLow)) CurrentCharacter.Stage = "1900";
-		else if (CurrentCharacter.TrainingCountHigh >= CurrentCharacter.TrainingCountLow) CurrentCharacter.Stage = "1910";
+		CurrentCharacter.CurrentDialog = DialogFind(
+			CurrentCharacter,
+			"TrainingEnd"
+		);
+		if (
+			CurrentCharacter.CurrentTraining !=
+			CurrentCharacter.ExpectedTraining
+		)
+			CurrentCharacter.Stage = "1930";
+		else if (
+			CurrentCharacter.TrainingCountPerfect >=
+				CurrentCharacter.TrainingCountHigh &&
+			CurrentCharacter.TrainingCountPerfect >=
+				CurrentCharacter.TrainingCountLow
+		)
+			CurrentCharacter.Stage = "1900";
+		else if (
+			CurrentCharacter.TrainingCountHigh >=
+			CurrentCharacter.TrainingCountLow
+		)
+			CurrentCharacter.Stage = "1910";
 		else CurrentCharacter.Stage = "1920";
 	}
-
 }
 
 /**
@@ -161,9 +254,14 @@ function EmptySlaveMarketTrainingEnd(Status) {
 		IntroductionJobProgress("DomTrainer");
 	}
 	CommonSetScreen("Room", "SlaveMarket");
-	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
-	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
+	SlaveMarketMistress.CurrentDialog = DialogFind(
+		SlaveMarketMistress,
+		"Training" + Status
+	).replace("MoneyAmount", Money.toString());
+	SlaveMarketMistress.Stage = Status == "Success" ? "42" : "43";
 	CharacterDelete("NPC_SlaveMarket_SlaveToTrain");
-	delete CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"];
+	delete CommonCSVCache[
+		"Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"
+	];
 	CharacterSetCurrent(SlaveMarketMistress);
 }

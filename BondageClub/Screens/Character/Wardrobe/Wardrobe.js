@@ -10,13 +10,17 @@ var WardrobeSize = 24;
  * @returns {void} - Nothing
  */
 function WardrobeLoadCharacterNames() {
-	if (Player.WardrobeCharacterNames == null) Player.WardrobeCharacterNames = [];
+	if (Player.WardrobeCharacterNames == null)
+		Player.WardrobeCharacterNames = [];
 	var Push = false;
 	while (Player.WardrobeCharacterNames.length <= WardrobeSize) {
 		Player.WardrobeCharacterNames.push(Player.Name);
 		Push = true;
 	}
-	if (Push) ServerAccountUpdate.QueueData({ WardrobeCharacterNames: Player.WardrobeCharacterNames });
+	if (Push)
+		ServerAccountUpdate.QueueData({
+			WardrobeCharacterNames: Player.WardrobeCharacterNames,
+		});
 }
 
 /**
@@ -26,8 +30,10 @@ function WardrobeLoadCharacterNames() {
  */
 function WardrobeFixLength() {
 	if (Player.Wardrobe != null) {
-		if (Player.Wardrobe.length > WardrobeSize) Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize - 1);
-		while (Player.Wardrobe.length < WardrobeSize) Player.Wardrobe.push(null);
+		if (Player.Wardrobe.length > WardrobeSize)
+			Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize - 1);
+		while (Player.Wardrobe.length < WardrobeSize)
+			Player.Wardrobe.push(null);
 	}
 }
 
@@ -43,8 +49,7 @@ function WardrobeLoadCharacters(Fast) {
 	WardrobeLoadCharacterNames();
 	if (Player.Wardrobe == null) Player.Wardrobe = [];
 	for (let P = 0; P < WardrobeSize; P++) {
-		if (WardrobeCharacter.length <= P && ((W == null) || !Fast)) {
-
+		if (WardrobeCharacter.length <= P && (W == null || !Fast)) {
 			// Creates a character
 			CharacterReset(CharacterNextId++, "Female3DCG");
 			var C = Character[Character.length - 1];
@@ -64,19 +69,18 @@ function WardrobeLoadCharacters(Fast) {
 
 			// Keep the character
 			WardrobeCharacter.push(C);
-
 		} else if (W != null) {
-
 			// randomize only one character
 			CharacterAppearanceFullRandom(WardrobeCharacter[W]);
 			WardrobeFastSave(WardrobeCharacter[W], P, false);
-
 		}
 	}
 	if (W != null) {
 		WardrobeFixLength();
 		if (Fast) WardrobeFastLoad(WardrobeCharacter[W], W);
-		ServerAccountUpdate.QueueData({ Wardrobe: CharacterCompressWardrobe(Player.Wardrobe) });
+		ServerAccountUpdate.QueueData({
+			Wardrobe: CharacterCompressWardrobe(Player.Wardrobe),
+		});
 	}
 }
 
@@ -106,12 +110,23 @@ function WardrobeRun() {
 	DrawText(TextGet("SelectAppareance"), 1405, 60, "White", "Gray");
 	for (let C = 0; C < 12; C++)
 		if (C < 6) {
-			DrawCharacter(WardrobeCharacter[C + WardrobeOffset], 500 + C * 250, 100, 0.45);
-			if (WardrobeSelection == C + WardrobeOffset) DrawEmptyRect(500 + C * 250, 105, 225, 440, "Cyan");
-		}
-		else {
-			DrawCharacter(WardrobeCharacter[C + WardrobeOffset], 500 + (C - 6) * 250, 550, 0.45);
-			if (WardrobeSelection == C + WardrobeOffset) DrawEmptyRect(500 + (C - 6) * 250, 555, 225, 440, "Cyan");
+			DrawCharacter(
+				WardrobeCharacter[C + WardrobeOffset],
+				500 + C * 250,
+				100,
+				0.45
+			);
+			if (WardrobeSelection == C + WardrobeOffset)
+				DrawEmptyRect(500 + C * 250, 105, 225, 440, "Cyan");
+		} else {
+			DrawCharacter(
+				WardrobeCharacter[C + WardrobeOffset],
+				500 + (C - 6) * 250,
+				550,
+				0.45
+			);
+			if (WardrobeSelection == C + WardrobeOffset)
+				DrawEmptyRect(500 + (C - 6) * 250, 555, 225, 440, "Cyan");
 		}
 }
 
@@ -120,35 +135,64 @@ function WardrobeRun() {
  * @returns {void} - Nothing
  */
 function WardrobeClick() {
-
 	// If we must go back to the room
-	if ((MouseX >= 1750) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 85))
+	if (MouseX >= 1750 && MouseX < 1975 && MouseY >= 25 && MouseY < 85)
 		WardrobeExit();
 
 	// If we must move to the next page
-	if ((MouseX >= 1000) && (MouseX < 1060) && (MouseY >= 25) && (MouseY < 85)) {
+	if (
+		MouseX >= 1000 &&
+		MouseX < 1060 &&
+		MouseY >= 25 &&
+		MouseY < 85
+	) {
 		WardrobeOffset = WardrobeOffset + 12;
 		if (WardrobeOffset >= WardrobeSize) WardrobeOffset = 0;
 	}
 
 	// If we must load a saved outfit
-	if ((MouseX >= 500) && (MouseX < 725) && (MouseY >= 25) && (MouseY < 85) && (WardrobeSelection >= 0))
+	if (
+		MouseX >= 500 &&
+		MouseX < 725 &&
+		MouseY >= 25 &&
+		MouseY < 85 &&
+		WardrobeSelection >= 0
+	)
 		WardrobeFastLoad(Player, WardrobeSelection);
 
 	// If we must save an outfit
-	if ((MouseX >= 750) && (MouseX < 975) && (MouseY >= 25) && (MouseY < 85) && (WardrobeSelection >= 0))
+	if (
+		MouseX >= 750 &&
+		MouseX < 975 &&
+		MouseY >= 25 &&
+		MouseY < 85 &&
+		WardrobeSelection >= 0
+	)
 		WardrobeFastSave(Player, WardrobeSelection);
 
 	// If we must select a different wardrobe
-	if ((MouseX >= 500) && (MouseX < 2000) && (MouseY >= 100) && (MouseY < 1000))
+	if (
+		MouseX >= 500 &&
+		MouseX < 2000 &&
+		MouseY >= 100 &&
+		MouseY < 1000
+	)
 		for (let C = 0; C < 12; C++)
 			if (C < 6) {
-				if ((MouseX >= 500 + C * 250) && (MouseX <= 725 + C * 250) && (MouseY >= 100) && (MouseY <= 450))
+				if (
+					MouseX >= 500 + C * 250 &&
+					MouseX <= 725 + C * 250 &&
+					MouseY >= 100 &&
+					MouseY <= 450
+				)
 					WardrobeSelection = C + WardrobeOffset;
-			}
-			else
-				if ((MouseX >= 500 + (C - 6) * 250) && (MouseX <= 725 + (C - 6) * 250) && (MouseY >= 550) && (MouseY <= 1000))
-					WardrobeSelection = C + WardrobeOffset;
+			} else if (
+				MouseX >= 500 + (C - 6) * 250 &&
+				MouseX <= 725 + (C - 6) * 250 &&
+				MouseY >= 550 &&
+				MouseY <= 1000
+			)
+				WardrobeSelection = C + WardrobeOffset;
 }
 
 /**
@@ -171,7 +215,9 @@ function WardrobeSetCharacterName(W, Name, Push) {
 		WardrobeCharacter[W].Name = Name;
 	}
 	if (Push == null || Push != false) {
-		ServerAccountUpdate.QueueData({ WardrobeCharacterNames: Player.WardrobeCharacterNames });
+		ServerAccountUpdate.QueueData({
+			WardrobeCharacterNames: Player.WardrobeCharacterNames,
+		});
 	}
 }
 
@@ -187,7 +233,12 @@ function WardrobeAssetBundle(A) {
 		delete Property.Expression; // Don't add expressions to the wardrobe
 		if (Object.keys(Property).length === 0) Property = undefined; // Don't save empty properties
 	}
-	return { Name: A.Asset.Name, Group: A.Asset.Group.Name, Color: A.Color, Property };
+	return {
+		Name: A.Asset.Name,
+		Group: A.Asset.Group.Name,
+		Color: A.Color,
+		Property,
+	};
 }
 
 /**
@@ -200,58 +251,102 @@ function WardrobeAssetBundle(A) {
 function WardrobeFastLoad(C, W, Update) {
 	var savedExpression = {};
 	if (C == Player) savedExpression = WardrobeGetExpression(Player);
-	if ((Player.Wardrobe != null) && (Player.Wardrobe[W] != null) && (Player.Wardrobe[W].length > 0)) {
-		C.Appearance = C.Appearance
-			.filter(a => a.Asset.Group.Category != "Appearance" || !WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: true }));
-		Player.Wardrobe[W]
-			.filter(w => w.Name != null && w.Group != null)
-			.filter(w => C.Appearance.find(a => a.Asset.Group.Name == w.Group) == null)
-			.forEach(w => {
-				var A = Asset.find(a =>
-					a.Group.Name == w.Group
-					&& a.Group.Category == "Appearance"
-					&& WardrobeGroupAccessible(C, a.Group, { ExcludeNonCloth: true })
-					&& a.Name == w.Name
-					&& (a.Value == 0 || InventoryAvailable(Player, a.Name, a.Group.Name)));
+	if (
+		Player.Wardrobe != null &&
+		Player.Wardrobe[W] != null &&
+		Player.Wardrobe[W].length > 0
+	) {
+		C.Appearance = C.Appearance.filter(
+			(a) =>
+				a.Asset.Group.Category != "Appearance" ||
+				!WardrobeGroupAccessible(C, a.Asset.Group, {
+					ExcludeNonCloth: true,
+				})
+		);
+		Player.Wardrobe[W].filter(
+			(w) => w.Name != null && w.Group != null
+		)
+			.filter(
+				(w) =>
+					C.Appearance.find((a) => a.Asset.Group.Name == w.Group) ==
+					null
+			)
+			.forEach((w) => {
+				var A = Asset.find(
+					(a) =>
+						a.Group.Name == w.Group &&
+						a.Group.Category == "Appearance" &&
+						WardrobeGroupAccessible(C, a.Group, {
+							ExcludeNonCloth: true,
+						}) &&
+						a.Name == w.Name &&
+						(a.Value == 0 ||
+							InventoryAvailable(Player, a.Name, a.Group.Name))
+				);
 				if (A != null) {
-					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
+					CharacterAppearanceSetItem(
+						C,
+						w.Group,
+						A,
+						w.Color,
+						0,
+						null,
+						false
+					);
 					if (w.Property && InventoryGet(C, w.Group)) {
 						var item = InventoryGet(C, w.Group);
 						if (item.Property == null) item.Property = {};
 						for (const key of Object.keys(w.Property)) {
-							if (key !== "Expression") item.Property[key] = w.Property[key];
+							if (key !== "Expression")
+								item.Property[key] = w.Property[key];
 						}
 					}
 				}
 			});
 		// Adds any critical appearance asset that could be missing, adds the default one
-		AssetGroup
-			.filter(g => g.Category == "Appearance" && !g.AllowNone)
-			.forEach(g => {
-				if (C.Appearance.find(a => a.Asset.Group.Name == g.Name) == null) {
-					// For a group with a mirrored group, we copy the opposite if it exists
-					if (g.MirrorGroup && InventoryGet(C, g.MirrorGroup)) {
-						C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name && a.Name == InventoryGet(C, g.MirrorGroup).Asset.Name), Difficulty: 0, Color: InventoryGet(C, g.MirrorGroup).Color });
-					} else {
-						C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name), Difficulty: 0, Color: "Default" });
-					}
+		AssetGroup.filter(
+			(g) => g.Category == "Appearance" && !g.AllowNone
+		).forEach((g) => {
+			if (
+				C.Appearance.find((a) => a.Asset.Group.Name == g.Name) == null
+			) {
+				// For a group with a mirrored group, we copy the opposite if it exists
+				if (g.MirrorGroup && InventoryGet(C, g.MirrorGroup)) {
+					C.Appearance.push({
+						Asset: Asset.find(
+							(a) =>
+								a.Group.Name == g.Name &&
+								a.Name == InventoryGet(C, g.MirrorGroup).Asset.Name
+						),
+						Difficulty: 0,
+						Color: InventoryGet(C, g.MirrorGroup).Color,
+					});
+				} else {
+					C.Appearance.push({
+						Asset: Asset.find((a) => a.Group.Name == g.Name),
+						Difficulty: 0,
+						Color: "Default",
+					});
 				}
-			});
+			}
+		});
 		// Restores the expressions the player had previously per item in the appearance
 		if (C == Player) {
-			Player.Appearance.forEach(item => {
+			Player.Appearance.forEach((item) => {
 				if (savedExpression[item.Asset.Group.Name] != null) {
 					if (item.Property == null) item.Property = {};
-					item.Property.Expression = savedExpression[item.Asset.Group.Name];
-
+					item.Property.Expression =
+						savedExpression[item.Asset.Group.Name];
 				}
 			});
 		}
 		CharacterLoadPose(C);
 		CharacterLoadCanvas(C);
 		if (Update == null || Update) {
-			if (C.ID == 0 && C.OnlineID != null) ServerPlayerAppearanceSync();
-			if (C.ID == 0 || C.AccountName.indexOf("Online-") == 0) ChatRoomCharacterUpdate(C);
+			if (C.ID == 0 && C.OnlineID != null)
+				ServerPlayerAppearanceSync();
+			if (C.ID == 0 || C.AccountName.indexOf("Online-") == 0)
+				ChatRoomCharacterUpdate(C);
 		}
 	}
 }
@@ -266,20 +361,36 @@ function WardrobeFastLoad(C, W, Update) {
 function WardrobeFastSave(C, W, Push) {
 	if (Player.Wardrobe != null) {
 		var AddAll = C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0;
-		Player.Wardrobe[W] = C.Appearance
-			.filter(a => a.Asset.Group.Category == "Appearance")
-			.filter(a => WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: AddAll }))
+		Player.Wardrobe[W] = C.Appearance.filter(
+			(a) => a.Asset.Group.Category == "Appearance"
+		)
+			.filter((a) =>
+				WardrobeGroupAccessible(C, a.Asset.Group, {
+					ExcludeNonCloth: AddAll,
+				})
+			)
 			.map(WardrobeAssetBundle);
 		if (!AddAll) {
 			// Using Player's body as base
-			Player.Wardrobe[W] = Player.Wardrobe[W].concat(Player.Appearance
-				.filter(a => a.Asset.Group.Category == "Appearance")
-				.filter(a => !a.Asset.Group.Clothing)
-				.map(WardrobeAssetBundle));
+			Player.Wardrobe[W] = Player.Wardrobe[W].concat(
+				Player.Appearance.filter(
+					(a) => a.Asset.Group.Category == "Appearance"
+				)
+					.filter((a) => !a.Asset.Group.Clothing)
+					.map(WardrobeAssetBundle)
+			);
 		}
 		WardrobeFixLength();
-		if (WardrobeCharacter != null && WardrobeCharacter[W] != null && C.AccountName != WardrobeCharacter[W].AccountName) WardrobeFastLoad(WardrobeCharacter[W], W);
-		if ((Push == null) || Push) ServerAccountUpdate.QueueData({ Wardrobe: CharacterCompressWardrobe(Player.Wardrobe) });
+		if (
+			WardrobeCharacter != null &&
+			WardrobeCharacter[W] != null &&
+			C.AccountName != WardrobeCharacter[W].AccountName
+		)
+			WardrobeFastLoad(WardrobeCharacter[W], W);
+		if (Push == null || Push)
+			ServerAccountUpdate.QueueData({
+				Wardrobe: CharacterCompressWardrobe(Player.Wardrobe),
+			});
 	}
 }
 
@@ -290,7 +401,15 @@ function WardrobeFastSave(C, W, Push) {
  */
 function WardrobeGetExpression(C) {
 	var characterExpression = {};
-	ServerAppearanceBundle(C.Appearance).filter(item => item.Property != null && item.Property.Expression != null).forEach(item => characterExpression[item.Group] = item.Property.Expression);
+	ServerAppearanceBundle(C.Appearance)
+		.filter(
+			(item) =>
+				item.Property != null && item.Property.Expression != null
+		)
+		.forEach(
+			(item) =>
+				(characterExpression[item.Group] = item.Property.Expression)
+		);
 	return characterExpression;
 }
 
@@ -301,12 +420,17 @@ function WardrobeGetExpression(C) {
  * @returns {boolean} - Whether the zone can be altered or not.
  */
 function WardrobeGroupAccessible(C, Group, Options) {
-
 	// You can always edit yourself.
-	if (C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0) return true;
+	if (C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0)
+		return true;
 
 	// You cannot always change body cosplay
-	if (Group.BodyCosplay && C.OnlineSharedSettings && C.OnlineSharedSettings.BlockBodyCosplay) return false;
+	if (
+		Group.BodyCosplay &&
+		C.OnlineSharedSettings &&
+		C.OnlineSharedSettings.BlockBodyCosplay
+	)
+		return false;
 
 	// Clothes can always be edited
 	if (Group.Clothing) return true;
@@ -314,7 +438,11 @@ function WardrobeGroupAccessible(C, Group, Options) {
 	// You can filter out non-clothing options
 	if (!Options || !Options.ExcludeNonCloth) {
 		// If the player allows all
-		if (C.OnlineSharedSettings && C.OnlineSharedSettings.AllowFullWardrobeAccess) return true;
+		if (
+			C.OnlineSharedSettings &&
+			C.OnlineSharedSettings.AllowFullWardrobeAccess
+		)
+			return true;
 	}
 
 	return false;

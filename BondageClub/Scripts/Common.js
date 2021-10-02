@@ -45,8 +45,12 @@ const CommonChatTags = {
 	ASSET_NAME: "AssetName",
 };
 
-String.prototype.replaceAt=function(index, character) {
-	return this.substr(0, index) + character + this.substr(index+character.length);
+String.prototype.replaceAt = function (index, character) {
+	return (
+		this.substr(0, index) +
+		character +
+		this.substr(index + character.length)
+	);
 };
 
 /**
@@ -60,15 +64,33 @@ String.prototype.replaceAt=function(index, character) {
 const CommonFontStacks = {
 	Arial: [["Arial"], "sans-serif"],
 	TimesNewRoman: [["Times New Roman", "Times"], "serif"],
-	Papyrus: [["Papyrus", "Ink Free", "Segoe Script", "Gabriola"], "fantasy"],
-	ComicSans: [["Comic Sans MS", "Comic Sans", "Brush Script MT", "Segoe Print"], "cursive"],
-	Impact: [["Impact", "Arial Black", "Franklin Gothic", "Arial"], "sans-serif"],
-	HelveticaNeue: [["Helvetica Neue", "Helvetica", "Arial"], "sans-serif"],
+	Papyrus: [
+		["Papyrus", "Ink Free", "Segoe Script", "Gabriola"],
+		"fantasy",
+	],
+	ComicSans: [
+		["Comic Sans MS", "Comic Sans", "Brush Script MT", "Segoe Print"],
+		"cursive",
+	],
+	Impact: [
+		["Impact", "Arial Black", "Franklin Gothic", "Arial"],
+		"sans-serif",
+	],
+	HelveticaNeue: [
+		["Helvetica Neue", "Helvetica", "Arial"],
+		"sans-serif",
+	],
 	Verdana: [["Verdana", "Helvetica Neue", "Arial"], "sans-serif"],
-	CenturyGothic: [["Century Gothic", "Apple Gothic", "AppleGothic", "Futura"], "sans-serif"],
+	CenturyGothic: [
+		["Century Gothic", "Apple Gothic", "AppleGothic", "Futura"],
+		"sans-serif",
+	],
 	Georgia: [["Georgia", "Times"], "serif"],
 	CourierNew: [["Courier New", "Courier"], "monospace"],
-	Copperplate: [["Copperplate", "Copperplate Gothic Light"], "fantasy"],
+	Copperplate: [
+		["Copperplate", "Copperplate Gothic Light"],
+		"fantasy",
+	],
 };
 
 /**
@@ -87,11 +109,14 @@ function CommonIsNumeric(n) {
 function CommonGetFormatDate() {
 	var d = new Date();
 	var yyyy = d.getFullYear();
-	var mm = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1); // getMonth() is zero-based
+	var mm =
+		d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1; // getMonth() is zero-based
 	var dd = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
 	var hh = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
-	var min = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
-	var ss = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+	var min =
+		d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+	var ss =
+		d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
 	return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 }
 
@@ -100,13 +125,36 @@ function CommonGetFormatDate() {
  * @returns {boolean} - Returns TRUE if the user is on a mobile browser
  */
 function CommonDetectMobile() {
-
 	// First check
-	var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile', 'mobile/', 'webos', 'kindle'];
-	for (let i in mobile) if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
+	var mobile = [
+		"iphone",
+		"ipad",
+		"android",
+		"blackberry",
+		"nokia",
+		"opera mini",
+		"windows mobile",
+		"windows phone",
+		"iemobile",
+		"mobile/",
+		"webos",
+		"kindle",
+	];
+	for (let i in mobile)
+		if (
+			navigator.userAgent
+				.toLowerCase()
+				.indexOf(mobile[i].toLowerCase()) > 0
+		)
+			return true;
 
 	// IPad pro check
-	if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)) return true;
+	if (
+		navigator.maxTouchPoints &&
+		navigator.maxTouchPoints > 2 &&
+		/MacIntel/.test(navigator.platform)
+	)
+		return true;
 
 	// Second check
 	if (sessionStorage.desktop) return false;
@@ -114,7 +162,6 @@ function CommonDetectMobile() {
 
 	// If nothing is found, we assume desktop
 	return false;
-
 }
 
 /**
@@ -122,17 +169,26 @@ function CommonDetectMobile() {
  * @returns {{Name: string, Version: string}} - Browser info
  */
 function CommonGetBrowser() {
-	var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+	var ua = navigator.userAgent,
+		tem,
+		M =
+			ua.match(
+				/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+			) || [];
 	if (/trident/i.test(M[1])) {
 		tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-		return { Name: "IE", Version: (tem[1] || "N/A") };
+		return { Name: "IE", Version: tem[1] || "N/A" };
 	}
-	if (M[1] === 'Chrome') {
+	if (M[1] === "Chrome") {
 		tem = ua.match(/\bOPR|Edge\/(\d+)/);
-		if (tem != null) return { Name: "Opera", Version: tem[1] || "N/A" };
+		if (tem != null)
+			return { Name: "Opera", Version: tem[1] || "N/A" };
 	}
-	M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-	if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+	M = M[2]
+		? [M[1], M[2]]
+		: [navigator.appName, navigator.appVersion, "-?"];
+	if ((tem = ua.match(/version\/(\d+)/i)) != null)
+		M.splice(1, 1, tem[1]);
 	return { Name: M[0] || "N/A", Version: M[1] || "N/A" };
 }
 
@@ -144,32 +200,47 @@ function CommonGetBrowser() {
 function CommonParseCSV(str) {
 	/** @type {string[][]} */
 	var arr = [];
-	var quote = false;  // true means we're inside a quoted field
+	var quote = false; // true means we're inside a quoted field
 	var c;
 	var col;
 	// We remove whitespace on start and end
-	str = str.replace(/\r\n/g, '\n').trim();
+	str = str.replace(/\r\n/g, "\n").trim();
 
 	// iterate over each character, keep track of current row and column (of the returned array)
-	for (let row = col = c = 0; c < str.length; c++) {
-		var cc = str[c], nc = str[c + 1];        // current character, next character
-		arr[row] = arr[row] || [];             // create a new row if necessary
-		arr[row][col] = arr[row][col] || '';   // create a new column (start with empty string) if necessary
+	for (let row = (col = c = 0); c < str.length; c++) {
+		var cc = str[c],
+			nc = str[c + 1]; // current character, next character
+		arr[row] = arr[row] || []; // create a new row if necessary
+		arr[row][col] = arr[row][col] || ""; // create a new column (start with empty string) if necessary
 
 		// If the current character is a quotation mark, and we're inside a
 		// quoted field, and the next character is also a quotation mark,
 		// add a quotation mark to the current column and skip the next character
-		if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+		if (cc == '"' && quote && nc == '"') {
+			arr[row][col] += cc;
+			++c;
+			continue;
+		}
 
 		// If it's just one quotation mark, begin/end quoted field
-		if (cc == '"') { quote = !quote; continue; }
+		if (cc == '"') {
+			quote = !quote;
+			continue;
+		}
 
 		// If it's a comma and we're not in a quoted field, move on to the next column
-		if (cc == ',' && !quote) { ++col; continue; }
+		if (cc == "," && !quote) {
+			++col;
+			continue;
+		}
 
 		// If it's a newline and we're not in a quoted field, move on to the next
 		// row and move to column 0 of that new row
-		if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+		if (cc == "\n" && !quote) {
+			++row;
+			col = 0;
+			continue;
+		}
 
 		// Otherwise, append the current character to the current column
 		arr[row][col] += cc;
@@ -186,10 +257,10 @@ function CommonParseCSV(str) {
  * @returns {void} - Nothing
  */
 function CommonReadCSV(Array, Path, Screen, File) {
-
 	// Changed from a single path to various arguments and internally concatenate them
 	// This ternary operator is used to keep backward compatibility
-	var FullPath = "Screens/" + Path + "/" + Screen + "/" + File + ".csv";
+	var FullPath =
+		"Screens/" + Path + "/" + Screen + "/" + File + ".csv";
 	if (CommonCSVCache[FullPath]) {
 		window[Array] = CommonCSVCache[FullPath];
 		return;
@@ -204,12 +275,17 @@ function CommonReadCSV(Array, Path, Screen, File) {
 	});
 
 	// If a translation file is available, we open the txt file and keep it in cache
-	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
+	var TranslationPath = FullPath.replace(
+		".csv",
+		"_" + TranslationLanguage + ".txt"
+	);
 	if (TranslationAvailable(TranslationPath))
 		CommonGet(TranslationPath, function () {
-			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
+			if (this.status == 200)
+				TranslationCache[TranslationPath] = TranslationParseTXT(
+					this.responseText
+				);
 		});
-
 }
 
 /**
@@ -222,13 +298,15 @@ function CommonReadCSV(Array, Path, Screen, File) {
 function CommonGet(Path, Callback, RetriesLeft) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", Path);
-	xhr.onloadend = function() {
+	xhr.onloadend = function () {
 		// For non-error responses, call the callback
 		if (this.status < 400) Callback.bind(this)(xhr);
 		// Otherwise, retry
 		else CommonGetRetry(Path, Callback, RetriesLeft);
 	};
-	xhr.onerror = function() { CommonGetRetry(Path, Callback, RetriesLeft); };
+	xhr.onerror = function () {
+		CommonGetRetry(Path, Callback, RetriesLeft);
+	};
 	xhr.send(null);
 }
 
@@ -245,9 +323,19 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 	if (RetriesLeft <= 0) {
 		console.error(`GET request to ${Path} failed - no more retries`);
 	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, 10 - RetriesLeft)), 60);
-		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
+		const retrySeconds = Math.min(
+			Math.pow(2, Math.max(0, 10 - RetriesLeft)),
+			60
+		);
+		console.warn(
+			`GET request to ${Path} failed - retrying in ${retrySeconds} second${
+				retrySeconds === 1 ? "" : "s"
+			}...`
+		);
+		setTimeout(
+			() => CommonGet(Path, Callback, RetriesLeft - 1),
+			retrySeconds * 1000
+		);
 	}
 }
 
@@ -258,10 +346,8 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
  */
 function CommonClick(event) {
 	ServerClickBeep();
-	if (CurrentCharacter == null)
-		CurrentScreenFunctions.Click(event);
-	else
-		DialogClick();
+	if (CurrentCharacter == null) CurrentScreenFunctions.Click(event);
+	else DialogClick();
 }
 
 /**
@@ -276,8 +362,7 @@ function CommonKeyDown(event) {
 		if (ControllerActive == true) {
 			ControllerSupportKeyDown();
 		}
-	}
-	else {
+	} else {
 		StruggleKeyDown();
 		if (ControllerActive == true) {
 			ControllerSupportKeyDown();
@@ -291,12 +376,15 @@ function CommonKeyDown(event) {
  * @returns {void} - Nothing
  */
 function CommonDynamicFunction(FunctionName) {
-	if (typeof window[FunctionName.substr(0, FunctionName.indexOf("("))] === "function")
+	if (
+		typeof window[
+			FunctionName.substr(0, FunctionName.indexOf("("))
+		] === "function"
+	)
 		window[FunctionName.replace("()", "")]();
 	else
 		console.log("Trying to launch invalid function: " + FunctionName);
 }
-
 
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
@@ -304,7 +392,6 @@ function CommonDynamicFunction(FunctionName) {
  * @returns {*} - Returns what the dynamic function returns or FALSE if the function does not exist
  */
 function CommonDynamicFunctionParams(FunctionName) {
-
 	// Gets the reverse (!) sign
 	var Reverse = false;
 	if (FunctionName.substring(0, 1) == "!") Reverse = true;
@@ -315,35 +402,42 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if (FunctionName.indexOf("()") >= 0) ParamCount = 0;
 	else ParamCount = FunctionName.split(",").length;
 	var openParenthesisIndex = FunctionName.indexOf("(");
-	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
-	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
+	var closedParenthesisIndex = FunctionName.indexOf(
+		")",
+		openParenthesisIndex
+	);
+	var Params = FunctionName.substring(
+		openParenthesisIndex + 1,
+		closedParenthesisIndex
+	).split(",");
 	for (let P = 0; P < Params.length; P++)
-		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
+		Params[P] = Params[P].trim().replace('"', "").replace('"', "");
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
-	if ((FunctionName.indexOf("Dialog") != 0) && (FunctionName.indexOf("Inventory") != 0) && (FunctionName.indexOf(CurrentScreen) != 0)) FunctionName = CurrentScreen + FunctionName;
+	if (
+		FunctionName.indexOf("Dialog") != 0 &&
+		FunctionName.indexOf("Inventory") != 0 &&
+		FunctionName.indexOf(CurrentScreen) != 0
+	)
+		FunctionName = CurrentScreen + FunctionName;
 
 	// If it's really a function, we continue
 	if (typeof window[FunctionName] === "function") {
-
 		// Launches the function with the params and returns the result
 		var Result = true;
 		if (ParamCount == 0) Result = window[FunctionName]();
 		if (ParamCount == 1) Result = window[FunctionName](Params[0]);
-		if (ParamCount == 2) Result = window[FunctionName](Params[0], Params[1]);
-		if (ParamCount == 3) Result = window[FunctionName](Params[0], Params[1], Params[2]);
+		if (ParamCount == 2)
+			Result = window[FunctionName](Params[0], Params[1]);
+		if (ParamCount == 3)
+			Result = window[FunctionName](Params[0], Params[1], Params[2]);
 		if (Reverse) return !Result;
 		else return Result;
-
 	} else {
-
 		// Log the error in the console
 		console.log("Trying to launch invalid function: " + FunctionName);
 		return false;
-
 	}
-
 }
-
 
 /**
  *  Calls a named global function with the passed in arguments, if the named function exists. Differs from
@@ -354,7 +448,7 @@ function CommonDynamicFunctionParams(FunctionName) {
  * @param {any[]} [args] - zero or more arguments to be passed to the function (optional)
  * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
  */
-function CommonCallFunctionByName(FunctionName/*, ...args */) {
+function CommonCallFunctionByName(FunctionName /*, ...args */) {
 	var Function = window[FunctionName];
 	if (typeof Function === "function") {
 		var args = Array.prototype.slice.call(arguments, 1);
@@ -368,13 +462,15 @@ function CommonCallFunctionByName(FunctionName/*, ...args */) {
  * @param {any[]} [args] - zero or more arguments to be passed to the function (optional)
  * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
  */
-function CommonCallFunctionByNameWarn(FunctionName/*, ...args */) {
+function CommonCallFunctionByNameWarn(FunctionName /*, ...args */) {
 	var Function = window[FunctionName];
 	if (typeof Function === "function") {
 		var args = Array.prototype.slice.call(arguments, 1);
 		return Function.apply(null, args);
 	} else {
-		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		console.warn(
+			`Attempted to call invalid function "${FunctionName}"`
+		);
 	}
 }
 
@@ -394,13 +490,16 @@ function CommonSetScreen(NewModule, NewScreen) {
 		ClearButtons();
 	}
 
-
 	// Check for required functions
 	if (typeof window[`${NewScreen}Run`] !== "function") {
-		throw Error(`Screen "${NewScreen}": Missing required Run function`);
+		throw Error(
+			`Screen "${NewScreen}": Missing required Run function`
+		);
 	}
 	if (typeof window[`${NewScreen}Click`] !== "function") {
-		throw Error(`Screen "${NewScreen}": Missing required Click function`);
+		throw Error(
+			`Screen "${NewScreen}": Missing required Click function`
+		);
 	}
 
 	CurrentModule = NewModule;
@@ -408,11 +507,26 @@ function CommonSetScreen(NewModule, NewScreen) {
 	CurrentScreenFunctions = {
 		Run: window[`${NewScreen}Run`],
 		Click: window[`${NewScreen}Click`],
-		Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
-		Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
-		Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
-		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
-		Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
+		Load:
+			typeof window[`${NewScreen}Load`] === "function"
+				? window[`${NewScreen}Load`]
+				: undefined,
+		Unload:
+			typeof window[`${NewScreen}Unload`] === "function"
+				? window[`${NewScreen}Unload`]
+				: undefined,
+		Resize:
+			typeof window[`${NewScreen}Resize`] === "function"
+				? window[`${NewScreen}Resize`]
+				: undefined,
+		KeyDown:
+			typeof window[`${NewScreen}KeyDown`] === "function"
+				? window[`${NewScreen}KeyDown`]
+				: undefined,
+		Exit:
+			typeof window[`${NewScreen}Exit`] === "function"
+				? window[`${NewScreen}Exit`]
+				: undefined,
 	};
 
 	CurrentDarkFactor = 1.0;
@@ -445,8 +559,16 @@ function CommonTime() {
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
 function CommonIsColor(Value) {
-	if ((Value == null) || (Value.length < 3)) return false;
-	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];	//convert short hand hex color to standard format
+	if (Value == null || Value.length < 3) return false;
+	if (/^#[0-9A-F]{3}$/i.test(Value))
+		Value =
+			"#" +
+			Value[1] +
+			Value[1] +
+			Value[2] +
+			Value[2] +
+			Value[3] +
+			Value[3]; //convert short hand hex color to standard format
 	return /^#[0-9A-F]{6}$/i.test(Value);
 }
 
@@ -459,7 +581,8 @@ function CommonIsColor(Value) {
  */
 function CommonColorIsValid(Color) {
 	if (Color == null || typeof Color === "string") return true;
-	if (Array.isArray(Color)) return Color.every(C => C == null || typeof C === "string");
+	if (Array.isArray(Color))
+		return Color.every((C) => C == null || typeof C === "string");
 	return false;
 }
 
@@ -484,8 +607,9 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
 function CommonConvertStringToArray(s) {
 	var arr = [];
 	if (s != "") {
-		arr = s.split(',').reduce((list, curr) => {
-			if (!(!curr || Number.isNaN(Number(curr)))) list.push(Number(curr));
+		arr = s.split(",").reduce((list, curr) => {
+			if (!(!curr || Number.isNaN(Number(curr))))
+				list.push(Number(curr));
 			return list;
 		}, []);
 	}
@@ -527,7 +651,9 @@ function CommonColorsEqual(C1, C2) {
  * @returns {boolean} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
  */
 function CommonArraysEqual(a1, a2) {
-	return a1.length === a2.length && a1.every((item, i) => item === a2[i]);
+	return (
+		a1.length === a2.length && a1.every((item, i) => item === a2[i])
+	);
 }
 
 /**
@@ -551,7 +677,7 @@ function CommonDebounce(func) {
 		}
 	}
 
-	return function (waitInterval/*, ...args */) {
+	return function (waitInterval /*, ...args */) {
 		context = this;
 		wait = waitInterval;
 		args = Array.prototype.slice.call(arguments, 1);
@@ -570,7 +696,11 @@ function CommonDebounce(func) {
  * @returns {function} - A throttled version of the provided function
  */
 function CommonThrottle(func) {
-	let timeout, args, context, timestamp = 0, result;
+	let timeout,
+		args,
+		context,
+		timestamp = 0,
+		result;
 
 	function run() {
 		timeout = null;
@@ -578,7 +708,7 @@ function CommonThrottle(func) {
 		timestamp = CommonTime();
 	}
 
-	return function (wait/*, ...args */) {
+	return function (wait /*, ...args */) {
 		context = this;
 		args = Array.prototype.slice.call(arguments, 1);
 		if (!timeout) {
@@ -608,12 +738,17 @@ function CommonLimitFunction(func, minWait = 0, maxWait = Infinity) {
 	return function () {
 		const wait = Math.min(
 			Math.max(
-				Player.GraphicsSettings ? Player.GraphicsSettings.AnimationQuality : 100, minWait
+				Player.GraphicsSettings
+					? Player.GraphicsSettings.AnimationQuality
+					: 100,
+				minWait
 			),
-			maxWait,
+			maxWait
 		);
 		const args = [wait].concat(Array.from(arguments));
-		return wait < 100 ? funcThrottled.apply(this, args) : funcDebounced.apply(this, args);
+		return wait < 100
+			? funcThrottled.apply(this, args)
+			: funcDebounced.apply(this, args);
 	};
 }
 
@@ -675,9 +810,12 @@ const CommonGetFont = CommonMemoize((size) => {
  * "Courier New", "Courier", monospace
  */
 const CommonGetFontName = CommonMemoize(() => {
-	const pref = Player && Player.GraphicsSettings && Player.GraphicsSettings.Font;
+	const pref =
+		Player && Player.GraphicsSettings && Player.GraphicsSettings.Font;
 	const fontStack = CommonFontStacks[pref] || CommonFontStacks.Arial;
-	const font = fontStack[0].map(fontName => `"${fontName}"`).join(", ");
+	const font = fontStack[0]
+		.map((fontName) => `"${fontName}"`)
+		.join(", ");
 	return `${font}, ${fontStack[1]}`;
 });
 
@@ -696,17 +834,23 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 	DrawProcess(0);
 
 	// Capture screen as image URL
-	const ImgData = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext('2d').getImageData(Left, Top, Width, Height);
-	let PhotoCanvas = document.createElement('canvas');
+	const ImgData = /** @type {HTMLCanvasElement} */ (
+		document.getElementById("MainCanvas")
+	)
+		.getContext("2d")
+		.getImageData(Left, Top, Width, Height);
+	let PhotoCanvas = document.createElement("canvas");
 	PhotoCanvas.width = Width;
 	PhotoCanvas.height = Height;
-	PhotoCanvas.getContext('2d').putImageData(ImgData, 0, 0);
+	PhotoCanvas.getContext("2d").putImageData(ImgData, 0, 0);
 	const PhotoImg = PhotoCanvas.toDataURL("image/png");
 
 	// Open the image in a new window
-	let newWindow = window.open('about:blank', '_blank');
+	let newWindow = window.open("about:blank", "_blank");
 	if (newWindow) {
-		newWindow.document.write("<img src='" + PhotoImg + "' alt='from canvas'/>");
+		newWindow.document.write(
+			"<img src='" + PhotoImg + "' alt='from canvas'/>"
+		);
 		newWindow.document.close();
 	} else {
 		console.warn("Popups blocked: Cannot open photo in new tab.");
@@ -766,20 +910,32 @@ function CommonUnpackItemArray(arr) {
 function CommonCompareVersion(Current, Other) {
 	const CurrentMatch = GameVersionFormat.exec(Current);
 	const OtherMatch = GameVersionFormat.exec(Other);
-	if (CurrentMatch == null || OtherMatch == null || isNaN(CurrentMatch[1]) || isNaN(OtherMatch[1])) return -1;
+	if (
+		CurrentMatch == null ||
+		OtherMatch == null ||
+		isNaN(CurrentMatch[1]) ||
+		isNaN(OtherMatch[1])
+	)
+		return -1;
 	const CurrentVer = [
 		Number.parseInt(CurrentMatch[1]),
-		CurrentMatch[2] === "Alpha" ? 1 : CurrentMatch[2] === "Beta" ? 2 : 3,
-		Number.parseInt(CurrentMatch[3]) || 0
+		CurrentMatch[2] === "Alpha"
+			? 1
+			: CurrentMatch[2] === "Beta"
+			? 2
+			: 3,
+		Number.parseInt(CurrentMatch[3]) || 0,
 	];
 	const OtherVer = [
 		Number.parseInt(OtherMatch[1]),
 		OtherMatch[2] === "Alpha" ? 1 : OtherMatch[2] === "Beta" ? 2 : 3,
-		Number.parseInt(OtherMatch[3]) || 0
+		Number.parseInt(OtherMatch[3]) || 0,
 	];
 	for (let i = 0; i < 3; i++) {
 		if (CurrentVer[i] !== OtherVer[i]) {
-			return /** @type {-1|0|1} */ (Math.sign(OtherVer[i] - CurrentVer[i]));
+			return /** @type {-1|0|1} */ (
+				Math.sign(OtherVer[i] - CurrentVer[i])
+			);
 		}
 	}
 	return 0;
@@ -798,7 +954,12 @@ function CommonDeepEqual(obj1, obj2) {
 		return true;
 	}
 
-	if (obj1 && obj2 && typeof obj1 === "object" && typeof obj2 === "object") {
+	if (
+		obj1 &&
+		obj2 &&
+		typeof obj1 === "object" &&
+		typeof obj2 === "object"
+	) {
 		// If the objects do not share a prototype, they are not equal
 		if (Object.getPrototypeOf(obj1) !== Object.getPrototypeOf(obj2)) {
 			return false;

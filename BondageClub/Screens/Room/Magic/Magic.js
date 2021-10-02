@@ -10,8 +10,29 @@ var MagicAssistantAppearance = null;
 var MagicPlayerAppearance = null;
 
 var MagicTrick = null;
-var MagicTrickList = ["ChangeBinds", "Dance", "BindAsstant", "BoxTiedLight", "GetCoin", "BoxTiedHeavy", "MilkCan", "WaterCell", "Song", "AsstantChange"];
-var MagicRestraintList = ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemArms", "ItemFeet", "ItemLegs", "ItemHead", "ItemMisc", "ItemDevices"];
+var MagicTrickList = [
+	"ChangeBinds",
+	"Dance",
+	"BindAsstant",
+	"BoxTiedLight",
+	"GetCoin",
+	"BoxTiedHeavy",
+	"MilkCan",
+	"WaterCell",
+	"Song",
+	"AsstantChange",
+];
+var MagicRestraintList = [
+	"ItemMouth",
+	"ItemMouth2",
+	"ItemMouth3",
+	"ItemArms",
+	"ItemFeet",
+	"ItemLegs",
+	"ItemHead",
+	"ItemMisc",
+	"ItemDevices",
+];
 var MagicTrickCounter = 0;
 var MagicShowIncome = 0;
 var MagicShowState = 1;
@@ -33,39 +54,51 @@ var MagicShowState = 1;
  * @param {number} QState - The state that is queried
  * @returns {boolean} - Returns true, if the queried state matches with the current state of the magic show, flase otherwise
  */
-function MagicShowIsState(QState) { return ((QState == MagicShowState) ? true : false); }
+function MagicShowIsState(QState) {
+	return QState == MagicShowState ? true : false;
+}
 
 /**
  * Checks, if the magician's assistant has been released
  * @returns {boolean} - Returns true, if the assistant has been released, false otherwise
  */
-function MagicAssistantIsReleased() { return (MagicShowIsState(4) && !MagicAssistant.IsRestrained()); }
+function MagicAssistantIsReleased() {
+	return MagicShowIsState(4) && !MagicAssistant.IsRestrained();
+}
 
 /**
  * Checks, if the magician is bound by the minal required number of items (gag, arms, feet, legs, head)
  * @param {number} MinItem - The minimal number of items that must be used on the magician
  * @returns {boolean} - Returns true, if the required number of items is reached or exceeded, false otherwise
  */
-function MagicRestrainPerformerMinItem(MinItem) { return MagicRestrainMinItem(MagicPerformer, MinItem); }
+function MagicRestrainPerformerMinItem(MinItem) {
+	return MagicRestrainMinItem(MagicPerformer, MinItem);
+}
 
 /**
  * Checks, if the magician's assistant is bound by the minal required number of items (gag, arms, feet, legs, head)
  * @param {number} MinItem - The minimal number of items that must be used on the magician's assistant
  * @returns {boolean} - Returns true, if the required number of items is reached or exceeded, false otherwise
  */
-function MagicRestrainAssistantMinItem(MinItem) { return MagicRestrainMinItem(MagicAssistant, MinItem); }
+function MagicRestrainAssistantMinItem(MinItem) {
+	return MagicRestrainMinItem(MagicAssistant, MinItem);
+}
 
 /**
  * Checks wether the assistant is restrained and should redress
  * @returns {boolean} - Returns true, if the assistant should redress and is currently restrained
  */
-function MagicAssistantIsDressRestrain() { return (MagicShowIsState(8) && MagicAssistant.IsRestrained()); }
+function MagicAssistantIsDressRestrain() {
+	return MagicShowIsState(8) && MagicAssistant.IsRestrained();
+}
 
 /**
  * Checks wether the assistant is free and should redress
  * @returns {boolean} - Returns true, if the assistant should redress and is currently free
  */
-function MagicAssistantIsntDressRestrain() { return (MagicShowIsState(8) && !MagicAssistant.IsRestrained()); }
+function MagicAssistantIsntDressRestrain() {
+	return MagicShowIsState(8) && !MagicAssistant.IsRestrained();
+}
 
 /**
  * Checks, wether a given character is bound by the minal required number of items (gag, arms, feet, legs, head)
@@ -77,14 +110,24 @@ function MagicRestrainMinItem(C, MinItem) {
 	var CurItem = 0;
 	var GagApplied = false;
 	for (let E = 0; E < C.Appearance.length; E++) {
-		if ((C.Appearance[E].Asset.Group.Name == "ItemMouth") || (C.Appearance[E].Asset.Group.Name == "ItemMouth2") || (C.Appearance[E].Asset.Group.Name == "ItemMouth3")) {
+		if (
+			C.Appearance[E].Asset.Group.Name == "ItemMouth" ||
+			C.Appearance[E].Asset.Group.Name == "ItemMouth2" ||
+			C.Appearance[E].Asset.Group.Name == "ItemMouth3"
+		) {
 			GagApplied = true;
-		}
-		else if ((C.Appearance[E].Asset.Group.Name == "ItemArms") || (C.Appearance[E].Asset.Group.Name == "ItemFeet") || (C.Appearance[E].Asset.Group.Name == "ItemLegs") || (C.Appearance[E].Asset.Group.Name == "ItemHead") || (C.Appearance[E].Asset.Group.Name == "ItemMisc")|| (C.Appearance[E].Asset.Group.Name == "ItemHood")) {
+		} else if (
+			C.Appearance[E].Asset.Group.Name == "ItemArms" ||
+			C.Appearance[E].Asset.Group.Name == "ItemFeet" ||
+			C.Appearance[E].Asset.Group.Name == "ItemLegs" ||
+			C.Appearance[E].Asset.Group.Name == "ItemHead" ||
+			C.Appearance[E].Asset.Group.Name == "ItemMisc" ||
+			C.Appearance[E].Asset.Group.Name == "ItemHood"
+		) {
 			CurItem++;
 		}
 	}
-	return (CurItem + (GagApplied ? 1 : 0)) >= MinItem;
+	return CurItem + (GagApplied ? 1 : 0) >= MinItem;
 }
 
 /**
@@ -114,7 +157,8 @@ function MagicRun() {
 	DrawCharacter(Player, 250, 0, 1);
 	DrawCharacter(MagicPerformer, 750, 0, 1);
 	DrawCharacter(MagicAssistant, 1250, 0, 1);
-	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+	if (Player.CanWalk())
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 	//todo button
 	//DrawButton(1885, 265, 90, 90, "", "White", "Icons/Magic.png");
@@ -125,11 +169,27 @@ function MagicRun() {
  * @returns {void} - Nothing
  */
 function MagicClick() {
-	if ((MouseX >= 250) && (MouseX < 750) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
-	if ((MouseX >= 750) && (MouseX < 1250) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(MagicPerformer);
-	if ((MouseX >= 1250) && (MouseX < 1750) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(MagicAssistant);
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
+	if (MouseX >= 250 && MouseX < 750 && MouseY >= 0 && MouseY < 1000)
+		CharacterSetCurrent(Player);
+	if (MouseX >= 750 && MouseX < 1250 && MouseY >= 0 && MouseY < 1000)
+		CharacterSetCurrent(MagicPerformer);
+	if (MouseX >= 1250 && MouseX < 1750 && MouseY >= 0 && MouseY < 1000)
+		CharacterSetCurrent(MagicAssistant);
+	if (
+		MouseX >= 1885 &&
+		MouseX < 1975 &&
+		MouseY >= 25 &&
+		MouseY < 115 &&
+		Player.CanWalk()
+	)
+		CommonSetScreen("Room", "MainHall");
+	if (
+		MouseX >= 1885 &&
+		MouseX < 1975 &&
+		MouseY >= 145 &&
+		MouseY < 235
+	)
+		InformationSheetLoadCharacter(Player);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +225,19 @@ function MagicTrickChangeDressesBack() {
  */
 function MagicAssistantDress() {
 	CharacterNaked(MagicAssistant);
-	var ColorList = ["Default", "#aa8080", "#8080aa", "#aaaa80", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"];
+	var ColorList = [
+		"Default",
+		"#aa8080",
+		"#8080aa",
+		"#aaaa80",
+		"#aa80aa",
+		"#cc3333",
+		"#33cc33",
+		"#3333cc",
+		"#cccc33",
+		"#33cccc",
+		"#cc33cc",
+	];
 	var Color = CommonRandomItemFromList("", ColorList);
 	InventoryWear(MagicAssistant, "BunnyEars1", "HairAccessory1");
 	InventoryWear(MagicAssistant, "BunnyCollarCuffs", "Cloth");
@@ -190,7 +262,7 @@ function MagicShowStart() {
  * @returns {void} - Nothing
  */
 function MagicShowIncomeAdd() {
-	var I = (MagicTrickCounter < 10) ? MagicTrickCounter : 10;
+	var I = MagicTrickCounter < 10 ? MagicTrickCounter : 10;
 	MagicShowIncome = MagicShowIncome + I;
 }
 
@@ -199,7 +271,10 @@ function MagicShowIncomeAdd() {
  * @returns {void} - Nothing
  */
 function MagicShowPayoff() {
-	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("REPLACEMONEY", MagicShowIncome.toString());
+	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace(
+		"REPLACEMONEY",
+		MagicShowIncome.toString()
+	);
 	CharacterChangeMoney(Player, MagicShowIncome);
 	CharacterNaked(MagicAssistant);
 	CharacterNaked(Player);
@@ -269,7 +344,7 @@ function MagicSelectTrick() {
  * @returns {void} - Nothing
  */
 function MagicTrickChangeBinds() {
-	var T = ((Math.random() < 0.5) ? Player : MagicAssistant);
+	var T = Math.random() < 0.5 ? Player : MagicAssistant;
 	MagicRestrainCopyTransfer(MagicPerformer, T);
 	MagicPerformer.AllowItem = false;
 	if (T == Player) {
@@ -344,7 +419,16 @@ function MagicTrickBoxMilkCan() {
  */
 function MagicTrickBoxWaterCell() {
 	InventoryWear(Player, "HempRope", "ItemFeet");
-	InventoryGet(Player, "ItemFeet").Property = { Type: "Suspension", SetPose: ["LegsClosed", "Suspension"], Difficulty: 6, OverrideHeight: { Height: -150, Priority: 41, HeightRatioProportion: 0 }, };
+	InventoryGet(Player, "ItemFeet").Property = {
+		Type: "Suspension",
+		SetPose: ["LegsClosed", "Suspension"],
+		Difficulty: 6,
+		OverrideHeight: {
+			Height: -150,
+			Priority: 41,
+			HeightRatioProportion: 0,
+		},
+	};
 	InventoryWear(Player, "HempRope", "ItemLegs");
 	InventoryWear(Player, "HempRope", "ItemArms");
 	InventoryWear(Player, "WaterCell", "ItemDevices");
@@ -358,7 +442,10 @@ function MagicTrickBoxWaterCell() {
  */
 function MagicTrickGetCoin() {
 	var MagicMoney = Math.floor(Math.random() * 6) + 1;
-	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace("REPLACEMONEY", MagicMoney.toString());
+	MagicPerformer.CurrentDialog = MagicPerformer.CurrentDialog.replace(
+		"REPLACEMONEY",
+		MagicMoney.toString()
+	);
 	CharacterChangeMoney(Player, MagicMoney);
 }
 
@@ -393,7 +480,10 @@ function MagicSongGwendoyn() {
  */
 function MagicSongBadGirl() {
 	var MagicMoney = Math.floor(Math.random() * 6) + 6;
-	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace("REPLACEMONEY", MagicMoney.toString());
+	MagicAssistant.CurrentDialog = MagicAssistant.CurrentDialog.replace(
+		"REPLACEMONEY",
+		MagicMoney.toString()
+	);
 	CharacterChangeMoney(Player, MagicMoney);
 	MagicShowState = 4;
 }
@@ -446,12 +536,12 @@ function MagicTrickEndPerformance() {
 function MagicRestrainRemove(C) {
 	let itemArms = InventoryGet(C, "ItemArms");
 
-	if ((itemArms != null) && (itemArms.Asset.Name === "MittenChain1")) {
+	if (itemArms != null && itemArms.Asset.Name === "MittenChain1") {
 		// If the arms are restrained by the adult baby harness chain, remove the harness and the mittens as well
 		InventoryRemove(C, "ItemHands");
 		InventoryRemove(C, "ItemTorso");
 	}
-	MagicRestraintList.forEach(group => InventoryRemove(C, group));
+	MagicRestraintList.forEach((group) => InventoryRemove(C, group));
 }
 
 /**
@@ -468,17 +558,34 @@ function MagicRestrainCopyTransfer(FromC, ToC) {
 
 	// Adds all appearance assets from the first character to the second
 	for (var A = 0; A < FromC.Appearance.length; A++) {
-		if ((FromC.Appearance[A].Asset != null) && (MagicRestraintList.indexOf(FromC.Appearance[A].Asset.Group.Name) >= 0)) {
+		if (
+			FromC.Appearance[A].Asset != null &&
+			MagicRestraintList.indexOf(
+				FromC.Appearance[A].Asset.Group.Name
+			) >= 0
+		) {
 			if (FromC.Appearance[A].Asset.Name === "MittenChain1") {
 				chainFound = true;
 			}
-			InventoryWear(ToC, FromC.Appearance[A].Asset.Name, FromC.Appearance[A].Asset.Group.Name);
+			InventoryWear(
+				ToC,
+				FromC.Appearance[A].Asset.Name,
+				FromC.Appearance[A].Asset.Group.Name
+			);
 		}
 	}
 	if (chainFound) {
 		// If the arms are restrained by the adult baby harness, add the harness and the mittens as well
-		InventoryWear(ToC, InventoryGet(FromC, "ItemTorso").Asset.Name, "ItemTorso");
-		InventoryWear(ToC, InventoryGet(FromC, "ItemHands").Asset.Name, "ItemHands");
+		InventoryWear(
+			ToC,
+			InventoryGet(FromC, "ItemTorso").Asset.Name,
+			"ItemTorso"
+		);
+		InventoryWear(
+			ToC,
+			InventoryGet(FromC, "ItemHands").Asset.Name,
+			"ItemHands"
+		);
 	}
 
 	// Removes any previous appearance asset From first

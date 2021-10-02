@@ -1,15 +1,24 @@
 "use strict";
 
 function InventoryItemVulvaVibratingEggLoad() {
-	VibratorModeLoad([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
+	VibratorModeLoad([
+		VibratorModeSet.STANDARD,
+		VibratorModeSet.ADVANCED,
+	]);
 }
 
 function InventoryItemVulvaVibratingEggDraw() {
-	VibratorModeDraw([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
+	VibratorModeDraw([
+		VibratorModeSet.STANDARD,
+		VibratorModeSet.ADVANCED,
+	]);
 }
 
 function InventoryItemVulvaVibratingEggClick() {
-	VibratorModeClick([VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED]);
+	VibratorModeClick([
+		VibratorModeSet.STANDARD,
+		VibratorModeSet.ADVANCED,
+	]);
 }
 
 function AssetsItemVulvaVibratingEggScriptDraw(data) {

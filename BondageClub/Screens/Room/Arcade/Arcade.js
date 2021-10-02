@@ -14,7 +14,10 @@ var ArcadeCannotDoDeviousChallenge = false;
  */
 function ArcadeCanAskForHeadsetHelpBound() {
 	if (ArcadeCanPlayGames()) return false;
-	return !Player.CanInteract() && DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead");
+	return (
+		!Player.CanInteract() &&
+		DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead")
+	);
 }
 
 /**
@@ -23,7 +26,11 @@ function ArcadeCanAskForHeadsetHelpBound() {
  */
 function ArcadeCanAskForHeadsetHelpGagged() {
 	if (ArcadeCanPlayGames()) return false;
-	return !Player.CanInteract() && !Player.CanTalk() && DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead");
+	return (
+		!Player.CanInteract() &&
+		!Player.CanTalk() &&
+		DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead")
+	);
 }
 
 /**
@@ -32,7 +39,12 @@ function ArcadeCanAskForHeadsetHelpGagged() {
  */
 function ArcadeCanPlayGames() {
 	var head = InventoryGet(Player, "ItemHead");
-	return head && head.Asset && (head.Asset.Name == "InteractiveVRHeadset" || head.Asset.Name == "InteractiveVisor");
+	return (
+		head &&
+		head.Asset &&
+		(head.Asset.Name == "InteractiveVRHeadset" ||
+			head.Asset.Name == "InteractiveVisor")
+	);
 }
 
 /**
@@ -41,7 +53,13 @@ function ArcadeCanPlayGames() {
  */
 function ArcadeCanPlayGamesAndGagged() {
 	var head = InventoryGet(Player, "ItemHead");
-	return !Player.CanTalk() && head && head.Asset && (head.Asset.Name == "InteractiveVRHeadset" || head.Asset.Name == "InteractiveVisor");
+	return (
+		!Player.CanTalk() &&
+		head &&
+		head.Asset &&
+		(head.Asset.Name == "InteractiveVRHeadset" ||
+			head.Asset.Name == "InteractiveVisor")
+	);
 }
 
 /**
@@ -49,32 +67,28 @@ function ArcadeCanPlayGamesAndGagged() {
  * @returns {boolean} - Whether or not the player needs to rent a headset
  */
 function ArcadeNeedToRent() {
-	return !ArcadeCanPlayGames() && !DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead");
+	return (
+		!ArcadeCanPlayGames() &&
+		!DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead")
+	);
 }
-
 
 /**
  * Places a headset on the player
  * @returns {void} - Nothing
  */
 function ArcadePutOnHeadset() {
-	InventoryWear(Player, "InteractiveVRHeadset","ItemHead");
+	InventoryWear(Player, "InteractiveVRHeadset", "ItemHead");
 }
-
-
-
-
 
 /**
  * Places a headset on the player and charges them 10
  * @returns {void} - Nothing
  */
 function ArcadeBuyHeadset() {
-	InventoryWear(Player, "InteractiveVRHeadset","ItemHead");
+	InventoryWear(Player, "InteractiveVRHeadset", "ItemHead");
 	CharacterChangeMoney(Player, -10);
 }
-
-
 
 /**
  * Toggles the Devious Dungeon Challenge
@@ -84,8 +98,7 @@ function ArcadeToggleDeviousChallenge() {
 	ArcadeDeviousChallenge = !ArcadeDeviousChallenge;
 	if (ArcadeDeviousChallenge)
 		LogAdd("DeviousChallenge", "Arcade", 1, true);
-	else
-		LogDelete("DeviousChallenge", "Arcade", true);
+	else LogDelete("DeviousChallenge", "Arcade", true);
 }
 
 /**
@@ -104,7 +117,6 @@ function ArcadeDeviousChallengeEnabled() {
 	return ArcadeDeviousChallenge;
 }
 
-
 /**
  * Loads the Arcade room and initializes the NPCs. This function is called dynamically
  * @returns {void} - Nothing
@@ -112,15 +124,15 @@ function ArcadeDeviousChallengeEnabled() {
 function ArcadeLoad() {
 	ArcadeEmployee = CharacterLoadNPC("NPC_Arcade_Employee");
 	ArcadePlayer = CharacterLoadNPC("NPC_Arcade_Player");
-	InventoryWear(ArcadePlayer, "InteractiveVRHeadset","ItemHead");
+	InventoryWear(ArcadePlayer, "InteractiveVRHeadset", "ItemHead");
 
 	//if (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player)) {
-		ArcadeDeviousChallenge = LogValue("DeviousChallenge", "Arcade") == 1;
+	ArcadeDeviousChallenge =
+		LogValue("DeviousChallenge", "Arcade") == 1;
 	//	ArcadeCannotDoDeviousChallenge = false
 	//}
 	//else
 	//	ArcadeCannotDoDeviousChallenge = true
-
 }
 
 /**
@@ -132,10 +144,29 @@ function ArcadeRun() {
 	DrawCharacter(Player, 750, 0, 1);
 	DrawCharacter(ArcadeEmployee, 250, 0, 1);
 	DrawCharacter(ArcadePlayer, 1250, 0, 1);
-	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+	if (Player.CanWalk())
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
-	if (ArcadeCanPlayGames()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/KinkyDungeon.png");
-		else DrawButton(1885, 265, 90, 90, "", "Pink", "Icons/KinkyDungeon.png");
+	if (ArcadeCanPlayGames())
+		DrawButton(
+			1885,
+			265,
+			90,
+			90,
+			"",
+			"White",
+			"Icons/KinkyDungeon.png"
+		);
+	else
+		DrawButton(
+			1885,
+			265,
+			90,
+			90,
+			"",
+			"Pink",
+			"Icons/KinkyDungeon.png"
+		);
 }
 
 /**
@@ -154,11 +185,14 @@ function ArcadeClick() {
 	}
 
 	if (ArcadeCanPlayGames()) {
-		if (MouseIn(1885, 265, 90, 90)) ArcadeKinkyDungeonStart(ReputationGet("Gaming"));
+		if (MouseIn(1885, 265, 90, 90))
+			ArcadeKinkyDungeonStart(ReputationGet("Gaming"));
 	}
 
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk())
+		CommonSetScreen("Room", "MainHall");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
 }
 
 /**
@@ -182,6 +216,6 @@ function ArcadeKinkyDungeonEnd() {
 	CommonSetScreen("Room", "Arcade");
 
 	//if (MiniGameVictory) {
-	
+
 	//}
 }

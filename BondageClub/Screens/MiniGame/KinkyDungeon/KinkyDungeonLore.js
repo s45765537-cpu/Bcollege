@@ -13,7 +13,6 @@ var KinkyDungeonCheckpointLore = [
 	/*8*/ [],
 	/*9*/ [],
 	/*10*/ [],
-
 ];
 var KinkyDungeonLoreScale = 1.7;
 var KinkyDungeonRepeatLoreChance = 0.4; // Chance you will find a duplicate piece of lore
@@ -25,8 +24,19 @@ function KinkyDungeonNewLore() {
 	if (Player.KinkyDungeonExploredLore.length == 0) {
 		availableLore = [0];
 	} else {
-		for (let L = 0; L < KinkyDungeonCheckpointLore[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]].length; L++) {
-			availableLore.push(KinkyDungeonCheckpointLore[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]][L]);
+		for (
+			let L = 0;
+			L <
+			KinkyDungeonCheckpointLore[
+				KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]
+			].length;
+			L++
+		) {
+			availableLore.push(
+				KinkyDungeonCheckpointLore[
+					KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]
+				][L]
+			);
 		}
 
 		if (Math.random() < KinkyDungeonRepeatLoreChance) {
@@ -35,16 +45,25 @@ function KinkyDungeonNewLore() {
 			} else {
 				availableLore = [];
 			}
-
-		} else availableLore = KinkyDungeonLore.filter(element => !Player.KinkyDungeonExploredLore.includes(element));
-
+		} else
+			availableLore = KinkyDungeonLore.filter(
+				(element) =>
+					!Player.KinkyDungeonExploredLore.includes(element)
+			);
 	}
 
 	if (availableLore.length > 0) {
-		KinkyDungeonCurrentLore = availableLore[Math.floor(Math.random() * availableLore.length)];
-		if (!Player.KinkyDungeonExploredLore.includes(KinkyDungeonCurrentLore)) {
+		KinkyDungeonCurrentLore =
+			availableLore[Math.floor(Math.random() * availableLore.length)];
+		if (
+			!Player.KinkyDungeonExploredLore.includes(
+				KinkyDungeonCurrentLore
+			)
+		) {
 			Player.KinkyDungeonExploredLore.push(KinkyDungeonCurrentLore);
-			ServerAccountUpdate.QueueData({ KinkyDungeonExploredLore: Player.KinkyDungeonExploredLore });
+			ServerAccountUpdate.QueueData({
+				KinkyDungeonExploredLore: Player.KinkyDungeonExploredLore,
+			});
 		}
 
 		return true;
@@ -55,15 +74,37 @@ function KinkyDungeonNewLore() {
 }
 
 function KinkyDungeonDrawLore() {
-	DrawImageZoomCanvas(KinkyDungeonRootDirectory + "MagicBook.png", MainCanvas, 0, 0, 640, 483, canvasOffsetX, canvasOffsetY, 640*KinkyDungeonLoreScale, 483*KinkyDungeonLoreScale, false);
+	DrawImageZoomCanvas(
+		KinkyDungeonRootDirectory + "MagicBook.png",
+		MainCanvas,
+		0,
+		0,
+		640,
+		483,
+		canvasOffsetX,
+		canvasOffsetY,
+		640 * KinkyDungeonLoreScale,
+		483 * KinkyDungeonLoreScale,
+		false
+	);
 
 	MainCanvas.textAlign = "left";
 
-	let lore = KinkyDungeonWordWrap(TextGet("KinkyDungeonLore" + KinkyDungeonCurrentLore), 45).split('\n');
+	let lore = KinkyDungeonWordWrap(
+		TextGet("KinkyDungeonLore" + KinkyDungeonCurrentLore),
+		45
+	).split("\n");
 	let i = 0;
 	for (let N = 0; N < lore.length; N++) {
-		DrawText(lore[N],
-			canvasOffsetX + 640*KinkyDungeonLoreScale/8, canvasOffsetY + 483*KinkyDungeonLoreScale/6 + i * 40, "black", "silver"); i++;}
+		DrawText(
+			lore[N],
+			canvasOffsetX + (640 * KinkyDungeonLoreScale) / 8,
+			canvasOffsetY + (483 * KinkyDungeonLoreScale) / 6 + i * 40,
+			"black",
+			"silver"
+		);
+		i++;
+	}
 
 	MainCanvas.textAlign = "center";
 }

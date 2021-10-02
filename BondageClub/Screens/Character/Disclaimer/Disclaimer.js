@@ -5,8 +5,7 @@ var DisclaimerBackground = "Sheet";
  * Loads the disclaimer screen
  * @returns {void} - Nothing
  */
-function DisclaimerLoad() {
-}
+function DisclaimerLoad() {}
 
 /**
  * Runs & draws the disclaimer screen
@@ -14,7 +13,13 @@ function DisclaimerLoad() {
  */
 function DisclaimerRun() {
 	for (let L = 0; L <= 10; L++)
-		DrawText(TextGet("Line" + L.toString()), 1000, 130 + L * 60, "Black", "Silver");
+		DrawText(
+			TextGet("Line" + L.toString()),
+			1000,
+			130 + L * 60,
+			"Black",
+			"Silver"
+		);
 	DrawButton(700, 840, 250, 60, TextGet("Return"), "White", "");
 	DrawButton(1050, 840, 250, 60, TextGet("Accept"), "White", "");
 }

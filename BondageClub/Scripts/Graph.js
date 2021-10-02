@@ -42,8 +42,8 @@ class DirectedGraph {
 	 */
 	removeVertex(vertex) {
 		return new DirectedGraph(
-			this.vertices.filter(v => v !== vertex),
-			this.edges.filter(e => e[0] !== vertex && e[1] !== vertex),
+			this.vertices.filter((v) => v !== vertex),
+			this.edges.filter((e) => e[0] !== vertex && e[1] !== vertex)
 		);
 	}
 
@@ -55,8 +55,10 @@ class DirectedGraph {
 	 */
 	subgraphFromVertices(vertices) {
 		return new DirectedGraph(
-			this.vertices.filter(v => vertices.includes(v)),
-			this.edges.filter(e => vertices.includes(e[0]) && vertices.includes(e[1])),
+			this.vertices.filter((v) => vertices.includes(v)),
+			this.edges.filter(
+				(e) => vertices.includes(e[0]) && vertices.includes(e[1])
+			)
 		);
 	}
 
@@ -74,7 +76,10 @@ class DirectedGraph {
 		for (const v of this.vertices) {
 			vertexMap[v] = { vertex: v };
 		}
-		const allEdges = this.edges.map(([v1, v2]) => [vertexMap[v1], vertexMap[v2]]);
+		const allEdges = this.edges.map(([v1, v2]) => [
+			vertexMap[v1],
+			vertexMap[v2],
+		]);
 
 		const strongConnect = (v) => {
 			v.index = index;
@@ -171,9 +176,13 @@ class DirectedGraph {
 		};
 
 		for (startVertex of this.vertices) {
-			const connectedComponents = subgraph.getStronglyConnectedComponents();
-			currentComponent = connectedComponents.find(c => c.includes(startVertex));
-			componentGraph = subgraph.subgraphFromVertices(currentComponent);
+			const connectedComponents =
+				subgraph.getStronglyConnectedComponents();
+			currentComponent = connectedComponents.find((c) =>
+				c.includes(startVertex)
+			);
+			componentGraph =
+				subgraph.subgraphFromVertices(currentComponent);
 			for (const vertex of currentComponent) {
 				blocked[vertex] = false;
 				blockMap[vertex] = [];

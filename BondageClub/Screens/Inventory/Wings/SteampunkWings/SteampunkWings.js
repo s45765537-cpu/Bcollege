@@ -1,6 +1,10 @@
-'use strict';
+"use strict";
 
-function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt }) {
+function AssetsWingsSteampunkWingsBeforeDraw({
+	PersistentData,
+	L,
+	LayerType: lt,
+}) {
 	const MaxFrame = 8;
 	const MaxFrameGears = 2;
 	const Data = PersistentData();
@@ -11,7 +15,9 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 
 	// Gears
 	if (L.includes("Gears")) {
-		return { LayerType: Data.StateGears === 0 ? '' : Data.StateGears};
+		return {
+			LayerType: Data.StateGears === 0 ? "" : Data.StateGears,
+		};
 	}
 
 	// Others
@@ -34,22 +40,31 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 	}
 
 	Data.DrawRequested = false;
-	const LayerType = Data.State === 0 ? '' : Data.State;
+	const LayerType = Data.State === 0 ? "" : Data.State;
 	return { LayerType };
 }
 
-function AssetsWingsSteampunkWingsScriptDraw({ C, Item, PersistentData }) {
+function AssetsWingsSteampunkWingsScriptDraw({
+	C,
+	Item,
+	PersistentData,
+}) {
 	const Type = (Item.Property || {}).Type;
 	if (Type !== "On") return;
 
 	const Data = PersistentData();
 
 	if (typeof Data.FrameTime !== "number")
-		Data.FrameTime = Player.GraphicsSettings ? Math.max(250, (Player.GraphicsSettings.AnimationQuality * 0.5)) : 250;
-	if (typeof Data.ChangeTime !== "number") Data.ChangeTime = CommonTime() + Data.FrameTime;
+		Data.FrameTime = Player.GraphicsSettings
+			? Math.max(250, Player.GraphicsSettings.AnimationQuality * 0.5)
+			: 250;
+	if (typeof Data.ChangeTime !== "number")
+		Data.ChangeTime = CommonTime() + Data.FrameTime;
 
 	if (Data.ChangeTime < CommonTime()) {
-		Data.FrameTime = Player.GraphicsSettings ? Math.max(250, (Player.GraphicsSettings.AnimationQuality * 0.5)) : 250;
+		Data.FrameTime = Player.GraphicsSettings
+			? Math.max(250, Player.GraphicsSettings.AnimationQuality * 0.5)
+			: 250;
 		Data.ChangeTime = CommonTime() + Data.FrameTime;
 		Data.DrawRequested = true;
 		AnimationRequestRefreshRate(C, Data.FrameTime);

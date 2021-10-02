@@ -2,30 +2,49 @@
 var CollegeTheaterBackground = "CollegeTheater";
 var CollegeTheaterJulia = null;
 var CollegeTheaterJuliaLove = 0;
-var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#AA44AA", "#44AAAA"];
-
+var CollegeTheaterRandomColors = [
+	"#AA4444",
+	"#44AA44",
+	"#4444AA",
+	"#AAAA44",
+	"#AA44AA",
+	"#44AAAA",
+];
 
 /**
  * Checks if the player can invite an extra player to their private room. (Used for Julia.)
  * @returns {boolean} - Returns TRUE if the player has a private room and at least one empty place in it.
  */
-function CollegeTheaterCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax)); }
+function CollegeTheaterCanInviteToPrivateRoom() {
+	return (
+		LogQuery("RentRoom", "PrivateRoom") &&
+		PrivateCharacter.length < PrivateCharacterMax
+	);
+}
 /**
  * Checks if Julia's love level is of a given level.
  * @param {number} LoveLevel - The love level threshold to check for.
  * @returns {boolean} - Returns TRUE if the current love level of Julia is at or above the given level
  */
-function CollegeTheaterJuliaLoveIs(LoveLevel) { return (CollegeTheaterJuliaLove >= parseInt(LoveLevel)); }
+function CollegeTheaterJuliaLoveIs(LoveLevel) {
+	return CollegeTheaterJuliaLove >= parseInt(LoveLevel);
+}
 /**
  * Checks if the player can pick their role. The player can pick their role when they are a switch (not too submissive or dominant)
  * @returns {boolean} - Returns TRUE if the player can choose her role.
  */
-function CollegeTheaterCanChooseRole() { return ((ReputationGet("Dominant") > -30) && (ReputationGet("Dominant") < 30)); }
+function CollegeTheaterCanChooseRole() {
+	return (
+		ReputationGet("Dominant") > -30 && ReputationGet("Dominant") < 30
+	);
+}
 /**
  * Gives the teacher room key to the player.
  * @returns {void} - Nothing
  */
-function CollegeTheaterGetTeacherKey() { LogAdd("TeacherKey", "College"); }
+function CollegeTheaterGetTeacherKey() {
+	LogAdd("TeacherKey", "College");
+}
 
 /**
  * Dresses Julia in her full theater outfit.
@@ -34,7 +53,12 @@ function CollegeTheaterGetTeacherKey() { LogAdd("TeacherKey", "College"); }
 function CollegeTheaterJuliaClothes() {
 	CharacterNaked(CollegeTheaterJulia);
 	InventoryWear(CollegeTheaterJulia, "Yukata1", "Cloth", "#993333");
-	InventoryWear(CollegeTheaterJulia, "PussyDark1", "Pussy", "#e86e37");
+	InventoryWear(
+		CollegeTheaterJulia,
+		"PussyDark1",
+		"Pussy",
+		"#e86e37"
+	);
 	InventoryWear(CollegeTheaterJulia, "Eyes3", "Eyes", "#f85e27");
 	InventoryWear(CollegeTheaterJulia, "Eyes3", "Eyes2", "#f85e27");
 	InventoryWear(CollegeTheaterJulia, "Mouth", "Mouth", "Default");
@@ -43,11 +67,31 @@ function CollegeTheaterJuliaClothes() {
 	InventoryWear(CollegeTheaterJulia, "XLarge", "BodyLower", "White");
 	InventoryWear(CollegeTheaterJulia, "Default", "Hands", "Default");
 	InventoryWear(CollegeTheaterJulia, "Default", "Head", "Default");
-	InventoryWear(CollegeTheaterJulia, "HairBack5", "HairBack", "#e86e37");
-	InventoryWear(CollegeTheaterJulia, "HairFront6", "HairFront", "#e86e37");
+	InventoryWear(
+		CollegeTheaterJulia,
+		"HairBack5",
+		"HairBack",
+		"#e86e37"
+	);
+	InventoryWear(
+		CollegeTheaterJulia,
+		"HairFront6",
+		"HairFront",
+		"#e86e37"
+	);
 	InventoryWear(CollegeTheaterJulia, "OuvertPerl1", "Bra", "#BB0000");
-	InventoryWear(CollegeTheaterJulia, "Panties11", "Panties", "#BB0000");
-	InventoryWear(CollegeTheaterJulia, "Pantyhose1", "Socks", "Default");
+	InventoryWear(
+		CollegeTheaterJulia,
+		"Panties11",
+		"Panties",
+		"#BB0000"
+	);
+	InventoryWear(
+		CollegeTheaterJulia,
+		"Pantyhose1",
+		"Socks",
+		"Default"
+	);
 	InventoryWear(CollegeTheaterJulia, "Sandals", "Shoes", "Default");
 }
 
@@ -56,26 +100,23 @@ function CollegeTheaterJuliaClothes() {
  * @returns {void} - Nothing
  */
 function CollegeTheaterLoad() {
-
 	// Generates a full Julia model based on the Bondage College template
 	if (CollegeTheaterJulia == null) {
-
 		// Do not generate her if she's already in the private room
 		if (PrivateCharacter.length > 1)
 			for (let P = 1; P < PrivateCharacter.length; P++)
-				if (PrivateCharacter[P].Name == "Julia")
-					return;
+				if (PrivateCharacter[P].Name == "Julia") return;
 
 		// Generates the model
-		CollegeTheaterJulia = CharacterLoadNPC("NPC_CollegeTheater_Julia");
+		CollegeTheaterJulia = CharacterLoadNPC(
+			"NPC_CollegeTheater_Julia"
+		);
 		CollegeTheaterJulia.AllowItem = false;
 		CollegeTheaterJulia.Name = "Julia";
 		CollegeTheaterJulia.GoneAway = false;
 		CollegeTheaterJuliaClothes();
 		CharacterRefresh(CollegeTheaterJulia);
-
 	}
-
 }
 
 /**
@@ -84,9 +125,28 @@ function CollegeTheaterLoad() {
  */
 function CollegeTheaterRun() {
 	DrawCharacter(Player, 500, 0, 1);
-	if ((CollegeTheaterJulia != null) && !CollegeTheaterJulia.GoneAway) DrawCharacter(CollegeTheaterJulia, 1000, 0, 1);
-	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
+	if (CollegeTheaterJulia != null && !CollegeTheaterJulia.GoneAway)
+		DrawCharacter(CollegeTheaterJulia, 1000, 0, 1);
+	DrawButton(
+		1885,
+		25,
+		90,
+		90,
+		"",
+		Player.CanWalk() ? "White" : "Pink",
+		"Icons/Exit.png",
+		TextGet("Exit")
+	);
+	DrawButton(
+		1885,
+		145,
+		90,
+		90,
+		"",
+		"White",
+		"Icons/Character.png",
+		TextGet("Profile")
+	);
 }
 
 /**
@@ -94,9 +154,16 @@ function CollegeTheaterRun() {
  * @returns {void} - Nothing
  */
 function CollegeTheaterClick() {
-	if (MouseIn(1000, 0, 500, 1000) && (CollegeTheaterJulia != null) && !CollegeTheaterJulia.GoneAway) CharacterSetCurrent(CollegeTheaterJulia);
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "CollegeEntrance");
-	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
+	if (
+		MouseIn(1000, 0, 500, 1000) &&
+		CollegeTheaterJulia != null &&
+		!CollegeTheaterJulia.GoneAway
+	)
+		CharacterSetCurrent(CollegeTheaterJulia);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk())
+		CommonSetScreen("Room", "CollegeEntrance");
+	if (MouseIn(1885, 145, 90, 90))
+		InformationSheetLoadCharacter(Player);
 }
 
 /**
@@ -118,7 +185,10 @@ function CollegeTheaterPlayClothes(C1, C2) {
  * @returns {void} - Nothing
  */
 function CollegeTheaterRandomRope(C) {
-	var Color = CommonRandomItemFromList("", CollegeTheaterRandomColors);
+	var Color = CommonRandomItemFromList(
+		"",
+		CollegeTheaterRandomColors
+	);
 	InventoryWear(C, "HempRope", "ItemArms", Color);
 	InventoryWear(C, "HempRope", "ItemLegs", Color);
 	InventoryWear(C, "HempRope", "ItemFeet", Color);
@@ -130,7 +200,10 @@ function CollegeTheaterRandomRope(C) {
  * @returns {void} - Nothing
  */
 function CollegeTheaterRandomBelt(C) {
-	var Color = CommonRandomItemFromList("", CollegeTheaterRandomColors);
+	var Color = CommonRandomItemFromList(
+		"",
+		CollegeTheaterRandomColors
+	);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemArms", Color);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemLegs", Color);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemFeet", Color);
@@ -155,23 +228,78 @@ function CollegeTheaterUnderwear(C) {
  * @returns {void} - Nothing
  */
 function CollegeTheaterJuliaLoveChange(LoveChange, Event) {
-	if (LoveChange != null) CollegeTheaterJuliaLove = CollegeTheaterJuliaLove + parseInt(LoveChange);
-	if ((LoveChange != null) && (parseInt(LoveChange) <= 0)) CharacterSetFacialExpression(CollegeTheaterJulia, "Eyes", "Dazed", 2);
-	if ((LoveChange != null) && (parseInt(LoveChange) >= 2)) CharacterSetFacialExpression(CollegeTheaterJulia, "Blush", "Low", 2);
-	if (Event == "PlayerWitch") CollegeTheaterPlayClothes(Player, CollegeTheaterJulia);
-	if (Event == "JuliaWitch") CollegeTheaterPlayClothes(CollegeTheaterJulia, Player);
+	if (LoveChange != null)
+		CollegeTheaterJuliaLove =
+			CollegeTheaterJuliaLove + parseInt(LoveChange);
+	if (LoveChange != null && parseInt(LoveChange) <= 0)
+		CharacterSetFacialExpression(
+			CollegeTheaterJulia,
+			"Eyes",
+			"Dazed",
+			2
+		);
+	if (LoveChange != null && parseInt(LoveChange) >= 2)
+		CharacterSetFacialExpression(
+			CollegeTheaterJulia,
+			"Blush",
+			"Low",
+			2
+		);
+	if (Event == "PlayerWitch")
+		CollegeTheaterPlayClothes(Player, CollegeTheaterJulia);
+	if (Event == "JuliaWitch")
+		CollegeTheaterPlayClothes(CollegeTheaterJulia, Player);
 	if (Event == "PlayerUnderwear") CollegeTheaterUnderwear(Player);
-	if (Event == "JuliaUnderwear") CollegeTheaterUnderwear(CollegeTheaterJulia);
+	if (Event == "JuliaUnderwear")
+		CollegeTheaterUnderwear(CollegeTheaterJulia);
 	if (Event == "PlayerNaked") CharacterNaked(Player);
 	if (Event == "JuliaNaked") CharacterNaked(CollegeTheaterJulia);
-	if (Event == "PlayerHandCuffs") InventoryWear(Player, "MetalCuffs", "ItemArms", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFeetCuffs") InventoryWear(Player, "Irish8Cuffs", "ItemFeet", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFeetIron") InventoryWear(Player, "BallChain", "ItemFeet", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFairy") InventoryWear(Player, "BatWings", "Wings", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "JuliaRope") CollegeTheaterRandomRope(CollegeTheaterJulia);
-	if (Event == "JuliaBelt") CollegeTheaterRandomBelt(CollegeTheaterJulia);
-	if (Event == "JuliaClothBlindfold") InventoryWear(CollegeTheaterJulia, "ClothBlindfold", "ItemHead", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "JuliaLeatherBlindfold") InventoryWear(CollegeTheaterJulia, "LeatherBlindfold", "ItemHead", CommonRandomItemFromList("", CollegeTheaterRandomColors));
+	if (Event == "PlayerHandCuffs")
+		InventoryWear(
+			Player,
+			"MetalCuffs",
+			"ItemArms",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
+	if (Event == "PlayerFeetCuffs")
+		InventoryWear(
+			Player,
+			"Irish8Cuffs",
+			"ItemFeet",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
+	if (Event == "PlayerFeetIron")
+		InventoryWear(
+			Player,
+			"BallChain",
+			"ItemFeet",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
+	if (Event == "PlayerFairy")
+		InventoryWear(
+			Player,
+			"BatWings",
+			"Wings",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
+	if (Event == "JuliaRope")
+		CollegeTheaterRandomRope(CollegeTheaterJulia);
+	if (Event == "JuliaBelt")
+		CollegeTheaterRandomBelt(CollegeTheaterJulia);
+	if (Event == "JuliaClothBlindfold")
+		InventoryWear(
+			CollegeTheaterJulia,
+			"ClothBlindfold",
+			"ItemHead",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
+	if (Event == "JuliaLeatherBlindfold")
+		InventoryWear(
+			CollegeTheaterJulia,
+			"LeatherBlindfold",
+			"ItemHead",
+			CommonRandomItemFromList("", CollegeTheaterRandomColors)
+		);
 }
 
 /**
@@ -196,14 +324,14 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 	CollegeTheaterDressBack();
 	if (Role == "Witch") {
 		let ItemsToEarn = [];
-		ItemsToEarn.push({Name: "WitchHat1", Group: "Hat"});
-		ItemsToEarn.push({Name: "BondageDress2", Group: "Cloth"});
+		ItemsToEarn.push({ Name: "WitchHat1", Group: "Hat" });
+		ItemsToEarn.push({ Name: "BondageDress2", Group: "Cloth" });
 		InventoryAddMany(Player, ItemsToEarn);
 	}
 	if (Role == "Maiden") {
 		let ItemsToEarn = [];
-		ItemsToEarn.push({Name: "BatWings", Group: "Wings"});
-		ItemsToEarn.push({Name: "Dress2", Group: "Cloth"});
+		ItemsToEarn.push({ Name: "BatWings", Group: "Wings" });
+		ItemsToEarn.push({ Name: "Dress2", Group: "Cloth" });
 		InventoryAddMany(Player, ItemsToEarn);
 	}
 	CommonSetScreen("Room", "Private");

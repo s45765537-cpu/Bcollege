@@ -21,7 +21,7 @@ function MouseIn(Left, Top, Width, Height) {
  * @returns {boolean} - Returns TRUE if the click occurred in the given zone
  */
 function MouseXIn(Left, Width) {
-	return (MouseX >= Left) && (MouseX <= Left + Width);
+	return MouseX >= Left && MouseX <= Left + Width;
 }
 
 /**
@@ -31,7 +31,7 @@ function MouseXIn(Left, Width) {
  * @returns {boolean} - Returns TRUE if the click occurred in the given zone
  */
 function MouseYIn(Top, Height) {
-	return (MouseY >= Top) && (MouseY <= Top + Height);
+	return MouseY >= Top && MouseY <= Top + Height;
 }
 
 /**

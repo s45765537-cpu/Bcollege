@@ -2,7 +2,7 @@ interface AssetGroupDefinition {
 	Asset: (AssetDefinition | string)[];
 	Group: string;
 	ParentGroup?: string;
-	Category?: 'Appearance' | 'Item';
+	Category?: "Appearance" | "Item";
 	Default?: boolean;
 	IsRestraint?: boolean;
 	AllowNone?: boolean;
@@ -25,7 +25,11 @@ interface AssetGroupDefinition {
 	AllowExpression?: string[];
 	Effect?: string[];
 	MirrorGroup?: string;
-	RemoveItemOnRemove?: { Group: string, Name: string, Type?: string }[];
+	RemoveItemOnRemove?: {
+		Group: string;
+		Name: string;
+		Type?: string;
+	}[];
 	Priority?: number;
 	Left?: number;
 	Top?: number;
@@ -38,7 +42,7 @@ interface AssetGroupDefinition {
 }
 
 interface AssetDefinition {
-	Name: string,
+	Name: string;
 	ParentItem?: string;
 	ParentGroup?: string | null;
 	Enable?: boolean;
@@ -60,7 +64,7 @@ interface AssetDefinition {
 	SetPose?: string[];
 	AllowPose?: string[];
 	HideForPose?: string[];
-	PoseMapping?: { [index: string]: string};
+	PoseMapping?: { [index: string]: string };
 	AllowActivePose?: string[];
 	WhitelistActivePose?: string[];
 	Value?: number;
@@ -90,8 +94,16 @@ interface AssetDefinition {
 	PickDifficulty?: number | null;
 	OwnerOnly?: boolean;
 	LoverOnly?: boolean;
-	ExpressionTrigger?: { Name: string, Group: string, Timer: number }[];
-	RemoveItemOnRemove?: { Name: string, Group: string, Type?: string }[];
+	ExpressionTrigger?: {
+		Name: string;
+		Group: string;
+		Timer: number;
+	}[];
+	RemoveItemOnRemove?: {
+		Name: string;
+		Group: string;
+		Type?: string;
+	}[];
 	AllowEffect?: string[];
 	AllowBlock?: string[];
 	AllowType?: string[];
@@ -110,10 +122,14 @@ interface AssetDefinition {
 	DynamicDescription?: (C: Character) => string;
 	DynamicPreviewImage?: (C: Character) => string;
 	DynamicAllowInventoryAdd?: (C: Character) => boolean;
-	DynamicExpressionTrigger?: (C: Character) => ExpressionTrigger[] | null | undefined;
+	DynamicExpressionTrigger?: (
+		C: Character
+	) => ExpressionTrigger[] | null | undefined;
 	DynamicName?: (C: Character) => string;
 	DynamicGroupName?: string;
-	DynamicActivity?: (C: Character) => string[] | string | null | undefined;
+	DynamicActivity?: (
+		C: Character
+	) => string[] | string | null | undefined;
 	DynamicAudio?: (C: Character) => string;
 	CharacterRestricted?: boolean;
 	AllowRemoveExclusive?: boolean;
@@ -125,7 +141,11 @@ interface AssetDefinition {
 	AllowLockType?: string[];
 	AllowColorizeAll?: boolean;
 	AvailableLocations?: string[];
-	OverrideHeight?: { Height: number; Priority: number; HeightRatioProportion?: number };
+	OverrideHeight?: {
+		Height: number;
+		Priority: number;
+		HeightRatioProportion?: number;
+	};
 	FreezeActivePose?: string[];
 	DrawLocks?: boolean;
 	AllowExpression?: string[];
@@ -150,14 +170,14 @@ interface AssetLayerDefinition {
 	AllowTypes?: string[];
 	HasType?: boolean;
 	Visibility?: string;
-	ParentGroup?: string | null,
+	ParentGroup?: string | null;
 	AllowPose?: string[];
 	Priority?: number;
 	InheritColor?: string;
-	Alpha?: AlphaDefinition[],
+	Alpha?: AlphaDefinition[];
 	Left?: number;
 	Top?: number;
-	HideAs?: { Group: string, Asset: string };
+	HideAs?: { Group: string; Asset: string };
 	HasImage?: boolean;
 	Opacity?: number;
 	MinOpacity?: number;

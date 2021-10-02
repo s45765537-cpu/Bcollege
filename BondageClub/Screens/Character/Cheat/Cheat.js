@@ -1,7 +1,21 @@
 "use strict";
 var CheatBackground = "Sheet";
 var CheatAllow = false;
-var CheatList = ["DoubleReputation", "DoubleSkill", "DoubleMoney", "DoubleItemSpeed", "BlockRandomKidnap", "SkipTrialPeriod", "AutoShowTraits", "NoLoveDecay", "CantLoseMistress", "FreeCollegeOutfit", "MiniGameBonus", "FreeNPCDress", "ChangeNPCTrait"];
+var CheatList = [
+	"DoubleReputation",
+	"DoubleSkill",
+	"DoubleMoney",
+	"DoubleItemSpeed",
+	"BlockRandomKidnap",
+	"SkipTrialPeriod",
+	"AutoShowTraits",
+	"NoLoveDecay",
+	"CantLoseMistress",
+	"FreeCollegeOutfit",
+	"MiniGameBonus",
+	"FreeNPCDress",
+	"ChangeNPCTrait",
+];
 var CheatBonusList = ["DoubleMoney", "DoubleSkill"];
 var CheatBonusFactor = 2;
 var CheatBonusTime = 1552967946711;
@@ -17,7 +31,12 @@ var CheatBrowserTime = 0;
 function CheatValidate() {
 	var BI = CommonGetBrowser();
 	var Time = CommonTime();
-	CheatAllow = (CheatAllow && (BI.Name == CheatBrowserName) && (BI.Version == CheatBrowserVersion) && (Time >= CheatBrowserTime) && (Time <= CheatBrowserTime + 864000000));
+	CheatAllow =
+		CheatAllow &&
+		BI.Name == CheatBrowserName &&
+		BI.Version == CheatBrowserVersion &&
+		Time >= CheatBrowserTime &&
+		Time <= CheatBrowserTime + 864000000;
 }
 
 /**
@@ -27,7 +46,7 @@ function CheatValidate() {
  */
 function CheatActive(CheatName) {
 	CheatValidate();
-	return (CheatAllow && (CheatActivated.indexOf(CheatName) >= 0));
+	return CheatAllow && CheatActivated.indexOf(CheatName) >= 0;
 }
 
 /**
@@ -38,8 +57,13 @@ function CheatActive(CheatName) {
  */
 function CheatFactor(CheatName, Factor) {
 	CheatValidate();
-	Factor = (CheatAllow && (CheatActivated.indexOf(CheatName) >= 0)) ? Factor : 1;
-	if ((CheatBonusTime >= CurrentTime) && (CheatBonusList.indexOf(CheatName) >= 0)) Factor = Factor * CheatBonusFactor;
+	Factor =
+		CheatAllow && CheatActivated.indexOf(CheatName) >= 0 ? Factor : 1;
+	if (
+		CheatBonusTime >= CurrentTime &&
+		CheatBonusList.indexOf(CheatName) >= 0
+	)
+		Factor = Factor * CheatBonusFactor;
 	return Factor;
 }
 
@@ -55,8 +79,11 @@ function CheatImport() {
 		CheatBrowserVersion = BI.Version;
 		CheatBrowserTime = CommonTime();
 		for (let C = 0; C < CheatList.length; C++) {
-			var AC = localStorage.getItem("BondageClubCheat" + CheatList[C]);
-			if ((AC != null) && (AC.toUpperCase() == "TRUE")) CheatActivated.push(CheatList[C]);
+			var AC = localStorage.getItem(
+				"BondageClubCheat" + CheatList[C]
+			);
+			if (AC != null && AC.toUpperCase() == "TRUE")
+				CheatActivated.push(CheatList[C]);
 		}
 	}
 }
@@ -67,7 +94,10 @@ function CheatImport() {
  */
 function CheatExport() {
 	for (let C = 0; C < CheatList.length; C++)
-		localStorage.setItem("BondageClubCheat" + CheatList[C], (CheatActivated.indexOf(CheatList[C]) >= 0) ? "true" : "false");
+		localStorage.setItem(
+			"BondageClubCheat" + CheatList[C],
+			CheatActivated.indexOf(CheatList[C]) >= 0 ? "true" : "false"
+		);
 }
 
 /**
@@ -75,18 +105,30 @@ function CheatExport() {
  * @returns {void} - Nothing
  */
 function CheatRun() {
-
 	// List all the cheats
 	MainCanvas.textAlign = "left";
 	for (let C = 0; C < CheatList.length; C++) {
-		DrawButton(150 + Math.floor(C / 8) * 850, 115 + ((C % 8) * 100), 64, 64, "", "White", CheatActive(CheatList[C]) ? "Icons/Checked.png" : "");
-		DrawText(TextGet(CheatList[C]), 250 + Math.floor(C / 8) * 850, 147 + ((C % 8) * 100), "Black", "Gray");
+		DrawButton(
+			150 + Math.floor(C / 8) * 850,
+			115 + (C % 8) * 100,
+			64,
+			64,
+			"",
+			"White",
+			CheatActive(CheatList[C]) ? "Icons/Checked.png" : ""
+		);
+		DrawText(
+			TextGet(CheatList[C]),
+			250 + Math.floor(C / 8) * 850,
+			147 + (C % 8) * 100,
+			"Black",
+			"Gray"
+		);
 	}
 
 	// Draw the exit button
 	MainCanvas.textAlign = "center";
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-
 }
 
 /**
@@ -94,21 +136,25 @@ function CheatRun() {
  * @returns {void} - Nothing
  */
 function CheatClick() {
-
 	// When the user exits
 	if (MouseIn(1815, 75, 90, 90)) CheatExit();
 
 	// When the user activates an option
 	for (let C = 0; C < CheatList.length; C++)
-		if (MouseIn(150 + Math.floor(C / 8) * 850, 115 + ((C % 8) * 100), 64, 64)) {
+		if (
+			MouseIn(
+				150 + Math.floor(C / 8) * 850,
+				115 + (C % 8) * 100,
+				64,
+				64
+			)
+		) {
 			var CheatName = CheatList[C];
 			if (CheatActivated.indexOf(CheatName) >= 0)
 				CheatActivated.splice(CheatActivated.indexOf(CheatName), 1);
-			else
-				CheatActivated.push(CheatName);
+			else CheatActivated.push(CheatName);
 			return;
 		}
-
 }
 
 /**

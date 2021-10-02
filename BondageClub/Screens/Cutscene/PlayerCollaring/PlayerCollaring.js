@@ -12,10 +12,18 @@ var PlayerCollaringGirlRight = null;
  */
 function PlayerCollaringLoad() {
 	CutsceneStage = 0;
-	PlayerCollaringMistressLeft = CharacterLoadNPC("NPC_PlayerCollaring_MistressLeft");
-	PlayerCollaringMistressRight = CharacterLoadNPC("NPC_PlayerCollaring_MistressRight");
-	PlayerCollaringGirlLeft = CharacterLoadNPC("NPC_PlayerCollaring_GirlLeft");
-	PlayerCollaringGirlRight = CharacterLoadNPC("NPC_PlayerCollaring_GirlRight");
+	PlayerCollaringMistressLeft = CharacterLoadNPC(
+		"NPC_PlayerCollaring_MistressLeft"
+	);
+	PlayerCollaringMistressRight = CharacterLoadNPC(
+		"NPC_PlayerCollaring_MistressRight"
+	);
+	PlayerCollaringGirlLeft = CharacterLoadNPC(
+		"NPC_PlayerCollaring_GirlLeft"
+	);
+	PlayerCollaringGirlRight = CharacterLoadNPC(
+		"NPC_PlayerCollaring_GirlRight"
+	);
 }
 
 /**
@@ -27,9 +35,17 @@ function PlayerCollaringRun() {
 	DrawCharacter(PlayerCollaringMistressLeft, 200, 0, 1);
 	DrawCharacter(PlayerCollaringMistressRight, 1300, 0, 1);
 	if (CutsceneStage > 0) DrawCharacter(Player, 600, 0, 1);
-	if (CutsceneStage > 0) DrawCharacter(PlayerCollaringGirlLeft, -200, 100, 1);
-	if (CutsceneStage > 0) DrawCharacter(PlayerCollaringGirlRight, 1700, 100, 1);
-	DrawText(TextGet("PlayerCollaring" + CutsceneStage.toString()), 1000, 980, "White", "Black");
+	if (CutsceneStage > 0)
+		DrawCharacter(PlayerCollaringGirlLeft, -200, 100, 1);
+	if (CutsceneStage > 0)
+		DrawCharacter(PlayerCollaringGirlRight, 1700, 100, 1);
+	DrawText(
+		TextGet("PlayerCollaring" + CutsceneStage.toString()),
+		1000,
+		980,
+		"White",
+		"Black"
+	);
 }
 
 /**
@@ -39,11 +55,16 @@ function PlayerCollaringRun() {
 function PlayerCollaringClick() {
 	CutsceneStage++;
 	if (CutsceneStage == 2) CharacterNaked(Player);
-	if (CutsceneStage == 4) CharacterSetActivePose(Player, "Kneel", true);
-	if (CutsceneStage == 6) InventoryWear(Player, "SlaveCollar", "ItemNeck");
+	if (CutsceneStage == 4)
+		CharacterSetActivePose(Player, "Kneel", true);
+	if (CutsceneStage == 6)
+		InventoryWear(Player, "SlaveCollar", "ItemNeck");
 	if (CutsceneStage > 8) {
 		CommonSetScreen("Room", "Private");
 		CharacterSetCurrent(PlayerCollaringMistress);
-		PlayerCollaringMistress.CurrentDialog = DialogFind(PlayerCollaringMistress, "MistressVow");
+		PlayerCollaringMistress.CurrentDialog = DialogFind(
+			PlayerCollaringMistress,
+			"MistressVow"
+		);
 	}
 }

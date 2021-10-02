@@ -38,18 +38,26 @@ var InventoryItemArmsPrisonLockdownSuitOptions = [
 var InventoryItemArmsPrisonLockdownSuitPage = "Base";
 
 function InventoryItemArmsPrisonLockdownSuitLoad() {
-	ExtendedItemLoad(InventoryItemArmsPrisonLockdownSuitOptions, "ItemArmsPrisonLockdownSuitSelect");
+	ExtendedItemLoad(
+		InventoryItemArmsPrisonLockdownSuitOptions,
+		"ItemArmsPrisonLockdownSuitSelect"
+	);
 	InventoryItemNeckAccessoriesCollarShockUnitLoad();
 	InventoryItemArmsPrisonLockdownSuitSetPage("Base");
 }
 
 function InventoryItemArmsPrisonLockdownSuitSetPage(Page) {
 	InventoryItemArmsPrisonLockdownSuitPage = Page;
-	DialogExtendedMessage = DialogFindPlayer("ItemArmsPrisonLockdownSuitSelect" + Page);
+	DialogExtendedMessage = DialogFindPlayer(
+		"ItemArmsPrisonLockdownSuitSelect" + Page
+	);
 }
 
 function InventoryItemArmsPrisonLockdownSuitDraw() {
-	CommonCallFunctionByName("InventoryItemArmsPrisonLockdownSuitDraw" + InventoryItemArmsPrisonLockdownSuitPage);
+	CommonCallFunctionByName(
+		"InventoryItemArmsPrisonLockdownSuitDraw" +
+			InventoryItemArmsPrisonLockdownSuitPage
+	);
 }
 
 function InventoryItemArmsPrisonLockdownSuitDrawBase() {
@@ -59,15 +67,44 @@ function InventoryItemArmsPrisonLockdownSuitDrawBase() {
 	DrawAssetPreview(1387, 55, A);
 	DrawText(DialogExtendedMessage, 1500, 375, "white", "gray");
 
-	DrawPreviewBox(1175, 550, `${AssetGetInventoryPath(A)}/${DialogFocusItem.Property.Type || "Free"}.png`, "", { Hover: true });
-	DrawText(DialogFindPlayer("ItemArmsPrisonLockdownSuitStraps"), 1288, 800, "white", "gray");
+	DrawPreviewBox(
+		1175,
+		550,
+		`${AssetGetInventoryPath(A)}/${
+			DialogFocusItem.Property.Type || "Free"
+		}.png`,
+		"",
+		{ Hover: true }
+	);
+	DrawText(
+		DialogFindPlayer("ItemArmsPrisonLockdownSuitStraps"),
+		1288,
+		800,
+		"white",
+		"gray"
+	);
 
-	DrawPreviewBox(1600, 550, `${AssetGetInventoryPath(A)}/Shock.png`, "", { Hover: true });
-	DrawText(DialogFindPlayer("ItemArmsPrisonLockdownSuitShock"), 1713, 800, "white", "gray");
+	DrawPreviewBox(
+		1600,
+		550,
+		`${AssetGetInventoryPath(A)}/Shock.png`,
+		"",
+		{ Hover: true }
+	);
+	DrawText(
+		DialogFindPlayer("ItemArmsPrisonLockdownSuitShock"),
+		1713,
+		800,
+		"white",
+		"gray"
+	);
 }
 
 function InventoryItemArmsPrisonLockdownSuitDrawStraps() {
-	ExtendedItemDraw(InventoryItemArmsPrisonLockdownSuitOptions, "ItemArmsPrisonLockdownSuit");
+	ExtendedItemDraw(
+		InventoryItemArmsPrisonLockdownSuitOptions,
+		"ItemArmsPrisonLockdownSuit"
+	);
 }
 
 function InventoryItemArmsPrisonLockdownSuitDrawShock() {
@@ -75,7 +112,10 @@ function InventoryItemArmsPrisonLockdownSuitDrawShock() {
 }
 
 function InventoryItemArmsPrisonLockdownSuitClick() {
-	CommonCallFunctionByName("InventoryItemArmsPrisonLockdownSuitClick" + InventoryItemArmsPrisonLockdownSuitPage);
+	CommonCallFunctionByName(
+		"InventoryItemArmsPrisonLockdownSuitClick" +
+			InventoryItemArmsPrisonLockdownSuitPage
+	);
 }
 
 function InventoryItemArmsPrisonLockdownSuitClickBase() {
@@ -85,8 +125,10 @@ function InventoryItemArmsPrisonLockdownSuitClickBase() {
 		return;
 	}
 
-	if (MouseIn(1175, 550, 225, 225)) InventoryItemArmsPrisonLockdownSuitSetPage("Straps");
-	else if (MouseIn(1600, 550, 225, 225)) InventoryItemArmsPrisonLockdownSuitSetPage("Shock");
+	if (MouseIn(1175, 550, 225, 225))
+		InventoryItemArmsPrisonLockdownSuitSetPage("Straps");
+	else if (MouseIn(1600, 550, 225, 225))
+		InventoryItemArmsPrisonLockdownSuitSetPage("Shock");
 }
 
 function InventoryItemArmsPrisonLockdownSuitClickStraps() {
@@ -109,18 +151,41 @@ function InventoryItemArmsPrisonLockdownSuitClickShock() {
 	InventoryItemNeckAccessoriesCollarShockUnitClick();
 }
 
-function InventoryItemArmsPrisonLockdownSuitPublishAction(C, Option, PreviousOption) {
+function InventoryItemArmsPrisonLockdownSuitPublishAction(
+	C,
+	Option,
+	PreviousOption
+) {
 	var msg = "ItemArmsPrisonLockdownSuitSet" + Option.Name;
-	if (["Ankles", "Thighs"].includes(Option.Name) && ["Free", "Full"].includes(PreviousOption.Name)) {
-		msg = "ItemArmsPrisonLockdownSuitSet" + PreviousOption.Name + "To" + Option.Name;
+	if (
+		["Ankles", "Thighs"].includes(Option.Name) &&
+		["Free", "Full"].includes(PreviousOption.Name)
+	) {
+		msg =
+			"ItemArmsPrisonLockdownSuitSet" +
+			PreviousOption.Name +
+			"To" +
+			Option.Name;
 	}
 	var dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{
+			Tag: "SourceCharacter",
+			Text: Player.Name,
+			MemberNumber: Player.MemberNumber,
+		},
+		{
+			Tag: "DestinationCharacter",
+			Text: C.Name,
+			MemberNumber: C.MemberNumber,
+		},
 	];
 	ChatRoomPublishCustomAction(msg, true, dictionary);
 }
 
 function InventoryItemArmsPrisonLockdownSuitNpcDialog(C, Option) {
-	C.CurrentDialog = DialogFind(C, "ItemArmsPrisonLockdownSuit" + Option.Name, "ItemArms");
+	C.CurrentDialog = DialogFind(
+		C,
+		"ItemArmsPrisonLockdownSuit" + Option.Name,
+		"ItemArms"
+	);
 }
