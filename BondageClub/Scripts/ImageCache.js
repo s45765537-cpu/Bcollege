@@ -24,7 +24,7 @@ class CachedImage {
 	/**
 	 * Create a new cached image.
 	 *
-	 * @param {ImageCache} cache - The cache holding the image
+	 * @param {ImageCacheClass} cache - The cache holding the image
 	 * @param {string} url - The URL for the image to cache
 	 * @param {ImageLoadCallback} [loadCallback] - The function to call when the image loads
 	 */
@@ -121,10 +121,10 @@ class ImageCacheClass {
 	 *
 	 * @param {string} url - The URL of the image to lookup
 	 * @param {function(CachedImage):void} loadCallback - A callback that will be called when the load completes
-	 * @returns {CachedImage?} The cached image, or null
+	 * @returns {CachedImage} The cached image
 	 */
 	get(url, loadCallback = null) {
-		var image = this.cache.get(url);
+		let image = this.cache.get(url);
 		if (!image) {
 			image = new CachedImage(this, url, loadCallback);
 			this.cache.set(url, image);
@@ -143,8 +143,8 @@ class ImageCacheClass {
 	 * @param {HTMLImageElement|HTMLCanvasElement} image - The element to use as the image
 	 */
 	set(url, image) {
-		var img = new CachedImage(this, url);
-		var realImage = null;
+		let img = new CachedImage(this, url);
+		let realImage = null;
 		if (image instanceof HTMLCanvasElement) {
 			realImage = new Image();
 			realImage.src = image.toDataURL();
@@ -194,7 +194,7 @@ class ImageCacheClass {
 			if (this.loadedImages() == this.totalImages()) CharacterLoadCanvasAll();
 		} else if (image.state == CachedImageState.ERRORED) {
 			if (image.errorCount < 6) {
-				let backoff = (10 * Math.max(image.errorCount - 2, 0)) * 1000;
+				let backoff = (10 * image.errorCount) * 1000;
 				console.log("Error loading image, retrying after " + backoff + "ms: " + image.url);
 				setTimeout(() => {
 					image._refresh();
