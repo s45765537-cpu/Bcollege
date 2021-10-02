@@ -30,6 +30,7 @@ module.exports = {
 		"semi": "warn",
 		"indent": ["warn", "tab", { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
 		"unicode-bom": ["error", "never"],
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 		// Until globals are properly documented
 		"no-undef": "off",
 		"no-var": "off"
