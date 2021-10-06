@@ -289,7 +289,7 @@ var TranslationDictionary = [
 		LanguageName: "中文",
 		EnglishName: "Chinese",
 		Files: [
-			//"Assets/Female3DCG/Female3DCG_FR.txt",
+			//"Assets/Female3DCG/Female3DCG_CN.txt",
 			"Assets/Female3DCG/ColorGroups_CN.txt",
 			//"Assets/Female3DCG/LayerNames_CN.txt",
 			"Screens/Character/Appearance/Text_Appearance_CN.txt",
