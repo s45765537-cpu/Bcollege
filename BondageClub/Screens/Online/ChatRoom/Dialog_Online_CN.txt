@@ -100,7 +100,7 @@
 (管理主人&恋人关系)
 ###_NPC
 (You can ask her to become your lover or submissive or advance the relationship.)
-(你可以让她成为你的恋人或臣服者或者加深你们的关系.)
+(你可以让她成为你的恋人或M者或者加深你们的关系.)
 ###_PLAYER
 (Owner rules, restrictions & punishments.)
 (主人规则,限制&惩罚.)
@@ -117,13 +117,13 @@
 (Give her the money envelope.)
 (把装着钱的信封给她.)
 (Offer her a trial period to become your submissive.)
-(让她臣服于你进行一段时间的主仆试任.)
+(让她成为你的M进行一段时间的主仆试任.)
 ###_NPC
 (The request was sent.  She must accept for the trial period to start.)
 (请求已发送.  她必须接受来开始这段试任.)
 ###_PLAYER
 (Accept a trial period to become her submissive.)
-(接受并臣服于她,进行一段时间的主仆试任.)
+(接受并成为她的M,进行一段时间的主仆试任.)
 (Offer her to end the trial and be fully collared.)
 (让她结束试任并正式带上项圈.)
 ###_NPC
@@ -170,7 +170,7 @@
 (The ownership has been broken.)
 (所有关系已经结束.)
 (The submissive must not be wearing any collar to complete this action.)
-(臣服者必须没有佩戴着项圈才能完成本动作.)
+(你的M必须没有佩戴着项圈才能完成本动作.)
 ###_PLAYER
 (Cancel)
 (取消)

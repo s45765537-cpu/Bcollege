@@ -21,7 +21,7 @@ Room name: included
 Room name: excluded
 房间名:不含
 Owner
-所有者
+主人
 Lover
 恋人
 Submissive
