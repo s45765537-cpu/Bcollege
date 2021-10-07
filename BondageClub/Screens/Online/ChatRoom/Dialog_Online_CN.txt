@@ -168,7 +168,7 @@
 (是的,我想永久解除我的主仆关系.)
 ###_NPC
 (The ownership has been broken.)
-(所有关系已经结束.)
+(主从关系已经结束.)
 (The submissive must not be wearing any collar to complete this action.)
 (你的M必须没有佩戴着项圈才能完成本动作.)
 ###_PLAYER

@@ -19,7 +19,7 @@
 [MemberNumber]: Demote the player from room administrator
 [MemberNumber]:取消玩家房管权限
 [Number]: Roll a 6-sided die. Adding “[Number]” after the command for any number between 2 and 100 will roll a die of that many sides instead. Adding “[Number]d[Number]” will roll multiple dice and sum the total.
-[Number]:丢一个6面骰.追加一个“[Number]”在命令后将会丢一个D[Number]的骰子.添加“[Number]d[Number]”会丢出多枚多面骰。
+[Number]:丢一个6面骰.追加一个“[Number]”在命令后将会丢一个D[Number]的骰子.添加“[Number]d[Number]”会丢出多枚多面骰.
 [MemberNumber]: Add the player to your friendlist
 [MemberNumber]:将玩家添加到好友列表
 [MemberNumber]: Remove the player from your friendlist
