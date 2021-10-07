@@ -1,5 +1,6 @@
 "use strict";
 module.exports = {
+	extends: "eslint:recommended",
 	env: {
 		browser: true,
 		es6: true,
@@ -7,10 +8,32 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2018,
 	},
+	root: true,
 	plugins: [
 		'sort-keys-custom',
 	],
-	rules: {},
+	ignorePatterns: [
+		"Scripts/lib/**/*.js"
+	],
+	rules: {
+		"dot-notation": "error",
+		"no-unused-expressions": "error",
+		"no-caller": "error",
+		"no-eval": "error",
+		"no-new-wrappers": "error",
+		"no-throw-literal": "error",
+		"no-shadow": ["warn", { "hoist": "all" }],
+		"strict": ["error", "global"],
+		"no-constant-condition": ["error", { "checkLoops": false }],
+		"no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+		"no-trailing-spaces": "warn",
+		"semi": "warn",
+		"indent": ["warn", "tab", { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
+		"unicode-bom": ["error", "never"],
+		// Until globals are properly documented
+		"no-undef": "off",
+		"no-var": "off"
+	},
 	overrides: [
 		{
 			files: ['Female3DCG.js'],
