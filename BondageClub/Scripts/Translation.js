@@ -303,7 +303,7 @@ var TranslationDictionary = [
 			"Screens/Character/OnlineProfile/Text_OnlineProfile_CN.txt",
 			"Screens/Character/ItemColor/ItemColor_CN.txt",
 			"Screens/Character/PasswordReset/Text_PasswordReset_CN.txt",
-			//"Screens/Character/Player/Dialog_Player_CN.txt",
+			"Screens/Character/Player/Dialog_Player_CN.txt",
 			"Screens/Character/Preference/Text_Preference_CN.txt",
 			"Screens/Character/Preference/ActivityDictionary_CN.txt",
 			"Screens/Character/Title/Text_Title_CN.txt",

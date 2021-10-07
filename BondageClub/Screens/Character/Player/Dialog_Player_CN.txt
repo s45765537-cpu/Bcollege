@@ -807,8 +807,8 @@ Snowy Street Day 1
 雪天街道1
 Snowy Street Day 2
 雪天街道2
-雪夜街道
 Snowy Street Night
+雪夜街道
 Snowy Town 1
 雪天小镇1
 Snowy Town 2
@@ -1145,8 +1145,8 @@ SourceCharacter restarts the five minutes timer padlock on DestinationCharacter 
 SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 Unknown time left
 剩余时间未知
-重新启动计时器
 Restart Timer
+重新启动计时器
 SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
 SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
 SourceCharacter removes TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
@@ -1189,7 +1189,7 @@ Trigger Shock
 触发电击
 Save Voice Commands
 保存语音命令
-SourceCharacter 更改 DestinationCharacter FocusAssetGroup 的语音命令设置。
+SourceCharacter changes the voice command settings on DestinationCharacter FocusAssetGroup.
 SourceCharacter 更改 DestinationCharacter FocusAssetGroup 的语音命令设置。
 DestinationCharacterName vibrator switches modes!
 DestinationCharacterName vibrator switches modes!
