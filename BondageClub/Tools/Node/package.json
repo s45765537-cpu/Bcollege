@@ -6,9 +6,9 @@
     "changelog": "node GenerateChangelog generate",
     "changelogPrepare": "node GenerateChangelog prepare",
     "checks": "npm run lintscripts && npm run assetcheck-typescript && npm run assetcheck",
-    "lint": "eslint ../../Assets/Female3DCG/Female3DCG.js",
-    "lint:fix": "eslint --fix ../../Assets/Female3DCG/Female3DCG.js",
-    "lintscripts": "eslint --quiet \"../../Scripts/**/*.js\" \"../../Screens/**/*.js\" \"../../Assets/**/*.js\" \"../../Tools/**/*.js\" \"../../Backgrounds/Backgrounds.js\"",
+    "lint": "eslint --resolve-plugins-relative-to Tools/Node ../../Assets/Female3DCG/Female3DCG.js",
+    "lint:fix": "eslint --resolve-plugins-relative-to Tools/Node --fix ../../Assets/Female3DCG/Female3DCG.js",
+    "lintscripts": "eslint --resolve-plugins-relative-to Tools/Node \"../../Scripts/**/*.js\" \"../../Screens/**/*.js\" \"../../Assets/**/*.js\" \"../../Tools/**/*.js\" \"../../Backgrounds/Backgrounds.js\"",
     "assetcheck": "node AssetCheck",
     "assetcheck-typescript": "cd ../../../ && tsc -p BondageClub/Tools/Node/tsconfig-assetcheck.json",
     "test": "echo \\\"Error: no test specified\\\" && exit 1"
