@@ -5,7 +5,7 @@ All friends
 Beep history
 提示音历史
 Member number
-会员号
+会员编号
 Chat room
 聊天室
 Friend type
@@ -25,6 +25,6 @@ Owner
 Lover
 恋人
 Submissive
-臣服者
+服从者
 Friend
 朋友
