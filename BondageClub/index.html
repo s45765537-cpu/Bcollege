@@ -111,6 +111,7 @@
 <script src="Screens/Room/PandoraPrison/PandoraPrison.js"></script>
 <script src="Screens/Room/Poker/Poker.js"></script>
 <script src="Screens/Room/Poker/PokerHandValue.js"></script>
+<script src="Screens/Room/MagicSchoolLaboratory/MagicSchoolLaboratory.js"></script>
 <script src="Screens/Room/Gambling/Gambling.js"></script>
 <script src="Screens/Room/Prison/Prison.js"></script>
 <script src="Screens/Room/Photographic/Photographic.js"></script>
@@ -133,6 +134,8 @@
 <script src="Screens/MiniGame/DojoStruggle/DojoStruggle.js"></script>
 <script src="Screens/MiniGame/Chess/chess.js"></script>
 <script src="Screens/MiniGame/Chess/BondageChess.js"></script>
+<script src="Screens/MiniGame/MagicBattle/MagicBattle.js"></script>
+<script src="Screens/MiniGame/MagicPuzzle/MagicPuzzle.js"></script>
 <script src="Screens/Cutscene/PlayerCollaring/PlayerCollaring.js"></script>
 <script src="Screens/Cutscene/PlayerMistress/PlayerMistress.js"></script>
 <script src="Screens/Cutscene/NPCCollaring/NPCCollaring.js"></script>
@@ -273,7 +276,7 @@
 window.onload = function() {
 //	CheatImport();
 	ServerURL = "https://bondage-club-server.herokuapp.com/";
-	GameVersion = "R72";
+	GameVersion = "R73Beta1";
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
 	CommonIsMobile = CommonDetectMobile();
