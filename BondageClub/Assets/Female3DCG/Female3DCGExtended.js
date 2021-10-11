@@ -4683,6 +4683,12 @@ var AssetFemale3DCGExtended = {
 							Hide: ["Hands"],
 						},
 					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
 				],
 				Dialog: {
 					Load: "SelectSuitGloves",
@@ -4766,13 +4772,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
@@ -4797,13 +4803,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
