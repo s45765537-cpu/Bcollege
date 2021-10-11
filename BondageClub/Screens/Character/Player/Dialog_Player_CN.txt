@@ -330,7 +330,7 @@ Exit permission mode
 Edit item permissions
 编辑物品权限
 Sexual activities
-性活动
+交互动作
 Show all zones
 显示所有区域
 Use the butt plug's pump
@@ -540,15 +540,15 @@ Delete
 Confirm
 确认
 Beep
-BEEP
+发送私聊
 Beep from
-提示音来自
+好友私聊来自
 With Message
 以及以下信息
 (Mail)
 (邮件)
 Beep from your owner in your private room
-来自你私人房间的主人的提示音
+来自你私人房中主人的私聊
 Sent at
 发送自
 <i>Asylum</i>

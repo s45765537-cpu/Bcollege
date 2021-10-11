@@ -3,7 +3,7 @@ Online friends
 All friends
 全部好友
 Beep history
-提示音历史
+好友私聊历史
 Member number
 会员编号
 Chat room
@@ -11,7 +11,7 @@ Chat room
 Friend type
 好友类型
 Send a beep
-发送提示音
+发送好友私聊
 Delete a friend
 删除好友
 Refresh
