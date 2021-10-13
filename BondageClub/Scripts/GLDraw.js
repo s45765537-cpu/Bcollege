@@ -489,7 +489,9 @@ function GLDrawLoadImage(gl, url) {
 
 			Img.addEventListener('load', function () {
 				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
-				GLDrawRebuildCharacters();
+				for (const C of DrawLastCharacters) {
+					C.MustDraw = true;
+				}
 				GLDrawLoadCanvasThrottled();
 			});
 			Img.addEventListener('error', function () {
