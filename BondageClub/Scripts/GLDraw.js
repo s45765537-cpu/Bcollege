@@ -3,9 +3,6 @@
 /** @type {Map<string, HTMLImageElement>} */
 var GLDrawImageCache = new Map();
 
-var GLDrawCacheLoadedImages = 0;
-var GLDrawCacheTotalImages = 0;
-
 var GLDrawRetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
 
 /** @type {"webgl2"|"webgl"|"No WebGL"} */
@@ -34,6 +31,9 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
+/** @type {() => void} */
+let GLDrawLoadCanvasThrottled;
+
 window.addEventListener('load', GLDrawLoad);
 
 /**
@@ -61,6 +61,10 @@ function GLDrawLoad() {
 	// Attach context listeners
 	GLDrawCanvas.addEventListener("webglcontextlost", GLDrawOnContextLost, false);
 	GLDrawCanvas.addEventListener("webglcontextrestored", GLDrawOnContextRestored, false);
+
+	if (!GLDrawLoadCanvasThrottled) {
+		GLDrawLoadCanvasThrottled = CommonLimitFunction(CharacterLoadCanvasAll, 0, 1000);
+	}
 }
 
 /**
@@ -461,7 +465,6 @@ function GLDrawBingImageToTextureInfo(gl, Img, textureInfo) {
  * @returns {{ width: number; height: number; texture: WebGLTexture; }} - The texture info of a given image
  */
 function GLDrawLoadImage(gl, url) {
-
 	var textureInfo = gl.textureCache.get(url);
 
 	if (!textureInfo) {
@@ -484,11 +487,10 @@ function GLDrawLoadImage(gl, url) {
 			Img = new Image();
 			GLDrawImageCache.set(url, Img);
 
-			++GLDrawCacheTotalImages;
 			Img.addEventListener('load', function () {
 				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
-				++GLDrawCacheLoadedImages;
-				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
+				GLDrawRebuildCharacters();
+				GLDrawLoadCanvasThrottled();
 			});
 			Img.addEventListener('error', function () {
 				if (Img.errorcount == null) Img.errorcount = 0;
@@ -498,8 +500,6 @@ function GLDrawLoadImage(gl, url) {
 					setTimeout(() => Img.src = Img.src, GLDrawRetryTimers[Img.errorcount - 1]);
 				} else {
 					console.log(`Error loading image (end of retries): ${Img.src} `);
-					++GLDrawCacheLoadedImages;
-					if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) CharacterLoadCanvasAll();
 				}
 			});
 			Img.src = url;
