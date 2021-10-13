@@ -63,7 +63,12 @@ function GLDrawLoad() {
 	GLDrawCanvas.addEventListener("webglcontextrestored", GLDrawOnContextRestored, false);
 
 	if (!GLDrawLoadCanvasThrottled) {
-		GLDrawLoadCanvasThrottled = CommonLimitFunction(CharacterLoadCanvasAll, 0, 1000);
+		GLDrawLoadCanvasThrottled = CommonLimitFunction(() => {
+			for (const C of DrawLastCharacters) {
+				C.MustDraw = true;
+			}
+			CharacterLoadCanvasAll();
+		}, 0, 1000);
 	}
 }
 
@@ -489,9 +494,6 @@ function GLDrawLoadImage(gl, url) {
 
 			Img.addEventListener('load', function () {
 				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
-				for (const C of DrawLastCharacters) {
-					C.MustDraw = true;
-				}
 				GLDrawLoadCanvasThrottled();
 			});
 			Img.addEventListener('error', function () {
