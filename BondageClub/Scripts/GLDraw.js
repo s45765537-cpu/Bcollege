@@ -491,14 +491,16 @@ function GLDrawLoadImage(gl, url) {
 				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
 			});
 			Img.addEventListener('error', function () {
-				if (Img.errorcount == null) Img.errorcount = 0;
+				if (Img.errorcount == null) {
+					Img.errorcount = 0;
+					++GLDrawCacheLoadedImages;
+				}
 				Img.errorcount += 1;
 				if (Img.errorcount < GLDrawRetryTimers.length) {
 					// eslint-disable-next-line no-self-assign
 					setTimeout(() => Img.src = Img.src, GLDrawRetryTimers[Img.errorcount - 1]);
 				} else {
 					console.log(`Error loading image (end of retries): ${Img.src} `);
-					++GLDrawCacheLoadedImages;
 					if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) CharacterLoadCanvasAll();
 				}
 			});
