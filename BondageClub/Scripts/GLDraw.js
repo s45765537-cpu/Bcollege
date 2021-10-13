@@ -487,7 +487,9 @@ function GLDrawLoadImage(gl, url) {
 			++GLDrawCacheTotalImages;
 			Img.addEventListener('load', function () {
 				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
-				++GLDrawCacheLoadedImages;
+				if (Img.errorcount == null) {
+					++GLDrawCacheLoadedImages;
+				}
 				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
 			});
 			Img.addEventListener('error', function () {
