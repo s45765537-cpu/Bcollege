@@ -270,28 +270,30 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCanTakeSuitcase() {
+function ChatRoomCanTakeSuitcase() {
 	return ChatRoomCarryingBounty(CurrentCharacter) && !CurrentCharacter.CanInteract();
 }
 /**
  * Checks if the player can start searching a player
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCanTakeSuitcaseOpened() {
+function ChatRoomCanTakeSuitcaseOpened() {
 	return ChatRoomCarryingBountyOpened(CurrentCharacter) && !CurrentCharacter.CanInteract();
 }
 /**
- * Checks if the player can start searching a player
+ * Checks if the player carries a bounty
+ * @param {Character} C - The character to search
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCarryingBounty(C) {
+function ChatRoomCarryingBounty(C) {
 	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
 }
 /**
- * Checks if the player can start searching a player
+ * Checks if the player carries an opened bounty
+ * @param {Character} C - The character to search
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCarryingBountyOpened(C) {
+function ChatRoomCarryingBountyOpened(C) {
 	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
@@ -490,7 +492,8 @@ function ChatRoomCanStopHoldLeash() {
 	return false;
 }
 /**
- * Checks if the targeted player is a valid leash target
+ * Checks if the given character is a valid leash target for the player
+ * @param {Character} C - The character to search
  * @returns {boolean} - TRUE if the player can be leashed
  */
 function ChatRoomCanBeLeashed(C) {
@@ -1323,7 +1326,7 @@ function ChatRoomResize(load) {
  * @param {number} ArousalOverride - Override to the existing arousal value
  * @returns {void} - Nothing.
  */
- function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
+function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride) {
 	let Progress = (ArousalOverride) ? ArousalOverride : Player.ArousalSettings.Progress;
 	let amplitude = 0.24 * Math.min(1, 2 - 1.5 * Progress/100); // Amplitude of the oscillation
 	let percent = Progress/100.0;
@@ -1386,7 +1389,7 @@ function ChatRoomVibrationScreenFilter(y1, h, Width, C) {
  * @param {number} VibratorSides - 1-100 Strength of the vibrator at the breasts/nipples
  * @returns {void} - Nothing.
  */
- function ChatRoomDrawVibrationScreenFilter(y1, h, Width, VibratorLower, VibratorSides) {
+function ChatRoomDrawVibrationScreenFilter(y1, h, Width, VibratorLower, VibratorSides) {
 	let amplitude = 0.24; // Amplitude of the oscillation
 	let percentLower = VibratorLower/100.0;
 	let percentSides = VibratorSides/100.0;
