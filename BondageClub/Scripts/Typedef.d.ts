@@ -1042,6 +1042,14 @@ interface ModularItemOption {
 	OverrideHeight?: Record<string, { Height: number, Priority: number}>;
 	/** Whether or not this option can be selected by the wearer */
 	AllowSelfSelect?: boolean;
+	/** Whether that option moves the character up */
+	HeightModifier?: number;
+	/** Whether that option applies effects */
+	Effect?: string[];
+	/** Whether the option forces a given pose */
+	SetPose?: string;
+	/** If set, the option changes the asset's default priority */
+	OverridePriority?: number
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the
