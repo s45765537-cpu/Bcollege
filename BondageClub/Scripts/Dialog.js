@@ -391,7 +391,7 @@ function DialogCanWatchKinkyDungeon() {
  * Starts the kinky dungeon game
  * @returns {void}
  */
-function DialogStartKinkyDungeon(Arcade) {
+function DialogStartKinkyDungeon() {
 	if (CurrentCharacter) {
 		if (KinkyDungeonPlayerCharacter != CurrentCharacter) {
 			KinkyDungeonGameRunning = false; // Reset the game to prevent carrying over spectator data
