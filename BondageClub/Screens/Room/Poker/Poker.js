@@ -1,6 +1,7 @@
 "use strict";
 /* eslint-disable */
 var PokerBackground = "White";
+/** @type PokerPlayer[] */
 var PokerPlayer = [
 	{ Type: "Character", Family: "Player", Name: "Player", Chip: 100 },
 	{ Type: "None", Family: "None", Name: "None", Chip: 100 },
@@ -418,6 +419,7 @@ function PokerRun() {
 
 /**
  * Clears the player data for player P
+ * @param {PokerPlayer} P
  * @returns {void} - Nothing
  */
 function PokerClearData(P) {
@@ -444,6 +446,8 @@ function PokerChallengeUnlocked(Opponent) {
 
 /**
  * Picks the next/previous opponent family for a player P
+ * @param {PokerPlayer} P - The player to change
+ * @param {boolean} Next - Whether to pick the next or previous opponent
  * @returns {void} - Nothing
  */
 function PokerChangeOpponentFamily(P, Next) {
@@ -491,7 +495,7 @@ function PokerChangeOpponent(P, Next) {
 
 /**
  * Picks the next challenge in the list
- * @returns {void} - Nothing
+ * @returns {PokerPlayer} - Nothing
  */
 function PokerNextChallenge() {
 	let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker.Challenge) + 1;

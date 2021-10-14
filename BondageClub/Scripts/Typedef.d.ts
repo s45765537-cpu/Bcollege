@@ -1446,3 +1446,33 @@ interface ICommand {
 	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
 	Clear?: false;
 }
+
+type PokerPlayerType = "None" | "Set" | "Character";
+type PokerPlayerFamily = "None" | "Player";
+
+interface PokerPlayer {
+	Type: PokerPlayerType;
+	Family: PokerPlayerFamily;
+	Name: string;
+	Chip: number;
+
+	/* Runtime values */
+	Difficulty?: number;
+	Hand?: any[];
+	HandValue?: number;
+	Cloth?: Item;
+	ClothLower?: Item;
+	ClothAccessory?: Item;
+	Panties?: Item;
+	Bra?: Item;
+	Character?: Character;
+	Data?: {
+		cache: Record<any, any>;
+	};
+	Image?: void;
+	TextColor?: string;
+	TextSingle?: string;
+	TextMultiple?: string;
+	WebLink?: string;
+	Alternate?: void;
+}
