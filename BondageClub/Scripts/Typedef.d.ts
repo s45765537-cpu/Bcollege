@@ -145,6 +145,58 @@ interface IChatRoomGameResponse {
 
 //#endregion
 
+//#region Chat
+
+interface ChatRoom {
+	Name: string;
+	Description: string;
+	Admin: number[];
+	Ban: number[];
+	Limit: number;
+	Game: string;
+	Background: string;
+	Private: boolean;
+	Locked: boolean;
+	BlockCategory: string[];
+	Character?: any[]; /* From server, not really a Character object */
+}
+
+type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail";
+
+type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
+ "LocalMessage" | "ServerMessage";
+
+type MessageContentType = string;
+
+interface ChatMessageDictionaryEntry {
+	[k: string]: any;
+	Tag?: string;
+	Text?: string;
+	MemberNumber?: number;
+}
+
+type ChatMessageDictionary = ChatMessageDictionaryEntry[];
+
+interface IChatRoomMessageBasic {
+	Content: MessageContentType;
+	Sender: number;
+	// SourceMemberNumber: number;
+}
+
+interface IChatRoomMessage extends IChatRoomMessageBasic {
+	Type: MessageActionType;
+	Dictionary?: ChatMessageDictionary;
+	Timeout?: number;
+}
+
+interface IChatRoomSyncBasic {
+	SourceMemberNumber: number
+}
+
+interface IChatRoomSyncMessage extends IChatRoomSyncBasic, ChatRoom {}
+
+//#endregion
+
 //#region Assets
 
 type IAssetFamily = "Female3DCG";
@@ -394,15 +446,6 @@ interface Pose {
 	Hide?: string[];
 	MovePosition?: { Group: string; X: number; Y: number; }[];
 }
-
-interface ChatMessageDictionaryEntry {
-	[k: string]: any;
-	Tag?: string;
-	Text?: string;
-	MemberNumber?: number;
-}
-
-type ChatMessageDictionary = ChatMessageDictionaryEntry[];
 
 interface Activity {
 	Name: string;

@@ -1,6 +1,7 @@
 "use strict";
 var ChatRoomBackground = "";
-var ChatRoomData = {};
+/** @type {ChatRoom} */
+let ChatRoomData = {};
 /** @type {Character[]} */
 var ChatRoomCharacter = [];
 var ChatRoomChatLog = [];
@@ -1164,6 +1165,10 @@ function ChatRoomSetLastChatRoom(room) {
 
 /**
  * Triggers a chat room event for things like plugs and crotch ropes, will send a chat message if the chance is right.
+ * @param {StimulationAction|""} Context - The character to search
+ * @param {string} Color - The character to search
+ * @param {number} FlashIntensity - The character to search
+ * @param {number} AlphaStrength - The character to search
  * @returns {void} - Nothing.
  */
 function ChatRoomStimulationMessage(Context, Color = "#FFB0B0", FlashIntensity = 0, AlphaStrength = 140) {
@@ -2062,7 +2067,7 @@ function ChatRoomHTMLEntities(str) {
 
 /**
  * Handles the reception of a chatroom message. Ghost players' messages are ignored.
- * @param {object} data - Message object containing things like the message type, sender, content, etc.
+ * @param {IChatRoomMessage} data - Message object containing things like the message type, sender, content, etc.
  * @returns {void} - Nothing.
  */
 function ChatRoomMessage(data) {
@@ -2484,7 +2489,7 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 
 /**
  * Handles the reception of the complete room data from the server.
- * @param {object} chatRoomProperties - Room object containing the updated chatroom data.
+ * @param {IChatRoomSyncMessage} chatRoomProperties - Room object containing the updated chatroom data.
  * @returns {boolean} - Returns true if the passed properties are valid and false if they're invalid.
  */
 function ChatRoomValidateProperties(chatRoomProperties)
@@ -2503,7 +2508,7 @@ function ChatRoomValidateProperties(chatRoomProperties)
 
 /**
  * Handles the reception of the new room data from the server.
- * @param {object} data - Room object containing the updated chatroom data.
+ * @param {IChatRoomSyncMessage} data - Room object containing the updated chatroom data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
