@@ -33,13 +33,13 @@ Timer Cell
 Slave Market
 奴隶市场
 Look for Trouble
-找点麻烦
+找点事情
 Asylum
-庇护所
+收容所
 Visit the College
-大学
+学院
 LARP Battles
-LARP战斗
+体感对战
 Movie Studio
 电影公司
 Infiltration
@@ -97,7 +97,7 @@ Take good care of each other feelings and your submissives.
 "If you give any real-life information, it might be used against you."
 "如果你泄露了任何现实信息,它都可能被用来人肉你"
 A collared college girl can be convinced to give you her uniform.
-你驯服的大学女孩可能会愿意给你她们的校服.
+你驯服的学院女孩可能会愿意给你她们的校服.
 It's easier to destroy a reputation than to build one.
 摧毁声望比建立要简单的多.
 There's no best way to make money.  Simply find a job you enjoy.
