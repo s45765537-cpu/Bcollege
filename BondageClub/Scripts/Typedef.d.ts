@@ -855,23 +855,28 @@ interface Character {
 	StatusTimer?: number;
 }
 
+type NPCArchetype =
+	/* Pandora NPCs */
+	"MemberNew"|"MemberOld"|"Cosplay"|"Mistress"|"Slave"|"Maid"|"Guard"|
+	/* Pandora Special */
+	"Victim"|"Target"|"Chest";
+
 /** NPC Character extension */
 // FIXME: That one should find its way down to NPCCharacter, but
 // there's too many accesses to those properties from Character
 // to do so.
 interface Character {
 	/** NPC type: Slave, Maid, etc. */
-	Archetype?: string;
+	Archetype?: NPCArchetype;
 	Love?: number; /** The NPC's love value */
 }
 
 /** NPC-only */
 interface NPCCharacter extends Character {
-	Archetype?: string;
+	Archetype?: NPCArchetype;
 	Trait?: NPCTrait[];
 	Event?: NPCTrait[];
 	Love?: number;
-	Type?: "Slave" | "Submissive";
 }
 
 /** MovieStudio */
