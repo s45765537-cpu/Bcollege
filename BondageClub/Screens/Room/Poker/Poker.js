@@ -435,7 +435,7 @@ function PokerClearData(P) {
 
 /**
  * Returns TRUE if the opponent has been unlocked and can be faced
- * @returns {void} - Nothing
+ * @returns {boolean}
  */
 function PokerChallengeUnlocked(Opponent) {
 	if (Player.Game.Poker.Challenge == null) return false;
@@ -683,7 +683,7 @@ function PokerAddPot(Multiplier, StartPos) {
 
 /**
  * When the player wins, she can unlock new opponents and win money
- * @returns {String} - The file name of the card image
+ * @returns {void}
  */
 function PokerChallengeDone() {
 	if ((PokerPlayerCount == 2) && (PokerPlayer[2].Type != "None") && (PokerPlayer[2].Name != "None")) {
