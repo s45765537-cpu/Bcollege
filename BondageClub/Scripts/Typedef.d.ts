@@ -791,6 +791,7 @@ interface PlayerCharacter extends Character {
 		AnimationQuality: number;
 		StimulationFlash: boolean;
 		SmoothZoom: boolean;
+		CenterChatrooms: boolean;
 	}
 	NotificationSettings?: {
 		/** @deprecated */
