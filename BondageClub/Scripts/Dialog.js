@@ -767,6 +767,11 @@ function DialogCanColor(C, Item) {
 	return (Player.CanInteract() && CanUnlock && ItemColorable) || DialogAlwaysAllowRestraint();
 }
 
+/**
+ * Checks whether a lock can be inspected while blind.
+ * @param {string} lockName - The lock type
+ * @returns {boolean}
+ */
 function DialogCanInspectLockWhileBlind(lockName) {
 	return ["SafewordPadlock", "CombinationPadlock"].includes(lockName);
 }
