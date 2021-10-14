@@ -197,6 +197,21 @@ interface IChatRoomSyncMessage extends IChatRoomSyncBasic, ChatRoom {}
 
 //#endregion
 
+//#region FriendList
+
+interface IFriendListBeepLogMessage {
+	MemberNumber?: number; /* undefined for NPCs */
+	MemberName: string;
+	ChatRoomName?: string;
+	Private: boolean;
+	ChatRoomSpace?: string;
+	Sent: boolean;
+	Time: Date;
+	Message?: string;
+}
+
+//#endregion
+
 //#region Assets
 
 type IAssetFamily = "Female3DCG";
