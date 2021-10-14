@@ -2399,6 +2399,9 @@ var AssetFemale3DCGExtended = {
 							Difficulty: 7,
 							Effect: ["Block","Freeze", "Prone",],
 							SetPose: ["Hogtied"],
+							Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							OverrideHeight: { Height: 25, Priority: 51, HeightRatioProportion: 0 },
 						},
 					},
@@ -4683,6 +4686,12 @@ var AssetFemale3DCGExtended = {
 							Hide: ["Hands"],
 						},
 					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
 				],
 				Dialog: {
 					Load: "SelectSuitGloves",
@@ -4766,13 +4775,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
@@ -4797,13 +4806,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
