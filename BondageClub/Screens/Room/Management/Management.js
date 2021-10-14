@@ -343,7 +343,7 @@ function ManagementLoad() {
 		ManagementSub = CharacterLoadNPC("NPC_Management_Sub");
 		CharacterNaked(ManagementSub);
 		InventoryWear(ManagementSub, "SlaveCollar", "ItemNeck");
-		CharacterFullRandomRestrain(ManagementSub, "Lot");
+		CharacterFullRandomRestrain(ManagementSub, "LOT");
 		InventoryWear(ManagementSub, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "HairAccessory1", "#BBBBBB");
 		InventoryWear(ManagementSub, "TailButtPlug", "ItemButt");
 		InventoryWear(ManagementSub, "MetalChastityBelt", "ItemPelvis");
@@ -420,7 +420,7 @@ function ManagementPlayerArmbinder(ChangeRep) {
  * @returns {void} - Nothing.
  */
 function ManagementPlayerRandomRestrain() {
-	CharacterFullRandomRestrain(Player, "Lot");
+	CharacterFullRandomRestrain(Player, "LOT");
 	if (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis"))) {
 		InventoryWear(Player, "MetalChastityBelt", "ItemPelvis");
 		InventoryLock(Player, "ItemPelvis", "MistressPadlock", -1);
@@ -437,7 +437,7 @@ function ManagementPlayerRandomRestrain() {
  * @returns {void} - Nothing.
  */
 function ManagementPlayerRandomRestrainPlay() {
-	CharacterFullRandomRestrain(Player, "Lot");
+	CharacterFullRandomRestrain(Player, "LOT");
 	ManagementMistressAllowPlay = true;
 }
 
