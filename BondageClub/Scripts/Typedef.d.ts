@@ -709,6 +709,23 @@ interface Character {
 	Rule?: LogRecord[];
 }
 
+/** MovieStudio */
+interface Character {
+	Friendship?: string;
+	InterviewCleanCount?: number;
+}
+
+/** Slave market */
+interface Character {
+	ExpectedTraining?: number;
+	CurrentTraining?: number;
+	TrainingIntensity?: number;
+	TrainingCount?: number;
+	TrainingCountLow?: number;
+	TrainingCountHigh?: number;
+	TrainingCountPerfect?: number;
+}
+
 interface PlayerCharacter extends Character {
 	ChatSettings?: {
 		ColorTheme: string;
