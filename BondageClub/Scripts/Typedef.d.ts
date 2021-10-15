@@ -1049,10 +1049,27 @@ interface PlayerCharacter extends Character {
 	FriendList?: number[];
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
+	ChatSearchFilterTerms?: string;
+}
+
+/** Pandora Player extension */
+interface PlayerCharacter {
+	Infiltration?: {
+		Punishment?: {
+			Minutes: number;
+			Timer?: number;
+			Background: string;
+			Difficulty: number;
+			FightDone?: boolean;
+		}
+		Perks?: string;
+	}
+}
+
+/** Kinky Dungeon Player extension */
+interface PlayerCharacter {
 	KinkyDungeonKeybindings?: any;
 	KinkyDungeonExploredLore?: any[];
-	Infiltration?: any;
-	ChatSearchFilterTerms?: string;
 }
 
 interface NPCTrait {
