@@ -3719,7 +3719,7 @@ function ChatRoomRefreshFontSize() {
  * @returns {boolean}
  */
 function ChatRoomShouldBlockGaggedOOCMessage(Message, WhisperTarget) {
-	if (ChatRoomTargetMemberNumber == null && !Message.includes("(") && !Message.includes("（")) return false;
+	if (ChatRoomTargetMemberNumber == null && !Message.includes("(")) return false;
 	if (Player.ImmersionSettings == null || !Player.ImmersionSettings.BlockGaggedOOC) return false;
 	if (Player.CanTalk()) return false;
 
