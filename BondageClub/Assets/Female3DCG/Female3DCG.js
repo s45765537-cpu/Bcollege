@@ -1599,8 +1599,8 @@ var AssetFemale3DCG = [
 		AllowPose: ["Suspension", "Hogtied", "AllFours"],
 		PreviewZone: [55, 0, 390, 390],
 		Asset: ["HairNone", "HairBack1", "HairBack1b", "HairBack2", "HairBack2b", "HairBack4", "HairBack4b", "HairBack10", "HairBack10b", "HairBack14", "HairBack15", "HairBack15b", "HairBack16", "HairBack17", "HairBack18", "HairBack18b", "HairBack19", "HairBack19b", "HairBack20", "HairBack20b", "HairBack5", "HairBack5b", "HairBack8", "HairBack11", "HairBack6", "HairBack6b", "HairBack21", "HairBack22",
-			{ Name: "HairBack23", Priority: 39 },
-			{ Name: "HairBack24", Priority: 39 },
+			{ Name: "HairBack23", Priority: 48 },
+			{ Name: "HairBack24", Priority: 48 },
 			"HairBack25", "HairBack26", "HairBack27", "HairBack28", "HairBack29", "HairBack30", "HairBack31", "HairBack32", "HairBack33", "HairBack34", "HairBack35", "HairBack36", "HairBack37", "HairBack38", "HairBack39", "HairBack40", "HairBack41", "HairBack42", "HairBack43", "HairBack44", "HairBack45", "HairBack46", "HairBack47", "HairBack48", "HairBack49", "HairBack50", "HairBack51", "HairBack52"
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
@@ -2437,7 +2437,7 @@ var AssetFemale3DCG = [
 		Zone: [[200, 270, 100, 70]],
 		Asset: [
 			{ Name: "StraightPiercing", Fetish: ["Metal"], Value: 10, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }] },
-			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
+			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
 				Layer: [
 					{ Name: "Piercings", HasType: false, AllowTypes: ["", "Weighted"] },
 					{ Name: "PiercingsChained", HasType: false, AllowTypes: ["Chain", "WeightedChain"], CopyLayerColor: "Piercings" },
@@ -3265,7 +3265,7 @@ var AssetFemale3DCG = [
 			{ Group: "ItemNipplesPiercings", Name: "RoundPiercing", Type: "Chain"},
 			{ Group: "ItemNipplesPiercings", Name: "RoundPiercing", Type: "WeightedChain"},
 		],
-		Activity: ["Bite", "Kiss", "GaggedKiss", "Lick", "Nibble", "Caress", "MassageHands", "Choke", "TickleItem", "RubItem", "RollItem", "Step"],
+		Activity: ["Bite", "Kiss", "GaggedKiss", "Lick", "Nibble", "Caress", "MassageHands", "Choke", "Tickle", "TickleItem", "RubItem", "RollItem", "Step"],
 		Asset: [
 			{ Name: "LeatherCollar", Fetish: ["Leather"], DefaultColor: ["#000000", "Default"], Value: 20, Difficulty: 50, Time: 5, AllowLock: true, Layer: [
 				{ Name: "Collar"},
@@ -4416,7 +4416,7 @@ var AssetFemale3DCG = [
 			{ Name: "InteractiveVisor", Category: ["SciFi"], Fetish: ["Metal"], Priority: 34, BuyGroup: "FuturisticVisor", Difficulty: 6, Value: 50, Time: 6, Random: false, AllowLock: true, Hide: ["ItemNoseNoseRing", "MaskFuturisticVisor"], FuturisticRecolor: true,
 				Effect: ["UseRemote"], Extended: true,  Audio: "FuturisticApply"},
 			{ Name: "FuturisticMask", Category: ["SciFi"], Fetish: ["Metal"], DefaultColor: ["#4040CB", "#FFFFFF", "#FFFFFF"], Priority: 41, BuyGroup: "FuturisticVisor", Difficulty: 7, Value: -1, Time: 7, Random: false, AllowLock: true, DrawLocks: false, Hide: ["ItemNoseNoseRing", "MaskFuturisticVisor"], FuturisticRecolor: true, FuturisticRecolorDisplay: true,
-				Effect: ["UseRemote"], Extended: true,  Audio: "FuturisticApply",
+				Effect: ["UseRemote", "BlockMouth"], Extended: true,  Audio: "FuturisticApply",
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNose"] ,
 				Layer: [
 					{ Name: "Display", HasType: true},
@@ -4525,7 +4525,7 @@ var AssetFemale3DCG = [
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"],
 			},
 			{
-				Name: "OldGasMask", Fetish: ["Leather"], Value: 85, Difficulty: 25, Time: 10, Random: false, AllowLock: true, Prerequisite: ["GasMask"], DefaultColor: "#313131", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"], HideItem: ["ItemHeadSnorkel", "ItemEarsFuturisticEarphones","HatFurHeadband"], Effect: ["BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"], Extended: true, Layer: [
+				Name: "OldGasMask", Fetish: ["Leather"], Value: 85, Difficulty: 25, Time: 10, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: ["GasMask"], DefaultColor: "#313131", Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"], HideItem: ["ItemHeadSnorkel", "ItemEarsFuturisticEarphones","HatFurHeadband"], Effect: ["BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemHead", "ItemNose", "ItemEars"], Extended: true, Layer: [
 					{ Name: "Mask", AllowColorize: true, HasType: false },
 					{ Name: "Light", AllowColorize: false, HasType: false },
 					{ Name: "Lenses", AllowColorize: true, ColorGroup: "Attachments", HasType: false, AllowModuleTypes: ["l1"], Left: 0, Top: -250 },
