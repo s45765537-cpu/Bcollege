@@ -1901,6 +1901,7 @@ var AssetFemale3DCGExtended = {
 							{}, // d0 - No devvice
 							{ // s1 - Pleasure module
 								HasSubscreen: true,
+								Prerequisite: ["AccessVulva", "VulvaEmpty"],
 								Property: {
 									SetPose: ["BaseLower"],
 									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
@@ -4074,6 +4075,56 @@ var AssetFemale3DCGExtended = {
 				]
 			},
 		}, // SilkStraps
+		FuturisticChastityBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Model", Key: "m",
+						Options: [
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Front", Key: "f",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemVulva", "ItemVulvaPiercings"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Back", Key: "b",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemButt"],
+								},
+							},
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // FuturisticChastityBelt
 		MetalChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
