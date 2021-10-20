@@ -157,6 +157,37 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // LatexLacedSuit
+		ReverseBunnySuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
+							Hide: ["Hands"],
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // ReverseBunnySuit
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -644,7 +675,7 @@ var AssetFemale3DCGExtended = {
 						Key: "z",
 						Options: [
 							{ // z0 - Zipped up
-								Property: { Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
+								Property: { Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], Hide: ["ItemNipples"] },
 							},
 							{ // z1 - Unzipped
 								Property: { Block: [] },
@@ -686,7 +717,7 @@ var AssetFemale3DCGExtended = {
 						Name: "AllFours",
 						Property: {
 							Type: "AllFours",
-							SetPose: ["AllFours"]
+							SetPose: ["AllFours"],
 						}
 					}
 				],
@@ -2224,7 +2255,7 @@ var AssetFemale3DCGExtended = {
 		FurBlanketWrap: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
-				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME],
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
 				Options: [
 					{
 						Name: "Loose",
@@ -2339,6 +2370,49 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // Coffin
+		Net: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
+				Options: [
+					{
+						Name: "Kneel",
+						Property: {
+							Type: "Kneel",
+							Difficulty: 3,
+							Effect: ["Freeze", "Prone", "ForceKneel"],
+							SetPose: ["Kneel"],
+						},
+					},
+					{
+						Name: "AllFours",
+						Property: {
+							Type: "AllFours",
+							Difficulty: 6,
+							Effect: ["Freeze", "Prone"],
+							SetPose: ["AllFours"],
+						},
+					},
+					{
+						Name: "Suspended",
+						Property: {
+							Type: "Suspended",
+							Difficulty: 7,
+							Effect: ["Block","Freeze", "Prone",],
+							SetPose: ["Hogtied"],
+							Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+							OverrideHeight: { Height: 25, Priority: 51, HeightRatioProportion: 0 },
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemDevicesNet",
+				},
+			},
+		}, // Net
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -2659,6 +2733,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Chain",
 							Difficulty: 0,
 							Block: ["ItemNeck"],
+							AllowActivityOn: ["ItemNeck"]
 						},
 					},
 					{
@@ -2678,6 +2753,7 @@ var AssetFemale3DCGExtended = {
 							Type: "WeightedChain",
 							Difficulty: 0,
 							Block: ["ItemNeck"],
+							AllowActivityOn: ["ItemNeck"]
 						},
 					},
 				],
@@ -4658,6 +4734,194 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { AssetName: "NecklaceKey" },
 		}, // NecklaceLock
 	}, // Necklace
+	Suit: {
+		Catsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
+							Hide: ["Hands"],
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // Catsuit
+		SeamlessCatsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
+							Hide: ["Hands"],
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // SeamlessCatsuit
+		PilotSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves",
+							Hide: ["Hands"],
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // PilotSuit
+		SeethroughSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "AltGloves",
+							Hide: ["Hands"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // SeethroughSuit
+		SeethroughSuitZip: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "Gloves",
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "AltGloves",
+							Hide: ["Hands"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // SeethroughSuitZip
+		ReverseBunnySuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "NoGloves",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Solid",
+						Property: {
+							Type: "Gloves", 
+							Hide: ["Hands"],
+						},
+					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectSuitGloves",
+					TypePrefix: "SuitGloveType",
+				},
+				DrawImages: false,
+			},
+		}, // ReverseBunnySuit
+	}, // Suit
 	ItemHead: {
 		DuctTape: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -5077,4 +5341,26 @@ var AssetFemale3DCGExtended = {
 			}
 		}, // NoseRing
 	}, // ItemNose
+	Wings: {
+		SteampunkWings: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				DrawImages: false,
+				Options: [
+					{
+						Name: "Off",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "On",
+						Property: {
+							Type: "On",
+						},
+					},
+				],
+			}
+		}, // SteampunkWings
+	}, // Wings
 };

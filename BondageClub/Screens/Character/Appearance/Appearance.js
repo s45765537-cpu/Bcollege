@@ -857,7 +857,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	}
 
 	// Draw the character canvas and calculate the effects on the character
-	if (Refresh == null || Refresh) CharacterRefresh(C);
+	if (Refresh == null || Refresh) CharacterRefresh(C, false);
 
 }
 
@@ -916,28 +916,24 @@ function CharacterAppearanceNextItem(C, Group, Forward, Description) {
 function CharacterAppearanceNextColor(C, Group) {
 
 	// For each item, we first find the item and pick the next one
-	var Color = CharacterAppearanceGetCurrentValue(C, Group, "Color");
-	for (let A = 0; A < AssetGroup.length; A++)
-		if (AssetGroup[A].Name == Group) {
+	let Color = CharacterAppearanceGetCurrentValue(C, Group, "Color");
+	const G = AssetGroupGet(C.AssetFamily, Group);
+	if (!G) return;
 
-			// Finds the next color
-			var Pos = AssetGroup[A].ColorSchema.indexOf(Color) + 1;
-			if ((Pos < 0) || (Pos >= AssetGroup[A].ColorSchema.length)) Pos = 0;
-			Color = AssetGroup[A].ColorSchema[Pos];
+	// Finds the next color
+	let Pos = G.ColorSchema.indexOf(Color) + 1;
+	if ((Pos < 0) || (Pos >= G.ColorSchema.length)) Pos = 0;
+	Color = G.ColorSchema[Pos];
 
-			// Sets the color
-			for (Pos = 0; Pos < C.Appearance.length; Pos++)
-				if ((C.Appearance[Pos].Asset.Group.Name == Group) && (C.Appearance[Pos].Asset.Group.Family == C.AssetFamily)) {
-					if (Color == "Default" && C.Appearance[Pos].Asset.DefaultColor != null) Color = C.Appearance[Pos].Asset.DefaultColor;
-					C.Appearance[Pos].Color = Color;
-				}
-
-			// Reloads the character canvas
-			CharacterLoadCanvas(C);
-			return;
-
+	// Sets the color
+	for (Pos = 0; Pos < C.Appearance.length; Pos++)
+		if ((C.Appearance[Pos].Asset.Group.Name == Group) && (C.Appearance[Pos].Asset.Group.Family == C.AssetFamily)) {
+			if (Color == "Default" && C.Appearance[Pos].Asset.DefaultColor != null) Color = C.Appearance[Pos].Asset.DefaultColor;
+			C.Appearance[Pos].Color = Color;
 		}
 
+	// Reloads the character canvas
+	CharacterLoadCanvas(C);
 }
 
 /**
@@ -998,8 +994,10 @@ function AppearanceClick() {
 		if ((MouseX >= 1210) && (MouseX < 1275) && (MouseY >= 145) && (MouseY < 975))
 			for (let A = CharacterAppearanceOffset; A < AssetGroup.length && A < CharacterAppearanceOffset + CharacterAppearanceNumPerPage; A++)
 				if ((AssetGroup[A].Family == C.AssetFamily) && (AssetGroup[A].Category == "Appearance") && WardrobeGroupAccessible(C, AssetGroup[A]) && AssetGroup[A].AllowNone && (InventoryGet(C, AssetGroup[A].Name) != null))
-					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95))
-						InventoryRemove(C, AssetGroup[A].Name);
+					if ((MouseY >= 145 + (A - CharacterAppearanceOffset) * 95) && (MouseY <= 210 + (A - CharacterAppearanceOffset) * 95)) {
+						InventoryRemove(C, AssetGroup[A].Name, false);
+						CharacterRefresh(C, false);
+					}
 
 		// If we must enter the cloth selection mode
 		if ((MouseX >= 1300) && (MouseX < 1700) && (MouseY >= 145) && (MouseY < 975)) {

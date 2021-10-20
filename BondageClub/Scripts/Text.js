@@ -23,7 +23,7 @@ function TextGet(TextTag) {
 function TextLoad(TextGroup) {
 
 	// Finds the full path of the CSV file to use cache
-	if ((TextGroup == null) || (TextGroup = "")) TextGroup = CurrentScreen;
+	if ((TextGroup == null) || (TextGroup == "")) TextGroup = CurrentScreen;
 	const FullPath = "Screens/" + CurrentModule + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
 
 	TextScreenCache = TextAllScreenCache.get(FullPath);
@@ -38,7 +38,7 @@ function TextLoad(TextGroup) {
  * @param {string} Module
  * @param {string} TextGroup
  */
- function TextPrefetch(Module, TextGroup) {
+function TextPrefetch(Module, TextGroup) {
 	const FullPath = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
 	if (TextAllScreenCache.has(FullPath)) {
 		TextAllScreenCache.set(FullPath, new TextCache(FullPath, "MISSING VALUE FOR TAG: "));
@@ -60,6 +60,7 @@ class TextCache {
 		this.warn = warn;
 		this.language = TranslationLanguage;
 		this.cache = {};
+		this.rebuildListeners = [];
 		this.loaded = false;
 		this.buildCache();
 	}
@@ -81,6 +82,27 @@ class TextCache {
 	}
 
 	/**
+	 * Adds a callback function as a rebuild listener. Rebuild listeners will
+	 * be called whenever the cache has completed a rebuild (either after
+	 * initial construction, or after a language change).
+	 * @param {Function} callback - The callback to register
+	 * @param {boolean} [immediate] - Whether or not the callback should be called on registration
+	 * @returns {Function} - A callback function which can be used to unsubscribe the added listener
+	 */
+	onRebuild(callback, immediate = true) {
+		if (typeof callback === "function") {
+			this.rebuildListeners.push(callback);
+			if (immediate) {
+				callback();
+			}
+			return () => {
+				this.rebuildListeners = this.rebuildListeners.filter((listener) => listener !== callback);
+			};
+		}
+		return CommonNoop;
+	}
+
+	/**
 	 * Kicks off a build of the text lookup cache
 	 * @returns {void} - Nothing
 	 */
@@ -88,7 +110,8 @@ class TextCache {
 		if (!this.path) return;
 		this.fetchCsv()
 			.then((lines) => this.translate(lines))
-			.then((lines) => this.cacheLines(lines));
+			.then((lines) => this.cacheLines(lines))
+			.then(() => this.rebuildListeners.forEach((listener) => listener(this)));
 	}
 
 	/**

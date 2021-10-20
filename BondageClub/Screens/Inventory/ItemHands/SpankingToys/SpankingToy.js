@@ -173,6 +173,14 @@ const InventoryItemHandsSpankingToysOptions = [
 		Name: "Phone1",
 		Property: { Type: "Phone1" },
 		ExpressionTrigger: []
+	},{
+		Name: "Phone2",
+		Property: { Type: "Phone2" },
+		ExpressionTrigger: []
+	},{
+		Name: "Scissors",
+		Property: { Type: "Scissors" },
+		ExpressionTrigger: []
 	},
 ];
 
@@ -258,7 +266,7 @@ function InventorySpankingToysGetDescription(C) {
 			if (A != null) ToyDescription = A.Description;
 		}
 	}
-	return ToyDescription || "Handheld Toy";
+	return ToyDescription || "Handheld Item";
 }
 
 /**

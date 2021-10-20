@@ -24,7 +24,10 @@ var ChatSearchRejoinIncrement = 1;
  */
 function ChatSearchLoad() {
 	CurrentDarkFactor = 0.5;
-	if (ChatSearchLeaveRoom == "MainHall") ChatRoomGame = "";
+	if (ChatSearchLeaveRoom == "MainHall") {
+		ChatRoomGame = "";
+		OnlineGameReset();
+	}
 	if (ChatSearchSafewordAppearance == null) {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
 		ChatSearchSafewordPose = Player.ActivePose;
@@ -90,8 +93,8 @@ function ChatSearchClick() {
 	}
 	if (MouseIn(1785, 885, 90, 90)) {
 		ElementRemove("InputSearch");
-		CommonSetScreen("Character", "FriendList");
 		FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule };
+		CommonSetScreen("Character", "FriendList");
 	}
 	if (MouseIn(1885, 885, 90, 90)) ChatSearchExit();
 }
