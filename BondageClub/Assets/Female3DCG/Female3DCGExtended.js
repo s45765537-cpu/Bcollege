@@ -4116,6 +4116,21 @@ var AssetFemale3DCGExtended = {
 							},
 						],
 					},
+					{
+						Name: "Tamper", Key: "t",
+						Options: [
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Orgasm", Key: "o",
+						Options: [
+							{},
+							{},
+						],
+					},
 				],
 				ScriptHooks: {
 					Load: FuturisticAccessLoad,
