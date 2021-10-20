@@ -2526,11 +2526,7 @@ var AssetFemale3DCG = [
 					{ Name: "Mesh" , AllowColorize: true , HasType: false},
 					{ Name: "Shine" , AllowColorize: true, HasType: false, AllowModuleTypes: ["s0"]},
 					{ Name: "Straps" , AllowColorize: true , HasType: false},
-<<<<<<< HEAD
 					{ Name: "Lock", LockLayer: true,AllowColorize: true, ParentGroup: null, HasType: false, AllowModuleTypes: ["d0"]},
-=======
-					{ Name: "Lock", LockLayer: true,AllowColorize: true, HasType: false, AllowModuleTypes: ["d0"], ParentGroup: null},
->>>>>>> master
 				]
 			},
 			{
