@@ -84,7 +84,7 @@ function InventoryHairAccessory1HaloClick() {
 		return InventoryHairAccessory1HaloExit();
 	}
 
-	const C = CharacterGetCurrent() || CharacterAppearanceSelection;
+	const C = CharacterGetCurrent();
 
 	InventoryHairAccessory1HaloOptions.forEach((option, i) => {
 		const x = ExtendedXY[InventoryHairAccessory1HaloOptions.length][i][0];
@@ -106,7 +106,7 @@ function InventoryHairAccessory1HaloClick() {
 const InventoryHairAccessory1HaloBrightnessChange = CommonLimitFunction((C, item, brightness) => {
 	item.Property.Opacity = brightness;
 	CharacterLoadCanvas(C);
-});
+}, 0, 1000);
 
 /**
  * Exit handler for the Halo's extended item screen. Updates the character and removes UI components.

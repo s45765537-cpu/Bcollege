@@ -274,14 +274,14 @@ function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCat
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCantTakeSuitcase() {
+function ChatRoomCantTakeSuitcase() {
 	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
- function ChatRoomCantTakeSuitcaseOpened() {
+function ChatRoomCantTakeSuitcaseOpened() {
 	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
 }
 /**
@@ -574,9 +574,7 @@ function ChatRoomCreateElement() {
  */
 function ChatRoomLoad() {
 	ElementRemove("InputSearch");
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
+	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 	ChatRoomCharacterUpdate(Player);
@@ -2184,11 +2182,11 @@ function ChatRoomMessage(data) {
 								}
 						}
 						else if (dictionary[D].AssetGroupName) {
-							for (let A = 0; A < AssetGroup.length; A++)
-								if (AssetGroup[A].Name == dictionary[D].AssetGroupName) {
-									msg = msg.replace(dictionary[D].Tag, AssetGroup[A].Description.toLowerCase());
-									GroupName = dictionary[D].AssetGroupName;
-								}
+							const G = AssetGroupGet('Female3DCG', dictionary[D].AssetGroupName);
+							if (G) {
+								msg = msg.replace(dictionary[D].Tag, G.Description.toLowerCase());
+								GroupName = dictionary[D].AssetGroupName;
+							}
 						}
 						else if (dictionary[D].ActivityCounter) ActivityCounter = dictionary[D].ActivityCounter;
 						else if (dictionary[D].Automatic) Automatic = true;
@@ -2856,6 +2854,11 @@ function ChatRoomSyncItem(data) {
 			let { item, valid } = ValidationResolveAppearanceDiff(previousItem, newItem, updateParams);
 
 			ChatRoomAllowCharacterUpdate = false;
+
+			if (!item || (previousItem && previousItem.Asset.Name !== item.Asset.Name)) {
+				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
+			}
+
 			if (item) {
 				CharacterAppearanceSetItem(
 					ChatRoomCharacter[C], data.Item.Group, item.Asset, item.Color, item.Difficulty, null, false);
@@ -2876,8 +2879,6 @@ function ChatRoomSyncItem(data) {
 				const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(ChatRoomCharacter[C].Appearance, diffMap);
 				ChatRoomCharacter[C].Appearance = cyclicBlockSanitizationResult.appearance;
 				valid = valid && cyclicBlockSanitizationResult.valid;
-			} else {
-				InventoryRemove(ChatRoomCharacter[C], data.Item.Group);
 			}
 
 			ChatRoomAllowCharacterUpdate = true;
@@ -3038,7 +3039,7 @@ function ChatRoomPingLeashedPlayers(NoBeep) {
  */
 function ChatRoomKneelStandAssist() {
 	ServerSend("ChatRoomChat", { Content: !CurrentCharacter.IsKneeling() ? "HelpKneelDown" : "HelpStandUp", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }, { Tag: "TargetCharacter", Text: CurrentCharacter.Name, MemberNumber: CurrentCharacter.MemberNumber }] });
-	CharacterSetActivePose(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : null, true);
+	CharacterSetActivePose(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : "BaseLower", false);
 	ChatRoomCharacterUpdate(CurrentCharacter);
 }
 
@@ -3403,6 +3404,7 @@ function ChatRoomGameResponse(data) {
 	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
+	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
 }
 
 /**

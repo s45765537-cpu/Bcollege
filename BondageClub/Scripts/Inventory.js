@@ -383,13 +383,11 @@ function InventoryGet(C, AssetGroup) {
 * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
 */
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber) {
-	for (let A = 0; A < Asset.length; A++)
-		if ((Asset[A].Name == AssetName) && (Asset[A].Group.Name == AssetGroup)) {
-			CharacterAppearanceSetItem(C, AssetGroup, Asset[A], ((ItemColor == null || ItemColor == "Default") && Asset[A].DefaultColor != null) ? Asset[A].DefaultColor : ItemColor, Difficulty, MemberNumber, false);
-			CharacterRefresh(C, true);
-			InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
-			return;
-		}
+	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
+	if (!A) return;
+	CharacterAppearanceSetItem(C, AssetGroup, A, ((ItemColor == null || ItemColor == "Default") && A.DefaultColor != null) ? A.DefaultColor : ItemColor, Difficulty, MemberNumber, false);
+	CharacterRefresh(C, true);
+	InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
 }
 
 /**
@@ -596,6 +594,7 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 			if (Refresh || Refresh == null) CharacterRefresh(C);
 
 			if (Player.GraphicsSettings && Player.GraphicsSettings.DoBlindFlash) {
+				if (Refresh == false) CharacterLoadEffect(C); // update Effect to get the new blind level
 				if (lastblindlevel > 0 && Player.GetBlindLevel() === 0) {
 					DrawBlindFlash(lastblindlevel);
 				}

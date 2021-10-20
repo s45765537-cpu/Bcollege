@@ -11,9 +11,62 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-09-14
-* Last recorded PR: [#2932](https://github.com/Ben987/Bondage-College/pull/2932)
-* Last recorded commit hash: `b2dc2a2cbe8054a99cbadb5f3eaf4eb908e1099b`
+* Changelog last updated: 2021-10-17
+* Last recorded PR: [#3025](https://github.com/Ben987/Bondage-College/pull/3025)
+* Last recorded commit hash: `2892ec94181228277cd42de323307b4f2c50c46c`
+
+## [R73]
+
+### [Added]
+
+* Miku/Ace - Added a new V glasses item ([#2985](https://github.com/Ben987/Bondage-College/pull/2985))
+* Sidious/Estsanatlehi - Adds settings to the Futuristic Vibrator to restrict the players whose voices it will respond to ([#2979](https://github.com/Ben987/Bondage-College/pull/2979))
+* Ace - Added lower quality animation options to the graphics preferences ([#2958](https://github.com/Ben987/Bondage-College/pull/2958))
+* Titania/Ace - Added a new animated Steampunk Wings item ([#2934](https://github.com/Ben987/Bondage-College/pull/2934))
+* Titania/Rui - Added a new Net item (devices slot) ([#2993](https://github.com/Ben987/Bondage-College/pull/2993))
+* Tsubasahane - Added Chinese translations for several parts of the game ([#2998](https://github.com/Ben987/Bondage-College/pull/2998))
+* Estsanatlehi - Enabled the tickle activity on the neck zone ([#2999](https://github.com/Ben987/Bondage-College/pull/2999))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Ada - Made lock picking only take one try when false set pins reset ([#2927](https://github.com/Ben987/Bondage-College/pull/2927))
+* Aeren - Extended most suit items with gloved/non-gloved options ([#2972](https://github.com/Ben987/Bondage-College/pull/2972))
+* diaperand - Tweaked some of the wording on the relog screen ([#2992](https://github.com/Ben987/Bondage-College/pull/2992))
+* Estsanatlehi - Modified the Round Piercings to permit multi-coloring ([#2991](https://github.com/Ben987/Bondage-College/pull/2991), [#2996](https://github.com/Ben987/Bondage-College/pull/2996))
+* Natsuki - Increased the payout of daily jobs, kidnapping contracts, maid jobs and the shop modeling job ([#2988](https://github.com/Ben987/Bondage-College/pull/2988))
+* Ace - Made several enhancements to the chatroom creation screen ([#2922](https://github.com/Ben987/Bondage-College/pull/2922))
+
+### [Fixed]
+
+* Atasly - Fixed some graphical issues with the See-through Zipsuit and the preview image for the Safeword Padlock ([#2986](https://github.com/Ben987/Bondage-College/pull/2986))
+* diaperand - Made some grammar fixes to the Nursery dialogue ([#2990](https://github.com/Ben987/Bondage-College/pull/2990), [#2989](https://github.com/Ben987/Bondage-College/pull/2989))
+* Dordimar/Rui - Fixed several graphical errors with the Bows Dress ([#2994](https://github.com/Ben987/Bondage-College/pull/2994), [#3006](https://github.com/Ben987/Bondage-College/pull/3006), [#3025](https://github.com/Ben987/Bondage-College/pull/3025))
+* Estsanatlehi - Fixed a clipping issue with back hairs 18 & 19 ([#3000](https://github.com/Ben987/Bondage-College/pull/3000))
+* Ada - Fixed a few minor graphical issues with the Futuristic Chastity Belt ([#3003](https://github.com/Ben987/Bondage-College/pull/3003))
+* Ellie - Fixed an issue where the language of the "Enter your username and password" text would be displayed in the wrong language ([#3007](https://github.com/Ben987/Bondage-College/pull/3007))
+* Ellie - Fixed some errors in the chatroom messages for the Futuristic Straitjacket ([#3010](https://github.com/Ben987/Bondage-College/pull/3010))
+* Ada - Fixed a bug where the Futuristic Mask wasn't properly disabling some mouth activities ([#3013](https://github.com/Ben987/Bondage-College/pull/3013))
+
+### [Technical]
+
+* Technical changes, fixes and improvements:
+  * Nina - [#2975](https://github.com/Ben987/Bondage-College/pull/2975), [#2977](https://github.com/Ben987/Bondage-College/pull/2977)
+  * Ace - [#2957](https://github.com/Ben987/Bondage-College/pull/2957), [#2962](https://github.com/Ben987/Bondage-College/pull/2962)
+  * Ellie - [#2936](https://github.com/Ben987/Bondage-College/pull/2936), [#2931](https://github.com/Ben987/Bondage-College/pull/2931)
+  * Sekkmer/Jomshir - [#1512](https://github.com/Ben987/Bondage-College/pull/1512)
+
+### [Beta Fixes]
+
+* Tsubasahane - Chinese translation fixes & edits ([#3005](https://github.com/Ben987/Bondage-College/pull/3005), [#3019](https://github.com/Ben987/Bondage-College/pull/3019))
+* Ellie - Fixed an issue where certain item combinations could cause 404s in the console ([#3009](https://github.com/Ben987/Bondage-College/pull/3009))
+* Rui - Fixed an issue where some items would clip through the new Net item when in suspension mode ([#3011](https://github.com/Ben987/Bondage-College/pull/3011))
+* Aeren - Fixed several issues with the newly extended suit items ([#3012](https://github.com/Ben987/Bondage-College/pull/3012), [#3015](https://github.com/Ben987/Bondage-College/pull/3015))
+* Estsanatlehi - Fixed a 404 error in the Round Piercings ([#3016](https://github.com/Ben987/Bondage-College/pull/3016))
+* Ellie/Nina - Fixed a bug where characters could appear to never fully render ([#3022](https://github.com/Ben987/Bondage-College/pull/3022))
 
 ## [R72]
 
@@ -121,6 +174,10 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Verity - Renamed the "Handheld Toys" item to "Handheld Items" ([#2900](https://github.com/Ben987/Bondage-College/pull/2900))
 * Natsuki - Tweaked several money sources to increase the money players can earn from them ([#2872](https://github.com/Ben987/Bondage-College/pull/2872))
 * Aeren - Improved some of the chat room messages for the Latex Strait Leotard ([#2907](https://github.com/Ben987/Bondage-College/pull/2907))
+* Verity - Modified the shopkeeper's dialogue to refer to "items for hands" rather than "hand restraints" ([#2970](https://github.com/Ben987/Bondage-College/pull/2970))
+* Estsanatlehi - Renamed the handheld rope coil items ([#2981](https://github.com/Ben987/Bondage-College/pull/2981))
+  * "Rope Coil (Long)" is now "Long Coiled Rope"
+  * "Rope Coil (Short)" is now "Short Coiled Rope"
 
 ### [Fixed]
 
@@ -150,6 +207,9 @@ containing safety & security tips for players. We'd encourage all players to giv
   chatroom ([Server #107](https://github.com/Ben987/Bondage-Club-Server/pull/107))
 * Ace - Fixed a bug where clothing changes inside the wardrobe would be visible to other players in a chatroom ([#2951](https://github.com/Ben987/Bondage-College/pull/2951))
 * Ace - Fixed a crash in the color picker that could occur when the item being colored was removed by someone else ([#2935](https://github.com/Ben987/Bondage-College/pull/2935))
+* Ada - Fixed an issue with the Futuristic Training Belt's speech recognition functionality ([#2964](https://github.com/Ben987/Bondage-College/pull/2964))
+* Nina - Fixed a bug where helping someone to kneel would reset their arm position to the default ([#2978](https://github.com/Ben987/Bondage-College/pull/2978))
+* Nina - Fixed the grammar for the chatroom messages of several items ([#2976](https://github.com/Ben987/Bondage-College/pull/2976))
 
 ### [Technical]
 
@@ -191,6 +251,19 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ace - Fixed a missing asset for the large Double Ended Dildo option ([#2942](https://github.com/Ben987/Bondage-College/pull/2942))
 * Ace - Fixed a bug which could cause crashes when opening extended clothing in the wardrobe ([#2939](https://github.com/Ben987/Bondage-College/pull/2939))
 * Ace - Fixed a missing chatroom message for the Futuristic Muzzle ([#2937](https://github.com/Ben987/Bondage-College/pull/2937))
+* Ace - Fixed an issue where clicking on room names the friend list wouldn't work ([#2956](https://github.com/Ben987/Bondage-College/pull/2956))
+* Daddy Daubeny - Graphical improvements to the Bib ([#2959](https://github.com/Ben987/Bondage-College/pull/2959))
+* Ace - Fixed a 404 error for the Bib ([#2960](https://github.com/Ben987/Bondage-College/pull/2960))
+* Ace - Changed the Fur Blanket Wrap to show feet/footwear ([#2961](https://github.com/Ben987/Bondage-College/pull/2961))
+* Ada - Fixed a bug where the setting Futuristic Crate's intensity to low would turn it off ([#2965](https://github.com/Ben987/Bondage-College/pull/2965))
+* Ellie - Fixed a bug where the pet suit in the all fours position would not hide gloves ([#2966](https://github.com/Ben987/Bondage-College/pull/2966))
+* Ada - Fixed grammatical errors in the Futuristic Crate's chatroom messages ([#2967](https://github.com/Ben987/Bondage-College/pull/2967))
+* Ada - Increased some of the cooldowns for the Futuristic Training Belt ([#2968](https://github.com/Ben987/Bondage-College/pull/2968))
+* Ada - Fixed some missing lock icons on the Futuristic Bra ([#2969](https://github.com/Ben987/Bondage-College/pull/2969))
+* Ada - Fixed a typo in the suitcase minigame ([#2971](https://github.com/Ben987/Bondage-College/pull/2971))
+* Titania/Ace - Tutu asset fixes ([#2982](https://github.com/Ben987/Bondage-College/pull/2982))
+* Nina - Renamed another reference to handheld toys ([#2974](https://github.com/Ben987/Bondage-College/pull/2974))
+* Estsanatlehi - Fixed a crash when using the Techno Collar's shock module ([#2984](https://github.com/Ben987/Bondage-College/pull/2984))
 
 ## [R71]
 
