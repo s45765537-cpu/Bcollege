@@ -3338,7 +3338,9 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "FuturisticCollar", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 50, Time: 12, Audio: "FuturisticApply", Random: false, Effect: ["UseRemote"], DefaultColor: ["#40812C", "Default", "Default"], AllowLock: true, DrawLocks: false, Extended: true, AllowEffect:["BlockRemotes", "OpenPermission"],
+				Name: "FuturisticCollar", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 50, Time: 12, Audio: "FuturisticApply", Random: false, Effect: ["UseRemote"],
+				DefaultColor: ["#40812C", "Default", "Default"], AllowLock: true, DrawLocks: false, Extended: true,
+				AllowEffect:["BlockRemotes", "OpenPermission", "OpenPermissionArm", "OpenPermissionLeg", "OpenPermissionChastity"],
 				Layer: [
 					{ Name: "Display" },
 					{ Name: "Band" },

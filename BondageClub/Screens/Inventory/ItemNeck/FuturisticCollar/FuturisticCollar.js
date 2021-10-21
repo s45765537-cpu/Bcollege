@@ -12,6 +12,9 @@ function InventoryItemNeckFuturisticCollarLoad() {
 	} else {
 		if (DialogFocusItem.Property == null) DialogFocusItem.Property = { OpenPermission: false };
 		if (DialogFocusItem.Property.OpenPermission == null) DialogFocusItem.Property.OpenPermission = false;
+		if (DialogFocusItem.Property.OpenPermissionChastity == null) DialogFocusItem.Property.OpenPermissionChastity = false;
+		if (DialogFocusItem.Property.OpenPermissionArm == null) DialogFocusItem.Property.OpenPermissionArm = false;
+		if (DialogFocusItem.Property.OpenPermissionLeg == null) DialogFocusItem.Property.OpenPermissionLeg = false;
 		if (DialogFocusItem.Property.BlockRemotes == null) DialogFocusItem.Property.BlockRemotes = false;
 
 		ElementCreateInput("FutureCollarPasswordField", "text", "", "8");
@@ -32,10 +35,20 @@ function InventoryItemNeckFuturisticCollarDraw() {
 				DrawText(DialogFindPlayer("FuturisticCollarOptionsLockout"), 1500, 375, "White", "Gray");
 			}
 
+
+			MainCanvas.textAlign = "left";
 			DrawButton(1125, 395, 64, 64, "", "White", DialogFocusItem.Property.OpenPermission ? "Icons/Checked.png" : "");
-			DrawText(DialogFindPlayer("FuturisticCollarOpenPermission"), 1550, 425, "White", "Gray");
-			DrawButton(1125, 465, 64, 64, "", "White", DialogFocusItem.Property.BlockRemotes ? "Icons/Checked.png" : "");
-			DrawText(DialogFindPlayer("FuturisticCollarBlockRemotes"), 1450, 495, "White", "Gray");
+			DrawText(DialogFindPlayer("FuturisticCollarOpenPermission"), 1200, 425, "White", "Gray");
+			DrawButton(1125, 495, 64, 64, "", "White", DialogFocusItem.Property.BlockRemotes ? "Icons/Checked.png" : "");
+			DrawText(DialogFindPlayer("FuturisticCollarBlockRemotes"), 1200, 525, "White", "Gray");
+			DrawButton(1125, 595, 64, 64, "", "White", DialogFocusItem.Property.OpenPermissionChastity ? "Icons/Checked.png" : "");
+			DrawText(DialogFindPlayer("FuturisticCollarOpenPermissionChastity"), 1200, 625, "White", "Gray");
+			DrawButton(1125, 695, 64, 64, "", "White", DialogFocusItem.Property.OpenPermissionArm ? "Icons/Checked.png" : "");
+			DrawText(DialogFindPlayer("FuturisticCollarOpenPermissionArm"), 1200, 725, "White", "Gray");
+			DrawButton(1125, 795, 64, 64, "", "White", DialogFocusItem.Property.OpenPermissionLeg ? "Icons/Checked.png" : "");
+			DrawText(DialogFindPlayer("FuturisticCollarOpenPermissionLeg"), 1200, 825, "White", "Gray");
+
+			MainCanvas.textAlign = "center";
 
 			ElementPosition("FutureCollarPasswordField", 3050, 750, 400); // Hide it off the canvas
 			ElementPosition("FutureCollarTimeField", 3050, 805, 400);
@@ -131,8 +144,11 @@ function InventoryItemNeckFuturisticCollarClick() {
 		else if (FuturisticCollarPage == 0) {
 
 
-			if (MouseIn(1125, 395, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarTogglePermission(C, DialogFocusItem);
-			else if (MouseIn(1125, 465, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarToggleRemotes(C, DialogFocusItem);
+			if (MouseIn(1125, 395, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarTogglePermission(C, DialogFocusItem, "Collar");
+			else if (MouseIn(1125, 495, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarToggleRemotes(C, DialogFocusItem);
+			else if (MouseIn(1125, 595, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarTogglePermission(C, DialogFocusItem, "Chastity");
+			else if (MouseIn(1125, 695, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarTogglePermission(C, DialogFocusItem, "Arm");
+			else if (MouseIn(1125, 795, 64, 64) && !(DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem))) InventoryItemNeckFuturisticCollarTogglePermission(C, DialogFocusItem, "Leg");
 		} else if (FuturisticCollarPage == 1 || FuturisticCollarPage == 2) {
 			{
 				var FuturisticCollarItems = InventoryItemNeckFuturisticCollarGetItems(C);
@@ -377,15 +393,22 @@ function InventoryItemNeckFuturisticCollarColor(C, Item) {
 
 }
 
-function InventoryItemNeckFuturisticCollarTogglePermission(C, Item) {
+function InventoryItemNeckFuturisticCollarTogglePermission(C, Item, Permission) {
 	if (Item.Property && Item.Property.OpenPermission != null) {
-		Item.Property.OpenPermission = !Item.Property.OpenPermission;
+		if (Permission == "Leg")
+			Item.Property.OpenPermissionLeg = !Item.Property.OpenPermissionLeg;
+		else if (Permission == "Arm")
+			Item.Property.OpenPermissionArm = !Item.Property.OpenPermissionArm;
+		else if (Permission == "Chastity")
+			Item.Property.OpenPermissionChastity = !Item.Property.OpenPermissionChastity;
+		else
+			Item.Property.OpenPermission = !Item.Property.OpenPermission;
 
 		ChatRoomCharacterUpdate(C);
 		CharacterRefresh(C, true);
 
 		if (CurrentScreen == "ChatRoom")	{
-			var Message = "FuturisticCollarSetOpenPermission" + (Item.Property.OpenPermission ? "On" : "Off");
+			var Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property.OpenPermission ? "On" : "Off");
 
 			var Dictionary = [
 				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
