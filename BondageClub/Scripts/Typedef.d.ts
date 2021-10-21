@@ -551,7 +551,7 @@ interface Character {
 	GetDeafLevel: () => number;
 	IsLoverPrivate: () => boolean;
 	IsEdged: () => boolean;
-	IsPlayer: () => boolean;
+	IsPlayer: () => this is PlayerCharacter;
 	IsOnline: () => boolean;
 	IsNpc: () => boolean;
 	IsSimple: () => boolean;
