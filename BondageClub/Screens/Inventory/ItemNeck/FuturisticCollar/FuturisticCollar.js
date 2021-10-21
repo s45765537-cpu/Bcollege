@@ -59,25 +59,25 @@ function InventoryItemNeckFuturisticCollarDraw() {
 
 			if (FuturisticCollarItems.length > 0 && lockedItems < FuturisticCollarItems.length) {
 				if (FuturisticCollarPage == 1) {
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "MetalPadlock")) DrawButton(1250, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockMetal"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "ExclusivePadlock")) DrawButton(1550, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockExclusive"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "IntricatePadlock")) DrawButton(1250, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockIntricate"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "HighSecurityPadlock")) DrawButton(1550, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockHighSec"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "TimerPadlock")) DrawButton(1250, 530, 200, 55, DialogFindPlayer("FuturisticCollarLockTimer"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "MistressPadlock")) DrawButton(1550, 530, 200, 55, DialogFindPlayer("FuturisticCollarLockMistress"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "LoversPadlock")) DrawButton(1250, 590, 200, 55, DialogFindPlayer("FuturisticCollarLockLover"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "OwnerPadlock")) DrawButton(1550, 590, 200, 55, DialogFindPlayer("FuturisticCollarLockOwner"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "PandoraPadlock")) DrawButton(1250, 650, 200, 55, DialogFindPlayer("FuturisticCollarLockPandora"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "CombinationPadlock")) DrawButton(1550, 650, 200, 55, DialogFindPlayer("FuturisticCollarLockCombination"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "PasswordPadlock")) DrawButton(1250, 710, 200, 55, DialogFindPlayer("FuturisticCollarLockPassword"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "SafewordPadlock")) DrawButton(1550, 710, 200, 55, DialogFindPlayer("FuturisticCollarLockSafeword"), "White");
+					DrawButton(1250, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockMetal"), InventoryItemNeckFuturisticCollarCanLock(C, "MetalPadlock") ? "White" : "Pink");
+					DrawButton(1550, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockExclusive"), InventoryItemNeckFuturisticCollarCanLock(C, "ExclusivePadlock") ? "White" : "Pink");
+					DrawButton(1250, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockIntricate"), InventoryItemNeckFuturisticCollarCanLock(C, "IntricatePadlock") ? "White" : "Pink");
+					DrawButton(1550, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockHighSec"), InventoryItemNeckFuturisticCollarCanLock(C, "HighSecurityPadlock") ? "White" : "Pink");
+					DrawButton(1250, 530, 200, 55, DialogFindPlayer("FuturisticCollarLockTimer"), InventoryItemNeckFuturisticCollarCanLock(C, "TimerPadlock") ? "White" : "Pink");
+					DrawButton(1550, 530, 200, 55, DialogFindPlayer("FuturisticCollarLockMistress"), InventoryItemNeckFuturisticCollarCanLock(C, "MistressPadlock") ? "White" : "Pink");
+					DrawButton(1250, 590, 200, 55, DialogFindPlayer("FuturisticCollarLockLover"), InventoryItemNeckFuturisticCollarCanLock(C, "LoversPadlock") ? "White" : "Pink");
+					DrawButton(1550, 590, 200, 55, DialogFindPlayer("FuturisticCollarLockOwner"), InventoryItemNeckFuturisticCollarCanLock(C, "OwnerPadlock") ? "White" : "Pink");
+					DrawButton(1250, 650, 200, 55, DialogFindPlayer("FuturisticCollarLockPandora"), InventoryItemNeckFuturisticCollarCanLock(C, "PandoraPadlock") ? "White" : "Pink");
+					DrawButton(1550, 650, 200, 55, DialogFindPlayer("FuturisticCollarLockCombination"), InventoryItemNeckFuturisticCollarCanLock(C, "CombinationPadlock") ? "White" : "Pink");
+					DrawButton(1250, 710, 200, 55, DialogFindPlayer("FuturisticCollarLockPassword"), InventoryItemNeckFuturisticCollarCanLock(C, "PasswordPadlock") ? "White" : "Pink");
+					DrawButton(1550, 710, 200, 55, DialogFindPlayer("FuturisticCollarLockSafeword"), InventoryItemNeckFuturisticCollarCanLock(C, "SafewordPadlock") ? "White" : "Pink");
 
 					ElementPosition("FutureCollarTimeField", 3050, 805, 400);
 				} else {
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "MistressTimerPadlock")) DrawButton(1250, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerMiss"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "TimerPasswordPadlock")) DrawButton(1550, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerPassword"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "LoversTimerPadlock")) DrawButton(1250, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerLovers"), "White");
-					if (InventoryItemNeckFuturisticCollarCanLock(C, "OwnerTimerPadlock")) DrawButton(1550, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerOwner"), "White");
+					DrawButton(1250, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerMiss"), InventoryItemNeckFuturisticCollarCanLock(C, "MistressTimerPadlock") ? "White" : "Pink");
+					DrawButton(1550, 410, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerPassword"), InventoryItemNeckFuturisticCollarCanLock(C, "TimerPasswordPadlock") ? "White" : "Pink");
+					DrawButton(1250, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerLovers"), InventoryItemNeckFuturisticCollarCanLock(C, "LoversTimerPadlock") ? "White" : "Pink");
+					DrawButton(1550, 470, 200, 55, DialogFindPlayer("FuturisticCollarLockTimerOwner"), InventoryItemNeckFuturisticCollarCanLock(C, "OwnerTimerPadlock") ? "White" : "Pink");
 
 					DrawText(DialogFindPlayer("FuturisticCollarTime"), 1250, 710, "White", "Gray");
 					ElementPosition("FutureCollarTimeField", 1650, 705, 400);
