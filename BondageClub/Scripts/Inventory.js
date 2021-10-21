@@ -203,6 +203,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			|| !InventoryDoesItemExposeGroup(C, "ClothLower", "ItemVulva")
 			|| !InventoryDoesItemExposeGroup(C, "Panties", "ItemVulva")
 			|| InventoryDoesItemBlockGroup(C, "Socks", "ItemVulva")
+			|| InventoryDoesItemBlockGroup(C, "ItemPelvis", "ItemVulva")
+			|| InventoryDoesItemBlockGroup(C, "ItemVulvaPiercings", "ItemVulva")
 			? "RemoveClothesForItem" : "";
 
 		// Ensure crotch is empty
