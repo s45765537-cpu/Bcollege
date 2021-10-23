@@ -4,6 +4,7 @@ var MagicPuzzleStart = 0;
 var MagicPuzzleFinish = 0;
 var MagicPuzzleSize = 0;
 var MagicPuzzleSpell = 0;
+var MagicPuzzleAutoExit = false;
 var MagicPuzzleStarted = false;
 var MagicPuzzleTimer = 0;
 var MagicPuzzleLastMouseX = 0;
@@ -16,7 +17,7 @@ var MagicPuzzleLastMouseY = 0;
 function MagicPuzzleLoad() {
 	MagicPuzzleStart = CommonTime() + 5000;
 	MagicPuzzleFinish = 0;
-	MagicPuzzleSize = 10 + MagicBattleGetDifficulty(Player) * 2;
+	MagicPuzzleSize = 10 + Math.round(MagicBattleGetDifficulty(Player) * 1.5);
 	MagicPuzzleTimer = (MiniGameDifficulty > 0) ? CommonTime() + 5000 + MiniGameDifficulty * 1000 : 0;
 	MagicPuzzleStarted = false;
 	MiniGameVictory = false;
@@ -113,6 +114,7 @@ function MagicPuzzleRun() {
 
 	// Draw the game text and square
 	if (MiniGameEnded) {
+		if (MagicPuzzleAutoExit) return CommonDynamicFunction(MiniGameReturnFunction + "()");
 		if (MiniGameVictory)
 			DrawText(TextGet("SuccessMessage") + " " + MagicPuzzleTime((MagicPuzzleFinish - MagicPuzzleStart) / 1000), 1000, 975, "#C0FFC0", "grey");
 		else
@@ -148,6 +150,6 @@ function MagicPuzzleClick() {
  * @returns {void} - Nothing
  */
 function MagicPuzzleKeyDown() {
-	if (MiniGameCheatKeyDown() && (MagicPuzzleTimer > 0))
+	if (MiniGameCheatKeyDown() && (MagicPuzzleTimer > 0) && !MagicPuzzleAutoExit)
 		MagicPuzzleTimer = MagicPuzzleTimer + 5000;
 }
