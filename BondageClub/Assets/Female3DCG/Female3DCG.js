@@ -5375,7 +5375,8 @@ var PoseFemale3DCG = [
 		Name: "KneelingSpread",
 		Category: "BodyLower",
 		OverrideHeight: { Height: -250, Priority: 20 },
-		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"]
+		AllowMenu: true,
+		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
 	},
 	{
 		Name: "Yoked",
