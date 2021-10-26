@@ -5377,6 +5377,9 @@ var PoseFemale3DCG = [
 		OverrideHeight: { Height: -250, Priority: 20 },
 		AllowMenu: true,
 		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
+		MovePosition: [
+			{ Group: "Socks", X: -30, Y: 0 }
+		]
 	},
 	{
 		Name: "Yoked",
