@@ -199,11 +199,18 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "AccessBreastSuitZip": return !InventoryDoesItemExposeGroup(C, "Cloth", "ItemNipplesPiercings") || !InventoryDoesItemExposeGroup(C, "Suit", "ItemNipplesPiercings") ? "UnZipSuitForItem" : "";
 
 		// Vulva/Butt items can be blocked by clothes, panties and some socks
-		case "AccessVulva": return InventoryDoesItemBlockGroup(C, "Cloth", "ItemVulva")
+		case "AccessVulva": return (InventoryDoesItemBlockGroup(C, "Cloth", "ItemVulva")
 			|| !InventoryDoesItemExposeGroup(C, "ClothLower", "ItemVulva")
 			|| !InventoryDoesItemExposeGroup(C, "Panties", "ItemVulva")
 			|| InventoryDoesItemBlockGroup(C, "Socks", "ItemVulva")
+			|| InventoryDoesItemBlockGroup(C, "ItemPelvis", "ItemVulva")
+			|| InventoryDoesItemBlockGroup(C, "ItemVulvaPiercings", "ItemVulva"))
 			? "RemoveClothesForItem" : "";
+
+		// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
+		case "VulvaNotBlockedByBelt": return InventoryDoesItemBlockGroup(C, "ItemPelvis", "ItemVulva")
+			|| InventoryDoesItemBlockGroup(C, "ItemVulvaPiercings", "ItemVulva")
+			? "RemoveChastityFirst" : "";
 
 		// Ensure crotch is empty
 		case "VulvaEmpty": return (InventoryGet(C, "ItemVulva") != null) ? "MustFreeVulvaFirst" : "";
@@ -383,13 +390,11 @@ function InventoryGet(C, AssetGroup) {
 * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
 */
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber) {
-	for (let A = 0; A < Asset.length; A++)
-		if ((Asset[A].Name == AssetName) && (Asset[A].Group.Name == AssetGroup)) {
-			CharacterAppearanceSetItem(C, AssetGroup, Asset[A], ((ItemColor == null || ItemColor == "Default") && Asset[A].DefaultColor != null) ? Asset[A].DefaultColor : ItemColor, Difficulty, MemberNumber, false);
-			CharacterRefresh(C, true);
-			InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
-			return;
-		}
+	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
+	if (!A) return;
+	CharacterAppearanceSetItem(C, AssetGroup, A, ((ItemColor == null || ItemColor == "Default") && A.DefaultColor != null) ? A.DefaultColor : ItemColor, Difficulty, MemberNumber, false);
+	CharacterRefresh(C, true);
+	InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
 }
 
 /**

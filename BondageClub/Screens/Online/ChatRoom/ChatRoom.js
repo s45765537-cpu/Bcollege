@@ -2182,11 +2182,11 @@ function ChatRoomMessage(data) {
 								}
 						}
 						else if (dictionary[D].AssetGroupName) {
-							for (let A = 0; A < AssetGroup.length; A++)
-								if (AssetGroup[A].Name == dictionary[D].AssetGroupName) {
-									msg = msg.replace(dictionary[D].Tag, AssetGroup[A].Description.toLowerCase());
-									GroupName = dictionary[D].AssetGroupName;
-								}
+							const G = AssetGroupGet('Female3DCG', dictionary[D].AssetGroupName);
+							if (G) {
+								msg = msg.replace(dictionary[D].Tag, G.Description.toLowerCase());
+								GroupName = dictionary[D].AssetGroupName;
+							}
 						}
 						else if (dictionary[D].ActivityCounter) ActivityCounter = dictionary[D].ActivityCounter;
 						else if (dictionary[D].Automatic) Automatic = true;
@@ -2468,6 +2468,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
+		OnlineGameReset();
 	}
 
 	// Check whether the player's last chatroom data needs updating
@@ -3404,6 +3405,7 @@ function ChatRoomGameResponse(data) {
 	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
+	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
 }
 
 /**

@@ -33,6 +33,14 @@ TitleInfilrationInfiltrator,Infiltrator
 TitleInfilrationAgent,Agent
 TitleInfilrationOperative,Operative
 TitleInfilrationSuperspy,Superspy
+TitleMagicSchoolWizard,Wizard
+TitleMagicSchoolMagus,Magus
+TitleMagicSchoolMagician,Magician
+TitleMagicSchoolSorcerer,Sorcerer
+TitleMagicSchoolSage,Sage
+TitleMagicSchoolOracle,Oracle
+TitleMagicSchoolWitch,Witch
+TitleMagicSchoolWarlock,Warlock
 TitleLittleOne,Little One
 TitleBaby,Baby
 TitleDL,Diaper Lover
@@ -77,6 +85,10 @@ ReputationAsylumNegative,Asylum Patient:
 ReputationLARPPositive,LARP Battles:
 ReputationGamblingPositive,Gambling Hall:
 ReputationABDLPositive,ABDL:
+ReputationHouseMaiestasPositive,House Maiestas:
+ReputationHouseVinculaPositive,House Vincula:
+ReputationHouseAmplectorPositive,House Amplector:
+ReputationHouseCorporisPositive,House Corporis:
 DifficultyTitle,difficulty for NumberOfDays day(s)
 DifficultyLevel0,Roleplay
 DifficultyLevel1,Regular

@@ -89,6 +89,7 @@ Necklace,FlowerGarland,Flower Garland
 Suit,,Upper Suit
 Suit,Catsuit,Catsuit
 Suit,SeamlessCatsuit, Seamless Catsuit
+Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,PilotSuit,Pilot Suit
 Suit,SeethroughSuit,See-through Suit
 Suit,SeethroughSuitZip,See-through Zipsuit
@@ -129,7 +130,9 @@ ClothLower,ShortPlaidSkirt,Short Plaid Skirt
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
+SuitLower,CatsuitPanties, Catsuit Panties
 SuitLower,PilotSuit,Pilot Suit
+SuitLower,PilotPanties,Pilot Suit Panties
 SuitLower,SeethroughSuit,See-through Suit
 SuitLower,SeethroughSuitZip,See-through Zipsuit
 SuitLower,ReverseBunnySuit,Reverse Bunny Suit
@@ -406,6 +409,7 @@ Gloves,Catsuit,Catsuit Gloves
 Gloves,SeethroughSuit,See-through Gloves
 Gloves,CowPrintedGloves,Cow Printed Gloves
 Gloves,LatexElbowGloves,Latex Elbow Gloves
+Gloves,FishnetGloves, Fishnet Gloves
 Bracelet,,Bracelet
 Bracelet,BowBand,Bow Band
 Bracelet,KinkBracelet, Kinky Band
@@ -985,6 +989,7 @@ ItemHands,KeyProp,Key
 ItemHands,SpankingToysPhone1,Mobile Phone
 ItemHands,SpankingToysPhone2,Mobile Phone 2
 ItemHands,HoofMittens, Hoof Mittens
+ItemHands,SpankingToysScissors,Scissors
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
 ItemNeck,LeatherCollarBell,Bell Collar

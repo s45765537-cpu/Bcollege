@@ -1520,14 +1520,7 @@ var AssetFemale3DCGExtended = {
 						Name: "ShockModule", Key: "s",
 						Options: [
 							{}, // s0 No Shock Module
-							{
-                HasSubscreen: true,
-                Property: {
-                  Intensity: 0,
-                  TriggerCount: 0,
-                  ShowText: true,
-                }
-              }, // s1 Shock Module
+							{ HasSubscreen: true }, // s1 Shock Module
 						],
 					},
 				],
@@ -1739,6 +1732,26 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // GwenHood
+			OpenFaceHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "HideBackHair",
+						Property: { Type: "HideBackHair", Hide: "HairBack" },
+					},
+					{
+						Name: "ShowBackHair",
+						Property: { Type: null },
+					},
+				],
+				Dialog: {
+					Load: "SelectOpenFaceHoodStyle",
+					TypePrefix: "OpenFaceHoodStyle",
+				},
+					DrawImages: false,
+			}
+		}, // OpenFaceHood	
 		TechnoHelmet1: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
@@ -1939,6 +1952,7 @@ var AssetFemale3DCGExtended = {
 							{}, // d0 - No devvice
 							{ // s1 - Pleasure module
 								HasSubscreen: true,
+								Prerequisite: ["AccessVulva", "VulvaEmpty", "VulvaNotBlockedByBelt"],
 								Property: {
 									SetPose: ["BaseLower"],
 									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
@@ -2406,6 +2420,9 @@ var AssetFemale3DCGExtended = {
 							Difficulty: 7,
 							Effect: ["Block","Freeze", "Prone",],
 							SetPose: ["Hogtied"],
+							Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 							OverrideHeight: { Height: 25, Priority: 51, HeightRatioProportion: 0 },
 						},
 					},
@@ -2561,7 +2578,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Base",
 						Property: {
-							Type: null,
+							Type: "",
 							Effect: [],
 						},
 					},
@@ -2735,6 +2752,8 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Chain",
 							Difficulty: 0,
+							Block: ["ItemNeck"],
+							AllowActivityOn: ["ItemNeck"]
 						},
 					},
 					{
@@ -2753,6 +2772,8 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "WeightedChain",
 							Difficulty: 0,
+							Block: ["ItemNeck"],
+							AllowActivityOn: ["ItemNeck"]
 						},
 					},
 				],
@@ -3651,7 +3672,27 @@ var AssetFemale3DCGExtended = {
 					TypePrefix: "BunnyMaskType",
 				},
 			}
-		} // BunnyMask1
+		}, // BunnyMask1
+		OpenFaceHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "HideBackHair",
+						Property: { Type: "HideBackHair", Hide: "HairBack" },
+					},
+					{
+						Name: "ShowBackHair",
+						Property: { Type: null },
+					},
+				],
+				Dialog: {
+					Load: "SelectOpenFaceHoodStyle",
+					TypePrefix: "OpenFaceHoodStyle",
+				},
+					DrawImages: false,
+			}
+		} // OpenFaceHood	
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -4150,6 +4191,71 @@ var AssetFemale3DCGExtended = {
 				]
 			},
 		}, // SilkStraps
+		FuturisticChastityBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Model", Key: "m",
+						Options: [
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Front", Key: "f",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemVulva", "ItemVulvaPiercings"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Back", Key: "b",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemButt"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Tamper", Key: "t",
+						Options: [
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Orgasm", Key: "o",
+						Options: [
+							{},
+							{},
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // FuturisticChastityBelt
 		MetalChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -4686,6 +4792,12 @@ var AssetFemale3DCGExtended = {
 							Hide: ["Hands"],
 						},
 					},
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: "AltGloves",
+						},
+					},
 				],
 				Dialog: {
 					Load: "SelectSuitGloves",
@@ -4769,13 +4881,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
@@ -4800,13 +4912,13 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: "AltGloves",
+							Type: "Gloves",
 						},
 					},
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves",
+							Type: "AltGloves",
 							Hide: ["Hands"],
 						},
 					},
@@ -4831,7 +4943,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves", 
+							Type: "Gloves",
 							Hide: ["Hands"],
 						},
 					},
