@@ -878,5 +878,8 @@ WingsSteampunkWingsWingFrames,Frame
 WingsBeeWingsWings,Wings
 WingsBeeWingsVeins,Veins
 WingsBeeWingsBone,Bone
+WingsCyberWingsBase,Base
+WingsCyberWingsShade,Shade
+WingsCyberWingsHighlights,Highlights
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses

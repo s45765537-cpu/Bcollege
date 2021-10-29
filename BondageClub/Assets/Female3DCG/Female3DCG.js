@@ -1546,7 +1546,15 @@ var AssetFemale3DCG = [
 					{ Name: "Veins", AllowColorize: false },
 					{ Name: "Bone" },
 				],
-			}
+			},
+			{
+				Name: "CyberWings", Value: 60, DefaultColor: ["#2ab4c5", "#b21fd8", "#25dce6"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shade" },
+					{ Name: "Highlights" },
+				],
+			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
