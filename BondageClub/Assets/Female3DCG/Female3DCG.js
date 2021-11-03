@@ -1558,6 +1558,29 @@ var AssetFemale3DCG = [
 					{ Name: "WingFrames" }
 				]
 			},
+			{
+				Name: "BeeWings", Value: 50, DefaultColor: ["#4896c3", "#ccd44f"],
+				Layer: [
+					{ Name: "Wings" },
+					{ Name: "Veins", AllowColorize: false },
+					{ Name: "Bone" },
+				],
+			},
+			{
+				Name: "CyberWings", Value: 60, DefaultColor: ["#2ab4c5", "#b21fd8", "#25dce6"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shade" },
+					{ Name: "Highlights" },
+				],
+			},
+			{
+				Name: "PixieWings", Value: 50, DefaultColor: ["#0e70b4", "#086cb2"],
+				Layer: [
+					{ Name: "Wings" },
+					{ Name: "Veins" },
+				],
+			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -3128,7 +3151,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SpankingToys", Fetish: ["Sadism"], Priority: 46, Random: false, Wear: true, IsRestraint: false, BuyGroup: "SpankingToys",
 				AllowPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"],
-				AllowType: ["Flogger", "Cane", "HeartCrop", "Paddle", "WhipPaddle", "Whip", "CattleProd", "TennisRacket", "Gavel", "Feather",
+				AllowType: ["Flogger", "Cane", "HeartCrop", "Paddle", "WhipPaddle", "Whip", "CattleProd", "TennisRacket", "RainbowWand", "Gavel", "Feather",
 					"FeatherDuster", "LongDuster", "IceCube", "WartenbergWheel", "VibratingWand", "SmallVibratingWand", "CandleWax", "LargeDildo",
 					"PetToy", "Vibrator", "Belt", "Hairbrush", "SmallDildo", "ElectricToothbrush", "Toothbrush", "ShockWand", "Lotion", "Ruler",
 					"Sword", "VibeRemote", "ShockRemote", "Towel", "RopeCoilLong", "RopeCoilShort", "Ballgag", "LongSock", "Baguette", "Panties",
@@ -3172,6 +3195,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpankingToysTennisRacket", Value: -1, Random: false, Activity: "SpankItem", Bonus: "KidnapBruteForce", DynamicAllowInventoryAdd: () => { return false; },
+				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
+			},
+			{
+				Name: "SpankingToysRainbowWand", Value: -1, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
