@@ -1732,6 +1732,26 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // GwenHood
+			OpenFaceHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "HideBackHair",
+						Property: { Type: "HideBackHair", Hide: "HairBack" },
+					},
+					{
+						Name: "ShowBackHair",
+						Property: { Type: null },
+					},
+				],
+				Dialog: {
+					Load: "SelectOpenFaceHoodStyle",
+					TypePrefix: "OpenFaceHoodStyle",
+				},
+					DrawImages: false,
+			}
+		}, // OpenFaceHood	
 		TechnoHelmet1: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
@@ -1932,6 +1952,7 @@ var AssetFemale3DCGExtended = {
 							{}, // d0 - No devvice
 							{ // s1 - Pleasure module
 								HasSubscreen: true,
+								Prerequisite: ["AccessVulva", "VulvaEmpty", "VulvaNotBlockedByBelt"],
 								Property: {
 									SetPose: ["BaseLower"],
 									AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
@@ -2557,7 +2578,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Base",
 						Property: {
-							Type: null,
+							Type: "",
 							Effect: [],
 						},
 					},
@@ -3651,7 +3672,27 @@ var AssetFemale3DCGExtended = {
 					TypePrefix: "BunnyMaskType",
 				},
 			}
-		} // BunnyMask1
+		}, // BunnyMask1
+		OpenFaceHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "HideBackHair",
+						Property: { Type: "HideBackHair", Hide: "HairBack" },
+					},
+					{
+						Name: "ShowBackHair",
+						Property: { Type: null },
+					},
+				],
+				Dialog: {
+					Load: "SelectOpenFaceHoodStyle",
+					TypePrefix: "OpenFaceHoodStyle",
+				},
+					DrawImages: false,
+			}
+		} // OpenFaceHood	
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -4150,6 +4191,71 @@ var AssetFemale3DCGExtended = {
 				]
 			},
 		}, // SilkStraps
+		FuturisticChastityBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Model", Key: "m",
+						Options: [
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Front", Key: "f",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemVulva", "ItemVulvaPiercings"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Back", Key: "b",
+						Options: [
+							{
+								Property: {
+								},
+							},
+							{
+								Property: {
+									Block: ["ItemButt"],
+								},
+							},
+						],
+					},
+					{
+						Name: "Tamper", Key: "t",
+						Options: [
+							{},
+							{},
+							{},
+						],
+					},
+					{
+						Name: "Orgasm", Key: "o",
+						Options: [
+							{},
+							{},
+						],
+					},
+				],
+				ScriptHooks: {
+					Load: FuturisticAccessLoad,
+					Click: FuturisticAccessClick,
+					Draw: FuturisticAccessDraw,
+					Exit: FuturisticAccessExit,
+				}
+			},
+		}, // FuturisticChastityBelt
 		MetalChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -4837,7 +4943,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Solid",
 						Property: {
-							Type: "Gloves", 
+							Type: "Gloves",
 							Hide: ["Hands"],
 						},
 					},

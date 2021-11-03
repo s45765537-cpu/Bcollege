@@ -112,6 +112,7 @@
 <script src="Screens/Room/Poker/Poker.js"></script>
 <script src="Screens/Room/Poker/PokerHandValue.js"></script>
 <script src="Screens/Room/MagicSchoolLaboratory/MagicSchoolLaboratory.js"></script>
+<script src="Screens/Room/MagicSchoolEscape/MagicSchoolEscape.js"></script>
 <script src="Screens/Room/Gambling/Gambling.js"></script>
 <script src="Screens/Room/Prison/Prison.js"></script>
 <script src="Screens/Room/Photographic/Photographic.js"></script>
@@ -149,6 +150,7 @@
 <script src="Screens/Online/ChatAdmin/ChatAdmin.js"></script>
 <script src="Screens/Online/Game/OnlineGame.js"></script>
 <script src="Screens/Online/GameLARP/GameLARP.js"></script>
+<script src="Screens/Online/GameMagicBattle/GameMagicBattle.js"></script>
 <script src="Screens/Inventory/ItemVulva/VibratingEgg/VibratingEgg.js"></script>
 <script src="Screens/Inventory/ItemVulva/VibratingLatexPanties/VibratingLatexPanties.js"></script>
 <script src="Screens/Inventory/ItemVulva/WandBelt/WandBelt.js"></script>
@@ -276,7 +278,7 @@
 window.onload = function() {
 //	CheatImport();
 	ServerURL = "https://bondage-club-server.herokuapp.com/";
-	GameVersion = "R73Beta1";
+	GameVersion = "R73";
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
 	CommonIsMobile = CommonDetectMobile();

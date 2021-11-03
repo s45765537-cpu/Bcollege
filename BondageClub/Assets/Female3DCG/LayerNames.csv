@@ -247,6 +247,8 @@ ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
 ItemVulvaPiercingsTapedClitEggEgg,Egg
 ItemVulvaPiercingsTapedClitEggTape,Tape
+ItemVulvaPiercingsClitRingRing,Ring
+ItemVulvaPiercingsClitRingLeash,Leash
 ItemButtFoxTail1Base,Tail
 ItemButtFoxTail1Tip,Tip
 ItemButtFoxTail2Base,Tail
@@ -776,10 +778,12 @@ ItemBreastFuturisticBra2Straps,Straps
 ItemPelvisFuturisticChastityBeltScreen,Screen
 ItemPelvisFuturisticChastityBeltMesh,Mesh
 ItemPelvisFuturisticChastityBeltMesh2_3,Padding
-ItemPelvisFuturisticChastityBeltPlug_2,Plug
+ItemPelvisFuturisticChastityBeltPlugCap,Plug Cap
+ItemPelvisFuturisticChastityBeltPlug_4,Plug
 ItemPelvisFuturisticChastityBeltBelt,Front
 ItemPelvisFuturisticChastityBeltLock,Lock
 ItemPelvisFuturisticChastityBeltBand_2,Band
+ItemPelvisFuturisticChastityBeltStrap_4,Strap
 ItemPelvisFuturisticTrainingBeltDisplay,Screen
 ItemPelvisFuturisticTrainingBeltMesh,Body
 ItemPelvisFuturisticTrainingBeltMesh2,Padding
@@ -822,11 +826,11 @@ SuitLowerPilotSuitLayer1,Suit
 SuitLowerPilotSuitLayer2,Highlights
 SuitLowerPilotSuitLayer3,Center
 SuitLowerPilotSuitLayer4,Underlayment
-SuitLowerPilotSuitGloves,Gloves
 SuitPilotSuitLayer1,Suit
 SuitPilotSuitLayer2,Highlights
 SuitPilotSuitLayer3,Center
 SuitPilotSuitLayer4,Arms
+SuitPilotSuitGloves,Gloves
 SuitPilotSuitFeet,Feet
 CorsetCorset6Cloth,Cloth
 CorsetCorset6Leather,Leather
@@ -871,5 +875,13 @@ BraceletLaceBandsBands,Bands
 WingsSteampunkWingsGears,Gears
 WingsSteampunkWingsWings,Wings
 WingsSteampunkWingsWingFrames,Frame
+WingsBeeWingsWings,Wings
+WingsBeeWingsVeins,Veins
+WingsBeeWingsBone,Bone
+WingsCyberWingsBase,Base
+WingsCyberWingsShade,Shade
+WingsCyberWingsHighlights,Highlights
+WingsPixieWingsWings,Wings
+WingsPixieWingsVeins,Veins
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses

@@ -2468,6 +2468,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
+		OnlineGameReset();
 	}
 
 	// Check whether the player's last chatroom data needs updating
@@ -3404,6 +3405,7 @@ function ChatRoomGameResponse(data) {
 	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
+	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
 }
 
 /**

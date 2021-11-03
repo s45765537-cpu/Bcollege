@@ -60,6 +60,8 @@ type NotificationAlertType = 0 | 1 | 3 | 2;
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
+type CharacterType = "online" | "npc" | "simple";
+
 //#endregion
 
 //#region index.html
@@ -138,7 +140,7 @@ interface AssetGroup {
 	Clothing: boolean;
 	Underwear: boolean;
 	BodyCosplay: boolean;
-	Activity?: string[];
+	Activity: string[];
 	AllowActivityOn?: string[];
 	Hide?: string[];
 	Block?: string[];
@@ -158,6 +160,7 @@ interface AssetGroup {
 	FreezeActivePose: string[];
 	PreviewZone?: [number, number, number, number];
 	DynamicGroupName: string;
+	MirrorActivitiesFrom?: string;
 }
 
 /** An object defining a drawable layer of an asset */
@@ -245,7 +248,7 @@ interface Asset {
 	Enable: boolean;
 	Visible: boolean;
 	Wear: boolean;
-	Activity?: string[] | string;
+	Activity: string[] | string;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
@@ -476,6 +479,7 @@ interface Character {
 	ID: number;
 	/** Only on `Player` */
 	OnlineID?: string;
+	Type: CharacterType;
 	Name: string;
 	AssetFamily: IAssetFamily | string;
 	AccountName: string;
@@ -542,13 +546,17 @@ interface Character {
 	IsMouthBlocked: () => boolean;
 	IsMouthOpen: () => boolean;
 	IsVulvaFull: () => boolean;
+	IsFixedHead: () => boolean;
 	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
 	IsLover: (C: Character) => boolean;
 	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
 	GetDeafLevel: () => number;
 	IsLoverPrivate: () => boolean;
 	IsEdged: () => boolean;
+	IsPlayer: () => this is PlayerCharacter;
+	IsOnline: () => boolean;
 	IsNpc: () => boolean;
+	IsSimple: () => boolean;
 	GetDifficulty: () => number;
 	IsInverted: () => boolean;
 	CanChangeToPose: (Pose: string) => boolean;
