@@ -1751,7 +1751,7 @@ var AssetFemale3DCGExtended = {
 				},
 					DrawImages: false,
 			}
-		}, // OpenFaceHood	
+		}, // OpenFaceHood
 		TechnoHelmet1: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
@@ -2933,6 +2933,27 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // LatexCorset1
+		HeavyLatexCorset: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: { Type: null },
+					},
+					{
+						Name: "Straps",
+						Property: { Type: "Straps" },
+					},
+				],
+				Dialog: {
+					Load: "SelectHeavyLatexCorsetType",
+					TypePrefix: "HeavyLatexCorsetType",
+					ChatPrefix: "HeavyLatexCorsetSet",
+					NpcPrefix: "HeavyLatexCorset",
+				},
+			}
+		}, // HeavyLatexCorset
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
@@ -3692,7 +3713,7 @@ var AssetFemale3DCGExtended = {
 				},
 					DrawImages: false,
 			}
-		} // OpenFaceHood	
+		} // OpenFaceHood
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
