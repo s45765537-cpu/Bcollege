@@ -1331,7 +1331,7 @@ var AssetFemale3DCG = [
 			{ Name: "MistressGloves", Fetish: ["Leather"], Value: -1 },
 			{ Name: "FingerlessGloves", Value: 20 },
 			{
-				Name: "GlovesFur", Value: 30,
+				Name: "GlovesFur", Value: 30, DefaultColor: ["#8c2331", "Default"],
 				Layer: [
 					{ Name: "Fabric" },
 					{ Name: "Fur" }
@@ -1441,7 +1441,7 @@ var AssetFemale3DCG = [
 			{ Name: "LaceMask1", Fetish: ["Lingerie"], Value: 25, Left: 150, Top: 20, HideItem: ["ItemNoseNoseRing", "HatVeil1", "HatVeil2"], Hide: ["Glasses"] },
 			{ Name: "LaceMask2", Fetish: ["Lingerie"], Value: 25, Left: 150, Top: 20, HideItem: ["ItemNoseNoseRing", "HatVeil1", "HatVeil2"], Hide: ["Glasses"] },
 			{ Name: "FuturisticVisor", Category: ["SciFi"], BuyGroup: "FuturisticVisor", Value: 35, Priority: 27, Random: false, HideItem: ["ItemNoseNoseRing"] },
-			{ Name: "OpenFaceHood", Fetish: ["Latex"], Value: -1, Priority: 40, Left: 150, Top: 20, DefaultColor: "#404040", BuyGroup: "OpenFace", Hide: ["HairFront"] , Extended: true, HasType: false }, 
+			{ Name: "OpenFaceHood", Fetish: ["Latex"], Value: -1, Priority: 40, Left: 150, Top: 20, DefaultColor: "#404040", BuyGroup: "OpenFace", Hide: ["HairFront"] , Extended: true, HasType: false },
 			{
 				Name: "FaceVeil", Fetish: ["Lingerie"], Value: 20, Priority: 51, Left: 150, Top: 20, Layer: [
 					{ Name: "Fabric" },
