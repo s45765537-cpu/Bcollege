@@ -2935,24 +2935,7 @@ var AssetFemale3DCGExtended = {
 		}, // LatexCorset1
 		HeavyLatexCorset: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "Normal",
-						Property: { Type: null },
-					},
-					{
-						Name: "Straps",
-						Property: { Type: "Straps" },
-					},
-				],
-				Dialog: {
-					Load: "SelectHeavyLatexCorsetType",
-					TypePrefix: "HeavyLatexCorsetType",
-					ChatPrefix: "HeavyLatexCorsetSet",
-					NpcPrefix: "HeavyLatexCorset",
-				},
-			}
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HeavyLatexCorset" },
 		}, // HeavyLatexCorset
 	}, // Corset
 	ItemTorso: {
