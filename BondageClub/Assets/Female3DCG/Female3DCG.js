@@ -870,7 +870,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "SocksFur", Fetish: ["Nylon"], Value: 40,
+				Name: "SocksFur", Fetish: ["Nylon"], Value: 40, DefaultColor: ["#8c2331", "Default"],
 				Layer: [
 					{ Name: "Fabric" },
 					{ Name: "Fur" }
