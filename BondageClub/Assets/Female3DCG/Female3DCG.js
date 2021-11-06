@@ -4970,7 +4970,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#530E50", "#DD2BD5","#A0A0A0", "#D8D8D8","#854DA5", "#9EDDFA"],
 				Layer: [
 					{ Name: "Back", Priority: 1, ColorGroup: "Box" },
-					{ Name: "Cover", Priority: 58, ColorGroup: "Box", Alpha: [{ Masks: [[0, 0, 100, 1000], [410, 0, 90, 1000], [0, 880, 500, 140], [0, 0, 500, 80], AssetUpperOverflowAlpha, AssetLowerOverflowAlpha] }] },
+					{ Name: "Cover", Priority: 58, ColorGroup: "Box", Alpha: [{ Masks: [[0, 0, 100, 1000], [410, 0, 90, 1000], [0, 880, 500, 140], [0, 0, 500, 70], AssetUpperOverflowAlpha, AssetLowerOverflowAlpha] }] },
 					{ Name: "DollText", Priority: 58, ColorGroup: "Text" },
 					{ Name: "Text", Priority: 58, ColorGroup: "Text", HasImage: false },
 					{ Name: "Heart", Priority: 58 },
