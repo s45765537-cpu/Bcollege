@@ -159,34 +159,7 @@ var AssetFemale3DCGExtended = {
 		}, // LatexLacedSuit
 		ReverseBunnySuit: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "NoGloves",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Solid",
-						Property: {
-							Type: "Gloves",
-							Hide: ["Hands"],
-						},
-					},
-					{
-						Name: "Seethrough",
-						Property: {
-							Type: "AltGloves",
-						},
-					},
-				],
-				Dialog: {
-					Load: "SelectSuitGloves",
-					TypePrefix: "SuitGloveType",
-				},
-				DrawImages: false,
-			},
+			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // ReverseBunnySuit
 	}, // Cloth
 	ClothAccessory: {
@@ -349,7 +322,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Hogtied",
 						BondageLevel: 3,
 						SelfBondageLevel: 6,
-						Prerequisite: ["NotSuspended", "NoFeetSpreader", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotSuspended", "NoFeetSpreader"],
 						Property: {
 							Type: "Hogtied",
 							Difficulty: 4,
@@ -358,7 +331,6 @@ var AssetFemale3DCGExtended = {
 							Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 						},
-						SelfBlockCheck: true,
 						Random: false,
 					},
 					{
@@ -395,7 +367,7 @@ var AssetFemale3DCGExtended = {
 						Name: "SuspensionHogtied",
 						BondageLevel: 5,
 						SelfBondageLevel: 9,
-						Prerequisite: ["NotSuspended", "NoFeetSpreader", "NotChained", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotSuspended", "NoFeetSpreader", "NotChained"],
 						Property: {
 							Type: "SuspensionHogtied",
 							Difficulty: 11,
@@ -405,7 +377,6 @@ var AssetFemale3DCGExtended = {
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 							OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 },
 						},
-						SelfBlockCheck: true,
 						Random: false,
 					},
 				],
@@ -522,28 +493,25 @@ var AssetFemale3DCGExtended = {
 						Prerequisite: ["NotMounted", "NotSuspended"],
 						Property: { Type: "KneelingHogtie", Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3 },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
-						SelfBlockCheck: true,
 						Random: false,
 					}, {
 						Name: "Hogtied",
 						BondageLevel: 4,
-						Prerequisite: ["NotMounted", "NotSuspended", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotMounted", "NotSuspended"],
 						Property: { Type: "Hogtied", Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied"], Difficulty: 3 },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
-						SelfBlockCheck: true,
 						Random: false,
 					}, {
 						Name: "AllFours",
 						BondageLevel: 6,
-						Prerequisite: ["NotMounted", "NotSuspended", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotMounted", "NotSuspended"],
 						Property: { Type: "AllFours", Effect: ["ForceKneel", "NotSelfPickable"], Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],  AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["AllFours"], Difficulty: 3 },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
-						SelfBlockCheck: true,
 						Random: false,
 					}, {
 						Name: "SuspensionHogtied",
 						BondageLevel: 8,
-						Prerequisite: ["NotMounted", "NotChained", "NotSuspended", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 						Property: { Type: "SuspensionHogtied", Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied", "SuspensionHogtied"], Difficulty: 6,
 							OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 } },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
@@ -1198,7 +1166,7 @@ var AssetFemale3DCGExtended = {
 						Random: false,
 					}, {
 						Name: "ZipHogtie",
-						Prerequisite: ["NotMounted", "NotSuspended", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotMounted", "NotSuspended"],
 						Property: {
 							Type: "ZipHogtied",
 							Effect: ["Block", "Freeze", "Prone"],
@@ -1210,7 +1178,7 @@ var AssetFemale3DCGExtended = {
 						Random: false,
 					}, {
 						Name: "ZipAllFours",
-						Prerequisite: ["NotMounted", "NotSuspended", "CannotBeHogtiedWithAlphaHood"],
+						Prerequisite: ["NotMounted", "NotSuspended"],
 						Property: {
 							Type: "ZipAllFours", Effect: ["ForceKneel"],
 							Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
@@ -1751,7 +1719,7 @@ var AssetFemale3DCGExtended = {
 				},
 					DrawImages: false,
 			}
-		}, // OpenFaceHood	
+		}, // OpenFaceHood
 		TechnoHelmet1: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
@@ -2933,6 +2901,10 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // LatexCorset1
+		HeavyLatexCorset: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HeavyLatexCorset" },
+		}, // HeavyLatexCorset
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
@@ -3692,7 +3664,7 @@ var AssetFemale3DCGExtended = {
 				},
 					DrawImages: false,
 			}
-		} // OpenFaceHood	
+		} // OpenFaceHood
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -4808,65 +4780,11 @@ var AssetFemale3DCGExtended = {
 		}, // Catsuit
 		SeamlessCatsuit: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "NoGloves",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Solid",
-						Property: {
-							Type: "Gloves",
-							Hide: ["Hands"],
-						},
-					},
-					{
-						Name: "Seethrough",
-						Property: {
-							Type: "AltGloves",
-						},
-					},
-				],
-				Dialog: {
-					Load: "SelectSuitGloves",
-					TypePrefix: "SuitGloveType",
-				},
-				DrawImages: false,
-			},
+			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // SeamlessCatsuit
 		PilotSuit: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "NoGloves",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Solid",
-						Property: {
-							Type: "Gloves",
-							Hide: ["Hands"],
-						},
-					},
-					{
-						Name: "Seethrough",
-						Property: {
-							Type: "AltGloves",
-						},
-					},
-				],
-				Dialog: {
-					Load: "SelectSuitGloves",
-					TypePrefix: "SuitGloveType",
-				},
-				DrawImages: false,
-			},
+			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // PilotSuit
 		SeethroughSuit: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -4901,65 +4819,11 @@ var AssetFemale3DCGExtended = {
 		}, // SeethroughSuit
 		SeethroughSuitZip: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "NoGloves",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Seethrough",
-						Property: {
-							Type: "Gloves",
-						},
-					},
-					{
-						Name: "Solid",
-						Property: {
-							Type: "AltGloves",
-							Hide: ["Hands"],
-						},
-					},
-				],
-				Dialog: {
-					Load: "SelectSuitGloves",
-					TypePrefix: "SuitGloveType",
-				},
-				DrawImages: false,
-			},
+			CopyConfig: { GroupName: "Suit", AssetName: "SeethroughSuit" },
 		}, // SeethroughSuitZip
 		ReverseBunnySuit: {
 			Archetype: ExtendedArchetype.TYPED,
-			Config: {
-				Options: [
-					{
-						Name: "NoGloves",
-						Property: {
-							Type: null,
-						},
-					},
-					{
-						Name: "Solid",
-						Property: {
-							Type: "Gloves",
-							Hide: ["Hands"],
-						},
-					},
-					{
-						Name: "Seethrough",
-						Property: {
-							Type: "AltGloves",
-						},
-					},
-				],
-				Dialog: {
-					Load: "SelectSuitGloves",
-					TypePrefix: "SuitGloveType",
-				},
-				DrawImages: false,
-			},
+			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // ReverseBunnySuit
 	}, // Suit
 	ItemHead: {
