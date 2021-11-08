@@ -445,7 +445,7 @@ function ExtendedItemValidate(C, Item, { Prerequisite, SelfBlockCheck, Property 
 	} else if (Prerequisite && SelfBlockCheck && !ExtendedItemSelfProofRequirementCheck(C, Prerequisite)) {
 		// If SelfBlockCheck is required, do a self-proof prerequisite check
 		return DialogText;
-	} else if (Prerequisite && !SelfBlockCheck && !InventoryAllow(C, Prerequisite, true)) {
+	} else if (Prerequisite && !SelfBlockCheck && !InventoryAllow(C, Item.Asset, Prerequisite, true)) {
 		// Otherwise use the standard prerequisite check
 		return DialogText;
 	} else {
@@ -468,18 +468,10 @@ function ExtendedItemValidate(C, Item, { Prerequisite, SelfBlockCheck, Property 
 function ExtendedItemSelfProofRequirementCheck(C, Prerequisite) {
 	let Allowed = true;
 
-	// Remove the item temporarily for prerequisite-checking
-	let CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-	C.Appearance = C.Appearance.filter(Item => Item !== CurrentItem);
-	CharacterRefresh(C, false, false);
-
-	if (!InventoryAllow(C, Prerequisite, true)) {
+	const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+	if (!InventoryAllow(C, CurrentItem.Asset, Prerequisite, true)) {
 		Allowed = false;
 	}
-
-	// Re-add the item
-	C.Appearance.push(CurrentItem);
-	CharacterRefresh(C, false, false);
 
 	return Allowed;
 }
