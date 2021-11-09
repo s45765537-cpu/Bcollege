@@ -404,11 +404,19 @@ function InventoryItemNeckFuturisticCollarTogglePermission(C, Item, Permission) 
 		else
 			Item.Property.OpenPermission = !Item.Property.OpenPermission;
 
+		let PermOn = Item.Property.OpenPermission;
+		if (Permission == "Leg")
+			PermOn = Item.Property.OpenPermissionLeg;
+		else if (Permission == "Arm")
+			PermOn = Item.Property.OpenPermissionArm;
+		else if (Permission == "Chastity")
+			PermOn = Item.Property.OpenPermissionChastity;
+
 		ChatRoomCharacterUpdate(C);
 		CharacterRefresh(C, true);
 
 		if (CurrentScreen == "ChatRoom")	{
-			var Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property.OpenPermission ? "On" : "Off");
+			var Message = "FuturisticCollarSetOpenPermission" + Permission + (PermOn ? "On" : "Off");
 
 			var Dictionary = [
 				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
