@@ -1028,10 +1028,10 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "AnkleStrapShoes", Priority: 22, Value: 30, HideForPose: ["Kneel", "KneelingSpread"], Alpha: [{ Group: ["Socks"], Masks: [[130, 925, 270, 130]] }], Height: 4 },
 			{ Name: "Shoes5", Value: 30, HideForPose: ["Kneel", "KneelingSpread"], Alpha: [{ Group: ["Socks"], Masks: [[130, 925, 270, 130]] }], Height: 4 },
-			{ Name: "FuturisticHeels2", Value: 50, HideForPose: ["Kneel"], Difficulty: 7, Time: 10, RemoveTime: 20,
+			{ Name: "FuturisticHeels2", Value: 50, Difficulty: 7, Time: 10, RemoveTime: 20,
 				Left: 75, DefaultColor: ["Default", "#50913C", "Default", "Default", "Default", "#aaaaaa", "Default"], Random: false, AllowLock: true, DrawLocks: false, Audio: "FuturisticApply", BuyGroup: "FuturisticHeels", DynamicGroupName: "ItemBoots", Extended: true, FuturisticRecolor: true, Effect: [],
 				AllowPose: ["LegsClosed", "Kneel", "Hogtied", "Spread"],
-				HideForPose: ["KneelingSpread"],
+				HideForPose: ["Kneel", "KneelingSpread"],
 				Layer: [
 					{ Name: "Mesh", ParentGroup: null, HasType: false },
 					{ Name: "Shine", ParentGroup: null, HasType: false, AllowTypes:[""]},
