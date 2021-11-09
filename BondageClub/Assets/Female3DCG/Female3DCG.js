@@ -3111,6 +3111,23 @@ var AssetFemale3DCG = [
 			{ Name: "WrappedBlanket", Extended: true, Value: -1, Difficulty: 15, SelfBondage: 3, Time: 40, RemoveTime: 30, Random: false, BuyGroup: "Bed", Prerequisite: ["NotSuspended", "NotHogtied", "NotKneelingSpread", "NoFeetSpreader"], Hide: ["Shoes", "Socks", "Cloth", "ClothLower", "Bra", "ItemNipplesPiercings", "ItemLegs", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetIrish8Cuffs", "ItemFeetDuctTape", "ItemFeetLeatherAnkleCuffs", "ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], AllowPose: ["Kneel"], SetPose: ["BackElbowTouch", "LegsClosed"], Effect: ["Block", "Prone"], Block: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands", "ItemFeet", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemLegs", "ItemButt"], },
 			{ Name: "Ribbons", Priority: 29, Fetish: ["Lingerie"], Value: 30, Difficulty: 2, SelfBondage: 2, Time: 20, RemoveTime: 20, BuyGroup: "Ribbon", Random: false, SetPose: ["BackBoxTie"], Extended: true, Effect: ["Block", "Prone"] },
 			{ Name: "ThinLeatherStraps", Fetish: ["Leather"], Value: 70, Difficulty: 2, SelfBondage: 2, Time: 20, RemoveTime: 20, BuyGroup: "ThinLeatherStraps", SetPose: ["BackBoxTie"], AllowLock: true, DrawLocks: false, Extended: true, Effect: ["Block", "Prone"] },
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 8, Time: 25, RemoveTime: 25, Top: 0, Left: 0,
+				SetPose: ["BackElbowTouch"],
+				AllowPose: ["OverTheHead"],
+				Effect: ["Block", "Prone"],
+				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
+				Layer: [
+					{ Name: "LowerInner", ParentGroup: "BodyLower", AllowPose: ["LegsClosed", "Spread"] },
+					{ Name: "LowerSucker", ParentGroup: "BodyLower" },
+					{ Name: "LowerOuter", ParentGroup: "BodyLower" },
+					{ Name: "LowerShine", ParentGroup: "BodyLower", AllowColorize: false },
+					{ Name: "UpperInner", CopyLayerColor: "LowerInner" },
+					{ Name: "UpperSucker", CopyLayerColor: "LowerSucker" },
+					{ Name: "UpperOuter", CopyLayerColor: "LowerOuter" },
+					{ Name: "UpperShine", AllowColorize: false },
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
