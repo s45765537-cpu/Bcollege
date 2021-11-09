@@ -72,12 +72,22 @@ LARPOptionDress,Dress (OptionOdds %)
 LARPOptionDressSuccess,SourceName (SourceNumber) dresses back using: ItemDesc.
 LARPOptionSupport,Support (OptionOdds %)
 LARPOptionSupportSuccess,"SourceName (SourceNumber) supports her team, giving a 25% defensive bonus for a full cycle."
-MagicBattleTurnStart,The magic battle has begun.  Select your first target.
+MagicBattleGameStartFreeForAll,"A free for all magic battle has begun.  To win, gag all other magicians using your spells.  Select your first target."
+MagicBattleGameStartHouse,"A team magic battle has begun.  To win, gag all magicians from other houses using your spells.  Select your first target."
+MagicBattleGameStop,Administrator SourceName (SourceNumber) ended the magic battle manually.
 MagicBattleTurnNext,"The turn is over, pick your next target."
 MagicBattleTimerNA,0
 MagicBattleSpell0Name,Pallium Exuere
 MagicBattleSpell1Name,Animatus Funem
 MagicBattleSpell2Name,Funem Tensis
 MagicBattleSpell3Name,Oratio Angustos
+MagicBattleSpell4Name,Animatus Ferrum
+MagicBattleSpell5Name,Ferrum Tensis
+MagicBattleSpell6Name,Nuda Caro
+MagicBattleSpell7Name,Stricta Lorum
 MagicBattleSpellSuccess,SourceName (SourceNumber) successfully cast SpellDesc on TargetName (TargetNumber) in SpellTime seconds.
 MagicBattleSpellFail,SourceName (SourceNumber) fails to cast SpellDesc on TargetName (TargetNumber) in SpellTime seconds.
+MagicBattleNoWinner,Nobody was able to cast a spell successfully.
+MagicBattleTieRound,Two spells were cast at the same time, there's no winner.
+MagicBattleRoundWinner,SpellDesc from SourceName (SourceNumber) affects TargetName (TargetNumber).
+MagicBattleGameOver,The battle is over!  Enjoy your spoils of war.
