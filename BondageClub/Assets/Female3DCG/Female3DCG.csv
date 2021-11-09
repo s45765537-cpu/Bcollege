@@ -197,6 +197,7 @@ Corset,Corset5,Floral Corset
 Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,Corset6,Noble Corset
+Corset,SteampunkCorsetTop1,Steampunk Corset
 Panties,,Panties
 Panties,Panties1,Style 1
 Panties,Panties7,Style 2
@@ -408,6 +409,7 @@ Gloves,Catsuit,Catsuit Gloves
 Gloves,SeethroughSuit,See-through Gloves
 Gloves,CowPrintedGloves,Cow Printed Gloves
 Gloves,LatexElbowGloves,Latex Elbow Gloves
+Gloves,FishnetGloves, Fishnet Gloves
 Bracelet,,Bracelet
 Bracelet,BowBand,Bow Band
 Bracelet,KinkBracelet, Kinky Band
@@ -480,6 +482,9 @@ Wings,AngelWings,Angel Wings
 Wings,BatWings,Bat Wings
 Wings,FairyWings,Fairy Wings
 Wings,SteampunkWings,Steampunk Wings
+Wings,BeeWings,Bee Wings
+Wings,CyberWings,Cyber Wings
+Wings,PixieWings,Pixie Wings
 Height,,Height
 Height,H0950,165 cm
 Height,H0960,167 cm
@@ -948,6 +953,7 @@ ItemHands,SpankingToysWhipPaddle,Whip Paddle
 ItemHands,SpankingToysWhip,Whip
 ItemHands,SpankingToysCattleProd,Cattle Prod
 ItemHands,SpankingToysTennisRacket,Tennis Racket
+ItemHands,SpankingToysRainbowWand,Rainbow Wand
 ItemHands,SpankingToysGavel,Gavel
 ItemHands,SpankingToysFeather,Feather
 ItemHands,SpankingToysFeatherDuster,Feather Duster
