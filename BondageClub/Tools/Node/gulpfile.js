@@ -11,32 +11,33 @@ const cache = require("gulp-cache");
 const through = require("through2");
 const rimraf = require("rimraf");
 
+const BASE_DIR = path.resolve(__dirname, "..", "..");
 const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
+const BATCH_SIZE = 10;
 
-const count = (message) => gulpCount({ message, logger: log });
+exports.assetMinify = gulp.series(analyzeBefore, generateBatches, minifyBatches);
 
-const gulpLog = (...messages) => through.obj(
-	(file, enc, cb) => cb(null, file),
-	(cb) => {
-		for (const message of messages) {
-			if (typeof message === "function") {
-				log(message());
-			} else {
-				log(message);
-			}
-		}
-		cb();
-	},
-);
+exports.clean = function (cb) {
+	rimraf(CACHE_DIR, cb);
+};
 
-exports.assetMinify = function () {
-	log(c.cyan("Asset minification starting. Please be patient, this may take a long time..."));
-	const sizeBefore = size({ showTotal: false });
-	const sizeAfter = size({ showTotal: false });
-	return gulp.src("../../**/*.{jpg,jpeg,png,svg}")
+const sizeBefore = size({ showTotal: false });
+const sizeAfter = size({ showTotal: false });
+let files = [];
+let batches = [];
+
+function analyze(beforeOrAfter, sizePlugin, record = false) {
+	if (record) {
+		files = [];
+	}
+	return sourceFiles()
+		.pipe(gulpIf(record, through.obj((file, env, cb) => {
+			files.push(file.path);
+			cb(null, file);
+		})))
 		.pipe(gulpLog(
 			"",
-			c.cyan("File counts"),
+			c.cyan(`File counts ${beforeOrAfter} minification`),
 			"--------------------------------",
 		))
 		.pipe(gulpIf(/\.png$/, count("PNG:\t<%= files %> found")))
@@ -45,11 +46,51 @@ exports.assetMinify = function () {
 		.pipe(gulpLog("--------------------------------"))
 		.pipe(count("Found <%= files %> in total for minification"))
 		.pipe(gulpLog(""))
-		.pipe(sizeBefore)
+		.pipe(sizePlugin)
 		.pipe(gulpLog(
-			() => `Total file size before minification: ${c.magenta(sizeBefore.prettySize)}`,
+			() => `Total file size ${beforeOrAfter} minification: ${c.magenta(sizeBefore.prettySize)}`,
 			"",
-		))
+		));
+}
+
+function analyzeBefore() {
+	return analyze("before", sizeBefore, true);
+}
+
+function analyzeAfter() {
+	return analyze("after", sizeAfter);
+}
+
+function generateBatches(cb) {
+	log(`Splitting ${c.magenta(files.length)} files into batches of size ${c.magenta(BATCH_SIZE)}...`);
+	batches = [];
+	for (let i = 0; i < files.length; i += BATCH_SIZE) {
+		batches.push(files.slice(i, i + BATCH_SIZE));
+	}
+	batches.reverse();
+	log(`${c.magenta(batches.length)} batches generated.`);
+	cb();
+}
+
+function minifyBatches(cb) {
+	const tasks = batches.slice(0, 1).map((batch, i) => {
+		function minifyTask() {
+			log(`Minifying batch ${c.magenta(i + 1)} of ${c.magenta(batches.length)}`);
+			return minifyBatch(batch);
+		}
+
+		minifyTask.displayName = `Minify batch ${i + 1} of ${batches.length}`;
+		return minifyTask;
+	});
+
+	return gulp.series(...tasks, (seriesDone) => {
+		seriesDone();
+		cb();
+	})();
+}
+
+function minifyBatch(batch) {
+	return gulp.src(batch, { base: BASE_DIR })
 		.pipe(cache(
 			imagemin([
 				jpegtran(),
@@ -75,14 +116,32 @@ exports.assetMinify = function () {
 				}),
 			},
 		))
-		.pipe(sizeAfter)
-		.pipe(gulpLog(
-			"",
-			() => `Total file size after minification: ${c.magenta(sizeAfter.prettySize)}`,
-			"",
-		));
-};
+		.pipe(gulp.dest("../../"));
+}
 
-exports.clean = function (cb) {
-	rimraf(CACHE_DIR, cb);
-};
+function sourceFiles() {
+	return gulp.src([
+		`${BASE_DIR}/**/*.{jpg,jpeg,png,svg}`,
+		`!${BASE_DIR}/Tools/Node/node_modules/**/*`,
+	]);
+}
+
+function count(message) {
+	return gulpCount({ message, logger: log });
+}
+
+function gulpLog(...messages) {
+	return through.obj(
+		(file, enc, cb) => cb(null, file),
+		(cb) => {
+			for (const message of messages) {
+				if (typeof message === "function") {
+					log(message());
+				} else {
+					log(message);
+				}
+			}
+			cb();
+		},
+	);
+}
