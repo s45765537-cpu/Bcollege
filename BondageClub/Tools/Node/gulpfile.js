@@ -9,8 +9,12 @@ const imagemin = require("gulp-imagemin");
 const jpegtran = require("imagemin-jpegtran");
 const cache = require("gulp-cache");
 const through = require("through2");
+const rimraf = require("rimraf");
+
+const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
 
 const count = (message) => gulpCount({ message, logger: log });
+
 const gulpLog = (...messages) => through.obj(
 	(file, enc, cb) => cb(null, file),
 	(cb) => {
@@ -66,8 +70,8 @@ exports.assetMinify = function () {
 			{
 				name: "imagemin",
 				fileCache: new cache.Cache({
-					tmpDir: path.resolve(__dirname, ".imagemin-cache"),
-					cacheDirName: "gulp-cache",
+					tmpDir: CACHE_DIR,
+					cacheDirName: "imagemin-cache",
 				}),
 			},
 		))
@@ -79,6 +83,6 @@ exports.assetMinify = function () {
 		));
 };
 
-exports.clean = function () {
-	return cache.clearAll();
+exports.clean = function (cb) {
+	rimraf(CACHE_DIR, cb);
 };
