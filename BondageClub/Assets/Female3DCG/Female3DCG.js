@@ -2225,7 +2225,7 @@ var AssetFemale3DCG = [
 			{ Name: "Cowtail", Fetish: ["Pet"], BuyGroup: "CowTails", Value: 20, Time: 10, Top: 80, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
 			{ Name: "HollowButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
 			{
-				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Time: 10, DynamicGroupName: "TailStraps",
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Time: 10, Prerequisite: ["AccessVulva"], DynamicGroupName: "TailStraps",
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				AllowActivity: ["Penetrate"],
 				Layer: [

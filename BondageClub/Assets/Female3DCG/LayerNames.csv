@@ -366,6 +366,9 @@ ItemArmsBitchSuitLatex,Suit
 ItemArmsBitchSuitLock,Locks
 ItemArmsBitchSuitExposedLatex,Suit
 ItemArmsBitchSuitExposedLock,Locks
+ItemArmsTentaclesLowerInner,Inner
+ItemArmsTentaclesLowerSucker,Suckers
+ItemArmsTentaclesLowerOuter,Outer
 ItemHandsFuturisticMittensBody,Body
 ItemHandsFuturisticMittensMesh,Mesh
 ItemHandsFuturisticMittensDisplay,Display
