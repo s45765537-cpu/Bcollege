@@ -211,7 +211,6 @@ TailStrapsTentaclesOuter,Outer
 TailStrapsTentaclesSucker,Suckers
 ItemFeetOrnateAnkleCuffsCuffs,Cuffs
 ItemFeetOrnateAnkleCuffsGems,Gems
-ItemLegsOrnateLegCuffsCuffs,Cuffs
 ItemFeetFloorShacklesChain,Chain
 ItemFeetFloorShacklesCuffs,Cuffs
 ItemFeetFuturisticAnkleCuffsCuffs,Cuffs
@@ -224,6 +223,7 @@ ItemFeetMedicalBedRestraintsStraps,Cuffs
 ItemLegsFuturisticLegCuffsCuffs,Cuffs
 ItemLegsFuturisticLegCuffsDisplay,Display
 ItemLegsFuturisticLegCuffsLock,Lock
+ItemLegsOrnateLegCuffsCuffs,Cuffs
 ItemLegsOrnateLegCuffsGems,Gems
 ItemLegsLeatherLegCuffsCuffs,Cuffs
 ItemLegsLeatherLegCuffsRings,Rings
@@ -235,6 +235,9 @@ ItemLegsWoodenHorseFrame,Frame
 ItemLegsWoodenHorseWood,Wood
 ItemLegsMedicalBedRestraintsBase,Bed Straps
 ItemLegsMedicalBedRestraintsStraps,Cuffs
+ItemLegsTentaclesInner,Inner
+ItemLegsTentaclesOuter,Outer
+ItemLegsTentaclesSucker,Suckers
 ItemVulvaWandBeltBelt,Belt
 ItemVulvaWandBeltWand,Wand
 ItemVulvaHempRopeBeltRope,Rope
