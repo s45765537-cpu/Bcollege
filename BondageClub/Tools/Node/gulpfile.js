@@ -14,19 +14,34 @@ const rimraf = require("rimraf");
 const BASE_DIR = path.resolve(__dirname, "..", "..");
 const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
 const BATCH_SIZE = 10;
+const SIZE_CONFIG = { showTotal: false };
 
-exports.assetMinify = gulp.series(analyzeBefore, generateBatches, minifyBatches);
+exports.assetMinify = gulp.series(analyzeBefore, generateBatches, minifyBatches, analyzeAfter);
 
 exports.clean = function (cb) {
 	rimraf(CACHE_DIR, cb);
 };
 
-const sizeBefore = size({ showTotal: false });
-const sizeAfter = size({ showTotal: false });
+const sizeBefore = size(SIZE_CONFIG);
+const sizeAfter = size(SIZE_CONFIG);
 let files = [];
 let batches = [];
+const sizes = {
+	before: {
+		png: size(SIZE_CONFIG),
+		jpg: size(SIZE_CONFIG),
+		svg: size(SIZE_CONFIG),
+		total: size(SIZE_CONFIG),
+	},
+	after: {
+		png: size(SIZE_CONFIG),
+		jpg: size(SIZE_CONFIG),
+		svg: size(SIZE_CONFIG),
+		total: size(SIZE_CONFIG),
+	},
+};
 
-function analyze(beforeOrAfter, sizePlugin, record = false) {
+function analyze(beforeOrAfter, sizePlugins, record = false) {
 	if (record) {
 		files = [];
 	}
@@ -41,24 +56,35 @@ function analyze(beforeOrAfter, sizePlugin, record = false) {
 			"--------------------------------",
 		))
 		.pipe(gulpIf(/\.png$/, count("PNG:\t<%= files %> found")))
+		.pipe(gulpIf(/\.png$/, sizePlugins.png))
 		.pipe(gulpIf(/\.jpe?g$/, count("JPG:\t<%= files %> found")))
+		.pipe(gulpIf(/\.jpe?g$/, sizePlugins.jpg))
 		.pipe(gulpIf(/\.svg$/, count("SVG:\t<%= files %> found")))
+		.pipe(gulpIf(/\.svg$/, sizePlugins.svg))
 		.pipe(gulpLog("--------------------------------"))
 		.pipe(count("Found <%= files %> in total for minification"))
-		.pipe(gulpLog(""))
-		.pipe(sizePlugin)
+		.pipe(sizePlugins.total)
 		.pipe(gulpLog(
-			() => `Total file size ${beforeOrAfter} minification: ${c.magenta(sizeBefore.prettySize)}`,
+			"",
+			c.cyan(`File sizes ${beforeOrAfter} minification`),
+			"--------------------------------",
+		))
+		.pipe(gulpLog(
+			() => `PNG: \t${c.magenta(sizePlugins.png.prettySize)}`,
+			() => `JPG: \t${c.magenta(sizePlugins.jpg.prettySize)}`,
+			() => `SVG: \t${c.magenta(sizePlugins.svg.prettySize)}`,
+			"--------------------------------",
+			() => `Total: \t${c.magenta(sizePlugins.total.prettySize)}`,
 			"",
 		));
 }
 
 function analyzeBefore() {
-	return analyze("before", sizeBefore, true);
+	return analyze("before", sizes.before, true);
 }
 
 function analyzeAfter() {
-	return analyze("after", sizeAfter);
+	return analyze("after", sizes.after);
 }
 
 function generateBatches(cb) {
@@ -92,22 +118,7 @@ function minifyBatches(cb) {
 function minifyBatch(batch) {
 	return gulp.src(batch, { base: BASE_DIR })
 		.pipe(cache(
-			imagemin([
-				jpegtran(),
-				imagemin.optipng({ optimizationLevel: 5 }),
-				imagemin.svgo({
-					plugins: [
-						{
-							name: "removeViewBox",
-							active: true,
-						},
-						{
-							name: "cleanupIDs",
-							active: true,
-						},
-					],
-				}),
-			]),
+			configureImagemin(),
 			{
 				name: "imagemin",
 				fileCache: new cache.Cache({
@@ -117,6 +128,25 @@ function minifyBatch(batch) {
 			},
 		))
 		.pipe(gulp.dest("../../"));
+}
+
+function configureImagemin() {
+	return imagemin([
+		jpegtran(),
+		imagemin.optipng({ optimizationLevel: 5 }),
+		imagemin.svgo({
+			plugins: [
+				{
+					name: "removeViewBox",
+					active: true,
+				},
+				{
+					name: "cleanupIDs",
+					active: true,
+				},
+			],
+		}),
+	]);
 }
 
 function sourceFiles() {
