@@ -213,7 +213,8 @@ function configureImagemin() {
 function sourceFiles() {
 	return gulp.src([
 		`${BASE_DIR}/**/*.{jpg,jpeg,png,svg}`,
-		`!${BASE_DIR}/Tools/Node/node_modules/**/*`,
+		`!${BASE_DIR}/**/Assets/Female3DCG/BodyUpper/3DCGPose/**/*`,
+		`!${BASE_DIR}/Tools/**/*`,
 	]);
 }
 
