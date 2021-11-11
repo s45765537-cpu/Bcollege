@@ -155,7 +155,6 @@ function generateBatches(cb) {
 	for (let i = 0; i < files.length; i += BATCH_SIZE) {
 		batches.push(files.slice(i, i + BATCH_SIZE));
 	}
-	batches.reverse();
 	log(`${c.magenta(batches.length)} batches generated.`);
 	cb();
 }
