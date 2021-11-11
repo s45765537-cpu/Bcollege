@@ -15,7 +15,7 @@ const prettyBytes = require("pretty-bytes");
 
 const BASE_DIR = path.resolve(__dirname, "..", "..");
 const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
-const BATCH_SIZE = 200;
+const BATCH_SIZE = 500;
 const SIZE_CONFIG = { showTotal: false };
 
 exports.assetMinify = gulp.series(logIntro, analyzeBefore, generateBatches, minifyBatches, analyzeAfter, report);
@@ -215,7 +215,7 @@ function sourceFiles() {
 		`${BASE_DIR}/**/*.{jpg,jpeg,png,svg}`,
 		`!${BASE_DIR}/**/Assets/Female3DCG/BodyUpper/3DCGPose/**/*`,
 		`!${BASE_DIR}/Tools/**/*`,
-	]);
+	], { base: BASE_DIR });
 }
 
 function count(message) {
