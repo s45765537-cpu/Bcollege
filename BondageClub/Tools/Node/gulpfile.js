@@ -10,20 +10,20 @@ const jpegtran = require("imagemin-jpegtran");
 const cache = require("gulp-cache");
 const through = require("through2");
 const rimraf = require("rimraf");
+const { table } = require("table");
+const prettyBytes = require("pretty-bytes");
 
 const BASE_DIR = path.resolve(__dirname, "..", "..");
 const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 200;
 const SIZE_CONFIG = { showTotal: false };
 
-exports.assetMinify = gulp.series(analyzeBefore, generateBatches, minifyBatches, analyzeAfter);
+exports.assetMinify = gulp.series(logIntro, analyzeBefore, generateBatches, minifyBatches, analyzeAfter, report);
 
 exports.clean = function (cb) {
 	rimraf(CACHE_DIR, cb);
 };
 
-const sizeBefore = size(SIZE_CONFIG);
-const sizeAfter = size(SIZE_CONFIG);
 let files = [];
 let batches = [];
 const sizes = {
@@ -40,6 +40,11 @@ const sizes = {
 		total: size(SIZE_CONFIG),
 	},
 };
+
+function logIntro(cb) {
+	log(c.cyan("Starting image minification. Please be patient, this can take a long time..."));
+	cb();
+}
 
 function analyze(beforeOrAfter, sizePlugins, record = false) {
 	if (record) {
@@ -87,6 +92,63 @@ function analyzeAfter() {
 	return analyze("after", sizes.after);
 }
 
+function report(cb) {
+	const { before, after } = sizes;
+	log("");
+	log(c.cyan("Image minification report"));
+	log("--------------------------------");
+	const tableData = [
+		reportHeader(),
+		reportRow("PNG", before.png, after.png),
+		reportRow("JPG", before.jpg, after.jpg),
+		reportRow("SVG", before.svg, after.svg),
+		reportRow("Total", before.total, after.total),
+	];
+	const tableLines = table(tableData).split("\n");
+	for (const line of tableLines) {
+		log(line);
+	}
+	cb();
+}
+
+function reportHeader() {
+	return [
+		c.cyan("File Type"),
+		c.cyan("Size before"),
+		c.cyan("Size after"),
+		c.cyan("Difference"),
+		c.cyan("Percentage reduction"),
+	];
+}
+
+function reportRow(fileType, before, after) {
+	return [
+		fileType,
+		before.prettySize,
+		after.prettySize,
+		colorizeSizeDifference(before.size, after.size),
+		colorizeSizePercentage(before.size, after.size),
+	];
+}
+
+function getRAGColor(before, after) {
+	return after < before ? c.green
+		: after > before ? c.red
+			: c.yellow;
+}
+
+function colorizeSizeDifference(before, after) {
+	const color = getRAGColor(before, after);
+	return color(prettyBytes(after - before, { signed: true }));
+}
+
+function colorizeSizePercentage(before, after) {
+	const color = getRAGColor(before, after);
+	const reduction = before - after;
+	const percentage = 100 * reduction / before;
+	return color(`${percentage.toFixed(2)}%`);
+}
+
 function generateBatches(cb) {
 	log(`Splitting ${c.magenta(files.length)} files into batches of size ${c.magenta(BATCH_SIZE)}...`);
 	batches = [];
@@ -99,7 +161,7 @@ function generateBatches(cb) {
 }
 
 function minifyBatches(cb) {
-	const tasks = batches.slice(0, 1).map((batch, i) => {
+	const tasks = batches.map((batch, i) => {
 		function minifyTask() {
 			log(`Minifying batch ${c.magenta(i + 1)} of ${c.magenta(batches.length)}`);
 			return minifyBatch(batch);
