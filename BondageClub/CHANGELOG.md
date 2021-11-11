@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-11-10
-* Last recorded PR: [#3060](https://github.com/Ben987/Bondage-College/pull/3060)
-* Last recorded commit hash: `b769232ac11946da934b187dff9483c69c8ad80c`
+* Changelog last updated: 2021-11-11
+* Last recorded PR: [#3070](https://github.com/Ben987/Bondage-College/pull/3070)
+* Last recorded commit hash: `f19c89506802779bfefafed4c8b44e89012328df`
 
 ## [R74]
 
@@ -49,6 +49,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Overhauled the kneeling spread pose (used for the Sybian) ([#3042](https://github.com/Ben987/Bondage-College/pull/3042))
 * Ellie - Modified most hoods to address some clipping issues with other head items ([#3054](https://github.com/Ben987/Bondage-College/pull/3054))
   * This change also removed the restriction on the Sensory Deprivation Hood, Sealed Leather Hood and Open Hair Latex Hood, so that all three can now be used when hogtied or in the all fours pose
+* Ada - Increased the difficulty of Irish 8 Cuffs ([#3067](https://github.com/Ben987/Bondage-College/pull/3067))
 
 ### [Fixed]
 
@@ -62,6 +63,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ellie - Fixed a bug where the hands for the Asian and Black body types became disconnected from the body in the all fours pose ([#3054](https://github.com/Ben987/Bondage-College/pull/3054))
 * Ellie - Fixed an issue where chastity piercings were impossible to remove ([#3055](https://github.com/Ben987/Bondage-College/pull/3055))
 * Ada - Fixed a bug where Futuristic items could be modified by a non-Futuristic collar under certain circumstances ([#3059](https://github.com/Ben987/Bondage-College/pull/3059))
+* Ada - Fixed missing chat messages for the Futuristic Ball Gag ([#3071](https://github.com/Ben987/Bondage-College/pull/3071))
+* Ellie - Fixed several 404 errors that could occur when mounted on the Wooden Horse ([#3062](https://github.com/Ben987/Bondage-College/pull/3062)) 
+* Ellie - Fixed some minor graphical artefacts on the Display Frame ([#3063](https://github.com/Ben987/Bondage-College/pull/3063))
 
 ### [Technical]
 
@@ -72,8 +76,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Beta Fixes]
 
-* Nothing... yet
-
+* Ellie - Fixed an issue where open-backed chastity belts would prevent anal toys from being used ([#3064](https://github.com/Ben987/Bondage-College/pull/3064))
+* Ada - Fixed the positioning of some Sleeveless Catsuit assets ([#3065](https://github.com/Ben987/Bondage-College/pull/3065))
+* Jomshir - Fixed broken images on the Heavy Latex Corset ([#3068](https://github.com/Ben987/Bondage-College/pull/3068))
+* Ellie - Fixed a bug where the Kigurumi Mask would hide blindfolds when in latex mode ([#3069](https://github.com/Ben987/Bondage-College/pull/3069))
+* Ada - Fixed a bug where the Futuristic Collar would set the time on timer locks too high ([#3070](https://github.com/Ben987/Bondage-College/pull/3070))
 
 ## [R73]
 
