@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require("path");
 const log = require("fancy-log");
 const c = require("ansi-colors");
