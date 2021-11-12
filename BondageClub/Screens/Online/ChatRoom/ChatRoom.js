@@ -1675,7 +1675,7 @@ function ChatRoomMenuClick() {
 				case "Kneel":
 					// When the user character kneels
 					if (Player.CanKneel()) {
-						const PlayerIsKneeling = Player.ActivePose && Player.ActivePose.includes("Kneel");
+						const PlayerIsKneeling = Player.IsKneeling();
 						ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
 						FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
 						CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
@@ -3481,7 +3481,7 @@ function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, Existi
  */
 function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner) AdminList = AdminList.concat(Player.Ownership.MemberNumber);
+	if (IncludesOwner && (Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) AdminList = AdminList.concat(Player.Ownership.MemberNumber);
 	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }

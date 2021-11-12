@@ -11,7 +11,11 @@ var InventoryItemPelvisFuturisticChastityBeltTamperZones = [
 
 function InventoryFuturisticChastityBeltCheckPunish(Item) {
 	// Punish the player if they try to mess with the groin area
+<<<<<<< HEAD
 	if ((Item.Property.PunishStruggle || Item.Property.Type.includes("t1") || Item.Property.Type.includes("t2")) && Player.FocusGroup && (StruggleProgress >= 0 || StruggleLockPickProgressCurrentTries > 0) && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0) {
+=======
+	if ((Item.Property.PunishStruggle || (Item.Property.Type && (Item.Property.Type.includes("t1") || Item.Property.Type.includes("t2")))) && Player.FocusGroup && (StruggleProgress >= 0 || StruggleLockPickProgressCurrentTries > 0) && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0) {
+>>>>>>> upstream/master
 		var inFocus = false;
 		for (var Z = 0; Z < InventoryItemPelvisFuturisticChastityBeltTamperZones.length; Z++)
 			if (Player.FocusGroup.Name == InventoryItemPelvisFuturisticChastityBeltTamperZones[Z])
@@ -23,12 +27,20 @@ function InventoryFuturisticChastityBeltCheckPunish(Item) {
 	}
 
 	// Punish the player if they struggle anywhere
+<<<<<<< HEAD
 	if ((Item.Property.PunishStruggleOther || Item.Property.Type.includes("t2")) && Player.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 50 || StruggleLockPickProgressCurrentTries > 2)) {
+=======
+	if ((Item.Property.PunishStruggleOther || (Item.Property.Type && Item.Property.Type.includes("t2"))) && Player.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 50 || StruggleLockPickProgressCurrentTries > 2)) {
+>>>>>>> upstream/master
 		return "StruggleOther";
 	}
 
 	// Punish the player if they orgasm
+<<<<<<< HEAD
 	if (Item.Property.NextShockTime - CurrentTime <= 0 && (Item.Property.PunishOrgasm || Item.Property.Type.includes("o1")) && Player.ArousalSettings && Player.ArousalSettings.OrgasmStage > 1) {
+=======
+	if (Item.Property.NextShockTime - CurrentTime <= 0 && (Item.Property.PunishOrgasm || (Item.Property.Type && Item.Property.Type.includes("o1"))) && Player.ArousalSettings && Player.ArousalSettings.OrgasmStage > 1) {
+>>>>>>> upstream/master
 		// Punish the player if they orgasm
 		return "Orgasm";
 	}
