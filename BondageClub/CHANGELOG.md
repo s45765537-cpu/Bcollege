@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-11-11
-* Last recorded PR: [#3070](https://github.com/Ben987/Bondage-College/pull/3070)
-* Last recorded commit hash: `f19c89506802779bfefafed4c8b44e89012328df`
+* Changelog last updated: 2021-11-12
+* Last recorded PR: [#3075](https://github.com/Ben987/Bondage-College/pull/3075)
+* Last recorded commit hash: `97705eb4c1b79a38afee367dc89213978cf3d5f5`
 
 ## [R74]
 
@@ -81,6 +81,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Jomshir - Fixed broken images on the Heavy Latex Corset ([#3068](https://github.com/Ben987/Bondage-College/pull/3068))
 * Ellie - Fixed a bug where the Kigurumi Mask would hide blindfolds when in latex mode ([#3069](https://github.com/Ben987/Bondage-College/pull/3069))
 * Ada - Fixed a bug where the Futuristic Collar would set the time on timer locks too high ([#3070](https://github.com/Ben987/Bondage-College/pull/3070))
+* Ada - Added the Catsuit Panties to the panties slot ([#3075](https://github.com/Ben987/Bondage-College/pull/3075))
 
 ## [R73]
 
