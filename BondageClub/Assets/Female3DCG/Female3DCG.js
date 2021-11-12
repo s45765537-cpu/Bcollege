@@ -590,8 +590,7 @@ var AssetFemale3DCG = [
 					{ Name: "Layer4", AllowColorize: true }
 				]
 			},
-			{ Name: "PilotPanties", Fetish: ["Latex"], Value: -1, BuyGroup: "PilotSuit", DefaultColor: ["#3270C1", "#2B408B", "#969696", "#282828"], Hide: ["ItemVulvaPiercings"], DynamicGroupName: "Panties",
-				HideForPose: ["KneelingSpread"],
+			{ Name: "PilotPanties", Fetish: ["Latex"], Value: -1, BuyGroup: "PilotSuit", DefaultColor: ["#3270C1", "#2B408B", "#969696", "#282828"], Hide: ["ItemVulvaPiercings"], DynamicGroupName: "Panties", AllowPose: [],
 				Layer: [
 					{ Name: "Layer1", AllowColorize: true },
 					{ Name: "Layer2", AllowColorize: true },
@@ -607,12 +606,12 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "ReverseBunnySuit", Fetish: ["Latex", "Pet"], Value: -1, BuyGroup: "ReverseBunnySuit" },
-			{ Name: "Pantyhose1", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo"], BuyGroup: "Pantyhose", Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], DynamicGroupName: "Socks" },
-			{ Name: "Pantyhose2", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Pantyhose2", DynamicGroupName: "Socks" },
-			{ Name: "Stockings1", Fetish: ["Nylon"], Left: 125, Top: 400, BuyGroup: "Stockings1", DynamicGroupName: "Socks" },
-			{ Name: "Stockings2", Fetish: ["Nylon"], Left: 125, Top: 400, BuyGroup: "Stockings2", DynamicGroupName: "Socks" },
-			{ Name: "Stockings3", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Stockings3", DynamicGroupName: "Socks" },
-			{ Name: "Stockings4", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Stockings4", DynamicGroupName: "Socks" },
+			{ Name: "Pantyhose1", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo"], BuyGroup: "Pantyhose", Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], DynamicGroupName: "Socks", HideForPose: ["Horse"] },
+			{ Name: "Pantyhose2", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Pantyhose2", DynamicGroupName: "Socks", HideForPose: ["Horse"] },
+			{ Name: "Stockings1", Fetish: ["Nylon"], Left: 125, Top: 400, BuyGroup: "Stockings1", DynamicGroupName: "Socks", HideForPose: ["Horse"] },
+			{ Name: "Stockings2", Fetish: ["Nylon"], Left: 125, Top: 400, BuyGroup: "Stockings2", DynamicGroupName: "Socks", HideForPose: ["Horse"] },
+			{ Name: "Stockings3", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Stockings3", DynamicGroupName: "Socks", HideForPose: ["Horse"] },
+			{ Name: "Stockings4", Fetish: ["Nylon"], Value: 10, Left: 125, Top: 400, BuyGroup: "Stockings4", DynamicGroupName: "Socks", HideForPose: ["Horse"] },
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -827,13 +826,17 @@ var AssetFemale3DCG = [
 			{ Name: "LeatherStrapPanties1", Fetish: ["Leather"], Value: 20, BuyGroup: "LeatherStrapPanties1", HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
 			{ Name: "CowPrintedPanties", Value: 15, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
 			{ Name: "LatexPanties2", BuyGroup: "LatexPanties", Fetish: ["Latex"], Value: 30,  HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
-			{ Name: "PilotPanties", BuyGroup: "PilotSuit", DefaultColor: ["#3270C1", "#2B408B", "#969696"], Left: 95, Top: 380, Fetish: ["Latex"], Value: -1,  HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"],
+			{ Name: "PilotPanties", BuyGroup: "PilotSuit", DefaultColor: ["#3270C1", "#2B408B", "#969696"], Left: 95, Top: 380, Fetish: ["Latex"], Value: -1,
+				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"],
 				Layer: [
 					{ Name: "Layer1", AllowColorize: true },
 					{ Name: "Layer2", AllowColorize: true },
 					{ Name: "Layer3", AllowColorize: true },
 				]
 			},
+			{ Name: "CatsuitPanties", BuyGroup: "Catsuit", Left: 95, Top: 380, Fetish: ["Latex"], Value: -1, DynamicGroupName: "SuitLower",
+				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"],
+		},
 			{ Name: "SilkStraps", Value: 40, BuyGroup: "SilkStraps", DefaultColor: "#E8E8E8", Extended: true},
 			{ Name: "FlowerPanties", Fetish: ["Lingerie"], Value: 15,  HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"],
 				Layer: [
@@ -1850,7 +1853,7 @@ var AssetFemale3DCG = [
 			{ Name: "HempRope", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 15, DefaultColor: "#956B1C", BuyGroup: "HempRope", HideItem: ["ItemMiscTeddyBear", "ItemDevicesLittleMonster", "ItemDevicesFamiliar"], SetPose: ["LegsClosed"], AllowBlock: ["ItemLegs", "ItemBoots", "ItemDevices"], AllowType: ["Mermaid", "Suspension", "FullBinding", "Diamond", "Link", "BedSpreadEagle"], Audio: "RopeShort", Extended: true, AllowActivePose: ["Kneel"], DynamicBeforeDraw: true },
 			{ Name: "LeatherBelt", Fetish: ["Leather"], Value: 25, Time: 10, RemoveTime: 5, AllowLock: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
 			{ Name: "SturdyLeatherBelts", Fetish: ["Leather"], Value: 50, Time: 10, RemoveTime: 5, AllowLock: true, BuyGroup: "SturdyLeatherBelts", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
-			{ Name: "Irish8Cuffs", Fetish: ["Metal"], Value: 25, Time: 10, RemoveTime: 5, AllowLock: true, Audio: "CuffsMetal", SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
+			{ Name: "Irish8Cuffs", Fetish: ["Metal"], Value: 25, Difficulty: 5, Time: 10, RemoveTime: 5, AllowLock: true, Audio: "CuffsMetal", SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
 			{ Name: "DuctTape", Fetish: ["Tape"], Value: 50, Time: 15, RemoveTime: 10, BuyGroup: "DuctTape", Audio: "DuctTape", HideItem: ["ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots"], SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
 			{ Name: "LeatherAnkleCuffs", Fetish: ["Leather"], Priority: 24, Value: 30, Difficulty: 2, Time: 10, Random: false, AllowLock: true, AllowPose: ["LegsClosed", "Spread"], Effect: ["CuffedFeet"], Extended: true, AllowActivePose: ["Kneel"], HasType: false, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }], FreezeActivePose: [],
 				DefaultColor: ["#2E2E2E", "Default"],
@@ -2187,70 +2190,70 @@ var AssetFemale3DCG = [
 		Zone: [[300, 500, 100, 80]],
 		Activity: ["Bite", "Kiss", "GaggedKiss", "MasturbateHand", "MasturbateFist", "MasturbateTongue", "Spank", "Caress", "Grope", "SpankItem", "TickleItem", "RubItem", "RollItem", "MasturbateItem", "PourItem", "ShockItem", "PenetrateSlow", "PenetrateFast", "Wiggle", "Step"],
 		Asset: [
-			{ Name: "BlackButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "PenisPlug", Value: 20, Time: 10, Visible: false, BuyGroup: "PenisDildo", Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "BlackButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "PenisPlug", Value: 20, Time: 10, Visible: false, BuyGroup: "PenisDildo", Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
 			{
-				Name: "TailButtPlug", Fetish: ["Pet"], Value: 40, Time: 10, Top: 100, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Layer: [
+				Name: "TailButtPlug", Fetish: ["Pet"], Value: 40, Time: 10, Top: 100, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Layer: [
 					{ Name: "Tail" },
 					{ Name: "Ribbon" },
 					{ Name: "Bell" },
 				]
 			},
-			{ Name: "HorsetailPlug", Fetish: ["Pony"], Value: 30, Time: 10, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "HorsetailPlug1", Fetish: ["Pony"], Value: 40, Time: 10, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "PuppyTailPlug", Fetish: ["Pet"], Value: 25, Time: 10, Top: 20, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "PuppyTailPlug1", Fetish: ["Pet"], Value: 30, Time: 10, Top: 30, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "SuccubusButtPlug", Fetish: ["Pet"], Value: 15, Time: 10, Top: 65, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "SuccubusHeartButtPlug", Fetish: ["Pet"], Value: 25, Time: 10, Top: 60, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+			{ Name: "HorsetailPlug", Fetish: ["Pony"], Value: 30, Time: 10, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "HorsetailPlug1", Fetish: ["Pony"], Value: 40, Time: 10, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "PuppyTailPlug", Fetish: ["Pet"], Value: 25, Time: 10, Top: 20, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "PuppyTailPlug1", Fetish: ["Pet"], Value: 30, Time: 10, Top: 30, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "SuccubusButtPlug", Fetish: ["Pet"], Value: 15, Time: 10, Top: 65, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "SuccubusHeartButtPlug", Fetish: ["Pet"], Value: 25, Time: 10, Top: 60, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Tail" },
 					{ Name: "Heart" },
 				]
 			},
 			{
-				Name: "FoxTails", Fetish: ["Pet"], Priority: 2, Value: 60, Time: 10, Top: 20, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Layer: [
+				Name: "FoxTails", Fetish: ["Pet"], Priority: 2, Value: 60, Time: 10, Top: 20, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Layer: [
 					{ Name: "Tips" },
 					{ Name: "Bases" }
 				]
 			},
-			{ Name: "RaccoonButtPlug", Fetish: ["Pet"], Value: 40, Time: 10, Top: 20, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "RaccoonTailPlug", Fetish: ["Pet"], Priority: 2, Value: 50, Time: 10, Top: 30, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "AnalBeads", Value: 20, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "AnalBeads2", Fetish: ["Metal"],  Value: 70, Time: 14, Prerequisite: ["AccessVulva"], AllowType: ["Base", "_2in", "_3in", "_4in", "_5in"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Extended: true, Activity: "MasturbateItem" },
-			{ Name: "ButtPump", Value: 35, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Extended: true },
-			{ Name: "VibratingButtplug", Value: 60, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true },
-			{ Name: "InflVibeButtPlug", Value: 90, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }] },
-			{ Name: "AnalHook", Fetish: ["Metal"], Value: 20, Time: 10, IsRestraint: true, Prerequisite: ["AccessVulva"], Effect: ["IsPlugged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], Extended: true },
-			{ Name: "ButtPlugLock", Fetish: ["Metal"], Value: 75, Difficulty: 50, Time: 30, RemoveTime: 50, IsRestraint: true, AllowLock: true, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "High", Group: "Blush", Timer: 10 }, { Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Soft", Group: "Eyebrows", Timer: 5 }], Extended: true },
-			{ Name: "KittenTail1", Fetish: ["Pet"], Value: 30, Time: 10, Top: 100, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "KittenTail2", Fetish: ["Pet"], Value: 30, Time: 10, Top: 30, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "FoxTail1", Fetish: ["Pet"], Value: 50, Time: 10, Top: 80, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+			{ Name: "RaccoonButtPlug", Fetish: ["Pet"], Value: 40, Time: 10, Top: 20, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "RaccoonTailPlug", Fetish: ["Pet"], Priority: 2, Value: 50, Time: 10, Top: 30, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "AnalBeads", Value: 20, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "AnalBeads2", Fetish: ["Metal"],  Value: 70, Time: 14, Prerequisite: ["AccessButt"], AllowType: ["Base", "_2in", "_3in", "_4in", "_5in"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Extended: true, Activity: "MasturbateItem" },
+			{ Name: "ButtPump", Value: 35, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Extended: true },
+			{ Name: "VibratingButtplug", Value: 60, Time: 10, Visible: false, Prerequisite: ["AccessButt"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true },
+			{ Name: "InflVibeButtPlug", Value: 90, Time: 10, Visible: false, Prerequisite: ["AccessButt"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }] },
+			{ Name: "AnalHook", Fetish: ["Metal"], Value: 20, Time: 10, IsRestraint: true, Prerequisite: ["AccessButt"], Effect: ["IsPlugged"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], Extended: true },
+			{ Name: "ButtPlugLock", Fetish: ["Metal"], Value: 75, Difficulty: 50, Time: 30, RemoveTime: 50, IsRestraint: true, AllowLock: true, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "High", Group: "Blush", Timer: 10 }, { Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Soft", Group: "Eyebrows", Timer: 5 }], Extended: true },
+			{ Name: "KittenTail1", Fetish: ["Pet"], Value: 30, Time: 10, Top: 100, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "KittenTail2", Fetish: ["Pet"], Value: 30, Time: 10, Top: 30, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "FoxTail1", Fetish: ["Pet"], Value: 50, Time: 10, Top: 80, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Tip" },
 				]
 			},
-			{ Name: "FoxTail2", Fetish: ["Pet"], Value: 50, Time: 10, Top: 100, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+			{ Name: "FoxTail2", Fetish: ["Pet"], Value: 50, Time: 10, Top: 100, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Tip" },
 				]
 			},
-			{ Name: "WolfTail1", Fetish: ["Pet"], Value: 35, Time: 10, Top: 50, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "WolfTail2", Fetish: ["Pet"], Value: 35, Time: 10, Top: 60, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "WolfTail3", Fetish: ["Pet"], Value: 35, Time: 10, Top: 40, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "DemonPlug", Fetish: ["Pet"], Value: 35, Time: 10, Top: 70, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "MouseTail1", Fetish: ["Pet"], Value: 35, Time: 10, Top: 150, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "MouseTail2", Fetish: ["Pet"], Value: 35, Time: 10, Top: 180, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "VibratingDildoPlug", Value: 60, Time: 10, Visible: false, BuyGroup: "VibratingDildo", Prerequisite: ["AccessVulva"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], DynamicScriptDraw: true },
-			{ Name: "BunnyTailPlug1", Fetish: ["Pet"], Value: 1, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "BunnyTailPlug2", Fetish: ["Pet"], Value: 1, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "BunnyTailVibePlug", Fetish: ["Pet"], Effect: ["IsPlugged", "Egged"], Value: 75, Prerequisite: ["AccessVulva"], Time: 10, ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
-			{ Name: "EggVibePlugXXL", Effect: ["IsPlugged", "Egged"], Value: 90, Prerequisite: ["AccessVulva"], Time: 10, ExpressionTrigger: [{ Group: "Blush", Name: "High", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
-			{ Name: "LockingVibePlug", Effect: ["IsPlugged", "Egged"], Value: 80, Difficulty: 30, Time: 30, RemoveTime: 50, IsRestraint: true, AllowLock: true, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Group: "Blush", Name: "High", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
-			{ Name: "ShockPlug", Fetish: ["Masochism"], Value: 60, Time: 10, Visible: false, Extended: true, AlwaysExtend: true, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Activity: "ShockItem" },
-			{ Name: "Cowtail", Fetish: ["Pet"], BuyGroup: "CowTails", Value: 20, Time: 10, Top: 80, Prerequisite: ["AccessVulva"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
-			{ Name: "HollowButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "WolfTail1", Fetish: ["Pet"], Value: 35, Time: 10, Top: 50, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "WolfTail2", Fetish: ["Pet"], Value: 35, Time: 10, Top: 60, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "WolfTail3", Fetish: ["Pet"], Value: 35, Time: 10, Top: 40, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "DemonPlug", Fetish: ["Pet"], Value: 35, Time: 10, Top: 70, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "MouseTail1", Fetish: ["Pet"], Value: 35, Time: 10, Top: 150, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "MouseTail2", Fetish: ["Pet"], Value: 35, Time: 10, Top: 180, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "VibratingDildoPlug", Value: 60, Time: 10, Visible: false, BuyGroup: "VibratingDildo", Prerequisite: ["AccessButt"], Effect: ["IsPlugged", "Egged"], AllowEffect: ["IsPlugged", "Egged", "Vibrating", "Edged"], DynamicScriptDraw: true },
+			{ Name: "BunnyTailPlug1", Fetish: ["Pet"], Value: 1, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "BunnyTailPlug2", Fetish: ["Pet"], Value: 1, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "BunnyTailVibePlug", Fetish: ["Pet"], Effect: ["IsPlugged", "Egged"], Value: 75, Prerequisite: ["AccessButt"], Time: 10, ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
+			{ Name: "EggVibePlugXXL", Effect: ["IsPlugged", "Egged"], Value: 90, Prerequisite: ["AccessButt"], Time: 10, ExpressionTrigger: [{ Group: "Blush", Name: "High", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
+			{ Name: "LockingVibePlug", Effect: ["IsPlugged", "Egged"], Value: 80, Difficulty: 30, Time: 30, RemoveTime: 50, IsRestraint: true, AllowLock: true, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Group: "Blush", Name: "High", Timer: 10 }], AllowEffect: ["Egged", "Vibrating", "Edged"], Visible: false, DynamicScriptDraw: true },
+			{ Name: "ShockPlug", Fetish: ["Masochism"], Value: 60, Time: 10, Visible: false, Extended: true, AlwaysExtend: true, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], Activity: "ShockItem" },
+			{ Name: "Cowtail", Fetish: ["Pet"], BuyGroup: "CowTails", Value: 20, Time: 10, Top: 80, Prerequisite: ["AccessButt"], AllowPose: ["AllFours"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
+			{ Name: "HollowButtPlug", Value: 15, Time: 10, Visible: false, Prerequisite: ["AccessButt"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }] },
 			{
 				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Time: 10, Prerequisite: ["AccessVulva"], DynamicGroupName: "TailStraps",
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
@@ -4705,7 +4708,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "KirugumiMask", Fetish: ["Latex"], Value: 50, Priority: 51, Difficulty: 15, Time: 10,
 				Random: false, AllowLock: true, DrawLocks: false, Prerequisite: ["GasMask"], DefaultColor: ["#9A7F76", "Default"],
-				Hide: ["ItemHead"],
 				AllowEffect: ["BlindLight", "BlindHeavy", "Prone"],
 				Block: [],
 				Layer: [
@@ -4838,6 +4840,21 @@ var AssetFemale3DCG = [
 					{ Name: "HelmetSecondary", HasType: false, },
 				],
 				Alpha: [{ Group: ["ItemHead"], Masks: [[0, 0, 500, 1000], [0, 0, 203, 250], [295, 0, 205, 250]] }],
+			},
+			{
+				Name: "LampHeadHood", Fetish: ["Forniphilia"], Value: 40, Difficulty: 3, Time: 8, RemoveTime: 5, Top: 25, Left: 135, Priority: 57, DefaultColor: ["Default", "#a13f75", "#ad4c81"],
+				Effect: ["BlindLight"],
+				Block: ["ItemHead"],
+				Hide: ["Hat"],
+				HideItem: ["HairAccessory1HairFeathers1", "HairAccessory1HairFlower1", "HairAccessory3HairFeathers1", "HairAccessory3HairFlower1"],
+				HideItemExclude: ["HatBandana", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatFacePaint", "HatFurHeadband"],
+				Alpha: [{Group: ["HairFront", "Mask", "ItemHead", "ItemEars"], Masks: [[0, 0, 500, 165]]}],
+				Layer: [
+					{ Name: "Inside", Priority: 1 },
+					{ Name: "Cord", AllowColorize: false, HideForPose: ["Suspension"] },
+					{ Name: "Switch", HideForPose: ["Suspension"] },
+					{ Name: "Lamp" },
+				],
 			},
 			AssetSpankingToys
 		],
@@ -5973,5 +5990,9 @@ var FetishFemale3DCG = [
 	{
 		Name: "ABDL",
 		GetFactor: function (C) { return ActivityFetishItemFactor(C, "ABDL"); }
-	}
+	},
+	{
+		Name: "Forniphilia",
+		GetFactor: function (C) {return ActivityFetishItemFactor(C, "Forniphilia"); }
+	},
 ];

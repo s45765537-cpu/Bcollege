@@ -1641,7 +1641,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Effect: ["BlockMouth"],
-									Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "Mask"],
+									Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "Mask", "ItemHead"],
 									HideItem: ["ItemHeadSnorkel"],
 									Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose", "ItemEars"]
 								}
@@ -2901,10 +2901,6 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // LatexCorset1
-		HeavyLatexCorset: {
-			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemTorso", AssetName: "HeavyLatexCorset" },
-		}, // HeavyLatexCorset
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
