@@ -1918,6 +1918,17 @@ var AssetFemale3DCG = [
 			{
 				Name: "SuspensionCuffs", Fetish: ["Leather"], Value: 70, Difficulty: 10, SelfBondage: 3, Time: 30, AllowLock: true, Random: false, SetPose: ["LegsOpen", "Suspension"], Effect: ["Block", "Prone", "Freeze"], Block: ["ItemLegs", "ItemBoots"], Prerequisite: ["NotKneeling", "NotMounted", "NotChained", "NotHogtied", "LegsOpen"], Hide: ["Shoes"], OverrideHeight: { Height: -100, Priority: 41 },
 			},
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 6, Time: 15, RemoveTime: 15, Left: 150,
+				SetPose: ["LegsClosed"],
+				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
+				Layer: [
+					{ Name: "Inner" },
+					{ Name: "Sucker" },
+					{ Name: "Outer" },
+					{ Name: "Shine", AllowColorize: false },
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -2017,7 +2028,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 6, Time: 15, RemoveTime: 15, Left: 142, Top: 560,
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				Layer: [
 					{ Name: "Inner" },
