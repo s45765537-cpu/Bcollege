@@ -5461,6 +5461,7 @@ var PoseFemale3DCG = [
 		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
 		MovePosition: [
 			{ Group: "ClothLower", X: -90, Y: 0},
+			{ Group: "ItemLegs", X: -60, Y: 0},
 			{ Group: "Socks", X: -30, Y: 0 },
 			{ Group: "Shoes", X: -20, Y: -100 },
 		]
