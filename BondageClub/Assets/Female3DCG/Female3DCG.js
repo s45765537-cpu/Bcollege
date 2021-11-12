@@ -1936,7 +1936,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "OrnateLegCuffs", Fetish: ["Metal"], Priority: 24, Value: 90, Difficulty: 3, Time: 10, Random: false, AllowLock: true, Audio: "CuffsMetal", AllowPose: ["Kneel", "LegsClosed"], Effect: ["CuffedLegs"], Extended: true, AllowActivePose: ["Kneel"], FreezeActivePose: [], HasType: false,
+				Name: "OrnateLegCuffs", Fetish: ["Metal"], Priority: 24, Value: 90, Difficulty: 3, Time: 10, Random: false, AllowLock: true, Audio: "CuffsMetal", AllowPose: ["Kneel", "LegsClosed", "KneelingSpread"], Effect: ["CuffedLegs"], Extended: true, AllowActivePose: ["Kneel", "KneelingSpread"], FreezeActivePose: [], HasType: false,
 				Layer: [
 					{ Name: "Cuffs" },
 					{ Name: "Gems" }
