@@ -5458,7 +5458,7 @@ var PoseFemale3DCG = [
 		Category: "BodyLower",
 		OverrideHeight: { Height: -250, Priority: 20 },
 		AllowMenu: true,
-		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
+		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet", "ItemBoots"],
 		MovePosition: [
 			{ Group: "ClothLower", X: -90, Y: 0},
 			{ Group: "Socks", X: -30, Y: 0 },
