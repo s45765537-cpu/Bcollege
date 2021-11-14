@@ -2546,6 +2546,9 @@ var AssetFemale3DCGExtended = {
 		VibratingEgg: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibratingEgg
+		VibratingLatexPanties: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingLatexPanties
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
