@@ -2552,6 +2552,9 @@ var AssetFemale3DCGExtended = {
 		WandBelt: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // WandBelt
+		FullLatexSuitWand: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FullLatexSuitWand
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
