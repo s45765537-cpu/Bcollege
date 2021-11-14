@@ -2558,6 +2558,9 @@ var AssetFemale3DCGExtended = {
 		HempRopeBelt: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // HempRopeBelt
+		WiredEgg: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WiredEgg
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
