@@ -2536,7 +2536,10 @@ var AssetFemale3DCGExtended = {
 				],
 				DrawImages: false,
 			},
-		},
+		}, // DoubleEndDildo
+		VibratingDildo: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingDildo
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
