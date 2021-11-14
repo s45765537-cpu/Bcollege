@@ -2540,6 +2540,9 @@ var AssetFemale3DCGExtended = {
 		VibratingDildo: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibratingDildo
+		ClitoralStimulator: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		} // ClitoralStimulator
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
