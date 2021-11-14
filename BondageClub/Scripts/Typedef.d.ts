@@ -64,10 +64,7 @@ type CharacterType = "online" | "npc" | "simple";
 
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 
-enum VibratorModeSet {
-	STANDARD = "Standard",
-	ADVANCED = "Advanced",
-}
+type VibratorModeSet = "Standard" | "Advanced";
 
 type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
 
