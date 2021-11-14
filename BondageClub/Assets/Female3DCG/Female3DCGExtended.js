@@ -2549,6 +2549,9 @@ var AssetFemale3DCGExtended = {
 		VibratingLatexPanties: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibratingLatexPanties
+		WandBelt: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WandBelt
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
