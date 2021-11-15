@@ -1130,8 +1130,6 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Natsuki - [#2079](https://github.com/Ben987/Bondage-College/pull/2079), [#2086](https://github.com/Ben987/Bondage-College/pull/2086), [#2091](https://github.com/Ben987/Bondage-College/pull/2091)
 * TessaTech - [#2143](https://github.com/Ben987/Bondage-College/pull/2143)
 
-###
-
 ## [R64]
 
 ### [Added]
