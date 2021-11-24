@@ -3,42 +3,35 @@
 var KinkyDungeonPlayerEntity = null; // The current player entity
 
 // Arousal -- It lowers your stamina regen
-var KinkyDungeonStatArousalMax = 100;
+var KinkyDungeonStatMaxMax = 72; // Maximum any stat can get boosted to
+
+var KinkyDungeonStatArousalMax = 36;
 var KinkyDungeonArousalUnlockSuccessMod = 0.5; // Determines how much harder it is to insert a key while aroused. 1.0 is half success chance, 2.0 is one-third, etc.
 var KinkyDungeonStatArousal = 0;
 var KinkyDungeonStatArousalRegen = -1;
-var KinkyDungeonStatArousalRegenStaminaRegenFactor = -0.9; // Stamina drain per time per 100 arousal
-var KinkyDungeonStatArousalMiscastChance = 0.8; // Miscast chance at max arousal
+var KinkyDungeonStatArousalRegenStaminaRegenFactor = -0.1; // Stamina drain per time per 100 arousal
+var KinkyDungeonStatArousalMiscastChance = 0.75; // Miscast chance at max arousal
 var KinkyDungeonVibeLevel = 0;
-var KinkyDungeonArousalPerVibe = 1.0; // How much arousal per turn per vibe level
+var KinkyDungeonArousalPerVibe = 0.05; // How much arousal per turn per vibe level
+
+var KinkyDungeonStatWillpowerExhaustion = 0;
 // Note that things which increase max arousal (aphrodiasic) also increase the max stamina drain. This can end up being very dangerous as being edged at extremely high arousal will drain all your energy completely, forcing you to wait until the torment is over or the drugs wear off
 
 // Stamina -- your MP. Used to cast spells and also struggle
-var KinkyDungeonStatStaminaMax = 100;
+var KinkyDungeonStatStaminaMax = 36;
 var KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
-var KinkyDungeonStatStaminaMana = 0;
-var KinkyDungeonStatStaminaManaRate = 0;
-var KinkyDungeonStatStaminaRegen = 4;
-var KinkyDungeonStatStaminaRegenMana = 0; // How fast stamina that is converted to mana regenerates
-var KinkyDungeonStatStaminaRegenManaLow = -0.33; // How fast stamina that is converted to mana regenerates when low
-var KinkyDungeonStatStaminaRegenManaLowThreshold = 10; // Threshold for fast mana regen
-var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.33; // It costs stamina to move while bound
-var KinkyDungeonStatStaminaCostStruggle = -10; // It costs stamina to struggle
-var KinkyDungeonStatStaminaCostTool = -5; // It costs stamina to pick or cut, but less
-var KinkyDungeonStatStaminaCostAttack = -12; // Cost to attack
+var KinkyDungeonStatStaminaRegen = 0;
+var KinkyDungeonStatManaMax = 36;
+var KinkyDungeonStatMana = KinkyDungeonStatManaMax;
+var KinkyDungeonStatManaRate = 0;
+var KinkyDungeonStatManaRegen = 0; // How fast stamina that is converted to mana regenerates
+var KinkyDungeonStatManaLowRegen = 0.24; // How fast stamina that is converted to mana regenerates when low
+var KinkyDungeonStatManaRegenLowThreshold = 1; // Threshold for fast mana regen
+var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.25; // It costs stamina to move while bound
+var KinkyDungeonStatStaminaCostStruggle = -6; // It costs stamina to struggle
+var KinkyDungeonStatStaminaCostTool = -2.4; // It costs stamina to pick or cut, but less
+var KinkyDungeonStatStaminaCostAttack = -0.12; // Cost to attack
 var KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
-
-// Willpower -- your HP. When it falls to 0, your character gives up and accepts her fate
-var KinkyDungeonStatWillpowerMax = 100;
-var KinkyDungeonStatWillpower = KinkyDungeonStatWillpowerMax;
-var KinkyDungeonStatWillpowerRegen = 0.0; // Willpower does not regenerate! You have to visit a shrine, with an exponentially increasing price tag
-var KinkyDungeonStatWillpowerExhaustion = 0; // When casting spells, your willpower regen is stopped for this many turns
-
-// Willpower loss
-var KinkyDungeonWillpowerLossOnOrgasm = -5;
-var KinkyDungeonWillpowerDrainLowStamina = -0.1; // Willpower does not regen when totally exhausted
-var KinkyDungeonWillpowerDrainLowStaminaThreshold = 33; // Threshold at which willpower starts to drain
-var KinkyDungeonStatWillpowerCostStruggleFail = -1.0; // Cost when failing a struggle
 
 // Current Status
 var KinkyDungeonStatBeltLevel = 0; // Chastity bra does not add belt level
@@ -46,7 +39,7 @@ var KinkyDungeonStatPlugLevel = 0; // Cumulative with front and rear plugs
 var KinkyDungeonStatVibeLevel = 0; // Cumulative with diminishing returns for multiple items
 var KinkyDungeonStatEdged = false; // If all vibrating effects are edging, then this will be true
 
-var KinkyDungeonStatArousalGainChaste = -0.25; // Cumulative w/ groin and bra
+var KinkyDungeonStatArousalGainChaste = -0.1; // Cumulative w/ groin and bra
 
 // Restraint stats
 
@@ -67,7 +60,6 @@ var KinkyDungeonLockpicks = 0;
 // The blue keys cannot be picked or cut.
 // Monsters are not dextrous enough to steal keys from your satchel, although they may spill your satchel on a nearby tile
 var KinkyDungeonRedKeys = 0;
-var KinkyDungeonGreenKeys = 0;
 var KinkyDungeonBlueKeys = 0;
 // Regular blades are used to cut soft restraints. Enchanted blades turn into regular blades after one use, and can cut magic items
 // Some items are trapped with a curse, which will destroy the knife when cut, but otherwise still freeing you
@@ -100,23 +92,20 @@ function KinkyDungeonDefaultStats() {
 	KinkyDungeonGold = 0;
 	KinkyDungeonLockpicks = 1;
 	KinkyDungeonRedKeys = 0;
-	KinkyDungeonGreenKeys = 0;
 	KinkyDungeonBlueKeys = 0;
 	KinkyDungeonNormalBlades = 1;
 	KinkyDungeonEnchantedBlades = 0;
 
 	KinkyDungeonPlayerWeapon = null;
 
-	KinkyDungeonStatArousalMax = 100;
-	KinkyDungeonStatStaminaMax = 100;
-	KinkyDungeonStatWillpowerMax = 100;
+	KinkyDungeonStatArousalMax = 36;
+	KinkyDungeonStatStaminaMax = 36;
+	KinkyDungeonStatManaMax = 36;
 	KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
 
 	KinkyDungeonStatArousal = 0;
 	KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
-	KinkyDungeonStatStaminaMana = 0;
-	KinkyDungeonStatWillpower = KinkyDungeonStatWillpowerMax;
-	KinkyDungeonStatWillpowerExhaustion = 0;
+	KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 
 	KinkyDungeonMovePoints = 0;
 	KinkyDungeonInventory = [];
@@ -138,60 +127,42 @@ function KinkyDungeonGetVisionRadius() {
 }
 
 function KinkyDungeonDealDamage(Damage) {
-	var dmg = Damage.damage;
-	var type = Damage.type;
-	KinkyDungeonStatWillpower -= dmg;
-	if (type == "grope") { // Groping attacks increase arousal
+	let dmg = Damage.damage;
+	let type = Damage.type;
+	let arousalTypes = ["grope"];
+	let staminaTypesWeak = ["electric", "grope"];
+	let staminaTypesStrong = ["glue", "ice", "pain"];
+	let manaTypesWeak = ["electric"];
+	let manaTypesString = [];
+	if (arousalTypes.includes(type)) {
 		KinkyDungeonStatArousal += dmg;
-	} else if (type == "electric") { // Electric attacks are mildly arousing and reduce stamina
-		KinkyDungeonStatArousal += dmg/2;
-		KinkyDungeonStatStamina -= dmg/2;
-	} else if (type == "ice") { // Ice attacks are mildly painful and reduce stamina
-		KinkyDungeonStatArousal -= dmg/2;
-		KinkyDungeonStatStamina -= dmg/2;
-	} else if (type == "pain") { // Painful attacks decrease arousal
-		KinkyDungeonStatArousal -= dmg/2;
-	} else if (type == "glue") { // Glue slows the player
-		KinkyDungeonStatStamina -= dmg/2;
+	}
+	if (staminaTypesStrong.includes(type)) {
+		KinkyDungeonStatStamina += dmg;
+	} else if (staminaTypesWeak.includes(type)) {
+		KinkyDungeonStatStamina += dmg/2;
+	}
+	if (manaTypesString.includes(type)) {
+		KinkyDungeonStatMana += dmg;
+	} else if (manaTypesWeak.includes(type)) {
+		KinkyDungeonStatMana += dmg/2;
 	}
 	return dmg;
 }
 
-function KinkyDungeonHasStamina(Cost, AddRate, IgnoreMana) {
+function KinkyDungeonHasStamina(Cost, AddRate) {
 	let s = KinkyDungeonStatStamina;
-	let m = KinkyDungeonStatStaminaMana;
 	if (AddRate) s += KinkyDungeonStaminaRate;
-	if (IgnoreMana) m = 0;
 
-	return s - m >= Cost;
+	return s >= Cost;
+}
+function KinkyDungeonHasMana(Cost, AddRate) {
+	let s = KinkyDungeonStatMana;
+	if (AddRate) s += KinkyDungeonStatManaRate;
+
+	return s >= Cost;
 }
 
-function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
-	// Draw labels
-	if (KinkyDungeonStatArousal > 0)
-		DrawText(TextGet("StatArousal"), x+width/2, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
-	DrawText(TextGet("StatStamina"), x+width/2, y + 25 + heightPerBar, (KinkyDungeonStatStamina > KinkyDungeonWillpowerDrainLowStaminaThreshold) ? "white" : "pink", "silver");
-	DrawText(TextGet("StatWillpower"), x+width/2, y + 25 + 2 * heightPerBar, (KinkyDungeonStatWillpower > 10) ? "white" : "pink", "silver");
-
-	// Draw arousal
-	if (KinkyDungeonStatArousal > 0)
-		DrawProgressBar(x, y + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatArousal/KinkyDungeonStatArousalMax, "pink", "#111111");
-	DrawProgressBar(x, y + heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatStamina/KinkyDungeonStatStaminaMax, "#22AA22", "#111111");
-
-	DrawRect(x + 2 + Math.max(0, Math.floor((width - 4) * (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax)), y + heightPerBar + heightPerBar/2 + 2,
-		Math.floor((width - 4) * Math.min(KinkyDungeonStatStaminaMana, KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax),  heightPerBar/3 - 4, "#3377AA");
-	DrawProgressBar(x, y + 2*heightPerBar + heightPerBar/2, width, heightPerBar/3, 100*KinkyDungeonStatWillpower/KinkyDungeonStatWillpowerMax, "#DDCCCC", "#881111");
-
-	var i = 3;
-	DrawText(TextGet("CurrentGold") + KinkyDungeonGold, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
-	DrawText(TextGet("CurrentLockpicks") + KinkyDungeonLockpicks, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
-	DrawText(TextGet("CurrentKnife") + KinkyDungeonNormalBlades, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
-
-	if (KinkyDungeonEnchantedBlades > 0) {DrawText(TextGet("CurrentKnifeMagic") + KinkyDungeonEnchantedBlades, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;}
-	if (KinkyDungeonRedKeys > 0) {DrawText(TextGet("CurrentKeyRed") + KinkyDungeonRedKeys, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;}
-	if (KinkyDungeonGreenKeys > 0) {DrawText(TextGet("CurrentKeyGreen") + KinkyDungeonGreenKeys, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;}
-	if (KinkyDungeonBlueKeys > 0) {DrawText(TextGet("CurrentKeyBlue") + KinkyDungeonBlueKeys, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;}
-}
 
 
 function KinkyDungeonUpdateStats(delta) {
@@ -204,18 +175,14 @@ function KinkyDungeonUpdateStats(delta) {
 	if (KinkyDungeonStatWillpowerExhaustion > 0) {
 		KinkyDungeonStatWillpowerExhaustion = Math.max(0, KinkyDungeonStatWillpowerExhaustion - delta);
 		KinkyDungeonStaminaRate = 0;
-		KinkyDungeonStatStaminaManaRate = 0;
+		KinkyDungeonStatManaRate = 0;
 	} else {
 		KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
-		KinkyDungeonStatStaminaManaRate = (KinkyDungeonStatStaminaMax - KinkyDungeonStatStaminaMana < KinkyDungeonStatStaminaRegenManaLowThreshold) ? KinkyDungeonStatStaminaRegenManaLow : KinkyDungeonStatStaminaRegenMana;
+		KinkyDungeonStatManaRate = (KinkyDungeonStatMana < KinkyDungeonStatManaRegenLowThreshold) ? KinkyDungeonStatManaLowRegen : KinkyDungeonStatManaRegen;
 	}
-	var willpowerRate = KinkyDungeonStatWillpowerRegen;
 
 	// Arousal reduces staminal regen
 	KinkyDungeonStaminaRate += KinkyDungeonStatArousal / 100 * KinkyDungeonStatArousalRegenStaminaRegenFactor;
-
-	// If below a threshold, willpower starts to drain
-	if (KinkyDungeonStatStamina <= KinkyDungeonWillpowerDrainLowStaminaThreshold) willpowerRate += KinkyDungeonWillpowerDrainLowStamina;
 
 	// Update the player tags based on the player's groups
 	KinkyDungeonPlayerTags = KinkyDungeonUpdateRestraints(delta);
@@ -247,8 +214,7 @@ function KinkyDungeonUpdateStats(delta) {
 	// Cap off the values between 0 and maximum
 	KinkyDungeonStatArousal += arousalRate*delta;
 	KinkyDungeonStatStamina += KinkyDungeonStaminaRate*delta;
-	KinkyDungeonStatStaminaMana += KinkyDungeonStatStaminaManaRate;
-	KinkyDungeonStatWillpower += willpowerRate*delta;
+	KinkyDungeonStatMana += KinkyDungeonStatManaRate;
 	KinkyDungeonStatBlind = Math.max(0, KinkyDungeonStatBlind - delta);
 
 	KinkyDungeonCapStats();
@@ -259,8 +225,7 @@ function KinkyDungeonUpdateStats(delta) {
 function KinkyDungeonCapStats() {
 	KinkyDungeonStatArousal = Math.max(0, Math.min(KinkyDungeonStatArousal, KinkyDungeonStatArousalMax));
 	KinkyDungeonStatStamina = Math.max(0, Math.min(KinkyDungeonStatStamina, KinkyDungeonStatStaminaMax));
-	KinkyDungeonStatStaminaMana = Math.max(0, Math.min(KinkyDungeonStatStaminaMana, KinkyDungeonStatStamina));
-	KinkyDungeonStatWillpower = Math.max(0, Math.min(KinkyDungeonStatWillpower, KinkyDungeonStatWillpowerMax));
+	KinkyDungeonStatMana = Math.max(0, Math.min(KinkyDungeonStatMana, KinkyDungeonStatManaMax));
 }
 
 function KinkyDungeonCalculateVibeLevel() {

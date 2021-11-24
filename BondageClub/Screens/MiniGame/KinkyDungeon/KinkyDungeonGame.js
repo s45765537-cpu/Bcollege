@@ -479,13 +479,9 @@ function KinkyDungeonGenerateLock(Guaranteed, Floor) {
 
 		let modifiers = "";
 
-		let GreenChance = Math.min(KinkyDungeonGreenLockChance + level * KinkyDungeonGreenLockChanceScaling, KinkyDungeonGreenLockChanceScalingMax);
-		let YellowChance = Math.min(KinkyDungeonYellowLockChance + level * KinkyDungeonYellowLockChanceScaling, KinkyDungeonYellowLockChanceScalingMax);
 		let BlueChance = Math.min(KinkyDungeonBlueLockChance + level * KinkyDungeonBlueLockChanceScaling, KinkyDungeonBlueLockChanceScalingMax);
 
 		if (locktype < BlueChance) return "Blue" + modifiers;
-		if (locktype < YellowChance) return "Yellow" + modifiers;
-		if (locktype < GreenChance) return "Green" + modifiers;
 		return "Red" + modifiers;
 	}
 
@@ -905,7 +901,7 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 							if ((moveDirection.x != 0 || moveDirection.y != 0)) {
 								KinkyDungeonStatStamina += (KinkyDungeonStatStaminaRegenPerSlowLevel * KinkyDungeonSlowLevel) * delta;
 								KinkyDungeonStatWillpowerExhaustion = Math.max(1, KinkyDungeonStatWillpowerExhaustion);
-							} else if (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana < KinkyDungeonStatStaminaMax) {
+							} else if (KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax) {
 								KinkyDungeonMovePoints = 0;
 								KinkyDungeonWaitMessage();
 							}
@@ -972,9 +968,10 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 			MiniGameVictory = true;
 		} else
 			KinkyDungeonCreateMap(KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]], MiniGameKinkyDungeonLevel);
-	} else if (KinkyDungeonStatWillpower == 0) {
-		KinkyDungeonState = "Lose";
 	}
+	// else if (KinkyDungeonStatWillpower == 0) {
+	//	KinkyDungeonState = "Lose";
+	//}
 
 	if (!NoUpdate)
 		KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);

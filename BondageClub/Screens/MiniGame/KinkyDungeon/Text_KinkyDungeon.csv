@@ -12,9 +12,12 @@ End3,"Perhaps another adventurer may rescue you some day."
 EndWin,"You have reached the end of the playable portion."
 EndWin2,"Come back later for new dungeons!"
 
-StatArousal,"Arousal: "
-StatStamina,"Stamina: "
-StatWillpower,"Willpower: "
+StatArousal,"Arousal: CURRENT/MAX"
+StatStamina,"Stamina: CURRENT/MAX"
+StatWillpower,"Willpower: CURRENT/MAX"
+StatMana,"Mana: CURRENT/MAX"
+StatUsePotion,"Use Potion"
+KinkyDungeonManaCost," Mana"
 
 Wait,"You wait."
 WaitExhaustion,"You are exhausted."
@@ -204,7 +207,7 @@ NameRat,Filthy Rat
 KillRat,"The rat skitters back into a hole in the wall."
 AttackRat,"The filthy rat nibbles at you! (-DamageTaken WP)"
 
-KinkyDungeonNoMana,"You do not have enough stamina to cast the spell!"
+KinkyDungeonNoMana,"You do not have enough mana to cast the spell!"
 PlayerAttack,"You attack the TargetEnemy for DamageDealt damage!"
 PlayerRanged,"AttackName hits the TargetEnemy for DamageDealt damage!"
 KinkyDungeonBasicAttack,attack

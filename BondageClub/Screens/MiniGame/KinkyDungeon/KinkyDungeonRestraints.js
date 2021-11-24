@@ -166,15 +166,11 @@ function KinkyDungeonPlayerGetLockableRestraints() {
 
 function KinkyDungeonRemoveKeys(lock) {
 	if (lock.includes("Red")) KinkyDungeonRedKeys -= 1;
-	if (lock.includes("Green")) KinkyDungeonGreenKeys -= 1;
-	if (lock.includes("Yellow")) {KinkyDungeonRedKeys -= 1; KinkyDungeonGreenKeys -= 1; }
 	if (lock.includes("Blue")) KinkyDungeonBlueKeys -= 1;
 }
 
 function KinkyDungeonGetKey(lock) {
 	if (lock.includes("Red")) return "Red";
-	if (lock.includes("Green")) return "Green";
-	if (lock.includes("Yellow")) {return Math.random() > 0.5 ? "Red" : "Green";}
 	if (lock.includes("Blue")) return "Blue";
 	return "";
 }
@@ -254,7 +250,6 @@ function KinkyDungeonUnlockAttempt(lock) {
 		KinkyDungeonDropItem({name: keytype+"Key"});
 		if (keytype == "Blue") KinkyDungeonBlueKeys -= 1;
 		else if (keytype == "Red") KinkyDungeonRedKeys -= 1;
-		else if (keytype == "Green") KinkyDungeonGreenKeys -= 1;
 	}
 	return false;
 }
@@ -318,7 +313,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 	}
 
 	// Handle cases where you can't even attempt to unlock
-	if ((StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Green" && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Yellow" && KinkyDungeonRedKeys > 0 && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)))
+	if ((StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)))
 		|| (StruggleType == "Pick" && (restraint.lock == "Blue" && KinkyDungeonBlueKeys < 1))) {
 		if ((KinkyDungeonPlayer.IsBlind() < 1) || !restraint.lock.includes("Blue"))
 			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : restraint.lock) + "Key"), "orange", 2);
@@ -340,17 +335,9 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 				Pass = "Success";
 				if (StruggleType == "Pick" || StruggleType == "Unlock") {
 					if (StruggleType == "Unlock") {
-						if ((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Green" && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Yellow" && KinkyDungeonRedKeys > 0 && KinkyDungeonGreenKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)) {
-							if (restraint.lock != "Green" || (Math.random() < KinkyDungeonKeyJamChance)) {
-								KinkyDungeonRemoveKeys(restraint.lock);
-								KinkyDungeonLock(restraint, "");
-							} else {
-								Pass = "Jammed";
-								//restraint.lock = "Jammed";
-								KinkyDungeonGreenKeys -= 1;
-								restraint.pickProgress = 0;
-								restraint.unlockProgress = 0;
-							}
+						if ((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)) {
+							KinkyDungeonRemoveKeys(restraint.lock);
+							KinkyDungeonLock(restraint, "");
 						}
 					} else {
 						KinkyDungeonLock(restraint, "");
@@ -386,7 +373,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 							}
 						}
 					} else {
-						restraint.cutProgress += escapeChance * (0.3 + 0.2 * Math.random() + 0.6 * Math.max(0, (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax));
+						restraint.cutProgress += escapeChance * (0.3 + 0.2 * Math.random() + 0.6 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax));
 					}
 				} else if (StruggleType == "Pick") {
 					if (Math.random() < KinkyDungeonKeyGetPickBreakChance() || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
@@ -406,14 +393,13 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						KinkyDungeonDropItem({name: keytype+"Key"});
 						if (keytype == "Blue") KinkyDungeonBlueKeys -= 1;
 						else if (keytype == "Red") KinkyDungeonRedKeys -= 1;
-						else if (keytype == "Green") KinkyDungeonGreenKeys -= 1;
 					} else {
 						restraint.unlockProgress += escapeChance * (0.75 + 0.5 * Math.random());
 					}
 				} else if (StruggleType == "Remove") {
-					restraint.removeProgress += escapeChance * (0.55 + 0.2 * Math.random() + 0.35 * Math.max(0, (KinkyDungeonStatWillpower)/KinkyDungeonStatWillpowerMax)) - 0.7 * Math.max(0, Math.min(0.5, KinkyDungeonStatArousal/KinkyDungeonStatArousalMax));
+					restraint.removeProgress += escapeChance * (0.55 + 0.2 * Math.random() + 0.35 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax)) - 0.7 * Math.max(0, Math.min(0.5, KinkyDungeonStatArousal/KinkyDungeonStatArousalMax));
 				} else if (StruggleType == "Struggle") {
-					restraint.struggleProgress += escapeChance * (0.2 + 0.2 * Math.random() + 0.7 * Math.max(0, (KinkyDungeonStatStamina - KinkyDungeonStatStaminaMana)/KinkyDungeonStatStaminaMax));
+					restraint.struggleProgress += escapeChance * (0.2 + 0.2 * Math.random() + 0.7 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax));
 				}
 			}
 
@@ -423,8 +409,6 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 			KinkyDungeonStatStamina += cost;
 
 			if (Pass != "Success") {
-				KinkyDungeonStatWillpower += KinkyDungeonStatWillpowerCostStruggleFail;
-
 				// Reduce the progress
 				if (StruggleType == "Struggle") {
 					restraint.pickProgress = Math.max(0, restraint.pickProgress - 0.01);
@@ -549,7 +533,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 			let placed = InventoryGet(KinkyDungeonPlayer, restraint.Group);
 			let placedOnPlayer = false;
 			if (placed && ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable() && !KinkyDungeonRestraintsLocked.includes(restraint.Group) && restraint.Group != "ItemHead" && InventoryAllow(
-					Player, placed.Asset) &&
+				Player, placed.Asset) &&
 				(!InventoryGetLock(InventoryGet(Player, restraint.Group))
 				|| (InventoryGetLock(InventoryGet(Player, restraint.Group)).Asset.OwnerOnly == false && InventoryGetLock(InventoryGet(Player, restraint.Group)).Asset.LoverOnly == false))) {
 				InventoryWear(Player, restraint.Asset, restraint.Group, restraint.power);

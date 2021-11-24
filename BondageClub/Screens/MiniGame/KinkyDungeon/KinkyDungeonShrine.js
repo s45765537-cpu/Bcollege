@@ -38,7 +38,7 @@ function KinkyDungeonShrineAvailable(type) {
 	}
 	if (KinkyDungeonShrineTypeRemove.includes(type) && KinkyDungeonGetRestraintsWithShrine(type).length > 0) return true;
 	else if ((type == "Elements" || type == "Illusion" || type == "Conjure") && KinkyDungeonGetUnlearnedSpells(0, 5 + MiniGameKinkyDungeonCheckpoint, KinkyDungeonSpellList[type]).length > 0) return true;
-	else if (type == "Will" && (KinkyDungeonStatWillpower < KinkyDungeonStatWillpowerMax || KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax)) return true;
+	else if (type == "Will" && (KinkyDungeonStatMana < KinkyDungeonStatManaMax || KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax)) return true;
 
 	return false;
 }
@@ -97,9 +97,8 @@ function KinkyDungeonPayShrine(type) {
 		ShrineMsg = TextGet("KinkyDungeonPayShrineSpell").replace("SpellLearned", TextGet("KinkyDungeonSpell" + spell.name));
 		KinkyDungeonSpells.push(spell);
 	} else if (type == "Will") {
-		KinkyDungeonStatWillpower = KinkyDungeonStatWillpowerMax;
 		KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
-		KinkyDungeonStatStaminaMana = 0;
+		KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 		KinkyDungeonNextDataSendStatsTime = 0;
 
 		ShrineMsg = TextGet("KinkyDungeonPayShrineHeal");

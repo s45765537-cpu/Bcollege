@@ -157,8 +157,7 @@ function KinkyDungeonTickBuffs(list, delta) {
 		if (value) {
 			if (!value.duration || value.duration < 0) list[key] = null;
 			else {
-				if (value.type == "restore_wp") KinkyDungeonStatWillpower += value.power;
-				if (value.type == "restore_mp") KinkyDungeonStatStaminaMana += value.power;
+				if (value.type == "restore_mp") KinkyDungeonStatMana += value.power;
 				if (value.type == "restore_sp") KinkyDungeonStatStamina += value.power;
 				if (value.type == "restore_ap") KinkyDungeonStatArousal += value.power;
 
