@@ -32,6 +32,7 @@ var KinkyDungeonDrawDelta = 0;
 
 const KinkyDungeonLastChatTimeout = 10000;
 
+var KinkyDungeonStatBarHeight = 100;
 
 function KinkyDungeonDrawInputs() {
 	// Draw the struggle buttons if applicable
@@ -139,10 +140,18 @@ function KinkyDungeonDrawProgress(x, y, amount, maxWidth, sprite) {
 
 function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 	// Draw labels
-	if (KinkyDungeonStatArousal > 0)
-		DrawText(TextGet("StatArousal").replace("MAX", KinkyDungeonStatArousalMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatArousal) + ""), x+width/2, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
-	DrawText(TextGet("StatStamina").replace("MAX", KinkyDungeonStatStaminaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatStamina) + ""), x+width/2, y + 25 + heightPerBar, (KinkyDungeonStatStamina > 0.5) ? "white" : "pink", "silver");
-	DrawText(TextGet("StatMana").replace("MAX", KinkyDungeonStatManaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatMana) + ""), x+width/2, y + 25 + heightPerBar * 2, (KinkyDungeonStatMana > 0.5) ? "white" : "pink", "silver");
+	let buttonWidth = 48;
+	if (KinkyDungeonStatArousal > 0) {
+		DrawText(TextGet("StatArousal").replace("MAX", KinkyDungeonStatArousalMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatArousal) + ""), x+width/2 + buttonWidth, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
+		if (KinkyDungeonStatArousal > 0 && KinkyDungeonItemCount("PotionFrigid"))
+			DrawButton(x, y, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
+	}
+	DrawText(TextGet("StatStamina").replace("MAX", KinkyDungeonStatStaminaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatStamina) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar, (KinkyDungeonStatStamina > 0.5) ? "white" : "pink", "silver");
+	if (KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax && KinkyDungeonItemCount("PotionStamina"))
+		DrawButton(x, y+heightPerBar, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
+	DrawText(TextGet("StatMana").replace("MAX", KinkyDungeonStatManaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatMana) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar * 2, (KinkyDungeonStatMana > 0.5) ? "white" : "pink", "silver");
+	if (KinkyDungeonStatMana < KinkyDungeonStatManaMax && KinkyDungeonItemCount("PotionMana"))
+		DrawButton(x, y+2*heightPerBar, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
 
 	let maxVisual = KinkyDungeonStatMaxMax;
 	// Draw arousal
@@ -164,6 +173,7 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 }
 
 function KinkyDungeonHandleHUD() {
+	let buttonWidth = 48;
 	if (KinkyDungeonDrawState == "Game") {
 		if (MouseIn(canvasOffsetX, canvasOffsetY, KinkyDungeonCanvas.width, KinkyDungeonCanvas.height))
 			KinkyDungeonSetTargetLocation();
@@ -236,6 +246,16 @@ function KinkyDungeonHandleHUD() {
 					{if (MouseIn(x + ((!sg.left) ? -(ButtonWidth)*i : (ButtonWidth)*i), y, ButtonWidth, ButtonWidth)) {KinkyDungeonStruggle(sg, "Cut"); return true;} i++;}
 				}
 			}
+
+		let xxx = canvasOffsetX + KinkyDungeonCanvas.width+10;
+		let yyy = canvasOffsetY;
+		if (MouseIn(xxx, yyy + 0 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionFrigid") && KinkyDungeonStatArousal > 0) {
+			KinkyDungeonUseConsumable("PotionFrigid", 1);
+		} else if (MouseIn(xxx, yyy + 1 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionStamina") && KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax) {
+			KinkyDungeonUseConsumable("PotionStamina", 1);
+		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax) {
+			KinkyDungeonUseConsumable("PotionMana", 1);
+		}
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleMagic();
@@ -249,6 +269,7 @@ function KinkyDungeonHandleHUD() {
 
 	return false;
 }
+
 
 function KinkyDungeonUpdateStruggleGroups() {
 	let struggleGroups = KinkyDungeonStruggleGroupsBase;

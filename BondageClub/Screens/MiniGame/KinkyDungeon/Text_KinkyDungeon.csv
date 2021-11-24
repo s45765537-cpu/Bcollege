@@ -12,10 +12,10 @@ End3,"Perhaps another adventurer may rescue you some day."
 EndWin,"You have reached the end of the playable portion."
 EndWin2,"Come back later for new dungeons!"
 
-StatArousal,"Arousal: CURRENT/MAX"
-StatStamina,"Stamina: CURRENT/MAX"
+StatArousal,"AP: CURRENT/MAX"
+StatStamina,"SP: CURRENT/MAX"
 StatWillpower,"Willpower: CURRENT/MAX"
-StatMana,"Mana: CURRENT/MAX"
+StatMana,"MP: CURRENT/MAX"
 StatUsePotion,"Use Potion"
 KinkyDungeonManaCost," Mana"
 
@@ -46,9 +46,8 @@ KinkyDungeonCurrentPressInfo,"Press a key, then press a button to set that key"
 CurrentLevel,"Current Level: "
 CurrentGold,"Gold: "
 CurrentLockpicks,"Lockpicks: "
-CurrentKeyRed,"Red Keys: "
-CurrentKeyGreen,"Green Keys: "
-CurrentKeyBlue,"Blue Keys: "
+CurrentKeyRed,"Keys: "
+CurrentKeyBlue,"Magic Keys: "
 CurrentKnife,"Knife: "
 CurrentKnifeMagic,"Mag. Knife: "
 
@@ -70,8 +69,7 @@ LootRubbleFail,You search through the debris but find nothing of note
 LootRubbleSmallGold,You find some gold coins in a corner (+XXX gold)
 LootRubbleLockpick,You find a lockpick in a crack between the tiles
 LootRubbleKnife,You find a rusty knife among the rocks
-LootRubbleRedKey,"You find a red key, covered in grime"
-LootRubbleGreenKey,"You find a green key with an ornate handle"
+LootRubbleRedKey,"You find an ordinary key"
 LootRubbleBlueKey,"You find a blue key, glowing with magic"
 
 LootChestGold,The chest contains gold! (+XXX gold)
@@ -102,30 +100,18 @@ KinkyDungeonRarity9,Godlike
 KinkyDungeonConsumableQuantity,Quantity:
 KinkyDungeonConsume,Use Item (Consumes 1)
 
-KinkyDungeonInventoryItemPotionHealth,Lssr. Will Potion
-KinkyDungeonInventoryItemPotionHealthUse,You sip the potion and feel motivated to continue.
-KinkyDungeonInventoryItemPotionHealthDesc,"It smells slightly sweet."
-KinkyDungeonInventoryItemPotionHealthDesc2,"Restores 10 willpower and 20 more over 10 turns. Effect does not stack."
-KinkyDungeonInventoryItemPotionHealthGreater,Will Potion
-KinkyDungeonInventoryItemPotionHealthGreaterUse,You sip the potion and feel restored with willpower.
-KinkyDungeonInventoryItemPotionHealthGreaterDesc,"It smells like some sort of mythic ambrosia."
-KinkyDungeonInventoryItemPotionHealthGreaterDesc2,"Restores 10 willpower and 40 more over 10 turns. Effect does not stack."
-KinkyDungeonInventoryItemPotionHealthUltimate,Great Will Potion
-KinkyDungeonInventoryItemPotionHealthUltimateUse,You sip the potion and feel godlike.
-KinkyDungeonInventoryItemPotionHealthUltimateDesc,"It smells like some sort of mythic ambrosia."
-KinkyDungeonInventoryItemPotionHealthUltimateDesc2,"Restores 20 willpower and 80 more over 10 turns. Effect does not stack."
 KinkyDungeonInventoryItemPotionMana,Mana Potion
 KinkyDungeonInventoryItemPotionManaUse,You sip the mana potion and feel empowered.
 KinkyDungeonInventoryItemPotionManaDesc,"A rare essence used to reverse magical paralysis."
-KinkyDungeonInventoryItemPotionManaDesc2,"Restores 10 mana and 40 more over 20 turns. Effect does not stack."
+KinkyDungeonInventoryItemPotionManaDesc2,"Restores 12 mana and 24 more over 20 turns. Effect does not stack."
 KinkyDungeonInventoryItemPotionStamina,Stamina Potion
 KinkyDungeonInventoryItemPotionStaminaUse,You drink the stamina potion and feel invigorated.
 KinkyDungeonInventoryItemPotionStaminaDesc,"A potion brimming with heat and energy."
-KinkyDungeonInventoryItemPotionStaminaDesc2,"Restores stamina by 100 over 10 turns. Effect does not stack."
+KinkyDungeonInventoryItemPotionStaminaDesc2,"Restores stamina by 36 over 24 turns. Effect does not stack."
 KinkyDungeonInventoryItemPotionFrigid,Frigid Potion
 KinkyDungeonInventoryItemPotionFrigidUse,You chug the frigid concoction and feel less distracted.
 KinkyDungeonInventoryItemPotionFrigidDesc,"A freezing cold bottle with a bitter scent."
-KinkyDungeonInventoryItemPotionFrigidDesc2,"Reduces arousal by 50 over 5 turns. Effect does not stack."
+KinkyDungeonInventoryItemPotionFrigidDesc2,"Reduces arousal by 12 per turn over 3 turns. Effect does not stack."
 
 KinkyDungeonInventoryItemHammer,Hammer
 KinkyDungeonInventoryItemHammerDesc,"A rather simplistic bludgeoning weapon."
