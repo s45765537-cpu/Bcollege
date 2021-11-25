@@ -26,6 +26,8 @@ var KinkyDungeonStreamingPlayers = []; // List of players to stream to
 
 var KinkyDungeonInitTime = 0;
 
+var KinkyDungeonSleepTime = 0;
+
 
 /**
  * Loads the kinky dungeon game
@@ -132,6 +134,13 @@ function KinkyDungeonRun() {
 	} else if (KinkyDungeonState == "Game") {
 		KinkyDungeonGameRunning = true;
 		KinkyDungeonDrawGame();
+		if (KinkyDungeonSleepTurns > 0) {
+			if (CommonTime() > KinkyDungeonSleepTime) {
+				KinkyDungeonSleepTurns -= 1;
+				KinkyDungeonAdvanceTime(1);
+				KinkyDungeonSleepTime = CommonTime() + 100;
+			}
+		}
 	} else if (KinkyDungeonState == "End") {
 		KinkyDungeonGameRunning = false;
 		// Draw temp start screen

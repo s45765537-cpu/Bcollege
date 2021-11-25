@@ -144,14 +144,14 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 	if (KinkyDungeonStatArousal > 0) {
 		DrawText(TextGet("StatArousal").replace("MAX", KinkyDungeonStatArousalMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatArousal) + ""), x+width/2 + buttonWidth, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
 		if (KinkyDungeonStatArousal > 0 && KinkyDungeonItemCount("PotionFrigid"))
-			DrawButton(x, y, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
+			DrawButton(x, y, buttonWidth, buttonWidth, "", "Pink", KinkyDungeonRootDirectory + "UsePotion.png", "");
 	}
 	DrawText(TextGet("StatStamina").replace("MAX", KinkyDungeonStatStaminaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatStamina) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar, (KinkyDungeonStatStamina > 0.5) ? "white" : "pink", "silver");
 	if (KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax && KinkyDungeonItemCount("PotionStamina"))
-		DrawButton(x, y+heightPerBar, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
+		DrawButton(x, y+heightPerBar, buttonWidth, buttonWidth, "", "#AAFFAA", KinkyDungeonRootDirectory + "UsePotion.png", "");
 	DrawText(TextGet("StatMana").replace("MAX", KinkyDungeonStatManaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatMana) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar * 2, (KinkyDungeonStatMana > 0.5) ? "white" : "pink", "silver");
 	if (KinkyDungeonStatMana < KinkyDungeonStatManaMax && KinkyDungeonItemCount("PotionMana"))
-		DrawButton(x, y+2*heightPerBar, buttonWidth, buttonWidth, "", "White", KinkyDungeonRootDirectory + "UsePotion.png", "");
+		DrawButton(x, y+2*heightPerBar, buttonWidth, buttonWidth, "", "#AAAAFF", KinkyDungeonRootDirectory + "UsePotion.png", "");
 
 	let maxVisual = KinkyDungeonStatMaxMax;
 	// Draw arousal
@@ -162,7 +162,9 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 	KinkyDungeonDrawProgress(x, y + heightPerBar*1.5, KinkyDungeonStatStamina/maxVisual, width, "Stamina");
 	KinkyDungeonDrawProgress(x, y + heightPerBar*2.5, KinkyDungeonStatMana/maxVisual, width, "Mana");
 
-	var i = 3;
+	DrawButton(x, y+3*heightPerBar, 250, 50, TextGet("KinkyDungeonSleep"), "White");
+
+	var i = 3.5;
 	DrawText(TextGet("CurrentGold") + KinkyDungeonGold, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
 	DrawText(TextGet("CurrentLockpicks") + KinkyDungeonLockpicks, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
 	DrawText(TextGet("CurrentKnife") + KinkyDungeonNormalBlades, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
@@ -255,6 +257,8 @@ function KinkyDungeonHandleHUD() {
 			KinkyDungeonUseConsumable("PotionStamina", 1);
 		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax) {
 			KinkyDungeonUseConsumable("PotionMana", 1);
+		} else if (MouseIn(xxx, yyy + 3 * KinkyDungeonStatBarHeight, 250, 50)) {
+			KinkyDungeonSleepTurns = 10;
 		}
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}

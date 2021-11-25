@@ -15,22 +15,24 @@ var KinkyDungeonVibeLevel = 0;
 var KinkyDungeonArousalPerVibe = 0.05; // How much arousal per turn per vibe level
 
 var KinkyDungeonStatWillpowerExhaustion = 0;
+var KinkyDungeonSleepTurns = 0;
 // Note that things which increase max arousal (aphrodiasic) also increase the max stamina drain. This can end up being very dangerous as being edged at extremely high arousal will drain all your energy completely, forcing you to wait until the torment is over or the drugs wear off
 
 // Stamina -- your MP. Used to cast spells and also struggle
 var KinkyDungeonStatStaminaMax = 36;
 var KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 var KinkyDungeonStatStaminaRegen = 0;
+var KinkyDungeonStatStaminaRegenSleep = 0.5;
 var KinkyDungeonStatManaMax = 36;
 var KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 var KinkyDungeonStatManaRate = 0;
 var KinkyDungeonStatManaRegen = 0; // How fast stamina that is converted to mana regenerates
 var KinkyDungeonStatManaLowRegen = 0.24; // How fast stamina that is converted to mana regenerates when low
 var KinkyDungeonStatManaRegenLowThreshold = 1; // Threshold for fast mana regen
-var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.25; // It costs stamina to move while bound
-var KinkyDungeonStatStaminaCostStruggle = -6; // It costs stamina to struggle
-var KinkyDungeonStatStaminaCostTool = -2.4; // It costs stamina to pick or cut, but less
-var KinkyDungeonStatStaminaCostAttack = -0.12; // Cost to attack
+var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.1; // It costs stamina to move while bound
+var KinkyDungeonStatStaminaCostStruggle = -4; // It costs stamina to struggle
+var KinkyDungeonStatStaminaCostTool = -1; // It costs stamina to pick or cut, but less
+var KinkyDungeonStatStaminaCostAttack = -0.1; // Cost to attack
 var KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
 
 // Current Status
@@ -110,6 +112,8 @@ function KinkyDungeonDefaultStats() {
 	KinkyDungeonMovePoints = 0;
 	KinkyDungeonInventory = [];
 	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
+	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionStamina, 1);
+	KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionFrigid, 1);
 	KinkyDungeonInventoryAddWeapon("Knife");
 	KinkyDungeonPlayerTags = [];
 
@@ -123,7 +127,7 @@ function KinkyDungeonDefaultStats() {
 }
 
 function KinkyDungeonGetVisionRadius() {
-	return Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel)));
+	return (KinkyDungeonSleepTurns > 2) ? 1 : (Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel))));
 }
 
 function KinkyDungeonDealDamage(Damage) {
@@ -138,15 +142,17 @@ function KinkyDungeonDealDamage(Damage) {
 		KinkyDungeonStatArousal += dmg;
 	}
 	if (staminaTypesStrong.includes(type)) {
-		KinkyDungeonStatStamina += dmg;
+		KinkyDungeonStatStamina -= dmg;
 	} else if (staminaTypesWeak.includes(type)) {
-		KinkyDungeonStatStamina += dmg/2;
+		KinkyDungeonStatStamina -= dmg/2;
 	}
 	if (manaTypesString.includes(type)) {
-		KinkyDungeonStatMana += dmg;
+		KinkyDungeonStatMana -= dmg;
 	} else if (manaTypesWeak.includes(type)) {
-		KinkyDungeonStatMana += dmg/2;
+		KinkyDungeonStatMana -= dmg/2;
 	}
+	KinkyDungeonSleepTurns = 0;
+
 	return dmg;
 }
 
@@ -177,7 +183,7 @@ function KinkyDungeonUpdateStats(delta) {
 		KinkyDungeonStaminaRate = 0;
 		KinkyDungeonStatManaRate = 0;
 	} else {
-		KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
+		KinkyDungeonStaminaRate = KinkyDungeonSleepTurns > 0 ? KinkyDungeonStatStaminaRegenSleep : KinkyDungeonStatStaminaRegen;
 		KinkyDungeonStatManaRate = (KinkyDungeonStatMana < KinkyDungeonStatManaRegenLowThreshold) ? KinkyDungeonStatManaLowRegen : KinkyDungeonStatManaRegen;
 	}
 

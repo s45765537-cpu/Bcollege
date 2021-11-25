@@ -80,10 +80,10 @@ Features
 2.0 (December 2021 or January 2022)
 - Changed the stat bars visually
 - Removed willpower. You can go on and on and on and on now...
-- Stamina and Mana are now separate! Neither regenerate, and you will have to Rest to restore stamina, which accelerates the game
+- Stamina and Mana are now separate! Neither regenerate, and you will have to Rest to restore stamina, which accelerates the game. Mana potions are important!
+- Addedd Drink Potion button next to all the stats that have a potion
 
 TODO Add Rest button
-TODO Add Drink Potion button next to all the stats
 
 TODO ValidationFindBlockCycles to prevent bugs
 
