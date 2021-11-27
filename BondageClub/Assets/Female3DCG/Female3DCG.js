@@ -243,6 +243,20 @@ var AssetFemale3DCG = [
 					{ Name: "Lower", Top: 462, Left: 0, CopyLayerColor:"Upper", AllowPose: ["Spread", "KneelingSpread", "LegsClosed", "Horse", "Kneel"], HideForPose: ["Hogtied", "AllFours"] },
 				]
 			},
+			{
+				Name: "FuzzyDress", Value: 70, Priority: 32, Top: 0, Left: 0, DefaultColor: ["#cf2828", "#666"],
+				HideItemAttribute: ["Skirt"],
+				HideItem: ["ClothLowerPajama1", "ClothLowerHaremPants"],
+				HideForPose: ["Hogtied", "AllFours", "KneelingSpread", "Horse"],
+				Layer: [
+					{ Name: "Dress", AllowPose: [], Priority: 26 },
+					{ Name: "TopFur", AllowPose: ["Yoked"] },
+					{ Name: "BottomFur", CopyLayerColor: "TopFur", AllowPose: [] },
+				],
+				Alpha: [
+					{ Group: ["ClothLower"], Masks: [[0, 320, 500, 300]] },
+				],
+			}
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1048,7 +1062,7 @@ var AssetFemale3DCG = [
 				], Height: 30
 			},
 			{
-				Name: "FuzzyBoots", Value: 60, Top: 462, Left: 0, DefaultColor: ["#444", "#941a1a", "#5e5e5e"],
+				Name: "FuzzyBoots", Value: 60, Top: 462, Left: 0, DefaultColor: ["#444", "#941a1a", "#666"],
 				HideForPose: ["Kneel", "Hogtied", "KneelingSpread"],
 				Hide: ["LeftAnklet", "RightAnklet"],
 				Layer: [
