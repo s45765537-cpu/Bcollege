@@ -247,7 +247,7 @@ var AssetFemale3DCG = [
 				Name: "FuzzyDress", Value: 70, Priority: 32, Top: 0, Left: 0, DefaultColor: ["#cf2828", "#666"],
 				HideItemAttribute: ["Skirt"],
 				HideItem: ["ClothLowerPajama1", "ClothLowerHaremPants"],
-				HideForPose: ["Hogtied", "AllFours", "KneelingSpread", "Horse"],
+				HideForPose: ["Hogtied", "AllFours", "KneelingSpread", "Horse", "OverTheHead"],
 				Layer: [
 					{ Name: "Dress", AllowPose: [], Priority: 26 },
 					{ Name: "TopFur", AllowPose: ["Yoked"] },
