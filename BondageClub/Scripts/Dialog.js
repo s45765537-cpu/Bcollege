@@ -191,7 +191,7 @@ function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, AssetGroup); }
 function DialogRelease(C) { CharacterRelease((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter); }
 
 /**
- * Strips a character naked and removes the restrains
+ * Strips a character naked and removes the restraints
  * @param {string} C - The character to be stripped and released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
@@ -850,25 +850,25 @@ function DialogMenuButtonBuild(C) {
 			) {
 				DialogMenuButton.push("LockMenu");
 			}
-			if ((Item != null) && (C.ID == 0) && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && InventoryAllow(
-				C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Struggle");
-			if ((Item != null) && !IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) {
-				if (Item.Asset.AllowLock && (!Item.Property || (Item.Property && Item.Property.AllowLock !== false))) {
-					if (!Item.Asset.AllowLockType || (Item.Property && Item.Asset.AllowLockType.includes(Item.Property.Type))) {
-						DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
-					}
-				}
-			}
-			if ((Item != null) && !IsItemLocked && !InventoryItemHasEffect(Item, "Mounted", true) && !InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(
-				C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Remove");
-			if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Mounted", true) && Player.CanInteract() && InventoryAllow(
-				C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Dismount");
-			if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(
-				C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Escape");
-			if ((Item != null) && Item.Asset.Extended && ((Player.CanInteract()) || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract) && (!IsGroupBlocked || Item.Asset.AlwaysExtend) && (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer())) && (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer()))) DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
-			// Extended icon doesnt show up if remote works
-			if (!DialogMenuButton.includes("Use") && DialogCanUseRemote(C, Item)) DialogMenuButton.push(ItemBlockedOrLimited ? "RemoteDisabled" : "Remote");
+			if ((Item != null) && (C.ID == 0) && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
+				DialogMenuButton.push("Struggle");
 
+			// If the Asylum GGTS controls the item, we show a disabled button and hide the other buttons
+			if (AsylumGGTSControlItem(C, Item)) {
+				DialogMenuButton.push("GGTSControl");
+			} else {
+				if ((Item != null) && !IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
+					if (Item.Asset.AllowLock && (!Item.Property || (Item.Property && Item.Property.AllowLock !== false)))
+						if (!Item.Asset.AllowLockType || (Item.Property && Item.Asset.AllowLockType.includes(Item.Property.Type)))
+							DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
+				if ((Item != null) && !IsItemLocked && !InventoryItemHasEffect(Item, "Mounted", true) && !InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Remove");
+				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Mounted", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Dismount");
+				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Escape");
+				if ((Item != null) && Item.Asset.Extended && ((Player.CanInteract()) || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract) && (!IsGroupBlocked || Item.Asset.AlwaysExtend) && (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer())) && (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer()))) DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
+				if (!DialogMenuButton.includes("Use") && DialogCanUseRemote(C, Item)) DialogMenuButton.push(ItemBlockedOrLimited ? "RemoteDisabled" : "Remote");
+			}
+
+			// Color selection
 			if (DialogCanColor(C, Item)) DialogMenuButton.push(ItemBlockedOrLimited ? "ColorPickDisabled" : "ColorPick");
 
 			// Make sure the target player zone is allowed for an activity
@@ -1369,6 +1369,7 @@ function DialogItemClick(ClickItem) {
 	// Gets the current character and item
 	var C = (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	var CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+	if (AsylumGGTSControlItem(C, CurrentItem)) return;
 
 	// In permission mode, the player can allow or block items for herself
 	if ((C.ID == 0) && DialogItemPermissionMode) {
@@ -1693,6 +1694,7 @@ function DialogSetText(NewText) {
  */
 function DialogExtendItem(Item, SourceItem) {
 	const C = CharacterGetCurrent();
+	if (AsylumGGTSControlItem(C, Item)) return;
 	if (InventoryBlockedOrLimited(C, Item)) return;
 	StruggleProgress = -1;
 	StruggleLockPickOrder = null;
@@ -2216,14 +2218,15 @@ function DialogViewOwnerRules() {
 }
 
 /**
- * Draws the owner rules sub menu
+ * Draws the rules sub menu
  * @returns {void} - Nothing
  */
 function DialogDrawOwnerRulesMenu() {
 	// Draw the pose groups
-	DrawText(DialogFindPlayer("OwnerRulesMenu"), 230, 100, "White", "Black");
+	DrawText(DialogFindPlayer("RulesMenu"), 230, 100, "White", "Black");
 
-	var ToDisplay = [];
+	/** @type {{Tag: string, Value?: number}[]} */
+	const ToDisplay = [];
 
 	if (LogQuery("BlockOwnerLockSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockOwnerLockSelf" });
 	if (LogQuery("BlockChange", "OwnerRule")) ToDisplay.push({ Tag: "BlockChange", Value: LogValue("BlockChange", "OwnerRule") });
@@ -2232,11 +2235,14 @@ function DialogDrawOwnerRulesMenu() {
 	if (LogQuery("BlockRemote", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemote" });
 	if (LogQuery("BlockRemoteSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemoteSelf" });
 	if (LogQuery("ReleasedCollar", "OwnerRule")) ToDisplay.push({ Tag: "ReleasedCollar" });
+	if (LogQuery("BlockLoverLockSelf", "LoverRule")) ToDisplay.push({Tag: "BlockLoverLockSelf"});
+	if (LogQuery("BlockLoverLockOwner", "LoverRule")) ToDisplay.push({Tag: "BlockLoverLockOwner"});
 	if (ToDisplay.length == 0) ToDisplay.push({ Tag: "Empty" });
 
-	for (let I = 0; I < ToDisplay.length; I++) {
-		var OffsetY = 230 + 100 * I;
-		DrawText(DialogFindPlayer("OwnerRulesMenu" + ToDisplay[I].Tag) + (ToDisplay[I].Value ?  " " + TimerToString(ToDisplay[I].Value - CurrentTime) : ""), 250, OffsetY, "White", "Black");
+	for (const [i, {Tag, Value}] of ToDisplay.entries()) {
+		const Y = 180 + 110 * i;
+		const TextToDraw = DialogFindPlayer(`RulesMenu${Tag}`) + (Value ?  ` ${TimerToString(Value - CurrentTime)}` : "");
+		DrawTextWrap(TextToDraw, 25, Y, 485, 95, "#fff", undefined, 2);
 	}
 }
 

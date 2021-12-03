@@ -94,6 +94,32 @@ var ChatRoomCharacterZoom = 1;
 var ChatRoomSlideWeight = 9;
 var ChatRoomCharacterInitialize = true;
 
+/** Sets whether an add/remove for one list automatically triggers an add/remove for another list */
+const ChatRoomListOperationTriggers = () => [
+	{
+		list: Player.WhiteList, adding: true, triggers: [
+			{ list: Player.BlackList, add: false },
+			{ list: Player.GhostList, add: false }
+		]
+	},
+	{
+		list: Player.BlackList, adding: true, triggers: [
+			{ list: Player.WhiteList, add: false }
+		]
+	},
+	{
+		list: Player.GhostList, adding: true, triggers: [
+			{ list: Player.WhiteList, add: false },
+			{ list: Player.BlackList, add: true }
+		]
+	},
+	{
+		list: Player.GhostList, adding: false, triggers: [
+			{ list: Player.BlackList, add: false }
+		]
+	}
+];
+
 /**
  * Chat room resize manager object: Handles resize events for the chat log.
  * @constant
@@ -659,7 +685,7 @@ function ChatRoomStart(Space, Game, LeaveRoom, Background, BackgroundTagList) {
 function ChatRoomMenuBuild() {
 	ChatRoomMenuButtons = [];
 	ChatRoomMenuButtons.push("Exit");
-	if (ChatRoomGame === "") ChatRoomMenuButtons.push("Cut");
+	if ((ChatRoomGame === "") || (ChatRoomGame === "GGTS")) ChatRoomMenuButtons.push("Cut");
 	else ChatRoomMenuButtons.push("GameOption");
 	ChatRoomMenuButtons.push("Kneel", "Icons");
 	if (ChatRoomCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
@@ -1447,7 +1473,9 @@ function ChatRoomUpdateOnlineBounty() {
  * @returns {void} - Nothing.
  */
 function ChatRoomRun() {
-	// Handles online bounty game
+
+	// Handles online GGTS & bounty game
+	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 
 	// Draws the chat room controls
@@ -1723,6 +1751,8 @@ function ChatRoomMenuClick() {
 					break;
 				case "Admin":
 					// When the user enters the room administration screen
+					if ((ChatRoomData != null) && ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) return AsylumGGTSMessage("NoAdminPrivate");
+					if ((ChatRoomData != null) && ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return AsylumGGTSMessage("NoAdminLocked");
 					document.getElementById("InputChat").style.display = "none";
 					document.getElementById("TextAreaChatLog").style.display = "none";
 					CommonSetScreen("Online", "ChatAdmin");
@@ -1767,6 +1797,7 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
+	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -2195,26 +2226,23 @@ function ChatRoomMessage(data) {
 					}
 
 					// Trigger a shock if the player is a target
-					if (ShockIntensity >= 0 && TargetCharacter == Player) {
+					if (ShockIntensity >= 0 && TargetCharacter == Player)
 						ChatRoomStimulationMessage("Flash", "#FFFFFF", ShockIntensity, 500);
-					}
 
 					// For automatic messages, do not show the message if the player is not involved, depending on their preferences
-					if (Automatic && !IsPlayerInvolved && !Player.ChatSettings.ShowAutomaticMessages) {
+					if (Automatic && !IsPlayerInvolved && !Player.ChatSettings.ShowAutomaticMessages)
 						return;
-					}
 
 					// When the player is in total sensory deprivation, hide messages if the player is not involved
-					if (Player.ImmersionSettings.SenseDepMessages && !IsPlayerInvolved && PreferenceIsPlayerInSensDep()) {
+					if (Player.ImmersionSettings.SenseDepMessages && !IsPlayerInvolved && PreferenceIsPlayerInSensDep())
 						return;
-					}
 
 					// Handle stimulation
-					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null && TargetMemberNumber == Player.MemberNumber) || (SenderCharacter.MemberNumber != null && SenderCharacter.MemberNumber == Player.MemberNumber))) {
+					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null && TargetMemberNumber == Player.MemberNumber) || (SenderCharacter.MemberNumber != null && SenderCharacter.MemberNumber == Player.MemberNumber)))
 						ChatRoomStimulationMessage("Kneel");
-					}
 
 					// If another player is using an item which applies an activity on the current player, apply the effect here
+					AsylumGGTSActivity(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
 					if ((ActivityName != null) && (TargetMemberNumber != null) && (TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber))
 						if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 							ActivityEffect(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
@@ -2226,6 +2254,7 @@ function ChatRoomMessage(data) {
 					// Raise a notification if required
 					if (data.Type === "Action" && IsPlayerInvolved && Player.NotificationSettings.ChatMessage.Activity)
 						ChatRoomNotificationRaiseChatMessage(SenderCharacter, msg);
+
 				}
 			}
 
@@ -2322,9 +2351,8 @@ function ChatRoomMessage(data) {
 						if (data.Dictionary[D].ActivityCounter != null) ActivityCounter = data.Dictionary[D].ActivityCounter;
 					}
 
-
-
 				// If the player does the activity on herself or an NPC, we calculate the result right away
+				AsylumGGTSActivity(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);
 				if ((data.Type === "Action") || ((TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber)))
 					if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 						ActivityEffect(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);
@@ -3115,34 +3143,56 @@ function ChatRoomGetTransparentColor(Color) {
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType) {
-	if (((Operation == "Add" || Operation == "Remove")) && (CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player[ListType] != null) && Array.isArray(Player[ListType])) {
-		if ((Operation == "Add") && (Player[ListType].indexOf(CurrentCharacter.MemberNumber) < 0)) Player[ListType].push(CurrentCharacter.MemberNumber);
-		if ((Operation == "Remove") && (Player[ListType].indexOf(CurrentCharacter.MemberNumber) >= 0)) Player[ListType].splice(Player[ListType].indexOf(CurrentCharacter.MemberNumber), 1);
-		ServerPlayerRelationsSync();
-		setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
-	}
-	if (ListType == "GhostList") {
-		CharacterRefresh(CurrentCharacter, false);
-		ChatRoomListManage(Operation, "BlackList");
+	if (CurrentCharacter && CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
+		ChatRoomListUpdate(Player[ListType], Operation == "Add", CurrentCharacter.MemberNumber);
 	}
 }
 
 /**
- * Adds or removes an online member to/from a specific list. (From a typed message.)
- * @param {number[]|null} Add - List to add to.
- * @param {number[]|null} Remove - List to remove from.
+ * Adds or removes an online member to/from a specific list from a typed message.
+ * @param {number[]|null} List - List to add to or remove from.
+ * @param {boolean} Adding - If TRUE adding to the list, if FALSE removing from the list.
  * @param {string} Argument - Member number to add/remove.
  * @returns {void} - Nothing
  */
-function ChatRoomListManipulation(Add, Remove, Argument) {
+function ChatRoomListManipulation(List, Adding, Argument) {
 	var C = parseInt(Argument);
 	if (!isNaN(C) && (C > 0) && (C != Player.MemberNumber)) {
-		if ((Add != null) && (Add.indexOf(C) < 0)) Add.push(C);
-		if ((Remove != null) && (Remove.indexOf(C) >= 0)) Remove.splice(Remove.indexOf(C), 1);
-		if ((Player.GhostList == Add || Player.GhostList == Remove) && Character.find(Char => Char.MemberNumber == C)) CharacterRefresh(Character.find(Char => Char.MemberNumber == C), false);
-		ServerPlayerRelationsSync();
-		setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
+		ChatRoomListUpdate(List, Adding, C);
 	}
+}
+
+/**
+ * Updates character lists for the player and saves the change
+ * @param {number[]} list - The array of member numbers to update
+ * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
+ * @param {number} memberNumber - The member number to add/remove
+ * @returns {void} - Nothing
+ */
+function ChatRoomListUpdate(list, adding, memberNumber) {
+	if (adding && list.indexOf(memberNumber) < 0) {
+		list.push(memberNumber);
+	}
+	else if (!adding && list.indexOf(memberNumber) >= 0) {
+		list.splice(list.indexOf(memberNumber), 1);
+	}
+
+	const triggeredOperations = ChatRoomListOperationTriggers().find(w => w.list == list && w.adding == adding);
+	if (triggeredOperations) {
+		triggeredOperations.triggers.forEach(op => {
+			ChatRoomListUpdate(op.list, op.add, memberNumber);
+		});
+	}
+
+	if (list == Player.GhostList) {
+		const C = Character.find(Char => Char.MemberNumber == memberNumber);
+		if (C) {
+			CharacterRefresh(C, false);
+		}
+	}
+
+	ServerPlayerRelationsSync();
+	setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
 }
 
 /**

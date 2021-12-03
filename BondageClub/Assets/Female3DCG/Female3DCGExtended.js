@@ -14,13 +14,14 @@
 /**
  * An enum encapsulating the available extended item archetypes
  * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {{MODULAR: "modular", TYPED: "typed"}}
+ * @type {{MODULAR: "modular", TYPED: "typed", VIBRATING: "vibrating"}}
  * @see {@link ModularItemConfig}
  * @see {@link TypedItemConfig}
  */
 const ExtendedArchetype = {
 	MODULAR: "modular",
 	TYPED: "typed",
+	VIBRATING: "vibrating",
 };
 
 /**
@@ -1706,7 +1707,7 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "HideBackHair",
-						Property: { Type: "HideBackHair", Hide: "HairBack" },
+						Property: { Type: "HideBackHair", Hide: ["HairBack"] },
 					},
 					{
 						Name: "ShowBackHair",
@@ -2535,7 +2536,31 @@ var AssetFemale3DCGExtended = {
 				],
 				DrawImages: false,
 			},
-		},
+		}, // DoubleEndDildo
+		VibratingDildo: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingDildo
+		ClitoralStimulator: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // ClitoralStimulator
+		VibratingEgg: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingEgg
+		VibratingLatexPanties: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingLatexPanties
+		WandBelt: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WandBelt
+		FullLatexSuitWand: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FullLatexSuitWand
+		HempRopeBelt: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // HempRopeBelt
+		WiredEgg: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WiredEgg
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -3647,7 +3672,7 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "HideBackHair",
-						Property: { Type: "HideBackHair", Hide: "HairBack" },
+						Property: { Type: "HideBackHair", Hide: ["HairBack"] },
 					},
 					{
 						Name: "ShowBackHair",
@@ -3660,7 +3685,40 @@ var AssetFemale3DCGExtended = {
 				},
 					DrawImages: false,
 			}
-		} // OpenFaceHood
+		}, // OpenFaceHood
+		PetNose: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{ Name: "Nose", Key: "n",
+						Options: [
+							{}, // n0 - Nose
+							{}, // n1 - No Nose
+						]
+					},
+					{ Name: "Cheeks", Key: "c",
+						Options: [
+							{}, // c0 - No Cheeks
+							{}, // c1 - Small Cheeks
+							{}, // c2 - Big Cheeks
+						]
+					},
+					{ Name: "Whiskers", Key: "w",
+						Options: [
+							{}, // w0 - No Whiskers
+							{}, // w1 - Short Whiskers
+							{}, // w2 - Long Whiskers
+						]
+					},
+					{ Name: "Mouth", Key: "m",
+						Options: [
+							{}, // m0 - Show Mouth
+							{ Property: { Hide: ["Mouth"] } }, // m1 - Hide Mouth
+						]
+					},
+				],
+			},
+		}, //PetNose
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -3831,7 +3889,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Closed",
 							SetPose: ["LegsClosed"],
 							Effect: ["Prone", "KneelFreeze", "Slow"],
-							FreezeActivePose: ["BodyLower"],
+							AllowActivePose: ["Kneel", "LegsClosed"],
 							Difficulty: 6,
 						},
 					},
@@ -4182,6 +4240,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Block: ["ItemVulva", "ItemVulvaPiercings"],
+									Effect: ["Chaste"],
 								},
 							},
 						],

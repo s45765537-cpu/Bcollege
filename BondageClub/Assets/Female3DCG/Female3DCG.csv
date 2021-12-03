@@ -58,6 +58,7 @@ Cloth,Blouse1,Blouse
 Cloth,LatexTop,Laced Latex Top
 Cloth,LatexLacedSuit,Latex Laced Suit
 Cloth,FurCoat,Fur Coat
+Cloth,FuzzyDress,Fuzzy Dress
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -296,6 +297,7 @@ Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,Shoes5,Style 4
 Shoes,FuturisticHeels2,Futuristic Heels
+Shoes,FuzzyBoots,Fuzzy Boots
 Hat,,Hat
 Hat,Band1,Hair Band
 Hat,Band2,Jeweled Band
@@ -450,6 +452,7 @@ Mask,FuturisticVisor,Futuristic Visor
 Mask,OpenFaceHood,Open Face Hood
 Mask,FaceVeil,Face Veil
 Mask,FacePaint, Face Paint
+Mask,PetNose,Pet Nose
 TailStraps,,Tail Strap
 TailStraps,TailStrap,Kitty Tail Strap
 TailStraps,HorseTailStrap,Horse Tail Strap
@@ -999,6 +1002,8 @@ ItemHands,SpankingToysPhone1,Mobile Phone
 ItemHands,SpankingToysPhone2,Mobile Phone 2
 ItemHands,HoofMittens, Hoof Mittens
 ItemHands,SpankingToysScissors,Scissors
+ItemHands,SpankingToysGlassEmpty,Empty Glass
+ItemHands,SpankingToysGlassFilled,Filled Glass
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
 ItemNeck,LeatherCollarBell,Bell Collar

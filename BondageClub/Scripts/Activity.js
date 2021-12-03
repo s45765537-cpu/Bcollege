@@ -83,19 +83,30 @@ function ActivityDictionaryText(KeyWord) {
 
 /**
  * Resolve a group name to the correct group for activities
- * @param {string} family - The character on which the check is done
- * @param {string} groupname - The group to check access on
- * @returns {AssetGroup?} The resolved group
+ * @param {string} family - The asset family for the named group
+ * @param {string} groupname - The name of the group to resolve
+ * @returns {AssetGroup | null} - The resolved group
  */
 function ActivityGetGroupOrMirror(family, groupname) {
 	const group = AssetGroupGet(family, groupname);
-	if (group.MirrorActivitiesFrom != null) {
+	if (group && group.MirrorActivitiesFrom != null) {
 		const mirror = AssetGroupGet(family, group.MirrorActivitiesFrom);
 		if (mirror) {
 			return mirror;
 		}
 	}
 	return group;
+}
+
+/**
+ * Gets all groups that mirror or are mirrored by the given group name for activities. The returned array includes the
+ * named group.
+ * @param {string} family - The asset family for the named group
+ * @param {string} groupName - The name of the group to resolve
+ * @returns {AssetGroup[]} - The group and all groups from the same family that mirror or are mirrored by it
+ */
+function ActivityGetAllMirrorGroups(family, groupName) {
+	return AssetActivityMirrorGroups.get(groupName) || [];
 }
 
 /**
@@ -164,7 +175,7 @@ function ActivityCheckPermissions(activity, character, onOther) {
 function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 	switch (prereq) {
 		case "UseMouth":
-			return (!acting.IsMouthBlocked() && acting.CanTalk());
+			return !acting.IsMouthBlocked() && acting.CanTalk();
 		case "UseTongue":
 			return !acting.IsMouthBlocked();
 		case "TargetMouthBlocked":
@@ -172,26 +183,26 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 		case "IsGagged":
 			return !acting.CanTalk();
 		case "SelfOnly":
-			return (acted.ID == 0);
+			return acting.IsPlayer() ? acted.IsPlayer()
+				: acting.IsOnline() ? acting.MemberNumber === acted.MemberNumber
+				: acting.AccountName === acted.AccountName;
 		case "TargetKneeling":
 			return acted.IsKneeling();
 		case "UseHands":
 			return acting.CanInteract();
 		case "UseArms":
-			return (acting.CanInteract()
-				&& (InventoryGet(acting, "ItemArms") == null || !InventoryGroupIsBlocked(acting, "ItemArms")));
+			return acting.CanInteract() || (!InventoryGet(acting, "ItemArms") && !InventoryGroupIsBlocked(acting, "ItemArms"));
 		case "UseFeet":
 			return acting.CanWalk();
 		case "CantUseArms":
-			return !(acting.CanInteract()
-				&& (InventoryGet(acting, "ItemArms") == null || !InventoryGroupIsBlocked(acting, "ItemArms")));
+			return !acting.CanInteract() && (InventoryGet(Player, "ItemArms") || InventoryGroupIsBlocked(Player, "ItemArms"));
 		case "CantUseFeet":
 			return !acting.CanWalk();
 		case "TargetCanUseTongue":
 			return !acted.IsMouthBlocked();
 		case "TargetMouthOpen":
 			if (group.Name === "ItemMouth")
-				return (InventoryGet(acted, "ItemMouth") && acted.IsMouthOpen());
+				return !InventoryGet(acted, "ItemMouth") || acted.IsMouthOpen();
 			break;
 		case "VulvaEmpty":
 			if (group.Name === "ItemVulva")
@@ -202,20 +213,20 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return !acted.IsFixedHead();
 			break;
 		case "ZoneAccessible":
-			return !InventoryGroupIsBlocked(acted, group.Name, true);
+			return ActivityGetAllMirrorGroups(acted.AssetFamily, group.Name).some((g) => !InventoryGroupIsBlocked(acted, g.Name, true));
 		case "WearingPenetrationItem":
 			return CharacterHasItemForActivity(acting, "Penetrate") && !acting.IsEnclose();
 		case "ZoneNaked":
 			if (group.Name === "ItemButt")
-				return (InventoryPrerequisiteMessage(acted, "AccessButt") === "" && !acted.IsPlugged());
+				return InventoryPrerequisiteMessage(acted, "AccessButt") === "" && !acted.IsPlugged();
 			else if (group.Name === "ItemVulva")
-				return ((InventoryPrerequisiteMessage(acted, "AccessVulva") === "") && !acted.IsVulvaChaste());
+				return (InventoryPrerequisiteMessage(acted, "AccessVulva") === "") && !acted.IsVulvaChaste();
 			else if (group.Name === "ItemBreast" || group.Name === "ItemNipples")
-				return ((InventoryPrerequisiteMessage(acted, "AccessBreast") === "") && !acted.IsBreastChaste());
+				return (InventoryPrerequisiteMessage(acted, "AccessBreast") === "") && !acted.IsBreastChaste();
 			else if (group.Name === "ItemBoots")
-				return (InventoryPrerequisiteMessage(acted, "NakedFeet") === "");
+				return InventoryPrerequisiteMessage(acted, "NakedFeet") === "";
 			else if (group.Name === "ItemHands")
-				return (InventoryPrerequisiteMessage(acted, "NakedHands") === "");
+				return InventoryPrerequisiteMessage(acted, "NakedHands") === "";
 			break;
 	}
 	return true;
@@ -458,15 +469,13 @@ function ActivityOrgasmWillpowerProgress(C) {
 function ActivityOrgasmStart(C) {
 	if ((C.ID == 0) || C.IsNpc()) {
 		if (C.ID == 0 && !ActivityOrgasmRuined) ActivityOrgasmGameResistCount = 0;
+		AsylumGGTSTOrgasm(C);
 		ActivityOrgasmWillpowerProgress(C);
-
 		if (!ActivityOrgasmRuined) {
-
 			C.ArousalSettings.OrgasmTimer = CurrentTime + (Math.random() * 10000) + 5000;
 			C.ArousalSettings.OrgasmStage = 2;
 			C.ArousalSettings.OrgasmCount = (C.ArousalSettings.OrgasmCount == null) ? 1 : C.ArousalSettings.OrgasmCount + 1;
 			ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-
 			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
 				let Dictionary = [];
 				Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
@@ -474,8 +483,7 @@ function ActivityOrgasmStart(C) {
 				ActivityChatRoomArousalSync(C);
 			}
 		} else {
-			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random()*20));
-
+			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random() * 20));
 			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
 				let Dictionary = [];
 				let ChatModifier = C.ArousalSettings.OrgasmStage == 1 ? "Timeout" : "Surrender";
@@ -484,8 +492,6 @@ function ActivityOrgasmStart(C) {
 				ActivityChatRoomArousalSync(C);
 			}
 		}
-
-
 	}
 }
 
