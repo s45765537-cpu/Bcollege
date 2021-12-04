@@ -521,7 +521,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 		const groupKey = layer.ColorGroup || layer.Name || "";
 		(groupLookup[groupKey] || (groupLookup[groupKey] = [])).push(layer);
 		return groupLookup;
-	}, {});
+	}, /** @type {Record<String, AssetLayer[]>} */({}));
 
 	const colorGroups = Object.keys(groupMap)
 		.map(key => {
@@ -641,14 +641,13 @@ function ItemColorIsSimple(item) {
  * @returns {string} - The appropriate color button key for the provided item color(s)
  */
 function ItemColorGetColorButtonTextKey(color) {
-	let text = color;
 	if (Array.isArray(color)) {
 		const initialColor = color[0];
-		text = color.some(c => c !== initialColor) ? "Many" : initialColor;
+		return color.some(c => c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string") {
-		text = "Default";
+		return "Default";
 	}
-	return text;
+	return color;
 }
 
 /**
