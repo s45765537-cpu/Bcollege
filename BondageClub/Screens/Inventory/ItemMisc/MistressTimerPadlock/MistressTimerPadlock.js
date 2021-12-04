@@ -18,7 +18,7 @@ function InventoryItemMiscMistressTimerPadlockDraw() {
     if (DialogFocusSourceItem.Property.ShowTimer) {
         DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(DialogFocusSourceItem.Property.RemoveTimer - CurrentTime), 1500, 150, "white", "gray");
     } else { DrawText(DialogFindPlayer("TimerUnknown"), 1500, 150, "white", "gray"); }
-	DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
+    DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
     DrawText(DialogFindPlayer(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
 
     // Draw the settings
@@ -97,16 +97,16 @@ function InventoryItemMiscMistressTimerPadlockAdd(TimeToAdd, PlayerMemberNumberT
         var timeAdded = (DialogFocusSourceItem.Property.RemoveTimer - TimerBefore) / (1000 * 60);
         var msg = ((timeAdded < 0) && DialogFocusSourceItem.Property.ShowTimer ? "TimerRemoveTime" : "TimerAddTime");
         var Dictionary = [];
-        Dictionary.push({Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber});
-        Dictionary.push({Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber});
+        Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
+        Dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
         if (DialogFocusSourceItem.Property.ShowTimer) {
-            Dictionary.push({Tag: "TimerTime", Text: Math.round(Math.abs(timeAdded))});
-            Dictionary.push({Tag: "TimerUnit", TextToLookUp: "Minutes"});
+            Dictionary.push({ Tag: "TimerTime", Text: Math.round(Math.abs(timeAdded)) });
+            Dictionary.push({ Tag: "TimerUnit", TextToLookUp: "Minutes" });
         } else {
-            Dictionary.push({Tag: "TimerTime", TextToLookUp: "TimerAddRemoveUnknownTime"});
-            Dictionary.push({Tag: "TimerUnit", Text: ""});
+            Dictionary.push({ Tag: "TimerTime", TextToLookUp: "TimerAddRemoveUnknownTime" });
+            Dictionary.push({ Tag: "TimerUnit", Text: "" });
         }
-        Dictionary.push({Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name});
+        Dictionary.push({ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name });
 
         for (let A = 0; A < C.Appearance.length; A++) {
             if (C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name)
