@@ -658,8 +658,8 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 							Refresh = true;
 						else
 							for (let A = 0; A < data.Appearance.length && !Refresh; A++) {
-								var Old = ChatRoomData.Character[C].Appearance[A];
-								var New = data.Appearance[A];
+								const Old = ChatRoomData.Character[C].Appearance[A];
+								const New = data.Appearance[A];
 								if ((New.Name != Old.Name) || (New.Group != Old.Group) || (New.Color != Old.Color)) Refresh = true;
 								else if ((New.Property != null) && (Old.Property != null) && (JSON.stringify(New.Property) != JSON.stringify(Old.Property))) Refresh = true;
 								else if (((New.Property != null) && (Old.Property == null)) || ((New.Property == null) && (Old.Property != null))) Refresh = true;
@@ -995,16 +995,16 @@ function CharacterRefreshDialog(C) {
 				if (DialogFocusItem && DialogFocusItem.Asset.Extended && typeof window["Inventory" + DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Load"] === "function") window["Inventory" + DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Load"]();
 			}
 		} else {
-			var DFSI = DialogFocusSourceItem && DialogFocusSourceItem.Asset && C.Appearance.find(Item =>
+			const DFSI = DialogFocusSourceItem && DialogFocusSourceItem.Asset && C.Appearance.find(Item =>
 				Item.Asset.Name == DialogFocusSourceItem.Asset.Name && Item.Asset.Group.Name == DialogFocusSourceItem.Asset.Group.Name
 			);
-			var Lock = DFSI && InventoryGetLock(DFSI);
+			const Lock = DFSI && InventoryGetLock(DFSI);
 			if (!DFSI || !Lock) DialogLeaveFocusItem();
 			else DialogExtendItem(Lock, DFSI);
 		}
 	} else if (DialogFocusItem) DialogLeaveFocusItem();
 	if (!DialogFocusItem) {
-		var IsLockMode = DialogItemToLock && C.Appearance.find(Item => Item.Asset.Name == DialogItemToLock.Asset.Name && DialogItemToLock.Asset.Group.Name == Item.Asset.Group.Name);
+		const IsLockMode = DialogItemToLock && C.Appearance.find(Item => Item.Asset.Name == DialogItemToLock.Asset.Name && DialogItemToLock.Asset.Group.Name == Item.Asset.Group.Name);
 		if (IsLockMode) {
 			DialogInventory = [];
 			for (let A = 0; A < Player.Inventory.length; A++)
