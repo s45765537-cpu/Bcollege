@@ -26,8 +26,8 @@ function InventoryItemMiscMistressTimerPadlockDraw() {
         MainCanvas.textAlign = "left";
         DrawButton(1100, 666, 64, 64, "", "White", (DialogFocusSourceItem.Property.RemoveItem) ? "Icons/Checked.png" : "");
         DrawText(DialogFindPlayer("RemoveItemWithTimer"), 1200, 698, "white", "gray");
-        DrawButton( 1100, 746, 64, 64, "", "White", (DialogFocusSourceItem.Property.ShowTimer) ? "Icons/Checked.png" : "");
-        DrawText(DialogFind(Player,"ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
+        DrawButton(1100, 746, 64, 64, "", "White", (DialogFocusSourceItem.Property.ShowTimer) ? "Icons/Checked.png" : "");
+        DrawText(DialogFindPlayer("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
         DrawButton(1100, 828, 64, 64, "", "White", (DialogFocusSourceItem.Property.EnableRandomInput) ? "Icons/Checked.png" : "");
         DrawText(DialogFindPlayer("EnableRandomInput"), 1200, 858, "white", "gray");
         MainCanvas.textAlign = "center";
