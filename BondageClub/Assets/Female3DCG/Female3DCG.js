@@ -1963,14 +1963,18 @@ var AssetFemale3DCG = [
 				Name: "SuspensionCuffs", Fetish: ["Leather"], Value: 70, Difficulty: 10, SelfBondage: 3, Time: 30, AllowLock: true, Random: false, SetPose: ["LegsOpen", "Suspension"], Effect: ["Block", "Prone", "Freeze"], Block: ["ItemLegs", "ItemBoots"], Prerequisite: ["NotKneeling", "NotMounted", "NotChained", "NotHogtied", "LegsOpen"], Hide: ["Shoes"], OverrideHeight: { Height: -100, Priority: 41 },
 			},
 			{
-				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 6, Time: 15, RemoveTime: 15, Left: 150,
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 6, Time: 15, RemoveTime: 15, Top: 465, Left: 0, Extended: true,
+				AllowPose: ["Spread"],
 				SetPose: ["LegsClosed"],
+				HideItem: ["ShoesBoots1", "ShoesFlippers", "ShoesFuzzyBoots", "ShoesThighHighLatexHeels", "ShoesWoollyBootsTall", "ItemBootsHighThighBoots", "ItemBootsThighHighLatexHeels", "ClothLowerPajama1"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				Layer: [
-					{ Name: "Inner" },
-					{ Name: "Sucker" },
-					{ Name: "Outer" },
-					{ Name: "Shine", AllowColorize: false },
+					{ Name: "Inner", HasType: false },
+					{ Name: "Sucker", AllowTypes: [""] },
+					{ Name: "SuckerSpread", CopyLayerColor: "Sucker", AllowTypes: ["Spread"], ParentGroup: null, HasType: false },
+					{ Name: "Outer", HasType: false },
+					{ Name: "Shine", AllowColorize: false, AllowTypes: [""] },
+					{ Name: "ShineSpread", AllowColorize: false, AllowTypes: ["Spread"], ParentGroup: null, HasType: false },
 				],
 			},
 			AssetSpankingToys

@@ -4155,9 +4155,32 @@ var AssetFemale3DCGExtended = {
 					ChatPrefix: "ZipFeetSet",
 					NpcPrefix: "ZipFeetSet",
 					TypePrefix: "ZipBondage",
-				}
+				},
 			},
 		}, // Zipties
+		Tentacles: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Closed",
+						Property: {Type: null, SetPose: ["LegsClosed"]},
+					},
+					{
+						Name: "Spread",
+						Prerequisite: ["NoItemLegs", "LegsOpen"],
+						Property: {
+							Type: "Spread",
+							OverridePriority: 25,
+							SetPose: ["Spread"],
+							Effect: ["Freeze", "Prone", "BlockKneel"],
+							Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
+							OverrideHeight: {Height: 0, Priority: 60},
+						},
+					},
+				],
+			},
+		}, // Tentacles
 	}, // ItemFeet
 	ItemMisc: {
 		ServingTray: {
