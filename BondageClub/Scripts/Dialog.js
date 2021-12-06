@@ -23,6 +23,7 @@ var DialogFacialExpressions = [];
 var DialogFacialExpressionsSelected = -1;
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
 var DialogSavedExpressionPreviews = [];
+/** @type {Pose[][]} */
 var DialogActivePoses = [];
 var DialogItemPermissionMode = false;
 var DialogExtendedMessage = "";
