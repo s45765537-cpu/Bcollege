@@ -4106,6 +4106,13 @@ var AssetFemale3DCG = [
 					{ Name: "Metal" },
 				]
 			},
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: 120, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shine", AllowColorize: false },
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -4362,6 +4369,13 @@ var AssetFemale3DCG = [
 					{ Name: "Metal" },
 				]
 			},
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shine", AllowColorize: false },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -4614,6 +4628,13 @@ var AssetFemale3DCG = [
 					{ Name: "Straps" },
 					{ Name: "Metal" },
 				]
+			},
+			{
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Shine", AllowColorize: false },
+				],
 			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
