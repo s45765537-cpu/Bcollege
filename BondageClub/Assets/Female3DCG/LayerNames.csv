@@ -377,6 +377,9 @@ ItemArmsBitchSuitExposedLock,Locks
 ItemArmsTentaclesLowerInner,Inner
 ItemArmsTentaclesLowerSucker,Suckers
 ItemArmsTentaclesLowerOuter,Outer
+ItemArmsTentaclesInner,Inner
+ItemArmsTentaclesOuter,Outer
+ItemArmsTentaclesSucker,Suckers
 ItemHandsFuturisticMittensBody,Body
 ItemHandsFuturisticMittensMesh,Mesh
 ItemHandsFuturisticMittensDisplay,Display

@@ -1443,6 +1443,27 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticStraitjacket
+		Tentacles: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "BehindBack",
+						Property: {
+							Type: null,
+							SetPose: ["BackElbowTouch"],
+						},
+					},
+					{
+						Name: "OverTheHead",
+						Property: {
+							Type: "OverTheHead",
+							SetPose: ["OverTheHead"],
+						},
+					},
+				],
+			},
+		}, // Tentacles
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
