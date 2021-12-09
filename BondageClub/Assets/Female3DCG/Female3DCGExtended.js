@@ -1479,6 +1479,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "OverTheHead",
 							SetPose: ["OverTheHead"],
+							HideItem: ["ClothAdmiralTop", "ClothFurCoat", "ClothStudentOutfit2", "ClothSweater1", "ClothTeacherOutfit1"],
 						},
 					},
 				],
