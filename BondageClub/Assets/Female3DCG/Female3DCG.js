@@ -3384,8 +3384,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpankingToysPlasticWrap", Value: 100, BuyGroup: "PlasticWrap", Random: false, DynamicAllowInventoryAdd: () => { return false; },
-        PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
-     		},
+       			PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
+			},
 			{
 				Name: "SpankingToysGlassEmpty", Value: 10, Random: false, DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
