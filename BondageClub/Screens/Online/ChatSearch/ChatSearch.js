@@ -15,14 +15,20 @@ var ChatSearchSafewordPose = null;
 var ChatSearchPreviousActivePose = null;
 var ChatSearchIgnoredRooms = [];
 var ChatSearchMode = "";
-var ChatRoomJoinLeash = "";
 var ChatSearchRejoinIncrement = 1;
+var ChatSearchReturnToScreen = null;
+var ChatRoomJoinLeash = "";
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @returns {void} - Nothing
  */
 function ChatSearchLoad() {
+	if (ChatSearchReturnToScreen != null) {
+		CommonSetScreen("Room", ChatSearchReturnToScreen);
+		ChatSearchReturnToScreen = null;
+		return;
+	}
 	CurrentDarkFactor = 0.5;
 	if (ChatSearchLeaveRoom == "MainHall") {
 		ChatRoomGame = "";
@@ -32,14 +38,15 @@ function ChatSearchLoad() {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
 		ChatSearchSafewordPose = Player.ActivePose;
 	}
+	AsylumGGTSIntroDone = false;
+	AsylumGGTSTask = null;
+	AsylumGGTSPreviousPose = JSON.stringify(Player.Pose);
 	Player.ArousalSettings.OrgasmCount = 0;
 	ElementCreateInput("InputSearch", "text", "", "20");
 	ChatSearchQuery();
 	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
-
 	ChatSearchRejoinIncrement = 1;
-
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatCreate");
 	TextPrefetch("Online", "ChatRoom");
@@ -52,16 +59,19 @@ function ChatSearchLoad() {
 function ChatSearchRun() {
 	KidnapLeagueResetOnlineBountyProgress();
 
-	if (ChatSearchMode == "")
+	if (ChatSearchMode == "") {
 		ChatSearchNormalDraw();
-	else if (ChatSearchMode == "Filter")
+		if ((ChatSearchMessage == "" || ChatSearchMessage == "FilterExcludeTerms")) ChatSearchMessage = "EnterName";
+	}
+	else if (ChatSearchMode == "Filter") {
 		ChatSearchPermissionDraw();
+		ChatSearchMessage = "FilterExcludeTerms";
+	}
 
 	// Draw the bottom controls
-	if (ChatSearchMessage == "") ChatSearchMessage = "EnterName";
 	DrawTextFit(TextGet(ChatSearchMessage), 255, 935, 490, "White", "Gray");
 	ElementPosition("InputSearch",  740, 926, 470);
-	DrawButton(980, 898, 280, 64, TextGet("SearchRoom"), "White");
+	DrawButton(980, 898, 280, 64, TextGet(ChatSearchMode != "Filter" ? "SearchRoom" : "FilterRefresh"), "White");
 	DrawButton(1280, 898, 280, 64, TextGet("CreateRoom"), "White");
 	if (ChatSearchResult.length + (ChatSearchMode != "Filter" ? 0 : ChatSearchIgnoredRooms.length) > ChatSearchRoomsPerPage) DrawButton(1585, 885, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 	DrawButton(1685, 885, 90, 90, "", "White", ChatSearchMode != "Filter" ? "Icons/DialogPermissionMode.png" : "Icons/DialogNormalMode.png", TextGet(ChatSearchMode != "Filter" ?  "FilterMode" : "NormalMode"));
@@ -88,7 +98,7 @@ function ChatSearchClick() {
 		if (ChatSearchResultOffset >= ChatSearchResult.length + (ChatSearchMode != "Filter" ? 0 : ChatSearchIgnoredRooms.length)) ChatSearchResultOffset = 0;
 	}
 	if (MouseIn(1685, 885, 90, 90)) {
-		ChatSearchMode = (ChatSearchMode == "Filter" ? "" : "Filter");
+		ChatSearchToggleSearchMode();
 		ChatSearchQuery();
 	}
 	if (MouseIn(1785, 885, 90, 90)) {
@@ -218,8 +228,6 @@ function ChatSearchMuffle(Text) {
 	return ret;
 }
 
-
-
 /**
  * Draws the list of rooms in permission mode.
  * @returns {void} - Nothing
@@ -309,6 +317,26 @@ function ChatSearchJoin() {
 }
 
 /**
+ * Switch the search screen between the normal view and the filter mode which allows hiding of rooms
+ * @returns {void} - Nothing
+ */
+function ChatSearchToggleSearchMode() {
+	if (ChatSearchMode == "") {
+		ElementValue("InputSearch", Player.ChatSearchFilterTerms);
+		ChatSearchMode = "Filter";
+	} else if (ChatSearchMode == "Filter") {
+		const filterTerms = ElementValue("InputSearch");
+		ElementValue("InputSearch", "");
+		// If the terms were changed, save them to the account
+		if (Player.ChatSearchFilterTerms != filterTerms) {
+			Player.ChatSearchFilterTerms = filterTerms;
+			ServerSend("AccountUpdate", { ChatSearchFilterTerms: Player.ChatSearchFilterTerms });
+		}
+		ChatSearchMode = "";
+	}
+}
+
+/**
  * Handles the clicks related to the chatroom list when in permission mode
  * @returns {void} - Nothing
  */
@@ -367,7 +395,6 @@ function ChatSearchClickPermission() {
 	}
 }
 
-
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
  * @param {string} data - Response from the server
@@ -394,6 +421,7 @@ function ChatSearchResultResponse(data) {
 	ChatSearchResult = data;
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();
+	ChatSearchApplyFilterTerms();
 	if (ChatRoomJoinLeash != "") {
 		for (let R = 0; R < ChatSearchResult.length; R++)
 			if (ChatSearchResult[R].Name == ChatRoomJoinLeash) {
@@ -485,7 +513,7 @@ function ChatSearchResultResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
-	var Query = ElementValue("InputSearch").toUpperCase().trim();
+	var Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 	let FullRooms = (Player.OnlineSettings && Player.OnlineSettings.SearchShowsFullRooms);
 
 	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
@@ -525,6 +553,24 @@ function ChatSearchQuerySort() {
 	// Friendlist option overrides basic order, but keeps full rooms at the back for each number of each different total of friends.
 	if (Player.OnlineSettings && Player.OnlineSettings.SearchFriendsFirst)
 		ChatSearchResult.sort((R1, R2) => R2.Friends.length - R1.Friends.length);
+}
+
+/**
+ * Remove any rooms from the room list which contain the player's filter terms in the name
+ * @returns {void} - Nothing
+ */
+function ChatSearchApplyFilterTerms() {
+	const filterString = ChatSearchMode == "Filter" ? ElementValue("InputSearch") : Player.ChatSearchFilterTerms;
+	const filterTerms = filterString.split(',').filter(s => s).map(s => s.toUpperCase());
+	if (filterTerms.length > 0) {
+		ChatSearchResult = ChatSearchResult.filter(room => {
+			const nameContainsFilterTerm = filterTerms.some(term => room.Name.toUpperCase().includes(term));
+			if (nameContainsFilterTerm && ChatSearchIgnoredRooms.indexOf(room.Name) < 0) {
+				ChatSearchIgnoredRooms.push(room.Name);
+			}
+			return !nameContainsFilterTerm;
+		});
+	}
 }
 
 /**

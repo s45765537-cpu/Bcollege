@@ -282,7 +282,7 @@ function InventoryItemNeckFuturisticCollarLockdown(C, LockType) {
 					if (Property.ShowTimer == null) Property.ShowTimer = true;
 					if (Property.EnableRandomInput == null) Property.EnableRandomInput = false;
 					if (Property.MemberNumberList == null) Property.MemberNumberList = [];
-					let maxTimer = LockItem.Asset.MaxTimer ? LockItem.Asset.MaxTimer : 5;
+					let maxTimer = LockItem.Asset.MaxTimer ? LockItem.Asset.MaxTimer/60 : 5;
 					Property.RemoveTimer = CurrentTime + 60000*Math.max(1, Math.min(maxTimer, parseInt(ElementValue("FutureCollarTimeField"))));
 				}
 			}
@@ -395,27 +395,28 @@ function InventoryItemNeckFuturisticCollarColor(C, Item) {
 
 function InventoryItemNeckFuturisticCollarTogglePermission(C, Item, Permission) {
 	if (Item.Property && Item.Property.OpenPermission != null) {
-		if (Permission == "Leg")
-			Item.Property.OpenPermissionLeg = !Item.Property.OpenPermissionLeg;
-		else if (Permission == "Arm")
-			Item.Property.OpenPermissionArm = !Item.Property.OpenPermissionArm;
-		else if (Permission == "Chastity")
-			Item.Property.OpenPermissionChastity = !Item.Property.OpenPermissionChastity;
-		else
-			Item.Property.OpenPermission = !Item.Property.OpenPermission;
+		let property = "OpenPermission";
+		switch (Permission) {
+			case "Leg": property += "Leg"; break;
+			case "Arm": property += "Arm"; break;
+			case "Chastity": property += "Chastity"; break;
+		}
+		if (Item.Property && Item.Property[property] != undefined) {
+			Item.Property[property] = !Item.Property[property];
 
-		ChatRoomCharacterUpdate(C);
-		CharacterRefresh(C, true);
+			ChatRoomCharacterUpdate(C);
+			CharacterRefresh(C, true);
 
-		if (CurrentScreen == "ChatRoom")	{
-			var Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property.OpenPermission ? "On" : "Off");
+			if (CurrentScreen == "ChatRoom")	{
+				var Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property[property] ? "On" : "Off");
 
-			var Dictionary = [
-				{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-				{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
-			];
+				var Dictionary = [
+					{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+					{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+				];
 
-			ServerSend("ChatRoomChat", { Content: Message, Type: "Action", Dictionary });
+				ServerSend("ChatRoomChat", { Content: Message, Type: "Action", Dictionary });
+			}
 		}
 	}
 }

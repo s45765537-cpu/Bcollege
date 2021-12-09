@@ -38,6 +38,10 @@ const InventoryItemHandsSpankingToysOptions = [
 		Property: { Type: "TennisRacket" },
 		ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 10 }, { Group: "Eyebrows", Name: "Soft", Timer: 10 }]
 	}, {
+		Name: "RainbowWand",
+		Property: { Type: "RainbowWand" },
+		ExpressionTrigger: [{ Group: "Eyebrows", Name: "Soft", Timer: 5 }]
+	}, {
 		Name: "Gavel",
 		Property: { Type: "Gavel" },
 		ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 10 }, { Group: "Eyes", Name: "Closed", Timer: 5 }]
@@ -182,9 +186,18 @@ const InventoryItemHandsSpankingToysOptions = [
 		Property: { Type: "Scissors" },
 		ExpressionTrigger: []
 	},{
+
 		Name: "PlasticWrap",
 		Property: { Type: "PlasticWrap" },
 		ExpressionTrigger: []
+  },{
+		Name: "GlassEmpty",
+		Property: { Type: "GlassEmpty" },
+		ExpressionTrigger: []
+	},{
+		Name: "GlassFilled",
+		Property: { Type: "GlassFilled" },
+		ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 5}, { Group: "Mouth", Name: "LipBite", Timer: 5}, { Group: "Eyes", Name: "Lewd", Timer: 5}, { Group: "Eyebrows", Name: "Raised", Timer: 5}]
 	},
 ];
 

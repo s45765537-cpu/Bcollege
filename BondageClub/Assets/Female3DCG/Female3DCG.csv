@@ -58,6 +58,7 @@ Cloth,Blouse1,Blouse
 Cloth,LatexTop,Laced Latex Top
 Cloth,LatexLacedSuit,Latex Laced Suit
 Cloth,FurCoat,Fur Coat
+Cloth,FuzzyDress,Fuzzy Dress
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -72,6 +73,7 @@ ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,FurBolero,Fur Bolero
 ClothAccessory,FacePaint, Face Paint
 ClothAccessory,Bib,Bib
+ClothAccessory,Scarf,Scarf
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -197,6 +199,7 @@ Corset,Corset5,Floral Corset
 Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,Corset6,Noble Corset
+Corset,SteampunkCorsetTop1,Steampunk Corset
 Panties,,Panties
 Panties,Panties1,Style 1
 Panties,Panties7,Style 2
@@ -232,6 +235,7 @@ Panties,LeatherStrapPanties1,Leather Strap Panties
 Panties,CowPrintedPanties,Cow Printed Panties
 Panties,LatexPanties2,Latex Panties
 Panties,PilotPanties,Pilot Panties
+Panties,CatsuitPanties,Catsuit Panties
 Panties,SilkStraps,Silk Straps
 Panties,FlowerPanties,Flower Panties
 Panties,FloralPanties2,Floral Panties 2
@@ -293,6 +297,7 @@ Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,Shoes5,Style 4
 Shoes,FuturisticHeels2,Futuristic Heels
+Shoes,FuzzyBoots,Fuzzy Boots
 Hat,,Hat
 Hat,Band1,Hair Band
 Hat,Band2,Jeweled Band
@@ -447,6 +452,7 @@ Mask,FuturisticVisor,Futuristic Visor
 Mask,OpenFaceHood,Open Face Hood
 Mask,FaceVeil,Face Veil
 Mask,FacePaint, Face Paint
+Mask,PetNose,Pet Nose
 TailStraps,,Tail Strap
 TailStraps,TailStrap,Kitty Tail Strap
 TailStraps,HorseTailStrap,Horse Tail Strap
@@ -481,6 +487,9 @@ Wings,AngelWings,Angel Wings
 Wings,BatWings,Bat Wings
 Wings,FairyWings,Fairy Wings
 Wings,SteampunkWings,Steampunk Wings
+Wings,BeeWings,Bee Wings
+Wings,CyberWings,Cyber Wings
+Wings,PixieWings,Pixie Wings
 Height,,Height
 Height,H0950,165 cm
 Height,H0960,167 cm
@@ -949,6 +958,7 @@ ItemHands,SpankingToysWhipPaddle,Whip Paddle
 ItemHands,SpankingToysWhip,Whip
 ItemHands,SpankingToysCattleProd,Cattle Prod
 ItemHands,SpankingToysTennisRacket,Tennis Racket
+ItemHands,SpankingToysRainbowWand,Rainbow Wand
 ItemHands,SpankingToysGavel,Gavel
 ItemHands,SpankingToysFeather,Feather
 ItemHands,SpankingToysFeatherDuster,Feather Duster
@@ -988,6 +998,8 @@ ItemHands,SpankingToysPhone2,Mobile Phone 2
 ItemHands,HoofMittens, Hoof Mittens
 ItemHands,SpankingToysScissors,Scissors
 ItemHands,SpankingToysPlasticWrap,Plastic Wrap Roll
+ItemHands,SpankingToysGlassEmpty,Empty Glass
+ItemHands,SpankingToysGlassFilled,Filled Glass
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
 ItemNeck,LeatherCollarBell,Bell Collar
@@ -1282,6 +1294,7 @@ ItemHood,GP9GasMask,GP-9 Gas Mask
 ItemHood,OpenFaceHood,Open Face Hood
 ItemHood,GwenHood,Gwen Hood
 ItemHood,TechnoHelmet1,Techno Helmet 1
+ItemHood,LampHeadHood,Lampshade Hood
 ItemEars,,Ears
 ItemEars,LightDutyEarPlugs,Light Duty Ear Plugs
 ItemEars,HeavyDutyEarPlugs,Heavy Duty Ear Plugs
@@ -1370,6 +1383,7 @@ ItemDevices,WetFloor,Wet Floor Sign
 ItemDevices,VacBedDeluxe,Vacuum Bed Deluxe
 ItemDevices,FuckMachine,Fuck Machine
 ItemDevices,Net,Net
+ItemDevices,Snowman,Snowman
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes

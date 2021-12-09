@@ -43,7 +43,7 @@ interface HTMLImageElement {
 //#endregion
 
 //#region Enums
-type ExtendedArchetype = "modular" | "typed";
+type ExtendedArchetype = "modular" | "typed" | "vibrating";
 
 type TypedItemChatSetting = "toOnly" | "fromTo" | "silent";
 type ModularItemChatSetting = "perModule" | "perOption";
@@ -61,6 +61,12 @@ type NotificationAlertType = 0 | 1 | 3 | 2;
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 type CharacterType = "online" | "npc" | "simple";
+
+type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
+
+type VibratorModeSet = "Standard" | "Advanced";
+
+type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
 
 //#endregion
 
@@ -140,7 +146,7 @@ interface AssetGroup {
 	Clothing: boolean;
 	Underwear: boolean;
 	BodyCosplay: boolean;
-	Activity?: string[];
+	Activity: string[];
 	AllowActivityOn?: string[];
 	Hide?: string[];
 	Block?: string[];
@@ -160,6 +166,7 @@ interface AssetGroup {
 	FreezeActivePose: string[];
 	PreviewZone?: [number, number, number, number];
 	DynamicGroupName: string;
+	MirrorActivitiesFrom?: string;
 }
 
 /** An object defining a drawable layer of an asset */
@@ -172,7 +179,7 @@ interface AssetLayer {
 	CopyLayerColor: string | null;
 	/** specifies the name of a color group that this layer belongs to. Any layers within the same color group can be colored together via the item color UI */
 	ColorGroup?: string;
-	/** whether or not this layer can be coloured in the colouring UI */
+	/** whether or not this layer can be colored in the coloring UI */
 	HideColoring: boolean;
 	/** A list of allowed extended item types that this layer permits - the layer will only be drawn if
 	the item type matches one of these types. If null, the layer is considered to permit all extended types. */
@@ -247,7 +254,7 @@ interface Asset {
 	Enable: boolean;
 	Visible: boolean;
 	Wear: boolean;
-	Activity?: string[] | string;
+	Activity: string[] | string;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
@@ -545,6 +552,7 @@ interface Character {
 	IsMouthBlocked: () => boolean;
 	IsMouthOpen: () => boolean;
 	IsVulvaFull: () => boolean;
+	IsFixedHead: () => boolean;
 	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
 	IsLover: (C: Character) => boolean;
 	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
@@ -756,6 +764,7 @@ interface PlayerCharacter extends Character {
 	KinkyDungeonKeybindings?: any;
 	KinkyDungeonExploredLore: any[];
 	Infiltration?: any;
+	ChatSearchFilterTerms?: string;
 }
 
 interface NPCTrait {
@@ -785,11 +794,16 @@ interface ExtendedItemAssetConfig<Archetype extends ExtendedArchetype, Config> {
 }
 
 /**
+ * Valid extended item configuration types
+ */
+type AssetArchetypeConfig = TypedItemAssetConfig | ModularItemAssetConfig | VibratingItemAssetConfig;
+
+/**
  * An object containing extended item definitions for a group.
  * Maps asset names within the group to their extended item configuration
  * @see {@link ExtendedItemAssetConfig}
  */
-type ExtendedItemGroupConfig = Record<string, TypedItemAssetConfig | ModularItemAssetConfig>;
+type ExtendedItemGroupConfig = Record<string, AssetArchetypeConfig>;
 
 /**
  * An object containing extended item configurations keyed by group name.
@@ -807,12 +821,6 @@ interface ExtendedItemOption {
 	SelfBondageLevel?: number;
 	/** The required prerequisites that must be met before this option can be selected */
 	Prerequisite?: string | string[];
-	/**
-	 * Whether or not prerequisites should be considered on the character's
-	 * appearance without the item equipped. Should be set to `true` if the item itself might interfere with prerequisites on
-	 * some of its options
-	 */
-	SelfBlockCheck?: boolean;
 	/** A custom background for this option that overrides the default */
 	CustomBlindBackground? : string;
 	/**
@@ -989,12 +997,6 @@ interface ModularItemOption {
 	SelfBondageLevel?: number;
 	/** The required prerequisites that must be met before this option can be selected */
 	Prerequisite?: string | string[];
-	/**
-	 * Whether or not prerequisites should be considered on the character's
-	 * appearance without the item equipped. Should be set to `true` if the item itself might interfere with prerequisites on
-	 * some of its options
-	 */
-	SelfBlockCheck?: boolean;
 	/** A custom background for this option that overrides the default */
 	CustomBlindBackground? : string;
 	/** A list of groups that this option blocks - defaults to [] */
@@ -1303,6 +1305,42 @@ interface AppearanceValidationWrapper {
 	 * remedial appearance update should be made by the target player.
 	 */
 	valid: boolean;
+}
+
+//#endregion
+
+//#region Vibrating Items
+
+/** An object containing the extended item definition for a vibrating asset. */
+type VibratingItemAssetConfig = ExtendedItemAssetConfig<"vibrating", VibratingItemConfig>;
+
+/** An object defining all of the required configuration for registering a vibrator item */
+interface VibratingItemConfig {
+	/** The list of vibrator mode sets that are available on this item */
+	Options?: VibratorModeSet[];
+}
+
+interface VibratingItemData {
+	/** A key uniquely identifying the asset */
+	key: string;
+	/** The asset reference */
+	asset: Asset;
+	/** The list of extended item options available for the item */
+	options: VibratorModeSet[];
+	/** The common prefix used for all extended item screen functions associated with the asset */
+	functionPrefix: string;
+	/** The common prefix used for all dynamic asset hook functions for the asset */
+	dynamicAssetsFunctionPrefix: string;
+}
+
+/**
+ * A wrapper object defining a vibrator state and intensity
+ */
+interface StateAndIntensity {
+	/** The vibrator state */
+	State: VibratorModeState;
+	/** The vibrator intensity */
+	Intensity: VibratorIntensity;
 }
 
 //#endregion

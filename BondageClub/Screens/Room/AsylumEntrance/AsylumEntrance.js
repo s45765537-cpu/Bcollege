@@ -54,6 +54,7 @@ function AsylumEntranceRun() {
 	if (AsylumEntranceCanWander()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Bedroom.png", TextGet("Bedroom"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 505, 90, 90, "", "White", "Icons/FriendList.png", TextGet("Meeting"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Therapy.png", TextGet("Therapy"));
+	if (AsylumEntranceCanWander()) DrawButton(1885, 745, 90, 90, "", "White", "Icons/GGTS.png", TextGet("GGTS"));
 	if (LogValue("Committed", "Asylum") >= CurrentTime) {
 		DrawText(TextGet("RemainingTime"), 1800, 915, "white", "gray");
 		DrawText(TimerToString(LogValue("Committed", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
@@ -79,6 +80,7 @@ function AsylumEntranceClick() {
 	if (MouseIn(1885, 385, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumBedroom");
 	if (MouseIn(1885, 505, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumMeeting");
 	if (MouseIn(1885, 625, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumTherapy");
+	if (MouseIn(1885, 745, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumGGTS");
 }
 
 /**
@@ -107,9 +109,13 @@ function AsylumEntranceWearNurseClothes(C) {
 /**
  * Dresses a given character as a patient. Removes all clothes and respects cosplay rules
  * @param {"Player" | Character} C - The character to dress
+ * @param {boolean} ExtraEvent - Should we process extra events for login or GGTS
  * @returns {void} - Nothing
  */
-function AsylumEntranceWearPatientClothes(C) {
+function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
+	let FutureArms = InventoryIsWorn(C, "FuturisticCuffs", "ItemArms");
+	let FutureFeet = InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet");
+	if (ExtraEvent) CharacterRelease(C);
 	if ((typeof C === "string") && (C == "Player")) C = Player;
 	InventoryWear(C, "TShirt1", "Cloth", "#500028");
 	InventoryWear(C, "Pajama1", "ClothLower", "#FF0080");
@@ -124,6 +130,14 @@ function AsylumEntranceWearPatientClothes(C) {
 	}
 	InventoryRemove(C, "HairAccessory3");
 	InventoryRemove(C, "Hat");
+	if (ExtraEvent) {
+		if (AsylumGGTSGetLevel(C) >= 3) {
+			if (LogQuery("Isolated", "Asylum")) CharacterNaked(C);
+			if (FutureArms) InventoryWear(C, "FuturisticCuffs", "ItemArms");
+			if (FutureFeet) InventoryWear(C, "FuturisticAnkleCuffs", "ItemFeet");
+		}
+		if ((ReputationGet("Asylum") <= -50) && (InventoryGet(C, "ItemArms") == null)) AsylumEntrancePlayerJacket("Normal");
+	}
 }
 
 /**

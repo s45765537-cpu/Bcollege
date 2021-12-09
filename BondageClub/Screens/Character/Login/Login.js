@@ -6,11 +6,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Anna", "Aylea", "Ben", "BlueWinter", "Brian", "Bryce", "Chennifer", "Christian", "Clash", 
-	"DarkStar", "Dini", "Edwin", "Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "Hayden", 
-	"JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", 
-	"Raindrop", "Rika", "Robin", "Rutherford", "Ryner", "Sage", "Samuel", "Shadow", "Tam", "TBoneShark", 
-	"TKSonix", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"
+	"Aceffect", "Anna", "Aylea", "Ben", "Brian", "Bryce", "Christian", "Clash", "DarkStar", "Dini", "Edwin", 
+	"Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "Hayden", "JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", 
+	"Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", "Rika", "Riley", "Robin", "Rutherford", "Ryner", "Sage", 
+	"Samuel", "Shadow", "Tam", "TBoneShark", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"
 ];
 /* eslint-enable */
 var LoginThankYouNext = 0;
@@ -460,6 +459,7 @@ function LoginResponse(C) {
 			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
 				ServerPlayerBlockItemsSync();
 			}
+			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
 			Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
@@ -611,10 +611,8 @@ function LoginResponse(C) {
 				} else {
 
 					// If the player must log back in the asylum
-					if (LogQuery("Committed", "Asylum")) {
-						CharacterRelease(Player);
-						AsylumEntranceWearPatientClothes(Player);
-						if (ReputationGet("Asylum") <= -50) AsylumEntrancePlayerJacket("Normal");
+					if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum")) {
+						AsylumEntranceWearPatientClothes(Player, true);
 						CommonSetScreen("Room", "AsylumBedroom");
 					} else {
 

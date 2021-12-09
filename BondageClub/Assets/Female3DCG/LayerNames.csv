@@ -44,6 +44,8 @@ ClothAdultBabyDress3Belt,Belt
 ClothAdultBabyDress3Collar,Collar
 ClothReverseBunnySuitSuit,Suit
 ClothReverseBunnySuitGloves,Gloves
+ClothFuzzyDressDress,Dress
+ClothFuzzyDressTopFur,Fur
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
@@ -469,6 +471,8 @@ ItemDevicesFurBlanketWrapBlanket,Blanket
 ItemDevicesFurBlanketWrapBelts,Belts
 ItemDevicesNetFront,Net
 ItemDevicesNetWeightsFront,Weights
+ItemDevicesSnowmanButtons,Buttons
+ItemDevicesSnowmanStickHands,Arms
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -502,6 +506,9 @@ ItemHoodTechnoHelmet1HelmetSecondary,Side Pieces
 ItemHoodTechnoHelmet1HypnoSpiral,Hypno Spiral Icon
 ItemHoodFoxyMaskUpper,Upper
 ItemHoodFoxyMaskLower,Lower
+ItemHoodLampHeadHoodInside,Interior
+ItemHoodLampHeadHoodSwitch,Switch
+ItemHoodLampHeadHoodLamp,Exterior
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
@@ -518,6 +525,11 @@ ItemBootsLeatherFootMitts1Mitts,Mittens
 ItemBootsLeatherFootMitts1Straps,Straps
 GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
+ShoesSneakers1Main,Main
+ShoesSneakers1Front,Front
+ShoesSneakers1Laces,Laces
+ShoesSneakers2Shoes,Shoes
+ShoesSneakers2Laces,Laces
 ShoesFuturisticHeels2Mesh,Body
 ShoesFuturisticHeels2Shine,Shine
 ShoesFuturisticHeels2Cuffs,Cuffs
@@ -536,6 +548,9 @@ ShoesDeluxeBootsLaces,Inner & Laces
 ShoesDeluxeBootsHeels,Heels
 ShoesDeluxeBootsStraps,Straps
 ShoesDeluxeBootsBuckles,Buckles
+ShoesFuzzyBootsHeels,Heels
+ShoesFuzzyBootsBoots,Boots
+ShoesFuzzyBootsFur,Fur
 ItemMouthWiffleGagStrap,Strap
 ItemMouthWiffleGagBall,Ball
 ItemMouthHarnessBallGagBall,Ball
@@ -758,6 +773,10 @@ MaskFoxMaskUpper,Upper
 MaskFoxMaskLower,Lower
 MaskKittyMask3Highlights,Highlights
 MaskKittyMask3Mask,Mask
+MaskPetNoseCheeks,Cheeks
+MaskPetNoseNose,Nose
+MaskPetNoseGloss,Nose Gloss
+MaskPetNoseWhiskers,Whiskers
 ItemTorsoHighSecurityHarnessStrapsHarness,Straps
 ItemTorsoHighSecurityHarnessClampsHarness,Clasps
 ItemTorsoFuturisticHarnessBand,Straps
@@ -875,5 +894,13 @@ BraceletLaceBandsBands,Bands
 WingsSteampunkWingsGears,Gears
 WingsSteampunkWingsWings,Wings
 WingsSteampunkWingsWingFrames,Frame
+WingsBeeWingsWings,Wings
+WingsBeeWingsVeins,Veins
+WingsBeeWingsBone,Bone
+WingsCyberWingsBase,Base
+WingsCyberWingsShade,Shade
+WingsCyberWingsHighlights,Highlights
+WingsPixieWingsWings,Wings
+WingsPixieWingsVeins,Veins
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
