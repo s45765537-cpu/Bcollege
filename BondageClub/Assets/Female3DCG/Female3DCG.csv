@@ -73,6 +73,7 @@ ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,FurBolero,Fur Bolero
 ClothAccessory,FacePaint, Face Paint
 ClothAccessory,Bib,Bib
+ClothAccessory,Scarf,Scarf
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -1391,6 +1392,7 @@ ItemDevices,WetFloor,Wet Floor Sign
 ItemDevices,VacBedDeluxe,Vacuum Bed Deluxe
 ItemDevices,FuckMachine,Fuck Machine
 ItemDevices,Net,Net
+ItemDevices,Snowman,Snowman
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes
