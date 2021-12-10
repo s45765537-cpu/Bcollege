@@ -475,14 +475,14 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TennisSkirt1", HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "PantiesBulkyDiaper", "ItemPelvisBulkyDiaper"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], Layer: [
-					{Name: "Color"},
-					{Name: "Stripe" },
+					{ Name: "Color" },
+					{ Name: "Stripe" },
 				],
 				ParentItem: "TennisShirt1" },
 			{ Name: "Jeans1", Priority: 23, Hide: ["ItemVulvaPiercings"], HideItem: ["ItemButtAnalBeads2", "SocksSocksFur", "SocksSocks6", "ItemVulvaHempRopeBelt", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaHeavyWeightClamp", "ItemVulvaClitAndDildoVibratorbelt", "ItemVulvaShockDildo", "PantiesPoofyDiaper", "PantiesBulkyDiaper"] },
 			{ Name: "Shorts1", Hide: ["ItemVulvaPiercings"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaHempRopeBelt", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaHeavyWeightClamp", "ItemVulvaClitAndDildoVibratorbelt", "ItemVulvaShockDildo", "PantiesPoofyDiaper", "PantiesBulkyDiaper"] },
 			{
-				Name: "Pajama1", Priority: 25, Random: false, HideItem: ["ItemButtAnalBeads2",  "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaClitAndDildoVibratorbelt", "PantiesPoofyDiaper", "PantiesBulkyDiaper"], Layer: [
+				Name: "Pajama1", Priority: 25, Random: false, HideItem: ["ItemButtAnalBeads2", "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaClitAndDildoVibratorbelt", "PantiesPoofyDiaper", "PantiesBulkyDiaper"], Layer: [
 					{ Name: "Cloth" },
 					{ Name: "Stripe" },
 				],
@@ -517,7 +517,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "HulaSkirt", Value: 30, Top: 350, Alpha: [{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 455]]}], DefaultColor: ["#40B90B", "#C46E9A", "#F5DC34"], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["KneelingSpread"], ParentGroup: null, Layer: [
+				Name: "HulaSkirt", Value: 30, Top: 350, Alpha: [{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 455]] }], DefaultColor: ["#40B90B", "#C46E9A", "#F5DC34"], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], AllowPose: ["KneelingSpread"], ParentGroup: null, Layer: [
 					{ Name: "BackLeaves", Priority: 3 },
 					{ Name: "FrontLeaves", CopyLayerColor: "BackLeaves" },
 					{ Name: "Flowers" },
@@ -557,7 +557,7 @@ var AssetFemale3DCG = [
 					{ Name: "Front", CopyLayerColor: "Back", Priority: 28 },
 				],
 			},
-			{ Name: "ShortPencilSkirt", Fetish: ["Leather"], Value: 50, Left: 105, Top: 380, Alpha: [{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 180, 600], [320, 0, 180, 600], [0, 0, 500, 480]] }], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemFeetSpreaderMetal", "ItemFeetSpreaderDildoBar", "ItemFeetSpreaderVibratingDildoBar"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], WhitelistActivePose: ["BaseLower", "Kneel"], HideForPose: ["KneelingSpread"], Attribute: ["Skirt"],  },
+			{ Name: "ShortPencilSkirt", Fetish: ["Leather"], Value: 50, Left: 105, Top: 380, Alpha: [{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 180, 600], [320, 0, 180, 600], [0, 0, 500, 480]] }], HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemFeetSpreaderMetal", "ItemFeetSpreaderDildoBar", "ItemFeetSpreaderVibratingDildoBar"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], WhitelistActivePose: ["BaseLower", "Kneel"], HideForPose: ["KneelingSpread"], Attribute: ["Skirt"], },
 			{
 				Name: "HaremPants", Fetish: ["Lingerie"], Value: 20, Hide: ["Panties"], AllowPose: ["KneelingSpread"], Layer: [
 					{ Name: "Panty", Priority: 15 },
@@ -566,6 +566,11 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "ShortPlaidSkirt", Value: 40, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], },
+			{
+				Name: "CollegeSkirt", Value: -1, BuyGroup: "CollegeOutfit", ParentItem: "CollegeOutfit1",
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				AllowPose: ["KneelingSpread"]
+			},
 		],
 		Color: ["Default", "#bbbbbb", "#808080", "#202020", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
