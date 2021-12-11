@@ -323,10 +323,12 @@ function ChatSearchJoin() {
 function ChatSearchToggleSearchMode() {
 	if (ChatSearchMode == "") {
 		ElementValue("InputSearch", Player.ChatSearchFilterTerms);
+		ElementSetAttribute("InputSearch", "maxlength", "200");
 		ChatSearchMode = "Filter";
 	} else if (ChatSearchMode == "Filter") {
 		const filterTerms = ElementValue("InputSearch");
 		ElementValue("InputSearch", "");
+		ElementSetAttribute("InputSearch", "maxlength", "20");
 		// If the terms were changed, save them to the account
 		if (Player.ChatSearchFilterTerms != filterTerms) {
 			Player.ChatSearchFilterTerms = filterTerms;
