@@ -322,8 +322,8 @@ function ChatSearchJoin() {
  */
 function ChatSearchToggleSearchMode() {
 	if (ChatSearchMode == "") {
-		ElementValue("InputSearch", Player.ChatSearchFilterTerms);
 		ElementSetAttribute("InputSearch", "maxlength", "200");
+		ElementValue("InputSearch", Player.ChatSearchFilterTerms);
 		ChatSearchMode = "Filter";
 	} else if (ChatSearchMode == "Filter") {
 		const filterTerms = ElementValue("InputSearch");
