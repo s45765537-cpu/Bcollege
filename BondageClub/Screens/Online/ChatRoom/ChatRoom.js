@@ -3433,12 +3433,15 @@ function ChatRoomPayQuest(data) {
  * @param {object} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
  */
-function ChatRoomOnlineBountyHandleData(data) {
+function ChatRoomOnlineBountyHandleData(data, sender) {
 	if (data.finishTime && data.target == Player.MemberNumber) {
+		let senderChar = ChatRoomCharacter.find(c => c.MemberNumber == sender);
 		const remaining = Math.max(1, Math.ceil((data.finishTime - CommonTime()) / 60000));
+		const content = ChatRoomCarryingBountyOpened(senderChar) ? "OnlineBountySuitcaseOngoingOpened" : "OnlineBountySuitcaseOngoing";
 		let dict = [];
 		dict.push({Tag: "TIMEREMAINING", Text: remaining.toString()});
-		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: dict, Sender: Player.MemberNumber });
+		dict.push({Tag: "SourceCharacter", Text: senderChar.Name, MemberNumber: senderChar.MemberNumber});
+		ChatRoomMessage({ Content: content, Type: "Action", Dictionary: dict, Sender: sender });
 	}
 }
 
@@ -3451,7 +3454,7 @@ function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
 	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
-		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
+		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
 }
