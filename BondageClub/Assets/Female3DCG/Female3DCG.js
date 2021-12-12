@@ -5487,7 +5487,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "MedicalBed", Value: 100, Priority: 1, Difficulty: -20, SelfBondage: 0, Time: 5, RemoveTime: 5, RemoveAtLogin: true, DefaultColor: ["#909090", "#75B2C8", "#808284"], BuyGroup: "Bed",
+				Name: "MedicalBed", Value: -1, Priority: 1, Difficulty: -20, SelfBondage: 0, Time: 5, RemoveTime: 5, RemoveAtLogin: true, DefaultColor: ["#909090", "#75B2C8", "#808284"], BuyGroup: "Bed",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				RemoveItemOnRemove: [
 					{ Group: "ItemAddon", Name: "Covers" },
