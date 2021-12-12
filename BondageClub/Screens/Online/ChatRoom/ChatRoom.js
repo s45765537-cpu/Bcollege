@@ -3453,7 +3453,7 @@ function ChatRoomOnlineBountyHandleData(data, sender) {
 function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
-	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
+	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
