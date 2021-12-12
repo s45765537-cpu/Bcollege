@@ -3435,7 +3435,10 @@ function ChatRoomPayQuest(data) {
  */
 function ChatRoomOnlineBountyHandleData(data) {
 	if (data.finishTime && data.target == Player.MemberNumber) {
-		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: [{Tag: "TIMEREMAINING", Text: ""+Math.max(1, Math.ceil((data.finishTime - CommonTime())/60000))}], Sender: Player.MemberNumber });
+		const remaining = Math.max(1, Math.ceil((data.finishTime - CommonTime()) / 60000));
+		let dict = [];
+		dict.push({Tag: "TIMEREMAINING", Text: remaining.toString()});
+		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: dict, Sender: Player.MemberNumber });
 	}
 }
 
