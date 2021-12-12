@@ -3447,7 +3447,7 @@ function ChatRoomOnlineBountyHandleData(data, sender) {
 
 /**
  * Triggered when a game message comes in, we forward it to the current online game being played.
- * @param {object} data - Game data to process, sent to the current game handler.
+ * @param {IChatRoomGameResponse} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
  */
 function ChatRoomGameResponse(data) {
