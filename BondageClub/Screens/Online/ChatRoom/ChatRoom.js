@@ -2039,12 +2039,7 @@ function ChatRoomMessage(data) {
 		if (Player.GhostList.indexOf(data.Sender) >= 0) return;
 
 		// Make sure the sender is in the room
-		var SenderCharacter = null;
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomCharacter[C].MemberNumber == data.Sender) {
-				SenderCharacter = ChatRoomCharacter[C];
-				break;
-			}
+		let SenderCharacter = ChatRoomCharacter.find(c => c.MemberNumber == data.Sender);
 
 		// If we found the sender
 		if (SenderCharacter != null) {
