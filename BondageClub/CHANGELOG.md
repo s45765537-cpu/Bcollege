@@ -12,8 +12,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
 * Changelog last updated: 2021-12-13
-* Last recorded PR: [#3130](https://github.com/Ben987/Bondage-College/pull/3130)
-* Last recorded commit hash: `d1d911d0fac8ee10461bdb8af8edc88f0aec5282`
+* Last recorded PR: [#3134](https://github.com/Ben987/Bondage-College/pull/3134)
+* Last recorded commit hash: `c71386b6a9fa537487fac734d1d382bd0b6f4b61`
 
 ## [R75]
 
@@ -63,6 +63,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Jomshir - Fixed crashes that could occur when clicking in the Lover Chastity Belt's extended item screen ([#3113](https://github.com/Ben987/Bondage-College/pull/3113))
 * Ada - Fixed a crash that could occur when spectating in the Kinky Dungeon minigame ([#3118](https://github.com/Ben987/Bondage-College/pull/3118))
 * Estsanatlehi - Fixed a crash that could occur during chatroom background selection ([#3130](https://github.com/Ben987/Bondage-College/pull/3130))
+* Emily R - Fixed the Latex Boxtie Armbinder, Armbinder Jacket and Bolero Straightjacket hiding parts of certain items ([#3132](https://github.com/Ben987/Bondage-College/pull/3132))
+* Nina - Fixed an issue where the Admiral Top's shirt would disappear in the over-the-head pose for players with the small body size ([#3134](https://github.com/Ben987/Bondage-College/pull/3134))
 
 ### [Technical]
 
