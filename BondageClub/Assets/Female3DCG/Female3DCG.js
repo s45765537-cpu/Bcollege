@@ -3211,7 +3211,6 @@ var AssetFemale3DCG = [
 				{ Name: "Buckle" },
 				{ Name: "Locks", LockLayer: true, HideForPose: ["Hogtied"] }
 			] 
-		  
 		},
 			{
 				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: 250, Difficulty: 8, Time: 25, RemoveTime: 25, Top: -135, Left: 0, Extended: true,
