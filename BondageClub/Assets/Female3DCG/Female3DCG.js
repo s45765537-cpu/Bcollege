@@ -3209,7 +3209,7 @@ var AssetFemale3DCG = [
 			Layer: [
 				{ Name: "Strap" },
 				{ Name: "Buckle" },
-				{ Name: "Locks" }
+				{ Name: "Locks", LockLayer: true, HideForPose: ["Hogtied"] }
 			] 
 		 },
 			{
