@@ -81,6 +81,7 @@ function AsylumGGTSRun() {
  * @returns {void} - Nothing
  */
 function AsylumGGTSClick() {
+	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(AsylumGGTSComputer);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "AsylumEntrance");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
@@ -244,6 +245,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T.substr(0, 5) == "Cloth") && !C.CanChange()) return false; // Cloth tasks cannot be done if cannot change
 	if ((T.substr(0, 4) == "Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
 	if ((T.substr(0, 8) == "Activity") && (!C.CanInteract() || (Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Inactive"))) return false; // Must allow activities
+	if (((T == "ClothHeels") || (T == "ClothSocks") || (T == "ClothBarefoot")) && (InventoryGet(C, "ItemBoots") != null)) return false; // No feet tasks if locked in boots
 	if ((T == "NewRuleNoOrgasm") && (Player.ArousalSettings != null) && (Player.ArousalSettings.Active != "Hybrid") && (Player.ArousalSettings.Active != "Automatic")) return false; // Orgasm rule are only available on hybrid or auto
 	if ((T == "ItemPose") && !InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") && !InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet")) return false;
 	if ((T == "ItemRemove") && !InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") && !InventoryIsWorn(C, "FuturisticArmbinder", "ItemArms") && !InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet")) return false;
@@ -532,7 +534,7 @@ function AsylumGGTSProcess() {
 	}
 
 	// Validates that the pose rule isn't broken
-	if ((Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("KeepPose") >= 0) && (AsylumGGTSPreviousPose != JSON.stringify(Player.Pose)))
+	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("KeepPose") >= 0) && (AsylumGGTSPreviousPose != JSON.stringify(Player.Pose)))
 		if (!AsylumGGTSTaskDone(Player, AsylumGGTSTask)) {
 			AsylumGGTSAddStrike();
 			AsylumGGTSMessage("KeepPoseStrike" + Player.Game.GGTS.Strike.toString());
@@ -597,7 +599,9 @@ function AsylumGGTSStartPunishment() {
 function AsylumGGTSControlItem(C, Item) {
 	let Level = AsylumGGTSGetLevel(C);
 	if (AsylumGGTSGetLevel(Player) > Level) Level = AsylumGGTSGetLevel(Player);
+	if (Level <= 0) return false;
 	if (Level <= 2) {
+		if (CurrentScreen != "ChatRoom") return false;
 		if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return false;
 		if ((ChatRoomData == null) || (ChatRoomData.Game == null) || (ChatRoomData.Game != "GGTS")) return false;
 		if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
@@ -612,13 +616,17 @@ function AsylumGGTSControlItem(C, Item) {
 }
 
 /**
- * Adds a strike to the player game info
+ * Adds a strike to the player game info.  At strike 3, we auto-unlock the door to allow players to leave.
  * @returns {void} - Nothing
  */
 function AsylumGGTSAddStrike() {
 	Player.Game.GGTS.Strike++;
 	if (Player.Game.GGTS.Strike > 3) Player.Game.GGTS.Strike = 3;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if ((Player.Game.GGTS.Strike >= 3) && AsylumGGTSTaskCanBeDone(Player, "UnlockRoom")) {
+		AsylumGGTSTask = "UnlockRoom";
+		AsylumGGTSAutomaticTask();
+	}
 }
 
 /**
