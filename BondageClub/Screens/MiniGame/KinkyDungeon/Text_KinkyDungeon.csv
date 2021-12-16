@@ -142,26 +142,26 @@ KinkyDungeonHearDoorCloseFar,You hear a door being shut in the distance.
 NameBlindZombie,Moaning Zombie
 KillBlindZombie,"The zombie moans and collapses to the ground."
 AttackBlindZombieBind,"The zombie's charms attach to your body (+RestraintAdded)"
-AttackBlindZombie,"The zombie caresses your body! (-DamageTaken WP)"
+AttackBlindZombie,"The zombie caresses your body! (-DamageTaken SP)"
 
 NameFastZombie,Ravenous Zombie
 KillFastZombie,"The zombie screeches and tumbles to the floor."
 AttackFastZombieBind,"The zombie viciously wraps you in charms (+RestraintAdded)"
-AttackFastZombie,"The zombie gropes your body! (-DamageTaken WP)"
+AttackFastZombie,"The zombie gropes your body! (-DamageTaken SP)"
 
 NameAnimatedArmor,Animated Armor
 KillAnimatedArmor,"The Animated Armor falls into pieces."
 AttackAnimatedArmorBind,"The Animated Armor restrains you with shackles (+RestraintAdded)"
-AttackAnimatedArmor,"The Animated Armor hugs your body with an iron grip! (-DamageTaken WP)"
+AttackAnimatedArmor,"The Animated Armor hugs your body with an iron grip! (-DamageTaken SP)"
 
 NameSkeleton,Skeleton
 KillSkeleton,"The Skeleton falls into pieces."
 AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
-AttackSkeleton,"The Skeleton tackles you! (-DamageTaken WP)"
+AttackSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
 
 NameGreaterSkeleton,Skeleton Warrior
 KillGreaterSkeleton,"The Skeleton Warrior collapses and falls into pieces."
-AttackGreaterSkeleton,"The Skeleton lands a wide, crippling blow! (-DamageTaken WP)"
+AttackGreaterSkeleton,"The Skeleton lands a wide, crippling blow! (-DamageTaken SP)"
 
 NameLesserSkeleton,Skeleton
 KillLesserSkeleton,"The Skeleton falls into pieces."
@@ -171,7 +171,7 @@ AttackLesserSkeleton,"The Skeleton latches onto you!"
 NameRopeSnake,Magic Rope
 KillRopeSnake,"The magic rope returns to being a normal rope."
 AttackRopeSnakeBind,"The magic rope wraps itself tightly around your body! (+RestraintAdded)"
-AttackRopeSnake,"The magic rope wriggles into your outfit! (-DamageTaken WP)"
+AttackRopeSnake,"The magic rope wriggles into your outfit! (-DamageTaken SP)"
 
 NameWitchShock,Shock Witch
 KillWitchShock,"The shock witch vanishes into a cloud of thunder, leaving behind a keyring."
@@ -192,7 +192,7 @@ AttackNecromancer,"The necromancer tugs sensually at your restraints!"
 
 NameRat,Filthy Rat
 KillRat,"The rat skitters back into a hole in the wall."
-AttackRat,"The filthy rat nibbles at you! (-DamageTaken WP)"
+AttackRat,"The filthy rat nibbles at you! (-DamageTaken SP)"
 
 KinkyDungeonNoMana,"You do not have enough mana to cast the spell!"
 PlayerAttack,"You attack the TargetEnemy for DamageDealt damage!"
