@@ -14,7 +14,7 @@ var KinkyDungeonPlayerDamageDefault = {dmg: 2, chance: 0.8, type: "unarmed", una
 var KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 var KinkyDungeonWeapons = {
 	"Knife": {name: "Knife", dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false, rarity: 0, shop: false, noequip: true},
-	"Sword": {name: "Sword", dmg: 3, chance: 1.0, type: "slash", unarmed: false, rarity: 2, shop: true},
+	"Sword": {name: "Sword", dmg: 3, chance: 1.0, type: "slash", unarmed: false, rarity: 2, shop: true, cutBonus: 0.1},
 	"Axe": {name: "Axe", dmg: 4, chance: 0.75, type: "slash", unarmed: false, rarity: 2, shop: true},
 	"Hammer": {name: "Hammer", dmg: 5, chance: 0.6, type: "crush", unarmed: false, rarity: 2, shop: true},
 };

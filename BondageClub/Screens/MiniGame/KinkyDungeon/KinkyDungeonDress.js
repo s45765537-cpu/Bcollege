@@ -53,7 +53,7 @@ function KinkyDungeonDressPlayer() {
 			if (clothes.Lost) KinkyDungeonUndress += 1/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
 		}
 
-		if (clothes.Lost != PreviouslyLost) KinkyDungeonStatArousal += 100/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
+		if (clothes.Lost != PreviouslyLost) KinkyDungeonStatArousal += 10/KinkyDungeonDresses[KinkyDungeonCurrentDress].length;
 
 		if (!clothes.Lost) {
 			if (KinkyDungeonCheckClothesLoss) {
