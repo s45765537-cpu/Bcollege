@@ -23,7 +23,8 @@ var KinkyDungeonSleepTurns = 0;
 var KinkyDungeonStatStaminaMax = 36;
 var KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 var KinkyDungeonStatStaminaRegen = 0;
-var KinkyDungeonStatStaminaRegenSleep = 1;
+var KinkyDungeonStatStaminaRegenSleep = 36/20;
+var KinkyDungeonStatStaminaRegenWait = 1;
 var KinkyDungeonStatManaMax = 36;
 var KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 var KinkyDungeonStatManaRate = 0;
@@ -131,7 +132,7 @@ function KinkyDungeonDefaultStats() {
 }
 
 function KinkyDungeonGetVisionRadius() {
-	return (KinkyDungeonSleepTurns > 2 || KinkyDungeonStatStamina == 0) ? 1 : (Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel))));
+	return (KinkyDungeonSleepTurns > 2) ? 1 : (Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel))));
 }
 
 function KinkyDungeonDealDamage(Damage) {
