@@ -216,7 +216,7 @@ function KinkyDungeonPickAttempt() {
 	escapeChance /= 1.0 + KinkyDungeonStatArousal/KinkyDungeonStatArousalMax*KinkyDungeonArousalUnlockSuccessMod;
 
 	if (!KinkyDungeonHasStamina(-cost, true)) {
-		KinkyDungeonWaitMessage();
+		KinkyDungeonWaitMessage(true);
 	} else if (KinkyDungeonTargetTile && KinkyDungeonTargetTile.pickProgress >= 1){//Math.random() < escapeChance
 		KinkyDungeonStatStamina += cost;
 		Pass = "Success";
@@ -329,7 +329,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 		// Main struggling block
 		if (!KinkyDungeonHasStamina(-cost, true)) {
-			KinkyDungeonWaitMessage();
+			KinkyDungeonWaitMessage(true);
 		} else {
 			// Pass block
 			if (((StruggleType == "Cut" && restraint.cutProgress >= 1 - escapeChance)
