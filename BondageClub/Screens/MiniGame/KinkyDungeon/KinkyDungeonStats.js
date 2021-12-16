@@ -8,11 +8,12 @@ var KinkyDungeonStatMaxMax = 72; // Maximum any stat can get boosted to
 var KinkyDungeonStatArousalMax = 36;
 var KinkyDungeonArousalUnlockSuccessMod = 0.5; // Determines how much harder it is to insert a key while aroused. 1.0 is half success chance, 2.0 is one-third, etc.
 var KinkyDungeonStatArousal = 0;
-var KinkyDungeonStatArousalRegen = -1;
+var KinkyDungeonStatArousalRegen = -0.5;
 var KinkyDungeonStatArousalRegenStaminaRegenFactor = -0.1; // Stamina drain per time per 100 arousal
 var KinkyDungeonStatArousalMiscastChance = 0.75; // Miscast chance at max arousal
 var KinkyDungeonVibeLevel = 0;
-var KinkyDungeonArousalPerVibe = 0.05; // How much arousal per turn per vibe level
+var KinkyDungeonArousalPerVibe = 1; // How much arousal per turn per vibe energy cost
+var KinkyDungeonVibeCostPerIntensity = 0.15;
 
 var KinkyDungeonStatWillpowerExhaustion = 0;
 var KinkyDungeonSleepTurns = 0;
@@ -22,7 +23,7 @@ var KinkyDungeonSleepTurns = 0;
 var KinkyDungeonStatStaminaMax = 36;
 var KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 var KinkyDungeonStatStaminaRegen = 0;
-var KinkyDungeonStatStaminaRegenSleep = 0.5;
+var KinkyDungeonStatStaminaRegenSleep = 1;
 var KinkyDungeonStatManaMax = 36;
 var KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 var KinkyDungeonStatManaRate = 0;
@@ -127,7 +128,7 @@ function KinkyDungeonDefaultStats() {
 }
 
 function KinkyDungeonGetVisionRadius() {
-	return (KinkyDungeonSleepTurns > 2) ? 1 : (Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel))));
+	return (KinkyDungeonSleepTurns > 2 || KinkyDungeonStatStamina == 0) ? 1 : (Math.max((KinkyDungeonDeaf || KinkyDungeonStatBlind > 0) ? 1 : (KinkyDungeonBlindLevel > 2) ? 2 : 3, Math.floor(KinkyDungeonMapBrightness*(1.0 - 0.33 * KinkyDungeonBlindLevel))));
 }
 
 function KinkyDungeonDealDamage(Damage) {
@@ -240,7 +241,7 @@ function KinkyDungeonCalculateVibeLevel() {
 	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 		if (KinkyDungeonInventory[I] && KinkyDungeonInventory[I].restraint && KinkyDungeonInventory[I].restraint.intensity) {
 			let vibe = KinkyDungeonInventory[I].restraint;
-			let drain = vibe.battery - Math.max(0, vibe.battery - vibe.intensity/2);
+			let drain = vibe.battery - Math.max(0, vibe.battery - KinkyDungeonVibeCostPerIntensity * vibe.intensity);
 			if (drain > 0)
 				KinkyDungeonVibeLevel = Math.max(KinkyDungeonVibeLevel + drain/4, drain);
 
@@ -274,8 +275,10 @@ function KinkyDungeonCalculateSlowLevel() {
 		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemLegs"), "KneelFreeze", true)) KinkyDungeonSlowLevel += 1.0;
 		if (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Block", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Freeze", true) || InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemFeet"), "Slow", true)) KinkyDungeonSlowLevel += 1;
 		if (boots && boots.restraint && boots.restraint.slowboots) KinkyDungeonSlowLevel += 1.0;
+		if (KinkyDungeonStatStamina < 0.5) KinkyDungeonSlowLevel = Math.max(3, KinkyDungeonSlowLevel + 2);
 		if (KinkyDungeonPlayer.Pose.includes("Kneel")) KinkyDungeonSlowLevel = Math.max(3, KinkyDungeonSlowLevel + 1);
 		if (KinkyDungeonPlayer.Pose.includes("Hogtied")) KinkyDungeonSlowLevel = Math.max(5, KinkyDungeonSlowLevel + 1);
+
 
 		for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 			if (KinkyDungeonInventory[I] && KinkyDungeonInventory[I].restraint && KinkyDungeonInventory[I].restraint.freeze) {

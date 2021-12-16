@@ -23,6 +23,9 @@ var KinkyDungeonShrineBaseCostGrowth = {
 var KinkyDungeonShopItems = [];
 var KinkyDungeonShopIndex = 0;
 
+var KinkyDungeonPoolUses = 0;
+var KinkyDungeonShrinePoolChancePerUse = 0.25;
+
 var KinkyDungeonShrineCosts = {};
 var KinkyDungeonShrineTypeRemove = ["Charms", "Leather", "Metal", "Rope", "Gags", "Blindfolds", "Boots"]; // These shrines will always remove restraints associated with their shrine
 
@@ -141,7 +144,7 @@ function KinkyDungeonHandleShrine() {
 
 		}
 	} else {
-		if (cost > 0 && MouseIn(675, 825, 350, 60)) {
+		if (cost > 0 && MouseIn(675, 825, 300, 60)) {
 			KinkyDungeonAdvanceTime(1, true);
 			KinkyDungeonTargetTile = null;
 			if (KinkyDungeonGold > cost) {
@@ -159,6 +162,24 @@ function KinkyDungeonHandleShrine() {
 				KinkyDungeonActionMessageColor = "red";
 			}
 			KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);
+			return true;
+		} else if (KinkyDungeonPoolUses <= 1 / KinkyDungeonShrinePoolChancePerUse && KinkyDungeonStatMana < KinkyDungeonStatManaMax && ((cost == 0 && MouseIn(675, 825, 350, 60)) || MouseIn(1000, 825, 100, 60))) {
+			let chance = 0 + KinkyDungeonShrinePoolChancePerUse * KinkyDungeonPoolUses;
+
+			KinkyDungeonAdvanceTime(1, true);
+
+			if (Math.random() > chance) {
+				KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonPoolDrink" + Math.min(2, KinkyDungeonPoolUses)), "#AAFFFF", 2);
+				KinkyDungeonStatMana = KinkyDungeonStatManaMax;
+			} else {
+				// You have angered the gods!
+				KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonPoolDrinkAnger").replace("TYPE", TextGet("KinkyDungeonShrine" + type)), "#AA0000", 3);
+				KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonPoolDrinkAnger").replace("TYPE", TextGet("KinkyDungeonShrine" + type)), "#AA0000", 3);
+
+				KinkyDungeonShrineAngerGods(type);
+			}
+
+			KinkyDungeonPoolUses += 1;
 			return true;
 		}
 	}
@@ -184,9 +205,59 @@ function KinkyDungeonDrawShrine() {
 			}
 		}
 	} else {
-		if (cost == 0) DrawText(TextGet("KinkyDungeonLockedShrine"), 850, 850, "white", "silver");
-		else {
-			DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonPayShrine").replace("XXX", "" + cost), "White", "", "");
+		if (cost == 0) {
+			DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonDrinkShrine"), (KinkyDungeonPoolUses <= 1 / KinkyDungeonShrinePoolChancePerUse && KinkyDungeonStatMana < KinkyDungeonStatManaMax) ? "#AAFFFF" : "#444444", "", "");
+		} else {
+			DrawButton(675, 825, 300, 60, TextGet("KinkyDungeonPayShrine").replace("XXX", "" + cost), "White", "", "");
+			DrawButton(1000, 825, 100, 60, TextGet("KinkyDungeonDrinkShrine"), (KinkyDungeonPoolUses <= 1 / KinkyDungeonShrinePoolChancePerUse && KinkyDungeonStatMana < KinkyDungeonStatManaMax) ? "#AAFFFF" : "#444444", "", "");
 		}
+	}
+}
+
+function KinkyDungeonShrineAngerGods(Type) {
+	if (Type == "Elements") {
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapGag"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
+
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("ChainArms"), 2, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemArms"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("ChainLegs"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemLegs"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapVibe"), 0, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("ChainCrotch"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemTorso"), KinkyDungeonGenerateLock(true));
+
+	} else if (Type == "Conjure") {
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapGag"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
+
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("StrongMagicRopeArms"), 4, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("StrongMagicRopeLegs"), 0, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("StrongMagicRopeCrotch"), 2, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapVibe"), 0, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("StrongMagicRopeFeet"), 0, true);
+
+
+	} else if (Type == "Illusion") {
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapGag"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapBlindfold"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemHead"), KinkyDungeonGenerateLock(true));
+
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapMittens"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemHands"), KinkyDungeonGenerateLock(true));
+
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapVibe"), 0, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapBelt"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemPelvis"), KinkyDungeonGenerateLock(true));
+	} else if (Type == "Leather") {
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapHarness"), 4, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemTorso"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapGag"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapBlindfold"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemHead"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapBoots"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemBoots"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("SturdyLeatherBeltsFeet"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemFeet"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("SturdyLeatherBeltsLegs"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemLegs"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapArmbinder"), 4, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemArms"), KinkyDungeonGenerateLock(true));
+	} else if (Type == "Metal") {
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapGag"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("WristShackles"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemArms"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("AnkleShackles"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemFeet"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("LegShackles"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemLegs"), KinkyDungeonGenerateLock(true));
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapVibe"), 0, true);
+		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName("TrapBelt"), 0, true); KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemPelvis"), KinkyDungeonGenerateLock(true));
+	} else if (Type == "Will") {
+		KinkyDungeonStatMana = 0;
+		KinkyDungeonStatStamina = 0;
 	}
 }

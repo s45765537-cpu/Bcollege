@@ -18,7 +18,7 @@ StatWillpower,"Willpower: CURRENT/MAX"
 StatMana,"MP: CURRENT/MAX"
 StatUsePotion,"Use Potion"
 KinkyDungeonManaCost," Mana"
-KinkyDungeonSleep,"Sleep 10 turns"
+KinkyDungeonSleep,"Sleep 20 turns"
 
 Wait,"You wait."
 WaitExhaustion,"You are exhausted."
@@ -232,7 +232,7 @@ KinkyDungeonStruggleUnlockImpossible,"There is no keyhole."
 KinkyDungeonStruggleUnlockImpossibleBound,"You can't hold the key."
 KinkyDungeonStrugglePickImpossible,"There is no visible mechanism to pick."
 KinkyDungeonStrugglePickImpossibleBound,"You are too heavily bound to even attempt picking."
-KinkyDungeonStruggleRemoveImpossible,"There are no visible clasps or fasteners."
+KinkyDungeonStruggleRemoveImpossible,"It is impossible to manipulate the item."
 KinkyDungeonStruggleRemoveImpossibleBound,"You are too tightly bound to manipulate that item."
 KinkyDungeonStruggleCutImpossible,"The item resists the knife without a scratch."
 KinkyDungeonStruggleCutImpossibleBound,"You can't hold a knife, let alone cut the thing."
@@ -250,7 +250,7 @@ KinkyRedLock,"Red Lock"
 KinkyGreenLock,"Green Lock"
 KinkyBlueLock,"Blue Lock"
 KinkyYellowLock,"Yellow Lock"
-KinkyRedLockAbr,"(R)"
+KinkyRedLockAbr,""
 KinkyGreenLockAbr,"(G)"
 KinkyBlueLockAbr,"(B)"
 KinkyYellowLockAbr,"(Y)"
@@ -277,7 +277,7 @@ KinkyDungeonPayShrineCommerce,"You leave the coins on the altar and they transfo
 KinkyDungeonObject,"object"
 
 KinkyDungeonObjectLock,"That object is locked"
-KinkyDungeonObjectShrine,"You found a shrine to the goddess of TYPE"
+KinkyDungeonObjectShrine,"A shrine to the goddess of TYPE. A pool of mana glimmers below."
 KinkyDungeonObjectDoor,"That door is open. Do you want to close it?"
 KinkyDungeonCloseDoorDone,"You slam the door and jam it shut!"
 KinkyDungeonShrineCharms,"mummies"
@@ -288,6 +288,12 @@ KinkyDungeonShrineElements,"the elements"
 KinkyDungeonShrineConjure,"conjuration"
 KinkyDungeonShrineIllusion,"illusions"
 KinkyDungeonShrineCommerce,"commerce"
+
+KinkyDungeonDrinkShrine,"Drink"
+KinkyDungeonPoolDrink0,"You drink from the pool and your mana is restored."
+KinkyDungeonPoolDrink1,"You drink again, but you feel as if you are trespassing."
+KinkyDungeonPoolDrink2,"You drink again, knowing the risk this may entail..."
+KinkyDungeonPoolDrinkAnger,"You have angered the goddess of TYPE!!!"
 
 KinkyDungeonCommerceBuy,"The goddess offers a ItemTraded for ItemCost (NumCurrent/NumMax)"
 KinkyDungeonCommerceNext,"Next Offer"
@@ -303,6 +309,8 @@ KinkyDungeonCategoryFilterWeapons,Weapons
 KinkyDungeonCategoryFilterOutfits,Outfits
 KinkyDungeonCategoryFilterRestraints,Restraints
 KinkyDungeonCategoryFilterMisc,Miscellaneous
+
+KinkyDungeonInventoryItemTrapMittens,Leather Mitts
 
 KinkyDungeonInventoryItemTrapArmbinder,Armbinder
 
@@ -361,9 +369,24 @@ RestraintWeakMagicRopeArmsDesc2,"I wonder who was responsible?"
 RestraintWeakMagicRopeLegs,Magic Rope
 RestraintWeakMagicRopeLegsDesc,"Faintly glowing ropes from a magic trap."
 RestraintWeakMagicRopeLegsDesc2,"I wonder who was responsible?"
+RestraintStrongMagicRopeArms,Enchanted Rope
+RestraintStrongMagicRopeArmsDesc,"Strongly glowing ropes."
+RestraintStrongMagicRopeArmsDesc2,"The knots appear to tie themselves together again, making them impossible to undo!"
+RestraintStrongMagicRopeLegs,Enchanted Rope
+RestraintStrongMagicRopeLegsDesc,"Strongly glowing ropes."
+RestraintStrongMagicRopeLegsDesc2,"The knots appear to tie themselves together again, making them impossible to undo!"
+RestraintStrongMagicRopeFeet,Enchanted Rope
+RestraintStrongMagicRopeFeetDesc,"Strongly glowing ropes."
+RestraintStrongMagicRopeFeetDesc2,"The knots appear to tie themselves together again, making them impossible to undo!"
+RestraintStrongMagicRopeCrotch,Enchanted Rope
+RestraintStrongMagicRopeCrotchDesc,"Strongly glowing ropes."
+RestraintStrongMagicRopeCrotchDesc2,"The knots appear to tie themselves together again, making them impossible to undo!"
 RestraintStickySlime,Sticky Slime
 RestraintStickySlimeDesc,"A sticky layer of slime keeping you anchored to the ground."
 RestraintStickySlimeDesc2,"It will slow you for a single turn."
+RestraintTrapMittens,Leather Mitts
+RestraintTrapMittensDesc,"A pair of tight leather mittens enclosing your hands."
+RestraintTrapMittensDesc2,"They make it almost impossible to manipulate keys and tools. Keep your hands to yourself!"
 RestraintTrapArmbinder,Armbinder
 RestraintTrapArmbinderDesc,"A tight leather armbinder enclosing your hands and arms completely."
 RestraintTrapArmbinderDesc2,"It's quite snug and secured by lockable buckles in the back. Picking the locks yourself is impossible."
@@ -662,4 +685,4 @@ KinkyDungeonLore-6,"(The note contains a cryptic riddle that makes no sense)"
 KinkyDungeonLore-7,"(The note contains a list of the writer's likes/dislikes and hard limits)"
 KinkyDungeonLore-8,"The note reads: Please take this beautiful doll somewhere and play with her~"
 KinkyDungeonLore-9,"(The note contains a manual on fencing. You have always been a terrible fencer)"
-KinkyDungeonLore-10,"(The note contains a magic spell you were taught to never-ever cast in magic school)"
+KinkyDungeonLore-10,"(The note contains a magic spell you were taught never to cast under any circumstances)"

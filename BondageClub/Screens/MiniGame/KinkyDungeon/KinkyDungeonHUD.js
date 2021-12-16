@@ -54,7 +54,7 @@ function KinkyDungeonDrawInputs() {
 			if (KinkyDungeonPlayer.IsBlind() < 1) {
 				if (sg.lock == "Red") {color = "#ff8888"; locktext = TextGet("KinkyRedLockAbr");}
 				if (sg.lock == "Blue") {color = "#8888FF"; locktext = TextGet("KinkyBlueLockAbr");}
-			}
+			} else color = "#888888";
 
 			let GroupText = sg.name ? ("Restraint" + sg.name) : ("KinkyDungeonGroup"+ sg.group); // The name of the group to draw.
 
@@ -258,7 +258,7 @@ function KinkyDungeonHandleHUD() {
 		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax) {
 			KinkyDungeonUseConsumable("PotionMana", 1);
 		} else if (MouseIn(xxx, yyy + 3 * KinkyDungeonStatBarHeight, 250, 50)) {
-			KinkyDungeonSleepTurns = 10;
+			KinkyDungeonSleepTurns = 20;
 		}
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
