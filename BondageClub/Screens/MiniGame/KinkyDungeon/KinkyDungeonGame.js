@@ -217,7 +217,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 	KinkyDungeonEntities = [];
 
-	var enemyCount = 4 + Math.floor(Math.sqrt(Floor) + width/20 + height/20);
+	var enemyCount = 4 + Math.floor(Math.sqrt(Floor) + width/20 + height/20 + KinkyDungeonDifficulty/10);
 	var count = 0;
 	var tries = 0;
 	var miniboss = false;
@@ -247,16 +247,16 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 
 					}
 
-			if (Floor % 10 >= 5) tags.push("secondhalf");
-			if (Floor % 10 >= 8) tags.push("lastthird");
-			if (Floor % 10 >= 8) tags.push("lastthird");
+			if (Floor % 10 >= 5 || KinkyDungeonDifficulty > 20) tags.push("secondhalf");
+			if (Floor % 10 >= 8 || KinkyDungeonDifficulty > 40) tags.push("lastthird");
+			if (Floor % 10 >= 8 || KinkyDungeonDifficulty > 60) tags.push("lastthird");
 			if (miniboss) tags.push("miniboss");
 
 			var Enemy = KinkyDungeonGetEnemy(tags, Floor, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint], KinkyDungeonMapGet(X, Y));
 			if (Enemy) {
 				KinkyDungeonEntities.push({Enemy: Enemy, x:X, y:Y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
 				if (Enemy.tags.includes("minor")) count += 0.2; else count += 1; // Minor enemies count as 1/5th of an enemy
-				if (Enemy.tags.includes("elite")) count += 1; // Elite enemies count as 2 normal enemies
+				if (Enemy.tags.includes("elite")) count += Math.max(1, 100/(100 + KinkyDungeonDifficulty)); // Elite enemies count as 2 normal enemies
 				if (Enemy.tags.includes("miniboss")) miniboss = true; // Adds miniboss as a tag
 				if (Enemy.tags.includes("removeDoorSpawn") && KinkyDungeonMapGet(X, Y) == "d") KinkyDungeonMapSet(X, Y, '0');
 				//console.log("Created a " + Enemy.name)
@@ -727,6 +727,7 @@ function KinkyDungeonClickGame(Level) {
 				if (KinkyDungeonSpellValid) {
 					KinkyDungeonCastSpell(KinkyDungeonTargetX, KinkyDungeonTargetY, KinkyDungeonTargetingSpell);
 					KinkyDungeonAdvanceTime(1);
+					KinkyDungeonSleepTurns = 0;
 					KinkyDungeonTargetingSpell = null;
 				}
 			} else KinkyDungeonTargetingSpell = null;
@@ -853,7 +854,7 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 				KinkyDungeonWaitMessage();
 			}
 
-
+			KinkyDungeonSleepTurns = 0;
 			KinkyDungeonAdvanceTime(1);
 		}
 	} else {
@@ -916,10 +917,14 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 						}
 					}
 				}
+				KinkyDungeonSleepTurns = 0;
 				KinkyDungeonAdvanceTime(1); // was moveDirection.delta, but became too confusing
 			}
 		} else { // If we are blind we can bump into walls!
-			if (KinkyDungeonGetVisionRadius() <= 1) KinkyDungeonAdvanceTime(1);
+			if (KinkyDungeonGetVisionRadius() <= 1) {
+				KinkyDungeonSleepTurns = 0;
+				KinkyDungeonAdvanceTime(1);
+			}
 		}
 	}
 

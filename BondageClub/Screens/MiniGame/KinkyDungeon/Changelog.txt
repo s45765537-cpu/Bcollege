@@ -85,7 +85,7 @@ Features
 - Each shrine now has a mana pool. You can drink mana from a mana pool once per floor without repercussions. This restores your mana fully. Drinking more than once, however, has a chance to backfire...
 - Added Buttons to drink stamina/mana potions without going to the inventory
 
-
+- New curse system: Items which are Cursed can not be struggled out of, but can be unlocked if you meet their condition
 
 TODO Add Rest button
 

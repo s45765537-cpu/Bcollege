@@ -71,6 +71,8 @@ var KinkyDungeonRestraints = [
 	{inventory: true, name: "LegShackles", Asset: "OrnateLegCuffs", Group: "ItemLegs", Type: "Closed", Color: ["#777777", "#AAAAAA"], magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.25, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":2}, playerTags: {"ItemLegsFull":-1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], shrine: ["Metal", "Cuffs"]},
 	{inventory: true, name: "SteelMuzzleGag", Asset: "SteelMuzzleGag", Group: "ItemMouth2", magic: false, power: 3, weight: 2, DefaultLock: "Red", escapeChance: {"Struggle": 0.2, "Cut": -0.25, "Remove": 10, "Pick": 5}, enemyTags: {"shackleRestraints":1}, playerTags: {"ItemMouthFull":1}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], shrine: ["Metal", "Gags"]},
 
+	{curse: "5Keys", name: "GhostCollar", Asset: "OrnateCollar", Group: "ItemNeck", magic: true, Color: ["#777777", "#AAAAAA"], power: 20, weight: 0, difficultyBonus: 30, escapeChance: {"Struggle": -100, "Cut": -0.8, "Remove": -100}, enemyTags: {}, playerTags: {}, minLevel: 0, floors: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], shrine: []},
+
 	{name: "SturdyLeatherBeltsArms", Asset: "SturdyLeatherBelts", Type: "Three", Color: "Default", Group: "ItemArms", magic: false, power: 2, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": 0.5, "Remove": 0.8}, enemyTags: {"leatherRestraints":6}, playerTags: {"ItemArmsFull":-2}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Leather", "Belts"]},
 	{name: "SturdyLeatherBeltsFeet", Asset: "SturdyLeatherBelts", Type: "Three", Color: "Default", Group: "ItemFeet", magic: false, power: 2, weight: 0, escapeChance: {"Struggle": 0.0, "Cut": 0.5, "Remove": 0.8}, enemyTags: {"leatherRestraints":6}, playerTags: {"ItemLegsFull":-2}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Leather", "Belts"]},
 	{name: "SturdyLeatherBeltsLegs", Asset: "SturdyLeatherBelts", Type: "Two", Color: "Default", Group: "ItemLegs", magic: false, power: 2, weight: 0, escapeChance: {"Struggle": 0.2, "Cut": 0.5, "Remove": 0.8}, enemyTags: {"leatherRestraints":6}, playerTags: {"ItemFeetFull":-2}, minLevel: 0, floors: [0, 1, 2, 3], shrine: ["Leather", "Belts"]},
@@ -578,6 +580,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 		KinkyDungeonCheckClothesLoss = true; // We signal it is OK to check whether the player should get undressed due to restraints
 		KinkyDungeonMultiplayerInventoryFlag = true; // Signal that we can send the inventory now
 		KinkyDungeonSleepTime = 0;
+		KinkyDungeonUpdateStruggleGroups();
 		return Math.max(1, restraint.power);
 	}
 	return 0;
@@ -606,6 +609,7 @@ function KinkyDungeonRemoveRestraint(Group, Keep) {
 			KinkyDungeonCalculateSlowLevel();
 
 			KinkyDungeonMultiplayerInventoryFlag = true;
+			KinkyDungeonUpdateStruggleGroups();
 			return true;
 		}
 	}

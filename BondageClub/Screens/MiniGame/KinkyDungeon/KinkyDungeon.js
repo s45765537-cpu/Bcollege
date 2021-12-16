@@ -139,6 +139,7 @@ function KinkyDungeonRun() {
 				KinkyDungeonSleepTurns -= 1;
 				KinkyDungeonAdvanceTime(1);
 				KinkyDungeonSleepTime = CommonTime() + 100;
+				if (KinkyDungeonStatStamina >= KinkyDungeonStatStaminaMax) KinkyDungeonSleepTurns = 0;
 			}
 		}
 	} else if (KinkyDungeonState == "End") {

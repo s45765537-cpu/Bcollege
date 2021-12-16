@@ -31,8 +31,8 @@ var KinkyDungeonStatManaRegen = 0; // How fast stamina that is converted to mana
 var KinkyDungeonStatManaLowRegen = 0.24; // How fast stamina that is converted to mana regenerates when low
 var KinkyDungeonStatManaRegenLowThreshold = 1; // Threshold for fast mana regen
 var KinkyDungeonStatStaminaRegenPerSlowLevel = -0.1; // It costs stamina to move while bound
-var KinkyDungeonStatStaminaCostStruggle = -4; // It costs stamina to struggle
-var KinkyDungeonStatStaminaCostTool = -1; // It costs stamina to pick or cut, but less
+var KinkyDungeonStatStaminaCostStruggle = -1; // It costs stamina to struggle
+var KinkyDungeonStatStaminaCostTool = -0.1; // It costs stamina to pick or cut, but much less
 var KinkyDungeonStatStaminaCostAttack = -0.1; // Cost to attack
 var KinkyDungeonStaminaRate = KinkyDungeonStatStaminaRegen;
 
@@ -90,6 +90,9 @@ var KinkyDungeonDresses = {};
 
 // Temp - for multiplayer in future
 var KinkyDungeonPlayers = [];
+
+// For items like the cursed collar which make more enemies appear
+var KinkyDungeonDifficulty = 0;
 
 function KinkyDungeonDefaultStats() {
 	KinkyDungeonGold = 0;
@@ -176,6 +179,7 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonPlayers = [KinkyDungeonPlayerEntity];
 	// Initialize
 	KinkyDungeonCalculateVibeLevel();
+	KinkyDungeonDifficulty = 0;
 
 	var arousalRate = (KinkyDungeonVibeLevel == 0) ? KinkyDungeonStatArousalRegen : (KinkyDungeonArousalPerVibe * KinkyDungeonVibeLevel);
 	// Dont regen while exhausted
@@ -226,6 +230,13 @@ function KinkyDungeonUpdateStats(delta) {
 
 	KinkyDungeonCapStats();
 
+	for (let item of KinkyDungeonInventory) {
+		if (item.restraint) {
+			if (item.restraint.difficultyBonus) {
+				KinkyDungeonDifficulty += item.restraint.difficultyBonus;
+			}
+		}
+	}
 
 }
 

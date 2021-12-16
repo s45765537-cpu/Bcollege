@@ -25,12 +25,14 @@ var KinkyDungeonShopIndex = 0;
 
 var KinkyDungeonPoolUses = 0;
 var KinkyDungeonShrinePoolChancePerUse = 0.25;
+var KinkyDungeonPoolUsesGrace = 2;
 
 var KinkyDungeonShrineCosts = {};
 var KinkyDungeonShrineTypeRemove = ["Charms", "Leather", "Metal", "Rope", "Gags", "Blindfolds", "Boots"]; // These shrines will always remove restraints associated with their shrine
 
 function KinkyDungeonShrineInit() {
 	KinkyDungeonShrineCosts = {};
+	KinkyDungeonPoolUsesGrace = 2;
 
 }
 
@@ -169,9 +171,10 @@ function KinkyDungeonHandleShrine() {
 
 			KinkyDungeonAdvanceTime(1, true);
 
-			if (Math.random() > chance) {
+			if (Math.random() > chance || KinkyDungeonPoolUsesGrace > 0) {
 				KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonPoolDrink" + Math.min(2, KinkyDungeonPoolUses)), "#AAFFFF", 2);
 				KinkyDungeonStatMana = KinkyDungeonStatManaMax;
+				if (chance > 0) KinkyDungeonPoolUsesGrace -= 1;
 			} else {
 				// You have angered the gods!
 				KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonPoolDrinkAnger").replace("TYPE", TextGet("KinkyDungeonShrine" + type)), "#AA0000", 3);
@@ -261,5 +264,6 @@ function KinkyDungeonShrineAngerGods(Type) {
 	} else if (Type == "Will") {
 		KinkyDungeonStatMana = 0;
 		KinkyDungeonStatStamina = 0;
+		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("GhostCollar"), 0, true);
 	}
 }

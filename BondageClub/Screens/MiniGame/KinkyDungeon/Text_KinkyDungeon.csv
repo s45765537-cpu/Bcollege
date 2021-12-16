@@ -469,6 +469,14 @@ RestraintSteelMuzzleGag,Steel Muzzle
 RestraintSteelMuzzleGagDesc,"A heavy muzzle with a rudimentary lock."
 RestraintSteelMuzzleGagDesc2,"You could pick this with a hairpin."
 
+
+
+
+RestraintGhostCollar,Cursed Collar
+RestraintGhostCollarDesc,"A cold steel collar locked tightly on your neck."
+RestraintGhostCollarDesc2,"It appears to attract misfortune upon its wearer."
+
+
 KinkyDungeonGroupItemHead,Face
 KinkyDungeonGroupItemHood,Head
 KinkyDungeonGroupItemMouth,Mouth
@@ -686,3 +694,7 @@ KinkyDungeonLore-7,"(The note contains a list of the writer's likes/dislikes and
 KinkyDungeonLore-8,"The note reads: Please take this beautiful doll somewhere and play with her~"
 KinkyDungeonLore-9,"(The note contains a manual on fencing. You have always been a terrible fencer)"
 KinkyDungeonLore-10,"(The note contains a magic spell you were taught never to cast under any circumstances)"
+
+KinkyDungeonCurseInfo5Keys,"The item requires 5 keys and free hands to remove"
+KinkyDungeonCurseStruggle5Keys,"The item is extremely secure with five separate keyholes."
+KinkyDungeonCurseUnlock5Keys,"You insert your 5 keys into the lock and the item finally comes off."
