@@ -25,6 +25,7 @@ var KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 var KinkyDungeonStatStaminaRegen = 0;
 var KinkyDungeonStatStaminaRegenSleep = 36/20;
 var KinkyDungeonStatStaminaRegenWait = 1;
+var KinkyDungeoNStatStaminaLow = 4;
 var KinkyDungeonStatManaMax = 36;
 var KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 var KinkyDungeonStatManaRate = 0;
