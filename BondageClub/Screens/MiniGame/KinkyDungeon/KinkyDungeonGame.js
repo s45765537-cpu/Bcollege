@@ -92,8 +92,10 @@ var KinkyDungeonLastMoveTimerStart = 0;
 var KinkyDungeonLastMoveTimerCooldown = 175;
 var KinkyDungeonLastMoveTimerCooldownStart = 50;
 
-function KinkyDungeonSetCheckPoint() {
-	MiniGameKinkyDungeonCheckpoint = Math.floor(MiniGameKinkyDungeonLevel / 10);
+function KinkyDungeonSetCheckPoint(Checkpoint) {
+	if (Checkpoint != undefined) MiniGameKinkyDungeonCheckpoint = Checkpoint;
+	else if (Math.floor(MiniGameKinkyDungeonLevel / 10) == MiniGameKinkyDungeonLevel / 10)
+		MiniGameKinkyDungeonCheckpoint = Math.floor(MiniGameKinkyDungeonLevel / 10);
 }
 
 function KinkyDungeonInitialize(Level, Random) {
