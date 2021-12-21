@@ -252,7 +252,7 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 			if (Floor % 10 >= 8 || KinkyDungeonDifficulty > 60) tags.push("lastthird");
 			if (miniboss) tags.push("miniboss");
 
-			var Enemy = KinkyDungeonGetEnemy(tags, Floor, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint], KinkyDungeonMapGet(X, Y));
+			var Enemy = KinkyDungeonGetEnemy(tags, Floor + KinkyDungeonDifficulty/5, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint], KinkyDungeonMapGet(X, Y));
 			if (Enemy) {
 				KinkyDungeonEntities.push({Enemy: Enemy, x:X, y:Y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
 				if (Enemy.tags.includes("minor")) count += 0.2; else count += 1; // Minor enemies count as 1/5th of an enemy

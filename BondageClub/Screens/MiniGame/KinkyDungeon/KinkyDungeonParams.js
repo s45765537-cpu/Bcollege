@@ -19,13 +19,15 @@ var KinkyDungeonMapParams = [
 
 		"enemytags": ["zombie"],
 		"shrines": [
-			{Type: "Commerce", Weight: 15},
+			{Type: "Charms", Weight: 5},
+			{Type: "Commerce", Weight: 10},
 			{Type: "Elements", Weight: 5},
 			{Type: "Conjure", Weight: 5},
 			{Type: "Illusion", Weight: 5},
-			{Type: "Leather", Weight: 6},
+			{Type: "Leather", Weight: 5},
 			{Type: "Metal", Weight: 3},
-			{Type: "Will", Weight: 10},]
+			{Type: "Rope", Weight: 2},
+			{Type: "Will", Weight: 7},]
 
 	},
 	{
@@ -47,13 +49,14 @@ var KinkyDungeonMapParams = [
 
 		"enemytags": ["skeleton"],
 		"shrines": [
-			{Type: "Commerce", Weight: 15},
-			{Type: "Elements", Weight: 4},
-			{Type: "Conjure", Weight: 6},
-			{Type: "Illusion", Weight: 7},
-			{Type: "Leather", Weight: 6},
-			{Type: "Metal", Weight: 5},
-			{Type: "Will", Weight: 10},]
+			{Type: "Commerce", Weight: 10},
+			{Type: "Elements", Weight: 5},
+			{Type: "Conjure", Weight: 5},
+			{Type: "Illusion", Weight: 5},
+			{Type: "Leather", Weight: 5},
+			{Type: "Metal", Weight: 3},
+			{Type: "Rope", Weight: 2},
+			{Type: "Will", Weight: 7},]
 
 	},
 	{

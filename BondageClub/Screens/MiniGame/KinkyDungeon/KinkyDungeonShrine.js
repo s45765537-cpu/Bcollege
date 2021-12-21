@@ -3,11 +3,7 @@ var KinkyDungeonShrineBaseCosts = {
 	"Charms": 10,
 	"Leather": 25,
 	"Metal": 30,
-	"Gags": 30,
-	"Blindfolds": 30,
-	"Boots": 30,
 	"Rope": 15,
-	"Locks": 25,
 	"Will": 10,
 	"Elements": 50,
 	"Conjure": 50,
@@ -33,6 +29,8 @@ var KinkyDungeonShrineTypeRemove = ["Charms", "Leather", "Metal", "Rope", "Gags"
 function KinkyDungeonShrineInit() {
 	KinkyDungeonShrineCosts = {};
 	KinkyDungeonPoolUsesGrace = 2;
+
+	KinkyDungeonInitReputation();
 
 }
 
@@ -87,10 +85,11 @@ function KinkyDungeonShrineCost(type) {
 function KinkyDungeonPayShrine(type) {
 	KinkyDungeonGold -= KinkyDungeonShrineCost(type);
 	let ShrineMsg = "";
+	let rep = 0;
 
 	// TODO shrine effects
 	if (KinkyDungeonShrineTypeRemove.includes(type)) {
-		KinkyDungeonRemoveRestraintsWithShrine(type);
+		rep = KinkyDungeonRemoveRestraintsWithShrine(type);
 
 		ShrineMsg = TextGet("KinkyDungeonPayShrineRemoveRestraints");
 	} else if (type == "Elements" || type == "Illusion" || type == "Conjure") {
@@ -102,10 +101,13 @@ function KinkyDungeonPayShrine(type) {
 		let spell = SpellsUnlearned[spellIndex];
 		ShrineMsg = TextGet("KinkyDungeonPayShrineSpell").replace("SpellLearned", TextGet("KinkyDungeonSpell" + spell.name));
 		KinkyDungeonSpells.push(spell);
+		rep = spell.level;
 	} else if (type == "Will") {
 		KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 		KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 		KinkyDungeonNextDataSendStatsTime = 0;
+
+		rep = Math.ceil(KinkyDungeonStatMana * 2 / KinkyDungeonStatManaMax + KinkyDungeonStatStamina * 3 / KinkyDungeonStatStaminaMax);
 
 		ShrineMsg = TextGet("KinkyDungeonPayShrineHeal");
 	} else if (type == "Commerce") {
@@ -118,12 +120,17 @@ function KinkyDungeonPayShrine(type) {
 		KinkyDungeonShopItems.splice(KinkyDungeonShopIndex, 1);
 		if (KinkyDungeonShopIndex > 0) KinkyDungeonShopIndex -= 1;
 
+		rep = item.rarity + 1;
 	}
 
 	if (ShrineMsg) KinkyDungeonSendActionMessage(10, ShrineMsg, "lightblue", 1);
 
 	if (KinkyDungeonShrineCosts[type] > 0) KinkyDungeonShrineCosts[type] = KinkyDungeonShrineCosts[type] + 1;
 	else KinkyDungeonShrineCosts[type] = 1;
+
+	if (rep != 0) {
+		KinkyDungeonChangeRep(type, rep);
+	}
 }
 
 function KinkyDungeonHandleShrine() {
@@ -175,6 +182,7 @@ function KinkyDungeonHandleShrine() {
 				KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonPoolDrink" + Math.min(2, KinkyDungeonPoolUses)), "#AAFFFF", 2);
 				KinkyDungeonStatMana = KinkyDungeonStatManaMax;
 				if (chance > 0) KinkyDungeonPoolUsesGrace -= 1;
+				KinkyDungeonChangeRep(type, -1);
 			} else {
 				// You have angered the gods!
 				KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonPoolDrinkAnger").replace("TYPE", TextGet("KinkyDungeonShrine" + type)), "#AA0000", 3);
@@ -266,4 +274,5 @@ function KinkyDungeonShrineAngerGods(Type) {
 		KinkyDungeonStatStamina = 0;
 		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("GhostCollar"), 0, true);
 	}
+	KinkyDungeonChangeRep(Type, -10);
 }

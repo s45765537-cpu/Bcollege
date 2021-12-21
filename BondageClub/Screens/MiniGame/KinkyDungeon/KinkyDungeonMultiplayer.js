@@ -150,7 +150,9 @@ function KinkyDungeonUpdateFromData() {
 		if (KinkyDungeonGameData.meta.gp != null) KinkyDungeonGold = Math.round(KinkyDungeonGameData.meta.gp);
 		if (KinkyDungeonGameData.meta.lv != null) {
 			MiniGameKinkyDungeonLevel = Math.round(KinkyDungeonGameData.meta.lv);
-			KinkyDungeonSetCheckPoint();
+			if (KinkyDungeonGameData.meta.cp)
+				KinkyDungeonSetCheckPoint(Math.round(KinkyDungeonGameData.meta.cp));
+			else KinkyDungeonSetCheckPoint();
 		}
 	}
 }
@@ -211,6 +213,7 @@ function KinkyDungeonPackData(IncludeMap, IncludeItems, IncludeInventory, Includ
 		meta.lp = KinkyDungeonLockpicks;
 		meta.gp = KinkyDungeonGold;
 		meta.lv = MiniGameKinkyDungeonLevel;
+		meta.cp = MiniGameKinkyDungeonCheckpoint;
 	}
 
 	let result = {

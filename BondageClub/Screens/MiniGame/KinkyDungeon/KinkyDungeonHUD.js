@@ -106,8 +106,9 @@ function KinkyDungeonDrawInputs() {
 		}
 	}
 
-	DrawButton(650, 925, 250, 60, TextGet("KinkyDungeonInventory"), "White", "", "");
-	DrawButton(925, 925, 250, 60, TextGet("KinkyDungeonMagic"), "White", "", "");
+	DrawButton(650, 925, 165, 60, TextGet("KinkyDungeonInventory"), "White", "", "");
+	DrawButton(840, 925, 165, 60, TextGet("KinkyDungeonReputation"), "White", "", "");
+	DrawButton(1030, 925, 165, 60, TextGet("KinkyDungeonMagic"), "White", "", "");
 
 	if (KinkyDungeonSpells[KinkyDungeonSpellChoices[0]]) {
 		let spell = KinkyDungeonSpells[KinkyDungeonSpellChoices[0]];
@@ -184,9 +185,11 @@ function KinkyDungeonHandleHUD() {
 		if (MouseIn(canvasOffsetX, canvasOffsetY, KinkyDungeonCanvas.width, KinkyDungeonCanvas.height))
 			KinkyDungeonSetTargetLocation();
 
-		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Inventory"; return true;}
+		if (MouseIn(650, 925, 165, 60)) { KinkyDungeonDrawState = "Inventory"; return true;}
 		else
-		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Magic"; return true;}
+		if (MouseIn(840, 925, 165, 60)) { KinkyDungeonDrawState = "Reputation"; return true;}
+		else
+		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Magic"; return true;}
 		else if (MouseIn(510, 925, 120, 60)) { KinkyDungeonDrawStruggle = !KinkyDungeonDrawStruggle; return true;}
 
 		if (!KinkyDungeonTargetingSpell) {
@@ -271,11 +274,14 @@ function KinkyDungeonHandleHUD() {
 			KinkyDungeonSleepTurns = 20;
 		}
 	} else if (KinkyDungeonDrawState == "Magic") {
-		if (MouseIn(925, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
+		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleMagic();
 	} else if (KinkyDungeonDrawState == "Inventory") {
-		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
+		if (MouseIn(650, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleInventory();
+	} else if (KinkyDungeonDrawState == "Reputation") {
+		if (MouseIn(840, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
+		else return KinkyDungeonHandleReputation();
 	} else if (KinkyDungeonDrawState == "Lore") {
 		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleLore();
