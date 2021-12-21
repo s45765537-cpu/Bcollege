@@ -1160,7 +1160,7 @@ function DialogMenuButtonClick() {
 			// Prev Icon - Shows the previous 12 items
 			else if (DialogMenuButton[I] == "Prev") {
 				DialogInventoryOffset = DialogInventoryOffset - 12;
-				if (DialogInventoryOffset < 0) { DialogInventoryOffset = DialogInventory.length - (DialogInventory.length % 12); }
+				if (DialogInventoryOffset < 0) { DialogInventoryOffset = DialogInventory.length - ((DialogInventory.length % 12) == 0 ? 12 : DialogInventory.length % 12); }
 				return;
 			}
 
