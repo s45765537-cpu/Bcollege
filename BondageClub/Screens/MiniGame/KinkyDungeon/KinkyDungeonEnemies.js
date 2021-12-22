@@ -43,7 +43,7 @@ var KinkyDungeonEnemies = [
 	{name: "WitchSlime", tags: ["leashing", "opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "glueimmune", "fireimmune", "meleeresist", "electricweakness", "iceweakness"], followRange: 5, castWhileMoving: true, spells: ["WitchSlimeBall", "WitchSlimeBall", "WitchSlime"],
 		spellCooldownMult: 2, spellCooldownMod: 1, hp: 10, AI: "wander", visionRadius: 8, maxhp: 14, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
 		terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -8}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], shrines: ["Conjure"], dropTable: [{name: "RedKey", weight: 4}, {name: "BlueKey", weight: 1}]},
-	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch"], followRange: 1, AI: "guard", visionRadius: 4, maxhp: 20, minLevel: -1, weight:0, movePoints: 2, attackPoints: 2, attack: "MeleeLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
+	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch"], followRange: 1, AI: "guard", visionRadius: 5, maxhp: 12, minLevel: -1, weight:0, movePoints: 1, attackPoints: 2, attack: "MeleeLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
 		terrainTags: {"jailer": 15}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], dropTable: [{name: "Pick", weight: 10}, {name: "RedKey", weight: 3}, {name: "BlueKey", weight: 2}]},
 
 ];
@@ -222,7 +222,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 				idle = true;
 
 				// try 12 times to find a moveable tile, with some random variance
-				if (!ignore && playerDist <= enemy.Enemy.visionRadius && AI != "ambush")
+				if (!ignore && playerDist <= enemy.Enemy.visionRadius && AI != "ambush" && (enemy.aware || KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.visionRadius, true))) {
+					enemy.aware = true;
 					for (let T = 0; T < 12; T++) {
 						let dir = KinkyDungeonGetDirectionRandom(player.x - enemy.x, player.y - enemy.y);
 						if (T > 2 && T < 8) dir = KinkyDungeonGetDirectionRandom(dir.x * 10, dir.y * 10); // Fan out a bit
@@ -233,7 +234,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
-				else if (Math.abs(enemy.x - enemy.gx) > 0 || Math.abs(enemy.y - enemy.gy) > 0)
+				} else if (Math.abs(enemy.x - enemy.gx) > 0 || Math.abs(enemy.y - enemy.gy) > 0)  {
+					enemy.aware = false;
 					for (let T = 0; T < 8; T++) {
 						let dir = KinkyDungeonGetDirectionRandom(enemy.gx - enemy.x, enemy.gy - enemy.y);
 						if (T > 2 && T < 8) dir = KinkyDungeonGetDirectionRandom(dir.x * 10, dir.y * 10); // Fan out a bit
@@ -244,13 +246,14 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
-
+				}
 
 			} else if ((AI == "hunt" || (AI == "ambush" && enemy.ambushtrigger)) && (enemy.Enemy.attackWhileMoving || ignore || !KinkyDungeonCheckLOS(enemy, player, playerDist, followRange, true))) {
 
 				idle = true;
 				// try 12 times to find a moveable tile, with some random variance
-				if (!ignore && playerDist <= enemy.Enemy.visionRadius)
+				if (!ignore && playerDist <= enemy.Enemy.visionRadius && (enemy.aware || KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.visionRadius, true))) {
+					enemy.aware = true;
 					for (let T = 0; T < 12; T++) {
 						let dir = KinkyDungeonGetDirectionRandom(player.x - enemy.x, player.y - enemy.y);
 						if (T > 2 && T < 8) dir = KinkyDungeonGetDirectionRandom(dir.x * 10, dir.y * 10); // Fan out a bit
@@ -261,7 +264,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
-				else
+				} else {
+					enemy.aware = false;
 					for (let T = 0; T < 8; T++) { // try 8 times
 						let dir = KinkyDungeonGetDirection(10*(Math.random()-0.5), 10*(Math.random()-0.5));
 						if (MovableTiles.includes(KinkyDungeonMapGet(enemy.x + dir.x, enemy.y + dir.y)) && KinkyDungeonNoEnemy(enemy.x + dir.x, enemy.y + dir.y, true)) {
@@ -270,6 +274,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
+				}
 			}
 			playerDist = Math.sqrt((enemy.x - player.x)*(enemy.x - player.x) + (enemy.y - player.y)*(enemy.y - player.y));
 
