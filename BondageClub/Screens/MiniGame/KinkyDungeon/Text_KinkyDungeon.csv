@@ -184,6 +184,16 @@ KillRopeSnake,"The magic rope returns to being a normal rope."
 AttackRopeSnakeBind,"The magic rope wraps itself tightly around your body! (+RestraintAdded)"
 AttackRopeSnake,"The magic rope wriggles into your outfit! (-DamageTaken SP)"
 
+NameLearnedRope,Learned Rope
+KillLearnedRope,"The learned rope returns to being a normal rope."
+AttackLearnedRopeBind,"The magic rope wraps itself intricately around your body! (+RestraintAdded)"
+AttackLearnedRope,"The magic rope wriggles into your outfit! (-DamageTaken SP)"
+
+NameMonsterRope,Monster Rope
+KillMonsterRope,"The monster rope bundle returns to being a normal rope."
+AttackMonsterRopeBind,"The magic rope wraps itself overwhelmingly around your body! (+RestraintAdded)"
+AttackMonsterRope,"The magic rope wriggles into your outfit! (-DamageTaken SP)"
+
 NameWitchShock,Shock Witch
 KillWitchShock,"The shock witch vanishes into a cloud of thunder, leaving behind a keyring."
 
@@ -430,6 +440,12 @@ RestraintTrapVibeDesc2,"It is charged by residual magic from your spells."
 RestraintRopeSnakeArms,Rope Tie
 RestraintRopeSnakeArmsDesc,"A box tie keeping your arms secured behind your back."
 RestraintRopeSnakeArmsDesc2,"The remaining magic squeezes you gently."
+RestraintRopeSnakeTorso,Rope Tie
+RestraintRopeSnakeTorsoDesc,"A harness acting as a handle to pull you around"
+RestraintRopeSnakeTorsoDesc2,"The remaining magic squeezes you gently."
+RestraintRopeSnakeCrotch,Rope Tie
+RestraintRopeSnakeCrotchDesc,"A tight rope impressing upon your most private areas..."
+RestraintRopeSnakeCrotchDesc2,"The remaining magic squeezes you gently."
 RestraintRopeSnakeArmsWrist,Rope Tie
 RestraintRopeSnakeArmsWristDesc,"A wrist and elbow tie keeping your arms secured behind your back."
 RestraintRopeSnakeArmsWristDesc2,"The remaining magic squeezes you gently."
