@@ -46,11 +46,11 @@ function KinkyDungeonDrawReputation() {
 				XX = 600;
 			}
 			let color = "#ffff00";
-			if (value < 0) {
-				if (value < -25) color = "#ff0000";
+			if (value < -10) {
+				if (value < -30) color = "#ff0000";
 				else color = "#ff8800";
-			} else {
-				if (value > 25) color = "#00ff00";
+			} else if (value > 10) {
+				if (value > 30) color = "#00ff00";
 				else color = "#88ff00";
 			}
 			DrawText(TextGet("KinkyDungeonShrine" + rep), canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i, "white", "black");

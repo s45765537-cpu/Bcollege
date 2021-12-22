@@ -12,10 +12,10 @@ var KinkyDungeonEnemies = [
 	{name: "LesserSkeleton", tags: ["ignorenoSP", "skeleton", "melee", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "wander",
 		visionRadius: 1, maxhp: 2.5, minLevel:0, weight:10, movePoints: 2, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 1, attackRange: 1, power: 3, dmgType: "grope", fullBoundBonus: 2,
 		terrainTags: {"secondhalf":-8, "lastthird":-8}, floors:[1, 11]},
-	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1, AI: "guard",
+	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "guard",
 		visionRadius: 10, evasion: 1.25, maxhp: 1, minLevel:0, weight:0.1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
 		terrainTags: {"ghost" : 1.9}, shrines: ["Illusion"], floors:[0, 1, 11]},
-	{name: "GreaterSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
+	{name: "GreaterSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "hunt",
 		visionRadius: 4, maxhp: 10, minLevel:12, weight:3, movePoints: 3, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 10, dmgType: "crush", fullBoundBonus: 0,
 		terrainTags: {"secondhalf":2, "lastthird":3, "increasingWeight":1}, floors:[1, 3, 7, 8], dropTable: [{name: "PotionHealth", weight: 3}, {name: "Gold", amountMin: 50, amountMax: 100, weight: 3}, {name: "Hammer", weight: 50, ignoreInInventory: true}]},
 	{name: "AnimatedArmor", blockVisionWhileStationary: true, tags: ["removeDoorSpawn", "ignoreharmless", "construct", "minor", "melee", "shackleRestraints", "slashresist", "fireresist", "electricresist", "crushweakness"],
@@ -162,7 +162,7 @@ function KinkyDungeonEnemyCheckHP(enemy, E) {
 }
 
 function KinkyDungeonCheckLOS(enemy, player, distance, maxdistance, allowBlind) {
-	return distance <= maxdistance+0.5 && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
+	return distance <= maxdistance && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
 }
 
 function KinkyDungeonUpdateEnemies(delta) {
@@ -181,13 +181,13 @@ function KinkyDungeonUpdateEnemies(delta) {
 		let ignore = false;
 
 		// Check if the enemy ignores the player
-		if (enemy.Enemy.tags.includes("ignorenoSP") && !KinkyDungeonHasStamina(1)) ignore = true;
+		if (enemy.Enemy.tags.includes("ignorenoSP") && !KinkyDungeonHasStamina(1.1)) ignore = true;
 		if (enemy.Enemy.tags.includes("ignoreharmless") && (!enemy.warningTiles || enemy.warningTiles.length == 0)
-			&& (KinkyDungeonPlayerDamage.dmg <= enemy.Enemy.armor || !KinkyDungeonHasStamina(1)) && !KinkyDungeonPlayer.CanTalk() && !KinkyDungeonPlayer.CanInteract() && KinkyDungeonSlowLevel > 1
-			&& (!enemy.Enemy.ignorechance || Math.random() < enemy.Enemy.ignorechance || !KinkyDungeonHasStamina(1))) ignore = true;
+			&& (KinkyDungeonPlayerDamage.dmg <= enemy.Enemy.armor || !KinkyDungeonHasStamina(1.1)) && !KinkyDungeonPlayer.CanTalk() && !KinkyDungeonPlayer.CanInteract() && KinkyDungeonSlowLevel > 1
+			&& (!enemy.Enemy.ignorechance || Math.random() < enemy.Enemy.ignorechance || !KinkyDungeonHasStamina(1.1))) ignore = true;
 		if (enemy.Enemy.tags.includes("ignoreboundhands") && (!enemy.warningTiles || enemy.warningTiles.length == 0)
-			&& (KinkyDungeonPlayerDamage.dmg <= enemy.Enemy.armor || !KinkyDungeonHasStamina(1)) && !KinkyDungeonPlayer.CanInteract()
-			&& (!enemy.Enemy.ignorechance || Math.random() < enemy.Enemy.ignorechance || !KinkyDungeonHasStamina(1))) ignore = true;
+			&& (KinkyDungeonPlayerDamage.dmg <= enemy.Enemy.armor || !KinkyDungeonHasStamina(1.1)) && !KinkyDungeonPlayer.CanInteract()
+			&& (!enemy.Enemy.ignorechance || Math.random() < enemy.Enemy.ignorechance || !KinkyDungeonHasStamina(1.1))) ignore = true;
 
 		var MovableTiles = KinkyDungeonMovableTilesEnemy;
 		if (enemy.Enemy.tags && enemy.Enemy.tags.includes("opendoors")) MovableTiles = KinkyDungeonMovableTilesSmartEnemy;
