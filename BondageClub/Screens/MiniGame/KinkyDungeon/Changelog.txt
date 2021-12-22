@@ -77,15 +77,18 @@ Features
 Features
 - Some balance changes to struggling, too many to count. Should be less random now.
 
-2.0 (December 2021 or January 2022)
+2.0 (January 2022)
 - Changed the stat bars visually
 - Removed willpower. You can go on and on and on and on now... girls in VR chat rooms are now trapped like this forever muahaha
 - Stamina is overhauled. It does not regen except when sleeping. You can click a button to sleep for 20 turns to regain 20 stamina. If you are attacked then you wake up automatically, but you are blinded while sleeping so you won't be able to see enemies coming.
 - Mana is now a separate resource. It does not regenerate, but mana potions can restore it
 - Each shrine now has a mana pool. You can drink mana from a mana pool once per floor without repercussions. This restores your mana fully. Drinking more than once, however, has a chance to backfire...
 - Added Buttons to drink stamina/mana potions without going to the inventory
-
 - New curse system: Items which are Cursed can not be struggled out of, but can be unlocked if you meet their condition
+- Picks, Knives, and Red Keys are now in the shop
+- Added shortcut system
+- Added new tileset with the shortcut in floor 3
+- Added restart button and confirmation screen
 
 TODO Add Rest button
 
