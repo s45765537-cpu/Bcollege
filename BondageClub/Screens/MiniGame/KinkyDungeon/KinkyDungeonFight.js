@@ -17,7 +17,13 @@ var KinkyDungeonWeapons = {
 	"Sword": {name: "Sword", dmg: 3, chance: 1.0, type: "slash", unarmed: false, rarity: 2, shop: true, cutBonus: 0.1},
 	"Axe": {name: "Axe", dmg: 4, chance: 0.75, type: "slash", unarmed: false, rarity: 2, shop: true},
 	"Hammer": {name: "Hammer", dmg: 5, chance: 0.6, type: "crush", unarmed: false, rarity: 2, shop: true},
+	"BoltCutters": {name: "BoltCutters", dmg: 3, chance: 1.0, type: "crush", unarmed: false, rarity: 3, shop: false, cutBonus: 0.3},
 };
+
+function KinkyDungeonWeaponCanCut() {
+	if (KinkyDungeonPlayerWeapon && KinkyDungeonPlayerWeapon.cutBonus > 0) return true;
+	return false;
+}
 
 function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
 	let damage = KinkyDungeonPlayerDamageDefault;

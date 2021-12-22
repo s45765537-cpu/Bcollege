@@ -128,6 +128,9 @@ KinkyDungeonInventoryItemPotionFrigidDesc2,"Reduces arousal by 12 per turn over 
 KinkyDungeonInventoryItemHammer,Hammer
 KinkyDungeonInventoryItemHammerDesc,"A rather simplistic bludgeoning weapon."
 KinkyDungeonInventoryItemHammerDesc2,"Hard to hit with, but deals good damage."
+KinkyDungeonInventoryItemBoltCutters,Bolt Cutters
+KinkyDungeonInventoryItemBoltCuttersDesc,"A cutting tool useful as a bludgeon."
+KinkyDungeonInventoryItemBoltCuttersDesc2,"Also assists in cutting restraints when equipped."
 KinkyDungeonInventoryItemKnife,Knife
 KinkyDungeonInventoryItemKnifeDesc,"A go-to for travelers and adventurers."
 KinkyDungeonInventoryItemKnifeDesc2,"When you don't have any knives, your attacks deal 2 damage instead, halved if feet are bound."
@@ -210,6 +213,14 @@ AttackWitchChain,"The chain witch tugs sensually at your restraints!"
 NameWitchSlime,Slime Witch
 KillWitchSlime,"The slime witch vanishes into a pool of pink slime, leaving behind a keyring."
 
+NameJailer,Jailer
+KillJailer,"The jailer passes out and drops her possessions!"
+AttackJailerLock,"The jailer places some restraints on you!"
+AttackJailer,"The jailer plays with you, groping and rubbing your body!"
+
+
+KinkyDungeonLeashed,"You are grabbed and led to a prison..."
+
 
 NameNecromancer,Necromancer
 KillNecromancer,"The necromancer perishes. Ironic that she couldn't save herself."
@@ -226,13 +237,13 @@ PlayerRanged,"AttackName hits the TargetEnemy for DamageDealt damage!"
 KinkyDungeonBasicAttack,attack
 PlayerMiss,"You miss the TargetEnemy!"
 PlayerMissArmor,"Your attack is too feeble to hurt the TargetEnemy!"
-KinkyDungeonStruggleStruggleFail,"You tug on the TargetRestraint but fail to make progress."
+KinkyDungeonStruggleStruggleFail,"You tug on the TargetRestraint..."
 KinkyDungeonStrugglePickFail,"You work on picking the TargetRestraint..."
 KinkyDungeonStrugglePickBreak,"You try to pick open the TargetRestraint but break your lockpick."
 KinkyDungeonAttemptPickFail,"You work on picking the TargetRestraint..."
 KinkyDungeonAttemptPickBreak,"You break your lockpick trying to open the TargetRestraint."
-KinkyDungeonStruggleRemoveFail,"You try to undo the TargetRestraint but can't reach far enough."
-KinkyDungeonStruggleCutFail,"You try to cut the TargetRestraint but can't get through the material."
+KinkyDungeonStruggleRemoveFail,"You try to remove the TargetRestraint..."
+KinkyDungeonStruggleCutFail,"You try to cut the TargetRestraint..."
 KinkyDungeonStruggleCutBreak,"You break your knife trying to cut the TargetRestraint."
 KinkyDungeonStruggleUnlockFail,"You try to unlock the TargetRestraint but you can't reach the lock!"
 
@@ -256,7 +267,7 @@ KinkyDungeonStruggleStruggleImpossible,"The item is too secure to struggle out."
 KinkyDungeonStruggleStruggleImpossibleBound,"You are too tightly bound to have a chance."
 KinkyDungeonStruggleUnlockImpossible,"There is no keyhole."
 KinkyDungeonStruggleUnlockImpossibleBound,"You can't hold the key."
-KinkyDungeonStrugglePickImpossible,"There is no visible mechanism to pick."
+KinkyDungeonStrugglePickImpossible,"The item uses an unpickable locking mechanism."
 KinkyDungeonStrugglePickImpossibleBound,"You are too heavily bound to even attempt picking."
 KinkyDungeonStruggleRemoveImpossible,"It is impossible to manipulate the item."
 KinkyDungeonStruggleRemoveImpossibleBound,"You are too tightly bound to manipulate that item."
@@ -357,6 +368,24 @@ KinkyDungeonInventoryItemTrapBlindfold,Blindfold
 KinkyDungeonInventoryItemTrapBelt,Steel Belt
 
 KinkyDungeonInventoryItemTrapVibe,Egg Vibe
+
+
+RestraintHighsecArmbinder,Highsec Armbinder
+RestraintHighsecArmbinderDesc,"An obisidian armbinder enclosing your hands and arms completely."
+RestraintHighsecArmbinderDesc2,"Made of a flexible, yet durable material, it's going to be really tough to escape."
+RestraintHighsecShackles,Highsec Shackles
+RestraintHighsecShacklesDesc,"A pair of obisidian shackles around your feet."
+RestraintHighsecShacklesDesc2,"Nearly indestructable, you are at the mercy of its lock."
+RestraintHighsecBallGag,Highsec BallGag
+RestraintHighsecBallGagDesc,"An obisidian gag shoved tightly between your lips."
+RestraintHighsecBallGagDesc2,"The straps are nigh-unbreakable, keeping you securely silenced."
+
+RestraintPrisonVibe,Prison Vibe
+RestraintPrisonVibeDesc,"A teaser to keep you occupied."
+RestraintPrisonVibeDesc2,"Buzzes on spellcast, and periodically as well."
+RestraintPrisonBelt,Prison Belt
+RestraintPrisonBeltDesc,"A chastity belt to protect prisoners from themselves."
+RestraintPrisonBeltDesc2,"Made of a highly durable material."
 
 RestraintDuctTapeArms,Charms
 RestraintDuctTapeArmsDesc,"A band of faintly magic ribbon wrapped tight around your arms."
@@ -544,6 +573,7 @@ ItemPickupBlueKey,"You picked up a blue key."
 ItemPickupPotionHealth,"You picked up a willpower potion."
 ItemPickupLore,"You found a peculiar note on the ground."
 ItemPickupHammer,"You pick up a heavy hammer."
+ItemPickupBoltCutters,"You pick up a set of bolt cutters."
 ItemPickupSword,"You pick up a sharp sword."
 ItemPickupAxe,"You pick up a powerful axe."
 

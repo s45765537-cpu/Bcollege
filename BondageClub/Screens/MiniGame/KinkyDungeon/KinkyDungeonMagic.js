@@ -261,11 +261,23 @@ function KinkyDungeonCastSpell(targetX, targetY, spell, enemy, player) {
 function KinkyDungeonChargeVibrators(cost) {
 	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
 		let vibe = KinkyDungeonInventory[I].restraint;
-		if (vibe && vibe.maxbattery > 0) {
+		if (vibe && vibe.maxbattery > 0 && vibe.vibeType.includes("Charging")) {
 			if (vibe.battery == 0)
 				if (!KinkyDungeonSendTextMessage(5, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(5, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2);
 
 			vibe.battery = Math.min(vibe.maxbattery, vibe.battery + cost);
+		}
+	}
+}
+
+function KinkyDungeonHandleVibrators() {
+	for (let I = 0; I < KinkyDungeonInventory.length; I++) {
+		let vibe = KinkyDungeonInventory[I].restraint;
+		if (vibe && vibe.maxbattery > 0 && vibe.vibeType.includes("Teaser") && vibe.battery == 0 && Math.random() * 100 < vibe.power) {
+			if (vibe.battery == 0)
+				if (!KinkyDungeonSendTextMessage(5, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(5, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2);
+
+			vibe.battery = Math.min(vibe.maxbattery, vibe.battery + vibe.maxbattery * (0.3 + Math.random() * 0.7));
 		}
 	}
 }

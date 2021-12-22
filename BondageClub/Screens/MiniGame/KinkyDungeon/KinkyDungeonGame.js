@@ -72,6 +72,8 @@ var KinkyDungeonHardLockChance = 0.2;
 var KinkyDungeonHardLockChanceScaling = 0.005;
 var KinkyDungeonHardLockChanceScalingMax = 0.4;
 
+var KinkyDungeonCurrentMaxEnemies = 1;
+
 var KinkyDungeonNextDataSendTime = 0;
 var KinkyDungeonNextDataSendTimeDelay = 500; // Send on moves every 0.5 second
 var KinkyDungeonNextDataSendTimeDelayPing = 5000; // temporary ping
@@ -285,6 +287,7 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 
 		if (Math.sqrt((X - PlayerEntity.x) * (X - PlayerEntity.x) + (Y - PlayerEntity.y) * (Y - PlayerEntity.y)) > playerDist && KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(X, Y))) {
 			var tags = [];
+			if (KinkyDungeonSpawnJailers > 0) tags.push("jailer");
 			if (KinkyDungeonMapGet(X, Y) == 'R' || KinkyDungeonMapGet(X, Y) == 'r') tags.push("rubble");
 			if (KinkyDungeonMapGet(X, Y) == 'D' || KinkyDungeonMapGet(X, Y) == 'd') tags.push("door");
 			if (KinkyDungeonMapGet(X, Y+1) == '1' && KinkyDungeonMapGet(X, Y-1) == '1') tags.push("passage");
@@ -318,6 +321,10 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 		}
 		tries += 1;
 	}
+
+	if (KinkyDungeonSpawnJailers > 0) KinkyDungeonSpawnJailers -= 1;
+
+	KinkyDungeonCurrentMaxEnemies = KinkyDungeonEntities.length;
 }
 
 function KinkyDungeonPlaceStairs(startpos, width, height) {
@@ -1076,6 +1083,8 @@ function KinkyDungeonMoveTo(moveX, moveY) {
 }
 
 function KinkyDungeonAdvanceTime(delta, NoUpdate) {
+
+	KinkyDungeonHandleVibrators();
 	// Here we move enemies and such
 	KinkyDungeonUpdateLightGrid = true;
 	if (KinkyDungeonTextMessageTime > 0) KinkyDungeonTextMessageTime -= 1;

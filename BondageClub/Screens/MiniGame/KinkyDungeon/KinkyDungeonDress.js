@@ -18,11 +18,23 @@ function KinkyDungeonInitializeDresses() {
 			{Item: "FrameBra2", Group: "Bra", Color: "Default", Lost: false},
 			{Item: "LatexElbowGloves", Group: "Gloves", Color: "Default", Lost: false},
 			{Item: "Necklace4", Group: "Necklace", Color: "#222222", Lost: false},
+		],
+		"Prisoner" : [
+			{Item: "SleevelessCatsuit", Group: "Suit", Color: "#4964A5", Lost: false},
+			{Item: "CatsuitPanties", Group: "SuitLower", Color: "#4964A5", Lost: false},
+			{Item: "Heels1", Group: "Shoes", Color: "#222222", Lost: false},
+			{Item: "Socks4", Group: "Socks", Color: "#4964A5", Lost: false},
 		]
 	};
 }
 
-
+function KinkyDungeonSetDress(Dress) {
+	KinkyDungeonCurrentDress = Dress;
+	for (let C = 0; C < KinkyDungeonDresses[KinkyDungeonCurrentDress].length; C++) {
+		let clothes = KinkyDungeonDresses[KinkyDungeonCurrentDress][C];
+		clothes.lost = false;
+	}
+}
 
 function KinkyDungeonDressPlayer() {
 	if (KinkyDungeonCheckClothesLoss) {

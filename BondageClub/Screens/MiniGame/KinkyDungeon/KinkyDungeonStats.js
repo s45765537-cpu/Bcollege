@@ -97,6 +97,7 @@ var KinkyDungeonPlayers = [];
 var KinkyDungeonDifficulty = 0;
 
 function KinkyDungeonDefaultStats() {
+	KinkyDungeonSetDress("Default");
 	KinkyDungeonGold = 0;
 	KinkyDungeonLockpicks = 1;
 	KinkyDungeonRedKeys = 0;

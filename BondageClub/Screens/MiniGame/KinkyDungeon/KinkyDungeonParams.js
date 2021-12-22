@@ -20,6 +20,14 @@ var KinkyDungeonMapParams = [
 		"max_height" : 19,
 
 		"enemytags": ["zombie"],
+		"defeat_restraints": [
+			"HighsecBallGag",
+			"HighsecArmbinder",
+			"HighsecShackles",
+			"PrisonVibe",
+			"PrisonBelt",
+		],
+		"defeat_outfit": "Prisoner",
 		"shrines": [
 			{Type: "Charms", Weight: 5},
 			{Type: "Commerce", Weight: 10},
@@ -52,6 +60,14 @@ var KinkyDungeonMapParams = [
 		"max_height" : 17,
 
 		"enemytags": ["skeleton"],
+		"defeat_restraints": [
+			"HighsecBallGag",
+			"HighsecArmbinder",
+			"HighsecShackles",
+			"HighsecBelt",
+			"PrisonVibe",
+		],
+		"defeat_outfit": "Prisoner",
 		"shrines": [
 			{Type: "Commerce", Weight: 10},
 			{Type: "Elements", Weight: 5},
@@ -255,6 +271,14 @@ var KinkyDungeonMapParams = [
 		"max_height" : 17,
 
 		"enemytags": ["mummy", "ghost"],
+		"defeat_restraints": [
+			"HighsecBallGag",
+			"HighsecArmbinder",
+			"HighsecShackles",
+			"HighsecBelt",
+			"PrisonVibe",
+		],
+		"defeat_outfit": "Prisoner",
 		"shrines": [
 			{Type: "Commerce", Weight: 10},
 			{Type: "Elements", Weight: 5},
