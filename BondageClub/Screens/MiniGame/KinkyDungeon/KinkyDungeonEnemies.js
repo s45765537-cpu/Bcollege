@@ -14,7 +14,7 @@ var KinkyDungeonEnemies = [
 		terrainTags: {"secondhalf":-8, "lastthird":-8}, floors:[1, 11]},
 	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1, AI: "guard",
 		visionRadius: 10, evasion: 1.25, maxhp: 1, minLevel:0, weight:0.1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
-		terrainTags: {}, shrines: ["Illusion"], floors:[0, 1, 11]},
+		terrainTags: {"ghost" : 1.9}, shrines: ["Illusion"], floors:[0, 1, 11]},
 	{name: "GreaterSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
 		visionRadius: 4, maxhp: 10, minLevel:12, weight:3, movePoints: 3, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 10, dmgType: "crush", fullBoundBonus: 0,
 		terrainTags: {"secondhalf":2, "lastthird":3, "increasingWeight":1}, floors:[1, 3, 7, 8], dropTable: [{name: "PotionHealth", weight: 3}, {name: "Gold", amountMin: 50, amountMax: 100, weight: 3}, {name: "Hammer", weight: 50, ignoreInInventory: true}]},

@@ -254,7 +254,7 @@ var KinkyDungeonMapParams = [
 		"min_height" : 11,
 		"max_height" : 17,
 
-		"enemytags": ["mummy"],
+		"enemytags": ["mummy", "ghost"],
 		"shrines": [
 			{Type: "Commerce", Weight: 10},
 			{Type: "Elements", Weight: 5},
