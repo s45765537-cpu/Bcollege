@@ -92,6 +92,8 @@ Features
 - New rope themed enemies that appear more often if you annoy the rope goddess
 - Reputation system that affects certain enemy spawn rates
 - Added a new spooky illusion enemy
+- New consequences when an enemy closes the gap and you have 0 stamina
+- new bolt cutters weapon
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)
 - Enemies that attack while moving will no longer hit you if they move at the same time that you do such that you are still in range, even if you dodged last turn's warning tiles
