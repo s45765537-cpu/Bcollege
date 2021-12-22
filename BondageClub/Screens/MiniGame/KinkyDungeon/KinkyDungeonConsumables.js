@@ -6,6 +6,13 @@ var KinkyDungeonConsumables = {
 	"PotionFrigid" : {name: "PotionFrigid", rarity: 1, shop: true, type: "restore", ap_instant: 0, ap_gradual: -36, duration: 6},
 };
 
+var KinkyDungneonBasic = {
+	"RedKey" : {name: "RedKey", rarity: 0, shop: true},
+	"2Lockpick" : {name: "2Lockpick", rarity: 0, shop: true},
+	"4Lockpick" : {name: "4Lockpick", rarity: 1, shop: true},
+	"Knife" : {name: "Knife", rarity: 0, shop: true},
+};
+
 function KinkyDungeonGetInventoryItem(Name, Filter = "Consumables") {
 	let Filtered = KinkyDungeonFilterInventory(Filter);
 	for (let I = 0; I < Filtered.length; I++) {
@@ -35,6 +42,13 @@ function KinkyDungeonGetShopItem(Level, Rarity, Shop) {
 	for (let S = 0; S < Shopable.length; S++) {
 		let s = Shopable[S][1];
 		s.shoptype = "Consumable";
+		Table.push(s);
+	}
+	// @ts-ignore
+	Shopable = Object.entries(KinkyDungneonBasic).filter(([k, v]) => (v.shop));
+	for (let S = 0; S < Shopable.length; S++) {
+		let s = Shopable[S][1];
+		s.shoptype = "Basic";
 		Table.push(s);
 	}
 	// @ts-ignore

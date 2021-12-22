@@ -190,23 +190,25 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	var shrinecount = MapParams.shrinecount; // Max treasure chest count
 	var rubblechance = MapParams.rubblechance; // Chance of lootable rubble
 	var doorchance = MapParams.doorchance; // Max treasure chest count
+	var doorlockchance = MapParams.doorlockchance; // Max treasure chest count
 	var brickchance = MapParams.brickchance; // Chance for brickwork to start being placed
 	KinkyDungeonCreateMaze(VisitedRooms, width, height, openness, density);
 
 	KinkyDungeonGroundItems = []; // Clear items on the ground
 	KinkyDungeonBullets = []; // Clear all bullets
 
+	// Place the player!
+	KinkyDungeonPlayerEntity = {MemberNumber:Player.MemberNumber, x: 1, y:startpos};
+
 	KinkyDungeonReplaceDoodads(doodadchance, width, height); // Replace random internal walls with doodads
 	KinkyDungeonPlaceStairs(startpos, width, height); // Place the start and end locations
 	KinkyDungeonPlaceShortcut(KinkyDungeonGetShortcut(Floor), width, height); // Place the start and end locations
 	KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height); // Place treasure chests inside dead ends
-	KinkyDungeonPlaceDoors(doorchance, width, height); // Place treasure chests inside dead ends
+	KinkyDungeonPlaceDoors(doorchance, doorlockchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceBrickwork(brickchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceLore(width, height);
 
-	// Place the player!
-	KinkyDungeonPlayerEntity = {MemberNumber:Player.MemberNumber, x: 1, y:startpos};
 	KinkyDungeonUpdateStats(0);
 
 	// Place enemies after player
@@ -214,6 +216,56 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 
 	// Set map brightness
 	KinkyDungeonMapBrightness = MapParams.brightness;
+}
+// Checks everything that is accessible to the player
+function KinkyDungeonGetAccessible(startX, startY, testX, testY) {
+	let tempGrid = [];
+	let checkGrid = [(startX + "," + startY)];
+	while (checkGrid.length > 0) {
+		for (let g of checkGrid) {
+			let split = g.split(',');
+			let X = parseInt(split[0]);
+			let Y = parseInt(split[1]);
+			for (let XX = -1; XX <= 1; XX++)
+				for (let YY = -1; YY <= 1; YY++) {
+					let test = ((X+XX) + "," + (Y+YY));
+					let locked = (testX != undefined && testY != undefined && X+XX == testX && Y+YY == testY)
+						|| (KinkyDungeonTiles["" + (X+XX) + "," + (Y+YY)] && KinkyDungeonTiles["" + (X+XX) + "," + (Y+YY)].Lock);
+					if (!checkGrid.includes(test) && !tempGrid.includes(test) && KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X+XX, Y+YY)) && !locked) {
+						checkGrid.push(test);
+						tempGrid.push(test);
+					}
+				}
+
+			checkGrid.splice(checkGrid.indexOf(g), 1);
+		}
+	}
+
+	return tempGrid;
+}
+
+// Tests if the player can reach the end stair from this spot
+function KinkyDungeonIsAccessible(testX, testY) {
+	let accessible = KinkyDungeonGetAccessible(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, testX, testY);
+	for (let a of accessible) {
+		let split = a.split(',');
+		let X = parseInt(split[0]);
+		let Y = parseInt(split[1]);
+		if (KinkyDungeonMapGet(X, Y) == 's') return true;
+	}
+	return false;
+}
+
+// Tests if the player can reach the spot from the start point
+function KinkyDungeonIsReachable(testX, testY) {
+	let accessible = KinkyDungeonGetAccessible(testX, testY);
+	for (let a of accessible) {
+		let split = a.split(',');
+		let X = parseInt(split[0]);
+		let Y = parseInt(split[1]);
+		if (KinkyDungeonMapGet(X, Y) == 'S') return true;
+	}
+	return false;
 }
 
 function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
@@ -426,6 +478,7 @@ function KinkyDungeonPlaceLore(width, height) {
 
 function KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, height) {
 	let shrinelist = [];
+	KinkyDungeonCommercePlaced = 0;
 
 	// Populate the chests
 	for (let X = 1; X < width; X += 1)
@@ -459,7 +512,12 @@ function KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, heigh
 			if (count == shrinecount && Math.random() < shrinechance)
 				KinkyDungeonMapSet(shrine.x, shrine.y, 'a');
 			else {
-				KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: KinkyDungeonGenerateShrine(Floor)};
+				let type = KinkyDungeonGenerateShrine(Floor);
+				if (type == "Commerce") {
+					KinkyDungeonCommercePlaced += 1;
+					if (KinkyDungeonCommercePlaced > 1) type = "Will";
+				}
+				KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: type};
 				KinkyDungeonMapSet(shrine.x, shrine.y, 'A');
 			}
 
@@ -470,7 +528,7 @@ function KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, heigh
 	}
 }
 
-
+let KinkyDungeonCommercePlaced = 0;
 
 function KinkyDungeonGenerateShrine(Floor) {
 	let Params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
@@ -547,7 +605,7 @@ function KinkyDungeonGenerateLock(Guaranteed, Floor) {
 	return "";
 }
 
-function KinkyDungeonPlaceDoors(doorchance, width, height) {
+function KinkyDungeonPlaceDoors(doorchance, doorlockchance, Floor, width, height) {
 	// Populate the doors
 	for (let X = 1; X < width; X += 1)
 		for (let Y = 1; Y < height; Y += 1)
@@ -571,8 +629,12 @@ function KinkyDungeonPlaceDoors(doorchance, width, height) {
 							wallcount = 100;
 					}
 				if (wallcount < 5 && ((up && down) != (left && right))) { // Requirements: 4 doors and either a set in up/down or left/right but not both
-					KinkyDungeonMapSet(X, Y, (Math.random() < doorchance ? 'D' : 'd'));
+					let closed = Math.random() < doorchance;
+					KinkyDungeonMapSet(X, Y, (closed ? 'D' : 'd'));
 					KinkyDungeonTiles["" + X + "," + Y] = {Type: "Door"};
+					if (closed && Math.random() < doorlockchance && KinkyDungeonIsAccessible(X, Y)) {
+						KinkyDungeonTiles["" + X + "," + Y].Lock = KinkyDungeonGenerateLock(true, Floor);
+					}
 				}
 			}
 }
@@ -923,7 +985,8 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 		var moveObject = KinkyDungeonMapGet(moveX, moveY);
 		if (KinkyDungeonMovableTiles.includes(moveObject) && KinkyDungeonNoEnemy(moveX, moveY)) { // If the player can move to an empy space or a door
 
-			if (KinkyDungeonTiles["" + moveX + "," + moveY] && ((moveObject == 'd' && KinkyDungeonTargetTile == null && KinkyDungeonNoEnemy(moveX, moveY, true) && KinkyDungeonDoorCloseTimer <= 0) || KinkyDungeonTiles["" + moveX + "," + moveY].Type != "Door") ) {
+			if (KinkyDungeonTiles["" + moveX + "," + moveY] && ((moveObject == 'd' && KinkyDungeonTargetTile == null && KinkyDungeonNoEnemy(moveX, moveY, true) && KinkyDungeonDoorCloseTimer <= 0)
+				|| (KinkyDungeonTiles["" + moveX + "," + moveY].Type != "Door" || (KinkyDungeonTiles["" + moveX + "," + moveY].Lock && KinkyDungeonTiles["" + moveX + "," + moveY].Type == "Door"))) ) {
 				if (AllowInteract) {
 					KinkyDungeonTargetTileLocation = "" + moveX + "," + moveY;
 					KinkyDungeonTargetTile = KinkyDungeonTiles[KinkyDungeonTargetTileLocation];

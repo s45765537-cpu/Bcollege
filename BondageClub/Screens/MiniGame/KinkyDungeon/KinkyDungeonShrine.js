@@ -116,6 +116,17 @@ function KinkyDungeonPayShrine(type) {
 			KinkyDungeonChangeConsumable(KinkyDungeonConsumables[item.name], 1);
 		else if (item.shoptype == "Weapon")
 			KinkyDungeonInventoryAddWeapon(item.name);
+		else if (item.shoptype == "Basic") {
+			if (item.name == "RedKey") {
+				KinkyDungeonRedKeys += 1;
+			} else if (item.name == "Knife") {
+				KinkyDungeonNormalBlades += 1;
+			} else if (item.name == "2Lockpick") {
+				KinkyDungeonLockpicks += 2;
+			} else if (item.name == "4Lockpick") {
+				KinkyDungeonLockpicks += 4;
+			}
+		}
 		ShrineMsg = TextGet("KinkyDungeonPayShrineCommerce").replace("ItemBought", TextGet("KinkyDungeonInventoryItem" + item.name));
 		KinkyDungeonShopItems.splice(KinkyDungeonShopIndex, 1);
 		if (KinkyDungeonShopIndex > 0) KinkyDungeonShopIndex -= 1;

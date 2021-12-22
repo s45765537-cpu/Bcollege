@@ -108,6 +108,10 @@ KinkyDungeonRarity9,Godlike
 KinkyDungeonConsumableQuantity,Quantity:
 KinkyDungeonConsume,Use Item (Consumes 1)
 
+KinkyDungeonInventoryItemRedKey,Red Key
+KinkyDungeonInventoryItemKnife,Knife
+KinkyDungeonInventoryItem2Lockpick,lockpick x2
+KinkyDungeonInventoryItem4Lockpick,lockpicks x4
 KinkyDungeonInventoryItemPotionMana,Mana Potion
 KinkyDungeonInventoryItemPotionManaUse,You sip the mana potion and feel empowered.
 KinkyDungeonInventoryItemPotionManaDesc,"A rare essence used to reverse magical paralysis."

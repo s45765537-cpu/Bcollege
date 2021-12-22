@@ -10,6 +10,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 4,
 		"shrinechance" : 0.75,
 		"doorchance" : 0.67,
+		"doorlockchance" : 0.05,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.1,
 
@@ -41,6 +42,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 5,
 		"shrinechance" : 0.6,
 		"doorchance" : 0.8,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.4,
 
@@ -71,6 +73,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 5,
 		"shrinechance" : 0.4,
 		"doorchance" : 0.2,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.5,
 		"brickchance" : 0.1,
 
@@ -88,6 +91,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 4,
 		"shrinechance" : 0.5,
 		"doorchance" : 0.9,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.1,
 
@@ -107,6 +111,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 5,
 		"shrinechance" : 0.8,
 		"doorchance" : 0.05,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.9,
 		"brickchance" : 0.2,
 
@@ -124,6 +129,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 4,
 		"shrinechance" : 0.75,
 		"doorchance" : 0.67,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.3,
 
@@ -143,6 +149,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 6,
 		"shrinechance" : 0.5,
 		"doorchance" : 0.0,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.3,
 		"brickchance" : 0.3,
 
@@ -179,6 +186,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 4,
 		"shrinechance" : 0.75,
 		"doorchance" : 1.0,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.5,
 
@@ -217,6 +225,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 0,
 		"shrinechance" : 0,
 		"doorchance" : 1.0,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 1.0,
 		"brickchance" : 0.7,
 
@@ -236,6 +245,7 @@ var KinkyDungeonMapParams = [
 		"shrinecount" : 4,
 		"shrinechance" : 0.5,
 		"doorchance" : 0.4,
+		"doorlockchance" : 0.1,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.4,
 

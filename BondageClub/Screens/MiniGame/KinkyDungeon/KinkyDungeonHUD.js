@@ -105,7 +105,26 @@ function KinkyDungeonDrawInputs() {
 		} else if (KinkyDungeonTargetTile.Type == "Shrine") {
 			KinkyDungeonDrawShrine();
 		} else if (KinkyDungeonTargetTile.Type == "Door") {
-			DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"), "White");
+			if (KinkyDungeonTargetTile.Lock) {
+				let action = false;
+				if (KinkyDungeonLockpicks > 0) {
+					DrawButton(963, 825, 112, 60, TextGet("KinkyDungeonPickDoor"), "White", "", "");
+					action = true;
+				}
+
+				if ((KinkyDungeonTargetTile.Lock.includes("Red") && KinkyDungeonRedKeys > 0) || (KinkyDungeonTargetTile.Lock.includes("Blue") && KinkyDungeonBlueKeys > 0)) {
+					DrawButton(825, 825, 112, 60, TextGet("KinkyDungeonUnlockDoor"), "White", "", "");
+					action = true;
+				}
+
+				if (!action) DrawText(TextGet("KinkyDungeonLockedDoor"), 950, 850, "white", "silver");
+
+				if (KinkyDungeonTargetTile.Lock.includes("Red"))
+					DrawText(TextGet("KinkyRedLock"), 675, 850, "white", "silver");
+				else if (KinkyDungeonTargetTile.Lock.includes("Blue"))
+					DrawText(TextGet("KinkyBlueLock"), 675, 850, "white", "silver");
+			} else
+				DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"), "White");
 		}
 	}
 
@@ -209,12 +228,14 @@ function KinkyDungeonHandleHUD() {
 		}
 
 		if (KinkyDungeonTargetTile) {
-			if (KinkyDungeonTargetTile.Type && KinkyDungeonTargetTile.Type == "Lock") {
+			if (KinkyDungeonTargetTile.Type &&
+				((KinkyDungeonTargetTile.Type == "Lock") || (KinkyDungeonTargetTile.Type == "Door" && KinkyDungeonTargetTile.Lock))) {
 				if (KinkyDungeonLockpicks > 0 && MouseIn(963, 825, 112, 60)) {
 					KinkyDungeonAdvanceTime(1, true);
 					if (KinkyDungeonPickAttempt()) {
+						if (KinkyDungeonTargetTile.Type == "Door") KinkyDungeonTargetTile.Lock = undefined;
+						else delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
 						KinkyDungeonTargetTile = null;
-						delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
 					}
 					KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);
 					return true;
@@ -224,8 +245,9 @@ function KinkyDungeonHandleHUD() {
 					|| (KinkyDungeonTargetTile.Lock.includes("Blue") && KinkyDungeonBlueKeys > 0) )) && MouseIn(825, 825, 112, 60)) {
 					KinkyDungeonAdvanceTime(1, true);
 					if (KinkyDungeonUnlockAttempt(KinkyDungeonTargetTile.Lock)) {
+						if (KinkyDungeonTargetTile.Type == "Door") KinkyDungeonTargetTile.Lock = undefined;
+						else delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
 						KinkyDungeonTargetTile = null;
-						delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
 					}
 					KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);
 					return true;
