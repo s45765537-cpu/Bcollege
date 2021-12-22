@@ -188,6 +188,10 @@ function KinkyDungeonDrawGame() {
 	} else if (KinkyDungeonDrawState == "Lore") {
 		DrawButton(650, 925, 250, 60, TextGet("KinkyDungeonGame"), "White", "", "");
 		KinkyDungeonDrawLore();
+	} else if (KinkyDungeonDrawState == "Restart") {
+		DrawText(TextGet("KinkyDungeonRestartConfirm"), 1250, 400, "white", "silver");
+		DrawButton(875, 750, 350, 64, TextGet("KinkyDungeonRestartYes"), "White", "");
+		DrawButton(1275, 750, 350, 64, TextGet("KinkyDungeonRestartNo"), "White", "");
 	}
 
 	if (KinkyDungeonStatArousal > 0)

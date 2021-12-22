@@ -2,6 +2,11 @@ Intro,"You are a wizard descending into an ancient underground city of magic."
 Intro2,"Beneath its depths lies the Mistress' Staff, an artifact of untold power."
 Intro3,"Will you prevail against forces unknown, or succumb to its dark secrets?"
 
+KinkyDungeonRestart,"Quit"
+KinkyDungeonRestartConfirm,"Confirm restart? All progress will be lost (there is no going back)"
+KinkyDungeonRestartYes,"Give up and abandon her"
+KinkyDungeonRestartNo,"No, I wish to press on"
+
 DeviousChallenge,"Devious Dungeon Challenge is enabled."
 KinkyDungeonLoading,"Waiting for game data..."
 

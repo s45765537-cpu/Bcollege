@@ -312,6 +312,9 @@ function KinkyDungeonGetShortcut(level) {
 	if (level == 3) {
 		return 11;
 	}
+	if (level == 2 && KinkyDungeonRep > 5) {
+		return 11;
+	}
 
 	return 0;
 }
@@ -1023,6 +1026,12 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 
 	let toTile = KinkyDungeonMapGet(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y);
 	if (toTile == 's' || toTile == 'H') { // Go down the next stairs
+
+		if (MiniGameKinkyDungeonLevel > Math.max(KinkyDungeonRep, ReputationGet("Gaming")) || Math.max(KinkyDungeonRep, ReputationGet("Gaming")) > KinkyDungeonMaxLevel) {
+			KinkyDungeonRep = Math.max(KinkyDungeonRep, MiniGameKinkyDungeonLevel);
+			DialogSetReputation("Gaming", KinkyDungeonRep);
+		}
+
 		MiniGameKinkyDungeonLevel += 1;
 		if (toTile == 's') {
 			KinkyDungeonSendActionMessage(10, TextGet("ClimbDown"), "#ffffff", 1);

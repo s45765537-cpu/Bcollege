@@ -35,6 +35,9 @@ const KinkyDungeonLastChatTimeout = 10000;
 var KinkyDungeonStatBarHeight = 100;
 
 function KinkyDungeonDrawInputs() {
+
+	DrawButton(1880, 120, 100, 40, TextGet("KinkyDungeonRestart"), "White");
+
 	// Draw the struggle buttons if applicable
 	if (KinkyDungeonDrawStruggle && KinkyDungeonStruggleGroups)
 		for (let S = 0; S < KinkyDungeonStruggleGroups.length; S++) {
@@ -182,6 +185,7 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 function KinkyDungeonHandleHUD() {
 	let buttonWidth = 48;
 	if (KinkyDungeonDrawState == "Game") {
+
 		if (MouseIn(canvasOffsetX, canvasOffsetY, KinkyDungeonCanvas.width, KinkyDungeonCanvas.height))
 			KinkyDungeonSetTargetLocation();
 
@@ -191,6 +195,11 @@ function KinkyDungeonHandleHUD() {
 		else
 		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Magic"; return true;}
 		else if (MouseIn(510, 925, 120, 60)) { KinkyDungeonDrawStruggle = !KinkyDungeonDrawStruggle; return true;}
+
+		if (MouseIn(1880, 120, 100, 40)) {
+			KinkyDungeonDrawState = "Restart";
+			return true;
+		}
 
 		if (!KinkyDungeonTargetingSpell) {
 			if (KinkyDungeonHandleSpell()) return true;
@@ -285,6 +294,14 @@ function KinkyDungeonHandleHUD() {
 	} else if (KinkyDungeonDrawState == "Lore") {
 		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleLore();
+	} else if (KinkyDungeonDrawState == "Restart") {
+		if (MouseIn(875, 750, 350, 64)) {
+			KinkyDungeonState = "Lose";
+			return true;
+		} else if (MouseIn(1275, 750, 350, 64)) {
+			KinkyDungeonDrawState = "Game";
+			return true;
+		}
 	}
 
 	return false;
