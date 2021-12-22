@@ -53,6 +53,7 @@ CurrentKnife,"Knife: "
 CurrentKnifeMagic,"Mag. Knife: "
 
 ClimbDown,"You climb down the stairs. The passage closes behind you."
+ClimbDownShortcut,"You climb down and find yourself in a strange new place."
 
 DungeonName0,-Graveyard-
 DungeonName1,-Catacombs-
@@ -64,7 +65,8 @@ DungeonName6,-Underground Desert-
 DungeonName7,-Kingdom of Ice-
 DungeonName8,-Marble Halls-
 DungeonName9,-Ancient Laboratory-
-DungeonName10,-The Starlit Balcony-
+DungeonName10,-The Mansion-
+DungeonName11,-Ancient Tombs-
 
 LootRubbleFail,You search through the debris but find nothing of note
 LootRubbleSmallGold,You find some gold coins in a corner (+XXX gold)

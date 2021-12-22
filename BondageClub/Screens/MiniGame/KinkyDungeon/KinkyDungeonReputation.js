@@ -45,8 +45,16 @@ function KinkyDungeonDrawReputation() {
 				if (XX == 0) i = 0;
 				XX = 600;
 			}
+			let color = "#ffff00";
+			if (value < 0) {
+				if (value < -25) color = "#ff0000";
+				else color = "#ff8800";
+			} else {
+				if (value > 25) color = "#00ff00";
+				else color = "#88ff00";
+			}
 			DrawText(TextGet("KinkyDungeonShrine" + rep), canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i, "white", "black");
-			DrawProgressBar(canvasOffsetX + 250 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, )
+			DrawProgressBar(canvasOffsetX + 250 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, color, "#444444");
 
 			i++;
 		}

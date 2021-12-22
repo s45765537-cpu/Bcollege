@@ -13,6 +13,7 @@ function KinkyDungeonGetSprite(code) {
 	else if (code == "r") sprite = "RubbleLooted";
 	else if (code == "S") sprite = "StairsUp";
 	else if (code == "s") sprite = "StairsDown";
+	else if (code == "H") sprite = "StairsDown"; // Shortcut
 	else if (code == "A") sprite = "Shrine";
 	else if (code == "a") sprite = "ShrineBroken";
 	return sprite;

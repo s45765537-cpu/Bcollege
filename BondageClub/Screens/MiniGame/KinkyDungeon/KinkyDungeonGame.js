@@ -1,6 +1,7 @@
 "use strict";
 
 var MiniGameKinkyDungeonCheckpoint = 0;
+var MiniGameKinkyDungeonShortcut = 0;
 var MiniGameKinkyDungeonLevel = 1;
 var KinkyDungeonMapIndex = [];
 
@@ -43,7 +44,7 @@ var KinkyDungeonTerrain = [];
 var KinkyDungeonMapBrightness = 5;
 
 var KinkyDungeonGroundTiles = "02";
-var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "SsRrd"; // Objects which can be moved into: floors, debris, open doors, staircases
+var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "HSsRrd"; // Objects which can be moved into: floors, debris, open doors, staircases
 var KinkyDungeonMovableTilesSmartEnemy = "D" + KinkyDungeonMovableTilesEnemy; //Smart enemies can open doors as well
 var KinkyDungeonMovableTiles = "CA" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
 
@@ -111,7 +112,7 @@ function KinkyDungeonInitialize(Level, Random) {
 	KinkyDungeonMapIndex = [];
 
 
-	for (let I = 1; I < 10; I++)
+	for (let I = 1; I < KinkyDungeonMapParams.length; I++)
 		KinkyDungeonMapIndex.push(I);
 
 	// Option to shuffle the dungeon types besides the initial one (graveyard)
@@ -197,6 +198,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 
 	KinkyDungeonReplaceDoodads(doodadchance, width, height); // Replace random internal walls with doodads
 	KinkyDungeonPlaceStairs(startpos, width, height); // Place the start and end locations
+	KinkyDungeonPlaceShortcut(KinkyDungeonGetShortcut(Floor), width, height); // Place the start and end locations
 	KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceDoors(doorchance, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, height); // Place treasure chests inside dead ends
@@ -303,6 +305,58 @@ function KinkyDungeonPlaceStairs(startpos, width, height) {
 			}
 		}
 
+}
+
+function KinkyDungeonGetShortcut(level) {
+
+	if (level == 3) {
+		return 11;
+	}
+
+	return 0;
+}
+
+function KinkyDungeonPlaceShortcut(checkpoint, width, height) {
+
+	if (checkpoint > 0) {
+
+		// Ending stairs are not.
+		var placed = false;
+
+		for (let L = 1000; L > 0; L -= 1) { // Try up to 1000 times
+			let X = Math.floor(width * 0.75) - 2 - Math.floor(Math.random() * width/2);
+			let Y = 1 + 2*Math.floor(Math.random()*0.5 * (height - 2));
+			if (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(X, Y))) {
+				// Check the 3x3 area
+				var wallcount = 0;
+				for (let XX = X-1; XX <= X+1; XX += 1)
+					for (let YY = Y-1; YY <= Y+1; YY += 1)
+						if (!(XX == X && YY == Y) && (KinkyDungeonMapGet(XX, YY) == '1' || KinkyDungeonMapGet(XX, YY) == 'X'))
+							wallcount += 1;
+				if (wallcount == 7) {
+					placed = true;
+					KinkyDungeonMapSet(X, Y, 'H');
+					L = 0;
+					break;
+				}
+			}
+		}
+
+		if (!placed) // Loosen the constraints
+			for (let L = 1000; L > 0; L -= 1) { // Try up to 1000 times
+				let X = Math.floor(width * 0.75) - 2 - Math.floor(Math.random() * width/2);
+				let Y = 1 + Math.floor(Math.random() * (height - 2));
+				if (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(X, Y))) {
+					KinkyDungeonMapSet(X, Y, 'H');
+					L = 0;
+					placed = true;
+				}
+			}
+
+		if (placed) {
+			MiniGameKinkyDungeonShortcut = checkpoint;
+		}
+	}
 }
 
 function KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height) {
@@ -967,11 +1021,16 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 	KinkyDungeonUpdateBulletsCollisions(delta); //console.log("Bullet Check " + (performance.now() - now));
 	KinkyDungeonUpdateStats(delta);
 
-	if (KinkyDungeonMapGet(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y) == 's') { // Go down the next stairs
+	let toTile = KinkyDungeonMapGet(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y);
+	if (toTile == 's' || toTile == 'H') { // Go down the next stairs
 		MiniGameKinkyDungeonLevel += 1;
-		KinkyDungeonSetCheckPoint();
-
-		KinkyDungeonSendActionMessage(10, TextGet("ClimbDown"), "#ffffff", 1);
+		if (toTile == 's') {
+			KinkyDungeonSendActionMessage(10, TextGet("ClimbDown"), "#ffffff", 1);
+			KinkyDungeonSetCheckPoint();
+		} else if (toTile == 'H') {
+			KinkyDungeonSendActionMessage(10, TextGet("ClimbDownShortcut"), "#ffffff", 1);
+			KinkyDungeonSetCheckPoint(MiniGameKinkyDungeonShortcut);
+		}
 
 		if (MiniGameKinkyDungeonLevel >= KinkyDungeonMaxLevel) {
 			KinkyDungeonState = "End";

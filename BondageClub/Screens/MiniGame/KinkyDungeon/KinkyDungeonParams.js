@@ -1,6 +1,7 @@
 "use strict";
 var KinkyDungeonMapParams = [
-	{
+
+	{//DungeonName0,-Graveyard-
 		"openness" : 3, // Openness of rooms
 		"density" : 3, // Density of tunnels (inverse of room spawn chance)
 		"doodadchance" : 0.16,
@@ -30,7 +31,8 @@ var KinkyDungeonMapParams = [
 			{Type: "Will", Weight: 7},]
 
 	},
-	{
+
+	{// DungeonName1,-Catacombs-
 		"openness" : 0,
 		"density" : 2,
 		"doodadchance" : 0.11,
@@ -59,7 +61,8 @@ var KinkyDungeonMapParams = [
 			{Type: "Will", Weight: 7},]
 
 	},
-	{
+
+	{//DungeonName2,-Underground Jungle-
 		"openness" : 2,
 		"density" : 5,
 		"doodadchance" : 0.15,
@@ -76,7 +79,7 @@ var KinkyDungeonMapParams = [
 		"min_height" : 11,
 		"max_height" : 19,
 	},
-	{
+	{//DungeonName3,-Lost Temple-
 		"openness" : 2,
 		"density" : 0,
 		"doodadchance" : 0.13,
@@ -95,7 +98,7 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 1.5,
 	},
-	{
+	{//DungeonName4,-Fungal Caverns-
 		"openness" : 4,
 		"density" : 4,
 		"doodadchance" : 0.15,
@@ -112,7 +115,7 @@ var KinkyDungeonMapParams = [
 		"min_height" : 15,
 		"max_height" : 25,
 	},
-	{
+	{//DungeonName5,-The Bellows-
 		"openness" : 1,
 		"density" : 1,
 		"doodadchance" : 0.05,
@@ -131,7 +134,7 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 2.0,
 	},
-	{
+	{//DungeonName6,-Underground Desert-
 		"openness" : 4,
 		"density" : 2,
 		"doodadchance" : 0.13,
@@ -148,7 +151,7 @@ var KinkyDungeonMapParams = [
 		"min_height" : 17,
 		"max_height" : 25,
 	},
-	{
+	{//DungeonName7,-Kingdom of Ice-
 		"openness" : 2,
 		"density" : 1,
 		"doodadchance" : 0.12,
@@ -167,7 +170,7 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 2.0,
 	},
-	{
+	{//DungeonName8,-Marble Halls-
 		"openness" : 4,
 		"density" : 0,
 		"doodadchance" : 0.12,
@@ -186,7 +189,7 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 1.5,
 	},
-	{
+	{//DungeonName9,-Ancient Laboratory-
 		"openness" : 2,
 		"density" : 1,
 		"doodadchance" : 0.08,
@@ -205,7 +208,7 @@ var KinkyDungeonMapParams = [
 
 		"lockmult" : 4.0,
 	},
-	{
+	{//DungeonName10,-The Mansion-
 		"openness" : 10,
 		"density" : 0,
 		"doodadchance" : 0.05,
@@ -223,5 +226,33 @@ var KinkyDungeonMapParams = [
 		"max_height" : 19,
 
 		"lockmult" : 0.0,
+	},
+	{//DungeonName11,-Ancient Tombs-
+		"openness" : 1,
+		"density" : 3,
+		"doodadchance" : 0.25,
+		"brightness" : 5,
+		"chestcount" : 4,
+		"shrinecount" : 4,
+		"shrinechance" : 0.5,
+		"doorchance" : 0.4,
+		"rubblechance" : 0.7,
+		"brickchance" : 0.4,
+
+		"min_width" : 21,
+		"max_width" : 27,
+		"min_height" : 11,
+		"max_height" : 17,
+
+		"enemytags": ["mummy"],
+		"shrines": [
+			{Type: "Commerce", Weight: 10},
+			{Type: "Elements", Weight: 5},
+			{Type: "Conjure", Weight: 5},
+			{Type: "Illusion", Weight: 5},
+			{Type: "Metal", Weight: 3},
+			{Type: "Rope", Weight: 4},
+			{Type: "Charms", Weight: 6},
+			{Type: "Will", Weight: 7},]
 	},
 ];
