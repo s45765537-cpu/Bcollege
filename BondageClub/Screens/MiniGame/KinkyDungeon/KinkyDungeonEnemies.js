@@ -12,8 +12,8 @@ var KinkyDungeonEnemies = [
 	{name: "LesserSkeleton", tags: ["ignorenoSP", "skeleton", "melee", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "wander",
 		visionRadius: 1, maxhp: 2.5, minLevel:0, weight:10, movePoints: 2, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 1, attackRange: 1, power: 3, dmgType: "grope", fullBoundBonus: 2,
 		terrainTags: {"secondhalf":-8, "lastthird":-8}, floors:[1, 11]},
-	{name: "Ghost", tags: ["ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
-		visionRadius: 4, evasion: 1.25, maxhp: 1, minLevel:0, weight:1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
+	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1, AI: "guard",
+		visionRadius: 10, evasion: 1.25, maxhp: 1, minLevel:0, weight:1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
 		terrainTags: {}, shrines: ["Illusion"], floors:[0, 1, 11]},
 	{name: "GreaterSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
 		visionRadius: 4, maxhp: 10, minLevel:12, weight:3, movePoints: 3, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 10, dmgType: "crush", fullBoundBonus: 0,
@@ -162,7 +162,7 @@ function KinkyDungeonEnemyCheckHP(enemy, E) {
 }
 
 function KinkyDungeonCheckLOS(enemy, player, distance, maxdistance, allowBlind) {
-	return distance <= maxdistance+0.1 && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
+	return distance <= maxdistance+0.5 && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
 }
 
 function KinkyDungeonUpdateEnemies(delta) {
