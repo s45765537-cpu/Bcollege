@@ -89,6 +89,9 @@ Features
 - Added shortcut system
 - Added new tileset with the shortcut in floor 3
 - Added restart button and confirmation screen
+- New rope themed enemies that appear more often if you annoy the rope goddess
+- Reputation system that affects certain enemy spawn rates
+- Added a new spooky illusion enemy
 
 TODO Add Rest button
 

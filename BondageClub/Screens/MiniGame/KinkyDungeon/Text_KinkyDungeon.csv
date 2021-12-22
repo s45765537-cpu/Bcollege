@@ -170,6 +170,11 @@ KillSkeleton,"The Skeleton falls into pieces."
 AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
 AttackSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
 
+NameGhost,Ghost
+KillGhost,"The ghost vanishes."
+AttackGhostBind,"The Ghost restrains you! (+RestraintAdded)"
+AttackGhost,"The Ghost tickles you! (-DamageTaken SP)"
+
 NameGreaterSkeleton,Skeleton Warrior
 KillGreaterSkeleton,"The Skeleton Warrior collapses and falls into pieces."
 AttackGreaterSkeleton,"The Skeleton lands a wide, crippling blow! (-DamageTaken SP)"
