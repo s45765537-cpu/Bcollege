@@ -526,9 +526,12 @@ RestraintWristShacklesDesc2,"You could pick these with a hairpin."
 RestraintAnkleShackles,Ankle Shackles
 RestraintAnkleShacklesDesc,"Heavy shackles with a rudimentary lock."
 RestraintAnkleShacklesDesc2,"You could pick these with a hairpin."
-RestraintLegShackles,Leg Shackles
+RestraintLegShackles,Leg Cuffs
 RestraintLegShacklesDesc,"Heavy shackles with a rudimentary lock."
 RestraintLegShacklesDesc2,"You could pick these with a hairpin."
+RestraintFeetShackles,Ankle Cuffs
+RestraintFeetShacklesDesc,"Heavy shackles with a rudimentary lock."
+RestraintFeetShacklesDesc2,"You could pick these with a hairpin."
 RestraintSteelMuzzleGag,Steel Muzzle
 RestraintSteelMuzzleGagDesc,"A heavy muzzle with a rudimentary lock."
 RestraintSteelMuzzleGagDesc2,"You could pick this with a hairpin."

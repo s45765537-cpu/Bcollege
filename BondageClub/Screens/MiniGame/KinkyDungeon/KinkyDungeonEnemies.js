@@ -279,7 +279,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 			playerDist = Math.sqrt((enemy.x - player.x)*(enemy.x - player.x) + (enemy.y - player.y)*(enemy.y - player.y));
 
 			if ((AI != "ambush" || enemy.ambushtrigger) && !ignore && (!moved || enemy.Enemy.attackWhileMoving)
-				&& (enemy.Enemy.attack.includes("Melee") || (enemy.Enemy.tags && enemy.Enemy.tags.includes("leashing")))
+				&& (enemy.Enemy.attack.includes("Melee") || (enemy.Enemy.tags && enemy.Enemy.tags.includes("leashing") && !KinkyDungeonHasStamina(1.1)))
 				&& KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.attackRange + 0.5, true)) {//Player is adjacent
 				idle = false;
 
