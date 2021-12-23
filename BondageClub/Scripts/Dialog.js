@@ -2058,7 +2058,7 @@ function DialogDraw() {
 				DialogOver8 = true;
 				DrawButton(1885, 160 + (105 * 7), 90, 90, "", "White", "Icons/Down.png");
 				DrawButton(1885 - 110, 160 + (105 * 7), 90, 90, "", "White", "Icons/UP.png");
-				if (DialogCharacterOffset > drawthis.length) {
+				if (DialogCharacterOffset >= drawthis.length) {
 					DialogCharacterOffset = 0;
 				}
 				else if (DialogCharacterOffset < 0) {
