@@ -10,6 +10,8 @@ var DialogPreviousCharacterData = {};
 /** @type DialogInventoryItem[] */
 var DialogInventory = [];
 var DialogInventoryOffset = 0;
+var DialogCharacterOffset = 0;
+var DialogOver8 = false;
 /** @type {Item|null} */
 var DialogFocusItem = null;
 var DialogFocusSourceItem = null;
@@ -487,6 +489,7 @@ function DialogIntro() {
  * @returns {void} - Nothing
  */
 function DialogLeave() {
+	DialogCharacterOffset = 0;
 	if (DialogItemPermissionMode && CurrentScreen == "ChatRoom") ChatRoomCharacterUpdate(Player);
 	DialogLeaveFocusItem();
 	DialogItemPermissionMode = false;
@@ -1592,13 +1595,21 @@ function DialogClick() {
 		// If we need to leave the dialog (only allowed when there's an entry point to the dialog, not in the middle of a conversation)
 		if ((DialogIntro() != "") && (DialogIntro() != "NOEXIT") && (MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110))
 			DialogLeave();
+		if (DialogIntro() != "" && DialogOver8) {
+			if (MouseIn(1885, 160 + (105 * 7), 90, 90)) {
+				DialogCharacterOffset += 7;
+			}
+			else if (MouseIn(1885 - 110, 160 + (105 * 7), 90, 90)) {
+				DialogCharacterOffset -= 7;
+			}
+		}
 
 		// If the user clicked on a text dialog option, we trigger it
 		if ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 100) && (MouseY <= 990) && (CurrentCharacter != null)) {
 			var pos = 0;
 			for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
 				if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-					if ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + pos * 105) && (MouseY <= 250 + pos * 105)) {
+					if ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + (DialogOver8 ? pos % 7 : pos) * 105) && (MouseY <= 250 + (DialogOver8 ? pos % 7 : pos) * 105) && (DialogOver8 ? (pos >= DialogCharacterOffset && pos < DialogCharacterOffset + 7) : true)) {
 						// If the player is gagged, the answer will always be the same
 						if (!Player.CanTalk()) CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "PlayerGagged");
 						else CurrentCharacter.CurrentDialog = CurrentCharacter.Dialog[D].Result;
@@ -2034,13 +2045,33 @@ function DialogDraw() {
 				DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 			} else DrawTextWrap(SpeechGarble(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 950, 165, "white", null, 3);
 
-			// Draws the possible answers
-			var pos = 0;
-			for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
+			// gets the possible answers
+			var drawthis = [];
+			for (let D = 0; D < CurrentCharacter.Dialog.length; D++) {
 				if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-					DrawTextWrap(SpeechGarble(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + pos * 105) && (MouseY <= 250 + pos * 105) && !CommonIsMobile) ? "cyan" : "white", 2);
-					pos++;
+					drawthis.push(D);
 				}
+			}
+
+			// draws the possible answers
+			if (drawthis.length > 8) {
+				DialogOver8 = true;
+				DrawButton(1885, 160 + (105 * 7), 90, 90, "", "White", "Icons/Down.png");
+				DrawButton(1885 - 110, 160 + (105 * 7), 90, 90, "", "White", "Icons/UP.png");
+				if (DialogCharacterOffset > drawthis.length) {
+					DialogCharacterOffset = 0;
+				}
+				else if (DialogCharacterOffset < 0) {
+					DialogCharacterOffset = drawthis.length - ((drawthis.length % 7) == 0 ? 7 : drawthis.length % 7);
+
+				}
+			} else {
+				DialogOver8 = false;
+			}
+			for (let i = DialogCharacterOffset; i < drawthis.length && (DialogOver8 ? (i < DialogCharacterOffset + 7) : (i < 8)); i++) {
+				let pos = DialogOver8 ? i % 7 : i;
+				DrawTextWrap(SpeechGarble(Player, CurrentCharacter.Dialog[drawthis[i]].Option), 1025, 160 + 105 * pos, 950, 90, "black", ((MouseX >= 1025) && (MouseX <= 1975) && (MouseY >= 160 + pos * 105) && (MouseY <= 250 + pos * 105) && !CommonIsMobile) ? "cyan" : "white", 2);
+			}
 
 			// The more time you spend with an NPC, the more the love will rise
 			NPCInteraction();
