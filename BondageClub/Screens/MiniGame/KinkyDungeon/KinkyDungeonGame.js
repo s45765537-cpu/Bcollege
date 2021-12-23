@@ -1154,7 +1154,7 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 		gagMsg += GagEffect/3;
 		gagMsg = Math.max(0, Math.min(7, Math.floor(gagMsg)));
 
-		if (Math.random() < KinkyDungeonStatArousal / KinkyDungeonStatArousalMax) msg = "KinkyDungeonGagMumbleAroused"
+		if (Math.random() < KinkyDungeonStatArousal / KinkyDungeonStatArousalMax) msg = "KinkyDungeonGagMumbleAroused";
 
 		msg = msg + gagMsg;
 

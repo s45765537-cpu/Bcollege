@@ -205,9 +205,6 @@ function KinkyDungeonUpdateStats(delta) {
 	if (KinkyDungeonStatBlind > 0) KinkyDungeonBlindLevel = 3;
 	KinkyDungeonDeaf = KinkyDungeonPlayer.IsDeaf();
 
-	// Slowness calculation
-	KinkyDungeonCalculateSlowLevel();
-
 	// Unarmed damage calc
 	KinkyDungeonPlayerDamage = KinkyDungeonGetPlayerWeaponDamage(!InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) && !InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"));
 
@@ -224,6 +221,8 @@ function KinkyDungeonUpdateStats(delta) {
 	KinkyDungeonUpdateStruggleGroups();
 
 	KinkyDungeonDressPlayer();
+	// Slowness calculation
+	KinkyDungeonCalculateSlowLevel();
 
 	// Cap off the values between 0 and maximum
 	KinkyDungeonStatArousal += arousalRate*delta;

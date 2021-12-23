@@ -90,8 +90,32 @@ function KinkyDungeonDressPlayer() {
 
 	KinkyDungeonCheckClothesLoss = false;
 
+	if (KinkyDungeonStatStamina <= 1.1 || KinkyDungeonSleepTurns > 0) {
+		if (CharacterItemsHavePoseAvailable(KinkyDungeonPlayer, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(KinkyDungeonPlayer, "Kneel") && !KinkyDungeonPlayer.IsKneeling()) {
+			CharacterSetActivePose(KinkyDungeonPlayer, "Kneel", false);
+		}
+	} else if (KinkyDungeonSleepTurns < 1) {
+		if (CharacterItemsHavePoseAvailable(KinkyDungeonPlayer, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(KinkyDungeonPlayer, "Kneel") && KinkyDungeonPlayer.IsKneeling()) {
+			CharacterSetActivePose(KinkyDungeonPlayer, "BaseLower", false);
+		}
+	}
+
 	let BlushCounter = 0;
 	let Blush = "";
+	let Eyes = "";
+	let Eyes2 = "";
+	let Eyebrows = "";
+
+	if (KinkyDungeonStatMana < KinkyDungeonStatManaMax*0.45) Eyes = "Sad";
+	if (KinkyDungeonStatStamina <= 4) Eyes = "Dizzy";
+	if (KinkyDungeonStatStamina <= 12 || KinkyDungeonStatArousal > KinkyDungeonStatArousalMax/2) Eyes = "Dazed";
+
+	if (KinkyDungeonStatArousal > 6 || KinkyDungeonStatMana < KinkyDungeonStatManaMax*0.33) Eyebrows = "Soft";
+	if (KinkyDungeonStatArousal > 24 && KinkyDungeonStatStamina > KinkyDungeonStatStaminaMax*0.5) Eyebrows = "Angry";
+
+	if (KinkyDungeonStatArousal >= KinkyDungeonStatArousalMax * 0.99) Eyes = (Eyebrows != "Angry") ? "Lewd" : "Scared";
+
+	if (KinkyDungeonStatArousal >= 0.01 && KinkyDungeonStatArousal <= 3) Eyes2 = "Closed";
 
 	if (KinkyDungeonStatArousal > 0) BlushCounter += 1;
 	if (KinkyDungeonStatArousal > 33) BlushCounter += 1;
@@ -111,6 +135,20 @@ function KinkyDungeonDressPlayer() {
 			let property = KinkyDungeonPlayer.Appearance[A].Property;
 			if (!property || property.Expression != Blush) {
 				KinkyDungeonPlayer.Appearance[A].Property = { Expression: Blush };
+				CharacterRefresh(KinkyDungeonPlayer);
+			}
+		}
+		if (KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Eyebrows") {
+			let property = KinkyDungeonPlayer.Appearance[A].Property;
+			if (!property || property.Expression != Eyebrows) {
+				KinkyDungeonPlayer.Appearance[A].Property = { Expression: Eyebrows };
+				CharacterRefresh(KinkyDungeonPlayer);
+			}
+		}
+		if (KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Eyes" || KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Eyes2") {
+			let property = KinkyDungeonPlayer.Appearance[A].Property;
+			if (!property || property.Expression != ((KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Eyes2" && Eyes2) ? Eyes2 : Eyes)) {
+				KinkyDungeonPlayer.Appearance[A].Property = { Expression: ((KinkyDungeonPlayer.Appearance[A].Asset.Group.Name == "Eyes2" && Eyes2) ? Eyes2 : Eyes) };
 				CharacterRefresh(KinkyDungeonPlayer);
 			}
 		}

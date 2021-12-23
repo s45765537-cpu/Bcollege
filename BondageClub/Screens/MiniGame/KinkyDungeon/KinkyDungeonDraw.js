@@ -164,7 +164,7 @@ function KinkyDungeonDrawGame() {
 
 			// Draw the player no matter what
 			KinkyDungeonContextPlayer.clearRect(0, 0, KinkyDungeonCanvasPlayer.width, KinkyDungeonCanvasPlayer.height);
-			DrawCharacter(KinkyDungeonPlayer, -KinkyDungeonGridSizeDisplay/2, 0, KinkyDungeonGridSizeDisplay/250, false, KinkyDungeonContextPlayer);
+			DrawCharacter(KinkyDungeonPlayer, -KinkyDungeonGridSizeDisplay/2, KinkyDungeonPlayer.IsKneeling() ? -78 : 0, KinkyDungeonGridSizeDisplay/250, false, KinkyDungeonContextPlayer);
 
 			if (KinkyDungeonIsPlayer()) {
 				KinkyDungeonDrawInputs();
