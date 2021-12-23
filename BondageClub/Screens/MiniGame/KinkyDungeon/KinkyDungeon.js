@@ -105,7 +105,10 @@ function KinkyDungeonIsPlayer() {
  * @returns {void} - Nothing
  */
 function KinkyDungeonRun() {
-	DrawImage("Backgrounds/BrickWall.jpg", 0, 0);
+	let BG = "BrickWall";
+	let params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
+	if (params && params.background) BG = params.background;
+	DrawImage("Backgrounds/" + BG + ".jpg", 0, 0);
 
 	// Draw the characters
 	DrawCharacter(KinkyDungeonPlayer, 0, 0, 1);

@@ -18,7 +18,7 @@ var KinkyDungeonItemDropChanceArmsBound = 0.2; // Chance to drop item with just 
 
 var KinkyDungeonKnifeBreakChance = 0.15;
 var KinkyDungeonKeyJamChance = 0.33;
-var KinkyDungeonKeyPickBreakAmount = 4; // Number of tries per pick on average
+var KinkyDungeonKeyPickBreakAmount = 5; // Number of tries per pick on average
 var KinkyDungeonPickBreakProgress = 0;
 
 var KinkyDungeonRestraints = [
@@ -109,7 +109,7 @@ function KinkyDungeonKeyGetPickBreakChance(modifier) {
 
 	KinkyDungeonPickBreakProgress += mult;
 
-	if (KinkyDungeonPickBreakProgress > KinkyDungeonKeyPickBreakAmount/2) chance = (KinkyDungeonPickBreakProgress - KinkyDungeonKeyPickBreakAmount/2) / (KinkyDungeonKeyPickBreakAmount + 1); // Picks last anywhere from 2-6 uses
+	if (KinkyDungeonPickBreakProgress > KinkyDungeonKeyPickBreakAmount/2) chance = (KinkyDungeonPickBreakProgress - KinkyDungeonKeyPickBreakAmount/2) / (KinkyDungeonKeyPickBreakAmount + 1); // Picks last anywhere from 2-7 uses
 
 	return chance;
 }
@@ -209,6 +209,7 @@ function KinkyDungeonGetPickBaseChance() {
 	return 0.33 / (1.0 + 0.02 * MiniGameKinkyDungeonLevel);
 }
 
+// Note: This is for tiles (doors, chests) only!!!
 function KinkyDungeonPickAttempt() {
 	let Pass = "Fail";
 	let escapeChance = KinkyDungeonGetPickBaseChance();

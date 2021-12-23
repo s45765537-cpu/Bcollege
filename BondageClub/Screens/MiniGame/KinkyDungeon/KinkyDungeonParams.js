@@ -2,6 +2,7 @@
 var KinkyDungeonMapParams = [
 
 	{//DungeonName0,-Graveyard-
+		"background" : "SpookyForest",
 		"openness" : 3, // Openness of rooms
 		"density" : 3, // Density of tunnels (inverse of room spawn chance)
 		"doodadchance" : 0.16,
@@ -42,6 +43,7 @@ var KinkyDungeonMapParams = [
 	},
 
 	{// DungeonName1,-Catacombs-
+		"background" : "Dungeon",
 		"openness" : 0,
 		"density" : 2,
 		"doodadchance" : 0.11,
@@ -253,6 +255,7 @@ var KinkyDungeonMapParams = [
 		"lockmult" : 0.0,
 	},
 	{//DungeonName11,-Ancient Tombs-
+		"background" : "EgyptianTomb",
 		"openness" : 1,
 		"density" : 3,
 		"doodadchance" : 0.25,
