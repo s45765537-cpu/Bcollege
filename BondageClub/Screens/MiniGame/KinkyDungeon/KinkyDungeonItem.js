@@ -54,7 +54,7 @@ function KinkyDungeonDropItem(Item) {
 		}
 
 		KinkyDungeonGroundItems.push(dropped);
-		KinkyDungeonSendTextMessage(9, TextGet("KinkyDungeonDrop" + Item.name), "red", 2);
+		KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonDrop" + Item.name), "red", 2);
 
 		return true;
 	}

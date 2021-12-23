@@ -43,7 +43,7 @@ var KinkyDungeonMapParams = [
 	},
 
 	{// DungeonName1,-Catacombs-
-		"background" : "DungeonRuin",
+		"background" : "Dungeon",
 		"openness" : 0,
 		"density" : 2,
 		"doodadchance" : 0.11,

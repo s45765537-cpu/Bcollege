@@ -107,7 +107,6 @@ function KinkyDungeonDressPlayer() {
 	let Eyebrows = "";
 
 	if (KinkyDungeonStatMana < KinkyDungeonStatManaMax*0.45) Eyes = "Sad";
-	if (KinkyDungeonStatStamina <= 4) Eyes = "Dizzy";
 	if (KinkyDungeonStatStamina <= 12 || KinkyDungeonStatArousal > KinkyDungeonStatArousalMax/2) Eyes = "Dazed";
 
 	if (KinkyDungeonStatArousal > 6 || KinkyDungeonStatMana < KinkyDungeonStatManaMax*0.33) Eyebrows = "Soft";
@@ -116,6 +115,11 @@ function KinkyDungeonDressPlayer() {
 	if (KinkyDungeonStatArousal >= KinkyDungeonStatArousalMax * 0.8) Eyes = (Eyebrows != "Angry" && KinkyDungeonStatArousal < KinkyDungeonStatArousalMax * 0.99) ? "Lewd" : "Scared";
 
 	if (KinkyDungeonStatArousal >= 0.01 && KinkyDungeonStatArousal <= 3) Eyes2 = "Closed";
+
+	if (KinkyDungeonStatStamina <= 4) {
+		Eyes = "Dizzy";
+		Eyes2 = "";
+	}
 
 	if (KinkyDungeonStatArousal > 0.01) BlushCounter += 1;
 	if (KinkyDungeonStatArousal > KinkyDungeonStatArousalMax*0.33) BlushCounter += 1;
