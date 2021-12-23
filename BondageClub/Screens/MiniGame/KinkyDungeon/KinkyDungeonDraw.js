@@ -195,7 +195,7 @@ function KinkyDungeonDrawGame() {
 	}
 
 	if (KinkyDungeonStatArousal > 0)
-		ChatRoomDrawArousalScreenFilter(0, 1000, 2000, KinkyDungeonStatArousal);
+		ChatRoomDrawArousalScreenFilter(0, 1000, 2000, KinkyDungeonStatArousal * 100 / KinkyDungeonStatArousalMax);
 
 
 }
