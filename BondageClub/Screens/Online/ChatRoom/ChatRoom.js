@@ -1752,6 +1752,7 @@ function ChatRoomMenuClick() {
 				case "Admin":
 					// When the user enters the room administration screen
 					if ((ChatRoomData != null) && ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) return AsylumGGTSMessage("NoAdminPrivate");
+					if ((ChatRoomData != null) && ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return AsylumGGTSMessage("NoAdminLocked");
 					document.getElementById("InputChat").style.display = "none";
 					document.getElementById("TextAreaChatLog").style.display = "none";
 					CommonSetScreen("Online", "ChatAdmin");
@@ -1796,6 +1797,7 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
+	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -2224,26 +2226,23 @@ function ChatRoomMessage(data) {
 					}
 
 					// Trigger a shock if the player is a target
-					if (ShockIntensity >= 0 && TargetCharacter == Player) {
+					if (ShockIntensity >= 0 && TargetCharacter == Player)
 						ChatRoomStimulationMessage("Flash", "#FFFFFF", ShockIntensity, 500);
-					}
 
 					// For automatic messages, do not show the message if the player is not involved, depending on their preferences
-					if (Automatic && !IsPlayerInvolved && !Player.ChatSettings.ShowAutomaticMessages) {
+					if (Automatic && !IsPlayerInvolved && !Player.ChatSettings.ShowAutomaticMessages)
 						return;
-					}
 
 					// When the player is in total sensory deprivation, hide messages if the player is not involved
-					if (Player.ImmersionSettings.SenseDepMessages && !IsPlayerInvolved && PreferenceIsPlayerInSensDep()) {
+					if (Player.ImmersionSettings.SenseDepMessages && !IsPlayerInvolved && PreferenceIsPlayerInSensDep())
 						return;
-					}
 
 					// Handle stimulation
-					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null && TargetMemberNumber == Player.MemberNumber) || (SenderCharacter.MemberNumber != null && SenderCharacter.MemberNumber == Player.MemberNumber))) {
+					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null && TargetMemberNumber == Player.MemberNumber) || (SenderCharacter.MemberNumber != null && SenderCharacter.MemberNumber == Player.MemberNumber)))
 						ChatRoomStimulationMessage("Kneel");
-					}
 
 					// If another player is using an item which applies an activity on the current player, apply the effect here
+					AsylumGGTSActivity(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
 					if ((ActivityName != null) && (TargetMemberNumber != null) && (TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber))
 						if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 							ActivityEffect(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
@@ -2255,6 +2254,7 @@ function ChatRoomMessage(data) {
 					// Raise a notification if required
 					if (data.Type === "Action" && IsPlayerInvolved && Player.NotificationSettings.ChatMessage.Activity)
 						ChatRoomNotificationRaiseChatMessage(SenderCharacter, msg);
+
 				}
 			}
 
@@ -2351,9 +2351,8 @@ function ChatRoomMessage(data) {
 						if (data.Dictionary[D].ActivityCounter != null) ActivityCounter = data.Dictionary[D].ActivityCounter;
 					}
 
-
-
 				// If the player does the activity on herself or an NPC, we calculate the result right away
+				AsylumGGTSActivity(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);
 				if ((data.Type === "Action") || ((TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber)))
 					if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 						ActivityEffect(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);

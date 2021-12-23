@@ -6,10 +6,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Anna", "Aylea", "Ben", "Brian", "Bryce", "Christian", "Clash", "DarkStar", "Dini", "Edwin", 
-	"Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "Hayden", "JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", 
-	"Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", "Rika", "Riley", "Robin", "Rutherford", "Ryner", "Sage", 
-	"Samuel", "Shadow", "Tam", "TBoneShark", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"
+	"Aceffect", "Anna", "Aylea", "Ben", "BlueWinter", "Brian", "bryce", "Chennifer", "Christian", "Clash", "Darkstart", 
+	"Dini", "Edwin", "Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "JoeyDubDee", "KamiKaze", "Kimuriel", 
+	"Longwave", "Michal", "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", "Ray", "Rika", 
+	"Robin", "Rutherford", "Ryner", "Sage", "Samuel", "SeraDenoir", "Shadow", "Tam", "TBoneShark", "TKSonix", 
+	"TopHat", "Troubadix", "Xepherio", "Yuna", "Znarf"
 ];
 /* eslint-enable */
 var LoginThankYouNext = 0;
@@ -303,7 +304,10 @@ function LoginAsylumItems() {
  * @returns {void} - Nothing
  */
 function LoginCheatItems() {
-	if (CheatFactor("FreeCollegeOutfit", 0) == 0) InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+	if (CheatFactor("FreeCollegeOutfit", 0) == 0) {
+		InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+		InventoryAdd(Player, "CollegeSkirt", "ClothLower");
+	}
 }
 
 /**
@@ -459,6 +463,7 @@ function LoginResponse(C) {
 			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
 				ServerPlayerBlockItemsSync();
 			}
+			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
 			Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
@@ -610,10 +615,8 @@ function LoginResponse(C) {
 				} else {
 
 					// If the player must log back in the asylum
-					if (LogQuery("Committed", "Asylum")) {
-						CharacterRelease(Player);
-						AsylumEntranceWearPatientClothes(Player);
-						if (ReputationGet("Asylum") <= -50) AsylumEntrancePlayerJacket("Normal");
+					if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum")) {
+						AsylumEntranceWearPatientClothes(Player, true);
 						CommonSetScreen("Room", "AsylumBedroom");
 					} else {
 

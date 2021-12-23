@@ -12,7 +12,8 @@ var AssetMap = new Map();
 var AssetGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
-
+/** @type {Map<string, AssetGroup[]>} */
+var AssetActivityMirrorGroups = new Map();
 /**
  * Adds a new asset group to the main list
  * @param {IAssetFamily} NewAssetFamily
@@ -62,8 +63,26 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		MirrorActivitiesFrom: NewAsset.MirrorActivitiesFrom || null,
 	};
 	AssetGroupMap.set(A.Name, A);
+	AssetActivityMirrorGroupSet(A);
 	AssetGroup.push(A);
 	AssetCurrentGroup = A;
+}
+
+/**
+ * Collects the group equivalence classes defined by the MirrorActivitiesFrom property into a map for easy access to
+ * mirror group sets (i.e. all groups that are mirror activities from, or are mirrored by, each other).
+ * @param {AssetGroup} group - The group to register
+ */
+function AssetActivityMirrorGroupSet(group) {
+	if (group.MirrorActivitiesFrom) {
+		const mirrorGroups = AssetActivityMirrorGroups.get(group.MirrorActivitiesFrom);
+		if (mirrorGroups) {
+			mirrorGroups.push(group);
+			AssetActivityMirrorGroups.set(group.Name, mirrorGroups);
+			return;
+		}
+	}
+	AssetActivityMirrorGroups.set(group.Name, [group]);
 }
 
 /**
@@ -362,7 +381,7 @@ function AssetLayerAlpha(Layer, NewAsset, I) {
 }
 
 /**
- * Assigns colour indices to the layers of an asset. These determine which colours get applied to the layer. Also adds
+ * Assigns color indices to the layers of an asset. These determine which colors get applied to the layer. Also adds
  * a count of colorable layers to the asset definition.
  * @param {Asset} A - The built asset
  * @returns {void} - Nothing
@@ -371,7 +390,7 @@ function AssetAssignColorIndices(A) {
 	var colorIndex = 0;
 	var colorMap = {};
 	A.Layer.forEach(Layer => {
-		// If the layer can't be coloured, we don't need to set a color index
+		// If the layer can't be colored, we don't need to set a color index
 		if (!Layer.AllowColorize) return;
 
 		var LayerKey = Layer.CopyLayerColor || Layer.Name;

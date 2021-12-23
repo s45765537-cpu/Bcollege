@@ -234,12 +234,9 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 function CharacterAppearanceNaked(C) {
 
 	// For each item group (non default items only show at a 20% rate)
-	for (let A = C.Appearance.length-1 ; A >= 0; A--) {
-		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") &&
-			( C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && C.Appearance[A].Asset.Group.BodyCosplay))) {
+	for (let A = C.Appearance.length - 1; A >= 0; A--)
+		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") && (C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && (C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group != null) && C.Appearance[A].Asset.Group.BodyCosplay)))
 			C.Appearance.splice(A, 1);
-		}
-	}
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
@@ -834,7 +831,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	if (DifficultyFactor == null) DifficultyFactor = 0;
 
 	// Removes the previous if we need to
-	var ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
+	const ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
 	var ItemColor;
 	if (ID != "None") {
 		if (CurrentScreen == "Appearance") {
@@ -847,7 +844,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	// Add the new item to the character appearance
 	if (ItemAsset != null) {
 		/** @type {Item} */
-		var NA = {
+		const NA = {
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: ((NewColor == null) ? ItemColor : NewColor),

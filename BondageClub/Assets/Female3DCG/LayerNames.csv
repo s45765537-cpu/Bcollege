@@ -17,7 +17,6 @@ ClothChineseDress2Dress,Main
 ClothChineseDress2Edges,Trim
 ClothCollegeOutfit1Shirt,Shirt
 ClothCollegeOutfit1Tie,Tie
-ClothCollegeOutfit1Skirt,Skirt
 ClothBodice1Base,Main
 ClothBodice1Trim,Trim
 ClothBodice1Pattern,Pattern
@@ -44,6 +43,8 @@ ClothAdultBabyDress3Belt,Belt
 ClothAdultBabyDress3Collar,Collar
 ClothReverseBunnySuitSuit,Suit
 ClothReverseBunnySuitGloves,Gloves
+ClothFuzzyDressDress,Dress
+ClothFuzzyDressTopFur,Fur
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
@@ -206,9 +207,11 @@ TailStrapsFoxTailStrap2Base,Tail
 TailStrapsFoxTailStrap2Tip,Tip
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
+TailStrapsTentaclesInner,Inner
+TailStrapsTentaclesOuter,Outer
+TailStrapsTentaclesSucker,Suckers
 ItemFeetOrnateAnkleCuffsCuffs,Cuffs
 ItemFeetOrnateAnkleCuffsGems,Gems
-ItemLegsOrnateLegCuffsCuffs,Cuffs
 ItemFeetFloorShacklesChain,Chain
 ItemFeetFloorShacklesCuffs,Cuffs
 ItemFeetFuturisticAnkleCuffsCuffs,Cuffs
@@ -218,9 +221,13 @@ ItemFeetLeatherAnkleCuffsCuffs,Cuffs
 ItemFeetLeatherAnkleCuffsRings,Rings
 ItemFeetMedicalBedRestraintsBase,Bed Straps
 ItemFeetMedicalBedRestraintsStraps,Cuffs
+ItemFeetTentaclesInner,Inner
+ItemFeetTentaclesOuter,Outer
+ItemFeetTentaclesSucker,Suckers
 ItemLegsFuturisticLegCuffsCuffs,Cuffs
 ItemLegsFuturisticLegCuffsDisplay,Display
 ItemLegsFuturisticLegCuffsLock,Lock
+ItemLegsOrnateLegCuffsCuffs,Cuffs
 ItemLegsOrnateLegCuffsGems,Gems
 ItemLegsLeatherLegCuffsCuffs,Cuffs
 ItemLegsLeatherLegCuffsRings,Rings
@@ -232,6 +239,9 @@ ItemLegsWoodenHorseFrame,Frame
 ItemLegsWoodenHorseWood,Wood
 ItemLegsMedicalBedRestraintsBase,Bed Straps
 ItemLegsMedicalBedRestraintsStraps,Cuffs
+ItemLegsTentaclesInner,Inner
+ItemLegsTentaclesOuter,Outer
+ItemLegsTentaclesSucker,Suckers
 ItemVulvaWandBeltBelt,Belt
 ItemVulvaWandBeltWand,Wand
 ItemVulvaHempRopeBeltRope,Rope
@@ -260,6 +270,9 @@ ItemButtTailButtPlugRibbon,Ribbon
 ItemButtTailButtPlugBell,Bell
 ItemButtFoxTailsBases,Tails
 ItemButtFoxTailsTips,Tips
+ItemButtTentaclesInner,Inner
+ItemButtTentaclesOuter,Outer
+ItemButtTentaclesSucker,Suckers
 ItemPelvisOrnateChastityBeltBelt,Belt
 ItemPelvisOrnateChastityBeltGems,Gems
 ItemPelvisBulkyDiaperBase,Diaper
@@ -360,6 +373,12 @@ ItemArmsBitchSuitLatex,Suit
 ItemArmsBitchSuitLock,Locks
 ItemArmsBitchSuitExposedLatex,Suit
 ItemArmsBitchSuitExposedLock,Locks
+ItemArmsTentaclesLowerInner,Inner
+ItemArmsTentaclesLowerSucker,Suckers
+ItemArmsTentaclesLowerOuter,Outer
+ItemArmsTentaclesInner,Inner
+ItemArmsTentaclesOuter,Outer
+ItemArmsTentaclesSucker,Suckers
 ItemHandsFuturisticMittensBody,Body
 ItemHandsFuturisticMittensMesh,Mesh
 ItemHandsFuturisticMittensDisplay,Display
@@ -389,6 +408,8 @@ ItemNeckGothicCollarMetal,Metal
 ItemNeckGothicCollarFlowers,Flowers
 ItemNeckTechnoCollarSlenderCollarBase,Collar
 ItemNeckTechnoCollarSlenderCollarSides,Side Plates
+ItemNeckHeartLinkChokerLeatherStrap,Leather Strap
+ItemNeckHeartLinkChokerHeartLink,Heart Link
 ItemNeckAccessoriesCustomCollarTagTag,Tag
 ItemNeckAccessoriesCustomCollarTagText,Text
 ItemNeckAccessoriesElectronicTagTag,Tag
@@ -469,6 +490,8 @@ ItemDevicesFurBlanketWrapBlanket,Blanket
 ItemDevicesFurBlanketWrapBelts,Belts
 ItemDevicesNetFront,Net
 ItemDevicesNetWeightsFront,Weights
+ItemDevicesSnowmanButtons,Buttons
+ItemDevicesSnowmanStickHands,Arms
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -544,6 +567,9 @@ ShoesDeluxeBootsLaces,Inner & Laces
 ShoesDeluxeBootsHeels,Heels
 ShoesDeluxeBootsStraps,Straps
 ShoesDeluxeBootsBuckles,Buckles
+ShoesFuzzyBootsHeels,Heels
+ShoesFuzzyBootsBoots,Boots
+ShoesFuzzyBootsFur,Fur
 ItemMouthWiffleGagStrap,Strap
 ItemMouthWiffleGagBall,Ball
 ItemMouthHarnessBallGagBall,Ball
@@ -766,6 +792,10 @@ MaskFoxMaskUpper,Upper
 MaskFoxMaskLower,Lower
 MaskKittyMask3Highlights,Highlights
 MaskKittyMask3Mask,Mask
+MaskPetNoseCheeks,Cheeks
+MaskPetNoseNose,Nose
+MaskPetNoseGloss,Nose Gloss
+MaskPetNoseWhiskers,Whiskers
 ItemTorsoHighSecurityHarnessStrapsHarness,Straps
 ItemTorsoHighSecurityHarnessClampsHarness,Clasps
 ItemTorsoFuturisticHarnessBand,Straps
