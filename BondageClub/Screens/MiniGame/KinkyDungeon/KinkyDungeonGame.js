@@ -1069,7 +1069,12 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 
 function KinkyDungeonWaitMessage(NoTime) {
 	if (KinkyDungeonStatWillpowerExhaustion > 1) KinkyDungeonSendActionMessage(3, TextGet("WaitSpellExhaustion"), "orange", 2);
-	else if (!KinkyDungeonHasStamina(5, false)) KinkyDungeonSendActionMessage(1, TextGet("WaitExhaustion" + (KinkyDungeonStatArousal > 12 ? "Aroused" : "")), "yellow", 2);
+	else if (!KinkyDungeonHasStamina(5, false)) KinkyDungeonSendActionMessage(1, TextGet("WaitExhaustion"
+		+ (KinkyDungeonStatArousal > KinkyDungeonStatArousalMax*0.33 ?
+			((KinkyDungeonStatArousal > KinkyDungeonStatArousalMax*0.67 ?
+				"ArousedHeavy"
+				: "Aroused"))
+				: "")), "yellow", 2);
 	else KinkyDungeonSendActionMessage(1, TextGet("Wait" + (KinkyDungeonStatArousal > 12 ? "Aroused" : "")), "silver", 2);
 
 	if (!NoTime && KinkyDungeonStatStamina < KinkyDungeoNStatStaminaLow)

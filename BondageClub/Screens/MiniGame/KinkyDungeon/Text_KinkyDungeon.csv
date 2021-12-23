@@ -28,6 +28,7 @@ KinkyDungeonSleep,"Sleep 20 turns"
 
 Wait,"You wait."
 WaitAroused,"Your legs tremble as you wait."
+WaitArousedHeavy,"You tremble and moan as you wait."
 WaitExhaustion,"You are exhausted."
 WaitExhaustionAroused,"You are panting in frustration."
 WaitSpellExhaustion,"You are exhausted from spellcasting."
