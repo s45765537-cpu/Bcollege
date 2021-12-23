@@ -113,13 +113,13 @@ function KinkyDungeonDressPlayer() {
 	if (KinkyDungeonStatArousal > 6 || KinkyDungeonStatMana < KinkyDungeonStatManaMax*0.33) Eyebrows = "Soft";
 	if (KinkyDungeonStatArousal > 24 && KinkyDungeonStatStamina > KinkyDungeonStatStaminaMax*0.5) Eyebrows = "Angry";
 
-	if (KinkyDungeonStatArousal >= KinkyDungeonStatArousalMax * 0.99) Eyes = (Eyebrows != "Angry") ? "Lewd" : "Scared";
+	if (KinkyDungeonStatArousal >= KinkyDungeonStatArousalMax * 0.8) Eyes = (Eyebrows != "Angry" && KinkyDungeonStatArousal < KinkyDungeonStatArousalMax * 0.99) ? "Lewd" : "Scared";
 
 	if (KinkyDungeonStatArousal >= 0.01 && KinkyDungeonStatArousal <= 3) Eyes2 = "Closed";
 
-	if (KinkyDungeonStatArousal > 0) BlushCounter += 1;
-	if (KinkyDungeonStatArousal > 33) BlushCounter += 1;
-	if (KinkyDungeonStatArousal > 66) BlushCounter += 1;
+	if (KinkyDungeonStatArousal > 0.01) BlushCounter += 1;
+	if (KinkyDungeonStatArousal > KinkyDungeonStatArousalMax*0.33) BlushCounter += 1;
+	if (KinkyDungeonStatArousal > KinkyDungeonStatArousalMax*0.65) BlushCounter += 1;
 
 	if (KinkyDungeonUndress > 0.4) BlushCounter += 1;
 	if (KinkyDungeonUndress > 0.8) BlushCounter += 1;

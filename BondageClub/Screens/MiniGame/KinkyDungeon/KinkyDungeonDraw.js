@@ -49,13 +49,13 @@ function KinkyDungeonDrawGame() {
 
 
 
-	DrawText(TextGet("CurrentLevel") + MiniGameKinkyDungeonLevel, 750, 42, "white", "silver");
-	DrawText(TextGet("DungeonName" + KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]), 1500, 42, "white", "silver");
+	DrawText(TextGet("CurrentLevel") + MiniGameKinkyDungeonLevel, 750, 42, "white", "black");
+	DrawText(TextGet("DungeonName" + KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]), 1500, 42, "white", "black");
 
 	if (KinkyDungeonTextMessageTime > 0)
-		DrawText(KinkyDungeonTextMessage, 1150, 82, KinkyDungeonTextMessageColor, "silver");
+		DrawText(KinkyDungeonTextMessage, 1150, 82, KinkyDungeonTextMessageColor, "black");
 	if (KinkyDungeonActionMessageTime > 0)
-		DrawText(KinkyDungeonActionMessage, 1150, 132, KinkyDungeonActionMessageColor, "silver");
+		DrawText(KinkyDungeonActionMessage, 1150, 132, KinkyDungeonActionMessageColor, "black");
 
 	// Draw the stats
 	KinkyDungeonDrawStats(canvasOffsetX + KinkyDungeonCanvas.width+10, canvasOffsetY, 1975 - (canvasOffsetX + KinkyDungeonCanvas.width+5), KinkyDungeonStatBarHeight);
@@ -170,7 +170,7 @@ function KinkyDungeonDrawGame() {
 				KinkyDungeonDrawInputs();
 			}
 		} else {
-			DrawText(TextGet("KinkyDungeonLoading"), 1100, 500, "white", "silver");
+			DrawText(TextGet("KinkyDungeonLoading"), 1100, 500, "white", "black");
 			if (CommonTime() > KinkyDungeonGameDataNullTimerTime + KinkyDungeonGameDataNullTimer) {
 				ServerSend("ChatRoomChat", { Content: "RequestFullKinkyDungeonData", Type: "Hidden", Target: KinkyDungeonPlayerCharacter.MemberNumber });
 				KinkyDungeonGameDataNullTimerTime = CommonTime();
@@ -189,7 +189,7 @@ function KinkyDungeonDrawGame() {
 		DrawButton(650, 925, 250, 60, TextGet("KinkyDungeonGame"), "White", "", "");
 		KinkyDungeonDrawLore();
 	} else if (KinkyDungeonDrawState == "Restart") {
-		DrawText(TextGet("KinkyDungeonRestartConfirm"), 1250, 400, "white", "silver");
+		DrawText(TextGet("KinkyDungeonRestartConfirm"), 1250, 400, "white", "black");
 		DrawButton(875, 750, 350, 64, TextGet("KinkyDungeonRestartYes"), "White", "");
 		DrawButton(1275, 750, 350, 64, TextGet("KinkyDungeonRestartNo"), "White", "");
 		DrawButton(975, 850, 550, 64, TextGet("KinkyDungeonRestartCapture"), "White", "");
