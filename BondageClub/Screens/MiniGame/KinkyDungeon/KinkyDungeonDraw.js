@@ -192,6 +192,7 @@ function KinkyDungeonDrawGame() {
 		DrawText(TextGet("KinkyDungeonRestartConfirm"), 1250, 400, "white", "silver");
 		DrawButton(875, 750, 350, 64, TextGet("KinkyDungeonRestartYes"), "White", "");
 		DrawButton(1275, 750, 350, 64, TextGet("KinkyDungeonRestartNo"), "White", "");
+		DrawButton(975, 850, 550, 64, TextGet("KinkyDungeonRestartCapture"), "White", "");
 	}
 
 	if (KinkyDungeonStatArousal > 0)

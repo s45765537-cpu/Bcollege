@@ -317,6 +317,11 @@ function KinkyDungeonHandleHUD() {
 		if (MouseIn(650, 925, 250, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleLore();
 	} else if (KinkyDungeonDrawState == "Restart") {
+		if (MouseIn(975, 850, 550, 64)) {
+			KinkyDungeonDefeat();
+			KinkyDungeonDrawState = "Game";
+			return true;
+		}
 		if (MouseIn(875, 750, 350, 64)) {
 			KinkyDungeonState = "Lose";
 			return true;
