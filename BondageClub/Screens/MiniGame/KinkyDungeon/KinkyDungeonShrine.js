@@ -105,6 +105,7 @@ function KinkyDungeonPayShrine(type) {
 	} else if (type == "Will") {
 		KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 		KinkyDungeonStatMana = KinkyDungeonStatManaMax;
+		KinkyDungeonStatArousal = 0;
 		KinkyDungeonNextDataSendStatsTime = 0;
 
 		rep = Math.ceil(KinkyDungeonStatMana * 2 / KinkyDungeonStatManaMax + KinkyDungeonStatStamina * 3 / KinkyDungeonStatStaminaMax);

@@ -268,7 +268,7 @@ function KinkyDungeonCalculateVibeLevel() {
 	}
 
 	if (KinkyDungeonVibeLevel > 0) {
-		KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonVibing" + Math.max(0, Math.min(Math.floor(KinkyDungeonVibeLevel), 4))), "#FFaadd", 1);
+		KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonVibing" + Math.max(0, Math.min(Math.floor(KinkyDungeonVibeLevel / 0.2), 4))), "#FFaadd", 1);
 	}
 }
 
