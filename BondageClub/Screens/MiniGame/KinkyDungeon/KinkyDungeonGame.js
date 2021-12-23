@@ -1,5 +1,8 @@
 "use strict";
 
+let KinkyDungeonGagMumbleChance = 0.02;
+let KinkyDungeonGagMumbleChancePerRestraint = 0.0025;
+
 var MiniGameKinkyDungeonCheckpoint = 0;
 var MiniGameKinkyDungeonShortcut = 0;
 var MiniGameKinkyDungeonLevel = 1;
@@ -1136,6 +1139,27 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 		if (KinkyDungeonStatStamina < 4) msg = "KinkyDungeonStaminaWarningNone";
 		if (!KinkyDungeonSendActionMessage(1, TextGet(msg), "#ff8800", 1))
 			KinkyDungeonSendTextMessage(1, TextGet(msg), "#ff8800", 1);
+	}
+	let gagchance = KinkyDungeonGagMumbleChance;
+	for (let inv of KinkyDungeonInventory) {
+		if (inv.restraint) gagchance += KinkyDungeonGagMumbleChancePerRestraint;
+	}
+	if (!KinkyDungeonPlayer.CanTalk() && Math.random() < gagchance) {
+		let msg = "KinkyDungeonGagMumble";
+		let gagMsg = Math.floor(Math.random() * 5);
+		let GagEffect = -2;
+		GagEffect += SpeechGetGagLevel(KinkyDungeonPlayer, "ItemMouth");
+		GagEffect += SpeechGetGagLevel(KinkyDungeonPlayer, "ItemMouth2");
+		GagEffect += SpeechGetGagLevel(KinkyDungeonPlayer, "ItemMouth3");
+		gagMsg += GagEffect/3;
+		gagMsg = Math.max(0, Math.min(7, Math.floor(gagMsg)));
+
+		if (Math.random() < KinkyDungeonStatArousal / KinkyDungeonStatArousalMax) msg = "KinkyDungeonGagMumbleAroused"
+
+		msg = msg + gagMsg;
+
+		if (!KinkyDungeonSendActionMessage(1, TextGet(msg), "#ffffff", 1))
+			KinkyDungeonSendTextMessage(1, TextGet(msg), "#ffffff", 1);
 	}
 }
 

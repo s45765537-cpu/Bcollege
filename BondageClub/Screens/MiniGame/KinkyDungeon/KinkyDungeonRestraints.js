@@ -16,7 +16,7 @@ var KinkyDungeonRestraintsLocked = [];
 var KinkyDungeonMultiplayerInventoryFlag = false;
 var KinkyDungeonItemDropChanceArmsBound = 0.2; // Chance to drop item with just bound arms and not bound hands.
 
-var KinkyDungeonKnifeBreakChance = 0.2;
+var KinkyDungeonKnifeBreakChance = 0.15;
 var KinkyDungeonKeyJamChance = 0.33;
 var KinkyDungeonKeyPickBreakAmount = 4; // Number of tries per pick on average
 var KinkyDungeonPickBreakProgress = 0;
