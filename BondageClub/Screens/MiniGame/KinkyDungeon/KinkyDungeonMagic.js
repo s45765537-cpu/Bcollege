@@ -43,7 +43,7 @@ var KinkyDungeonSpellChoices = [0, 1, 2];
 var KinkyDungeonSpellChoiceCount = 3;
 var KinkyDungeonSpellList = { // List of spells you can unlock in the 3 books. When you plan to use a mystic seal, you get 3 spells to choose from.
 	"Elements": [
-		{name: "Fireball", manacost: 20, components: ["Arms"], level:4, type:"bolt", projectile:true, onhit:"aoe", power: 8, delay: 0, range: 50, aoe: 1.5, size: 3, lifetime:1, damage: "fire", speed: 1, playerEffect: {name: "Damage"}}, // Throws a fireball in a direction that moves 1 square each turn
+		{name: "Fireball", manacost: 15, components: ["Arms"], level:4, type:"bolt", projectile:true, onhit:"aoe", power: 8, delay: 0, range: 50, aoe: 1.5, size: 3, lifetime:1, damage: "fire", speed: 1, playerEffect: {name: "Damage"}}, // Throws a fireball in a direction that moves 1 square each turn
 		{name: "Icebolt", manacost: 10, components: ["Arms"], level:2, type:"bolt", projectile:true, onhit:"", time: 10,  power: 6, delay: 0, range: 50, damage: "ice", speed: 3, playerEffect: {name: "Damage"}}, // Throws a blast of ice which stuns the target for 4 turns
 		{name: "Electrify", manacost: 6, components: ["Verbal"], level:2, type:"inert", projectile:false, onhit:"aoe", power: 8, time: 4, delay: 1, range: 4, size: 1, aoe: 0.75, lifetime: 1, damage: "electric", playerEffect: {name: "Shock", time: 1}}, // A series of light shocks incapacitate you
 		{name: "Shield", manacost: 1, components: ["Legs"], level:1, type:"inert", projectile:false, block: 5, onhit:"", power: 0, delay: 2, range: 1.5, size: 1, damage: ""}, // Creates a shield that blocks projectiles for 1 turn
