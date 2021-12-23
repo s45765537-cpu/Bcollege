@@ -20,11 +20,25 @@ function KinkyDungeonInitializeDresses() {
 			{Item: "Necklace4", Group: "Necklace", Color: "#222222", Lost: false},
 		],
 		"Prisoner" : [
-			{Item: "SleevelessCatsuit", Group: "Suit", Color: "#4964A5", Lost: false},
-			{Item: "CatsuitPanties", Group: "SuitLower", Color: "#4964A5", Lost: false},
-			{Item: "Heels1", Group: "Shoes", Color: "#222222", Lost: false},
-			{Item: "Socks4", Group: "Socks", Color: "#4964A5", Lost: false},
-		]
+			{Item: "SleevelessCatsuit", Group: "Suit", Color: "#8A120C", Lost: false},
+			{Item: "CatsuitPanties", Group: "SuitLower", Color: "#8A120C", Lost: false},
+			{Item: "Heels1", Group: "Shoes", Color: "#8A120C", Lost: false},
+			{Item: "Socks4", Group: "Socks", Color: "#222222", Lost: false},
+		],
+		"Dungeon" : [
+			{Item: "Bandeau1", Group: "Bra", Color: "Default", Lost: false},
+			{Item: "Pantyhose1", Group: "SuitLower", Color: "Default", Lost: false},
+			{Item: "Corset5", Group: "Corset", Color: "#777777", Lost: false},
+			{Item: "AnkleStrapShoes", Group: "Shoes", Color: "#2D2D2D", Lost: false},
+			//{Item: "FloralPanties2", Group: "Panties", Color: ['#303030', '#F0F0F0'], Lost: false},
+		],
+		"Egyptian" : [
+			{Item: "Sarashi1", Group: "Bra", Color: "Default", Lost: false},
+			{Item: "Panties7", Group: "Panties", Color: "#ffffff", Lost: false},
+			{Item: "Sandals", Group: "Shoes", Color: "Default", Lost: false},
+			{Item: "FaceVeil", Group: "Mask", Color: "#ffffff", Lost: false},
+			{Item: "HaremPants", Group: "ClothLower", Color: "Default", Lost: false},
+		],
 	};
 }
 

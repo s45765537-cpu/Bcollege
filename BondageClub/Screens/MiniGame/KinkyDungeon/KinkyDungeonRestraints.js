@@ -60,6 +60,7 @@ var KinkyDungeonRestraints = [
 	{inventory: true, name: "HighsecBallGag", Asset: "HarnessBallGag", Type: "Tight", Color: ["Default", "Default"], Group: "ItemMouth", DefaultLock: "Red", magic: false, power: 8, weight: 2, escapeChance: {"Struggle": 0.00, "Cut": 0.0, "Remove": 0.5, "Pick": 0.25}, enemyTags: {}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather", "Gags"]},
 	{inventory: true, name: "PrisonVibe", Asset: "VibratingDildo", Color: "Default", Group: "ItemVulva", vibeType: "ChargingTeaser", magic: false, intensity: 2, orgasm: false, power: 4, battery: 0, maxbattery: 12, weight: 2, escapeChance: {"Struggle": 0.1, "Cut": -10, "Remove": 10}, enemyTags: {}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Vibes"]},
 	{inventory: true, name: "PrisonBelt", Asset: "PolishedChastityBelt", OverridePriority: 20, Color: "#444444", Group: "ItemPelvis", DefaultLock: "Red", magic: false, chastity: true, power: 8, weight: 2, escapeChance: {"Struggle": 0.0, "Cut": -0.30, "Remove": 100.0, "Pick": 0.25}, enemyTags: {}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Metal", "Chastity"]},
+	{inventory: true, name: "PrisonBelt2", Asset: "OrnateChastityBelt", OverridePriority: 20, Color: ["#272727", "#AA0000"], Group: "ItemPelvis", DefaultLock: "Red", magic: false, chastity: true, power: 9, weight: 2, escapeChance: {"Struggle": 0.0, "Cut": -0.30, "Remove": 100.0, "Pick": 0.22}, enemyTags: {}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Metal", "Chastity"]},
 
 
 	{inventory: true, name: "TrapArmbinder", Asset: "LeatherArmbinder", Type: "WrapStrap", Group: "ItemArms", magic: false, power: 8, weight: 2, escapeChance: {"Struggle": 0.1, "Cut": 0.5, "Remove": 0.35, "Pick": 0.0}, enemyTags: {"trap":100}, playerTags: {}, minLevel: 0, floors: [], shrine: ["Leather", "Armbinders"]},
@@ -502,7 +503,7 @@ function KinkyDungeonGetRestraint(enemy, Level, Index, Bypass, Lock) {
 		var currentRestraint = KinkyDungeonGetRestraintItem(restraint.Group);
 		if (Level >= restraint.minLevel && restraint.floors.includes(Index) && (!currentRestraint || !currentRestraint.restraint ||
 			(currentRestraint.lock ? currentRestraint.restraint.power * 2 : currentRestraint.restraint.power) <
-			(Lock ? restraint.power * 2 : restraint.power))
+			((Lock || restraint.DefaultLock) ? restraint.power * 2 : restraint.power))
 			&& (!InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, restraint.Group) || Bypass)) {
 
 			restraintWeights.push({restraint: restraint, weight: restraintWeightTotal});
@@ -543,7 +544,7 @@ function KinkyDungeonUpdateRestraints(delta) {
 
 function KinkyDungeonAddRestraintIfWeaker(restraint, Tightness, Bypass, Lock) {
 	let r = KinkyDungeonGetRestraintItem(restraint.Group);
-	if (!r || (r.restraint && (r.lock ? r.restraint.power * 2 : r.restraint.power) < (Lock ? restraint.power * 2 : restraint.power))) {
+	if (!r || (r.restraint && (r.lock ? r.restraint.power * 2 : r.restraint.power) < ((Lock || restraint.DefaultLock) ? restraint.power * 2 : restraint.power))) {
 		return KinkyDungeonAddRestraint(restraint, Tightness, Bypass);
 	}
 	return 0;
@@ -561,6 +562,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 			InventoryWear(KinkyDungeonPlayer, restraint.Asset, restraint.Group, restraint.power);
 			let placed = InventoryGet(KinkyDungeonPlayer, restraint.Group);
 			let placedOnPlayer = false;
+			if (!placed) console.log(`Error placing ${restraint.name} on player!!!`);
 			if (placed && ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable() && !KinkyDungeonRestraintsLocked.includes(restraint.Group) && restraint.Group != "ItemHead" && InventoryAllow(
 				Player, placed.Asset) &&
 				(!InventoryGetLock(InventoryGet(Player, restraint.Group))

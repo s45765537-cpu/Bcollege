@@ -572,18 +572,19 @@ function KinkyDungeonGetWarningTiles(dx, dy, range, width) {
 
 function KinkyDungeonDefeat() {
 	MiniGameKinkyDungeonLevel = Math.floor(MiniGameKinkyDungeonLevel/10)*10;
-	KinkyDungeonSetCheckPoint();
 	KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonLeashed"), "#ff0000", 3);
 	let params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
 	KinkyDungeonSpawnJailers = 5;
 	KinkyDungeonCreateMap(params, MiniGameKinkyDungeonLevel);
 
 	for (let r of params.defeat_restraints) {
-		KinkyDungeonAddRestraint(KinkyDungeonGetRestraintByName(r), 0, true);
+		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName(r), 0, true);
 	}
 	KinkyDungeonSetDress(params.defeat_outfit);
 	KinkyDungeonRedKeys = 0;
 	KinkyDungeonBlueKeys = 0;
 	KinkyDungeonLockpicks = 0;
 	KinkyDungeonNormalBlades = 0;
+
+	KinkyDungeonDressPlayer();
 }
