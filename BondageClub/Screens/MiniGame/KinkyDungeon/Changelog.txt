@@ -106,6 +106,7 @@ Other Features
 - Made the player character more expressive based on stamina, mana and arousal
 - Removed green and yellow locks (too much bloat)
 - Only one shrine of each type per floor
+- If you are bound with shrine-able restraints, one random restraint type will be guaranteed to have a shrine on the next level
 
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)

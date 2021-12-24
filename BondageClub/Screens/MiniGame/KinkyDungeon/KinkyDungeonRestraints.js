@@ -640,3 +640,18 @@ function KinkyDungeonRemoveRestraint(Group, Keep) {
 	}
 	return false;
 }
+
+
+function KinkyDungeonRestraintTypes(ShrineFilter) {
+	let ret = [];
+
+	for (let inv of KinkyDungeonInventory) {
+		if (inv.restraint && inv.restraint.shrine) {
+			for (let shrine of inv.restraint.shrine) {
+				if (ShrineFilter.includes(shrine) && !ret.includes(shrine)) ret.push(shrine);
+			}
+		}
+	}
+
+	return ret;
+}

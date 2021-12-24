@@ -288,3 +288,13 @@ function KinkyDungeonShrineAngerGods(Type) {
 	}
 	KinkyDungeonChangeRep(Type, -10);
 }
+
+function KinkyDungeonGetMapShrines(Dict) {
+	let ret = [];
+	for (let sh of Dict) {
+		if (sh.Type) {
+			ret.push(sh.Type);
+		}
+	}
+	return ret;
+}
