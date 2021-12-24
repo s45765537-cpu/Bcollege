@@ -11,6 +11,7 @@ function KinkyDungeonGetSprite(code) {
 	else if (code == "G") sprite = "Ghost";
 	else if (code == "d") sprite = "DoorOpen";
 	else if (code == "R") sprite = "Rubble";
+	else if (code == "T") sprite = "Trap";
 	else if (code == "r") sprite = "RubbleLooted";
 	else if (code == "S") sprite = "StairsUp";
 	else if (code == "s") sprite = "StairsDown";

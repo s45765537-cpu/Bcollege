@@ -12,9 +12,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.75,
 		"ghostchance" : 1,
 		"doorchance" : 0.67,
-		"doorlockchance" : 0.05,
+		"nodoorchance" : 0.1,
+		"doorlockchance" : -0.1,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.1,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 31,
@@ -23,11 +29,11 @@ var KinkyDungeonMapParams = [
 
 		"enemytags": ["zombie"],
 		"defeat_restraints": [
-			"HighsecBallGag",
-			"HighsecArmbinder",
-			"HighsecShackles",
-			"PrisonVibe",
-			"PrisonBelt",
+			{Name: "HighsecBallGag", Level: 0},
+			{Name: "HighsecArmbinder", Level: 0},
+			{Name: "HighsecShackles", Level: 0},
+			{Name: "PrisonVibe", Level: 1},
+			{Name: "PrisonBelt", Level: 1},
 		],
 		"defeat_outfit": "Prisoner",
 		"shrines": [
@@ -54,9 +60,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.6,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.8,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.05,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.4,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 21,
 		"max_width" : 27,
@@ -65,11 +77,11 @@ var KinkyDungeonMapParams = [
 
 		"enemytags": ["skeleton"],
 		"defeat_restraints": [
-			"HighsecBallGag",
-			"HighsecArmbinder",
-			"HighsecShackles",
-			"PrisonBelt2",
-			"PrisonVibe",
+			{Name: "HighsecBallGag", Level: 0},
+			{Name: "HighsecArmbinder", Level: 0},
+			{Name: "HighsecShackles", Level: 0},
+			{Name: "PrisonBelt2", Level: 1},
+			{Name: "PrisonVibe", Level: 1},
 		],
 		"defeat_outfit": "Dungeon",
 		"shrines": [
@@ -94,9 +106,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.4,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.2,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.7,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.5,
 		"brickchance" : 0.1,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 31,
@@ -113,9 +131,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.5,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.9,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.25,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.1,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 31,
 		"max_width" : 35,
@@ -134,9 +158,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.8,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.05,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.5,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.9,
 		"brickchance" : 0.2,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 15,
 		"max_width" : 25,
@@ -153,9 +183,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.75,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.67,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.1,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.3,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 51,
@@ -174,9 +210,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.5,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.0,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.3,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.3,
 		"brickchance" : 0.3,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 31,
@@ -193,8 +235,14 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.8,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.8,
+		"trapchance" : 0.5,
+		"nodoorchance" : 0.2,
 		"rubblechance" : 0.5,
 		"brickchance" : 0.7,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 31,
@@ -213,9 +261,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.75,
 		"ghostchance" : 0.5,
 		"doorchance" : 1.0,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.0,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.5,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 15,
 		"max_width" : 21,
@@ -234,8 +288,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.75,
 		"ghostchance" : 0.5,
 		"doorchance" : 1.0,
+		"nodoorchance" : 0.0,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.9,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 25,
 		"max_width" : 31,
@@ -254,9 +315,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.25,
 		"ghostchance" : 0.5,
 		"doorchance" : 1.0,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.0,
+		"doorlockchance" : -0.05,
+		"trapchance" : 0.5,
 		"rubblechance" : 1.0,
 		"brickchance" : 0.7,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 31,
 		"max_width" : 31,
@@ -276,9 +343,15 @@ var KinkyDungeonMapParams = [
 		"shrinechance" : 0.5,
 		"ghostchance" : 0.5,
 		"doorchance" : 0.4,
-		"doorlockchance" : 0.1,
+		"nodoorchance" : 0.25,
+		"doorlockchance" : -0.05,
+		"trapchance" : 1.0,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.4,
+
+		"traps": [
+			{Name: "Skeletons", Level: 0, Power: 6, Weight: 100},
+		],
 
 		"min_width" : 21,
 		"max_width" : 27,
@@ -287,11 +360,11 @@ var KinkyDungeonMapParams = [
 
 		"enemytags": ["mummy", "ghost"],
 		"defeat_restraints": [
-			"HighsecBallGag",
-			"HighsecArmbinder",
-			"HighsecShackles",
-			"PrisonBelt",
-			"PrisonVibe",
+			{Name: "HighsecBallGag", Level: 0},
+			{Name: "HighsecArmbinder", Level: 0},
+			{Name: "HighsecShackles", Level: 0},
+			{Name: "PrisonBelt", Level: 1},
+			{Name: "PrisonVibe", Level: 1},
 		],
 		"defeat_outfit": "Egyptian",
 		"shrines": [

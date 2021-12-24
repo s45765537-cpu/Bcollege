@@ -49,6 +49,7 @@ var KinkyDungeonEnemies = [
 ];
 
 let KinkyDungeonSpawnJailers = 0;
+let KinkyDungeonSpawnJailersMax = 5;
 
 
 function KinkyDungeonNearestPlayer(enemy) {
@@ -155,6 +156,8 @@ function KinkyDungeonEnemyCheckHP(enemy, E) {
 
 			KinkyDungeonKilledEnemy = null;
 		}
+		if (enemy.Enemy && enemy.Enemy.maxhp)
+			KinkyDungeonChangeRep("Ghost", -Math.max(5, 0.05 * enemy.Enemy.maxhp));
 
 		KinkyDungeonItemDrop(enemy.x, enemy.y, enemy.Enemy.dropTable);
 		return true;
@@ -571,6 +574,9 @@ function KinkyDungeonGetWarningTiles(dx, dy, range, width) {
 
 
 function KinkyDungeonDefeat() {
+	KinkyDungeonSpawnJailersMax = 2;
+	if (KinkyDungeonGoddessRep.Prisoner) KinkyDungeonSpawnJailersMax += Math.round(6 * (KinkyDungeonGoddessRep.Prisoner + 50)/100);
+
 	MiniGameKinkyDungeonLevel = Math.floor(MiniGameKinkyDungeonLevel/10)*10;
 	KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonLeashed"), "#ff0000", 3);
 	let params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
@@ -578,7 +584,10 @@ function KinkyDungeonDefeat() {
 	KinkyDungeonCreateMap(params, MiniGameKinkyDungeonLevel);
 
 	for (let r of params.defeat_restraints) {
-		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName(r), 0, true);
+		let level = 0;
+		if (KinkyDungeonGoddessRep.Prisoner) level = KinkyDungeonGoddessRep.Prisoner + 50;
+		if (!r.Level || level >= r.Level)
+			KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName(r.Name), 0, true);
 	}
 	KinkyDungeonSetDress(params.defeat_outfit);
 	KinkyDungeonRedKeys = 0;
@@ -590,6 +599,8 @@ function KinkyDungeonDefeat() {
 	KinkyDungeonInventory = newInv;
 	KinkyDungeonInventoryAddWeapon("Knife");
 
+	KinkyDungeonChangeRep("Ghost", 5);
+	KinkyDungeonChangeRep("Prisoner", 5); // Each time you get caught, security increases...
 
 	KinkyDungeonDressPlayer();
 }

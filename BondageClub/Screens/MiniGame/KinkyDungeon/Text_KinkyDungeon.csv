@@ -328,6 +328,7 @@ KinkyDungeonObjectShrine,"A shrine to the goddess of TYPE. A pool of mana glimme
 KinkyDungeonObjectDoor,"That door is open. Do you want to close it?"
 KinkyDungeonCloseDoorDone,"You slam the door and jam it shut!"
 KinkyDungeonShrineGhost,"Submission"
+KinkyDungeonShrinePrisoner,"Security"
 KinkyDungeonShrineCharms,"Undead"
 KinkyDungeonShrineLatex,"Latex"
 KinkyDungeonShrineLeather,"Leather"
@@ -778,6 +779,7 @@ KinkyDungeonLore5,"(The note starts with a drawing of a witch with lightning cra
 KinkyDungeonLore6,"(The note starts with a drawing of a witch whose body is partly gelatinous) The slime is non-flammable and my attacks pass right through her body... Lightning and ice seem to be effective!"
 KinkyDungeonLore7,"(The note is from a famous escape artist) Many restraints are applied quite tightly by a skilled rigger. However, anything that isn't made of metal will loosen with enough effort. Just be sure that you give it a good effort and aren't tired, and eventually you will get out!"
 KinkyDungeonLore8,"(The note is from a famous escape artist) Anything can be unbuckled with enough patience. Having a finger extension such as a lockpick will help. Ultimately, though, what matters is that you have a calm state of mind, free from distraction and hopelessness. Stay resolute and you'll get there."
+KinkyDungeonLore9,"(The note is from a famous cartographer) It has been observed that the dungeon spirits are more active even after the regular inhabitants such as zombies or skeletons are cleared out. My hypothesis is that the spirits are too afraid to come out in the presence of a more powerful, embodied spirit."
 
 KinkyDungeonLore101,"(A drawing of a suit of armor. It reads: DANGER!!!)"
 KinkyDungeonLore102,"(The note starts with a drawing of a witch in dark robes with bright pink hair) A necromancer. Powerful spellcaster, weak up close."
@@ -827,3 +829,5 @@ KinkyDungeonGhostUnhelpfulFeet4,"Ghost: I want to see you kneel~"
 KinkyDungeonGhostUnhelpfulChaste2,"Ghost: Aww, feeling frustrated?"
 KinkyDungeonGhostUnhelpfulChaste3,"Ghost: Looks like someone's been naughty~"
 KinkyDungeonGhostUnhelpfulChaste4,"Ghost: How's it feel to be under lock and key?"
+
+KinkyDungeonTrapSkeletons,"You step on a pressure plate and a number of skeletons rise up!"

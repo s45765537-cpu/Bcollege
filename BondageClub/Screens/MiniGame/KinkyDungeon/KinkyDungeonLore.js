@@ -3,8 +3,8 @@
 var KinkyDungeonCurrentLore = -1;
 var KinkyDungeonLore = [2, 3, 4, 5, 6, 7, 8];
 var KinkyDungeonCheckpointLore = [
-	/*0*/ [1],
-	/*1*/ [101, 102, 103],
+	/*0*/ [1,],
+	/*1*/ [101, 102, 103, 9],
 	/*2*/ [],
 	/*3*/ [],
 	/*4*/ [],
@@ -14,7 +14,7 @@ var KinkyDungeonCheckpointLore = [
 	/*8*/ [],
 	/*9*/ [],
 	/*10*/ [],
-	/*11*/ [],
+	/*11*/ [9,],
 	/*12*/ [],
 	/*13*/ [],
 

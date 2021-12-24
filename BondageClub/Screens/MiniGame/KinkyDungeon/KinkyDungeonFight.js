@@ -260,30 +260,36 @@ function KinkyDungeonBulletHit(b, born) {
 		KinkyDungeonMoveTo(b.x, b.y);
 	} else if (b.bullet.hit && b.bullet.hit.includes("summon")) {
 		let summonType = b.bullet.hit.split(":")[1]; // Second operand is the enemy type
-		let slots = [];
 		let count = (b.bullet.spell && b.bullet.spell.count) ? b.bullet.spell.count : 1;
 		let rad = (b.bullet.spell.aoe) ? b.bullet.spell.aoe : 0;
-		for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
-			for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
-				if (Math.sqrt(X*X+Y*Y) <= rad) {
-					slots.push({x:X, y:Y});
-				}
-			}
-
-		let created = 0;
-		let maxcounter = 0;
-		for (let C = 0; C < count && KinkyDungeonEntities.length < 100 && maxcounter < count * 10; C++) {
-			let slot = slots[Math.floor(Math.random() * slots.length)];
-			if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(b.x+slot.x, b.y+slot.y)) && KinkyDungeonNoEnemy(b.x+slot.x, b.y+slot.y, true)) {
-				let Enemy = KinkyDungeonEnemies.find(element => element.name == summonType);
-				KinkyDungeonEntities.push({Enemy: Enemy, x:b.x+slot.x, y:b.y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
-				created += 1;
-			} else C -= 1;
-			maxcounter += 1;
-		}
+		let created = KinkyDungeonSummonEnemy(b.x, b.y, summonType, count, rad);
 		if (created == 1) KinkyDungeonSendTextMessage(6, TextGet("KinkyDungeonSummonSingle"+summonType), "white", 2);
 		else if (created > 1) KinkyDungeonSendTextMessage(8, TextGet("KinkyDungeonSummonMulti"+summonType).replace("SummonCount", "" + created), "white", 3);
 	}
+}
+
+
+function KinkyDungeonSummonEnemy(x, y, summonType, count, rad) {
+	let slots = [];
+	for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
+		for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
+			if (Math.sqrt(X*X+Y*Y) <= rad) {
+				slots.push({x:X, y:Y});
+			}
+		}
+
+	let created = 0;
+	let maxcounter = 0;
+	for (let C = 0; C < count && KinkyDungeonEntities.length < 100 && maxcounter < count * 10; C++) {
+		let slot = slots[Math.floor(Math.random() * slots.length)];
+		if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(x+slot.x, y+slot.y)) && KinkyDungeonNoEnemy(x+slot.x, y+slot.y, true)) {
+			let Enemy = KinkyDungeonEnemies.find(element => element.name == summonType);
+			KinkyDungeonEntities.push({Enemy: Enemy, x:x+slot.x, y:y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
+			created += 1;
+		} else C -= 1;
+		maxcounter += 1;
+	}
+	return created;
 }
 
 function KinkyDungeonBulletTrail(b) {

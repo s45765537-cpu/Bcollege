@@ -4,7 +4,7 @@ let KinkyDungeonGoddessRep = {
 };
 
 function KinkyDungeonInitReputation() {
-	KinkyDungeonGoddessRep = {"Ghost" : 0};
+	KinkyDungeonGoddessRep = {"Ghost" : -50, "Prisoner" : -50};
 	for (let shrine in KinkyDungeonShrineBaseCosts) {
 		KinkyDungeonGoddessRep[shrine] = 0;
 	}
@@ -32,7 +32,7 @@ function KinkyDungeonChangeRep(Rep, Amount) {
 
 function KinkyDungeonDrawReputation() {
 	let i = 0;
-	let maxY = 500;
+	let maxY = 560;
 	let XX = 0;
 	let spacing = 60;
 	let yPad = 50;

@@ -98,6 +98,8 @@ Content
 - Added a new spooky illusion enemy
 - new bolt cutters weapon
 - Some doors have a chance to be locked. TODO make it so some really nice loot is always on the other side...
+- Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Take care, though, as they might enjoy seeing you struggle in front of them..
+- New special pressure-plate traps (that are often the only way through if you dont have a key)
 
 Other Features
 - Picks, Knives, and Red Keys are now in the shop
@@ -111,6 +113,7 @@ Other Features
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)
 - Enemies that attack while moving will no longer hit you if they move at the same time that you do such that you are still in range, even if you dodged last turn's warning tiles
+- Multiple enemies will no longer be spawned on the same tile
 
 TODO ValidationFindBlockCycles to prevent bugs
 
