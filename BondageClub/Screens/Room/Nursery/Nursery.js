@@ -58,7 +58,7 @@ function NurseryLoad() {
 			NurseryNurse.Stage = "270";
 			NurseryLoadNurse();
 		} else {
-			if (CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") != "Diapers1") {
+			if (CharacterAppearanceGetCurrentValue(Player, "Panties", "Name").toUpperCase().indexOf("DIAPER", 0) < 0) {
 				NurseryPlayerNeedsPunishing(2);
 				NurseryNurse.Stage = "260";
 				NurseryLoadNurse();
@@ -174,7 +174,6 @@ function NurseryLoadNurse() {
 // Checks players diapered is not obscured by Inappropriate cloth
 function NurseryClothCheck() {
 	NurseryPlayerInappropriateCloth = false;
-	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "CollegeOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "StudentOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "StudentOutfit2") NurseryPlayerInappropriateCloth = true;
@@ -183,6 +182,7 @@ function NurseryClothCheck() {
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "ChineseDress2") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MistressTop") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "NurseUniform") NurseryPlayerInappropriateCloth = true;
+	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "CollegeSkirt") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Skirt1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Jeans1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Shorts1") NurseryPlayerInappropriateCloth = true;

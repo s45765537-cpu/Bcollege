@@ -27,4 +27,6 @@ Background,Background
 BlockCategory,Block Categories
 Game,No Game
 GameLARP,LARP
+GameMagicBattle,Magic Battle
+GameGGTS,GGTS
 ReturnMenu,(Click anywhere to return)

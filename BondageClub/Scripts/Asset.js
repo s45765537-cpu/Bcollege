@@ -12,7 +12,8 @@ var AssetMap = new Map();
 var AssetGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
-
+/** @type {Map<string, AssetGroup[]>} */
+var AssetActivityMirrorGroups = new Map();
 /**
  * Adds a new asset group to the main list
  * @param {IAssetFamily} NewAssetFamily
@@ -39,7 +40,7 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		Clothing: (NewAsset.Clothing == null) ? false : NewAsset.Clothing,
 		Underwear: (NewAsset.Underwear == null) ? false : NewAsset.Underwear,
 		BodyCosplay: (NewAsset.BodyCosplay == null) ? false : NewAsset.BodyCosplay,
-		Activity: NewAsset.Activity,
+		Activity: Array.isArray(NewAsset.Activity) ? NewAsset.Activity : [],
 		AllowActivityOn: NewAsset.AllowActivityOn,
 		Hide: NewAsset.Hide,
 		Block: NewAsset.Block,
@@ -59,10 +60,29 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		FreezeActivePose: Array.isArray(NewAsset.FreezeActivePose) ? NewAsset.FreezeActivePose : [],
 		PreviewZone: NewAsset.PreviewZone,
 		DynamicGroupName: NewAsset.DynamicGroupName || NewAsset.Group,
+		MirrorActivitiesFrom: NewAsset.MirrorActivitiesFrom || null,
 	};
 	AssetGroupMap.set(A.Name, A);
+	AssetActivityMirrorGroupSet(A);
 	AssetGroup.push(A);
 	AssetCurrentGroup = A;
+}
+
+/**
+ * Collects the group equivalence classes defined by the MirrorActivitiesFrom property into a map for easy access to
+ * mirror group sets (i.e. all groups that are mirror activities from, or are mirrored by, each other).
+ * @param {AssetGroup} group - The group to register
+ */
+function AssetActivityMirrorGroupSet(group) {
+	if (group.MirrorActivitiesFrom) {
+		const mirrorGroups = AssetActivityMirrorGroups.get(group.MirrorActivitiesFrom);
+		if (mirrorGroups) {
+			mirrorGroups.push(group);
+			AssetActivityMirrorGroups.set(group.Name, mirrorGroups);
+			return;
+		}
+	}
+	AssetActivityMirrorGroups.set(group.Name, [group]);
 }
 
 /**
@@ -189,7 +209,7 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 	AssetCurrentGroup.Asset.push(A);
 	AssetMap.set(AssetCurrentGroup.Name + "/" + A.Name, A);
 	Asset.push(A);
-	if (A.Extended && ExtendedConfig) AssetBuildExtended(A, ExtendedConfig);
+	if (ExtendedConfig) AssetBuildExtended(A, ExtendedConfig);
 }
 
 /**
@@ -200,7 +220,12 @@ function AssetAdd(NewAsset, ExtendedConfig) {
  */
 function AssetBuildExtended(A, ExtendedConfig) {
 	let AssetConfig = AssetFindExtendedConfig(ExtendedConfig, AssetCurrentGroup.Name, A.Name);
-	if (AssetConfig && AssetConfig.CopyConfig) {
+
+	if (!AssetConfig) {
+		return;
+	}
+
+	if (AssetConfig.CopyConfig) {
 		const Overrides = AssetConfig.Config;
 		const { GroupName, AssetName } = AssetConfig.CopyConfig;
 		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || AssetCurrentGroup.Name, AssetName);
@@ -209,17 +234,19 @@ function AssetBuildExtended(A, ExtendedConfig) {
 			AssetConfig = Object.assign({}, AssetConfig, {Config: MergedConfig});
 		}
 	}
-	if (AssetConfig) {
-		switch (AssetConfig.Archetype) {
-			case ExtendedArchetype.MODULAR:
-				ModularItemRegister(A, /** @type {ModularItemConfig} */ (AssetConfig.Config));
-				break;
-			case ExtendedArchetype.TYPED:
-				TypedItemRegister(A, /** @type {TypedItemConfig} */ (AssetConfig.Config));
-				break;
-		}
-		A.Archetype = AssetConfig.Archetype;
+
+	switch (AssetConfig.Archetype) {
+		case ExtendedArchetype.MODULAR:
+			ModularItemRegister(A, AssetConfig.Config);
+			break;
+		case ExtendedArchetype.TYPED:
+			TypedItemRegister(A, AssetConfig.Config);
+			break;
+		case ExtendedArchetype.VIBRATING:
+			VibratorModeRegister(A, AssetConfig.Config);
+			break;
 	}
+	A.Archetype = AssetConfig.Archetype;
 }
 
 /**
@@ -227,7 +254,7 @@ function AssetBuildExtended(A, ExtendedConfig) {
  * @param {ExtendedItemConfig} ExtendedConfig - The full extended item configuration object
  * @param {string} GroupName - The name of the asset group to find extended configuration for
  * @param {string} AssetName - The name of the asset to find extended configuration fo
- * @returns {ExtendedItemAssetConfig | undefined} - The extended asset configuration object for the specified asset, if
+ * @returns {AssetArchetypeConfig | undefined} - The extended asset configuration object for the specified asset, if
  * any exists, or undefined otherwise
  */
 function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
@@ -503,17 +530,24 @@ function AssetGet(Family, Group, Name) {
 }
 
 /**
+ * Gets all activities on a family and name
+ * @param {string} family - The family to search in
+ * @returns {Activity[]}
+ */
+function AssetAllActivities(family) {
+	if (family == "Female3DCG")
+		return ActivityFemale3DCG;
+	return [];
+}
+
+/**
  * Gets an activity asset by family and name
- * @param {string} Family - The family to search in
- * @param {string} Name - Name of activity to search for
+ * @param {string} family - The family to search in
+ * @param {string} name - Name of activity to search for
  * @returns {Activity|null}
  */
-function AssetGetActivity(Family, Name) {
-	if (Family == "Female3DCG")
-		for (let A = 0; A < ActivityFemale3DCG.length; A++)
-			if (ActivityFemale3DCG[A].Name == Name)
-				return ActivityFemale3DCG[A];
-	return null;
+function AssetGetActivity(family, name) {
+	return AssetAllActivities(family).find(a => (a.Name === name));
 }
 
 /**

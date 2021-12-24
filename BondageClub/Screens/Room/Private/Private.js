@@ -281,7 +281,7 @@ function PrivateCannotSellSlave() { return (!Player.IsRestrained() && (CurrentCh
  * Checks if the player can get the college outfit.
  * @returns {boolean} - TRUE if the player does not have the college outfit and the current NPC is a bondage college NPC.
  */
-function PrivateCanGetCollegeClothes() { return (!InventoryAvailable(Player, "CollegeOutfit1", "Cloth") && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))); }
+function PrivateCanGetCollegeClothes() { return ((!InventoryAvailable(Player, "CollegeOutfit1", "Cloth") || !InventoryAvailable(Player, "CollegeSkirt", "ClothLower")) && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))); }
 /**
  * Checks if the current NPC is a lover of the player.
  * @returns {boolean} - TRUE if the NPC is a lover of the player.
@@ -337,6 +337,11 @@ function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora !
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a positive opinion
  */
 function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora != null) && (CurrentCharacter.FromPandora == true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverPrivate()); }
+/**
+ * Checks if the private character has a specific title
+ * @returns {boolean} - TRUE if the character has the title in the parameter
+ */
+function PrivateTitleIs(Title) { return ((CurrentCharacter.Title != null) && (CurrentCharacter.Title == Title)); }
 
 /**
  * Loads the private room screen and the vendor NPC.
@@ -799,6 +804,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData) {
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
+	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
 	if ((CustomData == null) || (CustomData == false)) ServerPrivateCharacterSync();
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck").Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
@@ -838,6 +844,7 @@ function PrivateChange(NewCloth) {
 	if (NewCloth == "Cloth") CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull);
 	if (NewCloth == "Underwear") CharacterUnderwear(CurrentCharacter, CurrentCharacter.AppearanceFull);
 	if (NewCloth == "Naked") CharacterNaked(CurrentCharacter);
+	if ((NewCloth == "Maiestas") || (NewCloth == "Vincula") || (NewCloth == "Amplector") || (NewCloth == "Corporis")) MagicSchoolLaboratoryPrepareNPC(CurrentCharacter, NewCloth);
 	if (NewCloth == "Custom") {
 		PrivateNPCInteraction(10);
 		if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
@@ -1080,7 +1087,7 @@ function PrivateActivityRun(LoveFactor) {
 	if (PrivateActivity == "Naked") CharacterNaked(Player);
 	if (PrivateActivity == "Underwear") CharacterRandomUnderwear(Player);
 	if (PrivateActivity == "RandomClothes") CharacterAppearanceFullRandom(Player, true);
-	if (PrivateActivity == "CollegeClothes") { CollegeEntranceWearStudentClothes(Player); InventoryAdd(Player, "CollegeOutfit1", "Cloth"); }
+	if (PrivateActivity == "CollegeClothes") { CollegeEntranceWearStudentClothes(Player); InventoryAdd(Player, "CollegeOutfit1", "Cloth"); InventoryAdd(Player, "CollegeSkirt", "ClothLower"); }
 	if (PrivateActivity == "Locks") InventoryFullLockRandom(Player, true);
 
 	// Some activities creates a release timer
@@ -1343,7 +1350,11 @@ function PrivateSlaveImproveSend() {
 function PrivateGetCollegeClothes() {
 	NPCLoveChange(CurrentCharacter, -10);
 	InventoryAdd(Player, "CollegeOutfit1", "Cloth");
-	if ((InventoryGet(CurrentCharacter, "Cloth") != null) && (InventoryGet(CurrentCharacter, "Cloth").Asset.Name == "CollegeOutfit1")) InventoryRemove(CurrentCharacter, "Cloth");
+	InventoryAdd(Player, "CollegeSkirt", "ClothLower");
+	const CharacterCloth = InventoryGet(CurrentCharacter, "Cloth");
+	if (CharacterCloth && CharacterCloth.Asset.Name == "CollegeOutfit1") InventoryRemove(CurrentCharacter, "Cloth");
+	const CharacterClothLower = InventoryGet(CurrentCharacter, "ClothLower");
+	if (CharacterClothLower && CharacterClothLower.Asset.Name == "CollegeSkirt") InventoryRemove(CurrentCharacter, "ClothLower");
 }
 
 /**

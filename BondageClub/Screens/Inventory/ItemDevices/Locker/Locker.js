@@ -7,7 +7,7 @@ const ItemDevicesLockerOptions = [
 		Property: { Type: null }
 	}, {
 		Name: "Ventless",
-		Property: { Type: "Ventless", Effect: ["GagLight"] }
+		Property: { Type: "Ventless", Effect: ["GagLight", "BlindHeavy"] }
 	}
 ];
 
@@ -89,7 +89,7 @@ function InventoryItemDevicesLockerClick() {
 const InventoryItemDevicesLockerOpacityChange = CommonLimitFunction((C, item, brightness) => {
 	item.Property.Opacity = brightness;
 	CharacterLoadCanvas(C);
-}, 0, 1000);
+});
 
 /**
  * Exit handler for the item's extended item screen. Updates the character and removes UI components.
