@@ -4,7 +4,7 @@ let KinkyDungeonGoddessRep = {
 };
 
 function KinkyDungeonInitReputation() {
-	KinkyDungeonGoddessRep = {};
+	KinkyDungeonGoddessRep = {"Ghost" : 0};
 	for (let shrine in KinkyDungeonShrineBaseCosts) {
 		KinkyDungeonGoddessRep[shrine] = 0;
 	}

@@ -49,7 +49,7 @@ var KinkyDungeonMapBrightness = 5;
 var KinkyDungeonGroundTiles = "02";
 var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "HSsRrd"; // Objects which can be moved into: floors, debris, open doors, staircases
 var KinkyDungeonMovableTilesSmartEnemy = "D" + KinkyDungeonMovableTilesEnemy; //Smart enemies can open doors as well
-var KinkyDungeonMovableTiles = "CA" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
+var KinkyDungeonMovableTiles = "CAG" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
 
 var KinkyDungeonTiles = {};
 var KinkyDungeonTargetTile = null;
@@ -192,6 +192,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	let treasurechance = 1.0; // Chance for an extra locked chest
 	let treasurecount = MapParams.chestcount; // Max treasure chest count
 	let shrinechance = MapParams.shrinechance; // Chance for an extra shrine
+	let ghostchance = MapParams.ghostchance; // Chance for a ghost
 	let shrinecount = MapParams.shrinecount; // Max treasure chest count
 	let rubblechance = MapParams.rubblechance; // Chance of lootable rubble
 	let doorchance = MapParams.doorchance; // Max treasure chest count
@@ -211,7 +212,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	KinkyDungeonPlaceShortcut(KinkyDungeonGetShortcut(Floor), width, height); // Place the start and end locations
 	KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceDoors(doorchance, doorlockchance, Floor, width, height); // Place treasure chests inside dead ends
-	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, Floor, width, height); // Place treasure chests inside dead ends
+	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceBrickwork(brickchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceLore(width, height);
 
@@ -487,7 +488,7 @@ function KinkyDungeonPlaceLore(width, height) {
 }
 
 
-function KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, Floor, width, height) {
+function KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height) {
 	let shrinelist = [];
 	KinkyDungeonCommercePlaced = 0;
 	let shrineTypes = [];
@@ -526,12 +527,18 @@ function KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, Floor
 			else {
 				let playerTypes = KinkyDungeonRestraintTypes(shrinefilter);
 				let type = shrineTypes.length == 0 && playerTypes.length > 0 ? playerTypes[Math.floor(Math.random() * playerTypes.length)] : KinkyDungeonGenerateShrine(Floor);
+				let tile = 'A';
 				if (shrineTypes.includes(type)) type = "";
 				if (type) {
 					KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: type};
 					shrineTypes.push(type);
-				}
-				KinkyDungeonMapSet(shrine.x, shrine.y, type ? 'A' : 'a');
+				} else if (!shrineTypes.includes("Ghost")) {
+					shrineTypes.push("Ghost");
+					tile = 'G';
+					KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Ghost"};
+				} else tile = 'a';
+
+				KinkyDungeonMapSet(shrine.x, shrine.y, tile);
 			}
 
 			count += 1;
@@ -1003,8 +1010,7 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 				if (AllowInteract) {
 					KinkyDungeonTargetTileLocation = "" + moveX + "," + moveY;
 					KinkyDungeonTargetTile = KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
-					if (KinkyDungeonTargetTile.Lock) KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonObjectLock").replace("TYPE", TextGet("KinkyDungeonShrine" + KinkyDungeonTargetTile.Name)), "white", 1);
-					else KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonObject" + KinkyDungeonTargetTile.Type).replace("TYPE", TextGet("KinkyDungeonShrine" + KinkyDungeonTargetTile.Name)), "white", 1);
+					KinkyDungeonTargetTileMsg();
 					KinkyDungeonDoorCloseTimer = 2; // To avoid cases with severe annoyance while walking through halls with lots of doors
 				}
 			} else if (moveX != KinkyDungeonPlayerEntity.x || moveY != KinkyDungeonPlayerEntity.y) {
@@ -1149,8 +1155,8 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 			KinkyDungeonSendTextMessage(1, TextGet(msg), "#ff8800", 1);
 	}
 	let gagchance = KinkyDungeonGagMumbleChance;
-	for (let inv of KinkyDungeonInventory) {
-		if (inv.restraint) gagchance += KinkyDungeonGagMumbleChancePerRestraint;
+	for (let inv of KinkyDungeonRestraintList()) {
+		gagchance += KinkyDungeonGagMumbleChancePerRestraint;
 	}
 	if (!KinkyDungeonPlayer.CanTalk() && Math.random() < gagchance) {
 		let msg = "KinkyDungeonGagMumble";
@@ -1171,3 +1177,13 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 	}
 }
 
+
+function KinkyDungeonTargetTileMsg() {
+	if (KinkyDungeonTargetTile.Type == "Ghost") {
+		KinkyDungeonGhostMessage();
+	} else if (KinkyDungeonTargetTile.Lock) {
+		KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonObjectLock").replace("TYPE", TextGet("KinkyDungeonShrine" + KinkyDungeonTargetTile.Name)), "white", 1);
+	} else {
+		KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonObject" + KinkyDungeonTargetTile.Type).replace("TYPE", TextGet("KinkyDungeonShrine" + KinkyDungeonTargetTile.Name)), "white", 1);
+	}
+}

@@ -16,6 +16,8 @@ var KinkyDungeonShrineBaseCostGrowth = {
 	"Illusion": 2,
 };
 
+let KinkyDungeonGhostDecision = 0;
+
 var KinkyDungeonShopItems = [];
 var KinkyDungeonShopIndex = 0;
 
@@ -48,6 +50,7 @@ function KinkyDungeonShrineAvailable(type) {
 
 
 function KinkyDungeonGenerateShop(Level) {
+	KinkyDungeonMakeGhostDecision(); // Decides if the ghosts will be friendly or not
 	KinkyDungeonPoolUses = 0;
 	KinkyDungeonShopItems = [];
 	let items_mid = 0;
@@ -236,6 +239,45 @@ function KinkyDungeonDrawShrine() {
 			DrawButton(675, 825, 300, 60, TextGet("KinkyDungeonPayShrine").replace("XXX", "" + cost), "White", "", "");
 			DrawButton(1000, 825, 100, 60, TextGet("KinkyDungeonDrinkShrine"), (KinkyDungeonPoolUses <= 1 / KinkyDungeonShrinePoolChancePerUse && KinkyDungeonStatMana < KinkyDungeonStatManaMax) ? "#AAFFFF" : "#444444", "", "");
 		}
+	}
+}
+function KinkyDungeonDrawGhost() {
+	if (KinkyDungeonGhostDecision == 0) DrawText(TextGet("KinkyDungeonDrawGhostHelpful"), 850, 850, "white", "silver");
+	else DrawText(TextGet("KinkyDungeonDrawGhostUnhelpful"), 850, 850, "white", "silver");
+}
+function KinkyDungeonGhostMessage() {
+	let restraints = KinkyDungeonRestraintList();
+	let msg = "";
+	if (restraints.length == 0) {
+		msg = TextGet("KinkyDungeonGhostGreet" + KinkyDungeonGhostDecision);
+	} else {
+		if (KinkyDungeonGhostDecision <= 1) {
+			msg = TextGet("KinkyDungeonGhostHelpful" + KinkyDungeonGhostDecision);
+		} else {
+			let BoundType = "Generic";
+			if (!KinkyDungeonPlayer.CanTalk() && Math.random() < 0.33) BoundType = "Gag";
+			if (!KinkyDungeonPlayer.CanInteract() && Math.random() < 0.33) BoundType = "Arms";
+			if (!KinkyDungeonPlayer.CanWalk() && Math.random() < 0.33) BoundType = "Feet";
+			if (KinkyDungeonPlayer.IsChaste() && Math.random() < 0.33) BoundType = "Chaste";
+
+			msg = TextGet("KinkyDungeonGhostUnhelpful" + BoundType + KinkyDungeonGhostDecision);
+		}
+	}
+	if (msg) {
+		KinkyDungeonSendActionMessage(3, msg, "white", 3);
+	}
+}
+
+function KinkyDungeonMakeGhostDecision() {
+	KinkyDungeonGhostDecision = 0;
+
+	let rep = KinkyDungeonGoddessRep.Ghost;
+
+	if (rep > 0) KinkyDungeonGhostDecision += 1;
+	if (rep != undefined) {
+		if (Math.random() * 100 > -rep + 75) KinkyDungeonGhostDecision += 1;
+		if (Math.random() * 100 > -rep + 85) KinkyDungeonGhostDecision += 1;
+		if (Math.random() * 100 > -rep + 95) KinkyDungeonGhostDecision += 1;
 	}
 }
 

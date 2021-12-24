@@ -586,11 +586,7 @@ function KinkyDungeonDefeat() {
 	KinkyDungeonLockpicks = 0;
 	KinkyDungeonNormalBlades = 0;
 
-	let newInv = [];
-
-	for (let inv of KinkyDungeonInventory) {
-		if (inv.restraint) newInv.push(inv);
-	}
+	let newInv = KinkyDungeonRestraintList();
 	KinkyDungeonInventory = newInv;
 	KinkyDungeonInventoryAddWeapon("Knife");
 

@@ -104,6 +104,8 @@ function KinkyDungeonDrawInputs() {
 				DrawText(TextGet("KinkyBlueLock"), 675, 850, "white", "silver");
 		} else if (KinkyDungeonTargetTile.Type == "Shrine") {
 			KinkyDungeonDrawShrine();
+		} else if (KinkyDungeonTargetTile.Type == "Ghost") {
+			KinkyDungeonDrawGhost();
 		} else if (KinkyDungeonTargetTile.Type == "Door") {
 			if (KinkyDungeonTargetTile.Lock) {
 				let action = false;

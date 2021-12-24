@@ -197,12 +197,18 @@ function KinkyDungeonGetKey(lock) {
 	return "";
 }
 
-function KinkyDungeonIsHandsBound() {
-	return InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands");
+function KinkyDungeonHasGhostHelp() {
+	return (KinkyDungeonTargetTile && KinkyDungeonTargetTile.Type == "Ghost" && KinkyDungeonGhostDecision <= 1);
 }
 
-function KinkyDungeonIsArmsBound() {
-	return InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms");
+function KinkyDungeonIsHandsBound(ApplyGhost) {
+	return (!ApplyGhost || !KinkyDungeonHasGhostHelp()) &&
+		(InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"));
+}
+
+function KinkyDungeonIsArmsBound(ApplyGhost) {
+	return (!ApplyGhost || !KinkyDungeonHasGhostHelp()) &&
+		(InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemArms"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemArms"));
 }
 
 function KinkyDungeonGetPickBaseChance() {
@@ -298,18 +304,18 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 		return false;
 	}
 
-	let handsBound = KinkyDungeonIsHandsBound();
-	let armsBound = KinkyDungeonIsArmsBound();
+	let handsBound = KinkyDungeonIsHandsBound(true);
+	let armsBound = KinkyDungeonIsArmsBound(true);
 
 	// Struggling is unaffected by having arms bound
-	if (StruggleType != "Struggle" && (struggleGroup.group != "ItemArms" && struggleGroup.group != "ItemHands" ) && !KinkyDungeonPlayer.CanInteract()) escapeChance /= 1.5;
+	if (!KinkyDungeonHasGhostHelp() && StruggleType != "Struggle" && (struggleGroup.group != "ItemArms" && struggleGroup.group != "ItemHands" ) && !KinkyDungeonPlayer.CanInteract()) escapeChance /= 1.5;
 	if (StruggleType != "Struggle" && struggleGroup.group != "ItemArms" && armsBound) escapeChance = Math.max(0.1 - Math.max(0, 0.01*restraint.restraint.power), escapeChance - 0.2);
 
 	// Covered hands makes it harder to unlock, and twice as hard to remove
 	if ((StruggleType == "Pick" || StruggleType == "Unlock" || StruggleType == "Remove") && struggleGroup.group != "ItemHands" && handsBound)
-		escapeChance = StruggleType == "Pick" ? Math.max(0, escapeChance - 0.5) : (escapeChance / 2);
+		escapeChance = Math.max(0, escapeChance - 0.5);
 
-	if (StruggleType == "Pick" || StruggleType == "Unlock") escapeChance /= 1.0 + KinkyDungeonStatArousal/KinkyDungeonStatArousalMax*KinkyDungeonArousalUnlockSuccessMod;
+	if (!KinkyDungeonHasGhostHelp() && (StruggleType == "Pick" || StruggleType == "Unlock")) escapeChance /= 1.0 + KinkyDungeonStatArousal/KinkyDungeonStatArousalMax*KinkyDungeonArousalUnlockSuccessMod;
 
 	// Items which require a knife are much harder to cut without one
 	if (StruggleType == "Cut" && KinkyDungeonNormalBlades <= 0 && KinkyDungeonEnchantedBlades <= 0 && restraint.restraint.escapeChance[StruggleType] > 0.01) escapeChance/= 5;
@@ -424,9 +430,9 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 						restraint.unlockProgress += escapeChance * (0.75 + 0.5 * Math.random());
 					}
 				} else if (StruggleType == "Remove") {
-					restraint.removeProgress += escapeChance * (0.55 + 0.2 * Math.random() + 0.35 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax)) - 0.7 * Math.max(0, Math.min(0.5, KinkyDungeonStatArousal/KinkyDungeonStatArousalMax));
+					restraint.removeProgress += escapeChance * (0.55 + 0.2 * Math.random() + 0.35 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax)) - 0.4 * Math.max(0, Math.min(0.5, KinkyDungeonStatArousal/KinkyDungeonStatArousalMax));
 				} else if (StruggleType == "Struggle") {
-					restraint.struggleProgress += escapeChance * (0.2 + 0.2 * Math.random() + 0.7 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax));
+					restraint.struggleProgress += escapeChance * (0.4 + 0.3 * Math.random() + 0.4 * Math.max(0, (KinkyDungeonStatStamina)/KinkyDungeonStatStaminaMax));
 				}
 			}
 
@@ -485,6 +491,8 @@ function KinkyDungeonGetRestraintItem(group) {
 	}
 	return null;
 }
+
+
 
 
 function KinkyDungeonGetRestraintByName(Name) {
@@ -641,11 +649,22 @@ function KinkyDungeonRemoveRestraint(Group, Keep) {
 	return false;
 }
 
+function KinkyDungeonRestraintList() {
+	let ret = [];
+
+	for (let inv of KinkyDungeonInventory) {
+		if (inv.restraint) {
+			ret.push(inv);
+		}
+	}
+
+	return ret;
+}
 
 function KinkyDungeonRestraintTypes(ShrineFilter) {
 	let ret = [];
 
-	for (let inv of KinkyDungeonInventory) {
+	for (let inv of KinkyDungeonRestraintList()) {
 		if (inv.restraint && inv.restraint.shrine) {
 			for (let shrine of inv.restraint.shrine) {
 				if (ShrineFilter.includes(shrine) && !ret.includes(shrine)) ret.push(shrine);

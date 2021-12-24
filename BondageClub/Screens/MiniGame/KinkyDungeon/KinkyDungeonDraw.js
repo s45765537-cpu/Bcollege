@@ -8,6 +8,7 @@ function KinkyDungeonGetSprite(code) {
 	else if (code == "C") sprite = "Chest";
 	else if (code == "c") sprite = "ChestOpen";
 	else if (code == "D") sprite = "Door";
+	else if (code == "G") sprite = "Ghost";
 	else if (code == "d") sprite = "DoorOpen";
 	else if (code == "R") sprite = "Rubble";
 	else if (code == "r") sprite = "RubbleLooted";
