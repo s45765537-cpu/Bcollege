@@ -489,6 +489,7 @@ function KinkyDungeonPlaceLore(width, height) {
 function KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, height) {
 	let shrinelist = [];
 	KinkyDungeonCommercePlaced = 0;
+	let shrineTypes = [];
 
 	// Populate the chests
 	for (let X = 1; X < width; X += 1)
@@ -523,12 +524,12 @@ function KinkyDungeonPlaceShrines(shrinechance, shrinecount, Floor, width, heigh
 				KinkyDungeonMapSet(shrine.x, shrine.y, 'a');
 			else {
 				let type = KinkyDungeonGenerateShrine(Floor);
-				if (type == "Commerce") {
-					KinkyDungeonCommercePlaced += 1;
-					if (KinkyDungeonCommercePlaced > 1) type = "Will";
+				if (shrineTypes.includes(type)) type = "";
+				if (type) {
+					KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: type};
+					shrineTypes.push(type);
 				}
-				KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: type};
-				KinkyDungeonMapSet(shrine.x, shrine.y, 'A');
+				KinkyDungeonMapSet(shrine.x, shrine.y, type ? 'A' : 'a');
 			}
 
 			count += 1;

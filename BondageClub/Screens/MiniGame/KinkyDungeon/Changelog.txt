@@ -105,6 +105,7 @@ Other Features
 - More flavorful text when waiting
 - Made the player character more expressive based on stamina, mana and arousal
 - Removed green and yellow locks (too much bloat)
+- Only one shrine of each type per floor
 
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)
