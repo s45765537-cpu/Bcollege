@@ -679,6 +679,7 @@ KinkyDungeonSpellCastIcebolt,You a hurl a shard of ice!
 KinkyDungeonSpellTargetIcebolt,Choose aim direction
 
 KinkyDungeonSpellChainBolt,Chainbolt
+KinkyDungeonSpellWitchChainBolt,Witch's Chain
 KinkyDungeonSpellDescriptionChainBolt,Throws a chain that does DamageDealt damage and stuns enemies for a turn.
 KinkyDungeonSpellCastChainBolt,You a hurl a strand of chain!
 KinkyDungeonSpellTargetChainBolt,Choose aim direction
