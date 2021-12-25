@@ -107,7 +107,7 @@ function KinkyDungeonPayShrine(type) {
 		rep = spell.level;
 	} else if (type == "Will") {
 		KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
-		KinkyDungeonStatMana = KinkyDungeonStatManaMax;
+		KinkyDungeonStatMana = Math.min(KinkyDungeonStatManaMax, KinkyDungeonStatMana+KinkyDungeonStatManaMax/3);
 		KinkyDungeonStatArousal = 0;
 		KinkyDungeonNextDataSendStatsTime = 0;
 
