@@ -97,9 +97,17 @@ Content
 - New rope themed enemies that appear more often if you annoy the rope goddess
 - Added a new spooky illusion enemy
 - new bolt cutters weapon
-- Some doors have a chance to be locked. TODO make it so some really nice loot is always on the other side...
-- Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Take care, though, as they might enjoy seeing you struggle in front of them..
+- Some doors have a chance to be locked
+- Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
 - New special pressure-plate traps (that are often the only way through if you dont have a key)
+
+TODO (expecting to get this done soon):
+-New slow status effect (chainbolt and Slime spells apply this instead to enemies)
+-New ice wave spell that creates icicle landmines
+-Mummy enemy with instant melee attacks
+-Make it so rope snare can't target spaces with enemies
+-Panel gag, Legbinder and bolero jacket restraints
+-Shock plug that stuns you at high arousal
 
 Other Features
 - Picks, Knives, and Red Keys are now in the shop

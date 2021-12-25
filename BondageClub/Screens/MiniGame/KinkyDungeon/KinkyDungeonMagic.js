@@ -32,7 +32,7 @@ var KinkyDungeonBooks = ["Elements", "Conjure", "Illusion"];
 // onhit: What happens on AoE. Deals aoepower damage, or just power otherwise
 
 var KinkyDungeonSpellsStart = [
-	{name: "Firebolt", manacost: 3, components: ["Arms"], level:1, type:"bolt", projectile:true, onhit:"", power: 5, delay: 0, range: 50, damage: "fire", speed: 2, playerEffect: {name: "Damage"}}, // Throws a fireball in a direction that moves 1 square each turn
+	{name: "Firebolt", manacost: 3, components: ["Arms"], level:1, type:"bolt", projectile:true, onhit:"", power: 4, delay: 0, range: 50, damage: "fire", speed: 2, playerEffect: {name: "Damage"}}, // Throws a fireball in a direction that moves 1 square each turn
 	{name: "Snare", manacost: 2, components: ["Legs"], level:1, type:"inert", projectile:false, onhit:"lingering", lifetime:-1, time: 12, delay: 3, range: 1, damage: "stun", playerEffect: {name: "MagicRope", time: 3}}, // Creates a magic rope trap that creates magic ropes on anything that steps on it. They are invisible once placed. Enemies get rooted, players get fully tied!
 	{name: "Flash", manacost: 4, components: ["Verbal"], level:2, type:"inert", projectile:false, onhit:"aoe", time: 4, delay: 1, power: 1, range: 2.5, size: 3, aoe: 1.5, lifetime: 1, damage: "stun", playerEffect: {name: "Blind", time: 4}}, // Start with flash, an explosion with a 1 turn delay and a 1.5 tile radius. If you are caught in the radius, you also get blinded temporarily!
 

@@ -54,7 +54,7 @@ function KinkyDungeonDrawReputation() {
 				else color = "#88ff00";
 			}
 			DrawText(TextGet("KinkyDungeonShrine" + rep), canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i, "white", "black");
-			DrawProgressBar(canvasOffsetX + 250 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, color, "#444444");
+			DrawProgressBar(canvasOffsetX + 275 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, color, "#444444");
 
 			i++;
 		}

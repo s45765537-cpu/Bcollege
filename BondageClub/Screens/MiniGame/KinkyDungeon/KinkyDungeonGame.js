@@ -198,7 +198,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	let doorchance = MapParams.doorchance; // Chance door will be closed
 	let nodoorchance = MapParams.nodoorchance; // Chance of there not being a door
 	let doorlockchance = MapParams.doorlockchance; // Max treasure chest count
-	if (KinkyDungeonGoddessRep.Prisoner && KinkyDungeonSpawnJailers > 0) doorlockchance = doorlockchance + (KinkyDungeonSpawnJailers / KinkyDungeonSpawnJailersMax) * (1.0 - doorlockchance) * (KinkyDungeonGoddessRep.Prisoner + 50)/100
+	if (KinkyDungeonGoddessRep.Prisoner && KinkyDungeonSpawnJailers > 0) doorlockchance = doorlockchance + (KinkyDungeonSpawnJailers / KinkyDungeonSpawnJailersMax) * (1.0 - doorlockchance) * (KinkyDungeonGoddessRep.Prisoner + 50)/100;
 	let trapChance = MapParams.trapchance; // Chance of a pathway being split between a trap and a door
 	let brickchance = MapParams.brickchance; // Chance for brickwork to start being placed
 	let shrinefilter = KinkyDungeonGetMapShrines(MapParams.shrines);
