@@ -178,9 +178,14 @@ AttackAnimatedArmorBind,"The Animated Armor restrains you with shackles (+Restra
 AttackAnimatedArmor,"The Animated Armor hugs your body with an iron grip! (-DamageTaken SP)"
 
 NameSkeleton,Skeleton
-KillSkeleton,"The Skeleton falls into pieces."
+KillSkeleton,"The Skeleton falls to pieces."
 AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
 AttackSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
+
+NameSummonedSkeleton,Skeleton
+KillSummonedSkeleton,"The skeleton falls to pieces."
+AttackSummonedSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
+AttackSummonedSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
 
 NameGhost,Ghost
 KillGhost,"The ghost vanishes."
