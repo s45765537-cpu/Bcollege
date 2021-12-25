@@ -618,8 +618,8 @@ function KinkyDungeonDefeat() {
 	KinkyDungeonInventory = newInv;
 	KinkyDungeonInventoryAddWeapon("Knife");
 
-	KinkyDungeonChangeRep("Ghost", 5);
-	KinkyDungeonChangeRep("Prisoner", 5); // Each time you get caught, security increases...
+	KinkyDungeonChangeRep("Ghost", 1 + Math.round(KinkyDungeonSpawnJailers/2));
+	KinkyDungeonChangeRep("Prisoner", Math.min(1, KinkyDungeonSpawnJailersMax - KinkyDungeonSpawnJailers)); // Each time you get caught, security increases...
 
 	KinkyDungeonDressPlayer();
 }

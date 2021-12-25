@@ -18,7 +18,7 @@ function KinkyDungeonChangeRep(Rep, Amount) {
 	if (KinkyDungeonGoddessRep[Rep] != undefined) {
 		let last = KinkyDungeonGoddessRep[Rep];
 		let target = -50;
-		let interval = 0.05;
+		let interval = 0.02;
 		if (Amount >= 0) target = 50;
 		for (let i = 0; i < Math.abs(Amount); i++) {
 			KinkyDungeonGoddessRep[Rep] += (target - KinkyDungeonGoddessRep[Rep]) * interval;
