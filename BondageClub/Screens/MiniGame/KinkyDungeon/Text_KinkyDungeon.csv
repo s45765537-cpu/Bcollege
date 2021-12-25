@@ -114,6 +114,7 @@ KinkyDungeonRarity7,Legendary
 KinkyDungeonRarity8,Mythical
 KinkyDungeonRarity9,Godlike
 
+KinkyDungeonConsumableFail,"You fiddle around with the item instead of using it."
 KinkyDungeonConsumableQuantity,Quantity:
 KinkyDungeonConsume,Use Item (Consumes 1)
 

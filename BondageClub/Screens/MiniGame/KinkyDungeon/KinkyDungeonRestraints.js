@@ -338,6 +338,9 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 	if (InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, struggleGroup.group)) escapeChance = 0;
 
+	// Blue locks make it harder to escape an item
+	if (restraint.lock == "Blue" && (StruggleType == "Cut" || StruggleType == "Remove" || StruggleType == "Struggle")) escapeChance = Math.max(0, escapeChance - 0.07);
+
 	// Struggling is affected by tightness
 	if (escapeChance > 0 && StruggleType == "Struggle") {
 		for (let T = 0; T < restraint.tightness; T++) {

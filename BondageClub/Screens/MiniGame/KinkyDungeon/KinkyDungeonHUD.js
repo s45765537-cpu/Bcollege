@@ -300,11 +300,11 @@ function KinkyDungeonHandleHUD() {
 		let xxx = canvasOffsetX + KinkyDungeonCanvas.width+10;
 		let yyy = canvasOffsetY;
 		if (MouseIn(xxx, yyy + 0 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionFrigid") && KinkyDungeonStatArousal > 0 && KinkyDungeonPlayer.CanTalk()) {
-			KinkyDungeonUseConsumable("PotionFrigid", 1);
+			KinkyDungeonAttemptConsumable("PotionFrigid", 1);
 		} else if (MouseIn(xxx, yyy + 1 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionStamina") && KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax && KinkyDungeonPlayer.CanTalk()) {
-			KinkyDungeonUseConsumable("PotionStamina", 1);
+			KinkyDungeonAttemptConsumable("PotionStamina", 1);
 		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax && KinkyDungeonPlayer.CanTalk()) {
-			KinkyDungeonUseConsumable("PotionMana", 1);
+			KinkyDungeonAttemptConsumable("PotionMana", 1);
 		} else if (MouseIn(xxx, yyy + 3 * KinkyDungeonStatBarHeight, 250, 50)) {
 			KinkyDungeonSleepTurns = 20;
 		}

@@ -105,6 +105,16 @@ function KinkyDungeonConsumableEffect(Consumable) {
 	}
 }
 
+function KinkyDungeonAttemptConsumable(Name, Quantity) {
+	if (!KinkyDungeonPlayer.CanInteract() && (InventoryItemHasEffect(InventoryGet(KinkyDungeonPlayer, "ItemHands"), "Block", true) || InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemHands"))) {
+		KinkyDungeonAdvanceTime(1);
+		KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonCantUsePotions"), "red", 2);
+
+		return true;
+	}
+	else KinkyDungeonUseConsumable(Name, Quantity);
+}
+
 function KinkyDungeonUseConsumable(Name, Quantity) {
 	let item = KinkyDungeonGetInventoryItem(Name, "Consumables");
 	if (!item || item.item.quantity < Quantity) return false;
