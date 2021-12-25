@@ -162,15 +162,21 @@ KinkyDungeonHearDoorCloseNear,You hear a door slam shut nearby!
 KinkyDungeonHearDoorCloseFar,You hear a door being shut in the distance.
 
 
-NameBlindZombie,Moaning Zombie
+NameBlindZombie,Zombie
 KillBlindZombie,"The zombie moans and collapses to the ground."
 AttackBlindZombieBind,"The zombie's charms attach to your body (+RestraintAdded)"
 AttackBlindZombie,"The zombie caresses your body! (-DamageTaken SP)"
 
 NameFastZombie,Ravenous Zombie
-KillFastZombie,"The zombie screeches and tumbles to the floor."
-AttackFastZombieBind,"The zombie viciously wraps you in charms (+RestraintAdded)"
+KillFastZombie,"The zombie screams and tumbles to the floor."
+AttackFastZombieBind,"The zombie swiftly wraps you in charms (+RestraintAdded)"
 AttackFastZombie,"The zombie gropes your body! (-DamageTaken SP)"
+
+NameSamuraiZombie,Samurai Zombie
+KillSamuraiZombie,"The Samurai zombie screeches and tumbles to the floor."
+AttackSamuraiZombieBind,"The Samurai zombie uses a traditional binding technique (+RestraintAdded)"
+AttackSamuraiZombieStun,"The Samurai zombie strikes you with her wooden sword! (+STUN)"
+AttackSamuraiZombie,"The Samurai zombie runs its fingers along your body! (-DamageTaken SP)"
 
 NameAnimatedArmor,Animated Armor
 KillAnimatedArmor,"The Animated Armor falls into pieces."
