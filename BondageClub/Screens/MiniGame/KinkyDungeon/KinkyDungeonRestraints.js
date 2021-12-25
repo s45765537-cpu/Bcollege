@@ -235,7 +235,7 @@ function KinkyDungeonPickAttempt() {
 	let lock = KinkyDungeonTargetTile.Lock;
 	if (!KinkyDungeonTargetTile.pickProgress) KinkyDungeonTargetTile.pickProgress = 0;
 
-	if (lock.includes("Blue") && KinkyDungeonBlueKeys < 1) {
+	if (lock.includes("Blue")) {
 		if ((KinkyDungeonPlayer.IsBlind() < 1) || !lock.includes("Blue"))
 			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : lock) + "Key"), "orange", 2);
 		else
@@ -363,7 +363,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 
 	// Handle cases where you can't even attempt to unlock
 	if ((StruggleType == "Unlock" && !((restraint.lock == "Red" && KinkyDungeonRedKeys > 0) || (restraint.lock == "Blue" && KinkyDungeonBlueKeys > 0)))
-		|| (StruggleType == "Pick" && (restraint.lock == "Blue" && KinkyDungeonBlueKeys < 1))) {
+		|| (StruggleType == "Pick" && (restraint.lock == "Blue"))) {
 		if ((KinkyDungeonPlayer.IsBlind() < 1) || !restraint.lock.includes("Blue"))
 			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonStruggleUnlockNo" + ((KinkyDungeonPlayer.IsBlind() > 0) ? "Unknown" : restraint.lock) + "Key"), "orange", 2);
 		else

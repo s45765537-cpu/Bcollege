@@ -6,10 +6,10 @@ var KinkyDungeonEnemies = [
 	{name: "FastZombie", tags: ["ignoreharmless", "zombie", "melee", "ribbonRestraints", "slashweakness"], ignorechance: 0.33, armor: 1, followRange: 1, AI: "hunt",
 		visionRadius: 6, maxhp: 10, minLevel:4, weight:6, movePoints: 3, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 10,
 		terrainTags: {"secondhalf":10, "lastthird":14}, floors:[0], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 2}, {name: "Gold", amountMin: 15, amountMax: 29, weight: 5}]},
-	{name: "Skeleton", tags: ["ignoreharmless", "skeleton", "melee", "ropeRestraints", "leatherRestraints", "clothRestraints", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
+	{name: "Skeleton", tags: ["leashing", "ignoreharmless", "skeleton", "melee", "ropeRestraints", "leatherRestraints", "clothRestraints", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
 		visionRadius: 4, maxhp: 5, minLevel:1, weight:8, movePoints: 2, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4,
 		terrainTags: {"secondhalf":4}, shrines: ["Leather"], floors:[1, 11], dropTable: [{name: "Gold", amountMin: 25, amountMax: 50, weight: 2}, {name: "Gold", amountMin: 20, amountMax: 35, weight: 5}]},
-	{name: "SummonedSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "ropeRestraints", "leatherRestraints", "clothRestraints", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "guard",
+	{name: "SummonedSkeleton", tags: ["leashing", "ignoreharmless", "skeleton", "melee", "ropeRestraints", "leatherRestraints", "clothRestraints", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "guard",
 		visionRadius: 6, maxhp: 5, minLevel:1, weight:8, movePoints: 2, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4,
 		terrainTags: {}, shrines: [], floors:[]},
 	{name: "LesserSkeleton", tags: ["ignorenoSP", "skeleton", "melee", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "wander",
@@ -18,7 +18,7 @@ var KinkyDungeonEnemies = [
 	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "guard",
 		visionRadius: 10, evasion: 1.25, maxhp: 1, minLevel:0, weight:0.1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
 		terrainTags: {"ghost" : 1.9}, shrines: ["Illusion"], floors:[0, 1, 11]},
-	{name: "GreaterSkeleton", tags: ["ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "hunt",
+	{name: "GreaterSkeleton", tags: ["leashing", "ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "hunt",
 		visionRadius: 4, maxhp: 10, minLevel:12, weight:3, movePoints: 3, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 10, dmgType: "crush", fullBoundBonus: 0,
 		terrainTags: {"secondhalf":2, "lastthird":3, "increasingWeight":1}, floors:[1, 3, 7, 8], dropTable: [{name: "PotionHealth", weight: 3}, {name: "Gold", amountMin: 50, amountMax: 100, weight: 3}, {name: "Hammer", weight: 50, ignoreInInventory: true}]},
 	{name: "AnimatedArmor", blockVisionWhileStationary: true, tags: ["removeDoorSpawn", "ignoreharmless", "construct", "minor", "melee", "shackleRestraints", "shackleGag", "slashresist", "fireresist", "electricresist", "crushweakness"],
@@ -202,6 +202,11 @@ function KinkyDungeonUpdateEnemies(delta) {
 
 		if (enemy.Enemy.tags && enemy.Enemy.tags.includes("leashing") && !KinkyDungeonHasStamina(1.1)) followRange = 1;
 
+
+		if (enemy.slow > 0)
+			enemy.slow -= delta;
+		if (enemy.bind > 0)
+			enemy.bind -= delta;
 		if (enemy.stun > 0) {
 			enemy.stun -= delta;
 		} else {
@@ -476,7 +481,9 @@ function KinkyDungeonEnemyAt(x, y) {
 }
 
 function KinkyDungeonEnemyTryMove(enemy, Direction, delta, x, y) {
-	enemy.movePoints += delta;
+	if (enemy.bind > 0) enemy.movePoints += delta/10;
+	else if (enemy.slow > 0) enemy.movePoints += delta/2;
+	else enemy.movePoints += KinkyDungeonSleepTurns > 0 ? 4*delta : delta;
 
 	if (enemy.movePoints >= enemy.Enemy.movePoints) {
 		enemy.movePoints = 0;

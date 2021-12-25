@@ -101,6 +101,9 @@ Content
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
 - New special pressure-plate traps (that are often the only way through if you dont have a key to unlock a door)
 
+Priority:
+- Dream hunter or something
+
 TODO (expecting to get this done soon):
 -Add max SP, MP, and AP upgrades as a rare drop in chests
 -New slow status effect (chainbolt and Slime spells apply this instead to enemies)
@@ -119,11 +122,13 @@ Other Features
 - Removed green and yellow locks (too much bloat)
 - Only one shrine of each type per floor
 - If you are bound with shrine-able restraints, one random restraint type will be guaranteed to have a shrine on the next level
+- Gags block potion use
 
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)
 - Enemies that attack while moving will no longer hit you if they move at the same time that you do such that you are still in range, even if you dodged last turn's warning tiles
 - Multiple enemies will no longer be spawned on the same tile
+- Blue locks can no longer be picked, as all things should be
 
 TODO ValidationFindBlockCycles to prevent bugs
 

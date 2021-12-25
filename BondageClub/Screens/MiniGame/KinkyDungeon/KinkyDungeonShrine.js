@@ -1,13 +1,13 @@
 "use strict";
 var KinkyDungeonShrineBaseCosts = {
-	"Charms": 10,
-	"Leather": 25,
-	"Metal": 30,
-	"Rope": 15,
-	"Will": 10,
-	"Elements": 50,
-	"Conjure": 50,
-	"Illusion": 50,
+	"Charms": 25,
+	"Leather": 40,
+	"Metal": 50,
+	"Rope": 25,
+	"Will": 20,
+	"Elements": 100,
+	"Conjure": 100,
+	"Illusion": 100,
 };
 
 var KinkyDungeonShrineBaseCostGrowth = {
@@ -267,6 +267,7 @@ function KinkyDungeonGhostMessage() {
 		KinkyDungeonSendActionMessage(3, msg, "white", 3);
 	}
 }
+
 
 function KinkyDungeonMakeGhostDecision() {
 	KinkyDungeonGhostDecision = 0;

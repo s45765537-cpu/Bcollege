@@ -39,8 +39,9 @@ function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
 
 function KinkyDungeonEvasion(Enemy) {
 	var hitChance = (Enemy && Enemy.buffs && Enemy.buffs.Evasion) ? Enemy.buffs.Evasion.power : 1.0;
-	if (Enemy.Enemy && Enemy.Enemy.evasion && !(Enemy.stun > 0)) hitChance *= (1 - Enemy.Enemy.evasion);
+	if (Enemy.Enemy && Enemy.Enemy.evasion && (Enemy.stun < 1 || Enemy.Enemy.evasion < 0.99) && !(Enemy.stun > 0)) hitChance *= (1 - Enemy.Enemy.evasion);
 	hitChance *= KinkyDungeonPlayerDamage.chance;
+	if (Enemy.slow > 0) hitChance *= 2;
 
 	hitChance -= Math.min(3, KinkyDungeonPlayer.GetBlindLevel()) * KinkyDungeonMissChancePerBlind;
 	if (KinkyDungeonPlayer.IsDeaf()) hitChance *= 0.67;
@@ -61,11 +62,12 @@ function KinkyDungeonGetImmunity(tags, type, resist) {
 }
 
 function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
-	var dmg = (Damage) ? Damage.damage : 0;
+	let dmg = (Damage) ? Damage.damage : 0;
 	if (!dmg) dmg = 0;
-	//var type = (Damage) ? Damage.type : "";
-	var effect = false;
-	var resistStun = 0;
+	//let type = (Damage) ? Damage.type : "";
+	let effect = false;
+	let resistStun = 0;
+	let resistSlow = 0;
 	let resistDamage = 0;
 	let dmgDealt = 0;
 	let armor = (Enemy.Enemy.armor) ? Enemy.Enemy.armor : 0;
@@ -77,6 +79,8 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, Damage.type, "weakness")) resistDamage = -1;
 			if (Enemy.Enemy.tags.includes("unstoppable")) resistStun = 2;
 			else if (Enemy.Enemy.tags.includes("unflinching")) resistStun = 1;
+			if (Enemy.Enemy.tags.includes("unslowable")) resistSlow = 2;
+			else if (Enemy.Enemy.tags.includes("slowresist")) resistSlow = 1;
 
 		}
 
@@ -94,12 +98,19 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 
 			Enemy.hp -= dmgDealt;
 		}
-		if ((resistStun < 2 && resistDamage < 2) && (Damage.type == "stun" || Damage.type == "chain" || Damage.type == "electric" || Damage.type == "ice")) { // Being immune to the damage stops the stun as well
+		if ((resistStun < 2 && resistDamage < 2) && (Damage.type == "stun" || Damage.type == "electric" || Damage.type == "ice")) { // Being immune to the damage stops the stun as well
 			effect = true;
 			if (!Enemy.stun) Enemy.stun = 0;
 			if (resistStun == 1)
-				Enemy.stun = Math.max(Enemy.stun, Math.min(Math.floor(Damage.time/3), Damage.time-1)); // Enemies with stun resistance have stuns reduced to 1/3rd, and anything that stuns them for one turn doesn't affect them
+				Enemy.stun = Math.max(Enemy.stun, Math.min(Math.floor(Damage.time/2), Damage.time-1)); // Enemies with stun resistance have stuns reduced to 1/2, and anything that stuns them for one turn doesn't affect them
 			else Enemy.stun = Math.max(Enemy.stun, Damage.time);
+		}
+		if ((resistSlow < 2 && resistDamage < 2) && (Damage.type == "slow" || Damage.type == "chain" || Damage.type == "cold")) { // Being immune to the damage stops the stun as well
+			effect = true;
+			if (!Enemy.slow) Enemy.slow = 0;
+			if (resistSlow == 1)
+				Enemy.slow = Math.max(Enemy.slow, Math.min(Math.floor(Damage.time/2), Damage.time-1)); // Enemies with stun resistance have stuns reduced to 1/2, and anything that stuns them for one turn doesn't affect them
+			else Enemy.slow = Math.max(Enemy.slow, Damage.time);
 		}
 	}
 
