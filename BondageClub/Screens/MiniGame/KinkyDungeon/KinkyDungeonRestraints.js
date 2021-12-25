@@ -11,15 +11,17 @@
 // Power is a scale of how powerful the restraint is supposed to be. It should roughly match the difficulty of the item, but can be higher for special items. Power 10 or higher might be totally impossible to struggle out of.
 
 // These are groups that the game is not allowed to remove because they were tied at the beginning
-var KinkyDungeonRestraintsLocked = [];
+let KinkyDungeonRestraintsLocked = [];
 
-var KinkyDungeonMultiplayerInventoryFlag = false;
-var KinkyDungeonItemDropChanceArmsBound = 0.2; // Chance to drop item with just bound arms and not bound hands.
+let KinkyDungeonMultiplayerInventoryFlag = false;
+let KinkyDungeonItemDropChanceArmsBound = 0.2; // Chance to drop item with just bound arms and not bound hands.
 
-var KinkyDungeonKnifeBreakChance = 0.15;
-var KinkyDungeonKeyJamChance = 0.33;
-var KinkyDungeonKeyPickBreakAmount = 5; // Number of tries per pick on average
-var KinkyDungeonPickBreakProgress = 0;
+//let KinkyDungeonKnifeBreakChance = 0.15;
+let KinkyDungeonKeyJamChance = 0.33;
+let KinkyDungeonKeyPickBreakAmount = 5; // Number of tries per pick on average
+let KinkyDungeonPickBreakProgress = 0;
+let KinkyDungeonKnifeBreakAmount = 8; // Number of tries per knife on average
+let KinkyDungeonKnifeBreakProgress = 0;
 
 var KinkyDungeonRestraints = [
 	{name: "DuctTapeArms", Asset: "DuctTape", Color: "#AA2222", Group: "ItemArms", magic: false, power: -2, weight: 0, escapeChance: {"Struggle": 0.3, "Cut": 0.9, "Remove": 0.5},
@@ -113,6 +115,17 @@ function KinkyDungeonKeyGetPickBreakChance(modifier) {
 
 	return chance;
 }
+function KinkyDungeonGetKnifeBreakChance(modifier) {
+	let mult = (modifier) ? modifier : 1.0;
+	let chance = 0;
+
+	KinkyDungeonKnifeBreakProgress += mult;
+
+	if (KinkyDungeonKnifeBreakProgress > KinkyDungeonKnifeBreakAmount/2) chance = (KinkyDungeonKnifeBreakProgress - KinkyDungeonKnifeBreakAmount/2) / (KinkyDungeonKnifeBreakAmount + 1); // Knifes last anywhere from 4-12 uses
+
+	return chance;
+}
+
 
 function KinkyDungeonLock(item, lock) {
 	item.lock = lock;
@@ -389,7 +402,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 				// Failure block for the different failure types
 				if (StruggleType == "Cut") {
 					if (restraint.restraint.magic && KinkyDungeonEnchantedBlades == 0) Pass = "Fail";
-					if (Math.random() < KinkyDungeonKnifeBreakChance || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
+					if (Math.random() < KinkyDungeonGetKnifeBreakChance() || restraint.lock == "Blue") { // Blue locks cannot be picked or cut!
 						Pass = "Break";
 						if (restraint.restraint.magic && KinkyDungeonEnchantedBlades > 0) KinkyDungeonEnchantedBlades -= 1;
 						else {
