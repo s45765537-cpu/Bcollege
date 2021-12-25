@@ -8,7 +8,7 @@ function KinkyDungeonHandleTraps(x, y, Moved) {
 		let msg = "";
 		let color = "red";
 		if (tile.Trap == "Skeletons") {
-			let created = KinkyDungeonSummonEnemy(x, y, "Skeleton", 6, 4);
+			let created = KinkyDungeonSummonEnemy(x, y, "SummonedSkeleton", 6, 4);
 			if (created > 0) {
 				msg = "Default";
 				KinkyDungeonTiles[x + "," + y] = undefined;
