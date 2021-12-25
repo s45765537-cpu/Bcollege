@@ -320,7 +320,7 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 	while (count < enemyCount && tries < 1000) {
 		let X = 1 + Math.floor(Math.random()*(width - 1));
 		let Y = 1 + Math.floor(Math.random()*(height - 1));
-		let playerDist = 4;
+		let playerDist = 6;
 		let PlayerEntity = KinkyDungeonNearestPlayer({x:X, y:Y});
 
 		if (Math.sqrt((X - PlayerEntity.x) * (X - PlayerEntity.x) + (Y - PlayerEntity.y) * (Y - PlayerEntity.y)) > playerDist && KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(X, Y))
