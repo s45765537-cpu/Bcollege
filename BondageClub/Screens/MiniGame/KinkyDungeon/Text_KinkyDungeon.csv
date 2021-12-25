@@ -182,6 +182,11 @@ KillSkeleton,"The Skeleton falls to pieces."
 AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
 AttackSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
 
+NameMummy,Mummy
+KillMummy,"The Mummy falls to pieces."
+AttackMummyBind,"The Mummy conjures a mystic wrapping! (+RestraintAdded)"
+AttackMummy,"The Mummy punishes you with a blow from her staff! (-DamageTaken SP)"
+
 NameSummonedSkeleton,Skeleton
 KillSummonedSkeleton,"The skeleton falls to pieces."
 AttackSummonedSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
@@ -279,14 +284,19 @@ KinkyDungeonStruggleRemoveSuccess,"You unfasten the TargetRestraint and get it o
 KinkyDungeonStruggleCutSuccess,"You cut the TargetRestraint off!"
 
 KinkyDungeonStruggleStruggleImpossible,"The item is too secure to struggle out."
+KinkyDungeonStruggleStruggleImpossible2,"The item tightens itself as you try to squeeze out."
 KinkyDungeonStruggleStruggleImpossibleBound,"You are too tightly bound to have a chance."
 KinkyDungeonStruggleUnlockImpossible,"You struggle with the key, but the locks are impossible to reach by yourself!"
+KinkyDungeonStruggleUnlockImpossible2,"You struggle with the key, but the locks are impossible to reach by yourself!"
 KinkyDungeonStruggleUnlockImpossibleBound,"You can't hold the key to unlock this with."
-KinkyDungeonStrugglePickImpossible,"The item uses an unpickable locking mechanism."
+KinkyDungeonStrugglePickImpossible,"Your picks won't work on this type of lock!"
+KinkyDungeonStrugglePickImpossible2,"There is no visible locking mechanism."
 KinkyDungeonStrugglePickImpossibleBound,"You can't maneuver the lockpick."
-KinkyDungeonStruggleRemoveImpossible,"It is impossible to manipulate the item."
+KinkyDungeonStruggleRemoveImpossible,"There are no knots or fasteners!"
+KinkyDungeonStruggleRemoveImpossible2,"The knots tighten themselves as you try to undo them!"
 KinkyDungeonStruggleRemoveImpossibleBound,"You are too tightly bound to manipulate that item."
-KinkyDungeonStruggleCutImpossible,"The item resists the knife without a scratch."
+KinkyDungeonStruggleCutImpossible,"The item is too durable to cut."
+KinkyDungeonStruggleCutImpossible2,"You fail to leave even a scratch!"
 KinkyDungeonStruggleCutImpossibleBound,"You can't hold a knife, let alone cut the thing."
 
 KinkyLockable,Lockable
@@ -438,6 +448,22 @@ RestraintDuctTapeFeetMummyDesc2,"It clings, almost of its own accord, but seems 
 RestraintDuctTapeLegsMummy,Charms
 RestraintDuctTapeLegsMummyDesc,"A layer of faintly magic ribbon wrapped tight around your thighs."
 RestraintDuctTapeLegsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+
+RestraintMysticDuctTapeHead,Charms
+RestraintMysticDuctTapeHeadDesc,"A band of magic ribbon wrapped tight around your eyes."
+RestraintMysticDuctTapeHeadDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+RestraintMysticDuctTapeMouth,Charms
+RestraintMysticDuctTapeMouthDesc,"A band of magic ribbon wrapped tight around your mouth."
+RestraintMysticDuctTapeMouthDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+RestraintMysticDuctTapeArmsMummy,Charms
+RestraintMysticDuctTapeArmsMummyDesc,"A layer of magic ribbon wrapped tight around your body."
+RestraintMysticDuctTapeArmsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+RestraintMysticDuctTapeFeetMummy,Charms
+RestraintMysticDuctTapeFeetMummyDesc,"A layer of magic ribbon wrapped tight around your shins."
+RestraintMysticDuctTapeFeetMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+RestraintMysticDuctTapeLegsMummy,Charms
+RestraintMysticDuctTapeLegsMummyDesc,"A layer of magic ribbon wrapped tight around your thighs."
+RestraintMysticDuctTapeLegsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintStuffing,Stuffing
 RestraintStuffingDesc,"A stuffing of cloth."
 RestraintStuffingDesc2,"You could spit it out easily, provided nothing's covering it."
@@ -595,6 +621,9 @@ ItemPickupRedKey,"You picked up a red key."
 ItemPickupGreenKey,"You picked up a green key."
 ItemPickupBlueKey,"You picked up a blue key."
 ItemPickupPotionHealth,"You picked up a willpower potion."
+ItemPickupPotionMana,"You picked up a glowing blue mana potion."
+ItemPickupPotionStamina,"You picked up a green stamina potion."
+ItemPickupPotionFrigid,"You picked up a frigid white potion."
 ItemPickupLore,"You found a peculiar note on the ground."
 ItemPickupHammer,"You pick up a heavy hammer."
 ItemPickupBoltCutters,"You pick up a set of bolt cutters."
@@ -705,6 +734,9 @@ KinkyDungeonSpellWitchSlime,Witch's Slime
 KinkyDungeonSpellDescriptionSlime,A huge pool of slime will greatly slow enemies that step inside.
 KinkyDungeonSpellCastSlime,You conjure a pool of slime!
 KinkyDungeonSpellTargetSlime,Select where the slime will start (SpellArea radius)
+
+KinkyDungeonSpellMummyBolt,Mystic Bolt
+KinkyDungeonMysticShock,The mummy's bolt paralyzes you!
 
 KinkyDungeonSpellSlimeBall,Slime Ball
 KinkyDungeonSpellWitchSlimeBall,Witch's Slime Ball

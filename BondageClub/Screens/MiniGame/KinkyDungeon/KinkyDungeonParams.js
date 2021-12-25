@@ -363,6 +363,7 @@ var KinkyDungeonMapParams = [
 			{Name: "HighsecBallGag", Level: 0},
 			{Name: "HighsecArmbinder", Level: 0},
 			{Name: "HighsecShackles", Level: 0},
+			{Name: "LegShackles", Level: 0},
 			{Name: "PrisonBelt", Level: 1},
 			{Name: "PrisonVibe", Level: 1},
 		],

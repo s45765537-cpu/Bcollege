@@ -96,6 +96,7 @@ Content
 - Reputation system that affects certain enemy spawn rates
 - New rope themed enemies that appear more often if you annoy the rope goddess
 - Added a new spooky illusion enemy
+- Added a new, rather difficult enemy in the new secret area
 - new bolt cutters weapon
 - Some doors have a chance to be locked
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
@@ -108,7 +109,6 @@ TODO (expecting to get this done soon):
 -Add max SP, MP, and AP upgrades as a rare drop in chests
 -New slow status effect (chainbolt and Slime spells apply this instead to enemies)
 -New ice wave spell that creates icicle landmines
--Mummy enemy with instant melee attacks
 -Make it so rope snare can't target spaces with enemies
 -Panel gag, Legbinder and bolero jacket restraints
 -Shock plug that stuns you at high arousal

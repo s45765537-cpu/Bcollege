@@ -94,6 +94,18 @@ function KinkyDungeonItemEvent(Item) {
 		priority = 2;
 		color = "lightgreen";
 		KinkyDungeonBlueKeys += 1;
+	} else if (Item.name == "PotionMana") {
+		priority = 3;
+		color = "lightblue";
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionMana, 1);
+	} else if (Item.name == "PotionStamina") {
+		priority = 3;
+		color = "lightgreen";
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionStamina, 1);
+	} else if (Item.name == "PotionFrigid") {
+		priority = 3;
+		color = "grey";
+		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionFrigid, 1);
 	}
 	KinkyDungeonSendActionMessage(priority, TextGet("ItemPickup" + Item.name).replace("XXX", Item.amount), color, 2);
 }

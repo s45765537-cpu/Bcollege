@@ -38,14 +38,17 @@ var KinkyDungeonEnemies = [
 		visionRadius: 4, maxhp: 1, evasion: 0.4, minLevel:0, weight:8, movePoints: 1.5, attackPoints: 2, attack: "MeleeWill", attackWidth: 1, attackRange: 1, power: 3, dmgType: "pain",
 		terrainTags: {"rubble":20, "increasingWeight":-5}, floors:[0]},
 	{name: "WitchShock", tags: ["leashing", "opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricimmune", "glueweakness", "iceweakness"],	followRange: 2, castWhileMoving: true, spells: ["WitchElectrify"],
-		spellCooldownMult: 1, spellCooldownMod: 0, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
+		spellCooldownMult: 1, spellCooldownMod: 0, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
 		terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], shrines: ["Elements"], dropTable: [{name: "RedKey", weight: 9}, {name: "BlueKey", weight: 2}]},
 	{name: "WitchChain", tags: ["leashing", "opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "electricweakness", "meleeresist", "fireresist"], followRange: 1, spells: ["ChainBolt"],
-		spellCooldownMult: 2, spellCooldownMod: 2, hp: 14, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:5, weight:6, movePoints: 3, attackPoints: 4, attack: "MeleeLockAllWillSpell", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope",
+		spellCooldownMult: 2, spellCooldownMod: 2, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:5, weight:6, movePoints: 3, attackPoints: 4, attack: "MeleeLockAllWillSpell", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope",
 		terrainTags: {"secondhalf":3, "lastthird":3, "miniboss": -10}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], shrines: ["Metal"], dropTable: [{name: "RedKey", weight: 9}, {name: "BlueKey", weight: 1}]},
 	{name: "WitchSlime", tags: ["leashing", "opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "glueimmune", "fireimmune", "meleeresist", "electricweakness", "iceweakness"], followRange: 5, castWhileMoving: true, spells: ["WitchSlimeBall", "WitchSlimeBall", "WitchSlime"],
-		spellCooldownMult: 2, spellCooldownMod: 1, hp: 10, AI: "wander", visionRadius: 8, maxhp: 14, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
+		spellCooldownMult: 2, spellCooldownMod: 1, AI: "wander", visionRadius: 8, maxhp: 10, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
 		terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -8}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], shrines: ["Conjure"], dropTable: [{name: "RedKey", weight: 8}, {name: "BlueKey", weight: 1}]},
+	{name: "Mummy", tags: ["leashing", "opendoors", "closedoors", "witch", "elite", "mummyRestraints", "iceresist", "meleeweakness"], followRange: 1, spells: ["MummyBolt"], blindSight: 10, minSpellRange: 1.5, bindCD: 3,
+		spellCooldownMult: 1, spellCooldownMod: 5, AI: "hunt", visionRadius: 7, maxhp: 8, minLevel:0, weight:11, movePoints: 2, attackPoints: 1, attack: "SpellMeleeBindWill", attackWidth: 1, attackRange: 1, power: 2, fullBoundBonus: 2, dmgType: "crush",
+		terrainTags: {"secondhalf":2, "lastthird":2,}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 30, amountMax: 60, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "BlueKey", weight: 1}]},
 	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch", "shackleRestraints"], followRange: 1, AI: "guard", visionRadius: 5, maxhp: 12, minLevel: -1, weight:0, movePoints: 1, attackPoints: 2, attack: "MeleeBindLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
 		terrainTags: {"jailer": 15}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], dropTable: [{name: "Pick", weight: 10}, {name: "RedKey", weight: 7}, {name: "BlueKey", weight: 1}]},
 
@@ -202,7 +205,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 
 		if (enemy.Enemy.tags && enemy.Enemy.tags.includes("leashing") && !KinkyDungeonHasStamina(1.1)) followRange = 1;
 
-
+		if (enemy.bindCD > 0)
+			enemy.bindCD -= delta;
 		if (enemy.slow > 0)
 			enemy.slow -= delta;
 		if (enemy.bind > 0)
@@ -325,7 +329,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 						}
 					}
 				} else { // Attack lands!
-					let hit = false;
+					let hit = enemy.Enemy.attackPoints <= 1;
 					for (let W = 0; W < enemy.warningTiles.length; W++) {
 						let tile = enemy.warningTiles[W];
 						if (enemy.x + tile.x == KinkyDungeonPlayerEntity.x && enemy.y + tile.y == KinkyDungeonPlayerEntity.y) {
@@ -358,7 +362,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 								priorityBonus += Lockable[L].restraint.power;
 							}
 							Locked = true;
-						} else if (enemy.Enemy.attack.includes("Bind")) {
+						} else if (enemy.Enemy.attack.includes("Bind") && (!enemy.Enemy.bindCD || !enemy.bindCD || enemy.bindCD <= 0) ) {
 							let numTimes = 1;
 							let added = false;
 							if (enemy.Enemy.multiBind) numTimes = enemy.Enemy.multiBind;
@@ -371,8 +375,10 @@ function KinkyDungeonUpdateEnemies(delta) {
 									added = true;
 								}
 							}
-							if (!added && enemy.Enemy.fullBoundBonus)
+							if (added && enemy.Enemy.bindCD) enemy.bindCD = enemy.Enemy.bindCD;
+							if (!added && enemy.Enemy.fullBoundBonus) {
 								willpowerDamage += enemy.Enemy.fullBoundBonus; // Some enemies deal bonus damage if they cannot put a binding on you
+							}
 						}
 
 
@@ -431,7 +437,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 			} else if (AI == "ambush" && ignore) enemy.ambushtrigger = false;
 
 
-			if (!ignore && (!moved || enemy.Enemy.castWhileMoving) && enemy.Enemy.attack.includes("Spell") && KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.visionRadius, false) && enemy.castCooldown <= 0) {
+			if (!ignore && (!moved || enemy.Enemy.castWhileMoving) && enemy.Enemy.attack.includes("Spell") && KinkyDungeonCheckLOS(enemy, player, playerDist, enemy.Enemy.visionRadius, false) && enemy.castCooldown <= 0
+				&& (!enemy.Enemy.minSpellRange || (playerDist > enemy.Enemy.minSpellRange))) {
 				idle = false;
 				let spellchoice = null;
 				let spell = null;
@@ -518,14 +525,16 @@ function KinkyDungeonEnemyTryAttack(enemy, player, Tiles, delta, x, y, replace, 
 
 	if (enemy.attackPoints >= enemy.Enemy.attackPoints) {
 		enemy.attackPoints = 0;
-		for (let T = 0; T < Tiles.length; T++) {
-			let ax = enemy.x + Tiles[T].x;
-			let ay = enemy.y + Tiles[T].y;
+		if (enemy.Enemy.attackPoints > 1)
+			for (let T = 0; T < Tiles.length; T++) {
+				let ax = enemy.x + Tiles[T].x;
+				let ay = enemy.y + Tiles[T].y;
 
-			if (player.x == ax && player.y == ay) {
-				return true;
+				if (player.x == ax && player.y == ay) {
+					return true;
+				}
 			}
-		}
+		else return true;
 	} else { // Verify player is in warningtiles and reset otherwise
 		let playerIn = false;
 		for (let T = 0; T < Tiles.length; T++) {

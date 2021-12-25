@@ -10,8 +10,8 @@ function KinkyDungeonInitializeDresses() {
 	KinkyDungeonDresses = {
 		"Default" : [
 			{Item: "WitchHat1", Group: "Hat", Color: "Default", Lost: false},
-			{Item: "LeatherCorsetTop1", Group: "Cloth", Color: "Default", Lost: false},
-			{Item: "LatexSkirt1", Group: "ClothLower", Color: "Default", Lost: false, Skirt: true},
+			{Item: "LeatherCorsetTop1", Group: "Corset", Color: "Default", Lost: false},
+			{Item: "LatexSkirt1", Group: "ClothLower", Color: "Default", OverridePriority: 22, Lost: false, Skirt: true},
 			{Item: "Socks4", Group: "Socks", Color: "#444444", Lost: false},
 			{Item: "Heels3", Group: "Shoes", Color: "#222222", Lost: false},
 			{Item: "KittyPanties1", Group: "Panties", Color: "#222222", Lost: false},
@@ -66,8 +66,10 @@ function KinkyDungeonDressPlayer() {
 				if (KinkyDungeonGetRestraintItem("ItemBreast")) clothes.Lost = true;
 			}
 			if (clothes.Group == "ClothLower" && clothes.Skirt) {
-				if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
-				if (KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = true;
+				//if (KinkyDungeonGetRestraintItem("ItemTorso") && KinkyDungeonGetRestraintItem("ItemTorso").restraint.harness) clothes.Lost = true;
+				//if (KinkyDungeonGetRestraintItem("ItemPelvis")) clothes.Lost = true;
+				if (InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ItemLegs")) clothes.Lost = true;
+				if (InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, "ClothLower")) clothes.Lost = true;
 			}
 			if (clothes.Group == "Shoes") {
 				if (KinkyDungeonGetRestraintItem("ItemBoots")) clothes.Lost = true;
@@ -81,6 +83,13 @@ function KinkyDungeonDressPlayer() {
 		if (!clothes.Lost) {
 			if (KinkyDungeonCheckClothesLoss) {
 				InventoryWear(KinkyDungeonPlayer, clothes.Item, clothes.Group);
+				if (clothes.OverridePriority) {
+					let item = InventoryGet(KinkyDungeonPlayer, clothes.Group);
+					if (item) {
+						if (!item.Property) item.Property = {OverridePriority: clothes.OverridePriority};
+						else item.Property.OverridePriority = clothes.OverridePriority;
+					}
+				}
 				CharacterAppearanceSetColorForGroup(KinkyDungeonPlayer, clothes.Color, clothes.Group);
 			}
 		}
