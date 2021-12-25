@@ -172,11 +172,17 @@ KillFastZombie,"The zombie screams and tumbles to the floor."
 AttackFastZombieBind,"The zombie swiftly wraps you in charms (+RestraintAdded)"
 AttackFastZombie,"The zombie gropes your body! (-DamageTaken SP)"
 
-NameSamuraiZombie,Samurai Zombie
-KillSamuraiZombie,"The Samurai zombie screeches and tumbles to the floor."
-AttackSamuraiZombieBind,"The Samurai zombie uses a traditional binding technique (+RestraintAdded)"
-AttackSamuraiZombieStun,"The Samurai zombie strikes you with her wooden sword! (+STUN)"
-AttackSamuraiZombie,"The Samurai zombie runs its fingers along your body! (-DamageTaken SP)"
+NameSamuraiZombie,Warrior Zombie
+KillSamuraiZombie,"The Warrior zombie yells and falls cinematically."
+AttackSamuraiZombieBind,"The Warrior zombie uses a traditional binding technique (+RestraintAdded)"
+AttackSamuraiZombieStun,"The Warrior zombie strikes you with her wooden sword! (+STUN)"
+AttackSamuraiZombie,"The Warrior zombie runs its fingers along your body! (-DamageTaken SP)"
+
+NameNinja,Assassin
+KillNinja,"The assassin retreats into the shadows."
+AttackNinjaBind,"The assassin uses a traditional binding technique (+RestraintAdded)"
+AttackNinjaStun,"The assassin tosses a shuriken and hits you! (+STUN)"
+AttackNinja,"The assassin uses a subduing technique! (-DamageTaken SP)"
 
 NameAnimatedArmor,Animated Armor
 KillAnimatedArmor,"The Animated Armor falls into pieces."

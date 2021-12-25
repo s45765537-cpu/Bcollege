@@ -95,8 +95,8 @@ Content
 - Added shortcuts, on floor 3 there is a stairway to a new (unfinished) tomb area with a different tileset
 - Reputation system that affects certain enemy spawn rates
 - New rope themed enemies that appear more often if you annoy the rope goddess
-- Added a new spooky illusion enemy
-- Added a new, rather difficult enemy in the new secret area
+- Added a new spooky illusion Enemy
+- New enemies: samurai, ninjas, mummies
 - new bolt cutters weapon
 - Some doors have a chance to be locked
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
