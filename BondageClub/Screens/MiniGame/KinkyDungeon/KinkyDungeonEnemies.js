@@ -10,8 +10,8 @@ var KinkyDungeonEnemies = [
 		specialCDonAttack: false, visionRadius: 6, maxhp: 20, minLevel:4, weight:5, movePoints: 3, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4, specialWidth: 5, specialRange: 1,
 		terrainTags: {"secondhalf":8, "lastthird":6}, floors:[0, 11], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 2}, {name: "Gold", amountMin: 15, amountMax: 29, weight: 5}]},
 	{name: "Ninja", tags: ["leashing", "opendoors", "human", "melee", "ropeRestraints", "ropeRestraints2", "meleeweakness"], blindsight: 5, stealth: 1, evasion: 0.5, followRange: 1, AI: "hunt", stunTime: 4, specialCD: 8, specialCharges: 2, specialAttack: "Stun", specialRemove: "Bind",
-		specialCDonAttack: false, visionRadius: 10, maxhp: 12, minLevel:3, weight:9, movePoints: 1, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "crush", fullBoundBonus: 4, specialWidth: 1, specialRange: 4, specialMinrange: 1, //specialFollow: 3,
-		terrainTags: {"secondhalf":6, "lastthird":8}, floors:[1, 11], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 1}, {name: "Pick", amountMin: 15, amountMax: 29, weight: 5}]},
+		specialCDonAttack: false, visionRadius: 10, maxhp: 12, minLevel:3, weight:9, movePoints: 1, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "crush", fullBoundBonus: 4, specialWidth: 1, specialRange: 4, specialMinrange: 1.5, //specialFollow: 3,
+		terrainTags: {"secondhalf":6, "lastthird":14}, floors:[1, 11], dropTable: [{name: "Gold", amountMin: 50, amountMax: 80, weight: 1}, {name: "Pick", amountMin: 15, amountMax: 29, weight: 5}]},
 	{name: "Skeleton", tags: ["leashing", "skeleton", "melee", "ropeRestraints", "leatherRestraints", "clothRestraints", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1, AI: "hunt",
 		visionRadius: 4, maxhp: 5, minLevel:1, weight:8, movePoints: 2, attackPoints: 2, attack: "MeleeBind", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope", fullBoundBonus: 4,
 		terrainTags: {"secondhalf":4}, shrines: ["Leather"], floors:[1, 11], dropTable: [{name: "Gold", amountMin: 25, amountMax: 50, weight: 2}, {name: "Gold", amountMin: 20, amountMax: 35, weight: 5}]},
@@ -236,6 +236,8 @@ function KinkyDungeonUpdateEnemies(delta) {
 			let usingSpecial = false;
 			let range = enemy.Enemy.attackRange;
 			let width = enemy.Enemy.attackWidth;
+
+			let playerDist = Math.sqrt((enemy.x - player.x)*(enemy.x - player.x) + (enemy.y - player.y)*(enemy.y - player.y));
 			if (enemy.Enemy.specialAttack && (!enemy.specialCD || enemy.specialCD <= 0) && (!enemy.Enemy.specialMinrange || playerDist > enemy.Enemy.specialMinrange)) {
 				attack = attack + enemy.Enemy.specialAttack;
 				usingSpecial = true;
@@ -254,7 +256,6 @@ function KinkyDungeonUpdateEnemies(delta) {
 
 			var AI = enemy.Enemy.AI;
 			if (!enemy.warningTiles) enemy.warningTiles = [];
-			var playerDist = Math.sqrt((enemy.x - player.x)*(enemy.x - player.x) + (enemy.y - player.y)*(enemy.y - player.y));
 
 			if (AI == "wander") {
 				idle = true;
