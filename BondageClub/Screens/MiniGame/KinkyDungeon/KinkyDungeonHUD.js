@@ -170,19 +170,19 @@ function KinkyDungeonDrawProgress(x, y, amount, maxWidth, sprite) {
 function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 	// Draw labels
 	let buttonWidth = 48;
+	let suff = (!KinkyDungeonPlayer.CanTalk()) ? "Unavailable" : "";
 	if (KinkyDungeonStatArousal > 0) {
 		DrawText(TextGet("StatArousal").replace("MAX", KinkyDungeonStatArousalMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatArousal) + ""), x+width/2 + buttonWidth, y + 25, (KinkyDungeonStatArousal < 100) ? "white" : "pink", "silver");
-		if (KinkyDungeonStatArousal > 0 && KinkyDungeonItemCount("PotionFrigid")) {
-			let suff = (KinkyDungeonPlayer.CanTalk()) ? "Unavailable" : "";
+		if (KinkyDungeonItemCount("PotionFrigid")) {
 			DrawButton(x, y, buttonWidth, buttonWidth, "", "Pink", KinkyDungeonRootDirectory + "UsePotion" + suff + ".png", "");
 		}
 	}
 	DrawText(TextGet("StatStamina").replace("MAX", KinkyDungeonStatStaminaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatStamina) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar, (KinkyDungeonStatStamina > 0.5) ? "white" : "pink", "silver");
 	if (KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax && KinkyDungeonItemCount("PotionStamina"))
-		DrawButton(x, y+heightPerBar, buttonWidth, buttonWidth, "", "#AAFFAA", KinkyDungeonRootDirectory + "UsePotion.png", "");
+		DrawButton(x, y+heightPerBar, buttonWidth, buttonWidth, "", "#AAFFAA", KinkyDungeonRootDirectory + "UsePotion" + suff + ".png", "");
 	DrawText(TextGet("StatMana").replace("MAX", KinkyDungeonStatManaMax + "").replace("CURRENT", Math.floor(KinkyDungeonStatMana) + ""), x+width/2 + buttonWidth, y + 25 + heightPerBar * 2, (KinkyDungeonStatMana > 0.5) ? "white" : "pink", "silver");
 	if (KinkyDungeonStatMana < KinkyDungeonStatManaMax && KinkyDungeonItemCount("PotionMana"))
-		DrawButton(x, y+2*heightPerBar, buttonWidth, buttonWidth, "", "#AAAAFF", KinkyDungeonRootDirectory + "UsePotion.png", "");
+		DrawButton(x, y+2*heightPerBar, buttonWidth, buttonWidth, "", "#AAAAFF", KinkyDungeonRootDirectory + "UsePotion" + suff + ".png", "");
 
 	let maxVisual = KinkyDungeonStatMaxMax;
 	// Draw arousal
@@ -302,15 +302,15 @@ function KinkyDungeonHandleHUD() {
 		if (MouseIn(xxx, yyy + 0 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionFrigid") && KinkyDungeonStatArousal > 0) {
 			if (KinkyDungeonPlayer.CanTalk())
 				KinkyDungeonAttemptConsumable("PotionFrigid", 1);
-			else KinkyDungeonSendActionMessage(4, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
-		} else if (MouseIn(xxx, yyy + 1 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionStamina") && KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax && KinkyDungeonPlayer.CanTalk()) {
+			else KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
+		} else if (MouseIn(xxx, yyy + 1 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionStamina") && KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax) {
 			if (KinkyDungeonPlayer.CanTalk())
 				KinkyDungeonAttemptConsumable("PotionStamina", 1);
-			else KinkyDungeonSendActionMessage(4, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
-		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax && KinkyDungeonPlayer.CanTalk()) {
+			else KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
+		} else if (MouseIn(xxx, yyy + 2 * KinkyDungeonStatBarHeight, buttonWidth, buttonWidth) && KinkyDungeonItemCount("PotionMana") && KinkyDungeonStatMana < KinkyDungeonStatManaMax) {
 			if (KinkyDungeonPlayer.CanTalk())
 				KinkyDungeonAttemptConsumable("PotionMana", 1);
-			else KinkyDungeonSendActionMessage(4, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
+			else KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
 		} else if (MouseIn(xxx, yyy + 3 * KinkyDungeonStatBarHeight, 250, 50)) {
 			KinkyDungeonSleepTurns = 20;
 		}
