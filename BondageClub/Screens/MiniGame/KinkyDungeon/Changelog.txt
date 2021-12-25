@@ -99,9 +99,10 @@ Content
 - new bolt cutters weapon
 - Some doors have a chance to be locked
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
-- New special pressure-plate traps (that are often the only way through if you dont have a key)
+- New special pressure-plate traps (that are often the only way through if you dont have a key to unlock a door)
 
 TODO (expecting to get this done soon):
+-Add max SP, MP, and AP upgrades as a rare drop in chests
 -New slow status effect (chainbolt and Slime spells apply this instead to enemies)
 -New ice wave spell that creates icicle landmines
 -Mummy enemy with instant melee attacks
@@ -110,6 +111,7 @@ TODO (expecting to get this done soon):
 -Shock plug that stuns you at high arousal
 
 Other Features
+- Knives now use the same random-number-of-uses mechanic as lockpicks which gives some guaranteed uses
 - Picks, Knives, and Red Keys are now in the shop
 - Gagged mumbling while moving around
 - More flavorful text when waiting

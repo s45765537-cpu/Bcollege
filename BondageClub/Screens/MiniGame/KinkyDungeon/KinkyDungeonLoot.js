@@ -91,7 +91,7 @@ function KinkyDungeonLoot(Level, Index, Type) {
 
 			replace = KinkyDungeonSendActionMessage(6, TextGet(lootWeights[L].loot.message), lootWeights[L].loot.messageColor, lootWeights[L].loot.messageTime);
 
-			KinkyDungeonLootEvent(lootWeights[L].loot, Index, replace);
+			KinkyDungeonLootEvent(lootWeights[L].loot, Level, replace);
 
 			break;
 		}
@@ -132,7 +132,7 @@ So the question is not "why did somebody lay these traps." The answer is that th
 As for why there are so many restraints in general rather than your typical sort of spirits... well we know what the Mistress surrounded herself with."
 */
 
-function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
+function KinkyDungeonLootEvent(Loot, Floor, Replacemsg) {
 	let value = 0;
 	if (Loot.name == "spell_illusion_low") {
 		let SpellsUnlearned = KinkyDungeonGetUnlearnedSpells(0, 5, KinkyDungeonSpellList.Illusion);
@@ -159,9 +159,9 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("SpellLearned", TextGet("KinkyDungeonSpell" + spell.name));
 		KinkyDungeonSpells.push(spell);
 	} else if (Loot.name == "gold") {
-		value = Math.ceil((25 + 25 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((25 + 25 * Math.random()) * (1 + Floor/40));
 	} else if (Loot.name == "smallgold") {
-		value = Math.ceil((1 + 4 * Math.random()) * (1 + Index));
+		value = Math.ceil((1 + 4 * Math.random()) * (1 + Floor/25));
 	} else if (Loot.name == "knife") {
 		KinkyDungeonNormalBlades += 1;
 	} else if (Loot.name == "magicknife") {
@@ -189,48 +189,48 @@ function KinkyDungeonLootEvent(Loot, Index, Replacemsg) {
 	} else if (Loot.name == "potion_frigid") {
 		KinkyDungeonChangeConsumable(KinkyDungeonConsumables.PotionFrigid, 1);
 	} else if (Loot.name == "trap_armbinder") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapArmbinder"), MiniGameKinkyDungeonCheckpoint, true, false);
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapArmbinder"));
 	} else if (Loot.name == "trap_cuffs") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapCuffs"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemArms"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapCuffs"));
 	} else if (Loot.name == "trap_harness") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapHarness"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemTorso"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapHarness"));
 	} else if (Loot.name == "trap_gag") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapGag"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemMouth"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapGag"));
 	} else if (Loot.name == "trap_blindfold") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapBlindfold"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemHead"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapBlindfold"));
 	} else if (Loot.name == "trap_boots") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapBoots"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemBoots"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapBoots"));
 	} else if (Loot.name == "trap_legirons") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapLegirons"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemFeet"), KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapLegirons"));
 	} else if (Loot.name == "trap_belt") {
-		value = Math.ceil((40 + 40 * Math.random()) * (1 + Index/2));
+		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
 		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapVibe"), MiniGameKinkyDungeonCheckpoint, true, false);
 		if (KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapBelt"), MiniGameKinkyDungeonCheckpoint, true, true) > 0)
 			KinkyDungeonLock(KinkyDungeonGetRestraintItem("ItemPelvis"), KinkyDungeonGenerateLock(true));
