@@ -195,9 +195,19 @@ AttackSkeletonBind,"The Skeleton restrains you! (+RestraintAdded)"
 AttackSkeleton,"The Skeleton tackles you! (-DamageTaken SP)"
 
 NameMummy,Mummy
-KillMummy,"The Mummy falls to pieces."
+KillMummy,"The Mummy collapses and her body vanishes."
 AttackMummyBind,"The Mummy conjures a mystic wrapping! (+RestraintAdded)"
 AttackMummy,"The Mummy punishes you with a blow from her staff! (-DamageTaken SP)"
+
+NameMeleeCleric,Bast Warrior
+KillMeleeCleric,"The Bast Warrior collapses and meows loudly."
+AttackMeleeClericBind,"The Bast Warrior restrains you! (+RestraintAdded)"
+AttackMeleeCleric,"The Bast Warrior tickles you with her claws! (-DamageTaken SP)"
+
+
+NameCleric,Bast Cleric
+KillCleric,"The Bast Cleric collapses and meows softly."
+AttackCleric,"A ray of light shoots out and paralyzes you! (-DamageTaken SP)"
 
 NameSummonedSkeleton,Skeleton
 KillSummonedSkeleton,"The skeleton falls to pieces."
@@ -460,6 +470,13 @@ RestraintDuctTapeFeetMummyDesc2,"It clings, almost of its own accord, but seems 
 RestraintDuctTapeLegsMummy,Charms
 RestraintDuctTapeLegsMummyDesc,"A layer of faintly magic ribbon wrapped tight around your thighs."
 RestraintDuctTapeLegsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+
+RestraintKittyGag,Bast Gag
+RestraintKittyGagDesc,"A gag used to silence new initiates of the Bast cult."
+RestraintKittyGagDesc2,"The harness is comprehensive and it's locked in place."
+RestraintKittyPaws,Bast Paws
+RestraintKittyPawsDesc,"Leather mittens used to pacify new initiates of the Bast cult."
+RestraintKittyPawsDesc2,"They make it hard to manipulate anything at all, but aren't the toughest material."
 
 RestraintMysticDuctTapeHead,Charms
 RestraintMysticDuctTapeHeadDesc,"A band of magic ribbon wrapped tight around your eyes."
