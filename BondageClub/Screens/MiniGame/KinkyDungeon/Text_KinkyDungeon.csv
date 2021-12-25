@@ -114,7 +114,6 @@ KinkyDungeonRarity7,Legendary
 KinkyDungeonRarity8,Mythical
 KinkyDungeonRarity9,Godlike
 
-KinkyDungeonConsumableFail,"You fiddle around with the item instead of using it."
 KinkyDungeonConsumableQuantity,Quantity:
 KinkyDungeonConsume,Use Item (Consumes 1)
 
@@ -308,6 +307,7 @@ KinkyGreenLockAbr,"(G)"
 KinkyBlueLockAbr,"(B)"
 KinkyYellowLockAbr,"(Y)"
 
+KinkyDungeonPotionGagged,"You can't drink that while gagged!"
 KinkyDungeonCantUsePotions,"You can't drink potions with your hands bound."
 KinkyDungeonDropPick,"You drop the pick due to your bound hands!"
 KinkyDungeonDropKnife,"You drop your knife due to your bound hands!"
