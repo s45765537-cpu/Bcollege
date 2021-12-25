@@ -755,7 +755,7 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 					}
 				}
 				if (success) {
-					if (!KinkyDungeonTiles[room.door.x + "," + room.door.y].Lock && !KinkyDungeonTiles[X + "," + Y].Lock
+					if (Math.random() < trapChance && !KinkyDungeonTiles[room.door.x + "," + room.door.y].Lock && !KinkyDungeonTiles[X + "," + Y].Lock
 						&& ((KinkyDungeonGetAccessibleRoom(X+1, Y).length != KinkyDungeonGetAccessibleRoom(X-1, Y).length
 							&& KinkyDungeonIsReachable(X+1, Y, X, Y) && KinkyDungeonIsReachable(X-1, Y, X, Y))
 						|| (KinkyDungeonGetAccessibleRoom(X, Y+1).length != KinkyDungeonGetAccessibleRoom(X, Y-1).length)

@@ -14,7 +14,7 @@ var KinkyDungeonMapParams = [
 		"doorchance" : 0.67,
 		"nodoorchance" : 0.1,
 		"doorlockchance" : -0.1,
-		"trapchance" : 0.5,
+		"trapchance" : 0.3,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.1,
 
@@ -62,7 +62,7 @@ var KinkyDungeonMapParams = [
 		"doorchance" : 0.8,
 		"nodoorchance" : 0.05,
 		"doorlockchance" : -0.05,
-		"trapchance" : 0.5,
+		"trapchance" : 0.4,
 		"rubblechance" : 0.6,
 		"brickchance" : 0.4,
 
@@ -345,7 +345,7 @@ var KinkyDungeonMapParams = [
 		"doorchance" : 0.4,
 		"nodoorchance" : 0.25,
 		"doorlockchance" : -0.05,
-		"trapchance" : 1.0,
+		"trapchance" : 0.7,
 		"rubblechance" : 0.7,
 		"brickchance" : 0.4,
 
