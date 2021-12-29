@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * Female3	CGExtended.js
+ * Female3DCGExtended.js
  * ---------------------
  * This file contains definitions and configuration for extended items. Items which are marked as Extended in
  * `Female3DCG.js` and which have an extended item definition here will have their load/draw/click functions

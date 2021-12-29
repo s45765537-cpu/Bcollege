@@ -5,7 +5,8 @@ var NurseryJustClicked = null;
 var NurseryNurse = null;
 var NurseryABDL1 = null;
 var NurseryABDL2 = null;
-var NurseryPlayerBadBabyStatus = 0;						//	0 = Good girl	1 = ready to be forgiven	>= 2 = severity of naughtiness.
+/** 0 = Good girl; 1 = ready to be forgiven; >= 2 = severity of naughtiness. */
+var NurseryPlayerBadBabyStatus = 0;
 var NurseryPlayerInappropriateCloth = null;
 var NurseryCoolDownTime = 0;
 var NurseryPlayerAppearance = null;
@@ -17,8 +18,10 @@ var RandomResultB = null;
 var PreviousDress = "";
 var PreviousDressColor = "";
 var NurseryPlayerKeepsLoosingBinky = null;
-var NurseryGateMsg = null;								// message about nursery gate
-var NurseryLeaveMsg = null;								// message about ease of opening nursery gate
+/** message about nursery gate  */
+var NurseryGateMsg = null;
+/** message about ease of opening nursery gate */
+var NurseryLeaveMsg = null;
 var NurseryEscapeAttempts = null;
 var NursuryEscapeFailMsg = null;
 var NurseryRepeatOffender = null;
