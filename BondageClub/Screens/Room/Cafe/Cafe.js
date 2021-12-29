@@ -148,7 +148,7 @@ function CafeConsumeSpeciiality() {
 	else {
 		CharacterChangeMoney(Player, CafePrice * -1);
 		if (!LogQuery("ModifierDuration", "SkillModifier")) LogAdd("ModifierLevel", "SkillModifier", 0);
-			SkillModifier = LogValue("ModifierLevel", "SkillModifier");
+		SkillModifier = LogValue("ModifierLevel", "SkillModifier");
 
 		if (CafeAskedFor == "EnergyDrink") {
 			if (SkillModifier >= SkillModifierMax) CafeMaid.CurrentDialog = DialogFind(CafeMaid, "EnergyDrinkLimit");
