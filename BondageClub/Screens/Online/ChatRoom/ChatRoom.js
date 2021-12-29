@@ -3091,7 +3091,7 @@ function ChatRoomAdminAction(ActionType, Publish) {
 		if (ActionType == "Move") {
 			ChatRoomMoveTarget = CurrentCharacter.MemberNumber;
 		} else {
-			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: ((Publish == null) || (Publish != false && Publish != "false")) });
+			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: (Publish !== false && Publish !== "false") });
 		}
 		DialogLeave();
 	}

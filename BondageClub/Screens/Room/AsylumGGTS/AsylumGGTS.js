@@ -167,7 +167,7 @@ function AsylumGGTSBuildPrivate() {
  */
 function AsylumGGTSCharacterName(C) {
 	let Name = C.Name;
-	if ((CurrentScreen != "ChatRoom") || (ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return Name;
+	if ((CurrentScreen !== "ChatRoom") || (ChatRoomSpace !== "Asylum")) return Name;
 	if ((ChatRoomData == null) || (ChatRoomData.Game == null) || (ChatRoomData.Game != "GGTS")) return Name;
 	let Level = AsylumGGTSGetLevel(C);
 	if ((Level >= 2) && (Level <= 2)) Name = C.Name + "-" + C.MemberNumber.toString();
@@ -484,7 +484,7 @@ function AsylumGGTSNewTask() {
 	if (Level == 4) AsylumGGTSTimer = Math.round(CommonTime() + 45000);
 	if (Level >= 5) AsylumGGTSTimer = Math.round(CommonTime() + 40000);
 	if (Level <= 0) return;
-	if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return;
+	if (ChatRoomSpace !== "Asylum") return;
 	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) return;
 	let TaskList = [];
 	for (let L = 0; (L < AsylumGGTSTaskList.length) && (L <= Level); L++)
@@ -563,7 +563,7 @@ function AsylumGGTSRemoveRule(Rule) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSEndTask() {
-	if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return;
+	if (ChatRoomSpace !== "Asylum") return;
 	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) return;
 	if (AsylumGGTSTaskDone(Player, AsylumGGTSTask)) {
 		AsylumGGTSMessage("TaskDone");
@@ -619,7 +619,7 @@ function AsylumGGTSProcess() {
 		AsylumGGTSTaskEnd = CommonTime();
 		AsylumGGTSTimer = 0;
 		AsylumGGTSSetTimer();
-		if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) AsylumGGTSMessage("IntroOnlyInAsylum");
+		if (ChatRoomSpace !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
 		else if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) AsylumGGTSMessage("IntroPendingPunishment");
 		else if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate");
@@ -704,7 +704,7 @@ function AsylumGGTSControlItem(C, Item) {
 	if (Level <= 0) return false;
 	if (Level <= 2) {
 		if (CurrentScreen != "ChatRoom") return false;
-		if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return false;
+		if (ChatRoomSpace !== "Asylum") return false;
 		if ((ChatRoomData == null) || (ChatRoomData.Game == null) || (ChatRoomData.Game != "GGTS")) return false;
 		if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
 		if (Item.Asset.Name.substr(0, 10) == "Futuristic") return true;
@@ -771,7 +771,7 @@ function AsylumGGTSUngag() {
  * @return {void} - Nothing
  */
 function AsylumGGTSTOrgasm(C) {
-	if ((ChatRoomSpace == null) || (ChatRoomSpace != "Asylum")) return;
+	if (ChatRoomSpace !== "Asylum") return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game == null) || (ChatRoomData.Game != "GGTS")) return;
 	if ((C == null) || (C.ID != 0)) return;
 	if ((Player.Game == null) || (Player.Game.GGTS == null) || (Player.Game.GGTS.Strike == null) || (Player.Game.GGTS.Strike >= 3) || (Player.Game.GGTS.Level == null) || (Player.Game.GGTS.Level < 1)) return;
