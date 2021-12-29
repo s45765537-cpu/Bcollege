@@ -40,7 +40,7 @@ function AsylumGGTSLevelCompleted() {
 /**
  * Returns the character GGTS level
  * @param {Character} C - The character to evaluate
- * @returns {void} - Nothing
+ * @returns {number} - Nothing
  */
 function AsylumGGTSGetLevel(C) {
 	return ((C.Game != null) && (C.Game.GGTS != null) && (C.Game.GGTS.Level != null) && (C.Game.GGTS.Level >= 1) && (C.Game.GGTS.Level <= 10)) ? C.Game.GGTS.Level : 0;
