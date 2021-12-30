@@ -475,6 +475,7 @@ function ChatSearchAutoJoinRoom() {
 					ChatSearchRejoinIncrement += 1;
 					const ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
 					Player.LastChatRoom = Player.LastChatRoom.substring(0, Math.min(Player.LastChatRoom.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
+					ChatCreateMessage = "";
 					ChatSearchQuery();
 				} else {
 					var NewRoom = {
