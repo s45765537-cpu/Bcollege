@@ -1103,21 +1103,21 @@ var AssetFemale3DCG = [
 		Clothing: true,
 		Left: 125,
 		Top: 0,
-		AllowPose: ["Suspension"],
 		PreviewZone: [140, 0, 220, 220],
 		Asset: [
-			"Band1", "Band2", "Beret1",
+			"Band1", "Band2",
+			{ Name: "Beret1", HideForPose: ["Suspension"] },
 			{ Name: "MaidHairband1", Fetish: ["Lingerie"], Value: -1 },
 			{ Name: "NurseCap", Value: -1 },
 			{
-				Name: "Santa1", Value: 20,
+				Name: "Santa1", Value: 20, HideForPose: ["Suspension"],
 				Layer: [
 					{ Name: "Fabric" },
 					{ Name: "Fur" }
 				]
 			},
 			{
-				Name: "CaptainHat1", Value: 25, Layer: [
+				Name: "CaptainHat1", Value: 25, HideForPose: ["Suspension"], Layer: [
 					{ Name: "Top" },
 					{ Name: "Insignia" },
 					{ Name: "Rope" },
@@ -1126,7 +1126,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "BunnySuccubus2", Fetish: ["Pet"], Value: 35 },
 			{
-				Name: "WitchHat1", Value: 40,
+				Name: "WitchHat1", Value: 40, HideForPose: ["Suspension"],
 				Layer: [
 					{ Name: "Hat" },
 					{ Name: "Band" },
@@ -1154,7 +1154,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "HeadTowel1", Value: 15, Hide: ["HairFront", "HairBack"] },
-			{ Name: "CollegeDunce", Value: -1 },
+			{ Name: "CollegeDunce", Value: -1, HideForPose: ["Suspension"] },
 			{ Name: "Tiara1", Value: 40 },
 			{
 				Name: "Bonnet1", Value: 20,
@@ -1164,25 +1164,25 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Bonnet2", Value: 20 },
-			{ Name: "Crown1", Value: 20 },
+			{ Name: "Crown1", Value: 20, HideForPose: ["Suspension"] },
 			{
-				Name: "Crown2", Value: 20, Layer: [
+				Name: "Crown2", Value: 20, HideForPose: ["Suspension"], Layer: [
 					{ Name: "Crown" },
 					{ Name: "Jewels" }
 				]
 			},
 			{
-				Name: "Crown3", Value: 20, Layer: [
+				Name: "Crown3", Value: 20, HideForPose: ["Suspension"], Layer: [
 					{ Name: "Crown" },
 					{ Name: "Jewels" }
 				]
 			},
-			{ Name: "Crown4", Value: 20 },
-			{ Name: "Crown5", Value: 20 },
-			{ Name: "SmallHat1", Value: 30 },
+			{ Name: "Crown4", Value: 20, HideForPose: ["Suspension"] },
+			{ Name: "Crown5", Value: 20, HideForPose: ["Suspension"] },
+			{ Name: "SmallHat1", Value: 30, HideForPose: ["Suspension"] },
 			{ Name: "Veil1", Fetish: ["Lingerie"], Value: 40 },
 			{ Name: "Veil2", Fetish: ["Lingerie"], Value: 40 },
-			{ Name: "BakerBoyHat", Value: 40, },
+			{ Name: "BakerBoyHat", Value: 40, HideForPose: ["Suspension"] },
 			{ Name: "ReindeerBand", Value: 10 },
 			{ Name: "FurHeadband", Value: 5},
 			{ Name: "FacePaint", Value: 10, Left: 150, Top: 20, Priority: 7, BuyGroup: "FacePaint", DefaultColor: ["#9A7F76"], Hide: ["Head"] },
