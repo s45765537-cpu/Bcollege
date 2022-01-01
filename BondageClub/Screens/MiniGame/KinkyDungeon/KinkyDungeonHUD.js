@@ -322,7 +322,7 @@ function KinkyDungeonHandleHUD() {
 			else KinkyDungeonSendActionMessage(7, TextGet("KinkyDungeonPotionGagged"), "orange", 1);
 		} else if (MouseIn(xxx, yyy + 3 * KinkyDungeonStatBarHeight, 250, 50)) {
 			KinkyDungeonSleepTurns = 20;
-			KinkyDungeonAlert = 8; // Alerts nearby enemies; intent is that the enemies are searching while you sleep;
+			KinkyDungeonAlert = 4; // Alerts nearby enemies; intent is that the enemies are searching while you sleep;
 		}
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
