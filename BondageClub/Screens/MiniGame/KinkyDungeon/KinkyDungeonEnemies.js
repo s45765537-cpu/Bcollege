@@ -770,7 +770,7 @@ function KinkyDungeonDefeat() {
 	MiniGameKinkyDungeonLevel = Math.floor(MiniGameKinkyDungeonLevel/10)*10;
 	KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonLeashed"), "#ff0000", 3);
 	let params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];
-	KinkyDungeonSpawnJailers = 5;
+	KinkyDungeonSpawnJailers = KinkyDungeonSpawnJailersMax;
 	KinkyDungeonCreateMap(params, MiniGameKinkyDungeonLevel);
 
 	KinkyDungeonSetDress(params.defeat_outfit);
