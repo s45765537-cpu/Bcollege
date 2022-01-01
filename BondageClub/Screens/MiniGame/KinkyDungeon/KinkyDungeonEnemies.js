@@ -219,7 +219,7 @@ function KinkyDungeonEnemyCheckHP(enemy, E) {
 }
 
 function KinkyDungeonCheckLOS(enemy, player, distance, maxdistance, allowBlind) {
-	return distance <= maxdistance && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
+	return distance <= maxdistance && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y, allowBlind));
 }
 
 function KinkyDungeonTrackSneak(enemy, delta) {
@@ -378,7 +378,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 				} else if (AI == "patrol") {
 					if (!enemy.patrolIndex) enemy.patrolIndex = KinkyDungeonNearestPatrolPoint(enemy.x, enemy.y);
 					if (KinkyDungeonPatrolPoints[enemy.patrolIndex] && Math.random() < 0.2) {
-						if (enemy.patrolIndex < KinkyDungeonPatrolPoints.length) enemy.patrolIndex += 1;
+						if (enemy.patrolIndex < KinkyDungeonPatrolPoints.length - 1) enemy.patrolIndex += 1;
 						else enemy.patrolIndex = 0;
 
 						let newPoint = KinkyDungeonGetPatrolPoint(enemy.patrolIndex, 1.4);

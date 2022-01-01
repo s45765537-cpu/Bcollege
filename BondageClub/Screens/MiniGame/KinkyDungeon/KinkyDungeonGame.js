@@ -661,6 +661,7 @@ function KinkyDungeonPlacePatrols(Count, width, height) {
 			let Y = Math.floor(Math.random()*height);
 			if (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(X, Y))) {
 				KinkyDungeonPatrolPoints.push({x: X, y: Y});
+				break;
 			}
 		}
 	}

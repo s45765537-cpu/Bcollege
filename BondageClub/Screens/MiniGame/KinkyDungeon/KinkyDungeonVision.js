@@ -4,15 +4,17 @@
 // -Ada
 
 var KinkyDungeonTransparentObjects = KinkyDungeonMovableTiles.replace("D", "") + "AaCcB"; // Light does not pass thru doors
+var KinkyDungeonTransparentMovableObjects = KinkyDungeonMovableTiles.replace("D", ""); // Light does not pass thru doors
 
-function KinkyDungeonCheckPath(x1, y1, x2, y2) {
+function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars) {
 	let length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+	let obj = allowBars ? KinkyDungeonTransparentObjects : KinkyDungeonTransparentMovableObjects;
 
 	for (let F = 0; F <= length; F++) {
 		let xx = x1 + (x2-x1)*F/length;
 		let yy = y1 + (y2-y1)*F/length;
 
-		if (!KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(Math.round(xx), Math.round(yy)))) return false;
+		if (!obj.includes(KinkyDungeonMapGet(Math.round(xx), Math.round(yy)))) return false;
 	}
 
 	return true;
