@@ -102,6 +102,8 @@ Content
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
 - New special pressure-plate traps (that are often the only way through if you dont have a key to unlock a door)
 - Enemies now have pathfinding! They should be a bit harder to evade now.
+- Some enemies now hunt along defined patrols rather than at random
+- Enemies now have a 2 turn delay before they start chasing you
 
 TODO (expecting to get this done soon):
 -Dream hunter or something

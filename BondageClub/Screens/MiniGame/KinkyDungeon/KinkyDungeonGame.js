@@ -98,6 +98,8 @@ var KinkyDungeonLastMoveTimerStart = 0;
 var KinkyDungeonLastMoveTimerCooldown = 175;
 var KinkyDungeonLastMoveTimerCooldownStart = 50;
 
+let KinkyDungeonPatrolPoints = [];
+
 function KinkyDungeonSetCheckPoint(Checkpoint) {
 	if (Checkpoint != undefined) MiniGameKinkyDungeonCheckpoint = Checkpoint;
 	else if (Math.floor(MiniGameKinkyDungeonLevel / 10) == MiniGameKinkyDungeonLevel / 10)
@@ -219,6 +221,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceBrickwork(brickchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceTraps(traps, traptypes, Floor, width, height); // Place treasure chests inside dead ends
+	KinkyDungeonPlacePatrols(4, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceLore(width, height);
 
 	KinkyDungeonUpdateStats(0);
@@ -646,6 +649,20 @@ function KinkyDungeonPlaceTraps( traps, traptypes, Floor, width, height) {
 		KinkyDungeonMapSet(trap.x, trap.y, 'T');
 		let t = KinkyDungeonGetTrap(traptypes, Floor, []);
 		KinkyDungeonTiles[trap.x + "," + trap.y] = {Type: "Trap", Trap: t.Name, Power: t.Power};
+	}
+}
+
+// @ts-ignore
+function KinkyDungeonPlacePatrols(Count, width, height) {
+	KinkyDungeonPatrolPoints = [];
+	for (let i = 0; i < Count; i++) {
+		for (let L = 1000; L > 0; L -= 1) { // Try up to 1000 times
+			let X = Math.floor(i * width / Count) + Math.floor(Math.random() * width/Count);
+			let Y = Math.floor(Math.random()*height);
+			if (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(X, Y))) {
+				KinkyDungeonPatrolPoints.push({x: X, y: Y});
+			}
+		}
 	}
 }
 

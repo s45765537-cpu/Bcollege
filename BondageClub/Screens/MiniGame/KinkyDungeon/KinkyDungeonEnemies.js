@@ -61,7 +61,7 @@ var KinkyDungeonEnemies = [
 	{name: "MeleeCleric", tags: ["leashing", "opendoors", "closedoors", "melee", "kittyRestraints"], followRange: 1, blindSight: 4, specialCD: 3, specialAttack: "Bind",
 		AI: "hunt", visionRadius: 6, maxhp: 8, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "MeleeWill", attackWidth: 1, attackRange: 1, power: 2, fullBoundBonus: 1, dmgType: "grope",
 		terrainTags: {"secondhalf":2, "lastthird":2}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 10, amountMax: 30, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "RedKey", weight: 1}]},
-	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch", "shackleRestraints"], followRange: 1, AI: "guard", visionRadius: 5, maxhp: 12, minLevel: -1, weight:0, movePoints: 1, attackPoints: 2, attack: "MeleeBindLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
+	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch", "shackleRestraints"], followRange: 1, AI: "patrol", visionRadius: 7, maxhp: 12, minLevel: -1, weight:0, movePoints: 1, attackPoints: 2, attack: "MeleeBindLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
 		terrainTags: {"jailer": 15}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], dropTable: [{name: "Pick", weight: 10}, {name: "RedKey", weight: 7}, {name: "BlueKey", weight: 1}]},
 
 ];
@@ -69,8 +69,35 @@ var KinkyDungeonEnemies = [
 let KinkyDungeonSpawnJailers = 0;
 let KinkyDungeonSpawnJailersMax = 5;
 
+function KinkyDungeonNearestPatrolPoint(x, y) {
+	let dist = 100000;
+	let point = -1;
+	for (let p of KinkyDungeonPatrolPoints) {
+		let d = Math.max(Math.abs(x - p.x), Math.abs(y - p.y));
+		if (d < dist) {
+			dist = d;
+			point = KinkyDungeonPatrolPoints.indexOf(p);
+		}
+	}
 
-function KinkyDungeonNearestPlayer(enemy) {
+	return point;
+}
+
+function KinkyDungeonGetPatrolPoint(index, radius) {
+	let p = KinkyDungeonPatrolPoints[index];
+	if (p) {
+		for (let i = 0; i < 8; i++) {
+			let XX = p.x + Math.round(Math.random() * 2 * radius - radius);
+			let YY = p.y + Math.round(Math.random() * 2 * radius - radius);
+			if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(XX, YY))) {
+				return {x: XX, y: YY};
+			}
+		}
+	}
+	return p;
+}
+
+function KinkyDungeonNearestPlayer(enemy, requireVision) {
 	return KinkyDungeonPlayerEntity;
 }
 
@@ -195,9 +222,16 @@ function KinkyDungeonCheckLOS(enemy, player, distance, maxdistance, allowBlind) 
 	return distance <= maxdistance && ((allowBlind && enemy && enemy.Enemy && enemy.Enemy.blindSight <= distance) || KinkyDungeonCheckPath(enemy.x, enemy.y, player.x, player.y));
 }
 
+function KinkyDungeonTrackSneak(enemy, delta) {
+	if (!enemy.vp) enemy.vp = 0;
+	enemy.vp += delta;
+	let sneakThreshold = enemy.Enemy.sneakThreshold ? enemy.Enemy.sneakThreshold : 2;
+	return (enemy.vp > sneakThreshold);
+}
+
 function KinkyDungeonUpdateEnemies(delta) {
 	for (let E = 0; E < KinkyDungeonEntities.length; E++) {
-		var enemy = KinkyDungeonEntities[E];
+		let enemy = KinkyDungeonEntities[E];
 		let player = KinkyDungeonNearestPlayer(enemy);
 
 		// Delete the enemy
@@ -277,14 +311,14 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
-			} else if ((AI == "guard" || (AI == "ambush" && !enemy.ambushtrigger)) && (enemy.aware || enemy.Enemy.attackWhileMoving || ignore || !KinkyDungeonCheckLOS(enemy, player, playerDist, followRange + 0.5, true))) {
+			} else if ((AI == "guard" || AI == "patrol" || (AI == "ambush" && !enemy.ambushtrigger)) && (enemy.aware || enemy.Enemy.attackWhileMoving || ignore || !KinkyDungeonCheckLOS(enemy, player, playerDist, followRange + 0.5, true))) {
 				if (!enemy.gx) enemy.gx = enemy.x;
 				if (!enemy.gy) enemy.gy = enemy.y;
 
 				idle = true;
 
 				// try 12 times to find a moveable tile, with some random variance
-				if (!ignore && (playerDist <= enemy.Enemy.visionRadius || (enemy.aware && playerDist <= chaseRadius*2)) && AI != "ambush" && (enemy.aware || canSensePlayer)) {
+				if (!ignore && (playerDist <= enemy.Enemy.visionRadius || (enemy.aware && playerDist <= chaseRadius*2)) && AI != "ambush" && (enemy.aware || canSensePlayer) && KinkyDungeonTrackSneak(enemy, delta)) {
 					if (!enemy.aware) enemy.path = undefined;
 					enemy.aware = true;
 					for (let T = 0; T < 12; T++) {
@@ -341,13 +375,24 @@ function KinkyDungeonUpdateEnemies(delta) {
 							break;
 						}
 					}
+				} else if (AI == "patrol") {
+					if (!enemy.patrolIndex) enemy.patrolIndex = KinkyDungeonNearestPatrolPoint(enemy.x, enemy.y);
+					if (KinkyDungeonPatrolPoints[enemy.patrolIndex] && Math.random() < 0.2) {
+						if (enemy.patrolIndex < KinkyDungeonPatrolPoints.length) enemy.patrolIndex += 1;
+						else enemy.patrolIndex = 0;
+
+						let newPoint = KinkyDungeonGetPatrolPoint(enemy.patrolIndex, 1.4);
+						enemy.gx = newPoint.x;
+						enemy.gy = newPoint.y;
+					}
+
 				}
 
 			} else if ((AI == "hunt" || (AI == "ambush" && enemy.ambushtrigger)) && (enemy.aware || enemy.Enemy.attackWhileMoving || ignore || !KinkyDungeonCheckLOS(enemy, player, playerDist, followRange + 0.5, true))) {
 
 				idle = true;
 				// try 12 times to find a moveable tile, with some random variance
-				if (!ignore && (playerDist <= enemy.Enemy.visionRadius || (enemy.aware && playerDist <= chaseRadius*2)) && (enemy.aware || canSensePlayer)) {
+				if (!ignore && (playerDist <= enemy.Enemy.visionRadius || (enemy.aware && playerDist <= chaseRadius*2)) && (enemy.aware || canSensePlayer) && KinkyDungeonTrackSneak(enemy, delta)) {
 					if (!enemy.aware) enemy.path = undefined;
 					enemy.aware = true;
 					for (let T = 0; T < 12; T++) {
@@ -391,6 +436,7 @@ function KinkyDungeonUpdateEnemies(delta) {
 					}
 				}
 			}
+
 			playerDist = Math.sqrt((enemy.x - player.x)*(enemy.x - player.x) + (enemy.y - player.y)*(enemy.y - player.y));
 			if ((AI != "ambush" || enemy.ambushtrigger) && !ignore && (!moved || enemy.Enemy.attackWhileMoving)
 				&& (attack.includes("Melee") || (enemy.Enemy.tags && enemy.Enemy.tags.includes("leashing") && !KinkyDungeonHasStamina(1.1)))
