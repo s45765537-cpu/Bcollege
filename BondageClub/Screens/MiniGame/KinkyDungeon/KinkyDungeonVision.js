@@ -3,8 +3,8 @@
 // For this implementation I decided that ray calculations are too much so I just did a terraria style lighting system
 // -Ada
 
-var KinkyDungeonTransparentObjects = KinkyDungeonMovableTiles.replace("D", "") + "AaCcB"; // Light does not pass thru doors
-var KinkyDungeonTransparentMovableObjects = KinkyDungeonMovableTiles.replace("D", ""); // Light does not pass thru doors
+var KinkyDungeonTransparentObjects = KinkyDungeonMovableTiles.replace("D", "").replace("g", "") + "AaCcB"; // Light does not pass thru doors or grates
+var KinkyDungeonTransparentMovableObjects = KinkyDungeonMovableTiles.replace("D", "").replace("g", ""); // Light does not pass thru doors or grates
 
 function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars) {
 	let length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
@@ -14,7 +14,7 @@ function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars) {
 		let xx = x1 + (x2-x1)*F/length;
 		let yy = y1 + (y2-y1)*F/length;
 
-		if (!obj.includes(KinkyDungeonMapGet(Math.round(xx), Math.round(yy)))) return false;
+		if ((xx != x1 || yy != y1) && !obj.includes(KinkyDungeonMapGet(Math.floor(xx), Math.floor(yy))) && !obj.includes(KinkyDungeonMapGet(Math.ceil(xx), Math.ceil(yy)))) return false;
 	}
 
 	return true;

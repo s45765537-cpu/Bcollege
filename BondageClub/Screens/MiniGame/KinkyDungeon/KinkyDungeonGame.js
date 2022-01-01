@@ -47,7 +47,7 @@ var KinkyDungeonTerrain = [];
 var KinkyDungeonMapBrightness = 5;
 
 var KinkyDungeonGroundTiles = "02";
-var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "HSsRrdT"; // Objects which can be moved into: floors, debris, open doors, staircases
+var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "HSsRrdTg"; // Objects which can be moved into: floors, debris, open doors, staircases
 var KinkyDungeonMovableTilesSmartEnemy = "D" + KinkyDungeonMovableTilesEnemy; //Smart enemies can open doors as well
 var KinkyDungeonMovableTiles = "CAG" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
 
@@ -778,7 +778,7 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 					}
 				}
 				if (success) {
-					if (Math.random() < trapChance && !KinkyDungeonTiles[room.door.x + "," + room.door.y].Lock && !KinkyDungeonTiles[X + "," + Y].Lock
+					if (!KinkyDungeonTiles[room.door.x + "," + room.door.y].Lock && !KinkyDungeonTiles[X + "," + Y].Lock
 						&& ((KinkyDungeonGetAccessibleRoom(X+1, Y).length != KinkyDungeonGetAccessibleRoom(X-1, Y).length
 							&& KinkyDungeonIsReachable(X+1, Y, X, Y) && KinkyDungeonIsReachable(X-1, Y, X, Y))
 						|| (KinkyDungeonGetAccessibleRoom(X, Y+1).length != KinkyDungeonGetAccessibleRoom(X, Y-1).length)
@@ -787,9 +787,13 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 						KinkyDungeonTiles["" + X + "," + Y].Lock = KinkyDungeonGenerateLock(true, Floor);
 						KinkyDungeonMapSet(X, Y, 'D');
 						//console.log(X + "," + Y + " locked")
-						// Place a trap or something at the other door if it's far enough from the player
-						if (Math.max(Math.abs(room.door.x - KinkyDungeonPlayerEntity.x), Math.abs(room.door.y - KinkyDungeonPlayerEntity.y)) > maxPlayerDist)
+						if (Math.random() < trapChance && Math.max(Math.abs(room.door.x - KinkyDungeonPlayerEntity.x), Math.abs(room.door.y - KinkyDungeonPlayerEntity.y)) > maxPlayerDist) {
+							// Place a trap or something at the other door if it's far enough from the player
 							trapLocations.push({x: room.door.x, y: room.door.y});
+						} else {
+							// Place a grate instead
+							KinkyDungeonMapSet(room.door.x, room.door.y, 'g');
+						}
 					}
 					break;
 				}
@@ -1174,6 +1178,10 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 						newDelta = Math.max(newDelta, KinkyDungeonMoveTo(moveX, moveY));
 						moved = true;
 
+					}
+
+					if (moveObject == 'g') {
+						KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonGrateEnter"), "white", 2);
 					}
 
 					// Messages to inform player they are slowed
