@@ -202,6 +202,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	let doorlockchance = MapParams.doorlockchance; // Max treasure chest count
 	if (KinkyDungeonGoddessRep.Prisoner && KinkyDungeonSpawnJailers > 0) doorlockchance = doorlockchance + (KinkyDungeonSpawnJailers / KinkyDungeonSpawnJailersMax) * (1.0 - doorlockchance) * (KinkyDungeonGoddessRep.Prisoner + 50)/100;
 	let trapChance = MapParams.trapchance; // Chance of a pathway being split between a trap and a door
+	let grateChance = MapParams.grateChance;
 	let brickchance = MapParams.brickchance; // Chance for brickwork to start being placed
 	let shrinefilter = KinkyDungeonGetMapShrines(MapParams.shrines);
 	let traptypes = MapParams.traps;
@@ -217,7 +218,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	KinkyDungeonPlaceStairs(startpos, width, height); // Place the start and end locations
 	KinkyDungeonPlaceShortcut(KinkyDungeonGetShortcut(Floor), width, height); // Place the start and end locations
 	KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height); // Place treasure chests inside dead ends
-	let traps = KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapChance, Floor, width, height); // Place treasure chests inside dead ends
+	let traps = KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapChance, grateChance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceBrickwork(brickchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceTraps(traps, traptypes, Floor, width, height); // Place treasure chests inside dead ends
@@ -693,7 +694,7 @@ function KinkyDungeonGenerateLock(Guaranteed, Floor) {
 	return "";
 }
 
-function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapChance, Floor, width, height) {
+function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapChance, grateChance, Floor, width, height) {
 	let doorlist = [];
 	let doorlist_2ndpass = [];
 	let trapLocations = [];
@@ -790,7 +791,7 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 						if (Math.random() < trapChance && Math.max(Math.abs(room.door.x - KinkyDungeonPlayerEntity.x), Math.abs(room.door.y - KinkyDungeonPlayerEntity.y)) > maxPlayerDist) {
 							// Place a trap or something at the other door if it's far enough from the player
 							trapLocations.push({x: room.door.x, y: room.door.y});
-						} else {
+						} else if ((Math.random() < grateChance && (!room.room || room.room.length > minLockedRoomSize)) || Math.max(Math.abs(room.door.x - KinkyDungeonPlayerEntity.x), Math.abs(room.door.y - KinkyDungeonPlayerEntity.y)) <= maxPlayerDist) {
 							// Place a grate instead
 							KinkyDungeonMapSet(room.door.x, room.door.y, 'g');
 						}
@@ -1178,10 +1179,10 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 						newDelta = Math.max(newDelta, KinkyDungeonMoveTo(moveX, moveY));
 						moved = true;
 
-					}
-
-					if (moveObject == 'g') {
-						KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonGrateEnter"), "white", 2);
+						if (moveObject == 'g') {
+							KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonGrateEnter"), "white", 3);
+							KinkyDungeonMovePoints = -1;
+						}
 					}
 
 					// Messages to inform player they are slowed

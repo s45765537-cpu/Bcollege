@@ -22,7 +22,7 @@ var KinkyDungeonEnemies = [
 		visionRadius: 1, maxhp: 2.5, minLevel:0, weight:10, movePoints: 2, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 1, attackRange: 1, power: 3, dmgType: "grope", fullBoundBonus: 2,
 		terrainTags: {"secondhalf":-8, "lastthird":-8}, floors:[1, 11]},
 	{name: "Ghost", tags: ["ignorenoSP", "ghost", "melee", "opendoors", "closedoors"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "guard",
-		visionRadius: 10, evasion: 1.25, maxhp: 1, minLevel:0, weight:0.1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 12, dmgType: "grope", fullBoundBonus: 0,
+		visionRadius: 10, evasion: 2.0, maxhp: 1, minLevel:0, weight:0.1, movePoints: 1, attackPoints: 2, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 6, dmgType: "grope", fullBoundBonus: 0,
 		terrainTags: {"ghost" : 1.9}, shrines: ["Illusion"], floors:[0, 1, 11]},
 	{name: "GreaterSkeleton", tags: ["leashing", "ignoreharmless", "skeleton", "melee", "elite", "iceresist", "crushweakness"], ignorechance: 0, armor: 0, followRange: 1.5, AI: "hunt",
 		visionRadius: 4, maxhp: 10, minLevel:12, weight:3, movePoints: 3, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 3, attackRange: 1, power: 10, dmgType: "crush", fullBoundBonus: 0,
@@ -363,7 +363,6 @@ function KinkyDungeonUpdateEnemies(delta) {
 								splice = true;
 							} else {
 								enemy.path = undefined;
-								dir = KinkyDungeonGetDirectionRandom(0, 0); // Random...
 							}
 						}
 						if (MovableTiles.includes(KinkyDungeonMapGet(enemy.x + dir.x, enemy.y + dir.y))

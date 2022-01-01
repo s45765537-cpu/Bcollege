@@ -40,7 +40,7 @@ function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
 
 function KinkyDungeonEvasion(Enemy) {
 	var hitChance = (Enemy && Enemy.buffs && Enemy.buffs.Evasion) ? Enemy.buffs.Evasion.power : 1.0;
-	if (Enemy.Enemy && Enemy.Enemy.evasion && (Enemy.stun < 1 || Enemy.Enemy.evasion < 0.99) && !(Enemy.stun > 0)) hitChance *= (1 - Enemy.Enemy.evasion);
+	if (Enemy.Enemy && Enemy.Enemy.evasion && (Enemy.stun < 1 || Enemy.Enemy.evasion > 0.99)) hitChance *= Math.max(0, 1 - Enemy.Enemy.evasion);
 	hitChance *= KinkyDungeonPlayerDamage.chance;
 	if (Enemy.slow > 0) hitChance *= 2;
 
