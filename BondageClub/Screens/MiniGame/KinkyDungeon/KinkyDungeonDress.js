@@ -37,7 +37,7 @@ function KinkyDungeonInitializeDresses() {
 			{Item: "Panties7", Group: "Panties", Color: "#ffffff", Lost: false},
 			{Item: "Sandals", Group: "Shoes", Color: "Default", Lost: false},
 			{Item: "FaceVeil", Group: "Mask", Color: "#ffffff", Lost: false},
-			{Item: "HaremPants", Group: "ClothLower", Color: "Default", OverridePriority: 27, Lost: false},
+			{Item: "HaremPants", Group: "ClothLower", Color: "Default", OverridePriority: 28, Lost: false},
 		],
 	};
 }

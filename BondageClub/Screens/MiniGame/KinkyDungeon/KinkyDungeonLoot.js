@@ -74,7 +74,7 @@ function KinkyDungeonLoot(Level, Index, Type) {
 			if (prereqs) {
 				let weightMult = 1.0;
 				if (loot.trap && KinkyDungeonCurrentMaxEnemies > 0) {
-					let nonSumEnemies = 0
+					let nonSumEnemies = 0;
 					for (let e of KinkyDungeonEntities) {if (!e.summoned) nonSumEnemies++;}
 					weightMult *= Math.max(0, 1 - nonSumEnemies/KinkyDungeonCurrentMaxEnemies);
 				}
@@ -197,12 +197,12 @@ function KinkyDungeonLootEvent(Loot, Floor, Replacemsg) {
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapArmbinder"));
 	} else if (Loot.name == "trap_cuffs") {
 		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
-		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapCuffs"), MiniGameKinkyDungeonCheckpoint, true, KinkyDungeonGenerateLock(true))
+		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapCuffs"), MiniGameKinkyDungeonCheckpoint, true, KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapCuffs"));
 	} else if (Loot.name == "trap_harness") {
 		value = Math.ceil((40 + 40 * Math.random()) * (1 + Floor/40));
-		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapHarness"), MiniGameKinkyDungeonCheckpoint, true, KinkyDungeonGenerateLock(true))
+		KinkyDungeonAddRestraintIfWeaker(KinkyDungeonGetRestraintByName("TrapHarness"), MiniGameKinkyDungeonCheckpoint, true, KinkyDungeonGenerateLock(true));
 		if (Replacemsg)
 			KinkyDungeonActionMessage = KinkyDungeonActionMessage.replace("RestraintType", TextGet("RestraintTrapHarness"));
 	} else if (Loot.name == "trap_gag") {

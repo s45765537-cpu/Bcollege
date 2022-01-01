@@ -197,6 +197,7 @@ function KinkyDungeonClick() {
 	if (KinkyDungeonState == "Menu" || KinkyDungeonState == "Lose") {
 		if (MouseIn(875, 750, 350, 64)) {
 			KinkyDungeonInitialize(1);
+			MiniGameKinkyDungeonCheckpoint = 0;
 			KinkyDungeonState = "Game";
 
 			if (KinkyDungeonKeybindings) {

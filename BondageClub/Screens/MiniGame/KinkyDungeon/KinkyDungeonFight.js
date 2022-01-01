@@ -1,6 +1,6 @@
 "use strict";
 var KinkyDungeonKilledEnemy = null;
-let KinkyDungeonAlert = false;
+let KinkyDungeonAlert = 0;
 
 var KinkyDungeonMissChancePerBlind = 0.2; // Max 3
 var KinkyDungeonBullets = []; // Bullets on the game board
@@ -134,7 +134,7 @@ function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
 
 function KinkyDungeonAttackEnemy(Enemy, Damage) {
 	KinkyDungeonDamageEnemy(Enemy, (KinkyDungeonEvasion(Enemy)) ? Damage : null);
-	KinkyDungeonAlert = true;
+	KinkyDungeonAlert = 99;
 }
 
 function KinkyDungeonUpdateBullets(delta) {

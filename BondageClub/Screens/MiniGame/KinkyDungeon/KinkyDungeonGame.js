@@ -728,6 +728,7 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 	while (doorlist_2ndpass.length > 0) {
 		let N = Math.floor(Math.random()*doorlist_2ndpass.length);
 		let minLockedRoomSize = 5;
+		let maxPlayerDist = 4;
 
 		let door = doorlist_2ndpass[N];
 		let X = door.x;
@@ -768,8 +769,9 @@ function KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapCh
 						KinkyDungeonTiles["" + X + "," + Y].Lock = KinkyDungeonGenerateLock(true, Floor);
 						KinkyDungeonMapSet(X, Y, 'D');
 						//console.log(X + "," + Y + " locked")
-						// Place a trap or something at the other door
-						trapLocations.push({x: room.door.x, y: room.door.y});
+						// Place a trap or something at the other door if it's far enough from the player
+						if (Math.max(Math.abs(room.door.x - KinkyDungeonPlayerEntity.x), Math.abs(room.door.y - KinkyDungeonPlayerEntity.y)) > maxPlayerDist)
+							trapLocations.push({x: room.door.x, y: room.door.y});
 					}
 					break;
 				}
