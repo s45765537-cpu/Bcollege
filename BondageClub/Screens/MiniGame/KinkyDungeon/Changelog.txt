@@ -101,11 +101,10 @@ Content
 - Some doors have a chance to be locked
 - Added helpful (or unhelpful) adventurer ghosts that may assist you with struggling. Careful not to rely on them too much as they might enjoy seeing you bound!
 - New special pressure-plate traps (that are often the only way through if you dont have a key to unlock a door)
-
-Priority:
-- Dream hunter or something
+- Enemies now have pathfinding! They should be a bit harder to evade now.
 
 TODO (expecting to get this done soon):
+-Dream hunter or something
 -Add max SP, MP, and AP upgrades as a rare drop in chests
 -New slow status effect (chainbolt and Slime spells apply this instead to enemies)
 -New ice wave spell that creates icicle landmines
@@ -118,8 +117,8 @@ TODO (expecting to get this done soon):
 -Contract spells Attached to a restraint
 -Etheral enemies
 -Enemy patrols that repeat
--A* pathfinding
 -Return items to inventory if they get replaced
+-ESP spell that boosts vision range (or allows vision through walls in a short radius?)
 
 Other Features
 - Knives now use the same random-number-of-uses mechanic as lockpicks which gives some guaranteed uses
