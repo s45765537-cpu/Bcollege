@@ -480,19 +480,22 @@ RestraintKittyPaws,Bast Paws
 RestraintKittyPawsDesc,"Leather mittens used to pacify new initiates of the Bast cult."
 RestraintKittyPawsDesc2,"They make it hard to manipulate anything at all, but aren't the toughest material."
 
-RestraintMysticDuctTapeHead,Charms
+RestraintMysticDuctTapeHead,Wrappings
 RestraintMysticDuctTapeHeadDesc,"A band of magic ribbon wrapped tight around your eyes."
 RestraintMysticDuctTapeHeadDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
-RestraintMysticDuctTapeMouth,Charms
+RestraintMysticDuctTapeMouth,Wrappings
 RestraintMysticDuctTapeMouthDesc,"A band of magic ribbon wrapped tight around your mouth."
 RestraintMysticDuctTapeMouthDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
-RestraintMysticDuctTapeArmsMummy,Charms
+RestraintMysticDuctTapeArmsMummy,Wrappings
 RestraintMysticDuctTapeArmsMummyDesc,"A layer of magic ribbon wrapped tight around your body."
 RestraintMysticDuctTapeArmsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
-RestraintMysticDuctTapeFeetMummy,Charms
+RestraintMysticDuctTapeFeetMummy,Wrappings
 RestraintMysticDuctTapeFeetMummyDesc,"A layer of magic ribbon wrapped tight around your shins."
 RestraintMysticDuctTapeFeetMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
-RestraintMysticDuctTapeLegsMummy,Charms
+RestraintMysticDuctTapeBoots,Wrappings
+RestraintMysticDuctTapeBootsDesc,"A layer of magic ribbon wrapped tight around your feet."
+RestraintMysticDuctTapeBootsDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
+RestraintMysticDuctTapeLegsMummy,Wrappings
 RestraintMysticDuctTapeLegsMummyDesc,"A layer of magic ribbon wrapped tight around your thighs."
 RestraintMysticDuctTapeLegsMummyDesc2,"It clings, almost of its own accord, but seems vulnerable to both cutting and stretching."
 RestraintStuffing,Stuffing
@@ -790,11 +793,30 @@ KinkyDungeonVibing3,Your toys are buzzing strongly!
 KinkyDungeonVibing4,Your toys vibrate intensely!
 KinkyDungeonVibing5,The vibration is torturous!
 KinkyDungeonEndVibe,Your toys stop vibrating.
-KinkyDungeonSlowed,Your movements are hobbled.
-KinkyDungeonHopping,You are forced to hop.
-KinkyDungeonInching,You inch forward slowly.
-KinkyDungeonCrawling,You crawl helplessly.
-KinkyDungeonCantMove,You are unable to move!
+KinkyDungeonPlugWalk0,You feel slightly full as you walk...
+KinkyDungeonPlugWalk1,Your movement disturbs the plugs inside of you...
+KinkyDungeonPlugWalk2,The large plugs shift(s) around inside of you...
+KinkyDungeonPlugWalk3,The huge plugs rub(s) around constantly inside of you...
+KinkyDungeonSlowed0,Your movements are hobbled.
+KinkyDungeonSlowed1,Your hobbled movement disturbs the plugs inside of you.
+KinkyDungeonSlowed2,The large plugs shift(s) around inside of you from your hobbled movement...
+KinkyDungeonSlowed3,The massive plugs rub(s) around inside of you as you hobble forward...
+KinkyDungeonHopping0,You are forced to hop!
+KinkyDungeonHopping1,You hop and feel the plugs shifting around inside your body.
+KinkyDungeonHopping2,The plugs shift in and out with each hop...
+KinkyDungeonHopping3,The massive plugs slide in and out mercilessly as you hop...
+KinkyDungeonInching0,You inch forward slowly!
+KinkyDungeonInching1,You inch forward, feeling the movement of your plugs.
+KinkyDungeonInching2,You wiggle your hips inching forward, feeling the plugs inside you...
+KinkyDungeonInching3,You wiggle forward, the massive plugs inside you digging in and out...
+KinkyDungeonCrawling0,You crawl helplessly!
+KinkyDungeonCrawling1,You crawl helplessly, feeling the plugs shifting around inside you.
+KinkyDungeonCrawling2,You crawl and feel the plugs inside you rub around teasingly...
+KinkyDungeonCrawling3,You crawl helplessly, tormented by the massive plugs inside you...
+KinkyDungeonCantMove0,You are unable to move!
+KinkyDungeonCantMove1,You wriggle uselessly, feeling the plugs shift inside you!
+KinkyDungeonCantMove2,You wriggle uselessly, aroused by the plugs inside you!
+KinkyDungeonCantMove3,You wriggle uselessly, tormented by the massive plugs inside of you!
 
 KinkyDungeonGagMumble0,Mmmph...
 KinkyDungeonGagMumble1,Mmmmmmmmm...

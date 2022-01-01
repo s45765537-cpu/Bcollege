@@ -74,7 +74,9 @@ function KinkyDungeonLoot(Level, Index, Type) {
 			if (prereqs) {
 				let weightMult = 1.0;
 				if (loot.trap && KinkyDungeonCurrentMaxEnemies > 0) {
-					weightMult *= Math.max(0, 1 - KinkyDungeonEntities.length/KinkyDungeonCurrentMaxEnemies);
+					let nonSumEnemies = 0
+					for (let e of KinkyDungeonEntities) {if (!e.summoned) nonSumEnemies++;}
+					weightMult *= Math.max(0, 1 - nonSumEnemies/KinkyDungeonCurrentMaxEnemies);
 				}
 
 				lootWeights.push({loot: loot, weight: lootWeightTotal});

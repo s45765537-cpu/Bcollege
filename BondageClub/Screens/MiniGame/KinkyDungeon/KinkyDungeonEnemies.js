@@ -50,17 +50,17 @@ var KinkyDungeonEnemies = [
 		spellCooldownMult: 2, spellCooldownMod: 2, AI: "hunt", visionRadius: 6, maxhp: 14, minLevel:5, weight:6, movePoints: 3, attackPoints: 4, attack: "MeleeLockAllWillSpell", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope",
 		terrainTags: {"secondhalf":3, "lastthird":3, "miniboss": -10}, floors:[0, 1], shrines: ["Metal"], dropTable: [{name: "RedKey", weight: 9}, {name: "BlueKey", weight: 1}]},
 	{name: "WitchSlime", tags: ["leashing", "opendoors", "closedoors", "witch", "ranged", "elite", "miniboss", "unflinching", "glueimmune", "fireimmune", "meleeresist", "electricweakness", "iceweakness"], followRange: 5, castWhileMoving: true, spells: ["WitchSlimeBall", "WitchSlimeBall", "WitchSlime"],
-		spellCooldownMult: 2, spellCooldownMod: 1, AI: "wander", visionRadius: 8, maxhp: 10, minLevel:4, weight:8, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
-		terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -8}, floors:[0, 1], shrines: ["Conjure"], dropTable: [{name: "RedKey", weight: 8}, {name: "BlueKey", weight: 1}]},
+		spellCooldownMult: 2, spellCooldownMod: 1, AI: "wander", visionRadius: 8, maxhp: 10, minLevel:4, weight:4, movePoints: 3, attackPoints: 2, attack: "Spell", attackWidth: 1, attackRange: 1, power: 1, dmgType: "grope",
+		terrainTags: {"secondhalf":2, "lastthird":1, "miniboss": -12, "open": 4}, floors:[0, 1], shrines: ["Conjure"], dropTable: [{name: "RedKey", weight: 8}, {name: "BlueKey", weight: 1}]},
 	{name: "Mummy", tags: ["leashing", "opendoors", "closedoors", "ranged", "witch", "elite", "mummyRestraints", "iceresist", "meleeweakness"], followRange: 1, spells: ["MummyBolt"], blindSight: 10, minSpellRange: 1.5, specialCD: 3, specialAttack: "Bind",
 		spellCooldownMult: 1, spellCooldownMod: 5, AI: "hunt", visionRadius: 7, maxhp: 8, minLevel:5, weight:11, movePoints: 2, attackPoints: 1, attack: "SpellMeleeWill", attackWidth: 1, attackRange: 1, power: 2, fullBoundBonus: 2, dmgType: "crush",
-		terrainTags: {"secondhalf":2, "lastthird":2,}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 30, amountMax: 60, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "BlueKey", weight: 1}]},
+		terrainTags: {"secondhalf":2, "lastthird":2, "open": 2}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 30, amountMax: 60, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "BlueKey", weight: 1}]},
 	{name: "Cleric", tags: ["leashing", "opendoors", "closedoors", "ranged"], followRange: 4,
 		AI: "guard", visionRadius: 7, maxhp: 8, minLevel:2, weight:12, movePoints: 1, attackPoints: 3, attack: "MeleeWillSlow", attackWidth: 1, attackRange: 6, power: 3, fullBoundBonus: 1, dmgType: "crush", noCancelAttack: true,
-		terrainTags: {"secondhalf":2, "lastthird":4,}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 10, amountMax: 30, weight: 11}, {name: "PotionMana", weight: 1}, {name: "RedKey", weight: 1}]},
+		terrainTags: {"secondhalf":2, "lastthird":4, "passage": -99}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 10, amountMax: 30, weight: 11}, {name: "PotionMana", weight: 1}, {name: "RedKey", weight: 1}]},
 	{name: "MeleeCleric", tags: ["leashing", "opendoors", "closedoors", "melee", "kittyRestraints"], followRange: 1, blindSight: 4, specialCD: 3, specialAttack: "Bind",
 		AI: "hunt", visionRadius: 6, maxhp: 8, minLevel:3, weight:10, movePoints: 2, attackPoints: 2, attack: "MeleeWill", attackWidth: 1, attackRange: 1, power: 2, fullBoundBonus: 1, dmgType: "grope",
-		terrainTags: {"secondhalf":2, "lastthird":2,}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 10, amountMax: 30, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "RedKey", weight: 1}]},
+		terrainTags: {"secondhalf":2, "lastthird":2}, floors:[11], shrines: ["Charms"], dropTable: [{name: "Gold", amountMin: 10, amountMax: 30, weight: 11}, {name: "PotionStamina", weight: 1}, {name: "RedKey", weight: 1}]},
 	{name: "Jailer", tags: ["leashing", "opendoors", "closedoors", "witch", "shackleRestraints"], followRange: 1, AI: "guard", visionRadius: 5, maxhp: 12, minLevel: -1, weight:0, movePoints: 1, attackPoints: 2, attack: "MeleeBindLockAllWill", attackWidth: 1, attackRange: 1, power: 5, dmgType: "grope", fullBoundBonus: 3,
 		terrainTags: {"jailer": 15}, floors:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], dropTable: [{name: "Pick", weight: 10}, {name: "RedKey", weight: 7}, {name: "BlueKey", weight: 1}]},
 
@@ -669,8 +669,10 @@ function KinkyDungeonGetWarningTiles(dx, dy, range, width) {
 
 
 function KinkyDungeonDefeat() {
+	let firstTime = KinkyDungeonSpawnJailersMax == 0;
 	KinkyDungeonSpawnJailersMax = 2;
 	if (KinkyDungeonGoddessRep.Prisoner) KinkyDungeonSpawnJailersMax += Math.round(6 * (KinkyDungeonGoddessRep.Prisoner + 50)/100);
+	let securityBoost = (firstTime) ? 0 : Math.min(1, KinkyDungeonSpawnJailersMax - KinkyDungeonSpawnJailers - 1);
 
 	MiniGameKinkyDungeonLevel = Math.floor(MiniGameKinkyDungeonLevel/10)*10;
 	KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonLeashed"), "#ff0000", 3);
@@ -697,7 +699,7 @@ function KinkyDungeonDefeat() {
 	KinkyDungeonInventoryAddWeapon("Knife");
 
 	KinkyDungeonChangeRep("Ghost", 1 + Math.round(KinkyDungeonSpawnJailers/2));
-	KinkyDungeonChangeRep("Prisoner", Math.min(1, KinkyDungeonSpawnJailersMax - KinkyDungeonSpawnJailers)); // Each time you get caught, security increases...
+	KinkyDungeonChangeRep("Prisoner", securityBoost); // Each time you get caught, security increases...
 
 	KinkyDungeonDressPlayer();
 }

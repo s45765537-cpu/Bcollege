@@ -298,7 +298,7 @@ function KinkyDungeonSummonEnemy(x, y, summonType, count, rad) {
 		let slot = slots[Math.floor(Math.random() * slots.length)];
 		if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(x+slot.x, y+slot.y)) && KinkyDungeonNoEnemy(x+slot.x, y+slot.y, true)) {
 			let Enemy = KinkyDungeonEnemies.find(element => element.name == summonType);
-			KinkyDungeonEntities.push({Enemy: Enemy, x:x+slot.x, y:y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
+			KinkyDungeonEntities.push({summoned: true, Enemy: Enemy, x:x+slot.x, y:y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
 			created += 1;
 		} else C -= 1;
 		maxcounter += 1;

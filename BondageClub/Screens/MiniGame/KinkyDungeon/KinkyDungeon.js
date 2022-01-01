@@ -144,7 +144,13 @@ function KinkyDungeonRun() {
 				KinkyDungeonSleepTime = CommonTime() + 100;
 				if (KinkyDungeonStatStamina >= KinkyDungeonStatStaminaMax) KinkyDungeonSleepTurns = 0;
 			}
-		}
+		} else if (KinkyDungeonSlowMoveTurns > 0) {
+			if (CommonTime() > KinkyDungeonSleepTime) {
+				KinkyDungeonSlowMoveTurns -= 1;
+				KinkyDungeonAdvanceTime(1, false, true);
+				KinkyDungeonSleepTime = CommonTime() + Math.max(100, 200 - 50 * KinkyDungeonSlowMoveTurns);
+			}
+		} else KinkyDungeonSleepTime = CommonTime() + 100;
 	} else if (KinkyDungeonState == "End") {
 		KinkyDungeonGameRunning = false;
 		// Draw temp start screen

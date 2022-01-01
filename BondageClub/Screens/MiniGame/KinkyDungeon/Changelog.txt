@@ -113,6 +113,14 @@ TODO (expecting to get this done soon):
 -Panel gag, Legbinder and bolero jacket restraints
 -Shock plug that stuns you at high arousal
 
+-View buffs/penalties as a 3rd option for the struggle display
+-Aura spells that reduce max mana and mana regen
+-Contract spells Attached to a restraint
+-Etheral enemies
+-Enemy patrols that repeat
+-A* pathfinding
+-Return items to inventory if they get replaced
+
 Other Features
 - Knives now use the same random-number-of-uses mechanic as lockpicks which gives some guaranteed uses
 - Picks, Knives, and Red Keys are now in the shop
@@ -123,6 +131,8 @@ Other Features
 - Only one shrine of each type per floor
 - If you are bound with shrine-able restraints, one random restraint type will be guaranteed to have a shrine on the next level
 - Removed enemy friendly-fire in most cases
+- Button to toggle automatic door-closing
+- Walking around with a plug inside of you will arouse you
 
 Bugfix:
 - Enemies with high attack width will now hit you properly even if you sidestep (as long as you are within range)

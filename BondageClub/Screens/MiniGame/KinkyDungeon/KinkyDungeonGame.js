@@ -329,8 +329,12 @@ function KinkyDungeonPlaceEnemies(Tags, Floor, width, height) {
 			if (KinkyDungeonSpawnJailers > 0) tags.push("jailer");
 			if (KinkyDungeonMapGet(X, Y) == 'R' || KinkyDungeonMapGet(X, Y) == 'r') tags.push("rubble");
 			if (KinkyDungeonMapGet(X, Y) == 'D' || KinkyDungeonMapGet(X, Y) == 'd') tags.push("door");
-			if (KinkyDungeonMapGet(X, Y+1) == '1' && KinkyDungeonMapGet(X, Y-1) == '1') tags.push("passage");
-			else if (KinkyDungeonMapGet(X+1, Y) == '1' && KinkyDungeonMapGet(X-1, Y) == '1') tags.push("passage");
+			if (!KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X, Y+1)) && !KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X, Y-1))) tags.push("passage");
+			else if (!KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X+1, Y)) && !KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X-1, Y))) tags.push("passage");
+			else if (KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X+1, Y+1))
+					&& KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X+1, Y-1))
+					&& KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X-1, Y+1))
+					&& KinkyDungeonMovableTiles.includes(KinkyDungeonMapGet(X-1, Y-1))) tags.push("open");
 
 			for (let XX = X-1; XX <= X+1; XX += 1)
 				for (let YY = Y-1; YY <= Y+1; YY += 1)
@@ -976,7 +980,7 @@ function KinkyDungeonClickGame(Level) {
 	// beep
 
 	// If no buttons are clicked then we handle move
-	else {
+	else if (KinkyDungeonSlowMoveTurns < 1) {
 		KinkyDungeonSetMoveDirection();
 
 		if (KinkyDungeonTargetingSpell) {
@@ -1132,6 +1136,7 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 					KinkyDungeonDoorCloseTimer = 2; // To avoid cases with severe annoyance while walking through halls with lots of doors
 				}
 			} else if (moveX != KinkyDungeonPlayerEntity.x || moveY != KinkyDungeonPlayerEntity.y) {
+				let newDelta = 1;
 				if (KinkyDungeonDoorCloseTimer > 0) KinkyDungeonDoorCloseTimer -= 1;
 				KinkyDungeonTargetTile = null;
 				KinkyDungeonTargetTileLocation = "";
@@ -1145,23 +1150,31 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 					//if (KinkyDungeonHasStamina(0)) { // You can only move if your stamina is > 0
 					KinkyDungeonMovePoints = Math.min(Math.ceil(KinkyDungeonSlowLevel + 1), KinkyDungeonMovePoints + delta); // Can't store extra move points
 
-					if (KinkyDungeonMovePoints >= Math.max(1, KinkyDungeonSlowLevel)) { // You need more move points than your slow level, unless your slow level is 1
-						KinkyDungeonMoveTo(moveX, moveY);
+					if (KinkyDungeonMovePoints >= 1) {// Math.max(1, KinkyDungeonSlowLevel) // You need more move points than your slow level, unless your slow level is 1
+						newDelta = Math.max(newDelta, KinkyDungeonMoveTo(moveX, moveY));
 						moved = true;
 
 					}
 
 					// Messages to inform player they are slowed
 					if (KinkyDungeonSlowLevel > 0) {
-						if (KinkyDungeonSlowLevel == 1) KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonSlowed"), "yellow", 2);
-						else if (KinkyDungeonSlowLevel == 2) KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonHopping"), "orange", 2);
-						else if (KinkyDungeonSlowLevel == 3) KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonInching"), "red", 2);
-						else if (KinkyDungeonSlowLevel < 10) KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonCrawling"), "red", 2);
-						else KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonCantMove"), "red", 2);
+						let plugLevel = Math.round(Math.min(3, KinkyDungeonStatPlugLevel));
+						let dict = KinkyDungeonPlugCount > 1 ? "plugs" : "plug";
+						let dicts = KinkyDungeonPlugCount > 1 ? "" : "s";
+						if (KinkyDungeonSlowLevel == 0 && KinkyDungeonPlugCount > 0) KinkyDungeonSendTextMessage(0, TextGet("KinkyDungeonPlugWalk" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "yellow", 2);
+						if (KinkyDungeonSlowLevel == 1) KinkyDungeonSendTextMessage(1, TextGet("KinkyDungeonSlowed" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "yellow", 2);
+						else if (KinkyDungeonSlowLevel == 2) KinkyDungeonSendTextMessage(1, TextGet("KinkyDungeonHopping" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "orange", 2);
+						else if (KinkyDungeonSlowLevel == 3) KinkyDungeonSendTextMessage(1, TextGet("KinkyDungeonInching" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "red", 2);
+						else if (KinkyDungeonSlowLevel < 10) KinkyDungeonSendTextMessage(1, TextGet("KinkyDungeonCrawling" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "red", 2);
+						else KinkyDungeonSendTextMessage(1, TextGet("KinkyDungeonCantMove" + plugLevel).replace("plugs", dict).replace("(s)", dicts), "red", 2);
 
+						let moveMult = Math.max(1, KinkyDungeonSlowLevel);
+						if (KinkyDungeonSlowLevel > 9) moveMult = 1;
 						if ((moveDirection.x != 0 || moveDirection.y != 0)) {
-							KinkyDungeonStatStamina += (KinkyDungeonStatStaminaRegenPerSlowLevel * KinkyDungeonSlowLevel) * delta;
+							KinkyDungeonStatStamina += moveMult * (KinkyDungeonStatStaminaRegenPerSlowLevel * KinkyDungeonSlowLevel) * delta;
 							KinkyDungeonStatWillpowerExhaustion = Math.max(1, KinkyDungeonStatWillpowerExhaustion);
+							KinkyDungeonStatArousal += KinkyDungeonStatPlugLevel * KinkyDungeonArousalPerPlug * moveMult;
+							if (KinkyDungeonVibeLevel == 0) KinkyDungeonStatArousal -= KinkyDungeonStatArousalRegen;
 						} else if (KinkyDungeonStatStamina < KinkyDungeonStatStaminaMax) {
 							KinkyDungeonMovePoints = 0;
 							KinkyDungeonWaitMessage();
@@ -1177,7 +1190,10 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 					//}
 				}
 				KinkyDungeonSleepTurns = 0;
-				KinkyDungeonAdvanceTime(1); // was moveDirection.delta, but became too confusing
+				//for (let d = 0; d < newDelta; d++)
+				//	KinkyDungeonAdvanceTime(1, false, d != 0); // was moveDirection.delta, but became too confusing
+				if (newDelta > 1 && newDelta < 10) KinkyDungeonSlowMoveTurns = newDelta -1;
+				KinkyDungeonAdvanceTime(1);
 			} else {
 				KinkyDungeonWaitMessage();
 				KinkyDungeonAdvanceTime(1); // was moveDirection.delta, but became too confusing
@@ -1209,16 +1225,19 @@ function KinkyDungeonWaitMessage(NoTime) {
 		KinkyDungeonStatStamina += KinkyDungeonStatStaminaRegenWait;
 }
 
+// Returns th number of turns that must elapse
 function KinkyDungeonMoveTo(moveX, moveY) {
 	if (KinkyDungeonNoEnemy(moveX, moveY, true)) {
 		KinkyDungeonPlayerEntity.x = moveX;
 		KinkyDungeonPlayerEntity.y = moveY;
 
 		KinkyDungeonMovePoints = 0;
+		return Math.max(1, KinkyDungeonSlowLevel);
 	}
+	return 0;
 }
 
-function KinkyDungeonAdvanceTime(delta, NoUpdate) {
+function KinkyDungeonAdvanceTime(delta, NoUpdate, NoMsgTick) {
 	if (delta >= 1) {
 		KinkyDungeonHandleTraps(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, KinkyDungeonTrapMoved);
 	}
@@ -1226,10 +1245,12 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate) {
 	KinkyDungeonHandleVibrators();
 	// Here we move enemies and such
 	KinkyDungeonUpdateLightGrid = true;
-	if (KinkyDungeonTextMessageTime > 0) KinkyDungeonTextMessageTime -= 1;
-	if (KinkyDungeonTextMessageTime <= 0) KinkyDungeonTextMessagePriority = 0;
-	if (KinkyDungeonActionMessageTime > 0) KinkyDungeonActionMessageTime -= 1;
-	if (KinkyDungeonActionMessageTime <= 0) KinkyDungeonActionMessagePriority = 0;
+	if (!NoMsgTick) {
+		if (KinkyDungeonTextMessageTime > 0) KinkyDungeonTextMessageTime -= 1;
+		if (KinkyDungeonTextMessageTime <= 0) KinkyDungeonTextMessagePriority = 0;
+		if (KinkyDungeonActionMessageTime > 0) KinkyDungeonActionMessageTime -= 1;
+		if (KinkyDungeonActionMessageTime <= 0) KinkyDungeonActionMessagePriority = 0;
+	}
 
 	// Updates the character's stats
 	KinkyDungeonItemCheck(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, MiniGameKinkyDungeonLevel); //console.log("Item Check " + (performance.now() - now));
