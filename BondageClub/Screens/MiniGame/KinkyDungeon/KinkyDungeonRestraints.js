@@ -541,16 +541,25 @@ function KinkyDungeonGetRestraintByName(Name) {
 	return null;
 }
 
+function KinkyDungeonGetLockMult(Lock) {
+	if (Lock == "Red") return 2.0;
+	if (Lock == "Blue") return 3.0;
+
+	return 1;
+}
+
 function KinkyDungeonGetRestraint(enemy, Level, Index, Bypass, Lock) {
-	var restraintWeightTotal = 0;
-	var restraintWeights = [];
+	let restraintWeightTotal = 0;
+	let restraintWeights = [];
 
 	for (let L = 0; L < KinkyDungeonRestraints.length; L++) {
-		var restraint = KinkyDungeonRestraints[L];
-		var currentRestraint = KinkyDungeonGetRestraintItem(restraint.Group);
+		let restraint = KinkyDungeonRestraints[L];
+		let currentRestraint = KinkyDungeonGetRestraintItem(restraint.Group);
+		let lockMult = currentRestraint ? KinkyDungeonGetLockMult(currentRestraint.lock) : 1;
+		let newLock = Lock ? Lock : restraint.DefaultLock;
 		if (Level >= restraint.minLevel && restraint.floors.includes(Index) && (!currentRestraint || !currentRestraint.restraint ||
-			(currentRestraint.lock ? currentRestraint.restraint.power * 2 : currentRestraint.restraint.power) <
-			((Lock || restraint.DefaultLock) ? restraint.power * 2 : restraint.power))
+			(currentRestraint.lock ? currentRestraint.restraint.power * lockMult : currentRestraint.restraint.power) <
+			((Lock || restraint.DefaultLock) ? restraint.power * KinkyDungeonGetLockMult(newLock) : restraint.power))
 			&& (!InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, restraint.Group) || Bypass)) {
 
 			restraintWeights.push({restraint: restraint, weight: restraintWeightTotal});
@@ -600,13 +609,15 @@ function KinkyDungeonUpdateRestraints(delta) {
 
 function KinkyDungeonAddRestraintIfWeaker(restraint, Tightness, Bypass, Lock) {
 	let r = KinkyDungeonGetRestraintItem(restraint.Group);
-	if (!r || (r.restraint && (r.lock ? r.restraint.power * 2 : r.restraint.power) < ((Lock || restraint.DefaultLock) ? restraint.power * 2 : restraint.power))) {
-		return KinkyDungeonAddRestraint(restraint, Tightness, Bypass);
+	let lockMult = r ? KinkyDungeonGetLockMult(r.lock) : 1;
+	let newLock = Lock ? Lock : restraint.DefaultLock;
+	if (!r || (r.restraint && (r.lock ? r.restraint.power * lockMult : r.restraint.power) < ((newLock) ? restraint.power * KinkyDungeonGetLockMult(newLock) : restraint.power))) {
+		return KinkyDungeonAddRestraint(restraint, Tightness, Bypass, Lock);
 	}
 	return 0;
 }
 
-function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
+function KinkyDungeonAddRestraint(restraint, Tightness, Bypass, Lock) {
 	var tight = (Tightness) ? Tightness : 0;
 	if (restraint) {
 		if (!InventoryGroupIsBlockedForCharacter(KinkyDungeonPlayer, restraint.Group) || Bypass) {
@@ -652,7 +663,8 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass) {
 			let item = {restraint: restraint, tightness: tight, lock: ""};
 			KinkyDungeonInventory.push(item);
 
-			if (restraint.DefaultLock) KinkyDungeonLock(item, restraint.DefaultLock);
+			if (Lock) KinkyDungeonLock(item, Lock);
+			else if (restraint.DefaultLock) KinkyDungeonLock(item, restraint.DefaultLock);
 
 		}
 

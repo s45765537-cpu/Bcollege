@@ -348,6 +348,8 @@ KinkyDungeonDropRedKey,"You drop the red key due to your bound hands!"
 KinkyDungeonDropBlueKey,"You drop the green key due to your bound hands!"
 KinkyDungeonDropGreenKey,"You drop the magic key due to your bound hands!"
 
+KinkyDungeonAutoDoorOn,"Close Doors: ON"
+KinkyDungeonAutoDoorOff,"Close Doors: OFF"
 KinkyDungeonCloseDoor,"Close Door"
 KinkyDungeonUnlockDoor,"Unlock"
 KinkyDungeonPickDoor,"Pick"

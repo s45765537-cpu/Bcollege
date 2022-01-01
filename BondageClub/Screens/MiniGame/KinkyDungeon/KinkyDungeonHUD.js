@@ -1,6 +1,6 @@
 "use strict";
-var KinkyDungeonStruggleGroups = [];
-var KinkyDungeonStruggleGroupsBase = [
+let KinkyDungeonStruggleGroups = [];
+let KinkyDungeonStruggleGroupsBase = [
 	"ItemHead",
 	"ItemHood",
 	"ItemM",
@@ -20,19 +20,20 @@ var KinkyDungeonStruggleGroupsBase = [
 	"ItemFeet",
 	"ItemBoots",
 ];
-var KinkyDungeonDrawStruggle = true;
-var KinkyDungeonDrawState = "Game";
-var KinkyDungeonSpellValid = false;
-var KinkyDungeonCamX = 0;
-var KinkyDungeonCamY = 0;
-var KinkyDungeonTargetX = 0;
-var KinkyDungeonTargetY = 0;
-var KinkyDungeonLastDraw = 0;
-var KinkyDungeonDrawDelta = 0;
+let KinkyDungeonDrawStruggle = true;
+let KinkyDungeonDrawState = "Game";
+let KinkyDungeonSpellValid = false;
+let KinkyDungeonCamX = 0;
+let KinkyDungeonCamY = 0;
+let KinkyDungeonTargetX = 0;
+let KinkyDungeonTargetY = 0;
+let KinkyDungeonLastDraw = 0;
+let KinkyDungeonDrawDelta = 0;
 
 const KinkyDungeonLastChatTimeout = 10000;
 
-var KinkyDungeonStatBarHeight = 100;
+let KinkyDungeonStatBarHeight = 100;
+let KinkyDungeonToggleAutoDoor = true;
 
 function KinkyDungeonDrawInputs() {
 
@@ -128,6 +129,8 @@ function KinkyDungeonDrawInputs() {
 			} else
 				DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonCloseDoor"), "White");
 		}
+	} else {
+		DrawButton(675, 825, 350, 60, TextGet("KinkyDungeonAutoDoor" + (KinkyDungeonToggleAutoDoor ? "On" : "Off")), "#AAAAAA");
 	}
 
 	DrawButton(650, 925, 165, 60, TextGet("KinkyDungeonInventory"), "White", "", "");
@@ -195,7 +198,7 @@ function KinkyDungeonDrawStats(x, y, width, heightPerBar) {
 
 	DrawButton(x, y+3*heightPerBar, 250, 50, TextGet("KinkyDungeonSleep"), "White");
 
-	var i = 3.5;
+	let i = 3.5;
 	DrawText(TextGet("CurrentGold") + KinkyDungeonGold, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
 	DrawText(TextGet("CurrentLockpicks") + KinkyDungeonLockpicks, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
 	DrawText(TextGet("CurrentKnife") + KinkyDungeonNormalBlades, x+width/2, y + 25 + i * heightPerBar, "white", "silver"); i+= 0.5;
@@ -270,6 +273,12 @@ function KinkyDungeonHandleHUD() {
 					KinkyDungeonMultiplayerUpdate(KinkyDungeonNextDataSendTimeDelay);
 					return true;
 				}
+			}
+		} else {
+			if (MouseIn(675, 825, 350, 60)) {
+				KinkyDungeonToggleAutoDoor = !KinkyDungeonToggleAutoDoor;
+				if (!KinkyDungeonToggleAutoDoor) KinkyDungeonDoorCloseTimer = 0;
+				return true;
 			}
 		}
 
