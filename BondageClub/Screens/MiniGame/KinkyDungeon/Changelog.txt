@@ -96,6 +96,7 @@ Content
 - Added shortcuts, on floor 3 there is a stairway to a new (unfinished) tomb area with a different tileset
 - Reputation system that affects certain enemy spawn rates
 - New rope themed enemies that appear more often if you annoy the rope goddess
+- New spell: Ice Breath, creates icicles that deal damage
 - Added a new spooky illusion Enemy
 - New enemies: samurai, ninjas, mummies
 - new bolt cutters weapon
@@ -110,8 +111,6 @@ Content
 TODO (expecting to get this done soon):
 -Dream hunter or something
 -Add max SP, MP, and AP upgrades as a rare drop in chests
--New slow status effect (chainbolt and Slime spells apply this instead to enemies)
--New ice wave spell that creates icicle landmines
 -Make it so rope snare can't target spaces with enemies
 -Panel gag, Legbinder and bolero jacket restraints
 -Shock plug that stuns you at high arousal
