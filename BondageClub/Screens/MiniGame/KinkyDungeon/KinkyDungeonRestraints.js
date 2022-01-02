@@ -431,7 +431,7 @@ function KinkyDungeonStruggle(struggleGroup, StruggleType) {
 								KinkyDungeonEnchantedBlades -= 1;
 							}
 						}
-					} else if (handsBound || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
+					} else if ((handsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound) || (armsBound && Math.random() < KinkyDungeonItemDropChanceArmsBound)) {
 						if (restraint.restraint.magic && KinkyDungeonEnchantedBlades > 0) {
 							KinkyDungeonDropItem({name: "EnchKnife"});
 							KinkyDungeonEnchantedBlades -= 1;
