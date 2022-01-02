@@ -224,8 +224,9 @@ function KinkyDungeonCheckLOS(enemy, player, distance, maxdistance, allowBlind) 
 
 function KinkyDungeonTrackSneak(enemy, delta) {
 	if (!enemy.vp) enemy.vp = 0;
-	enemy.vp += delta;
 	let sneakThreshold = enemy.Enemy.sneakThreshold ? enemy.Enemy.sneakThreshold : 2;
+	if (KinkyDungeonPlayerBuffs.Sneak) sneakThreshold += KinkyDungeonPlayerBuffs.Sneak.power;
+	enemy.vp = Math.min(sneakThreshold * 2, enemy.vp + delta);
 	return (enemy.vp > sneakThreshold);
 }
 

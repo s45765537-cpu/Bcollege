@@ -762,14 +762,19 @@ KinkyDungeonSpellCastFocusedFlash,You slowly charge up a powerful flash!
 
 KinkyDungeonSpellShroud,Shroud
 KinkyDungeonSpellTargetShroud,Select where to center the shroud (SpellArea radius)
-KinkyDungeonSpellDescriptionShroud,A shroud of darkness in which melee is impossible for Duration turns
+KinkyDungeonSpellDescriptionShroud,A shroud of darkness lasting Duration turns that buffs evasion for all creatures and buffs sneaking.
 KinkyDungeonSpellCastShroud,You exhale a misty shroud
 
 KinkyDungeonSpellSlime,Conjure Slime
 KinkyDungeonSpellWitchSlime,Witch's Slime
-KinkyDungeonSpellDescriptionSlime,A huge pool of slime will greatly slow enemies that step inside.
+KinkyDungeonSpellDescriptionSlime,A huge pool of slime will greatly slow enemies that step inside and deal DamageDealt damage on a hit.
 KinkyDungeonSpellCastSlime,You conjure a pool of slime!
 KinkyDungeonSpellTargetSlime,Select where the slime will start (SpellArea radius)
+
+KinkyDungeonSpellIceBreath,Ice Breath
+KinkyDungeonSpellDescriptionIceBreath,A field of icicles that deals DamageDealt damage on a hit and stuns briefly.
+KinkyDungeonSpellCastIceBreath,You breath out a chilling frost!
+KinkyDungeonSpellTargetIceBreath,Select where to put the icicles (SpellArea radius)
 
 KinkyDungeonSpellMummyBolt,Mystic Bolt
 KinkyDungeonMysticShock,The mummy's bolt paralyzes you!

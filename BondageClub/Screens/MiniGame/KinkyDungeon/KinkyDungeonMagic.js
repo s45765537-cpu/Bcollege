@@ -44,10 +44,10 @@ let KinkyDungeonSpellLevel = {
 };
 let KinkyDungeonLearnableSpells = [
 	//Page 1
-	["Firebolt", "Snare", "Flash", "Electrify", "Shield", "ChainBolt", "SlimeBall",],
+	["Firebolt", "Electrify", "ChainBolt", "SlimeBall", "Snare", "Flash", "Shield",],
 
 	//Page 2
-	["Icebolt", "GreaterShield", "Slime", "Blink", "GreaterFlash", "Shroud",],
+	["Icebolt", "IceBreath", "Slime","GreaterFlash", "Shroud", "Blink", "GreaterShield", ],
 
 	//Page 3
 	["FocusedFlash", "Fireball", "Leap",],
@@ -65,7 +65,7 @@ let KinkyDungeonSpellList = { // List of spells you can unlock in the 3 books. W
 		{name: "Electrify", school: "Elements", manacost: 8, components: ["Verbal"], level:1, type:"inert", projectile:false, onhit:"aoe", power: 8, time: 4, delay: 1, range: 4, size: 1, aoe: 0.75, lifetime: 1, damage: "electric", playerEffect: {name: "Shock", time: 1}}, // A series of light shocks incapacitate you
 		{name: "Shield", school: "Elements", manacost: 1, components: ["Legs"], level:1, type:"inert", projectile:false, block: 10, onhit:"", power: 0, delay: 2, range: 1.5, size: 1, damage: ""}, // Creates a shield that blocks projectiles for 1 turn
 		{name: "GreaterShield", school: "Elements", manacost: 2, components: ["Legs"], level:2, type:"inert", projectile:false, block: 20, onhit:"", power: 0, delay: 8, range: 2, size: 1, damage: ""}, // Creates a shield that blocks projectiles for 5 turns
-
+		{name: "IceBreath", school: "Elements", manacost: 8, components: ["Verbal"], level:2, type:"inert", projectile:false, onhit:"lingering", time: 1, delay: 1, range: 3, size: 3, aoe: 1.5, lifetime: 10, power: 5, lifetimeHitBonus: 5, damage: "ice", playerEffect: {name: "Damage"}}, // Creates a huge pool of slime, slowing enemies that try to enter. If you step in it, you have a chance of getting trapped!
 	],
 	"Conjure": [
 		{name: "Snare", school: "Conjure", manacost: 2, components: ["Legs"], level:1, type:"inert", projectile:false, onhit:"lingering", lifetime:-1, time: 12, delay: 3, range: 1, damage: "stun", playerEffect: {name: "MagicRope", time: 3}}, // Creates a magic rope trap that creates magic ropes on anything that steps on it. They are invisible once placed. Enemies get rooted, players get fully tied!
@@ -81,7 +81,7 @@ let KinkyDungeonSpellList = { // List of spells you can unlock in the 3 books. W
 		{name: "Flash", school: "Illusion", manacost: 4, components: ["Verbal"], level:1, type:"inert", projectile:false, onhit:"aoe", time: 5, delay: 1, power: 1, range: 2.5, size: 3, aoe: 1.5, lifetime: 1, damage: "stun", playerEffect: {name: "Blind", time: 4}}, // Start with flash, an explosion with a 1 turn delay and a 1.5 tile radius. If you are caught in the radius, you also get blinded temporarily!
 		{name: "GreaterFlash", school: "Illusion", manacost: 6, components: ["Verbal"], level:2, type:"inert", projectile:false, onhit:"aoe", time: 8, delay: 1, power: 1, range: 2.5, size: 5, aoe: 2.5, lifetime: 1, damage: "stun", playerEffect: {name: "Blind", time: 5}}, // Much greater AoE. Careful not to get caught!
 		{name: "FocusedFlash", school: "Illusion", manacost: 12, components: ["Verbal"], level:3, type:"inert", projectile:false, onhit:"aoe", time: 20, delay: 2, power: 1, range: 2.5, size: 3, aoe: 1.5, lifetime: 1, damage: "stun", playerEffect: {name: "Blind", time: 12}}, // Longer delay, but the stun lasts much longer.
-		{name: "Shroud", school: "Illusion", manacost: 5, components: ["Verbal"], level:2, type:"inert", projectile:false, buffs: [{type: "Evasion", power: 1.0, player: true, enemies: true, tags: ["darkness"], range: 1.5}], onhit:"", time:8, aoe: 1.5, power: 0, delay: 8, range: 4, size: 3, damage: ""}, // Creates a shroud. Enemies within are hard to hit with melee attacks.
+		{name: "Shroud", school: "Illusion", manacost: 5, components: ["Verbal"], level:2, type:"inert", projectile:false, buffs: [{type: "Evasion", power: 1.0, player: true, enemies: true, tags: ["darkness"], range: 1.5}, {type: "Sneak", power: 3.0, player: true, enemies: false, tags: ["darkness"], range: 1.5}], onhit:"", time:8, aoe: 1.5, power: 0, delay: 8, range: 4, size: 3, damage: ""}, // Creates a shroud. Enemies within are hard to hit with melee attacks.
 	],
 };
 let KinkyDungeonSpellListEnemies = [
@@ -403,7 +403,7 @@ function KinkyDungeonDrawMagic() {
 		DrawText(TextGet("KinkyDungeonMagicManaCost") + spell.manacost, canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/2 + 195, "black", "silver");
 		//DrawText(TextGet("KinkyDungeonMagicExhaustion").replace("TimeTaken", spell.exhaustion), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/2 + 150, "black", "silver");
 		//DrawText(TextGet("KinkyDungeonMagicExhaustion2").replace("TimeTaken", spell.exhaustion), canvasOffsetX + 640*KinkyDungeonBookScale/3.35, canvasOffsetY + 483*KinkyDungeonBookScale/2 + 195, "black", "silver");
-		let textSplit = KinkyDungeonWordWrap(TextGet("KinkyDungeonSpellDescription"+ spell.name).replace("DamageDealt", spell.power).replace("Duration", spell.time).replace("DelayTime", spell.delay).replace("BlockAmount", spell.block), 15).split('\n');
+		let textSplit = KinkyDungeonWordWrap(TextGet("KinkyDungeonSpellDescription"+ spell.name).replace("DamageDealt", spell.power).replace("Duration", spell.time).replace("DelayTime", spell.delay).replace("BlockAmount", spell.block), 18).split('\n');
 		let i = 0;
 		for (let N = 0; N < textSplit.length; N++) {
 			DrawText(textSplit[N],
