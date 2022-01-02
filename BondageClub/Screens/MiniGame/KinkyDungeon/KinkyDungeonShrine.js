@@ -2,13 +2,16 @@
 var KinkyDungeonShrineBaseCosts = {
 	//"Charms": 25,
 	"Leather": 40,
-	"Metal": 50,
-	"Rope": 25,
+	"Metal": 60,
+	"Rope": 20,
+	//"Latex": 40,
 	"Will": 20,
 	"Elements": 100,
 	"Conjure": 100,
 	"Illusion": 100,
 };
+
+let KinkyDungeonOrbAmount = 0;
 
 var KinkyDungeonShrineBaseCostGrowth = {
 	"Elements": 2,
@@ -340,4 +343,75 @@ function KinkyDungeonGetMapShrines(Dict) {
 		}
 	}
 	return ret;
+}
+
+function KinkyDungeonTakeOrb(Amount) {
+	KinkyDungeonDrawState = "Orb";
+	KinkyDungeonOrbAmount = Amount;
+}
+function KinkyDungeonDrawOrb() {
+
+	MainCanvas.textAlign = "center";
+	DrawText(TextGet("KinkyDungeonOrbIntro"), 1250, 200, "white", "silver");
+	DrawText(TextGet("KinkyDungeonOrbIntro2"), 1250, 250, "white", "silver");
+	let i = 0;
+	let maxY = 560;
+	let XX = 500;
+	let spacing = 60;
+	let yPad = 150;
+	MainCanvas.textAlign = "center";
+	for (let shrine in KinkyDungeonShrineBaseCosts) {
+		let value = KinkyDungeonGoddessRep[shrine];
+
+		if (value != undefined) {
+			if (spacing * i > maxY) {
+				if (XX == 0) i = 0;
+				XX = 600;
+			}
+			let color = "#ffff00";
+			if (value < -10) {
+				if (value < -30) color = "#ff0000";
+				else color = "#ff8800";
+			} else if (value > 10) {
+				if (value > 30) color = "#00ff00";
+				else color = "#88ff00";
+			}
+			DrawButton(canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i - 27, 250, 55, TextGet("KinkyDungeonShrine" + shrine), "white")
+			DrawProgressBar(canvasOffsetX + 275 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, color, "#444444");
+
+			i++;
+		}
+
+	}
+
+	MainCanvas.textAlign = "center";
+}
+function KinkyDungeonHandleOrb() {
+	let Amount = KinkyDungeonOrbAmount;
+	let i = 0;
+	let maxY = 560;
+	let XX = 500;
+	let spacing = 60;
+	let yPad = 150;
+	for (let shrine in KinkyDungeonShrineBaseCosts) {
+		let value = KinkyDungeonGoddessRep[shrine];
+
+		if (value != undefined) {
+			if (spacing * i > maxY) {
+				if (XX == 0) i = 0;
+				XX = 600;
+			}
+			if (MouseIn(canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i, 250, 55)) {
+				KinkyDungeonChangeRep(shrine, Amount * -5);
+				KinkyDungeonSpellPoints += Amount;
+				KinkyDungeonDrawState = "Game";
+				return true;
+			}
+			i++;
+		}
+
+	}
+
+
+	return true;
 }

@@ -18,6 +18,8 @@ function KinkyDungeonGetSprite(code) {
 	else if (code == "s") sprite = "StairsDown";
 	else if (code == "H") sprite = "StairsDown"; // Shortcut
 	else if (code == "A") sprite = "Shrine";
+	else if (code == "O") sprite = "Orb";
+	else if (code == "o") sprite = "OrbEmpty";
 	else if (code == "a") sprite = "ShrineBroken";
 	return sprite;
 }
@@ -179,6 +181,8 @@ function KinkyDungeonDrawGame() {
 				KinkyDungeonGameDataNullTimerTime = CommonTime();
 			}
 		}
+	} else if (KinkyDungeonDrawState == "Orb") {
+		KinkyDungeonDrawOrb();
 	} else if (KinkyDungeonDrawState == "Magic") {
 		DrawButton(1030, 925, 165, 60, TextGet("KinkyDungeonGame"), "White", "", "");
 		KinkyDungeonDrawMagic();

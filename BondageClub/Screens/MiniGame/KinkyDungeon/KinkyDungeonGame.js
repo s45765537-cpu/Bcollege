@@ -49,7 +49,7 @@ var KinkyDungeonMapBrightness = 5;
 var KinkyDungeonGroundTiles = "02";
 var KinkyDungeonMovableTilesEnemy = KinkyDungeonGroundTiles + "HSsRrdTg"; // Objects which can be moved into: floors, debris, open doors, staircases
 var KinkyDungeonMovableTilesSmartEnemy = "D" + KinkyDungeonMovableTilesEnemy; //Smart enemies can open doors as well
-var KinkyDungeonMovableTiles = "CAG" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
+var KinkyDungeonMovableTiles = "OCAG" + KinkyDungeonMovableTilesSmartEnemy; // Player can open chests
 
 var KinkyDungeonTiles = {};
 var KinkyDungeonTargetTile = null;
@@ -219,7 +219,7 @@ function KinkyDungeonCreateMap(MapParams, Floor) {
 	KinkyDungeonPlaceShortcut(KinkyDungeonGetShortcut(Floor), width, height); // Place the start and end locations
 	KinkyDungeonPlaceChests(treasurechance, treasurecount, rubblechance, Floor, width, height); // Place treasure chests inside dead ends
 	let traps = KinkyDungeonPlaceDoors(doorchance, nodoorchance, doorlockchance, trapChance, grateChance, Floor, width, height); // Place treasure chests inside dead ends
-	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height); // Place treasure chests inside dead ends
+	KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghostchance, Floor, width, height);
 	KinkyDungeonPlaceBrickwork(brickchance, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlaceTraps(traps, traptypes, Floor, width, height); // Place treasure chests inside dead ends
 	KinkyDungeonPlacePatrols(4, width, height); // Place treasure chests inside dead ends
@@ -569,10 +569,16 @@ function KinkyDungeonPlaceShrines(shrinechance, shrinecount, shrinefilter, ghost
 				KinkyDungeonMapSet(shrine.x, shrine.y, 'a');
 			else {
 				let playerTypes = KinkyDungeonRestraintTypes(shrinefilter);
-				let type = shrineTypes.length == 0 && playerTypes.length > 0 ? playerTypes[Math.floor(Math.random() * playerTypes.length)] : KinkyDungeonGenerateShrine(Floor);
+				let type = shrineTypes.length == 0 ? "Orb"
+					: (shrineTypes.length == 1 && playerTypes.length > 0 ?
+						playerTypes[Math.floor(Math.random() * playerTypes.length)]
+						: KinkyDungeonGenerateShrine(Floor));
 				let tile = 'A';
 				if (shrineTypes.includes(type)) type = "";
-				if (type) {
+				if (type == "Orb") {
+					tile = 'O';
+					shrineTypes.push("Orb");
+				} else if (type) {
 					KinkyDungeonTiles["" + shrine.x + "," +shrine.y] =  {Type: "Shrine", Name: type};
 					shrineTypes.push(type);
 				} else if (!shrineTypes.includes("Ghost")) {
@@ -1176,6 +1182,9 @@ function KinkyDungeonMove(moveDirection, delta, AllowInteract) {
 				} else if (moveObject == 'C') { // Open the chest
 					KinkyDungeonLoot(MiniGameKinkyDungeonLevel, KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint], "chest");
 					KinkyDungeonMapSet(moveX, moveY, 'c');
+				} else if (moveObject == 'O') { // Open the chest
+					KinkyDungeonTakeOrb(1); // 1 spell point
+					KinkyDungeonMapSet(moveX, moveY, 'o');
 				} else {// Move
 					//if (KinkyDungeonHasStamina(0)) { // You can only move if your stamina is > 0
 					KinkyDungeonMovePoints = Math.min(Math.ceil(KinkyDungeonSlowLevel + 1), KinkyDungeonMovePoints + delta); // Can't store extra move points
