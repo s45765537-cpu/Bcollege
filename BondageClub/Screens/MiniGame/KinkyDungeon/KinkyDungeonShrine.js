@@ -380,7 +380,7 @@ function KinkyDungeonDrawOrb() {
 				if (value > 30) color = "#00ff00";
 				else color = "#88ff00";
 			}
-			DrawButton(canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i - 27, 250, 55, TextGet("KinkyDungeonShrine" + shrine), "white")
+			DrawButton(canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i - 27, 250, 55, TextGet("KinkyDungeonShrine" + shrine), "white");
 			DrawProgressBar(canvasOffsetX + 275 + XX, yPad + canvasOffsetY + spacing * i - spacing/4, 200, spacing/2, 50 + value, color, "#444444");
 
 			i++;
