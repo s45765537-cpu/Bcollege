@@ -327,6 +327,9 @@ function KinkyDungeonHandleHUD() {
 	} else if (KinkyDungeonDrawState == "Magic") {
 		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleMagic();
+	} else if (KinkyDungeonDrawState == "MagicSpells") {
+		if (MouseIn(1030, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
+		else return KinkyDungeonHandleMagicSpells();
 	} else if (KinkyDungeonDrawState == "Inventory") {
 		if (MouseIn(650, 925, 165, 60)) { KinkyDungeonDrawState = "Game"; return true;}
 		else return KinkyDungeonHandleInventory();

@@ -90,6 +90,7 @@ LootRubbleBlueKey,"You find a blue key, glowing with magic"
 
 LootChestGold,The chest contains gold! (+XXX gold)
 LootChestSpell,"You find a magic scroll, which you place in your spellbook. (+SpellLearned)"
+LootChestSpellPoints,"You find an orb containing magical knowledge! (+AMOUNT spell points)"
 LootChestWeapon,"You find a weapon! (+WeaponAcquired)"
 LootChestTrapMagic,"You find gold and a magic trap! (+RestraintType) (+XXX gold)"
 LootChestTrapMagicVibe,"You find gold and a tormenting magical trap! (+RestraintType) (+XXX gold)"
@@ -359,7 +360,7 @@ KinkyDungeonPayShrine,"Offer XXXg"
 KinkyDungeonPayShrineFail,"You do not have enough for a proper offering."
 KinkyDungeonPayShrineRemoveRestraints,"The goddess removes some of your restraints!"
 KinkyDungeonPayShrineHeal,"The goddess restores your mental and physical state!"
-KinkyDungeonPayShrineSpell,"Glowing runes on the altar teach you how to cast SpellLearned."
+KinkyDungeonPayShrineSpell,"The goddess teaches you the secrets of SCHOOL. (+1 level)"
 KinkyDungeonPayShrineCommerce,"You leave the coins on the altar and they transform into a ItemBought!"
 KinkyDungeonObject,"object"
 
@@ -697,14 +698,14 @@ KinkyDungeonSpellDescriptionFirebolt,A slow moving ball of flame that does Damag
 KinkyDungeonSpellCastFirebolt,You a hurl a firebolt!
 KinkyDungeonSpellTargetFirebolt,Choose aim direction
 
-KinkyDungeonSpellBlink,Blink
+KinkyDungeonSpellBlink,Portal
 KinkyDungeonSpellDescriptionBlink,Teleport to a nearby location after DelayTime turns.
-KinkyDungeonSpellCastBlink,You call upon the mists to transport you!
+KinkyDungeonSpellCastBlink,You call upon a misty portal to transport you!
 KinkyDungeonSpellTargetBlink,Choose target location
 
-KinkyDungeonSpellLeap,Riftwalk
+KinkyDungeonSpellLeap,Blink
 KinkyDungeonSpellDescriptionLeap,Teleport to a location next turn.
-KinkyDungeonSpellCastLeap,You jump through a mystic portal!
+KinkyDungeonSpellCastLeap,You teleport!
 KinkyDungeonSpellTargetLeap,Choose target location
 
 KinkyDungeonSpellIcebolt,Ice Shard
@@ -849,11 +850,26 @@ KinkyDungeonSlowedBySpell,"The spell hits you and slows you down!"
 KinkyDungeonInventory,"Inventory"
 KinkyDungeonReputation,"Reputation"
 KinkyDungeonMagic,"Spells"
+KinkyDungeonMagicSpells,"Learn New Spells"
+KinkyDungeonMagicSpellsBack,"Back to Spellbook"
 KinkyDungeonGame,"Return to Game"
 
 
+KinkyDungeonSpellsPage,"Viewing Page "
+KinkyDungeonSpellsPageNext,"Next Page"
+KinkyDungeonSpellsPageBack,"Previous Page"
+KinkyDungeonSpellsLevels,"Spell Points: SPELLPOINTS --- Elementalist lvELEMLEVEL --- Conjuration lvCONJLEVEL --- Illusionist lvILLULEVEL"
+KinkyDungeonSpellsNotEnoughLevels,"You need a higher level in SCHOOL magic to learn this spell."
+KinkyDungeonSpellsNotEnoughPoints,"You need more spell points."
+KinkyDungeonSpellsSchoolElements,Elemental
+KinkyDungeonSpellsSchoolConjure,Conjuration
+KinkyDungeonSpellsSchoolIllusion,Illusion
+KinkyDungeonSpellsBuy,"Learn Spell"
+KinkyDungeonSpellsPoints,"Spell Points: "
+
+
 KinkyDungeonMagicLevel,"Level: "
-KinkyDungeonMagicCost,"Stamina Cost: "
+KinkyDungeonMagicCost,"Spell Point Cost: "
 KinkyDungeonMagicManaCost, "Mana Cost: "
 
 KinkyDungeonSpell0,"Choose as Spell 1"

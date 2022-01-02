@@ -91,6 +91,7 @@ UI Changes
 - Added restart button and confirmation screen
 
 Content
+- New Spell Point system: You can learn new spells by spending points. Find spell points in chests and TODO on special pedestals...
 - New curse system: Items which are Cursed can not be struggled out of, but can be unlocked if you meet their condition
 - Added shortcuts, on floor 3 there is a stairway to a new (unfinished) tomb area with a different tileset
 - Reputation system that affects certain enemy spawn rates
