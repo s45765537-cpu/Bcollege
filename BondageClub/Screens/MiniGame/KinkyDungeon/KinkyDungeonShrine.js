@@ -172,7 +172,7 @@ function KinkyDungeonHandleShrine() {
 		if (cost > 0 && MouseIn(675, 825, 300, 60)) {
 			KinkyDungeonAdvanceTime(1, true);
 			KinkyDungeonTargetTile = null;
-			if (KinkyDungeonGold > cost) {
+			if (KinkyDungeonGold >= cost) {
 				KinkyDungeonPayShrine(type);
 				delete KinkyDungeonTiles[KinkyDungeonTargetTileLocation];
 				let x = KinkyDungeonTargetTileLocation.split(',')[0];
