@@ -99,7 +99,7 @@ function KinkyDungeonPayShrine(type) {
 
 		ShrineMsg = TextGet("KinkyDungeonPayShrineRemoveRestraints");
 	} else if (type == "Elements" || type == "Illusion" || type == "Conjure") {
-		let SpellsUnlearned = KinkyDungeonGetUnlearnedSpells(0, 5, KinkyDungeonSpellList[type]);
+		/*let SpellsUnlearned = KinkyDungeonGetUnlearnedSpells(0, 5, KinkyDungeonSpellList[type]);
 		if (Math.random() < 0.1 || SpellsUnlearned.length == 0) SpellsUnlearned = KinkyDungeonGetUnlearnedSpells(0, 5 + MiniGameKinkyDungeonCheckpoint, KinkyDungeonSpellList[type]);
 
 		let spellIndex = Math.floor(Math.random()*SpellsUnlearned.length);
@@ -107,7 +107,11 @@ function KinkyDungeonPayShrine(type) {
 		let spell = SpellsUnlearned[spellIndex];
 		ShrineMsg = TextGet("KinkyDungeonPayShrineSpell").replace("SpellLearned", TextGet("KinkyDungeonSpell" + spell.name));
 		KinkyDungeonSpells.push(spell);
-		rep = spell.level;
+		rep = spell.level;*/
+		KinkyDungeonSpellLevel[type] += 1;
+		ShrineMsg = TextGet("KinkyDungeonPayShrineSpell").replace("SCHOOL", TextGet("KinkyDungeonSpellsSchool" + type));
+		rep = 2 * KinkyDungeonSpellLevel[type] * KinkyDungeonSpellLevel[type];
+
 	} else if (type == "Will") {
 		KinkyDungeonStatStamina = KinkyDungeonStatStaminaMax;
 		KinkyDungeonStatMana = Math.min(KinkyDungeonStatManaMax, KinkyDungeonStatMana+KinkyDungeonStatManaMax/3);
@@ -402,7 +406,7 @@ function KinkyDungeonHandleOrb() {
 				XX = 600;
 			}
 			if (MouseIn(canvasOffsetX + XX, yPad + canvasOffsetY + spacing * i, 250, 55)) {
-				KinkyDungeonChangeRep(shrine, Amount * -5);
+				KinkyDungeonChangeRep(shrine, Amount * -10);
 				KinkyDungeonSpellPoints += Amount;
 				KinkyDungeonDrawState = "Game";
 				return true;
