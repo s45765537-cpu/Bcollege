@@ -452,17 +452,11 @@ function LoginResponse(C) {
 			WardrobeFixLength();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems :
-				typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
-			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems :
-				typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
-			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems :
-				typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
+			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
+			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems : typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
+			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems : typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
 			Player.HiddenItems = ((C.HiddenItems == null) || !Array.isArray(C.HiddenItems)) ? [] : C.HiddenItems;
-			// TODO: Migration code; remove after few versions (added R66)
-			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
-				ServerPlayerBlockItemsSync();
-			}
+			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
 			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
@@ -601,6 +595,7 @@ function LoginResponse(C) {
 			LoginValidateArrays();
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
+			AsylumGGTSSAddItems();
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {
@@ -620,16 +615,23 @@ function LoginResponse(C) {
 						CommonSetScreen("Room", "AsylumBedroom");
 					} else {
 
-						// If the player must start in her room, in her cage
-						if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
-							InventoryRemove(Player, "ItemFeet");
-							InventoryRemove(Player, "ItemLegs");
-							Player.Cage = true;
-							CharacterSetActivePose(Player, "Kneel", true);
-							CommonSetScreen("Room", "Private");
+						// If the owner is forcing the player to do GGTS
+						if (LogValue("ForceGGTS", "Asylum") > 0) {
+							CommonSetScreen("Room", "AsylumEntrance");
 						} else {
-							CommonSetScreen("Room", "MainHall");
-							MainHallMaidIntroduction();
+
+							// If the player must start in her room, in her cage
+							if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
+								InventoryRemove(Player, "ItemFeet");
+								InventoryRemove(Player, "ItemLegs");
+								Player.Cage = true;
+								CharacterSetActivePose(Player, "Kneel", true);
+								CommonSetScreen("Room", "Private");
+							} else {
+								CommonSetScreen("Room", "MainHall");
+								MainHallMaidIntroduction();
+							}
+
 						}
 
 					}

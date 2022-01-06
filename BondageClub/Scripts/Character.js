@@ -106,6 +106,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				(this.Effect.indexOf("Block") < 0) &&
 				(this.Effect.indexOf("Prone") < 0) &&
 				!ManagementIsClubSlave() &&
+				(LogValue("Isolated", "Asylum") < CurrentTime) &&
 				!LogQuery("BlockChange", "Rule") &&
 				(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
 			);
@@ -871,7 +872,12 @@ function CharacterAddEffect(C, NewEffect) {
 function CharacterLoadEffect(C) {
 	C.Effect = [];
 	for (let A = 0; A < C.Appearance.length; A++) {
-		if ((C.Appearance[A].Property != null) && (C.Appearance[A].Property.Effect != null)) CharacterAddEffect(C, C.Appearance[A].Property.Effect);
+		if (C.Appearance[A].Property && C.Appearance[A].Property.Effect != null) {
+			CharacterAddEffect(C, C.Appearance[A].Property.Effect);
+			if (C.Appearance[A].Property.OverrideAssetEffect) {
+				continue;
+			}
+		}
 		if (C.Appearance[A].Asset.Effect != null)
 			CharacterAddEffect(C, C.Appearance[A].Asset.Effect);
 		else if (C.Appearance[A].Asset.Group.Effect != null)

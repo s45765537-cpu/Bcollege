@@ -389,7 +389,7 @@ function ActivitySetArousalTimer(C, Activity, Zone, Progress) {
 	if ((Progress > 0) && (C.ArousalSettings.Progress + Progress > Max)) Progress = (Max - C.ArousalSettings.Progress >= 0) ? Max - C.ArousalSettings.Progress : 0;
 
 	// If we must apply a progress timer change, we publish it
-	if ((C.ArousalSettings.ProgressTimer == null) || (C.ArousalSettings.ProgressTimer != Progress)) {
+	if (C.ArousalSettings.ProgressTimer !== Progress) {
 		C.ArousalSettings.ProgressTimer = Progress;
 		ActivityChatRoomArousalSync(C);
 	}
@@ -763,7 +763,7 @@ function ActivityArousalItem(Source, Target, Asset) {
 	if (AssetActivity != null) {
 		var Activity = AssetGetActivity(Target.AssetFamily, AssetActivity);
 		if ((Source.ID == 0) && (Target.ID != 0)) ActivityRunSelf(Source, Target, Activity);
-		if (((Target.ArousalSettings != null) && ((Target.ArousalSettings.Active == "Hybrid") || (Target.ArousalSettings.Active == "Automatic"))) && ((Target.ID == 0) || (Target.IsNpc())))
+		if (PreferenceArousalAtLeast(Target, "Hybrid") && ((Target.ID == 0) || (Target.IsNpc())))
 			ActivityEffect(Source, Target, AssetActivity, Asset.Group.Name);
 	}
 }

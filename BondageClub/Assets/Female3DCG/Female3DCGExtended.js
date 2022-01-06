@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * Female3	CGExtended.js
+ * Female3DCGExtended.js
  * ---------------------
  * This file contains definitions and configuration for extended items. Items which are marked as Extended in
  * `Female3DCG.js` and which have an extended item definition here will have their load/draw/click functions
@@ -3498,15 +3498,15 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Attached",
 						Property: {
-							Type: null,
-							Effect: ["BlockMouth", "GagLight"]
+							Type: null
 						},
 					},
 					{
 						Name: "Detached",
 						Property: {
 							Type: "Detached",
-							Effect: ["OpenMouth"]
+							Effect: ["OpenMouth"],
+							OverrideAssetEffect: true
 						},
 					},
 				],
@@ -3527,7 +3527,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["OpenMouth", "GagLight"],
 						},
 					},
 					{
@@ -3535,6 +3534,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Closed",
 							Effect: ["BlockMouth", "GagMedium"],
+							OverrideAssetEffect: true
 						},
 					},
 				],
@@ -3821,7 +3821,7 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "Frogtie",
 						BondageLevel: 3,
-						Property: { Type: "Frogtie", SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
+						Property: { Type: "Frogtie", SetPose: ["Kneel"], AllowActivePose: ["Kneel", "KneelingSpread"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
 						Prerequisite: ["NotSuspended", "CanKneel"],
 						Random: false,
 					}, {
@@ -4180,6 +4180,7 @@ var AssetFemale3DCGExtended = {
 		Zipties: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 				Options: [
 					{
 						Name: "ZipFeetLight",
@@ -4451,7 +4452,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"]	, },
+						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"] },
 					},
 				],
 			},

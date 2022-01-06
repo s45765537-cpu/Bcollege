@@ -83,10 +83,10 @@ var DialogFavoriteStateDetails = [
  * The list of menu types available when clicking on yourself
  * @const
  * @type {Array.<{
- *	Name: string,
- *	IsAvailable: () => boolean,
- *	Draw: () => void,
- *	Click: () => void
+ *     Name: string,
+ *     IsAvailable: () => boolean,
+ *     Draw: () => void,
+ *     Click: () => void
  * }>}
  */
 var DialogSelfMenuOptions = [
@@ -452,7 +452,7 @@ function DialogHasKey(C, Item) {
  */
 function DialogCanUnlock(C, Item) {
 	if ((C.ID != 0) && !Player.CanInteract()) return false;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null) && (Item.Property.LockedBy == "ExclusivePadlock")) return (C.ID != 0);
+	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy === "ExclusivePadlock")) return (C.ID != 0);
 	if (LogQuery("KeyDeposit", "Cell")) return false;
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.OwnerOnly == true)) return Item.Asset.Enable && C.IsOwnedByPlayer();
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.LoverOnly == true)) return Item.Asset.Enable && C.IsLoverOfPlayer();
@@ -850,7 +850,7 @@ function DialogMenuButtonBuild(C) {
 			if (C.FocusGroup.Name == "ItemMouth" || C.FocusGroup.Name == "ItemMouth2" || C.FocusGroup.Name == "ItemMouth3") DialogMenuButton.push("ChangeLayersMouth");
 			if (IsItemLocked && DialogCanUnlock(C, Item) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract())) {  DialogMenuButton.push("Remove"); }
 			if (IsItemLocked && ((!Player.IsBlind() || (Item.Property && DialogCanInspectLockWhileBlind(Item.Property.LockedBy))) || (InventoryAllow(
-					C, Item.Asset) && !IsGroupBlocked && !InventoryGroupIsBlocked(Player, "ItemHands") && InventoryItemIsPickable(Item))  && (C.ID == 0 || (C.OnlineSharedSettings && !C.OnlineSharedSettings.DisablePickingLocksOnSelf)))
+				C, Item.Asset) && !IsGroupBlocked && !InventoryGroupIsBlocked(Player, "ItemHands") && InventoryItemIsPickable(Item))  && (C.ID == 0 || (C.OnlineSharedSettings && !C.OnlineSharedSettings.DisablePickingLocksOnSelf)))
 				&& (Item.Property != null) && (Item.Property.LockedBy != null) && (Item.Property.LockedBy != "")
 			) {
 				DialogMenuButton.push("LockMenu");
@@ -887,6 +887,11 @@ function DialogMenuButtonBuild(C) {
 				if (DialogItemPermissionMode) DialogMenuButton.push("DialogNormalMode");
 				else DialogMenuButton.push("DialogPermissionMode");
 			}
+
+			// Make sure the previous button doesn't overflow the menu
+			if ((DialogMenuButton.length >= 10) && (DialogMenuButton.indexOf("Prev") >= 0))
+				DialogMenuButton.splice(DialogMenuButton.indexOf("Prev"), 1);
+
 		}
 	}
 }

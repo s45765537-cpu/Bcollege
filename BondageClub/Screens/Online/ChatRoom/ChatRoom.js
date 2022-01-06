@@ -978,7 +978,7 @@ function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
 	}
 
 	// If the arousal meter is shown for that character, we can interact with it
-	if (C.ArousalSettings && ["Manual", "Hybrid", "Automatic"].includes(C.ArousalSettings.Active)) {
+	if (PreferenceArousalAtLeast(C, "Manual")) {
 		let MeterShow = C.ID === 0;
 		if (C.ID !== 0 && Player.ArousalSettings.ShowOtherMeter && C.ArousalSettings) {
 			if (C.ArousalSettings.Visible === "Access") {
@@ -994,7 +994,7 @@ function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
 
 			// If the player can manually control her arousal, we set the progress manual and change the facial expression, it can trigger an orgasm at 100%
 			if (C.ID === 0 && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && C.ArousalZoom) {
-				if (Player.ArousalSettings.Active === "Manual" || Player.ArousalSettings.Active === "Hybrid") {
+				if (PreferenceArousalAtLeast(Player, "Manual") && !PreferenceArousalAtLeast(Player, "Automatic")) {
 					var Arousal = Math.round((CharY + 625 * Zoom - MouseY) / (4 * Zoom));
 					ActivitySetArousal(Player, Arousal);
 					if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
@@ -2039,12 +2039,7 @@ function ChatRoomMessage(data) {
 		if (Player.GhostList.indexOf(data.Sender) >= 0) return;
 
 		// Make sure the sender is in the room
-		var SenderCharacter = null;
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomCharacter[C].MemberNumber == data.Sender) {
-				SenderCharacter = ChatRoomCharacter[C];
-				break;
-			}
+		let SenderCharacter = ChatRoomCharacter.find(c => c.MemberNumber == data.Sender);
 
 		// If we found the sender
 		if (SenderCharacter != null) {
@@ -2242,7 +2237,7 @@ function ChatRoomMessage(data) {
 						ChatRoomStimulationMessage("Kneel");
 
 					// If another player is using an item which applies an activity on the current player, apply the effect here
-					AsylumGGTSActivity(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
+					AsylumGGTSActivity(SenderCharacter, TargetCharacter, ActivityName, GroupName, ActivityCounter);
 					if ((ActivityName != null) && (TargetMemberNumber != null) && (TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber))
 						if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 							ActivityEffect(SenderCharacter, Player, ActivityName, GroupName, ActivityCounter);
@@ -2328,7 +2323,7 @@ function ChatRoomMessage(data) {
 			}
 
 			// Outputs the sexual activities text and runs the activity if the player is targeted
-			if ((data.Type != null) && (data.Type === "Activity")) {
+			if (data.Type === "Activity") {
 
 				// Creates the output message using the activity dictionary and tags, keep some values to calculate the activity effects on the player
 				msg = "(" + ActivityDictionaryText(msg) + ")";
@@ -2352,7 +2347,7 @@ function ChatRoomMessage(data) {
 					}
 
 				// If the player does the activity on herself or an NPC, we calculate the result right away
-				AsylumGGTSActivity(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);
+				AsylumGGTSActivity(SenderCharacter, TargetCharacter, ActivityName, ActivityGroup, ActivityCounter);
 				if ((data.Type === "Action") || ((TargetMemberNumber == Player.MemberNumber) && (SenderCharacter.MemberNumber != Player.MemberNumber)))
 					if ((Player.ArousalSettings == null) || (Player.ArousalSettings.Active == null) || (Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic"))
 						ActivityEffect(SenderCharacter, Player, ActivityName, ActivityGroup, ActivityCounter);
@@ -3096,7 +3091,7 @@ function ChatRoomAdminAction(ActionType, Publish) {
 		if (ActionType == "Move") {
 			ChatRoomMoveTarget = CurrentCharacter.MemberNumber;
 		} else {
-			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: ((Publish == null) || (Publish != false && Publish != "false")) });
+			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: (Publish !== false && Publish !== "false") });
 		}
 		DialogLeave();
 	}
@@ -3332,20 +3327,37 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleRemoteBlock") LogAdd("BlockRemote", "OwnerRule");
 		if (data.Content == "OwnerRuleRemoteBlockSelf") LogAdd("BlockRemoteSelf", "OwnerRule");
 
-		// Timer cell punishment
-		var TimerCell = 0;
+		// Sent to timer cell
+		let TimerCell = 0;
 		if (data.Content == "OwnerRuleTimerCell5") TimerCell = 5;
 		if (data.Content == "OwnerRuleTimerCell15") TimerCell = 15;
 		if (data.Content == "OwnerRuleTimerCell30") TimerCell = 30;
 		if (data.Content == "OwnerRuleTimerCell60") TimerCell = 60;
 		if (TimerCell > 0) {
 			ServerSend("ChatRoomChat", { Content: "ActionGrabbedForCell", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-
 			DialogLentLockpicks = false;
 			ChatRoomClearAllElements();
 			ServerSend("ChatRoomLeave", "");
 			CharacterDeleteAllOnline();
 			CellLock(TimerCell);
+		}
+
+		// Sent to GGTS
+		let GGTS = 0;
+		if (data.Content == "OwnerRuleGGTS5") GGTS = 5;
+		if (data.Content == "OwnerRuleGGTS15") GGTS = 15;
+		if (data.Content == "OwnerRuleGGTS30") GGTS = 30;
+		if (data.Content == "OwnerRuleGGTS60") GGTS = 60;
+		if (data.Content == "OwnerRuleGGTS90") GGTS = 90;
+		if (data.Content == "OwnerRuleGGTS120") GGTS = 120;
+		if (data.Content == "OwnerRuleGGTS180") GGTS = 180;
+		if (GGTS > 0) {
+			ServerSend("ChatRoomChat", { Content: "ActionGrabbedForGGTS", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+			DialogLentLockpicks = false;
+			ChatRoomClearAllElements();
+			ServerSend("ChatRoomLeave", "");
+			CharacterDeleteAllOnline();
+			AsylumGGTSLock(GGTS, TextGet("GGTSIntro"));
 		}
 
 		// Collar Rules
@@ -3438,22 +3450,28 @@ function ChatRoomPayQuest(data) {
  * @param {object} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
  */
-function ChatRoomOnlineBountyHandleData(data) {
+function ChatRoomOnlineBountyHandleData(data, sender) {
 	if (data.finishTime && data.target == Player.MemberNumber) {
-		ChatRoomMessage({ Content: "OnlineBountySuitcaseOngoing", Type: "Action", Dictionary: [{Tag: "TIMEREMAINING", Text: ""+Math.max(1, Math.ceil((data.finishTime - CommonTime())/60000))}], Sender: Player.MemberNumber });
+		let senderChar = ChatRoomCharacter.find(c => c.MemberNumber == sender);
+		const remaining = Math.max(1, Math.ceil((data.finishTime - CommonTime()) / 60000));
+		const content = ChatRoomCarryingBountyOpened(senderChar) ? "OnlineBountySuitcaseOngoingOpened" : "OnlineBountySuitcaseOngoing";
+		let dict = [];
+		dict.push({Tag: "TIMEREMAINING", Text: remaining.toString()});
+		dict.push({Tag: "SourceCharacter", Text: senderChar.Name, MemberNumber: senderChar.MemberNumber});
+		ChatRoomMessage({ Content: content, Type: "Action", Dictionary: dict, Sender: sender });
 	}
 }
 
 /**
  * Triggered when a game message comes in, we forward it to the current online game being played.
- * @param {object} data - Game data to process, sent to the current game handler.
+ * @param {IChatRoomGameResponse} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
  */
 function ChatRoomGameResponse(data) {
 	if (data.Data.KinkyDungeon)
 		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
-	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty && !Player.GhostList.includes(data.sender))
-		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty);
+	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
+		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
 }
