@@ -49,6 +49,8 @@ class CachedImage {
 		this.textureInfo = null;
 		/** @type number */
 		this.lastUsed = null;
+		/** @type boolean */
+		this.manual = false;
 	}
 
 	/**
@@ -88,6 +90,7 @@ class CachedImage {
 		this.errorCount = 0;
 		this.textureInfo = null;
 		this.state = CachedImageState.LOADED;
+		this.manual = true;
 		this.cache._imageStateDidChange(this);
 	}
 
@@ -207,7 +210,8 @@ class ImageCacheClass {
 			if (image.loadCallback)
 				image.loadCallback(image);
 
-			this._refreshCanvas();
+			if (!image.manual)
+				this._refreshCanvas();
 		} else if (image.state == CachedImageState.ERRORED) {
 			if (image.errorCount < RetryTimers.length) {
 				let backoff = RetryTimers[image.errorCount - 1];
@@ -220,7 +224,8 @@ class ImageCacheClass {
 				console.log("Failed to load image " + image.url);
 				image.state = CachedImageState.FAILED;
 
-				this._refreshCanvas();
+				if (!image.manual)
+					this._refreshCanvas();
 			}
 		}
 	}
