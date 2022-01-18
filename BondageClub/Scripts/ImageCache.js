@@ -215,13 +215,13 @@ class ImageCacheClass {
 		} else if (image.state == CachedImageState.ERRORED) {
 			if (image.errorCount < RetryTimers.length) {
 				let backoff = RetryTimers[image.errorCount - 1];
-				console.log("Error loading image, retrying after " + backoff + "ms: " + image.url);
+				console.warn("Error loading image, retrying after " + backoff + "ms: " + image.url);
 				setTimeout(() => {
 					image._refresh();
 				}, backoff);
 			} else {
 				// Load failed. Display the error in the console and mark it as failed.
-				console.log("Failed to load image " + image.url);
+				console.error("Failed to load image " + image.url);
 				image.state = CachedImageState.FAILED;
 
 				if (!image.manual)
