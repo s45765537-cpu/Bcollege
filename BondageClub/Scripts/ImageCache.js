@@ -86,6 +86,7 @@ class CachedImage {
 	setElement(element) {
 		this.element = element;
 		this.errorCount = 0;
+		this.textureInfo = null;
 		this.state = CachedImageState.LOADED;
 		this.cache._imageStateDidChange(this);
 	}
