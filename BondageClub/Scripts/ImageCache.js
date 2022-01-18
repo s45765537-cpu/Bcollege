@@ -152,6 +152,7 @@ class ImageCacheClass {
 	 * Add a cached image to the cache.
 	 * @param {string} url - The URL of the image to store
 	 * @param {HTMLImageElement|HTMLCanvasElement} image - The element to use as the image
+	 * @returns CachedImage
 	 */
 	set(url, image) {
 		let img = new CachedImage(this, url);
@@ -162,9 +163,12 @@ class ImageCacheClass {
 		} else {
 			realImage = image;
 		}
-		img.setElement(realImage);
-		this.loadedCount += 1;
+		// Subtract one because we're replacing something.
+		if (this.cache.get(url))
+			this.loadedCount -= 1;
 		this.cache.set(url, img);
+		img.setElement(realImage);
+		return img;
 	}
 
 	/**
