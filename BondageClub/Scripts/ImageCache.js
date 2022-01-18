@@ -207,7 +207,7 @@ class ImageCacheClass {
 			if (image.loadCallback)
 				image.loadCallback(image);
 
-			if (this.loadedImages() == this.totalImages()) CharacterLoadCanvasAll();
+			this._refreshCanvas();
 		} else if (image.state == CachedImageState.ERRORED) {
 			if (image.errorCount < RetryTimers.length) {
 				let backoff = RetryTimers[image.errorCount - 1];
@@ -219,8 +219,19 @@ class ImageCacheClass {
 				// Load failed. Display the error in the console and mark it as failed.
 				console.log("Failed to load image " + image.url);
 				image.state = CachedImageState.FAILED;
-				if (this.loadedImages() == this.totalImages()) CharacterLoadCanvasAll();
+
+				this._refreshCanvas();
 			}
+		}
+	}
+
+	/**
+	 * Conditionally refreshes character canvas when an image's state changes.
+	 * @private
+	 */
+	_refreshCanvas() {
+		if (this.loadedImages() == this.totalImages()) {
+			CharacterLoadCanvasAll();
 		}
 	}
 
