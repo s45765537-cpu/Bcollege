@@ -245,7 +245,7 @@ class ImageCacheClass {
 	 */
 	purge() {
 		let stats = { errored: 0, unused: 0, loaded: 0 };
-		console.log(`Purging cache cleared, ${this.totalImages()} images`);
+		console.log(`Purging ${this.totalImages()} cached images`);
 		this.cache.forEach((image, url) => {
 			// Clear errored images
 			if (image.state == CachedImageState.ERRORED) {
@@ -258,7 +258,7 @@ class ImageCacheClass {
 				stats.loaded += 1;
 			}
 		});
-		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused`);
+		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused, ${stats.loaded} loaded`);
 		this.loadedCount = stats.loaded;
 	}
 
