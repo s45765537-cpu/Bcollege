@@ -244,7 +244,7 @@ class ImageCacheClass {
 	 * Purge all images errored or not used in the last half-purge delay
 	 */
 	purge() {
-		let stats = { errored: 0, unused: 0 };
+		let stats = { errored: 0, unused: 0, loaded: 0 };
 		console.log(`Purging cache cleared, ${this.totalImages()} images`);
 		this.cache.forEach((image, url) => {
 			// Clear errored images
@@ -254,9 +254,12 @@ class ImageCacheClass {
 			} else if ((image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
 				stats.unused += 1;
 				this.cache.delete(url);
+			} else if (image.state == CachedImageState.LOADED) {
+				stats.loaded += 1;
 			}
 		});
 		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused`);
+		this.loadedCount = stats.loaded;
 	}
 
 	/**
