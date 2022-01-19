@@ -45,8 +45,8 @@ class CachedImage {
 		this.loadCallback = loadCallback;
 		/** @type HTMLImageElement */
 		this.element = null;
-		/** @type {{ width: number; height: number; texture: WebGLTexture; }} */
-		this.textureInfo = null;
+		/** @type object */
+		this.userData = {};
 		/** @type number */
 		this.lastUsed = null;
 		/** @type boolean */
@@ -88,7 +88,7 @@ class CachedImage {
 	setElement(element) {
 		this.element = element;
 		this.errorCount = 0;
-		this.textureInfo = null;
+		this.userData = {};
 		this.state = CachedImageState.LOADED;
 		this.manual = true;
 		this.cache._imageStateDidChange(this);
@@ -99,7 +99,7 @@ class CachedImage {
 	 */
 	_refresh() {
 		this.state = CachedImageState.LOADING;
-		this.textureInfo = null;
+		this.userData = {};
 		this.element.src = this.url;
 	}
 

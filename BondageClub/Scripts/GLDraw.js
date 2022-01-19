@@ -428,7 +428,7 @@ function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
  */
 function GLDrawLoadImage(gl, url) {
 	var image = ImageCache.get(url);
-	var textureInfo = image.textureInfo;
+	let textureInfo = image.userData.textureInfo;
 
 	if (!textureInfo) {
 		textureInfo = { width: 1, height: 1, texture: gl.createTexture() };
@@ -442,7 +442,7 @@ function GLDrawLoadImage(gl, url) {
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.element);
 			textureInfo.width = image.element.width;
 			textureInfo.height = image.element.height;
-			image.textureInfo = textureInfo;
+			image.userData.textureInfo = textureInfo;
 		} else  {
 			// Use a temporary 1-by-1 transparent pixel
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
