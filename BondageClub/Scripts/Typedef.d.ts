@@ -869,6 +869,7 @@ interface Character {
 	/** NPC type: Slave, Maid, etc. */
 	Archetype?: NPCArchetype;
 	Love?: number; /** The NPC's love value */
+	WillRelease?(): boolean; /** Shop NPC-only: will it release the player when asked */
 }
 
 /** NPC-only */
@@ -877,6 +878,53 @@ interface NPCCharacter extends Character {
 	Trait?: NPCTrait[];
 	Event?: NPCTrait[];
 	Love?: number;
+}
+
+/** College */
+interface NPCCharacter {
+	GoneAway?: boolean;
+}
+
+/** Asylum */
+interface NPCCharacter {
+	RunAway?: boolean;
+}
+
+/** Sarah */
+interface Character {
+	OrgasmMeter?: number;
+	OrgasmDone?: boolean;
+}
+
+interface KidnapCard {
+	Move: number;
+	Value?: number;
+}
+
+/** Kidnap minigame */
+interface Character {
+	KidnapWillpower?: number;
+	KidnapMaxWillpower?: number;
+	KidnapCard?: KidnapCard[];
+	KidnapStat?: [number, number, number, number];
+}
+
+/** Pandora NPCs */
+interface Character {
+	Recruit?: number;
+	RecruitOdds?: number;
+	RandomOdds?: number;
+	QuizLog?: number[];
+	QuizFail?: number;
+	AllowMove?: boolean;
+	DrinkValue?: number;
+	TriggerIntro?: boolean;
+	FromPandora?: boolean;
+}
+
+/** Magic School */
+interface Character {
+	House?: string;
 }
 
 /** MovieStudio */
