@@ -163,7 +163,7 @@ interface ChatRoom {
 	Character?: any[]; /* From server, not really a Character object */
 }
 
-type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail";
+type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail" | "Gag";
 
 type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
  "LocalMessage" | "ServerMessage";
