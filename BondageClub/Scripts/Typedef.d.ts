@@ -607,7 +607,14 @@ interface Character {
 	CanWalk: () => boolean;
 	CanKneel: () => boolean;
 	CanInteract: () => boolean;
-	CanChange: () => boolean;
+
+	/**
+	 * Check whether a character can change its own outfit.
+	 *
+	 * @warning Only usable on Player
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeOwnClothes: () => boolean;
 	IsProne: () => boolean;
 	IsRestrained: () => boolean;
 	IsBlind: () => boolean;

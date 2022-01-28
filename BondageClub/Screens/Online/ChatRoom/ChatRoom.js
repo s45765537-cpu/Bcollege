@@ -1665,7 +1665,7 @@ function ChatRoomMenuDraw() {
 			} else {
 				ButtonColor = "Pink";
 			}
-		} else if (Button === "Dress" && (!Player.CanChange() || !OnlineGameAllowChange())) {
+		} else if (Button === "Dress" && (!Player.CanChangeOwnClothes() || !OnlineGameAllowChange())) {
 			ButtonColor = "Pink";
 		} else {
 			ButtonColor = "White";
@@ -1785,7 +1785,7 @@ function ChatRoomMenuClick() {
 					break;
 				case "Dress":
 					// When the user wants to change clothes
-					if (Player.CanChange() && OnlineGameAllowChange()) {
+					if (Player.CanChangeOwnClothes() && OnlineGameAllowChange()) {
 						document.getElementById("InputChat").style.display = "none";
 						document.getElementById("TextAreaChatLog").style.display = "none";
 						CharacterAppearanceReturnRoom = "ChatRoom";

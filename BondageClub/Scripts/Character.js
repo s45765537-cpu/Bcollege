@@ -100,7 +100,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		CanInteract: function () {
 			return (this.Effect.indexOf("Block") < 0);
 		},
-		CanChange: function () {
+		CanChangeOwnClothes: function () {
 			return (
 				(this.Effect.indexOf("Freeze") < 0) &&
 				(this.Effect.indexOf("Block") < 0) &&

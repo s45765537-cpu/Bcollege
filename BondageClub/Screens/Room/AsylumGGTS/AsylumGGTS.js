@@ -374,7 +374,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if (((T == "QueryCanFail") || (T == "QueryLove") || (T == "QuerySurrender") || (T == "QueryWhoControl") || (T == "QueryServeObey")) && (C.Game.GGTS.Level >= 6)) return false; // Some queries have the master version at level 6
 	if ((T.substr(0, 8) == "UndoRule") && ((C.Game.GGTS.Rule == null) || (C.Game.GGTS.Rule.indexOf(T.substr(8, 100)) < 0))) return false; // Rule cannot be removed if not active
 	if ((T.substr(0, 7) == "NewRule") && (C.Game.GGTS.Rule != null) && (C.Game.GGTS.Rule.indexOf(T.substr(7, 100)) >= 0)) return false; // Rule cannot be added if already active
-	if ((T.substr(0, 5) == "Cloth") && !C.CanChange()) return false; // Cloth tasks cannot be done if cannot change
+	if ((T.substr(0, 5) == "Cloth") && !C.CanChangeOwnClothes()) return false; // Cloth tasks cannot be done if cannot change
 	if ((T.substr(0, 4) == "Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
 	if ((T.substr(0, 8) == "Activity") && (!C.CanInteract() || !PreferenceArousalAtLeast(C, "NoMeter"))) return false; // Must allow activities and be able to interact
 	if ((T == "ActivityNod") && !ActivityCanBeDone(C, "Nod", "ItemHead")) return false; // Must be able to nod to use that activity
