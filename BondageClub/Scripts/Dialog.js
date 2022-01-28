@@ -329,6 +329,14 @@ function DialogChatRoomCanChangeClothes() { return ((CurrentScreen == "ChatRoom"
 function DialogChatRoomChangeClothes() { ChatRoomChangeClothes(); }
 
 /**
+ * Checks if the player can perform characters actions.
+ * @returns {boolean} - TRUE if anything can be performed, FALSE otherwise.
+ */
+function DialogCanPerformCharacterAction() {
+	return ChatRoomCanPerformCharacterAction();
+}
+
+/**
  * Triggered when the player wants to look at its own profile.
  * @returns {void}
  */

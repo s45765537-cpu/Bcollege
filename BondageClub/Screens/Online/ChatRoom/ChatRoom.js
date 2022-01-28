@@ -430,8 +430,13 @@ function ChatRoomCanAssistStruggle() { return CurrentCharacter.AllowItem && !Cur
  * @returns {boolean} - Whether or not the player can interact with the target character
  */
 function ChatRoomCanPerformCharacterAction() {
-	return ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() || ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash()
-		|| ChatRoomCanTakePhotos() || ChatRoomCanGiveLockpicks() || ChatRoomCanGiveHighSecurityKeys() || ChatRoomCanGiveHighSecurityKeysAll();
+	return (
+		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
+		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||
+		ChatRoomCanTakePhotos() ||
+		ChatRoomCanGiveLockpicks() || ChatRoomCanGiveHighSecurityKeys() || ChatRoomCanGiveHighSecurityKeysAll() ||
+		DialogHasGamingHeadset() || DialogCanWatchKinkyDungeon()
+	);
 }
 /**
  * Checks if the target character can be helped back on her feet. This is different than CurrentCharacter.CanKneel()
