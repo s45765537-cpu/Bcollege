@@ -15,7 +15,7 @@ var PhotographicSelectText = "";
  */
 function PhotographicIsMaidsDisabled() { var expire = LogValue("MaidsDisabled", "Maid") - CurrentTime ; return (expire > 0 ); }
 
-function PhotographicPlayerCanChangeCloth() {return Player.CanChangeOwnClothes() && !Player.IsRestrained();}
+function PhotographicPlayerCanChangeCloth() {return Player.CanChangeOwnClothes();}
 function PhotographicPlayerHatAvailable() {return PhotographicAppearanceAvailable(Player, "Hat");}
 function PhotographicPlayerGlovesAvailable() {return PhotographicAppearanceAvailable(Player, "Gloves");}
 function PhotographicPlayerClothAvailable() {return PhotographicAppearanceAvailable(Player, "Cloth");}

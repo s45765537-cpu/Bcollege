@@ -244,7 +244,7 @@ function MainHallRun() {
 
 		// Movie Studio (Must be able to change to enter it)
 		if (Player.CanChangeOwnClothes()) DrawButton(1525, 745, 90, 90, "", "White", "Icons/MagicSchool.png", TextGet("MagicSchool"));
-		if (Player.CanChangeOwnClothes() && !Player.IsRestrained() && Player.CanTalk()) DrawButton(1645, 745, 90, 90, "", "White", "Icons/Poker.png", TextGet("Poker"));
+		if (Player.CanChangeOwnClothes() && Player.CanTalk()) DrawButton(1645, 745, 90, 90, "", "White", "Icons/Poker.png", TextGet("Poker"));
 		if (Player.CanChangeOwnClothes()) DrawButton(1765, 745, 90, 90, "", "White", "Icons/Infiltration.png", TextGet("Infiltration"));
 		if (Player.CanChangeOwnClothes()) DrawButton(1885, 745, 90, 90, "", "White", "Icons/MovieStudio.png", TextGet("MovieStudio"));
 

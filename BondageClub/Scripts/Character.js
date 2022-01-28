@@ -106,9 +106,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		CanChangeClothesOn: function (C) {
 			if (this.IsPlayer() && C.IsPlayer()) {
 				return (
-					(this.Effect.includes("Freeze")) &&
-					(this.Effect.includes("Block")) &&
-					(this.Effect.includes("Prone")) &&
+					!C.IsRestrained() &&
 					!ManagementIsClubSlave() &&
 					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
