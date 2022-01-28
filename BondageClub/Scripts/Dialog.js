@@ -329,6 +329,14 @@ function DialogChatRoomCanChangeClothes() { return ((CurrentScreen == "ChatRoom"
 function DialogChatRoomChangeClothes() { ChatRoomChangeClothes(); }
 
 /**
+ * Triggered when the player wants to look at its own profile.
+ * @returns {void}
+ */
+function DialogChatRoomViewProfile() {
+	ChatRoomViewProfile();
+}
+
+/**
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
