@@ -203,7 +203,7 @@ function ChatRoomCanRemoveGhost() { return ((CurrentCharacter != null) && (Curre
  * Checks if the player can change the current character's clothes
  * @returns {boolean} - TRUE if the player can change the character's clothes and is allowed to.
  */
-function ChatRoomCanChangeClothes() { return (Player.CanInteract() && (CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && CurrentCharacter.AllowItem && !CurrentCharacter.IsEnclose() && !((InventoryGet(CurrentCharacter, "ItemNeck") != null) && (InventoryGet(CurrentCharacter, "ItemNeck").Asset.Name == "ClubSlaveCollar"))); }
+function ChatRoomCanChangeClothes() { return CurrentCharacter != null && Player.CanChangeClothesOn(CurrentCharacter); }
 /**
  * Checks if the specified owner option is available.
  * @param {string} Option - The option to check for availability

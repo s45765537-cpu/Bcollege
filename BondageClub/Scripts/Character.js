@@ -101,15 +101,29 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return (this.Effect.indexOf("Block") < 0);
 		},
 		CanChangeOwnClothes: function () {
-			return (
-				(this.Effect.indexOf("Freeze") < 0) &&
-				(this.Effect.indexOf("Block") < 0) &&
-				(this.Effect.indexOf("Prone") < 0) &&
-				!ManagementIsClubSlave() &&
-				AsylumGGTSAllowChange(this) &&
-				!LogQuery("BlockChange", "Rule") &&
-				(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
-			);
+			return this.CanChangeClothesOn(this);
+		},
+		CanChangeClothesOn: function (C) {
+			if (this.IsPlayer() && C.IsPlayer()) {
+				return (
+					(this.Effect.includes("Freeze")) &&
+					(this.Effect.includes("Block")) &&
+					(this.Effect.includes("Prone")) &&
+					!ManagementIsClubSlave() &&
+					AsylumGGTSAllowChange(this) &&
+					!LogQuery("BlockChange", "Rule") &&
+					(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
+				);
+			} else {
+				return (
+					this.CanInteract() &&
+					C.MemberNumber != null &&
+					C.AllowItem &&
+					!C.IsEnclose() &&
+					!(InventoryGet(CurrentCharacter, "ItemNeck") !== null &&
+						InventoryGet(CurrentCharacter, "ItemNeck").Asset.Name == "ClubSlaveCollar")
+				);
+			}
 		},
 		IsProne: function () {
 			return (this.Effect.indexOf("Prone") >= 0);
