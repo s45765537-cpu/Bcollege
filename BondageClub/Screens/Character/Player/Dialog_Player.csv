@@ -1,6 +1,7 @@
 PlayerGagged,,,(You can use or remove items by selecting specific body regions on yourself.),,
 0,,,(You can use or remove items by selecting specific body regions on yourself.),,
 0,100,(Help and information.),"(What help or information do you require?  You can type ""/help"" in the chat box to view all available commands.)",,DialogCanGetHelp()
+0,,(Change your clothes.),,DialogChatRoomChangeClothes(),DialogChatRoomCanChangeClothes()
 0,10,(Adjust your bondage skill.),"(By default, you restrain using your full bondage skill.  You can use less of your skill and make it easier for your victims to escape.)",,"DialogSkillGreater(""Bondage"", 1)"
 0,20,(Adjust your evasion skill.),"(By default, you struggle using your full evasion skill.  You can use less of your skill and make it harder for you to struggle free.)",,"DialogSkillGreater(""Evasion"", 1)"
 0,30,(Room administrator action.),"(As a room administrator, you can take these actions.)",,DialogChatRoomPlayerIsAdmin()

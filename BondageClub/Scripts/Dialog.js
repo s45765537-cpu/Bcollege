@@ -323,6 +323,12 @@ function DialogInventoryAvailable(InventoryName, InventoryGroup) { return Invent
 function DialogChatRoomCanChangeClothes() { return ((CurrentScreen == "ChatRoom") && ChatRoomCanChangeClothes()); }
 
 /**
+ * Triggered when the player wants to change its own outfit.
+ * @returns {void} - Nothing
+ */
+function DialogChatRoomChangeClothes() { ChatRoomChangeClothes(); }
+
+/**
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
