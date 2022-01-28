@@ -110,6 +110,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 					(this.Effect.includes("Block")) &&
 					(this.Effect.includes("Prone")) &&
 					!ManagementIsClubSlave() &&
+					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
 					!LogQuery("BlockChange", "Rule") &&
 					(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
