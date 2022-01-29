@@ -694,7 +694,11 @@ interface Character {
 		GameVersion: string;
 		ItemsAffectExpressions: boolean;
 	};
-	Game?: any;
+	Game?: {
+		LARP?: GameLARPParameters,
+		MagicBattle?: GameMagicBattleParameters,
+		GGTS?: GameGGTSParameters,
+	};
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -1494,3 +1498,34 @@ interface PokerPlayer {
 	WebLink?: string;
 	Alternate?: void;
 }
+
+// #region Online Games
+
+type OnlineGameStatus = "" | "Running";
+
+interface GameLARPParameters {
+	Status: OnlineGameStatus;
+	Class: string;
+	Team: string;
+	TimerDelay: number;
+	Level: {
+		Name: string;
+		Level: number;
+		Progress: number;
+	}[];
+}
+
+interface GameMagicBattleParameters {
+	Status: OnlineGameStatus;
+	House: string;
+	TeamType: "FreeForAll" | "House";
+}
+
+interface GameGGTSParameters {
+	Level: number;
+	Time: number;
+	Strike: number;
+	Rule: string[];
+}
+
+// #endregion

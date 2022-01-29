@@ -36,7 +36,8 @@ var GameLARPTeamList = ["None", "Red", "Green", "Blue", "Yellow", "Cyan", "Purpl
 var GameLARPTimerDelay = [20, 60];
 var GameLARPEntryClass = "";
 var GameLARPEntryTeam = "";
-var GameLARPStatus = "";
+/** @type {OnlineGameStatus} */
+let GameLARPStatus = "";
 var GameLARPProgress = [];
 var GameLARPPlayer = [];
 var GameLARPOption = [];

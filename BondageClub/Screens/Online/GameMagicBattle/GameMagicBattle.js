@@ -1,7 +1,8 @@
 "use strict";
 var GameMagicBattleBackground = "Sheet";
 var GameMagicBattleTimerDelay = 30;
-var GameMagicBattleStatus = "";
+/** @type {OnlineGameStatus} */
+let GameMagicBattleStatus = "";
 var GameMagicBattlePlayer = [];
 var GameMagicBattleAction = "";
 var GameMagicBattleTurnAdmin = null;
@@ -138,7 +139,7 @@ function GameMagicBattleClickProcess() {
 
 /**
  * When the magic puzzle ends, we go back to the chat room
- * @returns {boolean} - Returns TRUE if the click was handled by this online click handler
+ * @returns {void}
  */
 function GameMagicBattlePuzzleEnd() {
 	ServerSend("ChatRoomGame", { GameProgress: "Action", Action: (MiniGameVictory ? "SpellSuccess" : "SpellFail"), Spell: MagicPuzzleSpell, Time: MagicPuzzleFinish - MagicPuzzleStart, Target: GameMagicBattleFocusCharacter.MemberNumber });
@@ -362,7 +363,7 @@ function GameMagicBattleBuildPlayerList() {
 
 /**
  * Calculates the turn winner and applies the consequences.
- * @returns {void} - Nothing
+ * @returns {OnlineGameStatus}
  */
 function GameMagicBattleCalculateTurnWinner() {
 

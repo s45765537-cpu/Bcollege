@@ -1,5 +1,6 @@
 "use strict";
-var OnlineGameDictionary = null;
+/** @type string[][] */
+let OnlineGameDictionary = null;
 
 /**
  * Loads the online game dictionary that will be used throughout the game to output messages
