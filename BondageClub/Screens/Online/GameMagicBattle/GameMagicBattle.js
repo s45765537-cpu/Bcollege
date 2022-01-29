@@ -12,7 +12,7 @@ var GameMagicBattleButton = [];
 
 /**
  * Gets the current state of LARP.
- * @returns {string}
+ * @returns {OnlineGameStatus}
  */
 function GameMagicBattleGetStatus() {
 	if (Player.Game && Player.Game.MagicBattle && ["", "Running"].includes(Player.Game.MagicBattle.Status))
@@ -22,7 +22,7 @@ function GameMagicBattleGetStatus() {
 
 /**
  * Set the current state of LARP.
- * @param {string} s
+ * @param {OnlineGameStatus} s
  * @returns {void}
  */
 function GameMagicBattleSetStatus(s) {

@@ -1501,6 +1501,14 @@ interface PokerPlayer {
 
 // #region Online Games
 
+/**
+ * Online game status values.
+ *
+ * @property "" - The game is in the setup phase.
+ * @property "Running" - The game is currently running.
+ *
+ * @fix FIXME: "" should really be renamed Setup
+ */
 type OnlineGameStatus = "" | "Running";
 
 interface GameLARPParameters {

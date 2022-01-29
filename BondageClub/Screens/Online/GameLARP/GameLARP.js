@@ -52,7 +52,7 @@ var GameLARPTurnFocusGroup = null;
 
 /**
  * Gets the current state of LARP.
- * @returns {string}
+ * @returns {OnlineGameStatus}
  */
 function GameLARPGetStatus() {
 	if (Player.Game && Player.Game.LARP && ["", "Running"].includes(Player.Game.LARP.Status))
@@ -62,7 +62,7 @@ function GameLARPGetStatus() {
 
 /**
  * Set the current state of LARP.
- * @param {string} s
+ * @param {OnlineGameStatus} s
  * @returns {void}
  */
 function GameLARPSetStatus(s) {
