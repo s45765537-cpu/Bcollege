@@ -36,8 +36,6 @@ var GameLARPTeamList = ["None", "Red", "Green", "Blue", "Yellow", "Cyan", "Purpl
 var GameLARPTimerDelay = [20, 60];
 var GameLARPEntryClass = "";
 var GameLARPEntryTeam = "";
-/** @type {OnlineGameStatus} */
-let GameLARPStatus = "";
 var GameLARPProgress = [];
 var GameLARPPlayer = [];
 var GameLARPOption = [];
@@ -57,8 +55,8 @@ var GameLARPTurnFocusGroup = null;
  * @returns {string}
  */
 function GameLARPGetStatus() {
-	if (["", "Running"].includes(GameLARPStatus))
-		return GameLARPStatus;
+	if (Player.Game && Player.Game.LARP && ["", "Running"].includes(Player.Game.LARP.Status))
+		return Player.Game.LARP.Status;
 	return "";
 }
 
@@ -71,8 +69,12 @@ function GameLARPSetStatus(s) {
 	if (!["", "Running"].includes(s))
 		return;
 
-	// @ts-ignore
-	GameLARPStatus = s;
+	if (Player.Game == null || Player.Game.LARP == null)
+		GameLARPLoad();
+
+	/* @ts-ignore */
+	Player.Game.LARP.Status = s;
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 }
 
 /**
@@ -310,8 +312,7 @@ function GameLARPStartProcess() {
 
 	// Changes the game status and exits
 	ServerSend("ChatRoomGame", { GameProgress: "Start" });
-	Player.Game.LARP.Status = "Running";
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	GameLARPSetStatus("Running");
 	ChatRoomCharacterUpdate(Player);
 }
 
@@ -1027,8 +1028,4 @@ function GameLARPProcess(P) {
  */
 function GameLARPReset() {
 	GameLARPSetStatus("");
-	if ((Player.Game != null) && (Player.Game.LARP != null) && (Player.Game.LARP.Status != null) && (Player.Game.LARP.Status != "")) {
-		Player.Game.LARP.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-	}
 }

@@ -1,8 +1,6 @@
 "use strict";
 var GameMagicBattleBackground = "Sheet";
 var GameMagicBattleTimerDelay = 30;
-/** @type {OnlineGameStatus} */
-let GameMagicBattleStatus = "";
 var GameMagicBattlePlayer = [];
 var GameMagicBattleAction = "";
 var GameMagicBattleTurnAdmin = null;
@@ -17,8 +15,8 @@ var GameMagicBattleButton = [];
  * @returns {string}
  */
 function GameMagicBattleGetStatus() {
-	if (["", "Running"].includes(GameMagicBattleStatus))
-		return GameMagicBattleStatus;
+	if (Player.Game && Player.Game.MagicBattle && ["", "Running"].includes(Player.Game.MagicBattle.Status))
+		return Player.Game.MagicBattle.Status;
 	return "";
 }
 
@@ -31,8 +29,12 @@ function GameMagicBattleSetStatus(s) {
 	if (!["", "Running"].includes(s))
 		return;
 
+	if (Player.Game == null || Player.Game.MagicBattle == null)
+		GameMagicBattleLoad();
+
 	// @ts-ignore
-	GameMagicBattleStatus = s;
+	Player.Game.MagicBattle.Status = s;
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 }
 
 /**
@@ -193,9 +195,7 @@ function GameMagicBattleStartProcess() {
 
 	// Changes the game status and exits
 	ServerSend("ChatRoomGame", { GameProgress: "Start" });
-	Player.Game.MagicBattle.Status = "Running";
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-
+	GameMagicBattleSetStatus("Running");
 }
 
 /**
@@ -470,8 +470,6 @@ function GameMagicBattleProcess(P) {
 			if (Source != null) {
 				GameMagicBattleAddChatLog("GameStop", Source, Source, null, "#0000A0");
 				GameMagicBattleSetStatus("");
-				Player.Game.MagicBattle.Status = "";
-				ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 			}
 		}
 
@@ -503,8 +501,4 @@ function GameMagicBattleProcess(P) {
  */
 function GameMagicBattleReset() {
 	GameMagicBattleSetStatus("");
-	if ((Player.Game != null) && (Player.Game.MagicBattle != null) && (Player.Game.MagicBattle.Status != null) && (Player.Game.MagicBattle.Status != "")) {
-		Player.Game.MagicBattle.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-	}
 }
