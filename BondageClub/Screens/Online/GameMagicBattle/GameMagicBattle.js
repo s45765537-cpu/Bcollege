@@ -184,8 +184,7 @@ function GameMagicBattlePuzzleEnd() {
  */
 function GameMagicBattleStartProcess() {
 
-	// Gives a delay in seconds, based on the player preference, returns to the chat screen
-	CommonSetScreen("Online", "ChatRoom");
+	// Gives a delay in seconds, based on the player preference
 	GameMagicBattleTurnTimer = TimerGetTime() + (GameMagicBattleTimerDelay * 1000);
 
 	// Notices everyone in the room that the game starts
@@ -245,7 +244,10 @@ function GameMagicBattleClick() {
 	}
 
 	// If the administrator wants to start the game or end the game
-	if (MouseIn(1000, 600, 400, 65) && GameMagicBattleCanLaunchGame()) GameMagicBattleStartProcess();
+	if (MouseIn(1000, 600, 400, 65) && GameMagicBattleCanLaunchGame()) {
+		CommonSetScreen("Online", "ChatRoom");
+		GameMagicBattleStartProcess();
+	}
 	if (MouseIn(1000, 600, 400, 65) && GameMagicBattleIsAdmin(Player) && (GameMagicBattleGetStatus() != "")) {
 		CommonSetScreen("Online", "ChatRoom");
 		ServerSend("ChatRoomGame", { GameProgress: "Stop" });
