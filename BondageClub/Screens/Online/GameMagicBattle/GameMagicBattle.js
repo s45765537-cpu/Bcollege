@@ -502,3 +502,50 @@ function GameMagicBattleProcess(P) {
 function GameMagicBattleReset() {
 	GameMagicBattleSetStatus("");
 }
+
+/**
+ * Ensure all character's MagicBattle game status are the same
+ */
+function GameMagicBattleLoadStatus() {
+	for (let C = 0; C < ChatRoomCharacter.length; C++)
+		if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.MagicBattle != null) && (ChatRoomCharacter[C].Game.MagicBattle.Status != "")) {
+			GameMagicBattleSetStatus(ChatRoomCharacter[C].Game.MagicBattle.Status);
+			return;
+		}
+	GameMagicBattleReset();
+}
+
+
+/**
+ * Draws the online game images/text needed on the characters
+ * @param {Character} C - Character to draw the info for
+ * @param {number} X - Position of the character the X axis
+ * @param {number} Y - Position of the character the Y axis
+ * @param {number} Zoom - Amount of zoom the character has (Height)
+ * @returns {void} - Nothing
+ */
+function GameMagicBattleDrawCharacter(C, X, Y, Zoom) {
+	// Magic battle draws the timer and the spell buttons
+	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+		GameMagicBattleDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
+		if (Player.CanTalk() && (GameMagicBattleGetStatus() == "Running")) {
+			if (C.MemberNumber == Player.MemberNumber) {
+				MainCanvas.font = CommonGetFont(72);
+				let Time = Math.ceil((GameMagicBattleTurnTimer - TimerGetTime()) / 1000);
+				let Color = "#00FF00";
+				if (Time <= 15) Color = "#FFFF00";
+				if (Time <= 6) Color = "#FF0000";
+				DrawText(((Time < 0) || (Time > GameMagicBattleTimerDelay)) ? OnlineGameDictionaryText("TimerNA") : Time.toString(), X + 250 * Zoom, Y + 830 * Zoom, Color, "Black");
+				MainCanvas.font = CommonGetFont(36);
+			}
+			if ((GameMagicBattleFocusCharacter != null) && (C.MemberNumber == GameMagicBattleFocusCharacter.MemberNumber) && (GameMagicBattleGetStatus() == "Running")) {
+				GameMagicBattleButton = [];
+				for (let S = 0; S < MagicBattleAvailSpell.length; S++) {
+					let B = { X: X + 50 * Zoom, Y: Y + (400 + (S * 100)) * Zoom, W: 400 * Zoom, H: 60 * Zoom };
+					GameMagicBattleButton.push(B);
+					DrawButton(B.X, B.Y, B.W, B.H, OnlineGameDictionaryText("Spell" + MagicBattleAvailSpell[S].toString() + "Name"), "White");
+				}
+			}
+		}
+	}
+}

@@ -1029,3 +1029,38 @@ function GameLARPProcess(P) {
 function GameLARPReset() {
 	GameLARPSetStatus("");
 }
+
+/**
+ * Ensure all character's MagicBattle game status are the same
+ */
+function GameLARPLoadStatus() {
+	for (let C = 0; C < ChatRoomCharacter.length; C++)
+		if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.LARP != null) && (ChatRoomCharacter[C].Game.LARP.Status != "")) {
+			GameLARPSetStatus(ChatRoomCharacter[C].Game.LARP.Status);
+			return;
+		}
+	GameLARPReset();
+}
+
+
+/**
+ * Draws the online game images/text needed on the characters
+ * @param {Character} C - Character to draw the info for
+ * @param {number} X - Position of the character the X axis
+ * @param {number} Y - Position of the character the Y axis
+ * @param {number} Zoom - Amount of zoom the character has (Height)
+ * @returns {void} - Nothing
+ */
+function GameLARPDrawCharacter(C, X, Y, Zoom) {
+
+	// LARP draws the timer if needed and the icon linked to team and class
+	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+		GameLARPDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
+		if ((GameLARPPlayer.length > 0) && (C.MemberNumber == GameLARPPlayer[GameLARPTurnPosition].MemberNumber) && (GameLARPGetStatus() == "Running") && (GameLARPTurnFocusCharacter == null)) {
+			MainCanvas.font = CommonGetFont(72);
+			var Time = Math.ceil((GameLARPTurnTimer - TimerGetTime()) / 1000);
+			DrawText(((Time < 0) || (Time > GameLARPTimerDelay[GameLARPTimerDelay.length - 1])) ? OnlineGameDictionaryText("TimerNA") : Time.toString(), X + 250 * Zoom, Y + 830 * Zoom, "Red", "Black");
+			MainCanvas.font = CommonGetFont(36);
+		}
+	}
+}
