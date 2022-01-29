@@ -204,10 +204,14 @@ function GameMagicBattleStartProcess() {
 function GameMagicBattleClick() {
 
 	// When the user exits or wants to change clothes
-	if (MouseIn(1815, 75, 90, 90)) GameMagicBattleExit();
+	if (MouseIn(1815, 75, 90, 90)) {
+		GameMagicBattleExit();
+		return;
+	}
 	if (MouseIn(1815, 190, 90, 90) && (GameMagicBattleGetStatus() == "") && (Player.Game.MagicBattle.House.indexOf("House") == 0) && Player.CanChange()) {
 		MagicSchoolLaboratoryPrepareNPC(Player, Player.Game.MagicBattle.House.replace("House", ""));
 		ChatRoomCharacterUpdate(Player);
+		return;
 	}
 
 	// When the user changes house/role
@@ -234,23 +238,26 @@ function GameMagicBattleClick() {
 				else Player.Game.MagicBattle.House = "NotPlaying";
 			} else Player.Game.MagicBattle.House = (Player.Game.MagicBattle.House == "NotPlaying") ? "Independent" : "NotPlaying";
 		}
-
+		return;
 	}
 
 	// When the user selects a new team configuration, we update that player for everyone
 	if (MouseIn(900, 343, 600, 64) && (GameMagicBattleGetStatus() == "") && GameMagicBattleIsAdmin(Player)) {
 		Player.Game.MagicBattle.TeamType = (Player.Game.MagicBattle.TeamType == "House") ? "FreeForAll" : "House";
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		return;
 	}
 
 	// If the administrator wants to start the game or end the game
 	if (MouseIn(1000, 600, 400, 65) && GameMagicBattleCanLaunchGame()) {
 		CommonSetScreen("Online", "ChatRoom");
 		GameMagicBattleStartProcess();
+		return;
 	}
 	if (MouseIn(1000, 600, 400, 65) && GameMagicBattleIsAdmin(Player) && (GameMagicBattleGetStatus() != "")) {
 		CommonSetScreen("Online", "ChatRoom");
 		ServerSend("ChatRoomGame", { GameProgress: "Stop" });
+		return;
 	}
 
 }
