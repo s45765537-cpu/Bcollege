@@ -1,8 +1,8 @@
 PlayerGagged,,,(You can use or remove items by selecting specific body regions on yourself.),,
 0,,,(You can use or remove items by selecting specific body regions on yourself.),,
 0,100,(Help and information.),"(What help or information do you require?  You can type ""/help"" in the chat box to view all available commands.)",,DialogCanGetHelp()
-0,,(View your profile.),,DialogChatRoomViewProfile(),
-0,,(Change your clothes.),,DialogChatRoomChangeClothes(),DialogChatRoomCanChangeClothes()
+0,,(View your profile.),,DialogViewProfile(),
+0,,(Change your clothes.),,DialogChangeClothes(),DialogCanChangeClothes()
 0,30,(Room administrator action.),"(As a room administrator, you can take these actions.)",,DialogChatRoomPlayerIsAdmin()
 0,100,(Character actions.),(Possible character actions.),,DialogCanPerformCharacterAction()
 0,40,(Spend GGTS minutes.),(Select how to spend your minutes.),,DialogGGTSPersonalAccess()
@@ -31,7 +31,7 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 100,110,(Call the maids for help),(The maids are not supposed to take room calls. This will result in punishment and public humiliation. Are you sure?),,DialogCanCallMaidsPunishmentOn()
 100,0,(Call the maids for help),(The maids will be here shortly...),DialogCallMaids(),DialogCanCallMaidsPunishmentOff()
 100,120,(Use your safeword.),"(A safeword is serious and should not be used to cheat.  It can revert your clothes and restraints to when you entered the lobby, or release you completely.)",,DialogChatRoomCanSafeword()
-100,,(Take a picture.),(You can use or remove items by selecting specific body regions on yourself.),DialogChatRoomPhotoPlayer(),DialogChatRoomCanTakePhotos()
+100,,(Take a picture.),(You can use or remove items by selecting specific body regions on yourself.),DialogPhotoPlayer(),DialogCanTakePhotos()
 100,,(Play Kinky Dungeon),,DialogStartKinkyDungeon(),DialogHasGamingHeadset()
 100,0,(Back to main menu.),(Main menu.),,
 101,,,"(By default, you restrain using your full bondage skill.  You can use less of your skill and make it easier for your victims to escape.)",,

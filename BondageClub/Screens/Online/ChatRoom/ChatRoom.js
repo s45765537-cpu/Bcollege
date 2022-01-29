@@ -203,7 +203,13 @@ function ChatRoomCanRemoveGhost() { return ((CurrentCharacter != null) && (Curre
  * Checks if the player can change the current character's clothes
  * @returns {boolean} - TRUE if the player can change the character's clothes and is allowed to.
  */
-function ChatRoomCanChangeClothes() { return CurrentCharacter != null && Player.CanChangeClothesOn(CurrentCharacter); }
+function DialogCanChangeClothes() {
+	return (
+		["ChatRoom", "MainHall", "Private", "Photographic"].includes(CurrentScreen)
+		&& CurrentCharacter != null
+		&& Player.CanChangeClothesOn(CurrentCharacter)
+	);
+}
 /**
  * Checks if the specified owner option is available.
  * @param {string} Option - The option to check for availability
@@ -265,7 +271,7 @@ function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) 
  * Checks if the room allows the photograph feature to be used.
  * @returns {boolean} - TRUE if the player can take a photo.
  */
-function ChatRoomCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCategory && !ChatRoomData.BlockCategory.includes("Photos")) || !ChatRoomData; }
+function DialogCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCategory && !ChatRoomData.BlockCategory.includes("Photos")) || !ChatRoomData; }
 
 /**
  * Checks if the player can start searching a player
@@ -429,11 +435,11 @@ function ChatRoomCanAssistStruggle() { return CurrentCharacter.AllowItem && !Cur
  * Checks if the character options menu is available.
  * @returns {boolean} - Whether or not the player can interact with the target character
  */
-function ChatRoomCanPerformCharacterAction() {
+function DialogCanPerformCharacterAction() {
 	return (
 		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
 		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||
-		ChatRoomCanTakePhotos() ||
+		DialogCanTakePhotos() ||
 		ChatRoomCanGiveLockpicks() || ChatRoomCanGiveHighSecurityKeys() || ChatRoomCanGiveHighSecurityKeysAll() ||
 		DialogHasGamingHeadset() || DialogCanWatchKinkyDungeon()
 	);
@@ -696,7 +702,7 @@ function ChatRoomMenuBuild() {
 	if ((ChatRoomGame === "") || (ChatRoomGame === "GGTS")) ChatRoomMenuButtons.push("Cut");
 	else ChatRoomMenuButtons.push("GameOption");
 	ChatRoomMenuButtons.push("Kneel", "Icons");
-	if (ChatRoomCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
+	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	ChatRoomMenuButtons.push("Dress", "Profile", "Admin");
 }
 
@@ -3048,7 +3054,7 @@ function ChatRoomRefreshChatSettings() {
  * Shows the current character's profile (Information Sheet screen)
  * @returns {void} - Nothing.
  */
-function ChatRoomViewProfile() {
+function DialogViewProfile() {
 	if (CurrentCharacter != null) {
 		var C = CurrentCharacter;
 		DialogLeave();
@@ -3302,7 +3308,7 @@ function ChatRoomAllowItem(data) {
  * Triggered when the player wants to change another player's outfit.
  * @returns {void} - Nothing
  */
-function ChatRoomChangeClothes() {
+function DialogChangeClothes() {
 	var C = CurrentCharacter;
 	DialogLeave();
 	CharacterAppearanceLoadCharacter(C);
@@ -3707,7 +3713,7 @@ function ChatRoomPhotoFullRoom() {
  * Take a screenshot of the player and current character
  * @returns {void} - Nothing
  */
-function ChatRoomPhotoCurrentCharacters() {
+function DialogPhotoCurrentCharacters() {
 	ChatRoomPhoto(0, 0, 1000, 1000, [Player, CurrentCharacter]);
 }
 
@@ -3715,7 +3721,7 @@ function ChatRoomPhotoCurrentCharacters() {
  * Take a screenshot of the player
  * @returns {void} - Nothing
  */
-function DialogChatRoomPhotoPlayer() {
+function DialogPhotoPlayer() {
 	ChatRoomPhoto(500, 0, 500, 1000, [Player]);
 }
 

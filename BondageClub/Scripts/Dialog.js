@@ -317,34 +317,6 @@ function DialogSkillGreater(SkillType, Value) { return (parseInt(SkillGetLevel(P
 function DialogInventoryAvailable(InventoryName, InventoryGroup) { return InventoryAvailable(Player, InventoryName, InventoryGroup); }
 
 /**
- * Checks if the player can change the current character's clothes
- * @returns {boolean} - TRUE if the player can change the character's clothes and is allowed to.
- */
-function DialogChatRoomCanChangeClothes() { return ((CurrentScreen == "ChatRoom") && ChatRoomCanChangeClothes()); }
-
-/**
- * Triggered when the player wants to change its own outfit.
- * @returns {void} - Nothing
- */
-function DialogChatRoomChangeClothes() { ChatRoomChangeClothes(); }
-
-/**
- * Checks if the player can perform characters actions.
- * @returns {boolean} - TRUE if anything can be performed, FALSE otherwise.
- */
-function DialogCanPerformCharacterAction() {
-	return ChatRoomCanPerformCharacterAction();
-}
-
-/**
- * Triggered when the player wants to look at its own profile.
- * @returns {void}
- */
-function DialogChatRoomViewProfile() {
-	ChatRoomViewProfile();
-}
-
-/**
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
@@ -361,12 +333,6 @@ function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && Pl
  * @returns {boolean} - Returns true, if the player is currently owned by an online player (not in trial)
  */
 function DialogCanViewRules() { return (Player.Ownership != null) && (Player.Ownership.Stage == 1); }
-
-/**
- * Checks if the chat room allows the photograph feature to be used.
- * @returns {boolean} - TRUE if the player can take a photo.
- */
-function DialogChatRoomCanTakePhotos() { return CurrentScreen == "ChatRoom" && ChatRoomCanTakePhotos(); }
 
 /**
  * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
