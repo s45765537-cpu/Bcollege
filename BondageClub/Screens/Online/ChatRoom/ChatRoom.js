@@ -1127,7 +1127,7 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomDesc = ChatRoomData.Description;
 			if (ChatRoomData && ChatRoomData.Admin)
 				Player.LastChatRoomAdmin = ChatRoomData.Admin;
-			if (ChatRoomData && ChatRoomData.Ban != null) // empty array is valid
+			if (ChatRoomData && ChatRoomData.Ban)
 				Player.LastChatRoomBan = ChatRoomData.Ban;
 
 			ChatRoomLastName = ChatRoomData.Name;
