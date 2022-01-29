@@ -1119,15 +1119,15 @@ function ChatRoomSetLastChatRoom(room) {
 		if (!ChatRoomNewRoomToUpdate) {
 			if (ChatRoomData && ChatRoomData.Background)
 				Player.LastChatRoomBG = ChatRoomData.Background;
-			if (ChatRoomData && ChatRoomData.Private)
+			if (ChatRoomData && ChatRoomData.Private != null) // false is valid
 				Player.LastChatRoomPrivate = ChatRoomData.Private;
 			if (ChatRoomData && ChatRoomData.Limit)
 				Player.LastChatRoomSize = ChatRoomData.Limit;
-			if (ChatRoomData && ChatRoomData.Description != null)
+			if (ChatRoomData && ChatRoomData.Description != null) // empty string is valid
 				Player.LastChatRoomDesc = ChatRoomData.Description;
 			if (ChatRoomData && ChatRoomData.Admin)
 				Player.LastChatRoomAdmin = ChatRoomData.Admin;
-			if (ChatRoomData && ChatRoomData.Ban)
+			if (ChatRoomData && ChatRoomData.Ban != null) // empty array is valid
 				Player.LastChatRoomBan = ChatRoomData.Ban;
 
 			ChatRoomLastName = ChatRoomData.Name;
