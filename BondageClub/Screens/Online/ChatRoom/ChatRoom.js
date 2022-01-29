@@ -2056,7 +2056,7 @@ function ChatRoomCharacterUpdate(C) {
 	}
 }
 /**
- * Checks if the message contains mentions of the character
+ * Checks if the message contains mentions of the character. Case-insensitive.
  * @param {Character} C - Character to check mentions of
  * @param {string} msg - The message to check for mentions
  * @returns {boolean} - msg contains mention of C
@@ -2380,7 +2380,8 @@ function ChatRoomMessage(data) {
 						ChatRoomNotificationRaiseChatMessage(SenderCharacter, chatMsg);
 				}
 				else if (data.Type == "Emote") {
-					if (HideOthersMessages && !msg.toLowerCase().includes(Player.Name.toLowerCase())) {
+					const playerMentioned = ChatRoomMessageMentionsCharacter(Player, msg);
+					if (HideOthersMessages && !playerMentioned) {
 						return;
 					}
 
@@ -2396,7 +2397,8 @@ function ChatRoomMessage(data) {
 					}
 					else msg = "*" + SenderCharacter.Name + " " + msg + "*";
 
-					if (Player.NotificationSettings.ChatMessage.Normal)
+					if (Player.NotificationSettings.ChatMessage.Normal ||
+						(Player.NotificationSettings.ChatMessage.Mention && playerMentioned))
 						ChatRoomNotificationRaiseChatMessage(SenderCharacter, msg);
 				}
 				else if (data.Type == "Action") msg = "(" + msg + ")";
