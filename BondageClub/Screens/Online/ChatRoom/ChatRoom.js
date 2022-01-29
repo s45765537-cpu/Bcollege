@@ -2352,7 +2352,8 @@ function ChatRoomMessage(data) {
 					}
 
 					if ((data.Type === "Chat" && Player.NotificationSettings.ChatMessage.Normal)
-						|| (data.Type === "Whisper" && Player.NotificationSettings.ChatMessage.Whisper))
+						|| (data.Type === "Whisper" && Player.NotificationSettings.ChatMessage.Whisper)
+						|| (Player.NotificationSettings.ChatMessage.Mention && chatMsg.toLowerCase().includes(Player.Name.toLowerCase())))
 						ChatRoomNotificationRaiseChatMessage(SenderCharacter, chatMsg);
 				}
 				else if (data.Type == "Emote") {
