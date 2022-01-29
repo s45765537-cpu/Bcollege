@@ -40,9 +40,12 @@ function GameMagicBattleDrawIcon(C, X, Y, Zoom) {
  */
 function GameMagicBattleLoad() {
 	if (Player.Game == null) Player.Game = {};
-	if (Player.Game.MagicBattle == null) Player.Game.MagicBattle = {};
-	if (Player.Game.MagicBattle.House == null) Player.Game.MagicBattle.House = "NotPlaying";
-	if (Player.Game.MagicBattle.TeamType != "FreeForAll") Player.Game.MagicBattle.TeamType = "House";
+	let game = Player.Game.MagicBattle;
+	Player.Game.MagicBattle = {
+		Status: "",
+		House: (game && typeof game.House !== undefined ? game.House : "NotPlaying"),
+		TeamType: (game && typeof game.TeamType !== undefined ? game.TeamType : "House"),
+	};
 }
 
 /**

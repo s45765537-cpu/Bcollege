@@ -83,10 +83,15 @@ function GameLARPDrawIcon(C, X, Y, Zoom) {
  */
 function GameLARPLoad() {
 	if (Player.Game == null) Player.Game = {};
-	if (Player.Game.LARP == null) Player.Game.LARP = {};
-	if (Player.Game.LARP.Class == null) Player.Game.LARP.Class = GameLARPClass[0].Name;
-	if (Player.Game.LARP.Team == null) Player.Game.LARP.Team = GameLARPTeamList[0];
-	if (Player.Game.LARP.TimerDelay == null) Player.Game.LARP.TimerDelay = GameLARPTimerDelay[0];
+	let game = Player.Game.LARP;
+	Player.Game.LARP = {
+		Class: (game && typeof game.Class !== undefined ? game.Class : GameLARPClass[0].Name),
+		Team: (game && typeof game.Team !== undefined ? game.Team : GameLARPTeamList[0]),
+		TimerDelay: (game && typeof game.TimerDelay !== undefined ? game.TimerDelay : GameLARPTimerDelay[0]),
+		Status: "",
+		Level: (game && typeof game.Level != undefined ? game.Level : []),
+	};
+
 	GameLARPEntryClass = Player.Game.LARP.Class;
 	GameLARPEntryTeam = Player.Game.LARP.Team;
 	if (GameLARPStatus == "") GameLARPProgress = [];
