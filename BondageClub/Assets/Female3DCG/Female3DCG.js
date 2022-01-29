@@ -5350,7 +5350,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Crib", Category: ["ABDL"], Fetish: ["ABDL"], Priority: 1, Value: 100,
 				Difficulty: 0, SelfBondage: 1, Time: 15, RemoveTime: 10, IsRestraint: true, AllowLock: true, Left: -30, Top: -235,
-				Effect: ["Freeze", "Leash"], HideItem: ["ShoesFlippers"], RemoveAtLogin: true, Prerequisite: ["AllFours", "NotSuspended", "NotHogtied", "NoFeetSpreader"], Extended: true, SetPose: ["BaseLower"],
+				Effect: ["Freeze", "Leash"], HideItem: ["ShoesFlippers"], RemoveAtLogin: true, Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"], Extended: true, SetPose: ["BaseLower"],
 				Layer: [
 					{ Name: "GateClosed", CopyLayerColor: "Frame", AllowModuleTypes: ["g1"], HasType: false },
 					{ Name: "GateOpen", CopyLayerColor: "Frame", AllowModuleTypes: ["g0"], HasType: false },
@@ -5378,7 +5378,7 @@ var AssetFemale3DCG = [
 					{ Group: "ItemFeet", Name: "MedicalBedRestraints" },
 				],
 				Effect: ["Freeze", "Mounted", "OnBed"],
-				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied", "NoFeetSpreader"],
+				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
 				SetPose: ["BaseLower"],
 				Layer: [
 					{ Name: "BedFrame" },
@@ -5583,7 +5583,7 @@ var AssetFemale3DCG = [
 				],
 				Effect: ["Freeze", "Mounted", "OnBed", "Leash"],
 				AvailableLocations: ["Asylum"],
-				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied", "NoFeetSpreader"],
+				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
 				SetPose: ["BaseLower"],
 				Layer: [
 					{ Name: "BedFrame" },
