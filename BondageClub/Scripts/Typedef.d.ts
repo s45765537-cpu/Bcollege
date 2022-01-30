@@ -40,6 +40,10 @@ interface HTMLImageElement {
 	errorcount?: number;
 }
 
+interface HTMLElement {
+	setAttribute(qualifiedName: string, value: string | number): void;
+}
+
 //#endregion
 
 //#region Enums
