@@ -562,7 +562,7 @@ function PrivateClickCharacter() {
 							if ((PrivateCharacter[C].ID == 0) && (MouseX >= X + (C - PrivateCharacterOffset) * 470 + 50) && (MouseX <= X + (C - PrivateCharacterOffset) * 470 + 150) && (MouseY >= 200) && (MouseY <= 615) && PrivateCharacter[C].ArousalZoom)
 								if ((Player.ArousalSettings != null) && (Player.ArousalSettings.Active != null) && (Player.ArousalSettings.Progress != null)) {
 									if ((Player.ArousalSettings.Active == "Manual") || (Player.ArousalSettings.Active == "Hybrid")) {
-										var Arousal = Math.round((625 - MouseY) / 4, 0);
+										var Arousal = Math.round((625 - MouseY) / 4);
 										ActivitySetArousal(Player, Arousal);
 										if ((Player.ArousalSettings.AffectExpression == null) || Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
 										if (Player.ArousalSettings.Progress == 100) ActivityOrgasmPrepare(Player);
