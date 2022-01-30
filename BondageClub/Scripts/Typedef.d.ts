@@ -774,8 +774,8 @@ interface PlayerCharacter extends Character {
 		WhiteSpace: string;
 	};
 	VisualSettings?: {
-		ForceFullHeight: boolean;
-		UseCharacterInPreviews: boolean;
+		ForceFullHeight?: boolean;
+		UseCharacterInPreviews?: boolean;
 		MainHallBackground?: string;
 		PrivateRoomBackground?: string;
 	};
