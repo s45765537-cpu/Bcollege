@@ -727,8 +727,8 @@ function ActivityRunSelf(Source, Target, Activity) {
  * @param {AssetGroup} group
  * @param {Activity} activity
  */
-function ActivityBuildChatTag(character, group, activity) {
-	return `${(character.IsPlayer() ? "ChatSelf" : "ChatOther")}-${group.Name}-${activity.Name}`;
+function ActivityBuildChatTag(character, group, activity, is_label = false) {
+	return `${is_label ? "Label-" : ""}${(character.IsPlayer() ? "ChatSelf" : "ChatOther")}-${group.Name}-${activity.Name}`;
 }
 
 /**
