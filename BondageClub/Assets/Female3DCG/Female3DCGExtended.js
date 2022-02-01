@@ -3527,7 +3527,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["GagLight", "OpenMouth"],
 						},
 					},
 					{
@@ -3612,6 +3611,32 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticMuzzle
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Open",
+						Property: {
+							Type: null,
+							Effect: ["GagMedium", "OpenMouth"],
+						},
+					},
+					{
+						Name: "Plug",
+						Property: {
+							Type: "Plug",
+							Effect: ["BlockMouth", "GagTotal"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectGagType",
+					TypePrefix: "PlugGagMouthType",
+					ChatPrefix: "PlugGagMouthSet",
+				},
+			},
+		}, // OTNPlugGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {

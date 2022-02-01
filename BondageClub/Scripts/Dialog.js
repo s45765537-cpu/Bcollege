@@ -347,6 +347,13 @@ function DialogCanViewRules() { return (Player.Ownership != null) && (Player.Own
 function DialogChatRoomCanTakePhotos() { return CurrentScreen == "ChatRoom" && ChatRoomCanTakePhotos(); }
 
 /**
+ * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
+ * @param {string} Minute - The number of minutes to compare
+ * @returns {boolean} - TRUE if the player has enough minutes
+ */
+function DialogGGTSMinuteGreater(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(Player.Game.GGTS.Time / 60000) >= parseInt(Minute))); }
+
+/**
  * Checks the prerequisite for a given dialog
  * @param {number} D - Index of the dialog to check
  * @returns {boolean} - Returns true, if the prerequisite is met, false otherwise
@@ -1808,7 +1815,9 @@ function DialogDrawActivityMenu(C) {
 		var Hover = (MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275) && !CommonIsMobile;
 		DrawRect(X, Y, 225, 275, (Hover) ? "cyan" : "white");
 		DrawImageResize("Assets/" + C.AssetFamily + "/Activity/" + Act.Name + ".png", X + 2, Y + 2, 221, 221);
-		DrawTextFit(ActivityDictionaryText("Activity" + Act.Name), X + 112, Y + 250, 221, "black");
+		let group = ActivityGetGroupOrMirror(CharacterGetCurrent().AssetFamily, CharacterGetCurrent().FocusGroup.Name);
+		let label = ActivityBuildChatTag(CharacterGetCurrent(), group, Act, true);
+		DrawTextFit(ActivityDictionaryText(label), X + 112, Y + 250, 221, "black");
 		X = X + 250;
 		if (X > 1800) {
 			X = 1000;

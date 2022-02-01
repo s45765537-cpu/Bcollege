@@ -11,7 +11,7 @@ var MainHallHasLoverLock = false;
 var MainHallHasSlaveCollar = false;
 var MainHallTip = 0;
 var MainHallMaidWasCalledManually = false;
-
+var MainHallAsylumOpen = true;
 var MainHallBeingPunished = false;
 var MainHallFirstFrame = false;
 var MainHallStrongLocks = ["CombinationPadlock", "PasswordPadlock", "TimerPasswordPadlock", "HighSecurityPadlock"];
@@ -126,9 +126,8 @@ function MainHallLoad() {
 	MainHallBackground = Player.VisualSettings && Player.VisualSettings.MainHallBackground ? Player.VisualSettings.MainHallBackground : "MainHall";
 	MainHallStartEventTimer = null;
 	MainHallNextEventTimer = null;
-	if (!Player.ImmersionSettings.ReturnToChatRoom || Player.LastChatRoom === "" || MainHallBeingPunished ) {
+	if (!Player.ImmersionSettings.ReturnToChatRoom || (Player.LastChatRoom === "") || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
 		MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
-	}
 	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
 	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
 	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
@@ -161,7 +160,7 @@ function MainHallRun() {
 	if (!MainHallBeingPunished) {
 
 		// We return to the last online chat room if possible
-		if (Player.ImmersionSettings && Player.LastChatRoom && Player.LastChatRoom != "" && (MainHallMaid === null || MainHallMaid.Stage === "0")) {
+		if (Player.ImmersionSettings && Player.LastChatRoom && (Player.LastChatRoom != "") && (AsylumGGTSGetLevel(Player) <= 5) && ((MainHallMaid === null) || (MainHallMaid.Stage === "0"))) {
 			if (MainHallFirstFrame) {
 				if (Player.ImmersionSettings.ReturnToChatRoom) {
 					ChatRoomStart("", "", "MainHall", "Introduction", BackgroundsTagList);
@@ -241,7 +240,7 @@ function MainHallRun() {
 		// Asylum, College & LARP battles
 		if (!ManagementIsClubSlave()) DrawButton(1645, 625, 90, 90, "", "White", "Icons/Battle.png", TextGet("LARPBattle"));
 		if (!ManagementIsClubSlave()) DrawButton(1765, 625, 90, 90, "", "White", "Icons/College.png", TextGet("College"));
-		DrawButton(1885, 625, 90, 90, "", "White", "Icons/Asylum.png", TextGet("Asylum"));
+		if (MainHallAsylumOpen) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Asylum.png", TextGet("Asylum"));
 
 		// Movie Studio (Must be able to change to enter it)
 		if (Player.CanChange()) DrawButton(1525, 745, 90, 90, "", "White", "Icons/MagicSchool.png", TextGet("MagicSchool"));
@@ -391,7 +390,7 @@ function MainHallClick() {
 		// Asylum & College
 		if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 625) && (MouseY < 715) && !ManagementIsClubSlave()) MainHallWalk("LARP");
 		if ((MouseX >= 1765) && (MouseX < 1855) && (MouseY >= 625) && (MouseY < 715) && !ManagementIsClubSlave()) MainHallWalk("CollegeEntrance");
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 625) && (MouseY < 715)) MainHallWalk("AsylumEntrance");
+		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 625) && (MouseY < 715) && MainHallAsylumOpen) MainHallWalk("AsylumEntrance");
 
 		// Movie Studio (Must be able to change to enter it)
 		if ((MouseX >= 1525) && (MouseX < 1615) && (MouseY >= 745) && (MouseY < 855) && Player.CanChange()) MainHallWalk("MagicSchoolLaboratory");
