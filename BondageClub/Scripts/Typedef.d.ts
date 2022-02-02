@@ -170,7 +170,7 @@ interface ChatRoom {
 type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail" | "Gag";
 
 type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
- "LocalMessage" | "ServerMessage";
+ "LocalMessage" | "ServerMessage" | "Status";
 
 type MessageContentType = string;
 
@@ -717,6 +717,8 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
+	Status?: string | null;
+	StatusTimer?: number;
 }
 
 /** MovieStudio */
