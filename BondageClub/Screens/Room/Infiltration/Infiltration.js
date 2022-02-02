@@ -1,13 +1,16 @@
 "use strict";
 var InfiltrationBackground = "Infiltration";
-var InfiltrationSupervisor = null;
+/** @type {NPCCharacter} */
+let InfiltrationSupervisor = null;
 var InfiltrationDifficulty = 0;
 var InfiltrationMission = "";
 var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve", "CatBurglar", "ReverseMaid"];
 var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
-var InfiltrationTarget = {};
+/** @type {InfiltrationMissionTarget} */
+let InfiltrationTarget = null;
 var InfiltrationCollectRansom = false;
-var InfiltrationKidnapper = null;
+/** @type {NPCCharacter} */
+let InfiltrationKidnapper = null;
 
 /**
  * Returns TRUE if the mission can complete as a success
@@ -114,6 +117,7 @@ function InfiltrationClick() {
 
 /**
  * Sets the infiltration mission challenge difficulty
+ * @param {string} Difficulty
  * @returns {void} - Nothing
  */
 function InfiltrationSelectChallenge(Difficulty) {
@@ -134,7 +138,7 @@ function InfiltrationPrepareMission() {
 		InfiltrationTarget.Name = C.Name;
 		InfiltrationTarget.PrivateRoom = false;
 	} else {
-		InfiltrationTarget.Type = CommonRandomItemFromList(InfiltrationTarget.Type, InfiltrationObjectType);
+		InfiltrationTarget.Type = /** @type {InfiltrationTargetType} */(CommonRandomItemFromList(InfiltrationTarget.Type, InfiltrationObjectType));
 		InfiltrationTarget.Name = DialogFind(InfiltrationSupervisor, "Object" + InfiltrationTarget.Type);
 	}
 	InfiltrationTarget.Found = false;
@@ -271,6 +275,7 @@ function InfiltrationStartKidnapping() {
 
 /**
  * Ends the revenge kidnapping scenario and goes back to the main hall
+ * @param {"Money"|"Skill"|"Private"} [Reward]
  * @returns {void} - Nothing
  */
 function InfiltrationEndKidnapping(Reward) {
@@ -423,6 +428,6 @@ function InfiltrationStartNPCRescue() {
  */
 function InfiltrationDressMaid(Rep) {
 	PandoraDress(Player, "Maid");
-	if (Rep != "0") ReputationProgress("Dominant", parseInt(Rep));
+	if (Rep != 0) ReputationProgress("Dominant", parseInt(Rep));
 	PandoraClothes = "Maid";
 }

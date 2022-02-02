@@ -2250,3 +2250,48 @@ interface DynamicBeforeDrawOverrides {
 }
 
 // #endregion
+
+//#region Infiltration/Pandora
+
+type InfiltrationTargetType = "NPC" | "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+
+interface InfiltrationMissionTarget {
+	Type: InfiltrationTargetType;
+	Found: boolean;
+	Fail: boolean;
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+type PandoraDirection = "North" | "South" | "East" | "West";
+type PandoraFloorDirection = "StairsUp" | "StairsDown" | PandoraDirection;
+type PandoraFloors = "Ground" | "Second" | "Underground";
+
+interface PandoraSpecialRoom {
+	Floor: "Exit" | "Search" | "Rest" | "Paint";
+}
+
+interface PandoraBaseRoom {
+	Floor: PandoraFloors;
+	Background: string;
+	Character: NPCCharacter[];
+	Path: (PandoraBaseRoom | PandoraSpecialRoom)[];
+	PathMap: PandoraBaseRoom[];
+	Direction: string[];
+	DirectionMap: string[];
+
+	/* SearchRoom */
+	SearchSquare?: {
+		X: number;
+		Y: number;
+		W: number;
+		H: number;
+	}[];
+	ItemX?: number;
+	ItemY?: number;
+
+	/* PaintRoom */
+	Graffiti?: number;
+}
+
+//#endregion
