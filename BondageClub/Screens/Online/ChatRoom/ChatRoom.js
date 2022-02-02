@@ -2275,7 +2275,7 @@ function ChatRoomMessage(data) {
 				else if (msg == "RequestFullKinkyDungeonData") {
 					KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
 					if (CurrentScreen == "KinkyDungeon")
-						KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true), SenderCharacter.MemberNumber);
+						KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true));
 				}
 				else if (msg == "TakeSuitcase"){
 					if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
