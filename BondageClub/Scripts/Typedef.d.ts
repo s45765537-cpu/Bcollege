@@ -772,6 +772,16 @@ interface PlayerCharacter extends Character {
 		ShowChatHelp: boolean;
 		ShrinkNonDialogue: boolean;
 		WhiteSpace: string;
+		/** @deprecated */
+		AutoBanBlackList?: any;
+		/** @deprecated */
+		AutoBanGhostList?: any;
+		/** @deprecated */
+		SearchFriendsFirst?: any;
+		/** @deprecated */
+		DisableAnimations?: any;
+		/** @deprecated */
+		SearchShowsFullRooms?: any;
 	};
 	VisualSettings?: {
 		ForceFullHeight?: boolean;
