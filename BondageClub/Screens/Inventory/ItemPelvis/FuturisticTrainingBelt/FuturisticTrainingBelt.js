@@ -101,9 +101,9 @@ function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 
 
 		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "70");
-		if (input) input.placeholder = DialogFocusItem.Property.PunishRequiredSpeechWord;
+		if (input) input.setAttribute("placeholder", DialogFocusItem.Property.PunishRequiredSpeechWord);
 		const input2 = ElementCreateInput("PunishProhibitedSpeechWords", "text", "", "70");
-		if (input2) input2.placeholder = DialogFocusItem.Property.PunishProhibitedSpeechWords;
+		if (input2) input2.setAttribute("placeholder", DialogFocusItem.Property.PunishProhibitedSpeechWords);
 	}
 
 

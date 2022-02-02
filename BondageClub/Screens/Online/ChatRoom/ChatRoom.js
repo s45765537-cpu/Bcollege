@@ -1146,7 +1146,7 @@ function ChatRoomTarget() {
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
-	document.getElementById("InputChat").placeholder = placeholder;
+	document.getElementById("InputChat").setAttribute("placeholder", placeholder);
 }
 
 /**
