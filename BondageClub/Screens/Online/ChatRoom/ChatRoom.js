@@ -3579,6 +3579,7 @@ function ChatRoomSafewordChatCommand() {
 	if (DialogChatRoomCanSafeword())
 		ChatRoomSafewordRevert();
 	else if (CurrentScreen == "ChatRoom") {
+		/** @type {IChatRoomMessage} */
 		var msg = {Sender: Player.MemberNumber, Content: "SafewordDisabled", Type: "Action"};
 		ChatRoomMessage(msg);
 	}
