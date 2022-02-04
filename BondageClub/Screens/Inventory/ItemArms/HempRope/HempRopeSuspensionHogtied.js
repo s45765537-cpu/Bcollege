@@ -14,6 +14,7 @@ function InventoryItemArmsHempRopeSuspensionHogtiedLoad(C, Option) {
 	if (!HempRopeSuspensionHogtiedPrevProperty) {
 		// Initialise variables
 		const item = DialogFocusItem;
+		/** @type {ItemProperties} */
 		const property = item.Property && item.Property.Type == Option.Property.Type ? item.Property : JSON.parse(JSON.stringify(Option.Property));
 
 		// Store the previously set properties, reverting to it by default upon exiting the screen

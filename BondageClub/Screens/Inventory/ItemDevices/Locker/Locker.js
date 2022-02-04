@@ -14,6 +14,7 @@ const ItemDevicesLockerOptions = [
 function InventoryItemDevicesLockerLoad() {
 	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
+	/** @type {ItemProperties} */
 	const property = item.Property = item.Property || {};
 	let refresh = false;
 	if (typeof property.Opacity !== "number") {

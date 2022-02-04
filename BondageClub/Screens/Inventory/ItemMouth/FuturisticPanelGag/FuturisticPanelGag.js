@@ -376,6 +376,7 @@ function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data, Options) {
 // Update data
 function AssetsItemMouthFuturisticPanelGagScriptDraw(data) {
 	var persistentData = data.PersistentData();
+	/** @type {ItemProperties} */
 	var property = (data.Item.Property = data.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
