@@ -91,7 +91,7 @@ ReleaseSubmissiveConfirm,0,(Cancel),(Main menu),,
 40,0,(Help her stand.),(You help her up on her feet.),KneelStandAssist(),CanAssistStand()
 40,0,(Help her kneel.),(You help her down on her knees.),KneelStandAssist(),CanAssistKneel()
 40,0,(Help her to struggle free.),,StruggleAssist(),CanAssistStruggle()
-40,,(Have a photo taken.),,DialogPhotoCurrentCharacters(),DialogCanTakePhotos()
+40,,(Take a photo of both of you.),,DialogPhotoCurrentCharacters(),DialogCanTakePhotos()
 40,0,(Lend her some lockpicks.),(You give her some lockpicks to struggle out with until she leaves the room),GiveLockpicks(),CanGiveLockpicks()
 40,0,(Give her a spare key to your locks.),(You give her an extra key to your private padlocks),GiveHighSecurityKeys(),CanGiveHighSecurityKeys()
 40,0,(Hand over the keys to your locks.),(You give her the keys to your private padlocks),GiveHighSecurityKeysAll(),CanGiveHighSecurityKeysAll()
