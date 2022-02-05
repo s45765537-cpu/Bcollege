@@ -345,13 +345,13 @@ function DialogGGTSMinuteGreater(Minute) { return ((AsylumGGTSGetLevel(Player) >
  * Checks if the player can spend GGTS minutes on herself, for GGTS level 6 and up
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function DialogGGTSPersonalAccess() { return (AsylumGGTSIsEnabled() && (AsylumGGTSGetLevel(Player) >= 6)); }
+function DialogGGTSCanSpendMinutes() { return (AsylumGGTSIsEnabled() && (AsylumGGTSGetLevel(Player) >= 6)); }
 
 /**
  * Returns TRUE if the user can get help in a chat room
  * @returns {boolean} - TRUE if the player is in a chatroom to get help
  */
-function DialogCanGetHelp() { return ((CurrentScreen === "ChatRoom") && !DialogGGTSPersonalAccess()); }
+function DialogCanGetHelp() { return ((CurrentScreen === "ChatRoom") && !DialogGGTSCanSpendMinutes()); }
 
 /**
  * The player can ask GGTS for specific actions at level 6, requiring minutes as currency

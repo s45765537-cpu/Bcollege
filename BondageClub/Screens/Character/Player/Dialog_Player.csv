@@ -5,7 +5,7 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 0,,(Change your clothes.),,DialogChangeClothes(),DialogCanChangeClothes()
 0,30,(Room administrator action.),"(As a room administrator, you can take these actions.)",,DialogChatRoomPlayerIsAdmin()
 0,100,(Character actions.),(Possible character actions.),,DialogCanPerformCharacterAction()
-0,40,(Spend GGTS minutes.),(Select how to spend your minutes.),,DialogGGTSPersonalAccess()
+0,40,(Spend GGTS minutes.),(Select how to spend your minutes.),,DialogGGTSCanSpendMinutes()
 0,0,(View your current rules.),(Here are your currently active rules.),DialogViewOwnerRules(),DialogCanViewRules()
 0,,(Leave this menu.),,DialogLeave(),
 30,0,(Move Character.),(Move started.),"DialogChatRoomAdminAction(""Move"")",
