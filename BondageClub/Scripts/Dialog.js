@@ -326,7 +326,7 @@ function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && (Cur
  * Checks, if a safe word can be used.
  * @returns {boolean} - Returns true, if the player is currently within a chat room
  */
-function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && Player.GameplaySettings.EnableSafeword); }
+function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword); }
 
 /**
  * Checks if the player is currently owned.
@@ -346,12 +346,6 @@ function DialogGGTSMinuteGreater(Minute) { return ((AsylumGGTSGetLevel(Player) >
  * @returns {boolean} - TRUE if the player has enough minutes
  */
 function DialogGGTSCanSpendMinutes() { return (AsylumGGTSIsEnabled() && (AsylumGGTSGetLevel(Player) >= 6)); }
-
-/**
- * Returns TRUE if the user can get help in a chat room
- * @returns {boolean} - TRUE if the player is in a chatroom to get help
- */
-function DialogCanGetHelp() { return ((CurrentScreen === "ChatRoom") && !DialogGGTSCanSpendMinutes()); }
 
 /**
  * The player can ask GGTS for specific actions at level 6, requiring minutes as currency
