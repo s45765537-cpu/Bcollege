@@ -345,7 +345,7 @@ function DialogGGTSMinuteGreater(Minute) { return ((AsylumGGTSGetLevel(Player) >
  * Checks if the player can spend GGTS minutes on herself, for GGTS level 6 and up
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function DialogGGTSPersonalAccess() { return ((CurrentScreen === "ChatRoom") && (ChatRoomSpace === "Asylum") && (ChatRoomData != null) && (ChatRoomData.Game === "GGTS") && (AsylumGGTSGetLevel(Player) >= 6)); }
+function DialogGGTSPersonalAccess() { return (AsylumGGTSIsEnabled() && (AsylumGGTSGetLevel(Player) >= 6)); }
 
 /**
  * Returns TRUE if the user can get help in a chat room
@@ -384,7 +384,7 @@ function DialogGGTSCanGetHelmet() {
  * @returns {boolean} - TRUE if the player is a nurse in a GGTS room
  */
 function DialogCanStartGGTSInteractions() {
-	return ((CurrentScreen === "ChatRoom") && (ChatRoomSpace === "Asylum") && (ChatRoomData != null) && (ChatRoomData.Game === "GGTS") && (CurrentCharacter != null) && (AsylumGGTSGetLevel(CurrentCharacter) >= 1) && !DialogCanWatchKinkyDungeon() && (ReputationGet("Asylum") > 0));
+	return (AsylumGGTSIsEnabled() && (CurrentCharacter != null) && (AsylumGGTSGetLevel(CurrentCharacter) >= 1) && !DialogCanWatchKinkyDungeon() && (ReputationGet("Asylum") > 0));
 }
 
 /**

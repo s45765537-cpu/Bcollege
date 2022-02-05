@@ -39,6 +39,14 @@ function AsylumGGTSCanQuit() {
 }
 
 /**
+ * Check that GGTS is enabled in the current room.
+ * @returns true if GGTS is running, false otherwise.
+ */
+function AsylumGGTSIsEnabled() {
+	return (CurrentScreen === "ChatRoom") && (ChatRoomSpace === "Asylum") && (ChatRoomData != null) && (ChatRoomData.Game === "GGTS");
+}
+
+/**
  * Returns TRUE if the player has completed the required time for the current level
  * @returns {boolean} - TRUE if level is completed with 3 strikes on record
  */
