@@ -811,6 +811,14 @@ function ChatRoomDrawCharacter(DoClick) {
 		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterX_Upper);
 		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterX_Lower);
 
+		if (weight === 0) {
+			// skip unnecessary calculations
+			ChatRoomCharacterZoom = nextZoom;
+			ChatRoomCharacterX_Upper = nextUpperX;
+			ChatRoomCharacterX_Lower = nextLowerX;
+			break;
+		}
+
 		const frametimeRemainder = frametimeAdjustment - i;
 		if (frametimeRemainder >= 1) {
 			ChatRoomCharacterZoom = nextZoom;
