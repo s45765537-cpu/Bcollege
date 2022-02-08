@@ -1368,6 +1368,8 @@ function CharacterAppearanceWardrobeLoad(C) {
 		WardrobeLoadCharacterNames();
 	ElementCreateInput("InputWardrobeName", "text", CharacterAppearanceWardrobeName || C.Name, "20");
 	CharacterAppearanceMode = "Wardrobe";
+	// Always open the wardrobe on the first page
+	CharacterAppearanceWardrobeOffset = 0;
 	CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
 	CharacterAppearanceInProgressBackup = CharacterAppearanceStringify(C);
 }
