@@ -47,6 +47,9 @@ const CONTRIBUTOR_NAMES = {
 	"Jules Papillon": "Yuki",
 	"Manilla32": "Manilla",
 	"klorpa": "klorpa",
+	"Sidiousious": "Sidious",
+	"karame1": "Karamel",
+	"dependabot[bot]": "Dependabot",
 };
 
 async function generateChangelogHtml() {
