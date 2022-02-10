@@ -40,10 +40,6 @@ interface HTMLImageElement {
 	errorcount?: number;
 }
 
-interface HTMLElement {
-	setAttribute(qualifiedName: string, value: string | number): void;
-}
-
 //#endregion
 
 //#region Enums
@@ -71,8 +67,6 @@ type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 type VibratorModeSet = "Standard" | "Advanced";
 
 type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
-
-type VibratorRemoteAvailability = "Available" | "NoRemote" | "NoLoversRemote" | "RemotesBlocked" | "CannotInteract" | "NoAccess" | "InvalidItem";
 
 //#endregion
 
@@ -167,10 +161,10 @@ interface ChatRoom {
 	Character?: any[]; /* From server, not really a Character object */
 }
 
-type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail" | "Gag";
+type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail";
 
 type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
- "LocalMessage" | "ServerMessage" | "Status";
+ "LocalMessage" | "ServerMessage";
 
 type MessageContentType = string;
 
@@ -700,11 +694,7 @@ interface Character {
 		GameVersion: string;
 		ItemsAffectExpressions: boolean;
 	};
-	Game?: {
-		LARP?: GameLARPParameters,
-		MagicBattle?: GameMagicBattleParameters,
-		GGTS?: GameGGTSParameters,
-	};
+	Game?: any;
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -717,8 +707,6 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
-	Status?: string | null;
-	StatusTimer?: number;
 }
 
 /** MovieStudio */
@@ -1507,42 +1495,3 @@ interface PokerPlayer {
 	WebLink?: string;
 	Alternate?: void;
 }
-
-// #region Online Games
-
-/**
- * Online game status values.
- *
- * @property "" - The game is in the setup phase.
- * @property "Running" - The game is currently running.
- *
- * @fix FIXME: "" should really be renamed Setup
- */
-type OnlineGameStatus = "" | "Running";
-
-interface GameLARPParameters {
-	Status: OnlineGameStatus;
-	Class: string;
-	Team: string;
-	TimerDelay: number;
-	Level: {
-		Name: string;
-		Level: number;
-		Progress: number;
-	}[];
-}
-
-interface GameMagicBattleParameters {
-	Status: OnlineGameStatus;
-	House: string;
-	TeamType: "FreeForAll" | "House";
-}
-
-interface GameGGTSParameters {
-	Level: number;
-	Time: number;
-	Strike: number;
-	Rule: string[];
-}
-
-// #endregion

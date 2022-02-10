@@ -124,7 +124,6 @@ interface AssetDefinition {
 	DynamicScriptDraw?: boolean;
 	HasType?: boolean;
 	AllowLockType?: string[];
-	AllowColorize?: boolean;
 	AllowColorizeAll?: boolean;
 	AvailableLocations?: string[];
 	OverrideHeight?: { Height: number; Priority: number; HeightRatioProportion?: number };

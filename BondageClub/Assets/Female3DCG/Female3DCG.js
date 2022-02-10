@@ -3903,30 +3903,9 @@ var AssetFemale3DCG = [
 					{ Name: "Bobble", HasType: false },
 				]
 			},
-			{Name: "PumpGag", Fetish: ["Leather"], Value: 100, Difficulty: 2, Time: 20, Random: false, AllowLock: true, DefaultColor: "#404040", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true, HasType: false },
-			{
-				Name: "KittyGag", Fetish: ["Pet"], Value: 20, Difficulty: -4, Time: 10, Random: false, BuyGroup: "KittyGag", Prerequisite: "GagFlat", DefaultColor: ["#FFFFFF", "#000000", "#E496E7"], Hide: ["Mouth"], Effect: ["BlockMouth"], Layer: [
-					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyHarnessPanelGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"], Layer: [
-					{ Name: "Panel", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyMuzzleGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyMuzzleGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Layer: [
-					{ Name: "Muzzle", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
+			{ Name: "PumpGag", Fetish: ["Leather"], Value: 100, Difficulty: 2, Time: 20, Random: false, AllowLock: true, DefaultColor: "#404040", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true, HasType: false },
+			{ Name: "KittyGag", Fetish: ["Pet"], Value: 20, Difficulty: -4, Time: 10, Random: false, DefaultColor: "#A0A0A0", BuyGroup: "KittyGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }] },
+			{ Name: "KittenHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: "#A0A0A0", BuyGroup: "KittenHarnessPanelGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"] },
 			{
 				Name: "CarrotGag", Fetish: ["Leather", "Pony"], Value: 40, Difficulty: 3, Time: 15, Random: false, AllowLock: true, BuyGroup: "CarrotGag", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -4333,29 +4312,8 @@ var AssetFemale3DCG = [
 					{ Name: "Bobble", HasType: false },
 				]
 			},
-			{
-				Name: "KittyGag", Fetish: ["Pet"], Value: 20, Difficulty: -4, Time: 10, Random: false, BuyGroup: "KittyGag", Prerequisite: "GagFlat", DefaultColor: ["#FFFFFF", "#000000", "#E496E7"], Hide: ["Mouth"], Effect: ["BlockMouth"], Layer: [
-					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyHarnessPanelGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"], Layer: [
-					{ Name: "Panel", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyMuzzleGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyMuzzleGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Layer: [
-					{ Name: "Muzzle", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
+			{ Name: "KittyGag", Fetish: ["Pet"], Value: -1, Difficulty: -4, Time: 10, Random: false, DefaultColor: "#A0A0A0", BuyGroup: "KittyGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }] },
+			{ Name: "KittenHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: -1, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: "#A0A0A0", BuyGroup: "KittenHarnessPanelGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"] },
 			{
 				Name: "CarrotGag", Fetish: ["Leather", "Pony"], Value: -1, Difficulty: 3, Time: 15, Random: false, AllowLock: true, BuyGroup: "CarrotGag", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -4615,29 +4573,8 @@ var AssetFemale3DCG = [
 					{ Name: "Bobble", HasType: false },
 				]
 			},
-			{
-				Name: "KittyGag", Fetish: ["Pet"], Value: 20, Difficulty: -4, Time: 10, Random: false, BuyGroup: "KittyGag", Prerequisite: "GagFlat", DefaultColor: ["#FFFFFF", "#000000", "#E496E7"], Hide: ["Mouth"], Effect: ["BlockMouth"], Layer: [
-					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyHarnessPanelGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"], Layer: [
-					{ Name: "Panel", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
-			{
-				Name: "KittyMuzzleGag", Fetish: ["Leather", "Pet"], Value: 80, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"], BuyGroup: "KittyMuzzleGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Layer: [
-					{ Name: "Muzzle", AllowColorize: true, HasType: false },
-					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "Lines", AllowColorize: true, HasType: false },
-					{ Name: "Mouth", AllowColorize: true, HasType: false },
-				]
-			},
+			{ Name: "KittyGag", Fetish: ["Pet"], Value: -1, Difficulty: -4, Time: 10, Random: false, DefaultColor: "#A0A0A0", BuyGroup: "KittyGag", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }] },
+			{ Name: "KittenHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: -1, Difficulty: 6, Time: 20, Random: false, AllowLock: true, DefaultColor: "#A0A0A0", BuyGroup: "KittenHarnessPanelGag", Hide: ["Mouth"], Effect: ["BlockMouth", "GagEasy"] },
 			{
 				Name: "CarrotGag", Fetish: ["Leather", "Pony"], Value: -1, Difficulty: 3, Time: 15, Random: false, AllowLock: true, BuyGroup: "CarrotGag", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -4858,12 +4795,7 @@ var AssetFemale3DCG = [
 			{ Name: "LeatherSlimMaskOpenMouth", Fetish: ["Leather"], Value: 70, Difficulty: 50, Time: 15, AllowLock: true, DefaultColor: "#555555", Prerequisite: ["NotHogtied"], Hide: ["Glasses"], HideItem: ["ItemNosePigNose"], Effect: ["BlindHeavy", "Prone"], Block: ["ItemEars", "ItemNose"] },
 			{ Name: "LeatherSlimMaskOpenEyes", Fetish: ["Leather"], Value: 70, Difficulty: 50, Time: 15, AllowLock: true, DefaultColor: "#555555", Prerequisite: ["NotHogtied"], Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Effect: ["GagLight", "BlockMouth"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNose"] },
 			{ Name: "StuddedBlindfold", Fetish: ["Leather", "Metal"], Value: -1, Difficulty: 2, Time: 5, AllowLock: true, DefaultColor: "#FF4040", Bonus: "KidnapSneakiness", Hide: ["Glasses"], Effect: ["BlindNormal", "Prone"] },
-			{ Name: "KittyBlindfold", Fetish: ["Pet"], Value: 40, Time: 5, AllowLock: true, DefaultColor: ["#FFFFFF","#000000","#E48FE9"], Hide: ["Glasses"], Effect: ["BlindLight", "Prone"], Layer: [
-					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "Eyes", AllowColorize: true, HasType: false },
-					{ Name: "Ears", AllowColorize: true, HasType: false },
-				]
-			},
+			{ Name: "KittyBlindfold", Fetish: ["Pet"], Value: 25, Time: 5, AllowLock: true, DefaultColor: "#A0A0A0", Hide: ["Glasses"], Effect: ["BlindLight", "Prone"] },
 			{ Name: "DuctTape", Fetish: ["Tape"], Value: 50, Time: 10, RemoveTime: 5, BuyGroup: "DuctTape", Audio: "DuctTape", Hide: ["Glasses"], Extended: true, Alpha: [{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[0, 220, 500, 500]], Type: ["Mummy", "Open"] }] },
 			{ Name: "SmallBlindfold", Fetish: ["Leather"], Value: 40, Time: 5, AllowLock: true, DefaultColor: "#404040", Hide: ["Glasses"], Effect: ["BlindLight", "Prone"] },
 			{ Name: "FullBlindfold", Fetish: ["Latex"], Priority: 30, Value: 40, Difficulty: 6, Time: 5, AllowLock: true, DefaultColor: "#353535", Hide: ["Glasses"], Effect: ["BlindHeavy", "Prone"] },
@@ -4899,6 +4831,69 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false },
 				],
 			},
+			{ 
+				Name: "MedicalPatch", Value: 20, Difficulty: 1, Priority: 25, Time: 3, RemoveTime: 5, DefaultColor: ["#ECC7A1","#ECC7A1","#B459A6","#B459A6",], Hide: ["Mask"], Extended: true,
+				Layer: [
+					{ Name: "Right" , HasType: false, AllowModuleTypes: ["e0","e1"] },
+					{ Name: "Left" , HasType: false, AllowModuleTypes: ["e0","e2"] },
+					{ Name: "RightHeart", HasType: false, AllowModuleTypes: ["e0r1","e1r1"] },
+					{ Name: "LeftHeart", HasType: false, AllowModuleTypes: ["e0l1","e2l1"] },
+					{ Name: "RightStripes", HasType: false, AllowModuleTypes: ["e0r2","e1r2"], CopyLayerColor: "RightHeart" },
+					{ Name: "LeftStripes", HasType: false, AllowModuleTypes: ["e0l2","e2l2"], CopyLayerColor: "LeftHeart" },
+					{ Name: "RightX", HasType: false, AllowModuleTypes: ["e0r3","e1r3"], CopyLayerColor: "RightHeart" },
+					{ Name: "LeftX", HasType: false, AllowModuleTypes: ["e0l3","e2l3"], CopyLayerColor: "LeftHeart" },
+					{ Name: "RightTeddy", HasType: false, AllowModuleTypes: ["e0r4","e1r4"], CopyLayerColor: "RightHeart" },
+					{ Name: "LeftTeddy", HasType: false, AllowModuleTypes: ["e0l4","e2l4"], CopyLayerColor: "LeftHeart" },
+				],
+			},
+			{
+				Name: "DroneMask", Value: 80, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#00F4FD", "#E700CA", "#7F7F7F"], Time: 10, RemoveTime: 15, AllowLock: true, DrawLocks: false, Effect: [], Extended: true, 
+				Block:["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
+				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
+				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
+					{ Name: "Base", HasType: false }, 
+					{ Name: "Shine", HasType: false },
+
+					// All Eyes
+					{ Name: "EyeRegularShine", HasType: false, AllowModuleTypes: ["e1"], CopyLayerColor: "Shine" },
+					{ Name: "EyeRegular", HasType: false, AllowModuleTypes: ["e1"], },
+					{ Name: "EyeRegularGlow", HasType: false, AllowModuleTypes: ["e1g1"], CopyLayerColor: "EyeRegular" },
+					
+					{ Name: "EyeSpiralShine", HasType: false, AllowModuleTypes: ["e2"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSpiral", HasType: false, AllowModuleTypes: ["e2"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSpiralGlow", HasType: false, AllowModuleTypes: ["e2g1"], CopyLayerColor: "EyeRegular" },
+					
+					{ Name: "EyeSmileShine", HasType: false, AllowModuleTypes: ["e3"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSmile", HasType: false, AllowModuleTypes: ["e3"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSmileGlow", HasType: false, AllowModuleTypes: ["e3g1"], CopyLayerColor: "EyeRegular" },
+					
+					{ Name: "EyeHolesShine", HasType: false, AllowModuleTypes: ["e4"], CopyLayerColor: "Shine" },
+					{ Name: "EyeHoles", HasType: false, AllowModuleTypes: ["e4"], CopyLayerColor: "EyeRegular" },
+										
+					{ Name: "EyeSculpted", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSculptedShine", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSculptedGlow", HasType: false, AllowModuleTypes: ["e5g1"], CopyLayerColor: "EyeRegular" },
+					
+					// All Mouths
+					{ Name: "MouthOnahole", HasType: false, AllowModuleTypes: ["m1"]},
+					
+					{ Name: "MouthFleshlightShine", HasType: false, AllowModuleTypes: ["m2"], CopyLayerColor: "Shine" },
+					{ Name: "MouthFleshlight", HasType: false, AllowModuleTypes: ["m2"], CopyLayerColor: "MouthOnahole" },
+					
+					{ Name: "MouthSmileShine", HasType: false, AllowModuleTypes: ["m3"], CopyLayerColor: "Shine" },
+					{ Name: "MouthSmile", HasType: false, AllowModuleTypes: ["m3"], CopyLayerColor: "MouthOnahole" },
+					{ Name: "MouthSmileGlow", HasType: false, AllowModuleTypes: ["m3g1"], CopyLayerColor: "MouthOnahole" },
+					
+					{ Name: "MouthHolesShine", HasType: false, AllowModuleTypes: ["m4"], CopyLayerColor: "Shine" },
+					{ Name: "MouthHoles", HasType: false, AllowModuleTypes: ["m4"], CopyLayerColor: "MouthOnahole" },
+					
+					{ Name: "MouthSculpted", HasType: false, AllowModuleTypes: ["m5"], CopyLayerColor: "MouthOnahole" },
+					
+					// All Non-part reliantPatterns
+					{ Name: "Barcode", HasType: false, AllowModuleTypes: ["p1"]},
+				],
+			},
+		
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -5109,11 +5104,6 @@ var AssetFemale3DCG = [
 					{ Name: "HelmetSecondary", HasType: false, },
 				],
 				Alpha: [{ Group: ["ItemHead"], Masks: [[0, 0, 500, 1000], [0, 0, 203, 250], [295, 0, 205, 250]] }],
-			},
-			{
-				Name: "FuturisticHelmet", Category: ["SciFi"], Fetish: ["Metal"], Value: -1, Difficulty: 10, RemoveTime: 10, AllowLock: true, DrawLocks: false, Effect: [],
-				Hide: ["HairFront", "Ears", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Glasses"],
-				Alpha: [{ Group: ["ItemHead"], Masks: [[0, 0, 203, 250], [295, 0, 205, 250]] }]
 			},
 			{
 				Name: "LampHeadHood", Fetish: ["Forniphilia"], Value: 40, Difficulty: 3, Time: 8, RemoveTime: 5, Top: 25, Left: 135, Priority: 57, DefaultColor: ["Default", "#a13f75", "#ad4c81"],
