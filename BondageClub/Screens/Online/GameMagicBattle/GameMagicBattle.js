@@ -96,7 +96,7 @@ function GameMagicBattleRun() {
 
 	// Draw the right side buttons
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if ((GameMagicBattleStatus == "") && (Player.Game.MagicBattle.House.indexOf("House") == 0) && Player.CanChange()) DrawButton(1815, 190, 90, 90, "", "White", "Icons/Wardrobe.png");
+	if ((GameMagicBattleGetStatus() == "") && (Player.Game.MagicBattle.House.indexOf("House") == 0) && Player.CanChangeOwnClothes()) DrawButton(1815, 190, 90, 90, "", "White", "Icons/Wardrobe.png");
 
 }
 
@@ -178,8 +178,11 @@ function GameMagicBattleStartProcess() {
 function GameMagicBattleClick() {
 
 	// When the user exits or wants to change clothes
-	if (MouseIn(1815, 75, 90, 90)) GameMagicBattleExit();
-	if (MouseIn(1815, 190, 90, 90) && (GameMagicBattleStatus == "") && (Player.Game.MagicBattle.House.indexOf("House") == 0) && Player.CanChange()) {
+	if (MouseIn(1815, 75, 90, 90)) {
+		GameMagicBattleExit();
+		return;
+	}
+	if (MouseIn(1815, 190, 90, 90) && (GameMagicBattleGetStatus() == "") && (Player.Game.MagicBattle.House.indexOf("House") == 0) && Player.CanChangeOwnClothes()) {
 		MagicSchoolLaboratoryPrepareNPC(Player, Player.Game.MagicBattle.House.replace("House", ""));
 		ChatRoomCharacterUpdate(Player);
 	}

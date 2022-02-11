@@ -601,7 +601,22 @@ interface Character {
 	CanWalk: () => boolean;
 	CanKneel: () => boolean;
 	CanInteract: () => boolean;
-	CanChange: () => boolean;
+
+	/**
+	 * Check whether a character can change its own outfit.
+	 *
+	 * @warning Only usable on Player
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeOwnClothes: () => boolean;
+
+	/**
+	 * Check whether a character can change another one's outfit.
+	 *
+	 * @param {Character} C - The character to check against.
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeClothesOn: (C: Character) => boolean;
 	IsProne: () => boolean;
 	IsRestrained: () => boolean;
 	IsBlind: () => boolean;
@@ -1464,6 +1479,86 @@ interface ICommand {
 	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
 	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
 	Clear?: false;
+}
+
+
+
+// Kinky Dungeon Typedefs
+interface KinkyDungeonSave {
+	level: number;
+    checkpoint: number;
+    rep: Record<string, number>;
+    costs: Record<string, number>;
+    orbs: number[];
+    chests: number[];
+    dress: string;
+    gold: number;
+    points: number;
+    levels: {
+        Elements: number;
+        Conjure: number;
+        Illusion: number;
+    };
+    id: number;
+    choices: number[];
+	choices2: boolean[];
+	buffs: Record<string, any>;
+	lostitems: any[];
+	caches: number[];
+	spells: string[];
+	inventory: {
+		restraint: any;
+		looserestraint: any;
+		weapon: any;
+		consumable: any;
+	}[];
+	stats: {
+		picks: number;
+		keys: number;
+		bkeys: number;
+		knife: number;
+		eknife: number;
+		mana: number;
+		stamina: number;
+		arousal: number;
+		wep: any;
+		npp: number;
+	};
+}
+
+interface KinkyDungeonShopItem {
+	cost: any;
+	rarity: any;
+	costMod?: any;
+	shoptype: string;
+	name: any;
+}
+
+interface KinkyDungeonWeapon {
+	name: string;
+	dmg: number;
+	chance: number;
+	type: string;
+	rarity: number;
+	staminacost?: number;
+	magic?: boolean;
+	cutBonus?: number;
+	unarmed: boolean;
+	shop: boolean;
+	noequip?: boolean;
+	sfx: string;
+	events?: KinkyDungeonEvent[];
+}
+
+interface KinkyDungeonEvent {
+	type: string;
+	trigger: string;
+	power?: number;
+	damage?: string;
+	dist?: number;
+	buffType?: string;
+	time?: number;
+	chance?: number;
 }
 
 type PokerPlayerType = "None" | "Set" | "Character";
