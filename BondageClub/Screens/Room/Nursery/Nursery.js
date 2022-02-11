@@ -348,12 +348,6 @@ function NurseryPlayerRestrained(RestraintSet) {
 	}
 }
 
-// Apply lock to specified item
-function NurseryAddLock(C, LockItem) {
-	var CurrentItem = InventoryGet(Player, LockItem);
-	if ((CurrentItem.Property.LockedBy == null) (CurrentItem.Property.LockedBy != "")) InventoryLock(C, CurrentItem, { Asset: AssetGet("Female3DCG", "ItemMisc", "IntricatePadlock")});
-}
-
 // Player can spits out regular pacifier
 function NurseryPlayerRePacified() {
 	if (NurseryPlayerKeepsLoosingBinky) {
