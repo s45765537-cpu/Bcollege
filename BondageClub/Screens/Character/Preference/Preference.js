@@ -1666,9 +1666,8 @@ function PreferenceSubscreenOnlineClick() {
 		OnlineSettings.EnableAfkTimer = !OnlineSettings.EnableAfkTimer;
 		AfkTimerSetEnabled(OnlineSettings.EnableAfkTimer);
 	}
-	else if (MouseIn(500, 655, 64, 64)) OnlineSettings.EnableWardrobeIcon = !OnlineSettings.EnableWardrobeIcon;
-	else if (MouseIn(500, 735, 64, 64)) OnlineSharedSettings.AllowFullWardrobeAccess = !OnlineSharedSettings.AllowFullWardrobeAccess;
-	else if (MouseIn(500, 815, 64, 64)) OnlineSharedSettings.BlockBodyCosplay = !OnlineSharedSettings.BlockBodyCosplay;
+	else if (MouseIn(500, 655, 64, 64)) OnlineSharedSettings.AllowFullWardrobeAccess = !OnlineSharedSettings.AllowFullWardrobeAccess;
+	else if (MouseIn(500, 735, 64, 64)) OnlineSharedSettings.BlockBodyCosplay = !OnlineSharedSettings.BlockBodyCosplay;
 	else if (MouseIn(1300, 175, 64, 64)) OnlineSettings.ShowStatus = !OnlineSettings.ShowStatus;
 	else if (MouseIn(1300, 255, 64, 64)) OnlineSettings.SendStatus = !OnlineSettings.SendStatus;
 }
