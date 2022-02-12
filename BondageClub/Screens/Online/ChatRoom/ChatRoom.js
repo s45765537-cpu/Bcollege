@@ -770,6 +770,7 @@ function ChatRoomUpdateDisplay() {
  * @returns {void} - Nothing.
  */
 function DrawStatus(C, X, Y, Zoom) {
+	if ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowStatus != null) && (Player.OnlineSettings.ShowStatus == false)) return;
 	if (ChatRoomHideIconState >= 2) return;
 	if ((C.ArousalSettings != null) && (C.ArousalSettings.OrgasmTimer != null) && (C.ArousalSettings.OrgasmTimer > 0)) {
 		DrawImageResize("Icons/Status/Orgasm" + (Math.floor(CommonTime() / 1000) % 3).toString() + ".png", X + 225 * Zoom, Y + 920 * Zoom, 50 * Zoom, 30 * Zoom);
@@ -872,7 +873,7 @@ function ChatRoomDrawCharacter(DoClick) {
 
 			// Draw the character, it's status bubble and it's overlay
 			DrawCharacter(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
-			DrawStatus(ChatRoomCharacter[C], CharX, CharY, Zoom);
+			DrawStatus(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
 			if (ChatRoomCharacterDrawlist[C].MemberNumber != null) ChatRoomDrawCharacterOverlay(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom, C);
 			
 		}
@@ -1557,7 +1558,7 @@ function ChatRoomStatusUpdateLocalCharacter(C, Status) {
  */
 function ChatRoomStatusUpdate(Status) {
 	if (Status == Player.Status) return;
-	// Update player's status locally immediately so we don't send multiple status updates while waiting for the client-server roundtrip.
+	if ((Player.OnlineSettings != null) && (Player.OnlineSettings.SendStatus != null) && (Player.OnlineSettings.SendStatus == false) && (Status != null)) return;
 	ChatRoomStatusUpdateLocalCharacter(Player, Status);
 	ServerSend("ChatRoomChat", { Content: ((Status == null) ? "null" : Status), Type: "Status" });
 }
