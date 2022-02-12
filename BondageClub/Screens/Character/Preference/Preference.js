@@ -461,7 +461,6 @@ function PreferenceInitPlayer() {
 	if (typeof C.OnlineSettings.SearchShowsFullRooms !== "boolean") C.OnlineSettings.SearchShowsFullRooms = true;
 	if (typeof C.OnlineSettings.SearchFriendsFirst !== "boolean") C.OnlineSettings.SearchFriendsFirst = false;
 	if (typeof C.OnlineSettings.EnableAfkTimer !== "boolean") C.OnlineSettings.EnableAfkTimer = true;
-	if (typeof C.OnlineSettings.EnableWardrobeIcon !== "boolean") C.OnlineSettings.EnableWardrobeIcon = false;
 	if (typeof C.OnlineSettings.ShowStatus !== "boolean") C.OnlineSettings.ShowStatus = true;
 	if (typeof C.OnlineSettings.SendStatus !== "boolean") C.OnlineSettings.SendStatus = true;
 
@@ -471,6 +470,7 @@ function PreferenceInitPlayer() {
 	delete C.ChatSettings.SearchFriendsFirst;
 	delete C.ChatSettings.DisableAnimations;
 	delete C.ChatSettings.SearchShowsFullRooms;
+	delete C.OnlineSettings.EnableWardrobeIcon;
 
 	// Onilne shared settings
 	// @ts-ignore: Individual properties validated separately
@@ -1232,9 +1232,8 @@ function PreferenceSubscreenOnlineRun() {
 	DrawCheckbox(500, 415, 64, 64, TextGet("SearchFriendsFirst"), Player.OnlineSettings.SearchFriendsFirst);
 	DrawCheckbox(500, 495, 64, 64, TextGet("DisableAnimations"), Player.OnlineSettings.DisableAnimations);
 	DrawCheckbox(500, 575, 64, 64, TextGet("EnableAfkTimer"), Player.OnlineSettings.EnableAfkTimer);
-	DrawCheckbox(500, 655, 64, 64, TextGet("EnableWardrobeIcon"), Player.OnlineSettings.EnableWardrobeIcon);
-	DrawCheckbox(500, 735, 64, 64, TextGet("AllowFullWardrobeAccess"), Player.OnlineSharedSettings.AllowFullWardrobeAccess);
-	DrawCheckbox(500, 815, 64, 64, TextGet("BlockBodyCosplay"), Player.OnlineSharedSettings.BlockBodyCosplay);
+	DrawCheckbox(500, 655, 64, 64, TextGet("AllowFullWardrobeAccess"), Player.OnlineSharedSettings.AllowFullWardrobeAccess);
+	DrawCheckbox(500, 735, 64, 64, TextGet("BlockBodyCosplay"), Player.OnlineSharedSettings.BlockBodyCosplay);
 	DrawCheckbox(1300, 172, 64, 64, TextGet("ShowStatus"), Player.OnlineSettings.ShowStatus);
 	DrawCheckbox(1300, 255, 64, 64, TextGet("SendStatus"), Player.OnlineSettings.SendStatus);
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
