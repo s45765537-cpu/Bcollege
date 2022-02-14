@@ -726,6 +726,7 @@ ItemArmsLeatherCuffsSetNone,,,SourceCharacter detaches the chain from Destinatio
 ItemArmsLeatherCuffsSetWrist,,,SourceCharacter attaches the leather cuffs wrist chain behind DestinationCharacter back.,,
 ItemArmsLeatherCuffsSetElbow,,,SourceCharacter attaches the leather cuffs elbow chain behind DestinationCharacter back.,,
 ItemArmsLeatherCuffsSetBoth,,,SourceCharacter attaches the leather cuffs wrist and elbow chains behind DestinationCharacter back.,,
+ItemArmsLeatherCuffsSetHogtie,,,"SourceCharacter attaches the leather cuffs to DestinationCharacter wrists, elbows and ankles to hogtie her.",,
 ItemArmsSteelCuffsSetNone,,,SourceCharacter detaches DestinationCharacter steel cuffs.,,
 ItemArmsSteelCuffsSetWrist,,,SourceCharacter attaches DestinationCharacter steel cuffs behind her back.,,
 FuturisticCuffsRestrainNone,,,SourceCharacter detaches the chain from DestinationCharacter futuristic cuffs.,,
