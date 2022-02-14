@@ -7,11 +7,6 @@ var StablePonyPass = false;
 var StablePonyFail = false;
 var StablePlayerAppearance = null;
 var StablePlayerDressOff = false;
-var StablePlayerIsPony = false;
-var StablePlayerIsExamPony = false;
-var StablePlayerIsTrainer = false;
-var StablePlayerIsExamTrainer = false;
-var StablePlayerIsNewby = false;
 var StablePlayerTrainingActiv = false;
 var StablePlayerTrainingLessons = 0;
 var StablePlayerTrainingBehavior = 0;
@@ -25,15 +20,43 @@ var StableExamPoint = 0;
 //General Room function
 ////////////////////////////////////////////////////////////////////////////////////////////
 // functions for Dialogs
+function StablePlayerIsPony() {
+	return (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerIsDressOff();
+}
+
+function StablePlayerIsExamPony() {
+	return LogQuery("JoinedStable", "PonyExam");
+}
+
+function StablePlayerIsTrainer() {
+	return (LogQuery("JoinedStable", "Trainer") && (ReputationGet("Dominant") > 30));
+}
+
+function StablePlayerIsExamTrainer() {
+	return LogQuery("JoinedStable", "TrainerExam");
+}
+
+function StablePlayerCanTrainPony() {
+	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && !StablePlayerIsDressOff();
+}
+
+function StablePlayerIsReadyToTrain() {
+	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && StablePlayerIsDressOff();
+}
+
+function StablePlayerIsNewby() {
+	return (!LogQuery("JoinedStable", "Pony") && !LogQuery("JoinedStable", "Trainer"));
+}
+
 function StablePlayerIsDressOff() {return StablePlayerDressOff;}
 function StablePlayerIsCollared() {return StableCharacterAppearanceGroupAvailable(Player, "ItemNeck");}
 function StablePlayerOtherPony()  {return StableTrainer.Stage == "StableTrainingOtherPoniesBack" || StableTrainer.Stage == "StableTrainingEnd";}
 function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTrainingIsolationBack";}
 function StableTrainingExercisesAvailable() {return (StableTrainerTrainingExercises > 0);}
-function StablePlayerAllowedPonyExamen() {return (!StablePlayerIsExamPony && StablePlayerIsPony && (SkillGetLevel(Player, "Dressage") >= 6));}
-function StablePlayerDisallowedPonyExamen() {return (!StablePlayerIsExamPony && StablePlayerIsPony && (SkillGetLevel(Player, "Dressage") < 6));}
-function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer && StablePlayerIsTrainer && (SkillGetLevel(Player, "Dressage") >= 6) && StableCanPayTheFee("TrainerExam"));}
-function StablePlayerDisallowedTrainerExamen() {return (!StablePlayerIsExamTrainer && StablePlayerIsTrainer && (SkillGetLevel(Player, "Dressage") < 6));}
+function StablePlayerAllowedPonyExamen() {return (!StablePlayerIsExamPony() && StablePlayerIsPony() && (SkillGetLevel(Player, "Dressage") >= 6));}
+function StablePlayerDisallowedPonyExamen() {return (!StablePlayerIsExamPony() && StablePlayerIsPony() && (SkillGetLevel(Player, "Dressage") < 6));}
+function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") >= 6) && StableCanPayTheFee("TrainerExam"));}
+function StablePlayerDisallowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") < 6));}
 
 //BadGirlClub
 function StableCanHideDice() {return (LogQuery("Joined", "BadGirl") && LogQuery("Stolen", "BadGirl") && !LogQuery("Hide", "BadGirl"));}
@@ -41,14 +64,8 @@ function StableCanHideDice() {return (LogQuery("Joined", "BadGirl") && LogQuery(
 
 // Loads the stable characters with many restrains
 function StableLoad() {
-	StablePlayerIsPony = (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerDressOff;
-	StablePlayerIsExamPony = LogQuery("JoinedStable", "PonyExam");
-	StablePlayerIsTrainer = (LogQuery("JoinedStable", "Trainer") && (ReputationGet("Dominant") > 30)) && !StablePlayerDressOff;
-	StablePlayerIsExamTrainer = LogQuery("JoinedStable", "TrainerExam");
-	StablePlayerIsNewby = (!LogQuery("JoinedStable", "Pony") && !LogQuery("JoinedStable", "Trainer"));
-
 	// Give items to the player in case they completed the exam before they were added
-	if (StablePlayerIsExamTrainer || StablePlayerIsExamPony) {
+	if (StablePlayerIsExamTrainer() || StablePlayerIsExamPony()) {
 		var ItemsToEarn = [];
 		ItemsToEarn.push({Name: "PonyBoots", Group: "Shoes"});
 		ItemsToEarn.push({Name: "HarnessPonyBits", Group: "ItemMouth"});
@@ -59,7 +76,7 @@ function StableLoad() {
 	if (StableTrainer == null) {
 		StableTrainer = CharacterLoadNPC("NPC_Stable_Trainer");
 		StableWearTrainerEquipment(StableTrainer);
-		if (StablePlayerIsExamTrainer) {
+		if (StablePlayerIsExamTrainer()) {
 			StableTrainer.AllowItem = true;
 		} else {
 			StableTrainer.AllowItem = false;
@@ -68,7 +85,7 @@ function StableLoad() {
 		CharacterNaked(StablePony);
 		InventoryWear(StablePony, "LeatherCollar", "ItemNeck");
 		StableWearPonyEquipment(StablePony);
-		if (StablePlayerIsExamTrainer) {
+		if (StablePlayerIsExamTrainer()) {
 			StablePony.AllowItem = false;
 		} else {
 			StablePony.AllowItem = false;
@@ -92,16 +109,11 @@ function StableRun() {
 		DrawCharacter(Player, 250, 0, 1);
 		DrawCharacter(StableTrainer, 750, 0, 1);
 		DrawCharacter(StablePony, 1250, 0, 1);
-		if (Player.CanWalk() && (!StablePlayerTrainingActiv || StablePlayerIsExamPony)) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+		if (Player.CanWalk() && (!StablePlayerTrainingActiv || StablePlayerIsExamPony())) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 		if (StableCanHideDice()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/DiceHide.png", TextGet("HideDice"));
 		//DrawButton(1885, 265, 90, 90, "", "White", "Screens/Room/Stable/Horse.png");
 	}
-	StablePlayerIsPony = (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerDressOff;
-	StablePlayerIsExamPony = LogQuery("JoinedStable", "PonyExam");
-	StablePlayerIsTrainer = (LogQuery("JoinedStable", "Trainer") && (ReputationGet("Dominant") > 30));
-	StablePlayerIsExamTrainer = LogQuery("JoinedStable", "TrainerExam");
-	StablePlayerIsNewby = (!LogQuery("JoinedStable", "Pony") && !LogQuery("JoinedStable", "Trainer"));
 }
 
 // When the user clicks in the stable
@@ -116,7 +128,7 @@ function StableClick() {
 		if ((MouseX >= 250) && (MouseX < 750) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
 		if ((MouseX >= 750) && (MouseX < 1250) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(StableTrainer);
 		if ((MouseX >= 1250) && (MouseX < 1750) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(StablePony);
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk() && (!StablePlayerTrainingActiv || StablePlayerIsExamPony)) CommonSetScreen("Room", "MainHall");
+		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk() && (!StablePlayerTrainingActiv || StablePlayerIsExamPony())) CommonSetScreen("Room", "MainHall");
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 265) && (MouseY < 355) && StableCanHideDice()) StableHideDice();
 	}
@@ -610,7 +622,6 @@ function StableDressBackPlayer() {
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 	StableTrainerTrainingExercises = 0;
-	StablePlayerIsPony = (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerDressOff;
 }
 
 //Start the Equipment Check
@@ -711,7 +722,6 @@ function StablePlayerExamEnd() {
 		}
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerDressOff = false;
-	StablePlayerIsPony = (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerDressOff;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 }
@@ -917,7 +927,6 @@ function StablePlayerTExamEnd() {
 	StablePlayerTrainingActiv = false;
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerDressOff = false;
-	StablePlayerIsTrainer = (LogQuery("JoinedStable", "Trainer") && (ReputationGet("Dominant") > 30));
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 }
