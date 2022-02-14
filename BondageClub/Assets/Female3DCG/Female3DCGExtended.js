@@ -981,6 +981,17 @@ var AssetFemale3DCGExtended = {
 							SelfUnlock: false,
 						},
 					},
+					{
+						Name: "Hogtie",
+						Prerequisite: ["CuffedFeet", "NotSuspended", "NotMounted", "NoFeetSpreader"],
+						Property: {
+							Type: "Hogtie",
+							Difficulty: 8,
+							Effect: ["Block", "Prone", "NotSelfPickable"],
+							SetPose: ["Hogtied"],
+							SelfUnlock: false,
+						},
+					},
 				],
 				Dialog: {
 					Load: "SelectBondagePosition",
