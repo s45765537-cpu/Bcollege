@@ -43,7 +43,8 @@ RemoveSuspensionHempRope,,,(She catches her breath.) Finally.  What was that sup
 0,,I'm here for a trainer exam.,You? Don't make me laugh.,,StablePlayerDisallowedTrainerExamen()
 0,65,I'm here for a trainer exam.,Do you think you're ready? Then pay the $50.,,StablePlayerAllowedTrainerExamen()
 0,210,I want to train a pony.,That'll be a $10 cleaning fee for your riding gear.,,PlayerCanTrainPony()
-0,,(End the training and dress back up.),(She begins to stow the bridle.),DressBackPlayer(),StablePlayerIsDressOff()
+0,,(End the training and dress back up.),(She begins to stow the bridle.),DressBackPlayer(),"StablePlayerIsWearingOutfit(""Pony"")"
+0,,(End the training and dress back up.),(You pick up your clothes and get to the changing room.),DressBackPlayer(),"StablePlayerIsWearingOutfit(""Trainer"")"
 0,,I can't stay to chat.  (Leave her.),,DialogLeave(),
 11,12,"Here's the money, let's start.",(She puts it in her pocket.) Undress.,PayTheFee("PonyExam"),
 11,0,Thank you for the information.,"No problem, always happy.",,

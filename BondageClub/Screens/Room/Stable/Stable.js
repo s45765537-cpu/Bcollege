@@ -5,8 +5,10 @@ var StableTrainer = null;
 var StablePony = null;
 var StablePonyPass = false;
 var StablePonyFail = false;
+/** @type Item[] */
 var StablePlayerAppearance = null;
-var StablePlayerDressOff = false;
+/** @type {"Pony" | "Trainer" | null} */
+var StablePlayerOutfitWorn = null;
 var StablePlayerTrainingActiv = false;
 var StablePlayerTrainingLessons = 0;
 var StablePlayerTrainingBehavior = 0;
@@ -21,7 +23,7 @@ var StableExamPoint = 0;
 ////////////////////////////////////////////////////////////////////////////////////////////
 // functions for Dialogs
 function StablePlayerIsPony() {
-	return (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerIsDressOff();
+	return (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerIsWearingOutfit("Pony");
 }
 
 function StablePlayerIsExamPony() {
@@ -37,18 +39,24 @@ function StablePlayerIsExamTrainer() {
 }
 
 function StablePlayerCanTrainPony() {
-	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && !StablePlayerIsDressOff();
+	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && !StablePlayerIsWearingOutfit("Trainer");
 }
 
 function StablePlayerIsReadyToTrain() {
-	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && StablePlayerIsDressOff();
+	return (StablePlayerIsTrainer() || StablePlayerIsExamTrainer()) && StablePlayerIsWearingOutfit("Trainer");
 }
 
 function StablePlayerIsNewby() {
 	return (!LogQuery("JoinedStable", "Pony") && !LogQuery("JoinedStable", "Trainer"));
 }
+/**
+ * Check what outfit the player is currently wearing.
+ * @param {"Pony" | "Trainer" | null} Outfit
+ */
+function StablePlayerIsWearingOutfit(Outfit) {
+	return Outfit == StablePlayerOutfitWorn;
+}
 
-function StablePlayerIsDressOff() {return StablePlayerDressOff;}
 function StablePlayerIsCollared() {return StableCharacterAppearanceGroupAvailable(Player, "ItemNeck");}
 function StablePlayerOtherPony()  {return StableTrainer.Stage == "StableTrainingOtherPoniesBack" || StableTrainer.Stage == "StableTrainingEnd";}
 function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTrainingIsolationBack";}
@@ -582,8 +590,8 @@ function StablePlayerToStable() {
 
 //Start the Pony introduction
 function StableDressPonyStart() {
-	StablePlayerAppearance = Player.Appearance.slice();
-	StablePlayerDressOff = true;
+	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
+	StablePlayerOutfitWorn = "Pony";
 	CharacterNaked(Player);
 }
 
@@ -618,7 +626,7 @@ function StableDressBackPlayer() {
 			Player.Appearance.splice(E, 1);
 		}
 	CharacterDress(Player, StablePlayerAppearance);
-	StablePlayerDressOff = false;
+	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 	StableTrainerTrainingExercises = 0;
@@ -657,11 +665,11 @@ function StableWearPonyEquipment(C) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 function StablePlayerStartExam() {
 	StablePayTheFee("PonyExam");
-	if (!StablePlayerDressOff) StablePlayerAppearance = Player.Appearance.slice();
+	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
 	if (!StablePlayerIsCollared()) InventoryWear(Player, "LeatherCollar", "ItemNeck");
 	StableWearPonyEquipment(Player);
 	StableExamPoint = 0;
-	StablePlayerDressOff = true;
+	StablePlayerOutfitWorn = "Pony";
 	StablePlayerTrainingActiv = true;
 	StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableExamHurdlesIntro");
 	StableTrainer.Stage = "StableExamHurdle";
@@ -721,7 +729,7 @@ function StablePlayerExamEnd() {
 			Player.Appearance.splice(E, 1);
 		}
 	CharacterDress(Player, StablePlayerAppearance);
-	StablePlayerDressOff = false;
+	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 }
@@ -749,10 +757,10 @@ function StableCanBecomeTrainer() {
 function StableBecomeTrainer() {
 	StablePayTheFee("BecomeTrainer");
 	LogAdd("JoinedStable", "Trainer");
-	StablePlayerAppearance = Player.Appearance.slice();
+	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
 	StableWearTrainerEquipment(Player);
 	StableTrainerTrainingExercises = 3 + SkillGetLevel(Player, "Dressage");
-	StablePlayerDressOff = true;
+	StablePlayerOutfitWorn = "Trainer";
 }
 
 //Dress as Trainer
@@ -766,11 +774,11 @@ function StableWearTrainerEquipment(C) {
 
 //Player Start as a Trainer a rotine
 function StableTrainerStart() {
-	if (!StablePlayerDressOff)StablePlayerAppearance = Player.Appearance.slice();
+	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
 	StablePayTheFee("TrainPony");
 	StableWearTrainerEquipment(Player);
 	StableTrainerTrainingExercises = 3 + SkillGetLevel(Player, "Dressage");
-	StablePlayerDressOff = true;
+	StablePlayerOutfitWorn = "Trainer";
 	StablePony.AllowItem = true;
 }
 
@@ -862,9 +870,9 @@ function StablePonyStraightens(C) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 function StablePlayerStartTExam() {
 	StablePayTheFee("TrainerExam");
-	if (!StablePlayerDressOff)StablePlayerAppearance = Player.Appearance.slice();
+	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
 	StableWearTrainerEquipment(Player);
-	StablePlayerDressOff = true;
+	StablePlayerOutfitWorn = "Trainer";
 	StablePony.AllowItem = true;
 	StableExamPoint = 0;
 	StablePlayerTrainingActiv = true;
@@ -926,7 +934,7 @@ function StablePlayerTExamPass() {
 function StablePlayerTExamEnd() {
 	StablePlayerTrainingActiv = false;
 	CharacterDress(Player, StablePlayerAppearance);
-	StablePlayerDressOff = false;
+	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
 }
