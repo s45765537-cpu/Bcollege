@@ -32,7 +32,7 @@ function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTraining
 function StableTrainingExercisesAvailable() {return (StableTrainerTrainingExercises > 0);}
 function StablePlayerAllowedPonyExamen() {return (!StablePlayerIsExamPony && StablePlayerIsPony && (SkillGetLevel(Player, "Dressage") >= 6));}
 function StablePlayerDisallowedPonyExamen() {return (!StablePlayerIsExamPony && StablePlayerIsPony && (SkillGetLevel(Player, "Dressage") < 6));}
-function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer && StablePlayerIsTrainer && (SkillGetLevel(Player, "Dressage") >= 6) && (Player.Money > 99));}
+function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer && StablePlayerIsTrainer && (SkillGetLevel(Player, "Dressage") >= 6) && StableCanPayTheFee("TrainerExam"));}
 function StablePlayerDisallowedTrainerExamen() {return (!StablePlayerIsExamTrainer && StablePlayerIsTrainer && (SkillGetLevel(Player, "Dressage") < 6));}
 
 //BadGirlClub
@@ -146,8 +146,32 @@ function StableTrialTrainerTrainingEnd() {
 	}
 }
 
-function StablePayTheFee() {
-	CharacterChangeMoney(Player, -50);
+function StableFeeValue(Fee) {
+	switch (Fee) {
+		case "PonyExam":
+			return 50;
+		case "TrainPony":
+			return 10;
+		case "TrainerExam":
+			return 50;
+		case "BecomeTrainer":
+			return 500;
+		case "WhiskeyRounds":
+			return 50;
+	}
+	return 0;
+}
+
+function StableCanPayTheFee(Fee) {
+	let value = StableFeeValue(Fee);
+	// When you succeed the Trainer exam, you pay the rounds to the other trainers
+	if (Fee === "TrainerExam")
+		value += StableFeeValue("WhiskeyRounds");
+	return Player.Money >= value;
+}
+
+function StablePayTheFee(Fee) {
+	CharacterChangeMoney(Player, -StableFeeValue(Fee));
 }
 
 //Check if the Player can become a Pony
@@ -159,7 +183,7 @@ function StableCanBecomePony() {
 		StableTrainer.Stage = "StableBecomePonyEquipment";
 	} else if (!StableCharacterAppearanceGroupAvailable(Player, "ItemNeck")) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyCollarIntro");
-	} else if (Player.Money < 50) {
+	} else if (!StableCanPayTheFee("PonyExam")) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyMoneyIntro");
 	} else {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyTrueIntro");
@@ -621,7 +645,7 @@ function StableWearPonyEquipment(C) {
 //Special Room function - Player Pony Exam
 ////////////////////////////////////////////////////////////////////////////////////////////
 function StablePlayerStartExam() {
-	CharacterChangeMoney(Player, -50);
+	StablePayTheFee("PonyExam");
 	if (!StablePlayerDressOff) StablePlayerAppearance = Player.Appearance.slice();
 	if (!StablePlayerIsCollared()) InventoryWear(Player, "LeatherCollar", "ItemNeck");
 	StableWearPonyEquipment(Player);
@@ -703,7 +727,7 @@ function StableCanBecomeTrainer() {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomeTrainerDomIntro");
 	} else if (!(StableCheckInventory(Player, "LeatherCrop", "ItemPelvis") && StableCheckInventory(Player, "LeatherWhip", "ItemPelvis") && StableCheckInventory(Player, "LeatherCrop", "ItemBreast") && StableCheckInventory(Player, "LeatherWhip", "ItemBreast") && StableCheckInventory(Player, "LeatherBelt", "ItemLegs") && StableCheckInventory(Player, "LeatherBelt", "ItemFeet"))) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomeTrainerEquipmentIntro");
-	} else if (Player.Money < 500) {
+	} else if (!StableCanPayTheFee("BecomeTrainer")) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomeTrainerMoneyIntro");
 	} else {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomeTrainerTrueIntro");
@@ -713,7 +737,7 @@ function StableCanBecomeTrainer() {
 
 //Player become a Trainer
 function StableBecomeTrainer() {
-	CharacterChangeMoney(Player, -500);
+	StablePayTheFee("BecomeTrainer");
 	LogAdd("JoinedStable", "Trainer");
 	StablePlayerAppearance = Player.Appearance.slice();
 	StableWearTrainerEquipment(Player);
@@ -733,7 +757,7 @@ function StableWearTrainerEquipment(C) {
 //Player Start as a Trainer a rotine
 function StableTrainerStart() {
 	if (!StablePlayerDressOff)StablePlayerAppearance = Player.Appearance.slice();
-	CharacterChangeMoney(Player, -10);
+	StablePayTheFee("TrainPony");
 	StableWearTrainerEquipment(Player);
 	StableTrainerTrainingExercises = 3 + SkillGetLevel(Player, "Dressage");
 	StablePlayerDressOff = true;
@@ -827,7 +851,7 @@ function StablePonyStraightens(C) {
 //Special Room function - Player Trainer Exam
 ////////////////////////////////////////////////////////////////////////////////////////////
 function StablePlayerStartTExam() {
-	CharacterChangeMoney(Player, -50);
+	StablePayTheFee("TrainerExam");
 	if (!StablePlayerDressOff)StablePlayerAppearance = Player.Appearance.slice();
 	StableWearTrainerEquipment(Player);
 	StablePlayerDressOff = true;
@@ -885,7 +909,7 @@ function StablePlayerTExamHurdlesEnd() {
 function StablePlayerTExamPass() {
 	LogAdd("JoinedStable", "TrainerExam");
 	LoginStableItems();
-	CharacterChangeMoney(Player, -50);
+	StablePayTheFee("WhiskeyRounds");
 	StablePlayerTExamEnd();
 }
 
