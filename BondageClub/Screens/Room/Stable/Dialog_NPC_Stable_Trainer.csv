@@ -91,10 +91,12 @@ RemoveSuspensionHempRope,,,(She catches her breath.) Finally.  What was that sup
 48,49,(Listen.),"It's really challenging. Therefore, it may be repeated. A fee is due each time.",,
 49,41,(Listen.),"After the exam, you can use the pony bit gag anywhere in the club.",,
 51,,(Stand still and wait.),What a cute pony.,PlayerWearEquipment(0),
-60,0,I can not afford that.,Then there is no exam.,,
-60,,"Here is the money, can we start?","Get ready, we're getting serious now.",PlayerStartExam(),
-65,0,"On second thought, I'm not ready yet.",Get in touch if you change your mind.,,
-65,,"Here's the money, go ahead.","Get ready, we're getting serious now.",PlayerStartTExam(),
+60,,"Here is the money, can we start?","Get ready, we're getting serious now.",PlayerStartExam(),StableCanPayTheFee("PonyExam")
+60,0,"Sorry, I changed my mind.",Come back to me if you'd like to give it a try.,,StableCanPayTheFee("PonyExam")
+60,0,I can not afford that.,Then there is no exam.,,!StableCanPayTheFee("PonyExam")
+65,,"Here's the money, go ahead.","Get ready, we're getting serious now.",PlayerStartTExam(),StableCanPayTheFee("TrainerExam")
+65,0,"On second thought, I'm not ready yet.",Get in touch if you change your mind.,,StableCanPayTheFee("TrainerExam")
+65,0,"It's a bit too expensive for me.","Fine. But don't make lose my time.",,!StableCanPayTheFee("TrainerExam")
 70,,How do I get over the hurdles?,"The success depends on your skill, so exercise more often.",,
 70,,I can't get all the hurdles / carrots in time.,"The running speed depends on your skill, so exercise more often.",,
 70,,"The counter says I hit a trainer, but that's not true.","When you miss a pony, it counts as a trainer hit.",,

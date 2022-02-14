@@ -55,7 +55,7 @@ function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTraining
 function StableTrainingExercisesAvailable() {return (StableTrainerTrainingExercises > 0);}
 function StablePlayerAllowedPonyExamen() {return (!StablePlayerIsExamPony() && StablePlayerIsPony() && (SkillGetLevel(Player, "Dressage") >= 6));}
 function StablePlayerDisallowedPonyExamen() {return (!StablePlayerIsExamPony() && StablePlayerIsPony() && (SkillGetLevel(Player, "Dressage") < 6));}
-function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") >= 6) && StableCanPayTheFee("TrainerExam"));}
+function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") >= 6));}
 function StablePlayerDisallowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") < 6));}
 
 //BadGirlClub
