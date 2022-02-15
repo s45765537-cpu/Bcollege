@@ -44,7 +44,36 @@ function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreat
  */
 function MaidQuartersPlayerInMaidUniform() {
 	const clothes = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
-	return ((clothes == "MaidOutfit1" || clothes == "MaidOutfit2") && (CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1"));
+	var NakedOrWithApron =
+		(CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "None"
+		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron1"
+		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron2");
+	return (
+		// Wearing maid headdress
+		(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")
+		&& (
+		// Either regular maid outfits
+		(clothes == "MaidOutfit1" || clothes == "MaidOutfit2")
+		// Or mostly naked
+		|| (NakedOrWithApron
+		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Garters", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Shoes", "Name") == "None")
+		// Or in maid underwears
+		|| (NakedOrWithApron
+		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1"
+		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2")
+		)
+	);
 }
 /**
  * Checks, if the player is fully dressed for the 'serve drinks' job
