@@ -4832,7 +4832,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ 
-				Name: "MedicalPatch", Value: 20, Difficulty: 1, Priority: 25, Time: 3, RemoveTime: 5, DefaultColor: ["#ECC7A1","#ECC7A1","#B459A6","#B459A6",], Hide: ["Mask"], Extended: true,
+				Name: "MedicalPatch", Value: 20, Difficulty: 1, Priority: 25, Time: 3, RemoveTime: 5, DefaultColor: ["#ECC7A1","#ECC7A1","#B459A6","#B459A6",], Extended: true,
 				Layer: [
 					{ Name: "Right" , HasType: false, AllowModuleTypes: ["e0","e1"] },
 					{ Name: "Left" , HasType: false, AllowModuleTypes: ["e0","e2"] },
@@ -4847,12 +4847,19 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "DroneMask", Value: 80, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#00F4FD", "#E700CA", "#7F7F7F"], Time: 10, RemoveTime: 15, AllowLock: true, DrawLocks: false, Effect: [], Extended: true, 
+				Name: "DroneMask", Value: 80, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Time: 10, RemoveTime: 15, AllowLock: true, DrawLocks: false, Effect: [], Extended: true, DynamicAfterDraw: true,
 				Block:["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false }, 
 					{ Name: "Shine", HasType: false },
+
+					// All Non-part reliantPatterns
+					{ Name: "Barcode", HasType: false, AllowModuleTypes: ["p1"]},
+					{ Name: "Scarab", HasType: false, AllowModuleTypes: ["p2"], CopyLayerColor: "Barcode"},
+					{ Name: "Hexagon", HasType: false, AllowModuleTypes: ["p3"], CopyLayerColor: "Barcode"},
+					{ Name: "TwoLines", HasType: false, AllowModuleTypes: ["p4"], CopyLayerColor: "Barcode"},
+					{ Name: "Text", HasImage: false, CopyLayerColor: "Barcode"},
 
 					// All Eyes
 					{ Name: "EyeRegularShine", HasType: false, AllowModuleTypes: ["e1"], CopyLayerColor: "Shine" },
@@ -4888,9 +4895,6 @@ var AssetFemale3DCG = [
 					{ Name: "MouthHoles", HasType: false, AllowModuleTypes: ["m4"], CopyLayerColor: "MouthOnahole" },
 					
 					{ Name: "MouthSculpted", HasType: false, AllowModuleTypes: ["m5"], CopyLayerColor: "MouthOnahole" },
-					
-					// All Non-part reliantPatterns
-					{ Name: "Barcode", HasType: false, AllowModuleTypes: ["p1"]},
 				],
 			},
 		
