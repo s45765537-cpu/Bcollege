@@ -5375,7 +5375,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "Pattern", Key: "p",
-						Options:[{},{},] // Just Blank and Barcode so far
+						Options:[{},{},{},{},{},{HasSubscreen: true},] // Blank, Barcode, Scarab, Hex, Lines, Text
 					},
 					{
 						Name: "Glow", Key: "g",
