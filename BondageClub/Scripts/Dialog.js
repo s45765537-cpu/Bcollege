@@ -365,7 +365,7 @@ function DialogGGTSCanUnlock() {
 }
 
 /**
- * Checks if the player can get the futuristic helmet, only available from GGTS
+ * Checks if the player can get the GGTS helmet, only available from GGTS
  * @returns {boolean} - TRUE if GGTS can unlock
  */
 function DialogGGTSCanGetHelmet() {
