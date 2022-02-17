@@ -338,9 +338,11 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
  * @param {boolean} fullAlpha - Whether or not the full alpha should be rendered
  * @param {RectTuple[]} alphaMasks - A list of alpha masks to apply to the asset
  * @param {number} opacity - The opacity at which to draw the image
+ * @param {boolean} [rotate=false] - If the image should be rotated by 180 degrees
  * @returns {void} - Nothing
  */
 function GLDrawImageBlink(url, gl, dstX, dstY, color, fullAlpha, alphaMasks, opacity, rotate) { GLDrawImage(url, gl, dstX, dstY, 500, color, fullAlpha, alphaMasks, opacity, rotate); }
+
 /**
  * Draws an image from a given url to a WebGLRenderingContext
  * @param {string} url - URL of the image to render
