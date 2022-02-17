@@ -43,7 +43,7 @@ class CachedImage {
 		this.errorCount = 0;
 		/** @type {function(CachedImage):void} */
 		this.loadCallback = loadCallback;
-		/** @type HTMLImageElement */
+		/** @type HTMLImageElement | HTMLCanvasElement */
 		this.element = null;
 		/** @type object */
 		this.userData = {};
@@ -83,7 +83,7 @@ class CachedImage {
 
 	/**
 	 * Manually set the cached image to the given element.
-	 * @param {HTMLImageElement} element - The element to set
+	 * @param {HTMLImageElement | HTMLCanvasElement} element - The element to set
 	 */
 	setElement(element) {
 		this.element = element;
@@ -98,9 +98,16 @@ class CachedImage {
 	 * Refresh the given image.
 	 */
 	_refresh() {
-		this.state = CachedImageState.LOADING;
 		this.userData = {};
-		this.element.src = this.url;
+		if (this.element instanceof HTMLImageElement) {
+			this.state = CachedImageState.LOADING;
+			this.element.src = this.url;
+		} else {
+			// Canvas element, mark it as failed so the purge yanks it,
+			// or it gets manually set by the drawing system.
+			this.state = CachedImageState.FAILED;
+			this.cache._imageStateDidChange(this);
+		}
 	}
 
 	/**
@@ -159,18 +166,11 @@ class ImageCacheClass {
 	 */
 	set(url, image) {
 		let img = new CachedImage(this, url);
-		let realImage = null;
-		if (image instanceof HTMLCanvasElement) {
-			realImage = new Image();
-			realImage.src = image.toDataURL();
-		} else {
-			realImage = image;
-		}
 		// Subtract one because we're replacing something.
 		if (this.cache.get(url))
 			this.loadedCount -= 1;
 		this.cache.set(url, img);
-		img.setElement(realImage);
+		img.setElement(image);
 		return img;
 	}
 
