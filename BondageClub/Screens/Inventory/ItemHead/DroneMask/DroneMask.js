@@ -1,4 +1,4 @@
-//Heavily Referenced from Bib.js
+//Heavily References Bib.js
 "use strict";
 var InventoryItemHeadDroneMaskAllowedChars = /^[a-zA-Z0-9 ~!]*$/;
 // Load item extension properties
@@ -20,8 +20,8 @@ function InventoryItemHeadDroneMaskPattern5Draw() {
 function InventoryItemHeadDroneMaskPattern5Click() {
     if (
         MouseIn(1330, 731, 340, 64) &&
-        (DialogFocusItem.Property.Text !== ElementValue("TagText")) &&
-        (ElementValue("TagText")).match(InventoryItemHeadDroneMaskAllowedChars)
+        // (DialogFocusItem.Property.Text !== ElementValue("TagText")) &&
+        ElementValue("TagText").match(InventoryItemHeadDroneMaskAllowedChars)
     ) {
         DialogFocusItem.Property.Text = ElementValue("TagText");
         InventoryItemHeadDroneMaskChange();
