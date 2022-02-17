@@ -4883,9 +4883,10 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "DroneMask", Value: 80, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Time: 10, RemoveTime: 15, AllowLock: true, DrawLocks: false, Effect: [], Extended: true, DynamicAfterDraw: true,
+				Name: "DroneMask", Fetish: ["Latex"], Value: 90, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Time: 10, AllowLock: true, DrawLocks: true, Extended: true, DynamicAfterDraw: true,
 				Block:["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
+				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"]
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false }, 
 					{ Name: "Shine", HasType: false },
