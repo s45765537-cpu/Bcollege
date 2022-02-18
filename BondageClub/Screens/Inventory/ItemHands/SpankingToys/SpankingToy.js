@@ -185,6 +185,19 @@ const InventoryItemHandsSpankingToysOptions = [
 		Name: "Scissors",
 		Property: { Type: "Scissors" },
 		ExpressionTrigger: []
+	},{
+
+		Name: "PlasticWrap",
+		Property: { Type: "PlasticWrap" },
+		ExpressionTrigger: []
+	},{
+		Name: "GlassEmpty",
+		Property: { Type: "GlassEmpty" },
+		ExpressionTrigger: []
+	},{
+		Name: "GlassFilled",
+		Property: { Type: "GlassFilled" },
+		ExpressionTrigger: [{ Group: "Blush", Name: "Low", Timer: 5}, { Group: "Mouth", Name: "LipBite", Timer: 5}, { Group: "Eyes", Name: "Lewd", Timer: 5}, { Group: "Eyebrows", Name: "Raised", Timer: 5}]
 	},
 ];
 
@@ -290,14 +303,14 @@ function InventorySpankingToysGetActivity(C) {
  * @returns {boolean}
  */
 function InventorySpankingToysActivityAllowed(C) {
-	var Type = InventorySpankingToysGetType(Player);
-	var A = AssetGet(C.AssetFamily, "ItemHands", "SpankingToys" + Type);
+	const Type = InventorySpankingToysGetType(Player);
+	const A = AssetGet(C.AssetFamily, "ItemHands", "SpankingToys" + Type);
 	if (InventoryBlockedOrLimited(C, { Asset: A }))
 		return false;
 	if (C.FocusGroup != null) {
-		var Activity = InventorySpankingToysGetActivity(Player);
+		const Activity = InventorySpankingToysGetActivity(Player);
 		if (Activity == null) return true;
-		if (C.FocusGroup.Activity != null) return C.FocusGroup.Activity.indexOf(Activity) >= 0;
+		else return C.FocusGroup.Activity.includes(Activity);
 	}
 	return false;
 }

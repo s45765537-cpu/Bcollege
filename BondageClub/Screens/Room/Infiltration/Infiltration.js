@@ -13,7 +13,7 @@ var InfiltrationKidnapper = null;
  * Returns TRUE if the mission can complete as a success
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanSuccess() { return ((InfiltrationTarget != null) && (InfiltrationTarget.Found != null) && (InfiltrationTarget.Found == true)); }
+function InfiltrationCanSuccess() { return ((InfiltrationTarget != null) && (InfiltrationTarget.Found === true)); }
 
 /**
  * Returns TRUE if the mission can complete as a failure
@@ -37,7 +37,7 @@ function InfiltrationCanGetPandoraLock() { return (DialogSkillGreater("Infiltrat
  * Returns TRUE if the player can ask to get Pandora's locks as a reward for the mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanAskForPandoraLock() { return ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type = "PandoraPadlockKeys")); }
+function InfiltrationCanAskForPandoraLock() { return ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type == "PandoraPadlockKeys")); }
 
 /**
  * Loads the infiltration screen by generating the supervisor.
@@ -113,7 +113,7 @@ function InfiltrationSelectChallenge(Difficulty) {
  * @returns {void} - Nothing
  */
 function InfiltrationPrepareMission() {
-	InfiltrationMission	= CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
+	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
 	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
 		let C = {};
 		CharacterRandomName(C);
@@ -234,9 +234,9 @@ function InfiltrationStartKidnapping() {
  * @returns {void} - Nothing
  */
 function InfiltrationEndKidnapping(Reward) {
-	if ((Reward != null) && (Reward == "Money")) CharacterChangeMoney(Player, 18);
-	if ((Reward != null) && (Reward == "Skill")) SkillProgress("Infiltration", 400);
-	if ((Reward != null) && (Reward == "Private")) {
+	if (Reward === "Money") CharacterChangeMoney(Player, 18);
+	if (Reward === "Skill") SkillProgress("Infiltration", 400);
+	if (Reward === "Private") {
 		CurrentScreen = "Private";
 		PrivateAddCharacter(CurrentCharacter);
 		CommonSetScreen("Room", "Private");
@@ -334,7 +334,7 @@ function InfiltrationStealItems() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartPandoraLock() {
-	InfiltrationMission	= "Retrieve";
+	InfiltrationMission = "Retrieve";
 	InfiltrationTarget.Type = "PandoraPadlockKeys";
 	InfiltrationTarget.Name = DialogFind(InfiltrationSupervisor, "Object" + InfiltrationTarget.Type);
 	InfiltrationTarget.Found = false;
@@ -367,7 +367,7 @@ function InfiltrationRansomFriend() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartNPCRescue() {
-	InfiltrationMission	= "Rescue";
+	InfiltrationMission = "Rescue";
 	InfiltrationTarget.Type = "NPC";
 	InfiltrationTarget.Name = PrivateRansomCharacter.Name;
 	InfiltrationTarget.PrivateRoom = true;

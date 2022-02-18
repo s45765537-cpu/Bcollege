@@ -40,10 +40,14 @@ interface HTMLImageElement {
 	errorcount?: number;
 }
 
+interface HTMLElement {
+	setAttribute(qualifiedName: string, value: string | number): void;
+}
+
 //#endregion
 
 //#region Enums
-type ExtendedArchetype = "modular" | "typed";
+type ExtendedArchetype = "modular" | "typed" | "vibrating";
 
 type TypedItemChatSetting = "toOnly" | "fromTo" | "silent";
 type ModularItemChatSetting = "perModule" | "perOption";
@@ -61,6 +65,14 @@ type NotificationAlertType = 0 | 1 | 3 | 2;
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 type CharacterType = "online" | "npc" | "simple";
+
+type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
+
+type VibratorModeSet = "Standard" | "Advanced";
+
+type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
+
+type VibratorRemoteAvailability = "Available" | "NoRemote" | "NoLoversRemote" | "RemotesBlocked" | "CannotInteract" | "NoAccess" | "InvalidItem";
 
 //#endregion
 
@@ -114,6 +126,95 @@ declare function MouseMove(event: MouseEvent): void;
  * @param {MouseEvent} event
  */
 declare function LoseFocus(event: MouseEvent): void;
+
+//#endregion
+
+//#region Server Messages
+
+interface IChatRoomGameResponse {
+	Data: {
+		KinkyDungeon: any;
+		OnlineBounty: any;
+		/* LARP */
+		GameProgress?: "Start"|"Stop"|"Next"|"Skip"|"Action";
+		Action?: undefined;
+		Target?: number;
+		Item?: string;
+
+		/* MagicBattle */
+		Spell?: string;
+		Time?: number; /* ms */
+	}
+	Sender: number;
+	RNG: number
+}
+
+//#endregion
+
+//#region Chat
+
+interface ChatRoom {
+	Name: string;
+	Description: string;
+	Admin: number[];
+	Ban: number[];
+	Limit: number;
+	Game: string;
+	Background: string;
+	Private: boolean;
+	Locked: boolean;
+	BlockCategory: string[];
+	Character?: any[]; /* From server, not really a Character object */
+}
+
+type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail" | "Gag";
+
+type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
+ "LocalMessage" | "ServerMessage" | "Status";
+
+type MessageContentType = string;
+
+interface ChatMessageDictionaryEntry {
+	[k: string]: any;
+	Tag?: string;
+	Text?: string;
+	MemberNumber?: number;
+}
+
+type ChatMessageDictionary = ChatMessageDictionaryEntry[];
+
+interface IChatRoomMessageBasic {
+	Content: MessageContentType;
+	Sender: number;
+	// SourceMemberNumber: number;
+}
+
+interface IChatRoomMessage extends IChatRoomMessageBasic {
+	Type: MessageActionType;
+	Dictionary?: ChatMessageDictionary;
+	Timeout?: number;
+}
+
+interface IChatRoomSyncBasic {
+	SourceMemberNumber: number
+}
+
+interface IChatRoomSyncMessage extends IChatRoomSyncBasic, ChatRoom {}
+
+//#endregion
+
+//#region FriendList
+
+interface IFriendListBeepLogMessage {
+	MemberNumber?: number; /* undefined for NPCs */
+	MemberName: string;
+	ChatRoomName?: string;
+	Private: boolean;
+	ChatRoomSpace?: string;
+	Sent: boolean;
+	Time: Date;
+	Message?: string;
+}
 
 //#endregion
 
@@ -173,7 +274,7 @@ interface AssetLayer {
 	CopyLayerColor: string | null;
 	/** specifies the name of a color group that this layer belongs to. Any layers within the same color group can be colored together via the item color UI */
 	ColorGroup?: string;
-	/** whether or not this layer can be coloured in the colouring UI */
+	/** whether or not this layer can be colored in the coloring UI */
 	HideColoring: boolean;
 	/** A list of allowed extended item types that this layer permits - the layer will only be drawn if
 	the item type matches one of these types. If null, the layer is considered to permit all extended types. */
@@ -290,6 +391,7 @@ interface Asset {
 	AlwaysExtend: boolean;
 	AlwaysInteract: boolean;
 	AllowLock: boolean;
+	LayerVisibility: boolean;
 	IsLock: boolean;
 	PickDifficulty: number;
 	OwnerOnly: boolean;
@@ -365,15 +467,6 @@ interface Pose {
 	Hide?: string[];
 	MovePosition?: { Group: string; X: number; Y: number; }[];
 }
-
-interface ChatMessageDictionaryEntry {
-	[k: string]: any;
-	Tag?: string;
-	Text?: string;
-	MemberNumber?: number;
-}
-
-type ChatMessageDictionary = ChatMessageDictionaryEntry[];
 
 interface Activity {
 	Name: string;
@@ -514,7 +607,22 @@ interface Character {
 	CanWalk: () => boolean;
 	CanKneel: () => boolean;
 	CanInteract: () => boolean;
-	CanChange: () => boolean;
+
+	/**
+	 * Check whether a character can change its own outfit.
+	 *
+	 * @warning Only usable on Player
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeOwnClothes: () => boolean;
+
+	/**
+	 * Check whether a character can change another one's outfit.
+	 *
+	 * @param {Character} C - The character to check against.
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeClothesOn: (C: Character) => boolean;
 	IsProne: () => boolean;
 	IsRestrained: () => boolean;
 	IsBlind: () => boolean;
@@ -607,7 +715,11 @@ interface Character {
 		GameVersion: string;
 		ItemsAffectExpressions: boolean;
 	};
-	Game?: any;
+	Game?: {
+		LARP?: GameLARPParameters,
+		MagicBattle?: GameMagicBattleParameters,
+		GGTS?: GameGGTSParameters,
+	};
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -620,26 +732,46 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
+	Status?: string | null;
+	StatusTimer?: number;
+}
+
+/** MovieStudio */
+interface Character {
+	Friendship?: string;
+	InterviewCleanCount?: number;
+}
+
+/** Slave market */
+interface Character {
+	ExpectedTraining?: number;
+	CurrentTraining?: number;
+	TrainingIntensity?: number;
+	TrainingCount?: number;
+	TrainingCountLow?: number;
+	TrainingCountHigh?: number;
+	TrainingCountPerfect?: number;
 }
 
 interface PlayerCharacter extends Character {
+	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
 	ChatSettings?: {
-		ColorTheme: string;
-		EnterLeave: string;
-		MemberNumbers: string;
-		FontSize: string;
-		DisplayTimestamps: boolean;
-		ColorNames: boolean;
 		ColorActions: boolean;
+		ColorActivities: boolean;
 		ColorEmotes: boolean;
+		ColorNames: boolean;
+		ColorTheme: string;
+		DisplayTimestamps: boolean;
+		EnterLeave: string;
+		FontSize: string;
+		MemberNumbers: string;
+		MuStylePoses: boolean;
 		ShowActivities: boolean;
 		ShowAutomaticMessages: boolean;
-		WhiteSpace: string;
-		ColorActivities: boolean;
-		ShrinkNonDialogue: boolean;
-		MuStylePoses: boolean;
-		ShowChatHelp: boolean;
 		ShowBeepChat: boolean;
+		ShowChatHelp: boolean;
+		ShrinkNonDialogue: boolean;
+		WhiteSpace: string;
 	};
 	VisualSettings?: {
 		ForceFullHeight: boolean;
@@ -696,6 +828,7 @@ interface PlayerCharacter extends Character {
 	LastChatRoomDesc?: string;
 	LastChatRoomAdmin?: any[];
 	LastChatRoomBan?: any[];
+	LastChatRoomBlockCategory?: string[];
 	LastChatRoomTimer?: any;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
@@ -708,8 +841,9 @@ interface PlayerCharacter extends Character {
 		DisableAnimations: boolean;
 		SearchShowsFullRooms: boolean;
 		SearchFriendsFirst: boolean;
+		SendStatus?: boolean;
+		ShowStatus?: boolean;
 		EnableAfkTimer: boolean;
-		EnableWardrobeIcon: boolean;
 	};
 	GraphicsSettings?: {
 		Font: string;
@@ -719,6 +853,7 @@ interface PlayerCharacter extends Character {
 		AnimationQuality: number;
 		StimulationFlash: boolean;
 		SmoothZoom: boolean;
+		CenterChatrooms: boolean;
 	}
 	NotificationSettings?: {
 		/** @deprecated */
@@ -729,6 +864,7 @@ interface PlayerCharacter extends Character {
 		ChatMessage: NotificationSetting & {
 			/** @deprecated */
 			IncludeActions?: any;
+			Mention?: boolean;
 			Normal?: boolean;
 			Whisper?: boolean;
 			Activity?: boolean;
@@ -756,8 +892,9 @@ interface PlayerCharacter extends Character {
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
 	KinkyDungeonKeybindings?: any;
-	KinkyDungeonExploredLore: any[];
+	KinkyDungeonExploredLore?: any[];
 	Infiltration?: any;
+	ChatSearchFilterTerms?: string;
 }
 
 interface NPCTrait {
@@ -787,11 +924,16 @@ interface ExtendedItemAssetConfig<Archetype extends ExtendedArchetype, Config> {
 }
 
 /**
+ * Valid extended item configuration types
+ */
+type AssetArchetypeConfig = TypedItemAssetConfig | ModularItemAssetConfig | VibratingItemAssetConfig;
+
+/**
  * An object containing extended item definitions for a group.
  * Maps asset names within the group to their extended item configuration
  * @see {@link ExtendedItemAssetConfig}
  */
-type ExtendedItemGroupConfig = Record<string, TypedItemAssetConfig | ModularItemAssetConfig>;
+type ExtendedItemGroupConfig = Record<string, AssetArchetypeConfig>;
 
 /**
  * An object containing extended item configurations keyed by group name.
@@ -1007,6 +1149,14 @@ interface ModularItemOption {
 	OverrideHeight?: Record<string, { Height: number, Priority: number}>;
 	/** Whether or not this option can be selected by the wearer */
 	AllowSelfSelect?: boolean;
+	/** Whether that option moves the character up */
+	HeightModifier?: number;
+	/** Whether that option applies effects */
+	Effect?: string[];
+	/** Whether the option forces a given pose */
+	SetPose?: string;
+	/** If set, the option changes the asset's default priority */
+	OverridePriority?: number
 }
 
 /** An object containing modular item configuration for an asset. Contains all of the necessary information for the
@@ -1297,6 +1447,42 @@ interface AppearanceValidationWrapper {
 
 //#endregion
 
+//#region Vibrating Items
+
+/** An object containing the extended item definition for a vibrating asset. */
+type VibratingItemAssetConfig = ExtendedItemAssetConfig<"vibrating", VibratingItemConfig>;
+
+/** An object defining all of the required configuration for registering a vibrator item */
+interface VibratingItemConfig {
+	/** The list of vibrator mode sets that are available on this item */
+	Options?: VibratorModeSet[];
+}
+
+interface VibratingItemData {
+	/** A key uniquely identifying the asset */
+	key: string;
+	/** The asset reference */
+	asset: Asset;
+	/** The list of extended item options available for the item */
+	options: VibratorModeSet[];
+	/** The common prefix used for all extended item screen functions associated with the asset */
+	functionPrefix: string;
+	/** The common prefix used for all dynamic asset hook functions for the asset */
+	dynamicAssetsFunctionPrefix: string;
+}
+
+/**
+ * A wrapper object defining a vibrator state and intensity
+ */
+interface StateAndIntensity {
+	/** The vibrator state */
+	State: VibratorModeState;
+	/** The vibrator intensity */
+	Intensity: VibratorIntensity;
+}
+
+//#endregion
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 interface ICommand {
@@ -1308,3 +1494,152 @@ interface ICommand {
 	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
 	Clear?: false;
 }
+
+
+
+// Kinky Dungeon Typedefs
+interface KinkyDungeonSave {
+	level: number;
+    checkpoint: number;
+    rep: Record<string, number>;
+    costs: Record<string, number>;
+    orbs: number[];
+    chests: number[];
+    dress: string;
+    gold: number;
+    points: number;
+    levels: {
+        Elements: number;
+        Conjure: number;
+        Illusion: number;
+    };
+    id: number;
+    choices: number[];
+	choices2: boolean[];
+	buffs: Record<string, any>;
+	lostitems: any[];
+	caches: number[];
+	spells: string[];
+	inventory: {
+		restraint: any;
+		looserestraint: any;
+		weapon: any;
+		consumable: any;
+	}[];
+	stats: {
+		picks: number;
+		keys: number;
+		bkeys: number;
+		knife: number;
+		eknife: number;
+		mana: number;
+		stamina: number;
+		arousal: number;
+		wep: any;
+		npp: number;
+	};
+}
+
+interface KinkyDungeonShopItem {
+	cost: any;
+	rarity: any;
+	costMod?: any;
+	shoptype: string;
+	name: any;
+}
+
+interface KinkyDungeonWeapon {
+	name: string;
+	dmg: number;
+	chance: number;
+	type: string;
+	rarity: number;
+	staminacost?: number;
+	magic?: boolean;
+	cutBonus?: number;
+	unarmed: boolean;
+	shop: boolean;
+	noequip?: boolean;
+	sfx: string;
+	events?: KinkyDungeonEvent[];
+}
+
+interface KinkyDungeonEvent {
+	type: string;
+	trigger: string;
+	power?: number;
+	damage?: string;
+	dist?: number;
+	buffType?: string;
+	time?: number;
+	chance?: number;
+}
+
+type PokerPlayerType = "None" | "Set" | "Character";
+type PokerPlayerFamily = "None" | "Player";
+
+interface PokerPlayer {
+	Type: PokerPlayerType;
+	Family: PokerPlayerFamily;
+	Name: string;
+	Chip: number;
+
+	/* Runtime values */
+	Difficulty?: number;
+	Hand?: any[];
+	HandValue?: number;
+	Cloth?: Item;
+	ClothLower?: Item;
+	ClothAccessory?: Item;
+	Panties?: Item;
+	Bra?: Item;
+	Character?: Character;
+	Data?: {
+		cache: Record<any, any>;
+	};
+	Image?: void;
+	TextColor?: string;
+	TextSingle?: string;
+	TextMultiple?: string;
+	WebLink?: string;
+	Alternate?: void;
+}
+
+// #region Online Games
+
+/**
+ * Online game status values.
+ *
+ * @property "" - The game is in the setup phase.
+ * @property "Running" - The game is currently running.
+ *
+ * @fix FIXME: "" should really be renamed Setup
+ */
+type OnlineGameStatus = "" | "Running";
+
+interface GameLARPParameters {
+	Status: OnlineGameStatus;
+	Class: string;
+	Team: string;
+	TimerDelay: number;
+	Level: {
+		Name: string;
+		Level: number;
+		Progress: number;
+	}[];
+}
+
+interface GameMagicBattleParameters {
+	Status: OnlineGameStatus;
+	House: string;
+	TeamType: "FreeForAll" | "House";
+}
+
+interface GameGGTSParameters {
+	Level: number;
+	Time: number;
+	Strike: number;
+	Rule: string[];
+}
+
+// #endregion

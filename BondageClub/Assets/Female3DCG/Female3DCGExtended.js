@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * Female3	CGExtended.js
+ * Female3DCGExtended.js
  * ---------------------
  * This file contains definitions and configuration for extended items. Items which are marked as Extended in
  * `Female3DCG.js` and which have an extended item definition here will have their load/draw/click functions
@@ -14,13 +14,14 @@
 /**
  * An enum encapsulating the available extended item archetypes
  * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {{MODULAR: "modular", TYPED: "typed"}}
+ * @type {{MODULAR: "modular", TYPED: "typed", VIBRATING: "vibrating"}}
  * @see {@link ModularItemConfig}
  * @see {@link TypedItemConfig}
  */
 const ExtendedArchetype = {
 	MODULAR: "modular",
 	TYPED: "typed",
+	VIBRATING: "vibrating",
 };
 
 /**
@@ -219,6 +220,26 @@ var AssetFemale3DCGExtended = {
 				]
 			}
 		}, // Bib
+		Scarf: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "ShowMouth",
+						Property: { Type: null, },
+					},
+					{
+						Name: "Bundled",
+						Property: { Type: "Bundled", },
+					},
+					{
+						Name: "HideMouth",
+						Property: { Type: "HideMouth", },
+					},
+
+				], DrawImages: false,
+			},
+		}, // Scarf
 	}, // ClothAccessory
 	ItemBreast: {
 		Ribbons: {
@@ -1200,13 +1221,13 @@ var AssetFemale3DCGExtended = {
 			Config: {
 				Options: [
 					{ Name: "Wrist", Property: { Type: "Wrist", SetPose: ["BackBoxTie"] } },
-					{ Name: "Boxtie", Property: { Type: null, SetPose: ["BackBoxTie"] } },
-					{ Name: "WristElbow", Property: { Type: "WristElbow", SetPose: ["BackElbowTouch"] } },
-					{ Name: "WristElbowHarness", Property: { Type: "WristElbowHarness", SetPose: ["BackElbowTouch"] } },
+					{ Name: "Boxtie", Property: { Type: null, SetPose: ["BackBoxTie"], Difficulty: 4 } },
+					{ Name: "WristElbow", Property: { Type: "WristElbow", SetPose: ["BackElbowTouch"], Difficulty: 3 } },
+					{ Name: "WristElbowHarness", Property: { Type: "WristElbowHarness", SetPose: ["BackElbowTouch"], Difficulty: 5 } },
 					{
 						Name: "Hogtie",
 						Property: {
-							Type: "Hogtie", SetPose: ["Hogtied"], Effect: ["Block", "Freeze", "Prone"]
+							Type: "Hogtie", SetPose: ["Hogtied"], Effect: ["Block", "Freeze", "Prone"], Difficulty: 6
 						},
 						Random: false,
 					}
@@ -1442,6 +1463,28 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticStraitjacket
+		Tentacles: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "BehindBack",
+						Property: {
+							Type: null,
+							SetPose: ["BackElbowTouch"],
+						},
+					},
+					{
+						Name: "OverTheHead",
+						Property: {
+							Type: "OverTheHead",
+							SetPose: ["OverTheHead"],
+							HideItem: ["ClothAdmiralTop", "ClothFurCoat", "ClothStudentOutfit2", "ClothSweater1", "ClothTeacherOutfit1"],
+						},
+					},
+				],
+			},
+		}, // Tentacles
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -1700,13 +1743,13 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // GwenHood
-			OpenFaceHood: {
+		OpenFaceHood: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
 				Options: [
 					{
 						Name: "HideBackHair",
-						Property: { Type: "HideBackHair", Hide: "HairBack" },
+						Property: { Type: "HideBackHair", Hide: ["HairBack"] },
 					},
 					{
 						Name: "ShowBackHair",
@@ -1717,7 +1760,7 @@ var AssetFemale3DCGExtended = {
 					Load: "SelectOpenFaceHoodStyle",
 					TypePrefix: "OpenFaceHoodStyle",
 				},
-					DrawImages: false,
+				DrawImages: false,
 			}
 		}, // OpenFaceHood
 		TechnoHelmet1: {
@@ -2535,7 +2578,31 @@ var AssetFemale3DCGExtended = {
 				],
 				DrawImages: false,
 			},
-		},
+		}, // DoubleEndDildo
+		VibratingDildo: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingDildo
+		ClitoralStimulator: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // ClitoralStimulator
+		VibratingEgg: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingEgg
+		VibratingLatexPanties: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // VibratingLatexPanties
+		WandBelt: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WandBelt
+		FullLatexSuitWand: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FullLatexSuitWand
+		HempRopeBelt: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // HempRopeBelt
+		WiredEgg: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // WiredEgg
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -3431,15 +3498,15 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Attached",
 						Property: {
-							Type: null,
-							Effect: ["BlockMouth", "GagLight"]
+							Type: null
 						},
 					},
 					{
 						Name: "Detached",
 						Property: {
 							Type: "Detached",
-							Effect: ["OpenMouth"]
+							Effect: ["OpenMouth"],
+							OverrideAssetEffect: true
 						},
 					},
 				],
@@ -3460,7 +3527,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["OpenMouth", "GagLight"],
 						},
 					},
 					{
@@ -3468,6 +3534,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Closed",
 							Effect: ["BlockMouth", "GagMedium"],
+							OverrideAssetEffect: true
 						},
 					},
 				],
@@ -3544,6 +3611,32 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticMuzzle
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Open",
+						Property: {
+							Type: null,
+							Effect: ["GagMedium", "OpenMouth"],
+						},
+					},
+					{
+						Name: "Plug",
+						Property: {
+							Type: "Plug",
+							Effect: ["BlockMouth", "GagTotal"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectGagType",
+					TypePrefix: "PlugGagMouthType",
+					ChatPrefix: "PlugGagMouthSet",
+				},
+			},
+		}, // OTNPlugGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -3647,7 +3740,7 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "HideBackHair",
-						Property: { Type: "HideBackHair", Hide: "HairBack" },
+						Property: { Type: "HideBackHair", Hide: ["HairBack"] },
 					},
 					{
 						Name: "ShowBackHair",
@@ -3658,9 +3751,42 @@ var AssetFemale3DCGExtended = {
 					Load: "SelectOpenFaceHoodStyle",
 					TypePrefix: "OpenFaceHoodStyle",
 				},
-					DrawImages: false,
+				DrawImages: false,
 			}
-		} // OpenFaceHood
+		}, // OpenFaceHood
+		PetNose: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{ Name: "Nose", Key: "n",
+						Options: [
+							{}, // n0 - Nose
+							{}, // n1 - No Nose
+						]
+					},
+					{ Name: "Cheeks", Key: "c",
+						Options: [
+							{}, // c0 - No Cheeks
+							{}, // c1 - Small Cheeks
+							{}, // c2 - Big Cheeks
+						]
+					},
+					{ Name: "Whiskers", Key: "w",
+						Options: [
+							{}, // w0 - No Whiskers
+							{}, // w1 - Short Whiskers
+							{}, // w2 - Long Whiskers
+						]
+					},
+					{ Name: "Mouth", Key: "m",
+						Options: [
+							{}, // m0 - Show Mouth
+							{ Property: { Hide: ["Mouth"] } }, // m1 - Hide Mouth
+						]
+					},
+				],
+			},
+		}, //PetNose
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -3674,23 +3800,23 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "HalfLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "HalfLegs", Hide: ["ClothLower"], Difficulty: 2 }
+						Property: { Type: "HalfLegs", Hide: ["ClothLower", "Garters"], Difficulty: 2 }
 					}, {
 						Name: "MostLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "MostLegs", Hide: ["ClothLower"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
+						Property: { Type: "MostLegs", Hide: ["ClothLower", "Garters"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "CompleteLegs",
 						Prerequisite: ["NoClothLower"],
-						Property: { Type: "CompleteLegs", Hide: ["ClothLower"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
+						Property: { Type: "CompleteLegs", Hide: ["ClothLower", "Garters"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
 					}, {
 						Name: "PetLegs",
 						Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
-						Property: { Type: "PetLegs", Hide: ["ClothLower"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
+						Property: { Type: "PetLegs", Hide: ["ClothLower", "Garters"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
 						Random: false,
 					}, {
 						Name: "CutOut",
-						Prerequisite: ["NoClothLower"],
+						Prerequisite: ["NoClothLower", "Garters"],
 						Property: { Type: "CutOut", Hide: ["ClothLower"], Difficulty: 6 }
 					}
 				],
@@ -3721,7 +3847,7 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "Frogtie",
 						BondageLevel: 3,
-						Property: { Type: "Frogtie", SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
+						Property: { Type: "Frogtie", SetPose: ["Kneel"], AllowActivePose: ["Kneel", "KneelingSpread"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
 						Prerequisite: ["NotSuspended", "CanKneel"],
 						Random: false,
 					}, {
@@ -3801,6 +3927,12 @@ var AssetFemale3DCGExtended = {
 							Difficulty: 6,
 						},
 					},
+					{
+						Name: "Chained",
+						Property: {
+							Type: "Chained", Effect: ["Slow"],
+						}
+					}
 				],
 				Dialog: {
 					Load: "SelectBondagePosition",
@@ -3831,10 +3963,16 @@ var AssetFemale3DCGExtended = {
 							Type: "Closed",
 							SetPose: ["LegsClosed"],
 							Effect: ["Prone", "KneelFreeze", "Slow"],
-							FreezeActivePose: ["BodyLower"],
+							AllowActivePose: ["Kneel", "LegsClosed"],
 							Difficulty: 6,
 						},
 					},
+					{
+						Name: "Chained",
+						Property: {
+							Type: "Chained", Effect: ["Slow"],
+						}
+					}
 				],
 				Dialog: {
 					Load: "SelectBondagePosition",
@@ -3975,6 +4113,12 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Closed", Effect: ["Prone", "Freeze"], SetPose: ["LegsClosed"], Difficulty: 6, FreezeActivePose: ["BodyLower"],
 						}
+					},
+					{
+						Name: "Chained",
+						Property: {
+							Type: "Chained", Effect: ["Slow"],
+						}
 					}
 				],
 				Dialog: {
@@ -4006,6 +4150,12 @@ var AssetFemale3DCGExtended = {
 						Name: "Closed",
 						Property: {
 							Type: "Closed", Effect: ["Prone", "Freeze"], SetPose: ["LegsClosed"], Difficulty: 6, FreezeActivePose: ["BodyLower"],
+						}
+					},
+					{
+						Name: "Chained",
+						Property: {
+							Type: "Chained", Effect: ["Slow"],
 						}
 					}
 				],
@@ -4080,6 +4230,7 @@ var AssetFemale3DCGExtended = {
 		Zipties: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 				Options: [
 					{
 						Name: "ZipFeetLight",
@@ -4097,9 +4248,32 @@ var AssetFemale3DCGExtended = {
 					ChatPrefix: "ZipFeetSet",
 					NpcPrefix: "ZipFeetSet",
 					TypePrefix: "ZipBondage",
-				}
+				},
 			},
 		}, // Zipties
+		Tentacles: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Closed",
+						Property: {Type: null, SetPose: ["LegsClosed"]},
+					},
+					{
+						Name: "Spread",
+						Prerequisite: ["NoItemLegs", "LegsOpen"],
+						Property: {
+							Type: "Spread",
+							OverridePriority: 25,
+							SetPose: ["Spread"],
+							Effect: ["Freeze", "Prone", "BlockKneel"],
+							Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
+							OverrideHeight: {Height: 0, Priority: 60},
+						},
+					},
+				],
+			},
+		}, // Tentacles
 	}, // ItemFeet
 	ItemMisc: {
 		ServingTray: {
@@ -4182,6 +4356,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Block: ["ItemVulva", "ItemVulvaPiercings"],
+									Effect: ["Chaste"],
 								},
 							},
 						],
@@ -4327,7 +4502,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "ExtraPadding",
-						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"]	, },
+						Property: { Type: "Poofy", HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"] },
 					},
 				],
 			},

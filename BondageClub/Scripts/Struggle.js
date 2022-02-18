@@ -145,19 +145,17 @@ function StruggleClick(Reverse) {
 }
 
 function StruggleProgressStart(C, PrevItem, NextItem) {
+	ChatRoomStatusUpdate("Struggle");
 	StruggleProgressChoosePrevItem = PrevItem;
 	StruggleProgressChooseNextItem = NextItem;
 	StruggleProgressCurrentMinigame = "";
-
 	StruggleProgress = 0;
 	DialogMenuButtonBuild(C);
-
 	if (C != Player || PrevItem == null ||
 		((PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && ((Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Mounted", true)) || StruggleStrengthGetDifficulty(C, PrevItem, NextItem).auto >= 0))) {
 		StruggleProgressCurrentMinigame = "Strength";
 		StruggleStrengthStart(C, StruggleProgressChoosePrevItem, StruggleProgressChooseNextItem);
 	}
-
 }
 
 function StruggleProgressAutoDraw(C, Offset) {
@@ -452,7 +450,7 @@ function StruggleFlexibilityStart(C, PrevItem, NextItem) {
 	// When struggling to remove or swap an item while being blocked from interacting
 	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 4; // Non-blocking items become harder to struggle out when already blocked
-		if (PrevItem.Asset.Category) {
+		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {
 			if (PrevItem.Asset.Fetish.includes("Metal")) S = S - 2; // Metal items are very inflexible
 			if (PrevItem.Asset.Fetish.includes("Latex")) S = S + 1; // Latex items are flexible
 			if (PrevItem.Asset.Fetish.includes("Nylon")) S = S + 2; // Nylon items are very flexible
@@ -675,7 +673,7 @@ function StruggleDexterityStart(C, PrevItem, NextItem) {
 	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 2; // Non-blocking items become slightly harder to struggle out when already blocked
 
-		if (PrevItem.Asset.Category) {
+		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {
 			if (PrevItem.Asset.Fetish.includes("Tape")) S = S - 3; // Tape is pretty hard to unfasten
 		}
 
@@ -1133,7 +1131,7 @@ function StruggleLockPickProgressStart(C, Item) {
 			LockRating = lock.Asset.PickDifficulty; // Some features of the minigame are independent of the relative skill level
 		}
 		//if (Item.Asset && Item.Asset.Difficulty) {
-		//	S -= BondageLevel/2 // Adds the bondage skill of the item but not the base difficulty!
+		//S -= BondageLevel/2 // Adds the bondage skill of the item but not the base difficulty!
 		//}
 
 		if (Player.IsEnclose() || Player.IsMounted()) S = S - 2; // A little harder if there's an enclosing or mounting item

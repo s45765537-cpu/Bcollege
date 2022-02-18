@@ -6,12 +6,13 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Anna", "Aylea", "Ben", "BlueWinter", "Brian", "Bryce", "Chennifer", "Christian", "Clash", 
-	"DarkStar", "Dini", "Edwin", "Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "Hayden", 
-	"JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", 
-	"Raindrop", "Rika", "Robin", "Rutherford", "Ryner", "Sage", "Samuel", "Shadow", "Tam", "TBoneShark", 
-	"TKSonix", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"
+	"Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "Bryce", "Charles", "Christian", "Clash", 
+	"DarkStar", "Desch", "Dini", "Edwin", "Epona", "Escurse", "Greendragon", "Hayden", "JoeyDubDee", 
+	"Jon", "Kimuriel", "Michal", "Michel", "Mike", "Mike", "Mindtie", "Misa", "Mob", 
+	"Nick", "Nightcore", "Pablo", "Riley", "Robin", "Ryner", "Samuel", "Shadow", "SirRobben", 
+	"Tam", "Tommy", "TopHat", "Troubadix", "William", "Xepherio", "Zach", "Znarf"
 ];
+
 /* eslint-enable */
 var LoginThankYouNext = 0;
 var LoginSubmitted = false;
@@ -304,7 +305,10 @@ function LoginAsylumItems() {
  * @returns {void} - Nothing
  */
 function LoginCheatItems() {
-	if (CheatFactor("FreeCollegeOutfit", 0) == 0) InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+	if (CheatFactor("FreeCollegeOutfit", 0) == 0) {
+		InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+		InventoryAdd(Player, "CollegeSkirt", "ClothLower");
+	}
 }
 
 /**
@@ -449,17 +453,12 @@ function LoginResponse(C) {
 			WardrobeFixLength();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems :
-				typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
-			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems :
-				typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
-			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems :
-				typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
+			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
+			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems : typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
+			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems : typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
 			Player.HiddenItems = ((C.HiddenItems == null) || !Array.isArray(C.HiddenItems)) ? [] : C.HiddenItems;
-			// TODO: Migration code; remove after few versions (added R66)
-			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
-				ServerPlayerBlockItemsSync();
-			}
+			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
+			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
 			Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
@@ -476,6 +475,7 @@ function LoginResponse(C) {
 				Player.LastChatRoomAdmin = CommonConvertStringToArray(C.LastChatRoomAdmin);
 			if (typeof C.LastChatRoomBan == "string")
 				Player.LastChatRoomBan = CommonConvertStringToArray(C.LastChatRoomBan);
+			Player.LastChatRoomBlockCategory = C.LastChatRoomBlockCategory;
 
 			// Loads the ownership data
 			Player.Ownership = C.Ownership;
@@ -492,7 +492,6 @@ function LoginResponse(C) {
 			// Gets the online preferences
 			Player.LabelColor = C.LabelColor;
 			Player.ItemPermission = C.ItemPermission;
-			Player.KinkyDungeonKeybindings = C.KinkyDungeonKeybindings;
 			Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 			Player.ArousalSettings = C.ArousalSettings;
 			Player.ChatSettings = C.ChatSettings;
@@ -597,6 +596,7 @@ function LoginResponse(C) {
 			LoginValidateArrays();
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
+			AsylumGGTSSAddItems();
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {
@@ -611,23 +611,31 @@ function LoginResponse(C) {
 				} else {
 
 					// If the player must log back in the asylum
-					if (LogQuery("Committed", "Asylum")) {
-						CharacterRelease(Player);
-						AsylumEntranceWearPatientClothes(Player);
-						if (ReputationGet("Asylum") <= -50) AsylumEntrancePlayerJacket("Normal");
+					if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+						if (AsylumGGTSGetLevel(Player) <= 5)
+							AsylumEntranceWearPatientClothes(Player, true);
+						else
+							AsylumGGTSDroneDress(Player);
 						CommonSetScreen("Room", "AsylumBedroom");
 					} else {
 
-						// If the player must start in her room, in her cage
-						if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
-							InventoryRemove(Player, "ItemFeet");
-							InventoryRemove(Player, "ItemLegs");
-							Player.Cage = true;
-							CharacterSetActivePose(Player, "Kneel", true);
-							CommonSetScreen("Room", "Private");
+						// If the owner is forcing the player to do GGTS
+						if (LogValue("ForceGGTS", "Asylum") > 0) {
+							CommonSetScreen("Room", "AsylumEntrance");
 						} else {
-							CommonSetScreen("Room", "MainHall");
-							MainHallMaidIntroduction();
+
+							// If the player must start in her room, in her cage
+							if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
+								InventoryRemove(Player, "ItemFeet");
+								InventoryRemove(Player, "ItemLegs");
+								Player.Cage = true;
+								CharacterSetActivePose(Player, "Kneel", true);
+								CommonSetScreen("Room", "Private");
+							} else {
+								CommonSetScreen("Room", "MainHall");
+								MainHallMaidIntroduction();
+							}
+
 						}
 
 					}

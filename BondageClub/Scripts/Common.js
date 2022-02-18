@@ -446,7 +446,8 @@ function CommonTime() {
  */
 function CommonIsColor(Value) {
 	if ((Value == null) || (Value.length < 3)) return false;
-	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];	//convert short hand hex color to standard format
+	//convert short hand hex color to standard format
+	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
 	return /^#[0-9A-F]{6}$/i.test(Value);
 }
 
@@ -465,9 +466,10 @@ function CommonColorIsValid(Color) {
 
 /**
  * Get a random item from a list while making sure not to pick the previous one.
- * @param {*} ItemPrevious - Previously selected item from the given list
- * @param {*} ItemList - List for which to pick a random item from
- * @returns {*} - The randomly selected item from the list
+ * @template T
+ * @param {T} ItemPrevious - Previously selected item from the given list
+ * @param {T[]} ItemList - List for which to pick a random item from
+ * @returns {T} - The randomly selected item from the list
  */
 function CommonRandomItemFromList(ItemPrevious, ItemList) {
 	var NewItem = ItemPrevious;
@@ -868,4 +870,14 @@ function CommonPadlockUnlock(C, Item) {
  */
 function CommonNoop() {
 	// Noop function
+}
+
+/**
+ * Redirects the address to HTTPS for all production environments, returns the proper heroku server
+ * @returns {String} - Returns the proper server to use in production or test
+ */
+function CommonGetServer() {  
+	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0)) return "https://bc-server-test.herokuapp.com/";
+	if (location.protocol !== 'https:') location.replace(`https:${location.href.substring(location.protocol.length)}`);
+	return "https://bondage-club-server.herokuapp.com/";
 }

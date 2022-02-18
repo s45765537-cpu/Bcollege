@@ -83,19 +83,30 @@ function ActivityDictionaryText(KeyWord) {
 
 /**
  * Resolve a group name to the correct group for activities
- * @param {string} family - The character on which the check is done
- * @param {string} groupname - The group to check access on
- * @returns {AssetGroup?} The resolved group
+ * @param {string} family - The asset family for the named group
+ * @param {string} groupname - The name of the group to resolve
+ * @returns {AssetGroup | null} - The resolved group
  */
 function ActivityGetGroupOrMirror(family, groupname) {
 	const group = AssetGroupGet(family, groupname);
-	if (group.MirrorActivitiesFrom != null) {
+	if (group && group.MirrorActivitiesFrom != null) {
 		const mirror = AssetGroupGet(family, group.MirrorActivitiesFrom);
 		if (mirror) {
 			return mirror;
 		}
 	}
 	return group;
+}
+
+/**
+ * Gets all groups that mirror or are mirrored by the given group name for activities. The returned array includes the
+ * named group.
+ * @param {string} family - The asset family for the named group
+ * @param {string} groupName - The name of the group to resolve
+ * @returns {AssetGroup[]} - The group and all groups from the same family that mirror or are mirrored by it
+ */
+function ActivityGetAllMirrorGroups(family, groupName) {
+	return AssetActivityMirrorGroups.get(groupName) || [];
 }
 
 /**
@@ -164,7 +175,7 @@ function ActivityCheckPermissions(activity, character, onOther) {
 function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 	switch (prereq) {
 		case "UseMouth":
-			return (!acting.IsMouthBlocked() && acting.CanTalk());
+			return !acting.IsMouthBlocked() && acting.CanTalk();
 		case "UseTongue":
 			return !acting.IsMouthBlocked();
 		case "TargetMouthBlocked":
@@ -172,26 +183,26 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 		case "IsGagged":
 			return !acting.CanTalk();
 		case "SelfOnly":
-			return (acted.ID == 0);
+			return acting.IsPlayer() ? acted.IsPlayer()
+				: acting.IsOnline() ? acting.MemberNumber === acted.MemberNumber
+				: acting.AccountName === acted.AccountName;
 		case "TargetKneeling":
 			return acted.IsKneeling();
 		case "UseHands":
 			return acting.CanInteract();
 		case "UseArms":
-			return (acting.CanInteract()
-				&& (InventoryGet(acting, "ItemArms") == null || !InventoryGroupIsBlocked(acting, "ItemArms")));
+			return acting.CanInteract() || (!InventoryGet(acting, "ItemArms") && !InventoryGroupIsBlocked(acting, "ItemArms"));
 		case "UseFeet":
 			return acting.CanWalk();
 		case "CantUseArms":
-			return !(acting.CanInteract()
-				&& (InventoryGet(acting, "ItemArms") == null || !InventoryGroupIsBlocked(acting, "ItemArms")));
+			return !acting.CanInteract() && (InventoryGet(Player, "ItemArms") || InventoryGroupIsBlocked(Player, "ItemArms"));
 		case "CantUseFeet":
 			return !acting.CanWalk();
 		case "TargetCanUseTongue":
 			return !acted.IsMouthBlocked();
 		case "TargetMouthOpen":
 			if (group.Name === "ItemMouth")
-				return (InventoryGet(acted, "ItemMouth") && acted.IsMouthOpen());
+				return !InventoryGet(acted, "ItemMouth") || acted.IsMouthOpen();
 			break;
 		case "VulvaEmpty":
 			if (group.Name === "ItemVulva")
@@ -202,20 +213,20 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return !acted.IsFixedHead();
 			break;
 		case "ZoneAccessible":
-			return !InventoryGroupIsBlocked(acted, group.Name, true);
+			return ActivityGetAllMirrorGroups(acted.AssetFamily, group.Name).some((g) => !InventoryGroupIsBlocked(acted, g.Name, true));
 		case "WearingPenetrationItem":
 			return CharacterHasItemForActivity(acting, "Penetrate") && !acting.IsEnclose();
 		case "ZoneNaked":
 			if (group.Name === "ItemButt")
-				return (InventoryPrerequisiteMessage(acted, "AccessButt") === "" && !acted.IsPlugged());
+				return InventoryPrerequisiteMessage(acted, "AccessButt") === "" && !acted.IsPlugged();
 			else if (group.Name === "ItemVulva")
-				return ((InventoryPrerequisiteMessage(acted, "AccessVulva") === "") && !acted.IsVulvaChaste());
+				return (InventoryPrerequisiteMessage(acted, "AccessVulva") === "") && !acted.IsVulvaChaste();
 			else if (group.Name === "ItemBreast" || group.Name === "ItemNipples")
-				return ((InventoryPrerequisiteMessage(acted, "AccessBreast") === "") && !acted.IsBreastChaste());
+				return (InventoryPrerequisiteMessage(acted, "AccessBreast") === "") && !acted.IsBreastChaste();
 			else if (group.Name === "ItemBoots")
-				return (InventoryPrerequisiteMessage(acted, "NakedFeet") === "");
+				return InventoryPrerequisiteMessage(acted, "NakedFeet") === "";
 			else if (group.Name === "ItemHands")
-				return (InventoryPrerequisiteMessage(acted, "NakedHands") === "");
+				return InventoryPrerequisiteMessage(acted, "NakedHands") === "";
 			break;
 	}
 	return true;
@@ -272,6 +283,21 @@ function ActivityAllowedForGroup(character, groupname) {
 
 	// Sort allowed activities by their group declaration order
 	return allowed.sort((a, b) => Math.sign(group.Activity.indexOf(a.Name) - group.Activity.indexOf(b.Name)));
+}
+
+/**
+ * Returns TRUE if an activity can be done
+ * @param {Character} C - The character to evaluate
+ * @param {string} Activity - The name of the activity
+ * @param {string} Group - The name of the group 
+ * @return {boolean} - TRUE if the activity can be done
+ */
+function ActivityCanBeDone(C, Activity, Group) {
+	let ActList = ActivityAllowedForGroup(C, Group);
+	for (let A = 0; A < ActList.length; A++)
+		if (ActList[A].Name == Activity)
+			return true;
+	return false;
 }
 
 /**
@@ -378,7 +404,7 @@ function ActivitySetArousalTimer(C, Activity, Zone, Progress) {
 	if ((Progress > 0) && (C.ArousalSettings.Progress + Progress > Max)) Progress = (Max - C.ArousalSettings.Progress >= 0) ? Max - C.ArousalSettings.Progress : 0;
 
 	// If we must apply a progress timer change, we publish it
-	if ((C.ArousalSettings.ProgressTimer == null) || (C.ArousalSettings.ProgressTimer != Progress)) {
+	if (C.ArousalSettings.ProgressTimer !== Progress) {
 		C.ArousalSettings.ProgressTimer = Progress;
 		ActivityChatRoomArousalSync(C);
 	}
@@ -458,15 +484,13 @@ function ActivityOrgasmWillpowerProgress(C) {
 function ActivityOrgasmStart(C) {
 	if ((C.ID == 0) || C.IsNpc()) {
 		if (C.ID == 0 && !ActivityOrgasmRuined) ActivityOrgasmGameResistCount = 0;
+		AsylumGGTSTOrgasm(C);
 		ActivityOrgasmWillpowerProgress(C);
-
 		if (!ActivityOrgasmRuined) {
-
 			C.ArousalSettings.OrgasmTimer = CurrentTime + (Math.random() * 10000) + 5000;
 			C.ArousalSettings.OrgasmStage = 2;
 			C.ArousalSettings.OrgasmCount = (C.ArousalSettings.OrgasmCount == null) ? 1 : C.ArousalSettings.OrgasmCount + 1;
 			ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-
 			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
 				let Dictionary = [];
 				Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
@@ -474,8 +498,7 @@ function ActivityOrgasmStart(C) {
 				ActivityChatRoomArousalSync(C);
 			}
 		} else {
-			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random()*20));
-
+			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random() * 20));
 			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
 				let Dictionary = [];
 				let ChatModifier = C.ArousalSettings.OrgasmStage == 1 ? "Timeout" : "Surrender";
@@ -484,8 +507,6 @@ function ActivityOrgasmStart(C) {
 				ActivityChatRoomArousalSync(C);
 			}
 		}
-
-
 	}
 }
 
@@ -527,6 +548,7 @@ function ActivityOrgasmGameGenerate(Progress) {
 			var Dictionary = [];
 			Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
 			ServerSend("ChatRoomChat", { Content: "OrgasmResist" + (Math.floor(Math.random() * 10)).toString(), Type: "Activity", Dictionary: Dictionary });
+			AsylumGGTSOrgasmResist();
 		}
 		ActivityOrgasmGameResistCount++;
 		ActivityOrgasmStop(Player, 70);
@@ -700,6 +722,16 @@ function ActivityRunSelf(Source, Target, Activity) {
 }
 
 /**
+ * Build the chat tag needed for lookup in ActivityDictionary.csv
+ * @param {Character} character
+ * @param {AssetGroup} group
+ * @param {Activity} activity
+ */
+function ActivityBuildChatTag(character, group, activity, is_label = false) {
+	return `${is_label ? "Label-" : ""}${(character.IsPlayer() ? "ChatSelf" : "ChatOther")}-${group.Name}-${activity.Name}`;
+}
+
+/**
  * Launches a sexual activity for a character and sends the chatroom message if applicable.
  * @param {Character} C - Character on which the activity was triggered
  * @param {object} Activity - Activity performed
@@ -732,7 +764,7 @@ function ActivityRun(C, Activity) {
 		Dictionary.push({ Tag: "TargetCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
 		Dictionary.push({ Tag: "ActivityGroup", Text: group.Name });
 		Dictionary.push({ Tag: "ActivityName", Text: Activity.Name });
-		ServerSend("ChatRoomChat", { Content: ((C.ID == 0) ? "ChatSelf-" : "ChatOther-") + group.Name + "-" + Activity.Name, Type: "Activity", Dictionary: Dictionary });
+		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(C, group, Activity), Type: "Activity", Dictionary: Dictionary });
 
 		if (C.ID == 0 && Activity.Name.indexOf("Struggle") >= 0)
 
@@ -757,7 +789,7 @@ function ActivityArousalItem(Source, Target, Asset) {
 	if (AssetActivity != null) {
 		var Activity = AssetGetActivity(Target.AssetFamily, AssetActivity);
 		if ((Source.ID == 0) && (Target.ID != 0)) ActivityRunSelf(Source, Target, Activity);
-		if (((Target.ArousalSettings != null) && ((Target.ArousalSettings.Active == "Hybrid") || (Target.ArousalSettings.Active == "Automatic"))) && ((Target.ID == 0) || (Target.IsNpc())))
+		if (PreferenceArousalAtLeast(Target, "Hybrid") && ((Target.ID == 0) || (Target.IsNpc())))
 			ActivityEffect(Source, Target, AssetActivity, Asset.Group.Name);
 	}
 }

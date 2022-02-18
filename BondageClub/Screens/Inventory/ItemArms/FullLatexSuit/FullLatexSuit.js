@@ -35,7 +35,7 @@ function InventoryItemArmsFullLatexSuitDraw() {
 		InventoryGet(C, "ItemVulvaPiercings").Asset.Effect.indexOf("Chaste") == -1)
 		if (InventoryGet(C, "ItemVulva") == null) {
 			DrawText(DialogFindPlayer("FullLatexSuitTypeWand"), 1488, 725, "white", "gray");
-			DrawPreviewBox(1375, 750, `${inventoryPath}/Wand.png`, "", {	Hover: true });
+			DrawPreviewBox(1375, 750, `${inventoryPath}/Wand.png`, "", { Hover: true });
 		} else
 			DrawText(DialogFindPlayer("CheckVulvaForWand"), 1500, 690, "white", "gray");
 
@@ -45,7 +45,7 @@ function InventoryItemArmsFullLatexSuitDraw() {
 function InventoryItemArmsFullLatexSuitClick() {
 	if (MouseIn(1885, 25, 90, 90)) DialogFocusItem = null;
 	else if (MouseIn(1150, 440, 225, 225) && (DialogFocusItem.Property.Type != null)) InventoryItemArmsFullLatexSuitSetType(null);
-	else if (MouseIn(1600, 440, 225, 225) && ((DialogFocusItem.Property.Type == null) || (DialogFocusItem.Property.Type != "UnZip"))) InventoryItemArmsFullLatexSuitSetType("UnZip");
+	else if (MouseIn(1600, 440, 225, 225) && (DialogFocusItem.Property.Type !== "UnZip")) InventoryItemArmsFullLatexSuitSetType("UnZip");
 	else if (MouseIn(1375, 750, 225, 225) && InventoryGet(CharacterGetCurrent(), "ItemVulva") == null) InventoryItemArmsFullLatexSuitSetType("Wand");
 }
 

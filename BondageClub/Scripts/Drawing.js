@@ -218,12 +218,11 @@ function DrawArousalThermometer(X, Y, Zoom, Progress, Automatic, Orgasm) {
  * @returns {void} - Nothing
  */
 function DrawArousalMeter(C, X, Y, Zoom) {
-	if (ActivityAllowed() && C.ArousalSettings && (C.ArousalSettings.Active == "Manual" || C.ArousalSettings.Active == "Hybrid" || C.ArousalSettings.Active == "Automatic"))
+	if (ActivityAllowed() && PreferenceArousalAtLeast(C, "Manual"))
 		if (C.ID == 0 || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
 			if (C.ID == 0 || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
 				ActivitySetArousal(C, C.ArousalSettings.Progress);
-
-				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && (C.ArousalSettings.Active == "Automatic" || C.ArousalSettings.Active == "Hybrid")) {
+				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && PreferenceArousalAtLeast(C, "Hybrid")) {
 					let Progress = 0;
 					if (!(C.ArousalSettings.VibratorLevel == null || typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel))) {
 						Progress = C.ArousalSettings.VibratorLevel;
@@ -249,7 +248,7 @@ function DrawArousalMeter(C, X, Y, Zoom) {
 					Y + (C.ArousalZoom ? 200 : 400) * Zoom,
 					C.ArousalZoom ? Zoom : Zoom * 0.2,
 					C.ArousalSettings.Progress,
-					C.ArousalSettings.Active == "Automatic",
+					PreferenceArousalAtLeast(C, "Automatic"),
 					C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 
 				if (C.ArousalZoom && (typeof C.ArousalSettings.OrgasmCount === "number") && (C.ArousalSettings.OrgasmCount >= 0) && (C.ArousalSettings.OrgasmCount <= 9999)) {
@@ -383,7 +382,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			if (!Player.IsBlind() || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 				DrawCanvas.font = CommonGetFont(30);
 				const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
-				DrawText(C.Name, X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
+				DrawText(AsylumGGTSCharacterName(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
 				DrawCanvas.font = CommonGetFont(36);
 			}
 
@@ -483,7 +482,7 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {number[][]} [AlphaMasks] - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate) {
@@ -589,7 +588,7 @@ function DrawImage(Source, X, Y, Invert) {
  * @param {boolean} FullAlpha - Whether or not it is drawn in full alpha mode
  * @param {number[][]} AlphaMasks - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageCanvasColorize(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate) {
@@ -1331,7 +1330,7 @@ function DrawProcessHoverElements() {
  * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
  * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
  * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
+ * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
  * @param {string[]} [Options.Icons] - A list of small icons to display in the top-left corner
@@ -1357,7 +1356,7 @@ function DrawAssetPreview(X, Y, A, Options) {
  * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
  * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
  * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
+ * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
  * @param {string[]} [Options.Icons] - A list of images to draw in the top-left of the preview box

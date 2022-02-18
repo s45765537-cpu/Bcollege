@@ -44,7 +44,7 @@ function CollegeEntranceRun() {
 	DrawCharacter(CollegeEntranceStudent, 1000, 0, 1);
 	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 131, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	DrawButton(1885, 237, 90, 90, "", Player.CanChange() ? "White" : "Pink", "Icons/Dress.png", TextGet("Dress"));
+	DrawButton(1885, 237, 90, 90, "", Player.CanChangeOwnClothes() ? "White" : "Pink", "Icons/Dress.png", TextGet("Dress"));
 	DrawButton(1885, 343, 90, 90, "", CollegeEntranceCanGoTennis() ? "White" : "Pink", "Icons/Tennis.png", TextGet("Tennis"));
 	DrawButton(1885, 449, 90, 90, "", CollegeEntranceCanGoInside() ? "White" : "Pink", "Icons/Coffee.png", TextGet("Cafeteria"));
 	DrawButton(1885, 555, 90, 90, "", CollegeEntranceCanGoInside() ? "White" : "Pink", "Icons/Theater.png", TextGet("Theater"));
@@ -62,13 +62,14 @@ function CollegeEntranceClick() {
 	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(CollegeEntranceStudent);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 131, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 237, 90, 90) && Player.CanChange()) CharacterAppearanceLoadCharacter(Player);
+	if (MouseIn(1885, 237, 90, 90) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	if (MouseIn(1885, 343, 90, 90) && CollegeEntranceCanGoTennis()) CommonSetScreen("Room", "CollegeTennis");
 	if (MouseIn(1885, 449, 90, 90) && CollegeEntranceCanGoInside()) CommonSetScreen("Room", "CollegeCafeteria");
 	if (MouseIn(1885, 555, 90, 90) && CollegeEntranceCanGoInside()) CommonSetScreen("Room", "CollegeTheater");
 	if (MouseIn(1885, 661, 90, 90) && CollegeEntranceCanGoInside()) CommonSetScreen("Room", "CollegeChess");
 	if (MouseIn(1885, 767, 90, 90) && CollegeEntranceCanGoDetention()) CommonSetScreen("Room", "CollegeDetention");
 	if (MouseIn(1885, 873, 90, 90) && CollegeEntranceCanGoTeacher()) CommonSetScreen("Room", "CollegeTeacher");
+	if (MouseIn(0, 0, 150, 1000)) CommonSetScreen("Room", "Platform");
 }
 
 /**
@@ -79,8 +80,8 @@ function CollegeEntranceClick() {
 function CollegeEntranceWearStudentClothes(C) {
 	if ((typeof C === "string") && (C == "Player")) C = Player;
 	InventoryWear(C, "CollegeOutfit1", "Cloth", "Default");
+	InventoryWear(C, "CollegeSkirt", "ClothLower", "Default");
 	InventoryWear(C, "Socks4", "Socks", "#AAAAAA");
-	InventoryRemove(C, "ClothLower");
 	InventoryRemove(C, "Wings");
 	InventoryRemove(C, "TailStraps");
 	InventoryRemove(C, "Gloves");
@@ -108,10 +109,15 @@ function CollegeEntranceIsWearingTennisClothes() {
  * @returns {boolean} - Returns TRUE if the player is wearing college clothes
  */
 function CollegeEntranceIsWearingCollegeClothes() {
-	let CurrentClothes = InventoryGet(Player, "Cloth");
+	const CurrentClothes = InventoryGet(Player, "Cloth");
 	if (CurrentClothes == null) return false;
 	else if (CurrentClothes.Asset.Name != "CollegeOutfit1") return false;
 	else if (!ItemColorIsDefault(CurrentClothes)) return false;
+
+	const CurrentClothesLower = InventoryGet(Player, "ClothLower");
+	if (CurrentClothesLower == null) return false;
+	else if (CurrentClothesLower.Asset.Name != "CollegeSkirt") return false;
+	else if (!ItemColorIsDefault(CurrentClothesLower)) return false;
 
 	if (InventoryGet(Player, "Socks") == null) return false;
 	if (InventoryGet(Player, "Shoes") == null) return false;

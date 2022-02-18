@@ -172,7 +172,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NotKneelingSpread": return C.Pose.includes("KneelingSpread") ? "MustStandUpFirst" : "";
 		case "NotChaste": return C.Effect.includes("Chaste") ? "RemoveChastityFirst" : "";
 		case "NotChained": return C.Effect.includes("IsChained") ? "RemoveChainForItem" : "";
-		case "NoFeetSpreader": return InventoryIsItemInList(C, "ItemFeet", ["SpreaderMetal", "SpreaderVibratingDildoBar", "SpreaderDildoBar", "FloorShackles"]) ? "CannotBeUsedWithFeetSpreader" : "";
+		case "NoFeetSpreader": return CharacterItemsHavePose(C, "Spread") || CharacterItemsHavePose(C, "LegsOpen") ? "CannotBeUsedWithFeetSpreader" : "";
 		case "NotShackled": return C.Effect.includes("Shackled") ? "RemoveShacklesFirst" : "";
 		case "Collared": return (InventoryGet(C, "ItemNeck") == null) ? "MustCollaredFirst" : "";
 		case "CannotHaveWand": return InventoryIsItemInList(C, "ItemArms", ["FullLatexSuit"]) ? "CannotHaveWand" : "";
@@ -209,6 +209,9 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			InventoryDoItemsBlockGroup(C, "ItemButt", ["Cloth", "Socks", "ItemPelvis", "ItemVulvaPiercings"])
 			|| !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])
 		) ? "RemoveClothesForItem" : "";
+
+		// Items that require access to a character's mouth
+		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
 
 		// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
 		case "VulvaNotBlockedByBelt": return InventoryDoItemsBlockGroup(C, "ItemVulva", ["ItemPelvis"])
@@ -340,8 +343,13 @@ function InventoryPrerequisiteConflictingGags(C, BlockingPrereqs) {
 	let MinBlockingIndex = 0;
 	for (let i = 0; i < MouthItems.length && !MinBlockingIndex; i++) {
 		// Find the lowest indexed slot in which there is a gag with a prerequisite that blocks the new gag
-		const AssetPrerequisite = MouthItems[i] && MouthItems[i].Asset.Prerequisite;
-		if (BlockingPrereqs.indexOf(AssetPrerequisite) >= 0) MinBlockingIndex = i + 1;
+		let AssetPrerequisites = MouthItems[i] && MouthItems[i].Asset.Prerequisite;
+		if (!Array.isArray(AssetPrerequisites)) {
+			AssetPrerequisites = [AssetPrerequisites];
+		}
+		if (AssetPrerequisites.some((Prerequisite) => BlockingPrereqs.includes(Prerequisite))) {
+			MinBlockingIndex = i + 1;
+		}
 	}
 	// Not allowed to add the new gag if there is a blocking gag anywhere below it
 	if (MinBlockingIndex && GagIndex > MinBlockingIndex) return "CannotBeUsedOverGag";
@@ -529,7 +537,7 @@ function InventoryRandomExtend(C, GroupName) {
  *     the full list of all assets is used.
  * @param {boolean} [IgnorePrerequisites=false] - If True, skip the step to check whether prerequisites are met
  *  NOTE: Long-term this should be replaced with better checks before calling this function.
- * @returns {Asset} - The randomly selected asset
+ * @returns {Asset|null} - The randomly selected asset or `null` if none found
  */
 function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = false) {
 	var List = [];
@@ -885,7 +893,7 @@ function InventoryHasLockableItems(C) {
  * @param {Character} C - The character on which the lock must be applied
  * @param {Item|string} Item - The item from appearance to lock
  * @param {Item|string} Lock - The asset of the lock or the name of the lock asset
- * @param {number} [MemberNumber] - The member number to put on the lock
+ * @param {number|string} [MemberNumber] - The member number to put on the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
  */
 function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {

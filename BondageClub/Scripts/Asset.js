@@ -12,7 +12,8 @@ var AssetMap = new Map();
 var AssetGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
-
+/** @type {Map<string, AssetGroup[]>} */
+var AssetActivityMirrorGroups = new Map();
 /**
  * Adds a new asset group to the main list
  * @param {IAssetFamily} NewAssetFamily
@@ -62,8 +63,26 @@ function AssetGroupAdd(NewAssetFamily, NewAsset) {
 		MirrorActivitiesFrom: NewAsset.MirrorActivitiesFrom || null,
 	};
 	AssetGroupMap.set(A.Name, A);
+	AssetActivityMirrorGroupSet(A);
 	AssetGroup.push(A);
 	AssetCurrentGroup = A;
+}
+
+/**
+ * Collects the group equivalence classes defined by the MirrorActivitiesFrom property into a map for easy access to
+ * mirror group sets (i.e. all groups that are mirror activities from, or are mirrored by, each other).
+ * @param {AssetGroup} group - The group to register
+ */
+function AssetActivityMirrorGroupSet(group) {
+	if (group.MirrorActivitiesFrom) {
+		const mirrorGroups = AssetActivityMirrorGroups.get(group.MirrorActivitiesFrom);
+		if (mirrorGroups) {
+			mirrorGroups.push(group);
+			AssetActivityMirrorGroups.set(group.Name, mirrorGroups);
+			return;
+		}
+	}
+	AssetActivityMirrorGroups.set(group.Name, [group]);
 }
 
 /**
@@ -190,7 +209,7 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 	AssetCurrentGroup.Asset.push(A);
 	AssetMap.set(AssetCurrentGroup.Name + "/" + A.Name, A);
 	Asset.push(A);
-	if (A.Extended && ExtendedConfig) AssetBuildExtended(A, ExtendedConfig);
+	if (ExtendedConfig) AssetBuildExtended(A, ExtendedConfig);
 }
 
 /**
@@ -201,7 +220,12 @@ function AssetAdd(NewAsset, ExtendedConfig) {
  */
 function AssetBuildExtended(A, ExtendedConfig) {
 	let AssetConfig = AssetFindExtendedConfig(ExtendedConfig, AssetCurrentGroup.Name, A.Name);
-	if (AssetConfig && AssetConfig.CopyConfig) {
+
+	if (!AssetConfig) {
+		return;
+	}
+
+	if (AssetConfig.CopyConfig) {
 		const Overrides = AssetConfig.Config;
 		const { GroupName, AssetName } = AssetConfig.CopyConfig;
 		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || AssetCurrentGroup.Name, AssetName);
@@ -210,17 +234,19 @@ function AssetBuildExtended(A, ExtendedConfig) {
 			AssetConfig = Object.assign({}, AssetConfig, {Config: MergedConfig});
 		}
 	}
-	if (AssetConfig) {
-		switch (AssetConfig.Archetype) {
-			case ExtendedArchetype.MODULAR:
-				ModularItemRegister(A, /** @type {ModularItemConfig} */ (AssetConfig.Config));
-				break;
-			case ExtendedArchetype.TYPED:
-				TypedItemRegister(A, /** @type {TypedItemConfig} */ (AssetConfig.Config));
-				break;
-		}
-		A.Archetype = AssetConfig.Archetype;
+
+	switch (AssetConfig.Archetype) {
+		case ExtendedArchetype.MODULAR:
+			ModularItemRegister(A, AssetConfig.Config);
+			break;
+		case ExtendedArchetype.TYPED:
+			TypedItemRegister(A, AssetConfig.Config);
+			break;
+		case ExtendedArchetype.VIBRATING:
+			VibratorModeRegister(A, AssetConfig.Config);
+			break;
 	}
+	A.Archetype = AssetConfig.Archetype;
 }
 
 /**
@@ -228,7 +254,7 @@ function AssetBuildExtended(A, ExtendedConfig) {
  * @param {ExtendedItemConfig} ExtendedConfig - The full extended item configuration object
  * @param {string} GroupName - The name of the asset group to find extended configuration for
  * @param {string} AssetName - The name of the asset to find extended configuration fo
- * @returns {ExtendedItemAssetConfig | undefined} - The extended asset configuration object for the specified asset, if
+ * @returns {AssetArchetypeConfig | undefined} - The extended asset configuration object for the specified asset, if
  * any exists, or undefined otherwise
  */
 function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
@@ -300,7 +326,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
  * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
  * @param {string[] | null} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
  * object
- * @return {{AllowPose?: string[], HideForPose: string[]}} - A partial object containing AllowPose and HideForPose
+ * @return {{AllowPose: string[] | null, HideForPose: string[]}} - A partial object containing AllowPose and HideForPose
  * properties
  */
 function AssetParsePoseProperties(obj, defaultAllowPose = null) {
@@ -355,7 +381,7 @@ function AssetLayerAlpha(Layer, NewAsset, I) {
 }
 
 /**
- * Assigns colour indices to the layers of an asset. These determine which colours get applied to the layer. Also adds
+ * Assigns color indices to the layers of an asset. These determine which colors get applied to the layer. Also adds
  * a count of colorable layers to the asset definition.
  * @param {Asset} A - The built asset
  * @returns {void} - Nothing
@@ -364,7 +390,7 @@ function AssetAssignColorIndices(A) {
 	var colorIndex = 0;
 	var colorMap = {};
 	A.Layer.forEach(Layer => {
-		// If the layer can't be coloured, we don't need to set a color index
+		// If the layer can't be colored, we don't need to set a color index
 		if (!Layer.AllowColorize) return;
 
 		var LayerKey = Layer.CopyLayerColor || Layer.Name;

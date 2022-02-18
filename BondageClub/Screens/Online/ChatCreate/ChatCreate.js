@@ -5,7 +5,7 @@ var ChatCreateMessage = "";
 var ChatCreatePrivate = null;
 var ChatCreateLocked = null;
 var ChatCreateGame = "";
-var ChatCreateGameList = ["", "LARP", "MagicBattle"];
+var ChatCreateGameList = ["", "LARP", "MagicBattle", "GGTS"];
 var ChatCreateBackgroundIndex = 0;
 var ChatCreateBackgroundSelect = "";
 var ChatCreateBackgroundList = null;
@@ -19,15 +19,13 @@ var ChatCreateIsHidden = false;
 function ChatCreateLoad() {
 
 	// Resets the LARP game status
-	if ((ChatRoomGame == "LARP") && (Player.Game != null) && (Player.Game.LARP != null) && (Player.Game.LARP.Status != "")) {
-		Player.Game.LARP.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) {
+		GameLARPSetStatus("");
 	}
 
 	// Resets the Magic Battle game status
-	if ((ChatRoomGame == "MagicBattle") && (Player.Game != null) && (Player.Game.MagicBattle != null) && (Player.Game.MagicBattle.Status != "")) {
-		Player.Game.MagicBattle.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) {
+		GameMagicBattleSetStatus("");
 	}
 
 	// If the current background isn't valid, we pick the first one

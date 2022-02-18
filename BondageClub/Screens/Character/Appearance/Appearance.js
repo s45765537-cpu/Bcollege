@@ -199,6 +199,9 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 			// Picks a random item and color and add it
 			if (R.length > 0) {
 				var SelectedAsset = InventoryGetRandom(C, AssetGroup[A].Name, R);
+				// If we found no asset, just move to next group
+				if (!SelectedAsset)
+					continue;
 				/** @type {string|string[]} */
 				var SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
 				if ((SelectedAsset.Group.ColorSchema[0] == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
@@ -234,12 +237,9 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 function CharacterAppearanceNaked(C) {
 
 	// For each item group (non default items only show at a 20% rate)
-	for (let A = C.Appearance.length-1 ; A >= 0; A--) {
-		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") &&
-			( C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && C.Appearance[A].Asset.Group.BodyCosplay))) {
+	for (let A = C.Appearance.length - 1; A >= 0; A--)
+		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") && (C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && (C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group != null) && C.Appearance[A].Asset.Group.BodyCosplay)))
 			C.Appearance.splice(A, 1);
-		}
-	}
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
@@ -385,7 +385,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		let HidingItem = false;
 		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
 		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
-		else if (item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
+		else if (item.Asset.HideItemAttribute.length && assetToCheck && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
 		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
@@ -552,10 +552,6 @@ function AppearanceLoad() {
 	var C = CharacterAppearanceSelection;
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
-		ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Wardrobe", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
-	}
 	AppearanceMenuBuild(C);
 	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings ? Player.VisualSettings.UseCharacterInPreviews : AppearanceUseCharacterInPreviewsSetting;
 }
@@ -579,7 +575,7 @@ function AppearanceMenuBuild(C) {
 			AppearanceMenu.push("Naked", "Character", "Next");
 			break;
 		case "Wardrobe":
-			AppearanceMenu.push("Naked", "Next");
+			AppearanceMenu.push("Naked", "Prev", "Next");
 			break;
 		case "Cloth":
 			if (!DialogItemPermissionMode) {
@@ -834,7 +830,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	if (DifficultyFactor == null) DifficultyFactor = 0;
 
 	// Removes the previous if we need to
-	var ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
+	const ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
 	var ItemColor;
 	if (ID != "None") {
 		if (CurrentScreen == "Appearance") {
@@ -847,7 +843,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	// Add the new item to the character appearance
 	if (ItemAsset != null) {
 		/** @type {Item} */
-		var NA = {
+		const NA = {
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: ((NewColor == null) ? ItemColor : NewColor),
@@ -910,7 +906,7 @@ function CharacterAppearanceNextItem(C, Group, Forward, Description) {
 /**
  * Find the next color for the item
  * @param {Character} C - The character whose items are cycled
- * @param {string} Group - The name of the group for which we are colour cycling
+ * @param {string} Group - The name of the group for which we are color cycling
  * @returns {void} - Nothing
  */
 function CharacterAppearanceNextColor(C, Group) {
@@ -954,9 +950,9 @@ function CharacterAppearanceMoveOffset(C, Move) {
 
 /**
  * Sets the color for a specific group
- * @param {Character} C - The character whose item group should be coloured
- * @param {string} Color - The colour (in the format "#rrggbb") to be applied to the group
- * @param {string} Group - The name of the group, whose colour should be changed
+ * @param {Character} C - The character whose item group should be colored
+ * @param {string} Color - The color (in the format "#rrggbb") to be applied to the group
+ * @param {string} Group - The name of the group, whose color should be changed
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetColorForGroup(C, Color, Group) {
@@ -1147,22 +1143,30 @@ function AppearanceMenuClick(C) {
 					if (Button === "WardrobeDisabled") CharacterAppearanceHeaderText = TextGet("WardrobeDisabled");
 					break;
 				case "Wardrobe":
-					if (Button === "Next") {
-						CharacterAppearanceWardrobeOffset += 6;
-						if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
-					}
-					if (Button === "Naked") CharacterAppearanceStripLayer(C);
-					if (Button === "Cancel") {
-						CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
-						CharacterRefresh(C, false);
-						CharacterAppearanceWardrobeName = "";
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
-					}
-					if (Button === "Accept") {
-						CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
+					switch (Button) {
+						case "Prev":
+							CharacterAppearanceWardrobeOffset -= 6;
+							if (CharacterAppearanceWardrobeOffset < 0) CharacterAppearanceWardrobeOffset = Math.max(0, Player.Wardrobe.length - 6);
+							break;
+						case "Next":
+							CharacterAppearanceWardrobeOffset += 6;
+							if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
+							break;
+						case "Naked":
+							CharacterAppearanceStripLayer(C);
+							break;
+						case "Cancel":
+							CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
+							CharacterRefresh(C, false);
+							CharacterAppearanceWardrobeName = "";
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
+						case "Accept":
+							CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
 					}
 					break;
 				case "Cloth":
@@ -1262,10 +1266,6 @@ function CharacterAppearanceExit(C) {
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
 	CharacterAppearanceRestore(C, CharacterAppearanceBackup);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterSetFacialExpression(Player, "Emoticon", CharacterAppearancePreviousEmoticon);
-		CharacterAppearancePreviousEmoticon = "";
-	}
 	CharacterLoadCanvas(C);
 	if (C.AccountName != "") CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
 	else CommonSetScreen("Character", "Login");
@@ -1345,6 +1345,9 @@ function CharacterAppearanceLoadCharacter(C) {
 	CharacterAppearanceSelection = C;
 	CharacterAppearanceReturnRoom = CurrentScreen;
 	CharacterAppearanceReturnModule = CurrentModule;
+	if (CharacterAppearanceReturnRoom == "ChatRoom") {
+		ChatRoomStatusUpdate("Wardrobe");
+	}
 	CommonSetScreen("Character", "Appearance");
 }
 
@@ -1360,6 +1363,8 @@ function CharacterAppearanceWardrobeLoad(C) {
 		WardrobeLoadCharacterNames();
 	ElementCreateInput("InputWardrobeName", "text", CharacterAppearanceWardrobeName || C.Name, "20");
 	CharacterAppearanceMode = "Wardrobe";
+	// Always open the wardrobe on the first page
+	CharacterAppearanceWardrobeOffset = 0;
 	CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
 	CharacterAppearanceInProgressBackup = CharacterAppearanceStringify(C);
 }

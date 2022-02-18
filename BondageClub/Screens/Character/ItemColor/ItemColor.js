@@ -185,7 +185,7 @@ function ItemColorDrawDefault(x, y) {
 		} else {
 			let currentColors;
 			const layerPage = ItemColorLayerPages[colorGroup.name];
-			const colorGroupName = ItemColorGroupNames.get(asset.Group.Name + asset.Name+ colorGroup.name);
+			const colorGroupName = ItemColorGroupNames.get(asset.Group.Name + asset.Name + colorGroup.name);
 			if (layerPage === 0) {
 				currentColors = colorGroup.layers.map(layer => colors[layer.ColorIndex]);
 				groupName = colorGroupName + ": " + ItemColorText.get("All");
@@ -521,7 +521,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 		const groupKey = layer.ColorGroup || layer.Name || "";
 		(groupLookup[groupKey] || (groupLookup[groupKey] = [])).push(layer);
 		return groupLookup;
-	}, {});
+	}, /** @type {Record<String, AssetLayer[]>} */({}));
 
 	const colorGroups = Object.keys(groupMap)
 		.map(key => {
@@ -532,7 +532,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 				colorIndex: groupMap[key].reduce((min, layer) => Math.min(min, layer.ColorIndex), Infinity),
 			};
 		})
-		.sort((g1, g2) => g1.colorIndex > g2.colorIndex);
+		.sort((g1, g2) => g1.colorIndex - g2.colorIndex);
 
 	if (item.Asset.AllowColorizeAll) {
 		colorGroups.unshift({ name: null, layers: [], colorIndex: -1 });
@@ -641,14 +641,13 @@ function ItemColorIsSimple(item) {
  * @returns {string} - The appropriate color button key for the provided item color(s)
  */
 function ItemColorGetColorButtonTextKey(color) {
-	let text = color;
 	if (Array.isArray(color)) {
 		const initialColor = color[0];
-		text = color.some(c => c !== initialColor) ? "Many" : initialColor;
+		return color.some(c => c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string") {
-		text = "Default";
+		return "Default";
 	}
-	return text;
+	return color;
 }
 
 /**
@@ -707,13 +706,16 @@ function ItemColorReset() {
  */
 function ItemColorIsDefault(Item) {
 	const Color = Item.Color;
-	const AssetDefault = Item.Asset.DefaultColor;
+	let AssetDefault = Item.Asset.DefaultColor;
 	if (typeof Color === "string") return (Color === "Default" || (typeof AssetDefault === "string" && Color === AssetDefault));
 	if (Array.isArray(Color)) {
-		for (let C = 0; C < Color.length; C++) {
-			if (Color[C] !== "Default" && !(AssetDefault !== null && AssetDefault.length >= C && Color[C] === AssetDefault[C]))
-				return false;
+		if (!AssetDefault) {
+			return Color.every(c => c === "Default");
 		}
+		if (!Array.isArray(AssetDefault)) {
+			AssetDefault = [AssetDefault];
+		}
+		return Color.slice(0, Math.min(Color.length, AssetDefault.length)).every((c, i) => c === "Default" || c === AssetDefault[i]);
 	}
 	return true;
 }
