@@ -1,9 +1,19 @@
-//Heavily References Bib.js
+//Heavily References Bib.js and Transport Jacket
 "use strict";
+let InventoryItemHeadDroneMaskOriginalText = null;
+const InventoryItemHeadDroneMaskFont = "Impact";
 var InventoryItemHeadDroneMaskAllowedChars = /^[a-zA-Z0-9 ~!]*$/;
 // Load item extension properties
 function InventoryItemHeadDroneMaskPattern5Load(){
-    ElementCreateInput("TagText", "text", DialogFocusItem.Property.Text || "", "16")
+
+    const C = CharacterGetCurrent();
+
+    // ElementCreateInput("TagText", "text", DialogFocusItem.Property.Text || "", "16")
+    const input = ElementCreateInput("TagText", "text", DialogFocusItem.Property.Text || "", "16");
+    if (input) {
+        input.pattern = DynamicDrawTextInputPattern;
+        input.addEventListener("input", (e) => InventoryItemHeadDroneMaskTextChange(C, DialogFocusItem, e.target.value))
+    } // Testing for dynamically displayed input 
 }
 
 // Draw extension screen image
@@ -24,27 +34,44 @@ function InventoryItemHeadDroneMaskPattern5Click() {
         ElementValue("TagText").match(InventoryItemHeadDroneMaskAllowedChars)
     ) {
         DialogFocusItem.Property.Text = ElementValue("TagText");
-        InventoryItemHeadDroneMaskChange();
+        InventoryItemHeadDroneMaskExit();
     }
 
     // Exits screen
     if (MouseIn(1885, 25, 90, 90)) {
         InventoryItemHeadDroneMaskExit();
+        return ExtendedItemExit();
     }
 }
 
 // Leaves extended screen
 function InventoryItemHeadDroneMaskExit() {
-    ElementRemove("TagText");
-    ExtendedItemSubscreen = null;
+   ElementRemove("TagText");
+   ExtendedItemSubscreen = null;
 }
 
-// When text tag is changed
-function InventoryItemHeadDroneMaskChange() {
-    var C = CharacterGetCurrent();
-    CharacterRefresh(C, false);
-    InventoryItemHeadDroneMaskExit();
+// Leave extended screen with changes saved
+function InventoryItemHeadDroneMaskPattern5Exit() {
+    const C = CharacterGetCurrent();
+    const item = DialogFocusItem;
+
+    CharacterRefresh(C);
+    ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+
+    ElementRemove("TagText");
+    InventoryItemHeadDroneMaskOriginalText = null;
+    DialogFocusItem = null;
+    if (DialogInventory != null) DialogMenuButtonBuild(C);
 }
+
+// Referenced from TransportJacket for experimentation
+const InventoryItemHeadDroneMaskTextChange = CommonLimitFunction((C, item, text) => {
+   item = DialogFocusItem || item;
+      if (DynamicDrawTextRegex.test(text)) {
+       item.Property.Text = text.substring(0, 16)
+       CharacterLoadCanvas(C);
+   }
+});
 
 // Drawing function for tag text
 function AssetsItemHeadDroneMaskAfterDraw({
@@ -60,7 +87,7 @@ function AssetsItemHeadDroneMaskAfterDraw({
         let Width = 65;
         let XOffset = 69;
         let YOffset = 89;
-        const FontName = "Impact";
+        const FontName = InventoryItemHeadDroneMaskFont;
         const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
         const text = Property && typeof Property.Text === "string" && InventoryItemHeadDroneMaskAllowedChars.test(Property.Text) ? Property.Text : "";
