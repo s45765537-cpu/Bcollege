@@ -100,7 +100,7 @@ function AssetAdd(NewAsset, ExtendedConfig) {
 		Enable: (NewAsset.Enable == null) ? true : NewAsset.Enable,
 		Visible: (NewAsset.Visible == null) ? true : NewAsset.Visible,
 		Wear: (NewAsset.Wear == null) ? true : NewAsset.Wear,
-		Activity: (NewAsset.Activity == null) ? null : NewAsset.Activity,
+		Activity: (typeof NewAsset.Activity === "string" ? NewAsset.Activity : null),
 		AllowActivity: Array.isArray(NewAsset.AllowActivity) ? NewAsset.AllowActivity : [],
 		AllowActivityOn: Array.isArray(NewAsset.AllowActivityOn) ? NewAsset.AllowActivityOn : [],
 		BuyGroup: NewAsset.BuyGroup,

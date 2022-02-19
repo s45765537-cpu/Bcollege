@@ -437,7 +437,7 @@ interface Asset {
 	Enable: boolean;
 	Visible: boolean;
 	Wear: boolean;
-	Activity: string;
+	Activity?: string;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;

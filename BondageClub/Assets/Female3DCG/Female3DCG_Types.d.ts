@@ -43,6 +43,7 @@ interface AssetDefinition {
 	Enable?: boolean;
 	Visible?: boolean;
 	Wear?: boolean;
+	/** Applying that asset triggers the following activity */
 	Activity?: string;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];

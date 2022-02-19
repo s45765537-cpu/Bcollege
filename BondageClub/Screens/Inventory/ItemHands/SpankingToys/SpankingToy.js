@@ -294,7 +294,7 @@ function InventorySpankingToysGetDescription(C) {
 function InventorySpankingToysGetActivity(C) {
 	var Type = InventorySpankingToysGetType(C);
 	var A = AssetGet(C.AssetFamily, "ItemHands", "SpankingToys" + Type);
-	return A && A.Activity || null;
+	return A && A.Activity || A && A.AllowActivity[0] || null;
 }
 
 /**
@@ -307,10 +307,11 @@ function InventorySpankingToysActivityAllowed(C) {
 	const A = AssetGet(C.AssetFamily, "ItemHands", "SpankingToys" + Type);
 	if (InventoryBlockedOrLimited(C, { Asset: A }))
 		return false;
-	if (C.FocusGroup != null) {
-		const activityNames = InventorySpankingToysGetActivity(Player);
-		return ActivityAllowedForGroup(C, C.FocusGroup.Name, true)
-			.some(act => activityNames === act.Name);
+	if (C.FocusGroup != null && A.AllowActivity) {
+		return A.AllowActivity.some(itemAct => {
+			return ActivityAllowedForGroup(C, C.FocusGroup.Name, true)
+				.some(act => itemAct === act.Name);
+			});
 	}
 	return false;
 }
