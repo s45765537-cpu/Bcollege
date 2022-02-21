@@ -1,6 +1,8 @@
 //Heavily References Bib.js and Transport Jacket
 "use strict";
-let InventoryItemHeadDroneMaskOriginalText = null;
+let InventoryItemHeadDroneMaskOriginalText = "";
+//let DroneMaskPreviousText = null;
+const InventoryItemHeadDroneMaskInputId = "DroneMaskText"
 const InventoryItemHeadDroneMaskFont = "Impact";
 var InventoryItemHeadDroneMaskAllowedChars = /^[a-zA-Z0-9 ~!]*$/;
 // Load item extension properties
@@ -8,12 +10,14 @@ function InventoryItemHeadDroneMaskPattern5Load(){
 
     const C = CharacterGetCurrent();
 
-    // ElementCreateInput("TagText", "text", DialogFocusItem.Property.Text || "", "16")
-    const input = ElementCreateInput("TagText", "text", DialogFocusItem.Property.Text || "", "16");
+   InventoryItemHeadDroneMaskOriginalText = DialogFocusItem.Property.Text;
+
+    // Dynamically displayed input
+    const input = ElementCreateInput(InventoryItemHeadDroneMaskInputId, "text", DialogFocusItem.Property.Text || "", "16");
     if (input) {
         input.pattern = DynamicDrawTextInputPattern;
         input.addEventListener("input", (e) => InventoryItemHeadDroneMaskTextChange(C, DialogFocusItem, e.target.value))
-    } // Testing for dynamically displayed input 
+    }
 }
 
 // Draw extension screen image
@@ -22,8 +26,8 @@ function InventoryItemHeadDroneMaskPattern5Draw() {
     DrawAssetPreview(1387,125, DialogFocusItem.Asset);
 
     // Tag data
-    ElementPosition ("TagText", 1505, 600, 250);
-    DrawButton(1330,731,340,64, DialogFindPlayer("CustomTagText"), (ElementValue("TagText")).match(InventoryItemHeadDroneMaskAllowedChars) ? "White" : "#888", "");
+    ElementPosition (InventoryItemHeadDroneMaskInputId, 1505, 600, 250);
+    DrawButton(1330,731,340,64, DialogFindPlayer("CustomTagText"), (ElementValue(InventoryItemHeadDroneMaskInputId)).match(InventoryItemHeadDroneMaskAllowedChars) ? "White" : "#888", "");
 }
 
 // Click function
@@ -31,40 +35,55 @@ function InventoryItemHeadDroneMaskPattern5Click() {
     if (
         MouseIn(1330, 731, 340, 64) &&
         // (DialogFocusItem.Property.Text !== ElementValue("TagText")) &&
-        ElementValue("TagText").match(InventoryItemHeadDroneMaskAllowedChars)
+        ElementValue(InventoryItemHeadDroneMaskInputId).match(InventoryItemHeadDroneMaskAllowedChars)
     ) {
-        DialogFocusItem.Property.Text = ElementValue("TagText");
+        DialogFocusItem.Property.Text = ElementValue(InventoryItemHeadDroneMaskInputId);
         InventoryItemHeadDroneMaskExit();
     }
 
     // Exits screen
     if (MouseIn(1885, 25, 90, 90)) {
-        InventoryItemHeadDroneMaskExit();
+        InventoryItemHeadDroneMaskPattern5Exit();
         return ExtendedItemExit();
     }
 }
 
 // Leaves extended screen
-function InventoryItemHeadDroneMaskExit() {
-   ElementRemove("TagText");
+function InventoryItemHeadDroneMaskPattern5Exit() {
+   ElementRemove(InventoryItemHeadDroneMaskInputId);
+   DialogFocusItem.Property.Text = InventoryItemHeadDroneMaskOriginalText;
+   CharacterLoadCanvas(CharacterGetCurrent());
    ExtendedItemSubscreen = null;
 }
 
 // Leave extended screen with changes saved
-function InventoryItemHeadDroneMaskPattern5Exit() {
+function InventoryItemHeadDroneMaskExit() {
     const C = CharacterGetCurrent();
     const item = DialogFocusItem;
 
+    const text = ElementValue(InventoryItemHeadDroneMaskInputId).substring(0, 16);
+	if (DynamicDrawTextRegex.test(text)) item.Property.Text = text;
+	if (CurrentScreen === "ChatRoom" && text !== InventoryItemHeadDroneMaskOriginalText) {
+		const dictionary = [
+			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "NewText", Text: text },
+			{ Tag: "AssetName", AssetName: item.Asset.Name },
+		];
+		const msg = text === "" ? "ItemHeadDroneMaskTextRemove" : "ItemHeadDroneMaskTextChange";
+		ChatRoomPublishCustomAction(msg, false, dictionary);
+	}
     CharacterRefresh(C);
     ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 
-    ElementRemove("TagText");
-    InventoryItemHeadDroneMaskOriginalText = null;
-    DialogFocusItem = null;
+    ElementRemove(InventoryItemHeadDroneMaskInputId);
+    InventoryItemHeadDroneMaskOriginalText = "";
+    // DialogFocusItem = null;
     if (DialogInventory != null) DialogMenuButtonBuild(C);
+    return ExtendedItemExit();
 }
 
-// Referenced from TransportJacket for experimentation
+// Referenced from TransportJacket for dynamic display
 const InventoryItemHeadDroneMaskTextChange = CommonLimitFunction((C, item, text) => {
    item = DialogFocusItem || item;
       if (DynamicDrawTextRegex.test(text)) {
