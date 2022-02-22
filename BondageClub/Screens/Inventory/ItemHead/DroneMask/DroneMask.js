@@ -87,7 +87,7 @@ function InventoryItemHeadDroneMaskPattern5Exit() {
 // Exit the item's extended screen
 function InventoryItemHeadDroneMaskExit() {
 	DialogFocusItem = null;
-	if (DialogInventory != null) DialogMenuButtonBuild(C);
+	if (DialogInventory != null) DialogMenuButtonBuild(CharacterGetCurrent());
 	return ExtendedItemExit();
 }
 
