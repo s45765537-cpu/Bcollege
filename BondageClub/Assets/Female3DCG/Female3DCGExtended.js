@@ -5393,7 +5393,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Mouth", Key: "m",
 						Options:[
 							{ // m0 - None
-								Property: { Effect: ["BlockMouth","GagLight"] }
+								Property: { Effect: ["BlockMouth"] }
 							},
 							{ // m1 - Onahole
 								Property: { Effect: ["BlockMouth","GagMedium"] }
