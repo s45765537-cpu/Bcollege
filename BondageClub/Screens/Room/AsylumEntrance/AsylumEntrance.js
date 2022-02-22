@@ -123,6 +123,13 @@ function AsylumEntranceWearNurseClothes(C) {
 }
 
 /**
+ * Dresses the player as a patient. Used in dialogs.
+ */
+function AsylumEntrancePlayerWearPatientClothes() {
+	AsylumEntranceWearPatientClothes(Player);
+}
+
+/**
  * Dresses a given character as a patient. Removes all clothes and respects cosplay rules
  * @param {Character} C - The character to dress
  * @param {boolean} [ExtraEvent] - Should we process extra events for login or GGTS
