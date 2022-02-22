@@ -6,6 +6,7 @@ const InventoryItemHeadDroneMaskInputId = "DroneMaskText";
 const InventoryItemHeadDroneMaskFont = "Impact";
 const InventoryItemHeadDroneMaskAllowedChars = /^[a-zA-Z0-9 ~!]*$/;
 const InventoryItemHeadDroneMaskMaxChars = 16;
+var InventoryItemHeadDroneMaskYOffset = 89; // For testing text position for those with longer hair
 
 // Load item extension properties
 function InventoryItemHeadDroneMaskPattern5Load() {
@@ -112,8 +113,8 @@ function AssetsItemHeadDroneMaskAfterDraw({
         // Canvas setup
         let Height = 65;
         let Width = 65;
-        let XOffset = 69;
-        let YOffset = 89;
+        let XOffset = 67;
+        // let YOffset = 89;
         const FontName = InventoryItemHeadDroneMaskFont;
         const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
@@ -132,7 +133,7 @@ function AssetsItemHeadDroneMaskAfterDraw({
         DynamicDrawText(text, ctx, Width/2, Height/ (isAlone? 2: 2.5), drawOptions);
 
         //And print the canvas onto the character based on the above positions
-        drawCanvas(TempCanvas, X+ XOffset, Y + YOffset, AlphaMasks);
-        drawCanvasBlink(TempCanvas, X + XOffset, Y + YOffset, AlphaMasks);
+        drawCanvas(TempCanvas, X+ XOffset, Y + InventoryItemHeadDroneMaskYOffset, AlphaMasks);
+        drawCanvasBlink(TempCanvas, X + XOffset, Y + InventoryItemHeadDroneMaskYOffset, AlphaMasks);
     }
 }
