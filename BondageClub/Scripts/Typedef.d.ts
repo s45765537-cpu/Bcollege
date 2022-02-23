@@ -1655,3 +1655,9 @@ interface GameGGTSParameters {
 }
 
 // #endregion
+
+// #region Audio
+
+type AudioSoundEffect = [string, number];
+
+// #endregion

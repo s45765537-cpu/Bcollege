@@ -323,38 +323,96 @@ function AudioVolumeFromModifier(modifier) {
 function AudioPlaySoundForChatMessage(data) {
 	// Exits right away if we are missing content data
 	if (!Player.AudioSettings || !Player.AudioSettings.PlayItem || (Player.AudioSettings.Volume == 0) || !data.Dictionary || !data.Dictionary.length) return;
-	var NoiseModifier = 0;
-	var FileName = "";
 
-	// Instant actions can trigger a sound depending on the action. It can be a specific string or custom function to determine if a sound should be played, it can also alter the sound level.
-	// The sound can be a specific one or the result of a function
+	// Instant actions can trigger a sound depending on the action.
+	// It can be a specific string or custom function to determine if a sound should be played, it can also alter the sound level.
+	/** @type AudioSoundEffect */
+	let soundEffect = null;
 	var Action = AudioActions.find(A => A.Action && A.Action == data.Content) || AudioActions.find(CA => CA.IsAction && CA.IsAction(data));
 	if (Action) {
 		if (Action.GetAudioInfo) {
-			var Result = Action.GetAudioInfo(data);
-			FileName = AudioGetFileName(Result[0]);
-			NoiseModifier += Result[1] || 0;
+			soundEffect = Action.GetAudioInfo(data);
 		} else
-			FileName = AudioGetFileName(Action.Sound);
+			soundEffect = [Action.Sound, 0];
 	}
 
 	// Update noise level depending on who the interaction took place between.  Sensory isolation increases volume for self, decreases for others.
 	var Target = data.Dictionary.find((el) => el.Tag == "DestinationCharacter" || el.Tag == "DestinationCharacterName" || el.Tag == "TargetCharacter");
 
-	if (!FileName || !Target || !Target.MemberNumber) return;
+	if (!soundEffect || !Target || !Target.MemberNumber) return;
 
-	if (Target.MemberNumber == Player.MemberNumber) NoiseModifier += 3;
-	else if (data.Sender != Player.MemberNumber) NoiseModifier -= 3;
+
+	if (Target.MemberNumber == Player.MemberNumber) soundEffect[1] += 3;
+	else if (data.Sender != Player.MemberNumber) soundEffect[1] -= 3;
+
+	AudioPlaySoundEffect(soundEffect);
+}
+
+/**
+ * Low-level function to play a sound effect.
+ * @param {AudioSoundEffect|string} soundEffect
+ * @param {number} [volumeModifier]
+ * @returns {boolean} if a sound was played or not.
+ */
+function AudioPlaySoundEffect(soundEffect, volumeModifier) {
+	if (!soundEffect) return false;
+	if (!volumeModifier) volumeModifier = 0;
+
+	let soundEffectName = null;
+	if (Array.isArray(soundEffect)) {
+		soundEffectName = soundEffect[0];
+		volumeModifier += soundEffect[1];
+	} else if (typeof soundEffect === "string") {
+		soundEffectName = soundEffect;
+	} else {
+		console.error('Invalid sound effect');
+		return false;
+	}
+	let fileName = AudioGetFileName(soundEffectName);
+	if (!fileName) return false;
 
 	const blindLevel = Player.GetBlindLevel();
-	if (blindLevel >= 3) NoiseModifier += 4;
-	else if (blindLevel == 2) NoiseModifier += 2;
-	else if (blindLevel == 1) NoiseModifier += 1;
+	if (blindLevel >= 3) volumeModifier += 4;
+	else if (blindLevel == 2) volumeModifier += 2;
+	else if (blindLevel == 1) volumeModifier += 1;
 
-	NoiseModifier -= (3 * Player.GetDeafLevel());
+	volumeModifier -= Player.GetDeafLevel();
+
 
 	// Sends the audio file to be played
-	AudioPlayInstantSound("Audio/" + FileName + ".mp3", AudioVolumeFromModifier(NoiseModifier));
+	AudioPlayInstantSound("Audio/" + fileName + ".mp3", AudioVolumeFromModifier(volumeModifier));
+	return true;
+}
+
+/**
+ * Plays a given asset sound effect.
+ * @param {Character} character
+ * @param {Asset} asset
+ * @returns {boolean} Whether a sound was played.
+ */
+function AudioPlaySoundForAsset(character, asset) {
+	let sound = AudioGetSoundFromAsset(character, asset.Group.Name, asset.Name);
+	return AudioPlaySoundEffect(sound, 0);
+}
+
+/**
+ * Get the sound effect for a given asset.
+ *
+ * @param {Character} character
+ * @param {string} groupName
+ * @param {string} assetName
+ * @returns {AudioSoundEffect?}
+ */
+function AudioGetSoundFromAsset(character, groupName, assetName) {
+	let asset = AssetGet(character.AssetFamily, groupName, assetName);
+	if (!asset) return null;
+
+	let sound = asset.Audio;
+	if (asset.DynamicAudio) {
+		sound = asset.DynamicAudio(character);
+	}
+
+	return [sound, 0];
 }
 
 function AudioGetFileName(sound) {
@@ -364,26 +422,17 @@ function AudioGetFileName(sound) {
 
 /**
  * Processes which sound should be played for items
- * @param {object} data - Data content triggering the potential sound
- * @returns {[string, number]} - he name of the sound to play, followed by the noise modifier
+ * @param {IChatRoomMessage} data - Data content triggering the potential sound
+ * @returns {AudioSoundEffect?} - The name of the sound to play, followed by the noise modifier
  */
 function AudioPlayAssetSound(data) {
 	var NextAsset = data.Dictionary.find((el) => el.Tag == "NextAsset");
 	var NextAssetGroup = data.Dictionary.find((el) => el.Tag == "FocusAssetGroup");
-	var FileName = "";
+	var Char = ChatRoomCharacter.find((C) => C.MemberNumber == data.Sender);
 
-	if (!NextAsset || !NextAsset.AssetName || !NextAssetGroup || !NextAssetGroup.AssetGroupName) return [FileName, 0];
+	if (!NextAsset || !NextAsset.AssetName || !NextAssetGroup || !NextAssetGroup.AssetGroupName || !Char) return null;
 
-	var Asset = AssetGet("Female3DCG", NextAssetGroup.AssetGroupName, NextAsset.AssetName);
-
-	if (!Asset) return [FileName, 0];
-
-	if (Asset.DynamicAudio) {
-		var Char = ChatRoomCharacter.find((C) => C.MemberNumber == data.Sender);
-		FileName = Char ? Asset.DynamicAudio(Char) : "";
-	}
-
-	return [(FileName || Asset.Audio), 3];
+	return AudioGetSoundFromAsset(Char, NextAssetGroup.AssetGroupName, NextAsset.AssetName);
 }
 
 /**
