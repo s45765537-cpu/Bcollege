@@ -7,91 +7,183 @@ var PlatformFloor = 1180;
 var PlatformViewX = 0;
 var PlatformViewY = 200;
 var PlatformRoom = null;
+var PlatformGravitySpeed = 6;
+var PlatformLastKeyCode = 0;
+var PlatformLastKeyTime = 0;
+var PlatformExperienceForLevel = [0, 10, 15, 25, 40, 60, 90, 135, 200, 300, 500];
+var PlatformShowHitBox = false;
 
 // Template for characters with their animations
 var PlatformTemplate = [
 	{
+		Name: "Luka",
+		Status: "Maid",
+		Health: 16,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.42, 0.03, 0.58, 1],
+		RunSpeed: 18,
+		WalkSpeed: 12,
+		CrawlSpeed: 6,
+		CollisionDamage: 2,
+		ExperienceValue: 2,
+		Animation: [
+			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
+			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 50 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
+			{ Name: "Crouch", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], Speed: 20 },
+			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 13 },
+			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 30 },
+			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], Speed: 18 },
+			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], Speed: 43 },
+		],
+		Attack: [
+			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], Damage: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], Speed: 300 },
+			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], Damage: [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17], Speed: 600 },
+			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], Damage: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], Speed: 300 },
+			{ Name: "CrouchAttackSlow", HitBox: [0.8, 0.7, 1, 0.8], HitAnimation: [5, 6, 7, 8, 9], Damage: [2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17], Speed: 600 }
+		]
+	},
+	{
 		Name: "Kara",
 		Status: "Nude",
-		Health: 20,
-		HitBox: [-60, -475, 120, 475],
+		Health: 10,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		RunSpeed: 12,
+		WalkSpeed: 8,
+		CrawlSpeed: 4,
+		CollisionDamage: 1,
+		ExperienceValue: 1,
+		JumpOdds: 0.0002,
 		Animation: [
-			{ Name: "Idle", Width: 250, Height: 500, Cycle: ["Idle0", "Idle1", "Idle2", "Idle3", "Idle2", "Idle1"], Speed: 500 },
-			{ Name: "Wounded", Width: 500, Height: 500, Cycle: ["Wounded0", "Wounded1", "Wounded2", "Wounded1"], Speed: 1000 },
-			{ Name: "Walk", Width: 250, Height: 500, Cycle: ["Walk0", "Walk1", "Walk2", "Walk3", "Walk2", "Walk1"], Speed: 150 },
-			{ Name: "Jump", Width: 250, Height: 500, Cycle: ["Jump0", "Jump1", "Jump2", "Jump3", "Jump2", "Jump1"], Speed: 250 },
-			{ Name: "Crouch", Width: 250, Height: 500, Cycle: ["Crouch0", "Crouch1", "Crouch2", "Crouch3", "Crouch2", "Crouch1"], Speed: 400 },
-			{ Name: "Crawl", Width: 500, Height: 500, Cycle: ["Crawl0", "Crawl1", "Crawl2", "Crawl3", "Crawl2", "Crawl1"], Speed: 300 },
-			{ Name: "Punch", Width: 500, Height: 500, Cycle: ["Punch0", "Punch1", "Punch2", "Punch3", "Punch3", "Punch3", "Punch3", "Punch2", "Punch1", "Punch0"], Speed: 40 },
-			{ Name: "Sweep", Width: 500, Height: 500, Cycle: ["Sweep0", "Sweep1", "Sweep2", "Sweep3", "Sweep3", "Sweep3", "Sweep3", "Sweep2", "Sweep1", "Sweep0"], Speed: 60 }
+			{ Name: "Idle", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
+			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Walk", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
+			{ Name: "Jump", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 250 },
+			{ Name: "Crouch", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 400 },
+			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 2, 1], Speed: 300 },
+			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
+			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
+			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
+			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
 		], 
 		Attack: [
-			{ Name: "Punch", HitBox: [135, -365, 30, 30], Animation: "Punch3", Damage: 2, Speed: 400, Stand: true },
-			{ Name: "Sweep", HitBox: [190, -150, 55, 30], Animation: "Sweep3", Damage: 3, Speed: 600, Crouch: true }
+			{ Name: "StandAttackFast", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 2, Speed: 400 },
+			{ Name: "StandAttackSlow", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 3, Speed: 600 },
+			{ Name: "CrouchAttackFast", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 2, Speed: 400 },
+			{ Name: "CrouchAttackSlow", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 3, Speed: 600 }
 		]
 	},
 	{
 		Name: "Liane",
 		Status: "School",
-		Health: 20,
-		HitBox: [-60, -475, 120, 475],
+		Health: 15,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		RunSpeed: 15,
+		WalkSpeed: 10,
+		CrawlSpeed: 5,
+		CollisionDamage: 2,
+		ExperienceValue: 2,
+		RunOdds: 0.0004,
 		Animation: [
-			{ Name: "Idle", Width: 250, Height: 500, Cycle: ["Idle0", "Idle1", "Idle2", "Idle3", "Idle2", "Idle1"], Speed: 500 },
-			{ Name: "Wounded", Width: 500, Height: 500, Cycle: ["Wounded0", "Wounded1", "Wounded2", "Wounded1"], Speed: 1000 },
-			{ Name: "Walk", Width: 250, Height: 500, Cycle: ["Walk0", "Walk1", "Walk2", "Walk3", "Walk2", "Walk1"], Speed: 150 },
-			{ Name: "Jump", Width: 250, Height: 500, Cycle: ["Jump0", "Jump1", "Jump2", "Jump3", "Jump2", "Jump1"], Speed: 250 },
-			{ Name: "Crouch", Width: 250, Height: 500, Cycle: ["Crouch0", "Crouch1", "Crouch2", "Crouch3", "Crouch2", "Crouch1"], Speed: 400 },
-			{ Name: "Crawl", Width: 500, Height: 500, Cycle: ["Crawl0", "Crawl1", "Crawl2", "Crawl3", "Crawl2", "Crawl1"], Speed: 300 },
-			{ Name: "Punch", Width: 500, Height: 500, Cycle: ["Punch0", "Punch1", "Punch2", "Punch3", "Punch3", "Punch3", "Punch3", "Punch2", "Punch1", "Punch0"], Speed: 40 },
-			{ Name: "Sweep", Width: 500, Height: 500, Cycle: ["Sweep0", "Sweep1", "Sweep2", "Sweep3", "Sweep3", "Sweep3", "Sweep3", "Sweep2", "Sweep1", "Sweep0"], Speed: 60 }
+			{ Name: "Idle", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 1], Speed: 1000 },
+			{ Name: "Walk", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
+			{ Name: "Run", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 100 },
+			{ Name: "Jump", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 250 },
+			{ Name: "Crouch", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 400 },
+			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 2, 1], Speed: 300 },
+		]
+	},
+	{
+		Name: "Soldier",
+		Status: "Armor",
+		Health: 30,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		RunSpeed: 9,
+		WalkSpeed: 6,
+		CrawlSpeed: 3,
+		CollisionDamage: 4,
+		ExperienceValue: 6,
+		JumpOdds: 0.0002,
+		RunOdds: 0.0004,
+		StandAttackSlowOdds: 0.0003,
+		DamageKnock: false,
+		Animation: [
+			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 100 },
+			{ Name: "Wounded", Cycle: [0], Speed: 10000 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 100 },
+			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 66 },
+			{ Name: "StandAttackSlow", OffsetY: 50, Width: 500, Height: 500, Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], Speed: 25 }
 		],
 		Attack: [
-			{ Name: "Punch", HitBox: [135, -365, 30, 30], Animation: "Punch3", Damage: 2, Speed: 400, Stand: true },
-			{ Name: "Sweep", HitBox: [190, -150, 55, 30], Animation: "Sweep3", Damage: 3, Speed: 600, Crouch: true }
+			{ Name: "StandAttackSlow", HitBox: [0.6, 0.3, 1.3, 0.65], HitAnimation: [30, 31, 32, 33, 34, 35, 36], Damage: [8, 8], Speed: 1000 }
 		]
 	}
+
 ];
 
 // All available rooms
 var PlatformRoomList = [
 	{
-		Name: "Class",
-		Background: "CollegeClassWide",
+		Name: "CollegeClass1",
+		Background: "CollegeClass1",
 		Width: 4000,
 		Height: 1200,
 		Door: [
-			{ Name: "Hall", FromX: 3800, FromY: 500, FromW: 200, FromH: 700, ToX: 100, ToFaceLeft: false }
+			{ Name: "CollegeHall1", FromX: 3800, FromY: 500, FromW: 200, FromH: 700, FromType: "Up", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Liane", X: 2500 }
+			{ Name: "Kara", X: 1200 }
 		]
 	},
 	{
-		Name: "Hall",
-		Background: "CollegeHallWide",
+		Name: "CollegeHall1",
+		Background: "CollegeHall1",
 		Width: 3500,
 		Height: 1200,
 		Door: [
-			{ Name: "Class", FromX: 0, FromY: 500, FromW: 300, FromH: 700, ToX: 3900, ToFaceLeft: true },
-			{ Name: "Art", FromX: 3200, FromY: 500, FromW: 300, FromH: 700, ToX: 100, ToFaceLeft: false }
+			{ Name: "CollegeClass1", FromX: 0, FromY: 500, FromW: 300, FromH: 700, FromType: "Up", ToX: 3900, ToFaceLeft: true },
+			{ Name: "CollegeArt1", FromX: 3200, FromY: 500, FromW: 300, FromH: 700, FromType: "Up", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Liane", X: 1400 },
-			{ Name: "Liane", X: 2100 }
+			{ Name: "Liane", X: 3000 }
 		]
 	},
 	{
-		Name: "Art",
-		Background: "CollegeArtWide",
+		Name: "CollegeArt1",
+		Background: "CollegeArt1",
 		Width: 4000,
 		Height: 1200,
 		Door: [
-			{ Name: "Hall", FromX: 0, FromY: 500, FromW: 200, FromH: 700, ToX: 3900, ToFaceLeft: true }
+			{ Name: "CollegeHall1", FromX: 0, FromY: 500, FromW: 200, FromH: 700, FromType: "Up", ToX: 3900, ToFaceLeft: true },
+			{ Name: "CastleHall1", FromX: 3900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 300, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Liane", X: 1700 },
-			{ Name: "Liane", X: 2700 },
-			{ Name: "Liane", X: 3700 }
+			{ Name: "Liane", X: 1400 },
+			{ Name: "Kara", X: 2500 }
+		]
+	},
+	{
+		Name: "CastleHall1",
+		Background: "CastleHall1",
+		Width: 2600,
+		Height: 1200,
+		Door: [
+			{ Name: "CollegeArt1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3700, ToFaceLeft: false }
+		],
+		Character: [
+			{ Name: "Soldier", X: 3700 }
 		]
 	}
 ]
@@ -110,10 +202,14 @@ function PlatformCreateCharacter(TemplateName, IsPlayer, X) {
 			NewChar = JSON.parse(JSON.stringify(Template));
 	if (IsPlayer) NewChar.Camera = true;
 	NewChar.ID = PlatformChar.length;
+	NewChar.MaxHealth = NewChar.Health;
 	NewChar.X = X;
 	NewChar.Y = PlatformFloor;
 	NewChar.ForceX = 0;
 	NewChar.ForceY = 0;
+	NewChar.Experience = 0;
+	NewChar.Level = 1;
+	NewChar.Run = false;
 	NewChar.FaceLeft = ((PlatformRoom != null) && (PlatformRoom.Width != null) && (X > PlatformRoom.Width / 2));
 	PlatformChar.push(NewChar);
 	if (IsPlayer) PlatformPlayer = NewChar;
@@ -130,8 +226,9 @@ function PlatformLoadRoom(RoomName) {
 		if (Room.Name == RoomName)
 			PlatformRoom = Room;
 	PlatformChar.splice(1, 100);
-	for (let Char of PlatformRoom.Character)
-		PlatformCreateCharacter(Char.Name, false, Char.X);
+	if (PlatformRoom.Character != null)
+		for (let Char of PlatformRoom.Character)
+			PlatformCreateCharacter(Char.Name, false, Char.X);
 }
 
 /**
@@ -142,8 +239,9 @@ function PlatformLoad() {
 	window.addEventListener("keydown", PlatformEventKeyDown);
 	window.addEventListener("keyup", PlatformEventKeyUp);
 	PlatformChar = [];
-	PlatformCreateCharacter("Kara", true, 300);
-	PlatformLoadRoom("Class");
+	PlatformCreateCharacter("Luka", true, 300);
+	PlatformLoadRoom("CollegeClass1");
+	PlatformLastTime = CommonTime();
 }
 
 /**
@@ -156,16 +254,21 @@ function PlatformLoad() {
 function PlatformGetAnim(C, Pose, Cycle) {
 	for (let A = 0; A < C.Animation.length; A++)
 		if (C.Animation[A].Name == Pose) {
+			let CycleList = ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) ? C.Animation[A].CycleLeft : C.Animation[A].Cycle;
 			let AnimPos;
-			if ((Cycle == null) || Cycle) AnimPos = Math.floor(CommonTime() / C.Animation[A].Speed + C.ID) % C.Animation[A].Cycle.length;
+			if ((Cycle == null) || Cycle) AnimPos = Math.floor(CommonTime() / C.Animation[A].Speed + C.ID) % CycleList.length;
 			else AnimPos = Math.floor((CommonTime() - C.Action.Start) / C.Animation[A].Speed);
 			if (AnimPos < 0) AnimPos = 0;
-			if (AnimPos >= C.Animation[A].Cycle.length) AnimPos = C.Animation[A].Cycle.length - 1;
+			if (AnimPos >= CycleList.length) AnimPos = CycleList.length - 1;
+			if ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) Pose = Pose + "Left";
 			return {
 				Name: Pose,
-				Image: C.Animation[A].Cycle[AnimPos],
-				Width: C.Animation[A].Width,
-				Height: C.Animation[A].Height
+				Image: CycleList[AnimPos],
+				OffsetX: (C.Animation[A].OffsetX || 0),
+				OffsetY: (C.Animation[A].OffsetY || 0),
+				Width: (C.Animation[A].Width || C.Width),
+				Height: (C.Animation[A].Height || C.Height),
+				Mirror: ((C.FaceLeft === true) && (C.Animation[A].CycleLeft == null))
 			}
 		}
 	return null;
@@ -179,14 +282,18 @@ function PlatformDrawBackground() {
 	PlatformViewX = PlatformPlayer.X - 1000;
 	if (PlatformViewX < 0) PlatformViewX = 0;
 	if (PlatformViewX > PlatformRoom.Width - 2000) PlatformViewX = PlatformRoom.Width - 2000;
-	PlatformViewY = PlatformPlayer.Y - 500;
+	PlatformViewY = PlatformPlayer.Y - 600;
 	if (PlatformViewY < 0) PlatformViewY = 0;
 	if (PlatformViewY > PlatformRoom.Height - 1000) PlatformViewY = PlatformRoom.Height - 1000;
-	DrawImageZoomCanvas("Backgrounds/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
+	DrawImageZoomCanvas("Backgrounds/Platform/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
+	DrawProgressBar(10, 10, 180, 40, PlatformPlayer.Health / PlatformPlayer.MaxHealth * 100);
+	DrawProgressBar(10, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "Blue", "Black");
 }
 
 /**
  * Draw a specific character on the screen if needed
+ * @param {Object} C - The character to draw
+ * @param {Number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
 function PlatformDrawCharacter(C, Time) {
@@ -194,11 +301,28 @@ function PlatformDrawCharacter(C, Time) {
 	let Y = C.Y - C.Anim.Height - PlatformViewY
 	if ((X >= 2000) || (Y >= 1000)) return;
 	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
-	DrawImageEx("Screens/Room/Platform/Characters/" + C.Name + "/" + C.Status + "/" + C.Anim.Image + ".png", X, Y, { Mirror: C.FaceLeft, Width: C.Anim.Width, Height: C.Anim.Height } );
+	DrawImageEx("Screens/Room/Platform/Characters/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
 	if (C.Damage != null)
 		for (let Damage of C.Damage)
-			if (Damage.Expire >= Time)
-				DrawText(Damage.Value.toString(), X + C.Anim.Width / 2, Y - 100 + Math.floor((Damage.Expire - Time) / 20), "Red", "Black");
+			if (Damage.Expire >= Time) {
+				DrawImageZoomCanvas("Screens/Room/Platform/" + (C.Camera ? "Enemy" : "Player") + "Hit.png", MainCanvas, 0, 0, 512, 512, X + C.Anim.Width / 2 - 50, Y - 250 + Math.floor((Damage.Expire - Time) / 10), 100, 100);
+				DrawText(Damage.Value.toString(), X + C.Anim.Width / 2, Y - 200 + Math.floor((Damage.Expire - Time) / 10), (C.Camera ? "White" : "Black"), (C.Camera ? "Black" : "White"));
+			}
+}
+
+/**
+ * Adds experience points to the player 
+ * @param {Number} Value - The exp value to add
+ * @returns {void} - Nothing
+ */
+function PlatformAddExperience(C, Value) {
+	C.Experience = C.Experience + Value;
+	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
+		C.MaxHealth = C.MaxHealth + 5;
+		C.Health = C.MaxHealth;
+		C.Experience = 0;
+		C.Level++;
+	}
 }
 
 /**
@@ -210,12 +334,13 @@ function PlatformDrawCharacter(C, Time) {
  * @returns {void} - Nothing
  */
 function PlatformDamage(Source, Target, Damage, Time) {
-	Target.ForceX = Math.round((40 + Math.random() * 40) * ((Source.FaceLeft) ? -1 : 1));
+	if ((Target.DamageKnock == null) || Target.DamageKnock) Target.ForceX = Math.round((40 + Math.random() * 40) * ((Source.FaceLeft) ? -1 : 1));
 	Target.Immunity = Time + 500;
 	Target.Health = Target.Health - Damage;
 	if (Target.Damage == null) Target.Damage = [];
 	Target.Damage.push({ Value: Damage, Expire: Time + 2000});
 	if (Target.Health <= 0) Target.Health = 0;
+	if (!Target.Camera && (Target.Health == 0) && (Target.ExperienceValue != null) && (Target.ExperienceValue > 0)) PlatformAddExperience(Source, Target.ExperienceValue);
 }
 
 /**
@@ -226,22 +351,41 @@ function PlatformDamage(Source, Target, Damage, Time) {
  * @returns {boolean} - TRUE if there's a clash
  */
 function PlatformHitBoxClash(Source, Target, HitBox) {
+
+	// Exits right away if data is invalid
 	if ((Source == null) || (Target == null) || (HitBox == null)) return;
-	let SX1 = Source.X + HitBox[0] * ((Source.FaceLeft) ? -1 : 1);
-	let SX2 = SX1 + HitBox[2] * ((Source.FaceLeft) ? -1 : 1);
-	if (SX1 > SX2) { let Back = SX2; SX2 = SX1; SX1 = Back; }
-	let SY1 = Source.Y + HitBox[1];
-	let SY2 = SY1 + HitBox[3];
-	let TX1 = Target.X + Target.HitBox[0] * ((Target.FaceLeft) ? -1 : 1);
-	let TX2 = TX1 + Target.HitBox[2] * ((Target.FaceLeft) ? -1 : 1);
-	if (TX1 > TX2) { let Back = TX2; TX2 = TX1; TX1 = Back; }
-	let TY1 = Target.Y + Target.HitBox[1];
-	let TY2 = TY1 + Target.HitBox[3];
+	
+	// Finds the X and Y of the source hitbox
+	let SX1 = Source.X - (Source.Width / 2) + (HitBox[0] * Source.Width);
+	if (Source.FaceLeft) SX1 = Source.X + (Source.Width / 2) - (HitBox[2] * Source.Width);
+	let SX2 = Source.X - (Source.Width / 2) + (HitBox[2] * Source.Width);
+	if (Source.FaceLeft) SX2 = Source.X + (Source.Width / 2) - (HitBox[0] * Source.Width);
+	let SY1 = Source.Y - Source.Height + (HitBox[1] * Source.Height);
+	let SY2 = Source.Y - Source.Height + (HitBox[3] * Source.Height);
+
+	// Finds the X and Y of the target hitbox
+	let TX1 = Target.X - (Target.Width / 2) + (Target.HitBox[0] * Target.Width);
+	if (Target.FaceLeft) TX1 = Target.X + (Target.Width / 2) - (Target.HitBox[2] * Target.Width);
+	let TX2 = Target.X - (Target.Width / 2) + (Target.HitBox[2] * Target.Width);
+	if (Target.FaceLeft) TX2 = Target.X + (Target.Width / 2) - (Target.HitBox[0] * Target.Width);
+	let TY1 = Target.Y - Target.Height + (Target.HitBox[1] * Target.Height);
+	let TY2 = Target.Y - Target.Height + (Target.HitBox[3] * Target.Height);
+
+	// Shows the hitboxes if we debug
+	if (PlatformShowHitBox) {
+		DrawRect(SX1 - PlatformViewX, SY1 - PlatformViewY, SX2 - SX1, SY2 - SY1, "red");
+		DrawRect(TX1 - PlatformViewX, TY1 - PlatformViewY, TX2 - TX1, TY2 - TY1, "green");	
+		console.log(SX1 + " " + SX2 + " " + SY1 + " " + SY2);
+		console.log(TX1 + " " + TX2 + " " + TY1 + " " + TY2);
+	}
+
+	// If both hitboxes clashes, we return TRUE
 	if ((SX1 >= TX1) && (SY1 >= TY1) && (SX1 <= TX2) && (SY1 <= TY2)) return true;
 	if ((SX2 >= TX1) && (SY1 >= TY1) && (SX2 <= TX2) && (SY1 <= TY2)) return true;
 	if ((SX1 >= TX1) && (SY2 >= TY1) && (SX1 <= TX2) && (SY2 <= TY2)) return true;
 	if ((SX2 >= TX1) && (SY2 >= TY1) && (SX2 <= TX2) && (SY2 <= TY2)) return true;
 	return false;
+
 }
 
 /**
@@ -251,19 +395,44 @@ function PlatformHitBoxClash(Source, Target, HitBox) {
  * @returns {void} - Nothing
  */
 function PlatformProcessAction(Source, Time) {
-	if ((Source == null) || (Source.Anim == null) || (Source.Anim.Name == null) || (Source.Anim.Image == null)) return;
+	if ((Source == null) || (Source.Anim == null) || (Source.Anim.Name == null) || (Source.Anim.Image == null) || (Source.Health <= 0)) return;
 	for (let Target of PlatformChar)
 		if ((Target.ID != Source.ID) && (Target.Health > 0) && ((Target.Immunity == null) || (Target.Immunity < Time))) {
 			let HitBox = null;
 			let Damage = 0;
 			for (let Attack of Source.Attack)
-				if ((Attack.Name == Source.Anim.Name) && (Attack.Animation == Source.Anim.Image)) {
-					Damage = Attack.Damage;
+				if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
+					Damage = Attack.Damage[Source.Level];
 					HitBox = Attack.HitBox;
 					break;
 				}
-			if (PlatformHitBoxClash(Source, Target, HitBox)) return PlatformDamage(Source, Target, Damage, Time);
+			if (PlatformHitBoxClash(Source, Target, HitBox))
+				return PlatformDamage(Source, Target, Damage, Time);
 		}	
+}
+
+/**
+ * Calculates the X force to apply based on the time it took until the last frame and the speed of the object
+ * @param {Number} Speed - The speed of the object
+ * @param {Number} Time - The number of milliseconds since the last frame
+ * @returns {Number} - The force to apply
+ */
+function PlatformWalkFrame(Speed, Frame) {
+	return Math.round(Frame * Speed / 50);
+}
+
+/**
+ * Does collision damage for a character
+ * @param {Object} C - The character that will be damaged
+ * @param {Number} Time - The current time when the action is done
+ * @returns {void} - Nothing
+ */
+function PlatformCollisionDamage(Target, Time) {
+	if ((Target == null) || (PlatformChar == null) || (Target.Health <= 0)) return;
+	for (let Source of PlatformChar)
+		if ((Source.ID != Target.ID) && (Source.Health > 0) && (Source.CollisionDamage > 0) && ((Target.Immunity == null) || (Target.Immunity < Time)))
+			if (PlatformHitBoxClash(Source, Target, Source.HitBox))
+				return PlatformDamage(Source, Target, Source.CollisionDamage, Time);
 }
 
 /**
@@ -271,45 +440,39 @@ function PlatformProcessAction(Source, Time) {
  * @returns {void} - Nothing
  */
 function PlatformDraw() {
+	
+	// Check if we must enter a new room
+	PlatformEnterRoom(PlatformPlayer.FaceLeft ? "Left" : "Right");
 
 	// Keep the last time
 	let PlatformTime = CommonTime();
 	if (PlatformLastTime == null) PlatformLastTime = PlatformTime;
+	let Frame = PlatformTime - PlatformLastTime;
 
-	// Walk/Crawl left
-	if ((PlatformKeys.indexOf(65) >= 0) || (PlatformKeys.indexOf(97) >= 0)) {
-		if (PlatformPlayer.ForceX > 0) PlatformPlayer.ForceX = 0;
-		else {
-			if ((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)))
-				PlatformPlayer.ForceX = PlatformPlayer.ForceX - Math.round((PlatformTime - PlatformLastTime) / 8);
-			else
-				PlatformPlayer.ForceX = PlatformPlayer.ForceX - Math.round((PlatformTime - PlatformLastTime) / 4);
-		}
-	}
-		
-	// Walk/Crawl right
-	if ((PlatformKeys.indexOf(68) >= 0) || (PlatformKeys.indexOf(100) >= 0)) {
-		if (PlatformPlayer.ForceX < 0) PlatformPlayer.ForceX = 0;
-		else {
-			if ((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)))
-				PlatformPlayer.ForceX = PlatformPlayer.ForceX + Math.round((PlatformTime - PlatformLastTime) / 8);
-			else
-				PlatformPlayer.ForceX = PlatformPlayer.ForceX + Math.round((PlatformTime - PlatformLastTime) / 4);
-		}
-	}
+	// Only catches actions if health is greater than zero
+	if (PlatformPlayer.Health > 0) {
 
-	// Jump
-	if ((PlatformKeys.indexOf(32) >= 0) && (PlatformPlayer.Y == PlatformFloor))
-		PlatformPlayer.ForceY = -52;
+		// Walk/Crawl left
+		if ((PlatformKeys.indexOf(65) >= 0) || (PlatformKeys.indexOf(97) >= 0)) {
+			if (PlatformPlayer.ForceX > 0) PlatformPlayer.ForceX = 0;
+			else PlatformPlayer.ForceX = PlatformPlayer.ForceX - PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0))) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
+		}
+
+		// Walk/Crawl right
+		if ((PlatformKeys.indexOf(68) >= 0) || (PlatformKeys.indexOf(100) >= 0)) {
+			if (PlatformPlayer.ForceX < 0) PlatformPlayer.ForceX = 0;
+			else PlatformPlayer.ForceX = PlatformPlayer.ForceX + PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0))) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
+		}
+
+		// Jump
+		if ((PlatformKeys.indexOf(32) >= 0) && (PlatformPlayer.Y == PlatformFloor))
+			PlatformPlayer.ForceY = -50;
+
+	}
 
 	// Release jump
 	if ((PlatformKeys.indexOf(32) < 0) && (PlatformPlayer.ForceY < 0))
-		PlatformPlayer.ForceY = PlatformPlayer.ForceY + Math.round((PlatformTime - PlatformLastTime) / 4);
-
-	// Processes the action done by the characters
-	for (let C of PlatformChar)
-		if ((C.Action != null) && (C.Action.Expire != null) && (C.Action.Expire >= PlatformTime))
-			PlatformProcessAction(C, PlatformTime);
+		PlatformPlayer.ForceY = PlatformPlayer.ForceY + PlatformWalkFrame(PlatformGravitySpeed * 2, Frame);
 	
 	// Draw each characters
 	for (let C of PlatformChar) {
@@ -320,13 +483,21 @@ function PlatformDraw() {
 				if (C.X <= 300) {
 					C.FaceLeft = false;
 					C.ForceX = 0;
-				} else C.ForceX = C.ForceX - Math.round((PlatformTime - PlatformLastTime) / 8);
+				} else C.ForceX = C.ForceX - PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
 			} else {
 				if (C.X >= PlatformRoom.Width - 300) {
 					C.FaceLeft = true;
 					C.ForceX = 0;
-				} else C.ForceX = C.ForceX + Math.round((PlatformTime - PlatformLastTime) / 8);
+				} else C.ForceX = C.ForceX + PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
 			}
+			if ((C.JumpOdds != null) && (C.JumpOdds > 0) && (Math.random() < C.JumpOdds * Frame) && (C.Y == PlatformFloor))
+				if ((C.Action == null) || (C.Action.Expire == null) || (C.Action.Expire <= CommonTime()))
+					C.ForceY = -25 - Math.random() * 25;
+			if ((C.RunOdds != null) && (C.RunOdds > 0) && (Math.random() < C.RunOdds * Frame) && (C.Y == PlatformFloor))
+				C.Run = !C.Run;
+			if ((C.StandAttackSlowOdds != null) && (C.StandAttackSlowOdds > 0) && (Math.random() < C.StandAttackSlowOdds * Frame))
+				PlatformAttack(C, "StandAttackSlow");
+				
 		}
 		
 		// Applies the forces and turns the face
@@ -344,6 +515,7 @@ function PlatformDraw() {
 		else if ((C.Action != null) && (C.Action.Expire != null) && (C.Action.Expire >= PlatformTime)) C.Anim = PlatformGetAnim(C, C.Action.Name, false);
 		else if (C.Y != PlatformFloor) C.Anim = PlatformGetAnim(C, "Jump");
 		else if ((C.ForceX != 0) && Crouch) C.Anim = PlatformGetAnim(C, "Crawl");
+		else if ((C.ForceX != 0) && C.Run) C.Anim = PlatformGetAnim(C, "Run");
 		else if (C.ForceX != 0) C.Anim = PlatformGetAnim(C, "Walk");
 		else if (Crouch) C.Anim = PlatformGetAnim(C, "Crouch");
 		else C.Anim = PlatformGetAnim(C, "Idle");
@@ -355,14 +527,22 @@ function PlatformDraw() {
 		if (!C.Camera && C.Anim != null) PlatformDrawCharacter(C, PlatformTime);
 		C.ForceX = C.ForceX * 0.75;
 		if (C.Y == PlatformFloor) C.ForceY = 0;
-		else C.ForceY = C.ForceY + Math.round((PlatformTime - PlatformLastTime) / 7);
+		else C.ForceY = C.ForceY + PlatformWalkFrame(PlatformGravitySpeed, Frame);
 		if ((C.ForceX > -0.5) && (C.ForceX < 0.5)) C.ForceX = 0;
-		
+
 	}
-	
+
+	// Processes the action done by the characters
+	for (let C of PlatformChar)
+		if ((C.Action != null) && (C.Action.Expire != null) && (C.Action.Expire >= PlatformTime))
+			PlatformProcessAction(C, PlatformTime);
+
+	// Does collision damage for the player
+	PlatformCollisionDamage(PlatformPlayer, PlatformTime);
+
 	// Draws the player last to put her in front
 	PlatformDrawCharacter(PlatformPlayer, PlatformTime);
-	
+
 	// Keeps the time of the frame for the next run
 	PlatformLastTime = PlatformTime;
 
@@ -374,7 +554,7 @@ function PlatformDraw() {
  */
 function PlatformRun() {	
 	PlatformDraw();
-	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
+	if (Player.CanWalk()) DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 }
 
 /**
@@ -384,6 +564,8 @@ function PlatformRun() {
  * @returns {void} - Nothing
  */
 function PlatformAttack(Source, Type) {
+	if ((Source.Action != null) && (Source.Action.Expire != null) && (Source.Action.Expire > CommonTime())) return;
+	Source.Run = false;
 	for (let Attack of Source.Attack)
 		if (Attack.Name == Type)
 			Source.Action = { Name: Type, Start: CommonTime(), Expire: CommonTime() + Attack.Speed };
@@ -394,9 +576,8 @@ function PlatformAttack(Source, Type) {
  * @returns {void} - Nothing
  */
 function PlatformClick() {
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) return PlatformExit();
-	if ((PlatformPlayer.Action == null) || (PlatformPlayer.Action.Expire == null) || (PlatformPlayer.Action.Expire < CommonTime()))
-		PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "Sweep" : "Punch");
+	if (MouseIn(1900, 10, 90, 90) && Player.CanWalk()) return PlatformExit();
+	PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackFast" : "StandAttackFast");
 }
 
 /**
@@ -413,11 +594,12 @@ function PlatformExit() {
  * If there's a door, the player can enter it with the W key
  * @returns {void} - Nothing
  */
-function PlatformEnterDoor() {
+function PlatformEnterRoom(FromType) {
 	if ((PlatformRoom == null) || (PlatformRoom.Door == null)) return;
 	for (let Door of PlatformRoom.Door)
-		if ((PlatformPlayer.X >= Door.FromX) && (PlatformPlayer.X <= Door.FromX + Door.FromW) && (PlatformPlayer.Y >= Door.FromY) && (PlatformPlayer.Y <= Door.FromY + Door.FromH)) {
+		if ((PlatformPlayer.X >= Door.FromX) && (PlatformPlayer.X <= Door.FromX + Door.FromW) && (PlatformPlayer.Y >= Door.FromY) && (PlatformPlayer.Y <= Door.FromY + Door.FromH) && (FromType === Door.FromType)) {
 			PlatformLoadRoom(Door.Name);
+			PlatformPlayer.Run = false;
 			PlatformPlayer.X = Door.ToX;
 			PlatformPlayer.FaceLeft = Door.ToFaceLeft;
 			return;
@@ -430,9 +612,14 @@ function PlatformEnterDoor() {
  * @returns {void} - Nothing
  */
 function PlatformEventKeyDown(e) {
+	PlatformPlayer.Run = ((e.keyCode == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && ([65, 97, 68, 100].indexOf(e.keyCode) >= 0) && (PlatformKeys.indexOf(e.keyCode) < 0)) || ((e.keyCode == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(e.keyCode) >= 0));
 	if (e.keyCode == 32) PlatformPlayer.Action = null;
-	if ((e.keyCode == 87) || (e.keyCode == 119)) return PlatformEnterDoor();
+	if ((e.keyCode == 87) || (e.keyCode == 119)) return PlatformEnterRoom("Up");
+	if ((e.keyCode == 76) || (e.keyCode == 108)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackFast" : "StandAttackFast");
+	if ((e.keyCode == 75) || (e.keyCode == 107)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackSlow" : "StandAttackSlow");
 	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);
+	PlatformLastKeyCode = e.keyCode;
+	PlatformLastKeyTime = CommonTime();
 }
 
 /**
