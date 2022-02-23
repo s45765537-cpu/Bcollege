@@ -2441,7 +2441,7 @@ function ChatRoomMessage(data) {
 
 					// Launches the audio file if allowed
 					if (!Player.AudioSettings.PlayItemPlayerOnly || IsPlayerInvolved)
-						AudioPlayContent(data);
+						AudioPlaySoundForChatMessage(data);
 
 					// Raise a notification if required
 					if (data.Type === "Action" && IsPlayerInvolved && Player.NotificationSettings.ChatMessage.Activity)

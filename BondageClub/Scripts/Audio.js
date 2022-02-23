@@ -317,10 +317,10 @@ function AudioVolumeFromModifier(modifier) {
 
 /**
  * Takes the received data dictionary content and identifies the audio to be played
- * @param {object} data - Data received
+ * @param {IChatRoomMessage} data - Data received
  * @returns {void} - Nothing
  */
-function AudioPlayContent(data) {
+function AudioPlaySoundForChatMessage(data) {
 	// Exits right away if we are missing content data
 	if (!Player.AudioSettings || !Player.AudioSettings.PlayItem || (Player.AudioSettings.Volume == 0) || !data.Dictionary || !data.Dictionary.length) return;
 	var NoiseModifier = 0;
