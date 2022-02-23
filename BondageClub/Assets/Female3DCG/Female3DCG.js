@@ -461,6 +461,15 @@ var AssetFemale3DCG = [
 				Alpha: [{ Group: ["Panties", "ItemPelvis", "Bra", "Corset"], Masks: [[0, 0, 230, 448], [268, 0, 232, 448]] },],
 				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]
 			},
+			{ 
+				Name: "SleevelessSlimLatexLeotard", Value: 50, Top: 0, Left: 0, Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"], HideItemExclude: ["ItemVulvaWiredEgg"],
+				PoseMapping: {Yoked: "", BackBoxTie: "", BackCuffs: "", BackElbowTouch: "", OverTheHead: ""},
+				Layer: [
+					{ Name: "Latex" },
+					{ Name: "Shine", AllowColorize: false },
+					{ Name: "BreastShade", AllowColorize: false }
+				]
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
