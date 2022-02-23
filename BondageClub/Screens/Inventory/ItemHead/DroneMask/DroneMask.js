@@ -96,8 +96,8 @@ function InventoryItemHeadDroneMaskExit() {
 const InventoryItemHeadDroneMaskTextChange = CommonLimitFunction((C, item, text) => {
    item = DialogFocusItem || item;
       if (DynamicDrawTextRegex.test(text)) {
-	      item.Property.Text = text.substring(0, InventoryItemHeadDroneMaskMaxChars);
-	      CharacterLoadCanvas(C);
+	    item.Property.Text = text.substring(0, InventoryItemHeadDroneMaskMaxChars);
+	    CharacterLoadCanvas(C);
    }
 });
 
