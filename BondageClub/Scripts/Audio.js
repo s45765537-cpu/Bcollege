@@ -298,6 +298,23 @@ function AudioDialogStop() {
 	AudioDialog.currentTime = 0;
 }
 
+/** The "normal" volume for a game sound, a.k.a a sound with modifier 0 */
+let AudioVolumeNormalLevel = 0.5;
+/** Number of available modifier steps */
+let AudioVolumeModifierSteps = 4;
+
+/**
+ * Returns the actual volume given a volume modifier.
+ *
+ * @param {number} modifier - The volume modifier to use, from -4 to 4
+ * @returns {number} The volume level, from 0.0 to 1.0
+ */
+function AudioVolumeFromModifier(modifier) {
+	modifier = Math.max(-AudioVolumeModifierSteps, Math.min(AudioVolumeModifierSteps, modifier));
+	let volumeMod = (2 * (1 - AudioVolumeNormalLevel) * modifier / (2 * AudioVolumeModifierSteps));
+	return Player.AudioSettings.Volume * AudioVolumeNormalLevel + (isNaN(volumeMod) ? 0 : volumeMod);
+}
+
 /**
  * Takes the received data dictionary content and identifies the audio to be played
  * @param {object} data - Data received
@@ -337,7 +354,7 @@ function AudioPlayContent(data) {
 	NoiseModifier -= (3 * Player.GetDeafLevel());
 
 	// Sends the audio file to be played
-	AudioPlayInstantSound("Audio/" + FileName + ".mp3", Player.AudioSettings.Volume * (.2 + NoiseModifier / 40));
+	AudioPlayInstantSound("Audio/" + FileName + ".mp3", AudioVolumeFromModifier(NoiseModifier));
 }
 
 function AudioGetFileName(sound) {
