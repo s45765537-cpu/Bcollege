@@ -463,7 +463,7 @@ var AssetFemale3DCG = [
 			},
 			{ 
 				Name: "SleevelessSlimLatexLeotard", Value: 50, Top: 0, Left: 0, Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"], HideItemExclude: ["ItemVulvaWiredEgg"],
-				PoseMapping: {Yoked: "", BackBoxTie: "", BackCuffs: "", BackElbowTouch: "", OverTheHead: ""},
+				PoseMapping: { Yoked: "", BackBoxTie: "", BackCuffs: "", BackElbowTouch: "", OverTheHead: "", TapedHands: "" },
 				Layer: [
 					{ Name: "Latex" },
 					{ Name: "Shine", AllowColorize: false },
@@ -763,7 +763,7 @@ var AssetFemale3DCG = [
 			{ Name: "CoconutBra", Value: 15, Hide: ["ItemNipples"], AllowPose: [], DefaultColor: "#83440B" },
 			{ 
 				Name: "SleevelessSlimLatexLeotard", Value: 50, Top: 0, Left: 0, Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"], HideItemExclude: ["ItemVulvaWiredEgg"],
-				PoseMapping: {Yoked: ""},
+				PoseMapping: { Yoked: "" },
 				Layer: [
 					{ Name: "Latex" },
 					{ Name: "Shine", AllowColorize: false },
