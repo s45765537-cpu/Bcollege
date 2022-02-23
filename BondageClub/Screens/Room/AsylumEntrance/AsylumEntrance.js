@@ -125,7 +125,7 @@ function AsylumEntranceWearNurseClothes(C) {
 /**
  * Dresses a given character as a patient. Removes all clothes and respects cosplay rules
  * @param {"Player" | Character} C - The character to dress
- * @param {boolean} ExtraEvent - Should we process extra events for login or GGTS
+ * @param {boolean} [ExtraEvent] - Should we process extra events for login or GGTS
  * @returns {void} - Nothing
  */
 function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
@@ -591,4 +591,12 @@ function AsylumEntranceGiveRestraints() {
 		{ Name: "MedicalBedRestraints", Group: "ItemFeet" },
 		{ Name: "MedicalBed", Group: "ItemDevices" },
 	]);
+}
+
+/**
+ * When the user removes 10 GGTS minutes from her bank to leave the asylum
+ * @returns {void} - Nothing
+ */
+function AsylumEntrancePayTenMinutes() {
+	AsylumGGTSSpendMinute(10);
 }

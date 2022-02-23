@@ -476,17 +476,22 @@ function CharacterAppearanceSetHeightModifiers(C) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceBuildCanvas(C) {
-	CommonDrawCanvasPrepare(C);
-	CommonDrawAppearanceBuild(C, {
-		clearRect: (x, y, w, h) => C.Canvas.getContext("2d").clearRect(x, y, w, h),
-		clearRectBlink: (x, y, w, h) => C.CanvasBlink.getContext("2d").clearRect(x, y, w, h),
-		drawImage: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, alphaMasks, opacity, rotate),
-		drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, opacity, rotate),
-		drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.Canvas.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.CanvasBlink.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawCanvas: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks),
-		drawCanvasBlink: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks),
-	});
+	// Revert to 2D canvas if webgl isn't active or its context has been lost
+	if (GLVersion === "No WebGL" || !GLDrawCanvas || !GLDrawCanvas.GL || GLDrawCanvas.GL.isContextLost()) {
+		CommonDrawCanvasPrepare(C);
+		CommonDrawAppearanceBuild(C, {
+			clearRect: (x, y, w, h) => C.Canvas.getContext("2d").clearRect(x, y, w, h),
+			clearRectBlink: (x, y, w, h) => C.CanvasBlink.getContext("2d").clearRect(x, y, w, h),
+			drawImage: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, alphaMasks, opacity, rotate),
+			drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, opacity, rotate),
+			drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.Canvas.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
+			drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.CanvasBlink.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
+			drawCanvas: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks),
+			drawCanvasBlink: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks),
+		});
+	} else {
+		GLDrawAppearanceBuild(C);
+	}
 }
 
 /**
@@ -552,10 +557,6 @@ function AppearanceLoad() {
 	var C = CharacterAppearanceSelection;
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
-		ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Wardrobe", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
-	}
 	AppearanceMenuBuild(C);
 	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings ? Player.VisualSettings.UseCharacterInPreviews : AppearanceUseCharacterInPreviewsSetting;
 }
@@ -579,7 +580,7 @@ function AppearanceMenuBuild(C) {
 			AppearanceMenu.push("Naked", "Character", "Next");
 			break;
 		case "Wardrobe":
-			AppearanceMenu.push("Naked", "Next");
+			AppearanceMenu.push("Naked", "Prev", "Next");
 			break;
 		case "Cloth":
 			if (!DialogItemPermissionMode) {
@@ -1147,22 +1148,30 @@ function AppearanceMenuClick(C) {
 					if (Button === "WardrobeDisabled") CharacterAppearanceHeaderText = TextGet("WardrobeDisabled");
 					break;
 				case "Wardrobe":
-					if (Button === "Next") {
-						CharacterAppearanceWardrobeOffset += 6;
-						if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
-					}
-					if (Button === "Naked") CharacterAppearanceStripLayer(C);
-					if (Button === "Cancel") {
-						CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
-						CharacterRefresh(C, false);
-						CharacterAppearanceWardrobeName = "";
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
-					}
-					if (Button === "Accept") {
-						CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
+					switch (Button) {
+						case "Prev":
+							CharacterAppearanceWardrobeOffset -= 6;
+							if (CharacterAppearanceWardrobeOffset < 0) CharacterAppearanceWardrobeOffset = Math.max(0, Player.Wardrobe.length - 6);
+							break;
+						case "Next":
+							CharacterAppearanceWardrobeOffset += 6;
+							if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
+							break;
+						case "Naked":
+							CharacterAppearanceStripLayer(C);
+							break;
+						case "Cancel":
+							CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
+							CharacterRefresh(C, false);
+							CharacterAppearanceWardrobeName = "";
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
+						case "Accept":
+							CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
 					}
 					break;
 				case "Cloth":
@@ -1262,10 +1271,6 @@ function CharacterAppearanceExit(C) {
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
 	CharacterAppearanceRestore(C, CharacterAppearanceBackup);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterSetFacialExpression(Player, "Emoticon", CharacterAppearancePreviousEmoticon);
-		CharacterAppearancePreviousEmoticon = "";
-	}
 	CharacterLoadCanvas(C);
 	if (C.AccountName != "") CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
 	else CommonSetScreen("Character", "Login");
@@ -1345,6 +1350,9 @@ function CharacterAppearanceLoadCharacter(C) {
 	CharacterAppearanceSelection = C;
 	CharacterAppearanceReturnRoom = CurrentScreen;
 	CharacterAppearanceReturnModule = CurrentModule;
+	if (CharacterAppearanceReturnRoom == "ChatRoom") {
+		ChatRoomStatusUpdate("Wardrobe");
+	}
 	CommonSetScreen("Character", "Appearance");
 }
 
@@ -1360,6 +1368,8 @@ function CharacterAppearanceWardrobeLoad(C) {
 		WardrobeLoadCharacterNames();
 	ElementCreateInput("InputWardrobeName", "text", CharacterAppearanceWardrobeName || C.Name, "20");
 	CharacterAppearanceMode = "Wardrobe";
+	// Always open the wardrobe on the first page
+	CharacterAppearanceWardrobeOffset = 0;
 	CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
 	CharacterAppearanceInProgressBackup = CharacterAppearanceStringify(C);
 }

@@ -3,7 +3,6 @@ var AsylumMeetingBackground = "AsylumMeeting";
 var AsylumMeetingPatientLeft = null;
 var AsylumMeetingPatientRight = null;
 
-// Returns TRUE if specific dialog conditions are met
 /**
  * Checks if the player can be released
  * @returns {boolean} - Returns true, if the player can be released, false otherwise
@@ -19,6 +18,8 @@ function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (
  * @returns {boolean} - Returns true, if the player can be restrained, flase otherwise
  */
 function AsylumMeetingCanRestrainPlayer() { return (!Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && (LogValue("Committed", "Asylum") >= CurrentTime)); }
+
+// Returns TRUE if specific dialog conditions are met
 function AsylumMeetingCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
 function AsylumMeetingWearingGGTS() { return InventoryIsWorn(CurrentCharacter, "FuturisticCuffs", "ItemArms"); }
 function AsylumMeetingGGTSCollar() { return InventoryIsWorn(CurrentCharacter, "FuturisticCollar", "ItemNeck"); }
@@ -183,4 +184,36 @@ function AsylumMeetingRestrainPlayer(RestraintsType) {
 function AsylumMeetingBlush(BlushType) {
 	CharacterSetFacialExpression(CurrentCharacter, "Blush", BlushType, 10);
 	CharacterSetFacialExpression(CurrentCharacter, "Eyebrows", "Lowered", 10);
+}
+
+/**
+ * Before the player quits GGTS
+ * @returns {void} - Nothing
+ */
+function AsylumMeetingBeforeQuitGGTS() {
+	AsylumMeetingBackground = "AsylumGGTSRoom";
+}
+
+/**
+ * When the player quits GGTS, her game data is erased
+ * @returns {void} - Nothing
+ */
+function AsylumMeetingQuitGGTS() {
+	AsylumGGTSQuit();
+	AsylumMeetingBackground = "AsylumGGTSRoomAlert";
+	CharacterRelease(AsylumMeetingPatientLeft);
+	InventoryRemove(AsylumMeetingPatientLeft, "ItemNeck");
+	InventoryRemove(AsylumMeetingPatientLeft, "ItemTorso");
+	InventoryRemove(AsylumMeetingPatientLeft, "ItemBreast");
+	InventoryRemove(AsylumMeetingPatientLeft, "ItemPelvis");
+}
+
+/**
+ * When the player quits GGTS by destroying the database server, the asylum closes until there's a relog
+ * @returns {void} - Nothing
+ */
+function AsylumMeetingQuitGGTSMainHall() {
+	DialogLeave();
+	MainHallAsylumOpen = false;
+	CommonSetScreen("Room", "MainHall");
 }
