@@ -240,6 +240,52 @@ var AssetFemale3DCGExtended = {
 				], DrawImages: false,
 			},
 		}, // Scarf
+		Glitter: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options:[
+					{
+						Name: "Freckles",
+						Property: {Type: null,}
+					},
+					{
+						Name: "MidFreckles",
+						Property: {Type: "MidFreckles",}
+					},
+					{
+						Name: "SplitFreckles",
+						Property: {Type: "SplitFreckles",}
+					},
+					{
+						Name: "StarsBoth",
+						Property: {Type: "StarsBoth",}
+					},
+					{
+						Name: "StarsLeft",
+						Property: {Type: "StarsLeft",}
+					},
+					{
+						Name: "StarsRight",
+						Property: {Type: "StarsRight",}
+					},
+					{
+						Name: "DotsBoth",
+						Property: {Type: "DotsBoth",}
+					},
+					{
+						Name: "DotsLeft",
+						Property: {Type: "DotsLeft",}
+					},
+					{
+						Name: "DotsRight",
+						Property: {Type: "DotsRight",}
+					},
+					
+					
+				],
+				DrawImages: false,
+			},
+		}, //Glitter		
 	}, // ClothAccessory
 	ItemBreast: {
 		Ribbons: {
@@ -3787,6 +3833,52 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //PetNose
+		Glitter: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options:[
+					{
+						Name: "Freckles",
+						Property: {Type: null,}
+					},
+					{
+						Name: "MidFreckles",
+						Property: {Type: "MidFreckles",}
+					},
+					{
+						Name: "SplitFreckles",
+						Property: {Type: "SplitFreckles",}
+					},
+					{
+						Name: "StarsBoth",
+						Property: {Type: "StarsBoth",}
+					},
+					{
+						Name: "StarsLeft",
+						Property: {Type: "StarsLeft",}
+					},
+					{
+						Name: "StarsRight",
+						Property: {Type: "StarsRight",}
+					},
+					{
+						Name: "DotsBoth",
+						Property: {Type: "DotsBoth",}
+					},
+					{
+						Name: "DotsLeft",
+						Property: {Type: "DotsLeft",}
+					},
+					{
+						Name: "DotsRight",
+						Property: {Type: "DotsRight",}
+					},
+					
+					
+				],
+				DrawImages: false,
+			},
+		}, //Glitter		
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
