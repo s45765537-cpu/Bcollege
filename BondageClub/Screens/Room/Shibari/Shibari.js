@@ -154,8 +154,8 @@ function ShibariRun() {
 	DrawCharacter(ShibariStudent, 1250, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
-	if (Player.CanChange()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/DressReset.png");
-	if (Player.CanChange()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
+	if (Player.CanChangeOwnClothes()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/DressReset.png");
+	if (Player.CanChangeOwnClothes()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
 }
 
 /**
@@ -167,8 +167,8 @@ function ShibariClick() {
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(ShibariTeacher);
 	if (MouseIn(1250, 0, 500, 1000)) CharacterSetCurrent(ShibariStudent);
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && Player.CanChange()) CharacterDress(Player, ShibariPlayerAppearance);
-	if (MouseIn(1885, 385, 90, 90) && Player.CanChange()) CharacterNaked(Player);
+	if (MouseIn(1885, 265, 90, 90) && Player.CanChangeOwnClothes()) CharacterDress(Player, ShibariPlayerAppearance);
+	if (MouseIn(1885, 385, 90, 90) && Player.CanChangeOwnClothes()) CharacterNaked(Player);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) {
 		CharacterDress(Player, ShibariPlayerAppearance);
 		ShibariPlayerAppearance = null;
@@ -187,10 +187,11 @@ function ShibariStartTeacherBondage() {
 
 /**
  * Triggered when the player gets restrained by the teacher, the teacher will not release the player for a minute after this.
+ * @param {string} Level
  * @returns {void} - Nothing
  */
 function ShibariRestrainPlayer(Level) {
-	ShibariRandomBondage(Player, Level);
+	ShibariRandomBondage(Player, parseInt(Level));
 	ShibariTeacherReleaseTimer = CommonTime() + 60000;
 }
 

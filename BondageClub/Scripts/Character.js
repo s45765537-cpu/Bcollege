@@ -100,16 +100,29 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		CanInteract: function () {
 			return (this.Effect.indexOf("Block") < 0);
 		},
-		CanChange: function () {
-			return (
-				(this.Effect.indexOf("Freeze") < 0) &&
-				(this.Effect.indexOf("Block") < 0) &&
-				(this.Effect.indexOf("Prone") < 0) &&
-				!ManagementIsClubSlave() &&
-				AsylumGGTSAllowChange(this) &&
-				!LogQuery("BlockChange", "Rule") &&
-				(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
-			);
+		CanChangeOwnClothes: function () {
+			return this.CanChangeClothesOn(this);
+		},
+		CanChangeClothesOn: function (C) {
+			if (this.IsPlayer() && C.IsPlayer()) {
+				return (
+					!C.IsRestrained() &&
+					!ManagementIsClubSlave() &&
+					OnlineGameAllowChange() &&
+					AsylumGGTSAllowChange(this) &&
+					!LogQuery("BlockChange", "Rule") &&
+					(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
+				);
+			} else {
+				return (
+					this.CanInteract() &&
+					C.MemberNumber != null &&
+					C.AllowItem &&
+					!C.IsEnclose() &&
+					!(InventoryGet(CurrentCharacter, "ItemNeck") !== null &&
+						InventoryGet(CurrentCharacter, "ItemNeck").Asset.Name == "ClubSlaveCollar")
+				);
+			}
 		},
 		IsProne: function () {
 			return (this.Effect.indexOf("Prone") >= 0);
@@ -1233,7 +1246,7 @@ function CharacterGetBonus(C, BonusType) {
  * Restrains a character with random restraints. Some restraints are specifically disabled for randomization in their definition.
  * @param {Character} C - The target character to restrain
  * @param {"FEW"|"LOT"|"ALL"} [Ratio] - Amount of restraints to put on the character
- * @param {false} [Refresh] - do not call CharacterRefresh if false
+ * @param {boolean} [Refresh] - do not call CharacterRefresh if false
  */
 function CharacterFullRandomRestrain(C, Ratio, Refresh) {
 

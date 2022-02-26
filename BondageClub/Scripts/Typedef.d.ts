@@ -40,6 +40,10 @@ interface HTMLImageElement {
 	errorcount?: number;
 }
 
+interface HTMLElement {
+	setAttribute(qualifiedName: string, value: string | number): void;
+}
+
 //#endregion
 
 //#region Enums
@@ -67,6 +71,8 @@ type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 type VibratorModeSet = "Standard" | "Advanced";
 
 type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
+
+type VibratorRemoteAvailability = "Available" | "NoRemote" | "NoLoversRemote" | "RemotesBlocked" | "CannotInteract" | "NoAccess" | "InvalidItem";
 
 //#endregion
 
@@ -161,10 +167,10 @@ interface ChatRoom {
 	Character?: any[]; /* From server, not really a Character object */
 }
 
-type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail";
+type StimulationAction = "Flash" | "Kneel" | "Walk" | "StruggleAction" | "StruggleFail" | "Gag";
 
 type MessageActionType = "Action" | "Chat" | "Whisper" | "Emote" | "Activity" | "Hidden" |
- "LocalMessage" | "ServerMessage";
+ "LocalMessage" | "ServerMessage" | "Status";
 
 type MessageContentType = string;
 
@@ -601,7 +607,22 @@ interface Character {
 	CanWalk: () => boolean;
 	CanKneel: () => boolean;
 	CanInteract: () => boolean;
-	CanChange: () => boolean;
+
+	/**
+	 * Check whether a character can change its own outfit.
+	 *
+	 * @warning Only usable on Player
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeOwnClothes: () => boolean;
+
+	/**
+	 * Check whether a character can change another one's outfit.
+	 *
+	 * @param {Character} C - The character to check against.
+	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
+	 */
+	CanChangeClothesOn: (C: Character) => boolean;
 	IsProne: () => boolean;
 	IsRestrained: () => boolean;
 	IsBlind: () => boolean;
@@ -694,7 +715,11 @@ interface Character {
 		GameVersion: string;
 		ItemsAffectExpressions: boolean;
 	};
-	Game?: any;
+	Game?: {
+		LARP?: GameLARPParameters,
+		MagicBattle?: GameMagicBattleParameters,
+		GGTS?: GameGGTSParameters,
+	};
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -707,6 +732,8 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
+	Status?: string | null;
+	StatusTimer?: number;
 }
 
 /** MovieStudio */
@@ -745,10 +772,20 @@ interface PlayerCharacter extends Character {
 		ShowChatHelp: boolean;
 		ShrinkNonDialogue: boolean;
 		WhiteSpace: string;
+		/** @deprecated */
+		AutoBanBlackList?: any;
+		/** @deprecated */
+		AutoBanGhostList?: any;
+		/** @deprecated */
+		SearchFriendsFirst?: any;
+		/** @deprecated */
+		DisableAnimations?: any;
+		/** @deprecated */
+		SearchShowsFullRooms?: any;
 	};
 	VisualSettings?: {
-		ForceFullHeight: boolean;
-		UseCharacterInPreviews: boolean;
+		ForceFullHeight?: boolean;
+		UseCharacterInPreviews?: boolean;
 		MainHallBackground?: string;
 		PrivateRoomBackground?: string;
 	};
@@ -801,6 +838,7 @@ interface PlayerCharacter extends Character {
 	LastChatRoomDesc?: string;
 	LastChatRoomAdmin?: any[];
 	LastChatRoomBan?: any[];
+	LastChatRoomBlockCategory?: string[];
 	LastChatRoomTimer?: any;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
@@ -813,8 +851,9 @@ interface PlayerCharacter extends Character {
 		DisableAnimations: boolean;
 		SearchShowsFullRooms: boolean;
 		SearchFriendsFirst: boolean;
+		SendStatus?: boolean;
+		ShowStatus?: boolean;
 		EnableAfkTimer: boolean;
-		EnableWardrobeIcon: boolean;
 	};
 	GraphicsSettings?: {
 		Font: string;
@@ -1466,6 +1505,86 @@ interface ICommand {
 	Clear?: false;
 }
 
+
+
+// Kinky Dungeon Typedefs
+interface KinkyDungeonSave {
+	level: number;
+    checkpoint: number;
+    rep: Record<string, number>;
+    costs: Record<string, number>;
+    orbs: number[];
+    chests: number[];
+    dress: string;
+    gold: number;
+    points: number;
+    levels: {
+        Elements: number;
+        Conjure: number;
+        Illusion: number;
+    };
+    id: number;
+    choices: number[];
+	choices2: boolean[];
+	buffs: Record<string, any>;
+	lostitems: any[];
+	caches: number[];
+	spells: string[];
+	inventory: {
+		restraint: any;
+		looserestraint: any;
+		weapon: any;
+		consumable: any;
+	}[];
+	stats: {
+		picks: number;
+		keys: number;
+		bkeys: number;
+		knife: number;
+		eknife: number;
+		mana: number;
+		stamina: number;
+		arousal: number;
+		wep: any;
+		npp: number;
+	};
+}
+
+interface KinkyDungeonShopItem {
+	cost: any;
+	rarity: any;
+	costMod?: any;
+	shoptype: string;
+	name: any;
+}
+
+interface KinkyDungeonWeapon {
+	name: string;
+	dmg: number;
+	chance: number;
+	type: string;
+	rarity: number;
+	staminacost?: number;
+	magic?: boolean;
+	cutBonus?: number;
+	unarmed: boolean;
+	shop: boolean;
+	noequip?: boolean;
+	sfx: string;
+	events?: KinkyDungeonEvent[];
+}
+
+interface KinkyDungeonEvent {
+	type: string;
+	trigger: string;
+	power?: number;
+	damage?: string;
+	dist?: number;
+	buffType?: string;
+	time?: number;
+	chance?: number;
+}
+
 type PokerPlayerType = "None" | "Set" | "Character";
 type PokerPlayerFamily = "None" | "Player";
 
@@ -1495,3 +1614,42 @@ interface PokerPlayer {
 	WebLink?: string;
 	Alternate?: void;
 }
+
+// #region Online Games
+
+/**
+ * Online game status values.
+ *
+ * @property "" - The game is in the setup phase.
+ * @property "Running" - The game is currently running.
+ *
+ * @fix FIXME: "" should really be renamed Setup
+ */
+type OnlineGameStatus = "" | "Running";
+
+interface GameLARPParameters {
+	Status: OnlineGameStatus;
+	Class: string;
+	Team: string;
+	TimerDelay: number;
+	Level: {
+		Name: string;
+		Level: number;
+		Progress: number;
+	}[];
+}
+
+interface GameMagicBattleParameters {
+	Status: OnlineGameStatus;
+	House: string;
+	TeamType: "FreeForAll" | "House";
+}
+
+interface GameGGTSParameters {
+	Level: number;
+	Time: number;
+	Strike: number;
+	Rule: string[];
+}
+
+// #endregion

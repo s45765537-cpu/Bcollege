@@ -44,6 +44,7 @@ var DialogLockMenu = false;
 var DialogLentLockpicks = false;
 var DialogGamingPreviousRoom = "";
 var DialogGamingPreviousModule = "";
+var DialogButtonDisabledTester = /Disabled(For\w+)?$/u;
 
 /** @type {Map<string, string>} */
 var PlayerDialog = new Map();
@@ -122,7 +123,7 @@ var DialogSelfMenuOptions = [
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is less or equal than a given value
  */
-function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <= Value); }
+function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <= parseInt(Value)); }
 
 /**
  * Compares the player's reputation with a given value
@@ -130,7 +131,7 @@ function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is greater or equal than a given value
  */
-function DialogReputationGreater(RepType, Value) { return (ReputationGet(RepType) >= Value); }
+function DialogReputationGreater(RepType, Value) { return (ReputationGet(RepType) >= parseInt(Value)); }
 
 /**
  * Compares the player's money with a given amount
@@ -144,7 +145,7 @@ function DialogMoneyGreater(Amount) { return (parseInt(Player.Money) >= parseInt
  * @param {string} Amount - The amount that should be charged or added to the player's account
  * @returns {void} - Nothing
  */
-function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, Amount); }
+function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, parseInt(Amount)); }
 
 /**
  * Alters the current player's reputation by a given amount
@@ -316,12 +317,6 @@ function DialogSkillGreater(SkillType, Value) { return (parseInt(SkillGetLevel(P
 function DialogInventoryAvailable(InventoryName, InventoryGroup) { return InventoryAvailable(Player, InventoryName, InventoryGroup); }
 
 /**
- * Checks if the player can change the current character's clothes
- * @returns {boolean} - TRUE if the player can change the character's clothes and is allowed to.
- */
-function DialogChatRoomCanChangeClothes() { return ((CurrentScreen == "ChatRoom") && ChatRoomCanChangeClothes()); }
-
-/**
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
@@ -331,7 +326,7 @@ function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && (Cur
  * Checks, if a safe word can be used.
  * @returns {boolean} - Returns true, if the player is currently within a chat room
  */
-function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && Player.GameplaySettings.EnableSafeword); }
+function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword); }
 
 /**
  * Checks if the player is currently owned.
@@ -340,17 +335,60 @@ function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && Pl
 function DialogCanViewRules() { return (Player.Ownership != null) && (Player.Ownership.Stage == 1); }
 
 /**
- * Checks if the chat room allows the photograph feature to be used.
- * @returns {boolean} - TRUE if the player can take a photo.
- */
-function DialogChatRoomCanTakePhotos() { return CurrentScreen == "ChatRoom" && ChatRoomCanTakePhotos(); }
-
-/**
  * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
  * @param {string} Minute - The number of minutes to compare
  * @returns {boolean} - TRUE if the player has enough minutes
  */
 function DialogGGTSMinuteGreater(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(Player.Game.GGTS.Time / 60000) >= parseInt(Minute))); }
+
+/**
+ * Checks if the player can spend GGTS minutes on herself, for GGTS level 6 and up
+ * @returns {boolean} - TRUE if the player has enough minutes
+ */
+function DialogGGTSCanSpendMinutes() { return (AsylumGGTSIsEnabled() && (AsylumGGTSGetLevel(Player) >= 6)); }
+
+/**
+ * The player can ask GGTS for specific actions at level 6, requiring minutes as currency
+ * @param {string} Action - The action to trigger
+ * @param {string} Minute - The number of minutes to spend
+ * @returns {void}
+ */
+function DialogGGTSAction(Action, Minute) {
+	AsylumGGTSDialogAction(Action, Minute);
+}
+
+/**
+ * Checks if the player can beg GGTS to unlock the room
+ * @returns {boolean} - TRUE if GGTS can unlock
+ */
+function DialogGGTSCanUnlock() {
+	return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom") && DialogGGTSMinuteGreater(30) && (ChatRoomData != null) && ChatRoomData.Locked);
+}
+
+/**
+ * Checks if the player can get the GGTS helmet, only available from GGTS
+ * @returns {boolean} - TRUE if GGTS can unlock
+ */
+function DialogGGTSCanGetHelmet() {
+	return (DialogGGTSMinuteGreater(200) && !InventoryAvailable(Player, "FuturisticHelmet", "ItemHood"));
+}
+
+/**
+ * Nurses can do special GGTS interactions with other players
+ * @returns {boolean} - TRUE if the player is a nurse in a GGTS room
+ */
+function DialogCanStartGGTSInteractions() {
+	return (AsylumGGTSIsEnabled() && (CurrentCharacter != null) && (AsylumGGTSGetLevel(CurrentCharacter) >= 1) && !DialogCanWatchKinkyDungeon() && (ReputationGet("Asylum") > 0));
+}
+
+/**
+ * Nurses can ask GGTS for specific interactions with other players
+ * @param {string} Interaction - The interaction to trigger
+ * @returns {void}
+ */
+function DialogGGTSInteraction(Interaction) {
+	AsylumGGTSDialogInteraction(Interaction);
+}
 
 /**
  * Checks the prerequisite for a given dialog
@@ -749,22 +787,29 @@ function DialogAlwaysAllowRestraint() {
  * Checks whether the player can use a remote on the given character and item
  * @param {Character} C - the character that the item is equipped on
  * @param {Item} Item - the item to check for remote usage against
- * @return {boolean} - Returns true if the player is able to use a remote for the given character and item. Returns false otherwise.
+ * @return {VibratorRemoteAvailability} - Returns the status of remote availability: Available, NoRemote, NoLoversRemote, RemotesBlocked, CannotInteract, NoAccess, InvalidItem
  */
-function DialogCanUseRemote(C, Item) {
-	// Can't use remotes if there is no item, the item doesn't have the "Egged" effect, or the player cannot interact
-	// with remotes in the first place
-	if (!Item || (!InventoryItemHasEffect(Item, "Egged") && !InventoryItemHasEffect(Item, "UseRemote")) || !Player.CanInteract()) return false;
+function DialogCanUseRemoteState(C, Item) {
+	// Can't use remotes if there is no item, the item doesn't have the "Egged" effect
+	if (!Item || (!InventoryItemHasEffect(Item, "Egged") && !InventoryItemHasEffect(Item, "UseRemote"))) return "InvalidItem";
+	// Can't use remotes if the player cannot interact with their hands
+	if (!Player.CanInteract()) return "CannotInteract";
 	// Can't use remotes on self if the player is owned and their remotes have been blocked by an owner rule
-	if (C.ID === 0 && Player.Ownership && Player.Ownership.Stage === 1 && LogQuery("BlockRemoteSelf", "OwnerRule")) return false;
+	if (C.ID === 0 && Player.Ownership && Player.Ownership.Stage === 1 && LogQuery("BlockRemoteSelf", "OwnerRule")) return "RemotesBlocked";
 	if (Item.Asset.LoverOnly) {
 		// If the item is lover-only, the player must have the appropriate remote, be a lover of the character, and match the member number on the item
-		return C.IsLoverOfPlayer() && Item.Property && Item.Property.ItemMemberNumber === Player.MemberNumber && InventoryAvailable(Player, "LoversVibratorRemote", "ItemVulva");
+		if (!C.IsLoverOfPlayer() || !Item.Property || Item.Property.ItemMemberNumber !== Player.MemberNumber) {
+			return "NoAccess";
+		}
+		if (!InventoryAvailable(Player, "LoversVibratorRemote", "ItemVulva")) {
+			return "NoLoversRemote";
+		}
+		return "Available";
 	} else {
 
 		// Otherwise, the player must have a vibrator remote and some items can block remotes
-		if (C.Effect.indexOf("BlockRemotes") >= 0) return false;
-		return InventoryAvailable(Player, "VibratorRemote", "ItemVulva");
+		if (C.Effect.indexOf("BlockRemotes") >= 0) return "RemotesBlocked";
+		return InventoryAvailable(Player, "VibratorRemote", "ItemVulva") ? "Available" : "NoRemote";
 	}
 }
 
@@ -888,7 +933,23 @@ function DialogMenuButtonBuild(C) {
 				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Mounted", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Dismount");
 				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Escape");
 				if ((Item != null) && Item.Asset.Extended && ((Player.CanInteract()) || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract) && (!IsGroupBlocked || Item.Asset.AlwaysExtend) && (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer())) && (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer()))) DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
-				if (!DialogMenuButton.includes("Use") && DialogCanUseRemote(C, Item)) DialogMenuButton.push(ItemBlockedOrLimited ? "RemoteDisabled" : "Remote");
+
+				const canUseRemoteState = DialogCanUseRemoteState(C, Item);
+				if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
+					let button = "";
+					switch (canUseRemoteState) {
+						case "Available":
+							button = ItemBlockedOrLimited ? "RemoteDisabled" : "Remote";
+							break;
+						case "NoRemote":
+							button = LogQuery("BlockRemote", "OwnerRule") ? "RemoteDisabledForNoRemoteOwnerRuleActive" : "RemoteDisabledForNoRemote";
+							break;
+						default:
+							button = `RemoteDisabledFor${canUseRemoteState}`;
+							break;
+					}
+					DialogMenuButton.push(button);
+				}
 			}
 
 			// Color selection
@@ -1194,7 +1255,7 @@ function DialogMenuButtonClick() {
 			}
 
 			// Remote Icon - Pops the item extension
-			else if ((DialogMenuButton[I] == "Remote") && DialogCanUseRemote(C, Item)) {
+			else if ((DialogMenuButton[I] == "Remote") && DialogCanUseRemoteState(C, Item) === "Available") {
 				DialogExtendItem(Item);
 				return;
 			}
@@ -1363,6 +1424,8 @@ function DialogPublishAction(C, ClickItem) {
 				TargetItem.Property.TriggerCount++;
 			if (CurrentScreen == "ChatRoom") {
 				let intensity = TargetItem.Property ? TargetItem.Property.Intensity : 0;
+				if (typeof intensity !== "number")
+					intensity = 0;
 				InventoryExpressionTrigger(C, ClickItem);
 				ChatRoomPublishCustomAction(TargetItem.Asset.Name + "Trigger" + intensity, true, [{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber }]);
 			} else {
@@ -1449,7 +1512,7 @@ function DialogItemClick(ClickItem) {
 					} else {
 
 						// The vibrating egg remote can open the vibrating egg's extended dialog
-						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") && DialogCanUseRemote(C, CurrentItem)) {
+						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") && DialogCanUseRemoteState(C, CurrentItem)) {
 							DialogExtendItem(InventoryGet(C, C.FocusGroup.Name));
 						}
 
@@ -1812,8 +1875,8 @@ function DialogDrawActivityMenu(C) {
 function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 	if (ButtonName === "ColorPick" || ButtonName === "ColorPickDisabled") {
 		return ItemColorIsSimple(FocusItem) ? "ColorPick" : "MultiColorPick";
-	} else if (ButtonName.endsWith("Disabled")) {
-		return ButtonName.replace(/Disabled$/, "");
+	} else if (DialogIsMenuButtonDisabled(ButtonName)) {
+		return ButtonName.replace(DialogButtonDisabledTester, "");
 	} else {
 		return ButtonName;
 	}
@@ -1825,7 +1888,7 @@ function DialogGetMenuButtonImage(ButtonName, FocusItem) {
  * @returns {string} - The background color that the menu button should use
  */
 function DialogGetMenuButtonColor(ButtonName) {
-	if (ButtonName.endsWith("Disabled")) {
+	if (DialogIsMenuButtonDisabled(ButtonName)) {
 		return "#808080";
 	} else if (ButtonName === "ColorPick") {
 		return DialogColorSelect || "#fff";
@@ -1840,7 +1903,7 @@ function DialogGetMenuButtonColor(ButtonName) {
  * @returns {boolean} - TRUE if the menu button should be disabled, FALSE otherwise
  */
 function DialogIsMenuButtonDisabled(ButtonName) {
-	return ButtonName.endsWith("Disabled");
+	return DialogButtonDisabledTester.test(ButtonName);
 }
 
 /**

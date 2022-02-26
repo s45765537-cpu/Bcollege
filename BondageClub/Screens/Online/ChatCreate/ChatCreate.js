@@ -19,15 +19,13 @@ var ChatCreateIsHidden = false;
 function ChatCreateLoad() {
 
 	// Resets the LARP game status
-	if ((ChatRoomGame == "LARP") && (Player.Game != null) && (Player.Game.LARP != null) && (Player.Game.LARP.Status != "")) {
-		Player.Game.LARP.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) {
+		GameLARPSetStatus("");
 	}
 
 	// Resets the Magic Battle game status
-	if ((ChatRoomGame == "MagicBattle") && (Player.Game != null) && (Player.Game.MagicBattle != null) && (Player.Game.MagicBattle.Status != "")) {
-		Player.Game.MagicBattle.Status = "";
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) {
+		GameMagicBattleSetStatus("");
 	}
 
 	// If the current background isn't valid, we pick the first one
@@ -43,23 +41,23 @@ function ChatCreateLoad() {
 		// Prepares the controls to edit a room
 		ElementCreateInput("InputName", "text", "", "20");
 		document.getElementById("InputName").setAttribute("autocomplete", "off");
-		document.getElementById("InputName").placeholder = TextGet("NameExplanation");
+		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
 		ElementCreateInput("InputSize", "text", "10", "2");
 		document.getElementById("InputSize").setAttribute("autocomplete", "off");
 		ElementCreateTextArea("InputDescription");
 		document.getElementById("InputDescription").setAttribute("maxLength", 100);
 		document.getElementById("InputDescription").setAttribute("autocomplete", "off");
-		document.getElementById("InputDescription").placeholder = TextGet("DescriptionExplanation");
+		document.getElementById("InputDescription").setAttribute("placeholder", TextGet("DescriptionExplanation"));
 		ElementValue("InputDescription", "");
 		ElementCreateTextArea("InputAdminList");
 		document.getElementById("InputAdminList").setAttribute("maxLength", 250);
 		document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
-		document.getElementById("InputAdminList").placeholder = TextGet("UseMemberNumbersAdmin");
+		document.getElementById("InputAdminList").setAttribute("placeholder", TextGet("UseMemberNumbersAdmin"));
 		ElementValue("InputAdminList", Player.MemberNumber.toString());
 		ElementCreateTextArea("InputBanList");
 		document.getElementById("InputBanList").setAttribute("maxLength", 1000);
 		document.getElementById("InputBanList").setAttribute("autocomplete", "off");
-		document.getElementById("InputBanList").placeholder = TextGet("UseMemberNumbersBan");
+		document.getElementById("InputBanList").setAttribute("placeholder", TextGet("UseMemberNumbersBan"));
 		ElementValue("InputBanList", CommonConvertArrayToString(Player.OnlineSettings ? ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList) : []));
 	}
 	ChatCreateMessage = "";
@@ -84,11 +82,11 @@ function ChatCreateRun() {
 		ElementToggleGeneratedElements("ChatCreate", true);
 
 	// Draw the controls
-	if (!document.getElementById("InputName").placeholder) {
-		document.getElementById("InputName").placeholder = TextGet("NameExplanation");
-		document.getElementById("InputDescription").placeholder = TextGet("DescriptionExplanation");
-		document.getElementById("InputAdminList").placeholder = TextGet("UseMemberNumbersAdmin");
-		document.getElementById("InputBanList").placeholder = TextGet("UseMemberNumbersBan");
+	if (!document.getElementById("InputName").getAttribute("placeholder")) {
+		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
+		document.getElementById("InputDescription").setAttribute("placeholder", TextGet("DescriptionExplanation"));
+		document.getElementById("InputAdminList").setAttribute("placeholder", TextGet("UseMemberNumbersAdmin"));
+		document.getElementById("InputBanList").setAttribute("placeholder", TextGet("UseMemberNumbersBan"));
 	}
 	if (ChatCreateMessage == "") ChatCreateMessage = "EnterRoomInfo";
 	DrawText(TextGet(ChatCreateMessage), 650, 885, "Black", "Gray");

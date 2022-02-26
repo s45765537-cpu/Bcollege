@@ -20,6 +20,7 @@ var AsylumGGTSTaskList = [
 var AsylumGGTSLevelTime = [0, 7200000, 10800000, 18000000, 28800000, 46800000, 75600000];
 var AsylumGGTSPreviousPose = "";
 var AsylumGGTSWordCheck = 0;
+var AsylumGGTSSpeed = 1;
 
 /**
  * Returns TRUE if the player has three strikes on record
@@ -35,6 +36,14 @@ function AsylumGGTSHasThreeStrikes() {
  */
 function AsylumGGTSCanQuit() {
 	return (!AsylumGGTSHasThreeStrikes() && (LogValue("Isolated", "Asylum") < CurrentTime));
+}
+
+/**
+ * Check that GGTS is enabled in the current room.
+ * @returns true if GGTS is running, false otherwise.
+ */
+function AsylumGGTSIsEnabled() {
+	return (CurrentScreen === "ChatRoom") && (ChatRoomSpace === "Asylum") && (ChatRoomData != null) && (ChatRoomData.Game === "GGTS");
 }
 
 /**
@@ -256,7 +265,7 @@ function AsylumGGTSSetTimer() {
 	let Factor = 1;
 	if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) Factor = Factor / 3;
 	if (AsylumGGTSTimer == 0) Factor = Factor / 3;
-	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * Factor + Math.random() * 36000 * Factor);
+	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * AsylumGGTSSpeed * Factor + Math.random() * 36000 * AsylumGGTSSpeed * Factor);
 }
 
 /**
@@ -373,7 +382,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if (((T == "QueryCanFail") || (T == "QueryLove") || (T == "QuerySurrender") || (T == "QueryWhoControl") || (T == "QueryServeObey")) && (C.Game.GGTS.Level >= 6)) return false; // Some queries have the master version at level 6
 	if ((T.substr(0, 8) == "UndoRule") && ((C.Game.GGTS.Rule == null) || (C.Game.GGTS.Rule.indexOf(T.substr(8, 100)) < 0))) return false; // Rule cannot be removed if not active
 	if ((T.substr(0, 7) == "NewRule") && (C.Game.GGTS.Rule != null) && (C.Game.GGTS.Rule.indexOf(T.substr(7, 100)) >= 0)) return false; // Rule cannot be added if already active
-	if ((T.substr(0, 5) == "Cloth") && !C.CanChange()) return false; // Cloth tasks cannot be done if cannot change
+	if ((T.substr(0, 5) == "Cloth") && !C.CanChangeOwnClothes()) return false; // Cloth tasks cannot be done if cannot change
 	if ((T.substr(0, 4) == "Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
 	if ((T.substr(0, 8) == "Activity") && (!C.CanInteract() || !PreferenceArousalAtLeast(C, "NoMeter"))) return false; // Must allow activities and be able to interact
 	if ((T == "ActivityNod") && !ActivityCanBeDone(C, "Nod", "ItemHead")) return false; // Must be able to nod to use that activity
@@ -787,12 +796,12 @@ function AsylumGGTSFindTaskTarget(T) {
 function AsylumGGTSNewTask() {
 	AsylumGGTSTask = null;
 	let Level = AsylumGGTSGetLevel(Player);
-	if (Level <= 1) AsylumGGTSTimer = Math.round(CommonTime() + 60000);
-	if (Level == 2) AsylumGGTSTimer = Math.round(CommonTime() + 56000);
-	if (Level == 3) AsylumGGTSTimer = Math.round(CommonTime() + 52000);
-	if (Level == 4) AsylumGGTSTimer = Math.round(CommonTime() + 48000);
-	if (Level == 5) AsylumGGTSTimer = Math.round(CommonTime() + 44000);
-	if (Level >= 6) AsylumGGTSTimer = Math.round(CommonTime() + 40000);
+	if (Level <= 1) AsylumGGTSTimer = Math.round(CommonTime() + 60000 * AsylumGGTSSpeed);
+	if (Level == 2) AsylumGGTSTimer = Math.round(CommonTime() + 56000 * AsylumGGTSSpeed);
+	if (Level == 3) AsylumGGTSTimer = Math.round(CommonTime() + 52000 * AsylumGGTSSpeed);
+	if (Level == 4) AsylumGGTSTimer = Math.round(CommonTime() + 48000 * AsylumGGTSSpeed);
+	if (Level == 5) AsylumGGTSTimer = Math.round(CommonTime() + 44000 * AsylumGGTSSpeed);
+	if (Level >= 6) AsylumGGTSTimer = Math.round(CommonTime() + 40000 * AsylumGGTSSpeed);
 	if (Level <= 0) return;
 	if (ChatRoomSpace !== "Asylum") return;
 	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) return;
@@ -1068,6 +1077,12 @@ function AsylumGGTSSpendMinute(Minute) {
  */
 function AsylumGGTSAddStrike() {
 
+	// Flash a red alert for the player for 5 seconds, if we are in the GGTS Room background
+	if (AsylumGGTSIsEnabled() && (ChatRoomData.Background === "AsylumGGTSRoom")) {
+		ChatRoomData.Background = "AsylumGGTSRoomAlert";
+		setTimeout(function() { ChatRoomData.Background = "AsylumGGTSRoom"; }, 5000);
+	}
+
 	// Level 6 is infinite, getting a strike subtract 1 hour
 	if (AsylumGGTSGetLevel(Player) >= 6) return AsylumGGTSSpendMinute(60);
 
@@ -1178,6 +1193,8 @@ function AsylumGGTSDroneDress(C) {
 	InventoryWear(C, "FuturisticBra", "ItemBreast");
 	InventoryWear(C, "FuturisticHarness", "ItemTorso");
 	InventoryWear(C, "FuturisticPanelGag", "ItemMouth");
+	InventoryWear(C, "FuturisticMask", "ItemHead");
+	InventoryWear(C, "FuturisticHelmet", "ItemHood");
 	if ((InventoryGet(C, "ItemNeck") == null) || (C.Ownership == null)) InventoryWear(C, "FuturisticCollar", "ItemNeck");
 	InventoryWear(C, "FuturisticEarphones", "ItemEars");
 }
@@ -1194,4 +1211,95 @@ function AsylumGGTSAllowChange(C) {
 		if (CurrentScreen.substr(0, 6) == "Asylum") return false;
 	}
 	return true;
+}
+
+/**
+ * Called from Dialog.js, triggers a specific action from GGTS game
+ * @param {String} Action - The action to perform
+ * @param {Number} Minute - The number of minutes to remove
+ * @returns {void} - Nothing
+ */
+function AsylumGGTSDialogAction(Action, Minute) {
+
+	// Removes the minutes first
+	Minute = parseInt(Minute);
+	if (isNaN(Minute) || (Minute < 0)) Minute = 0;
+	AsylumGGTSSpendMinute(Minute);
+
+	// Adds $100 to the player money in exchange for 120 GGTS minutes
+	if (Action == "MoneyForMinutes") return CharacterChangeMoney(Player, 100);
+	if (Action == "GetHelmet") return InventoryAdd(Player, "FuturisticHelmet", "ItemHood");
+
+	// Call a regular automated task
+	DialogLeave();
+	AsylumGGTSTask = Action;
+	AsylumGGTSAutomaticTask();
+
+}
+
+/**
+ * Called from Dialog.js, as nurse, trigger a specific interaction for the current character
+ * @param {String} Interaction - The interaction to perform
+ * @returns {void} - Nothing
+ */
+function AsylumGGTSDialogInteraction(Interaction) {
+
+	// Outputs the interaction in local chat
+	ServerSend("ChatRoomChat", { Content: "GGTS" + Interaction + "|" + CurrentCharacter.MemberNumber.toString(), Type: "Hidden" });
+	AsylumGGTSMessage("Interaction" + Interaction, CurrentCharacter);
+	DialogLeave();
+	
+}
+
+/**
+ * Called from chat room, processes hidden GGTS messages
+ * @param {Character} SenderCharacter - The character sending the message
+ * @param {String} Interaction - The message sent
+ * @returns {void} - Nothing
+ */
+function AsylumGGTSHiddenMessage(SenderCharacter, Interaction) {
+	if (Interaction == "GGTSNewTask|" + Player.MemberNumber.toString()) return AsylumGGTSNewTask();
+	if (Interaction == "GGTSSpeed5|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 0.5;
+	if (Interaction == "GGTSSpeed10|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 1;
+	if (Interaction == "GGTSSpeed20|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 2;
+	if (Interaction == "GGTSPause5|" + Player.MemberNumber.toString()) return AsylumGGTSTimer = Math.round(CommonTime() + 300000);
+}
+
+/**
+ * GGTS Draws the level, the number of strikes and a progress bar, level 6 shows the time in a gold frame
+ * @param {Character} C - Character to draw the info for
+ * @param {number} X - Position of the character the X axis
+ * @param {number} Y - Position of the character the Y axis
+ * @param {number} Zoom - Amount of zoom the character has (Height)
+ * @returns {void} - Nothing
+ */
+function AsylumGGTSDrawCharacter(C, X, Y, Zoom) {
+	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatRoomSpace === "Asylum")) {
+		let Level = AsylumGGTSGetLevel(C);
+		if ((Level > 0) && (C.Game != null) && (C.Game.GGTS != null)) {
+			if (C.Game.GGTS.Strike >= 1) DrawImageZoomCanvas("Screens/Room/AsylumGGTS/Strike" + C.Game.GGTS.Strike.toString() + ".png", MainCanvas, 0, 0, 100, 50, X + 50 * Zoom, Y + 800 * Zoom, 100 * Zoom, 50 * Zoom);
+			MainCanvas.font = CommonGetFont(Math.round(36 * Zoom));
+			let Progress = Math.floor(C.Game.GGTS.Time / AsylumGGTSLevelTime[Level] * 100);
+			if (C.Game.GGTS.Strike >= 3) Progress = 0;
+			if ((Level >= 6) || (Progress >= 100)) DrawEmptyRect(X + 50 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, "Black");
+			if (Level >= 6) DrawRect(X + 52 * Zoom, Y + 862 * Zoom, 96 * Zoom, 36 * Zoom, "#FFD700");
+			else if (Progress >= 100) DrawRect(X + 50 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, "White");
+			else DrawProgressBar(X + 50 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, Progress);
+			if (Level >= 6) DrawText(Math.floor(C.Game.GGTS.Time / 60000).toString(), X + 100 * Zoom, Y + 881 * Zoom, "Black", "White");
+			else if (Progress >= 50) DrawText(Level.toString(), X + 100 * Zoom, Y + 881 * Zoom, "Black", "White");
+			else DrawText(Level.toString(), X + 101 * Zoom, Y + 882 * Zoom, "White", "Black");
+			if (C.Game.GGTS.Rule != null)
+				for (let R = 0; R < C.Game.GGTS.Rule.length; R++)
+					DrawImageZoomCanvas("Screens/Room/AsylumGGTS/Rule" + C.Game.GGTS.Rule[R] + ".png", MainCanvas, 0, 0, 33, 33, X + 50 * Zoom + R * 33 * Zoom, Y + 902 * Zoom, 33 * Zoom, 33 * Zoom);
+			if ((C.ID == 0) && (AsylumGGTSTimer > 0) && (AsylumGGTSTimer > CommonTime()) && (C.Game.GGTS.Strike < 3)) {
+				let ForeColor = (AsylumGGTSTask == null) ? "Black" : "White";
+				let BackColor = (ForeColor == "White") ? "Black" : "White";
+				if ((BackColor == "Black") && (Math.round((AsylumGGTSTimer - CommonTime()) / 1000) <= 10)) BackColor = "Red";
+				DrawEmptyRect(X + 350 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, ForeColor, 2);
+				DrawRect(X + 352 * Zoom, Y + 862 * Zoom, 96 * Zoom, 36 * Zoom, BackColor);
+				DrawText(Math.round((AsylumGGTSTimer - CommonTime()) / 1000).toString(), X + 399 * Zoom, Y + 882 * Zoom, ForeColor, "Silver");
+			}
+			MainCanvas.font = CommonGetFont(36);
+		}
+	}
 }

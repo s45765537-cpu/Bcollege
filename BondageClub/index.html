@@ -114,6 +114,7 @@
 <script src="Screens/Room/Poker/PokerHandValue.js"></script>
 <script src="Screens/Room/MagicSchoolLaboratory/MagicSchoolLaboratory.js"></script>
 <script src="Screens/Room/MagicSchoolEscape/MagicSchoolEscape.js"></script>
+<script src="Screens/Room/Platform/Platform.js"></script>
 <script src="Screens/Room/Gambling/Gambling.js"></script>
 <script src="Screens/Room/Prison/Prison.js"></script>
 <script src="Screens/Room/Photographic/Photographic.js"></script>
@@ -132,6 +133,7 @@
 <script src="Screens/MiniGame/RhythmGame/RhythmGame.js"></script>
 <script src="Screens/MiniGame/Therapy/Therapy.js"></script>
 <script src="Screens/MiniGame/Tennis/Tennis.js"></script>
+<script src="Screens/MiniGame/ChestLockpick/ChestLockpick.js"></script>
 <script src="Screens/MiniGame/PuppyWalker/PuppyWalker.js"></script>
 <script src="Screens/MiniGame/DojoStruggle/DojoStruggle.js"></script>
 <script src="Screens/MiniGame/Chess/chess.js"></script>
@@ -258,11 +260,15 @@
 <script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonPathfinding.js"></script>
 <script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonBuffs.js"></script>
 <script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonEvents.js"></script>
+<script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonSpawns.js"></script>
+<script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonJail.js"></script>
+<script src="Screens/MiniGame/KinkyDungeon/KinkyDungeonTests.js"></script>
 <script src="Screens/Inventory/ItemDevices/VacBedDeluxe/VacBedDeluxe.js"></script>
 <script src="Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js"></script>
 <script src="Screens/Inventory/ClothAccessory/Bib/Bib.js"></script>
 <script src="Screens/Inventory/Wings/SteampunkWings/SteampunkWings.js"></script>
 <script src="Screens/Inventory/ItemNeck/TechnoCollar/TechnoCollar.js"></script>
+<script src="Screens/Inventory/ItemHead/DroneMask/DroneMask.js"></script>
 <script>
 
 /*
@@ -277,8 +283,8 @@
 // When the code is loaded, we start the game engine
 window.onload = function() {
 	ServerURL = CommonGetServer();
-//	CheatImport();
-	GameVersion = "R76";
+	//CheatImport();
+	GameVersion = "R77";
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
 	CommonIsMobile = CommonDetectMobile();
