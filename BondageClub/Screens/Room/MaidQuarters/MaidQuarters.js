@@ -86,6 +86,13 @@ function MaidQuartersPlayerInDrinksUniform() {
 	return (MaidQuartersPlayerInMaidUniform() && legsRestrained && armsRestrained && hasTray && Player.CanWalk() && !Player.CanTalk() && !Player.IsBlind());
 }
 /**
+ * Checks, if the player can leave the maid to wear her uniform for the 'serve drink job'
+ * @returns {boolean} - Returns true, if the player is a maid, not wearing her uniform and was not forced to do the job
+ */
+function MaidQuartersPlayerCanChangeForDrinks() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform() && !MaidQuartersOnlineDrinkFromOwner);
+}
+/**
  * Checks, if the player is fully dressed for the 'clean room job'
  * @returns {boolean} - Returns true, if the player is wearing a maid uniform, has her feet, legs and arms restrained and is wearing a duster gag
  */
@@ -96,6 +103,33 @@ function MaidQuartersPlayerInCleaningUniform() {
 	const hasDusterGag = (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth2", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth3", "Name") == "DusterGag");
 	return (MaidQuartersPlayerInMaidUniform() && feetRestrained && legsRestrained && armsRestrained && hasDusterGag && !Player.IsBlind());
 }
+/**
+ * Checks, if the player can leave the maid to wear her uniform for the 'clean room job'
+ * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
+ */
+function MaidQuartersPlayerCanChangeForCleaning() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+}
+/**
+ * Checks, if the player can leave the maid to wear her uniform for the 'rescue job'
+ * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
+ */
+function MaidQuartersPlayerCanChangeForRescue() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+}
+/**
+ * Update the maid current dialog to give an advice about why the player's current outfit isn't a maid outfit
+ */
+function MaidQuartersAdviceMaidUniform() {
+	if (!(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")) {
+		MaidQuartersMaid.CurrentDialog = "You must at least wear your maid hairband.";
+	} else if (CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1" && CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2") {
+		MaidQuartersMaid.CurrentDialog = "You are either not wearing the dress, or covering too much.";
+	} else {
+		MaidQuartersMaid.CurrentDialog = "Does your outfit look like mine?";
+	}
+}
+
 /**
  * Checks, if the player is able to do the 'serve drinks' job
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
@@ -221,6 +255,7 @@ function MaidQuartersRun() {
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(MaidQuartersMaid, 1000, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
+	if (Player.CanChangeOwnClothes()) DrawButton(1885, 270, 90, 90, "", "White", "Icons/Dress.png");
 	DailyJobSubSearchRun();
 }
 
@@ -249,6 +284,7 @@ function MaidQuartersClick() {
 	}
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 270) && (MouseY < 360) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	DailyJobSubSearchClick();
 }
 
@@ -464,10 +500,7 @@ function MaidQuartersStartRescue() {
 	MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "Rescue" + MaidQuartersCurrentRescue);
 	MaidQuartersCurrentRescueStarted = false;
 	MaidQuartersCurrentRescueCompleted = false;
-
-	MaidQuartersItemClothPrev.Cloth = InventoryGet(Player, "Cloth");
-	MaidQuartersItemClothPrev.Hat = InventoryGet(Player, "Hat");
-
+	MaidQuartersWearMaidUniform();
 }
 
 /**
