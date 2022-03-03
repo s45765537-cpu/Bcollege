@@ -257,6 +257,18 @@ var AssetFemale3DCGExtended = {
 						Property: {Type: "SplitFreckles",}
 					},
 					{
+						Name: "FrecklesSmall",
+						Property: {Type: "FrecklesSmall",}
+					},
+					{
+						Name: "MidFrecklesSmall",
+						Property: {Type: "MidFrecklesSmall",}
+					},
+					{
+						Name: "SplitFrecklesSmall",
+						Property: {Type: "SplitFrecklesSmall",}
+					},
+					{
 						Name: "StarsBoth",
 						Property: {Type: "StarsBoth",}
 					},
@@ -283,7 +295,6 @@ var AssetFemale3DCGExtended = {
 					
 					
 				],
-				DrawImages: false,
 			},
 		}, //Glitter		
 	}, // ClothAccessory
@@ -3850,6 +3861,18 @@ var AssetFemale3DCGExtended = {
 						Property: {Type: "SplitFreckles",}
 					},
 					{
+						Name: "FrecklesSmall",
+						Property: {Type: "FrecklesSmall",}
+					},
+					{
+						Name: "MidFrecklesSmall",
+						Property: {Type: "MidFrecklesSmall",}
+					},
+					{
+						Name: "SplitFrecklesSmall",
+						Property: {Type: "SplitFrecklesSmall",}
+					},
+					{
 						Name: "StarsBoth",
 						Property: {Type: "StarsBoth",}
 					},
@@ -3876,7 +3899,6 @@ var AssetFemale3DCGExtended = {
 					
 					
 				],
-				DrawImages: false,
 			},
 		}, //Glitter		
 	}, // Mask
