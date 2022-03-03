@@ -324,7 +324,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Scarf", Priority: 41, Value: 7, DefaultColor: ["#B1B1B1"], Extended: true },
-			{ 
+			{
 				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true,
 				Layer:[
 					{Name: "Freckles", HasType: false, AllowTypes:[""]},
@@ -337,10 +337,10 @@ var AssetFemale3DCG = [
 					{Name: "MidFrecklesSmall", HasType: false, AllowTypes:["MidFrecklesSmall"], CopyLayerColor: "Freckles"},
 					{Name: "SplitFrecklesSmall", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles"},
 					{Name: "SplitFreckles2Small", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles2"},
-					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
-					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
-					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
-					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
 					{Name: "DotsLeft", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles"},
 					{Name: "DotsLeft2", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles2"},
 					{Name: "DotsRight", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles"},
@@ -1598,10 +1598,10 @@ var AssetFemale3DCG = [
 					{Name: "MidFrecklesSmall", HasType: false, AllowTypes:["MidFrecklesSmall"], CopyLayerColor: "Freckles"},
 					{Name: "SplitFrecklesSmall", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles"},
 					{Name: "SplitFreckles2Small", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles2"},
-					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
-					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
-					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
-					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
 					{Name: "DotsLeft", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles"},
 					{Name: "DotsLeft2", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles2"},
 					{Name: "DotsRight", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles"},
