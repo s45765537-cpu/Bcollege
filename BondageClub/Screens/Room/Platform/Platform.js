@@ -16,7 +16,7 @@ var PlatformShowHitBox = false;
 // Template for characters with their animations
 var PlatformTemplate = [
 	{
-		Name: "Luka",
+		Name: "Melody",
 		Status: "Maid",
 		Health: 16,
 		Width: 400,
@@ -25,15 +25,17 @@ var PlatformTemplate = [
 		RunSpeed: 18,
 		WalkSpeed: 12,
 		CrawlSpeed: 6,
+		JumpForce: 50,
 		CollisionDamage: 2,
 		ExperienceValue: 2,
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
-			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 50 },
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Crouch", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], Speed: 20 },
 			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 13 },
 			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 30 },
@@ -57,26 +59,29 @@ var PlatformTemplate = [
 		RunSpeed: 12,
 		WalkSpeed: 8,
 		CrawlSpeed: 4,
+		JumpForce: 50,
 		CollisionDamage: 1,
 		ExperienceValue: 1,
 		JumpOdds: 0.0002,
+		DamageTurnOdds: 1,
 		Animation: [
 			{ Name: "Idle", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
 			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Bound", Cycle: [0], Speed: 1000 },
 			{ Name: "Walk", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
 			{ Name: "Jump", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 250 },
 			{ Name: "Crouch", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 400 },
 			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 2, 1], Speed: 300 },
-			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
-			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
-			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
-			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
+			//{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
+			//{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
+			//{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 40 },
+			//{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 3, 3, 3, 2, 1, 0], Speed: 60 },
 		], 
 		Attack: [
-			{ Name: "StandAttackFast", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 2, Speed: 400 },
-			{ Name: "StandAttackSlow", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 3, Speed: 600 },
-			{ Name: "CrouchAttackFast", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 2, Speed: 400 },
-			{ Name: "CrouchAttackSlow", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 3, Speed: 600 }
+			//{ Name: "StandAttackFast", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 2, Speed: 400 },
+			//{ Name: "StandAttackSlow", HitBox: [135, -365, 30, 30], Animation: [3], Damage: 3, Speed: 600 },
+			//{ Name: "CrouchAttackFast", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 2, Speed: 400 },
+			//{ Name: "CrouchAttackSlow", HitBox: [190, -150, 55, 30], Animation: [3], Damage: 3, Speed: 600 }
 		]
 	},
 	{
@@ -92,42 +97,72 @@ var PlatformTemplate = [
 		CollisionDamage: 2,
 		ExperienceValue: 2,
 		RunOdds: 0.0004,
+		DamageTurnOdds: 1,
 		Animation: [
 			{ Name: "Idle", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 1], Speed: 1000 },
+			{ Name: "Bound", Cycle: [0], Speed: 10000 },
 			{ Name: "Walk", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 150 },
 			{ Name: "Run", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 100 },
-			{ Name: "Jump", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 250 },
-			{ Name: "Crouch", Width: 200, Cycle: [0, 1, 2, 3, 2, 1], Speed: 400 },
-			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 2, 1], Speed: 300 },
 		]
+		
 	},
 	{
-		Name: "Soldier",
+		Name: "Yuna",
+		Status: "Maid",
+		Health: 20,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		RunSpeed: 12,
+		WalkSpeed: 8,
+		CrawlSpeed: 4,
+		JumpForce: 70,
+		CollisionDamage: 3,
+		ExperienceValue: 4,
+		JumpOdds: 0.0006,
+		RunOdds: 0.0003,
+		DamageTurnOdds: 0.5,
+		Animation: [
+			{ Name: "Idle", Cycle: [0], Speed: 100 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 40 },
+			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
+		],
+		Attack: [
+		]
+	}
+,
+	{
+		Name: "Camille",
 		Status: "Armor",
-		Health: 30,
+		Health: 32,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		RunSpeed: 9,
 		WalkSpeed: 6,
 		CrawlSpeed: 3,
-		CollisionDamage: 4,
-		ExperienceValue: 6,
+		JumpForce: 60,
+		CollisionDamage: 5,
+		ExperienceValue: 7,
 		JumpOdds: 0.0002,
 		RunOdds: 0.0004,
 		StandAttackSlowOdds: 0.0003,
-		DamageKnock: false,
+		DamageTurnOdds: 0,
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 100 },
-			{ Name: "Wounded", Cycle: [0], Speed: 10000 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 100 },
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 66 },
 			{ Name: "StandAttackSlow", OffsetY: 50, Width: 500, Height: 500, Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], Speed: 25 }
 		],
 		Attack: [
-			{ Name: "StandAttackSlow", HitBox: [0.6, 0.3, 1.3, 0.65], HitAnimation: [30, 31, 32, 33, 34, 35, 36], Damage: [8, 8], Speed: 1000 }
+			{ Name: "StandAttackSlow", HitBox: [0.6, 0.3, 1.3, 0.65], HitAnimation: [30, 31, 32, 33, 34, 35, 36], Damage: [10, 10], Speed: 1000 }
 		]
 	}
 
@@ -144,7 +179,7 @@ var PlatformRoomList = [
 			{ Name: "CollegeHall1", FromX: 3800, FromY: 500, FromW: 200, FromH: 700, FromType: "Up", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Kara", X: 1200 }
+			{ Name: "Kara", X: 1700 }
 		]
 	},
 	{
@@ -163,11 +198,11 @@ var PlatformRoomList = [
 	{
 		Name: "CollegeArt1",
 		Background: "CollegeArt1",
-		Width: 4000,
+		Width: 3800,
 		Height: 1200,
 		Door: [
 			{ Name: "CollegeHall1", FromX: 0, FromY: 500, FromW: 200, FromH: 700, FromType: "Up", ToX: 3900, ToFaceLeft: true },
-			{ Name: "CastleHall1", FromX: 3900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 300, ToFaceLeft: false }
+			{ Name: "CastleHall1", FromX: 3700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 200, ToFaceLeft: false }
 		],
 		Character: [
 			{ Name: "Liane", X: 1400 },
@@ -177,15 +212,29 @@ var PlatformRoomList = [
 	{
 		Name: "CastleHall1",
 		Background: "CastleHall1",
+		Width: 2400,
+		Height: 1200,
+		Door: [
+			{ Name: "CollegeArt1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3600, ToFaceLeft: false },
+			{ Name: "CastleHall2", FromX: 2300, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 300, ToFaceLeft: false }
+		],
+		Character: [
+			{ Name: "Yuna", X: 1150 }
+		]
+	},
+	{
+		Name: "CastleHall2",
+		Background: "CastleHall2",
 		Width: 2600,
 		Height: 1200,
 		Door: [
-			{ Name: "CollegeArt1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3700, ToFaceLeft: false }
+			{ Name: "CastleHall1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2200, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Soldier", X: 3700 }
+			{ Name: "Camille", X: 2000 }
 		]
 	}
+
 ]
 
 /**
@@ -210,9 +259,13 @@ function PlatformCreateCharacter(TemplateName, IsPlayer, X) {
 	NewChar.Experience = 0;
 	NewChar.Level = 1;
 	NewChar.Run = false;
+	if ((NewChar.DamageTurnOdds == null) || (NewChar.DamageTurnOdds < 0) || (NewChar.DamageTurnOdds > 1)) NewChar.DamageTurnOdds = 1;
 	NewChar.FaceLeft = ((PlatformRoom != null) && (PlatformRoom.Width != null) && (X > PlatformRoom.Width / 2));
 	PlatformChar.push(NewChar);
-	if (IsPlayer) PlatformPlayer = NewChar;
+	if (IsPlayer) {
+		PlatformPlayer = NewChar;
+		PlatformPlayer.DamageTurnOdds = 0;
+	}
 }
 
 /**
@@ -239,7 +292,7 @@ function PlatformLoad() {
 	window.addEventListener("keydown", PlatformEventKeyDown);
 	window.addEventListener("keyup", PlatformEventKeyUp);
 	PlatformChar = [];
-	PlatformCreateCharacter("Luka", true, 300);
+	PlatformCreateCharacter("Melody", true, 300);
 	PlatformLoadRoom("CollegeClass1");
 	PlatformLastTime = CommonTime();
 }
@@ -288,6 +341,8 @@ function PlatformDrawBackground() {
 	DrawImageZoomCanvas("Backgrounds/Platform/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
 	DrawProgressBar(10, 10, 180, 40, PlatformPlayer.Health / PlatformPlayer.MaxHealth * 100);
 	DrawProgressBar(10, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "Blue", "Black");
+	if ((PlatformPlayer.Action != null) && (PlatformPlayer.Action.Name === "Bind") && (PlatformPlayer.Action.Expire != null) && (PlatformPlayer.Action.Expire > CommonTime()))
+		DrawProgressBar(10, 110, 180, 40, (CommonTime() - PlatformPlayer.Action.Start) / (PlatformPlayer.Action.Expire - PlatformPlayer.Action.Start) * 100, "White", "Black");
 }
 
 /**
@@ -334,13 +389,15 @@ function PlatformAddExperience(C, Value) {
  * @returns {void} - Nothing
  */
 function PlatformDamage(Source, Target, Damage, Time) {
-	if ((Target.DamageKnock == null) || Target.DamageKnock) Target.ForceX = Math.round((40 + Math.random() * 40) * ((Source.FaceLeft) ? -1 : 1));
+	if (Math.random() < Target.DamageTurnOdds) Target.ForceX = Math.round((40 + Math.random() * 40) * ((Source.FaceLeft) ? -1 : 1));
 	Target.Immunity = Time + 500;
 	Target.Health = Target.Health - Damage;
 	if (Target.Damage == null) Target.Damage = [];
 	Target.Damage.push({ Value: Damage, Expire: Time + 2000});
-	if (Target.Health <= 0) Target.Health = 0;
-	if (!Target.Camera && (Target.Health == 0) && (Target.ExperienceValue != null) && (Target.ExperienceValue > 0)) PlatformAddExperience(Source, Target.ExperienceValue);
+	if (Target.Health <= 0) {
+		Target.Health = 0;
+		Target.RiseTime = Time + 15000;
+	}
 }
 
 /**
@@ -423,7 +480,7 @@ function PlatformWalkFrame(Speed, Frame) {
 
 /**
  * Does collision damage for a character
- * @param {Object} C - The character that will be damaged
+ * @param {Object} Target - The character that will be damaged
  * @param {Number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
@@ -464,10 +521,20 @@ function PlatformDraw() {
 			else PlatformPlayer.ForceX = PlatformPlayer.ForceX + PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0))) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
 		}
 
-		// Jump
+		// Jump foces the player up on the Y axis
 		if ((PlatformKeys.indexOf(32) >= 0) && (PlatformPlayer.Y == PlatformFloor))
-			PlatformPlayer.ForceY = -50;
+			PlatformPlayer.ForceY = PlatformPlayer.JumpForce * -1;
 
+	}
+	
+	// If the bind action has expired, we bind or release the target
+	if ((PlatformPlayer.Action != null) && (PlatformPlayer.Action.Name === "Bind") && (PlatformPlayer.Action.Expire != null) && (PlatformPlayer.Action.Expire < CommonTime()) && (PlatformPlayer.Action.Target != null)) {
+		for (let C of PlatformChar)
+			if (C.ID == PlatformPlayer.Action.Target) {
+				PlatformAddExperience(PlatformPlayer, C.ExperienceValue);
+				C.Bound = !C.Bound;
+			}
+		PlatformPlayer.Action = null;
 	}
 
 	// Release jump
@@ -476,7 +543,11 @@ function PlatformDraw() {
 	
 	// Draw each characters
 	for (let C of PlatformChar) {
-		
+
+		// Enemies will stand up at half health if they were not restrained
+		if ((C.Health == 0) && (C.RiseTime != null) && (C.RiseTime < PlatformTime) && !C.Bound)
+			C.Health = Math.round(C.MaxHealth / 2);
+
 		// AI walks from left to right
 		if (!C.Camera && (C.Health > 0)) {
 			if (C.FaceLeft) {
@@ -492,7 +563,7 @@ function PlatformDraw() {
 			}
 			if ((C.JumpOdds != null) && (C.JumpOdds > 0) && (Math.random() < C.JumpOdds * Frame) && (C.Y == PlatformFloor))
 				if ((C.Action == null) || (C.Action.Expire == null) || (C.Action.Expire <= CommonTime()))
-					C.ForceY = -25 - Math.random() * 25;
+					C.ForceY = (C.JumpForce + Math.random() * C.JumpForce) * -0.5;
 			if ((C.RunOdds != null) && (C.RunOdds > 0) && (Math.random() < C.RunOdds * Frame) && (C.Y == PlatformFloor))
 				C.Run = !C.Run;
 			if ((C.StandAttackSlowOdds != null) && (C.StandAttackSlowOdds > 0) && (Math.random() < C.StandAttackSlowOdds * Frame))
@@ -511,7 +582,8 @@ function PlatformDraw() {
 		
 		// Finds the animation based on what the character is doing
 		let Crouch = (C.Camera && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)));
-		if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
+		if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
+		else if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
 		else if ((C.Action != null) && (C.Action.Expire != null) && (C.Action.Expire >= PlatformTime)) C.Anim = PlatformGetAnim(C, C.Action.Name, false);
 		else if (C.Y != PlatformFloor) C.Anim = PlatformGetAnim(C, "Jump");
 		else if ((C.ForceX != 0) && Crouch) C.Anim = PlatformGetAnim(C, "Crawl");
@@ -587,11 +659,12 @@ function PlatformClick() {
 function PlatformExit() {
 	window.removeEventListener("keydown", PlatformEventKeyDown);
 	window.removeEventListener("keyup", PlatformEventKeyUp);
-	CommonSetScreen("Room", "CollegeEntrance");
+	CommonSetScreen("Room", "MainHall");
 }
 
 /**
  * If there's a door, the player can enter it with the W key
+ * @param {String} FromType - The type of room enter (Up, Left, Right)
  * @returns {void} - Nothing
  */
 function PlatformEnterRoom(FromType) {
@@ -607,16 +680,36 @@ function PlatformEnterRoom(FromType) {
 }
 
 /**
+ * Checks if there's a target character to bind and starts the binding process
+ * @param {Object} Source - The source character that does the binding
+ * @returns {void} - Nothing
+ */
+function PlatformBindStart(Source) {
+	if ((Source.Action != null) && (Source.Action.Expire != null) && (Source.Action.Expire > CommonTime())) return;
+	if (PlatformKeys.length > 0) return;
+	for (let C of PlatformChar)
+		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
+			C.RiseTime = CommonTime() + 15000;
+			Source.ForceX = 0;
+			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + 2000 };
+			return;
+		}
+}
+
+/**
  * Handles keys pressed
  * @param {Event} e - The key pressed
  * @returns {void} - Nothing
  */
 function PlatformEventKeyDown(e) {
 	PlatformPlayer.Run = ((e.keyCode == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && ([65, 97, 68, 100].indexOf(e.keyCode) >= 0) && (PlatformKeys.indexOf(e.keyCode) < 0)) || ((e.keyCode == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(e.keyCode) >= 0));
+	if (PlatformPlayer.Health <= 0) return;
+	if ((PlatformPlayer.Action != null) && (PlatformPlayer.Action.Name === "Bind") && (PlatformPlayer.Action.Expire != null) && (PlatformPlayer.Action.Expire > CommonTime())) PlatformPlayer.Action = null;
 	if (e.keyCode == 32) PlatformPlayer.Action = null;
 	if ((e.keyCode == 87) || (e.keyCode == 119)) return PlatformEnterRoom("Up");
 	if ((e.keyCode == 76) || (e.keyCode == 108)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackFast" : "StandAttackFast");
 	if ((e.keyCode == 75) || (e.keyCode == 107)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackSlow" : "StandAttackSlow");
+	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer, e.keyCode);
 	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);
 	PlatformLastKeyCode = e.keyCode;
 	PlatformLastKeyTime = CommonTime();

@@ -11,7 +11,7 @@ var PandoraModeAppearance = null;
 var PandoraMessage = null;
 var PandoraParty = [];
 var PandoraFightCharacter = null;
-var PandoraRandomNPCList = ["MemberNew", "MemberOld", "Mistress", "Slave", "Maid", "Guard"];
+var PandoraRandomNPCList = ["MemberNew", "MemberOld", "Cosplay", "Mistress", "Slave", "Maid", "Guard"];
 var PandoraMoveDirectionTimer = { Direction: "", Timer: 0 };
 var PandoraTargetRoom = null;
 var PandoraClothes = "Random";
@@ -20,6 +20,9 @@ var PandoraMaxWillpower = 20;
 var PandoraMoney = 0;
 var PandoraTimer = 0;
 var PandoraChestCount = 0;
+var PandoraPaint = false;
+var PandoraReverseMaidDone = 0;
+var PandoraReverseMaidTotal = 0;
 
 /**
  * NPC Dialog functions
@@ -34,6 +37,7 @@ function PandoraOdds50() { return ((CurrentCharacter.RandomOdds == null) || (Cur
 function PandoraOdds25() { return ((CurrentCharacter.RandomOdds == null) || (CurrentCharacter.RandomOdds > 0.75)); }
 function PandoraCostumeIs(Costume) { return (PandoraClothes == Costume); }
 function PandoraQuizIs(Number) { return ((CurrentCharacter.QuizLog != null) && (CurrentCharacter.QuizLog[CurrentCharacter.QuizLog.length - 1].toString() == Number.toString())) }
+function PandoraCanAskForPaint() { return (!PandoraPaint && (PandoraClothes == "Maid") && (InfiltrationMission == "ReverseMaid")); }
 
 /**
  * Loads the Pandora's Box screen
@@ -65,14 +69,22 @@ function PandoraDirectionAvailable(Direction) {
 }
 
 /**
- * Draws the cat burglar mission data
+ * Draws the Pandora text data
  * @param {Number} Y - The Y position
  * @returns {boolean} - Whether the direction can be accessed
  */
-function PandoraCatBurglarData(Y) {
-	if (InfiltrationMission != "CatBurglar") return;
-	DrawText("$" + PandoraMoney.toString(), 1887, Y, "White", "Black");
-	DrawText(TimerToString(PandoraTimer - CommonTime()), 1887, Y + 55, "White", "Black");
+function PandoraDrawData(Y) {
+	if (InfiltrationMission == "CatBurglar") {
+		DrawText("$" + PandoraMoney.toString() + (InfiltrationPerksActive("Detector") ? " (" + PandoraChestCount.toString() + ")" : ""), 1887, Y, "White", "Black");
+		DrawText(TimerToString(PandoraTimer - CommonTime()), 1887, Y + 55, "White", "Black");
+		return;
+	}
+	if (InfiltrationMission == "ReverseMaid") {
+		DrawText("$" + PandoraMoney.toString() + (InfiltrationPerksActive("Detector") ? " (" + PandoraChestCount.toString() + ")" : ""), 1887, Y, "White", "Black");
+		DrawText(TextGet("ReverseMaidProgress") + " " + Math.round(PandoraReverseMaidDone / PandoraReverseMaidTotal * 100).toString() + "%", 1887, Y + 55, "White", "Black");
+		return;
+	}
+	DrawText("$" + PandoraMoney.toString() + (InfiltrationPerksActive("Detector") ? " (" + PandoraChestCount.toString() + ")" : ""), 1887, Y + 55, "White", "Black");
 }
 
 /**
@@ -88,6 +100,7 @@ function PandoraRun() {
 	// Gets the current room & background
 	if ((PandoraRoom.length == 0) || (PandoraCurrentRoom == null)) return;
 	PandoraBackground = "Pandora/" + PandoraCurrentRoom.Floor + "/" + PandoraCurrentRoom.Background;
+	if (PandoraCurrentRoom.Graffiti != null) DrawImage("Screens/Room/Pandora/Graffiti" + PandoraCurrentRoom.Graffiti.toString() + ".png", 0, 0);
 	if (InfiltrationMission == "CatBurglar") DrawRect(0, 0, 2000, 1000, "#00000080");
 
 	// The search square are drawn even out of search mode
@@ -98,6 +111,15 @@ function PandoraRun() {
 	// In search mode, we draw all previous searches done in that area
 	if (PandoraMode == "Search") {
 		DrawButton(1885, 885, 90, 90, "", "White", "Icons/Search.png", TextGet("SearchStop"));
+		return;
+	}
+
+	// In paint mode, we offer many graffities for the player to pick
+	if (PandoraMode == "Paint") {
+		if (PandoraCurrentRoom.Graffiti == null) {
+			for (let G = 0; G <= 7; G++)
+				DrawButton(1885, 25 + (G * 115), 90, 90, "", "White", "Icons/Paint.png", TextGet("Graffiti" + G.toString()));
+		} else DrawButton(1885, 25, 90, 90, "", "White", "Icons/Paint.png", TextGet("AlreadyPainted"));
 		return;
 	}
 
@@ -127,7 +149,7 @@ function PandoraRun() {
 	}
 
 	// If we allow moving, we draw the paths
-	PandoraCatBurglarData(AllowMove ? 525 : 860);
+	PandoraDrawData(AllowMove ? 525 : 860);
 	if (AllowMove) {
 		for (let P = 0; P < PandoraCurrentRoom.Path.length; P++)
 			DrawButton(1885, 25 + P * 115, 90, 90, "", "White", "Icons/" + PandoraCurrentRoom.Direction[P] + ".png", TextGet("Path" + PandoraCurrentRoom.Direction[P]));
@@ -181,6 +203,18 @@ function PandoraSetMode(NewMode) {
 		PandoraMode = "";
 	}
 
+	// Cannot enter paint mode without paint
+	if ((NewMode == "Paint") && !PandoraPaint) {
+		PandoraMsgBox(TextGet("NoPaint"));
+		PandoraMode = "";
+	}
+
+	// Cannot enter paint mode if the room isn't empty
+	if ((NewMode == "Paint") && (PandoraCurrentRoom.Character.length >= 1)) {
+		PandoraMsgBox(TextGet("RoomEmptyToPaint"));
+		PandoraMode = "";
+	}
+
 }
 
 /**
@@ -218,6 +252,19 @@ function PandoraClick() {
 		return;
 	}
 
+	// In paint mode, the player puts a graffiti on the background
+	if (PandoraMode == "Paint") {
+		if (PandoraCurrentRoom.Graffiti == null) {
+			for (let G = 0; G <= 7; G++)
+				if (MouseIn(1885, 25 + (G * 115), 90, 90)) {
+					PandoraReverseMaidDone++;
+					PandoraCurrentRoom.Graffiti = G;
+					break;
+				}
+		} else if (MouseIn(1885, 25, 90, 90)) PandoraSetMode("");
+		return;
+	}
+
 	// Checks if we clicked on a character
 	let Pos = 690 - (PandoraCurrentRoom.Character.length + PandoraParty.length) * 230;
 	if (MouseIn(Pos, 0, 500, 1000)) return CharacterSetCurrent(Player);
@@ -235,7 +282,7 @@ function PandoraClick() {
 		for (let P = 0; P < PandoraCurrentRoom.Path.length; P++)
 			if (MouseIn(1900, 25 + P * 115, 90, 90)) {
 				if (PandoraCurrentRoom.Path[P].Floor == "Exit") return CommonSetScreen("Room", "Infiltration");
-				if ((PandoraCurrentRoom.Path[P].Floor == "Search") || (PandoraCurrentRoom.Path[P].Floor == "Rest")) return PandoraSetMode(PandoraCurrentRoom.Path[P].Floor);
+				if ((PandoraCurrentRoom.Path[P].Floor == "Search") || (PandoraCurrentRoom.Path[P].Floor == "Paint") || (PandoraCurrentRoom.Path[P].Floor == "Rest")) return PandoraSetMode(PandoraCurrentRoom.Path[P].Floor);
 				return PandoraEnterRoom(PandoraCurrentRoom.Path[P]);
 			}
 		if (MouseIn(1842, 620, 90, 90) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
@@ -255,7 +302,7 @@ function PandoraKeyDown() {
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
 		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
 			AllowMove = false;
-	if (AllowMove) {
+	if (AllowMove && (PandoraMode == "")) {
 		if (((KeyPress == 87) || (KeyPress == 119)) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
 		if (((KeyPress == 65) || (KeyPress == 97)) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
 		if (((KeyPress == 83) || (KeyPress == 115)) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
@@ -350,6 +397,24 @@ function PandoraDress(C, Type) {
 		InventoryWear(C, "MistressTop", "Cloth", "#FFD700");
 		InventoryWear(C, "MistressBottom", "ClothLower", "#FFD700");
 		CharacterRefresh(C, false);
+		return;
+	}
+
+	// Cosplay wear random costumes
+	if (Type == "Cosplay") {
+		CharacterNaked(C);
+		InventoryWearRandom(C, "Bra");
+		InventoryWearRandom(C, "Panties");
+		if (Math.random() > 0.33) InventoryWearRandom(C, "Wings");
+		if (Math.random() > 0.33) InventoryWearRandom(C, "HairAccessory1");
+		if (Math.random() > 0.33) InventoryWearRandom(C, "TailStraps");
+		if (Math.random() > 0.5) InventoryWearRandom(C, "Ears");
+		if (Math.random() > 0.5) InventoryWearRandom(C, "Corset");
+		if (Math.random() > 0.5) InventoryWearRandom(C, "Mask");
+		if (Math.random() > 0.666) InventoryWearRandom(C, "Garters");
+		if (Math.random() > 0.666) InventoryWearRandom(C, "Socks");
+		if (Math.random() > 0.666) InventoryWearRandom(C, "Gloves");
+		if (Math.random() > 0.666) InventoryWearRandom(C, "Bracelet");
 		return;
 	}
 
@@ -455,8 +520,11 @@ function PandoraEnterRoom(Room, Direction) {
  */
 function PandoraCreateChest(Room) {
 	if (Room.Background.indexOf("Cell") != 0) return;
-	if ((PandoraChestCount > 0) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.35 : 0.05))) return;
-	if ((PandoraChestCount == 0) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.75 : 0.1))) return;
+	if ((PandoraChestCount == 0) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.50 : 0.1))) return;
+	if ((PandoraChestCount >= 1) && (PandoraChestCount <= 3) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.33 : 0.05))) return;
+	if ((PandoraChestCount >= 4) && (PandoraChestCount <= 6) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.20 : 0.03))) return;
+	if ((PandoraChestCount >= 7) && (PandoraChestCount <= 10) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.13 : 0.02))) return;
+	if ((PandoraChestCount >= 11) && (Math.random() > ((InfiltrationMission == "CatBurglar") ? 0.05 : 0.01))) return;
 	PandoraChestCount++;
 	let Char = PandoraGenerateNPC("Treasure", "Chest", TextGet("Chest"), false);
 	Char.Type = "Chest";
@@ -543,6 +611,11 @@ function PandoraGenerateRoom(EntryRoom, DirectionFrom, RoomLevel, MaxRoom) {
 				Room.Path.push(SearchRoom);
 				Room.Direction.push("Search");
 			}
+			if (InfiltrationMission == "ReverseMaid") {
+				let PaintRoom = { Floor: "Paint" };
+				Room.Path.push(PaintRoom);
+				Room.Direction.push("Paint");
+			}
 		} else if (RoomBack.indexOf("Rest") == 0) {
 			let RestRoom = { Floor: "Rest" };
 			Room.Path.push(RestRoom);
@@ -595,7 +668,8 @@ function PandoraBuildMainHall() {
 	Room.Character = [];
 	if (InfiltrationMission != "CatBurglar") {
 		let Char = PandoraGenerateNPC("Entrance", "Maid", "RANDOM", false);
-		if (SkillGetLevel(Player, "Infiltration") >= 9) Char.Stage = "30";
+		if (InfiltrationMission == "ReverseMaid") Char.Stage = "40";
+		else if (SkillGetLevel(Player, "Infiltration") >= 9) Char.Stage = "30";
 		else if (SkillGetLevel(Player, "Infiltration") >= 6) Char.Stage = "20";
 		else if (SkillGetLevel(Player, "Infiltration") >= 3) Char.Stage = "10";
 		Room.Character.push(Char);
@@ -609,12 +683,15 @@ function PandoraBuildMainHall() {
 	// Generates the floors and sets the starting room, there's a min-max number of rooms based on difficulty
 	let MinRoom = 25;
 	let MaxRoom = 39;
+	let MinChest = 0;
+	if (InfiltrationMission == "CatBurglar") MinChest = InfiltrationDifficulty + 2;
 	if (InfiltrationDifficulty == 1) { MinRoom = 35; MaxRoom = 59; }
 	if (InfiltrationDifficulty == 2) { MinRoom = 50; MaxRoom = 79; }
 	if (InfiltrationDifficulty == 3) { MinRoom = 70; MaxRoom = 109; }
 	if (InfiltrationDifficulty == 4) { MinRoom = 100; MaxRoom = 149; }
 	PandoraRoom = [];
-	while ((PandoraRoom.length < MinRoom) || (PandoraRoom.length > MaxRoom)) {
+	while ((PandoraRoom.length < MinRoom) || (PandoraRoom.length > MaxRoom) || (PandoraChestCount < MinChest)) {
+		PandoraChestCount = 0;
 		PandoraRoom = [];
 		Room.Path = [];
 		Room.Path.push(ExitRoom);
@@ -627,6 +704,15 @@ function PandoraBuildMainHall() {
 	PandoraCurrentRoom = Room;
 	PandoraPreviousRoom = null;
 	PandoraTargetRoom = null;
+
+	// In reverse maid mission, we count the number of dead-end cell rooms that can be broken
+	if (InfiltrationMission == "ReverseMaid") {
+		PandoraReverseMaidDone = 0;
+		PandoraReverseMaidTotal = 0;
+		for (let R = 0; R < PandoraRoom.length; R++)
+			if (PandoraRoom[R].Background.indexOf("Cell") == 0)
+				PandoraReverseMaidTotal++;
+	}
 
 	// Pick a random cell room for the final target, generates special NPCs if needed
 	while (PandoraTargetRoom == null) {
@@ -736,7 +822,7 @@ function PandoraCharacterFightEnd() {
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
 	if (KidnapVictory) CurrentCharacter.AllowMove = true;
-	if (KidnapVictory && (PandoraClothes != "Random") && (PandoraClothes != "CatBurglar")) PandoraDress(Player, PandoraClothes);
+	if (KidnapVictory && (PandoraClothes != "Random") && (PandoraClothes != "CatBurglar") && (PandoraClothes != "Cosplay")) PandoraDress(Player, PandoraClothes);
 	CommonSetScreen("Room", "Pandora");
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
@@ -792,7 +878,7 @@ function PandoraStartRecruit() {
 
 /**
  * Increases the infiltration skill on some events
- * @param {string} Progress - The progression factor
+ * @param {string|number} Progress - The progression factor
  * @returns {void} - Nothing
  */
 function PandoraInfiltrationChange(Progress) {
@@ -1020,4 +1106,45 @@ function PandoraBuyRandomClothes() {
 	CharacterTransferItem(CurrentCharacter, Player, "Shoes");
 	CharacterNaked(CurrentCharacter);
 	PandoraClothes = "Random";
+}
+
+/**
+ * Starts the chest lockpicking mini-game
+ * @returns {void} - Nothing
+ */
+function PandoraChestLockpickStart() {
+	ChestLockpickChestImage = ((CurrentCharacter == null) || (CurrentCharacter.FixedImage == null)) ? "Screens/Room/Pandora/Chest" + Math.floor(Math.random() * 3).toString() + ".png" : CurrentCharacter.FixedImage;
+	ChestLockpickBackground = PandoraBackground;
+	DialogLeave();
+	MiniGameStart("ChestLockpick", InfiltrationDifficulty, "PandoraChestLockEnd");
+}
+
+/**
+ * When the picklock mini-game ends, adds 30 seconds to the timer
+ * @returns {void} - Nothing
+ */
+function PandoraChestLockEnd() {
+	PandoraTimer = PandoraTimer - 30000;
+	PandoraCurrentRoom.Character[0].Stage = (MiniGameVictory) ? "100" : "0";
+	CharacterSetCurrent(PandoraCurrentRoom.Character[0]);
+	CommonSetScreen("Room", "Pandora");
+}
+
+/**
+ * When the player loots the chest, we add some money and the chest disappear
+ * @returns {void} - Nothing
+ */
+function PandoraChestLoot() {
+	DialogLeave();
+	PandoraMoney = PandoraMoney + Math.floor((5 + Math.random() * 5) * (InfiltrationDifficulty + 2) * 0.5);
+	PandoraChestCount--;
+	PandoraCurrentRoom.Character.splice(0, 1);
+}
+
+/**
+ * When the player gets the paint cans from a cosplay girl
+ * @returns {void} - Nothing
+ */
+function PandoraGetPaint() {
+	PandoraPaint = true;
 }

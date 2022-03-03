@@ -3,7 +3,7 @@ var InfiltrationBackground = "Infiltration";
 var InfiltrationSupervisor = null;
 var InfiltrationDifficulty = 0;
 var InfiltrationMission = "";
-var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve", "CatBurglar"];
+var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve", "CatBurglar", "ReverseMaid"];
 var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
 var InfiltrationTarget = {};
 var InfiltrationCollectRansom = false;
@@ -31,13 +31,25 @@ function InfiltrationCanGoBack() { return (((InfiltrationTarget == null) || (Inf
  * Returns TRUE if the player can start the Pandora Padlock Mission, needs to be missing the item and infiltration 6 or more
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanGetPandoraLock() { return (DialogSkillGreater("Infiltration", 6) && (!InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || !InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc"))); }
+function InfiltrationCanGetPandoraLock() { return (SkillGetLevel(Player, "Infiltration") >= 6 && (!InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || !InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc"))); }
 
 /**
  * Returns TRUE if the player can ask to get Pandora's locks as a reward for the mission
  * @returns {boolean} - TRUE if successful
  */
 function InfiltrationCanAskForPandoraLock() { return ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type == "PandoraPadlockKeys")); }
+
+/**
+ * Returns TRUE if the player can turn in the cat burglar mission
+ * @returns {boolean} - TRUE if possible
+ */
+function InfiltrationCatBurglarHasMoney() { return (PandoraMoney > 0); }
+
+/**
+ * Returns TRUE if the player can complete the reverse maid mission, at least 50% of the job must be done
+ * @returns {boolean} - TRUE if possible
+ */
+function InfiltrationReverseMaidCanComplete() { return (PandoraReverseMaidDone * 2 >= PandoraReverseMaidTotal); }
 
 /**
  * Loads the infiltration screen by generating the supervisor.
@@ -114,7 +126,7 @@ function InfiltrationSelectChallenge(Difficulty) {
  */
 function InfiltrationPrepareMission() {
 	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
-	InfiltrationMission = "CatBurglar"; // DEBUG
+	//InfiltrationMission = "ReverseMaid"; // DEBUG
 	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
 		let C = {};
 		CharacterRandomName(C);
@@ -141,6 +153,7 @@ function InfiltrationStartMission() {
 	PandoraTimer = CommonTime() + 3600000;
 	PandoraChestCount = 0;
 	PandoraMoney = 0;
+	PandoraPaint = false;
 	DialogLeave();
 	CommonSetScreen("Room", "Pandora");
 	PandoraBuildMainHall();
@@ -165,7 +178,9 @@ function InfiltrationCompleteMission() {
 	if (InfiltrationDifficulty == 2) SkillProgress("Infiltration", 350);
 	if (InfiltrationDifficulty == 3) SkillProgress("Infiltration", 600);
 	if (InfiltrationDifficulty == 4) SkillProgress("Infiltration", 1000);
-	let Money = 12 + (InfiltrationDifficulty * 6);
+	let Money = (InfiltrationMission != "CatBurglar") ? 12 + (InfiltrationDifficulty * 6) : 0;
+	if ((InfiltrationMission == "ReverseMaid") && (PandoraReverseMaidDone >= PandoraReverseMaidTotal)) Money = Math.round(Money * 1.5);
+	Money = Money + Math.round(PandoraMoney / 2);
 	if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
 	CharacterChangeMoney(Player, Money);
 	if ((InfiltrationMission == "Rescue") && (InfiltrationTarget.Type == "NPC") && InfiltrationTarget.PrivateRoom) {
@@ -399,4 +414,15 @@ function InfiltrationStartNPCRescue() {
 	InfiltrationTarget.Found = false;
 	InfiltrationDifficulty = 2;
 	InfiltrationRandomClothes();
+}
+
+/**
+ * Dresses the player as a maid for the reverse maid mission
+ * @param {number} Rep - The reputation change to apply
+ * @returns {void} - Nothing
+ */
+function InfiltrationDressMaid(Rep) {
+	PandoraDress(Player, "Maid");
+	if (Rep != "0") ReputationProgress("Dominant", parseInt(Rep));
+	PandoraClothes = "Maid";
 }
