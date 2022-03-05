@@ -325,7 +325,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "Scarf", Priority: 41, Value: 7, DefaultColor: ["#B1B1B1"], Extended: true },
 			{
-				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true,
+				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true, BodyCosplay: true,
 				Layer:[
 					{Name: "Freckles", HasType: false, AllowTypes:[""]},
 					{Name: "Freckles2", HasType: false, AllowTypes:[""]},
@@ -1618,7 +1618,7 @@ var AssetFemale3DCG = [
 				],
 			}, //PetNose
 			{ 
-				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true,
+				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true, BodyCosplay: true,
 				Layer:[
 					{Name: "Freckles", HasType: false, AllowTypes:[""]},
 					{Name: "Freckles2", HasType: false, AllowTypes:[""]},
