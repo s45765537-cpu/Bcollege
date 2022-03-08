@@ -324,7 +324,29 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "Scarf", Priority: 41, Value: 7, DefaultColor: ["#B1B1B1"], Extended: true },
-			
+			{
+				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true, BodyCosplay: true,
+				Layer:[
+					{Name: "Freckles", HasType: false, AllowTypes:[""]},
+					{Name: "Freckles2", HasType: false, AllowTypes:[""]},
+					{Name: "MidFreckles", HasType: false, AllowTypes:["MidFreckles"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles", HasType: false, AllowTypes:["SplitFreckles"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles2", HasType: false, AllowTypes:["SplitFreckles"], CopyLayerColor: "Freckles2"},
+					{Name: "FrecklesSmall", HasType: false, AllowTypes:["FrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "Freckles2Small", HasType: false, AllowTypes:["FrecklesSmall"], CopyLayerColor: "Freckles2"},
+					{Name: "MidFrecklesSmall", HasType: false, AllowTypes:["MidFrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFrecklesSmall", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles2Small", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
+					{Name: "DotsLeft", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "DotsLeft2", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "DotsRight", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles"},
+					{Name: "DotsRight2", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles2"},
+				]
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -686,6 +708,13 @@ var AssetFemale3DCG = [
 			{ Name: "Bra8", Value: 15, Hide: ["ItemNipples"] },
 			{ Name: "Bra9", Value: 10, Hide: ["ItemNipples"] },
 			{ Name: "Bandeau1", Fetish: ["Lingerie"], Priority: 20, Value: 25, Hide: ["ItemNipples"] },
+			{ Name: "MaidBra1", Fetish: ["Lingerie"], Value: -1, BuyGroup: "Maid", Hide: ["ItemNipples"],
+				DefaultColor: ["#212121", "Default"],
+				Layer:[
+					{ Name: "Bra" },
+					{ Name: "Frills" },
+				]
+			},
 			{ Name: "Bustier1", Fetish: ["Lingerie"], Value: 30, Hide: ["ItemNipples"] },
 			{
 				Name: "Bikini1", Value: 25, Hide: ["ItemNipples"],
@@ -871,6 +900,13 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "Panties16", Fetish: ["Lingerie"], Value: 20, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
 			{ Name: "MaidPanties1", Fetish: ["Lingerie"], Value: 25, HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"] },
+			{ Name: "MaidPanties2", Fetish: ["Lingerie"], Value: -1, BuyGroup: "Maid", HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing"],
+				DefaultColor: ["#212121", "Default"],
+				Layer: [
+					{ Name: "Panties" },
+					{ Name: "Frills" },
+				]
+			},
 			{ Name: "LatexPanties1", BuyGroup: "LatexPanties", Fetish: ["Latex"], Value: -1, Expose: ["ItemVulva", "ItemVulvaPiercings"] },
 			{ Name: "WrapPanties1", Value: 25, Expose: ["ItemVulva", "ItemVulvaPiercings"] },
 			{ Name: "CrotchPanties1", Value: 30, AllowPose: ["KneelingSpread"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
@@ -1581,6 +1617,29 @@ var AssetFemale3DCG = [
 					{ Name: "WhiskersLong", CopyLayerColor: "WhiskersNone", AllowModuleTypes: ["w2"], },
 				],
 			}, //PetNose
+			{ 
+				Name: "Glitter", Value: 10, Priority: 8, BuyGroup: "Glitter", Left: 150, Top: 20, DefaultColor:["#DCA07C","#DCA07C"], Extended: true, BodyCosplay: true,
+				Layer:[
+					{Name: "Freckles", HasType: false, AllowTypes:[""]},
+					{Name: "Freckles2", HasType: false, AllowTypes:[""]},
+					{Name: "MidFreckles", HasType: false, AllowTypes:["MidFreckles"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles", HasType: false, AllowTypes:["SplitFreckles"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles2", HasType: false, AllowTypes:["SplitFreckles"], CopyLayerColor: "Freckles2"},
+					{Name: "FrecklesSmall", HasType: false, AllowTypes:["FrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "Freckles2Small", HasType: false, AllowTypes:["FrecklesSmall"], CopyLayerColor: "Freckles2"},
+					{Name: "MidFrecklesSmall", HasType: false, AllowTypes:["MidFrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFrecklesSmall", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles"},
+					{Name: "SplitFreckles2Small", HasType: false, AllowTypes:["SplitFrecklesSmall"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsLeft2", HasType: false, AllowTypes:["StarsBoth", "StarsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "StarsRight", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles2"},
+					{Name: "StarsRight2", HasType: false, AllowTypes:["StarsBoth", "StarsRight"], CopyLayerColor: "Freckles"},
+					{Name: "DotsLeft", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles"},
+					{Name: "DotsLeft2", HasType: false, AllowTypes:["DotsBoth", "DotsLeft"], CopyLayerColor: "Freckles2"},
+					{Name: "DotsRight", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles"},
+					{Name: "DotsRight2", HasType: false, AllowTypes:["DotsBoth", "DotsRight"], CopyLayerColor: "Freckles2"},
+				]
+			},
 		],
 		Color: ["Default", "#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},

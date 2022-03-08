@@ -238,6 +238,7 @@ function MainHallRun() {
 		DrawButton(1885, 505, 90, 90, "", "White", "Icons/Cell.png", TextGet("Cell"));
 
 		// Asylum, College & LARP battles
+		if (!ManagementIsClubSlave()) DrawButton(1525, 625, 90, 90, "", "White", "Icons/Platform.png", TextGet("Platform"));
 		if (!ManagementIsClubSlave()) DrawButton(1645, 625, 90, 90, "", "White", "Icons/Battle.png", TextGet("LARPBattle"));
 		if (!ManagementIsClubSlave()) DrawButton(1765, 625, 90, 90, "", "White", "Icons/College.png", TextGet("College"));
 		if (MainHallAsylumOpen) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Asylum.png", TextGet("Asylum"));
@@ -264,9 +265,11 @@ function MainHallRun() {
 
 	} else {
 
-		// Special permission to enter the maid quarters if doing the maid serving drinks quest while being restrained
-		if (Player.CanWalk() && (InventoryIsWorn(Player, "WoodenMaidTray", "ItemMisc") || InventoryIsWorn(Player, "WoodenMaidTrayFull", "ItemMisc")))
+		// Special permission to enter the maid quarters and cafe if doing the maid serving drinks quest while being restrained
+		if (Player.CanWalk() && MaidQuartersOnlineDrinkStarted) {
 			DrawButton(1765, 265, 90, 90, "", "White", "Icons/Maid.png", TextGet("MaidQuarters"));
+			DrawButton(25, 265, 90, 90, "", "White", "Icons/Refreshsments.png", TextGet("Cafe"));
+		}
 		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
 		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
 			DrawButton(1645, 385, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("KidnapLeague"));
@@ -388,6 +391,7 @@ function MainHallClick() {
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 505) && (MouseY < 595)) MainHallWalk("Cell");
 
 		// Asylum & College
+		if ((MouseX >= 1525) && (MouseX < 1615) && (MouseY >= 625) && (MouseY < 715) && !ManagementIsClubSlave()) MainHallWalk("PlatformIntro");
 		if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 625) && (MouseY < 715) && !ManagementIsClubSlave()) MainHallWalk("LARP");
 		if ((MouseX >= 1765) && (MouseX < 1855) && (MouseY >= 625) && (MouseY < 715) && !ManagementIsClubSlave()) MainHallWalk("CollegeEntrance");
 		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 625) && (MouseY < 715) && MainHallAsylumOpen) MainHallWalk("AsylumEntrance");
@@ -414,11 +418,13 @@ function MainHallClick() {
 
 	} else {
 
-		// Special permission to enter the maid quarters if doing the maid serving drinks quest while being restrained
-		if (Player.CanWalk() && (InventoryIsWorn(Player, "WoodenMaidTray", "ItemMisc") || InventoryIsWorn(Player, "WoodenMaidTrayFull", "ItemMisc")))
+		// Special permission to enter the maid quarters and cafe if doing the maid serving drinks quest while being restrained
+		if (Player.CanWalk() && MaidQuartersOnlineDrinkStarted) {
 			if ((MouseX >= 1765) && (MouseX < 1855) && (MouseY >= 265) && (MouseY < 355))
 				MainHallWalk("MaidQuarters");
-
+			if ((MouseX >=   25) && (MouseX <  115) && (MouseY >= 265) && (MouseY < 355))
+				MainHallWalk("Cafe");
+		}
 		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
 		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
 			if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 385) && (MouseY < 475))
@@ -458,14 +464,10 @@ function MainHallMaidReleasePlayer() {
 			if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
 		CharacterRelease(Player);
-		for (let L = 0; L < MainHallStrongLocks.length; L++) {
+		for (let L = 0; L < MainHallStrongLocks.length; L++)
 			CharacterReleaseFromLock(Player, MainHallStrongLocks[L]);
-		}
-		// Added to remove maids being disabled
-		if (LogQuery("MaidsDisabled", "Maid")) {
-
+		if (LogQuery("MaidsDisabled", "Maid"))
 			LogDelete("MaidsDisabled", "Maid");
-		}
 		MainHallMaid.Stage = "10";
 	} else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
 }
@@ -497,6 +499,7 @@ function MainHallFreeSarah() {
 	SarahUnlock();
 	DialogLeave();
 }
+
 /**
  * Triggered when the player calls the maids from a chat room
  * @returns {void} - Nothing
@@ -510,9 +513,8 @@ function MainHallPunishFromChatroom() {
 	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
 	if (ReputationGet("Dominant") > 10) ReputationProgress("Dominant", -10);
 	if (ReputationGet("Dominant") < -10) ReputationProgress("Dominant", 10);
-
-
 }
+
 /**
  * Triggered when the maid unlocks the player from a chat room
  * @returns {void} - Nothing
