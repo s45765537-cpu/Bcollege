@@ -5483,7 +5483,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Eyes", Key: "e",
 						Options:[
 							{ // e0 - None
-								Property: { Effect: [] }
+								Property: { Effect: ["BlindLight"] }
 							},
 							{ // e1 - Regular
 								Property: { Effect: [] }
