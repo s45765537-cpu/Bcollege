@@ -1830,28 +1830,32 @@ var AssetFemale3DCG = [
 			{ Name: "HairFront22", 
 			Layer: [
 				{ Name: "Base" },
-				{ Name: "Fluff" }			
+				{ Name: "Fluff" },	
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
 			],
 			Top: 6, Left: 134 },
 			//HairFront22b
 			{ Name: "HairFront22b", 
 			Layer: [
 				{ Name: "Base" },
-				{ Name: "Fluff" }			
+				{ Name: "Fluff" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff"}				
 			],
 			Top: 6, Left: 134 },
 			//HairFront23
 			{ Name: "HairFront23", 
 			Layer: [
 				{ Name: "Base" },
-				{ Name: "Fluff" }		
+				{ Name: "Fluff" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
 			],
 				Top: 6, Left: 134 },
 			//HairFront23b
 			{ Name: "HairFront23b", 
 			Layer: [
 				{ Name: "Base" },
-				{ Name: "Fluff" }
+				{ Name: "Fluff" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
 			],
 				Top: 6, Left: 134 }
 		],
