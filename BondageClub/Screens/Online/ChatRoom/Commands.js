@@ -381,6 +381,40 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'blush',
+		Action: args => {
+			let BlushLevels = [null, "Low", "Medium", "High", "VeryHigh", "Extreme"];
+			if (/(^[0-5]$)/.test(args)) {
+				let BlushNum = parseInt(args);
+				CharacterSetFacialExpression(Player, "Blush", BlushLevels[BlushNum]);
+			} else if (/(^(b|blue)$)/.test(args)) {
+				CharacterSetFacialExpression(Player, "Blush", "ShortBreath");
+			} else if (/(^(\+|-)$)/.test(args)) {
+				let CurrentBlush = InventoryGet(Player, "Blush")
+				if (CurrentBlush == null || CurrentBlush.Property == null || CurrentBlush.Property.Expression == null)
+					CurrentBlush = null;
+				else
+					CurrentBlush = CurrentBlush.Property.Expression;
+				let Level = 0;
+				for (let i = 0; i < BlushLevels.length; i++) {
+					if (CurrentBlush == BlushLevels[i]) {
+						Level = i;
+						break;
+					}
+				}
+				if (args == "+")
+					Level++;
+				else
+					Level--;
+				if (Level < 0)
+					Level = 0;
+				else if (Level >= BlushLevels.length)
+					Level = BlushLevels.length - 1;
+				CharacterSetFacialExpression(Player, "Blush", BlushLevels[Level]);
+			}
+		}
+	},
+	{
 		Tag: 'bot',
 		Action: (_, msg) => {
 			for (const { ID, MemberNumber } of ChatRoomCharacter)
