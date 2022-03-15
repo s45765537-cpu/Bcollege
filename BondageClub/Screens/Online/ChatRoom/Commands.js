@@ -385,6 +385,59 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'blush',
+		Action: args => {
+			if (args.trim() == "") {
+				ChatRoomFocusCharacter(Player);
+				DialogFindSubMenu("Expression");
+				DialogFindFacialExpressionMenuGroup("Blush");
+				return;
+			}
+			let BlushLevels = [null, "Low", "Medium", "High", "VeryHigh", "Extreme"];
+			let NewExpression = null;
+			let AcceptCmd = false;
+			if (/^[0-5]$/.test(args)) {
+				AcceptCmd = true;
+				let BlushNum = parseInt(args);
+				NewExpression = BlushLevels[BlushNum];
+			} else if (/^(b|blue)$/.test(args)) {
+				AcceptCmd = true;
+				NewExpression = "ShortBreath";
+			} else if (/^(\+|-)$/.test(args)) {
+				AcceptCmd = true;
+				let CurrentBlush = InventoryGet(Player, "Blush")
+				if (CurrentBlush == null || CurrentBlush.Property == null || CurrentBlush.Property.Expression == null) {
+					CurrentBlush = null;
+				} else {
+					CurrentBlush = CurrentBlush.Property.Expression;
+				}
+				let Level = 0;
+				for (let i = 0; i < BlushLevels.length; i++) {
+					if (CurrentBlush == BlushLevels[i]) {
+						Level = i;
+						break;
+					}
+				}
+				if (args == "+") {
+					Level++;
+				} else {
+					Level--;
+				}
+				Level = Math.max(0, Level);
+				Level = Math.min(BlushLevels.length - 1, Level);
+				NewExpression = BlushLevels[Level];
+			}
+			if (AcceptCmd) {
+				CharacterSetFacialExpression(Player, "Blush", NewExpression);
+				// Also save in GUI
+				if (DialogFacialExpressions.length == 0) {
+					DialogFacialExpressionsBuild();
+				}
+				DialogFacialExpressions.find(FE => FE.Group == "Blush").CurrentExpression = NewExpression;
+			}
+		}
+	},
+	{
 		Tag: 'bot',
 		Action: (_, msg) => {
 			for (const { ID, MemberNumber } of ChatRoomCharacter)
