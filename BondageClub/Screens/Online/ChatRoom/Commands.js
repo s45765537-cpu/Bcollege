@@ -415,6 +415,49 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'wink',
+		Action: args => {
+			let AcceptCmd = false;
+			let Close = false;
+			let TargetLeft = false;
+			let TargetRight = false;
+			if (/(^[r|l|b]$)/.test(args)) {
+				AcceptCmd = true;
+				if (args == "r" || args == "b")
+					TargetRight = true;
+				if (args == "l" || args == "b")
+					TargetLeft = true;
+				let LeftClosed = InventoryGet(Player, "Eyes").Property.Expression == "Closed";
+				let RightClosed = InventoryGet(Player, "Eyes2").Property.Expression == "Closed";
+				Close = (TargetLeft && !LeftClosed)
+				Close = Close || (TargetRight && !RightClosed)
+			} else if (/(^[c|o]$)/.test(args)) {
+				AcceptCmd = true;
+				TargetLeft = true;
+				TargetRight = true;
+				Close = (args == "c");
+			} else if (/(^[c|o][r|l|b]$)/.test(args)) {
+				AcceptCmd = true;
+				if (args[1] == "r" || args[1] == "b")
+					TargetRight = true;
+				if (args[1] == "l" || args[1] == "b")
+					TargetLeft = true;
+				Close = (args[0] == "c");
+			}
+			if (AcceptCmd) {
+				let Expression = null;
+				if (Close)
+					Expression = "Closed";
+				if (TargetLeft && TargetRight)
+					CharacterSetFacialExpression(Player, "Eyes", Expression);
+				else if (TargetLeft)
+					CharacterSetFacialExpression(Player, "Eyes1", Expression);
+				else if (TargetRight)
+					CharacterSetFacialExpression(Player, "Eyes2", Expression);
+			}
+		}
+	},
+	{
 		Tag: 'bot',
 		Action: (_, msg) => {
 			for (const { ID, MemberNumber } of ChatRoomCharacter)

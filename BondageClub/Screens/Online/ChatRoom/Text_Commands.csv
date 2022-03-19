@@ -27,5 +27,6 @@ showghostlist,: View your ghostlist
 showwhitelist,: View your whitelist
 openfriendlist,: Open the friendlist screen
 unban,[MemberNumber]: Remove a ban on a player
+wink,"[o|c][r|l|b]: Open or close eyes. ”r” targets the right eye, ”l” the left one and ”b” (or nothing) both. Add ”o” to open only and ”c” to close. For example ”/wink r” twice will close and open the right eye."
 whitelistadd,[MemberNumber]: Add a player to your whitelist
 whitelistremove,[MemberNumber]: Remove a player from your whitelist
