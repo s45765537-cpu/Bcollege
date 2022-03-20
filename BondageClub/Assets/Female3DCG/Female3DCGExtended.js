@@ -5545,18 +5545,6 @@ var AssetFemale3DCGExtended = {
 							},
 						]
 					},
-					{
-						Name: "Helmet", Key: "h",
-						Options: [
-							{}, // h0 - Mask
-							{
-								Property:{
-									Hide: ["HairFront", "Ears", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3"]
-								},
-							}, // h1 - Helmet
-
-						]
-					},
 				]
 			}
 		}, // DroneMask
