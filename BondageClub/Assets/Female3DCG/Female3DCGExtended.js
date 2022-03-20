@@ -5480,6 +5480,29 @@ var AssetFemale3DCGExtended = {
 				ChatSetting: ModularItemChatSetting.PER_MODULE,
 				Modules:[
 					{
+						Name: "Mouth", Key: "m",
+						Options:[
+							{ // m0 - None
+								Property: { Effect: ["BlockMouth"] }
+							},
+							{ // m1 - Onahole
+								Property: { Effect: ["GagMedium"] }
+							},
+							{ // m2 - Fleshlight
+								Property: { Effect: ["GagMedium"] }
+							},
+							{ // m3 - Smile
+								Property: { Effect: ["BlockMouth"] }
+							},
+							{ // m4 - Holes
+								Property: { Effect: ["BlockMouth"] }
+							},
+							{ // m5 - Sculpted
+								Property: { Effect: ["BlockMouth"] }
+							},
+						]
+					},
+					{
 						Name: "Eyes", Key: "e",
 						Options:[
 							{ // e0 - None
@@ -5504,29 +5527,6 @@ var AssetFemale3DCGExtended = {
 						]
 					},
 					{
-						Name: "Mouth", Key: "m",
-						Options:[
-							{ // m0 - None
-								Property: { Effect: ["BlockMouth"] }
-							},
-							{ // m1 - Onahole
-								Property: { Effect: ["GagMedium"] }
-							},
-							{ // m2 - Fleshlight
-								Property: { Effect: ["GagMedium"] }
-							},
-							{ // m3 - Smile
-								Property: { Effect: ["BlockMouth"] }
-							},
-							{ // m4 - Holes
-								Property: { Effect: ["BlockMouth"] }
-							},
-							{ // m5 - Sculpted
-								Property: { Effect: ["BlockMouth"] }
-							},
-						]
-					},
-					{
 						Name: "Pattern", Key: "p",
 						Options:[{},{},{},{},{},{HasSubscreen: true},] // Blank, Barcode, Scarab, Hex, Lines, Text
 					},
@@ -5543,6 +5543,18 @@ var AssetFemale3DCGExtended = {
 							{ // s1 - One Way
 								Property: { Effect: [""] }
 							},
+						]
+					},
+					{
+						Name: "Helmet", Key: "h",
+						Options: [
+							{}, // h0 - Mask
+							{
+								Property:{
+									Hide: ["HairFront", "Ears", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3"]
+								},
+							}, // h1 - Helmet
+
 						]
 					},
 				]
