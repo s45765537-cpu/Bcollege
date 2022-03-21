@@ -11,6 +11,7 @@ var AudioList = [
 	{ Name: "CageOpen", File: "CageOpen" },
 	{ Name: "CageStruggle", File: "CageStruggle" },
 	{ Name: "ChainLong", File: "ChainLong" },
+	{ Name: "ClothKnot", File: "ClothKnot" },
 	{ Name: "SciFiEffect", File: "SciFiEffect" },
 	{ Name: "SciFiPump", File: "SciFiPump" },
 	{ Name: "SciFiConfigure", File: "SciFiConfigure" },
