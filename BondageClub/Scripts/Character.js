@@ -255,6 +255,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		IsKneeling: function () {
 			return (this.Pose != null && (this.Pose.includes("Kneel") || this.Pose.includes("KneelingSpread")));
 		},
+		IsClosingLegs: function() {
+			return (this.Pose != null && this.Pose.includes("LegsClosed"));
+		},
 		IsNaked: function () {
 			return CharacterIsNaked(this);
 		},

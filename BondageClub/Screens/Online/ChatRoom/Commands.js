@@ -458,6 +458,51 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'pose',
+		Action: args => {
+			let LegsClosed = Player.IsClosingLegs();
+			let Kneeling = Player.IsKneeling();
+			let PoseUpdated = false;
+			// Upper body position
+			if (/(^(sit)|(kneel)|.?k.?$)/.test(args)) {
+				if (!Kneeling)
+					PoseUpdated = ChatRoomPlayerStandsOrKneels();
+			} else if (/(^(stand)|.?s.?$)/.test(args)) {
+				if (Kneeling)
+					PoseUpdated = ChatRoomPlayerStandsOrKneels();
+			} else if (/(^(open)|.?o.?$)/.test(args)) {
+				CharacterSetActivePose(Player, Kneeling ? "KneelingSpread" : "BaseLower");
+				PoseUpdated = true;
+			} else if (/(^(close)|.?c.?$)/.test(args)) {
+				CharacterSetActivePose(Player, Kneeling ? "Kneel" : "LegsClosed");
+				PoseUpdated = true;
+			}
+			// Lower body position
+			if (/(^(front)|.?f.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "BaseUpper");
+				PoseUpdated = true;
+			} else if (/(^(raised)|.?r.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "Yoked");
+				PoseUpdated = true;
+			} else if (/(^(overhead)|.?h.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "OverTheHead");
+				PoseUpdated = true;
+			} else if (/(^(back)|.?b.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "BackBoxTie");
+				PoseUpdated = true;
+			} else if (/(^(elbow)|.?e.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "BackElbowTouch");
+				PoseUpdated = true;
+			} else if (/(^(cuffs)|.?u.?$)/.test(args)) {
+				CharacterSetActivePose(Player, "BackCuffs");
+				PoseUpdated = true;
+			}
+			if (PoseUpdated) {
+				ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			}
+		}
+	},
+	{
 		Tag: 'bot',
 		Action: (_, msg) => {
 			for (const { ID, MemberNumber } of ChatRoomCharacter)

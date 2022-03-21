@@ -1853,28 +1853,7 @@ function ChatRoomMenuClick() {
 					CommonSetScreen("Online", "Game" + ChatRoomGame);
 					break;
 				case "Kneel":
-					// When the user character kneels
-					if (Player.CanKneel()) {
-						const PlayerIsKneeling = Player.IsKneeling();
-						ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-						FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-						CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
-						ChatRoomStimulationMessage("Kneel");
-						ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-					} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) { // If the player can theoretically get up, we start a minigame!
-						var diff = 0;
-						if (Player.IsBlind()) diff += 1;
-						if (Player.IsKneeling()) diff += 2;
-						if (Player.IsDeaf()) diff += 1;
-						if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
-						if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
-						if (InventoryGet(Player, "ItemArms")) diff += 1;
-						if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
-						if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
-						if (InventoryGet(Player, "ItemBoots")) diff += 2;
-
-						MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
-					}
+					ChatRoomPlayerStandsOrKneels()
 					break;
 				case "Icons":
 					// When the user toggles icon visibility
@@ -1914,6 +1893,37 @@ function ChatRoomMenuClick() {
 					break;
 			}
 		}
+	}
+}
+
+/**
+ * Makes the player try to stand or kneel.
+ * If bound, starts the balance minigame, otherwise update the position and notify other players.
+ * @returns {boolean} - TRUE if the player stand/kneel instantly, FALSE if the minigame is run.
+ */
+function ChatRoomPlayerStandsOrKneels() {
+	// When the user character kneels
+	if (Player.CanKneel()) {
+		const PlayerIsKneeling = Player.IsKneeling();
+		ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+		FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
+		CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+		ChatRoomStimulationMessage("Kneel");
+		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+		return true;
+	} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) { // If the player can theoretically get up, we start a minigame!
+		var diff = 0;
+		if (Player.IsBlind()) diff += 1;
+		if (Player.IsKneeling()) diff += 2;
+		if (Player.IsDeaf()) diff += 1;
+		if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
+		if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
+		if (InventoryGet(Player, "ItemArms")) diff += 1;
+		if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
+		if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
+		if (InventoryGet(Player, "ItemBoots")) diff += 2;
+		MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+		return false;
 	}
 }
 

@@ -19,6 +19,7 @@ help,[Keyword]: Display help for the command with prefix Keyword. Exclude [Keywo
 invalid,do nothing
 kick,[MemberNumber]: Kick the player out of the room
 me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
+pose,"[stand|kneel|open|close|front|raised|overhead|back|elbow|cuffs]: Change your current pose. You can use one letter shortcut s (stand), k (kneel), o (open legs), c (close legs), f (hands in front), r (hands raised at neck-level), h (hands over the head), b (hands in back), e (elbow touching) and u (showing cuffs), and mix a body pose with an arms pose. For example “/pose ce“ will close legs and hide arms in the back."
 promote,[MemberNumber]: Promote the user to room administrator
 safeword,use safeword
 showblacklist,: View your blacklist
