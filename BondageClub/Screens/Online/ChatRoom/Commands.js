@@ -373,10 +373,11 @@ const CommonCommands = [
 		Action: args => {
 			if (/(^[0-5]$)/.test(args)) {
 				let ExprNum = parseInt(args);
-				if (ExprNum == 0)
+				if (ExprNum == 0) {
 					CharacterResetFacialExpression(Player);
-				else
+				} else {
 					DialogFacialExpressionsLoad(ExprNum - 1);
+				}
 			}
 		}
 	},
@@ -391,10 +392,11 @@ const CommonCommands = [
 				CharacterSetFacialExpression(Player, "Blush", "ShortBreath");
 			} else if (/(^(\+|-)$)/.test(args)) {
 				let CurrentBlush = InventoryGet(Player, "Blush")
-				if (CurrentBlush == null || CurrentBlush.Property == null || CurrentBlush.Property.Expression == null)
+				if (CurrentBlush == null || CurrentBlush.Property == null || CurrentBlush.Property.Expression == null) {
 					CurrentBlush = null;
-				else
+				} else {
 					CurrentBlush = CurrentBlush.Property.Expression;
+				}
 				let Level = 0;
 				for (let i = 0; i < BlushLevels.length; i++) {
 					if (CurrentBlush == BlushLevels[i]) {
@@ -402,14 +404,16 @@ const CommonCommands = [
 						break;
 					}
 				}
-				if (args == "+")
+				if (args == "+") {
 					Level++;
-				else
+				} else {
 					Level--;
-				if (Level < 0)
+				}
+				if (Level < 0) {
 					Level = 0;
-				else if (Level >= BlushLevels.length)
+				} else if (Level >= BlushLevels.length) {
 					Level = BlushLevels.length - 1;
+				}
 				CharacterSetFacialExpression(Player, "Blush", BlushLevels[Level]);
 			}
 		}
@@ -423,10 +427,12 @@ const CommonCommands = [
 			let TargetRight = false;
 			if (/(^[r|l|b]$)/.test(args)) {
 				AcceptCmd = true;
-				if (args == "r" || args == "b")
+				if (args == "r" || args == "b") {
 					TargetRight = true;
-				if (args == "l" || args == "b")
+				}
+				if (args == "l" || args == "b") {
 					TargetLeft = true;
+				}
 				let LeftClosed = InventoryGet(Player, "Eyes").Property.Expression == "Closed";
 				let RightClosed = InventoryGet(Player, "Eyes2").Property.Expression == "Closed";
 				Close = (TargetLeft && !LeftClosed)
@@ -438,22 +444,26 @@ const CommonCommands = [
 				Close = (args == "c");
 			} else if (/(^[c|o][r|l|b]$)/.test(args)) {
 				AcceptCmd = true;
-				if (args[1] == "r" || args[1] == "b")
+				if (args[1] == "r" || args[1] == "b") {
 					TargetRight = true;
-				if (args[1] == "l" || args[1] == "b")
+				}
+				if (args[1] == "l" || args[1] == "b") {
 					TargetLeft = true;
+				}
 				Close = (args[0] == "c");
 			}
 			if (AcceptCmd) {
 				let Expression = null;
-				if (Close)
+				if (Close) {
 					Expression = "Closed";
-				if (TargetLeft && TargetRight)
+				}
+				if (TargetLeft && TargetRight) {
 					CharacterSetFacialExpression(Player, "Eyes", Expression);
-				else if (TargetLeft)
+				} else if (TargetLeft) {
 					CharacterSetFacialExpression(Player, "Eyes1", Expression);
-				else if (TargetRight)
+				} else if (TargetRight) {
 					CharacterSetFacialExpression(Player, "Eyes2", Expression);
+				}
 			}
 		}
 	},
@@ -465,11 +475,13 @@ const CommonCommands = [
 			let PoseUpdated = false;
 			// Upper body position
 			if (/(^(sit)|(kneel)|.?k.?$)/.test(args)) {
-				if (!Kneeling)
+				if (!Kneeling) {
 					PoseUpdated = ChatRoomPlayerStandsOrKneels();
+				}
 			} else if (/(^(stand)|.?s.?$)/.test(args)) {
-				if (Kneeling)
+				if (Kneeling) {
 					PoseUpdated = ChatRoomPlayerStandsOrKneels();
+				}
 			} else if (/(^(open)|.?o.?$)/.test(args)) {
 				CharacterSetActivePose(Player, Kneeling ? "KneelingSpread" : "BaseLower");
 				PoseUpdated = true;
