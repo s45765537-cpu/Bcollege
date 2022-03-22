@@ -421,42 +421,69 @@ const CommonCommands = [
 	{
 		Tag: 'wink',
 		Action: args => {
+			const Cmds = /^((?:right|left|both|r|l|b)?) *(\d*)$/.exec(args);
+			if (Cmds == null) {
+				return;
+			}
+			let Close = false;
+			let TargetLeft = false;
+			let TargetRight = false;
+			let Duration = 3;
+			let TargetCmd = Cmds[1];
+			let DurationCmd = Cmds[2];
+			if (TargetCmd == "" || TargetCmd[0] == "r" || TargetCmd[0] == "b") {
+				TargetRight = true;
+			}
+			if (TargetCmd != "" && (TargetCmd[0] == "l" || TargetCmd[0] == "b")) {
+				TargetLeft = true;
+			}
+			if (DurationCmd != "") {
+				Duration = parseInt(DurationCmd);
+				if (Duration == 0) Duration = null;
+			}
+			if (TargetLeft && TargetRight) {
+				CharacterSetFacialExpression(Player, "Eyes", "Closed", Duration);
+			} else if (TargetLeft) {
+				CharacterSetFacialExpression(Player, "Eyes1", "Closed", Duration);
+			} else if (TargetRight) {
+				CharacterSetFacialExpression(Player, "Eyes2", "Closed", Duration);
+			}
+		}
+	},
+	{
+		Tag: 'eyes',
+		Action: args => {
 			let AcceptCmd = false;
 			let Close = false;
 			let TargetLeft = false;
 			let TargetRight = false;
-			if (/(^[r|l|b]$)/.test(args)) {
+			if (/^(right|left|both|r|l|b)$/.test(args)) {
 				AcceptCmd = true;
-				if (args == "r" || args == "b") {
+				if (args[0] == "r" || args[0] == "b") {
 					TargetRight = true;
 				}
-				if (args == "l" || args == "b") {
+				if (args[0] == "l" || args[0] == "b") {
 					TargetLeft = true;
 				}
 				let LeftClosed = InventoryGet(Player, "Eyes").Property.Expression == "Closed";
 				let RightClosed = InventoryGet(Player, "Eyes2").Property.Expression == "Closed";
-				Close = (TargetLeft && !LeftClosed)
-				Close = Close || (TargetRight && !RightClosed)
-			} else if (/(^[c|o]$)/.test(args)) {
+				Close = (TargetLeft && !LeftClosed);
+				Close = Close || (TargetRight && !RightClosed);
+			} else if (/^(close|open|c|o) *((?:right|left|both|r|l|b)?)$/.test(args)) {
 				AcceptCmd = true;
-				TargetLeft = true;
-				TargetRight = true;
-				Close = (args == "c");
-			} else if (/(^[c|o][r|l|b]$)/.test(args)) {
-				AcceptCmd = true;
-				if (args[1] == "r" || args[1] == "b") {
+				const Cmds = /^(close|open|c|o) *((?:right|left|both|r|l|b)?)$/.exec(args);
+				let ActionCmd = Cmds[1];
+				let TargetCmd = Cmds[2];
+				Close = (ActionCmd == "c" || ActionCmd == "close");
+				if (TargetCmd == "" || TargetCmd[0] == "r" || TargetCmd[0] == "b") {
 					TargetRight = true;
 				}
-				if (args[1] == "l" || args[1] == "b") {
+				if (TargetCmd == "" || TargetCmd[0] == "l" || TargetCmd[0] == "b") {
 					TargetLeft = true;
 				}
-				Close = (args[0] == "c");
 			}
 			if (AcceptCmd) {
-				let Expression = null;
-				if (Close) {
-					Expression = "Closed";
-				}
+				let Expression = (Close) ? "Closed" : null;
 				if (TargetLeft && TargetRight) {
 					CharacterSetFacialExpression(Player, "Eyes", Expression);
 				} else if (TargetLeft) {

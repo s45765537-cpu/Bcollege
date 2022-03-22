@@ -11,6 +11,7 @@ coin,: Toss a coin
 demote,[MemberNumber]: Demote the player from room administrator
 dice,[Number]: Roll a 6-sided die. Adding “[Number]” after the command for any number between 2 and 100 will roll a die of that many sides instead. Adding “[Number]d[Number]” will roll multiple dice and sum the total.
 expr,[0-5]: Clear or load facial expression. ”0” after the command will clear facial expression. 1 to 5 will load expression from the saved slot.
+eyes,"[o|c][r|l|b]: Open or close eyes. With ”o” or ”open”, ”c” or ”close” without target, opens or close both eyes. ”r”, ”right”, ”l”, ”left”, ”b” or ”both” restricts to one or both eye. With target only, opens or closes it."
 friendlistadd,[MemberNumber]: Add the player to your friendlist
 friendlistremove,[MemberNumber]: Remove the player from your friendlist
 ghostadd,[MemberNumber]: Add the player to your ghostlist
@@ -28,6 +29,6 @@ showghostlist,: View your ghostlist
 showwhitelist,: View your whitelist
 openfriendlist,: Open the friendlist screen
 unban,[MemberNumber]: Remove a ban on a player
-wink,"[o|c][r|l|b]: Open or close eyes. ”r” targets the right eye, ”l” the left one and ”b” (or nothing) both. Add ”o” to open only and ”c” to close. For example ”/wink r” twice will close and open the right eye."
+wink,"[r|l|b] [Duration]: Wink with an eye or both. ”/wink” alone will wink with the right eye. ”r” or ”right” targets the right eye, ”l” or ”left” the left one and ”b” or ”both”, both. A duration can be set, default is 3."
 whitelistadd,[MemberNumber]: Add a player to your whitelist
 whitelistremove,[MemberNumber]: Remove a player from your whitelist
