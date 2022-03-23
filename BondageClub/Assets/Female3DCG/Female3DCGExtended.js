@@ -5486,10 +5486,10 @@ var AssetFemale3DCGExtended = {
 								Property: { Effect: ["BlockMouth"] }
 							},
 							{ // m1 - Onahole
-								Property: { Effect: ["GagMedium"] }
+								Property: { Effect: ["GagMedium","OpenMouth"] }
 							},
 							{ // m2 - Fleshlight
-								Property: { Effect: ["GagMedium"] }
+								Property: { Effect: ["GagMedium","OpenMouth"] }
 							},
 							{ // m3 - Smile
 								Property: { Effect: ["BlockMouth"] }
