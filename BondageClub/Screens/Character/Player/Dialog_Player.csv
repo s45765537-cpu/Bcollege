@@ -2894,6 +2894,11 @@ ClothAccessoryGlitterStarsRight,,,Stars Right,,
 ClothAccessoryGlitterDotsBoth,,,Dots Both Sides,,
 ClothAccessoryGlitterDotsLeft,,,Dots Left,,
 ClothAccessoryGlitterDotsRight,,,Dots Right,,
+ItemHoodZipperHoodSelect,,,Select Zipper State.,,
+ItemHoodZipperHoodZippersOpen,,,Open
+ItemHoodZipperHoodZippersClosed,,,Closed
+ItemHoodZipperHoodSetZippersClosed,,,SourceCharacter zips up the hood on DestinationCharacter,,
+ItemHoodZipperHoodSetZippersOpen,,,SourceCharacter unzips up the hood on DestinationCharacter,,
 GGTSIntroPublic,,,[GGTS] GGTS control public room.  Be good girl SourceCharacter.,,
 GGTSIntroPrivate,,,[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good girl follow commands.  Three strikes equal punishment.  GGTS in control.  Be good girl SourceCharacter.,,
 GGTSIntroPrivateSlave,,,[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good slave follow commands.  Strike remove sixty minutes.  Master GGTS in control.  Be good slave SourceCharacter.,,
