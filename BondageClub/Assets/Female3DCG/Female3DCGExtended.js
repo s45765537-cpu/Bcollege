@@ -5571,7 +5571,8 @@ var AssetFemale3DCGExtended = {
 							}, // h1 - Helmet (hood)
 						]
 					},
-				]
+				],
+				ChangeWhenLocked: false,
 			}
 		}, // DroneMask
 	}, // ItemHead
