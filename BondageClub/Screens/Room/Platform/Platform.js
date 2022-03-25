@@ -12,6 +12,9 @@ var PlatformLastKeyCode = 0;
 var PlatformLastKeyTime = 0;
 var PlatformExperienceForLevel = [0, 10, 15, 25, 40, 60, 90, 135, 200, 300, 500];
 var PlatformShowHitBox = false;
+var PlatformMessage = null;
+var PlatformHeal = null;
+var PlatformEvent = [];
 
 // Template for characters with their animations
 var PlatformTemplate = [
@@ -19,6 +22,7 @@ var PlatformTemplate = [
 		Name: "Melody",
 		Status: "Maid",
 		Health: 16,
+		HealthPerLevel: 4,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.42, 0.03, 0.58, 1],
@@ -142,8 +146,33 @@ var PlatformTemplate = [
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
 		],
 		Attack: []
-	}
-,
+	},
+	{
+		Name: "Hazel",
+		Status: "Maid",
+		Health: 10,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		RunSpeed: 12,
+		WalkSpeed: 8,
+		CrawlSpeed: 4,
+		JumpForce: 50,
+		CollisionDamage: 1,
+		ExperienceValue: 1,
+		JumpOdds: 0.0002,
+		DamageBackOdds: 1,
+		DamageKnockForce: 50,
+		Animation: [
+			{ Name: "Idle", Cycle: [0], Speed: 150 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 40 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 35 },
+			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1], Speed: 130 },
+		],
+		Attack: []
+	},
 	{
 		Name: "Camille",
 		Status: "Armor",
@@ -182,7 +211,7 @@ var PlatformTemplate = [
 
 // All available rooms
 var PlatformRoomList = [
-	{
+	/*{
 		Name: "CollegeClass1",
 		Background: "CollegeClass1",
 		Width: 4000,
@@ -220,45 +249,93 @@ var PlatformRoomList = [
 			{ Name: "Liane", X: 1400 },
 			{ Name: "Kara", X: 2500 }
 		]
+	},*/
+	{
+		Name: "BedroomMelody",
+		Text: "Melody's Bedroom (heal and save)",
+		Background: "Castle/BedroomMelody",
+		Width: 2000,
+		Height: 1200,
+		LimitLeft: 200,
+		LimitRight: 1750,
+		Heal: 1000,
+		Door: [
+			{ Name: "CastleHall1A", FromX: 200, FromY: 0, FromW: 150, FromH: 1200, FromType: "Up", ToX: 500, ToFaceLeft: false },
+		],
+		Character: [
+		]
 	},
 	{
 		Name: "CastleHall1A",
-		Background: "CastleHall1",
-		Width: 2400,
+		Entry: function() { if (!PlatformEventDone("JealousMaid")) { PlatformEventSet("JealousMaid"); PlatformDialogStart("JealousMaid"); } },
+		Text: "Bedroom Hallway - West",
+		Background: "Castle/Hall1A",
+		Width: 3200,
 		Height: 1200,
+		LimitLeft: 250,
 		Door: [
-			{ Name: "CollegeArt1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3600, ToFaceLeft: false },
-			{ Name: "CastleHall1B", FromX: 2300, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 200, ToFaceLeft: false }
+			{ Name: "BedroomMelody", FromX: 350, FromY: 0, FromW: 300, FromH: 1200, FromType: "Up", ToX: 275, ToFaceLeft: false },
+			{ Name: "CastleHall1B", FromX: 3100, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Yuna", X: 1150 }
+			{ Name: "Hazel", X: 2000 }
 		]
 	},
 	{
 		Name: "CastleHall1B",
-		Background: "CastleHall1",
-		BackgroundFilter: "#00000060",
-		Width: 2400,
+		Text: "Bedroom Hallway - Center",
+		Background: "Castle/Hall1B",
+		Width: 4800,
 		Height: 1200,
 		Door: [
-			{ Name: "CastleHall1A", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2200, ToFaceLeft: false },
-			{ Name: "CastleHall2", FromX: 2300, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 200, ToFaceLeft: false }
+			{ Name: "CastleHall1A", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3100, ToFaceLeft: true },
+			{ Name: "CastleHall1C", FromX: 4700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Yuna", X: 1150 },
-			{ Name: "Yuna", X: 1450 }
+			{ Name: "Hazel", X: 1800 },
+			{ Name: "Hazel", X: 3000 }
 		]
 	},
 	{
-		Name: "CastleHall2",
-		Background: "CastleHall2",
-		Width: 2600,
+		Name: "CastleHall1C",
+		Text: "Bedroom Hallway - East",
+		Background: "Castle/Hall1C",
+		Width: 3800,
 		Height: 1200,
+		LimitRight: 3550,
 		Door: [
-			{ Name: "CastleHall1B", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2200, ToFaceLeft: false }
+			{ Name: "CastleHall1B", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 4700, ToFaceLeft: true },
+			{ Name: "BedroomOlivia", FromX: 750, FromY: 0, FromW: 300, FromH: 1200, FromType: "Up", ToX: 100, ToFaceLeft: false },
+			{ Name: "BedroomIsabella", FromX: 3150, FromY: 0, FromW: 300, FromH: 1200, FromType: "Up", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
-			{ Name: "Camille", X: 2000 }
+			{ Name: "Yuna", X: 2100 }
+		]
+	},
+	{
+		Name: "BedroomOlivia",
+		Text: "Olivia's Bedroom",
+		Background: "Castle/BedroomOlivia",
+		Width: 3000,
+		Height: 1200,
+		Heal: 1000,
+		Door: [
+			{ Name: "CastleHall1C", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 900, ToFaceLeft: false }
+		],
+		Character: [
+		]
+	},
+	{
+		Name: "BedroomIsabella",
+		Text: "Isabella's Bedroom",
+		Background: "Castle/BedroomIsabella",
+		Width: 2000,
+		Height: 1200,
+		Heal: 1000,
+		Door: [
+			{ Name: "CastleHall1C", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3300, ToFaceLeft: true }
+		],
+		Character: [
 		]
 	}
 
@@ -299,6 +376,33 @@ function PlatformCreateCharacter(TemplateName, IsPlayer, X) {
 }
 
 /**
+ * Returns TRUE if a specific event is already done
+ * @param {String} Event - The name of the event
+ * @returns {Boolean} - TRUE if done
+ */
+function PlatformEventDone(Event) {
+	return (PlatformEvent.indexOf("JealousMaid") >= 0);
+}
+
+/**
+ * Adds an event to the list of events done
+ * @param {String} Event - The name of the event
+ * @returns {void} - Nothing
+ */
+function PlatformEventSet(Event) {
+	if (!PlatformEventDone(Event)) PlatformEvent.push(Event);
+}
+
+/**
+ * Sets the on screen message for 4 seconds
+ * @param {String} Text - The text to show
+ * @returns {void} - Nothing
+ */
+function PlatformMessageSet(Text) {
+	PlatformMessage = { Text: Text, Timer: CommonTime() + 4000 };
+}
+
+/**
  * Loads a room and it's parameters
  * @param {Object} RoomName - The name of the room to load
  * @returns {void} - Nothing
@@ -308,10 +412,14 @@ function PlatformLoadRoom(RoomName) {
 	for (let Room of PlatformRoomList)
 		if (Room.Name == RoomName)
 			PlatformRoom = Room;
+	if (PlatformRoom == null) return;
+	if (PlatformRoom.Text != null) PlatformMessageSet(PlatformRoom.Text);
+	PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
 	PlatformChar.splice(1, 100);
 	if (PlatformRoom.Character != null)
 		for (let Char of PlatformRoom.Character)
 			PlatformCreateCharacter(Char.Name, false, Char.X);
+	if (PlatformRoom.Entry != null) PlatformRoom.Entry();
 }
 
 /**
@@ -321,9 +429,11 @@ function PlatformLoadRoom(RoomName) {
 function PlatformLoad() {
 	window.addEventListener("keydown", PlatformEventKeyDown);
 	window.addEventListener("keyup", PlatformEventKeyUp);
-	PlatformChar = [];
-	PlatformCreateCharacter("Melody", true, 300);
-	PlatformLoadRoom("CollegeClass1");
+	if (PlatformChar.length == 0) {
+		PlatformChar = [];
+		PlatformCreateCharacter("Melody", true, 1000);
+		PlatformLoadRoom("BedroomMelody");
+	}
 	PlatformLastTime = CommonTime();
 }
 
@@ -374,19 +484,33 @@ function PlatformActionIs(C, ActionName) {
  * @returns {void} - Nothing
  */
 function PlatformDrawBackground() {
+	
+	// Draws the background within the borders
 	PlatformViewX = PlatformPlayer.X - 1000;
 	if (PlatformViewX < 0) PlatformViewX = 0;
 	if (PlatformViewX > PlatformRoom.Width - 2000) PlatformViewX = PlatformRoom.Width - 2000;
 	PlatformViewY = PlatformPlayer.Y - 600;
 	if (PlatformViewY < 0) PlatformViewY = 0;
 	if (PlatformViewY > PlatformRoom.Height - 1000) PlatformViewY = PlatformRoom.Height - 1000;
-	DrawImageZoomCanvas("Backgrounds/Platform/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
+	DrawImageZoomCanvas("Screens/Room/Platform/Background/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
 	if (PlatformRoom.BackgroundFilter != null) DrawRect(0, 0, 2000, 1000, PlatformRoom.BackgroundFilter);
 	DrawProgressBar(10, 10, 180, 40, PlatformPlayer.Health / PlatformPlayer.MaxHealth * 100, "#00B000", "#B00000");
 	DrawText(PlatformPlayer.Health.toString(), 100, 32, "White", "Black");
 	DrawProgressBar(10, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "#0000B0", "Black");
 	DrawText(PlatformPlayer.Level.toString(), 100, 82, "White", "Black");
 	if (PlatformActionIs(PlatformPlayer, "Bind")) DrawProgressBar(10, 110, 180, 40, (CommonTime() - PlatformPlayer.Action.Start) / (PlatformPlayer.Action.Expire - PlatformPlayer.Action.Start) * 100, "White", "Black");
+
+	// Preloads the next rooms
+	if (PlatformRoom.Door != null)
+		for (let Door of PlatformRoom.Door)
+			for (let Room of PlatformRoomList)
+				if ((Room.Name == Door.Name) && (Room.Background != null)) {
+					let FileName = "Screens/Room/Platform/Background/" + Room.Background + ".jpg";
+					let Obj = DrawCacheImage.get(FileName);
+					if ((Obj == null) || (Obj.width == null) || (Obj.width <= 0))
+						DrawImage(FileName, 2000, 1000);
+				}
+
 }
 
 /**
@@ -400,7 +524,7 @@ function PlatformDrawCharacter(C, Time) {
 	let Y = C.Y - C.Anim.Height - PlatformViewY
 	if ((X >= 2000) || (Y >= 1000)) return;
 	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
-	DrawImageEx("Screens/Room/Platform/Characters/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
+	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
 	if (C.Damage != null)
 		for (let Damage of C.Damage)
 			if (Damage.Expire >= Time) {
@@ -418,7 +542,7 @@ function PlatformDrawCharacter(C, Time) {
 function PlatformAddExperience(C, Value) {
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
-		C.MaxHealth = C.MaxHealth + 4;
+		C.MaxHealth = C.MaxHealth + C.HealthPerLevel;
 		C.Health = C.MaxHealth;
 		C.Experience = 0;
 		C.Level++;
@@ -445,7 +569,7 @@ function PlatformDamage(Source, Target, Damage, Time) {
 	Target.Damage.push({ Value: Damage, Expire: Time + 2000});
 	if (Target.Health <= 0) {
 		Target.Health = 0;
-		Target.RiseTime = Time + 15000;
+		Target.RiseTime = Time + 10000;
 		Target.Immunity = Time + 2000;
 	}
 }
@@ -554,7 +678,7 @@ function PlatformBindPlayer(Source, Time) {
 	if ((PlatformPlayer.Immunity != null) && (PlatformPlayer.Immunity > Time)) return;
 	if ((Source.Action != null) && (Source.Action.Name == "Bind")) return;
 	if ((PlatformPlayer.Y != PlatformFloor) || (Source.Y != PlatformFloor) || (Math.abs(PlatformPlayer.X - Source.X) > 50)) return;
-	PlatformPlayer.RiseTime = Time + 15000;
+	PlatformPlayer.RiseTime = Time + 10000;
 	Source.ForceX = 0;
 	Source.Action = { Name: "Bind", Target: PlatformPlayer.ID, Start: Time, Expire: Time + 2000 };
 }
@@ -576,8 +700,8 @@ function PlatformDraw() {
 	// Only catches actions if health is greater than zero
 	if (PlatformPlayer.Health > 0) {
 
-		// Walk/Crawl left
-		if ((PlatformKeys.indexOf(65) >= 0) || (PlatformKeys.indexOf(97) >= 0)) {
+		// Walk/Crawl left (A or Q for QWERTY and AZERTY)
+		if ((PlatformKeys.indexOf(65) >= 0) || (PlatformKeys.indexOf(97) >= 0) || (PlatformKeys.indexOf(81) >= 0) || (PlatformKeys.indexOf(113) >= 0)) {
 			PlatformPlayer.FaceLeft = true;
 			if (PlatformPlayer.ForceX > 0) PlatformPlayer.ForceX = 0;
 			else PlatformPlayer.ForceX = PlatformPlayer.ForceX - PlatformWalkFrame(((PlatformPlayer.Y == PlatformFloor) && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0))) ? PlatformPlayer.CrawlSpeed : (PlatformPlayer.Run ? PlatformPlayer.RunSpeed : PlatformPlayer.WalkSpeed), Frame);
@@ -600,22 +724,30 @@ function PlatformDraw() {
 	if ((PlatformKeys.indexOf(32) < 0) && (PlatformPlayer.ForceY < 0))
 		PlatformPlayer.ForceY = PlatformPlayer.ForceY + PlatformWalkFrame(PlatformGravitySpeed * 2, Frame);
 	
+	// If we must heal 1 HP to all characters in the room
+	let MustHeal = ((PlatformHeal != null) && (PlatformHeal < PlatformTime));
+	if (MustHeal) PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
+	
 	// Draw each characters
 	for (let C of PlatformChar) {
-
+	
 		// Enemies will stand up at half health if they were not restrained
 		if ((C.Health == 0) && (C.RiseTime != null) && (C.RiseTime < PlatformTime) && !C.Bound)
 			C.Health = Math.round(C.MaxHealth / 2);
 
+		// Heal the character
+		if (MustHeal && (C.Health > 0) && (C.Health < C.MaxHealth))
+			C.Health++;
+		
 		// AI walks from left to right
 		if (!C.Camera && (C.Health > 0)) {
 			if (C.FaceLeft) {
-				if (C.X <= 300) {
+				if (C.X <= ((PlatformRoom.LimitLeft != null) ? PlatformRoom.LimitLeft + 50 : 100)) {
 					C.FaceLeft = false;
 					C.ForceX = 0;
 				} else C.ForceX = C.ForceX - PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
 			} else {
-				if (C.X >= PlatformRoom.Width - 300) {
+				if (C.X >= ((PlatformRoom.LimitRight != null) ? PlatformRoom.LimitRight - 50 : PlatformRoom.Width - 100)) {
 					C.FaceLeft = true;
 					C.ForceX = 0;
 				} else C.ForceX = C.ForceX + PlatformWalkFrame(C.Run ? C.RunSpeed : C.WalkSpeed, Frame);
@@ -645,7 +777,9 @@ function PlatformDraw() {
 		// Applies the forces and turns the face
 		C.X = C.X + C.ForceX;
 		if (C.X < 100) C.X = 100;
+		if ((PlatformRoom.LimitLeft != null) && (C.X < PlatformRoom.LimitLeft)) C.X = PlatformRoom.LimitLeft;
 		if (C.X > PlatformRoom.Width - 100) C.X = PlatformRoom.Width - 100;
+		if ((PlatformRoom.LimitRight != null) && (C.X > PlatformRoom.LimitRight)) C.X = PlatformRoom.LimitRight;
 		C.Y = C.Y + C.ForceY;
 		if (C.Y > PlatformFloor) {
 			C.Y = PlatformFloor;
@@ -665,7 +799,11 @@ function PlatformDraw() {
 		else C.Anim = PlatformGetAnim(C, "Idle");
 
 		// Draws the background if we are focusing on that character
-		if (C.Camera) PlatformDrawBackground();
+		if (C.Camera) {
+			PlatformDrawBackground();
+			if ((PlatformMessage != null) && (PlatformMessage.Text != null) && (PlatformMessage.Timer != null) && (PlatformMessage.Timer > CommonTime()))
+				DrawText(PlatformMessage.Text, 1000, 50, "White", "Black");
+		}
 
 		// Draws the character and reduces the force for the next run
 		if (!C.Camera && C.Anim != null) PlatformDrawCharacter(C, PlatformTime);
@@ -761,11 +899,55 @@ function PlatformBindStart(Source) {
 	if (PlatformKeys.length > 0) return;
 	for (let C of PlatformChar)
 		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
-			C.RiseTime = CommonTime() + 15000;
+			C.RiseTime = CommonTime() + 10000;
 			Source.ForceX = 0;
 			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + 2000 };
 			return;
 		}
+}
+
+/**
+ * Saves the game on a specific slot
+ * @param {Number} Slot - The slot to use (from 0 to 9)
+ * @returns {void} - Nothing
+ */
+function PlatformSaveGame(Slot) {
+	let SaveObj = {
+		Character: PlatformPlayer.Name,
+		Status: PlatformPlayer.Status,
+		Level: PlatformPlayer.Level,
+		Experience: PlatformPlayer.Experience,
+		Room: PlatformRoom.Name,
+		Event: PlatformEvent
+	};
+	localStorage.setItem("BondageBrawlSave" + Slot.toString(), JSON.stringify(SaveObj));
+	PlatformMessageSet("Game saved on slot " + Slot.toString());
+}
+
+/**
+ * Loads the game on a specific slot
+ * @param {Number} Slot - The slot to use (from 0 to 9)
+ * @returns {void} - Nothing
+ */
+function PlatformLoadGame(Slot) {
+	let LoadObj = localStorage.getItem("BondageBrawlSave" + Slot.toString());
+	if (LoadObj == null) return;
+	LoadObj = JSON.parse(LoadObj);
+	if (LoadObj.Character == null) return;
+	if (LoadObj.Status == null) return;
+	if (LoadObj.Room == null) return;
+	PlatformChar = [];
+	PlatformCreateCharacter(LoadObj.Character, true, 1000);
+	PlatformPlayer.Status = LoadObj.Status;
+	PlatformLoadRoom(LoadObj.Room);
+	PlatformPlayer.X = Math.round(PlatformRoom.Width / 2);
+	if (LoadObj.Level != null) PlatformPlayer.Level = LoadObj.Level;
+	PlatformEvent = LoadObj.Event;
+	if (PlatformEvent == null) PlatformEvent = [];
+	if (PlatformPlayer.Level > 1) PlatformPlayer.MaxHealth = PlatformPlayer.MaxHealth + PlatformPlayer.HealthPerLevel * (PlatformPlayer.Level - 1);
+	PlatformPlayer.Health = PlatformPlayer.MaxHealth;
+	if (LoadObj.Experience != null) PlatformPlayer.Experience = LoadObj.Experience;
+	CommonSetScreen("Room", "Platform");
 }
 
 /**
@@ -778,10 +960,11 @@ function PlatformEventKeyDown(e) {
 	if (PlatformPlayer.Health <= 0) return;
 	if (PlatformActionIs(PlatformPlayer, "Bind")) PlatformPlayer.Action = null;
 	if (e.keyCode == 32) PlatformPlayer.Action = null;
-	if ((e.keyCode == 87) || (e.keyCode == 119)) return PlatformEnterRoom("Up");
+	if ((e.keyCode == 87) || (e.keyCode == 119) || (e.keyCode == 90) || (e.keyCode == 122)) return PlatformEnterRoom("Up");
 	if ((e.keyCode == 76) || (e.keyCode == 108)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackFast" : "StandAttackFast");
 	if ((e.keyCode == 75) || (e.keyCode == 107)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackSlow" : "StandAttackSlow");
 	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer, e.keyCode);
+	if ((PlatformRoom.Heal != null) && (e.keyCode >= 48) && (e.keyCode <= 57)) return PlatformSaveGame(e.keyCode - 48);
 	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);
 	PlatformLastKeyCode = e.keyCode;
 	PlatformLastKeyTime = CommonTime();
