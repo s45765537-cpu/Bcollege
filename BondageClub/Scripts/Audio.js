@@ -49,6 +49,7 @@ var AudioList = [
 	{ Name: "Wand", File: "Wand" },
 	{ Name: "WoodenCuffs", File: "WoodenCuffs" },
 	{ Name: "ZipTie", File: "ZipTie" },
+	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
 ];
 
 
@@ -281,6 +282,11 @@ var AudioActions = [
 			"Increase"
 		].some(A => data.Content.includes(A)) && !data.Content.endsWith("-1"),
 		GetSoundEffect: AudioVibratorSounds
+	},
+	{
+		IsAction: (data) =>
+			data.Type == "Activity" && (data.Content.endsWith('-Slap') || data.Content.endsWith('-Spank')),
+		GetSoundEffect: () => "SpankSkin"
 	},
 ];
 
