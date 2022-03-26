@@ -1,6 +1,7 @@
 "use strict";
 var AudioDialog = new Audio();
 
+/** @type AudioEffect[] */
 var AudioList = [
 	{ Name: "Bag", File: "Bag" },
 	{ Name: "Beep", File: "BeepAlarm" },
@@ -14,9 +15,7 @@ var AudioList = [
 	{ Name: "SciFiEffect", File: "SciFiEffect" },
 	{ Name: "SciFiPump", File: "SciFiPump" },
 	{ Name: "SciFiConfigure", File: "SciFiConfigure" },
-	{ Name: "SciFiBeeps1", File: "SciFiBeeps1" },
-	{ Name: "SciFiBeeps2", File: "SciFiBeeps2" },
-	{ Name: "SciFiBeeps3", File: "SciFiBeeps3" },
+	{ Name: "SciFiBeeps", File: ["SciFiBeeps1", "SciFiBeeps2", "SciFiBeeps3"] },
 	{ Name: "ChainShort", File: "ChainShort" },
 	{ Name: "CuffsMetal", File: "CuffsMetal" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
@@ -244,7 +243,7 @@ var AudioActions = [
 			"FuturisticPanelGagMouthSetAutoPunish",
 			"SciFiPleasurePantiesBeep"
 		].some(A => data.Content.includes(A)),
-		GetSoundEffect: AudioSciFiBeepSounds
+		GetSoundEffect: () => "SciFiBeeps"
 	},
 	{
 		IsAction: (data) => [
@@ -440,9 +439,19 @@ function AudioGetSoundFromAsset(character, groupName, assetName) {
 	return [sound, 0];
 }
 
+/**
+ * Get a file name for a given sound effect.
+ * @param {string} sound - The sound effect to load a file from.
+ * @returns {string?}
+ */
 function AudioGetFileName(sound) {
-	var AssetSound = AudioList.find(A => A.Name == sound);
-	return AssetSound ? AssetSound.File : "";
+	let audioEffect = AudioList.find(A => A.Name == sound);
+	if (!audioEffect) return null;
+	if (Array.isArray(audioEffect.File)) {
+		return CommonRandomItemFromList("", audioEffect.File);
+	} else {
+		return audioEffect.File;
+	}
 }
 
 /**
@@ -497,18 +506,4 @@ function AudioVibratorSounds(data) {
 	}
 
 	return [Sound, Level * 3];
-}
-
-/**
- * @returns {[string, number]}
- */
-function AudioSciFiBeepSounds() {
-	var AudioRandomNumber = Math.random();
-
-	if (AudioRandomNumber < 0.33) {
-		return ["SciFiBeeps1", 4];
-	} else if (AudioRandomNumber > 0.67) {
-		return ["SciFiBeeps2", 4];
-	}
-	return ["SciFiBeeps3", 4];
 }

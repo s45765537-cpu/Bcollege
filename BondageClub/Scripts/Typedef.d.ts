@@ -1660,6 +1660,14 @@ interface GameGGTSParameters {
 
 type AudioSoundEffect = [string, number];
 
+interface AudioEffect {
+	/** The sound effect name */
+	Name: string;
+
+	/** The sound file, or files to choose from randomly */
+	File: string | string[];
+}
+
 /**
  * Sound effect detector for chat messages.
  */
