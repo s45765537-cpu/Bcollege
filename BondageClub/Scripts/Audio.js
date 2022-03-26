@@ -50,6 +50,7 @@ var AudioList = [
 	{ Name: "WoodenCuffs", File: "WoodenCuffs" },
 	{ Name: "ZipTie", File: "ZipTie" },
 	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
+	{ Name: "WhipCrack", File: ["WhipCrack"] },
 ];
 
 

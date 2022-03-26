@@ -329,7 +329,7 @@ function InventorySpankingToysGetAudio(C) {
 		case "Paddle":
 		case "WhipPaddle":
 		case "TennisRacket": return "SmackSkin3";
-		case "Whip": return "Whip1";
+		case "Whip": return "WhipCrack";
 		case "CattleProd": return "Shocks";
 		default: return "";
 	}
