@@ -841,7 +841,7 @@ var AssetFemale3DCGExtended = {
 							Type: null,
 							Difficulty: 0,
 							Effect: [],
-							SetPose: null,
+							SetPose: [],
 							SelfUnlock: true,
 						},
 					},
@@ -927,7 +927,7 @@ var AssetFemale3DCGExtended = {
 							Type: null,
 							Difficulty: 0,
 							Effect: [],
-							SetPose: null,
+							SetPose: [],
 							SelfUnlock: true,
 						},
 					},
@@ -3767,7 +3767,7 @@ var AssetFemale3DCGExtended = {
 						Name: "Extra", Key: "e",
 						Options:[
 							{}, //e0 - None
-							{ Property: {Dificulty: 7}}, //e1 - ExtraStraps
+							{ Property: {Difficulty: 7}}, //e1 - ExtraStraps
 							{}, //e2 - Flags
 						],
 					},
@@ -4323,7 +4323,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "None",
 						Property: {
-							Type: null, SetPose: null, Difficulty: null, Effect: null, FreezeActivePose: [],
+							Type: null, SetPose: [], Difficulty: 0, Effect: [], FreezeActivePose: [],
 						}
 					},
 					{
@@ -4361,7 +4361,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "None",
 						Property: {
-							Type: null, SetPose: null, Difficulty: null, Effect: null, FreezeActivePose: [],
+							Type: null, SetPose: [], Difficulty: 0, Effect: [], FreezeActivePose: [],
 						}
 					},
 					{
@@ -4405,7 +4405,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: null,
 							Difficulty: 0,
-							Hide: null,
+							Hide: [],
 							SetPose: ["LegsClosed"],
 						},
 					},
@@ -4626,7 +4626,7 @@ var AssetFemale3DCGExtended = {
 						Name: "OpenBack",
 						Property: {
 							Type: null,
-							Block: null,
+							Block: [],
 						},
 					},
 					{
