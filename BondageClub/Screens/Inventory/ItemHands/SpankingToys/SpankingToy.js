@@ -289,7 +289,7 @@ function InventorySpankingToysGetDescription(C) {
 /**
  * Get the activity of the spanking toy that the character is holding
  * @param {Character} C
- * @returns {string | string[] | null}
+ * @returns {string | null}
  */
 function InventorySpankingToysGetActivity(C) {
 	var Type = InventorySpankingToysGetType(C);
@@ -308,9 +308,9 @@ function InventorySpankingToysActivityAllowed(C) {
 	if (InventoryBlockedOrLimited(C, { Asset: A }))
 		return false;
 	if (C.FocusGroup != null) {
-		const Activity = InventorySpankingToysGetActivity(Player);
-		if (Activity == null) return true;
-		else return C.FocusGroup.Activity.includes(Activity);
+		const activityNames = InventorySpankingToysGetActivity(Player);
+		return ActivityAllowedForGroup(C, C.FocusGroup.Name, true)
+			.some(act => activityNames === act.Name);
 	}
 	return false;
 }
