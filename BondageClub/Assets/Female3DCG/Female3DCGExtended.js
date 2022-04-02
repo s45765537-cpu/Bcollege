@@ -2517,6 +2517,44 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // Net
+		WoodenRack: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config:{
+				Modules:[
+					{
+							Name: "Frame", Key: "f",
+							Options: [
+								{}, // f0 - Normal
+								{}, // f1 - NoBack
+								{}, // f2 - BackBreaker
+							],
+					},	
+					{
+							Name: "TopRestraints", Key: "t",
+							Options: [
+								{}, // t0 - No
+								{}, // t1 - Rope
+								{}, // t2 - RopeTight
+								{}, // t3 - Chains
+								{}, // t4 - ChainsTight
+							],
+					},
+					{
+							Name: "BotRestraints", Key: "b",
+							Options: [
+								{}, // b0 - No
+								{}, // b1 - Rope
+								{}, // b2 - RopeTight
+								{}, // b3 - Chains
+								{}, // b4 - ChainsTogether
+								{}, // b5 - Stocks
+								{}, // b6 - StocksTogether
+							],
+					},
+				],
+			},
+		}, //WoodenRack
+		
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

@@ -6018,6 +6018,27 @@ var AssetFemale3DCG = [
 					{ Name: "Pillow" }
 				]
 			},
+			{
+				Name: "WoodenRack", Value: 0, Priority: 1, Dificulty: 20, Selfbondage: 2, Random: false, RemoveAtLogin: true, DefaultColor: [], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", Effect: ["Freeze", "Mounted", "OnBed", "Leash"], Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"], 
+				SetPose: ["BaseLower"],
+				Block: ["ItemAddon"],
+				Layer: [
+					{ Name: "Back", HasType: false, AllowColorize: false, AllowModuleTypes: ["f0"] },
+					{ Name: "NoBack", HasType: false, AllowColorize: false, AllowModuleTypes: ["f1"] },
+					{ Name: "BackBreaker", HasType: false, AllowColorize: false, AllowModuleTypes: ["f2"] },
+										{ Name: "Frame", HasType: false, AllowColorize: false },
+					{ Name: "FrameStains", HasType: false, AllowModuleTypes: ["s1"] },
+					{ Name: "TopRopes", HasType: false, AllowModuleTypes: ["t1"] },
+					{ Name: "TopChains", HasType: false, AllowModuleTypes: ["t2"]},
+					{ Name: "TopRopesTight", HasType: false, CopyLayerColor: "Ropes", AllowModuleTypes: ["t3"] },
+					{ Name: "TopChainsTight", HasType: false, CopyLayerColor: "Chains",AllowModuleTypes: ["t4"]},
+					{ Name: "BotRopes", HasType: false, CopyLayerColor: "Ropes",AllowModuleTypes: ["b1"] },
+					{ Name: "BotChains", HasType: false, CopyLayerColor: "Chains", AllowModuleTypes: ["b2"] },
+					{ Name: "BotRopesTogether", HasType: false, CopyLayerColor: "Ropes",AllowModuleTypes: ["b3"] },
+					{ Name: "BotChainsTogether", HasType: false, CopyLayerColor: "Chains", AllowModuleTypes: ["b4"] },
+					{ Name: "BotStocks", HasType: false, AllowColorize: false, AllowModuleTypes: ["b5", "b6"] },
+				]
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
