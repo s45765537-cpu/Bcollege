@@ -3716,11 +3716,11 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Gag", Key: "g",
 						Options:[
-							{ Property: { Effect: [] }, },  //g0 - Regular BitGag
-							{ Property: { Effect: ["OpenMouth"], OverrideAssetEffect: true },}, //g1 - No Gag
-							{ Property: { Effect: ["BlockMouth", "GagMedium"], OverrideAssetEffect: true },}, //g2 - Thick BitGag
-							{ Property: { Effect: ["BlockMouth", "GagHeavy"], OverrideAssetEffect: true },}, //g3 - Tongue Depresor
-							{ Property: { Effect: ["BlockMouth", "GagVeryHeavy"], Hide: ["Mouth"], OverrideAssetEffect: true },}, //g4 - DildoGag
+							{ Property: { Effect: ["BlockMouth", "GagLight"] },},  //g0 - Regular BitGag
+							{ Property: { Effect: ["OpenMouth"] },}, //g1 - No Gag
+							{ Property: { Effect: ["BlockMouth", "GagMedium"] },}, //g2 - Thick BitGag
+							{ Property: { Effect: ["BlockMouth", "GagHeavy"] },}, //g3 - Tongue Depresor
+							{ Property: { Effect: ["BlockMouth", "GagVeryHeavy"], Hide: ["Mouth"] },}, //g4 - DildoGag
 						],
 					},
 					{
