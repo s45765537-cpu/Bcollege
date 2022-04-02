@@ -2533,22 +2533,110 @@ var AssetFemale3DCGExtended = {
 							Name: "TopRestraints", Key: "t",
 							Options: [
 								{}, // t0 - No
-								{}, // t1 - Rope
-								{}, // t2 - RopeTight
-								{}, // t3 - Chains
-								{}, // t4 - ChainsTight
+								{	
+								Prerequisite: ["CuffedArmsOrEmpty"],
+									Property: {
+										Difficulty: 22,
+										SetPose: ["Yoked"],
+										AllowActivePose: ["LegsClosed", "BaseLower"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+										OverrideHeight: { Height: 0, Priority: 60 },
+									},
+								}, // t1 - Rope
+								{
+									Prerequisite: ["CuffedArmsOrEmpty"],
+									Property: {
+										Difficulty: 22,
+										SetPose: ["OverTheHead"],
+										AllowActivePose: ["LegsClosed", "BaseLower"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+										OverrideHeight: { Height: 0, Priority: 60 },
+									},
+								}, // t2 - RopeTight
+								{
+									Prerequisite: ["CuffedArmsOrEmpty"],
+									Property: {
+										Difficulty: 22,
+										SetPose: ["Yoked"],
+										AllowActivePose: ["LegsClosed", "BaseLower"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+										OverrideHeight: { Height: 0, Priority: 60 },
+									},
+								}, // t3 - Chains
+								{
+									Prerequisite: ["CuffedArmsOrEmpty"],
+									Property: {
+										Difficulty: 22,
+										SetPose: ["OverTheHead"],
+										AllowActivePose: ["LegsClosed", "BaseLower"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+										OverrideHeight: { Height: 0, Priority: 60 },
+									},
+								}, // t4 - ChainsTight
 							],
 					},
 					{
 							Name: "BotRestraints", Key: "b",
 							Options: [
 								{}, // b0 - No
-								{}, // b1 - Rope
-								{}, // b2 - RopeTight
-								{}, // b3 - Chains
-								{}, // b4 - ChainsTogether
-								{}, // b5 - Stocks
-								{}, // b6 - StocksTogether
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["BaseLower"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b1 - Rope
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["LegsClosed"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b2 - RopeTight
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["BaseLower"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b3 - Chains
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["LegsClosed"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b4 - ChainsTogether
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["BaseLower"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b5 - Stocks
+								{
+									Property: {
+										Difficulty: 22,
+										SetPose: ["LegsClosed"],
+										Block: ["ItemFeet", "ItemLegs"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+										Hide: ["ItemBoots", "Shoes"]
+									},
+								}, // b6 - StocksTogether
 							],
 					},
 				],
