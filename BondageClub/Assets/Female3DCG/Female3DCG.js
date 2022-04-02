@@ -6287,14 +6287,14 @@ var ActivityFemale3DCG = [
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemArms", "ItemBoots", "ItemBreast", "ItemFeet", "ItemLegs", "ItemNeck", "ItemPelvis", "ItemTorso"],
-		TargetSelf: ["ItemArms", "ItemBoots", "ItemBreast", "ItemFeet", "ItemLegs", "ItemPelvis", "ItemTorso"],
+		TargetSelf: true,
 	},
 	{
 		Name: "Spank",
 		MaxProgress: 40,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemArms", "ItemBoots", "ItemButt", "ItemFeet", "ItemHands", "ItemLegs", "ItemPelvis", "ItemTorso"],
-		TargetSelf: ["ItemArms", "ItemBoots", "ItemButt", "ItemHands", "ItemLegs", "ItemPelvis", "ItemTorso"],
+		TargetSelf: true,
 	},
 	{
 		Name: "Caress",
@@ -6404,6 +6404,7 @@ var ActivityFemale3DCG = [
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "VulvaEmpty", "UseHands", "ZoneNaked"],
 		Target: ["ItemButt", "ItemVulva"],
+		TargetSelf: true,
 	},
 	{
 		Name: "MasturbateFoot",
@@ -6422,7 +6423,7 @@ var ActivityFemale3DCG = [
 		MaxProgress: 30,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemBreast", "ItemHead", "ItemVulva", "ItemVulvaPiercings"],
-		TargetSelf: ["ItemBreast", "ItemHead"],
+		TargetSelf: true,
 	},
 	{
 		Name: "PenetrateSlow",
