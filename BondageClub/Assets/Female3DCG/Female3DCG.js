@@ -3648,7 +3648,7 @@ var AssetFemale3DCG = [
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysShockWand", Value: 50, Random: false, Activity: "ShockItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysShockWand", Value: 50, Random: false, Activity: "ShockItem", Audio: "Shocks", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
