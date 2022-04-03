@@ -3624,7 +3624,7 @@ var AssetFemale3DCG = [
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysVibrator", Value: 45, Random: false, Activity: "MasturbateItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysVibrator", Value: 45, Random: false, Activity: "MasturbateItem", Audio: "Vibrator", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{

@@ -46,6 +46,7 @@ var AudioList = [
 	{ Name: "VibrationTeaseMedium", File: "Vibrator_Advanced_MediumTease" },
 	{ Name: "VibrationMaximum", File: "Vibrator_Advanced_Strong" },
 	{ Name: "VibrationCooldown", File: "Vibrator_Advanced_End" },
+	{ Name: "Vibrator", File: "VibratorShort" },
 	{ Name: "Wand", File: "Wand" },
 	{ Name: "WandBig", File: "WandBig" },
 	{ Name: "WoodenCuffs", File: "WoodenCuffs" },
