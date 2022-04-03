@@ -3540,35 +3540,35 @@ var AssetFemale3DCG = [
 				ParentGroup: null
 			},
 			{
-				Name: "SpankingToysCrop", Value: 20, Random: false, BuyGroup: "Crop", Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysCrop", Value: 20, Random: false, BuyGroup: "Crop", Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysFlogger", Value: 40, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysFlogger", Value: 40, Random: false, Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysCane", Value: 15, Random: false, BuyGroup: "Cane", Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysCane", Value: 15, Random: false, BuyGroup: "Cane", Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysHeartCrop", Value: 30, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysHeartCrop", Value: 30, Random: false, Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysPaddle", Value: 35, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysPaddle", Value: 35, Random: false, Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysWhipPaddle", Value: 25, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysWhipPaddle", Value: 25, Random: false, Activity: "SpankItem", Audio: "SmackCrop", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysWhip", Value: 50, Random: false, Activity: "SpankItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysWhip", Value: 50, Random: false, Activity: "SpankItem", Audio: "WhipCrack", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysCattleProd", Value: 45, Random: false, Activity: "ShockItem", DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysCattleProd", Value: 45, Random: false, Activity: "ShockItem", Audio: "Shocks", DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
