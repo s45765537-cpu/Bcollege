@@ -47,6 +47,7 @@ var AudioList = [
 	{ Name: "VibrationMaximum", File: "Vibrator_Advanced_Strong" },
 	{ Name: "VibrationCooldown", File: "Vibrator_Advanced_End" },
 	{ Name: "Wand", File: "Wand" },
+	{ Name: "WandBig", File: "WandBig" },
 	{ Name: "WoodenCuffs", File: "WoodenCuffs" },
 	{ Name: "ZipTie", File: "ZipTie" },
 	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
