@@ -1798,13 +1798,11 @@ function DialogFindSubMenu(MenuName) {
 function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
 	if (DialogSelfMenuSelected.Name != "Expression") return false;
 	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
-	for (let I = 0; I < DialogFacialExpressions.length; I++) {
-console.info(DialogFacialExpressions[I].Group);
-		if (DialogFacialExpressions[I].Group == ExpressionGroup) {
-			DialogFacialExpressionsSelected = I;
-			if (DialogExpressionColor != null) ItemColorSaveAndExit();
-			return true;
-		}
+	let I = DialogFacialExpressions.findIndex(expr => expr.Group == ExpressionGroup);
+	if (I != -1) {
+		DialogFacialExpressionsSelected = I;
+		if (DialogExpressionColor != null) ItemColorSaveAndExit();
+		return true;
 	}
 	return false;
 }
