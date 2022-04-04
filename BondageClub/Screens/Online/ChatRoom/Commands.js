@@ -400,7 +400,7 @@ const CommonCommands = [
 				AcceptCmd = true;
 				let BlushNum = parseInt(args);
 				NewExpression = BlushLevels[BlushNum];
-			} else if (/^(b|blue)$/.test(args)) {
+			} else if (/^(b(?:lue)?)$/.test(args)) {
 				AcceptCmd = true;
 				NewExpression = "ShortBreath";
 			} else if (/^(\+|-)$/.test(args)) {
@@ -450,7 +450,8 @@ const CommonCommands = [
 			let NewExpression;
 			let TargetLeft = false;
 			let TargetRight = false;
-			if (/^(right|left|both|r|l|b)$/.test(args)) {
+			let Cmds;
+			if (/^(r(?:ight)?|l(?:eft)?|b(?:oth)?)$/.test(args)) {
 				AcceptCmd = true;
 				if (args[0] == "r" || args[0] == "b") TargetRight = true;
 				if (args[0] == "l" || args[0] == "b") TargetLeft = true;
@@ -459,17 +460,15 @@ const CommonCommands = [
 				let Close = (TargetLeft && !LeftClosed);
 				Close = Close || (TargetRight && !RightClosed);
 				NewExpression = Close ? "Closed" : "Opened";
-			} else if (/(?:^(close|open|c|o)) *((?:right|left|both|r|l|b)?)$/.test(args)) {
+			} else if (Cmds = /^(c(?:lose)?|o(?:pen)?) *(r(?:ight)?|l(?:eft)?|b(?:oth)?)?$/.exec(args)) {
 				AcceptCmd = true;
-				const Cmds = /(?:^(close|open|c|o)) *((?:right|left|both|r|l|b)?)$/.exec(args);
 				let ActionCmd = Cmds[1];
 				let TargetCmd = Cmds[2];
-				let Close = (ActionCmd == "c" || ActionCmd == "close");
-				NewExpression = Close ? "Closed" : "Opened";
-				if (TargetCmd == "" || TargetCmd[0] == "r" || TargetCmd[0] == "b") {
+				NewExpression = (ActionCmd[0] == "c") ? "Closed" : "Opened";
+				if (!TargetCmd || TargetCmd[0] == "r" || TargetCmd[0] == "b") {
 					TargetRight = true;
 				}
-				if (TargetCmd == "" || TargetCmd[0] == "l" || TargetCmd[0] == "b") {
+				if (!TargetCmd || TargetCmd[0] == "l" || TargetCmd[0] == "b") {
 					TargetLeft = true;
 				}
 			} else if (/^(default|dazed|shy|sad|horny|lewd|verylewd|heart|<3|heartpink|lewdheart|lewdheartpink|dizzy|@@|daydream|><|shylyhappy|\^\^|angry|èé|surprised|éè|scared)$/.test(args)) {
