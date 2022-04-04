@@ -460,7 +460,7 @@ const CommonCommands = [
 				let Close = (TargetLeft && !LeftClosed);
 				Close = Close || (TargetRight && !RightClosed);
 				NewExpression = Close ? "Closed" : "Opened";
-			} else if (Cmds = /^(c(?:lose)?|o(?:pen)?) *(r(?:ight)?|l(?:eft)?|b(?:oth)?)?$/.exec(args)) {
+			} else if ((Cmds = /^(c(?:lose)?|o(?:pen)?) *(r(?:ight)?|l(?:eft)?|b(?:oth)?)?$/.exec(args)) != null) {
 				AcceptCmd = true;
 				let ActionCmd = Cmds[1];
 				let TargetCmd = Cmds[2];
