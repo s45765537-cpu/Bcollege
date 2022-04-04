@@ -153,7 +153,10 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas.remove();
-	ImageCache.clear();
+	ImageCache.forEach((image, key) => {
+		delete image.userData.textureInfo;
+	});
+	GLDrawCanvas.GL.maskCache.clear();
 	GLDrawCanvas = null;
 
 	// Reload canvas, possibly falling back to 2d mode
