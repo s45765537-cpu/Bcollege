@@ -4,7 +4,7 @@ Lovely gag, but you'll need to get it off if you want to talk with me.
 Ow!  Well done, you're a tough patient.  I'm not letting you out anyway.
 很好。。。很好。。。你真是个顽固的病人。我绝对不会让你出去的。
 You really thought you could beat me?  You're truly mad, little patient.
-你真的以为你打得过我吗？你真是疯了，我可爱的的 小 病 人。
+你真的以为你打得过我吗？你真是疯了，我可爱的的 小-病-人-❤~
 What are you doing here little slave?  Go back to the club and serve our customers.
 小奴隶，你在这里干什么？快回俱乐部去为顾客服务吧。
 ###_PLAYER
@@ -18,7 +18,7 @@ No, as a club slave you have work to do.  Get going girl.
 （离开她）
 ###_NPC
 Greetings doctor DialogPlayerName.  It's always a pleasure to see you.  Are you working today?
-你好啊DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？
+你好啊 DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？ 
 Welcome to the asylum nurse DialogPlayerName.  Our patients are expecting you.  Are you here to work?
 欢迎来到收容所，DialogPlayerName护士。病人们都很期待你能来，请问你今天要工作吗？
 Hello assistant DialogPlayerName.  It's time to get to work for the asylum!
@@ -36,7 +36,7 @@ I want to learn about the asylum.
 我想了解一些关于收容所的事
 ###_NPC
 In the asylum, you can work as a nurse or commit yourself as a patient.  What would you like to know?
-在庇护所里，你可以作为一名护士工作，也可以作为一名病人。你想了解些什么吗？
+在收容所里，你可以作为一名护士工作，也可以作为一名病人。你想了解些什么吗？
 ###_PLAYER
 I'd like to commit myself
 我想被收治
@@ -52,10 +52,10 @@ I'd like to work as a nurse.
 You can, but you will lose your patient status and reputation.  Are you sure about that?
 可以哦，但是你会失去你的病人资格以及其所积累的名声。你真的想这么做吗？
 Perfect!  We need staff to take care of our patients.  Are you ready to work now?
-好耶！我们正需要人手来照顾我们的病人。你确定你现在就想开工吗？
+好耶！我们正需要人手来照顾我们的病人。你确定你现在就想开工吗？ 
 ###_PLAYER
 Did you join GGTS?
-你加入GGTS了吗？
+你加入GGTS了吗？ 
 ###_NPC
 Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.
 并不（叹气）。收容所有了新规定，护士现在得在上班时戴项圈了。
@@ -67,7 +67,7 @@ Of course.  Here you go nurse DialogPlayerName.  Wear it with pride.  (She gives
 当然了（她帮你拿了一套制服）。拿好了，DialogPlayerName，骄傲的穿上它吧！
 ###_PLAYER
 Can I get my own set of Asylum restraints?
-我可以有一套专属的庇护所拘束套组吗？
+我可以有一套专属的收容所拘束套组吗？
 ###_NPC
 We only give our most dedicated patients their own set of restraints. Talk to me again when you've taken some more treatments.
 我们只会给我们最好的病人专属的拘束套组。等你接受了更多的治疗之后再来和我谈这个吧。
@@ -87,7 +87,7 @@ The asylum is a place to relax, to forget about your stressful life for a while.
 收容所是一个用于放松，暂时释放生活中所有压力的地方。你可以选择一个治疗方案，然后和其他病人和护士呆在一起。
 ###_PLAYER
 Tell me about patients.
-病人是干嘛的呀？
+病人室干嘛的呀？
 ###_NPC
 Patients willingly commit themselves for a set time.  Until that time is up, they will receive therapies and will be locked in the asylum.
 病人会自愿在一定的时间内呆在收容所里接受治疗。不过在这段时间结束之前，他们都不能离开收容所。
@@ -152,7 +152,7 @@ I certainly can.  (She helps you to get dressed as a patient.)  For how long you
 15分钟
 ###_NPC
 You're taking it easy, don't you?  Very well, step inside.  (She locks the door behind you.)
-就这啊。。。行吧，进来吧（她关上了你背后的门）
+。。。就这啊。行吧，进来吧（她关上了你背后的门）
 ###_PLAYER
 1 hour.
 1小时
@@ -164,13 +164,13 @@ It should give you some time to relax.  Very well, step inside.  (She locks the 
 4小时
 ###_NPC
 It should give you plenty of time to relax.  Very well, step inside.  (She locks the door behind you.)
-着应该能让你放松很多时间了。很好，进来吧（她关上了你背后的门）
+这应该能让你放松很多时间了。很好，进来吧（她关上了你背后的门）
 ###_PLAYER
 1 day.
 1天
 ###_NPC
 Impressive!  I'll prepare a bed for you, step inside.  (She locks the door behind you.)
-真的假的啊？！我现在就去帮你准备一个床位，先进来吧（她关上了你背后的门）
+真的假的啊？！我这就去帮你准备一个床位，先进来吧（她关上了你背后的门）
 ###_PLAYER
 Where do I start?
 我该从哪里开始呢？
@@ -202,7 +202,7 @@ I'm ready to work right now.
 Great!  But before you enter, you must wear the nurse uniform.
 好的！但是你得先换好你的制服。
 No, you're not.  (She giggles.)  You're restrained girl.  Go get a maid to help you, I'm busy.
-*噗嗤* 我感觉你可能没有准备好。先去找女仆帮你脱缚吧。
+*噗嗤* 我感觉你可能没有准备好。先去找女仆帮你松绑吧。
 ###_PLAYER
 I'm already dressed up.
 我已经穿好了
@@ -265,7 +265,7 @@ Try to get some rest or make some friends.
 去休息吧，或者去结交点新朋友
 ###_PLAYER
 Do I have to force my way out?
-不要逼我这样做
+不要逼我一定得这样做
 ###_NPC
 (She clinches her fists.)  What does it mean?
 （她拳头硬了）你什么意思？
@@ -304,7 +304,7 @@ You'll understand soon.  (Strip.)
 你很快就会明白的（脱她的衣服）
 ###_NPC
 What the hell?  You're not going to rape me, are you?
-你在干什么？！你要强奸我吗？
+你在干什么？！你要强奸我吗?
 ###_PLAYER
 Be quiet little nurse.  (Strip.)
 嘘，小声点，小护士~❤（脱衣服）
@@ -312,7 +312,7 @@ You're not my type.  (Wear her clothes.)
 你可不是我的菜（穿上她的衣服）
 ###_NPC
 Don't touch my uniform!  Are you thinking what I'm thinking?
-你该不会。。。不要碰我得衣服！
+你该不会。。。不要碰我的衣服！
 ###_PLAYER
 You're so clueless.  (Wear her clothes.)
 你可真蠢呢（穿上她的衣服）
@@ -345,13 +345,13 @@ Enough talking girl.  (Strap her up.)
 Have fun struggling!  (Leave her.)
 好好挣扎吧~（离开她）
 You were lucky.
-祝你好运
+祝你好运~
 ###_NPC
 It's not about luck, it's about control.  And you will feel my control.
-这不可是运气的问题！是控制！而且马上就会体验到被我控制的感觉
+这不是运气的问题！是控制！而且马上就会体验到被我控制的感觉
 ###_PLAYER
 I'll have my revenge.
-我要复仇！
+我要报仇！
 ###_NPC
 When hell freezes.  Now it's time to control you girl.
 等鸡啄完了米，狗舔完了面，火烧断了锁，就是你复仇的时候了。不过嘛，现在可我控制着你❤~
@@ -447,10 +447,10 @@ Welcome back patient, I'm sure your forced day here will teach you a lesson.
 欢迎回来，病人。你必须在这里呆上一整天来好好矫正你的行为
 ###_PLAYER
 That's unfair!
-不带这么玩的啊！
+？？？不带这么玩的啊！
 ###_NPC
 It's very fair.  Welcome back patient, I'm sure your forced day here will teach you a lesson.
-就这这么玩的~欢迎回来，病人。你必须在这里呆上一整天来好好矫正你的行为
+就要这么玩~欢迎回来，病人。你必须在这里呆上一整天来好好矫正你的行为
 ###_PLAYER
 One full day?  Are you insane?
 一整天？你疯了吗？
@@ -486,7 +486,7 @@ How do you feel about GGTS?
 (She lowers her voice.)  Let's not speak about that.  I think he can hear us.
 （她压低了声音）不要讨论这玩意，小心隔墙有耳
 You must be wondering why you're here.  Your owner sent you to participate in the Good Girl Training System or GGTS.
-你一定很想知道为什么你会在这里。你的主人希望你来参加GGTS
+你一定很想知道为什么你会在这里。答案是，你的主人希望你来参加GGTS
 ###_PLAYER
 What is going on Miss?
 发生什么事了,小姐？
@@ -502,77 +502,77 @@ I know GGTS.
 我知道GGTS
 ###_NPC
 Very good, it will be easy for you to participate then.  Your owner will be pleased.
-那好耶，你肯定很快会乐在其中的。你的主人会为你高兴的
+那好耶，你肯定很快就会乐在其中的。你的主人会为你高兴的
 ###_PLAYER
 When do I start?
 我该什么时候开始？
 ###_NPC
 (The asylum door locks automatically.)  Right now.  Go to the Good Girl Training System room to begin.
-（收容所的们自动关上了）就现在。你去GGTS训练室就能开始了。
+（收容所的门自动关上了）现在。去GGTS训练室开始吧
 ###_PLAYER
 I don't want to do that!
 我不想参加！
 ###_NPC
 (The asylum door locks automatically.)  You don't have much choice.  Go to the Good Girl Training System room to begin.
-（收容所的门自动关上了）你可没得选。去GGTS训练室开始训练吧
+（收容所的门自动关上了）你可没得选。去GGTS训练室开始吧
 (The asylum door locks automatically.)  Go to the Good Girl Training System room to begin.
-（收容所的门自动关上了）去GGTS训练室开始训练吧
+（收容所的门自动关上了）去GGTS训练室开始吧
 ###_PLAYER
 How much time do I need to do?
 我要被训练多久啊？
 ###_NPC
 (She looks at you and nods.)  Hello drone.
-（她对你点了点头）你好呀“无人机”（Drone）
+（她看着你并点了点头）你好啊，附属机（Drone）
 ###_PLAYER
 Why are you calling me drone?
-你为什么要叫我“无人机”？
+你为什么要叫我Drone？
 ###_NPC
 Look at you girl.  You're a drone, a total GGTS slave.
-你看看你，你就是个无人机，一个完全属于GGTS的奴隶
+看看你自己吧，你就是一个附属机（Drone），一个完全的GGTS的奴隶
 ###_PLAYER
 Can I still use the asylum?
-我还能用收容所吗？
+我还能使用收容所吗？
 ###_NPC
 Yes, drones have full access to the asylum.
-可以的，无人机仍旧可以使用收容所的所有功能
+可以的，我们仍旧为附属机（Drone）提供所有的服务
 ###_PLAYER
 Can you let me out?
 你可以让我出去吗？
 ###_NPC
 (She nods.)  Drones can leave the asylum if they spend ten GGTS minutes.
-（她点了点头）无人机想出去的话，你得花10个GGTS时间
+（她点了点头）能，但是作为附属机，你得花费10个GGTS时间 （GGTS minutes）才能离开
 It's the rule, you should read the fine prints before signing a contract.
-这个是规则，你得好好读读，然后签字
+这是规则。你得在签名之前好好阅读一下这些条款
 ###_PLAYER
 I'll pay for it.  (Spend ten GGTS minutes.)
 我会付的（花费10个GGTS时间）
 ###_NPC
 (She scans your futuristic items and the door open.)  Get out before the door closes again.
-（她扫描了你身上的未来道具）在门关上之前出去吧
+（她扫描了你身上的“未来”道具，然后门开了）在门关上之前出去吧
 ###_PLAYER
 I have a better currency.  (Bribe her with $10.)
 比起那个，我觉得这个更好（用10块钱贿赂她）
 ###_NPC
 (She counts the money discretely.)  I'll use my minutes to let you out.  You better return soon or we'll both get punished.
-（她小心的点了下钱）我会刷我的时间让你出去，不过你最好早点回来，不然你我都有麻烦了。
+（她小心的数着钱）我会用我的时间放你出去，你最好快点回来，不然你我都有罪受了。
 ###_PLAYER
 Please!  I'm so helpless!
-求求了，我真的没办法
+求求了！我真的没有办法了
 ###_NPC
 (She looks at you and sighs.)  Look drone, I'm not making the rules here.  Don't get us in trouble.
-（她看了看你，叹了口气）小无人机啊，这规则不是我定的，不要给我们制造麻烦。
+（她看着你，叹了口气）听着，附属机，这规矩不是我定的，不要给我们找麻烦
 ###_PLAYER
 I'll force my way out.
-我会用些强硬的方法出去的
+不要逼我用强硬的方法
 ###_NPC
 (She smirks.)  Good luck, the doors are bolted with magnets.
-（她笑了起来）那祝你好运。顺带一提，这里的门都是用磁关的
+（她笑着说）行，祝你好运。顺带一提，这里的门都是用磁铁关住的
 ###_PLAYER
 Fine!  Forget it.
-行吧，当我没说
+行吧，当我没说。
 ###_NPC
 (She nods.)  Do you need anything else?
-（她点了点头）你还需要别的什么嘛？
+（她点了点头）你还需要什么别的吗？
 ###_PLAYER
 (Nod and go to the club.)
 （点头，然后前往俱乐部）
