@@ -20,7 +20,7 @@ No, as a club slave you have work to do.  Get going girl.
 Greetings doctor DialogPlayerName.  It's always a pleasure to see you.  Are you working today?
 你好啊DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？
 Welcome to the asylum nurse DialogPlayerName.  Our patients are expecting you.  Are you here to work?
-欢迎来到疗养院，DialogPlayerName护士。病人们都很期待你能来，请问你今天要工作吗？
+欢迎来到收容所，DialogPlayerName护士。病人们都很期待你能来，请问你今天要工作吗？
 Hello assistant DialogPlayerName.  It's time to get to work for the asylum!
 你好，DialogPlayerName助理。是时候开始工作了！
 It's always a pleasure to take you in patient DialogPlayerName.  Are you checking in again today?
