@@ -331,8 +331,6 @@ interface AssetGroup {
 	Clothing: boolean;
 	Underwear: boolean;
 	BodyCosplay: boolean;
-	Activity: string[];
-	AllowActivityOn?: string[];
 	Hide?: string[];
 	Block?: string[];
 	Zone?: [number, number, number, number][];
@@ -439,8 +437,8 @@ interface Asset {
 	Enable: boolean;
 	Visible: boolean;
 	Wear: boolean;
-	Activity: string[] | string;
-	AllowActivity: string[];
+	Activity?: string;
+	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
 	PrerequisiteBuyGroups?: string[];
@@ -510,7 +508,7 @@ interface Asset {
 	DynamicExpressionTrigger: (C: Character) => ExpressionTrigger[] | null | undefined;
 	DynamicName: (C: Character) => string;
 	DynamicGroupName: string;
-	DynamicActivity: (C: Character) => string[] | string | null | undefined;
+	DynamicActivity: (C: Character) => string | null | undefined;
 	DynamicAudio: ((C: Character) => string) | null;
 	CharacterRestricted: boolean;
 	AllowRemoveExclusive: boolean;
@@ -562,7 +560,9 @@ interface Activity {
 	Name: string;
 	MaxProgress: number;
 	Prerequisite: string[];
-	TargetSelf?: string[];
+	Target: string[];
+	TargetSelf?: string[] | true;
+	/** used for setting AutoPunishGagActionFlag */
 	MakeSound?: boolean;
 }
 
@@ -1019,6 +1019,8 @@ interface ItemPropertiesBase {
 	HeightModifier?: number;
 	OverridePriority?: unknown;
 	DefaultColor?: string;
+
+	Attribute?: string[];
 
 	AllowActivity?: string[];
 	AllowActivityOn?: AssetGroupItemName[];
@@ -1735,86 +1737,6 @@ interface ICommand {
 	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
 	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
 	Clear?: false;
-}
-
-
-
-// Kinky Dungeon Typedefs
-interface KinkyDungeonSave {
-	level: number;
-    checkpoint: number;
-    rep: Record<string, number>;
-    costs: Record<string, number>;
-    orbs: number[];
-    chests: number[];
-    dress: string;
-    gold: number;
-    points: number;
-    levels: {
-        Elements: number;
-        Conjure: number;
-        Illusion: number;
-    };
-    id: number;
-    choices: number[];
-	choices2: boolean[];
-	buffs: Record<string, any>;
-	lostitems: any[];
-	caches: number[];
-	spells: string[];
-	inventory: {
-		restraint: any;
-		looserestraint: any;
-		weapon: any;
-		consumable: any;
-	}[];
-	stats: {
-		picks: number;
-		keys: number;
-		bkeys: number;
-		knife: number;
-		eknife: number;
-		mana: number;
-		stamina: number;
-		arousal: number;
-		wep: any;
-		npp: number;
-	};
-}
-
-interface KinkyDungeonShopItem {
-	cost: any;
-	rarity: any;
-	costMod?: any;
-	shoptype: string;
-	name: any;
-}
-
-interface KinkyDungeonWeapon {
-	name: string;
-	dmg: number;
-	chance: number;
-	type: string;
-	rarity: number;
-	staminacost?: number;
-	magic?: boolean;
-	cutBonus?: number;
-	unarmed: boolean;
-	shop: boolean;
-	noequip?: boolean;
-	sfx: string;
-	events?: KinkyDungeonEvent[];
-}
-
-interface KinkyDungeonEvent {
-	type: string;
-	trigger: string;
-	power?: number;
-	damage?: string;
-	dist?: number;
-	buffType?: string;
-	time?: number;
-	chance?: number;
 }
 
 type PokerPlayerType = "None" | "Set" | "Character";

@@ -371,7 +371,83 @@ var PlatformDialogData = [
 					{ Text: "Maybe it's the Oracle in you.", Reply: "(She shrugs.)  I don't know, maybe you're right." },
 				]
 			},
-			{ Text: "Can you give me a towel?  I'd like to get out." },
+			{
+				Entry: function() {
+					if (PlatformDialogGetCharacter("Olivia").Love < 14) PlatformDialogGoto = "Towel";
+					PlatformDialogProcess();
+				}
+			},
+			{ ID: "Orgasm", Text: "(She takes a long breath.)  Melody, you're such a dear friend." },
+			{ Text: "(She blushes.)  I have a very personal question for you." },
+			{
+				Text: "How does it feel to have an orgasm?",
+				Answer: [
+					{ Text: "It's overrated.", Reply: "Please be honest.  You're not my mother.", Love: -1 },
+					{ Text: "Why do you ask?", Reply: "(She blushes some more and ponders.)" },
+					{ Text: "It's heaven.  I wish I could give you one.", Reply: "(She nods.)  That would be wonderful.", Love: 1 },
+					{ Text: "I don't know.  I'm not married.", Reply: "Please be honest.  I know you've had some adventures.", Love: -1 },
+				]
+			},
+			{ Text: "This belt protects me, but also shields me from life's pleasures." },
+			{
+				Text: "Should I have an orgasm?",
+				Answer: [
+					{ Text: "Yes, but you might need patience.", Reply: "Yes, lots of patience.  I'm too curious." },
+					{ Text: "Yes Lady Olivia.  If only I could help you.", Reply: "You're a wonderful maid.  I'm too curious.", Domination: -1 },
+					{ Text: "The Duke of Slandia will take care of that.", Reply: "I know, but I wish I could experiment first.  I'm too curious.", Domination: 1 },
+				]
+			},
+			{ Text: "I bet it feels so nice and relaxing, like spring flowers." },
+			{
+				Text: "Melody, could you show me an orgasm?",
+				Answer: [
+					{ Text: "(Nod politely and get naked.)", Reply: "(She smirks as you strip down.)", Domination: -1 },
+					{ Text: "My pleasure.  (Get naked.)", Reply: "(She smiles as you strip down.)" },
+					{ Text: "Olivia, this is not appropriate.", Reply: "(She bows her head.)  Of course, sorry about that.", Goto: "Towel", Domination: 1 },
+					{ Text: "(Blush.)  Sorry, not now.", Reply: "I understand, sorry about that.", Goto: "Towel" },
+				]
+			},
+			{ 
+				Text: "(You slowly get naked and expose your body.)",
+				Character: [{ Name: "Melody", Status: "Naked", Pose: "CoverBreast" }]
+			},
+			{ Text: "It's been a long while since we got naked together." },
+			{ Text: "Since we were little girls, way before we became adults." },
+			{ Text: "Let me show you an orgasm.  (You wink at her.)" },
+			{ 
+				Text: "(You slowly start to masturbate your breast and pussy lips.)",
+				Character: [{ Name: "Melody", Status: "Naked", Pose: "Masturbate" }]
+			},
+			{ Text: "You first need to learn your body and how it reacts." },
+			{ Text: "Some prefer the clitoris, others the vagina, and others the butt, breast and more." },
+			{ Text: "Discovering your body is both important and fun." },
+			{ Text: "(You start to masturbate lovingly and moan lightly.)" },
+			{ Text: "Aaaaaaafter some stimulation, the pleasure starts to build." },
+			{ Text: "It will grow stronger and stronger, getting you on the edge." },
+			{ Text: "Oooooooooonce on the edge, you can go slowly to keep that feeling." },
+			{ Text: "Or gain momentum to reach the orgasm." },
+			{ Text: "(You masturbate faster and moan loudly.)" },
+			{ Text: "Iiiiiiiii'm very cl cl close now." },
+			{ Text: "It it it becomes haaaaaaard to stay in control." },
+			{ TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Can I have my orgasm Lady Olivia?" : "It's time for the climax"; } },
+			{
+				TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Yes, you can have your orgasm my maid." : "(She smiles and watches you carefully.)"; },
+				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
+			},
+			{
+				Entry: function() { PlatformEventSet("OliviaBathOrgasm"); PlatformAddExperience(PlatformPlayer, 10); },
+				Text: "Yes!  Yeah!  Eeeeeeeeeeeeaaaaaaaaahhh!",
+				Character: [{ Name: "Melody", Status: "Naked", Pose: "MasturbateOrgasm" }]
+			},
+			{ Text: "(You get a wonderful orgasm right in front of her.)" },
+			{ Text: "Aaaaaaahhh, and the moment after the orgasm is also great." },
+			{ Text: "I hope you enjoyed the orgasm class." },
+			{
+				Text: "(You dress back up as she relaxes in the bath with a huge smile.)",
+				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
+			},
+			{ Text: "Thanks you so much Melody, I've learned a lot." },
+			{ ID: "Towel", Text: "Can you give me a towel?  I'd like to get out." },
 			{ Text: "(You help her out as she dresses up.)" },
 			{
 				Background: "BathroomOlivia",
@@ -655,21 +731,50 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranUnlock",
+		Exit : function () { PlatformEventSet("EdlaranUnlock"); PlatformLoadRoom(); },
 		Dialog: [
 			{
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "Melody!  Do you have the key?" },
+			{ Text: "Melody!  Have you found the key?" },
 			{
 				Text: "Will you unlock me?",
 				Answer: [
-					{ Text: "1", Reply: "1" },
-					{ Text: "2", Reply: "2" },
-					{ Text: "3", Reply: "3" },
+					{ Text: "Sure, it's too dangerous right now.", Reply: "(She nods happily.)  Absolutely." },
+					{ Text: "Yes, but you will owe me a favor.", Reply: "(She gulps.)  Very good, I swear I'll repay you somehow someday.", Domination: 1 },
+					{ Text: "Of course, elves are too important to be chained.", Reply: "(She nods slowly.)  Well said little maid.", Domination: -1 },
 					{ Text: "Not right now.  (Leave her.)", Script: function() { PlatformDialogExit(); } },
 				]
 			},
+			{ 
+				Text: "(You unlock her shackles as she gathers her equipment.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
+				]
+			},
+			{ Text: "Thanks a lot Melody.  (She stretches happily.)" },
+			{ 
+				Text: "How about a hug?",
+				Answer: [
+					{ Text: "Alright, let's do a quick hug.", Reply: "(You exchange a friendly hug.)", Love: 1 },
+					{ Text: "It's not the best time.", Reply: "(She pouts.)  I guess you're right.", Love: -1 },
+					{ Text: "(Give her a long loving hug.)", Reply: "(You exchange a long and warm hug.)", Love: 2 },
+					{ Text: "Don't touch me.", Reply: "Oh!  Alright then.", Love: -2 },
+				]
+			},
+			{ Text: "I'll try to escape while I can." },
+			{ 
+				Text: "What will you do?",
+				Answer: [
+					{ Text: "My duty is to protect Lady Olivia.", Reply: "You're her maid in shiny armor.  (She giggles.)", Domination: 1 },
+					{ Text: "I'll check for Countess Isabella.", Reply: "Good luck with that, whoever that is." },
+					{ Text: "I'll find a place to hide.", Reply: "Find a broom closet.  (She laughs.)", Domination: -1 },
+				]
+			},
+			{ Text: "See you later Melody.  I'll repay you someday." },
+			{ Text: "(She leaves the room.)" },
 		]
 	},
 
@@ -722,7 +827,224 @@ var PlatformDialogData = [
 				Character: [{ Name: "Chest", Status: "Metal", Pose: "Idle", X: 500 }]
 			}
 		]
-	}
+	},
+
+	{
+		Name: "OliviaCurseIntro",
+		Exit : function () { PlatformEventSet("OliviaCurseIntro"); PlatformLoadRoom(); },
+		Dialog: [
+			{
+				Text: "Melody!  (She tugs on the cuffs in vain.)",
+				Background: "BedroomOliviaFloor",
+				Character: [{ Name: "Olivia", Status: "Flower", Animation: "Bound", Y: -400 }]
+			},
+			{ 
+				Text: "I'm relieved to see you.",
+				Answer: [
+					{ Text: "Who dared to touch you?", Reply: "(She bows her head slowly.)", Domination: 1 },
+					{ Text: "Poor Lady Olivia.", Reply: "I know this is scary Melody.", Domination: -1 },
+					{ Text: "What happened?", Reply: "(She takes a long deep breath.)" }
+				]
+			},			
+			{ Text: "My sister Camille came from far away to visit the family." },
+			{ Text: "She had a stern look on her face and her voice was weird." },
+			{ Text: "She talked privately with Mother for a long while, I think they had an argument." },
+			{ Text: "I was hiding from the dispute in my room when darkness fell suddenly." },
+			{
+				Text: "Everything was black.",
+				Answer: [
+					{ Text: "Did you hear that horrible scream?", Reply: "(She blushes.)  Sorry about that.  I did that scream.", Love: -1 },
+					{ Text: "I heard a woman scream.", Reply: "(She sighs.)  I did that scream." },
+					{ Text: "I heard your voice in the dark.", Reply: "Wow, you recognized my scream from the dungeon?", Love: 1 }
+				]
+			},
+			{ Text: "When darkness came, the maids came in my room with strange eyes." },
+			{ Text: "They started to grab me, so I screamed.  Louder than I ever did." },
+			{ Text: "I don't know what happened, but glass shattered everywhere and the maids fell unconscious." },
+			{ Text: "I was scared and trembling, then Camille entered my room as light came back." },
+			{ Text: "She slapped me and locked me up in these chains.  She said it was to protect me." },
+			{ Text: "Camille took the key for these shackles and left me hogtied on the floor." },
+			{
+				Text: "I've been stuck since then.",
+				Answer: [
+					{ Text: "I'll go kick her butt.", Reply: "Do you really think violence is the answer?  Be careful.", Domination: 1, Love: -1 },
+					{ Text: "Maybe I can beg her for the key.", Reply: "Negotiation might be possible, but be careful.", Domination: -1, Love: 1 },
+					{ Text: "I'll see what I can do.", Reply: "(She nods.)  Be careful Melody." },
+				]
+			},
+			{ Text: "Camille is very dangerous, she might kill you." },
+			{ Text: "I think she went upstairs, maybe she's still there." },
+			{ Text: "Best of luck if you go there." }
+		]
+	},
+
+	{
+		Name: "OliviaCurse",
+		Dialog: [
+			{
+				Text: "Please be careful Melody.",
+				Background: "BedroomOliviaFloor",
+				Character: [{ Name: "Olivia", Status: "Flower", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "Camille is very dangerous, she might kill you." },
+			{ Text: "I think she went upstairs, maybe she's still there." },
+			{ Text: "Best of luck if you go there." }
+		]
+	},
+
+	{
+		Name: "OliviaCurseRelease",
+		Exit : function () { PlatformEventSet("OliviaCurseRelease"); PlatformLoadRoom(); },
+		Dialog: [
+			{
+				Text: "Melody!  Are you alright?",
+				Background: "BedroomOliviaFloor",
+				Character: [{ Name: "Olivia", Status: "Flower", Animation: "Bound", Y: -400 }]
+			},
+			{
+				Text: "Yes, I found your sister Camille in the Countess Hall.",
+				Background: "BedroomOlivia",
+				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
+			},
+			{ Text: "She's behind that strange curse that's affecting everyone but us." },
+			{ Text: "She was looking for Countess Isabella." },
+			{ Text: "We talked a little but she got mad and attacked me." },
+			{ Text: "I was able to knock her down and restrain her." },
+			{ Text: "She gave me this key to rescue you." },
+			{ Text: "(You unlock Olivia.)" },
+			{
+				Text: "(She stretches happily.)  Thank you so much Melody.",
+				Character: [
+					{ Name: "Olivia", Status: "Flower", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
+				]
+			},
+			{
+				Text: "You're the best.",
+				Answer: [
+					{ Text: "It's my pleasure and duty.", Reply: "You're a wonderful protector.", Love: 1, Domination: 1 },
+					{ Text: "I would do anything for you.", Reply: "You're a wonderful friend.", Love: 2 },
+					{ Text: "(Do a maid curtsy.)", Reply: "You're a wonderful maid.", Domination: -1, Love: 1 },
+				]
+			},
+			{ Text: "(Everything goes dark suddenly.)", Background: "BedroomOliviaDark" },
+			{
+				Text: "What's going on?",
+				Answer: [
+					{ Text: "I don't know.  This is scary.", Reply: "(She nods.)  Maybe it's another curse from Camille.", Domination: -1 },
+					{ Text: "Another curse?", Reply: "Yes, it could be another curse." },
+					{ Text: "Don't be afraid.  I'm here.", Reply: "(She gets closer to you.)  Maybe it's another curse from Camille.", Domination: 1 },
+				]
+			},
+			{ Text: "Could she have more magic tricks?" },
+			{ Text: "She's restrained, she could be in danger." },
+			{ Text: "(Darkness fades after a few seconds.)", Background: "BedroomOlivia" },
+			{ Text: "It was faster than the previous time.  Is that a good sign?" },
+			{ Text: "Let's go check for Camille.  I'm worried for her." },
+			{ Text: "(Olivia joined your party.  She might be a playable character in a future version of the game.)" },
+		]
+	},
+
+	{
+		Name: "CamilleIntro",
+		Dialog: [
+			{
+				Background: "CountessHall",
+				Character: [{ Name: "Camille", Status: "Armor", Pose: "Angry" }]
+			},
+			{ Text: "(As you enter the countess hall, you can see Camille next to a closed iron gate.)" },
+			{ Text: "(She yells at the gate furiously and doesn't seem to notice you.)" },
+			{ Text: "Mother!  I swear on my blade and Father's grave that I will kill you if you don't open the gate." },
+			{ Text: "OPEN NOW!  (She kicks the iron gate but nothing happens.)" },
+			{ Text: "(She turns around and sees you.)" },
+			{
+				Text: "Melody.  It's been a while.",
+				Character: [
+					{ Name: "Camille", Status: "Armor", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{
+				Text: "The curse isn't working on you?",
+				Answer: [
+					{ Text: "What curse?", Reply: "You've always been clueless little maid.", Domination: -1 },
+					{ Text: "So you're the source of the zombies.", Reply: "They are not zombies.", Love: -1 },
+					{ Text: "Your tricks cannot affect me.", Reply: "You've gained some confidence since we last met.", Domination: 1 },
+				]
+			},
+			{ Text: "I don't know why you're not affected.  You've always been weird." },
+			{ Text: "Mother might have selected you for that reason.  That old bitch!" },
+			{ Text: "Whatever it is, you're not welcome here." },
+			{
+				Text: "Get out!",
+				Answer: [
+					{ Text: "Stop the curse and I'll go.", Reply: "You think I will obey you?", Domination: 1 },
+					{ Text: "I'm not going anywhere bitch.", Reply: "Now you're in trouble.", Love: -2 },
+					{ Text: "Please Lady Camille, you must stop that curse.", Reply: "Forget it Melody.", Domination: -1, Love: 1 },
+				]
+			},
+			{
+				Text: "(She raises her arm, mumbles some words and an iron gate closes behind you.)",
+				Character: [{ Name: "Camille", Status: "Armor", Pose: "Angry" }]
+			},
+			{ Text: "You're going down little maid." },			
+			{ Text: "(She draws her sword and advances toward you.)" },
+		]
+	},
+
+	{
+		Name: "CamilleDefeat",
+		Dialog: [
+			{
+				Text: "Mel...  Melody...  How could you...",
+				Background: "CountessHallFloor",
+				Character: [{ Name: "Camille", Status: "Armor", Animation: "Bound", Y: -400 }]
+			},
+			{
+				Text: "How could you defeat me?",
+				Answer: [
+					{ Text: "Face it, you're not that strong.", Reply: "I underestimated you maid.", Domination: 2 },
+					{ Text: "I protect the manor.", Reply: "You've always been a loyal maid.", Domination: 1, Love: 1 },
+					{ Text: "It doesn't matter.", Reply: "You're very direct.", Domination: 1, Love: -1 },
+				]
+			},
+			{ Text: "(She struggles and sighs.)" },
+			{ Text: "You know, I've always envied the relationship between you and Olivia." },
+			{ Text: "You two were so close, like sisters.  I barely know my little sister." },
+			{
+				Text: "Do you think she will forgive me?",
+				Answer: [
+					{ Text: "I don't know.", Reply: "Only time will tell." },
+					{ Text: "She will hate you forever.", Reply: "Fine, I don't care.", Love: -1, Domination: 1 },
+					{ Text: "She will forgive you someday.", Reply: "Fine, I don't care.", Love: 1, Domination: -1 },
+				]
+			},
+			{ Text: "Take these keys for her shackles and go rescue her." },
+			{ Text: "(She gives you the key for Olivia's restraints.)" },
+			{
+				Text: "Go help Olivia.",
+				Answer: [
+					{ Text: "Stop the curse first.", Reply: "I'll need Mother for that.  Now go.", Domination: 1 },
+					{ Text: "Enjoy your struggles.", Reply: "(She tries to spit on you.)  Get lost.", Love: -1 },
+					{ Text: "I'll be back to help you.", Reply: "Very well, be quick.", Love: 1 },
+					{ Text: "(Nod slowly.)", Reply: "Run little maid.", Love: 1, Domination: -1 },
+				]
+			},
+			{ Text: "(She stares at the floor and stops talking.)" },
+		]
+	},
+
+	{
+		Name: "CamilleDefeatEnd",
+		Dialog: [
+			{
+				Text: "Go help Olivia.",
+				Background: "CountessHallFloor",
+				Character: [{ Name: "Camille", Status: "Armor", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She stares at the floor and stops talking.)" },
+		]
+	},
 	
 ];
 
@@ -746,6 +1068,7 @@ function PlatformDialogLoadPosition(Position) {
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = PlatformDialog.Dialog[Position].Character;
+	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
 }
 
 /**
@@ -931,4 +1254,15 @@ function PlatformDialogExit() {
 function PlatformDialogClick() {
 	if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null) || MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
 		PlatformDialogProcess();
+}
+
+/**
+ * Returns a dialog character
+ * @param {String} Name - The name of a character
+ * @returns {void} - Nothing
+ */
+function PlatformDialogGetCharacter(Name) {
+	for (let Character of PlatformDialogCharacter)
+		if (Character.Name == Name)
+			return Character;
 }
