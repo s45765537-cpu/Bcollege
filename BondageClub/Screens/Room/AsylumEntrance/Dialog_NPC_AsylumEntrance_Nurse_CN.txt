@@ -18,9 +18,9 @@ No, as a club slave you have work to do.  Get going girl.
 （离开她）
 ###_NPC
 Greetings doctor DialogPlayerName.  It's always a pleasure to see you.  Are you working today?
-你好啊 DialogPlayerName 医生， 很高兴见到你！请问你今天要工作吗？ 
+你好啊DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？
 Welcome to the asylum nurse DialogPlayerName.  Our patients are expecting you.  Are you here to work?
-欢迎来到疗养院，DialogPlayerName 护士。病人们都很期待你能来，请问你今天要工作吗？
+欢迎来到疗养院，DialogPlayerName护士。病人们都很期待你能来，请问你今天要工作吗？
 Hello assistant DialogPlayerName.  It's time to get to work for the asylum!
 你好，DialogPlayerName助理。是时候开始工作了！
 It's always a pleasure to take you in patient DialogPlayerName.  Are you checking in again today?
@@ -76,7 +76,7 @@ Of course. You're one of our most committed patients.  (She gives you a set of s
 I'm afraid only our top doctors get their own set of restraints. Come back once you're a bit more experienced.
 抱歉，只有最顶尖的医生才能拥有专属的束缚套组，在你积累了足够经验后再来吧。
 Of course, doctor DialogPlayerName.  (She gives you a set of standard-issue Asylum restraints)
-
+当然了！DialogPlayerName医生（她给了你一套标准收容所束缚套组）
 ###_PLAYER
 I must go.  (Leave her.)
 我得走了（离开她）
@@ -540,7 +540,7 @@ Can you let me out?
 你可以让我出去吗？
 ###_NPC
 (She nods.)  Drones can leave the asylum if they spend ten GGTS minutes.
-（她点了点头）无人机想出去的话，你得话10个GGTS时间
+（她点了点头）无人机想出去的话，你得花10个GGTS时间
 It's the rule, you should read the fine prints before signing a contract.
 这个是规则，你得好好读读，然后签字
 ###_PLAYER
@@ -566,7 +566,7 @@ I'll force my way out.
 我会用些强硬的方法出去的
 ###_NPC
 (She smirks.)  Good luck, the doors are bolted with magnets.
-（她笑了起来）那祝你好运。顺带一提，这里的们都是用磁关的
+（她笑了起来）那祝你好运。顺带一提，这里的门都是用磁关的
 ###_PLAYER
 Fine!  Forget it.
 行吧，当我没说
