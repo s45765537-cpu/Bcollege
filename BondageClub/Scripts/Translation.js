@@ -373,6 +373,7 @@ var TranslationDictionary = [
 			"Screens/Cutscene/PlayerCollaring/Text_PlayerCollaring_CN.txt"
 			"Screens/Cutscene/PlayerMistress/Text_PlayerMistress_CN.txt"
 			"Screens/Cutscene/SarahIntro/Text_SarahIntro_CN.txt"
+			"Screens/Cutscene/AsylumBedroom/Text_AsylumBedroom_CN.txt"
 		]
 	},
 
