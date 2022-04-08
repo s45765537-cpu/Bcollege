@@ -44,7 +44,7 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
  */
 function MiniGameCheatKeyDown() {
 	if (MiniGameCheatAvailable && ((KeyPress == 67) || (KeyPress == 99))) {
-		MiniGameCheatAvailable = false;
 		return true;
-	} else return false;
+	}
+	return false;
 }
