@@ -96,25 +96,64 @@ function SpeechGarble(C, CD, NoDeaf=false) {
 }
 
 /**
- * A helper function to check if the character that needs to be checked is in a string set.
- * We are using indexOf here because includes() is not compatiable for IE browser.
- * See below: 
- * - includes(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
- * - indexOf(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
- * @param {string} stringSet - The string set that needs to be checked against to determine if characterNeedsToCheck is included.
- * @param {string} characterNeedsToCheck - The character that needs to be checked that if is included in the stringset.
- * @returns 
+ * A helper method to check if the character parsed in is one of the following: ' .?!~-'
+ * @param {string} character - The character needs to be checked.
+ * @returns {boolean} - true if containing one of the following: ' .?!~-', otherwise false.
  */
-function dialogContainsCharacter(stringSet, characterNeedsToCheck) {
-	return stringSet.indexOf(characterNeedsToCheck) > -1;
+function isStandardPunctuationOrSpace(character) {
+	return ' .?!~-'.includes(character);
 }
 
 /**
- * A helper method to check if the character parsed in is one of the following: ' .?!~-'
- * @param {string} character - The character needs to be checked.
+ * Helper method to strip diacritics from characters.
+ * @param {string} character - character that needs to be stripped.
+ * @param {Number} gagEffect - The current gag effect level.
+ * @returns {string} - character that being stripped after garbling.
  */
-function isStandardPunctuationOrSpace(character) {
-	return dialogContainsCharacter(' .?!~-', character)
+function stripDiacriticsFromCharacter(character, gagEffect) {
+	switch (character) {
+		case 'á':
+		case 'à':
+		case 'ã':
+		case 'â':
+			return 'a';
+		case 'é':
+		case 'ê':
+		case 'è':
+		case 'ë':
+			return 'e';
+		case 'í':
+		case 'î':
+		case 'ì':
+		case 'ï':
+			return 'i';
+		case 'ó':
+		case 'ô':
+		case 'ò':
+		case 'õ':
+			return 'o';
+		case 'ú':
+		case 'û':
+		case 'ù':
+		case 'ü':
+			return 'u';
+		case 'ñ':
+			return gagEffect >= 5 ? 'm' : 'n';
+		case 'ç':
+			return gagEffect >= 5 ? 'h' : 's';
+	}
+
+	// if not any of the above, return itself.
+	return character;
+}
+
+/**
+ * check if the character is one of the following: áàãâéèêíìîõóòôúùûñç
+ * @param {string} character - The character needs to be checked.
+ * @returns {boolean} - true if is one of the above, otherwise false.
+ */
+function isAccentedOrLatinCharacter(character) {
+	return 'áàãâéèêíìîõóòôúùûñç'.includes(character);
 }
 
 
@@ -130,339 +169,239 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC) {
 	var NS = "";
 	var Par = false;
 	if (CD == null) CD = "";
+	if (GagEffect === 0) return CD;
 
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
-	if (GagEffect >= 20) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
-			if (Par) NS = NS.concat(CD.charAt(L));
+	for (let L = 0; L < CD.length; L++) {
+		const H = CD.charAt(L).toLowerCase();
+		if (H == "(" && !IgnoreOOC) Par = true;
+		if (H == ")") Par = false;
+		if (GagEffect >= 20) {
+			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS = NS.concat(H);
-				else if (dialogContainsCharacter('zqjxkvbywgpfucdlhr', H)) NS = NS.concat(' ');
-				else NS = NS.concat('m');
+				if (isStandardPunctuationOrSpace(H)) NS += H;
+				else if ('zqjxkvbywgpfucdlhr'.includes(H)) NS += ' ';
+				else NS += 'm';
 			}
-
-			if (H == ")") Par = false;
 		}
-		return NS;
-	}
-
-	// GagTotal3 always returns mmmmm and muffles some relatively frequent letters entirely, 50% least frequent letters
-	if (GagEffect >= 16) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
-			if (Par) NS = NS.concat(CD.charAt(L));
+	
+		// GagTotal3 always returns mmmmm and muffles some relatively frequent letters entirely, 50% least frequent letters
+		else if (GagEffect >= 16) {
+			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS = NS.concat(H);
-				else if (dialogContainsCharacter('zqjxkvbywgpf', H)) NS = NS.concat(' ');
-				else NS = NS.concat('m');
+				if (isStandardPunctuationOrSpace(H)) NS += H;
+				else if ('zqjxkvbywgpf'.includes(H)) NS += ' ';
+				else NS += 'm';
 			}
-
-			if (H == ")") Par = false;
 		}
-		return NS;
-	}
-
-	// GagTotal2 always returns mmmmm and muffles some less frequent letters entirely; 25% least frequent letters
-	if (GagEffect >= 12) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
-			if (Par) NS = NS.concat(CD.charAt(L));
+	
+		// GagTotal2 always returns mmmmm and muffles some less frequent letters entirely; 25% least frequent letters
+		else if (GagEffect >= 12) {
+			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS = NS.concat(H);
-				else if (dialogContainsCharacter('zqjxkv', H)) NS = NS.concat(' ');
-				else NS = NS.concat('m');
+				if (isStandardPunctuationOrSpace(H)) NS += H;
+				else if ('zqjxkv'.includes(H)) NS += ' ';
+				else NS += 'm';
 			}
-
-			if (H == ")") Par = false;
 		}
-		return NS;
-	}
-
-	// Total gags always returns mmmmm
-	if (GagEffect >= 8) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
-			if (Par) NS = NS.concat(CD.charAt(L));
+	
+		// Total gags always returns mmmmm
+		else if (GagEffect >= 8) {
+			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS = NS.concat(H);
-				else NS = NS.concat('m');
+				if (isStandardPunctuationOrSpace(H)) NS += H;
+				else NS += 'm';
 			}
-
-			if (H == ")") Par = false;
 		}
-		return NS;
-	}
-
-	// VeryHeavy garble - Close to no letter stays the same
-	if (GagEffect >= 7) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// VeryHeavy garble - Close to no letter stays the same
+		else if (GagEffect >= 7) {
 			if (!Par) {
 				// Regular characters
-				if (dialogContainsCharacter('aeiouy', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('jklr', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('szh', H)) NS = NS.concat('h');
-				if (dialogContainsCharacter('dfgnmwtcqxpv', H)) NS = NS.concat('m');
-				if (isStandardPunctuationOrSpace(H) || H == 'b') NS = NS.concat(H);
+				if ('aeiouy'.includes(H)) NS += 'e';
+				if ('jklr'.includes(H)) NS += 'a';
+				if ('szh'.includes(H)) NS += 'h';
+				if ('dfgnmwtcqxpv'.includes(H)) NS += 'm';
+				if (isStandardPunctuationOrSpace(H) || H == 'b') NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áàãâéèêíìîõóòôúùû', H)) NS = NS.concat('e');
-				if (H == "ç") NS = NS.concat('h');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('aeиоуюля', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('cйх', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('жклру', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('зсгй', H)) NS = NS.concat('г');
-				if (dialogContainsCharacter('брвы', H)) NS = NS.concat('ф');
-				if (dialogContainsCharacter('дфгнм', H)) NS = NS.concat('м');
+				if ('иоуюля'.includes(H)) NS += 'e';
+				if ('йх'.includes(H)) NS += 'к';
+				if ('жклру'.includes(H)) NS += 'a';
+				if ('зсгй'.includes(H)) NS += 'г';
+				if ('брвы'.includes(H)) NS += 'ф';
+				if ('дфгнм'.includes(H)) NS += 'м';
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Heavy garble - Almost no letter stays the same
-	if (GagEffect >= 6) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Heavy garble - Almost no letter stays the same
+		else if (GagEffect >= 6) {
 			if (!Par) {
-
 				// Regular characters
-				if (dialogContainsCharacter('aeiouyt', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('cqx', H)) NS = NS.concat('k');
-				if (dialogContainsCharacter('jklrw', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('szh', H)) NS = NS.concat('h');
-				if (dialogContainsCharacter('bpv', H)) NS = NS.concat('f');
-				if (dialogContainsCharacter('dfgnm', H)) NS = NS.concat('m');
-				if (isStandardPunctuationOrSpace(H)) NS = NS.concat(H);
+				if ('aeiouyt'.includes(H)) NS += 'e';
+				if ('cqx'.includes(H)) NS += 'k';
+				if ('jklrw'.includes(H)) NS += 'a';
+				if ('szh'.includes(H)) NS += 'h';
+				if ('bpv'.includes(H)) NS += 'f';
+				if ('dfgnm'.includes(H)) NS += 'm';
+				if (isStandardPunctuationOrSpace(H)) NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áàãâéèêíìîõóòôúùû', H)) NS = NS.concat('e');
-				if (H == "ç") NS = NS.concat('h');
-				if (H == "ñ") NS = NS.concat('m');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('aeиоуюля', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('cйх', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('жклру', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('зсгй', H)) NS = NS.concat('г');
-				if (dialogContainsCharacter('брвы', H)) NS = NS.concat('ф');
-				if (dialogContainsCharacter('дфгнм', H)) NS = NS.concat('м');
+				if ('иоюля'.includes(H)) NS += 'e';
+				if ('cйх'.includes(H)) NS += 'к';
+				if ('жклр'.includes(H)) NS += 'a';
+				if ('зсгй'.includes(H)) NS += 'г';
+				if ('брвы'.includes(H)) NS += 'ф';
+				if ('дфгнм'.includes(H)) NS += 'м';
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Medium garble - Some letters stays the same
-	if (GagEffect >= 5) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Medium garble - Some letters stays the same
+		else if (GagEffect >= 5) {
 			if (!Par) {
-
 				// Regular characters
-				if (dialogContainsCharacter('eiouyt', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('cqxk', H)) NS = NS.concat('k');
-				if (dialogContainsCharacter('jlrwa', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('szh', H)) NS = NS.concat('h');
-				if (dialogContainsCharacter('bpv', H)) NS = NS.concat('f');
-				if (dialogContainsCharacter('dfgm', H)) NS = NS.concat('m');
-				if (isStandardPunctuationOrSpace(H) || H == 'n') NS = NS.concat(H);
+				if ('eiouyt'.includes(H)) NS += 'e';
+				if ('cqxk'.includes(H)) NS += 'k';
+				if ('jlrwa'.includes(H)) NS += 'a';
+				if ('szh'.includes(H)) NS += 'h';
+				if ('bpv'.includes(H)) NS += 'f';
+				if ('dfgm'.includes(H)) NS += 'm';
+				if (isStandardPunctuationOrSpace(H) || H == 'n') NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áàãâéèêíìîõóòôúùû', H)) NS = NS.concat('e');
-				if (H == "ç") NS = NS.concat('h');
-				if (H == "ñ") NS = NS.concat('m');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('aeиоуюля', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('cйх', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('жклру', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('зсгй', H)) NS = NS.concat('г');
-				if (dialogContainsCharacter('брвы', H)) NS = NS.concat('ф');
-				if (dialogContainsCharacter('дфгнм', H)) NS = NS.concat('м');
+				if ('aиоуюля'.includes(H)) NS += 'e';
+				if ('cйх'.includes(H)) NS += 'к';
+				if ('жклр'.includes(H)) NS += 'a';
+				if ('зсгй'.includes(H)) NS += 'г';
+				if ('брвы'.includes(H)) NS += 'ф';
+				if ('дфгнм'.includes(H)) NS += 'м';
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Normal garble, keep vowels and a few letters the same
-	if (GagEffect >= 4) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Normal garble, keep vowels and a few letters the same
+		else if (GagEffect >= 4) {
 			if (!Par) {
-
 				// Regular characters
-				if (dialogContainsCharacter('vbct', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('qkx', H)) NS = NS.concat('k');
-				if (dialogContainsCharacter('wyjlr', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('sz', H)) NS = NS.concat('h');
-				if (dialogContainsCharacter('df', H)) NS = NS.concat('m');
-				if (H == "p") NS = NS.concat('f');
-				if (H == "g") NS = NS.concat('n');
-				if (isStandardPunctuationOrSpace(H) || dialogContainsCharacter('aeioumnh', H)) NS = NS.concat(H);
+				if ('vbct'.includes(H)) NS += 'e';
+				if ('qkx'.includes(H)) NS += 'k';
+				if ('wyjlr'.includes(H)) NS += 'a';
+				if ('sz'.includes(H)) NS += 'h';
+				if ('df'.includes(H)) NS += 'm';
+				if (H == "p") NS += 'f';
+				if (H == "g") NS += 'n';
+				if (isStandardPunctuationOrSpace(H) || 'aeioumnh'.includes(H)) NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áâà', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('éêèë', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('íîìï', H)) NS = NS.concat('i');
-				if (dialogContainsCharacter('óôò', H)) NS = NS.concat('o');
-				if (dialogContainsCharacter('úûùü', H)) NS = NS.concat('u');
-				if (H == "ç") NS = NS.concat('s');
-				if (H == "ñ") NS = NS.concat('n');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('вфбп', H)) NS = NS.concat('фы');
-				if (dialogContainsCharacter('гкх', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('вужлр', H)) NS = NS.concat('а');
-				if (dialogContainsCharacter('ся', H)) NS = NS.concat('х');
-				if (dialogContainsCharacter('дф', H)) NS = NS.concat('м');
-				if (H == "р") NS = NS.concat('ф');
-				if (H == "г") NS = NS.concat('н');
+				if ('вфбп'.includes(H)) NS += 'фы';
+				if ('гкх'.includes(H)) NS += 'к';
+				if ('вужлр'.includes(H)) NS += 'а';
+				if ('ся'.includes(H)) NS += 'х';
+				if ('дф'.includes(H)) NS += 'м';
+				if (H == "р") NS += 'ф';
+				if (H == "г") NS += 'н';
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Easy garble, keep vowels and a some letters the same
-	if (GagEffect >= 3) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Easy garble, keep vowels and a some letters the same
+		else if (GagEffect >= 3) {
 			if (!Par) {
-
 				// Regular characters
-				if (dialogContainsCharacter('vbct', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('qkx', H)) NS = NS.concat('k');
-				if (dialogContainsCharacter('wyjlr', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('sz', H)) NS = NS.concat('s');
-				if (H == "d") NS = NS.concat('m');
-				if (H == "p") NS = NS.concat('f');
-				if (H == "g") NS = NS.concat('h');
-				if (isStandardPunctuationOrSpace(H) || dialogContainsCharacter('aeioumnhf', H)) NS = NS.concat(H);
+				if ('vbct'.includes(H)) NS += 'e';
+				if ('qkx'.includes(H)) NS += 'k';
+				if ('wyjlr'.includes(H)) NS += 'a';
+				if ('sz'.includes(H)) NS += 's';
+				if (H == "d") NS += 'm';
+				if (H == "p") NS += 'f';
+				if (H == "g") NS += 'h';
+				if (isStandardPunctuationOrSpace(H) || 'aeioumnhf'.includes(H)) NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áâà', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('éêèë', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('íîìï', H)) NS = NS.concat('i');
-				if (dialogContainsCharacter('óôò', H)) NS = NS.concat('o');
-				if (dialogContainsCharacter('úûùü', H)) NS = NS.concat('u');
-				if (H == "ç") NS = NS.concat('s');
-				if (H == "ñ") NS = NS.concat('n');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('вфбп', H)) NS = NS.concat('фы');
-				if (dialogContainsCharacter('гкх', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('вужлр', H)) NS = NS.concat('а');
-				if (dialogContainsCharacter('ся', H)) NS = NS.concat('х');
-				if (dialogContainsCharacter('дф', H)) NS = NS.concat('м');
-				if (H == "р") NS = NS.concat('ф');
-				if (H == "г") NS = NS.concat('н');
+				if ('вфбп'.includes(H)) NS += 'фы';
+				if ('гкх'.includes(H)) NS += 'к';
+				if ('вужлр'.includes(H)) NS += 'а';
+				if ('ся'.includes(H)) NS += 'х';
+				if ('дф'.includes(H)) NS += 'м';
+				if (H == "р") NS += 'ф';
+				if (H == "г") NS += 'н';
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Light garble, half of the letters stay the same
-	if (GagEffect >= 2) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Light garble, half of the letters stay the same
+		else if (GagEffect >= 2) {
 			if (!Par) {
-
 				// Regular characters
-				if (dialogContainsCharacter('ct', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('qkx', H)) NS = NS.concat('k');
-				if (H == "p") NS = NS.concat('f');
-				if (H == "g") NS = NS.concat('n');
-				if (H == "s") NS = NS.concat('z');
-				if (H == "z") NS = NS.concat('s');
-				if (H == "f") NS = NS.concat('h');
-				if (dialogContainsCharacter('dmg', H)) NS = NS.concat('m');
-				if (dialogContainsCharacter('bhnvwp', H) || isStandardPunctuationOrSpace(H) || dialogContainsCharacter('aeiouy', H)) NS = NS.concat(H);
+				if ('ct'.includes(H)) NS += 'e';
+				if ('qkx'.includes(H)) NS += 'k';
+				if (H == "p") NS += 'f';
+				if (H == "g") NS += 'n';
+				if (H == "s") NS += 'z';
+				if (H == "z") NS += 's';
+				if (H == "f") NS += 'h';
+				if ('dmg'.includes(H)) NS += 'm';
+				if ('bhnvwp'.includes(H) || isStandardPunctuationOrSpace(H) || 'aeiouy'.includes(H)) NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áâà', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('éêèë', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('íîìï', H)) NS = NS.concat('i');
-				if (dialogContainsCharacter('óôò', H)) NS = NS.concat('o');
-				if (dialogContainsCharacter('úûùü', H)) NS = NS.concat('u');
-				if (H == "ç") NS = NS.concat('s');
-				if (H == "ñ") NS = NS.concat('n');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect); 
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('чц', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('йфв', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('длщя', H)) NS = NS.concat('a');
-				if (H == "з") NS = NS.concat('c');
-				if (H == "с") NS = NS.concat('з');
-				if (dialogContainsCharacter('дфмг', H)) NS = NS.concat('м');
-				if (dialogContainsCharacter('апрокенмит', H)) NS = NS.concat(H);
+				if ('чц'.includes(H)) NS += 'e';
+				if ('йфв'.includes(H)) NS += 'к';
+				if ('длщя'.includes(H)) NS += 'a';
+				if (H == "з") NS += 'c';
+				if (H == "с") NS += 'з';
+				if ('дфмг'.includes(H)) NS += 'м';
+				if ('апрокенмит'.includes(H)) NS += H;
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
-	}
-
-	// Very Light garble, most of the letters stay the same
-	if (GagEffect >= 1) {
-		for (let L = 0; L < CD.length; L++) {
-			let H = CD.charAt(L).toLowerCase();
-			if (H == "(" && !IgnoreOOC) Par = true;
+	
+		// Very Light garble, most of the letters stay the same
+		else if (GagEffect >= 1) {
 			if (!Par) {
-
 				// Regular characters
-				if (H == "t") NS = NS.concat('e');
-				if (dialogContainsCharacter('cqkx', H)) NS = NS.concat('k');
-				if (dialogContainsCharacter('jlr', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('dmg', H)) NS = NS.concat('m');
-				if (dialogContainsCharacter('bhnvwp', H) || isStandardPunctuationOrSpace(H) || dialogContainsCharacter('aeiouyfsz', H)) NS = NS.concat(H);
+				if (H == "t") NS += 'e';
+				if ('cqkx'.includes(H)) NS += 'k';
+				if ('jlr'.includes(H)) NS += 'a';
+				if ('dmg'.includes(H)) NS += 'm';
+				if ('bhnvwp'.includes(H) || isStandardPunctuationOrSpace(H) || 'aeiouyfsz'.includes(H)) NS += H;
 
 				// Accents/Latin characters
-				if (dialogContainsCharacter('áâà', H)) NS = NS.concat('a');
-				if (dialogContainsCharacter('éêèë', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('íîìï', H)) NS = NS.concat('i');
-				if (dialogContainsCharacter('óôò', H)) NS = NS.concat('o');
-				if (dialogContainsCharacter('úûùü', H)) NS = NS.concat('u');
-				if (H == "ç") NS = NS.concat('s');
-				if (H == "ñ") NS = NS.concat('n');
+				if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
 
 				// Cyrillic characters
-				if (dialogContainsCharacter('чц', H)) NS = NS.concat('e');
-				if (dialogContainsCharacter('йфв', H)) NS = NS.concat('к');
-				if (dialogContainsCharacter('длщя', H)) NS = NS.concat('a');
-				if (H == "з") NS = NS.concat('c');
-				if (H == "с") NS = NS.concat('з');
-				if (dialogContainsCharacter('дфмг', H)) NS = NS.concat('м');
-				if (dialogContainsCharacter('апрокенмит', H)) NS = NS.concat(H);
+				if ('чц'.includes(H)) NS += 'e';
+				if ('йфв'.includes(H)) NS += 'к';
+				if ('длщя'.includes(H)) NS += 'a';
+				if (H == "з") NS += 'c';
+				if (H == "с") NS += 'з';
+				if ('дфмг'.includes(H)) NS += 'м';
+				if ('апрокенмит'.includes(H)) NS += H;
 
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+			} else NS += CD.charAt(L);
 		}
-		return NS;
 	}
 
-	return CD;
-
+	return NS;
 }
 
 /**
@@ -519,7 +458,7 @@ function SpeechStutter(C, CD) {
 				}
 				CS = -1;
 			}
-			if (H == ")") Par = false;
+			
 			if (H == " ") CS = 0;
 		}
 		return CD;
@@ -548,12 +487,12 @@ function SpeechBabyTalk(C, CD) {
 			var H = CD.charAt(L).toLowerCase();
 			if (H == "(") Par = true;
 			if (!Par) {
-				if (dialogContainsCharacter('kl', H)) NS = NS.concat('w');
-				if (H == "s") NS = NS = NS.concat('sh');
-				if (H == "t") NS = NS = NS.concat('st');
-				if (H.match('[a-z]') || dialogContainsCharacter(" '?!.,", H)) NS = NS.concat(H);
-			} else NS = NS.concat(CD.charAt(L));
-			if (H == ")") Par = false;
+				if ('kl'.includes(H)) NS += 'w';
+				if (H == "s") NS = NS += 'sh';
+				if (H == "t") NS = NS += 'st';
+				if (H.match('[a-z ?!.,]')) NS += H;
+			} else NS += CD.charAt(L);
+			
 		}
 		return NS;
 	}
