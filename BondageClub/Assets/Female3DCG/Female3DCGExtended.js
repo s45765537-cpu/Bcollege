@@ -5618,6 +5618,9 @@ var AssetFemale3DCGExtended = {
 							{ // e5 - Sculpted
 								Property: { Effect: [] }
 							},
+							{ // e6 - Concave
+								Property: {Effect: ["BlindLight"] }
+							}
 
 						]
 					},
@@ -5664,6 +5667,12 @@ var AssetFemale3DCGExtended = {
 									], // These items are hidden because they have clear mismatch issues with the hood.							
 								},
 							}, // h1 - Helmet (hood)
+							{ // h2 - Helmet ( hood but nothing shows)
+								Property: {
+									Hide: ["HairFront", "Ears", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+									HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+								},
+							},
 						]
 					},
 				],

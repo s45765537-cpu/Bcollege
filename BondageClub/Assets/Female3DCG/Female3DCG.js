@@ -5148,8 +5148,8 @@ var AssetFemale3DCG = [
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] }, 
 					{ Name: "Shine", HasType: false, AllowModuleTypes: ["h0"] },
-					{ Name: "BaseHelm", HasType: false, AllowModuleTypes: ["h1"], CopyLayerColor: "Base", Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }], },
-					{ Name: "ShineHelm", HasType: false, AllowModuleTypes: ["h1"], CopyLayerColor: "Shine" },
+					{ Name: "BaseHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Base", Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }], },
+					{ Name: "ShineHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Shine" },
 
 					// All Non-part-reliant Patterns
 					{ Name: "Barcode", HasType: false, AllowModuleTypes: ["p1"]},
@@ -5177,6 +5177,9 @@ var AssetFemale3DCG = [
 					{ Name: "EyeSculpted", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "EyeRegular" },
 					{ Name: "EyeSculptedShine", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "Shine" },
 					{ Name: "EyeSculptedGlow", HasType: false, AllowModuleTypes: ["e5g1"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeConcave", HasType: false, AllowModuleTypes: ["e6"], CopyLayerColor: "Base"},
+					{ Name: "EyeConcaveShine", HasType: false, AllowModuleTypes: ["e6"], CopyLayerColor: "Shine"},
 
 					// All Mouths
 					{ Name: "MouthOnahole", HasType: false, AllowModuleTypes: ["m1"]},
