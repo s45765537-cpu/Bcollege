@@ -498,7 +498,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 		if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 		if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
 		return mergedProperty;
-	}, {
+	}, /** @type ItemProperties */({
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: asset.Difficulty,
 		CustomBlindBackground: asset.CustomBlindBackground,
@@ -508,7 +508,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 		HideItem: Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [],
 		AllowActivity: Array.isArray(asset.AllowActivity) ? asset.AllowActivity.slice() : [],
 		Attribute: Array.isArray(asset.Attribute) ? asset.Attribute.slice() : [],
-	});
+	}));
 }
 
 /**
