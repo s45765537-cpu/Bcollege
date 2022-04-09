@@ -262,11 +262,13 @@ function ModularItemCreateDrawData(itemCount) {
 function ModularItemCreateDrawBaseFunction(data) {
 	return () => {
 		const currentModuleValues = ModularItemParseCurrent(data);
-		const buttonDefinitions = data.modules.map((module, i) => ([
-			`${AssetGetInventoryPath(data.asset)}/${module.Key}${currentModuleValues[i]}.png`,
-			`${data.dialogModulePrefix}${module.Name}`,
-			CharacterGetCurrent().ID === 0 && module.AllowSelfSelect === false ? "pink" : "white",
-		]));
+		const buttonDefinitions = data.modules.map((module, i) => (
+			/** @type ModularItemButtonDefinition */([
+				`${AssetGetInventoryPath(data.asset)}/${module.Key}${currentModuleValues[i]}.png`,
+				`${data.dialogModulePrefix}${module.Name}`,
+				CharacterGetCurrent().ID === 0 && module.AllowSelfSelect === false ? "pink" : "white",
+			])
+		));
 		return ModularItemDrawCommon(ModularItemBase, buttonDefinitions, data);
 	};
 }
