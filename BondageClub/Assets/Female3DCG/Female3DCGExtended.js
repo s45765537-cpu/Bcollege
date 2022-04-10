@@ -2562,7 +2562,6 @@ var AssetFemale3DCGExtended = {
 										AllowActivePose: ["LegsClosed", "BaseLower"],
 										Block: ["ItemArms"],
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
-										Hide: ["ItemArms"],
 									},
 								}, // t3 - Chains
 								{
@@ -2573,7 +2572,6 @@ var AssetFemale3DCGExtended = {
 										AllowActivePose: ["LegsClosed", "BaseLower"],
 										Block: ["ItemArms"],
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
-										Hide: ["ItemArms"],
 									},
 								}, // t4 - ChainsTight
 							],
