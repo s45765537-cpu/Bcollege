@@ -769,16 +769,14 @@ function GetWrapTextSize(Text, Width, MaxLine) {
 
 	// Don't bother if it fits on one line
 	if (MainCanvas.measureText(Text).width <= Width) return;
-
-	const words = Text.split(' ');
 	let line = '';
 
 	// Find the number of lines
 	let LineCount = 1;
-	for (let n = 0; n < words.length; n++) {
-		const testLine = line + words[n] + ' ';
+	for (let n = 0; n < Text.length; n++) {
+		const testLine = line + Text[n] + ' ';
 		if (MainCanvas.measureText(testLine).width > Width && n > 0) {
-			line = words[n] + ' ';
+			line = Text[n] + ' ';
 			LineCount++;
 		} else line = testLine;
 	}
@@ -830,27 +828,27 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
 	// Split the text if it wouldn't fit in the rectangle
 	MainCanvas.fillStyle = ForeColor;
 	if (MainCanvas.measureText(Text).width > Width) {
-		const words = Text.split(' ');
 		let line = '';
 
 		// Find the number of lines
 		let LineCount = 1;
-		for (let n = 0; n < words.length; n++) {
-			const testLine = line + words[n] + ' ';
+		for (let n = 0; n < Text.length; n++) {
+			const testLine = line + Text[n];
 			if (MainCanvas.measureText(testLine).width > Width && n > 0) {
-				line = words[n] + ' ';
+				line = Text[n];
 				LineCount++;
 			} else line = testLine;
 		}
 
-		// Splits the words and draw the text
+		// Splits the words with space and draw the text won't work with Chinese language.
+		// Drawing behavior does not seem to be affected without the space.
 		line = '';
 		Y = Y - ((LineCount - 1) * 23) + (Height / 2);
-		for (let n = 0; n < words.length; n++) {
-			const testLine = line + words[n] + ' ';
+		for (let n = 0; n < Text.length; n++) {
+			const testLine = line + Text[n];
 			if (MainCanvas.measureText(testLine).width > Width && n > 0) {
 				MainCanvas.fillText(line, X + Width / 2, Y);
-				line = words[n] + ' ';
+				line = Text[n];
 				Y += 46;
 			}
 			else {
