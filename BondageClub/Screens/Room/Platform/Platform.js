@@ -80,7 +80,8 @@ var PlatformTemplate = [
 		Width: 400,
 		Height: 400,
 		Animation: [
-			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 }
+			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 }
 		]
 	},
 	{
@@ -253,7 +254,7 @@ var PlatformTemplate = [
 	{
 		Name: "Camille",
 		Status: "Armor",
-		Health: 47,
+		Health: 53,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
@@ -272,7 +273,7 @@ var PlatformTemplate = [
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 100 },
-			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 250 },
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 100 },
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], CycleLeft: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], Speed: 66 },
@@ -281,7 +282,12 @@ var PlatformTemplate = [
 		],
 		Attack: [
 			{ Name: "StandAttackSlow", HitBox: [0.6, 0.3, 1.3, 0.65], HitAnimation: [30, 31, 32, 33, 34, 35, 36], Damage: [12, 12], Speed: 1000 }
-		]
+		],
+		OnBind: function() {
+			PlatformEventSet("CamilleDefeat");
+			PlatformDialogStart("CamilleDefeat");
+			PlatformLoadRoom();
+		}
 	}
 
 ];
@@ -403,6 +409,9 @@ var PlatformRoomList = [
 			if (!PlatformEventDone("OliviaUnchain") && !PlatformEventDone("OliviaCollarKey")) PlatformCreateCharacter("Olivia", "Chained", 2200, true, false, "IntroOliviaBeforeCollarKey");
 			if (!PlatformEventDone("OliviaUnchain") && PlatformEventDone("OliviaCollarKey")) PlatformCreateCharacter("Olivia", "Chained", 2200, true, false, "IntroOliviaAfterCollarKey");
 			if (PlatformEventDone("OliviaBath") && !PlatformEventDone("Curse")) { PlatformCreateCharacter("Olivia", "Flower", 2200, true, false, "OliviaAfterBath"); PlatformChar[1].FaceLeft = true; }
+			if (PlatformEventDone("OliviaBath") && PlatformEventDone("Curse") && !PlatformEventDone("OliviaCurseIntro") && !PlatformEventDone("CamilleDefeat")) { PlatformCreateCharacter("Olivia", "Flower", 2200, true, false, "OliviaCurseIntro"); PlatformChar[1].Health = 0; PlatformChar[1].Bound = true; }
+			if (PlatformEventDone("OliviaBath") && PlatformEventDone("Curse") && PlatformEventDone("OliviaCurseIntro") && !PlatformEventDone("CamilleDefeat")) { PlatformCreateCharacter("Olivia", "Flower", 2200, true, false, "OliviaCurse"); PlatformChar[1].Health = 0; PlatformChar[1].Bound = true; }
+			if (PlatformEventDone("OliviaBath") && PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && !PlatformEventDone("OliviaCurseRelease")) { PlatformCreateCharacter("Olivia", "Flower", 2200, true, false, "OliviaCurseRelease"); PlatformChar[1].Health = 0; PlatformChar[1].Bound = true; }
 		},
 		Text: "Olivia's Bedroom (heal and save)",
 		Background: "Castle/BedroomOlivia",
@@ -534,20 +543,60 @@ var PlatformRoomList = [
 		Width: 2400,
 		Height: 1200,
 		Door: [
-			{ Name: "CastleBallroom", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2300, ToFaceLeft: true },
+			{ Name: "CastleCountessHall", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2100, ToFaceLeft: true },
 			{ Name: "CastleHall4W2", FromX: 2300, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: []
 	},
 	{
-		Name: "CastleBallroom",
-		Entry: function() { if (PlatformEventDone("Curse")) PlatformCreateCharacter("Camille", "Armor", 500); },
-		Text: "Ballroom",
-		Background: "Castle/Ballroom",
-		Width: 2600,
+		Name: "CastleCountessHall",
+		Entry: function() {
+			if (PlatformEventDone("Curse") && !PlatformEventDone("CamilleDefeat")) {
+				PlatformCreateCharacter("Camille", "Armor", 300);
+				PlatformRoom.LimitRight = 2200;
+				PlatformRoom.Background = "Castle/CountessHallClosed";
+				PlatformDialogStart("CamilleIntro");
+			}
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && !PlatformEventDone("OliviaCurseRelease")) {
+				PlatformCreateCharacter("Camille", "Armor", 1100);
+				PlatformChar[1].Health = 0;
+				PlatformChar[1].Bound = true;
+				PlatformChar[1].Dialog = "CamilleDefeatEnd";
+			}
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease")) {
+				PlatformRoom.Background = "Castle/CountessHall";
+				PlatformRoom.LimitLeft = 0;
+				if (!PlatformEventDone("CamilleEscape")) {
+					PlatformEventSet("CamilleEscape");
+					PlatformDialogStart("CamilleEscape");
+				}
+			}
+		},
+		Text: "Countess Hall",
+		Background: "Castle/CountessHallDeadEnd",
+		AlternateBackground: "Castle/CountessHallClosed",
+		Width: 2400,
 		Height: 1200,
+		LimitLeft: 200,
 		Door: [
-			{ Name: "CastleHall4W3", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
+			{ Name: "CastleHall4W3", FromX: 2300, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+			{ Name: "CastleTerrace", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true }
+		],
+		Character: []
+	},
+	{
+		Name: "CastleTerrace",
+		Entry: function() {
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && !PlatformEventDone("OliviaTerrace")) PlatformCreateCharacter("Olivia", "Flower", 500, true, false, "OliviaTerrace");
+			if (PlatformEventDone("Curse") && PlatformEventDone("CamilleDefeat") && PlatformEventDone("OliviaCurseRelease") && PlatformEventDone("OliviaTerrace")) PlatformCreateCharacter("Olivia", "Flower", 500, true, false, "OliviaTerraceEnd");
+		},
+		Text: "Countess Terrace",
+		Background: "Castle/Terrace",
+		Width: 2000,
+		Height: 1200,
+		LimitLeft: 200,
+		Door: [
+			{ Name: "CastleCountessHall", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: []
 	},
@@ -685,7 +734,7 @@ var PlatformRoomList = [
 			if (!PlatformEventDone("EdlaranFree") && !PlatformEventDone("Curse") && PlatformEventDone("EdlaranIntro")) PlatformCreateCharacter("Edlaran", "Chained", 1800, true, false, "IntroEdlaranBeforeCurseEnd");
 			if (!PlatformEventDone("EdlaranFree") && PlatformEventDone("Curse") && !PlatformEventDone("EdlaranCurseIntro")) PlatformCreateCharacter("Edlaran", "Chained", 1800, true, false, "IntroEdlaranAfterCurseStart");
 			if (!PlatformEventDone("EdlaranFree") && PlatformEventDone("EdlaranCurseIntro") && !PlatformEventDone("EdlaranKey")) PlatformCreateCharacter("Edlaran", "Chained", 1800, true, false, "IntroEdlaranAfterCurseEnd");
-			if (!PlatformEventDone("EdlaranFree") && PlatformEventDone("EdlaranKey")) PlatformCreateCharacter("Edlaran", "Chained", 1800, true, false, "EdlaranUnlock");
+			if (!PlatformEventDone("EdlaranFree") && PlatformEventDone("EdlaranKey") && !PlatformEventDone("EdlaranUnlock")) PlatformCreateCharacter("Edlaran", "Chained", 1800, true, false, "EdlaranUnlock");
 		},
 		Text: "Dungeon Cell",
 		Background: "Castle/DungeonCell",
@@ -721,11 +770,13 @@ var PlatformRoomList = [
  * Loads a room and it's parameters
  * @param {String} CharacterName - The character name to load
  * @param {String} StatusName - The status of that character
- * @param {Boolean} RoomName - The name of the room to load
- * @param {Number}X - The X position of the character
+ * @param {Number} X - The X position of the character
+ * @param {Boolean} Fix - TRUE if the character won't move
+ * @param {Boolean} Fix - TRUE if the character will deal and receive combat damage
+ * @param {String} Dialog - The dialog name to open when talking to that character
  * @returns {Object} - Returns the platform character
  */
-function PlatformCreateCharacter(CharacterName, StatusName, X, Fix, Combat, Dialog) {
+function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Combat = null, Dialog = null) {
 	let NewChar = null;
 	for (let CharTemplate of PlatformTemplate)
 		if ((CharTemplate.Name == CharacterName) && (CharTemplate.Status == StatusName)) {
@@ -825,12 +876,12 @@ function PlatformLoad() {
 
 /**
  * Get the proper animation from the cycle to draw
- * @param {PlatformCharacter} C - The character to evaluate
+ * @param {Object} C - The character to evaluate
  * @param {String} Pose - The pose we want
  * @param {Boolean} Cycle - TRUE if we must use the animation cycle
  * @returns {Object} - An object with the image, width & height to draw
  */
-function PlatformGetAnim(C, Pose, Cycle) {
+function PlatformGetAnim(C, Pose, Cycle = null) {
 	for (let A = 0; A < C.Animation.length; A++)
 		if (C.Animation[A].Name == Pose) {
 			let CycleList = ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) ? C.Animation[A].CycleLeft : C.Animation[A].Cycle;
@@ -857,7 +908,7 @@ function PlatformGetAnim(C, Pose, Cycle) {
  * Returns TRUE if the current action for a character is ActionName
  * @param {Object} C - The character to validate
  * @param {String} ActionName - The action to validate (all actions are valid if "Any"
- * @returns {void} - Nothing
+ * @returns {boolean} - TRUE if the character action is that string
  */
 function PlatformActionIs(C, ActionName) {
 	if ((C.Action != null) && (ActionName == "Any") && (C.Action.Expire != null) && (C.Action.Expire > CommonTime())) return true;
@@ -934,6 +985,7 @@ function PlatformDrawCharacter(C, Time) {
 function PlatformAddExperience(C, Value) {
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
+		if (C.Camera) PlatformMessageSet(TextGet("LevelUp").replace("CharacterName", C.Name));
 		C.MaxHealth = C.MaxHealth + C.HealthPerLevel;
 		C.Health = C.MaxHealth;
 		C.Experience = 0;
@@ -1023,12 +1075,13 @@ function PlatformProcessAction(Source, Time) {
 		if ((Target.ID != Source.ID) && (Target.Health > 0) && Target.Combat && ((Target.Immunity == null) || (Target.Immunity < Time))) {
 			let HitBox = null;
 			let Damage = 0;
-			for (let Attack of Source.Attack)
-				if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
-					Damage = Attack.Damage[Source.Level];
-					HitBox = Attack.HitBox;
-					break;
-				}
+			if (Source.Attack != null)
+				for (let Attack of Source.Attack)
+					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
+						Damage = Attack.Damage[Source.Level];
+						HitBox = Attack.HitBox;
+						break;
+					}
 			if (PlatformHitBoxClash(Source, Target, HitBox))
 				return PlatformDamage(Source, Target, Damage, Time);
 		}	
@@ -1037,11 +1090,11 @@ function PlatformProcessAction(Source, Time) {
 /**
  * Calculates the X force to apply based on the time it took until the last frame and the speed of the object
  * @param {Number} Speed - The speed of the object
- * @param {Number} Time - The number of milliseconds since the last frame
+ * @param {Number} Frame - The number of milliseconds since the last frame
  * @returns {Number} - The force to apply
  */
 function PlatformWalkFrame(Speed, Frame) {
-	return Math.round(Frame * Speed / 50);
+	return Frame * Speed / 50;
 }
 
 /**
@@ -1169,12 +1222,12 @@ function PlatformDraw() {
 		}
 
 		// Applies the forces and turns the face
-		C.X = C.X + C.ForceX;
+		C.X = C.X + C.ForceX * Frame / 16.6667;
 		if (C.X < 100) C.X = 100;
 		if ((PlatformRoom.LimitLeft != null) && (C.X < PlatformRoom.LimitLeft)) C.X = PlatformRoom.LimitLeft;
 		if (C.X > PlatformRoom.Width - 100) C.X = PlatformRoom.Width - 100;
 		if ((PlatformRoom.LimitRight != null) && (C.X > PlatformRoom.LimitRight)) C.X = PlatformRoom.LimitRight;
-		C.Y = C.Y + C.ForceY;
+		C.Y = C.Y + C.ForceY * Frame / 16.6667;
 		if (C.Y > PlatformFloor) {
 			C.Y = PlatformFloor;
 			C.NextJump = PlatformTime + 500;
@@ -1201,9 +1254,9 @@ function PlatformDraw() {
 
 		// Draws the character and reduces the force for the next run
 		if (!C.Camera && C.Anim != null) PlatformDrawCharacter(C, PlatformTime);
-		C.ForceX = C.ForceX * 0.75;
+		C.ForceX = C.ForceX * (1 - 0.25 * (Frame / 16.6667));
 		if (C.Y == PlatformFloor) C.ForceY = 0;
-		else C.ForceY = C.ForceY + PlatformWalkFrame(PlatformGravitySpeed, Frame);
+		else C.ForceY = C.ForceY + (PlatformGravitySpeed * Frame / 50);
 		if ((C.ForceX > -0.5) && (C.ForceX < 0.5)) C.ForceX = 0;
 
 	}
@@ -1333,9 +1386,9 @@ function PlatformSaveGame(Slot) {
  * @returns {void} - Nothing
  */
 function PlatformLoadGame(Slot) {
-	let LoadObj = localStorage.getItem("BondageBrawlSave" + Slot.toString());
-	if (LoadObj == null) return;
-	LoadObj = JSON.parse(LoadObj);
+	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
+	if (LoadStr == null) return;
+	let LoadObj = JSON.parse(LoadStr);
 	if (LoadObj.Character == null) return;
 	if (LoadObj.Status == null) return;
 	if (LoadObj.Room == null) return;
@@ -1363,7 +1416,7 @@ function PlatformLoadGame(Slot) {
 
 /**
  * Handles keys pressed
- * @param {Event} e - The key pressed
+ * @param {Object} e - The key pressed
  * @returns {void} - Nothing
  */
 function PlatformEventKeyDown(e) {
@@ -1374,7 +1427,7 @@ function PlatformEventKeyDown(e) {
 	if ((e.keyCode == 87) || (e.keyCode == 119) || (e.keyCode == 90) || (e.keyCode == 122)) return PlatformEnterRoom("Up");
 	if ((e.keyCode == 76) || (e.keyCode == 108)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackFast" : "StandAttackFast");
 	if ((e.keyCode == 75) || (e.keyCode == 107)) return PlatformAttack(PlatformPlayer, ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0)) ? "CrouchAttackSlow" : "StandAttackSlow");
-	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer, e.keyCode);
+	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (e.keyCode >= 48) && (e.keyCode <= 57)) return PlatformSaveGame(e.keyCode - 48);
 	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);
 	PlatformLastKeyCode = e.keyCode;
@@ -1383,7 +1436,7 @@ function PlatformEventKeyDown(e) {
 
 /**
  * Handles keys released
- * @param {Event} e - The key released
+ * @param {Object} e - The key released
  * @returns {void} - Nothing
  */
 function PlatformEventKeyUp(e) {

@@ -15,8 +15,6 @@ interface AssetGroupDefinition {
 	Clothing?: boolean;
 	Underwear?: boolean;
 	BodyCosplay?: boolean;
-	Activity?: string[];
-	AllowActivityOn?: string[];
 	Hide?: AssetGroupName[];
 	Block?: AssetGroupItemName[];
 	Zone?: [number, number, number, number][];
@@ -45,7 +43,8 @@ interface AssetDefinition {
 	Enable?: boolean;
 	Visible?: boolean;
 	Wear?: boolean;
-	Activity?: string | string[];
+	/** Applying that asset triggers the following activity */
+	Activity?: string;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
@@ -114,7 +113,7 @@ interface AssetDefinition {
 	DynamicExpressionTrigger?: (C: Character) => ExpressionTrigger[] | null | undefined;
 	DynamicName?: (C: Character) => string;
 	DynamicGroupName?: string;
-	DynamicActivity?: (C: Character) => string[] | string | null | undefined;
+	DynamicActivity?: (C: Character) => string | null | undefined;
 	DynamicAudio?: (C: Character) => string;
 	CharacterRestricted?: boolean;
 	AllowRemoveExclusive?: boolean;
@@ -160,6 +159,7 @@ interface AssetLayerDefinition {
 	Left?: number;
 	Top?: number;
 	HideAs?: { Group: string, Asset: string };
+	FixedPosition?: boolean;
 	HasImage?: boolean;
 	Opacity?: number;
 	MinOpacity?: number;
