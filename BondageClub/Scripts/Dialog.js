@@ -1537,7 +1537,8 @@ function DialogItemClick(ClickItem) {
 					} else {
 
 						// The vibrating egg remote can open the vibrating egg's extended dialog
-						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") && DialogCanUseRemoteState(C, CurrentItem)) {
+						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote")
+								&& DialogCanUseRemoteState(C, CurrentItem) === "Available") {
 							DialogExtendItem(InventoryGet(C, C.FocusGroup.Name));
 						}
 
