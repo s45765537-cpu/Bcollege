@@ -933,22 +933,19 @@ function DialogMenuButtonBuild(C) {
 			} else if (Item != null) {
 				// There's an item in the slot
 
-				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
-					if (Item.Asset.AllowLock && (!Item.Property || (Item.Property && Item.Property.AllowLock !== false)))
-						if (!Item.Asset.AllowLockType || (Item.Property && Item.Asset.AllowLockType.includes(Item.Property.Type)))
-							DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
+				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) {
+					if (Item.Asset.AllowLock
+							&& (!Item.Property || (Item.Property && Item.Property.AllowLock !== false))
+							&& (!Item.Asset.AllowLockType || (Item.Property && Item.Asset.AllowLockType.includes(Item.Property.Type))))
+						DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
 
-				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
-						&& !InventoryItemHasEffect(Item, "Mounted", true) && !InventoryItemHasEffect(Item, "Enclose", true))
-					DialogMenuButton.push("Remove");
-
-				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
-						&& InventoryItemHasEffect(Item, "Mounted", true))
-					DialogMenuButton.push("Dismount");
-
-				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
-						&& InventoryItemHasEffect(Item, "Enclose", true))
-					DialogMenuButton.push("Escape");
+					if (InventoryItemHasEffect(Item, "Mounted", true))
+						DialogMenuButton.push("Dismount");
+					else if (InventoryItemHasEffect(Item, "Enclose", true))
+						DialogMenuButton.push("Escape");
+					else
+						DialogMenuButton.push("Remove");
+				}
 
 				if (Item.Asset.Extended
 						&& (Player.CanInteract() || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract)
