@@ -790,8 +790,8 @@ function DialogAlwaysAllowRestraint() {
  * @return {VibratorRemoteAvailability} - Returns the status of remote availability: Available, NoRemote, NoLoversRemote, RemotesBlocked, CannotInteract, NoAccess, InvalidItem
  */
 function DialogCanUseRemoteState(C, Item) {
-	// Can't use remotes if there is no item, the item doesn't have the "Egged" effect
-	if (!Item || (!InventoryItemHasEffect(Item, "Egged") && !InventoryItemHasEffect(Item, "UseRemote"))) return "InvalidItem";
+	// Can't use remotes if there is no item, or if the item doesn't have the needed effects.
+	if (!Item || !(InventoryItemHasEffect(Item, "Egged") || InventoryItemHasEffect(Item, "UseRemote"))) return "InvalidItem";
 	// Can't use remotes if the player cannot interact with their hands
 	if (!Player.CanInteract()) return "CannotInteract";
 	// Can't use remotes on self if the player is owned and their remotes have been blocked by an owner rule
@@ -808,8 +808,16 @@ function DialogCanUseRemoteState(C, Item) {
 	} else {
 
 		// Otherwise, the player must have a vibrator remote and some items can block remotes
-		if (C.Effect.indexOf("BlockRemotes") >= 0) return "RemotesBlocked";
-		return InventoryAvailable(Player, "VibratorRemote", "ItemVulva") ? "Available" : "NoRemote";
+		if (C.Effect.indexOf("BlockRemotes") >= 0) {
+			return "RemotesBlocked";
+		}
+		if (!InventoryAvailable(Player, "VibratorRemote", "ItemVulva")) {
+			return "NoRemote";
+		}
+		if (LogQuery("BlockRemote", "OwnerRule")) {
+			return "NoRemoteOwnerRuleActive";
+		}
+		return "Available";
 	}
 }
 
@@ -960,9 +968,6 @@ function DialogMenuButtonBuild(C) {
 					switch (canUseRemoteState) {
 						case "Available":
 							button = ItemBlockedOrLimited ? "RemoteDisabled" : "Remote";
-							break;
-						case "NoRemote":
-							button = LogQuery("BlockRemote", "OwnerRule") ? "RemoteDisabledForNoRemoteOwnerRuleActive" : "RemoteDisabledForNoRemote";
 							break;
 						default:
 							button = `RemoteDisabledFor${canUseRemoteState}`;
