@@ -955,14 +955,15 @@ function DialogMenuButtonBuild(C) {
 						DialogMenuButton.push("Remove");
 				}
 
+				const canUseRemoteState = DialogCanUseRemoteState(C, Item);
 				if (Item.Asset.Extended
 						&& (Player.CanInteract() || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract)
 						&& (!IsGroupBlocked || Item.Asset.AlwaysExtend)
 						&& (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer()))
-						&& (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer())))
+						&& (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer()))
+						&& canUseRemoteState === "InvalidItem")
 					DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
 
-				const canUseRemoteState = DialogCanUseRemoteState(C, Item);
 				if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
 					let button = "";
 					switch (canUseRemoteState) {
