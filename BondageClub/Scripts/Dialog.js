@@ -857,6 +857,7 @@ function DialogMenuButtonBuild(C) {
 	// The "Exit" button is always available
 	DialogMenuButton = ["Exit"];
 
+	/** The item in the current slot */
 	const Item = InventoryGet(C, C.FocusGroup.Name);
 	const ItemBlockedOrLimited = !!Item && InventoryBlockedOrLimited(C, Item);
 
@@ -910,8 +911,13 @@ function DialogMenuButtonBuild(C) {
 				DialogMenuButton.push("Next");
 				DialogMenuButton.push("Prev");
 			}
-			if (C.FocusGroup.Name == "ItemMouth" || C.FocusGroup.Name == "ItemMouth2" || C.FocusGroup.Name == "ItemMouth3") DialogMenuButton.push("ChangeLayersMouth");
-			if (IsItemLocked && DialogCanUnlock(C, Item) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract())) {  DialogMenuButton.push("Remove"); }
+
+			if (C.FocusGroup.Name == "ItemMouth" || C.FocusGroup.Name == "ItemMouth2" || C.FocusGroup.Name == "ItemMouth3")
+				DialogMenuButton.push("ChangeLayersMouth");
+
+			if (IsItemLocked && DialogCanUnlock(C, Item) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract()))
+				DialogMenuButton.push("Remove");
+
 			if (IsItemLocked && ((!Player.IsBlind() || (Item.Property && DialogCanInspectLockWhileBlind(Item.Property.LockedBy))) || (InventoryAllow(
 				C, Item.Asset) && !IsGroupBlocked && !InventoryGroupIsBlocked(Player, "ItemHands") && InventoryItemIsPickable(Item))  && (C.ID == 0 || (C.OnlineSharedSettings && !C.OnlineSharedSettings.DisablePickingLocksOnSelf)))
 				&& (Item.Property != null) && (Item.Property.LockedBy != null) && (Item.Property.LockedBy != "")
@@ -924,15 +930,32 @@ function DialogMenuButtonBuild(C) {
 			// If the Asylum GGTS controls the item, we show a disabled button and hide the other buttons
 			if (AsylumGGTSControlItem(C, Item)) {
 				DialogMenuButton.push("GGTSControl");
-			} else {
-				if ((Item != null) && !IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
+			} else if (Item != null) {
+				// There's an item in the slot
+
+				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
 					if (Item.Asset.AllowLock && (!Item.Property || (Item.Property && Item.Property.AllowLock !== false)))
 						if (!Item.Asset.AllowLockType || (Item.Property && Item.Asset.AllowLockType.includes(Item.Property.Type)))
 							DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
-				if ((Item != null) && !IsItemLocked && !InventoryItemHasEffect(Item, "Mounted", true) && !InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Remove");
-				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Mounted", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Dismount");
-				if ((Item != null) && !IsItemLocked && InventoryItemHasEffect(Item, "Enclose", true) && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) DialogMenuButton.push("Escape");
-				if ((Item != null) && Item.Asset.Extended && ((Player.CanInteract()) || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract) && (!IsGroupBlocked || Item.Asset.AlwaysExtend) && (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer())) && (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer()))) DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
+
+				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
+						&& !InventoryItemHasEffect(Item, "Mounted", true) && !InventoryItemHasEffect(Item, "Enclose", true))
+					DialogMenuButton.push("Remove");
+
+				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
+						&& InventoryItemHasEffect(Item, "Mounted", true))
+					DialogMenuButton.push("Dismount");
+
+				if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked
+						&& InventoryItemHasEffect(Item, "Enclose", true))
+					DialogMenuButton.push("Escape");
+
+				if (Item.Asset.Extended
+						&& (Player.CanInteract() || DialogAlwaysAllowRestraint() || Item.Asset.AlwaysInteract)
+						&& (!IsGroupBlocked || Item.Asset.AlwaysExtend)
+						&& (!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer()))
+						&& (!Item.Asset.LoverOnly || (C.IsLoverOfPlayer())))
+					DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
 
 				const canUseRemoteState = DialogCanUseRemoteState(C, Item);
 				if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
