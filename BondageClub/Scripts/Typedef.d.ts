@@ -1037,7 +1037,7 @@ interface ItemPropertiesBase {
 	/** The groups that this item blocks */
 	Block?: AssetGroupItemName[];
 
-	Effect?: EffectName[] | ((arg: number) => EffectName[]);
+	Effect?: EffectName[];
 	OverrideAssetEffect?: boolean;
 
 	/* Pose-related properties */
@@ -1047,6 +1047,11 @@ interface ItemPropertiesBase {
 	AllowPose?: AssetPoseName[];
 	WhitelistActivePose?: AssetPoseName[];
 	FreezeActivePose?: AssetPoseName[];
+
+	/* Vibratory-related properties */
+	Mode?: VibratorMode;
+	Intensity?: number;
+	State?: VibratorModeState;
 }
 
 /**
@@ -1057,10 +1062,6 @@ interface ItemPropertiesBase {
  */
 interface ItemPropertiesCustom {
 	ItemMemberNumber?: number;
-
-	Mode?: unknown;
-	Intensity?: (() => number) | number;
-	State?: unknown;
 
 	RemoveTimer?: unknown;
 	Password?: string;
