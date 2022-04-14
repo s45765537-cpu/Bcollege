@@ -374,6 +374,8 @@ var TranslationDictionary = [
 			"Screens/Cutscene/PlayerMistress/Text_PlayerMistress_CN.txt",
 			"Screens/Cutscene/SarahIntro/Text_SarahIntro_CN.txt",
 			"Screens/Room/AsylumBedroom/Text_AsylumBedroom_CN.txt",
+			"Screen/Room/MaidQuarters/Dialog_NPC_MaidQuarters_Maid_CN.txt",
+			"Screen/Room/MaidQuarters/Dialog_NPC_MaidQuarters_InitiationMaids_CN.txt",
 		]
 	},
 

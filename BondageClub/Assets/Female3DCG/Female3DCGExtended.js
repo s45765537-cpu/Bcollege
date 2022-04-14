@@ -3744,7 +3744,7 @@ var AssetFemale3DCGExtended = {
 							{}, //r0 - None
 							{ Property: { Effect: ["Leash"] },}, //r1 - Reins
 							{ Property: { Effect: ["Leash"] },}, //r2 - Rope
-							{ Property: { Effect: ["Freeze", "IsChained"], Block: ["ItemAddon", "ItemDevices"] },}, //r3 - Pole
+							{ Property: { Effect: ["Freeze", "IsChained"] },}, //r3 - Pole
 						],
 					},
 					{
@@ -5581,10 +5581,10 @@ var AssetFemale3DCGExtended = {
 								Property: { Effect: ["BlockMouth"] }
 							},
 							{ // m1 - Onahole
-								Property: { Effect: ["GagMedium","OpenMouth"] }
+								Property: { Effect: ["GagMedium"] }
 							},
 							{ // m2 - Fleshlight
-								Property: { Effect: ["GagMedium","OpenMouth"] }
+								Property: { Effect: ["GagMedium"] }
 							},
 							{ // m3 - Smile
 								Property: { Effect: ["BlockMouth"] }
@@ -5618,9 +5618,6 @@ var AssetFemale3DCGExtended = {
 							{ // e5 - Sculpted
 								Property: { Effect: [] }
 							},
-							{ // e6 - Concave
-								Property: {Effect: ["BlindLight"] }
-							}
 
 						]
 					},
@@ -5643,40 +5640,7 @@ var AssetFemale3DCGExtended = {
 							},
 						]
 					},
-					{
-						Name: "Helmet", Key: "h",
-						Options: [
-							{}, // h0 - Mask
-							{
-								Property: {
-									Hide: ["HairFront", "Ears", "HairBack",], //"HairAccessory1", "HairAccessory2"],
-									HideItem: [
-										"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
-										"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
-										"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
-										"HairAccessory3Ribbons4", // HairAccessory items
-										"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars", 
-										"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
-										"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
-										"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2",	"HairAccessory1WolfEars1", "HairAccessory1WolfEars2", 
-										"HairAccessory1Ribbons4", // Ear items (HA1)
-										"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars", 
-										"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
-										"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
-										"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2",	"HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)          
-									], // These items are hidden because they have clear mismatch issues with the hood.							
-								},
-							}, // h1 - Helmet (hood)
-							{ // h2 - Helmet ( hood but nothing shows)
-								Property: {
-									Hide: ["HairFront", "Ears", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-									HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-								},
-							},
-						]
-					},
-				],
-				ChangeWhenLocked: false,
+				]
 			}
 		}, // DroneMask
 	}, // ItemHead
