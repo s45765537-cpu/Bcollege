@@ -513,9 +513,9 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 
 /**
  * Generates the type string for a modular item from its modules and their current values.
- * @param {Record<string, { Height: number, Priority: number}>} currentValue - The OverrideHeight for the future item
- * @param {Record<string, { Height: number, Priority: number}>} newValue - The OverrideHeight being merged
- * @returns {Record<string, { Height: number, Priority: number}> | undefined} - A string type generated from the selected option values for each module
+ * @param {AssetOverrideHeight} currentValue - The OverrideHeight for the future item
+ * @param {AssetOverrideHeight} newValue - The OverrideHeight being merged
+ * @returns {AssetOverrideHeight | undefined} - A string type generated from the selected option values for each module
  */
 function ModularItemMergeOverrideHeight(currentValue, newValue) {
 	if (typeof newValue.Height === "number" && typeof newValue.Priority === "number" &&
