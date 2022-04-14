@@ -390,8 +390,6 @@ interface AssetLayer {
 	DrawingLeft?: number;
 	DrawingTop?: number;
 	HideAs?: { Group: string; Asset: string };
-	/** That layer is drawing at a fixed Y position */
-	FixedPosition?: boolean;
 	HasImage: boolean;
 	Opacity: number;
 	MinOpacity: number;
@@ -884,9 +882,7 @@ interface PlayerCharacter extends Character {
 	AudioSettings?: {
 		Volume: number;
 		PlayBeeps: boolean;
-		/** Play items sounds in chatrooms */
 		PlayItem: boolean;
-		/** Play sounds only if the player is involved */
 		PlayItemPlayerOnly: boolean;
 		Notifications: boolean;
 	};

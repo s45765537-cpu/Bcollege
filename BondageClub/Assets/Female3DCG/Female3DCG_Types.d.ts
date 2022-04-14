@@ -159,7 +159,6 @@ interface AssetLayerDefinition {
 	Left?: number;
 	Top?: number;
 	HideAs?: { Group: string, Asset: string };
-	FixedPosition?: boolean;
 	HasImage?: boolean;
 	Opacity?: number;
 	MinOpacity?: number;

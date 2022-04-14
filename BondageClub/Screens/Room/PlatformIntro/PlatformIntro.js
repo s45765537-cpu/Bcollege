@@ -22,14 +22,10 @@ function PlatformIntroRun() {
 	let Total = 0;
 	let Count = 0;
 	let Load = 10;
-	let LastAnimCycle;
 	for (let Char of PlatformTemplate) {
 		for (let Anim of Char.Animation) {
-			LastAnimCycle = -1;
+			Total = Total + Anim.Cycle.length;
 			for (let C of Anim.Cycle) {
-				if (C <= LastAnimCycle) break;
-				LastAnimCycle = C;
-				Total++;
 				let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "/" + C.toString() + ".png";
 				let Obj = DrawCacheImage.get(FileName);
 				if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
@@ -43,11 +39,8 @@ function PlatformIntroRun() {
 					}
 			}
 			if (Anim.CycleLeft != null) {
-				LastAnimCycle = -1;
+				Total = Total + Anim.CycleLeft.length;
 				for (let C of Anim.CycleLeft) {
-					if (LastAnimCycle <= C) break;
-					LastAnimCycle = C;
-					Total++;
 					let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "Left/" + C.toString() + ".png";
 					let Obj = DrawCacheImage.get(FileName);
 					if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
