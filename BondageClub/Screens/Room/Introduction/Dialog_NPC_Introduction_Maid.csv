@@ -115,7 +115,7 @@ JobDojoIntro2203,,,Konichiwa!  (She smiles and bows politely.)  I trust you want
 30Q,30R,(Listen.),"If you first used some stuffing on your victim mouth, you can apply a locking gag to keep in it.","SetZone(""ItemMouth2"")",
 30R,30S,(Listen.),"For the finishing touch of your gag, the overlay can give a very nice effect.","SetZone(""ItemMouth3"")",
 30S,30T,(Listen.),Blindfolds can be used to restrict vision.,"SetZone(""ItemHead"")",
-30T,30U,(Listen.),"On the nose, you can use items for esthetics or kinkier plays.","SetZone(""ItemNose"")",
+30T,30U,(Listen.),"On the nose, you can use items for aesthetics or kinkier plays.","SetZone(""ItemNose"")",
 30U,30V,(Listen.),Hoods can be used to restrict vision and hearing.,"SetZone(""ItemHood"")",
 30V,30W,(Listen.),Ear plugs can be used to deafen your victim.,"SetZone(""ItemEars"")",
 30W,30X,(Listen.),Your pockets can be used to store your padlocks and keys. ,"SetZone(""ItemMisc"")",
