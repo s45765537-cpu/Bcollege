@@ -229,8 +229,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 
 		// Toe Tied
 		case "ToeTied": return InventoryIsItemInList(C, "ItemFeet", ["SpreaderMetal", "SpreaderVibratingDildoBar", "SpreaderDildoBar", "FloorShackles"])
-			|| InventoryIsItemInList(C, "ItemLegs", ["WoodenHorse"])
-			|| InventoryIsItemInList(C, "ItemDevices", ["OneBarPrison", "SaddleStand"])
+			|| InventoryIsItemInList(C, "ItemDevices", ["OneBarPrison", "SaddleStand", "WoodenHorse"])
 			? "LegsCannotClose" : "";
 
 		// Display Frame

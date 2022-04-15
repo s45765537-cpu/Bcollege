@@ -156,6 +156,7 @@ function LoginRun() {
  * @type {{ Old: {Group: string, Name: string}, New: {Group: string, Name: string} }[]}
  */
 let LoginInventoryFixups = [
+	{ Old: { Group: "ItemLegs", Name: "WoodenHorse" }, New: { Group: "ItemDevices", Name: "WoodenHorse" } },
 ];
 
 /**
