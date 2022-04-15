@@ -583,8 +583,6 @@ function LoginResponse(C) {
 
 			// Fixes a few items
 			var InventoryBeforeFixes = InventoryStringify(Player);
-			if (InventoryGet(Player, "ItemMisc") && (InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTray" || InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTrayFull" || InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenPaddle")) InventoryRemove(Player, "ItemMisc");
-			if ((InventoryGet(Player, "ItemArms") != null) && (InventoryGet(Player, "ItemArms").Asset.Name == "FourLimbsShackles")) InventoryRemove(Player, "ItemArms");
 			LoginValidCollar();
 			LoginMistressItems();
 			LoginStableItems();
