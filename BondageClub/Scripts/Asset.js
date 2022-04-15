@@ -300,7 +300,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		Asset: A,
 		DrawingLeft: Layer.Left,
 		DrawingTop: Layer.Top,
-		HideAs: Layer.HideAs,
+		GraftOnto: Layer.GraftOnto,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
 		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
 		Opacity: typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity) : 1,

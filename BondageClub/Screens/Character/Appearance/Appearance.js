@@ -314,8 +314,8 @@ function CharacterAppearanceSortLayers(C) {
 			var layersToDraw = asset.Layer
 				// Only include layers that permit the current type (if AllowTypes is not defined, also include the layer)
 				.filter(layer => !layer.AllowTypes || layer.AllowTypes.includes(type))
-				// Hide the layer if its HideAs proxy asset should be hidden
-				.filter(layer => !layer.HideAs || CharacterAppearanceVisible(C, layer.HideAs.Asset, layer.HideAs.Group))
+				// Hide the layer if its GraftOnto asset would be hidden
+				.filter(layer => !layer.GraftOnto || CharacterAppearanceVisible(C, layer.GraftOnto.Asset, layer.GraftOnto.Group))
 				// Hide the layer if it should be hidden for the current pose
 				.filter(layer => !layer.HideForPose || !layer.HideForPose.includes(CommonDrawResolveAssetPose(C, asset, layer)))
 				.map(layer => {
@@ -340,8 +340,8 @@ function CharacterAppearanceSortLayers(C) {
 
 	// Run back over the layers to apply the group-level alpha mask definitions to the appropriate layers
 	layers.forEach(layer => {
-		// If the layer has a HideAs proxy group name, apply those alphas rather than the actual group alphas
-		const groupName = (layer.HideAs && layer.HideAs.Group) || layer.Asset.Group.Name;
+		// If the layer is grafted, apply the graft's alphas instead of its actual group's
+		const groupName = (layer.GraftOnto && layer.GraftOnto.Group) || layer.Asset.Group.Name;
 		layer.GroupAlpha = [];
 		if (groupAlphas[groupName]) {
 			Array.prototype.push.apply(layer.GroupAlpha, groupAlphas[groupName]);

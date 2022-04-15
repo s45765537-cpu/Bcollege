@@ -158,7 +158,8 @@ interface AssetLayerDefinition {
 	Alpha?: AlphaDefinition[],
 	Left?: number;
 	Top?: number;
-	HideAs?: { Group: string, Asset: string };
+	/** Make an asset behave as if it was in another group, or another asset. Only affects hiding and alpha masks */
+	GraftOnto?: AssetGraftDefinition;
 	FixedPosition?: boolean;
 	HasImage?: boolean;
 	Opacity?: number;

@@ -3003,8 +3003,8 @@ var AssetFemale3DCG = [
 				Name: "LeatherArmbinder", Fetish: ["Leather"], Priority: 6, Value: 80, Difficulty: 10, SelfBondage: 7, Time: 25, RemoveTime: 10, AllowLock: true, DefaultColor: "#404040", SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands"], Extended: true, SelfUnlock: false, DrawLocks: false,
 				Layer: [
 					{ Name: "Binder", HasType: false, ParentGroup: null },
-					{ Name: "Strap", HasType: false, Priority: 31, ParentGroup: null, AllowTypes: ["Strap"], HideAs: { Group: "ItemHidden", Asset: "LeatherArmbinderStrap" } },
-					{ Name: "WrapStrap", CopyLayerColor: "Strap", HasType: false, Priority: 31, ParentGroup: null, AllowTypes: ["WrapStrap"], HideAs: { Group: "ItemHidden", Asset: "LeatherArmbinderWrapStrap" } },
+					{ Name: "Strap", HasType: false, Priority: 31, ParentGroup: null, AllowTypes: ["Strap"], GraftOnto: { Group: "ItemHidden", Asset: "LeatherArmbinderStrap" } },
+					{ Name: "WrapStrap", CopyLayerColor: "Strap", HasType: false, Priority: 31, ParentGroup: null, AllowTypes: ["WrapStrap"], GraftOnto: { Group: "ItemHidden", Asset: "LeatherArmbinderWrapStrap" } },
 					{ Name: "Lock", LockLayer: true, HasType: false, Priority: 6, ParentGroup: null, AllowColorize: false }
 				]
 			},
@@ -4436,10 +4436,10 @@ var AssetFemale3DCG = [
 					// All Top Pieces
 					{ Name: "Plume", HasType: false, AllowModuleTypes: ["t1"] },
 					{ Name: "PlumeBase", HasType: false, AllowModuleTypes: ["t1"], CopyLayerColor: "BaseMetal"},
-					{ Name: "ManeL", HasType: false, AllowModuleTypes: ["t2"], InheritColor: "HairFront", HideAs: { Group: "HairAccessory1" } },
-					{ Name: "ManeLFront", HasType: false, AllowModuleTypes: ["t2"], InheritColor: "HairFront", CopyLayerColor: "ManeL", Priority: 59, HideAs: { Group: "HairAccessory1" } },
-					{ Name: "ManeR", HasType: false, AllowModuleTypes: ["t3"], InheritColor: "HairFront", CopyLayerColor: "ManeL", HideAs: { Group: "HairAccessory1" } },
-					{ Name: "ManeRFront", HasType: false, AllowModuleTypes: ["t3"], InheritColor: "HairFront", CopyLayerColor: "ManeL", Priority: 59, HideAs: { Group: "HairAccessory1" } },
+					{ Name: "ManeL", HasType: false, AllowModuleTypes: ["t2"], InheritColor: "HairFront", GraftOnto: { Group: "HairAccessory1" } },
+					{ Name: "ManeLFront", HasType: false, AllowModuleTypes: ["t2"], InheritColor: "HairFront", CopyLayerColor: "ManeL", Priority: 59, GraftOnto: { Group: "HairAccessory1" } },
+					{ Name: "ManeR", HasType: false, AllowModuleTypes: ["t3"], InheritColor: "HairFront", CopyLayerColor: "ManeL", GraftOnto: { Group: "HairAccessory1" } },
+					{ Name: "ManeRFront", HasType: false, AllowModuleTypes: ["t3"], InheritColor: "HairFront", CopyLayerColor: "ManeL", Priority: 59, GraftOnto: { Group: "HairAccessory1" } },
 					{ Name: "Mohawk", HasType: false, AllowModuleTypes:["t4"], InheritColor: "HairFront", CopyLayerColor: "ManeL", Priority: 59 },
 					{ Name: "MohawkBase", HasType: false, AllowModuleTypes:["t4"], CopyLayerColor: "BaseStraps", Priority: 59},
 
@@ -4464,9 +4464,9 @@ var AssetFemale3DCG = [
 					//Reins
 					{ Name: "Reins", HasType: false, AllowModuleTypes: ["r1"], ColorGroup: "Straps" },
 					{ Name: "Rope", HasType: false, AllowModuleTypes: ["r2"] },
-					{ Name: "PostReins", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" }  },
-					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" } },
-					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" }  },
+					{ Name: "PostReins", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", GraftOnto: { Group: "ItemDevices" }  },
+					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , GraftOnto: { Group: "ItemDevices" } },
+					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", GraftOnto: { Group: "ItemDevices" }  },
 
 					//Blinders
 					{ Name: "Blinders", HasType: false, AllowModuleTypes: ["b1"], ColorGroup: "Straps", Priority: 55 },

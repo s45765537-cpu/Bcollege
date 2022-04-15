@@ -389,7 +389,8 @@ interface AssetLayer {
 	Asset: Asset;
 	DrawingLeft?: number;
 	DrawingTop?: number;
-	HideAs?: { Group: string; Asset: string };
+	/** Make an asset behave as if it was in another group, or another asset. Only affects hiding and alpha masks */
+	GraftOnto?: AssetGraftDefinition;
 	/** That layer is drawing at a fixed Y position */
 	FixedPosition?: boolean;
 	HasImage: boolean;
@@ -422,6 +423,13 @@ masks will be applied regardless of the extended type. */
 	/** A list of alpha mask definitions. A definition is a 4-tuple of numbers defining the top left coordinate of
 a rectangle and the rectangle's width and height - e.g. [left, top, width, height] */
 	Masks: [number, number, number, number][];
+}
+
+interface AssetGraftDefinition {
+	/** The group identifier */
+	Group: string;
+	/** The asset name */
+	Asset?: string;
 }
 
 interface ExpressionTrigger {
