@@ -5146,7 +5146,7 @@ var AssetFemale3DCG = [
 				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3",],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
-					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] }, 
+					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] },
 					{ Name: "Shine", HasType: false, AllowModuleTypes: ["h0"] },
 					{ Name: "BaseHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Base", Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }], },
 					{ Name: "ShineHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Shine" },
