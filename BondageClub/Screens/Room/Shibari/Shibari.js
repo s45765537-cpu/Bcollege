@@ -90,14 +90,9 @@ function ShibariRandomBondage(C, Level) {
 		}
 		if (Level >= 4) InventoryWear(C, "BambooGag", "ItemMouth");
 
-		Level = 3;
-
 		// At 3 or more, there's a random chance of a more complicated bondage
 		if (Level >= 3) {
 			Level = Math.floor(Math.random() * 4);
-
-			Level = 3;
-
 			InventoryGet(C, "ItemFeet").Property = { Type: null };
 			InventoryGet(C, "ItemArms").Property = { Type: null };
 			if (Level == 1) InventoryGet(C, "ItemFeet").Property = { Type: "Suspension", SetPose: ["Suspension", "LegsClosed"], Difficulty: 0, Effect: [] };
