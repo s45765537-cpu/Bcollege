@@ -2266,11 +2266,11 @@ var AssetFemale3DCG = [
 		FreezeActivePose: ["BodyLower"],
 		Zone: [[100, 580, 300, 170]],
 		Asset: [
-			{ Name: "NylonRope", Fetish: ["Rope", "Nylon"], Value: 30, Time: 10, DefaultColor: "#909090", BuyGroup: "NylonRope", Audio: "RopeShort", SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
+			{ Name: "NylonRope", Fetish: ["Rope", "Nylon"], Value: 30, Time: 10, DefaultColor: "#909090", BuyGroup: "NylonRope", Audio: "RopeShort", SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"]},
 			{ Name: "HempRope", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 10, RemoveTime: 15, DefaultColor: "#956B1C", BuyGroup: "HempRope", SetPose: ["LegsClosed"], Extended: true, AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "LegsClosed"], FreezeActivePose: [] },
-			{ Name: "LeatherBelt", Fetish: ["Leather"], Value: 25, Difficulty: 2, Time: 5, AllowLock: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
-			{ Name: "SturdyLeatherBelts", Fetish: ["Leather"], Value: 50, Time: 5, AllowLock: true, BuyGroup: "SturdyLeatherBelts", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
-			{ Name: "DuctTape", Fetish: ["Tape"], Value: 50, Time: 15, RemoveTime: 10, BuyGroup: "DuctTape", Audio: "DuctTape", HideItem: ["ItemBootsThighHighLatexHeels", "ShoesThighHighLatexHeels", "ItemBootsHighThighBoots"], SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
+			{ Name: "LeatherBelt", Fetish: ["Leather"], Value: 25, Difficulty: 2, Time: 5, AllowLock: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
+			{ Name: "SturdyLeatherBelts", Fetish: ["Leather"], Value: 50, Time: 5, AllowLock: true, BuyGroup: "SturdyLeatherBelts", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
+			{ Name: "DuctTape", Fetish: ["Tape"], Value: 50, Time: 15, RemoveTime: 10, BuyGroup: "DuctTape", Audio: "DuctTape", HideItem: ["ItemBootsThighHighLatexHeels", "ShoesThighHighLatexHeels", "ItemBootsHighThighBoots"], SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
 			{ Name: "LeatherLegCuffs", Fetish: ["Leather"], Priority: 24, Value: 45, Difficulty: 3, Time: 10, Random: false, AllowLock: true, AllowPose: ["Kneel", "LegsClosed", "KneelingSpread"], Effect: ["CuffedLegs"], Extended: true, AllowActivePose: ["Kneel", "KneelingSpread"], FreezeActivePose: [], HasType: false,
 				DefaultColor: ["Default", "#2E2E2E", "Default"],
 				Layer: [
@@ -2297,30 +2297,30 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "LegBinder", Fetish: ["Latex"], Value: 80, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: ["#222", "Default"], Prerequisite: ["NotSuspended", "NotHogtied"], Hide: ["Shoes", "Socks", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"], AllowActivePose: ["Kneel"],
+				Name: "LegBinder", Fetish: ["Latex"], Value: 80, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: ["#222", "Default"], Prerequisite: ["NotSuspended", "NotHogtied", "CanCloseLegs"], Hide: ["Shoes", "Socks", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"], AllowActivePose: ["Kneel"],
 				Layer: [
 					{ Name: "Latex" },
 					{ Name: "Belts" },
 				]
 			},
 			{
-				Name: "HobbleSkirt", Fetish: ["Latex"], Value: 125, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: ["#222", "Default"], Prerequisite: ["NotSuspended", "NotHogtied"], Hide: ["Shoes", "Socks", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemPelvis", "ItemFeet", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], AllowActivePose: ["Kneel"],
+				Name: "HobbleSkirt", Fetish: ["Latex"], Value: 125, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: ["#222", "Default"], Prerequisite: ["NotSuspended", "NotHogtied", "CanCloseLegs"], Hide: ["Shoes", "Socks", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemPelvis", "ItemFeet", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], AllowActivePose: ["Kneel"],
 				Layer: [
 					{ Name: "Latex" },
 					{ Name: "Belts" }
 				]
 			},
-			{ Name: "SeamlessLegBinder", Value: 80, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: "#222222", Prerequisite: ["NotSuspended", "NotHogtied"], Hide: ["Shoes", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ClothLowerPajama1", "SocksSocks6", "SocksSocksFur", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"], AllowActivePose: ["Kneel"] },
-			{ Name: "SeamlessHobbleSkirt", Value: 125, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: "#222222", Prerequisite: ["NotSuspended", "NotHogtied"], Hide: ["Shoes", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ClothLowerPajama1", "ClothLowerShorts1", "ClothLowerJeans1", "ClothLowerJeans2", "ClothLowerLatexPants1", "ClothLowerLeggings1", "ClothLowerLeggings2", "ClothLowerMistressBottom", "ClothLowerPencilSkirt", "SocksSocks6", "SocksSocksFur", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemPelvis", "ItemFeet", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], AllowActivePose: ["Kneel"] },
-			{ Name: "Zipties", Value: 20, Difficulty: 6, Time: 5, RemoveTime: 6, BuyGroup: "Zipties", Audio: "ZipTie", SetPose: ["LegsClosed"], Extended: true },
-			{ Name: "Chains", Fetish: ["Metal"], Value: 90, Difficulty: 5, Time: 20, RemoveTime: 15, AllowLock: true, BuyGroup: "Chains", Audio: "ChainLong", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"] },
-			{ Name: "PlasticWrap", Value: 100, Difficulty: 7, Time: 30, RemoveTime: 25, BuyGroup: "PlasticWrap", SetPose: ["LegsClosed"], Hide: ["ClothLower", "Garters"], AllowActivePose: ["Kneel"] },
+			{ Name: "SeamlessLegBinder", Value: 80, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: "#222222", Prerequisite: ["NotSuspended", "NotHogtied", "CanCloseLegs"], Hide: ["Shoes", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ClothLowerPajama1", "SocksSocks6", "SocksSocksFur", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"], AllowActivePose: ["Kneel"] },
+			{ Name: "SeamlessHobbleSkirt", Value: 125, Difficulty: 15, Time: 30, RemoveTime: 20, AllowLock: true, DefaultColor: "#222222", Prerequisite: ["NotSuspended", "NotHogtied", "CanCloseLegs"], Hide: ["Shoes", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ClothLowerPajama1", "ClothLowerShorts1", "ClothLowerJeans1", "ClothLowerJeans2", "ClothLowerLatexPants1", "ClothLowerLeggings1", "ClothLowerLeggings2", "ClothLowerMistressBottom", "ClothLowerPencilSkirt", "SocksSocks6", "SocksSocksFur", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemPelvis", "ItemFeet", "ItemVulva", "ItemVulvaPiercings", "ItemButt"], AllowActivePose: ["Kneel"] },
+			{ Name: "Zipties", Value: 20, Difficulty: 6, Time: 5, RemoveTime: 6, BuyGroup: "Zipties", Audio: "ZipTie", SetPose: ["LegsClosed"], Extended: true, Prerequisite: ["CanCloseLegs"],},
+			{ Name: "Chains", Fetish: ["Metal"], Value: 90, Difficulty: 5, Time: 20, RemoveTime: 15, AllowLock: true, BuyGroup: "Chains", Audio: "ChainLong", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
+			{ Name: "PlasticWrap", Value: 100, Difficulty: 7, Time: 30, RemoveTime: 25, BuyGroup: "PlasticWrap", SetPose: ["LegsClosed"], Hide: ["ClothLower", "Garters"], AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
 			{ Name: "FrogtieStraps", Fetish: ["Leather"], Value: 25, Difficulty: 3, Time: 5, Random: false, AllowLock: true, Prerequisite: ["NotSuspended", "CanKneel"], SetPose: ["Kneel"], AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "KneelingSpread"], FreezeActivePose: [], Effect: ["ForceKneel", "Slow"] },
 			{
 				Name: "MermaidTail",
 				Value: 120, Left: 0, Top: 380, Difficulty: 5, Time: 30, RemoveTime: 20, Random: false, AllowLock: true, DefaultColor: "#0D7800", ArousalZone: "ItemVulva", DynamicScriptDraw: true,
 				Fetish: ["Latex", "Pet"],
-				Prerequisite: ["NotSuspended", "NotHogtied", "AccessVulva", "NotKneeling", "NoOuterClothes", "NotChaste"],
+				Prerequisite: ["NotSuspended", "NotHogtied", "AccessVulva", "NotKneeling", "NoOuterClothes", "NotChaste", "CanCloseLegs"],
 				Hide: ["Shoes", "Socks", "BodyLower", "ClothLower", "ItemFeet", "ItemBoots", "Garters"],
 				SetPose: ["LegsClosed"],
 				Effect: ["Prone", "Freeze", "FillVulva", "Egged","BlockKneel"],
@@ -2337,7 +2337,7 @@ var AssetFemale3DCG = [
 					{ Name: "Straps", Priority: 26 },
 				],
 			},
-			{ Name: "Ribbons", Fetish: ["Lingerie"], Value: 30, Difficulty: 3, Time: 10, RemoveTime: 5, Hide: ["ClothLower"], BuyGroup: "Ribbon", Extended: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"] },
+			{ Name: "Ribbons", Fetish: ["Lingerie"], Value: 30, Difficulty: 3, Time: 10, RemoveTime: 5, Hide: ["ClothLower"], BuyGroup: "Ribbon", Extended: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
 			{
 				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: 250, Difficulty: 6, Time: 15, RemoveTime: 15, Left: 142, Top: 560,
 				SetPose: ["LegsClosed"],
