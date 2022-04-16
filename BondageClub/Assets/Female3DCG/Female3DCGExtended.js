@@ -5691,27 +5691,27 @@ var AssetFemale3DCGExtended = {
 				ChatSetting: ModularItemChatSetting.PER_MODULE,
 				Modules:[
 					{
-					Name: "Eye", Key: "e",
-					Options:[
-						{
-							Property:{
-								Type:null,
-								Effect:["BlindNormal","Prone"]
+						Name: "Eye", Key: "e",
+						Options:[
+							{
+								Property:{
+									Type:null,
+									Effect:["BlindNormal","Prone"]
+								},
 							},
-						},
-						{
-							Property:{
-								Type: "Right",
-								Effect:[]
+							{
+								Property:{
+									Type: "Right",
+									Effect:[]
+								},
 							},
-						},
-						{
-							Property:{
-								Type: "Left",
-								Effect:[]
+							{
+								Property:{
+									Type: "Left",
+									Effect:[]
+								},
 							},
-						},
-					],
+						],
 					},
 					{
 						Name:"RightSticker", Key: "r",
@@ -5810,16 +5810,16 @@ var AssetFemale3DCGExtended = {
 										"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
 										"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
 										"HairAccessory3Ribbons4", // HairAccessory items
-										"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars", 
+										"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars",
 										"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
 										"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
-										"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2",	"HairAccessory1WolfEars1", "HairAccessory1WolfEars2", 
+										"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2", "HairAccessory1WolfEars1", "HairAccessory1WolfEars2",
 										"HairAccessory1Ribbons4", // Ear items (HA1)
-										"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars", 
+										"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars",
 										"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
 										"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
-										"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2",	"HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)          
-									], // These items are hidden because they have clear mismatch issues with the hood.							
+										"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2", "HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)
+									], // These items are hidden because they have clear mismatch issues with the hood.
 								},
 							}, // h1 - Helmet (hood)
 							{ // h2 - Helmet ( hood but nothing shows)
