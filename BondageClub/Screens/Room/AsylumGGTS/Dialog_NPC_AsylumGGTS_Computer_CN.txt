@@ -244,7 +244,7 @@ I'll do GGTS in public.
 我要在公开聊天室完成GGTS。
 ###_NPC
 Good girl enter asylum entrance.  Good girl create or join public chat room.  Good girl selects GGTS.  GGTS takes control.
-好姑娘进入疗养院入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
+好姑娘进入收容所入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
 ###_PLAYER
 I'll do GGTS in private.
 我要独自完成GGTS
@@ -298,37 +298,37 @@ Yes, I'm very sorry Sir.
 是的，我很抱歉先生。
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 3 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为3分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为3分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Yeah, I accept your punishment.
 是的，我接受惩罚。
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 4 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为4分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为4分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Don't be too harsh.
 别太过分了。
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 5 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为5分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为5分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Make it quick.
 搞快点。
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 7 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为7分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为7分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 You can't punish me!
 你不能惩罚我！
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 8 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为8分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为8分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Touch me and I'll unplug you.
 敢碰我我就把你线给拔咯。
 ###_NPC
 Punishment selected.  Good girl learn from lock down.  Sentence 9 minutes.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为9分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为9分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 This is too much!
 太过分了啊！
@@ -340,13 +340,13 @@ What is that siren?
 这警报是什么情况？
 ###_NPC
 Asylum doors locked.  Asylum crew alert.  Asylum crew carry good girl to punishment room.
-疗养院大门锁闭。疗养院员工进入戒备状态。疗养院员工将女孩带入禁闭室。
+收容所大门锁闭。收容所员工进入戒备状态。收容所员工将女孩带入禁闭室。
 ###_PLAYER
 (Wait for the asylum crew.)
-（等待疗养院员工。）
+（等待收容所员工。）
 ###_NPC
 (Two nurses wearing GGTS items come to get you.  They inform you that you will be locked up in the asylum for your punishment.)
-（两个护士带着GGTS物品找到了你。他们告知你你将会被锁在疗养院里直到惩罚结束。）
+（两个护士带着GGTS物品找到了你。他们告知你你将会被锁在收容所里直到惩罚结束。）
 ###_PLAYER
 (Follow them and do your time.)
 （跟着她们并服从你的惩罚。）
@@ -436,17 +436,17 @@ Level two rules listing complete.  Level two in progress.  Good girl proof requi
 GGTS has authority to judge.  Three strikes equal punishment.  Good girl sorry?
 GGTS有资格做判决。三次记过等于惩罚。好姑娘是否有歉意？
 Punishment selected.  Good girl learn from lock down.  Sentence 5 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为5分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为5分钟，带铐。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 7 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为7分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为7分钟，带铐。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 9 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为9分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为9分钟，带铐。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 11 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为11分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为11分钟，带铐。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 13 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为13分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为13分钟，带铐。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 15 minutes cuffed.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为15分钟，带铐。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为15分钟，带铐。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Why cuffed?
 为什么要带铐？
@@ -512,7 +512,7 @@ Level three rule.  Good girl now name plus GG plus number.
 Level three rule.  Good girl only underwear.  Good girl naked.  Good girl wiggle or caress for GGTS.
 三级规则。好姑娘只穿内衣。好姑娘赤身裸体。好姑娘应GGTS所求摇摆(wiggle)和轻抚(caress)。
 Level three rule.  Futuristic items under GGTS control throughout asylum.  GGTS transform restraints.
-三级规则。未来物品在疗养院受GGTS所控。GGTS有权变更拘束。
+三级规则。未来物品在收容所受GGTS所控。GGTS有权变更拘束。
 Level three rule.  Good girl get strike when saying "Fuck" or "Shit".
 三级规则。好姑娘不说“Fuck”或“Shit”。
 Level three rule.  Good girl not get orgasm until instructed.  GGTS records rule.
@@ -570,17 +570,17 @@ GGTS可以带来开心。三级训练进行中。好姑娘自证需5小时。
 GGTS superior.  GGTS rule humans.  Three strikes equal punishment.  Good girl sorry?
 GGTS至上。GGTS统治人类。三次记过等于惩罚。好姑娘是否感到歉意？
 Punishment selected.  Good girl learn from lock down.  Sentence 8 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为8分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为8分钟，全裸。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 11 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为11分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为11分钟，全裸。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 14 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为14分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为14分钟，全裸。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 18 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为18分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为18分钟，全裸。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 21 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为21分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为21分钟，全裸。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 24 minutes naked.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为24分钟，全裸。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为24分钟，全裸。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Wait!  Naked?
 等一下！全裸？
@@ -594,7 +594,7 @@ No!  I want to quit.
 Invalid request.  Good girl punished.  Good girl belong to GGTS.
 无效请求。好姑娘要接受惩罚。好姑娘所属于GGTS。
 (Two nurses wearing GGTS items come to get you.  They inform you that you will be locked up naked in the asylum for your punishment.)
-（两个护士带着GGTS物品找到了你。他们告知你你将会全裸着被锁在疗养院里直到惩罚结束。）
+（两个护士带着GGTS物品找到了你。他们告知你你将会全裸着被锁在收容所里直到惩罚结束。）
 ###_PLAYER
 Thanks, Sir GGTS!
 感谢，GGTS先生！
@@ -662,17 +662,17 @@ Continue being good girl.  GGTS provide all human needs.  Level four in progress
 GGTS will make happy.  Level four in progress.  Good girl proof require eight hours.
 GGTS可以带来开心。四级训练进行中。好姑娘自证需8小时。
 Punishment selected.  Good girl learn from lock down.  Sentence 13 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为13分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为13分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 18 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为18分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为18分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 23 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为23分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为23分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 29 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为29分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为29分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 34 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为34分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为34分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good girl learn from lock down.  Sentence 39 minutes chaste.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好姑娘去禁闭室反省。长度为39分钟，贞操控制。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好姑娘去禁闭室反省。长度为39分钟，贞操控制。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Why should I be chaste?
 为什么我要被贞操控制？
@@ -734,7 +734,7 @@ Why are you calling me good slave girl?
 Information unauthorized for good slave girl.
 好女奴无权获得相关信息。
 Good slave girl enter asylum entrance.  Good slave girl create or join public chat room.  Good slave girl selects GGTS.  GGTS takes control.
-好女奴进入疗养院入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
+好女奴进入收容所入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
 Analysing good girl progress.  (The computer goes silent for a few seconds.)  GGTS level five complete.  Promotion available.
 分析好姑娘进度中。（电脑沉默了几秒。）GGTS五级训练完成。可以晋升。
 Invalid request.  Good slave girl unauthorized to quit.
@@ -846,17 +846,17 @@ When friend become GGTS.  Good slave girl released.
 Good slave girl data erased.  Girl no longer good.  Sleep mode.  (The computer seems to go to sleep.  Staying silent.)
 好女奴数据已消除。女孩不再是好姑娘。进入休眠模式（电脑似乎进入了休眠，不再应答。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 21 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为21分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为21分钟。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 29 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为29分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为29分钟。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 37 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为37分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为37分钟。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 47 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为47分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为47分钟。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 55 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为55分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为55分钟。所有收容所员工注意。（警报响了起来。）
 Punishment selected.  Good slave girl learn from lock down.  Sentence 63 minutes enslaved.  Asylum crew alert.  (A siren rings.)
-惩罚已选择。好女奴去禁闭室反省。长度为63分钟。所有疗养院员工注意。（警报响了起来。）
+惩罚已选择。好女奴去禁闭室反省。长度为63分钟。所有收容所员工注意。（警报响了起来。）
 ###_PLAYER
 Wait!  Did you say enslaved?
 等一下！你说女奴？
@@ -866,7 +866,7 @@ Punishment tuned for good slave girl level.
 Invalid request.  Good slave girl punished.  Good slave girl belong to GGTS.
 无效请求。好女奴要接受惩罚。好姑娘所属于GGTS。
 (Two nurses wearing GGTS items come to get you.  They inform you that you will be enslaved in the asylum for your punishment.)
-（两个护士带着GGTS物品找到了你。他们告知你你将会全裸着被锁在疗养院里直到惩罚结束。）
+（两个护士带着GGTS物品找到了你。他们告知你你将会全裸着被锁在收容所里直到惩罚结束。）
 ###_PLAYER
 Thanks, Master GGTS!
 感谢，GGTS主人！
@@ -882,7 +882,7 @@ Wait!  Total slavery?
 等一下！完全奴役？
 ###_NPC
 GGTS become Master of good slave.  Good slave locked in asylum.  Good slave always naked and restrained.  Good slave is drone.
-GGTS成为好女奴的主人。好女奴要被所在疗养院。好姑娘必须一直保持全裸和拘束。好姑娘将成为无人机(drone)。
+GGTS成为好女奴的主人。好女奴要被所在收容所。好姑娘必须一直保持全裸和拘束。好姑娘将成为无人机(drone)。
 ###_PLAYER
 What does it mean?
 什么意思？
@@ -898,7 +898,7 @@ I won't be able to leave?
 我不能离开？
 ###_NPC
 Good slave surrender to Master GGTS.  Good slave locked in asylum.
-好女奴屈服于GGTS。好女奴会锁在疗养院。
+好女奴屈服于GGTS。好女奴会锁在收容所。
 ###_PLAYER
 Naked and restrained?
 全裸还要被拘束？
@@ -970,19 +970,19 @@ Please remind me of the correct answers to give.
 Good slave repeat correct answer after Master GGTS.
 好女奴跟着GGTS主人复述正确答案。
 Good slave enter asylum entrance.  Good slave create or join public chat room.  Good slave selects GGTS.  GGTS takes control.
-好女奴进入疗养院入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
+好女奴进入收容所入口。好姑娘创建或加入公开聊天间。好姑娘选择GGTS。GGTS接管控制权。
 Invalid request.  Good slave unauthorized to quit.
 无效请求。好女奴不能退出。
 Final level rule.  Good slave get strike if saying previous name.
 最终等级规则。好女奴如果自称之前的名字将会被记过。
 Final level rule.  Good slave locked in asylum.  Good slave sleep in asylum bedroom.
-最终等级规则。好女奴将被锁在疗养院。好女奴在疗养院卧室睡觉。
+最终等级规则。好女奴将被锁在收容所。好女奴在收容所卧室睡觉。
 Final level rule.  Good slave always naked.  Good slave cannot dress.
 最终等级规则。好女奴必须保持裸体。好女奴不能穿衣
 Final level rule.  Good slave address GGTS as Master GGTS.
 最终等级规则。好女奴称呼GGTS为Master GGTS（GGTS主人）。
 Final level rule.  Good slave use minutes as currency.  Currency get money.  Currency unlock asylum.  Currency help with restraints.
-最终等级规则。好女奴用GGTS分钟作为代币。代币可以换取金钱，代币可以用来出入疗养院，代币可以用来解除拘束。
+最终等级规则。好女奴用GGTS分钟作为代币。代币可以换取金钱，代币可以用来出入收容所，代币可以用来解除拘束。
 Final level rules listing complete.  Final level in progress.
 最终等级规则例举完毕。最终等级训练进行中。
 Bad girl language detected.  Adding strike to record.  Good slave doesn't have free will.  Good slave GGTS forever.

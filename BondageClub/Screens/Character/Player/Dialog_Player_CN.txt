@@ -1152,7 +1152,7 @@ SourceCharacter 使用了安全词，并希望被释放。为了她的安全，�
 TargetCharacterName gets grabbed by two maids and locked in a timer cell, following her owner's commands.
 TargetCharacterName gets grabbed by two maids and locked in a timer cell, following her owner's commands.
 TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following her owner's commands.
-TargetCharacterName 服从她主人的命令，被两名护士穿上了未来拘束具并锁进了疗养院。
+TargetCharacterName 服从她主人的命令，被两名护士穿上了未来拘束具并锁进了收容所。
 TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for her owner.
 TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for her owner.
 TargetCharacterName gives a sealed envelope to her owner.
@@ -5154,7 +5154,7 @@ SourceCharacter adds blinders to DestinationCharacter bridle gag.
 [GGTS] GGTS control public room.  SourceCharacter unrecognized for GGTS.
 [GGTS] 该公开房间由GGTS控制。GGTS无法识别SourceCharacter。
 [GGTS] GGTS is only available in the asylum.
-[GGTS] GGTS系统只能在疗养院使用。
+[GGTS] GGTS系统只能在收容所使用。
 [GGTS] Good girl do not administrate room.
 [GGTS] 好姑娘不可以管理房间。
 [GGTS] Good girl do not administrate locked room.
