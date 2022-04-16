@@ -90,15 +90,20 @@ function ShibariRandomBondage(C, Level) {
 		}
 		if (Level >= 4) InventoryWear(C, "BambooGag", "ItemMouth");
 
+		Level = 3;
+
 		// At 3 or more, there's a random chance of a more complicated bondage
 		if (Level >= 3) {
 			Level = Math.floor(Math.random() * 4);
+
+			Level = 3;
+
 			InventoryGet(C, "ItemFeet").Property = { Type: null };
 			InventoryGet(C, "ItemArms").Property = { Type: null };
 			if (Level == 1) InventoryGet(C, "ItemFeet").Property = { Type: "Suspension", SetPose: ["Suspension", "LegsClosed"], Difficulty: 0, Effect: [] };
 			if (Level == 2) InventoryGet(C, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 0, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
 			if (Level == 3) {
-				let SuspensionHogtiedProperty = Object.assign({}, InventoryItemArmsHempRopeOptions.find(O => O.Name === "SuspensionHogtied").Property);
+				let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
 				const height = 0.67 * Math.random();
 				SuspensionHogtiedProperty.Difficulty = 0;
 				SuspensionHogtiedProperty.OverrideHeight.Height = height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
