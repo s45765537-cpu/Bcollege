@@ -163,7 +163,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NotKneeling": return CharacterItemsHavePose(C, "Kneel") ? "MustStandUpFirst" : "";
 		case "CanKneel": return C.Effect.includes("BlockKneel") ? "MustBeAbleToKneel" : "";
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
-		case "NotHorse": return C.Pose.includes("Horse") ? "CannotBeUsedWhenMounted" : "";
+		case "NotHorse": return InventoryIsItemInList(C, "ItemDevices", ["WoodenHorse"]) ? "CannotBeUsedWhenMounted" : "";
 		case "NotSuspended": return C.Pose.includes("Suspension") || C.Pose.includes("SuspensionHogtied") ? "RemoveSuspensionForItem" : "";
 		case "NotLifted": return C.Effect.includes("Lifted") ? "RemoveSuspensionForItem" : "";
 		case "NotReverseSuspended": return (C.Pose.indexOf("Suspension") >= 0) ? "RemoveSuspensionForItem" : "";
