@@ -228,11 +228,6 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NakedFeet": return InventoryHasItemInAnyGroup(C, ["ItemBoots", "Socks", "Shoes"]) ? "RemoveClothesForItem" : "";
 		case "NakedHands": return InventoryHasItemInAnyGroup(C, ["ItemHands", "Gloves"]) ? "RemoveClothesForItem" : "";
 
-		// Toe Tied
-		case "ToeTied": return InventoryIsItemInList(C, "ItemFeet", ["SpreaderMetal", "SpreaderVibratingDildoBar", "SpreaderDildoBar", "FloorShackles"])
-			|| InventoryIsItemInList(C, "ItemDevices", ["OneBarPrison", "SaddleStand", "WoodenHorse"])
-			? "LegsCannotClose" : "";
-
 		// Display Frame
 		case "DisplayFrame": return InventoryHasItemInAnyGroup(C, ["ItemArms", "ItemLegs", "ItemFeet", "ItemBoots"])
 			? "RemoveRestraintsFirst"
