@@ -1559,21 +1559,17 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "WristTie",
-						BondageLevel: null,
 						Property: { Type: "WristTie", Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
 						Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 					}, {
 						Name: "BoxTie",
-						BondageLevel: null,
 						Property: { Type: null, Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 }
 					}, {
 						Name: "CrossedBoxtie",
-						BondageLevel: null,
 						Property: { Type: "CrossedBoxtie", Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
 						Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 					}, {
 						Name: "RopeCuffs",
-						BondageLevel: null,
 						Property: { Type: "RopeCuffs", Effect: ["Block", "Prone"], SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
 						Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 					}, {
