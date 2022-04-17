@@ -560,22 +560,24 @@ function AssetGetActivity(family, name) {
  */
 function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 	const activities = AssetAllActivities(family);
-	const defined = activities.reduce((list, a) => {
-		let targets = null;
+	/** @type {Activity[]} */
+	const defined = [];
+	activities.forEach(a => {
+		/** @type {string[] | undefined} */
+		let targets;
 		// Get the correct target list
 		if (onSelf === "self") {
 			targets = (typeof a.TargetSelf === "boolean" ? a.Target : a.TargetSelf);
 		} else if (onSelf === "any") {
 			targets = a.Target;
-			if (typeof a.TargetSelf !== "boolean")
+			if (Array.isArray(a.TargetSelf))
 				targets = targets.concat(a.TargetSelf);
 		} else {
 			targets = a.Target;
 		}
 		if (targets && targets.includes(groupname))
-			list.push(a);
-		return list;
-	}, []);
+			defined.push(a);
+	});
 	return defined;
 }
 
