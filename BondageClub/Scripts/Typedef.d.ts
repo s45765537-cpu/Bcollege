@@ -349,7 +349,7 @@ interface AssetGroup {
 	FreezeActivePose: string[];
 	PreviewZone?: [number, number, number, number];
 	DynamicGroupName: string;
-	MirrorActivitiesFrom?: string;
+	MirrorActivitiesFrom: string | null;
 }
 
 /** An object defining a drawable layer of an asset */
@@ -405,7 +405,7 @@ interface AssetLayer {
 	been created prior to drawing */
 	GroupAlpha?: AlphaDefinition[];
 	/** A module for which the layer can have types. */
-	ModuleType?: string[];
+	ModuleType: string[] | null;
 }
 
 /** An object defining a group of alpha masks to be applied when drawing an asset layer */
@@ -435,11 +435,11 @@ interface Asset {
 	Description: string;
 	Group: AssetGroup;
 	ParentItem?: string;
-	ParentGroupName?: string;
+	ParentGroupName?: string | null;
 	Enable: boolean;
 	Visible: boolean;
 	Wear: boolean;
-	Activity?: string;
+	Activity: string | null;
 	AllowActivity?: string[];
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
@@ -454,7 +454,7 @@ interface Asset {
 	HideItemAttribute: string[];
 	Require?: string[];
 	SetPose?: string[];
-	AllowPose: string[];
+	AllowPose: string[] | null;
 	HideForPose: string[];
 	PoseMapping?: { [index: string]: string };
 	AllowActivePose?: string[];
