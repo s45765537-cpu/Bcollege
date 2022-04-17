@@ -231,7 +231,11 @@ function AssetBuildExtended(A, ExtendedConfig) {
 		const Overrides = AssetConfig.Config;
 		const { GroupName, AssetName } = AssetConfig.CopyConfig;
 		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || A.Group.Name, AssetName);
-		if (AssetConfig && Overrides) {
+		if (!AssetConfig) {
+			console.error(`CopyConfig ${GroupName || A.Group.Name}:${AssetName} not found for ${A.Group.Name}:${A.Name}`);
+			return;
+		}
+		if (Overrides) {
 			const MergedConfig = Object.assign({}, AssetConfig.Config, Overrides);
 			AssetConfig = Object.assign({}, AssetConfig, {Config: MergedConfig});
 		}
