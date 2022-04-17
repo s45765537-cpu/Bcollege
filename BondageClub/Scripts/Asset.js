@@ -396,14 +396,17 @@ function AssetLayerAlpha(Layer, NewAsset, I) {
  */
 function AssetAssignColorIndices(A) {
 	var colorIndex = 0;
+	/** @type {Record<string, number>} */
 	var colorMap = {};
 	A.Layer.forEach(Layer => {
 		// If the layer can't be colored, we don't need to set a color index
 		if (!Layer.AllowColorize) return;
 
 		var LayerKey = Layer.CopyLayerColor || Layer.Name;
-		if (LayerKey == null)
-			return;
+		if (LayerKey === undefined)
+			LayerKey = "undefined";
+		if (LayerKey === null)
+			LayerKey = "null";
 		if (typeof colorMap[LayerKey] === "number") {
 			Layer.ColorIndex = colorMap[LayerKey];
 		} else {
