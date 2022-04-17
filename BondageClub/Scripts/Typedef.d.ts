@@ -314,7 +314,7 @@ type IAssetFamily = "Female3DCG";
 
 interface AssetGroup {
 	Family: IAssetFamily;
-	Name: string;
+	Name: AssetGroupName;
 	Description: string;
 	Asset: Asset[];
 	ParentGroupName: string;
@@ -332,12 +332,12 @@ interface AssetGroup {
 	Underwear: boolean;
 	BodyCosplay: boolean;
 	Hide?: string[];
-	Block?: string[];
+	Block?: AssetGroupItemName[];
 	Zone?: [number, number, number, number][];
 	SetPose?: string[];
 	AllowPose: string[];
 	AllowExpression?: string[];
-	Effect?: string[];
+	Effect?: EffectName[];
 	MirrorGroup: string;
 	RemoveItemOnRemove: { Group: string; Name: string; Type?: string }[];
 	DrawingPriority: number;
@@ -444,9 +444,9 @@ interface Asset {
 	AllowActivityOn?: string[];
 	BuyGroup?: string;
 	PrerequisiteBuyGroups?: string[];
-	Effect?: string[];
+	Effect?: EffectName[];
 	Bonus?: string;
-	Block?: string[];
+	Block?: AssetGroupItemName[];
 	Expose: string[];
 	Hide?: string[];
 	HideItem?: string[];
@@ -488,8 +488,8 @@ interface Asset {
 	LoverOnly: boolean;
 	ExpressionTrigger?: ExpressionTrigger[];
 	RemoveItemOnRemove: { Name: string; Group: string; Type?: string; }[];
-	AllowEffect?: string[];
-	AllowBlock?: string[];
+	AllowEffect?: EffectName[];
+	AllowBlock?: AssetGroupItemName[];
 	AllowType?: string[];
 	DefaultColor?: string | string[];
 	Opacity: number;
