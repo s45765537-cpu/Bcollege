@@ -3586,7 +3586,7 @@ function ChatRoomSetRule(data) {
 				ServerSend("ChatRoomChat", { Content: "PlayerOwnerCollarWear", Type: "Action", Dictionary: [{Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber}] });
 			}
 			LogDelete("ReleasedCollar", "OwnerRule");
-			LoginValidCollar();
+			LoginValidateOwnedState();
 		}
 
 		// Forced labor

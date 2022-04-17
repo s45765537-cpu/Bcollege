@@ -62,6 +62,23 @@ function LogDelete(DelLogName, DelLogGroup, Push) {
 
 }
 
+/**
+ * Deletes all log entries related to a group
+ * @param {string} DelLogGroup - The name of the log's group
+ * @param {boolean} [Push=true] - TRUE if we must push the log to the server
+ * @returns {void} - Nothing
+ */
+function LogDeleteGroup(DelLogGroup, Push) {
+	let idx;
+	while ((idx = Log.findIndex(l => l.Group === DelLogGroup)) != -1)
+		Log.splice(idx, 1);
+
+	// Sends the new log to the server
+	if ((Push == null) || Push)
+		ServerPlayerLogSync();
+
+}
+
 // Checks if the log exists, return true if it does (if there's a value, it counts as an expiry time)
 
 /**

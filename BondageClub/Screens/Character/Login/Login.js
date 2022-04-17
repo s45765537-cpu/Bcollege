@@ -151,10 +151,18 @@ function LoginRun() {
 }
 
 /**
- * Make sure the slave collar is equipped or unequipped based on the owner
+ * Validates the player status w.r.t ownership and collaring.
+ *
  * @returns {void} Nothing
  */
 function LoginValidCollar() {
+	if (Player.Ownership == null) {
+		// The player isn't owned anymore, so clear the owner rules.
+		// The collar will be handled by the block below.
+		// Owner-locked items will be caught by the valdation code.
+		LogDeleteGroup("OwnerRule");
+	}
+
 	if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "SlaveCollar") && (Player.Owner == "" || LogQuery("ReleasedCollar", "OwnerRule"))) {
 		InventoryRemove(Player, "ItemNeck");
 		if (CurrentScreen == "ChatRoom") {
