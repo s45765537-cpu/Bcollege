@@ -395,6 +395,8 @@ function AssetAssignColorIndices(A) {
 		if (!Layer.AllowColorize) return;
 
 		var LayerKey = Layer.CopyLayerColor || Layer.Name;
+		if (LayerKey == null)
+			return;
 		if (typeof colorMap[LayerKey] === "number") {
 			Layer.ColorIndex = colorMap[LayerKey];
 		} else {
