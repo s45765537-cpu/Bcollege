@@ -3,7 +3,7 @@
 var Character = [];
 var CharacterNextId = 1;
 
-/** @type Map<string, number> */
+/** @type Map<EffectName, number> */
 const CharacterDeafLevels = new Map([
 	["DeafTotal", 4],
 	["DeafHeavy", 3],
@@ -161,7 +161,8 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			}
 			blindLevel = Math.min(3, blindLevel);
 			// Light sensory deprivation setting limits blindness
-			if (this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") blindLevel = Math.min(2, blindLevel);
+			let playerThis = /** @type {PlayerCharacter} */(this);
+			if (playerThis.GameplaySettings && playerThis.GameplaySettings.SensDepChatLog == "SensDepLight") blindLevel = Math.min(2, blindLevel);
 			return blindLevel;
 		},
 		GetBlurLevel: function() {
@@ -209,7 +210,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		IsSlow: function () {
 			return (
 				((this.Effect.indexOf("Slow") >= 0) || (this.Pose.indexOf("Kneel") >= 0)) &&
-				((this.ID != 0) || !this.RestrictionSettings.SlowImmunity)
+				((this.ID != 0) || !/** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
 			);
 		},
 		IsEgged: function () {
