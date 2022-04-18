@@ -4,8 +4,6 @@
 var Asset = [];
 /** @type {AssetGroup[]} */
 var AssetGroup = [];
-/** @type {AssetGroup} */
-var AssetCurrentGroup;
 /** @type {Map<string, Asset>} */
 var AssetMap = new Map();
 /** @type {Map<string, AssetGroup>} */
@@ -19,6 +17,7 @@ var AssetActivityMirrorGroups = new Map();
  * Adds a new asset group to the main list
  * @param {IAssetFamily} Family
  * @param {AssetGroupDefinition} GroupDef
+ * @returns {AssetGroup}
  */
 function AssetGroupAdd(Family, GroupDef) {
 	/** @type {AssetGroup} */
@@ -64,7 +63,7 @@ function AssetGroupAdd(Family, GroupDef) {
 	AssetGroupMap.set(A.Name, A);
 	AssetActivityMirrorGroupSet(A);
 	AssetGroup.push(A);
-	AssetCurrentGroup = A;
+	return A;
 }
 
 /**
@@ -86,16 +85,17 @@ function AssetActivityMirrorGroupSet(group) {
 
 /**
  * Adds a new asset to the main list
+ * @param {AssetGroup} Group
  * @param {AssetDefinition} AssetDef
  * @param {ExtendedItemConfig} ExtendedConfig
  * @returns {void} - Nothing
  */
-function AssetAdd(AssetDef, ExtendedConfig) {
+function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	/** @type {Asset} */
 	var A = Object.assign({
 		Name: AssetDef.Name,
 		Description: AssetDef.Name,
-		Group: AssetCurrentGroup,
+		Group: Group,
 		ParentItem: AssetDef.ParentItem,
 		ParentGroupName: AssetDef.ParentGroup,
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
@@ -106,16 +106,16 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		AllowActivityOn: Array.isArray(AssetDef.AllowActivityOn) ? AssetDef.AllowActivityOn : [],
 		BuyGroup: AssetDef.BuyGroup,
 		PrerequisiteBuyGroups: AssetDef.PrerequisiteBuyGroups,
-		Effect: (AssetDef.Effect == null) ? AssetCurrentGroup.Effect : AssetDef.Effect,
+		Effect: (AssetDef.Effect == null) ? Group.Effect : AssetDef.Effect,
 		Bonus: AssetDef.Bonus,
-		Block: (AssetDef.Block == null) ? AssetCurrentGroup.Block : AssetDef.Block,
+		Block: (AssetDef.Block == null) ? Group.Block : AssetDef.Block,
 		Expose: (AssetDef.Expose == null) ? [] : AssetDef.Expose,
-		Hide: (AssetDef.Hide == null) ? AssetCurrentGroup.Hide : AssetDef.Hide,
+		Hide: (AssetDef.Hide == null) ? Group.Hide : AssetDef.Hide,
 		HideItem: AssetDef.HideItem,
 		HideItemExclude: AssetDef.HideItemExclude || [],
 		HideItemAttribute: AssetDef.HideItemAttribute || [],
 		Require: AssetDef.Require,
-		SetPose: (AssetDef.SetPose == null) ? AssetCurrentGroup.SetPose : AssetDef.SetPose,
+		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
 		WhitelistActivePose: AssetDef.WhitelistActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
@@ -146,7 +146,7 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		OwnerOnly: (AssetDef.OwnerOnly == null) ? false : AssetDef.OwnerOnly,
 		LoverOnly: (AssetDef.LoverOnly == null) ? false : AssetDef.LoverOnly,
 		ExpressionTrigger: AssetDef.ExpressionTrigger,
-		RemoveItemOnRemove: (AssetDef.RemoveItemOnRemove == null) ? AssetCurrentGroup.RemoveItemOnRemove : AssetCurrentGroup.RemoveItemOnRemove.concat(AssetDef.RemoveItemOnRemove),
+		RemoveItemOnRemove: (AssetDef.RemoveItemOnRemove == null) ? Group.RemoveItemOnRemove : Group.RemoveItemOnRemove.concat(AssetDef.RemoveItemOnRemove),
 		AllowEffect: AssetDef.AllowEffect,
 		AllowBlock: AssetDef.AllowBlock,
 		AllowType: AssetDef.AllowType,
@@ -157,9 +157,9 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,
-		ArousalZone: (AssetDef.ArousalZone == null) ? AssetCurrentGroup.Name : AssetDef.ArousalZone,
-		IsRestraint: (AssetDef.IsRestraint == null) ? ((AssetCurrentGroup.IsRestraint == null) ? false : AssetCurrentGroup.IsRestraint) : AssetDef.IsRestraint,
-		BodyCosplay: (AssetDef.BodyCosplay == null) ? AssetCurrentGroup.BodyCosplay : AssetDef.BodyCosplay,
+		ArousalZone: (AssetDef.ArousalZone == null) ? Group.Name : AssetDef.ArousalZone,
+		IsRestraint: (AssetDef.IsRestraint == null) ? ((Group.IsRestraint == null) ? false : Group.IsRestraint) : AssetDef.IsRestraint,
+		BodyCosplay: (AssetDef.BodyCosplay == null) ? Group.BodyCosplay : AssetDef.BodyCosplay,
 		OverrideBlinking: (AssetDef.OverrideBlinking == null) ? false : AssetDef.OverrideBlinking,
 		DialogSortOverride: AssetDef.DialogSortOverride,
 		DynamicDescription: (typeof AssetDef.DynamicDescription === 'function') ? AssetDef.DynamicDescription : function () { return this.Description; },
@@ -167,7 +167,7 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		DynamicAllowInventoryAdd: (typeof AssetDef.DynamicAllowInventoryAdd === 'function') ? AssetDef.DynamicAllowInventoryAdd : function () { return true; },
 		DynamicExpressionTrigger: (typeof AssetDef.DynamicExpressionTrigger === 'function') ? AssetDef.DynamicExpressionTrigger : function () { return this.ExpressionTrigger; },
 		DynamicName: (typeof AssetDef.DynamicName === 'function') ? AssetDef.DynamicName : function () { return this.Name; },
-		DynamicGroupName: (AssetDef.DynamicGroupName || AssetCurrentGroup.DynamicGroupName),
+		DynamicGroupName: (AssetDef.DynamicGroupName || Group.DynamicGroupName),
 		DynamicActivity: (typeof AssetDef.DynamicActivity === 'function') ? AssetDef.DynamicActivity : function () { return AssetDef.Activity; },
 		DynamicAudio: (typeof AssetDef.DynamicAudio === 'function') ? AssetDef.DynamicAudio : null,
 		CharacterRestricted: typeof AssetDef.CharacterRestricted === 'boolean' ? AssetDef.CharacterRestricted : false,
@@ -182,7 +182,7 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
 		FreezeActivePose: Array.isArray(AssetDef.FreezeActivePose) ? AssetDef.FreezeActivePose :
-			Array.isArray(AssetCurrentGroup.FreezeActivePose) ? AssetCurrentGroup.FreezeActivePose : [],
+			Array.isArray(Group.FreezeActivePose) ? Group.FreezeActivePose : [],
 		DrawLocks: typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true,
 		AllowExpression: AssetDef.AllowExpression,
 		MirrorExpression: AssetDef.MirrorExpression,
@@ -195,7 +195,7 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
 		PoseMapping: AssetDef.PoseMapping || {},
-	}, AssetParsePoseProperties(AssetDef, AssetCurrentGroup.AllowPose.slice()));
+	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
 
 	// Ensure opacity value is valid
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
@@ -205,8 +205,8 @@ function AssetAdd(AssetDef, ExtendedConfig) {
 	AssetAssignColorIndices(A);
 	// Unwearable assets are not visible but can be overwritten
 	if (!A.Wear && AssetDef.Visible != true) A.Visible = false;
-	AssetCurrentGroup.Asset.push(A);
-	AssetMap.set(AssetCurrentGroup.Name + "/" + A.Name, A);
+	Group.Asset.push(A);
+	AssetMap.set(Group.Name + "/" + A.Name, A);
 	Asset.push(A);
 	if (ExtendedConfig) AssetBuildExtended(A, ExtendedConfig);
 }
@@ -218,7 +218,7 @@ function AssetAdd(AssetDef, ExtendedConfig) {
  * @returns {void} - Nothing
  */
 function AssetBuildExtended(A, ExtendedConfig) {
-	let AssetConfig = AssetFindExtendedConfig(ExtendedConfig, AssetCurrentGroup.Name, A.Name);
+	let AssetConfig = AssetFindExtendedConfig(ExtendedConfig, A.Group.Name, A.Name);
 
 	if (!AssetConfig) {
 		return;
@@ -227,7 +227,7 @@ function AssetBuildExtended(A, ExtendedConfig) {
 	if (AssetConfig.CopyConfig) {
 		const Overrides = AssetConfig.Config;
 		const { GroupName, AssetName } = AssetConfig.CopyConfig;
-		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || AssetCurrentGroup.Name, AssetName);
+		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || A.Group.Name, AssetName);
 		if (AssetConfig && Overrides) {
 			const MergedConfig = Object.assign({}, AssetConfig.Config, Overrides);
 			AssetConfig = Object.assign({}, AssetConfig, {Config: MergedConfig});
@@ -286,7 +286,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 	/** @type {AssetLayer} */
 	const L = Object.assign({
 		Name: Layer.Name || null,
-		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition),
+		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition, A.Group),
 		CopyLayerColor: Layer.CopyLayerColor || null,
 		ColorGroup: Layer.ColorGroup,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -295,7 +295,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
 		ParentGroupName: Layer.ParentGroup,
-		Priority: Layer.Priority || AssetDefinition.Priority || AssetCurrentGroup.DrawingPriority,
+		Priority: Layer.Priority || AssetDefinition.Priority || A.Group.DrawingPriority,
 		InheritColor: Layer.InheritColor,
 		Alpha: AssetLayerAlpha(Layer, AssetDefinition, I),
 		Asset: A,
@@ -356,12 +356,13 @@ function AssetParseOpacity(opacity) {
  * Determines whether a layer can be colorized, based on the layer definition and its parent asset/group definitions
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {AssetDefinition} NewAsset - The raw asset definition
+ * @param {AssetGroup} Group - The group being processed
  * @return {boolean} - Whether or not the layer should be permit colors
  */
-function AssetLayerAllowColorize(Layer, NewAsset) {
+function AssetLayerAllowColorize(Layer, NewAsset, Group) {
 	return typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize :
 		typeof NewAsset.AllowColorize === "boolean" ? NewAsset.AllowColorize :
-			typeof AssetCurrentGroup.AllowColorize === "boolean" ? AssetCurrentGroup.AllowColorize : true;
+			typeof Group.AllowColorize === "boolean" ? Group.AllowColorize : true;
 }
 
 /**
@@ -481,28 +482,24 @@ function AssetLoadDescription(Family) {
 
 /**
  * Loads a specific asset file
- * @param {AssetGroupDefinition[]} A
+ * @param {AssetGroupDefinition[]} Groups
  * @param {IAssetFamily} Family
  * @param {ExtendedItemConfig} ExtendedConfig
  */
-function AssetLoad(A, Family, ExtendedConfig) {
+function AssetLoad(Groups, Family, ExtendedConfig) {
 
 	// For each group in the asset file
-	var G;
-	for (G = 0; G < A.length; G++) {
-
+	for (const group of Groups) {
 		// Creates the asset group
-		AssetGroupAdd(Family, A[G]);
+		const G = AssetGroupAdd(Family, group);
 
 		// Add each assets in the group 1 by 1
-		var I;
-		for (I = 0; I < A[G].Asset.length; I++) {
-			if (A[G].Asset[I].Name == null)
-				AssetAdd({ Name: A[G].Asset[I] }, ExtendedConfig);
+		for (const asset of group.Asset) {
+			if (typeof asset === "string")
+				AssetAdd(G, { Name: asset }, ExtendedConfig);
 			else
-				AssetAdd(A[G].Asset[I], ExtendedConfig);
+				AssetAdd(G, asset, ExtendedConfig);
 		}
-
 	}
 
 	// Loads the description of the assets in a specific language
