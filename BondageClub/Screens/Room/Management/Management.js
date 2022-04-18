@@ -510,26 +510,39 @@ function ManagementContactOwner() {
  * @returns {void} - Nothing.
  */
 function ManagementReleaseFromOwner(RepChange) {
-	Player.Owner = "";
-	ServerPlayerSync();
-	InventoryRemove(Player, "ItemNeck");
 	ReputationProgress("Dominant", RepChange);
 	LogAdd("ReleasedFromOwner", "Management");
-	LogDelete("ReleasedCollar", "OwnerRule");
-	if ((Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+
+	if (Player.Owner !== "" && Player.Ownership == null) {
+		ManagementClearOwnership(); // clear NPC owner
+	} else {
+		ManagementBreakOnlineOwnership();
+	}
 }
 
 /**
- * Breaks the online trial period and removes any owner locked items.
+ * Break ownership by another player
  * @returns {void} - Nothing.
  */
-function ManagementBreakTrialOnline() {
+function ManagementBreakOnlineOwnership() {
 	if ((Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) {
 		ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
-		Player.Ownership = null;
-		for (let A = 0; A < Player.Appearance.length; A++)
-			ValidationSanitizeProperties(Player, Player.Appearance[A]);
 	}
+}
+
+/**
+ * Removes all ownership and owner-only data
+ * @returns {void} - Nothing.
+ */
+function ManagementClearOwnership() {
+	Player.Owner = "";
+	Player.Ownership = null;
+	LoginValidCollar();
+	LogDeleteGroup("OwnerRule");
+
+	Player.Appearance = Player.Appearance.filter(item => !item.Asset.OwnerOnly);
+	Player.Appearance.forEach(item => ValidationSanitizeProperties(Player, item));
+	CharacterRefresh(Player);
 }
 
 /**
