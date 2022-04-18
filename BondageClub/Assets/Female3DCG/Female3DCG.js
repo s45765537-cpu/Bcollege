@@ -5408,7 +5408,8 @@ var AssetFemale3DCG = [
 				Hide: ["HairFront", "Ears"],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars"],
 				Alpha: [
-					{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[0, 185, 400, 400]] },
+					// Mask over the neck area
+					{ Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"], Masks: [[200, 190, 100, 70]] },
 					{ Group: ["ItemHead"], Masks: [[0, 0, 203, 250], [295, 0, 205, 250]] },
 				],
 				HideItem: ["HatFurHeadband"],
