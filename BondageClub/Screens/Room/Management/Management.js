@@ -514,7 +514,7 @@ function ManagementReleaseFromOwner(RepChange) {
 	LogAdd("ReleasedFromOwner", "Management");
 
 	if (Player.Owner !== "" && Player.Ownership == null) {
-		ManagementClearOwnership(); // clear NPC owner
+		CharacterClearOwnership(Player); // clear NPC owner
 	} else {
 		ManagementBreakOnlineOwnership();
 	}
@@ -528,21 +528,6 @@ function ManagementBreakOnlineOwnership() {
 	if ((Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) {
 		ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
 	}
-}
-
-/**
- * Removes all ownership and owner-only data
- * @returns {void} - Nothing.
- */
-function ManagementClearOwnership() {
-	Player.Owner = "";
-	Player.Ownership = null;
-	LoginValidCollar();
-	LogDeleteGroup("OwnerRule");
-
-	Player.Appearance = Player.Appearance.filter(item => !item.Asset.OwnerOnly);
-	Player.Appearance.forEach(item => ValidationSanitizeProperties(Player, item));
-	CharacterRefresh(Player);
 }
 
 /**
