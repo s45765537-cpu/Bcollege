@@ -515,6 +515,7 @@ function ManagementReleaseFromOwner(RepChange) {
 
 	if (Player.Owner !== "" && Player.Ownership == null) {
 		CharacterClearOwnership(Player); // clear NPC owner
+		ServerPlayerSync();
 	} else {
 		ManagementBreakOnlineOwnership();
 	}
