@@ -7,16 +7,16 @@
  * @returns {string} - The value of the element (When no value parameter was passed to the function)
  */
 function ElementValue(ID, Value) {
-	const e = document.getElementById(ID)
+	const e = /** @type {HTMLInputElement} */(document.getElementById(ID));
 	if (!e) {
 		console.error("ElementValue called on a missing element");
 		return "";
 	}
 
 	if (Value == null)
-		return e.getAttribute("value").trim();
+		return e.value.trim();
 
-	e.setAttribute("value", Value);
+	e.value = Value;
 	return "";
 }
 
@@ -34,9 +34,9 @@ function ElementContent(ID, Content) {
 	}
 
 	if (Content == null)
-		return document.getElementById(ID).innerHTML;
+		return e.innerHTML;
 
-	document.getElementById(ID).innerHTML = Content;
+	e.innerHTML = Content;
 	return "";
 }
 
@@ -97,7 +97,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength) {
  */
 function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical) {
 	if (document.getElementById(id) == null) {
-		const input = document.createElement("input");
+		const input = /** @type {HTMLInputElement} */(document.createElement("input"));
 		input.setAttribute("id", id);
 		input.setAttribute("name", id);
 		input.setAttribute("type", "range");
@@ -105,7 +105,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 		input.setAttribute("min", min);
 		input.setAttribute("max", max);
 		input.setAttribute("step", step);
-		input.setAttribute("value", value);
+		input.value = String(value);
 		if (thumbIcon) input.setAttribute("data-thumb", thumbIcon);
 		input.setAttribute("onfocus", "this.removeAttribute('readonly');");
 		input.addEventListener("keydown", KeyDown);
