@@ -4061,7 +4061,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: 30, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"],
+				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: 30, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [
 					{ Name: "Gag", HasType: false, AllowTypes: ["", "Cup"] },
 					{ Name: "Holder", HasType: false, AllowTypes: ["", "Cup"] },
@@ -4159,7 +4159,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: 60, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagUnique", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"],
+				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: 60, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagUnique", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [
 					{ Name: "Strap" },
@@ -4174,14 +4174,14 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ChopstickGag", Fetish: ["Rope"], Value: 15, Difficulty: 2, Time: 10, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["GagNormal", "Protruding"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Name: "ChopstickGag", Fetish: ["Rope"], Value: 15, Difficulty: 2, Time: 10, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["GagNormal", "ProtrudingMouth"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Chopsticks", AllowColorize: true },
 					{ Name: "Tongue", AllowColorize: false }
 				]
 			},
 			{
-				Name: "BambooGag", Fetish: ["Rope"], Value: 30, Difficulty: 6, Time: 10, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["Protruding"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Name: "BambooGag", Fetish: ["Rope"], Value: 30, Difficulty: 6, Time: 10, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["ProtrudingMouth"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["Default", "#A07858"],
 				Layer: [
 					{ Name: "Rod" },
@@ -4260,7 +4260,7 @@ var AssetFemale3DCG = [
 					{ Name: "Straps" },
 				]
 			},
-			{ Name: "DogMuzzleExposed", Fetish: ["Leather", "Pet"], Value: 50, Difficulty: 7, Time: 10, Random: false, AllowLock: true, Hide: ["Mouth"], HideItem: ["ItemNoseNoseRing"], Block: ["ItemMouth2", "ItemMouth3"], Effect: ["Protruding"]},
+			{ Name: "DogMuzzleExposed", Fetish: ["Leather", "Pet"], Value: 50, Difficulty: 7, Time: 10, Random: false, AllowLock: true, Hide: ["Mouth"], HideItem: ["ItemNoseNoseRing"], Block: ["ItemMouth2", "ItemMouth3"], Effect: ["ProtrudingMouth"]},
 			{
 				Name: "FoxyHarnessPanelGag", Fetish: ["Leather", "Pet"], Value: 40, Difficulty: 6, Time: 20, Random: false, AllowLock: true, Hide: ["Mouth"], HideItem: ["ItemNoseNoseRing"], Prerequisite: "GagFlat", Effect: ["BlockMouth", "GagEasy"], BuyGroup: "FoxyHarnessPanelGag",
 				Layer: [
@@ -4277,7 +4277,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "TongueStrapGag", Fetish: ["Leather", "Metal"], Value: 35, Difficulty: 4, Time: 15, AllowLock: true, Hide: ["Mouth"], Effect: ["GagEasy", "OpenMouth", "Protruding"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Name: "TongueStrapGag", Fetish: ["Leather", "Metal"], Value: 35, Difficulty: 4, Time: 15, AllowLock: true, Hide: ["Mouth"], Effect: ["GagEasy", "OpenMouth", "ProtrudingMouth"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
 					{ Name: "Gag", AllowColorize: true }
@@ -4324,7 +4324,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "WebGag", Category: ["Fantasy"], Fetish: ["Tape"], Value: 30, Difficulty: 3, Time: 5, RemoveTime: 10, BuyGroup: "WebGag", Prerequisite: "GagFlat", Hide: ["Mouth"], HideItem: ["ItemNoseNoseRing"], Effect: ["BlockMouth", "GagEasy"] },
 			{ Name: "RopeGag", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 20, RemoveTime: 10, BuyGroup: "HempRope", Audio: "RopeShort", Prerequisite: "GagUnique", DefaultColor: "#956B1C", Effect: ["BlockMouth", "GagLight"] },
-			{ Name: "MilkBottle", Category: ["ABDL"], Fetish: ["ABDL"], Priority: 42, Value: 30, Difficulty: -50, Time: 1, Random: false, AllowLock: false, Left: 199, Top: 0, Prerequisite: "GagUnique", Effect: ["GagVeryLight", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }], ParentGroup: null, Extended: true },
+			{ Name: "MilkBottle", Category: ["ABDL"], Fetish: ["ABDL"], Priority: 42, Value: 30, Difficulty: -50, Time: 1, Random: false, AllowLock: false, Left: 199, Top: 0, Prerequisite: "GagUnique", Effect: ["GagVeryLight", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }], ParentGroup: null, Extended: true },
 			{
 				Name: "MedicalMask", Value: 25, Time: 10, Random: false, BuyGroup: "MedicalMask", Hide: ["Mouth"], Effect: ["BlockMouth"], HideItem: ["ItemNoseNoseRing"],
 				Layer: [
@@ -4343,13 +4343,13 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: 30, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000" ], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
+				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: 30, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000" ], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
 					{ Name: "Shoe" },
 					{ Name: "Strap" },
 				]
 			},
 			{
-				Name: "FunnelGag", Value: 50, Difficulty: 4, Time: 20, Random: false, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["OpenMouth", "GagMedium", "Protruding"], Block: ["ItemMouth2", "ItemMouth3", "ItemHood"], Extended: true, Layer: [
+				Name: "FunnelGag", Value: 50, Difficulty: 4, Time: 20, Random: false, Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["OpenMouth", "GagMedium", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3", "ItemHood"], Extended: true, Layer: [
 					{ Name: "Straps", AllowColorize: true, HasType: false },
 					{ Name: "Base", AllowColorize: false, HasType: false },
 					{ Name: "Funnel", Priority: 55, AllowColorize: false, AllowTypes: ["Funnel"] }
@@ -4368,7 +4368,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"],
+				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [
 					{ Name: "Strap" },
 					{ Name: "Muzzle" },
@@ -4383,14 +4383,14 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "Ribbons", Value: 30, Difficulty: 3, Time: 10, BuyGroup: "Ribbon", Prerequisite: "GagFlat", Effect: ["BlockMouth", "GagVeryLight"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }, { Name: "HalfOpen", Group: "Mouth", Timer: 60 }], Extended: true },
 			{
-				Name: "CropGag", Value: -1, Priority: 41, Difficulty: -100, Time: 2, Random: false, BuyGroup: "Crop", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }],
+				Name: "CropGag", Value: -1, Priority: 41, Difficulty: -100, Time: 2, Random: false, BuyGroup: "Crop", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }],
 				Layer: [
 					{ Name: "Crop", AllowColorize: true, Left: 100 },
 					{ Name: "Mouth", AllowColorize: false },
 				]
 			},
 			{
-				Name: "CaneGag", Value: -1, Priority: 41, Difficulty: -100, Time: 2, Random: false, BuyGroup: "Cane", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight", "Protruding"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }],
+				Name: "CaneGag", Value: -1, Priority: 41, Difficulty: -100, Time: 2, Random: false, BuyGroup: "Cane", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagLight", "ProtrudingMouth"], Block: ["ItemMouth2", "ItemMouth3"], ExpressionTrigger: [{ Name: "Light", Group: "Blush", Timer: 5 }, { Name: "Closed", Group: "Eyes", Timer: 5 }],
 				Layer: [
 					{ Name: "Cane", AllowColorize: true, Left: 80 },
 					{ Name: "Mouth", AllowColorize: false },
@@ -4405,7 +4405,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: 250, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "Protruding"],
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: 250, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Shine", AllowColorize: false },
@@ -4553,7 +4553,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "Protruding"], Block: ["ItemMouth", "ItemMouth3"],
+				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"], Block: ["ItemMouth", "ItemMouth3"],
 				Layer: [
 					{ Name: "Gag", HasType: false, AllowTypes: ["", "Cup"] },
 					{ Name: "Holder", HasType: false, AllowTypes: ["", "Cup"] },
@@ -4611,7 +4611,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagFlat", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"], Block: ["ItemMouth", "ItemMouth3"],
+				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagFlat", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"], Block: ["ItemMouth", "ItemMouth3"],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [
 					{ Name: "Strap" },
@@ -4727,7 +4727,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000"], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"], Block: ["ItemMouth", "ItemMouth3"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
+				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000"], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"], Block: ["ItemMouth", "ItemMouth3"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
 					{ Name: "Shoe" },
 					{ Name: "Strap" },
 				]
@@ -4745,7 +4745,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "Protruding"], Block: ["ItemMouth", "ItemMouth3"],
+				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "ProtrudingMouth"], Block: ["ItemMouth", "ItemMouth3"],
 				Layer: [
 					{ Name: "Strap" },
 					{ Name: "Muzzle" },
@@ -4761,7 +4761,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "Protruding"],
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Shine", AllowColorize: false },
@@ -4835,7 +4835,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "Protruding"],
+				Name: "CupholderGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "CupholderGag", Hide: ["Mouth"], Extended: true, AlwaysExtend: true, AlwaysInteract: true, Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"],
 				Layer: [
 					{ Name: "Gag", HasType: false, AllowTypes: ["", "Cup"] },
 					{ Name: "Holder", HasType: false, AllowTypes: ["", "Cup"] },
@@ -4893,7 +4893,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagFlat", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"],
+				Name: "DildoGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, BuyGroup: "DildoGag", Prerequisite: "GagFlat", Attribute: ["PenetrateItem"], Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [
 					{ Name: "Strap" },
@@ -5008,7 +5008,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000"], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "Protruding"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
+				Name: "ShoeGag", Fetish: ["Leather"], Priority: 42, Value: -1, Difficulty: 4, Time: 20, DefaultColor: ["Default", "#000000"], Random: false, BuyGroup: "ShoeGag", Prerequisite: "GagFlat", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 25 }, { Name: "Daydream", Group: "Eyes", Timer: 10 }], Layer: [
 					{ Name: "Shoe" },
 					{ Name: "Strap" },
 				]
@@ -5025,7 +5025,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "Protruding"],
+				Name: "CageMuzzle", Fetish: ["Pet", "Metal"], Value: 30, Difficulty: 4, Time: 20, BuyGroup: "CageMuzzle", Random: false, AllowLock: true, Effect: ["BlockMouth", "ProtrudingMouth"],
 				Layer: [
 					{ Name: "Strap" },
 					{ Name: "Muzzle" },
@@ -5042,7 +5042,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "Protruding"],
+				Name: "Tentacles", Category: ["Fantasy"], BuyGroup: "Tentacles", Random: false, Value: -1, Difficulty: 6, Time: 5, RemoveTime: 5, DefaultColor: "#9221ba", Prerequisite: ["AccessMouth", "GagUnique"], Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Shine", AllowColorize: false },
