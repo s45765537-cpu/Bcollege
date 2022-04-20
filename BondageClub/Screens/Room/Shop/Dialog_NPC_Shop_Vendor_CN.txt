@@ -313,7 +313,7 @@ Toys for the nipples.
 Items to decorate the nipples.
 乳头装饰品
 Harnesses for the torso.
-躯干安全带
+躯干束缚带
 Chastity belts.
 贞操带
 Kinky items for the kinky region.
@@ -376,10 +376,10 @@ Will you give me a discount?
 你能给我点折扣吗？
 ###_NPC
 Nice try, but I can't do that.  The sorority will pay you for your work though.  Would you like to buy something?
-很好的尝试，但我不能那么做。不过女生联谊会会会为你的工作付钱。你想买点什么吗？
+很好的尝试，但我不能那么做。不过女仆联谊会会会为你的工作付钱。你想买点什么吗？
 ###_PLAYER
 The sorority will always protect you.
-女生联谊会会永远保护你
+女仆联谊会会永远保护你
 ###_NPC
 It's great to feel protected.  Would you like to buy something?
 受到保护的感觉真好。你想买点什么吗？
