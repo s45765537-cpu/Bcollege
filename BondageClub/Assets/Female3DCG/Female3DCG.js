@@ -6019,7 +6019,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "WoodenRack", Value: 0, Priority: 1, Dificulty: 20, Selfbondage: 2, Random: false, RemoveAtLogin: true, DefaultColor: [], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", Effect: ["Freeze", "Mounted", "OnBed", "Leash"], Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
+				Name: "WoodenRack", Value: 0, Priority: 1, Dificulty: 20, Selfbondage: 2, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", Effect: ["Freeze", "Mounted", "OnBed", "Leash"], Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
 				SetPose: ["BaseLower"],
 				Block: ["ItemAddon"],
 				Layer: [
@@ -6028,14 +6028,15 @@ var AssetFemale3DCG = [
 					{ Name: "BackBreaker", HasType: false, AllowColorize: false, AllowModuleTypes: ["f2"] },
 					{ Name: "Frame", HasType: false, AllowColorize: false },
 					{ Name: "FrameStains", HasType: false, AllowModuleTypes: ["s1"] },
-					{ Name: "TopRopes", HasType: false, AllowModuleTypes: ["t1"], ParentGroup: "BodyUpper", Priority: 50 },
-					{ Name: "TopRopesTight", HasType: false, CopyLayerColor: "Ropes", AllowModuleTypes: ["t2"], ParentGroup: "BodyUpper", Priority: 50 },
+					{ Name: "TopRopes", HasType: false, AllowModuleTypes: ["t1"], Priority: 50 },
+					{ Name: "TopRopesTight", HasType: false, CopyLayerColor: "TopRopes", AllowModuleTypes: ["t2"], Priority: 50 },
 					{ Name: "TopChains", HasType: false, AllowModuleTypes: ["t3"],Priority: 30 },
-					{ Name: "TopChainsTight", HasType: false, CopyLayerColor: "Chains",AllowModuleTypes: ["t4"], Priority: 30 },
-					{ Name: "BotRopes", HasType: false, CopyLayerColor: "Ropes",AllowModuleTypes: ["b1"], ParentGroup: "BodyLower", Priority: 50 },
-					{ Name: "BotRopesTogether", HasType: false, CopyLayerColor: "Ropes",AllowModuleTypes: ["b2"], ParentGroup: "BodyLower", Priority: 50 },
-					{ Name: "BotChains", HasType: false, CopyLayerColor: "Chains", AllowModuleTypes: ["b3"]},
-					{ Name: "BotChainsTogether", HasType: false, CopyLayerColor: "Chains", AllowModuleTypes: ["b4"]},
+					{ Name: "TopChainsTight", HasType: false, CopyLayerColor: "TopChains",AllowModuleTypes: ["t4"], Priority: 30 },
+					{ Name: "BotRings", HasType: false, CopyLayerColor: "TopChains",AllowModuleTypes: ["b1", "b2"]},
+					{ Name: "BotRopes", HasType: false, CopyLayerColor: "TopRopes",AllowModuleTypes: ["b1"], Priority: 50 },
+					{ Name: "BotRopesTogether", HasType: false, CopyLayerColor: "TopRopes",AllowModuleTypes: ["b2"], Priority: 50 },
+					{ Name: "BotChains", HasType: false, CopyLayerColor: "TopChains", AllowModuleTypes: ["b3"]},
+					{ Name: "BotChainsTogether", HasType: false, CopyLayerColor: "TopChains", AllowModuleTypes: ["b4"]},
 					{ Name: "BotStocksBack", HasType: false, AllowColorize: false, AllowModuleTypes: ["b5"] },
 					{ Name: "BotStocks", HasType: false, AllowColorize: false, AllowModuleTypes: ["b5"], Priority: 50 },
 				]
