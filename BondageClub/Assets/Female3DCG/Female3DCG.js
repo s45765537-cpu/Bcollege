@@ -1320,7 +1320,7 @@ var AssetFemale3DCG = [
 					{ Name: "Center" }
 				]
 			},
-			{ 
+			{
 				Name: "LatexHabit", Fetish: ["Latex"], BuyGroup: "LatexHabit", Top: 23, Left: 85, Value: 30, HideItem: ["ItemEarsFuturisticEarphones"], Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3",], Block: ["ItemEars"], DynamicGroupName:"ItemHood",
 				Layer:[
 					{Name: "Cape"},
@@ -1329,7 +1329,7 @@ var AssetFemale3DCG = [
 					{Name: "Cowl"},
 					{Name: "Back", Priority: 5, CopyLayerColor: "Base"}
 				],
-			}	
+			}
 
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -5602,14 +5602,14 @@ var AssetFemale3DCG = [
 					{ Name: "Collar" }
 				]
 			},
-			{ 
+			{
 				Name: "ZipperHood", Fetish: ["Latex"], Value: 20, DrawLocks: false, AllowLock: true, Time: 15, Extended: true, HideItem: ["ItemEarsFuturisticEarphones"], Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"],
 				Layer:[
 					{ Name: ""},
 					{ Name: "Lock", LockLayer: true, HasType: false, AllowColorize: false},
 				],
 			},
-			{ 
+			{
 				Name: "LatexHabit", Fetish: ["Latex"], BuyGroup: "LatexHabit", Top: 23, Left: 85, Value: 30, Time: 5, AllowLock: true, HideItem: ["ItemEarsFuturisticEarphones"], Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3",], Block: ["ItemEars"],
 				Layer:[
 					{ Name: "Cape"},
