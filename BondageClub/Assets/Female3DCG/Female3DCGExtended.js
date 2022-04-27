@@ -3530,6 +3530,32 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // ClothGag
+		ScarfGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Loose",
+						Property: {
+							Type: null,
+							Effect: ["BlockMouth", "GagVeryLight"],
+						},
+					},
+					{
+						Name: "OTN",
+						Property: {
+							Type: "OTN",
+							Effect: ["BlockMouth", "GagLight"],
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectGagType",
+					TypePrefix: "ScarfGagType",
+					ChatPrefix: "ScarfGagSet",
+				},
+			}
+		}, // ScarfGag
 		WiffleGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			Config: {
@@ -4063,6 +4089,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ClothGag" },
 		},
+		ScarfGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "ScarfGag" },
+		},
 		WiffleGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "WiffleGag" },
@@ -4104,6 +4134,10 @@ var AssetFemale3DCGExtended = {
 		ClothGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ClothGag" },
+		},
+		ScarfGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "ScarfGag" },
 		},
 		WiffleGag: {
 			Archetype: ExtendedArchetype.TYPED,
