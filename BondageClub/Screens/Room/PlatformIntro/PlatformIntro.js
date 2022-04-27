@@ -22,10 +22,14 @@ function PlatformIntroRun() {
 	let Total = 0;
 	let Count = 0;
 	let Load = 10;
+	let LastAnimCycle;
 	for (let Char of PlatformTemplate) {
 		for (let Anim of Char.Animation) {
-			Total = Total + Anim.Cycle.length;
+			LastAnimCycle = -1;
 			for (let C of Anim.Cycle) {
+				if (C <= LastAnimCycle) break;
+				LastAnimCycle = C;
+				Total++;
 				let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "/" + C.toString() + ".png";
 				let Obj = DrawCacheImage.get(FileName);
 				if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
@@ -39,8 +43,11 @@ function PlatformIntroRun() {
 					}
 			}
 			if (Anim.CycleLeft != null) {
-				Total = Total + Anim.CycleLeft.length;
+				LastAnimCycle = -1;
 				for (let C of Anim.CycleLeft) {
+					if (LastAnimCycle <= C) break;
+					LastAnimCycle = C;
+					Total++;
 					let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "Left/" + C.toString() + ".png";
 					let Obj = DrawCacheImage.get(FileName);
 					if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
@@ -82,7 +89,7 @@ function PlatformIntroClick() {
 		PlatformDialogCharacter = JSON.parse(JSON.stringify(PlatformDialogCharacterTemplate));
 		PlatformEvent = [];
 		PlatformChar = [];
-		PlatformCreateCharacter("Melody", "Maid", true, 1000);
+		PlatformCreateCharacter("Melody", "Maid", 1000);
 		PlatformLoadRoom("BedroomMelody");
 		PlatformDialogStart("IntroMelody");
 	}

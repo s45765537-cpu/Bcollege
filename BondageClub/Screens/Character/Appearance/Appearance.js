@@ -340,7 +340,8 @@ function CharacterAppearanceSortLayers(C) {
 
 	// Run back over the layers to apply the group-level alpha mask definitions to the appropriate layers
 	layers.forEach(layer => {
-		const groupName = layer.Asset.Group.Name;
+		// If the layer has a HideAs proxy group name, apply those alphas rather than the actual group alphas
+		const groupName = (layer.HideAs && layer.HideAs.Group) || layer.Asset.Group.Name;
 		layer.GroupAlpha = [];
 		if (groupAlphas[groupName]) {
 			Array.prototype.push.apply(layer.GroupAlpha, groupAlphas[groupName]);
@@ -1301,8 +1302,8 @@ function CharacterAppearanceReady(C) {
 		ServerPlayerAppearanceSync();
 		if ((CharacterAppearanceReturnRoom == "ChatRoom") && (C.ID != 0)) {
 			var Dictionary = [];
-			Dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
-			Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
+			Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
+			Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber });
 			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
 			ChatRoomCharacterUpdate(C);
 		}

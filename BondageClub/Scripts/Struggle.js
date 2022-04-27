@@ -1,5 +1,6 @@
 "use strict";
 var StruggleLockPickItem = null;
+/** @type number[] */
 var StruggleLockPickOrder = null;
 var StruggleLockPickSet = null;
 var StruggleLockPickSetFalse = null;
@@ -981,7 +982,7 @@ function StruggleDrawLockpickProgress(C) {
 				if (DialogLentLockpicks)  {
 					DialogLentLockpicks = false;
 					if (CurrentScreen == "ChatRoom")
-						ChatRoomPublishCustomAction("LockPickBreak", true, [{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }]);
+						ChatRoomPublishCustomAction("LockPickBreak", true, [{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber }]);
 				} else {
 					LogAdd("FailedLockPick", "LockPick", CurrentTime + StruggleLockPickFailTimeout);
 					StruggleLockPickFailTime = CurrentTime + StruggleLockPickFailTimeout;
@@ -1224,8 +1225,10 @@ function StruggleLockPickProgressStart(C, Item) {
 		// Initialize persistent pins
 		if ((Item.Property == null)) Item.Property = {};
 		if (Item.Property != null)
-			if ((Item.Property.LockPickSeed == null) || (typeof Item.Property.LockPickSeed != "string")) {Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder); StruggleLockPickTotalTries = 0;}
-			else {
+			if ((Item.Property.LockPickSeed == null) || (typeof Item.Property.LockPickSeed != "string")) {
+				Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder);
+				StruggleLockPickTotalTries = 0;
+			} else {
 				var conv = CommonConvertStringToArray(Item.Property.LockPickSeed);
 				for (let PP = 0; PP < conv.length; PP++) {
 					if (typeof conv[PP] != "number") {
