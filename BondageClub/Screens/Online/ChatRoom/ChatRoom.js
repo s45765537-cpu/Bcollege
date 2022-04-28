@@ -31,6 +31,7 @@ var ChatRoomLastName = "";
 var ChatRoomLastBG = "";
 var ChatRoomLastPrivate = false;
 var ChatRoomLastSize = 0;
+var ChatRoomLastLanguage = "EN";
 var ChatRoomLastDesc = "";
 var ChatRoomLastAdmin = [];
 var ChatRoomLastBan = [];
@@ -1173,6 +1174,8 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomPrivate = ChatRoomData.Private;
 			if (ChatRoomData && ChatRoomData.Limit)
 				Player.LastChatRoomSize = ChatRoomData.Limit;
+			if (ChatRoomData && ChatRoomData.Language)
+				Player.LastChatRoomLanguage = ChatRoomData.Language;
 			if (ChatRoomData && ChatRoomData.Description != null) // empty string is valid
 				Player.LastChatRoomDesc = ChatRoomData.Description;
 			if (ChatRoomData && ChatRoomData.Admin)
@@ -1185,6 +1188,7 @@ function ChatRoomSetLastChatRoom(room) {
 			ChatRoomLastName = ChatRoomData.Name;
 			ChatRoomLastBG = ChatRoomData.Background;
 			ChatRoomLastSize = ChatRoomData.Limit;
+			ChatRoomLastLanguage = ChatRoomData.Language;
 			ChatRoomLastPrivate = ChatRoomData.Private;
 			ChatRoomLastDesc = ChatRoomData.Description;
 			ChatRoomLastAdmin = ChatRoomData.Admin;
@@ -1209,6 +1213,7 @@ function ChatRoomSetLastChatRoom(room) {
 		LastChatRoomBG: Player.LastChatRoomBG,
 		LastChatRoomPrivate: Player.LastChatRoomPrivate,
 		LastChatRoomSize: Player.LastChatRoomSize,
+		LastChatRoomLanguage: Player.LastChatRoomLanguage,
 		LastChatRoomDesc: Player.LastChatRoomDesc,
 		LastChatRoomAdmin: Player.LastChatRoomAdmin.toString(),
 		LastChatRoomBan: Player.LastChatRoomBan.toString(),
@@ -3568,6 +3573,10 @@ function ChatRoomSetRule(data) {
 			AsylumGGTSLock(GGTS, TextGet("GGTSIntro"));
 		}
 
+		// Nickname rules
+		if (data.Content == "OwnerRuleNicknameAllow") LogDelete("BlockNickname", "OwnerRule");
+		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
+
 		// Collar Rules
 		if (data.Content == "OwnerRuleCollarRelease") {
 			if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "SlaveCollar")) {
@@ -3936,6 +3945,7 @@ function ChatRoomRecreate() {
 			Description: Player.LastChatRoomDesc,
 			Background: Player.LastChatRoomBG,
 			Limit: "" + Player.LastChatRoomSize,
+			Language: Player.LastChatRoomLanguage,
 			Admin: Player.LastChatRoomAdmin,
 			Ban: Player.LastChatRoomBan,
 			BlockCategory: Player.LastChatRoomBlockCategory,
@@ -3981,6 +3991,7 @@ function ChatRoomDataChanged() {
 	return ChatRoomLastName != ChatRoomData.Name ||
 		ChatRoomLastBG != ChatRoomData.Background ||
 		ChatRoomLastSize != ChatRoomData.Limit ||
+		ChatRoomLastLanguage != ChatRoomData.Language ||
 		ChatRoomLastPrivate != ChatRoomData.Private ||
 		ChatRoomLastDesc != ChatRoomData.Description ||
 		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin) ||
