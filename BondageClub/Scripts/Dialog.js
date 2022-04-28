@@ -12,6 +12,7 @@ var DialogInventory = [];
 var DialogInventoryOffset = 0;
 /** @type {Item|null} */
 var DialogFocusItem = null;
+/** @type {Item|null} */
 var DialogFocusSourceItem = null;
 var DialogFocusItemColorizationRedrawTimer = null;
 /** @type {string[]} */
@@ -2393,6 +2394,7 @@ function DialogDrawOwnerRulesMenu() {
 	if (LogQuery("BlockRemote", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemote" });
 	if (LogQuery("BlockRemoteSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemoteSelf" });
 	if (LogQuery("ReleasedCollar", "OwnerRule")) ToDisplay.push({ Tag: "ReleasedCollar" });
+	if (LogQuery("BlockNickname", "OwnerRule")) ToDisplay.push({ Tag: "BlockNickname" });
 	if (LogQuery("BlockLoverLockSelf", "LoverRule")) ToDisplay.push({Tag: "BlockLoverLockSelf"});
 	if (LogQuery("BlockLoverLockOwner", "LoverRule")) ToDisplay.push({Tag: "BlockLoverLockOwner"});
 	if (ToDisplay.length == 0) ToDisplay.push({ Tag: "Empty" });

@@ -264,6 +264,8 @@ ItemFeetMedicalBedRestraintsStraps,Cuffs
 ItemFeetTentaclesInner,Inner
 ItemFeetTentaclesOuter,Outer
 ItemFeetTentaclesSucker,Suckers
+ItemFeetNylonRopeLowerRope,Lower Rope
+ItemFeetNylonRopeUpperRope,Upper Rope
 ItemLegsFuturisticLegCuffsChain,Chain
 ItemLegsFuturisticLegCuffsCuffs,Cuffs
 ItemLegsFuturisticLegCuffsDisplay,Display
@@ -278,13 +280,13 @@ ItemLegsLegBinderLatex,Binder
 ItemLegsLegBinderBelts,Belts
 ItemLegsHobbleSkirtLatex,Skirt
 ItemLegsHobbleSkirtBelts,Belts
-ItemLegsWoodenHorseFrame,Frame
-ItemLegsWoodenHorseWood,Wood
 ItemLegsMedicalBedRestraintsBase,Bed Straps
 ItemLegsMedicalBedRestraintsStraps,Cuffs
 ItemLegsTentaclesInner,Inner
 ItemLegsTentaclesOuter,Outer
 ItemLegsTentaclesSucker,Suckers
+ItemLegsNylonRopeLowerRope,Lower Rope
+ItemLegsNylonRopeUpperRope,Upper Rope
 ItemVulvaWandBeltBelt,Belt
 ItemVulvaWandBeltWand,Wand
 ItemVulvaHempRopeBeltRope,Rope
@@ -554,6 +556,8 @@ ItemDevicesNetFront,Net
 ItemDevicesNetWeightsFront,Weights
 ItemDevicesSnowmanButtons,Buttons
 ItemDevicesSnowmanStickHands,Arms
+ItemDevicesWoodenHorseFrame,Frame
+ItemDevicesWoodenHorseWood,Wood
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
