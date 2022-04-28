@@ -2673,8 +2673,9 @@ var AssetFemale3DCGExtended = {
 							Name: "Frame", Key: "f",
 							Options: [
 								{}, // f0 - Normal
-								{}, // f1 - HalfBack
-								{}, // f2 - NoBack
+								{}, // f1 - Stained
+								{}, // f2 - HalfBack
+								{}, // f3 - NoBack
 							],
 					},	
 					{
@@ -2722,13 +2723,6 @@ var AssetFemale3DCGExtended = {
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
 									},
 								}, // t4 - ChainsTight
-							],
-					},
-					{
-							Name: "FrameStains", Key: "s",
-							Options: [
-							{}, // s0 - No
-							{}, // s1 - Stains
 							],
 					},
 					{
@@ -4352,15 +4346,18 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "Basic",
-						Property: { Type: null, SetPose: ["LegsClosed"], Difficulty: 1 }
+						Property: { Type: null, SetPose: ["LegsClosed"], Difficulty: 1 },
+						Prerequisite: ["CanCloseLegs"],
 					}, {
 						Name: "FullBinding",
 						BondageLevel: 2,
-						Property: { Type: "FullBinding", SetPose: ["LegsClosed"], Difficulty: 2 }
+						Property: { Type: "FullBinding", SetPose: ["LegsClosed"], Difficulty: 2 },
+						Prerequisite: ["CanCloseLegs"],
 					}, {
 						Name: "Link",
 						BondageLevel: 2,
-						Property: { Type: "Link", SetPose: ["LegsClosed"], Difficulty: 2 }
+						Property: { Type: "Link", SetPose: ["LegsClosed"], Difficulty: 2 },
+						Prerequisite: ["CanCloseLegs"],
 					}, {
 						Name: "Frogtie",
 						BondageLevel: 3,
@@ -4370,11 +4367,13 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "Crossed",
 						BondageLevel: 4,
-						Property: { Type: "Crossed", SetPose: ["LegsClosed"], Difficulty: 4 }
+						Property: { Type: "Crossed", SetPose: ["LegsClosed"], Difficulty: 4 },
+						Prerequisite: ["CanCloseLegs"],
 					}, {
 						Name: "Mermaid",
 						BondageLevel: 4,
-						Property: { Type: "Mermaid", SetPose: ["LegsClosed"], Difficulty: 4 }
+						Property: { Type: "Mermaid", SetPose: ["LegsClosed"], Difficulty: 4 },
+						Prerequisite: ["CanCloseLegs"],
 					}
 				],
 				Dialog: {
@@ -4443,12 +4442,14 @@ var AssetFemale3DCGExtended = {
 							FreezeActivePose: ["BodyLower"],
 							Difficulty: 6,
 						},
+						Prerequisite: ["CanCloseLegs"],
 					},
 					{
 						Name: "Chained",
 						Property: {
 							Type: "Chained", Effect: ["Slow"],
-						}
+						},
+						Prerequisite: ["NotHorse"],
 					}
 				],
 				Dialog: {
@@ -4483,12 +4484,14 @@ var AssetFemale3DCGExtended = {
 							AllowActivePose: ["Kneel", "LegsClosed"],
 							Difficulty: 6,
 						},
+						Prerequisite: ["CanCloseLegs"],
 					},
 					{
 						Name: "Chained",
 						Property: {
 							Type: "Chained", Effect: ["Slow"],
-						}
+						},
+						Prerequisite: ["NotHorse"],
 					}
 				],
 				Dialog: {
