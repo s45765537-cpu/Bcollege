@@ -2804,7 +2804,7 @@ var AssetFemale3DCG = [
 			{ Group: "ItemAddon", Name: "CeilingChain" },
 		],
 		Asset: [
-			{ Name: "NylonRopeHarness", Fetish: ["Rope", "Nylon"], Value: 30, Time: 20, DefaultColor: "#CCCCCC", BuyGroup: "NylonRope", Audio: "RopeShort", Prerequisite: "AccessTorso", Extended: true,
+			{ Name: "NylonRopeHarness", Fetish: ["Rope", "Nylon"], Value: 30, Time: 20, BuyGroup: "NylonRope", Audio: "RopeShort", Prerequisite: "AccessTorso", Extended: true,
 				DefaultColor: ["#CCCCCC"],
 				Layer: [
 					{ Name: "Rope" },
