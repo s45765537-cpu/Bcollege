@@ -143,6 +143,21 @@ function GLDrawOnContextRestored() {
 }
 
 /**
+ * Debug helper to force a context lost event
+ */
+function GLDrawForceContextLoss() {
+	if (!GLDrawCanvas) return;
+	/* @ts-ignore */
+	let ext = GLDrawCanvas.GL.ext;
+	if (!ext) {
+		ext = GLDrawCanvas.GL.getExtension("WEBGL_lose_context");
+		/* @ts-ignore */
+		GLDrawCanvas.GL.ext = ext;
+	}
+	ext.loseContext();
+}
+
+/**
  * Resets the GLDraw renderer
  *
  * This function removes the current canvas, removes cached textures from the
