@@ -6367,6 +6367,9 @@ var AssetFemale3DCG = [
 					{ Group: ["BodyLower", "Socks", "SuitLower"], Pose: ["LegsClosed"], Masks: [[75, 650, 350, 350]] },
 				], Height: 30
 			},
+			{
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 28, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Left: 100, Top: 800, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], HideForPose: ["Kneel", "Spread", "KneelingSpread"], Effect: ["Freeze"], ParentGroup: null,
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
