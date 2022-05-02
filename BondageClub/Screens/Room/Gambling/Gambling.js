@@ -787,7 +787,6 @@ function GamblingStripTied(gstCarachter, gstLevel) {
  */
 function GamblingAnnoyGamblingFirstSub() {
 	InventoryWear(Player, "LeatherBlindfold", "ItemHead");
-	CharacterSetCurrent(Player);
 }
 
 /**
