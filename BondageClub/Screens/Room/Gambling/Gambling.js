@@ -209,7 +209,7 @@ function GamblingClick() {
 	if (MouseIn(1250, 0, 500, 1000) && ((ReputationGet("Gambling") > 20) || (MaidQuartersCurrentRescue == "Gambling"))) CharacterSetCurrent(GamblingSecondSub);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90)) GamblingDressBackPlayer();
+	if (MouseIn(1885, 265, 90, 90) && Player.CanInteract()) GamblingDressBackPlayer();
 	if (MouseIn(1885, 385, 90, 90) && GamblingCanStealDice()) GamblingStealDice();
 }
 
