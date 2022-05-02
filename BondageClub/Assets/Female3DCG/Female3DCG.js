@@ -2368,6 +2368,9 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false },
 				],
 			},
+			{
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 30, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowPose: [], AllowActivePose: ["Kneel"], HideForPose: ["Spread", "KneelingSpread"], Effect: ["Slow"], ParentGroup: null,
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
