@@ -544,6 +544,22 @@ function GamblingFoxController(FoxState) {
 }
 
 /**
+ * Roll a dice for Street To Roissy and add it to the given dice stack.
+ * Replace the last dice on the stack if it was not progressing to Roissy.
+ * @param Stack the array to add the new dice on
+ * @return {number} - The value of the dice thrown
+ */
+function GamblingStreetRoissyRollDice(Stack) {
+	let NewDice = Math.floor(Math.random() * 6) + 1;
+	if (Stack.length == 0) Stack.push(NewDice);
+	else {
+		if (Stack[Stack.length - 1] != Stack.length) Stack[Stack.length -1] = NewDice;
+		else Stack.push(NewDice);
+	}
+	return NewDice;
+}
+
+/**
  * Controller for Street to Roissy
  * @param {"new" | "nextDice" | "both" | "win" | "lost" | "end"} StreetRoissyState - The current state of the game
  * @returns {void} - Nothing
@@ -563,10 +579,8 @@ function GamblingStreetRoissyController (StreetRoissyState) {
 		CharacterRefresh(Player);
 		GamblingSecondSub.Stage = 200;
 	} else if (StreetRoissyState == "nextDice") {
-		GamblingPlayerDice = Math.floor(Math.random() * 6) + 1;
-		GamblingPlayerDiceStack[GamblingPlayerDiceStack.length] = GamblingPlayerDice;
-		GamblingNpcDice = Math.floor(Math.random() * 6) + 1;
-		GamblingNpcDiceStack[GamblingNpcDiceStack.length] = GamblingNpcDice;
+		GamblingPlayerDice = GamblingStreetRoissyRollDice(GamblingPlayerDiceStack);
+		GamblingNpcDice = GamblingStreetRoissyRollDice(GamblingNpcDiceStack);
 		GamblingSecondSub.Stage = 200;
 		if (GamblingPlayerDice == GamblingPlayerSubState && GamblingNpcDice == GamblingNpcSubState) {
 			//both the next level
