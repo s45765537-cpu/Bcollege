@@ -1181,7 +1181,8 @@ ItemMouth,CaneGag,Cane
 ItemMouth,PaciGag,Pacifier Gag
 ItemMouth,Tentacles,Tentacle
 ItemMouth,OTNPlugGag,Harness OTN Plug Gag
-ItemMouth,PonyGag, Bridle Gag
+ItemMouth,PonyGag,Bridle Gag
+ItemMouth,Slime,Slime
 ItemMouth2,,Mouth
 ItemMouth2,ClothGag,Cloth Gag
 ItemMouth2,WiffleGag,Wiffle Ball Gag
@@ -1231,7 +1232,8 @@ ItemMouth2,CageMuzzle,Iron Cage Muzzle
 ItemMouth2,Ribbons,Ribbons
 ItemMouth2,PaciGag,Pacifier Gag
 ItemMouth2,Tentacles,Tentacle
-ItemMouth2,PonyGag, Bridle Gag
+ItemMouth2,PonyGag,Bridle Gag
+ItemMouth2,Slime,Slime
 ItemMouth3,,Mouth
 ItemMouth3,ClothGag,Cloth Gag
 ItemMouth3,WiffleGag,Wiffle Ball Gag
@@ -1281,7 +1283,8 @@ ItemMouth3,PlasticWrap, Plastic Wrap
 ItemMouth3,Ribbons,Ribbons
 ItemMouth3,PaciGag,Pacifier Gag
 ItemMouth3,Tentacles,Tentacle
-ItemMouth3,PonyGag, Bridle Gag
+ItemMouth3,PonyGag,Bridle Gag
+ItemMouth3,Slime,Slime
 ItemHead,,Eyes
 ItemHead,ClothBlindfold,Cloth Blindfold
 ItemHead,LeatherBlindfold,Leather Blindfold
