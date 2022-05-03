@@ -4531,6 +4531,13 @@ var AssetFemale3DCG = [
 					{ Name: "Blinders", HasType: false, AllowModuleTypes: ["b1"], ColorGroup: "Straps", Priority: 55 },
 				]
 			}, //PonyGag
+			{
+				Name: "LatexSheathGag", Fetish: ["Latex"], Value: 10, Difficulty: 0, DefaultColor: ["#CC2222","#CC2222",], Top: 22, Time: 2, RemoveTime: 2, Effect: [""], Extended: false, AllowExpression: ["Frown", "Sad", "Pained", "Angry", "HalfOpen", "Open", "Ahegao", "Moan", "TonguePinch", "LipBite", "Happy", "Devious", "Laughing", "Grin", "Smirk", "Pout"],
+				Layer: [
+					{ Name: "Base", HasType: false, MirrorExpression: "Mouth",},
+					{ Name: "Shine", HasType: false, MirrorExpression: "Mouth",},
+				],
+			}, // LatexSheathGag
 		AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -4877,6 +4884,17 @@ var AssetFemale3DCG = [
 					{ Name: "Blinders", HasType: false, AllowModuleTypes: ["b1"], ColorGroup: "Straps", Priority: 55 },
 				]
 			}, //PonyGag
+			{
+				Name: "MouthFeatureGag", Fetish: ["Latex"], Value: 40, Difficulty: 5, Prerequisite: "GagUnique", DefaultColor: ["#222222", "#444444", "#CC2222", "#CC2222",], Top: 22 , Time: 5, RemoveTime: 7, HideItem: ["ItemMouthLatexSheathGag"], Effect: ["GagVeryLight"], Extended: false, AllowExpression: ["Frown", "Sad", "Pained", "Angry", "HalfOpen", "Open", "Ahegao", "Moan", "TonguePinch", "LipBite", "Happy", "Devious", "Laughing", "Grin", "Smirk", "Pout"],
+				Layer: [
+					{ Name: "Panel", HasType: false,},
+					{ Name: "PanelShine", HasType: false,},
+					{ Name: "Base", HasType: false, MirrorExpression: "Mouth",},
+					{ Name: "Shine", HasType: false, MirrorExpression: "Mouth",},
+					{ Name: "Lip", HasType: false, CopyLayerColor: "Panel", MirrorExpression: "Mouth",},
+					{ Name: "LipShine", HasType: false, CopyLayerColor: "PanelShine", MirrorExpression: "Mouth",},
+				],
+			}, // MouthFeatureGag
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
