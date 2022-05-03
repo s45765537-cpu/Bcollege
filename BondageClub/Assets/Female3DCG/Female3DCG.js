@@ -6389,7 +6389,7 @@ var AssetFemale3DCG = [
 				], Height: 30
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 28, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Left: 100, Top: 800, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], HideForPose: ["Kneel", "Spread", "KneelingSpread"], Effect: ["Freeze"], ParentGroup: null,
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 28, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Left: 100, Top: 800, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], HideForPose: ["Kneel", "Spread", "KneelingSpread", "Hogtied"], Effect: ["Freeze"], ParentGroup: null,
 			},
 			AssetSpankingToys
 		],
