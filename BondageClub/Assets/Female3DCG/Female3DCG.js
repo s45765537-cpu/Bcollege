@@ -3533,6 +3533,21 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", ParentGroup: null, AllowColorize: false, HasType: false },
 				],
 			},
+			{
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Random: false, Value: 200, Left: 0, Top: 0, Difficulty: 6, Time: 30, RemoveTime: 50, ParentGroup: null, Extended: true,
+				SetPose: ["BackElbowTouch"],
+				AllowPose : ["Hogtied"],
+				Effect: ["Block", "Prone"],
+				Layer: [
+					{ Name: "Base", AllowModuleTypes: ["p0"], HasType: false },
+					{ Name: "BaseHogtied", CopyLayerColor: "Base", AllowModuleTypes: ["p1"], HasType: false, Priority: 50, Top: -538 },
+					{ Name: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 3 },
+					{ Name: "GirlFront", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 42 },
+					{ Name: "GirlFrontHogtied", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p1t1"], HasType: false, Priority: 60, Top: -538 },
+					{ Name: "GirlFeatures", AllowModuleTypes: ["p0t1"], AllowColorize: false, HasType: false, Priority: 42 },
+					{ Name: "GirlFeaturesHogtied", AllowModuleTypes: ["p1t1"], AllowColorize: false, HasType: false, Priority: 60, Top: -538 },
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],

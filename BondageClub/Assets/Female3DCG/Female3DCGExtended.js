@@ -1682,6 +1682,28 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		},
+		Slime: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Position", Key: "p",
+						Options: [
+							{}, // p0 - Arms behind back
+							{ Property: { Difficulty: 2, SetPose: ["Hogtied"] } }, // p1 - Hogtied
+						],
+					},
+					{
+						Name: "Type", Key: "t",
+						Options: [
+							{}, // t0 - Normal slime
+							{ Property: { Difficulty: 3 } }, // t1 - Slime girl
+						]
+					}
+				],
+				ChatTags: [CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
+			}
+		}
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -2677,12 +2699,12 @@ var AssetFemale3DCGExtended = {
 								{}, // f2 - HalfBack
 								{}, // f3 - NoBack
 							],
-					},	
+					},
 					{
 							Name: "TopRestraints", Key: "t",
 							Options: [
 								{}, // t0 - No
-								{	
+								{
 								Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 22,
@@ -2700,7 +2722,7 @@ var AssetFemale3DCGExtended = {
 										AllowActivePose: ["LegsClosed", "BaseLower"],
 										Block: ["ItemArms"],
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
-										
+
 									},
 								}, // t2 - RopeTight
 								{
@@ -2781,7 +2803,7 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //WoodenRack
-		
+
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
