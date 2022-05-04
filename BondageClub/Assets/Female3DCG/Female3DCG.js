@@ -3931,6 +3931,18 @@ var AssetFemale3DCG = [
 				{ Name: "Studs", HasType: false },
 				{ Name: "Ring", HasType: false }
 			] },
+			{
+				Name: "BonedNeckCorset", Time: 7, Value: 50, Difficulty: 40, DefaultColor: ["#222222","#888888", "#AA2121", "#AA2121", "#888888"], Effect: ["FixedHead"], Extended: true,
+				Layer:[
+					{ Name: "Base", HasType: false,},
+					{ Name: "Shine", HasType: false,},
+					{ Name: "Stripes", HasType: false,},
+					{ Name: "StripesShine", HasType: false,},
+					{ Name: "Bump", HasType: false, AllowTypes: ["Ring"], CopyLayerColor: "Base",},
+					{ Name: "RingShadow", HasType: false, AllowTypes: ["Ring"], AllowColorize: false,},
+					{ Name: "Ring", HasType: false, AllowTypes: ["Ring"],},
+				],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
