@@ -10,6 +10,12 @@ const CharacterDeafLevels = new Map([
 	["DeafLight", 1],
 ]);
 
+const CharacterBlurLevels = new Map([
+	["BlurHeavy", 20],
+	["BlurNormal", 10],
+	["BlurLight", 5],
+]);
+
 /**
  * An enum representing the various character archetypes
  * ONLINE: The player, or a character representing another online player
@@ -153,6 +159,18 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			// Light sensory deprivation setting limits blindness
 			if (this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") blindLevel = Math.min(2, blindLevel);
 			return blindLevel;
+		},
+		GetBlurLevel: function() {
+			let blurLevel = 0;
+			for (const item of this.Appearance) {
+				for (const [effect, level] of CharacterBlurLevels.entries()) {
+					if (InventoryItemHasEffect(item, effect)) {
+						blurLevel += level;
+						break; // Only count the highest blur level defined on the item
+					}
+				}
+			}
+			return blurLevel;
 		},
 		IsLocked: function () {
 			return this.Effect.indexOf("Lock") > 0;

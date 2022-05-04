@@ -345,6 +345,10 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		const DestY = (IsInverted || YCutOff) ? 0 : YOffset;
 
 		// Draw the character
+		const BlurLevel = Player.GetBlurLevel();
+		if (!C.IsPlayer() && !OverrideDark && BlurLevel > 0) {
+			MainCanvas.filter = `blur(${BlurLevel}px)`;
+		}
 		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			Canvas: DrawCanvas,
 			SourcePos: [0, YStart, Canvas.width, SourceHeight],
@@ -353,6 +357,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			Invert: IsInverted,
 			Mirror: IsInverted
 		});
+		MainCanvas.filter = 'none';
 
 		// Draw the arousal meter & game images on certain conditions
 		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= 1) {
@@ -1293,8 +1298,14 @@ function DrawProcess(time) {
 	let B = window[CurrentScreen + "Background"];
 
 	if ((B != null) && (B != "")) {
+		const ValidScreenForVFX = CurrentModule != "Character" && B != "Sheet";
+		const blurLevel = Player.GetBlurLevel();
+		if (ValidScreenForVFX && blurLevel > 0) {
+			MainCanvas.filter = `blur(${blurLevel}px)`;
+		}
+
 		let DarkFactor = 1.0;
-		if ((CurrentModule != "Character") && (B != "Sheet")) {
+		if (ValidScreenForVFX) {
 			DarkFactor = CharacterGetDarkFactor(Player) * CurrentDarkFactor;
 			if (DarkFactor == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) DarkFactor = 0.5;
 		}
@@ -1302,7 +1313,7 @@ function DrawProcess(time) {
 
 		let customBG = DrawGetCustomBackground();
 
-		if (customBG != "" && (CurrentModule != "Character") && (B != "Sheet")) {
+		if (customBG != "" && ValidScreenForVFX) {
 			B = customBG;
 			if (DarkFactor == 0)
 				DarkFactor = CharacterGetDarkFactor(Player, true);
@@ -1315,6 +1326,8 @@ function DrawProcess(time) {
 			}
 		}
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
+
+		MainCanvas.filter = 'none';
 	}
 
 	// Draws the dialog screen or current screen if there's no loaded character

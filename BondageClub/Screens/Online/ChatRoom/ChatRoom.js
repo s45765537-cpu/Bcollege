@@ -853,10 +853,10 @@ function ChatRoomDrawCharacter(DoClick) {
 
 	// Draw the background
 	if (!DoClick) ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom);
-	
+
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
-		
+
 		// Finds the X and Y position of the character based on it's room position
 		let ChatRoomCharacterX = C >= 5 ? ChatRoomCharacterX_Lower : ChatRoomCharacterX_Upper;
 		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
@@ -876,7 +876,7 @@ function ChatRoomDrawCharacter(DoClick) {
 			DrawCharacter(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
 			DrawStatus(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
 			if (ChatRoomCharacterDrawlist[C].MemberNumber != null) ChatRoomDrawCharacterOverlay(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom, C);
-			
+
 		}
 
 	}
@@ -893,8 +893,13 @@ function ChatRoomDrawCharacter(DoClick) {
  */
 function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
 	if (DarkFactor > 0) {
+		const BlurLevel = Player.GetBlurLevel();
+		if (BlurLevel > 0) {
+			MainCanvas.filter = `blur(${BlurLevel}px)`;
+		}
 		// Draw the zoomed background
 		DrawImageZoomCanvas("Backgrounds/" + Background + ".jpg", MainCanvas, 500 * (2 - 1 / Zoom), 0, 1000 / Zoom, 1000, 0, Y, 1000, 1000 * Zoom, InvertRoom);
+		MainCanvas.filter = 'none';
 
 		// Draw an overlay if the character is partially blinded
 		if (DarkFactor < 1.0) {
@@ -2342,7 +2347,7 @@ function ChatRoomMessage(data) {
 				else if (msg == "ReceiveSuitcaseMoney"){
 					ChatRoomReceiveSuitcaseMoney();
 				}
-				
+
 				// Process hidden GGTS messages
 				if (msg.substr(0, 4) == "GGTS") AsylumGGTSHiddenMessage(SenderCharacter, msg, data);
 
@@ -2394,7 +2399,7 @@ function ChatRoomMessage(data) {
 										if (Nick != ChatRoomCharacter[T].Name) Nick = Nick + " [" + ChatRoomCharacter[T].Name + "]";
 										msg = msg.replace(dictionary[D].Tag, Nick);
 										break;
-									}	
+									}
 							}
 							else if ((dictionary[D].Tag == "DestinationCharacter") || (dictionary[D].Tag == "DestinationCharacterName")) {
 								TargetMemberNumber = dictionary[D].MemberNumber;
@@ -2491,7 +2496,7 @@ function ChatRoomMessage(data) {
 							senderName = DialogFindPlayer("Someone");
 						else
 							senderName = SpeechGarble(SenderCharacter, CharacterNickname(SenderCharacter), true);
-					} 
+					}
 					else senderName = CharacterNickname(SenderCharacter);
 					msg += senderName;
 					msg += ':</span> ';
