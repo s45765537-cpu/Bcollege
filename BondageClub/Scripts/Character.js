@@ -11,9 +11,10 @@ const CharacterDeafLevels = new Map([
 ]);
 
 const CharacterBlurLevels = new Map([
+	["BlurTotal", 50],
 	["BlurHeavy", 20],
-	["BlurNormal", 10],
-	["BlurLight", 5],
+	["BlurNormal", 8],
+	["BlurLight", 3],
 ]);
 
 /**
@@ -62,6 +63,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		DrawAppearance: [],
 		AllowedActivePose: [],
 		Effect: [],
+		Tints: [],
 		FocusGroup: null,
 		Canvas: null,
 		CanvasBlink: null,
@@ -314,6 +316,15 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		GetClumsiness: function () {
 			return CharacterGetClumsiness(this);
+		},
+		HasEffect: function(Effect) {
+			return this.Effect.includes(Effect);
+		},
+		HasTints: function() {
+			return this.Tints.length > 0;
+		},
+		GetTints: function() {
+			return CharacterGetTints(this);
 		},
 		// Adds a new hook with a Name (determines when the hook will happen, an Instance ID (used to differentiate between different hooks happening at the same time), and a function that is run when the hook is called)
 		RegisterHook: function (hookName, hookInstance, callback) {
@@ -896,6 +907,7 @@ function CharacterLoadPose(C) {
  */
 function CharacterLoadEffect(C) {
 	C.Effect = CharacterGetEffects(C);
+	CharacterLoadTints(C);
 }
 
 /**
@@ -932,6 +944,19 @@ function CharacterGetEffects(C, Groups = null, AllowDuplicates = false) {
 			}
 		});
 	return totalEffects;
+}
+
+function CharacterLoadTints(C) {
+	/** @type {ResolvedTintDefinition[]} */
+	const tints = [];
+	for (const item of C.Appearance) {
+		/** @type {TintDefinition[]} */
+		const itemTints = InventoryGetItemProperty(item, "Tint");
+		if (Array.isArray(itemTints)) {
+			tints.push(...itemTints.map(({Color, Strength}) => ({Color, Strength, Item: item})));
+		}
+	}
+	C.Tints = tints;
 }
 
 /**
@@ -1540,6 +1565,37 @@ function CharacterGetDarkFactor(C, eyesOnly = false) {
 	else if (blindLevel === 2) DarkFactor = 0.15;
 	else if (blindLevel === 1) DarkFactor = 0.3;
 	return DarkFactor;
+}
+
+/**
+ * Gets the array of color tints that should be applied for a character in RGBA format.
+ * @param {Character} C - The character
+ * @returns {RGBAColor[]} - A list of RGBA tints that are currently affecting the character
+ */
+function CharacterGetTints(C) {
+	if (!C.HasTints()) {
+		return [];
+	}
+	/** @type {RGBAColor[]} */
+	const tints = C.Tints.map(({Color, Strength, Item}) => {
+		let colorIndex = 0
+		if (typeof Color === "number") {
+			colorIndex = Color;
+			if (typeof Item.Color === "string") {
+				Color = Item.Color;
+			} else if (Array.isArray(Item.Color)) {
+				Color = Item.Color[Color] || "Default";
+			} else {
+				Color = "Default";
+			}
+		}
+		if (Color === "Default" && Item.Asset.DefaultColor) {
+			Color = Array.isArray(Item.Asset.DefaultColor) ? Item.Asset.DefaultColor[colorIndex] : Item.Asset.DefaultColor;
+		}
+		const {r, g, b} = DrawHexToRGB(Color);
+		return {r, g, b, a: Math.max(0, Math.min(Strength, 1))};
+	});
+	return tints.filter(({a}) => a > 0);
 }
 
 /**

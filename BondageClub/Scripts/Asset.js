@@ -199,6 +199,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
 		PoseMapping: AssetDef.PoseMapping || {},
+		Tint: AssetDef.Tint ? [AssetDef.Tint] : [],
 	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
 
 	// Ensure opacity value is valid

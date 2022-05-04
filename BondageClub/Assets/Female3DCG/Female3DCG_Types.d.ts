@@ -140,6 +140,7 @@ interface AssetDefinition {
 	Attribute?: string[];
 	HideItemAttribute?: string[];
 	PreviewIcons?: string[];
+	Tint: TintDefinition;
 }
 
 interface AssetLayerDefinition {

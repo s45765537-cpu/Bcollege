@@ -44,6 +44,16 @@ interface HTMLElement {
 	setAttribute(qualifiedName: string, value: string | number): void;
 }
 
+interface RGBColor {
+	r: number;
+	g: number;
+	b: number;
+}
+
+interface RGBAColor extends RGBColor {
+	a: number;
+}
+
 //#endregion
 
 //#region Enums
@@ -105,6 +115,7 @@ type EffectName =
 
 	"BlindLight" | "BlindNormal" | "BlindHeavy" |
 	"BlurLight" | "BlurNormal" | "BlurHeavy" |
+	"Tint" |
 	"DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal" |
 
 	"VR" | "VRAvatars" | "KinkyDungeonParty" |
@@ -426,6 +437,15 @@ a rectangle and the rectangle's width and height - e.g. [left, top, width, heigh
 	Masks: [number, number, number, number][];
 }
 
+interface TintDefinition {
+	Color: number | string;
+	Strength: number;
+}
+
+interface ResolvedTintDefinition extends TintDefinition {
+	Item: Item;
+}
+
 interface ExpressionTrigger {
 	Group: string;
 	Name: string;
@@ -535,6 +555,7 @@ interface Asset {
 	Archetype?: string;
 	Attribute: string[];
 	PreviewIcons: string[];
+	Tint: TintDefinition[];
 }
 
 //#endregion
@@ -682,6 +703,7 @@ interface Character {
 	Skill: Skill[];
 	Pose: string[];
 	Effect: string[];
+	Tints: ResolvedTintDefinition[];
 	FocusGroup: AssetGroup | null;
 	Canvas: HTMLCanvasElement | null;
 	CanvasBlink: HTMLCanvasElement | null;
@@ -764,6 +786,9 @@ interface Character {
 	IsInverted: () => boolean;
 	CanChangeToPose: (Pose: string) => boolean;
 	GetClumsiness: () => number;
+	HasEffect: (Effect: string) => boolean;
+	HasTints: () => boolean;
+	GetTints: () => RGBAColor[];
 	DrawPose?: string[];
 	DrawAppearance?: Item[];
 	AppearanceLayers?: AssetLayer[];

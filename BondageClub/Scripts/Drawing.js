@@ -43,7 +43,7 @@ var DrawCanvasPosition = [0, 0, 0, 0];
 /**
  * Converts a hex color string to a RGB color
  * @param {string} color - Hex color to conver
- * @returns {{ r: number, g: number, b: number }} - RGB color
+ * @returns {RGBColor} - RGB color
  */
 function DrawHexToRGB(color) {
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -317,15 +317,24 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		let Canvas = (Math.round(CurrentTime / 400) % C.BlinkFactor == 0 && !CommonPhotoMode) ? C.CanvasBlink : C.Canvas;
 
 		// If we must dark the Canvas characters
-		if ((C.ID != 0) && Player.IsBlind() && !OverrideDark) {
-			const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
 
 			CharacterCanvas.globalCompositeOperation = "copy";
 			CharacterCanvas.drawImage(Canvas, 0, 0);
 			// Overlay black rectangle.
 			CharacterCanvas.globalCompositeOperation = "source-atop";
-			CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
-			CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+
+			if (Player.IsBlind()) {
+				const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+				CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
+
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				CharacterCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
 
 			Canvas = CharacterCanvas.canvas;
 		}
@@ -344,11 +353,12 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		const SourceHeight = 1000 / HeightRatio + (YCutOff ? 0 : -YOffset / HeightRatio);
 		const DestY = (IsInverted || YCutOff) ? 0 : YOffset;
 
-		// Draw the character
+		// Apply blur filter if needed
 		const BlurLevel = Player.GetBlurLevel();
 		if (!C.IsPlayer() && !OverrideDark && BlurLevel > 0) {
 			MainCanvas.filter = `blur(${BlurLevel}px)`;
 		}
+		// Draw the character
 		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			Canvas: DrawCanvas,
 			SourcePos: [0, YStart, Canvas.width, SourceHeight],
@@ -1326,6 +1336,13 @@ function DrawProcess(time) {
 			}
 		}
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
+
+		if (ValidScreenForVFX) {
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				DrawRect(0, 0, 2000, 1000, `rgba(${r},${g},${b},${a})`);
+			}
+		}
 
 		MainCanvas.filter = 'none';
 	}
