@@ -3542,10 +3542,10 @@ var AssetFemale3DCG = [
 					{ Name: "Base", AllowModuleTypes: ["p0"], HasType: false },
 					{ Name: "BaseHogtied", CopyLayerColor: "Base", AllowModuleTypes: ["p1"], HasType: false, Priority: 50, Top: 0 },
 					{ Name: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 3, Top: 0 },
-					{ Name: "GirlFront", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 42, Top: 0 },
-					{ Name: "GirlFrontHogtied", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p1t1"], HasType: false, Priority: 60, Top: -150 },
-					{ Name: "GirlFeatures", AllowModuleTypes: ["p0t1"], AllowColorize: false, HasType: false, Priority: 42, Top: 0 },
-					{ Name: "GirlFeaturesHogtied", AllowModuleTypes: ["p1t1"], AllowColorize: false, HasType: false, Priority: 60, Top: -150 },
+					{ Name: "GirlFront", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 50, Top: 0 },
+					{ Name: "GirlFrontHogtied", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p1t1"], HasType: false, Priority: 55, Top: -150 },
+					{ Name: "GirlFeatures", AllowModuleTypes: ["p0t1"], AllowColorize: false, HasType: false, Priority: 50, Top: 0 },
+					{ Name: "GirlFeaturesHogtied", AllowModuleTypes: ["p1t1"], AllowColorize: false, HasType: false, Priority: 55, Top: -150 },
 				],
 			},
 			AssetSpankingToys
@@ -5684,6 +5684,12 @@ var AssetFemale3DCG = [
 					{Name: "Base"},
 					{Name: "Spots"},
 				],
+			},
+			{
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Left: 0, Top: 0,
+				Effect: ["BlindHeavy", "Prone", "DeafHeavy", "BlockMouth"],
+				Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask", "ItemEars", "ItemHead", "Hat"],
+				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNeck", "ItemHead", "ItemNose"],
 			},
 			AssetSpankingToys
 		],
