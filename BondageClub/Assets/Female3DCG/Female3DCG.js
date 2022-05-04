@@ -3540,7 +3540,7 @@ var AssetFemale3DCG = [
 				Effect: ["Block", "Prone"],
 				Layer: [
 					{ Name: "Base", AllowModuleTypes: ["p0"], HasType: false },
-					{ Name: "BaseHogtied", CopyLayerColor: "Base", AllowModuleTypes: ["p1"], HasType: false, Priority: 50, Top: 0 },
+					{ Name: "BaseHogtied", CopyLayerColor: "Base", AllowModuleTypes: ["p1"], HasType: false, Priority: 44, Top: 0 },
 					{ Name: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 3, Top: 0 },
 					{ Name: "GirlFront", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 50, Top: 0 },
 					{ Name: "GirlFrontHogtied", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p1t1"], HasType: false, Priority: 55, Top: -150 },
