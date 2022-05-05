@@ -5675,6 +5675,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "LightTint",
 							Effect: ["BlindLight", "Prone"],
+							Tint: [{Color: 0, Strength: 0.2}],
 						},
 					},
 					{
@@ -5682,6 +5683,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "HeavyTint",
 							Effect: ["BlindNormal", "Prone"],
+							Tint: [{Color: 0, Strength: 0.5}],
 						},
 					},
 					{
