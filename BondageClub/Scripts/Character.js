@@ -10,6 +10,7 @@ const CharacterDeafLevels = new Map([
 	["DeafLight", 1],
 ]);
 
+/** @type Map<string, number> */
 const CharacterBlurLevels = new Map([
 	["BlurTotal", 50],
 	["BlurHeavy", 20],
@@ -952,7 +953,17 @@ function CharacterGetEffects(C, Groups = null, AllowDuplicates = false) {
 	return totalEffects;
 }
 
+/**
+ * Loads a character's tints, resolving tint definitions against items from the character's appearance
+ * @param {Character} C - Character whose tints should be loaded
+ * @returns {void} - Nothing
+ */
 function CharacterLoadTints(C) {
+	// Tints on non-player characters don't have any effect right now, so don't bother loading them
+	if (!C.IsPlayer()) {
+		return;
+	}
+
 	/** @type {ResolvedTintDefinition[]} */
 	const tints = [];
 	for (const item of C.Appearance) {
