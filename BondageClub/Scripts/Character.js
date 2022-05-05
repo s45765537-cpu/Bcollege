@@ -163,6 +163,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return blindLevel;
 		},
 		GetBlurLevel: function() {
+			if (this.IsPlayer() && this.ImmersionSettings && !this.ImmersionSettings.AllowBlur) {
+				return 0;
+			}
 			let blurLevel = 0;
 			for (const item of this.Appearance) {
 				for (const [effect, level] of CharacterBlurLevels.entries()) {
@@ -321,6 +324,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return this.Effect.includes(Effect);
 		},
 		HasTints: function() {
+			if (this.IsPlayer() && this.ImmersionSettings && !this.ImmersionSettings.AllowTints) {
+				return false;
+			}
 			return this.Tints.length > 0;
 		},
 		GetTints: function() {
@@ -1594,6 +1600,8 @@ function CharacterGetTints(C) {
 				Color = Array.isArray(Item.Asset.DefaultColor) ? Item.Asset.DefaultColor[colorIndex] : Item.Asset.DefaultColor;
 			} else if (typeof DefaultColor === "string") {
 				Color = DefaultColor;
+			} else if (typeof Item.Asset.DefaultTint === "string") {
+				Color = Item.Asset.DefaultTint;
 			}
 		}
 		const {r, g, b} = DrawHexToRGB(Color);

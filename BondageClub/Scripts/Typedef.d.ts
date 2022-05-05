@@ -558,6 +558,7 @@ interface Asset {
 	PreviewIcons: string[];
 	Tint: TintDefinition[];
 	AllowTint: boolean;
+	DefaultTint?: string;
 }
 
 //#endregion
@@ -954,6 +955,8 @@ interface PlayerCharacter extends Character {
 		SenseDepMessages: boolean;
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
+		AllowTints: boolean;
+		AllowBlur: boolean;
 	};
 	LastChatRoom?: string;
 	LastChatRoomBG?: string;
