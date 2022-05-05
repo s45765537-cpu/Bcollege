@@ -114,8 +114,7 @@ type EffectName =
 	"GagVeryLight" | "GagEasy" | "GagLight" | "GagNormal" | "GagMedium" | "GagHeavy" | "GagVeryHeavy" | "GagTotal" | "GagTotal2" |
 
 	"BlindLight" | "BlindNormal" | "BlindHeavy" |
-	"BlurLight" | "BlurNormal" | "BlurHeavy" |
-	"Tint" |
+	"BlurLight" | "BlurNormal" | "BlurHeavy" | "BlurTotal" |
 	"DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal" |
 
 	"VR" | "VRAvatars" | "KinkyDungeonParty" |
