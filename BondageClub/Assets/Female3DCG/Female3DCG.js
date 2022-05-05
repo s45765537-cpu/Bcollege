@@ -2256,7 +2256,12 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 29, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Top: 650, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], HideForPose: ["Kneel", "Spread", "KneelingSpread"], Effect: ["Freeze"], ParentGroup: null,
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Priority: 29, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Top: 650, ParentGroup: null, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Effect: ["Freeze"],
+				HideForPose: ["Kneel", "Spread", "KneelingSpread"],
+				Layer: [
+					{ Name: "One" },
+					{ Name: "Two" },
+				],
 			},
 			AssetSpankingToys
 		],
@@ -2369,7 +2374,11 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 30, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowPose: [], AllowActivePose: ["Kneel"], HideForPose: ["Spread", "KneelingSpread"], Effect: ["Slow"], ParentGroup: null,
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Priority: 30, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowPose: [], AllowActivePose: ["Kneel"], HideForPose: ["Spread", "KneelingSpread"], Effect: ["Slow"], ParentGroup: null,
+				Layer: [
+					{ Name: "One" },
+					{ Name: "Two" },
+				],
 			},
 			AssetSpankingToys
 		],
@@ -3534,13 +3543,15 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Random: false, Value: 200, Difficulty: 6, Time: 30, RemoveTime: 50, ParentGroup: null, Extended: true,
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e", "#57ab5e"], Random: false, Value: 200, Difficulty: 6, Time: 30, RemoveTime: 50, ParentGroup: null, Extended: true,
 				SetPose: ["BackElbowTouch"],
 				AllowPose : ["Hogtied"],
 				Effect: ["Block", "Prone"],
 				Layer: [
-					{ Name: "Base", AllowModuleTypes: ["p0"], HasType: false },
-					{ Name: "BaseHogtied", CopyLayerColor: "Base", AllowModuleTypes: ["p1"], HasType: false, Priority: 44, Top: 0 },
+					{ Name: "BaseOne", AllowModuleTypes: ["p0"], HasType: false },
+					{ Name: "BaseTwo", AllowModuleTypes: ["p0"], HasType: false },
+					{ Name: "BaseOneHogtied", CopyLayerColor: "BaseOne", AllowModuleTypes: ["p1"], HasType: false, Priority: 44, Top: 0 },
+					{ Name: "BaseTwoHogtied", CopyLayerColor: "BaseTwo", AllowModuleTypes: ["p1"], HasType: false, Priority: 44, Top: 0 },
 					{ Name: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 3, Top: 0 },
 					{ Name: "GirlFront", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p0t1"], HasType: false, Priority: 50, Top: 0 },
 					{ Name: "GirlFrontHogtied", CopyLayerColor: "GirlBack", AllowModuleTypes: ["p1t1"], HasType: false, Priority: 55, Top: -150 },
@@ -5419,7 +5430,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Left: 0, Top: 0, Effect: ["BlindLight", "Prone"],
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Effect: ["BlindLight", "Prone"],
 			},
 			AssetSpankingToys
 		],
@@ -5694,10 +5705,14 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Left: 0, Top: 0,
-				Effect: ["BlindHeavy", "Prone", "DeafHeavy", "BlockMouth"],
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25,
+				Effect: ["BlindLight", "Prone", "DeafHeavy", "BlockMouth", "GagHeavy"],
 				Hide: ["HairFront", "HairBack", "Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask", "ItemEars", "ItemHead", "Hat"],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemNeck", "ItemHead", "ItemNose"],
+				Layer: [
+					{ Name: "One" },
+					{ Name: "Two" },
+				]
 			},
 			AssetSpankingToys
 		],
@@ -6414,7 +6429,12 @@ var AssetFemale3DCG = [
 				], Height: 30
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Priority: 28, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Left: 100, Top: 800, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], HideForPose: ["Kneel", "Spread", "KneelingSpread", "Hogtied"], Effect: ["Freeze"], ParentGroup: null,
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e", "#57ab5e"], Priority: 28, Random: false, Value: 200, Difficulty: 5, Time: 25, RemoveTime: 40, Left: 100, Top: 800, ParentGroup: null, Prerequisite: ["CanCloseLegs"], SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Effect: ["Freeze"],
+				HideForPose: ["Kneel", "Spread", "KneelingSpread", "Hogtied"],
+				Layer: [
+					{ Name: "One" },
+					{ Name: "Two" },
+				],
 			},
 			AssetSpankingToys
 		],
