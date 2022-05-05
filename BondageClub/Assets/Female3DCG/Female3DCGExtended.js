@@ -1981,24 +1981,27 @@ var AssetFemale3DCGExtended = {
 								Property: {
 									CustomBlindBackground: "",
 									Effect: [],
+									Tint: [{ Color: 0, Strength: 0.1 }],
 								}
 							}, // v1 Transparent Visor
 							{
 								Property: {
 									CustomBlindBackground: "",
-									Effect: ["BlindLight", "Prone"]
+									Effect: ["BlindLight", "Prone"],
+									Tint: [{ Color: 0, Strength: 0.2 }],
 								},
 							}, // v2 Lightly Tinted Visor
 							{
 								Property: {
 									CustomBlindBackground: "",
-									Effect: ["BlindNormal", "Prone"]
+									Effect: ["BlindNormal", "Prone"],
+									Tint: [{ Color: 0, Strength: 0.5 }],
 								},
 							}, // v3 Heavily Tinted Visor
 							{
 								Property: {
 									CustomBlindBackground: "",
-									Effect: ["BlindHeavy", "Prone"]
+									Effect: ["BlindHeavy", "Prone"],
 								},
 							}, // v4 Opaque Visor
 							{
@@ -2681,12 +2684,12 @@ var AssetFemale3DCGExtended = {
 								{}, // f2 - HalfBack
 								{}, // f3 - NoBack
 							],
-					},	
+					},
 					{
 							Name: "TopRestraints", Key: "t",
 							Options: [
 								{}, // t0 - No
-								{	
+								{
 								Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 22,
@@ -2704,7 +2707,7 @@ var AssetFemale3DCGExtended = {
 										AllowActivePose: ["LegsClosed", "BaseLower"],
 										Block: ["ItemArms"],
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
-										
+
 									},
 								}, // t2 - RopeTight
 								{
@@ -2785,7 +2788,7 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //WoodenRack
-		
+
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -5720,6 +5723,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "LightTint",
 							Effect: ["BlindLight", "Prone"],
+							Tint: [{ Color: 0, Strength: 0.2 }]
 						},
 					},
 					{
@@ -5727,6 +5731,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "HeavyTint",
 							Effect: ["BlindNormal", "Prone"],
+							Tint: [{ Color: 0, Strength: 0.5 }]
 						},
 					},
 					{
