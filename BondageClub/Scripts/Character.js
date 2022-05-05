@@ -953,7 +953,7 @@ function CharacterLoadTints(C) {
 		/** @type {TintDefinition[]} */
 		const itemTints = InventoryGetItemProperty(item, "Tint");
 		if (Array.isArray(itemTints)) {
-			tints.push(...itemTints.map(({Color, Strength}) => ({Color, Strength, Item: item})));
+			tints.push(...itemTints.map(({Color, Strength, DefaultColor}) => ({Color, Strength, DefaultColor, Item: item})));
 		}
 	}
 	C.Tints = tints;
@@ -1577,7 +1577,7 @@ function CharacterGetTints(C) {
 		return [];
 	}
 	/** @type {RGBAColor[]} */
-	const tints = C.Tints.map(({Color, Strength, Item}) => {
+	const tints = C.Tints.map(({Color, Strength, DefaultColor, Item}) => {
 		let colorIndex = 0
 		if (typeof Color === "number") {
 			colorIndex = Color;
@@ -1589,8 +1589,12 @@ function CharacterGetTints(C) {
 				Color = "Default";
 			}
 		}
-		if (Color === "Default" && Item.Asset.DefaultColor) {
-			Color = Array.isArray(Item.Asset.DefaultColor) ? Item.Asset.DefaultColor[colorIndex] : Item.Asset.DefaultColor;
+		if (Color === "Default") {
+			if (Item.Asset.DefaultColor) {
+				Color = Array.isArray(Item.Asset.DefaultColor) ? Item.Asset.DefaultColor[colorIndex] : Item.Asset.DefaultColor;
+			} else if (typeof DefaultColor === "string") {
+				Color = DefaultColor;
+			}
 		}
 		const {r, g, b} = DrawHexToRGB(Color);
 		return {r, g, b, a: Math.max(0, Math.min(Strength, 1))};

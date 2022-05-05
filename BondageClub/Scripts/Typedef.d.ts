@@ -440,6 +440,7 @@ a rectangle and the rectangle's width and height - e.g. [left, top, width, heigh
 interface TintDefinition {
 	Color: number | string;
 	Strength: number;
+	DefaultColor?: string;
 }
 
 interface ResolvedTintDefinition extends TintDefinition {
@@ -556,6 +557,7 @@ interface Asset {
 	Attribute: string[];
 	PreviewIcons: string[];
 	Tint: TintDefinition[];
+	AllowTint: boolean;
 }
 
 //#endregion
@@ -1074,6 +1076,8 @@ interface ItemPropertiesBase {
 
 	Effect?: EffectName[];
 	OverrideAssetEffect?: boolean;
+
+	Tint?: TintDefinition[];
 
 	/* Pose-related properties */
 
