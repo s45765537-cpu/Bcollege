@@ -2011,6 +2011,7 @@ var AssetFemale3DCGExtended = {
 								Property: {
 									CustomBlindBackground: "",
 									Effect: ["BlindHeavy", "Prone"],
+									Tint: [{ Color: 0, Strength: 1 }],
 								},
 							}, // v4 Opaque Visor
 							{
