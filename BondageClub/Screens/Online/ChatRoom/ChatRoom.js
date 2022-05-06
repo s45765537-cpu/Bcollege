@@ -905,10 +905,10 @@ function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
 		if (DarkFactor < 1.0) {
 			DrawRect(0, Y, 1000, 1000 - Y, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
 		}
-		const Tints = Player.GetTints();
-		for (const {r, g, b, a} of Tints) {
-			DrawRect(0, Y, 1000, 1000 - Y, `rgba(${r},${g},${b},${a})`);
-		}
+	}
+	const Tints = Player.GetTints();
+	for (const {r, g, b, a} of Tints) {
+		DrawRect(0, Y, 1000, 1000 - Y, `rgba(${r},${g},${b},${a})`);
 	}
 }
 
