@@ -5476,7 +5476,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Effect: ["BlindLight", "Prone", "BlurNormal"], Tint: [{Color: 0, Strength: 0.5}]
+				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Effect: ["BlindLight", "Prone", "BlurNormal"], Tint: [{Color: 0, Strength: 0.4}]
 			},
 			AssetSpankingToys
 		],
@@ -5763,7 +5763,7 @@ var AssetFemale3DCG = [
 					{ Name: "One" },
 					{ Name: "Two" },
 				],
-				Tint: [{Color: 1, Strength: 0.5}],
+				Tint: [{Color: 1, Strength: 0.4}],
 			},
 			AssetSpankingToys
 		],
