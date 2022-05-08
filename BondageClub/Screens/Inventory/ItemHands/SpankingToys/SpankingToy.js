@@ -204,8 +204,8 @@ const InventoryItemHandsSpankingToysOptions = [
 		ExpressionTrigger: []
 	},
 	{
-		Name: "Injector",
-		Property: { Type: "Injector" },
+		Name: "MedicalInjector",
+		Property: { Type: "MedicalInjector" },
 		ExpressionTrigger: []
 	},
 ];
