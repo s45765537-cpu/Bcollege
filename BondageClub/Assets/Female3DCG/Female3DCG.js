@@ -164,7 +164,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "BodyTowel1", Value: 30, HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerTutu", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "Yukata1", Value: 50, HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerTutu", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemArmsLeatherCuffs", "ItemArmsFuturisticCuffs", "ItemArmsOrnateCuffs", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
-			{ Name: "SteampunkCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "SteampunkCorsetTop1", Priority: 25, Value: 70, Hide: ["ItemHidden"], HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"] },
+			{ Name: "SteampunkCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "SteampunkCorsetTop1", Priority: 25, Value: 70, Hide: ["ItemHidden"], HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "NecklaceBodyChainNecklace"] },
 			{ Name: "BondageDress1", BuyGroup: "BondageDress1", Value: 90, Hide: ["ClothLower"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "BondageDress2", BuyGroup: "BondageDress2", Value: 90, Hide: ["ClothLower"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "ShoulderlessTop", Value: 40, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"] },
@@ -195,9 +195,10 @@ var AssetFemale3DCG = [
 					{ Name: "AltGloves", CopyLayerColor: "Gloves", Priority: 28, AllowTypes: ["AltGloves"] },
 				]
 			},
-			{ Name: "LeatherCropTop", Fetish: ["Leather"], Value: 60, Hide: ["ItemNipples", "ItemNipplesPiercings"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
+			{ Name: "LeatherCropTop", Fetish: ["Leather"], Value: 60, Hide: ["ItemNipples", "ItemNipplesPiercings"], HideItem: ["NecklaceBodyChainNecklace"], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
 			{
-				Name: "CorsetShirt", Fetish: ["Lingerie"], Priority: 25, Value: 60, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"],
+				Name: "CorsetShirt", Fetish: ["Lingerie"], Priority: 25, Value: 60,
+				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "NecklaceBodyChainNecklace"],
 				Layer: [
 					{ Name: "Shirt" },
 					{ Name: "Corset" }
@@ -243,7 +244,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Blouse1", Value: 20, Top: 1, BuyGroup: "Blouse1",
 				Alpha: [{ Group: ["Panties", "ItemPelvis", "Bra", "Corset", "Suit"], Masks: [[0, 0, 230, 448], [268, 0, 232, 448]] },],
-				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]
+				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "NecklaceBodyChainNecklace"]
 			},
 			{ Name: "LatexTop", Value: 30, Hide: ["ItemNipples"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain"]},
 			{ Name: "LatexLacedSuit", Priority: 22, Value: 35, Hide: ["Corset", "ItemNipples"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"], Extended: true},
@@ -408,6 +409,13 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "NecklaceRope", Priority: 29, Value: -1, Left: 220, Top: 200, DefaultColor: "#956B1C", BuyGroup: "HempRope", ParentGroup: null, Extended: true },
 			{ Name: "ChokerTattoo", Priority: 29, Value: 5, Left: 230, Top: 200, DefaultColor: "#444444", ParentGroup: null, Extended: true },
+			{
+				Name: "BodyChainNecklace", Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["Hogtied", "AllFours", "BackCuffs"],
+				Layer: [
+					{ Name: "Chains", AllowPose: ["OverTheHead", "Yoked", "BackElbowTouch"] },
+					{ Name: "Choker", ParentGroup: null },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -481,7 +489,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Blouse1", Value: -1, Top: 1, Priority: 29, BuyGroup: "Blouse1", DynamicGroupName: "Cloth",
 				Alpha: [{ Group: ["Panties", "ItemPelvis", "Bra", "Corset"], Masks: [[0, 0, 230, 448], [268, 0, 232, 448]] },],
-				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"]
+				HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "NecklaceBodyChainNecklace"]
 			},
 			{
 				Name: "SleevelessSlimLatexLeotard", Value: 50, Top: 0, Left: 0, Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"], HideItemExclude: ["ItemVulvaWiredEgg"],
@@ -851,7 +859,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SteampunkCorsetTop1", Fetish: ["Leather"], Left: 0, Top: 0, BuyGroup: "SteampunkCorsetTop1", Priority: 25, Value: 70, Hide: ["ItemHidden"],
-				HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"],
+				HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "NecklaceBodyChainNecklace"],
 				AllowPose: ["Hogtied", "AllFours", "OverTheHead"]
 			},
 		],
@@ -3164,7 +3172,7 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"],
 				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
-				HideItem: ["ItemNipplesLactationPump"],
+				HideItem: ["ItemNipplesLactationPump", "NecklaceBodyChainNecklace"],
 				Block: ["ItemPelvis", "ItemTorso", "ItemHands"],
 				AllowActivityOn: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"],
 				Extended: true,
@@ -3184,7 +3192,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader", "CanKneel"],
 				Hide: ["Cloth", "ClothLower", "Shoes", "Socks", "ItemBoots", "ItemLegs", "ItemFeet", "ItemHands", "Hands", "Gloves", "Garters"],
 				AllowPose: ["AllFours"],
-				HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+				HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "NecklaceBodyChainNecklace"],
 				AllowActivePose: ["AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel", "LegsClosed"],
 				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
@@ -3204,7 +3212,16 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "CollarLeashHolding", Fetish: ["Sadism"], Priority: 36, Value: -1, Difficulty: 1, Time: 3, RemoveTime: 3, Random: false, Prerequisite: ["NotSuspended", "NotHogtied"], SetPose: ["BaseUpper"], Effect: ["Leash"] },
 			{
-				Name: "StraitDress", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "StraitDress", DefaultColor: ["#4040C0", "Default"], Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"], Hide: ["Socks", "BodyLower", "Cloth", "ClothLower", "Bra", "Shoes", "ItemBoots", "ItemNipplesPiercings", "ItemLegs", "Suit", "SuitLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetIrish8Cuffs", "ItemFeetDuctTape", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemNipplesLactationPump", "ItemFeetChains", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], AllowPose: ["Kneel"], SetPose: ["BackElbowTouch", "LegsClosed"], Effect: ["Block", "Prone", "Slow"], Block: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands", "ItemFeet", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemLegs", "ItemButt"], AllowActivePose: ["Kneel"], Layer: [
+				Name: "StraitDress", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "StraitDress", DefaultColor: ["#4040C0", "Default"],
+				Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"],
+				Hide: ["Socks", "BodyLower", "Cloth", "ClothLower", "Bra", "Shoes", "ItemBoots", "ItemNipplesPiercings", "ItemLegs", "Suit", "SuitLower", "Garters"],
+				HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetIrish8Cuffs", "ItemFeetDuctTape", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemNipplesLactationPump", "ItemFeetChains", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "NecklaceBodyChainNecklace"],
+				AllowPose: ["Kneel"],
+				SetPose: ["BackElbowTouch", "LegsClosed"],
+				Effect: ["Block", "Prone", "Slow"],
+				Block: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands", "ItemFeet", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemLegs", "ItemButt"],
+				AllowActivePose: ["Kneel"],
+				Layer: [
 					{ Name: "Latex" },
 					{ Name: "Belts" }
 				],
@@ -3214,6 +3231,7 @@ var AssetFemale3DCG = [
 				Name: "StraitDressOpen", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "StraitDress", DefaultColor: ["#400000", "Default"],
 				Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"],
 				Hide: ["Cloth", "Shoes", "Socks", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "Suit", "LeftAnklet", "RightAnklet", "Garters"],
+				HideItem: ["NecklaceBodyChainNecklace"],
 				AllowPose: ["Kneel"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				Effect: ["Block", "Prone", "Slow"],
@@ -3231,10 +3249,11 @@ var AssetFemale3DCG = [
 				],
 				SelfUnlock: false
 			},
-			{ Name: "SeamlessStraitDress", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "SeamlessStraitDress", DefaultColor: "#4040C0", Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"], Hide: ["Socks", "BodyLower", "Cloth", "ClothLower", "Bra", "Shoes", "ItemBoots", "ItemNipplesPiercings", "ItemLegs", "Suit", "SuitLower", "Corset", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetIrish8Cuffs", "ItemFeetDuctTape", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], AllowPose: ["Kneel"], SetPose: ["BackElbowTouch", "LegsClosed"], Effect: ["Block", "Prone", "Slow"], Block: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands", "ItemFeet", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemLegs", "ItemButt"], AllowActivePose: ["Kneel"], SelfUnlock: false },
+			{ Name: "SeamlessStraitDress", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "SeamlessStraitDress", DefaultColor: "#4040C0", Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"], Hide: ["Socks", "BodyLower", "Cloth", "ClothLower", "Bra", "Shoes", "ItemBoots", "ItemNipplesPiercings", "ItemLegs", "Suit", "SuitLower", "Corset", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetIrish8Cuffs", "ItemFeetDuctTape", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "NecklaceBodyChainNecklace"], AllowPose: ["Kneel"], SetPose: ["BackElbowTouch", "LegsClosed"], Effect: ["Block", "Prone", "Slow"], Block: ["ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands", "ItemFeet", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemLegs", "ItemButt"], AllowActivePose: ["Kneel"], SelfUnlock: false },
 			{ Name: "SeamlessStraitDressOpen", Fetish: ["Latex"], Value: 200, Difficulty: 15, SelfBondage: 8, Time: 40, RemoveTime: 30, Random: false, AllowLock: true, BuyGroup: "SeamlessStraitDress", DefaultColor: "#400000",
 				Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader"],
 				Hide: ["Cloth", "Shoes", "Socks", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "Suit", "LeftAnklet", "RightAnklet", "Garters"],
+				HideItem: ["NecklaceBodyChainNecklace"],
 				AllowPose: ["Kneel"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				Effect: ["Block", "Prone", "Slow"],
@@ -3392,21 +3411,39 @@ var AssetFemale3DCG = [
 				Effect: ["Block", "Prone"],
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"],
 			},
-			{ Name: "LatexSleevelessLeotard", Fetish: ["Latex"], Value: 120, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#d986a2", BuyGroup: "LatexSleevelessLeotard", Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"], HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"], Extended: true, SelfUnlock: false,
+			{ Name: "LatexSleevelessLeotard", Fetish: ["Latex"], Value: 120, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#d986a2", BuyGroup: "LatexSleevelessLeotard", Extended: true, SelfUnlock: false,
+				Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"],
+				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "NecklaceBodyChainNecklace"],
+				SetPose: ["BackElbowTouch"],
+				Effect: ["Block", "Prone"],
+				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"],
 				Layer: [
 					{ Name: "Latex", AllowColorize: true, AllowTypes: ["", "Polished"], HasType: false },
 					{ Name: "Highlights", AllowColorize: false, AllowTypes: ["", "Polished"] }
 				]
 			},
 			{
-				Name: "LatexBoxtieLeotard", Fetish: ["Latex"], Value: 120, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#185d97", BuyGroup: "LatexSleevelessLeotard", Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"], HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"], Extended: true, SelfUnlock: false,
+				Name: "LatexBoxtieLeotard", Fetish: ["Latex"], Value: 120, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#185d97", BuyGroup: "LatexSleevelessLeotard", Extended: true, SelfUnlock: false,
+				Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"],
+				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "NecklaceBodyChainNecklace"],
+				SetPose: ["BackElbowTouch"],
+				Effect: ["Block", "Prone"],
+				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"],
 				Layer: [
 					{ Name: "Latex", AllowColorize: true, AllowTypes: ["", "Polished"], HasType: false },
 					{ Name: "Highlights", AllowColorize: false, AllowTypes: ["", "Polished"] }
 				]
 			},
 			{
-				Name: "LatexButterflyLeotard", Fetish: ["Latex"], Value: 150, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#580505", Hide: ["Cloth", "Bra", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"], HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"], HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"], Extended: true, SelfUnlock: false,
+				Name: "LatexButterflyLeotard", Fetish: ["Latex"], Value: 150, Priority: 23, Difficulty: 14, SelfBondage: 7, Time: 35, RemoveTime: 20, AllowLock: true, DefaultColor: "#580505", Extended: true, SelfUnlock: false,
+				Hide: ["Cloth", "Bra", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"],
+				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaInflatableVibeDildo", "ItemVulvaClitSuctionCup", "NecklaceBodyChainNecklace"],
+				SetPose: ["BackElbowTouch"],
+				Effect: ["Block", "Prone"],
+				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemHands"],
 				Layer: [
 					{ Name: "Latex", AllowColorize: true, AllowTypes: ["", "Polished"], HasType: false },
 					{ Name: "Highlights", AllowColorize: false, AllowTypes: ["", "Polished"] }
@@ -3428,7 +3465,11 @@ var AssetFemale3DCG = [
 				Effect: ["Block", "Prone"],
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands", "ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 			},
-			{ Name: "HighSecurityStraitJacket", Value: 220, Priority: 25, Difficulty: 4, SelfBondage: 2, Time: 45, RemoveTime: 30, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#333", "#333", "#3e3e3e", "#3e3e3e"], Hide: ["Cloth", "ItemNipplesPiercings"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"],
+			{ Name: "HighSecurityStraitJacket", Value: 220, Priority: 25, Difficulty: 4, SelfBondage: 2, Time: 45, RemoveTime: 30, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#333", "#333", "#3e3e3e", "#3e3e3e"],
+				Hide: ["Cloth", "ItemNipplesPiercings"],
+				HidItem: ["NecklaceBodyChainNecklace"],
+				SetPose: ["BackElbowTouch"],
+				Effect: ["Block", "Prone"],
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"],
 				Extended: true,
 				Layer: [
