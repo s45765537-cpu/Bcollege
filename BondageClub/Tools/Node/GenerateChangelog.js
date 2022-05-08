@@ -50,6 +50,10 @@ const CONTRIBUTOR_NAMES = {
 	"Sidiousious": "Sidious",
 	"karame1": "Karamel",
 	"dependabot[bot]": "Dependabot",
+	"remiliacn": "remiliacn",
+	"SepiaOulomenohn": "SepiaOulomenohn",
+	"Luna": "Luna",
+	"Pjara Yuzu": "Pjara Yuzu",
 };
 
 async function generateChangelogHtml() {
