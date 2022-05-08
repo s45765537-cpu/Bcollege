@@ -18,6 +18,15 @@ body {
 	columns: 12em 3;
 }
 
+#note-to-contributors {
+	margin: 3em 0;
+	line-height: 2;
+	background-color: #e1f5fe;
+	border-color: #0277bd;
+	padding: 1em 0.5em;
+	color: rgba(0, 0, 0, 0.9);
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin : 0 0 1em;
   color  : rgba(0, 0, 0, 0.9);

@@ -72,9 +72,24 @@ async function generateChangelogHtml() {
 		.append("<h1>Bondage Club - Changelog</h1>\n")
 		.append("<h2 id=\"table-of-contents\">Table of Contents</h2>\n")
 		.append(generateToc(sourceMarkdown) + "\n")
+		.append(generateContributorNote())
 		.append(renderedMarkdown);
 
 	await writeFileAsync(htmlPath, $.root().html());
+}
+
+function generateContributorNote() {
+	return `
+<blockquote id="note-to-contributors">
+	<p>
+		<strong>Note to contributors:</strong> If you have not stated a preferred name for inclusion in the changelog or
+		 game credits, we will use your Github username by default. If you would like to use another name, please ask in
+		 the programming channel of <a href="https://discordapp.com/invite/dkWsEjf">the game&apos;s official Discord
+		 Server</a>, or <a href="https://github.com/Ben987/Bondage-College/issues">raise an issue</a> via the game's
+		 Github.
+	</p>
+</blockquote>
+`
 }
 
 function generateToc(sourceMarkdown) {
