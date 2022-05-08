@@ -614,6 +614,8 @@ ItemHoodLatexHabitBase,Shawl
 ItemHoodLatexHabitCowl,Cowl
 ItemHoodLatexHabitCape,Shoulders
 ItemHoodLatexHabitCollar,Collar
+ItemHoodHeadboxSeethroughGlassInside,Inside
+ItemHoodHeadboxSeethroughFrame,Outside
 ItemHoodSlimeOne,Color 1
 ItemHoodSlimeTwo,Color 2
 ItemBootsLockingBoots1Boots,Boots
