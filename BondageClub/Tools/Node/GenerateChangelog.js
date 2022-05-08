@@ -65,12 +65,12 @@ async function generateChangelogHtml() {
 
 	const startIndex = sourceMarkdown.search(/^## \[R[0-9a-zA-Z]+]/m);
 	const trimmedMarkdown = sourceMarkdown.substring(startIndex);
-	const renderedMarkdown = marked(trimmedMarkdown);
+	const renderedMarkdown = marked.parse(trimmedMarkdown);
 
 	const $ = cheerio.load(sourceHtml);
 	$("body").empty()
 		.append("<h1>Bondage Club - Changelog</h1>\n")
-		.append("<h2>Table of Contents</h2>\n")
+		.append("<h2 id=\"table-of-contents\">Table of Contents</h2>\n")
 		.append(generateToc(sourceMarkdown) + "\n")
 		.append(renderedMarkdown);
 
@@ -82,7 +82,7 @@ function generateToc(sourceMarkdown) {
 	const matches = sourceMarkdown.match(/^## \[R[0-9A-Z]+]/gim);
 	matches.forEach((match, i) => {
 		const version = match.match(/\[(R[0-9A-Z]+)]/)[1];
-		$("ul").append(`\t<li><a href="#${version.toLowerCase()}">${version}${i === 0 ? " (Current)" : ""}</a></li>\n`);
+		$("ul").attr("id", "toc-list").append(`\t<li><a href="#${version.toLowerCase()}">${version}${i === 0 ? " (Current)" : ""}</a></li>\n`);
 	});
 	return $.root().html();
 }
