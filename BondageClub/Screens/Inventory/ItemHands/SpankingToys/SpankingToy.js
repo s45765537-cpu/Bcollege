@@ -203,6 +203,11 @@ const InventoryItemHandsSpankingToysOptions = [
 		Property: { Type: "PotionBottle" },
 		ExpressionTrigger: []
 	},
+	{
+		Name: "Injector",
+		Property: { Type: "Injector" },
+		ExpressionTrigger: []
+	},
 ];
 
 /** Loads the item extension properties */
