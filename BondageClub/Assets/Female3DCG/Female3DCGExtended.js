@@ -448,7 +448,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "SuspensionHogtied",
 							Difficulty: 11,
-							SetPose: ["Hogtied", "SuspensionHogtied"],
+							SetPose: ["Hogtied"],
 							Effect: ["Block", "Freeze", "Prone"],
 							Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
@@ -589,7 +589,13 @@ var AssetFemale3DCGExtended = {
 						Name: "SuspensionHogtied",
 						BondageLevel: 8,
 						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
-						Property: { Type: "SuspensionHogtied", Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied", "SuspensionHogtied"], Difficulty: 6,
+						Property: {
+							Type: "SuspensionHogtied",
+							Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"],
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["Hogtied"],
+							Difficulty: 6,
 							OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 } },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 						Random: false,
@@ -1655,7 +1661,7 @@ var AssetFemale3DCGExtended = {
 							Effect: ["Block", "Freeze", "Prone"],
 							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
-							SetPose: ["Hogtied", "SuspensionHogtied"],
+							SetPose: ["Hogtied"],
 							Difficulty: 6,
 							OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 }
 						},
