@@ -419,7 +419,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Suspended",
 							Difficulty: 6,
 							SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
-							Effect: ["Block", "Freeze", "Prone"],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
@@ -449,7 +449,7 @@ var AssetFemale3DCGExtended = {
 							Type: "SuspensionHogtied",
 							Difficulty: 11,
 							SetPose: ["Hogtied"],
-							Effect: ["Block", "Freeze", "Prone"],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 							OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 },
@@ -591,7 +591,7 @@ var AssetFemale3DCGExtended = {
 						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 						Property: {
 							Type: "SuspensionHogtied",
-							Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"],
+							Effect: ["Block", "Freeze", "Prone", "NotSelfPickable", "Suspended"],
 							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							SetPose: ["Hogtied"],
@@ -1655,10 +1655,10 @@ var AssetFemale3DCGExtended = {
 					}, {
 						Name: "SuspensionHogtied",
 						BondageLevel: 8,
-						Prerequisite: ["NotMounted", "NotChained", "NotReverseSuspended"],
+						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 						Property: {
 							Type: "SuspensionHogtied",
-							Effect: ["Block", "Freeze", "Prone"],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							SetPose: ["Hogtied"],
@@ -2729,7 +2729,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Suspended",
 							Difficulty: 7,
-							Effect: ["Block","Freeze", "Prone",],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							SetPose: ["Hogtied"],
 							Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 							Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],

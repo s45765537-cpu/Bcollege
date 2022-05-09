@@ -89,7 +89,7 @@ type EffectName =
 
 	"CuffedFeet" | "CuffedLegs" | "CuffedArms" | "IsChained" | "FixedHead" |
 
-	"Shackled" | "Tethered" | "Enclose" | "OneWayEnclose" | "OnBed" | "Lifted" |
+	"Shackled" | "Tethered" | "Enclose" | "OneWayEnclose" | "OnBed" | "Lifted" | "Suspended" |
 
 	"Slow" | "FillVulva" | "IsPlugged" |
 
@@ -785,6 +785,7 @@ interface Character {
 	IsNpc: () => boolean;
 	IsSimple: () => boolean;
 	GetDifficulty: () => number;
+	IsSuspended: () => boolean;
 	IsInverted: () => boolean;
 	CanChangeToPose: (Pose: string) => boolean;
 	GetClumsiness: () => number;
