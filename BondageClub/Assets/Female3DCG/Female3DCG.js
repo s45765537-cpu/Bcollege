@@ -1466,7 +1466,7 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false}
 				]
 			},
-			{ Name: "DildocornHorn", Value: -1, DefaultColor: "#Default", BuyGroup: "UnicornHorn", BodyCosplay: true, Attribute: ["PenetrateItem"], Top: -30,
+			{ Name: "DildocornHorn", Value: -1, DefaultColor: "Default", BuyGroup: "UnicornHorn", BodyCosplay: true, Attribute: ["PenetrateItem"], Top: -30,
 				Layer: [
 					{ Name: "Base"},
 					{ Name: "Shine", AllowColorize: false}
@@ -1541,7 +1541,7 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false}
 				]
 			},
-			{ Name: "DildocornHorn", Value: -1, DefaultColor: "#Default", BuyGroup: "UnicornHorn", BodyCosplay: true, Attribute: ["PenetrateItem"], Top: -30,
+			{ Name: "DildocornHorn", Value: -1, DefaultColor: "Default", BuyGroup: "UnicornHorn", BodyCosplay: true, Attribute: ["PenetrateItem"], Top: -30,
 				Layer: [
 					{ Name: "Base"},
 					{ Name: "Shine", AllowColorize: false}
