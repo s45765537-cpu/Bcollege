@@ -598,11 +598,17 @@ var AssetFemale3DCGExtended = {
 						ArchetypeConfig: {
 							MaxHeight: 0,
 							MinHeight: -575,
-							SliderIcon: "player",
+							Slider: {
+								Icon: "player",
+								Top: 0,
+								Height: 100,
+							},
 							Dialog: {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "ChainBondage",
 							},
+							GetHeightFunction: VariableHeightGetOverrideHeight,
+							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}
 				],
@@ -1660,11 +1666,17 @@ var AssetFemale3DCGExtended = {
 						ArchetypeConfig: {
 							MaxHeight: 0,
 							MinHeight: -575,
-							SliderIcon: "player",
+							Slider: {
+								Icon: "rope",
+								Top: 125,
+								Height: 675,
+							},
 							Dialog: {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
+							GetHeightFunction: VariableHeightGetOverrideHeight,
+							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}, {
 						Name: "BedSpreadEagle",
