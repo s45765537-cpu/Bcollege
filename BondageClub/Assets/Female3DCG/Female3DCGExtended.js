@@ -60,6 +60,7 @@ var AssetFemale3DCGExtended = {
 			},
 		}, //Bandana
 	},
+
 	Cloth: {
 		TShirt2: {
 			Archetype: ExtendedArchetype.TYPED,
