@@ -3874,7 +3874,7 @@ var AssetFemale3DCG = [
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{
-				Name: "SpankingToysMedicalInjector", Value: 75, Random: false, DynamicAllowInventoryAdd: () => { return false; },
+				Name: "SpankingToysMedicalInjector", Value: 75, Random: false, AllowActivity: ["InjectItem"], DynamicAllowInventoryAdd: () => { return false; },
 				PrerequisiteBuyGroups: ["SpankingToys"], PreviewIcons: ["Handheld"]
 			},
 			{ Name: "HoofMittens", Fetish: ["Pony"], Value: -1, Difficulty: 5, SelfBondage: 4, Time: 15, RemoveTime: 5, AllowLock: true, DrawLocks: false, AllowPose: ["BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours", "OverTheHead"], SetPose: ["TapedHands"], Effect: ["Block", "Prone"], HideForPose: ["BackBoxTie", "BackElbowTouch"], },
@@ -7027,6 +7027,13 @@ var ActivityFemale3DCG = [
 		MaxProgress: 50,
 		Prerequisite: [],
 		Target: ["ItemArms", "ItemBoots", "ItemBreast", "ItemButt", "ItemFeet", "ItemLegs", "ItemNipples", "ItemPelvis", "ItemTorso", "ItemVulva", "ItemVulvaPiercings"],
+		TargetSelf: true,
+	},
+	{
+		Name: "InjectItem",
+		MaxProgress: 20,
+		Prerequisite: [],
+		Target: ["ItemNeck", "ItemBreast", "ItemArms", "ItemButt", "ItemLegs", "ItemFeet"],
 		TargetSelf: true,
 	},
 	{

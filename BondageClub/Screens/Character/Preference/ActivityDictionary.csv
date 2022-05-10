@@ -37,6 +37,7 @@ ActivityRubItem,Item Rub
 ActivityRollItem,Item Roll
 ActivityPourItem,Item Pour
 ActivityShockItem,Item Shock
+ActivityInjectItem,Item Inject
 ActivityMoanGag,Moan into Gag
 ActivityMoanGagWhimper,Whimper into Gag
 ActivityMoanGagAngry,Shout into Gag
