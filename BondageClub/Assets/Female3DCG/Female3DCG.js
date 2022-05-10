@@ -6546,6 +6546,27 @@ var AssetFemale3DCG = [
 					{ Name: "Two" },
 				],
 			},
+			{
+				Name: "MonoHeel", Value: 60, Difficulty: 5, Time: 15, RemoveTime: 10, DefaultColor: ["#2c2c2c", "#666", "#999"], AllowLock: true, Extended: true, Height: 25, DrawLocks: false,
+				Prerequisite: ["CanCloseLegs"],
+				SetPose: ["LegsClosed"],
+				AllowActivePose: ["Kneel"],
+				FreezeActivePose: ["BodyLower"],
+				HideForPose: ["Spread", "KneelingSpread", "Kneel"],
+				Effect: ["Freeze", "Prone"],
+				Hide: ["Shoes", "ItemFeet"],
+				HideItem: ["ClothLowerPajama1", "ItemLegsHempRope", "ItemLegsNylonRope"],
+				HideItemExclude: ["ItemFeetChains", "ItemFeetDuctTape", "ItemFeetLeatherBelt", "ItemFeetPlasticWrap", "ItemFeetSlime", "ItemFeetSturdyLeatherBelts", "ItemFeetTentacles", "ItemFeetZipties"],
+				Alpha: [
+					{ Group: ["BodyLower", "Socks", "SuitLower"], Masks: [[175, 835, 150, 165]] },
+				],
+				Layer: [
+					{ Name: "Binder" },
+					{ Name: "Vamp", HasType: false },
+					{ Name: "Trim", HasType: false },
+					{ Name: "Shine", AllowColorize: false },
+				]
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
