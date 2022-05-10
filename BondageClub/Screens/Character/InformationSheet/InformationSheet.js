@@ -30,7 +30,8 @@ function InformationSheetRun() {
 	DrawCharacter(C, 50, 50, 0.9);
 	MainCanvas.textAlign = "left";
 
-	const spacing = 75;
+	const spacing = 55;
+	const spacingLarge = 75;
 	let currentY = 125;
 
 	DrawTextFit(TextGet("Name") + " " + C.Name, 550, currentY, 450, "Black", "Gray");
@@ -47,6 +48,7 @@ function InformationSheetRun() {
 		DrawTextFit(TextGet("MemberNumber") + " " + C.MemberNumber.toString(), 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
 	}
+	currentY += spacingLarge;
 
 	// Some info are not available for online players
 	const OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
@@ -82,7 +84,7 @@ function InformationSheetRun() {
 		DrawTextFit(loveLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
 	}
-	currentY += spacing;
+	currentY += spacingLarge;
 
 	// For the current player or an online player
 	if ((C.ID == 0) || OnlinePlayer) {
