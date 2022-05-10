@@ -639,7 +639,7 @@ var AssetFemale3DCG = [
 				Name: "HaremPants2", Fetish: ["Lingerie"], Value: 20, BuyGroup: "HaremPants", Hide: ["Panties"], Layer: [
 					{ Name: "Panty", Priority: 15 },
 					{ Name: "Fabric" },
-					{ Name: "Pantyline" },
+					{ Name: "PantyLine" },
 					{ Name: "Veil" },
 					{ Name: "Buttons" },
 				],
