@@ -110,12 +110,11 @@ function InformationSheetRun() {
 		currentY += spacing;
 
 		// Shows the member number and online permissions for other online players
-		if (C.ID != 0) {
-			DrawTextFit(TextGet("ItemPermission"), 550, currentY, 450, "Black", "Gray");
-			currentY += spacing;
-			DrawTextFit(TextGet("PermissionLevel" + C.ItemPermission.toString()), 550, currentY, 450, "Black", "Gray");
-			currentY += spacing;
-		}
+
+		DrawTextFit(TextGet("ItemPermission"), 550, currentY, 450, "Black", "Gray");
+		currentY += spacing;
+		DrawTextFit(TextGet("PermissionLevel" + C.ItemPermission.toString()), 550, currentY, 450, "Black", "Gray");
+		currentY += spacing;
 	}
 
 	// Draw the buttons on the right side
