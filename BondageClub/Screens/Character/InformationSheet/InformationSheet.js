@@ -35,10 +35,14 @@ function InformationSheetRun() {
 
 	DrawTextFit(TextGet("Name") + " " + C.Name, 550, currentY, 450, "Black", "Gray");
 	currentY += spacing;
-	DrawTextFit(TextGet("Nickname") + " " + CharacterNickname(C), 550, currentY, 450, "Black", "Gray");
-	currentY += spacing;
-	DrawTextFit(TextGet("Title") + " " + TextGet("Title" + CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
-	currentY += spacing;
+	if (C.Name !== CharacterNickname(C)) {
+		DrawTextFit(TextGet("Nickname") + " " + CharacterNickname(C), 550, currentY, 450, "Black", "Gray");
+		currentY += spacing;
+	}
+	if (CurrentTitle !== "None") {
+		DrawTextFit(TextGet("Title") + " " + TextGet("Title" + CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
+		currentY += spacing;
+	}
 	DrawTextFit(TextGet("MemberNumber") + " " + ((C.MemberNumber == null) ? TextGet("NoMemberNumber") : C.MemberNumber.toString()), 550, currentY, 450, "Black", "Gray");
 	currentY += spacing;
 	currentY += spacing;
