@@ -1155,6 +1155,7 @@ var AssetFemale3DCGExtended = {
 							Type: "PetTape",
 							SetPose: ["BackElbowTouch"],
 							Block: ["ItemHands"],
+							HideItem: ["ClothAccessoryPoncho"],
 							Difficulty: 7,
 						}
 					},
@@ -1682,6 +1683,28 @@ var AssetFemale3DCGExtended = {
 				},
 			}
 		},
+		Slime: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				Modules: [
+					{
+						Name: "Position", Key: "p",
+						Options: [
+							{}, // p0 - Arms behind back
+							{ Property: { Difficulty: 2, SetPose: ["Hogtied"] } }, // p1 - Hogtied
+						],
+					},
+					{
+						Name: "Type", Key: "t",
+						Options: [
+							{}, // t0 - Normal slime
+							{ Property: { Difficulty: 3 } }, // t1 - Slime girl
+						]
+					}
+				],
+				ChatTags: [CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
+			}
+		}
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -1855,6 +1878,7 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config: {
 				ChatSetting: ModularItemChatSetting.PER_MODULE,
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
 				Modules: [
 					{
 						Name: "Eyes", Key: "e",
@@ -2082,7 +2106,28 @@ var AssetFemale3DCGExtended = {
 				]
 			}
 
-		}// ZipperHood
+		}, // ZipperHood
+		HeadboxSeethrough: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				Options: [
+					{
+						Name: "Seethrough",
+						Property: {
+							Type: null
+						},
+					},
+					{
+						Name: "Opaque",
+						Property: {
+							Type: "Opaque"
+						},
+					},
+				],
+				DrawImages: false,
+			},
+		}, // HeadboxSeethrough
 	}, // ItemHood
 	ItemDevices: {
 		FuturisticCrate: {
