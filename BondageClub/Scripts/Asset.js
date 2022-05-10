@@ -199,6 +199,9 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
 		PoseMapping: AssetDef.PoseMapping || {},
+		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
+		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
+		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
 	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
 
 	// Ensure opacity value is valid
@@ -253,7 +256,7 @@ function AssetBuildExtended(A, ExtendedConfig) {
 			VibratorModeRegister(A, AssetConfig.Config);
 			break;
 		case ExtendedArchetype.VARIABLEHEIGHT:
-			VariableHeightRegister(A, AssetConfig.Config, AssetConfig.Config.Property);
+			VariableHeightRegister(A, AssetConfig.Config, AssetConfig.Config ? AssetConfig.Config.Property : undefined);
 			break;
 	}
 	A.Archetype = AssetConfig.Archetype;

@@ -44,6 +44,16 @@ interface HTMLElement {
 	setAttribute(qualifiedName: string, value: string | number): void;
 }
 
+interface RGBColor {
+	r: number;
+	g: number;
+	b: number;
+}
+
+interface RGBAColor extends RGBColor {
+	a: number;
+}
+
 //#endregion
 
 //#region Enums
@@ -104,6 +114,7 @@ type EffectName =
 	"GagVeryLight" | "GagEasy" | "GagLight" | "GagNormal" | "GagMedium" | "GagHeavy" | "GagVeryHeavy" | "GagTotal" | "GagTotal2" |
 
 	"BlindLight" | "BlindNormal" | "BlindHeavy" |
+	"BlurLight" | "BlurNormal" | "BlurHeavy" | "BlurTotal" |
 	"DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal" |
 
 	"VR" | "VRAvatars" | "KinkyDungeonParty" |
@@ -267,7 +278,7 @@ type MessageContentType = string;
 
 interface ChatMessageDictionaryEntry {
 	[k: string]: any;
-	Tag?: string;
+	Tag?: CommonChatTags | string;
 	Text?: string;
 	MemberNumber?: number;
 }
@@ -425,6 +436,16 @@ a rectangle and the rectangle's width and height - e.g. [left, top, width, heigh
 	Masks: [number, number, number, number][];
 }
 
+interface TintDefinition {
+	Color: number | string;
+	Strength: number;
+	DefaultColor?: string;
+}
+
+interface ResolvedTintDefinition extends TintDefinition {
+	Item: Item;
+}
+
 interface ExpressionTrigger {
 	Group: string;
 	Name: string;
@@ -534,6 +555,9 @@ interface Asset {
 	Archetype?: string;
 	Attribute: string[];
 	PreviewIcons: string[];
+	Tint: TintDefinition[];
+	AllowTint: boolean;
+	DefaultTint?: string;
 }
 
 //#endregion
@@ -681,6 +705,7 @@ interface Character {
 	Skill: Skill[];
 	Pose: string[];
 	Effect: string[];
+	Tints: ResolvedTintDefinition[];
 	FocusGroup: AssetGroup | null;
 	Canvas: HTMLCanvasElement | null;
 	CanvasBlink: HTMLCanvasElement | null;
@@ -739,6 +764,7 @@ interface Character {
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];
 	GetBlindLevel: (eyesOnly?: boolean) => number;
+	GetBlurLevel: () => number;
 	IsLocked: () => boolean;
 	IsMounted: () => boolean;
 	IsPlugged: () => boolean;
@@ -762,6 +788,9 @@ interface Character {
 	IsInverted: () => boolean;
 	CanChangeToPose: (Pose: string) => boolean;
 	GetClumsiness: () => number;
+	HasEffect: (Effect: string) => boolean;
+	HasTints: () => boolean;
+	GetTints: () => RGBAColor[];
 	DrawPose?: string[];
 	DrawAppearance?: Item[];
 	AppearanceLayers?: AssetLayer[];
@@ -925,11 +954,13 @@ interface PlayerCharacter extends Character {
 		SenseDepMessages: boolean;
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
+		AllowTints: boolean;
 	};
 	LastChatRoom?: string;
 	LastChatRoomBG?: string;
 	LastChatRoomPrivate?: boolean;
 	LastChatRoomSize?: number;
+	LastChatRoomLanguage?: string;
 	LastChatRoomDesc?: string;
 	LastChatRoomAdmin?: any[];
 	LastChatRoomBan?: any[];
@@ -959,6 +990,7 @@ interface PlayerCharacter extends Character {
 		StimulationFlash: boolean;
 		SmoothZoom: boolean;
 		CenterChatrooms: boolean;
+		AllowBlur: boolean;
 	}
 	NotificationSettings?: {
 		/** @deprecated */
@@ -1046,6 +1078,8 @@ interface ItemPropertiesBase {
 
 	Effect?: EffectName[];
 	OverrideAssetEffect?: boolean;
+
+	Tint?: TintDefinition[];
 
 	/* Pose-related properties */
 
@@ -1777,13 +1811,13 @@ type VariableHeightAssetConfig = ExtendedItemAssetConfig<"variableheight", Varia
 
 interface VariableHeightConfig {
 	/** The highest Y co-ordinate that can be set  */
-	MaxHeight: number,
+	MaxHeight: number;
 	/** The lowest Y co-ordinate that can be set  */
-	MinHeight: number,
+	MinHeight: number;
 	/** The name of the image from "\BondageClub\Icons" that will show the current position on the slider */
-	SliderIcon: string,
+	SliderIcon: string;
 	/** A record containing various dialog keys used by the extended item screen */
-	Dialog: VariableHeightDialogConfig
+	Dialog: VariableHeightDialogConfig;
 	/**
 	 * An array of the chat message tags that should be included in the item's
 	 * chatroom messages. Defaults to [{@link CommonChatTags.SOURCE_CHAR}, {@link CommonChatTags.DEST_CHAR}]
@@ -1793,6 +1827,8 @@ interface VariableHeightConfig {
 	GetHeightFunction?: string;
 	/** Name of the function that handles applying the height setting to the character */
 	SetHeightFunction?: string;
+	/** The default properties for the item, if not provided from an extended item option */
+	Property?: ItemProperties;
 }
 
 interface VariableHeightDialogConfig {
@@ -1823,13 +1859,13 @@ interface VariableHeightData {
 	/** The common prefix used for all extended item functions associated with the asset */
 	functionPrefix: string;
 	/** The highest Y co-ordinate that can be set  */
-	maxHeight: number,
+	maxHeight: number;
 	/** The lowest Y co-ordinate that can be set  */
-	minHeight: number,
+	minHeight: number;
 	/** The name of the image from "\BondageClub\Icons" that will show the current position on the slider */
-	sliderIcon: string,
+	sliderIcon: string;
 	/** The initial property to apply */
-	defaultProperty: ItemProperties,
+	defaultProperty: ItemProperties;
 	/** A record containing various dialog keys used by the extended item screen */
 	dialog: {
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
@@ -1843,9 +1879,9 @@ interface VariableHeightData {
 	 */
 	chatTags: CommonChatTags[];
 	/** The function that handles finding the current variable height setting */
-	getHeight: Function,
+	getHeight: Function;
 	/** The function that handles applying the height setting to the character */
-	setHeight: Function,
+	setHeight: Function;
 	/** The list of extended item options the current option was selected from, if applicable */
 	parentOptions: ExtendedItemOption[];
 }
