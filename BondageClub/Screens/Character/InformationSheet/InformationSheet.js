@@ -110,7 +110,7 @@ function InformationSheetRun() {
 			currentY += spacing;
 		}
 
-		currentY += spacing;
+		currentY = 800;
 
 		// Shows the member number and online permissions for other online players
 
