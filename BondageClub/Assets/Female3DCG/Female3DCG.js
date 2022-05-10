@@ -651,6 +651,24 @@ var AssetFemale3DCG = [
 				AllowPose: ["KneelingSpread"],
 				Attribute: ["Skirt"],
 			},
+			{
+				Name: "BondageSkirt", Value: 90, Priority: 28, Left: 0, Top: 0, Attribute: ["Skirt"], DefaultColor: ["Default", "#25d", "#25d"],
+				SetPose: ["LegsClosed"],
+				AllowActivePose: ["Kneel"],
+				WhitelistActivePose: ["BaseLower", "Kneel"],
+				HideForPose: ["Spread", "KneelingSpread"],
+				Effect: ["Slow"],
+				FreezeActivePose: ["BodyLower"],
+				HideItem: ["ItemFeetSlime"],
+				Layer: [
+					{ Name: "Skirt" },
+					{ Name: "Frill" },
+					{ Name: "Straps", AllowPose: [] },
+				],
+				Alpha: [
+					{ Group: ["ItemBoots", "Shoes"], Masks: [[75, 0, 350, 800]] }
+				]
+			}
 		],
 		Color: ["Default", "#bbbbbb", "#808080", "#202020", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
