@@ -2730,6 +2730,7 @@ var AssetFemale3DCGExtended = {
 		WoodenRack: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Config:{
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.TARGET_CHAR_NAME],
 				Modules:[
 					{
 							Name: "Frame", Key: "f",
