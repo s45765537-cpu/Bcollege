@@ -2115,7 +2115,8 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "Seethrough",
 						Property: {
-							Type: null
+							Type: null,
+							Tint: [{Color: 0, Strength: 1}],
 						},
 					},
 					{
@@ -3824,7 +3825,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["GagMedium", "OpenMouth"],
 						},
 					},
 					{
@@ -3832,6 +3832,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Plug",
 							Effect: ["BlockMouth", "GagTotal"],
+							OverrideAssetEffect: true,
 						},
 					},
 				],
@@ -3850,7 +3851,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["GagEasy", "OpenMouth"],
 						},
 					},
 					{
@@ -3858,6 +3858,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Plug",
 							Effect: ["BlockMouth", "GagTotal2"],
+							OverrideAssetEffect: true,
 						},
 					},
 				],
@@ -3900,14 +3901,14 @@ var AssetFemale3DCGExtended = {
 						Name: "None",
 						Property: {
 							Type: null,
-							Effect: ["GagMedium", "OpenMouth"],
 						},
 					},
 					{
 						Name: "Funnel",
 						Property: {
 							Type: "Funnel",
-							Effect: ["BlockMouth", "GagMedium"],
+							Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+							OverrideAssetEffect: true,
 						},
 					},
 				],
@@ -4046,7 +4047,6 @@ var AssetFemale3DCGExtended = {
 						Name: "Open",
 						Property: {
 							Type: null,
-							Effect: ["GagMedium", "OpenMouth"],
 						},
 					},
 					{
@@ -4054,6 +4054,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Plug",
 							Effect: ["BlockMouth", "GagTotal"],
+							OverrideAssetEffect: true,
 						},
 					},
 				],
@@ -4146,6 +4147,26 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // PonyGag
+		LatexSheathGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Thin",
+						Property: { Type: null, Effect: ["OpenMouth",], },
+					},
+					{
+						Name: "Thick",
+						Property: { Type: "Thick", Effect: ["OpenMouth", "GagVeryLight"],},
+					},
+					{
+						Name: "VeryThick",
+						Property: { Type: "VeryThick", Effect: ["OpenMouth", "GagMedium"],},
+					},
+				],
+				DrawImages: false,
+			},
+		}, //LatexSheathGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
