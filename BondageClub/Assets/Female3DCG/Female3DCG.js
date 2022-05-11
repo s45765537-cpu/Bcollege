@@ -5845,6 +5845,11 @@ var AssetFemale3DCG = [
 					{ Name: "Drawings", HasImage: false, },
 				],
 			},
+			{
+				Name: "LatexDogHood", Fetish: ["Latex", "Pet"], Random: false, Value: 20, Difficulty: 1, Top: -5, Left: 113,
+				AllowLock: true, DrawLocks: false,
+				Hide: ["HairFront", "HairBack", "Glasses", "Ears"],
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
