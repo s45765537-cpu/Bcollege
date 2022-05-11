@@ -4020,7 +4020,7 @@ var AssetFemale3DCG = [
 				{ Name: "Ring", HasType: false }
 			] },
 			{
-				Name: "BonedNeckCorset", Time: 7, Value: 50, Difficulty: 40, DefaultColor: ["#222222","#888888", "#AA2121", "#AA2121", "#888888"], Effect: ["FixedHead"], Extended: true,
+				Name: "BonedNeckCorset", Fetish: ["Latex"], Time: 7, Value: 50, Difficulty: 40, AllowLock: true, DrawLocks: false, DefaultColor: ["#222222","#888888", "#AA2121", "#AA2121", "#888888"], Effect: ["FixedHead"], Extended: true,
 				Layer:[
 					{ Name: "Base", HasType: false,},
 					{ Name: "Shine", HasType: false,},
@@ -5466,7 +5466,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "DroneMask", Category: ["SciFi"], Fetish: ["Latex"], Value: 90, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Time: 10, AllowLock: true, DrawLocks: false, Extended: true, DynamicAfterDraw: true,
 				Block:["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
-				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3",],
+				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] },
