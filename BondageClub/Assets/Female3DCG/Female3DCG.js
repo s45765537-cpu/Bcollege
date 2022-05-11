@@ -420,9 +420,10 @@ var AssetFemale3DCG = [
 			{ Name: "NecklaceRope", Priority: 29, Value: -1, Left: 220, Top: 200, DefaultColor: "#956B1C", BuyGroup: "HempRope", ParentGroup: null, Extended: true },
 			{ Name: "ChokerTattoo", Priority: 29, Value: 5, Left: 230, Top: 200, DefaultColor: "#444444", ParentGroup: null, Extended: true },
 			{
-				Name: "BodyChainNecklace", Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["Hogtied", "AllFours", "BackCuffs"],
+				Name: "BodyChainNecklace", Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["AllFours", "BackCuffs"],
+				PoseMapping: { Hogtied: "BackElbowTouch" },
 				Layer: [
-					{ Name: "Chains", AllowPose: ["OverTheHead", "Yoked", "BackElbowTouch"] },
+					{ Name: "Chains", AllowPose: ["Hogtied", "OverTheHead", "Yoked", "BackElbowTouch"] },
 					{ Name: "Choker", ParentGroup: null },
 				],
 			},
