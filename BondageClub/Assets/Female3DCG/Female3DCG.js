@@ -3660,7 +3660,7 @@ var AssetFemale3DCG = [
 			{ Name: "PolishedMittens", Fetish: ["Metal"], Value: 80, Difficulty: 8, SelfBondage: 6, Time: 20, RemoveTime: 10, AllowLock: true, Audio: "CuffsMetal", AllowPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"], Effect: ["Block", "Prone"] },
 			{ Name: "DuctTape", Fetish: ["Tape"], Value: 50, Difficulty: 5, SelfBondage: 3, Time: 20, RemoveTime: 10, BuyGroup: "DuctTape", Audio: "DuctTape", Hide: ["Gloves"], AllowPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"], SetPose: ["TapedHands"], Effect: ["Block", "Prone"] },
 			{ Name: "KeyProp", Value: 10, Priority: 46, Difficulty: -10, Time: 5, IsRestraint: false, AllowPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"], },
-			{ Name: "MedicalInjector", Value: 75, Priority: 46, Time: 8, IsRestraint: false, Attribute: ["InjectItem"], HideForPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"], },
+			{ Name: "MedicalInjector", Category: ["SciFi"], Value: 75, Priority: 46, Time: 8, IsRestraint: false, Attribute: ["InjectItem"], AllowPose: ["Yoked"], HideForPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "AllFours"], },
 			{
 				Name: "SpankingToys", Fetish: ["Sadism"], Priority: 46, Random: false, Wear: true, IsRestraint: false, BuyGroup: "SpankingToys",
 				AllowPose: ["OverTheHead", "BackBoxTie", "BackElbowTouch", "BackCuffs", "Yoked", "AllFours"],
@@ -7030,7 +7030,7 @@ var ActivityFemale3DCG = [
 		Name: "Inject",
 		MaxProgress: 20,
 		Prerequisite: ["ZoneAccessible", "Needs-InjectItem"],
-		Target: ["ItemNeck", "ItemBreast", "ItemArms", "ItemButt", "ItemLegs", "ItemFeet"],
+		Target: ["ItemNeck", "ItemBreast", "ItemArms", "ItemButt", "ItemVulvaPiercings", "ItemLegs", "ItemFeet"],
 		TargetSelf: true,
 	},
 	{
