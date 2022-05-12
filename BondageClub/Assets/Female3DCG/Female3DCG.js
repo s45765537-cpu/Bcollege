@@ -143,7 +143,7 @@ var AssetFemale3DCG = [
 			{ Name: "NurseUniform", Value: -1, Bonus: "KidnapDomination", HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "ClothLowerTutu", "ClothAccessoryPoncho"] },
 			{ Name: "Robe1", Value: 30, Hide: ["ItemHidden"], HideItem: ["ClothLowerLatexSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper", "ClothLowerTutu", "ClothAccessoryPoncho"] },
 			{ Name: "SuspenderTop1", Fetish: ["Lingerie"], Priority: 25, Value: 50, Hide: ["Panties", "ItemVulva", "ItemVulvaPiercings"], Expose: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast"] },
-			{ Name: "LeatherCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "LeatherCorsetTop1", Priority: 25, Value: 60, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"] },
+			{ Name: "LeatherCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "LeatherCorsetTop1", Priority: 25, Value: 60, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump"], AllowPose: ["Hogtied", "AllFours"] },
 			{
 				Name: "FlowerDress", Value: 50, HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerTutu", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons"],
 				AllowPose: ["TapedHands", "BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "AllFours", "OverTheHead", "Suspension"],
@@ -164,7 +164,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "BodyTowel1", Value: 30, HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerTutu", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "Yukata1", Value: 50, HideItem: ["ClothLowerLatexSkirt1", "ClothLowerLatexSkirt2", "ClothLowerTutu", "ClothLowerSkirt1", "ClothLowerSkirt2", "ClothLowerSkirt3", "ClothLowerTennisSkirt1", "ClothLowerClothSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemArmsLeatherCuffs", "ItemArmsFuturisticCuffs", "ItemArmsOrnateCuffs", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
-			{ Name: "SteampunkCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "SteampunkCorsetTop1", Priority: 25, Value: 70, Hide: ["ItemHidden"], HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "ClothAccessoryPoncho"] },
+			{ Name: "SteampunkCorsetTop1", Fetish: ["Leather"], DynamicGroupName: "Corset", BuyGroup: "SteampunkCorsetTop1", Priority: 25, Value: 70, Hide: ["ItemHidden"], HideItem: ["ClothLowerTennisSkirt1", "ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "ClothAccessoryPoncho"], AllowPose: ["Hogtied", "AllFours", "OverTheHead"] },
 			{ Name: "BondageDress1", BuyGroup: "BondageDress1", Value: 90, Hide: ["ClothLower"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "BondageDress2", BuyGroup: "BondageDress2", Value: 90, Hide: ["ClothLower"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"] },
 			{ Name: "ShoulderlessTop", Value: 40, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "ClothAccessoryPoncho"] },
@@ -4645,8 +4645,8 @@ var AssetFemale3DCG = [
 					{ Name: "Reins", HasType: false, AllowModuleTypes: ["r1"], ColorGroup: "Straps" },
 					{ Name: "Rope", HasType: false, AllowModuleTypes: ["r2"] },
 					{ Name: "PostReins", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" }, Priority: 55  },
-					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 55 },
-					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 55 },
+					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 60 },
+					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 60 },
 
 
 					//Blinders
@@ -5001,8 +5001,8 @@ var AssetFemale3DCG = [
 					{ Name: "Reins", HasType: false, AllowModuleTypes: ["r1"], ColorGroup: "Straps" },
 					{ Name: "Rope", HasType: false, AllowModuleTypes: ["r2"] },
 					{ Name: "PostReins", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" }, Priority: 55  },
-					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 55 },
-					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 55 },
+					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 60 },
+					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 60 },
 
 
 					//Blinders
@@ -5358,8 +5358,8 @@ var AssetFemale3DCG = [
 					{ Name: "Reins", HasType: false, AllowModuleTypes: ["r1"], ColorGroup: "Straps" },
 					{ Name: "Rope", HasType: false, AllowModuleTypes: ["r2"] },
 					{ Name: "PostReins", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" }, Priority: 55  },
-					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 55 },
-					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 55 },
+					{ Name: "Post", HasType: false, AllowModuleTypes: ["r3"], FixedPosition: true , HideAs: { Group: "ItemDevices" }, Priority: 60 },
+					{ Name: "PostReinsDetail", HasType: false, AllowModuleTypes: ["r3"], CopyLayerColor: "Reins", HideAs: { Group: "ItemDevices" } , Priority: 60 },
 
 
 					//Blinders
@@ -6406,7 +6406,10 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", Effect: ["Freeze", "Mounted", "OnBed"],
+				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", 
+				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
+				Effect: ["Freeze", "Mounted", "OnBed"],
+				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
 				SetPose: ["BaseLower"],
 				Block: ["ItemAddon"],
 				Layer: [
