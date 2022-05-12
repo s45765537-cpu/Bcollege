@@ -181,7 +181,6 @@ function FriendListExit() {
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
 		if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
 			ElementScrollToEnd("TextAreaChatLog");
-			console.log("HERE")
 		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
 		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
