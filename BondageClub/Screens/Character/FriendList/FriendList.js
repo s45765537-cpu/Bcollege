@@ -179,6 +179,10 @@ function FriendListExit() {
 	FriendListBeepMenuClose();
 	ElementRemove("FriendList");
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
+		if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
+			ElementScrollToEnd("TextAreaChatLog");
+			console.log("HERE")
+		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
 		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
 	} else CommonSetScreen("Character", "InformationSheet");
@@ -197,10 +201,6 @@ function FriendListChatSearch(room) {
 		ChatSearchQuery();
 		// Change the text box so the player still cant read it
 		ElementValue("InputSearch", ChatSearchMuffle(room));
-	}
-
-	if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
-		ElementScrollToEnd("TextAreaChatLog");
 	}
 }
 
