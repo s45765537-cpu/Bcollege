@@ -187,7 +187,7 @@ function FriendListExit() {
 }
 
 /**
- * Exits the friendlist into `ChatSearch` screen, filling in the requested room name
+ * Exits the friendlist
  * @param {string} room The room to search for
  */
 function FriendListChatSearch(room) {
@@ -199,6 +199,9 @@ function FriendListChatSearch(room) {
 		ElementValue("InputSearch", ChatSearchMuffle(room));
 	}
 
+	if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
+		ElementScrollToEnd("TextAreaChatLog");
+	}
 }
 
 /**
