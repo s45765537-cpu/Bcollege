@@ -384,9 +384,9 @@ function ValidationCanAddItem(newItem, params) {
 
 	// If the item is blocked/limited and the source doesn't have the correct permission, prevent it from being added
 	const type = (newItem.Property && newItem.Property.Type) || null;
-	const blockedOrLimited = ValidationIsItemBlockedOrLimited(
-		C, sourceMemberNumber, asset.Group.Name, asset.Name, type);
-	if (blockedOrLimited && OnlineGameAllowBlockItems()) return false;
+	const itemBlocked = ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name, type) ||
+						ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name);
+	if (itemBlocked && OnlineGameAllowBlockItems()) return false;
 
 	// Fall back to common item add/remove validation
 	return ValidationCanAddOrRemoveItem(newItem, params);
@@ -535,7 +535,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Clamp item opacity within the allowed range
-	if (property && typeof property.Opacity === "number") {
+	if (typeof property.Opacity === "number") {
 		if (property.Opacity > asset.MaxOpacity) {
 			property.Opacity = asset.MaxOpacity;
 			changed = true;
@@ -544,6 +544,11 @@ function ValidationSanitizeProperties(C, item) {
 			property.Opacity = asset.MinOpacity;
 			changed = true;
 		}
+	}
+
+	if (property.Tint && !asset.AllowTint) {
+		delete property.Tint;
+		changed = true;
 	}
 
 	// Remove invalid properties from non-typed items
@@ -560,7 +565,7 @@ function ValidationSanitizeProperties(C, item) {
 	// Block advanced vibrator modes if disabled
 	if (typeof property.Mode === "string" && C.ArousalSettings && C.ArousalSettings.DisableAdvancedVibes && !VibratorModeOptions[VibratorModeSet.STANDARD].includes(VibratorModeGetOption(property.Mode))) {
 		console.warn(`Removing invalid mode "${property.Mode}" from ${asset.Name}`);
-		property.Mode = VibratorModeOptions[VibratorModeSet.STANDARD][0];
+		property.Mode = VibratorModeOptions[VibratorModeSet.STANDARD][0].Name;
 		changed = true;
 	}
 

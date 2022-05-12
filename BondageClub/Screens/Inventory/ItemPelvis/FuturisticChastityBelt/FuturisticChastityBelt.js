@@ -9,6 +9,9 @@ var InventoryItemPelvisFuturisticChastityBeltTamperZones = [
 	"ItemVulva",
 ];
 
+/**
+ * @param {Item} Item
+ */
 function InventoryFuturisticChastityBeltCheckPunish(Item) {
 	// Punish the player if they try to mess with the groin area
 	if ((Item.Property.PunishStruggle || (Item.Property.Type && (Item.Property.Type.includes("t1") || Item.Property.Type.includes("t2")))) && Player.FocusGroup && (StruggleProgress >= 0 || StruggleLockPickProgressCurrentTries > 0) && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0) {
@@ -65,9 +68,9 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 	} else {
 
 		var Dictionary = [];
-		Dictionary.push({ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber });
-		Dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
-		Dictionary.push({ Tag: "SourceCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
+		Dictionary.push({ Tag: "DestinationCharacterName", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
+		Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
+		Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
 		if (ReplacementWord)
 			Dictionary.push({ Tag: "ReplacementWord", Text: ReplacementWord });
 		Dictionary.push({Tag: "AssetName", AssetName: Item.Asset.Name});
@@ -91,6 +94,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 // Update data
 function AssetsItemPelvisFuturisticChastityBeltScriptDraw(data) {
 	var persistentData = data.PersistentData();
+	/** @type {ItemProperties} */
 	var property = (data.Item.Property = data.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;

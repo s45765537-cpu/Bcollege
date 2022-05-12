@@ -474,7 +474,7 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 	if (Spell == "Tight") { CharacterSetFacialExpression(Player, "Blush", "Low", 8); CharacterSetFacialExpression(Player, "Eyes", "Closed", 8); }
 	if (Spell == "Fail") { CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Blush", "Medium", 8); CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Eyes", "Angry", 8); }
 	if (Spell == "FlyingHogtie") {
-		let SuspensionHogtiedProperty = Object.assign({}, InventoryItemArmsHempRopeOptions.find(O => O.Name === "SuspensionHogtied").Property);
+		let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
 		let Height = 0.67 * Math.random();
 		SuspensionHogtiedProperty.Difficulty = 5;
 		SuspensionHogtiedProperty.OverrideHeight.Height = Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
@@ -486,16 +486,16 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 	if (Spell == "Hogtie") InventoryGet(Player, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 5, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
 	if (Spell == "ReleaseHogtie") InventoryGet(Player, "ItemArms").Property = { Type: null };
 	if (Spell == "SwitchRope") {
-		if (InventoryGet(Player, "ItemLegs") != "") InventoryWear(Player, "HempRope", "ItemLegs");
-		if (InventoryGet(Player, "ItemFeet") != "") InventoryWear(Player, "HempRope", "ItemFeet");
-		if (InventoryGet(Player, "ItemTorso") != "") InventoryWear(Player, "HempRopeHarness", "ItemTorso");
-		if (InventoryGet(Player, "ItemArms") != "") InventoryWear(Player, "HempRope", "ItemArms");
+		if (InventoryGet(Player, "ItemLegs") != null) InventoryWear(Player, "HempRope", "ItemLegs");
+		if (InventoryGet(Player, "ItemFeet") != null) InventoryWear(Player, "HempRope", "ItemFeet");
+		if (InventoryGet(Player, "ItemTorso") != null) InventoryWear(Player, "HempRopeHarness", "ItemTorso");
+		if (InventoryGet(Player, "ItemArms") != null) InventoryWear(Player, "HempRope", "ItemArms");
 	}
 	if (Spell == "SwitchChain") {
-		if (InventoryGet(Player, "ItemLegs") != "") InventoryWear(Player, "Chains", "ItemLegs");
-		if (InventoryGet(Player, "ItemFeet") != "") InventoryWear(Player, "Chains", "ItemFeet");
-		if (InventoryGet(Player, "ItemTorso") != "") InventoryWear(Player, "CrotchChain", "ItemTorso");
-		if (InventoryGet(Player, "ItemArms") != "") InventoryWear(Player, "Chains", "ItemArms");
+		if (InventoryGet(Player, "ItemLegs") != null) InventoryWear(Player, "Chains", "ItemLegs");
+		if (InventoryGet(Player, "ItemFeet") != null) InventoryWear(Player, "Chains", "ItemFeet");
+		if (InventoryGet(Player, "ItemTorso") != null) InventoryWear(Player, "CrotchChain", "ItemTorso");
+		if (InventoryGet(Player, "ItemArms") != null) InventoryWear(Player, "Chains", "ItemArms");
 	}
 	if ((Spell == "FlyingHogtie") || (Spell == "Hogtie") || (Spell == "ReleaseHogtie") || (Spell == "SwitchRope") || (Spell == "SwitchChain")) CharacterRefresh(Player);
 

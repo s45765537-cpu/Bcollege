@@ -1,5 +1,6 @@
 "use strict";
 
+/** @type ExtendedItemOption[] */
 var InventoryItemMouthFuturisticBallGagOptions = [
 	{
 		Name: "LightBall",
@@ -41,7 +42,7 @@ function InventoryItemMouthFuturisticHarnessBallGagLoad() {
 		if (DialogFocusItem.Property.AutoPunishUndoTimeSetting == null) DialogFocusItem.Property.AutoPunishUndoTimeSetting = 300000;
 		if (DialogFocusItem.Property.OriginalSetting == null) DialogFocusItem.Property.OriginalSetting = null;
 		if (DialogFocusItem.Property.ChatMessage == null) DialogFocusItem.Property.ChatMessage = true;
-		if (DialogFocusItem.Property.BlinkState == null) DialogFocusItem.Property.BlinkState = true;
+		if (DialogFocusItem.Property.BlinkState == null) DialogFocusItem.Property.BlinkState = 0;
 	}
 }
 
@@ -167,14 +168,14 @@ function InventoryItemMouthFuturisticHarnessBallGagValidate(C, Item) {
 /**
  * Publishes the message to the chat
  * @param {Character} C - The target character
- * @param {Option} Option - The currently selected Option
+ * @param {ExtendedItemOption} Option - The currently selected Option
  * @returns {void} - Nothing
  */
  function InventoryItemMouthFuturisticHarnessBallGagPublishAction(C, Option) {
 	var msg = "FuturisticPanelGagMouthSet" + Option.Name;
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 	];
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
@@ -185,7 +186,7 @@ function InventoryItemMouthFuturisticHarnessBallGagValidate(C, Item) {
  * "GroupName" dialog if for example we ever wanted an NPC to react specifically to having the restraint put on them.
  * That could be done by adding an "AssetName" entry (or entries) to that NPC's dialog CSV
  * @param {Character} C - The NPC to whom the restraint is applied
- * @param {Option} Option - The chosen option for this extended item
+ * @param {ExtendedItemOption} Option - The chosen option for this extended item
  * @returns {void} - Nothing
  */
 function InventoryItemMouthFuturisticHarnessBallGagNpcDialog(C, Option) {
@@ -195,6 +196,7 @@ function InventoryItemMouthFuturisticHarnessBallGagNpcDialog(C, Option) {
 // Update data
 function AssetsItemMouthFuturisticHarnessBallGagScriptDraw(data) {
 	var persistentData = data.PersistentData();
+	/** @type {ItemProperties} */
 	var property = (data.Item.Property = data.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;

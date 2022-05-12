@@ -32,15 +32,15 @@ function InventoryItemMiscTimerPasswordPadlockLoad() {
 			C.IsOwnedByPlayer() ||
 			C.IsLoverOfPlayer()
 		) {
-			document.getElementById("Password").placeholder = Property.Password;
+			document.getElementById("Password").setAttribute("placeholder", Property.Password);
 		}
 	} else {
 		// Set a password and hint
 		ElementCreateInput("SetHint", "text", "", "140");
 		ElementCreateInput("SetPassword", "text", "", "8");
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
-		document.getElementById("SetPassword").placeholder = DialogFocusSourceItem.Property.Password;
-		document.getElementById("SetHint").placeholder = DialogFocusSourceItem.Property.Hint;
+		document.getElementById("SetPassword").setAttribute("placeholder", DialogFocusSourceItem.Property.Password);
+		document.getElementById("SetHint").setAttribute("placeholder", DialogFocusSourceItem.Property.Hint);
 	}
 }
 
@@ -214,13 +214,14 @@ function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, PlayerMemberNumberT
 	if (CurrentScreen === "ChatRoom") {
 		const timeAdded = (Property.RemoveTimer - TimerBefore) / (1000 * 60);
 		const msg = ((timeAdded < 0) && Property.ShowTimer ? "TimerRemoveTime" : "TimerAddTime");
+		/** @type {ChatMessageDictionary} */
 		const Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 			{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name },
 		];
 		if (Property.ShowTimer) {
-			Dictionary.push({ Tag: "TimerTime", Text: Math.round(Math.abs(timeAdded)) });
+			Dictionary.push({ Tag: "TimerTime", Text: Math.round(Math.abs(timeAdded)).toString() });
 			Dictionary.push({ Tag: "TimerUnit", TextToLookUp: "Minutes" });
 		} else {
 			Dictionary.push({ Tag: "TimerTime", TextToLookUp: "TimerAddRemoveUnknownTime" });

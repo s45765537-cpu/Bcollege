@@ -32,6 +32,7 @@ function InventoryItemDevicesWoodenBoxLoad() {
 	const item = DialogFocusItem;
 	let mustRefresh = false;
 
+	/** @type {ItemProperties} */
 	const Property = item.Property = item.Property || {};
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
@@ -134,8 +135,8 @@ function InventoryItemDevicesWoodenBoxExit() {
 
 	if (CurrentScreen === "ChatRoom" && text !== InventoryItemDevicesWoodenBoxOriginalText) {
 		const dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacterName", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 			{ Tag: "NewText", Text: text },
 			{ Tag: "AssetName", AssetName: item.Asset.Name },
 		];
@@ -156,12 +157,12 @@ function InventoryItemDevicesWoodenBoxExit() {
 
 /**
  * Sets the opacity of the wooden box based, and applies effects based on its opacity value
- * @param {Property} property - The item's Property object
+ * @param {ItemProperties} property - The item's Property object
  * @param {number} opacity - The opacity to set on the item's Property
  * @returns {void} - Nothing
  */
 function InventoryItemDevicesWoodenBoxSetOpacity(property, opacity) {
-	if (opacity !== property.opacity) property.Opacity = opacity;
+	if (opacity !== property.Opacity) property.Opacity = opacity;
 	if (!Array.isArray(property.Effect)) property.Effect = [];
 	const transparent = property.Opacity < 0.15;
 	const effectsToApply = transparent ? ["Prone", "Enclose", "Freeze"] : ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"];
@@ -251,4 +252,3 @@ function AssetsItemDevicesWoodenBoxAfterDraw({ C, A, X, Y, L, Property, drawCanv
 		drawCanvasBlink(tmpCanvas, X + 90, Y + 300, AlphaMasks);
 	}
 }
-

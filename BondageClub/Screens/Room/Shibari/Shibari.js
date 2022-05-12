@@ -98,7 +98,7 @@ function ShibariRandomBondage(C, Level) {
 			if (Level == 1) InventoryGet(C, "ItemFeet").Property = { Type: "Suspension", SetPose: ["Suspension", "LegsClosed"], Difficulty: 0, Effect: [] };
 			if (Level == 2) InventoryGet(C, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 0, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
 			if (Level == 3) {
-				let SuspensionHogtiedProperty = Object.assign({}, InventoryItemArmsHempRopeOptions.find(O => O.Name === "SuspensionHogtied").Property);
+				let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
 				const height = 0.67 * Math.random();
 				SuspensionHogtiedProperty.Difficulty = 0;
 				SuspensionHogtiedProperty.OverrideHeight.Height = height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
@@ -187,10 +187,11 @@ function ShibariStartTeacherBondage() {
 
 /**
  * Triggered when the player gets restrained by the teacher, the teacher will not release the player for a minute after this.
+ * @param {string} Level
  * @returns {void} - Nothing
  */
 function ShibariRestrainPlayer(Level) {
-	ShibariRandomBondage(Player, Level);
+	ShibariRandomBondage(Player, parseInt(Level));
 	ShibariTeacherReleaseTimer = CommonTime() + 60000;
 }
 

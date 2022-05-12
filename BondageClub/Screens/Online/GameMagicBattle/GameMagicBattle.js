@@ -189,7 +189,7 @@ function GameMagicBattleStartProcess() {
 
 	// Notices everyone in the room that the game starts
 	var Dictionary = [];
-	Dictionary.push({Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber});
+	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
 	ServerSend("ChatRoomChat", { Content: "MagicBattleGameStart", Type: "Action" , Dictionary: Dictionary});
 
 	// Changes the game status and exits
@@ -305,7 +305,11 @@ function GameMagicBattleCanLaunchGame() {
 function GameMagicBattleNewTurn(Msg) {
 	GameMagicBattleLog = [];
 	GameMagicBattleTurnDone = false;
-	GameMagicBattleFocusCharacter = null;
+	// New turn while the minigame is still running, don't unfocus the opponent
+	// as the the minigame callback needs that.
+	if (MiniGameEnded) {
+		GameMagicBattleFocusCharacter = null;
+	}
 	GameMagicBattleTurnTimer = TimerGetTime() + (GameMagicBattleTimerDelay * 1000);
 	GameMagicBattleAddChatLog(Msg, Player, Player, null, (Msg == "TurnNext") ? "#000000" : "#0000A0");
 }

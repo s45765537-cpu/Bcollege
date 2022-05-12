@@ -14,6 +14,7 @@ function InventoryItemDevicesPetBowlLoad() {
 	const C = CharacterGetCurrent();
 	let MustRefresh = false;
 
+	/** @type {ItemProperties} */
 	const Property = (DialogFocusItem.Property = DialogFocusItem.Property || {});
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
@@ -78,8 +79,8 @@ function InventoryItemDevicesPetBowlChange(text) {
 	CharacterRefresh(C);
 	if (CurrentScreen == "ChatRoom") {
 		var Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 			{ Tag: "NewText", Text: text }
 		];
 		ChatRoomPublishCustomAction("PetBowlChange", true, Dictionary);
