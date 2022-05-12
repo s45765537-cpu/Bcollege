@@ -5843,11 +5843,12 @@ var AssetFemale3DCG = [
 					{ Name: "GagOwO", Top: 80, Left: 164, HasType: false, AllowModuleTypes: ["g1e1"], CopyLayerColor: "Drawings", },
 					{ Name: "GagUwU", Top: 80, Left: 164, HasType: false, AllowModuleTypes: ["g1e2"], CopyLayerColor: "Drawings", },
 					{ Name: "Drawings", HasImage: false, },
+					{ Name: "Lock", Top: 113, Left: 233, HasType: false, LockLayer: true, AllowColorize: false, }
 				],
 			},
 			{
 				Name: "LatexDogHood", Fetish: ["Latex", "Pet"], Random: false, Value: 20, Difficulty: 1, Top: -5, Left: 113,
-				AllowLock: true, DrawLocks: false,
+				AllowLock: true,
 				Hide: ["HairFront", "HairBack", "Glasses", "Ears"],
 			},
 			AssetSpankingToys
