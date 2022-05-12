@@ -691,7 +691,7 @@ interface Character {
 	OnlineID?: string;
 	Type: CharacterType;
 	Name: string;
-	Nickname: string;
+	Nickname?: string;
 	AssetFamily: IAssetFamily | string;
 	AccountName: string;
 	Owner: string;
