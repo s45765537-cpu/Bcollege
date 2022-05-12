@@ -64,6 +64,7 @@ function TypedItemRegister(asset, config) {
 	TypedItemGenerateAllowEffect(data);
 	TypedItemGenerateAllowBlock(data);
 	TypedItemGenerateAllowTint(data);
+	TypedItemGenerateAllowLockType(data);
 	TypedItemRegisterSubscreens(asset, config);
 }
 
@@ -294,6 +295,24 @@ function TypedItemGenerateAllowTint({asset, options}) {
 			return;
 		}
 	}
+}
+
+/**
+ * Generates an asset's AllowLockType property based on its typed item data.
+ * @param {TypedItemData} data - The typed item's data
+ * @returns {void} - Nothing
+ */
+function TypedItemGenerateAllowLockType({asset, options}) {
+	const allowLockType = [];
+	for (const option of options) {
+		const type = option.Property && option.Property.Type;
+		let allowLock = typeof option.AllowLock === "boolean" ? option.AllowLock : asset.AllowLock;
+		if (allowLock) {
+			// "" is used to represent the null type in AllowLockType arrays
+			allowLockType.push(type != null ? type : "");
+		}
+	}
+	asset.AllowLockType = allowLockType;
 }
 
 /**
