@@ -312,7 +312,18 @@ function TypedItemGenerateAllowLockType({asset, options}) {
 			allowLockType.push(type != null ? type : "");
 		}
 	}
-	asset.AllowLockType = allowLockType;
+	if (allowLockType.length === 0) {
+		// If no types are allowed to lock, set AllowLock to false for quick checking
+		asset.AllowLock = false;
+		asset.AllowLockType = null;
+	} else if (allowLockType.length === options.length) {
+		// If all types are allowed to lock, set AllowLock to true quick checking
+		asset.AllowLock = true;
+		asset.AllowLockType = null;
+	} else {
+		// If it's somewhere in between, set an explicit AllowLockType array
+		asset.AllowLockType = allowLockType;
+	}
 }
 
 /**
