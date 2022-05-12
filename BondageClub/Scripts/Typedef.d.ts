@@ -821,8 +821,6 @@ interface Character {
 		DisableAdvancedVibes: boolean;
 	};
 	AppearanceFull?: Item[];
-	Trait?: NPCTrait[];
-	Event?: any[];
 	// Online character properties
 	Title?: string;
 	ActivePose?: any;
@@ -846,7 +844,6 @@ interface Character {
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
 	Cage?: true | null;
-	Love?: number;
 	Difficulty?: {
 		Level: number;
 		LastChange?: number;
@@ -856,6 +853,25 @@ interface Character {
 	Rule?: LogRecord[];
 	Status?: string | null;
 	StatusTimer?: number;
+}
+
+/** NPC Character extension */
+// FIXME: That one should find its way down to NPCCharacter, but
+// there's too many accesses to those properties from Character
+// to do so.
+interface Character {
+	/** NPC type: Slave, Maid, etc. */
+	Archetype?: string;
+	Love?: number; /** The NPC's love value */
+}
+
+/** NPC-only */
+interface NPCCharacter extends Character {
+	Archetype?: string;
+	Trait?: NPCTrait[];
+	Event?: NPCTrait[];
+	Love?: number;
+	Type?: "Slave" | "Submissive";
 }
 
 /** MovieStudio */
