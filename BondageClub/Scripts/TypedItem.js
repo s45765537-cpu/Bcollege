@@ -317,7 +317,7 @@ function TypedItemGenerateAllowLockType({asset, options}) {
 		asset.AllowLock = false;
 		asset.AllowLockType = null;
 	} else if (allowLockType.length === options.length) {
-		// If all types are allowed to lock, set AllowLock to true quick checking
+		// If all types are allowed to lock, set AllowLock to true for quick checking
 		asset.AllowLock = true;
 		asset.AllowLockType = null;
 	} else {
@@ -491,6 +491,12 @@ function TypedItemSetOption(C, item, options, option, push = false) {
 	}
 
 	item.Property = newProperty;
+
+	if (!InventoryDoesItemAllowLock(item)) {
+		// If the new type does not permit locking, remove the lock
+		ValidationDeleteLock(item.Property, false);
+	}
+
 	CharacterRefresh(C, push);
 }
 
