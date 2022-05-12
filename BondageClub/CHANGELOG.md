@@ -11,9 +11,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2022-05-11
-* Last recorded PR: [#3425](https://github.com/Ben987/Bondage-College/pull/3425)
-* Last recorded commit hash: `a25987a9235bab8bc7390dab70dfb95b651b5d38`
+* Changelog last updated: 2022-05-12
+* Last recorded PR: [#3421](https://github.com/Ben987/Bondage-College/pull/3421)
+* Last recorded commit hash: `f7a4faf734b4dfa8d4e646cec6769be70e4889db`
+
 
 ## [R80]
 
@@ -28,7 +29,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
   * Harem Gloves (gloves)
   * 3 new front hairstyles
 * Luna - Added the Bridle Gag to the second and third mouth slots ([#3368](https://github.com/Ben987/Bondage-College/pull/3368), [#3397](https://github.com/Ben987/Bondage-College/pull/3397))
-* remiliacn - Added several Chinese translations and corrections ([#3372](https://github.com/Ben987/Bondage-College/pull/3372), [#3389](https://github.com/Ben987/Bondage-College/pull/3389), [#3404](https://github.com/Ben987/Bondage-College/pull/3404), [#3411](https://github.com/Ben987/Bondage-College/pull/3411), [#3433](https://github.com/Ben987/Bondage-College/pull/3433))
+* remiliacn - Added several Chinese translations and corrections ([#3372](https://github.com/Ben987/Bondage-College/pull/3372), [#3389](https://github.com/Ben987/Bondage-College/pull/3389), [#3404](https://github.com/Ben987/Bondage-College/pull/3404), [#3411](https://github.com/Ben987/Bondage-College/pull/3411), [#3433](https://github.com/Ben987/Bondage-College/pull/3433), [#3443](https://github.com/Ben987/Bondage-College/pull/3443))
 * Anonymous-WghrYkBGUjBt - Add Chinese translations for several minigames ([#3374](https://github.com/Ben987/Bondage-College/pull/3374))
 * EliseRoland - Added Chinese translations for the store ([#3377](https://github.com/Ben987/Bondage-College/pull/3377))
 * Luna - Added two new items ([#3380](https://github.com/Ben987/Bondage-College/pull/3380), [#3386](https://github.com/Ben987/Bondage-College/pull/3386), [#3412](https://github.com/Ben987/Bondage-College/pull/3412))
@@ -57,7 +58,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Moved the Wooden Horse to the devices slot ([#3364](https://github.com/Ben987/Bondage-College/pull/3364))
 * fleisch11 - Added an arrow to indicate doors in the Bondage Brawl minigame ([#3383](https://github.com/Ben987/Bondage-College/pull/3383))
 * Karamel - Updated the assets for the Nylon Rope items ([#3390](https://github.com/Ben987/Bondage-College/pull/3390))
-* Ada - Updated Kinky Dungeon to 3.3 - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3401](https://github.com/Ben987/Bondage-College/pull/3401))
+* Ada - Updated Kinky Dungeon to 3.31 - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3401](https://github.com/Ben987/Bondage-College/pull/3401), [#3442](https://github.com/Ben987/Bondage-College/pull/3442))
 
 ### [Fixed]
 
@@ -79,6 +80,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ellie - Fixed an issue where the effects of some items wouldn't load properly on first equip ([#3438](https://github.com/Ben987/Bondage-College/pull/3438))
 * Nina - Fixed an issue where the Plug Gag, Dildo Plug Gag, Harness OTN Plug Gag and Funnel Gag would only permit penetration after changing to another variation and back ([#3431](https://github.com/Ben987/Bondage-College/pull/3431))
 * Nina - Fixed an issue where certain items were twice as difficult as they were supposed to be ([#3426](https://github.com/Ben987/Bondage-College/pull/3426))
+* Ace - Fixed an issue where returning to a chatroom from the friendlist when entering it from a beep notification would stop the chat from automatically scrolling ([#3441](https://github.com/Ben987/Bondage-College/pull/3441))
+* Ellie - Fixed a bug where the clothing versions of the Leather Corset Top and Steampunk Corset Top would disappear in several poses ([#3422](https://github.com/Ben987/Bondage-College/pull/3422))
+* Luna - Fixed an issue with the Bridle Gag where the post would render behind some items ([#3421](https://github.com/Ben987/Bondage-College/pull/3421))
 
 ### [Technical]
 
@@ -94,11 +98,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Emily R/Ellie - Slightly reduced the strength of the tint effect on the GP-9 Gas Mask ([#3435](https://github.com/Ben987/Bondage-College/pull/3435))
 * Estsanatlehi - Fixed a bug causing crashes in account creation ([#3434](https://github.com/Ben987/Bondage-College/pull/3434))
 * SepiaOulomenohn - Changed the Boned Neck Corset to permit locking, permitted penetration activities and added muffling options to the Latex Sheath Gag  ([#3432](https://github.com/Ben987/Bondage-College/pull/3432))
-* Luna - Reduced the difficulty of the Wooden Rack ([#3430](https://github.com/Ben987/Bondage-College/pull/3430))
+* Luna - Fixed several minor issues with the Wooden Rack ([#3430](https://github.com/Ben987/Bondage-College/pull/3430), [#3440](https://github.com/Ben987/Bondage-College/pull/3440))
 * Ellie - Adjusted the list of items hidden by the Slime restraint in the thigh slot ([#3429](https://github.com/Ben987/Bondage-College/pull/3429))
 * Ellie - Fixed a bug where the original Harem Pants would disappear in the kneeling pose ([#3428](https://github.com/Ben987/Bondage-College/pull/3428))
 * Estsanatlehi - Fixed a bug where lines of text in the profile sheets for NPCs could overlap with each other ([#3427](https://github.com/Ben987/Bondage-College/pull/3427))
 * Ellie - Fixed a bug where the Panty Line layer in the new Harem Pants was not visible ([#3425](https://github.com/Ben987/Bondage-College/pull/3425))
+* Estsanatlehi - Fixed a bug where the "(Back to rules.)" option would appear twice in the owner rules menu ([#3447](https://github.com/Ben987/Bondage-College/pull/3447))
 
 
 ## [R79]
