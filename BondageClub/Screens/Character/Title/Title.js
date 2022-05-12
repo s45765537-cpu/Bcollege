@@ -221,4 +221,4 @@ function TitleExit() {
 	        ElementRemove("InputNickname");
                 CommonSetScreen("Character", "InformationSheet");
 	}
-}
+ }
