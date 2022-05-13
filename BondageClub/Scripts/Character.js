@@ -526,29 +526,20 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 
 /**
  * Attributes a random name for the character, does not select a name in use
- * @param {Character} C - Character for which to attribute a name
- * @returns {void} - Nothing
+ * @returns {string} - Nothing
  */
-function CharacterRandomName(C) {
+function CharacterGenerateRandomName() {
 
-	// Generates a name from the name bank
-	var NewName = CharacterName[Math.floor(Math.random() * CharacterName.length)];
-	C.Name = NewName;
+	// Get the list of all currently known names
+	const CurrentNames = [];
+	CurrentNames.push(...Character.map(c => c.Name));
+	CurrentNames.push(...PrivateCharacter.map(c => c.Name));
 
-	// If the name is already taken, we generate a new one
-	for (let CN = 0; CN < Character.length; CN++)
-		if ((Character[CN].Name == NewName) && (Character[CN].ID != C.ID)) {
-			CharacterRandomName(C);
-			return;
-		}
+	// Filter those names out of our name bank
+	const PossibleNames = [...CharacterName].filter(n => !CurrentNames.includes(n));
 
-	// If the name is already taken by a private room character
-	for (let P = 0; P < PrivateCharacter.length; P++)
-		if ((PrivateCharacter[P].Name == NewName) && ((PrivateCharacter[P].ID == null) || (PrivateCharacter[P].ID != C.ID))) {
-			CharacterRandomName(C);
-			return;
-		}
-
+	// Pick one of the remaining names
+	return CommonRandomItemFromList("", PossibleNames);
 }
 
 /**
@@ -760,7 +751,7 @@ function CharacterLoadNPC(CharacterID, NPCType, module = CurrentModule, screen =
 	const C = CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID);
 	C.AccountName = NPCType;
 	CharacterLoadCSVDialog(C, { module: module, screen: screen, name: NPCType });
-	CharacterRandomName(C);
+	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
 

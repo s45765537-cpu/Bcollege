@@ -172,11 +172,9 @@ function InfiltrationPrepareMission() {
 	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
 	//InfiltrationMission = "ReverseMaid"; // DEBUG
 	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
-		let C = /** @type {NPCCharacter} */ ({});
-		CharacterRandomName(C);
 		InfiltrationTarget = {
 			Type: "NPC",
-			Name: C.Name,
+			Name: CharacterGenerateRandomName(),
 			PrivateRoom: false
 		};
 	} else {
@@ -325,7 +323,6 @@ function InfiltrationStartKidnapping() {
 	CharacterDelete(InfiltrationKidnapper);
 
 	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
-	CharacterRandomName(InfiltrationKidnapper);
 	CharacterRelease(InfiltrationKidnapper);
 	InfiltrationKidnapper.Stage = "0";
 	if (Type == "Kidnapper") {

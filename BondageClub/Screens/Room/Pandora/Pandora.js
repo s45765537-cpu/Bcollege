@@ -369,8 +369,10 @@ function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
 	}
 
 	let NPC = CharacterLoadNPC("NPC_Pandora_" + Group + Archetype);
-	if (Name == "RANDOM") CharacterRandomName(NPC);
-	else NPC.Name = Name;
+	if (Name == "RANDOM")
+		NPC.Name = CharacterGenerateRandomName();
+	else
+		NPC.Name = Name;
 	CharacterRelease(NPC);
 	NPC.Archetype = Archetype;
 	NPC.Stage = "0";

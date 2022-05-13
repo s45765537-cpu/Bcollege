@@ -498,7 +498,7 @@ function MaidQuartersInitiationTransition(MaidType) {
  * @returns {void} - Nothing
  */
 function MaidQuartersChangeInitiationMaid() {
-	CharacterRandomName(MaidQuartersMaidInitiation);
+	MaidQuartersMaidInitiation.Name = CharacterGenerateRandomName();
 	CharacterAppearanceFullRandom(MaidQuartersMaidInitiation);
 	CharacterAppearanceSetItem(MaidQuartersMaidInitiation, "Cloth", MaidQuartersMaidInitiation.Inventory[MaidQuartersMaidInitiation.Inventory.length - 2].Asset);
 	CharacterAppearanceSetItem(MaidQuartersMaidInitiation, "Hat", MaidQuartersMaidInitiation.Inventory[MaidQuartersMaidInitiation.Inventory.length - 1].Asset);

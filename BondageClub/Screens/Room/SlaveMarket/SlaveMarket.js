@@ -112,7 +112,6 @@ function SlaveMarketNewSlave() {
 	SlaveMarketSlave.AllowItem = false;
 	CharacterAppearanceFullRandom(SlaveMarketSlave);
 	CharacterNaked(SlaveMarketSlave);
-	CharacterRandomName(SlaveMarketSlave);
 	InventoryWear(SlaveMarketSlave, "LeatherCollar", "ItemNeck");
 	InventoryWear(SlaveMarketSlave, "CollarChainLong", "ItemNeckRestraints");
 	if (CurrentCharacter != null) DialogLeave();

@@ -83,7 +83,7 @@ function EmptyShopRelease() {
 
 /**
  * Releases the player from the item she was trying to sell, and sets the following dialog.
- * @param {string} Sold - Whether or not the item was sold, "true" if sold
+ * @param {string|boolean} Sold - Whether or not the item was sold, "true" if sold
  * @returns {void} - Nothing
  */
 function EmptyShopEnd(Sold) {
@@ -95,7 +95,7 @@ function EmptyShopEnd(Sold) {
 	CharacterSetCurrent(ShopVendor);
 	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
 	CharacterAppearanceFullRandom(ShopCustomer, false);
-	CharacterRandomName(ShopCustomer);
+	ShopCustomer.Name = CharacterGenerateRandomName();
 }
 
 /**

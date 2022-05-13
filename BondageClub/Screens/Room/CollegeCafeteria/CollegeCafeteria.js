@@ -195,7 +195,7 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 
 	// Generates a new random character at Sidney's spot
 	CharacterAppearanceFullRandom(CollegeCafeteriaSidney);
-	CharacterRandomName(CollegeCafeteriaSidney);
+	CollegeCafeteriaSidney.Name = CharacterGenerateRandomName();
 	CollegeEntranceWearStudentClothes(CollegeCafeteriaSidney);
 	CollegeCafeteriaSidney.Stage = "1000";
 	CharacterRefresh(CollegeCafeteriaSidney);
