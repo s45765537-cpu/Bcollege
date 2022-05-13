@@ -268,6 +268,7 @@ interface ChatRoom {
 	Private: boolean;
 	Locked: boolean;
 	BlockCategory: string[];
+	Language: string;
 	Character?: any[]; /* From server, not really a Character object */
 }
 
