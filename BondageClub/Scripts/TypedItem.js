@@ -462,7 +462,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push = false) 
 		return msg;
 	}
 
-	return TypedItemSetOption(C, item, options, option);
+	return TypedItemSetOption(C, item, options, option, push);
 }
 
 /**
