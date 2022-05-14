@@ -358,6 +358,9 @@ function ModularItemCreateClickBaseFunction(data) {
 			() => {
 				ExtendedItemExit();
 				ModularItemRequirementCheckMessageMemo.clearCache();
+				// The item's lock may have been automatically removed in a module change, so rebuild buttons
+				DialogInventoryBuild(CharacterGetCurrent(), DialogInventoryOffset);
+				DialogMenuButtonBuild(CharacterGetCurrent());
 				DialogFocusItem = null;
 			},
 			i => {
