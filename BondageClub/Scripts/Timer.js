@@ -64,7 +64,7 @@ function TimerInventoryRemove() {
 						// If we're removing a lock and we're in a chatroom, send a chatroom message
 						if (LockName && ServerPlayerIsInChatRoom()) {
 							var Dictionary = [
-								{Tag: "DestinationCharacterName", Text: Character[C].Name, MemberNumber: Character[C].MemberNumber},
+								{Tag: "DestinationCharacterName", Text: CharacterNickname(Character[C]), MemberNumber: Character[C].MemberNumber},
 								{Tag: "FocusAssetGroup", AssetGroupName: Character[C].Appearance[A].Asset.Group.Name},
 								{Tag: "LockName", AssetName: LockName}
 							];
@@ -113,11 +113,13 @@ function TimerInventoryRemoveSet(C, AssetGroup, Timer) {
 function TimerPrivateOwnerBeep() {
 	if ((Player.Owner != "") && (Player.Ownership == null) && (CurrentScreen != "Private") && (CurrentScreen != "ChatRoom") && (CurrentScreen != "InformationSheet") && (CurrentScreen != "FriendList") && (CurrentScreen != "Cell") && PrivateOwnerInRoom())
 		if ((Math.floor(Math.random() * 500) == 1) && !LogQuery("OwnerBeepActive", "PrivateRoom") && !LogQuery("OwnerBeepTimer", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule") && !LogQuery("Committed", "Asylum")) {
-			ServerBeep.Timer = CurrentTime + 15000;
-			ServerBeep.Message = DialogFindPlayer("BeepFromOwner");
+			ServerBeep = {
+				Timer: CommonTime() + 15000,
+				Message: DialogFindPlayer("BeepFromOwner"),
+			}
 			LogAdd("OwnerBeepActive", "PrivateRoom");
 			LogAdd("OwnerBeepTimer", "PrivateRoom", CurrentTime + 120000);
-			FriendListBeepLog.push({ MemberName: Player.Owner, ChatRoomName: DialogFindPlayer("YourRoom"), Sent: false, Time: new Date() });
+			FriendListBeepLog.push({ MemberName: Player.Owner, ChatRoomName: DialogFindPlayer("YourRoom"), Sent: false, Time: new Date(), Private: false });
 		}
 }
 
@@ -159,7 +161,7 @@ function TimerProcess(Timestamp) {
 				} else {
 
 					// Depending on the character settings, we progress the arousal meter
-					if ((Character[C].ArousalSettings != null) && (Character[C].ArousalSettings.Active != null) && ((Character[C].ArousalSettings.Active == "Automatic") || (Character[C].ArousalSettings.Active == "Hybrid"))) {
+					if (PreferenceArousalAtLeast(Character[C], "Hybrid")) {
 
 						// Activity impacts the progress slowly over time, if there's an activity running, vibrations are ignored
 						if ((Character[C].ArousalSettings.ProgressTimer != null) && (typeof Character[C].ArousalSettings.ProgressTimer === "number") && !isNaN(Character[C].ArousalSettings.ProgressTimer) && (Character[C].ArousalSettings.ProgressTimer != 0)) {
@@ -213,7 +215,7 @@ function TimerProcess(Timestamp) {
 		if ((TimerLastArousalDecay + 12000 < CurrentTime) || (TimerLastArousalDecay - 12000 > CurrentTime)) {
 			TimerLastArousalDecay = CurrentTime;
 			for (let C = 0; C < Character.length; C++)
-				if ((Character[C].ArousalSettings != null) && (Character[C].ArousalSettings.Active != null) && ((Character[C].ArousalSettings.Active == "Automatic") || (Character[C].ArousalSettings.Active == "Hybrid")))
+				if (PreferenceArousalAtLeast(Character[C], "Hybrid"))
 					if ((Character[C].ArousalSettings.Progress != null) && (typeof Character[C].ArousalSettings.Progress === "number") && !isNaN(Character[C].ArousalSettings.Progress) && (Character[C].ArousalSettings.Progress > 0))
 						if ((Character[C].ArousalSettings.ProgressTimer == null) || (typeof Character[C].ArousalSettings.ProgressTimer !== "number") || isNaN(Character[C].ArousalSettings.ProgressTimer) || (Character[C].ArousalSettings.ProgressTimer == 0)) {
 

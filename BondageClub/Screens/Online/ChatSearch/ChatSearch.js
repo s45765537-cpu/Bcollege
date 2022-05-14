@@ -15,14 +15,21 @@ var ChatSearchSafewordPose = null;
 var ChatSearchPreviousActivePose = null;
 var ChatSearchIgnoredRooms = [];
 var ChatSearchMode = "";
-var ChatRoomJoinLeash = "";
 var ChatSearchRejoinIncrement = 1;
+var ChatSearchReturnToScreen = null;
+var ChatSearchLanguage = "";
+var ChatRoomJoinLeash = "";
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @returns {void} - Nothing
  */
 function ChatSearchLoad() {
+	if (ChatSearchReturnToScreen != null) {
+		CommonSetScreen("Room", ChatSearchReturnToScreen);
+		ChatSearchReturnToScreen = null;
+		return;
+	}
 	CurrentDarkFactor = 0.5;
 	if (ChatSearchLeaveRoom == "MainHall") {
 		ChatRoomGame = "";
@@ -32,14 +39,15 @@ function ChatSearchLoad() {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
 		ChatSearchSafewordPose = Player.ActivePose;
 	}
+	AsylumGGTSIntroDone = false;
+	AsylumGGTSTask = null;
+	AsylumGGTSPreviousPose = JSON.stringify(Player.Pose);
 	Player.ArousalSettings.OrgasmCount = 0;
 	ElementCreateInput("InputSearch", "text", "", "20");
 	ChatSearchQuery();
 	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
-
 	ChatSearchRejoinIncrement = 1;
-
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatCreate");
 	TextPrefetch("Online", "ChatRoom");
@@ -52,17 +60,20 @@ function ChatSearchLoad() {
 function ChatSearchRun() {
 	KidnapLeagueResetOnlineBountyProgress();
 
-	if (ChatSearchMode == "")
+	if (ChatSearchMode == "") {
 		ChatSearchNormalDraw();
-	else if (ChatSearchMode == "Filter")
+		if ((ChatSearchMessage == "" || ChatSearchMessage == "FilterExcludeTerms")) ChatSearchMessage = "EnterName";
+	}
+	else if (ChatSearchMode == "Filter") {
 		ChatSearchPermissionDraw();
+		ChatSearchMessage = "FilterExcludeTerms";
+	}
 
 	// Draw the bottom controls
-	if (ChatSearchMessage == "") ChatSearchMessage = "EnterName";
 	DrawTextFit(TextGet(ChatSearchMessage), 255, 935, 490, "White", "Gray");
 	ElementPosition("InputSearch",  740, 926, 470);
-	DrawButton(980, 898, 280, 64, TextGet("SearchRoom"), "White");
-	DrawButton(1280, 898, 280, 64, TextGet("CreateRoom"), "White");
+	DrawButton(980, 898, 280, 64, TextGet(ChatSearchMode != "Filter" ? "SearchRoom" : "FilterRefresh"), "White");
+	DrawButton(1280, 898, 280, 64, TextGet(ChatSearchMode != "Filter" ? "CreateRoom" : "Language" + ChatSearchLanguage), "White");
 	if (ChatSearchResult.length + (ChatSearchMode != "Filter" ? 0 : ChatSearchIgnoredRooms.length) > ChatSearchRoomsPerPage) DrawButton(1585, 885, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 	DrawButton(1685, 885, 90, 90, "", "White", ChatSearchMode != "Filter" ? "Icons/DialogPermissionMode.png" : "Icons/DialogNormalMode.png", TextGet(ChatSearchMode != "Filter" ?  "FilterMode" : "NormalMode"));
 	DrawButton(1785, 885, 90, 90, "", "White", "Icons/FriendList.png", TextGet("FriendList"));
@@ -79,16 +90,24 @@ function ChatSearchClick() {
 		if (ChatSearchMode == "" && Array.isArray(ChatSearchResult) && (ChatSearchResult.length >= 1)) ChatSearchJoin();
 	}
 	if (MouseIn(980, 898, 280, 64)) ChatSearchQuery();
-	if (MouseIn(1280, 898, 280, 64)) {
+	if (MouseIn(1280, 898, 280, 64) && (ChatSearchMode == "")) {
 		ChatBlockItemCategory = [];
 		CommonSetScreen("Online", "ChatCreate");
+	}
+	if (MouseIn(1280, 898, 280, 64) && (ChatSearchMode == "Filter")) {
+		let Pos = ChatCreateLanguageList.indexOf(ChatSearchLanguage) + 1;
+		if (Pos >= ChatCreateLanguageList.length)
+			ChatSearchLanguage = "";
+		else
+			ChatSearchLanguage = ChatCreateLanguageList[Pos];
+		ServerAccountUpdate.QueueData({ RoomSearchLanguage: ChatSearchLanguage });
 	}
 	if (MouseIn(1585, 885, 90, 90)) {
 		ChatSearchResultOffset += ChatSearchRoomsPerPage;
 		if (ChatSearchResultOffset >= ChatSearchResult.length + (ChatSearchMode != "Filter" ? 0 : ChatSearchIgnoredRooms.length)) ChatSearchResultOffset = 0;
 	}
 	if (MouseIn(1685, 885, 90, 90)) {
-		ChatSearchMode = (ChatSearchMode == "Filter" ? "" : "Filter");
+		ChatSearchToggleSearchMode();
 		ChatSearchQuery();
 	}
 	if (MouseIn(1785, 885, 90, 90)) {
@@ -218,8 +237,6 @@ function ChatSearchMuffle(Text) {
 	return ret;
 }
 
-
-
 /**
  * Draws the list of rooms in permission mode.
  * @returns {void} - Nothing
@@ -309,6 +326,28 @@ function ChatSearchJoin() {
 }
 
 /**
+ * Switch the search screen between the normal view and the filter mode which allows hiding of rooms
+ * @returns {void} - Nothing
+ */
+function ChatSearchToggleSearchMode() {
+	if (ChatSearchMode == "") {
+		ElementSetAttribute("InputSearch", "maxlength", "200");
+		ElementValue("InputSearch", Player.ChatSearchFilterTerms);
+		ChatSearchMode = "Filter";
+	} else if (ChatSearchMode == "Filter") {
+		const filterTerms = ElementValue("InputSearch");
+		ElementValue("InputSearch", "");
+		ElementSetAttribute("InputSearch", "maxlength", "20");
+		// If the terms were changed, save them to the account
+		if (Player.ChatSearchFilterTerms != filterTerms) {
+			Player.ChatSearchFilterTerms = filterTerms;
+			ServerSend("AccountUpdate", { ChatSearchFilterTerms: Player.ChatSearchFilterTerms });
+		}
+		ChatSearchMode = "";
+	}
+}
+
+/**
  * Handles the clicks related to the chatroom list when in permission mode
  * @returns {void} - Nothing
  */
@@ -367,7 +406,6 @@ function ChatSearchClickPermission() {
 	}
 }
 
-
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
  * @param {string} data - Response from the server
@@ -394,6 +432,15 @@ function ChatSearchResultResponse(data) {
 	ChatSearchResult = data;
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();
+	ChatSearchApplyFilterTerms();
+	ChatSearchAutoJoinRoom();
+}
+
+/**
+ * Automatically join a room, for example due to leashes or reconnect
+ * @returns {void} - Nothing
+ */
+function ChatSearchAutoJoinRoom() {
 	if (ChatRoomJoinLeash != "") {
 		for (let R = 0; R < ChatSearchResult.length; R++)
 			if (ChatSearchResult[R].Name == ChatRoomJoinLeash) {
@@ -403,16 +450,16 @@ function ChatSearchResultResponse(data) {
 				ServerSend("ChatRoomJoin", { Name: ChatSearchResult[R].Name });
 				break;
 			}
-	} else if (Player.ImmersionSettings && Player.LastChatRoom && Player.LastChatRoom != "" && Player.ImmersionSettings.ReturnToChatRoom) {
-		var found = false;
-		var roomIsFull = false;
-		for (let R = 0; R < data.length; R++) {
-			var room = data[R];
+	} else if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (Player.LastChatRoom != "") && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
+		let roomFound = false;
+		let roomIsFull = false;
+		for (let R = 0; R < ChatSearchResult.length; R++) {
+			var room = ChatSearchResult[R];
 			if (room.Name == Player.LastChatRoom && room.Game == "") {
 				if (room.MemberCount < room.MemberLimit) {
 					var RoomName = room.Name;
 					if (ChatSearchLastQueryJoin != RoomName || (ChatSearchLastQueryJoin == RoomName && ChatSearchLastQueryJoinTime + 1000 < CommonTime())) {
-						found = true;
+						roomFound = true;
 						ChatSearchLastQueryJoinTime = CommonTime();
 						ChatSearchLastQueryJoin = RoomName;
 						ChatRoomPlayerCanJoin = true;
@@ -423,44 +470,34 @@ function ChatSearchResultResponse(data) {
 					roomIsFull = true;
 					break;
 				}
-
 			}
 		}
-		if (!found) {
+		if (!roomFound) {
 			if (Player.ImmersionSettings.ReturnToChatRoomAdmin
-			&& Player.LastChatRoomAdmin
-			&& Player.LastChatRoomBG
-			&& Player.LastChatRoomPrivate != null
-			&& Player.LastChatRoomSize
-			&& Player.LastChatRoomDesc != null) {
+				&& Player.LastChatRoomAdmin
+				&& Player.LastChatRoomBG
+				&& Player.LastChatRoomPrivate != null
+				&& Player.LastChatRoomSize
+				&& Player.LastChatRoomDesc != null) {
 				ChatRoomPlayerCanJoin = true;
-				var block = [];
-				var ChatRoomName = Player.LastChatRoom;
-				var ChatRoomDesc = Player.LastChatRoomDesc;
-				/*if (Player.LastChatRoomPrivate) {
-					ChatRoomName = Player.Name + Player.MemberNumber
-					ChatRoomDesc = ""
-				} else*/
 				if ((ChatCreateMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
 					ChatSearchRejoinIncrement += 1;
-					let ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
-					ChatRoomName = ChatRoomName.substring(0, Math.min(ChatRoomName.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
-
-					Player.LastChatRoom = ChatRoomName;
-
+					const ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
+					Player.LastChatRoom = Player.LastChatRoom.substring(0, Math.min(Player.LastChatRoom.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
+					ChatCreateMessage = "";
 					ChatSearchQuery();
 				} else {
-					if (ChatBlockItemCategory) block = ChatBlockItemCategory;
 					var NewRoom = {
-						Name: ChatRoomName.trim(),
-						Description: ChatRoomDesc.trim(),
+						Name: Player.LastChatRoom.trim(),
+						Description: Player.LastChatRoomDesc.trim(),
 						Background: Player.LastChatRoomBG,
 						Private: Player.LastChatRoomPrivate,
 						Space: ChatRoomSpace,
 						Game: "",
 						Admin: [Player.MemberNumber],
 						Limit: ("" + Math.min(Math.max(Player.LastChatRoomSize, 2), 10)).trim(),
-						BlockCategory: block
+						Language: Player.LastChatRoomLanguage,
+						BlockCategory: ChatBlockItemCategory || []
 					};
 					ServerSend("ChatRoomCreate", NewRoom);
 					ChatCreateMessage = "CreatingRoom";
@@ -485,7 +522,7 @@ function ChatSearchResultResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
-	var Query = ElementValue("InputSearch").toUpperCase().trim();
+	var Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 	let FullRooms = (Player.OnlineSettings && Player.OnlineSettings.SearchShowsFullRooms);
 
 	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
@@ -507,7 +544,7 @@ function ChatSearchQuery() {
 		ChatSearchLastQuerySearchTime = CommonTime();
 		ChatSearchLastQuerySearchHiddenRooms = ChatSearchIgnoredRooms.length;
 		ChatSearchResult = [];
-		ServerSend("ChatRoomSearch", { Query: Query, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms, Ignore: ChatSearchIgnoredRooms });
+		ServerSend("ChatRoomSearch", { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms, Ignore: ChatSearchIgnoredRooms });
 	}
 
 	ChatSearchMessage = "EnterName";
@@ -525,6 +562,24 @@ function ChatSearchQuerySort() {
 	// Friendlist option overrides basic order, but keeps full rooms at the back for each number of each different total of friends.
 	if (Player.OnlineSettings && Player.OnlineSettings.SearchFriendsFirst)
 		ChatSearchResult.sort((R1, R2) => R2.Friends.length - R1.Friends.length);
+}
+
+/**
+ * Remove any rooms from the room list which contain the player's filter terms in the name
+ * @returns {void} - Nothing
+ */
+function ChatSearchApplyFilterTerms() {
+	const filterString = ChatSearchMode == "Filter" ? ElementValue("InputSearch") : Player.ChatSearchFilterTerms;
+	const filterTerms = filterString.split(',').filter(s => s).map(s => s.toUpperCase());
+	if (filterTerms.length > 0) {
+		ChatSearchResult = ChatSearchResult.filter(room => {
+			const nameContainsFilterTerm = filterTerms.some(term => room.Name.toUpperCase().includes(term));
+			if (nameContainsFilterTerm && ChatSearchIgnoredRooms.indexOf(room.Name) < 0) {
+				ChatSearchIgnoredRooms.push(room.Name);
+			}
+			return !nameContainsFilterTerm;
+		});
+	}
 }
 
 /**

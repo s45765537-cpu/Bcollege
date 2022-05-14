@@ -14,6 +14,7 @@ function InventoryItemDevicesPetBowlLoad() {
 	const C = CharacterGetCurrent();
 	let MustRefresh = false;
 
+	/** @type {ItemProperties} */
 	const Property = (DialogFocusItem.Property = DialogFocusItem.Property || {});
 	if (typeof Property.Text !== "string") {
 		Property.Text = "";
@@ -78,8 +79,8 @@ function InventoryItemDevicesPetBowlChange(text) {
 	CharacterRefresh(C);
 	if (CurrentScreen == "ChatRoom") {
 		var Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 			{ Tag: "NewText", Text: text }
 		];
 		ChatRoomPublishCustomAction("PetBowlChange", true, Dictionary);
@@ -93,14 +94,6 @@ function InventoryItemDevicesPetBowlChange(text) {
  */
 function InventoryItemDevicesPetBowlGetText() {
 	return ElementValue(InventoryItemDevicesPetBowlInputId).substring(0, InventoryItemDevicesPetBowlMaxLength);
-}
-
-/**
- * Pre-render drawing function. Compensates character's height shift
- * @returns { {Y: number} } - Shifted Y to compensate
- */
-function AssetsItemDevicesPetBowlBeforeDraw({ C, Y }) {
-	return { Y: Y + C.HeightModifier };
 }
 
 /**
@@ -120,6 +113,14 @@ function AssetsItemDevicesPetBowlAfterDraw({ C, A, X, Y, L, Property, drawCanvas
 		const width = 130;
 		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tempCanvas.getContext("2d");
+
+		// Reposition and orient the text when hanging upside-down
+		if (C.IsInverted()) {
+			ctx.rotate(Math.PI);
+			ctx.translate(-tempCanvas.width, -tempCanvas.height);
+			Y -= 60;
+			X -= 300;
+		}
 
 		DynamicDrawTextArc(text, ctx, width / 2, 42, {
 			fontSize: 36,

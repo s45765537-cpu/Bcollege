@@ -102,7 +102,7 @@ function DetectMobile() {
 
 // Parse a CSV file
 function ParseCSV(str) {
-		
+
     var arr = [];
     var quote = false;  // true means we're inside a quoted field
 
@@ -115,7 +115,7 @@ function ParseCSV(str) {
         // If the current character is a quotation mark, and we're inside a
         // quoted field, and the next character is also a quotation mark,
         // add a quotation mark to the current column and skip the next character
-        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
+        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
 
         // If it's just one quotation mark, begin/end quoted field
         if (cc == '"') { quote = !quote; continue; }
@@ -140,12 +140,12 @@ function ReadCSV(Array, ChapterOrPath, Screen, Type, Language) {
     var Path = (Screen && Type)
                  ? ChapterOrPath + "/" + Screen + "/" + Type + (Language ? "_" : "") + (Language || "") + ".csv"
                  : ChapterOrPath;
-    
+
     if (CSVCache[Path]) {
         window[Array] = CSVCache[Path];
         return;
     }
-    
+
     // Opens the file, parse it and returns the result in an array
     Get(Path, function() {
         if (this.status == 200) {
@@ -188,14 +188,14 @@ function GetWorkingLanguageForChapter(Chapter) {
 	if ((CurrentLanguageTag == "DE") && ["C000_Intro", "C001_BeforeClass", "C002_FirstClass", "C003_MorningDetention", "C004_ArtClass", "C005_GymClass", "C006_Isolation", "C007_LunchBreak", "C008_DramaClass", "C009_Library", "C010_Revenge", "C011_LiteratureClass", "C012_AfterClass", "C013_BondageClub", "C101_KinbakuClub", "C999_Common"].indexOf(Chapter) >= 0) return "DE";
 	if ((CurrentLanguageTag == "PL") && ["C000_Intro"].indexOf(Chapter) >= 0) return "PL";
 	if ((CurrentLanguageTag == "ES") && ["C000_Intro", "C001_BeforeClass", "C002_FirstClass", "C003_MorningDetention"].indexOf(Chapter) >= 0) return "ES";
-	if ((CurrentLanguageTag == "CN") && ["C000_Intro", "C001_BeforeClass", "C002_FirstClass", "C003_MorningDetention", "C004_ArtClass", "C005_GymClass", "C006_Isolation","C009_Library","C999_Common"].indexOf(Chapter) >= 0) return "CN";
+	if ((CurrentLanguageTag == "CN") && ["C000_Intro", "C001_BeforeClass", "C002_FirstClass", "C003_MorningDetention", "C004_ArtClass", "C005_GymClass", "C006_Isolation","C009_Library", "C010_Revenge", "C011_LiteratureClass","C013_BondageClub","C999_Common"].indexOf(Chapter) >= 0) return "CN";
 	if ((CurrentLanguageTag == "RU") && ["C000_Intro", "C001_BeforeClass"].indexOf(Chapter) >= 0) return "RU";
 	return "EN";
     //return CurrentLanguageTag;
 }
 
 // Load the interactions from a scene and keep it in common variable
-function LoadInteractions() {	
+function LoadInteractions() {
 	ReadCSV("CurrentIntro", CurrentChapter, CurrentScreen, "Intro", GetWorkingLanguage());
 	ReadCSV("CurrentStage", CurrentChapter, CurrentScreen, "Stage", GetWorkingLanguage());
 	LoadText();
@@ -216,7 +216,7 @@ function DynamicFunction(FunctionName) {
 
 // Set the current scene (chapter and screen)
 function SetScene(Chapter, Screen) {
-	
+
 	// Keep the chapter and screen
 	CurrentStage = null;
 	CurrentIntro = null;
@@ -235,15 +235,15 @@ function SetScene(Chapter, Screen) {
 
 	// Load the screen code
 	DynamicFunction(CurrentChapter + "_" + CurrentScreen + "_Load()");
-	
+
 }
 
 // Validates if any interaction was clicked
 function ClickInteraction(CurrentStagePosition) {
-	
+
 	// Make sure the current stage is loaded
 	if (CurrentStage != null) {
-	
+
 		// If a regular option was clicked, we process it
 		var Pos = 0;
 		for (var L = 0; L < CurrentStage.length; L++)
@@ -281,13 +281,13 @@ function GetText(Tag) {
 
 	// Make sure the text CSV file is loaded
 	if (CurrentText != null) {
-		
+
 		// Cycle the text to find a matching tag and returns the text content
 		Tag = Tag.trim().toUpperCase();
 		for (var T = 0; T < CurrentText.length; T++)
 			if (CurrentText[T][TextTag].trim().toUpperCase() == Tag)
 				return CurrentText[T][TextContent].trim();
-		
+
 		// Returns an error message
 		return "MISSING TEXT FOR TAG: " + Tag.trim();
 
@@ -300,13 +300,13 @@ function GetCSVText(CSVText, Tag) {
 
 	// Make sure the text CSV file is loaded
 	if (CSVText != null) {
-		
+
 		// Cycle the text to find a matching tag and returns the text content
 		Tag = Tag.trim().toUpperCase();
 		for (var T = 0; T < CSVText.length; T++)
 			if (CSVText[T][TextTag].trim().toUpperCase() == Tag)
 				return CSVText[T][TextContent].trim();
-		
+
 		// Returns an error message
 		return "MISSING TEXT FOR TAG: " + Tag.trim();
 
@@ -316,15 +316,15 @@ function GetCSVText(CSVText, Tag) {
 
 // Triggers the leave or wait button if needed
 function LeaveButtonClick() {
-	
+
 	// If the wait option was clicked, we skip 2 minutes
 	if (LeaveIcon == "Wait")
-		if ((MouseX >= 1125) && (MouseX <= 1200) && (MouseY >= 600) && (MouseY <= 675)) 
+		if ((MouseX >= 1125) && (MouseX <= 1200) && (MouseY >= 600) && (MouseY <= 675))
 			CurrentTime = CurrentTime + 120000;
 
 	// If the leave option was clicked, we return to the previous screen
 	if ((LeaveIcon == "Leave") && (LeaveScreen != ""))
-		if ((MouseX >= 1125) && (MouseX <= 1200) && (MouseY >= 600) && (MouseY <= 675)) 
+		if ((MouseX >= 1125) && (MouseX <= 1200) && (MouseY >= 600) && (MouseY <= 675))
 			SetScene(LeaveChapter, LeaveScreen);
 
 }

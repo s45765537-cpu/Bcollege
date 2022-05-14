@@ -8,7 +8,7 @@ var BackgroundSelectionSelect = "";
 var BackgroundSelectionSelectName = "";
 var BackgroundSelectionSize = 12;
 var BackgroundSelectionOffset = 0;
-var BackgroundSelectionCallback = 0;
+var BackgroundSelectionCallback = null;
 var BackgroundSelectionPreviousModule = "";
 var BackgroundSelectionPreviousScreen = "";
 var BackgroundSelectionAll = [];
@@ -19,10 +19,9 @@ var BackgroundSelectionView = [];
  * @param {string[]} List - The list of possible Background names
  * @param {number} Idx - The index of the current background
  * @param {function} Callback - The function to call when a new background has been selected
- * @param {boolean} [HideDropDown=false] - Optional parameter that makes the tag selection item appear (false) or hides it (true)
  * @returns {void} - Nothing
  */
-function BackgroundSelectionMake(List, Idx, Callback, HideDropDown) {
+function BackgroundSelectionMake(List, Idx, Callback) {
 	BackgroundSelectionList = List;
 	BackgroundSelectionIndex = Idx < List.length ? Idx : 0;
 	BackgroundSelectionCallback = Callback;
@@ -101,7 +100,8 @@ function BackgroundSelectionRun() {
 
 	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundSelectionSelectName), 300, 65, "White", "Black");
 	if (BackgroundSelectionTagList.length >= 2) ElementPositionFix("TagDropDown", 36, 550, 35, 300, 65);
-	DrawText(TextGet("Filter").replace("Filtered", BackgroundSelectionView.length).replace("Total", BackgroundSelectionAll.length), 1000, 65, "White", "Black");
+	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionAll.length.toString());
+	DrawText(text, 1000, 65, "White", "Black");
 
 	DrawButton(1585, 25, 90, 90, "", "White", "Icons/Prev.png", TextGet("Prev"));
 	DrawButton(1685, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
@@ -151,7 +151,7 @@ function BackgroundSelectionClick() {
 	if ((MouseX >= 1585) && (MouseX < 1675) && (MouseY >= 25) && (MouseY < 115)) {
 		BackgroundSelectionOffset -= BackgroundSelectionSize;
 		if (BackgroundSelectionOffset < 0)
-			BackgroundSelectionOffset = Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1) * BackgroundSelectionSize;
+			BackgroundSelectionOffset = Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize;
 	}
 
 	// Set next offset forward

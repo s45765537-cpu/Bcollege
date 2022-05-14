@@ -1,4 +1,5 @@
 Name,Name:
+Nickname,Nickname:
 Title,Title:
 TitleNone,None
 TitleMistress,Mistress
@@ -41,6 +42,10 @@ TitleMagicSchoolSage,Sage
 TitleMagicSchoolOracle,Oracle
 TitleMagicSchoolWitch,Witch
 TitleMagicSchoolWarlock,Warlock
+TitleMaiestas,Wizard
+TitleVincula,Magician
+TitleAmplector,Sage
+TitleCorporis,Witch
 TitleLittleOne,Little One
 TitleBaby,Baby
 TitleDL,Diaper Lover
@@ -55,6 +60,10 @@ TitleDoll,Doll
 TitleDemon,Demon
 TitleAngel,Angel
 TitleSuccubus,Succubus
+TitleGoodGirl,Good Girl
+TitleGoodSlaveGirl,Good Slave Girl
+TitleGoodSlave,Good Slave
+TitleDrone,Drone
 MemberNumber,Member Number:
 NoMemberNumber,-
 Relationships,- Relationships -
@@ -62,6 +71,7 @@ Lover,Lover:
 Owner,Owner:
 LoverNone,None
 OwnerNone,None
+OwnerGGTS,GGTS
 Money,Money:
 MemberFor,Member for
 FriendsFor,Friends for

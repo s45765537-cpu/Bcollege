@@ -6,12 +6,13 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Anna", "Aylea", "Ben", "BlueWinter", "Brian", "Bryce", "Chennifer", "Christian", "Clash", 
-	"DarkStar", "Dini", "Edwin", "Elcriminal", "Epona", "Escurse", "FanRunner", "Greendragon", "Hayden", 
-	"JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", "Mindtie", "Misa", "MrUniver", "Nick", "Nightcore", 
-	"Raindrop", "Rika", "Robin", "Rutherford", "Ryner", "Sage", "Samuel", "Shadow", "Tam", "TBoneShark", 
-	"TKSonix", "TopHat", "Troubadix", "William", "Xepherio", "Yuna", "Znarf"
+	"Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "Bryce", "Christian", "Clash", "DarkStar", 
+	"Desch", "Din", "Edwin", "Epona", "Escurse", "Fura", "Greendragon", "Hayden", "JoeyDubDee", 
+	"Kimuriel", "Michal", "Michel", "Mike", "Mike", "Mindtie", "Mob", "MrUniver", "Nick", 
+	"Nicolas", "Nightcore", "Rika", "Riley", "Ryner", "Samuel", "Shadow", "SirRobben", "Tam", 
+	"Tarram1010", "Tommy", "TopHat", "Troubadix", "Xepherio", "Ying", "Yuna", "Znarf", 
 ];
+
 /* eslint-enable */
 var LoginThankYouNext = 0;
 var LoginSubmitted = false;
@@ -147,6 +148,70 @@ function LoginRun() {
 	DrawImage("Screens/" + CurrentModule + "/" + CurrentScreen + "/Bubble.png", 1400, 16);
 	DrawText(TextGet("ThankYou") + " " + LoginThankYou, 1625, 53, "Black", "Gray");
 
+}
+
+/**
+ * The list of item fixups to apply on login.
+ *
+ * @type {{ Old: {Group: string, Name: string}, New: {Group: string, Name: string} }[]}
+ */
+let LoginInventoryFixups = [
+	{ Old: { Group: "ItemLegs", Name: "WoodenHorse" }, New: { Group: "ItemDevices", Name: "WoodenHorse" } },
+];
+
+/**
+ * Perform the inventory and appearance fixups needed.
+ *
+ * This is called by the login code, after the player's item lists are set up
+ * but before the inventory and appearance are loaded from the server's data,
+ * and applies the specified asset fixups by swapping Old with New in the list
+ * of owned items, in the various player item lists, and in the appearance.
+ *
+ * Note that it copies properties verbatim, so its better if the Old and New
+ * asset definitions are kept compatible.
+ *
+ * @param {Record<string, string[]>} Inventory - The server-provided inventory object
+ * @param {{Group: string, Name: string}[]} Appearance - The server-provided appearance object
+ */
+function LoginPerformInventoryFixups(Inventory, Appearance) {
+	// Skip fixups on new characters
+	if (!Inventory || !Appearance) return;
+
+	let listsUpdated = false;
+	LoginInventoryFixups.forEach(fixup => {
+		// For every asset fixup to do, update the inventory
+		let group;
+		let idx;
+		if ((group = Inventory[fixup.Old.Group]) && group.indexOf(fixup.Old.Name) != -1) {
+			group.splice(idx, 1);
+			Inventory[fixup.New.Group].push(fixup.New.Name);
+		}
+
+		// Update the player's item lists
+		["BlockItems", "LimitedItems", "HiddenItems", "FavoriteItems"].forEach(prop => {
+			const idx = Player[prop].findIndex(item => item.Group === fixup.Old.Group && item.Name === fixup.Old.Name);
+			if (idx === -1) return;
+
+			Player[prop][idx].Group = fixup.New.Group;
+			Player[prop][idx].Name = fixup.New.Name;
+			listsUpdated = true;
+		});
+
+		idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
+		if (idx != -1) {
+			// The item is currently worn, remove it
+			let worn = Appearance[idx];
+			Appearance.splice(idx, 1);
+			// Add the new one, unless there's already something there
+			if (!Appearance.find(a => a.Group === fixup.New.Group)) {
+				worn.Group = fixup.New.Group;
+				worn.Name = fixup.New.Name;
+				Appearance.push(worn);
+			}
+		}
+	});
+	if (listsUpdated)
+		ServerPlayerBlockItemsSync();
 }
 
 /**
@@ -304,7 +369,10 @@ function LoginAsylumItems() {
  * @returns {void} - Nothing
  */
 function LoginCheatItems() {
-	if (CheatFactor("FreeCollegeOutfit", 0) == 0) InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+	if (CheatFactor("FreeCollegeOutfit", 0) == 0) {
+		InventoryAdd(Player, "CollegeOutfit1", "Cloth");
+		InventoryAdd(Player, "CollegeSkirt", "ClothLower");
+	}
 }
 
 /**
@@ -437,6 +505,7 @@ function LoginResponse(C) {
 			Player.AccountName = C.AccountName;
 			Player.AssetFamily = C.AssetFamily;
 			Player.Title = C.Title;
+			Player.Nickname = (C.Nickname == null) ? "" : C.Nickname;
 			if (CommonIsNumeric(C.Money)) Player.Money = C.Money;
 			Player.Owner = ((C.Owner == null) || (C.Owner == "undefined")) ? "" : C.Owner;
 			Player.Game = C.Game;
@@ -449,33 +518,38 @@ function LoginResponse(C) {
 			WardrobeFixLength();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems :
-				typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
-			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems :
-				typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
-			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems :
-				typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
+			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
+			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems : typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
+			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems : typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
 			Player.HiddenItems = ((C.HiddenItems == null) || !Array.isArray(C.HiddenItems)) ? [] : C.HiddenItems;
-			// TODO: Migration code; remove after few versions (added R66)
-			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) {
-				ServerPlayerBlockItemsSync();
-			}
+			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
+			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
 			Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
 			WardrobeCharacter = [];
+
+			// Sets the default language when creating or searching for chat rooms
+			ChatCreateLanguage = C.RoomCreateLanguage;
+			if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
+			if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
+			ChatSearchLanguage = C.RoomSearchLanguage;
+			if (ChatSearchLanguage == null) ChatSearchLanguage = "";
+			if (ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 			// Load the last chat room
 			Player.LastChatRoom = C.LastChatRoom;
 			Player.LastChatRoomBG = C.LastChatRoomBG;
 			Player.LastChatRoomPrivate = C.LastChatRoomPrivate;
 			Player.LastChatRoomSize = C.LastChatRoomSize;
+			Player.LastChatRoomLanguage = C.LastChatRoomLanguage;
 			Player.LastChatRoomDesc = C.LastChatRoomDesc;
 			Player.LastChatRoomTimer = C.LastChatRoomTimer;
 			if (typeof C.LastChatRoomAdmin == "string")
 				Player.LastChatRoomAdmin = CommonConvertStringToArray(C.LastChatRoomAdmin);
 			if (typeof C.LastChatRoomBan == "string")
 				Player.LastChatRoomBan = CommonConvertStringToArray(C.LastChatRoomBan);
+			Player.LastChatRoomBlockCategory = C.LastChatRoomBlockCategory;
 
 			// Loads the ownership data
 			Player.Ownership = C.Ownership;
@@ -492,7 +566,6 @@ function LoginResponse(C) {
 			// Gets the online preferences
 			Player.LabelColor = C.LabelColor;
 			Player.ItemPermission = C.ItemPermission;
-			Player.KinkyDungeonKeybindings = C.KinkyDungeonKeybindings;
 			Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 			Player.ArousalSettings = C.ArousalSettings;
 			Player.ChatSettings = C.ChatSettings;
@@ -548,6 +621,7 @@ function LoginResponse(C) {
 			LoginDifficulty(false);
 
 			// Loads the player character model and data
+			LoginPerformInventoryFixups(C.Inventory, C.Appearance);
 			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 			InventoryLoad(Player, C.Inventory);
 			LogLoad(C.Log);
@@ -583,9 +657,6 @@ function LoginResponse(C) {
 
 			// Fixes a few items
 			var InventoryBeforeFixes = InventoryStringify(Player);
-			if (InventoryGet(Player, "ItemMisc") && (InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTray" || InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTrayFull" || InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenPaddle")) InventoryRemove(Player, "ItemMisc");
-			if (LogQuery("JoinedSorority", "Maid") && !InventoryAvailable(Player, "MaidOutfit2", "Cloth")) InventoryAdd(Player, "MaidOutfit2", "Cloth", false);
-			if ((InventoryGet(Player, "ItemArms") != null) && (InventoryGet(Player, "ItemArms").Asset.Name == "FourLimbsShackles")) InventoryRemove(Player, "ItemArms");
 			LoginValidCollar();
 			LoginMistressItems();
 			LoginStableItems();
@@ -597,6 +668,7 @@ function LoginResponse(C) {
 			LoginValidateArrays();
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
+			AsylumGGTSSAddItems();
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {
@@ -611,23 +683,31 @@ function LoginResponse(C) {
 				} else {
 
 					// If the player must log back in the asylum
-					if (LogQuery("Committed", "Asylum")) {
-						CharacterRelease(Player);
-						AsylumEntranceWearPatientClothes(Player);
-						if (ReputationGet("Asylum") <= -50) AsylumEntrancePlayerJacket("Normal");
+					if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+						if (AsylumGGTSGetLevel(Player) <= 5)
+							AsylumEntranceWearPatientClothes(Player, true);
+						else
+							AsylumGGTSDroneDress(Player);
 						CommonSetScreen("Room", "AsylumBedroom");
 					} else {
 
-						// If the player must start in her room, in her cage
-						if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
-							InventoryRemove(Player, "ItemFeet");
-							InventoryRemove(Player, "ItemLegs");
-							Player.Cage = true;
-							CharacterSetActivePose(Player, "Kneel", true);
-							CommonSetScreen("Room", "Private");
+						// If the owner is forcing the player to do GGTS
+						if (LogValue("ForceGGTS", "Asylum") > 0) {
+							CommonSetScreen("Room", "AsylumEntrance");
 						} else {
-							CommonSetScreen("Room", "MainHall");
-							MainHallMaidIntroduction();
+
+							// If the player must start in her room, in her cage
+							if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
+								InventoryRemove(Player, "ItemFeet");
+								InventoryRemove(Player, "ItemLegs");
+								Player.Cage = true;
+								CharacterSetActivePose(Player, "Kneel", true);
+								CommonSetScreen("Room", "Private");
+							} else {
+								CommonSetScreen("Room", "MainHall");
+								MainHallMaidIntroduction();
+							}
+
 						}
 
 					}

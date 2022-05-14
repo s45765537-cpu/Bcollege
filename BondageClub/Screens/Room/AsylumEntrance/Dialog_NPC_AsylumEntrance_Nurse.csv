@@ -16,6 +16,7 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 0,21,I'd like to commit myself,"By committing yourself, you will be locked down in the asylum until your time is up.",,"DialogReputationLess(""Asylum"", 0)"
 0,30,I'd like to work as a nurse.,"You can, but you will lose your patient status and reputation.  Are you sure about that?",,"DialogReputationLess(""Asylum"", -1)"
 0,31,I'd like to work as a nurse.,Perfect!  We need staff to take care of our patients.  Are you ready to work now?,,"DialogReputationGreater(""Asylum"", 0)"
+0,,Did you join GGTS?,Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.,,NurseHasGGTSCollar()
 0,,Can I get my own nurse uniform?,Of course.  Here you go nurse DialogPlayerName.  Wear it with pride.  (She gives you a nurse uniform.),GiveNurseUniform(),CanGetNurseUniform()
 0,,Can I get my own set of Asylum restraints?,We only give our most dedicated patients their own set of restraints. Talk to me again when you've taken some more treatments.,,PatientCannotGetRestraints()
 0,,Can I get my own set of Asylum restraints?,Of course. You're one of our most committed patients.  (She gives you a set of standard-issue Asylum restraints),GiveRestraints(),PatientCanGetRestraints()
@@ -34,7 +35,7 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 21,0,I accept to be locked down.,"(She grins.)  Perfect!  But you need to get out of these restraints first.  Go get a maid to help you, I'm busy.",,Player.IsRestrained()
 21,0,Let me think about it.,Of course.  Do you need anything else?,,
 22,23,I'm already dressed like that.,(She nods.) For how long you wish to commit yourself?,,IsWearingPatientClothes()
-22,23,Can you help me to change?,I certainly can.  (She helps you to get dressed as a patient.)  For how long you wish to commit yourself?,"WearPatientClothes(""Player"")",!IsWearingPatientClothes()
+22,23,Can you help me to change?,I certainly can.  (She helps you to get dressed as a patient.)  For how long you wish to commit yourself?,"PlayerWearPatientClothes()",!IsWearingPatientClothes()
 23,24,15 minutes.,"You're taking it easy, don't you?  Very well, step inside.  (She locks the door behind you.)","CommitPatient(900000, 1)",
 23,24,1 hour.,"It should give you some time to relax.  Very well, step inside.  (She locks the door behind you.)","CommitPatient(3600000, 3)",
 23,24,4 hours.,"It should give you plenty of time to relax.  Very well, step inside.  (She locks the door behind you.)","CommitPatient(14400000, 6)",
@@ -60,6 +61,7 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 100,,When do I get out of the asylum?,"Check the clock girl, it's on the wall behind you.",,
 100,,Can I go out temporarily?,"No, the rules are strict, you cannot get out until your time is up.",,
 100,110,You need to let me out now.,(She frowns and stares at you.)  No!  The rules are the rules!  Do your time.,,Player.CanInteract()
+100,,Did you join GGTS?,Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.,,NurseHasGGTSCollar()
 100,,I must go.  (Leave her.),,DialogLeave(),
 110,100,"Fine, I'll do my time.",Alright.  Try to get some rest or make some friends.,,
 110,100,(Sigh and cross your arms.),Try to get some rest or make some friends.,,
@@ -107,3 +109,37 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 143,100,One full day?  Are you insane?,"From your current look, I'd say you're the insane one.  (She giggles.)  Now carry on, I have work to do.","DialogChangeReputation(""Dominant"", 2)",
 143,100,Yes Miss.  (Bow your head.),"Good girl.  (She smirks.)  Now carry on, I have work to do.","DialogChangeReputation(""Dominant"", -3)",
 144,100,Fine.  I'll do it.,"Very well.  (She smiles.)  Now carry on, I have work to do.",,
+200,,,Hello there.  I see that you've got punished by GGTS.,,
+200,,Can you unlock the asylum doors?,"(She shakes her head no.)  I can't, GGTS has taken control of the doors.  You must stay inside until your punishment time is done.",,
+200,,Release me or I'll scream.,(She straps a muzzle gag on you and giggles.)  Scream all you want.,"DialogWearItem(""MuzzleGag"", ""ItemMouth"")",
+200,,When do I get out of the asylum?,"Check the clock girl, it's on the wall behind you.",,
+200,,Can I go out temporarily?,"No, the rules are strict, you cannot get out until your time is up.",,
+200,,You need to let me out now.,I cannot help you.  The doors are locked by the computer.  Do your time.,,
+200,,Did you join GGTS?,Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.,,NurseHasGGTSCollar()
+200,,How do you feel about GGTS?,(She lowers her voice.)  Let's not speak about that.  I think he can hear us.,DialogRemove(),
+200,,I must go.  (Leave her.),,DialogLeave(),
+300,310,Hello.  I'm DialogPlayerName.,You must be wondering why you're here.  Your owner sent you to participate in the Good Girl Training System or GGTS.,,
+300,310,What is going on Miss?,You must be wondering why you're here.  Your owner sent you to participate in the Good Girl Training System or GGTS.,"DialogChangeReputation(""Dominant"", -1)",
+300,310,What the fuck?,You must be wondering why you're here.  Your owner sent you to participate in the Good Girl Training System or GGTS.,"DialogChangeReputation(""Dominant"", 1)",
+300,310,(Stay silent.),You must be wondering why you're here.  Your owner sent you to participate in the Good Girl Training System or GGTS.,,
+310,320,What is that?,GGTS is a computer intelligence installed in the asylum to train obedience.  You've been selected to participate.,,
+310,320,I know GGTS.,"Very good, it will be easy for you to participate then.  Your owner will be pleased.",,
+310,320,(Stay silent.),GGTS is a computer intelligence installed in the asylum to train obedience.  You've been selected to participate.,,
+320,330,When do I start?,(The asylum door locks automatically.)  Right now.  Go to the Good Girl Training System room to begin.,,
+320,330,I don't want to do that!,(The asylum door locks automatically.)  You don't have much choice.  Go to the Good Girl Training System room to begin.,,
+320,330,(Stay silent.),(The asylum door locks automatically.)  Go to the Good Girl Training System room to begin.,,
+330,,How much time do I need to do?,"Check the clock girl, it's on the wall behind you.",DialogRemove(),
+330,0,(Leave her.),,DialogLeave(),
+400,,,(She looks at you and nods.)  Hello drone.,,
+400,,Why are you calling me drone?,"Look at you girl.  You're a drone, a total GGTS slave.",,
+400,,Can I still use the asylum?,"Yes, drones have full access to the asylum.",,NurseHasGGTSCollar()
+400,,Did you join GGTS?,Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.,,
+400,410,Can you let me out?,(She nods.)  Drones can leave the asylum if they spend ten GGTS minutes.,,
+400,,(Leave her.),,DialogLeave(),
+410,,That's unfair!,"It's the rule, you should read the fine prints before signing a contract.",DialogRemove(),
+410,420,I'll pay for it.  (Spend ten GGTS minutes.),(She scans your futuristic items and the door open.)  Get out before the door closes again.,PayTenMinutes(),DialogGGTSMinuteGreater(10)
+410,420,I have a better currency.  (Bribe her with $10.),(She counts the money discretely.)  I'll use my minutes to let you out.  You better return soon or we'll both get punished.,DialogChangeMoney(-10),DialogMoneyGreater(10)
+410,,Please!  I'm so helpless!,"(She looks at you and sighs.)  Look drone, I'm not making the rules here.  Don't get us in trouble.",DialogRemove(),
+410,,I'll force my way out.,"(She smirks.)  Good luck, the doors are bolted with magnets.",DialogRemove(),
+410,400,Fine!  Forget it.,(She nods.)  Do you need anything else?,,
+420,400,(Nod and go to the club.),,KidnapNurseExit(),

@@ -22,6 +22,7 @@ var CommonPhotoMode = false;
 var GameVersion = "R0";
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 var CommonVersionUpdated = false;
+var CommonTouchList = null;
 
 /**
  * An enum encapsulating possible chatroom message substitution tags. Character name substitution tags are interpreted
@@ -265,6 +266,28 @@ function CommonClick(event) {
 }
 
 /**
+ * Returns TRUE if a section of the screen is currently touched on a mobile device
+ * @param {number} X - The X position
+ * @param {number} Y - The Y position
+ * @param {number} W - The width of the square
+ * @param {number} H - The height of the square
+ * @param {object} TL - Can give a specific touch event instead of the default one
+ * @returns {boolean}
+ */
+function CommonTouchActive(X, Y, W, H, TL) {
+	if (!CommonIsMobile) return false;
+	if (TL == null) TL = CommonTouchList;
+	if (TL != null)
+		for (let Touch of TL) {
+			let TouchX = Math.round((Touch.pageX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
+			let TouchY = Math.round((Touch.pageY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
+			if ((TouchX >= X) && (TouchX <= X + W) && (TouchY >= Y) && (TouchY <= Y + H))
+				return true;
+		}
+	return false;
+}
+
+/**
  * Catches key presses on the main screen and forwards it to the current screen key down function if it exists, otherwise it sends it to the dialog key down function
  * @param {KeyboardEvent} event - The event that triggered this
  * @returns {void} - Nothing
@@ -446,7 +469,8 @@ function CommonTime() {
  */
 function CommonIsColor(Value) {
 	if ((Value == null) || (Value.length < 3)) return false;
-	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];	//convert short hand hex color to standard format
+	//convert short hand hex color to standard format
+	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
 	return /^#[0-9A-F]{6}$/i.test(Value);
 }
 
@@ -465,9 +489,10 @@ function CommonColorIsValid(Color) {
 
 /**
  * Get a random item from a list while making sure not to pick the previous one.
- * @param {*} ItemPrevious - Previously selected item from the given list
- * @param {*} ItemList - List for which to pick a random item from
- * @returns {*} - The randomly selected item from the list
+ * @template T
+ * @param {T} ItemPrevious - Previously selected item from the given list
+ * @param {T[]} ItemList - List for which to pick a random item from
+ * @returns {T} - The randomly selected item from the list
  */
 function CommonRandomItemFromList(ItemPrevious, ItemList) {
 	var NewItem = ItemPrevious;
@@ -868,4 +893,14 @@ function CommonPadlockUnlock(C, Item) {
  */
 function CommonNoop() {
 	// Noop function
+}
+
+/**
+ * Redirects the address to HTTPS for all production environments, returns the proper heroku server
+ * @returns {String} - Returns the proper server to use in production or test
+ */
+function CommonGetServer() {  
+	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0)) return "https://bc-server-test.herokuapp.com/";
+	if (location.protocol !== 'https:') location.replace(`https:${location.href.substring(location.protocol.length)}`);
+	return "https://bondage-club-server.herokuapp.com/";
 }

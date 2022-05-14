@@ -1,5 +1,6 @@
 "use strict";
 
+/** @type ExtendedItemOption[] */
 var InventoryItemMouthFuturisticPanelGagOptions = [
 	{
 		Name: "Padded",
@@ -70,7 +71,7 @@ function InventoryItemMouthFuturisticPanelGagLoad() {
 		if (DialogFocusItem.Property.AutoPunishUndoTimeSetting == null) DialogFocusItem.Property.AutoPunishUndoTimeSetting = 300000;
 		if (DialogFocusItem.Property.OriginalSetting == null) DialogFocusItem.Property.OriginalSetting = null;
 		if (DialogFocusItem.Property.ChatMessage == null) DialogFocusItem.Property.ChatMessage = true;
-		if (DialogFocusItem.Property.BlinkState == null) DialogFocusItem.Property.BlinkState = true;
+		if (DialogFocusItem.Property.BlinkState == null) DialogFocusItem.Property.BlinkState = 0;
 	}
 }
 
@@ -210,8 +211,9 @@ function InventoryItemMouthFuturisticPanelGagGetOption(Options, OptionType) {
 function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Option, Deflate) {
 	var msg = "FuturisticPanelGagMouthSetAuto" + ((Deflate) ? "Deflate" : "Inflate") + Option.Name;
 
+	/** @type {ChatMessageDictionary} */
 	var Dictionary = [
-		{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "DestinationCharacterName", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 		{ Tag: "AssetName", AssetName: Item.Asset.Name },
 	];
 	if (Item.Property.ItemMemberNumber) Dictionary.push({ Tag: "ItemMemberNumber", MemberNumber: Item.Property.ItemMemberNumber });
@@ -225,8 +227,8 @@ function InventoryItemMouthFuturisticPanelGagSetAutoPunish(C, Item, Level) {
 	Item.Property.AutoPunish = Level;
 	var msg = "FuturisticPanelGagMouthSetAutoPunish" + Level;
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 	];
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
@@ -235,8 +237,8 @@ function InventoryItemMouthFuturisticPanelGagSetAutoPunishTime(C, Item, Time) {
 	Item.Property.AutoPunishUndoTimeSetting = Time;
 	var msg = "FuturisticPanelGagMouthSetAutoPunishTime" + Time;
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 	];
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
@@ -244,14 +246,14 @@ function InventoryItemMouthFuturisticPanelGagSetAutoPunishTime(C, Item, Time) {
 /**
  * Publishes the message to the chat
  * @param {Character} C - The target character
- * @param {Option} Option - The currently selected Option
+ * @param {ExtendedItemOption} Option - The currently selected Option
  * @returns {void} - Nothing
  */
 function InventoryItemMouthFuturisticPanelGagPublishAction(C, Option) {
 	var msg = "FuturisticPanelGagMouthSet" + Option.Name;
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 	];
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }
@@ -262,7 +264,7 @@ function InventoryItemMouthFuturisticPanelGagPublishAction(C, Option) {
  * "GroupName" dialog if for example we ever wanted an NPC to react specifically to having the restraint put on them.
  * That could be done by adding an "AssetName" entry (or entries) to that NPC's dialog CSV
  * @param {Character} C - The NPC to whom the restraint is applied
- * @param {Option} Option - The chosen option for this extended item
+ * @param {ExtendedItemOption} Option - The chosen option for this extended item
  * @returns {void} - Nothing
  */
 function InventoryItemMouthFuturisticPanelGagNpcDialog(C, Option) {
@@ -376,6 +378,7 @@ function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data, Options) {
 // Update data
 function AssetsItemMouthFuturisticPanelGagScriptDraw(data) {
 	var persistentData = data.PersistentData();
+	/** @type {ItemProperties} */
 	var property = (data.Item.Property = data.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;

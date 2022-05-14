@@ -1,4 +1,6 @@
-SelectTitle,Select your displayed title
+SelectTitle,Select your displayed name and title
+Nickname,Nickname (letters and spaces)
+NicknameLocked,Nickname locked by your owner
 TitleNone,None
 TitleMistress,Mistress
 TitleClubSlave,Club Slave
@@ -53,3 +55,7 @@ TitleDoll,Doll
 TitleDemon,Demon
 TitleAngel,Angel
 TitleSuccubus,Succubus
+TitleGoodGirl,Good Girl
+TitleGoodSlaveGirl,Good Slave Girl
+TitleGoodSlave,Good Slave
+TitleDrone,Drone

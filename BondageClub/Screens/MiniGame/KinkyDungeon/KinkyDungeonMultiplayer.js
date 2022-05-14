@@ -81,26 +81,29 @@ function KinkyDungeonUpdateFromData() {
 		for (let N = 0; N < enemies.length; N++) {
 			let enemy = enemies[N].split('/');
 			let i = 1;
+			// @ts-ignore
 			KinkyDungeonEntities.push({Enemy: {name: enemy[i++]}, stun: enemy[i++], x:enemy[i++], y:enemy[i++]}); // Push the enemy
 		}
 	}
 	if (KinkyDungeonGameData.inventory) {
-		KinkyDungeonInventory = [];
+		KDInitInventory();
+		// TODO fix this...
 		let inventory = JSON.parse(KinkyDungeonGameData.inventory);
 
 		CharacterReleaseTotal(KinkyDungeonPlayer);
 
-		for (let N = 0; N < inventory.length; N++) {
-			let item = inventory[N].split('/');
-			if (item.length > 1) {
-				let i = 1;
-				let restraint = KinkyDungeonGetRestraintByName(item[i++]);
-				KinkyDungeonAddRestraint(restraint, 0, true); // Add the item
-				let createdrestraint = KinkyDungeonGetRestraintItem(restraint.Group);
-				if (createdrestraint)
-					createdrestraint.lock = ""; // Lock if applicable
+		if (typeof inventory !== "string")
+			for (let N = 0; N < inventory.length; N++) {
+				let item = inventory[N].split('/');
+				if (item.length > 1) {
+					let i = 1;
+					let restraint = KinkyDungeonGetRestraintByName(item[i++]);
+					KinkyDungeonAddRestraint(restraint, 0, true); // Add the item
+					let createdrestraint = KinkyDungeonGetRestraintItem(restraint.Group);
+					if (createdrestraint)
+						createdrestraint.lock = ""; // Lock if applicable
+				}
 			}
-		}
 		KinkyDungeonUpdateStats(0);
 		KinkyDungeonDressPlayer();
 	}
@@ -138,12 +141,10 @@ function KinkyDungeonUpdateFromData() {
 		KinkyDungeonPlayerEntity.x = Math.round(KinkyDungeonGameData.meta.x);
 		KinkyDungeonPlayerEntity.y = Math.round(KinkyDungeonGameData.meta.y);
 
-		if (KinkyDungeonGameData.meta.wp != null) KinkyDungeonStatWillpower = Math.round(KinkyDungeonGameData.meta.wp);
 		if (KinkyDungeonGameData.meta.sp != null) KinkyDungeonStatStamina = Math.round(KinkyDungeonGameData.meta.sp);
-		if (KinkyDungeonGameData.meta.mp != null) KinkyDungeonStatStaminaMana = Math.round(KinkyDungeonGameData.meta.mp);
-		if (KinkyDungeonGameData.meta.ap != null) KinkyDungeonStatArousal = Math.round(KinkyDungeonGameData.meta.ap);
+		if (KinkyDungeonGameData.meta.mp != null) KinkyDungeonStatMana = Math.round(KinkyDungeonGameData.meta.mp);
+		if (KinkyDungeonGameData.meta.ap != null) KinkyDungeonStatDistraction = Math.round(KinkyDungeonGameData.meta.ap);
 		if (KinkyDungeonGameData.meta.rk != null) KinkyDungeonRedKeys = Math.round(KinkyDungeonGameData.meta.rk);
-		if (KinkyDungeonGameData.meta.gk != null) KinkyDungeonGreenKeys = Math.round(KinkyDungeonGameData.meta.gk);
 		if (KinkyDungeonGameData.meta.bk != null) KinkyDungeonBlueKeys = Math.round(KinkyDungeonGameData.meta.bk);
 		if (KinkyDungeonGameData.meta.bl != null) KinkyDungeonNormalBlades = Math.round(KinkyDungeonGameData.meta.bl);
 		if (KinkyDungeonGameData.meta.eb != null) KinkyDungeonEnchantedBlades = Math.round(KinkyDungeonGameData.meta.eb);
@@ -151,7 +152,9 @@ function KinkyDungeonUpdateFromData() {
 		if (KinkyDungeonGameData.meta.gp != null) KinkyDungeonGold = Math.round(KinkyDungeonGameData.meta.gp);
 		if (KinkyDungeonGameData.meta.lv != null) {
 			MiniGameKinkyDungeonLevel = Math.round(KinkyDungeonGameData.meta.lv);
-			KinkyDungeonSetCheckPoint();
+			if (KinkyDungeonGameData.meta.cp)
+				KinkyDungeonSetCheckPoint(Math.round(KinkyDungeonGameData.meta.cp));
+			else KinkyDungeonSetCheckPoint();
 		}
 	}
 }
@@ -190,30 +193,29 @@ function KinkyDungeonPackData(IncludeMap, IncludeItems, IncludeInventory, Includ
 
 	let map = IncludeMap ? KinkyDungeonGrid : "";
 
-	let inventory = IncludeInventory ? JSON.stringify(KinkyDungeonInventory, (key, value) => {
+	let inventory = IncludeInventory ? JSON.stringify(Array.from(KinkyDungeonInventory.get(Restraint).values()), (key, value) => {
 		if (CommonIsNumeric(key) && typeof value === "object") {
 			if (value.restraint) {
 				return "I/" + value.restraint.name + "/l" + value.lock;
 			}
 		}
-		return value;
+		return "";
 	}) : "";
 
-	let meta = {w: KinkyDungeonGridWidth, h: KinkyDungeonGridHeight, x:KinkyDungeonPlayerEntity.x, y:KinkyDungeonPlayerEntity.y,};
+	let meta = {w: KinkyDungeonGridWidth, h: KinkyDungeonGridHeight, x:KinkyDungeonPlayerEntity ? KinkyDungeonPlayerEntity.x : 0, y:KinkyDungeonPlayerEntity ? KinkyDungeonPlayerEntity.y : 0,};
 
 	if (IncludeStats) {
-		meta.wp = Math.round(KinkyDungeonStatWillpower);
 		meta.sp = Math.round(KinkyDungeonStatStamina);
-		meta.mp = Math.round(KinkyDungeonStatStaminaMana);
-		meta.ap = Math.round(KinkyDungeonStatArousal);
+		meta.mp = Math.round(KinkyDungeonStatMana);
+		meta.ap = Math.round(KinkyDungeonStatDistraction);
 		meta.rk = KinkyDungeonRedKeys;
-		meta.gk = KinkyDungeonGreenKeys;
 		meta.bk = KinkyDungeonBlueKeys;
 		meta.bl = KinkyDungeonNormalBlades;
 		meta.eb = KinkyDungeonEnchantedBlades;
 		meta.lp = KinkyDungeonLockpicks;
 		meta.gp = KinkyDungeonGold;
 		meta.lv = MiniGameKinkyDungeonLevel;
+		meta.cp = MiniGameKinkyDungeonCheckpoint;
 	}
 
 	let result = {

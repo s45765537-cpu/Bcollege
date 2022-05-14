@@ -1,5 +1,6 @@
 "use strict";
-var OnlineGameDictionary = null;
+/** @type string[][] */
+let OnlineGameDictionary = null;
 
 /**
  * Loads the online game dictionary that will be used throughout the game to output messages
@@ -51,8 +52,8 @@ function OnlineGameDictionaryText(KeyWord) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return GameLARPCharacterClick(C);
-	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleStatus != "")) return GameMagicBattleCharacterClick(C);
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) return GameLARPCharacterClick(C);
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleCharacterClick(C);
 	return false;
 }
 
@@ -61,8 +62,8 @@ function OnlineGameClickCharacter(C) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClick() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return GameLARPClickProcess();
-	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleStatus != "")) return GameMagicBattleClickProcess();
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) return GameLARPClickProcess();
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleClickProcess();
 	return false;
 }
 
@@ -83,8 +84,8 @@ function OnlineGameRun() {
  * @returns {boolean} - Returns TRUE if there's no online game that currently blocks changing
  */
 function OnlineGameAllowChange() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return false;
-	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleStatus != "")) return false;
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) return false;
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
 	return true;
 }
 
@@ -93,8 +94,8 @@ function OnlineGameAllowChange() {
  * @returns {boolean} - Returns TRUE if the online game allows you to block items
  */
 function OnlineGameAllowBlockItems() {
-	if ((ChatRoomGame == "LARP") && (GameLARPStatus != "")) return false;
-	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleStatus != "")) return false;
+	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) return false;
+	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
 	return true;
 }
 
@@ -103,22 +104,8 @@ function OnlineGameAllowBlockItems() {
  * @returns {void} - Nothing
  */
 function OnlineGameLoadStatus() {
-	if (ChatRoomGame == "LARP") {
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.LARP != null) && (ChatRoomCharacter[C].Game.LARP.Status != "")) {
-				GameLARPStatus = ChatRoomCharacter[C].Game.LARP.Status;
-				return;
-			}
-		GameLARPReset();
-	}
-	if (ChatRoomGame == "MagicBattle") {
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.MagicBattle != null) && (ChatRoomCharacter[C].Game.MagicBattle.Status != "")) {
-				GameMagicBattleStatus = ChatRoomCharacter[C].Game.MagicBattle.Status;
-				return;
-			}
-		GameMagicBattleReset();
-	}
+	if (ChatRoomGame == "LARP") GameLARPLoadStatus();
+	if (ChatRoomGame == "MagicBattle") GameMagicBattleLoadStatus();
 }
 
 /**
@@ -151,35 +138,7 @@ function OnlineGameCharacterInChatRoom(MemberNumber) {
  * @returns {void} - Nothing
  */
 function OnlineGameDrawCharacter(C, X, Y, Zoom) {
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatRoomGame == "LARP")) {
-		GameLARPDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
-		if ((GameLARPPlayer.length > 0) && (C.MemberNumber == GameLARPPlayer[GameLARPTurnPosition].MemberNumber) && (GameLARPStatus == "Running") && (GameLARPTurnFocusCharacter == null)) {
-			MainCanvas.font = CommonGetFont(72);
-			var Time = Math.ceil((GameLARPTurnTimer - TimerGetTime()) / 1000);
-			DrawText(((Time < 0) || (Time > GameLARPTimerDelay[GameLARPTimerDelay.length - 1])) ? OnlineGameDictionaryText("TimerNA") : Time.toString(), X + 250 * Zoom, Y + 830 * Zoom, "Red", "Black");
-			MainCanvas.font = CommonGetFont(36);
-		}
-	}
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatRoomGame == "MagicBattle")) {
-		GameMagicBattleDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
-		if (Player.CanTalk() && (GameMagicBattleStatus == "Running")) {
-			if (C.MemberNumber == Player.MemberNumber) {
-				MainCanvas.font = CommonGetFont(72);
-				let Time = Math.ceil((GameMagicBattleTurnTimer - TimerGetTime()) / 1000);
-				let Color = "#00FF00";
-				if (Time <= 15) Color = "#FFFF00";
-				if (Time <= 6) Color = "#FF0000";
-				DrawText(((Time < 0) || (Time > GameMagicBattleTimerDelay)) ? OnlineGameDictionaryText("TimerNA") : Time.toString(), X + 250 * Zoom, Y + 830 * Zoom, Color, "Black");
-				MainCanvas.font = CommonGetFont(36);
-			}
-			if ((GameMagicBattleFocusCharacter != null) && (C.MemberNumber == GameMagicBattleFocusCharacter.MemberNumber) && (GameMagicBattleStatus == "Running")) {
-				GameMagicBattleButton = [];
-				for (let S = 0; S < MagicBattleAvailSpell.length; S++) {
-					let B = { X: X + 50 * Zoom, Y: Y + (400 + (S * 100)) * Zoom, W: 400 * Zoom, H: 60 * Zoom };
-					GameMagicBattleButton.push(B);
-					DrawButton(B.X, B.Y, B.W, B.H, OnlineGameDictionaryText("Spell" + MagicBattleAvailSpell[S].toString() + "Name"), "White");
-				}
-			}
-		}
-	}
+	if (ChatRoomGame === "GGTS") AsylumGGTSDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGame === "LARP") GameLARPDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGame === "MagicBattle") GameMagicBattleDrawCharacter(C, X, Y, Zoom);
 }

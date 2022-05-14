@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 const cheerio = require("cheerio");
-const marked = require("marked");
+const { marked } = require("marked");
 const simpleGit = require("simple-git");
 
 const readFileAsync = util.promisify(fs.readFile);
@@ -42,6 +42,23 @@ const CONTRIBUTOR_NAMES = {
 	"Atasly": "Atasly",
 	"diaperand": "diaperand",
 	"Tsubasahane": "Tsubasahane",
+	"ABalfik": "Alfi",
+	"Yuki": "Yuki",
+	"Jules Papillon": "Yuki",
+	"Manilla32": "Manilla",
+	"klorpa": "klorpa",
+	"Sidiousious": "Sidious",
+	"karame1": "Karamel",
+	"dependabot[bot]": "Dependabot",
+	"remiliacn": "remiliacn",
+	"SepiaOulomenohn": "SepiaOulomenohn",
+	"Luna": "Luna",
+	"Pjara Yuzu": "Pjara Yuzu",
+	"luoxingchen": "luoxingchen",
+	"VCode": "VCode",
+	"Anonymous-WghrYkBGUjBt": "Anonymous-WghrYkBGUjBt",
+	"EliseRoland": "EliseRoland",
+	"estuiguang": "estuiguang",
 };
 
 async function generateChangelogHtml() {
@@ -53,16 +70,31 @@ async function generateChangelogHtml() {
 
 	const startIndex = sourceMarkdown.search(/^## \[R[0-9a-zA-Z]+]/m);
 	const trimmedMarkdown = sourceMarkdown.substring(startIndex);
-	const renderedMarkdown = marked(trimmedMarkdown);
+	const renderedMarkdown = marked.parse(trimmedMarkdown);
 
 	const $ = cheerio.load(sourceHtml);
 	$("body").empty()
 		.append("<h1>Bondage Club - Changelog</h1>\n")
-		.append("<h2>Table of Contents</h2>\n")
+		.append("<h2 id=\"table-of-contents\">Table of Contents</h2>\n")
 		.append(generateToc(sourceMarkdown) + "\n")
+		.append(generateContributorNote())
 		.append(renderedMarkdown);
 
 	await writeFileAsync(htmlPath, $.root().html());
+}
+
+function generateContributorNote() {
+	return `
+<blockquote id="note-to-contributors">
+	<p>
+		<strong>Note to contributors:</strong> If you have not stated a preferred name for inclusion in the changelog or
+		 game credits, we will use the username on your Git commits by default. If you would like to use another name,
+		 please ask in the programming channel of <a href="https://discordapp.com/invite/dkWsEjf">the game&apos;s
+		 official Discord Server</a>, or <a href="https://github.com/Ben987/Bondage-College/issues">raise an issue</a>
+		 via the game's Github.
+	</p>
+</blockquote>
+`
 }
 
 function generateToc(sourceMarkdown) {
@@ -70,7 +102,7 @@ function generateToc(sourceMarkdown) {
 	const matches = sourceMarkdown.match(/^## \[R[0-9A-Z]+]/gim);
 	matches.forEach((match, i) => {
 		const version = match.match(/\[(R[0-9A-Z]+)]/)[1];
-		$("ul").append(`\t<li><a href="#${version.toLowerCase()}">${version}${i === 0 ? " (Current)" : ""}</a></li>\n`);
+		$("ul").attr("id", "toc-list").append(`\t<li><a href="#${version.toLowerCase()}">${version}${i === 0 ? " (Current)" : ""}</a></li>\n`);
 	});
 	return $.root().html();
 }

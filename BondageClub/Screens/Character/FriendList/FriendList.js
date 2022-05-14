@@ -5,23 +5,11 @@ var FriendListConfirmDelete = [];
 var FriendListReturn = null;
 var FriendListMode = ["Friends", "Beeps", "Delete"];
 var FriendListModeIndex = 0;
-/** @type {FriendListBeepLogMessage[]} */
+/** @type {IFriendListBeepLogMessage[]} */
 var FriendListBeepLog = [];
 /** @type {number|null} MemberNumber of the player to send beep to */
 let FriendListBeepTarget = null;
 var FriendListBeepShowRoom = true;
-
-/**
- * @typedef {Object} FriendListBeepLogMessage
- * @property {number} [MemberNumber]
- * @property {string} MemberName
- * @property {string|null} ChatRoomName
- * @property {boolean} Private
- * @property {string|null} [ChatRoomSpace]
- * @property {boolean} Sent
- * @property {Date} Time
- * @property {string} [Message]
- */
 
 /**
  * Loads the online friend list from the server. This function is called dynamically, when the player invokes the friendlist dialog.
@@ -67,7 +55,7 @@ function FriendListRun() {
 /**
  * Creates beep message menu
  * @param {number} MemberNumber Member number of target player
- * @param {FriendListBeepLogMessage|null} data Beep data of received beep
+ * @param {IFriendListBeepLogMessage|null} data Beep data of received beep
  */
 function FriendListBeep(MemberNumber, data = null) {
 	if (FriendListBeepTarget == null) {
@@ -191,6 +179,9 @@ function FriendListExit() {
 	FriendListBeepMenuClose();
 	ElementRemove("FriendList");
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
+		if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
+			ElementScrollToEnd("TextAreaChatLog");
+		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
 		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
 	} else CommonSetScreen("Character", "InformationSheet");
@@ -199,7 +190,7 @@ function FriendListExit() {
 }
 
 /**
- * Exits the friendlist into `ChatSearch` screen, filling in the requested room name
+ * Exits the friendlist
  * @param {string} room The room to search for
  */
 function FriendListChatSearch(room) {
@@ -210,7 +201,6 @@ function FriendListChatSearch(room) {
 		// Change the text box so the player still cant read it
 		ElementValue("InputSearch", ChatSearchMuffle(room));
 	}
-
 }
 
 /**

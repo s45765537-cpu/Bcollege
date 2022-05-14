@@ -179,7 +179,7 @@ SourceCharacter rolls a DiceType sided dice.  The result is: DiceResult.
 SourceCharacter roule un dé à DiceType côtés. Le résultat est: DiceResult.
 SourceCharacter flips a coin.  The result is: CoinResult.
 SourceCharacter lance une pièce. Le résultat est: CoinResult.
-TargetCharacterName gets grabbed by two maids and locked in a timer cell, following her owner commands.
+TargetCharacterName gets grabbed by two maids and locked in a timer cell, following her owner's commands.
 TargetCharacterName est attrapée par deux servantes et enfermée dans une cellule minutée, selon l'ordre de sa patronne.
 TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for her owner.
 TargetCharacterName est attrapée par deux servantes et escortée aux quartiers des servantes pour servir des brevages.
@@ -277,10 +277,10 @@ SourceCharacter ties the cloth into a small gag over DestinationCharacter mouth.
 SourceCharacter ligote le tissu en un petit baillon couvrant la bouche de DestinationCharacter.
 SourceCharacter ties the cloth into a cleave gag over DestinationCharacter mouth.
 SourceCharacter ligote le tissu et fend la bouche de DestinationCharacter avec le baillon.
-SourceCharacter stuffs DestinationCharacter mouth with a piece of cloth and secures it with another piece.
-SourceCharacter rempli la bouche de DestinationCharacter avec un morceau de tissu et l'enroule avec un autre.
-SourceCharacter stuffs DestinationCharacter mouth with a piece of cloth and secures the gag over her mouth and nose.
-SourceCharacter rempli la bouche de DestinationCharacter avec un morceau de tissu et enroule la bouche et le nez avec un autre.
+SourceCharacter ties the cloth into a large gag over DestinationCharacter mouth.
+SourceCharacter ligote le tissu en un large baillon couvrant la bouche de DestinationCharacter.
+SourceCharacter ties the cloth into a large gag over DestinationCharacter mouth and nose.
+SourceCharacter ligote le tissu en un large baillon couvrant la bouche et le nez de DestinationCharacter.
 Single strip
 Bande simple
 Crossed strips

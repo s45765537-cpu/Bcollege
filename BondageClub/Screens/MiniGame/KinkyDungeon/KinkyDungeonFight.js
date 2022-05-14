@@ -1,321 +1,937 @@
 "use strict";
-var KinkyDungeonKilledEnemy = null;
+let KinkyDungeonKilledEnemy = null;
+let KinkyDungeonAlert = 0;
 
-var KinkyDungeonMissChancePerBlind = 0.2; // Max 3
-var KinkyDungeonBullets = []; // Bullets on the game board
-var KinkyDungeonBulletsID = {}; // Bullets on the game board
+let KDBrawlerAmount = 1.0;
+let KDClumsyAmount = 0.7;
+let KDDodgeAmount = 0.75;
+let KinkyDungeonMissChancePerBlind = 0.15; // Max 3
+let KinkyDungeonMissChancePerSlow = 0.1; // Max 3
+let KinkyDungeonBullets = []; // Bullets on the game board
+let KinkyDungeonBulletsID = {}; // Bullets on the game board
+let KDVulnerableDmg = 1.0;
+let KDVulnerableDmgMult = 0.33;
+let KDVulnerableHitMult = 1.33;
+let KDPacifistReduction = 0.1;
+let KDRiggerDmgBoost = 1.2;
+let KDRiggerBindBoost = 1.3;
+let KDStealthyDamageMult = 0.7;
+let KDStealthyEvaMult = 0.8;
+let KDStealthyEnemyCountMult = 1.7;
+let KDBoundPowerMult = 0.4;
 
-var KinkyDungeonOpenObjects = KinkyDungeonTransparentObjects; // Objects bullets can pass thru
-var KinkyDungeonMeleeDamageTypes = ["unarmed", "crush", "slash", "pierce", "grope", "pain", "chain"];
+let KinkyDungeonOpenObjects = KinkyDungeonTransparentObjects; // Objects bullets can pass thru
+let KinkyDungeonMeleeDamageTypes = ["unarmed", "crush", "slash", "pierce", "grope", "pain", "chain", "tickle"];
+let KinkyDungeonHalfDamageTypes = ["tickle", "charm", "drain"];
+let KinkyDungeonTeaseDamageTypes = ["tickle", "charm", "grope", "pain", "happygas", "poison", "drain", "souldrain"];
+let KinkyDungeonStunDamageTypes = ["fire", "electric", "stun"];
+let KinkyDungeonBindDamageTypes = ["chain", "glue"];
+let KinkyDungeonFreezeDamageTypes = ["ice"];
+let KinkyDungeonSlowDamageTypes = ["crush", "slash", "pierce", "frost", "cold", "poison"];
+let KinkyDungeonVulnerableDamageTypes = ["tickle"];
 
 // Weapons
-var KinkyDungeonPlayerWeapon = null;
-var KinkyDungeonPlayerDamageDefault = {dmg: 2, chance: 0.8, type: "unarmed", unarmed: true};
-var KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
-var KinkyDungeonWeapons = {
-	"Knife": {name: "Knife", dmg: 2.5, chance: 0.8, type: "unarmed", unarmed: false, rarity: 0, shop: false, noequip: true},
-	"Sword": {name: "Sword", dmg: 3, chance: 1.0, type: "slash", unarmed: false, rarity: 2, shop: true},
-	"Axe": {name: "Axe", dmg: 4, chance: 0.75, type: "slash", unarmed: false, rarity: 2, shop: true},
-	"Hammer": {name: "Hammer", dmg: 5, chance: 0.6, type: "crush", unarmed: false, rarity: 2, shop: true},
-};
+let KinkyDungeonPlayerWeapon = null;
+/** @type {weapon} */
+let KinkyDungeonPlayerDamageDefault = {name: "", dmg: 2, chance: 0.9, type: "unarmed", unarmed: true, rarity: 0, shop: false, sfx: "Unarmed"};
+/** @type {weapon} */
+let KinkyDungeonPlayerDamage = KinkyDungeonPlayerDamageDefault;
 
-function KinkyDungeonGetPlayerWeaponDamage(HandsFree) {
+let KinkyDungeonDamageTypes = [
+	{name: "cold", color: "#21007F", bg: "white"},
+	{name: "ice", color: "#00D8FF", bg: "black"},
+	{name: "frost", color: "#00D8FF", bg: "black"},
+	{name: "fire", color: "#FF6A00", bg: "black"},
+	{name: "poison", color: "#00D404", bg: "black"},
+	{name: "happygas", color: "#E27CD0", bg: "black"},
+	{name: "charm", color: "#E27CD0", bg: "black"},
+	{name: "electric", color: "#FFD800", bg: "black"},
+	{name: "glue", color: "#E200D0", bg: "black"},
+	{name: "stun", color: "white", bg: "black"},
+	{name: "chain", color: "white", bg: "black"},
+	{name: "tickle", color: "white", bg: "black"},
+	{name: "crush", color: "white", bg: "black"},
+	{name: "grope", color: "white", bg: "black"},
+	{name: "slash", color: "white", bg: "black"},
+	{name: "pierce", color: "white", bg: "black"},
+	{name: "pain", color: "white", bg: "black"},
+	{name: "unarmed", color: "white", bg: "black"},
+	{name: "magic", color: "#00FF90", bg: "black"},
+	{name: "melee", color: "#aaaaaa", bg: "black"},
+];
+
+/**
+ *
+ * @param {item} item
+ * @returns {weapon}
+ */
+function KDWeapon(item) {
+	return KinkyDungeonWeapons[item.name];
+}
+
+function KinkyDungeonFindWeapon(Name) {
+	for (let con of Object.values(KinkyDungeonWeapons)) {
+		if (con.name == Name) return con;
+	}
+	return undefined;
+}
+
+function KinkyDungeonWeaponCanCut(RequireInteract) {
+	if (KinkyDungeonPlayerWeapon && KinkyDungeonWeapons[KinkyDungeonPlayerWeapon].cutBonus > 0 && (!RequireInteract || KinkyDungeonPlayer.CanInteract())) return true;
+	if (KinkyDungeonPlayerBuffs) {
+		for (let b of Object.values(KinkyDungeonPlayerBuffs)) {
+			if (b && b.tags && b.tags.includes("allowCut")) return true;
+		}
+	}
+	return false;
+}
+
+// We reset the pity timer on weapon switch to prevent issues
+function KDSetWeapon(Weapon) {
+	KinkyDungeonEvasionPityModifier = 0;
+	KinkyDungeonPlayerWeapon = Weapon;
+}
+
+function KinkyDungeonGetPlayerWeaponDamage(HandsFree, NoOverride) {
+	let flags = {
+		KDDamageHands: true.valueOf,
+	};
+	if (!NoOverride)
+		KinkyDungeonSendEvent("calcDamage", {flags: flags});
+
 	let damage = KinkyDungeonPlayerDamageDefault;
 	// @ts-ignore
 	KinkyDungeonPlayerDamage = {};
-	if (!HandsFree || (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 && !KinkyDungeonPlayerWeapon)) { damage = KinkyDungeonPlayerDamageDefault;}
-	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) damage = KinkyDungeonWeapons.Knife;
-	else if (KinkyDungeonPlayerWeapon && KinkyDungeonWeapons[KinkyDungeonPlayerWeapon]) damage = KinkyDungeonWeapons[KinkyDungeonPlayerWeapon];
+	let weapon = KinkyDungeonWeapons[KinkyDungeonPlayerWeapon];
+	if (weapon && weapon.noHands) HandsFree = true;
+	if (!HandsFree || ((KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades < 1 || KinkyDungeonStatsChoice.get("Brawler")) && !KinkyDungeonPlayerWeapon)) {
+		damage = KinkyDungeonPlayerDamageDefault;
+		if (!NoOverride)
+			KDSetWeapon(null);
+	}
+	else if (KinkyDungeonNormalBlades + KinkyDungeonEnchantedBlades >= 1 && !KinkyDungeonPlayerWeapon) {
+		damage = KinkyDungeonWeapons.Knife;
+		if (!NoOverride)
+			KDSetWeapon(null);
+	} else if (KinkyDungeonPlayerWeapon && KinkyDungeonWeapons[KinkyDungeonPlayerWeapon]) {
+		damage = KinkyDungeonWeapons[KinkyDungeonPlayerWeapon];
+	}
 
 	Object.assign(KinkyDungeonPlayerDamage, damage);
+
+	if (!KinkyDungeonPlayer.CanInteract() && flags.KDDamageHands) {
+		KinkyDungeonPlayerDamage.chance /= 2;
+	}
+	if (KinkyDungeonSlowLevel > 1 && !KinkyDungeonPlayerDamage.name) {
+		KinkyDungeonPlayerDamage.dmg /= 2;
+	}
+	if (KinkyDungeonStatsChoice.get("Brawler") && !KinkyDungeonPlayerDamage.name) {
+		KinkyDungeonPlayerDamage.dmg += KDBrawlerAmount;
+	}
+	if ((KinkyDungeonPlayer.Pose.includes("Hogtied") || KinkyDungeonPlayer.Pose.includes("Kneel")) && flags.KDDamageHands) {
+		KinkyDungeonPlayerDamage.chance /= 1.5;
+	}
+
 	return KinkyDungeonPlayerDamage;
 }
 
-function KinkyDungeonEvasion(Enemy) {
-	var hitChance = (Enemy && Enemy.buffs && Enemy.buffs.Evasion) ? Enemy.buffs.Evasion.power : 1.0;
-	if (Enemy.Enemy && Enemy.Enemy.evasion && !(Enemy.stun > 0)) hitChance *= (1 - Enemy.Enemy.evasion);
-	hitChance *= KinkyDungeonPlayerDamage.chance;
+let KinkyDungeonEvasionPityModifier = 0; // Current value
+let KinkyDungeonEvasionPityModifierIncrementPercentage = 0.5; // Percent of the base hit chance to add
 
-	hitChance -= Math.min(3, KinkyDungeonPlayer.GetBlindLevel()) * KinkyDungeonMissChancePerBlind;
-	if (KinkyDungeonPlayer.IsDeaf()) hitChance *= 0.67;
+function KinkyDungeonGetEvasion(Enemy, NoOverride, IsSpell, IsMagic, cost) {
+	let flags = {
+		KDEvasionHands: true,
+		KDEvasionSight: true,
+		KDEvasionDeaf: true,
+		KDEvasionSlow: true,
+	};
 
-	if (Math.random() < hitChance) return true;
+	if (!NoOverride)
+		KinkyDungeonSendEvent("calcEvasion", {isSpell: IsSpell, isMagic: IsMagic, flags: flags, cost: cost});
+	let hitChance = (Enemy && Enemy.buffs) ? KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(Enemy.buffs, "Evasion")) : 1.0;
+	if (KinkyDungeonStatsChoice.get("Clumsy")) hitChance *= KDClumsyAmount;
+	if (Enemy && Enemy.Enemy && Enemy.Enemy.evasion && (((!Enemy.stun || Enemy.stun < 1) && (!Enemy.freeze || Enemy.freeze < 1)) || Enemy.Enemy.alwaysEvade || Enemy.Enemy.evasion < 0)) hitChance *= Math.max(0,
+		(Enemy.aware ? KinkyDungeonMultiplicativeStat(Enemy.Enemy.evasion) : Math.max(1, KinkyDungeonMultiplicativeStat(Enemy.Enemy.evasion))));
+	if (Enemy && Enemy.Enemy && Enemy.Enemy.tags.has("ghost") && (IsMagic || (KinkyDungeonPlayerWeapon && KinkyDungeonPlayerWeapon.magic))) hitChance = Math.max(hitChance, 1.0);
+
+	if (KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Accuracy")) {
+		hitChance *= KinkyDungeonMultiplicativeStat(-KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Accuracy"));
+	}
+
+	if (!IsSpell) hitChance *= KinkyDungeonPlayerDamage.chance;
+	if (Enemy && Enemy.slow > 0) hitChance *= 2;
+	if (Enemy && (Enemy.stun > 0 || Enemy.freeze > 0)) hitChance *= 5;
+	if (Enemy && Enemy.bind > 0) hitChance *= 3;
+	if (Enemy) hitChance *= 1 + 0.25 * KDBoundEffects(Enemy);
+	if (Enemy && Enemy.vulnerable) hitChance *= KDVulnerableHitMult;
+
+	if (!IsSpell) {
+		if (flags.KDEvasionSight)
+			hitChance = Math.min(hitChance, Math.max(0.1, hitChance - Math.min(3, KinkyDungeonBlindLevel) * KinkyDungeonMissChancePerBlind));
+		if (flags.KDEvasionDeaf &&KinkyDungeonPlayer.IsDeaf()) hitChance *= 0.9;
+		if (flags.KDEvasionSlow && KinkyDungeonPlayerDamage && !KinkyDungeonPlayerDamage.name && KinkyDungeonSlowLevel > 0) hitChance *= 1.0 - Math.max(0.5, KinkyDungeonMissChancePerSlow * KinkyDungeonSlowLevel);
+	}
+	return hitChance;
+}
+
+function KinkyDungeonAggro(Enemy, Spell, Attacker) {
+	if (Enemy && Enemy.Enemy && (!Spell || !Spell.enemySpell) && !(Enemy.rage > 0) && (!Attacker || Attacker.player)) {
+		if (Enemy.Enemy.name == "Angel") {
+			Enemy.Enemy = KinkyDungeonGetEnemyByName("AngelHostile");
+			if (KDGameData.KDPenanceStage < 4)
+				KinkyDungeonSendTextMessage(10, TextGet("KinkyDungeonAngelAggro"), "yellow", 2);
+		} else { // if (Enemy.Enemy.tags && (Enemy.Enemy.tags.has("jailer") || Enemy.Enemy.tags.has("jail")))
+			KinkyDungeonAggroAction('attack', {enemy: Enemy});
+		}
+	}
+}
+
+function KinkyDungeonPlayerEvasion() {
+	let playerEvasionMult = KinkyDungeonStatsChoice.get("Dodge") && KinkyDungeonMiscastChance < 0.001 ? KDDodgeAmount : 1.0;
+	let val = playerEvasionMult * KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Evasion"));
+
+	return val;
+}
+
+function KinkyDungeonEvasion(Enemy, IsSpell, IsMagic, Attacker) {
+	let hitChance = KinkyDungeonGetEvasion(Enemy, undefined, IsSpell, IsMagic, true);
+	if (KDHostile(Enemy) && KinkyDungeonStatsChoice.get("Stealthy")) {
+		hitChance *= KDStealthyEvaMult;
+	}
+
+	if (!Enemy) KinkyDungeonSleepTime = 0;
+
+	KinkyDungeonAggro(Enemy, undefined, Attacker);
+
+	if (KDRandom() < hitChance + KinkyDungeonEvasionPityModifier) {
+		KinkyDungeonEvasionPityModifier = 0; // Reset the pity timer
+		return true;
+	}
+
+	if (Enemy) {
+		// Increment the pity timer
+		KinkyDungeonEvasionPityModifier += KinkyDungeonEvasionPityModifierIncrementPercentage * hitChance;
+	}
 
 	return false;
 }
 
 function KinkyDungeonGetImmunity(tags, type, resist) {
-	if (tags.includes(type + resist)
-		|| (KinkyDungeonMeleeDamageTypes.includes(type) && tags.includes("melee" + resist))
-		|| (!KinkyDungeonMeleeDamageTypes.includes(type) && tags.includes("magic"+resist)))
+	let t = type;
+	if (type == "frost") t = "ice"; // Frost damage is treated as ice damage
+	if (tags && tags.has(t + resist)
+		|| ((KinkyDungeonMeleeDamageTypes.includes(t) && (type != "unarmed" || !resist.includes("weakness"))) && tags.has("melee" + resist))
+		|| (!KinkyDungeonMeleeDamageTypes.includes(t) && tags.has("magic"+resist)))
 		return true;
 	return false;
 }
 
-function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell) {
-	var dmg = (Damage) ? Damage.damage : 0;
-	if (!dmg) dmg = 0;
-	//var type = (Damage) ? Damage.type : "";
-	var effect = false;
-	var resistStun = 0;
+function KinkyDungeonDamageEnemy(Enemy, Damage, Ranged, NoMsg, Spell, bullet, attacker) {
+	if (bullet) {
+		if (!bullet.alreadyHit) bullet.alreadyHit = [];
+		// A bullet can only damage an enemy once per turn
+		if (bullet.alreadyHit.includes(Enemy.id)) return 0;
+		bullet.alreadyHit.push(Enemy.id);
+	}
+
+	let predata = {
+		faction: "Enemy",
+		enemy: Enemy,
+		spell: Spell,
+		bullet: bullet,
+		attacker: attacker,
+		type: (Damage) ? Damage.type : 0,
+		time: (Damage) ? Damage.time : 0,
+		dmg: (Damage) ? Damage.damage : 0,
+		bind: (Damage) ? Damage.bind : 0,
+		flags: (Damage) ? Damage.flags : undefined,
+		boundBonus: (Damage) ? Damage.boundBonus : 0,
+		incomingDamage: Damage,
+	};
+
+	if (attacker) {
+		if (attacker.player) predata.faction = "Player";
+		else if (attacker.Enemy) predata.faction = KDGetFaction(attacker);
+	} else if (bullet) {
+		if (bullet.bullet.faction) predata.faction = bullet.bullet.faction;
+		else if (bullet.bullet.spell && bullet.bullet.spell.enemySpell) predata.faction = "Enemy";
+		else predata.faction = "Player";
+	} else if (Spell) {
+		if (Spell.enemySpell) predata.faction = "Enemy";
+		else predata.faction = "Player";
+	}
+
+	KinkyDungeonSendEvent("beforeDamageEnemy", predata);
+	if (!predata.dmg) predata.dmg = 0;
+	//let type = (Damage) ? Damage.type : "";
+	let effect = false;
+	let resistStun = 0;
+	let resistSlow = 0;
 	let resistDamage = 0;
 	let dmgDealt = 0;
-	let armor = (Enemy.Enemy.armor) ? Enemy.Enemy.armor : 0;
+	let sr = Enemy.Enemy.spellResist ? Enemy.Enemy.spellResist : 0;
+	let spellResist = KinkyDungeonMultiplicativeStat(sr) * KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(Enemy.buffs, "SpellResist"));
+	let armor = (Damage && Enemy.Enemy.armor && KinkyDungeonMeleeDamageTypes.includes(predata.type)) ? Enemy.Enemy.armor : 0;
+	if (KinkyDungeonGetBuffedStat(Enemy.buffs, "Armor")) armor += KinkyDungeonGetBuffedStat(Enemy.buffs, "Armor");
 
-	if (Damage) {
+	armor = Math.max(armor, Enemy.Enemy.armor < 0 ? Enemy.Enemy.armor : 0);
+
+	if (Enemy.freeze > 0 && Damage && KinkyDungeonMeleeDamageTypes.includes(predata.type)) {
+		predata.dmg *= 2;
+	}
+	if (KDHostile(Enemy) && KinkyDungeonStatsChoice.get("Stealthy")) {
+		predata.dmg *= KDStealthyDamageMult;
+	}
+
+	let miss = !(!Damage || !Damage.evadeable || KinkyDungeonEvasion(Enemy, (true && Spell), !KinkyDungeonMeleeDamageTypes.includes(predata.type), attacker));
+	if (Damage && !miss) {
+		if (KinkyDungeonStatsChoice.get("Pacifist") && KDHostile(Enemy) && Enemy.Enemy.bound && !KinkyDungeonTeaseDamageTypes.includes(predata.type) && predata.type != "glue" && predata.type != "chain") {
+			predata.dmg *= KDPacifistReduction;
+		}
+		if (KinkyDungeonStatsChoice.get("Rigger") && KDHostile(Enemy) && (predata.type != "glue" || predata.type != "chain")) {
+			predata.dmg *= KDRiggerDmgBoost;
+		}
+
+		let damageAmp = KinkyDungeonMultiplicativeStat(-KinkyDungeonGetBuffedStat(Enemy.buffs, "DamageAmp") - (KDHostile(Enemy) ? KDBoundPowerLevel * KDBoundPowerMult : 0));
+		let buffreduction = KinkyDungeonGetBuffedStat(Enemy.buffs, "DamageReduction");
+		let buffresist = KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(Enemy.buffs, predata.type + "DamageResist"));
+		buffresist *= KinkyDungeonMeleeDamageTypes.includes(predata.type) ?
+			KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(Enemy.buffs, "meleeDamageResist"))
+			: KinkyDungeonMultiplicativeStat(KinkyDungeonGetBuffedStat(Enemy.buffs, "magicDamageResist"));
+		let buffType = predata.type + "DamageBuff";
+		let buffAmount = 1 + (KDHostile(Enemy) ? KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, buffType) : 0);
+		predata.dmg *= buffAmount;
+		predata.dmg *= buffresist;
+
+		if (predata.type == "electric" && KinkyDungeonMapGet(Enemy.x, Enemy.y) == 'w') {
+			predata.dmg *= 2;
+		}
+		if (damageAmp) predata.dmg *= damageAmp;
+
+		let time = predata.time ? predata.time : 0;
+		if (spellResist && !KinkyDungeonMeleeDamageTypes.includes(predata.type)) {
+			if (time)
+				time = Math.max(0, Math.ceil(time * spellResist));
+			predata.dmg = Math.max(0, predata.dmg * spellResist);
+		}
+
+
 		if (Enemy.Enemy.tags) {
-			if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, Damage.type, "immune")) resistDamage = 2;
-			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, Damage.type, "resist")) resistDamage = 1;
-			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, Damage.type, "weakness")) resistDamage = -1;
-			if (Enemy.Enemy.tags.includes("unstoppable")) resistStun = 2;
-			else if (Enemy.Enemy.tags.includes("unflinching")) resistStun = 1;
+			if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, predata.type, "severeweakness")) resistDamage = -2;
+			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, predata.type, "weakness")) resistDamage = -1;
+			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, predata.type, "immune")) resistDamage = 2;
+			else if (KinkyDungeonGetImmunity(Enemy.Enemy.tags, predata.type, "resist")) resistDamage = 1;
+
+			if (Enemy.Enemy.tags.has("unstoppable")) resistStun = 2;
+			else if (Enemy.Enemy.tags.has("unflinching")) resistStun = 1;
+			if (Enemy.Enemy.tags.has("unslowable")) resistSlow = 2;
+			else if (Enemy.Enemy.tags.has("slowresist")) resistSlow = 1;
 
 		}
 
-		if (Damage.type != "inert" && resistDamage < 2) {
-			if (resistDamage == 1 || (resistStun > 0 && Damage.type == "stun")) {
-				dmgDealt = Math.max(dmgDealt - armor, 0); // Armor goes before resistance
-				dmgDealt = Math.max(1, dmg-1); // Enemies that resist the damage type can only take 1 damage, and if they would take 1 damage it deals 0 damage instead
+		if (KinkyDungeonHalfDamageTypes.includes(predata.type) && resistDamage >= 0) predata.dmg *= 0.5;
+		if (Enemy.boundLevel > 0 && (KinkyDungeonTeaseDamageTypes.includes(predata.type) || Damage.tease)) {
+			let eff = KDBoundEffects(Enemy);
+			let mult = 1.0;
+			if (eff > 0) {
+				mult += 0.5;
+			}
+			if (eff > 3) {
+				mult += 0.5;
+			}
+			if (KinkyDungeonHalfDamageTypes.includes(predata.type)) {
+				mult *= 2.0;
+			}
+			predata.dmg *= mult;
+		}
+		if (Enemy.boundLevel > 0 && Damage && Damage.boundBonus) {
+			let eff = KDBoundEffects(Enemy);
+			predata.dmg += Damage.boundBonus * eff;
+		}
+
+		let forceKill = false;
+
+		if (predata.type != "inert" && resistDamage < 2) {
+			if (resistDamage == 1 || (resistStun > 0 && predata.type == "stun")) {
+				dmgDealt = Math.max(predata.dmg - armor, 0); // Armor goes before resistance
+				dmgDealt = dmgDealt*0.5; // Enemies that are vulnerable take either dmg+0.5 or 1.5x damage, whichever is greater
 			} else if (resistDamage == -1) {
-				dmgDealt = Math.max(dmg+1, Math.floor(dmg*1.5)); // Enemies that are vulnerable take either dmg+1 or 1.5x damage, whichever is greater
+				if (predata.dmg > 0)
+					dmgDealt = Math.max(predata.dmg+0.5, predata.dmg*1.5); // Enemies that are vulnerable take either dmg+1 or 1.5x damage, whichever is greater
+				else dmgDealt = 0;
+				dmgDealt = Math.max(dmgDealt - armor, 0); // Armor comes after vulnerability
+			} else if (resistDamage == -2) {
+				dmgDealt = Math.max(predata.dmg+1, predata.dmg*2); // Enemies that are severely vulnerable take either dmg+1 or 2x damage, whichever is greater
 				dmgDealt = Math.max(dmgDealt - armor, 0); // Armor comes after vulnerability
 			} else {
-				dmgDealt = Math.max(dmg - armor, 0);
+				dmgDealt = Math.max(predata.dmg - armor, 0);
 			}
 
+			if (Enemy.freeze > 0 && (KinkyDungeonMeleeDamageTypes.includes(predata.type) || predata.type == "fire")) {
+				Enemy.freeze = 0;
+			}
 
+			if (Enemy.Enemy.tags && Enemy.Enemy.tags.has("playerinstakill") && attacker && attacker.player) dmgDealt = Enemy.hp;
+			else if (buffreduction && dmgDealt > 0) {
+				dmgDealt = Math.max(dmgDealt - buffreduction, 0);
+				KinkyDungeonTickBuffTag(Enemy.buffs, "damageTaken", 1);
+				KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "/Audio/Shield.ogg");
+			}
+
+			KinkyDungeonSendEvent("duringDamageEnemy", predata);
+
+			if (Spell && Spell.hitsfx) KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "/Audio/" + Spell.hitsfx + ".ogg");
+			else if (dmgDealt > 0 && bullet) KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "/Audio/DealDamage.ogg");
+			if (Damage && Damage.damage)
+				KinkyDungeonSendFloater(Enemy, Math.round(Math.min(dmgDealt, Enemy.hp)*10), "#ff4444");
+			forceKill = Enemy.hp <= Enemy.Enemy.maxhp*0.1 || Enemy.hp < 1;
 			Enemy.hp -= dmgDealt;
+			if (Enemy.hp > 0 && Enemy.hp <= 0.51 && dmgDealt > 2.01 && !forceKill) Enemy.hp = 0;
+			if (dmgDealt > 0) Enemy.revealed = true;
 		}
-		if ((resistStun < 2 && resistDamage < 2) && (Damage.type == "stun" || Damage.type == "chain" || Damage.type == "electric" || Damage.type == "ice")) { // Being immune to the damage stops the stun as well
+
+		if ((resistStun < 2 && resistDamage < 2) && (KinkyDungeonStunDamageTypes.includes(predata.type))) { // Being immune to the damage stops the stun as well
 			effect = true;
 			if (!Enemy.stun) Enemy.stun = 0;
-			if (resistStun == 1)
-				Enemy.stun = Math.max(Enemy.stun, Math.min(Math.floor(Damage.time/3), Damage.time-1)); // Enemies with stun resistance have stuns reduced to 1/3rd, and anything that stuns them for one turn doesn't affect them
-			else Enemy.stun = Math.max(Enemy.stun, Damage.time);
+			if (resistStun == 1 || resistDamage == 1)
+				Enemy.stun = Math.max(Enemy.stun, Math.min(Math.floor(time/2), time-1)); // Enemies with stun resistance have stuns reduced to 1/2, and anything that stuns them for one turn doesn't affect them
+			else Enemy.stun = Math.max(Enemy.stun, time);
+		}
+		if ((resistStun < 2 && resistDamage < 2) && (KinkyDungeonFreezeDamageTypes.includes(predata.type))) { // Being immune to the damage stops the stun as well
+			effect = true;
+			if (!Enemy.freeze) Enemy.freeze = 0;
+			if (resistDamage == 1 || resistStun == 1)
+				Enemy.freeze = Math.max(Enemy.freeze, Math.min(Math.floor(time/2), time-1)); // Enemies with ice resistance have freeze reduced to 1/2, and anything that freezes them for one turn doesn't affect them
+			else Enemy.freeze = Math.max(Enemy.freeze, time);
+		}
+
+		if ((resistStun < 2 && resistDamage < 2) && (KinkyDungeonBindDamageTypes.includes(predata.type))) { // Being immune to the damage stops the bind
+			effect = true;
+			if (!Enemy.bind) Enemy.bind = 0;
+			if (resistDamage == 1 || resistStun == 1)
+				Enemy.bind = Math.max(Enemy.bind, Math.min(Math.floor(time/2), time-1)); // Enemies with resistance have bind reduced to 1/2, and anything that binds them for one turn doesn't affect them
+			else Enemy.bind = Math.max(Enemy.bind, time);
+		}
+		if ((predata.dmg || predata.bind) && Enemy.Enemy.bound && (resistDamage < 2) && (Damage.bind || predata.type == "chain" || predata.type == "glue" || predata.type == "magicbind")) {
+			effect = true;
+			if (!Enemy.boundLevel) Enemy.boundLevel = 0;
+			let efficiency = Damage.bindEff ? Damage.bindEff : 1.0;
+			if (resistStun == -2) {
+				efficiency *= 2;
+			} else if (resistStun == -1) {
+				efficiency *= 1.5;
+			}
+			if (resistDamage == 1 || resistStun == 1) {
+				efficiency *= 0.75;
+			}
+			if (resistDamage == 2) {
+				efficiency *= 0.5;
+			}
+			if (resistStun == 2) {
+				efficiency *= 0.5;
+			}
+
+			Enemy.boundLevel += efficiency * (predata.bind ? predata.bind : predata.dmg);
+			if (!forceKill && Enemy.hp < 0) {
+				KinkyDungeonSendFloater({x: Enemy.x - 0.5 + Math.random(), y: Enemy.y - 0.5 + Math.random()}, TextGet("KDHelpless"), "white", 2);
+				Enemy.hp = 0.51;
+			}
+		}
+
+		if ((resistSlow < 2 && resistDamage < 2) && (KinkyDungeonSlowDamageTypes.includes(predata.type))) { // Being immune to the damage stops the stun as well
+			effect = true;
+			if (!Enemy.slow) Enemy.slow = 0;
+			if (resistSlow == 1 || resistDamage == 1)
+				Enemy.slow = Math.max(Enemy.slow, Math.min(Math.floor(time/2), time-1)); // Enemies with stun resistance have stuns reduced to 1/2, and anything that stuns them for one turn doesn't affect them
+			else Enemy.slow = Math.max(Enemy.slow, time);
+		}
+		if ((resistDamage < 2) && (KinkyDungeonVulnerableDamageTypes.includes(predata.type))) { // Being immune to the damage stops the stun as well
+			effect = true;
+			if (!Enemy.vulnerable) Enemy.vulnerable = 0;
+			if (resistDamage == 1)
+				Enemy.vulnerable = Math.max(Enemy.vulnerable, Math.min(Math.floor(time/2), time-1)); // Enemies with stun resistance have stuns reduced to 1/2, and anything that stuns them for one turn doesn't affect them
+			else Enemy.vulnerable = Math.max(Enemy.vulnerable, time);
 		}
 	}
 
-	var atkname = (Spell) ? TextGet("KinkyDungeonSpell" + Spell.name) : TextGet("KinkyDungeonBasicAttack");
+	KinkyDungeonSendEvent("afterDamageEnemy", predata);
+
+	let atkname = (Spell) ? TextGet("KinkyDungeonSpell" + Spell.name) : TextGet("KinkyDungeonBasicAttack");
 
 	if (Enemy.hp <= 0) {
 		KinkyDungeonKilledEnemy = Enemy;
 	}
+	let mod = "";
+	if (resistDamage == 1) mod = "Weak";
+	if (resistDamage == 2) mod = "Immune";
+	if (resistDamage == -1) mod = "Strong";
+	if (resistDamage == -2) mod = "VeryStrong";
+	if (Damage && !mod && spellResist < 1 && !KinkyDungeonMeleeDamageTypes.includes(predata.type)) mod = "SpellResist";
 
-	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(3, (Damage && dmgDealt > 0) ?
-		TextGet((Ranged) ? "PlayerRanged" : "PlayerAttack").replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)).replace("AttackName", atkname).replace("DamageDealt", "" + dmgDealt)
-		: TextGet("PlayerMiss" + ((Damage) ? "Armor" : "")).replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)),
-			(Damage && (dmg > 0 || effect)) ? "orange" : "red", 2);
+	if (predata.faction == "Player" && dmgDealt > 0) {
+		if (!Enemy.playerdmg) Enemy.playerdmg = 0;
+		Enemy.playerdmg += dmgDealt;
+	}
 
-	if (Enemy && Enemy.Enemy && Enemy.Enemy.AI == "ambush" && Spell && !Spell.name.includes("Witch")) {
+	if (!NoMsg && (dmgDealt > 0 || !Spell || effect)) KinkyDungeonSendActionMessage(4, (Damage && dmgDealt > 0) ?
+		TextGet((Ranged) ? "PlayerRanged" + mod : "PlayerAttack" + mod).replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)).replace("AttackName", atkname).replace("DamageDealt", "" + Math.round(dmgDealt * 10))
+		: TextGet("PlayerMiss" + ((Damage && !miss) ? "Armor" : "")).replace("TargetEnemy", TextGet("Name" + Enemy.Enemy.name)),
+			(Damage && (predata.dmg > 0 || effect)) ? "orange" : "red", 2);
+
+	if (Enemy && Enemy.Enemy && Enemy.Enemy.AI == "ambush" && Spell) {
 		Enemy.ambushtrigger = true;
 	}
-	return dmg;
+
+	if (miss) {
+		KinkyDungeonSendFloater({x: Enemy.x - 0.5 + Math.random(), y: Enemy.y - 0.5 + Math.random()}, TextGet("KDMissed"), "white", 2);
+	} else if (Damage && dmgDealt <= 0 && !miss) {
+		KinkyDungeonSendFloater({x: Enemy.x - 0.5 + Math.random(), y: Enemy.y - 0.5 + Math.random()}, TextGet("KDBlocked"), "white", 2);
+	}
+
+	KinkyDungeonAggro(Enemy, Spell, attacker);
+
+	if (predata.dmg > 0)
+		KinkyDungeonTickBuffTag(Enemy.buffs, "takeDamage", 1);
+	return predata.dmg;
+}
+
+function KinkyDungeonDisarm(Enemy) {
+	if (!Enemy) {
+		console.log("Error processing disarm! Please report!");
+		return false;
+	}
+	if (KDRandom() < KinkyDungeonWeaponGrabChance) {
+		let slots = [];
+		for (let X = -Math.ceil(1); X <= Math.ceil(1); X++)
+			for (let Y = -Math.ceil(1); Y <= Math.ceil(1); Y++) {
+				if ((X != 0 || Y != 0) && KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(Enemy.x + X, Enemy.y + Y))) {
+					// We add the slot and those around it
+					slots.push({x:Enemy.x + X, y:Enemy.y + Y});
+					for (let XX = -Math.ceil(1); XX <= Math.ceil(1); XX++)
+						for (let YY = -Math.ceil(1); YY <= Math.ceil(1); YY++) {
+							if ((Math.abs(X + XX) > 1 || Math.abs(Y + YY) > 1) && KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(Enemy.x + XX + X, Enemy.y + YY + Y))) {
+								slots.push({x:Enemy.x + XX + X, y:Enemy.y + YY + Y});
+							}
+						}
+				}
+			}
+
+		let foundslot = null;
+		for (let C = 0; C < 100; C++) {
+			let slot = slots[Math.floor(KDRandom() * slots.length)];
+			if (slot && KinkyDungeonNoEnemy(slot.x, slot.y, true)
+				&& Math.max(Math.abs(KinkyDungeonPlayerEntity.x - slot.x), Math.abs(KinkyDungeonPlayerEntity.y - slot.y)) > 1.5
+				&& KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(slot.x, slot.y))) {
+				foundslot = {x: slot.x, y: slot.y};
+
+				C = 100;
+			} else slots.splice(C, 1);
+		}
+
+		if (foundslot) {
+			let weapon = KinkyDungeonPlayerDamage.name;
+
+			let dropped = {x:foundslot.x, y:foundslot.y, name: weapon};
+
+			KDSetWeapon(null);
+			KinkyDungeonGetPlayerWeaponDamage(KinkyDungeonCanUseWeapon());
+			KinkyDungeonInventoryRemove(KinkyDungeonInventoryGetWeapon(weapon));
+
+			KinkyDungeonGroundItems.push(dropped);
+			KinkyDungeonSendActionMessage(10, TextGet("KinkyDungeonDisarm"), "red", 2);
+
+			return true;
+		}
+	}
+	return false;
 }
 
 function KinkyDungeonAttackEnemy(Enemy, Damage) {
-	KinkyDungeonDamageEnemy(Enemy, (KinkyDungeonEvasion(Enemy)) ? Damage : null);
-}
-
-function KinkyDungeonUpdateBullets(delta) {
-	for (let E = 0; E < KinkyDungeonBullets.length; E++) {
-		var b = KinkyDungeonBullets[E];
-		var d = delta;
-
-		while (d > 0.1) {
-			var dt = (d - Math.max(0, d - 1))/Math.sqrt(Math.max(1, b.vx*b.vx+b.vy*b.vy));
-			if (b.born >= 0) b.born -= 1;
-
-			if (b.born < 0) {
-				b.xx += b.vx * dt;
-				b.yy += b.vy * dt;
-				b.time -= delta;
-			}
-
-			if (b.bullet.spell && b.trail && (b.x != Math.round(b.XX) || b.y != Math.round(b.yy)))
-				KinkyDungeonBulletTrail(b);
-
-			b.x = Math.round(b.xx);
-			b.y = Math.round(b.yy);
-
-			d -= dt;
-
-
-			if (!KinkyDungeonBulletsCheckCollision(b) || (b.bullet.lifetime > 0 && b.time <= 0)) {
-				d = 0;
-				KinkyDungeonBullets.splice(E, 1);
-				KinkyDungeonBulletsID[b.spriteID] = null;
-				E -= 1;
-				KinkyDungeonBulletHit(b, 1.1);
-			}
+	let disarm = false;
+	if (Enemy.Enemy && Enemy.Enemy.disarm && Enemy.disarmflag > 0) {
+		if (Enemy.stun > 0 || Enemy.freeze > 0 || Enemy.blind > 0) Enemy.disarmflag = 0;
+		else if (Enemy.Enemy && Enemy.Enemy.disarm && Enemy.disarmflag >= 0.97 && KinkyDungeonPlayerDamage && KinkyDungeonPlayerDamage.type != "unarmed") {
+			Enemy.disarmflag = 0;
+			disarm = true;
 		}
 	}
-}
+	let evaded = KinkyDungeonEvasion(Enemy, undefined, undefined, KinkyDungeonPlayerEntity);
+	let dmg = Damage;
+	let buffdmg = KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "AttackDmg");
+	let predata = {
+		evaded: evaded,
+		disarm: disarm,
+		eva: !disarm && evaded,
+		Damage: Damage,
+		buffdmg: buffdmg,
+		vulnerable: Enemy.vulnerable,
+	};
+	KinkyDungeonSendEvent("beforePlayerAttack", predata);
 
-// Decreases time left in buffs and also applies effects
-function KinkyDungeonTickBuffs(list, delta) {
-	for (const [key, value] of Object.entries(list)) {
-		if (value) {
-			if (!value.duration || value.duration < 0) list[key] = null;
-			else {
-				if (value.type == "restore_wp") KinkyDungeonStatWillpower += value.power;
-				if (value.type == "restore_mp") KinkyDungeonStatStaminaMana += value.power;
-				if (value.type == "restore_sp") KinkyDungeonStatStamina += value.power;
-				if (value.type == "restore_ap") KinkyDungeonStatArousal += value.power;
+	if (predata.vulnerable && (predata.eva)) {
+		let dmgBonus = Math.max(KDVulnerableDmg, dmg.damage * KDVulnerableDmgMult);
+		dmg.damage = Math.max(0, dmg.damage + dmgBonus);
+		KinkyDungeonSendTextMessage(4, TextGet("KinkyDungeonVulnerable").replace("AMOUNT", "" + Math.round(10 * dmgBonus)), "lightgreen", 2);
+	}
 
-				value.duration -= delta;
+	if (predata.buffdmg) dmg.damage = Math.max(0, dmg.damage + predata.buffdmg);
+
+	let hp = Enemy.hp;
+	KinkyDungeonDamageEnemy(Enemy, (predata.eva) ? dmg : null, undefined, undefined, undefined, undefined, KinkyDungeonPlayerEntity);
+	if (predata.eva && KinkyDungeonPlayerDamage && KinkyDungeonPlayerDamage.sfx) {
+		if (KinkyDungeonSound) AudioPlayInstantSound(KinkyDungeonRootDirectory + "/Audio/" + KinkyDungeonPlayerDamage.sfx + ".ogg");
+	} else if (!predata.eva) if (KinkyDungeonSound) AudioPlayInstantSound(KinkyDungeonRootDirectory + "/Audio/Miss.ogg");
+	if (disarm) {
+		KinkyDungeonDisarm(Enemy);
+	}
+	if (!KinkyDungeonPlayerDamage || !KinkyDungeonPlayerDamage.silent || !(KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Silence") > 0)) {
+		if (Enemy && hp < Enemy.Enemy.maxhp) {
+			KinkyDungeonAlert = 4;
+		} else {
+			KinkyDungeonAlert = 2;
+		}
+	} else {
+		if (!KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Silence") || KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Silence") < 2) {
+			if (KinkyDungeonAlert) {
+				KinkyDungeonAlert = 2;
+			} else {
+				KinkyDungeonAlert = 1;
 			}
+		} else if (KinkyDungeonGetBuffedStat(KinkyDungeonPlayerBuffs, "Silence") < 3) {
+			// Meep
 		}
 	}
+
+	if (Enemy.Enemy && Enemy.Enemy.disarm && !disarm && KinkyDungeonPlayerDamage && !KinkyDungeonPlayerDamage.unarmed) {
+		if (!Enemy.disarmflag) Enemy.disarmflag = 0;
+		Enemy.disarmflag += Enemy.Enemy.disarm;
+	}
+	let data = {
+		targetX: Enemy.x,
+		targetY: Enemy.y,
+		enemy: Enemy,
+		miss: !evaded,
+		disarm: disarm,
+		damage: Damage,
+	};
+	KinkyDungeonSendEvent("playerAttack", data);
+
+	KinkyDungeonTickBuffTag(KinkyDungeonPlayerBuffs, "damage", 1);
+	KinkyDungeonTickBuffTag(Enemy.buffs, "incomingHit", 1);
+	if (predata.eva)
+		KinkyDungeonTickBuffTag(KinkyDungeonPlayerBuffs, "hit", 1);
 }
 
-// Updates buffs for all creatures
-function KinkyDungeonUpdateBuffs(delta) {
-	// Tick down buffs the buffs
-	KinkyDungeonTickBuffs(KinkyDungeonPlayerBuffs, delta);
-	for (let EE = 0; EE < KinkyDungeonEntities.length; EE++) {
-		let enemy = KinkyDungeonEntities[EE];
-		if (!enemy.buffs) enemy.buffs = {};
-		KinkyDungeonTickBuffs(enemy.buffs, delta);
-	}
+function KinkyDungeonUpdateBullets(delta, Allied) {
+	if (delta > 0)
+		for (let b of KinkyDungeonBullets) {
+			if ((Allied && b.bullet && b.bullet.spell && !b.bullet.spell.enemySpell) || (!Allied && !(b.bullet && b.bullet.spell && !b.bullet.spell.enemySpell))) {
+				if (b.bullet && b.bullet.dot) {
+					KinkyDungeonBulletDoT(b);
+				}
+				if (b.bullet.cast && b.bullet.spell && b.bullet.spell.castDuringDelay && (!b.bullet.cast.chance || KDRandom() < b.bullet.cast.chance) && b.time > 1) {
+					let xx = b.bullet.cast.tx;
+					let yy = b.bullet.cast.ty;
+					if (!xx) xx = b.x;
+					if (!yy) yy = b.y;
+					KinkyDungeonCastSpell(xx, yy, KinkyDungeonFindSpell(b.bullet.cast.spell, true), undefined, undefined, b);
+				}
+			}
+		}
 
-	// Apply the buffs
 	for (let E = 0; E < KinkyDungeonBullets.length; E++) {
 		let b = KinkyDungeonBullets[E];
-		if (b.bullet.spell && b.bullet.spell.buffs) { // Apply the buff
-			for (let B = 0; B < b.bullet.spell.buffs.length; B++) {
-				let buff = b.bullet.spell.buffs[B];
 
-				if (buff.player && buff.range >= Math.sqrt((KinkyDungeonPlayerEntity.x - b.x) * (KinkyDungeonPlayerEntity.x - b.x) + (KinkyDungeonPlayerEntity.y - b.y) * (KinkyDungeonPlayerEntity.y - b.y))) {
-					KinkyDungeonApplyBuff(KinkyDungeonPlayerBuffs, buff, true);
-				}
-				if (buff.enemies) {
-					for (let EE = 0; EE < KinkyDungeonEntities.length; EE++) {
-						let enemy = KinkyDungeonEntities[EE];
-						if (buff.range >= Math.sqrt((enemy.x - b.x) * (enemy.x - b.x) + (enemy.y - b.y) * (enemy.y - b.y))) {
-							KinkyDungeonApplyBuff(enemy.buffs, buff, false);
+		if ((Allied && b.bullet && b.bullet.spell && !b.bullet.spell.enemySpell) || (!Allied && !(b.bullet && b.bullet.spell && !b.bullet.spell.enemySpell))) {
+			let d = delta;
+			let first = true;
+			let trailSquares = [];
+
+			while (d > 0.1) {
+				if (!first && delta > 0) {
+					let dt = (d - Math.max(0, d - 1))/Math.sqrt(Math.max(1, b.vx*b.vx+b.vy*b.vy));
+					if (b.born >= 0) b.born -= 1;
+
+					let mod = (b.spell && b.spell.speed == 1) ? 1 : 0;
+					if (b.born < mod) {
+						b.xx += b.vx * dt;
+						b.yy += b.vy * dt;
+						b.time -= delta;
+					}
+
+					if (b.bullet.spell && b.trail && (b.x != Math.round(b.xx) || b.y != Math.round(b.yy))
+						&& !trailSquares.includes(Math.round(b.xx) + "," + Math.round(b.yy))) {
+						if (KinkyDungeonBulletTrail(b)) {
+							trailSquares.push(Math.round(b.xx) + "," + Math.round(b.yy));
 						}
 					}
 
+					b.x = Math.round(b.xx);
+					b.y = Math.round(b.yy);
+
+					d -= dt;
+				} else first = false;
+
+				let outOfRange = false;
+				let endTime = false;
+				if (b.bullet && b.bullet.origin) {
+					let dist = Math.sqrt((b.bullet.origin.x - b.x) * (b.bullet.origin.x - b.x) + (b.bullet.origin.y - b.y) * (b.bullet.origin.y - b.y));
+					if (dist > b.bullet.range) outOfRange = true;
+					if (dist >= b.bullet.range) endTime = true;
 				}
+				let outOfTime = (b.bullet.lifetime != 0 && b.time <= 0.001);
+				if (!KinkyDungeonBulletsCheckCollision(b) || outOfTime || outOfRange) {
+					if (!(b.bullet.spell && ((!b.bullet.trail && b.bullet.spell.piercing) || (b.bullet.trail && b.bullet.spell.piercingTrail))) || outOfRange || outOfTime) {
+						d = 0;
+						KinkyDungeonBullets.splice(E, 1);
+						KinkyDungeonBulletsID[b.spriteID] = null;
+						E -= 1;
+					}
+					if (!((outOfTime || outOfRange) && b.bullet.spell && ((!b.bullet.trail && b.bullet.spell.nonVolatile) || (b.bullet.trail && b.bullet.spell.nonVolatileTrail))))
+						KinkyDungeonBulletHit(b, 1.1, outOfTime, outOfRange);
+				}
+				if (endTime) b.time = 0;
 			}
+			// A bullet can only damage an enemy in one location at a time
+			// Resets at the end of the bullet update!
+			// But only for piercing bullets. Non-piercing bullets just expire
+			if (!b.bullet.piercing && !b.bullet.noDoubleHit)
+				b.alreadyHit = undefined;
 		}
 	}
 }
 
-function KinkyDungeonApplyBuff(list, buff, player) {
-	if (!list[buff.type] || (list[buff.type].power && buff.power > list[buff.type].power)) list[buff.type] = buff;
-	if ((list[buff.type].power && buff.power == list[buff.type].power && buff.duration > list[buff.type].duration)) list[buff.type].duration = buff.duration;
+let KinkyDungeonCurrentTick = 0;
 
-	if (buff.tags)
-		for (let T = 0; T < buff.tags.length; T++) {
-			let tag = buff.tags[T];
-			if (tag == "darkness" && player) {
-				KinkyDungeonBlindLevelBase = Math.max(KinkyDungeonBlindLevelBase, Math.floor(buff.power/0.5));
-			}
-		}
-}
-
-
-
-function KinkyDungeonUpdateBulletsCollisions(delta) {
+function KinkyDungeonUpdateBulletsCollisions(delta, Catchup) {
 	for (let E = 0; E < KinkyDungeonBullets.length; E++) {
-		var b = KinkyDungeonBullets[E];
-
-		if (!KinkyDungeonBulletsCheckCollision(b, b.time >= 0)) {
-			KinkyDungeonBullets.splice(E, 1);
-			KinkyDungeonBulletsID[b.spriteID] = null;
-			E -= 1;
-			KinkyDungeonBulletHit(b, 1);
+		let b = KinkyDungeonBullets[E];
+		if ((!Catchup && !b.secondary) || (Catchup && b.secondary)) {
+			if (!KinkyDungeonBulletsCheckCollision(b, b.time >= 0)) {
+				if (!(b.bullet.spell && b.bullet.spell.piercing)) {
+					KinkyDungeonBullets.splice(E, 1);
+					KinkyDungeonBulletsID[b.spriteID] = null;
+					E -= 1;
+				}
+				KinkyDungeonBulletHit(b, 1);
+			}
 		}
 	}
 }
 
-function KinkyDungeonBulletHit(b, born) {
+function KinkyDungeonBulletHit(b, born, outOfTime, outOfRange) {
+	if (b.bullet.hit && b.bullet.spell && b.bullet.spell.landsfx) KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "/Audio/" + b.bullet.spell.landsfx + ".ogg");
+
+	KinkyDungeonSendEvent("bulletHit", {bullet: b, target: undefined, outOfRange:outOfRange, outOfTime: outOfTime});
+
+	if (b.bullet.cast && (!b.bullet.cast.chance || KDRandom() < b.bullet.cast.chance) && (!b.bullet.spell || !b.bullet.spell.noCastOnHit)) {
+		let xx = b.bullet.cast.tx;
+		let yy = b.bullet.cast.ty;
+		if (!xx) xx = b.x;
+		if (!yy) yy = b.y;
+		KinkyDungeonCastSpell(xx, yy, KinkyDungeonFindSpell(b.bullet.cast.spell, true), undefined, undefined, b);
+	}
+
 	if (b.bullet.hit == "") {
-		KinkyDungeonBullets.push({born: born, time:1, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(), bullet:{lifetime: 1, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
+		KinkyDungeonBullets.push({born: born, time:1, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(), bullet:{faction: b.bullet.faction, lifetime: 1, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
 	} else if (b.bullet.hit == "aoe") {
-		KinkyDungeonBullets.push({born: born, time:b.bullet.spell.lifetime, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(),
-			bullet:{spell:b.bullet.spell, damage: {damage:(b.bullet.spell.aoedamage) ? b.bullet.spell.aoedamage : b.bullet.spell.power, type:b.bullet.spell.damage, time:b.bullet.spell.time}, aoe: b.bullet.spell.aoe, lifetime: b.bullet.spell.lifetime, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
+		KinkyDungeonBullets.push({secondary: true, born: born, time:b.bullet.spell.lifetime, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(),
+			bullet:{faction: b.bullet.faction, spell:b.bullet.spell, damage: {damage:(b.bullet.spell.aoedamage) ? b.bullet.spell.aoedamage : b.bullet.spell.power, type:b.bullet.spell.damage, bind: b.bullet.spell.bind, time:b.bullet.spell.time}, aoe: b.bullet.spell.aoe, lifetime: b.bullet.spell.lifetime, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
+	} else if (b.bullet.hit == "instant") {
+		if (!KinkyDungeonBulletsCheckCollision(b, true, true)) {
+			if (!(b.bullet.spell && b.bullet.spell.piercing)) {
+				KinkyDungeonBullets.splice(KinkyDungeonBullets.indexOf(b), 1);
+				KinkyDungeonBulletsID[b.spriteID] = null;
+			}
+		}
+		KinkyDungeonBullets.push({born: born, time:1, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(), bullet:{faction: b.bullet.faction, lifetime: 1, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
 	} else if (b.bullet.hit == "lingering") {
 		let rad = (b.bullet.spell.aoe) ? b.bullet.spell.aoe : 0;
 		for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
 			for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
 				if (Math.sqrt(X*X+Y*Y) <= rad) {
-					let LifetimeBonus = (b.bullet.spell.lifetimeHitBonus) ? Math.floor(Math.random() * b.bullet.spell.lifetimeHitBonus) : 0;
+					let LifetimeBonus = (b.bullet.spell.lifetimeHitBonus) ? Math.floor(KDRandom() * b.bullet.spell.lifetimeHitBonus) : 0;
 					KinkyDungeonBullets.push({born: born, time:b.bullet.spell.lifetime + LifetimeBonus, x:b.x+X, y:b.y+Y, vx:0, vy:0, xx:b.x+X, yy:b.y+Y, spriteID:b.bullet.name+"Hit" + CommonTime(),
-						bullet:{spell:b.bullet.spell, block: (b.bullet.blockhit ? b.bullet.blockhit : 0), damage: {damage:b.bullet.spell.power, type:b.bullet.spell.damage, time:b.bullet.spell.time}, lifetime: b.bullet.spell.lifetime + LifetimeBonus, name:b.bullet.name+"Hit", width:1, height:1}});
+						bullet:{faction: b.bullet.faction, spell:b.bullet.spell, block: (b.bullet.blockhit ? b.bullet.blockhit : 0), damage: {damage:b.bullet.spell.power, type:b.bullet.spell.damage, bind: b.bullet.spell.bind, time:b.bullet.spell.time}, lifetime: b.bullet.spell.lifetime + LifetimeBonus, name:b.bullet.name+"Hit", width:1, height:1}});
 				}
 			}
 
-	} else if (b.bullet.hit == "teleport") {
+	} else if (b.bullet.hit == "heal") {
 		KinkyDungeonBullets.push({born: born, time:b.bullet.spell.lifetime, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(),
-			bullet:{spell:b.bullet.spell, damage: {damage:(b.bullet.spell.aoedamage) ? b.bullet.spell.aoedamage : b.bullet.spell.power, type:b.bullet.spell.damage, time:b.bullet.spell.time}, aoe: b.bullet.spell.aoe, lifetime: b.bullet.spell.lifetime, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
-		KinkyDungeonMoveTo(b.x, b.y);
-	} else if (b.bullet.hit && b.bullet.hit.includes("summon")) {
-		let summonType = b.bullet.hit.split(":")[1]; // Second operand is the enemy type
-		let slots = [];
-		let count = (b.bullet.spell && b.bullet.spell.count) ? b.bullet.spell.count : 1;
+			bullet:{faction: b.bullet.faction, spell:b.bullet.spell, damage: {damage:(b.bullet.spell.aoedamage) ? b.bullet.spell.aoedamage : b.bullet.spell.power, type:b.bullet.spell.damage, bind: b.bullet.spell.bind, time:b.bullet.spell.time}, aoe: b.bullet.spell.aoe, lifetime: b.bullet.spell.lifetime, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
+		if (b.bullet.spell && (b.bullet.spell.playerEffect || b.bullet.playerEffect) && KDistEuclidean(b.x - KinkyDungeonPlayerEntity.x, b.y - KinkyDungeonPlayerEntity.y) < b.bullet.spell.aoe) {
+			KinkyDungeonPlayerEffect(b.bullet.damage.type, b.bullet.playerEffect ? b.bullet.playerEffect : b.bullet.spell.playerEffect, b.bullet.spell);
+		}
+		for (let enemy of KinkyDungeonEntities) {
+			if ((b.reflected
+				|| (!b.bullet.spell || !b.bullet.faction
+					|| (!KDFactionHostile(b.bullet.faction, enemy))
+				))
+				&& ((enemy.x == b.x && enemy.y == b.y) || (b.bullet.spell && b.bullet.spell.aoe && KDistEuclidean(b.x - enemy.x, b.y - enemy.y) < b.bullet.spell.aoe))) {
+				let origHP = enemy.hp;
+				enemy.hp = Math.min(enemy.hp + b.bullet.spell.power, enemy.Enemy.maxhp);
+				KinkyDungeonSendFloater(enemy, `+${Math.round((enemy.hp - origHP) * 10)}`, "#ffaa00", 3);
+			}
+		}
+	} else if (b.bullet.hit == "cast" && b.bullet.spell && b.bullet.spell.spellcasthit) {
+		let cast = b.bullet.spell.spellcasthit;
 		let rad = (b.bullet.spell.aoe) ? b.bullet.spell.aoe : 0;
 		for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
 			for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
-				if (Math.sqrt(X*X+Y*Y) <= rad) {
-					slots.push({x:X, y:Y});
+				if (Math.sqrt(X*X+Y*Y) <= rad && (!cast.chance || KDRandom() < cast.chance)) {
+					let spell = KinkyDungeonFindSpell(cast.spell, true);
+					let xx = b.x + X;
+					let yy = b.y + Y;
+					KinkyDungeonCastSpell(xx, yy, spell, undefined, undefined, b);
 				}
 			}
-
-		let created = 0;
-		let maxcounter = 0;
-		for (let C = 0; C < count && KinkyDungeonEntities.length < 100 && maxcounter < count * 10; C++) {
-			let slot = slots[Math.floor(Math.random() * slots.length)];
-			if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(b.x+slot.x, b.y+slot.y)) && KinkyDungeonNoEnemy(b.x+slot.x, b.y+slot.y, true)) {
-				let Enemy = KinkyDungeonEnemies.find(element => element.name == summonType);
-				KinkyDungeonEntities.push({Enemy: Enemy, x:b.x+slot.x, y:b.y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0});
-				created += 1;
-			} else C -= 1;
-			maxcounter += 1;
+	} else if (b.bullet.hit == "teleport") {
+		if (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(b.x, b.y))) {
+			KinkyDungeonBullets.push({born: born, time:b.bullet.spell.lifetime, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Hit" + CommonTime(),
+				bullet:{faction: b.bullet.faction, spell:b.bullet.spell, damage: {damage:(b.bullet.spell.aoedamage) ? b.bullet.spell.aoedamage : b.bullet.spell.power, type:b.bullet.spell.damage, boundBonus: b.bullet.spell.boundBonus, bind: b.bullet.spell.bind, time:b.bullet.spell.time}, aoe: b.bullet.spell.aoe, lifetime: b.bullet.spell.lifetime, passthrough:true, name:b.bullet.name+"Hit", width:b.bullet.width, height:b.bullet.height}});
+			KinkyDungeonMoveTo(b.x, b.y);
 		}
-		if (created == 1) KinkyDungeonSendTextMessage(6, TextGet("KinkyDungeonSummonSingle"+summonType), "white", 2);
-		else if (created > 1) KinkyDungeonSendTextMessage(8, TextGet("KinkyDungeonSummonMulti"+summonType).replace("SummonCount", "" + created), "white", 3);
 	}
+
+	if (b.bullet.summon && b.bullet.summon) {
+		let created = 0;
+		let type = "";
+		for (let sum of b.bullet.summon) {
+			if (!sum.chance || KDRandom() < sum.chance) {
+				let summonType = sum.name; // Second operand is the enemy type
+				if (!type) type = summonType;
+				let count = sum.count ? sum.count : 1;
+				let rad = (b.bullet.spell.aoe) ? b.bullet.spell.aoe : 0;
+				if (count > 0) {
+					let faction = (b.bullet.spell && b.bullet.spell.defaultFaction) ? undefined : b.bullet.faction;
+					if (!faction && b.bullet.spell && b.bullet.spell.enemySpell) faction = "Enemy";
+					else if (!faction && b.bullet.spell && b.bullet.spell.allySpell) faction = "Player";
+
+					if (b.bullet.faction) faction = b.bullet.faction;
+					let e = KinkyDungeonSummonEnemy(b.x, b.y, summonType, count, rad, sum.strict, sum.time ? sum.time : undefined, sum.hidden, sum.goToTarget, faction);
+					created += e;
+				}
+			}
+		}
+		if (!b.bullet.spell || !b.bullet.spell.noSumMsg) {
+			if (created == 1) KinkyDungeonSendTextMessage(6, TextGet("KinkyDungeonSummonSingle"+type), "white", 2);
+			else if (created > 1) KinkyDungeonSendTextMessage(8, TextGet("KinkyDungeonSummonMulti"+type).replace("SummonCount", "" + created), "white", 3);
+		}
+	}
+}
+
+
+function KinkyDungeonSummonEnemy(x, y, summonType, count, rad, strict, lifetime, hidden, goToTarget, faction) {
+	let slots = [];
+	for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
+		for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
+			if (Math.sqrt(X*X+Y*Y) <= rad) {
+				if ((x + X > 0 && y + Y > 0 && x + X < KinkyDungeonGridWidth && y + Y < KinkyDungeonGridHeight))
+					slots.push({x:X, y:Y});
+			}
+		}
+
+	let created = 0;
+	let maxcounter = 0;
+	let Enemy = KinkyDungeonGetEnemyByName(summonType);
+	for (let C = 0; C < count && KinkyDungeonEntities.length < 100 && maxcounter < count * 30; C++) {
+		let slot = slots[Math.floor(KDRandom() * slots.length)];
+		if (KinkyDungeonMovableTilesEnemy.includes(KinkyDungeonMapGet(x+slot.x, y+slot.y))
+			&& (KinkyDungeonNoEnemy(x+slot.x, y+slot.y, true) || (Enemy.noblockplayer && KDistChebyshev(x+slot.x - KinkyDungeonPlayerEntity.x, y+slot.y - KinkyDungeonPlayerEntity.y) < 1.5))
+			&& (!strict || KinkyDungeonCheckPath(x, y, x+slot.x, y+slot.y, false))
+			&& (!hidden || KinkyDungeonLightGet(x, y) < 1)) {
+			let e = {summoned: true, faction: faction, rage: Enemy.summonRage ? 9999 : undefined, Enemy: Enemy, id: KinkyDungeonGetEnemyID(), gx: goToTarget ? KinkyDungeonTargetX : undefined, gy: goToTarget ? KinkyDungeonTargetY : undefined,
+				x:x+slot.x, y:y+slot.y, hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp, movePoints: 0, attackPoints: 0, lifetime: lifetime, maxlifetime: lifetime};
+			KinkyDungeonEntities.push(e);
+			created += 1;
+		} else C -= 1;
+		maxcounter += 1;
+	}
+	return created;
+}
+
+function KinkyDungeonBulletDoT(b) {
+	KinkyDungeonBulletHit(b, 1.1);
 }
 
 function KinkyDungeonBulletTrail(b) {
-	if (Math.random() < b.bullet.spell.trailChance) {
-		if (b.bullet.spell.trail == "lingering") {
-			KinkyDungeonBullets.push({born: 0, time:b.bullet.spell.trailLifetime, x:b.x, y:b.y, vx:0, vy:0, xx:b.x, yy:b.y, spriteID:b.bullet.name+"Trail" + CommonTime(),
-				bullet:{spell:b.bullet.spell, damage: {damage:b.bullet.spell.power, type:b.bullet.spell.trailDamage, time:b.bullet.spell.time}, lifetime: b.bullet.spell.trailLifetime, name:b.bullet.name+"Trail", width:1, height:1}});
-		}
+	let trail = false;
+	if (b.bullet.spell.trail == "lingering" && !b.bullet.trail) {
+		let aoe = b.bullet.spell.trailspawnaoe ? b.bullet.spell.trailspawnaoe : 0.0;
+		let rad = Math.ceil(aoe/2);
+		for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
+			for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
+				if (Math.sqrt(X*X+Y*Y) <= aoe && KDRandom() < b.bullet.spell.trailChance) {
+					trail = true;
+					KinkyDungeonBullets.push({born: 0, time:b.bullet.spell.trailLifetime + (b.bullet.spell.trailLifetimeBonus ? Math.floor(KDRandom() * b.bullet.spell.trailLifetimeBonus) : 0), x:b.x + X, y:b.y + Y, vx:0, vy:0, xx:b.x + X, yy:b.y + Y, spriteID:b.bullet.name+"Trail" + CommonTime(),
+						bullet:{faction: b.bullet.faction, trail: true, hit: b.bullet.spell.trailHit, spell:b.bullet.spell, playerEffect:b.bullet.spell.trailPlayerEffect, damage: {damage:b.bullet.spell.trailPower, type:b.bullet.spell.trailDamage, boundBonus: b.bullet.spell.boundBonus, bind: b.bullet.spell.trailBind, time:b.bullet.spell.trailTime}, lifetime: b.bullet.spell.trailLifetime, name:b.bullet.name+"Trail", width:1, height:1}});
+				}
+			}
+	} else if (b.bullet.spell.trail == "cast" && !b.bullet.trail && b.bullet.spell && b.bullet.spell.trailcast) {
+		let aoe = b.bullet.spell.trailspawnaoe ? b.bullet.spell.trailspawnaoe : 0.0;
+		let rad = Math.ceil(aoe/2);
+		for (let X = -Math.ceil(rad); X <= Math.ceil(rad); X++)
+			for (let Y = -Math.ceil(rad); Y <= Math.ceil(rad); Y++) {
+				if (Math.sqrt(X*X+Y*Y) <= aoe && KDRandom() < b.bullet.spell.trailChance) {
+					trail = true;
+					let cast = b.bullet.spell.trailcast;
+					let spell = KinkyDungeonFindSpell(cast.spell, true);
+					if (spell) {
+						KinkyDungeonCastSpell(b.x + X, b.y + Y, spell, undefined, undefined, undefined);
+					}
+				}
+			}
 	}
+	return trail;
 }
 
-function KinkyDungeonBulletsCheckCollision(bullet, AoE) {
-	var mapItem = KinkyDungeonMapGet(bullet.x, bullet.y);
-	if (!bullet.bullet.passthrough && !KinkyDungeonOpenObjects.includes(mapItem)) return false;
+function KinkyDungeonBulletsCheckCollision(bullet, AoE, force) {
+	let mapItem = KinkyDungeonMapGet(bullet.x, bullet.y);
+	if (!bullet.bullet.passthrough && !bullet.bullet.piercing && !KinkyDungeonOpenObjects.includes(mapItem)) return false;
+	if (bullet.bullet.noEnemyCollision) return true;
 
-	if (bullet.bullet.damage) {
+	if (bullet.bullet.damage && (bullet.time > 0 || force)) {
 		if (bullet.bullet.aoe) {
 			if (AoE) {
-				if (bullet.bullet.spell && bullet.bullet.spell.playerEffect && bullet.bullet.aoe >= Math.sqrt((KinkyDungeonPlayerEntity.x - bullet.x) * (KinkyDungeonPlayerEntity.x - bullet.x) + (KinkyDungeonPlayerEntity.y - bullet.y) * (KinkyDungeonPlayerEntity.y - bullet.y))) {
-					KinkyDungeonPlayerEffect(bullet.bullet.spell.playerEffect, bullet.bullet.spell);
+				if (bullet.bullet.spell && (bullet.bullet.spell.playerEffect || bullet.bullet.playerEffect) && bullet.bullet.aoe >= Math.sqrt((KinkyDungeonPlayerEntity.x - bullet.x) * (KinkyDungeonPlayerEntity.x - bullet.x) + (KinkyDungeonPlayerEntity.y - bullet.y) * (KinkyDungeonPlayerEntity.y - bullet.y))) {
+					KinkyDungeonPlayerEffect(bullet.bullet.damage.type, bullet.bullet.playerEffect ? bullet.bullet.playerEffect : bullet.bullet.spell.playerEffect, bullet.bullet.spell);
 				}
-				var nomsg = false;
-				for (let L = 0; L < KinkyDungeonEntities.length; L++) {
-					let enemy = KinkyDungeonEntities[L];
-					if (bullet.bullet.aoe >= Math.sqrt((enemy.x - bullet.x) * (enemy.x - bullet.x) + (enemy.y - bullet.y) * (enemy.y - bullet.y))) {
-						KinkyDungeonDamageEnemy(enemy, bullet.bullet.damage, true, nomsg, bullet.bullet.spell);
+				let nomsg = bullet.bullet && bullet.bullet.spell && bullet.bullet.spell.enemyspell && !bullet.reflected;
+				for (let enemy of KinkyDungeonEntities) {
+					if ((bullet.reflected
+						|| (!bullet.bullet.spell || !bullet.bullet.faction
+							|| (!KDFactionAllied(bullet.bullet.faction, enemy) && (!bullet.bullet.damage || bullet.bullet.damage.type != "heal"))
+							|| (!KDFactionHostile(bullet.bullet.faction, enemy) && (bullet.bullet.damage && bullet.bullet.damage.type == "heal"))
+						))
+							&& bullet.bullet.aoe >= Math.sqrt((enemy.x - bullet.x) * (enemy.x - bullet.x) + (enemy.y - bullet.y) * (enemy.y - bullet.y))) {
+						if (bullet.bullet.damage.type == "heal") {
+							let origHP = enemy.hp;
+							enemy.hp = Math.min(enemy.hp + bullet.bullet.spell.power, enemy.Enemy.maxhp);
+							KinkyDungeonSendFloater(enemy, `+${Math.round((enemy.hp - origHP) * 10)}`, "#ffaa00", 3);
+						} else
+							KinkyDungeonDamageEnemy(enemy, bullet.bullet.damage, true, nomsg, bullet.bullet.spell, bullet);
 						nomsg = true;
 					}
 				}
 			}
 		} else {
-			if (bullet.bullet.spell && bullet.bullet.spell.playerEffect && KinkyDungeonPlayerEntity.x == bullet.x && KinkyDungeonPlayerEntity.y == bullet.y) {
-				KinkyDungeonPlayerEffect(bullet.bullet.spell.playerEffect, bullet.bullet.spell);
+			if (bullet.bullet.spell && (bullet.bullet.spell.playerEffect || bullet.bullet.playerEffect) && KinkyDungeonPlayerEntity.x == bullet.x && KinkyDungeonPlayerEntity.y == bullet.y) {
+				KinkyDungeonPlayerEffect(bullet.bullet.damage.type, bullet.bullet.playerEffect ? bullet.bullet.playerEffect : bullet.bullet.spell.playerEffect, bullet.bullet.spell);
 				return false;
 			}
-			for (let L = 0; L < KinkyDungeonEntities.length; L++) {
-				let enemy = KinkyDungeonEntities[L];
-				if (enemy.x == bullet.x && enemy.y == bullet.y) {
-					KinkyDungeonDamageEnemy(enemy, bullet.bullet.damage, true, bullet.bullet.NoMsg, bullet.bullet.spell);
+			for (let enemy of KinkyDungeonEntities) {
+				if ((bullet.reflected
+					|| (!bullet.bullet.spell || !bullet.bullet.faction
+						|| (!KDFactionAllied(bullet.bullet.faction, enemy) && (!bullet.bullet.damage || bullet.bullet.damage.type != "heal"))
+						|| (!KDFactionHostile(bullet.bullet.faction, enemy) && (bullet.bullet.damage && bullet.bullet.damage.type == "heal"))
+					))
+						&& enemy.x == bullet.x && enemy.y == bullet.y) {
+					if (bullet.bullet.damage.type == "heal") {
+						let origHP = enemy.hp;
+						enemy.hp = Math.min(enemy.hp + bullet.bullet.spell.power, enemy.Enemy.maxhp);
+						KinkyDungeonSendFloater(enemy, `+${Math.round((enemy.hp - origHP) * 10)}`, "#ffaa00", 3);
+					} else
+						KinkyDungeonDamageEnemy(enemy, bullet.bullet.damage, true, bullet.bullet.NoMsg, bullet.bullet.spell, bullet);
 
 					return false;
 				}
@@ -324,8 +940,7 @@ function KinkyDungeonBulletsCheckCollision(bullet, AoE) {
 	}
 	if (!(bullet.bullet.block > 0) && bullet.vx != 0 || bullet.vy != 0) {
 
-		for (let E = 0; E < KinkyDungeonBullets.length; E++) {
-			let b2 = KinkyDungeonBullets[E];
+		for (let b2 of KinkyDungeonBullets) {
 			if (b2 != bullet && b2.bullet.block > 0 && b2.x == bullet.x && b2.y == bullet.y) {
 				b2.bullet.block -= bullet.bullet.damage.damage;
 				if (b2.bullet.block <= 0) b2.bullet.block = -1;
@@ -335,19 +950,22 @@ function KinkyDungeonBulletsCheckCollision(bullet, AoE) {
 		}
 	} else if (bullet.bullet.block == -1) return false; // Shields expire
 
+	if (bullet.bullet.lifetime == -1) return false; // Instant spells
+
+	if (!bullet.bullet.passthrough && !KinkyDungeonOpenObjects.includes(mapItem)) return false;
 	return true;
 }
 
 
 function KinkyDungeonLaunchBullet(x, y, targetx, targety, speed, bullet, miscast) {
-	var direction = Math.atan2(targety, targetx);
-	var vx = Math.cos(direction) * speed;
-	var vy = Math.sin(direction) * speed;
-	var lifetime = bullet.lifetime;
+	let direction = (!targetx && !targety) ? 0 : Math.atan2(targety, targetx);
+	let vx = (targetx != 0 && targetx != undefined) ? Math.cos(direction) * speed : 0;
+	let vy = (targety != 0 && targetx != undefined) ? Math.sin(direction) * speed : 0;
+	let lifetime = bullet.lifetime;
 	if (miscast) {
 		vx = 0;
 		vy = 0;
-		lifetime = 1;
+		//lifetime = 1;
 	}
 	let b = {born: 1, time:lifetime, x:x, y:y, vx:vx, vy:vy, xx:x, yy:y, spriteID:bullet.name + CommonTime(), bullet:bullet, trail:bullet.spell.trail};
 	KinkyDungeonBullets.push(b);
@@ -355,22 +973,22 @@ function KinkyDungeonLaunchBullet(x, y, targetx, targety, speed, bullet, miscast
 }
 
 function KinkyDungeonDrawFight(canvasOffsetX, canvasOffsetY, CamX, CamY) {
-	for (let E = 0; E < KinkyDungeonBullets.length; E++) {
-		var bullet = KinkyDungeonBullets[E].bullet;
-		var sprite = bullet.name;
-		var spriteCanvas = KinkyDungeonBulletsID[KinkyDungeonBullets[E].spriteID];
+	for (let bb of KinkyDungeonBullets) {
+		let bullet = bb.bullet;
+		let sprite = bullet.name;
+		let spriteCanvas = KinkyDungeonBulletsID[bb.spriteID];
 		if (!spriteCanvas) {
 			spriteCanvas = document.createElement("canvas");
 			spriteCanvas.width = bullet.width*KinkyDungeonSpriteSize;
 			spriteCanvas.height = bullet.height*KinkyDungeonSpriteSize;
-			KinkyDungeonBulletsID[KinkyDungeonBullets[E].spriteID] = spriteCanvas;
+			KinkyDungeonBulletsID[bb.spriteID] = spriteCanvas;
 
 		}
 
-		var Img = DrawGetImage(KinkyDungeonRootDirectory + "Bullets/" + sprite + ".png");
+		let Img = DrawGetImage(KinkyDungeonRootDirectory + "Bullets/" + sprite + ".png");
 
-		var spriteContext = spriteCanvas.getContext("2d");
-		var direction = Math.atan2(KinkyDungeonBullets[E].vy, KinkyDungeonBullets[E].vx);
+		let spriteContext = spriteCanvas.getContext("2d");
+		let direction = (!bb.vy && !bb.vx) ? 0 : Math.atan2(bb.vy, bb.vx);
 
 		// Rotate the canvas m,
 		spriteContext.translate(spriteCanvas.width/2, spriteCanvas.height/2);
@@ -384,12 +1002,31 @@ function KinkyDungeonDrawFight(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 		// Reset the transformation
 		spriteContext.setTransform(1, 0, 0, 1, 0, 0);
 
-		KinkyDungeonUpdateVisualPosition(KinkyDungeonBullets[E], KinkyDungeonDrawDelta);
-		let tx = KinkyDungeonBullets[E].visual_x;
-		let ty = KinkyDungeonBullets[E].visual_y;
+		KinkyDungeonUpdateVisualPosition(bb, KinkyDungeonDrawDelta);
+		let tx = bb.visual_x;
+		let ty = bb.visual_y;
 
-		if (KinkyDungeonBullets[E].x >= CamX && KinkyDungeonBullets[E].y >= CamY && KinkyDungeonBullets[E].x < CamX + KinkyDungeonGridWidthDisplay && KinkyDungeonBullets[E].y < CamY + KinkyDungeonGridHeightDisplay) {
+		if (bb.x >= CamX && bb.y >= CamY && bb.x < CamX + KinkyDungeonGridWidthDisplay && bb.y < CamY + KinkyDungeonGridHeightDisplay) {
 			KinkyDungeonContext.drawImage(spriteCanvas,  (tx - CamX - (bullet.width-1)/2)*KinkyDungeonGridSizeDisplay, (ty - CamY - (bullet.height-1)/2)*KinkyDungeonGridSizeDisplay);
 		}
 	}
+}
+
+function KinkyDungeonSendWeaponEvent(Event, data) {
+	if (KinkyDungeonPlayerDamage && KinkyDungeonPlayerDamage.events) {
+		for (let e of KinkyDungeonPlayerDamage.events) {
+			if (e.trigger == Event && (!e.requireEnergy || ((!e.energyCost && KDGameData.AncientEnergyLevel > 0) || (e.energyCost && KDGameData.AncientEnergyLevel > e.energyCost)))) {
+				KinkyDungeonHandleWeaponEvent(Event, e, KinkyDungeonPlayerDamage, data);
+			}
+		}
+	}
+}
+
+function KinkyDungeonSendBulletEvent(Event, b, data) {
+	if (b && b.bullet && b.bullet.events)
+		for (let e of b.bullet.events) {
+			if (e.trigger == Event) {
+				KinkyDungeonHandleBulletEvent(Event, e, b, data);
+			}
+		}
 }

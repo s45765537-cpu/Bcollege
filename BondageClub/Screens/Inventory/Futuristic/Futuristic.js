@@ -39,7 +39,7 @@
 
 var FuturisticAccessDeniedMessage = "";
 
-var FuturisticAccessCollarGroups = ["ItemNeck"];
+var FuturisticAccessCollarGroups = ["ItemNeck", "ItemNeckAccessories", "ItemEars", "ItemHead", "ItemHood", "ItemMouth", "ItemMouth2", "ItemMouth3", "ItemDevices"];
 var FuturisticAccessArmGroups = ["ItemArms", "ItemHands"];
 var FuturisticAccessLegGroups = ["ItemLegs", "ItemFeet", "ItemBoots"];
 var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "ItemVulva", "ItemVulvaPiercings", "ItemBreast", "ItemNipples", "ItemNipplesPiercings"];
@@ -193,10 +193,9 @@ function InventoryItemFuturisticValidate(C, Item = DialogFocusItem) {
 function InventoryItemFuturisticPublishAccessDenied(C) {
 	var msg = "FuturisticItemLoginLoginAttempt";
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 		{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name}
 	];
-
 	ChatRoomPublishCustomAction(msg, true, Dictionary);
 }

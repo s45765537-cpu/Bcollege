@@ -1,8 +1,9 @@
 "use strict";
 var ChatBlockItemBackground = "Sheet";
-var ChatBlockItemList = ["ABDL", "SciFi", "Leashing", "Photos", "Arousal"];
+var ChatBlockItemList = ["ABDL", "SciFi", "Fantasy", "Leashing", "Photos", "Arousal"];
 var ChatBlockItemCategory = [];
 var ChatBlockItemEditable = true;
+/** @type { { Screen?: string; } } */
 var ChatBlockItemReturnData = {};
 
 /**

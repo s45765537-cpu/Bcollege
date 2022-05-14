@@ -27,15 +27,15 @@ function InventoryItemMiscPasswordPadlockLoad() {
 			C.IsOwnedByPlayer() ||
 			C.IsLoverOfPlayer()
 		) {
-			document.getElementById("Password").placeholder = Property.Password;
+			document.getElementById("Password").setAttribute("placeholder", Property.Password);
 		}
 	} else {
 		// Set a password and hint
 		ElementCreateInput("SetHint", "text", "", "140");
 		ElementCreateInput("SetPassword", "text", "", "8");
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
-		document.getElementById("SetPassword").placeholder = Property.Password;
-		document.getElementById("SetHint").placeholder = Property.Hint;
+		document.getElementById("SetPassword").setAttribute("placeholder", Property.Password);
+		document.getElementById("SetHint").setAttribute("placeholder", Property.Hint);
 	}
 }
 
@@ -109,12 +109,16 @@ function InventoryItemMiscPasswordPadlockClick() {
 function InventoryItemMiscPasswordPadlockControlsClick(ExitCallback) {
 	if (!DialogFocusSourceItem) return;
 
-	if (InventoryItemMiscPasswordPadlockIsSet() && MouseIn(1360, 871, 250, 64)) {
-		InventoryItemMiscPasswordPadlockHandleOpenClick(ExitCallback);
-	} else if (MouseIn(1600, 820, 250, 64)) {
-		DialogFocusSourceItem.Property.RemoveOnUnlock = !DialogFocusSourceItem.Property.RemoveOnUnlock;
-	} else if (MouseIn(1360, 891, 250, 64)) {
-		InventoryItemMiscPasswordPadlockHandleFirstSet(ExitCallback);
+	if (InventoryItemMiscPasswordPadlockIsSet()) {
+		if (MouseIn(1360, 871, 250, 64)) {
+			InventoryItemMiscPasswordPadlockHandleOpenClick(ExitCallback);
+		}
+	} else {
+		if (MouseIn(1600, 820, 250, 64)) {
+			DialogFocusSourceItem.Property.RemoveOnUnlock = !DialogFocusSourceItem.Property.RemoveOnUnlock;
+		} else if (MouseIn(1360, 891, 250, 64)) {
+			InventoryItemMiscPasswordPadlockHandleFirstSet(ExitCallback);
+		}
 	}
 }
 
@@ -137,8 +141,8 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick(ExitCallback) {
 	// Send fail message if online
 	else if (CurrentScreen == "ChatRoom") {
 		const Dictionary = [
-			{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-			{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 			{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name },
 			{ Tag: "Password", Text: ElementValue("Password") },
 		];
@@ -198,8 +202,8 @@ function InventoryItemMiscPasswordPadlockIsSet() {
 
 function InventoryItemMiscPasswordPadlockPublishPasswordChange(C) {
 	const Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 		{ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name },
 	];
 	ChatRoomPublishCustomAction("PasswordChangeSuccess", true, Dictionary);

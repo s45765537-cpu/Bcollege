@@ -1,5 +1,6 @@
 "use strict";
 var StruggleLockPickItem = null;
+/** @type number[] */
 var StruggleLockPickOrder = null;
 var StruggleLockPickSet = null;
 var StruggleLockPickSetFalse = null;
@@ -145,19 +146,17 @@ function StruggleClick(Reverse) {
 }
 
 function StruggleProgressStart(C, PrevItem, NextItem) {
+	ChatRoomStatusUpdate("Struggle");
 	StruggleProgressChoosePrevItem = PrevItem;
 	StruggleProgressChooseNextItem = NextItem;
 	StruggleProgressCurrentMinigame = "";
-
 	StruggleProgress = 0;
 	DialogMenuButtonBuild(C);
-
 	if (C != Player || PrevItem == null ||
 		((PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && ((Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Mounted", true)) || StruggleStrengthGetDifficulty(C, PrevItem, NextItem).auto >= 0))) {
 		StruggleProgressCurrentMinigame = "Strength";
 		StruggleStrengthStart(C, StruggleProgressChoosePrevItem, StruggleProgressChooseNextItem);
 	}
-
 }
 
 function StruggleProgressAutoDraw(C, Offset) {
@@ -173,7 +172,8 @@ function StruggleProgressAutoDraw(C, Offset) {
 	if (StruggleProgress < 0) StruggleProgress = 0;
 
 	// We cancel out if at least one of the following cases apply: a new item conflicts with this, the player can no longer interact, something else was added first, the item was already removed
-	if (InventoryGroupIsBlocked(C) || (C != Player && !Player.CanInteract()) || (StruggleProgressNextItem == null && !InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name)) || (StruggleProgressNextItem != null && !InventoryAllow(C, StruggleProgressNextItem.Asset.Prerequisite)) || (StruggleProgressNextItem != null && StruggleProgressPrevItem != null && ((InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name) && InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name).Asset.Name != StruggleProgressPrevItem.Asset.Name) || !InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name))) || (StruggleProgressNextItem != null && StruggleProgressPrevItem == null && InventoryGet(C, StruggleProgressNextItem.Asset.Group.Name))) {
+	if (InventoryGroupIsBlocked(C) || (C != Player && !Player.CanInteract()) || (StruggleProgressNextItem == null && !InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name)) || (StruggleProgressNextItem != null && !InventoryAllow(
+		C, StruggleProgressNextItem.Asset)) || (StruggleProgressNextItem != null && StruggleProgressPrevItem != null && ((InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name) && InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name).Asset.Name != StruggleProgressPrevItem.Asset.Name) || !InventoryGet(C, StruggleProgressPrevItem.Asset.Group.Name))) || (StruggleProgressNextItem != null && StruggleProgressPrevItem == null && InventoryGet(C, StruggleProgressNextItem.Asset.Group.Name))) {
 		if (StruggleProgress > 0)
 			ChatRoomPublishAction(C, StruggleProgressPrevItem, StruggleProgressNextItem, true, "interrupted");
 		else
@@ -397,15 +397,11 @@ function StruggleStrengthStart(C, PrevItem, NextItem) {
 	DialogAllowFluids = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Fluids") == null) || (InventoryGet(C, "Fluids").Property == null) || (InventoryGet(C, "Fluids").Property.Expression == null)));
 
 	// Applying or removing specific items can trigger an audio sound to play
-	if ((PrevItem && PrevItem.Asset) || (NextItem && NextItem.Asset)) {
-		var AudioFile = null;
-		if (NextItem && NextItem.Asset) {
-			AudioFile = NextItem.Asset.DynamicAudio ? NextItem.Asset.DynamicAudio(C) : NextItem.Asset.Audio;
-		} else {
-			AudioFile = PrevItem.Asset.DynamicAudio ? PrevItem.Asset.DynamicAudio(C) : PrevItem.Asset.Audio;
-		}
-		if (AudioFile != null) AudioDialogStart("Audio/" + AudioGetFileName(AudioFile) + ".mp3");
-	}
+	let played = false;
+	if (NextItem && NextItem.Asset)
+		played = AudioPlaySoundForAsset(C, NextItem.Asset);
+	if (!played && PrevItem && PrevItem.Asset)
+		AudioPlaySoundForAsset(C, PrevItem.Asset);
 
 }
 
@@ -451,7 +447,7 @@ function StruggleFlexibilityStart(C, PrevItem, NextItem) {
 	// When struggling to remove or swap an item while being blocked from interacting
 	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 4; // Non-blocking items become harder to struggle out when already blocked
-		if (PrevItem.Asset.Category) {
+		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {
 			if (PrevItem.Asset.Fetish.includes("Metal")) S = S - 2; // Metal items are very inflexible
 			if (PrevItem.Asset.Fetish.includes("Latex")) S = S + 1; // Latex items are flexible
 			if (PrevItem.Asset.Fetish.includes("Nylon")) S = S + 2; // Nylon items are very flexible
@@ -512,10 +508,11 @@ function StruggleFlexibilityStart(C, PrevItem, NextItem) {
 	DialogAllowFluids = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Fluids") == null) || (InventoryGet(C, "Fluids").Property == null) || (InventoryGet(C, "Fluids").Property.Expression == null)));
 
 	// Applying or removing specific items can trigger an audio sound to play
-	if ((PrevItem && PrevItem.Asset) || (NextItem && NextItem.Asset)) {
-		var AudioFile = (NextItem && NextItem.Asset) ? NextItem.Asset.Audio : PrevItem.Asset.Audio;
-		if (AudioFile != null) AudioDialogStart("Audio/" + AudioGetFileName(AudioFile) + ".mp3");
-	}
+	let played = false;
+	if (NextItem && NextItem.Asset)
+		played = AudioPlaySoundForAsset(C, NextItem.Asset);
+	if (!played && PrevItem && PrevItem.Asset)
+		AudioPlaySoundForAsset(C, PrevItem.Asset);
 
 }
 
@@ -674,7 +671,7 @@ function StruggleDexterityStart(C, PrevItem, NextItem) {
 	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 2; // Non-blocking items become slightly harder to struggle out when already blocked
 
-		if (PrevItem.Asset.Category) {
+		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {
 			if (PrevItem.Asset.Fetish.includes("Tape")) S = S - 3; // Tape is pretty hard to unfasten
 		}
 
@@ -743,10 +740,11 @@ function StruggleDexterityStart(C, PrevItem, NextItem) {
 	DialogAllowFluids = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Fluids") == null) || (InventoryGet(C, "Fluids").Property == null) || (InventoryGet(C, "Fluids").Property.Expression == null)));
 
 	// Applying or removing specific items can trigger an audio sound to play
-	if ((PrevItem && PrevItem.Asset) || (NextItem && NextItem.Asset)) {
-		var AudioFile = (NextItem && NextItem.Asset) ? NextItem.Asset.Audio : PrevItem.Asset.Audio;
-		if (AudioFile != null) AudioDialogStart("Audio/" + AudioGetFileName(AudioFile) + ".mp3");
-	}
+	let played = false;
+	if (NextItem && NextItem.Asset)
+		played = AudioPlaySoundForAsset(C, NextItem.Asset);
+	if (!played && PrevItem && PrevItem.Asset)
+		AudioPlaySoundForAsset(C, PrevItem.Asset);
 
 }
 
@@ -984,7 +982,7 @@ function StruggleDrawLockpickProgress(C) {
 				if (DialogLentLockpicks)  {
 					DialogLentLockpicks = false;
 					if (CurrentScreen == "ChatRoom")
-						ChatRoomPublishCustomAction("LockPickBreak", true, [{ Tag: "DestinationCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }]);
+						ChatRoomPublishCustomAction("LockPickBreak", true, [{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber }]);
 				} else {
 					LogAdd("FailedLockPick", "LockPick", CurrentTime + StruggleLockPickFailTimeout);
 					StruggleLockPickFailTime = CurrentTime + StruggleLockPickFailTimeout;
@@ -1132,7 +1130,7 @@ function StruggleLockPickProgressStart(C, Item) {
 			LockRating = lock.Asset.PickDifficulty; // Some features of the minigame are independent of the relative skill level
 		}
 		//if (Item.Asset && Item.Asset.Difficulty) {
-		//	S -= BondageLevel/2 // Adds the bondage skill of the item but not the base difficulty!
+		//S -= BondageLevel/2 // Adds the bondage skill of the item but not the base difficulty!
 		//}
 
 		if (Player.IsEnclose() || Player.IsMounted()) S = S - 2; // A little harder if there's an enclosing or mounting item
@@ -1227,8 +1225,10 @@ function StruggleLockPickProgressStart(C, Item) {
 		// Initialize persistent pins
 		if ((Item.Property == null)) Item.Property = {};
 		if (Item.Property != null)
-			if ((Item.Property.LockPickSeed == null) || (typeof Item.Property.LockPickSeed != "string")) {Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder); StruggleLockPickTotalTries = 0;}
-			else {
+			if ((Item.Property.LockPickSeed == null) || (typeof Item.Property.LockPickSeed != "string")) {
+				Item.Property.LockPickSeed = CommonConvertArrayToString(StruggleLockPickOrder);
+				StruggleLockPickTotalTries = 0;
+			} else {
 				var conv = CommonConvertStringToArray(Item.Property.LockPickSeed);
 				for (let PP = 0; PP < conv.length; PP++) {
 					if (typeof conv[PP] != "number") {
@@ -1259,7 +1259,3 @@ function StruggleLockPickProgressStart(C, Item) {
 		StruggleLockPickProgressMaxTries = Math.max(1, NumTries - NumPins);
 	}
 }
-
-
-
-

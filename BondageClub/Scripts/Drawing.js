@@ -43,7 +43,7 @@ var DrawCanvasPosition = [0, 0, 0, 0];
 /**
  * Converts a hex color string to a RGB color
  * @param {string} color - Hex color to conver
- * @returns {{ r: number, g: number, b: number }} - RGB color
+ * @returns {RGBColor} - RGB color
  */
 function DrawHexToRGB(color) {
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -218,12 +218,11 @@ function DrawArousalThermometer(X, Y, Zoom, Progress, Automatic, Orgasm) {
  * @returns {void} - Nothing
  */
 function DrawArousalMeter(C, X, Y, Zoom) {
-	if (ActivityAllowed() && C.ArousalSettings && (C.ArousalSettings.Active == "Manual" || C.ArousalSettings.Active == "Hybrid" || C.ArousalSettings.Active == "Automatic"))
+	if (ActivityAllowed() && PreferenceArousalAtLeast(C, "Manual"))
 		if (C.ID == 0 || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
 			if (C.ID == 0 || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
 				ActivitySetArousal(C, C.ArousalSettings.Progress);
-
-				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && (C.ArousalSettings.Active == "Automatic" || C.ArousalSettings.Active == "Hybrid")) {
+				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && PreferenceArousalAtLeast(C, "Hybrid")) {
 					let Progress = 0;
 					if (!(C.ArousalSettings.VibratorLevel == null || typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel))) {
 						Progress = C.ArousalSettings.VibratorLevel;
@@ -249,7 +248,7 @@ function DrawArousalMeter(C, X, Y, Zoom) {
 					Y + (C.ArousalZoom ? 200 : 400) * Zoom,
 					C.ArousalZoom ? Zoom : Zoom * 0.2,
 					C.ArousalSettings.Progress,
-					C.ArousalSettings.Active == "Automatic",
+					PreferenceArousalAtLeast(C, "Automatic"),
 					C.ArousalSettings.OrgasmTimer != null && typeof C.ArousalSettings.OrgasmTimer === "number" && !isNaN(C.ArousalSettings.OrgasmTimer) && C.ArousalSettings.OrgasmTimer > 0);
 
 				if (C.ArousalZoom && (typeof C.ArousalSettings.OrgasmCount === "number") && (C.ArousalSettings.OrgasmCount >= 0) && (C.ArousalSettings.OrgasmCount <= 9999)) {
@@ -318,15 +317,24 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		let Canvas = (Math.round(CurrentTime / 400) % C.BlinkFactor == 0 && !CommonPhotoMode) ? C.CanvasBlink : C.Canvas;
 
 		// If we must dark the Canvas characters
-		if ((C.ID != 0) && Player.IsBlind() && !OverrideDark) {
-			const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
 
 			CharacterCanvas.globalCompositeOperation = "copy";
 			CharacterCanvas.drawImage(Canvas, 0, 0);
 			// Overlay black rectangle.
 			CharacterCanvas.globalCompositeOperation = "source-atop";
-			CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
-			CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+
+			if (Player.IsBlind()) {
+				const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+				CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
+
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				CharacterCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
 
 			Canvas = CharacterCanvas.canvas;
 		}
@@ -345,6 +353,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		const SourceHeight = 1000 / HeightRatio + (YCutOff ? 0 : -YOffset / HeightRatio);
 		const DestY = (IsInverted || YCutOff) ? 0 : YOffset;
 
+		// Apply blur filter if needed
+		const BlurLevel = Player.GetBlurLevel();
+		if (!C.IsPlayer() && !OverrideDark && BlurLevel > 0) {
+			MainCanvas.filter = `blur(${BlurLevel}px)`;
+		}
 		// Draw the character
 		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			Canvas: DrawCanvas,
@@ -354,6 +367,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			Invert: IsInverted,
 			Mirror: IsInverted
 		});
+		MainCanvas.filter = 'none';
 
 		// Draw the arousal meter & game images on certain conditions
 		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= 1) {
@@ -380,10 +394,10 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// Draw the character name below herself
 		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateRansom"))
-			if (!Player.IsBlind() || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
+			if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 				DrawCanvas.font = CommonGetFont(30);
 				const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
-				DrawText(C.Name, X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
+				DrawText(CharacterNickname(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
 				DrawCanvas.font = CommonGetFont(36);
 			}
 
@@ -483,7 +497,7 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {number[][]} [AlphaMasks] - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate) {
@@ -589,7 +603,7 @@ function DrawImage(Source, X, Y, Invert) {
  * @param {boolean} FullAlpha - Whether or not it is drawn in full alpha mode
  * @param {number[][]} AlphaMasks - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageCanvasColorize(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate) {
@@ -760,6 +774,45 @@ function DrawImageEx(
 }
 
 /**
+ * Wrapping text in fragments to support languages that do not separate between words using space.
+ * This function can also break between a long English word if somehow needed in the script.
+ * @param {string} text - The text to be fragmented.
+ * @param {number} maxWidth - The max width the text will be filled in.
+ * @returns {Array<string>} - A list of string that being fragmented.
+ */
+function fragmentText(text, maxWidth) {
+    let words = text.split(' '),
+        lines = [],
+        line = "";
+
+    if (MainCanvas.measureText(text).width < maxWidth) {
+        return [text];
+    }
+
+    while (words.length > 0) {
+        while (MainCanvas.measureText(words[0]).width >= maxWidth) {
+            let temp = words[0];
+            words[0] = temp.slice(0, -1);
+            if (words.length > 1) {
+                words[1] = temp.slice(-1) + words[1];
+            } else {
+                words.push(temp.slice(-1));
+            }
+        }
+        if (MainCanvas.measureText(line + words[0]).width < maxWidth) {
+            line += words.shift() + " ";
+        } else {
+            lines.push(line);
+            line = "";
+        }
+        if (words.length === 0) {
+            lines.push(line);
+        }
+    }
+    return lines;
+}
+
+/**
  * Reduces the font size progressively until the text fits the wrap size
  * @param {string} Text - Text that will be drawn
  * @param {number} Width - Width in which the text must fit
@@ -771,7 +824,7 @@ function GetWrapTextSize(Text, Width, MaxLine) {
 	// Don't bother if it fits on one line
 	if (MainCanvas.measureText(Text).width <= Width) return;
 
-	const words = Text.split(' ');
+	const words = fragmentText(Text, Width);
 	let line = '';
 
 	// Find the number of lines
@@ -831,7 +884,7 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
 	// Split the text if it wouldn't fit in the rectangle
 	MainCanvas.fillStyle = ForeColor;
 	if (MainCanvas.measureText(Text).width > Width) {
-		const words = Text.split(' ');
+		const words = fragmentText(Text, Width);
 		let line = '';
 
 		// Find the number of lines
@@ -1255,8 +1308,14 @@ function DrawProcess(time) {
 	let B = window[CurrentScreen + "Background"];
 
 	if ((B != null) && (B != "")) {
+		const ValidScreenForVFX = CurrentModule != "Character" && B != "Sheet";
+		const blurLevel = Player.GetBlurLevel();
+		if (ValidScreenForVFX && blurLevel > 0) {
+			MainCanvas.filter = `blur(${blurLevel}px)`;
+		}
+
 		let DarkFactor = 1.0;
-		if ((CurrentModule != "Character") && (B != "Sheet")) {
+		if (ValidScreenForVFX) {
 			DarkFactor = CharacterGetDarkFactor(Player) * CurrentDarkFactor;
 			if (DarkFactor == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) DarkFactor = 0.5;
 		}
@@ -1264,7 +1323,7 @@ function DrawProcess(time) {
 
 		let customBG = DrawGetCustomBackground();
 
-		if (customBG != "" && (CurrentModule != "Character") && (B != "Sheet")) {
+		if (customBG != "" && ValidScreenForVFX) {
 			B = customBG;
 			if (DarkFactor == 0)
 				DarkFactor = CharacterGetDarkFactor(Player, true);
@@ -1277,6 +1336,15 @@ function DrawProcess(time) {
 			}
 		}
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
+
+		if (ValidScreenForVFX) {
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				DrawRect(0, 0, 2000, 1000, `rgba(${r},${g},${b},${a})`);
+			}
+		}
+
+		MainCanvas.filter = 'none';
 	}
 
 	// Draws the dialog screen or current screen if there's no loaded character
@@ -1331,7 +1399,7 @@ function DrawProcessHoverElements() {
  * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
  * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
  * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
+ * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
  * @param {string[]} [Options.Icons] - A list of small icons to display in the top-left corner
@@ -1357,7 +1425,7 @@ function DrawAssetPreview(X, Y, A, Options) {
  * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
  * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
  * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behaviour (background color change)
+ * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
  * @param {string[]} [Options.Icons] - A list of images to draw in the top-left of the preview box

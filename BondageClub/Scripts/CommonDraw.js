@@ -16,7 +16,7 @@
  * @param {number} y - The y coordinate to draw the image at
  * @param {number[][]} alphaMasks - A list of alpha masks to apply to the image when drawing
  * @param {number} [opacity=1] - The opacity at which to draw the image with
- * @param {boolean} [rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [rotate=false] - If the image should be rotated by 180 degrees
  */
 
 /**
@@ -34,10 +34,10 @@
  * @param {number} x - The x coordinate to draw the image at
  * @param {number} y - The y coordinate to draw the image at
  * @param {string} color - The color to apply to the image
- * @param {boolean} fullAlpha - Whether or not to apply colour to the entire image
+ * @param {boolean} fullAlpha - Whether or not to apply color to the entire image
  * @param {number[][]} alphaMasks - A list of alpha masks to apply to the image when drawing
  * @param {number} [opacity=1] - The opacity at which to draw the image with
- * @param {boolean} [rotate=false] - If the image should be rotated by 180 degress
+ * @param {boolean} [rotate=false] - If the image should be rotated by 180 degrees
  */
 
 /**
@@ -130,9 +130,9 @@ function CommonDrawAppearanceBuild(C, {
 		let Y = Layer.DrawingTop != null ? Layer.DrawingTop : (A.DrawingTop != null ? A.DrawingTop : AG.DrawingTop);
 		if (C.DrawPose && C.DrawPose.length) {
 			C.DrawPose.forEach(CP => {
-				var PoseDef = PoseFemale3DCG.find(P => P.Name === CP && P.MovePosition);
+				const PoseDef = PoseFemale3DCG.find(P => P.Name === CP && P.MovePosition);
 				if (PoseDef) {
-					var MovePosition = PoseDef.MovePosition.find(MP => MP.Group === GroupName);
+					const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === GroupName);
 					if (MovePosition) {
 						X += MovePosition.X;
 						Y += MovePosition.Y;
@@ -143,7 +143,7 @@ function CommonDrawAppearanceBuild(C, {
 
 		// Offset Y to counteract height modifiers for fixed-position assets
 		let YFixedOffset = 0;
-		if (A.FixedPosition) {
+		if (A.FixedPosition || Layer.FixedPosition) {
 			if (C.IsInverted()) {
 				YFixedOffset = -Y + 1000 - (Y + CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
 			} else {
@@ -274,7 +274,7 @@ function CommonDrawAppearanceBuild(C, {
 			}
 		}
 
-		// Make any required changes to the colour
+		// Make any required changes to the color
 		if (Color === "Default" && A.DefaultColor) {
 			Color = Array.isArray(A.DefaultColor) ? A.DefaultColor[Layer.ColorIndex] : A.DefaultColor;
 		}
@@ -309,7 +309,7 @@ function CommonDrawAppearanceBuild(C, {
 					Color, AG.DrawingFullAlpha, AlphaMasks, Opacity, Rotate
 				);
 			} else {
-				var ColorName = ((Color == null) || (Color == "Default") || (Color == "") || (Color.length == 1) ||
+				const ColorName = ((Color == null) || (Color == "Default") || (Color == "") || (Color.length == 1) ||
 					(Color.indexOf("#") == 0)) ? "" : "_" + Color;
 				drawImage(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png",

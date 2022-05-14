@@ -10,12 +10,15 @@ var MaidQuartersCanBecomeHeadMaid = false;
 var MaidQuartersCannotBecomeHeadMaidYet = false;
 var MaidQuartersIsMaid = false;
 var MaidQuartersIsHeadMaid = false;
+var MaidQuartersSelfBondageMaidDrinksAccepted = false;
+var MaidQuartersSelfBondageMaidCleaningAccepted = false;
 var MaidQuartersDominantRep = 0;
 var MaidQuartersCurrentRescue = "";
 var MaidQuartersRescueList = ["IntroductionClass", "ShibariDojo", "Shop", "Gambling"]; // "Prison" should be re-added when git4nick code is ready
 var MaidQuartersRescueStage = ["310", "320", "330", "340", "350"];
 var MaidQuartersCurrentRescueStarted = false;
 var MaidQuartersCurrentRescueCompleted = false;
+var MaidQuartersOnlineDrinkStarted = false;
 var MaidQuartersOnlineDrinkCount = 0;
 var MaidQuartersOnlineDrinkValue = 0;
 var MaidQuartersOnlineDrinkCustomer = [];
@@ -42,18 +45,130 @@ function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreat
  */
 function MaidQuartersPlayerInMaidUniform() {
 	const clothes = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
-	return ((clothes == "MaidOutfit1" || clothes == "MaidOutfit2") && (CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1"));
+	var NakedOrWithApron =
+		(CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "None"
+		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron1"
+		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron2");
+	return (
+		// Wearing maid headdress
+		(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")
+		&& (
+		// Either regular maid outfits
+		(clothes == "MaidOutfit1" || clothes == "MaidOutfit2")
+		// Or mostly naked
+		|| (NakedOrWithApron
+		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Garters", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Shoes", "Name") == "None")
+		// Or in maid underwears
+		|| (NakedOrWithApron
+		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1"
+		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2")
+		)
+	);
 }
+/**
+ * Checks, if the player is fully dressed for the 'serve drinks' job
+ * @returns {boolean} - Retruns true, if the player is wearing a maid uniform, has her legs and arms restrained, is gagged and wearing a serving tray
+ */
+function MaidQuartersPlayerInDrinksUniform() {
+	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
+	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
+	const hasTray = (InventoryGet(Player, "ItemMisc") && InventoryGet(Player, "ItemMisc").Asset.Name == "ServingTray");
+	return (MaidQuartersPlayerInMaidUniform() && legsRestrained && armsRestrained && hasTray && Player.CanWalk() && !Player.CanTalk() && !Player.IsBlind());
+}
+/**
+ * Checks, if the player can leave the maid to wear her uniform for the 'serve drink job'
+ * @returns {boolean} - Returns true, if the player is a maid, not wearing her uniform and was not forced to do the job
+ */
+function MaidQuartersPlayerCanChangeForDrinks() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform() && !MaidQuartersOnlineDrinkFromOwner);
+}
+/**
+ * Checks, if the player is fully dressed for the 'clean room job'
+ * @returns {boolean} - Returns true, if the player is wearing a maid uniform, has her feet, legs and arms restrained and is wearing a duster gag
+ */
+function MaidQuartersPlayerInCleaningUniform() {
+	const feetRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemFeet", "ID") != "None");
+	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
+	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
+	const hasDusterGag = (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth2", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth3", "Name") == "DusterGag");
+	return (MaidQuartersPlayerInMaidUniform() && feetRestrained && legsRestrained && armsRestrained && hasDusterGag && !Player.IsBlind());
+}
+/**
+ * Checks, if the player can leave the maid to wear her uniform for the 'clean room job'
+ * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
+ */
+function MaidQuartersPlayerCanChangeForCleaning() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+}
+/**
+ * Checks, if the player can leave the maid to wear her uniform for the 'rescue job'
+ * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
+ */
+function MaidQuartersPlayerCanChangeForRescue() {
+	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+}
+/**
+ * Update the maid current dialog to give an advice about why the player's current outfit isn't a maid outfit
+ */
+function MaidQuartersAdviceMaidUniform() {
+	if (!(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")) {
+		MaidQuartersMaid.CurrentDialog = "You must at least wear your maid hairband.";
+	} else if (CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1" && CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2") {
+		MaidQuartersMaid.CurrentDialog = "You are either not wearing the dress, or covering too much.";
+	} else {
+		MaidQuartersMaid.CurrentDialog = "Does your outfit look like mine?";
+	}
+}
+
 /**
  * Checks, if the player is able to do the 'serve drinks' job
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
  */
 function MaidQuartersAllowMaidDrinks() { return (!Player.IsRestrained() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
 /**
+ * Checks, if the player is ready for the 'serve drinks' job and is allowed to do it
+ * @returns {boolean} - Returns true, if the player is ready for the job, false otherwise
+ */
+function MaidQuartersAllowSelfBondageMaidDrinks() { return (MaidQuartersPlayerInDrinksUniform() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+/**
+ * Accept to start the 'serve drinks' job when self prepared for it
+ * @returns {void} - Nothing
+ */
+function MaidQuartersAcceptSelfBondageMaidDrinks() {
+	MaidQuartersSelfBondageMaidDrinksAccepted = true;
+	DialogChangeReputation("Dominant", -2);
+	InventoryWear(Player, "WoodenMaidTray", "ItemMisc");
+}
+/**
  * Checks, if the player can do the 'clean room job'
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
  */
 function MaidQuartersAllowMaidCleaning() { return (!Player.IsRestrained() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+/**
+ * Checks, if the player is ready for the 'clean room job' and is allowed to do it
+ * @returns {boolean} - Returns true, if the player is ready for the job, false otherwise
+ */
+function MaidQuartersAllowSelfBondageMaidCleaning() {
+return (MaidQuartersPlayerInCleaningUniform() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+/**
+ * Accept to start the 'clean room job' when self prepared for it
+ * @returns {void} - Nothing
+ */
+function MaidQuartersAcceptSelfBondageMaidCleaning() {
+	MaidQuartersSelfBondageMaidCleaningAccepted = true;
+	DialogChangeReputation("Dominant", -2);
+}
 /**
  * Checks, if the player can do the 'play music' job
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
@@ -141,6 +256,7 @@ function MaidQuartersRun() {
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(MaidQuartersMaid, 1000, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
+	if (Player.CanChangeOwnClothes()) DrawButton(1885, 270, 90, 90, "", "White", "Icons/Dress.png");
 	DailyJobSubSearchRun();
 }
 
@@ -169,6 +285,7 @@ function MaidQuartersClick() {
 	}
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 270) && (MouseY < 360) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	DailyJobSubSearchClick();
 }
 
@@ -215,12 +332,18 @@ function MaidQuartersWearMaidUniform() {
  */
 function MaidQuartersRemoveMaidUniform() {
 	CharacterReleaseNoLock(Player);
-	for (let ItemAssetGroupName in MaidQuartersItemClothPrev) {
-		var PreviousItem = MaidQuartersItemClothPrev[ItemAssetGroupName];
-		InventoryRemove(Player, ItemAssetGroupName);
-		if (PreviousItem) InventoryWear(Player, PreviousItem.Asset.Name, ItemAssetGroupName, PreviousItem.Color);
-		if (PreviousItem && PreviousItem.Property) InventoryGet(Player, ItemAssetGroupName).Property = PreviousItem.Property;
-		MaidQuartersItemClothPrev[ItemAssetGroupName] = null;
+	if (MaidQuartersSelfBondageMaidCleaningAccepted) {
+		MaidQuartersSelfBondageMaidCleaningAccepted = false;
+	} else if (MaidQuartersSelfBondageMaidDrinksAccepted) {
+		MaidQuartersSelfBondageMaidDrinksAccepted = false;
+	} else {
+		for (let ItemAssetGroupName in MaidQuartersItemClothPrev) {
+			var PreviousItem = MaidQuartersItemClothPrev[ItemAssetGroupName];
+			InventoryRemove(Player, ItemAssetGroupName);
+			if (PreviousItem) InventoryWear(Player, PreviousItem.Asset.Name, ItemAssetGroupName, PreviousItem.Color);
+			if (PreviousItem && PreviousItem.Property) InventoryGet(Player, ItemAssetGroupName).Property = PreviousItem.Property;
+			MaidQuartersItemClothPrev[ItemAssetGroupName] = null;
+		}
 	}
 	InventoryRemove(Player, "ItemMisc");
 	CharacterRefresh(Player);
@@ -378,10 +501,7 @@ function MaidQuartersStartRescue() {
 	MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "Rescue" + MaidQuartersCurrentRescue);
 	MaidQuartersCurrentRescueStarted = false;
 	MaidQuartersCurrentRescueCompleted = false;
-
-	MaidQuartersItemClothPrev.Cloth = InventoryGet(Player, "Cloth");
-	MaidQuartersItemClothPrev.Hat = InventoryGet(Player, "Hat");
-
+	MaidQuartersWearMaidUniform();
 }
 
 /**
@@ -426,17 +546,18 @@ function MaidQuartersOnlineDrinkStart() {
 	MaidQuartersOnlineDrinkValue = 0;
 	ChatRoomMoneyForOwner = 0;
 	MaidQuartersOnlineDrinkCustomer = [];
+	MaidQuartersOnlineDrinkStarted = true;
 }
 
 /**
  * On online player picks a drink from the plyers tray. She only gets credited, if it was a new customer
- * @param {string} MemberNumber - The member ID of the customer
- * @param {string} DrinkValue - The value of the picked drink
+ * @param {number} MemberNumber - The member ID of the customer
+ * @param {number|string} DrinkValue - The value of the picked drink
  */
 function MaidQuartersOnlineDrinkPick(MemberNumber, DrinkValue) {
 	if ((MaidQuartersOnlineDrinkCount < 5) && (MaidQuartersOnlineDrinkCustomer.indexOf(MemberNumber) < 0)) {
 		MaidQuartersOnlineDrinkCount++;
-		MaidQuartersOnlineDrinkValue = MaidQuartersOnlineDrinkValue + DrinkValue;
+		MaidQuartersOnlineDrinkValue = MaidQuartersOnlineDrinkValue + parseInt(DrinkValue);
 		MaidQuartersOnlineDrinkCustomer.push(MemberNumber);
 		if (MaidQuartersOnlineDrinkCount >= 5) {
 			InventoryWear(Player, "WoodenMaidTray", "ItemMisc");
@@ -458,6 +579,7 @@ function MaidQuartersOnlineDrinkPay() {
 	else ChatRoomMoneyForOwner = M;
 	ReputationProgress("Maid", 4);
 	IntroductionJobProgress("SubMaid");
+	MaidQuartersOnlineDrinkStarted = false;
 }
 
 /**

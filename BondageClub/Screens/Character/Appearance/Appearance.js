@@ -157,7 +157,6 @@ function CharacterAppearanceMustHide(C, GroupName) {
 	return false;
 }
 
-
 /**
  * Sets a full random set of items for a character. Only items that do not have the "Random" property set to false will be used.
  * @param {Character} C - The character to dress
@@ -199,6 +198,9 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 			// Picks a random item and color and add it
 			if (R.length > 0) {
 				var SelectedAsset = InventoryGetRandom(C, AssetGroup[A].Name, R);
+				// If we found no asset, just move to next group
+				if (!SelectedAsset)
+					continue;
 				/** @type {string|string[]} */
 				var SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
 				if ((SelectedAsset.Group.ColorSchema[0] == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
@@ -234,18 +236,14 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 function CharacterAppearanceNaked(C) {
 
 	// For each item group (non default items only show at a 20% rate)
-	for (let A = C.Appearance.length-1 ; A >= 0; A--) {
-		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") &&
-			( C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && C.Appearance[A].Asset.Group.BodyCosplay))) {
+	for (let A = C.Appearance.length - 1; A >= 0; A--)
+		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") && (C.IsNpc() || !(C.OnlineSharedSettings.BlockBodyCosplay && (C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group != null) && C.Appearance[A].Asset.Group.BodyCosplay)))
 			C.Appearance.splice(A, 1);
-		}
-	}
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
 
 }
-
 
 /**
  * Removes one layer of clothing: outer clothes, then underwear, then body-cosplay clothes, then nothing
@@ -340,7 +338,8 @@ function CharacterAppearanceSortLayers(C) {
 
 	// Run back over the layers to apply the group-level alpha mask definitions to the appropriate layers
 	layers.forEach(layer => {
-		const groupName = layer.Asset.Group.Name;
+		// If the layer has a HideAs proxy group name, apply those alphas rather than the actual group alphas
+		const groupName = (layer.HideAs && layer.HideAs.Group) || layer.Asset.Group.Name;
 		layer.GroupAlpha = [];
 		if (groupAlphas[groupName]) {
 			Array.prototype.push.apply(layer.GroupAlpha, groupAlphas[groupName]);
@@ -384,11 +383,12 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
 		let HidingItem = false;
 		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
-		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
-		else if (item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
+		const Excluded = HideItemExclude.includes(GroupName + AssetName);
+		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !Excluded) HidingItem = true;
+		else if (!Excluded && item.Asset.HideItemAttribute.length && assetToCheck && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
-		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !HideItemExclude.includes(GroupName + AssetName)) HidingItem = true;
+		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !Excluded) HidingItem = true;
 		else if ((item.Asset.HideItem != null) && (item.Asset.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		else if ((item.Property != null) && (item.Property.HideItem != null) && (item.Property.HideItem.indexOf(GroupName + AssetName) >= 0)) HidingItem = true;
 		if (HidingItem) {
@@ -476,17 +476,22 @@ function CharacterAppearanceSetHeightModifiers(C) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceBuildCanvas(C) {
-	CommonDrawCanvasPrepare(C);
-	CommonDrawAppearanceBuild(C, {
-		clearRect: (x, y, w, h) => C.Canvas.getContext("2d").clearRect(x, y, w, h),
-		clearRectBlink: (x, y, w, h) => C.CanvasBlink.getContext("2d").clearRect(x, y, w, h),
-		drawImage: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, alphaMasks, opacity, rotate),
-		drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, opacity, rotate),
-		drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.Canvas.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.CanvasBlink.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawCanvas: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks),
-		drawCanvasBlink: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks),
-	});
+	// Revert to 2D canvas if webgl isn't active or its context has been lost
+	if (GLVersion === "No WebGL" || !GLDrawCanvas || !GLDrawCanvas.GL || GLDrawCanvas.GL.isContextLost()) {
+		CommonDrawCanvasPrepare(C);
+		CommonDrawAppearanceBuild(C, {
+			clearRect: (x, y, w, h) => C.Canvas.getContext("2d").clearRect(x, y, w, h),
+			clearRectBlink: (x, y, w, h) => C.CanvasBlink.getContext("2d").clearRect(x, y, w, h),
+			drawImage: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, alphaMasks, opacity, rotate),
+			drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, opacity, rotate),
+			drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.Canvas.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
+			drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => DrawImageCanvasColorize(src, C.CanvasBlink.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate),
+			drawCanvas: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks),
+			drawCanvasBlink: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks),
+		});
+	} else {
+		GLDrawAppearanceBuild(C);
+	}
 }
 
 /**
@@ -552,10 +557,6 @@ function AppearanceLoad() {
 	var C = CharacterAppearanceSelection;
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
-		ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Wardrobe", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
-	}
 	AppearanceMenuBuild(C);
 	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings ? Player.VisualSettings.UseCharacterInPreviews : AppearanceUseCharacterInPreviewsSetting;
 }
@@ -579,7 +580,7 @@ function AppearanceMenuBuild(C) {
 			AppearanceMenu.push("Naked", "Character", "Next");
 			break;
 		case "Wardrobe":
-			AppearanceMenu.push("Naked", "Next");
+			AppearanceMenu.push("Naked", "Prev", "Next");
 			break;
 		case "Cloth":
 			if (!DialogItemPermissionMode) {
@@ -829,12 +830,11 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMemberNumber, Refresh) {
-
 	// Sets the difficulty factor
 	if (DifficultyFactor == null) DifficultyFactor = 0;
 
 	// Removes the previous if we need to
-	var ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
+	const ID = CharacterAppearanceGetCurrentValue(C, Group, "ID");
 	var ItemColor;
 	if (ID != "None") {
 		if (CurrentScreen == "Appearance") {
@@ -847,7 +847,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	// Add the new item to the character appearance
 	if (ItemAsset != null) {
 		/** @type {Item} */
-		var NA = {
+		const NA = {
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: ((NewColor == null) ? ItemColor : NewColor),
@@ -910,7 +910,7 @@ function CharacterAppearanceNextItem(C, Group, Forward, Description) {
 /**
  * Find the next color for the item
  * @param {Character} C - The character whose items are cycled
- * @param {string} Group - The name of the group for which we are colour cycling
+ * @param {string} Group - The name of the group for which we are color cycling
  * @returns {void} - Nothing
  */
 function CharacterAppearanceNextColor(C, Group) {
@@ -954,9 +954,9 @@ function CharacterAppearanceMoveOffset(C, Move) {
 
 /**
  * Sets the color for a specific group
- * @param {Character} C - The character whose item group should be coloured
- * @param {string} Color - The colour (in the format "#rrggbb") to be applied to the group
- * @param {string} Group - The name of the group, whose colour should be changed
+ * @param {Character} C - The character whose item group should be colored
+ * @param {string} Color - The color (in the format "#rrggbb") to be applied to the group
+ * @param {string} Group - The name of the group, whose color should be changed
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetColorForGroup(C, Color, Group) {
@@ -1098,7 +1098,7 @@ function AppearanceClick() {
 					DialogInventoryTogglePermission(Item, worn);
 				} else {
 					if (InventoryBlockedOrLimited(C, Item)) return;
-					if (InventoryAllow(C, Item.Asset.Prerequisite)) {
+					if (InventoryAllow(C, Item.Asset)) {
 						if (worn && CurrentItem.Asset.Extended) {
 							DialogExtendItem(CurrentItem);
 						} else {
@@ -1121,7 +1121,6 @@ function AppearanceClick() {
 		}
 	}
 }
-
 
 /**
  * Handles the Click events for the top-row buttons in the Appearance screen
@@ -1147,22 +1146,30 @@ function AppearanceMenuClick(C) {
 					if (Button === "WardrobeDisabled") CharacterAppearanceHeaderText = TextGet("WardrobeDisabled");
 					break;
 				case "Wardrobe":
-					if (Button === "Next") {
-						CharacterAppearanceWardrobeOffset += 6;
-						if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
-					}
-					if (Button === "Naked") CharacterAppearanceStripLayer(C);
-					if (Button === "Cancel") {
-						CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
-						CharacterRefresh(C, false);
-						CharacterAppearanceWardrobeName = "";
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
-					}
-					if (Button === "Accept") {
-						CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
-						CharacterAppearanceInProgressBackup = null;
-						AppearanceExit();
+					switch (Button) {
+						case "Prev":
+							CharacterAppearanceWardrobeOffset -= 6;
+							if (CharacterAppearanceWardrobeOffset < 0) CharacterAppearanceWardrobeOffset = Math.max(0, Player.Wardrobe.length - 6);
+							break;
+						case "Next":
+							CharacterAppearanceWardrobeOffset += 6;
+							if (CharacterAppearanceWardrobeOffset >= Player.Wardrobe.length) CharacterAppearanceWardrobeOffset = 0;
+							break;
+						case "Naked":
+							CharacterAppearanceStripLayer(C);
+							break;
+						case "Cancel":
+							CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
+							CharacterRefresh(C, false);
+							CharacterAppearanceWardrobeName = "";
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
+						case "Accept":
+							CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
+							CharacterAppearanceInProgressBackup = null;
+							AppearanceExit();
+							break;
 					}
 					break;
 				case "Cloth":
@@ -1262,10 +1269,6 @@ function CharacterAppearanceExit(C) {
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
 	CharacterAppearanceRestore(C, CharacterAppearanceBackup);
-	if ((Player.OnlineSettings != null) && Player.OnlineSettings.EnableWardrobeIcon && (CharacterAppearanceReturnRoom == "ChatRoom")) {
-		CharacterSetFacialExpression(Player, "Emoticon", CharacterAppearancePreviousEmoticon);
-		CharacterAppearancePreviousEmoticon = "";
-	}
 	CharacterLoadCanvas(C);
 	if (C.AccountName != "") CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
 	else CommonSetScreen("Character", "Login");
@@ -1296,8 +1299,8 @@ function CharacterAppearanceReady(C) {
 		ServerPlayerAppearanceSync();
 		if ((CharacterAppearanceReturnRoom == "ChatRoom") && (C.ID != 0)) {
 			var Dictionary = [];
-			Dictionary.push({ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber });
-			Dictionary.push({ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber });
+			Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
+			Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber });
 			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
 			ChatRoomCharacterUpdate(C);
 		}
@@ -1345,6 +1348,9 @@ function CharacterAppearanceLoadCharacter(C) {
 	CharacterAppearanceSelection = C;
 	CharacterAppearanceReturnRoom = CurrentScreen;
 	CharacterAppearanceReturnModule = CurrentModule;
+	if (CharacterAppearanceReturnRoom == "ChatRoom") {
+		ChatRoomStatusUpdate("Wardrobe");
+	}
 	CommonSetScreen("Character", "Appearance");
 }
 
@@ -1360,6 +1366,8 @@ function CharacterAppearanceWardrobeLoad(C) {
 		WardrobeLoadCharacterNames();
 	ElementCreateInput("InputWardrobeName", "text", CharacterAppearanceWardrobeName || C.Name, "20");
 	CharacterAppearanceMode = "Wardrobe";
+	// Always open the wardrobe on the first page
+	CharacterAppearanceWardrobeOffset = 0;
 	CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
 	CharacterAppearanceInProgressBackup = CharacterAppearanceStringify(C);
 }
@@ -1427,4 +1435,77 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 			}
 		}
 	});
+}
+
+/**
+ * Combine two sets of appearance changes from the same base, favouring the newer changes where conflicting
+ * @param {Item[]} BaseAppearance - The previous appearance before either of the other two sets of changes were made
+ * @param {Item[]} PrevAppearance - The first set of appearance changes
+ * @param {Item[]} NewAppearance - The second set of appearance changes, overriding any conflicts with the first
+ * @returns {Item[]} - The final merged appearance
+ */
+function CharacterAppearanceResolveAppearance(BaseAppearance, PrevAppearance, NewAppearance) {
+	for (const group of AssetGroup) {
+		if (group.Category == "Appearance") {
+			const baseItem = BaseAppearance.find(A => A.Asset.Group.Name == group.Name);
+			const prevItem = PrevAppearance.find(A => A.Asset.Group.Name == group.Name);
+			const newItem = NewAppearance.find(A => A.Asset.Group.Name == group.Name);
+			const resolvedItem = CharacterAppearanceResolveItem(baseItem, prevItem, newItem);
+
+			// Remove and replace the group's item
+			PrevAppearance = PrevAppearance.filter(A => A.Asset.Group.Name !== group.Name);
+			if (resolvedItem) {
+				PrevAppearance = PrevAppearance.concat(resolvedItem);
+			}
+		}
+	}
+
+	return PrevAppearance;
+}
+
+/**
+ * Select from two potential changes to an item, preferring the newer if different to the original item
+ * @param {Item} BaseItem - The item before any changes were made
+ * @param {Item} PrevItem - The first item change
+ * @param {Item} NewItem - The second item change
+ * @return {Item} - The item to keep
+ */
+function CharacterAppearanceResolveItem(BaseItem, PrevItem, NewItem) {
+	if (BaseItem == null) {
+		// Add the new item if added, otherwise use the previous item whether one was added or still empty
+		return NewItem || PrevItem;
+	} else if (NewItem == null) {
+		// Remove the item if the newest change removed it
+		return NewItem;
+	} else if (AppearanceItemStringify(BaseItem) != AppearanceItemStringify(NewItem)) {
+		// Use the newest item if changed from the original at all. In future could possibly compare/merge settings instead
+		return NewItem;
+	} else {
+		// Otherwise keep the previous change
+		return PrevItem;
+	}
+}
+
+/**
+ * Merge the incoming appearance changes from the online sync to the currently selected appearance
+ * @param {Character} C - The character with changes to merge
+ * @param {Item[]} currentAppearance - The appearance before the sync's changes are applied
+ * @returns {void} - Nothing
+ */
+function CharacterAppearanceResolveSync(C, currentAppearance) {
+	if (CurrentScreen == "Appearance" && C.ID == CharacterAppearanceSelection.ID) {
+		const baseAppearance = AppearanceItemParse(CharacterAppearanceBackup);
+
+		// Update the individual clothing item to revert to upon exiting the group's menu
+		if (CharacterAppearanceCloth != null) {
+			const baseCloth = baseAppearance.find(A => A.Asset.Group.Name == CharacterAppearanceCloth.Asset.Group.Name);
+			const incomingCloth = C.Appearance.find(A => A.Asset.Group.Name == CharacterAppearanceCloth.Asset.Group.Name);
+			CharacterAppearanceCloth = CharacterAppearanceResolveItem(baseCloth, incomingCloth, CharacterAppearanceCloth);
+		}
+
+		// Update the appearance backup to use the synced version
+		CharacterAppearanceBackup = AppearanceItemStringify(C.Appearance);
+		// Merge the synced appearance with the ongoing appearance edits
+		C.Appearance = CharacterAppearanceResolveAppearance(baseAppearance, C.Appearance, currentAppearance);
+	}
 }

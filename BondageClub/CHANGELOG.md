@@ -11,9 +11,482 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2021-10-17
-* Last recorded PR: [#3025](https://github.com/Ben987/Bondage-College/pull/3025)
-* Last recorded commit hash: `2892ec94181228277cd42de323307b4f2c50c46c`
+* Changelog last updated: 2022-05-12
+* Last recorded PR: [#3421](https://github.com/Ben987/Bondage-College/pull/3421)
+* Last recorded commit hash: `f7a4faf734b4dfa8d4e646cec6769be70e4889db`
+
+
+## [R80]
+
+### [Added]
+
+* gatetrek/EmilyFox - Added 9 new items ([#3343](https://github.com/Ben987/Bondage-College/pull/3343))
+  * Harem Pants 2 (lower clothing)
+  * Thong 2 (panties)
+  * String Thong (panties)
+  * Micro Thong (panties)
+  * Harem Stockings (socks)
+  * Harem Gloves (gloves)
+  * 3 new front hairstyles
+* Luna - Added the Bridle Gag to the second and third mouth slots ([#3368](https://github.com/Ben987/Bondage-College/pull/3368), [#3397](https://github.com/Ben987/Bondage-College/pull/3397))
+* remiliacn - Added several Chinese translations and corrections ([#3372](https://github.com/Ben987/Bondage-College/pull/3372), [#3389](https://github.com/Ben987/Bondage-College/pull/3389), [#3404](https://github.com/Ben987/Bondage-College/pull/3404), [#3411](https://github.com/Ben987/Bondage-College/pull/3411), [#3433](https://github.com/Ben987/Bondage-College/pull/3433), [#3443](https://github.com/Ben987/Bondage-College/pull/3443))
+* Anonymous-WghrYkBGUjBt - Add Chinese translations for several minigames ([#3374](https://github.com/Ben987/Bondage-College/pull/3374))
+* EliseRoland - Added Chinese translations for the store ([#3377](https://github.com/Ben987/Bondage-College/pull/3377))
+* Luna - Added two new items ([#3380](https://github.com/Ben987/Bondage-College/pull/3380), [#3386](https://github.com/Ben987/Bondage-College/pull/3386), [#3412](https://github.com/Ben987/Bondage-College/pull/3412))
+  * Wooden Rack item (devices)
+  * Dildocorn Horn (hair accessory)
+* Kirsty/Ace - Added a new Combo Harness item (neck) ([#3392](https://github.com/Ben987/Bondage-College/pull/3392))
+* Leah/T-Bone Shark - Added an OTN variant to the Silk Scarf gag and added a new Scarf Blindfold item ([#3395](https://github.com/Ben987/Bondage-College/pull/3395))
+* SepiaOulomenohn - Added three new items ([#3396](https://github.com/Ben987/Bondage-College/pull/3396))
+  * Boned Neck Corset (neck)
+  * Latex Sheath Gag (mouth)
+  * Mouthfeature Gag (mouth)
+* Ellie - Added new blur and tint visual effects to the game ([#3399](https://github.com/Ben987/Bondage-College/pull/3399), [#3416](https://github.com/Ben987/Bondage-College/pull/3416))
+  * Tint effects have been added to the Futuristic Mask, Interactive Visor, Pantyhose (head items), GP-9 Gas Mask and Techno Helmet
+  * Tint and blur effects have been added to the Cloth Blindfold and the newly-added Slime items
+* Gnarp/Ace - Added a new One-Way Glass Head Box item (hood) ([#3402](https://github.com/Ben987/Bondage-College/pull/3402), [#3437](https://github.com/Ben987/Bondage-College/pull/3437))
+* Titania/Ace - Added a new Latex Bunny Girl Bodysuit item (bra) ([#3406](https://github.com/Ben987/Bondage-College/pull/3406))
+* Titania/Ellie - Added a new Poncho item (clothing accessory) ([#3408](https://github.com/Ben987/Bondage-College/pull/3408))
+* Cecilia/Ellie - Added a new set of slime-themed restraint items (feet, legs, thighs, arms, gag, blindfold, hood) ([#3405](https://github.com/Ben987/Bondage-College/pull/3405))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Estsanatlehi - Moved the Wooden Horse to the devices slot ([#3364](https://github.com/Ben987/Bondage-College/pull/3364))
+* fleisch11 - Added an arrow to indicate doors in the Bondage Brawl minigame ([#3383](https://github.com/Ben987/Bondage-College/pull/3383))
+* Karamel - Updated the assets for the Nylon Rope items ([#3390](https://github.com/Ben987/Bondage-College/pull/3390))
+* Ada - Updated Kinky Dungeon to 3.31 - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3401](https://github.com/Ben987/Bondage-College/pull/3401), [#3442](https://github.com/Ben987/Bondage-College/pull/3442))
+
+### [Fixed]
+
+* Ellie - Fixed several issues with Latin & Cyrillic garbling ([#3369](https://github.com/Ben987/Bondage-College/pull/3369))
+* Estsanatlehi - Fix an issue with DOM-handling that could cause crashes in some areas of the game ([#3358](https://github.com/Ben987/Bondage-College/pull/3358), [#3376](https://github.com/Ben987/Bondage-College/pull/3376))
+* Nina - Fixed an issue where owner rules and items would persist after breaking an owner relationship ([#3365](https://github.com/Ben987/Bondage-College/pull/3365))
+* VCode - Fixed a Chinese translation error in the GGTS dialog ([#3371](https://github.com/Ben987/Bondage-College/pull/3371))
+* Anonymous-WghrYkBGUjBt - Fixed several Chinese translation errors in the Maid Quarters ([#3373](https://github.com/Ben987/Bondage-College/pull/3373))
+* remiliacn - Fixed an issue where dialog buttons could be blank for Chinese language users ([#3362](https://github.com/Ben987/Bondage-College/pull/3362))
+* remiliacn - Fixed some Chinese translation errors ([#3379](https://github.com/Ben987/Bondage-College/pull/3379))
+* Nina - Fixed a bug where item permissions could be bypassed for certain items ([#3378](https://github.com/Ben987/Bondage-College/pull/3378))
+* Estsanatlehi - Fixed a few minor item errors ([#3388](https://github.com/Ben987/Bondage-College/pull/3388))
+* Karamel - Fixed a few issues in the Gambling Hall and changed the way Street to Roissy dice are displayed to make game progress easier to read ([#3394](https://github.com/Ben987/Bondage-College/pull/3394))
+* Estsanatlehi - Fixed an issue where item sounds would be played in chatrooms when in other screens, even with the "Play item sounds in chatrooms" preference off ([#3398](https://github.com/Ben987/Bondage-College/pull/3398))
+* Nina - Fixed a longstanding issue where player appearance would get reset when editing it ([#3407](https://github.com/Ben987/Bondage-College/pull/3407))
+* Karamel - Fixed an issue where some translation files weren't getting loaded ([#3409](https://github.com/Ben987/Bondage-College/pull/3409))
+* Ellie - Fixed a minor grammatical error in the chat messages for the Kigurumi Mask ([#3413](https://github.com/Ben987/Bondage-College/pull/3413))
+* Ellie - Fixed an issue where players could reach level 11 in Bondage Brawl, causing the game to crash ([#3415](https://github.com/Ben987/Bondage-College/pull/3415))
+* Ellie - Fixed an issue where the effects of some items wouldn't load properly on first equip ([#3438](https://github.com/Ben987/Bondage-College/pull/3438))
+* Nina - Fixed an issue where the Plug Gag, Dildo Plug Gag, Harness OTN Plug Gag and Funnel Gag would only permit penetration after changing to another variation and back ([#3431](https://github.com/Ben987/Bondage-College/pull/3431))
+* Nina - Fixed an issue where certain items were twice as difficult as they were supposed to be ([#3426](https://github.com/Ben987/Bondage-College/pull/3426))
+* Ace - Fixed an issue where returning to a chatroom from the friendlist when entering it from a beep notification would stop the chat from automatically scrolling ([#3441](https://github.com/Ben987/Bondage-College/pull/3441))
+* Ellie - Fixed a bug where the clothing versions of the Leather Corset Top and Steampunk Corset Top would disappear in several poses ([#3422](https://github.com/Ben987/Bondage-College/pull/3422))
+* Luna - Fixed an issue with the Bridle Gag where the post would render behind some items ([#3421](https://github.com/Ben987/Bondage-College/pull/3421))
+
+### [Technical]
+
+* Nina - Added a new Variable Height archetype to the asset system ([#3357](https://github.com/Ben987/Bondage-College/pull/3357), [#3387](https://github.com/Ben987/Bondage-College/pull/3387))
+* Technical changes, fixes and improvements:
+  * Estsanatlehi - [#3370](https://github.com/Ben987/Bondage-College/pull/3370)
+  * Jomshir - [#3361](https://github.com/Ben987/Bondage-College/pull/3361)
+  * remiliacn - [#3391](https://github.com/Ben987/Bondage-College/pull/3391)
+  * Ellie - [#3393](https://github.com/Ben987/Bondage-College/pull/3393), [#3414](https://github.com/Ben987/Bondage-College/pull/3414)
+
+### [Beta Fixes]
+
+* Emily R/Ellie - Slightly reduced the strength of the tint effect on the GP-9 Gas Mask ([#3435](https://github.com/Ben987/Bondage-College/pull/3435))
+* Estsanatlehi - Fixed a bug causing crashes in account creation ([#3434](https://github.com/Ben987/Bondage-College/pull/3434))
+* SepiaOulomenohn - Changed the Boned Neck Corset to permit locking, permitted penetration activities and added muffling options to the Latex Sheath Gag  ([#3432](https://github.com/Ben987/Bondage-College/pull/3432))
+* Luna - Fixed several minor issues with the Wooden Rack ([#3430](https://github.com/Ben987/Bondage-College/pull/3430), [#3440](https://github.com/Ben987/Bondage-College/pull/3440))
+* Ellie - Adjusted the list of items hidden by the Slime restraint in the thigh slot ([#3429](https://github.com/Ben987/Bondage-College/pull/3429))
+* Ellie - Fixed a bug where the original Harem Pants would disappear in the kneeling pose ([#3428](https://github.com/Ben987/Bondage-College/pull/3428))
+* Estsanatlehi - Fixed a bug where lines of text in the profile sheets for NPCs could overlap with each other ([#3427](https://github.com/Ben987/Bondage-College/pull/3427))
+* Ellie - Fixed a bug where the Panty Line layer in the new Harem Pants was not visible ([#3425](https://github.com/Ben987/Bondage-College/pull/3425))
+* Estsanatlehi - Fixed a bug where the "(Back to rules.)" option would appear twice in the owner rules menu ([#3447](https://github.com/Ben987/Bondage-College/pull/3447))
+
+
+## [R79]
+
+### [Added]
+
+* WWWWWWWWWWWWWWWWWWWWang - Added Chinese translation for Player and NPC Collaring, NPC Slave Auction, Player Mistress, intro with Sarah, and Maid Quarters ([#3303](https://github.com/Ben987/Bondage-College/pull/3303), [#3306](https://github.com/Ben987/Bondage-College/pull/3306), [#3307](https://github.com/Ben987/Bondage-College/pull/3307), [#3342](https://github.com/Ben987/Bondage-College/pull/3342))
+* Anonymous-WghrYkBGUjBt - Added Chinese translations for various player activities and dialog ([#3334](https://github.com/Ben987/Bondage-College/pull/3334))
+* remiliacn - Added Chinese translations for some common items and GGTS ([#3337](https://github.com/Ben987/Bondage-College/pull/3337), [#3350](https://github.com/Ben987/Bondage-College/pull/3350))
+* Nythaleath/Ayesha - Added a new Hybrid Chastity Belt item ([#3283](https://github.com/Ben987/Bondage-College/pull/3283))
+* Shion/Ayesha - Added four new hoods ([#3286](https://github.com/Ben987/Bondage-College/pull/3286))
+  * Accent Hood
+  * Collar Hood
+  * Zipper Hood
+  * Latex Habit Hood
+* Estsanatlehi - Added spanking and whipping sounds ([#3288](https://github.com/Ben987/Bondage-College/pull/3288))
+* Estsanatlehi - Added new vibrator sound effects ([#3297](https://github.com/Ben987/Bondage-College/pull/3297))
+* Karamel - Added `/blush` and `/eyes` chat commands ([#3299](https://github.com/Ben987/Bondage-College/pull/3299))
+* Karamel - Added `/expr` chat command to clear/load facial expression ([#3282](https://github.com/Ben987/Bondage-College/pull/3282))
+* Evals/Luna - Added a new Cow Hood item ([#3292](https://github.com/Ben987/Bondage-College/pull/3292))
+* Luna - Added two new items ([#3284](https://github.com/Ben987/Bondage-College/pull/3284))
+  * Bridle Gag
+  * Unicorn Horn (hair accessory)
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Ada - Updated Kinky Dungeon to 2.92 - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3305](https://github.com/Ben987/Bondage-College/pull/3305), [#3338](https://github.com/Ben987/Bondage-College/pull/3338))
+* Nythaleath/Ayesha - Updated Metal and Leather Chastity Belt assets ([#3283](https://github.com/Ben987/Bondage-College/pull/3283))
+* Estsanatlehi - Updated the Ceiling Chain, Rope, and suspension items such as hemp rope to allow kneeling spread when appropriate ([#3280](https://github.com/Ben987/Bondage-College/pull/3280))
+* Sidious - Updated AFK detection to ignore scrolling ([#3291](https://github.com/Ben987/Bondage-College/pull/3291))
+* Karamel - Updated the Cloth Gag and Cloth Blindfold's assets and sounds ([#3287](https://github.com/Ben987/Bondage-College/pull/3287))
+* SepiaOulomenohn - Updated the Smooth Latex Mask to have coverage options ([#3314](https://github.com/Ben987/Bondage-College/pull/3314))
+* remiliacn - Updated the Futuristic Vibrator to allow CJK commands ([#3316](https://github.com/Ben987/Bondage-College/pull/3316))
+
+### [Fixed]
+
+* Estsanatlehi - Fixed chat command autocomplete triggering twice under some circumstances ([#3313](https://github.com/Ben987/Bondage-College/pull/3313))
+* Sidious - Changed the rate-limiting error message to be more descriptive ([#3290](https://github.com/Ben987/Bondage-College/pull/3290))
+* Sidious - Fixed a rate-limiting error in the nursery when asking for more restraints ([#3310](https://github.com/Ben987/Bondage-College/pull/3310))
+* Sidious - Fixed a crash when inspecting a combo lock while your blindness level changed ([#3276](https://github.com/Ben987/Bondage-College/pull/3276))
+* Estsanatlehi - Fixed an issue where the remote control menu button would not appear for some eligible items ([#3335](https://github.com/Ben987/Bondage-College/pull/3335))
+
+### [Technical]
+
+* Technical changes, fixes and improvements:
+  * Nina - [#3275](https://github.com/Ben987/Bondage-College/pull/3275)
+  * Aeren - [#3279](https://github.com/Ben987/Bondage-College/pull/3279)
+  * Estsanatlehi - [#3294](https://github.com/Ben987/Bondage-College/pull/3294), [#3295](https://github.com/Ben987/Bondage-College/pull/3295), [#3288](https://github.com/Ben987/Bondage-College/pull/3288), [#3327](https://github.com/Ben987/Bondage-College/pull/3327), [#3340](https://github.com/Ben987/Bondage-College/pull/3340), [#3296](https://github.com/Ben987/Bondage-College/pull/3296)
+  * remiliacn - [#3308](https://github.com/Ben987/Bondage-College/pull/3308), [#3312](https://github.com/Ben987/Bondage-College/pull/3312)
+  * Sidious - [#3329](https://github.com/Ben987/Bondage-College/pull/3329)
+  * Ellie - [#3347](https://github.com/Ben987/Bondage-College/pull/3347)
+
+### [Beta Fixes]
+
+* Nina - Added transparency to Bridle Gag and Unicorn Horn preview images ([#3326](https://github.com/Ben987/Bondage-College/pull/3326))
+* remiliacn - Fixed long Chinese language text not wrapping properly ([#3325](https://github.com/Ben987/Bondage-College/pull/3325))
+* Luna - Improved the multi-color support for the Bridle Gag ([#3324](https://github.com/Ben987/Bondage-College/pull/3324))
+* Estsanatlehi - Restored the Vacbed Hairback hiding ([#3323](https://github.com/Ben987/Bondage-College/pull/3323))
+* Estsanatlehi - Fixed the Bridle Gag's Pentacle Panel option not showing up ([#3321](https://github.com/Ben987/Bondage-College/pull/3321))
+* Estsanatlehi - Fixed a missing dialog in the Bridle Gag options ([#3320](https://github.com/Ben987/Bondage-College/pull/3320))
+* Estsanatlehi - Fixed item application playing sounds when setting was disabled ([#3319](https://github.com/Ben987/Bondage-College/pull/3319))
+* Nina - Fixed an issue where you could not cancel private room security ([#3317](https://github.com/Ben987/Bondage-College/pull/3317))
+* Estsanatlehi - Fixed an issue with the text on the Blinders menu of the Bridle Gag ([#3330](https://github.com/Ben987/Bondage-College/pull/3330))
+* Sidious - Fixed an issue where the Latin letter c would get double-garbled and Cyrillic с would not get garbled ([#3331](https://github.com/Ben987/Bondage-College/pull/3331))
+* Estsanatlehi - Fixed a bug preventing sounds from playing on targets of activities ([#3332](https://github.com/Ben987/Bondage-College/pull/3332))
+* Luna - Fixed several issues with the Bridle Gag ([#3341](https://github.com/Ben987/Bondage-College/pull/3341), [#3346](https://github.com/Ben987/Bondage-College/pull/3346), [#3351](https://github.com/Ben987/Bondage-College/pull/3351))
+* SepiaOulomenohn/Shion - Fixed several issues with the Habit ([#3348](https://github.com/Ben987/Bondage-College/pull/3348))
+
+## [R78]
+
+### [Added]
+
+* Luna - Added 4 new front hairstyles ([#3266](https://github.com/Ben987/Bondage-College/pull/3266), [#3269](https://github.com/Ben987/Bondage-College/pull/3269))
+* Natsuki - Added two new restaurant backgrounds for chatrooms ([#3265](https://github.com/Ben987/Bondage-College/pull/3265))
+* SepiaOulomenohn - Added 3 new items ([#3254](https://github.com/Ben987/Bondage-College/pull/3254), [#3264](https://github.com/Ben987/Bondage-College/pull/3264), [#3267](https://github.com/Ben987/Bondage-College/pull/3267), [#3274](https://github.com/Ben987/Bondage-College/pull/3274))
+  * Medical Patches (head)
+  * Smooth Latex Mask (head)
+  * Glitter (clothing accessory & mask)
+* Ayesha - Added a new sleeveless Slim Latex Leotard item (bra & suit slots) ([#3255](https://github.com/Ben987/Bondage-College/pull/3255), [#3268](https://github.com/Ben987/Bondage-College/pull/3268))
+* TheGnarp - Added two new necklace items ([#3232](https://github.com/Ben987/Bondage-College/pull/3232))
+  * Rope Necklace
+  * Tattoo Choker
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* TheGnarp - Updated the ceiling rope ([#3238](https://github.com/Ben987/Bondage-College/pull/3238))
+* Pjara Yuzu - Updated the Chinese translations ([#3249](https://github.com/Ben987/Bondage-College/pull/3249))
+* Karamel - Extended the allowed maid uniforms ([#3260](https://github.com/Ben987/Bondage-College/pull/3260))
+* Karamel - Updated the maid cafe to allow access to bound maids for refills ([#3261](https://github.com/Ben987/Bondage-College/pull/3261))
+
+### [Fixed]
+
+* Nina - Fixed an issue where the steampunk and leather corsets could have a hole ([#3273](https://github.com/Ben987/Bondage-College/pull/3273))
+* Estsanatlehi - Fixed a bug where steel ankle cuffs had a missing tag for the chain attached variant ([#3246](https://github.com/Ben987/Bondage-College/pull/3246))
+* Estsanatlehi - Fixed an issue with non-text keys triggering the typing status indicator ([#3248](https://github.com/Ben987/Bondage-College/pull/3248))
+* Sidious - Fixed a crash in the game's renderer ([#3250](https://github.com/Ben987/Bondage-College/pull/3250))
+* Estsanatlehi - Fixed a bug in magic battles that could softlock the game ([#3257](https://github.com/Ben987/Bondage-College/pull/3257))
+* Estsanatlehi - Fixed a bug that prevented reclothing in the photo room ([#3259](https://github.com/Ben987/Bondage-College/pull/3259))
+* Estsanatlehi - Fixed a number of bugs in the Stables ([#3241](https://github.com/Ben987/Bondage-College/pull/3241))
+  * Not accounting for the player's money before subtracting
+  * The player's initial outfit getting overwritten under certain conditions
+  * A dialog bug meaning you could join the Trainer's Guild ($500) multiple times
+  * The dialog talking about a bridle when you stopped the training as a Trainer
+* Nina - Fixed an issue where some clothing could prevent the removal of an already equipped item ([#3262](https://github.com/Ben987/Bondage-College/pull/3262))
+* Karamel - Fixed an issue where the cafe maid would not handle multi-layered gags correctly ([#3270](https://github.com/Ben987/Bondage-College/pull/3270))
+* Estsanatlehi - Fixed an issue with the positioning of the steel ankle cuffs ([#3271](https://github.com/Ben987/Bondage-College/pull/3271))
+
+### [Technical]
+
+* Technical changes, fixes and improvements:
+  * Ellie - [#3247](https://github.com/Ben987/Bondage-College/pull/3247)
+  * Estsanatlehi [#3253](https://github.com/Ben987/Bondage-College/pull/3253), [#3256](https://github.com/Ben987/Bondage-College/pull/3256), [#3252](https://github.com/Ben987/Bondage-College/pull/3252) 
+  * Sidious [#3258](https://github.com/Ben987/Bondage-College/pull/3258)
+
+### [Beta Fixes]
+
+* None
+
+
+## [R77]
+
+### [Added]
+
+* Ada - Kinky Dungeon update - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3184](https://github.com/Ben987/Bondage-College/pull/3184), [#3218](https://github.com/Ben987/Bondage-College/pull/3218), [#3220](https://github.com/Ben987/Bondage-College/pull/3220), [#3227](https://github.com/Ben987/Bondage-College/pull/3227))
+* Estsanatlehi - Players can now access their wardrobe from the dialogue menu when clicking themselves ()
+* Karamel - Added multi-color support to the Maid & Maid Exposed outfits, Frilled Sleep Mask, and Maid Collar ([#3195](https://github.com/Ben987/Bondage-College/pull/3195))
+* Verity - Added a new Harness OTN Plug Gag item ([#3205](https://github.com/Ben987/Bondage-College/pull/3205))
+* Sidious - Added a new chat notification option for mentions of your character name ([#3197](https://github.com/Ben987/Bondage-College/pull/3197))
+* Verity - Reworked the assets for the Kitty gags & blindfold, added multi-color support to them, and added a new Kitty Muzzle Gag item ([#3206](https://github.com/Ben987/Bondage-College/pull/3206), [#3215](https://github.com/Ben987/Bondage-College/pull/3215))
+* Estsanatlehi - Sexual activities in the menu now have more specific labels to indicate what they actually do ([#3207](https://github.com/Ben987/Bondage-College/pull/3207))
+* Sidious - Changed the vibrator remote button to display with an explanation tooltip when the player cannot use vibrators for any reason ([#3210](https://github.com/Ben987/Bondage-College/pull/3210))
+* Sidious - Added previous buttons to the wardrobe saved slot menus ([#3221](https://github.com/Ben987/Bondage-College/pull/3221))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Karamel - Changed the appearance of the dust assets in the Maid Quarters cleaning minigame, and allowed players to do the cleaning and serving when already bound (if wearing the maid outfit) ([#3180](https://github.com/Ben987/Bondage-College/pull/3180))
+* Verity - Renamed the Kitty Mask Gag to the Kitty Mask, and removed the gag effect from it ([#3213](https://github.com/Ben987/Bondage-College/pull/3213))
+* Estsanatlehi - Reworked the player dialogue menu when clicking on yourself ([#3193](https://github.com/Ben987/Bondage-College/pull/3193), [#3196](https://github.com/Ben987/Bondage-College/pull/3196))
+  * Players can now access their wardrobe, view their profile, and access the "Character actions" submenu from the menu
+  * Adjusting bondage/evasion skills, using your safeword, taking a picture, and playing Kinky Dungeon (when wearing a headset) have now been moved to the "Character actions" submenu when clicking on yourself
+* Sidious - Room-level block categories are now saved for room recreation ([#3226](https://github.com/Ben987/Bondage-College/pull/3226))
+
+### [Fixed]
+
+* Nina - Fixed an issue where the Pet Bowl would change position according to the character's pose rather than staying on the floor ([#3188](https://github.com/Ben987/Bondage-College/pull/3188))
+* Sidious - Fixed a bug where some chatroom visual settings would not get restored after entering and leaving sensory deprivation (colors, member numbers & enter/leave messages) ([#3192](https://github.com/Ben987/Bondage-College/pull/3192)) 
+* Sidious - Fixed a bug where the Dental Gag in open mode had no gag effect when locked ([#3194](https://github.com/Ben987/Bondage-College/pull/3194))
+* Estsanatlehi - Fixed an issue where the Bondage Harness & Full Bondage Harness items in the Panties slot would disappear in the legs closed pose ([#3203](https://github.com/Ben987/Bondage-College/pull/3203))
+* Nina - Fixed an issue with some bras and corsets clipping through the Blouse item ([#3202](https://github.com/Ben987/Bondage-College/pull/3202))
+* Sidious - Fixed an issue where changing a private room to public would not be saved properly on chatroom recreation ([#3201](https://github.com/Ben987/Bondage-College/pull/3201))
+* Nina - Fixed an issue where the Bed & Crib could only be added if a character could close their legs ([#3200](https://github.com/Ben987/Bondage-College/pull/3200))
+* Nina - Fixed an issue where the College chess game didn't strip skirts ([#3198](https://github.com/Ben987/Bondage-College/pull/3198))
+* Verity - Cleaned up some visual artifacts in several emoticons ([#3208](https://github.com/Ben987/Bondage-College/pull/3208))
+* Estsanatlehi - Fixed a bug where making a player admin in a LARP room could break the game for them ([#3199](https://github.com/Ben987/Bondage-College/pull/3199))
+* Estsanatlehi - Fixed a bug where you would always be able to ask for a Pandora Padlock, regardless of whether or not you met the criteria ([#3214](https://github.com/Ben987/Bondage-College/pull/3214))
+* Sidious - Fixed a bug where the speed of the smooth zoom feature in chatrooms was dependent on frame rate ([#3219](https://github.com/Ben987/Bondage-College/pull/3219))
+* Estsanatlehi - Fixed a crash that could occur when entering an already running LARP room ([#3224](https://github.com/Ben987/Bondage-College/pull/3224))
+* Estsanatlehi - Fixed the alignment of most lower suit items in the legs spread pose ([#3225](https://github.com/Ben987/Bondage-College/pull/3225))
+* Verity - Fixed a visual issue with the player body in the handcuffed pose ([#3244](https://github.com/Ben987/Bondage-College/pull/3244))
+* Estsanatlehi - Fixed some issues with the Automatic Shock Collar & Shock Unit ([#3242](https://github.com/Ben987/Bondage-College/pull/3242))
+* Sidious - Fixed a crash when entering the College in a colored skirt ([#3243](https://github.com/Ben987/Bondage-College/pull/3243))
+
+### [Technical]
+
+* Technical changes, fixes and improvements:
+  * Estsanatlehi - [#3103](https://github.com/Ben987/Bondage-College/pull/3103), [#3216](https://github.com/Ben987/Bondage-College/pull/3216)
+  * Nina - [#3204](https://github.com/Ben987/Bondage-College/pull/3204)
+  * Sidious - [#3223](https://github.com/Ben987/Bondage-College/pull/3223), [#3230](https://github.com/Ben987/Bondage-College/pull/3230)
+
+### [Beta Fixes]
+
+* Sidious - Fixed an issue where the new character status could get displayed under the wrong characters when in VR ([#3229](https://github.com/Ben987/Bondage-College/pull/3229))
+* Sidious - Fixed the wardrobe status icon not displaying when accessed via the character dialogue option ([#3231](https://github.com/Ben987/Bondage-College/pull/3231))
+* Nina - Fixed a bug where the game could crash in single-player areas ([#3237](https://github.com/Ben987/Bondage-College/pull/3237))
+* Estsanatlehi - Fixed names for the chain layer on the Futuristic leg & ankle cuffs ([#3236](https://github.com/Ben987/Bondage-College/pull/3236))
+* Estsanatlehi - Fixed the Witch Skirt disappearing in some poses ([#3235](https://github.com/Ben987/Bondage-College/pull/3235), [#3240](https://github.com/Ben987/Bondage-College/pull/3240))
+* Estsanatlehi - Fixed a visual issue with the Reverse Bunny Suit ([#3234](https://github.com/Ben987/Bondage-College/pull/3234))
+
+## [R76]
+
+### [Added]
+
+* Ayesha - Added a new Medical Bed item, which can be obtained (as either a nurse or a patient) from the Asylum ([#3126](https://github.com/Ben987/Bondage-College/pull/3126))
+* Ayesha - Added multicolor support to the Thin Leather Straps ([#3133](https://github.com/Ben987/Bondage-College/pull/3133))
+* fleisch11 - Added "previous" button in item inventory ([#3147](https://github.com/Ben987/Bondage-College/pull/3147), [#3150](https://github.com/Ben987/Bondage-College/pull/3150))
+* Estsanatlehi - Added option to spread legs with the Frogtie variant of the HempRope ([#3153](https://github.com/Ben987/Bondage-College/pull/3153))
+* Ada - Kinky Dungeon update - see the [Kinky Dungeon changelog](Screens/MiniGame/KinkyDungeon/Changelog.txt) ([#3139](https://github.com/Ben987/Bondage-College/pull/3139), [#3168](https://github.com/Ben987/Bondage-College/pull/3168), [#3169](https://github.com/Ben987/Bondage-College/pull/3169), [#3170](https://github.com/Ben987/Bondage-College/pull/3170), [#3173](https://github.com/Ben987/Bondage-College/pull/3173), [#3174](https://github.com/Ben987/Bondage-College/pull/3174), [#3176](https://github.com/Ben987/Bondage-College/pull/3176), [#3178](https://github.com/Ben987/Bondage-College/pull/3178), [#3179](https://github.com/Ben987/Bondage-College/pull/3179))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Ayesha - Improved Heart-Link Choker asset ([#3127](https://github.com/Ben987/Bondage-College/pull/3127))
+* Nina - Split College uniform into the uniform and skirt in separate slots ([#3136](https://github.com/Ben987/Bondage-College/pull/3136))
+* Estsanatlehi - Changed suitcase messages to better identify players ([#3129](https://github.com/Ben987/Bondage-College/pull/3129))
+* Estsanatlehi - Allowed most previously hidden clothes to show while on Sybian ([#3148](https://github.com/Ben987/Bondage-College/pull/3148))
+
+### [Fixed]
+
+* Ellie - Fixed a typo in Asylum dialog ([#3146](https://github.com/Ben987/Bondage-College/pull/3146))
+* Ellie - Fixed issue with Stockings in the Kneeling Spread pose ([#3145](https://github.com/Ben987/Bondage-College/pull/3145))
+* Estsanatlehi - Removed stray pixel from the Scarf ([#3144](https://github.com/Ben987/Bondage-College/pull/3144))
+* Estsanatlehi - Allowed to kneel spread with short collar rope/chain ([#3141](https://github.com/Ben987/Bondage-College/pull/3141))
+* Estsanatlehi - Added missing label for the Futuristic Crate "Lid" layer ([#3149](https://github.com/Ben987/Bondage-College/pull/3149))
+* Jomshir - Fixed beep notification disappearing quickly or not disappearing at all ([#3152](https://github.com/Ben987/Bondage-College/pull/3152))
+* Jomshir - Fixed multiple possible crashes ([#3143](https://github.com/Ben987/Bondage-College/pull/3143), [#3142](https://github.com/Ben987/Bondage-College/pull/3142), [#3155](https://github.com/Ben987/Bondage-College/pull/3155), [#3156](https://github.com/Ben987/Bondage-College/pull/3156), [#3157](https://github.com/Ben987/Bondage-College/pull/3157), [#3181](https://github.com/Ben987/Bondage-College/pull/3181))
+* Estsanatlehi - Fixed missing text for Fantasy block category ([#3158](https://github.com/Ben987/Bondage-College/pull/3158))
+* Nina - Fixed missing character name when using Zipties ([#3159](https://github.com/Ben987/Bondage-College/pull/3159))
+* Nina - Fixed some conflicting item combinations with Leg Spreader ([#3162](https://github.com/Ben987/Bondage-College/pull/3162))
+* Nina - Fixed crash in chat search for new accounts ([#3166](https://github.com/Ben987/Bondage-College/pull/3166))
+* Nina - Fixed getting stuck during room recreation ([#3167](https://github.com/Ben987/Bondage-College/pull/3167))
+* Nina - Fixed zones without activities being displayed in preferences ([#3171](https://github.com/Ben987/Bondage-College/pull/3171))
+* klorpa - Fixed several spelling mistakes across the game ([#3172](https://github.com/Ben987/Bondage-College/pull/3172))
+
+### [Technical]
+
+* Jomshir - Code cleanup ([#3154](https://github.com/Ben987/Bondage-College/pull/3154), [#3160](https://github.com/Ben987/Bondage-College/pull/3160), [#3161](https://github.com/Ben987/Bondage-College/pull/3161), [#3177](https://github.com/Ben987/Bondage-College/pull/3177))
+* Nina - Added `OverrideAssetEffect` property to ignore base item effects ([#3164](https://github.com/Ben987/Bondage-College/pull/3164))
+* Nina - Deduplicated assets in Hair & Hat slots ([#3165](https://github.com/Ben987/Bondage-College/pull/3165))
+
+### [Beta Fixes]
+
+* Nothing... yet
+
+## [R75]
+
+### [Added]
+
+* Yuki - Added two new items ([#3096](https://github.com/Ben987/Bondage-College/pull/3096), [#3106](https://github.com/Ben987/Bondage-College/pull/3106))
+  * Empty Glass (handheld item)
+  * Filled Glass (handheld item)
+  * Pet Nose (mask item)
+* Nina - Improved the room filtering functionality (via the "Filter Rooms" button) to permit players to filter out rooms based on a list of terms (e.g. hide all rooms with "afk" in the name) ([#3102](https://github.com/Ben987/Bondage-College/pull/3102))
+* Titania/Ellie - Added 3 new items ([#3109](https://github.com/Ben987/Bondage-College/pull/3109), [#3116](https://github.com/Ben987/Bondage-College/pull/3116))
+  * Fuzzy Boots
+  * Fuzzy Dress
+  * Snowman (devices item)
+* Emily R - Added a new Scarf item (cloth accessory) ([#3117](https://github.com/Ben987/Bondage-College/pull/3117))
+* Titania/Ellie - Added a new set of tentacle items and restraints (tail strap/butt plug, garter, arm/leg/ankle restraints, gag & blindfold) ([#3119](https://github.com/Ben987/Bondage-College/pull/3119))
+  * Players can now block "Fantasy" items when creating/administrating chatrooms. Currently this includes the new tentacle items, as well as the existing web items
+* Natsuki - Added a new Plastic Wrap Roll handheld item ([#3121](https://github.com/Ben987/Bondage-College/pull/3121))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Aeren - Modified the behaviour of the Catsuit to no longer hide nipple piercings ([#3097](https://github.com/Ben987/Bondage-College/pull/3097))
+* Yuki - Changed the Bondage Bouquet to render underneath handheld items ([#3095](https://github.com/Ben987/Bondage-College/pull/3095))
+* Manilla - Changed the Gagged Kiss activity to allow it to be used when the target zone is blocked ([#3094](https://github.com/Ben987/Bondage-College/pull/3094))
+* Estsanatlehi - Changed the Frog-tie Straps to allow them to be used in the kneeling spread pose ([#3104](https://github.com/Ben987/Bondage-College/pull/3104))
+* Ellie - Relaxed the restrictions on activities that are used on the alternate mouth and neck slots to permit activities that are usually available on the standard mouth/neck slots ([#3111](https://github.com/Ben987/Bondage-College/pull/3111))
+* klorpa - Modified the spelling of certain words across the game for consistency ([#3028](https://github.com/Ben987/Bondage-College/pull/3028))
+* Alfi - Modified the Nursery to permit a wider range of diaper items to be worn ([#3114](https://github.com/Ben987/Bondage-College/pull/3114))
+* Ayesha - Increased the difficulties of the Thin Leather Strap variations ([#3128](https://github.com/Ben987/Bondage-College/pull/3128))
+
+### [Fixed]
+
+* Ellie - Fixed a bug where the Sleeveless Catsuit would disappear when wearing mittens ([#3099](https://github.com/Ben987/Bondage-College/pull/3099))
+* Estsanatlehi - Fixed a bug where penetration activities could be used through gags ([#3098](https://github.com/Ben987/Bondage-College/pull/3098))
+* Nina - Re-added the heavy blindness effect to the Ventless Locker (which was removed when the old locker items were merged) ([#3093](https://github.com/Ben987/Bondage-College/pull/3093))
+* Nina - Fixed an issue where the `/ghostadd` command would not automatically add a player to the blacklist ([#3082](https://github.com/Ben987/Bondage-College/pull/3082))
+* Ellie - Fixed a bug where owners could be unable to remove lover locks from their subs ([#3100](https://github.com/Ben987/Bondage-College/pull/3100))
+* Ellie - Fixed an issue where lover rules would not show up in the active rules menu ([#3101](https://github.com/Ben987/Bondage-College/pull/3101))
+* Ellie - Fixed an issue where the Sleeveless Wedding Dress would cause visual issues in the kneeling spread pose ([#3107](https://github.com/Ben987/Bondage-College/pull/3107))
+* Ellie - Fixed a bug where mittens would prevent players from using the "Pet" activity ([#3110](https://github.com/Ben987/Bondage-College/pull/3110))
+* Ellie - Fixed a bug where attempting to unlock the Password Padlock could cause errors ([#3115](https://github.com/Ben987/Bondage-College/pull/3115))
+* Alfi - Fixed a dead end in the Nursery dialogue ([#3114](https://github.com/Ben987/Bondage-College/pull/3114))
+* Jomshir - Fixed crashes that could occur when clicking in the Lover Chastity Belt's extended item screen ([#3113](https://github.com/Ben987/Bondage-College/pull/3113))
+* Ada - Fixed a crash that could occur when spectating in the Kinky Dungeon minigame ([#3118](https://github.com/Ben987/Bondage-College/pull/3118))
+* Estsanatlehi - Fixed a crash that could occur during chatroom background selection ([#3130](https://github.com/Ben987/Bondage-College/pull/3130))
+* Emily R - Fixed the Latex Boxtie Armbinder, Armbinder Jacket and Bolero Straightjacket hiding parts of certain items ([#3132](https://github.com/Ben987/Bondage-College/pull/3132))
+* Nina - Fixed an issue where the Admiral Top's shirt would disappear in the over-the-head pose for players with the small body size ([#3134](https://github.com/Ben987/Bondage-College/pull/3134))
+
+### [Technical]
+
+* Ellie - The extended item framework now permits a new archetype for vibrating items ([#3081](https://github.com/Ben987/Bondage-College/pull/3081))
+* Technical changes, fixes and improvements:
+  * Ellie - [#3072](https://github.com/Ben987/Bondage-College/pull/3072), [#3073](https://github.com/Ben987/Bondage-College/pull/3073)
+  * Emily R - [#3108](https://github.com/Ben987/Bondage-College/pull/3108)
+  * Jomshir - Code cleanup ([#3112](https://github.com/Ben987/Bondage-College/pull/3112))
+
+### [Beta Fixes]
+
+* Nina - Changed the character limit on the chatroom filter input from 20 to 200 characters ([#3123](https://github.com/Ben987/Bondage-College/pull/3123))
+* Ellie - Fixed some errors in the changelog ([#3122](https://github.com/Ben987/Bondage-College/pull/3122))
+* Ellie - Fixed a missing dialogue error when exiting the menu for the Futuristic Training Belt ([#3124](https://github.com/Ben987/Bondage-College/pull/3124))
+* Ellie - Adjusted the difficulty and self bondage requirements for the Snowman ([#3125](https://github.com/Ben987/Bondage-College/pull/3125))
+* Estsanatlehi - Fixed conflicting pose issue between the HempRope & FrogtieStrap ([#3137](https://github.com/Ben987/Bondage-College/pull/3137))
+* Natsuki - Resized Plastic roll ([#3138](https://github.com/Ben987/Bondage-College/pull/3138))
+* Jomshir - Re-added the heavy blindness effect to the Small Ventless Locker ([#3140](https://github.com/Ben987/Bondage-College/pull/3140))
+
+## [R74]
+
+### [Added]
+
+* Rui - Added a new Scissors handheld item ([#3008](https://github.com/Ben987/Bondage-College/pull/3008))
+* Ada - Updated the Futuristic Chastity Belt and added a new model for it ([#3029](https://github.com/Ben987/Bondage-College/pull/3029))
+* Ada - Added several new lock-related features to the Futuristic Collar ([#3033](https://github.com/Ben987/Bondage-College/pull/3033))
+* Ada - Added two new items ([#3035](https://github.com/Ben987/Bondage-College/pull/3035))
+  * Sleeveless Catsuit (Upper Suit)
+  * Catsuit Panties (Suit Lower)
+* Estsanatlehi - Added multicolor support to the Clit Ring ([#3038](https://github.com/Ben987/Bondage-College/pull/3038))
+* Nina - Added a trail to the cursor in Magic Puzzle battles (not available on mobile devices) ([#3037](https://github.com/Ben987/Bondage-College/pull/3037))
+* Kaede/Daddy Daubeny - Added a new Fishnet Gloves item ([#3040](https://github.com/Ben987/Bondage-College/pull/3040))
+* Emily R - Added "Hair in"/"Hair out" options to the Open Face Hood ([#3041](https://github.com/Ben987/Bondage-College/pull/3041))
+* Estsanatlehi - Enabled mouth activities on the 2nd and 3rd mouth slots ([#2995](https://github.com/Ben987/Bondage-College/pull/2995))
+* Titania/Ellie - Added four new items ([#3043](https://github.com/Ben987/Bondage-College/pull/3043), [#3057](https://github.com/Ben987/Bondage-College/pull/3057))
+  * Bee Wings
+  * Pixie Wings
+  * Cyber Wings
+  * Lampshade Hood
+* Aeren - Added a version of the Steampunk Corset to the Corset clothing slot ([#3047](https://github.com/Ben987/Bondage-College/pull/3047), [#3053](https://github.com/Ben987/Bondage-College/pull/3053))
+* Emily R - Added multicolor support to the Sneakers Light and Sneakers Dark shoe items ([#3056](https://github.com/Ben987/Bondage-College/pull/3056))
+
+### [Removed]
+
+* Nothing this release
+
+### [Changed]
+
+* Nina - Removed the trailing hyphen in the friend list when a friend is in an unknown private room ([#3039](https://github.com/Ben987/Bondage-College/pull/3039))
+* Aeren - Modified the coloring behavior of the Fur Gloves and Fur Socks ([#3050](https://github.com/Ben987/Bondage-College/pull/3050))
+* Estsanatlehi - Overhauled the kneeling spread pose (used for the Sybian) ([#3042](https://github.com/Ben987/Bondage-College/pull/3042))
+* Ellie - Modified most hoods to address some clipping issues with other head items ([#3054](https://github.com/Ben987/Bondage-College/pull/3054))
+  * This change also removed the restriction on the Sensory Deprivation Hood, Sealed Leather Hood and Open Hair Latex Hood, so that all three can now be used when hogtied or in the all fours pose
+* Ada - Increased the difficulty of Irish 8 Cuffs ([#3067](https://github.com/Ben987/Bondage-College/pull/3067))
+
+### [Fixed]
+
+* Ada - Fixed an issue where the Futuristic Crate's pleasure module could phase through chastity belts ([#3031](https://github.com/Ben987/Bondage-College/pull/3031))
+* Ada - Fixed a potential crash in the Futuristic Chastity Belt ([#3032](https://github.com/Ben987/Bondage-College/pull/3032))
+* Ellie - Fixed a bug where timer lock unlock messages would randomly appear in chatrooms (thanks to Sidious for identifying the issue) ([#3034](https://github.com/Ben987/Bondage-College/pull/3034))
+* Ellie - Fixed a bug where characters' hands would disappear in several poses when wearing a Catsuit, Seamless Catsuit or Pilot Suit ([#3045](https://github.com/Ben987/Bondage-College/pull/3045))
+* Aeren - Tidied up some stray pixels in the Steampunk Wings assets ([#3046](https://github.com/Ben987/Bondage-College/pull/3046))
+* Sidious/Estsanatlehi - Fixed a typo in one of the chatroom messages for the Sci-Fi Pleasure Panties ([#3051](https://github.com/Ben987/Bondage-College/pull/3051))
+* Aeren - Fixed some clipping issues for certain items in combination with the Super Thick ABDL Diapers ([#3052](https://github.com/Ben987/Bondage-College/pull/3052))
+* Ellie - Fixed a bug where the hands for the Asian and Black body types became disconnected from the body in the all fours pose ([#3054](https://github.com/Ben987/Bondage-College/pull/3054))
+* Ellie - Fixed an issue where chastity piercings were impossible to remove ([#3055](https://github.com/Ben987/Bondage-College/pull/3055))
+* Ada - Fixed a bug where Futuristic items could be modified by a non-Futuristic collar under certain circumstances ([#3059](https://github.com/Ben987/Bondage-College/pull/3059))
+* Ada - Fixed missing chat messages for the Futuristic Ball Gag ([#3071](https://github.com/Ben987/Bondage-College/pull/3071))
+* Ellie - Fixed several 404 errors that could occur when mounted on the Wooden Horse ([#3062](https://github.com/Ben987/Bondage-College/pull/3062)) 
+* Ellie - Fixed some minor graphical artefacts on the Display Frame ([#3063](https://github.com/Ben987/Bondage-College/pull/3063))
+* Ellie - Fixed a bug where the Techno Collar could emit `(MISSING PLAYER DIALOG: TriggerShock-1)` messages ([#3086](https://github.com/Ben987/Bondage-College/pull/3086))
+
+### [Technical]
+
+* Technical changes, fixes and improvements:
+  * Estsanatlehi - [#3014](https://github.com/Ben987/Bondage-College/pull/3014), [#3020](https://github.com/Ben987/Bondage-College/pull/3020), [#3021](https://github.com/Ben987/Bondage-College/pull/3021)
+  * Ellie - [#3024](https://github.com/Ben987/Bondage-College/pull/3024), [#3044](https://github.com/Ben987/Bondage-College/pull/3044), [#3060](https://github.com/Ben987/Bondage-College/pull/3060)
+  * Aeren - [#3048](https://github.com/Ben987/Bondage-College/pull/3048), [#3049](https://github.com/Ben987/Bondage-College/pull/3049)
+
+### [Beta Fixes]
+
+* Ellie - Fixed an issue where open-backed chastity belts would prevent anal toys from being used ([#3064](https://github.com/Ben987/Bondage-College/pull/3064))
+* Ada - Fixed the positioning of some Sleeveless Catsuit assets ([#3065](https://github.com/Ben987/Bondage-College/pull/3065))
+* Jomshir - Fixed broken images on the Heavy Latex Corset ([#3068](https://github.com/Ben987/Bondage-College/pull/3068))
+* Ellie - Fixed a bug where the Kigurumi Mask would hide blindfolds when in latex mode ([#3069](https://github.com/Ben987/Bondage-College/pull/3069))
+* Ada - Fixed a bug where the Futuristic Collar would set the time on timer locks too high ([#3070](https://github.com/Ben987/Bondage-College/pull/3070))
+* Ada - Added the Catsuit Panties to the panties slot ([#3075](https://github.com/Ben987/Bondage-College/pull/3075))
+* Estsanatlehi - Fixed leg cuffs and boots appearing in the wrong place in the kneeling spread pose ([#3076](https://github.com/Ben987/Bondage-College/pull/3076), [#3079](https://github.com/Ben987/Bondage-College/pull/3079))
+* Emily R - Fixed missing chatroom messages and menu issues with the Open Face Hood ([#3077](https://github.com/Ben987/Bondage-College/pull/3077), [#3085](https://github.com/Ben987/Bondage-College/pull/3085))
+* Ellie - Fixed clipping issues on the large Sleeveless Catsuit in the boxtie pose ([#3080](https://github.com/Ben987/Bondage-College/pull/3080))
+* Ellie - Fixed missing assets for the arms DuctTape item in the legs spread and Wooden Horse poses ([#3089](https://github.com/Ben987/Bondage-College/pull/3089))
+* Ellie - Fixed an issue where the Futuristic Chastity Belt wouldn't allow vulva access for activities when the front was open ([#3088](https://github.com/Ben987/Bondage-College/pull/3088))
+* Ellie - Fixed a bug where the Metal Leg Spreader wouldn't set characters' poses properly on first equip ([#3087](https://github.com/Ben987/Bondage-College/pull/3087))
+* Ada - Fixed some missing chatroom messages for the Futuristic Chastity Belt ([#3092](https://github.com/Ben987/Bondage-College/pull/3092))
+* Ellie - Fixed some missing dialogue in the arousal preferences screen ([#3090](https://github.com/Ben987/Bondage-College/pull/3090))
 
 ## [R73]
 
@@ -67,6 +540,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Aeren - Fixed several issues with the newly extended suit items ([#3012](https://github.com/Ben987/Bondage-College/pull/3012), [#3015](https://github.com/Ben987/Bondage-College/pull/3015))
 * Estsanatlehi - Fixed a 404 error in the Round Piercings ([#3016](https://github.com/Ben987/Bondage-College/pull/3016))
 * Ellie/Nina - Fixed a bug where characters could appear to never fully render ([#3022](https://github.com/Ben987/Bondage-College/pull/3022))
+* Ellie - Fixed a bug where characters' faces would disappear when hogtied and wearing a Catsuit or Pilot Suit ([#3027](https://github.com/Ben987/Bondage-College/pull/3027))
 
 ## [R72]
 
@@ -667,7 +1141,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Nina - Hitting the escape key inside a preference subscreen now takes players back to the preference menu ([#2380](https://github.com/Ben987/Bondage-College/pull/2380))
 * Ada - Changed the "Hide others' messages" immersion preference so that it now also applies to the "Hide names" sensory deprivation level ([#2403](https://github.com/Ben987/Bondage-College/pull/2403))
 * Tyrsen - Changed the Latex Posture Collar gag to apply a gagging effect ([#2411](https://github.com/Ben987/Bondage-College/pull/2411))
-* Nina - Rearranged and improved the behaviour of some immersion preference screen controls ([#2420](https://github.com/Ben987/Bondage-College/pull/2420))
+* Nina - Rearranged and improved the behavior of some immersion preference screen controls ([#2420](https://github.com/Ben987/Bondage-College/pull/2420))
 * Ada - Changed player leashing behavior to prevent players from leaving a chatroom if someone is holding onto their leash ([#2426](https://github.com/Ben987/Bondage-College/pull/2426))
 * Sandrine - Updated the difficulties of some leg items ([#2452](https://github.com/Ben987/Bondage-College/pull/2452))
 * Ada - Updated the graphics on several Futuristic items ([#2455](https://github.com/Ben987/Bondage-College/pull/2455))
@@ -953,7 +1427,7 @@ containing safety & security tips for players. We'd encourage all players to giv
     * Futuristic Vibrator
     * Kigurumi Mask
     * Futuristic Straitjacket
-* wildsj - Added multicolor support to the Latex Strait Leotard, allowing it to be coloured in the style of a bunny suit ([#1922](https://github.com/Ben987/Bondage-College/pull/1922))
+* wildsj - Added multicolor support to the Latex Strait Leotard, allowing it to be colored in the style of a bunny suit ([#1922](https://github.com/Ben987/Bondage-College/pull/1922))
 * Nina - Added chatroom and beep notifications, displayed in the browser tab title (configurable from player preferences) ([#1904](https://github.com/Ben987/Bondage-College/pull/1904), [#2049](https://github.com/Ben987/Bondage-College/pull/2049))
 * Ada - Added lockpicking functionality to some locks ([#1675](https://github.com/Ben987/Bondage-College/pull/1675), [#1965](https://github.com/Ben987/Bondage-College/pull/1965), [#1972](https://github.com/Ben987/Bondage-College/pull/1972), [#1964](https://github.com/Ben987/Bondage-College/pull/1964), [#1980](https://github.com/Ben987/Bondage-College/pull/1980), [#1986](https://github.com/Ben987/Bondage-College/pull/1986), [#1988](https://github.com/Ben987/Bondage-College/pull/1988), [#2001](https://github.com/Ben987/Bondage-College/pull/2001), [#2016](https://github.com/Ben987/Bondage-College/pull/2016))
     * Lockpicking requires a lockpick, which you can obtain from the shop 
@@ -994,7 +1468,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * wildsj - Tweaked the positions of several tail/butt plug items to make more sense ([#1943](https://github.com/Ben987/Bondage-College/pull/1943))
 * Sandrine - Changed the wooden sign so that it now displays above most items ([#1926](https://github.com/Ben987/Bondage-College/pull/1926))
 * Ada - Changed the Futuristic Harnesses so that they will now render above the Futuristic Bra ()
-* Nina - Changed the behaviour of combination & password padlocks in extreme mode ([#1904](https://github.com/Ben987/Bondage-College/pull/1904))
+* Nina - Changed the behavior of combination & password padlocks in extreme mode ([#1904](https://github.com/Ben987/Bondage-College/pull/1904))
     * These locks will now be usable by people on an extreme mode player's whitelist
 * Ada - Changed the Hemp Rope crotch rope so that the "Over Panties" option no longer appears to sink into the panties ([#1983](https://github.com/Ben987/Bondage-College/pull/1983))
 * Ada - Changed arousal meter visual effects to be more responsive ([#1987](https://github.com/Ben987/Bondage-College/pull/1987))
@@ -1057,8 +1531,6 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ada - [#2070](https://github.com/Ben987/Bondage-College/pull/2070), [#2072](https://github.com/Ben987/Bondage-College/pull/2072), [#2077](https://github.com/Ben987/Bondage-College/pull/2077), [#2078](https://github.com/Ben987/Bondage-College/pull/2078), [#2080](https://github.com/Ben987/Bondage-College/pull/2080), [#2100](https://github.com/Ben987/Bondage-College/pull/2100), [#2103](https://github.com/Ben987/Bondage-College/pull/2103), [#2110](https://github.com/Ben987/Bondage-College/pull/2110), [#2120](https://github.com/Ben987/Bondage-College/pull/2121), [#2140](https://github.com/Ben987/Bondage-College/pull/2140)
 * Natsuki - [#2079](https://github.com/Ben987/Bondage-College/pull/2079), [#2086](https://github.com/Ben987/Bondage-College/pull/2086), [#2091](https://github.com/Ben987/Bondage-College/pull/2091)
 * TessaTech - [#2143](https://github.com/Ben987/Bondage-College/pull/2143)
-
-###
 
 ## [R64]
 
@@ -1381,7 +1853,7 @@ containing safety & security tips for players. We'd encourage all players to giv
     * 2 new front hairstyles
     * A new set of eyes
     * 2 new tags for the oval collar tag
-* Amiciaderune - Added the ability to edit the colour of blush, emoticons and fluids from the wardrobe ([#1311](https://github.com/Ben987/Bondage-College/pull/1311))
+* Amiciaderune - Added the ability to edit the color of blush, emoticons and fluids from the wardrobe ([#1311](https://github.com/Ben987/Bondage-College/pull/1311))
 * Ace - Added a new pose menu to allow players to change their pose without needing restraints ([#1336](https://github.com/Ben987/Bondage-College/pull/1336))
 * Ace - Added the ability for players to view their current owner rules ([#1336](https://github.com/Ben987/Bondage-College/pull/1336))
 * Nina - Added a new "Randomize clothes" button to the wardrobe to allow players to randomize only their clothing ([#1331](https://github.com/Ben987/Bondage-College/pull/1331))
@@ -1391,7 +1863,7 @@ containing safety & security tips for players. We'd encourage all players to giv
     * A snorkel mask
 * Gnarp - Added several new items ([#1427](https://github.com/Ben987/Bondage-College/pull/1427), [#1471](https://github.com/Ben987/Bondage-College/pull/1471), [#1509](https://github.com/Ben987/Bondage-College/pull/1509))
     * A pair of Rhinestone Sandals
-    * Long and short leggings, with multi-colour support
+    * Long and short leggings, with multi-color support
     * Sets of wooden cuffs for the wrists and ankles
 * Ben - Added the ability for player subs to turn the tables on their NPC owner
 * Ayesha - Added 2 new handheld items ([#1433](https://github.com/Ben987/Bondage-College/pull/1433), [#1446](https://github.com/Ben987/Bondage-College/pull/1446))
@@ -1400,7 +1872,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Ben - Added the ability for a player's NPC subs to turn the tables and enslave the player if they aren't already owned
 * Ellie - Added a new multi-coloring screen to allow players to apply multiple colors to items where supported ([#1368](https://github.com/Ben987/Bondage-College/pull/1368))
 * Ayesha, Ellie, Nina - Migrated many existing items to make use of the multi-coloring system ([#1392](https://github.com/Ben987/Bondage-College/pull/1392), [#1505](https://github.com/Ben987/Bondage-College/pull/1505), [#1518](https://github.com/Ben987/Bondage-College/pull/1518))
-    * [Full list of items that support multi-colouring](https://gist.github.com/elliesec/76eabcb4c79f937a7ca182a35f4394b9)
+    * [Full list of items that support multi-coloring](https://gist.github.com/elliesec/76eabcb4c79f937a7ca182a35f4394b9)
 * Ace - Added the option for owners to remove the slave collar from their subs ([#1333](https://github.com/Ben987/Bondage-College/pull/1333))
 * Ace - Added more fine-grained permissions to the wardrobe ([#1399](https://github.com/Ben987/Bondage-College/pull/1399))
     * Added an online preference to allow other players to change your whole appearance
@@ -1458,7 +1930,7 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Wultir - Fixed an issue where the nursery nurse would not correctly equip mittens on the player ([#1450](https://github.com/Ben987/Bondage-College/pull/1450))
 * Wultir - Fixed an error occurring when talking to the cafe maid without a tray while on the drink serving job ([#1451](https://github.com/Ben987/Bondage-College/pull/1451))
 * Sekkmer - Fix for `<` and `>` characters appearing in chat as `&gt` and `&lt` when the character stutters ([#1458](https://github.com/Ben987/Bondage-College/pull/1458))
-* Nina - Fixed an issue where some NPCs would not randomise correctly ([#1468](https://github.com/Ben987/Bondage-College/pull/1468))
+* Nina - Fixed an issue where some NPCs would not randomize correctly ([#1468](https://github.com/Ben987/Bondage-College/pull/1468))
 * Ben - Fixed an issue where the player would automatically redress on exiting the kidnappers league, even if unable to change
 * Ace - Fixed an issue where ring, spider and lips gags would cause the player's mouth to disappear in mouth slots 2 & 3 ([#1496](https://github.com/Ben987/Bondage-College/pull/1496))
 * Ellie - Fixed an issue where the chat activities would not regain color after leaving sensory deprivation ([#1486](https://github.com/Ben987/Bondage-College/pull/1486))
@@ -1479,8 +1951,8 @@ containing safety & security tips for players. We'd encourage all players to giv
 * Sekkmer - Removed the `ItemHidden` asset group ([#1355](https://github.com/Ben987/Bondage-College/pull/1355))
 * Ace - Rework of the game's audio system ([#1346](https://github.com/Ben987/Bondage-College/pull/1346))
 * Ace - Rework of the active pose system ([#1336](https://github.com/Ben987/Bondage-College/pull/1336))
-* Nina - Improvements to asset randomisation functionality to better respect blocked/limited items where possible ([#1331](https://github.com/Ben987/Bondage-College/pull/1331))
-* Ellie - Added support for item layers to be coloured individually ([#1368](https://github.com/Ben987/Bondage-College/pull/1368))
+* Nina - Improvements to asset randomization functionality to better respect blocked/limited items where possible ([#1331](https://github.com/Ben987/Bondage-College/pull/1331))
+* Ellie - Added support for item layers to be colored individually ([#1368](https://github.com/Ben987/Bondage-College/pull/1368))
 * Ellie - Removed the `StraitDressOpen` and `Bolero` poses (now handled with advanced alpha masks) ([#1495](https://github.com/Ben987/Bondage-College/pull/1495))
 * Many technical changes, fixes and improvements:
     * Nina - [#1371](https://github.com/Ben987/Bondage-College/pull/1371), [#1326](https://github.com/Ben987/Bondage-College/pull/1326), [#1415](https://github.com/Ben987/Bondage-College/pull/1415), [#1416](https://github.com/Ben987/Bondage-College/pull/1416), [#1463](https://github.com/Ben987/Bondage-College/pull/1463), [#1504](https://github.com/Ben987/Bondage-College/pull/1504), [#1493](https://github.com/Ben987/Bondage-College/pull/1493)

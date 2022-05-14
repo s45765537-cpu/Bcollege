@@ -48,7 +48,7 @@ const TypedItemChatSetting = {
  * Registers a typed extended item. This automatically creates the item's load, draw and click functions. It will also
  * generate the asset's AllowType array.
  * @param {Asset} asset - The asset being registered
- * @param {TypedItemConfig} config - The item's typed item configuration
+ * @param {TypedItemConfig | undefined} config - The item's typed item configuration
  * @returns {void} - Nothing
  */
 function TypedItemRegister(asset, config) {
@@ -63,6 +63,8 @@ function TypedItemRegister(asset, config) {
 	TypedItemGenerateAllowType(data);
 	TypedItemGenerateAllowEffect(data);
 	TypedItemGenerateAllowBlock(data);
+	TypedItemGenerateAllowTint(data);
+	TypedItemRegisterSubscreens(asset, config);
 }
 
 /**
@@ -157,13 +159,12 @@ function TypedItemCreateClickFunction({ options, functionPrefix, drawImages, scr
 	} else window[clickFunctionName] = clickFunction;
 }
 
-
 /**
  * Creates an asset's extended item exit function
  * @param {TypedItemData} data - The typed item data for the asset
  * @returns {void} - Nothing
  */
- function TypedItemCreateExitFunction({ functionPrefix, scriptHooks}) {
+function TypedItemCreateExitFunction({ functionPrefix, scriptHooks}) {
 	const exitFunctionName = `${functionPrefix}Exit`;
 	if (scriptHooks && scriptHooks.exit) {
 		window[exitFunctionName] = function () {
@@ -276,6 +277,39 @@ function TypedItemGenerateAllowBlock({asset, options}) {
 	for (const option of options) {
 		CommonArrayConcatDedupe(asset.AllowBlock, option.Property.Block);
 	}
+}
+
+/**
+ * Generates an asset's AllowTint property based on its typed item data.
+ * @param {TypedItemData} data - The typed item's data
+ * @returns {void} - Nothing
+ */
+function TypedItemGenerateAllowTint({asset, options}) {
+	if (asset.AllowTint) {
+		return;
+	}
+	for (const option of options) {
+		if (option.Property && Array.isArray(option.Property.Tint) && option.Property.Tint.length > 0) {
+			asset.AllowTint = true;
+			return;
+		}
+	}
+}
+
+/**
+ * @param {Asset} asset - The asset whose subscreen is being registered
+ * @param {TypedItemConfig} config - The parent item's typed item configuration
+ */
+function TypedItemRegisterSubscreens(asset, config) {
+	return config.Options
+		.filter(option => option.Archetype !== undefined)
+		.forEach((option, i, options) => {
+			switch (option.Archetype) {
+				case ExtendedArchetype.VARIABLEHEIGHT:
+					VariableHeightRegister(asset, option.ArchetypeConfig, option.Property, options);
+					break;
+			}
+		});
 }
 
 /**

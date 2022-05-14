@@ -101,9 +101,9 @@ function InventoryItemPelvisFuturisticTrainingBeltLoad() {
 
 
 		const input = ElementCreateInput("PunishRequiredSpeechWord", "text", "", "70");
-		if (input) input.placeholder = DialogFocusItem.Property.PunishRequiredSpeechWord;
+		if (input) input.setAttribute("placeholder", DialogFocusItem.Property.PunishRequiredSpeechWord);
 		const input2 = ElementCreateInput("PunishProhibitedSpeechWords", "text", "", "70");
-		if (input2) input2.placeholder = DialogFocusItem.Property.PunishProhibitedSpeechWords;
+		if (input2) input2.setAttribute("placeholder", DialogFocusItem.Property.PunishProhibitedSpeechWords);
 	}
 
 
@@ -283,7 +283,7 @@ function InventoryItemPelvisFuturisticTrainingBeltExit() {
 			DialogFocusItem.Property.PunishProhibitedSpeechWords = ElementValue("PunishProhibitedSpeechWords").replace(/[^a-z0-9,]/gmi, " ").replace(/\s+/g, " ");
 		}
 
-		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticChastityBeltSetGeneric");
+		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticTrainingBeltSetGeneric");
 	}
 
 	InventoryItemFuturisticExitAccessDenied();
@@ -308,8 +308,8 @@ function InventoryItemPelvisFuturisticTrainingBeltPublishMode(C, Setting, Active
 
 function InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, msg) {
 	var Dictionary = [
-		{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber },
-		{ Tag: "DestinationCharacter", Text: C.Name, MemberNumber: C.MemberNumber },
+		{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+		{ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 	];
 	ChatRoomPublishCustomAction(msg, false, Dictionary);
 }
@@ -362,15 +362,16 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(C, PersistentDa
 
 		if (CurrentScreen == "ChatRoom") {
 			var Message;
+			/** @type {ChatMessageDictionary} */
 			var Dictionary = [
-				{ Tag: "DestinationCharacterName", Text: C.Name, MemberNumber: C.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(C), MemberNumber: C.MemberNumber },
 				{ Tag: "AssetName", AssetName: Item.Asset.Name },
 			];
 
 			Dictionary.push({ Automatic: true });
 
 			Message = "FuturisticTrainingBeltSetState" + FuturisticTrainingBeltStates[PersistentData.DeviceState] + VibeMode;
-			Dictionary.push({ Tag: "SourceCharacter", Text: C.Name, MemberNumber: Player.MemberNumber });
+			Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(C), MemberNumber: Player.MemberNumber });
 			// This is meant to cut down on spam for other players
 			if (FuturisticTrainingBeltStates[PersistentData.DeviceState].includes("Edge") && (OldIntensity >= 0 && OldIntensity < 3))
 				ChatRoomMessage({ Content: Message+"Self", Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary  });
@@ -531,9 +532,12 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, LastTime
 }
 
 function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
-	var update = false;
+
+	// GGTS level 4 or more can short-cut the state machine
+	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatRoomGame == "GGTS") && (ChatRoomSpace === "Asylum") && (AsylumGGTSGetLevel(Player) >= 4)) return;
 
 	// We have a state machine
+	var update = false;
 	var Item = data.Item;
 	var C = data.C;
 	let PersistentData = data.PersistentData();
@@ -699,6 +703,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data) {
 // Update data
 function AssetsItemPelvisFuturisticTrainingBeltScriptDraw(data) {
 	var persistentData = data.PersistentData();
+	/** @type {ItemProperties} */
 	var property = (data.Item.Property = data.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;

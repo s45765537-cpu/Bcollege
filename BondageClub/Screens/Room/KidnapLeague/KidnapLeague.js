@@ -185,7 +185,7 @@ function KidnapLeagueClick() {
 	}
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) {
-		if (Player.CanChange() && (InventoryGet(Player, "Cloth") == null) && (KidnapPlayerCloth != null)) {
+		if (Player.CanChangeOwnClothes() && (InventoryGet(Player, "Cloth") == null) && (KidnapPlayerCloth != null)) {
 			InventoryWear(Player, KidnapPlayerCloth.Asset.Name, "Cloth", KidnapPlayerCloth.Color);
 			if (KidnapPlayerClothAccessory != null) InventoryWear(Player, KidnapPlayerClothAccessory.Asset.Name, "ClothAccessory", KidnapPlayerClothAccessory.Color);
 			if (KidnapPlayerClothLower != null) InventoryWear(Player, KidnapPlayerClothLower.Asset.Name, "ClothLower", KidnapPlayerClothLower.Color);
@@ -377,7 +377,7 @@ function KidnapLeagueRandomOutro(Surrender) {
 	KidnapLeagueWillPayForFreedom = (Math.random() >= 0.5);
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueRandomKidnapper);
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
-	if ((Surrender != null) && (Surrender == true)) {
+	if (Surrender === true) {
 		KidnapLeagueRandomKidnapper.Stage = "205";
 		InventoryWearRandom(Player, "ItemArms", KidnapLeagueRandomKidnapperDifficulty);
 		KidnapLeagueRandomKidnapper.CurrentDialog = DialogFind(KidnapLeagueRandomKidnapper, "Surrender" + KidnapLeagueRandomKidnapperScenario);

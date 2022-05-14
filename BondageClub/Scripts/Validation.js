@@ -220,11 +220,11 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 
 	const previousProperty = previousItem.Property || {};
 	const newProperty = newItem.Property = newItem.Property || {};
-	
+
 	const previousLock = InventoryGetLock(previousItem);
 	const newLock = InventoryGetLock(newItem);
 	const notLocked = !previousLock && !newLock;
-	
+
 	if (notLocked || !ValidationLockWasModified(previousProperty, newProperty)) {
 		return true;
 	}
@@ -237,7 +237,7 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 		C, sourceMemberNumber, newLock.Asset.Group.Name, newLock.Asset.Name,
 	);
 
-	const lockChangeInvalid = (lockRemoved && !ValidationIsLockChangePermitted(previousLock, params)) ||
+	const lockChangeInvalid = (lockRemoved && !ValidationIsLockChangePermitted(previousLock, params, true)) ||
 		(lockAdded && !ValidationIsLockChangePermitted(newLock, params)) ||
 		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked));
 
@@ -264,6 +264,9 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 		const hasLockPermissions = ValidationIsLockChangePermitted(previousLock, params) && !newLockBlocked;
 		return !ValidationRollbackInvalidLockProperties(previousProperty, newProperty, hasLockPermissions);
 	}
+
+	// If there are no other issues, the change is valid
+	return true;
 }
 
 /**
@@ -296,7 +299,7 @@ function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
  * @param {boolean} [remove] - Whether the lock change is a removal
  * @returns {boolean} - TRUE if the lock can be modified, FALSE otherwise
  */
-function ValidationIsLockChangePermitted(lock, { C, fromOwner, fromLover }, remove) {
+function ValidationIsLockChangePermitted(lock, { C, fromOwner, fromLover }, remove = false) {
 	if (!lock) return true;
 	if (lock.Asset.OwnerOnly && !fromOwner) return false;
 	if (lock.Asset.LoverOnly) {
@@ -381,9 +384,9 @@ function ValidationCanAddItem(newItem, params) {
 
 	// If the item is blocked/limited and the source doesn't have the correct permission, prevent it from being added
 	const type = (newItem.Property && newItem.Property.Type) || null;
-	const blockedOrLimited = ValidationIsItemBlockedOrLimited(
-		C, sourceMemberNumber, asset.Group.Name, asset.Name, type);
-	if (blockedOrLimited && OnlineGameAllowBlockItems()) return false;
+	const itemBlocked = ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name, type) ||
+						ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name);
+	if (itemBlocked && OnlineGameAllowBlockItems()) return false;
 
 	// Fall back to common item add/remove validation
 	return ValidationCanAddOrRemoveItem(newItem, params);
@@ -532,7 +535,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Clamp item opacity within the allowed range
-	if (property && typeof property.Opacity === "number") {
+	if (typeof property.Opacity === "number") {
 		if (property.Opacity > asset.MaxOpacity) {
 			property.Opacity = asset.MaxOpacity;
 			changed = true;
@@ -541,6 +544,11 @@ function ValidationSanitizeProperties(C, item) {
 			property.Opacity = asset.MinOpacity;
 			changed = true;
 		}
+	}
+
+	if (property.Tint && !asset.AllowTint) {
+		delete property.Tint;
+		changed = true;
 	}
 
 	// Remove invalid properties from non-typed items
@@ -557,7 +565,7 @@ function ValidationSanitizeProperties(C, item) {
 	// Block advanced vibrator modes if disabled
 	if (typeof property.Mode === "string" && C.ArousalSettings && C.ArousalSettings.DisableAdvancedVibes && !VibratorModeOptions[VibratorModeSet.STANDARD].includes(VibratorModeGetOption(property.Mode))) {
 		console.warn(`Removing invalid mode "${property.Mode}" from ${asset.Name}`);
-		property.Mode = VibratorModeOptions[VibratorModeSet.STANDARD][0];
+		property.Mode = VibratorModeOptions[VibratorModeSet.STANDARD][0].Name;
 		changed = true;
 	}
 
@@ -1014,12 +1022,12 @@ function ValidationGetPrerequisiteBlockingGroups(item, appearance) {
 		char.Appearance = appearance;
 		CharacterLoadEffect(char);
 		CharacterLoadPose(char);
-		const allowedWithCheckItem = InventoryAllow(char, item.Asset.Prerequisite, false);
+		const allowedWithCheckItem = InventoryAllow(char, item.Asset, undefined, false);
 		if (!allowedWithCheckItem) {
 			char.Appearance = appearance.filter((appearanceItem) => appearanceItem.Asset !== checkItem.Asset);
 			CharacterLoadEffect(char);
 			CharacterLoadPose(char);
-			const allowedWithoutCheckItem = InventoryAllow(char, item.Asset.Prerequisite, false);
+			const allowedWithoutCheckItem = InventoryAllow(char, item.Asset, undefined, false);
 			if (allowedWithoutCheckItem) {
 				blockingGroups.push(checkItem.Asset.Group.Name);
 			}

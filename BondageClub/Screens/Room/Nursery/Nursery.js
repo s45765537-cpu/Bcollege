@@ -5,7 +5,8 @@ var NurseryJustClicked = null;
 var NurseryNurse = null;
 var NurseryABDL1 = null;
 var NurseryABDL2 = null;
-var NurseryPlayerBadBabyStatus = 0;						//	0 = Good girl	1 = ready to be forgiven	>= 2 = severity of naughtiness.
+/** 0 = Good girl; 1 = ready to be forgiven; >= 2 = severity of naughtiness. */
+var NurseryPlayerBadBabyStatus = 0;
 var NurseryPlayerInappropriateCloth = null;
 var NurseryCoolDownTime = 0;
 var NurseryPlayerAppearance = null;
@@ -17,8 +18,10 @@ var RandomResultB = null;
 var PreviousDress = "";
 var PreviousDressColor = "";
 var NurseryPlayerKeepsLoosingBinky = null;
-var NurseryGateMsg = null;								// message about nursery gate
-var NurseryLeaveMsg = null;								// message about ease of opening nursery gate
+/** message about nursery gate  */
+var NurseryGateMsg = null;
+/** message about ease of opening nursery gate */
+var NurseryLeaveMsg = null;
 var NurseryEscapeAttempts = null;
 var NursuryEscapeFailMsg = null;
 var NurseryRepeatOffender = null;
@@ -58,7 +61,7 @@ function NurseryLoad() {
 			NurseryNurse.Stage = "270";
 			NurseryLoadNurse();
 		} else {
-			if (CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") != "Diapers1") {
+			if (CharacterAppearanceGetCurrentValue(Player, "Panties", "Name").toUpperCase().indexOf("DIAPER", 0) < 0) {
 				NurseryPlayerNeedsPunishing(2);
 				NurseryNurse.Stage = "260";
 				NurseryLoadNurse();
@@ -72,7 +75,7 @@ function NurseryRun() {
 	if (NurserySituation == null) {
 		DrawCharacter(Player, 500, 0, 1);
 		DrawCharacter(NurseryNurse, 1000, 0, 1);
-		if (Player.CanChange()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Dress.png");
+		if (Player.CanChangeOwnClothes()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Dress.png");
 	}
 	if (NurserySituation == "Admitted") {
 		DrawCharacter(Player, 250, 0, 1);
@@ -103,7 +106,7 @@ function NurseryClick() {
 			NurseryPlayerAppearance = null;
 			CommonSetScreen("Room", "MainHall");
 		}
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 265) && (MouseY < 355) && Player.CanChange()) CharacterAppearanceLoadCharacter(Player);
+		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 265) && (MouseY < 355) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	}
 	if (NurserySituation == "Admitted") {
 		if ((MouseX >= 250) && (MouseX < 750) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
@@ -148,7 +151,8 @@ function NurseryDrawText() {
 	if (NurseryLeaveMsg == 5) DrawTextWrap(TextGet("EscapeFail1"), 1025, 500, 840, 160, "White");
 	if (NurseryLeaveMsg == 6) DrawTextWrap(TextGet("EscapeFail2"), 1025, 500, 840, 160, "White");
 	if (NurseryLeaveMsg == 7) DrawTextWrap(TextGet("EscapeFail3"), 1025, 500, 840, 160, "White");
-	//if (NurseryLeaveMsg) DrawTextWrap(TextGet(RandomNumber), 200, 500, 840, 160, "White");				// for testing only
+	// for testing only
+	//if (NurseryLeaveMsg) DrawTextWrap(TextGet(RandomNumber), 200, 500, 840, 160, "White");
 }
 
 // Loads the nurse and correct stage for particular situations
@@ -174,7 +178,6 @@ function NurseryLoadNurse() {
 // Checks players diapered is not obscured by Inappropriate cloth
 function NurseryClothCheck() {
 	NurseryPlayerInappropriateCloth = false;
-	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "CollegeOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "StudentOutfit1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "StudentOutfit2") NurseryPlayerInappropriateCloth = true;
@@ -183,6 +186,7 @@ function NurseryClothCheck() {
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "ChineseDress2") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MistressTop") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "NurseUniform") NurseryPlayerInappropriateCloth = true;
+	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "CollegeSkirt") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Skirt1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Jeans1") NurseryPlayerInappropriateCloth = true;
 	if (CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "Shorts1") NurseryPlayerInappropriateCloth = true;
@@ -344,12 +348,6 @@ function NurseryPlayerRestrained(RestraintSet) {
 	}
 }
 
-// Apply lock to specified item
-function NurseryAddLock(C, LockItem) {
-	var CurrentItem = InventoryGet(Player, LockItem);
-	if ((CurrentItem.Property.LockedBy == null) (CurrentItem.Property.LockedBy != "")) InventoryLock(C, CurrentItem, { Asset: AssetGet("Female3DCG", "ItemMisc", "IntricatePadlock")});
-}
-
 // Player can spits out regular pacifier
 function NurseryPlayerRePacified() {
 	if (NurseryPlayerKeepsLoosingBinky) {
@@ -402,15 +400,15 @@ function NurseryReplaceSkill() {
 
 // Player changes dress
 function NurseryPlayerChangeDress() {
-		CharacterChangeMoney(Player, -5);
-		NurseryPlayerWearBabyDress();
+	CharacterChangeMoney(Player, -5);
+	NurseryPlayerWearBabyDress();
 }
 
 // Player changes dress
 function NurseryPlayerChangeDressColor() {
-		CharacterChangeMoney(Player, -5);
-		NurseryRandomColorSelection();
-		InventoryWear(Player, RandomResultB, "Cloth", RandomResult);
+	CharacterChangeMoney(Player, -5);
+	NurseryRandomColorSelection();
+	InventoryWear(Player, RandomResultB, "Cloth", RandomResult);
 }
 
 // Player changes dress
@@ -454,28 +452,41 @@ function NurseryEscapeGate() {
 		if (InventoryGet(Player, "ItemBreast") != null) RandomNumber = RandomNumber + 1;
 		if (InventoryGet(Player, "ItemMouth") != null) RandomNumber = RandomNumber + 1;
 		// base level for item arms assumes player is bound with mittens (no harness) or metal cuffs
-		if (InventoryGet(Player, "ItemArms") == "NylonRope") RandomNumber = RandomNumber + 3;
-		if (InventoryGet(Player, "ItemArms") == "HempRope") RandomNumber = RandomNumber + 3;
-		if (InventoryGet(Player, "ItemArms") == "PaddedMittensHarness") RandomNumber = RandomNumber + 2;
-		if (InventoryGet(Player, "ItemArms") == "PaddedMittensHarnessLocked") RandomNumber = RandomNumber + 2;
-		if (InventoryGet(Player, "ItemArms") == "LeatherArmbinder") RandomNumber = RandomNumber + 6;
+		const arms = InventoryGet(Player, "ItemArms");
+		if (arms != null) {
+			switch (arms.Asset.Name) {
+				case "NylonRope":
+				case "HempRope":
+					RandomNumber = RandomNumber + 3;
+					break;
+
+				case "PaddedMittensHarness":
+				case "PaddedMittensHarnessLocked":
+					RandomNumber = RandomNumber + 2;
+					break;
+
+				case "LeatherArmbinder":
+					RandomNumber = RandomNumber + 6;
+					break;
+			}
+		}
 
 		// Work out escape result
-		if (RandomNumber <= 2) {										// Player manages to open gate
+		if (RandomNumber <= 2) { // Player manages to open gate
 			NurseryLeaveMsg = 3;
-		} else {														// Player fails to escape....
-			if (RandomNumber > (14 - NurseryEscapeAttempts)) {			// and nurse notices player
+		} else { // Player fails to escape....
+			if (RandomNumber > (14 - NurseryEscapeAttempts)) { // and nurse notices player
 				NurseryEscapeAttempts = NurseryEscapeAttempts - 4;
 				NurseryNurse.Stage = "280";
 				NurseryLoadNurse();
 			} else {
-				if (RandomNumber > 8) {									// and makes a lot of noise
+				if (RandomNumber > 8) { // and makes a lot of noise
 					NurseryLeaveMsg = 6;
 					NurseryEscapeAttempts++;
-					if (NursuryEscapeFailMsg == 1) NurseryLeaveMsg = 7;	// and makes a lot of noise and vibrator
+					if (NursuryEscapeFailMsg == 1) NurseryLeaveMsg = 7; // and makes a lot of noise and vibrator
 				} else {
-					NurseryLeaveMsg = 4;								// and failed quietly
-					if (NursuryEscapeFailMsg == 1) NurseryLeaveMsg = 5;	// and failed quietly, distracted by vibrator
+					NurseryLeaveMsg = 4; // and failed quietly
+					if (NursuryEscapeFailMsg == 1) NurseryLeaveMsg = 5; // and failed quietly, distracted by vibrator
 				}
 			}
 		}

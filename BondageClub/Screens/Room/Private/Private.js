@@ -196,7 +196,7 @@ function PrivateCannotAskUncollar() { return (DialogIsOwner() && (NPCEventGet(Cu
  * Checks if the current character is a mistress.
  * @returns {boolean} - TRUE if the NPC is a club mistress.
  */
-function PrivateIsMistress() { return ((CurrentCharacter.Title != null) && (CurrentCharacter.Title == "Mistress")); }
+function PrivateIsMistress() { return (CurrentCharacter.Title === "Mistress"); }
 /**
  * Checks if the NPC is willing to take the player as her owner.
  * @returns {boolean} - TRUE if the player can own the NPC
@@ -281,7 +281,7 @@ function PrivateCannotSellSlave() { return (!Player.IsRestrained() && (CurrentCh
  * Checks if the player can get the college outfit.
  * @returns {boolean} - TRUE if the player does not have the college outfit and the current NPC is a bondage college NPC.
  */
-function PrivateCanGetCollegeClothes() { return (!InventoryAvailable(Player, "CollegeOutfit1", "Cloth") && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))); }
+function PrivateCanGetCollegeClothes() { return ((!InventoryAvailable(Player, "CollegeOutfit1", "Cloth") || !InventoryAvailable(Player, "CollegeSkirt", "ClothLower")) && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))); }
 /**
  * Checks if the current NPC is a lover of the player.
  * @returns {boolean} - TRUE if the NPC is a lover of the player.
@@ -326,17 +326,22 @@ function PrivateNPCAllowCheat() { return (CheatFactor("ChangeNPCTrait", 0) == 0)
  * Checks if the character comes from Pandora's Box and she has a negative opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a negative opinion
  */
-function PrivateIsFromPandoraNegative() { return ((CurrentCharacter.FromPandora != null) && (CurrentCharacter.FromPandora == true) && (CurrentCharacter.Love <= -40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraNegative() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love <= -40) && !CurrentCharacter.IsLoverPrivate()); }
 /**
  * Checks if the character comes from Pandora's Box and she has a neutral opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a neutral opinion
  */
-function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora != null) && (CurrentCharacter.FromPandora == true) && (CurrentCharacter.Love > -40) && (CurrentCharacter.Love < 40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love > -40) && (CurrentCharacter.Love < 40) && !CurrentCharacter.IsLoverPrivate()); }
 /**
  * Checks if the character comes from Pandora's Box and she has a positive opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a positive opinion
  */
-function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora != null) && (CurrentCharacter.FromPandora == true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverPrivate()); }
+/**
+ * Checks if the private character has a specific title
+ * @returns {boolean} - TRUE if the character has the title in the parameter
+ */
+function PrivateTitleIs(Title) { return ((CurrentCharacter.Title != null) && (CurrentCharacter.Title == Title)); }
 
 /**
  * Loads the private room screen and the vendor NPC.
@@ -435,8 +440,8 @@ function PrivateRun() {
 	if (LogQuery("RentRoom", "PrivateRoom")) {
 		PrivateDrawCharacter();
 		if ((Player.Cage == null) && Player.CanWalk()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Shop.png");
-		if (Player.CanChange()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Dress.png");
-		if (LogQuery("Wardrobe", "PrivateRoom") && Player.CanChange()) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Wardrobe.png");
+		if (Player.CanChangeOwnClothes()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Dress.png");
+		if (LogQuery("Wardrobe", "PrivateRoom") && Player.CanChangeOwnClothes()) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Wardrobe.png");
 		if (LogQuery("Expansion", "PrivateRoom")) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Next.png");
 	} else {
 		DrawCharacter(Player, 500, 0, 1);
@@ -557,7 +562,7 @@ function PrivateClickCharacter() {
 							if ((PrivateCharacter[C].ID == 0) && (MouseX >= X + (C - PrivateCharacterOffset) * 470 + 50) && (MouseX <= X + (C - PrivateCharacterOffset) * 470 + 150) && (MouseY >= 200) && (MouseY <= 615) && PrivateCharacter[C].ArousalZoom)
 								if ((Player.ArousalSettings != null) && (Player.ArousalSettings.Active != null) && (Player.ArousalSettings.Progress != null)) {
 									if ((Player.ArousalSettings.Active == "Manual") || (Player.ArousalSettings.Active == "Hybrid")) {
-										var Arousal = Math.round((625 - MouseY) / 4, 0);
+										var Arousal = Math.round((625 - MouseY) / 4);
 										ActivitySetArousal(Player, Arousal);
 										if ((Player.ArousalSettings.AffectExpression == null) || Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
 										if (Player.ArousalSettings.Progress == 100) ActivityOrgasmPrepare(Player);
@@ -633,8 +638,8 @@ function PrivateClick() {
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk() && (Player.Cage == null)) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 145, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null, true);
 	if (MouseIn(1885, 265, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (Player.Cage == null)) CharacterSetCurrent(PrivateVendor);
-	if (MouseIn(1885, 385, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChange()) CharacterAppearanceLoadCharacter(Player);
-	if (MouseIn(1885, 505, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChange() && LogQuery("Wardrobe", "PrivateRoom")) CommonSetScreen("Character", "Wardrobe");
+	if (MouseIn(1885, 385, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
+	if (MouseIn(1885, 505, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes() && LogQuery("Wardrobe", "PrivateRoom")) CommonSetScreen("Character", "Wardrobe");
 	if (MouseIn(1885, 625, 90, 90) && LogQuery("RentRoom", "PrivateRoom") && LogQuery("Expansion", "PrivateRoom")) PrivateCharacterOffset = (PrivateCharacterOffset + 4 == PrivateCharacterMax) ? 0 : PrivateCharacterOffset + 4;
 	if (MouseIn(1885, 745, 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
 		if (Player.VisualSettings == null) Player.VisualSettings = {};
@@ -793,12 +798,13 @@ function PrivateAddCharacter(Template, Archetype, CustomData) {
 	C.Love = 0;
 	if ((Archetype != null) && (Archetype != "") && (Archetype != "Submissive")) C.Title = Archetype;
 	NPCTraitGenerate(C);
-	if ((Archetype != null) && (Archetype == "Mistress")) NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
-	if ((Archetype != null) && (Archetype == "Submissive")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
+	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
+	if (Archetype === "Submissive") NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
 	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
+	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
 	if ((CustomData == null) || (CustomData == false)) ServerPrivateCharacterSync();
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck").Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
@@ -831,13 +837,14 @@ function PrivateKickOut() {
 
 /**
  * Triggered when the player tells a NPC to change.
- * @param {Asset[]} NewCloth - The new appearance to dress the NPC with
+ * @param {string} NewCloth - The new appearance to dress the NPC with
  * @returns {void} - Nothing.
  */
 function PrivateChange(NewCloth) {
 	if (NewCloth == "Cloth") CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull);
 	if (NewCloth == "Underwear") CharacterUnderwear(CurrentCharacter, CurrentCharacter.AppearanceFull);
 	if (NewCloth == "Naked") CharacterNaked(CurrentCharacter);
+	if ((NewCloth == "Maiestas") || (NewCloth == "Vincula") || (NewCloth == "Amplector") || (NewCloth == "Corporis")) MagicSchoolLaboratoryPrepareNPC(CurrentCharacter, NewCloth);
 	if (NewCloth == "Custom") {
 		PrivateNPCInteraction(10);
 		if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
@@ -998,11 +1005,11 @@ function PrivateStartActivity() {
 		if ((Act == "Slap") && (CurrentCharacter.Love < 50) && (NPCTraitGet(CurrentCharacter, "Violent") > 0)) break;
 		if ((Act == "Kiss") && Player.CanTalk() && (CurrentCharacter.Love >= 50) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0)) break;
 		if ((Act == "Fondle") && !Player.IsBreastChaste() && (NPCTraitGet(CurrentCharacter, "Horny") > 0)) break;
-		if ((Act == "Naked") && !CharacterIsNaked(Player) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && Player.CanChange()) break;
-		if ((Act == "Underwear") && !CharacterIsInUnderwear(Player) && Player.CanChange()) break;
-		if ((Act == "RandomClothes") && Player.CanChange()) break;
-		if ((Act == "CollegeClothes") && Player.CanChange() && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))) break;
-		if ((Act == "Shibari") && Player.CanChange() && (NPCTraitGet(CurrentCharacter, "Wise") >= 0)) break;
+		if ((Act == "Naked") && !CharacterIsNaked(Player) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && Player.CanChangeOwnClothes()) break;
+		if ((Act == "Underwear") && !CharacterIsInUnderwear(Player) && Player.CanChangeOwnClothes()) break;
+		if ((Act == "RandomClothes") && Player.CanChangeOwnClothes()) break;
+		if ((Act == "CollegeClothes") && Player.CanChangeOwnClothes() && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))) break;
+		if ((Act == "Shibari") && Player.CanChangeOwnClothes() && (NPCTraitGet(CurrentCharacter, "Wise") >= 0)) break;
 		if ((Act == "Gift") && (Player.Owner != "") && (CurrentCharacter.Love >= 90) && (CurrentTime >= NPCEventGet(CurrentCharacter, "LastGift") + 86400000)) break;
 		if ((Act == "PetGirl") && (InventoryGet(Player, "ItemArms") == null) && (NPCTraitGet(CurrentCharacter, "Peaceful") >= 0)) break;
 		if ((Act == "Locks") && InventoryHasLockableItems(Player)) break;
@@ -1071,16 +1078,16 @@ function PrivateActivityRun(LoveFactor) {
 	if (PrivateActivity == "Gag") InventoryWearRandom(Player, "ItemMouth");
 	if (PrivateActivity == "Restrain") InventoryWearRandom(Player, "ItemArms");
 	if (PrivateActivity == "RestrainOther") InventoryWearRandom(PrivateActivityTarget, "ItemArms");
-	if ((PrivateActivity == "FullRestrain") && (NPCTraitGet(CurrentCharacter, "Playful") > 0)) CharacterFullRandomRestrain(Player, "Few");
+	if ((PrivateActivity == "FullRestrain") && (NPCTraitGet(CurrentCharacter, "Playful") > 0)) CharacterFullRandomRestrain(Player, "FEW");
 	if ((PrivateActivity == "FullRestrain") && (NPCTraitGet(CurrentCharacter, "Playful") == 0)) CharacterFullRandomRestrain(Player);
-	if ((PrivateActivity == "FullRestrain") && (NPCTraitGet(CurrentCharacter, "Serious") > 0)) CharacterFullRandomRestrain(Player, "Lot");
+	if ((PrivateActivity == "FullRestrain") && (NPCTraitGet(CurrentCharacter, "Serious") > 0)) CharacterFullRandomRestrain(Player, "LOT");
 	if (PrivateActivity == "FullRestrainOther") CharacterFullRandomRestrain(PrivateActivityTarget);
 	if (PrivateActivity == "Release") CharacterRelease(Player);
 	if (PrivateActivity == "Ungag") { InventoryRemove(Player, "ItemMouth"); InventoryRemove(Player, "ItemMouth2"); InventoryRemove(Player, "ItemMouth3"); InventoryRemove(Player, "ItemHead"); InventoryRemove(Player, "ItemHood");}
 	if (PrivateActivity == "Naked") CharacterNaked(Player);
 	if (PrivateActivity == "Underwear") CharacterRandomUnderwear(Player);
 	if (PrivateActivity == "RandomClothes") CharacterAppearanceFullRandom(Player, true);
-	if (PrivateActivity == "CollegeClothes") { CollegeEntranceWearStudentClothes(Player); InventoryAdd(Player, "CollegeOutfit1", "Cloth"); }
+	if (PrivateActivity == "CollegeClothes") { CollegeEntranceWearStudentClothes(Player); InventoryAdd(Player, "CollegeOutfit1", "Cloth"); InventoryAdd(Player, "CollegeSkirt", "ClothLower"); }
 	if (PrivateActivity == "Locks") InventoryFullLockRandom(Player, true);
 
 	// Some activities creates a release timer
@@ -1169,7 +1176,7 @@ function PrivateSelectPunishment() {
 		if ((PrivatePunishment == "BoundPet") && !Player.IsVulvaChaste() && (NPCTraitGet(CurrentCharacter, "Playful") >= 0)) break;
 		if ((PrivatePunishment == "ChastityBelt") && !Player.IsVulvaChaste() && (NPCTraitGet(CurrentCharacter, "Frigid") >= 0)) break;
 		if ((PrivatePunishment == "ChastityBra") && !Player.IsBreastChaste() && (NPCTraitGet(CurrentCharacter, "Frigid") >= 0)) break;
-		if ((PrivatePunishment == "ForceNaked") && Player.CanChange() && (NPCTraitGet(CurrentCharacter, "Horny") >= 0)) break;
+		if ((PrivatePunishment == "ForceNaked") && Player.CanChangeOwnClothes() && (NPCTraitGet(CurrentCharacter, "Horny") >= 0)) break;
 		if ((PrivatePunishment == "ConfiscateKey") && (InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc") || InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc") || InventoryAvailable(Player, "IntricatePadlockKey", "ItemMisc") || InventoryAvailable(Player, "HighSecurityPadlockKey", "ItemMisc"))) break;
 		if ((PrivatePunishment == "ConfiscateCrop") && (InventoryAvailable(Player, "LeatherCrop", "ItemPelvis") || InventoryAvailable(Player, "LeatherCrop", "ItemBreast"))) break;
 		if ((PrivatePunishment == "ConfiscateWhip") && (InventoryAvailable(Player, "LeatherWhip", "ItemPelvis") || InventoryAvailable(Player, "LeatherWhip", "ItemBreast"))) break;
@@ -1194,7 +1201,7 @@ function PrivateRunPunishment(LoveFactor) {
 	NPCLoveChange(CurrentCharacter, LoveFactor);
 	NPCEventAdd(CurrentCharacter, "RefusedActivity", CurrentTime);
 	if (PrivatePunishment == "Cage") { Player.Cage = true; LogAdd("BlockCage", "Rule", CurrentTime + 120000); DialogLeave(); }
-	if (PrivatePunishment == "Bound") { PrivateReleaseTimer = CommonTime() + 240000; CharacterFullRandomRestrain(Player, "All"); InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "HempRope", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 12); }
+	if (PrivatePunishment == "Bound") { PrivateReleaseTimer = CommonTime() + 240000; CharacterFullRandomRestrain(Player, "ALL"); InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "HempRope", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 12); }
 	if (PrivatePunishment == "BoundPet") { PrivateReleaseTimer = CommonTime() + 240000; CharacterSetActivePose(Player, "Kneel", true); InventoryWear(Player, "LeatherBelt", "ItemLegs"); InventoryWear(Player, "TailButtPlug", "ItemButt"); InventoryWear(Player, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "Hat"); InventoryWear(Player, "LeatherArmbinder", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 15); }
 	if ((PrivatePunishment == "ChastityBelt") && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && (InventoryGet(Player, "ItemVulva") == null)) InventoryWear(Player, "VibratingEgg", "ItemVulva");
 	if ((PrivatePunishment == "ChastityBelt") && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && (InventoryGet(Player, "ItemButt") == null)) InventoryWear(Player, "BlackButtPlug", "ItemButt");
@@ -1343,7 +1350,11 @@ function PrivateSlaveImproveSend() {
 function PrivateGetCollegeClothes() {
 	NPCLoveChange(CurrentCharacter, -10);
 	InventoryAdd(Player, "CollegeOutfit1", "Cloth");
-	if ((InventoryGet(CurrentCharacter, "Cloth") != null) && (InventoryGet(CurrentCharacter, "Cloth").Asset.Name == "CollegeOutfit1")) InventoryRemove(CurrentCharacter, "Cloth");
+	InventoryAdd(Player, "CollegeSkirt", "ClothLower");
+	const CharacterCloth = InventoryGet(CurrentCharacter, "Cloth");
+	if (CharacterCloth && CharacterCloth.Asset.Name == "CollegeOutfit1") InventoryRemove(CurrentCharacter, "Cloth");
+	const CharacterClothLower = InventoryGet(CurrentCharacter, "ClothLower");
+	if (CharacterClothLower && CharacterClothLower.Asset.Name == "CollegeSkirt") InventoryRemove(CurrentCharacter, "ClothLower");
 }
 
 /**
