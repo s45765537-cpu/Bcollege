@@ -2747,6 +2747,7 @@ var AssetFemale3DCGExtended = {
 							Options: [
 								{}, // t0 - No
 								{
+								AllowLock: false,
 								Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 6,
@@ -2757,6 +2758,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t1 - Rope
 								{
+									AllowLock: false,
 									Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 6,
@@ -2768,6 +2770,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t2 - RopeTight
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedArms"],
 									Property: {
 										Difficulty: 10,
@@ -2778,6 +2781,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t3 - Chains
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedArms"],
 									Property: {
 										Difficulty: 10,
@@ -2794,6 +2798,7 @@ var AssetFemale3DCGExtended = {
 							Options: [
 								{}, // b0 - No
 								{
+									AllowLock: false,
 									Property: {
 										Difficulty: 6,
 										SetPose: ["Spread"],
@@ -2803,6 +2808,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b1 - Rope
 								{
+									AllowLock: false,
 									Property: {
 										Difficulty: 6,
 										SetPose: ["LegsClosed"],
@@ -2812,6 +2818,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b2 - RopeTight
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedLegs"],
 									Property: {
 										Difficulty: 10,
@@ -2822,6 +2829,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b3 - Chains
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedLegs"],
 									Property: {
 										Difficulty: 10,
@@ -2832,6 +2840,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b4 - ChainsTogether
 								{
+									AllowLock: true,
 									Property: {
 										Difficulty: 12,
 										SetPose: ["BaseLower"],
