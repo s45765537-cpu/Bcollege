@@ -278,7 +278,7 @@ type MessageContentType = string;
 
 interface ChatMessageDictionaryEntry {
 	[k: string]: any;
-	Tag?: string;
+	Tag?: CommonChatTags | string;
 	Text?: string;
 	MemberNumber?: number;
 }
@@ -956,7 +956,6 @@ interface PlayerCharacter extends Character {
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
 		AllowTints: boolean;
-		AllowBlur: boolean;
 	};
 	LastChatRoom?: string;
 	LastChatRoomBG?: string;
@@ -992,6 +991,7 @@ interface PlayerCharacter extends Character {
 		StimulationFlash: boolean;
 		SmoothZoom: boolean;
 		CenterChatrooms: boolean;
+		AllowBlur: boolean;
 	}
 	NotificationSettings?: {
 		/** @deprecated */
