@@ -1,16 +1,16 @@
 "use strict";
 var InfiltrationBackground = "Infiltration";
 /** @type {NPCCharacter} */
-let InfiltrationSupervisor = null;
+var InfiltrationSupervisor = null;
 var InfiltrationDifficulty = 0;
 var InfiltrationMission = "";
 var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve", "CatBurglar", "ReverseMaid"];
 var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
 /** @type {InfiltrationMissionTarget} */
-let InfiltrationTarget = null;
+var InfiltrationTarget = null;
 var InfiltrationCollectRansom = false;
 /** @type {NPCCharacter} */
-let InfiltrationKidnapper = null;
+var InfiltrationKidnapper = null;
 
 /**
  * Returns TRUE if the mission can complete as a success
