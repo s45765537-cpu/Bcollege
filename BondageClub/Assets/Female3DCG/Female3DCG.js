@@ -652,6 +652,15 @@ var AssetFemale3DCG = [
 				AllowPose: ["KneelingSpread"],
 				Attribute: ["Skirt"],
 			},
+			{
+				Name: "AsymmetricSkirt", Value: 80, Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Attribute: ["Skirt"], Left: 0,
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+				AllowPose: ["Kneel", "KneelingSpread"],
+				Layer: [
+					{ Name: "Back", ParentGroup: null, Priority: 5 },
+					{ Name: "Front", CopyLayerColor: "Back" },
+				],
+			},
 		],
 		Color: ["Default", "#bbbbbb", "#808080", "#202020", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -6406,7 +6415,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", 
+				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: ["Freeze", "Mounted", "OnBed"],
 				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
