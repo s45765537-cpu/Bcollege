@@ -2747,7 +2747,6 @@ var AssetFemale3DCGExtended = {
 							Options: [
 								{}, // t0 - No
 								{
-								AllowLock: false,
 								Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 6,
@@ -2758,7 +2757,6 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t1 - Rope
 								{
-									AllowLock: false,
 									Prerequisite: ["CuffedArmsOrEmpty"],
 									Property: {
 										Difficulty: 6,
@@ -2798,7 +2796,6 @@ var AssetFemale3DCGExtended = {
 							Options: [
 								{}, // b0 - No
 								{
-									AllowLock: false,
 									Property: {
 										Difficulty: 6,
 										SetPose: ["Spread"],
@@ -2808,7 +2805,6 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b1 - Rope
 								{
-									AllowLock: false,
 									Property: {
 										Difficulty: 6,
 										SetPose: ["LegsClosed"],
