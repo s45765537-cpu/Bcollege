@@ -287,6 +287,14 @@ var AssetFemale3DCG = [
 					{ Name: "Lace" },
 				],
 			},
+			{
+				Name: "SeethroughTop", Value: 50, Priority: 25, AllowPose: [], HideForPose: ["AllFours"],
+				HideItem: ["ItemNipplesLactationPump"],
+				Layer: [
+					{ Name: "Lace" },
+					{ Name: "Design" },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
