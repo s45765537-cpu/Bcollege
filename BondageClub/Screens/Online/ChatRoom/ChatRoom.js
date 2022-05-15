@@ -1159,7 +1159,7 @@ function ChatRoomTarget() {
 	// If the target member number hasn't changed, do nothing
 	if (!ChatRoomTargetDirty) return;
 
-	var TargetName = null;
+	let TargetName = null;
 	if (ChatRoomTargetMemberNumber != null) {
 		for (let C = 0; C < ChatRoomCharacter.length; C++)
 			if (ChatRoomTargetMemberNumber == ChatRoomCharacter[C].MemberNumber) {
@@ -2096,7 +2096,7 @@ function ChatRoomPublishAction(C, StruggleProgressPrevItem, StruggleProgressNext
 	if (CurrentScreen == "ChatRoom") {
 
 		// Prepares the message
-		var msg = "";
+		let msg = "";
 		var Dictionary = [];
 		if (Action == null) {
 			if ((StruggleProgressPrevItem != null) && (StruggleProgressNextItem != null) && (StruggleProgressPrevItem.Asset.Name == StruggleProgressNextItem.Asset.Name) && (StruggleProgressPrevItem.Color != StruggleProgressNextItem.Color)) msg = "ActionChangeColor";
@@ -2173,7 +2173,7 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
 	if (CurrentScreen == "ChatRoom") {
 		ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary: Dictionary });
-		var C = CharacterGetCurrent();
+		const C = CharacterGetCurrent();
 		if (C) ChatRoomCharacterItemUpdate(C);
 		if (LeaveDialog && (C != null)) DialogLeave();
 	}
@@ -3190,7 +3190,7 @@ function ChatRoomRefreshChatSettings() {
  */
 function DialogViewProfile() {
 	if (CurrentCharacter != null) {
-		var C = CurrentCharacter;
+		const C = CurrentCharacter;
 		DialogLeave();
 		InformationSheetLoadCharacter(C);
 	}
@@ -3361,7 +3361,9 @@ function ChatRoomCurrentTime() {
  */
 function ChatRoomGetTransparentColor(Color) {
 	if (!Color) return "rgba(128,128,128,0.1)";
-	var R = Color.substring(1, 3), G = Color.substring(3, 5), B = Color.substring(5, 7);
+	const R = Color.substring(1, 3);
+	const G = Color.substring(3, 5);
+	const B = Color.substring(5, 7);
 	return "rgba(" + parseInt(R, 16) + "," + parseInt(G, 16) + "," + parseInt(B, 16) + ",0.1)";
 }
 

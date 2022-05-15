@@ -11,7 +11,7 @@ var WardrobeSize = 24;
  */
 function WardrobeLoadCharacterNames() {
 	if (Player.WardrobeCharacterNames == null) Player.WardrobeCharacterNames = [];
-	var Push = false;
+	let Push = false;
 	while (Player.WardrobeCharacterNames.length <= WardrobeSize) {
 		Player.WardrobeCharacterNames.push(Player.Name);
 		Push = true;
@@ -39,7 +39,7 @@ function WardrobeFixLength() {
  */
 function WardrobeLoadCharacters(Fast) {
 	Fast = Fast == null ? false : Fast;
-	var W = null;
+	let W = null;
 	WardrobeLoadCharacterNames();
 	if (Player.Wardrobe == null) Player.Wardrobe = [];
 	for (let P = 0; P < WardrobeSize; P++) {
