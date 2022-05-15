@@ -268,6 +268,15 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{ Group: ["ClothLower"], Masks: [[0, 320, 500, 300]] },
 				],
+			},
+			{
+				Name: "CropTop", Value: 40, AllowPose: [], HideForPose: ["AllFours"],
+				Hide: ["ItemNipplesPiercings"],
+				HideItem: ["ItemNipplesLactationPump"],
+				Layer: [
+					{ Name: "Blouse" },
+					{ Name: "Design" },
+				],
 			}
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
