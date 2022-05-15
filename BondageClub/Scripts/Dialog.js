@@ -1657,15 +1657,15 @@ function DialogItemClick(ClickItem) {
 
 /**
  * Toggle permission of an item in the dialog inventory list
- * @param {boolean} worn - True if the player is changing permissions for an item they're wearing
  * @param {DialogInventoryItem} item
+ * @param {boolean} worn - True if the player is changing permissions for an item they're wearing
  */
 function DialogInventoryTogglePermission(item, worn) {
 	InventoryTogglePermission(item, null, worn);
 
 	// Refresh the inventory item
 	const itemIndex = DialogInventory.findIndex(i => i.Asset.Name == item.Asset.Name && i.Asset.Group.Name == item.Asset.Group.Name);
-	const sortOrder = parseInt(item.SortOrder.replace(/[^0-9].+/gm, '') || DialogSortOrder.Usable); // only keep the number at the start
+	const sortOrder = /** @type {DialogSortOrder} */ (parseInt(item.SortOrder.replace(/[^0-9].+/gm, '') || DialogSortOrder.Usable)); // only keep the number at the start
 	DialogInventory[itemIndex] = DialogInventoryCreateItem(Player, item, item.Worn, sortOrder);
 }
 
