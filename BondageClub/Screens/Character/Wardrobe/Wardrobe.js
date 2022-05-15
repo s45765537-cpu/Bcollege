@@ -153,9 +153,8 @@ function WardrobeClick() {
 				if (MouseIn(500 + C * 250, 100, 250, 450))
 					WardrobeSelection = C + WardrobeOffset;
 			}
-			else
-				if (MouseIn(500 + (C - 6) * 250, 550, 250, 450))
-					WardrobeSelection = C + WardrobeOffset;
+			else if (MouseIn(500 + (C - 6) * 250, 550, 250, 450))
+				WardrobeSelection = C + WardrobeOffset;
 }
 
 /**
