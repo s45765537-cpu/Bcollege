@@ -127,6 +127,17 @@ var DialogSelfMenuOptions = [
 ];
 
 /**
+ * Returns character based on argument
+ * @param {Character | string} C - The characer to get; can be `"Player"` to get player or empty to get current
+ * @returns {Character} - The actual character
+ */
+function DialogGetCharacter(C) {
+	if (typeof C === 'string')
+		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
+	return C;
+}
+
+/**
  * Compares the player's reputation with a given value
  * @param {string} RepType - The name of the reputation to check
  * @param {string} Value - The value to compare
@@ -196,27 +207,27 @@ function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, AssetGroup); }
 
 /**
  * Releases a character from restraints
- * @param {string} C - The character to be released.
+ * @param {string | Character} C - The character to be released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
-function DialogRelease(C) { CharacterRelease((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter); }
+function DialogRelease(C) { CharacterRelease(DialogGetCharacter(C)); }
 
 /**
  * Strips a character naked and removes the restraints
- * @param {string} C - The character to be stripped and released.
+ * @param {string | Character} C - The character to be stripped and released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
-function DialogNaked(C) { CharacterNaked((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter); }
+function DialogNaked(C) { CharacterNaked(DialogGetCharacter(C)); }
 
 /**
  * Fully restrain a character with random items
- * @param {string} C - The character to be restrained.
+ * @param {string | Character} C - The character to be restrained.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
-function DialogFullRandomRestrain(C) { CharacterFullRandomRestrain((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter); }
+function DialogFullRandomRestrain(C) { CharacterFullRandomRestrain(DialogGetCharacter(C)); }
 
 /**
  * Checks, if a specific log has been registered with the player
@@ -235,19 +246,19 @@ function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toU
 
 /**
  * Returns the value of the AllowItem flag of a given character
- * @param {string} C - The character whose flag should be returned.
+ * @param {string | Character} C - The character whose flag should be returned.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem(C) { return (C.toUpperCase().trim() == "PLAYER") ? Player.AllowItem : CurrentCharacter.AllowItem; }
+function DialogDoAllowItem(C) { return DialogGetCharacter(C).AllowItem; }
 
 /**
  * Determines if the given character is kneeling
- * @param {string} C - The character to check
+ * @param {string | Character} C - The character to check
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is kneeling
  */
-function DialogIsKneeling(C) { return (C.toUpperCase().trim() == "PLAYER") ? Player.IsKneeling() : CurrentCharacter.IsKneeling(); }
+function DialogIsKneeling(C) { return DialogGetCharacter(C).IsKneeling(); }
 
 /**
  * Determines if the player is owned by the current character
@@ -269,35 +280,35 @@ function DialogIsProperty() { return (CurrentCharacter.Owner == Player.Name); }
 
 /**
  * Checks, if a given character is currently restrained
- * @param {string} C - The character to check.
+ * @param {string | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing restraints, false otherwise
  */
-function DialogIsRestrained(C) { return ((C.toUpperCase().trim() == "PLAYER") ? Player.IsRestrained() : CurrentCharacter.IsRestrained()); }
+function DialogIsRestrained(C) { return DialogGetCharacter(C).IsRestrained(); }
 
 /**
  * Checks, if a given character is currently blinded
- * @param {string} C - The character to check.
+ * @param {string | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is blinded, false otherwise
  */
-function DialogIsBlind(C) { return ((C.toUpperCase().trim() == "PLAYER") ? Player.IsBlind() : CurrentCharacter.IsBlind()); }
+function DialogIsBlind(C) { return DialogGetCharacter(C).IsBlind(); }
 
 /**
  * Checks, if a given character is currently wearing a vibrating item
- * @param {string} C - The character to check.
+ * @param {string | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing a vibrating item, false otherwise
  */
-function DialogIsEgged(C) { return ((C.toUpperCase().trim() == "PLAYER") ? Player.IsEgged() : CurrentCharacter.IsEgged()); }
+function DialogIsEgged(C) { return DialogGetCharacter(C).IsEgged(); }
 
 /**
  * Checks, if a given character is able to change her clothes
- * @param {string} C - The character to check.
+ * @param {string | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is able to change clothes, false otherwise
  */
-function DialogCanInteract(C) { return ((C.toUpperCase().trim() == "PLAYER") ? Player.CanInteract() : CurrentCharacter.CanInteract()); }
+function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
 
 /**
  * Sets a new pose for the given character
