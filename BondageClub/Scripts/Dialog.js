@@ -759,6 +759,8 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 				}
 			}
 		}
+	} else if (sortOrder == null) {
+		sortOrder = DialogSortOrder.Enabled;
 	}
 
 	// Determine the icons to display in the preview image
@@ -1959,7 +1961,7 @@ function DialogExtendItem(Item, SourceItem) {
 function DialogChangeItemColor(C, Color) {
 
 	// Validates that the player isn't blind and can interact with the item
-	if (!Player.CanInteract() || Player.IsBlind()) return;
+	if (!Player.CanInteract() || Player.IsBlind() || !C.FocusGroup) return;
 
 	// If the item is locked, make sure the player could unlock it before swapping colors
 	var Item = InventoryGet(C, C.FocusGroup.Name);
