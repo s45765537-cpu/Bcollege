@@ -277,7 +277,16 @@ var AssetFemale3DCG = [
 					{ Name: "Blouse" },
 					{ Name: "Design" },
 				],
-			}
+			},
+			{
+				Name: "Laurel", Value: 50, Priority: 25, AllowPose: ["OverTheHead"], HideForPose: ["AllFours"],
+				HideItem: ["ItemNipplesLactationPump"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Design" },
+					{ Name: "Lace" },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
