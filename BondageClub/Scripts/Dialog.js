@@ -1361,10 +1361,11 @@ function DialogMenuButtonClick() {
 						DialogInventoryOffset = 0;
 						DialogInventory = [];
 						DialogItemToLock = Item;
-						for (let A = 0; A < Player.Inventory.length; A++)
-							if ((Player.Inventory[A].Asset != null) && Player.Inventory[A].Asset.IsLock) {
-								DialogInventoryAdd(C, Player.Inventory[A], false);
+						for (const item of Player.Inventory) {
+							if (item.Asset != null && item.Asset.IsLock) {
+								DialogInventoryAdd(C, item, false);
 							}
+						}
 						DialogInventorySort();
 						DialogMenuButtonBuild(C);
 					}
