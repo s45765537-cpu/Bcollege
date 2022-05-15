@@ -1085,13 +1085,9 @@ function DialogInventoryBuild(C, Offset, redrawPreviews = false) {
 	if (C.FocusGroup != null) {
 
 		// First, we add anything that's currently equipped
-		var CurItem = null;
-		for (let A = 0; A < C.Appearance.length; A++)
-			if ((C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name) && C.Appearance[A].Asset.DynamicAllowInventoryAdd(C)) {
-				DialogInventoryAdd(C, C.Appearance[A], true, DialogSortOrder.Enabled);
-				CurItem = C.Appearance[A];
-				break;
-			}
+		const CurItem = C.Appearance.find(A => A.Asset.Group.Name == C.FocusGroup.Name && A.Asset.DynamicAllowInventoryAdd(C));
+		if (CurItem)
+			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled);
 
 		// In item permission mode we add all the enable items except the ones already on, unless on Extreme difficulty
 		if (DialogItemPermissionMode) {
@@ -1102,30 +1098,29 @@ function DialogInventoryBuild(C, Offset, redrawPreviews = false) {
 				if (A.Wear) {
 					if ((CurItem == null) || (CurItem.Asset.Name != A.Name) || (CurItem.Asset.Group.Name != A.Group.Name))
 						DialogInventoryAdd(Player, { Asset: A }, false, DialogSortOrder.Enabled);
-				}
-				else if (A.IsLock) {
-					var LockIsWorn = InventoryCharacterIsWearingLock(C, A.Name);
+				} else if (A.IsLock) {
+					const LockIsWorn = InventoryCharacterIsWearingLock(C, A.Name);
 					DialogInventoryAdd(Player, { Asset: A }, LockIsWorn, DialogSortOrder.Enabled);
 				}
 			}
 		} else {
 
 			// Second, we add everything from the victim inventory
-			for (let A = 0; A < C.Inventory.length; A++)
-				if ((C.Inventory[A].Asset != null) && (C.Inventory[A].Asset.Group.Name == C.FocusGroup.Name) && C.Inventory[A].Asset.DynamicAllowInventoryAdd(C))
-					DialogInventoryAdd(C, C.Inventory[A], false);
+			for (const I of C.Inventory)
+				if ((I.Asset != null) && (I.Asset.Group.Name == C.FocusGroup.Name) && I.Asset.DynamicAllowInventoryAdd(C))
+					DialogInventoryAdd(C, I, false);
 
 			// Third, we add everything from the player inventory if the player isn't the victim
 			if (C.ID != 0)
-				for (let A = 0; A < Player.Inventory.length; A++)
-					if ((Player.Inventory[A].Asset != null) && (Player.Inventory[A].Asset.Group.Name == C.FocusGroup.Name) && Player.Inventory[A].Asset.DynamicAllowInventoryAdd(C))
-						DialogInventoryAdd(C, Player.Inventory[A], false);
+				for (const I of Player.Inventory)
+					if ((I.Asset != null) && (I.Asset.Group.Name == C.FocusGroup.Name) && I.Asset.DynamicAllowInventoryAdd(C))
+						DialogInventoryAdd(C, I, false);
 
 			// Fourth, we add all free items (especially useful for clothes), or location-specific always available items
-			for (let A = 0; A < Asset.length; A++)
-				if (Asset[A].Group.Name === C.FocusGroup.Name && Asset[A].DynamicAllowInventoryAdd(C))
-					if (Asset[A].Value === 0 || (Asset[A].AvailableLocations.includes("Asylum") && (CurrentScreen.startsWith("Asylum") || ChatRoomSpace === "Asylum")))
-						DialogInventoryAdd(C, { Asset: Asset[A] }, false);
+			for (const A of Asset)
+				if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
+					if (A.Value === 0 || (A.AvailableLocations.includes("Asylum") && (CurrentScreen.startsWith("Asylum") || ChatRoomSpace === "Asylum")))
+						DialogInventoryAdd(C, { Asset: A }, false);
 
 			// Fifth, we add all crafted items that matches that slot
 			if (Player.Crafting != null)
