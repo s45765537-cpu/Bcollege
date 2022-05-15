@@ -149,7 +149,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			let blindLevel = 0;
 			const eyes1 = InventoryGet(this, "Eyes");
 			const eyes2 = InventoryGet(this, "Eyes2");
-			if (eyes1.Property && eyes1.Property.Expression && eyes2.Property && eyes2.Property.Expression) {
+			if (eyes1 && eyes1.Property && eyes1.Property.Expression && eyes2 && eyes2.Property && eyes2.Property.Expression) {
 				if ((eyes1.Property.Expression === "Closed") && (eyes2.Property.Expression === "Closed")) {
 					blindLevel += DialogFacialExpressionsSelectedBlindnessLevel;
 				}
@@ -653,7 +653,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 				Char = Character[C];
 
 	// Decompresses data
-	if (typeof data.Description === "string" && data.Description.startsWith("╬")) {
+	if (typeof data.Description === "string" && data.Description.startsWith(String.fromCharCode(9580))) {
 		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
 	}
 	if (data.BlockItems && typeof data.BlockItems === "object" && !Array.isArray(data.BlockItems)) {
@@ -1151,9 +1151,22 @@ function CharacterHasNoItem(C) {
  */
 function CharacterIsNaked(C) {
 	for (let A = 0; A < C.Appearance.length; A++)
-		if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowNone && !C.Appearance[A].Asset.BodyCosplay && !C.Appearance[A].Asset.Group.BodyCosplay)
-			if (C.IsNpc() || !(C.Appearance[A].Asset.Group.BodyCosplay && C.OnlineSharedSettings && C.OnlineSharedSettings.BlockBodyCosplay))
-				return false;
+		if (
+			(C.Appearance[A].Asset != null) &&
+			(C.Appearance[A].Asset.Group.Category == "Appearance") &&
+			C.Appearance[A].Asset.Group.AllowNone &&
+			!C.Appearance[A].Asset.BodyCosplay &&
+			!C.Appearance[A].Asset.Group.BodyCosplay &&
+			(
+				C.IsNpc() ||
+				!(
+					C.Appearance[A].Asset.Group.BodyCosplay &&
+					C.OnlineSharedSettings &&
+					C.OnlineSharedSettings.BlockBodyCosplay
+				)
+			)
+		)
+			return false;
 	return true;
 }
 
