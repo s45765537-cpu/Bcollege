@@ -1150,17 +1150,17 @@ function CharacterHasNoItem(C) {
  * @returns {boolean} - Returns TRUE if the given character is naked
  */
 function CharacterIsNaked(C) {
-	for (let A = 0; A < C.Appearance.length; A++)
+	for (const A of C.Appearance)
 		if (
-			(C.Appearance[A].Asset != null) &&
-			(C.Appearance[A].Asset.Group.Category == "Appearance") &&
-			C.Appearance[A].Asset.Group.AllowNone &&
-			!C.Appearance[A].Asset.BodyCosplay &&
-			!C.Appearance[A].Asset.Group.BodyCosplay &&
+			(A.Asset != null) &&
+			(A.Asset.Group.Category == "Appearance") &&
+			A.Asset.Group.AllowNone &&
+			!A.Asset.BodyCosplay &&
+			!A.Asset.Group.BodyCosplay &&
 			(
 				C.IsNpc() ||
 				!(
-					C.Appearance[A].Asset.Group.BodyCosplay &&
+					A.Asset.Group.BodyCosplay &&
 					C.OnlineSharedSettings &&
 					C.OnlineSharedSettings.BlockBodyCosplay
 				)
