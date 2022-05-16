@@ -606,15 +606,13 @@ var AssetFemale3DCGExtended = {
 							MinHeight: -575,
 							Slider: {
 								Icon: "player",
-								Top: 0,
-								Height: 100,
+								Top: 125,
+								Height: 675,
 							},
 							Dialog: {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "ChainBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}
 				],
@@ -1691,8 +1689,6 @@ var AssetFemale3DCGExtended = {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}, {
 						Name: "SuspensionHogtied",
@@ -1723,8 +1719,6 @@ var AssetFemale3DCGExtended = {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}, {
 						Name: "SuspensionAllFours",
@@ -1755,8 +1749,6 @@ var AssetFemale3DCGExtended = {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}, {
 						Name: "InvertedSuspensionHogtied",
@@ -1787,8 +1779,6 @@ var AssetFemale3DCGExtended = {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					}, {
 						Name: "InvertedSuspensionAllFours",
@@ -1819,8 +1809,6 @@ var AssetFemale3DCGExtended = {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
-							GetHeightFunction: VariableHeightGetOverrideHeight,
-							SetHeightFunction: VariableHeightSetOverrideHeight,
 						},
 					},
 				],

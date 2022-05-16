@@ -72,8 +72,8 @@ function VariableHeightCreateData(asset,
 			CommonChatTags.TARGET_CHAR,
 			CommonChatTags.ASSET_NAME
 		],
-		getHeight: GetHeightFunction,
-		setHeight: SetHeightFunction,
+		getHeight: GetHeightFunction || VariableHeightGetOverrideHeight,
+		setHeight: SetHeightFunction || VariableHeightSetOverrideHeight,
 		parentOptions: parentOptions,
 	};
 }
