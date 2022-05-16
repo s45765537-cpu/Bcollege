@@ -1952,7 +1952,14 @@ var AssetFemale3DCG = [
 				Top: 6, Left: 134 },
 			{ Name: "HairFront24" },
 			{ Name: "HairFront25" },
-			{ Name: "HairFront26" }
+			{ Name: "HairFront26" },
+			{ Name: "HairFront27",
+			Layer: [
+				{ Name: "Base" },
+				{ Name: "Bangs" },
+				{ Name: "Tips" },
+			],
+			}
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
@@ -2023,7 +2030,9 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack49" },
 			{ Name: "HairBack50", AllowPose: ["Suspension", "Hogtied", "AllFours"] },
 			{ Name: "HairBack51" },
-			{ Name: "HairBack52" }
+			{ Name: "HairBack52" },
+			{ Name: "HairBack53" },
+			{ Name: "HairBack54" }
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
 		InheritColor: "HairFront"
