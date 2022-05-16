@@ -1641,6 +1641,13 @@ var AssetFemale3DCG = [
 					{ Name: "Glass" }
 				]
 			},
+			{
+				Name: "GradientSunglasses", Value: 20, DefaultColor: ["#303030", "#303030"], Extended: true,
+				Layer: [
+					{ Name: "Frame" },
+					{ Name: "Glass" }
+				],
+			},
 		],
 		Color: ["#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},

@@ -5410,6 +5410,42 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // CatGlasses
+		GradientSunglasses: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "GradUp",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "GradDipped",
+						Property: {
+							Type: "GradDipped",
+						},
+					},
+					{
+						Name: "FlatUp",
+						Property: {
+							Type: "FlatUp",
+						},
+					},
+					{
+						Name: "FlatDipped",
+						Property: {
+							Type: "FlatDipped",
+						},
+					},
+				],
+				Dialog: {
+					Load: "GradientSunglassesSelectType",
+					TypePrefix: "GradientSunglassesType",
+				},
+				DrawImages: false,
+			},
+		}, // GradientSunglasses
 	}, // Glasses
 	Bracelet: {
 		Band1: {
