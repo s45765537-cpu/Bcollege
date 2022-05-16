@@ -1153,10 +1153,14 @@ function CharacterIsNaked(C) {
 	for (const A of C.Appearance)
 		if (
 			(A.Asset != null) &&
+			// Ignore items
 			(A.Asset.Group.Category == "Appearance") &&
+			// Ignore body parts
 			A.Asset.Group.AllowNone &&
+			// Always ignore all cosplay items
 			!A.Asset.BodyCosplay &&
 			!A.Asset.Group.BodyCosplay &&
+			// Ignore cosplay items if they are considered bodypart (BlockBodyCosplay)
 			(
 				C.IsNpc() ||
 				!(
