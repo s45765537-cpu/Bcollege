@@ -3526,7 +3526,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "HighSecurityStraitJacket", Value: 220, Priority: 25, Difficulty: 4, SelfBondage: 2, Time: 45, RemoveTime: 30, Random: false, AllowLock: true, DrawLocks: false, DefaultColor: ["#333", "#333", "#3e3e3e", "#3e3e3e"],
 				Hide: ["Cloth", "ItemNipplesPiercings"],
-				HidItem: ["NecklaceBodyChainNecklace"],
+				HideItem: ["NecklaceBodyChainNecklace"],
 				SetPose: ["BackElbowTouch"],
 				Effect: ["Block", "Prone"],
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"],
