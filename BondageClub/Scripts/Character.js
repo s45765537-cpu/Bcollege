@@ -11,7 +11,7 @@ const CharacterDeafLevels = new Map([
 	["DeafLight", 1],
 ]);
 
-/** @type Map<string, number> */
+/** @type Map<EffectName, number> */
 const CharacterBlurLevels = new Map([
 	["BlurTotal", 50],
 	["BlurHeavy", 20],
