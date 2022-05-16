@@ -12,8 +12,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
 * Changelog last updated: 2022-05-16
-* Last recorded PR: [#3458](https://github.com/Ben987/Bondage-College/pull/3458)
-* Last recorded commit hash: `79d29bcc53ebc435926453c442db162ff2892c95`
+* Last recorded PR: [#3463](https://github.com/Ben987/Bondage-College/pull/3463)
+* Last recorded commit hash: `698d3ebc166029e3640416700005ba555f23ec51`
 
 
 ## [R80]
@@ -94,6 +94,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
   * Jomshir - [#3361](https://github.com/Ben987/Bondage-College/pull/3361)
   * remiliacn - [#3391](https://github.com/Ben987/Bondage-College/pull/3391)
   * Ellie - [#3393](https://github.com/Ben987/Bondage-College/pull/3393), [#3414](https://github.com/Ben987/Bondage-College/pull/3414)
+  * Nina - [#3463](https://github.com/Ben987/Bondage-College/pull/3463)
 
 ### [Beta Fixes]
 
