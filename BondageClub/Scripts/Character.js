@@ -161,8 +161,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			}
 			blindLevel = Math.min(3, blindLevel);
 			// Light sensory deprivation setting limits blindness
-			let playerThis = /** @type {PlayerCharacter} */(this);
-			if (playerThis.GameplaySettings && playerThis.GameplaySettings.SensDepChatLog == "SensDepLight") blindLevel = Math.min(2, blindLevel);
+			if (this.IsPlayer() && this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") blindLevel = Math.min(2, blindLevel);
 			return blindLevel;
 		},
 		GetBlurLevel: function() {

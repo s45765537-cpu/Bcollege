@@ -407,7 +407,7 @@ const CommonCommands = [
 				NewExpression = "ShortBreath";
 			} else if (/^(\+|-)$/.test(args)) {
 				AcceptCmd = true;
-				let Blush = InventoryGet(Player, "Blush");
+				const Blush = InventoryGet(Player, "Blush");
 				let CurrentBlush = null;
 				if (Blush && Blush.Property && Blush.Property.Expression) {
 					CurrentBlush = Blush.Property.Expression;

@@ -423,11 +423,11 @@ function InfiltrationStartNPCRescue() {
 
 /**
  * Dresses the player as a maid for the reverse maid mission
- * @param {number} Rep - The reputation change to apply
+ * @param {string} Rep - The reputation change to apply
  * @returns {void} - Nothing
  */
 function InfiltrationDressMaid(Rep) {
 	PandoraDress(Player, "Maid");
-	if (Rep != 0) ReputationProgress("Dominant", parseInt(Rep));
+	if (Rep != "0") ReputationProgress("Dominant", parseInt(Rep));
 	PandoraClothes = "Maid";
 }
