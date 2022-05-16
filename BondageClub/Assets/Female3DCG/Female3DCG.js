@@ -420,10 +420,10 @@ var AssetFemale3DCG = [
 			{ Name: "NecklaceRope", Priority: 29, Value: -1, Left: 220, Top: 200, DefaultColor: "#956B1C", BuyGroup: "HempRope", ParentGroup: null, Extended: true },
 			{ Name: "ChokerTattoo", Priority: 29, Value: 5, Left: 230, Top: 200, DefaultColor: "#444444", ParentGroup: null, Extended: true },
 			{
-				Name: "BodyChainNecklace", Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["AllFours", "BackCuffs"],
+				Name: "BodyChainNecklace", Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["AllFours"],
 				PoseMapping: { Hogtied: "BackElbowTouch" },
 				Layer: [
-					{ Name: "Chains", AllowPose: ["Hogtied", "OverTheHead", "Yoked", "BackElbowTouch"] },
+					{ Name: "Chains", AllowPose: ["Hogtied", "OverTheHead", "Yoked", "BackElbowTouch", "BackCuffs"] },
 					{ Name: "Choker", ParentGroup: null },
 				],
 			},
@@ -6436,7 +6436,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack", 
+				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: ["Freeze", "Mounted", "OnBed"],
 				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
