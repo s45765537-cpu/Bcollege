@@ -270,7 +270,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "CropTop", Value: 40, AllowPose: [], HideForPose: ["AllFours"],
+				Name: "CropTop", Value: 40, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
 				Hide: ["ItemNipplesPiercings"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [
@@ -279,7 +279,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Laurel", Value: 50, Priority: 25, AllowPose: ["OverTheHead"], HideForPose: ["AllFours"],
+				Name: "Laurel", Value: 50, Priority: 25, AllowPose: ["Hogtied", "OverTheHead"], HideForPose: ["AllFours"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [
 					{ Name: "Base" },
@@ -288,7 +288,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "SeethroughTop", Value: 50, Priority: 25, AllowPose: [], HideForPose: ["AllFours"],
+				Name: "SeethroughTop", Value: 50, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [
 					{ Name: "Lace" },
