@@ -14,8 +14,8 @@
  *
  * For example "c0a1s2" - represents the type where the crotch panel module uses option 0, the arms module uses option
  * 1, and the crotch straps module uses option 2. The properties of the type will be derived from a combination of the
- * properties of each of the type's module options. For example, difficulty will be calculated by adding the base
- * difficulty of the item together with the sum of the difficulties for each of its module options.
+ * properties of each of the type's module options. For example, difficulty will be calculated by summing up the
+ * difficulties for each of its module options.
  *
  * All dialogue for modular items should be added to `Dialog_Player.csv`. To implement a modular item, you need the
  * following dialogue entries:
@@ -497,11 +497,11 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 		if (typeof Property.OverridePriority === "number") mergedProperty.OverridePriority = Property.OverridePriority;
 		if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 		if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
-		if (Property.Tint) mergedProperty.Tint = CommonArrayConcatDedupe(mergedProperty.Tint, Property.Tint);
+		if (asset.AllowTint && Property.Tint) mergedProperty.Tint = CommonArrayConcatDedupe(mergedProperty.Tint, Property.Tint);
 		return mergedProperty;
 	}, /** @type ItemProperties */({
 		Type: ModularItemConstructType(modules, moduleValues),
-		Difficulty: asset.Difficulty,
+		Difficulty: 0,
 		CustomBlindBackground: asset.CustomBlindBackground,
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
 		Effect: Array.isArray(asset.Effect) ? asset.Effect.slice() : [],
@@ -509,7 +509,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 		HideItem: Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [],
 		AllowActivity: Array.isArray(asset.AllowActivity) ? asset.AllowActivity.slice() : [],
 		Attribute: Array.isArray(asset.Attribute) ? asset.Attribute.slice() : [],
-		Tint: Array.isArray(asset.Tint) ? asset.Tint.slice() : [],
+		Tint: asset.AllowTint ? Array.isArray(asset.Tint) ? asset.Tint.slice() : [] : undefined,
 	}));
 }
 
