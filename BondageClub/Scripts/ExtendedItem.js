@@ -162,6 +162,7 @@ function ExtendedItemDraw(Options, DialogPrefix, OptionsPerPage, ShowImages = tr
 		DrawButton(X, Y, 225, 55 + ImageHeight, "", ButtonColor, null, null, IsSelected);
 		if (ShowImages) {
 			DrawImage(`${AssetGetInventoryPath(Asset)}/${Option.Name}.png`, X + 2, Y);
+			/** @type {InventoryIcon[]} */
 			const icons = [];
 			if (C.ID !== 0 && !InventoryBlockedOrLimited(C, DialogFocusItem, Option.Property.Type) && InventoryIsPermissionLimited(C, Asset.Name, Asset.Group.Name, Option.Property.Type))
 				icons.push("AllowedLimited");

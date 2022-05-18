@@ -50,6 +50,7 @@ var DialogButtonDisabledTester = /Disabled(For\w+)?$/u;
 /** @type {Map<string, string>} */
 var PlayerDialog = new Map();
 
+/** @type {FavoriteState[]} */
 var DialogFavoriteStateDetails = [
 	{
 		TargetFavorite: true,
@@ -754,19 +755,18 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
  * @param {Character} C - The targeted character
  * @param {Asset} asset - The asset to check favorite settings for
  * @param {string} [type=null] - The type of the asset to check favorite settings for
- * @returns {any} - The details to use for the asset
+ * @returns {FavoriteState} - The details to use for the asset
  */
 function DialogGetFavoriteStateDetails(C, asset, type = null) {
 	const isTargetFavorite = InventoryIsFavorite(C, asset.Name, asset.Group.Name, type);
 	const isPlayerFavorite = C.ID !== 0 && InventoryIsFavorite(Player, asset.Name, asset.Group.Name, type);
-	const details = DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite);
-	return details;
+	return DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite);
 }
 
 /**
  * Returns a list of icons associated with the asset
  * @param {Asset} asset - The asset to get icons for
- * @returns {string[]} - A list of icon names
+ * @returns {InventoryIcon[]} - A list of icon names
  */
 function DialogGetAssetIcons(asset) {
 	let icons = [];
