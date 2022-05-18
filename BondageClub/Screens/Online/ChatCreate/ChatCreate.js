@@ -65,6 +65,10 @@ function ChatCreateLoad() {
 	ChatCreateMessage = "";
 	ChatCreatePrivate = ChatCreatePrivate || false;
 
+	if (ChatCreateLanguageList.includes(TranslationLanguage)) {
+		ChatCreateLanguage = TranslationLanguage;
+	}
+
 	TextPrefetch("Online", "ChatBlockItem");
 }
 
@@ -178,7 +182,7 @@ function ChatCreateClick() {
 	}
 
 	// Flips from one language to another
-	if (MouseIn(405, 172, 300, 60)) {		
+	if (MouseIn(405, 172, 300, 60)) {
 		let Pos = ChatCreateLanguageList.indexOf(ChatCreateLanguage) + 1;
 		if (Pos >= ChatCreateLanguageList.length) Pos = 0;
 		ChatCreateLanguage = ChatCreateLanguageList[Pos];
