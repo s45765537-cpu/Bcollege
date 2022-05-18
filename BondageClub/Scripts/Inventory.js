@@ -211,7 +211,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			|| !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])
 		) ? "RemoveClothesForItem" : "";
 
-		// Items that require access to a certain character's zone 
+		// Items that require access to a certain character's zone
 		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
 		case "HoodEmpty": return InventoryGet(C, "ItemHood") ? "CannotBeUsedOverMask" : "";
 		case "EyesEmpty": return InventoryGet(C, "ItemHead") ? "CannotBeUsedOverHood" : "";
@@ -1102,6 +1102,19 @@ function InventoryBlockedOrLimited(C, Item, ItemType) {
 	let Blocked = InventoryIsPermissionBlocked(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType);
 	let Limited = !InventoryCheckLimitedPermission(C, Item, ItemType);
 	return Blocked || Limited;
+}
+
+/**
+ * Determines whether a given item is an allowed limited item for the player (i.e. has limited permissions, but can be
+ * used by the player)
+ * @param {Character} C - The character whose permissions to check
+ * @param {Item} item - The item to check
+ * @param {string | undefined} [type] - the item type to check
+ * @returns {boolean} - Returns TRUE if the given item & type is limited but allowed for the player
+ */
+function InventoryIsAllowedLimited(C, item, type) {
+	return !InventoryBlockedOrLimited(C, item, type) &&
+		InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name, type);
 }
 
 /**

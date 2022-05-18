@@ -735,7 +735,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 	let icons = [];
 	if (favoriteStateDetails.Icon) icons.push(favoriteStateDetails.Icon);
 	if (InventoryItemHasEffect(item, "Lock", true)) icons.push(isWorn ? "Locked" : "Unlocked");
-	if (C.ID !== 0 && !InventoryBlockedOrLimited(C, item) && InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) icons.push("AllowedLimited");
+	if (!C.IsPlayer() && InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
 	icons = icons.concat(DialogGetAssetIcons(asset));
 
 	/** @type {DialogInventoryItem} */
