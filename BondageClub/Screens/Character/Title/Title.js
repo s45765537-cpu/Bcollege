@@ -182,7 +182,7 @@ function TitleRun() {
 function TitleClick() {
 
 	// When the user exits
-	if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165)) TitleExit();
+	if (MouseIn(1815, 75, 90, 90)) TitleExit();
 
 	if (TitleListFiltered.length > TitlePerPage && MouseIn(1705, 75, 90, 90)) {
 		TitleOffset += TitlePerPage;
@@ -193,7 +193,7 @@ function TitleClick() {
 	let X = 130;
 	let Y = 250;
 	for (let T = TitleOffset; T < TitleOffset + TitlePerPage && T < TitleListFiltered.length; T++) {
-		if ((MouseX >= X) && (MouseX <= X + 400) && (MouseY >= Y) && (MouseY <= Y + 65)) {
+		if (MouseIn(X, Y, 400, 65)) {
 			TitleSet(TitleListFiltered[T].Name);
 			TitleExit();
 		}
