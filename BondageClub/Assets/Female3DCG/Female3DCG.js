@@ -1351,8 +1351,18 @@ var AssetFemale3DCG = [
 					{Name: "Cowl"},
 					{Name: "Back", Priority: 5, CopyLayerColor: "Base"}
 				],
+			},
+			{
+				Name: "BallCapBack", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
+					{ Name: "Button", HasType: false },
+					{ Name: "PanelLeft", HasType: false },
+					{ Name: "PanelRight", CopyLayerColor: "PanelLeft", HasType: false },
+					{ Name: "SideLeft", HasType: false },
+					{ Name: "SideRight", CopyLayerColor: "SideLeft", HasType: false },
+					{ Name: "Strap", Priority: 55, AllowTypes: ["StrapOver"], HasType: false },
+					{ Name: "StrapUnder", CopyLayerColor: "Strap", Priority: 50, HasType: false }
+				],
 			}
-
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

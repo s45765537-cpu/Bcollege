@@ -59,6 +59,21 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //Bandana
+		BallCapBack: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "StrapUnder",
+						Property: { Type: "StrapUnder" },
+					},
+					{
+						Name: "StrapOver",
+						Property: { Type: "StrapOver", },
+					},
+				],
+			},
+		}, //BallCapBack
 	},
 	Cloth: {
 		TShirt2: {
