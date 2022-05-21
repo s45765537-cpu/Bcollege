@@ -225,6 +225,10 @@ function CommonDrawAppearanceBuild(C, {
 							AlphaMasks = OverriddenData[key];
 							break;
 						}
+						case "Pose": {
+							Pose = OverriddenData[key];
+							break;
+						}
 					}
 				}
 			}

@@ -164,7 +164,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return blindLevel;
 		},
 		GetBlurLevel: function() {
-			if ((this.IsPlayer() && this.ImmersionSettings && !this.ImmersionSettings.AllowBlur) || CommonPhotoMode) {
+			if ((this.IsPlayer() && this.GraphicsSettings && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
 				return 0;
 			}
 			let blurLevel = 0;
@@ -311,6 +311,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				(this.Difficulty.Level < 0) ||
 				(this.Difficulty.Level > 3)
 			) ? 1 : this.Difficulty.Level;
+		},
+		IsSuspended: function () {
+			return this.Pose.includes("Suspension") || this.Effect.includes("Suspended");
 		},
 		IsInverted: function () {
 			return this.Pose.indexOf("Suspension") >= 0;
