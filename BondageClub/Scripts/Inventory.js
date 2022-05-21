@@ -165,9 +165,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "CanKneel": return C.Effect.includes("BlockKneel") ? "MustBeAbleToKneel" : "";
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
 		case "NotHorse": return InventoryIsItemInList(C, "ItemDevices", ["WoodenHorse"]) ? "CannotBeUsedWhenMounted" : "";
-		case "NotSuspended": return C.Pose.includes("Suspension") || C.Pose.includes("SuspensionHogtied") ? "RemoveSuspensionForItem" : "";
+		case "NotSuspended": return C.IsSuspended() ? "RemoveSuspensionForItem" : "";
 		case "NotLifted": return C.Effect.includes("Lifted") ? "RemoveSuspensionForItem" : "";
-		case "NotReverseSuspended": return (C.Pose.indexOf("Suspension") >= 0) ? "RemoveSuspensionForItem" : "";
 		case "NotHogtied": return C.Pose.includes("Hogtied") ? "ReleaseHogtieForItem" : "";
 		case "NotYoked": return CharacterItemsHavePose(C, "Yoked") ? "CannotBeUsedWhenYoked" : "";
 		case "NotKneelingSpread": return C.Pose.includes("KneelingSpread") ? "MustStandUpFirst" : "";
@@ -211,7 +210,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			|| !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])
 		) ? "RemoveClothesForItem" : "";
 
-		// Items that require access to a certain character's zone 
+		// Items that require access to a certain character's zone
 		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
 		case "HoodEmpty": return InventoryGet(C, "ItemHood") ? "CannotBeUsedOverMask" : "";
 		case "EyesEmpty": return InventoryGet(C, "ItemHead") ? "CannotBeUsedOverHood" : "";
@@ -1105,6 +1104,19 @@ function InventoryBlockedOrLimited(C, Item, ItemType) {
 }
 
 /**
+ * Determines whether a given item is an allowed limited item for the player (i.e. has limited permissions, but can be
+ * used by the player)
+ * @param {Character} C - The character whose permissions to check
+ * @param {Item} item - The item to check
+ * @param {string | undefined} [type] - the item type to check
+ * @returns {boolean} - Returns TRUE if the given item & type is limited but allowed for the player
+ */
+function InventoryIsAllowedLimited(C, item, type) {
+	return !InventoryBlockedOrLimited(C, item, type) &&
+		InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name, type);
+}
+
+/**
  * Returns TRUE if the item is a key, having the effect of unlocking other items
  * @param {Item} Item - The item to validate
  * @returns {Boolean} - TRUE if item is a key
@@ -1153,4 +1165,21 @@ function InventoryShockExpression(C) {
 		{ Group: "Eyes", Name: "Closed", Timer: 5 },
 	];
 	InventoryExpressionTriggerApply(C, expressions);
+}
+
+/**
+ * Extracts all lock-related properties from an item's property object
+ * @param {ItemProperties} property - The property object to extract from
+ * @returns {ItemProperties} - A property object containing only the lock-related properties from the provided property
+ * object
+ */
+function InventoryExtractLockProperties(property) {
+	/** @type {ItemProperties} */
+	const lockProperties = {};
+	for (const key of Object.keys(property)) {
+		if (ValidationAllLockProperties.includes(key)) {
+			lockProperties[key] = JSON.parse(JSON.stringify(property[key]));
+		}
+	}
+	return lockProperties;
 }
