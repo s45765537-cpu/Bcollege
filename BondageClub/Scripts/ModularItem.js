@@ -590,14 +590,14 @@ function ModularItemSetType(module, index, data) {
 			delete newProperty[key];
 		}
 
+		// Assign the new property data
+		DialogFocusItem.Property = Object.assign(newProperty, ModularItemMergeModuleValues(data, newModuleValues));
+
 		// Reinstate the Lock effect if there's a lock
 		if (newProperty.LockedBy && !(newProperty.Effect || []).includes("Lock")) {
 			newProperty.Effect = (newProperty.Effect || []);
 			newProperty.Effect.push("Lock");
 		}
-
-		// Assign the new property data
-		DialogFocusItem.Property = Object.assign(newProperty, ModularItemMergeModuleValues(data, newModuleValues));
 
 		if (!InventoryDoesItemAllowLock(DialogFocusItem)) {
 			// If the new type does not permit locking, remove the lock
