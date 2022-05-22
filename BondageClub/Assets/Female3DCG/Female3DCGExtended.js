@@ -2493,10 +2493,10 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "None",
+						AllowLock: false,
 						Property: {
 							Type: null,
 							Difficulty: 0,
-							AllowLock: false,
 							SetPose: ["LegsClosed"],
 							Effect: ["Mounted"],
 						},
@@ -2763,6 +2763,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "Belts",
+						AllowLock: true,
 						Property: {
 							Type: "Belts",
 							Difficulty: 8,
@@ -3083,6 +3084,22 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticHeels2
+		MonoHeel: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Full",
+						Property: { Type: null, Difficulty: 1 },
+					},
+					{
+						Name: "Half",
+						Property: { Type: "Half", Difficulty: 0 },
+					},
+				],
+			},
+		}, // MonoHeel
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
