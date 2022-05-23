@@ -1058,6 +1058,8 @@ ItemDevicesDollBoxDollText,Label
 ItemDevicesDollBoxText,Custom Text
 ItemDevicesDollBoxHeart,Heart
 ItemDevicesDollBoxGlass,Glass
+ItemDevicesWoodenRackBack,Back
+ItemDevicesWoodenRackFrameWood,Wood
 ItemDevicesWoodenRackFrameStains,Stains
 ItemDevicesWoodenRackTopRopes, Ropes
 ItemDevicesWoodenRackTopChains,Chains
