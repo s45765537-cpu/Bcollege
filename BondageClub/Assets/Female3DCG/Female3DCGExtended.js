@@ -1869,7 +1869,7 @@ var AssetFemale3DCGExtended = {
 					{
 						Name: "HandsHead",
 						Property: {
-							Type: "HandsBack",
+							Type: "HandsHead",
 							Difficulty: 4,
 							Effect: ["Block", "Prone", "NotSelfPickable"],
 							SetPose: ["Yoked"],
