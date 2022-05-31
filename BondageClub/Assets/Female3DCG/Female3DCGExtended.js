@@ -986,7 +986,7 @@ var AssetFemale3DCGExtended = {
 						Prerequisite: ["CuffedFeet", "NotSuspended", "NotMounted", "NoFeetSpreader"],
 						Property: {
 							Type: "Hogtie",
-							Difficulty: 7,
+							Difficulty: 6,
 							Effect: ["Block", "Prone", "Freeze", "NotSelfPickable"],
 							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], 
 							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
