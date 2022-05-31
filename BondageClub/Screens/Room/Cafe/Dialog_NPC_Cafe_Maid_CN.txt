@@ -228,13 +228,13 @@ I want some different bondage.
 我想要一些不同的束缚。
 ###_NPC
 Certainly, head maid DialogPlayerName. What style of bondage would you like to work in?
-当然，***************。你想从事什么风格的捆绑工作？
+当然，DialogPlayerName。你想从事什么风格的捆绑工作？
 ###_PLAYER
 (Stare at her and mumble into your gag.)
 (盯着她，在你的口塞里咕哝)。
 ###_NPC
 (She removes your gag.) What is it head maid DialogPlayerName?
-(她摘下你的口塞。)什么是***************
+(她摘下你的口塞。)什么是DialogPlayerName
 (She removes your gag.) Seeing as how you have such a good rep in the sorority, I will let you talk for now.
 (她摘下你的口塞。)鉴于你在联谊会里有这么好的口碑，我暂时让你说。
 (She shakes her head.)  Maids should remain gagged while serving drinks.
@@ -252,39 +252,39 @@ Shibari style with ropes.
 （使用日式绳艺风格）
 ###_NPC
 Yes, head maid DialogPlayerName.  (She gags and binds you tightly using classic bondage techniques.)
-是的，*************** (她用经典的捆绑技术堵住你的嘴，并将你紧紧捆住。）
+是的，DialogPlayerName (她用经典的捆绑技术堵住你的嘴，并将你紧紧捆住。）
 Yes, maid DialogPlayerName.  (She gags and binds you tightly using classic bondage techniques.)
-是的，*************** (她用经典的捆绑技术堵住你的嘴，并将你紧紧捆住。）
+是的，DialogPlayerName (她用经典的捆绑技术堵住你的嘴，并将你紧紧捆住。）
 ###_PLAYER
 Use duct tape, lots of duct tape.
 使用胶布，大量的胶布
 ###_NPC
 Yes, head maid DialogPlayerName.  (She uses a whole roll of duct tape on your body.)
-是的，***************(她在你身上用了一整卷胶带。)
+是的，DialogPlayerName(她在你身上用了一整卷胶带。)
 Yes, maid DialogPlayerName.  (She uses a whole roll of duct tape on your body.)
-是的，***************(她在你身上用了一整卷胶带。)
+是的，DialogPlayerName(她在你身上用了一整卷胶带。)
 ###_PLAYER
 lock me in leather.
 把我锁在皮革里。
 ###_NPC
 Yes, head maid DialogPlayerName.  (She secures and gags you with tight leather, locking every buckle.)
-是的，*************** (她用紧身皮革固定并堵住你的嘴，锁住每一个扣子。)
+是的，DialogPlayerName (她用紧身皮革固定并堵住你的嘴，锁住每一个扣子。)
 Yes, maid DialogPlayerName.  (She secures and gags you with tight leather, locking every buckle.)
-是的，*************** (她用紧身皮革固定并堵住你的嘴，锁住每一个扣子。)
+是的，DialogPlayerName (她用紧身皮革固定并堵住你的嘴，锁住每一个扣子。)
 ###_PLAYER
 Cover me in latex.
 用乳胶覆盖我。
 ###_NPC
 Yes, head maid DialogPlayerName.  (She uses latex items on you.)
-是的，***************(她对你使用乳胶物品。)
+是的，DialogPlayerName(她对你使用乳胶物品。)
 Yes, maid DialogPlayerName.  (She uses latex items on you.)
-是的，***************(她对你使用乳胶物品。)
+是的，DialogPlayerName(她对你使用乳胶物品。)
 ###_PLAYER
 Just bind me as secure as you can.
 尽可能地把我捆绑起来吧。
 ###_NPC
 Certainly, head maid DialogPlayerName.  (She binds you as thoroughly as she can, trying to impress you.)
-当然，***************。  (她尽可能彻底地捆绑你，试图给你留下好印象。)
+当然，DialogPlayerName。  (她尽可能彻底地捆绑你，试图给你留下好印象。)
 ###_PLAYER
 (Nod approvingly.)
 (赞许地点点头）
@@ -296,7 +296,7 @@ Certainly, head maid DialogPlayerName.  (She binds you as thoroughly as she can,
 (咕哝着对她说。)
 ###_NPC
 (She makes sure your tray is full.)  I'm sorry head maid DialogPlayerName.  I've done all I can to help you.
-(她确保你的托盘是满的。)我很抱歉，***************。  我已经尽我所能来帮助你了。
+(她确保你的托盘是满的。)我很抱歉，DialogPlayerName。  我已经尽我所能来帮助你了。
 Hmmm...  I think you need something to help you while you work.  (She uses an inflatable vibrating dildo on your Vulva.)
 嗯...  我想你在工作时需要一些东西来帮助你。  (她在你的外阴部使用了一个充气的振动假阳具。）
 ###_PLAYER
