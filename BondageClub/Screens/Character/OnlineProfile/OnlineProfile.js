@@ -1,5 +1,10 @@
 "use strict";
 var OnlineProfileBackground = "Sheet";
+/**
+ * Character used to signal, that description is compressed
+ * @readonly
+ */
+var ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC = String.fromCharCode(9580);
 
 /**
  * Loads the online profile screen by creating its input
@@ -46,8 +51,8 @@ function OnlineProfileExit(Save) {
 	if ((InformationSheetSelection.ID == 0) && (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) && Save) {
 		InformationSheetSelection.Description = ElementValue("DescriptionInput").trim().substr(0, 10000);
 		let Description = InformationSheetSelection.Description;
-		const CompressedDescription = String.fromCharCode(9580) + LZString.compressToUTF16(Description);
-		if (CompressedDescription.length < Description.length || Description.startsWith(String.fromCharCode(9580))) {
+		const CompressedDescription = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16(Description);
+		if (CompressedDescription.length < Description.length || Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 			Description = CompressedDescription;
 		}
 		ServerAccountUpdate.QueueData({ Description });
