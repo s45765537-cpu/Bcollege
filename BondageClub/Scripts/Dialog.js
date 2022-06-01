@@ -132,7 +132,7 @@ var DialogSelfMenuOptions = [
  * @returns {Character} - The actual character
  */
 function DialogGetCharacter(C) {
-	if (typeof C === 'string')
+	if (typeof C === "string")
 		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
 	return C;
 }
