@@ -145,20 +145,20 @@ Okay. I will catch one of them
 I would like an energy drink
 我想要一份能量饮料
 ###_NPC
-Certainly miss. They are REPLACEMONEY $ per can.
-当然可以，女士。每罐 REPLACEMONEY $
+Certainly miss. They are $REPLACEMONEY per can.
+当然可以，女士。每罐 $REPLACEMONEY
 ###_PLAYER
 I would like a glass of milk
 我想要一杯牛奶
 ###_NPC
-Certainly miss. That is REPLACEMONEY $ per glass.
-当然可以，女士。每杯 REPLACEMONEY $
+Certainly miss. That is $REPLACEMONEY per glass.
+当然可以，女士。每杯 $REPLACEMONEY
 ###_PLAYER
 I would like a cupcake
 我想要一份纸杯蛋糕
 ###_NPC
-Certainly miss. They are REPLACEMONEY $ each.
-当然可以，女士。每份 REPLACEMONEY $
+Certainly miss. They are $REPLACEMONEY each.
+当然可以，女士。每份 $REPLACEMONEY
 ###_PLAYER
 Actually, I won't have a special at the moment
 其实，现在我没有什么特别想要的
