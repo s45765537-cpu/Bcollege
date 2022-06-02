@@ -59,7 +59,7 @@ Mistress sent me here for a bondage therapy.  So long story short, I'm in therap
 Can I tie you up?
 我可以绑你吗？
 ###_NPC
-(She shakes her head yes.)  Of course nurse DialogPlayerName, it's part of my treatment.
+(She shakes her head yes.)  Of course, nurse DialogPlayerName, it's part of my treatment.
 （她摇摇头，表示同意。）当然，护士DialogPlayerName，这是我的治疗的一部分。
 (She shakes her head yes.)  Yes Madam, it's part of my treatment.
 （她摇摇头，表示同意。）是的女士，这是我的治疗的一部分。
@@ -87,6 +87,12 @@ Will you tie me up?
 ###_NPC
 (You take a step forward and start to play with her.)
 （你向前走了一步，准备开始玩弄她。）
+###_PLAYER
+Will you join GGTS?
+你会加入GGTS吗？
+###_NPC
+(She nods slowly.)  Yes, I think I will join soon.  So much control!  (She shivers.)
+（她慢慢点头。）是的，我觉得我很快就会加入。会有严厉的控制的！（她颤抖了一下。）
 ###_PLAYER
 I need to run.  (Leave her.)
 我要走了。（离开她。）
