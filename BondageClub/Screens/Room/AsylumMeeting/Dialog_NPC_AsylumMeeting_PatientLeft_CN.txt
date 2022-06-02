@@ -44,6 +44,12 @@ It's time for your treatment.
 It is?  (She thinks.)  Look!  A patient is trying to escape!  (She points behind you.)
 是吗？（她想了一下。）“看，有个病人正试图逃跑！”（她指了指你的身后。）
 ###_PLAYER
+Will you join GGTS?
+你会加入GGTS吗？
+###_NPC
+I'll never join that program.  That stupid machine is brainwashing sane girls.
+我永远不会加入这个计划。那台蠢机器在把正常的女孩洗脑掉。
+###_PLAYER
 I must go.  (Leave her.)
 我必须走了。（离开她。）
 What can you provide?
@@ -139,7 +145,7 @@ Sucker!  (She runs like hell and disappears in the halls.)
 What?  Where?
 怎么了？在哪？
 I'm not falling for that.
-我不会因此堕落的。
+这我可不会上当。
 ###_NPC
 Catch me then!  (She runs like hell and disappears in the halls.)
 那就来抓我啊！（她跑的很快，瞬间就不见了。）
