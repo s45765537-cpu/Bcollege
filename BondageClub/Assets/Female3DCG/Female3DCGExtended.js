@@ -522,7 +522,7 @@ var AssetFemale3DCGExtended = {
 							Type: "Suspended",
 							Difficulty: 6,
 							SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
-							Effect: ["Block", "Freeze", "Prone"],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 							HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 						},
@@ -551,8 +551,8 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "SuspensionHogtied",
 							Difficulty: 11,
-							SetPose: ["Hogtied", "SuspensionHogtied"],
-							Effect: ["Block", "Freeze", "Prone"],
+							SetPose: ["Hogtied"],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
 							Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 							OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 },
@@ -692,7 +692,13 @@ var AssetFemale3DCGExtended = {
 						Name: "SuspensionHogtied",
 						BondageLevel: 8,
 						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
-						Property: { Type: "SuspensionHogtied", Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied", "SuspensionHogtied"], Difficulty: 6,
+						Property: {
+							Type: "SuspensionHogtied",
+							Effect: ["Block", "Freeze", "Prone", "NotSelfPickable", "Suspended"],
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["Hogtied"],
+							Difficulty: 6,
 							OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 } },
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 						Random: false,
@@ -701,7 +707,11 @@ var AssetFemale3DCGExtended = {
 						ArchetypeConfig: {
 							MaxHeight: 0,
 							MinHeight: -575,
-							SliderIcon: "player",
+							Slider: {
+								Icon: "player",
+								Top: 125,
+								Height: 675,
+							},
 							Dialog: {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "ChainBondage",
@@ -1071,6 +1081,19 @@ var AssetFemale3DCGExtended = {
 							Difficulty: 6,
 							Effect: ["Block", "Prone", "NotSelfPickable"],
 							SetPose: ["BackElbowTouch"],
+							SelfUnlock: false,
+						},
+					},
+					{
+						Name: "Hogtie",
+						Prerequisite: ["CuffedFeet", "NotSuspended", "NotMounted", "NoFeetSpreader"],
+						Property: {
+							Type: "Hogtie",
+							Difficulty: 6,
+							Effect: ["Block", "Prone", "Freeze", "NotSelfPickable"],
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], 
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["Hogtied"],
 							SelfUnlock: false,
 						},
 					},
@@ -1744,15 +1767,55 @@ var AssetFemale3DCGExtended = {
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 						Random: false,
 					}, {
-						Name: "SuspensionHogtied",
-						BondageLevel: 8,
-						Prerequisite: ["NotMounted", "NotChained", "NotReverseSuspended"],
+						Name: "BedSpreadEagle",
+						BondageLevel: 1,
+						Prerequisite: ["OnBed"],
+						Property: { Type: "BedSpreadEagle", Effect: ["Block", "Freeze", "Prone"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
+						Random: false,
+					}, {
+						Name: "SuspensionKneelingHogtie",
+						BondageLevel: 6,
+						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 						Property: {
-							Type: "SuspensionHogtied",
-							Effect: ["Block", "Freeze", "Prone"],
+							Type: "SuspensionKneelingHogtie",
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
-							SetPose: ["Hogtied", "SuspensionHogtied"],
+							SetPose: ["Kneel", "BackElbowTouch"],
+							AllowPose: ["Kneel", "KneelingSpread"],
+							AllowActivePose: ["Kneel", "KneelingSpread"],
+							WhitelistActivePose: ["Kneel", "KneelingSpread"],
+							Difficulty: 6,
+							OverrideHeight: { Height: -250, Priority: 51, HeightRatioProportion: 1 }
+						},
+						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
+						Random: false,
+						HasSubscreen: true,
+						Archetype: ExtendedArchetype.VARIABLEHEIGHT,
+						ArchetypeConfig: {
+							MaxHeight: 0,
+							MinHeight: -250,
+							Slider: {
+								Icon: "rope",
+								Top: 175,
+								Height: 400,
+							},
+							Dialog: {
+								ChatPrefix: "SuspensionChange",
+								NpcPrefix: "RopeBondage",
+							},
+						},
+					}, {
+						Name: "SuspensionHogtied",
+						BondageLevel: 8,
+						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
+						Property: {
+							Type: "SuspensionHogtied",
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["Hogtied"],
 							Difficulty: 6,
 							OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 }
 						},
@@ -1763,20 +1826,107 @@ var AssetFemale3DCGExtended = {
 						ArchetypeConfig: {
 							MaxHeight: 0,
 							MinHeight: -575,
-							SliderIcon: "player",
+							Slider: {
+								Icon: "rope",
+								Top: 125,
+								Height: 675,
+							},
 							Dialog: {
 								ChatPrefix: "SuspensionChange",
 								NpcPrefix: "RopeBondage",
 							},
 						},
 					}, {
-						Name: "BedSpreadEagle",
-						BondageLevel: 1,
-						Prerequisite: ["OnBed"],
-						Property: { Type: "BedSpreadEagle", Effect: ["Block", "Freeze", "Prone"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+						Name: "SuspensionAllFours",
+						BondageLevel: 8,
+						Prerequisite: ["NotMounted", "NotSuspended"],
+						Property: {
+							Type: "SuspensionAllFours",
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
+							Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+							AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["AllFours"],
+							Difficulty: 6,
+							OverrideHeight: { Height: -560, Priority: 51, HeightRatioProportion: 1 }
+						},
 						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 						Random: false,
-					}
+						HasSubscreen: true,
+						Archetype: ExtendedArchetype.VARIABLEHEIGHT,
+						ArchetypeConfig: {
+							MaxHeight: 0,
+							MinHeight: -560,
+							Slider: {
+								Icon: "rope",
+								Top: 125,
+								Height: 675,
+							},
+							Dialog: {
+								ChatPrefix: "SuspensionChange",
+								NpcPrefix: "RopeBondage",
+							},
+						},
+					}, {
+						Name: "InvertedSuspensionHogtied",
+						BondageLevel: 8,
+						Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
+						Property: {
+							Type: "InvertedSuspensionHogtied",
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["Hogtied", "Suspension"],
+							Difficulty: 6,
+							OverrideHeight: { Height: -600, Priority: 51, HeightRatioProportion: 0 }
+						},
+						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
+						Random: false,
+						HasSubscreen: true,
+						Archetype: ExtendedArchetype.VARIABLEHEIGHT,
+						ArchetypeConfig: {
+							MaxHeight: -50,
+							MinHeight: -600,
+							Slider: {
+								Icon: "rope",
+								Top: 100,
+								Height: 700,
+							},
+							Dialog: {
+								ChatPrefix: "SuspensionChange",
+								NpcPrefix: "RopeBondage",
+							},
+						},
+					}, {
+						Name: "InvertedSuspensionAllFours",
+						BondageLevel: 8,
+						Prerequisite: ["NotMounted", "NotSuspended"],
+						Property: {
+							Type: "InvertedSuspensionAllFours",
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
+							Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+							AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+							SetPose: ["AllFours", "Suspension"],
+							Difficulty: 6,
+							OverrideHeight: { Height: -560, Priority: 51, HeightRatioProportion: 0 }
+						},
+						Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
+						Random: false,
+						HasSubscreen: true,
+						Archetype: ExtendedArchetype.VARIABLEHEIGHT,
+						ArchetypeConfig: {
+							MaxHeight: 0,
+							MinHeight: -560,
+							Slider: {
+								Icon: "rope",
+								Top: 100,
+								Height: 700,
+							},
+							Dialog: {
+								ChatPrefix: "SuspensionChange",
+								NpcPrefix: "RopeBondage",
+							},
+						},
+					},
 				],
 				Dialog: {
 					Load: "SelectRopeBondage",
@@ -1807,7 +1957,62 @@ var AssetFemale3DCGExtended = {
 				],
 				ChatTags: [CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
 			}
-		}
+		},
+		WoodenCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "HandsFront",
+						Property: {
+							Type: "HandsFront",
+							Difficulty: 2,
+							Effect: ["Block", "Prone"],
+							SetPose: ["BaseUpper"],
+							SelfUnlock: true,
+						},
+					},
+					{
+						Name: "HandsBack",
+						Property: {
+							Type: "HandsBack",
+							Difficulty: 3,
+							Effect: ["Block", "Prone"],
+							SetPose: ["BackCuffs"],
+							SelfUnlock: false,
+						},
+					},
+					{
+						Name: "HandsHead",
+						Property: {
+							Type: "HandsHead",
+							Difficulty: 4,
+							Effect: ["Block", "Prone", "NotSelfPickable"],
+							SetPose: ["Yoked"],
+							SelfUnlock: false,
+						},
+					},
+					{
+						Name: "Hogtied",
+						Prerequisite: ["NotMounted", "NotSuspended"],
+						Property: { 
+							Type: "Hogtied", 
+							Difficulty: 5,
+							Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], 
+							SetPose: ["Hogtied"], 
+							Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], 
+							AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], 
+							SelfUnlock: false,
+						},
+						Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemArmsWoodenCuffs",
+				},
+			},
+		}, // WoodenCuffs
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -2232,6 +2437,44 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // HeadboxSeethrough
+		KittyHood: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+				Modules: [
+					{
+						Name: "Blindfold", Key: "b",
+						Options: [
+							{}, // b0 - None
+							{
+								Property: {
+									Effect: ["BlindHeavy"],
+								}
+							}, // b1 - Blindfold
+						]
+					},
+					{
+						Name: "Gag", Key: "g",
+						Options: [
+							{}, // g0 - None
+							{
+								Property: {
+									Effect: ["GagLight"],
+								}
+							}, // g1 - Gag
+						]
+					},
+					{
+						Name: "Expression", Key: "e",
+						Options: [
+							{}, // e0 - Neutral
+							{}, // e1 - OwO
+							{}, // e2 - UwU
+						]
+					}
+				]
+			}
+		}
 	}, // ItemHood
 	ItemDevices: {
 		FuturisticCrate: {
@@ -2421,10 +2664,10 @@ var AssetFemale3DCGExtended = {
 				Options: [
 					{
 						Name: "None",
+						AllowLock: false,
 						Property: {
 							Type: null,
 							Difficulty: 0,
-							AllowLock: false,
 							SetPose: ["LegsClosed"],
 							Effect: ["Mounted"],
 						},
@@ -2691,6 +2934,7 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "Belts",
+						AllowLock: true,
 						Property: {
 							Type: "Belts",
 							Difficulty: 8,
@@ -2816,7 +3060,7 @@ var AssetFemale3DCGExtended = {
 						Property: {
 							Type: "Suspended",
 							Difficulty: 7,
-							Effect: ["Block","Freeze", "Prone",],
+							Effect: ["Block", "Freeze", "Prone", "Suspended"],
 							SetPose: ["Hogtied"],
 							Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 							Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
@@ -2871,6 +3115,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t2 - RopeTight
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedArms"],
 									Property: {
 										Difficulty: 10,
@@ -2881,6 +3126,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // t3 - Chains
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedArms"],
 									Property: {
 										Difficulty: 10,
@@ -2915,6 +3161,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b2 - RopeTight
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedLegs"],
 									Property: {
 										Difficulty: 10,
@@ -2925,6 +3172,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b3 - Chains
 								{
+									AllowLock: true,
 									Prerequisite: ["CuffedLegs"],
 									Property: {
 										Difficulty: 10,
@@ -2935,6 +3183,7 @@ var AssetFemale3DCGExtended = {
 									},
 								}, // b4 - ChainsTogether
 								{
+									AllowLock: true,
 									Property: {
 										Difficulty: 12,
 										SetPose: ["BaseLower"],
@@ -3011,6 +3260,22 @@ var AssetFemale3DCGExtended = {
 				}
 			},
 		}, // FuturisticHeels2
+		MonoHeel: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+				Options: [
+					{
+						Name: "Full",
+						Property: { Type: null, Difficulty: 1 },
+					},
+					{
+						Name: "Half",
+						Property: { Type: "Half", Difficulty: 0 },
+					},
+				],
+			},
+		}, // MonoHeel
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -4491,6 +4756,21 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //Glitter
+		HeadHarness: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options:[
+					{
+						Name: "Simple",
+						Property: {Type: null,}
+					},
+					{
+						Name: "Heavy",
+						Property: {Type: "Extra",}
+					},
+				],
+			},
+		}, //HeadHarness
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -4987,6 +5267,47 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // Tentacles
+		WoodenCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "LegsOpen",
+						Property: {
+							Type: null,
+							Difficulty: 2,
+							Effect: ["Freeze", "Prone"],
+							SetPose: ["LegsOpen"],
+							SelfUnlock: true,
+						},
+					},
+					{
+						Name: "Spread",
+						Property: {
+							Type: "Spread2",
+							Difficulty: 3,
+							Effect: ["Freeze", "Prone"],
+							SetPose: ["Spread"],
+							SelfUnlock: true,
+						},
+					},
+					{
+						Name: "LegsClosed",
+						Property: {
+							Type: "Spread3",
+							Difficulty: 3,
+							Effect: ["Freeze", "Prone"],
+							SetPose: ["LegsClosed"],
+							SelfUnlock: true,
+						},
+					},
+				],
+				Dialog: {
+					Load: "SelectBondagePosition",
+					TypePrefix: "ItemFeetWoodenCuffs",
+				},
+			},
+		}, // WoodenCuffs
 	}, // ItemFeet
 	ItemMisc: {
 		ServingTray: {

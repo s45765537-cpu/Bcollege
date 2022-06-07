@@ -51,6 +51,13 @@ ClothReverseBunnySuitSuit,Suit
 ClothReverseBunnySuitGloves,Gloves
 ClothFuzzyDressDress,Dress
 ClothFuzzyDressTopFur,Fur
+ClothCropTopBlouse,Top
+ClothCropTopDesign,Design
+ClothLaurelBase,Top
+ClothLaurelDesign,Design
+ClothLaurelLace,Lace
+ClothSeethroughTopLace,Lace
+ClothSeethroughTopDesign,Design
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
 ClothAccessoryCapeFront,Front
@@ -71,6 +78,8 @@ NecklaceFlowerGarlandCenter,Center
 NecklaceFlowerGarlandPetals,Petals
 NecklaceNecklaceBallGagBall,Ball
 NecklaceNecklaceBallGagStrap,Strap
+NecklaceBodyChainNecklaceChains,Chains
+NecklaceBodyChainNecklaceChoker,Choker
 SuitCatsuitBase,Suit
 SuitCatsuitZip,Zip
 SuitCatsuitGloves,Gloves
@@ -116,6 +125,8 @@ ClothLowerHaremPants2Pantyline,Panty Line
 ClothLowerHaremPants2Buttons,Buttons
 ClothLowerMageSkirtSkirt,Skirt
 ClothLowerMageSkirtWaist,Waistband
+ClothLowerPleatedSkirtDress,Skirt
+ClothLowerPleatedSkirtStripe,Waistband
 ClothLowerTutuBelt,Belt
 ClothLowerTutuLayer1,Layer 1
 ClothLowerTutuLayer2,Layer 2
@@ -124,6 +135,11 @@ ClothLowerTutuLayer4,Layer 4
 ClothLowerHulaSkirtBackLeaves,Leaves
 ClothLowerHulaSkirtFlowers,Flowers
 ClothLowerHulaSkirtPollen,Pollen
+ClothLowerElegantSkirtSkirt,Skirt
+ClothLowerElegantSkirtDesign,Design
+ClothLowerBondageSkirtSkirt,Skirt
+ClothLowerBondageSkirtFrill,Frill
+ClothLowerBondageSkirtStraps,Straps
 SuitLowerCatsuitBase,Suit
 SuitLowerCatsuitZip,Zip
 SuitLowerSeethroughSuitZipBase,Suit
@@ -272,6 +288,12 @@ ItemFeetLeatherAnkleCuffsRings,Rings
 ItemFeetLeatherAnkleCuffsChain,Chain
 ItemFeetMedicalBedRestraintsBase,Bed Straps
 ItemFeetMedicalBedRestraintsStraps,Cuffs
+ItemFeetSturdyLeatherBeltsLowerBelt,Lower Belt
+ItemFeetSturdyLeatherBeltsLowerMetal,Lower Belt
+ItemFeetSturdyLeatherBeltsUpperBelt,Upper Belt
+ItemFeetSturdyLeatherBeltsUpperMetal,Upper Belt
+ItemFeetSturdyLeatherBeltsFeetBelt,Feet Belt
+ItemFeetSturdyLeatherBeltsFeetMetal,Feet Belt
 ItemFeetTentaclesInner,Inner
 ItemFeetTentaclesOuter,Outer
 ItemFeetTentaclesSucker,Suckers
@@ -295,6 +317,10 @@ ItemLegsHobbleSkirtLatex,Skirt
 ItemLegsHobbleSkirtBelts,Belts
 ItemLegsMedicalBedRestraintsBase,Bed Straps
 ItemLegsMedicalBedRestraintsStraps,Cuffs
+ItemLegsSturdyLeatherBeltsLowerBelt,Lower Belt
+ItemLegsSturdyLeatherBeltsLowerMetal,Lower Belt
+ItemLegsSturdyLeatherBeltsUpperBelt,Upper Belt
+ItemLegsSturdyLeatherBeltsUpperMetal,Upper Belt
 ItemLegsTentaclesInner,Inner
 ItemLegsTentaclesOuter,Outer
 ItemLegsTentaclesSucker,Suckers
@@ -434,6 +460,12 @@ ItemArmsCeilingShacklesCuffs,Cuffs
 ItemArmsFuturisticCuffsCuffs,Cuffs
 ItemArmsFuturisticCuffsLock,Lock
 ItemArmsFuturisticCuffsDisplay,Display
+ItemArmsSturdyLeatherBeltsWaistBelt,Waist Belt
+ItemArmsSturdyLeatherBeltsWaistMetal,Waist Belt
+ItemArmsSturdyLeatherBeltsUpperTorsoBelt,Above Breast Belt
+ItemArmsSturdyLeatherBeltsUpperTorsoMetal,Above Breast Belt
+ItemArmsSturdyLeatherBeltsLowerTorsoBelt,Below Breast Belt
+ItemArmsSturdyLeatherBeltsLowerTorsoMetal,Below Breast Belt
 ItemArmsTransportJacketShorts,Shorts
 ItemArmsTransportJacketJacket,Jacket
 ItemArmsTransportJacketText,Text
@@ -629,6 +661,15 @@ ItemHoodHeadboxSeethroughGlassInside,Inside
 ItemHoodHeadboxSeethroughFrame,Outside
 ItemHoodSlimeOne,Color 1
 ItemHoodSlimeTwo,Color 2
+ItemHoodKittyHoodBase,Base
+ItemHoodKittyHoodLinings,Linings
+ItemHoodKittyHoodPanel,Forehead Panel
+ItemHoodKittyHoodDisplay,Display
+ItemHoodKittyHoodOpenings,Openings
+ItemHoodKittyHoodBlindfold,Blindfold
+ItemHoodKittyHoodGag,Gag
+ItemHoodKittyHoodDrawings,Drawings
+ItemHoodKittyHoodLock,Lock
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
@@ -645,6 +686,9 @@ ItemBootsLeatherFootMitts1Mitts,Mittens
 ItemBootsLeatherFootMitts1Straps,Straps
 ItemBootsSlimeOne,Color 1
 ItemBootsSlimeTwo,Color 2
+ItemBootsMonoHeelBinder,Binder
+ItemBootsMonoHeelVamp,Vamp
+ItemBootsMonoHeelTrim,Trim
 GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
 ShoesSneakers1Main,Main
@@ -1045,6 +1089,8 @@ ItemDevicesDollBoxDollText,Label
 ItemDevicesDollBoxText,Custom Text
 ItemDevicesDollBoxHeart,Heart
 ItemDevicesDollBoxGlass,Glass
+ItemDevicesWoodenRackBack,Back
+ItemDevicesWoodenRackFrameWood,Wood
 ItemDevicesWoodenRackFrameStains,Stains
 ItemDevicesWoodenRackTopRopes, Ropes
 ItemDevicesWoodenRackTopChains,Chains
