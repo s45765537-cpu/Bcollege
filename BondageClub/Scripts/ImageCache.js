@@ -122,7 +122,7 @@ class CachedImage {
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 }
 
-const ImageCachePurgeDelay = 20 * 60 * 1000; /* 30 minutes */
+let ImageCachePurgeDelay = 30 * 60 * 1000; /* minutes */
 
 /**
  * The class responsible for loading and caching images
@@ -132,7 +132,7 @@ class ImageCacheClass {
 		/** @type {Map<string, CachedImage>} */
 		this.cache = new Map();
 		this.loadedCount = 0;
-		this.purgeTimer = setInterval(() => this.purge(), ImageCachePurgeDelay);
+		this.lastPurge = 0;
 	}
 
 	/**
@@ -243,7 +243,13 @@ class ImageCacheClass {
 	/**
 	 * Purge all images errored or not used in the last half-purge delay
 	 */
-	purge() {
+	purge(force = false) {
+		// Only perform a purge if the last purge time makes sense, and its delta
+		// is greater than the purge delay.
+		const delta = (CurrentTime - this.lastPurge);
+		if (!force && delta > 0 && delta < ImageCachePurgeDelay)
+			return;
+
 		let stats = { errored: 0, unused: 0, loaded: 0 };
 		console.log(`Purging ${this.totalImages()} cached images`);
 		this.cache.forEach((image, url) => {
@@ -260,6 +266,7 @@ class ImageCacheClass {
 		});
 		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused, ${stats.loaded} loaded`);
 		this.loadedCount = stats.loaded;
+		this.lastPurge = CurrentTime;
 	}
 
 	/**
