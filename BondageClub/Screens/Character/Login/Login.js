@@ -6,11 +6,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Anna", "Aylea", "BlueWinter", "Brian", "Bryce", "Christian", "Clash", "DarkStar", 
-	"Desch", "Din", "Edwin", "Epona", "Escurse", "Fura", "Greendragon", "Hayden", "JoeyDubDee", 
-	"Kimuriel", "Michal", "Michel", "Mike", "Mike", "Mindtie", "Mob", "MrUniver", "Nick", 
-	"Nicolas", "Nightcore", "Rika", "Riley", "Ryner", "Samuel", "Shadow", "SirRobben", "Tam", 
-	"Tarram1010", "Tommy", "TopHat", "Troubadix", "Xepherio", "Ying", "Yuna", "Znarf", 
+	"Aceffect14", "Anna", "ArashiSama", "Aylea", "Bjugh", "BlueWinter", "Brian", "Bryce", 
+	"Christian", "Clash", "DarkStar", "Desch", "Dini", "Edwin", "Epona", "Escurse", "Greendragon", 
+	"Hayden", "JoeyDubDee", "Kimuriel", "Michal", "Michel", "Mike", "Mike", "Mindtie", 
+	"Misa", "Mob", "MrUniver", "Nick", "Nightcore", "Rika", "Riley", "Samuel", "Shadow", "SirRobben", 
+	"Tam", "Tarram", "Tommy", "TopHat", "Troubadix", "Xepherio", "Ying", "Yuna", "Znarf"
 ];
 
 /* eslint-enable */
@@ -509,7 +509,7 @@ function LoginResponse(C) {
 			if (CommonIsNumeric(C.Money)) Player.Money = C.Money;
 			Player.Owner = ((C.Owner == null) || (C.Owner == "undefined")) ? "" : C.Owner;
 			Player.Game = C.Game;
-			if (typeof C.Description === "string" && C.Description.startsWith("╬")) {
+			if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 				C.Description = LZString.decompressFromUTF16(C.Description.substr(1));
 			}
 			Player.Description = (C.Description == null) ? "" : C.Description.substr(0, 10000);
@@ -601,9 +601,11 @@ function LoginResponse(C) {
 			}
 			Player.SavedColors.length = ColorPickerNumSaved;
 
+			// Loads the online lists
 			Player.WhiteList = ((C.WhiteList == null) || !Array.isArray(C.WhiteList)) ? [] : C.WhiteList;
 			Player.BlackList = ((C.BlackList == null) || !Array.isArray(C.BlackList)) ? [] : C.BlackList;
 			Player.FriendList = ((C.FriendList == null) || !Array.isArray(C.FriendList)) ? [] : C.FriendList;
+
 			// Attempt to parse friend names
 			if (typeof C.FriendNames === "string") {
 				try {
@@ -627,6 +629,7 @@ function LoginResponse(C) {
 			LogLoad(C.Log);
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
+			CraftingLoadServer(C.Crafting);
 
 			// Calls the preference init to make sure the preferences are loaded correctly
 			PreferenceInitPlayer();

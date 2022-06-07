@@ -23,6 +23,7 @@
 </head>
 
 <script src="Backgrounds/Backgrounds.js"></script>
+<script src="Scripts/ImageCache.js"></script>
 <script src="Scripts/GLDraw.js"></script>
 <script src="Scripts/Common.js"></script>
 <script src="Scripts/CommonDraw.js"></script>
@@ -118,6 +119,7 @@
 <script src="Screens/Room/Platform/Platform.js"></script>
 <script src="Screens/Room/PlatformDialog/PlatformDialog.js"></script>
 <script src="Screens/Room/PlatformIntro/PlatformIntro.js"></script>
+<script src="Screens/Room/Crafting/Crafting.js"></script>
 <script src="Screens/Room/Gambling/Gambling.js"></script>
 <script src="Screens/Room/Prison/Prison.js"></script>
 <script src="Screens/Room/Photographic/Photographic.js"></script>
@@ -290,6 +292,7 @@
 <script src="Screens/Inventory/Wings/SteampunkWings/SteampunkWings.js"></script>
 <script src="Screens/Inventory/ItemNeck/TechnoCollar/TechnoCollar.js"></script>
 <script src="Screens/Inventory/ItemHead/DroneMask/DroneMask.js"></script>
+<script src="Screens/Inventory/ItemNipples/LactationPump/LactationPump.js"></script>
 <script>
 
 /*
@@ -430,43 +433,43 @@ function LoseFocus(event) {
 
 <div id="axes" style="display: flex; flex-direction: column;"></div>
 <script>
-    if (ControllerActive == true) {
-        window.addEventListener('gamepadconnected', (event) => {
-            const update = () => {
-                const output = document.getElementById('axes');
-                output.innerHTML = '';
+	if (ControllerActive == true) {
+		window.addEventListener('gamepadconnected', (event) => {
+			const update = () => {
+				const output = document.getElementById('axes');
+				output.innerHTML = '';
 
-                for (const gamepad of navigator.getGamepads()) {
-                    if (!gamepad) continue;
-                    for (const [index, axis] of gamepad.axes.entries()) {
-                        ControllerAxis(gamepad.axes);
-                    }
-                }
-                requestAnimationFrame(update);
-            };
-            update();
-        });
-    }
+				for (const gamepad of navigator.getGamepads()) {
+					if (!gamepad) continue;
+					for (const [index, axis] of gamepad.axes.entries()) {
+						ControllerAxis(gamepad.axes);
+					}
+				}
+				requestAnimationFrame(update);
+			};
+			update();
+		});
+	}
 </script>
 <div id="buttons" style="display: flex; flex-direction: column;"></div>
 <script>
-    if (ControllerActive == true) {
-        window.addEventListener('gamepadconnected', (event) => {
-            const update = () => {
-                const output = document.getElementById('buttons');
-                output.innerHTML = '';
+	if (ControllerActive == true) {
+		window.addEventListener('gamepadconnected', (event) => {
+			const update = () => {
+				const output = document.getElementById('buttons');
+				output.innerHTML = '';
 
-                for (const gamepad of navigator.getGamepads()) {
-                    if (!gamepad) continue;
-                    for (const [index, button] of gamepad.buttons.entries()) {
-                        ControllerButton(gamepad.buttons);
-                    }
-                }
-                requestAnimationFrame(update);
-            };
-            update();
-        });
-    }
+				for (const gamepad of navigator.getGamepads()) {
+					if (!gamepad) continue;
+					for (const [index, button] of gamepad.buttons.entries()) {
+						ControllerButton(gamepad.buttons);
+					}
+				}
+				requestAnimationFrame(update);
+			};
+			update();
+		});
+	}
 </script>
 
 <body style="width:100%; height:100%; background-color:black; margin:0px; padding:0px; overflow:hidden;">
