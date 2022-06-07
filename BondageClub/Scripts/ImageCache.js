@@ -31,25 +31,25 @@ class CachedImage {
 	constructor(cache, url, loadCallback = null) {
 		/**
 		 * Only used to inform the cache of loading progress
-		 * @type ImageCacheClass
+		 * @type {ImageCacheClass}
 		 * @private
 		 */
 		this.cache = cache;
-		/** @type string */
+		/** @type {string} */
 		this.url = url;
-		/** @type CachedImageState */
+		/** @type {CachedImageState} */
 		this.state = CachedImageState.UNCACHED;
-		/** @type number */
+		/** @type {number} */
 		this.errorCount = 0;
-		/** @type {function(CachedImage):void} */
+		/** @type {ImageLoadCallback} */
 		this.loadCallback = loadCallback;
-		/** @type HTMLImageElement | HTMLCanvasElement */
+		/** @type {HTMLImageElement | HTMLCanvasElement} */
 		this.element = null;
-		/** @type object */
+		/** @type {object} */
 		this.userData = {};
-		/** @type number */
+		/** @type {number} */
 		this.lastUsed = null;
-		/** @type boolean */
+		/** @type {boolean} */
 		this.manual = false;
 	}
 
@@ -139,7 +139,7 @@ class ImageCacheClass {
 	 * Get a cached image from the cache.
 	 *
 	 * @param {string} url - The URL of the image to lookup
-	 * @param {function(CachedImage):void} loadCallback - A callback that will be called when the load completes
+	 * @param {ImageLoadCallback} loadCallback - A callback that will be called when the load completes
 	 * @returns {CachedImage} The cached image
 	 */
 	get(url, loadCallback = null) {
