@@ -325,7 +325,7 @@ Hat,NurseCap,Nurse Cap
 Hat,Santa1,Santa Hat
 Hat,CaptainHat1,Captain's Hat
 Hat,BunnySuccubus2,Bunny Succubus
-Hat,WitchHat1, Witch Hat
+Hat,WitchHat1,Witch Hat
 Hat,PirateBandana1,Pirate Bandana
 Hat,Bandana,Bandana
 Hat,PoliceWomanHat,Police Woman Hat
@@ -350,14 +350,15 @@ Hat,RoseCrown,Rose Crown
 Hat,FlowerCrown,Flower Crown
 Hat,PoppyCrown,Poppy Crown
 Hat,LatexHabit,Latex Habit
-Hat,BallCapBack,Ball Cap
+Hat,BallCapBack,Baseball Cap Back
+Hat,BallCapFront,Baseball Cap Front
 HairAccessory3,,Hair Accessory
 HairAccessory3,Ribbons1,Hair Ribbon 1
 HairAccessory3,Ribbons2,Hair Ribbon 2
 HairAccessory3,Ribbons3,Hair Ribbon 3
 HairAccessory3,Ribbons4,Hair Ribbon 4
-HairAccessory3,GiantBow1, Giant Bow 1
-HairAccessory3,HairFlower1, Flower
+HairAccessory3,GiantBow1,Giant Bow 1
+HairAccessory3,HairFlower1,Flower
 HairAccessory3,WeddingVeil1,Wedding Veil
 HairAccessory3,HairFeathers1,Feathers
 HairAccessory3,Halo,Halo
@@ -369,7 +370,7 @@ HairAccessory1,Ribbons1,Hair Ribbon 1
 HairAccessory1,Ribbons2,Hair Ribbon 2
 HairAccessory1,Ribbons3,Hair Ribbon 3
 HairAccessory1,Ribbons4,Hair Ribbon 4
-HairAccessory1,GiantBow1, Giant Bow 1
+HairAccessory1,GiantBow1,Giant Bow 1
 HairAccessory1,BunnyEars1,Bunny Ears
 HairAccessory1,BunnyEars2,Floppy Bunny Ears
 HairAccessory1,PuppyEars1,Puppy Ears

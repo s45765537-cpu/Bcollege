@@ -1353,7 +1353,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BallCapBack", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
+				Name: "BallCapBack", Value: -1, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
 					{ Name: "Button", HasType: false },
 					{ Name: "PanelLeft", HasType: false },
 					{ Name: "PanelRight", CopyLayerColor: "PanelLeft", HasType: false },
@@ -1362,7 +1362,17 @@ var AssetFemale3DCG = [
 					{ Name: "Strap", Priority: 55, AllowTypes: ["StrapOver"], HasType: false },
 					{ Name: "StrapUnder", CopyLayerColor: "Strap", Priority: 50, HasType: false }
 				],
-			}
+			},
+			{
+				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
+					{ Name: "Panel", HasType: false },
+					{ Name: "PanelLeft", CopyLayerColor: "Panel", HasType: false },
+					{ Name: "PanelRight", CopyLayerColor: "Panel", HasType: false },
+					{ Name: "Button", HasType: false },
+					{ Name: "Visor", HasType: false },
+					{ Name: "Print", AllowTypes: ["BCLogo", "BDSM", "BG", "Chain", "Gag", "Knot", "Monogram", "Rock", "Smile", "Sun", "Tick"], AllowColorize: true, ParentGroup: null },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

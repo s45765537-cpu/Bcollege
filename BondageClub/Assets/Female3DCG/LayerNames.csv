@@ -193,6 +193,10 @@ HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
 HatBallCapBackStrap,Strap
+HatBallCapFrontPanel,Panel
+HatBallCapFrontButton,Button
+HatBallCapFrontVisor,Visor
+HatBallCapFrontPrint,Print
 HairAccessory1KittenEars1Outer,Outer Ear
 HairAccessory1KittenEars1Inner,Inner Ear
 HairAccessory1FoxEars2Inner,Inner Ear

@@ -74,6 +74,94 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //BallCapBack
+		BallCapFront: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Blank",
+						Property: { Type: null, },
+					},
+					{
+						Name: "BCLogo",
+						Property: {
+							Type: "BCLogo",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "BDSM",
+						Property: {
+							Type: "BDSM",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "BG",
+						Property: {
+							Type: "BG",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Chain",
+						Property: {
+							Type: "Chain",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Gag",
+						Property: {
+							Type: "Gag",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Knot",
+						Property: {
+							Type: "Knot",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Monogram",
+						Property: {
+							Type: "Monogram",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Rock",
+						Property: {
+							Type: "Rock",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Smile",
+						Property: {
+							Type: "Smile",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Sun",
+						Property: {
+							Type: "Sun",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Tick",
+						Property: {
+							Type: "Tick",
+							DefaultColor: "Default",
+						},
+					},
+				],
+			},
+		}, //BallCapFront
 	},
 	Cloth: {
 		TShirt2: {
