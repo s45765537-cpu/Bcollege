@@ -1441,10 +1441,10 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BallCapBack", Value: -1, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
-					{ Name: "Button", HasType: false },
+				Name: "BallCapBack", Value: -1, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#CCCC32", "#424242", "#3B3B3B"], Extended: true, Layer: [
 					{ Name: "PanelLeft", HasType: false },
 					{ Name: "PanelRight", CopyLayerColor: "PanelLeft", HasType: false },
+					{ Name: "Button", HasType: false },
 					{ Name: "SideLeft", HasType: false },
 					{ Name: "SideRight", CopyLayerColor: "SideLeft", HasType: false },
 					{ Name: "Strap", Priority: 55, AllowTypes: ["StrapOver"], HasType: false },
@@ -1452,7 +1452,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", Extended: true, Layer: [
+				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor:["#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
 					{ Name: "Panel", HasType: false },
 					{ Name: "PanelLeft", CopyLayerColor: "Panel", HasType: false },
 					{ Name: "PanelRight", CopyLayerColor: "Panel", HasType: false },
