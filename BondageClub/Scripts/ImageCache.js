@@ -98,6 +98,9 @@ class CachedImage {
 	 * Refresh the given image.
 	 */
 	_refresh() {
+		// We're already loading that image, don't bother
+		if (this.state === CachedImageState.LOADING) return;
+
 		this.userData = {};
 		if (this.element instanceof HTMLImageElement) {
 			this.state = CachedImageState.LOADING;
