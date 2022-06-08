@@ -2,13 +2,25 @@
 
 /**
  * What state is the image in.
+ *
+ * UNCACHED (initial) -> LOADING
+ * LOADING -> LOADED (final)
+ * LOADING -> ERRORED (entering retry loop)
+ * ERRORED -> LOADING
+ * LOADING -> FAILED (final)
+ *
  * @enum string
  */
 const CachedImageState = {
+	/** Image is known, but not yet cached */
 	UNCACHED: 'uncached',
+	/** Image is currently being loaded */
 	LOADING: 'loading',
+	/** Image is available in cache */
 	LOADED: 'loaded',
+	/** Image is being loaded, but experiencing an error and will be retried */
 	ERRORED: 'errored',
+	/** Image couldn't be cached */
 	FAILED: 'failed',
 };
 
@@ -59,8 +71,8 @@ class CachedImage {
 	 * Load the cached image if it's not already available
 	 */
 	load() {
-		if ((this.state == CachedImageState.LOADING) || (this.state == CachedImageState.LOADED))
-			return;
+		// Ensure there's only one image load in progress
+		if (this.isLoading() || this.isDoneLoading()) return;
 
 		// Get a new image element to perform the loading for us
 		this.element = new Image();
@@ -98,9 +110,7 @@ class CachedImage {
 	 * Refresh the given image.
 	 */
 	_refresh() {
-		console.debug(`_refresh: refreshing ${this.url}, ${this.state}`);
-		// We're already loading that image, don't bother
-		if (this.state === CachedImageState.LOADING) return;
+		if ([CachedImageState.LOADING, CachedImageState.FAILED].includes(this.state)) return;
 
 		this.userData = {};
 		if (this.element instanceof HTMLImageElement) {
@@ -121,13 +131,27 @@ class CachedImage {
 	isAsset() { return (this.url.indexOf("Assets") >= 0); }
 
 	/**
-	 * Is the image loaded?
+	 * Is the image currently being loaded?
+	 */
+	isLoading() { return [CachedImageState.LOADING, CachedImageState.ERRORED].includes(this.state); }
+
+	/**
+	 * Is the image loading complete (either succesfully or not)?
+	 */
+	isDoneLoading() { return [CachedImageState.LOADED, CachedImageState.FAILED].includes(this.state); }
+
+	/**
+	 * Is the image experiencing problems loading?
+	 */
+	isFailing() { return [CachedImageState.FAILED, CachedImageState.ERRORED].includes(this.state); }
+
+	/**
+	 * Is the image loaded and ready?
 	 */
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 }
 
-// let ImageCachePurgeDelay = 30 * 60 * 1000; /* minutes */
-let ImageCachePurgeDelay = 3 * 60 * 1000; /* minutes */
+let ImageCachePurgeDelay = 30 * 60 * 1000; /* minutes */
 
 /**
  * The class responsible for loading and caching images
@@ -187,9 +211,9 @@ class ImageCacheClass {
 		if (!known) return;
 
 		// That's already in the cache, correct our counters depending on the state
-		if (known.state === CachedImageState.LOADED)
+		if (known.isLoaded())
 			this.loadedCount -= 1;
-		else if (known.state === CachedImageState.ERRORED || known.state === CachedImageState.FAILED)
+		else if (known.isFailing())
 			this.missingCount -= 1;
 		this.cache.delete(url);
 	}
@@ -218,8 +242,7 @@ class ImageCacheClass {
 	 */
 	_imageStateDidChange(image) {
 		const RetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
-		console.log(`_imageStateDidChange: firing for ${image.url}, ${image.state}, ${image.errorCount}`);
-		if (image.state == CachedImageState.LOADED) {
+		if (image.isLoaded()) {
 			// That image had some failure before we finally succeeded, meaning
 			// it has been considered missing at some point.
 			if (image.errorCount > 0) {
@@ -243,13 +266,10 @@ class ImageCacheClass {
 			// a transient issue.
 			if (image.errorCount < RetryTimers.length) {
 				let backoff = RetryTimers[image.errorCount - 1];
-				if (image.backoffTimer) {
-					console.info("Error loading image, but backoff timer already set, ignoring");
-				} else {
+				if (!image.backoffTimer) {
 					console.warn("Error loading image, retrying after " + backoff + "ms: " + image.url);
 					image.backoffTimer = setTimeout(() => {
 						image.backoffTimer = null;
-						console.debug(`_imageStateDidChange: delayed refresh of "${image.url}" triggered (${backoff}ms)`);
 						image._refresh();
 					}, backoff);
 				}
@@ -269,9 +289,7 @@ class ImageCacheClass {
 	 * @private
 	 */
 	_refreshCanvas() {
-		console.debug(`_refreshCanvas: ${this.loadedImages()}+${this.missingImages()}/${this.totalImages()}`);
 		if (this.loadedImages() + this.missingImages() == this.totalImages()) {
-			console.debug(`_refreshCanvas: reloading`);
 			CharacterLoadCanvasAll();
 		}
 	}
