@@ -437,6 +437,7 @@ var TranslationDictionary = [
 			"Screens/Room/Cafe/Dialog_NPC_Cafe_Maid_CN.txt",
 			"Screens/Room/Cell/Dialog_NPC_Cell_KeyDepositStaff_CN.txt",
 			"Screens/Room/Cell/Text_Cell_CN.txt",
+			"Screens/Room/Crafting/Text_Crafting_CN.txt",
 			// "Screens/Room/CollegeCafeteria/Dialog_NPC_CollegeCafeteria_FarRight_CN.txt",
 			// "Screens/Room/CollegeCafeteria/Dialog_NPC_CollegeCafeteria_Right_CN.txt",
 			// "Screens/Room/CollegeCafeteria/Text_CollegeCafeteria_CN.txt",
