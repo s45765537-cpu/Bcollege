@@ -2357,6 +2357,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Effect: ["GagLight"],
+									Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 								}
 							}, // g1 - Gag
 						]

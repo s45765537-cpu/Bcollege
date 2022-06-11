@@ -6045,6 +6045,7 @@ var AssetFemale3DCG = [
 				Name: "LatexDogHood", Fetish: ["Latex", "Pet"], Random: false, Value: 20, Difficulty: 1, Top: -5, Left: 113,
 				AllowLock: true,
 				Hide: ["HairFront", "HairBack", "Glasses", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 			},
 			AssetSpankingToys
 		],
