@@ -6375,7 +6375,7 @@ var AssetFemale3DCGExtended = {
 							{}, // h0 - Mask
 							{
 								Property: {
-									Hide: ["HairFront", "Ears", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+									Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
 									HideItem: [
 										"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
 										"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
@@ -6395,7 +6395,7 @@ var AssetFemale3DCGExtended = {
 							}, // h1 - Helmet (hood)
 							{ // h2 - Helmet ( hood but nothing shows)
 								Property: {
-									Hide: ["HairFront", "Ears", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+									Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
 									HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
 								},
 							},
