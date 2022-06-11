@@ -163,6 +163,39 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // ReverseBunnySuit
+		Jacket: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Normal",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "Hooded",
+						Property: {
+							Type: "Hooded",
+							Hide: [
+								"HairFront", "HairBack",
+								"HairAccessory1", "HairAccessory2", "HairAccessory3",
+							],
+						},
+					},
+					{
+						Name: "HoodedEarsOut",
+						Property: {
+							Type: "HoodedEarsOut",
+							Hide: [
+								"HairFront", "HairBack",
+								"HairAccessory1", "HairAccessory3",
+							],
+						},
+					}
+				]
+			}
+		}, // Jacket
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
