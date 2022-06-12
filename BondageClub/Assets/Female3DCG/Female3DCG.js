@@ -6544,7 +6544,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#866949", "#875D37", "#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack",
+				Name: "WoodenRack", Value: 180, Priority: 1, Difficulty: 0, RemoveTime: 5, Time: 5, SelfBondage: 0, Random: false, RemoveAtLogin: true, DefaultColor: ["#866949", "#875D37", "#63605F", "#372D24", "#BB895D", "Default"], Extended: true, AlwaysExtend: true, BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: ["Freeze", "Mounted", "OnBed"],
 				Prerequisite: ["AllFours", "NotSuspended", "NotHogtied"],
@@ -6555,7 +6555,7 @@ var AssetFemale3DCG = [
 					{ Name: "HalfBack", HasType: false, CopyLayerColor: "Back", AllowModuleTypes: ["f2"] },
 					{ Name: "NoBack", HasType: false, AllowColorize: false, AllowModuleTypes: ["f3"], HasImage: false },
 					{ Name: "FrameWood", HasType: false, AllowColorize: true },
-					{ Name: "FrameMetal", HasType: false, AllowColorize: false },
+					{ Name: "FrameMetal", HasType: false, AllowColorize: true },
 					{ Name: "FrameStains", HasType: false, AllowModuleTypes: ["f1"] },
 					{ Name: "TopRopes", HasType: false, AllowModuleTypes: ["t1"], Priority: 50 },
 					{ Name: "TopRopesTight", HasType: false, CopyLayerColor: "TopRopes", AllowModuleTypes: ["t2"], Priority: 50 },
@@ -6566,8 +6566,8 @@ var AssetFemale3DCG = [
 					{ Name: "BotRopesTogether", HasType: false, CopyLayerColor: "TopRopes",AllowModuleTypes: ["b2"], Priority: 50 },
 					{ Name: "BotChains", HasType: false, CopyLayerColor: "TopChains", AllowModuleTypes: ["b3"]},
 					{ Name: "BotChainsTogether", HasType: false, CopyLayerColor: "TopChains", AllowModuleTypes: ["b4"]},
-					{ Name: "BotStocksBack", HasType: false, AllowColorize: false, AllowModuleTypes: ["b5"] },
-					{ Name: "BotStocks", HasType: false, AllowColorize: false, AllowModuleTypes: ["b5"], Priority: 50 },
+					{ Name: "BotStocksBack", HasType: false, CopyLayerColor: "FrameWood", AllowModuleTypes: ["b5"] },
+					{ Name: "BotStocks", HasType: false, CopyLayerColor: "FrameWood", AllowModuleTypes: ["b5"], Priority: 50 },
 				]
 			},
 			{
