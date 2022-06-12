@@ -350,7 +350,7 @@ Give me a minute.  (Leave her.)
 等我一会儿。（离开她。）
 ###_NPC
 Since they are sending members to do damage on our buildings, it's only fair that we do the same.  I'll send you on a maid sabotage mission.
-既然他们派遣成员来破坏我们的建筑，仅有的公平就是我们也这样做。我将派你去执行女仆破坏任务。
+既然他们派遣会员来破坏我们的建筑，仅有的公平就是我们也这样做。我将派你去执行女仆破坏任务。
 ###_PLAYER
 Sabotage how?
 怎么破坏？

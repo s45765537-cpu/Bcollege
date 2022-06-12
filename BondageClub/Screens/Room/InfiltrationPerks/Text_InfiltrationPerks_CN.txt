@@ -23,11 +23,11 @@ Forgery: Fake papers for entrance maid
 Begging: Less prison time if the mission fails
 乞求：减少任务失败时的牢狱时间
 Bribery: Pay less to bribe members or guards
-贿赂：在贿赂成员或守卫时，花费较少的钱
+贿赂：在贿赂会员或警卫时，花费较少的钱
 Negotiation: More money when successful
 交涉：在成功时得到更多钱
 Recruiter: Easier to recruit members
-征召：更容易征得成员
+征召：更容易招募会员
 Recovery: Heal faster in prison and after fights
 恢复：在监狱中和战斗后回复得更快
 Cartographer: Map the return path in yellow
