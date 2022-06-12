@@ -462,6 +462,19 @@ function DrawClearRect(Canvas, x, y, width, height) {
 }
 
 /**
+ * Clears alpha masks on a canvas
+ * @param {CanvasRenderingContext2D} Canvas - The canvas on which to clear rect
+ * @param {number} X - X offset of where the masking should be done
+ * @param {number} Y - Y offset of where the masking should be done
+ * @param {RectTuple[]} AlphaMasks - An array of alpha masks to apply
+ */
+function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
+	if (!Array.isArray(AlphaMasks)) return;
+
+	AlphaMasks.forEach(([x, y, w, h]) => DrawClearRect(Canvas, x - X, y - Y, w, h));
+}
+
+/**
  * Draws a zoomed image from a source to a specific canvas
  * @param {string} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
@@ -527,9 +540,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate, Blen
 			Y -= TempCanvas.canvas.height;
 		}
 		TempCanvas.drawImage(Img, 0, 0);
-		if (AlphaMasks && AlphaMasks.length) {
-			AlphaMasks.forEach(([x, y, w, h]) => TempCanvas.clearRect(x - X, y - Y, w, h));
-		}
+		DrawClearAlphaMasks(TempCanvas, X, Y, AlphaMasks);
 		SourceImage = TempCanvas.canvas;
 	}
 	Opacity = typeof Opacity === "number" ? Opacity : 1;
@@ -556,7 +567,7 @@ function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
 		TempCanvas.canvas.width = Img.width;
 		TempCanvas.canvas.height = Img.height;
 		TempCanvas.drawImage(Img, 0, 0);
-		AlphaMasks.forEach(([x, y, w, h]) => TempCanvas.clearRect(x - X, y - Y, w, h));
+		DrawClearAlphaMasks(TempCanvas, X, Y, AlphaMasks);
 		Canvas.drawImage(TempCanvas.canvas, X, Y);
 	} else {
 		Canvas.drawImage(Img, X, Y);
@@ -665,9 +676,7 @@ function DrawImageCanvasColorize(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha
 
 	// Replace the source image with the modified canvas
 	ColorCanvas.putImageData(imageData, 0, 0);
-	if (AlphaMasks && AlphaMasks.length) {
-		AlphaMasks.forEach(([x, y, w, h]) => ColorCanvas.clearRect(x - X, y - Y, w, h));
-	}
+	DrawClearAlphaMasks(ColorCanvas, X, Y, AlphaMasks);
 
 	// Rotate the image 180 degrees
 	if (Rotate) {

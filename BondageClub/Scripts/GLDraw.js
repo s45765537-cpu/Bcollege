@@ -581,7 +581,7 @@ function GLDrawLoadMask(gl, texWidth, texHeight, offsetX, offsetY, alphaMasks) {
 		tmpCanvas.height = texHeight;
 		const ctx = tmpCanvas.getContext("2d");
 		ctx.fillRect(0, 0, texWidth, texHeight);
-		alphaMasks.forEach(([x, y, w, h]) => ctx.clearRect(x - offsetX, y - offsetY, w, h));
+		DrawClearAlphaMasks(ctx, offsetX, offsetY, alphaMasks);
 
 		mask = gl.createTexture();
 
