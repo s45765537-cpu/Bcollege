@@ -570,12 +570,30 @@ function GLDrawAppearanceBuild(C) {
 	CommonDrawAppearanceBuild(C, {
 		clearRect: (x, y, w, h) => GLDrawClearRect(GLDrawCanvas.GL, x, CanvasDrawHeight - y - h, w, h),
 		clearRectBlink: (x, y, w, h) => GLDrawClearRectBlink(GLDrawCanvas.GL, x, CanvasDrawHeight - y - h, w, h),
-		drawImage: (src, x, y, alphaMasks, opacity, rotate) => GLDrawImage(src, GLDrawCanvas.GL, x, y, 0, null, null, alphaMasks, opacity, rotate),
-		drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => GLDrawImageBlink(src, GLDrawCanvas.GL, x, y, null, null, alphaMasks, opacity, rotate),
-		drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => GLDrawImage(src, GLDrawCanvas.GL, x, y, 0, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => GLDrawImageBlink(src, GLDrawCanvas.GL, x, y, color, fullAlpha, alphaMasks, opacity, rotate),
-		drawCanvas: (Img, x, y, alphaMasks) => GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, alphaMasks),
-		drawCanvasBlink: (Img, x, y, alphaMasks) => GLDraw2DCanvasBlink(GLDrawCanvas.GL, Img, x, y, alphaMasks),
+		drawImage: (src, x, y, alphaMasks, opacity, rotate) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, GLDrawCanvas.GL, x, y, 0, null, null, alphaMasks, opacity, rotate);
+		},
+		drawImageBlink: (src, x, y, alphaMasks, opacity, rotate) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImageBlink(src, GLDrawCanvas.GL, x, y, null, null, alphaMasks, opacity, rotate);
+		},
+		drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, GLDrawCanvas.GL, x, y, 0, color, fullAlpha, alphaMasks, opacity, rotate);
+		},
+		drawImageColorizeBlink: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImageBlink(src, GLDrawCanvas.GL, x, y, color, fullAlpha, alphaMasks, opacity, rotate);
+		},
+		drawCanvas: (Img, x, y, alphaMasks) => {
+			CommonDrawMarkDrawnAsset(C, Img);
+			GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, alphaMasks);
+		},
+		drawCanvasBlink: (Img, x, y, alphaMasks) => {
+			CommonDrawMarkDrawnAsset(C, Img);
+			GLDraw2DCanvasBlink(GLDrawCanvas.GL, Img, x, y, alphaMasks);
+		},
 	});
 	C.Canvas.getContext("2d").drawImage(GLDrawCanvas, 0, 0);
 	C.CanvasBlink.getContext("2d").drawImage(GLDrawCanvas, -500, 0);
