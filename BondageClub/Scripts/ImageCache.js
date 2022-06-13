@@ -329,27 +329,44 @@ class ImageCacheClass {
 		if (!force && delta > 0 && delta < ImageCachePurgeDelay)
 			return;
 
-		let stats = { errored: 0, unused: 0, missing: 0, loaded: 0 };
-		console.log(`Purging ${this.totalImages()} cached images`);
+		const startingTotal = this.totalImages();
 		this.cache.forEach((image, url) => {
-			// Clear errored images
-			if (image.state == CachedImageState.ERRORED) {
-				stats.errored += 1;
-				stats.missing += 1;
-				this.cache.delete(url);
-			} else if (image.state == CachedImageState.FAILED) {
-				stats.missing += 1;
-			} else if ((image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
-				stats.unused += 1;
-				this.cache.delete(url);
-			} else if (image.state == CachedImageState.LOADED) {
-				stats.loaded += 1;
+			// Clear images experiencing problems, or that were loaded for longer
+			// than half a purge delay
+			if (image.state == CachedImageState.ERRORED
+				|| image.state == CachedImageState.FAILED
+				|| (image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
+				this.delete(url);
 			}
 		});
-		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused, ${stats.missing} missing, ${stats.loaded} loaded`);
-		this.loadedCount = stats.loaded;
-		this.missingCount = stats.missing;
+		console.log(`Cache purged, ${startingTotal - this.totalImages()} images removed`);
 		this.lastPurge = CurrentTime;
+		this.stats();
+	}
+
+	/**
+	 * Output some stats about the cache and recalculate our counts
+	 */
+	stats() {
+		let stats = { total: this.cache.size, loaded: 0, missing: 0, errored: 0 };
+		this.cache.forEach((image) => {
+			// Clear errored images
+			if (image.state == CachedImageState.ERRORED) {
+				stats.missing += 1;
+			} else if (image.state == CachedImageState.FAILED) {
+				stats.missing += 1;
+			} else if (image.state == CachedImageState.LOADED) {
+				stats.loaded += 1;
+				// Sort loaded images into 5-minute wide "generations"
+				const key = `gen${Math.floor((CurrentTime - image.lastUsed) / (5 * 60 * 1000))}`;
+				stats[key] = (stats[key] || 0) + 1;
+			}
+		});
+
+		this.loadedCount = stats.loaded;
+		this.missingCount = stats.missing + stats.errored;
+
+		console.log(`Cache stats: ${[...Object.entries(stats)].map(e => e[0] + ": " + e[1]).join(", ")}`);
 	}
 
 	/**
