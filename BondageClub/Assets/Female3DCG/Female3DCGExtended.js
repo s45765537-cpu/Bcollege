@@ -188,6 +188,7 @@ var AssetFemale3DCGExtended = {
 						Name: "HoodedEarsOut",
 						Property: {
 							Type: "HoodedEarsOut",
+							HideItem: ["HairAccessory2UnicornHorn", "HairAccessory2DildocornHorn"],
 							Hide: [
 								"HairFront", "HairBack",
 								"HairAccessory1", "HairAccessory3",

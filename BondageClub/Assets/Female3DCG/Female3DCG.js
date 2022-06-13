@@ -298,6 +298,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Jacket", Value: 40, Priority: 30, ParentGroup: null, Extended: true,
+				HideItem: ["ClothAccessoryPoncho", "ClothAccessoryCape"],
 				Layer: [
 					{ Name: "Base", HasType: false, },
 					{ Name: "Hood", HasType: false, Priority: 54, AllowTypes: ["Hooded", "HoodedEarsOut"], AllowPose: [], CopyLayerColor: "Base", },
