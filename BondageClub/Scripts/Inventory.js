@@ -404,6 +404,103 @@ function InventoryGet(C, AssetGroup) {
 }
 
 /**
+* Applies crafted properties to the item used
+* @param {Character} Target - The character on which the item is used
+* @param {String} GroupName - The name of the asset group to scan
+* @param {Object} Craft - The crafted properties to apply
+* @returns {void}
+*/
+function InventoryCraft(Target, GroupName, Craft) {
+
+	// Gets the item first
+	let Item = InventoryGet(Target, GroupName);
+	if (Item == null) return;
+	if (Item.Craft == null) Item.Craft = Craft;
+
+	// Applies the color schema, separated by commas
+	if ((Craft.Color != null) && (Craft.Color.indexOf(",") > 0)) {
+		Item.Color = Craft.Color.replace(" ", "").split(",");
+		for (let C of Item.Color)
+			if (CommonIsColor(C) == false)
+				C = "default";
+	}
+
+	// Applies a lock to the item
+	if ((Craft.Lock != null) && (Craft.Lock != ""))
+		InventoryLock(Target, Item, Craft.Lock, Target.MemberNumber, false);
+
+	// Sets the crafter name and ID
+	if (Item.Craft.MemberNumber == null) Item.Craft.MemberNumber = Player.MemberNumber;
+	if (Item.Craft.MemberName == null) Item.Craft.MemberName = CharacterNickname(Player);
+
+	// The properties are only applied on self or NPCs to prevent duplicating the effect
+	if ((Craft.Property != null) && (Target.IsPlayer() || Target.IsNpc())) {
+
+		// The secure property adds 5 to the difficulty rating to struggle out
+		if (Craft.Property === "Secure") {
+			if (Item.Difficulty == null) Item.Difficulty = 5;
+			else Item.Difficulty = Item.Difficulty + 5;
+		}
+
+		// The loose property removes 5 to the difficulty rating to struggle out
+		if (Craft.Property === "Loose") {
+			if (Item.Difficulty == null) Item.Difficulty = -5;
+			else Item.Difficulty = Item.Difficulty - 5;
+		}
+
+		// The decoy property makes it always possible to struggle out
+		if (Craft.Property === "Decoy") Item.Difficulty = -50;
+
+		// The painful property triggers an expression change
+		if (Craft.Property === "Painful") {
+			CharacterSetFacialExpression(Target, "Blush", "ShortBreath", 10);
+			CharacterSetFacialExpression(Target, "Eyes", "Angry", 10);
+			CharacterSetFacialExpression(Target, "Eyes2", "Angry", 10);
+			CharacterSetFacialExpression(Target, "Eyebrows1", "Angry", 10);
+		}
+
+		// The comfy property triggers an expression change
+		if (Craft.Property === "Comfy") {
+			CharacterSetFacialExpression(Target, "Blush", "Light", 10);
+			CharacterSetFacialExpression(Target, "Eyes", "Horny", 10);
+			CharacterSetFacialExpression(Target, "Eyes2", "Horny", 10);
+			CharacterSetFacialExpression(Target, "Eyebrows1", "Raised", 10);
+		}
+
+	}
+
+	// Refreshes the character
+	CharacterRefresh(Target, true);
+
+}
+
+/**
+* Returns the number of items on a character with a specific property
+* @param {Character} C - The character to validate
+* @param {String} Property - The property to count
+* @returns {Number} - The number of times the property is found
+*/
+function InventoryCraftCount(C, Property) {
+	let Count = 0;
+	if ((C != null) && (C.Appearance != null))
+		for (let A of C.Appearance)
+			if ((A.Craft != null) && (A.Craft.Property != null) && (A.Craft.Property == Property))
+				Count++;
+	return Count;
+}
+
+/**
+* Returns TRUE if an item as the specified crafted property
+* @param {Item} Item - The item to validate
+* @param {String} Property - The property to check
+* @returns {boolean} - TRUE if the property matches
+*/
+function InventoryCraftPropertyIs(Item, Property) {
+	if ((Item == null) || (Item.Craft == null) || (Item.Craft.Property == null) || (Property == null)) return false;
+	return (Item.Craft.Property == Property);
+}
+
+/**
 * Makes the character wear an item on a body area
 * @param {Character} C - The character that must wear the item
 * @param {string} AssetName - The name of the asset to wear
@@ -411,13 +508,16 @@ function InventoryGet(C, AssetGroup) {
 * @param {string | string[]} [ItemColor] - The hex color of the item, can be undefined or "Default"
 * @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
 * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
+* @param {Object} [Craft] - The crafting properties of the item
 */
-function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber) {
+function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
 	if (!A) return;
 	CharacterAppearanceSetItem(C, AssetGroup, A, ((ItemColor == null || ItemColor == "Default") && A.DefaultColor != null) ? A.DefaultColor : ItemColor, Difficulty, MemberNumber, false);
 	CharacterRefresh(C, true);
-	InventoryExpressionTrigger(C, InventoryGet(C, AssetGroup));
+	let Item = InventoryGet(C, AssetGroup);
+	if (Craft != null) Item.Craft = Craft;
+	InventoryExpressionTrigger(C, Item);
 }
 
 /**
@@ -638,7 +738,7 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 /**
 * Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used
 * @param {Character} C - The character on which we validate the group
-* @param {string} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
+* @param {AssetGroupName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
 * @param {boolean} [Activity=false] - if TRUE check if activity is allowed on the asset group
 * @returns {boolean} - TRUE if the group is blocked
 */
@@ -1009,8 +1109,8 @@ function InventoryIsWorn(C, AssetName, AssetGroup) {
 /**
  * Toggles an item's permission for the player
  * @param {Item} Item - Appearance item to toggle
- * @param {string} Type - Type of the item to toggle
- * @param {boolean} Worn - True if the player is changing permissions for an item they're wearing
+ * @param {string} [Type] - Type of the item to toggle
+ * @param {boolean} [Worn] - True if the player is changing permissions for an item they're wearing
  * @returns {void} - Nothing
  */
 function InventoryTogglePermission(Item, Type, Worn) {
@@ -1090,7 +1190,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
  * Returns TRUE if the item is not limited, if the player is an owner or a lover of the character, or on their whitelist
  * @param {Character} C - The character on which we check the limited permissions for the item
  * @param {Item} Item - The item being interacted with
- * @param {String} ItemType - The asset type to scan
+ * @param {String} [ItemType] - The asset type to scan
  * @returns {Boolean} - TRUE if item is allowed
  */
 function InventoryCheckLimitedPermission(C, Item, ItemType) {

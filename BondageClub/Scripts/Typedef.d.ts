@@ -268,6 +268,7 @@ interface ChatRoom {
 	Private: boolean;
 	Locked: boolean;
 	BlockCategory: string[];
+	Language: string;
 	Character?: any[]; /* From server, not really a Character object */
 }
 
@@ -465,7 +466,7 @@ interface Asset {
 	Wear: boolean;
 	Activity: string | null;
 	AllowActivity?: string[];
-	AllowActivityOn?: string[];
+	AllowActivityOn?: AssetGroupName[];
 	BuyGroup?: string;
 	PrerequisiteBuyGroups?: string[];
 	Effect?: EffectName[];
@@ -707,6 +708,7 @@ interface Character {
 	OnlineID?: string;
 	Type: CharacterType;
 	Name: string;
+	Nickname?: string;
 	AssetFamily: IAssetFamily | string;
 	AccountName: string;
 	Owner: string;
@@ -838,8 +840,6 @@ interface Character {
 		DisableAdvancedVibes: boolean;
 	};
 	AppearanceFull?: Item[];
-	Trait?: NPCTrait[];
-	Event?: any[];
 	// Online character properties
 	Title?: string;
 	ActivePose?: any;
@@ -863,7 +863,6 @@ interface Character {
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
 	Cage?: true | null;
-	Love?: number;
 	Difficulty?: {
 		Level: number;
 		LastChange?: number;
@@ -873,6 +872,78 @@ interface Character {
 	Rule?: LogRecord[];
 	Status?: string | null;
 	StatusTimer?: number;
+}
+
+type NPCArchetype =
+	/* Pandora NPCs */
+	"MemberNew"|"MemberOld"|"Cosplay"|"Mistress"|"Slave"|"Maid"|"Guard"|
+	/* Pandora Special */
+	"Victim"|"Target"|"Chest";
+
+/** NPC Character extension */
+// FIXME: That one should find its way down to NPCCharacter, but
+// there's too many accesses to those properties from Character
+// to do so.
+interface Character {
+	/** NPC type: Slave, Maid, etc. */
+	Archetype?: NPCArchetype;
+	Love?: number; /** The NPC's love value */
+	WillRelease?(): boolean; /** Shop NPC-only: will it release the player when asked */
+}
+
+/** NPC-only */
+interface NPCCharacter extends Character {
+	Archetype?: NPCArchetype;
+	Trait?: NPCTrait[];
+	Event?: NPCTrait[];
+	Love?: number;
+}
+
+/** College */
+interface NPCCharacter {
+	GoneAway?: boolean;
+}
+
+/** Asylum */
+interface NPCCharacter {
+	RunAway?: boolean;
+}
+
+/** Sarah */
+interface Character {
+	OrgasmMeter?: number;
+	OrgasmDone?: boolean;
+}
+
+interface KidnapCard {
+	Move: number;
+	Value?: number;
+}
+
+/** Kidnap minigame */
+interface Character {
+	KidnapWillpower?: number;
+	KidnapMaxWillpower?: number;
+	KidnapCard?: KidnapCard[];
+	KidnapStat?: [number, number, number, number];
+}
+
+/** Pandora NPCs */
+interface Character {
+	Recruit?: number;
+	RecruitOdds?: number;
+	RandomOdds?: number;
+	QuizLog?: number[];
+	QuizFail?: number;
+	AllowMove?: boolean;
+	DrinkValue?: number;
+	TriggerIntro?: boolean;
+	FromPandora?: boolean;
+}
+
+/** Magic School */
+interface Character {
+	House?: string;
 }
 
 /** MovieStudio */
@@ -1045,10 +1116,27 @@ interface PlayerCharacter extends Character {
 	FriendList?: number[];
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
+	ChatSearchFilterTerms?: string;
+}
+
+/** Pandora Player extension */
+interface PlayerCharacter {
+	Infiltration?: {
+		Punishment?: {
+			Minutes: number;
+			Timer?: number;
+			Background: string;
+			Difficulty: number;
+			FightDone?: boolean;
+		}
+		Perks?: string;
+	}
+}
+
+/** Kinky Dungeon Player extension */
+interface PlayerCharacter {
 	KinkyDungeonKeybindings?: any;
 	KinkyDungeonExploredLore?: any[];
-	Infiltration?: any;
-	ChatSearchFilterTerms?: string;
 }
 
 interface NPCTrait {
@@ -1083,7 +1171,7 @@ interface ItemPropertiesBase {
 	Attribute?: string[];
 
 	AllowActivity?: string[];
-	AllowActivityOn?: AssetGroupItemName[];
+	AllowActivityOn?: AssetGroupName[];
 
 	/** Items hidden by this one */
 	HideItem?: string[];
@@ -1283,7 +1371,7 @@ interface ExtendedItemOption {
 	Prerequisite?: string | string[];
 	/** A custom background for this option that overrides the default */
 	CustomBlindBackground?: string;
-	/** Whether the option permits locking */
+	/** Whether the option permits locking - if not set, defaults to the AllowLock property of the parent asset */
 	AllowLock?: boolean;
 	/**
 	 * Whether or not it should be possible to change from this option to another
@@ -1473,6 +1561,8 @@ interface ModularItemOption {
 	HideItem?: string[];
 	/** The Property object to be applied when this option is used */
 	Property?: ItemProperties;
+	/** Whether the option permits locking - if not set, defaults to the AllowLock property of the parent asset */
+	AllowLock?: boolean;
 	/**
 	 * Whether or not it should be possible to change from this option to another
 	 * option while the item is locked (if set to `false`, the player must be able to unlock the item to change its type) -
@@ -1514,6 +1604,8 @@ interface ModularItemData {
 	chatTags: CommonChatTags[];
 	/** The identifying key for the asset, in the format "<GroupName><AssetName>" */
 	key: string;
+	/** The total number of types permitted by the item */
+	typeCount: number;
 	/** The prefix for generated functions */
 	functionPrefix: string;
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
@@ -2159,3 +2251,48 @@ interface DynamicBeforeDrawOverrides {
 }
 
 // #endregion
+
+//#region Infiltration/Pandora
+
+type InfiltrationTargetType = "NPC" | "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+
+interface InfiltrationMissionTarget {
+	Type: InfiltrationTargetType;
+	Found: boolean;
+	Fail: boolean;
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+type PandoraDirection = "North" | "South" | "East" | "West";
+type PandoraFloorDirection = "StairsUp" | "StairsDown" | PandoraDirection;
+type PandoraFloors = "Ground" | "Second" | "Underground";
+
+interface PandoraSpecialRoom {
+	Floor: "Exit" | "Search" | "Rest" | "Paint";
+}
+
+interface PandoraBaseRoom {
+	Floor: PandoraFloors;
+	Background: string;
+	Character: NPCCharacter[];
+	Path: (PandoraBaseRoom | PandoraSpecialRoom)[];
+	PathMap: PandoraBaseRoom[];
+	Direction: string[];
+	DirectionMap: string[];
+
+	/* SearchRoom */
+	SearchSquare?: {
+		X: number;
+		Y: number;
+		W: number;
+		H: number;
+	}[];
+	ItemX?: number;
+	ItemY?: number;
+
+	/* PaintRoom */
+	Graffiti?: number;
+}
+
+//#endregion
