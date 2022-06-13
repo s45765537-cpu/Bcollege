@@ -2092,6 +2092,13 @@ var AssetFemale3DCG = [
 				{ Name: "Tips", Priority: 54 },
 			],
 			},
+			//HairFront29
+			{ Name: "HairFront29",
+			Layer: [
+				{ Name: "Left", Priority: 53 },
+				{ Name: "Right" },
+			],
+			},
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
