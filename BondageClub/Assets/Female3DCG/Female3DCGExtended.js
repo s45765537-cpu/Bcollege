@@ -2965,6 +2965,15 @@ var AssetFemale3DCGExtended = {
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
 									},
 								}, // t4 - ChainsTight
+								{
+									AllowLock: true,
+									Property: {
+										Difficulty: 12,
+										SetPose: ["Yoked"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									},
+								}, // t5 - Stocks
 							],
 					},
 					{
