@@ -1452,7 +1452,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor:["#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
+				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
 					{ Name: "Panel", HasType: false },
 					{ Name: "PanelLeft", CopyLayerColor: "Panel", HasType: false },
 					{ Name: "PanelRight", CopyLayerColor: "Panel", HasType: false },
@@ -2084,13 +2084,13 @@ var AssetFemale3DCG = [
 				{ Name: "BangsTip", Priority: 54},
 			],
 			Top: -200, Left: 0 },
-			{
-				Name: "HairFront28",
-				Layer: [
-					{ Name: "Base" },
-					{ Name: "Bangs", Priority: 54 },
-					{ Name: "Tips", Priority: 54 },
-				],
+			//HairFront28
+			{ Name: "HairFront28",
+			Layer: [
+				{ Name: "Base" },
+				{ Name: "Bangs" },
+				{ Name: "Tips", Priority: 54 },
+			],
 			},
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
@@ -2164,12 +2164,17 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack51" },
 			{ Name: "HairBack52" },
 			{ Name: "HairBack53",
-			Layer: [
-					{ Name: "Base" },
-					{ Name: "Tip" },
+			Layer:[
+				{ Name: "Base" },
+				{ Name: "Tip"  },
 			],
 			Top: -5, Left: 0 },
-			{ Name: "HairBack54" },
+			{ Name: "HairBack54", AllowPose: ["Suspension"],
+				Layer: [
+					{ Name: "Left" },
+					{ Name: "Right" },
+				]
+			},
 			{ Name: "HairBack55" },
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
