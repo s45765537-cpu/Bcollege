@@ -2460,6 +2460,7 @@ var AssetFemale3DCGExtended = {
 							{
 								Property: {
 									Effect: ["GagLight"],
+									Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 								}
 							}, // g1 - Gag
 						]
@@ -3136,6 +3137,15 @@ var AssetFemale3DCGExtended = {
 										Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
 									},
 								}, // t4 - ChainsTight
+								{
+									AllowLock: true,
+									Property: {
+										Difficulty: 12,
+										SetPose: ["Yoked"],
+										Block: ["ItemArms"],
+										Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+									},
+								}, // t5 - Stocks
 							],
 					},
 					{
@@ -4766,7 +4776,8 @@ var AssetFemale3DCGExtended = {
 					},
 					{
 						Name: "Heavy",
-						Property: {Type: "Extra",}
+						Property: {Type: "Heavy",}
+
 					},
 				],
 			},
@@ -6514,7 +6525,7 @@ var AssetFemale3DCGExtended = {
 							{}, // h0 - Mask
 							{
 								Property: {
-									Hide: ["HairFront", "Ears", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+									Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
 									HideItem: [
 										"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
 										"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
@@ -6534,7 +6545,7 @@ var AssetFemale3DCGExtended = {
 							}, // h1 - Helmet (hood)
 							{ // h2 - Helmet ( hood but nothing shows)
 								Property: {
-									Hide: ["HairFront", "Ears", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+									Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
 									HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
 								},
 							},
