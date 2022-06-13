@@ -227,6 +227,10 @@ class ImageCacheClass {
 			this.loadedCount -= 1;
 		else if (known.isFailing())
 			this.missingCount -= 1;
+
+		if (known.backoffTimer)
+			clearTimeout(known.backoffTimer);
+
 		this.cache.delete(url);
 	}
 
@@ -242,6 +246,11 @@ class ImageCacheClass {
 	 * Clear all cached images
 	 */
 	clear() {
+		// Unschedule any backing off that might be happening
+		this.cache.forEach(img => {
+			if (img.backoffTimer)
+				clearTimeout(img.backoffTimer);
+		});
 		this.cache.clear();
 		this.loadedCount = 0;
 		this.missingCount = 0;
@@ -253,6 +262,10 @@ class ImageCacheClass {
 	 * @param {CachedImage} image - The image whose state changed
 	 */
 	_imageStateDidChange(image) {
+		// Ignore images that aren't in the cache, which can happen if they get
+		// pruned while their load is still in progress.
+		if (!this.cache.has(image.url)) return;
+
 		const RetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
 		if (image.isLoaded()) {
 			// That image had some failure before we finally succeeded, meaning
