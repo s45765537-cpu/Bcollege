@@ -180,6 +180,7 @@ var AssetFemale3DCGExtended = {
 							Hide: [
 								"HairFront", "HairBack",
 								"HairAccessory1", "HairAccessory2", "HairAccessory3",
+								"Hat",
 							],
 						},
 					},
@@ -190,6 +191,7 @@ var AssetFemale3DCGExtended = {
 							Hide: [
 								"HairFront", "HairBack",
 								"HairAccessory1", "HairAccessory3",
+								"Hat",
 							],
 						},
 					}
