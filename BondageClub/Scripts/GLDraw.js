@@ -169,7 +169,7 @@ function GLDrawResetCanvas(force2d = false) {
 	// Cleanup resources and canvas
 	GLDrawCanvas.remove();
 	ImageCache.forEach((image, key) => {
-		delete image.userData.textureInfo;
+		image.unload();
 	});
 	GLDrawCanvas.GL.maskCache.clear();
 	GLDrawCanvas = null;
@@ -435,8 +435,19 @@ function GLDraw2DCanvasBlink(gl, Img, X, Y, alphaMasks) { GLDraw2DCanvas(gl, Img
  */
 function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
 	const TempCanvasName = Img.getAttribute("name");
-	ImageCache.set(TempCanvasName, Img);
+	ImageCache.set(TempCanvasName, Img, {unloadCallback: GLDrawUnloadImage});
 	GLDrawImage(TempCanvasName, gl, X, Y, 0, null, null, alphaMasks);
+}
+
+/**
+ * Helper used by the cache when an image is unloaded
+ * @param {CachedImage} image
+ */
+function GLDrawUnloadImage(image) {
+	if (image.userData.textureInfo && image.userData.textureInfo.texture)
+		GLDrawCanvas.GL.deleteTexture(image.userData.textureInfo.texture);
+
+	delete image.userData.textureInfo;
 }
 
 /**
@@ -446,7 +457,7 @@ function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
  * @returns {{ width: number; height: number; texture?: WebGLTexture; }} - The texture info of a given image
  */
 function GLDrawLoadImage(gl, url) {
-	const image = ImageCache.get(url);
+	const image = ImageCache.get(url, {unloadCallback: GLDrawUnloadImage});
 	const textureInfo = image.userData.textureInfo || { width: 0, height: 0 };
 
 	if (textureInfo.texture || !image.isLoaded())
