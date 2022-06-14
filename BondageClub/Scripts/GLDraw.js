@@ -169,6 +169,9 @@ function GLDrawResetCanvas(force2d = false) {
 	// Cleanup resources and canvas
 	GLDrawCanvas.remove();
 	ImageCache.forEach((image, key) => {
+		if (image.userData.textureInfo && image.userData.textureInfo.texture)
+			GLDrawCanvas.GL.deleteTexture(image.userData.textureInfo.texture);
+
 		delete image.userData.textureInfo;
 	});
 	GLDrawCanvas.GL.maskCache.clear();

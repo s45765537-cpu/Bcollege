@@ -100,6 +100,8 @@ class CachedImage {
 	setElement(element) {
 		this.element = element;
 		this.errorCount = 0;
+		if (this.userData.textureInfo && this.userData.textureInfo.texture)
+			GLDrawCanvas.GL.deleteTexture(this.userData.textureInfo.texture);
 		this.userData = {};
 		this.state = CachedImageState.LOADED;
 		this.manual = true;
@@ -112,6 +114,8 @@ class CachedImage {
 	_refresh() {
 		if ([CachedImageState.LOADING, CachedImageState.FAILED].includes(this.state)) return;
 
+		if (this.userData.textureInfo && this.userData.textureInfo.texture)
+			GLDrawCanvas.GL.deleteTexture(this.userData.textureInfo.texture);
 		this.userData = {};
 		if (this.element instanceof HTMLImageElement) {
 			this.state = CachedImageState.LOADING;
