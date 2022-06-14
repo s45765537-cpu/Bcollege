@@ -379,6 +379,7 @@ function GLDrawImage(url, gl, dstX, dstY, offsetX, color, fullAlpha, alphaMasks,
 	offsetX = offsetX || 0;
 	opacity = typeof opacity === "number" ? opacity : 1;
 	const tex = GLDrawLoadImage(gl, url);
+	if (!tex.texture) return; 
 	const mask = GLDrawLoadMask(gl, tex.width, tex.height, dstX, dstY, alphaMasks);
 	if (rotate) dstX = 500 - dstX;
 	const sign = rotate ? -1 : 1;
@@ -442,32 +443,24 @@ function GLDraw2DCanvas(gl, Img, X, Y, alphaMasks) {
  * Loads image texture data
  * @param {WebGL2RenderingContext} gl - WebGL context
  * @param {string} url - URL of the image
- * @returns {{ width: number; height: number; texture: WebGLTexture; }} - The texture info of a given image
+ * @returns {{ width: number; height: number; texture?: WebGLTexture; }} - The texture info of a given image
  */
 function GLDrawLoadImage(gl, url) {
-	var image = ImageCache.get(url);
-	let textureInfo = image.userData.textureInfo;
+	const image = ImageCache.get(url);
+	const textureInfo = image.userData.textureInfo || { width: 0, height: 0 };
 
-	if (!textureInfo) {
-		textureInfo = { width: 1, height: 1, texture: gl.createTexture() };
+	if (textureInfo.texture || !image.isLoaded())
+		return textureInfo;
 
-		gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-		if (image.isLoaded()) {
+	const texture = gl.createTexture();
+	image.userData.textureInfo = { width: image.element.width, height: image.element.height, texture };
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.element);
-			textureInfo.width = image.element.width;
-			textureInfo.height = image.element.height;
-			image.userData.textureInfo = textureInfo;
-		} else  {
-			// Use a temporary 1-by-1 transparent pixel
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-		}
-	}
 
-	return textureInfo;
+	return image.userData.textureInfo;
 }
 
 /**
