@@ -204,7 +204,7 @@ function GLDrawMakeGLProgram(gl) {
 	gl.programFull = GLDrawCreateProgram(gl, vertexShader, fragmentShaderFullAlpha);
 	gl.programHalf = GLDrawCreateProgram(gl, vertexShader, fragmentShaderHalfAlpha);
 
-	gl.program.u_alpha = gl.getUniformLocation(gl.program, "u_alpha");
+	gl.program.u_color = gl.getUniformLocation(gl.program, "u_color");
 	gl.programFull.u_color = gl.getUniformLocation(gl.programFull, "u_color");
 	gl.programHalf.u_color = gl.getUniformLocation(gl.programHalf, "u_color");
 
@@ -241,16 +241,12 @@ var GLDrawFragmentShaderSource = `
   varying vec2 v_texcoord;
 
   uniform sampler2D u_texture;
-  uniform sampler2D u_alpha_texture;
-  uniform float u_alpha;
+  uniform vec4 u_color;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
-    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
     gl_FragColor = texColor;
-    gl_FragColor.a *= u_alpha;
   }
 `;
 
@@ -265,14 +261,11 @@ var GLDrawFragmentShaderSourceFullAlpha = `
   varying vec2 v_texcoord;
 
   uniform sampler2D u_texture;
-  uniform sampler2D u_alpha_texture;
   uniform vec4 u_color;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
-    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
     float t = (texColor.x + texColor.y + texColor.z) / 383.0;
     gl_FragColor = u_color * vec4(t, t, t, texColor.w);
   }
@@ -289,14 +282,11 @@ var GLDrawFragmentShaderSourceHalfAlpha = `
   varying vec2 v_texcoord;
 
   uniform sampler2D u_texture;
-  uniform sampler2D u_alpha_texture;
   uniform vec4 u_color;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
-    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
     float t = (texColor.x + texColor.y + texColor.z) / 383.0;
     if (t < ` + GLDrawHalfAlphaLow + ` || t > ` + GLDrawHalfAlphaHigh + `) {
       gl_FragColor = texColor;
@@ -344,7 +334,6 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
 
 	program.u_matrix = gl.getUniformLocation(program, "u_matrix");
 	program.u_texture = gl.getUniformLocation(program, "u_texture");
-	program.u_alpha_texture = gl.getUniformLocation(program, "u_alpha_texture");
 
 	program.position_buffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, program.position_buffer);
@@ -414,15 +403,13 @@ function GLDrawImage(url, gl, dstX, dstY, offsetX, color, fullAlpha, alphaMasks,
 
 	gl.uniformMatrix4fv(program.u_matrix, false, matrix);
 	gl.uniform1i(program.u_texture, 0);
-	gl.uniform1i(program.u_alpha_texture, 1);
-	if (program.u_alpha != null) gl.uniform1f(program.u_alpha, opacity);
 
 	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, tex.texture);
 	gl.activeTexture(gl.TEXTURE1);
 	gl.bindTexture(gl.TEXTURE_2D, mask);
 
-	if (program.u_color != null) gl.uniform4fv(program.u_color, GLDrawHexToRGBA(color, opacity));
+	gl.uniform4fv(program.u_color, GLDrawHexToRGBA(color, opacity));
 
 	gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
@@ -553,6 +540,7 @@ function GLDrawClearRect(gl, x, y, width, height) {
  * @return {number[]} - Converted color code
  */
 function GLDrawHexToRGBA(color, alpha = 1) {
+	if (!color) return [1, 1, 1, alpha];
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 	color = color.replace(shorthandRegex, function (m, r, g, b) { return r + r + g + g + b + b; });
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
