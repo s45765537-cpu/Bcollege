@@ -171,7 +171,13 @@ class CachedImage {
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 }
 
-let ImageCachePurgeDelay = 30 * 60 * 1000; /* minutes */
+/**
+ * The delay between each cache purge event, in milliseconds.
+ *
+ * When the cache purges, this value is halved, and used to find any assets that
+ * haven't been used. Those are the ones that will be removed.
+ */
+let ImageCachePurgeDelay = 60 * 60 * 1000;
 
 /**
  * The class responsible for loading and caching images
