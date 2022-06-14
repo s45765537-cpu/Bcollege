@@ -366,6 +366,7 @@ function CommonDrawResolveAssetPose(C, A, Layer) {
 }
 
 /**
+ * Used to mark assets as drawn when building character canvases
  * @param {Character} C
  */
 function CommonDrawMarkDrawnAsset(C, src) {
@@ -382,10 +383,12 @@ function CommonDrawMarkDrawnAsset(C, src) {
 }
 
 /**
- * @param {Character} C
+ * Warms up all drawn characters' assets
  */
-function CommonDrawWarmDrawnAssets(C) {
-	C.DrawnAssets.forEach((item) => {
-		ImageCache.get(item);
+function CommonDrawWarmDrawnAssets() {
+	DrawLastCharacters.forEach((C) => {
+		C.DrawnAssets.forEach((item) => {
+			ImageCache.get(item);
+		});
 	});
 }

@@ -1320,11 +1320,7 @@ function DrawProcess(time) {
 
 	// From time to time, ping the cache with the list of drawn assets for
 	// every shown character, so that it doesn't prune those.
-	if (Math.floor(time % 1000) < 20) {
-		DrawLastCharacters.forEach((C) => {
-			CommonDrawWarmDrawnAssets(C);
-		});
-	}
+	CommonDrawWarmDrawnAssets();
 }
 
 /**
