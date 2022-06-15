@@ -26,7 +26,7 @@ const CachedImageState = {
 
 /**
  * A callback called when an image is loaded.
- * @typedef {function(CachedImage):void} CachedImageLifetimeCallback
+ * @typedef {function(CachedImage):void} ImageLoadCallback
  */
 
 /**
@@ -38,11 +38,9 @@ class CachedImage {
 	 *
 	 * @param {ImageCacheClass} cache - The cache holding the image
 	 * @param {string} url - The URL for the image to cache
-	 * @param {object} [options]
-	 * @param {CachedImageLifetimeCallback} [options.loadCallback] - The function to call when the image loads
-	 * @param {CachedImageLifetimeCallback} [options.unloadCallback] - The function to call when the image unloads
+	 * @param {ImageLoadCallback} [loadCallback] - The function to call when the image loads
 	 */
-	constructor(cache, url, {loadCallback = null, unloadCallback = null}) {
+	constructor(cache, url, loadCallback = null) {
 		/**
 		 * Only used to inform the cache of loading progress
 		 * @type {ImageCacheClass}
@@ -57,10 +55,8 @@ class CachedImage {
 		this.errorCount = 0;
 		/** @type {number} */
 		this.backoffTimer = null;
-		/** @type {CachedImageLifetimeCallback} */
+		/** @type {ImageLoadCallback} */
 		this.loadCallback = loadCallback;
-		/** @type {CachedImageLifetimeCallback} */
-		this.unloadCallback = unloadCallback;
 		/** @type {HTMLImageElement | HTMLCanvasElement} */
 		this.element = null;
 		/** @type {object} */
@@ -98,29 +94,13 @@ class CachedImage {
 	}
 
 	/**
-	 * Unload the image from the cache
-	 */
-	unload() {
-		if (this.state === CachedImageState.UNCACHED) return;
-
-		if (this.unloadCallback)
-			this.unloadCallback(this);
-
-		if (this.backoffTimer)
-			clearTimeout(this.backoffTimer);
-
-		this.userData = {};
-		this.state = CachedImageState.UNCACHED;
-	}
-
-	/**
 	 * Manually set the cached image to the given element.
 	 * @param {HTMLImageElement | HTMLCanvasElement} element - The element to set
 	 */
 	setElement(element) {
-		this.unload();
 		this.element = element;
 		this.errorCount = 0;
+		this.userData = {};
 		this.state = CachedImageState.LOADED;
 		this.manual = true;
 		this.cache._imageStateDidChange(this);
@@ -132,7 +112,7 @@ class CachedImage {
 	_refresh() {
 		if ([CachedImageState.LOADING, CachedImageState.FAILED].includes(this.state)) return;
 
-		this.unload();
+		this.userData = {};
 		if (this.element instanceof HTMLImageElement) {
 			this.state = CachedImageState.LOADING;
 			this.element.src = this.url;
@@ -171,13 +151,7 @@ class CachedImage {
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 }
 
-/**
- * The delay between each cache purge event, in milliseconds.
- *
- * When the cache purges, this value is halved, and used to find any assets that
- * haven't been used. Those are the ones that will be removed.
- */
-let ImageCachePurgeDelay = 60 * 60 * 1000;
+let ImageCachePurgeDelay = 30 * 60 * 1000; /* minutes */
 
 /**
  * The class responsible for loading and caching images
@@ -195,15 +169,13 @@ class ImageCacheClass {
 	 * Get a cached image from the cache.
 	 *
 	 * @param {string} url - The URL of the image to lookup
-	 * @param {object} [options]
-	 * @param {CachedImageLifetimeCallback} [options.loadCallback] - A callback that will be called when the load completes
-	 * @param {CachedImageLifetimeCallback} [options.unloadCallback] - A callback that will be called when the image is removed from the cache
+	 * @param {ImageLoadCallback} loadCallback - A callback that will be called when the load completes
 	 * @returns {CachedImage} The cached image
 	 */
-	get(url, options = {}) {
+	get(url, loadCallback = null) {
 		let image = this.cache.get(url);
 		if (!image) {
-			image = new CachedImage(this, url, options);
+			image = new CachedImage(this, url, loadCallback);
 			this.cache.set(url, image);
 		}
 
@@ -220,15 +192,11 @@ class ImageCacheClass {
 	 * Add a cached image to the cache.
 	 * @param {string} url - The URL of the image to store
 	 * @param {HTMLImageElement|HTMLCanvasElement} image - The element to use as the image
-	 * @param {object} [options]
-	 * @param {CachedImageLifetimeCallback} [options.loadCallback] - A callback that will be called when the load completes
-	 * @param {CachedImageLifetimeCallback} [options.unloadCallback] - A callback that will be called when the image is removed from the cache
 	 * @returns CachedImage
 	 */
-	set(url, image, options = {}) {
-		let img = new CachedImage(this, url, options);
+	set(url, image) {
+		let img = new CachedImage(this, url);
 		this.delete(url);
-
 		this.cache.set(url, img);
 		img.setElement(image);
 		return img;
@@ -259,8 +227,6 @@ class ImageCacheClass {
 			this.loadedCount -= 1;
 		else if (known.isFailing())
 			this.missingCount -= 1;
-
-		known.unload();
 		this.cache.delete(url);
 	}
 
@@ -276,11 +242,7 @@ class ImageCacheClass {
 	 * Clear all cached images
 	 */
 	clear() {
-		this.cache.forEach(img => {
-			img.unload();
-		});
 		this.cache.clear();
-
 		this.loadedCount = 0;
 		this.missingCount = 0;
 	}
@@ -291,10 +253,6 @@ class ImageCacheClass {
 	 * @param {CachedImage} image - The image whose state changed
 	 */
 	_imageStateDidChange(image) {
-		// Ignore images that aren't in the cache, which can happen if they get
-		// pruned while their load is still in progress.
-		if (!this.cache.has(image.url)) return;
-
 		const RetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
 		if (image.isLoaded()) {
 			// That image had some failure before we finally succeeded, meaning
@@ -358,44 +316,27 @@ class ImageCacheClass {
 		if (!force && delta > 0 && delta < ImageCachePurgeDelay)
 			return;
 
-		const startingTotal = this.totalImages();
+		let stats = { errored: 0, unused: 0, missing: 0, loaded: 0 };
+		console.log(`Purging ${this.totalImages()} cached images`);
 		this.cache.forEach((image, url) => {
-			// Clear images experiencing problems, or that were loaded for longer
-			// than half a purge delay
-			if (image.state == CachedImageState.ERRORED
-				|| image.state == CachedImageState.FAILED
-				|| (image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
-				this.delete(url);
-			}
-		});
-		console.log(`Cache purged, ${startingTotal - this.totalImages()} images removed`);
-		this.lastPurge = CurrentTime;
-		this.stats();
-	}
-
-	/**
-	 * Output some stats about the cache and recalculate our counts
-	 */
-	stats() {
-		let stats = { total: this.cache.size, loaded: 0, missing: 0, errored: 0 };
-		this.cache.forEach((image) => {
 			// Clear errored images
 			if (image.state == CachedImageState.ERRORED) {
+				stats.errored += 1;
 				stats.missing += 1;
+				this.cache.delete(url);
 			} else if (image.state == CachedImageState.FAILED) {
 				stats.missing += 1;
+			} else if ((image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
+				stats.unused += 1;
+				this.cache.delete(url);
 			} else if (image.state == CachedImageState.LOADED) {
 				stats.loaded += 1;
-				// Sort loaded images into 5-minute wide "generations"
-				const key = `gen${Math.floor((CurrentTime - image.lastUsed) / (5 * 60 * 1000))}`;
-				stats[key] = (stats[key] || 0) + 1;
 			}
 		});
-
+		console.log(`Cache purged, ${stats.errored} errored, ${stats.unused} unused, ${stats.missing} missing, ${stats.loaded} loaded`);
 		this.loadedCount = stats.loaded;
-		this.missingCount = stats.missing + stats.errored;
-
-		console.log(`Cache stats: ${[...Object.entries(stats)].map(e => e[0] + ": " + e[1]).join(", ")}`);
+		this.missingCount = stats.missing;
+		this.lastPurge = CurrentTime;
 	}
 
 	/**
