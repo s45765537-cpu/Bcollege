@@ -642,7 +642,7 @@ function ValidationSanitizeLock(C, item) {
 	if (lock.Asset.OwnerOnly) {
 		const selfCanUseOwnerLocks = !C.IsPlayer() || !LogQuery("BlockOwnerLockSelf", "OwnerRule");
 		const lockNumberValid = (lockedBySelf && selfCanUseOwnerLocks) || lockedByOwner;
-		if (!C.IsOwned() || !lockNumberValid) {
+		if (!lockNumberValid) {
 			console.warn(`Removing invalid owner-only lock with member number: ${lockNumber}`);
 			return ValidationDeleteLock(property);
 		}
