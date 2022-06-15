@@ -640,7 +640,10 @@ function ValidationSanitizeLock(C, item) {
 
 	// Ensure the lock & its member number is valid on owner-only locks
 	if (lock.Asset.OwnerOnly) {
-		const selfCanUseOwnerLocks = !C.IsPlayer() || !LogQuery("BlockOwnerLockSelf", "OwnerRule");
+		let selfCanUseOwnerLocks = true;
+		if (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")) {
+			selfCanUseOwnerLocks = false;
+		}
 		const lockNumberValid = (lockedBySelf && selfCanUseOwnerLocks) || lockedByOwner;
 		if (!C.IsOwned() || !lockNumberValid) {
 			console.warn(`Removing invalid owner-only lock with member number: ${lockNumber}`);
@@ -651,8 +654,16 @@ function ValidationSanitizeLock(C, item) {
 	// Ensure the lock & its member number is valid on lover-only locks
 	if (lock.Asset.LoverOnly) {
 		const hasLovers = !!C.GetLoversNumbers().length;
-		const ownerCanUseLoverLocks = !C.IsPlayer() || !LogQuery("BlockLoverLockOwner", "LoverRule");
-		const selfCanUseLoverLocks = !C.IsPlayer() || !LogQuery("BlockLoverLockSelf", "LoverRule");
+		let ownerCanUseLoverLocks = true;
+		let selfCanUseLoverLocks = true;
+		if (C.IsPlayer()) {
+			if (LogQuery("BlockLoverLockOwner", "LoverRule")) {
+				ownerCanUseLoverLocks = false;
+			}
+			if (LogQuery("BlockLoverLockSelf", "LoverRule")) {
+				selfCanUseLoverLocks = false;
+			}
+		}
 		const lockNumberValid = (lockedBySelf && selfCanUseLoverLocks) ||
 			C.GetLoversNumbers().includes(lockNumber) ||
 			(lockedByOwner && ownerCanUseLoverLocks);
