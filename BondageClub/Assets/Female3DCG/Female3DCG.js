@@ -1821,7 +1821,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "HeadHarness", Value: 20, BuyGroup: "Headharness", Left: 150, Top: 22, DefaultColor: ["#383838"], Extended:true,
+				Name: "HeadHarness", Priority: 51, Value: 20, BuyGroup: "Headharness", Left: 150, Top: 22, DefaultColor: ["#383838"], Extended:true,
 				Layer:[
 					{Name: "BaseMetal", HasType: false, AllowTypes:["","Heavy"], AllowColorize: false},
 					{Name: "Base", HasType: false, AllowTypes:["","Heavy"]},
