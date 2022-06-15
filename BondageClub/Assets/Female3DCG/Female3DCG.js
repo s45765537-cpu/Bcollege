@@ -2052,7 +2052,7 @@ var AssetFemale3DCG = [
 				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" },
 				{ Name: "FrontTip", Priority: 54.5, CopyLayerColor: "Tip" },
 			],
-				Top: 6, Left: 134 }
+				Top: 6, Left: 134 },
 			{ Name: "HairFront24" },
 			{ Name: "HairFront25" },
 			{ Name: "HairFront26" },
