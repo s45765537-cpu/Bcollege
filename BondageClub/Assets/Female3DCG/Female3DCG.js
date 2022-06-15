@@ -1815,7 +1815,7 @@ var AssetFemale3DCG = [
 
 	{
 		Group: "HairFront",
-		Priority: 52,
+		Priority: 52, 
 		Left: 150,
 		Top: 50,
 		AllowNone: false,
@@ -1831,7 +1831,8 @@ var AssetFemale3DCG = [
 			Layer: [
 				{ Name: "Base" },
 				{ Name: "Fluff" },	
-				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
+				{ Name: "Tip" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" },
 			],
 			Top: 6, Left: 134 },
 			//HairFront22b
@@ -1839,7 +1840,8 @@ var AssetFemale3DCG = [
 			Layer: [
 				{ Name: "Base" },
 				{ Name: "Fluff" },
-				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff"}				
+				{ Name: "Tip" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff"},				
 			],
 			Top: 6, Left: 134 },
 			//HairFront23
@@ -1847,7 +1849,9 @@ var AssetFemale3DCG = [
 			Layer: [
 				{ Name: "Base" },
 				{ Name: "Fluff" },
-				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
+				{ Name: "Tip" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" },
+				{ Name: "FrontTip", Priority: 54.5, CopyLayerColor: "Tip" },
 			],
 				Top: 6, Left: 134 },
 			//HairFront23b
@@ -1855,7 +1859,9 @@ var AssetFemale3DCG = [
 			Layer: [
 				{ Name: "Base" },
 				{ Name: "Fluff" },
-				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" }
+				{ Name: "Tip" },
+				{ Name: "FrontFluff", Priority: 54, CopyLayerColor: "Fluff" },
+				{ Name: "FrontTip", Priority: 54.5, CopyLayerColor: "Tip" },
 			],
 				Top: 6, Left: 134 }
 		],
