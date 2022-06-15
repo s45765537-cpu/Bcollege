@@ -13,12 +13,6 @@ var DialogLeaveDueToItem = false;
 var BlindFlash = false;
 var DrawingBlindFlashTimer = 0;
 
-// A bank of all the chached images
-/** @type {Map<string, HTMLImageElement>} */
-const DrawCacheImage = new Map;
-let DrawCacheLoadedImages = 0;
-let DrawCacheTotalImages = 0;
-
 // Last dark factor for blindflash
 var DrawLastDarkFactor = 0;
 
@@ -43,7 +37,7 @@ var DrawCanvasPosition = [0, 0, 0, 0];
 /**
  * Converts a hex color string to a RGB color
  * @param {string} color - Hex color to conver
- * @returns {{ r: number, g: number, b: number }} - RGB color
+ * @returns {RGBColor} - RGB color
  */
 function DrawHexToRGB(color) {
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -99,64 +93,13 @@ function DrawLoad() {
 
 /**
  * Returns the image file from cache or build it from the source
- * @param {string} Source - URL of the image
+ * @param {string} url - URL of the image
  * @returns {HTMLImageElement} - Image file
  */
-function DrawGetImage(Source) {
-	// Search in the cache to find the image and make sure this image is valid
-	let Img = DrawCacheImage.get(Source);
-	if (!Img) {
-		Img = new Image;
-		DrawCacheImage.set(Source, Img);
-		// Keep track of image load state
-		const IsAsset = (Source.indexOf("Assets") >= 0);
-		if (IsAsset) {
-			++DrawCacheTotalImages;
-			Img.addEventListener("load", function () {
-				DrawGetImageOnLoad();
-			});
-		}
-
-		Img.addEventListener("error", function () {
-			DrawGetImageOnError(Img, IsAsset);
-		});
-
-		// Start loading
-		Img.src = Source;
-	}
-
-	// returns the final image
-	return Img;
+function DrawGetImage(url) {
+	var image = ImageCache.get(url);
+	return image ? image.element : null;
 }
-
-/**
- * Reloads all character canvas once all images are loaded
- * @returns {void} - Nothing
- */
-function DrawGetImageOnLoad() {
-	++DrawCacheLoadedImages;
-	if (DrawCacheLoadedImages == DrawCacheTotalImages) CharacterLoadCanvasAll();
-}
-
-/**
- * Attempts to redownload an image if it previously failed to load
- * @param {HTMLImageElement & { errorcount?: number }} Img - Image tag that failed to load
- * @param {boolean} IsAsset - Whether or not the image is part of an asset
- * @returns {void} - Nothing
- */
-function DrawGetImageOnError(Img, IsAsset) {
-	if (Img.errorcount == null) Img.errorcount = 0;
-	Img.errorcount += 1;
-	if (Img.errorcount < 3) {
-		// eslint-disable-next-line no-self-assign
-		Img.src = Img.src;
-	} else {
-		// Load failed. Display the error in the console and mark it as done.
-		console.log("Error loading image " + Img.src);
-		if (IsAsset) DrawGetImageOnLoad();
-	}
-}
-
 
 /**
  * Gets the alpha of a screen flash. append to a color like "#111111" + DrawGetScreenFlash(FlashTime)
@@ -317,15 +260,24 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		let Canvas = (Math.round(CurrentTime / 400) % C.BlinkFactor == 0 && !CommonPhotoMode) ? C.CanvasBlink : C.Canvas;
 
 		// If we must dark the Canvas characters
-		if ((C.ID != 0) && Player.IsBlind() && !OverrideDark) {
-			const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
 
 			CharacterCanvas.globalCompositeOperation = "copy";
 			CharacterCanvas.drawImage(Canvas, 0, 0);
 			// Overlay black rectangle.
 			CharacterCanvas.globalCompositeOperation = "source-atop";
-			CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
-			CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+
+			if (Player.IsBlind()) {
+				const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
+				CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
+
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				CharacterCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
+				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+			}
 
 			Canvas = CharacterCanvas.canvas;
 		}
@@ -344,6 +296,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		const SourceHeight = 1000 / HeightRatio + (YCutOff ? 0 : -YOffset / HeightRatio);
 		const DestY = (IsInverted || YCutOff) ? 0 : YOffset;
 
+		// Apply blur filter if needed
+		const BlurLevel = Player.GetBlurLevel();
+		if (!C.IsPlayer() && !OverrideDark && BlurLevel > 0) {
+			MainCanvas.filter = `blur(${BlurLevel}px)`;
+		}
 		// Draw the character
 		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			Canvas: DrawCanvas,
@@ -353,6 +310,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			Invert: IsInverted,
 			Mirror: IsInverted
 		});
+		MainCanvas.filter = 'none';
 
 		// Draw the arousal meter & game images on certain conditions
 		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= 1) {
@@ -379,10 +337,10 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// Draw the character name below herself
 		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateRansom"))
-			if (!Player.IsBlind() || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
+			if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 				DrawCanvas.font = CommonGetFont(30);
 				const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
-				DrawText(AsylumGGTSCharacterName(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
+				DrawText(CharacterNickname(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
 				DrawCanvas.font = CommonGetFont(36);
 			}
 
@@ -418,7 +376,7 @@ function DrawAssetGroupZone(C, Zone, Zoom, X, Y, HeightRatio, Color, Thickness =
 /**
  * Return a semi-transparent copy of a canvas
  * @param {HTMLCanvasElement} Canvas - source
- * @param {number} Alpha - transparency between 0-1
+ * @param {number} [Alpha] - transparency between 0-1
  * @returns {HTMLCanvasElement} - result
  */
 function DrawAlpha(Canvas, Alpha) {
@@ -480,7 +438,7 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {number[][]} [AlphaMasks] - A list of alpha masks to apply to the asset
+ * @param {RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
  * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
@@ -521,7 +479,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate) {
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {number[][]} AlphaMasks - A list of alpha masks to apply to the asset
+ * @param {RectTuple[]} AlphaMasks - A list of alpha masks to apply to the asset
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
@@ -586,7 +544,7 @@ function DrawImage(Source, X, Y, Invert) {
  * @param {number} Zoom - Zoom factor
  * @param {string} HexColor - Color of the image to draw
  * @param {boolean} FullAlpha - Whether or not it is drawn in full alpha mode
- * @param {number[][]} AlphaMasks - A list of alpha masks to apply to the asset
+ * @param {RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
  * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @returns {boolean} - whether the image was complete or not
@@ -759,6 +717,45 @@ function DrawImageEx(
 }
 
 /**
+ * Wrapping text in fragments to support languages that do not separate between words using space.
+ * This function can also break between a long English word if somehow needed in the script.
+ * @param {string} text - The text to be fragmented.
+ * @param {number} maxWidth - The max width the text will be filled in.
+ * @returns {Array<string>} - A list of string that being fragmented.
+ */
+function fragmentText(text, maxWidth) {
+    let words = text.split(' '),
+        lines = [],
+        line = "";
+
+    if (MainCanvas.measureText(text).width < maxWidth) {
+        return [text];
+    }
+
+    while (words.length > 0) {
+        while (MainCanvas.measureText(words[0]).width >= maxWidth) {
+            let temp = words[0];
+            words[0] = temp.slice(0, -1);
+            if (words.length > 1) {
+                words[1] = temp.slice(-1) + words[1];
+            } else {
+                words.push(temp.slice(-1));
+            }
+        }
+        if (MainCanvas.measureText(line + words[0]).width < maxWidth) {
+            line += words.shift() + " ";
+        } else {
+            lines.push(line);
+            line = "";
+        }
+        if (words.length === 0) {
+            lines.push(line);
+        }
+    }
+    return lines;
+}
+
+/**
  * Reduces the font size progressively until the text fits the wrap size
  * @param {string} Text - Text that will be drawn
  * @param {number} Width - Width in which the text must fit
@@ -770,7 +767,7 @@ function GetWrapTextSize(Text, Width, MaxLine) {
 	// Don't bother if it fits on one line
 	if (MainCanvas.measureText(Text).width <= Width) return;
 
-	const words = Text.split(' ');
+	const words = fragmentText(Text, Width);
 	let line = '';
 
 	// Find the number of lines
@@ -830,7 +827,7 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
 	// Split the text if it wouldn't fit in the rectangle
 	MainCanvas.fillStyle = ForeColor;
 	if (MainCanvas.measureText(Text).width > Width) {
-		const words = Text.split(' ');
+		const words = fragmentText(Text, Width);
 		let line = '';
 
 		// Find the number of lines
@@ -1254,8 +1251,14 @@ function DrawProcess(time) {
 	let B = window[CurrentScreen + "Background"];
 
 	if ((B != null) && (B != "")) {
+		const ValidScreenForVFX = CurrentModule != "Character" && B != "Sheet";
+		const blurLevel = Player.GetBlurLevel();
+		if (ValidScreenForVFX && blurLevel > 0) {
+			MainCanvas.filter = `blur(${blurLevel}px)`;
+		}
+
 		let DarkFactor = 1.0;
-		if ((CurrentModule != "Character") && (B != "Sheet")) {
+		if (ValidScreenForVFX) {
 			DarkFactor = CharacterGetDarkFactor(Player) * CurrentDarkFactor;
 			if (DarkFactor == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) DarkFactor = 0.5;
 		}
@@ -1263,7 +1266,7 @@ function DrawProcess(time) {
 
 		let customBG = DrawGetCustomBackground();
 
-		if (customBG != "" && (CurrentModule != "Character") && (B != "Sheet")) {
+		if (customBG != "" && ValidScreenForVFX) {
 			B = customBG;
 			if (DarkFactor == 0)
 				DarkFactor = CharacterGetDarkFactor(Player, true);
@@ -1276,6 +1279,15 @@ function DrawProcess(time) {
 			}
 		}
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
+
+		if (ValidScreenForVFX) {
+			const Tints = Player.GetTints();
+			for (const {r, g, b, a} of Tints) {
+				DrawRect(0, 0, 2000, 1000, `rgba(${r},${g},${b},${a})`);
+			}
+		}
+
+		MainCanvas.filter = 'none';
 	}
 
 	// Draws the dialog screen or current screen if there's no loaded character
@@ -1333,16 +1345,18 @@ function DrawProcessHoverElements() {
  * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
- * @param {string[]} [Options.Icons] - A list of small icons to display in the top-left corner
+ * @param {InventoryIcon[]} [Options.Icons] - A list of small icons to display in the top-left corner
+ * @param {object} [Options.Craft] - The crafted properties of the item
  * @returns {void} - Nothing
  */
 function DrawAssetPreview(X, Y, A, Options) {
-	let { C, Description, Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons} = (Options || {});
+	let { C, Description, Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons, Craft} = (Options || {});
 	const DynamicPreviewImage = C ? A.DynamicPreviewImage(C) : "";
 	const Path = `${AssetGetPreviewPath(A)}/${A.Name}${DynamicPreviewImage}.png`;
+	if ((Description == null) && (Craft != null) && (Craft.Name != null) && (Craft.Name != "")) Description = Craft.Name;
 	if (Description == null) Description = C ? A.DynamicDescription(C) : A.Description;
-	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover,
-		HoverBackground, Disabled, Icons });
+	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons });
+	if ((Craft != null) && (Craft.Lock != null) && (Craft.Lock != "")) DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 150, Y + 150, 75, 75);
 }
 
 /**
@@ -1359,7 +1373,7 @@ function DrawAssetPreview(X, Y, A, Options) {
  * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
  * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
  * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
- * @param {string[]} [Options.Icons] - A list of images to draw in the top-left of the preview box
+ * @param {InventoryIcon[]} [Options.Icons] - A list of images to draw in the top-left of the preview box
  * @returns {void} - Nothing
  */
 function DrawPreviewBox(X, Y, Path, Description, Options) {
@@ -1381,7 +1395,7 @@ function DrawPreviewBox(X, Y, Path, Description, Options) {
 
 /**
  * Draws a list of small icons over a preview box
- * @param {string[]} icons - An array of icon names
+ * @param {InventoryIcon[]} icons - An array of icon names
  * @param {number} X - The X co-ordinate to start drawing from
  * @param {number} Y - The Y co-ordinate to start drawing from
  * @returns {void} - Nothing
