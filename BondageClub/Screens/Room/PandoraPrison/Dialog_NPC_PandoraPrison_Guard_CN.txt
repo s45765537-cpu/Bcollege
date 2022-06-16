@@ -200,7 +200,7 @@ You will take my place as prisoner.
 你将代替我成为囚犯。
 ###_NPC
 (She goes mad.)  No!  I'm a guard here!  Not a low life prisoner like you.
-（她疯狂地发怒。）不！我是这里的警卫！不是像你这样的低等囚犯。
+（她狂怒起来。）不！我是这里的警卫！不是像你这样低等的囚犯。
 ###_PLAYER
 I'm getting out.
 我要出去了。
@@ -520,7 +520,7 @@ I won't get beat up that easily.
 （投降。）
 ###_NPC
 (She picks a weapon and grins.)  You talk tough, but let's see how you handle pain.  Get ready!
-（她拿起武器，咧嘴一笑。）你嘴倒是挺硬，那么让我看看你怎么应付痛苦。做好准备！
+（她拿了个武器，咧嘴一笑。）你嘴倒是挺硬，那么让我看看你怎么应付痛苦。做好准备！
 ###_PLAYER
 No!  Please!  I'll be good!
 不！请放过我！我会很乖的！
