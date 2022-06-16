@@ -214,7 +214,7 @@ I will do what I want.
 （穿上她的衣服。）
 ###_NPC
 (She stares at you as you quickly dress up as her.)
-（当你迅速打扮成她时，她盯着你。）
+（你迅速打扮成她，期间她死死地瞪着你。）
 ###_PLAYER
 (Lock her up in a broom closet.)
 （把她锁在扫帚柜里。）

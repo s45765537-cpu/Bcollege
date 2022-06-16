@@ -20,11 +20,11 @@ Of course, head maid DialogPlayerName.  (She releases you.)
 (You slowly release her hands.)  Thank you, Miss.  This is much better
 （你慢慢地解开她的双手。）谢谢你女士，这好多了。
 (She submits to you while you restrain her legs.)  Do I get paid overtime if I'm stuck here?
-（她顺从地让你束缚住双腿。）如果我被困在这里了，我会得到加班工资吗？
+（她顺从地让你束缚住双腿。）如果我被困在这里了，我可以得到加班费吗？
 (You release her legs from the restraint.)  You're quite good with restraints Miss.
 （你解开了她腿上的束缚。）你很擅长束缚，女士。
 (She looks puzzled as you restrain her feet.)  I didn't plan on running anytime soon.
-（在你束缚住她的脚的时候，她看起来很困惑。）我本无意在短时间内逃跑。
+（在你束缚住她的脚的时候，她看起来很困惑。）短时间内，我并不打算逃跑。
 (You release her feet.)  Wonderful!
 （你解开了她的双脚。）太棒了！
 (You strap the collar on her while she blushes.)  I bet you're a great Mistress.
@@ -40,7 +40,7 @@ Of course, head maid DialogPlayerName.  (She releases you.)
 (You remove the item from her torso.)  Thanks a lot Miss.  (She bows for you.)
 （你从她的躯干上取下物品。）非常感谢，女士。（她向你鞠躬。）
 (You strap the device on her head as she sighs.)  Well this could make my shift difficult...
-（在你束紧她头上的道具时，她叹着气。）好吧，这会让我这次轮班变得困难...
+（你把道具绑在她头上时，她叹了口气。）好吧，这会让我这次轮班变得困难...
 (You remove the device as she shakes her head joyfully.)  Wonderful!  That'll make my day easier.
 （你解开了道具，她开心地摇摇头。）太棒了！今天我会好过很多。
 (She jumps from the searing pain on her breast.)  Ouch!  Miss Head Maid!
