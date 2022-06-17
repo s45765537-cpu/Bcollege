@@ -1452,10 +1452,10 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
+				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#3B3B3B", "#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
 					{ Name: "Panel", HasType: false },
-					{ Name: "PanelLeft", CopyLayerColor: "Panel", HasType: false },
-					{ Name: "PanelRight", CopyLayerColor: "Panel", HasType: false },
+					{ Name: "PanelLeft", HasType: false },
+					{ Name: "PanelRight", HasType: false },
 					{ Name: "Button", HasType: false },
 					{ Name: "Visor", HasType: false },
 					{ Name: "Print", AllowTypes: ["BCLogo", "BDSM", "BG", "Chain", "Gag", "Knot", "Monogram", "Rock", "Smile", "Sun", "Tick"], AllowColorize: true, ParentGroup: null },

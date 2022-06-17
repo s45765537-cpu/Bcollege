@@ -210,6 +210,8 @@ HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
 HatBallCapBackStrap,Strap
 HatBallCapFrontPanel,Panel
+HatBallCapFrontPanelLeft,Left Panel
+HatBallCapFrontPanelRight,Right Panel
 HatBallCapFrontButton,Button
 HatBallCapFrontVisor,Visor
 HatBallCapFrontPrint,Print
