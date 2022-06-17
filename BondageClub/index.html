@@ -23,7 +23,6 @@
 </head>
 
 <script src="Backgrounds/Backgrounds.js"></script>
-<script src="Scripts/ImageCache.js"></script>
 <script src="Scripts/GLDraw.js"></script>
 <script src="Scripts/Common.js"></script>
 <script src="Scripts/CommonDraw.js"></script>
@@ -313,7 +312,7 @@
 window.onload = function() {
 	ServerURL = CommonGetServer();
 	//CheatImport();
-	GameVersion = "R81Beta2";
+	GameVersion = "R81Beta4";
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
 	CommonIsMobile = CommonDetectMobile();
