@@ -879,6 +879,10 @@ ItemTorso,HeavyLatexCorset,Heavy Latex Corset
 ItemTorso,Ribbons,Ribbons
 ItemTorso,SilkStraps,Silk Straps
 ItemTorso,ThinLeatherStraps,Thin Leather Straps
+ItemTorso,LockingSwimsuit,Locking Swimsuit
+ItemTorso2,,Torso
+ItemTorso2,LockingSwimsuit,Locking Swimsuit
+ItemTorso2,LeatherStrapHarness,Leather Strap Body Harness
 ItemNipples,,Nipples
 ItemNipples,NippleClamp,Nipple Clamps
 ItemNipples,VibeNippleClamp,Vibrating Nipple Clamps

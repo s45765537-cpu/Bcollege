@@ -2989,7 +2989,7 @@ var AssetFemale3DCG = [
 		Left: 125,
 		Top: 200,
 		AllowPose: ["Hogtied", "AllFours"],
-		Zone: [[100, 340, 300, 80]],
+		Zone: [[100, 340, 150, 80]],
 		RemoveItemOnRemove: [
 			{ Group: "ItemAddon", Name: "CeilingRope" },
 			{ Group: "ItemAddon", Name: "CeilingChain" },
@@ -3055,10 +3055,33 @@ var AssetFemale3DCG = [
 					{ Name: "Locks", LockLayer: true }
 				]
 			},
-			AssetSpankingToys
+			{ Name: "LockingSwimsuit", Left: 150, Top: 200, BuyGroup: "LockingSwimsuit", Value: 10, AllowLock: true },
+			AssetSpankingToys 
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
+
+	{
+
+	Group: "ItemTorso2",
+	ParentGroup: "BodyUpper",
+	Category: "Item",
+	Priority: 18,
+	Default: false,
+	Left: 125,
+	Top: 200,
+	AllowPose: ["Hogtied", "AllFours"],
+	Zone: [[250, 340, 150, 80]],
+	RemoveItemOnRemove: [
+		{ Group: "ItemAddon", Name: "CeilingRope" },
+		{ Group: "ItemAddon", Name: "CeilingChain" },
+	],
+	Asset: [
+		{ Name: "LockingSwimsuit", Left: 150, Top: 200, BuyGroup: "LockingSwimsuit", Value: 60, AllowLock: true },
+		{ Name: "LeatherStrapHarness", Fetish: ["Leather"], Value: 50, Difficulty: 50, Time: 15, RemoveTime: 10, DefaultColor: "#101010", AllowLock: true, Prerequisite: "AccessTorso" },
+		AssetSpankingToys
+	]
+},
 
 	{
 		Group: "ItemNipples",
