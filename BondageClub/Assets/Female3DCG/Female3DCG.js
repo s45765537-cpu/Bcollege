@@ -3079,6 +3079,7 @@ var AssetFemale3DCG = [
 	Asset: [
 		{ Name: "LockingSwimsuit", Left: 150, Top: 200, BuyGroup: "LockingSwimsuit", Value: 60, AllowLock: true },
 		{ Name: "LeatherStrapHarness", Fetish: ["Leather"], Value: 50, Difficulty: 50, Time: 15, RemoveTime: 10, DefaultColor: "#101010", AllowLock: true, Prerequisite: "AccessTorso" },
+		{ Name: "LeatherHarness", Fetish: ["Leather"], Value: 60, Difficulty: 50, Time: 15, RemoveTime: 10, AllowLock: true, Prerequisite: "AccessTorso" },
 		AssetSpankingToys
 	]
 },
