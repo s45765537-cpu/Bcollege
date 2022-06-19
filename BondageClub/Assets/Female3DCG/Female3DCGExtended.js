@@ -3819,7 +3819,28 @@ var AssetFemale3DCGExtended = {
 				},
 			},
 		}, // HempRopeHarness
+		LockingSwimsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Shiny",
+						Property: {Type: null }
+					},
+					{
+						Name: "Dull",
+						Property: {Type: "Dull" }
+					}
+				],
+			},
+		}, //LockingSwimsuit
 	}, // ItemTorso
+	ItemTorso2: {
+		LockingSwimsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "LockingSwimsuit" },
+		}, // LockingSwimsuit
+	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {
 			Archetype: ExtendedArchetype.TYPED,
