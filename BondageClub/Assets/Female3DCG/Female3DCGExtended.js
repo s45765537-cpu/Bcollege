@@ -3844,6 +3844,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" }
 		}, // NylonRopeHarness
+		HempRopeHarness: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" }
+		}, // HempRopeHarness
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {

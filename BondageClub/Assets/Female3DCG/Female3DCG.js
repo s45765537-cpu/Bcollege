@@ -3087,6 +3087,7 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false },
 				] 
 		},
+		{ Name: "HempRopeHarness", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 20, RemoveTime: 25, DefaultColor: "#956B1C", BuyGroup: "HempRope", Audio: "RopeShort", Prerequisite: "AccessTorso", Extended: true },
 		AssetSpankingToys
 	]
 },
