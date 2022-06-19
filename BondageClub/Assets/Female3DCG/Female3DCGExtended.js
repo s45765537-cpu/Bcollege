@@ -3842,20 +3842,36 @@ var AssetFemale3DCGExtended = {
 		}, // LockingSwimsuit
 		NylonRopeHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" }
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" },
 		}, // NylonRopeHarness
 		HempRopeHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" }
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" },
 		}, // HempRopeHarness
 		HighSecurityHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemTorso", AssetName: "HighSecurityHarness"}
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HighSecurityHarness"},
 		}, // HighSecurityHarness
 		LatexCorset1: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Corset", AssetName: "LatexCorset1" },
-		}, //LatexCorset1
+		}, // LatexCorset1
+		HeavyLatexCorset: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HeavyLatexCorset" },
+		}, // HeavyLatexCorset
+		Ribbons: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "Ribbons" },
+		}, // Ribbons
+		SilkStraps: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "SilkStraps" },
+		}, // SilkStraps
+		ThinLeatherStraps: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "ThinLeatherStraps" },
+		}, // ThinLeatherStraps
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {
