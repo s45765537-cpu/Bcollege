@@ -3840,6 +3840,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "LockingSwimsuit" },
 		}, // LockingSwimsuit
+		NylonRopeHarness: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HempRopeHarness" }
+		}, // NylonRopeHarness
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {

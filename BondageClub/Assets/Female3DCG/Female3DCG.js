@@ -3080,6 +3080,13 @@ var AssetFemale3DCG = [
 		{ Name: "LockingSwimsuit", Left: 150, Top: 200, Difficulty: 4, BuyGroup: "LockingSwimsuit", Value: 60, AllowLock: true, DrawLocks: false, Extended: true },
 		{ Name: "LeatherStrapHarness", Fetish: ["Leather"], BuyGroup: "LeatherStrapHarness", Value: 50, Difficulty: 50, Time: 15, RemoveTime: 10, DefaultColor: "#101010", AllowLock: true, Prerequisite: "AccessTorso" },
 		{ Name: "LeatherHarness", Fetish: ["Leather"], BuyGroup: "LeatherHarness", Value: 60, Difficulty: 50, Time: 15, RemoveTime: 10, AllowLock: true, Prerequisite: "AccessTorso" },
+		{ Name: "NylonRopeHarness", Fetish: ["Rope", "Nylon"], Value: 30, Time: 20, BuyGroup: "NylonRope", Audio: "RopeShort", Prerequisite: "AccessTorso", Extended: true,
+				DefaultColor: ["#CCCCCC"],
+				Layer: [
+					{ Name: "Rope" },
+					{ Name: "Shine", AllowColorize: false },
+				] 
+		},
 		AssetSpankingToys
 	]
 },
