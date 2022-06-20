@@ -3056,6 +3056,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "LockingSwimsuit", Left: 150, Top: 200, Difficulty: 4, BuyGroup: "LockingSwimsuit", Value: 60, AllowLock: true, DrawLocks: false, Extended: true },
+			{ Name: "LockingSwimsuit2", Left: 150, Top: 200, Difficulty: 4, BuyGroup: "LockingSwimsuit2", Value: 70, AllowLock: true, DrawLocks: false },
 			AssetSpankingToys 
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
@@ -3141,6 +3142,7 @@ var AssetFemale3DCG = [
 					{ Name: "Locks", LockLayer: true }
 				]
 			},
+			{ Name: "LockingSwimsuit2", Left: 150, Top: 200, Difficulty: 4, BuyGroup: "LockingSwimsuit2", Value: 70, AllowLock: true, DrawLocks: false },
 		AssetSpankingToys
 	]
 },
