@@ -59,6 +59,109 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, //Bandana
+		BallCapBack: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "StrapUnder",
+						Property: { Type: "StrapUnder" },
+					},
+					{
+						Name: "StrapOver",
+						Property: { Type: "StrapOver", },
+					},
+				],
+			},
+		}, //BallCapBack
+		BallCapFront: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "Blank",
+						Property: { Type: null, },
+					},
+					{
+						Name: "BCLogo",
+						Property: {
+							Type: "BCLogo",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "BDSM",
+						Property: {
+							Type: "BDSM",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "BG",
+						Property: {
+							Type: "BG",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Chain",
+						Property: {
+							Type: "Chain",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Gag",
+						Property: {
+							Type: "Gag",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Knot",
+						Property: {
+							Type: "Knot",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Monogram",
+						Property: {
+							Type: "Monogram",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Rock",
+						Property: {
+							Type: "Rock",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Smile",
+						Property: {
+							Type: "Smile",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Sun",
+						Property: {
+							Type: "Sun",
+							DefaultColor: "Default",
+						},
+					},
+					{
+						Name: "Tick",
+						Property: {
+							Type: "Tick",
+							DefaultColor: "Default",
+						},
+					},
+				],
+			},
+		}, //BallCapFront
 	},
 	Cloth: {
 		TShirt2: {
@@ -3316,6 +3419,29 @@ var AssetFemale3DCGExtended = {
 		WiredEgg: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // WiredEgg
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options:[
+					{
+						Name: "Straight",
+						Property: {Type: "Straight",}
+					},
+					{
+						Name: "ZigZag",
+						Property: {Type: "ZigZag",}
+					},
+					{
+						Name: "Skewed",
+						Property: {Type: "Skewed",}
+					},
+					{
+						Name: "Cross",
+						Property: {Type: "Cross",}
+					},
+				],
+			},
+		}, //StitchedPussy
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -4623,6 +4749,29 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "PonyGag" },
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options:[
+					{
+						Name: "Straight",
+						Property: {Type: "Straight",}
+					},
+					{
+						Name: "ZigZag",
+						Property: {Type: "ZigZag",}
+					},
+					{
+						Name: "Skewed",
+						Property: {Type: "Skewed",}
+					},
+					{
+						Name: "Cross",
+						Property: {Type: "Cross",}
+					},
+				],
+			},
+		}, //StitchGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -5831,6 +5980,42 @@ var AssetFemale3DCGExtended = {
 				DrawImages: false,
 			},
 		}, // CatGlasses
+		GradientSunglasses: {
+			Archetype: ExtendedArchetype.TYPED,
+			Config: {
+				Options: [
+					{
+						Name: "GradUp",
+						Property: {
+							Type: null,
+						},
+					},
+					{
+						Name: "GradDipped",
+						Property: {
+							Type: "GradDipped",
+						},
+					},
+					{
+						Name: "FlatUp",
+						Property: {
+							Type: "FlatUp",
+						},
+					},
+					{
+						Name: "FlatDipped",
+						Property: {
+							Type: "FlatDipped",
+						},
+					},
+				],
+				Dialog: {
+					Load: "GradientSunglassesSelectType",
+					TypePrefix: "GradientSunglassesType",
+				},
+				DrawImages: false,
+			},
+		}, // GradientSunglasses
 	}, // Glasses
 	Bracelet: {
 		Band1: {
