@@ -1447,8 +1447,28 @@ var AssetFemale3DCG = [
 					{Name: "Cowl"},
 					{Name: "Back", Priority: 5, CopyLayerColor: "Base"}
 				],
-			}
-
+			},
+			{
+				Name: "BallCapBack", Value: -1, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#CCCC32", "#424242", "#3B3B3B"], Extended: true, Layer: [
+					{ Name: "PanelLeft", HasType: false },
+					{ Name: "PanelRight", CopyLayerColor: "PanelLeft", HasType: false },
+					{ Name: "Button", HasType: false },
+					{ Name: "SideLeft", HasType: false },
+					{ Name: "SideRight", CopyLayerColor: "SideLeft", HasType: false },
+					{ Name: "Strap", Priority: 55, AllowTypes: ["StrapOver"], HasType: false },
+					{ Name: "StrapUnder", CopyLayerColor: "Strap", Priority: 50, HasType: false }
+				],
+			},
+			{
+				Name: "BallCapFront", Value: 30, Left: 150, Top: 45, BuyGroup: "BallCap", DefaultColor: ["#3B3B3B", "#3B3B3B", "#3B3B3B", "#CCCC32", "#424242", "Default"], Extended: true, Layer: [
+					{ Name: "Panel", HasType: false },
+					{ Name: "PanelLeft", HasType: false },
+					{ Name: "PanelRight", HasType: false },
+					{ Name: "Button", HasType: false },
+					{ Name: "Visor", HasType: false },
+					{ Name: "Print", AllowTypes: ["BCLogo", "BDSM", "BG", "Chain", "Gag", "Knot", "Monogram", "Rock", "Smile", "Sun", "Tick"], AllowColorize: true, ParentGroup: null },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1736,6 +1756,13 @@ var AssetFemale3DCG = [
 					{ Name: "Frame" },
 					{ Name: "Glass" }
 				]
+			},
+			{
+				Name: "GradientSunglasses", Value: 20, DefaultColor: ["#303030", "#303030"], Extended: true,
+				Layer: [
+					{ Name: "Frame" },
+					{ Name: "Glass" }
+				],
 			},
 		],
 		Color: ["#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
@@ -2071,6 +2098,21 @@ var AssetFemale3DCG = [
 				{ Name: "BangsTip", Priority: 54},
 			],
 			Top: -200, Left: 0 },
+			//HairFront28
+			{ Name: "HairFront28",
+			Layer: [
+				{ Name: "Base" },
+				{ Name: "Bangs" },
+				{ Name: "Tips", Priority: 54 },
+			],
+			},
+			//HairFront29
+			{ Name: "HairFront29",
+			Layer: [
+				{ Name: "Left", Priority: 53 },
+				{ Name: "Right" },
+			],
+			},
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
@@ -2148,6 +2190,13 @@ var AssetFemale3DCG = [
 				{ Name: "Tip"  },
 			],
 			Top: -5, Left: 0 },
+			{ Name: "HairBack54", AllowPose: ["Suspension"],
+				Layer: [
+					{ Name: "Left" },
+					{ Name: "Right" },
+				]
+			},
+			{ Name: "HairBack55" },
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
 		InheritColor: "HairFront"
@@ -2662,9 +2711,15 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "LoversVibrator", Value: 75, Time: 5, LoverOnly: true, DefaultColor: "#790c0c", Prerequisite: ["AccessVulva"], Effect: ["Egged", "FillVulva"], AllowEffect: ["Egged", "Vibrating", "Edged", "FillVulva"], ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }], AllowRemoveExclusive: true, CharacterRestricted: true, DynamicScriptDraw: true},
 			{ Name: "LoversVibratorRemote", Value: 75, Wear: false, LoverOnly: true, Prerequisite: ["RemotesAllowed"], Effect: ["Remote"] },
+			{ Name: "DoubleEndDildo", Value: 15, Time: 10, DefaultColor: ["#624662"], Effect: ["FillVulva"], Prerequisite: ["AccessVulva"], AllowPose: [], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 20 }], Attribute: ["PenetrateItem"], HasType: true, Extended: true	},
 			{
-				Name: "DoubleEndDildo", Value: 15, Time: 10, DefaultColor: ["#624662"], Effect: ["FillVulva"], Prerequisite: ["AccessVulva"], AllowPose: [], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 20 }], Attribute: ["PenetrateItem"], HasType: true, Extended: true,
-
+				Name: "Stitches", Category: ["Medical"], Priority: 13, BuyGroup: "Suture", Random: false, Value: -1, Difficulty: 8, Time: 5, RemoveTime: 5, Prerequisite: "AccessVulva", Effect: ["Chaste"], DefaultColor: ["#3f3c3a"], AllowPose: ["Spread"], Extended: true, AlwaysExtend: true, 
+				Layer: [
+					{ Name: "Straight", HasType: false, AllowTypes: ["Straight"] },
+					{ Name: "ZigZag", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["ZigZag"] },
+					{ Name: "Skewed", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["Skewed"] },
+					{ Name: "Cross", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["Cross"] },
+				],
 			},
 			AssetSpankingToys
 		],
@@ -5559,6 +5614,18 @@ var AssetFemale3DCG = [
 					{ Name: "Blinders", HasType: false, AllowModuleTypes: ["b1"], ColorGroup: "Straps", Priority: 55 },
 				]
 			}, //PonyGag
+			{
+				Name: "Stitches", Category: ["Medical"], Priority: 10, BuyGroup: "Suture", Random: false, Value: 20, Difficulty: 8, Time: 5, RemoveTime: 5, Left: 235, Top: 180, DefaultColor: ["Default", "#3f3c3a"], Hide: ["Mouth"], Prerequisite: ["GagUnique"], Effect: ["GagHeavy"], Extended: true, AlwaysExtend: true, 
+				AllowExpression: ["Frown", "Sad", "Pained", "Angry", "HalfOpen", "Open", "Ahegao", "Moan", "TonguePinch", "LipBite", "Happy", "Devious", "Laughing", "Grin", "Smirk", "Pout"],
+				Layer: [
+					{ Name: "FakeMouth", HasType: false, InheritColor: "Mouth", AllowTypes: ["Straight", "ZigZag", "Skewed", "Cross"], MirrorExpression: "Mouth"},
+					{ Name: "Straight", HasType: false, AllowTypes: ["Straight"], MirrorExpression: "Mouth"},
+					{ Name: "ZigZag", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["ZigZag"], MirrorExpression: "Mouth"},
+					{ Name: "Skewed", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["Skewed"], MirrorExpression: "Mouth"},
+					{ Name: "Cross", HasType: false, CopyLayerColor: "Straight", AllowTypes: ["Cross"], MirrorExpression: "Mouth" },
+				],
+			},
+			
 			{
 				Name: "Slime", Category: ["Fantasy"], BuyGroup: "Slime", DefaultColor: ["#57ab5e"], Random: false, Value: 200, Difficulty: 4, Time: 15, RemoveTime: 25, Left: 200, Top: 170, Effect: ["BlockMouth", "GagMedium"],
 			},
