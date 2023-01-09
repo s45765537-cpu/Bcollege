@@ -362,8 +362,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			MainCanvas.filter = `blur(${BlurLevel}px)`;
 		}
 		// Draw the character
-		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
-			Canvas: DrawCanvas,
+		DrawImageEx(Canvas, DrawCanvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			SourcePos: [0, YStart, Canvas.width, SourceHeight],
 			Width: 500 * HeightRatio * Zoom,
 			Height: (1000 - DestY) * Zoom,
@@ -496,8 +495,7 @@ function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Width, Height, Invert) {
-	return DrawImageEx(Source, X, Y, {
-		Canvas,
+	return DrawImageEx(Source, Canvas, X, Y, {
 		SourcePos: [SX, SY, SWidth, SHeight],
 		Width,
 		Height,
@@ -515,7 +513,7 @@ function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Widt
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageResize(Source, X, Y, Width, Height) {
-	return DrawImageEx(Source, X, Y, { Width, Height });
+	return DrawImageEx(Source, MainCanvas, X, Y, { Width, Height });
 }
 
 /**
@@ -637,34 +635,6 @@ function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
 }
 
 /**
- * Draws a specific canvas with a zoom on the main canvas
- * @param {HTMLImageElement | HTMLCanvasElement} Canvas - Canvas to draw on the main canvas
- * @param {number} X - Position of the canvas on the X axis
- * @param {number} Y - Position of the canvas on the Y axis
- * @param {number} Zoom - Zoom factor
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawCanvasZoom(Canvas, X, Y, Zoom) {
-	return DrawImageEx(Canvas, X, Y, { Zoom });
-}
-
-/**
- * Draws a zoomed image from a source to the canvas and mirrors it from left to right
- * @param {string} Source - URL of the image
- * @param {number} X - Position of the image on the X axis
- * @param {number} Y - Position of the image on the Y axis
- * @param {number} Width - Width of the image
- * @param {number} Height - Height of the image
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageZoomMirror(Source, X, Y, Width, Height) {
-	return DrawImageEx(Source, X, Y, {
-		Width, Height,
-		Mirror: true
-	});
-}
-
-/**
  * Draws an image from a source on the main canvas
  * @param {string} Source - URL of the image
  * @param {number} X - Position of the image on the X axis
@@ -673,65 +643,30 @@ function DrawImageZoomMirror(Source, X, Y, Width, Height) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImage(Source, X, Y, Invert) {
-	return DrawImageEx(Source, X, Y, { Invert });
-}
-
-/**
- * Draws the mirrored version of an image from a source on the canvas
- * @param {string} Source - URL of the image
- * @param {number} X - Position of the image on the X axis
- * @param {number} Y - Position of the image on the Y axis
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageMirror(Source, X, Y) {
-	return DrawImageEx(Source, X, Y, { Mirror: true });
-}
-
-/**
- * Flips an image vertically
- * @param {HTMLImageElement} Img - The image to be inverted
- * @returns {HTMLCanvasElement} - Canvas with the inverted image
- */
-function DrawImageInvert(Img) {
-	TempCanvas.canvas.width = Img.width;
-	TempCanvas.canvas.height = Img.height;
-	TempCanvas.scale(1, -1);
-	TempCanvas.translate(0, -Img.height);
-	TempCanvas.drawImage(Img, 0, 0);
-	return TempCanvas.canvas;
+	return DrawImageEx(Source, MainCanvas, X, Y, { Invert });
 }
 
 /**
  * Draws an image on canvas, applying all options
  * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {object} [options] - any extra options, optional
- * @param {CanvasRenderingContext2D} [options.Canvas] - Canvas on which to draw the image, defaults to `MainCanvas`
- * @param {number} [options.Alpha] - transparency between 0-1
- * @param {readonly [number, number, number, number]} [options.SourcePos] - Area in original image to draw in format `[left, top, width, height]`
- * @param {number} [options.Width] - Width of the drawn image, defaults to width of original image
- * @param {number} [options.Height] - Height of the drawn image, defaults to height of original image
- * @param {boolean} [options.Invert=false] - If image should be flipped vertically
- * @param {boolean} [options.Mirror=false] - If image should be flipped horizontally
- * @param {number} [options.Zoom=1] - Zoom factor
+ * @param {DrawOptions} [Options = {}] - any extra options
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageEx(
 	Source,
+	Canvas,
 	X,
 	Y,
-	{
-		Canvas = MainCanvas,
-		Alpha = 1,
-		SourcePos,
-		Width,
-		Height,
-		Invert = false,
-		Mirror = false,
-		Zoom = 1
-	}
+	Options
 ) {
+	let { Alpha, SourcePos, Width, Height, Invert, Mirror, Zoom } = Options;
+
+	if (!Alpha || Alpha < 0 || Alpha > 1) Alpha = 1;
+	if (!Zoom || Zoom < 0 || Zoom > 1) Zoom = 1;
+
 	if (typeof Source === "string") {
 		Source = DrawGetImage(Source);
 		if (!Source.complete) return false;

@@ -90,11 +90,11 @@ function PokerDrawPlayer(P, X, Y) {
 				if (W >= 800) {
 					Y2 = (440 - H) * 0.5;
 					Large = true;
-					DrawImageEx(P.Image, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + Y2 + 50, {Canvas: MainCanvas, Zoom: 1});
+					DrawImageEx(P.Image, MainCanvas, (PokerShowPlayer ? 1250 - W / 2 : 1000 - W / 2), Y + Y2 + 50, {Zoom: 1});
 				}
 				else {
 					if (H < 440) Y2 = (440 - H) * 1.25;
-					DrawImageEx(P.Image, X + 215 - W / 2, Y + Y2, {Canvas: MainCanvas, Zoom: 1.25});
+					DrawImageEx(P.Image, MainCanvas, X + 215 - W / 2, Y + Y2, {Zoom: 1.25});
 				}
 			}
 
@@ -375,20 +375,20 @@ function PokerRun() {
 			if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && (PokerPlayer[P].Hand.length > 0)) {
 				DrawText(PokerPlayer[P].Name + ": " + PokerPlayer[P].Chip.toString(), (PokerShowPlayer ? 250 : 0) + P * 500, 682, "white", "gray");
 				if ((PokerPlayer[P].Family != "Player") && (PokerMode != "RESULT"))
-					DrawImageEx("Screens/Room/Poker/Cards/OpponentCards.gif", (PokerShowPlayer ? 250 : 0) + P * 500 - 75, 720, {Canvas: MainCanvas, Zoom: 1.5});
+					DrawImageEx("Screens/Room/Poker/Cards/OpponentCards.gif", MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 - 75, 720, {Zoom: 1.5});
 				else {
-					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[0]), (PokerShowPlayer ? 250 : 0) + P * 500 - 135, 710, {Canvas: MainCanvas, Zoom: 0.6});
-					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[1]), (PokerShowPlayer ? 250 : 0) + P * 500 + 20, 710, {Canvas: MainCanvas, Zoom: 0.6});
+					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[0]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 - 135, 710, {Zoom: 0.6});
+					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[1]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 + 20, 710, {Zoom: 0.6});
 				}
 			}
 		if ((!PokerShowPlayer) && (PokerPlayer[0].Hand.length > 0)) {
 			DrawText(TextGet("Chip") + ": " + PokerPlayer[0].Chip.toString(), 1887, 970, "white", "gray");
 			if (PokerMode == "RESULT") {
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), 50, 825, {Canvas: MainCanvas, Zoom: 0.6});
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), 200, 825, {Canvas: MainCanvas, Zoom: 0.6});
+				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 50, 825, {Zoom: 0.6});
+				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 200, 825, {Zoom: 0.6});
 			} else {
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), 25, 800, {Canvas: MainCanvas, Zoom: 1.25});
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), 250, 800, {Canvas: MainCanvas, Zoom: 1.25});
+				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 25, 800, {Zoom: 1.25});
+				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 250, 800, {Zoom: 1.25});
 			}
 		}
 	}
@@ -396,7 +396,7 @@ function PokerRun() {
 	// Draws the table cards
 	if ((PokerTableCards.length > 0) && ((PokerMode == "FLOP") || (PokerMode == "TURN") || (PokerMode == "RIVER") || (PokerMode == "RESULT"))) {
 		for (let C = 0; C < PokerTableCards.length; C++)
-			DrawImageEx(PokerCardFileName(PokerTableCards[C]), C * 150 + 640, 850, {Canvas: MainCanvas, Zoom: 0.6});
+			DrawImageEx(PokerCardFileName(PokerTableCards[C]), MainCanvas, C * 150 + 640, 850, {Zoom: 0.6});
 	}
 
 	// In deal mode, we allow the regular actions when the player can play

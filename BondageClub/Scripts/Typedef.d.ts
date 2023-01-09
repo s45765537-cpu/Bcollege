@@ -2951,6 +2951,24 @@ interface AudioChatAction {
 
 // #region Character drawing
 
+/** Options available to most draw calls */
+type DrawOptions = {
+	/** Transparency between 0-1 */
+	Alpha?: number;
+	/** Area in original image to draw in format `[left, top, width, height]` */
+	SourcePos?: RectTuple;
+	/** Width of the drawn image, defaults to width of original image */
+	Width?: number;
+	/** Height of the drawn image, defaults to height of original image */
+	Height?: number;
+	/** If image should be flipped vertically */
+	Invert?: boolean;
+	/** If image should be flipped horizontally */
+	Mirror?: boolean;
+	/** Zoom factor */
+	Zoom?: number;
+}
+
 /**
  * A callback function used for clearing a rectangular area of a canvas
  * @param {number} x - The x coordinate of the left of the rectangle to clear
