@@ -522,16 +522,11 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {number} [Zoom] - Zoom factor
- * @param {string} [HexColor] - Color of the image to draw
- * @param {boolean} [FullAlpha] - Whether or not it is drawn in full alpha mode
- * @param {readonly RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
- * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
- * @param {GlobalCompositeOperation} [BlendingMode="source-over"] - blending mode for drawing the image
+ * @param {DrawOptions} [Options] Options to use when drawing
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawImageCanvas(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode) {
+function DrawImageCanvas(Source, Canvas, X, Y, Options) {
+	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode } = Options || {};
 	const Img = DrawGetImage(Source);
 	if (!Img.complete) return false;
 	if (!Img.naturalWidth) return true;
@@ -541,10 +536,10 @@ function DrawImageCanvas(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaM
 	if (typeof HexColor !== "string")
 		HexColor = null;
 
-	if (typeof Opacity !== "number")
-		Opacity = 1.0;
-	Opacity = Math.max(0, Math.min(1, Opacity));
-	if (Opacity === 0) return true;
+	if (typeof Alpha !== "number")
+		Alpha = 1.0;
+	Alpha = Math.max(0, Math.min(1, Alpha));
+	if (Alpha === 0) return true;
 
 	// If we need to colorize, use the CPU canvas
 	// since we're gonna need .getImageData
@@ -559,11 +554,14 @@ function DrawImageCanvas(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaM
 	// Apply masks
 	DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
 
-	if (Rotate) {
-		destCanvas.rotate(Math.PI);
-		destCanvas.translate(-destCanvas.canvas.width, -destCanvas.canvas.height);
-		X = 500 - (X + destCanvas.canvas.width);
+	if (Invert) {
+		destCanvas.translate(0, -destCanvas.canvas.height);
 		Y -= destCanvas.canvas.height;
+	}
+
+	if (Mirror) {
+		destCanvas.translate(-destCanvas.canvas.width, 0);
+		X = 500 - (X + destCanvas.canvas.width);
 	}
 
 	if (HexColor) {
@@ -602,7 +600,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaM
 
 	// Blit the transformed image to the main canvas, applying opacity and zoom
 	Canvas.save();
-	Canvas.globalAlpha = Opacity;
+	Canvas.globalAlpha = Alpha;
 	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.drawImage(destCanvas.canvas,
 		0, 0, destCanvas.canvas.width, destCanvas.canvas.height,

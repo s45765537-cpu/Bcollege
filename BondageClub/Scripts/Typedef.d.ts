@@ -2967,6 +2967,14 @@ type DrawOptions = {
 	Mirror?: boolean;
 	/** Zoom factor */
 	Zoom?: number;
+	/* Color of the image to draw */
+	HexColor?: string;
+	/* Whether or not it is drawn in full alpha mode */
+	FullAlpha?: boolean;
+	/** A list of alpha masks to apply to the call */
+	AlphaMasks?: readonly RectTuple[];
+	/** Blending mode for drawing the image */
+	BlendingMode?: GlobalCompositeOperation;
 }
 
 /**
