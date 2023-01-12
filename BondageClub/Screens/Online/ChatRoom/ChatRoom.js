@@ -3546,21 +3546,24 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 
 /**
  * Handles the reception of the complete room data from the server.
- * @param {ServerChatRoomData} chatRoomProperties - Room object containing the updated chatroom data.
+ * @param {ServerChatRoomData} room - Room object containing the updated chatroom data.
  * @returns {chatRoomProperties is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
  */
-function ChatRoomValidateProperties(chatRoomProperties)
+function ChatRoomValidateProperties(room)
 {
-	return chatRoomProperties != null && typeof chatRoomProperties === "object"
-		&& chatRoomProperties.Name != null && typeof chatRoomProperties.Name === "string"
-		&& chatRoomProperties.Description != null && typeof chatRoomProperties.Description === "string"
-		&& Array.isArray(chatRoomProperties.Admin)
-		&& Array.isArray(chatRoomProperties.Ban)
-		&& chatRoomProperties.Background != null && typeof chatRoomProperties.Background === "string"
-		&& chatRoomProperties.Limit != null && typeof chatRoomProperties.Limit === "number"
-		&& chatRoomProperties.Locked != null && typeof chatRoomProperties.Locked === "boolean"
-		&& chatRoomProperties.Private != null && typeof chatRoomProperties.Private === "boolean"
-		&& Array.isArray(chatRoomProperties.BlockCategory);
+	return room != null && typeof room === "object"
+		&& typeof room.Name === "string"
+		&& typeof room.Description === "string"
+		&& Array.isArray(room.Admin) && room.Admin.every(n => typeof n === "number")
+		&& Array.isArray(room.Ban) && room.Ban.every(n => typeof n === "number")
+		&& typeof room.Background === "string"
+		&& typeof room.Limit === "number"
+		&& typeof room.Game === "string"
+		&& typeof room.Locked === "boolean"
+		&& typeof room.Private === "boolean"
+		&& Array.isArray(room.BlockCategory)
+		&& Array.isArray(room.Character)
+		&& typeof room.Language === "string";
 }
 
 /**
@@ -3569,12 +3572,16 @@ function ChatRoomValidateProperties(chatRoomProperties)
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (data == null || (typeof data !== "object") || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
-	if (!ChatRoomValidateProperties(data)) // If the room data we received is invalid...
-	{
+	// Split out the sender from the rest of the chatroom data
+	const senderNumber = data.SourceMemberNumber;
+	delete data.SourceMemberNumber;
+
+	// Validate the actual chatroom properties
+	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
@@ -3593,13 +3600,11 @@ function ChatRoomSync(data) {
 	// Update our chat room data with what the server sent us
 	ChatRoomData = data;
 
-	// Treat chatroom updates from ourselves as if the updated characters had sent them
-	const trustedUpdate = data.SourceMemberNumber === Player.MemberNumber;
-
 	// Load the characters
 	ChatRoomCharacter = [];
 	for (let C = 0; C < data.Character.length; C++) {
-		const sourceMemberNumber = trustedUpdate ? data.Character[C].MemberNumber : data.SourceMemberNumber;
+		// Treat chatroom updates from ourselves as if the updated characters had sent them
+		const sourceMemberNumber = senderNumber === Player.MemberNumber ? data.Character[C].MemberNumber : senderNumber;
 		const Char = CharacterLoadOnline(data.Character[C], sourceMemberNumber);
 		ChatRoomCharacter.push(Char);
 	}
