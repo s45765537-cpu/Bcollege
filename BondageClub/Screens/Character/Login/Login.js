@@ -689,7 +689,6 @@ function LoginResponse(C) {
 			Player.LastChatRoomLanguage = C.LastChatRoomLanguage;
 			Player.LastChatRoomDesc = C.LastChatRoomDesc;
 			Player.LastChatRoomCustom = C.LastChatRoomCustom;
-			Player.LastChatRoomTimer = C.LastChatRoomTimer;
 			if (typeof C.LastChatRoomAdmin == "string")
 				Player.LastChatRoomAdmin = CommonConvertStringToArray(C.LastChatRoomAdmin);
 			if (typeof C.LastChatRoomBan == "string")
