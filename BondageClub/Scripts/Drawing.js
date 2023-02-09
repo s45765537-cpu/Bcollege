@@ -449,6 +449,19 @@ function DrawAlpha(Canvas, Alpha) {
 }
 
 /**
+ * Clears a rectangle on a canvas
+ * @param {CanvasRenderingContext2D} Canvas - The canvas on which to clear rect
+ * @param {number} x - Position of the image on the X axis
+ * @param {number} y - Position of the image on the Y axis
+ * @param {number} width - Width of the rectangle to clear
+ * @param {number} height - Height of the rectangle to clear
+ * @returns {void} - Nothing
+ */
+function DrawClearRect(Canvas, x, y, width, height) {
+	Canvas.clearRect(x, y, width, height);
+}
+
+/**
  * Draws a zoomed image from a source to a specific canvas
  * @param {string} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image

@@ -573,8 +573,8 @@ function CharacterAppearanceBuildCanvas(C) {
 	if (GLVersion === "No WebGL" || !GLDrawCanvas || !GLDrawCanvas.GL || GLDrawCanvas.GL.isContextLost()) {
 		CommonDrawCanvasPrepare(C);
 		CommonDrawAppearanceBuild(C, {
-			clearRect: (x, y, w, h) => C.Canvas.getContext("2d").clearRect(x, y, w, h),
-			clearRectBlink: (x, y, w, h) => C.CanvasBlink.getContext("2d").clearRect(x, y, w, h),
+			clearRect: (x, y, w, h) => DrawClearRect(C.Canvas.getContext("2d"), x, y, w, h),
+			clearRectBlink: (x, y, w, h) => DrawClearRect(C.CanvasBlink.getContext("2d"), x, y, w, h),
 			drawImage: (src, x, y, alphaMasks, opacity, rotate, blendingMode) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, alphaMasks, opacity, rotate, blendingMode),
 			drawImageBlink: (src, x, y, alphaMasks, opacity, rotate, blendingMode) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, opacity, rotate, blendingMode),
 			drawImageColorize: (src, x, y, color, fullAlpha, alphaMasks, opacity, rotate, blendingMode) => DrawImageCanvasColorize(src, C.Canvas.getContext("2d"), x, y, 1, color, fullAlpha, alphaMasks, opacity, rotate, blendingMode),
