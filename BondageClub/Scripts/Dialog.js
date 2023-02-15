@@ -393,7 +393,7 @@ function DialogIsKneeling(C) { return DialogGetCharacter(C).IsKneeling(); }
  * Determines if the player is owned by the current character
  * @returns {boolean} - Returns true, if the player is owned by the current character, false otherwise
  */
-function DialogIsOwner() { return (CurrentCharacter.Name == Player.Owner.replace("NPC-", "")); }
+function DialogIsOwner() { return CurrentCharacter.IsOwner(); }
 
 /**
  * Determines, if the current character is the player's lover
@@ -481,7 +481,7 @@ function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && !A
  * Checks if the player is currently owned.
  * @returns {boolean} - Returns true, if the player is currently owned by an online player (not in trial)
  */
-function DialogCanViewRules() { return (Player.Ownership != null) && (Player.Ownership.Stage == 1); }
+function DialogCanViewRules() { return Player.IsFullyOwned(); }
 
 /**
  * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
@@ -970,7 +970,7 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 
 		// Make sure we do not add owner/lover/family only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (asset.OwnerOnly && !isWorn && !C.IsOwnedByPlayer())
-			if ((!C.IsPlayer()) || ((C.Owner == "") && (C.Ownership == null)) || !asset.IsLock || ((C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
+			if (!C.IsPlayer() || !C.IsOwned() || !asset.IsLock || (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return;
 		if (asset.LoverOnly && !isWorn && !C.IsLoverOfPlayer()) {
 			if (!asset.IsLock || C.GetLoversNumbers(true).length == 0) return;
@@ -1235,7 +1235,7 @@ function DialogCanUseRemoteState(C, Item) {
 	// Can't use remotes if the player cannot interact with their hands
 	if (!Player.CanInteract()) return "CannotInteract";
 	// Can't use remotes on self if the player is owned and their remotes have been blocked by an owner rule
-	if (C.IsPlayer() && Player.Ownership && Player.Ownership.Stage === 1 && LogQuery("BlockRemoteSelf", "OwnerRule")) return "RemotesBlocked";
+	if (C.IsPlayer() && Player.IsFullyOwned() && LogQuery("BlockRemoteSelf", "OwnerRule")) return "RemotesBlocked";
 	if (Item.Asset.LoverOnly) {
 		if (!C.IsLoverOfPlayer()) {
 			return "NoAccess";

@@ -1275,7 +1275,7 @@ function AsylumGGTSDroneDress(C) {
 	InventoryWear(C, "FuturisticPanelGag", "ItemMouth");
 	InventoryWear(C, "FuturisticMask", "ItemHead");
 	InventoryWear(C, "FuturisticHelmet", "ItemHood");
-	if ((InventoryGet(C, "ItemNeck") == null) || (C.Ownership == null)) InventoryWear(C, "FuturisticCollar", "ItemNeck");
+	if ((InventoryGet(C, "ItemNeck") == null) || !C.IsOwned()) InventoryWear(C, "FuturisticCollar", "ItemNeck");
 	InventoryWear(C, "FuturisticEarphones", "ItemEars");
 }
 

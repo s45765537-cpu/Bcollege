@@ -175,32 +175,32 @@ function ManagementCanReleaseFromOwner() { return ((Player.Money >= 200) && LogQ
  * Checks if the player can break an online ownership trial.
  * @returns {boolean} - TRUE if the player can break her trial.
  */
-function ManagementCanBreakTrialOnline() { return ((Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage === 0)); }
+function ManagementCanBreakTrialOnline() { return Player.IsOwned() === "online" && !Player.IsFullyOwned(); }
 /**
  * Checks if the player can part ways from their online owner. (7 days wait time over)
  * @returns {boolean} - TRUE if the player can break her full collar.
  */
-function ManagementCanBeReleasedOnline() { return ((Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime) && (Player.GetDifficulty() <= 2)); }
+function ManagementCanBeReleasedOnline() { return Player.IsOwned() === "online" && Player.OwnedSince() >= 7 && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player cannot part ways from their online owner. (7 days wait time not over)
  * @returns {boolean} - TRUE if the player cannot break her full collar.
  */
-function ManagementCannotBeReleasedOnline() { return ((Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime) && (Player.GetDifficulty() <= 2)); }
+function ManagementCannotBeReleasedOnline() { return Player.IsOwned() === "online" && Player.OwnedSince() < 7 && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player can part ways from her owner. (The NPC left the private room.)
  * @returns {boolean} - TRUE if the player can part ways with her current NPC owner.
  */
-function ManagementCanBeReleased() { return ((Player.Owner != "") && (Player.Ownership == null) && !PrivateOwnerInRoom() && (Player.GetDifficulty() <= 2)); }
+function ManagementCanBeReleased() { return Player.IsOwned() === "npc" && !PrivateOwnerInRoom(); }
 /**
  * Checks if the player cannot part ways from her owner. (The NPC is still in the private room.)
  * @returns {boolean} - TRUE if the player cannot part ways with her current NPC owner.
  */
-function ManagementCannotBeReleased() { return ((Player.Owner != "") && (Player.Ownership == null) && PrivateOwnerInRoom() && (Player.GetDifficulty() <= 2)); }
+function ManagementCannotBeReleased() { return Player.IsOwned() === "npc" && PrivateOwnerInRoom() && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player cannot part ways from her owner because she's on the Extreme difficulty.
  * @returns {boolean} - TRUE if the player cannot part ways with her current owner.
  */
-function ManagementCannotBeReleasedExtreme() { return ((Player.Owner != "") && (Player.GetDifficulty() >= 3)); }
+function ManagementCannotBeReleasedExtreme() { return Player.IsOwned() === "npc" && PrivateOwnerInRoom() && Player.GetDifficulty() >= 3; }
 /**
  * Checks if the player can be owned by the mistress.
  * @returns {boolean} - TRUE if the player is fully submissive, the player is not owned, the mistress has not been angered and the mistress can enter the private room.
@@ -556,25 +556,20 @@ function ManagementContactOwner() {
  * @returns {void} - Nothing.
  */
 function ManagementReleaseFromOwner(RepChange) {
+	if (!(Player.IsOwned() === "npc" || Player.IsOwned() === "online")) return;
 	ReputationProgress("Dominant", RepChange);
 	LogAdd("ReleasedFromOwner", "Management");
 
-	if (Player.Owner !== "" && Player.Ownership == null) {
-		CharacterClearOwnership(Player); // clear NPC owner
-		ServerPlayerSync();
-	} else {
-		ManagementBreakOnlineOwnership();
-	}
+	CharacterClearOwnership(Player);
 }
 
 /**
  * Break ownership by another player
+ * @deprecated
  * @returns {void} - Nothing.
  */
 function ManagementBreakOnlineOwnership() {
-	if ((Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) {
-		ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
-	}
+	CharacterClearOwnership(Player);
 }
 
 /**

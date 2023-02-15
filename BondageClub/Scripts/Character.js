@@ -177,7 +177,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
 					!LogQuery("BlockChange", "Rule") &&
-					(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
+					(!LogQuery("BlockChange", "OwnerRule") || Player.IsOwned() && !Player.IsFullyOwned())
 				);
 			} else {
 				return (
@@ -2014,14 +2014,32 @@ function CharacterHasArousalEnabled(C) {
 }
 
 /**
- * Removes all ownership and owner-only data
+ * Clears a character's ownership.
+ *
+ * If the character is the player, this will also cleanup rules,
+ * owner-locked items, and trigger a server ownership break-up.
+ *
  * @param {Character} C - The character breaking from their owner
+ * @param {boolean} push - Whether to push the data to the server
  * @returns {void} - Nothing.
  */
-function CharacterClearOwnership(C) {
+function CharacterClearOwnership(C, push=true) {
+	// Grab the type now before we clear ownership
+	const ownerType = C.IsOwned();
 	C.Owner = "";
 	C.Ownership = null;
+
 	if (C.IsPlayer()) {
+		switch (ownerType) {
+			case "online":
+				ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+				break;
+
+			case "npc":
+				ServerPlayerSync();
+				break;
+		}
+
 		LoginValidCollar();
 		LogDeleteGroup("OwnerRule");
 	}

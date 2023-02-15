@@ -321,7 +321,7 @@ function FriendListLoadFriendList(data) {
 			FriendListContent += `<div class='FriendListTextColumn FriendListFirstColumn'> ${v} </div>`;
 			FriendListContent += `<div class='FriendListTextColumn'> ${k} </div>`;
 			let Type = "Friend";
-			if (Player.Ownership != null && Player.Ownership.MemberNumber === k) {
+			if (Player.IsOwnedByMemberNumber(k)) {
 				Type = "Owner";
 			} else if (Player.Lovership.some(lover => lover.MemberNumber == k)) {
 				Type = "Lover";
