@@ -1329,9 +1329,6 @@ interface Character {
 
 	/**
 	 * Check whether a character can change another one's outfit.
-	 *
-	 * @param {Character} C - The character to check against.
-	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
 	 */
 	CanChangeClothesOn: (C: Character) => boolean;
 	IsRestrained: () => boolean;
@@ -1342,8 +1339,25 @@ interface Character {
 	IsBreastChaste: () => boolean;
 	IsButtChaste: () => boolean;
 	IsEgged: () => boolean;
-	IsOwned: () => boolean;
+	/**
+	 * Whether the character is owned, and who owns it
+	 */
+	IsOwned: () => "online"|"npc"|"ggts"|"player"|false;
+	/** Whether the character is owned by the given character */
+	IsOwnedByCharacter: (C: Character) => boolean;
+	/** Whether the character is owned by the given character, number form */
+	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
+	/** Whether the character has completed their ownership trial */
+	IsFullyOwned: () => boolean;
+	/** The name of this character's owner */
+	OwnerName: () => string;
+	/** The character's owner number. Might be -1 for non-online characters */
+	OwnerNumber: () => number;
+	/** Whether the player owns that character */
 	IsOwnedByPlayer: () => boolean;
+	/** The number of days since the character has been owned */
+	OwnedSince: () => number | false;
+	/** Whether the given character owns the player */
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;
 	IsStanding: () => boolean;
@@ -1370,7 +1384,6 @@ interface Character {
 	IsVulvaFull: () => boolean;
 	IsAssFull: () => boolean;
 	IsFixedHead: () => boolean;
-	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
 	IsLover: (C: Character) => boolean;
 	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
 	GetDeafLevel: () => number;
@@ -1380,7 +1393,7 @@ interface Character {
 	IsBirthday: () => boolean;
 	IsFamilyOfPlayer: () => boolean;
 	IsInFamilyOfMemberNumber: (MemberNum: number) => boolean;
-	IsOnline: () => boolean;
+	IsOnline: () => this is Character;
 	IsNpc: () => this is NPCCharacter;
 	IsSimple: () => boolean;
 	GetDifficulty: () => number;

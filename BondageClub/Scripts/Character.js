@@ -314,24 +314,90 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Effect.includes("FixedHead");
 		},
 		IsOwned: function () {
-			return ((this.Owner != null) && (this.Owner.trim() != ""));
+			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
+			if (this.IsNpc() && this.Owner === Player.Name) return "player";
+			if (this.Ownership && this.Ownership.MemberNumber) return "online";
+			// NPC-owner with trial completed
+			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
+			// NPC-owner while in trial
+			let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+			if (trialing && trialing !== this) return "npc";
+			return false;
+		},
+		IsOwnedByCharacter: function (C) {
+			switch (this.IsOwned()) {
+				case "ggts":
+					return false;
+				case "npc": {
+					if (this.Owner.replace("NPC-", "").trim() === C.Name)
+						return true;
+
+					let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+					if (trialing && trialing !== this) return true;
+
+					return false;
+				}
+				case "online":
+					return this.Ownership.MemberNumber === C.MemberNumber;
+				case "player":
+					return true;
+				default:
+					return false;
+			}
+		},
+		IsFullyOwned: function () {
+			switch (this.IsOwned()) {
+				case "ggts": return true;
+				case "npc":
+					return !!PrivateCharacter.find(c => NPCEventGet(c, "PlayerCollaring") > 0);
+				case "player":
+					return NPCEventGet(this, "EndDomTrial") > 0;
+				case "online": return this.Ownership.Stage >= 1;
+				default:
+					return false;
+			}
 		},
 		IsOwnedByPlayer: function () {
-			return (
-				(
-					(((this.Owner != null) && (this.Owner.trim() == Player.Name)) || (NPCEventGet(this, "EndDomTrial") > 0)) &&
-					(this.Ownership == null)
-				) ||
-				this.IsOwnedByMemberNumber(Player.MemberNumber)
-			);
+			return this.IsOwnedByCharacter(Player);
+		},
+		OwnerName: function () {
+			switch (this.IsOwned()) {
+				case "ggts": return TextGet("OwnerGGTS");
+				case "npc": return this.IsFullyOwned() ? this.Owner.replace("NPC-", "") : PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0).Name;
+				case "online": return this.Ownership.Name;
+				case "player": return this.Owner;
+				default:
+					return "";
+			}
+		},
+		OwnerNumber: function () {
+			if (this.IsOwned() === "online")
+				return this.Ownership.MemberNumber;
+			return -1;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
-			return (this.Ownership != null) &&
-				(this.Ownership.MemberNumber != null) &&
-				(this.Ownership.MemberNumber == memberNumber);
+			return (this.OwnerNumber() === memberNumber);
+		},
+		OwnedSince: function () {
+			switch (this.IsOwned()) {
+				case "online":
+					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
+				case "player":
+					return Math.floor((CurrentTime - NPCEventGet(this, "NPCCollaring")) / 86400000);
+				case "npc": {
+					for (const npc of PrivateCharacter) {
+						let time = NPCEventGet(npc, "PlayerCollaring");
+						if (time > 0) return Math.floor((CurrentTime - time) / 86400000);
+						time = NPCEventGet(npc, "EndSubTrial");
+						if (time > 0) return Math.floor((time - CurrentTime) / 86400000);
+					}
+					return false;
+				}
+			}
+			return false;
 		},
 		IsOwner: function () {
-			return ((NPCEventGet(this, "EndSubTrial") > 0) || (this.Name == Player.Owner.replace("NPC-", "")));
+			return Player.IsOwnedByCharacter(this);
 		},
 		IsLoverOfPlayer: function () {
 			return this.IsLover(Player);
