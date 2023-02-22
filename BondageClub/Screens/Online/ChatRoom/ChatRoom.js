@@ -2248,6 +2248,24 @@ function ChatRoomCanLeave() {
 	return true; // Can leave if the room is locked and there's no administrator inside
 }
 
+/** When slowed, we can't leave quicker than this */
+const ChatRoomSlowLeaveMinTime = 5000;
+
+/**
+ * Calculates the slow leave duration
+ *
+ * @param {number} level - The slow level
+ * @param {number} skill - The evasion skill level
+ * @param {number} min - The minimum cap
+ * @returns {number} The slow leave duration
+ */
+function ChatRoomSlowLeaveDuration(level, skill, min) {
+	const timerLength = min + 2000 * level;
+	const evasionModifier = 500 * skill;
+	const leaveTime = Math.round(Math.max(min, timerLength - evasionModifier));
+	return leaveTime;
+}
+
 function ChatRoomAttemptLeave() {
 	// Check that we can actually exit the room
 	if (!ChatRoomCanLeave()) return;
@@ -2263,7 +2281,7 @@ function ChatRoomAttemptLeave() {
 		} else {
 			ServerSend("ChatRoomChat", { Content: "SlowLeaveAttempt", Type: "Action", Dictionary });
 			ChatRoomStatusUpdate("Crawl");
-			ChatRoomSlowtimer = CurrentTime + (10 * (1000 - (50 * SkillGetLevelReal(Player, "Evasion"))));
+			ChatRoomSlowtimer = CurrentTime + ChatRoomSlowLeaveDuration(Player.GetSlowLevel(), SkillGetLevel(Player, "Evasion"), ChatRoomSlowLeaveMinTime);
 		}
 	} else {
 		ChatRoomLeave();

@@ -255,11 +255,25 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return this.HasEffect("Shackled");
 		},
 		IsSlow: function () {
+			return this.GetSlowLevel() > 0;
+		},
+		GetSlowLevel: function () {
 			// Respect immunity setting for the player
-			if (this.IsPlayer() && !/** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
-				return false;
+			if (this.IsPlayer() && /** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
+				return 0;
 
-			return this.HasEffect("Slow") || this.PoseMapping.BodyLower === "Kneel";
+			let slowness = 0;
+			if (this.HasEffect("Slow")) slowness++;
+			if (this.PoseMapping.BodyFull === "AllFours") slowness += 2;
+			else if (this.PoseMapping.BodyLower === "Kneel") slowness += 1;
+
+			// Short-circuit to save on the following checks
+			if (slowness === 0) return 0;
+
+			const effects = CharacterGetEffects(this, null, true);
+			// Count all slow effects applied. Minus one for the one we've seen above
+			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - 1;
+			return slowness;
 		},
 		IsEgged: function () {
 			return this.HasEffect("Egged");
