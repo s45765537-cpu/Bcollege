@@ -1891,7 +1891,7 @@ function ChatRoomStatusUpdateTalk(Key) {
  * @returns {void} - Nothing.
  */
 function ChatRoomStatusCheckExpiration() {
-	const isCrawling = (Player.Status == "Crawl") && (ChatRoomSlowtimer > 0) && (ChatRoomSlowStop == false) && Player.IsSlow();
+	const isCrawling = (Player.Status == "Crawl") && ChatRoomIsLeavingSlowly();
 	if (Player.StatusTimer) {
 		if (Player.StatusTimer < CommonTime()) {
 			ChatRoomStatusUpdate(null);
@@ -1955,45 +1955,9 @@ function ChatRoomRun() {
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
 	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
-	if (!ChatRoomCanLeave() && ChatRoomSlowtimer != 0){//Player got interrupted while trying to leave. (Via a bind)
-		const Dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.build();
-		ServerSend("ChatRoomChat", { Content: "SlowLeaveInterrupt", Type: "Action", Dictionary });
-		ServerSend("ChatRoomChat", { Content: "SlowLeaveInterrupt", Type: "Hidden", Dictionary });
-		ChatRoomSlowtimer = 0;
-		ChatRoomSlowStop = false;
-	}
-
-	const PlayerIsSlow = Player.IsSlow();
-
-	// If the player is slow (ex: ball & chains), she can leave the room with a timer and can be blocked by others
-	if (PlayerIsSlow && ChatRoomCanLeave() && (ChatRoomSlowStop == false)) {
-		if (ChatRoomSlowtimer == 0) DrawButton(1005, 2, 120, 60, "", "#FFFF00", "Icons/Rectangle/Exit.png", TextGet("MenuLeave"));
-		if ((CurrentTime < ChatRoomSlowtimer) && (ChatRoomSlowtimer != 0)) DrawButton(1005, 2, 120, 60, "", "White", "Icons/Rectangle/Cancel.png", TextGet("MenuCancel"));
-		if ((CurrentTime > ChatRoomSlowtimer) && (ChatRoomSlowtimer != 0)) {
-			ChatRoomLeave();
-			CommonSetScreen("Online", "ChatSearch");
-		}
-	}
 
 	if (CurrentTime > ChatRoomGetUpTimer) {
 		ChatRoomGetUpTimer = 0;
-	}
-
-	// If the player is slow and was stopped from leaving by another player
-	if ((ChatRoomSlowStop == true) && PlayerIsSlow) {
-		DrawButton(1005, 2, 120, 60, "", "Pink", "Icons/Rectangle/Exit.png", TextGet("MenuLeave"));
-		if (CurrentTime > ChatRoomSlowtimer) {
-			ChatRoomSlowtimer = 0;
-			ChatRoomSlowStop = false;
-		}
-	}
-
-	// Draws the top buttons in pink if they aren't available
-	if (!PlayerIsSlow || (ChatRoomSlowtimer == 0 && !ChatRoomCanLeave())){
-		if (ChatRoomSlowtimer != 0) ChatRoomSlowtimer = 0;
-		DrawButton(1005, 2, 120, 60, "", (ChatRoomCanLeave()) ? "White" : "Pink", "Icons/Rectangle/Exit.png", TextGet("MenuLeave"));
 	}
 
 	// Draw the buttons at the top-right
@@ -2044,6 +2008,9 @@ function ChatRoomRun() {
 	// Draw the map button in the upper left if the room allows it
 	if (ChatRoomMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 
+	// Process attempts at leaving slowly
+	ChatRoomProcessSlowLeave();
+
 	// Runs any needed online game script
 	OnlineGameRun();
 
@@ -2060,23 +2027,30 @@ function ChatRoomRun() {
  */
 function ChatRoomMenuDraw() {
 	const Space = 870 / (ChatRoomMenuButtons.length - 1);
-	let ButtonColor = "White";
-	for (let B = 0; B < ChatRoomMenuButtons.length; B++) {
-		let Button = ChatRoomMenuButtons[B];
-		if (Button === "Exit") continue; // handled in ChatRoomRun()
-		const ImageSuffix = Button === "Icons" ? ChatRoomHideIconState.toString() : "";
-		if (Button === "Kneel" && !Player.CanKneel()) {
-			if (ChatRoomGetUpTimer === 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
-				ButtonColor = "Yellow";
+	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
+		let color = "White";
+		let suffix = "";
+		if (name === "Exit") {
+			if (ChatRoomCanLeave() && ChatRoomIsLeavingSlowly()) {
+				color = "Yellow";
+				name = "Cancel";
 			} else {
-				ButtonColor = "Pink";
+				color = (ChatRoomCanLeave() ? (Player.IsSlow() ? "Yellow" : "White") : "Pink");
 			}
-		} else if (Button === "Dress" && !Player.CanChangeOwnClothes()) {
-			ButtonColor = "Pink";
+		} else if (name === "Icons") {
+			suffix = ChatRoomHideIconState.toString();
+		} else if (name === "Kneel" && !Player.CanKneel()) {
+			if (ChatRoomGetUpTimer === 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
+				color = "Yellow";
+			} else {
+				color = "Pink";
+			}
+		} else if (name === "Dress" && !Player.CanChangeOwnClothes()) {
+			color = "Pink";
 		} else {
-			ButtonColor = "White";
+			color = "White";
 		}
-		DrawButton(1005 + Space * B, 2, 120, 60, "", ButtonColor, "Icons/Rectangle/" + Button + ImageSuffix + ".png", TextGet("Menu" + Button));
+		DrawButton(1005 + Space * Number(idx), 2, 120, 60, "", color, "Icons/Rectangle/" + name + suffix + ".png", TextGet("Menu" + name));
 	}
 }
 
@@ -2148,32 +2122,7 @@ function ChatRoomMenuClick() {
 		if (MouseXIn(1005 + Space * B, 120)) {
 			switch (ChatRoomMenuButtons[B]) {
 				case "Exit": {
-					const PlayerIsSlow = Player.IsSlow();
-					// When the user leaves
-					if (ChatRoomCanLeave() && !PlayerIsSlow) {
-						ChatRoomLeave();
-						CommonSetScreen("Online", "ChatSearch");
-					}
-					// When the player is slow and attempts to leave
-					if (ChatRoomCanLeave() && PlayerIsSlow) {
-						// If the player clicked to leave, we start a timer based on evasion level and send a chat message
-						if ((ChatRoomSlowtimer == 0) && (ChatRoomSlowStop == false)) {
-							const Dictionary = new DictionaryBuilder()
-								.sourceCharacter(Player)
-								.build();
-							ServerSend("ChatRoomChat", { Content: "SlowLeaveAttempt", Type: "Action", Dictionary });
-							ChatRoomStatusUpdate("Crawl");
-							ChatRoomSlowtimer = CurrentTime + (10 * (1000 - (50 * SkillGetLevelReal(Player, "Evasion"))));
-						}
-						// If the player clicked to cancel leaving, we alert the room and stop the timer
-						else if ((ChatRoomSlowtimer != 0) && (ChatRoomSlowStop == false)) {
-							const Dictionary = new DictionaryBuilder()
-								.sourceCharacter(Player)
-								.build();
-							ServerSend("ChatRoomChat", { Content: "SlowLeaveCancel", Type: "Action", Dictionary });
-							ChatRoomSlowtimer = 0;
-						}
-					}
+					ChatRoomAttemptLeave();
 					break;
 				}
 				case "Cut":
@@ -2297,6 +2246,73 @@ function ChatRoomCanLeave() {
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
 			return false; // Cannot leave if the room is locked and there's an administrator inside
 	return true; // Can leave if the room is locked and there's no administrator inside
+}
+
+function ChatRoomAttemptLeave() {
+	// Check that we can actually exit the room
+	if (!ChatRoomCanLeave()) return;
+
+	if (Player.IsSlow()) {
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(Player)
+			.build();
+		if (ChatRoomSlowtimer !== 0) {
+			// Timer is already running, cancel it
+			ServerSend("ChatRoomChat", { Content: "SlowLeaveCancel", Type: "Action", Dictionary });
+			ChatRoomSlowLeaveCancel();
+		} else {
+			ServerSend("ChatRoomChat", { Content: "SlowLeaveAttempt", Type: "Action", Dictionary });
+			ChatRoomStatusUpdate("Crawl");
+			ChatRoomSlowtimer = CurrentTime + (10 * (1000 - (50 * SkillGetLevelReal(Player, "Evasion"))));
+		}
+	} else {
+		ChatRoomLeave();
+		CommonSetScreen("Online", "ChatSearch");
+	}
+}
+
+/**
+ * Whether the player is currently leaving slowly
+ */
+function ChatRoomIsLeavingSlowly() {
+	return ChatRoomSlowtimer !== 0 && CurrentTime < ChatRoomSlowtimer;
+}
+
+/**
+ * Cancel our attempt at leaving slowly
+ */
+function ChatRoomSlowLeaveCancel() {
+	if (!ChatRoomIsLeavingSlowly()) return;
+	ChatRoomSlowtimer = 0;
+	ChatRoomSlowStop = false;
+}
+
+/**
+ * Processing function for the slow-leave "state machine"
+ */
+function ChatRoomProcessSlowLeave() {
+	if (ChatRoomSlowtimer === 0) {
+		// Timer isn't running, skip
+		return;
+	}
+
+	if (!ChatRoomCanLeave()) {
+		// Something blocked us from leaving
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(Player)
+			.build();
+		ServerSend("ChatRoomChat", { Content: "SlowLeaveInterrupt", Type: "Action", Dictionary });
+		ServerSend("ChatRoomChat", { Content: "SlowLeaveInterrupt", Type: "Hidden", Dictionary });
+		ChatRoomSlowLeaveCancel();
+	} else if (ChatRoomSlowStop) {
+		// We were stopped by someone, reset
+		console.log(`stopped from leaving`);
+		ChatRoomSlowLeaveCancel();
+	} else if (!Player.IsSlow() || CurrentTime > ChatRoomSlowtimer) {
+		// We're not slowed anymore, or the slow timer expired, exit
+		ChatRoomLeave();
+		CommonSetScreen("Online", "ChatSearch");
+	}
 }
 
 /**
