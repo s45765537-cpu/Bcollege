@@ -887,11 +887,10 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	// If the character isn't found
 	if (Char == null) {
 		// We delete the duplicate character if the person relogged.
-		for (let C = 0; C < Character.length; C++)
-			if (Character[C].MemberNumber == data.MemberNumber) {
-				CharacterDelete(Character[C].AccountName);
-				break;
-			}
+		const duplicate = Character.find(c => c.MemberNumber === data.MemberNumber);
+		if (duplicate) {
+			CharacterDelete(duplicate);
+		}
 
 		// Creates the new character from the online template
 		CharacterReset(CharacterNextId++, "Female3DCG");
@@ -963,17 +962,25 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 }
 
 /**
- * Deletes an NPC from the buffer
- * @param {string} NPCType - Account name of the npc to delete
+ * Deletes a character from the cached list of characters
+ * @param {Character} C - The character to remove from the character cache
  * @returns {void} - Nothing
  */
-function CharacterDelete(NPCType) {
-	for (let C = 0; C < Character.length; C++)
-		if (Character[C].AccountName == NPCType) {
-			AnimationPurge(Character[C], true);
-			Character.splice(C, 1);
-			return;
-		}
+function CharacterDelete(C) {
+	if (!C) return;
+
+	const idx = Character.findIndex(c => c.AccountName === C.AccountName);
+	if (idx < 0) return;
+
+	// Delete the cached dialog for that NPC.
+	// Note that this requires `CharacterDelete` to be called with the screen that created the NPC up.
+	// It's also debatable whether this does anything but always busting the cache, which is supposedly
+	// static and customized by `CharacterLoadCSVDialog`.
+	const FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName + ".csv";
+	delete CommonCSVCache[FullPath];
+
+	AnimationPurge(Character[idx], true);
+	Character.splice(idx, 1);
 }
 
 /**
@@ -981,9 +988,10 @@ function CharacterDelete(NPCType) {
  * @returns {void} - Nothing
  */
 function CharacterDeleteAllOnline() {
-	for (let C = Character.length - 1; C >= 0; C--)
-		if (Character[C].AccountName.startsWith("Online-"))
-			CharacterDelete(Character[C].AccountName);
+	const onlines = Character.filter(c => c.AccountName.startsWith("Online-"));
+	for (const online of onlines) {
+		CharacterDelete(online);
+	}
 }
 
 /**

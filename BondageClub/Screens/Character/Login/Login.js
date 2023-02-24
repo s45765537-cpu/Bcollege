@@ -19,6 +19,7 @@ var LoginThankYouNext = 0;
 var LoginSubmitted = false;
 var LoginIsRelog = false;
 var LoginErrorMessage = "";
+/** @type {NPCCharacter} */
 var LoginCharacter = null;
 let LoginTextCacheUnsubscribeCallback;
 
@@ -814,6 +815,7 @@ function LoginResponse(C) {
 			ElementRemove("InputName");
 			ElementRemove("InputPassword");
 			CharacterDelete(LoginCharacter);
+			LoginCharacter = null;
 			if (ManagementIsClubSlave()) CharacterNaked(Player);
 
 			// Starts the game in the main hall while loading characters in the private room

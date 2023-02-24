@@ -322,8 +322,8 @@ function InfiltrationStartKidnapping() {
 	IntroText = IntroText.replace("DialogPlayerName", CharacterNickname(Player));
 	CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
-	CharacterDelete("NPC_Infiltration_" + Type);
-	delete CommonCSVCache["Screens/Room/Infiltration/NPC_Infiltration_" + Type + ".csv"];
+	CharacterDelete(InfiltrationKidnapper);
+
 	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
 	CharacterRandomName(InfiltrationKidnapper);
 	CharacterRelease(InfiltrationKidnapper);

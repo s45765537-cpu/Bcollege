@@ -363,8 +363,11 @@ function PandoraMsgBox(Text) {
  * @returns {NPCCharacter} - The NPC character to return
  */
 function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
-	CharacterDelete("NPC_Pandora_" + Group + Archetype);
-	delete CommonCSVCache["Screens/Room/Pandora/Dialog_NPC_Pandora_" + Group + Archetype + ".csv"];
+	const oldNPC = Character.find(c => c.AccountName === "NPC_Pandora_" + Group + Archetype);
+	if (oldNPC) {
+		CharacterDelete(oldNPC);
+	}
+
 	let NPC = CharacterLoadNPC("NPC_Pandora_" + Group + Archetype);
 	if (Name == "RANDOM") CharacterRandomName(NPC);
 	else NPC.Name = Name;
@@ -484,14 +487,14 @@ function PandoraEnterRoom(Room, Direction) {
 	PandoraCurrentRoom = Room;
 
 	// 33% odds of removing a previous random NPC if she can walk
-	if (PandoraCurrentRoom.Character.length >= 1)
-		if ((PandoraCurrentRoom.Character[0].AccountName.indexOf("NPC_Pandora_Random") == 0) && (Math.random() > 0.667) && PandoraCurrentRoom.Character[0].CanWalk()) {
-			let Char = PandoraCurrentRoom.Character[0];
+	if (PandoraCurrentRoom.Character.length >= 1) {
+		let Char = PandoraCurrentRoom.Character[0];
+		if ((Char.AccountName.indexOf("NPC_Pandora_Random") == 0) && (Math.random() > 0.667) && Char.CanWalk()) {
 			PandoraCurrentRoom.Character = [];
-			CharacterDelete(Char.AccountName);
-			Char = null;
+			CharacterDelete(Char);
 			return;
 		}
+	}
 
 	// 4% odds of spawning a new random NPC in the room
 	if ((PandoraCurrentRoom.Background.indexOf("Entrance") < 0) && (PandoraCurrentRoom.Character.length == 0) && (Math.random() > 0.96) && (InfiltrationMission != "CatBurglar")) {
@@ -802,7 +805,7 @@ function PandoraRemoveCurrentCharacter() {
 			PandoraCurrentRoom.Character.splice(C, 1);
 			break;
 		}
-	CharacterDelete(CurrentCharacter.AccountName);
+	CharacterDelete(CurrentCharacter);
 	DialogLeave();
 }
 

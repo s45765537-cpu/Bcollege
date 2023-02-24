@@ -166,7 +166,9 @@ function EmptySlaveMarketTrainingEnd(Status) {
 	CommonSetScreen("Room", "SlaveMarket");
 	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
 	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
-	CharacterDelete("NPC_SlaveMarket_SlaveToTrain");
-	delete CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"];
+
+	CharacterDelete(SlaveMarketSlaveToTrain);
+	SlaveMarketSlaveToTrain = null;
+
 	CharacterSetCurrent(SlaveMarketMistress);
 }

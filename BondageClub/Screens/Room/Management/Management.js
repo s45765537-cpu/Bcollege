@@ -635,8 +635,8 @@ function ManagementClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	ManagementRandomGirl = null;
-	CharacterDelete("NPC_Management_RandomGirl");
+	CharacterDelete(ManagementRandomGirl);
+
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	CharacterSetCurrent(ManagementRandomGirl);
 	ManagementRandomGirl.AllowItem = false;
@@ -668,8 +668,8 @@ function ManagementFindClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	ManagementRandomGirl = null;
-	CharacterDelete("NPC_Management_RandomGirl");
+	CharacterDelete(ManagementRandomGirl);
+
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	ManagementRandomGirl.AllowItem = !ManagementIsClubSlave();
 	CharacterNaked(ManagementRandomGirl);

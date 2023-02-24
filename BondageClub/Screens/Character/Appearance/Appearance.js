@@ -1071,10 +1071,9 @@ function AppearancePreviewBuild(C, buildCanvases) {
  */
 function AppearancePreviewCleanup() {
 	AppearancePreviews = [];
-	for (let C = Character.length - 1; C >= 0; C--) {
-		if (Character[C].AccountName.startsWith("AppearancePreview-")) {
-			CharacterDelete(Character[C].AccountName);
-		}
+	const previews = Character.filter(c => c.AccountName.startsWith("AppearancePreview-"));
+	for (const preview of previews) {
+		CharacterDelete(preview);
 	}
 }
 

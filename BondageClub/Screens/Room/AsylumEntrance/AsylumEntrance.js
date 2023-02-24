@@ -346,8 +346,8 @@ function AsylumEntranceRecommit() {
 function AsylumEntranceNurseCatchEscapedPlayer() {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	AsylumEntranceKidnapNurse = null;
-	CharacterDelete("NPC_AsylumEntrance_KidnapNurse");
+	CharacterDelete(AsylumEntranceKidnapNurse);
+
 	AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
 	AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
 	AsylumEntranceKidnapNurse.Stage = "0";
@@ -447,8 +447,8 @@ function AsylumEntranceBackAsPatient() {
 function AsylumEntranceEscapedPatientMeet() {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	AsylumEntranceEscapedPatient = null;
-	CharacterDelete("NPC_AsylumEntrance_EscapedPatient");
+	CharacterDelete(AsylumEntranceEscapedPatient);
+
 	AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
 	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
 	AsylumEntranceEscapedPatient.Stage = "0";
