@@ -1,5 +1,8 @@
 "use strict";
-/** @type {LogRecord[]} */
+/**
+ * @type {LogRecord[]}
+ * @deprecated Use {@link Player.Log}
+ */
 var Log = [];
 
 /**
@@ -16,7 +19,7 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 	if (typeof NewLogValue === "string") NewLogValue = CommonParseInt(NewLogValue) ?? undefined;
 
 	// Checks to make sure we don't duplicate a log
-	const entry = Log.find(l => l.Group === NewLogGroup && l.Name === NewLogName);
+	const entry = Player.Log.find(l => l.Group === NewLogGroup && l.Name === NewLogName);
 	if (entry) {
 		entry.Value = NewLogValue;
 	} else {
@@ -26,7 +29,7 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 			Group: NewLogGroup,
 			Value: NewLogValue
 		};
-		Log.push(newEntry);
+		Player.Log.push(newEntry);
 	}
 
 	// Sends the log to the server
@@ -44,9 +47,9 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 function LogDelete(DelLogName, DelLogGroup, Push) {
 
 	// Finds the log entry and deletes it
-	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == DelLogName) && (Log[L].Group == DelLogGroup)) {
-			Log.splice(L, 1);
+	for (let L = 0; L < Player.Log.length; L++)
+		if ((Player.Log[L].Name == DelLogName) && (Player.Log[L].Group == DelLogGroup)) {
+			Player.Log.splice(L, 1);
 			break;
 		}
 
@@ -64,9 +67,9 @@ function LogDelete(DelLogName, DelLogGroup, Push) {
  * @returns {void} - Nothing
  */
 function LogDeleteStarting(DelLogName, DelLogGroup, Push) {
-	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name.substring(0, DelLogName.length) == DelLogName) && (Log[L].Group == DelLogGroup)) {
-			LogDelete(Log[L].Name, DelLogGroup, Push);
+	for (let L = 0; L < Player.Log.length; L++)
+		if ((Player.Log[L].Name.substring(0, DelLogName.length) == DelLogName) && (Player.Log[L].Group == DelLogGroup)) {
+			LogDelete(Player.Log[L].Name, DelLogGroup, Push);
 			L = L - 1;
 		}
 }
@@ -78,7 +81,7 @@ function LogDeleteStarting(DelLogName, DelLogGroup, Push) {
  * @returns {void} - Nothing
  */
 function LogDeleteGroup(DelLogGroup, Push) {
-	Log = Log.filter(L => L.Group !== DelLogGroup);
+	Player.Log = Player.Log.filter(L => L.Group !== DelLogGroup);
 
 	// Sends the new log to the server
 	if ((Push == null) || Push)
@@ -95,7 +98,7 @@ function LogDeleteGroup(DelLogGroup, Push) {
  * @returns {boolean} - Returns TRUE if there is an existing log matching the Name/Group with no value or a value above the current time in ms.
  */
 function LogQuery(QueryLogName, QueryLogGroup) {
-	const entry = Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
+	const entry = Player.Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
 	if (!entry) return false;
 
 	// Loose null-check here in case there's a null or an undefined stuck in there
@@ -111,8 +114,8 @@ function LogQuery(QueryLogName, QueryLogGroup) {
  * @returns {boolean} - Returns true, if the log contains that ID
  */
 function LogContain(LogName, LogGroup, ID) {
-	if (Log == null) return false;
-	for (let L of Log)
+	if (Player.Log == null) return false;
+	for (let L of Player.Log)
 		if (LogGroup == L.Group)
 			if (L.Name.substring(0, LogName.length) == LogName)
 				return (L.Name.substring(LogName.length, 100).indexOf(ID) >= 0);
@@ -127,7 +130,7 @@ function LogContain(LogName, LogGroup, ID) {
  * @returns {number | null | undefined} - Returns the value of the log which is a date represented in ms or undefined. Returns null if no matching log is found.
  */
 function LogValue(QueryLogName, QueryLogGroup) {
-	const entry = Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
+	const entry = Player.Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
 	if (!entry) return null;
 	return entry.Value;
 }
@@ -139,17 +142,12 @@ function LogValue(QueryLogName, QueryLogGroup) {
  */
 function LogLoad(NewLog) {
 
-	// Make sure we have something to load
-	Log = [];
-	if (NewLog != null) {
+	Log = Player.Log = [];
 
-		// Add each log entry one by one, validates the type to prevent client crashes
-		for (let L = 0; L < NewLog.length; L++)
-			if ((typeof NewLog[L].Name === "string") && (typeof NewLog[L].Group === "string") && ((NewLog[L].Value == null) || (typeof NewLog[L].Value === "number")))
-				LogAdd(NewLog[L].Name, NewLog[L].Group, NewLog[L].Value, false);
+	if (NewLog == null) return;
 
-	}
-
+	for (const log of NewLog)
+		LogAdd(log.Name, log.Group, log.Value, false);
 }
 
 /**
@@ -173,7 +171,7 @@ function LogQueryRemote(C, QueryLogName, QueryLogGroup) {
  * @returns {LogRecord[]} - A list of rules that the player's owner is permitted to see
  */
 function LogGetOwnerReadableRules(OwnerIsLover) {
-	return Log.filter(L => L.Group == "OwnerRule" || (L.Group == "LoverRule" && (OwnerIsLover || L.Name.includes("Owner"))));
+	return Player.Log.filter(L => L.Group == "OwnerRule" || (L.Group == "LoverRule" && (OwnerIsLover || L.Name.includes("Owner"))));
 }
 
 /**
@@ -181,5 +179,5 @@ function LogGetOwnerReadableRules(OwnerIsLover) {
  * @returns {LogRecord[]} - A list of rules that the player's lover is permitted to see
  */
 function LogGetLoverReadableRules() {
-	return Log.filter(L => L.Group == "LoverRule");
+	return Player.Log.filter(L => L.Group == "LoverRule");
 }

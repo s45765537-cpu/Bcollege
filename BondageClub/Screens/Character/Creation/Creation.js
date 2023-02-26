@@ -279,7 +279,7 @@ function CreationResponse(data) {
 				Creation: CurrentTime,
 				Appearance: appearance,
 				Money: 100,
-				Log: Log,
+				Log: Player.Log,
 			});
 
 			LoginSetupPlayer(createData);

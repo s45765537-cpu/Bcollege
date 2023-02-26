@@ -6834,7 +6834,7 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 
 	// Gets the forbidden words list from the log
 	let ForbiddenList = [];
-	for (let L of Log)
+	for (let L of Player.Log)
 		if ((L.Group == "OwnerRule") && L.Name.startsWith("ForbiddenWords"))
 			ForbiddenList = L.Name.substring("ForbiddenWords".length, 10000).split("|");
 	if (ForbiddenList.length <= 1) return true;
