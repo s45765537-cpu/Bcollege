@@ -260,7 +260,7 @@ function ManagementWearingSlaveCollar() { return ((InventoryGet(Player, "ItemNec
  * Checks if a NPC can be transfered to the player's private room.
  * @returns {boolean} - TRUE if the player owns a private room, has space for an extra NPC and is not locked out of her room.
  */
-function ManagementCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function ManagementCanTransferToRoom() { return PrivateHasEmptySlot(); }
 /**
  * Checks if the mistress is not willing to visit the player's room.
  * @returns {boolean} - TRUE if the mistress could transfer to the player's room, but is not willing to.

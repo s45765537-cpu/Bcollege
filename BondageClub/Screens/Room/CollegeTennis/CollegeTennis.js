@@ -15,7 +15,7 @@ function CollegeTennisJenniferStatusIs(QueryStatus) { return (QueryStatus == Col
  * Checks if the player can invite a new character to a private room. (Used for Jennifer.)
  * @returns {boolean} - Returns TRUE if the player has a private room and an empty spot in it.
  */
-function CollegeTennisCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax)); }
+function CollegeTennisCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Loads the tennis screen by generating Jennifer. The player's relationship with her from the bondage college is taken into consideration.

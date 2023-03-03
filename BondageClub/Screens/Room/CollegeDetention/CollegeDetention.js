@@ -10,7 +10,7 @@ var CollegeDetentionYukiWillReleaseAt = 0;
  * Checks, if Yuki can be invited to the private room
  * @returns {boolean} - Returns true, if Yuki can be invited, false otherwise
  */
-function CollegeDetentionCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax)); }
+function CollegeDetentionCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Checks Yuki's current love level

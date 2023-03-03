@@ -394,9 +394,7 @@ function MagicSchoolLaboratoryStudentEmote(Blush, Eyes) {
  * Checks, if the player can bring the student to her private room
  * @returns {boolean} - Returns true, if the player can
  */
-function MagicSchoolLaboratoryCanTransferToRoom() {
-	return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule"));
-}
+function MagicSchoolLaboratoryCanTransferToRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Triggered when the player transfers the student to her private room

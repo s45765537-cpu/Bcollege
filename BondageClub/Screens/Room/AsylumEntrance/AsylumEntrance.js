@@ -18,7 +18,7 @@ function AsylumEntranceCanWander() { return (Player.CanWalk() && ((LogValue("Com
  * Checks, if the player can bring the nurse to her private room
  * @returns {boolean} - Returns true, if the player can drag the nurse to her private roo, false otherwise
  */
-function AsylumEntranceCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function AsylumEntranceCanTransferToRoom() { return PrivateHasEmptySlot(); }
 /**
  * CHecks if the player can kiss the nurse
  * @returns {boolean} - Returns true, if the player can kiss the nurse, false otherwise

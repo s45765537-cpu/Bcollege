@@ -9,7 +9,7 @@ var CollegeTeacherMildredLove = 0;
  * Checks, if the teacher can be invited to the player's room
  * @returns {boolean} - Returns true, if the player can invite the teacher to her room, false otherwise
  */
-function CollegeTeacherCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax)); }
+function CollegeTeacherCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Checks, if Mildred's love level is higher than a given value

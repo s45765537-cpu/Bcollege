@@ -20,7 +20,7 @@ function CollegeCafeteriaSidneyStatusIs(QueryStatus) { return (QueryStatus == Co
  * CHecks, if Sidney can be invited to the player's room
  * @returns {boolean} - Returns true, if the player can invite Sidney, false otherwise
  */
-function CollegeCafeteriaCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && (CollegeCafeteriaSidneyLove > 10)); }
+function CollegeCafeteriaCanInviteToPrivateRoom() { return PrivateHasEmptySlot() && CollegeCafeteriaSidneyLove > 10; }
 
 /**
  * Loads the cafeteria and generates Sidney according to her current state

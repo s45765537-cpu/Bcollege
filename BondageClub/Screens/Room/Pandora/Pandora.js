@@ -944,7 +944,7 @@ function PandoraInfiltrationChange(Progress) {
  * Checks if the player can bring the NPC to her private room
  * @returns {boolean} - Returns true if the player can
  */
-function PandoraCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function PandoraCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * When a random NPC joins the player private room, we add that character and exits the dialog

@@ -10,7 +10,7 @@ var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#
  * Checks if the player can invite an extra player to their private room. (Used for Julia.)
  * @returns {boolean} - Returns TRUE if the player has a private room and at least one empty place in it.
  */
-function CollegeTheaterCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax)); }
+function CollegeTheaterCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 /**
  * Checks if Julia's love level is of a given level.
  * @param {number} LoveLevel - The love level threshold to check for.

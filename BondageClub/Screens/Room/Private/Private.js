@@ -2161,3 +2161,10 @@ function PrivateClubCardKinkyConsequence(Eyes, Strip) {
 	CharacterSetFacialExpression(Player, "Eyes", Eyes, 5);
 	CharacterSetFacialExpression(Player, "Eyes2", Eyes, 5);
 }
+
+/**
+ * Checks if the player owns a private room, there's a spot left and they're not locked out of it.
+ */
+function PrivateHasEmptySlot() {
+	return LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule");
+}

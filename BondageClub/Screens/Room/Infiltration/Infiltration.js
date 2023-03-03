@@ -77,7 +77,7 @@ function InfiltrationPartyPrisonerIsMistress() { return (InfiltrationPartyPrison
  * Returns TRUE if there is still free space in private room.
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function InfiltrationCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
@@ -423,9 +423,7 @@ function InfiltrationKidnapperUngag() {
  * Returns TRUE if the player can bring the current NPC to her room
  * @returns {boolean} - TRUE if it's possible
  */
-function InfiltrationCanBringToRoom() {
-	return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax));
-}
+function InfiltrationCanBringToRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Removes the Pandora Locks and Keys from the player inventory, ends the scene
