@@ -1390,14 +1390,9 @@ interface NPCCharacter extends Character {
 	Domination?: number;
 }
 
-/** College */
+/** College & Asylum */
 interface NPCCharacter {
 	GoneAway?: boolean;
-}
-
-/** Asylum */
-interface NPCCharacter {
-	RunAway?: boolean;
 }
 
 /** Movie Studio */
