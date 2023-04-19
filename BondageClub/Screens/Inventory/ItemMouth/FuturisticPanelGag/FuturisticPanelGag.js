@@ -1,50 +1,36 @@
 "use strict";
 
-/**
- * Custom draw function.
- * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
- * @returns {void} - Nothing
- */
-function InventoryItemMouthFuturisticPanelGagDraw(OriginalFunction) {
-	if (!FuturisticAccessDraw(OriginalFunction)) {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
+function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
+	if (!FuturisticAccessDraw(Data, OriginalFunction)) {
 		return;
 	}
 
-	const Data = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.MODULAR);
-	if (ModularItemModuleIsActive(ModularItemBase) && Data != null) {
+	if (Data.currentModule === ModularItemBase) {
 		const [Gag, AutoPunish, AutoPunishUndoTimeSetting] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
 		const AutoPunishUndoTime = DialogFocusItem.Property.AutoPunishUndoTime;
-		const UndoTimer =  DialogFindPlayer(`${Data.dialogOptionPrefix}${AutoPunishUndoTimeSetting}`);
+		const UndoTimer =  DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunishUndoTimeSetting}`);
 
 		MainCanvas.textAlign = "right";
 		DrawText(DialogFindPlayer("GagConfig"), 1500, 550, "White", "Gray");
 		DrawText(DialogFindPlayer("AutoPunish"), 1500, 625, "White", "Gray");
 		DrawText(DialogFindPlayer("DeflationTime"), 1500, 700, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`${Data.dialogOptionPrefix}${Gag}`), 1510, 550, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogOptionPrefix}${AutoPunish}`) + ` (${UndoTimer})`, 1510, 625, "White", "Gray");
+		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${Gag}`), 1510, 550, "White", "Gray");
+		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunish}`) + ` (${UndoTimer})`, 1510, 625, "White", "Gray");
 		DrawText(AutoPunishUndoTime ? TimerToString(AutoPunishUndoTime - CurrentTime) : "00:00", 1510, 700, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
 		DrawCheckbox(1175, 743, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 773, "White", "Gray");
-		ExtendedItemCustomDraw(`${Data.dialogOptionPrefix}Pump`, 1637, 750);
+		ExtendedItemCustomDraw(`${Data.dialogPrefix.option}Pump`, 1637, 750);
 	}
 }
 
-/**
- * Custom click function.
- * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
- * @returns {void} - Nothing
- */
-function InventoryItemMouthFuturisticPanelGagClick(OriginalFunction) {
-	const Data = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.MODULAR);
-	if (Data == null) {
-		return;
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} */
+function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
 	const GagBefore = ModularItemParseCurrent(Data)[0];
-	if (!FuturisticAccessClick(OriginalFunction) || !DialogFocusItem) {
+	if (!FuturisticAccessClick(Data, OriginalFunction) || !DialogFocusItem) {
 		return;
 	}
 	const GagAfter = ModularItemParseCurrent(Data)[0];
@@ -54,11 +40,11 @@ function InventoryItemMouthFuturisticPanelGagClick(OriginalFunction) {
 		DialogFocusItem.Property.AutoPunishUndoTime = 0;
 	}
 
-	if (ModularItemModuleIsActive(ModularItemBase)) {
+	if (Data.currentModule ===ModularItemBase) {
 		if (MouseIn(1637, 750, 225, 50)) {
 			const C = CharacterGetCurrent();
 			ExtendedItemCustomClick(
-				`${Data.dialogOptionPrefix}Pump`,
+				`${Data.dialogPrefix.option}Pump`,
 				() => InventoryItemMouthFuturisticPanelGagTrigger(C, DialogFocusItem, false),
 			);
 		} else if (MouseIn(1175, 743, 64, 64) && !ExtendedItemPermissionMode) {
@@ -77,7 +63,7 @@ function InventoryItemMouthFuturisticPanelGagClick(OriginalFunction) {
  */
 function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, OptionName, Deflate) {
 	const Data = ExtendedItemGetData(Item, ExtendedArchetype.MODULAR);
-	const Prefix = (Data == null) ? "" : ModularItemCustomChatPrefix("Pump", Data);
+	const Prefix = (Data == null) ? "" : ExtendedItemCustomChatPrefix("Pump", Data);
 	const ActionTag = `${Prefix}Pump${Deflate ? "Deflate" : "Inflate"}${OptionName}`;
 
 	const Dictionary = new DictionaryBuilder()
@@ -189,8 +175,11 @@ function InventoryItemMouthFuturisticPanelGagTrigger(C, Item, Deflate) {
 	ChatRoomCharacterUpdate(C);
 }
 
+/**
+ * @typedef {{ LastMessageLen?: number, UpdateTime?: number, ChangeTime?: number }} FuturisticPanelGagPersistentData
+ */
 
-/**  @type {DynamicScriptDrawCallback} */
+/** @type {ExtendedItemCallbacks.ScriptDraw<FuturisticPanelGagPersistentData>} */
 function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data) {
 	const Item = data.Item;
 	const LastMessages = data.PersistentData().LastMessageLen;
@@ -203,7 +192,7 @@ function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data) {
 	}
 }
 
-/** @type {DynamicScriptDrawCallback} */
+/** @type {ExtendedItemCallbacks.ScriptDraw<FuturisticPanelGagPersistentData>} */
 function AssetsItemMouthFuturisticPanelGagScriptDraw(data) {
 	const persistentData = data.PersistentData();
 	/** @type {ItemProperties} */
@@ -230,7 +219,7 @@ function AssetsItemMouthFuturisticPanelGagScriptDraw(data) {
 	}
 }
 
-/** @type {DynamicBeforeDrawCallback} */
+/** @type {ExtendedItemCallbacks.BeforeDraw<FuturisticPanelGagPersistentData>} */
 function AssetsItemMouthFuturisticPanelGagBeforeDraw(data) {
 	if (data.L === "_Light" && data.Property && data.Property.AutoPunish > 0) {
 		const Opacity = (data.Property.BlinkState) ? 1 : 0;

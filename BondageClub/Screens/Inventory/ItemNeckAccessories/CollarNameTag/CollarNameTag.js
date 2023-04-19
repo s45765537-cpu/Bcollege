@@ -1,39 +1,21 @@
 "use strict";
 
-/**
- * Draw the item extension screen
- * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
- * @returns {void} - Nothing
- */
-function InventoryItemNeckAccessoriesCollarNameTagDraw(OriginalFunction) {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
+function InventoryItemNeckAccessoriesCollarNameTagDrawHook(Data, OriginalFunction) {
 	if (!DialogFocusItem) {
 		return;
 	}
-
-	const Data = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TYPED);
-	if (Data == null) {
-		return;
-	}
 	const XYCoords = InventoryItemNeckAccessoriesCollarNameTagGetXY(Data.options.length);
-	ExtendedItemDraw(Data.options, Data.dialog.typePrefix, Data.options.length, Data.drawImages, XYCoords);
+	TypedItemDraw(Data.options, Data.dialogPrefix.option, Data.options.length, Data.drawImages, XYCoords);
 }
 
-/**
- * Catches the item extension clicks
- * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point.
- * @returns {void} - Nothing
- */
-function InventoryItemNeckAccessoriesCollarNameTagClick(OriginalFunction) {
+/** @type {ExtendedItemScriptHookCallbacks.Click<TypedItemData>} */
+function InventoryItemNeckAccessoriesCollarNameTagClickHook(Data, OriginalFunction) {
 	if (!DialogFocusItem) {
 		return;
 	}
-
-	const Data = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TYPED);
-	if (Data == null) {
-		return;
-	}
 	const XYCoords = InventoryItemNeckAccessoriesCollarNameTagGetXY(Data.options.length);
-	ExtendedItemClick(Data.options, Data.options.length, Data.drawImages, XYCoords);
+	TypedItemClick(Data.options, Data.options.length, Data.drawImages, XYCoords);
 }
 
 /**
@@ -56,27 +38,23 @@ function InventoryItemNeckAccessoriesCollarNameTagGetXY(Count, X=1000, Y=400) {
 	return XYCoords;
 }
 
-/**
- * Custom publish action function
- * @param {Character} C - The character wearing the item
- * @param {ExtendedItemOption} Option - The currently selected item option
- * @param {ExtendedItemOption} PreviousOption - The previously selected item option
- * @return {void} - Nothing
- */
-function InventoryItemNeckAccessoriesCollarNameTagPublishAction(C, Option, PreviousOption) {
-	if (!DialogFocusItem) {
-		return;
-	}
+/** @type {ExtendedItemScriptHookCallbacks.PublishAction<TypedItemData, TypedItemOption>} */
+function InventoryItemNeckAccessoriesCollarNameTagPublishActionHook(data, OriginalFunction, C, item, newOption, previousOption) {
+	/** @type {ExtendedItemChatData<TypedItemOption>} */
+	const chatData = {
+		C,
+		previousOption,
+		newOption,
+		previousIndex: data.options.indexOf(previousOption),
+		newIndex: data.options.indexOf(newOption),
+	};
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const prefix = (typeof data.dialogPrefix.chat === "function") ? data.dialogPrefix.chat(chatData) : data.dialogPrefix.chat;
 
-	const builder = new DictionaryBuilder()
-		.sourceCharacter(Player)
-		.destinationCharacter(C);
-
-	const Prefix = DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name;
-	if (Option.Name === "Blank") {
-		builder.text("NameTagType", "blank");
+	if (newOption.Name === "Blank") {
+		dictionary.text("NameTagType", "blank");
 	} else {
-		builder.textLookup("NameTagType", `${Prefix}${Option.Name}`);
+		dictionary.textLookup("NameTagType", `${data.dialogPrefix.option}${newOption.Name}`);
 	}
-	ChatRoomPublishCustomAction(`${Prefix}Set`, true, builder.build());
+	ChatRoomPublishCustomAction(prefix, true, dictionary.build());
 }

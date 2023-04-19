@@ -1,43 +1,39 @@
 "use strict";
 
-/**
- * Custom publish action function
- * @param {Character} C - The character wearing the item
- * @param {ExtendedItemOption} Option - The currently selected item option
- * @param {ExtendedItemOption} PreviousOption - The previously selected item option
- * @return {void} - Nothing
- */
-function InventoryItemButtAnalBeads2PublishAction(C, Option, PreviousOption) {
-	const BeadsOld = PreviousOption.Property.InsertedBeads || 1;
-	const BeadsNew = Option.Property.InsertedBeads || 1;
-	const BeadsChange = BeadsNew - BeadsOld;
-	if (BeadsChange === 0) {
+/** @type {ExtendedItemScriptHookCallbacks.PublishAction<TypedItemData, TypedItemOption>} */
+function InventoryItemButtAnalBeads2PublishActionHook(data, originalFunction, C, item, newOption, previousOption) {
+	const beadsOld = previousOption.Property.InsertedBeads || 1;
+	const beadsNew = newOption.Property.InsertedBeads || 1;
+	const beadsChange = beadsNew - beadsOld;
+	if (beadsChange === 0 || data === null) {
 		return;
 	}
 
-	// Push Chatroom Event
-	/** @type {ChatMessageDictionary} */
-	const Dictionary = [];
-	Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-	Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber });
-	Dictionary.push({ ActivityName: "MasturbateItem" });
-	Dictionary.push({ FocusGroupName: "ItemButt" });
-	Dictionary.push({ Tag: "AssetName", AssetName: "AnalBeads2", GroupName: "ItemButt" });
-	Dictionary.push({ AssetGroupName: "ItemButt" });
-	Dictionary.push({ ActivityCounter: Math.min(BeadsChange, 0) });
+	/** @type {ExtendedItemChatData<TypedItemOption>} */
+	const chatData = {
+		C,
+		previousOption,
+		newOption,
+		previousIndex: data.options.indexOf(previousOption),
+		newIndex: data.options.indexOf(newOption),
+	};
 
-	const Prefix = DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name;
-	if (BeadsChange > 0) {
-		ChatRoomPublishCustomAction(`${Prefix}Set${BeadsChange}Increase`, true, Dictionary);
-	} else if (BeadsChange < 0) {
-		ChatRoomPublishCustomAction(`${Prefix}Set${-BeadsChange}Decrease`, true, Dictionary);
-	}
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data)
+		.focusGroup(item.Asset.Group.Name)
+		.build();
+	dictionary.push(
+		{ ActivityName: "MasturbateItem" },
+		{ ActivityCounter: Math.abs(beadsChange) },
+	);
 
-	if (C.ID === Player.ID) {
+	const Prefix = (typeof data.dialogPrefix.chat === "function") ? data.dialogPrefix.chat(chatData) : data.dialogPrefix.chat;
+	const Suffix = beadsChange > 0 ? "Increase" : "Decrease";
+	ChatRoomPublishCustomAction(`${Prefix}${Math.abs(beadsChange)}${Suffix}`, true, dictionary);
+
+	if (C.IsPlayer()) {
 		// The Player pulls beads from her own butt
-		const A = AssetGet(C.AssetFamily, "ItemButt", "AnalBeads2");
-		for (let i = BeadsChange; i < 0; i++) {
-			ActivityArousalItem(C, C, A);
+		for (let i = beadsChange; i < 0; i++) {
+			ActivityArousalItem(C, C, item.Asset);
 		}
 	}
 }

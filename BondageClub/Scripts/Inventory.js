@@ -223,6 +223,12 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "HasVagina": return !InventoryIsItemInList(C, "Pussy", ["PussyLight1", "PussyLight2", "PussyLight3", "PussyDark1", "PussyDark2", "PussyDark3"]) ? "MustHaveVagina" : "";
 		case "HasPenis": return !InventoryIsItemInList(C, "Pussy", ["Penis"]) ? "MustHavePenis" : "";
 
+		// Checks for chastity cages, in case of penis protruding items.
+		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage"]) ? "MustRemoveChastityCage" : "";
+
+		// Checks for penis protruding items, to block chastity cages.
+		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", ["HighSecurityStraitJacket"]) ? "MustHaveFullPenisAccess" : "";
+
 		// Checks for torso access based on clothes
 		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth"]) ? "RemoveClothesForItem" : "";
 
@@ -610,9 +616,8 @@ function InventoryWearCraftVibrating(Item, C, Type) {
 		return;
 	}
 
-	const options = VibratorModeGetOptions(Data.options);
-	const option = options.find(o => o.Name === Type) || VibratorModeOff;
-	TypedItemSetOption(C, Item, options, option);
+	const option = Data.options.find(o => o.Name === Type) || VibratorModeOff;
+	TypedItemSetOption(C, Item, Data.options, option);
 }
 
 /**
@@ -1218,7 +1223,10 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 		if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
 		Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 		if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
-		CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, Item, C, false);
+
+		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
+		const args = [C, Item, false];
+		CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 		if (Update) {
 			if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
 			CharacterRefresh(C, true);

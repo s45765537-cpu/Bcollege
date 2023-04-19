@@ -184,13 +184,17 @@ function VibratorModeRegister(asset, config={}) {
 	const data = VibratorModeCreateData(asset, config);
 
 	if (IsBrowser()) {
-		VibratorModeCreateLoadFunction(data);
-		VibratorModeCreateDrawFunction(data);
-		VibratorModeCreateClickFunction(data);
-		VibratorModeCreateExitFunction(data);
-		VibratorModeCreateValidateFunction(data);
+		/** @type {ExtendedItemCallbackStruct<VibratingItemOption>} */
+		const defaultCallbacks = {
+			load: () => VibratorModeLoad(data.dialogPrefix.header),
+			click: () => VibratorModeClick(data.modeSet),
+			draw: () => VibratorModeDraw(data.modeSet),
+			validate: VibratorModeValidate,
+			publishAction: (...args) => VibratorModePublishAction(data, ...args),
+			init: (...args) => VibratorModeInit(data.modeSet, ...args),
+		};
+		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 		VibratorModeCreateScriptDrawFunction(data);
-		VibratorModeCreatePublishFunction(data);
 	}
 	VibratorModeSetAssetProperties(data);
 }
@@ -201,12 +205,15 @@ function VibratorModeRegister(asset, config={}) {
  * @param {VibratingItemConfig} config - The item's extended item configuration
  * @returns {VibratingItemData} - The generated vibrating item data for the asset
  */
-function VibratorModeCreateData(asset, { Options, ScriptHooks }) {
+function VibratorModeCreateData(asset, { Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix }) {
 	const key = `${asset.Group.Name}${asset.Name}`;
+	const modeSet = Array.isArray(Options) ? Options : Object.values(VibratorModeSet);
+	DialogPrefix = DialogPrefix || {};
 	return VibratorModeDataLookup[key] = {
 		key,
 		asset,
-		options: Array.isArray(Options) ? Options : [VibratorModeSet.STANDARD, VibratorModeSet.ADVANCED],
+		options: VibratorModeGetOptions(modeSet),
+		modeSet: modeSet,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${key}`,
 		scriptHooks: {
@@ -215,84 +222,50 @@ function VibratorModeCreateData(asset, { Options, ScriptHooks }) {
 			draw: ScriptHooks ? ScriptHooks.Draw : undefined,
 			exit: ScriptHooks ? ScriptHooks.Exit : undefined,
 			validate: ScriptHooks ? ScriptHooks.Validate : undefined,
+			publishAction: ScriptHooks ? ScriptHooks.PublishAction : undefined,
+			init: ScriptHooks ? ScriptHooks.Init : undefined,
 		},
+		dialogPrefix: {
+			header: DialogPrefix.Header || "Intensity",
+			chat: DialogPrefix.Chat || "VibeMode",
+		},
+		chatSetting: "default",
+		drawImages: false,
+		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,
+		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
+		chatTags: [
+			CommonChatTags.SOURCE_CHAR,
+			CommonChatTags.DEST_CHAR,
+			CommonChatTags.ASSET_NAME,
+		],
 	};
 }
 
 /**
  * Gather all extended item options for a given list of modes.
- * @param {readonly VibratorModeSet[]} modes
+ * @param {readonly VibratorModeSet[]} modeSet
  * @returns {VibratingItemOption[]}
  */
-function VibratorModeGetOptions(modes=Object.values(VibratorModeSet)) {
+function VibratorModeGetOptions(modeSet=Object.values(VibratorModeSet)) {
 	const options = [];
-	for (const mode of modes) {
+	for (const mode of modeSet) {
 		options.push(...VibratorModeOptions[mode]);
 	}
 	return options;
 }
 
 /**
- * Creates an asset's extended item load function
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeCreateLoadFunction({ functionPrefix, scriptHooks }) {
-	if (typeof scriptHooks.load === "function") {
-		window[`${functionPrefix}Load`] = () => scriptHooks.load(VibratorModeLoad);
-	} else {
-		window[`${functionPrefix}Load`] = VibratorModeLoad;
-	}
-}
-
-/**
  * Loads the vibrating item's extended item menu.
- * @param IgnoreSubscreen Whether loading subscreen draw functions should be ignored.
+ * @param {string} prefix
+ * @param {boolean} IgnoreSubscreen Whether loading subscreen draw functions should be ignored.
  * Should be set to true to avoid infinite recursions if the the subscreen also calls this function.
  */
-function VibratorModeLoad(IgnoreSubscreen=false) {
+function VibratorModeLoad(prefix, IgnoreSubscreen=false) {
 	const intensity = DialogFocusItem.Property.Intensity;
-	ExtendedItemLoad(`Intensity${intensity}`, IgnoreSubscreen);
+	ExtendedItemLoad(`${prefix}${intensity}`, IgnoreSubscreen);
 }
 
-/**
- * Creates an asset's extended item draw function
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeCreateDrawFunction({ options, functionPrefix, scriptHooks }) {
-	if (typeof scriptHooks.draw === "function") {
-		window[`${functionPrefix}Draw`] = () => scriptHooks.draw(() => VibratorModeDraw(options));
-	} else {
-		window[`${functionPrefix}Draw`] = () => VibratorModeDraw(options);
-	}
-}
-
-/**
- * Creates an asset's extended item click function
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeCreateClickFunction({ options, functionPrefix, scriptHooks }) {
-	if (typeof scriptHooks.click === "function") {
-		window[`${functionPrefix}Click`] = () => scriptHooks.click(() => VibratorModeClick(options));
-	} else {
-		window[`${functionPrefix}Click`] = () => VibratorModeClick(options);
-	}
-}
-
-/**
- * Creates an asset's extended item exit function
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeCreateExitFunction({ functionPrefix, scriptHooks }) {
-	if (typeof scriptHooks.exit === "function") {
-		window[`${functionPrefix}Exit`] = scriptHooks.exit;
-	}
-}
-
-/** @type {ExtendedItemValidateCallback<ExtendedItemOption | VibratingItemOption | ModularItemOption>} */
+/** @type {ExtendedItemCallbacks.Validate<ExtendedItemOption>} */
 function VibratorModeValidate(C, item, option, currentOption) {
 	if (
 		option.Property
@@ -302,30 +275,8 @@ function VibratorModeValidate(C, item, option, currentOption) {
 	) {
 		return DialogFindPlayer("ExtendedItemNoItemPermission");
 	} else {
-		return "";
+		return ExtendedItemValidate(C, item, option, currentOption);
 	}
-}
-
-/**
- * Creates an asset's extended item validation function
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeCreateValidateFunction({ functionPrefix, scriptHooks }) {
-	/** @type {ExtendedItemValidateScriptHookCallback<ExtendedItemOption>} */
-	let validateCallback;
-	if (typeof scriptHooks.validate === "function") {
-		validateCallback = (next, ...args) => {
-			/** @type {ExtendedItemValidateCallback<ExtendedItemOption>} */
-			const nextWrapper = (...args2) => next(...args2) || VibratorModeValidate(...args2);
-			return scriptHooks.validate(nextWrapper, ...args);
-		};
-	} else {
-		validateCallback = (next, ...args) => {
-			return next(...args) || VibratorModeValidate(...args);
-		};
-	}
-	return ExtendedItemCreateValidateFunction(functionPrefix, validateCallback);
 }
 
 /**
@@ -338,50 +289,36 @@ function VibratorModeCreateScriptDrawFunction({ dynamicAssetsFunctionPrefix }) {
 }
 
 /**
- * @param {VibratingItemData} data
- * @returns {void}
- */
-function VibratorModeCreatePublishFunction({ asset, functionPrefix }) {
-	/** @type {ExtendedItemPublishActionCallback<VibratingItemOption>} */
-	window[`${functionPrefix}PublishAction`] = (...args) => VibratorModePublishAction(...args, asset);
-}
-
-/**
  * Publish a vibrator action and exit the dialog of applicable
+ * @param {VibratingItemData} data
  * @param {Character} C - The character wearing the item
+ * @param {Item} item - The item in question
  * @param {VibratingItemOption} newOption - The newly selected option
  * @param {VibratingItemOption} previousOption - The currently selected option
- * @param {Asset} asset - The asset in question
  */
-function VibratorModePublishAction(C, newOption, previousOption, asset) {
-	const oldIntensity = previousOption.Property.Intensity;
-	const dictionary = new DictionaryBuilder()
-		.sourceCharacter(Player)
-		.destinationCharacterName(C)
-		.asset(asset)
-		.build();
+function VibratorModePublishAction(data, C, item, newOption, previousOption) {
+	const [newProperty, prevProperty, chatPrefix] = [newOption.Property, previousOption.Property, data.dialogPrefix.chat];
+	const chatData = {
+		C,
+		previousOption,
+		newOption,
+		previousIndex: data.options.indexOf(previousOption),
+		newIndex: data.options.indexOf(newOption),
+	};
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
 
-	/** @type {string} */
-	let message;
-	if (
-		newOption.Property.Intensity !== previousOption.Property.Intensity
-		&& !VibratorModesAdvanced.includes(newOption.Name)
-		&& (!VibratorModesAdvanced.includes(previousOption.Name) || newOption.Name === VibratorModeOff.Name)
-	) {
-		const direction = newOption.Property.Intensity > oldIntensity ? "Increase" : "Decrease";
-		message = `Vibe${direction}To${newOption.Property.Intensity}`;
-	} else if (VibratorModesAdvanced.includes(newOption.Name)) {
-		message = `VibeMode${newOption.Name}`;
-	} else {
-		message = "VibeModeChange";
+	const newIsAdvanced = VibratorModesAdvanced.includes(newOption.Name);
+	const prevIsAdvanced = VibratorModesAdvanced.includes(previousOption.Name);
+	let message = (typeof chatPrefix === "function") ? chatPrefix(chatData) : chatPrefix;
+	if (!newIsAdvanced && !prevIsAdvanced) { // standard -> standard
+		const direction = newProperty.Intensity > prevProperty.Intensity ? "Increase" : "Decrease";
+		message += `${direction}To${newProperty.Intensity}`;
+	} else if (newIsAdvanced) { // standard/advanced -> advanced
+		message += newOption.Name;
+	} else { // advanced -> standard
+		message += `IncreaseTo${newProperty.Intensity}`;
 	}
-
-	const showText = (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.ShowText);
-	if (showText === true || showText === undefined) {
-		ChatRoomPublishCustomAction(message, false, dictionary);
-	} else {
-		ChatRoomMessage({ Content: message, Type: "Action", Sender: Player.MemberNumber, Dictionary: dictionary });
-	}
+	ChatRoomPublishCustomAction(message, false, dictionary.build());
 }
 
 /**
@@ -403,11 +340,11 @@ function VibratorModeSetAssetProperties(data) {
  * @param {VibratingItemData} data - The vibrating item data for the asset
  * @returns {void} - Nothing
  */
-function VibratorModeSetAllowEffect({asset, options}) {
+function VibratorModeSetAllowEffect({asset, modeSet}) {
 	asset.AllowEffect = Array.isArray(asset.AllowEffect) ? [...asset.AllowEffect] : [];
 	// @ts-ignore: ignore `readonly` while still building the asset
 	CommonArrayConcatDedupe(asset.AllowEffect, ["Egged", "Vibrating"]);
-	if (options.includes(VibratorModeSet.ADVANCED)) {
+	if (modeSet.includes(VibratorModeSet.ADVANCED)) {
 		// @ts-ignore: ignore `readonly` while still building the asset
 		CommonArrayConcatDedupe(asset.AllowEffect, ["Edged"]);
 	}
@@ -426,15 +363,15 @@ function VibratorModeSetEffect({asset}) {
 
 /**
  * Generate coordinates for vibrator buttons
- * @param {readonly VibratorModeSet[]} Options - The vibrator mode sets for the item
+ * @param {readonly VibratorModeSet[]} modeSet - The vibrator mode sets for the item
  * @param {number} Y - The y-coordinate at which to start drawing the controls
  * @returns {[X: number, Y: number][]} - The button coordinates
  */
-function VibratorModeGenerateCoords(Options, Y=450) {
+function VibratorModeGenerateCoords(modeSet, Y=450) {
 	/** @type {[X: number, Y: number][]} */
 	const coords = [];
-	Options.forEach((OptionName) => {
-		const OptionGroup = VibratorModeOptions[OptionName];
+	modeSet.forEach((modeName) => {
+		const OptionGroup = VibratorModeOptions[modeName];
 		OptionGroup.forEach((_, i) => {
 			const X = 1135 + (i % 3) * 250;
 			if (i % 3 === 0) Y += 80;
@@ -447,30 +384,30 @@ function VibratorModeGenerateCoords(Options, Y=450) {
 
 /**
  * Common draw function for vibrators
- * @param {readonly VibratorModeSet[]} Options - The vibrator mode sets for the item
+ * @param {readonly VibratorModeSet[]} modeSet - The vibrator mode sets for the item
  * @param {number} [Y] - The y-coordinate at which to start drawing the controls
  * @param {boolean} IgnoreSubscreen - Whether loading subscreen draw functions should be ignored.
  * Should be set to `true` to avoid infinite recursions if the the subscreen also calls this function.
  * @returns {void} - Nothing
  */
-function VibratorModeDraw(Options, Y=450, IgnoreSubscreen=false) {
-	const coords = VibratorModeGenerateCoords(Options, Y);
-	const actualOptions = VibratorModeGetOptions(Options);
-	ExtendedItemDraw(actualOptions, "", 10, false, coords, IgnoreSubscreen);
+function VibratorModeDraw(modeSet, Y=450, IgnoreSubscreen=false) {
+	const coords = VibratorModeGenerateCoords(modeSet, Y);
+	const actualOptions = VibratorModeGetOptions(modeSet);
+	TypedItemDraw(actualOptions, "", 10, false, coords, IgnoreSubscreen);
 }
 
 /**
  * Common click function for vibrators
- * @param {readonly VibratorModeSet[]} Options - The vibrator mode sets for the item
+ * @param {readonly VibratorModeSet[]} modeSet - The vibrator mode sets for the item
  * @param {number} [Y] - The y-coordinate at which the extended item controls were drawn
  * @param {boolean} IgnoreSubscreen - Whether loading subscreen draw functions should be ignored.
  * Should be set to `true` to avoid infinite recursions if the the subscreen also calls this function.
  * @returns {void} - Nothing
  */
-function VibratorModeClick(Options, Y=450, IgnoreSubscreen=false) {
-	const coords = VibratorModeGenerateCoords(Options, Y);
-	const actualOptions = VibratorModeGetOptions(Options);
-	ExtendedItemClick(actualOptions, 10, false, coords, IgnoreSubscreen);
+function VibratorModeClick(modeSet, Y=450, IgnoreSubscreen=false) {
+	const coords = VibratorModeGenerateCoords(modeSet, Y);
+	const options = VibratorModeGetOptions(modeSet);
+	TypedItemClick(options, 10, false, coords, IgnoreSubscreen);
 }
 
 /**
@@ -483,12 +420,15 @@ function VibratorModeGetOption(ModeName) {
 	return options.find(o => o.Name === ModeName) || VibratorModeOff;
 }
 
+/**
+ * @typedef {{ Mode?: VibratorMode, ChangeTime?: number, LastChange?: number }} VibratorModePersistentData
+ */
 
 /**
  * Common dynamic script draw function for vibrators. This function is called every frame. TO make use of dynamic script draw on vibrators,
  * ensure your item has a `Assets<AssetGroup><AssetName>ScriptDraw` function defined that calls this function, and that your asset
  * definition in Female3DCG.js has `DynamicScriptDraw: true` set. See the Heart Piercings for examples.
- * @type {DynamicScriptDrawCallback}
+ * @type {ExtendedItemCallbacks.ScriptDraw<VibratorModePersistentData>}
  */
 function VibratorModeScriptDraw(Data) {
 	var C = Data.C;
@@ -515,7 +455,7 @@ function VibratorModeScriptDraw(Data) {
  * Vibrator update function for the Random mode
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateRandom(Item, C, PersistentData) {
@@ -535,7 +475,7 @@ function VibratorModeUpdateRandom(Item, C, PersistentData) {
  * Vibrator update function for the Escalate mode
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateEscalate(Item, C, PersistentData) {
@@ -553,7 +493,7 @@ function VibratorModeUpdateEscalate(Item, C, PersistentData) {
  * Vibrator update function for the Tease mode
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateTease(Item, C, PersistentData) {
@@ -565,7 +505,7 @@ function VibratorModeUpdateTease(Item, C, PersistentData) {
  * Vibrator update function for the Deny mode
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateDeny(Item, C, PersistentData) {
@@ -577,7 +517,7 @@ function VibratorModeUpdateDeny(Item, C, PersistentData) {
  * Vibrator update function for the Edge mode
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateEdge(Item, C, PersistentData) {
@@ -599,7 +539,7 @@ function VibratorModeUpdateEdge(Item, C, PersistentData) {
  * Vibrator update function for vibrator state machine modes
  * @param {Item} Item - The item that is being updated
  * @param {Character} C - The character that the item is equipped on
- * @param {object} PersistentData - Persistent animation data for the item
+ * @param {VibratorModePersistentData} PersistentData - Persistent animation data for the item
  * @param {readonly VibratorModeState[]} TransitionsFromDefault - The possible vibrator states that may be transitioned to from
  * the default state
  * @returns {void} - Nothing
@@ -762,7 +702,8 @@ function VibratorModePublish(C, Item, OldIntensity, Intensity) {
 		.build();
 
 	if (CurrentScreen == "ChatRoom") {
-		ServerSend("ChatRoomChat", { Content: "Vibe" + Direction + "To" + Intensity, Type: "Action", Dictionary });
+		// TODO: Use `VibratingItemData.dialogPrefix.chat` rather than hard-coding "VibeMode"
+		ServerSend("ChatRoomChat", { Content: `VibeMode${Direction}To${Intensity}`, Type: "Action", Dictionary });
 		CharacterLoadEffect(C);
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 		ActivityChatRoomArousalSync(C);
@@ -771,33 +712,25 @@ function VibratorModePublish(C, Item, OldIntensity, Intensity) {
 
 /**
  * Initialize the vibrating item properties
+ * @param {VibratorModeSet[]} modeSet optional list with the names of all supported configuration sets.
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
  * @param {boolean} Refresh - Whether the character and relevant item should be refreshed and pushed to the server
- * @param {null | VibratorModeSet[]} configSets - An optional list with the names of all supported configuration sets.
- * Defaults to {@link VibratingItemData.options} if not specified.
- * @see {@link ExtendedItemInit}
+ * @returns {boolean} Whether properties were initialized or not
  */
-function VibratorModeInit(Item, C, Refresh=true, configSets=null) {
-	if (configSets == null) {
-		const Data = ExtendedItemGetData(Item, ExtendedArchetype.VIBRATING);
-		if (Data === null) {
-			return;
-		}
-		configSets = (Data.options && Data.options.length) ? Data.options : [VibratorModeSet.STANDARD];
+function VibratorModeInit(modeSet, C, Item, Refresh=true) {
+	const options = VibratorModeGetOptions(modeSet);
+	if (CommonIsObject(Item.Property) && options.some(o => o.Name === Item.Property.Mode)) {
+		return false;
 	}
 
-	const AllowType = Item.Asset.AllowType;
-	if (Item.Property && AllowType.includes(Item.Property.Mode)) {
-		return;
-	}
-
-	const Options = VibratorModeGetOptions(configSets);
+	const Options = VibratorModeGetOptions(modeSet);
 	const FirstOption = Options[0] || VibratorModeOff;
 	TypedItemSetOption(C, Item, Options, FirstOption, false);
 
 	if (Refresh) {
-		CharacterRefresh(C);
+		CharacterRefresh(C, true, false);
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 	}
+	return true;
 }

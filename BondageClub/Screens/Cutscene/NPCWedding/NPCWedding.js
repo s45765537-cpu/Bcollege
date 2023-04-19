@@ -93,6 +93,8 @@ function NPCWeddingClick() {
 	if (CutsceneStage > 11) {
 		NPCWeddingDress(Player, "WeddingDress1");
 		NPCWeddingDress(NPCWeddingWife, "WeddingDress2");
+		CharacterDelete(NPCWeddingGirlLeft.AccountName);
+		CharacterDelete(NPCWeddingGirlRight.AccountName);
 		CommonSetScreen("Room", "Private");
 		ServerPrivateCharacterSync();
 	}
