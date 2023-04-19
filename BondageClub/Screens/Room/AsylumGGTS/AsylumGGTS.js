@@ -61,10 +61,10 @@ function AsylumGGTSIsEnabled() {
  * @returns {boolean} - TRUE if level is completed with 3 strikes on record
  */
 function AsylumGGTSLevelCompleted() {
-	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike != null) && (Player.Game.GGTS.Strike >= 3)) return false;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return false;
 	let Level = AsylumGGTSGetLevel(Player);
 	if ((Level <= 0) || (Level >= 6)) return false;
-	return ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Time != null) && (Player.Game.GGTS.Time >= AsylumGGTSLevelTime[Level]));
+	return AsylumGGTSGetLevelTime(Player) >= AsylumGGTSLevelTime[Level];
 }
 
 /**
@@ -74,6 +74,36 @@ function AsylumGGTSLevelCompleted() {
  */
 function AsylumGGTSGetLevel(C) {
 	return ((C != null) && (C.Game != null) && (C.Game.GGTS != null) && (C.Game.GGTS.Level != null) && (C.Game.GGTS.Level >= 1) && (C.Game.GGTS.Level <= 10)) ? C.Game.GGTS.Level : 0;
+}
+
+/**
+ * Returns the character's current level timer
+ * @param {Character} C
+ */
+function AsylumGGTSGetLevelTime(C) {
+	if (C != null && C.Game != null && C.Game.GGTS != null && typeof C.Game.GGTS.Time === "number")
+		return C.Game.GGTS.Time;
+	return 0;
+}
+
+/**
+ * Returns the character's current strike count
+ * @param {Character} C
+ */
+function AsylumGGTSGetStrikes(C) {
+	if (C != null && C.Game != null && C.Game.GGTS != null && typeof C.Game.GGTS.Strike === "number")
+		return C.Game.GGTS.Strike;
+	return 0;
+}
+
+/**
+ * Returns the character's currently set GGTS rules
+ * @param {Character} C
+ */
+function AsylumGGTSGetRules(C) {
+	if (C != null && C.Game != null && C.Game.GGTS != null && Array.isArray(C.Game.GGTS.Rule))
+		return C.Game.GGTS.Rule;
+	return [];
 }
 
 /**
@@ -391,10 +421,13 @@ function AsylumGGTSCanRemove(C, Group) {
  * @returns {boolean} - TRUE if the task can be done
  */
 function AsylumGGTSTaskCanBeDone(C, T) {
-	if ((C.Game == null) || (C.Game.GGTS == null) || (C.Game.GGTS.Strike == null) || (C.Game.GGTS.Strike >= 3) || (C.Game.GGTS.Level == null) || (C.Game.GGTS.Level <= 0)) return false; // Must be playing GGTS without 3 strikes
-	if (((T == "QueryCanFail") || (T == "QueryLove") || (T == "QuerySurrender") || (T == "QueryWhoControl") || (T == "QueryServeObey")) && (C.Game.GGTS.Level >= 6)) return false; // Some queries have the master version at level 6
-	if ((T.substr(0, 8) == "UndoRule") && ((C.Game.GGTS.Rule == null) || (C.Game.GGTS.Rule.indexOf(T.substr(8, 100)) < 0))) return false; // Rule cannot be removed if not active
-	if ((T.substr(0, 7) == "NewRule") && (C.Game.GGTS.Rule != null) && (C.Game.GGTS.Rule.indexOf(T.substr(7, 100)) >= 0)) return false; // Rule cannot be added if already active
+	const level = AsylumGGTSGetLevel(C);
+	const strikes = AsylumGGTSGetStrikes(C);
+	const rules = AsylumGGTSGetRules(C);
+	if (level <= 0 && strikes >= 3) return false; // Must be playing GGTS without 3 strikes
+	if (((T == "QueryCanFail") || (T == "QueryLove") || (T == "QuerySurrender") || (T == "QueryWhoControl") || (T == "QueryServeObey")) && (level >= 6)) return false; // Some queries have the master version at level 6
+	if ((T.substr(0, 8) == "UndoRule") && !rules.includes(T.substr(8, 100))) return false; // Rule cannot be removed if not active
+	if ((T.substr(0, 7) == "NewRule") && rules.includes(T.substr(7, 100))) return false; // Rule cannot be added if already active
 	if ((T.substr(0, 5) == "Cloth") && !C.CanChangeOwnClothes()) return false; // Cloth tasks cannot be done if cannot change
 	if ((T.substr(0, 4) == "Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
 	if ((T.substr(0, 8) == "Activity") && (!C.CanInteract() || !PreferenceArousalAtLeast(C, "NoMeter"))) return false; // Must allow activities and be able to interact
@@ -795,7 +828,7 @@ function AsylumGGTSFindTaskTarget(T) {
 		let Target = null;
 		let TargetOdds = -1;
 		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if ((ChatRoomCharacter[C].MemberNumber == Player.MemberNumber) || (ServerChatRoomGetAllowItem(Player, ChatRoomCharacter[C]) && (ReputationCharacterGet(ChatRoomCharacter[C], "Asylum") <= ReputationGet("Asylum")) && AsylumGGTSTaskCanBeDone(ChatRoomCharacter[C], T) && (AsylumGGTSGetLevel(ChatRoomCharacter[C]) >= 1) && ((ChatRoomCharacter[C].Game.GGTS.Rule == null) || (ChatRoomCharacter[C].Game.GGTS.Rule.indexOf("KeepPose") < 0)))) {
+			if ((ChatRoomCharacter[C].MemberNumber == Player.MemberNumber) || (ServerChatRoomGetAllowItem(Player, ChatRoomCharacter[C]) && (ReputationCharacterGet(ChatRoomCharacter[C], "Asylum") <= ReputationGet("Asylum")) && AsylumGGTSTaskCanBeDone(ChatRoomCharacter[C], T) && (AsylumGGTSGetLevel(ChatRoomCharacter[C]) >= 1) && AsylumGGTSGetRules(ChatRoomCharacter[C]).includes("KeepPose"))) {
 				let Odds = Math.random();
 				if (Odds > TargetOdds) {
 					Target = ChatRoomCharacter[C];
@@ -840,7 +873,7 @@ function AsylumGGTSNewTask() {
 	if (Level >= 6) AsylumGGTSTimer = Math.round(CommonTime() + 40000 * AsylumGGTSSpeed);
 	if (Level <= 0) return;
 	if (ChatRoomSpace !== "Asylum") return;
-	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) return;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return;
 
 	// Form a pool of all available tasks which have a level smaller or equal than the player's current level
 	let TaskList = [];
@@ -935,7 +968,7 @@ function AsylumGGTSRemoveRule(Rule) {
  */
 function AsylumGGTSEndTask() {
 	if (ChatRoomSpace !== "Asylum") return;
-	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) return;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return;
 	if (AsylumGGTSTaskDone((AsylumGGTSTaskTarget == null) ? Player : AsylumGGTSTaskTarget, AsylumGGTSTask)) {
 		AsylumGGTSMessage("TaskDone");
 		if ((Math.random() >= 0.5) && (["PoseOverHead", "PoseKneel", "PoseBehindBack", "PoseLegsClosed"].indexOf(AsylumGGTSTask) >= 0) && (AsylumGGTSGetLevel(Player) >= 2)) AsylumGGTSAddRule("KeepPose", true);
@@ -970,7 +1003,7 @@ function AsylumGGTSForbiddenWord(C) {
 	if (ChatRoomChatLog == null) return false;
 	let Level = AsylumGGTSGetLevel(C);
 	if (Level <= 2) return;
-	if (Player.Game.GGTS.Strike >= 3) return;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return;
 	let WordList = ["fuck", "shit"];
 	if (Level >= 4) WordList.push("cunt", "bitch");
 	if (Level >= 5) WordList.push("whore", "bastard");
@@ -1001,7 +1034,7 @@ function AsylumGGTSProcess() {
 		AsylumGGTSSetTimer();
 		if (ChatRoomSpace !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
-		else if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Strike >= 3)) AsylumGGTSMessage("IntroPendingPunishment");
+		else if (AsylumGGTSGetStrikes(Player) >= 3) AsylumGGTSMessage("IntroPendingPunishment");
 		else if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
 		else AsylumGGTSMessage("IntroPublic");
 		AsylumGGTSIntroDone = true;
@@ -1016,7 +1049,7 @@ function AsylumGGTSProcess() {
 	}
 
 	// Validates that the pose rule isn't broken
-	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("KeepPose") >= 0) && !CommonObjectEqual(AsylumGGTSPreviousPose, Player.PoseMapping))
+	if (AsylumGGTSGetRules(Player).includes("KeepPose") && !CommonObjectEqual(AsylumGGTSPreviousPose, Player.PoseMapping))
 		if (!AsylumGGTSTaskDone(Player, AsylumGGTSTask)) {
 			AsylumGGTSAddStrike();
 			AsylumGGTSMessage("KeepPoseStrike" + Player.Game.GGTS.Strike.toString());
@@ -1194,8 +1227,8 @@ function AsylumGGTSTOrgasm(C) {
 	if (ChatRoomSpace !== "Asylum") return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
 	if ((C == null) || (C.ID != 0)) return;
-	if ((Player.Game == null) || (Player.Game.GGTS == null) || (Player.Game.GGTS.Strike == null) || (Player.Game.GGTS.Strike >= 3) || (Player.Game.GGTS.Level == null) || (Player.Game.GGTS.Level < 1)) return;
-	if ((Player.Game.GGTS.Rule == null) || (C.Game.GGTS.Rule.indexOf("NoOrgasm") < 0)) return;
+	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
+	if (!AsylumGGTSGetRules(Player).includes("NoOrgasm")) return;
 	AsylumGGTSAddStrike();
 	AsylumGGTSMessage("OrgasmStrike" + Player.Game.GGTS.Strike.toString());
 	AsylumGGTSRemoveRule("NoOrgasm");
@@ -1208,8 +1241,8 @@ function AsylumGGTSTOrgasm(C) {
 function AsylumGGTSOrgasmResist() {
 	if (ChatRoomSpace !== "Asylum") return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
-	if ((Player.Game == null) || (Player.Game.GGTS == null) || (Player.Game.GGTS.Strike == null) || (Player.Game.GGTS.Strike >= 3) || (Player.Game.GGTS.Level == null) || (Player.Game.GGTS.Level < 1)) return;
-	if ((Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("NoOrgasm") >= 0) && (Math.random() >= 0.5)) {
+	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
+	if (AsylumGGTSGetRules(Player).includes("NoOrgasm") && (Math.random() >= 0.5)) {
 		AsylumGGTSRemoveRule("NoOrgasm");
 		AsylumGGTSMessage("TaskUndoRuleNoOrgasm");
 	}
