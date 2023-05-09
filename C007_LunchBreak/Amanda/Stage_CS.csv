@@ -90,84 +90,84 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 220,0,0,,(Dej jí francouzák.)ADD_MINUTES:1,(Popadnete se navzájem a dlouze|si proplétáte jazyky ve francouzském polibku.),230,0,0,
 220,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
 230,0,0,,Mmmmmhmmmh.ADD_MINUTES:1,(Udržujete si tempo a hrajete si navzájem se svými jazyky.),230,0,0,
-230,0,0,MakeLoveReady,Chtěla by ses|se mnou pomilovat?,"Promiň, ale mé srdce je už zabrané.|(Povzdychne si) I když ona o tom ani neví.",230,0,0,TestMakeLove()
+230,0,0,MakeLoveReady,Chtěla by ses|se mnou pomilovat?,"Promiň, ale mé srdce je už zadané.|(Povzdychne si) I když ona o tom ani neví.",230,0,0,TestMakeLove()
 230,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
 240,0,0,,(Polib ji.)ADD_MINUTES:1,(Navzájem se něžně líbáte.|Každý dotek vyvolává další vzdechy.),240,0,0,Kiss()
 240,0,0,,(Masíruj jí ňadra.)ADD_MINUTES:1,(Láskyplně si masírujete navzájem prsa.|Jemně a bezbolestně.),240,0,0,
 240,0,0,,(Masturbuj ji.)ADD_MINUTES:1,"(Navzájem se dráždíte a při tom tiše vzdycháte.|Dáváte si pozor, aby se nikdo nedíval.)",240,0,0,LoveMasturbate()
 240,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
 250,0,0,,Takhle se mě|ještě nikdo nedotýkal.,"(Chichotá se.) Božíčku, jsem si jistá, že přeháníš!",260,0,-1,
-250,0,0,,Wow!  I'm speechless.,(She nods and blushes.)|And it was so unexpected.,260,0,0,
-250,0,0,,That was awesome!,(She blushes.)  Yes it was.|And it was so unexpected.,260,0,0,
-250,0,0,,Did you also cum?,"Don't worry, I had a wonderful time.",260,0,1,
-250,0,0,,You were thinking|about someone else?,"I... No!  I... That's...  I'm sorry.|Don't worry, it was wonderful.",260,-1,1,
+250,0,0,,Teda! Nemám slov.,(Přikyvuje a červená se.)|A bylo to tak nečekané.,260,0,0,
+250,0,0,,To bylo boží!,(Červená se.) Ano to bylo!|A bylo to tak nečekané.,260,0,0,
+250,0,0,,Udělala ses taky?,"Neboj, užila jsem si to.",260,0,1,
+250,0,0,,Myslelas při tom|na někoho jiného?,"Já… Ne! Já… to je… Promiň.|Netrap se tím, bylo to krásné.",260,-1,1,
 250,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
-260,0,0,,A kiss my love?ADD_MINUTES:1,(She nods and kisses you tenderly.),280,1,0,Kiss()
-260,0,0,,(Stay silent and kiss her.)ADD_MINUTES:1,(You kiss each other tenderly.),280,0,1,Kiss()
-260,0,0,,I will be even|better next time.,"Don't say that, it was great!|Let's go back to school.",270,0,-1,
-260,0,0,,Next time you|will cum like crazy.,(She frowns at your words.)|Let's go back to school.,270,-1,1,
+260,0,0,,"Polibek, má lásko?ADD_MINUTES:1",(Kývne hlavou a něžně tě políbí.),280,1,0,Kiss()
+260,0,0,,(Zůstaň potichu a polib ji.)ADD_MINUTES:1,(Navzájem se něžně líbáte.),280,0,1,Kiss()
+260,0,0,,Příště budu ještě lepší.,"To neříkej, bylo to báječné!|Pojďme zpátky do školy.",270,0,-1,
+260,0,0,,Příště tě nechám|udělat jako divou.,(Na tvá slova se mračí.)|Pojďme zpátky do školy.,270,-1,1,
 260,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
-270,0,0,,Let's walk together.|(Back to college.),,0,0,0,EndBonus()
-270,0,0,,I'll walk back alone.|(Back to college.),,0,-1,0,EndBonus()
+270,0,0,,Pojďme zpátky spolu.|(Back to college.),,0,0,0,EndBonus()
+270,0,0,,Zpátky půjdu sama.|(Back to college.),,0,-1,0,EndBonus()
 270,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
-280,0,0,,(Kiss her again.)ADD_MINUTES:1,(She giggles and kisses you again.),280,0,0,
+280,0,0,,(Znovu ji polib.)ADD_MINUTES:1,(Chichotá se a zase tě líbá.),280,0,0,
 280,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
-300,0,0,,(Stay silent and kiss her.)ADD_MINUTES:1,(You push her against the fence|and give her a kiss on the lips.),310,0,1,Kiss()
-300,0,0,,It was fun but I want a|kiss now. ADD_MINUTES:1,(You push her against the fence|and give her a kiss on the lips.),310,0,1,Kiss()
-300,0,0,,You're beautiful.  Can I|kiss you? ADD_MINUTES:1,(She nods while you push her against|the fence and give her a kiss on the lips.),310,1,0,Kiss()
-300,1,0,,I wanted you to know|that I had a great time.,I did too!  We seem to fit well together.,320,1,0,
-300,0,0,,Did you have|fun today?,Oh yes!  We seem to fit well together.,320,0,0,
-300,0,0,,"Amanda, I will|have you now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-1,1,
-300,0,0,,"Slut, you will|shut up now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-2,1,
-310,0,0,,(Kiss her again.)ADD_MINUTES:1,(She moans silently but doesn't|resist while you kiss her again.),310,0,0,
-310,1,0,,I wanted you to know|that I had a great time.,I did too!  We seem to fit well together.,320,0,0,
-310,0,0,,Did you have|fun today?,Oh yes!  We seem to fit well together.,320,0,0,
-310,0,0,,"Amanda, I will|have you now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-1,1,
-310,0,0,,"Slut, you will|shut up now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-2,1,
+300,0,0,,(Zůstaň potichu a polib ji.)ADD_MINUTES:1,(Přitlačíš jí zády k plotu a políbíš ji na rty.),310,0,1,Kiss()
+300,0,0,,"Tohle bylo prima,|ale teď tě chci líbat.ADD_MINUTES:1",(Přitlačíš jí zády k plotu a políbíš ji na rty.),310,0,1,Kiss()
+300,0,0,,Jsi překrásná.|Můžu tě políbít?ADD_MINUTES:1,(Přikyvuje zatímco ji tiskneš k plotu a líbáš na rty.),310,1,0,Kiss()
+300,1,0,,"Chtěla jsem ti říct,|že jsem si to moc užila.","Já taky! Vypadá to, že si skvěle pasujeme.",320,1,0,
+300,0,0,,Bavila ses|dneska dobře?,"To ano! Vypadá to, že si skvěle pasujeme.",320,0,0,
+300,0,0,,"Chci tě teď a tady,|Amando.",Já… Ale…|(Dlaní ji umlčíš a přitiskneš ji k plotu.),330,-1,1,
+300,0,0,,"A teď zmlkni, děvko!",Já… Ale…|(Dlaní ji umlčíš a přitiskneš ji k plotu.),330,-2,1,
+310,0,0,,(Znovu ji polib.)ADD_MINUTES:1,"(Tiše sténá, ale dalšímu líbání se nebrání.)",310,0,0,
+310,1,0,,"Chtěla jsem ti říct,|že jsem si to moc užila.","Já taky! Vypadá to, že si skvěle pasujeme.",320,0,0,
+310,0,0,,Bavila ses|dneska dobře?,"To ano! Vypadá to, že si skvěle pasujeme.",320,0,0,
+310,0,0,,"Chci tě teď a tady,|Amando.",Já… Ale…|(Dlaní ji umlčíš a přitiskneš ji k plotu.),330,-1,1,
+310,0,0,,"A teď zmlkni, děvko!",Já… Ale…|(Dlaní ji umlčíš a přitiskneš ji k plotu.),,330,-2,1,
 320,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
-320,5,0,,I want more romance.ADD_MINUTES:1,(She nods slowly and grabs|your hands for a loving kiss.),220,0,0,Kiss()
-320,0,0,,Would you like|an orgasm?,No... Yes... (You place your hand over|her mouth and push her against the fence.),330,0,0,
-320,0,0,,"Amanda, I will|have you now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-1,1,
-320,0,0,,"Slut, you will|shut up now.",I... But... (You shut her up with your|hand and push her against the fence.),330,-2,1,
-330,0,0,,(Polib ji.)ADD_MINUTES:1,(You kiss her slowly while she moans.),330,0,0,Kiss()
-330,0,0,,(Polechtej ji.)ADD_MINUTES:1,(She struggles playfully to avoid|your tickling but seems to enjoy it.),330,0,0,Tickle()
-330,0,0,,(Masturbuj ji.)ADD_MINUTES:1,(She moans silently while you masturbate her.|Trembling lightly at your loving touch.),330,0,0,Masturbate()
-330,0,0,IsRoped,(Untie her.)ADD_MINUTES:1,"(One knot at a time, you|release her from her bondage.)",330,0,0,Untie()
-330,0,0,IsGagged,(Ungag her.)ADD_MINUTES:1,"(You carefully remove the gag.)|Thank you, that wasn't comfy.",330,0,0,Ungag()
-330,0,0,IsBoundAndGagged,I tricked you bitch.|(Leave her stranded.),,330,0,0,EvilEnd()
-330,0,0,,Let's go back.|(Back to school.),,0,0,0,EndBonus()
-400,0,0,,Why did you|drag me here?,I have a wild idea but you need to trust me.|Will you submit to me and remove your outfit?,410,0,0,
-400,0,0,,(Giggle shyly.)|What's going on?,I have a wild idea but you need to trust me.|Will you submit to me and remove your outfit?,410,0,-1,
-400,0,0,,What the fuck|is going on?,I have a wild idea but you need to trust me.|Will you submit to me and remove your outfit?,410,-1,1,
-400,0,0,,(Try to push her away.),(She pushes you back.)  I have a wild idea.|Will you submit to me and remove your outfit?,410,0,1,
-410,0,0,,Submit to you?|I'll never do that.,I respect that and would never force you.|Let's go back to school then.,490,0,2,
-410,0,0,,Not here in public.|But maybe later.,"Its OK, I would never force you.|Let's go back to school then.",490,0,0,
-410,0,0,,"Alright, I will submit.|(Strip.) ADD_MINUTES:1","Skvěle! This is so kinky, I love it.|Now turn around, hands behind your back.",420,0,0,SubbieStrip()
-410,0,0,,Yes Miss Amanda.|(Strip.) ADD_MINUTES:1,"Good girl!  This is so kinky, I love it.|Now turn around, hands behind your back.",420,0,-1,SubbieStrip()
-420,0,0,,This is great.|(Turn around.),"I know!  I told you it would be kinky.|Now I will tie you up with ropes, it's fine?",430,1,0,
-420,0,0,,OK Amanda.|(Turn around.),"(She grabs your butt and smiles.)|Now I will tie you up with ropes, it's fine?",430,0,0,
-420,0,0,,(Try to turn the|tables and strip her.),"(She's stronger than you and forces you to turn.)|Since you cannot behave, I will restrain you.",430,0,1,
-420,0,0,,Maybe we should stop.|(Dress back up.),"Its OK, I would never force you.|(You dress back.)  Let's go back.",490,-1,0,
-430,0,0,,Yes Miss Amanda.|(Obey.) ADD_MINUTES:1,(She grabs your arms and circle rope|around them and your body.)  Open wide!,440,0,-1,SubbieRope()
-430,0,0,,So this is for real?|(Obey.) ADD_MINUTES:1,(She grabs your arms and circle rope|around them and your body.)  Open wide!,440,0,0,SubbieRope()
-430,0,0,,Maybe we should stop.|(Dress back up.),"Its OK, I would never force you.|(You dress back.)  Let's go back.",490,-1,0,
-440,0,0,,(Pull your tongue.)ADD_MINUTES:1,(She giggles and pulls her tongue also.)|Common!  Open wide subbie girl.,440,0,0,
-440,0,0,,(Clench your teeth.)ADD_MINUTES:1,You're not helping at all you know.|Common!  Open wide subbie girl.,440,0,0,ClenchTeeth()
-440,0,0,,(Open wide.)ADD_MINUTES:1,(She pushes a ballgag in and straps it.)|Can I touch you now?  Do you want pleasure?,450,0,0,SubbieGag()
-440,0,0,,Maybe we should stop.|Can you release me?,"Its OK, I would never force you.|(She releases you.)  Let's go back.",490,-1,0,SubbieRelease()
-450,0,0,,@Hheesh hissh.|(Nod slowly.),(She pushes you against the|fence and starts to rub her hand.),460,0,0,
-450,0,0,,@UOOG HEESSH!|(Nod rapidly.),(She pushes you against the|fence and starts to rub her hand.),460,1,0,
-450,0,0,,(Shake your head|from left to right.),"(She tickles you for fun and releases you.)|Its fine, I hope you had fun.  Let's go back.",490,-1,0,SubbieRelease()
-460,0,0,,(Enjoy her touch.)ADD_MINUTES:1,(You surrender to her loving touch while she tugs|on the crotch rope and masturbates your clitoris.),460,0,0,SubbieMasturbate()
+320,5,0,,Chtěla bych|více romantiky.ADD_MINUTES:1,"(Pomalu přikývne,|vezme tě za ruce a láskyplně tě políbí.)",220,0,0,Kiss()
+320,0,0,,Líbil by|se ti orgasmus?,Ne… Ano… (Dáš ji svou dlaň na ústa|a přitiskneš ji k plotu.),330,0,0,
+320,0,0,,"Chci tě teď a tady,|Amando.",Já… Ale… (Dlaní ji umlčíš a přitiskneš ji k plotu.),330,-1,1,
+320,0,0,,"A teď zmlkni, děvko!",Já… Ale… (Dlaní ji umlčíš a přitiskneš ji k plotu.),330,-2,1,
+330,0,0,,(Polib ji.)ADD_MINUTES:1,(Pomalu ji líbáš a ona sténá.),330,0,0,Kiss()
+330,0,0,,(Polechtej ji.)ADD_MINUTES:1,"(Hravě se snaží uhýbat tvému lechtání,|ale zdá se, že se jí to líbí.)",330,0,0,Tickle()
+330,0,0,,(Masturbuj ji.)ADD_MINUTES:1,(Tichoučce sténá zatímco ji masturbuješ.|Lehce se chvěje pod tvými láskyplnými dotyky.),330,0,0,Masturbate()
+330,0,0,IsRoped,(Rozvaž ji.)ADD_MINUTES:1,"(Uzlík za uzlem ji postupně|osvobozuješ z jejího spoutání.)",330,0,0,Untie()
+330,0,0,IsGagged,(Sundej jí roubík.)ADD_MINUTES:1,"(Opatrně ji sundáváš roubík.)|Díky, to nebylo moc pohodlné.",330,0,0,Ungag()
+330,0,0,IsBoundAndGagged,"Apríl, čubko.|(Zanech ji spoutanou.)",,330,0,0,EvilEnd()
+330,0,0,,Pojďme zpátky.|(Zpátky do školy.),,0,0,0,EndBonus()
+400,0,0,,Proč jsi mě|sem zatáhla?,"Mám bláznivý nápad, ale musíš mi důvěřovat.|Poddáš se mi a sundáš si šaty?",410,0,0,
+400,0,0,,(Plaše se zasměj.)|O co jde?,"Mám bláznivý nápad, ale musíš mi důvěřovat.|Poddáš se mi a sundáš si šaty?",410,0,-1,
+400,0,0,,"O co tady, kurva jde?","Mám bláznivý nápad, ale musíš mi důvěřovat.|Poddáš se mi a sundáš si šaty?",410,-1,1,
+400,0,0,,(Zkus ji odstrčit.),(Přitlačí tě zpátky.) Mám bláznivý nápad.|Poddáš se mi a sundáš si šaty?,410,0,1,
+410,0,0,,Poddat se ti?|To nikdy neudělám.,Respektuju to a nebudu tě nikdy k ničemu nutit.|Pojďme tedy zpátky do školy.,490,0,2,
+410,0,0,,Tady na veřejnosti ne.|Ale možná později.,"To je v pohodě, nutit tě nikdy nebudu.|Pojďme tedy zpátky do školy.",490,0,0,
+410,0,0,,"Dobře, poddám se.|(Vysvleč se.)ADD_MINUTES:1","Skvěle! To je tak zvrhlé, líbí se mi to.|A teď se otoč a dej ruce za záda.",420,0,0,SubbieStrip()
+410,0,0,,"Ano, slečno Amando|(Vysvleč se.)ADD_MINUTES:1","Hodná holka! To je tak zvrhlé, líbí se mi to.|A teď se otoč a dej ruce za záda.",420,0,-1,SubbieStrip()
+420,0,0,,To je boží.|(Otoč se.),"Já vím! Říkala jsem ti, že to bude zvrhlé.|Teď tě spoutám provazy, je to v pohodě?",430,1,0,
+420,0,0,,"Dobře, Amando.|(Otoč se.)","(Popadne tě za zadek a usmívá se.)|Teď tě spoutám provazy, je to v pohodě?",430,0,0,
+420,0,0,,(Pokus se obrátit|karty a svléct ji.),"(Je silnější než ty a přinutí tě se otočit.)|Jelikož se neumíš chovat, spoutám tě.",430,0,1,
+420,0,0,,Asi bychom měli přestat.|(Zase se obleč.),"To je v pohodě, nutit tě nikdy nebudu.|(Znovu se oblékáš.) Pojďme zpátky.",490,-1,0,
+430,0,0,,"Ano, slečno Amando.|(Poslechni.) ADD_MINUTES:1",(Popadne tě za paže a omotá je|a taky tvé tělo provazem.) Udělej „Á“!,440,0,-1,SubbieRope()
+430,0,0,,Takže to je skutečné?|(Poslechni.) ADD_MINUTES:1,(Popadne tě za paže a omotá je|a taky tvé tělo provazem.) Udělej „Á“!,440,0,0,SubbieRope()
+430,0,0,,Asi bychom měli přestat.|(Zase se obleč.),"To je v pohodě, nutit tě nikdy nebudu.|(Znovu se oblékáš.) Pojďme zpátky.",490,-1,0,
+440,0,0,,(Vyplázni jazyk.)ADD_MINUTES:1,"(Chichorá se a taky na tebe vyplazuje jazyk.)|No tak! Otevři pořádně pusu, subinko!",440,0,0,
+440,0,0,,(Zatni zuby.)ADD_MINUTES:1,"Ale ty vůbec nepomáháš, víš to?|No tak! Otevři pořádně pusu, subinko!",440,0,0,ClenchTeeth()
+440,0,0,,(Otevři pusu.)ADD_MINUTES:1,(Do pusy ti vmáčkne kuličkový roubík a zapne ho.|Můžu se tě teď dotýkat? Chceš potěšit?,450,0,0,SubbieGag()
+440,0,0,,Maybe we should stop.|Can you release me?,"To je v pohodě, nutit tě nikdy nebudu.|(She releases you.) Pojďme zpátky.",490,-1,0,SubbieRelease()
+450,0,0,,@Aaaao ossím.|(Pomalu přikývni.),(She pushes you against the|fence and starts to rub her hand.),460,0,0,
+450,0,0,,@UO UASSEEH!|(Rychle přikyvuj.),(She pushes you against the|fence and starts to rub her hand.),460,1,0,
+450,0,0,,(Zatřes hlavou|ze strany na stranu.),"(She tickles you for fun and releases you.)|Its fine, I hope you had fun. Pojďme zpátky.",490,-1,0,SubbieRelease()
+460,0,0,,(Užívej si doteků.)ADD_MINUTES:1,(You surrender to her loving touch while she tugs|on the crotch rope and masturbates your clitoris.),460,0,0,SubbieMasturbate()
 460,0,0,,(Squirm to her rhythm.)ADD_MINUTES:1,(You move your butt to follow her rhythm.|Slowly building up pleasure from her touch.),460,0,0,SubbieMasturbate()
 460,0,0,,(Struggle playfully.)ADD_MINUTES:1,(You struggle playfully and she seems to enjoy it.|She picks up speed and masturbates a little harder.),460,0,0,SubbieMasturbate()
-460,0,0,,(Struggle in panic.)ADD_MINUTES:1,"(She realizes your panic and releases you.)|Its fine, I hope you still had fun.  Let's go back.",490,-1,-1,SubbieRelease()
+460,0,0,,(Struggle in panic.)ADD_MINUTES:1,"(She realizes your panic and releases you.)|Its fine, I hope you still had fun. Pojďme zpátky.",490,-1,-1,SubbieRelease()
 470,0,0,,(Blush red and|look at the ground.),"Don't be shy, pleasure cannot be wrong.|(She unstraps your gag.)  Did you enjoy it?",480,0,-1,SubbieUngag()
 470,0,0,,@Uuuumph gnu!,"(She giggles and unstraps your gag.)|So tell me, did you enjoy it?",480,0,0,SubbieUngag()
 470,0,0,,(Move your butt closer.),Again?  Maybe later.  (She giggles and|unstraps your gag.) So did you enjoy it?,480,0,0,SubbieUngag()
-480,0,0,,I've had better.,I'm sorry to hear that.  I thought you had fun.|(She releases you.)  Let's go back to school then.,490,-1,0,SubbieRelease()
-480,0,0,,It was great!,I'm glad to hear that.  I also had fun.|(She releases you.)  Let's go back to school.,490,0,0,SubbieRelease()
-480,0,0,,It was the best|orgasm I've ever had.,Aaaaaww.  (She blushes and releases you.)|That was so kind.  Let's go back to school.,490,1,0,SubbieRelease()
-480,0,0,,"Miss, it was amazing.|Will you be my Mistress?",Me?  Mistress?  (She giggles and releases you.)|I'll think about it.  Let's go back to school.,490,0,-1,SubbieRelease()
-480,0,0,,Next time I|will tie you up.,We'll see about that.  (She pulls her tongue|and releases you.)  Let's go back to school.,490,0,1,SubbieRelease()
+480,0,0,,I've had better.,I'm sorry to hear that.  I thought you had fun.|(She releases you.)  Pojďme tedy zpátky do školy.,490,-1,0,SubbieRelease()
+480,0,0,,It was great!,I'm glad to hear that.  I also had fun.|(She releases you.)  Pojďme zpátky do školy.,490,0,0,SubbieRelease()
+480,0,0,,It was the best|orgasm I've ever had.,Aaaaaww.  (She blushes and releases you.)|That was so kind.  Pojďme zpátky do školy.,490,1,0,SubbieRelease()
+480,0,0,,"Miss, it was amazing.|Will you be my Mistress?",Me?  Mistress?  (She giggles and releases you.)|I'll think about it.  Pojďme zpátky do školy.,490,0,-1,SubbieRelease()
+480,0,0,,Next time I|will tie you up.,We'll see about that.  (She pulls her tongue|and releases you.)  Pojďme zpátky do školy.,490,0,1,SubbieRelease()
 490,0,0,,Ať nepřijdeme pozdě.|(Zpátky do školy.),,0,0,0,EndBonus()
