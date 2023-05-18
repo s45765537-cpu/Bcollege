@@ -99,9 +99,10 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		CanWalk: function () {
 			return (
-				(this.Effect.indexOf("Freeze") < 0) &&
-				(this.Effect.indexOf("Tethered") < 0) &&
-				((this.Pose == null) || (this.Pose.indexOf("Kneel") < 0) || (this.Effect.indexOf("KneelFreeze") < 0))
+				!this.HasEffect("Freeze") &&
+				!this.HasEffect("Tethered") &&
+				!this.HasEffect("Mounted") &&
+				((this.Pose == null) || !this.Pose.includes("Kneel") || !this.HasEffect("KneelFreeze"))
 			);
 		},
 		CanKneel: function () {
@@ -314,6 +315,30 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				   ((new Date(this.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
 				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
 		},
+		IsFamilyOfPlayer: function () {
+			if (this.IsPlayer()) return false;
+			if (this.IsOwner() || this.IsOwnedByPlayer()) return true;
+			if ((Player.Ownership != null) && (this.MemberNumber === Player.Ownership.MemberNumber)) return true;
+			return ((Player.Ownership != null) && (this.Ownership != null) && (Player.Ownership.MemberNumber === this.Ownership.MemberNumber));
+		},
+		IsInFamilyOfMemberNumber: function(MemberNum) {
+			if (ChatRoomCharacter == null) return false;
+			if (this.ID == 0)
+				for (let Char of ChatRoomCharacter)
+					if (Char.MemberNumber == MemberNum)
+						return Char.IsFamilyOfPlayer();
+			if ((this.ID != 0) && (MemberNum === Player.MemberNumber))
+				return this.IsFamilyOfPlayer();
+			if ((this.ID != 0) && (MemberNum !== Player.MemberNumber))
+				for (let Char of ChatRoomCharacter)
+					if (Char.MemberNumber == MemberNum) {
+						if ((Char.Ownership != null) && (this.Ownership != null) && (Char.Ownership.MemberNumber === this.Ownership.MemberNumber)) return true;
+						if ((Char.Ownership != null) && (Char.Ownership.MemberNumber == this.MemberNumber)) return true;
+						if ((this.Ownership != null) && (this.Ownership.MemberNumber == Char.MemberNumber)) return true;
+						return false;
+					}
+			return false;
+		},
 		IsOnline: function () {
 			return this.Type === CharacterType.ONLINE;
 		},
@@ -457,6 +482,26 @@ function CharacterRandomName(C) {
 }
 
 /**
+ * Substitute name and pronoun fields in dialog.
+ * @param {Character} C - Character for which to build the dialog
+ * @returns {void} - Nothing
+ */
+function CharacterDialogSubstitution(C){
+	/** @type {CommonSubtituteSubstitution[]} */
+	let subst = [
+		["DialogCharacterName", CharacterNickname(C)],
+		["DialogPlayerName", CharacterNickname(Player)],
+	];
+	subst = subst.concat(ChatRoomPronounSubstitutions(C, "DialogCharacter", false));
+	subst = subst.concat(ChatRoomPronounSubstitutions(Player, "DialogPlayer", false));
+
+	C.Dialog.forEach(_=>{
+		if(_.Option) _.Option = CommonStringSubstitute(_.Option, subst);
+		if(_.Result) _.Result = CommonStringSubstitute(_.Result, subst);
+	});
+}
+
+/**
  * Builds the dialog objects from the character CSV file
  * @param {Character} C - Character for which to build the dialog
  * @param {readonly string[][]} CSV - Content of the CSV file
@@ -472,14 +517,6 @@ function CharacterBuildDialog(C, CSV) {
 		if (str === "") return null;
 		return (str !== "" ? str : null);
 	}
-
-	/** @type {CommonSubtituteSubstitution[]} */
-	let subst = [
-		["DialogCharacterName", CharacterNickname(C)],
-		["DialogPlayerName", CharacterNickname(Player)],
-	];
-	subst = subst.concat(ChatRoomPronounSubstitutions(C, "DialogCharacter", false));
-	subst = subst.concat(ChatRoomPronounSubstitutions(Player, "DialogPlayer", false));
 
 	// For each lines in the file
 	for (const L of CSV) {
@@ -497,11 +534,6 @@ function CharacterBuildDialog(C, CSV) {
 			Group: parseField(L[6]),
 			Trait: parseField(L[7]),
 		};
-
-		if (D.Option !== null)
-			D.Option = CommonStringSubstitute(D.Option, subst);
-		if (D.Result !== null)
-			D.Result = CommonStringSubstitute(D.Result, subst);
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
 		if (D.Function && D.Function !== "")
@@ -702,8 +734,9 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	let tmp;
 	const oldPronouns = (tmp = currentAppearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
 	const newPronouns = (tmp = Char.Appearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
-	if (oldPronouns !== newPronouns) {
+	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
 		// Reload the dialog so the new gender takes effect
+		// Don't reload in initialization (when oldPronouns is undefined), which breaks translation
 		CharacterLoadCSVDialog(Char, "Screens/Online/ChatRoom/Dialog_Online");
 	}
 	CharacterLoadEffect(Char);

@@ -13,6 +13,7 @@ var ManagementCanReleaseChastity = true;
 var ManagementEmpty = false;
 /** @type {null | NPCCharacter} */
 var ManagementRandomGirl = null;
+/** @type {"" | NPCArchetype} */
 var ManagementRandomGirlArchetype = "";
 var ManagementRandomActivityCount = 0;
 var ManagementRandomActivity = "";
@@ -83,7 +84,7 @@ function ManagementOwnerAway() { return !((Player.Owner == "NPC-Sidney") || (Pla
  * Checks if the player is wearing any chastity item that can currently be removed by the mistress.
  * @returns {boolean} - TRUE if there is at least one chastity item that can be removed.
  */
-function ManagementAllowReleaseChastity() { return (Player.IsChaste() && !ManagementIsMaidsDisabled() && ManagementCanReleaseChastity && (ManagementCanUnlockBra() || ManagementCanUnlockBelt() || ManagementCanUnlockButt() || ManagementCanUnlockVulva() || ManagementCanUnlockNipples()) );}
+function ManagementAllowReleaseChastity() { return (Player.IsChaste() && !ManagementIsMaidsDisabled() && ManagementCanReleaseChastity && (ManagementCanUnlockBra() || ManagementCanUnlockBelt() || ManagementCanUnlockButt() || ManagementCanUnlockVulva() || ManagementCanUnlockVulvaPiercings() || ManagementCanUnlockNipples()) );}
 /**
  * Checks if the player is chaste, but cannot be released.
  * @returns {boolean} - TRUE if the player is chaste and cannot be released.
@@ -104,31 +105,57 @@ function ManagementOwnerAccepted() { return ((CommonTime() >= ManagementMistress
  * @returns {boolean} - TRUE if the player can be released, but cannot be released from chastity.
  */
 function ManagementOwnerRefused() { return ((CommonTime() >= ManagementMistressReleaseTimer) && !ManagementCanReleaseChastity); }
+
+/**
+ * Helper function to check a group's unlockability.
+ * @param {AssetGroupItemName} groupName - The name of the group to unlock
+ */
+function ManagementCanUnlockGroup(groupName) {
+	const chasteEffectForGroup = {
+		ItemBreast: "BreastChaste",
+		ItemNipplesPiercings: "BreastChaste",
+		ItemVulva: "Chaste",
+		ItemVulvaPiercings: "Chaste",
+		ItemPelvis: "Chaste",
+	};
+
+	const effect = chasteEffectForGroup[groupName];
+	const isChaste = effect && InventoryItemHasEffect(InventoryGet(Player, groupName), effect);
+	const isBlocked = InventoryGroupIsBlocked(Player, groupName);
+	const isOwnerItem = InventoryOwnerOnlyItem(InventoryGet(Player, groupName)) && Player.IsOwned();
+
+	return isChaste && !isBlocked && !isOwnerItem;
+}
 /**
  * Checks if the mistress can remove the player's chastity bra
  * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
  */
-function ManagementCanUnlockBra() { return ((Player.Money >= 25) && InventoryItemHasEffect(InventoryGet(Player, "ItemBreast"), "BreastChaste") && (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemBreast")) || !Player.IsOwned() )); }
+function ManagementCanUnlockBra() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemBreast")); }
 /**
  * Checks if the mistress can remove the player's butt item with a chaste effect
  * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
  */
-function ManagementCanUnlockButt() { return ((Player.Money >= 25) && InventoryItemHasEffect(InventoryGet(Player, "ItemButt"), "Chaste") && !InventoryGroupIsBlocked(Player, "ItemButt") && (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemButt")) || !Player.IsOwned())); }
+function ManagementCanUnlockButt() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemButt")); }
+/**
+ * Checks if the mistress can remove the player's vulva piercing item with a chaste effect
+ * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
+ */
+function ManagementCanUnlockVulvaPiercings() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemVulvaPiercings")); }
 /**
  * Checks if the mistress can remove the player's vulva item with a chaste effect
  * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
  */
-function ManagementCanUnlockVulva() { return ((Player.Money >= 25) && InventoryItemHasEffect(InventoryGet(Player, "ItemVulvaPiercings"), "Chaste") && !InventoryGroupIsBlocked(Player, "ItemVulvaPiercings") && (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemVulvaPiercings")) || !Player.IsOwned())); }
+function ManagementCanUnlockVulva() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemVulva")); }
 /**
  * Checks if the mistress can remove the player's nipple item with a chaste effect
  * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
  */
-function ManagementCanUnlockNipples() { return ((Player.Money >= 25) && InventoryItemHasEffect(InventoryGet(Player, "ItemNipplesPiercings"), "BreastChaste") && !InventoryGroupIsBlocked(Player, "ItemNipplesPiercings") && (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemNipplesPiercings")) ||!Player.IsOwned())); }
+function ManagementCanUnlockNipples() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemNipplesPiercings")); }
 /**
  * Checks if the mistress can remove the player's pelvis item with a chaste effect
  * @returns {boolean} - TRUE if the mistress can remove the item. (Not owner locked while owned and has at least 25$.)
  */
-function ManagementCanUnlockBelt() { return ((Player.Money >= 25) && InventoryItemHasEffect(InventoryGet(Player, "ItemPelvis"), "Chaste") && (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) || !Player.IsOwned())); }
+function ManagementCanUnlockBelt() { return (Player.Money >= 25 && ManagementCanUnlockGroup("ItemPelvis")); }
 /**
  * Sets the player's chastity release timer to 0.
  * @returns {void} - Nothing.
@@ -273,12 +300,12 @@ function ManagementMistressCannotBePaid() { return (LogQuery("ClubMistress", "Ma
  * Checks if the player can be a club slave.
  * @returns {boolean} - TRUE if the player is not wearing an owner/lover only restraint and is not too dominant.
  */
-function ManagementCanBeClubSlave() { return (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player) && ReputationGet("Dominant") < -50); }
+function ManagementCanBeClubSlave() { return (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player) && !InventoryCharacterHasFamilyOnlyRestraint(Player) && ReputationGet("Dominant") < -50); }
 /**
  * Checks if the player cannot be a club slave due to her dominant reputation.
  * @returns {boolean} - TRUE if the player is not wearing an owner/lover only restraint, but is too dominant.
  */
-function ManagementCannotBeClubSlaveDominant() { return (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player) && ReputationGet("Dominant") >= -50); }
+function ManagementCannotBeClubSlaveDominant() { return (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player) && !InventoryCharacterHasFamilyOnlyRestraint(Player) && ReputationGet("Dominant") >= -50); }
 /**
  * Checks if the player cannot be a club slave due to her currently worn owner-only restraint(s).
  * @returns {boolean} - TRUE if the player is wearing an owner-only restraint.
@@ -289,6 +316,11 @@ function ManagementCannotBeClubSlaveOwnerLock() { return InventoryCharacterHasOw
  * @returns {boolean} - TRUE if the player is wearing a lover-only restraint.
  */
 function ManagementCannotBeClubSlaveLoverLock() { return InventoryCharacterHasLoverOnlyRestraint(Player); }
+/**
+ * Checks if the player cannot be a club slave due to her currently worn lover-only restraint(s).
+ * @returns {boolean} - TRUE if the player is wearing a lover-only restraint.
+ */
+function ManagementCannotBeClubSlaveFamilyLock() { return InventoryCharacterHasFamilyOnlyRestraint(Player); }
 /**
  * Checks if the player can kiss the current NPC.
  * @returns {boolean} - TRUE if both the NPC and the player can talk.

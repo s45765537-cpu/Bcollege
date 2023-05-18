@@ -96,7 +96,7 @@ const CraftingStatusType = {
  * An empty string implies the absence of a lock.
  * @type {readonly (AssetLockType | "")[]}
  */
-const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityPadlock", "OwnerPadlock", "LoversPadlock", "MistressPadlock", "PandoraPadlock", "ExclusivePadlock"];
+const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityPadlock", "OwnerPadlock", "LoversPadlock", "FamilyPadlock", "MistressPadlock", "PandoraPadlock", "ExclusivePadlock"];
 
 /**
  * Returns TRUE if a crafting item has an effect from a list or allows that effect
@@ -152,18 +152,18 @@ function CraftingUpdatePreview() {
 	const RelevantAssets = Asset.filter(a => {
 		if (!a.Group.IsItem()) return false;
 		if (!CraftingAppliesToItem(Craft, a)) return false;
-		if (FoundGroups.includes(a.DynamicGroupName || a.Group.Name)) return false;
-		FoundGroups.push(a.Group.Name);
+		if (FoundGroups.includes(a.DynamicGroupName)) return false;
+		FoundGroups.push(a.DynamicGroupName);
 		return true;
 	});
 	for (const RelevantAsset of RelevantAssets) {
-		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.Group.Name, null, null, CraftingPreview.MemberNumber, Craft);
-		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.Group.Name), Craft, false, true, false);
+		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, CraftingPreview.MemberNumber, Craft);
+		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
 		if (RelevantAsset.Prerequisite.includes("OnBed")) {
 			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";
 			const bed = AssetGet(CraftingPreview.AssetFamily, "ItemDevices", bedType);
-			InventoryWear(CraftingPreview, bed.Name, bed.Group.Name, null, null, CraftingPreview.MemberNumber);
+			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, CraftingPreview.MemberNumber);
 		}
 	}
 	CharacterRefresh(CraftingPreview);
@@ -234,7 +234,7 @@ function CraftingRun() {
 			let Item = CraftingItemList[I];
 			let X = ((I - CraftingOffset) % 8) * 249 + 17;
 			let Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
-			let Hidden = CharacterAppearanceItemIsHidden(Item.Name, Item.Group.Name);
+			let Hidden = CharacterAppearanceItemIsHidden(Item.Name, Item.DynamicGroupName);
 			let Description = Item.Description;
 			let Background = MouseIn(X, Y, 225, 275) && !CommonIsMobile ? "cyan" : "#fff";
 			let Foreground = "Black";
@@ -266,7 +266,7 @@ function CraftingRun() {
 		let Pos = 0;
 		for (let L = 0; L < CraftingLockList.length; L++)
 			for (let Item of Player.Inventory)
-				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && (Item.Asset.Group != null) && (Item.Asset.Group.Name == "ItemMisc")) {
+				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && Item.Asset.IsLock) {
 					let X = (Pos % 8) * 249 + 17;
 					let Y = Math.floor(Pos / 8) * 290 + 130;
 					let Description = Item.Asset.Description;
@@ -282,7 +282,7 @@ function CraftingRun() {
 	if (CraftingMode == "Name") {
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
 		DrawText(TextGet("SelectName").replace("AssetDescription", CraftingSelectedItem.Asset.Description).replace("PropertyName", TextGet("Property" + CraftingSelectedItem.Property)), 830, 60, "White", "Black");
-		let Hidden = CharacterAppearanceItemIsHidden(CraftingSelectedItem.Asset.Name, CraftingSelectedItem.Asset.Group.Name);
+		let Hidden = CharacterAppearanceItemIsHidden(CraftingSelectedItem.Asset.Name, CraftingSelectedItem.Asset.DynamicGroupName);
 		let Description = CraftingSelectedItem.Asset.Description;
 		let Background = MouseIn(80, 250, 225, 275) && !CommonIsMobile ? "cyan" : "#fff";
 		let Foreground = "Black";
@@ -652,7 +652,7 @@ function CraftingClick() {
 		let Pos = 0;
 		for (let L = 0; L < CraftingLockList.length; L++)
 			for (let Item of Player.Inventory)
-				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && (Item.Asset.Group != null) && (Item.Asset.Group.Name == "ItemMisc")) {
+				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && Item.Asset.IsLock) {
 					let X = (Pos % 8) * 249 + 17;
 					let Y = Math.floor(Pos / 8) * 290 + 130;
 					if (MouseIn(X, Y, 225, 275)) {
@@ -776,7 +776,7 @@ function CraftingConvertItemToSelected(Craft) {
 		Type: Craft.Type || "",
 		Property: Craft.Property,
 		Asset: Player.Inventory.find(a => a.Asset.Name === Craft.Item && !a.Asset.IsLock).Asset,
-		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.Group.Name === "ItemMisc" && a.Asset.Name == Craft.Lock).Asset : null,
+		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
 		OverridePriority: Craft.OverridePriority,
 	};
 }
@@ -810,7 +810,7 @@ function CraftingAppliesToItem(Craft, Item) {
 	const matchingAssets = Asset.filter(a => a.Name === craftAsset.Name || a.CraftGroup === craftAsset.Name);
 
 	// Now check any of those matches are the item to test
-	return matchingAssets.find(m => m.Name === Item.Name && m.Group.Name === Item.Group.Name);
+	return matchingAssets.find(m => m.Name === Item.Name && m.DynamicGroupName === Item.DynamicGroupName);
 
 }
 
@@ -830,8 +830,8 @@ function CraftingItemListBuild() {
 	for (let A of Asset) {
 
 		// That asset must be in the player inventory or location-specific, not for clothes or spanking toys
-		if (!InventoryAvailable(Player, A.Name, A.Group.Name) && A.AvailableLocations.length === 0) continue;
-		if (!A.Enable || !A.Wear || !A.Group.Name.startsWith("Item") || A.IsLock) continue;
+		if (!InventoryAvailable(Player, A.Name, A.DynamicGroupName) && A.AvailableLocations.length === 0) continue;
+		if (!A.Enable || !A.Wear || !A.Group.IsItem() || A.IsLock) continue;
 
 		// Match against the search term. The empty string matches every string
 		let Match = true;
@@ -966,11 +966,11 @@ const CraftingValidationRecord = {
 /**
  * Validate and sanitinize crafting properties of the passed item inplace.
  * @param {CraftingItem} Craft - The crafted item properties or `null`
- * @param {Asset | null} Asset - The matching Asset. Will be extracted from the player inventory if `null`
+ * @param {Asset | null} asset - The matching Asset. Will be extracted from the player inventory if `null`
  * @param {boolean} Warn - Whether a warning should logged whenever the crafting validation fails
  * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
-function CraftingValidate(Craft, Asset=null, Warn=true) {
+function CraftingValidate(Craft, asset=null, Warn=true) {
 	if (Craft == null) {
 		return CraftingStatusType.CRITICAL_ERROR;
 	}
@@ -979,12 +979,10 @@ function CraftingValidate(Craft, Asset=null, Warn=true) {
 	const Name = Craft.Name;
 
 	// Manually search for the Asset if it has not been provided
-	if (Asset == null) {
-		const Item = Player.Inventory.find((a) => a.Name === Craft.Item);
-		if (Item === undefined) {
+	if (asset == null) {
+		asset = Asset.find(a => a.Name === Craft.Item);
+		if (asset === undefined) {
 			StatusMap.set("Item", CraftingStatusType.CRITICAL_ERROR);
-		} else {
-			Asset = Item.Asset;
 		}
 	}
 
@@ -994,12 +992,12 @@ function CraftingValidate(Craft, Asset=null, Warn=true) {
 	 * can't properly validate them. Note that this will introduce the potential for false negatives.
 	 */
 	for (const [AttrName, {Validate, GetDefault, StatusCode}] of Object.entries(CraftingValidationRecord)) {
-		if (!Validate(Craft, Asset)) {
+		if (!Validate(Craft, asset)) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
 				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
 			}
-			Craft[AttrName] = GetDefault(Craft, Asset);
+			Craft[AttrName] = GetDefault(Craft, asset);
 			StatusMap.set(AttrName, StatusCode);
 		} else {
 			StatusMap.set(AttrName, CraftingStatusType.OK);
@@ -1007,9 +1005,9 @@ function CraftingValidate(Craft, Asset=null, Warn=true) {
 	}
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable
-	if ((Asset != null) && (StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR)) {
+	if ((asset != null) && (StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR)) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
-		Craft.Item = Asset.Name;
+		Craft.Item = asset.Name;
 	}
 
 	// Check for extra attributes

@@ -156,6 +156,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		PickDifficulty: (AssetDef.PickDifficulty == null) ? 0 : AssetDef.PickDifficulty,
 		OwnerOnly: (AssetDef.OwnerOnly == null) ? false : AssetDef.OwnerOnly,
 		LoverOnly: (AssetDef.LoverOnly == null) ? false : AssetDef.LoverOnly,
+		FamilyOnly: (AssetDef.FamilyOnly == null) ? false : AssetDef.FamilyOnly,
 		ExpressionTrigger: AssetDef.ExpressionTrigger,
 		RemoveItemOnRemove: (AssetDef.RemoveItemOnRemove == null) ? Group.RemoveItemOnRemove : Group.RemoveItemOnRemove.concat(AssetDef.RemoveItemOnRemove),
 		AllowEffect: AssetDef.AllowEffect,
@@ -217,8 +218,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
 		ColorSuffix: typeof Group.ColorSuffix === "object" ? Group.ColorSuffix : {},
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
-		TextMaxLength: typeof AssetDef.TextMaxLength === "object" ? AssetDef.TextMaxLength : null,
-		TextFont: typeof AssetDef.TextFont === "string" ? AssetDef.TextFont : null,
 	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
 
 	// Ensure opacity value is valid
@@ -251,9 +250,19 @@ function AssetBuildExtended(A, ExtendedConfig) {
 		return;
 	}
 
-	if (AssetConfig.CopyConfig) {
-		const { Config: Overrides, Archetype } = AssetConfig;
+	const visited = new Set([`${A.Group.Name}${A.Name}`]);
+	while (AssetConfig.CopyConfig) {
+		const { Config: Overrides, Archetype } = /** @type {AssetArchetypeConfig} */(AssetConfig);
 		const { GroupName, AssetName } = AssetConfig.CopyConfig;
+
+		const key = `${GroupName || A.Group.Name}${AssetName}`;
+		if (visited.has(key)) {
+			console.error(`Found cyclic CopyConfig reference in ${A.Group.Name}:${A.Name}:`, visited);
+			return;
+		} else {
+			visited.add(key);
+		}
+
 		AssetConfig = AssetFindExtendedConfig(ExtendedConfig, GroupName || A.Group.Name, AssetName);
 		if (!AssetConfig) {
 			console.error(`CopyConfig ${GroupName || A.Group.Name}:${AssetName} not found for ${A.Group.Name}:${A.Name}`);
@@ -271,16 +280,19 @@ function AssetBuildExtended(A, ExtendedConfig) {
 
 	switch (AssetConfig.Archetype) {
 		case ExtendedArchetype.MODULAR:
-			ModularItemRegister(A, AssetConfig.Config);
+			ModularItemRegister(A, AssetConfig.Config || {});
 			break;
 		case ExtendedArchetype.TYPED:
-			TypedItemRegister(A, AssetConfig.Config);
+			TypedItemRegister(A, AssetConfig.Config || {});
 			break;
 		case ExtendedArchetype.VIBRATING:
-			VibratorModeRegister(A, AssetConfig.Config);
+			VibratorModeRegister(A, AssetConfig.Config || {});
 			break;
 		case ExtendedArchetype.VARIABLEHEIGHT:
-			VariableHeightRegister(A, AssetConfig.Config, AssetConfig.Config ? AssetConfig.Config.BaselineProperty : undefined);
+			VariableHeightRegister(A, /** @type {VariableHeightConfig} */(AssetConfig.Config));
+			break;
+		case ExtendedArchetype.TEXT:
+			TextItemRegister(A, /** @type {TextItemConfig} */(AssetConfig.Config));
 			break;
 	}
 	A.Archetype = AssetConfig.Archetype;
@@ -560,6 +572,7 @@ function AssetLoadAll() {
 	Asset = [];
 	AssetGroup = [];
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
+	ExtendedItemManualRegister();
 	Pose = PoseFemale3DCG;
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 }

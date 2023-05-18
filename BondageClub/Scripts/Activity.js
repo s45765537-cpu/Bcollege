@@ -99,7 +99,7 @@ function ActivityGetGroupOrMirror(family, groupname) {
 /**
  * Gets all groups that mirror or are mirrored by the given group name for activities. The returned array includes the
  * named group.
- * @param {string} family - The asset family for the named group
+ * @param {IAssetFamily} family - The asset family for the named group
  * @param {AssetGroupName} groupName - The name of the group to resolve
  * @returns {AssetGroup[]} - The group and all groups from the same family that mirror or are mirrored by it
  */
@@ -157,7 +157,7 @@ function ActivityCheckPermissions(activity, character, onOther) {
 
 /**
  * Check that that a given prerequisite is met.
- * @param {string} prereq - The prerequisite to consider
+ * @param {ActivityPrerequisite} prereq - The prerequisite to consider
  * @param {Character|PlayerCharacter} acting - The character performing the activity
  * @param {Character|PlayerCharacter} acted - The character being acted on
  * @param {AssetGroup} group - The group being acted on
@@ -199,10 +199,6 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			if (group.Name === "ItemButt")
 				return !acted.IsPlugged();
 			break;
-		case "UseVulva":
-			return acting.HasVagina() && !acting.IsVulvaFull();
-		case "UseAss":
-			return !acted.IsAssFull();
 		case "MoveHead":
 			if (group.Name === "ItemHead")
 				return !acted.IsFixedHead();
@@ -222,6 +218,8 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return InventoryPrerequisiteMessage(actor, "AccessButt") === "" && !(actor.IsPlugged() || actor.IsButtChaste());
 			else if (group.Name === "ItemVulva")
 				return (InventoryPrerequisiteMessage(actor, "AccessVulva") === "") && !actor.IsVulvaChaste();
+			else if (group.Name === "ItemVulvaPiercings")
+				return (InventoryPrerequisiteMessage(actor, "AccessVulva") === "") && !actor.IsVulvaChaste();
 			else if (group.Name === "ItemBreast" || group.Name === "ItemNipples")
 				return (InventoryPrerequisiteMessage(actor, "AccessBreast") === "") && !actor.IsBreastChaste();
 			else if (group.Name === "ItemBoots")
@@ -230,27 +228,16 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return InventoryPrerequisiteMessage(actor, "NakedHands") === "";
 			break;
 		}
-		case "TargetHasPenis":
-			return acted.HasPenis();
-		case "HasPenis":
-			return acting.HasPenis();
 		case "CanUsePenis":
 			if (acting.HasPenis())
 				return InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 			break;
-		case "TargetHasVagina":
-			return acted.HasVagina();
-		case "HasVagina":
-			return acting.HasVagina();
-		case "TargetHasBreasts":
-			return !acted.IsFlatChested();
-		case "HasBreasts":
-			return !acting.IsFlatChested();
-		case "TargetHasFlatChest":
-			return acted.IsFlatChested();
-		case "HasFlatChest":
-			return acting.IsFlatChested();
-
+		case "Sisters":
+			return !acting.HasPenis() && !acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+		case "Brothers":
+			return acting.HasPenis() && acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+		case "SiblingsWithDifferentGender":
+			return (acting.HasPenis() != acted.HasPenis()) && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
 		default:
 			break;
 	}
@@ -389,7 +376,7 @@ function ActivityAllowedForGroup(character, groupname) {
 /**
  * Returns TRUE if an activity can be done
  * @param {Character} C - The character to evaluate
- * @param {string} Activity - The name of the activity
+ * @param {ActivityName} Activity - The name of the activity
  * @param {AssetGroupName} Group - The name of the group
  * @return {boolean} - TRUE if the activity can be done
  */
@@ -405,7 +392,7 @@ function ActivityCanBeDone(C, Activity, Group) {
  * Calculates the effect of an activity performed on a zone
  * @param {Character} S - The character performing the activity
  * @param {Character} C - The character on which the activity is performed
- * @param {string|Activity} A - The activity performed
+ * @param {ActivityName | Activity} A - The activity performed
  * @param {AssetGroupName} Z - The group/zone name where the activity was performed
  * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
@@ -827,7 +814,7 @@ function ActivityTimerProgress(C, Progress) {
 /**
  * Set the current vibrator level for drawing purposes
  * @param {Character} C - Character for which the timer is progressing
- * @param {number} Level - Level from 0 to 4 (higher = more vibration)
+ * @param {0 | 1 | 2 | 3 | 4} Level - Level from 0 to 4 (higher = more vibration)
  * @returns {void} - Nothing
  */
 function ActivityVibratorLevel(C, Level) {

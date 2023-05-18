@@ -14,6 +14,7 @@ const NEEDED_FILES = [
 	"Scripts/VariableHeight.js",
 	"Scripts/VibratorMode.js",
 	"Scripts/Property.js",
+	"Scripts/TextItem.js",
 	"Screens/Inventory/Futuristic/Futuristic.js",
 	"Screens/Inventory/ItemTorso/FuturisticHarness/FuturisticHarness.js",
 	"Screens/Inventory/ItemNeckAccessories/CollarNameTag/CollarNameTag.js",
@@ -21,7 +22,6 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemButt/InflVibeButtPlug/InflVibeButtPlug.js",
 	"Screens/Inventory/ItemDevices/VacBedDeluxe/VacBedDeluxe.js",
 	"Screens/Inventory/ItemDevices/WoodenBox/WoodenBox.js",
-	"Screens/Inventory/ItemDevices/TransportWoodenBox/TransportWoodenBox.js",
 	"Screens/Inventory/ItemPelvis/SciFiPleasurePanties/SciFiPleasurePanties.js",
 	"Screens/Inventory/ItemNeckAccessories/CollarShockUnit/CollarShockUnit.js",
 	"Screens/Inventory/ItemVulva/ClitAndDildoVibratorbelt/ClitAndDildoVibratorbelt.js",
@@ -34,6 +34,20 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemVulva/LoversVibrator/LoversVibrator.js",
 	"Screens/Inventory/ItemButt/AnalBeads2/AnalBeads2.js",
 	"Screens/Inventory/ItemDevices/LuckyWheel/LuckyWheel.js",
+	"Screens/Inventory/ItemDevices/FuturisticCrate/FuturisticCrate.js",
+	"Screens/Inventory/Cloth/CheerleaderTop/CheerleaderTop.js",
+	"Screens/Inventory/ClothAccessory/Bib/Bib.js",
+	"Screens/Inventory/ItemDevices/DollBox/DollBox.js",
+	"Screens/Inventory/ItemDevices/PetBowl/PetBowl.js",
+	"Screens/Inventory/ItemHead/DroneMask/DroneMask.js",
+	"Screens/Inventory/ItemMisc/WoodenSign/WoodenSign.js",
+	"Screens/Inventory/ItemHood/CanvasHood/CanvasHood.js",
+	"Screens/Inventory/ItemPelvis/ObedienceBelt/ObedienceBelt.js",
+	"Screens/Inventory/ItemNeckAccessories/CustomCollarTag/CustomCollarTag.js",
+	"Screens/Inventory/ItemNeckAccessories/ElectronicTag/ElectronicTag.js",
+	"Screens/Inventory/ItemNeckRestraints/PetPost/PetPost.js",
+	"Screens/Inventory/ItemVulva/FuturisticVibrator/FuturisticVibrator.js",
+	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Scripts/Translation.js",
@@ -275,11 +289,6 @@ function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
  * @returns {Set<string>}
  */
 function testTypedItemDialog(groupName, assetName, assetConfig, dialogSet) {
-	// Skip if dialog keys if they are set via CopyConfig; they will be checked when validating the parrent item
-	if (assetConfig.CopyConfig && !assetConfig.Config?.DialogPrefix) {
-		return new Set();
-	}
-
 	const chatSetting = assetConfig.Config?.ChatSetting ?? "toOnly";
 	/** @type {Partial<TypedItemConfig["DialogPrefix"]>} */
 	const dialogConfig = {
@@ -588,9 +597,19 @@ function sanitizeVMOutput(input) {
 				const groupConfig = AssetFemale3DCGExtended[Group.Group] || {};
 				let assetConfig = groupConfig[Asset.Name];
 				if (assetConfig) {
-					if (assetConfig && assetConfig.CopyConfig) {
+					const visited = new Set([`${Group.Group}${Asset.Name}`]);
+					while (assetConfig.CopyConfig) {
 						const { Config: Overrides, Archetype } = assetConfig;
 						const { GroupName, AssetName } = assetConfig.CopyConfig;
+
+						const key = `${GroupName || Group.Group}${AssetName}`;
+						if (visited.has(key)) {
+							console.error(`Found cyclic CopyConfig reference in ${Group.Group}:${Asset.Name}:`, visited);
+							return;
+						} else {
+							visited.add(key);
+						}
+
 						assetConfig = (AssetFemale3DCGExtended[GroupName || Group.Group] || {} )[AssetName];
 						if (!assetConfig) {
 							error(`Asset ${Group.Group}:${Asset.Name}: CopyConfig target not found!`);
@@ -602,6 +621,10 @@ function sanitizeVMOutput(input) {
 							assetConfig = Object.assign({}, assetConfig, {Config: MergedConfig});
 						}
 					}
+
+					// Overwrite the config to the fully resolved version. That saves the rest of the checks from having to handle that.
+					AssetFemale3DCGExtended[Group.Group][Asset.Name] = assetConfig;
+
 					if (assetConfig.Config) {
 						if (assetConfig.Archetype === "typed") {
 							const HasSubscreen = !localError && assetConfig.Config.Options?.some(option => !!option.HasSubscreen);
@@ -624,9 +647,6 @@ function sanitizeVMOutput(input) {
 					if (assetConfig.Archetype === "typed" && Asset.AllowType !== undefined) {
 						error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowType`);
 					}
-					if (!["modular", "typed", "vibrating"].includes(assetConfig.Archetype)) {
-						error(`Extended asset archetype for ${Group.Group}:${Asset.Name}: Unknown Archetype ${assetConfig.Archetype}`);
-					}
 				}
 			}
 
@@ -648,10 +668,6 @@ function sanitizeVMOutput(input) {
 
 			if (!localError) {
 				GroupAssets.push(Asset);
-			}
-
-			if (Asset.TextFont != null && Asset.DynamicAfterDraw !== true) {
-				error(`Asset ${Group.Group}:${Asset.Name}: Assets should only define "TextFont" if "DynamicAfterDraw" is set to true`);
 			}
 		}
 	}
@@ -703,36 +719,6 @@ function sanitizeVMOutput(input) {
 		error(`Unused Asset/Group description: ${desc.join(",")}`);
 	}
 
-	// Check player dialog in AssetFemale3DCGExtended
-	Object.values(AssetFemale3DCGExtended).forEach((category) => {
-		Object.values(Object(category)).forEach((asset) => {
-			const dialog = asset.Config && asset.Config.Dialog;
-			const options = asset.Config && asset.Config.Options;
-			if (!dialog || !options) {
-				return;
-			}
-
-			options.forEach((option) => {
-				if (option.ArchetypeConfig && option.ArchetypeConfig.Dialog) {
-					const optionDialog = option.ArchetypeConfig.Dialog;
-					if (!dialogArray.find(e => e[0] === optionDialog.ChatPrefix)) {
-						error(`Missing Dialog: '${optionDialog.ChatPrefix}'`);
-					}
-					return;
-				}
-
-				[dialog.ChatPrefix, dialog.TypePrefix].forEach((prefix) => {
-					if (
-						prefix
-						&& typeof prefix !== "function"
-						&& !dialogArray.find(e => e[0] === prefix + option.Name)
-					) {
-						error(`Missing Dialog: '${prefix + option.Name}'`);
-					}
-				});
-			});
-		});
-	});
 
 	testDynamicGroupName(AssetFemale3DCG);
 	testTypedOptionName(AssetFemale3DCGExtended);

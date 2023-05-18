@@ -7,11 +7,12 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Aceffect", "Alex", "Anna", "AnnaBella", "ArashiSama", "Aylea", "Bryce", "Christian", "Clash", 
-	"DarkStar", "Dave", "Desch", "Dynilath", "Edwin", "Elfreda", "Escurse", "Faleata", "FanRunner", 
-	"Greendragon", "JoeyDubDee", "m4c0202", "Michal", "Michel", "Mike", "Mindtie", "Misa", "Nick", 
-	"Nightcore", "Nora", "Qrroww", "Rika", "Schrödingers", "SexyWonder", "Shadow", "Tam", 
-	"Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xepherio", "William"
+	"Aceffect", "Alex", "Anna", "AnnaBella", "ArashiSama", "Aylea", "BlueWinter", "Bryce", 
+	"Christian", "DarkStar", "Dave", "Desch", "dynilath", "Edwin", "Elfreda", "Escurse", 
+	"Faleata", "FanRunner", "Greendragon", "JoeyDubDee", "M4c0202", "Michal", "Michel", 
+	"Mike", "Mindtie", "Misa", "Nick", "Nightcore", "Nora", "Qrroww", "Rika", 
+	"Schrödingers", "SexyWonder", "Shadow", "Tam", "Tarram", "TonyBoy", 
+	"TopHat", "Troubadix", "WhiteSniper", "Xepherio", "William"
 ];
 
 /* eslint-enable */
@@ -641,7 +642,7 @@ function LoginResponse(C) {
 			if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
 			ChatSearchLanguage = C.RoomSearchLanguage;
 			if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-			if (ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+			if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 			// Load the last chat room
 			Player.LastChatRoom = C.LastChatRoom;
@@ -739,6 +740,7 @@ function LoginResponse(C) {
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
 			CraftingLoadServer(C.Crafting);
+			Player.ConfiscatedItems = C.ConfiscatedItems;
 
 			// Calls the preference init to make sure the preferences are loaded correctly
 			PreferenceInitPlayer();
@@ -778,6 +780,8 @@ function LoginResponse(C) {
 			LoginCheatItems();
 			LoginValideBuyGroups();
 			LoginValidateArrays();
+			PrisonRestoreConfiscatedItems();
+
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
 			AsylumGGTSSAddItems();

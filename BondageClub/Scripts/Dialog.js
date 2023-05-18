@@ -90,6 +90,7 @@ var DialogLockMenu = false;
 var DialogCraftingMenu = false;
 var DialogLentLockpicks = false;
 var DialogGamingPreviousRoom = "";
+/** @type {"" | ModuleType} */
 var DialogGamingPreviousModule = "";
 var DialogButtonDisabledTester = /Disabled(For\w+)?$/u;
 /**
@@ -527,7 +528,9 @@ function DialogStartKinkyDungeon() {
 	}
 	DialogGamingPreviousRoom = CurrentScreen;
 	DialogGamingPreviousModule = CurrentModule;
-	MiniGameStart("KinkyDungeon", 0, "DialogEndKinkyDungeon");
+	if (ArcadeKinkyDungeonLoad()) {
+		MiniGameStart("KinkyDungeon", 0, "DialogEndKinkyDungeon");
+	}
 }
 
 
@@ -536,7 +539,9 @@ function DialogStartKinkyDungeon() {
  * @returns {void}
  */
 function DialogEndKinkyDungeon() {
-	CommonSetScreen(DialogGamingPreviousModule, DialogGamingPreviousRoom);
+	if (DialogGamingPreviousModule) {
+		CommonSetScreen(DialogGamingPreviousModule, DialogGamingPreviousRoom);
+	}
 }
 
 /**
@@ -549,11 +554,17 @@ function DialogHasKey(C, Item) {
 	if (InventoryGetItemProperty(Item, "SelfUnlock") == false && (!Player.CanInteract() || C.ID == 0)) return false;
 	if (C.IsOwnedByPlayer() && InventoryAvailable(Player, "OwnerPadlockKey", "ItemMisc") && Item.Asset.Enable) return true;
 	const lock = InventoryGetLock(Item);
+	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && LogQuery("BlockFamilyKey", "OwnerRule") && (Player.Ownership != null) && (Player.Ownership.Stage >= 1)) return false;
 	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && Item.Asset.Enable && Item.Property && Item.Property.LockedBy && !Item.Property.LockedBy.startsWith("Owner")) return true;
-	if (lock && lock.Asset.ExclusiveUnlock && ((!Item.Property.MemberNumberListKeys && Item.Property.LockMemberNumber != Player.MemberNumber) || (Item.Property.MemberNumberListKeys && CommonConvertStringToArray("" + Item.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) < 0))) return false;
-
-	if (lock && lock.Asset.ExclusiveUnlock) return true;
-
+	if (lock && lock.Asset.ExclusiveUnlock) {
+		// Locks with exclusive access (intricate, high-sec)
+		const allowedMembers = CommonConvertStringToArray(Item.Property.MemberNumberListKeys);
+		// High-sec, check if we're in the keyholder list
+		if (Item.Property.MemberNumberListKeys != null) return allowedMembers.includes(Player.MemberNumber);
+		// Intricate, check that we added that lock
+		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
+	}
+	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (C.ID != 0) && !C.IsFamilyOfPlayer()) return false;
 	let UnlockName = /** @type {EffectName} */("Unlock-" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock-" + Item.Property.LockedBy);
@@ -580,7 +591,7 @@ function DialogCanUnlock(C, Item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.OwnerOnly == true)) return Item.Asset.Enable && C.IsOwnedByPlayer();
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.LoverOnly == true)) return Item.Asset.Enable && C.IsLoverOfPlayer();
-
+	if ((Item != null) && (Item.Asset != null) && (Item.Asset.FamilyOnly == true)) return Item.Asset.Enable && C.IsFamilyOfPlayer();
 	return DialogHasKey(C, Item);
 }
 
@@ -630,7 +641,7 @@ function DialogLeave() {
 	DialogSelfMenuSelected = null;
 	DialogSavedExpressionPreviews = [];
 	DialogFacialExpressionsSelected = -1;
-	ClearButtons();
+	ControllerClearAreas();
 	DialogFacialExpressions = [];
 }
 
@@ -652,7 +663,7 @@ function DialogRemove() {
 
 /**
  * Generic dialog function to remove any dialog from a specific group
- * @param {AssetGroupName} GroupName - All dialog options are removed from this group
+ * @param {string} GroupName - All dialog options are removed from this group
  * @returns {void} - Nothing
  */
 function DialogRemoveGroup(GroupName) {
@@ -749,7 +760,7 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 		if (!isWorn && !asset.Enable)
 			return;
 
-		// Make sure we do not add owner/lover only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
+		// Make sure we do not add owner/lover/family only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (asset.OwnerOnly && !isWorn && !C.IsOwnedByPlayer())
 			if ((C.ID != 0) || ((C.Owner == "") && (C.Ownership == null)) || !asset.IsLock || ((C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return;
@@ -760,6 +771,9 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 			}
 			else if (!C.IsOwnedByPlayer() || LogQueryRemote(C, "BlockLoverLockOwner", "LoverRule")) return;
 		}
+		if (asset.FamilyOnly && asset.IsLock && !isWorn && (C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")) return;
+		if (asset.FamilyOnly && (C.ID != 0) && !C.IsFamilyOfPlayer()) return;
+		if (asset.FamilyOnly && asset.IsLock && (C.ID != 0) && C.IsOwner()) return;
 
 		// Do not show keys if they are in the deposit
 		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(item)) return;
@@ -864,6 +878,7 @@ function DialogGetAssetIcons(asset) {
 	icons = icons.concat(asset.PreviewIcons);
 	if (asset.OwnerOnly) icons.push("OwnerOnly");
 	if (asset.LoverOnly) icons.push("LoverOnly");
+	if (asset.FamilyOnly) icons.push("FamilyOnly");
 	if (asset.AllowActivity && asset.AllowActivity.length > 0) icons.push("Handheld");
 	return icons;
 }
@@ -1129,6 +1144,7 @@ function DialogMenuButtonBuild(C) {
 					(!IsGroupBlocked || Item.Asset.AlwaysExtend) &&
 					(!Item.Asset.OwnerOnly || (C.IsOwnedByPlayer())) &&
 					(!Item.Asset.LoverOnly || (C.IsLoverOfPlayer())) &&
+					(!Item.Asset.FamilyOnly || (C.IsFamilyOfPlayer())) &&
 					canUseRemoteState === "InvalidItem"
 				) {
 					DialogMenuButton.push(ItemBlockedOrLimited ? "UseDisabled" : "Use");
@@ -1186,8 +1202,10 @@ function DialogCanUseCraftedItem(C, Craft) {
 	for (let A of Asset) {
 		if ((A.Name == Craft.Item) && A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
 		if ((A.Name == Craft.Item) && A.LoverOnly && !C.IsLoverOfPlayer()) return false;
+		if ((A.Name == Craft.Item) && A.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
 		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
 		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.LoverOnly && !C.IsLoverOfPlayer()) return false;
+		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
 	}
 	return true;
 }
@@ -1366,7 +1384,11 @@ function DialogBuildSavedExpressionsMenu() {
 			const PreviewCharacter = CharacterLoadSimple("SavedExpressionPreview-" + i);
 			PreviewCharacter.Appearance = BaseAppearance.slice();
 			ExpressionGroups.forEach(I =>
-				PreviewCharacter.Appearance.push({ Asset: I.Asset, Color: I.Color })
+				PreviewCharacter.Appearance.push({
+					Asset: I.Asset,
+					Color: I.Color,
+					Property: I.Property ? { ...I.Property } : undefined,
+				})
 			);
 
 			for (let x = 0; x < expression.length; x++) {
@@ -2486,8 +2508,8 @@ function DialogFindAutoReplace(C, KeyWord1, KeyWord2, ReturnPrevious) {
  * @returns {void} - Nothing
  */
 function DialogDraw() {
-	if (ControllerActive == true) {
-		ClearButtons();
+	if (ControllerIsActive()) {
+		ControllerClearAreas();
 	}
 	// Draw both the player and the interaction character
 	if (CurrentCharacter.ID != 0) DrawCharacter(Player, 0, 0, 1);
@@ -2788,6 +2810,7 @@ function DialogDrawOwnerRulesMenu() {
 	if (LogQuery("BlockChange", "OwnerRule")) ToDisplay.push({ Tag: "BlockChange", Value: LogValue("BlockChange", "OwnerRule") });
 	if (LogQuery("BlockWhisper", "OwnerRule")) ToDisplay.push({ Tag: "BlockWhisper" });
 	if (LogQuery("BlockKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockKey" });
+	if (LogQuery("BlockFamilyKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockFamilyKey" });
 	if (LogQuery("BlockRemote", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemote" });
 	if (LogQuery("BlockRemoteSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemoteSelf" });
 	if (LogQuery("ReleasedCollar", "OwnerRule")) ToDisplay.push({ Tag: "ReleasedCollar" });

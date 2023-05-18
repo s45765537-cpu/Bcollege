@@ -67,7 +67,9 @@ Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,ButtonShirt,Button Shirt
 Cloth,SlaveRags,Slave Rags
 Cloth,Hoodie,Cropped Hoodie
+Cloth,LatexTankTop,Latex Tank Top
 Cloth,CheerleaderTop,Cheerleader Top
+Cloth,FrilledShirt,Latex Frilled Shirt
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -160,6 +162,8 @@ ClothLower,RuffledSkirt,Ruffled Skirt
 ClothLower,CrossSkirt,Cross Skirt
 ClothLower,CheerleaderSkirt,Cheerleader Skirt
 ClothLower,CrossSkirtLight,Cross Skirt (light)
+ClothLower,TulleSkirt,Fitted Pleated Skirt
+ClothLower,PantBoots,Long Latex Pants
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
@@ -227,6 +231,7 @@ Bra,Bra10,Style 4
 Bra,CoconutBra,Coconut Bra
 Bra,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
 Bra,DominatrixLeotard,Dominatrix Leotard
+Bra,StrapBra, Strap Bra
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -237,6 +242,7 @@ Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,Corset6,Noble Corset
 Corset,SteampunkCorsetTop1,Steampunk Corset
+Corset,Underbust,Boned Underbust Corset
 Panties,,Panties
 Panties,Panties1,Style 1
 Panties,Panties7,Style 2
@@ -366,9 +372,11 @@ Shoes,Shoes2,Style 2
 Shoes,Shoes4,Style 3
 Shoes,Sneakers1,Sneakers Light
 Shoes,Sneakers2,Sneakers Dark
+Shoes,SneakersSport,Sneakers Sport
 Shoes,Heels1,Heels
 Shoes,Heels2,Heels Strap
 Shoes,Boots1,Boots
+Shoes,AnkleBoots1,Ankle Boots
 Shoes,MistressBoots,Mistress Boots
 Shoes,PonyBoots,Pony Boots
 Shoes,Sandals,Strap Sandals
@@ -385,6 +393,8 @@ Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,Shoes5,Style 4
 Shoes,FuturisticHeels2,Futuristic Heels
 Shoes,FuzzyBoots,Fuzzy Boots
+Shoes,LatexHeels, Latex Heels
+Shoes,ThighBoots, Latex ThighBoots
 Hat,,Hat
 Hat,Band1,Hair Band
 Hat,Band2,Jeweled Band
@@ -512,6 +522,7 @@ Gloves,FishnetGloves, Fishnet Gloves
 Gloves,HaremGlove,Harem Gloves
 Gloves,BikerGloves,Biker Gloves
 Gloves,CheerleaderPomPoms,Pom Poms
+Gloves,LatexShortGloves,Latex Gloves
 LeftHand,,Left Hand
 LeftHand,Rings,Rings
 RightHand,,Right Hand
@@ -537,6 +548,7 @@ Glasses,EyePatch1,Eye Patch
 Glasses,CatGlasses,Cat-Eye Glasses
 Glasses,VGlasses,V Glasses
 Glasses,GradientSunglasses,Gradient Sunglasses
+Glasses,Goggles,Goggles
 Mask,,Mask
 Mask,VenetianMask,Venetian Mask
 Mask,DominoMask,Domino Mask
@@ -831,8 +843,10 @@ ItemFeet,HempRope,Hemp Rope
 ItemFeet,LeatherBelt,Leather Belt
 ItemFeet,SturdyLeatherBelts,Sturdy Leather Belt
 ItemFeet,Irish8Cuffs,Irish 8 Feet Cuffs
+ItemFeet,HeavyAnkleCuffs,Heavy Ankle Cuffs
 ItemFeet,DuctTape,Duct Tape
 ItemFeet,LeatherAnkleCuffs,Leather Ankle Cuffs
+ItemFeet,LeatherDeluxeAnkleCuffs,Leather Deluxe Ankle Cuffs
 ItemFeet,FloorShackles,Floor Shackles
 ItemFeet,SteelAnkleCuffs,Steel Ankle Cuffs
 ItemFeet,EscortAnkleCuffs,Escort Ankle Cuffs
@@ -840,6 +854,7 @@ ItemFeet,FuturisticAnkleCuffs,Futuristic Ankle Cuffs
 ItemFeet,OrnateAnkleCuffs,Ornate Ankle Cuffs
 ItemFeet,HighStyleSteelAnkleCuffs,HighStyle Steel Ankle Cuffs
 ItemFeet,SpreaderMetal, Metal Leg Spreader
+ItemFeet,HeavySpreaderMetal, Heavy Leg Spreader
 ItemFeet,BallChain,Ball And Chain
 ItemFeet,AnkleShackles, Ankle Shackles
 ItemFeet,Zipties, Zip Ties
@@ -859,6 +874,7 @@ ItemLegs,LeatherBelt,Leather Belt
 ItemLegs,SturdyLeatherBelts,Sturdy Leather Belt
 ItemLegs,DuctTape,Duct Tape
 ItemLegs,LeatherLegCuffs,Leather Leg Cuffs
+ItemLegs,LeatherDeluxeLegCuffs,Leather Deluxe Leg Cuffs
 ItemLegs,FuturisticLegCuffs,Futuristic Leg Cuffs
 ItemLegs,OrnateLegCuffs,Ornate Leg Cuffs
 ItemLegs,LegBinder,Leg Binder
@@ -903,6 +919,7 @@ ItemVulva,VibeEggPenisBase,Vibrating Egg
 ItemVulva,PlasticChastityCage2,Plastic Chastity Cage 2
 ItemVulva,TechnoChastityCage,Techno Chastity Cage
 ItemVulva,FlatChastityCage,Flat Chastity Cage
+ItemVulva,InflatableVibratingPanties, Inflatable Vibrating Panties
 ItemVulvaPiercings,,Clitoris
 ItemVulvaPiercings,StraightClitPiercing,Straight Clitoris Piercing
 ItemVulvaPiercings,RoundClitPiercing,Round Clitoris Piercing
@@ -981,6 +998,7 @@ ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
 ItemPelvis,PoofyDiaper,Poofy Chastity Diaper
 ItemPelvis,HybridChastityBelt,Hybrid Chastity Belt
 ItemPelvis,ObedienceBelt,Obedience Belt
+ItemPelvis,PortalPanties,Portal Panties
 ItemTorso,,Torso
 ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,HempRopeHarness,Hemp Rope
@@ -1007,6 +1025,7 @@ ItemTorso,LockingSwimsuit,Locking Swimsuit
 ItemTorso,LockingSwimsuit2,Locking Swimsuit 2
 ItemTorso,LeatherChestHarness1,Leather Chest Harness 1
 ItemTorso,NavelBar1,Navel Bar
+ItemTorso,Underbust,Boned Underbust Corset
 ItemTorso2,,Torso
 ItemTorso2,LockingSwimsuit,Locking Swimsuit
 ItemTorso2,LeatherStrapHarness,Leather Strap Body Harness
@@ -1033,6 +1052,7 @@ ItemTorso2,ThinLeatherStraps,Thin Leather Straps
 ItemTorso2,LockingSwimsuit2,Locking Swimsuit 2
 ItemTorso2,LeatherChestHarness1,Leather Chest Harness 1
 ItemTorso2,NavelBar1,Navel Bar
+ItemTorso2,Underbust,Boned Underbust Corset
 ItemNipples,,Nipples
 ItemNipples,NippleClamp,Nipple Clamps
 ItemNipples,VibeNippleClamp,Vibrating Nipple Clamps
@@ -1054,6 +1074,7 @@ ItemNipples,ShockClamps,Shock Clamps
 ItemNipples,PlateClamps, Plate Clamps
 ItemNipples,StretchClovers,Nipple Stretchers
 ItemNipples,NippleClamps2, Nipple Clamps 2
+ItemNipples,NippleVibe, Nipple Vibrator
 ItemNipplesPiercings,,Nipples
 ItemNipplesPiercings,StraightPiercing,Straight Piercings
 ItemNipplesPiercings,RoundPiercing,Round Piercings
@@ -1075,6 +1096,7 @@ ItemBreast,FuturisticBra2,Futuristic Bra
 ItemBreast,OrnateChastityBra,Ornate Chastity Bra
 ItemBreast,Ribbons,Ribbons
 ItemBreast,LeatherBreastBinder,Leather Breast Binder
+ItemBreast,TickleBra, Tickle Bra
 ItemArms,,Arms
 ItemArms,NylonRope,Nylon Rope
 ItemArms,HempRope,Hemp Rope
@@ -1083,12 +1105,12 @@ ItemArms,SturdyLeatherBelts,Sturdy Leather Belt
 ItemArms,LeatherArmbinder,Leather Armbinder
 ItemArms,ArmbinderJacket,Armbinder Jacket
 ItemArms,LeatherCuffs,Leather Cuffs
+ItemArms,LeatherDeluxeCuffs,Leather Deluxe Cuffs
 ItemArms,CeilingShackles,Ceiling Shackles
 ItemArms,SteelCuffs,Steel Cuffs
 ItemArms,FuturisticCuffs,Futuristic Cuffs
 ItemArms,OrnateCuffs,Ornate Cuffs
 ItemArms,HighStyleSteelCuffs,HighStyle Steel Cuffs
-ItemArms,MittenChain1,Mittens Chain
 ItemArms,FourLimbsShackles,Four Limbs Shackles
 ItemArms,Manacles,Manacles
 ItemArms,FullBodyShackles,Full Body Shackles
@@ -1107,6 +1129,7 @@ ItemArms,StraitDressOpen,Open Crotch Strait Dress
 ItemArms,SeamlessStraitDress,Seamless Strait Dress
 ItemArms,SeamlessStraitDressOpen,Seamless Open Crotch Strait Dress
 ItemArms,Yoke,Yoke
+ItemArms,HeavyYoke,Heavy Yoke
 ItemArms,Pillory,Pillory
 ItemArms,FullLatexSuit,Full LockDown Latex Suit
 ItemArms,Zipties,Zip Ties
@@ -1146,6 +1169,7 @@ ItemArms,BondageBra,Bondage Bra
 ItemArms,SmoothLeatherArmbinder1,Smooth Lacing Leather Armbinder
 ItemArms,CanvasStraitjacket1,Canvas Straitjacket 1
 ItemArms,SleepSac,SleepSac
+ItemArms,PrisonSJ,Prison Straitjacket
 ItemHands,,Hands
 ItemHands,PaddedMittens,Padded Mittens
 ItemHands,PawMittens,Paw Mittens
@@ -1212,8 +1236,10 @@ ItemHandheld,GlassFilled,Filled Glass
 ItemHandheld,PotionBottle,Potion Bottle
 ItemHandheld,MedicalInjector,Medical Injector
 ItemHandheld,Mug,Mug
+ItemHandheld,PortalTablet,Tablet
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
+ItemNeck,LeatherDeluxeCollar, Leather Deluxe Collar
 ItemNeck,LeatherCollarBell,Bell Collar
 ItemNeck,LeatherCollarBow,Bow Collar
 ItemNeck,SlaveCollar,Slave Collar
@@ -1557,6 +1583,10 @@ ItemHood,FestivalFoxMask,Festival Fox Mask
 ItemHood,InflatableGagMask,Inflatable Gag Mask
 ItemHood,LatexDogMask,Latex Dog Mask
 ItemHood,LatexBunny,Latex Bunny
+ItemHood,FoxHood,Fox Hood
+ItemHood,PantyHood,Panty Hood
+ItemHood,VacHood, Vac Hood
+ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemEars,,Ears
 ItemEars,LightDutyEarPlugs,Light Duty Ear Plugs
 ItemEars,HeavyDutyEarPlugs,Heavy Duty Ear Plugs
@@ -1575,6 +1605,7 @@ ItemMisc,TimerPasswordPadlock,Timer Password Lock
 ItemMisc,OwnerPadlock,Owner Padlock
 ItemMisc,OwnerTimerPadlock,Owner Timer Padlock
 ItemMisc,LoversPadlock,Lovers Padlock
+ItemMisc,FamilyPadlock,D/s Family Padlock
 ItemMisc,LoversTimerPadlock,Lovers Timer Padlock
 ItemMisc,MistressPadlock,Mistress Padlock
 ItemMisc,PandoraPadlock,Pandora's Box Padlock
@@ -1584,6 +1615,7 @@ ItemMisc,SafewordPadlock,Safeword Padlock
 ItemMisc,MetalPadlockKey,Metal Padlock Key
 ItemMisc,OwnerPadlockKey,Owner Padlock Key
 ItemMisc,LoversPadlockKey,Lovers Padlock Key
+ItemMisc,FamilyPadlockKey,D/s Family Padlock Key
 ItemMisc,MistressPadlockKey,Mistress Padlock Key
 ItemMisc,PandoraPadlockKey,Pandora's Box Padlock Key
 ItemMisc,MetalCuffsKey,Metal Cuffs Key

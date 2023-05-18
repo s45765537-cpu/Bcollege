@@ -1,38 +1,11 @@
 "use strict";
 
 /** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemPelvisObedienceBeltEngraving0Load() {
-	PropertyTextLoad();
+function InventoryItemPelvisObedienceBelts1Load() {
 }
 
 /** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemPelvisObedienceBeltEngraving0Draw() {
-	// Draw the header and item
-	ExtendedItemDrawHeader();
-	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
-	PropertyTextDraw();
-}
-
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemPelvisObedienceBeltEngraving0Click() {
-	if (MouseIn(1885, 25, 90, 90)) {
-		InventoryItemPelvisObedienceBeltEngraving0Exit();
-		return;
-	}
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemPelvisObedienceBeltEngraving0Exit() {
-	PropertyTextExit(null, null, true, "ObedienceBeltEngravingUpdated", "ObedienceBeltEngravingErased");
-	ExtendedItemSubscreen = null;
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemPelvisObedienceBeltShockModule1Load() {
-}
-
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemPelvisObedienceBeltShockModule1Draw() {
+function InventoryItemPelvisObedienceBelts1Draw() {
 	// Draw the header and item
 	ExtendedItemDrawHeader(1387, 125);
 
@@ -46,9 +19,9 @@ function InventoryItemPelvisObedienceBeltShockModule1Draw() {
 }
 
 /** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemPelvisObedienceBeltShockModule1Click() {
+function InventoryItemPelvisObedienceBelts1Click() {
 	if (MouseIn(1885, 25, 90, 90)) {
-		InventoryItemPelvisObedienceBeltShockModule1Exit();
+		InventoryItemPelvisObedienceBelts1Exit();
 		return;
 	}
 
@@ -78,7 +51,7 @@ function InventoryItemPelvisObedienceBeltShockModule1Click() {
 }
 
 /** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemPelvisObedienceBeltShockModule1Exit() {
+function InventoryItemPelvisObedienceBelts1Exit() {
 	ExtendedItemSubscreen = null;
 }
 
@@ -155,16 +128,16 @@ function AssetsItemPelvisObedienceBeltScriptDraw(data) {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.AfterDraw<ObedienceBeltPersistentData>} */
-function AssetsItemPelvisObedienceBeltAfterDraw({
-	C, A, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
+/** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData, ObedienceBeltPersistentData>} */
+function AssetsItemPelvisObedienceBeltAfterDrawHook(data, originalFunction, {
+	C, A, CA, X, Y, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
 	if (L !== "_Text") return;
 
 	// Fetch the text property and assert that it matches the character
 	// and length requirements
-	let text = Property && typeof Property.Text === "string" && DynamicDrawTextRegex.test(Property.Text) ? Property.Text : "";
-	text = text.substring(0, A.TextMaxLength.Text);
+	TextItem.Init(data, C, CA, false);
+	const text = CA.Property.Text;
 
 	// Prepare a temporary canvas to draw the text to
 	const height = 60;
@@ -174,7 +147,7 @@ function AssetsItemPelvisObedienceBeltAfterDraw({
 
 	DynamicDrawTextArc(text, ctx, width / 2, 42, {
 		fontSize: 28,
-		fontFamily: A.TextFont,
+		fontFamily: data.font,
 		width,
 		color: Color,
 		angle: Math.PI,

@@ -2,8 +2,7 @@
 
 /**
  * An enum for the options for chat room spaces
- * @readonly
- * @enum {string}
+ * @type {{ MIXED: "X", FEMALE_ONLY: "", MALE_ONLY: "M", ASYLUM: "Asylum" }}
  */
 const ChatRoomSpaceType = {
 	MIXED: "X",
@@ -23,13 +22,17 @@ var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
 /** @type {null | number} */
 var ChatRoomTargetMemberNumber = null;
+/** @type {ChatRoomOwnershipOption} */
 var ChatRoomOwnershipOption = "";
+/** @type {ChatRoomLovershipOption} */
 var ChatRoomLovershipOption = "";
 var ChatRoomPlayerCanJoin = false;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
+/** @type {ChatRoomSpaceType} */
 var ChatRoomSpace = ChatRoomSpaceType.MIXED;
+/** @type {ChatRoomGame} */
 var ChatRoomGame = "";
 /** @type {null | number} */
 var ChatRoomMoveTarget = null;
@@ -297,13 +300,13 @@ function DialogCanChangeClothes() {
 }
 /**
  * Checks if the specified owner option is available.
- * @param {string} Option - The option to check for availability
+ * @param {ChatRoomOwnershipOption} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current ownership option is the specified one.
  */
 function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnershipOption); }
 /**
  * Checks if the specified lover option is available.
- * @param {string} Option - The option to check for availability
+ * @param {ChatRoomLovershipOption} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
@@ -653,8 +656,9 @@ function ChatRoomCanBeLeashedBy(sourceMemberNumber, C) {
 			}
 
 		if (canLeash && !isTrapped) {
-			if (sourceMemberNumber == 0 || !neckLock || (!neckLock.Asset.OwnerOnly && !neckLock.Asset.LoverOnly) ||
+			if (sourceMemberNumber == 0 || !neckLock || (!neckLock.Asset.OwnerOnly && !neckLock.Asset.LoverOnly && !neckLock.Asset.FamilyOnly) ||
 				(neckLock.Asset.OwnerOnly && C.IsOwnedByMemberNumber(sourceMemberNumber)) ||
+				(neckLock.Asset.FamilyOnly && C.IsFamilyOfPlayer()) ||
 				(neckLock.Asset.LoverOnly && C.IsLoverOfMemberNumber(sourceMemberNumber))) {
 				return true;
 			}
@@ -792,11 +796,11 @@ function ChatRoomClearAllElements() {
 /**
  * Starts the chatroom selection screen.
  * @param {ChatRoomSpaceType} Space - Name of the chatroom space
- * @param {string} Game - Name of the chatroom game to play
- * @param {string} LeaveRoom - Name of the room to go back to when exiting chatsearch.
- * @param {string} LeaveSpace - Name of the space to go back to when exiting chatsearch.
+ * @param {ChatRoomGame} Game - Name of the chatroom game to play
+ * @param {null | string} LeaveRoom - Name of the room to go back to when exiting chatsearch.
+ * @param {null | ModuleType} LeaveSpace - Name of the space to go back to when exiting chatsearch.
  * @param {string} Background - Name of the background to use in chatsearch.
- * @param {string[]} BackgroundTagList - List of available backgrounds in the chatroom space.
+ * @param {BackgroundTag[]} BackgroundTagList - List of available backgrounds in the chatroom space.
  * @returns {void} - Nothing.
  */
 function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, BackgroundTagList) {
@@ -1048,31 +1052,33 @@ function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
  * @param {number} Pos Index of target character
  */
 function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
-	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons
+
+	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons, etc. above the character
 	if (ChatRoomHideIconState == 0) {
 		if (Player.WhiteList.includes(C.MemberNumber)) {
-			DrawImageResize("Icons/Small/WhiteList.png", CharX + 75 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+			DrawImageResize("Icons/Small/WhiteList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 		} else if (Player.BlackList.includes(C.MemberNumber)) {
-			DrawImageResize("Icons/Small/BlackList.png", CharX + 75 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
-		}
-		if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber)) {
-			DrawImageResize("Icons/Small/Admin.png", CharX + 125 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
-		}
-		if (C.IsBirthday()) {
-			DrawImageResize("Icons/Small/Birthday.png", CharX + 175 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
-		}
-		if (ChatRoomCarryingBounty(C)) {
-			DrawImageResize("Icons/Small/Money.png", CharX + 225 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
-		}
-		// Warning icon when game versions don't match
-		if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion) {
-			DrawImageResize("Icons/Small/Warning.png", CharX + 325 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+			DrawImageResize("Icons/Small/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 		}
 		if (Player.GhostList.includes(C.MemberNumber)) {
-			DrawImageResize("Icons/Small/GhostList.png", CharX + 375 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+			DrawImageResize("Icons/Small/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 		} else if (Player.FriendList.includes(C.MemberNumber)) {
-			DrawImageResize("Icons/Small/FriendList.png", CharX + 375 * Zoom, CharY, 50 * Zoom, 50 * Zoom);
+			DrawImageResize("Icons/Small/FriendList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 		}
+		if (C.IsBirthday())
+			DrawImageResize("Icons/Small/Birthday.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		else if (C.IsOwner())
+			DrawImageResize("Icons/Small/Owner.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		else if (C.IsLoverOfPlayer())
+			DrawImageResize("Icons/Small/Lover.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		else if (C.IsFamilyOfPlayer())
+			DrawImageResize("Icons/Small/Family.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		if (ChatRoomCarryingBounty(C))
+			DrawImageResize("Icons/Small/Money.png", CharX + 310 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion)
+			DrawImageResize("Icons/Small/Warning.png", CharX + 350 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber))
+			DrawImageResize("Icons/Small/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 
 	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= 1) {
@@ -2683,9 +2689,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	}
 	else if (data.Content == "GiveLockpicks") DialogLentLockpicks = true;
 	else if (data.Content == "RequestFullKinkyDungeonData") {
-		KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
-		if (CurrentScreen == "KinkyDungeon")
+		if (CurrentScreen == "KinkyDungeon") {
+			KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
 			KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true));
+		}
 	}
 	else if (data.Content == "TakeSuitcase") {
 		if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
@@ -3426,84 +3433,6 @@ function ChatRoomSyncRoomProperties(data) {
  * @param {object} data - Object containing the member numbers of the swapped characters.
  * @returns {void} - Nothing.
  */
-function ChatRoomSyncSwapPlayers(data) {
-	if (data == null || (typeof data !== "object")) {
-		return;
-	}
-
-	// Update the chat room characters
-	let index1 = ChatRoomCharacter.findIndex(x => (x.MemberNumber == data.MemberNumber1));
-	let index2 = ChatRoomCharacter.findIndex(x => (x.MemberNumber == data.MemberNumber2));
-
-	if(index1 >= 0 && index2 >= 0) // If we found both characters to swap...
-	{
-		//Swap them
-		let bufferCharacter = ChatRoomCharacter[index1];
-		ChatRoomCharacter[index1] = ChatRoomCharacter[index2];
-		ChatRoomCharacter[index2] = bufferCharacter;
-	}
-
-	// Update the chat room data backup
-	index1 = ChatRoomData.Character.findIndex(x => x.MemberNumber == data.MemberNumber1);
-	index2 = ChatRoomData.Character.findIndex(x => x.MemberNumber == data.MemberNumber2);
-
-	if(index1 >= 0 && index2 >= 0) // If we found both entries to swap...
-	{
-		//Swap them
-		let bufferCharacter = ChatRoomData.Character[index1];
-		ChatRoomData.Character[index1] = ChatRoomData.Character[index2];
-		ChatRoomData.Character[index2] = bufferCharacter;
-	}
-
-}
-
-/**
- * Handles the moving of a player by a room administrator.
- * @param {object} data - Object containing the member numbers of the swapped characters.
- * @returns {void} - Nothing.
- */
-function ChatRoomSyncMovePlayer(data) {
-	if (data == null || (typeof data !== "object")) {
-		return;
-	}
-
-	let moveOffset = 0;
-	switch(data.Direction)
-	{
-		case "Left": moveOffset = -1; break;
-		case "Right": moveOffset = 1; break;
-		default: moveOffset = 0; break;
-	}
-
-	// Update the chat room characters
-	let index = ChatRoomCharacter.findIndex(x => x.MemberNumber == data.TargetMemberNumber);
-	if(index >= 0 && index < ChatRoomCharacter.length &&
-		index+moveOffset >= 0 && index+moveOffset < ChatRoomCharacter.length) // If we found the character to move and the moving is valid...
-	{
-		//Move it
-		let bufferCharacter = ChatRoomCharacter[index];
-		ChatRoomCharacter[index] = ChatRoomCharacter[index+moveOffset];
-		ChatRoomCharacter[index+moveOffset] = bufferCharacter;
-	}
-
-	// Update the chat room data backup
-	index = ChatRoomData.Character.findIndex(x => x.MemberNumber == data.TargetMemberNumber);
-	if(index >= 0 && index < ChatRoomCharacter.length &&
-		index+moveOffset >= 0 && index+moveOffset < ChatRoomCharacter.length) // If we found the entry to move and the moving is valid...
-	{
-		//Move it
-		let bufferCharacter = ChatRoomData.Character[index];
-		ChatRoomData.Character[index] = ChatRoomData.Character[index+moveOffset];
-		ChatRoomData.Character[index+moveOffset] = bufferCharacter;
-	}
-
-}
-
-/**
- * Handles the swapping of two players by a room administrator.
- * @param {object} data - Object containing the member numbers of the swapped characters.
- * @returns {void} - Nothing.
- */
 function ChatRoomSyncReorderPlayers(data) {
 	if (data == null || (typeof data !== "object")) {
 		return;
@@ -4065,7 +3994,7 @@ function DialogChangeClothes() {
 
 /**
  * Triggered when the player selects an ownership dialog option. (It can change money and reputation)
- * @param {string} RequestType - Type of request being performed.
+ * @param {"Propose" | "Accept" | "Release"} RequestType - Type of request being performed.
  * @returns {void} - Nothing
  */
 function ChatRoomSendOwnershipRequest(RequestType) {
@@ -4081,7 +4010,7 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 
 /**
  * Triggered when the player selects an lovership dialog option. (It can change money and reputation)
- * @param {string} RequestType - Type of request being performed.
+ * @param {"Propose" | "Accept" | "Break"} RequestType - Type of request being performed.
  * @returns {void} - Nothing
  */
 function ChatRoomSendLovershipRequest(RequestType) {
@@ -4120,7 +4049,7 @@ function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
 /**
  * Sends a rule / restriction / punishment to the player's slave/lover client, it will be handled on the slave/lover's
  * side when received.
- * @param {string} RuleType - The rule selected.
+ * @param {LogNameType[keyof LogNameType]} RuleType - The rule selected.
  * @param {"Quest" | "Leave"} Option - If the rule is a quest or we should just leave the dialog.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
  * @returns {void} - Nothing
@@ -4134,7 +4063,16 @@ function ChatRoomSendRule(RuleType, Option, Sender) {
 	if ((Option == "Leave") || (Option == "Quest")) DialogLeave();
 }
 
+/**
+ * @param {LogNameType["LoverRule"]} RuleType
+ * @returns {boolean}
+ */
 function ChatRoomGetLoverRule(RuleType) { return ChatRoomGetRule(RuleType, "Lover"); }
+
+/**
+ * @param {LogNameType["OwnerRule"]} RuleType
+ * @returns {boolean}
+ */
 function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owner"); }
 
 /**
@@ -4144,8 +4082,7 @@ function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owne
  * @returns {boolean} - The owner or lover rule corresponding to the requested rule name
  */
 function ChatRoomGetRule(RuleType, Sender) {
-	const QueryLogGroup = /** @type {"OwnerRule" | "LoverRule"}*/(Sender + "Rule");
-	return LogQueryRemote(CurrentCharacter, RuleType, QueryLogGroup);
+	return LogQueryRemote(CurrentCharacter, RuleType, `${Sender}Rule`);
 }
 
 
@@ -4182,8 +4119,10 @@ function ChatRoomSetRule(data) {
 
 		// Key rules
 		if (data.Content == "OwnerRuleKeyAllow") LogDelete("BlockKey", "OwnerRule");
-		if (data.Content == "OwnerRuleKeyConfiscate") {InventoryConfiscateKey(); DialogLentLockpicks = false;}
+		if (data.Content == "OwnerRuleKeyConfiscate") { InventoryConfiscateKey(); DialogLentLockpicks = false; }
 		if (data.Content == "OwnerRuleKeyBlock") LogAdd("BlockKey", "OwnerRule");
+		if (data.Content == "OwnerRuleKeyAllowFamily") LogDelete("BlockFamilyKey", "OwnerRule");
+		if (data.Content == "OwnerRuleKeyBlockFamily") LogAdd("BlockFamilyKey", "OwnerRule");
 		if (data.Content == "OwnerRuleSelfOwnerLockAllow") LogDelete("BlockOwnerLockSelf", "OwnerRule");
 		if (data.Content == "OwnerRuleSelfOwnerLockBlock") LogAdd("BlockOwnerLockSelf", "OwnerRule");
 
@@ -4396,9 +4335,11 @@ function ChatRoomOnlineBountyHandleData(data, sender) {
  * @returns {void} - Nothing
  */
 function ChatRoomGameResponse(data) {
-	if (data.Data.KinkyDungeon)
-		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
-	else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
+	if (data.Data.KinkyDungeon) {
+		if (CurrentScreen == "KinkyDungeon") {
+			KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+		}
+	} else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
@@ -4518,7 +4459,7 @@ function ChatRoomGetLoadRules(C) {
 /**
  * Handles a response from another player containing the rules that the current player is allowed to read.
  * @param {Character} C - Character to set the rules on
- * @param {LogRecord[]} Rule - An array of rules that the current player can read.
+ * @param {readonly LogRecord[]} Rule - An array of rules that the current player can read.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLoadRules(C, Rule) {
@@ -4563,7 +4504,7 @@ function DialogPhotoPlayer() {
  * @param {number} Top - Position of the area to capture from the top of the canvas
  * @param {number} Width - Width of the area to capture
  * @param {number} Height - Height of the area to capture
- * @param {any} Characters - The characters that will be included in the screenshot
+ * @param {readonly Character[]} Characters - The characters that will be included in the screenshot
  * @returns {void} - Nothing
  */
 function ChatRoomPhoto(Left, Top, Width, Height, Characters) {

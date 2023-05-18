@@ -343,6 +343,10 @@ Must have female genitalia.
 Должны быть женские гениталии.
 Must have male genitalia.
 Должны быть мужские гениталии.
+Must remove chastity cage first.
+Сначала нужно снять клетку целомудрия.
+Must have full penis access first.
+Сначала должен быть полный доступ к пенису.
 The use of remotes is forbidden by your owner
 Использование пультов дистанционного управления запрещено вашим владельцем
 Cannot be used over the applied gags.
@@ -371,6 +375,8 @@ View next page
 Посмотреть следующую страницу
 View previous page
 Посмотреть предыдущую страницу
+Tightness:
+Уровень натяжения:
 Maximum:
 Максимум:
 Minimum:
@@ -554,7 +560,7 @@ Hide Mouth
 Bundled
 В комплекте
 SourceCharacter changes the style of DestinationCharacter hood.
-SourceCharacter меняет стиль капюшона DestinationCharacter .
+SourceCharacter меняет стиль DestinationCharacter капюшона.
 Pump gag level: Empty
 Уровень кляпа насоса: Пустой
 Pump gag level: Light
@@ -662,7 +668,7 @@ SourceCharacter помогает TargetCharacter опуститься на ко�
 SourceCharacter helps TargetCharacter to stand up
 SourceCharacter помогает TargetCharacter встать на ноги
 SourceCharacter changes DestinationCharacter clothes.
-SourceCharacter меняет одежду DestinationCharacter .
+SourceCharacter меняет DestinationCharacter одежду.
 SourceCharacter selects PronounPossessive team and class.
 SourceCharacter выбирает PronounPossessive команду и класс.
 SourceCharacter has started the LARP game.
@@ -794,6 +800,18 @@ Rooftop Party
 Вечеринка на крыше
 Party Basement
 Подвал для вечеринок
+Studio Living Room
+Студия Гостиная
+Wooden Living Room
+Деревянная гостиная
+Appartment Living Room
+Квартира Гостиная
+Empty Basement 1
+Пустой подвал 1
+Empty Basement 2
+Пустой подвал 2
+Empty Basement 3
+Пустой подвал 3
 Cosy Chalet
 Уютное шале
 Alchemist Office
@@ -1327,13 +1345,13 @@ SourceCharacter хватает поводок на TargetCharacter.
 SourceCharacter releases the leash of TargetCharacter.
 SourceCharacter отпускает поводок на TargetCharacter.
 SourceCharacter picks a glass of water from DestinationCharacter tray.
-SourceCharacter берёт стакан воды из подноса DestinationCharacter .
+SourceCharacter берёт стакан воды с DestinationCharacter подноса.
 SourceCharacter picks an orange juice from DestinationCharacter tray.
-SourceCharacter берёт апельсиновый сок из подноса DestinationCharacter .
+SourceCharacter берёт апельсиновый сок с DestinationCharacter подноса.
 SourceCharacter picks a beer from DestinationCharacter tray.
-SourceCharacter берёт пиво из подноса DestinationCharacter .
+SourceCharacter берёт пиво с DestinationCharacter подноса.
 SourceCharacter picks a glass of wine from DestinationCharacter tray.
-SourceCharacter берёт бокал вина из подноса DestinationCharacter .
+SourceCharacter берёт бокал вина с DestinationCharacter подноса.
 SourceCharacter buys a Virgin Mojito from DestinationCharacter tray.
 SourceCharacter покупает Девственный Мохито у DestinationCharacter .
 SourceCharacter buys a Margarita from DestinationCharacter tray.
@@ -1351,9 +1369,9 @@ SourceCharacter покупает кувшин "Секса на пляже" дл�
 SourceCharacter buys a beer pitcher for everyone, from TargetCharacter.
 SourceCharacter покупает пивной кувшин для всех, у TargetCharacter.
 SourceCharacter picks a tea from DestinationCharacter tray.
-SourceCharacter выбирает чай из подноса DestinationCharacter .
+SourceCharacter выбирает чай с DestinationCharacter подноса.
 SourceCharacter picks a coffee from DestinationCharacter tray.
-SourceCharacter выбирает кофе из подноса DestinationCharacter .
+SourceCharacter выбирает кофе с DestinationCharacter подноса.
 SourceCharacter buys a hot chocolate from DestinationCharacter tray.
 SourceCharacter покупает горячий шоколад у DestinationCharacter .
 SourceCharacter buys an espresso from DestinationCharacter tray.
@@ -1583,9 +1601,9 @@ Without ring
 With ring
 С кольцом
 SourceCharacter removes the ring from DestinationCharacter collar.
-SourceCharacter снимает кольцо с ошейника DestinationCharacter .
+SourceCharacter снимает кольцо с DestinationCharacter ошейника.
 SourceCharacter attaches a ring to DestinationCharacter collar.
-SourceCharacter прикрепляет кольцо к ошейнику DestinationCharacter .
+SourceCharacter прикрепляет кольцо к DestinationCharacter ошейнику.
 Detached
 Отделить
 Bind wrists
@@ -3411,15 +3429,15 @@ Tube B
 Rebreather
 Ребризер
 SourceCharacter removes the blinding lenses from DestinationCharacter gas mask.
-SourceCharacter удаляет ослепляющие линзы с противогаза на DestinationCharacter.
+SourceCharacter удаляет ослепляющие линзы с DestinationCharacter противогаза.
 SourceCharacter attaches blinding lenses to DestinationCharacter gas mask.
-SourceCharacter прикрепляет ослепляющие линзы к противогазу на DestinationCharacter.
+SourceCharacter прикрепляет ослепляющие линзы к DestinationCharacter противогазуr.
 SourceCharacter removes the attachment from DestinationCharacter gas mask
-SourceCharacter удаляет вложение из противогаза на DestinationCharacter
+SourceCharacter удаляет вложение из DestinationCharacter противогаза
 SourceCharacter attaches a tube to DestinationCharacter gas mask.
-SourceCharacter прикрепляет трубку к противогазу на DestinationCharacter.
+SourceCharacter прикрепляет трубку к DestinationCharacter противогазу.
 SourceCharacter attaches a rebreather to DestinationCharacter gas mask.
-SourceCharacter прикрепляет ребризер к противогазу на DestinationCharacter.
+SourceCharacter прикрепляет ребризер к DestinationCharacter противогазу.
 Select Options
 Выберите Параметры
 Select Gag Inflation
@@ -3480,18 +3498,26 @@ Select gag
 Выберите кляп
 Select expression
 Выберите выражение
+Adjust Fit
+Отрегулируйте сооствествие
 Blindfold
 Повязка на глаза
 Gag
 Кляп
 Expression
 Выражение
+Fit
+Прилегание
 Neutral
 Нейтральный
 OwO
 OwO
 UwU
 UwU
+Loose
+Слабее
+Tight
+Туже
 SourceCharacter removes the blindfold from DestinationCharacter kitty hood.
 SourceCharacter снимает повязку глаз с глаз DestinationCharacter .
 SourceCharacter attaches a blindfold in front of DestinationCharacter eyes.
@@ -3506,6 +3532,10 @@ SourceCharacter draws an OwO face onto DestinationCharacter kitty hood.
 SourceCharacter рисует лицо OwO на капюшоне кошки DestinationCharacter.
 SourceCharacter draws an UwU face onto DestinationCharacter kitty hood.
 SourceCharacter рисует лицо UwU на капюшоне кошки DestinationCharacter.
+SourceCharacter loosens DestinationCharacter kitty hood.
+SourceCharacter ослабляет кошачий капюшон DestinationCharacter.
+SourceCharacter tightens DestinationCharacter kitty hood.
+SourceCharacter затягивает на DestinationCharacter кошачий капюшон.
 Pumpkin Head
 Тыквенная голова
 Leash
@@ -4652,12 +4682,16 @@ Revealed
 Выведенный
 Tucked in
 Заправленный
+Select the suit's gloves
+Выберите перчатки костюма
+No Gloves
+Без перчаток
 Detached Gloves
 Отдельные перчатки
-Attached Opaque Gloves
-Прикрепленные непрозрачные перчатки
-Attached See-through Gloves
-Прикрепленные прозрачные перчатки
+Opaque Gloves
+непрозрачные перчатки
+See-through Gloves
+прозрачные перчатки
 DestinationCharacterName AssetName stops vibrating.
 DestinationCharacterName AssetName перестает вибрировать.
 DestinationCharacterName AssetName slows down into a light tease.
@@ -4674,6 +4708,16 @@ DestinationCharacterName AssetName starts buzzing strongly!
 DestinationCharacterName AssetName начинает сильно гудеть!
 DestinationCharacterName AssetName jumps up to maximum intensity!
 DestinationCharacterName AssetName подскакивает до максимальной интенсивности!
+DestinationCharacterName AssetName switches to a random pattern
+DestinationCharacterName AssetName переключается на случайный режим
+DestinationCharacterName AssetName switches to a escalating pattern
+DestinationCharacterName AssetName переключается на возрастающий режим
+DestinationCharacterName AssetName switches to a denying pattern
+DestinationCharacterName AssetName переключается на режим отрицания
+DestinationCharacterName AssetName switches to an edging pattern
+DestinationCharacterName AssetName переключается на режим удержания на краю
+DestinationCharacterName AssetName switches to a teasing pattern
+DestinationCharacterName AssetName переключается на дразнящий режим
 SourceCharacter changes the settings on DestinationCharacterName AssetName
 SourceCharacter изменяет настройки AssetName для DestinationCharacterName
 DestinationCharacterName owner releases TargetPronounObject from the slave collar.
@@ -5327,29 +5371,29 @@ No Deafening Module
 No Chin Strap
 Нет ремешка для подбородка
 SourceCharacter removes the visor on DestinationCharacter helmet.
-SourceCharacter удаляет визор на шлеме DestinationCharacter .
+SourceCharacter удаляет визор на DestinationCharacter шлеме.
 SourceCharacter sets the visor on DestinationCharacter helmet to transparent.
-SourceCharacter устанавливает прозрачность визора на шлеме DestinationCharacter на прозрачный.
+SourceCharacter устанавливает прозрачность визора на DestinationCharacter шлеме на прозрачный.
 SourceCharacter sets the visor on DestinationCharacter helmet to have a light tint.
-SourceCharacter устанавливает Слегка тонированный визор на шлеме DestinationCharacter .
+SourceCharacter устанавливает слегка тонированный визор на DestinationCharacter шлеме.
 SourceCharacter sets the visor on DestinationCharacter helmet to have a heavy tint.
-SourceCharacter устанавливает Сильно тонированный визор на шлеме DestinationCharacter .
+SourceCharacter устанавливает сильно тонированный визор на DestinationCharacter шлеме.
 SourceCharacter sets the visor on DestinationCharacter helmet to be opaque.
-SourceCharacter делает визор на шлеме DestinationCharacter непрозрачным.
+SourceCharacter делает визор на DestinationCharacter шлеме непрозрачным.
 SourceCharacter sets the visor on DestinationCharacter helmet to be opaque and have a hypnotic effect.
-SourceCharacter делает визор на шлеме DestinationCharacter непрозрачным и имеет гипнотический эффект.
+SourceCharacter делает визор на DestinationCharacter шлеме непрозрачным и создает гипнотический эффект.
 SourceCharacter turns off the deafening module on DestinationCharacter helmet.
-SourceCharacter отключает модуль оглушения на шлеме DestinationCharacter .
+SourceCharacter отключает модуль оглушения на DestinationCharacter шлеме.
 SourceCharacter turns the deafening module on DestinationCharacter on light mode.
-SourceCharacter включает модуль оглушения на DestinationCharacter в облегченном режиме.
+SourceCharacter включает модуль оглушения на DestinationCharacter шлеме в облегченном режиме.
 SourceCharacter turns the deafening module on DestinationCharacter on heavy mode.
-SourceCharacter включает модуль оглушения на DestinationCharacter в тяжелом режиме.
+SourceCharacter включает модуль оглушения на DestinationCharacter шлеме в тяжелом режиме.
 SourceCharacter turns the deafening module on DestinationCharacter on noise cancelling mode.
-SourceCharacter включает модуль оглушения на DestinationCharacter в режиме шумоподавления.
+SourceCharacter включает модуль оглушения на DestinationCharacter щлеме в режиме шумоподавления.
 SourceCharacter removes the chin strap on DestinationCharacter helmet.
-SourceCharacter убирает подбородочный ремень на шлеме DestinationCharacter.
+SourceCharacter убирает подбородочный ремень на DestinationCharacter шлеме.
 SourceCharacter adds the chin strap on DestinationCharacter helmet.
-SourceCharacter добавляет подбородочный ремень на шлем DestinationCharacter.
+SourceCharacter добавляет подбородочный ремень на DestinationCharacter шлем.
 Select the rope length
 Выберите длину веревки
 Long
@@ -6893,3 +6937,105 @@ Single Ring
 Одинарное кольцо
 Double Ring
 Двойное кольцо
+Choose Design
+Выберите дизайн
+Choose Pattern
+Выберите узор
+Stripe
+Полоса
+Triangle
+Треугольник
+Cowprint
+Коровка
+Tigerprint
+Тигр
+SourceCharacter swaps DestinationCharacter swimcap pattern.
+SourceCharacter меняет шаблон на  DestinationCharacter шапочке для плаванья.
+Hair Openings
+Отверстия для волос
+Adjust Hair Openings
+Настройте отверстия для волос
+Hair Out
+Распущенные волосы
+Ear Holes
+Отверстия для ушей
+Mixed Openings
+Смешанные отверстия
+SourceCharacter adjusts DestinationCharacter swimcap hair openings.
+SourceCharacter регулирует отверстия для волос на шапочке DestinationCharacter.
+Choose Restriction
+Настройте ограничение
+Choose Lenses
+Настройте Линзы
+SourceCharacter swaps DestinationCharacter mask lenses.
+SourceCharacter заменяет линзы DestinationCharacter маске.
+Choose Inflation Level
+Настройте Уровень Надутия
+SourceCharacter pumps DestinationCharacter inflatable gag.
+SourceCharacter накачивает DestinationCharacter кляп.
+Back Opening
+Отверстие сзади
+SourceCharacter adjusts DestinationCharacter mask hair opening.
+SourceCharacter настраивает отверстия для волос на DestinationCharacter маске.
+Choose Padding Amount
+Настройте заполнение
+SourceCharacter adjusts the padding of DestinationCharacter face mask.
+SourceCharacter настраивает заполнение на DestinationCharacter лицевой маске.
+SourceCharacter changes the pattern of DestinationCharacter face mask.
+SourceCharacter изменяет шаблон на DestinationCharacter лицевой маске.
+Fake Mouth
+Поддельный рот
+Choose Fit
+Настройте прилегание
+SourceCharacter changes out the mouth of DestinationCharacter hood.
+SourceCharacter изменяет рот на DestinationCharacter капюшоне.
+SourceCharacter adjusts the fit of DestinationCharacter hood.
+SourceCharacter регулирует прелеганиена DestinationCharacter капюшоне.
+SourceCharacter tightens DestinationCharacter dog hood.
+SourceCharacter затягивает DestinationCharacter капюшон собаки.
+SourceCharacter loosens DestinationCharacter dog hood.
+SourceCharacter ослабляет DestinationCharacter капюшон собаки.
+SourceCharacter loosens DestinationCharacter latex habit.
+SourceCharacter ослабляет DestinationCharacter латексный верх рясы.
+SourceCharacter tightens DestinationCharacter latex habit.
+SourceCharacter затягивает DestinationCharacter латексный верх рясы.
+Select Jockstrap Type.
+Выберите тип джоки.
+String
+Стринги
+Side Straps
+Боковые ремни
+Holemesh
+Дырочная сетка
+Muzzle Options
+Варианты намордника
+No Muzzle
+Без намордника
+Dog Muzzle
+Морда собаки
+SourceCharacter removes DestinationCharacter hood's muzzle.
+SourceCharacter удаляет намордник с DestinationCharacter капюшона.
+SourceCharacter applies a muzzle to DestinationCharacter hood.
+SourceCharacter добавляет намордник к DestinationCharacter капюшону.
+Lens Options
+Варианты линз
+No Lenses
+Без линз
+Transparent Lenses
+Прозрачные линзы
+SourceCharacter removes the lenses from DestinationCharacter hood.
+SourceCharacter удаляет линзы с DestinationCharacter капюшона.
+SourceCharacter applies lenses to DestinationCharacter hood.
+SourceCharacter добавляет линзы к DestinationCharacter капюшону.
+Collar
+Ошейник
+Collar Options
+Варианты ошейника
+No Collar
+Без ошейника
+Banded Collar
+Сдерживающий ошейник
+SourceCharacter fits the hood's collar around DestinationCharacter neck.
+SourceCharacter снимает ошейник вокруг DestinationCharacter шеи.
+SourceCharacter removes the collar from DestinationCharacter hood.
+SourceCharacter застегивает ошейник с DestinationCharacter капюшона.

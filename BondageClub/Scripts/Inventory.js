@@ -88,13 +88,14 @@ function InventoryItemCreate(C, Group, Name) {
 * @param {string} DelItemName - The name of the item to delete
 * @param {AssetGroupName} DelItemGroup - The group name of the item to delete
 * @param {boolean} [Push=true] - Set to TRUE to push to the server
+* @return {InventoryItem}
 */
 function InventoryDelete(C, DelItemName, DelItemGroup, Push) {
-
+	let item = null;
 	// First, we remove the item from the player inventory
 	for (let I = 0; I < C.Inventory.length; I++)
 		if ((C.Inventory[I].Name == DelItemName) && (C.Inventory[I].Group == DelItemGroup)) {
-			C.Inventory.splice(I, 1);
+			item = C.Inventory.splice(I, 1);
 			break;
 		}
 
@@ -102,6 +103,7 @@ function InventoryDelete(C, DelItemName, DelItemGroup, Push) {
 	if ((C.ID == 0) && ((Push == null) || Push))
 		ServerPlayerInventorySync();
 
+	return item ? item[0] : null;
 }
 
 /**
@@ -121,6 +123,8 @@ function InventoryDeleteGroup(C, group, push) {
 
 		deleted.push(item);
 		C.Inventory.splice(I, 1);
+		// Move back one to not skip over items
+		I--;
 	}
 
 	if (deleted.length > 0 && (C.ID == 0) && ((push == null) || push))
@@ -174,7 +178,7 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 /**
 * Returns an error message if a prerequisite clashes with the character's items and clothes
 * @param {Character} C - The character on which we check for prerequisites
-* @param {String} Prerequisite - The name of the prerequisite
+* @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
 * @returns {String} - The error tag, can be converted to an error message
 */
 function InventoryPrerequisiteMessage(C, Prerequisite) {
@@ -290,6 +294,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NotProtrudingFromMouth": return C.Effect.includes("ProtrudingMouth") ? "CannotBeUsedOverGag" : "";
 
 		case "NeedsNippleRings": return !InventoryIsItemInList(C, "ItemNipplesPiercings", ["RoundPiercing"]) ? "NeedsNippleRings" : "";
+		case "NeedsHarness": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "NeedsHarness" : "";
 
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";
@@ -319,7 +324,7 @@ function InventoryIsItemInList(C, ItemGroup, ItemList) {
  * which has the provided prerequisite.
  * @param {Character} C - The character whose items should be checked
  * @param {AssetGroupName} ItemGroup - The name of the item group to check
- * @param {String} Prerequisite - The name of the prerequisite to look for
+ * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite to look for
  * @returns {boolean} - TRUE if the character has an item equipped in the named slot which has the named prerequisite,
  * FALSE otherwise
  */
@@ -409,7 +414,7 @@ function InventoryPrerequisiteConflictingGags(C, BlockingPrereqs) {
  * @param {Character} C - The character on which we check for prerequisites
  * @param {Asset} asset - The asset for which prerequisites should be checked. Any item equipped in the asset's group
  * will be ignored for the purposes of the prerequisite check.
- * @param {string | readonly string[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
+ * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
  * prerequisite. If nothing is provided, the asset's default prerequisites will be used
  * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
  * @returns {boolean} - TRUE if the item can be added to the character
@@ -564,63 +569,6 @@ function InventoryCraftPropertyIs(Item, Property) {
 }
 
 /**
-* Helper function for `InventoryWearCraft` for handling Modular items
-* @param {Item} Item - The item being applied
-* @param {Character} C - The character that must wear the item
-* @param {string} Type - The type string for a modular item
-* @returns {void}
-*/
-function InventoryWearCraftModular(Item, C, Type) {
-	const Data = ModularItemDataLookup[Item.Asset.Group.Name + Item.Asset.Name];
-	if (Data === undefined) {
-		return;
-	}
-
-	// Validate that the requirements are met for all chosen options
-	const NewModuleValues = ModularItemParseCurrent(Data, Type);
-	const PreviousModuleValues = NewModuleValues.map((value) => 0);
-	NewModuleValues.forEach((value, i) => {
-		const Options = Data.modules[i].Options;
-		const NewOption = Options[value];
-		if (!NewOption || ExtendedItemRequirementCheckMessage(Item, C, NewOption, Options[0])) {
-			NewModuleValues[i] = 0;
-		}
-	});
-
-	ModularItemSetOption(C, Item, PreviousModuleValues, NewModuleValues, Data);
-}
-
-/**
-* Helper function for `InventoryWearCraft` for handling Typed items
-* @param {Item} Item - The item being applied
-* @param {Character} C - The character that must wear the item
-* @param {string} Type - The type string for a modular item
-* @returns {void}
-*/
-function InventoryWearCraftTyped(Item, C, Type) {
-	if (Type != null) {
-		TypedItemSetOptionByName(C, Item, Type);
-	}
-}
-
-/**
-* Helper function for `InventoryWearCraft` for handling Vibrating items
-* @param {Item} Item - The item being applied
-* @param {Character} C - The character that must wear the item
-* @param {string} Type - The type string for a modular item
-* @returns {void}
-*/
-function InventoryWearCraftVibrating(Item, C, Type) {
-	const Data = VibratorModeDataLookup[Item.Asset.Group.Name + Item.Asset.Name];
-	if (Data === undefined) {
-		return;
-	}
-
-	const option = Data.options.find(o => o.Name === Type) || VibratorModeOff;
-	TypedItemSetOption(C, Item, Data.options, option);
-}
-
-/**
 * Sets the craft and type on the item, uses the achetype properties if possible
 * @param {Item} Item - The item being applied
 * @param {Character} C - The character that must wear the item
@@ -630,37 +578,37 @@ function InventoryWearCraft(Item, C, Craft) {
 	if ((Item == null) || (Item.Asset == null) || (Craft == null)) return;
 	Item.Craft = Craft;
 
-	if ((Item.Asset.AllowType != null) && (Item.Asset.AllowType.length >= 1)) {
-		switch(Item.Asset.Archetype) {
-			case ExtendedArchetype.TYPED:
-				InventoryWearCraftTyped(Item, C, Craft.Type);
-				break;
-			case ExtendedArchetype.MODULAR:
-				InventoryWearCraftModular(Item, C, Craft.Type);
-				break;
-			case ExtendedArchetype.VIBRATING:
-				InventoryWearCraftVibrating(Item, C, Craft.Type);
-				break;
-		}
+	switch(Item.Asset.Archetype) {
+		case ExtendedArchetype.TYPED:
+			if (Craft.Type != null) {
+				TypedItemSetOptionByName(C, Item, Craft.Type);
+			}
+			break;
+		case ExtendedArchetype.MODULAR:
+			ModularItemSetOptionByName(C, Item, Craft.Type);
+			break;
+		case ExtendedArchetype.VIBRATING:
+			VibratorModeSetOptionByName(C, Item, Craft.Type);
+			break;
 	}
 }
 
 /**
-* Makes the character wear an item on a body area
-* @param {Character} C - The character that must wear the item
-* @param {string} AssetName - The name of the asset to wear
-* @param {AssetGroupName} AssetGroup - The name of the asset group to wear
-* @param {string | string[]} [ItemColor] - The hex color of the item, can be undefined or "Default"
-* @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
-* @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
-* @param {CraftingItem} [Craft] - The crafting properties of the item
-* @param {boolean} [Refresh] - Whether to refresh the character and push the changes to the server
-*/
+ * Makes the character wear an item on a body area
+ * @param {Character} C - The character that must wear the item
+ * @param {string} AssetName - The name of the asset to wear
+ * @param {AssetGroupName} AssetGroup - The name of the asset group to wear
+ * @param {string | string[]} [ItemColor] - The hex color of the item, can be undefined or "Default"
+ * @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
+ * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
+ * @param {CraftingItem} [Craft] - The crafting properties of the item
+ * @param {boolean} [Refresh] - Whether to refresh the character and push the changes to the server
+ * @returns {null | Item} - Thew newly created item or `null` if the asset does not exist
+ */
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft, Refresh=true) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
-	if (!A) return;
-	CharacterAppearanceSetItem(C, AssetGroup, A, (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor, Difficulty, MemberNumber, false);
-	let Item = InventoryGet(C, AssetGroup);
+	if (!A) return null;
+	const item = CharacterAppearanceSetItem(C, AssetGroup, A, (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor, Difficulty, MemberNumber, false);
 
 	/**
 	 * TODO: grant tighter control over setting expressions.
@@ -671,10 +619,11 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	if (A.ExpressionTrigger != null) {
 		InventoryExpressionTriggerApply(C, A.ExpressionTrigger);
 	}
-	InventoryWearCraft(Item, C, Craft);
+	InventoryWearCraft(item, C, Craft);
 	if (Refresh) {
 		CharacterRefresh(C, true);
 	}
+	return item;
 }
 
 /**
@@ -796,6 +745,7 @@ function InventoryRandomExtend(C, GroupName) {
  * @returns {Asset|null} - The randomly selected asset or `null` if none found
  */
 function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = false) {
+	/** @type {{ Asset: Asset, Rank: number }[]} */
 	var List = [];
 	var AssetList = AllowedAssets || Asset;
 	var RandomOnly = (AllowedAssets == null);
@@ -1123,6 +1073,21 @@ function InventoryLoverOnlyItem(Item) {
 }
 
 /**
+* Returns TRUE if the item has a FamilyOnly flag, such as the D/s family padlock
+* @param {Item} Item - The item from appearance that must be scanned
+* @returns {Boolean} - TRUE if family only
+*/
+function InventoryFamilyOnlyItem(Item) {
+	if (Item == null) return false;
+	if (Item.Asset.FamilyOnly) return true;
+	if (Item.Asset.Group.Category == "Item") {
+		var Lock = InventoryGetLock(Item);
+		if ((Lock != null) && (Lock.Asset.FamilyOnly != null) && Lock.Asset.FamilyOnly) return true;
+	}
+	return false;
+}
+
+/**
 * Returns TRUE if the character is wearing at least one restraint that's locked with an extra lock
 * @param {Character} C - The character to scan
 * @returns {Boolean} - TRUE if one restraint with an extra lock is found
@@ -1174,6 +1139,20 @@ function InventoryCharacterHasLoverOnlyRestraint(C) {
 	if (C.Appearance != null)
 		for (let A = 0; A < C.Appearance.length; A++) {
 			if (C.Appearance[A].Asset.IsRestraint && InventoryLoverOnlyItem(C.Appearance[A]))
+				return true;
+		}
+	return false;
+}
+
+/**
+* Returns TRUE if the character is wearing at least one item that's a restraint with a FamilyOnly flag
+* @param {Character} C - The character to scan
+* @returns {Boolean} - TRUE if one family only restraint is found
+*/
+function InventoryCharacterHasFamilyOnlyRestraint(C) {
+	if (C.Appearance != null)
+		for (let A = 0; A < C.Appearance.length; A++) {
+			if (C.Appearance[A].Asset.IsRestraint && InventoryFamilyOnlyItem(C.Appearance[A]))
 				return true;
 		}
 	return false;
@@ -1257,7 +1236,7 @@ function InventoryLockRandom(C, Item, FromOwner) {
 	if (InventoryDoesItemAllowLock(Item)) {
 		var List = [];
 		for (let A = 0; A < Asset.length; A++)
-			if (Asset[A].IsLock && Asset[A].Random && !Asset[A].LoverOnly && (FromOwner || !Asset[A].OwnerOnly))
+			if (Asset[A].IsLock && Asset[A].Random && !Asset[A].LoverOnly && !Asset[A].FamilyOnly && (FromOwner || !Asset[A].OwnerOnly))
 				List.push(Asset[A]);
 		if (List.length > 0) {
 			var Lock = { Asset: InventoryGetRandom(C, null, List) };
@@ -1471,7 +1450,7 @@ function InventoryStringify(C) {
 
 /**
  * Returns TRUE if the inventory category is blocked in the current chat room
- * @param {readonly string[]} Category - An array of string containing all the categories to validate
+ * @param {readonly AssetCategory[]} Category - An array of string containing all the categories to validate
  * @return {boolean} - TRUE if it's blocked
  */
 function InventoryChatRoomAllow(Category) {

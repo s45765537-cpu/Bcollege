@@ -80,6 +80,8 @@ ClothSlaveRagsBase,Base
 ClothSlaveRagsBaseStains,Stains
 ClothSlaveRagsRope,Rope
 ClothSlaveRagsChains,Chains
+ClothFrilledShirtBase, Latex
+ClothFrilledShirtFrill, Frills
 NecklaceNecklaceLockChain,Chain
 NecklaceNecklaceLockLock,Lock
 NecklaceNecklaceKeyChain,Chain
@@ -161,6 +163,8 @@ ClothLowerBondageSkirtStraps,Straps
 ClothLowerCheerleaderSkirtBase,Skirt
 ClothLowerCheerleaderSkirtStraps,Trim
 ClothLowerCheerleaderSkirtInnerstrips,Inner Trim
+ClothLowerTulleSkirtDress,Skirt
+ClothLowerTulleSkirtStripe,Waistband
 SuitLowerCatsuitBase,Suit
 SuitLowerCatsuitZip,Zip
 SuitLowerSeethroughSuitZipBase,Suit
@@ -365,6 +369,10 @@ ItemFeetOrnateAnkleCuffsChain,Chain
 ItemFeetHighStyleSteelAnkleCuffsCuffs,Cuffs
 ItemFeetHighStyleSteelAnkleCuffsPanel,Panel
 ItemFeetHighStyleSteelAnkleCuffsChain,Chain
+ItemFeetHeavyAnkleCuffsFrame,Frame
+ItemFeetHeavyAnkleCuffsCuffs,Cuffs
+ItemFeetHeavySpreaderMetalFrame,Frame
+ItemFeetHeavySpreaderMetalCuffs,Cuffs
 ItemFeetFloorShacklesChain,Chain
 ItemFeetFloorShacklesCuffs,Cuffs
 ItemFeetFuturisticAnkleCuffsChain,Chain
@@ -374,6 +382,10 @@ ItemFeetFuturisticAnkleCuffsLock,Lock
 ItemFeetLeatherAnkleCuffsCuffs,Cuffs
 ItemFeetLeatherAnkleCuffsRings,Rings
 ItemFeetLeatherAnkleCuffsChain,Chain
+ItemFeetLeatherDeluxeAnkleCuffsCuffs,Cuffs
+ItemFeetLeatherDeluxeAnkleCuffsRings,Edging
+ItemFeetLeatherDeluxeAnkleCuffsBuckets,Buckles
+ItemFeetLeatherDeluxeAnkleCuffsChain,Chain
 ItemFeetMedicalBedRestraintsBase,Bed Straps
 ItemFeetMedicalBedRestraintsStraps,Cuffs
 ItemFeetSturdyLeatherBeltsLowerBelt,Lower Belt
@@ -399,6 +411,10 @@ ItemLegsOrnateLegCuffsChain,Chain
 ItemLegsLeatherLegCuffsCuffs,Cuffs
 ItemLegsLeatherLegCuffsRings,Rings
 ItemLegsLeatherLegCuffsChain,Chain
+ItemLegsLeatherDeluxeLegCuffsCuffs,Cuffs
+ItemLegsLeatherDeluxeLegCuffsRings,Edging
+ItemLegsLeatherDeluxeLegCuffsBuckets,Buckles
+ItemLegsLeatherDeluxeLegCuffsChain,Chain
 ItemLegsLegBinderLatex,Binder
 ItemLegsLegBinderBelts,Belts
 ItemLegsHobbleSkirtLatex,Skirt
@@ -427,6 +443,11 @@ ItemVulvaVibratingDildoEnd,End
 ItemVulvaFuturisticVibratorBand,Body
 ItemVulvaFuturisticVibratorDisplay,Display
 ItemVulvaFuturisticVibratorLock,Lock
+ItemVulvaInflatableVibratingPantiesBase, Base
+ItemVulvaInflatableVibratingPantiesBelt, Belt
+ItemVulvaInflatableVibratingPantiesLock, Lock
+ItemVulvaInflatableVibratingPantiesValve, Valve
+ItemVulvaInflatableVibratingPantiesVibe, Butterfly Vibe
 ItemVulvaStitchesThread,Thread
 ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
@@ -502,6 +523,9 @@ ItemArmsBoxTieArmbinderBase,Base
 ItemArmsBoxTieArmbinderShine,Shine
 ItemArmsLeatherCuffsCuffs,Cuffs
 ItemArmsLeatherCuffsRings,Rings
+ItemArmsLeatherDeluxeCuffsCuffs,Cuffs
+ItemArmsLeatherDeluxeCuffsRings,Edging
+ItemArmsLeatherDeluxeCuffsBuckets,Buckles
 ItemArmsOrnateCuffsCuffs,Cuffs
 ItemArmsOrnateCuffsGems,Gems
 ItemArmsHighStyleSteelCuffsCuffs,Cuffs
@@ -536,6 +560,8 @@ ItemArmsHighSecurityStraitJacketStrapsLoose,Jacket
 ItemArmsHighSecurityStraitJacketCrotchStrapsSingle,Crotch
 ItemArmsYokeStraps,Straps
 ItemArmsYokeBars,Bars
+ItemArmsHeavyYokeFrame,Frame
+ItemArmsHeavyYokeCuffs,Cuffs
 ItemArmsWristShacklesCuffs,Cuffs
 ItemArmsWristShacklesChain,Chain
 ItemArmsPilloryWood,Wood
@@ -611,6 +637,9 @@ ItemNeckPostureCollarRing2,Left Ring
 ItemNeckPostureCollarRing3,Right Ring
 ItemNeckLeatherCollarCollar,Collar
 ItemNeckLeatherCollarRing,Ring
+ItemNeckLeatherDeluxeCollarCollar,Collar
+ItemNeckLeatherDeluxeCollarRings,Edging
+ItemNeckLeatherDeluxeCollarBuckets,Buckles
 ItemNeckLeatherChokerLeather,Leather
 ItemNeckLeatherChokerMetal,Metal
 ItemNeckMaidCollarFrills,Frills
@@ -858,6 +887,13 @@ ItemHoodLatexBunnyNose, Nose
 ItemHoodLatexBunnyInnerEar, Inner Ear
 ItemHoodLatexBunnyOuterEar, Outer Ear
 ItemHoodLatexBunnyMouth, Mouth
+ItemHoodVacHoodBase, Hood
+ItemHoodVacHoodLenses, Lens
+ItemHoodVacHoodTube, Breathing Tube
+ItemHoodVacHoodPlasticClip, Clip
+ItemHoodVacHoodClipHose, Clipped Hose
+ItemHoodVacHoodHandPump, Pump
+ItemHoodVacHoodRebreather, Rebreather Bag
 ItemBootsLockingBoots1Boots,Boots
 ItemBootsLockingBoots1Straps,Straps
 ItemBootsFuturisticHeelsShoes,Body
@@ -884,6 +920,9 @@ ShoesSneakers1Front,Front
 ShoesSneakers1Laces,Laces
 ShoesSneakers2Shoes,Shoes
 ShoesSneakers2Laces,Laces
+ShoesSneakersSportMain,Main
+ShoesSneakersSportFront,Edging
+ShoesSneakersSportLaces,Laces
 ShoesFuturisticHeels2Mesh,Body
 ShoesFuturisticHeels2Shine,Shine
 ShoesFuturisticHeels2Cuffs,Cuffs
@@ -893,6 +932,9 @@ ShoesFuturisticHeels2Lock,Lock
 ShoesBoots1Shoes,Inner
 ShoesBoots1Sides,Outer
 ShoesBoots1Laces,Laces
+ShoesAnkleBoots1Shoes,Boots
+ShoesAnkleBoots1Sides,Edging
+ShoesAnkleBoots1Laces,Laces
 ShoesSandalsRSTop,Top
 ShoesSandalsRSSoles,Soles
 ShoesFlippersShoes,Shoes
@@ -905,6 +947,12 @@ ShoesDeluxeBootsBuckles,Buckles
 ShoesFuzzyBootsHeels,Heels
 ShoesFuzzyBootsBoots,Boots
 ShoesFuzzyBootsFur,Fur
+ShoesLatexHeelsBase, Shoe
+ShoesLatexHeelsTrim, Trim
+ShoesThighBootsBase, Boot
+ShoesThighBootsThigh, Boot
+ShoesThighBootsLayer, Inner
+ShoesThighBootsBand, Band
 ItemMouthWiffleGagStrap,Strap
 ItemMouthWiffleGagBall,Ball
 ItemMouthHarnessBallGagBall,Ball
@@ -1352,10 +1400,12 @@ ItemEarsFuturisticEarphonesLock,Lock
 ItemHandsPaddedMittensGloves,Gloves
 ItemHandsPaddedMittensStraps,Straps
 ItemHandsPaddedMittensBuckles,Buckles
+ItemHandsPaddedMittensChain,Chain
 ItemHandsPawMittensGloves,Gloves
 ItemHandsPawMittensStraps,Straps
 ItemHandsPawMittensBuckles,Buckles
 ItemHandsPawMittensPaws,Paws
+ItemHandsPawMittensChain,Chain
 ItemHeadBlackoutLensesLeft,Left Lens
 ItemHeadBlackoutLensesRight,Right Lens
 ItemHeadInteractiveVRHeadsetDisplay,Display
@@ -1415,6 +1465,9 @@ GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
 GlassesGradientSunglassesFrame,Frame
 GlassesGradientSunglassesGlass,Glass
+GlassesGogglesBase,Goggles
+GlassesGogglesStrap,Strap
+GlassesGogglesGlass,Lenses
 GlovesBikerGlovesHands,Gloves
 GlovesBikerGlovesStraps,Straps
 ItemTorsoLeatherChestHarness1Ring,Ring
@@ -1535,3 +1588,46 @@ MaskFestivalFoxMaskBase,Base
 MaskFestivalFoxMaskMarkings,Markings
 MaskFestivalFoxMaskEyeLeft,Left Eye
 MaskFestivalFoxMaskEyeRight,Right Eye
+ItemBreastTickleBraCup,Bra Cup
+ItemBreastTickleBraLining,Lining
+ItemBreastTickleBraTickleUnit,Tickler
+ItemBreastTickleBraWire,Wiring
+ItemHoodFoxHoodBase, Base
+ItemHoodFoxHoodLens, Lenses
+ItemHoodFoxHoodInnerEar, Ear Canal
+ItemHoodFoxHoodOuterEar, Ear 
+ItemHoodFoxHoodEarFuzz, Fuzz
+ItemHoodFoxHoodFace, Face
+ItemHoodPantyHoodBase, Pantyhose
+ItemHoodPantyHoodHairUnder, Hair 
+ClothLatexTankTopBase, Tank Top
+ClothLatexTankTopCollar, Collar
+ClothLatexTankTopHoodDown, Loose Hood
+ClothLatexTankTopHoodFull, Pulled Hood
+ClothLatexTankTopHoodHigh, Hoddie Up
+ClothLatexTankTopHoodLow, Hoodie Down
+ItemHoodVacHoodBase,Hood
+ItemHoodVacHoodLenses,Lenses
+ItemHoodVacHoodTube,Breathing Tube
+ItemHoodVacHoodPlasticClip,Clip
+ItemHoodVacHoodClipHose,Clipped Hose
+ItemHoodVacHoodHandPump,Pump
+ItemHoodVacHoodRebreather,Rebreather Bag
+ItemPelvisPortalPantiesBase, Latex
+ItemPelvisPortalPantiesSlit, Slit
+ItemPelvisPortalPantiesMetal, Portal Unit
+ItemnPelvisPortalPantiesMetalHex, Hex
+ItemPelvisPortalPantiesGlow1, LED
+ItemPelvisPortalPantiesGlow2, LED
+ItemHandheldPortalTablet,Tablet
+ClothLowerPantBootsBase,Latex
+ClothLowerPantBootsStripe,Stripe
+ClothLowerPantBootsBoot,Boot
+ItemArmsPrisonSJBase,Latex
+ItemArmsPrisonSJStripe,Stripe
+ItemArmsPrisonSJClosedZip,Zipper
+ItemArmsPrisonSJOpenZip,Zipper
+ItemHoodSensoryDeprivationHoodBase, Latex
+ItemHoodSensoryDeprivationHoodEarCover, Silencer
+ItemHoodSensoryDeprivationHoodLips, Lips
+GlovesLatexShortGloves,Glove
