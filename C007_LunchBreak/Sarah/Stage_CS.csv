@@ -66,7 +66,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 160,0,0,,"Doufám, že jsou rychlí.|Nechci přijít pozdě do hodiny.","Zbytečně se stresuješ, já chodím vždycky pozdě.|Jdu si umýt ruce. (Odchází na toaletu.)",170,0,-1,RestroomTimerStart(false)
 160,0,0,,"Takže ty jsi myšička,|co má ráda sýr?'",Přesně to jsem! (Legračně napodobuje myš.)|Jdu si umýt ruce. (Odchází na toaletu.),170,1,0,RestroomTimerStart(true)
 160,0,0,,"Účtem se netrap,|já to zatáhnu.",Opravdu? To je od tebe velkorysé.|Jdu si umýt ruce. (Odchází na toaletu.),170,0,1,RestroomTimerStart(true)
-160,0,0,,Mohla bys to zaplatit?|Já zaplatím příště.,Mhm. No dobře. (Vypadá nevesele.)|Jdu si umýt ruce. (Odchází na toaletu.),170,-1,0,RestroomTimerStart(false)
+160,0,0,,Mohla bys to zaplatit?|Já zaplatím příště.,Mhm. No dobře. (Vypadá nešťastně.)|Jdu si umýt ruce. (Odchází na toaletu.),170,-1,0,RestroomTimerStart(false)
 170,0,0,,(Čekej trpělivě.)ADD_MINUTES:1,"(Trpělivě na ni čekáš,|ale ona se z toalety stále nevrací.)",170,0,0,RestroomTimerRun()
 170,0,0,,(Dívej se z okna.)ADD_MINUTES:1,(Díváš se na lidi venku a čekáš.|Stále ještě nepřišla z toalety.),170,0,0,RestroomTimerRun()
 170,0,0,,(Běž na toaletu.),"(Jdeš na malé záchodky, ale jediné dveře,|co tam jsou, jsou zavřené.)",180,0,0,
@@ -121,16 +121,16 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 300,0,0,,Bon appetite!,(Přikývne a docela rychle jí.)|(Vrací se servírka s účtem.),310,0,0,EatLunch()
 300,0,0,,Dobrou chuť!,(Přikývne a docela rychle jí.)|(Vrací se servírka s účtem.),310,0,0,EatLunch()
 300,0,0,,Jez pořádně|a chovej se slušně.,(Přikývne a způsobně se nají.)|(Vrací se servírka s účtem.),310,0,1,EatLunch()
-310,0,0,,I'm broke.  Can|you take the bill?,What?  But...  (She frowns and gets the bill.)|Let's get back then.  (She looks unhappy.),320,-2,-1,
-310,0,0,,Take this bill.|I'll take the next one.,(She frowns.)  Alright.|Let's get back to school.,320,-1,0,
-310,0,0,,I'll take the bill.,"Aaaaaw, that's way too kind|of you.  Let's go back then.",320,0,1,
-310,0,0,,We should|split the bill.,That's perfectly fine!|Let's go back then.,320,0,0,
-310,0,0,,Do we get out|without paying?,That's very tempting!  But they|know me too well in this cafe.,320,0,0,
-320,0,0,,Let's go back.|(Back to college.),"(On your way back, Sarah stops by the lockers.)|Please wait a minute.  I have a gift for you.",330,0,0,TestArmbinder()
-330,0,0,,A gift?  I don't|deserve one.,"Sure you do, I had a wonderful time.|(She gives you a leather armbinder.)",340,0,-1,AddArmbinder()
-330,0,0,,That's very kind of you.,"It's my pleasure, I had a wonderful time.|(She gives you a leather armbinder.)",340,1,0,AddArmbinder()
-330,0,0,,What kind of gift?,"I had a wonderful time, this is for you.|(She gives you a leather armbinder.)",340,0,0,AddArmbinder()
-340,0,0,,Thanks Sarah!,You're welcome!  I'm sure|you'll use it better than me.,350,0,0,
-340,0,0,,Great!  I will|use it on you.,(She giggles.)  I certainly hope so.,350,0,1,
-340,0,0,,This binder looks|kind of cheap.,"Oh no, it's a great device.|Try it later and you'll see.",350,-1,0,
-350,0,0,,See you later!|(Go to next class.),,350,0,0,EndChapter()
+310,0,0,,Jsem švorc.|Mohla bys zaplatit?,Cože? Ale… (Mračí se a bere si účet.)|Tak pojďme zpátky. (Vypadá nešťastně.),320,-2,-1,
+310,0,0,,Teď to zaplať ty.|Já zaplatím příště.,(Mračí se.) Dobrá.|Pojďme zpátky do školy.,320,-1,0,
+310,0,0,,Já to zaplatím.,"Óó, to je od tebe až příliš milé.|Tak tedy pojďme zpátky.",320,0,1,
+310,0,0,,Měli bychom|si rozdělit účet.,To je naprosto v pohodě.|Pojďme tedy zpátky.,320,0,0,
+310,0,0,,Utečeme bez placení?,To je hodně lákavé!|Ale na to mě tady příliš dobře znají.,320,0,0,
+320,0,0,,Pojďme zpátky.|(Zpátky do školy.),"(Na cestě zpátky se Sára zastavuje u skříněk.)|Prosím, počkej chvilku. Mám pro tebe dárek.",330,0,0,TestArmbinder()
+330,0,0,,Dárek? Já si|žádný nezasloužím.,"Rozhodně zasloužíš, báječně jsem si užila.|(Dává ti kožený poutací rukáv.)",340,0,-1,AddArmbinder()
+330,0,0,,To je od tebe moc milé.,"Potěšení je na mé straně, báječně jsem si užila.|(Dává ti kožený poutací rukáv.)",340,1,0,AddArmbinder()
+330,0,0,,Jaký dárek?,"Báječně jsem si užila, tohle je pro tebe.|(Dává ti kožený poutací rukáv.)",340,0,0,AddArmbinder()
+340,0,0,,Děkuji Sáro!,"Rádo se stalo!|Jsem si jista, že ho využiješ líp, než já.",350,0,0,
+340,0,0,,Super!|Použiju ho na tebe!,(Chichotá se.) To rozhodně doufám.,350,0,1,
+340,0,0,,Vypadá docela lacině.,"Kdepak, je to skvělá hračka.|Později ho vyzkoušej a uvidíš.",350,-1,0,
+350,0,0,,Uvidíme se později!|(Běž na další hodinu.),,350,0,0,EndChapter()
