@@ -58,7 +58,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 150,0,0,,"Polévku, prosím.",(Usmívá se a objednává si talíř nachos.)|Moje spolubydlící miluje místní polévku a salát.,160,0,0,GoodMatch()
 150,0,0,,"Hamburger, prosím.",(Objednává si talíř nachos.)|Fast food už jíst nemůžu.,160,0,0,BadMatch()
 150,0,0,,"Talíř nachos, prosím.",(Usmívá se a objednává si to samé.)|Nejlepší rozhodnutí tvého života!,160,0,0,GoodMatch()
-150,0,0,,"Jen cheesecake, prosím.",Jenom cheescake? To je skvělý nápad!|(Objednává si taky cheesecake a usmívá se.),160,0,0,GoodMatch()
+150,0,0,,"Jen cheesecake, prosím.",Jenom cheesecake? To je skvělý nápad!|(Objednává si taky cheesecake a usmívá se.),160,0,0,GoodMatch()
 150,0,0,,"Polévku a salát, prosím.",(Usmívá se a objednává si talíř nachos.)|Moje spolubydlící miluje místní polévku a salát.,160,0,0,GoodMatch()
 150,0,0,,"Chilli hot dog, prosím.",(Objednává si talíř nachos.)|Fast food už jíst nemůžu.,160,0,0,BadMatch()
 150,0,0,,"Fettuccine alfredo, prosím.","(Usmívá se a objednává si talíř nachos.)|Příště zkus to nachos, dávají ho s třemi druhy sýra.",160,0,0,

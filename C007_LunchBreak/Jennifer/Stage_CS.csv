@@ -86,7 +86,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 150,0,0,,"Polévku, prosím.",Velmi zdravá volba.|(Objednává si to samé.),160,0,0,GoodMatch()
 150,0,0,,"Hamburger, prosím.","Řekla bych, že po zápasu si nějaké proteiny|dát můžeš. (Objednává si malý salát.)",160,0,0,
 150,0,0,,"Talíř nachos, prosím.","Řekla bych, že po zápasu si nějaké proteiny|dát můžeš. (Objednává si malý salát.)",160,0,0,
-150,0,0,,"Jenom cheescake, prosím.",To je pořádně nezdravé.|(Objednává si malý salát.),160,0,0,BadMatch()
+150,0,0,,"Jenom cheesecake, prosím.",To je pořádně nezdravé.|(Objednává si malý salát.),160,0,0,BadMatch()
 150,0,0,,"Polévku a salát, prosím.",Velmi zdravá volba.|(Objednává si to samé.),160,0,0,GoodMatch()
 150,0,0,,"Chilli hot dog, prosím.",To je pořádně nezdravé.|(Objednává si malý salát.),160,0,0,BadMatch()
 150,0,0,,"Fettuccine Alfredo, prosím.","Řekla bych, že po zápasu si nějaké proteiny|dát můžeš. (Objednává si malý salát.)",160,0,0,
