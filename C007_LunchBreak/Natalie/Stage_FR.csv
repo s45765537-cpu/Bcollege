@@ -161,7 +161,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 430,0,0,IsRoped,(Tu la détaches.),(Tu libères lentement Natalie de ses liens serrés.),430,0,0,Untie()
 430,0,0,IsGagged,(Tu enlèves son bâillon),"(Tu enlèves soigneusement le bâillon.)|Merci, ma mâchoire avait besoin d'une pause.",430,0,0,Ungag()
 430,0,0,IsBlindfolded,(Tu enlèves son bandeau.),"(Elle cligne des yeux jusqu'ils s'adaptent à|la lumière, elle est heureuse de vous revoir.)",430,0,0,Unblind()
-430,0,0,IsBoundAndGagged,"Je t'ai piégé, salope."|(Tu l'abandonnes.),(Tu veux vraiment l'abandonner attachée|sans défense et bâillonnée comme ça ?),450,0,0,
+430,0,0,IsBoundAndGagged,"Je t'ai piégé, salope.|(Tu l'abandonnes.)",(Tu veux vraiment l'abandonner attachée|sans défense et bâillonnée comme ça ?),450,0,0,
 430,0,0,,Je m'ennuie|à présent.,"(Tu la libères.)|Quoi déjà ? Je pensais que tu appréciais ?",480,-1,0,NatalieRelease()
 430,0,0,,C'est suffisant pour|une pause déjeuner.,(Tu la libères.)|C'est déjà finit ? D'accord.,480,0,0,NatalieRelease()
 450,0,0,,Oui.,(Les autres membres ont déjà quitté la salle|pour leurs cours de l'après-midi.),460,0,0,
@@ -227,7 +227,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 660,0,0,,(Tu étreins Natalie|tendrement.),(Natalie te rend la pareille|et vos langues se rencontrent doucement.),660,0,0,Hug()
 660,0,0,,(Tu essayes d'enlever le|bâillon de Natalie.),(Les boucles des sangles ont été cadenassées.|Le bâillon ne peut être enlevé sans clé.),660,0,0,Hug()
 670,0,0,,@Chhthht vhthlmmt ihhngne.,"(Jenna arrive et libère Natalie.|Tu tombes à genoux, haletant pour respirer.)",680,1,0,
-670,0,0,,@"Shml tm phhmmt,|éhhmmt lm.","(Jenna arrive et libère Natalie.|Tu tombes à genoux, haletant pour respirer.)",680,0,-1,
+670,0,0,,"@Shml tm phhmmt,|éhhmmt lm.","(Jenna arrive et libère Natalie.|Tu tombes à genoux, haletant pour respirer.)",680,0,-1,
 670,0,0,,@Lm vhhme ! (Tu rougis et|détourne le regard.),"(Jenna arrive et libère Natalie.|Tu tombes à genoux, haletant pour respirer.)",680,1,-1,
 680,0,0,,@Th pmmx mr lhhmmhr|mhhmmhhmmt ?,"Bien. (Natalie te libère.)|Alors, c'était comment ?",685,0,0,PlayerRelease()
 680,0,0,,"@Shml tm phhmmt,|éhhmmt lm.","Je vois, je peux y remédier. (Natalie te libère.)|Alors, c'était comment ?",685,0,-1,PlayerRelease()
