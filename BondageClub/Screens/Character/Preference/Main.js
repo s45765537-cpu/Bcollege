@@ -1,5 +1,18 @@
 "use strict";
 
+/** @type {CommonGenerateGridParameters} */
+const PreferenceSubscreenMainGrid = {
+	x: 500,
+	y: 160,
+	width: 1700,
+	height: 700,
+	itemWidth: 400,
+	itemHeight: 90,
+	itemMarginX: 20,
+	itemMarginY: 20,
+	direction: "vertical",
+};
+
 function PreferenceSubscreenMainRun() {
 	// Draw the player & controls
 	DrawCharacter(Player, 50, 50, 0.9);
@@ -12,15 +25,13 @@ function PreferenceSubscreenMainRun() {
 	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Draw all the buttons to access the submenus
-	for (let A = 0; A < adjustedSubscreenList.length; A++) {
-		const screen = PreferenceSubscreens[A];
-		if (screen.hidden) continue;
-
+	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
 		const icon = screen.icon || "Icons/" + screen.name + ".png";
-		DrawButton(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90, "", "White", icon);
+		DrawButton(x, y, w, h, "", "White", icon);
 		const desc = screen.description || TextGet("Homepage" + screen.name);
-		DrawTextFit(desc, 745 + 420 * Math.floor(A / 7), 205 + 110 * (A % 7), 310, "Black");
-	}
+		DrawTextFit(desc, x + 245, y + 46, 310, "Black");
+		return false;
+	});
 }
 
 function PreferenceSubscreenMainClick() {
@@ -30,15 +41,11 @@ function PreferenceSubscreenMainClick() {
 	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Open the selected subscreen
-	for (let A = 0; A < adjustedSubscreenList.length; A++) {
-		const screen = PreferenceSubscreens[A];
-		if (screen.hidden) continue;
-
-		if (MouseIn(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90)) {
-			if (screen.load) screen.load();
-			PreferenceSubscreen = PreferenceSubscreens[A];
-			PreferencePageCurrent = 1;
-			break;
-		}
-	}
+	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
+		if (!MouseIn(x, y, w, h)) return false;
+		PreferencePageCurrent = 1;
+		if (screen.load) screen.load();
+		PreferenceSubscreen = screen;
+		return true;
+	});
 }
