@@ -370,9 +370,6 @@ function PreferenceInitPlayer() {
 	// Non-player specific settings
 	PreferenceInit(C);
 
-	// TODO: Remove before R81
-	PreferenceMigrate(C.ImmersionSettings, C.GraphicsSettings, "AllowBlur", true);
-
 	// If the settings aren't set before, construct them to replicate the default behavior
 
 	if (!CommonIsColor(C.LabelColor)) C.LabelColor = "#ffffff";
