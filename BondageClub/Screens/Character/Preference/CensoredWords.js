@@ -10,6 +10,9 @@ var PreferenceCensoredWordsOffset = 0;
  */
 function PreferenceSubscreenCensoredWordsLoad() {
 	PreferenceCensoredWordsOffset = 0;
+	PreferenceCensoredWordsList = [];
+	if ((Player.ChatSettings.CensoredWordsList != null) && (Player.ChatSettings.CensoredWordsList != ""))
+		PreferenceCensoredWordsList = Player.ChatSettings.CensoredWordsList.split("|");
 	ElementCreateInput("InputWord", "text", "", "50");
 }
 

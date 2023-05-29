@@ -686,54 +686,7 @@ function PreferenceMigrate(from, to, prefName, defaultValue) {
  * @returns {void} - Nothing
  */
 function PreferenceLoad() {
-
-	// Sets up the player label color
-	PreferenceDifficultyLevel = null;
 	PreferenceInitPlayer();
-
-	// Sets the chat themes
-	PreferenceChatColorThemeIndex = (PreferenceChatColorThemeList.indexOf(Player.ChatSettings.ColorTheme) < 0) ? 0 : PreferenceChatColorThemeList.indexOf(Player.ChatSettings.ColorTheme);
-	PreferenceChatEnterLeaveIndex = (PreferenceChatEnterLeaveList.indexOf(Player.ChatSettings.EnterLeave) < 0) ? 0 : PreferenceChatEnterLeaveList.indexOf(Player.ChatSettings.EnterLeave);
-	PreferenceChatMemberNumbersIndex = (PreferenceChatMemberNumbersList.indexOf(Player.ChatSettings.MemberNumbers) < 0) ? 0 : PreferenceChatMemberNumbersList.indexOf(Player.ChatSettings.MemberNumbers);
-	PreferenceChatFontSizeIndex = (PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize)) < 0 ? 1 : PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize);
-	PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog) < 0) ? 0 : PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog);
-	PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume);
-	PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume);
-	PreferenceArousalActiveIndex = (PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active) < 0) ? 0 : PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active);
-	PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX) < 0) ? 0 : PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX);
-	PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator) < 0) ? 0 : PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator);
-	PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter) < 0) ? 0 : PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter);
-	PreferenceArousalVisibleIndex = (PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible) < 0) ? 0 : PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible);
-	PreferenceArousalAffectStutterIndex = (PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter) < 0) ? 0 : PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter);
-	ChatRoomRefreshFontSize();
-
-	// Prepares the activity list
-	PreferenceArousalActivityList = [];
-	if (Player.AssetFamily == "Female3DCG")
-		for (let A = 0; A < ActivityFemale3DCG.length; A++)
-			PreferenceArousalActivityList.push(ActivityFemale3DCG[A].Name);
-	PreferenceArousalActivityIndex = 0;
-	PreferenceLoadActivityFactor();
-
-	// Prepares the fetish list
-	PreferenceArousalFetishList = [];
-	if (Player.AssetFamily == "Female3DCG")
-		for (let A = 0; A < FetishFemale3DCG.length; A++)
-			PreferenceArousalFetishList.push(FetishFemale3DCG[A].Name);
-	PreferenceArousalFetishIndex = 0;
-	PreferenceLoadFetishFactor();
-
-	// Prepares the graphics settings
-	PreferenceGraphicsFontIndex = (PreferenceGraphicsFontList.indexOf(Player.GraphicsSettings.Font) < 0) ? 0 : PreferenceGraphicsFontList.indexOf(Player.GraphicsSettings.Font);
-	PreferenceGraphicsAnimationQualityIndex = (PreferenceGraphicsAnimationQualityList.indexOf(Player.GraphicsSettings.AnimationQuality) < 0) ? 0 : PreferenceGraphicsAnimationQualityList.indexOf(Player.GraphicsSettings.AnimationQuality);
-	PreferenceGraphicsWebGLOptions = GLDrawGetOptions();
-	PreferenceGraphicsPowerModeIndex = (PreferenceGraphicsPowerModes.indexOf(PreferenceGraphicsWebGLOptions.powerPreference) < 0) ? 0 : PreferenceGraphicsPowerModes.indexOf(PreferenceGraphicsWebGLOptions.powerPreference);
-
-	// Prepares the censored words list
-	PreferenceCensoredWordsOffset = 0;
-	PreferenceCensoredWordsList = [];
-	if ((Player.ChatSettings.CensoredWordsList != null) && (Player.ChatSettings.CensoredWordsList != "")) PreferenceCensoredWordsList = Player.ChatSettings.CensoredWordsList.split("|");
-
 }
 
 /**

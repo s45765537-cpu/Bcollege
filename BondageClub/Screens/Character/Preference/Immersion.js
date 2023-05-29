@@ -4,6 +4,10 @@
 var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
 var PreferenceSettingsSensDepIndex = 0;
 
+function PreferenceSubscreenImmersionLoad() {
+	PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog) < 0) ? 0 : PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog);
+}
+
 /**
  * Runs and draws the preference screen, immersion sub-screen
  * @returns {void} - Nothing

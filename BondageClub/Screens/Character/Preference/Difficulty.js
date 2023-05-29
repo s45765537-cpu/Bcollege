@@ -4,6 +4,10 @@
 var PreferenceDifficultyLevel = null;
 var PreferenceDifficultyAccept = false;
 
+function PreferenceSubscreenDifficultyLoad() {
+	PreferenceDifficultyLevel = Player.GetDifficulty();
+}
+
 /**
  * Runs and draw the preference screen, difficulty subscreen
  * @returns {void} - Nothing
@@ -38,8 +42,8 @@ function PreferenceSubscreenDifficultyRun() {
 			DrawText(TextGet("Difficulty" + PreferenceDifficultyLevel.toString() + "Text" + T.toString()), 500, 225 + 100 * T, "Black", "White");
 
 		// Can only set to 2 or 3 if no change was done for 1 week
-		if (PreferenceDifficultyLevel != Player.GetDifficulty()) {
-			var LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
+		if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
+			const LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
 			if ((PreferenceDifficultyLevel <= 1) || (LastChange + 604800000 < CurrentTime)) {
 				DrawCheckbox(500, 700, 64, 64, TextGet("DifficultyIAccept"), PreferenceDifficultyAccept);
 				MainCanvas.textAlign = "center";

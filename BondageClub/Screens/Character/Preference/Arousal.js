@@ -38,6 +38,25 @@ var PreferenceArousalFetishDefaultCompressedString = "fffffffffffffffffff";
 
 function PreferenceSubscreenArousalLoad() {
 	CharacterAppearanceForceUpCharacter = Player.MemberNumber;
+	PreferenceArousalActiveIndex = (PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active) < 0) ? 0 : PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active);
+	PreferenceArousalVisibleIndex = (PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible) < 0) ? 0 : PreferenceArousalVisibleList.indexOf(Player.ArousalSettings.Visible);
+	PreferenceArousalAffectStutterIndex = (PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter) < 0) ? 0 : PreferenceArousalAffectStutterList.indexOf(Player.ArousalSettings.AffectStutter);
+
+	// Prepares the activity list
+	PreferenceArousalActivityList = [];
+	if (Player.AssetFamily == "Female3DCG")
+		for (let A = 0; A < ActivityFemale3DCG.length; A++)
+			PreferenceArousalActivityList.push(ActivityFemale3DCG[A].Name);
+	PreferenceArousalActivityIndex = 0;
+	PreferenceLoadActivityFactor();
+
+	// Prepares the fetish list
+	PreferenceArousalFetishList = [];
+	if (Player.AssetFamily == "Female3DCG")
+		for (let A = 0; A < FetishFemale3DCG.length; A++)
+			PreferenceArousalFetishList.push(FetishFemale3DCG[A].Name);
+	PreferenceArousalFetishIndex = 0;
+	PreferenceLoadFetishFactor();
 }
 
 /**

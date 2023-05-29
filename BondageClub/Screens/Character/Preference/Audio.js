@@ -5,6 +5,11 @@ var PreferenceSettingsVolumeIndex = 0;
 var PreferenceSettingsMusicVolumeIndex = 0;
 
 
+function PreferenceSubscreenAudioLoad() {
+	PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume);
+	PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume);
+}
+
 /**
  * Sets the audio preferences for the player. Redirected to from the main Run function if the player is in the audio
  * settings subscreen
