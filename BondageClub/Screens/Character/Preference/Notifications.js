@@ -108,7 +108,7 @@ function PreferenceNotificationsDrawSetting(Left, Top, Text, Setting) {
 function PreferenceSubscreenNotificationsClick() {
 
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenNotificationsExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	// Change pages
 	//PreferencePageChangeClick(1705, 185, 2); // Uncomment when adding a 2nd page
 
@@ -183,7 +183,6 @@ function PreferenceNotificationsClickSetting(Left, Top, Setting, EventType) {
 
 /**
  * Exits the preference screen. Resets the test notifications.
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenNotificationsExit() {
 
@@ -196,5 +195,5 @@ function PreferenceSubscreenNotificationsExit() {
 	if (enableAudio) Player.AudioSettings.Notifications = true;
 
 	NotificationReset(NotificationEventType.TEST);
-	PreferenceSubscreen = "";
+	return true;
 }

@@ -141,7 +141,7 @@ function PreferenceSubscreenGraphicsRun() {
  */
 function PreferenceSubscreenGraphicsClick() {
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenGraphicsExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// Change page
 	PreferencePageChangeClick(1595, 75, 2); // Uncomment when adding a 2nd page
@@ -223,5 +223,5 @@ function PreferenceSubscreenGraphicsExit() {
 		GLDrawSetOptions(PreferenceGraphicsWebGLOptions);
 		GLDrawResetCanvas();
 	}
-	PreferenceSubscreen = "";
+	return true;
 }

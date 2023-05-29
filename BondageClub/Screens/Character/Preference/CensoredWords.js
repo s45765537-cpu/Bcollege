@@ -50,7 +50,7 @@ function PreferenceSubscreenCensoredWordsRun() {
 function PreferenceSubscreenCensoredWordsClick() {
 
 	// When the user clicks on the header buttons
-	if (MouseIn(1830, 60, 250, 65)) PreferenceSubscreenCensoredWordsExit();
+	if (MouseIn(1830, 60, 250, 65)) PreferenceSubscreenExit();
 	if (MouseIn(1550, 175, 180, 60)) {
 		let Word = ElementValue("InputWord").trim().toUpperCase().replace("|", "");
 		if ((Word != "") && (PreferenceCensoredWordsList.indexOf(Word) < 0)) {
@@ -86,10 +86,9 @@ function PreferenceSubscreenCensoredWordsClick() {
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenCensoredWordsExit() {
 	ElementRemove("InputWord");
 	Player.ChatSettings.CensoredWordsList = PreferenceCensoredWordsList.join("|");
-	PreferenceSubscreen = "";
+	return true;
 }

@@ -42,7 +42,7 @@ function PreferenceGenderDrawSetting(Left, Top, Text, Setting) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGenderClick() {
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreen = "";
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	PreferenceGenderClickSetting(1450, 225, Player.GenderSettings.AutoJoinSearch, false);
 	PreferenceGenderClickSetting(1450, 305, Player.GenderSettings.HideShopItems, false);

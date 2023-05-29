@@ -63,7 +63,7 @@ function PreferenceSubscreenDifficultyClick() {
 	// When no level is selected, the user can pick one to go into details
 	if (PreferenceDifficultyLevel == null) {
 		PreferenceDifficultyAccept = false;
-		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenDifficultyExit();
+		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 		for (let D = 0; D <= 3; D++)
 			if (MouseIn(500, 320 + 150 * D, 300, 64))
 				PreferenceDifficultyLevel = D;
@@ -81,18 +81,9 @@ function PreferenceSubscreenDifficultyClick() {
 					PreferenceInitPlayer();
 					LoginDifficulty(true);
 					PreferenceDifficultyLevel = null;
-					PreferenceSubscreenDifficultyExit();
+					PreferenceSubscreenExit();
 				}
 			}
 		}
 	}
-}
-
-/**
- * Exists the difficulty screen. Cleans up elements that are not needed anymore
- * @returns {void} - Nothing
- */
-function PreferenceSubscreenDifficultyExit() {
-	PreferenceMessage = "";
-	PreferenceSubscreen = "";
 }

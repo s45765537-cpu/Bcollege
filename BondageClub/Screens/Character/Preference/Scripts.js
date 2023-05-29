@@ -32,6 +32,15 @@ const maxScriptPermission = Object.values(ScriptPermissionBits)
 	.reduce((sum, bit) => sum | bit, 0);
 
 
+function PreferenceSubscreenScriptsLoad() {
+	if (PreferenceScriptWarningAccepted) return;
+	PreferenceScriptTimer = Date.now() + 5000;
+	PreferenceScriptTimeoutHandle = setTimeout(() => {
+		PreferenceScriptTimer = null;
+		PreferenceScriptTimeoutHandle = null;
+	}, 5000);
+}
+
 function PreferenceSubscreenScriptsRun() {
 	const helpColour = "#ff8";
 
@@ -122,7 +131,7 @@ function PreferenceScriptsDrawWarningScreen() {
 
 function PreferenceSubscreenScriptsClick() {
 	if (MouseIn(1815, 75, 90, 90)) {
-		PreferenceSubscreenScriptsExitClick();
+		PreferenceSubscreenExit();
 		return;
 	}
 
@@ -180,8 +189,7 @@ function PreferenceSubscreenScriptsClick() {
 	PreferenceScriptHelp = null;
 }
 
-function PreferenceSubscreenScriptsExitClick() {
-	PreferenceSubscreen = "";
+function PreferenceSubscreenScriptsExit() {
 	if (PreferenceScriptTimeoutHandle != null) {
 		clearTimeout(PreferenceScriptTimeoutHandle);
 		PreferenceScriptTimeoutHandle = null;
@@ -207,6 +215,7 @@ function PreferenceSubscreenScriptsExitClick() {
 			}
 		}
 	}
+	return true;
 }
 
 function PreferenceSubscreenScriptsWarningClick() {

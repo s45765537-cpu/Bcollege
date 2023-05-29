@@ -41,7 +41,7 @@ function PreferenceSubscreenAudioRun() {
 function PreferenceSubscreenAudioClick() {
 
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenAudioExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// Volume increase/decrease control
 	if (MouseIn(500, 193, 250, 64)) {
@@ -75,8 +75,7 @@ function PreferenceSubscreenAudioClick() {
 }
 
 /**
- * Exists the preference screen.
- * @returns {void} - Nothing
+ * Exits the preference screen.
  */
 function PreferenceSubscreenAudioExit() {
 	// If audio has been disabled for notifications, disable each individual notification audio setting
@@ -86,6 +85,5 @@ function PreferenceSubscreenAudioExit() {
 			if (typeof audio === 'number' && audio > 0) Player.NotificationSettings[setting].Audio = NotificationAudioType.NONE;
 		}
 	}
-
-	PreferenceSubscreen = "";
+	return true;
 }

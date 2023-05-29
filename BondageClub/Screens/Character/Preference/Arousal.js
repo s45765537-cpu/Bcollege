@@ -140,7 +140,7 @@ function PreferenceGetFactorColor(Factor) {
 function PreferenceSubscreenArousalClick() {
 
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenArousalExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// Arousal active control
 	if (MouseIn(750, 193, 450, 64)) {
@@ -274,11 +274,10 @@ function PreferenceDecrementArousalFactor(factor) {
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenArousalExit() {
-	PreferenceSubscreen = "";
 	Player.FocusGroup = null;
 	CharacterAppearanceForceUpCharacter = -1;
 	CharacterLoadCanvas(Player);
+	return true;
 }

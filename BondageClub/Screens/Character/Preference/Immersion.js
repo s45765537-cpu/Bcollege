@@ -73,7 +73,7 @@ function PreferenceSubscreenImmersionRun() {
 function PreferenceSubscreenImmersionClick() {
 
 	// If the user clicks on "Exit"
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreen = "";
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	// Change page
 	PreferencePageChangeClick(1595, 75, 2); // Uncomment when adding a 2nd page
 

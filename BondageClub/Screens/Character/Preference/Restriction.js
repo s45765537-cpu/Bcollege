@@ -25,7 +25,7 @@ function PreferenceSubscreenRestrictionRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenRestrictionClick() {
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenDifficultyExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	if (MouseIn(500, 325, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle;
 	if (MouseIn(500, 425, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.SlowImmunity = !Player.RestrictionSettings.SlowImmunity;
 	if (MouseIn(500, 525, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassNPCPunishments = !Player.RestrictionSettings.BypassNPCPunishments;

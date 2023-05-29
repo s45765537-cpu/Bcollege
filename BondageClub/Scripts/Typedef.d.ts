@@ -441,6 +441,17 @@ type PreferenceSubscreenName =
 	"Gender" | "Scripts" | "Extensions" | "Main"
 	;
 
+interface PreferenceSubscreen {
+	name: PreferenceSubscreenName;
+	description?: string;
+	icon?: string;
+	hidden?: boolean;
+	load?: () => void;
+	run: () => void;
+	click: () => void;
+	exit?: () => boolean;
+}
+
 interface PreferenceGenderSetting {
 	/** Whether the setting is active for female cases */
 	Female: boolean;
@@ -3946,21 +3957,22 @@ interface ArousalSettingsType {
 interface PreferenceExtensionsSettingItem {
 	/**
 	 * The identifier of the extension.
-	 * This is used to identify the extension and should be unique.
+	 * This is used to identify the extension and must be unique.
 	 */
 	Identifier: string;
 
 	/**
-	 * The button text for the button of extension.
+	 * The label for the extension button.
 	 * If it's a Function, it will be called once when entering
 	 * the extension setting menu. Use the return value as button text.
 	 */
 	ButtonText: string | (()=>string);
 
 	/**
-	 * The image path of the extension, and is passed
-	 * into {@link DrawButton} for creating the HTMLImageElement
-	 * that is needed for drawing the Button image.
+	 * The image path of the extension.
+	 *
+	 * This is passed to {@link DrawButton} directly. You can use a `data` URL here.
+	 *
 	 * If it's a Function, it will be called once when entering
 	 * the extension setting menu. Use the return value as image
 	 * path.
@@ -3968,36 +3980,51 @@ interface PreferenceExtensionsSettingItem {
 	 */
 	Image?: string | (()=>string);
 
-	/** Handles loading on entering the extension setting */
+	/**
+	 * Called when the extension screen is about to be displayed.
+	 *
+	 * You can create your own HTML elements in here, or load your data.
+	 *
+	 * Note that HTML elements with the `HideOnPopup` class will be hidden
+	 * automatically when a popup is shown.
+	 */
 	load?: () => void;
 
-	/** Handles the clicks of the extension setting */
+	/**
+	 * Called when a click happens on the extension screen.
+	 *
+	 * Note: your exit button handling *must* call {@link PreferenceSubscreenExit};
+	 */
 	click: () => void;
 
-	/** Handles the run and draws of the extension setting */
+	/**
+	 * Called every frame while the extension screen is shown.
+	 */
 	run: () => void;
 
 	/**
-	 * Handles the unloading of the extension setting, typically
-	 * from {@link CommonSetScreen}, when the player is disconnected.
-	 * If it's undefined, there will be no unloading for the extension
-	 * setting.
-	 * Remind to check those HTML elements that are created in the
-	 * extension setting, and hide/remove them from the DOM.
-	 * Note that HTML elements with `HideOnPopup` class will be hidden
-	 * automatically when a popup is shown.
+	 * Called when the extension screen is about to be closed.
+	 *
+	 * Handles the unloading of the extension setting, usually when the user clicks the exit button,
+	 * but it can also be called by the relog screen being triggered because of a disconnect.
+	 *
+	 * If you created any HTML elements in {@link PreferenceExtensionsSettingItem.load}, this is a good place to remove them.
 	 */
 	unload?: () => void;
 
 	/**
-	 * Handles the exits of the extension setting, typically when
-	 * user press `Esc` key.
-	 * If a extension wants to exit the menu by itself
-	 * (clicking `exit` button, etc.), the extension should call
-	 * `PreferenceSubscreenExtensionsClear`.
-	 * @returns If it returns `true`, the extension setting will be unload.
-	 * And `unload` will be called once if it's defined and then main extension
-	 * setting page is shown.
+	 * Called when the extension screen is about to exit.
+	 *
+	 * Happens either through a click of the exit button, or the ESC key.
+	 *
+	 * @returns {boolean | void} If you have some validation that needs to happen
+	 * (for example, ensuring that a textfield contains a valid color code), return false;
+	 * this will stop the subscreen from exiting.
+	 * You might want to show a message to the user explaining why "nothing is happening" in that case,
+	 * either through your own means or by setting `PreferenceMessage` to a string.
+	 *
+	 * If you return true or nothing, your screen's {@link PreferenceExtensionsSettingItem.unload} handler
+	 * will be called afterward.
 	 */
 	exit: () => boolean | void;
 }

@@ -135,14 +135,13 @@ function PreferenceSubscreenChatClick() {
 	}
 
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75,90,90)) PreferenceSubscreenChatExit();
+	if (MouseIn(1815, 75,90,90)) PreferenceSubscreenExit();
 
 }
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenChatExit() {
-	PreferenceSubscreen = "";
+	return true;
 }

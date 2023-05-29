@@ -1,7 +1,7 @@
 "use strict";
 
-/** @type {"InputCharacterLabelColor" | ""} */
-var PreferenceSubscreenGeneralColor = "";
+/** @type {boolean} */
+var PreferenceSubscreenGeneralColorPicker = false;
 var PreferenceSafewordConfirm = false;
 
 /**
@@ -53,8 +53,8 @@ function PreferenceSubscreenGeneralRun() {
 	// Draw the player & controls
 	DrawCharacter(Player, 50, 50, 0.9);
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (PreferenceSubscreenGeneralColor != "")
-		ColorPickerDraw(1250, 185, 675, 800, /** @type {HTMLInputElement} */(document.getElementById(PreferenceSubscreenGeneralColor)));
+	if (PreferenceSubscreenGeneralColorPicker)
+		ColorPickerDraw(1250, 185, 675, 800, /** @type {HTMLInputElement} */(document.getElementById("InputCharacterLabelColor")));
 	else
 		ColorPickerHide();
 
@@ -68,7 +68,7 @@ function PreferenceSubscreenGeneralRun() {
 function PreferenceSubscreenGeneralClick() {
 
 	// If the user clicks on "Exit"
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenGeneralExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// If we must change the restrain permission level
 	if (MouseIn(500, 280, 90, 90)) {
@@ -78,8 +78,8 @@ function PreferenceSubscreenGeneralClick() {
 	}
 
 	// If we must show/hide/use the color picker
-	if (MouseIn(1140, 187, 65, 65)) PreferenceSubscreenGeneralColor = (PreferenceSubscreenGeneralColor != "InputCharacterLabelColor") ? "InputCharacterLabelColor" : "";
-	if (MouseIn(1815, 75, 90, 90) && (PreferenceSubscreenGeneralColor != "")) PreferenceSubscreenGeneralColor = "";
+	if (MouseIn(1140, 187, 65, 65) && !PreferenceSubscreenGeneralColorPicker) PreferenceSubscreenGeneralColorPicker = true;
+	if (MouseIn(1815, 75, 90, 90) && (PreferenceSubscreenGeneralColorPicker)) PreferenceSubscreenGeneralColorPicker = false;
 
 	// Preference check boxes
 	if (MouseIn(500, 402, 64, 64)) Player.VisualSettings.ForceFullHeight = !Player.VisualSettings.ForceFullHeight;
@@ -105,24 +105,23 @@ function PreferenceSubscreenGeneralClick() {
 /**
  * Exits the preference screen. Cleans up elements that are not needed anymore
  * If the selected color is invalid, the player cannot leave the screen.
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenGeneralExit() {
-	if (!PreferenceSubscreenGeneralColor) {
-		return;
-	}
+	if (PreferenceSubscreenGeneralColorPicker) return false;
 
 	const color = ElementValue("InputCharacterLabelColor");
-	if (CommonIsColor(color)) {
-		if (color !== Player.LabelColor) {
-			Player.LabelColor = color;
-			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
-			elems.forEach(e => e.style.setProperty("--label-color", color));
-		}
-		PreferenceMessage = "";
-		ElementRemove("InputCharacterLabelColor");
-		PreferenceSubscreen = "";
-	} else {
+	if (!CommonIsColor(color)) {
 		PreferenceMessage = "ErrorInvalidColor";
+		return false;
 	}
+
+	if (color !== Player.LabelColor) {
+		Player.LabelColor = color;
+		const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
+		elems.forEach(e => e.style.setProperty("--label-color", color));
+	}
+
+	PreferenceMessage = "";
+	ElementRemove("InputCharacterLabelColor");
+	return true;
 }

@@ -1,10 +1,149 @@
 "use strict";
+/**
+ * The background to use for the settings screen
+ */
 var PreferenceBackground = "Sheet";
+
+/**
+ * A message shown by some subscreen
+ * @type {string}
+ */
 var PreferenceMessage = "";
-/** @type {PreferenceSubscreenName | ""} */
-var PreferenceSubscreen = "Main";
-/** @type {PreferenceSubscreenName[]} */
-var PreferenceSubscreenList = ["General", "Difficulty", "Restriction", "Chat", "CensoredWords", "Audio", "Arousal", "Security", "Online", "Visibility", "Immersion", "Graphics", "Controller", "Notifications", "Gender", "Scripts"];
+
+/**
+ * The currently active subscreen
+ *
+ * @type {PreferenceSubscreen?}
+ */
+var PreferenceSubscreen = null;
+
+/**
+ * @type {PreferenceSubscreenName[]}
+ * @deprecated the old name. Remove after the extensions have caught up
+ */
+var PreferenceSubscreenList = [];
+
+/**
+ * All the base settings screens
+ * @type {PreferenceSubscreen[]}
+ */
+const PreferenceSubscreens = [
+	{
+		name: "Main",
+		hidden: true,
+		run: PreferenceSubscreenMainRun,
+		click: PreferenceSubscreenMainClick,
+	},
+	{
+		name: "General",
+		load: PreferenceSubscreenGeneralLoad,
+		run: PreferenceSubscreenGeneralRun,
+		click: PreferenceSubscreenGeneralClick,
+		exit: PreferenceSubscreenGeneralExit,
+	},
+	{
+		name: "Difficulty",
+		load: PreferenceSubscreenDifficultyLoad,
+		run: PreferenceSubscreenDifficultyRun,
+		click: PreferenceSubscreenDifficultyClick,
+	},
+	{
+		name: "Restriction",
+		run: PreferenceSubscreenRestrictionRun,
+		click: PreferenceSubscreenRestrictionClick,
+	},
+	{
+		name: "Chat",
+		load: PreferenceSubscreenChatLoad,
+		run: PreferenceSubscreenChatRun,
+		click: PreferenceSubscreenChatClick,
+		exit: PreferenceSubscreenChatExit,
+	},
+	{
+		name: "CensoredWords",
+		load: PreferenceSubscreenCensoredWordsLoad,
+		run: PreferenceSubscreenCensoredWordsRun,
+		click: PreferenceSubscreenCensoredWordsClick,
+		exit: PreferenceSubscreenCensoredWordsExit,
+	},
+	{
+		name: "Audio",
+		load: PreferenceSubscreenAudioLoad,
+		run: PreferenceSubscreenAudioRun,
+		click: PreferenceSubscreenAudioClick,
+		exit: PreferenceSubscreenAudioExit,
+	},
+	{
+		name: "Arousal",
+		load: PreferenceSubscreenArousalLoad,
+		run: PreferenceSubscreenArousalRun,
+		click: PreferenceSubscreenArousalClick,
+		exit: PreferenceSubscreenArousalExit,
+	},
+	{
+		name: "Security",
+		load: PreferenceSubscreenSecurityLoad,
+		run: PreferenceSubscreenSecurityRun,
+		click: PreferenceSubscreenSecurityClick,
+		exit: PreferenceSubscreenSecurityExit,
+	},
+	{
+		name: "Online",
+		run: PreferenceSubscreenOnlineRun,
+		click: PreferenceSubscreenOnlineClick,
+	},
+	{
+		name: "Visibility",
+		load: PreferenceSubscreenVisibilityLoad,
+		run: PreferenceSubscreenVisibilityRun,
+		click: PreferenceSubscreenVisibilityClick,
+		exit: PreferenceSubscreenVisibilityExit,
+	},
+	{
+		name: "Immersion",
+		load: PreferenceSubscreenImmersionLoad,
+		run: PreferenceSubscreenImmersionRun,
+		click: PreferenceSubscreenImmersionClick,
+	},
+	{
+		name: "Graphics",
+		load: PreferenceSubscreenGraphicsLoad,
+		run: PreferenceSubscreenGraphicsRun,
+		click: PreferenceSubscreenGraphicsClick,
+		exit: PreferenceSubscreenGraphicsExit,
+	},
+	{
+		name: "Controller",
+		run: PreferenceSubscreenControllerRun,
+		click: PreferenceSubscreenControllerClick,
+		exit: PreferenceSubscreenControllerExit,
+	},
+	{
+		name: "Notifications",
+		load: PreferenceSubscreenNotificationsLoad,
+		run: PreferenceSubscreenNotificationsRun,
+		click: PreferenceSubscreenNotificationsClick,
+		exit: PreferenceSubscreenNotificationsExit,
+	},
+	{
+		name: "Gender",
+		run: PreferenceSubscreenGenderRun,
+		click: PreferenceSubscreenGenderClick,
+	},
+	{
+		name: "Scripts",
+		load: PreferenceSubscreenScriptsLoad,
+		run: PreferenceSubscreenScriptsRun,
+		click: PreferenceSubscreenScriptsClick,
+		exit: PreferenceSubscreenScriptsExit,
+	},
+];
+
+/**
+ * The current page ID for multi-page screens.
+ *
+ * This is automatically reset to 1 when a screen loads
+ */
 var PreferencePageCurrent = 1;
 
 /** @type {Record<string,PreferenceExtensionsSettingItem>} */
@@ -687,7 +826,21 @@ function PreferenceMigrate(from, to, prefName, defaultValue) {
  */
 function PreferenceLoad() {
 	PreferenceInitPlayer();
-	PreferenceSubscreen = "Main";
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+
+	// Backward-compatibility: just throw the old-style screens into the mix
+	if (PreferenceSubscreenList.length > 0) {
+		console.warn("Detected old-style subscreens, please upgrade!", PreferenceSubscreenList);
+	}
+	for (const screen of PreferenceSubscreenList) {
+		PreferenceSubscreens.push({
+			name: screen,
+			load: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Load`),
+			run: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Run`),
+			click: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Click`),
+			exit: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Exit`),
+		});
+	}
 }
 
 /**
@@ -696,10 +849,13 @@ function PreferenceLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceRun() {
-
-	// If a subscreen is active, draw that instead
-	if (PreferenceSubscreen != "") return CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Run()");
-
+	// Backward-compatibility: automatically substitute strings for the actual subscreen
+	if (typeof PreferenceSubscreen === "string") {
+		const subscreenName = PreferenceSubscreen === "" ? "Main" : PreferenceSubscreen;
+		PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === subscreenName);
+		if (!PreferenceSubscreen) PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	}
+	PreferenceSubscreen.run();
 }
 
 /**
@@ -710,8 +866,7 @@ function PreferenceClick() {
 	if (ControllerIsActive()) {
 		ControllerClearAreas();
 	}
-	// Pass the click into the opened subscreen
-	if (PreferenceSubscreen != "") return CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Click()");
+	PreferenceSubscreen.click();
 }
 
 /**
@@ -720,39 +875,48 @@ function PreferenceClick() {
  * @returns {void} - Nothing
  */
 function PreferenceExit() {
-	if (PreferenceSubscreen !== "") {
-		// Exit the subscreen to the main preferences menu
-		if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Exit"] === "function") {
-			window["PreferenceSubscreen" + PreferenceSubscreen + "Exit"]();
-		}
-		else {
-			PreferenceMessage = "";
-			PreferenceSubscreen = "";
-		}
-	} else {
-		// Exit the preference menus
-		const P = {
-			ArousalSettings: Player.ArousalSettings,
-			ChatSettings: Player.ChatSettings,
-			VisualSettings: Player.VisualSettings,
-			AudioSettings: Player.AudioSettings,
-			ControllerSettings: Player.ControllerSettings,
-			GameplaySettings: Player.GameplaySettings,
-			ImmersionSettings: Player.ImmersionSettings,
-			RestrictionSettings: Player.RestrictionSettings,
-			OnlineSettings: Player.OnlineSettings,
-			OnlineSharedSettings: Player.OnlineSharedSettings,
-			GraphicsSettings: Player.GraphicsSettings,
-			NotificationSettings: Player.NotificationSettings,
-			GenderSettings: Player.GenderSettings,
-			ItemPermission: Player.ItemPermission,
-			LabelColor: Player.LabelColor,
-			...ServerPackItemPermissions(Player.PermissionItems),
-		};
-		ServerAccountUpdate.QueueData(P);
-		PreferenceMessage = "";
-		CommonSetScreen("Character", "InformationSheet");
+	if (PreferenceSubscreen.name !== "Main") {
+		if (!PreferenceSubscreenExit())
+			return;
 	}
+
+	// Exit the preference menus
+	const P = {
+		ArousalSettings: Player.ArousalSettings,
+		ChatSettings: Player.ChatSettings,
+		VisualSettings: Player.VisualSettings,
+		AudioSettings: Player.AudioSettings,
+		ControllerSettings: Player.ControllerSettings,
+		GameplaySettings: Player.GameplaySettings,
+		ImmersionSettings: Player.ImmersionSettings,
+		RestrictionSettings: Player.RestrictionSettings,
+		OnlineSettings: Player.OnlineSettings,
+		OnlineSharedSettings: Player.OnlineSharedSettings,
+		GraphicsSettings: Player.GraphicsSettings,
+		NotificationSettings: Player.NotificationSettings,
+		GenderSettings: Player.GenderSettings,
+		ItemPermission: Player.ItemPermission,
+		LabelColor: Player.LabelColor,
+		...ServerPackItemPermissions(Player.PermissionItems),
+	};
+	ServerAccountUpdate.QueueData(P);
+	PreferenceMessage = "";
+	CommonSetScreen("Character", "InformationSheet");
+}
+
+/**
+ * Exit from a specific subscreen by running its handler and checking its validity
+ */
+function PreferenceSubscreenExit() {
+	let valid = true;
+	if (PreferenceSubscreen.exit)
+		valid = PreferenceSubscreen.exit();
+
+	if (!valid) return valid;
+
+	PreferenceMessage = "";
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	return valid;
 }
 
 /**

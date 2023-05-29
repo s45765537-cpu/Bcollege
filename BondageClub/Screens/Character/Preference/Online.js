@@ -34,7 +34,7 @@ function PreferenceSubscreenOnlineRun() {
 function PreferenceSubscreenOnlineClick() {
 	const OnlineSettings = Player.OnlineSettings;
 	const OnlineSharedSettings = Player.OnlineSharedSettings;
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreen = "";
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	else if (MouseIn(500, 175, 64, 64)) OnlineSettings.AutoBanBlackList = !OnlineSettings.AutoBanBlackList;
 	else if (MouseIn(500, 255, 64, 64)) OnlineSettings.AutoBanGhostList = !OnlineSettings.AutoBanGhostList;
 	else if (MouseIn(500, 335, 64, 64)) OnlineSettings.SearchShowsFullRooms = !OnlineSettings.SearchShowsFullRooms;

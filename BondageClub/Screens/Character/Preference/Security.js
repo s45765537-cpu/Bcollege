@@ -36,7 +36,7 @@ function PreferenceSubscreenSecurityRun() {
 function PreferenceSubscreenSecurityClick() {
 
 	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenSecurityExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// If we must update the email
 	if (MouseIn(500, 365, 250, 50)) {
@@ -52,10 +52,9 @@ function PreferenceSubscreenSecurityClick() {
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenSecurityExit() {
-	PreferenceSubscreen = "";
 	ElementRemove("InputEmailOld");
 	ElementRemove("InputEmailNew");
+	return true;
 }

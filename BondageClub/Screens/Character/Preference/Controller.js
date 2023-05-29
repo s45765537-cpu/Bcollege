@@ -44,7 +44,7 @@ function PreferenceSubscreenControllerRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerClick() {
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenControllerExit();
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	if (MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
 
 	if (!ControllerIsCalibrating()) {
@@ -80,9 +80,8 @@ function PreferenceSubscreenControllerClick() {
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerExit() {
-	PreferenceSubscreen = "";
 	ControllerStopCalibration(true);
+	return true;
 }

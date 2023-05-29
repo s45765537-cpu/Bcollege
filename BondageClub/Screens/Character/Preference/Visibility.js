@@ -218,10 +218,11 @@ function PreferenceVisibilityCheckboxChanged(permissionRecord, CheckSetting, Typ
 
 /**
  * Exits the preference screen
- * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityExit() {
-	PreferenceVisibilityExit(false);
+	PreferenceVisibilityGroupList = [];
+	PreferenceVisibilityRecord = {};
+	return true;
 }
 
 /**
@@ -232,7 +233,5 @@ function PreferenceSubscreenVisibilityExit() {
 function PreferenceVisibilityExit(SaveChanges) {
 	if (SaveChanges) ServerPlayerBlockItemsSync();
 
-	PreferenceVisibilityGroupList = [];
-	PreferenceVisibilityRecord = {};
-	PreferenceSubscreen = "";
+	PreferenceSubscreenExit();
 }
