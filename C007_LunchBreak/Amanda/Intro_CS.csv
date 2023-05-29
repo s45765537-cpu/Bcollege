@@ -1,17 +1,17 @@
 Stage,LoveReq,SubReq,VarReq,IntroText,Image
-0,0,0,,"Jé, COMMON_PLAYERNAME! Chceš ukázat,|kde je tu školní kantýna?",AmandaIntro.jpg
-0,5,0,,COMMON_PLAYERNAME! Ráda tě vidím!|Už jsi našla školní kantýnu?,AmandaIntroHappy.jpg
-0,0,5,,"Zdravím vás, slečno COMMON_PLAYERNAME. (Sklání hlavu.)|Našla jste školní kantýnu?",AmandaIntroSubbie.jpg
-0,1,-3,,"Ahoj děvče, je čas na oběd!|Potřebuješ pomoct najít školní kantýnu?",AmandaIntroDomme.jpg
-0,0,0,TeamAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred svázali.|Mimochodem, školní kantýnu jsi už našla?",AmandaIntroHappy.jpg
-0,0,0,TeamFailAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred zkusili přemoct.|Mimochodem, školní kantýnu jsi už našla?",AmandaIntro.jpg
+0,0,0,,"Jé, COMMON_PLAYERNAME! Chceš ukázat,|kde je tu školní jídelna?",AmandaIntro.jpg
+0,5,0,,COMMON_PLAYERNAME! Ráda tě vidím!|Už jsi našla školní jídelnu?,AmandaIntroHappy.jpg
+0,0,5,,"Zdravím vás, slečno COMMON_PLAYERNAME. (Sklání hlavu.)|Našla jste školní jídelnu?",AmandaIntroSubbie.jpg
+0,1,-3,,"Ahoj děvče, je čas na oběd!|Potřebuješ pomoct najít školní jídelnu?",AmandaIntroDomme.jpg
+0,0,0,TeamAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred svázali!|Mimochodem, školní jídelnu jsi už našla?",AmandaIntroHappy.jpg
+0,0,0,TeamFailAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred zkusili přemoct.|Mimochodem, školní jídelnu jsi už našla?",AmandaIntro.jpg
 5,0,0,,"(Amanda uteče, sotva tě zahlédne.|Předstírá, že má naspěch.)",AmandaGone.jpg
-10,0,0,,"Můžeš zkusit školní kantýnu, ale jídlo tam není moc dobré.",AmandaIntro.jpg
-10,0,5,,"Pokud máte opravdu hlad, můžete zkusit školní kantýnu,|ale já bych to nedoporučovala, slečno.",AmandaIntroSubbie.jpg
-10,1,-3,,"Můžeš zkusit kantýnu,|ale není jídlo tam není nejlepší.",AmandaIntroDomme.jpg
+10,0,0,,"Můžeš zkusit školní jídelnu, ale jídlo tam není moc dobré.",AmandaIntro.jpg
+10,0,5,,"Pokud máte opravdu hlad, můžete zkusit školní jídelnu,|ale já bych to nedoporučovala, slečno.",AmandaIntroSubbie.jpg
+10,1,-3,,"Můžeš zkusit jídelnu,|ale není jídlo tam není nejlepší.",AmandaIntroDomme.jpg
 20,0,0,,"Nedaleko je malá kavárna,|kterou bys mohla zkusit, jestli chceš.",AmandaIntro.jpg
 20,0,5,,"Slečno, nedaleko je kavárna,|kterou byste mohla zkusit, jestli chcete.",AmandaIntroSubbie.jpg
-20,1,-3,,"Slaďouš, jako jsi ty by měl zkusit blízkou kavárnu.|Je mnohem hezčí než školní kantýna.",AmandaIntroDomme.jpg
+20,1,-3,,"Slaďouš, jako jsi ty by měl zkusit blízkou kavárnu.|Je mnohem hezčí než školní jídelna.",AmandaIntroDomme.jpg
 30,0,0,,Chtěla bys jít do té kavárny se mnou?,AmandaIntro.jpg
 30,0,5,,"Přála byste si jít teď do té kavárny|se mnou, slečno?",AmandaIntroSubbie.jpg
 30,1,-3,,"Připrav si peněženku, půjdeme|do té kavárny spolu.",AmandaIntroDomme.jpg
