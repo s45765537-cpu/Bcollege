@@ -1519,7 +1519,7 @@ interface Character {
 	AppearanceFull?: Item[];
 	// Online character properties
 	Title?: TitleName;
-	LabelColor?: string;
+	LabelColor?: HexColor;
 	Creation?: number;
 	Description?: string;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;

@@ -364,6 +364,7 @@ function PreferenceInitPlayer() {
 		GraphicsSettings: JSON.stringify(C.GraphicsSettings) || "",
 		NotificationSettings: JSON.stringify(C.NotificationSettings) || "",
 		GenderSettings: JSON.stringify(C.GenderSettings) || "",
+		LabelColor: JSON.stringify(C.LabelColor) || "",
 	};
 
 	// Non-player specific settings
@@ -373,6 +374,8 @@ function PreferenceInitPlayer() {
 	PreferenceMigrate(C.ImmersionSettings, C.GraphicsSettings, "AllowBlur", true);
 
 	// If the settings aren't set before, construct them to replicate the default behavior
+
+	if (!CommonIsColor(C.LabelColor)) C.LabelColor = "#ffffff";
 
 	// Chat settings
 	// @ts-ignore: Individual properties validated separately
@@ -689,7 +692,6 @@ function PreferenceLoad() {
 
 	// Sets up the player label color
 	PreferenceDifficultyLevel = null;
-	if (!CommonIsColor(Player.LabelColor)) Player.LabelColor = "#ffffff";
 	PreferenceInitPlayer();
 
 	// Sets the chat themes
