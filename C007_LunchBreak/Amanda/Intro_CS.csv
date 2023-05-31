@@ -6,12 +6,12 @@ Stage,LoveReq,SubReq,VarReq,IntroText,Image
 0,0,0,TeamAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred svázali!|Mimochodem, školní jídelnu jsi už našla?",AmandaIntroHappy.jpg
 0,0,0,TeamFailAgainstMildred,"Pořád nemůžu uvěřit, že jsme Mildred zkusili přemoct.|Mimochodem, školní jídelnu jsi už našla?",AmandaIntro.jpg
 5,0,0,,"(Amanda uteče, sotva tě zahlédne.|Předstírá, že má naspěch.)",AmandaGone.jpg
-10,0,0,,"Můžeš zkusit školní jídelnu, ale jídlo tam není moc dobré.",AmandaIntro.jpg
-10,0,5,,"Pokud máte opravdu hlad, můžete zkusit školní jídelnu,|ale já bych to nedoporučovala, slečno.",AmandaIntroSubbie.jpg
-10,1,-3,,"Můžeš zkusit jídelnu,|ale není jídlo tam není nejlepší.",AmandaIntroDomme.jpg
+10,0,0,,"Můžeš zkusit školní jídelnu,|ale jídlo tam není moc dobré.",AmandaIntro.jpg
+10,0,5,,"Pokud máte opravdu hlad, můžete zkusit školní|jídelnu, já bych to ale nedoporučovala, slečno.",AmandaIntroSubbie.jpg
+10,1,-3,,"Můžeš zkusit školní jídelnu,|ale jídlo tam není z nejlepších.",AmandaIntroDomme.jpg
 20,0,0,,"Nedaleko je malá kavárna,|kterou bys mohla zkusit, jestli chceš.",AmandaIntro.jpg
 20,0,5,,"Slečno, nedaleko je kavárna,|kterou byste mohla zkusit, jestli chcete.",AmandaIntroSubbie.jpg
-20,1,-3,,"Slaďouš, jako jsi ty by měl zkusit blízkou kavárnu.|Je mnohem hezčí než školní jídelna.",AmandaIntroDomme.jpg
+20,1,-3,,"Květinka, jako jsi ty, by měla zkusit blízkou kavárnu.|Je mnohem hezčí než školní jídelna.",AmandaIntroDomme.jpg
 30,0,0,,Chtěla bys jít do té kavárny se mnou?,AmandaIntro.jpg
 30,0,5,,"Přála byste si jít teď do té kavárny|se mnou, slečno?",AmandaIntroSubbie.jpg
 30,1,-3,,"Připrav si peněženku, půjdeme|do té kavárny spolu.",AmandaIntroDomme.jpg
@@ -35,11 +35,11 @@ Stage,LoveReq,SubReq,VarReq,IntroText,Image
 260,0,0,,,AmandaPlayerLovers.jpg
 270,0,0,,,AmandaPlayerLovers.jpg
 280,0,0,,,AmandaPlayerLoversKiss.jpg
-300,0,0,,"(Jak se tak vracíte zpátky do školy,|popadneš ji za ruku a táhneš ji do opuštěného koutku.)",AmandaPlayerIsDomme.jpg
+300,0,0,,"(Jak se tak vracíte zpátky do školy, popadneš|ji za ruku a táhneš ji do opuštěného koutku.)",AmandaPlayerIsDomme.jpg
 310,0,0,,,AmandaPlayerIsDommeKiss.jpg
 320,0,0,,,AmandaPlayerIsDomme.jpg
 330,0,0,,,AmandaPlayerIsDommeTouch.jpg
-400,0,0,,"(Jak se tak vracíte zpátky do školy,|popadne tě za ruku a táhne tě do opuštěného koutku.)",AmandaPlayerIsSubbie.jpg
+400,0,0,,"(Jak se tak vracíte zpátky do školy, popadne tě|za ruku a táhne tě do opuštěného koutku.)",AmandaPlayerIsSubbie.jpg
 410,0,0,,,AmandaPlayerIsSubbie.jpg
 420,0,0,,,AmandaPlayerIsSubbieStrip.jpg
 430,0,0,,,AmandaPlayerIsSubbieBack.jpg
