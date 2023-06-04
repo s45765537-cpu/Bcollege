@@ -134,7 +134,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 330,0,0,,(Masturbuj ji.)ADD_MINUTES:1,(Tichoučce sténá zatímco ji masturbuješ.|Lehce se chvěje pod tvými láskyplnými dotyky.),330,0,0,Masturbate()
 330,0,0,IsRoped,(Rozvaž ji.)ADD_MINUTES:1,"(Uzlík za uzlem ji postupně|osvobozuješ z jejího spoutání.)",330,0,0,Untie()
 330,0,0,IsGagged,(Sundej jí roubík.)ADD_MINUTES:1,"(Opatrně ji sundáváš roubík.)|Díky, to nebylo moc pohodlné.",330,0,0,Ungag()
-330,0,0,IsBoundAndGagged,"Apríl, čubko!|(Zanech ji spoutanou.)",,330,0,0,EvilEnd()
+330,0,0,IsBoundAndGagged,"Napálila jsem tě, čubko!|(Zanech ji spoutanou.)",,330,0,0,EvilEnd()
 330,0,0,,Pojďme zpátky.|(Zpátky do školy.),,0,0,0,EndBonus()
 400,0,0,,Proč jsi mě|sem zatáhla?,"Mám bláznivý nápad, ale musíš mi důvěřovat.|Budeš mě poslouchat a sundáš si šaty?",410,0,0,
 400,0,0,,(Plaše se zasměj.)|O co jde?,"Mám bláznivý nápad, ale musíš mi důvěřovat.|Budeš mě poslouchat a sundáš si šaty?",410,0,-1,
