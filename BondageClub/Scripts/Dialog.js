@@ -27,11 +27,11 @@ var DialogInventoryOffset = 0;
  * @type {CommonGenerateGridParameters}
  */
 const DialogInventoryGrid = {
-	x: 1000,
+	x: 1038,
 	y: 175,
-	width: 975,
+	width: 900,
 	height: 800,
-	itemWidth: 230,
+	itemWidth: 211,
 	itemHeight: 255,
 };
 
