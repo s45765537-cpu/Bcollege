@@ -6923,6 +6923,34 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemMouthFuturisticHarnessBallGagSet",
 			},
 		}, // FuturisticHarnessBallGag
+		BallGagMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {
+						Effect: ["BlockMouth", "GagNormal"],
+					},
+				},
+				{
+					Name: "Shiny",
+					Property: {
+						Effect: ["BlockMouth", "GagNormal"],
+					},
+				},
+				{
+					Name: "Tight",
+					Property: {
+						Effect: ["BlockMouth", "GagNormal"],
+					},
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "BallGagMouthType",
+				Chat: "BallGagMouthSet",
+			},
+		}, // BallGagMask
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {

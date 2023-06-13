@@ -6626,8 +6626,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask", Fetish: ["Leather"], Value: 90, Difficulty: 6, Time: 30, AllowLock: true, AllowTighten: true, BuyGroup: "BallGagMask", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Extended: true,
 				Layer: [
-					{ Name: "Strap" },
+					{ Name: "Strap", HasType: false },
 					{ Name: "Ball" },
 				]
 			},
