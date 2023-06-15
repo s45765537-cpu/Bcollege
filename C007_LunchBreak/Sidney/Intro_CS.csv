@@ -1,21 +1,21 @@
 Stage,LoveReq,SubReq,VarReq,IntroText,Image
 0,0,0,,"Co chceš, COMMON_PLAYERNAME?|Na žvanění nemám čas.",SidneyIntro.jpg
 0,5,0,,COMMON_PLAYERNAME! Můžeš mi pomoct?,SidneyIntroHappy.jpg
-0,0,5,,Zdravím slečno COMMON_PLAYERNAME.|Můžu vás obtěžovat prosbou o pomoc?,SidneyIntroSubbie.jpg
-0,0,0,HelpedEscape,Hej! Ty jsi mi ráno pomohla utéct.|Můžeš mi znovu pomoct?,SidneyIntroHappy.jpg
-0,0,0,HasEgg,"Nemůžu vyndat ten tvůj zasraný vibrátor.|Ale to vyřešíme později, mám teď větší problém.",SidneyIntro.jpg
-10,0,0,,"Nemůžu najít svoji zasranou peněženku|a mám hlad, jak prase!",SidneyIntro.jpg
-10,5,0,,"Nemůžu najít svoji zasranou peněženku|a mám hlad, jak prase!",SidneyIntroHappy.jpg
+0,0,5,,"Zdravím vás, slečno COMMON_PLAYERNAME!|Můžu vás obtěžovat prosbou o pomoc?",SidneyIntroSubbie.jpg
+0,0,0,HelpedEscape,Hej! Ty jsi mi ráno pomohla utéct!|Můžeš mi pomoct ještě jednou?,SidneyIntroHappy.jpg
+0,0,0,HasEgg,"Nemůžu vyndat ten tvůj zpíčený vibrátor!|Ale to vyřešíme později, teď mám větší problém.",SidneyIntro.jpg
+10,0,0,,"Nemůžu najít svoji zasranou peněženku|a mám hlad, jako prase!",SidneyIntro.jpg
+10,5,0,,"Nemůžu najít svoji zasranou peněženku|a mám hlad, jako prase!",SidneyIntroHappy.jpg
 10,0,5,,Nemůžu najít svoji peněženku|a mám ohromný hlad!,SidneyIntroSubbie.jpg
 20,0,0,,Můžeš mi dát nějaký prachy?|Ztratila jsem svoji zasranou peněženku.,SidneyIntro.jpg
-20,5,0,,"Mám kurevskej hlad, kámoško.|Nemůžeš mi půjčit nějaký prachy?",SidneyIntroHappy.jpg
-20,0,5,,"Nemám tušení, kde je moje peněženka, slečno.|Mohla bych si vypůjčit nějaké peníze, prosim?",SidneyIntroSubbie.jpg
-30,0,0,,Už vyrážíme? Mám takový hlad.,SidneyIntro.jpg
-30,5,0,,Už vyrážíme? Mám takový hlad.,SidneyIntroHappy.jpg
-30,0,5,,Už vyrážíme? Mám takový hlad.,SidneyIntroSubbie.jpg
+20,5,0,,"Mám kurevskej hlad, kámoško!|Nemůžeš mi půjčit nějaký prachy?",SidneyIntroHappy.jpg
+20,0,5,,"Nemám tušení, kde je moje peněženka, slečno!|Nemohla byste mi půjčit nějaké peníze, prosím?",SidneyIntroSubbie.jpg
+30,0,0,,Už vyrážíme? Mám strašný hlad!,SidneyIntro.jpg
+30,5,0,,Už vyrážíme? Mám strašný hlad!,SidneyIntroHappy.jpg
+30,0,5,,Už vyrážíme? Mám strašný hlad!,SidneyIntroSubbie.jpg
 90,0,0,,(Sidney je pryč.),SidneyGone.jpg
-100,0,0,,Co kurva chceš? Já s tebou nechci mluvit.,SidneyIntroGrumpy.jpg
-110,0,0,,Ztratila jsem svoji zasranou peněženku|a mám hlad jak vlk!,SidneyIntroGrumpy.jpg
+100,0,0,,Co kurva chceš? Já se s tebou nechci vybavovat!,SidneyIntroGrumpy.jpg
+110,0,0,,Ztratila jsem svoji zasranou peněženku|a mám hlad jako prase!,SidneyIntroGrumpy.jpg
 120,0,0,,,SidneyIntroGrumpy.jpg
 130,0,0,,,SidneyPlayerBasement.jpg
 140,0,0,,,SidneyPlayerBasement.jpg

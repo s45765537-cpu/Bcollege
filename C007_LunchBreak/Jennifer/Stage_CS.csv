@@ -1,6 +1,6 @@
 Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 0,0,0,EggRemarkAvail,"To vajíčko ti ukazuje,|kde je tvoje místo.",Moje místo? (Dívá se dolů.)|To… to od tebe není moc hezké.,0,-1,1,EggRemark()
-0,0,0,EggRemarkAvail,Promiň za to vajíčko.|Doma si ho vyndáš.	,To je asi v pohodě.|Už o tom nebudeme mluvit.,0,1,-1,EggRemark()
+0,0,0,EggRemarkAvail,Promiň za to vajíčko.|Doma si ho vyndáš.,To je asi v pohodě.|Už o tom nebudeme mluvit.,0,1,-1,EggRemark()
 0,0,0,,Chystáš se hrát tenis?,Ano! Chceš si zahrát se mnou?,10,0,0,
 0,0,0,,Proč jsi|takhle oblečená?,Chystám se zahrát si tenis.|Chtěla by sis zahrát se mnou?,10,0,0,
 0,0,0,,V té sukýnce|vypadáš roztomile.,Díky moc! Jdu si zahrát tenis.|Nechceš si jít zahrát se mnou?,10,1,0,

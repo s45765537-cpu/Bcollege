@@ -1,7 +1,7 @@
 Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 0,0,0,,Hladová jako vlk!,(Zpívá.) Hladová jako vlk!|Jdeš někam jinam nebo budeš jíst tady?,10,1,0,
-0,0,0,,Nevím. Možná bych|oběd měla vynechat.,"To ne! Musíš něco jíst.|Je tady menza, nebo můžeš jít i jinam.",10,0,-1,
-0,0,0,,Mám chuť na tebe.,"(Chichotá se.) Cože? Na koho? Na mě?|Jdeš ven, nebo budeš jíst tady?",10,0,1,
+0,0,0,,Nevím. Možná bych|oběd měla vynechat.,"To ne! Musíš něco jíst!|Je tady menza, nebo můžeš jít i jinam.",10,0,-1,
+0,0,0,,Mám chuť na tebe!,"(Chichotá se.) Cože? Na koho? Na mě?|Jdeš ven, nebo budeš jíst tady?",10,0,1,
 0,0,0,,Hladová? Jenom pokud|dělají jídlo bez GMO.,"Vůbec netuším, co to znamená.|Půjdeš jíst někam ven, nebo se najíš tady?",10,-1,0,
 10,0,0,,Já nevím.|Co bych měla dělat?,Zkus nedalekou kavárnu. Já tam chodím|se svými nejlepšími přáteli docela často.,20,0,-1,
 10,0,0,,Co je nejlepší?,Zkus nedalekou kavárnu. Já tam chodím|se svými nejlepšími přáteli docela často.,20,0,0,
