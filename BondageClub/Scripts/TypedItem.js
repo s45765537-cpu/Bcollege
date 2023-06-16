@@ -39,7 +39,7 @@ const TypedItemDataLookup = {};
  * @type {Record<"TO_ONLY"|"FROM_TO"|"SILENT", TypedItemChatSetting>}
  */
 const TypedItemChatSetting = {
-	TO_ONLY: "toOnly",
+	TO_ONLY: "default",
 	FROM_TO: "fromTo",
 	SILENT: "silent",
 };
@@ -60,7 +60,7 @@ function TypedItemRegister(asset, config) {
 			load: () => ExtendedItemLoad(data),
 			click: () => TypedItemClick(data),
 			draw: () => TypedItemDraw(data),
-			validate: ExtendedItemValidate,
+			validate: (...args) => ExtendedItemValidate(data, ...args),
 			publishAction: (...args) => TypedItemPublishAction(data, ...args),
 			init: (...args) => TypedItemInit(data, ...args),
 			setOption: (...args) => ExtendedItemSetOption(data, ...args),
@@ -80,6 +80,67 @@ function TypedItemRegister(asset, config) {
 }
 
 /**
+ * Parse and pre-process the passed item options.
+ * @param {Asset} asset - The item options asset
+ * @param {readonly TypedItemOptionBase[]} protoOptions - The unparsed extended item options
+ * @param {boolean} [changeWhenLocked] - See {@link TypedItemConfig.ChangeWhenLocked}
+ * @returns {TypedItemOption[]} The newly generated extended item options
+ */
+function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
+	return protoOptions.map((protoOption, i) => {
+		/** @type {TypedItemOption} */
+		const option = {
+			...protoOption,
+			OptionType: "TypedItemOption",
+			Property: {
+				...(protoOption.Property || {}),
+				Type: i === 0 ? null : protoOption.Name,
+			},
+		};
+
+		if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
+			option.ChangeWhenLocked = changeWhenLocked;
+		}
+
+		// @ts-expect-error: potentially copied from the protoOption via the spread operator
+		delete option.ArchetypeConfig;
+		if (protoOption.ArchetypeConfig) {
+			option.ArchetypeData = /** @type {TypedItemOption["ArchetypeData"]} */(AssetBuildExtended(
+				asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option,
+			));
+		}
+		return option;
+	});
+}
+
+/**
+ * Parse the passed typed item draw data as passed via the extended item config
+ * @param {Asset} asset - The asset in question
+ * @param {ExtendedItemConfigDrawData<{ drawImage?: boolean }> | undefined} drawData - The to-be parsed draw data
+ * @param {number} nOptions - The number of extended item options
+ * @param {boolean} drawImage - Whether to draw images or not
+ * @return {ExtendedItemDrawData<ElementMetaData.Typed>} - The parsed draw data
+ */
+function TypedItemGetDrawData(asset, drawData, nOptions, drawImage=true) {
+	const IsCloth = asset.Group.Clothing;
+	const standardPositions = !IsCloth ? (drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
+	const height = drawImage ? 275 : 55;
+	const itemsPerPage = Math.min(standardPositions.length - 1, nOptions);
+
+	/** @type {ElementData<ElementMetaData.Typed>[]} */
+	const elementData = [];
+	for (let length = nOptions; length > 0; length -= itemsPerPage) {
+		const index = Math.min(length, itemsPerPage);
+		elementData.push(...standardPositions[index].map(xy => {
+			/** @type {RectTuple} */
+			const position = [...xy, 225, height];
+			return { position, drawImage, hidden: false };
+		}));
+	}
+	return ExtendedItemGetDrawData(drawData, { elementData, itemsPerPage });
+}
+
+/**
  * Generates an asset's typed item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {TypedItemConfig} config - The item's extended item configuration
@@ -94,23 +155,15 @@ function TypedItemCreateTypedItemData(asset, {
 	DrawImages,
 	ChangeWhenLocked,
 	ScriptHooks,
+	DrawData,
 	BaselineProperty=null,
 }) {
-	const optionsParsed = Options.map(o => {
-		/** @type {TypedItemOption} */
-		const ret = { ...o, OptionType: "TypedItemOption" };
-		if (typeof ChangeWhenLocked === "boolean" && typeof ret.ChangeWhenLocked !== "boolean") {
-			ret.ChangeWhenLocked = ChangeWhenLocked;
-		}
-		// @ts-expect-error: potentially copied from the protoOption via the spread operator
-		delete ret.ArchetypeConfig;
-		ret.ArchetypeData = ExtendedItemRegisterSubscreen(asset, o.ArchetypeConfig, ret);
-		return ret;
-	});
+	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked);
 
 	DialogPrefix = DialogPrefix || {};
 	const key = `${asset.Group.Name}${asset.Name}`;
 	return TypedItemDataLookup[key] = {
+		archetype: ExtendedArchetype.TYPED,
 		asset,
 		options: optionsParsed,
 		key,
@@ -129,9 +182,9 @@ function TypedItemCreateTypedItemData(asset, {
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		dictionary: Dictionary || [],
 		chatSetting: ChatSetting || TypedItemChatSetting.TO_ONLY,
-		drawImages: typeof DrawImages === "boolean" ? DrawImages : true,
 		baselineProperty: typeof BaselineProperty === "object" ? BaselineProperty : null,
 		parentOption: null,
+		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed.length, DrawImages),
 	};
 }
 
@@ -320,6 +373,7 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * the validation function indicates that the new option is not compatible with the character's current state (generally
  * due to prerequisites or other requirements).
  * @template {ExtendedItemOption} T
+ * @param {null | ExtendedItemData<T>} data
  * @param {Character} C - The character on whom the item is equipped
  * @param {Item} item - The item whose options are being validated
  * @param {T} option - The new option
@@ -327,7 +381,7 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
  * message informing the player of the requirements that are not met.
  */
-function TypedItemValidateOption(C, item, option, previousOption) {
+function TypedItemValidateOption(data, C, item, option, previousOption) {
 	let PermissionFailure = false;
 	switch (option.OptionType) {
 		case "ModularItemOption":
@@ -358,7 +412,7 @@ function TypedItemValidateOption(C, item, option, previousOption) {
 	if (typeof validationMessage === "string") {
 		return validationMessage;
 	} else {
-		return ExtendedItemValidate(C, item, option, previousOption);
+		return ExtendedItemValidate(data, C, item, option, previousOption);
 	}
 }
 
@@ -369,10 +423,11 @@ function TypedItemValidateOption(C, item, option, previousOption) {
  * @param {string} optionName - The name of the option to set
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
+ * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -412,12 +467,16 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false) {
 		return msg;
 	}
 
-	const requirementMessage = ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
+	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
+	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
 	if (requirementMessage) {
-		if (requirementMessage && newOption.Name !== previousOption.Name) {
+		if (newOption.Name !== previousOption.Name) {
 			console.warn(`${warningMessage}: ${requirementMessage}`);
 		}
-		return DialogFindPlayer(requirementMessage);
+		return requirementMessage;
+	} else {
+		ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
 	}
 }
 
@@ -442,10 +501,11 @@ function TypedItemFindPreviousOption(item, options, typeField="Type") {
  * @param {Item | AssetGroupName} itemOrGroupName - The item whose type to set, or the group name for the item
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
+ * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetRandomOption(C, itemOrGroupName, push = false) {
+function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=null) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item || item.Asset.Archetype !== ExtendedArchetype.TYPED) {
@@ -464,7 +524,13 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false) {
 
 	const newOption = CommonRandomItemFromList(null, availableOptions);
 	const previousOption = TypedItemFindPreviousOption(item, data.options);
-	return ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
+	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
+	if (requirementMessage) {
+		return requirementMessage;
+	} else {
+		ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
+	}
 }
 
 /**
@@ -481,25 +547,12 @@ function TypedItemInit(Data, C, Item, Refresh=true) {
 		return false;
 	}
 
-	// Default to the first option if no property is set
-	let InitialProperty = Data.options[0].Property;
-	Item.Property = JSON.parse(JSON.stringify(Data.options[0].Property));
-
-	// If the default type is not the null type, check whether the default type is blocked
-	if (InitialProperty && InitialProperty.Type && InventoryBlockedOrLimited(C, Item, InitialProperty.Type)) {
-		// If the first option is blocked by the character, switch to the null type option
-		const InitialOption = Data.options.find(O => O.Property.Type == null);
-		if (InitialOption) InitialProperty = InitialOption.Property;
-	}
-
-	// If there is an initial and/or baseline property, set it and update the character
-	if (InitialProperty || Data.baselineProperty) {
-		Item.Property = (Data.baselineProperty != null) ? JSON.parse(JSON.stringify(Data.baselineProperty)) : {};
-		Item.Property = Object.assign(
-			Item.Property,
-			(InitialProperty != null) ? JSON.parse(JSON.stringify(InitialProperty)) : {},
-		);
-	}
+	// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
+	const initialProperty = C.IsNpc() ? (Data.options.find(o => o.NPCDefault) || Data.options[0]) : Data.options[0];
+	Item.Property = {
+		...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
+		...CommonCloneDeep(initialProperty.Property),
+	};
 
 	if (Refresh) {
 		CharacterRefresh(C, true, false);
@@ -512,11 +565,9 @@ function TypedItemInit(Data, C, Item, Refresh=true) {
  * Draws the extended item type selection screen
  * @param {TypedItemData | VibratingItemData} data - An Array of type definitions for each allowed extended type. The first item
  *     in the array should be the default option.
- * @param {number} [OptionsPerPage] - The number of options displayed on each page
- * @param {readonly [number, number][]} [XYPositions] - An array with custom X & Y coordinates of the buttons
  * @returns {void} Nothing
  */
-function TypedItemDraw({ functionPrefix, options, drawImages, parentOption, dialogPrefix }, OptionsPerPage, XYPositions=null) {
+function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, drawData, archetype }) {
 	// If an option's subscreen is open, it overrides the standard screen
 	if (ExtendedItemSubscreen && parentOption == null) {
 		CommonCallFunctionByNameWarn(`${functionPrefix}${ExtendedItemSubscreen}Draw`);
@@ -525,36 +576,27 @@ function TypedItemDraw({ functionPrefix, options, drawImages, parentOption, dial
 
 	const Asset = DialogFocusItem.Asset;
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-	if (XYPositions === null) {
-		const XYPositionsArray = ExtendedItemGetXY(Asset, drawImages);
-		OptionsPerPage = OptionsPerPage || Math.min(options.length, XYPositionsArray.length - 1);
-		XYPositions = XYPositionsArray[OptionsPerPage];
-	} else {
-		OptionsPerPage = OptionsPerPage || Math.min(options.length, XYPositions.length - 1);
-	}
 
 	// If we have to paginate, draw the back/next button
-	if (options.length > OptionsPerPage) {
-		const currPage = Math.ceil(ExtendedItemGetOffset() / OptionsPerPage) + 1;
-		const totalPages = Math.ceil(options.length / OptionsPerPage);
-		DrawBackNextButton(1675, 240, 300, 90, DialogFindPlayer("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
+	if (drawData.paginate) {
+		const currPage = Math.ceil(ExtendedItemGetOffset() / drawData.itemsPerPage) + 1;
+		DrawBackNextButton(1675, 240, 300, 90, `${DialogFindPlayer("Page")} ${currPage} / ${drawData.pageCount}`, "White", "", () => "", () => "");
 	}
 
 	// Draw the header and item
 	ExtendedItemDrawHeader();
 	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 
-	const isVibe = (options.length && options[0].OptionType === "VibratingItemOption");
+	const isVibe = archetype === ExtendedArchetype.VIBRATING;
 	const typeField = isVibe ? "Mode" : "Type";
 	const CurrentOption = /** @type {(VibratingItemOption | TypedItemOption)[]} */(options).find(O => (isVibe ? O.Name : O.Property[typeField]) === DialogFocusItem.Property[typeField]);
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
-	for (let I = ItemOptionsOffset; I < options.length && I < ItemOptionsOffset + OptionsPerPage; I++) {
-		const PageOffset = I - ItemOptionsOffset;
-		const X = XYPositions[PageOffset][0];
-		const Y = XYPositions[PageOffset][1];
-		ExtendedItemDrawButton(options[I], CurrentOption, dialogPrefix.option, X, Y, drawImages);
-	}
+	const elementData = drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + drawData.itemsPerPage);
+	elementData.forEach((buttonData, i) => {
+		i += ItemOptionsOffset;
+		ExtendedItemDrawButton(options[i], CurrentOption, dialogPrefix.option, buttonData);
+	});
 
 	// Permission mode toggle
 	DrawButton(1775, 25, 90, 90, "", "White",
@@ -573,11 +615,9 @@ function TypedItemDraw({ functionPrefix, options, drawImages, parentOption, dial
 /**
  * Handles clicks on the extended item type selection screen
  * @param {TypedItemData | VibratingItemData} data
- * @param {number} [OptionsPerPage] - The number of options displayed on each page
- * @param {[number, number][]} [XYPositions] - An array with custom X & Y coordinates of the buttons
  * @returns {void} Nothing
  */
-function TypedItemClick(data, OptionsPerPage, XYPositions=null) {
+function TypedItemClick(data) {
 	const C = CharacterGetCurrent();
 
 	// If an option's subscreen is open, pass the click into it
@@ -587,14 +627,6 @@ function TypedItemClick(data, OptionsPerPage, XYPositions=null) {
 	}
 
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-	const ImageHeight = data.drawImages ? 220 : 0;
-	if (XYPositions === null) {
-		const XYPositionsArray = ExtendedItemGetXY(DialogFocusItem.Asset, data.drawImages);
-		OptionsPerPage = OptionsPerPage || Math.min(data.options.length, XYPositionsArray.length - 1);
-		XYPositions = XYPositionsArray[OptionsPerPage];
-	} else {
-		OptionsPerPage = OptionsPerPage || Math.min(data.options.length, XYPositions.length - 1);
-	}
 
 	// Exit button
 	if (MouseIn(1885, 25, 90, 90)) {
@@ -603,7 +635,7 @@ function TypedItemClick(data, OptionsPerPage, XYPositions=null) {
 			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen}Exit`);
 			ExtendedItemSubscreen = null;
 		} else {
-			ExtendedItemExit();
+			DialogLeaveFocusItem();
 		}
 		return;
 	}
@@ -618,31 +650,30 @@ function TypedItemClick(data, OptionsPerPage, XYPositions=null) {
 	}
 
 	// Pagination buttons
-	if (MouseIn(1675, 240, 150, 90) && data.options.length > OptionsPerPage) {
-		if (ItemOptionsOffset - OptionsPerPage < 0) ExtendedItemSetOffset(OptionsPerPage * (Math.ceil(data.options.length / OptionsPerPage) - 1));
-		else ExtendedItemSetOffset(ItemOptionsOffset - OptionsPerPage);
+	if (MouseIn(1675, 240, 150, 90) && data.drawData.paginate) {
+		if (ItemOptionsOffset - data.drawData.itemsPerPage < 0) ExtendedItemSetOffset(data.drawData.itemsPerPage * (data.drawData.pageCount - 1));
+		else ExtendedItemSetOffset(ItemOptionsOffset - data.drawData.itemsPerPage);
 	}
-	else if (MouseIn(1825, 240, 150, 90) && data.options.length > OptionsPerPage) {
-		if (ItemOptionsOffset + OptionsPerPage >= data.options.length) ExtendedItemSetOffset(0);
-		else ExtendedItemSetOffset(ItemOptionsOffset + OptionsPerPage);
-	}
-
-	// Options
-	for (let I = ItemOptionsOffset; I < data.options.length && I < ItemOptionsOffset + OptionsPerPage; I++) {
-		const PageOffset = I - ItemOptionsOffset;
-		const X = XYPositions[PageOffset][0];
-		const Y = XYPositions[PageOffset][1];
-		const Option = data.options[I];
-		if (MouseIn(X, Y, 225, 55 + ImageHeight)) {
-			TypedItemHandleOptionClick(data, C, Option);
-		}
+	else if (MouseIn(1825, 240, 150, 90) && data.drawData.paginate) {
+		if (ItemOptionsOffset + data.drawData.itemsPerPage >= data.options.length) ExtendedItemSetOffset(0);
+		else ExtendedItemSetOffset(ItemOptionsOffset + data.drawData.itemsPerPage);
 	}
 
 	// If the assets allows tightening / loosening
 	if ((DialogFocusItem != null) && (DialogFocusItem.Asset != null) && DialogFocusItem.Asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && MouseIn(1050, 220, 300, 65)) {
-		DialogTightenLoosenItem = DialogFocusItem;
-		TightenLoosenItemLoad();
+		DialogSetTightenLoosenItem(DialogFocusItem);
+		return;
 	}
+
+	// Options
+	const positions = data.drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + data.drawData.itemsPerPage);
+	positions.forEach(({ position, hidden }, i) => {
+		i += ItemOptionsOffset;
+		const Option = data.options[i];
+		if (!hidden && MouseIn(...position)) {
+			TypedItemHandleOptionClick(data, C, Option);
+		}
+	});
 }
 
 /**
@@ -668,7 +699,7 @@ function TypedItemHandleOptionClick(data, C, Option) {
 		const CurrentType = DialogFocusItem.Property[typeField] || (IsVibeArch ? VibratorModeOff.Property.Mode : null);
 		const CurrentOption = data.options.find(O => O.Property[typeField] === CurrentType);
 		// use the unmemoized function to ensure we make a final check to the requirements
-		const RequirementMessage = ExtendedItemRequirementCheckMessage(DialogFocusItem, C, Option, CurrentOption);
+		const RequirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, Option, CurrentOption);
 		if (RequirementMessage) {
 			DialogExtendedMessage = RequirementMessage;
 		} else {
@@ -692,14 +723,18 @@ function TypedItemSetType(data, C, newOption) {
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
 	const previousOption = TypedItemFindPreviousOption(DialogFocusItem, data.options, typeField);
 
-	// Do not sync appearance while in the wardrobe
-	/** @type {Parameters<ExtendedItemCallbacks.SetOption<TypedItemOption | VibratingItemOption>>} */
-	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
-	/** @type {string | undefined} */
-	const requirementMessage = CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
+	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 	if (requirementMessage) {
 		DialogExtendedMessage = requirementMessage;
 		return;
+	}
+
+	// Do not sync appearance while in the wardrobe
+	/** @type {Parameters<ExtendedItemCallbacks.SetOption<TypedItemOption | VibratingItemOption>>} */
+	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
+	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
+	if (data.archetype === ExtendedArchetype.VIBRATING) {
+		DialogExtendedMessage = DialogFindPlayer(`${data.dialogPrefix.header}${DialogFocusItem.Property.Intensity}`);
 	}
 
 	// For a restraint, we might publish an action, change the expression or change the dialog of a NPC
@@ -710,9 +745,7 @@ function TypedItemSetType(data, C, newOption) {
 			/** @type {Parameters<ExtendedItemCallbacks.PublishAction<T>>} */
 			const args = [C, DialogFocusItem, newOption, previousOption];
 			CommonCallFunctionByName(`${FunctionPrefix}PublishAction`, ...args);
-		} else if (C.IsPlayer()) {
-			DialogMenuButtonBuild(C);
-		} else {
+		} else if (!C.IsPlayer()) {
 			CommonCallFunctionByName(`${FunctionPrefix}NpcDialog`, C, newOption, previousOption);
 		}
 	}

@@ -65,8 +65,9 @@ const ExtendedXYClothes = [
 
 /** Memoization of the requirements check */
 const ExtendedItemRequirementCheckMessageMemo = CommonMemoize(ExtendedItemRequirementCheckMessage, [
-	(item) => `${item.Asset.Group.Name}${item.Asset.Name}`,
+	(data) => data ? data.Archetype : "",
 	(character) => character.ID.toString(),
+	(item) => `${item.Asset.Group.Name}${item.Asset.Name}`,
 	(option) => option.Name,
 	(option) => option.Name,
 ]);
@@ -83,18 +84,6 @@ var ExtendedItemPermissionMode = false;
  * @type {string|null}
  */
 var ExtendedItemSubscreen = null;
-
-/**
- * Get an asset-appropriate array with button coordinates, based on the number to be displayed per page.
- * @param {Asset} Asset - The relevant asset
- * @param {boolean} ShowImages - Whether images should be shown or not.
- * Note that whether an asset is clothing-based or not takes priority over this option.
- * @returns {[number, number][][]} The coordinates array
- */
-function ExtendedItemGetXY(Asset, ShowImages=true) {
-	const IsCloth = Asset.Group.Clothing;
-	return !IsCloth ? ShowImages ? ExtendedXY : ExtendedXYWithoutImages : ExtendedXYClothes;
-}
 
 /**
  * @template {any[]} T
@@ -237,22 +226,24 @@ function ExtendedItemLoad({ functionPrefix, dialogPrefix, parentOption }) {
  * Draw a single button in the extended item type selection screen.
  * @param {ExtendedItemOption | ModularItemModule} Option - The new extended item option
  * @param {ExtendedItemOption} CurrentOption - The current extended item option
- * @param {number} X - The X coordinate of the button
- * @param {number} Y - The Y coordinate of the button
+ * @param {ElementData<{ drawImage?: boolean, hidden?: boolean }>} buttonData - The X coordinate of the button
  * @param {string} DialogPrefix - The prefix to the dialog keys for the display strings describing each extended type.
  *     The full dialog key will be <Prefix><Option.Name>
- * @param {boolean} ShowImages - Denotes whether images should be shown for the specific item
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
  * @param {boolean | null} IsSelected - Whether the button is already selected or not. If `null` compute this value by checking if the item's current type matches `Option`.
  * @see {@link TypedItemDraw}
  */
-function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, X, Y, ShowImages=true, Item=DialogFocusItem, IsSelected=null) {
+function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData, Item=DialogFocusItem, IsSelected=null) {
+	if (buttonData.hidden) {
+		return;
+	}
+
 	/** @type {[null | string, string, boolean]} */
 	let [Type, AssetSource, IsFavorite] = [null, null, false];
 	const Asset = Item.Asset;
 	const C = CharacterGetCurrent();
-	const ImageHeight = ShowImages ? 220 : 0;
-	const Hover = MouseIn(X, Y, 225, 55 + ImageHeight) && !CommonIsMobile;
+	const [x, y, width, height] = buttonData.position;
+	const Hover = MouseIn(...buttonData.position) && !CommonIsMobile;
 	let Effect = null;
 
 	switch (Option.OptionType) {
@@ -291,16 +282,24 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, X, Y, ShowI
 	}
 
 	const ButtonColor = ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected, Item);
-	DrawButton(X, Y, 225, 55 + ImageHeight, "", ButtonColor, null, null, IsSelected);
-	if (ShowImages) {
-		DrawImageResize(AssetSource, X + 2, Y, 221, 221);
+	DrawButton(...buttonData.position, "", ButtonColor, null, null, IsSelected);
+	if (buttonData.drawImage) {
+		let imageWidthHeight = Math.min(width - 4, height);
+		const imageX = x + (width - imageWidthHeight) / 2;
+		const imageY = y + (height - imageWidthHeight - 54) / 2;
+		DrawImageResize(AssetSource, imageX, imageY, imageWidthHeight, imageWidthHeight);
 		if (Option.OptionType !== "ModularItemModule") {
-			DrawPreviewIcons(ExtendItemGetIcons(C, Asset, Type, Effect), X + 2, Y);
+			DrawPreviewIcons(ExtendItemGetIcons(C, Asset, Type, Effect), x + 2, y);
 		}
 	}
-	DrawTextFit((IsFavorite && !ShowImages ? "★ " : "") + DialogFindPlayer(DialogPrefix + Option.Name), X + 112, Y + 30 + ImageHeight, 225, "black");
+	DrawTextFit(
+		(IsFavorite && !buttonData.drawImage ? "★ " : "") + DialogFindPlayer(DialogPrefix + Option.Name),
+		x + width / 2,
+		y + height - 25,
+		width, "black",
+	);
 
-	ControllerAddActiveArea(X + 112, Y + 30 + ImageHeight);
+	ControllerAddActiveArea(x + width / 2, y + height / 2);
 }
 
 /**
@@ -343,7 +342,7 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected,
 	}
 	if (Option.OptionType !== "ModularItemModule") {
 		HasSubscreen = Option.HasSubscreen || false;
-		FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(Item, C, Option, CurrentOption);
+		FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(null, C, Item, Option, CurrentOption);
 	}
 
 	let ButtonColor;
@@ -385,10 +384,15 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected,
 /**
  * Exit function for the extended item dialog.
  *
- * Used for:
- *  1. Removing the cache from memory
- *  2. Calling item-appropriate `Exit` functions
- *  3. Setting {@link DialogFocusItem} and {@link ExtendedItemSubscreen} back to `null`
+ * This function will check if there's an extended subscreen and unload it to move back
+ * to the main extended subscreen, or unload the whole extended subscreen and unfocus the item.
+ *
+ * It will cleanup the shared state from extended screens appropriately, call their unload (Exit)
+ * callback, and set either {@link DialogFocusItem} or {@link ExtendedItemSubscreen} back to `null`.
+ *
+ * Note that you shouldn't need to call this function directly. The correct way to "exit" from an
+ * extended item is to call {@link DialogLeaveFocusItem}, which will call this and refresh the dialog
+ * UI.
  * @returns {void} - Nothing
  */
 function ExtendedItemExit() {
@@ -400,13 +404,16 @@ function ExtendedItemExit() {
 	// invalidate the cache
 	ExtendedItemRequirementCheckMessageMemo.clearCache();
 
-	// Run the subscreen's Exit function if any
-	const FuncName = ExtendedItemFunctionPrefix() + (ExtendedItemSubscreen || "") + "Exit";
-	CommonCallFunctionByName(FuncName);
-	DialogFocusItem = null;
-	DialogExtendedMessage = "";
-	ExtendedItemSubscreen = null;
-	ExtendedItemPermissionMode = false;
+	if (ExtendedItemSubscreen) {
+		// Run the subscreen's Exit function if any
+		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Exit`);
+		ExtendedItemSubscreen = null;
+		ExtendedItemPermissionMode = false;
+	} else {
+		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}Exit`);
+		DialogFocusItem = null;
+		DialogExtendedMessage = "";
+	}
 }
 
 /**
@@ -445,15 +452,16 @@ function ExtendedItemSetProperty(C, item, previousProperty, newProperty, push=fa
  * Checks whether the character meets the requirements for an extended type option. This will check against their Bondage
  * skill if applying the item to another character, or their Self Bondage skill if applying the item to themselves.
  * @template {ExtendedItemOption} T
- * @param {Item} item - The item in question
+ * @param {null | ExtendedItemData<T>} data
  * @param {Character} C - The character in question
+ * @param {Item} item - The item in question
  * @param {T} Option - The selected type definition
  * @param {T} CurrentOption - The current type definition
  * @returns {string|null} null if the player meets the option requirements. Otherwise a string message informing them
  * of the requirements they do not meet
  */
-function ExtendedItemRequirementCheckMessage(item, C, Option, CurrentOption) {
-	return TypedItemValidateOption(C, item, Option, CurrentOption)
+function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOption) {
+	return TypedItemValidateOption(data, C, item, Option, CurrentOption)
 		|| ExtendedItemCheckSelfSelect(C, Option)
 		|| ExtendedItemCheckBuyGroups(Option)
 		|| ExtendedItemCheckSkillRequirements(C, item, Option);
@@ -513,23 +521,32 @@ function ExtendedItemCheckBuyGroups(Option) {
 /**
  * Checks whether a change from the given current option to the newly selected option is valid.
  * @template {ExtendedItemOption} T
+ * @param {null | ExtendedItemData<T>} data - The extended item data
  * @param {Character} C - The character wearing the item
  * @param {Item} Item - The extended item to validate
- * @param {T} Option - The selected option
- * @param {T} CurrentOption - The currently applied option on the item
+ * @param {T} newOption - The selected option
+ * @param {T} previousOption - The currently applied option on the item
  * @returns {string} - Returns a non-empty message string if the item failed validation, or an empty string otherwise
  */
-function ExtendedItemValidate(C, Item, { Prerequisite, AllowLock }, CurrentOption) {
-	const CurrentLockedBy = InventoryGetItemProperty(Item, "LockedBy");
-	const canChangeWhenLocked = typeof CurrentOption.ChangeWhenLocked === "boolean" ? CurrentOption.ChangeWhenLocked : true;
+function ExtendedItemValidate(data, C, Item, newOption, previousOption) {
+	// In the case of susbscreens the super screens `ChangeWhenLocked` value takes priority
+	let canChangeWhenLocked = true;
+	if (data && data.parentOption && typeof data.parentOption.ChangeWhenLocked === "boolean") {
+		canChangeWhenLocked = data.parentOption.ChangeWhenLocked;
+	} else if (typeof previousOption.ChangeWhenLocked === "boolean") {
+		canChangeWhenLocked = previousOption.ChangeWhenLocked;
+	}
+	const currentLockedBy = InventoryGetItemProperty(Item, "LockedBy");
 
-	if (!canChangeWhenLocked && CurrentLockedBy && !DialogCanUnlock(C, Item)) {
+	if (newOption.Name === previousOption.Name) {
+		return newOption.HasSubscreen ? "" : DialogFindPlayer("AlreadySet");
+	} else if (!canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)
 		return DialogFindPlayer("CantChangeWhileLocked");
-	} else if (Prerequisite && !InventoryAllow(C, Item.Asset, Prerequisite, true)) {
+	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true)) {
 		// Otherwise use the standard prerequisite check
 		return DialogText;
-	} else if (CurrentOption.AllowLock && !AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
+	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return DialogFindPlayer("ExtendedItemUnlockBeforeChange");
 	}
@@ -667,15 +684,19 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  * @param {string} Name - The name of the button and its pseudo-type
  * @param {number} X - The X coordinate of the button
  * @param {number} Y - The Y coordinate of the button
- * @param {boolean} ShowImages — Denotes whether images should be shown for the specific item
+ * @param {boolean} drawImage — Denotes whether images should be shown for the specific item
  * @param {boolean} IsSelected - Whether the button is selected or not
  * @returns {void} Nothing
  */
-function ExtendedItemCustomDraw(Name, X, Y, ShowImages=false, IsSelected=false) {
+function ExtendedItemCustomDraw(Name, X, Y, drawImage=false, IsSelected=false) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	/** @type {ExtendedItemOption} */
-	const Option = { OptionType: "ExtendedItemOption", Name: Name };
-	return ExtendedItemDrawButton(Option, Option, "", X, Y, ShowImages, DialogFocusItem, IsSelected);
+	const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+	/** @type {ExtendedItemOption} */
+	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+	/** @type {ElementData<{ drawImage: boolean }>} */
+	const elementData = { position: [X, Y, 225, drawImage ? 275 : 50], drawImage };
+	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
 }
 
 /**
@@ -693,8 +714,10 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 	} else {
 		// Check if the option is blocked/limited/etc.
 		/** @type {ExtendedItemOption} */
-		const Option = { OptionType: "ExtendedItemOption", Name: Name };
-		const requirementMessage = ExtendedItemRequirementCheckMessage(DialogFocusItem, CharacterGetCurrent(), Option, Option);
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+		/** @type {ExtendedItemOption} */
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
 			return false;
@@ -715,11 +738,10 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
  *     ChatRoomPublishCustomAction(Name, false, Dictionary);
  * }
  * @param {string} Name - Tag of the action to send
- * @param {Character} C - The affected character
  * @param {ChatMessageDictionary | null} Dictionary - Dictionary of tags and data to send to the room (if any).
  * @returns {void} Nothing
  */
-function ExtendedItemCustomExit(Name, C, Dictionary=null) {
+function ExtendedItemCustomExit(Name, Dictionary=null) {
 	// The logic below is largely adapted from the exiting functionality within `TypedItemSetType`
 	if (ServerPlayerIsInChatRoom()) {
 		if (Dictionary != null) {
@@ -728,12 +750,7 @@ function ExtendedItemCustomExit(Name, C, Dictionary=null) {
 			DialogLeave();
 		}
 	} else {
-		ExtendedItemExit();
-		if (C.ID === Player.ID) {
-			DialogMenuButtonBuild(C);
-		} else {
-			C.FocusGroup = null;
-		}
+		DialogLeaveFocusItem();
 	}
 }
 
@@ -749,9 +766,7 @@ function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
 	if (Item == null) {
 		return;
 	}
-	const Vibrating = Item.Property && Item.Property.Intensity != null && Item.Property.Intensity >= 0;
-	const Locked = InventoryItemHasEffect(Item, "Lock", true);
-	DrawAssetPreview(X, Y, Item.Asset, { Vibrating, Icons: Locked ? ["Locked"] : undefined });
+	DrawItemPreview(Item, Player, X, Y);
 }
 
 /**
@@ -836,48 +851,26 @@ function ExtendedItemCustomChatPrefix(Name, Data) {
 }
 
 /**
- * Register archetypical subscreens for the passed extended item options
- * @param {Asset} asset - The asset whose subscreen is being registered
- * @param {VariableHeightConfig | VibratingItemConfig | TextItemConfig} config - The subscreens extended item config
- * @param {TypedItemOption | ModularItemOption} option - The parent item's extended item option
- * @returns {null | VariableHeightData | VibratingItemData | TextItemData} - The subscreens extended item data or `null` if no archetypical subscreen is present
- */
-function ExtendedItemRegisterSubscreen(asset, config, option) {
-	switch (option.Archetype) {
-		case ExtendedArchetype.VARIABLEHEIGHT:
-			return VariableHeightRegister(asset, /** @type {VariableHeightConfig} */(config), option);
-		case ExtendedArchetype.VIBRATING:
-			return VibratorModeRegister(asset, /** @type {VibratingItemConfig} */(config || {}), option);
-		case ExtendedArchetype.TEXT:
-			return TextItemRegister(asset, /** @type {TextItemConfig} */(config), option);
-		default:
-			return null;
-	}
-}
-
-/**
  * Gather and return all subscreen properties of the passed option.
  * @param {Item} item - The item in question
- * @param {ExtendedItemOption} option - The extended item option
+ * @param {ExtendedItemOption & { ArchetypeData?: VibratingItemData | VariableHeightData | TextItemData }} option - The extended item option
  * @returns {ItemProperties} - The item properties of the option's subscreen (if any)
  */
 function ExtendedItemGatherSubscreenProperty(item, option) {
-	if (!("Archetype" in option && "ArchetypeData" in option)) {
+	const data = option.ArchetypeData;
+	if (!data) {
 		return {};
 	}
 
-	switch (option.Archetype) {
-		case ExtendedArchetype.VIBRATING: {
-			const vibeData = /** @type {VibratingItemData} */(option.ArchetypeData);
-			return TypedItemFindPreviousOption(item, vibeData.options, "Mode").Property;
-		}
+	switch (data.archetype) {
+		case ExtendedArchetype.VIBRATING:
+			return TypedItemFindPreviousOption(item, data.options, "Mode").Property;
 		case ExtendedArchetype.VARIABLEHEIGHT:
 			return { OverrideHeight: item.Property.OverrideHeight };
 		case ExtendedArchetype.TEXT: {
-			const textData = /** @type {TextItemData} */(option.ArchetypeData);
 			/** @type {TextItemRecord<string>} */
 			const ret = {};
-			textData.textNames.forEach(i => ret[i] = item.Property[i]);
+			data.textNames.forEach(i => ret[i] = item.Property[i]);
 			return ret;
 		}
 		default:
@@ -895,24 +888,12 @@ function ExtendedItemGatherSubscreenProperty(item, option) {
  * @param {OptionType} previousOption - The previously applied extended item option
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
- * @returns {string|undefined} - undefined or an empty string if the option was set correctly. Otherwise, returns a string
- * informing the player of the requirements that are not met.
  */
 function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=false) {
-	// TODO: decouple `...Validate` from `...SetOption`
-	if (newOption.Name === previousOption.Name && !newOption.HasSubscreen) {
-		return DialogFindPlayer("AlreadySet");
-	}
-
-	const requirementMessage = ExtendedItemRequirementCheckMessage(item, C, newOption, previousOption);
-	if (requirementMessage) {
-		return requirementMessage;
-	}
-
 	/** @type {ItemProperties} */
 	let previousOptionProperty;
 	/** @type {ItemProperties} */
-	let newProperty;
+	let newOptionProperty;
 	switch (newOption.OptionType) {
 		case "ModularItemOption": {
 			const moduleData = /** @type {ModularItemData} */(data);
@@ -921,13 +902,13 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 			const newModuleValues = [...previousModuleValues];
 			newModuleValues[moduleIndex] = newOption.Index;
 
-			newProperty = ModularItemMergeModuleValues(moduleData, newModuleValues);
+			newOptionProperty = ModularItemMergeModuleValues(moduleData, newModuleValues);
 			previousOptionProperty = ModularItemMergeModuleValues(moduleData, previousModuleValues);
 			break;
 		}
 		case "VibratingItemOption":
 		case "TypedItemOption":
-			newProperty = JSON.parse(JSON.stringify(newOption.Property));
+			newOptionProperty = JSON.parse(JSON.stringify(newOption.Property));
 			previousOptionProperty = { ...previousOption.Property };
 			break;
 		default:
@@ -941,6 +922,10 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 		CommonCallFunctionByNameWarn(`${data.functionPrefix}${newOption.Name}Init`, ...args);
 	}
 
+	const newProperty = PropertyUnion(
+		newOptionProperty,
+		ExtendedItemGatherSubscreenProperty(item, newOption),
+	);
 	const previousProperty = PropertyUnion(
 		previousOptionProperty,
 		ExtendedItemGatherSubscreenProperty(item, previousOption),
@@ -962,15 +947,15 @@ function ExtendedItemManualRegister() {
 			name: "TransportJacket",
 			config: {
 				Archetype: ExtendedArchetype.TEXT,
-				Config: {
-					MaxLength: { Text: 14 },
-					Font: "'Saira Stencil One', 'Arial', sans-serif",
-					DrawData: {
-						Positions: [[1505, 850]],
-					},
-					DialogPrefix: {
-						Header: "ItemArmsTransportJacketSelect",
-					},
+				MaxLength: { Text: 14 },
+				Font: "'Saira Stencil One', 'Arial', sans-serif",
+				DrawData: {
+					elementData: [
+						{ position: [1505, 850] },
+					],
+				},
+				DialogPrefix: {
+					Header: "ItemArmsTransportJacketSelect",
 				},
 			},
 		},
@@ -979,16 +964,34 @@ function ExtendedItemManualRegister() {
 			name: "WoodenBox",
 			config: {
 				Archetype: ExtendedArchetype.TEXT,
-				Config: {
-					MaxLength: { Text: 20 },
-					Font: "'Saira Stencil One', 'Arial', sans-serif",
-					PushOnPublish: false,
-					DrawData: {
-						Positions: [[1505, 850]],
-					},
-					DialogPrefix: {
-						Header: "ItemDevicesWoodenBoxSelect",
-					},
+				MaxLength: { Text: 20 },
+				Font: "'Saira Stencil One', 'Arial', sans-serif",
+				PushOnPublish: false,
+				DrawData: {
+					elementData: [
+						{ position: [1505, 850] },
+					],
+				},
+				DialogPrefix: {
+					Header: "ItemDevicesWoodenBoxSelect",
+				},
+			},
+		},
+		{
+			group: "ItemDevices",
+			name: "TransportWoodenBox",
+			config: {
+				Archetype: ExtendedArchetype.TEXT,
+				MaxLength: { Text: 20 },
+				Font: "'Saira Stencil One', 'Arial', sans-serif",
+				PushOnPublish: false,
+				DrawData: {
+					elementData: [
+						{ position: [1505, 850] },
+					],
+				},
+				DialogPrefix: {
+					Header: "ItemDevicesWoodenBoxSelect",
 				},
 			},
 		},
@@ -996,10 +999,55 @@ function ExtendedItemManualRegister() {
 
 	for (const { group, name, config } of items) {
 		const asset = AssetGet("Female3DCG", group, name);
-		switch (config.Archetype) {
-			case ExtendedArchetype.TEXT:
-				TextItemRegister(asset, /** @type {TextItemConfig} */(config.Config), null, false);
-				break;
-		}
+		AssetBuildExtended(asset, config, AssetFemale3DCGExtended, null, false);
 	}
+}
+
+/**
+ * Parse the passed draw data as passed via the extended item config
+ * @template {ElementMetaData} MetaData
+ * @param {ExtendedItemConfigDrawData<Partial<MetaData>> | undefined} drawData - The to-be parsed draw data
+ * @param {Pick<ExtendedItemDrawData<MetaData>, "elementData" | "itemsPerPage">} defaults - The default draw data
+ * @return {ExtendedItemDrawData<MetaData>} - The parsed draw data
+ */
+function ExtendedItemGetDrawData(drawData, defaults) {
+	if (!drawData) {
+		drawData = {};
+	}
+
+	const itemsPerPage = drawData.itemsPerPage == null ? defaults.itemsPerPage : drawData.itemsPerPage;
+
+	/** @type {ElementData<MetaData>[]} */
+	let elementData;
+	if (Array.isArray(drawData.elementData)) {
+		if (drawData.elementData.length !== defaults.elementData.length) {
+			throw new Error(`Custom DrawData.elementData length (${drawData.elementData.length}) not equal to expected length (${defaults.elementData.length})`);
+		}
+		elementData = defaults.elementData.map((buttonDataRef, i) => {
+			const buttonData = drawData.elementData[i];
+			/** @type {RectTuple} */
+			let position;
+			if (buttonData.position) {
+				position = /** @type {RectTuple} */(buttonDataRef.position.map((j, idx) => {
+					return buttonData.position[idx] || j;
+				}));
+			} else {
+				position = buttonDataRef.position;
+			}
+			return {
+				...buttonDataRef,
+				...buttonData,
+				position,
+			};
+		});
+	} else {
+		elementData = CommonCloneDeep(defaults.elementData);
+	}
+
+	return {
+		itemsPerPage,
+		elementData,
+		paginate: elementData.length > itemsPerPage,
+		pageCount: Math.ceil(elementData.length / itemsPerPage),
+	};
 }

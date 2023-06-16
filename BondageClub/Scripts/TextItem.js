@@ -28,11 +28,27 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 			publishAction: (...args) => TextItem.PublishAction(data, ...args),
 			init: (...args) => TextItem.Init(data, ...args),
 			exit: () => TextItem.Exit(data),
+			validate: (...args) => ExtendedItemValidate(data, ...args),
 		};
 		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	}
 	asset.Extended = true;
 	return data;
+}
+
+/**
+ * Parse the passed text item draw data as passed via the extended item config
+ * @param {readonly TextItemNames[]} fieldNames
+ * @param {ExtendedItemConfigDrawData<{}> | undefined} drawData - The to-be parsed draw data
+ * @return {ExtendedItemDrawData<ElementMetaData.Text>} - The parsed draw data
+ */
+function TextItemGetDrawData(fieldNames, drawData) {
+	const itemsPerPage = 8;
+	/** @type {ElementData<ElementMetaData.Text>[]} */
+	const elementData = fieldNames.map((_, i) => {
+		return { position: [1505, 600 + 80 * (i % itemsPerPage), 400, 40] };
+	});
+	return ExtendedItemGetDrawData(drawData, { elementData, itemsPerPage });
 }
 
 /**
@@ -65,15 +81,6 @@ function TextItemCreateTextItemData(asset, {
 		}
 	}
 
-	DrawData = DrawData || {};
-	const itemsPerPage = DrawData.ItemsPerPage || 8;
-	const positions = DrawData.Positions || textNames.map((name, i) => {
-		return [1505, 600 + (80 * (i % itemsPerPage))];
-	});
-	if (positions.length !== textNames.length) {
-		console.error(`${asset.Group.Name}:${asset.Name}: text archetype MaxLength and drawdata Positions must be of the same length`);
-	}
-
 	const baselineProperty = BaselineProperty || {};
 	for (const name of textNames) {
 		if (typeof baselineProperty[name] !== "string") {
@@ -84,6 +91,7 @@ function TextItemCreateTextItemData(asset, {
 	DialogPrefix = DialogPrefix || {};
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : parentOption.Name}`;
 	return TextItemDataLookup[key] = {
+		archetype: ExtendedArchetype.TEXT,
 		asset,
 		key,
 		maxLength: MaxLength,
@@ -102,18 +110,11 @@ function TextItemCreateTextItemData(asset, {
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		dictionary: Dictionary || [],
 		chatSetting: "default",
-		drawImages: false,
 		baselineProperty,
 		eventListeners,
 		textNames,
 		parentOption,
-		drawData: {
-			itemsPerPage,
-			positions,
-			drawImages: false,
-			paginate: positions.length > itemsPerPage,
-			pageCount: Math.ceil(positions.length / itemsPerPage),
-		},
+		drawData: TextItemGetDrawData(textNames, DrawData),
 		pushOnPublish: typeof PushOnPublish === "boolean" ? PushOnPublish : true,
 	};
 }
@@ -164,6 +165,16 @@ const TextItem = {
 		const { asset, eventListeners, maxLength } = data;
 		const item = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
 		const C = CharacterGetCurrent();
+
+		// Lock the UI if the validation fails (_e.g._ when the item is locked)
+		const { newOption, previousOption } = TextItemConstructOptions(data, item);
+		const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, item, newOption, previousOption);
+		let disabled = false;
+		if (requirementMessage) {
+			DialogExtendedMessage = requirementMessage;
+			disabled = true;
+		}
+
 		for (const [name, length] of CommonEntries(maxLength)) {
 			const ID = PropertyGetID(name, item);
 			if (!PropertyOriginalValue.has(ID)) {
@@ -178,6 +189,9 @@ const TextItem = {
 					const innerItem = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
 					callback(C, innerItem, name, /** @type {HTMLInputElement} */ (e.target).value);
 				});
+				if (disabled) {
+					textInput.setAttribute("disabled", true);
+				}
 			}
 		}
 	},
@@ -195,11 +209,11 @@ const TextItem = {
 
 		const item = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
 		const offset = ExtendedItemGetOffset();
-		const positions = drawData.positions.slice(offset, offset + drawData.itemsPerPage);
-		positions.forEach(([x, y, width, height], i) => {
+		const elementData = drawData.elementData.slice(offset, offset + drawData.itemsPerPage);
+		elementData.forEach(({ position }, i) => {
 			const name = textNames[i];
 			const ID = PropertyGetID(name, item);
-			ElementPosition(ID, x, y, width || 400, height);
+			ElementPosition(ID, ...position);
 		});
 	},
 	/**
@@ -212,7 +226,7 @@ const TextItem = {
 				CommonCallFunctionByName(`${functionPrefix}Exit`);
 				ExtendedItemSubscreen = null;
 			} else {
-				ExtendedItemExit();
+				DialogLeaveFocusItem();
 			}
 		} else if (drawData.paginate) {
 			const currentPage = Math.floor(ExtendedItemGetOffset() / drawData.itemsPerPage);
@@ -234,7 +248,7 @@ const TextItem = {
 		if (publishAction) {
 			const C = CharacterGetCurrent();
 			const { newOption, previousOption } = TextItemConstructOptions(data, DialogFocusItem);
-			const requirementMessage = ExtendedItemRequirementCheckMessage(DialogFocusItem, C, newOption, previousOption);
+			const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 			if (requirementMessage) {
 				TextItemPropertyRevert(data, DialogFocusItem);
 			} else {
@@ -255,7 +269,7 @@ const TextItem = {
 		}
 	},
 	/**
-	 * Exit function for items with text input fields.
+	 * PublishAction function for items with text input fields.
 	 * @param {TextItemData} data - The items extended item data
 	 * @param {Character} C - The character in question
 	 * @param {Item} item - The item in question
@@ -263,8 +277,8 @@ const TextItem = {
 	 * @param {TextItemOption} previousOption
 	 */
 	PublishAction: function (data, C, item, newOption, previousOption) {
-		const oldText = data.textNames.map((p) => newOption.Property[p]).filter(Boolean).join(" ");
-		const newText = data.textNames.map((p) => previousOption.Property[p]).filter(Boolean).join(" ");
+		const oldText = data.textNames.map((p) => previousOption.Property[p]).filter(Boolean).join(" ");
+		const newText = data.textNames.map((p) => newOption.Property[p]).filter(Boolean).join(" ");
 		if (oldText === newText) {
 			return;
 		}
@@ -289,7 +303,7 @@ const TextItem = {
 				{ Content: `${prefix}${suffix}`, Type: "Action", Dictionary: dictionary.build() }
 			);
 		}
-	}
+	},
 };
 
 /**

@@ -69,7 +69,7 @@ function InventoryItemVulvaFuturisticVibratorClickHook(data, originalFunction) {
 	if (!FuturisticAccessClick()) {
 		return;
 	} else if (MouseIn(1885, 25, 90, 90)) {
-		ExtendedItemExit();
+		DialogLeaveFocusItem();
 	} else if (MouseIn(1525, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64)) {
 		InventoryItemVulvaFuturisticVibratorClickSet();
 	} else if (MouseIn(1100, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64)) {
@@ -113,7 +113,7 @@ function InventoryItemVulvaFuturisticVibratorClickSet() {
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<VibratingItemData>} */
 function InventoryItemVulvaFuturisticVibratorExitHook(data, originalFunction) {
-	InventoryItemFuturisticExitAccessDenied();
+	FuturisticAccessExit();
 	ItemVulvaFuturisticVibratorTriggers.forEach(i => ElementRemove(`FuturisticVibe${i}`));
 }
 
@@ -192,9 +192,10 @@ function InventoryItemVulvaFuturisticVibratorGetMode(Item, Increase) {
  * @param {VibratingItemOption} previousOption
  */
 function InventoryItemVulvaFuturisticVibratorSetMode(data, C, Item, newOption, previousOption) {
-	if (ExtendedItemSetOption(data, C, Item, newOption, { ...previousOption, ChangeWhenLocked: true }, true)) {
+	if (TypedItemValidateOption(data, C, Item, newOption, { ...previousOption, ChangeWhenLocked: true })) {
 		return;
 	}
+	ExtendedItemSetOption(data, C, Item, newOption, previousOption, true);
 	ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 
 	/** @type {Parameters<ExtendedItemCallbacks.PublishAction<VibratingItemOption>>} */
@@ -221,15 +222,18 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 
 	// Search from latest message backwards, allowing early exit
 	for (let CH = ChatRoomChatLog.length - 1; CH >= 0; CH--) {
+		const logEntry = ChatRoomChatLog[CH];
 
 		// Messages are in order, no need to keep looping
-		if (ChatRoomChatLog[CH].Time <= LastTime) break;
+		if (logEntry.Time <= LastTime) break;
 
 		// Skip messages from unauthorized users
-		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && ChatRoomChatLog[CH].SenderMemberNumber === Player.MemberNumber) continue;
-		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && ChatRoomChatLog[CH].SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
+		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
+		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
+		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
+		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
 
-		var msg = InventoryItemVulvaFuturisticVibratorDetectMsg(ChatRoomChatLog[CH].Chat.toUpperCase(), TriggerValues);
+		var msg = InventoryItemVulvaFuturisticVibratorDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
 
 		if (msg.length > 0) {
 			/** @type {null | VibratingItemOption} */
@@ -275,7 +279,7 @@ function AssetsItemVulvaFuturisticVibratorScriptDrawHook(data, originalFunction,
 	if (C.ID !== 0 && C.MemberNumber !== null) return;
 
 	// Default to some number that just means all messages are viable
-	if (typeof PersistentData.CheckTime !== "number") PersistentData.CheckTime = CurrentTime;
+	if (typeof PersistentData.CheckTime !== "number") PersistentData.CheckTime = CommonTime();
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;

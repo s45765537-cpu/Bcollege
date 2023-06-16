@@ -42,10 +42,7 @@ function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
 function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push) {
-	const msg = originalFunction(C, item, newOption, previousOption, false);
-	if (msg) {
-		return msg;
-	}
+	originalFunction(C, item, newOption, previousOption, false);
 
 	// Switch off the vibe module if the corresponding front shield is removed
 	if (previousOption.Name === "f2") { // 2 - close front & vibrator
@@ -59,13 +56,15 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 	}
 }
 
-/** @type {ExtendedItemScriptHookStruct<ModularItemData, ModularItemOption>["validate"]} */
+/** @type {ExtendedItemScriptHookCallbacks.Validate<ModularItemData, ModularItemOption>} */
 function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, Item, Option, CurrentOption) {
 	const Prefix = `${Item.Asset.Group.Name}${Item.Asset.Name}`;
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
 	const FrontShield = ModularItemParseCurrent(Data)[0];
 
-	if (!C.IsOwnedByPlayer()) {
+	// Allow simple characters (used for things like appearance previews) to bypass the owner-only restriction
+	// TODO: Review the relationship-based methods such as `IsOwnedByPlayer` and their interaction with simple characters
+	if (!C.IsSimple() && !C.IsOwnedByPlayer()) {
 		return DialogFindPlayer("PreviewIconOwnerOnly");
 	} else if (Module.Name === "Intensity" && Option.Name !== "i0" && FrontShield !== 2) {
 		return DialogFindPlayer(`${Prefix}ValidateIntensity`);

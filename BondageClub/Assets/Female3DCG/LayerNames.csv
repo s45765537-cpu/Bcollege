@@ -270,6 +270,8 @@ HatBallCapFrontVisor,Visor
 HatBallCapFrontPrint,Print
 HatSwimCapCap,Cap
 HatSwimCapStripes1,Pattern
+HatCowboyHatHat,Hat
+HatCowboyHatBand,Band
 HairAccessory1KittenEars1Outer,Outer Ear
 HairAccessory1KittenEars1Inner,Inner Ear
 HairAccessory1FoxEars2Inner,Inner Ear
@@ -283,6 +285,10 @@ HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1HaloGlow,Glow
 HairAccessory1HaloBase,Body
 HairAccessory1HaloCore,Core
+HairAccessory1BigLynxEarsInner,Inner Ear
+HairAccessory1BigLynxEarsOuter,Outer Ear
+HairAccessory1BigLynxEarsTuft,Tuft
+HairAccessory1BigLynxEarsLine,Line
 HairAccessory2KittenEars1Outer,Outer Ear
 HairAccessory2KittenEars1Inner,Inner Ear
 HairAccessory2FoxEars2Inner,Inner Ear
@@ -386,6 +392,7 @@ ItemFeetLeatherDeluxeAnkleCuffsCuffs,Cuffs
 ItemFeetLeatherDeluxeAnkleCuffsRings,Edging
 ItemFeetLeatherDeluxeAnkleCuffsBuckets,Buckles
 ItemFeetLeatherDeluxeAnkleCuffsChain,Chain
+ItemFeetLeatherDeluxeAnkleCuffsLock,Lock
 ItemFeetMedicalBedRestraintsBase,Bed Straps
 ItemFeetMedicalBedRestraintsStraps,Cuffs
 ItemFeetSturdyLeatherBeltsLowerBelt,Lower Belt
@@ -415,6 +422,7 @@ ItemLegsLeatherDeluxeLegCuffsCuffs,Cuffs
 ItemLegsLeatherDeluxeLegCuffsRings,Edging
 ItemLegsLeatherDeluxeLegCuffsBuckets,Buckles
 ItemLegsLeatherDeluxeLegCuffsChain,Chain
+ItemLegsLeatherDeluxeLegCuffsLock,Lock
 ItemLegsLegBinderLatex,Binder
 ItemLegsLegBinderBelts,Belts
 ItemLegsHobbleSkirtLatex,Skirt
@@ -526,6 +534,7 @@ ItemArmsLeatherCuffsRings,Rings
 ItemArmsLeatherDeluxeCuffsCuffs,Cuffs
 ItemArmsLeatherDeluxeCuffsRings,Edging
 ItemArmsLeatherDeluxeCuffsBuckets,Buckles
+ItemArmsLeatherDeluxeCuffsLock,Lock
 ItemArmsOrnateCuffsCuffs,Cuffs
 ItemArmsOrnateCuffsGems,Gems
 ItemArmsHighStyleSteelCuffsCuffs,Cuffs
@@ -611,6 +620,11 @@ ItemArmsBitchSuitZips,Zippers
 ItemArmsBitchSuitStraps,Straps
 ItemArmsBitchSuitBuckles,Buckles
 ItemArmsBitchSuitLock,Locks
+ItemArmsShinyPetSuitLatex,Suit
+ItemArmsShinyPetSuitZips,Shine
+ItemArmsShinyPetSuitStraps,Straps
+ItemArmsShinyPetSuitBuckles,Buckles
+ItemArmsShinyPetSuitLock,Locks
 ItemArmsTentaclesLowerInner,Inner
 ItemArmsTentaclesLowerSucker,Suckers
 ItemArmsTentaclesLowerOuter,Outer
@@ -640,6 +654,7 @@ ItemNeckLeatherCollarRing,Ring
 ItemNeckLeatherDeluxeCollarCollar,Collar
 ItemNeckLeatherDeluxeCollarRings,Edging
 ItemNeckLeatherDeluxeCollarBuckets,Buckles
+ItemNeckLeatherDeluxeCollarLock,Lock
 ItemNeckLeatherChokerLeather,Leather
 ItemNeckLeatherChokerMetal,Metal
 ItemNeckMaidCollarFrills,Frills
@@ -653,6 +668,8 @@ ItemNeckOrnateCollarCollar,Collar
 ItemNeckOrnateCollarGem,Gems
 ItemNeckHighStyleSteelCollarCollar,Collar
 ItemNeckHighStyleSteelCollarPanel,Panel
+ItemNeckPetSuitShockCollarCollar, Collar
+ItemNeckPetSuitShockCollarBuckles, Buckles
 ItemNeckShinySteelCollarCollar,Collar
 ItemNeckShinySteelCollarRing,Ring
 ItemNeckGothicCollarCollar,Collar
@@ -950,8 +967,7 @@ ShoesFuzzyBootsFur,Fur
 ShoesLatexHeelsBase, Shoe
 ShoesLatexHeelsTrim, Trim
 ShoesThighBootsBase, Boot
-ShoesThighBootsThigh, Boot
-ShoesThighBootsLayer, Inner
+ShoesThighBootsThigh, Sock
 ShoesThighBootsBand, Band
 ItemMouthWiffleGagStrap,Strap
 ItemMouthWiffleGagBall,Ball
@@ -1422,6 +1438,8 @@ ClothAccessoryBunnyCollarCuffsCollar,Collar
 ClothAccessoryBunnyCollarCuffsBow,Bow
 ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
+ClothAccessoryBugLegsLegs,Legs
+ClothAccessoryBugLegsJoints,Joints
 ItemHeadPaddedBlindfoldBase,Blindfold
 ItemHeadPaddedBlindfoldTrim,Trim
 ItemHeadKittyBlindfoldBase,Base
@@ -1542,7 +1560,7 @@ HairFrontHairFront47Fade,Fade
 EyebrowsEyebrows2Main,Eyebrow
 EyebrowsEyebrows2EyebrowBarRight,Piercings
 ItemHoodCustomLatexHoodPanelHead,Head
-ItemHoodCustomLatexHoodPanelHeadHighlight,Shine
+ItemHoodCustomLatexHoodShine,Highlights
 ItemHoodCustomLatexHoodLiningRoundFace,Face Lining
 ItemHoodCustomLatexHoodLiningRoundEye,Eye Lining
 ItemHoodCustomLatexHoodLiningRoundMouth,Mouth Lining
@@ -1553,7 +1571,6 @@ ItemHoodCustomLatexHoodFillRoundMouth,Mouth Fill Panel
 ItemHoodCustomLatexHoodHairUnder,Hair Inside Hood
 ItemHoodCustomLatexHoodZipperHoodOpen,Cover Hood
 ItemHoodCustomLatexHoodZipperHoodOpenZipper,Zipper
-ItemHoodCustomLatexHoodPanelHeadHighlight,Highlights
 ItemHoodHarnessCatMaskBase,Harness
 ItemHoodHarnessCatMaskEarsUnder,Ears
 ItemHoodHarnessCatMaskMetal,Metal
@@ -1595,11 +1612,11 @@ ItemBreastTickleBraWire,Wiring
 ItemHoodFoxHoodBase, Base
 ItemHoodFoxHoodLens, Lenses
 ItemHoodFoxHoodInnerEar, Ear Canal
-ItemHoodFoxHoodOuterEar, Ear 
+ItemHoodFoxHoodOuterEar, Ear
 ItemHoodFoxHoodEarFuzz, Fuzz
 ItemHoodFoxHoodFace, Face
 ItemHoodPantyHoodBase, Pantyhose
-ItemHoodPantyHoodHairUnder, Hair 
+ItemHoodPantyHoodHairUnder, Hair
 ClothLatexTankTopBase, Tank Top
 ClothLatexTankTopCollar, Collar
 ClothLatexTankTopHoodDown, Loose Hood
@@ -1613,12 +1630,11 @@ ItemHoodVacHoodPlasticClip,Clip
 ItemHoodVacHoodClipHose,Clipped Hose
 ItemHoodVacHoodHandPump,Pump
 ItemHoodVacHoodRebreather,Rebreather Bag
-ItemPelvisPortalPantiesBase, Latex
-ItemPelvisPortalPantiesSlit, Slit
-ItemPelvisPortalPantiesMetal, Portal Unit
-ItemnPelvisPortalPantiesMetalHex, Hex
-ItemPelvisPortalPantiesGlow1, LED
-ItemPelvisPortalPantiesGlow2, LED
+ItemPelvisPortalPantiesBase,Latex
+ItemPelvisPortalPantiesShield,Portal Unit
+ItemPelvisPortalPantiesMetalHex,Hex
+ItemPelvisPortalPantiesTubes,Tubes
+ItemPelvisPortalPantiesGlowTubes,LED
 ItemHandheldPortalTablet,Tablet
 ClothLowerPantBootsBase,Latex
 ClothLowerPantBootsStripe,Stripe
@@ -1631,3 +1647,28 @@ ItemHoodSensoryDeprivationHoodBase, Latex
 ItemHoodSensoryDeprivationHoodEarCover, Silencer
 ItemHoodSensoryDeprivationHoodLips, Lips
 GlovesLatexShortGloves,Glove
+HairFrontHairFront49Left,Right
+HairFrontHairFront49Right,Left
+HairFrontHairFront50Left,Right
+HairFrontHairFront50Right,Left
+HairFrontHairFront51Main,Main
+HairFrontHairFront51Front,Front
+HairFrontHairFront51bMain,Main
+HairFrontHairFront51bFront,Front
+HairBackHairBack7MainLeft,Right
+HairBackHairBack7MainRight,Left
+HairBackHairBack9Left,Right
+HairBackHairBack9Right,Left
+HairBackHairBack9bLeft,Right
+HairBackHairBack9bRight,Left
+TailStrapsLionTailStrapTail,Tail
+TailStrapsLionTailStrapPlume,Plume
+ItemPelvisHeavyDutyBeltCage,Cage
+ItemPelvisHeavyDutyBeltSpreaderstraps,Spreader Straps
+ItemPelvisHeavyDutyBeltSpreaderclips,Spreader Clips
+ItemPelvisHeavyDutyBeltRotorstickPenis,Brush sticks
+ItemPelvisHeavyDutyBeltRotortipPenis,Brushes
+ItemPelvisHeavyDutyBeltTransparentShield,Transparent Shield
+ItemPelvisHeavyDutyBeltMetalShield,Shield
+ItemPelvisHeavyDutyBeltRubberBelt,Belt
+ItemPelvisHeavyDutyBeltMetalBelt,Belt

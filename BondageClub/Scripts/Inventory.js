@@ -179,7 +179,7 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 * Returns an error message if a prerequisite clashes with the character's items and clothes
 * @param {Character} C - The character on which we check for prerequisites
 * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
-* @returns {String} - The error tag, can be converted to an error message
+* @returns {string} - The error tag, can be converted to an error message
 */
 function InventoryPrerequisiteMessage(C, Prerequisite) {
 	switch (Prerequisite) {
@@ -226,6 +226,13 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		// Checks for genitalia
 		case "HasVagina": return !InventoryIsItemInList(C, "Pussy", ["PussyLight1", "PussyLight2", "PussyLight3", "PussyDark1", "PussyDark2", "PussyDark3"]) ? "MustHaveVagina" : "";
 		case "HasPenis": return !InventoryIsItemInList(C, "Pussy", ["Penis"]) ? "MustHavePenis" : "";
+		case "CanHaveErection": {
+			if (!InventoryIsItemInList(C, "Pussy", ["Penis"]))
+				return "MustHavePenis";
+			if (C.HasEffect("Chaste"))
+				return "CantHaveErection";
+			return "";
+		}
 
 		// Checks for chastity cages, in case of penis protruding items.
 		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage"]) ? "MustRemoveChastityCage" : "";
@@ -242,27 +249,36 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "AccessBreastSuitZip": return !InventoryDoItemsExposeGroup(C, "ItemNipplesPiercings", ["Cloth"]) || !InventoryDoItemsExposeGroup(
 			C, "ItemNipplesPiercings", ["Suit"]) ? "UnZipSuitForItem" : "";
 
-		// Vulva/Butt items can be blocked by clothes, panties and some socks
-		case "AccessVulva": return (
-			InventoryDoItemsBlockGroup(C, "ItemVulva", ["Cloth", "Socks", "ItemPelvis", "ItemVulvaPiercings"])
-			|| !InventoryDoItemsExposeGroup(C, "ItemVulva", ["ClothLower", "Panties"])
-		) ? "RemoveClothesForItem" : "";
+		// Vulva/Butt items can be blocked by clothes, panties and some socks, as well as chastity
+		case "AccessButt":
+		case "AccessVulva": {
+			const target = Prerequisite === "AccessVulva" ? "ItemVulva" : "ItemButt";
 
-		case "AccessButt": return (
-			InventoryDoItemsBlockGroup(C, "ItemButt", ["Cloth", "Socks", "ItemPelvis", "ItemVulvaPiercings"])
-			|| !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])
-		) ? "RemoveClothesForItem" : "";
+			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Socks"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
+				return "RemoveClothesForItem";
+
+			// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
+			if (InventoryDoItemsBlockGroup(C, target, ["ItemPelvis", "ItemVulvaPiercings"]) || C.IsVulvaChaste())
+				return "RemoveChastityFirst";
+
+			return "";
+		}
+
+		case "AccessCrotch":
+			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "Socks"])
+				|| (!InventoryDoItemsExposeGroup(C, "ItemVulva", ["ClothLower", "Panties"])
+				&& !InventoryDoItemsExposeGroup(C, "ItemVulvaPiercings", ["ClothLower", "Panties"])
+				&& !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])))
+				? "RemoveClothesForItem" : "";
+
+		case "CanCoverVulva":
+			return C.HasEffect("VulvaShaft") ? "CantCloseOnShaft" : "";
 
 		// Items that require access to a certain character's zone
 		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
 		case "BlockedMouth": return !C.IsMouthBlocked() ? "MustBeUsedOverGag" : "";
 		case "HoodEmpty": return InventoryGet(C, "ItemHood") ? "CannotBeUsedOverMask" : "";
 		case "EyesEmpty": return InventoryGet(C, "ItemHead") ? "CannotBeUsedOverHood" : "";
-
-		// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
-		case "VulvaNotBlockedByBelt": return InventoryDoItemsBlockGroup(C, "ItemVulva", ["ItemPelvis"])
-		|| InventoryDoItemsBlockGroup(C, "ItemVulva", ["ItemVulvaPiercings"])
-			? "RemoveChastityFirst" : "";
 
 		// Ensure crotch is empty
 		case "VulvaEmpty": return (InventoryGet(C, "ItemVulva") != null) ? "MustFreeVulvaFirst" : "";
@@ -345,7 +361,7 @@ function InventoryDoesItemHavePrerequisite(C, ItemGroup, Prerequisite) {
 function InventoryDoItemsBlockGroup(C, TargetGroup, GroupsToCheck) {
 	return GroupsToCheck.some((Group) => {
 		const Item = InventoryGet(C, Group);
-		return Item && Item.Asset.Block && Item.Asset.Block.includes(TargetGroup);
+		return Item && InventoryGetItemProperty(Item, "Block").includes(TargetGroup);
 	});
 }
 
@@ -361,7 +377,7 @@ function InventoryDoItemsBlockGroup(C, TargetGroup, GroupsToCheck) {
 function InventoryDoItemsExposeGroup(C, TargetGroup, GroupsToCheck) {
 	return GroupsToCheck.every((Group) => {
 		const Item = InventoryGet(C, Group);
-		return !Item || Item.Asset.Expose.includes(TargetGroup);
+		return !Item || InventoryGetItemProperty(Item, "Expose").includes(TargetGroup);
 	});
 }
 
@@ -440,7 +456,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	prerequisites.some((prerequisite) => (Msg = InventoryPrerequisiteMessage(checkCharacter, prerequisite)));
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (Msg && setDialog) DialogSetText(Msg);
+	if (Msg && setDialog) DialogSetStatus(DialogFindPlayer(Msg), DialogTextDefaultDuration);
 	return !Msg;
 }
 
@@ -569,7 +585,8 @@ function InventoryCraftPropertyIs(Item, Property) {
 }
 
 /**
-* Sets the craft and type on the item, uses the achetype properties if possible
+* Sets the craft and type on the item, uses the achetype properties if possible.
+* Note that appearance changes are _not_ pushed to the server.
 * @param {Item} Item - The item being applied
 * @param {Character} C - The character that must wear the item
 * @param {CraftingItem} [Craft] - The crafting properties of the item
@@ -581,14 +598,14 @@ function InventoryWearCraft(Item, C, Craft) {
 	switch(Item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
 			if (Craft.Type != null) {
-				TypedItemSetOptionByName(C, Item, Craft.Type);
+				TypedItemSetOptionByName(C, Item, Craft.Type, false, Player);
 			}
 			break;
 		case ExtendedArchetype.MODULAR:
-			ModularItemSetOptionByName(C, Item, Craft.Type);
+			ModularItemSetOptionByName(C, Item, Craft.Type, false, Player);
 			break;
 		case ExtendedArchetype.VIBRATING:
-			VibratorModeSetOptionByName(C, Item, Craft.Type);
+			VibratorModeSetOptionByName(C, Item, Craft.Type, false, Player);
 			break;
 	}
 }
@@ -714,9 +731,10 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
  * Randomly extends an item (sets an item type, etc.) on a character
  * @param {Character} C - The character wearing the item
  * @param {AssetGroupName} GroupName - The name of the item's group
+ * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @returns {void} - Nothing
  */
-function InventoryRandomExtend(C, GroupName) {
+function InventoryRandomExtend(C, GroupName, C_Source=null) {
 	const Item = InventoryGet(C, GroupName);
 
 	if (!Item || !Item.Asset.Archetype) {
@@ -725,7 +743,7 @@ function InventoryRandomExtend(C, GroupName) {
 
 	switch (Item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
-			TypedItemSetRandomOption(C, Item);
+			TypedItemSetRandomOption(C, Item, false, C_Source);
 			break;
 		default:
 			// Archetype does not yet support random extension
@@ -988,6 +1006,20 @@ function InventoryItemIsPickable(Item) {
 	else return false;
 }
 
+const PropertiesArrayLike = new Set([
+	"Alpha", "Attribute", "Block", "Category", "DefaultColor", "Effect", "Expose", "ExpressionTrigger", "Prerequisite", "Require", "Fetish", "Tint",
+	"AllowPose", "AllowActivePose", "FreezeActivePose", "SetPose", "WhitelistActivePose",
+	"AllowActivity", "AllowActivityOn",
+	"Hide", "HideForPose", "HideItem", "HideItemExclude", "UnHide",
+	"MemberNumberList", "Texts",
+	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowType",
+	"AvailableLocations", "ExpressionPrerequisite",
+]);
+
+const PropertiesObjectLike = new Set([
+	"ActivityExpression", "PoseMapping", "RemoveItemOnRemove",
+]);
+
 /**
  * Returns the value of a given property of an appearance item, prioritizes the Property object.
  * @template {keyof ItemProperties | keyof Asset | keyof AssetGroup} Name
@@ -995,11 +1027,19 @@ function InventoryItemIsPickable(Item) {
  * @param {Name} PropertyName - The property name to get.
  * @param {boolean} [CheckGroup=false] - Whether or not to fall back to the item's group if the property is not found on
  * Property or Asset.
- * @returns {undefined | (ItemProperties & Asset & AssetGroup)[Name]} - The value of the requested property for the given item. Returns undefined if the property or the
+ * @returns {(ItemProperties & Asset & AssetGroup)[Name] | undefined} - The value of the requested property for the given item. Returns undefined if the property or the
  * item itself does not exist.
  */
 function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
-	if (!Item || !PropertyName || !Item.Asset) return;
+	/** @type {(ItemProperties & Asset & AssetGroup)[Name] | undefined} */
+	let value = undefined;
+
+	// @ts-expect-error Transparently return an empty array, which confuses TS
+	if (PropertiesArrayLike.has(PropertyName)) value = [];
+	// @ts-expect-error Transparently return an empty object, which confuses TS
+	else if (PropertiesObjectLike.has(PropertyName)) value = {};
+
+	if (!Item || !PropertyName || !Item.Asset) return value;
 	const PropertyRecords = /** @type {(ItemProperties & Asset & AssetGroup)[]} */(
 		[Item.Property || {}, Item.Asset, (CheckGroup) ? Item.Asset.Group : {}]
 	);
@@ -1009,7 +1049,7 @@ function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
 			return record[PropertyName];
 		}
 	}
-	return undefined;
+	return value;
 }
 
 /**
@@ -1195,21 +1235,25 @@ function InventoryDoesItemAllowLock(item) {
 function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	if (typeof Item === 'string') Item = InventoryGet(C, Item);
 	if (typeof Lock === 'string') Lock = { Asset: AssetGet(C.AssetFamily, "ItemMisc", Lock) };
-	if (Item && Lock && Lock.Asset && Lock.Asset.IsLock && InventoryDoesItemAllowLock(Item)) {
-		if (Item.Property == null) Item.Property = {};
-		if (Item.Property.Effect == null) Item.Property.Effect = [];
-		if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
-		if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
-		Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
-		if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
+	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
 
-		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-		const args = [C, Item, false];
-		CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
-		if (Update) {
-			if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
-			CharacterRefresh(C, true);
-		}
+	// Protect against using the PortalLink lock on incompatible items
+	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute").includes("PortalLinkLockable"))
+		return;
+
+	if (Item.Property == null) Item.Property = {};
+	if (Item.Property.Effect == null) Item.Property.Effect = [];
+	if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
+	if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
+	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
+	if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
+
+	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
+	const args = [C, Item, false];
+	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
+	if (Update) {
+		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
+		CharacterRefresh(C, true);
 	}
 }
 

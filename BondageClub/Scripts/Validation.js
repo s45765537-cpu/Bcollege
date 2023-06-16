@@ -787,6 +787,9 @@ function ValidationSanitizeLock(C, item) {
 	// If there is no lock, or the item in its current state does not permit locks
 	if (!lock || !InventoryDoesItemAllowLock(item)) {
 		return ValidationDeleteLock(property);
+	} else if (lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(item, "Attribute").includes("PortalLinkLockable")) {
+		// Protect against using the PortalLink lock on incompatible items
+		return ValidationDeleteLock(property);
 	}
 
 	let changed = false;
@@ -810,6 +813,17 @@ function ValidationSanitizeLock(C, item) {
 		if (!(C.IsOwned() || typeof ownerNumber === 'number') || !lockNumberValid)
 			if (!(C.IsOwned() && !C.IsOwnedByPlayer() && !lockNumberValid)) {
 				console.warn(`Removing invalid owner-only lock with member number: ${lockNumber}`);
+				return ValidationDeleteLock(property);
+			}
+	}
+
+	// Ensure a family-only lock is still valid
+	if (lock.Asset.FamilyOnly) {
+		const selfCanUseFamilyLocks = !C.IsPlayer() || !LogQuery("BlockOwnerLockSelf", "OwnerRule");
+		const lockNumberValid = (lockedBySelf && selfCanUseFamilyLocks) || lockedByOwner;
+		if (!(C.IsOwned() || typeof ownerNumber === "number") || !lockNumberValid)
+			if (!(C.IsOwned() && !C.IsOwnedByPlayer() && !lockNumberValid)) {
+				console.warn(`Removing invalid family-only lock with member number: ${lockNumber}`);
 				return ValidationDeleteLock(property);
 			}
 	}

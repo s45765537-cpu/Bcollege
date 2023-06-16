@@ -139,7 +139,7 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 function InventoryItemPelvisFuturisticTrainingBeltClickHook(data, originalFunction) {
 	const Item = DialogFocusItem;
 	let canViewMode = false;
-	if (MouseIn(1885, 25, 90, 90)) ExtendedItemExit();
+	if (MouseIn(1885, 25, 90, 90)) DialogLeaveFocusItem();
 	if (!FuturisticAccessClick()) {
 		// Fallthrough as there's the mode change controls
 	} else {
@@ -241,10 +241,10 @@ function InventoryItemPelvisFuturisticTrainingBeltExitHook(data, originalFunctio
 		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(CurrentCharacter, "FuturisticTrainingBeltSetGeneric");
 	}
 
-	InventoryItemFuturisticExitAccessDenied();
-
 	ElementRemove("PunishRequiredSpeechWord");
 	ElementRemove("PunishProhibitedSpeechWords");
+
+	FuturisticAccessExit();
 }
 
 /** @type {ExtendedItemCallbacks.PublishAction<ExtendedItemOption>} */
@@ -326,9 +326,10 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(data, C, Persis
 
 		const newOption = data.options.find(o => o.Name === VibeMode);
 		const previousOption = TypedItemFindPreviousOption(Item, data.options, "Mode");
-		if (ExtendedItemSetOption(data, C, Item, newOption, { ...previousOption, ChangeWhenLocked: true }, true)) {
+		if (TypedItemValidateOption(data, C, Item, newOption, { ...previousOption, ChangeWhenLocked: true })) {
 			return;
 		}
+		ExtendedItemSetOption(data, C, Item, newOption, previousOption, true);
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 
 		if (CurrentScreen == "ChatRoom") {
@@ -713,7 +714,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptDraw(data, originalFunction
 	const property = (drawData.Item.Property = drawData.Item.Property || {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
-	if (typeof persistentData.CheckTime !== "number") persistentData.CheckTime = 0;
+	if (typeof persistentData.CheckTime !== "number") persistentData.CheckTime = CommonTime();
 
 
 	// Non persistent properties

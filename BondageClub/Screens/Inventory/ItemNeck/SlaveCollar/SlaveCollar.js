@@ -156,7 +156,7 @@ function InventoryItemNeckSlaveCollarDraw() {
 			ColorPickerHide();
 			DrawText(DialogFindPlayer("SlaveCollarSelectType"), 1500, 250, "white", "gray");
 			DrawButton(1665, 25, 90, 90, "", "White", "Icons/Next.png");
-			DrawButton(1775, 25, 90, 90, "", (DialogFocusItem.Color != null && DialogFocusItem.Color != "Default" && DialogFocusItem.Color != "None") ? DialogFocusItem.Color.toString() : "White", "Icons/ColorPick.png");
+			DrawButton(1775, 25, 90, 90, "", (DialogFocusItem.Color != null && DialogFocusItem.Color != "Default" && DialogFocusItem.Color != "None") ? DialogFocusItem.Color.toString() : "White", "Icons/ColorChange.png");
 			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
 				const A = DialogFocusItem.Asset;
 				const Type = InventoryItemNeckSlaveCollarTypes[I];
@@ -176,7 +176,7 @@ function InventoryItemNeckSlaveCollarClick() {
 	// When the user exits the screen
 	if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) {
 		ElementRemove("InputColor");
-		DialogFocusItem = null;
+		DialogLeaveFocusItem();
 		return;
 	}
 
@@ -194,7 +194,7 @@ function InventoryItemNeckSlaveCollarClick() {
 					ElementRemove("InputColor");
 					ChatRoomCharacterItemUpdate(C);
 					if (CurrentScreen != "ChatRoom") CharacterRefresh(C);
-					DialogFocusItem = null;
+					DialogLeaveFocusItem();
 				}
 			}
 			if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {

@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R92";
+var GameVersion = "R93Beta3";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -84,11 +84,8 @@ function DocumentKeyDown(event) {
 	if (event.key == "Escape") {
 		if (CurrentScreenFunctions.Exit) {
 			CurrentScreenFunctions.Exit();
-		} else if ((CurrentCharacter != null) && Array.isArray(DialogMenuButton) && (DialogMenuButton.indexOf("Exit") >= 0)) {
-			if (!DialogLeaveFocusItem())
-				DialogLeaveItemMenu();
-		} else if ((CurrentCharacter != null) && (CurrentScreen == "ChatRoom")) {
-			DialogLeave();
+		} else if ((CurrentCharacter != null)) {
+			DialogMenuBack();
 		} else if ((CurrentCharacter == null) && (CurrentScreen == "ChatRoom") && (document.getElementById("TextAreaChatLog") != null)) {
 			ElementScrollToEnd("TextAreaChatLog");
 		}

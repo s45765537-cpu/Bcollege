@@ -882,18 +882,6 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Adds a pose to a character's pose list, does not add it if it's already there
- * @param {Character} C - Character for which to add a pose to its list
- * @param {readonly AssetPoseName[]} NewPose - The name of the pose to add
- * @returns {void} - Nothing
- */
-function CharacterAddPose(C, NewPose) {
-	for (let E = 0; E < NewPose.length; E++)
-		if (C.Pose.indexOf(NewPose[E]) < 0)
-			C.Pose.push(NewPose[E]);
-}
-
-/**
  * Checks whether the given character can change to the named pose unaided
  * @param {Character} C - The character to check
  * @param {AssetPoseName} poseName - The name of the pose to check for
@@ -921,14 +909,9 @@ function CharacterItemsHavePoseAvailable(C, Type, Pose) {
 	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
 		Item = C.Appearance[i];
 
-		const WhitelistActivePose = InventoryGetItemProperty(Item, "WhitelistActivePose");
-		if (WhitelistActivePose != null && WhitelistActivePose.includes(Pose)) continue;
-
-		const AllowActivePose = InventoryGetItemProperty(Item, "AllowActivePose");
-		if (AllowActivePose != null && AllowActivePose.includes(Pose)) continue;
-
-		const SetPose = InventoryGetItemProperty(Item, "SetPose", true);
-		if (SetPose != null && SetPose.find(P => ConflictingPoses.includes(P))) return false;
+		if (InventoryGetItemProperty(Item, "WhitelistActivePose", true).includes(Pose)) continue;
+		if (InventoryGetItemProperty(Item, "AllowActivePose", true).includes(Pose)) continue;
+		if (InventoryGetItemProperty(Item, "SetPose", true).find(P => ConflictingPoses.includes(P))) return false;
 	}
 	return true;
 }
@@ -956,8 +939,7 @@ function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
 	return C.Appearance
 		.filter(item => !excludeClothes || !item.Asset.Group.Clothing)
 		.some(item => {
-			const setPose = InventoryGetItemProperty(item, "SetPose", true);
-			return setPose && setPose.includes(pose);
+			return InventoryGetItemProperty(item, "SetPose", true).includes(pose);
 		});
 }
 
@@ -971,14 +953,10 @@ function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
 function CharacterItemsHavePoseType(C, Type, OnlyItems) {
 	var PossiblePoses = PoseFemale3DCG.filter(P => P.Category == Type || P.Category == "BodyFull").map(P => P.Name);
 
-	for (let A = 0; A < C.Appearance.length; A++) {
-		if (!OnlyItems && C.Appearance[A].Asset.AllowActivePose != null && (C.Appearance[A].Asset.AllowActivePose.find(P => PossiblePoses.includes(P) && C.AllowedActivePose.includes(P))))
+	for (const item of C.Appearance) {
+		if (!OnlyItems && InventoryGetItemProperty(item, "AllowActivePose", true).find(P => PossiblePoses.includes(P) && C.AllowedActivePose.includes(P)))
 			return true;
-		if ((C.Appearance[A].Property != null) && (C.Appearance[A].Property.SetPose != null) && (C.Appearance[A].Property.SetPose.find(P => PossiblePoses.includes(P))))
-			return true;
-		else if (C.Appearance[A].Asset.SetPose != null && (C.Appearance[A].Asset.SetPose.find(P => PossiblePoses.includes(P))))
-			return true;
-		else if (C.Appearance[A].Asset.Group.SetPose != null && (C.Appearance[A].Asset.Group.SetPose.find(P => PossiblePoses.includes(P))))
+		if (InventoryGetItemProperty(item, "SetPose", true).find(P => PossiblePoses.includes(P)))
 			return true;
 	}
 	return false;
@@ -995,11 +973,8 @@ function CharacterLoadPose(C) {
 
 	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
 		Item = C.Appearance[i];
-		const AllowActivePose = InventoryGetItemProperty(Item, "AllowActivePose");
-		if (Array.isArray(AllowActivePose)) AllowActivePose.forEach(Pose => C.AllowedActivePose.push(Pose));
-
-		const SetPose = InventoryGetItemProperty(Item, "SetPose", true);
-		if (SetPose != null) CharacterAddPose(C, SetPose);
+		C.AllowedActivePose.push(...InventoryGetItemProperty(Item, "AllowActivePose"));
+		C.Pose = CommonArrayConcatDedupe(C.Pose, InventoryGetItemProperty(Item, "SetPose", true));
 	}
 
 	// Add possible active poses (Bodyfull can only be alone, and cannot have two of upperbody or bodylower)
@@ -1102,11 +1077,7 @@ function CharacterLoadTints(C) {
 	/** @type {ResolvedTintDefinition[]} */
 	const tints = [];
 	for (const item of C.Appearance) {
-		/** @type {TintDefinition[]} */
-		const itemTints = InventoryGetItemProperty(item, "Tint");
-		if (Array.isArray(itemTints)) {
-			tints.push(...itemTints.map(({Color, Strength, DefaultColor}) => ({Color, Strength, DefaultColor, Item: item})));
-		}
+		tints.push(...InventoryGetItemProperty(item, "Tint").map(({Color, Strength, DefaultColor}) => ({Color, Strength, DefaultColor, Item: item})));
 	}
 	C.Tints = tints;
 }
@@ -1212,48 +1183,72 @@ function CharacterRefresh(C, Push, RefreshDialog = true) {
  * @returns {void} - Nothing
  */
 function CharacterRefreshDialog(C) {
-	if (DialogFocusItem && DialogFocusItem.Asset) {
-		if (!DialogFocusItem.Asset.IsLock) {
-			let DFI = C.Appearance.find(Item =>
-				Item.Asset.Name == DialogFocusItem.Asset.Name && Item.Asset.Group.Name == DialogFocusItem.Asset.Group.Name
-			);
-			if (!DFI) DialogLeaveFocusItem();
-			else {
-				DialogFocusItem = DFI;
-				if (DialogFocusItem.Asset.Extended)
-					DialogExtendItem(DFI);
-			}
-		} else {
-			const DFSI = DialogFocusSourceItem && DialogFocusSourceItem.Asset && C.Appearance.find(Item =>
-				Item.Asset.Name == DialogFocusSourceItem.Asset.Name && Item.Asset.Group.Name == DialogFocusSourceItem.Asset.Group.Name
-			);
-			const Lock = DFSI && InventoryGetLock(DFSI);
-			if (!DFSI || !Lock) DialogLeaveFocusItem();
-			else DialogExtendItem(Lock, DFSI);
+	// Get a reference to the currently focused item
+	const focusItem = C && C.FocusGroup ? InventoryGet(C, C.FocusGroup.Name) : null;
+
+	// Skip refreshing anything dialog-related when we're in the wardrobe
+	if (DialogIsInWardrobe()) return;
+
+	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
+		// We were looking at some inventory, reload it to update the UI
+		DialogChangeMode(DialogMenuMode);
+	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
+		if (!focusItem) {
+			// Focused item was removed
+			DialogLeaveFocusItem();
+			return;
 		}
-	} else if (DialogFocusItem) DialogLeaveFocusItem();
-	if (!DialogFocusItem) {
-		const IsLockMode = DialogItemToLock && C.Appearance.find(Item => Item.Asset.Name == DialogItemToLock.Asset.Name && DialogItemToLock.Asset.Group.Name == Item.Asset.Group.Name);
-		if (IsLockMode) {
-			DialogInventory = [];
-			for (let A = 0; A < Player.Inventory.length; A++)
-				if ((Player.Inventory[A].Asset != null) && Player.Inventory[A].Asset.IsLock)
-					DialogInventoryAdd(C, Player.Inventory[A], false);
-			DialogInventorySort();
-			DialogMenuButtonBuild(C);
-		} else {
-			DialogInventoryBuild(C, DialogInventoryOffset);
+
+		// We were looking at an extended screen
+		const wasLock = DialogFocusItem.Asset.IsLock;
+		const sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
+		const previousItem = sourceItem ? InventoryGet(C, sourceItem.Asset.Group.Name) : null;
+		if (!previousItem || previousItem.Asset.Name !== focusItem.Asset.Name) {
+			// Unable to reload the source item, or it's different now
+			DialogLeaveFocusItem();
+			return;
 		}
-		DialogBuildActivities(C);
-	}
-	if (DialogColor != null) {
-		const FocusItem = C && C.FocusGroup ? InventoryGet(C, C.FocusGroup.Name) : null;
-		if ((ItemColorItem && !FocusItem) || (!ItemColorItem && FocusItem) || InventoryGetItemProperty(ItemColorItem, "Name") !== InventoryGetItemProperty(FocusItem, "Name")) {
+
+		const lock = InventoryGetLock(focusItem);
+		if (wasLock && !lock) {
+			// The lock on the focused item was removed
+			DialogLeaveFocusItem();
+			return;
+		} else if (!focusItem.Asset.Extended) {
+			// Shouldn't happen but we don't want to open an extended screen on that
+			DialogChangeMode("items");
+			return;
+		}
+
+		// Replace the focus items from underneath us so we get the updated data
+		if (wasLock) {
+			DialogFocusItem = lock;
+			DialogFocusSourceItem = focusItem;
+		} else {
+			DialogFocusItem = focusItem;
+		}
+
+		// Reset the cached extended item requirement checks
+		if (DialogFocusItem.Asset.Extended) {
+			ExtendedItemRequirementCheckMessageMemo.clearCache();
+		}
+	} else if (DialogMenuMode === "colorItem") {
+		const itemRemovedOrDifferent = !focusItem || InventoryGetItemProperty(ItemColorItem, "Name") !== InventoryGetItemProperty(focusItem, "Name");
+		if (itemRemovedOrDifferent) {
 			ItemColorCancelAndExit();
-			DialogColor = null;
-			DialogColorSelect = null;
-			DialogMenuButtonBuild(C);
+			DialogChangeMode("items");
+			return;
 		}
+	} else if (DialogMenuMode === "locking" || DialogMenuMode === "locked") {
+		if (!focusItem || DialogMenuMode === "locked" && !DialogCanCheckLock(C, focusItem)) {
+			// Focused item was removed, or lost its lock
+			DialogChangeMode("items");
+		} else {
+			// Refresh by resetting the mode
+			DialogChangeMode(DialogMenuMode);
+		}
+	} else if (DialogMenuMode === "crafted") {
+		// Automatically updates in DialogDraw()
 	}
 }
 
@@ -1578,6 +1573,22 @@ function CharacterResetFacialExpression(C) {
 }
 
 /**
+ * Checks if a given expression is allowed on a character
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {ExpressionName} Expression
+ */
+function CharacterIsExpressionAllowed(C, Item, Expression) {
+	if (!C || !Item) return false;
+
+	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
+	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
+	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
+
+	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre) === ""));
+}
+
+/**
  * Gets the currently selected character
  * @returns {Character|null} - Currently selected character
  */
@@ -1641,8 +1652,7 @@ function CharacterDecompressWardrobe(Wardrobe) {
  */
 function CharacterHasItemWithAttribute(C, Attribute) {
 	return C.Appearance.some(item => {
-		const attrs = InventoryGetItemProperty(item, "Attribute");
-		return attrs && attrs.includes(Attribute);
+		return InventoryGetItemProperty(item, "Attribute").includes(Attribute);
 	});
 }
 
@@ -1654,8 +1664,7 @@ function CharacterHasItemWithAttribute(C, Attribute) {
  */
 function CharacterItemsForActivity(C, Activity) {
 	return C.Appearance.filter(item => {
-		const allowed = InventoryGetItemProperty(item, "AllowActivity");
-		return allowed && allowed.includes(Activity);
+		return InventoryGetItemProperty(item, "AllowActivity").includes(Activity);
 	});
 }
 
@@ -1934,11 +1943,10 @@ function CharacterClearOwnership(C) {
  * @returns {string} - The nickname to return
  */
 function CharacterNickname(C) {
-	let Regex = /^[a-zA-Z\s]*$/;
 	let Nick = C.Nickname;
 	if (Nick == null) Nick = "";
 	Nick = Nick.trim().substring(0, 20);
-	if ((Nick == "") || !Regex.test(Nick)) Nick = C.Name;
+	if ((Nick == "") || !ServerCharacterNicknameRegex.test(Nick)) Nick = C.Name;
 	return AsylumGGTSCharacterName(C, Nick);
 }
 

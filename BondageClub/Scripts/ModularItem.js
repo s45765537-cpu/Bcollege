@@ -64,9 +64,14 @@ const ModularItemDataLookup = {};
  * @type {Record<"PER_MODULE"|"PER_OPTION", ModularItemChatSetting>}
  */
 const ModularItemChatSetting = {
+	PER_OPTION: "default",
 	PER_MODULE: "perModule",
-	PER_OPTION: "perOption",
 };
+
+/** A regular expression that knows how to split modular types into [module key, option index] components */
+const ModularItemTypeSplitter = new RegExp(/([a-zA-Z]+\d+)/);
+/** A regular expression that knows how to split a [key, index] into its parts */
+const ModularItemSubtypeSplitter = new RegExp(/([a-zA-Z]+)(\d+)/);
 
 /**
  * Registers a modular extended item. This automatically creates the item's load, draw and click functions. It will
@@ -86,7 +91,7 @@ function ModularItemRegister(asset, config) {
 			load: () => ModularItemLoad(data),
 			click: () => ModularItemClick(data),
 			draw: () => ModularItemDraw(data),
-			validate: ExtendedItemValidate,
+			validate: (...args) => ExtendedItemValidate(data, ...args),
 			publishAction: (...args) => ModularItemPublishAction(data, ...args),
 			init: (...args) => ModularItemInit(data, ...args),
 			setOption: (...args) => ExtendedItemSetOption(data, ...args),
@@ -151,13 +156,15 @@ function ModularItemDraw(data) {
  * @param {boolean | undefined} [changeWhenLocked] - See {@link ModularItemConfig.ChangeWhenLocked}
  * @returns {ModularItemModule[]} - The updated modules and options
  */
-function ModularItemUpdateModules(asset, modules, changeWhenLocked) {
+function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 	return modules.map(protoMod => {
+		const drawImages = typeof protoMod.DrawImages === "boolean" ? protoMod.DrawImages : true;
 		/** @type {ModularItemModule} */
 		return {
 			...protoMod,
+			drawData: TypedItemGetDrawData(asset, protoMod.DrawData, protoMod.Options.length, drawImages),
 			OptionType: "ModularItemModule",
-			DrawImages: typeof protoMod.DrawImages === "boolean" ? protoMod.DrawImages : true,
+			DrawImages: drawImages,
 			Options: protoMod.Options.map((protoOption, i) => {
 				/** @type {ModularItemOption} */
 				const option = {
@@ -167,12 +174,18 @@ function ModularItemUpdateModules(asset, modules, changeWhenLocked) {
 					ModuleName: protoMod.Name,
 					Index: i,
 				};
+
 				if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 					option.ChangeWhenLocked = changeWhenLocked;
 				}
+
 				// @ts-expect-error: potentially copied from the protoOption via the spread operator
 				delete option.ArchetypeConfig;
-				option.ArchetypeData = ExtendedItemRegisterSubscreen(asset, protoOption.ArchetypeConfig, option);
+				if (protoOption.ArchetypeConfig) {
+					option.ArchetypeData = /** @type {ModularItemOption["ArchetypeData"]} */(AssetBuildExtended(
+						asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option,
+					));
+				}
 				return option;
 			}),
 		};
@@ -193,12 +206,13 @@ function ModularItemCreateModularData(asset, {
 	DialogPrefix,
 	ScriptHooks,
 	Dictionary,
+	DrawData,
 	BaselineProperty=null,
 	DrawImages=null,
 }) {
 	// Set the name of all modular item options
 	// Use an external function as typescript does not like the inplace updating of an object's type
-	const ModulesParsed = ModularItemUpdateModules(asset, Modules, ChangeWhenLocked);
+	const ModulesParsed = ModularItemBuildModules(asset, Modules, ChangeWhenLocked);
 	// Only enable DrawImages in the base screen if all module-specific DrawImages are true
 	const BaseDrawImages = (typeof DrawImages !== "boolean") ? ModulesParsed.every((m) => m.DrawImages) : DrawImages;
 
@@ -206,6 +220,7 @@ function ModularItemCreateModularData(asset, {
 	DialogPrefix = DialogPrefix || {};
 	/** @type {ModularItemData} */
 	const data = ModularItemDataLookup[key] = {
+		archetype: ExtendedArchetype.MODULAR,
 		asset,
 		chatSetting: ChatSetting || ModularItemChatSetting.PER_OPTION,
 		key,
@@ -225,12 +240,11 @@ function ModularItemCreateModularData(asset, {
 		modules: ModulesParsed,
 		currentModule: ModularItemBase,
 		pages: { [ModularItemBase]: 0 },
-		drawData: { [ModularItemBase]: ModularItemCreateDrawData(ModulesParsed.length, asset, BaseDrawImages) },
+		drawData: TypedItemGetDrawData(asset, DrawData, ModulesParsed.length, BaseDrawImages),
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		drawFunctions: {},
 		clickFunctions: {},
 		baselineProperty: typeof BaselineProperty === "object" ? BaselineProperty : null,
-		drawImages: BaseDrawImages,
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		parentOption: null,
 	};
@@ -238,41 +252,11 @@ function ModularItemCreateModularData(asset, {
 	data.clickFunctions[ModularItemBase] = ModularItemCreateClickBaseFunction(data);
 	for (const module of ModulesParsed) {
 		data.pages[module.Name] = 0;
-		data.drawData[module.Name] = ModularItemCreateDrawData(module.Options.length, asset, module.DrawImages);
 		data.drawFunctions[module.Name] = () => ModularItemDrawModule(module, data);
 		data.clickFunctions[module.Name] = () => ModularItemClickModule(module, data);
 		data.typeCount *= module.Options.length;
 	}
 	return data;
-}
-
-/**
- * Generates drawing data for a given module. This includes button positions, whether pagination is necessary, and the
- * total page count for that module.
- * @param {number} itemCount - The number of items in the module
- * @param {Asset} asset - The relevant asset
- * @param {boolean} drawImages - Whether button images should be drawn or not
- * @returns {ModularItemDrawData} - An object containing required drawing for
- * a module with the given item count.
- */
-function ModularItemCreateDrawData(itemCount, asset, drawImages) {
-	const XYArray = ExtendedItemGetXY(asset, drawImages);
-	const itemsPerPage = XYArray.length - 1;
-	const paginate = itemCount > itemsPerPage;
-	const pageCount = Math.ceil(itemCount / itemsPerPage);
-
-	/** @type {[number, number][]} */
-	const positions = [];
-	let i = 0;
-	while (i < itemCount) {
-		i += itemsPerPage;
-		let j = itemsPerPage;
-		if (i > itemCount) {
-			j += (itemCount - i);
-		}
-		positions.push(...XYArray[j]);
-	}
-	return { paginate, pageCount, positions, drawImages, itemsPerPage };
 }
 
 /**
@@ -283,12 +267,13 @@ function ModularItemCreateDrawData(itemCount, asset, drawImages) {
 function ModularItemCreateDrawBaseFunction(data) {
 	return () => {
 		/** @type {ModularItemButtonDefinition[]} */
-		const buttonDefinitions = data.modules.map((module, i) => {
-			const currentValues = ModularItemParseCurrent(data);
-			const currentOption = module.Options[currentValues[i]];
-			return [module, currentOption, data.dialogPrefix.module];
-		});
-		return ModularItemDrawCommon(ModularItemBase, buttonDefinitions, data);
+		const buttonDefinitions = data.modules
+			.map((module, i) => {
+				const currentValues = ModularItemParseCurrent(data);
+				const currentOption = module.Options[currentValues[i]];
+				return [module, currentOption, data.dialogPrefix.module];
+			});
+		return ModularItemDrawCommon(ModularItemBase, buttonDefinitions, data, data.drawData);
 	};
 }
 
@@ -310,9 +295,15 @@ function ModularItemMapOptionToButtonDefinition(option, module, { dialogPrefix }
  * @param {string} moduleName - The name of the module whose page is being drawn
  * @param {readonly ModularItemButtonDefinition[]} buttonDefinitions - A list of button definitions to draw
  * @param {ModularItemData} data - The modular item's data
+ * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @returns {void} - Nothing
  */
-function ModularItemDrawCommon(moduleName, buttonDefinitions, { asset, pages, drawData }) {
+function ModularItemDrawCommon(
+	moduleName,
+	buttonDefinitions,
+	data,
+	{ paginate, pageCount, elementData, itemsPerPage },
+) {
 	if (ExtendedItemSubscreen) {
 		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw");
 		return;
@@ -328,15 +319,13 @@ function ModularItemDrawCommon(moduleName, buttonDefinitions, { asset, pages, dr
 		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
 	);
 
-	const { paginate, pageCount, positions, drawImages, itemsPerPage } = drawData[moduleName];
-	const pageNumber = Math.min(pageCount - 1, pages[moduleName] || 0);
+	const pageNumber = Math.min(pageCount - 1, data.pages[moduleName] || 0);
 	const pageStart = pageNumber * itemsPerPage;
 	const page = buttonDefinitions.slice(pageStart, pageStart + itemsPerPage);
 
-	page.forEach(([option, currentOption, prefix], i) => {
-		const [x, y] = positions[i];
-		ExtendedItemDrawButton(option, currentOption, prefix, x, y, drawImages);
-	});
+	for (const [i, [option, currentOption, prefix]] of page.entries()) {
+		ExtendedItemDrawButton(option, currentOption, prefix, elementData[i]);
+	}
 
 	if (paginate) {
 		DrawButton(1665, 240, 90, 90, "", "White", "Icons/Prev.png");
@@ -355,7 +344,7 @@ function ModularItemDrawModule(module, data) {
 	const currentValues = ModularItemParseCurrent(data);
 	const buttonDefinitions = module.Options.map(
 		(option) => ModularItemMapOptionToButtonDefinition(option, module, data, currentValues[moduleIndex]));
-	ModularItemDrawCommon(module.Name, buttonDefinitions, data);
+	ModularItemDrawCommon(module.Name, buttonDefinitions, data, module.drawData);
 }
 
 /**
@@ -364,15 +353,12 @@ function ModularItemDrawModule(module, data) {
  * @returns {function(): void} - A click handler for the modular item's module selection screen
  */
 function ModularItemCreateClickBaseFunction(data) {
-	const DrawData = data.drawData[ModularItemBase];
+	const DrawData = data.drawData;
 	return () => {
 		ModularItemClickCommon(
 			DrawData,
 			() => {
-				ExtendedItemExit();
-				// The item's lock may have been automatically removed in a module change, so rebuild buttons
-				DialogInventoryBuild(CharacterGetCurrent(), DialogInventoryOffset);
-				DialogMenuButtonBuild(CharacterGetCurrent());
+				DialogLeaveFocusItem();
 			},
 			i => {
 				const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] || 0);
@@ -387,7 +373,7 @@ function ModularItemCreateClickBaseFunction(data) {
 					ModularItemModuleTransition(module.Name, data);
 				}
 			},
-			(delta) => ModularItemChangePage(ModularItemBase, delta, data)
+			(delta) => ModularItemChangePage(ModularItemBase, delta, data, DrawData)
 		);
 	};
 }
@@ -399,7 +385,7 @@ function ModularItemCreateClickBaseFunction(data) {
  * @returns {void} - Nothing
  */
 function ModularItemClickModule(module, data) {
-	const DrawData = data.drawData[module.Name];
+	const DrawData = module.drawData;
 	ModularItemClickCommon(
 		DrawData,
 		() => ModularItemModuleTransition(ModularItemBase, data),
@@ -419,20 +405,20 @@ function ModularItemClickModule(module, data) {
 				}
 			}
 		},
-		(delta) => ModularItemChangePage(module.Name, delta, data),
+		(delta) => ModularItemChangePage(module.Name, delta, data, DrawData),
 	);
 }
 
 /**
  * A common click handler for modular item screens. Note that pagination is not currently handled, but will be added
  * in the future.
- * @param {ModularItemDrawData} drawData
+ * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @param {function(): void} exitCallback - A callback to be called when the exit button has been clicked
  * @param {function(number): void} itemCallback - A callback to be called when an item has been clicked
  * @param {function(number): void} paginateCallback - A callback to be called when a pagination button has been clicked
  * @returns {void} - Nothing
  */
-function ModularItemClickCommon({ paginate, positions, drawImages }, exitCallback, itemCallback, paginateCallback) {
+function ModularItemClickCommon({ paginate, elementData }, exitCallback, itemCallback, paginateCallback) {
 	if (ExtendedItemSubscreen) {
 		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
 		return;
@@ -456,9 +442,8 @@ function ModularItemClickCommon({ paginate, positions, drawImages }, exitCallbac
 		else if (MouseIn(1775, 240, 90, 90)) return paginateCallback(1);
 	}
 
-	const ImageHeight = (drawImages) ? 275 : 50;
-	positions.some((p, i) => {
-		if (MouseIn(...p, 225, ImageHeight)) {
+	elementData.some(({ position, hidden }, i) => {
+		if (!hidden && MouseIn(...position)) {
 			itemCallback(i);
 			return true;
 		}
@@ -470,10 +455,10 @@ function ModularItemClickCommon({ paginate, positions, drawImages }, exitCallbac
  * @param {string} moduleName - The name of the module whose page should be modified
  * @param {number} delta - The page delta to apply to the module's current page
  * @param {ModularItemData} data - The modular item's data
+ * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @returns {void} - Nothing
  */
-function ModularItemChangePage(moduleName, delta, data) {
-	const { pageCount } = data.drawData[moduleName];
+function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
 	const currentPage = data.pages[moduleName];
 	data.pages[moduleName] = (currentPage + pageCount + delta) % pageCount;
 }
@@ -596,6 +581,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	if (typeof Property.PunishStandup === "boolean") mergedProperty.PunishStandup = Property.PunishStandup;
 	if (typeof Property.NextShockTime === "number") mergedProperty.NextShockTime = Property.NextShockTime;
 	if (typeof Property.TargetAngle === "number") mergedProperty.TargetAngle = Property.TargetAngle;
+	if (typeof Property.PortalLinkCode === "string" && PortalLinkCodeRegex.test(Property.PortalLinkCode)) mergedProperty.PortalLinkCode = Property.PortalLinkCode;
 	if (Array.isArray(Property.Texts)) mergedProperty.Texts = Property.Texts;
 	return mergedProperty;
 }
@@ -657,17 +643,17 @@ function ModularItemSetType(module, index, data) {
 	const moduleIndex = data.modules.indexOf(module);
 	const previousOption = module.Options[currentModuleValues[moduleIndex]];
 
-	// Do not sync appearance while in the wardrobe
-	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
-
-	/** @type {Parameters<ExtendedItemCallbacks.SetOption<ModularItemOption>>} */
-	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
-	/** @type {string | undefined} */
-	const requirementMessage = CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
+	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 	if (requirementMessage) {
 		DialogExtendedMessage = requirementMessage;
 		return;
 	}
+
+	// Do not sync appearance while in the wardrobe
+	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
+	/** @type {Parameters<ExtendedItemCallbacks.SetOption<ModularItemOption>>} */
+	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
+	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 
 	if (!IsCloth) {
 		const groupName = data.asset.Group.Name;
@@ -678,9 +664,7 @@ function ModularItemSetType(module, index, data) {
 			/** @type {Parameters<ExtendedItemCallbacks.PublishAction<ModularItemOption>>} */
 			const args = [C, DialogFocusItem, newOption, previousOption];
 			CommonCallFunctionByNameWarn(`${data.functionPrefix}PublishAction`, ...args);
-		} else if (C.ID === 0) {
-			DialogMenuButtonBuild(C);
-		} else {
+		} else if (!C.IsPlayer()) {
 			C.CurrentDialog = DialogFind(C, data.key + DialogFocusItem.Property.Type, groupName);
 		}
 	}
@@ -701,10 +685,11 @@ function ModularItemSetType(module, index, data) {
  * @param {string} optionNames - The name of the option to set
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
+ * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false) {
+function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false, C_Source=null) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 	if (!item) return;
 
@@ -728,14 +713,18 @@ function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = fals
 	const newModuleValues = ModularItemParseCurrent(data, optionNames);
 	const previousModuleValues = ModularItemParseCurrent(data, item.Property && item.Property.Type);
 
+	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
+	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
 	let i = -1;
 	for (const mod of data.modules) {
 		i += 1;
 		const newOption = mod.Options[newModuleValues[i]];
 		const previousOption = mod.Options[previousModuleValues[i]];
-		const requirementMessage = ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
+		const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
 		if (requirementMessage && newOption.Name !== previousOption.Name) {
-			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${DialogFindPlayer(requirementMessage)}`);
+			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+		} else {
+			ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
 		}
 	}
 
@@ -847,42 +836,6 @@ function ModularItemGenerateAllowLockType(data) {
 }
 
 /**
- * Generates and sets the AllowTypes property on an asset layer based on its AllowModuleTypes property.
- * @param {AssetLayer} layer - The layer to generate AllowTypes for
- * @param {ModularItemData} data - The modular item's data
- * @returns {void} - Nothing
- */
-function ModularItemGenerateLayerAllowTypes(layer, data) {
-	if (Array.isArray(layer.AllowModuleTypes)) {
-		const allowedModuleCombinations = layer.AllowModuleTypes.map((shorthand) => {
-			const regex = /([a-zA-Z]+)(\d+)/g;
-			const values = [];
-			let match;
-			while ((match = regex.exec(shorthand))) {
-				values.push([match[1], Number.parseInt(match[2])]);
-			}
-			return values;
-		});
-
-		const GeneratedAllowTypes = ModularItemGenerateTypeList(data, (combination) => {
-			return allowedModuleCombinations.some(allowedCombination => {
-				return allowedCombination.every(combo => combination[combo[0]] === combo[1]);
-			});
-		});
-
-		// Append to the existing AllowTypes
-		layer.AllowTypes = Array.isArray(layer.AllowTypes) ? layer.AllowTypes : [];
-		layer.AllowTypes = layer.AllowTypes.concat(GeneratedAllowTypes);
-
-		// When option 0 is an allowed module, it means the undefined/null type is allowed.
-		if (allowedModuleCombinations.find(arr => arr.find(combo => combo[1] === 0))) {
-			// @ts-ignore: ignore `readonly` while still building the asset
-			layer.AllowTypes.push("");
-		}
-	}
-}
-
-/**
  * Generates and assigns a modular asset's AllowType, AllowEffect and AllowBlock properties, along with the AllowTypes
  * properties on the asset layers based on the values set in its module definitions.
  * @param {ModularItemData} data - The modular item's data
@@ -913,7 +866,6 @@ function ModularItemGenerateValidationProperties(data) {
 			}
 		}
 	}
-	asset.Layer.forEach((layer) => ModularItemGenerateLayerAllowTypes(layer, data));
 	ModularItemGenerateAllowLockType(data);
 }
 
