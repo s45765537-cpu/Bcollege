@@ -1,9 +1,9 @@
 Stage,LoveReq,SubReq,VarReq,IntroText,Image
-0,0,0,,"Čas na oběd, COMMON_PLAYERNAME.|Cítíš se hladová?",SarahIntro.jpg
-0,5,0,,COMMON_PLAYERNAME! Je to prima vidět tě|v době oběda. Máš hlad?,SarahIntroHappy.jpg
-0,0,5,,"Zdravím, slečno COMMON_PLAYERNAME. (Dívá se na podlahu.)|Je čas oběda. Cítíte se hladová?",SarahIntroSubbie.jpg
-0,0,0,SubdueMildred,"To, co jsi provedla učitelce Mildred bylo skvělé.|Teď je čas oběda. Cítíš se hladová?",SarahIntroSubbie.jpg
-0,0,0,HasEgg,"COMMON_PLAYERNAME! To vajíčko pořád uvnitř a já miluju,|jak občas zavrčí. (Chichotá se.)",SarahIntroHappy.jpg
+0,0,0,,"Čas na oběd, COMMON_PLAYERNAME! Nemáš hlad?",SarahIntro.jpg
+0,5,0,,"COMMON_PLAYERNAME! To je prima, potkat tě|v polední pauze. Nemáš hlad?",SarahIntroHappy.jpg
+0,0,5,,"Zdravím Vás, slečno COMMON_PLAYERNAME! (Dívá se do země.)|Je čas oběda. Cítíte se hladová?",SarahIntroSubbie.jpg
+0,0,0,SubdueMildred,"To, co jsi provedla učitelce Mildred bylo boží!|Teď je čas oběda. Nemáš hlad?",SarahIntroSubbie.jpg
+0,0,0,HasEgg,"COMMON_PLAYERNAME! To vajíčko mám pořád v sobě,|a to jak občas zavrčí je boží! (Chichotá se.)",SarahIntroHappy.jpg
 5,0,0,,"(Sára tě sice vidí, ale utíká pryč.|Předstírá, že má naspěch.)",SarahIntroGone.jpg
 10,0,0,,"Můžeš zkusit univerzitní menzu, jestli chceš,|ale jídlo tam není nic moc.",SarahIntro.jpg
 10,0,5,,"Pokud máte opravdu hlad, můžete zkusit menzu,|ale moc to nedoporučuju, slečno.",SarahIntroSubbie.jpg
