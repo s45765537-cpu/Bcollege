@@ -67,7 +67,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 230,0,0,,Ještě nevím.,"To samý, taky si ještě nejsem jistá.|Co je tvůj oblíbený předmět?",240,0,0,GoodMatch()
 240,0,0,,Matika.,"Je to nuda, ale asi ti to může pomoct.|A co děláš mimo školu?",250,0,0,
 240,0,0,,Hudebka.,To je tak nebetyčně zbytečný předmět!|Co děláš mimo školu?,250,0,0,BadMatch()
-240,0,0,,Angličtina.,"Zpíčená angličtina, ta mi kurevsky nejde!|A co děláš mimo školu?",250,0,0,BadMatch()
+240,0,0,,Čeština.,"Zpíčená čeština, ta mi kurevsky nejde!|A co děláš mimo školu?",250,0,0,BadMatch()
 240,0,0,,Tělocvik.,"Asi to není tak nudný předmět, jako ty ostatní.|A co děláš mimo školu?",250,0,0,
 240,0,0,,Chemie.,Super! Dokážeš mi vyrobit bombu?|A co děláš mimo školu?,250,0,0,GoodMatch()
 240,0,0,,Francouzština.,"Je to nuda, ale asi ti to může pomoct.|A co děláš mimo školu?",250,0,0,

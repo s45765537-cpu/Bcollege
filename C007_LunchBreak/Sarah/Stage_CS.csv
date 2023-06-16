@@ -35,7 +35,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 120,0,0,,Ještě nevím.,"Já mám to samý, netuším, co budu dělat.|Co je tvůj oblíbený předmět?",130,0,0,GoodMatch()
 130,0,0,,Matika.,Jako fakt? A co děláš mimo školu?,140,0,0,BadMatch()
 130,0,0,,Hudebka.,Super! A co děláš mimo školu?,140,0,0,GoodMatch()
-130,0,0,,Angličtina.,Dobře. A co děláš mimo školu?,140,0,0,
+130,0,0,,Čeština.,Dobře. A co děláš mimo školu?,140,0,0,
 130,0,0,,Tělocvik.,Dobře. A co děláš mimo školu?,140,0,0,
 130,0,0,,Chemie.,Jako fakt? A co děláš mimo školu?,140,0,0,BadMatch()
 130,0,0,,Francouzština.,Super! A co děláš mimo školu?,140,0,0,GoodMatch()

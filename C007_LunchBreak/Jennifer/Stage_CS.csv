@@ -63,7 +63,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 120,0,0,,"Ještě nevím,",Hledání té správné kariéry není jednoduché.|A jaký máš oblíbený předmět?,130,0,0,
 130,0,0,,Matematika.,"Musím přiznat, že matika není má silná stránka.|A co děláš mimo školu?",140,0,0,BadMatch()
 130,0,0,,Hudebka.,To je pěkné.|A co děláš mimo školu?,140,0,0,
-130,0,0,,Angličtina.,Angličtina mi taky docela jde.|A co děláš mimo školu?,140,0,0,GoodMatch()
+130,0,0,,Čeština.,Čeština mi taky docela jde.|A co děláš mimo školu?,140,0,0,GoodMatch()
 130,0,0,,Tělocvik.,"Není nic lepšího, než tělocvik!|A co děláš mimo školu?",140,0,0,GoodMatch()
 130,0,0,,Chemie.,To je pěkné.|A co děláš mimo školu?,140,0,0,
 130,0,0,,Francouzština.,To je pěkné.|A co děláš mimo školu?,140,0,0,

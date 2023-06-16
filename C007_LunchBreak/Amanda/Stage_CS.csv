@@ -36,7 +36,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 120,0,0,,Ještě nevím.,Brzy se už budeš muset rozhodnout.|A co je tvůj oblíbený předmět?,130,0,0,BadMatch()
 130,0,0,,Matika.,Super! A jakého máš koníčka?,140,0,0,GoodMatch()
 130,0,0,,Hudebka.,Dobře. A jakého máš koníčka?,140,0,0,
-130,0,0,,Angličtina.,Dobře. A jakého máš koníčka?,140,0,0,
+130,0,0,,Čeština.,Dobře. A jakého máš koníčka?,140,0,0,
 130,0,0,,Tělocvik.,Sportování nemám moc ráda.|A jakého máš koníčka?,140,0,0,BadMatch()
 130,0,0,,Chemie.,Super! A jakého máš koníčka?,140,0,0,GoodMatch()
 130,0,0,,Francouzština.,Super! A jakého máš koníčka?,140,0,0,GoodMatch()
