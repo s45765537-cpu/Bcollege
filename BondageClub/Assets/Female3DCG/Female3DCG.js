@@ -2770,6 +2770,67 @@ var AssetFemale3DCG = [
 					{Name:"Tigerprint", CopyLayerColor: "Stripes1", AllowModuleTypes: ["p5"]},
 				]
 			},// SwimCap
+			{
+				Name: "DroneMask", Category: ["SciFi"], Fetish: ["Latex"], Value: -1, Priority: 44, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Left: 150, Top: 22, Extended: true, DynamicAfterDraw: true,
+				DynamicGroupName: "ItemHead",
+				BuyGroup: "DroneMask",
+				Block:["ItemNose"],
+				Hide: ["Blush"],
+				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
+				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
+					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] },
+					{ Name: "Shine", HasType: false, AllowModuleTypes: ["h0"] },
+					{ Name: "BaseHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Base", Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }], },
+					{ Name: "ShineHelm", HasType: false, AllowModuleTypes: ["h1","h2"], CopyLayerColor: "Shine" },
+
+					// All Non-part-reliant Patterns
+					{ Name: "Barcode", HasType: false, AllowModuleTypes: ["p1"]},
+					{ Name: "Scarab", HasType: false, AllowModuleTypes: ["p2"], CopyLayerColor: "Barcode"},
+					{ Name: "Hexagon", HasType: false, AllowModuleTypes: ["p3"], CopyLayerColor: "Barcode"},
+					{ Name: "TwoLines", HasType: false, AllowModuleTypes: ["p4"], CopyLayerColor: "Barcode"},
+					{ Name: "Text", HasImage: false, CopyLayerColor: "Barcode"},
+
+					// All Eyes
+					{ Name: "EyeRegularShine", HasType: false, AllowModuleTypes: ["e1"], CopyLayerColor: "Shine" },
+					{ Name: "EyeRegular", HasType: false, AllowModuleTypes: ["e1"], },
+					{ Name: "EyeRegularGlow", HasType: false, AllowModuleTypes: ["e1g1"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeSpiralShine", HasType: false, AllowModuleTypes: ["e2"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSpiral", HasType: false, AllowModuleTypes: ["e2"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSpiralGlow", HasType: false, AllowModuleTypes: ["e2g1"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeSmileShine", HasType: false, AllowModuleTypes: ["e3"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSmile", HasType: false, AllowModuleTypes: ["e3"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSmileGlow", HasType: false, AllowModuleTypes: ["e3g1"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeHolesShine", HasType: false, AllowModuleTypes: ["e4"], CopyLayerColor: "Shine" },
+					{ Name: "EyeHoles", HasType: false, AllowModuleTypes: ["e4"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeSculpted", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "EyeRegular" },
+					{ Name: "EyeSculptedShine", HasType: false, AllowModuleTypes: ["e5"], CopyLayerColor: "Shine" },
+					{ Name: "EyeSculptedGlow", HasType: false, AllowModuleTypes: ["e5g1"], CopyLayerColor: "EyeRegular" },
+
+					{ Name: "EyeConcave", HasType: false, AllowModuleTypes: ["e6"], CopyLayerColor: "Base"},
+					{ Name: "EyeConcaveShine", HasType: false, AllowModuleTypes: ["e6"], CopyLayerColor: "Shine"},
+
+					// All Mouths
+					{ Name: "MouthOnahole", HasType: false, AllowModuleTypes: ["m1"]},
+
+					{ Name: "MouthFleshlightShine", HasType: false, AllowModuleTypes: ["m2"], CopyLayerColor: "Shine" },
+					{ Name: "MouthFleshlight", HasType: false, AllowModuleTypes: ["m2"], CopyLayerColor: "MouthOnahole" },
+
+					{ Name: "MouthSmileShine", HasType: false, AllowModuleTypes: ["m3"], CopyLayerColor: "Shine" },
+					{ Name: "MouthSmile", HasType: false, AllowModuleTypes: ["m3"], CopyLayerColor: "MouthOnahole" },
+					{ Name: "MouthSmileGlow", HasType: false, AllowModuleTypes: ["m3g1"], CopyLayerColor: "MouthOnahole" },
+
+					{ Name: "MouthHolesShine", HasType: false, AllowModuleTypes: ["m4"], CopyLayerColor: "Shine" },
+					{ Name: "MouthHoles", HasType: false, AllowModuleTypes: ["m4"], CopyLayerColor: "MouthOnahole" },
+
+					{ Name: "MouthSculpted", HasType: false, AllowModuleTypes: ["m5"], CopyLayerColor: "MouthOnahole" },
+
+					{ Name: "MouthSubtle", HasType: false, AllowModuleTypes: ["m6"], CopyLayerColor: "MouthOnahole" },
+				],
+			},
 		],
 		Color: ["Default", "#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},
@@ -7827,7 +7888,7 @@ var AssetFemale3DCG = [
 				Name: "DroneMask", Category: ["SciFi"], Fetish: ["Latex"], Value: 90, Difficulty: 5, DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA", ], Time: 10, AllowLock: true, DrawLocks: false, Extended: true, DynamicAfterDraw: true,
 				BuyGroup: "DroneMask",
 				Block:["ItemNose"],
-				Hide: ["Glasses", "Blush"],
+				Hide: ["Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] },
@@ -8299,7 +8360,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemHead",
 				BuyGroup: "DroneMask",
 				Block:["ItemNose"],
-				Hide: ["Glasses", "Blush"],
+				Hide: ["Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [ // Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", HasType: false, AllowModuleTypes: ["h0"] },
