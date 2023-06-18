@@ -47,7 +47,7 @@ function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, characte
 }
 
 /** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemDevicesLuckyWheelGame0Load() {
+function InventoryItemDevicesLuckyWheelg0Load() {
 	for (let num = 0; num < DialogFocusItem.Property.Texts.length; num++) {
 		const input = ElementCreateInput(`LuckyWheelText${num}`, "input", DialogFocusItem.Property.Texts[num] || "", ItemDevicesLuckyWheelMaxTextLength);
 		if (input) {
@@ -64,7 +64,7 @@ var ItemDevicesLuckyWheelRowHeight = 60;
 var ItemDevicesLuckyWheelRowLength = 350;
 
 /** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemDevicesLuckyWheelGame0Draw() {
+function InventoryItemDevicesLuckyWheelg0Draw() {
 	// Draw the header and item
 	DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
 
@@ -86,9 +86,9 @@ function InventoryItemDevicesLuckyWheelGame0Draw() {
 }
 
 /** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemDevicesLuckyWheelGame0Click() {
+function InventoryItemDevicesLuckyWheelg0Click() {
 	if (MouseIn(1885, 25, 90, 90)) {
-		InventoryItemDevicesLuckyWheelGame0Exit();
+		DialogLeaveFocusItem();
 		return;
 	}
 
@@ -119,7 +119,7 @@ function InventoryItemDevicesLuckyWheelGame0Click() {
 }
 
 /** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemDevicesLuckyWheelGame0Exit() {
+function InventoryItemDevicesLuckyWheelg0Exit() {
 	if (!DialogFocusItem) return;
 
 	for (let num = 0; num < ItemDevicesLuckyWheelMaxTexts; num++) {
