@@ -3339,21 +3339,21 @@ var AssetFemale3DCGExtended = {
 						{
 							Property:{
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
 							}
 						}, // No gags or blindfolds visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2","ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
 							}
 						}, // Highest layer gag visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemHead"],
-								Hide: ["ItemHead"],
+								Hide: ["ItemHead", "Glasses"],
 							}
 						}, // All gags visible
 						{
@@ -7373,22 +7373,22 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{
 							Property:{
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", ],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
 							}
 						}, // No gags or blindfolds visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2","ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
 							}
 						}, // Highest layer gag visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemHead"],
-								Hide: ["ItemHead"],
+								Hide: ["ItemHead", "Glasses"],
 							}
 						}, // All gags visible
 						{
@@ -9630,14 +9630,14 @@ var AssetFemale3DCGExtended = {
 						{
 							Property:{
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "Glasses"],
 							}
 						}, // No gags visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2"],
-								Hide: ["ItemMouth", "ItemMouth2"],
+								Hide: ["ItemMouth", "ItemMouth2", "Glasses"],
 							}
 						}, // Highest layer gag visible
 						{
