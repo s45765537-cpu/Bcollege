@@ -811,6 +811,7 @@ function DialogMenuBack() {
 			break;
 
 		case "colorDefault":
+			ColorPickerHide();
 			DialogColorSelect = null;
 			ElementRemove("InputColor");
 			DialogChangeMode("items");
@@ -1379,7 +1380,7 @@ function DialogCanUseCraftedItem(C, Craft) {
  */
 function DialogCanUseOwnerLockOn(target) {
 	return target.IsPlayer()
-		? !LogQuery("BlockOwnerLockSelf", "OwnerRule")
+		? (target.IsOwned() && !LogQuery("BlockOwnerLockSelf", "OwnerRule"))
 		: target.IsOwnedByPlayer();
 }
 
@@ -1390,7 +1391,7 @@ function DialogCanUseOwnerLockOn(target) {
  */
 function DialogCanUseLoverLockOn(target) {
 	return target.IsPlayer()
-		? !LogQuery("BlockLoverLockSelf", "LoverRule")
+		? (target.GetLoversNumbers(true).length > 0 && !LogQuery("BlockLoverLockSelf", "LoverRule"))
 		: target.IsOwnedByPlayer()
 			? !LogQueryRemote(target, "BlockLoverLockOwner", "LoverRule")
 			: target.IsLoverOfPlayer();
@@ -1403,7 +1404,7 @@ function DialogCanUseLoverLockOn(target) {
  */
 function DialogCanUseFamilyLockOn(target) {
 	return target.IsPlayer()
-		? !LogQuery("BlockOwnerLockSelf", "OwnerRule")
+		? (target.IsOwned() && !LogQuery("BlockOwnerLockSelf", "OwnerRule"))
 		: target.IsOwner() // Owner is in family, but you can't use family locks on them
 			? false
 			: target.IsFamilyOfPlayer();
@@ -1801,6 +1802,7 @@ function DialogMenuButtonClick() {
 			// When the user selects a color, applies it to the item
 			else if (DialogMenuButton[I] == "ColorSelect" && CommonIsColor(ElementValue("InputColor"))) {
 				DialogColorSelect = ElementValue("InputColor");
+				ColorPickerHide();
 				ElementRemove("InputColor");
 				DialogChangeMode("items");
 				return true;
@@ -1809,6 +1811,7 @@ function DialogMenuButtonClick() {
 			// When the user cancels out of color picking, we recall the original color
 			else if (DialogMenuButton[I] == "ColorCancel") {
 				DialogColorSelect = null;
+				ColorPickerHide();
 				ElementRemove("InputColor");
 				DialogChangeMode("items");
 				return true;
@@ -2105,6 +2108,10 @@ function DialogChangeFocusToGroup(C, Group) {
 	DialogLeaveFocusItem();
 	if (DialogMenuMode === "colorExpression" || DialogMenuMode === "colorItem")
 		ItemColorCancelAndExit();
+	else if (DialogMenuMode === "colorDefault") {
+		ColorPickerHide();
+		ElementRemove("InputColor");
+	}
 
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
@@ -2884,7 +2891,7 @@ function DialogDraw() {
  * @param {string} msg - The explanation message to draw
  */
 function DialogDrawItemMessage(C, msg, item) {
-	if (item !== null && !C.CanInteract()) {
+	if (item !== null) {
 		DrawItemPreview(item, C, 1387, 250);
 	}
 	DrawText(msg, 1500, 700, "White", "Black");
