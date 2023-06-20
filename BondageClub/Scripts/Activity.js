@@ -895,9 +895,9 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 			.focusGroup(group.Name)
 			.if(!!ItemActivity.Item)
 			.asset(ItemActivity.Item.Asset, "ActivityAsset", ItemActivity.Item.Craft && ItemActivity.Item.Craft.Name)
-			.text("UsedAsset", ItemActivity.Item.Asset.DynamicDescription(actor).toLowerCase())
 			.endif()
 			.build()
+
 		Dictionary.push({ ActivityName: Activity.Name });
 		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(acted, group, Activity), Type: "Activity", Dictionary });
 
