@@ -3265,6 +3265,24 @@ var AssetFemale3DCG = [
 					{Name: "BehindRight", CopyLayerColor: "MainRight"},
 				]
 			},
+			{
+				Name: "HairBack7b", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+				]
+			},
+			{
+				Name: "HairBack7c", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+				]
+			},
 			{ Name: "HairBack8", AllowPose: ["Suspension", "AllFours"], HideForPose: ["Hogtied"] },
 			{
 				Name: "HairBack9", Random: false,
@@ -3285,6 +3303,26 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack11", AllowPose: ["Suspension", "Hogtied", "AllFours"] },
 			{ Name: "HairBack12" },
 			{ Name: "HairBack12b" },
+			{
+				Name: "HairBack13", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+					{Name: "Bun"},
+				]
+			},
+			{
+				Name: "HairBack13b", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+					{Name: "Bun"},
+				]
+			},
 			{ Name: "HairBack14", AllowPose: ["Suspension", "Hogtied"] },
 			{ Name: "HairBack15", AllowPose: ["Suspension"] },
 			{ Name: "HairBack15b" },
