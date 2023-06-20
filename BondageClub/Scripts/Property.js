@@ -174,7 +174,7 @@ function PropertyShockPublishAction(C=null, Item=DialogFocusItem, Automatic=fals
 
 	const Dictionary = new DictionaryBuilder()
 		.destinationCharacterName(C)
-		.asset(Item.Asset)
+		.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
 		.shockIntensity(ShockLevel * 1.5)
 		.focusGroup(Item.Asset.Group.Name)
 		.if(Automatic)

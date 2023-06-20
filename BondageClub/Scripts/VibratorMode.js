@@ -344,7 +344,7 @@ function VibratorModePublishAction(data, C, item, newOption, previousOption) {
 		previousIndex: data.options.indexOf(previousOption),
 		newIndex: data.options.indexOf(newOption),
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 
 	const newIsAdvanced = VibratorModesAdvanced.includes(newOption.Name);
 	const prevIsAdvanced = VibratorModesAdvanced.includes(previousOption.Name);
@@ -698,7 +698,7 @@ function VibratorModePublish(C, Item, OldIntensity, Intensity) {
 	var Direction = Intensity > OldIntensity ? "Increase" : "Decrease";
 	const Dictionary = new DictionaryBuilder()
 		.targetCharacterName(C)
-		.asset(Item.Asset)
+		.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
 		.markAutomatic()
 		.build();
 

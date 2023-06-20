@@ -336,7 +336,7 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(data, C, Persis
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(C)
 				.destinationCharacterName(C)
-				.asset(Item.Asset)
+				.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
 				.markAutomatic()
 				.build();
 

@@ -284,7 +284,7 @@ function VariableHeightPublishAction(data, C, item, newOption, previousOption) {
 		previousIndex: -1,
 		newIndex: -1,
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 
 	const newHeight = data.getHeight(newOption.Property) || 0;
 	const prevHeight = data.getHeight(previousOption.Property) || 0;

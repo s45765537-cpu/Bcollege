@@ -218,7 +218,7 @@ function TypedItemPublishAction(data, C, item, newOption, previousOption) {
 	if (data.chatSetting === TypedItemChatSetting.FROM_TO) msg += `${previousOption.Name}To`;
 	msg += newOption.Name;
 
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 	ChatRoomPublishCustomAction(msg, false, dictionary.build());
 }
 

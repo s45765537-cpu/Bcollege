@@ -2821,11 +2821,15 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 				}
 			}
 		} else if (IsAssetReferenceDictionaryEntry(entry)) {
-			const {Tag, GroupName, AssetName} = entry;
+			const { Tag, GroupName, AssetName, CraftName } = entry;
 			const asset = Asset.find(a => a.Name === AssetName && (!GroupName || a.Group.Name === GroupName));
 			if (asset) {
 				if (!meta.Assets) meta.Assets = {};
 				meta.Assets[Tag] = asset;
+				if (CraftName) {
+					if (!meta.CraftingNames) meta.CraftingNames = {};
+					meta.CraftingNames[Tag] = CraftName;
+				}
 			}
 		} else if (IsGroupReferenceDictionaryEntry(entry)) {
 			const group = AssetGroupGet("Female3DCG", entry.GroupName);
@@ -2898,7 +2902,14 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			if (tag === "ActivityAsset") {
 				meta.ActivityAsset = asset;
 			}
-			substitutions.push([tag, asset.DynamicDescription(character).toLowerCase()]);
+
+			const craftingName = meta.CraftingNames && meta.CraftingNames[tag];
+			const assetName = asset.DynamicDescription(character).toLowerCase();
+			if (craftingName) {
+				substitutions.push([tag, `${craftingName} (${assetName})`]);
+			} else {
+				substitutions.push([tag, assetName]);
+			}
 		}
 	}
 

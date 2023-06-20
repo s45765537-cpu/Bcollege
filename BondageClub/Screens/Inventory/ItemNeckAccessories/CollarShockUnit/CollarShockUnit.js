@@ -39,7 +39,7 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacterName(C)
-		.asset(DialogFocusItem.Asset)
+		.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
 		.build();
 
 	if (DialogFocusItem.Property.ShowText) {

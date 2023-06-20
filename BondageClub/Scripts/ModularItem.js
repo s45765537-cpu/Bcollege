@@ -754,7 +754,7 @@ function ModularItemPublishAction(data, C, item, newOption, previousOption) {
 		newIndex: newOption.Index,
 		previousIndex: previousOption.Index,
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 
 	let msg = (typeof data.dialogPrefix.chat === "function") ? data.dialogPrefix.chat(chatData) : data.dialogPrefix.chat;
 	switch (data.chatSetting) {

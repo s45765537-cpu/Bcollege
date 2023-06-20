@@ -695,6 +695,8 @@ interface GroupReferenceDictionaryEntry extends TaggedDictionaryEntry {
 interface AssetReferenceDictionaryEntry extends GroupReferenceDictionaryEntry {
 	/** The name of the asset being referenced */
 	AssetName: string;
+	/** The (optional) {@link CraftingItem.Name} in case the asset was referenced via a crafted item */
+	CraftName?: string;
 }
 
 /**
@@ -807,6 +809,8 @@ interface IChatRoomMessageMetadata {
 	GroupName?: AssetGroupName;
 	/** The assets referenced in the message */
 	Assets?: Record<string, Asset>;
+	/** The {@link CraftingItem.Name} of the assets referenced in the message (if applicable) */
+	CraftingNames?: Record<string, string>;
 	/** The groups referenced in the message */
 	Groups?: Partial<Record<AssetGroupName, AssetGroup>>;
 	/** How intense the shock should be */
