@@ -889,19 +889,17 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	if (CurrentScreen == "ChatRoom" && sendMessage) {
 
 		// Publishes the activity to the chatroom
-		/** @type {ChatMessageDictionary} */
-		const Dictionary = [
-			{ Tag: "SourceCharacter", Text: CharacterNickname(actor), MemberNumber: actor.MemberNumber },
-			{ Tag: "TargetCharacter", Text: CharacterNickname(acted), MemberNumber: acted.MemberNumber },
-			{ FocusGroupName: group.Name },
-			{ ActivityName: Activity.Name },
-		];
-		if (ItemActivity.Item) {
-			const A = ItemActivity.Item.Asset;
-			Dictionary.push({ Tag: "ActivityAsset", AssetName: A.Name, GroupName: A.Group.Name });
-			Dictionary.push({ Tag: "UsedAsset", Text: A.DynamicDescription(actor).toLowerCase() });
-		}
-		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(acted, group, Activity), Type: "Activity", Dictionary: Dictionary });
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(actor)
+			.targetCharacter(acted)
+			.focusGroup(group.Name)
+			.if(!!ItemActivity.Item)
+			.asset(ItemActivity.Item.Asset, "ActivityAsset", ItemActivity.Item.Craft && ItemActivity.Item.Craft.Name)
+			.text("UsedAsset", ItemActivity.Item.Asset.DynamicDescription(actor).toLowerCase())
+			.endif()
+			.build()
+		Dictionary.push({ ActivityName: Activity.Name });
+		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(acted, group, Activity), Type: "Activity", Dictionary });
 
 		// If the activity is a stimulation trigger, run it if the target is the player
 		if (acted.IsPlayer() && Activity.StimulationAction) {

@@ -2246,25 +2246,26 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
 	if (CurrentScreen !== "ChatRoom")
 		return false;
 
-	/** @type ChatMessageDictionary */
-	let Dictionary = [];
+	const dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.destinationCharacter(C)
+		.targetCharacter(C)
 
-	// Replaces the action tags to build the phrase
-	Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber });
-	Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-	Dictionary.push({ Tag: "TargetCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-	if (PrevItem != null)
-		Dictionary.push({ Tag: "PrevAsset", AssetName: PrevItem.Asset.Name, GroupName: PrevItem.Asset.Group.Name });
-	if (NextItem != null)
-		Dictionary.push({ Tag: "NextAsset", AssetName: NextItem.Asset.Name, GroupName: NextItem.Asset.Group.Name });
-	if (C.FocusGroup != null)
-		Dictionary.push({ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name });
+	if (PrevItem != null) {
+		dictionary.asset(PrevItem.Asset, "PrevAsset", PrevItem.Craft && PrevItem.Craft.Name);
+	}
+	if (NextItem != null) {
+		dictionary.asset(NextItem.Asset, "NextAsset", NextItem.Craft && NextItem.Craft.Name);
+	}
+	if (C.FocusGroup != null) {
+		dictionary.focusGroup(C.FocusGroup.Name);
+	}
 
 	// Prepares the item packet to be sent to other players in the chatroom
 	ChatRoomCharacterItemUpdate(C);
 
 	// Sends the result to the server and leaves the dialog if we need to
-	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary });
+	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary: dictionary.build() });
 
 	return true;
 }
