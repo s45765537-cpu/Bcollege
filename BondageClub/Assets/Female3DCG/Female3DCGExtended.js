@@ -2346,6 +2346,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DrawData: {
+				elementData: [
+					{}, // Restraints
+					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+				],
+			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
 			ScriptHooks: {
 				Click: InventoryItemArmsPrisonLockdownSuitClickHook,
@@ -2513,6 +2519,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DrawData: {
+				elementData: [
+					{}, // CollarType
+					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+				],
+			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
 			ScriptHooks: {
 				Click: InventoryItemArmsPrisonLockdownSuitClickHook,
@@ -3388,7 +3400,7 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "MPanel", Key: "m",
+					Name: "MPanel", Key: "m", DrawImages: true,
 					Options:[
 						{ // m0 - No Mouth
 							Property: {
@@ -3843,7 +3855,7 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "EPanel", Key: "e",
+					Name: "EPanel", Key: "e", DrawImages: true,
 					Options:[
 						{ // e0 - No Eyes
 							Property: { Effect: ["BlindHeavy"]
@@ -3957,11 +3969,11 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "HeadT", Key: "x", DrawImages: false,
+					Name: "HeadT", Key: "x",
 					Options:[{},{},] // Opaque, Transparent
 				},
 				{
-					Name: "HairShow", Key: "h", DrawImages: false,
+					Name: "HairShow", Key: "h",
 					Options: [
 						{}, // h0 - Show Hair
 						{
@@ -3982,7 +3994,7 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "ZHood", Key: "z", DrawImages: false,
+					Name: "ZHood", Key: "z",
 					Options: [
 						{// z0 - None
 							Property: { Effect: [""], }

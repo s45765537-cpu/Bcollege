@@ -232,8 +232,15 @@ function VibratorModeGetDrawData(modeSet, drawData, y=450) {
 		const options = VibratorModeOptions[modeName];
 		options.forEach((_, i) => {
 			const x = 1135 + (i % 3) * 250;
-			if (i % 3 === 0) y += 80;
-			elementData.push({ position: [x, y, 225, 50], drawImage: false, hidden: false });
+			if (i % 3 === 0) {
+				y += 80;
+			}
+			elementData.push({
+				position: [x, y, 225, 50],
+				drawImage: false,
+				hidden: false,
+				imagePath: null,
+			});
 		});
 		y += 40;
 	});

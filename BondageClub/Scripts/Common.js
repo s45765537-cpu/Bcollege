@@ -1155,3 +1155,18 @@ function CommonGenerateGrid(items, offset, grid, callback) {
 	return index - offset;
 }
 
+/**
+ * Create a copy of the passed record with all specified keys removed
+ * @template {keyof RecordType} KeyType
+ * @template {{}} RecordType
+ * @param {RecordType} object - The to-be copied record
+ * @param {KeyType[]} keys - The to-be removed keys from the record
+ * @returns {Omit<RecordType, KeyType>}
+ */
+function CommonOmit(object, keys) {
+	const ret = { ...object };
+	for (const k of keys) {
+		delete ret[k];
+	}
+	return ret;
+}

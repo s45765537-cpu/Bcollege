@@ -159,10 +159,11 @@ function ModularItemDraw(data) {
 function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 	return modules.map(protoMod => {
 		const drawImages = typeof protoMod.DrawImages === "boolean" ? protoMod.DrawImages : true;
+
 		/** @type {ModularItemModule} */
 		return {
 			...protoMod,
-			drawData: TypedItemGetDrawData(asset, protoMod.DrawData, protoMod.Options.length, drawImages),
+			drawData: null, // Initialized later on in ModularItemCreateModularData
 			OptionType: "ModularItemModule",
 			DrawImages: drawImages,
 			Options: protoMod.Options.map((protoOption, i) => {
@@ -240,7 +241,7 @@ function ModularItemCreateModularData(asset, {
 		modules: ModulesParsed,
 		currentModule: ModularItemBase,
 		pages: { [ModularItemBase]: 0 },
-		drawData: TypedItemGetDrawData(asset, DrawData, ModulesParsed.length, BaseDrawImages),
+		drawData: TypedItemGetDrawData(asset, DrawData, ModulesParsed, { drawImage: BaseDrawImages, imagePath: null }),
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		drawFunctions: {},
 		clickFunctions: {},
@@ -248,6 +249,23 @@ function ModularItemCreateModularData(asset, {
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		parentOption: null,
 	};
+
+	// Populate the modules drawdata
+	let i = -1;
+	for (const mod of ModulesParsed) {
+		i += 1;
+		/** @type {Partial<ElementData<ElementMetaData.Modular>>} */
+		const buttonDataOverride = CommonOmit(data.drawData.elementData[i], ["position", "imagePath", "drawImage"]);
+		if (typeof Modules[i].DrawImages === "boolean") {
+			buttonDataOverride.drawImage = Modules[i].DrawImages;
+		} else if (typeof DrawImages === "boolean") {
+			buttonDataOverride.drawImage = DrawImages;
+		} else {
+			buttonDataOverride.drawImage = true;
+		}
+		mod.drawData = TypedItemGetDrawData(asset, Modules[i].DrawData, mod.Options, buttonDataOverride);
+	}
+
 	data.drawFunctions[ModularItemBase] = ModularItemCreateDrawBaseFunction(data);
 	data.clickFunctions[ModularItemBase] = ModularItemCreateClickBaseFunction(data);
 	for (const module of ModulesParsed) {

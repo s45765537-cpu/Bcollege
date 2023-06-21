@@ -116,25 +116,35 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
 /**
  * Parse the passed typed item draw data as passed via the extended item config
  * @param {Asset} asset - The asset in question
- * @param {ExtendedItemConfigDrawData<{ drawImage?: boolean }> | undefined} drawData - The to-be parsed draw data
- * @param {number} nOptions - The number of extended item options
- * @param {boolean} drawImage - Whether to draw images or not
+ * @param {ExtendedItemConfigDrawData<Partial<ElementMetaData.Typed>> | undefined} drawData - The to-be parsed draw data
+ * @param {readonly { Name: string }[]} options - The list of extended item options
+ * @param {Partial<ElementMetaData.Typed>} overrideMetaData
  * @return {ExtendedItemDrawData<ElementMetaData.Typed>} - The parsed draw data
  */
-function TypedItemGetDrawData(asset, drawData, nOptions, drawImage=true) {
+function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={ drawImage: true }) {
+	const drawImage = ("drawImage" in overrideMetaData) ? overrideMetaData.drawImage : true;
 	const IsCloth = asset.Group.Clothing;
-	const standardPositions = !IsCloth ? (drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
-	const height = drawImage ? 275 : 55;
-	const itemsPerPage = Math.min(standardPositions.length - 1, nOptions);
+	const standardPositions = !IsCloth ? (overrideMetaData.drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
+	const height = overrideMetaData.drawImage ? 275 : 55;
+	const itemsPerPage = Math.min(standardPositions.length - 1, options.length);
+	const assetPath = AssetGetInventoryPath(asset);
 
 	/** @type {ElementData<ElementMetaData.Typed>[]} */
 	const elementData = [];
-	for (let length = nOptions; length > 0; length -= itemsPerPage) {
+	let i = -1;
+	for (let length = options.length; length > 0; length -= itemsPerPage) {
 		const index = Math.min(length, itemsPerPage);
 		elementData.push(...standardPositions[index].map(xy => {
+			i += 1;
 			/** @type {RectTuple} */
 			const position = [...xy, 225, height];
-			return { position, drawImage, hidden: false };
+			return {
+				position,
+				drawImage,
+				hidden: false,
+				imagePath: `${assetPath}/${options[i].Name}.png`,
+				...overrideMetaData,
+			};
 		}));
 	}
 	return ExtendedItemGetDrawData(drawData, { elementData, itemsPerPage });
@@ -184,7 +194,7 @@ function TypedItemCreateTypedItemData(asset, {
 		chatSetting: ChatSetting || TypedItemChatSetting.TO_ONLY,
 		baselineProperty: typeof BaselineProperty === "object" ? BaselineProperty : null,
 		parentOption: null,
-		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed.length, DrawImages),
+		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed, { drawImage: DrawImages }),
 	};
 }
 
