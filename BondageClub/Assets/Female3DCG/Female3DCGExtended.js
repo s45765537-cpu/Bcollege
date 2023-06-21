@@ -4404,6 +4404,55 @@ var AssetFemale3DCGExtended = {
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						},
+						{ // l3 - Spread leg restraints
+							Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+							Property: {
+								Difficulty: 22,
+								SetPose: ["Spread"],
+								Block: ["ItemFeet", "ItemLegs"],
+								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Hide: ["ItemBoots", "Shoes"]
+							},
+						},
+					],
+				},
+				{
+					Name: "ArmCuffs", Key: "a",
+					Options: [
+						{}, // s0 - No arm cuffs
+						{ // s1 - Elbow cuffs
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 18,
+								SetPose: ["BackElbowTouch"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
+						{ // s2 - Box cuffs
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 18,
+								SetPose: ["BackBoxTie"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
+						{ // s3 - Overhead restraints
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 22,
+								SetPose: ["OverTheHead"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
 					],
 				},
 				{
@@ -4424,7 +4473,7 @@ var AssetFemale3DCGExtended = {
 								ScriptHooks: {
 									ScriptDraw: AssetsItemDevicesFuturisticCrateScriptDrawHook,
 								},
-							}
+							},
 						},
 					],
 				},
