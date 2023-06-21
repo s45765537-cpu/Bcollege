@@ -1029,8 +1029,8 @@ const PropertiesObjectLike = new Set([
  * @param {Name} PropertyName - The property name to get.
  * @param {boolean} [CheckGroup=false] - Whether or not to fall back to the item's group if the property is not found on
  * Property or Asset.
- * @returns {(ItemProperties & Asset & AssetGroup)[Name] | undefined} - The value of the requested property for the given item. Returns undefined if the property or the
- * item itself does not exist.
+ * @returns {(ItemProperties & Asset & AssetGroup)[Name] | undefined} - The value of the requested property for the given item.
+ * Returns either undefined, an empty array or object if the property or the item itself does not exist.
  */
 function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
 	/** @type {(ItemProperties & Asset & AssetGroup)[Name] | undefined} */
@@ -1047,7 +1047,9 @@ function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
 	);
 
 	for (const record of PropertyRecords) {
-		if (record[PropertyName] !== undefined) {
+		// If the collected property doesn't exist, or is set to null, fall-through so
+		// we return the type-appropriate default
+		if (record[PropertyName] !== undefined && record[PropertyName] !== null) {
 			return record[PropertyName];
 		}
 	}
