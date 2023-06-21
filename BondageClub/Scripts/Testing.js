@@ -84,3 +84,7 @@ var TestingInvalidDefaultColor = TestingValidateDefaultColor();
 
 // Alias as a var-declared variable so its discoverable by `vm.Context`
 var TestingModularItemDataLookup = ModularItemDataLookup;
+var TestingTypedItemDataLookup = TypedItemDataLookup;
+var TestingVibratingItemDataLookup = VibratorModeDataLookup;
+var TestingVariableHeightItemDataLookup = VariableHeightDataLookup;
+var TestingTextItemDataLookup = TextItemDataLookup;
