@@ -8,17 +8,17 @@ let KDSetPieces = [
 	{Name: "Altar", tags: ["shrine", "temple"], Radius: 5},
 	{Name: "SmallAltar", tags: ["shrine", "temple", "endpoint"], Radius: 3, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "FuukaAltar", tags: ["boss", "temple"], Radius: 7, Max: 1},
-	{Name: "Storage", tags: ["loot", "urban"], Radius: 7},
+	{Name: "Storage", tags: ["loot", "urban", "endpoint"], Radius: 7},
 	{Name: "GuardedChest", tags: ["loot", "endpoint"], Radius: 3, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "BanditPrison", tags: ["rep", "endpoint"], Radius: 3, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "QuadCell", tags: ["decorative", "urban"], Radius: 7},
 	{Name: "PearlChest", tags: ["loot", "pearl"], Radius: 3, Prereqs: ["PearlEligible"], Max: 1, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "ShadowChest", tags: ["loot", "endpoint", "temple", "urban", "jungle", "cavern", "shadow"], Radius: 5, Max: 2},
-	{Name: "GuaranteedCell", tags: ["jail", "urban"], Radius: 5, Max: 1, xPad: 2},
+	{Name: "GuaranteedCell", tags: ["jail", "urban", "endpoint", "industrial", "temple", "factory", "cavern", "jungle"], Radius: 5, Max: 1, xPad: 2},
 	{Name: "ForbiddenChest", tags: ["loot", "temple", "urban", "endpoint"], Radius: 3, Max: 1, xPad: 1},
 	{Name: "ForbiddenHall", tags: ["loot", "temple", "open"], Radius: 7, Max: 1, xPad: 1},
 	{Name: "Cache", tags: ["loot", "urban", "endpoint"], Radius: 7, Max: 1, xPad: 2},
-	{Name: "ExtraCell", tags: ["jail", "urban"], Radius: 4, xPad: 2, yPad: 1, xPadEnd: 2, yPadEnd: 1},
+	{Name: "ExtraCell", tags: ["jail", "urban", "endpoint"], Radius: 4, xPad: 2, yPad: 1, xPadEnd: 2, yPadEnd: 1},
 	{Name: "JungleLight", tags: ["natural", "light"], noPOI: true, Radius: 1, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "Fireflies", tags: ["natural", "light"], noPOI: true, Radius: 1, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 	{Name: "Magicflies", tags: ["temple", "light"], noPOI: true, Radius: 1, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
@@ -37,7 +37,13 @@ function KinkyDungeonPlaceSetPieces(POI, trapLocations, chestlist, shrinelist, c
 	if (!alt) {
 		Object.assign(setpieces, Params.setpieces);
 		setpieces.push({Type: "GuaranteedCell", Weight: 100000});
-		setpieces.push({Type: "Cache", Weight: 100000});
+
+		for (let i of KDGameData.ChestsGenerated) {
+			console.log(i);
+		}
+
+		if (!KDGameData.ChestsGenerated.includes("cache"))
+			setpieces.push({Type: "Cache", Weight: 100000});
 		//setpieces.push({Type: "PearlChest", Weight: 100});
 		let forbiddenChance = Params.forbiddenChance != undefined ? Params.forbiddenChance : 1;
 		let greaterChance = Params.forbiddenGreaterChance != undefined ? Params.forbiddenGreaterChance : 0.5;
@@ -48,9 +54,11 @@ function KinkyDungeonPlaceSetPieces(POI, trapLocations, chestlist, shrinelist, c
 		}
 		if (KDRandom() < forbiddenChance) {
 			if (KDRandom() < greaterChance) {
-				setpieces.push({Type: "ForbiddenHall", Weight: 100000});
+				if (!KDGameData.ChestsGenerated.includes("gold"))
+					setpieces.push({Type: "ForbiddenHall", Weight: 100000});
 			} else {
-				setpieces.push({Type: "ForbiddenChest", Weight: 100000});
+				if (!KDGameData.ChestsGenerated.includes("lessergold"))
+					setpieces.push({Type: "ForbiddenChest", Weight: 100000});
 			}
 		}
 	} else {
@@ -810,6 +818,7 @@ function SetpieceSpawnPrisoner(x, y) {
 		e.items = [];
 		KinkyDungeonSetEnemyFlag(e, "noswap", -1);
 		KinkyDungeonSetEnemyFlag(e, "imprisoned", -1);
+		KDProcessCustomPatron(Enemy, e, 0.1);
 	}
 }
 
@@ -817,11 +826,23 @@ function SetpieceSpawnPrisoner(x, y) {
 function KDTorch(X, Y, altType, MapParams) {
 	let torchreplace = (altType && altType.torchreplace) ? altType.torchreplace : (MapParams.torchreplace ? MapParams.torchreplace : null);
 	KDCreateEffectTile(X, Y + 1, {
-		name: torchreplace ? torchreplace.sprite : "Torch",
+		name: torchreplace?.sprite ? torchreplace.sprite : "Torch",
 		duration: 9999,
 	}, 0);
-	//KinkyDungeonMapSet(X, Y, 't');
-	//KinkyDungeonTilesSet((X) + "," + (Y), {Type: "Torch", Light: torchreplace ? torchreplace.brightness : 6, Offset: true, Skin: torchreplace ? torchreplace.sprite : undefined});
+	// Create dummy tile to prevent replace at worldgen
+	if (!KinkyDungeonTilesGet(X + "," + Y))
+		KinkyDungeonTilesSet(X + "," + Y, {});
+}
+function KDTorchUnlit(X, Y, altType, MapParams) {
+
+	let torchreplace = (altType && altType.torchreplace) ? altType.torchreplace : (MapParams.torchreplace ? MapParams.torchreplace : null);
+	KDCreateEffectTile(X, Y + 1, {
+		name: torchreplace?.unlitsprite ? torchreplace.unlitsprite : "TorchUnlit",
+		duration: 9999,
+	}, 0);
+	// Create dummy tile to prevent replace at worldgen
+	if (!KinkyDungeonTilesGet(X + "," + Y))
+		KinkyDungeonTilesSet(X + "," + Y, {});
 }
 
 function KDChest(X, Y, loot = "chest", faction = "") {
@@ -889,19 +910,38 @@ function KDPlaceChest(cornerX, cornerY, radius, chestlist, spawnPoints, NoAddToC
 	let factionList = [
 		{faction: "Bandit", tags: ["bandit"], rtags: ["bandit"], ftags: ["miniboss", "boss"]},
 		{faction: "Dragon", tags: ["dragon"], rtags: ["dragon"], ftags: ["miniboss", "boss"]},
-		{faction: "AncientRobot", tags: ["robot"], rtags: ["robot"], ftags: ["miniboss", "boss"]},
+		{faction: "AncientRobot", tags: ["robot"], rtags: ["robot"], ftags: ["miniboss", "boss", "oldrobot"]},
 		{faction: "Maidforce", tags: ["maid"], rtags: ["maid"], ftags: ["miniboss", "boss"]},
 		{faction: "Bountyhunter", tags: ["bountyhunter"], rtags: ["bountyhunter"], ftags: ["miniboss", "boss"]},
 		{faction: "Dressmaker", tags: ["dressmaker"], rtags: ["dressmaker"], ftags: ["miniboss", "boss"]},
 		{faction: "Witch", tags: ["witch", "apprentice", "skeleton"], rtags: ["witch", "apprentice", "skeleton"], ftags: ["miniboss", "boss"]},
 		{faction: "Apprentice", tags: ["apprentice"], rtags: ["apprentice"], ftags: ["miniboss", "boss"]},
-		{faction: "Mushy", tags: ["mushroom"], rtags: ["mushy"], ftags: ["miniboss", "boss"]},
+		//{faction: "Mushy", tags: ["mushroom"], rtags: ["mushy"], ftags: ["miniboss", "boss"]},
 		{faction: "Nevermere", tags: ["nevermere"], rtags: ["nevermere"], ftags: ["miniboss", "boss"]},
 		{faction: "Bast", tags: ["mummy"], rtags: ["mummy"], ftags: ["miniboss", "boss"]},
 		{faction: "Elf", tags: ["elf"], rtags: ["elf"], ftags: ["miniboss", "boss"]},
 		{faction: "Elemental", tags: ["elemental", "witch"], rtags: ["elemental", "witch"], ftags: ["miniboss", "boss"]},
 		{faction: "Alchemist", tags: ["alchemist"], rtags: ["alchemist"], ftags: ["miniboss", "boss"]},
 	];
+	let factions = [];
+	if (KDGameData.MapFaction) {
+		factions.push(KDGameData.MapFaction);
+	}
+	if (KDGameData.JailFaction) {
+		factions.push(...KDGameData.JailFaction);
+	}
+	if (KDGameData.GuardFaction) {
+		factions.push(KDGameData.GuardFaction);
+	}
+	factions = factions.filter((faction) => {
+		return factionList.some((element) => {return element.faction == faction;});
+	});
+	if (factions.length > 0) {
+		let chosenFaction = factions[Math.floor(KDRandom() * factions.length)];
+		factionList = factionList.filter((entry) => {
+			return chosenFaction == entry.faction || KDFactionRelation(chosenFaction, entry.faction) > .35 || KDFactionRelation(chosenFaction, entry.faction) <= -.1;
+		});
+	}
 	let factionSelected = factionList[Math.floor(KDRandom() * factionList.length)];
 	// Place the chest
 	if (!NoAddToChestList) {
@@ -914,4 +954,39 @@ function KDPlaceChest(cornerX, cornerY, radius, chestlist, spawnPoints, NoAddToC
 	spawnPoints.push({x:cornerX+2, y:cornerY+2, required:[factionSelected.rtags[Math.floor(KDRandom()*factionSelected.rtags.length)]], ftags: factionSelected.ftags, tags: factionSelected.tags, AI: "guard"});
 
 	return factionSelected.faction;
+}
+
+function KDAddPipes(pipechance, pipelatexchance, thinlatexchance, heavylatexspreadchance) {
+	for (let x = 1; x < KinkyDungeonGridWidth - 2; x++)
+		for (let y = 1; y < KinkyDungeonGridHeight - 2; y++) {
+			if (
+				KinkyDungeonMapGet(x, y) == '1'
+				&& KinkyDungeonMapGet(x, y+1) == '0'
+				&& !KinkyDungeonTilesGet(x + "," + y)
+				&& !KinkyDungeonEnemyAt(x, y+1)
+				&& !(Object.entries(KDGetEffectTiles(x, y+1)).length > 0)
+				&& KDRandom() < pipechance) {
+				KinkyDungeonTilesSet(x + "," + y, {Skin: "EmptyPipe"});
+				if (KDRandom() < pipelatexchance) {
+					KinkyDungeonTilesSet(x + "," + y, {Skin: "LatexPipe"});
+					let name = "LatexThin";
+					if (KDRandom() > thinlatexchance) {
+						let rad = 2;
+						for (let XX = Math.max(1, x - rad); XX < Math.min(KinkyDungeonGridWidth - 2, x + rad); XX++)
+							for (let YY = Math.max(1, y - rad); YY < Math.min(KinkyDungeonGridHeight - 2, y + rad); YY++) {
+								if (KinkyDungeonMapGet(XX, YY) == '0' && KDRandom() < heavylatexspreadchance) {
+									KDCreateEffectTile(x, y + 1, {
+										name: "LatexThin",
+										duration: 9999,
+									}, 0);
+								}
+							}
+					}
+					KDCreateEffectTile(x, y + 1, {
+						name: name,
+						duration: 9999,
+					}, 0);
+				}
+			}
+		}
 }

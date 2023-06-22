@@ -6,13 +6,15 @@ let KinkyDungeonOutfitsBase = [
 	{name: "Default", dress: "Default", shop: false, rarity: 1},
 	{name: "JailUniform", dress: "JailUniform", shop: false, rarity: 1},
 	{name: "Bast", dress: "Bast", shop: false, rarity: 1},
-	{name: "Bountyhunter", dress: "Bountyhunter", shop: false, rarity: 1},
+	{name: "Bountyhunter", dress: "Bountyhunter", shop: false, rarity: 1, events: [{trigger: "tick", type: "sneakBuff", power: 0.1}]},
 	{name: "Bikini", dress: "Bikini", shop: false, rarity: 1},
 	{name: "Maid", dress: "Maid", shop: false, rarity: 2, events: [{trigger: "calcEvasion", type: "AccuracyBuff", requiredTag: "mold", power: 10.0}]},
 	{name: "Dragon", dress: "Dragon", shop: false, rarity: 2},
 	{name: "Elven", dress: "Elven", shop: false, rarity: 2},
 	{name: "Wolfgirl", dress: "Wolfgirl", shop: false, rarity: 2},
+	{name: "CyberDoll", dress: "CyberDoll", shop: false, rarity: 3},
 	{name: "BlueSuitPrison", dress: "BlueSuitPrison", shop: false, rarity: 2},
+	{name: "DollSuit", dress: "DollSuit", shop: false, rarity: 2},
 	{name: "BlueSuit", dress: "BlueSuit", shop: false, rarity: 2},
 	{name: "Obsidian", dress: "Obsidian", shop: false, rarity: 2},
 ];
@@ -90,6 +92,11 @@ let KinkyDungeonDresses = {
 		{Item: "SeamlessCatsuit", Group: "SuitLower", Color: "#3873C3", Lost: false},
 		{Item: "Catsuit", Group: "Gloves", Color: "#3873C3", Lost: false},
 	],
+	"DollSuit" : [
+		{Item: "SeamlessCatsuit", Group: "Suit", Color: "#840d26", Lost: false},
+		{Item: "SeamlessCatsuit", Group: "SuitLower", Color: "#840d26", Lost: false},
+		{Item: "Catsuit", Group: "Gloves", Color: "#840d26", Lost: false},
+	],
 	"Bountyhunter" : [
 		{Item: "SeamlessCatsuit", Group: "Suit", Color: "#222222", Lost: false},
 		{Item: "SeamlessCatsuit", Group: "SuitLower", Color: "#222222", Lost: false},
@@ -106,6 +113,11 @@ let KinkyDungeonDresses = {
 		{Item: "PilotPanties", Group: "SuitLower", Color: ['#828FA2', '#323332', '#223525'], Lost: false},
 		{Item: "LatexSocks1", Group: "Socks", Color: "#AAAAAA", Lost: false},
 	],
+	"CyberDoll" : [
+		{Item: "PilotSuit", Group: "Suit", Color: ['#7e1972', '#222222', '#555555', '#222222', 'Default'], Lost: false},
+		{Item: "PilotSuit", Group: "SuitLower", Color: ['#7e1972', '#222222', '#555555'], Lost: false},
+		{Item: "PilotSuitGloves", Group: "Gloves", Color: ['#7e1972', '#222222', '#555555'], Lost: false},
+	],
 	"Maid" : [
 		{Item: "SleevelessCatsuit", Group: "Suit", Color: "#aaaaaa", Lost: false},
 		{Item: "MaidApron2", Group: "Cloth", Color: "Default", Lost: false},
@@ -117,6 +129,7 @@ let KinkyDungeonDresses = {
 		{Item: "Band1", Group: "Hat", Color: "#767676", Lost: false},
 		{Item: "Shoes5", Group: "Shoes", Color: "#575757", Lost: false},
 		{Item: "Socks6", Group: "Socks", Color: ['#080808', 'Default'], Lost: false},
+		{Item: "FloralPanties2", Group: "Panties", Color: ['#303030', '#F0F0F0'], Lost: false},
 	],
 	"Elven" : [
 		{Item: "Swimsuit1", Group: "Bra", Color: ['#E2E2E2'], Lost: false, NoLose: true},
@@ -138,3 +151,15 @@ let KinkyDungeonDresses = {
 		{Item: "LatexSkirt2", Group: "ClothLower", Color: ['#2C4A95'], OverridePriority: 27, Lost: false},
 	],
 };
+
+
+
+
+if (StandalonePatched) {
+	KinkyDungeonDefaultDefaultDress = [
+		//{Item: "RopeArms", Group: "ItemArms", Color: "Default", Lost: false},
+		{Item: "Maid", Group: "Costume", Color: "Default", Lost: false},
+		{Item: "MaidApron", Group: "Apron", Color: "Default", Lost: false},
+		{Item: "Catsuit", Group: "Catsuit", Color: "Default", Lost: false},
+	];
+}
