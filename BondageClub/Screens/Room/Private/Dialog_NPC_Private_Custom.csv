@@ -744,6 +744,7 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 100,0,(Stop playing.),(You take a step back.),,!ClubCardVictoryModeActive(),,
 100,110,(Stop playing.),(You take a step back.),,ClubCardVictoryModeActive(),,
 100,,(Leave her.),,DialogLeave(),,,
+110,,,Don't be too harsh with me.  I only lost a card game.,,,,
 110,,It was a good game.,Absolutely.  Being your prisoner for a little while be good also.,,,GoodGameVictory,
 110,,It was a good game.,Yeah!  And losing to you always makes me horny.  (She giggles.),,,GoodGameVictory,Horny|Playful
 110,,It was a good game.,"Shit, shit, shit!  I'll do better next time.  You can have your ways for now.",,,GoodGameVictory,Frigid|Rude
@@ -1144,6 +1145,7 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1100,,(Masturbate her.),"(You masturbate her with passion as she moans and blushes.)  My girl, you could be a good caring Domme someday.",,CanMasturbate(),DomPlayMasturbate,Submissive|Polite
 1100,1110,(Stop playing.),(You take a step back.)  Enjoy your loot while you can my girl.,,,,
 1100,,(Leave her.),,DialogLeave(),,,
+1110,,,Don't go crazy.  I only lost a card game and I still own your collar.,,,,
 1110,,It was a good game.,Absolutely my subbie.  And being your prisoner for a little might be fun also.,,,DomGoodGameVictory,
 1110,,It was a good game.,Yeah little slut!  And losing to you always makes me horny.  (She giggles.)  Enjoy fucking me.,,,DomGoodGameVictory,Horny|Playful
 1110,,It was a good game.,"Shit, shit, shit!  I'll do better next time slave girl.  You can have your ways for now.",,,DomGoodGameVictory,Frigid|Rude
@@ -1958,6 +1960,7 @@ PunishAsylum,1000,You're right Mistress.  (Go to the asylum.),,RunPunishment(1),
 2100,,(Masturbate her.),"(You masturbate her with passion as she moans and blushes.)  Mistress, being your slave is such a thrill.",,CanMasturbate(),SubPlayMasturbate,Submissive|Polite
 2100,2000,(Stop playing.),(You take a step back.),,,,
 2100,,(Leave her.),,DialogLeave(),,,
+2110,,,Please don't be too harsh Mistress.  I only lost a card game after all.,,,,
 2110,2000,It was a good game my girl.,Absolutely Mistress.  And being your prisoner is always a thrill for me.  How can I serve you?,NPCInteraction(5),,SubGoodGameVictory,
 2110,2000,It was a good game my girl.,Yes Miss!  And losing to you always makes me horny.  (She giggles.)  Do you need any sexual service?,NPCInteraction(5),,SubGoodGameVictory,Horny|Playful
 2110,2000,It was a good game my girl.,"Shit, shit, shit!  I'll do better next time Madam.  Punish and lock me any way you see fit.",NPCInteraction(5),,SubGoodGameVictory,Frigid|Rude

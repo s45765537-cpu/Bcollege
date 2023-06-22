@@ -1387,8 +1387,11 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && (Target.Board.length >= ClubCardLevelLimit[Target.Level])) return false;
 	if ((Card.RequiredLevel != null) && (Target.Level != null) && (Card.RequiredLevel > Target.Level)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Board.length <= 0)) return false;
+	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Control == "AI") && !ClubCardGroupIsOnBoard(CCPlayer, "Liability")) return false;
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardGetOpponent(CCPlayer).Board.length <= 0)) return false;
+	if ((Card.Prerequisite === "SelectOpponentMember") && (CCPlayer.Control == "AI")) return false;
 	if ((Card.Prerequisite === "SelectAnyMember") && (CCPlayer.Board.length + ClubCardGetOpponent(CCPlayer).Board.length <= 0)) return false;
+	if ((Card.Prerequisite === "SelectAnyMember") && (CCPlayer.Control == "AI")) return false;
 	return true;
 }
 
@@ -1417,10 +1420,21 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
 function ClubCardPlayCard(CCPlayer, Card) {
 
 	// If the player must select a card before playing the current card
-	if ((Card.Prerequisite != null) && (ClubCardSelection == null)) {
+	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
 		ClubCardLogAdd(TextGet("Prerequisite " + Card.Name));
 		return;
+	}
+
+	// If the AI must select one of her own liability card to remove before playing the current card
+	if ((Card.Prerequisite === "SelectOwnMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
+		let Cards = [];
+		for (let Card of CCPlayer.Board)
+			if (Card.Group != null)
+				for (let Group of Card.Group)
+					if (Group === "Liability")
+						Cards.push(Card);
+		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
 
 	// Sets the log text, different for a liability card
@@ -1716,11 +1730,11 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	DrawImageResize("Screens/MiniGame/ClubCard/" + (Card.Type) + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
 	MainCanvas.font = "bold " + Math.round(W / 12) + "px arial";
 	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black");
-	let _BubblePos = Y + W * 0.2;
-	if (ClubCardIsLiability(Card)) _BubblePos = ClubCardRenderBubble(null, X + W * 0.05, _BubblePos, W * 0.1, "Liability");
-	if (Level > 1) _BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, _BubblePos, W * 0.1, "Level");
-	if (Card.FamePerTurn != null) _BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, _BubblePos, W * 0.1, "Fame");
-	if (Card.MoneyPerTurn != null) _BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, _BubblePos, W * 0.1, "Money");
+	let BubblePos = Y + W * 0.2;
+	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * 0.1, "Liability");
+	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * 0.1, "Level");
+	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * 0.1, "Fame");
+	if (Card.MoneyPerTurn != null) BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * 0.1, "Money");
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.5, W * 0.9, W * 0.48, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
