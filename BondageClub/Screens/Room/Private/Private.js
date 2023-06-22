@@ -1938,7 +1938,7 @@ function PrivateRandomBed() {
  * When the club card game against a friend NPC starts
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsFriendStart() {
+function PrivateClubCardVsFriendStart() {
 	ClubCardOpponent = CurrentCharacter;
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsFriendEnd");
 }
@@ -1947,7 +1947,7 @@ function PrivateRandomBed() {
  * When the club card game against a friend NPC ends
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsFriendEnd() {
+function PrivateClubCardVsFriendEnd() {
 	CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsFriendVictory" : "ClubCardVsFriendDefeat");
@@ -1963,7 +1963,7 @@ function PrivateRandomBed() {
  * When the club card game against an owner NPC starts
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsOwnerStart() {
+function PrivateClubCardVsOwnerStart() {
 	ClubCardOpponent = CurrentCharacter;
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsOwnerEnd");
 }
@@ -1972,7 +1972,7 @@ function PrivateRandomBed() {
  * When the club card game against an owner NPC ends
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsOwnerEnd() {
+function PrivateClubCardVsOwnerEnd() {
 	CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
@@ -1985,7 +1985,7 @@ function PrivateRandomBed() {
  * When the club card game against a submissive NPC starts
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsSubStart() {
+function PrivateClubCardVsSubStart() {
 	ClubCardOpponent = CurrentCharacter;
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsSubEnd");
 }
@@ -1994,7 +1994,7 @@ function PrivateRandomBed() {
  * When the club card game against a submissive NPC ends
  * @returns {void} - Nothing
  */
- function PrivateClubCardVsSubEnd() {
+function PrivateClubCardVsSubEnd() {
 	CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsSubVictory" : "ClubCardVsSubDefeat");
@@ -2042,7 +2042,7 @@ function PrivateClubCardDefeatActivity() {
  * The consequence activity to do
  * @param {string} Act - The activity to do
  * @param {string} LoveFactor - The love to change
- * @returns {void} - Nothing. 
+ * @returns {void} - Nothing.
  */
 function PrivateClubCardDoConsequence(Act, LoveFactor) {
 
