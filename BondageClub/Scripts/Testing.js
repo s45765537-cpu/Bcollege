@@ -81,3 +81,6 @@ function TestingValidateDefaultColor() {
 
 var [TestingMisingColorLayers, TestingMisingColorGroups] = TestingGetMissingColorLayersGroups();
 var TestingInvalidDefaultColor = TestingValidateDefaultColor();
+
+// Alias as a var-declared variable so its discoverable by `vm.Context`
+var TestingModularItemDataLookup = ModularItemDataLookup;
