@@ -502,10 +502,10 @@ function InfiltrationPandoraPrisonerBrainwash() {
 	NPCEventDelete(C, "EndSubTrial");
 	NPCEventAdd(C, "NPCCollaring", CurrentTime);
 	C.Owner = Player.Name;
-	InventoryWear(C, "SlaveCollar", "ItemNeck");
 	//Interrogation restraints - Not strictly required, just flavor for Private Room NPC profile.
 	CharacterNaked(C);
 	CharacterReleaseTotal(C);
+	InventoryWear(C, "SlaveCollar", "ItemNeck");
 	InventoryWear(C,"SteelCuffs","ItemArms");
 	InventoryWear(C,"SteelAnkleCuffs","ItemFeet");
 	InventoryWear(C,"WoodenRack","ItemDevices");
