@@ -1,4 +1,6 @@
 PlayerGagged,,,(She frowns at you.)  Go see a maid girl.  I don't have time for this.,,
+ClubCardVictory,,,Well done comrade.  Your tactical skills will certainly be helpful in Pandora's missions.  Would you like to play again?,,
+ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part of learning, would you like a rematch?",,
 0,,,Comrade DialogPlayerName!  (She gives you a military salute.)  The bunker is yours to command.,,"DialogSkillGreater(""Infiltration"", 10)"
 0,,,Comrade DialogPlayerName!  (She gives you a military salute.)  We were waiting for you to review the planning.,,"DialogSkillGreater(""Infiltration"", 8)"
 0,,,Comrade DialogPlayerName!  (She gives you a military salute.)  Are you ready for duty?,,"DialogSkillGreater(""Infiltration"", 6)"
@@ -13,6 +15,7 @@ PlayerGagged,,,(She frowns at you.)  Go see a maid girl.  I don't have time for 
 0,40,I'd like to take a mission.,Very good comrade DialogPlayerName!  (She salutes you.)  What kind of challenge are you up to?,,"DialogSkillGreater(""Infiltration"", 3)"
 0,40,I'd like to take a mission.,Very good!  What kind of challenge are you up to?,,"!DialogSkillGreater(""Infiltration"", 3)"
 0,Brainwash0,"Comrade, I've got a prisoner from Pandora in my private room.",Very good comrade DialogPlayerName! We can send someone to pick her up for interrogation!,,PandoraPrisonerPresent()
+0,80,Would you like to play Club Cards?,(She thinks aloud.)  I guess we could do a game between two missions.  It's not too busy right now.,,!PandoraPrisonerPresent()
 0,,I need to go.  (Leave her.),,DialogLeave(),
 10,,Pandora's Box?,"Yes, they opened their BDSM club right next to us a few months ago.  At first it was healthy competition, until they started to play dirty.",,
 10,,They play dirty?,"They sell our slaves, attack our Mistresses, jail our members, hack our computers and steal our money.  Is that dirty enough?",,
@@ -47,6 +50,9 @@ PlayerGagged,,,(She frowns at you.)  Go see a maid girl.  I don't have time for 
 60,0,It sounds too dangerous for me.,(She nods and stops whispering.)  Let's change subject.  Isn't the weather nice lately?,,
 70,Ready,I'll do it comrade.,(She salutes and picks a disguise for you.)  I knew we could count on you.  Will you go now?,StartPandoraLock(),
 70,0,I need to prepare first.,(She nods and stops whispering.)  Let's change subject.  Isn't the weather nice lately?,,
+80,,Can I tie you up if I win?,"No, I don't have time for that.  We'll play to hone our tactical skills.",,
+80,,(Play Club Card with her.),,ClubCardStart(),
+80,0,Let's talk about something else.,"Good, we have no time to waste.",,
 ObjectUSBKey,,,USB key,,
 ObjectBDSMPainting,,,BDSM painting,,
 ObjectGoldCollar,,,gold plated collar,,

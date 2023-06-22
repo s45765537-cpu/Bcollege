@@ -127,7 +127,7 @@ function ClubCardBuilderClick() {
 	}
 	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1550, 5, 90, 90)) {
 		ClubCardBuilderOffset = ClubCardBuilderOffset - 30;
-		if (ClubCardBuilderOffset < 0) ClubCardBuilderOffset = Math.floor(ClubCardBuilderList.length / 30) * 30;
+		if (ClubCardBuilderOffset < 0) ClubCardBuilderOffset = Math.floor((ClubCardBuilderList.length - 1) / 30) * 30;
 		return;
 	}
 

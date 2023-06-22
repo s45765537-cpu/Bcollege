@@ -539,3 +539,22 @@ function InfiltrationSetPandoraPrisoner() {
 		InfiltrationPandoraPrisoner = CommonRandomItemFromList(InfiltrationPandoraPrisoner, candidates);
 	}
 }
+
+/**
+ * When the player starts a club card game against the supervisor
+ * @returns {void} - Nothing
+ */
+function InfiltrationClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "InfiltrationClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game against the supervisor
+ * @returns {void} - Nothing
+ */
+function InfiltrationClubCardEnd() {
+	CommonSetScreen("Room", "Infiltration");
+	CharacterSetCurrent(InfiltrationSupervisor);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+}

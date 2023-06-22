@@ -3749,6 +3749,7 @@ interface ClubCard {
 	Type?: string;
 	Title?: string;
 	Text?: string;
+	Prerequisite?: string;
 	Reward?: string;
 	MoneyPerTurn?: number;
 	FamePerTurn?: number;

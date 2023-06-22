@@ -9,6 +9,8 @@ Money,Money:
 PlayCard,Play this card
 Draw,Draw and end your turn
 CannotDraw,End your turn
+SelectCard,Select this card
+CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
 Yes,Yes
@@ -49,6 +51,7 @@ GainFame,SOURCEPLAYER gained AMOUNT Fame.
 GainMoney,SOURCEPLAYER gained AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
+MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER club.
 GroupLiability,Liability
 GroupStaff,Staff
 GroupPolice,Police
@@ -107,9 +110,9 @@ Text Human Resource,Draw an extra card each time you draw a card.
 Title Policewoman,Policewoman
 Text Policewoman,<F>I took the job for the free handcuffs.
 Title Pusher,Pusher
-Text Pusher,Will leave the club at end of turn if a Police is present.
+Text Pusher,+3 Money per turn for Junkie and +1 Money per turn for Sidney.   Leave the club at end of turn if a Police is present.
 Title Junkie,Junkie
-Text Junkie,+3 Money per turn if Pusher is present.  Leave club at end of turn if a Police is present.
+Text Junkie,Leave club at end of turn if a Police is present.
 Title Zealous Cop,Zealous Cop
 Text Zealous Cop,"<F>Rules are rules, and I'll make sure they will be followed."
 Title Gangster,Gangster
@@ -118,6 +121,8 @@ Title Paroled Thief,Paroled Thief
 Text Paroled Thief,Opponent gets +1 Money at end of turn.  Leave the club at end of turn if a Police is present.
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
+Title Stepmother,Stepmother
+Text Stepmother,Removes all Police and Liability members from your club when she enters.
 Title Maid Lover,Maid Lover
 Text Maid Lover,+1 Money per turn for each Maid present.
 Title Diaper Lover,Diaper Lover
@@ -127,9 +132,9 @@ Text Masochist,+1 Fame per turn and +1 Money per turn if at least one Dominant i
 Title Feet Worshiper,Feet Worshiper
 Text Feet Worshiper,+2 Money per turn if at least one Porn Actress or ABDL Mommy is present.
 Title Fin-Dom Simp,Fin-Dom Simp
-Text Fin-Dom Simp,+1 Money per turn for each Dominant present.
+Text Fin-Dom Simp,"+1 Money per turn for each Dominant present, maximum of +3."
 Title Fin-Dom Whale,Fin-Dom Whale
-Text Fin-Dom Whale,+1 Money per turn for each Dominant present and +2 Money per turn for each Mistress present.
+Text Fin-Dom Whale,+2 Money per turn for each Mistress present.
 Title Porn Addict,Porn Addict
 Text Porn Addict,+1 Money per turn for each Porn member present.
 Title Porn Amateur,Porn Amateur
@@ -209,13 +214,14 @@ Text Babysitter,+2 Fame per turn for each ABDL Baby present.
 Title Soap Opera Mother,Soap Opera Mother
 Text Soap Opera Mother,+25 Fame when she enters your club if at least one ABDL Baby is present.
 Title Amanda,Amanda
-Text Amanda,Immune to Ransomware.
+Text Amanda,<F>I never taught I would find a second home in this perverted place.
 Title Sarah,Sarah
-Text Sarah,+2 Fame per turn if Amanda is present.  -2 Fame per turn if Sidney is present.
+Text Sarah,+2 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
 Title Sidney,Sidney
-Text Sidney,Double all College Party bonuses.
+Text Sidney,<F>Anyone that calls me Piggy will end up in a hogtie.
 Title Jennifer,Jennifer
-Text Jennifer,Remove one of your member cards when she enters your club.
+Text Jennifer,Select and remove one member from your club before she enters.
+Prerequisite Jennifer,Select a member from your club to remove before Jennifer enters.
 Title College Freshwoman,College Freshwoman
 Text College Freshwoman,+1 Fame per turn if Julia is present.  +1 Fame per turn if Yuki is present.
 Title College Nerd,College Nerd
@@ -248,3 +254,13 @@ Title Vampire Ball,Vampire Ball
 Text Vampire Ball,"+3 Fame for each member that's not Dominant, Liability, Maid or Staff."
 Title Straitjacket Saturday,Straitjacket Saturday
 Text Straitjacket Saturday,+4 Money for each Asylum Patient and Asylum Nurse.
+Title Charity Auction,Charity Auction
+Text Charity Auction,"Select and remove one member from your club, gain 1 Fame per building level."
+Prerequisite Charity Auction,Select a member from your club to remove for Fame.
+Title Slave Auction,Slave Auction
+Text Slave Auction,"Select and remove one member from your club, gain 1 Money per building level."
+Prerequisite Slave Auction,Select a member from your club to remove for Money.
+Title College Bash,College Bash
+Text College Bash,+2 Fame for each College Girl.  Extra +2 Fame if Sidney is present.
+Title Ransomware,Ransomware
+Text Ransomware,Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
