@@ -614,7 +614,7 @@ KinkyDungeonBuffKatanaCharge,"Katana: Patience is key..."
 KinkyDungeonBuffStormCharge,"Stormbreaker: You have the Power."
 
 KinkyDungeonDifficulty,Game Setup:
-KinkyDungeonDifficulty0,Beginner: Get a save code every 3 levels, autosave after each floor
+KinkyDungeonDifficulty0,"Beginner: Get a save code every 3 levels, autosave after each floor"
 KinkyDungeonDifficulty1,"Roguelike: No save codes, only autosave"
 KinkyDungeonDifficulty3,"Exciting: Orbs give random spells"
 KinkyDungeonDifficulty2,"Kinky: No save codes, orbs give random spells, start with very little"
@@ -906,7 +906,7 @@ KinkyDungeonInventoryItemKeyring,Exit Keys
 
 KinkyDungeonInventoryItemDefault,Wizard's Outfit
 KinkyDungeonInventoryItemDefaultDesc,Your favorite outfit for adventuring.
-KinkyDungeonInventoryItemDefaultDesc2,Your original outfit. No bonuses, no penalties.
+KinkyDungeonInventoryItemDefaultDesc2,"Your original outfit. No bonuses, no penalties."
 
 KinkyDungeonInventoryItemBountyhunter,Tactical Catsuit
 KinkyDungeonInventoryItemBountyhunterDesc,"A sleek catsuit worn by stealth operatives. No frills, no nonsense."
@@ -918,7 +918,7 @@ KinkyDungeonInventoryItemJailUniformDesc2,"A prisoner's 'outfit'. No bonuses, no
 
 
 KinkyDungeonInventoryItemWolfgirl,Wolfgirl Suit
-KinkyDungeonInventoryItemWolfgirlDesc,An advanced suit designed for sport, breathable and also warm.
+KinkyDungeonInventoryItemWolfgirlDesc,"An advanced suit designed for sport, breathable and also warm."
 KinkyDungeonInventoryItemWolfgirlDesc2,"No bonuses, no penalties."
 
 KinkyDungeonInventoryItemMaid,Maid Uniform
@@ -3744,7 +3744,7 @@ RestraintLatexStraitjacket,Latex Jacket
 RestraintLatexStraitjacketDesc,A tight jacket that holds your arms completely useless.
 RestraintLatexStraitjacketDesc2,"It has too much grip to struggle out of, but is made of a fragile material."
 RestraintLatexArmbinder,Latex Armbinder
-RestraintLatexArmbinderDesc,A tight armbinder that pins your arms tightly behind your back, enclosed completely.
+RestraintLatexArmbinderDesc,"A tight armbinder that pins your arms tightly behind your back, enclosed completely."
 RestraintLatexArmbinderDesc2,"It has too much grip to struggle out of, but is made of a fragile material."
 RestraintLatexLegbinder,Latex Legbinder
 RestraintLatexLegbinderDesc,A tight legbinder that keeps your legs together!
@@ -4715,7 +4715,7 @@ KinkyDungeonSpellTargetGust,Choose aim direction
 
 
 KinkyDungeonSpellKnife,Knife
-KinkyDungeonSpellDescriptionKnife,Throw one of your knives DamageDealt damage. Lands in the target's tile, but is recoverable afterward.
+KinkyDungeonSpellDescriptionKnife,"Throw one of your knives DamageDealt damage. Lands in the target's tile, but is recoverable afterward."
 KinkyDungeonSpellCastKnife,You a throw a knife!
 KinkyDungeonSpellTargetKnife,Choose aim direction
 
@@ -4853,7 +4853,7 @@ KinkyDungeonSpellCastAnalyze,You analyze the target!
 KinkyDungeonSpellTargetAnalyze,Choose object to analyze
 
 KinkyDungeonSpellGreaterShield,Barrier Runes
-KinkyDungeonSpellDescriptionGreaterShield,Creates a 1x1 field of barrier monoliths that blocks BlockAmount damage from projectiles for DelayTime turns, but doesn't block movement.
+KinkyDungeonSpellDescriptionGreaterShield,"Creates a 1x1 field of barrier monoliths that blocks BlockAmount damage from projectiles for DelayTime turns, but doesn't block movement."
 KinkyDungeonSpellCastGreaterShield,You raise a field of runes with a command word!
 KinkyDungeonSpellTargetGreaterShield,Choose barrier location
 
@@ -5037,12 +5037,12 @@ KinkyDungeonSpellLatexWall,Wall of Latex
 KinkyDungeonSpellDescriptionLatexWall,"Unlocks horizontal and vertical latex walls that encase enemies that walk through."
 
 KinkyDungeonSpellLatexWallVert,Wall of Latex (Vert)
-KinkyDungeonSpellDescriptionLatexWallVert,Creates a vertical wall of latex for 20 turns. Enemies that pass through are encased, take DamageDealt glue damage if not encased, and blinded.
+KinkyDungeonSpellDescriptionLatexWallVert,"Creates a vertical wall of latex for 20 turns. Enemies that pass through are encased, take DamageDealt glue damage if not encased, and blinded."
 KinkyDungeonSpellCastLatexWallVert,You tap your foot and a wall of latex stretches out across the corridor.
 KinkyDungeonSpellTargetLatexWallVert,Choose vertical wall origin (5 tiles high)
 
 KinkyDungeonSpellLatexWallHoriz,Wall of Latex (Horiz)
-KinkyDungeonSpellDescriptionLatexWallHoriz,Creates a horizontal wall of latex for 20 turns. Enemies that pass through are encased, take DamageDealt glue damage if not encased, and blinded.
+KinkyDungeonSpellDescriptionLatexWallHoriz,"Creates a horizontal wall of latex for 20 turns. Enemies that pass through are encased, take DamageDealt glue damage if not encased, and blinded."
 KinkyDungeonSpellCastLatexWallHoriz,You tap your foot and a wall of latex stretches out across the corridor.
 KinkyDungeonSpellTargetLatexWallHoriz,Choose horizontal wall origin (5 tiles wide)
 
@@ -5425,7 +5425,7 @@ KinkyDungeonSpellCastCamo,You pose in a clandestine manner.
 
 KinkyDungeonSpellShadowBlade,Darkblade
 KinkyDungeonSpellTargetShadowBlade,Select which creature to buff
-KinkyDungeonSpellDescriptionShadowBlade,Make the targeted creature (or self) gain +20 damage for Duration turns or 5 attacks, whichever is lower.
+KinkyDungeonSpellDescriptionShadowBlade,"Make the targeted creature (or self) gain +20 damage for Duration turns or 5 attacks, whichever is lower."
 KinkyDungeonSpellCastShadowBlade,You call forth dark runes on your weapon and arms!
 
 KinkyDungeonSpellHeal2,Heal
@@ -5948,7 +5948,7 @@ KinkyDungeonLore37,"(A page from the Book of Aeons)|The 'Bellows' is the nicknam
 KinkyDungeonLore0,"(Preface from the journal of Catherine Willows, well-known explorer who vanished in the dungeon 30 years ago) I am writing this journal in the off chance that I do not come back in my search for the Mistress' staff. If you find this, please make an effort to deliver it back to the surface for the good of all the young women lured by its secrets."
 KinkyDungeonLore1,"(Pg. 24 from Catherine Willows' journal) Many who trowel the upper levels of the Mistress' tomb often ask rhetorically: 'Why are there weird kinky traps guarding treasure chests? Why not have real, deadly traps if the purpose is to dissuade intruders?'"
 KinkyDungeonLore2,"(Pg. 25 from Catherine Willows' journal) ...They make a crucial mistake: The treasure chests aren't trapped. Rather, they are full of gold. And we know that gold is pleasing to the gods: our economy runs on it, and the gods only make interventions in our day-to-day affairs because we give them gold. Lesser gods, known as spirits, also love gold, but unlike the gods we know, these lesser spirits cannot consume gold on an altar in one fell swoop like the gods can. Therefore, they need to physically inhabit the place where the gold sits, slowly draining it of its pleasing essence."
-KinkyDungeonLore3,"(Pg. 26 from Catherine Willows' journal) So the question is not "why did somebody lay these traps." The answer is that they are not traps at all. I surmise that the upper floors were once a place of offering for the dead. And when the old civilization perished and the entire complex sank into the ground, there was no longer anyone to drive the spirits away and keep them from inhabiting the upstairs. As for why there are so many restraints in general rather than your typical sort of spirits... well we know what the Mistress surrounded herself with."
+KinkyDungeonLore3,"(Pg. 26 from Catherine Willows' journal) So the question is not ""why did somebody lay these traps."" The answer is that they are not traps at all. I surmise that the upper floors were once a place of offering for the dead. And when the old civilization perished and the entire complex sank into the ground, there was no longer anyone to drive the spirits away and keep them from inhabiting the upstairs. As for why there are so many restraints in general rather than your typical sort of spirits... well we know what the Mistress surrounded herself with."
 KinkyDungeonLore4,"(The note starts with a drawing of a witch with many chains hanging from her body) She can block melee attacks with her chains. However, they conduct lightning and heat directly to her body, and I was able to take out her chains with bolt cutters."
 KinkyDungeonLore5,"(The note starts with a drawing of a witch with lightning crackling from her fingertips) Water will cause her to short-circuit. I can't seem to hit her with lightning, though. She always redirects it."
 KinkyDungeonLore6,"(The note starts with a drawing of a witch whose body is partly gelatinous) The slime is non-flammable and my attacks pass right through her body... Lightning and ice seem to be effective!"
@@ -9732,7 +9732,7 @@ rLeylineMapCancel,"(Are you sure?)|(This decision is permanent.)"
 dLeylineMap_Leave,(Gain +100 to Max Mana Pool)
 dLeylineMap_Cancel,(I don't want to.)
 dLeylineMapCancel_Leave,(Gain +100 to Max Mana Pool)
-dLeylineMapCancel_Cancel,(No really, I don't want it!)
+dLeylineMapCancel_Cancel,"(No really, I don't want it!)"
 
 rDollTerminal_Step,"(You find a strange elevator with a control panel inside)|(You get the impression this will take you somewhere.)"
 rDollTerminal_StepEnter,"(Are you sure?)|(This seems like a bad idea!)"
