@@ -8570,6 +8570,19 @@ var AssetFemale3DCG = [
 					{ Name: "Lips", HasType: false,},
 				],
 			},
+			{
+				Name: "CorsetHood", Fetish: ["Latex"], Value: 10, Difficulty: 5, Top: 32, Left: 122, Effect: ["BlockMouth", "GagVeryHeavy"], AllowLock: true, AllowTighten: true, DrawLocks: false,
+				Hide: ["HairFront", "FacialHair", "HairBack", "Glasses", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Mask"],
+				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
+				DefaultColor: [],
+				Layer: [
+
+					{ Name: "Latex", HasType: false, Alpha: [{ Group: ["Head"], Masks: [[0, 0, 212, 260], [288, 0, 205, 260], [0, 180, 227, 270],[280, 170, 200, 270]] }]},
+					{ Name: "Lace", HasType: false, },
+					{ Name: "Lines", HasType: false, },
+
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
