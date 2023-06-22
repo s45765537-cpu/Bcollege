@@ -350,6 +350,11 @@ MaskFaceVeilFabric,Fabric
 MaskFaceVeilString,String
 MaskSwimCapCap,Cap
 MaskSwimCapStripes1,Pattern
+MaskDroneMaskBase,Mask
+MaskDroneMaskShine,Shine
+MaskDroneMaskEyeRegular,Eyes
+MaskDroneMaskMouthOnahole,Mouth
+MaskDroneMaskBarcode,Pattern
 TailStrapsTailStrapTail,Tail
 TailStrapsTailStrapRibbon,Ribbon
 TailStrapsTailStrapBell,Bell
