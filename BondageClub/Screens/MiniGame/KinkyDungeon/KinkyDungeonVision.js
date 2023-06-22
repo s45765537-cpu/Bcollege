@@ -23,7 +23,7 @@ function KinkyDungeonCheckProjectileClearance(xx, yy, x2, y2) {
 	return true;
 }
 
-function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars, blockEnemies, maxFails) {
+function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars, blockEnemies, maxFails, blockOnlyLOSBlock) {
 	if (x1 == x2 && y1 == y2) return true;
 	let length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	// Allowbars = checking for vision only
@@ -39,13 +39,13 @@ function KinkyDungeonCheckPath(x1, y1, x2, y2, allowBars, blockEnemies, maxFails
 		if ((Math.round(xx) != x1 || Math.round(yy) != y1) && (Math.round(xx) != x2 || Math.round(yy) != y2)) {
 			let hits = 0;
 			if (!obj.includes(KinkyDungeonMapGet(Math.floor(xx), Math.floor(yy)))
-				|| ((xx != x1 || yy != y1) && (blockEnemies && KinkyDungeonEnemyAt(Math.floor(xx), Math.floor(yy))))
+				|| ((xx != x1 || yy != y1) && (blockEnemies && ((!blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.floor(xx), Math.floor(yy))) || (blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.floor(xx), Math.floor(yy))?.Enemy.blockVision))))
 				|| ((xx != x1 || yy != y1) && (allowBars && KDVisionBlockers.get(Math.floor(xx) + "," + Math.floor(yy))))) hits += 1;
 			if (!obj.includes(KinkyDungeonMapGet(Math.round(xx), Math.round(yy)))
-				|| ((xx != x1 || yy != y1) && (blockEnemies && KinkyDungeonEnemyAt(Math.round(xx), Math.round(yy))))
+				|| ((xx != x1 || yy != y1) && (blockEnemies && ((!blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.round(xx), Math.round(yy))) || (blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.round(xx), Math.round(yy))?.Enemy.blockVision))))
 				|| ((xx != x1 || yy != y1) && (allowBars && KDVisionBlockers.get(Math.round(xx) + "," + Math.round(yy))))) hits += 1;
 			if (hits < 2 && !obj.includes(KinkyDungeonMapGet(Math.ceil(xx), Math.ceil(yy)))
-				|| ((xx != x1 || yy != y1) && (blockEnemies && KinkyDungeonEnemyAt(Math.ceil(xx), Math.ceil(yy))))
+				|| ((xx != x1 || yy != y1) && (blockEnemies && ((!blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.ceil(xx), Math.ceil(yy))) || (blockOnlyLOSBlock && KinkyDungeonEnemyAt(Math.ceil(xx), Math.ceil(yy))?.Enemy.blockVision))))
 				|| ((xx != x1 || yy != y1) && (allowBars && KDVisionBlockers.get(Math.ceil(xx) + "," + Math.ceil(yy))))) hits += 1;
 
 
@@ -255,7 +255,7 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 	KDVisionBlockers = new Map();
 	for (let EE of KinkyDungeonEntities) {
 		let Enemy = EE.Enemy;
-		if (Enemy && Enemy.blockVision || (Enemy.blockVisionWhileStationary && !EE.moved && EE.idle)) // Add
+		if (Enemy && (Enemy.blockVision || (Enemy.blockVisionWhileStationary && !EE.moved && EE.idle))) // Add
 			KDVisionBlockers.set(EE.x + "," + EE.y, true);
 	}
 	let LightsTemp = new Map();
@@ -298,7 +298,7 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 	let newL = 0;
 	for (let X = 1; X < KinkyDungeonGridWidth - 1; X++) {
 		for (let Y = 1; Y < KinkyDungeonGridHeight - 1; Y++)
-			if (KinkyDungeonCheckPath(X, Y, KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, true, false, flags.SeeThroughWalls ? flags.SeeThroughWalls + 1 : 1)
+			if (KinkyDungeonCheckPath(X, Y, KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, true, true, flags.SeeThroughWalls ? flags.SeeThroughWalls + 1 : 1, true)
 				&& KinkyDungeonTransparentObjects.includes(KinkyDungeonMapGet(X, Y))) {
 				bb = KinkyDungeonBrightnessGet(X, Y);
 				d = KDistChebyshev(X - KinkyDungeonPlayerEntity.x, Y - KinkyDungeonPlayerEntity.y);
@@ -322,7 +322,7 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 		for (let X = 0; X < KinkyDungeonGridWidth; X++) {
 			for (let Y = 0; Y < KinkyDungeonGridHeight; Y++) {
 				let tile = KinkyDungeonMapGet(X, Y);
-				if (LightsTemp.get(X + "," + Y) || ((KinkyDungeonTransparentObjects.includes(tile) || (X == KinkyDungeonPlayerEntity.x && Y == KinkyDungeonPlayerEntity.y)) && !KDVisionBlockers.get(X + "," + Y))) {
+				if ((LightsTemp.get(X + "," + Y) || (KinkyDungeonTransparentObjects.includes(tile) || (X == KinkyDungeonPlayerEntity.x && Y == KinkyDungeonPlayerEntity.y))) && !KDVisionBlockers.get(X + "," + Y)) {
 					let brightness = KinkyDungeonVisionGet(X, Y);
 					if (brightness > 0) {
 						let decay = KinkyDungeonDeaf ? 5 : 2;
@@ -389,7 +389,7 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 	} else {
 		// Generate the grid
 		let dist = 0;
-		let fog = !KinkyDungeonStatsChoice.get("Forgetful");
+		let fog = true;//KDAllowFog();
 		for (let X = 0; X < KinkyDungeonGridWidth; X++) {
 			for (let Y = 0; Y < KinkyDungeonGridHeight; Y++)
 				if (X >= 0 && X <= width-1 && Y >= 0 && Y <= height-1) {
@@ -398,11 +398,11 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 						let distE = KDistEuclidean(KinkyDungeonPlayerEntity.x - X, KinkyDungeonPlayerEntity.y - Y);
 						if (fog && dist < 3
 							&& distE < 2.9
-							&& KinkyDungeonCheckPath(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, X, Y)) {
+							&& KinkyDungeonCheckPath(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, X, Y, true, true, flags.SeeThroughWalls ? flags.SeeThroughWalls + 1 : 1, true)) {
 							KinkyDungeonFogGrid[X + Y*(width)] = Math.max(KinkyDungeonFogGrid[X + Y*(width)], 3);
 						}
 						if (distE < (KinkyDungeonDeaf ? 1.5 : 2.3) && KinkyDungeonVisionGrid[X + Y*(width)] == 0
-							&& KinkyDungeonCheckPath(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, X, Y)) {
+							&& KinkyDungeonCheckPath(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, X, Y, true, true, flags.SeeThroughWalls ? flags.SeeThroughWalls + 1 : 1, true)) {
 							KinkyDungeonVisionGrid[X + Y*(width)] = 1;
 						}
 					}
@@ -414,41 +414,133 @@ function KinkyDungeonMakeVisionMap(width, height, Viewports, Lights, delta, mapB
 	}
 }
 
-let KDFogTexture = null;
 let KDLightCropValue = 6;
 
 function KDDrawFog(CamX, CamY, CamX_offset, CamY_offset) {
 	kdgamefog.clear();
 
+	let v_td = false;
+	let v_tu = false;
+	let v_tl = false;
+	let v_tr = false;
+	let v_tdl = false;
+	//let v_tul = false;
+	let v_tdr = false;
+	//let v_tur = false;
+	let RX = 0;
+	let RY = 0;
+	let allowFog = false;
+	let visible = false;
+	let fog = 0;
+	let lightDiv = 0;
+	let light = 0;
+	let shadowColor = 0;
+	let l = 0;
+	let pad = 0;
 
-	if (KDFogTexture) {
-		for (let R = -1; R <= KinkyDungeonGridHeightDisplay + 2; R++)  {
-			for (let X = -1; X <= KinkyDungeonGridWidthDisplay + 2; X++)  {
+	for (let R = -1; R <= KinkyDungeonGridHeightDisplay + 2; R++)  {
+		for (let X = -1; X <= KinkyDungeonGridWidthDisplay + 2; X++)  {
 
-				let RY = R+CamY;
-				let RX = X+CamX;
-				if (RY >= 1 && RY < KinkyDungeonGridHeight && RX >= 1 && RX < KinkyDungeonGridWidth && (KinkyDungeonVisionGet(RX, RY) > 0 || KinkyDungeonFogGet(RX, RY) > 0)) {
-					let fog = KinkyDungeonStatBlind > 0 ? 0 : Math.min(0.5, KinkyDungeonFogGet(RX, RY)/10);
-					let lightDiv = (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(RX, RY))) ? KDLightCropValue : KDLightCropValue * 0.7;
-					let light = Math.max(KinkyDungeonVisionGrid[RX + RY*KinkyDungeonGridWidth]/lightDiv, fog);
+			RY = R+CamY;
+			RX = X+CamX;
+			allowFog = KDAllowFog();
+			if (RY >= 0 && RY < KinkyDungeonGridHeight && RX >= 0 && RX < KinkyDungeonGridWidth) {
+				visible = (KinkyDungeonVisionGet(RX, RY) > 0 || (allowFog && KinkyDungeonFogGet(RX, RY) > 0));
+				if (visible) {
+					fog = KinkyDungeonStatBlind > 0 ? 0 : Math.min(0.5, KinkyDungeonFogGet(RX, RY)/10);
+					lightDiv = (KinkyDungeonGroundTiles.includes(KinkyDungeonMapGet(RX, RY))) ? KDLightCropValue : KDLightCropValue * 0.7;
+					light = Math.max(KinkyDungeonVisionGrid[RX + RY*KinkyDungeonGridWidth]/lightDiv, fog);
 					//let lightColor = KinkyDungeonColorGrid[RX + RY*KinkyDungeonGridWidth];
-					let shadowColor = KinkyDungeonShadowGrid[RX + RY*KinkyDungeonGridWidth];
+					shadowColor = KinkyDungeonShadowGrid[RX + RY*KinkyDungeonGridWidth];
 					if (KinkyDungeonVisionGrid[RX + RY*KinkyDungeonGridWidth] > 0 && KDistChebyshev(KinkyDungeonPlayerEntity.x - RX, KinkyDungeonPlayerEntity.y - RY) < 2) {
 						light = light + (1 - light)*0.5;
 					}
-					let l = Math.max(0, Math.min(1, (1-light)));
+					l = Math.max(0, Math.min(1, (1-light)));
 					//kdgamefog.beginFill(light > 0 ? (KDAvgColor(lightColor, shadowColor, light, Math.max(0, 1 - light))) : 0, l*l);
 					kdgamefog.beginFill(light > 0 ? shadowColor : 0x000000, (KinkyDungeonVisionGrid[RX + RY*KinkyDungeonGridWidth] > 0) ? (0.9*l*l) : l);
-					let pad = light > 0 ? 0 : 1;
+					pad = light > 0 ? 0 : 1;
 					kdgamefog.drawRect((-CamX_offset + X)*KinkyDungeonGridSizeDisplay - pad, (-CamY_offset + R)*KinkyDungeonGridSizeDisplay - pad, KinkyDungeonGridSizeDisplay + pad*2, KinkyDungeonGridSizeDisplay + pad*2);
 					kdgamefog.endFill();
+
+
+					if (KDToggles.FancyWalls && (KinkyDungeonWallTiles.includes(KinkyDungeonMapGet(RX, RY)) || RX == 0 || RY == 0)) {
+						if (KDWallVert(RX, RY) || KinkyDungeonGridHeight == RY + 1) {
+							// Tile Up Visible
+							v_tu = ((KinkyDungeonVisionGet(RX, RY - 1) > 0 || (allowFog && KinkyDungeonFogGet(RX, RY - 1) > 0)));
+							v_td = ((KinkyDungeonVisionGet(RX, RY + 1) > 0 || (allowFog && KinkyDungeonFogGet(RX, RY + 1) > 0)));
+							v_tl = ((KinkyDungeonVisionGet(RX - 1, RY) > 0 || (allowFog && KinkyDungeonFogGet(RX - 1, RY) > 0)));
+							v_tr = ((KinkyDungeonVisionGet(RX + 1, RY) > 0 || (allowFog && KinkyDungeonFogGet(RX + 1, RY) > 0)));
+							//v_tul = ((KinkyDungeonVisionGet(RX - 1, RY - 1) > 0 || (allowFog && KinkyDungeonFogGet(RX - 1, RY - 1) > 0)));
+							v_tdl = ((KinkyDungeonVisionGet(RX - 1, RY + 1) > 0 || (allowFog && KinkyDungeonFogGet(RX - 1, RY + 1) > 0)));
+							//v_tur = ((KinkyDungeonVisionGet(RX + 1, RY - 1) > 0 || (allowFog && KinkyDungeonFogGet(RX + 1, RY - 1) > 0)));
+							v_tdr = ((KinkyDungeonVisionGet(RX + 1, RY + 1) > 0 || (allowFog && KinkyDungeonFogGet(RX + 1, RY + 1) > 0)));
+
+							pad = 1;
+							if (!v_tl) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay/2 + pad*2,
+									KinkyDungeonGridSizeDisplay + pad*2);
+								kdgamefog.endFill();
+							}
+							if (!v_tr) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X + 0.5)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay/2 + pad*2,
+									KinkyDungeonGridSizeDisplay + pad*2);
+								kdgamefog.endFill();
+							}
+							if (!v_tu && !v_tdl && !v_tdr) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay + pad*2,
+									KinkyDungeonGridSizeDisplay/2 + pad*2);
+								kdgamefog.endFill();
+							}
+							if (!v_td) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R + 0.5)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay + pad*2,
+									KinkyDungeonGridSizeDisplay/2 + pad*2);
+								kdgamefog.endFill();
+							}
+							if (v_td && v_tl && !v_tdl) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R + 0.5)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay/2 + pad*2,
+									KinkyDungeonGridSizeDisplay/2 + pad*2);
+								kdgamefog.endFill();
+							}
+							if (v_td && v_tr && !v_tdr) {
+								kdgamefog.beginFill(0x000000, 1.0);
+								kdgamefog.drawRect(
+									(-CamX_offset + X + 0.5)*KinkyDungeonGridSizeDisplay - pad,
+									(-CamY_offset + R + 0.5)*KinkyDungeonGridSizeDisplay - pad,
+									KinkyDungeonGridSizeDisplay/2 + pad*2,
+									KinkyDungeonGridSizeDisplay/2 + pad*2);
+								kdgamefog.endFill();
+							}
+						}
+					}
 				}
 			}
 		}
-	} else {
-		let img = DrawGetImage(KinkyDungeonRootDirectory + "Fog/Fog.png");
-		if (img)
-			// @ts-ignore
-			KDFogTexture = PIXI.Texture.from(img);
 	}
+}
+
+/**
+ * Allows fog of war to be rendered
+ */
+function KDAllowFog() {
+	return !(KinkyDungeonStatsChoice.get("Forgetful") || (KinkyDungeonBlindLevel > 0 && KinkyDungeonStatsChoice.get("TotalBlackout")));
 }

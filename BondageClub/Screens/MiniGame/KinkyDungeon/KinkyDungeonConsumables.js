@@ -65,7 +65,6 @@ function KinkyDungeonGetShopItem(Level, Rarity, Shop) {
 		s.shoptype = "Consumable";
 		Table.push(s);
 	}
-	// @ts-ignore
 	Shopable = Object.entries(KinkyDungneonBasic).filter(([k, v]) => (v.shop));
 	for (let S = 0; S < Shopable.length; S++) {
 		let s = Shopable[S][1];
@@ -73,7 +72,6 @@ function KinkyDungeonGetShopItem(Level, Rarity, Shop) {
 		if (!s.ignoreInventory || !KinkyDungeonInventoryGet(s.ignoreInventory))
 			Table.push(s);
 	}
-	// @ts-ignore
 	Shopable = Object.entries(KinkyDungneonShopRestraints).filter(([k, v]) => (v.shop));
 	for (let S = 0; S < Shopable.length; S++) {
 		let s = Shopable[S][1];
@@ -81,7 +79,6 @@ function KinkyDungeonGetShopItem(Level, Rarity, Shop) {
 		if (!KinkyDungeonInventoryGet(s.name))
 			Table.push(s);
 	}
-	// @ts-ignore
 	Shopable = Object.entries(KinkyDungeonWeapons).filter(([k, v]) => (v.shop));
 	for (let S = 0; S < Shopable.length; S++) {
 		let s = Shopable[S][1];
@@ -116,36 +113,38 @@ function KinkyDungeonChangeConsumable(consumable, Quantity) {
 	}
 
 	if (Quantity >= 0) {
-		KinkyDungeonInventoryAdd({name: consumable.name, type: Consumable, quantity: Quantity});
+		KinkyDungeonInventoryAdd({name: consumable.name, id: KinkyDungeonGetItemID(), type: Consumable, quantity: Quantity});
 	}
 
 	return false;
 }
 
-function KinkyDungeonConsumableEffect(Consumable) {
-	if (KDConsumableEffects[Consumable.type]) {
-		KDConsumableEffects[Consumable.type](Consumable);
-	} else if (Consumable.type == "spell") {
+function KinkyDungeonConsumableEffect(Consumable, type) {
+	if (!type) type = Consumable.type;
+
+	if (KDConsumableEffects[type]) {
+		KDConsumableEffects[type](Consumable);
+	} else if (type == "spell") {
 		KinkyDungeonCastSpell(KinkyDungeonPlayerEntity.x, KinkyDungeonPlayerEntity.y, KinkyDungeonFindSpell(Consumable.spell, true), undefined, undefined, undefined);
-		KinkyDungeonAdvanceTime(1);
-	} else if (Consumable.type == "targetspell") {
+		KDStunTurns(1, true);
+	} else if (type == "targetspell") {
 		KDCloseQuickInv();
 		KinkyDungeonTargetingSpell = KinkyDungeonFindSpell(Consumable.spell, true);
 		KinkyDungeonTargetingSpellItem = Consumable;
-	} else if (Consumable.type == "charge") {
+	} else if (type == "charge") {
 		KDGameData.AncientEnergyLevel = Math.min(Math.max(0, KDGameData.AncientEnergyLevel + Consumable.amount), 1.0);
 		if (!KinkyDungeonStatsChoice.get("LostTechnology"))
 			KinkyDungeonChangeConsumable(KinkyDungeonConsumables.AncientPowerSourceSpent, 1);
-	} else if (Consumable.type == "buff") {
+	} else if (type == "buff") {
 		KinkyDungeonApplyBuff(KinkyDungeonPlayerBuffs, {id: Consumable.name, type: Consumable.buff, power: Consumable.power, duration: Consumable.duration, aura: Consumable.aura});
-	} else if (Consumable.type == "recharge") {
+	} else if (type == "recharge") {
 		//KinkyDungeonChangeConsumable(KinkyDungeonConsumables.AncientPowerSource, 1);
 		//KinkyDungeonAddGold(-Consumable.rechargeCost);
-		//KinkyDungeonAdvanceTime(1);
-	} else if (Consumable.type == "shrineRemove") {
+		//KDStunTurns(1);
+	} else if (type == "shrineRemove") {
 		KinkyDungeonRemoveRestraintsWithShrine(Consumable.shrine);
-		KinkyDungeonAdvanceTime(1);
-	} else if (Consumable.type == "goldKey") {
+		KDStunTurns(1, true);
+	} else if (type == "goldKey") {
 		for (let r of KinkyDungeonPlayerGetRestraintsWithLocks(["Gold"])) {
 			KinkyDungeonLock(r, "Blue");
 		}
@@ -159,10 +158,11 @@ function KinkyDungeonPotionCollar() {
 	return false;
 }
 
-function KinkyDungeonCanDrink() {
+function KinkyDungeonCanDrink(byEnemy) {
 	for (let inv of KinkyDungeonAllRestraint()) {
 		if (KDRestraint(inv).allowPotions) return true;
 	}
+	if (KDGroupBlocked("ItemMouth", byEnemy)) return false;
 	return KinkyDungeonCanTalk(true);
 }
 
@@ -172,8 +172,8 @@ function KinkyDungeonAttemptConsumable(Name, Quantity) {
 	if (!item) return false;
 
 
-	if (KDConsumable(item).prereq && KDConsumablePrereq[KDConsumable(item).prereq]) {
-		if (KDConsumablePrereq[KDConsumable(item).prereq](item, Quantity)) {
+	if (KDConsumable(item.item).prereq && KDConsumablePrereq[KDConsumable(item.item).prereq]) {
+		if (KDConsumablePrereq[KDConsumable(item.item).prereq](item.item, Quantity)) {
 			KinkyDungeonUseConsumable(Name, Quantity);
 			return true;
 		} else return false;
@@ -208,7 +208,8 @@ function KinkyDungeonAttemptConsumable(Name, Quantity) {
 	let strictness = KinkyDungeonStrictness(false, "ItemHands");
 	let maxStrictness = (item.item && KDConsumable(item.item) && KDConsumable(item.item).maxStrictness) ? KDConsumable(item.item).maxStrictness : 1000;
 
-	if (needMouth && ((!KDConsumable(item.item).potion && !KinkyDungeonCanTalk(true)) || (KDConsumable(item.item).potion && !KinkyDungeonCanDrink()))) {
+	if (needMouth && ((!KDConsumable(item.item).potion && ((KDConsumable(item.item).gagMax && KinkyDungeonGagTotal() > KDConsumable(item.item).gagMax) || (!KDConsumable(item.item).gagMax && !KinkyDungeonCanTalk(true))))
+		|| (KDConsumable(item.item).potion && !KinkyDungeonCanDrink()))) {
 		let allowPotions = KinkyDungeonPotionCollar();
 		if (KDConsumable(item.item).potion && allowPotions) {
 			//KDGameData.AncientEnergyLevel = Math.max(0, KDGameData.AncientEnergyLevel - energyCost);
@@ -257,36 +258,36 @@ function KinkyDungeonAttemptConsumable(Name, Quantity) {
 		return false;
 	}
 
-	if (KDConsumable(item).postreq && KDConsumablePrereq[KDConsumable(item).postreq]) {
-		if (KDConsumablePrereq[KDConsumable(item).postreq](item, Quantity)) {
+	if (KDConsumable(item.item).postreq && KDConsumablePrereq[KDConsumable(item.item).postreq]) {
+		if (KDConsumablePrereq[KDConsumable(item.item).postreq](item.item, Quantity)) {
 			KDDelayedActionPrune(["Action", "Consume"]);
-			if (KDConsumable(item.item).potion && KinkyDungeonStatsChoice.has("SavourTheTaste")) {
+			if (KDConsumable(item.item).delay || (KDConsumable(item.item).potion && KinkyDungeonStatsChoice.has("SavourTheTaste"))) {
 				KDAddDelayedAction({
 					commit: "Consumable",
 					data: {
 						Name: Name,
 						Quantity: Quantity,
 					},
-					time: 2,
+					time: KDConsumable(item.item).delay || 2,
 					tags: ["Action", "Remove", "Restrain"],
 				});
-				KDStunTurns(2);
+				KDStunTurns(KDConsumable(item.item).delay || 2, true);
 			} else KinkyDungeonUseConsumable(Name, Quantity);
 			return true;
 		} else return false;
 	}
 	KDDelayedActionPrune(["Action", "Consume"]);
-	if (KDConsumable(item.item).potion && KinkyDungeonStatsChoice.has("SavourTheTaste")) {
+	if (KDConsumable(item.item).delay || (KDConsumable(item.item).potion && KinkyDungeonStatsChoice.has("SavourTheTaste"))) {
 		KDAddDelayedAction({
 			commit: "Consumable",
 			data: {
 				Name: Name,
 				Quantity: Quantity,
 			},
-			time: 2,
+			time: KDConsumable(item.item).delay || 2,
 			tags: ["Action", "Remove", "Restrain"],
 		});
-		KDStunTurns(2);
+		KDStunTurns(KDConsumable(item.item).delay || 2, true);
 	} else KinkyDungeonUseConsumable(Name, Quantity);
 	return true;
 }
@@ -297,13 +298,18 @@ function KinkyDungeonUseConsumable(Name, Quantity) {
 
 	for (let I = 0; I < Quantity; I++) {
 		KinkyDungeonConsumableEffect(KDConsumable(item.item));
+		if (KDConsumable(item.item).sideEffects) {
+			for (let effect of KDConsumable(item.item).sideEffects) {
+				KinkyDungeonConsumableEffect(KDConsumable(item.item), effect);
+			}
+		}
 	}
 	if (!KDConsumable(item.item).noConsumeOnUse)
 		KinkyDungeonChangeConsumable(KDConsumable(item.item), -(KDConsumable(item.item).useQuantity ? KDConsumable(item.item).useQuantity : 1) * Quantity);
 
 	KinkyDungeonSendActionMessage(9, TextGet("KinkyDungeonInventoryItem" + Name + "Use"), "#88FF88", 1);
 	if (KDConsumable(item.item).sfx) {
-		if (KinkyDungeonSound) AudioPlayInstantSoundKD(KinkyDungeonRootDirectory + "/Audio/" + KDConsumable(item.item).sfx + ".ogg");
+		if (KDToggles.Sound) AudioPlayInstantSoundKD(KinkyDungeonRootDirectory + "Audio/" + KDConsumable(item.item).sfx + ".ogg");
 	}
 	return true;
 }
