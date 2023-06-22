@@ -48,6 +48,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckRestraints/PetPost/PetPost.js",
 	"Screens/Inventory/ItemVulva/FuturisticVibrator/FuturisticVibrator.js",
 	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
+	"Screens/Inventory/ItemDevices/KabeshiriWall/KabeshiriWall.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Scripts/Translation.js",

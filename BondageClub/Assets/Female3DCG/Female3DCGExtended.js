@@ -5223,6 +5223,73 @@ var AssetFemale3DCGExtended = {
 			MaxLength: { Text: 12 },
 			Font: "'Saira Stencil One', 'Arial', sans-serif",
 		}, // PetBowl
+		KabeshiriWall: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+			Modules: [
+				{
+					Name: "Legs", Key: "l",
+					Options: [
+						{}, // l0 - Cuffed
+						{
+							Property: {
+								AllowActivityOn: ["ItemLegs", "ItemFeet"],
+							},
+						}, // l1 - Visible & uncuffed
+						{
+							Property: {
+								Block: ["ItemBoots"],
+							},
+						}, // l2 - Hidden
+					],
+				},
+				{
+					Name: "Arms", Key: "a",
+					Options: [
+						{}, // a0 - Cuffed
+						{
+							Property: {
+								Block: ["ItemHands"],
+							},
+						}, // a1 - Hidden
+					],
+				},
+				{
+					Name: "Cum", Key: "c",
+					Options: [
+						{}, // c0 - none
+						{}, // c1 - butt
+						{ Prerequisite: ["HasVagina"] }, // c2 - pussy
+						{ Prerequisite: ["HasVagina"] }, // c3 - both
+					],
+				},
+				{
+					Name: "Wall", Key: "w",
+					Options: [
+						{}, // w0 - monitor
+						{}, // w1 - photo
+						{}, // w2 - blank
+					],
+				},
+			],
+			DrawData: {
+				elementData: [
+					{ position: ExtendedXY[8][0] },
+					{ position: ExtendedXY[8][1] },
+					{ position: ExtendedXY[8][2] },
+					{ position: ExtendedXY[8][3] },
+				],
+			},
+			ScriptHooks: {
+				Load: InventoryItemDevicesKabeshiriWallLoadHook,
+				Draw: InventoryItemDevicesKabeshiriWallDrawHook,
+				PublishAction: InventoryItemDevicesKabeshiriWallPublishActionHook,
+				Exit: InventoryItemDevicesKabeshiriWallExitHook,
+				AfterDraw: AssetsItemDevicesKabeshiriWallAfterDrawHook,
+			},
+			BaselineProperty: { Text: "", Text2: "" },
+		}, // KabeshiriWall
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
