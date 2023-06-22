@@ -8592,7 +8592,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawData: {
 				elementData: [
-					{},
+					{ position: ExtendedXY[1][0] },
 					{ hidden: true },
 				],
 			},
