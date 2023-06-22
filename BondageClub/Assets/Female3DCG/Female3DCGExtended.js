@@ -469,21 +469,6 @@ var AssetFemale3DCGExtended = {
 				Header: "ClothCheerleaderTopTextLabel",
 			},
 		}, // CheerleaderTop
-		FrilledShirt: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Opacity",
-				},
-			],
-			BaselineProperty: { Opacity: 1.0 },
-			ScriptHooks: {
-				Load: PropertyOpacityLoad,
-				Draw: PropertyOpacityDraw,
-				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
-			},
-		}, // FrilledShirt
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
