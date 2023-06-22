@@ -1716,11 +1716,11 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	DrawImageResize("Screens/MiniGame/ClubCard/" + (Card.Type) + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
 	MainCanvas.font = "bold " + Math.round(W / 12) + "px arial";
 	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black");
-	let BubblePos = Y + W * 0.2;
-	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * 0.1, "Liability");
-	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * 0.1, "Level");
-	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * 0.1, "Fame");
-	if (Card.MoneyPerTurn != null) BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * 0.1, "Money");
+	let _BubblePos = Y + W * 0.2;
+	if (ClubCardIsLiability(Card)) _BubblePos = ClubCardRenderBubble(null, X + W * 0.05, _BubblePos, W * 0.1, "Liability");
+	if (Level > 1) _BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, _BubblePos, W * 0.1, "Level");
+	if (Card.FamePerTurn != null) _BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, _BubblePos, W * 0.1, "Fame");
+	if (Card.MoneyPerTurn != null) _BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, _BubblePos, W * 0.1, "Money");
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.5, W * 0.9, W * 0.48, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
