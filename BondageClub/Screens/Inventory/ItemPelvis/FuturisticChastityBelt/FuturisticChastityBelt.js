@@ -69,31 +69,40 @@ function AssetsItemPelvisFuturisticChastityBeltScriptUpdatePlayer(data) {
  * @param {boolean} [NoShock]
  */
 function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType, ReplacementWord, NoShock) {
-
 	if (!(CurrentScreen == "ChatRoom")) {
 		if (!NoShock)
 			AudioPlayInstantSound("Audio/Shocks.mp3");
 	} else {
-
-		/** @type {ChatMessageDictionary} */
-		var Dictionary = [];
-		Dictionary.push({ Tag: "DestinationCharacterName", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-		Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-		Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-		if (ReplacementWord)
-			Dictionary.push({ Tag: "ReplacementWord", Text: ReplacementWord });
-		Dictionary.push({Tag: "AssetName", AssetName: Item.Asset.Name, GroupName: Item.Asset.Group.Name});
+		const Dictionary = new DictionaryBuilder()
+			.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+			.destinationCharacterName(C)
+			.destinationCharacter(C)
+			.sourceCharacter(C)
+			.focusGroup(Item.Asset.Group.Name)
+			.markAutomatic()
+			.if(!!ReplacementWord)
+			.text("ReplacementWord", ReplacementWord)
+			.endif()
+			.if(!NoShock)
+			.shockIntensity(2)
+			.endif()
+			.build()
 		Dictionary.push({ ActivityName: "ShockItem" });
-		Dictionary.push({ FocusGroupName: Item.Asset.Group.Name });
-		Dictionary.push({ Tag: "AssetName", AssetName: Item.Asset.Name, GroupName: Item.Asset.Group.Name });
-		Dictionary.push({ AssetGroupName: Item.Asset.Group.Name });
+
 		let ShockPhrase = !NoShock ? "Shock" : "Punish";
-		if (!NoShock) Dictionary.push({ ShockIntensity : 2});
 		if (Item.Property && Item.Property.ShowText) {
-			Dictionary.push({ Automatic: true });
-			ServerSend("ChatRoomChat", { Content: "FuturisticChastityBelt" + ShockPhrase + ShockType, Type: "Action", Dictionary });
+			ServerSend("ChatRoomChat", {
+				Content: `FuturisticChastityBelt${ShockPhrase}${ShockType}`,
+				Type: "Action",
+				Dictionary,
+			});
 		} else {
-			ChatRoomMessage({ Content: "FuturisticChastityBelt" + ShockPhrase + ShockType, Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary  });
+			ChatRoomMessage({
+				Content: `FuturisticChastityBelt${ShockPhrase}${ShockType}`,
+				Type: "Action",
+				Sender: Player.MemberNumber,
+				Dictionary,
+			});
 		}
 	}
 	InventoryShockExpression(C);

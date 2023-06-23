@@ -603,11 +603,11 @@ function ExtendedItemSetOffset(Offset) {
  * Maps a chat tag to a dictionary entry for use in item chatroom messages.
  * @param {DictionaryBuilder} dictionary - The to-be updated dictionary builder
  * @param {Character} C - The target character
- * @param {Asset} asset - The asset for the typed item
+ * @param {Item} item - The typed item
  * @param {CommonChatTags} tag - The tag to map to a dictionary entry
  * @returns {DictionaryBuilder} - The originally passed dictionary builder, modified inplace
  */
-function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, asset, tag) {
+function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, { Asset, Craft }, tag) {
 	switch (tag) {
 		case CommonChatTags.SOURCE_CHAR:
 			return dictionary.sourceCharacter(Player);
@@ -620,11 +620,11 @@ function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, asset, tag) {
 		case CommonChatTags.TARGET_CHAR_NAME:
 			return dictionary.targetCharacterName(C);
 		case CommonChatTags.ASSET_NAME:
-			return dictionary.asset(asset);
+			return dictionary.asset(Asset, "AssetName", Craft && Craft.Name);
 		case CommonChatTags.AUTOMATIC:
 			return dictionary.markAutomatic();
 		default:
-			console.warn(`Unknown ${asset.Group.Name}:${asset.Name} chat tag "${tag}"`);
+			console.warn(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
 			return dictionary;
 	}
 }
@@ -827,11 +827,12 @@ function ExtendedItemGetData(Item, Archetype, Type=null) {
  * @template {ExtendedItemOption} OptionType
  * @param {ExtendedItemChatData<OptionType>} chatData - The chat data that triggered the message.
  * @param {ExtendedItemData<OptionType>} data - The extended item data for the asset
+ * @param {Item} item
  * @returns {DictionaryBuilder} - The dictionary for the item based on its required chat tags
  */
-function ExtendedItemBuildChatMessageDictionary(chatData, { asset, chatTags, dictionary }) {
+function ExtendedItemBuildChatMessageDictionary(chatData, { chatTags, dictionary }, item) {
 	const dictBuilder = new DictionaryBuilder();
-	chatTags.forEach(tag => ExtendedItemMapChatTagToDictionaryEntry(dictBuilder, chatData.C, asset, tag));
+	chatTags.forEach(tag => ExtendedItemMapChatTagToDictionaryEntry(dictBuilder, chatData.C, item, tag));
 	dictionary.forEach(entry => entry(dictBuilder, chatData));
 	return dictBuilder;
 }

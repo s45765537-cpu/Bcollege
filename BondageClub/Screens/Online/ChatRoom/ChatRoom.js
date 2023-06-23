@@ -2246,25 +2246,26 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
 	if (CurrentScreen !== "ChatRoom")
 		return false;
 
-	/** @type ChatMessageDictionary */
-	let Dictionary = [];
+	const dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.destinationCharacter(C)
+		.targetCharacter(C)
 
-	// Replaces the action tags to build the phrase
-	Dictionary.push({ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber });
-	Dictionary.push({ Tag: "DestinationCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-	Dictionary.push({ Tag: "TargetCharacter", Text: CharacterNickname(C), MemberNumber: C.MemberNumber });
-	if (PrevItem != null)
-		Dictionary.push({ Tag: "PrevAsset", AssetName: PrevItem.Asset.Name, GroupName: PrevItem.Asset.Group.Name });
-	if (NextItem != null)
-		Dictionary.push({ Tag: "NextAsset", AssetName: NextItem.Asset.Name, GroupName: NextItem.Asset.Group.Name });
-	if (C.FocusGroup != null)
-		Dictionary.push({ Tag: "FocusAssetGroup", AssetGroupName: C.FocusGroup.Name });
+	if (PrevItem != null) {
+		dictionary.asset(PrevItem.Asset, "PrevAsset", PrevItem.Craft && PrevItem.Craft.Name);
+	}
+	if (NextItem != null) {
+		dictionary.asset(NextItem.Asset, "NextAsset", NextItem.Craft && NextItem.Craft.Name);
+	}
+	if (C.FocusGroup != null) {
+		dictionary.focusGroup(C.FocusGroup.Name);
+	}
 
 	// Prepares the item packet to be sent to other players in the chatroom
 	ChatRoomCharacterItemUpdate(C);
 
 	// Sends the result to the server and leaves the dialog if we need to
-	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary });
+	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary: dictionary.build() });
 
 	return true;
 }
@@ -2821,11 +2822,15 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 				}
 			}
 		} else if (IsAssetReferenceDictionaryEntry(entry)) {
-			const {Tag, GroupName, AssetName} = entry;
+			const { Tag, GroupName, AssetName, CraftName } = entry;
 			const asset = Asset.find(a => a.Name === AssetName && (!GroupName || a.Group.Name === GroupName));
 			if (asset) {
 				if (!meta.Assets) meta.Assets = {};
 				meta.Assets[Tag] = asset;
+				if (CraftName) {
+					if (!meta.CraftingNames) meta.CraftingNames = {};
+					meta.CraftingNames[Tag] = CraftName;
+				}
 			}
 		} else if (IsGroupReferenceDictionaryEntry(entry)) {
 			const group = AssetGroupGet("Female3DCG", entry.GroupName);
@@ -2898,7 +2903,14 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			if (tag === "ActivityAsset") {
 				meta.ActivityAsset = asset;
 			}
-			substitutions.push([tag, asset.DynamicDescription(character).toLowerCase()]);
+
+			const craftingName = meta.CraftingNames && meta.CraftingNames[tag];
+			const assetName = asset.DynamicDescription(character).toLowerCase();
+			if (craftingName) {
+				substitutions.push([tag, `${craftingName} (${assetName})`]);
+			} else {
+				substitutions.push([tag, assetName]);
+			}
 		}
 	}
 

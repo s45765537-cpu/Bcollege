@@ -30,7 +30,7 @@ function InventoryItemNeckAccessoriesCollarNameTagPublishActionHook(data, Origin
 		previousIndex: data.options.indexOf(previousOption),
 		newIndex: data.options.indexOf(newOption),
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 	const prefix = (typeof data.dialogPrefix.chat === "function") ? data.dialogPrefix.chat(chatData) : data.dialogPrefix.chat;
 
 	if (newOption.Name === "Blank") {

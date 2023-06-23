@@ -524,7 +524,7 @@ function PortalLinkPublishMessage(target, item, func) {
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.targetCharacterName(target)
-		.asset(item.Asset)
+		.asset(item.Asset, "AssetName", item.Craft && item.Craft.Name)
 		.build();
 
 	ServerSend("ChatRoomChat", { Content: func, Type: "Hidden", Dictionary });
@@ -592,7 +592,7 @@ function PortalLinkProcessMessage(sender, data) {
 		.sourceCharacter(sender)
 		.targetCharacter(Player)
 		.text("RecieverCharacter", playerNameRef)
-		.asset(item.Asset);
+		.asset(item.Asset, "AssetName", item.Craft && item.Craft.Name);
 
 	const func = /** @type {PortalLinkFunction} */ (data.Content);
 	if (func.startsWith("PortalLinkFunctionActivity")) {

@@ -292,7 +292,7 @@ const TextItem = {
 				previousIndex: -1,
 				newIndex: -1,
 			};
-			const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+			const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 			dictionary.text("NewText", newText);
 
 			// Avoid `ChatRoomPublishCustomAction` for tighter control over character refreshing
