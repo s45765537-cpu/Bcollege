@@ -226,7 +226,7 @@ function ExtendedItemLoad({ functionPrefix, dialogPrefix, parentOption }) {
  * Draw a single button in the extended item type selection screen.
  * @param {ExtendedItemOption | ModularItemModule} Option - The new extended item option
  * @param {ExtendedItemOption} CurrentOption - The current extended item option
- * @param {ElementData<{ drawImage?: boolean, hidden?: boolean }>} buttonData - The X coordinate of the button
+ * @param {ElementData<ElementMetaData>} buttonData - The X coordinate of the button
  * @param {string} DialogPrefix - The prefix to the dialog keys for the display strings describing each extended type.
  *     The full dialog key will be <Prefix><Option.Name>
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
@@ -247,10 +247,17 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 	let Effect = null;
 
 	switch (Option.OptionType) {
-		case "ModularItemModule":
-			AssetSource = `${AssetGetInventoryPath(Asset)}/${CurrentOption.Name}.png`;
+		case "ModularItemModule": {
+			if (buttonData.imagePath != null) {
+				AssetSource = buttonData.imagePath;
+			} else {
+				// Grab the `imagePath` of the selected option
+				const optionIndex = Option.Options.findIndex(o => o.Name === CurrentOption.Name);
+				AssetSource = Option.drawData.elementData[optionIndex].imagePath;
+			}
 			IsSelected = (IsSelected == null) ? false : IsSelected;
 			break;
+		}
 		case "ModularItemOption":
 		case "VibratingItemOption":
 		case "TypedItemOption":
@@ -259,7 +266,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 			Type = (Option.OptionType === "TypedItemOption") ? (Option.Property && Option.Property.Type) || null : Option.Name;
 			Effect = Option.Property && Option.Property.Effect || null;
 			IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Type);
-			AssetSource = `${AssetGetInventoryPath(Asset)}/${Option.Name}.png`;
+			AssetSource = buttonData.imagePath;
 			break;
 		}
 		default:
@@ -1034,6 +1041,7 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 			} else {
 				position = buttonDataRef.position;
 			}
+
 			return {
 				...buttonDataRef,
 				...buttonData,
@@ -1042,6 +1050,15 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 		});
 	} else {
 		elementData = CommonCloneDeep(defaults.elementData);
+	}
+
+	for (const buttonData of elementData) {
+		if (buttonData.hidden === true) {
+			buttonData.drawImage = false;
+			buttonData.imagePath = null;
+		} else if (buttonData.drawImage === false) {
+			buttonData.imagePath = null;
+		}
 	}
 
 	return {

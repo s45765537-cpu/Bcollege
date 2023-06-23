@@ -1942,6 +1942,12 @@ interface NPCTrait {
 interface ElementMetaData {
 	/** Whether to draw an element-accompanying image or not */
 	drawImage?: boolean,
+	/**
+	 * The static image path of the to-be drawn image.
+	 * A value of `null` either implies that it should not be drawn (per {@link ElementMetaData.drawImage})
+	 * or that it's a dynamic image path (_e.g._ modular item modules).
+	 */
+	imagePath?: null | string,
 	/** The name of a supported thumbnail image in \CSS\Styles.css that will show the current position on the slider */
 	icon?: string,
 	/** Whether an options shows up in the UI. Useful for options that are managed programmatically. */
@@ -1949,9 +1955,9 @@ interface ElementMetaData {
 }
 
 declare namespace ElementMetaData {
-	interface Typed { drawImage: boolean, hidden: boolean }
-	interface Modular { drawImage: boolean, hidden: boolean }
-	interface Vibrating  { drawImage: false, hidden: false }
+	interface Typed { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: string }
 }

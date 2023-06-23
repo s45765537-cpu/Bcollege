@@ -548,6 +548,72 @@ function testModularItemPropertyDisjoint(dataRecord) {
 }
 
 /**
+ * @param {string} dir
+ * @param {Set<string>} pathSet
+ * @param {(file: string) => boolean} filter
+ */
+function recursivelyListDir(dir, pathSet, filter) {
+	fs.readdirSync(dir).forEach(f => {
+		let dirPath = `${dir}/${f}`;
+		const isDirectory = fs.statSync(dirPath).isDirectory();
+		if (isDirectory) {
+			recursivelyListDir(dirPath, pathSet, filter);
+		} else if (filter(f)) {
+			const offset = BASE_PATH.length;
+			pathSet.add(`${dir.slice(offset)}/${f}`);
+		}
+	});
+}
+
+/**
+ *
+ * @param  {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ */
+function testExtendedItemButtonImage(dataSuperRecord) {
+	// Gather all expected image paths
+	/** @type {Set<string>} */
+	const requiredImages = new Set();
+	for (const [archetype, dataRecord] of Object.entries(dataSuperRecord)) {
+		if (dataRecord === null || typeof dataRecord !== "object") {
+			error(`${archetype} data lookup not found`);
+			continue;
+		}
+		for (const data of Object.values(dataRecord)) {
+			if (data.archetype === "modular") {
+				// Check the modules' drawdata as well
+				for (const mod of data.modules) {
+					for (const buttonData of mod.drawData.elementData) {
+						if (buttonData.imagePath != null) {
+							requiredImages.add(buttonData.imagePath);
+						}
+					}
+				}
+			}
+			for (const buttonData of data.drawData.elementData) {
+				if (buttonData.imagePath != null) {
+					requiredImages.add(buttonData.imagePath);
+				}
+			}
+		}
+	}
+
+	// Identify all missing and extra images
+	/** @type {Set<string>} */
+	const availableImages = new Set();
+	recursivelyListDir(`${BASE_PATH}Screens/Inventory`, availableImages, i => i.endsWith(".png"));
+	for (const imagePath of requiredImages) {
+		if (!availableImages.has(imagePath)) {
+			error(`Missing extended item button image ${imagePath}`);
+		}
+	}
+	for (const imagePath of availableImages) {
+		if (!requiredImages.has(imagePath)) {
+			error(`Unexpected extra extended item button image ${imagePath}`);
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -602,6 +668,14 @@ function sanitizeVMOutput(input) {
 	const invalidColorDefaults = sanitizeVMOutput(context.TestingInvalidDefaultColor);
 	/** @type {Record<string, ModularItemData>} */
 	const ModularItemDataLookup = context.TestingModularItemDataLookup;
+	/** @type {Record<string, TypedItemData>} */
+	const TypedItemDataLookup = context.TestingTypedItemDataLookup;
+	/** @type {Record<string, VibratingItemData>} */
+	const VibratingItemDataLookup = context.TestingVibratingItemDataLookup;
+	/** @type {Record<string, TextItemData>} */
+	const TextItemDataLookup = context.TestingVariableHeightItemDataLookup;
+	/** @type {Record<string, VariableHeightData>} */
+	const VariableHeightItemDataLookup = context.TestingTextItemDataLookup;
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -745,4 +819,11 @@ function sanitizeVMOutput(input) {
 	testModuleOptionLength(AssetFemale3DCGExtended);
 	testDefaultColor(invalidColorDefaults);
 	testModularItemPropertyDisjoint(ModularItemDataLookup);
+	testExtendedItemButtonImage({
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	});
 })();
