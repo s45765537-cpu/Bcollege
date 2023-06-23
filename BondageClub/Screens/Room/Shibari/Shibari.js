@@ -72,6 +72,11 @@ function ShibariCanTrain() { return (!Player.IsRestrained() && !LogQuery("Traini
  * @returns {boolean} - Returns TRUE if the player can pay for the requested training.
  */
 function ShibariCannotTrainDelay() { return (!Player.IsRestrained() && LogQuery("Training", "Shibari")); }
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function ShibariCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Puts a character in a random bondage position.
@@ -312,4 +317,23 @@ function ShibariPayForTraining(SkillType) {
 	// The next training will be available in 1 hour
 	LogAdd("Training", "Shibari", CurrentTime + 60 * 60 * 1000);
 
+}
+
+/**
+ * When the player starts a club card game against the shibari student
+ * @returns {void} - Nothing
+ */
+function ShibariClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "ShibariClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game against the shibari student
+ * @returns {void} - Nothing
+ */
+function ShibariClubCardEnd() {
+	CommonSetScreen("Room", "Shibari");
+	CharacterSetCurrent(ShibariStudent);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

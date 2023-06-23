@@ -918,6 +918,21 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return !ClubCardNameIsOnBoard(Opponent, "Amanda") && !ClubCardNameIsOnBoard(Opponent, "Jennifer");
 		}
+	},
+	{
+		ID: 30013,
+		Name: "Shibari Evening",
+		Type: "Event",
+		Reward: "NPC_Shibari_Student",
+		OnPlay: function(CCPlayer) {
+			if ((CCPlayer.Board == null) || (CCPlayer.Board.length <= 0)) return;
+			let Fame = CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Dominant");
+			ClubCardPlayerAddFame(CCPlayer, Fame);
+			ClubCardLogPublish("GainFame", CCPlayer, Fame);
+		},
+		CanPlay: function(CCPlayer) {
+			return ((CCPlayer.Board != null) && (CCPlayer.Board.length > 0));
+		}
 	}
 
 ];
