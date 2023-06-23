@@ -896,7 +896,7 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 			.if(!!ItemActivity.Item)
 			.asset(ItemActivity.Item.Asset, "ActivityAsset", ItemActivity.Item.Craft && ItemActivity.Item.Craft.Name)
 			.endif()
-			.build()
+			.build();
 
 		Dictionary.push({ ActivityName: Activity.Name });
 		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(acted, group, Activity), Type: "Activity", Dictionary });
