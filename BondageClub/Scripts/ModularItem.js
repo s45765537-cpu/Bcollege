@@ -159,10 +159,11 @@ function ModularItemDraw(data) {
 function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 	return modules.map(protoMod => {
 		const drawImages = typeof protoMod.DrawImages === "boolean" ? protoMod.DrawImages : true;
+
 		/** @type {ModularItemModule} */
 		return {
 			...protoMod,
-			drawData: TypedItemGetDrawData(asset, protoMod.DrawData, protoMod.Options.length, drawImages),
+			drawData: null, // Initialized later on in ModularItemCreateModularData
 			OptionType: "ModularItemModule",
 			DrawImages: drawImages,
 			Options: protoMod.Options.map((protoOption, i) => {
@@ -240,7 +241,7 @@ function ModularItemCreateModularData(asset, {
 		modules: ModulesParsed,
 		currentModule: ModularItemBase,
 		pages: { [ModularItemBase]: 0 },
-		drawData: TypedItemGetDrawData(asset, DrawData, ModulesParsed.length, BaseDrawImages),
+		drawData: TypedItemGetDrawData(asset, DrawData, ModulesParsed, { drawImage: BaseDrawImages, imagePath: null }),
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		drawFunctions: {},
 		clickFunctions: {},
@@ -248,6 +249,23 @@ function ModularItemCreateModularData(asset, {
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		parentOption: null,
 	};
+
+	// Populate the modules drawdata
+	let i = -1;
+	for (const mod of ModulesParsed) {
+		i += 1;
+		/** @type {Partial<ElementData<ElementMetaData.Modular>>} */
+		const buttonDataOverride = CommonOmit(data.drawData.elementData[i], ["position", "imagePath", "drawImage"]);
+		if (typeof Modules[i].DrawImages === "boolean") {
+			buttonDataOverride.drawImage = Modules[i].DrawImages;
+		} else if (typeof DrawImages === "boolean") {
+			buttonDataOverride.drawImage = DrawImages;
+		} else {
+			buttonDataOverride.drawImage = true;
+		}
+		mod.drawData = TypedItemGetDrawData(asset, Modules[i].DrawData, mod.Options, buttonDataOverride);
+	}
+
 	data.drawFunctions[ModularItemBase] = ModularItemCreateDrawBaseFunction(data);
 	data.clickFunctions[ModularItemBase] = ModularItemCreateClickBaseFunction(data);
 	for (const module of ModulesParsed) {
@@ -373,7 +391,7 @@ function ModularItemCreateClickBaseFunction(data) {
 					ModularItemModuleTransition(module.Name, data);
 				}
 			},
-			(delta) => ModularItemChangePage(ModularItemBase, delta, data)
+			(delta) => ModularItemChangePage(ModularItemBase, delta, data, DrawData)
 		);
 	};
 }
@@ -405,7 +423,7 @@ function ModularItemClickModule(module, data) {
 				}
 			}
 		},
-		(delta) => ModularItemChangePage(module.Name, delta, data),
+		(delta) => ModularItemChangePage(module.Name, delta, data, DrawData),
 	);
 }
 
@@ -442,8 +460,8 @@ function ModularItemClickCommon({ paginate, elementData }, exitCallback, itemCal
 		else if (MouseIn(1775, 240, 90, 90)) return paginateCallback(1);
 	}
 
-	elementData.some((data, i) => {
-		if (MouseIn(...data.position)) {
+	elementData.some(({ position, hidden }, i) => {
+		if (!hidden && MouseIn(...position)) {
 			itemCallback(i);
 			return true;
 		}
@@ -455,10 +473,10 @@ function ModularItemClickCommon({ paginate, elementData }, exitCallback, itemCal
  * @param {string} moduleName - The name of the module whose page should be modified
  * @param {number} delta - The page delta to apply to the module's current page
  * @param {ModularItemData} data - The modular item's data
+ * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @returns {void} - Nothing
  */
-function ModularItemChangePage(moduleName, delta, data) {
-	const { pageCount } = data.drawData[moduleName];
+function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
 	const currentPage = data.pages[moduleName];
 	data.pages[moduleName] = (currentPage + pageCount + delta) % pageCount;
 }
@@ -722,7 +740,7 @@ function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = fals
 		const previousOption = mod.Options[previousModuleValues[i]];
 		const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
 		if (requirementMessage && newOption.Name !== previousOption.Name) {
-			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${DialogFindPlayer(requirementMessage)}`);
+			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
 		} else {
 			ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
 		}
@@ -754,7 +772,7 @@ function ModularItemPublishAction(data, C, item, newOption, previousOption) {
 		newIndex: newOption.Index,
 		previousIndex: previousOption.Index,
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 
 	let msg = (typeof data.dialogPrefix.chat === "function") ? data.dialogPrefix.chat(chatData) : data.dialogPrefix.chat;
 	switch (data.chatSetting) {

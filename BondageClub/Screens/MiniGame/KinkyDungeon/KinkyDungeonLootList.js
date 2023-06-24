@@ -1,9 +1,9 @@
 "use strict";
 
-let KDBasicArmorWeight = 0.6;
-let KDBasicArmorWeight_Cursed = 0.3;
-let KDAdvancedArmorWeight = 0.5;
-let KDAdvancedArmorWeight_Cursed = 0.3;
+let KDBasicArmorWeight = 1.0;
+let KDBasicArmorWeight_Cursed = 0.5;
+let KDAdvancedArmorWeight = 1.5;
+let KDAdvancedArmorWeight_Cursed = 1.0;
 
 let KDBasicArmor = [
 	{name: "Breastplate", minLevel: 0, weight: KDBasicArmorWeight,
@@ -45,53 +45,79 @@ let KDAdvancedArmor = [
 let KDBasicArmor_Cursed = [
 	{name: "Breastplate_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "Breastplate",
-		curses: [...KinkyDungeonGetCurses("Breastplate")],
-		norestraint: [...KinkyDungeonGetCurses("Breastplate", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("Breastplate")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "Breastplate", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "Bustier_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "Bustier",
-		curses: [...KinkyDungeonGetCurses("Bustier")],
-		norestraint: [...KinkyDungeonGetCurses("Bustier", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("Bustier")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "Bustier", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "ChainTunic_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed * 0.7,
 		armor: "ChainTunic",
-		curses: [...KinkyDungeonGetCurses("ChainTunic")],
-		norestraint: [...KinkyDungeonGetCurses("ChainTunic", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("ChainTunic")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "ChainTunic", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "Bracers_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "Bracers",
-		curses: [...KinkyDungeonGetCurses("Bracers")],
-		norestraint: [...KinkyDungeonGetCurses("Bracers", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("Bracers")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "Bracers", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "LeatherGloves_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "LeatherGloves",
-		curses: [...KinkyDungeonGetCurses("LeatherGloves")],
-		norestraint: [...KinkyDungeonGetCurses("LeatherGloves", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("LeatherGloves")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "LeatherGloves", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "Gauntlets_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "Gauntlets",
-		curses: [...KinkyDungeonGetCurses("Gauntlets")],
-		norestraint: [...KinkyDungeonGetCurses("Gauntlets", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("Gauntlets")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "Gauntlets", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "SteelBoots_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "SteelBoots",
-		curses: [...KinkyDungeonGetCurses("SteelBoots")],
-		norestraint: [...KinkyDungeonGetCurses("SteelBoots", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("SteelBoots")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "SteelBoots", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 	{name: "LeatherBoots_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed,
 		armor: "LeatherBoots",
-		curses: [...KinkyDungeonGetCurses("LeatherBoots")],
-		norestraint: [...KinkyDungeonGetCurses("LeatherBoots", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("LeatherBoots")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "LeatherBoots", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 ];
 let KDAdvancedArmor_Cursed = [
-	{name: "SteelArmor_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed*0.5,
+	{name: "SteelArmor_Cursed", minLevel: 0, weight: KDAdvancedArmorWeight_Cursed,
 		armor: "SteelArmor",
-		curses: [...KinkyDungeonGetCurses("SteelArmor")],
-		norestraint: [...KinkyDungeonGetCurses("SteelArmor", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
-	{name: "SteelSkirt_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed*0.5,
+		//curses: [...KinkyDungeonGetCurses("SteelArmor")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "SteelArmor", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+	{name: "SteelSkirt_Cursed", minLevel: 0, weight: KDAdvancedArmorWeight_Cursed,
 		armor: "SteelSkirt",
-		curses: [...KinkyDungeonGetCurses("SteelSkirt")],
-		norestraint: [...KinkyDungeonGetCurses("SteelSkirt", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
-	{name: "MageArmor_Cursed", minLevel: 0, weight: KDBasicArmorWeight_Cursed*0.5,
+		//curses: [...KinkyDungeonGetCurses("SteelSkirt")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "SteelSkirt", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+	{name: "MageArmor_Cursed", minLevel: 0, weight: KDAdvancedArmorWeight_Cursed,
 		armor: "MageArmor",
-		curses: [...KinkyDungeonGetCurses("MageArmor")],
-		norestraint: [...KinkyDungeonGetCurses("MageArmor", true)], message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//curses: [...KinkyDungeonGetCurses("MageArmor")],
+		curselevelmin: 0, curselevelmax: 10,
+		unlockcurse: ["Basic"],
+		norestraintcursed: "MageArmor", message:"LootChestArmor", messageColor:"lightblue", messageTime: 3, allFloors: true},
 ];
 
 let KinkyDungeonLootTable = {
+	"cursedrestraint": [
+		...KDBasicArmor_Cursed,
+		...KDAdvancedArmor_Cursed,
+	],
 	"rubble": [
 		//{name: "nothing", minLevel: 0, weight:9, message:"LootRubbleFail", messageColor:"#aaaaaa", messageTime: 2, allFloors: true},
 		{name: "smallgold", minLevel: 0, weight:12, message:"LootRubbleSmallGold", messageColor:"yellow", messageTime: 3, allFloors: true},
@@ -119,14 +145,13 @@ let KinkyDungeonLootTable = {
 	"shadow": [
 		{name: "slimeThrower", minLevel: 0, weapon: "Slimethrower", weight:2, message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["Slimethrower"]},
 		{name: "StaffDoll", minLevel: 0, weapon: "StaffDoll", weight:2, message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffDoll"]},
-		{name: "staff_incineration", minLevel: 0, weight:2.5, weapon: "StaffIncineration", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffIncineration"]},
-		{name: "staff_storms", minLevel: 0, weight:2.5, weapon: "StaffStorm", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffStorm"]},
-		{name: "staff_frostbite", minLevel: 0, weight:2.5, weapon: "StaffFrostbite", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffFrostbite"]},
-		{name: "staff_bind", minLevel: 0, weight:2.5, weapon: "StaffBind", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffBind"]},
+		{name: "staff_incineration", minLevel: 0, weight:.5, weapon: "StaffIncineration", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffIncineration"]},
+		{name: "staff_storms", minLevel: 0, weight:.5, weapon: "StaffStorm", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffStorm"]},
+		{name: "staff_frostbite", minLevel: 0, weight:.5, weapon: "StaffFrostbite", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffFrostbite"]},
+		{name: "staff_bind", minLevel: 0, weight:.5, weapon: "StaffBind", message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["StaffBind"]},
 		{name: "AncientCores", minLevel: 0, weight:0.5, message:"LootChestAncientCores", messageColor:"yellow", messageTime: 3, allFloors: true, max: 1},
-		{name: "magicknife", minLevel: 0, weight:7.0, weapon: "EnchKnife", message:"LootChestMagicKnife", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["EnchKnife"]},
 		{name: "bluekey", minLevel: 0, weight:0.5, message:"LootChestBlueKey", messageColor:"lightblue", messageTime: 3, allFloors: true},
-		{name: "spell_points", magic: true, minLevel: 0, weight:8, message:"LootChestSpellPoints", messageColor:"lightblue", messageTime: 3, allFloors: true, max: 1},
+		{name: "spell_points", magic: true, minLevel: 0, weight:5, message:"LootChestSpellPoints", messageColor:"lightblue", messageTime: 3, allFloors: true, max: 1},
 		...KDAdvancedArmor, ...KDAdvancedArmor_Cursed,
 	],
 	"storage": [
@@ -139,7 +164,7 @@ let KinkyDungeonLootTable = {
 		{name: "spell_points", magic: true, minLevel: 0, weight:1, message:"LootChestSpellPoints", messageColor:"lightblue", messageTime: 3, allFloors: true, max: 1},
 	],
 	"tutorial1": [
-		{name: "trap_cuffs", minLevel: 1, weight:1, message:"LootChestTrapMagic", messageColor:"#ff0000", messageTime: 3, allFloors: true, prerequisites: ["Group_ItemArms"], power: 2},
+		{name: "trap_cuffs", minLevel: 1, weight:1, lock: "Red", message:"LootChestTrapMagic", messageColor:"#ff0000", messageTime: 3, allFloors: true, prerequisites: ["Group_ItemArms"], power: 2},
 	],
 	"tutorial2": [
 		{name: "trap_armbinder", minLevel: 1, weight:1, message:"LootChestTrapMagic", messageColor:"#ff0000", messageTime: 3, allFloors: true, prerequisites: ["Group_ItemArms"], power: 6},
@@ -153,7 +178,12 @@ let KinkyDungeonLootTable = {
 		{name: "flail", minLevel: 0, weight:1, weapon: "Flail", noweapon: ["Flail"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "axe", minLevel: 0, weight:1, weapon: "Axe", noweapon: ["Axe"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "spear", minLevel: 0, weight:1, weapon: "Spear", noweapon: ["Spear"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
-		{name: "sword", minLevel: 0, weight:1, weapon: "Sword", noweapon: ["Sword"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "ShieldTower", minLevel: 0, weight:1.5, weapon: "ShieldTower", noweapon: ["ShieldTower"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "ShieldReinforced", minLevel: 0, weight:1.0, weapon: "ShieldReinforced", noweapon: ["ShieldReinforced"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "ShieldMagic", minLevel: 0, weight:1.0, weapon: "ShieldMagic", noweapon: ["ShieldMagic"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		//{name: "sword", minLevel: 0, weight:1, weapon: "Sword", noweapon: ["Sword"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "SlimeSword", minLevel: 0, weight:1, weapon: "SlimeSword", noweapon: ["SlimeSword"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "ChainSword", minLevel: 0, weight:1, weapon: "ChainSword", noweapon: ["ChainSword"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "Dirk", minLevel: 0, weight:1, weapon: "Dirk", noweapon: ["Dirk"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "Foil", minLevel: 0, weight:0.5, weapon: "Foil", noweapon: ["Foil"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		...KDBasicArmor, ...KDBasicArmor_Cursed,
@@ -185,6 +215,7 @@ let KinkyDungeonLootTable = {
 
 		{name: "weapon_boltcutters", minLevel: 3, weight:1, message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true, noweapon: ["BoltCutters"]},
 		{name: "flamberge", minLevel: 3, weight:0.8, weapon: "Flamberge", noweapon: ["Flamberge"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+		{name: "FrostSword", minLevel: 3, weight:0.8, weapon: "FrostSword", noweapon: ["FrostSword"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "Rapier", minLevel: 3, weight:0.8, weapon: "Rapier", noweapon: ["Rapier"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 		{name: "Katana", minLevel: 3, weight:0.8, weapon: "Katana", noweapon: ["Katana"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 
@@ -201,6 +232,8 @@ let KinkyDungeonLootTable = {
 		{name: "StaffBind", minLevel: 5, weight:1, weapon: "StaffBind", goddess: "Rope", goddessWeight: 2.75, noweapon: ["StaffBind"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
 
 		{name: "Slimethrower", minLevel: 5, weight:1, weapon: "Slimethrower", goddess: "Latex", goddessWeight: 1.25, noweapon: ["Slimethrower"], message:"LootChestWeapon", messageColor:"lightblue", messageTime: 3, allFloors: true},
+
+		...KDBasicArmor, ...KDBasicArmor_Cursed,
 	],
 	"gold": [
 		{name: "MistressKey", minLevel: 0, weight:6, message:"LootChestMistressKey", messageColor:"yellow", messageTime: 3, allFloors: true},

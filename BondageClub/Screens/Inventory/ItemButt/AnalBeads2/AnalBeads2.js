@@ -18,7 +18,7 @@ function InventoryItemButtAnalBeads2PublishActionHook(data, originalFunction, C,
 		newIndex: data.options.indexOf(newOption),
 	};
 
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data)
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item)
 		.focusGroup(item.Asset.Group.Name)
 		.build();
 	dictionary.push(

@@ -231,26 +231,26 @@ const VariableHeightChange = CommonLimitFunction(
 	/** @type {(height: number, maxHeight: number, minHeight: number, setHeight: VariableHeightSetHeightCallback, fromElementId: string) => void} */
 	(height, maxHeight, minHeight, setHeight, fromElementId) => {
 	// Validate the value
-	if (isNaN(height) || height < 0 || height > 1 || !DialogFocusItem) return;
+		if (isNaN(height) || height < 0 || height > 1 || !DialogFocusItem) return;
 
-	// Round to the nearest 0.01
-	height = Math.round(height * 100) / 100;
+		// Round to the nearest 0.01
+		height = Math.round(height * 100) / 100;
 
-	// Update values on controls, except the one just changed
-	if (fromElementId !== VariableHeightSliderId) {
-		ElementValue(VariableHeightSliderId, height.toString());
-	}
-	if (fromElementId !== VariableHeightNumerId) {
-		ElementValue(VariableHeightNumerId, String(Math.round(height * 100)));
-	}
+		// Update values on controls, except the one just changed
+		if (fromElementId !== VariableHeightSliderId) {
+			ElementValue(VariableHeightSliderId, height.toString());
+		}
+		if (fromElementId !== VariableHeightNumerId) {
+			ElementValue(VariableHeightNumerId, String(Math.round(height * 100)));
+		}
 
-	// Apply the new setting
-	setHeight(DialogFocusItem.Property, height, maxHeight, minHeight);
+		// Apply the new setting
+		setHeight(DialogFocusItem.Property, height, maxHeight, minHeight);
 
-	// Reload to see the change
-	const C = CharacterGetCurrent();
-	CharacterRefresh(C, false, false);
-});
+		// Reload to see the change
+		const C = CharacterGetCurrent();
+		CharacterRefresh(C, false, false);
+	});
 
 /**
  * Exit handler for the item's extended item screen. Updates the character and removes UI components.
@@ -284,7 +284,7 @@ function VariableHeightPublishAction(data, C, item, newOption, previousOption) {
 		previousIndex: -1,
 		newIndex: -1,
 	};
-	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data);
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 
 	const newHeight = data.getHeight(newOption.Property) || 0;
 	const prevHeight = data.getHeight(previousOption.Property) || 0;

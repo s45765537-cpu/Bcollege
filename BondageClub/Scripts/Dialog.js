@@ -27,11 +27,11 @@ var DialogInventoryOffset = 0;
  * @type {CommonGenerateGridParameters}
  */
 const DialogInventoryGrid = {
-	x: 1000,
+	x: 1038,
 	y: 175,
-	width: 975,
+	width: 900,
 	height: 800,
-	itemWidth: 230,
+	itemWidth: 211,
 	itemHeight: 255,
 };
 
@@ -86,9 +86,9 @@ var DialogAllowFluids = false;
 
 /**
  * The group that was selected before we entered the expression coloring screen
- * @type {AssetItemGroup}
+ * @type {{mode: DialogMenuMode, group: AssetItemGroup}}
  */
-var DialogExpressionGroup = null;
+var DialogExpressionPreviousMode = null;
 
 /** @type {ExpressionItem[]} */
 var DialogFacialExpressions = [];
@@ -719,19 +719,20 @@ function DialogIntro() {
  * @returns {void} - Nothing
  */
 function DialogLeave() {
-	if (!CurrentCharacter) return;
 
 	DialogLeaveFocusItem();
 
 	// Reset the character's height
-	if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
+	if (CurrentCharacter && CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
 		CharacterAppearanceForceUpCharacter = -1;
 		CharacterRefresh(CurrentCharacter, false);
 	}
 
-	DialogChangeFocusToGroup(CurrentCharacter, null);
-
-	// Deselect the character, exiting the dialog
+	// Reset the mode, selected group & character, exiting the dialog
+	DialogMenuMode = null;
+	if (CurrentCharacter) {
+		DialogChangeFocusToGroup(CurrentCharacter, null);
+	}
 	CurrentCharacter = null;
 
 	// Reset the state of the self menu
@@ -810,13 +811,18 @@ function DialogMenuBack() {
 			break;
 
 		case "colorDefault":
+			ColorPickerHide();
 			DialogColorSelect = null;
 			ElementRemove("InputColor");
 			DialogChangeMode("items");
 			break;
 
-		case "colorExpression":
-			DialogChangeFocusToGroup(Player, DialogExpressionGroup);
+		case "colorExpression": {
+			const { mode, group } = DialogExpressionPreviousMode;
+			DialogChangeMode(mode || "dialog");
+			DialogChangeFocusToGroup(Player, group);
+			DialogExpressionPreviousMode = null;
+		}
 			break;
 
 		case "dialog":
@@ -865,6 +871,13 @@ function DialogModeShowsInventory() {
 }
 
 /**
+ * Helper used to check whether the player is in the Appearance screen
+ */
+function DialogIsInWardrobe() {
+	return CurrentScreen === "Appearance";
+}
+
+/**
  * Leaves the item menu for both characters.
  *
  * This exits the item-selecting UI and switches back to the current character's dialog options.
@@ -889,7 +902,10 @@ function DialogLeaveFocusItem() {
 			DialogChangeMode("items");
 	} else if (DialogFocusItem != null) {
 		ExtendedItemExit();
-		if (!DialogFocusItem)
+		// Special-case for when extended screens are used from the wardrobe, as FocusGroup doesn't make sense there
+		if (DialogIsInWardrobe())
+			DialogLeave();
+		else if (!DialogFocusItem)
 			DialogChangeMode("items");
 	}
 }
@@ -930,14 +946,17 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 		// Don't allow gendered assets in the opposite-gender-only space
 		if (!CharacterAppearanceGenderAllowed(asset)) return;
 
-		// Make sure we do not duplicate the item in the list, including crafted items
-		for (let I = 0; I < DialogInventory.length; I++)
-			if ((DialogInventory[I].Asset.Group.Name == asset.Group.Name) && (DialogInventory[I].Asset.Name == asset.Name)) {
-				if ((item.Craft == null) && (DialogInventory[I].Craft != null)) continue;
-				if ((item.Craft != null) && (DialogInventory[I].Craft == null)) continue;
-				if ((item.Craft != null) && (DialogInventory[I].Craft != null) && (item.Craft.Name != DialogInventory[I].Craft.Name)) continue;
+		// Make sure we do not duplicate the item in the list
+		for (const invItem of DialogInventory) {
+			if (
+				invItem.Asset.Name === item.Asset.Name
+				&& invItem.Asset.Group.Name === item.Asset.Group.Name
+				&& invItem.Craft == null
+				&& item.Craft == null
+			) {
 				return;
 			}
+		}
 	}
 
 	// Adds the item to the selection list
@@ -1100,7 +1119,7 @@ function DialogAlwaysAllowRestraint() {
  */
 function DialogCanUseRemoteState(C, Item) {
 	// Can't use remotes if there is no item, or if the item doesn't have the needed effects.
-	if (!Item || !(InventoryItemHasEffect(Item, "Egged") || InventoryItemHasEffect(Item, "UseRemote"))) return "InvalidItem";
+	if (!Item || !InventoryItemHasEffect(Item, "UseRemote")) return "InvalidItem";
 	// Can't use remotes if the player cannot interact with their hands
 	if (!Player.CanInteract()) return "CannotInteract";
 	// Can't use remotes on self if the player is owned and their remotes have been blocked by an owner rule
@@ -1230,7 +1249,10 @@ function DialogMenuButtonBuild(C) {
 	}
 
 	else if (DialogMenuMode === "locking") {
-		// No buttons there
+		if ((DialogInventory != null) && (DialogInventory.length > 12)) {
+			DialogMenuButton.push("Next");
+			DialogMenuButton.push("Prev");
+		}
 	}
 
 	// Pushes all valid main buttons, based on if the player is restrained, has a blocked group, has the key, etc.
@@ -1342,27 +1364,68 @@ function DialogCanUseCraftedItem(C, Craft) {
 		if ((A.Name == Craft.Item) && A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
 		if ((A.Name == Craft.Item) && A.LoverOnly && !C.IsLoverOfPlayer()) return false;
 		if ((A.Name == Craft.Item) && A.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
-		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
-		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.LoverOnly && !C.IsLoverOfPlayer()) return false;
-		if ((Craft.Lock != null) && (A.Name == Craft.Lock) && A.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
+		if (Craft.Lock != null && A.Name === Craft.Lock) {
+			if (A.OwnerOnly && !DialogCanUseOwnerLockOn(C)) return false;
+			if (A.LoverOnly && !DialogCanUseLoverLockOn(C)) return false;
+			if (A.FamilyOnly && !DialogCanUseFamilyLockOn(C)) return false;
+		}
 	}
 	return true;
+}
+
+/**
+ * Returns TRUE if the player can use owner locks on the target character
+ * @param {Character} target - The target to (potentially) lock
+ * @returns {Boolean} - TRUE if the player can use owner locks on the target, FALSE otherwise
+ */
+function DialogCanUseOwnerLockOn(target) {
+	return target.IsPlayer()
+		? (target.IsOwned() && !LogQuery("BlockOwnerLockSelf", "OwnerRule"))
+		: target.IsOwnedByPlayer();
+}
+
+/**
+ * Returns TRUE if the player can use lover locks on the target character
+ * @param {Character} target - The target to (potentially) lock
+ * @returns {Boolean} - TRUE if the player can use lover locks on the target, FALSE otherwise
+ */
+function DialogCanUseLoverLockOn(target) {
+	return target.IsPlayer()
+		? (target.GetLoversNumbers(true).length > 0 && !LogQuery("BlockLoverLockSelf", "LoverRule"))
+		: target.IsOwnedByPlayer()
+			? !LogQueryRemote(target, "BlockLoverLockOwner", "LoverRule")
+			: target.IsLoverOfPlayer();
+}
+
+/**
+ * Returns TRUE if the player can use family locks on the target character
+ * @param {Character} target - The target to (potentially) lock
+ * @returns {Boolean} - TRUE if the player can use family locks on the target, FALSE otherwise
+ */
+function DialogCanUseFamilyLockOn(target) {
+	return target.IsPlayer()
+		? (target.IsOwned() && !LogQuery("BlockOwnerLockSelf", "OwnerRule"))
+		: target.IsOwner() // Owner is in family, but you can't use family locks on them
+			? false
+			: target.IsFamilyOfPlayer();
 }
 
 /**
  * Build the inventory listing for the dialog which is what's equipped,
  * the player's inventory and the character's inventory for that group
  * @param {Character} C - The character whose inventory must be built
- * @param {number} [Offset] - The offset to be at, if specified.
+ * @param {boolean} [resetOffset=false] - The offset to be at, if specified.
  * @param {boolean} [locks=false] - If TRUE we build a list of locks instead.
  * @returns {void} - Nothing
  */
-function DialogInventoryBuild(C, Offset, locks = false) {
+function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 
-	// Make sure there's a focused group
-	DialogInventoryOffset = Offset == null ? 0 : Offset;
+	if (resetOffset)
+		DialogInventoryOffset = 0;
 
 	DialogInventory = [];
+
+	// Make sure there's a focused group
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
@@ -1371,6 +1434,7 @@ function DialogInventoryBuild(C, Offset, locks = false) {
 				DialogInventoryAdd(C, item, false);
 			}
 		}
+		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
 	}
@@ -1425,7 +1489,7 @@ function DialogInventoryBuild(C, Offset, locks = false) {
 		}
 
 		// Sixth. we add all crafted items from the character that matches that slot
-		if (C.Crafting != null) {
+		if (C.Crafting != null && !C.IsPlayer()) {
 			let Crafting = CraftingDecompressServerData(C.Crafting);
 			for (let Craft of Crafting)
 				if ((Craft != null) && (Craft.Item != null))
@@ -1441,6 +1505,7 @@ function DialogInventoryBuild(C, Offset, locks = false) {
 
 	}
 
+	DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 	DialogInventorySort();
 }
 
@@ -1737,6 +1802,7 @@ function DialogMenuButtonClick() {
 			// When the user selects a color, applies it to the item
 			else if (DialogMenuButton[I] == "ColorSelect" && CommonIsColor(ElementValue("InputColor"))) {
 				DialogColorSelect = ElementValue("InputColor");
+				ColorPickerHide();
 				ElementRemove("InputColor");
 				DialogChangeMode("items");
 				return true;
@@ -1745,6 +1811,7 @@ function DialogMenuButtonClick() {
 			// When the user cancels out of color picking, we recall the original color
 			else if (DialogMenuButton[I] == "ColorCancel") {
 				DialogColorSelect = null;
+				ColorPickerHide();
 				ElementRemove("InputColor");
 				DialogChangeMode("items");
 				return true;
@@ -1941,23 +2008,17 @@ function DialogInventoryTogglePermission(item, worn) {
  * Changes the dialog mode and perform the initial setup.
  *
  * @param {DialogMenuMode} mode The new mode for the dialog.
+ * @param {boolean} reset Whether to reset the mode back to its defaults
  */
-function DialogChangeMode(mode) {
-	// In permission-mode, send a character update so that others
-	// catch up on our (maybe) updated item permissions
-	if (DialogMenuMode == "permissions" && CurrentScreen == "ChatRoom") {
-		ChatRoomCharacterUpdate(Player);
-	}
-
+function DialogChangeMode(mode, reset=false) {
 	const C = CharacterGetCurrent();
 
-	// Handle changing to/from the expression color picker having to restore the selected group
-	if (mode === "colorExpression") {
-		DialogExpressionGroup = C.FocusGroup;
-	} else if (DialogMenuMode === "colorExpression") {
-		C.FocusGroup = DialogExpressionGroup;
+	// Handle changing to the expression color picker having to restore the selected mode & group
+	if (mode === "colorExpression" && (!DialogExpressionPreviousMode || DialogExpressionPreviousMode.mode !== "colorExpression")) {
+		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
+	const modeChange = DialogMenuMode !== mode || reset;
 	DialogMenuMode = mode;
 
 	// Clear status so that messages don't bleed through from one group to another
@@ -1971,7 +2032,7 @@ function DialogChangeMode(mode) {
 		case "permissions":
 		case "items":
 		case "locked":
-			DialogInventoryBuild(C, null);
+			DialogInventoryBuild(C, modeChange);
 			DialogMenuButtonBuild(C);
 			DialogBuildActivities(C);
 			// Ensure we don't leave that set, that's only for "locking" mode
@@ -1979,7 +2040,7 @@ function DialogChangeMode(mode) {
 			break;
 
 		case "locking":
-			DialogInventoryBuild(C, null, true);
+			DialogInventoryBuild(C, true, true);
 			DialogMenuButtonBuild(C);
 			DialogBuildActivities(C);
 			break;
@@ -2002,15 +2063,17 @@ function DialogChangeMode(mode) {
 	}
 
 	// Set the status message
-	if (DialogMenuMode === "items") {
+	if (!C.FocusGroup) {
+		// Ignore setting a message if we have no focused group
+	} else if (DialogMenuMode === "items") {
 		DialogSetStatus(DialogFindPlayer("SelectItemGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "permissions") {
 		DialogSetStatus(DialogFind(Player, "DialogPermissionMode"));
 	} else if (DialogMenuMode === "activities") {
 		if (DialogActivity.length > 0)
-			DialogSetStatus(DialogFindPlayer("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase().toLowerCase()));
+			DialogSetStatus(DialogFindPlayer("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 		else
-			DialogSetStatus(DialogFindPlayer("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase().toLowerCase()));
+			DialogSetStatus(DialogFindPlayer("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "locking") {
 		DialogSetStatus(DialogFindPlayer("SelectLock").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "locked") {
@@ -2045,10 +2108,19 @@ function DialogChangeFocusToGroup(C, Group) {
 	DialogLeaveFocusItem();
 	if (DialogMenuMode === "colorExpression" || DialogMenuMode === "colorItem")
 		ItemColorCancelAndExit();
+	else if (DialogMenuMode === "colorDefault") {
+		ColorPickerHide();
+		ElementRemove("InputColor");
+	}
 
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
 	DialogEndExpression();
+
+	// Stop any strugling minigame
+	if(StruggleMinigameIsRunning()) {
+		StruggleMinigameStop();
+	}
 
 	// If we're in the two-character dialog, clear their focused group
 	if (!CurrentCharacter.IsPlayer()) {
@@ -2057,15 +2129,16 @@ function DialogChangeFocusToGroup(C, Group) {
 	}
 
 	// Now set the selected group and refresh
+	const previousGroup = C.FocusGroup;
 	C.FocusGroup = /** @type {AssetItemGroup} */ (G);
 	if (C.FocusGroup) {
 		// If we're changing permissions on ourself, don't change to the item list
 		// Same for activities, keep us in that mode if the focus moves around
 		if (!(DialogMenuMode === "permissions" && C.IsPlayer() || DialogMenuMode === "activities")) {
-			DialogChangeMode("items");
+			DialogChangeMode("items", true);
 		}
 		// Set the mode back to itself to trigger a refresh of the state variables.
-		DialogChangeMode(DialogMenuMode);
+		DialogChangeMode(DialogMenuMode, !previousGroup || C.FocusGroup.Name !== previousGroup.Name);
 	} else {
 		// We don't have a focused group anymore. Switch to dialog mode.
 		DialogChangeMode("dialog");
@@ -2142,7 +2215,7 @@ function DialogClick() {
 	}
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
-	if (C.FocusGroup === null || !CurrentCharacter.AllowItem || DialogIntro() === "") return;
+	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -2380,8 +2453,8 @@ function DialogStatusDraw(C) {
 		DialogStatusClear();
 	}
 
-	// Only draw status if we can interact
-	if (!Player.CanInteract() || InventoryGroupIsBlocked(C)) return;
+	// Don't draw status in items mode if we can't interact, as the screen shows a blocked message in that case
+	if ((!Player.CanInteract() || InventoryGroupIsBlocked(C)) && DialogMenuMode === "items") return;
 
 	if (["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "struggle", "crafted"].includes(DialogMenuMode)) return;
 
@@ -2549,7 +2622,7 @@ function DialogDrawCrafting(C, Item) {
  */
 function DialogDrawItemMenu(C) {
 	// Safe-guard against the item list not being set
-	if (DialogInventory == null) DialogInventoryBuild(C, 0, DialogMenuMode === "locking");
+	if (DialogInventory == null) DialogInventoryBuild(C, true, DialogMenuMode === "locking");
 
 	CommonGenerateGrid(DialogInventory, DialogInventoryOffset, DialogInventoryGrid, (item, x, y, width, height) => {
 		const Hover = MouseIn(x, y, width, height) && !CommonIsMobile;
@@ -2668,6 +2741,10 @@ function DialogDraw() {
 	DrawCharacter(CurrentCharacter, 500, 0, 1);
 
 	const C = CharacterGetCurrent();
+
+	// Drawing the character causes ScriptDraw hooks to be called, some of which
+	// can cause the dialog to close (like the Futuristic Training Belt)
+	if (!C) return;
 	CharacterCheckHooks(C, true);
 
 	// Draw the menu for facial expressions if the player clicked on herself
@@ -2703,7 +2780,7 @@ function DialogDraw() {
 	}
 
 	// Block out drawing anything else if we're not supposed to interact with the selected character
-	if (C.FocusGroup === null || !CurrentCharacter.AllowItem || DialogIntro() === "") return;
+	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
 
 	// Reset the status text to the default after 5 seconds
 	if (DialogTextDefaultTimer < CommonTime())
@@ -2818,7 +2895,7 @@ function DialogDraw() {
  * @param {string} msg - The explanation message to draw
  */
 function DialogDrawItemMessage(C, msg, item) {
-	if (item !== null && !C.CanInteract()) {
+	if (item !== null) {
 		DrawItemPreview(item, C, 1387, 250);
 	}
 	DrawText(msg, 1500, 700, "White", "Black");
@@ -2919,8 +2996,7 @@ function DialogClickExpressionMenu() {
 			Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, GroupName));
 			ItemColorLoad(Player, Item, 1200, 25, 775, 950, true);
 			ItemColorOnExit((save) => {
-				DialogChangeMode("items");
-				DialogExpressionGroup = null;
+				DialogMenuBack();
 				if (save && !CommonColorsEqual(originalColor, Item.Color)) {
 					ServerPlayerAppearanceSync();
 					ChatRoomCharacterItemUpdate(Player, GroupName);

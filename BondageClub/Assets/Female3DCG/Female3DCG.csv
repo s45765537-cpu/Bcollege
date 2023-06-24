@@ -576,6 +576,7 @@ Mask,HeadHarness,Head Harness
 Mask,FestivalFoxMask,Festival Fox Mask
 Mask,Kissmark,Lipstick Marks
 Mask,SwimCap,Swim Cap
+Mask,DroneMask,Smooth Latex Mask
 Jewelry,,Jewelry
 Jewelry,JewelrySet,Piercing Set
 TailStraps,,Tail Strap
@@ -1147,6 +1148,7 @@ ItemArms,FurStraitJacket,Fur Straitjacket
 ItemArms,Bolero,Bolero Straitjacket
 ItemArms,DuctTape,Duct Tape
 ItemArms,BitchSuit,Pet Suit
+ItemArms,ShinyPetSuit,Shiny Pet Suit
 ItemArms,StraitDress,Strait Dress
 ItemArms,StraitDressOpen,Open Crotch Strait Dress
 ItemArms,SeamlessStraitDress,Seamless Strait Dress
@@ -1269,6 +1271,7 @@ ItemNeck,SlaveCollar,Slave Collar
 ItemNeck,ClubSlaveCollar,Club Slave Collar
 ItemNeck,ShockCollar,Shock Collar
 ItemNeck,AutoShockCollar,Automatic Shock Collar
+ItemNeck,PetSuitShockCollar,PetSuit Shock Collar
 ItemNeck,BatCollar,Bat Collar
 ItemNeck,PostureCollar,Posture Collar
 ItemNeck,SteelPostureCollar,Steel Collar
@@ -1610,6 +1613,7 @@ ItemHood,FoxHood,Fox Hood
 ItemHood,PantyHood,Panty Hood
 ItemHood,VacHood, Vac Hood
 ItemHood,SensoryDeprivationHood,Sensory Hood
+ItemHood,CorsetHood,Corset Hood
 ItemEars,,Ears
 ItemEars,LightDutyEarPlugs,Light Duty Ear Plugs
 ItemEars,HeavyDutyEarPlugs,Heavy Duty Ear Plugs

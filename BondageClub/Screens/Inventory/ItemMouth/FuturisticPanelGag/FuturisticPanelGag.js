@@ -68,7 +68,7 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
 
 	const Dictionary = new DictionaryBuilder()
 		.targetCharacterName(C)
-		.asset(Item.Asset)
+		.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
 		.markAutomatic()
 		.build();
 

@@ -481,6 +481,139 @@ function testModuleOptionLengthModular(groupName, assetName, config) {
 }
 
 /**
+ * Return the intersection between the passed sets
+ * @param {Set<string>[]} args
+ * @returns {string[]}
+ */
+function getIntersection(...args) {
+	if (args.length === 0) {
+		return [];
+	}
+
+	const intersection = new Set();
+	const elementsVisited = new Set(args[0]);
+	for (const set of args.slice(1)) {
+		for (const i of set) {
+			if (elementsVisited.has(i)) {
+				intersection.add(i);
+			} else {
+				elementsVisited.add(i);
+			}
+		}
+	}
+	return Array.from(intersection).sort();
+}
+
+/**
+ * @param {Record<string, ModularItemData>} dataRecord
+ */
+function testModularItemPropertyDisjoint(dataRecord) {
+	if (dataRecord === null || typeof dataRecord !== "object") {
+		error("ModularItemDataLookup not found");
+		return;
+	}
+
+	// Non-array item properties with special casing for dealing with inter-module intersections
+	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight"]);
+	const assetWhitelist = new Set([
+		// `Intensity` intersection explicitly handled by a `...SetOption` script hook
+		"ItemVulva:ClitAndDildoVibratorbelt",
+	]);
+
+	for (const data of Object.values(dataRecord)) {
+		if (assetWhitelist.has(`${data.asset.Group.Name}:${data.asset.Name}`)) {
+			continue;
+		}
+
+		/** @type {Record<string, Set<string>>} */
+		const properties = {};
+		for (const mod of data.modules) {
+			properties[mod.Key] = new Set();
+			for (const option of mod.Options) {
+				for (const [k, v] of Object.entries(option.Property || {})) {
+					if (!Array.isArray(v) && !propertyWhitelist.has(k)) {
+						properties[mod.Key].add(k);
+					}
+				}
+			}
+		}
+		const intersection = getIntersection(...Object.values(properties));
+		if (intersection.length > 0) {
+			error(
+				`${data.asset.Group.Name}:${data.asset.Name}: found ${intersection.length} intersecting `
+				+ `cross-module item properties: ${intersection}`
+			);
+		}
+	}
+}
+
+/**
+ * @param {string} dir
+ * @param {Set<string>} pathSet
+ * @param {(file: string) => boolean} filter
+ */
+function recursivelyListDir(dir, pathSet, filter) {
+	fs.readdirSync(dir).forEach(f => {
+		let dirPath = `${dir}/${f}`;
+		const isDirectory = fs.statSync(dirPath).isDirectory();
+		if (isDirectory) {
+			recursivelyListDir(dirPath, pathSet, filter);
+		} else if (filter(f)) {
+			const offset = BASE_PATH.length;
+			pathSet.add(`${dir.slice(offset)}/${f}`);
+		}
+	});
+}
+
+/**
+ *
+ * @param  {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ */
+function testExtendedItemButtonImage(dataSuperRecord) {
+	// Gather all expected image paths
+	/** @type {Set<string>} */
+	const requiredImages = new Set();
+	for (const [archetype, dataRecord] of Object.entries(dataSuperRecord)) {
+		if (dataRecord === null || typeof dataRecord !== "object") {
+			error(`${archetype} data lookup not found`);
+			continue;
+		}
+		for (const data of Object.values(dataRecord)) {
+			if (data.archetype === "modular") {
+				// Check the modules' drawdata as well
+				for (const mod of data.modules) {
+					for (const buttonData of mod.drawData.elementData) {
+						if (buttonData.imagePath != null) {
+							requiredImages.add(buttonData.imagePath);
+						}
+					}
+				}
+			}
+			for (const buttonData of data.drawData.elementData) {
+				if (buttonData.imagePath != null) {
+					requiredImages.add(buttonData.imagePath);
+				}
+			}
+		}
+	}
+
+	// Identify all missing and extra images
+	/** @type {Set<string>} */
+	const availableImages = new Set();
+	recursivelyListDir(`${BASE_PATH}Screens/Inventory`, availableImages, i => i.endsWith(".png"));
+	for (const imagePath of requiredImages) {
+		if (!availableImages.has(imagePath)) {
+			error(`Missing extended item button image ${imagePath}`);
+		}
+	}
+	for (const imagePath of availableImages) {
+		if (!requiredImages.has(imagePath)) {
+			error(`Unexpected extra extended item button image ${imagePath}`);
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -533,6 +666,16 @@ function sanitizeVMOutput(input) {
 	const missingColorGroups = sanitizeVMOutput(context.TestingMisingColorGroups);
 	/** @type {TestingStruct<string[]>[]} */
 	const invalidColorDefaults = sanitizeVMOutput(context.TestingInvalidDefaultColor);
+	/** @type {Record<string, ModularItemData>} */
+	const ModularItemDataLookup = context.TestingModularItemDataLookup;
+	/** @type {Record<string, TypedItemData>} */
+	const TypedItemDataLookup = context.TestingTypedItemDataLookup;
+	/** @type {Record<string, VibratingItemData>} */
+	const VibratingItemDataLookup = context.TestingVibratingItemDataLookup;
+	/** @type {Record<string, TextItemData>} */
+	const TextItemDataLookup = context.TestingVariableHeightItemDataLookup;
+	/** @type {Record<string, VariableHeightData>} */
+	const VariableHeightItemDataLookup = context.TestingTextItemDataLookup;
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -675,4 +818,12 @@ function sanitizeVMOutput(input) {
 	testColorLayers(missingColorLayers);
 	testModuleOptionLength(AssetFemale3DCGExtended);
 	testDefaultColor(invalidColorDefaults);
+	testModularItemPropertyDisjoint(ModularItemDataLookup);
+	testExtendedItemButtonImage({
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	});
 })();

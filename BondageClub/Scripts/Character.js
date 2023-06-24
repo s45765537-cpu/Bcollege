@@ -882,18 +882,6 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Adds a pose to a character's pose list, does not add it if it's already there
- * @param {Character} C - Character for which to add a pose to its list
- * @param {readonly AssetPoseName[]} NewPose - The name of the pose to add
- * @returns {void} - Nothing
- */
-function CharacterAddPose(C, NewPose) {
-	for (let E = 0; E < NewPose.length; E++)
-		if (C.Pose.indexOf(NewPose[E]) < 0)
-			C.Pose.push(NewPose[E]);
-}
-
-/**
  * Checks whether the given character can change to the named pose unaided
  * @param {Character} C - The character to check
  * @param {AssetPoseName} poseName - The name of the pose to check for
@@ -948,10 +936,13 @@ function CharacterItemsHavePose(C, Pose, ExcludeClothes = false) {
  * @returns {boolean} - Returns true if the character is wearing an item that sets the given pose, false otherwise
  */
 function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
+	if (C == null) return false;
 	return C.Appearance
 		.filter(item => !excludeClothes || !item.Asset.Group.Clothing)
 		.some(item => {
-			return InventoryGetItemProperty(item, "SetPose", true).includes(pose);
+			let Value = InventoryGetItemProperty(item, "SetPose", true);
+			if (Value == null) return false;
+			return Value.includes(pose);
 		});
 }
 
@@ -985,8 +976,8 @@ function CharacterLoadPose(C) {
 
 	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
 		Item = C.Appearance[i];
-		C.AllowedActivePose.concat(InventoryGetItemProperty(Item, "AllowActivePose"));
-		CharacterAddPose(C, InventoryGetItemProperty(Item, "SetPose", true));
+		C.AllowedActivePose.push(...InventoryGetItemProperty(Item, "AllowActivePose"));
+		C.Pose = CommonArrayConcatDedupe(C.Pose, InventoryGetItemProperty(Item, "SetPose", true));
 	}
 
 	// Add possible active poses (Bodyfull can only be alone, and cannot have two of upperbody or bodylower)
@@ -1142,6 +1133,7 @@ function CharacterLoadCanvasAll() {
  */
 function CharacterSetCurrent(C) {
 	CurrentCharacter = C;
+	DialogMenuMode = "dialog";
 	var NewDialog = DialogIntro();
 	if (!Player.CanTalk()) NewDialog = DialogFind(CurrentCharacter, "PlayerGagged", "");
 	if (NewDialog != "") C.CurrentDialog = NewDialog;
@@ -1198,6 +1190,9 @@ function CharacterRefreshDialog(C) {
 	// Get a reference to the currently focused item
 	const focusItem = C && C.FocusGroup ? InventoryGet(C, C.FocusGroup.Name) : null;
 
+	// Skip refreshing anything dialog-related when we're in the wardrobe
+	if (DialogIsInWardrobe()) return;
+
 	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
 		// We were looking at some inventory, reload it to update the UI
 		DialogChangeMode(DialogMenuMode);
@@ -1209,7 +1204,7 @@ function CharacterRefreshDialog(C) {
 		}
 
 		// We were looking at an extended screen
-		const wasLock = DialogFocusItem.Asset.IsLock;
+		const wasLock = DialogFocusItem && DialogFocusItem.Asset.IsLock;
 		const sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
 		const previousItem = sourceItem ? InventoryGet(C, sourceItem.Asset.Group.Name) : null;
 		if (!previousItem || previousItem.Asset.Name !== focusItem.Asset.Name) {
@@ -1249,7 +1244,7 @@ function CharacterRefreshDialog(C) {
 			return;
 		}
 	} else if (DialogMenuMode === "locking" || DialogMenuMode === "locked") {
-		if (!focusItem || DialogMenuMode === "locking" && !DialogCanCheckLock(C, focusItem)) {
+		if (!focusItem || DialogMenuMode === "locked" && !DialogCanCheckLock(C, focusItem)) {
 			// Focused item was removed, or lost its lock
 			DialogChangeMode("items");
 		} else {

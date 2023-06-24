@@ -1,6 +1,34 @@
 "use strict";
 let KinkyDungeonGroundItems = []; // Tracking all items on the ground
 
+/** Certain items, when dropped, have specific properties
+ * @type {Record<string, KDDroppedItemProp>}
+*/
+let KDDroppedItemProperties = {
+	"RedKey": {
+		tinyness: 2,
+	},
+	"Pick": {
+		tinyness: 1,
+	},
+	"BlueKey": {
+		tinyness: 2,
+	},
+	"Knife": {
+		tinyness: 3,
+	},
+	"EnchKnife": {
+		tinyness: 3,
+	},
+	"Dirk": {
+		tinyness: 3,
+	},
+	"Scissors": {
+		tinyness: 3,
+	},
+
+};
+
 function KinkyDungeonItemDrop(x, y, dropTable, summoned) {
 	if (dropTable) {
 		let dropWeightTotal = 0;
@@ -89,7 +117,14 @@ function KinkyDungeonItemEvent(Item) {
 	let sfx = "Coins";
 	let name = Item.name;
 	let replace = "";
-	if (Item.name == "Gold") {
+	if (KDCustomItems[name]) {
+		let ret = KDCustomItems[name](Item);
+		if (ret.sfx != undefined) sfx = ret.sfx;
+		if (ret.replace != undefined) replace = ret.replace;
+		if (ret.priority != undefined) priority = ret.priority;
+		if (ret.color != undefined) color = ret.color;
+		if (ret.name != undefined) name = ret.name;
+	} else if (Item.name == "Gold") {
 		color = "yellow";
 		KinkyDungeonAddGold(Item.amount);
 	} else if (Item.name == "Lore") {
@@ -165,12 +200,14 @@ function KinkyDungeonItemEvent(Item) {
 	} else if (Item.name == "Heart") {
 		if (KinkyDungeonStatDistractionMax >= KDMaxStat && KinkyDungeonStatStaminaMax >= KDMaxStat && KinkyDungeonStatManaMax >= KDMaxStat && KinkyDungeonStatWillMax >= KDMaxStat) {
 			KinkyDungeonDrawState = "Game";
-			KinkyDungeonChangeStamina(30);
+			KinkyDungeonChangeStamina(10);
 			KinkyDungeonChangeMana(5);
-			KinkyDungeonChangeWill(2.5);
+			KinkyDungeonChangeWill(5.0);
 			KDGameData.HeartTaken = true;
 		} else if (KinkyDungeonIsPlayer()) {
 			KinkyDungeonDrawState = "Heart";
+			KinkyDungeonInterruptSleep();
+			KinkyDungeonDialogueTimer = CommonTime() + 700;
 			KinkyDungeonSetFlag("NoDialogue", 3);
 		}
 	} else if (Item.name == "Keyring") {
@@ -178,7 +215,7 @@ function KinkyDungeonItemEvent(Item) {
 		KinkyDungeonAggroAction('key', {});
 	} else if (KinkyDungeonGetRestraintByName(Item.name)) {
 		if (!KinkyDungeonInventoryGetLoose(Item.name)) {
-			KinkyDungeonInventoryAdd({name: Item.name, type: LooseRestraint, events:Item.events, quantity: 1});
+			KinkyDungeonInventoryAdd({name: Item.name, id: KinkyDungeonGetItemID(), type: LooseRestraint, events:Item.events, quantity: 1});
 		} else {
 			if (!KinkyDungeonInventoryGetLoose(Item.name).quantity) KinkyDungeonInventoryGetLoose(Item.name).quantity = 0;
 			KinkyDungeonInventoryGetLoose(Item.name).quantity += 1;
@@ -187,8 +224,10 @@ function KinkyDungeonItemEvent(Item) {
 		name = "Generic";
 		replace = TextGet("Restraint" + Item.name);
 	}
-	if (KinkyDungeonSound) AudioPlayInstantSoundKD(KinkyDungeonRootDirectory + "/Audio/" + sfx + ".ogg");
-	KinkyDungeonSendActionMessage(priority, TextGet("ItemPickup" + name).replace("XXX", Item.amount).replace("ReplaceValue", replace), color, 2);
+	if (KDToggles.Sound) AudioPlayInstantSoundKD(KinkyDungeonRootDirectory + "Audio/" + sfx + ".ogg");
+	KinkyDungeonSendActionMessage(priority, TextGet("ItemPickup" + name).replace("XXX", Item.amount).replace("ReplaceValue", replace), color, 1);
+	if (!KDCanSeeDroppedItem(Item))
+		KinkyDungeonSendActionMessage(priority + 1, TextGet("ItemFoundHidden").replace("XXX", Item.amount).replace("ReplaceValue", replace), color, 1);
 }
 
 
@@ -203,14 +242,20 @@ function KinkyDungeonItemCheck(x, y, Index) {
 	}
 }
 
+function KDCanSeeDroppedItem(item) {
+	if (KDDroppedItemProperties[item.name]?.tinyness <= KinkyDungeonBlindLevel) return false;
+	return true;
+}
+
 function KinkyDungeonDrawItems(canvasOffsetX, canvasOffsetY, CamX, CamY) {
 	for (let item of KinkyDungeonGroundItems) {
 		let sprite = item.name;
 		if (KinkyDungeonRestraintsCache.has(item.name)) sprite = "Restraint";
 		if (item.x >= CamX && item.y >= CamY && item.x < CamX + KinkyDungeonGridWidthDisplay && item.y < CamY + KinkyDungeonGridHeightDisplay && KinkyDungeonVisionGet(item.x, item.y) > 0) {
-			KDDraw(kdgameboard, kdpixisprites, item.x + "," + item.y + "_" + item.name, KinkyDungeonRootDirectory + "Items/" + sprite + ".png",
-				(item.x - CamX)*KinkyDungeonGridSizeDisplay, (item.y - CamY)*KinkyDungeonGridSizeDisplay,
-				KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay);
+			if (KDCanSeeDroppedItem(item))
+				KDDraw(kdgameboard, kdpixisprites, item.x + "," + item.y + "_" + item.name, KinkyDungeonRootDirectory + "Items/" + sprite + ".png",
+					(item.x - CamX)*KinkyDungeonGridSizeDisplay, (item.y - CamY)*KinkyDungeonGridSizeDisplay,
+					KinkyDungeonGridSizeDisplay, KinkyDungeonGridSizeDisplay);
 		}
 	}
 }
@@ -230,26 +275,88 @@ function KinkyDungeonDrawHeart() {
 	DrawTextKD(TextGet("StatMana").replace("CURRENT/MAX", "" + KinkyDungeonStatManaMax * KDMaxStatStart), 1250 + 250/2, 650, "#ffffff", KDTextGray2);
 	DrawTextKD(TextGet("StatWill").replace("CURRENT/MAX", "" + KinkyDungeonStatWillMax * KDMaxStatStart), 1550 + 250/2, 650, "#ffffff", KDTextGray2);
 
+	// Fix softlock
+	//if ((KinkyDungeonStatDistractionMax > KDMaxStat && KinkyDungeonStatStaminaMax > KDMaxStat && KinkyDungeonStatManaMax > KDMaxStat && KinkyDungeonStatWillMax > KDMaxStat)) KinkyDungeonDrawState = "Game";
+
 	DrawButtonVis(650, 700, 250, 60, TextGet("KinkyDungeonHeartDistraction"), KinkyDungeonStatDistractionMax < KDMaxStat ? "#ffffff" : "#999999");
 	DrawButtonVis(950, 700, 250, 60, TextGet("KinkyDungeonHeartStamina"), KinkyDungeonStatStaminaMax < KDMaxStat ? "#ffffff" : "#999999");
 	DrawButtonVis(1250, 700, 250, 60, TextGet("KinkyDungeonHeartMana"), KinkyDungeonStatManaMax < KDMaxStat ? "#ffffff" : "#999999");
 	DrawButtonVis(1550, 700, 250, 60, TextGet("KinkyDungeonHeartWill"), KinkyDungeonStatWillMax < KDMaxStat ? "#ffffff" : "#999999");
+
+	DrawButtonKDEx("discardheart", (bdata) => {
+		KinkyDungeonDrawState = "Game";
+		return true;
+	}, CommonTime() > KinkyDungeonDialogueTimer, 1000, 850, 450, 60, TextGet("KinkyDungeonHeartDiscard"), KinkyDungeonStatWillMax < KDMaxStat ? "#ffffff" : "#999999");
 }
 
 function KinkyDungeonHandleHeart() {
-	if (MouseIn(650, 700, 250, 60) && KinkyDungeonStatDistractionMax < KDMaxStat) {
-		KDSendInput("heart", {type: "AP"});
-		KinkyDungeonDrawState = "Game";
-	} else if (MouseIn(950, 700, 250, 60) && KinkyDungeonStatStaminaMax < KDMaxStat) {
-		KDSendInput("heart", {type: "SP"});
-		KinkyDungeonDrawState = "Game";
-	} else if (MouseIn(1250, 700, 250, 60) && KinkyDungeonStatManaMax < KDMaxStat) {
-		KDSendInput("heart", {type: "MP"});
-		KinkyDungeonDrawState = "Game";
-	} else if (MouseIn(1550, 700, 250, 60) && KinkyDungeonStatWillMax < KDMaxStat) {
-		KDSendInput("heart", {type: "WP"});
-		KinkyDungeonDrawState = "Game";
+	if (CommonTime() > KinkyDungeonDialogueTimer) {
+		if (MouseIn(650, 700, 250, 60) && KinkyDungeonStatDistractionMax < KDMaxStat) {
+			KDSendInput("heart", {type: "AP"});
+			KinkyDungeonDrawState = "Game";
+		} else if (MouseIn(950, 700, 250, 60) && KinkyDungeonStatStaminaMax < KDMaxStat) {
+			KDSendInput("heart", {type: "SP"});
+			KinkyDungeonDrawState = "Game";
+		} else if (MouseIn(1250, 700, 250, 60) && KinkyDungeonStatManaMax < KDMaxStat) {
+			KDSendInput("heart", {type: "MP"});
+			KinkyDungeonDrawState = "Game";
+		} else if (MouseIn(1550, 700, 250, 60) && KinkyDungeonStatWillMax < KDMaxStat) {
+			KDSendInput("heart", {type: "WP"});
+			KinkyDungeonDrawState = "Game";
+		}
 	}
 
+
 	return true;
+}
+
+let KDCustomItems = {
+	"LeylineMap": () => {
+		KDStartDialog("LeylineMap", "", true, "");
+		return {
+			sfx: undefined,
+			replace: undefined,
+			priority: undefined,
+			color: undefined,
+		};
+	},
+};
+
+/**
+ *
+ * @param {any[]} items
+ * @param {number} offset
+ * @returns {number}
+ */
+function KDDrawItemsTooltip(items, offset) {
+	let TooltipList = [];
+	TooltipList.push({
+		str: TextGet("KDTooltipItems"),
+		fg: "#ffffff",
+		bg: "#000000",
+		size: 24,
+		center: true,
+	});
+	let str = "";
+	for (let item of items) {
+		str = str + (str ? ", " : "") + TextGet(KinkyDungeonRestraintsCache.has(item.name) ? ("Restraint" + item.name) : ("KinkyDungeonInventoryItem" + item.name));
+	}
+
+	let strSplit = KinkyDungeonWordWrap(str, 12, 28).split('\n');
+
+	let i = 1;
+	const imax = 5;
+	for (let line of strSplit) {
+		TooltipList.push({
+			str: (i == imax ? line.substring(0, line.length - 1) + "..." : line),
+			fg: "#dddddd",
+			bg: "#000000",
+			size: 18,
+			center: true,
+		});
+		if (i >= imax) break;
+		i++;
+	}
+
+	return KDDrawTooltip(TooltipList, offset);
 }

@@ -226,7 +226,7 @@ function ExtendedItemLoad({ functionPrefix, dialogPrefix, parentOption }) {
  * Draw a single button in the extended item type selection screen.
  * @param {ExtendedItemOption | ModularItemModule} Option - The new extended item option
  * @param {ExtendedItemOption} CurrentOption - The current extended item option
- * @param {ElementData<{ drawImage?: boolean, hidden?: boolean }>} buttonData - The X coordinate of the button
+ * @param {ElementData<ElementMetaData>} buttonData - The X coordinate of the button
  * @param {string} DialogPrefix - The prefix to the dialog keys for the display strings describing each extended type.
  *     The full dialog key will be <Prefix><Option.Name>
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
@@ -247,10 +247,17 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 	let Effect = null;
 
 	switch (Option.OptionType) {
-		case "ModularItemModule":
-			AssetSource = `${AssetGetInventoryPath(Asset)}/${CurrentOption.Name}.png`;
+		case "ModularItemModule": {
+			if (buttonData.imagePath != null) {
+				AssetSource = buttonData.imagePath;
+			} else {
+				// Grab the `imagePath` of the selected option
+				const optionIndex = Option.Options.findIndex(o => o.Name === CurrentOption.Name);
+				AssetSource = Option.drawData.elementData[optionIndex].imagePath;
+			}
 			IsSelected = (IsSelected == null) ? false : IsSelected;
 			break;
+		}
 		case "ModularItemOption":
 		case "VibratingItemOption":
 		case "TypedItemOption":
@@ -259,7 +266,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 			Type = (Option.OptionType === "TypedItemOption") ? (Option.Property && Option.Property.Type) || null : Option.Name;
 			Effect = Option.Property && Option.Property.Effect || null;
 			IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Type);
-			AssetSource = `${AssetGetInventoryPath(Asset)}/${Option.Name}.png`;
+			AssetSource = buttonData.imagePath;
 			break;
 		}
 		default:
@@ -596,11 +603,11 @@ function ExtendedItemSetOffset(Offset) {
  * Maps a chat tag to a dictionary entry for use in item chatroom messages.
  * @param {DictionaryBuilder} dictionary - The to-be updated dictionary builder
  * @param {Character} C - The target character
- * @param {Asset} asset - The asset for the typed item
+ * @param {Item} item - The typed item
  * @param {CommonChatTags} tag - The tag to map to a dictionary entry
  * @returns {DictionaryBuilder} - The originally passed dictionary builder, modified inplace
  */
-function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, asset, tag) {
+function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, { Asset, Craft }, tag) {
 	switch (tag) {
 		case CommonChatTags.SOURCE_CHAR:
 			return dictionary.sourceCharacter(Player);
@@ -613,11 +620,11 @@ function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, asset, tag) {
 		case CommonChatTags.TARGET_CHAR_NAME:
 			return dictionary.targetCharacterName(C);
 		case CommonChatTags.ASSET_NAME:
-			return dictionary.asset(asset);
+			return dictionary.asset(Asset, "AssetName", Craft && Craft.Name);
 		case CommonChatTags.AUTOMATIC:
 			return dictionary.markAutomatic();
 		default:
-			console.warn(`Unknown ${asset.Group.Name}:${asset.Name} chat tag "${tag}"`);
+			console.warn(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
 			return dictionary;
 	}
 }
@@ -691,10 +698,12 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
 function ExtendedItemCustomDraw(Name, X, Y, drawImage=false, IsSelected=false) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	/** @type {ExtendedItemOption} */
-	const Option = { OptionType: "ExtendedItemOption", Name: Name };
+	const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+	/** @type {ExtendedItemOption} */
+	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
 	/** @type {ElementData<{ drawImage: boolean }>} */
 	const elementData = { position: [X, Y, 225, drawImage ? 275 : 50], drawImage };
-	return ExtendedItemDrawButton(Option, Option, "", elementData, DialogFocusItem, IsSelected);
+	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
 }
 
 /**
@@ -712,8 +721,10 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 	} else {
 		// Check if the option is blocked/limited/etc.
 		/** @type {ExtendedItemOption} */
-		const Option = { OptionType: "ExtendedItemOption", Name: Name };
-		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, Option, Option);
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+		/** @type {ExtendedItemOption} */
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
 			return false;
@@ -816,11 +827,12 @@ function ExtendedItemGetData(Item, Archetype, Type=null) {
  * @template {ExtendedItemOption} OptionType
  * @param {ExtendedItemChatData<OptionType>} chatData - The chat data that triggered the message.
  * @param {ExtendedItemData<OptionType>} data - The extended item data for the asset
+ * @param {Item} item
  * @returns {DictionaryBuilder} - The dictionary for the item based on its required chat tags
  */
-function ExtendedItemBuildChatMessageDictionary(chatData, { asset, chatTags, dictionary }) {
+function ExtendedItemBuildChatMessageDictionary(chatData, { chatTags, dictionary }, item) {
 	const dictBuilder = new DictionaryBuilder();
-	chatTags.forEach(tag => ExtendedItemMapChatTagToDictionaryEntry(dictBuilder, chatData.C, asset, tag));
+	chatTags.forEach(tag => ExtendedItemMapChatTagToDictionaryEntry(dictBuilder, chatData.C, item, tag));
 	dictionary.forEach(entry => entry(dictBuilder, chatData));
 	return dictBuilder;
 }
@@ -1030,6 +1042,7 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 			} else {
 				position = buttonDataRef.position;
 			}
+
 			return {
 				...buttonDataRef,
 				...buttonData,
@@ -1038,6 +1051,15 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 		});
 	} else {
 		elementData = CommonCloneDeep(defaults.elementData);
+	}
+
+	for (const buttonData of elementData) {
+		if (buttonData.hidden === true) {
+			buttonData.drawImage = false;
+			buttonData.imagePath = null;
+		} else if (buttonData.drawImage === false) {
+			buttonData.imagePath = null;
+		}
 	}
 
 	return {

@@ -508,12 +508,9 @@ function InfiltrationPandoraPrisonerBrainwash() {
 	InventoryWear(C, "SlaveCollar", "ItemNeck");
 	InventoryWear(C,"SteelCuffs","ItemArms");
 	InventoryWear(C,"SteelAnkleCuffs","ItemFeet");
-	InventoryWear(C,"Cage","ItemDevices");
-	//Refresh will not update modular item forced poses. Using cage for now
-	//InventoryWear(C,"WoodenRack","ItemDevices");
-	//(InventoryGet(C,"ItemDevices")).Property.Type = "f1t4b3";
-	CharacterRefresh(C);
-	//Move towards submission by a random amount between 0-10 + Infiltration skill adjustment (range 60-110)
+	InventoryWear(C,"WoodenRack","ItemDevices");
+	ModularItemSetOptionByName(C,"ItemDevices","f1t4b4",true);
+	//Move towards submission by a random amount between 0-10 + Infiltration skill adjustment between 50-100
 	var S = Math.floor(Math.random()*10) + (SkillGetLevel(Player, "Infiltration") * 10) + (Math.round(SkillGetProgress(Player, "Infiltration") / 100));
 	var T = NPCTraitGet(C, "Dominant") - S;
 	if (T < -100) { T = -100; }
@@ -538,4 +535,23 @@ function InfiltrationSetPandoraPrisoner() {
 	} else {
 		InfiltrationPandoraPrisoner = CommonRandomItemFromList(InfiltrationPandoraPrisoner, candidates);
 	}
+}
+
+/**
+ * When the player starts a club card game against the supervisor
+ * @returns {void} - Nothing
+ */
+function InfiltrationClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "InfiltrationClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game against the supervisor
+ * @returns {void} - Nothing
+ */
+function InfiltrationClubCardEnd() {
+	CommonSetScreen("Room", "Infiltration");
+	CharacterSetCurrent(InfiltrationSupervisor);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

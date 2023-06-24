@@ -113,11 +113,23 @@ class DictionaryBuilder {
 
 	/**
 	 * Adds a dictionary entry which identifies an asset - usually the asset being changed, but the tag can be customized.
-	 * @param {Asset} asset
+	 * @param {Asset} asset - The asset in question
+	 * @param {string} [tag] - The tag to replace
+	 * @param {string} [craftName] - The name of the crafted item if applicable
+	 * @returns {this}
 	 */
-	asset(asset, tag="AssetName") {
+	asset(asset, tag="AssetName", craftName="") {
 		if (this._condition && asset) {
-			this._addEntry({ Tag: tag, AssetName: asset.Name, GroupName: asset.Group.Name });
+			/** @type {AssetReferenceDictionaryEntry} */
+			const entry = {
+				Tag: tag,
+				AssetName: asset.Name,
+				GroupName: asset.Group.Name,
+			};
+			if (craftName) {
+				entry.CraftName = craftName;
+			}
+			this._addEntry(entry);
 		}
 		return this;
 	}
@@ -318,10 +330,16 @@ function IsGroupReferenceDictionaryEntry(entry) {
  * @returns {entry is AssetReferenceDictionaryEntry}
  */
 function IsAssetReferenceDictionaryEntry(entry) {
-	return CommonIsObject(entry)
+	return (
+		CommonIsObject(entry)
 		&& !!entry.Tag && typeof entry.Tag === "string"
 		&& !!entry.GroupName && typeof entry.GroupName === "string"
-		&& !!entry.AssetName && typeof entry.AssetName === "string";
+		&& !!entry.AssetName && typeof entry.AssetName === "string"
+		&& (
+			entry.CraftName == null
+			|| (!!entry.CraftName && typeof entry.CraftName === "string")
+		)
+	);
 }
 
 /**

@@ -39,6 +39,11 @@ let KDVibeSound = {
 };
 
 
+let KDResolutionConfirm = false;
+let KDResolution = 1;
+let KDResolutionListIndex = 0;
+let KDResolutionList = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0];
+
 let KDVibeVolume = 1;
 let KDVibeVolumeListIndex = 0;
 let KDVibeVolumeList = [1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
@@ -48,9 +53,13 @@ let KDMusicVolume = 1;
 let KDMusicVolumeListIndex = 0;
 let KDMusicVolumeList = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0, 0.1, 0.2];
 
+let KDSfxVolume = 1;
+let KDSfxVolumeListIndex = 0;
+let KDSfxVolumeList = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0, 0.1, 0.2];
+
 let KDAnimSpeed = 1;
 let KDAnimSpeedListIndex = 0;
-let KDAnimSpeedList = [1, 0, 0.25, 0.5, 0.75, 1.25, 1.5];
+let KDAnimSpeedList = [1, 1.25, 1.5, 2.0, 0, 0.25, 0.5, 0.75,];
 
 function KDStopAllVibeSounds(Exceptions) {
 	let EE = [];
@@ -96,10 +105,9 @@ function KDUpdateVibeSound(Location, Sound, Volume) {
 			if (KDVibeSounds[Location].vol) vol *= KDVibeSounds[Location].vol;
 			KDVibeSounds[Location].Audio = audio;
 			KDVibeSounds[Location].update = true;
-			if (ServerURL == 'foobar') {
+			if (KDPatched) {
 				audio.crossOrigin = "Anonymous";
-				// @ts-ignore
-				audio.src = remap(Sound);
+				audio.src = Sound;
 			} else
 				audio.src = KDModFiles[Sound] || Sound;
 			audio.volume = Math.min(vol, 1);
@@ -123,8 +131,8 @@ function KDUpdateVibeSounds() {
 		v[1].update = false;
 	}
 	let vibe = KDGameData.CurrentVibration;
-	if (vibe && KinkyDungeonState == "Game" && KinkyDungeonSound) {
-		let globalVolume = KDVibeVolume * (KinkyDungeonDrawState == "Game" ? 1 : 0.5);
+	if (vibe && KinkyDungeonState == "Game" && KDToggles.Sound) {
+		let globalVolume = KDToggles.VibeSounds ? KDVibeVolume * (KinkyDungeonDrawState == "Game" ? 1 : 0.5) : 0;
 		let locations = KDSumVibeLocations();
 		KDStopAllVibeSounds(locations);
 
@@ -209,7 +217,10 @@ function KDGetVibeLocation(item) {
  */
 function KinkyDungeonStartVibration(source, name, locations, intensity, duration, numLoops, denyTime, denialsLeft, edgeTime, edgeOnly, alwaysDeny, denialChance, denialChanceLikely, tickEdgeAtMaxArousal, vibeMods) {
 	if (KDGameData.CurrentVibration) {
-		if (!KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonStartVibeContinue"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonStartVibeContinue"), "#FFaadd", 2, true, true);
+		KinkyDungeonSetFlag("VibeContinued", 3);
+		if (!KinkyDungeonSendTextMessage(4, TextGet("KinkyDungeonStartVibeContinue"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonStartVibeContinue"), "#FFaadd", 2, true, true);
+	} else {
+		KinkyDungeonSetFlag("VibeStarted", 8);
 	}
 	KDGameData.CurrentVibration = {
 		source: source,
@@ -421,10 +432,10 @@ function KinkyDungeonCalculateVibeLevel(delta) {
 	}
 
 	if (oldVibe > 0 && KinkyDungeonVibeLevel == 0) {
-		if (cease) if (!KinkyDungeonSendTextMessage(5, TextGet("KinkyDungeonEndVibeCease"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(4, TextGet("KinkyDungeonEndVibeCease"), "#FFaadd", 2, true, true);
-		if (!KinkyDungeonSendTextMessage(5, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2, true, true);
+		if (cease) if (!KinkyDungeonSendTextMessage(7, TextGet("KinkyDungeonEndVibeCease"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(4, TextGet("KinkyDungeonEndVibeCease"), "#FFaadd", 2, true, true);
+		if (!KinkyDungeonSendTextMessage(7, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonEndVibe"), "#FFaadd", 2, true, true);
 	} else if (oldVibe == 0 && KinkyDungeonVibeLevel > 0) {
-		if (!KinkyDungeonSendTextMessage(5, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2, true, true);
+		if (!KinkyDungeonSendTextMessage(7, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2)) KinkyDungeonSendActionMessage(2, TextGet("KinkyDungeonStartVibe"), "#FFaadd", 2, true, true);
 	}
 }
 

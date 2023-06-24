@@ -11,7 +11,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 20,0,0,,"Clubs, aren't they|just for Geeks?","You have got to be kidding me,|Kinbaku club is way cooler than that.",30,0,0,
 20,0,0,,Clubs! No chance.|I just want food.,If that's your attitude then you best find the cafeteria.,40,-1,0,
 20,0,0,,Clubs aren't my thing.|Too many initiations.,"Ok then, I must be going. Someone|else will show you to a nice cafe.",40,0,0,
-30,0,0,,Let's go then|(Go to club with Natalie.),(Natalie takes you into a|nearby spare classroom.),100,0,0,StartLunch()
+30,0,0,,Let's go then.|(Go to club with Natalie.),(Natalie takes you into a|nearby spare classroom.),100,0,0,StartLunch()
 30,0,0,,"Maybe not,|I really need a good meal.","OK then, you could brave the cafeteria|or find a cafe.",40,0,0,
 40,0,0,,Enjoy your |lunch break then!,Absolutely!  (She waves|and walks away.),50,1,0,EndLunch()
 40,0,0,,"OK, see you around.",Of course!  (She waves|and walks away.),50,0,0,EndLunch()
@@ -23,7 +23,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 100,0,0,,Cool I bet you would|look good tied like that.,"Thank you, but I'm not quite as|flexible as Chloe over there is.",110,1,1,
 110,0,0,,You did mention|food earlier.,"Yes, there is a takeout delivery ordered.|How about a quick tie while we wait?",120,0,0,
 110,0,0,,So where is the food?|I'm hungry now.,There's a takeout coming.|Would you like to try some tying till then?,120,-1,1,
-110,0,0,,Could I have some|lunch now please?,"Just wait a moment, its being delivered|Some Kinbaku will pass the time.",120,0,-1,
+110,0,0,,Could I have some|lunch now please?,"Just wait a moment, its being delivered.|Some Kinbaku will pass the time.",120,0,-1,
 120,0,0,,Can I tie you up?,Certainly not. A new member|must learn the ropes first.,130,-1,-1,
 120,0,0,,Can you tie me up?,"Of course, it's a new member's duty to be tied first.",130,0,-1,
 120,1,1,,Only if I tie you up first?,"Well OK then, normally new members get tied first.|The club has lots of rope you can use.",140,0,1,
@@ -123,7 +123,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 330,0,0,,What?,"Open wide. (You open your mouth and Natalie packs|it with cloth, then cleaves and OTM gags you.)",350,0,0,SubbieClothGag()
 330,0,0,,Do you really|want to gag me?,(You barely finish speaking before she|packs your mouth with a cloth and gags you.),350,0,0,SubbieClothGag()
 330,0,0,,Please no more.,"You talk too much. (Natalie stuffs your mouth|with cloth, then cleave and OTM gags you.)",350,0,-1,SubbieClothGag()
-330,0,0,,That's enough|(Clench your jaw.),So you like to play the hard way.|(Natalie pinches nose shut.),340,1,0,
+330,0,0,,That's enough!|(Clench your jaw.),So you like to play the hard way.|(Natalie pinches nose shut.),340,1,0,
 340,0,0,,(Try to hold your breath|...................),"(You eventually gasp for breath only to have your|mouth stuffed with cloth, cleave and OTM gagged.)",350,0,0,SubbieClothGag()
 340,0,0,,(Try to call for help.) Hel.....,(You don't get the first word out before she|packs your mouth with a cloth and gags you.),350,0,0,SubbieClothGag()
 350,0,0,,(Stare daggers at Natalie.),(Natalie chuckles.) You need some time to calm down.|(Natalie walks away.),360,0,0,
@@ -136,7 +136,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 360,0,0,,(Wait until Natalie returns.),"(You wait, but the club members|are still ignoring you.)",360,0,0,Wait()
 365,0,0,,@Nhthlnm.,(Natalie removes the OTM and cleave gags.|You spit out the cloth.),370,0,0,BadUngag()
 370,0,0,,"Thank you miss,|please let me go.","My pleasure, it's nearly time for classes.|(Natalie unties you and helps you stand up.)",380,1,-1,PlayerRelease()
-370,0,0,,"About time,|what took you so long?",I though you needed some quite time.|(Natalie unties you and you get up.),380,0,0,PlayerRelease()
+370,0,0,,"About time,|what took you so long?",I thought you needed some quite time.|(Natalie unties you and you get up.),380,0,0,PlayerRelease()
 370,0,0,,"Aww, I was enjoying that.","I suspected you were, but lunch time ends soon.|(Natalie releases you.)",380,1,0,PlayerRelease()
 380,0,0,,"It's been fun,|see you later.",,0,2,0,EndChapter()
 380,0,0,,I can't believe they|allowed this club.,,0,-1,0,EndChapter()
@@ -147,13 +147,13 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 405,0,0,,By you please.,"Certainly, could you give me a hand? I'm a little|tied up at the moment.  (You untie her.)",505,0,-1,
 405,0,0,,I could be bound with you?|That sounds like fun.,Jenna could you help us?  (Jenna comes over|with more items and unties Natalie),600,1,0,
 410,0,0,,"No, you look good|in uniform.",Why thank you.  (What will you do to her now?),430,1,0,
-410,0,0,,"Yes, let's see your|pretty body.","You think so, thank you.  (You untie here and she|removes here clothes.)",420,1,0,UntieStrip()
+410,0,0,,"Yes, let's see your|pretty body.","You think so, thank you.  (You untie her and she|removes her clothes.)",420,1,0,UntieStrip()
 410,0,0,,Not this time.,That's fine.  (What will you do to her now?),430,0,0,
-410,0,0,,Want? I demand you|strip for me.,Err... Yes miss. (You untie here and|she removes here clothes.),420,0,1,UntieStrip()
+410,0,0,,Want? I demand you|strip for me.,Err... Yes miss. (You untie her and|she removes her clothes.),420,0,1,UntieStrip()
 420,0,0,,Is that the best|can do?,"Sorry miss, you wanted me completely naked?|(She reluctantly strips.  What will you do to her?)",430,0,1,NatalieNaked()
 420,0,0,,"Cute underwear,|I like it.",Thank you miss. (She blushes.)|(What will you do to her now?),430,1,0,
 420,0,0,,Actually you looked|better clothed.,What are you trying to say?  (She gets dressed|in disgust.  What will you do to her now?),430,-2,0,NatalieClothed()
-420,0,0,,You will be even better|without those on.,Maybe if wearing rope instead.  (She reluctantly strips.|What will you do to here now?),430,0,1,NatalieNaked()
+420,0,0,,You will be even better|without those on.,Maybe if wearing rope instead.  (She reluctantly strips.|What will you do to her now?),430,0,1,NatalieNaked()
 430,0,0,,(Kiss her.),"(You kiss briefly, before she stops you.)|This is nice, but you're meant to be tying me up.",430,0,0,Kiss()
 430,0,0,,(Tickle her.),"(She flinches and pushes you away.)|Oh no, anything but that.",430,0,0,Tickle()
 430,0,0,,(Masturbate her.),(She shivers and moans softly as you masturbate her.),430,0,0,DomMasturbate()
@@ -165,15 +165,15 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 430,0,0,,I'm bored now.,"(You release her.)|What already, I though you where enjoying this?",480,-1,0,NatalieRelease()
 430,0,0,,That is enough for|one lunch break.,(You release her.)|You're done already? OK.,480,0,0,NatalieRelease()
 450,0,0,,Yes.,(The other members have already left|the room for their afternoon classes.),460,0,0,
-450,0,0,,No.,(What will you do to here now?),430,0,0,
+450,0,0,,No.,(What will you do to her now?),430,0,0,
 460,0,0,,I will come back for|you after class.,(You kiss her goodbye and leave her to|panic and futilely struggle.),470,-1,5,
 460,0,0,,You're just a kinky whore|and deserve punishing.,(You tickle and spank her hard till she is left sobbing.),470,-5,3,
 470,0,0,,"It's been fun,|see you later bitch.",,0,0,0,EvilEnd()
 470,0,0,,I can't believe they|allowed this club.,,0,0,0,EvilEnd()
 470,0,0,,"(Run away quickly,|before it's too late.)",,0,0,0,EvilEnd()
 480,0,0,,Lunch break is nearly|over anyway.,I suppose so.,490,0,0,
-480,0,0,,I need to get|ready for class.,"That's a lame excuses.  (She suddenly pins you down|on the ground, binds and gags you.)",350,0,-1,PlayerBoundGagged()
-490,0,0,,"That was great,|can I come again.","Of course, the club|has bigger meetings most evenings.",700,1,0,
+480,0,0,,I need to get|ready for class.,"That's a lame excuse.  (She suddenly pins you down|on the ground, binds and gags you.)",350,0,-1,PlayerBoundGagged()
+490,0,0,,"That was great,|can I come again?","Of course, the club|has bigger meetings most evenings.",700,1,0,
 490,0,0,OrgasmDone,You loved that.,"(She blushes.) Yes, I think you did too.",700,1,1,
 490,0,0,,You should tie me up|properly sometime.,"Oh yes, I should.  The club has evening meetings|where you could be tied up for hours.",700,1,-1,
 490,0,0,,Thanks for the Lunch.,"My pleasure, you should join the club properly|for an evening meeting.",700,0,0,
@@ -185,7 +185,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 510,0,0,,I suppose I can.|(Take you uniform off.),"(You undress.)  That's it, you will|feel the ropes much better like that.",530,0,0,PlayerStrip()
 510,0,0,,Wait this is too fast.,"That's fine, would you still like|to try some more Kinbaku?",520,0,-1,
 510,0,0,,No. I won't strip for you.,"OK OK, it was just an idea.|Are you still interested in Kinbaku?",520,0,1,
-510,0,0,,Yes Miss|(Take you uniform off.),(You undress.)  You're going to love|the feel of natural rope on your soft skin.,530,1,-1,PlayerStrip()
+510,0,0,,Yes Miss.|(Take you uniform off.),(You undress.)  You're going to love|the feel of natural rope on your soft skin.,530,1,-1,PlayerStrip()
 520,0,0,,No.,I don't think this is the best club for you then.,380,-1,0,
 520,0,0,,Yes.,You were fine with your arms tied.|(Natalie ties your arms again.),320,0,0,PlayerRope()
 530,0,0,,Feel the rope?,"Yes, you must learn to use all your senses.|(She ties a lot of rope around your arms and body.)",540,0,0,PlayerRope()
@@ -220,7 +220,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 650,0,0,,(Try struggling|with Natalie.),Patience.  (Jenna gives you and Natalie|vibrators and a remote each.)  Have fun now.,660,0,0,
 660,0,0,Remote,(Adjust your remote.),,660,0,1,VibeNatalie()
 660,0,0,,(Struggle playfully.),(Natalie struggles with you.|Your vibrator intensifies.),660,0,0,VibePlayer()
-660,0,0,,(Look longingly at Natalie.),(Your vibrator intensifies.|Natalie rubs it against you with here leg.),660,1,-1,KneePlayer()
+660,0,0,,(Look longingly at Natalie.),(Your vibrator intensifies.|Natalie rubs it against you with her leg.),660,1,-1,KneePlayer()
 660,0,0,,(Panic and try to pull away.),(Natalie comforts you as best she can.|Your vibrator calms down a bit.),660,0,0,Panic()
 660,0,0,,(French kiss.),"(Your tongues dance intimately,|while your vibrator intensifies.)",660,1,0,VibePlayer()
 660,0,0,,(Moan through the gag.),(Natalie hugs you tighter.|Your vibrator intensifies.),660,0,0,VibePlayer()
@@ -237,7 +237,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 685,0,0,,I'm still shaking|from it miss.,That's cute. Come back later if you stop.|It's time for next class.,700,0,-1,
 685,0,0,,That was fantastic.,It was for me too.|It's time for next class.,700,1,0,
 685,0,0,,Next time I will|have you.,I like the sound of next time.|It's time for next class.,700,1,1,
-690,0,0,,@Lmt mm gh rnght nhw!,I though you would have enjoyed that.|(Jenna releases you.),700,-1,0,PlayerRelease()
+690,0,0,,@Lmt mm gh rnght nhw!,I thought you would have enjoyed that.|(Jenna releases you.),700,-1,0,PlayerRelease()
 690,0,0,,@plmhfm rmlmhfm mm mnff.,"OK, maybe that was a bit much for a first time.|(Jenna releases you.)",700,0,-1,PlayerRelease()
 690,0,0,,@jhft h lnttlm|lhngmr plmhfm.,"No, clubs shouldn't get in the way of your studies.|(Jenna releases you.)",700,0,0,PlayerRelease()
 700,0,0,,Let's get back to classes.|(Leave.),,0,0,0,EndChapter()

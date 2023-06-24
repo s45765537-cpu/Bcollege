@@ -469,21 +469,6 @@ var AssetFemale3DCGExtended = {
 				Header: "ClothCheerleaderTopTextLabel",
 			},
 		}, // CheerleaderTop
-		FrilledShirt: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Opacity",
-				},
-			],
-			BaselineProperty: { Opacity: 1.0 },
-			ScriptHooks: {
-				Load: PropertyOpacityLoad,
-				Draw: PropertyOpacityDraw,
-				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
-			},
-		}, // FrilledShirt
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -1140,6 +1125,39 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BitchSuit
+		ShinyPetSuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Exposed",
+					Property: {
+						Block: ["ItemLegs", "ItemFeet", "ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Closed",
+					Property: {
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemLegs", "ItemFeet","ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "Socks", "Suit", "SuitLower"],
+					},
+				},
+				{
+					Name: "Open",
+					Property: {
+						Block: ["ItemLegs", "ItemFeet", "ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Classic",
+					Property: {
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemLegs", "ItemFeet","ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "Socks", "Suit", "SuitLower"],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // ShinyPetSuit
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -2313,6 +2331,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DrawData: {
+				elementData: [
+					{}, // Restraints
+					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+				],
+			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
 			ScriptHooks: {
 				Click: InventoryItemArmsPrisonLockdownSuitClickHook,
@@ -2480,6 +2504,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DrawData: {
+				elementData: [
+					{}, // CollarType
+					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+				],
+			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
 			ScriptHooks: {
 				Click: InventoryItemArmsPrisonLockdownSuitClickHook,
@@ -2518,6 +2548,16 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemNeckAccessoriesCollarAutoShockUnitSet",
 			},
 		}, // AutoShockCollar
+		PetSuitShockCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarAutoShockUnit" },
+			DialogPrefix: {
+				Header: "ItemNeckAccessoriesCollarAutoShockUnitSelect",
+				Module: "ItemNeckAccessoriesCollarAutoShockUnitModule",
+				Option: "ItemNeckAccessoriesCollarAutoShockUnitOption",
+				Chat: "ItemNeckAccessoriesCollarAutoShockUnitSet",
+			},
+		}, // PetSuitShockCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -3296,21 +3336,21 @@ var AssetFemale3DCGExtended = {
 						{
 							Property:{
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
 							}
 						}, // No gags or blindfolds visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2","ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
 							}
 						}, // Highest layer gag visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemHead"],
-								Hide: ["ItemHead"],
+								Hide: ["ItemHead", "Glasses"],
 							}
 						}, // All gags visible
 						{
@@ -3345,7 +3385,7 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "MPanel", Key: "m",
+					Name: "MPanel", Key: "m", DrawImages: true,
 					Options:[
 						{ // m0 - No Mouth
 							Property: {
@@ -3800,7 +3840,7 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "EPanel", Key: "e",
+					Name: "EPanel", Key: "e", DrawImages: true,
 					Options:[
 						{ // e0 - No Eyes
 							Property: { Effect: ["BlindHeavy"]
@@ -3914,11 +3954,11 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "HeadT", Key: "x", DrawImages: false,
+					Name: "HeadT", Key: "x",
 					Options:[{},{},] // Opaque, Transparent
 				},
 				{
-					Name: "HairShow", Key: "h", DrawImages: false,
+					Name: "HairShow", Key: "h",
 					Options: [
 						{}, // h0 - Show Hair
 						{
@@ -3939,7 +3979,7 @@ var AssetFemale3DCGExtended = {
 					]
 				},
 				{
-					Name: "ZHood", Key: "z", DrawImages: false,
+					Name: "ZHood", Key: "z",
 					Options: [
 						{// z0 - None
 							Property: { Effect: [""], }
@@ -4361,6 +4401,55 @@ var AssetFemale3DCGExtended = {
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						},
+						{ // l3 - Spread leg restraints
+							Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+							Property: {
+								Difficulty: 22,
+								SetPose: ["Spread"],
+								Block: ["ItemFeet", "ItemLegs"],
+								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Hide: ["ItemBoots", "Shoes"]
+							},
+						},
+					],
+				},
+				{
+					Name: "ArmCuffs", Key: "a",
+					Options: [
+						{}, // s0 - No arm cuffs
+						{ // s1 - Elbow cuffs
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 18,
+								SetPose: ["BackElbowTouch"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
+						{ // s2 - Box cuffs
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 18,
+								SetPose: ["BackBoxTie"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
+						{ // s3 - Overhead restraints
+							Prerequisite: ["CuffedArmsOrEmpty"],
+							Property: {
+								Difficulty: 22,
+								SetPose: ["OverTheHead"],
+								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								Block: ["ItemArms"],
+								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								OverrideHeight: { Height: 0, Priority: 60 },
+							},
+						},
 					],
 				},
 				{
@@ -4381,7 +4470,7 @@ var AssetFemale3DCGExtended = {
 								ScriptHooks: {
 									ScriptDraw: AssetsItemDevicesFuturisticCrateScriptDrawHook,
 								},
-							}
+							},
 						},
 					],
 				},
@@ -4563,7 +4652,7 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["AllFours"],
 						Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 						HideItem: ["ItemMiscTeddyBear"],
-						HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed"],
+						HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed", "ItemArmsShinyPetSuit"],
 						Block: [
 							"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
 							"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
@@ -5276,7 +5365,7 @@ var AssetFemale3DCGExtended = {
 		}, // VibratingLatexPanties
 		InflatableVibratingPanties: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.ASSET_NAME],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
 			Modules: [
 				{
 					Name: "InflateLevel",
@@ -7284,6 +7373,125 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "Hat", AssetName: "SwimCap" },
 		},
+		DroneMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemHead", AssetName: "DroneMask" },
+			Modules: [
+				{
+					Name: "Mouth", Key: "m",
+					Options:[ {}, {}, {}, {}, {}, {}, {}, ] // none, onahole, fleshlight, smile, holes, sculpted, subtle
+				},
+				{
+					Name: "Eyes", Key: "e",
+					Options:[ {},{},{},{},{},{},{},] // none, regular, spiral, smile, holes, sculpted, concave
+				},
+				{
+					Name: "Pattern", Key: "p",
+					Options:[
+						{}, // Blank
+						{}, // Barcode
+						{}, // Scarab
+						{}, // Hex
+						{}, // Lines
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 16 },
+								Font: "Impact",
+								ScriptHooks: {
+									AfterDraw: AssetsItemHeadDroneMaskAfterDrawHook,
+								},
+							},
+						}, // text
+					],
+				},
+				{
+					Name: "Glow", Key: "g",
+					Options: [{},{},] // Glow Off, Glow On
+				},
+				{
+					Name: "Helmet", Key: "h",
+					Options: [
+						{}, // h0 - Mask
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+								HideItem: [
+									"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
+									"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
+									"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
+									"HairAccessory3Ribbons4", // HairAccessory items
+									"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars",
+									"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
+									"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
+									"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2", "HairAccessory1WolfEars1", "HairAccessory1WolfEars2",
+									"HairAccessory1Ribbons4", // Ear items (HA1)
+									"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars",
+									"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
+									"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
+									"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2", "HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)
+								], // These items are hidden because they have clear mismatch issues with the hood.
+							},
+						}, // h1 - Helmet (hood)
+						{ // h2 - Helmet ( hood but nothing shows)
+							Property: {
+								Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+							},
+						},
+					]
+				},
+				{
+					Name: "Layering", Key: "j",
+					Options: [
+						{
+							Property:{
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", ],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
+							}
+						}, // No gags or blindfolds visible
+						{
+							Property:{
+								OverridePriority: 12,
+								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
+							}
+						}, // Highest layer gag visible
+						{
+							Property:{
+								OverridePriority: 12,
+								Block: ["ItemHead"],
+								Hide: ["ItemHead", "Glasses"],
+							}
+						}, // All gags visible
+						{
+							Property:{
+								OverridePriority: 12,
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							}
+						}, // Blindfold items visible
+						{
+							Property:{
+								OverridePriority: 12,
+								Block: ["ItemMouth", "ItemMouth2",],
+								Hide: ["ItemMouth", "ItemMouth2",],
+							}
+						}, // Blindfold and highest layer gag
+						{
+							Property:{
+								OverridePriority: 12,
+								Block: [],
+								Hide: [],
+							}
+						}, // Blindfold and all gags
+
+					]
+
+				},
+			]
+		}, // DroneMask
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -8373,7 +8581,6 @@ var AssetFemale3DCGExtended = {
 		PortalPanties: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
-			ChangeWhenLocked: false,
 			Modules: [
 				{
 					Name: "Code", Key: "o",
@@ -8413,7 +8620,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawData: {
 				elementData: [
-					{},
+					{ position: ExtendedXY[1][0] },
 					{ hidden: true },
 				],
 			},
@@ -9497,14 +9704,14 @@ var AssetFemale3DCGExtended = {
 						{
 							Property:{
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "Glasses"],
 							}
 						}, // No gags visible
 						{
 							Property:{
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2"],
-								Hide: ["ItemMouth", "ItemMouth2"],
+								Hide: ["ItemMouth", "ItemMouth2", "Glasses"],
 							}
 						}, // Highest layer gag visible
 						{

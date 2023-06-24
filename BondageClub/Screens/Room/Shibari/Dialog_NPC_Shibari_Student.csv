@@ -41,19 +41,22 @@ RopeBondageWristElbowTie,,,(You restain her wrists and elbows behind her back.) 
 RopeBondageWristElbowHarnessTie,,,(You restrain her wrists and elbows behind her back. And tie a harness around her.) Very impressive Miss!,,
 RopeBondageAllFours,,,(You restain her with ropes so she's on all fours.) This is an interesting tie.,,
 RopeBondageRopeCuffs,,,(You restrain her wrists behind her back in a handcuff like tie.) Did they run out of handcuffs at the police station? (She giggles.),,
-RopeBondageStar,,,(You use the rope and create a star harness around her body) I like this tie. It's pretty.
+RopeBondageStar,,,(You use the rope and create a star harness around her body) I like this tie. It's pretty.,,
 RopeBondageWaist,,,(You use the ropes and create a waist rope around her body.) I'm sorry Miss. I don't see the purpose of a tie like this. But i'm sure you'll think of something.,,
 RopeBondageSuspension,,,(You restrain her legs with ropes and suspend her by the feet from the ceiling.)  Oh my god!,,
 RopeBondageSuspensionHogtied,,,(You carefully hogtie her and suspend her from the ceiling.)  You're a true bondage sensei Miss DialogPlayerName.,,
 RopeBondageCrotch,,,(You use a rope and restrain it on her crotch.)  Do not hesitate to try more complex patterns Miss.,,
 RopeBondageHarness,,,(You use the ropes and create a harness around her body.)  I love the feeling of a good rope harnesses.,,
 RopeBondageDiamond,,,(You use the ropes and create a diamond harness around her body.)  You're a rope artist Miss DialogPlayerName.,,
+ClubCardVictory,,,"Congratulations Miss, you're a true card sensei.  I'm your prisoner to bind, we have more ropes in these bags.",,
+ClubCardDefeat,,,"That was good game Miss.  Sorry I won't tie you up, but we can play another match if you want.",,
 0,,,Konichiwa Miss.  I hope you're enjoying the Dojo.,,
 0,,"Hi girl, I'm DialogPlayerName.","It's a pleasure to meet you Miss, I'm DialogCharacterName.",DialogRemove(),
 0,,Can I play with you?,(She nods happily.)  Of course Miss.  I'm here to learn and serve.,DialogRemove(),
 0,,Are you ok up there?,"(She nods.)  Yes, as long as I don't spin too much, I'm fine.",,AllowSpank()
 0,10,What's going on here?,You are in the Shibari Dojo.  Most people come here to practice their rope and escape techniques.,,
 0,,(Spank her on the butt.),(You spank her on the butt as she dangles on the rope.)  Oooooh!  I love the way it stings Miss.,Spank(),AllowSpank()
+0,20,Would you like to play Club Cards?,"(She stretches her arms.)  Yes Miss, it could be a nice pause after being bound for so long.",,CanPlayClubCard()
 0,,I need to go.  (Leave her.),,DialogLeave(),
 10,,Why are you naked?,The traditional art of Shibari is often practiced naked.  Anyone here can strip down.,,
 10,,What is Shibari?,It's Japanese rope bondage.  Ask our teacher for more details.,,
@@ -61,6 +64,9 @@ RopeBondageDiamond,,,(You use the ropes and create a diamond harness around her 
 10,,Can I tie you up?,"Absolutely, I'm ready for any challenge.  I especially love rope bondage and suspension.",,
 10,,Will you tie me up?,"No Miss.  I'm sorry, I'm a submissive.",,
 10,0,Let's talk about something else.,Yes Miss.,,
+20,,Can I tie you up if I win?,"Of course Miss!  You can tie me up right now if you want.  (She giggles.)  I'm a submissive though, I won't restrain you if I win.",,
+20,,(Play Club Card with her.),,ClubCardStart(),
+20,0,Let's talk about something else.,Yes Miss.  Would you like to use more ropes on me?,,
 MaidRescue,,,Konichiwa Miss.  It seems that we got in trouble.,,
 MaidRescue,,Do you need help?,"(She shakes her head no.)  I'm fine, things like that happen all the time.  Check with the teacher.",,
 MaidRescue,,What happened here?,"A Japanese speaking girl came in and argued with the teacher.  She did some judo, stripped and restrained our poor teacher.",,"IsRescueScenario(""JapaneseGirl"")"

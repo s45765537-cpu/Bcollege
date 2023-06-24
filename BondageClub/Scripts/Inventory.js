@@ -179,7 +179,7 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 * Returns an error message if a prerequisite clashes with the character's items and clothes
 * @param {Character} C - The character on which we check for prerequisites
 * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
-* @returns {String} - The error tag, can be converted to an error message
+* @returns {string} - The error tag, can be converted to an error message
 */
 function InventoryPrerequisiteMessage(C, Prerequisite) {
 	switch (Prerequisite) {
@@ -258,10 +258,13 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 				return "RemoveClothesForItem";
 
 			// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
-			if (InventoryDoItemsBlockGroup(C, target, ["ItemPelvis", "ItemVulvaPiercings"]))
+			if (InventoryDoItemsBlockGroup(C, target, ["ItemPelvis", "ItemVulvaPiercings"])
+				|| Prerequisite === "AccessVulva" && C.IsVulvaChaste()
+				|| Prerequisite === "AccessButt" && C.IsButtChaste())
 				return "RemoveChastityFirst";
+
+			return "";
 		}
-			break;
 
 		case "AccessCrotch":
 			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "Socks"])
@@ -1026,8 +1029,8 @@ const PropertiesObjectLike = new Set([
  * @param {Name} PropertyName - The property name to get.
  * @param {boolean} [CheckGroup=false] - Whether or not to fall back to the item's group if the property is not found on
  * Property or Asset.
- * @returns {(ItemProperties & Asset & AssetGroup)[Name] | undefined} - The value of the requested property for the given item. Returns undefined if the property or the
- * item itself does not exist.
+ * @returns {(ItemProperties & Asset & AssetGroup)[Name] | undefined} - The value of the requested property for the given item.
+ * Returns either undefined, an empty array or object if the property or the item itself does not exist.
  */
 function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
 	/** @type {(ItemProperties & Asset & AssetGroup)[Name] | undefined} */
@@ -1044,7 +1047,9 @@ function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
 	);
 
 	for (const record of PropertyRecords) {
-		if (record[PropertyName] !== undefined) {
+		// If the collected property doesn't exist, or is set to null, fall-through so
+		// we return the type-appropriate default
+		if (record[PropertyName] !== undefined && record[PropertyName] !== null) {
 			return record[PropertyName];
 		}
 	}

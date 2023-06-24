@@ -350,6 +350,11 @@ MaskFaceVeilFabric,Fabric
 MaskFaceVeilString,String
 MaskSwimCapCap,Cap
 MaskSwimCapStripes1,Pattern
+MaskDroneMaskBase,Mask
+MaskDroneMaskShine,Shine
+MaskDroneMaskEyeRegular,Eyes
+MaskDroneMaskMouthOnahole,Mouth
+MaskDroneMaskBarcode,Pattern
 TailStrapsTailStrapTail,Tail
 TailStrapsTailStrapRibbon,Ribbon
 TailStrapsTailStrapBell,Bell
@@ -392,6 +397,7 @@ ItemFeetLeatherDeluxeAnkleCuffsCuffs,Cuffs
 ItemFeetLeatherDeluxeAnkleCuffsRings,Edging
 ItemFeetLeatherDeluxeAnkleCuffsBuckets,Buckles
 ItemFeetLeatherDeluxeAnkleCuffsChain,Chain
+ItemFeetLeatherDeluxeAnkleCuffsLock,Lock
 ItemFeetMedicalBedRestraintsBase,Bed Straps
 ItemFeetMedicalBedRestraintsStraps,Cuffs
 ItemFeetSturdyLeatherBeltsLowerBelt,Lower Belt
@@ -421,6 +427,7 @@ ItemLegsLeatherDeluxeLegCuffsCuffs,Cuffs
 ItemLegsLeatherDeluxeLegCuffsRings,Edging
 ItemLegsLeatherDeluxeLegCuffsBuckets,Buckles
 ItemLegsLeatherDeluxeLegCuffsChain,Chain
+ItemLegsLeatherDeluxeLegCuffsLock,Lock
 ItemLegsLegBinderLatex,Binder
 ItemLegsLegBinderBelts,Belts
 ItemLegsHobbleSkirtLatex,Skirt
@@ -532,6 +539,7 @@ ItemArmsLeatherCuffsRings,Rings
 ItemArmsLeatherDeluxeCuffsCuffs,Cuffs
 ItemArmsLeatherDeluxeCuffsRings,Edging
 ItemArmsLeatherDeluxeCuffsBuckets,Buckles
+ItemArmsLeatherDeluxeCuffsLock,Lock
 ItemArmsOrnateCuffsCuffs,Cuffs
 ItemArmsOrnateCuffsGems,Gems
 ItemArmsHighStyleSteelCuffsCuffs,Cuffs
@@ -617,6 +625,11 @@ ItemArmsBitchSuitZips,Zippers
 ItemArmsBitchSuitStraps,Straps
 ItemArmsBitchSuitBuckles,Buckles
 ItemArmsBitchSuitLock,Locks
+ItemArmsShinyPetSuitLatex,Suit
+ItemArmsShinyPetSuitZips,Shine
+ItemArmsShinyPetSuitStraps,Straps
+ItemArmsShinyPetSuitBuckles,Buckles
+ItemArmsShinyPetSuitLock,Locks
 ItemArmsTentaclesLowerInner,Inner
 ItemArmsTentaclesLowerSucker,Suckers
 ItemArmsTentaclesLowerOuter,Outer
@@ -646,6 +659,7 @@ ItemNeckLeatherCollarRing,Ring
 ItemNeckLeatherDeluxeCollarCollar,Collar
 ItemNeckLeatherDeluxeCollarRings,Edging
 ItemNeckLeatherDeluxeCollarBuckets,Buckles
+ItemNeckLeatherDeluxeCollarLock,Lock
 ItemNeckLeatherChokerLeather,Leather
 ItemNeckLeatherChokerMetal,Metal
 ItemNeckMaidCollarFrills,Frills
@@ -659,6 +673,8 @@ ItemNeckOrnateCollarCollar,Collar
 ItemNeckOrnateCollarGem,Gems
 ItemNeckHighStyleSteelCollarCollar,Collar
 ItemNeckHighStyleSteelCollarPanel,Panel
+ItemNeckPetSuitShockCollarCollar, Collar
+ItemNeckPetSuitShockCollarBuckles, Buckles
 ItemNeckShinySteelCollarCollar,Collar
 ItemNeckShinySteelCollarRing,Ring
 ItemNeckGothicCollarCollar,Collar
@@ -1673,3 +1689,6 @@ ItemPelvisHeavyDutyBeltTransparentShield,Transparent Shield
 ItemPelvisHeavyDutyBeltMetalShield,Shield
 ItemPelvisHeavyDutyBeltRubberBelt,Belt
 ItemPelvisHeavyDutyBeltMetalBelt,Belt
+ItemHoodCorsetHoodLace, Lacing 
+ItemHoodCorsetHoodLatex, Latex 
+ItemHoodCorsetHoodLines, Outline 

@@ -352,8 +352,8 @@ type CraftingPropertyType =
 	;
 
 type AssetAttribute =
-	"Skirt" |
-	"ShortHair" | "SmallEars" | "NoEars" | "AltEars" | "NoseRing" | "HoodieFix" |
+	"Skirt" | "SuitLower" | "UpperLarge" |
+	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
 	"CanAttachMittens" |
 	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "PussyLight1" | "PussyLight2" | "PussyLight3" | "PussyDark1" | "PussyDark2" | "PussyDark3" |
 	"CagePlastic2" | "CageTechno" | "CageFlat" |
@@ -695,6 +695,8 @@ interface GroupReferenceDictionaryEntry extends TaggedDictionaryEntry {
 interface AssetReferenceDictionaryEntry extends GroupReferenceDictionaryEntry {
 	/** The name of the asset being referenced */
 	AssetName: string;
+	/** The (optional) {@link CraftingItem.Name} in case the asset was referenced via a crafted item */
+	CraftName?: string;
 }
 
 /**
@@ -807,6 +809,8 @@ interface IChatRoomMessageMetadata {
 	GroupName?: AssetGroupName;
 	/** The assets referenced in the message */
 	Assets?: Record<string, Asset>;
+	/** The {@link CraftingItem.Name} of the assets referenced in the message (if applicable) */
+	CraftingNames?: Record<string, string>;
 	/** The groups referenced in the message */
 	Groups?: Partial<Record<AssetGroupName, AssetGroup>>;
 	/** How intense the shock should be */
@@ -1942,6 +1946,12 @@ interface NPCTrait {
 interface ElementMetaData {
 	/** Whether to draw an element-accompanying image or not */
 	drawImage?: boolean,
+	/**
+	 * The static image path of the to-be drawn image.
+	 * A value of `null` either implies that it should not be drawn (per {@link ElementMetaData.drawImage})
+	 * or that it's a dynamic image path (_e.g._ modular item modules).
+	 */
+	imagePath?: null | string,
 	/** The name of a supported thumbnail image in \CSS\Styles.css that will show the current position on the slider */
 	icon?: string,
 	/** Whether an options shows up in the UI. Useful for options that are managed programmatically. */
@@ -1949,9 +1959,9 @@ interface ElementMetaData {
 }
 
 declare namespace ElementMetaData {
-	interface Typed { drawImage: boolean, hidden: boolean }
-	interface Modular { drawImage: boolean, hidden: boolean }
-	interface Vibrating  { drawImage: false, hidden: false }
+	interface Typed { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: string }
 }
@@ -3125,6 +3135,7 @@ interface GamePokerParameters {
 
 interface GameClubCardParameters {
 	Deck: string[];
+	Reward?: string;
 }
 
 //#endregion
@@ -3748,7 +3759,8 @@ interface ClubCard {
 	Type?: string;
 	Title?: string;
 	Text?: string;
-	Unique?: boolean;
+	Prerequisite?: string;
+	Reward?: string;
 	MoneyPerTurn?: number;
 	FamePerTurn?: number;
 	RequiredLevel?: number;
@@ -3761,6 +3773,7 @@ interface ClubCard {
 	GlowColor?: string;
 	OnPlay?: (C: ClubCardPlayer) => void;
 	OnTurnEnd?: (C: ClubCardPlayer) => void;
+	CanPlay?: (C: ClubCardPlayer) => boolean;
 }
 
 interface ClubCardPlayer {

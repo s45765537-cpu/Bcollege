@@ -102,7 +102,7 @@ function InventoryItemVulvaFuturisticVibratorClickSet() {
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(CurrentCharacter)
-					.asset(DialogFocusItem.Asset)
+					.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
 					.build();
 				ChatRoomPublishCustomAction("FuturisticVibratorSaveVoiceCommandsAction", true, Dictionary);
 			}
