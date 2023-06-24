@@ -824,6 +824,13 @@ ItemDevicesLuckyWheelSection3,Gag Sections
 ItemDevicesFoldingScreenShadow,Shadow
 ItemDevicesFoldingScreenPaper1,Paper
 ItemDevicesFoldingScreenFrame1,Frame
+ItemDevicesKabeshiriWallCuffsBody,Cuffs
+ItemDevicesKabeshiriWallText,Text
+ItemDevicesKabeshiriWallCumButt,Cum
+ItemDevicesKabeshiriWallMonitor,Portrait Frame
+ItemDevicesKabeshiriWallMonitorRec,Recording
+ItemDevicesKabeshiriWallWallBackground,Background
+ItemDevicesKabeshiriWallWallMonitor,Foreground
 ItemAddonCoversOuter,Outer
 ItemAddonCoversInner,Inner
 ItemNoseNoseHookBand,Strap
@@ -1677,6 +1684,6 @@ ItemPelvisHeavyDutyBeltTransparentShield,Transparent Shield
 ItemPelvisHeavyDutyBeltMetalShield,Shield
 ItemPelvisHeavyDutyBeltRubberBelt,Belt
 ItemPelvisHeavyDutyBeltMetalBelt,Belt
-ItemHoodCorsetHoodLace, Lacing 
-ItemHoodCorsetHoodLatex, Latex 
-ItemHoodCorsetHoodLines, Outline 
+ItemHoodCorsetHoodLace, Lacing
+ItemHoodCorsetHoodLatex, Latex
+ItemHoodCorsetHoodLines, Outline

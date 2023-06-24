@@ -2249,7 +2249,7 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
 	const dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)
-		.targetCharacter(C)
+		.targetCharacter(C);
 
 	if (PrevItem != null) {
 		dictionary.asset(PrevItem.Asset, "PrevAsset", PrevItem.Craft && PrevItem.Craft.Name);
