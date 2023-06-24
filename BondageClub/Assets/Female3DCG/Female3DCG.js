@@ -3213,6 +3213,12 @@ var AssetFemale3DCG = [
 					{ Name: "Front", Priority: 55},
 				],
 			},//HairFront51b
+			{ Name: "HairFront52", Attribute: ["ShortHair"], Random: false, Top: 33, Left: 150 },
+			{ Name: "HairFront52b", Attribute: ["ShortHair"], Random: false, Top: 33, Left: 150,
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+				], },
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
@@ -3394,7 +3400,10 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "HairBack55" },
-			{ Name: "HairBack56", Left: 50, Random: false }
+			{ Name: "HairBack56", Left: 50, Random: false },
+			{ Name: "HairBack57", Random: false },
+			{ Name: "HairBack57b", Random: false },
+			{ Name: "HairBack57c", Random: false },
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
 	},

@@ -711,6 +711,8 @@ HairFront,HairFront49,Style 49
 HairFront,HairFront50,Style 50
 HairFront,HairFront51,Style 51
 HairFront,HairFront51b,Style 51b
+HairFront,HairFront52,Style 52
+HairFront,HairFront52b,Style 52b
 FacialHair,,Facial Hair
 FacialHair,Goatee,Goatee
 FacialHair,BigBeard,Big Beard
@@ -740,9 +742,9 @@ HairBack,HairBack10,Style 10
 HairBack,HairBack10b,Style 10b
 HairBack,HairBack11,Style 11
 HairBack,HairBack12,Style 12
+HairBack,HairBack12b,Style 12b
 HairBack,HairBack13,Style 13
 HairBack,HairBack13b,Style 13b
-HairBack,HairBack12b,Style 12b
 HairBack,HairBack14,Style 14
 HairBack,HairBack15,Style 15
 HairBack,HairBack15b,Style 15b
@@ -790,6 +792,9 @@ HairBack,HairBack53,Style 53
 HairBack,HairBack54,Style 54
 HairBack,HairBack55,Style 55
 HairBack,HairBack56,Style 56
+HairBack,HairBack57,Style 57
+HairBack,HairBack57b,Style 57b
+HairBack,HairBack57c,Style 57c
 Eyes,,Left eye
 Eyes,Eyes1,Style 1
 Eyes,Eyes2,Style 2
