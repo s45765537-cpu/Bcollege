@@ -3277,6 +3277,12 @@ var AssetFemale3DCG = [
 					{ Name: "Front", Priority: 55},
 				],
 			},//HairFront51b
+			{ Name: "HairFront52", Attribute: ["ShortHair"], Random: false, Top: 33, Left: 150 },
+			{ Name: "HairFront52b", Attribute: ["ShortHair"], Random: false, Top: 33, Left: 150,
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+				], },
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
@@ -3329,6 +3335,24 @@ var AssetFemale3DCG = [
 					{Name: "BehindRight", CopyLayerColor: "MainRight"},
 				]
 			},
+			{
+				Name: "HairBack7b", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+				]
+			},
+			{
+				Name: "HairBack7c", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+				]
+			},
 			{ Name: "HairBack8", AllowPose: ["Suspension", "AllFours"], HideForPose: ["Hogtied"] },
 			{
 				Name: "HairBack9", Random: false,
@@ -3349,6 +3373,26 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack11", AllowPose: ["Suspension", "Hogtied", "AllFours"] },
 			{ Name: "HairBack12" },
 			{ Name: "HairBack12b" },
+			{
+				Name: "HairBack13", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+					{Name: "Bun"},
+				]
+			},
+			{
+				Name: "HairBack13b", Random: false,
+				Layer: [
+					{Name: "MainLeft", Priority: 32},
+					{Name: "BehindLeft", CopyLayerColor: "MainLeft"},
+					{Name: "MainRight", Priority: 32},
+					{Name: "BehindRight", CopyLayerColor: "MainRight"},
+					{Name: "Bun"},
+				]
+			},
 			{ Name: "HairBack14", AllowPose: ["Suspension", "Hogtied"] },
 			{ Name: "HairBack15", AllowPose: ["Suspension"] },
 			{ Name: "HairBack15b" },
@@ -3420,7 +3464,10 @@ var AssetFemale3DCG = [
 				]
 			},
 			{ Name: "HairBack55" },
-			{ Name: "HairBack56", Left: 50, Random: false }
+			{ Name: "HairBack56", Left: 50, Random: false },
+			{ Name: "HairBack57", Random: false },
+			{ Name: "HairBack57b", Random: false },
+			{ Name: "HairBack57c", Random: false },
 		],
 		Color: ["Default", "#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"],
 	},
@@ -6751,8 +6798,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask", Fetish: ["Leather"], Value: 90, Difficulty: 6, Time: 30, AllowLock: true, AllowTighten: true, BuyGroup: "BallGagMask", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Extended: true,
 				Layer: [
-					{ Name: "Strap" },
+					{ Name: "Strap", HasType: false },
 					{ Name: "Ball" },
 				]
 			},
@@ -8491,7 +8539,7 @@ var AssetFemale3DCG = [
 					{ Name: "FillShapedMouthTransparent", HasType: false, AllowModuleTypes: ["m14","m22"], CopyLayerColor: "FillRoundMouth" },
 					{ Name: "FillHoleShapedMouth", HasType: false, AllowModuleTypes: ["m13","m21"], CopyLayerColor: "FillRoundMouth" },
 					{ Name: "FillHoleShapedMouthTransparent", HasType: false, AllowModuleTypes: ["m15","m23"], CopyLayerColor: "FillRoundMouth" },
-					{ Name: "FillShapedMouthHighlight", HasType: false, AllowModuleTypes: ["m12","m20","m14","m22","m13","m21","m15","m23"], CopyLayerColor: "PanelHeadHighlight" },
+					// { Name: "FillShapedMouthHighlight", HasType: false, AllowModuleTypes: ["m12","m20","m14","m22","m13","m21","m15","m23"], CopyLayerColor: "PanelHeadHighlight" },
 					{ Name: "FillCircleMouth", HasType: false, AllowModuleTypes: ["m28","m29"], CopyLayerColor: "FillRoundMouth" },
 					{ Name: "FillCircleMouthTransparent", HasType: false, AllowModuleTypes: ["m30","m31"], CopyLayerColor: "FillRoundMouth" },
 
@@ -8507,7 +8555,7 @@ var AssetFemale3DCG = [
 					{ Name: "LiningRoundMouth", HasType: false, AllowModuleTypes: ["m2","m8","m9","m10","m11","m6","m16","m17","m18","m19"], ColorGroup: "Linings" }, // master colour for mouth lining
 					// { Name: "LiningRoundMouthHighlight", HasType: false, AllowModuleTypes: ["m2","m8","m9","m10","m11","m6","m16","m17","m18","m19"], CopyLayerColor: "PanelHeadHighlight" },
 					{ Name: "LiningShapedMouth", HasType: false, AllowModuleTypes: ["m3","m12","m13","m14","m15","m7","m20","m21","m22","m23"], CopyLayerColor: "LiningRoundMouth" },
-					{ Name: "LiningShapedMouthHighlight", HasType: false, AllowModuleTypes: ["m3","m12","m13","m14","m15","m7","m20","m21","m22","m23"], CopyLayerColor: "PanelHeadHighlight" },
+					// { Name: "LiningShapedMouthHighlight", HasType: false, AllowModuleTypes: ["m3","m12","m13","m14","m15","m7","m20","m21","m22","m23"], CopyLayerColor: "PanelHeadHighlight" },
 					{ Name: "LiningCircleEye", HasType: false, AllowModuleTypes: ["e24","e26","e27","e25","e28","e29"], CopyLayerColor: "LiningRoundEye" },
 					{ Name: "LiningCircleEyeHighlight", HasType: false, AllowModuleTypes: ["e24","e26","e27","e25","e28","e29"], CopyLayerColor: "PanelHeadHighlight" },
 					{ Name: "LiningCircleMouth", HasType: false, AllowModuleTypes: ["m26","m28","m30","m27","m29","m31"], CopyLayerColor: "LiningRoundMouth" },
