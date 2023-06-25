@@ -277,3 +277,7 @@ Title Weekend Meeting,Weekend Meeting
 Text Weekend Meeting,Draw 3 cards
 Title Fancy Meeting,Fancy Meeting
 Text Fancy Meeting,Draw 4 cards
+Title Prank,Prank
+Text Prank,Your opponent discards 2 random cards.
+Title Sabotage,Sabotage
+Text Sabotage,Your opponent discards 4 random cards.

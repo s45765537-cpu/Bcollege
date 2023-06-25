@@ -981,8 +981,33 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 4);
 		}
+	},
+	{
+		ID: 30018,
+		Name: "Prank",
+		Type: "Event",
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 2);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
+		}
+	},
+	{
+		ID: 30019,
+		Name: "Sabotage",
+		Type: "Event",
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 3);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
+		}
 	}
-
 
 ];
 
@@ -1235,6 +1260,21 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
 		}
+		Amount--;
+	}
+}
+
+/**
+ * Removes cards from a player hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player that discards
+ * @param {number} Amount - The amount of cards to discard
+ * @returns {void} - Nothing
+ */
+function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
+	if ((CCPlayer == null) || (CCPlayer.Hand == null) || (Amount == null)) return;
+	while ((Amount > 0) && (CCPlayer.Hand.length > 0)) {
+		let Pos = Math.floor(Math.random() * CCPlayer.Hand.length);
+		CCPlayer.Hand.splice(Pos, 1);
 		Amount--;
 	}
 }
