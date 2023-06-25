@@ -889,15 +889,15 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	if (CurrentScreen == "ChatRoom" && sendMessage) {
 
 		// Publishes the activity to the chatroom
-		const Dictionary = new DictionaryBuilder()
+		const dictionary = new DictionaryBuilder()
 			.sourceCharacter(actor)
 			.targetCharacter(acted)
-			.focusGroup(group.Name)
-			.if(!!ItemActivity.Item)
-			.asset(ItemActivity.Item.Asset, "ActivityAsset", ItemActivity.Item.Craft && ItemActivity.Item.Craft.Name)
-			.endif()
-			.build();
+			.focusGroup(group.Name);
+		if (ItemActivity.Item) {
+			dictionary.asset(ItemActivity.Item.Asset, "ActivityAsset", ItemActivity.Item.Craft && ItemActivity.Item.Craft.Name);
+		}
 
+		const Dictionary = dictionary.build();
 		Dictionary.push({ ActivityName: Activity.Name });
 		ServerSend("ChatRoomChat", { Content: ActivityBuildChatTag(acted, group, Activity), Type: "Activity", Dictionary });
 
