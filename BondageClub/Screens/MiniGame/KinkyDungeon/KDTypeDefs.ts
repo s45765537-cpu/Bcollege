@@ -123,7 +123,7 @@ type KDHasTags = {
 
 interface KDRestraintProps extends KDRestraintPropsBase {
 	name: string,
-	Group: string,
+	Group: AssetGroupName,
 	Asset: string,
 }
 
@@ -227,8 +227,8 @@ interface KDRestraintPropsBase {
 	/** Model to use in standalone. Defaults to Asset */
 	Model?: string,
 	/** Used for when the visual asset in BC is different from the actual group of the item*/
-	AssetGroup?: string,
-	Color?: string[] | string,
+	AssetGroup?: AssetGroupName,
+	Color?: ItemColor,
 	/** Maximum level, wont be used at this or higher. Inclusive. */
 	maxLevel?: number,
 	/** Determines the floors the restraint can appear on */
@@ -341,7 +341,7 @@ interface KDRestraintPropsBase {
 	/** Changes the dialogue text when you try to struggle completely */
 	specStruggleTypes?: string[],
 	/** List of Groups removed */
-	remove?: string[],
+	remove?: AssetGroupName[],
 	/** List of tags removed */
 	removeShrine?: string[],
 	slimeLevel?: number,
@@ -545,7 +545,7 @@ interface overrideDisplayItem {
 	/** Bondage club asset */
 	Item: string,
 	/** Group */
-	Group: string,
+	Group: AssetGroupName,
 	/** Color */
 	Color: string[]|string,
 	/** Filters */
@@ -557,7 +557,7 @@ interface overrideDisplayItem {
 	/** Uses the player's hair color as the item color */
 	useHairColor?: boolean,
 	/** Used for overriding BC priority */
-	OverridePriority?: number[]|number,
+	OverridePriority?: AssetLayerOverridePriority,
 }
 
 interface KDLoadout {name: string, tags?: string[], singletag: string[], singletag2?: string[], forbidtags: string[], chance: number, items?: string[], restraintMult?: number, multiplier?: number};
@@ -1269,10 +1269,12 @@ interface entity {
 	KinkyDungeonJailTourInfractions?: number,
 }
 
+type KDAssetGroupName = AssetGroupName | "Body" | "Brows" | "Costume" | "Apron" | "Catsuit";
+
 type KinkyDungeonDress = {
 	Item: string;
-	Group: string;
-	Color: string | string[];
+	Group: KDAssetGroupName;
+	Color: ItemColor;
 	Filters?: Record<string, LayerFilter>;
 	Lost: boolean;
 	NoLose?: boolean;
@@ -2152,3 +2154,52 @@ declare const PIXI: typeof import('pixi.js') & typeof import('pixi.js-legacy') &
 type PIXIContainer = import('pixi.js').Container;
 type PIXIAdjustmentFilter = import('pixi-filters').AdjustmentFilter;
 
+type LayerFilter = object;
+
+interface Model {
+	Name: string;
+	Filters: any;
+	Protected: boolean;
+	SuperProtected: boolean;
+	Restraint: boolean;
+	Group: AssetGroupName;
+	DefaultColor: string;
+}
+
+
+/** KD extension to BC's base model */
+interface Item {
+	Model?: Model;
+	Filters?: Record<string, object>;
+}
+
+interface PoseMod {
+	Layer: string;
+	scale_x: number;
+	scale_y: number;
+	rotation_x_anchor: number;
+	rotation_y_anchor: number;
+	offset_x: number;
+	offset_y: number;
+}
+
+interface Window {
+	dataLayer: any;
+	WebFontConfig: any;
+}
+
+// Stuff that's missing?
+declare function KDGetColorableLayers(m: Model): string[];
+declare function KDGeneratePoseArray(...args: string[]): AssetPoseName[];
+declare function UpdateModels(m: Character);
+declare function KDGetAvailablePosesArms(m: Model);
+declare function KDGetAvailablePosesLegs(m: Model);
+declare function suppressCanvasUpdate(cb: () => void);
+
+declare var EYEPOSES: string[];
+declare var EYE2POSES: string[];
+declare var BROWPOSES: string[];
+declare var BROW2POSES: string[];
+declare var MOUTHPOSES: string[];
+declare var BLUSHPOSES: string[];
+declare var STANDPOSES: string[];

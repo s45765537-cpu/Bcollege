@@ -137,7 +137,7 @@ function KDProcessInput(type, data) {
 					if (KinkyDungeonIsChaste(false)) {
 						msg = "KinkyDungeonSelfBondagePlug";
 					}
-				} else if (KDRestraint(loose).Group == "Item") {
+				} else if (KDRestraint(loose).Group == "ItemNipples" || KDRestraint(loose).Group == "ItemNipplesPiercings") {
 					if (KinkyDungeonIsChaste(true)) {
 						msg = "KinkyDungeonSelfBondageNipple";
 					}
