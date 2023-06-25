@@ -955,7 +955,34 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Board != null) && (Opponent.Board.length > 0));
 		}
+	},
+	{
+		ID: 30015,
+		Name: "Virtual Meeting",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 2);
+		}
+	},
+	{
+		ID: 30016,
+		Name: "Weekend Meeting",
+		Type: "Event",
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 3);
+		}
+	},
+	{
+		ID: 30017,
+		Name: "Fancy Meeting",
+		Type: "Event",
+		RequiredLevel: 5,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 4);
+		}
 	}
+
 
 ];
 

@@ -271,3 +271,9 @@ Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.  Extra 
 Title Moving Out of Town,Moving Out of Town
 Text Moving Out of Town,Remove any member from your opponent club.
 Prerequisite Moving Out of Town,Select a member from your opponent club to remove.
+Title Virtual Meeting,Virtual Meeting
+Text Virtual Meeting,Draw 2 cards
+Title Weekend Meeting,Weekend Meeting
+Text Weekend Meeting,Draw 3 cards
+Title Fancy Meeting,Fancy Meeting
+Text Fancy Meeting,Draw 4 cards
