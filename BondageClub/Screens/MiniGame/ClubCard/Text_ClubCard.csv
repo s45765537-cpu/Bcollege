@@ -95,6 +95,8 @@ Title Rope Bunny,Rope Bunny
 Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
 Text Shy Submissive,Will leave your club at end of turn if there are more than 6 members.
+Title Rope Sensei,Rope Sensei
+Text Rope Sensei,ロープを尊重する
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -265,4 +267,7 @@ Text College Bash,+2 Fame for each College Girl.  Extra +2 Fame if Sidney is pre
 Title Ransomware,Ransomware
 Text Ransomware,Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
 Title Shibari Evening,Shibari Evening
-Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.
+Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.  Extra +1 Fame if Rope Sensei is present.
+Title Moving Out of Town,Moving Out of Town
+Text Moving Out of Town,Remove any member from your opponent club.
+Prerequisite Moving Out of Town,Select a member from your opponent club to remove.
