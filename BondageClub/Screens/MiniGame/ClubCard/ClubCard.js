@@ -1007,6 +1007,21 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
 		}
+	},
+	{
+		ID: 30020,
+		Name: "Nursery Night",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
+			Money = Money * 3;
+			ClubCardPlayerAddMoney(CCPlayer, Money);
+			ClubCardLogPublish("GainMoney", CCPlayer, Money);
+		},
+		CanPlay: function(CCPlayer) {
+			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
+			return (Money > 0);
+		}
 	}
 
 ];
