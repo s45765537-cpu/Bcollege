@@ -7084,21 +7084,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
-					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
-					},
+					Property: {},
 				},
 				{
 					Name: "Shiny",
-					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
-					},
+					Property: {},
 				},
 				{
 					Name: "Tight",
-					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
-					},
+					Property: {},
 				},
 			],
 			DialogPrefix: {
