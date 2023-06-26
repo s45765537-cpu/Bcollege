@@ -614,7 +614,8 @@ function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, dr
 		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"));
 
 	// If the assets allows tightening / loosening
-	if (Asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock")) {
+	// TODO: Add crafting support
+	if (Asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && CurrentScreen !== "Crafting") {
 		let Difficulty = DialogFocusItem.Difficulty;
 		if (Difficulty == null) Difficulty = 0;
 		DrawText(DialogFindPlayer("Tightness") + " " + Difficulty.toString(), 1200, 140, "White", "Silver");
@@ -670,7 +671,13 @@ function TypedItemClick(data) {
 	}
 
 	// If the assets allows tightening / loosening
-	if ((DialogFocusItem != null) && (DialogFocusItem.Asset != null) && DialogFocusItem.Asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && MouseIn(1050, 220, 300, 65)) {
+	// TODO: Add crafting support
+	if (
+		MouseIn(1050, 220, 300, 65)
+		&& data.asset.AllowTighten
+		&& !InventoryItemHasEffect(DialogFocusItem, "Lock")
+		&& CurrentScreen !== "Crafting"
+	) {
 		DialogSetTightenLoosenItem(DialogFocusItem);
 		return;
 	}
