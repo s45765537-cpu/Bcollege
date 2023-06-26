@@ -86,7 +86,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 			.if(!NoShock)
 			.shockIntensity(2)
 			.endif()
-			.build()
+			.build();
 		Dictionary.push({ ActivityName: "ShockItem" });
 
 		let ShockPhrase = !NoShock ? "Shock" : "Punish";

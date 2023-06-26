@@ -38,7 +38,7 @@ let CraftingOffset = 0;
 let CraftingItemList = [];
 
 /** The maximum number of crafting slots. */
-let CraftingSlotMax = 40;
+let CraftingSlotMax = 80;
 
 /**
  * The character used for the crafting preview.
@@ -199,7 +199,7 @@ function CraftingRun() {
 			DrawText(TextGet("SelectDestroy"), 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 		} else {
-			DrawText(TextGet("SelectSlot"), 840, 60, "White", "Black");
+			DrawText(TextGet("SelectSlot").replace("PAGENUMBER", (Math.floor(CraftingOffset / 20) + 1).toString()), 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Trash.png", TextGet("Destroy"));
 		}
 		for (let S = CraftingOffset; S < CraftingOffset + 20; S++) {

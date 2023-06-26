@@ -120,6 +120,13 @@ var ClubCardList = [
 			if ((CCPlayer.Board != null) && (CCPlayer.Board.length >= 7)) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
+	{
+		ID: 1014,
+		Name: "Rope Sensei",
+		RequiredLevel: 2,
+		FamePerTurn: 1,
+		MoneyPerTurn: 1
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -927,11 +934,93 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if ((CCPlayer.Board == null) || (CCPlayer.Board.length <= 0)) return;
 			let Fame = CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Dominant");
+			if (ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei")) Fame = Fame * 2;
 			ClubCardPlayerAddFame(CCPlayer, Fame);
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
 		},
 		CanPlay: function(CCPlayer) {
 			return ((CCPlayer.Board != null) && (CCPlayer.Board.length > 0));
+		}
+	},
+	{
+		ID: 30014,
+		Name: "Moving Out of Town",
+		Type: "Event",
+		Prerequisite: "SelectOpponentMember",
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardRemoveFromBoard(ClubCardGetOpponent(CCPlayer), ClubCardSelection);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Board != null) && (Opponent.Board.length > 0));
+		}
+	},
+	{
+		ID: 30015,
+		Name: "Virtual Meeting",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 2);
+		}
+	},
+	{
+		ID: 30016,
+		Name: "Weekend Meeting",
+		Type: "Event",
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 3);
+		}
+	},
+	{
+		ID: 30017,
+		Name: "Fancy Meeting",
+		Type: "Event",
+		RequiredLevel: 5,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 4);
+		}
+	},
+	{
+		ID: 30018,
+		Name: "Prank",
+		Type: "Event",
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 2);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
+		}
+	},
+	{
+		ID: 30019,
+		Name: "Sabotage",
+		Type: "Event",
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 3);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
+		}
+	},
+	{
+		ID: 30020,
+		Name: "Nursery Night",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
+			Money = Money * 3;
+			ClubCardPlayerAddMoney(CCPlayer, Money);
+			ClubCardLogPublish("GainMoney", CCPlayer, Money);
+		},
+		CanPlay: function(CCPlayer) {
+			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
+			return (Money > 0);
 		}
 	}
 
@@ -1191,6 +1280,21 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 }
 
 /**
+ * Removes cards from a player hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player that discards
+ * @param {number} Amount - The amount of cards to discard
+ * @returns {void} - Nothing
+ */
+function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
+	if ((CCPlayer == null) || (CCPlayer.Hand == null) || (Amount == null)) return;
+	while ((Amount > 0) && (CCPlayer.Hand.length > 0)) {
+		let Pos = Math.floor(Math.random() * CCPlayer.Hand.length);
+		CCPlayer.Hand.splice(Pos, 1);
+		Amount--;
+	}
+}
+
+/**
  * Builds a deck array of object from a deck array of numbers
  * @param {Array} InDeck - The array of number deck
  * @returns {Array} - The resulting deck
@@ -1404,7 +1508,7 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Board.length <= 0)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Control == "AI") && !ClubCardGroupIsOnBoard(CCPlayer, "Liability")) return false;
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardGetOpponent(CCPlayer).Board.length <= 0)) return false;
-	if ((Card.Prerequisite === "SelectOpponentMember") && (CCPlayer.Control == "AI")) return false;
+	if ((Card.Prerequisite === "SelectOpponentMember") && (CCPlayer.Control == "AI") && (ClubCardGroupOnBoardCount(ClubCardGetOpponent(CCPlayer), "Liability") == ClubCardGetOpponent(CCPlayer).Board.length)) return false;
 	if ((Card.Prerequisite === "SelectAnyMember") && (CCPlayer.Board.length + ClubCardGetOpponent(CCPlayer).Board.length <= 0)) return false;
 	if ((Card.Prerequisite === "SelectAnyMember") && (CCPlayer.Control == "AI")) return false;
 	return true;
@@ -1449,6 +1553,15 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				for (let Group of Card.Group)
 					if (Group === "Liability")
 						Cards.push(Card);
+		ClubCardSelection = CommonRandomItemFromList(null, Cards);
+	}
+
+	// If the AI must select one of her opponent card to remove before playing the current card
+	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
+		let Cards = [];
+		for (let Card of ClubCardGetOpponent(CCPlayer).Board)
+			if ((Card.Group == null) || (Card.Group.indexOf("Liability") < 0))
+				Cards.push(Card);
 		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
 

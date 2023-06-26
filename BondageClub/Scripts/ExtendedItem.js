@@ -1003,6 +1003,24 @@ function ExtendedItemManualRegister() {
 				},
 			},
 		},
+		{
+			group: "ItemDevices",
+			name: "KabeshiriWall",
+			config: {
+				Archetype: ExtendedArchetype.TEXT,
+				MaxLength: { Text: 10, Text2: 10 },
+				Font: "Caveat-Bold",
+				DrawData: {
+					elementData: [
+						{ position: [1505, 750] },
+						{ position: [1505, 825] },
+					],
+				},
+				DialogPrefix: {
+					Header: "ItemDevicesKabeshiriWallSelectBase",
+				},
+			},
+		},
 	];
 
 	for (const { group, name, config } of items) {

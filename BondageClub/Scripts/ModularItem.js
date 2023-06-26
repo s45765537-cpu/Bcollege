@@ -342,7 +342,7 @@ function ModularItemDrawCommon(
 	const page = buttonDefinitions.slice(pageStart, pageStart + itemsPerPage);
 
 	for (const [i, [option, currentOption, prefix]] of page.entries()) {
-		ExtendedItemDrawButton(option, currentOption, prefix, elementData[i]);
+		ExtendedItemDrawButton(option, currentOption, prefix, elementData[i + pageStart]);
 	}
 
 	if (paginate) {
