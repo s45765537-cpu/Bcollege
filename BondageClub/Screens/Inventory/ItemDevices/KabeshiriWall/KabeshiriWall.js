@@ -2,7 +2,7 @@
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallLoadHook(data, originalFunction) {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
@@ -13,7 +13,7 @@ function InventoryItemDevicesKabeshiriWallLoadHook(data, originalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallDrawHook(data, originalFunction) {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
@@ -32,7 +32,7 @@ function InventoryItemDevicesKabeshiriWallDrawHook(data, originalFunction) {
 function InventoryItemDevicesKabeshiriWallPublishActionHook(data, originalFunction, C, item, newOption, previousOption) {
 	switch (newOption.OptionType) {
 		case "TextItemOption": {
-			const textData = ExtendedItemGetData(item, ExtendedArchetype.TEXT);
+			const textData = ExtendedItemGetData(item.Asset, ExtendedArchetype.TEXT);
 			if (textData === null) {
 				return;
 			}
@@ -47,7 +47,7 @@ function InventoryItemDevicesKabeshiriWallPublishActionHook(data, originalFuncti
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallExitHook(data, originalFunction) {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData !== null) {
 		TextItem.Exit(textData);
 	}
@@ -61,7 +61,7 @@ function AssetsItemDevicesKabeshiriWallAfterDrawHook(
 	originalFunction,
 	{ C, A, CA, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }
 ) {
-	const data = ExtendedItemGetData(CA, ExtendedArchetype.TEXT);
+	const data = ExtendedItemGetData(A, ExtendedArchetype.TEXT);
 	if (data != null && L === "_Text") {
 		const height = 750;
 		const width = 1000;

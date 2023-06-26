@@ -779,19 +779,19 @@ function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
 /**
  * Extract the passed item's data from one of the extended item lookup tables
  * @template {ExtendedArchetype} Archetype
- * @param {Item} Item - The item whose data should be extracted
+ * @param {Asset} asset - The item whose data should be extracted
  * @param {Archetype} Archetype - The archetype corresponding to the lookup table
  * @param {string} Type - The item's type. Only relevant in the case of {@link VariableHeightData}
  * @returns {null | ExtendedDataLookupStruct[Archetype]} The item's data or `null` if the lookup failed
  */
-function ExtendedItemGetData(Item, Archetype, Type=null) {
-	if (Item == null) {
+function ExtendedItemGetData(asset, Archetype, Type=null) {
+	if (asset == null) {
 		return null;
 	}
 
 	/** @type {TypedItemData | ModularItemData | VibratingItemData | VariableHeightData | TextItemData} */
 	let Data;
-	const Key = `${Item.Asset.Group.Name}${Item.Asset.Name}${Type == null ? "" : Type}`;
+	const Key = `${asset.Group.Name}${asset.Name}${Type == null ? "" : Type}`;
 	switch (Archetype) {
 		case ExtendedArchetype.TYPED:
 			Data = TypedItemDataLookup[Key];

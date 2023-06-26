@@ -62,7 +62,7 @@ function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
  * @return {void} Nothing
  */
 function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, OptionName, Deflate) {
-	const Data = ExtendedItemGetData(Item, ExtendedArchetype.MODULAR);
+	const Data = ExtendedItemGetData(Item.Asset, ExtendedArchetype.MODULAR);
 	const Prefix = (Data == null) ? "" : ExtendedItemCustomChatPrefix("Pump", Data);
 	const ActionTag = `${Prefix}Pump${Deflate ? "Deflate" : "Inflate"}${OptionName}`;
 
