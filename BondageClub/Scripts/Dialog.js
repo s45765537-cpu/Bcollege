@@ -901,12 +901,20 @@ function DialogLeaveFocusItem() {
 		else
 			DialogChangeMode("items");
 	} else if (DialogFocusItem != null) {
+		const item = DialogFocusItem;
 		ExtendedItemExit();
-		// Special-case for when extended screens are used from the wardrobe, as FocusGroup doesn't make sense there
-		if (DialogIsInWardrobe())
-			DialogLeave();
-		else if (!DialogFocusItem)
-			DialogChangeMode("items");
+		switch (CurrentScreen) {
+			case "Appearance":
+				// Special-case for when extended screens are used from the wardrobe, as FocusGroup doesn't make sense there
+				return DialogLeave();
+			case "Crafting":
+				CraftingUpdateFromItem(item);
+				return CraftingModeSet("Name");
+			default:
+				if (!DialogFocusItem)
+					DialogChangeMode("items");
+				return;
+		}
 	}
 }
 

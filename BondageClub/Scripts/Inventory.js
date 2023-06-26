@@ -508,8 +508,8 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=tr
 	if (Item.Craft.MemberName == null) Item.Craft.MemberName = CharacterNickname(Source);
 
 	// Set the item priority
-	if (Craft.OverridePriority != null) {
-		Item.Property.OverridePriority = Craft.OverridePriority;
+	if (Craft.ItemProperty) {
+		Object.assign(Item.Property, CommonCloneDeep(Craft.ItemProperty));
 	}
 
 	// The properties are only applied on self or NPCs to prevent duplicating the effect

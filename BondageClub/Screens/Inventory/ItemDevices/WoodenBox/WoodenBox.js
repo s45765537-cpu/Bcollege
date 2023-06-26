@@ -2,7 +2,7 @@
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxLoadHook(Data, OriginalFunction) {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
@@ -13,7 +13,7 @@ function InventoryItemDevicesWoodenBoxLoadHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxDrawHook(Data, OriginalFunction) {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
@@ -24,7 +24,7 @@ function InventoryItemDevicesWoodenBoxDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxExitHook() {
-	const textData = ExtendedItemGetData(DialogFocusItem, ExtendedArchetype.TEXT);
+	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
@@ -55,7 +55,7 @@ function InventoryItemDevicesWoodenBoxPublishActionHook(data, originalFunction, 
 			originalFunction(C, item, newOption, previousOption);
 			return;
 		case "TextItemOption": {
-			const textData = ExtendedItemGetData(item, ExtendedArchetype.TEXT);
+			const textData = ExtendedItemGetData(item.Asset, ExtendedArchetype.TEXT);
 			if (textData === null) {
 				return;
 			}
@@ -74,7 +74,7 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 	originalFunction,
 	{ C, A, CA, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }
 ) {
-	const data = ExtendedItemGetData(CA, ExtendedArchetype.TEXT);
+	const data = ExtendedItemGetData(A, ExtendedArchetype.TEXT);
 	if (data != null && L === "_Text") {
 		const height = 900;
 		const width = 310;

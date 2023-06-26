@@ -3414,7 +3414,7 @@ interface PandoraBaseRoom {
 
 //#region Crafting items
 
-type CraftingMode = "Slot" | "Item" | "Property" | "Lock" | "Name" | "Color";
+type CraftingMode = "Slot" | "Item" | "Property" | "Lock" | "Name" | "Color" | "Extended";
 
 /**
  * A struct with an items crafting-related information.
@@ -3444,8 +3444,17 @@ interface CraftingItem {
 	 * @see {@link ItemProperties.Type}
 	 */
 	Type: string | null;
-	/** An integer representing the item layering priority; see {@link ItemProperties.OverridePriority} */
-	OverridePriority: number | null;
+	/**
+	 * An integer (or `null`) representing the item layering priority; see {@link ItemProperties.OverridePriority}.
+	 * @deprecated - superseded by {@link CraftingItem.ItemProperty}
+	 */
+	OverridePriority?: null | number;
+	/**
+	 * A record with a select few (optional) extra item properties:
+	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
+	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
+	 */
+	ItemProperty: ItemProperties | null;
 }
 
 /**
@@ -3473,8 +3482,15 @@ interface CraftingItemSelected {
 	 * @see {@link ItemProperties.Type}
 	 */
 	Type: string;
-	/** An integer representing the item layering priority; see {@link ItemProperties.OverridePriority} */
-	OverridePriority: number | null;
+	/**
+	 * A record with a select few (optional) extra item properties:
+	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
+	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
+	 */
+	ItemProperty: ItemProperties;
+	/** Get or set the `OverridePriority` property of {@link CraftingItemSelected.ItemProperty} */
+	get OverridePriority(): null | AssetLayerOverridePriority;
+	set OverridePriority(value: null | AssetLayerOverridePriority);
  }
 
 /**
