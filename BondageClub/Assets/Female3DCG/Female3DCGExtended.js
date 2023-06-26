@@ -7167,6 +7167,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticHarnessBallGag" },
 		},
+		BallGagMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
+		},
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -7301,6 +7305,10 @@ var AssetFemale3DCGExtended = {
 				},
 			]
 		}, //PaddedFaceMask
+		BallGagMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
+		},
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {

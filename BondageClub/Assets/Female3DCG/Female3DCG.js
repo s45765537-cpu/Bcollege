@@ -2839,6 +2839,14 @@ var AssetFemale3DCG = [
 					{ Name: "MouthSubtle", HasType: false, AllowModuleTypes: ["m6"], CopyLayerColor: "MouthOnahole" },
 				],
 			},
+			{
+				Name: "MedicalMask", Value: -1, BuyGroup: "MedicalMask", Hide: ["Mouth"], HideItem: ["ItemNoseNoseRing"], Priority: 37,
+				DynamicGroupName: "ItemMouth", Left: 150, Top: 0,
+				Layer: [
+					{ Name: "Inner" },
+					{ Name: "Outer" },
+				]
+			},
 		],
 		Color: ["Default", "#303030", "#808080", "#e0e0e0", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
 	},
@@ -7249,8 +7257,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask", Fetish: ["Leather"], Value: -1, Difficulty: 6, Time: 30, AllowLock: true, AllowTighten: true, BuyGroup: "BallGagMask", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Extended: true,
 				Layer: [
-					{ Name: "Strap" },
+					{ Name: "Strap", HasType: false },
 					{ Name: "Ball" },
 				]
 			},
@@ -7622,8 +7631,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask", Fetish: ["Leather"], Value: -1, Difficulty: 6, Time: 30, AllowLock: true, AllowTighten: true, BuyGroup: "BallGagMask", Prerequisite: "GagUnique", Hide: ["Mouth"], Effect: ["BlockMouth", "GagMedium"], ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Extended: true,
 				Layer: [
-					{ Name: "Strap" },
+					{ Name: "Strap", HasType: false },
 					{ Name: "Ball" },
 				]
 			},
