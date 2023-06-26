@@ -12,7 +12,8 @@ var CraftingBackground = "CraftingWorkshop";
  * * `"Lock"`: The {@link CraftingLockList} selection screen.
  * * `"Name"`: The main menu wherein the crafted item is customized, allowing for the specification of names, descriptions, colors, extended item types, _etc._
  * * `"Color"`: A dedicated coloring screen for the crafted item.
- * @type {"Slot" | "Item" | "Property" | "Lock" | "Name" | "Color"}
+ * * `"Extended"`: The extended item menu.
+ * @type {CraftingMode}
  */
 let CraftingMode = "Slot";
 
@@ -189,8 +190,12 @@ function CraftingItemSupportsAutoType() {
 function CraftingRun() {
 
 	// The exit button is everywhere
-	if (CraftingMode != "Color") DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
-	if ((CraftingMode != "Color") && (CraftingMode != "Slot")) DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
+	if (CraftingMode != "Color" && CraftingMode != "Extended") {
+		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
+	}
+	if (CraftingMode != "Color" && CraftingMode != "Slot" && CraftingMode != "Extended") {
+		DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
+	}
 
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
@@ -300,10 +305,15 @@ function CraftingRun() {
 		ElementPosition("InputPriority", 1225, 710, 100);
 		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
 		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
-		if (CraftingItemSupportsAutoType()) {
-			DrawText(TextGet("EnterType"), 1335, 890, "White", "Black");
-			ElementPosition("InputType", 1685, 883, 310);
-			DrawButton(1840, 858, 60, 60, "", "White", "Icons/Small/Next.png");
+		if (CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+			if (CraftingItemSupportsAutoType()) {
+				ElementPosition("InputType", 1685, 884, 310);
+				DrawButton(1840, 858, 60, 60, "", "White", "Icons/Small/Next.png");
+			}
+			MainCanvas.textAlign = "left";
+			DrawText(TextGet("EnterType"), 1175, 890, "White", "Black");
+			MainCanvas.textAlign = "center";
+			DrawButton(1460, 858, 60, 60, "", "White", "Icons/Small/Use.png");
 		}
 	}
 
@@ -316,6 +326,42 @@ function CraftingRun() {
 		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950, true);
 	}
 
+	if (CraftingMode == "Extended") {
+		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
+	}
+}
+
+/**
+ * Update {@link CraftingSelectedItem.ItemProperties} with a select few properties from the passed item.
+ * @param {Item} item - The item whose properties should be coppied.
+ * @returns {void}
+ */
+function CraftingUpdateFromItem(item) {
+	if (!CraftingSelectedItem || !item.Property) {
+		return;
+	}
+	if (item.Property.Type !== undefined) {
+		CraftingSelectedItem.Type = item.Property.Type;
+	}
+
+	/** @type {(keyof ItemProperties)[]} */
+	const keys = ["OverridePriority"];
+	if (item.Asset.Archetype) {
+		// TODO: Add subscreen support
+		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
+		if (data && data.baselineProperty) {
+			keys.push(...CommonKeys(data.baselineProperty));
+		}
+	}
+
+	// Basic property validation is conducted later on via CraftingValidate
+	for (const key of /** @type {string[]} */(keys)) {
+		if (item.Property[key] != null) {
+			CraftingSelectedItem.ItemProperty[key] = item.Property[key];
+		}
+	}
 }
 
 /**
@@ -351,7 +397,7 @@ function CraftingModeSet(NewMode) {
 		ElementValue(
 			"InputPriority",
 			(CraftingSelectedItem.Asset == null) ? "" :
-				(CraftingSelectedItem.OverridePriority == null) ? AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString() : CraftingSelectedItem.OverridePriority.toString(),
+				(typeof CraftingSelectedItem.OverridePriority !== "number") ? AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString() : CraftingSelectedItem.OverridePriority.toString(),
 		);
 		if (CraftingItemSupportsAutoType()) {
 			ElementCreateInput("InputType", "text", "", "20");
@@ -409,7 +455,7 @@ function CraftingParsePriorityElement() {
 	const InitialPriority = AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority;
 
 	// Treat the initial priority as equivalent to null if `OverridePriority` has not been set yet
-	if (InitialPriority === DrawingPriority && CraftingSelectedItem.OverridePriority == null) {
+	if (InitialPriority === DrawingPriority && typeof CraftingSelectedItem.OverridePriority !== "number") {
 		return null;
 	} else if (!Number.isNaN(DrawingPriority)) {
 		return DrawingPriority;
@@ -435,7 +481,8 @@ function CraftingSaveServer() {
 			P = P + ((C.Color == null) ? "" : C.Color.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
 			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + ((C.OverridePriority == null) ? "" : C.OverridePriority.toString()) + "§";
+			P = P + "¶"; // Old field as used by the deprecated `OverridePriority` crafted item property, DO NOT REMOVE!
+			P = P + (C.ItemProperty == null ? "" : JSON.stringify(C.ItemProperty)) + "§";
 		} else P = P + "§";
 	while ((P.length >= 1) && (P.substring(P.length - 1) == "§"))
 		P = P.substring(0, P.length - 1);
@@ -481,7 +528,13 @@ function CraftingDecompressServerData(Data) {
 		Craft.Color = (Element.length >= 6) ? Element[5] : "";
 		Craft.Private = ((Element.length >= 7) && (Element[6] == "T"));
 		Craft.Type = (Element.length >= 8) ? Element[7] || null : null;
-		Craft.OverridePriority = (Element.length >= 9 && Element[8] !== "") ? Number.parseInt(Element[8]) : null;
+		Craft.ItemProperty = /** @type {ItemProperties} */({});
+		if (Element.length >= 9 && Element[8] !== "") {
+			Craft.ItemProperty.OverridePriority = Number.parseInt(Element[8]);
+		}
+		if (Element.length >= 10 && Element[9] !== "") {
+			Object.assign(Craft.ItemProperty, JSON.parse(Element[9]));
+		}
 		if (Craft.Item && Craft.Name && (Craft.Item != "") && (Craft.Name != "")) Crafts.push(Craft);
 		else Crafts.push(null);
 	}
@@ -530,10 +583,9 @@ function CraftingLoadServer(Packet) {
  * @returns {void} - Nothing
  */
 function CraftingClick() {
-
 	// Can always exit or cancel
-	if (MouseIn(1895, 15, 90, 90) && (CraftingMode != "Color")) CraftingExit();
-	if (MouseIn(1790, 15, 90, 90) && (CraftingMode != "Color") && (CraftingMode != "Slot")) return CraftingModeSet("Slot");
+	if (MouseIn(1895, 15, 90, 90) && (CraftingMode != "Color" && CraftingMode != "Extended")) CraftingExit();
+	if (MouseIn(1790, 15, 90, 90) && (CraftingMode != "Color" && CraftingMode != "Slot" && CraftingMode != "Extended")) return CraftingModeSet("Slot");
 
 	// In slot mode, we can select which item slot to craft
 	if (CraftingMode == "Slot") {
@@ -577,7 +629,17 @@ function CraftingClick() {
 					Lock: null,
 					Private: false,
 					Type: "",
-					OverridePriority: null,
+					ItemProperty: {},
+					get OverridePriority() {
+						return this.ItemProperty.OverridePriority;
+					},
+					set OverridePriority(value) {
+						if (value == null) {
+							delete this.ItemProperty.OverridePriority;
+						} else {
+							this.ItemProperty.OverridePriority = value;
+						}
+					},
 				};
 				CraftingModeSet("Item");
 				CraftingItemListBuild();
@@ -602,7 +664,6 @@ function CraftingClick() {
 			let Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
 			if (MouseIn(X, Y, 225, 275)) {
 				CraftingSelectedItem.Asset = CraftingItemList[I];
-				CraftingSelectedItem.OverridePriority = null;
 				// @ts-ignore
 				CraftingSelectedItem.Type = CraftingValidationRecord.Type.GetDefault(CraftingSelectedItem, CraftingSelectedItem.Asset) || "";
 				CraftingSelectedItem.Lock = null;
@@ -698,6 +759,14 @@ function CraftingClick() {
 				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowType[CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) + 1];
 			ElementValue("InputType", CraftingSelectedItem.Type);
 			CraftingUpdatePreview();
+		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+			const item = CraftingPreview.Appearance.find(i => {
+				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.Group.Name === CraftingSelectedItem.Asset.Group.Name;
+			});
+			if (item !== undefined) {
+				DialogExtendItem(item);
+				CraftingModeSet("Extended");
+			}
 		}
 		return;
 	}
@@ -714,6 +783,10 @@ function CraftingClick() {
 		return;
 	}
 
+	if (CraftingMode == "Extended") {
+		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+	}
 }
 
 /**
@@ -737,7 +810,6 @@ function CraftingConvertSelectedToItem() {
 	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim() : CraftingSelectedItem.Description;
 	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
 	let Type = ((CraftingMode == "Name") && (document.getElementById("InputType") != null)) ? ElementValue("InputType").trim() : CraftingSelectedItem.Type;
-	let OverridePriority = (CraftingMode == "Name") ? CraftingParsePriorityElement() : CraftingSelectedItem.OverridePriority;
 	return {
 		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
 		Property: CraftingSelectedItem.Property,
@@ -747,7 +819,7 @@ function CraftingConvertSelectedToItem() {
 		Color: Color,
 		Private: CraftingSelectedItem.Private,
 		Type: Type || null,
-		OverridePriority: OverridePriority,
+		ItemProperty: CraftingSelectedItem.ItemProperty,
 	};
 }
 
@@ -766,7 +838,17 @@ function CraftingConvertItemToSelected(Craft) {
 		Property: Craft.Property,
 		Asset: Player.Inventory.find(a => a.Asset.Name === Craft.Item && !a.Asset.IsLock).Asset,
 		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
-		OverridePriority: Craft.OverridePriority,
+		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
+		get OverridePriority() {
+			return this.ItemProperty.OverridePriority;
+		},
+		set OverridePriority(value) {
+			if (value == null) {
+				delete this.ItemProperty.OverridePriority;
+			} else {
+				this.ItemProperty.OverridePriority = value;
+			}
+		},
 	};
 }
 
@@ -846,7 +928,7 @@ function CraftingItemListBuild() {
 
 /**
  * A record with tools for validating {@link CraftingItem} properties.
- * @type {Record<string, CratingValidationStruct>}
+ * @type {Record<keyof CraftingItem, CratingValidationStruct>}
  * @see {@link CratingValidationStruct}
  * @todo Let the Validate/GetDefault functions take the respective attribute rather than the entire {@link CraftingItem}
  */
@@ -931,6 +1013,82 @@ const CraftingValidationRecord = {
 			}
 		},
 		GetDefault: (c, a) => "Normal",
+		StatusCode: CraftingStatusType.ERROR,
+	},
+	ItemProperty: {
+		Validate: function (c, a) {
+			const property = c.ItemProperty;
+			if (property == null) {
+				return true;
+			} else if (!CommonIsObject(property)) {
+				return false;
+			} else if (!a) {
+				return true;
+			}
+
+			/** @type {ItemProperties} */
+			let baseline = {};
+			if (a.Archetype) {
+				const data = ExtendedItemGetData(a, a.Archetype);
+				if (data && data.baselineProperty) {
+					Object.assign(baseline, data.baselineProperty);
+				}
+			}
+
+			for (const [key, value] of Object.entries(property)) {
+				if (value == null) {
+					continue;
+				} else if (key === "OverridePriority" && typeof Number.isInteger(value)) {
+					return false;
+				} else if (key === "OverridePriority" && CommonIsObject(value)) {
+					const layers = a.Layer.map(l => l.Name);
+					for (const [layerName, priority] of Object.entries(value)) {
+						if (!(layers.includes(layerName) && Number.isInteger(priority))) {
+							return false;
+						}
+					}
+				} else if (typeof value !== typeof baseline[key]) {
+					return false;
+				}
+			}
+			return true;
+		},
+		GetDefault: function (c, a) {
+			const property = c.ItemProperty;
+			if (!CommonIsObject(property) || !a) {
+				return {};
+			}
+
+			/** @type {ItemProperties} */
+			let baseline = {};
+			if (a.Archetype) {
+				// TODO: Add subscreen support
+				let data = ExtendedItemGetData(a, a.Archetype);
+				if (data && data.baselineProperty) {
+					Object.assign(baseline, data.baselineProperty);
+				}
+			}
+
+			const ret = {};
+			for (const [key, value] of Object.entries(property)) {
+				if (value == null) {
+					continue;
+				} else if (key === "OverridePriority" && Number.isInteger(value)) {
+					ret[key] = value;
+				} else if (key === "OverridePriority" && CommonIsObject(value)) {
+					ret[key] = {};
+					const layers = a.Layer.map(l => l.Name);
+					for (const [layerName, priority] of Object.entries(value)) {
+						if (layers.includes(layerName) && Number.isInteger(priority)) {
+							ret[key][layerName] = priority;
+						}
+					}
+				} else if (typeof value === typeof baseline[key]) {
+					ret[key] = value;
+				}
+			}
+			return ret;
+		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Type: {

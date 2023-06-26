@@ -17,7 +17,7 @@ EnterDescription,Engrave a description
 EnterColor,Enter or pick the colors
 EnterPriority,Item drawing priority
 EnterPrivate,Private (only you can use it)
-EnterType,Automatic selection:
+EnterType,Configure item:
 EmptySlot,Empty
 PropertyNormal,Normal
 PropertyLarge,Large
