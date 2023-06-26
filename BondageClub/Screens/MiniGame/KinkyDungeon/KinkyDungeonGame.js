@@ -2982,7 +2982,9 @@ function KDStartSpellcast(tx, ty, SpellToCast, enemy, player, bullet, data) {
 function KinkyDungeonClickGame(Level) {
 	let _CharacterRefresh = CharacterRefresh;
 	let _CharacterAppearanceBuildCanvas = CharacterAppearanceBuildCanvas;
+	// @ts-expect-error
 	CharacterRefresh = () => {KDRefresh = true;};
+	// @ts-expect-error
 	CharacterAppearanceBuildCanvas = () => {};
 
 	// First we handle buttons
@@ -2993,7 +2995,9 @@ function KinkyDungeonClickGame(Level) {
 		try {
 			result = KDHandleDialogue();
 		} finally {
+			// @ts-expect-error
 			CharacterRefresh = _CharacterRefresh;
+			// @ts-expect-error
 			CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 			// Done, converted to input
 		}
@@ -3022,7 +3026,9 @@ function KinkyDungeonClickGame(Level) {
 				if (KDToggles.Sound) AudioPlayInstantSoundKD(KinkyDungeonRootDirectory + "Audio/Damage.ogg");
 			}
 		} finally {
+			// @ts-expect-error
 			CharacterRefresh = _CharacterRefresh;
+			// @ts-expect-error
 			CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 		}
 		return;
@@ -3073,13 +3079,18 @@ function KinkyDungeonClickGame(Level) {
 				}
 			}
 		} finally {
+			// @ts-expect-error
 			CharacterRefresh = _CharacterRefresh;
+			// @ts-expect-error
 			CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 		}
 	}
 
+	// @ts-expect-error
 	CharacterRefresh = _CharacterRefresh;
+	// @ts-expect-error
 	CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
+
 	return;
 }
 
@@ -3120,14 +3131,18 @@ function KinkyDungeonListenKeyMove() {
 
 				let _CharacterRefresh = CharacterRefresh;
 				let _CharacterAppearanceBuildCanvas = CharacterAppearanceBuildCanvas;
+				// @ts-expect-error
 				CharacterRefresh = () => {KDRefresh = true;};
+				// @ts-expect-error
 				CharacterAppearanceBuildCanvas = () => {};
 
 				try {
 					KDSendInput("move", {dir: moveDirection, delta: 1, AllowInteract: KinkyDungeonLastMoveTimer == 0, AutoDoor: KinkyDungeonToggleAutoDoor, AutoPass: KinkyDungeonToggleAutoPass, sprint: KinkyDungeonToggleAutoSprint, SuppressSprint: false});
 					KinkyDungeonLastMoveTimer = performance.now() + KinkyDungeonLastMoveTimerCooldown;
 				} finally {
+					// @ts-expect-error
 					CharacterRefresh = _CharacterRefresh;
+					// @ts-expect-error
 					CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 				}
 			} else if (KinkyDungeonLastMoveTimerStart == 0) {
@@ -3770,7 +3785,9 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate, NoMsgTick) {
 
 	let _CharacterRefresh = CharacterRefresh;
 	let _CharacterAppearanceBuildCanvas = CharacterAppearanceBuildCanvas;
+	// @ts-expect-error
 	CharacterRefresh = () => {KDRefresh = true;};
+	// @ts-expect-error
 	CharacterAppearanceBuildCanvas = () => {};
 	let start = performance.now();
 
@@ -3890,7 +3907,9 @@ function KinkyDungeonAdvanceTime(delta, NoUpdate, NoMsgTick) {
 
 	KinkyDungeonUpdateBulletVisuals(delta);
 
+	// @ts-expect-error
 	CharacterRefresh = _CharacterRefresh;
+	// @ts-expect-error
 	CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 
 	if (KinkyDungeonInDanger()) KinkyDungeonSetFlag("DangerFlag",  3);
@@ -3934,7 +3953,7 @@ function KinkyDungeonTargetTileMsg() {
  * @param {Character} C - The character whose appearance should be changed
  * @param {string} Group - The name of the corresponding groupr for the item
  * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
- * @param {string|string[]} NewColor - The new color (as "#xxyyzz" hex value) for that item
+ * @param {ItemColor} NewColor - The new color (as "#xxyyzz" hex value) for that item
  * @param {number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
  * @param {number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
@@ -3974,7 +3993,7 @@ function KDAddAppearance(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMe
  * @param {Character} C - The character whose appearance should be changed
  * @param {string} Group - The name of the corresponding groupr for the item
  * @param {Model} ItemModel - The asset collection of the item to be changed
- * @param {string|string[]} NewColor - The new color (as "#xxyyzz" hex value) for that item
+ * @param {ItemColor} NewColor - The new color (as "#xxyyzz" hex value) for that item
  * @param {item} [item] - The item, to pass to the event
  * @param {Record<string, LayerFilter>} filters - The item, to pass to the event
  * @returns {Item} - the item itself
@@ -3992,6 +4011,7 @@ function KDAddModel(C, Group, ItemModel, NewColor, filters, item) {
 	// Add the new item to the character appearance
 	if (ItemModel != null) {
 		/** @type {Item} */
+		// @ts-expect-error
 		const NA = {
 			Model: JSON.parse(JSON.stringify(ItemModel)),
 			Difficulty: 0,//parseInt((ItemModel.Difficulty == null) ? 0 : ItemModel.Difficulty) + parseInt(DifficultyFactor),

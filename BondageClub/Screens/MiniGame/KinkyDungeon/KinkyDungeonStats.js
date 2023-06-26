@@ -1182,7 +1182,7 @@ function KinkyDungeonCapStats() {
 }
 
 function KinkyDungeonLegsBlocked() {
-	if (KinkyDungeonPlayer.Pose.includes("Hogtie")) return true;
+	if (KinkyDungeonPlayer.Pose.includes("Hogtied")) return true;
 	for (let inv of KinkyDungeonAllRestraint()) {
 		if (KDRestraint(inv) && KDRestraint(inv).blockfeet) return true;
 	}

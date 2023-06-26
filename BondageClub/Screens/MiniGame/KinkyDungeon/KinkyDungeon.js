@@ -574,6 +574,7 @@ function KDLoadToggles() {
 	}
 
 	if (!Player.GraphicsSettings) {
+		// @ts-ignore
 		Player.GraphicsSettings = {AnimationQuality: 0};
 	}
 }
@@ -615,6 +616,7 @@ function KinkyDungeonLoad() {
 				KinkyDungeonPlayer = CharacterLoadNPC("NPC_Avatar");
 			}
 			KinkyDungeonPlayer.Type = "simple";
+			// @ts-ignore
 			KinkyDungeonPlayer.OnlineSharedSettings = {BlockBodyCosplay: true, };
 
 			KDLoadToggles();
@@ -707,6 +709,7 @@ function KinkyDungeonLoad() {
 			//KinkyDungeonState = "Menu";
 			KinkyDungeonGameData = null;
 
+			// @ts-expect-error
 			CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
 			ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Gaming", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
 		} else {
@@ -733,6 +736,7 @@ function KinkyDungeonLoad() {
 					KinkyDungeonRestraintsLocked.push("ItemHead");
 			}
 
+			// @ts-expect-error
 			if (InventoryGet(Player, group))
 				KinkyDungeonRestraintsLocked.push(group);
 		}
@@ -1030,6 +1034,7 @@ function KinkyDungeonRun() {
 				CharacterAppearanceRestore(KinkyDungeonPlayer, appearance);
 				CharacterRefresh(KinkyDungeonPlayer);
 			}
+			// @ts-expect-error
 			KinkyDungeonPlayer.OnlineSharedSettings = {AllowFullWardrobeAccess: true};
 			KinkyDungeonNewDress = true;
 			if (KDPatched && !StandalonePatched) {
@@ -1044,6 +1049,7 @@ function KinkyDungeonRun() {
 
 			CharacterReleaseTotal(KinkyDungeonPlayer);
 			KinkyDungeonDressPlayer();
+			// @ts-expect-error
 			KinkyDungeonPlayer.OnlineSharedSettings = {BlockBodyCosplay: false, AllowFullWardrobeAccess: true};
 			if (!StandalonePatched) {
 				if (!KDPatched)
@@ -1476,7 +1482,9 @@ function KinkyDungeonRun() {
 		if (KinkyDungeonInputQueue.length < 1) {
 			let _CharacterRefresh = CharacterRefresh;
 			let _CharacterAppearanceBuildCanvas = CharacterAppearanceBuildCanvas;
+			// @ts-expect-error
 			CharacterRefresh = () => {KDRefresh = true;};
+			// @ts-expect-error
 			CharacterAppearanceBuildCanvas = () => {};
 
 
@@ -1561,7 +1569,9 @@ function KinkyDungeonRun() {
 					KinkyDungeonSleepTime = CommonTime() + (300 + Math.min(1200, KDAutoStruggleData.lastDelay * 270)) * (0.5 + KDAnimSpeed * 0.5);
 				}
 			} else KinkyDungeonSleepTime = CommonTime() + 100;
+			// @ts-expect-error
 			CharacterRefresh = _CharacterRefresh;
+			// @ts-expect-error
 			CharacterAppearanceBuildCanvas = _CharacterAppearanceBuildCanvas;
 		} else KinkyDungeonSleepTime = CommonTime() + 100;
 

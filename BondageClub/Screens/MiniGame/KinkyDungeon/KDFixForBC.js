@@ -1,14 +1,13 @@
 'use strict';
 
 // @ts-ignore
-let KDCurrentOutfit = 0;
 
 let StandalonePatched = false;
 // @ts-ignore
-let KDConfirmType = "";
 // @ts-ignore
-let KinkyDungeonReplaceConfirm = 0;
 
 let KDCurrentModels = new Map();
 
+/** @type {HTMLCanvasElement} */
+// @ts-expect-error Either that or the whole block at KDDraw.js:3231 is wrong
 let PIXICanvas = MainCanvas;

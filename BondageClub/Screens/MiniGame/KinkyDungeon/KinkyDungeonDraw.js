@@ -636,8 +636,10 @@ let KDLastKeyTime = {
 
 // Draw function for the game portion
 function KinkyDungeonDrawGame() {
-	if (StandalonePatched)
+	if (StandalonePatched) {
+		// @ts-expect-error
 		PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.NEAREST;
+	}
 
 	if (KinkyDungeonKeybindingCurrentKey && KinkyDungeonGameKeyDown()) {
 		if (KinkyDungeonKeybindingCurrentKey)
@@ -1166,11 +1168,13 @@ function KinkyDungeonDrawGame() {
 						offset_y: 620/MODELHEIGHT,
 					},
 				] : [];
-				if (KDDrawPlayer)
+				if (KDDrawPlayer) {
 					DrawCharacter(KinkyDungeonPlayer,
 						canvasOffsetX + (KinkyDungeonPlayerEntity.visual_x - CamX-CamX_offsetVis)*KinkyDungeonGridSizeDisplay + (KinkyDungeonGridSizeDisplay/4),
 						canvasOffsetY + (KinkyDungeonPlayerEntity.visual_y - CamY-CamY_offsetVis)*KinkyDungeonGridSizeDisplay + (KinkyDungeonGridSizeDisplay/6),
+						// @ts-expect-error
 						zoom, false, undefined, PIXI.SCALE_MODES.NEAREST, mods);
+					}
 			}
 
 
@@ -1668,8 +1672,10 @@ function KDDrawArousalScreenFilter(y1, h, Width, ArousalOverride, Color = '255, 
 			DrawRect(0, y1, Width, h, `rgba(${Color}, ${alpha})`);
 	}*/
 
-	if (StandalonePatched)
+	if (StandalonePatched) {
+		// @ts-expect-error
 		PIXI.BaseTexture.defaultOptions.scaleMode = PIXI.SCALE_MODES.LINEAR;
+	}
 }
 
 function KDCanAttack() {
