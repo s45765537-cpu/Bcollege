@@ -728,7 +728,6 @@ function TypedItemHandleOptionClick(data, C, Option) {
  */
 function TypedItemSetType(data, C, newOption) {
 	const typeField = (newOption.OptionType === "VibratingItemOption") ? "Mode" : "Type";
-	DialogFocusItem = InventoryGet(C, C.FocusGroup.Name);
 	const FunctionPrefix = `${data.functionPrefix}${ExtendedItemSubscreen || ""}`;
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
 	const previousOption = TypedItemFindPreviousOption(DialogFocusItem, data.options, typeField);

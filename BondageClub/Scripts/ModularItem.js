@@ -655,7 +655,6 @@ function ModularItemDeconstructType(Type) {
  */
 function ModularItemSetType(module, index, data) {
 	const C = CharacterGetCurrent();
-	DialogFocusItem = InventoryGet(C, C.FocusGroup.Name);
 	const newOption = module.Options[index];
 	const currentModuleValues = ModularItemParseCurrent(data);
 	const moduleIndex = data.modules.indexOf(module);
@@ -675,7 +674,7 @@ function ModularItemSetType(module, index, data) {
 
 	if (!IsCloth) {
 		const groupName = data.asset.Group.Name;
-		CharacterRefresh(C);
+		CharacterRefresh(C, true, false);
 		ChatRoomCharacterItemUpdate(C, groupName);
 
 		if (ServerPlayerIsInChatRoom()) {
