@@ -1965,6 +1965,14 @@ var AssetFemale3DCG = [
 					{ Name: "Band" },
 				],
 			},
+			{ Name: "Beanie", Value: 30, DefaultColor: ["#8d1919"], Left: 145, Top: 45,
+				Layer: [
+					{ Name: "Long", HideForAttribute: ["ShortHair"] },
+					{ Name: "LongBack", CopyLayerColor: "Long", HideForAttribute: ["ShortHair"], Priority: 6 },
+					{ Name: "Short", CopyLayerColor: "Long", ShowForAttribute: ["ShortHair"] },
+					{ Name: "ShortBack", CopyLayerColor: "Long", ShowForAttribute: ["ShortHair"], Priority: 6 },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
