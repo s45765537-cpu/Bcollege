@@ -355,6 +355,10 @@ MaskDroneMaskShine,Shine
 MaskDroneMaskEyeRegular,Eyes
 MaskDroneMaskMouthOnahole,Mouth
 MaskDroneMaskBarcode,Pattern
+MaskMedicalMaskInner,Inner
+MaskMedicalMaskOuter,Outer
+MaskHeadHarnessBase,Harness
+MaskHeadHarnessBaseMetal,Metal
 TailStrapsTailStrapTail,Tail
 TailStrapsTailStrapRibbon,Ribbon
 TailStrapsTailStrapBell,Bell
