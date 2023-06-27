@@ -4,6 +4,12 @@ var LARPBackground = "WrestlingRing";
 var LARPOrganiser = null;
 
 /**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function LARPCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+
+/**
  * Loads the LARP introduction room NPC
  * @returns {void} - Nothing
  */
@@ -56,4 +62,23 @@ function LARPSelectClass(NewClass) {
 	if (Player.Game.LARP == null) Player.Game.LARP = {};
 	Player.Game.LARP.Class = NewClass;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function LARPClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "LARPClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function LARPClubCardEnd() {
+	CommonSetScreen("Room", "LARP");
+	CharacterSetCurrent(LARPOrganiser);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

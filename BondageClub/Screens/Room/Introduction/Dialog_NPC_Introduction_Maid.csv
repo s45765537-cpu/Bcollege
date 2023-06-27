@@ -70,6 +70,8 @@ JobDojoIntro2200,,,Welcome back DialogPlayerName.  Would you like to test your e
 JobDojoIntro2201,,,"(She looks at you and bows politely.)  Welcome back, are you ready for another test?",,
 JobDojoIntro2202,,,Falling down and getting up is the biggest accomplishment.  Are you ready to try again?,,
 JobDojoIntro2203,,,Konichiwa!  (She smiles and bows politely.)  I trust you want to challenge the ropes again?,,
+ClubCardVictory,,,Very good!  There are many other Club Card players throughout the Bondage Club.  Try to find all of them.,,
+ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up for losing.",,
 0,,,Greetings Mistress DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.),,"DialogLogQuery(""ClubMistress"", ""Management"")"
 0,,,Greetings head maid DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.),,IsHeadMaid
 0,,,(She stares at you.)  Hello naked girl.  Welcome to the introduction class.,,Player.IsNaked()
@@ -82,6 +84,7 @@ JobDojoIntro2203,,,Konichiwa!  (She smiles and bows politely.)  I trust you want
 0,400,Do you have any work for me?,"Yes, there are special jobs you could do for us today for a great salary.  Pick something you like.  (She shows you a notepad.)",,CanTakeJob()
 0,,Do you have any work for me?,"(She shakes her head no.)  Sorry, come back another day.",,CannotTakeJobDone()
 0,,Do you have any work for me?,(She giggles and shakes her head no.)  We are not in a good situation to hire you.,,CannotTakeJobRestrained()
+0,90,Have you heard about Club Cards?,You can learn more about it in the Club Card Lounge or we can play a fun game together if you want.,,CanPlayClubCard()
 0,,I can't stay to chat.  (Leave her.),,DialogLeave(),
 10,,Can I strap up anyone at any time?,Yes and no.  You need their consent and you cannot do it in the middle of a conversation.,DialogRemove(),
 10,20,This is great!,I'm glad you like it.  Let me teach you about the body parts your can restrain.,,
@@ -127,6 +130,11 @@ JobDojoIntro2203,,,Konichiwa!  (She smiles and bows politely.)  I trust you want
 40,100,Can I strap you up now?,"I'm all yours if you want me, head maid DialogPlayerName.  I will not resist you.",ChangeMaidOpinion(1),IsHeadMaid
 40,100,Can we practice?,"Absolutely.  Would you prefer to restrain someone, or be tied up yourself?",,
 40,300,Can you tie me up now?,I can certainly tie you up.  It's a good time to practice.,ChangeMaidOpinion(-1),
+90,,Tell me about the rules.,I'm not the best to do that.  Go back to the main hall and check for the Club Card Lounge to learn more about it.,,
+90,,Can I tie you up if I win?,"(She shakes her head no.)  I'm on duty, we can only play for fun.",,
+90,,Will you restrain me if I lose?,I cannot do that while I'm working.,,
+90,,(Play Club Card with her.),,ClubCardStart(),
+90,0,Let's talk about something else.,(She nods and does a curtsy.)  How can I help you?,,
 100,,,"You can practice your bondage skills here.  Would you prefer to restrain someone, or be tied up yourself?",,
 100,,I want to practice tying you up.,"(She blushes.)  Yes, head maid DialogPlayerName.  I will not resist you.",,IsHeadMaid
 100,200,I want to practice tying you up.,"You can't tie me up, but we have someone here who would certainly enjoy being your subject.",ChangeMaidOpinion(1),!IsHeadMaid

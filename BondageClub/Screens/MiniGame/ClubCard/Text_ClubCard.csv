@@ -99,6 +99,8 @@ Title Shy Submissive,Shy Submissive
 Text Shy Submissive,Will leave your club at end of turn if there are more than 6 members.
 Title Rope Sensei,Rope Sensei
 Text Rope Sensei,<F>ロープを尊重する
+Title LARP Queen,LARP Queen
+Text LARP Queen,<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt.
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -161,6 +163,8 @@ Title French Maid,French Maid
 Text French Maid,<F>Pour un service impécable et coquin.
 Title Head Maid,Head Maid
 Text Head Maid,+1 Fame per turn for each other Maid present.
+Title Confused Maid,Confused Maid
+Text Confused Maid,<F>I've tried three dusters but this toilet is still clogged.
 Title Curious Patient,Curious Patient
 Text Curious Patient,<F>Why are the walls padded?
 Title Part-Time Patient,Part-Time Patient
@@ -175,6 +179,8 @@ Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
 Text Doctor,+3 Fame per turn for each Asylum Patient present.
+Title Picky Nurse,Picky Nurse
+Text Picky Nurse,Only enters if 2 Asylum Patient or more are present.  Leaves if there are less than 2 Asylum Patient.
 Title Amateur Rigger,Amateur Rigger
 Text Amateur Rigger,<F>Purple hands?  I'm sure it's normal.
 Title Domme,Domme

@@ -127,6 +127,14 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		MoneyPerTurn: 1
 	},
+	{
+		ID: 1015,
+		Name: "LARP Queen",
+		Reward: "NPC_LARP_Organiser",
+		RequiredLevel: 4,
+		FamePerTurn: 3,
+		MoneyPerTurn: 1
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -414,6 +422,14 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Maid") - 1);
 		}
 	},
+	{
+		ID: 6005,
+		Name: "Confused Maid",
+		Group: ["Liability", "Maid"],
+		Reward: "NPC_Introduction_Maid",
+		FamePerTurn: -2,
+		RequiredLevel: 2
+	},
 
 	// 7000 - Asylum Patient and Nurse Members (Synergies between each other)
 	{
@@ -468,6 +484,20 @@ var ClubCardList = [
 		RequiredLevel: 5,
 		OnTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 3);
+		}
+	},
+	{
+		ID: 7007,
+		Name: "Picky Nurse",
+		Group: ["AsylumNurse"],
+		Reward: "NPC_AsylumMeeting_PatientRight",
+		FamePerTurn: 3,
+		RequiredLevel: 2,
+		OnTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") < 2) ClubCardRemoveFromBoard(CCPlayer, this);
+		},
+		CanPlay: function(CCPlayer) {
+			return (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") >= 2);
 		}
 	},
 

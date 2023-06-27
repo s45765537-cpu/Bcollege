@@ -1,4 +1,6 @@
 PlayerGagged,,,"Let me guess, you've lost your last battle?   (She laughs.)",,
+ClubCardVictory,,,"Congratulations Miss, you're a true card sensei.  I'm your prisoner to bind, we have more ropes in these bags.",,
+ClubCardDefeat,,,"That was good game Miss.  Sorry I won't tie you up, but we can play another match if you want.",,
 0,,,It's an honor to see you DialogPlayerName.  Would you like to try a new class?,,"DialogReputationGreater(""LARP"", 100)"
 0,,,It's always a pleasure to see you DialogPlayerName.  Would you like to try a new class?,,"DialogReputationGreater(""LARP"", 50)"
 0,,,"Welcome to the Live Action Role Playing battles DialogPlayerName.  Do you need some explanations, or would you like to try a new class?",,"DialogReputationGreater(""LARP"", 1)"
@@ -11,6 +13,7 @@ PlayerGagged,,,"Let me guess, you've lost your last battle?   (She laughs.)",,
 0,60,Tell me about the levelling system.,What would you like to know about class levels?,,
 0,40,I'd like to join the LARP battles.,"This is great news!  First, we need to review the rules and you'll need to accept them.",,"DialogReputationLess(""LARP"", 0)"
 0,50,I'd like to select a new class.,Very good.  Which class would you like to select?,,"DialogReputationGreater(""LARP"", 1)"
+0,70,Are you also a card player?,Lots of LARP players also play Club Card.  Would you like to do a game?,,CanPlayClubCard()
 0,,"I'm fine, thanks.  (Leave her.)",,DialogLeave(),
 10,,What is LARP?,LARP stands for Live Action Role Playing.  Everyone picks a class with special abilities and we battle each other.  The winners get paid.,,
 10,,How much money do winners get?,The battles bring lots of customers.  The money amount split by the winners increase with long battles and the number of participants.,,
@@ -91,4 +94,7 @@ PlayerGagged,,,"Let me guess, you've lost your last battle?   (She laughs.)",,
 60,,How do I gain levels?,"Each class has it's own level.  Whenever you finish a LARP battle, whether you won or lost, you will progress toward your next level.",,
 60,,Do I lose progress if I change class?,(She shakes her head no.)  Each class level progress is kept on record.  You won't lose any progress if you pick a new class.,,
 60,0,Let's talk about something else.,How can I help you?,,
+70,,Can I tie you up if I win?,(She shakes her head no.)  I have a LARP session soon.  Let's play without stakes.,,
+70,,(Play Club Card with her.),,ClubCardStart(),
+70,0,Let's talk about something else.,Let's focus on LARP games.  We can play cards later.,,
 100,0,(Check the battles.),,DialogLeave(),

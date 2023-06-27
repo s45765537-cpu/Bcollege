@@ -20,11 +20,18 @@ function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (
  * @returns {boolean} - Returns true, if the player can be restrained, flase otherwise
  */
 function AsylumMeetingCanRestrainPlayer() { return (!Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && (LogValue("Committed", "Asylum") >= CurrentTime)); }
-
-// Returns TRUE if specific dialog conditions are met
+/**
+ * Returns TRUE if specific dialog conditions are met
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
 function AsylumMeetingCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
 function AsylumMeetingWearingGGTS() { return InventoryIsWorn(CurrentCharacter, "FuturisticCuffs", "ItemArms"); }
 function AsylumMeetingGGTSCollar() { return InventoryIsWorn(CurrentCharacter, "FuturisticCollar", "ItemNeck"); }
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
+ */
+function AsylumMeetingCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Loads the room and it's patients
@@ -219,4 +226,23 @@ function AsylumMeetingQuitGGTSMainHall() {
 	DialogLeave();
 	MainHallAsylumOpen = false;
 	CommonSetScreen("Room", "MainHall");
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function AsylumMeetingClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "AsylumMeetingClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function AsylumMeetingClubCardEnd() {
+	CommonSetScreen("Room", "AsylumMeeting");
+	CharacterSetCurrent(AsylumMeetingPatientRight);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

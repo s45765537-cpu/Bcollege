@@ -63,6 +63,11 @@ function IntroductionCannotTakeJobDone() { return (!IntroductionJobAnyAvailable(
  * @returns {boolean} - Returns TRUE if the players is restrained while a job is available.
  */
 function IntroductionCannotTakeJobRestrained() { return (IntroductionJobAnyAvailable() && (Player.IsRestrained() || !Player.CanTalk() || IntroductionMaid.IsRestrained() || !IntroductionMaid.CanTalk()) && !ManagementIsClubSlave()); }
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function IntroductionCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Loads the introduction room and its 2 NPCS
@@ -340,4 +345,23 @@ function IntroductionJobDojoStart() {
 	DailyJobBackground = "Shibari";
 	CharacterSetCurrent(DailyJobDojoTeacher);
 	DailyJobDojoTeacher.CurrentDialog = DialogFind(IntroductionMaid, "JobDojoIntro" + DailyJobDojoTeacher.Stage.toString() + Math.floor(Math.random() * 4).toString());
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function IntroductionClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "IntroductionClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function IntroductionClubCardEnd() {
+	CommonSetScreen("Room", "Introduction");
+	CharacterSetCurrent(IntroductionMaid);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
