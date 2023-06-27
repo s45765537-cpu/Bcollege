@@ -52,6 +52,8 @@ GainMoney,SOURCEPLAYER gained AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER club.
+EventRemoved,CARDTITLE event is removed.
+EventExpired,CARDTITLE event has expired.
 GroupLiability,Liability
 GroupStaff,Staff
 GroupPolice,Police
@@ -96,7 +98,7 @@ Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
 Text Shy Submissive,Will leave your club at end of turn if there are more than 6 members.
 Title Rope Sensei,Rope Sensei
-Text Rope Sensei,ロープを尊重する
+Text Rope Sensei,<F>ロープを尊重する
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -276,10 +278,29 @@ Text Virtual Meeting,Draw 2 cards
 Title Weekend Meeting,Weekend Meeting
 Text Weekend Meeting,Draw 3 cards
 Title Fancy Meeting,Fancy Meeting
-Text Fancy Meeting,Draw 4 cards
+Text Fancy Meeting,Draw 5 cards
 Title Prank,Prank
 Text Prank,Your opponent discards 2 random cards.
 Title Sabotage,Sabotage
 Text Sabotage,Your opponent discards 4 random cards.
 Title Nursery Night,Nursery Night
 Text Nursery Night,"+3 Money for each ABDL Baby, ABDL Mommy and Maid in your club."
+Title Bad Press,Bad Press
+Text Bad Press,"For 3 turns, your opponent gains no Fame at the end of turn.  Cancels opponent Clever Marketing."
+Effect Bad Press,No Fame is gained because of OPPONENTPLAYER Bad Press event.
+Title Clever Marketing,Clever Marketing
+Text Clever Marketing,"For 3 turns, you gain double Fame at the end of turn.  Cancels opponent Bad Press."
+Effect Clever Marketing,Fame gained is doubled because of SOURCEPLAYER Clever Marketing event.
+Title Repay Loan,Repay Loan
+Text Repay Loan,"For 3 turns, your opponent gains no Money at the end of turn.  Cancels opponent Bank Loan."
+Effect Repay Loan,No Money is gained because of OPPONENTPLAYER Repay Loan event.
+Title Bank Loan,Bank Loan
+Text Bank Loan,"For 3 turns, you gain double Money at the end of turn.  Cancels opponent Repay Loan."
+Effect Bank Loan,Money gained is doubled because of SOURCEPLAYER Bank Loan event.
+Title Teamwork,Teamwork
+Text Teamwork,"For 4 turns, you draw an extra card each time you draw a card."
+Title Overtime,Overtime
+Text Overtime,"For 3 turns, you can play an extra card."
+Title Porn Convention,Porn Convention
+Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn."
+Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.

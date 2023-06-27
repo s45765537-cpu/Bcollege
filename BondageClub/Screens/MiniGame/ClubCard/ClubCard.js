@@ -865,6 +865,10 @@ var ClubCardList = [
 			let Money = (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") + ClubCardGroupOnBoardCount(CCPlayer, "AsylumNurse")) * 4;
 			ClubCardPlayerAddMoney(CCPlayer, Money);
 			ClubCardLogPublish("GainMoney", CCPlayer, Money);
+		},
+		CanPlay: function(CCPlayer) {
+			let Money = (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") + ClubCardGroupOnBoardCount(CCPlayer, "AsylumNurse")) * 4;
+			return (Money > 0);
 		}
 	},
 	{
@@ -979,7 +983,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerDrawCard(CCPlayer, 4);
+			ClubCardPlayerDrawCard(CCPlayer, 5);
 		}
 	},
 	{
@@ -1022,7 +1026,114 @@ var ClubCardList = [
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
 			return (Money > 0);
 		}
-	}
+	},
+	{
+		ID: 31000,
+		Name: "Bad Press",
+		Type: "Event",
+		Time: 3,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Clever Marketing");
+		},
+		OnOpponentTurnEnd: function(CCPlayer) {
+			let Fame = CCPlayer.LastFamePerTurn;
+			if (Fame > 0) {
+				ClubCardPlayerAddFame(CCPlayer, Fame * -1);
+				CCPlayer.LastFamePerTurn = 0;
+				ClubCardLogPublish("Effect Bad Press", CCPlayer);
+			}
+		}
+	},
+	{
+		ID: 31001,
+		Name: "Clever Marketing",
+		Type: "Event",
+		Time: 3,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Bad Press");
+		},
+		OnTurnEnd: function(CCPlayer) {
+			let Fame = CCPlayer.LastFamePerTurn;
+			if (Fame > 0) {
+				ClubCardPlayerAddFame(CCPlayer, Fame);
+				CCPlayer.LastFamePerTurn = Fame * 2;
+				ClubCardLogPublish("Effect Clever Marketing", CCPlayer);
+			}
+		}
+	},
+	{
+		ID: 31002,
+		Name: "Repay Loan",
+		Type: "Event",
+		Time: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Bank Loan");
+		},
+		OnOpponentTurnEnd: function(CCPlayer) {
+			let Money = CCPlayer.LastMoneyPerTurn;
+			if (Money > 0) {
+				ClubCardPlayerAddMoney(CCPlayer, Money * -1);
+				CCPlayer.LastMoneyPerTurn = 0;
+				ClubCardLogPublish("Effect Repay Loan", CCPlayer);
+			}
+		}
+	},
+	{
+		ID: 31003,
+		Name: "Bank Loan",
+		Type: "Event",
+		Time: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Repay Loan");
+		},
+		OnTurnEnd: function(CCPlayer) {
+			let Money = CCPlayer.LastMoneyPerTurn;
+			if (Money > 0) {
+				ClubCardPlayerAddMoney(CCPlayer, Money);
+				CCPlayer.LastMoneyPerTurn = Money * 2;
+				ClubCardLogPublish("Effect Bank Loan", CCPlayer);
+			}
+		}
+	},
+	{
+		ID: 31004,
+		Name: "Teamwork",
+		Type: "Event",
+		Time: 4,
+		ExtraDraw: 1
+	},
+	{
+		ID: 31005,
+		Name: "Overtime",
+		Type: "Event",
+		Time: 3,
+		ExtraPlay: 1
+	},
+	{
+		ID: 31006,
+		Name: "Porn Convention",
+		Type: "Event",
+		Time: 3,
+		RequiredLevel: 4,
+		OnTurnEnd: function(CCPlayer) {
+			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
+			if (Fame > 0) {
+				Fame = Fame * 3;
+				ClubCardPlayerAddFame(CCPlayer, Fame);
+				ClubCardLogPublish("Effect Porn Convention", CCPlayer, Fame);
+			}
+		},
+		OnOpponentTurnEnd: function(CCPlayer) {
+			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
+			if (Fame > 0) {
+				Fame = Fame * 3;
+				ClubCardPlayerAddFame(CCPlayer, Fame);
+				ClubCardLogPublish("Effect Porn Convention", CCPlayer, Fame);
+			}
+		}
+	}	
 
 ];
 
@@ -1210,6 +1321,24 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 }
 
 /**
+ * Removes a card from a player time events
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {string} CardName - The card object to remove
+ * @returns {void} - Nothing
+ */
+function ClubCardRemoveFromEventByName(CCPlayer, CardName) {
+	if ((CCPlayer == null) || (CCPlayer.Event == null) || (CardName == null)) return;
+	let Pos = 0;
+	for (let C of CCPlayer.Event) {
+		if (C.Name === CardName) {
+			CCPlayer.Event.splice(Pos, 1);
+			ClubCardLogPublish("EventRemoved", CCPlayer, null, C);
+		}
+		Pos++;
+	}
+}
+
+/**
  * Removes all cards that belong to a group (ex: Liability) from a board
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {String} GroupName - The group name to remove
@@ -1378,6 +1507,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Sleeve: "Default",
 		Hand: [],
 		Board: [],
+		Event: [],
 		Level: 1,
 		Money: 5,
 		Fame: 0
@@ -1406,8 +1536,9 @@ function ClubCardGetReward() {
  */
 function ClubCardEndTurn(Draw = false) {
 
-	// Adds fame, money and run custom card scripts
+	// Adds fame, money and run custom card scripts from the player board
 	let CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+	let Opponent = ClubCardGetOpponent(CCPlayer);
 	let StartingFame = CCPlayer.Fame;
 	let StartingMoney = CCPlayer.Money;
 	let FameMoneyText = "";
@@ -1420,6 +1551,18 @@ function ClubCardEndTurn(Draw = false) {
 	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
+
+	// Runs the event of time cards on the player board and opponent board
+	if (CCPlayer.Event != null)
+		for (let Card of CCPlayer.Event)
+			if (Card.OnTurnEnd != null)
+				Card.OnTurnEnd(CCPlayer);
+	if (Opponent.Event != null)
+		for (let Card of Opponent.Event)
+			if (Card.OnOpponentTurnEnd != null)
+				Card.OnOpponentTurnEnd(CCPlayer);
+
+	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
 
 	// If that player wins the game from Fame gain
@@ -1447,6 +1590,19 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
+	// When a turn starts, the event time goes down and might expire
+	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+	if (CCPlayer.Event != null)
+		for (let Pos = 0; Pos < CCPlayer.Event.length; Pos++) {
+			let Card = CCPlayer.Event[Pos];
+			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
+			if ((Card.Time == null) || (Card.Time <= 0)) {
+				ClubCardLogPublish("EventExpired", CCPlayer, null, Card);
+				CCPlayer.Event.splice(Pos, 1);
+				Pos--;
+			}
+		}
+
 }
 
 /**
@@ -1460,6 +1616,10 @@ function ClubCardTurnPlayableCardCount(CCPlayer) {
 	for (let Card of CCPlayer.Board)
 		if (Card.ExtraPlay != null)
 			Count = Count + Card.ExtraPlay;
+	if (CCPlayer.Event != null)
+		for (let Card of CCPlayer.Event)
+			if (Card.ExtraPlay != null)
+				Count = Count + Card.ExtraPlay;
 	if (Count < 1) Count = 1;
 	return Count;
 }
@@ -1475,7 +1635,25 @@ function ClubCardDrawCardCount(CCPlayer) {
 	for (let Card of CCPlayer.Board)
 		if (Card.ExtraDraw != null)
 			Count = Count + Card.ExtraDraw;
+	if (CCPlayer.Event != null)
+		for (let Card of CCPlayer.Event)
+			if (Card.ExtraDraw != null)
+				Count = Count + Card.ExtraDraw;
 	if (Count < 1) Count = 1;
+	return Count;
+}
+
+/**
+ * Returns the extra time in turns for event over time
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @returns {Number} - The extra time
+ */
+ function ClubCardExtraTime(CCPlayer) {
+	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 0;
+	let Count = 0;
+	for (let Card of CCPlayer.Board)
+		if (Card.ExtraTime != null)
+			Count = Count + Card.ExtraTime;
 	return Count;
 }
 
@@ -1578,7 +1756,11 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		let Index = 0;
 		for (let C of CCPlayer.Hand) {
 			if (C.ID == Card.ID) {
-				if (Card.Type == "Member") Target.Board.push(Card);
+				if (Card.Type === "Member") Target.Board.push(Card);
+				if ((Card.Type === "Event") && (Card.Time != null) && (Card.Time >= 0)) {
+					Target.Event.push(Card);
+					Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
+				}
 				CCPlayer.Hand.splice(Index, 1);
 				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
 				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
@@ -1679,6 +1861,7 @@ function ClubCardBankrupt() {
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;
 	CCPlayer.Board = [];
+	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
 	ClubCardPlayerDrawCard(CCPlayer, 5);
@@ -1856,6 +2039,10 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	// Draw the images and texts on the screen
 	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null) ? "6" : Level.toString()) + ".png", X, Y, W, W * 2);
 	DrawImageResize("Screens/MiniGame/ClubCard/" + (Card.Type) + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
+	if ((Card.Time != null) && ((Card.Location === "PlayerBoard") || (Card.Location === "OpponentBoard"))) {
+		MainCanvas.font = "bold " + Math.round(W / 1.5) + "px arial";
+		DrawText(Card.Time.toString(), X + W * 0.5, Y + W * 0.9, "Black", "Silver");
+	}
 	MainCanvas.font = "bold " + Math.round(W / 12) + "px arial";
 	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black");
 	let BubblePos = Y + W * 0.2;
@@ -1908,13 +2095,16 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 
 	// Draws the played cards
 	if ((CCPlayer == null) || (CCPlayer.Board == null)) return;
-	let PosX = Math.round(X + (W / 2) - (CCPlayer.Board.length * W / 20));
+	let FullBoard = [];
+	FullBoard = [...CCPlayer.Board];
+	if ((CCPlayer.Event != null) && (CCPlayer.Event.length > 0)) FullBoard = FullBoard.concat(CCPlayer.Event);
+	let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
 	let IncX = Math.round(W / 10);
 	if (PosX < X) {
 		PosX = X;
-		IncX = Math.round(W / CCPlayer.Board.length);
+		IncX = Math.round(W / FullBoard.length);
 	}
-	for (let C of CCPlayer.Board) {
+	for (let C of FullBoard) {
 		let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
 		ClubCardRenderCard(C, PosX + 5, PosY, (W / 12) - 5, null, (CCPlayer.Control == "Player") ? "PlayerBoard" : "OpponentBoard");
 		PosX = PosX + IncX;

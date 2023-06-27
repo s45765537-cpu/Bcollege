@@ -3780,6 +3780,7 @@ interface ClubCard {
 	MoneyPerTurn?: number;
 	FamePerTurn?: number;
 	RequiredLevel?: number;
+	Time?: number;
 	ExtraTime?: number;
 	ExtraDraw?: number;
 	ExtraPlay?: number;
@@ -3789,6 +3790,7 @@ interface ClubCard {
 	GlowColor?: string;
 	OnPlay?: (C: ClubCardPlayer) => void;
 	OnTurnEnd?: (C: ClubCardPlayer) => void;
+	OnOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	CanPlay?: (C: ClubCardPlayer) => boolean;
 }
 
@@ -3801,6 +3803,7 @@ interface ClubCardPlayer {
 	FullDeck: ClubCard[];
 	Hand: ClubCard[];
 	Board: ClubCard[];
+	Event: ClubCard[];
 	Level: number;
 	Money: number;
 	Fame: number;
