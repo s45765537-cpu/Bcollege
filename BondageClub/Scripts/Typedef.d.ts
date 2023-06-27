@@ -962,7 +962,9 @@ interface AssetGroup {
 	FreezeActivePose: readonly AssetPoseCategory[];
 	PreviewZone?: RectTuple;
 	DynamicGroupName: AssetGroupName;
+
 	MirrorActivitiesFrom?: AssetGroupItemName;
+	ArousalZone?: AssetGroupItemName;
 
 	/** A dict mapping colors to custom filename suffices.
 	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
