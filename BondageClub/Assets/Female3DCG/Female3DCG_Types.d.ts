@@ -37,6 +37,9 @@ interface AssetGroupDefinition {
 	PreviewZone?: [number, number, number, number];
 	DynamicGroupName?: AssetGroupName;
 	MirrorActivitiesFrom?: AssetGroupItemName;
+
+	/** The group actually recieving arousal events. Used to proxy around a group that does not have activities enabled (and thus arousal settings) */
+	ArousalZone?: AssetGroupItemName;
 	ColorSuffix?: Record<string, string>;
 	ExpressionPrerequisite?: AssetPrerequisite[];
 	HasPreviewImages?: boolean;

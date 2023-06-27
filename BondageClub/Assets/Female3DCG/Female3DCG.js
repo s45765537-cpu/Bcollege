@@ -4933,6 +4933,8 @@ var AssetFemale3DCG = [
 		Default: false,
 		Left: 150,
 		Top: 200,
+		MirrorActivitiesFrom: "ItemNipples",
+		ArousalZone: "ItemNipples",
 		AllowPose: ["AllFours"],
 		Zone: [[200, 270, 100, 70]],
 		Asset: [
