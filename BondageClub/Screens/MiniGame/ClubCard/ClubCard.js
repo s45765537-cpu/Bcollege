@@ -1163,7 +1163,7 @@ var ClubCardList = [
 				ClubCardLogPublish("Effect Porn Convention", CCPlayer, Fame);
 			}
 		}
-	}	
+	}
 
 ];
 
@@ -1678,7 +1678,7 @@ function ClubCardDrawCardCount(CCPlayer) {
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @returns {Number} - The extra time
  */
- function ClubCardExtraTime(CCPlayer) {
+function ClubCardExtraTime(CCPlayer) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 0;
 	let Count = 0;
 	for (let Card of CCPlayer.Board)
@@ -1756,20 +1756,20 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the AI must select one of her own liability card to remove before playing the current card
 	if ((Card.Prerequisite === "SelectOwnMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let Cards = [];
-		for (let Card of CCPlayer.Board)
-			if (Card.Group != null)
-				for (let Group of Card.Group)
+		for (let C of CCPlayer.Board)
+			if (C.Group != null)
+				for (let Group of C.Group)
 					if (Group === "Liability")
-						Cards.push(Card);
+						Cards.push(C);
 		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
 
 	// If the AI must select one of her opponent card to remove before playing the current card
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let Cards = [];
-		for (let Card of ClubCardGetOpponent(CCPlayer).Board)
-			if ((Card.Group == null) || (Card.Group.indexOf("Liability") < 0))
-				Cards.push(Card);
+		for (let C of ClubCardGetOpponent(CCPlayer).Board)
+			if ((C.Group == null) || (C.Group.indexOf("Liability") < 0))
+				Cards.push(C);
 		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
 
@@ -2079,7 +2079,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * 0.1, "Liability");
 	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * 0.1, "Level");
 	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * 0.1, "Fame");
-	if (Card.MoneyPerTurn != null) BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * 0.1, "Money");
+	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * 0.1, "Money");
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.5, W * 0.9, W * 0.48, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
