@@ -5016,6 +5016,10 @@ var AssetFemale3DCGExtended = {
 		}, // Sybian
 		FuckMachine: {
 			Archetype: ExtendedArchetype.VIBRATING,
+			ScriptHooks: {
+				ScriptDraw: AssetsItemDevicesFuckMachineScriptDrawHook,
+				BeforeDraw: AssetsItemDevicesFuckMachineBeforeDrawHook,
+			},
 		}, // FuckMachine
 		Kennel: {
 			Archetype: ExtendedArchetype.MODULAR,
