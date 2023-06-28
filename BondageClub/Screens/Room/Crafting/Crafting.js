@@ -199,6 +199,7 @@ function CraftingRun() {
 
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
+		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		if (CraftingDestroy) {
 			DrawText(TextGet("SelectDestroy"), 840, 60, "White", "Black");
@@ -591,7 +592,10 @@ function CraftingClick() {
 	if (CraftingMode == "Slot") {
 
 		// Two pages of slots
-		if (MouseIn(1685, 15, 90, 90)) {
+		if (MouseIn(1580, 15, 90, 90)) {
+			CraftingOffset = CraftingOffset - 20;
+			if (CraftingOffset < 0) CraftingOffset = CraftingSlotMax - 20;
+		} else if (MouseIn(1685, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset + 20;
 			if (CraftingOffset >= CraftingSlotMax) CraftingOffset = 0;
 		}
