@@ -100,6 +100,18 @@ const CraftingStatusType = {
 const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityPadlock", "OwnerPadlock", "LoversPadlock", "FamilyPadlock", "MistressPadlock", "PandoraPadlock", "ExclusivePadlock"];
 
 /**
+ * A set of item property names that should never be stored in {@link CraftingItem.ItemProperty}.
+ * @type {Set<keyof ItemProperties>}
+ */
+const CraftingPropertyExclude = new Set([
+	"HeartRate",
+	"TriggerCount",
+	"BlinkState",
+	"AutoPunishUndoTime",
+	"NextShockTime",
+]);
+
+/**
  * Returns TRUE if a crafting item has an effect from a list or allows that effect
  * @param {Asset} Item - The item asset to validate
  * @param {EffectName[]} Effect - The list of effects to validate
@@ -358,9 +370,9 @@ function CraftingUpdateFromItem(item) {
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of /** @type {string[]} */(keys)) {
-		if (item.Property[key] != null) {
-			CraftingSelectedItem.ItemProperty[key] = item.Property[key];
+	for (const key of keys) {
+		if (item.Property[/** @type {string} */(key)] != null && !CraftingPropertyExclude.has(key)) {
+			CraftingSelectedItem.ItemProperty[/** @type {string} */(key)] = item.Property[key];
 		}
 	}
 }
@@ -1042,6 +1054,8 @@ const CraftingValidationRecord = {
 			for (const [key, value] of Object.entries(property)) {
 				if (value == null) {
 					continue;
+				} else if (CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
+					return false;
 				} else if (key === "OverridePriority" && typeof Number.isInteger(value)) {
 					return false;
 				} else if (key === "OverridePriority" && CommonIsObject(value)) {
@@ -1075,7 +1089,7 @@ const CraftingValidationRecord = {
 
 			const ret = {};
 			for (const [key, value] of Object.entries(property)) {
-				if (value == null) {
+				if (value == null || CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
 					continue;
 				} else if (key === "OverridePriority" && Number.isInteger(value)) {
 					ret[key] = value;
