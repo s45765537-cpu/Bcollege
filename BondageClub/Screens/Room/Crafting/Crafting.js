@@ -357,6 +357,8 @@ function CraftingUpdateFromItem(item) {
 	}
 	if (item.Property.Type !== undefined) {
 		CraftingSelectedItem.Type = item.Property.Type;
+	} else if (item.Property.Mode != null) {
+		CraftingSelectedItem.Type = item.Property.Mode;
 	}
 
 	/** @type {(keyof ItemProperties)[]} */
