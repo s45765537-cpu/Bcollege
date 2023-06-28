@@ -318,7 +318,7 @@ function CraftingRun() {
 		ElementPosition("InputPriority", 1225, 710, 100);
 		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
 		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
-		if (CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+		if (CraftingSelectedItem.Asset.Archetype) {
 			if (CraftingItemSupportsAutoType()) {
 				ElementPosition("InputType", 1685, 884, 310);
 				DrawButton(1840, 858, 60, 60, "", "White", "Icons/Small/Next.png");
@@ -777,7 +777,7 @@ function CraftingClick() {
 				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowType[CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) + 1];
 			ElementValue("InputType", CraftingSelectedItem.Type);
 			CraftingUpdatePreview();
-		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
 			const item = CraftingPreview.Appearance.find(i => {
 				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.Group.Name === CraftingSelectedItem.Asset.Group.Name;
 			});
