@@ -152,7 +152,7 @@ function ModularItemDraw(data) {
 /**
  * Parse the and pre-process the passed modules (and their options)
  * @param {Asset} asset - The asset in question
- * @param {readonly ModularItemModuleBase[]} modules - An object describing a single module for a modular item.
+ * @param {readonly ModularItemModuleConfig[]} modules - An object describing a single module for a modular item.
  * @param {boolean | undefined} [changeWhenLocked] - See {@link ModularItemConfig.ChangeWhenLocked}
  * @returns {ModularItemModule[]} - The updated modules and options
  */
@@ -169,23 +169,20 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 			Options: protoMod.Options.map((protoOption, i) => {
 				/** @type {ModularItemOption} */
 				const option = {
-					...protoOption,
+					...CommonOmit(protoOption, ["ArchetypeConfig"]),
 					Name: `${protoMod.Key}${i}`,
 					OptionType: "ModularItemOption",
 					ModuleName: protoMod.Name,
 					Index: i,
+					ParentData: null, // Initialized later on in `ModularItemCreateModularData`
 				};
 
 				if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 					option.ChangeWhenLocked = changeWhenLocked;
 				}
 
-				// @ts-expect-error: potentially copied from the protoOption via the spread operator
-				delete option.ArchetypeConfig;
 				if (protoOption.ArchetypeConfig) {
-					option.ArchetypeData = /** @type {ModularItemOption["ArchetypeData"]} */(AssetBuildExtended(
-						asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option,
-					));
+					option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 				}
 				return option;
 			}),
@@ -264,6 +261,9 @@ function ModularItemCreateModularData(asset, {
 			buttonDataOverride.drawImage = true;
 		}
 		mod.drawData = TypedItemGetDrawData(asset, Modules[i].DrawData, mod.Options, buttonDataOverride);
+		for (const option of mod.Options) {
+			option.ParentData = data;
+		}
 	}
 
 	data.drawFunctions[ModularItemBase] = ModularItemCreateDrawBaseFunction(data);

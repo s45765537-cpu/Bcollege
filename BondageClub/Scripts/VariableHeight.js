@@ -137,7 +137,7 @@ function VariableHeightLoad(data) {
 
 	// Lock the UI if the validation fails (_e.g._ when the item is locked)
 	const C = CharacterGetCurrent();
-	const { newOption, previousOption } = VariableHeightConstructOptions(DialogFocusItem);
+	const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
 	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 	let disabled = false;
 	if (requirementMessage) {
@@ -169,18 +169,18 @@ function VariableHeightLoad(data) {
  * @param {VariableHeightData} data - The variable height data for the asset
  * @returns {void} - Nothing
  */
-function VariableHeightDraw({ dialogPrefix, drawData }) {
+function VariableHeightDraw(data) {
 	ExtendedItemDrawHeader();
 	DrawText(DialogExtendedMessage, 1500, 375, "white", "gray");
 
-	ElementPosition(VariableHeightSliderId, ...drawData.elementData[0].position);
+	ElementPosition(VariableHeightSliderId, ...data.drawData.elementData[0].position);
 
 	DrawTextFit(DialogFindPlayer("VariableHeightPercent"), 1405, 555, 250, "white", "gray");
 	ElementPosition(VariableHeightNumerId, 1640, 550, 175);
 
-	const { newOption, previousOption } = VariableHeightConstructOptions(DialogFocusItem);
+	const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
 	ExtendedItemDrawButton(
-		newOption, previousOption, dialogPrefix.option,
+		newOption, previousOption, data.dialogPrefix.option,
 		{ position: [1350, 700, 225, 55] }, DialogFocusItem, false,
 	);
 }
@@ -203,7 +203,7 @@ function VariableHeightClick(data) {
 	// Confirm button
 	if (MouseIn(1350, 700, 300, 64)) {
 		const C = CharacterGetCurrent();
-		const { newOption, previousOption } = VariableHeightConstructOptions(DialogFocusItem);
+		const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
 		const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
@@ -370,21 +370,24 @@ function VariableHeightInit(Data, C, Item, Refresh) {
 
 /**
  * Dynamically construct the next and previous extended item option for the passed item
+ * @param {VariableHeightData} data - The extended item data
  * @param {Item} item - The item in question
  * @returns {{ newOption: VariableHeightOption, previousOption: VariableHeightOption }}
  */
-function VariableHeightConstructOptions(item) {
+function VariableHeightConstructOptions(data, item) {
 	const ID = PropertyGetID("OverrideHeight", item);
 	return {
 		newOption: {
 			Name: "newOption",
 			OptionType: "VariableHeightOption",
 			Property: { OverrideHeight: item.Property.OverrideHeight },
+			ParentData: data,
 		},
 		previousOption: {
 			Name: "previousOption",
 			OptionType: "VariableHeightOption",
 			Property: { OverrideHeight: PropertyOriginalValue.get(ID) },
+			ParentData: data,
 		},
 	};
 }

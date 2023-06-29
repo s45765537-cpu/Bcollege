@@ -249,7 +249,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 			} else if (msg.includes("Random")) {
 				newOption = data.options.find(o => o.Name === "Random");
 			} else if (msg.includes("Disable")) {
-				newOption = VibratorModeOff;
+				newOption = data.options[0];
 			} else if (msg.includes("Increase") || msg.includes("Decrease")) {
 				const mode = InventoryItemVulvaFuturisticVibratorGetMode(Item, msg.includes("Increase"));
 				newOption = data.options.find(o => o.Name === mode);

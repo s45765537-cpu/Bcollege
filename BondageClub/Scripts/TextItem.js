@@ -332,13 +332,13 @@ const TextItemChangeNoCanvas = CommonLimitFunction((C, item, name, text) => {
  * @param {Item} item - The item in question
  * @returns {{ newOption: TextItemOption, previousOption: TextItemOption }}
  */
-function TextItemConstructOptions({ textNames }, item) {
+function TextItemConstructOptions(data, item) {
 	/** @type {TextItemOption} */
-	const newOption = { Name: "newOption", OptionType: "TextItemOption", Property: {} };
+	const newOption = { Name: "newOption", OptionType: "TextItemOption", Property: {}, ParentData: data };
 	/** @type {TextItemOption} */
-	const previousOption = { Name: "previousOption", OptionType: "TextItemOption", Property: {} };
+	const previousOption = { Name: "previousOption", OptionType: "TextItemOption", Property: {}, ParentData: data };
 
-	for (const name of textNames) {
+	for (const name of data.textNames) {
 		const ID = PropertyGetID(name, item);
 		previousOption.Property[name] = PropertyOriginalValue.get(ID);
 		newOption.Property[name] = item.Property[name];

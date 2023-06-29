@@ -697,10 +697,11 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  */
 function ExtendedItemCustomDraw(Name, X, Y, drawImage=false, IsSelected=false) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
+	// TODO: Add a proper archetype rather than relying on `ParentData == null`
 	/** @type {ExtendedItemOption} */
-	const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
 	/** @type {ExtendedItemOption} */
-	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
 	/** @type {ElementData<{ drawImage: boolean }>} */
 	const elementData = { position: [X, Y, 225, drawImage ? 275 : 50], drawImage };
 	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
@@ -720,10 +721,11 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 		return true;
 	} else {
 		// Check if the option is blocked/limited/etc.
+		// TODO: Add a proper archetype rather than relying on `ParentData == null`
 		/** @type {ExtendedItemOption} */
-		const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
 		/** @type {ExtendedItemOption} */
-		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
 		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
@@ -861,7 +863,7 @@ function ExtendedItemCustomChatPrefix(Name, Data) {
 /**
  * Gather and return all subscreen properties of the passed option.
  * @param {Item} item - The item in question
- * @param {ExtendedItemOption & { ArchetypeData?: VibratingItemData | VariableHeightData | TextItemData }} option - The extended item option
+ * @param {ExtendedItemOption} option - The extended item option
  * @returns {ItemProperties} - The item properties of the option's subscreen (if any)
  */
 function ExtendedItemGatherSubscreenProperty(item, option) {

@@ -37,7 +37,7 @@
  * allows the reciever's chastity state to be cycled;
  *
  * @note Right now only modular items are supported, and `${string}` in the attribute
- * is used to look up the module name ({@link ModularItemModuleBase.Name}) to cycle
+ * is used to look up the module name ({@link ModularItemModuleConfig.Name}) to cycle
  * on the reciever.
  *
  * - `PortalLinkFunctionActivity${ActivityName}`;
