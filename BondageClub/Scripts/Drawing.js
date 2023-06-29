@@ -298,7 +298,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			const lastRefresh = AnimationPersistentStorage[refreshTimeKey] || 0;
 			const refreshRate = AnimationPersistentStorage[refreshRateKey] == null ? 60000 : AnimationPersistentStorage[refreshRateKey];
 			if (refreshRate + lastRefresh < CommonTime() && AnimationPersistentStorage[buildKey]) {
-				CharacterRefresh(C, false);
+				CharacterRefresh(C, false, false);
 				AnimationPersistentStorage[buildKey] = false;
 				AnimationPersistentStorage[refreshTimeKey] = CommonTime();
 			}
