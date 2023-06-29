@@ -487,7 +487,7 @@ function VibratorModeUpdateStateBased(data, C, item, persistentData, transitions
 		LastChange: Intensity !== OldIntensity ? CommonTime() : persistentData.LastChange,
 	});
 
-	VibratorModePublish(C, item, OldIntensity, Intensity);
+	VibratorModePublish(data, C, item, OldIntensity, Intensity);
 }
 
 /**
@@ -519,7 +519,7 @@ const VibratorModeUpdate = {
 		// Next update in 1-3 minutes
 		const oneMinute = 60000;
 		persistentData.ChangeTime = Math.floor(CommonTime() + oneMinute + Math.random() * 2 * oneMinute);
-		VibratorModePublish(C, item, oldIntensity, newIntensity);
+		VibratorModePublish(data, C, item, oldIntensity, newIntensity);
 	},
 
 	/**
@@ -543,7 +543,7 @@ const VibratorModeUpdate = {
 		const timeFactor = Math.pow((5 - newIntensity), 1.8);
 		const timeToNextUpdate = (8000 + Math.random() * 4000) * timeFactor;
 		persistentData.ChangeTime = Math.floor(CommonTime() + timeToNextUpdate);
-		VibratorModePublish(C, item, oldIntensity, newIntensity);
+		VibratorModePublish(data, C, item, oldIntensity, newIntensity);
 	},
 
 	/**
@@ -596,7 +596,7 @@ const VibratorModeUpdate = {
 			// Next update 1-2 minutes from now
 			persistentData.ChangeTime = Math.floor(CommonTime() + oneMinute + Math.random() * oneMinute);
 		}
-		VibratorModePublish(C, item, oldIntensity, newIntensity);
+		VibratorModePublish(data, C, item, oldIntensity, newIntensity);
 	},
 };
 
@@ -714,28 +714,39 @@ const VibratorModeStateUpdate = {
 /**
  * Publishes a chatroom message for an automatic change in vibrator intensity. Does nothing if the vibrator's intensity
  * did not change.
+ * @param {VibratingItemData} data
  * @param {Character} C - The character that the vibrator is equipped on
- * @param {Item} Item - The vibrator item
- * @param {number} OldIntensity - The previous intensity of the vibrator
- * @param {number} Intensity - The new intensity of the vibrator
+ * @param {Item} item - The vibrator item
+ * @param {number} oldIntensity - The previous intensity of the vibrator
+ * @param {number} newIntensity - The new intensity of the vibrator
  * @returns {void} - Nothing
  */
-function VibratorModePublish(C, Item, OldIntensity, Intensity) {
+function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
 	// If the intensity hasn't changed, don't publish a chat message
-	if (OldIntensity === Intensity) return;
+	if (oldIntensity === newIntensity) return;
 
-	var Direction = Intensity > OldIntensity ? "Increase" : "Decrease";
-	const Dictionary = new DictionaryBuilder()
-		.targetCharacterName(C)
-		.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
-		.markAutomatic()
-		.build();
+	const option = data.options.find(o => o.Name === item.Property.Mode) || data.options[0];
+	const optionIndex = data.options.indexOf(option);
+	const chatData = {
+		C,
+		previousOption: option,
+		newOption: option,
+		previousIndex: optionIndex,
+		newIndex: optionIndex,
+	};
+
+	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item).markAutomatic().build();
+	const chatPrefix = data.dialogPrefix.chat;
+	const prefix = (typeof chatPrefix === "function") ? chatPrefix(chatData) : chatPrefix;
+	const direction = newIntensity > oldIntensity ? "Increase" : "Decrease";
 
 	if (CurrentScreen == "ChatRoom") {
-		// TODO: Use `VibratingItemData.dialogPrefix.chat` rather than hard-coding "VibeMode"
-		ServerSend("ChatRoomChat", { Content: `VibeMode${Direction}To${Intensity}`, Type: "Action", Dictionary });
+		ServerSend(
+			"ChatRoomChat",
+			{ Content: `${prefix}${direction}To${newIntensity}`, Type: "Action", Dictionary: dictionary },
+		);
 		CharacterLoadEffect(C);
-		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 		ActivityChatRoomArousalSync(C);
 	}
 }
