@@ -1087,3 +1087,66 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 		pageCount: Math.ceil(elementData.length / itemsPerPage),
 	};
 }
+
+/**
+ * Return a list with all active extended item options (be it via a subscreen or otherwise) for the passed item
+ * @param item - The item in question
+ * @returns The list of active extended item options
+ */
+const ExtendedItemGatherOptions = (function () {
+	/** @type {(item: Item) => ExtendedItemOption[]} */
+	function gatherOptions(item) {
+		/** @type {ExtendedItemOption[]} */
+		const options = [];
+		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
+		if (data) {
+			_dfs(data, item, options);
+		}
+		return options;
+	}
+
+	/**
+	 * Depth first search helper for gathering all (subscreen-embedded) extended item options
+	 * @private
+	 * @param {AssetArchetypeData} data - The extended item data
+	 * @param {Item} item - The item in question
+	 * @param {ExtendedItemOption[]} optionList - The to-be populated list of extended item options
+	 * @returns {void}
+	 */
+	function _dfs(data, item, optionList) {
+		/** @type {ExtendedItemOption[]} */
+		const newOptions = [];
+		const archetype = data.archetype;
+		switch (archetype) {
+			case ExtendedArchetype.TEXT:
+				newOptions.push(TextItemConstructOptions(data, item).newOption);
+				break;
+			case ExtendedArchetype.VARIABLEHEIGHT:
+				newOptions.push(VariableHeightConstructOptions(data, item).newOption);
+				break;
+			case ExtendedArchetype.VIBRATING:
+				newOptions.push(data.options.find(o => o.Name === item.Property.Mode) || data.options[0]);
+				break;
+			case ExtendedArchetype.TYPED:
+				newOptions.push(data.options.find(o => o.Name === item.Property.Type) || data.options[0]);
+				break;
+			case ExtendedArchetype.MODULAR: {
+				const indices = ModularItemParseCurrent(data, item.Property.Type);
+				newOptions.push(...data.modules.map((mod, i) => mod.Options[indices[i]]));
+				break;
+			}
+			default:
+				console.warn(`Unsupported archetype: "${archetype}"`);
+				break;
+		}
+
+		optionList.push(...newOptions);
+		for (const option of newOptions) {
+			if (option.ArchetypeData) {
+				_dfs(option.ArchetypeData, item, optionList);
+			}
+		}
+	}
+
+	return gatherOptions;
+})();
