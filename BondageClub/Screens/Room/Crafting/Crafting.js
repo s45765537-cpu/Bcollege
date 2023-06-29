@@ -339,7 +339,8 @@ function CraftingRun() {
 		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950, true);
 	}
 
-	if (CraftingMode == "Extended") {
+	// Need the `DialogFocusItem` check here as there's a bit of a race condition
+	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
@@ -801,7 +802,8 @@ function CraftingClick() {
 		return;
 	}
 
-	if (CraftingMode == "Extended") {
+	// Need the `DialogFocusItem` check here as there's a bit of a race condition
+	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	}
