@@ -254,7 +254,7 @@ function VibratorModeGetDrawData(modeSet, drawData, y=450) {
  * @returns {VibratingItemData} - The generated vibrating item data for the asset
  */
 function VibratorModeCreateData(asset,
-	{ Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix, DrawData },
+	{ Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix, DrawData, ChatTags },
 	parentOption=null,
 ) {
 	const key = `${asset.Group.Name}${asset.Name}${parentOption ? parentOption.Name : ""}`;
@@ -278,7 +278,7 @@ function VibratorModeCreateData(asset,
 		chatSetting: "default",
 		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
-		chatTags: [
+		chatTags: Array.isArray(ChatTags) ? ChatTags : [
 			CommonChatTags.SOURCE_CHAR,
 			CommonChatTags.DEST_CHAR,
 			CommonChatTags.ASSET_NAME,
