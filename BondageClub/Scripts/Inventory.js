@@ -610,6 +610,11 @@ function InventoryWearCraft(Item, C, Craft) {
 			VibratorModeSetOptionByName(C, Item, Craft.Type, false, Player);
 			break;
 	}
+
+	// Initialize vibrating item subscreens (i.e. from the futuristic crate)
+	if (Craft.ItemProperty && Craft.ItemProperty.Mode) {
+		VibratorModeSetOptionByName(C, Item, Craft.ItemProperty.Mode, false, Player, [ExtendedArchetype.VIBRATING, "d1"]);
+	}
 }
 
 /**

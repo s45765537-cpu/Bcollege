@@ -435,10 +435,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption) {
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
+ * @param {null | [archetype: "typed" | "vibrating", screen: string]} [subscreen]
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -451,13 +452,13 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 	let data;
 	/** @type {"Type" | "Mode"} */
 	let typeField;
-	switch (item.Asset.Archetype) {
+	switch (subscreen ? subscreen[0] : item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
-			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
+			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
 			typeField = "Type";
 			break;
 		case ExtendedArchetype.VIBRATING:
-			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
+			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
 			typeField = "Mode";
 			break;
 		default: {
