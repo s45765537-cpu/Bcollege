@@ -805,7 +805,6 @@ function CraftingClick() {
 	// Need the `DialogFocusItem` check here as there's a bit of a race condition
 	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
-		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	}
 }
 
