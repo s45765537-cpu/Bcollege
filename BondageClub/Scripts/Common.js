@@ -1170,3 +1170,19 @@ function CommonOmit(object, keys) {
 	}
 	return ret;
 }
+
+/**
+ * Iterate through the passed iterable and yield index/value pairs.
+ * @template T
+ * @param {Iterable<T>} iterable - The to-be iterated iterable
+ * @param {number} start - The starting index
+ * @param {number} step - The step size in which the index is incremented
+ * @returns {Generator<[index: number, value: T], void>}
+ */
+function* CommonEnumerate(iterable, start=0, step=1) {
+	let i = start;
+	for (const item of iterable) {
+		yield [i, item];
+		i += step;
+	}
+}

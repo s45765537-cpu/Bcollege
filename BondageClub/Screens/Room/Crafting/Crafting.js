@@ -53,6 +53,14 @@ let CraftingNakedPreview = false;
 /** Whether exiting the crafting menu should return you to the chatroom or, otherwise, the main hall. */
 let CraftingReturnToChatroom = false;
 
+/** Pagination offset used for the `Priority` {@link CraftingMode}. */
+let CraftingOverridePriorityOffset = 0;
+
+/**
+ * @type {null | TextCache}
+ */
+let CraftingLayerNames = null;
+
 /**
  * Map crafting properties to their respective validation function.
  * @type {Map<CraftingPropertyType, (asset: Asset) => boolean>}
@@ -209,10 +217,10 @@ function CraftingItemSupportsAutoType() {
 function CraftingRun() {
 
 	// The exit button is everywhere
-	if (CraftingMode != "Color" && CraftingMode != "Extended") {
+	if (!["Color", "Extended", "OverridePriority"].includes(CraftingMode)) {
 		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	}
-	if (CraftingMode != "Color" && CraftingMode != "Slot" && CraftingMode != "Extended") {
+	if (!["Color", "Slot", "Extended", "OverridePriority"].includes(CraftingMode)) {
 		DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 	}
 
@@ -335,6 +343,7 @@ function CraftingRun() {
 			MainCanvas.textAlign = "center";
 			DrawButton(1460, 858, 60, 60, "", "White", "Icons/Small/Use.png");
 		}
+		DrawButton(1276, 683, 60, 60, "", "White", "Icons/Small/Use.png");
 	}
 
 	// In color mode, the player can change the color of each parts of the item
@@ -351,6 +360,53 @@ function CraftingRun() {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
+	}
+
+	if (CraftingMode == "OverridePriority") {
+		DrawText(TextGet("SelectPriority"), 830, 60, "White", "Black");
+		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
+		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Return"));
+		DrawButton(1685, 120, 90, 90, "", "White", "Icons/Swap.png", "Reset");
+		DrawTextFit(
+			`${1 + CraftingOverridePriorityOffset / 20} / ${Math.ceil(CraftingSelectedItem.Asset.Layer.length / 20)}`,
+			1835, 60, 120, "White", "Black",
+		);
+		if (CraftingSelectedItem.Asset.Layer.length > 20) {
+			DrawButton(1790, 120, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
+			DrawButton(1895, 120, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
+		} else {
+			DrawButton(1790, 120, 90, 90, "", "Gray", "Icons/Prev.png", TextGet("Previous"), true);
+			DrawButton(1895, 120, 90, 90, "", "Gray", "Icons/Next.png", TextGet("Next"), true);
+		}
+
+		MainCanvas.textAlign = "left";
+		const start = CraftingOverridePriorityOffset;
+		const stop = start + 20;
+		for (const [i, layer] of CommonEnumerate(CraftingSelectedItem.Asset.Layer)) {
+			const element = document.getElementById(`InputPriority${layer.Name}`);
+			if (element == null) {
+				continue;
+			}
+
+			if (i >= start && i < stop) {
+				element.style.display = "block";
+				const x = 1000 + Math.floor((i - start) / 10) * 500;
+				const y = 250 + (i % 10) * 70;
+				ElementPosition(element.id, x, y, 100);
+
+				const key = `${CraftingSelectedItem.Asset.Group.Name}${CraftingSelectedItem.Asset.Name}${layer.Name}`;
+				let layerName = CraftingLayerNames.get(key);
+				if (layerName === key) {
+					layerName = layer.Name;
+				} else if (!layerName) {
+					layerName = CraftingSelectedItem.Asset.Description;
+				}
+				DrawTextFit(layerName, x + 50, y + 2, 400, "White", "Black");
+			} else {
+				element.style.display = "none";
+			}
+		}
+		MainCanvas.textAlign = "center";
 	}
 }
 
@@ -396,6 +452,8 @@ function CraftingModeSet(NewMode) {
 	CraftingDestroy = false;
 	CraftingMode = NewMode;
 	CraftingOffset = 0;
+	CraftingOverridePriorityOffset = 0;
+	CraftingLayerNames = null;
 	if (NewMode == "Item") {
 		let Input = ElementCreateInput("InputSearch", "text", "", "50");
 		Input.addEventListener("input", CraftingItemListBuild);
@@ -434,6 +492,61 @@ function CraftingModeSet(NewMode) {
 		ElementRemove("InputColor");
 		ElementRemove("InputType");
 		ElementRemove("InputPriority");
+	}
+
+	if (CraftingSelectedItem && CraftingSelectedItem.Asset != null) {
+		/** @type {Record<string, number>} */
+		const layerPriorities = {};
+		for (const layer of CraftingSelectedItem.Asset.Layer) {
+			layerPriorities[layer.Name] = layer.Priority;
+		}
+		if (NewMode == "OverridePriority") {
+			CraftingLayerNames = new TextCache(`Assets/${Player.AssetFamily}/LayerNames.csv`);
+			const overridePriority = CommonIsObject(CraftingSelectedItem.OverridePriority) ? CraftingSelectedItem.OverridePriority : {};
+			for (const [name, defaultPriority] of Object.entries(layerPriorities)) {
+				const value = overridePriority[name] == null ? defaultPriority : overridePriority[name];
+				const element = ElementCreateInput(`InputPriority${name}`, "number", value.toString(), "20");
+				element.dataset.layerName = name;
+				element.dataset.propertyDefault = defaultPriority.toString();
+				element.addEventListener("input", CraftingPriorityKeyUp.bind(element));
+			}
+		} else {
+			for (const name of Object.keys(layerPriorities)) {
+				ElementRemove(`InputPriority${name}`);
+			}
+		}
+	}
+}
+
+/**
+ * @this {HTMLInputElement}
+ * @returns {void};
+ */
+function CraftingPriorityKeyUp() {
+	const layerName = this.dataset.layerName;
+	const valueDefault = Number.parseInt(this.dataset.propertyDefault);
+	let valueNew = Number.parseInt(this.value);
+	if (Number.isNaN(valueNew)) {
+		valueNew = valueDefault;
+	}
+
+	if (CommonIsObject(CraftingSelectedItem.OverridePriority)) {
+		if (CraftingSelectedItem.OverridePriority[layerName] !== valueNew) {
+			if (valueDefault === valueNew) {
+				delete CraftingSelectedItem.OverridePriority[layerName];
+				if (Object.keys(CraftingSelectedItem.OverridePriority).length == 0) {
+					CraftingSelectedItem.OverridePriority = null;
+				}
+			} else {
+				CraftingSelectedItem.OverridePriority[layerName] = valueNew;
+			}
+			CraftingUpdatePreview();
+		}
+	} else {
+		if (valueNew !== valueDefault) {
+			CraftingSelectedItem.OverridePriority = { [layerName]: valueNew };
+			CraftingUpdatePreview();
+		}
 	}
 }
 
@@ -607,8 +720,8 @@ function CraftingLoadServer(Packet) {
  */
 function CraftingClick() {
 	// Can always exit or cancel
-	if (MouseIn(1895, 15, 90, 90) && (CraftingMode != "Color" && CraftingMode != "Extended")) CraftingExit();
-	if (MouseIn(1790, 15, 90, 90) && (CraftingMode != "Color" && CraftingMode != "Slot" && CraftingMode != "Extended")) return CraftingModeSet("Slot");
+	if (MouseIn(1895, 15, 90, 90) && !["Color", "Extended", "OverridePriority"].includes(CraftingMode)) CraftingExit();
+	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "OverridePriority"].includes(CraftingMode)) return CraftingModeSet("Slot");
 
 	// In slot mode, we can select which item slot to craft
 	if (CraftingMode == "Slot") {
@@ -793,6 +906,8 @@ function CraftingClick() {
 				DialogExtendItem(item);
 				CraftingModeSet("Extended");
 			}
+		} else if (MouseIn(1276, 683, 60, 60)) {
+			CraftingModeSet("OverridePriority");
 		}
 		return;
 	}
@@ -812,6 +927,30 @@ function CraftingClick() {
 	// Need the `DialogFocusItem` check here as there's a bit of a race condition
 	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
+	}
+
+	if (CraftingMode == "OverridePriority") {
+		if (MouseIn(1895, 15, 90, 90)) {
+			CraftingModeSet("Name");
+		} else if (MouseIn(1685, 120, 90, 90)) {
+			for (const layer of CraftingSelectedItem.Asset.Layer) {
+				const element = /** @type {HTMLInputElement} */(document.getElementById(`InputPriority${layer.Name}`));
+				if (element == null) {
+					continue;
+				}
+				element.value = element.dataset.propertyDefault;
+			}
+			delete CraftingSelectedItem.ItemProperty.OverridePriority;
+			CraftingUpdatePreview();
+		} else if (CraftingSelectedItem.Asset.Layer.length > 20) {
+			const start = CraftingOverridePriorityOffset;
+			const stop = CraftingSelectedItem.Asset.Layer.length;
+			if (MouseIn(1895, 120, 90, 90)) {
+				CraftingOverridePriorityOffset = (start + 20) > stop ? 0 : start + 20;
+			} else if (MouseIn(1790, 120, 90, 90)) {
+				CraftingOverridePriorityOffset = (start - 20) < 0 ? 20 * (Math.ceil(stop / 20) - 1) : start - 20;
+			}
+		}
 	}
 }
 
