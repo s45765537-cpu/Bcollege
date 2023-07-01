@@ -62,9 +62,7 @@ function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, 
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
 	const FrontShield = ModularItemParseCurrent(Data)[0];
 
-	// Allow simple characters (used for things like appearance previews) to bypass the owner-only restriction
-	// TODO: Review the relationship-based methods such as `IsOwnedByPlayer` and their interaction with simple characters
-	if (!C.IsSimple() && !C.IsOwnedByPlayer()) {
+	if (!C.IsOwnedByPlayer()) {
 		return DialogFindPlayer("PreviewIconOwnerOnly");
 	} else if (Module.Name === "Intensity" && Option.Name !== "i0" && FrontShield !== 2) {
 		return DialogFindPlayer(`${Prefix}ValidateIntensity`);

@@ -148,6 +148,13 @@ function CraftingLoad() {
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
 	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
+
+	// Declare the preview character as being owned/loved by the player so any owner-/lover-related validation checks pass
+	CraftingPreview.Owner = Player.Name;
+	CraftingPreview.Ownership = { MemberNumber: Player.MemberNumber, Name: Player.Name, Start: CommonTime(), Stage: 1 };
+	CraftingPreview.Lovership = [
+		{ MemberNumber: Player.MemberNumber, Name: Player.Name, Start: CommonTime(), Stage: 2 },
+	];
 	CharacterReleaseTotal(CraftingPreview);
 }
 
