@@ -1066,14 +1066,18 @@ const CraftingValidationRecord = {
 					continue;
 				} else if (CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
 					return false;
-				} else if (key === "OverridePriority" && typeof Number.isInteger(value)) {
-					return false;
-				} else if (key === "OverridePriority" && CommonIsObject(value)) {
-					const layers = a.Layer.map(l => l.Name);
-					for (const [layerName, priority] of Object.entries(value)) {
-						if (!(layers.includes(layerName) && Number.isInteger(priority))) {
-							return false;
+				} else if (key === "OverridePriority") {
+					if (Number.isInteger(value)) {
+						continue;
+					} else if (CommonIsObject(value)) {
+						const layers = a.Layer.map(l => l.Name);
+						for (const [layerName, priority] of Object.entries(value)) {
+							if (!(layers.includes(layerName) && Number.isInteger(priority))) {
+								return false;
+							}
 						}
+					} else {
+						return false;
 					}
 				} else if (typeof value !== typeof baseline[key]) {
 					return false;
