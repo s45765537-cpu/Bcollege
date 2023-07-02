@@ -241,14 +241,27 @@ function VibratorModeGetDrawData(modeSet, drawData, y=450) {
  * Generates an asset's vibrating item data
  * @param {Asset} asset - The asset to generate vibrating item data for
  * @param {VibratingItemConfig} config - The item's extended item configuration
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {VibratingItemData} - The generated vibrating item data for the asset
  */
-function VibratorModeCreateData(asset,
-	{ Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix, DrawData, ChatTags, AllowEffect },
+function VibratorModeCreateData(
+	asset,
+	{
+		Options,
+		ScriptHooks,
+		BaselineProperty,
+		Dictionary,
+		DialogPrefix,
+		DrawData,
+		ChatTags,
+		AllowEffect,
+		Name,
+	},
 	parentOption=null,
 ) {
-	const key = `${asset.Group.Name}${asset.Name}${parentOption ? parentOption.Name : ""}`;
 	const modeSet = Array.isArray(Options) ? Options : Object.values(VibratorModeSet);
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.VIBRATING : parentOption.Name);
+	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
 
 	const data = VibratorModeDataLookup[key] = {
@@ -256,6 +269,7 @@ function VibratorModeCreateData(asset,
 		key,
 		asset,
 		parentOption,
+		name,
 		options: null, // Initialized further down below
 		modeSet: modeSet,
 		functionPrefix: `Inventory${key}`,

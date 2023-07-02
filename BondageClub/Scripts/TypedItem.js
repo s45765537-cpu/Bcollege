@@ -165,6 +165,7 @@ function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
  * Generates an asset's typed item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {TypedItemConfig} config - The item's extended item configuration
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {TypedItemData} - The generated typed item data for the asset
  */
 function TypedItemCreateTypedItemData(asset, {
@@ -178,17 +179,20 @@ function TypedItemCreateTypedItemData(asset, {
 	ScriptHooks,
 	DrawData,
 	AllowEffect,
-	BaselineProperty=null,
-}) {
+	BaselineProperty,
+	Name,
+}, parentOption=null) {
 	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked);
-
-	DialogPrefix = DialogPrefix || {};
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TYPED : parentOption.Name);
 	const key = `${asset.Group.Name}${asset.Name}`;
+	DialogPrefix = DialogPrefix || {};
+
 	const data = TypedItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TYPED,
 		asset,
 		options: optionsParsed,
 		key,
+		name,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${key}`,
 		dialogPrefix: {

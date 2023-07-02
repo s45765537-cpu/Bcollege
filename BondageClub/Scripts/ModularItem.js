@@ -224,6 +224,7 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
  * Generates an asset's modular item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {ModularItemConfig} config - The item's extended item configuration
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {ModularItemData} - The generated modular item data for the asset
  */
 function ModularItemCreateModularData(asset, {
@@ -235,10 +236,11 @@ function ModularItemCreateModularData(asset, {
 	ScriptHooks,
 	Dictionary,
 	DrawData,
+	BaselineProperty,
 	AllowEffect,
-	BaselineProperty=null,
-	DrawImages=null,
-}) {
+	DrawImages,
+	Name,
+}, parentOption=null) {
 	// Set the name of all modular item options
 	// Use an external function as typescript does not like the inplace updating of an object's type
 	const ModulesParsed = ModularItemBuildModules(asset, Modules, ChangeWhenLocked);
@@ -246,6 +248,7 @@ function ModularItemCreateModularData(asset, {
 	const BaseDrawImages = (typeof DrawImages !== "boolean") ? ModulesParsed.every((m) => m.DrawImages) : DrawImages;
 
 	const key = `${asset.Group.Name}${asset.Name}`;
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.MODULAR : parentOption.Name);
 	DialogPrefix = DialogPrefix || {};
 	/** @type {ModularItemData} */
 	const data = ModularItemDataLookup[key] = {
@@ -253,6 +256,7 @@ function ModularItemCreateModularData(asset, {
 		asset,
 		chatSetting: ChatSetting || ModularItemChatSetting.PER_OPTION,
 		key,
+		name,
 		typeCount: 1,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${key}`,

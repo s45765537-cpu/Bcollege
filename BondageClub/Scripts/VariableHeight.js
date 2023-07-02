@@ -74,7 +74,7 @@ function VariableHeightGetDrawData(drawData) {
  * Generates an asset's variable height data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {VariableHeightConfig} config - The variable height configuration
- * @param {null | ExtendedItemOption} parentOption
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {VariableHeightData} - The generated variable height data for the asset
  */
 function VariableHeightCreateData(asset,
@@ -90,15 +90,19 @@ function VariableHeightCreateData(asset,
 		BaselineProperty,
 		DrawData,
 		AllowEffect,
+		Name,
 	},
 	parentOption=null)
 {
-	const key = `${asset.Group.Name}${asset.Name}${parentOption ? parentOption.Name : ""}`;
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.VARIABLEHEIGHT : parentOption.Name);
+	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
+
 	return VariableHeightDataLookup[key] = {
 		archetype: ExtendedArchetype.VARIABLEHEIGHT,
 		key,
 		asset,
+		name,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
 		maxHeight: MaxHeight,

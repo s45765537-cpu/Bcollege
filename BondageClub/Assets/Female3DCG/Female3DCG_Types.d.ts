@@ -784,6 +784,14 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
 	 */
 	AllowEffect?: EffectName[];
+	/**
+	 * The unique name for this (sub)-screen used for the automatic construction of {@link ItemProperties.TypeRecord} keys.
+	 * Names *should* be short.
+	 *
+	 * If not explicitly specified defaults to the name of {@link ExtendedItemData.parentOption}
+	 * for sub screens and the name of the archetype in case of the (outer-most) super screen.
+	 */
+	Name?: string;
 }
 
 /** Defines a single (partially parsed) extended item option */
