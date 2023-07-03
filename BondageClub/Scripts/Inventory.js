@@ -612,6 +612,7 @@ function InventoryWearCraft(Item, C, Craft) {
 	}
 
 	// Initialize vibrating item subscreens (i.e. from the futuristic crate)
+	// TODO: Remove the hard-coding after reworking `ItemProperties.Type` and creating `ExtendedItemSetOptionByName()`
 	if (Craft.ItemProperty && Craft.ItemProperty.Mode) {
 		VibratorModeSetOptionByName(C, Item, Craft.ItemProperty.Mode, false, Player, [ExtendedArchetype.VIBRATING, "d1"]);
 	}

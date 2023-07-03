@@ -378,6 +378,7 @@ function CraftingUpdateFromItem(item) {
 				keys.add("OverrideHeight");
 			} else if (option.OptionType === "VibratingItemOption" && option.ParentData.parentOption != null) {
 				// Explicitly store the Mode (in addition to `CraftingSelectedItem.Type`) for vibrating subscreens
+				// TODO: Remove this branch after refactoring `ItemProperties.Type` into a record
 				keys.add("Mode");
 			}
 			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
@@ -1061,6 +1062,8 @@ const CraftingValidationRecord = {
 				return true;
 			}
 
+			// TODO: Add a better way of validating subscreen properties rather than just unconditionally
+			// allowing `Mode` and `OverrideHeight`.
 			/** @type {ItemProperties} */
 			const baseline = {
 				Mode: "Off",
