@@ -554,12 +554,11 @@ function PortalLinkCycleChastityModule(sender, item) {
 		const shield = modularData.modules.find(m => m.Name === chastityTarget);
 		if (!shield) return;
 
-		const shieldType = ModularItemDeconstructType(item.Property.Type).find(t => t.startsWith(shield.Key));
-		if (!shieldType) return;
-
-		const shieldIndex = parseInt(shieldType.substring(shield.Key.length));
-		if (isNaN(shieldIndex)) return;
-
+		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
+		let shieldIndex = typeRecord[shield.Name];
+		if (shield.Options[shieldIndex] === undefined) {
+			shieldIndex = 0;
+		}
 		const idx = (shieldIndex + 1) % shield.Options.length;
 
 		ModularItemSetOptionByName(Player, item, ModularItemConstructType(modularData.modules, [0, idx]), true, sender);

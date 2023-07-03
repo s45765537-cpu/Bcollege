@@ -6,8 +6,8 @@ function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFun
 }) {
 	if (L === "_Text") {
 		// Determine the canvas position and size
-		const Properties = Property || {};
-		const Type = Properties.Type || "t0";
+		const propertyRecord = (Property && Property.TypeRecord) || {};
+		const subType = propertyRecord.t || 0;
 
 		// We set up a canvas
 		let Height = 50;
@@ -15,14 +15,17 @@ function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFun
 		let YOffset = 30;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
-		if (Type.includes("t1")) {
-			YOffset = 45;
-		} else if (Type.includes("t3")) {
-			YOffset = 32;
-		} else if (Type.includes("t4")) {
-			YOffset = 31;
-		} else if (Type.includes("t5")) {
-			YOffset = 31;
+		switch (subType) {
+			case 1:
+				YOffset = 45;
+				break;
+			case 3:
+				YOffset = 32;
+				break;
+			case 4:
+			case 5:
+				YOffset = 31;
+				break;
 		}
 
 		TextItem.Init(data, C, CA, false, false);

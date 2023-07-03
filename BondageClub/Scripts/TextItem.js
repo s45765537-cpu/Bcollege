@@ -9,8 +9,7 @@
 const TextItemDataLookup = {};
 
 /**
- * Registers a typed extended item. This automatically creates the item's load, draw and click functions. It will also
- * generate the asset's AllowType array.
+ * Registers a typed extended item. This automatically creates the item's load, draw and click functions.
  * @param {Asset} asset - The asset being registered
  * @param {TextItemConfig} config - The item's typed item configuration
  * @param {null | ExtendedItemOption} parentOption

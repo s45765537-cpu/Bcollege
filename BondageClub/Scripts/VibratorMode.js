@@ -296,7 +296,7 @@ function VibratorModeCreateData(
 }
 
 /**
- * Gather all extended item options for a given list of modes.
+ * Construct all extended item options for a given list of modes.
  * @param {VibratingItemData} data - The extended item data
  * @param {readonly VibratorModeSet[]} modeSet - The vibrator mods
  * @returns {VibratingItemOption[]} - The generated vibrating item options
@@ -304,13 +304,19 @@ function VibratorModeCreateData(
 function VibratorModeGetOptions(data, modeSet) {
 	/** @type {VibratingItemOption[]} */
 	const options = [];
+	let i = -1;
 	for (const mode of modeSet) {
 		for (const _protoOption of VibratorModeOptions[mode]) {
+			i += 1;
 			const protoOption = ExtendedItemParseOptions(_protoOption, data.asset);
 			options.push({
 				...CommonOmit(protoOption, ["ArchetypeConfig"]),
 				OptionType: "VibratingItemOption",
 				ParentData: data,
+				Property: {
+					...CommonCloneDeep(protoOption.Property),
+					TypeRecord: { [data.name]: i },
+				},
 			});
 		}
 	}
@@ -396,9 +402,6 @@ function VibratorModeSetAssetProperties(data) {
 	asset.DynamicScriptDraw = true;
 	asset.Extended = true;
 	TypedItemGenerateAllowEffect(data);
-	if (data.parentOption === null) {
-		asset.AllowTypes = Object.values(VibratorMode);
-	}
 }
 
 /**
@@ -746,60 +749,14 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
 /**
  * Initialize the vibrating item properties
  * @param {VibratingItemData} data
- * @param {Item} Item - The item in question
+ * @param {Item} item - The item in question
  * @param {Character} C - The character that has the item equiped
- * @param {boolean} Push - Whether to push to changes to the server
- * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
+ * @param {boolean} push - Whether to push to changes to the server
+ * @param {boolean} refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not
  */
-function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
-	validateType: if (CommonIsObject(Item.Property) && data.options.some(o => o.Name === Item.Property.Mode)) {
-		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
-			// We cannot reliably validate properties of people in different versions
-			break validateType;
-		}
-
-		const option = data.options.find(o => o.Name === Item.Property.Mode);
-		const newProps = CommonCloneDeep(option.Property);
-		delete newProps.OverridePriority;
-		if (VibratorModesAdvanced.includes(option.Name)) {
-			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
-			delete newProps.Intensity;
-		}
-		const baseLineProps = Object.entries(CommonCloneDeep(data.baselineProperty || {})).filter(([k, v]) => {
-			const existingValue = Item.Property[k];
-			return existingValue == null && typeof existingValue !== typeof v;
-		});
-
-		let update = false;
-		if (!CommonDeepIsSubset(newProps, Item.Property)) {
-			Item.Property = Object.assign(Item.Property, newProps);
-			update = true;
-		}
-		if (baseLineProps.length > 0) {
-			baseLineProps.forEach(([k, v]) => Item.Property[k] = v);
-			update = true;
-		}
-		if (!update) {
-			return false;
-		}
-	} else {
-		Item.Property = Object.assign(
-			Item.Property || {},
-			data.baselineProperty ? CommonCloneDeep(data.baselineProperty) : {},
-			CommonCloneDeep(VibratorModeOff.Property),
-		);
-	}
-
-
-
-	if (Refresh) {
-		CharacterRefresh(C, Push, false);
-	}
-	if (Push) {
-		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
-	}
-	return true;
+function VibratorModeInit(data, C, item, push=true, refresh=true) {
+	return TypedItemInit(data, C, item, push, refresh, "Mode");
 }
 
 /**

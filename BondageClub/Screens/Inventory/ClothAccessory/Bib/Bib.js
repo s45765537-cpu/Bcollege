@@ -5,9 +5,9 @@ function AssetsClothAccessoryBibAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
 	if (L === "_Text") {
-		const Properties = Property || {};
-		const Type = Properties.Type || "x0";
-		if (!Type.includes("x1")) return;
+		const typeRecord = (Property && Property.TypeRecord) || {};
+		const subType = typeRecord.x || 0;
+		if (subType !== 1) return;
 
 		// We set up a canvas
 		let Height = 65;

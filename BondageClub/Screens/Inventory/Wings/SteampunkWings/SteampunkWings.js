@@ -45,8 +45,9 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<SteampunkWingsPersistentData>} */
 function AssetsWingsSteampunkWingsScriptDraw({ C, Item, PersistentData }) {
-	const Type = (Item.Property || {}).Type;
-	if (Type !== "On") return;
+	const typeRecord = (Item.Property && Item.Property.TypeRecord) || {};
+	const subType = typeRecord.typed || 0;
+	if (subType !== 1) return;
 
 	const Data = PersistentData();
 

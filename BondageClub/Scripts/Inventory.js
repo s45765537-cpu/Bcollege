@@ -1056,13 +1056,13 @@ const PropertiesArrayLike = new Set(/** @type {const} */([
 	"AllowActivity", "AllowActivityOn",
 	"Hide", "HideItem", "HideItemExclude", "UnHide",
 	"MemberNumberList", "Texts",
-	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowTypes",
+	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowTypes",
 	"AvailableLocations", "ExpressionPrerequisite",
 ]));
 
 /** @satisfies {Set<keyof PropertiesRecord>} */
 const PropertiesObjectLike = new Set(/** @type {const} */([
-	"ActivityExpression", "PoseMapping", "RemoveItemOnRemove",
+	"ActivityExpression", "PoseMapping", "RemoveItemOnRemove", "TypeRecord", "AllowLockType",
 ]));
 
 /**
@@ -1266,11 +1266,10 @@ function InventoryHasLockableItems(C) {
  */
 function InventoryDoesItemAllowLock(item) {
 	const asset = item.Asset;
-	const property = item.Property;
-	const type = property && property.Type;
-	if (Array.isArray(asset.AllowLockType)) {
-		// "" is used to represent the null type in AllowLockType arrays
-		return type != null ? asset.AllowLockType.includes(type) : asset.AllowLockType.includes("");
+	const typeRecord = item.Property && item.Property.TypeRecord;
+	if (asset.AllowLockType != null && CommonIsObject(typeRecord)) {
+		const entries = Object.entries(typeRecord);
+		return entries.some(([k, i]) => asset.AllowLockType[k] && asset.AllowLockType[k].has(i));
 	} else {
 		return asset.AllowLock;
 	}
@@ -1413,6 +1412,7 @@ function InventoryTogglePermission(Item, Type, Worn) {
 	const blockAllowed = !Worn && !onExtreme;
 	const limitedAllowed = !Worn && (!onExtreme || MainHallStrongLocks.includes(/** @type {AssetLockType} */(Item.Asset.Name)));
 
+	/** @type {(B: ItemPermissions) => boolean} */
 	const removeFromPermissions = (B) => B.Name != Item.Asset.Name || B.Group != Item.Asset.Group.Name || B.Type != Type;
 	const permissionItem = { Name: Item.Asset.Name, Group: Item.Asset.Group.Name, Type: Type };
 	if (InventoryIsPermissionBlocked(Player, Item.Asset.Name, Item.Asset.Group.Name, Type)) {

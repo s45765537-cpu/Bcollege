@@ -449,10 +449,9 @@ function CraftingUpdateFromItem(item) {
 	if (!CraftingSelectedItem || !item.Property) {
 		return;
 	}
-	if (item.Property.Type !== undefined) {
-		CraftingSelectedItem.Type = item.Property.Type;
-	} else if (item.Property.Mode != null) {
-		CraftingSelectedItem.Type = item.Property.Mode;
+
+	if (item.Property.TypeRecord) {
+		CraftingSelectedItem.Type = Object.entries(item.Property.TypeRecord).map(([k, v]) => `${k}${v}`).join("");
 	}
 
 	/** @type {Set<keyof ItemProperties>} */
@@ -462,10 +461,6 @@ function CraftingUpdateFromItem(item) {
 		for (const option of options) {
 			if (option.OptionType === "VariableHeightOption") {
 				keys.add("OverrideHeight");
-			} else if (option.OptionType === "VibratingItemOption" && option.ParentData.parentOption != null) {
-				// Explicitly store the Mode (in addition to `CraftingSelectedItem.Type`) for vibrating subscreens
-				// TODO: Remove this branch after refactoring `ItemProperties.Type` into a record
-				keys.add("Mode");
 			}
 			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
 				if (!CraftingPropertyExclude.has(key)) {
@@ -1290,10 +1285,9 @@ const CraftingValidationRecord = {
 			}
 
 			// TODO: Add a better way of validating subscreen properties rather than just unconditionally
-			// allowing `Mode` and `OverrideHeight`.
+			// allowing `OverrideHeight`.
 			/** @type {ItemProperties} */
 			const baseline = {
-				Mode: "Off",
 				OverrideHeight: null,
 			};
 			if (a.Archetype) {
@@ -1335,7 +1329,6 @@ const CraftingValidationRecord = {
 
 			/** @type {ItemProperties} */
 			const baseline = {
-				Mode: "Off",
 				OverrideHeight: null,
 			};
 			if (a.Archetype) {

@@ -297,15 +297,15 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 	/** @type {ItemProperties} */
 	const newProperty = newItem.Property = newItem.Property || {};
 	let itemBlocked = ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name);
-	if (asset.Archetype === ExtendedArchetype.MODULAR) {
-		const TypeList = ModularItemDeconstructType(newProperty.Type) || [];
+	if (CommonIsObject(newProperty.TypeRecord)) {
+		const TypeList = Object.entries(newProperty.TypeRecord).map(([i, j]) => `${i}${j}`);
 		itemBlocked = itemBlocked || TypeList.some((t) => ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name, t));
 	} else {
-		itemBlocked = itemBlocked || ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name, newProperty.Type);
+		itemBlocked = itemBlocked || ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, group.Name, asset.Name);
 	}
 
 	// If the type has changed and the new type is blocked/limited for the target character, prevent modifications
-	if (newProperty.Type !== previousProperty.Type && itemBlocked) {
+	if (!CommonObjectEqual(newProperty.TypeRecord, previousProperty.TypeRecord) && itemBlocked) {
 		return { item: previousItem, valid: false };
 	}
 
@@ -532,9 +532,15 @@ function ValidationCanAddItem(newItem, params) {
 	const asset = newItem.Asset;
 
 	// If the item is blocked/limited and the source doesn't have the correct permission, prevent it from being added
-	const type = (newItem.Property && newItem.Property.Type) || null;
-	const itemBlocked = ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name, type) ||
-						ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name);
+	/** @type {string[]} */
+	let typeList = [];
+	if (newItem.Property && newItem.Property.TypeRecord) {
+		typeList = Object.entries(newItem.Property.TypeRecord).map(([i, j]) => `${i}${j}`);
+	}
+	const itemBlocked = (
+		ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name)
+		|| typeList.some(t => ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, asset.Group.Name, asset.Name, t))
+	);
 	if (itemBlocked && OnlineGameAllowBlockItems()) return false;
 
 	// Fall back to common item add/remove validation
@@ -683,14 +689,6 @@ function ValidationSanitizeProperties(C, item) {
 	changed = ValidationSanitizeSetPose(C, item) || changed;
 	changed = ValidationSanitizeStringArray(property, "Hide") || changed;
 
-	// If the property has a type, it needs to be in the asset's AllowType array
-	const allowType = asset.AllowTypes || [];
-	if (property.Type != null && !allowType.includes(property.Type)) {
-		console.warn(`Removing invalid type "${property.Type}" from ${asset.Name}`);
-		delete property.Type;
-		changed = true;
-	}
-
 	// If the property has an expression, it needs to be in the asset or group's AllowExpression array
 	const allowExpression = asset.AllowExpression || asset.Group.AllowExpression || [];
 	if (property.Expression != null && !allowExpression.includes(property.Expression)) {
@@ -717,7 +715,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Remove invalid properties from non-typed items
-	if (!asset.AllowTypes || !asset.AllowTypes.length) {
+	if (!asset.Extended) {
 		["SetPose", "Difficulty", "SelfUnlock", "Hide"].forEach(P => {
 			if (property[P] != null) {
 				console.warn(`Removing invalid property "${P}" from ${asset.Name}`);

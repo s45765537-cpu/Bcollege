@@ -1286,6 +1286,10 @@ function CommonURLHasExtension(TestURL, Extension) {
  * @returns {rec2 is T}
  */
 function CommonObjectEqual(rec1, rec2) {
+	if (!CommonIsObject(rec1) || !CommonIsObject(rec2)) {
+		return false;
+	}
+
 	const entries1 = Object.entries(rec1);
 	const keys2 = Object.keys(rec2);
 	if (entries1.length !== keys2.length) {

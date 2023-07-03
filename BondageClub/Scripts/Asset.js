@@ -200,7 +200,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowEffect: AssetDef.AllowEffect,
 		AllowBlock: AssetDef.AllowBlock,
 		AllowTighten: AssetDef.AllowTighten,
-		AllowTypes: AssetDef.AllowTypes,
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
@@ -231,7 +230,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DynamicAfterDraw: (typeof AssetDef.DynamicAfterDraw === 'boolean') ? AssetDef.DynamicAfterDraw : false,
 		DynamicScriptDraw: (typeof AssetDef.DynamicScriptDraw === 'boolean') ? AssetDef.DynamicScriptDraw : false,
 		HasType: (typeof AssetDef.HasType === 'boolean') ? AssetDef.HasType : true,
-		AllowLockType: AssetDef.AllowLockType,
+		AllowLockType: null,
 		AllowColorizeAll: typeof AssetDef.AllowColorizeAll === "boolean" ? AssetDef.AllowColorizeAll : true,
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
@@ -447,7 +446,7 @@ function AssetMapLayer(Layer, A, I) {
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
-		AllowTypes: Array.isArray(Layer.AllowTypes) ? Layer.AllowTypes : null,
+		AllowTypes: Layer.AllowTypes != null ? AssetParseAllowTypes(Layer.AllowTypes) : null,
 		ModuleType: Array.isArray(Layer.ModuleType) ? Layer.ModuleType : null,
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
@@ -467,7 +466,6 @@ function AssetMapLayer(Layer, A, I) {
 		BlendingMode: Layer.BlendingMode || "source-over",
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
-		AllowModuleTypes: Layer.AllowModuleTypes,
 		ColorIndex: 0,
 		PoseMapping: Layer.PoseMapping || A.PoseMapping,
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
@@ -475,6 +473,57 @@ function AssetMapLayer(Layer, A, I) {
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
 	};
 	return L;
+}
+
+/**
+ * @param {AllowTypes.Definition} allowTypes
+ * @returns {AllowTypes.Data}
+ */
+function AssetParseAllowTypes(allowTypes) {
+	/** @type {{ [k in keyof AllowTypes.Data]: Mutable<AllowTypes.Data[k]> }} */
+	const ret = {
+		TypeToID: {},
+		IDToTypeKey: {},
+		AllTypes: {},
+	};
+	if (!CommonIsArray(allowTypes)) {
+		allowTypes = [allowTypes];
+	}
+
+	for (const [id, typeRecord] of CommonEnumerate(allowTypes)) {
+		for (let [name, indices] of Object.entries(typeRecord)) {
+			if (!CommonIsArray(indices)) {
+				indices = [indices];
+			}
+
+			for (const i of indices) {
+				/** @type {PartialType} */
+				const key = `${name}${i}`;
+
+				const typeToIDSet = ret.TypeToID[key];
+				if (typeToIDSet) {
+					typeToIDSet.add(id);
+				} else {
+					ret.TypeToID[key] = new Set([id]);
+				}
+
+				const allTypesSet = ret.AllTypes[name];
+				if (allTypesSet) {
+					allTypesSet.add(i);
+				} else {
+					ret.AllTypes[name] = new Set([i]);
+				}
+			}
+
+			const idToTypeList = ret.IDToTypeKey[id];
+			if (idToTypeList) {
+				/** @type {Mutable<idToTypeList>} */(idToTypeList).push(name);
+			} else {
+				ret.IDToTypeKey[id] = [name];
+			}
+		}
+	}
+	return ret;
 }
 
 /**

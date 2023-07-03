@@ -647,9 +647,8 @@ interface AssetLayer {
 	readonly ColorGroup: string | null;
 	/** whether or not this layer can be colored in the coloring UI */
 	readonly HideColoring: boolean;
-	/** A list of allowed extended item types that this layer permits - the layer will only be drawn if
-	the item type matches one of these types. If null, the layer is considered to permit all extended types. */
-	readonly AllowTypes: readonly string[] | null;
+	/** A record mapping stringified {@link PartialType} values to a set of unique IDs. */
+	readonly AllowTypes: AllowTypes.Data | null;
 	/** whether or not the layer has separate assets per type. If not, the extended type will not be included in
 	the URL when fetching the layer's image */
 	readonly HasType: boolean;
@@ -681,7 +680,8 @@ interface AssetLayer {
 	readonly BlendingMode: GlobalCompositeOperation;
 	readonly LockLayer: boolean;
 	readonly MirrorExpression?: AssetGroupName;
-	readonly AllowModuleTypes?: readonly string[];
+	/** @deprecated */
+	readonly AllowModuleTypes?: never;
 	/** The coloring index for this layer */
 	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
@@ -690,6 +690,7 @@ interface AssetLayer {
 	/**
 	 * A module for which the layer can have types.
 	 * Allows one to define different module-specific assets for a single layer.
+	 * @note takes priority over {@link Asset.HasType}
 	 */
 	readonly ModuleType: readonly string[] | null;
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
@@ -800,7 +801,8 @@ interface Asset {
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
 	readonly AllowHideItem?: readonly string[];
-	readonly AllowTypes?: readonly string[];
+	/** @deprecated */
+	readonly AllowTypes?: never;
 	readonly AllowTighten?: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of `"Default"` and/or valid color hex codes.
@@ -832,7 +834,8 @@ interface Asset {
 	readonly DynamicAfterDraw: boolean;
 	readonly DynamicScriptDraw: boolean;
 	readonly HasType: boolean;
-	readonly AllowLockType?: readonly string[];
+	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
+	readonly AllowLockType: null | Record<string, Set<number>>;
 	readonly AllowColorizeAll: boolean;
 	readonly AvailableLocations: readonly string[];
 	readonly OverrideHeight?: Readonly<AssetOverrideHeight>;
@@ -2253,6 +2256,15 @@ interface AssetDefinitionProperties {
 	Fetish?: FetishName[];
 }
 
+/** A concatenation of a single {@link TypeRecord} key/value pair. */
+type PartialType = `${string}${number}`;
+
+/**
+ * A record mapping screen names to option indices.
+ * @see {@link PartialType} A concatenation of a single `TypeRecord` key/value pair.
+ */
+type TypeRecord = Record<string, number>;
+
 /**
  * Properties for Expression Queue item
  */
@@ -2269,8 +2281,13 @@ interface ExpressionQueueItem {
  * Those are the properties the main game code enforces.
  */
 interface ItemPropertiesBase {
-	/** A string (or `null`) denoting the state of an extended item. How the type-string translate to concrete properties depends on the Archetype in question. */
-	Type?: string | null;
+	/**
+	 * @deprecated
+	 * A string (or `null`) denoting the state of an extended item. How the type-string translate to concrete properties depends on the Archetype in question.
+	 */
+	Type?: string;
+	/** A record mapping screen names to option indices. */
+	TypeRecord?: TypeRecord;
 
 	/** A facial expression */
 	Expression?: ExpressionName;

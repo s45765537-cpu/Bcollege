@@ -256,7 +256,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 			}
 
 			if (newOption !== null) {
-				const previousOption = TypedItemFindPreviousOption(Item, data.options, "Mode");
+				const previousOption = TypedItemFindPreviousOption(data, Item);
 				InventoryItemVulvaFuturisticVibratorSetMode(data, C, Item, newOption, previousOption);
 			}
 

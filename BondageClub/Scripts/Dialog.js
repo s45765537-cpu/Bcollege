@@ -2330,8 +2330,7 @@ function DialogClick() {
 		CommonGenerateGrid(DialogActivity, DialogInventoryOffset, DialogInventoryGrid, (item, x, y, width, height) => {
 			// If this specific activity is clicked, we run it
 			if (!MouseIn(x, y, width, height)) return false;
-			const type = (item.Item && item.Item.Property ? item.Item.Property.Type : null);
-			if (!item.Blocked || item.Blocked === "limited" && InventoryCheckLimitedPermission(C, item.Item, type)) {
+			if (!item.Blocked || item.Blocked === "limited" && InventoryCheckLimitedPermission(C, item.Item)) {
 				if (C.IsNpc() && item.Item) {
 					let Line = C.FocusGroup.Name + item.Item.Asset.DynamicName(Player);
 					let D = DialogFind(C, Line, null, false);

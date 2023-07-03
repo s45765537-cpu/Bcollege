@@ -549,21 +549,26 @@ function AsylumGGTSConfigureGag(Group) {
 		return;
 	}
 
-	let Type = (Item.Property && Item.Property.Type) ? Item.Property.Type : "g0p0t0";
+	let TypeIndex = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.g) || 0;
 	if (Item.Asset.Name === "FuturisticHarnessBallGag"){
-		Type = CommonRandomItemFromList(Type, ["g0p0t0", "g1p0t0", "g2p0t0"]);
+		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2]);
 	} else if ((Item.Asset.Name === "FuturisticPanelGag") || (Item.Asset.Name === "FuturisticHarnessPanelGag")){
-		Type = CommonRandomItemFromList(Type, ["g0p0t0", "g1p0t0", "g2p0t0", "g3p0t0"]);
+		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2, 3]);
 	}
 
-	if (Type === "g0p0t0") {
-		Item.Color = ['#50913C', 'Default'];
-	} else if (Type === "g1p0t0") {
-		Item.Color = ['#80713C', 'Default'];
-	} else if (Type === "g2p0t0") {
-		Item.Color = ['#B0513C', 'Default'];
-	} else if (Type === "g3p0t0") {
-		Item.Color = ['#E0313C', 'Default'];
+	switch (TypeIndex) {
+		case 0:
+			Item.Color = ['#50913C', 'Default'];
+			break;
+		case 1:
+			Item.Color = ['#80713C', 'Default'];
+			break;
+		case 2:
+			Item.Color = ['#B0513C', 'Default'];
+			break;
+		case 3:
+			Item.Color = ['#E0313C', 'Default'];
+			break;
 	}
 }
 

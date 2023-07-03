@@ -7,7 +7,8 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 	}
 
 	if (Data.currentModule === ModularItemBase) {
-		const [Gag, AutoPunish, AutoPunishUndoTimeSetting] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
+		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const [Gag, AutoPunish, AutoPunishUndoTimeSetting] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const AutoPunishUndoTime = DialogFocusItem.Property.AutoPunishUndoTime;
 		const UndoTimer =  DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunishUndoTimeSetting}`);
 
@@ -29,11 +30,11 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} */
 function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
-	const GagBefore = ModularItemParseCurrent(Data)[0];
+	const GagBefore = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord)[0];
 	if (!FuturisticAccessClick(Data, OriginalFunction) || !DialogFocusItem) {
 		return;
 	}
-	const GagAfter = ModularItemParseCurrent(Data)[0];
+	const GagAfter = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord)[0];
 
 	// Reset the remaining deflation time if someone manually changes the gag mode
 	if (GagBefore !== GagAfter) {
@@ -104,15 +105,15 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
  * @param {Character} C - The selected character
  * @param {Item} Item - The item in question
  * @param {ModularItemOption} previousOption
- * @param {readonly ModularItemOption[]} options
+ * @param {ModularItemModule} module
  * @param {boolean} Deflate - Whether this function is triggered by an automatic deflation or not
  * @returns {ModularItemOption}
  */
-function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, options, Deflate) {
+function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, module, Deflate) {
 	let GagIndex = previousOption.Index;
-	const GagIndexMax = options.length - 1;
+	const GagIndexMax = module.Options.length - 1;
 	let OriginalSetting = Item.Property.OriginalSetting;
-	if (options[OriginalSetting] === undefined) {
+	if (module.Options[OriginalSetting] === undefined) {
 		console.warn(`[${Item.Asset.Group.Name}:${Item.Asset.Name}] Sanitizing illegal "OriginalSetting" property value: ${OriginalSetting}`);
 		OriginalSetting = Item.Property.OriginalSetting = 0;
 	}
@@ -125,7 +126,7 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previous
 	if (Deflate) {
 		GagIndex = Math.max(OriginalSetting, GagIndex - 1);
 		while (GagIndex > OriginalSetting) {
-			if (InventoryBlockedOrLimited(C, Item, options[GagIndex].Name)) {
+			if (InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)) {
 				GagIndex -= 1;
 			} else {
 				break;
@@ -134,14 +135,14 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previous
 	} else {
 		GagIndex = Math.min(GagIndexMax, GagIndex + 1);
 		while (GagIndex <= GagIndexMax) {
-			if (InventoryBlockedOrLimited(C, Item, options[GagIndex].Name)) {
+			if (InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)) {
 				GagIndex = (GagIndex === GagIndexMax) ? previousOption.Index : 1 + GagIndex;
 			} else {
 				break;
 			}
 		}
 	}
-	return options[GagIndex];
+	return module.Options[GagIndex];
 }
 
 /**
@@ -153,10 +154,10 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previous
  * @return {void}
  */
 function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
-	const options = data.modules[0].Options;
-	const previousModuleValues = ModularItemParseCurrent(data, Item.Property.Type);
-	const previousOption = options[previousModuleValues[0]];
-	const newOption = InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, options, Deflate);
+	const module = data.modules[0];
+	const previousModuleValues = ModularItemParseCurrent(data, Item.Property.TypeRecord);
+	const previousOption = module.Options[previousModuleValues[0]];
+	const newOption = InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, module, Deflate);
 
 	if (newOption.Name === previousOption.Name) {
 		return;
