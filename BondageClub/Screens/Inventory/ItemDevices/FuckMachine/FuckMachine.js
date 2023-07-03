@@ -4,8 +4,8 @@
  * @typedef {{ DildoState?: number, Modifier?: number, Speed?: number, FuckChangeTime?: number, Mode?: VibratorMode, ChangeTime?: number, LastChange?: number }} FuckMachinePersistentData
  */
 
-/** @type {ExtendedItemCallbacks.BeforeDraw<FuckMachinePersistentData>} */
-function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, Y, Property }) {
+/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<VibratingItemData, FuckMachinePersistentData>} */
+function AssetsItemDevicesFuckMachineBeforeDrawHook(data, originalFunction, { PersistentData, L, Y, Property }) {
 	const Data = PersistentData();
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
@@ -35,11 +35,11 @@ function AssetsItemDevicesFuckMachineBeforeDraw({ PersistentData, L, Y, Property
 	return { Y: Y + Data.DildoState };
 }
 
-/** @type {ExtendedItemCallbacks.ScriptDraw<FuckMachinePersistentData>} */
-function AssetsItemDevicesFuckMachineScriptDraw(data) {
-	VibratorModeScriptDraw(data);
-	const Data = data.PersistentData();
-	const Properties = data.Item.Property || {};
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuckMachinePersistentData>} */
+function AssetsItemDevicesFuckMachineScriptDrawHook(data, originalFunction, drawData) {
+	VibratorModeScriptDraw(data, drawData);
+	const Data = drawData.PersistentData();
+	const Properties = drawData.Item.Property || {};
 	const FrameTime = Player.GraphicsSettings ? Math.max(30, (Player.GraphicsSettings.AnimationQuality * 0.6)) : 30;
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;
 	const FuckLength = 32;
@@ -49,7 +49,7 @@ function AssetsItemDevicesFuckMachineScriptDraw(data) {
 
 	if (Data.FuckChangeTime < CommonTime() && !(Intensity === -1 && FuckLength <= Data.DildoState)) {
 		Data.FuckChangeTime = CommonTime() + FrameTime;
-		AnimationRequestRefreshRate(data.C, FrameTime);
-		AnimationRequestDraw(data.C);
+		AnimationRequestRefreshRate(drawData.C, FrameTime);
+		AnimationRequestDraw(drawData.C);
 	}
 }
