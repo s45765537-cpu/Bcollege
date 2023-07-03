@@ -3681,7 +3681,7 @@ The front and rear chastity shields on DestinationCharacter AssetName open.
 DestinationCharacterAssetName前部和後部的貞操護盾打開了。
 The front chastity shields on DestinationCharacter AssetName closes.
 DestinationCharacterAssetName前部的貞操護盾關閉了。
-The read chastity shields on DestinationCharacter AssetName closes.
+The rear chastity shields on DestinationCharacter AssetName closes.
 DestinationCharacterAssetName後部的貞操護盾關閉了。
 The front and rear chastity shields on DestinationCharacter AssetName close.
 DestinationCharacterAssetName前部和後部的貞操護盾關閉了。
