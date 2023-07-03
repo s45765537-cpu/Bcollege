@@ -149,8 +149,8 @@ function IntroductionChangeMaidOpinion(Bonus) {
  * @returns {void} - Nothing
  */
 function IntroductionSetZone(NewZone) {
-	DialogChangeFocusToGroup(CurrentCharacter, NewZone);
-	DialogChangeFocusToGroup(Player, NewZone);
+	// Force a focus group change to not break out of dialog mode while still showing the group outlines
+	CurrentCharacter.FocusGroup = Player.FocusGroup =  /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", NewZone));
 }
 
 /**
