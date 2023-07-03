@@ -6131,6 +6131,21 @@ var AssetFemale3DCG = [
 				Name: "PortalTablet", ParentGroup: null, BuyGroup: "PortalTablet", Priority: 46, Value: 15, Random: false, Left: 128, Top: 300, Extended: true,
 				HideForPose: ["BackBoxTie", "BackCuffs", "BackElbowTouch", "OverTheHead", "Yoked"],
 			},
+			{
+				Name: "Shark", ParentGroup: null, Value: 25, Left: 0, Top: -250,
+				DefaultColor: ["#F0F3F5", "#567890", "#BF5249", "#8E6565", "Default"],
+				AllowActivity: ["SpankItem"],
+				HideForPose: ["BackBoxTie", "BackCuffs", "BackElbowTouch", "OverTheHead", "Yoked"],
+				Layer: [
+					{ Name: "Belly" },
+					{ Name: "Body" },
+					{ Name: "Eye" },
+					{ Name: "EyePupil", AllowColorize: false },
+					{ Name: "Fin", CopyLayerColor: "Body", Priority: 36 },
+					{ Name: "Mouth" },
+					{ Name: "Teeth" },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
