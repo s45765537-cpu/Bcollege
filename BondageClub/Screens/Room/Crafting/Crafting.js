@@ -787,7 +787,7 @@ function CraftingClick() {
 			CraftingUpdatePreview();
 		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
 			const item = CraftingPreview.Appearance.find(i => {
-				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.Group.Name === CraftingSelectedItem.Asset.Group.Name;
+				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
 			});
 			if (item !== undefined) {
 				DialogExtendItem(item);
