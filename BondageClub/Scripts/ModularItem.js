@@ -564,17 +564,22 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	if (Property.AllowActivity) CommonArrayConcatDedupe(mergedProperty.AllowActivity, Property.AllowActivity);
 	if (Property.Attribute) CommonArrayConcatDedupe(mergedProperty.Attribute, Property.Attribute);
 	if (typeof Property.OverridePriority === "number") mergedProperty.OverridePriority = Property.OverridePriority;
-	else if (typeof Property.OverridePriority === "object") {
+	else if (CommonIsObject(Property.OverridePriority)) {
 		let valid = true;
-		for (const [layerName] of Object.entries(Property.OverridePriority)) {
+		for (const layerName of Object.keys(Property.OverridePriority)) {
 			if (!Asset.Layer.find(l => l.Name === layerName)) {
 				console.warn(`invalid OverridePriority property: unknown layer name ${layerName}`);
 				valid = false;
 				break;
 			}
 		}
-		if (valid)
-			mergedProperty.OverridePriority = Property.OverridePriority;
+		if (valid) {
+			if (CommonIsObject(mergedProperty.OverridePriority)) {
+				Object.assign(mergedProperty.OverridePriority, Property.OverridePriority);
+			} else {
+				mergedProperty.OverridePriority = Property.OverridePriority;
+			}
+		}
 	}
 	if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 	if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
