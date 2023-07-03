@@ -100,6 +100,18 @@ const CraftingStatusType = {
 const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityPadlock", "OwnerPadlock", "LoversPadlock", "FamilyPadlock", "MistressPadlock", "PandoraPadlock", "ExclusivePadlock"];
 
 /**
+ * A set of item property names that should never be stored in {@link CraftingItem.ItemProperty}.
+ * @type {Set<keyof ItemProperties>}
+ */
+const CraftingPropertyExclude = new Set([
+	"HeartRate",
+	"TriggerCount",
+	"BlinkState",
+	"AutoPunishUndoTime",
+	"NextShockTime",
+]);
+
+/**
  * Returns TRUE if a crafting item has an effect from a list or allows that effect
  * @param {Asset} Item - The item asset to validate
  * @param {EffectName[]} Effect - The list of effects to validate
@@ -136,6 +148,13 @@ function CraftingLoad() {
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
 	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
+
+	// Declare the preview character as being owned/loved by the player so any owner-/lover-related validation checks pass
+	CraftingPreview.Owner = Player.Name;
+	CraftingPreview.Ownership = { MemberNumber: Player.MemberNumber, Name: Player.Name, Start: CommonTime(), Stage: 1 };
+	CraftingPreview.Lovership = [
+		{ MemberNumber: Player.MemberNumber, Name: Player.Name, Start: CommonTime(), Stage: 2 },
+	];
 	CharacterReleaseTotal(CraftingPreview);
 }
 
@@ -199,12 +218,13 @@ function CraftingRun() {
 
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
+		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		if (CraftingDestroy) {
 			DrawText(TextGet("SelectDestroy"), 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 		} else {
-			DrawText(TextGet("SelectSlot").replace("PAGENUMBER", (Math.floor(CraftingOffset / 20) + 1).toString()), 840, 60, "White", "Black");
+			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${CraftingSlotMax / 20}.`, 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Trash.png", TextGet("Destroy"));
 		}
 		for (let S = CraftingOffset; S < CraftingOffset + 20; S++) {
@@ -305,7 +325,7 @@ function CraftingRun() {
 		ElementPosition("InputPriority", 1225, 710, 100);
 		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
 		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
-		if (CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+		if (CraftingSelectedItem.Asset.Archetype) {
 			if (CraftingItemSupportsAutoType()) {
 				ElementPosition("InputType", 1685, 884, 310);
 				DrawButton(1840, 858, 60, 60, "", "White", "Icons/Small/Next.png");
@@ -326,7 +346,8 @@ function CraftingRun() {
 		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950, true);
 	}
 
-	if (CraftingMode == "Extended") {
+	// Need the `DialogFocusItem` check here as there's a bit of a race condition
+	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
@@ -344,6 +365,8 @@ function CraftingUpdateFromItem(item) {
 	}
 	if (item.Property.Type !== undefined) {
 		CraftingSelectedItem.Type = item.Property.Type;
+	} else if (item.Property.Mode != null) {
+		CraftingSelectedItem.Type = item.Property.Mode;
 	}
 
 	/** @type {(keyof ItemProperties)[]} */
@@ -357,9 +380,9 @@ function CraftingUpdateFromItem(item) {
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of /** @type {string[]} */(keys)) {
-		if (item.Property[key] != null) {
-			CraftingSelectedItem.ItemProperty[key] = item.Property[key];
+	for (const key of keys) {
+		if (item.Property[/** @type {string} */(key)] != null && !CraftingPropertyExclude.has(key)) {
+			CraftingSelectedItem.ItemProperty[/** @type {string} */(key)] = item.Property[key];
 		}
 	}
 }
@@ -591,7 +614,10 @@ function CraftingClick() {
 	if (CraftingMode == "Slot") {
 
 		// Two pages of slots
-		if (MouseIn(1685, 15, 90, 90)) {
+		if (MouseIn(1580, 15, 90, 90)) {
+			CraftingOffset = CraftingOffset - 20;
+			if (CraftingOffset < 0) CraftingOffset = CraftingSlotMax - 20;
+		} else if (MouseIn(1685, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset + 20;
 			if (CraftingOffset >= CraftingSlotMax) CraftingOffset = 0;
 		}
@@ -759,9 +785,9 @@ function CraftingClick() {
 				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowType[CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) + 1];
 			ElementValue("InputType", CraftingSelectedItem.Type);
 			CraftingUpdatePreview();
-		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Extended && !CraftingSelectedItem.Asset.IsLock) {
+		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
 			const item = CraftingPreview.Appearance.find(i => {
-				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.Group.Name === CraftingSelectedItem.Asset.Group.Name;
+				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
 			});
 			if (item !== undefined) {
 				DialogExtendItem(item);
@@ -783,9 +809,9 @@ function CraftingClick() {
 		return;
 	}
 
-	if (CraftingMode == "Extended") {
+	// Need the `DialogFocusItem` check here as there's a bit of a race condition
+	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
-		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	}
 }
 
@@ -1038,14 +1064,20 @@ const CraftingValidationRecord = {
 			for (const [key, value] of Object.entries(property)) {
 				if (value == null) {
 					continue;
-				} else if (key === "OverridePriority" && typeof Number.isInteger(value)) {
+				} else if (CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
 					return false;
-				} else if (key === "OverridePriority" && CommonIsObject(value)) {
-					const layers = a.Layer.map(l => l.Name);
-					for (const [layerName, priority] of Object.entries(value)) {
-						if (!(layers.includes(layerName) && Number.isInteger(priority))) {
-							return false;
+				} else if (key === "OverridePriority") {
+					if (Number.isInteger(value)) {
+						continue;
+					} else if (CommonIsObject(value)) {
+						const layers = a.Layer.map(l => l.Name);
+						for (const [layerName, priority] of Object.entries(value)) {
+							if (!(layers.includes(layerName) && Number.isInteger(priority))) {
+								return false;
+							}
 						}
+					} else {
+						return false;
 					}
 				} else if (typeof value !== typeof baseline[key]) {
 					return false;
@@ -1071,7 +1103,7 @@ const CraftingValidationRecord = {
 
 			const ret = {};
 			for (const [key, value] of Object.entries(property)) {
-				if (value == null) {
+				if (value == null || CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
 					continue;
 				} else if (key === "OverridePriority" && Number.isInteger(value)) {
 					ret[key] = value;
