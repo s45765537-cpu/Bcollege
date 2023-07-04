@@ -697,10 +697,11 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  */
 function ExtendedItemCustomDraw(Name, X, Y, drawImage=false, IsSelected=false) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
+	// TODO: Add a proper archetype rather than relying on `ParentData == null`
 	/** @type {ExtendedItemOption} */
-	const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
 	/** @type {ExtendedItemOption} */
-	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
 	/** @type {ElementData<{ drawImage: boolean }>} */
 	const elementData = { position: [X, Y, 225, drawImage ? 275 : 50], drawImage };
 	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
@@ -720,10 +721,11 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 		return true;
 	} else {
 		// Check if the option is blocked/limited/etc.
+		// TODO: Add a proper archetype rather than relying on `ParentData == null`
 		/** @type {ExtendedItemOption} */
-		const newOption = { OptionType: "ExtendedItemOption", Name: Name };
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
 		/** @type {ExtendedItemOption} */
-		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous` };
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
 		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
@@ -861,7 +863,7 @@ function ExtendedItemCustomChatPrefix(Name, Data) {
 /**
  * Gather and return all subscreen properties of the passed option.
  * @param {Item} item - The item in question
- * @param {ExtendedItemOption & { ArchetypeData?: VibratingItemData | VariableHeightData | TextItemData }} option - The extended item option
+ * @param {ExtendedItemOption} option - The extended item option
  * @returns {ItemProperties} - The item properties of the option's subscreen (if any)
  */
 function ExtendedItemGatherSubscreenProperty(item, option) {
@@ -1087,3 +1089,66 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 		pageCount: Math.ceil(elementData.length / itemsPerPage),
 	};
 }
+
+/**
+ * Return a list with all active extended item options (be it via a subscreen or otherwise) for the passed item
+ * @param item - The item in question
+ * @returns The list of active extended item options
+ */
+const ExtendedItemGatherOptions = (function () {
+	/** @type {(item: Item) => ExtendedItemOption[]} */
+	function gatherOptions(item) {
+		/** @type {ExtendedItemOption[]} */
+		const options = [];
+		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
+		if (data) {
+			_dfs(data, item, options);
+		}
+		return options;
+	}
+
+	/**
+	 * Depth first search helper for gathering all (subscreen-embedded) extended item options
+	 * @private
+	 * @param {AssetArchetypeData} data - The extended item data
+	 * @param {Item} item - The item in question
+	 * @param {ExtendedItemOption[]} optionList - The to-be populated list of extended item options
+	 * @returns {void}
+	 */
+	function _dfs(data, item, optionList) {
+		/** @type {ExtendedItemOption[]} */
+		const newOptions = [];
+		const archetype = data.archetype;
+		switch (archetype) {
+			case ExtendedArchetype.TEXT:
+				newOptions.push(TextItemConstructOptions(data, item).newOption);
+				break;
+			case ExtendedArchetype.VARIABLEHEIGHT:
+				newOptions.push(VariableHeightConstructOptions(data, item).newOption);
+				break;
+			case ExtendedArchetype.VIBRATING:
+				newOptions.push(data.options.find(o => o.Name === item.Property.Mode) || data.options[0]);
+				break;
+			case ExtendedArchetype.TYPED:
+				newOptions.push(data.options.find(o => o.Name === item.Property.Type) || data.options[0]);
+				break;
+			case ExtendedArchetype.MODULAR: {
+				const indices = ModularItemParseCurrent(data, item.Property.Type);
+				newOptions.push(...data.modules.map((mod, i) => mod.Options[indices[i]]));
+				break;
+			}
+			default:
+				console.warn(`Unsupported archetype: "${archetype}"`);
+				break;
+		}
+
+		optionList.push(...newOptions);
+		for (const option of newOptions) {
+			if (option.ArchetypeData) {
+				_dfs(option.ArchetypeData, item, optionList);
+			}
+		}
+	}
+
+	return gatherOptions;
+})();

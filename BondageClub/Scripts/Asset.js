@@ -289,7 +289,7 @@ function AssetBuildConfig(A, config, extendedConfig) {
  * @param {ExtendedItemMainConfig} extendedConfig - The extended item configuration object for the asset's family
  * @param {null | ExtendedItemOption} parentOption
  * @param {boolean} createCallbacks
- * @returns {null | ExtendedItemData<any>} - The extended itemdata or `null` if an error was encoutered
+ * @returns {null | AssetArchetypeData} - The extended itemdata or `null` if an error was encoutered
  */
 function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, createCallbacks=true) {
 	const config = AssetBuildConfig(A, baseConfig, extendedConfig);
@@ -297,7 +297,7 @@ function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, cr
 		return null;
 	}
 
-	/** @type {null | ExtendedItemData<any>} */
+	/** @type {null | AssetArchetypeData} */
 	let data = null;
 	switch (config.Archetype) {
 		case ExtendedArchetype.MODULAR:

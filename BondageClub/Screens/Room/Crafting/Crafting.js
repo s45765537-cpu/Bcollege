@@ -425,20 +425,30 @@ function CraftingUpdateFromItem(item) {
 		CraftingSelectedItem.Type = item.Property.Mode;
 	}
 
-	/** @type {(keyof ItemProperties)[]} */
-	const keys = ["OverridePriority"];
+	/** @type {Set<keyof ItemProperties>} */
+	const keys = new Set(["OverridePriority"]);
 	if (item.Asset.Archetype) {
-		// TODO: Add subscreen support
-		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
-		if (data && data.baselineProperty) {
-			keys.push(...CommonKeys(data.baselineProperty));
+		const options = ExtendedItemGatherOptions(item);
+		for (const option of options) {
+			if (option.OptionType === "VariableHeightOption") {
+				keys.add("OverrideHeight");
+			} else if (option.OptionType === "VibratingItemOption" && option.ParentData.parentOption != null) {
+				// Explicitly store the Mode (in addition to `CraftingSelectedItem.Type`) for vibrating subscreens
+				// TODO: Remove this branch after refactoring `ItemProperties.Type` into a record
+				keys.add("Mode");
+			}
+			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
+				if (!CraftingPropertyExclude.has(key)) {
+					keys.add(key);
+				}
+			}
 		}
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of keys) {
-		if (item.Property[/** @type {string} */(key)] != null && !CraftingPropertyExclude.has(key)) {
-			CraftingSelectedItem.ItemProperty[/** @type {string} */(key)] = item.Property[key];
+	for (const key of /** @type {Set<string>} */(keys)) {
+		if (item.Property[key] != null) {
+			CraftingSelectedItem.ItemProperty[key] = item.Property[key];
 		}
 	}
 }
@@ -1191,8 +1201,13 @@ const CraftingValidationRecord = {
 				return true;
 			}
 
+			// TODO: Add a better way of validating subscreen properties rather than just unconditionally
+			// allowing `Mode` and `OverrideHeight`.
 			/** @type {ItemProperties} */
-			let baseline = {};
+			const baseline = {
+				Mode: "Off",
+				OverrideHeight: null,
+			};
 			if (a.Archetype) {
 				const data = ExtendedItemGetData(a, a.Archetype);
 				if (data && data.baselineProperty) {
@@ -1231,9 +1246,11 @@ const CraftingValidationRecord = {
 			}
 
 			/** @type {ItemProperties} */
-			let baseline = {};
+			const baseline = {
+				Mode: "Off",
+				OverrideHeight: null,
+			};
 			if (a.Archetype) {
-				// TODO: Add subscreen support
 				let data = ExtendedItemGetData(a, a.Archetype);
 				if (data && data.baselineProperty) {
 					Object.assign(baseline, data.baselineProperty);

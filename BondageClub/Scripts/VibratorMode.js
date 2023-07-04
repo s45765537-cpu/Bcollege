@@ -41,8 +41,8 @@ var VibratorModeSet = {
 /**
  * A record of the various available vibrator sets of vibrator modes
  * @type {{
- *     Standard: VibratingItemOption[],
- *     Advanced: VibratingItemOption[],
+ *     Standard: VibratingItemOptionConfig[],
+ *     Advanced: VibratingItemOptionConfig[],
  * }}
  * @constant
  */
@@ -50,7 +50,6 @@ var VibratorModeOptions = {
 	[VibratorModeSet.STANDARD]: [
 		{
 			Name: "Off",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.OFF,
 				Intensity: -1,
@@ -59,7 +58,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Low",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.LOW,
 				Intensity: 0,
@@ -68,7 +66,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Medium",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.MEDIUM,
 				Intensity: 1,
@@ -77,7 +74,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "High",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.HIGH,
 				Intensity: 2,
@@ -86,7 +82,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Maximum",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.MAXIMUM,
 				Intensity: 3,
@@ -97,7 +92,6 @@ var VibratorModeOptions = {
 	[VibratorModeSet.ADVANCED]: [
 		{
 			Name: "Random",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.RANDOM,
 				Intensity: 0,
@@ -106,7 +100,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Escalate",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.ESCALATE,
 				Intensity: 0,
@@ -115,7 +108,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Tease",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.TEASE,
 				Intensity: 0,
@@ -124,7 +116,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Deny",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.DENY,
 				Intensity: 0,
@@ -133,7 +124,6 @@ var VibratorModeOptions = {
 		},
 		{
 			Name: "Edge",
-			OptionType: "VibratingItemOption",
 			Property: {
 				Mode: VibratorMode.EDGE,
 				Intensity: 0,
@@ -260,12 +250,13 @@ function VibratorModeCreateData(asset,
 	const key = `${asset.Group.Name}${asset.Name}${parentOption ? parentOption.Name : ""}`;
 	const modeSet = Array.isArray(Options) ? Options : Object.values(VibratorModeSet);
 	DialogPrefix = DialogPrefix || {};
-	return VibratorModeDataLookup[key] = {
+
+	const data = VibratorModeDataLookup[key] = {
 		archetype: ExtendedArchetype.VIBRATING,
 		key,
 		asset,
 		parentOption,
-		options: VibratorModeGetOptions(modeSet),
+		options: null, // Initialized further down below
 		modeSet: modeSet,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
@@ -285,17 +276,27 @@ function VibratorModeCreateData(asset,
 		],
 		drawData: VibratorModeGetDrawData(modeSet, DrawData),
 	};
+	data.options = VibratorModeGetOptions(data, modeSet);
+	return data;
 }
 
 /**
  * Gather all extended item options for a given list of modes.
- * @param {readonly VibratorModeSet[]} modeSet
- * @returns {VibratingItemOption[]}
+ * @param {VibratingItemData} data - The extended item data
+ * @param {readonly VibratorModeSet[]} modeSet - The vibrator mods
+ * @returns {VibratingItemOption[]} - The generated vibrating item options
  */
-function VibratorModeGetOptions(modeSet=Object.values(VibratorModeSet)) {
+function VibratorModeGetOptions(data, modeSet) {
+	/** @type {VibratingItemOption[]} */
 	const options = [];
 	for (const mode of modeSet) {
-		options.push(...VibratorModeOptions[mode]);
+		for (const protoOption of VibratorModeOptions[mode]) {
+			options.push({
+				...CommonOmit(protoOption, ["ArchetypeConfig"]),
+				OptionType: "VibratingItemOption",
+				ParentData: data,
+			});
+		}
 	}
 	return options;
 }

@@ -82,7 +82,7 @@ function TypedItemRegister(asset, config) {
 /**
  * Parse and pre-process the passed item options.
  * @param {Asset} asset - The item options asset
- * @param {readonly TypedItemOptionBase[]} protoOptions - The unparsed extended item options
+ * @param {readonly TypedItemOptionConfig[]} protoOptions - The unparsed extended item options
  * @param {boolean} [changeWhenLocked] - See {@link TypedItemConfig.ChangeWhenLocked}
  * @returns {TypedItemOption[]} The newly generated extended item options
  */
@@ -90,24 +90,21 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
 	return protoOptions.map((protoOption, i) => {
 		/** @type {TypedItemOption} */
 		const option = {
-			...protoOption,
+			...CommonOmit(protoOption, ["ArchetypeConfig"]),
 			OptionType: "TypedItemOption",
 			Property: {
 				...(protoOption.Property || {}),
 				Type: i === 0 ? null : protoOption.Name,
 			},
+			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
 		};
 
 		if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 			option.ChangeWhenLocked = changeWhenLocked;
 		}
 
-		// @ts-expect-error: potentially copied from the protoOption via the spread operator
-		delete option.ArchetypeConfig;
 		if (protoOption.ArchetypeConfig) {
-			option.ArchetypeData = /** @type {TypedItemOption["ArchetypeData"]} */(AssetBuildExtended(
-				asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option,
-			));
+			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 		}
 		return option;
 	});
@@ -172,7 +169,7 @@ function TypedItemCreateTypedItemData(asset, {
 
 	DialogPrefix = DialogPrefix || {};
 	const key = `${asset.Group.Name}${asset.Name}`;
-	return TypedItemDataLookup[key] = {
+	const data = TypedItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TYPED,
 		asset,
 		options: optionsParsed,
@@ -196,6 +193,10 @@ function TypedItemCreateTypedItemData(asset, {
 		parentOption: null,
 		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed, { drawImage: DrawImages }),
 	};
+	for (const option of optionsParsed) {
+		option.ParentData = data;
+	}
+	return data;
 }
 
 /**
@@ -434,10 +435,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption) {
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
+ * @param {null | [archetype: "typed" | "vibrating", screen: string]} [subscreen]
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -450,13 +452,13 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 	let data;
 	/** @type {"Type" | "Mode"} */
 	let typeField;
-	switch (item.Asset.Archetype) {
+	switch (subscreen ? subscreen[0] : item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
-			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
+			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
 			typeField = "Type";
 			break;
 		case ExtendedArchetype.VIBRATING:
-			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
+			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
 			typeField = "Mode";
 			break;
 		default: {
