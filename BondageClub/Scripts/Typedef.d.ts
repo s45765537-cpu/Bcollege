@@ -3416,7 +3416,10 @@ interface PandoraBaseRoom {
 
 //#region Crafting items
 
-type CraftingMode = "Slot" | "Item" | "Property" | "Lock" | "Name" | "Color" | "Extended";
+type CraftingMode = (
+	"Slot" | "Item" | "Property" | "Lock" | "Name" | "Color" | "Extended"
+	| "OverridePriority"
+);
 
 /**
  * A struct with an items crafting-related information.

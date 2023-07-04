@@ -1,4 +1,5 @@
 Exit,Return to the main hall
+Return,Return to item customizer
 Destroy,Destroy an item
 Accept,Craft your item
 Cancel,Cancel
@@ -12,6 +13,7 @@ SelectProperty,Select a property for your AssetDescription.
 SelectLock,Select a lock to use with your PropertyName AssetDescription.
 SelectName,Enter a name and description for your PropertyName AssetDescription.
 SelectColor,Pick the item colors
+SelectPriority,Configure layer priority
 EnterName,Name of the crafted item
 EnterDescription,Engrave a description
 EnterColor,Enter or pick the colors
