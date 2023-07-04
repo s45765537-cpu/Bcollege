@@ -722,25 +722,13 @@ function sanitizeVMOutput(input) {
 				const assetConfig = groupConfig[Asset.Name];
 				if (assetConfig) {
 					const archetype = assetConfig.Archetype;
-					if (archetype === "typed") {
-						const HasSubscreen = !localError && assetConfig.Options?.some(option => !!option.HasSubscreen);
-						if (!HasSubscreen) {
-							if (Asset.AllowEffect !== undefined) {
-								error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowEffect (unless they use subscreens)`);
-							}
-							if (Asset.AllowBlock !== undefined) {
-								error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowBlock (unless they use subscreens)`);
-							}
-							if (Asset.AllowHide !== undefined) {
-								error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowHide (unless they use subscreens)`);
-							}
-							if (Asset.AllowHideItem !== undefined) {
-								error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowHideItem (unless they use subscreens)`);
+					if (archetype) {
+						const propList = ["AllowEffect", "AllowBlock", "AllowHide", "AllowHideItem", "AllowType", "AllowLockType"];
+						for (const name of propList) {
+							if (Asset[name] !== undefined) {
+								error(`${Group.Group}:${Asset.Name}: Archetypical extended items must NOT set ${name}`);
 							}
 						}
-					}
-					if (archetype === "typed" && Asset.AllowType !== undefined) {
-						error(`Asset ${Group.Group}:${Asset.Name}: Assets using "typed" archetype should NOT set AllowType`);
 					}
 				}
 			}

@@ -3846,7 +3846,7 @@ var AssetFemale3DCG = [
 				], RemoveAtLogin: true
 			},
 			{
-				Name: "SpreaderVibratingDildoBar", Fetish: ["Metal", "Leather"], Gender: "F", Priority: 25, Value: 70, Difficulty: 5, Time: 10, Random: false, AllowLock: true, AllowTighten: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty", "HasVagina"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Egged", "Freeze", "Prone", "BlockKneel"], AllowEffect: ["Egged", "Vibrating"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true,
+				Name: "SpreaderVibratingDildoBar", Fetish: ["Metal", "Leather"], Gender: "F", Priority: 25, Value: 70, Difficulty: 5, Time: 10, Random: false, AllowLock: true, AllowTighten: true, Top: 400, Prerequisite: ["AccessVulva", "LegsOpen", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling", "NotChaste", "VulvaEmpty", "HasVagina"], SetPose: ["LegsOpen"], Effect: ["FillVulva", "Egged", "Freeze", "Prone", "BlockKneel"], Block: ["ItemPelvis", "ItemLegs", "ItemVulva"], AllowActivityOn: ["ItemPelvis", "ItemLegs"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }], DynamicScriptDraw: true,
 				Layer: [
 					{ Name: "DildoBar", AllowColorize: true },
 					{ Name: "Pussy", AllowColorize: false }
@@ -4087,7 +4087,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticVibrator", Gender: "F",  DefaultColor: ["#3C724C", "Default"], Value: 70,
 				Difficulty: 3, AllowLock: true, DrawLocks: false, Time: 10, Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["Egged", "UseRemote", "FillVulva"], AllowEffect: ["Egged", "UseRemote", "Vibrating", "FillVulva", "Edged"],
+				Effect: ["Egged", "UseRemote", "FillVulva"],
 				Attribute: ["FuturisticRecolor"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				DynamicScriptDraw: true,
@@ -4108,7 +4108,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableVibratingPanties", Gender: "F", ParentGroup: "BodyLower", Fetish: ["Latex"], Value: 150, Difficulty: 10, Time: 15, RemoveTime: 20,
-				Extended: true, AllowLock: true, DrawLocks: false, AllowTighten: true, Prerequisite: ["AccessVulva", "HasVagina"], Effect: ["UseRemote", "Egged", "FillVulva", "Wiggling"], AllowEffect: ["Vibrating"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
+				Extended: true, AllowLock: true, DrawLocks: false, AllowTighten: true, Prerequisite: ["AccessVulva", "HasVagina"], Effect: ["UseRemote", "Egged", "FillVulva", "Wiggling"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", HasType: false,  Left: 160, Top: 393 },
 					{ Name: "Belt", HasType: false,  Left: 160, Top: 393 },
@@ -4432,8 +4432,6 @@ var AssetFemale3DCG = [
 				Audio: "FuturisticApply", Prerequisite: ["AccessCrotch", "HasVagina"], Attribute: ["FuturisticRecolor"],
 				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaPenisDildo", "ItemVulvaShockDildo", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing", "ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 				Effect: [ "UseRemote"],
-				AllowBlock: ["ItemVulvaPiercings", "ItemButt", "ItemVulva"],
-				AllowType: ["ClosedBack1","OpenBoth1", "OpenBack2", "ClosedBack2","OpenBoth2", "OpenBack3", "ClosedBack3","OpenBoth3", "ChatMessage", "PunishOrgasm", "PunishStruggle", "PunishStrugleOther"],
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true, DynamicScriptDraw: true,
@@ -4473,7 +4471,7 @@ var AssetFemale3DCG = [
 				Attribute: ["FuturisticRecolor"],
 				Audio: "FuturisticApply", Prerequisite: ["AccessCrotch", "VulvaEmpty", "ClitEmpty", "ButtEmpty", "HasVagina", "CanCoverVulva"],
 				HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaPenisDildo", "ItemVulvaShockDildo", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing", "ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
-				Effect: ["FillVulva", "UseRemote", "Egged", "UseRemote", "Chaste", "Edged"], AllowEffect: ["Vibrating", "DenialMode", "RuinOrgasms"],
+				Effect: ["FillVulva", "UseRemote", "Egged", "UseRemote", "Chaste", "Edged"],
 				Block: ["ItemVulvaPiercings", "ItemButt", "ItemVulva"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true, HasType: false, DynamicScriptDraw: true,
 				Layer: [
@@ -4566,9 +4564,8 @@ var AssetFemale3DCG = [
 			{
 				Name: "ObedienceBelt", Gender: "F", Fetish: ["Metal", "Chastity"], ParentGroup: null, Value: 150,
 				Difficulty: 8, Time: 15, RemoveTime: 20,
-				Extended: true, DynamicScriptDraw: true, DynamicAfterDraw: true, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessCrotch", "HasVagina"], AllowEffect: ["Chaste"],
+				Extended: true, DynamicScriptDraw: true, DynamicAfterDraw: true, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessCrotch", "HasVagina"],
 				DefaultColor: ['Default', 'Default', "Default", "Default", "#FF0000", "#004A7F"],
-				AllowBlock: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Layer: [
 					{ Name: "Base", HasType: false, ColorGroup: "Metal", },
 					{ Name: "Trim", HasType: false, ColorGroup: "Metal", },
@@ -5026,7 +5023,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "Ribbons", Gender: "F", Fetish: ["Lingerie"], Value: 30, Difficulty: 3, Time: 10, RemoveTime: 5, BuyGroup: "Ribbon", Prerequisite: ["AccessBreast", "HasBreasts"], Extended: true },
 			{ Name: "LeatherBreastBinder", Gender: "F", Fetish: ["Leather"], Value: 30, Difficulty: 5, Time: 15, BuyGroup: "BreastBinder", RemoveTime: 10, AllowLock: true, AllowTighten: true, Prerequisite: ["AccessTorso", "HasBreasts"] },
-			{ Name: "TickleBra", Gender: "F", Fetish: ["Latex"], Value: 100, Difficulty: 50, Time: 15, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessBreast", "HasBreasts"], Hide: ["ItemNipples", "ItemNipplesPiercings"], Effect: ["BreastChaste", "UseRemote", "Egged", "UseRemote"], AllowEffect: ["Vibrating"], Block: ["ItemNipples", "ItemNipplesPiercings"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true,
+			{ Name: "TickleBra", Gender: "F", Fetish: ["Latex"], Value: 100, Difficulty: 50, Time: 15, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessBreast", "HasBreasts"], Hide: ["ItemNipples", "ItemNipplesPiercings"], Effect: ["BreastChaste", "UseRemote", "Egged", "UseRemote"], Block: ["ItemNipples", "ItemNipplesPiercings"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }], Extended: true,
 				Layer: [
 					{ Name: "Cup", AllowColorize: true , HasType: false, Left: 150, Top: 230,},
 					{ Name: "TickleUnit" , AllowColorize: true, HasType: false, Left: 150, Top: 230,},
@@ -7901,7 +7898,7 @@ var AssetFemale3DCG = [
 				Tint: [{Color: 0, Strength: 0.1}],
 			},
 			{ Name: "InteractiveVRHeadset", Difficulty: 6, Value: 80, Time: 3, DefaultColor: ["Default", "Default"], Random: false, AllowLock: true, DrawLocks: false, Hide: ["Mask", "Glasses"], HideItem: ["ItemNoseNoseRing"], Attribute: ["FuturisticRecolor"],
-				Effect: ["VR"], AllowEffect: ["BlindHeavy", "BlindTotal", "Prone", "VRAvatars", "HideRestraints", "KinkyDungeonParty"], Extended: true, AlwaysExtend: true, Audio: "FuturisticApply",
+				Effect: ["VR"], Extended: true, AlwaysExtend: true, Audio: "FuturisticApply",
 				Layer: [
 					{ Name: "Body", HasType: false},
 					{ Name: "Display", HasType: false},
@@ -8124,7 +8121,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "KirugumiMask", Fetish: ["Latex"], Value: 50, Priority: 51, Difficulty: 15, Time: 10,
 				Random: false, AllowLock: true, DrawLocks: false, Prerequisite: ["GasMask", "NotProtrudingFromMouth"], DefaultColor: ["#9A7F76", "Default"],
-				AllowEffect: ["BlindLight", "BlindHeavy", "Prone"],
 				Block: [],
 				Layer: [
 					{ Name: "Mask", AllowColorize: true, HasType: false },
@@ -8996,7 +8992,6 @@ var AssetFemale3DCG = [
 			{ Name: "SmallDisplayCase", Priority: 58, Fetish: ["Metal"], Value: 40, Difficulty: -2, SelfBondage: 1, Time: 15, RemoveTime: 10, AllowLock: true, Audio: "LockLarge", Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader", "NotLifted"], Block: ["ItemAddon"], SetPose: ["Kneel"], Effect: ["ForceKneel", "Prone", "Enclose", "DeafLight", "GagLight", "Freeze"], HideItem: ["ShoesFlippers"],  Alpha: [{ Masks: [[1, 1, 70, 999], [420, 1, 80, 999], AssetUpperOverflowAlpha, AssetLowerOverflowAlpha] }], RemoveAtLogin: true },
 			{ Name: "FuturisticCrate", Priority: 58, Category: ["SciFi"], Fetish: ["Metal"], Value: 70, FixedPosition: true, Difficulty: -6, SelfBondage: 1, Time: 15, RemoveTime: 10, AllowLock: true, DrawLocks: false, Audio: "LockLarge", Prerequisite: ["NotSuspended", "NotLifted"], LayerVisibility: true,
 				Effect: ["Tethered"],
-				AllowEffect: ["GagLight", "Freeze", "Prone", "BlindLight", "Enclose", "BlindNormal", "BlindHeavy", "Block", "Egged", "Vibrating", "FillVulva", "Edged", "BlockKneel", "Mounted"],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
 				ArousalZone: "ItemVulva",
