@@ -232,11 +232,11 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 			break;
 		case "Sisters":
-			return !acting.HasPenis() && !acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return !acting.HasPenis() && !acted.HasPenis() && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		case "Brothers":
-			return acting.HasPenis() && acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return acting.HasPenis() && acted.HasPenis() && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		case "SiblingsWithDifferentGender":
-			return (acting.HasPenis() != acted.HasPenis()) && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return (acting.HasPenis() != acted.HasPenis()) && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		default:
 			break;
 	}

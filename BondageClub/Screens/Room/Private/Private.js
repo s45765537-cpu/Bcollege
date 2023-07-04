@@ -146,17 +146,17 @@ function PrivateCannotStandUp() { return (!CurrentCharacter.CanKneel() && Curren
  * Checks if the character would take the player as a sub.
  * @returns {boolean} - TRUE if the character is willing to own the player.
  */
-function PrivateWouldTakePlayerAsSub() { return (!PrivatePlayerIsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateWouldTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
 /**
  * Checks if the character will not take the player as a sub.
  * @returns {boolean} - TRUE if the character is not willing to own the player.
  */
-function PrivateWontTakePlayerAsSub() { return (!PrivatePlayerIsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && ((ReputationGet("Dominant") + 50 > NPCTraitGet(CurrentCharacter, "Dominant")) || (CurrentCharacter.Love < 50))); }
+function PrivateWontTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && ((ReputationGet("Dominant") + 50 > NPCTraitGet(CurrentCharacter, "Dominant")) || (CurrentCharacter.Love < 50))); }
 /**
  * Checks if the character would take the player has a sub, but the wait time is not over.
  * @returns {boolean} - TRUE if some time is still needed before the NPC can own the player.
  */
-function PrivateNeedTimeToTakePlayerAsSub() { return (!PrivatePlayerIsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateNeedTimeToTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
 /**
  * Checks if the character would never own the player.
  * @returns {boolean} - TRUE if the character is too submissive to own the player.
@@ -166,22 +166,22 @@ function PrivateNeverTakePlayerAsSub() { return (NPCTraitGet(CurrentCharacter, "
  * Checks if the character is currently on a trial.
  * @returns {boolean} - TRUE if the trial is in progress.
  */
-function PrivateTrialInProgress() { return ((Player.Owner == "") && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0)); }
+function PrivateTrialInProgress() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0)); }
 /**
  * Checks if the trial period is over and the character likes the player enough.
  * @returns {boolean} - TRUE if the trial period is over and the character loves the player enough.
  */
-function PrivateTrialDoneEnoughLove() { return ((Player.Owner == "") && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love >= 90)); }
+function PrivateTrialDoneEnoughLove() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love >= 90)); }
 /**
  * Checks if the trial period is over, but the character does not like the player enough.
  * @returns {boolean} - TRUE if the trial period is over, but the character does not like the player enough.
  */
-function PrivateTrialDoneNotEnoughLove() { return ((Player.Owner == "") && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love < 90)); }
+function PrivateTrialDoneNotEnoughLove() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love < 90)); }
 /**
  * Checks if the player can cancel an active trial with the current NPC.
  * @returns {boolean} - TRUE if the player can cancel the trial.
  */
-function PrivateTrialCanCancel() { return ((Player.Owner == "") && NPCEventGet(CurrentCharacter, "EndSubTrial") > 0); }
+function PrivateTrialCanCancel() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && NPCEventGet(CurrentCharacter, "EndSubTrial") > 0); }
 /**
  * Checks if the current NPC will forgive the player for refusing to play.
  * @returns {boolean} - TRUE if the NPC forgives the player.
@@ -842,7 +842,7 @@ function PrivateClickCharacter() {
 				CharacterSetCurrent(PrivateCharacter[C]);
 
 				// If the owner has beeped the player
-				if ((CurrentCharacter.Stage == "1000") && (CurrentCharacter.Name == Player.Owner.replace("NPC-", "")) && LogQuery("OwnerBeepActive", "PrivateRoom")) {
+				if ((CurrentCharacter.Stage == "1000") && Player.IsOwnedByCharacter(CurrentCharacter) && LogQuery("OwnerBeepActive", "PrivateRoom")) {
 					if (LogQuery("OwnerBeepTimer", "PrivateRoom")) {
 						CurrentCharacter.Stage = "1020";
 						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "OwnerBeepSuccess");
@@ -857,7 +857,7 @@ function PrivateClickCharacter() {
 				}
 
 				// If the owner is serious, she might force the player to kneel
-				if ((CurrentCharacter.Stage == "1000") && (CurrentCharacter.Name == Player.Owner.replace("NPC-", "")) && !Player.IsKneeling() && Player.CanKneel() && (NPCTraitGet(CurrentCharacter, "Serious") >= Math.random() * 100 - 25)) {
+				if ((CurrentCharacter.Stage == "1000") && Player.IsOwnedByCharacter(CurrentCharacter) && !Player.IsKneeling() && Player.CanKneel() && (NPCTraitGet(CurrentCharacter, "Serious") >= Math.random() * 100 - 25)) {
 					CurrentCharacter.Stage = "1005";
 					NPCLoveChange(CurrentCharacter, -3);
 					CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "PlayerMustKneel");
@@ -1251,7 +1251,7 @@ function PrivateActivityRun(LoveFactor) {
 		var Punish = Math.random() * 150 + NPCTraitGet(CurrentCharacter, "Serious");
 		var Stop = Math.random() * 150 + NPCTraitGet(CurrentCharacter, "Wise");
 		if (NPCEventGet(CurrentCharacter, "RefusedActivity") >= CurrentTime - 300000) Punish = Punish + 50;
-		if (Player.Owner == "") Stop = Stop + 50;
+		if (!Player.IsOwned()) Stop = Stop + 50;
 		NPCEventAdd(CurrentCharacter, "RefusedActivity", CurrentTime);
 
 		// If we must punish
@@ -1359,19 +1359,6 @@ function PrivateActivityRun(LoveFactor) {
 		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "Activity" + PrivateActivity + "Outro");
 	}
 
-}
-
-/**
- * Checks if the player is owned. (In general)
- * @returns {boolean} - Returns TRUE if the player has an owner.
- */
-function PrivatePlayerIsOwned() {
-	if (Player.Owner != "") return true;
-	for (let C = 0; C < PrivateCharacter.length; C++)
-		if (typeof PrivateCharacter[C].IsOwner === 'function')
-			if (PrivateCharacter[C].IsOwner())
-				return true;
-	return false;
 }
 
 /**

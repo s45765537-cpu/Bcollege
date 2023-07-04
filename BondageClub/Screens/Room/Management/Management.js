@@ -43,7 +43,7 @@ function ManagementSarahUnlockQuest() { return (SarahUnlockQuest); }
  * Checks if the player is Sarah's owner.
  * @returns {boolean} - TRUE if the player is Sarah's owner.
  */
-function ManagementIsSarahOwner() { return (SarahUnlockQuest && (Sarah.Owner == Player.Name)); }
+function ManagementIsSarahOwner() { return (SarahUnlockQuest && Sarah.IsOwnedByPlayer()); }
 /**
  * Checks if the mistress has been angered for a given amount of times.
  * @param {number} InCount - Number of times the mistress has to have been angered.
@@ -69,7 +69,7 @@ function ManagementCanPlayWithoutPermission() { return (!ManagementMistressAllow
  * Checks if the player is owned by one of the bondage college NPCs.
  * @returns {boolean} - TRUE if the player is owned by a bondage college NPC
  */
-function ManagementOwnerFromBondageCollege() { return ((Player.Owner == "NPC-Sidney") || (Player.Owner == "NPC-Amanda") || (Player.Owner == "NPC-Jennifer")); }
+function ManagementOwnerFromBondageCollege() { return Player.IsOwned() === "npc" && ["Sidney", "Amanda", "Jennifer"].includes(Player.OwnerName()); }
 /**
  * Checks if the player's owner is a NPC in her private room.
  * @returns {boolean} - TRUE if the player's owner is in the player's private room.
@@ -79,7 +79,7 @@ function ManagementOwnerInPrivateRoom() { return PrivateOwnerInRoom(); }
  * Checks if the player's owner is not one of the bondage college NPC.
  * @returns {boolean} - TRUE if the player is NOT owned by a bondage college NPC
  */
-function ManagementOwnerAway() { return !((Player.Owner == "NPC-Sidney") || (Player.Owner == "NPC-Amanda") || (Player.Owner == "NPC-Jennifer")); }
+function ManagementOwnerAway() { return !(Player.IsOwned() === "npc" && ["Sidney", "Amanda", "Jennifer"].includes(Player.OwnerName())); }
 /**
  * Checks if the player is wearing any chastity item that can currently be removed by the mistress.
  * @returns {boolean} - TRUE if there is at least one chastity item that can be removed.
@@ -205,12 +205,12 @@ function ManagementCannotBeReleasedExtreme() { return Player.IsOwned() === "npc"
  * Checks if the player can be owned by the mistress.
  * @returns {boolean} - TRUE if the player is fully submissive, the player is not owned, the mistress has not been angered and the mistress can enter the private room.
  */
-function ManagementWillOwnPlayer() { return ((Player.Owner == "") && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && !PrivatePlayerIsOwned() && ManagementNoMistressInPrivateRoom()); }
+function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the mistress is not willing to own the player.
  * @returns {boolean} - TRUE if the player can be owned, but is not submissive enough.
  */
-function ManagementWontOwnPlayer() { return ((Player.Owner == "") && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && !PrivatePlayerIsOwned() && ManagementNoMistressInPrivateRoom()); }
+function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the player has at least one lover who is a NPC from bondage college.
  * @returns {boolean} - TRUE if the player has at least one lover who is a NPC from bondage college.
@@ -547,7 +547,7 @@ function ManagementContactOwner() {
 	ManagementMistressReleaseTimer = CommonTime() + 200000 + Math.floor(Math.random() * 200000);
 	CharacterChangeMoney(Player, -20);
 	ManagementCanReleaseChastity = (Math.random() >= 0.3);
-	if (Player.Owner == "NPC-Sidney") ManagementCanReleaseChastity = (Math.random() >= 0.6);
+	if (Player.IsOwned() === "npc" && Player.OwnerName() === "Sidney") ManagementCanReleaseChastity = (Math.random() >= 0.6);
 }
 
 /**

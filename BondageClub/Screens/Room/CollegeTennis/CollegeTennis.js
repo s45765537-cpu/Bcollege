@@ -146,7 +146,7 @@ function CollegeTennisInviteToPrivateRoom() {
 	NPCTraitSet(C, "Serious", 30);
 	NPCTraitSet(C, "Polite", 60);
 	C.Love = 20;
-	if (CollegeTennisJennifer.Owner == Player.Name) {
+	if (CollegeTennisJennifer.IsOwnedByCharacter(Player)) {
 		NPCEventAdd(C, "NPCCollaring", CurrentTime);
 		InventoryWear(C, "SlaveCollar", "ItemNeck");
 		C.Owner = Player.Name;
@@ -157,7 +157,7 @@ function CollegeTennisInviteToPrivateRoom() {
 		C.Lover = Player.Name;
 		C.Love = 100;
 	}
-	if (Player.Owner == "NPC-Jennifer") {
+	if (Player.IsOwnedByCharacter(CollegeTennisJennifer)) {
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
 		C.Love = 100;
