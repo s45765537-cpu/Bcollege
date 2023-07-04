@@ -616,6 +616,32 @@ function testExtendedItemButtonImage(dataSuperRecord) {
 }
 
 /**
+ * @param {readonly Asset[]} assets
+ */
+function testAssetLayerNames(assets) {
+	if (assets === null || !Array.isArray(assets)) {
+		error("Asset not found");
+		return;
+	}
+
+	for (const asset of assets) {
+		/** @type {Record<string, number>} */
+		const layerCount = {};
+		for (const layer of asset.Layer) {
+			layerCount[layer.Name] = 1 + (layerCount[layer.Name] || 0);
+		}
+
+		const duplicateLayers = Object.entries(layerCount).filter(([_, j]) => j > 1).map(([i, _]) => i);
+		if (duplicateLayers.length > 0) {
+			error(
+				`${asset.Group.Name}:${asset.Name}: found ${duplicateLayers.length} layers `
+				+ `with duplicate names: ${duplicateLayers}`
+			);
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -678,6 +704,8 @@ function sanitizeVMOutput(input) {
 	const TextItemDataLookup = context.TestingVariableHeightItemDataLookup;
 	/** @type {Record<string, VariableHeightData>} */
 	const VariableHeightItemDataLookup = context.TestingTextItemDataLookup;
+	/** @type {Asset[]} */
+	const assetList = context.Asset;
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -828,4 +856,5 @@ function sanitizeVMOutput(input) {
 		variableheight: VariableHeightItemDataLookup,
 		vibrating: VibratingItemDataLookup,
 	});
+	testAssetLayerNames(assetList);
 })();

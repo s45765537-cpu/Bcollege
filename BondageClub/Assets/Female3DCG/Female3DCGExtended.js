@@ -7284,7 +7284,22 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Length", Key: "l",
-					Options: [{},{}] // Behind Hair, Over Hair
+					Options: [
+						{},
+						{
+							Property: {
+								OverridePriority: {
+									Filter: 55,
+									FilterFixing: 55,
+									FilterGlow: 55,
+									SmallTube: 55,
+									SmallTubeGlow: 55,
+									Tube: 55,
+									TubeGlow: 55,
+								},
+							},
+						},
+					] // Behind Hair, Over Hair
 				},
 			]
 		}, //LatexRespirator
