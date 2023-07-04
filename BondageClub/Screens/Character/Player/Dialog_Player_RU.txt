@@ -3836,7 +3836,7 @@ The front and rear chastity shields on DestinationCharacter AssetName open.
 Передние и задние щиты целомудрия на DestinationCharacter AssetName открыты.
 The front chastity shields on DestinationCharacter AssetName closes.
 Передний щит целомудрия на DestinationCharacter AssetName закрыт.
-The read chastity shields on DestinationCharacter AssetName closes.
+The rear chastity shields on DestinationCharacter AssetName closes.
 Задний щит целомудрия на  DestinationCharacter AssetName закрыт.
 The front and rear chastity shields on DestinationCharacter AssetName close.
 Передние и задние щиты целомудрия на DestinationCharacter AssetName закрыты.
@@ -3872,7 +3872,7 @@ The front and rear chastity shields on DestinationCharacter sci-fi pleasure pant
 Передние и задние щиты целомудрия на DestinationCharacter научно-фантастических трусиках открыты.
 The front chastity shields on DestinationCharacter sci-fi pleasure panties closes.
 Передний щит целомудрия на DestinationCharacter научно-фантастических трусиках закрыты.
-The read chastity shields on DestinationCharacter sci-fi pleasure panties closes.
+The rear chastity shields on DestinationCharacter sci-fi pleasure panties closes.
 Задний щит целомудрия на  DestinationCharacter научно-фантастических трусиках удовольствия закрыт.
 The front and rear chastity shields on DestinationCharacter sci-fi pleasure panties close.
 Передние и задние щиты целомудрия на DestinationCharacter научно-фантастических трусиках закрыты.
