@@ -1077,6 +1077,20 @@ var ClubCardList = [
 		}
 	},
 	{
+		ID: 30022,
+		Name: "Pandora Box",
+		Type: "Event",
+		Reward: "Pandora-Loot-Box",
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDiscardCard(CCPlayer, 100);
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 100);
+			ClubCardPlayerDrawCard(CCPlayer, 5);
+			ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 5);
+			ClubCardLogPublish("Effect Pandora Box", CCPlayer);
+		}
+	},
+	{
 		ID: 31000,
 		Name: "Bad Press",
 		Type: "Event",
@@ -2082,12 +2096,12 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 
 	// Gets the text and frame color
 	let Level = ((Card.RequiredLevel == null) || (Card.RequiredLevel <= 1)) ? 1 : Card.RequiredLevel;
-	let Color = ClubCardColor[(Card.Reward != null) ? 6 : Level];
+	let Color = ClubCardColor[Level];
 	if (Card.Type == null) Card.Type = "Member";
 
 	// Draw the images and texts on the screen
-	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null) ? "6" : Level.toString()) + ".png", X, Y, W, W * 2);
-	DrawImageResize("Screens/MiniGame/ClubCard/" + (Card.Type) + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
+	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null) ? "Reward" : "") + Level.toString() + ".png", X, Y, W, W * 2);
+	DrawImageResize("Screens/MiniGame/ClubCard/" + Card.Type + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
 	if ((Card.Time != null) && ((Card.Location === "PlayerBoard") || (Card.Location === "OpponentBoard"))) {
 		MainCanvas.font = "bold " + Math.round(W / 1.5) + "px arial";
 		DrawText(Card.Time.toString(), X + W * 0.5, Y + W * 0.9, "Black", "Silver");

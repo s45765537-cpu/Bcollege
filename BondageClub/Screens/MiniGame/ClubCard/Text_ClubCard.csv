@@ -314,3 +314,6 @@ Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress
 Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 Title Kidnapping,Kidnapping
 Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for each opponent building level.
+Title Pandora Box,Pandora's Box
+Text Pandora Box,All players discard their current hand and draw 5 new cards.
+Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.

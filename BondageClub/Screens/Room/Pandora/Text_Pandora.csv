@@ -8,6 +8,7 @@ SearchStop,Stop searching
 RestStop,Stop resting
 AlreadyFound,You already found the TargetName.  Get out now.
 FoundItem,You found the TargetName.  Get out while you can.
+FoundPandoraBoxClubCard,You found the Pandora's Box Club Card.
 NoPaint,You first need to find some paint.
 AlreadyPainted,This room is already painted.
 RoomEmptyToPaint,The room must be empty.

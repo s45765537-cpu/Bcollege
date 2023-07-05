@@ -1168,10 +1168,23 @@ function PandoraChestLockEnd() {
  * @returns {void} - Nothing
  */
 function PandoraChestLoot() {
+
+	// Gets the regular loot
 	DialogLeave();
 	PandoraMoney = PandoraMoney + Math.floor((5 + Math.random() * 5) * (InfiltrationDifficulty + 2) * 0.5);
 	PandoraChestCount--;
 	PandoraCurrentRoom.Character.splice(0, 1);
+
+	// Can also get a special card from the chest (higher odds with higher difficulty)
+	if ((Math.random() < InfiltrationDifficulty / 25) || (Player.Game == null) || (Player.Game.ClubCard == null) || (Player.Game.ClubCard.Reward == null)) {
+		let Char = String.fromCharCode(30022);
+		if (Player.Game.ClubCard.Reward.indexOf(Char) < 0) {
+			Player.Game.ClubCard.Reward = Player.Game.ClubCard.Reward + Char;
+			ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+			PandoraMsgBox(TextGet("FoundPandoraBoxClubCard"));
+		}
+	}
+
 }
 
 /**
