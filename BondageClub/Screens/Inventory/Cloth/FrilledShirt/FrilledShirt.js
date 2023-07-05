@@ -2,13 +2,13 @@
 
 /** @type {ExtendedItemCallbacks.Init} */
 function InventoryClothFrilledShirtInit(C, Item, Refresh) {
-	return ExtendedItemInitNoArch(C, Item, { Opacity: 1.0 }, Refresh);
+	return ExtendedItemInitNoArch(C, Item, { Opacity: Item.Asset.Opacity }, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */
 function InventoryClothFrilledShirtLoad() {
 	PropertyOpacityLoad();
-	DialogExtendedMessage = DialogFindPlayer("ClothFrillShirtSelect");
+	DialogExtendedMessage = DialogFindPlayer("OpacityLabel");
 }
 
 /** @type {ExtendedItemCallbacks.Draw} */

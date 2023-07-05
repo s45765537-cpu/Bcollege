@@ -1748,3 +1748,15 @@ ItemBoots,Slime,Slime
 ItemBoots,MonoHeel,Monoheel
 ItemScript,,Body
 ItemScript,Script,Script
+EyeShadow,,Eye Shadow
+EyeShadow,CatEye,Cat Eye
+EyeShadow,CatEye2,Cat Eye 2
+EyeShadow,LargeBlurred,Large (Blurred)
+EyeShadow,LargeSolid,Large (Solid)
+EyeShadow,SmallBlurred,Small (Blurred)
+EyeShadow,SmallSolid,Small (Solid)
+EyeShadow,SuperstarBlurred,Superstar (Blurred)
+EyeShadow,SuperstarSolid,Superstar (Solid)
+EyeShadow,Tanuki,Tanuki
+EyeShadow,UndershadowedBlurred,Undershadowed (Blurred)
+EyeShadow,UndershadowedSolid,Undershadowed (Solid)

@@ -3540,6 +3540,28 @@ var AssetFemale3DCG = [
 	},
 
 	{
+		Group: "EyeShadow",
+		Priority: 8,
+		Left: 200,
+		Top: 135,
+		PreviewZone: [190, 100, 120, 120],
+		Random: false,
+		Asset: [
+			{ Name: "CatEye", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "CatEye2", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "LargeBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "LargeSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "SmallBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "SmallSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "SuperstarBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "SuperstarSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "Tanuki", MinOpacity: 0, Opacity: 1, MaxOpacity: 0.8, Extended: true },
+			{ Name: "UndershadowedBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ Name: "UndershadowedSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+		],
+	},
+
+	{
 		Group: "Eyes2",
 		Priority: 9,
 		Left: 250,
