@@ -49,6 +49,8 @@ UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEY.
 UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEY.
 GainFame,SOURCEPLAYER gained AMOUNT Fame.
 GainMoney,SOURCEPLAYER gained AMOUNT Money.
+LoseFame,SOURCEPLAYER lost AMOUNT Fame.
+LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER club.
@@ -310,3 +312,5 @@ Text Overtime,"For 3 turns, you can play an extra card."
 Title Porn Convention,Porn Convention
 Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn."
 Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
+Title Kidnapping,Kidnapping
+Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for each opponent building level.

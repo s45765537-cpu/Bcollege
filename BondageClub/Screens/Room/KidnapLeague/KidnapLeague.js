@@ -523,3 +523,27 @@ function KidnapLeagueTransferToRoom() {
 	CommonSetScreen("Room", "Private");
 	PrivateAddCharacter(KidnapLeagueRandomKidnapper, KidnapLeagueArchetype);
 }
+
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function KidnapLeagueRandomClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	MiniGameStart("ClubCard", 0, "KidnapLeagueRandomClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function KidnapLeagueRandomClubCardEnd() {
+	CommonSetScreen("Room", "KidnapLeague");
+	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	if (!MiniGameVictory) InventoryWearRandom(Player, "ItemArms", 8);
+	KidnapLeagueRandomActivityCount = 0;
+	KidnapLeagueRandomKidnapper.AllowItem = MiniGameVictory;
+	KidnapLeagueRandomKidnapper.Stage = (MiniGameVictory) ? "100" : "200";
+}

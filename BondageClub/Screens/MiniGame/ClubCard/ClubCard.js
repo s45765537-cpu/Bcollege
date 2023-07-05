@@ -206,7 +206,7 @@ var ClubCardList = [
 		OnTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
-				if (ClubCardNameIsOnBoard(CCPlayer, "Pusher")) ClubCardPlayerAddMoney(CCPlayer, 3);
+				if (ClubCardNameIsOnBoard(CCPlayer, "Junkie")) ClubCardPlayerAddMoney(CCPlayer, 3);
 				if (ClubCardNameIsOnBoard(CCPlayer, "Sidney")) ClubCardPlayerAddMoney(CCPlayer, 1);
 			}
 		}
@@ -952,7 +952,7 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			if (!ClubCardNameIsOnBoard(Opponent, "Amanda") && !ClubCardNameIsOnBoard(Opponent, "Jennifer")) {
 				ClubCardPlayerAddMoney(Opponent, Opponent.Level * -5);
-				ClubCardLogPublish("GainMoney", Opponent, Opponent.Level * -5);
+				ClubCardLogPublish("LoseMoney", Opponent, Opponent.Level);
 			}
 		},
 		CanPlay: function(CCPlayer) {
@@ -1055,6 +1055,25 @@ var ClubCardList = [
 		CanPlay: function(CCPlayer) {
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
 			return (Money > 0);
+		}
+	},
+	{
+		ID: 30021,
+		Name: "Kidnapping",
+		Type: "Event",
+		Reward: "NPC_KidnapLeague_RandomKidnapper",
+		Prerequisite: "SelectOpponentMember",
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) return;
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			ClubCardRemoveFromBoard(Opponent, ClubCardSelection);
+			let Money = Opponent.Level * 2;
+			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
+			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
+		},
+		CanPlay: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			return ((Opponent.Board != null) && (Opponent.Board.length > 0));
 		}
 	},
 	{
@@ -1730,11 +1749,11 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
  */
 function ClubCardCanSelectCard(CCPlayer, Card) {
 	if ((CCPlayer == null) || (Card == null) || (ClubCardPending == null) || (ClubCardPending.Prerequisite == null)) return false;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard"))) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Member")) return true;
 	return false;
 }
 
