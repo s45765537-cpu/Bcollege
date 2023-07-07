@@ -715,6 +715,7 @@ function AppearanceGroupAllowed(C, GroupName) {
 	if (CurrentScreen != "Appearance") return true;
 	if (!C.IsPlayer()) return true;
 	if (Player.IsOwned() == false) return true;
+	/** @type {[id: string, group: AssetGroupName][]} */
 	const Dict = [
 		["A", "Cloth"],
 		["B", "ClothAccessory"],
@@ -758,7 +759,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 		["7", "Mouth"],
 		["8", "Nipples"],
 		["9", "Pussy"],
-		["%", "Pronouns"]
+		["%", "Pronouns"],
+		["^", "EyeShadow"],
 	];
 	if (GroupName == "ALL") {
 		for (let D of Dict)
