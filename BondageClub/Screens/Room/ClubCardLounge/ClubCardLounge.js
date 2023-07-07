@@ -46,6 +46,7 @@ function ClubCardLoungeClick() {
  */
 function ClubCardLoungePraticeGameStart() {
 	ClubCardOpponent = ClubCardLoungeTutor;
+	ClubCardOpponentDeck = ClubCardBuilderDefaultDeck;
 	MiniGameStart("ClubCard", 0, "ClubCardLoungePraticeGameEnd");
 }
 

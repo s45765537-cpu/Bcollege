@@ -353,6 +353,7 @@ function IntroductionJobDojoStart() {
  */
 function IntroductionClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderMaidDeck;
 	MiniGameStart("ClubCard", 0, "IntroductionClubCardEnd");
 }
 

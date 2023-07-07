@@ -531,6 +531,7 @@ function KidnapLeagueTransferToRoom() {
  */
 function KidnapLeagueRandomClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderPornDeck;
 	MiniGameStart("ClubCard", 0, "KidnapLeagueRandomClubCardEnd");
 }
 

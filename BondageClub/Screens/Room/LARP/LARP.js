@@ -70,6 +70,7 @@ function LARPSelectClass(NewClass) {
  */
 function LARPClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderABDLDeck;
 	MiniGameStart("ClubCard", 0, "LARPClubCardEnd");
 }
 

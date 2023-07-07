@@ -325,6 +325,7 @@ function ShibariPayForTraining(SkillType) {
  */
 function ShibariClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
 	MiniGameStart("ClubCard", 0, "ShibariClubCardEnd");
 }
 

@@ -234,6 +234,7 @@ function AsylumMeetingQuitGGTSMainHall() {
  */
 function AsylumMeetingClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderAsylumDeck;
 	MiniGameStart("ClubCard", 0, "AsylumMeetingClubCardEnd");
 }
 

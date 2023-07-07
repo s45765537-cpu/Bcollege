@@ -543,6 +543,7 @@ function InfiltrationSetPandoraPrisoner() {
  */
 function InfiltrationClubCardStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderLiabilityDeck;
 	MiniGameStart("ClubCard", 0, "InfiltrationClubCardEnd");
 }
 

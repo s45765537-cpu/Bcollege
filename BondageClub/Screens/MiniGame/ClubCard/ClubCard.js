@@ -5,6 +5,7 @@ var ClubCardLogText = "";
 var ClubCardLogScroll = false;
 var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardOpponent = null;
+var ClubCardOpponentDeck = [];
 var ClubCardReward = null;
 var ClubCardHover = null;
 var ClubCardFocus = null;
@@ -134,6 +135,15 @@ var ClubCardList = [
 		RequiredLevel: 4,
 		FamePerTurn: 3,
 		MoneyPerTurn: 1
+	},
+	{
+		ID: 1016,
+		Name: "Local Influencer",
+		FamePerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -3);
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		}
 	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
@@ -1950,6 +1960,7 @@ function ClubCardEndGame(Victory) {
 	ElementRemove("CCLog");
 	MiniGameEnded = true;
 	if (Victory != null) MiniGameVictory = Victory;
+	ClubCardOpponentDeck = [];
 	MiniGameEnd();
 }
 
@@ -2026,7 +2037,7 @@ function ClubCardLoad() {
 	ClubCardTurnIndex = Math.floor(Math.random() * 2);
 	ClubCardPlayer = [];
 	ClubCardAddPlayer(Player, "Player", []);
-	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardBuilderDefaultDeck);
+	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 	ClubCardCreatePopup("DECK");
 }
 

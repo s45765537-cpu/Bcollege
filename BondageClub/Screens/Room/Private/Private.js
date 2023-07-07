@@ -1935,11 +1935,40 @@ function PrivateRandomBed() {
 }
 
 /**
+ * Returns the Club Card Deck that will be used by the NPC
+ * @returns {Array} - The Deck to useRule
+ */
+function PrivateGetClubCardDeck(C) {
+
+	// Special characters and special titles will return fixed decks
+	if (["Amanda", "Sarah", "Sidney", "Sarah", "Jennifer", "Julia", "Yuki", "Mildred"].includes(C.Name) ) return ClubCardBuilderCollegeDeck;
+	if ((C.Title === "Mistress") || (C.Title == "Dominatrix")) return ClubCardBuilderDominantDeck;
+	if (C.Title === "Maid") return ClubCardBuilderMaidDeck;
+
+	// The deck will be chosen based on NPC traits
+	let Horny = NPCTraitGet(C, "Horny");
+	let Dominant = NPCTraitGet(C, "Dominant");
+	let Playful = NPCTraitGet(C, "Playful");
+	let Violent = NPCTraitGet(C, "Violent");
+	let Wise = NPCTraitGet(C, "Wise");
+	if ((Horny > 0) && (Horny >= Dominant) && (Horny >= Playful) && (Horny >= Violent) && (Horny >= Wise)) return ClubCardBuilderPornDeck;
+	if ((Dominant > 0) && (Dominant >= Horny) && (Dominant >= Playful) && (Dominant >= Violent) && (Dominant >= Wise)) return ClubCardBuilderDominantDeck;
+	if ((Playful > 0) && (Playful >= Horny) && (Playful >= Dominant) && (Playful >= Violent) && (Playful >= Wise)) return ClubCardBuilderABDLDeck;
+	if ((Violent > 0) && (Violent >= Horny) && (Violent >= Dominant) && (Violent >= Playful) && (Violent >= Wise)) return ClubCardBuilderLiabilityDeck;
+	if ((Wise > 0) && (Wise >= Horny) && (Wise >= Dominant) && (Wise >= Playful) && (Wise >= Violent)) return ClubCardBuilderAsylumDeck;
+
+	// If no deck could be found, we return the default one
+	return ClubCardBuilderDefaultDeck;
+
+}
+
+/**
  * When the club card game against a friend NPC starts
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsFriendStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsFriendEnd");
 }
 
@@ -1965,6 +1994,7 @@ function PrivateClubCardVsFriendEnd() {
  */
 function PrivateClubCardVsOwnerStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsOwnerEnd");
 }
 
@@ -1987,6 +2017,7 @@ function PrivateClubCardVsOwnerEnd() {
  */
 function PrivateClubCardVsSubStart() {
 	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
 	MiniGameStart("ClubCard", 0, "PrivateClubCardVsSubEnd");
 }
 
