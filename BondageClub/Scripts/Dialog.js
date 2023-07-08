@@ -775,10 +775,12 @@ function DialogRemoveGroup(GroupName) {
 }
 
 /**
- * Generic function that sets timers for expression changes, if the player'S expressions have been altered by the dialog
+ * Clears the timers used for expression changes caused by struggling
  * @returns {void} - Nothing
  */
 function DialogEndExpression() {
+	const update = DialogAllowBlush || DialogAllowEyebrows || DialogAllowFluids;
+
 	if (DialogAllowBlush) {
 		TimerInventoryRemoveSet(Player, "Blush", 15);
 		DialogAllowBlush = false;
@@ -791,6 +793,8 @@ function DialogEndExpression() {
 		TimerInventoryRemoveSet(Player, "Fluids", 5);
 		DialogAllowFluids = false;
 	}
+	if (update)
+		CharacterRefresh(Player);
 }
 
 /**

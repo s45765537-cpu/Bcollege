@@ -317,22 +317,22 @@ function StruggleMinigameHandleExpression(Decrease) {
 	if (!Decrease && Player.OnlineSharedSettings.ItemsAffectExpressions) {
 		// At 15 hit: low blush, 50: Medium and 125: High
 		if (DialogAllowBlush) {
-			if (Count == 15) CharacterSetFacialExpression(Player, "Blush", "Low");
-			if (Count == 50) CharacterSetFacialExpression(Player, "Blush", "Medium");
-			if (Count == 125) CharacterSetFacialExpression(Player, "Blush", "High");
+			if (Count >= 15) CharacterSetFacialExpression(Player, "Blush", "Low");
+			else if (Count >= 50) CharacterSetFacialExpression(Player, "Blush", "Medium");
+			else if (Count >= 125) CharacterSetFacialExpression(Player, "Blush", "High");
 		}
 
 		// At 15 hit: Start drooling
 		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Strength") {
-			if (Count == 15) CharacterSetFacialExpression(Player, "Fluids", "DroolMessy");
+			if (Count >= 15) CharacterSetFacialExpression(Player, "Fluids", "DroolMessy");
 		}
 		// At 25 hit: Start one eye closed
 		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Flexibility") {
-			if (Count == 25) CharacterSetFacialExpression(Player, "Eyes2", "Closed");
+			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes2", "Closed");
 		}
 		// At 25 hit: Eyes look glazed
 		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Dexterity") {
-			if (Count == 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
+			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
 		}
 
 		// Over 50 progress, the character frowns

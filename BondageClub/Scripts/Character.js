@@ -1538,27 +1538,25 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color) {
 	if (AssetGroup == "Eyes") CharacterSetFacialExpression(C, "Eyes2", Expression, Timer, Color);
 	if (AssetGroup == "Eyes1") AssetGroup = "Eyes";
 
-	var Ex = InventoryGet(C, AssetGroup);
-	if ((Timer != null) && (Ex != null) && (Ex.Property != null) && (Ex.Property.Expression != null)) return;
-	for (let A = 0; A < C.Appearance.length; A++) {
-		if ((C.Appearance[A].Asset.Group.Name == AssetGroup) && (C.Appearance[A].Asset.Group.AllowExpression)) {
-			if ((Expression == null) || (C.Appearance[A].Asset.Group.AllowExpression.indexOf(Expression) >= 0)) {
-				if (!C.Appearance[A].Property) C.Appearance[A].Property = {};
-				// Delete any existing removal timer
-				delete C.Appearance[A].Property.RemoveTimer;
-				if (C.Appearance[A].Property.Expression != Expression) {
-					C.Appearance[A].Property.Expression = Expression;
-					if (Color && CommonColorIsValid(Color)) C.Appearance[A].Color = Color;
-					CharacterRefresh(C);
-					if (CurrentScreen == "ChatRoom") {
-						if (C.ID == 0) ChatRoomCharacterItemUpdate(C, AssetGroup);
-						else ChatRoomCharacterUpdate(C);
-					}
-				}
-				if (Timer != null) TimerInventoryRemoveSet(C, AssetGroup, Timer);
-				return;
-			}
-		}
+	const item = InventoryGet(C, AssetGroup);
+	if (!item || !item.Asset.Group.AllowExpression) return;
+
+	if (Expression != null && !item.Asset.Group.AllowExpression.includes(Expression)) return;
+
+	if (!item.Property) item.Property = {};
+	if (item.Property.Expression == Expression) return;
+
+	item.Property.Expression = Expression;
+	if (Color && CommonColorIsValid(Color)) item.Color = Color;
+	delete item.Property.RemoveTimer;
+	if (Timer != null) TimerInventoryRemoveSet(C, AssetGroup, Timer);
+
+	CharacterRefresh(C);
+	if (CurrentScreen == "ChatRoom") {
+		if (C.IsPlayer())
+			ChatRoomCharacterItemUpdate(C, AssetGroup);
+		else
+			ChatRoomCharacterUpdate(C);
 	}
 }
 
