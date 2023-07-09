@@ -1158,6 +1158,40 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // ShinyPetSuit
+		ShinyStraitjacket: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Crosstie",
+					Property: {
+						Block: ["ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Asylum",
+					Property: {
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+					},
+				},
+				{
+					Name: "Hardbinder",
+					Property: {
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+					},
+				},
+				{
+					Name: "Classic",
+					Property: {
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // ShinyStraitjacket
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -7769,6 +7803,41 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 			}
 		}, // FuturisticLegCuffs
+		ShinyLegBinder: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Laced",
+					Property: {
+						Block: ["ItemFeet"],
+						Hide: ["Panties"],
+					},
+				},
+				{
+					Name: "Asylum",
+					Property: {
+						Block: ["ItemFeet"],
+						Hide: ["Panties"],
+					},
+				},
+				{
+					Name: "Beltbinder",
+					Property: {
+						Block: ["ItemFeet"],
+						Hide: ["Panties"],
+					},
+				},
+				{
+					Name: "Classic",
+					Property: {
+						Block: ["ItemFeet"],
+						Hide: ["Panties"],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // ShinyLegBinder
 		LeatherLegCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
