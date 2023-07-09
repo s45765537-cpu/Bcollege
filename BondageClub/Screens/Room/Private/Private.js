@@ -241,17 +241,17 @@ function PrivateIsNeutral() { return ((CurrentCharacter.Love >= -30) && (Current
  * Checks if the lover NPC is happy.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is above 30
  */
-function PrivateIsLoverHappy() { return ((CurrentCharacter.Love > 30) && CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsLoverHappy() { return ((CurrentCharacter.Love > 30) && CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the lover NPC is unhappy.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is below -30
  */
-function PrivateIsLoverUnhappy() { return ((CurrentCharacter.Love < -30) && CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsLoverUnhappy() { return ((CurrentCharacter.Love < -30) && CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the lover NPC is in a neutral mood.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is between -30 and 30
  */
-function PrivateIsLoverNeutral() { return ((CurrentCharacter.Love >= -30) && (CurrentCharacter.Love <= 30) && CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsLoverNeutral() { return ((CurrentCharacter.Love >= -30) && (CurrentCharacter.Love <= 30) && CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the sub trial for the NPC is over.
  * @returns {boolean} - TRUE if the trial period is over.
@@ -291,17 +291,17 @@ function PrivateCanGetCollegeClothes() { return ((!InventoryAvailable(Player, "C
  * Checks if the current NPC is a lover of the player.
  * @returns {boolean} - TRUE if the NPC is a lover of the player.
  */
-function PrivateIsLover() { return CurrentCharacter.IsLoverPrivate(); }
+function PrivateIsLover() { return CurrentCharacter.IsLoverOfPlayer(); }
 /**
  * Checks if the current NPC is a lover of the player and currently on the Fiancée stage.
  * @returns {boolean} - TRUE if the NPC is a fiancee for the player.
  */
-function PrivateIsFiancee() { return CurrentCharacter.IsLoverPrivate() && (NPCEventGet(CurrentCharacter, "Fiancee") > 0) && (NPCEventGet(CurrentCharacter, "Wife") <= 0); }
+function PrivateIsFiancee() { return CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Fiancee") > 0) && (NPCEventGet(CurrentCharacter, "Wife") <= 0); }
 /**
  * Checks if the current NPC is a lover of the player and currently on the Wife stage.
  * @returns {boolean} - TRUE if the NPC is a wife for the player.
  */
-function PrivateIsWife() { return CurrentCharacter.IsLoverPrivate() && (NPCEventGet(CurrentCharacter, "Wife") > 0); }
+function PrivateIsWife() { return CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Wife") > 0); }
 /**
  * Checks if the NPC will take the player as a lover.
  * @returns {boolean} - TRUE if the player can have one more lover, the NPC loves the player enough and the event delay has expired.
@@ -361,17 +361,17 @@ function PrivateNPCAllowCheat() { return (CheatFactor("ChangeNPCTrait", 0) == 0)
  * Checks if the character comes from Pandora's Box and she has a negative opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a negative opinion
  */
-function PrivateIsFromPandoraNegative() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love <= -40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraNegative() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love <= -40) && !CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the character comes from Pandora's Box and she has a neutral opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a neutral opinion
  */
-function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love > -40) && (CurrentCharacter.Love < 40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love > -40) && (CurrentCharacter.Love < 40) && !CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the character comes from Pandora's Box and she has a positive opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a positive opinion
  */
-function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverPrivate()); }
+function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverOfPlayer()); }
 /**
  * Checks if the private character has a specific title
  * @returns {boolean} - TRUE if the character has the title in the parameter
@@ -1645,7 +1645,7 @@ function PrivateStartWife() {
  */
 function PrivateNPCInteraction(LoveFactor) {
 	if (CurrentCharacter.Love == null) CurrentCharacter.Love = 0;
-	if ((CurrentCharacter.Love < 60) || (CurrentCharacter.IsOwner()) || (CurrentCharacter.IsOwnedByPlayer()) || CurrentCharacter.IsLoverPrivate() || (parseInt(LoveFactor) < 0))
+	if ((CurrentCharacter.Love < 60) || (CurrentCharacter.IsOwner()) || (CurrentCharacter.IsOwnedByPlayer()) || CurrentCharacter.IsLoverOfPlayer() || (parseInt(LoveFactor) < 0))
 		NPCLoveChange(CurrentCharacter, LoveFactor);
 }
 

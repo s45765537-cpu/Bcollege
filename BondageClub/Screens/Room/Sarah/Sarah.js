@@ -25,8 +25,8 @@ var SophieOrgasmGamePleasure = 0;
 // Returns TRUE if a dialog condition matches
 function SarahStatusIs(QueryStatus) { return (QueryStatus == SarahStatus); }
 function SarahAmandaStatusIs(QueryStatus) { return (QueryStatus == AmandaStatus); }
-function SarahCanKissLover() { return (Player.CanTalk() && Sarah.CanTalk() && (Player.Lover == "NPC-Sarah")); }
-function SarahCanKissNotLover() { return (Player.CanTalk() && Sarah.CanTalk() && (Player.Lover != "NPC-Sarah")); }
+function SarahCanKissLover() { return (Player.CanTalk() && Sarah.CanTalk() && Player.IsLoverOfCharacter(Sarah)); }
+function SarahCanKissNotLover() { return (Player.CanTalk() && Sarah.CanTalk() && !Player.IsLoverOfCharacter(Sarah)); }
 function SarahCanSpankOwner() { return Player.CanInteract() && Sarah.IsOwnedByPlayer(); }
 function SarahCanSpankNotOwner() { return Player.CanInteract() && !Sarah.IsOwnedByPlayer(); }
 function SarahCanReleaseToClub() { return (!SophieInside && !DialogIsRestrained("CurrentCharacter")); }
@@ -43,7 +43,7 @@ function SarahShackled() { return (SarahInside && (Sarah != null) && (InventoryG
 function SarahAmandaHasStrapon() { return (Player.CanInteract() && AmandaInside && (Amanda != null) && (InventoryGet(Amanda, "ItemPelvis") != null) && (InventoryGet(Amanda, "ItemPelvis").Asset.Name == "StraponPanties")); }
 function SarahAmandaHasNoStrapon() { return (Player.CanInteract() && AmandaInside && (Amanda != null) && !Amanda.IsVulvaChaste()); }
 function SarahKnowAmandaInRoom() { return (SarahInside && AmandaInside && (Sarah != null) && (Amanda != null) && !Sarah.CanInteract() && (!Sarah.IsBlind() || Amanda.CanTalk())); }
-function SarahAmandaCanKiss() { return (AmandaInside && (Amanda != null) && Player.CanTalk() && Amanda.CanTalk() && (Player.Lover == "NPC-Amanda")); }
+function SarahAmandaCanKiss() { return (AmandaInside && (Amanda != null) && Player.CanTalk() && Amanda.CanTalk() && Player.IsLoverOfCharacter(Amanda)); }
 function SarahIsClubSlave() { return ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "ClubSlaveCollar")); }
 function SarahCanKissSophie() { return (Player.CanTalk() && Sophie.CanTalk()); }
 function SarahCanFightSophie() { return (!SophieFightDone && Player.CanInteract()); }

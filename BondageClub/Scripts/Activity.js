@@ -710,7 +710,7 @@ function ActivityOrgasmPrepare(C, Bypass) {
 
 		// If an NPC orgasmed, it will raise her love based on the horny trait
 		if (C.IsNpc())
-			if ((C.Love == null) || (C.Love < 60) || (C.IsOwner()) || (C.IsOwnedByPlayer()) || C.IsLoverPrivate())
+			if ((C.Love == null) || (C.Love < 60) || (C.IsOwner()) || (C.IsOwnedByPlayer()) || C.IsLoverOfPlayer())
 				NPCLoveChange(C, Math.floor((NPCTraitGet(C, "Horny") + 100) / 20) + 1);
 
 	}

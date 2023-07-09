@@ -399,20 +399,82 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsOwner: function () {
 			return Player.IsOwnedByCharacter(this);
 		},
-		IsLoverOfPlayer: function () {
-			return this.IsLover(Player);
-		},
 		IsLover: function (C) {
+			return this.IsLoverOfCharacter(C);
+		},
+		IsLoverOfCharacter: function (C) {
+			const loves = this.GetLovership();
+			if (C.IsNpc()) {
+				const love = loves.find(l => !l.MemberNumber && l.Name === C.Name);
+				return love.Start > 0;
+			}
+
 			return (
 				this.IsLoverOfMemberNumber(C.MemberNumber) ||
-				(((this.Lover != null) && (this.Lover.trim() == C.Name)) || (NPCEventGet(this, "Girlfriend") > 0))
+				this.IsNpc() && (((this.Lover != null) && (this.Lover.trim() == C.Name)) || (NPCEventGet(this, "Girlfriend") > 0))
 			);
+		},
+		LoverName: function () {
+			// Only valid for NPCs. Online character can have many lovers
+			if (this.IsNpc() && this.Lover)
+				return this.Lover.replace("NPC-", "").trim();
+			return "";
+		},
+		IsLoverOfPlayer: function () {
+			return this.IsLoverOfCharacter(Player);
 		},
 		IsLoverOfMemberNumber: function (memberNumber) {
 			return this.GetLoversNumbers().indexOf(memberNumber) >= 0;
 		},
 		GetLoversNumbers: function (MembersOnly) {
-			return CharacterGetLoversNumbers(this, MembersOnly);
+			return this.GetLovership(MembersOnly).map(l => l.MemberNumber ? l.MemberNumber : l.Name);
+		},
+		GetLovership: function (MembersOnly) {
+			/** @type {Lovership[]} */
+			let loves = [];
+			if (!(CommonIsArray(this.Lovership) || (this.IsNpc() && this.Lover != ""))) return loves;
+
+			if (this.IsNpc()) {
+				// NPC can only love the player at the moment. Reconstruct their lovership data
+				/** @type {Lovership} */
+				const love = { Name: this.Lover, MemberNumber: Player.MemberNumber };
+
+				let stages = ["Wife", "Fiancee", "Girlfriend"];
+				for (const [idx, stage] of stages.entries()) {
+					love.Start = NPCEventGet(this, stage);
+					if (love.Start > 0) {
+						love.Stage = /** @type {0|1|2} */ (stages.length - 1 - idx);
+						break;
+					}
+				}
+
+				if (love.Start !== 0)
+					loves.push(love);
+
+				return loves;
+			}
+
+			for (let L of this.Lovership) {
+				if (typeof L.MemberNumber === "number") {
+					// Anything with a MemberNumber is a relationship with an online character, so properties should be fine
+					loves.push(L);
+				} else if (L.Name && (MembersOnly == null || MembersOnly == false)) {
+					// Otherwise, this is an NPC, so just go fetch their reconstructed data and use that as ours
+					const npcName = L.Name.replace("NPC-", "");
+					const lover = PrivateCharacter.find(c => c.Name === npcName);
+					if (!lover) continue;
+
+					const npcLove = lover.GetLovership().find(l => l.MemberNumber === Player.MemberNumber);
+					if (!npcLove) continue;
+
+					/** @type {Lovership} */
+					const love = { Name: npcName };
+					love.Stage = npcLove.Stage;
+					love.Start = npcLove.Start;
+					loves.push(love);
+				}
+			}
+			return loves;
 		},
 		GetDeafLevel: function () {
 			let deafLevel = 0;
@@ -425,9 +487,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				}
 			}
 			return deafLevel;
-		},
-		IsLoverPrivate: function () {
-			return ((NPCEventGet(this, "Girlfriend") > 0) || (Player.GetLoversNumbers().indexOf("NPC-" + this.Name) >= 0));
 		},
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
@@ -1819,13 +1878,7 @@ function CharacterHasBlockedItem(C, BlockList) {
  * given character
  */
 function CharacterGetLoversNumbers(C, MembersOnly) {
-	var LoversNumbers = [];
-	if (typeof C.Lovership == "undefined") return [];
-	for (let L = 0; L < C.Lovership.length; L++) {
-		if (C.Lovership[L].MemberNumber) { LoversNumbers.push(C.Lovership[L].MemberNumber); }
-		else if (C.Lovership[L].Name && (MembersOnly == null || MembersOnly == false)) { LoversNumbers.push(C.Lovership[L].Name); }
-	}
-	return LoversNumbers;
+	return C.GetLoversNumbers(MembersOnly);
 }
 
 /**

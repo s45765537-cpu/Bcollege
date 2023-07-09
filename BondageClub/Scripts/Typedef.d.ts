@@ -1061,10 +1061,14 @@ interface Ownership {
 }
 
 interface Lovership {
+	/** The name of the loved one. */
 	Name: string;
-	MemberNumber: number;
-	Stage: 0 | 1 | 2;
-	Start: number;
+	/** The member number of the loved one. Only exists for online characters */
+	MemberNumber?: number;
+	/** The stage of the love. 0 is Girlfriend, 1 is Fiancée, 2 is Wife */
+	Stage?: 0 | 1 | 2;
+	/** The timestamp of the beginning of the relationship */
+	Start?: number;
 	// Bad data sometimes received from server
 	BeginDatingOfferedByMemberNumber?: never;
 	BeginEngagementOfferedByMemberNumber?: never;
@@ -1365,8 +1369,20 @@ interface Character {
 	IsDeaf: () => boolean;
 	IsGagged: () => boolean;
 	HasNoItem: () => boolean;
+	/** Whether the character is in love with the given character */
+	IsLoverOfCharacter: (C: Character) => boolean;
+	/** Whether the character is in love with the given character, number form */
+	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
+	/** The character's lover name. NPC-only */
+	LoverName: () => string;
+	/** Whether the character is in love with the player */
 	IsLoverOfPlayer: () => boolean;
+	/** Returns the list of member numbers (or names, for NPCs) the character is in love with */
 	GetLoversNumbers: (MembersOnly?: boolean) => (number | string)[];
+	/** Returns the lovership data for the character */
+	GetLovership: (MembersOnly?: boolean) => Lovership[];
+	/** @deprecated Use IsLoverOfCharacter() */
+	IsLover: (C: Character) => boolean;
 	HiddenItems: ItemPermissions[];
 	HeightRatio: number;
 	HasHiddenItems: boolean;
@@ -1384,10 +1400,7 @@ interface Character {
 	IsVulvaFull: () => boolean;
 	IsAssFull: () => boolean;
 	IsFixedHead: () => boolean;
-	IsLover: (C: Character) => boolean;
-	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
 	GetDeafLevel: () => number;
-	IsLoverPrivate: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
 	IsBirthday: () => boolean;

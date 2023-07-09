@@ -399,7 +399,7 @@ function DialogIsOwner() { return CurrentCharacter.IsOwner(); }
  * Determines, if the current character is the player's lover
  * @returns {boolean} - Returns true, if the current character is one of the player's lovers
  */
-function DialogIsLover() { return (CurrentCharacter.Name == Player.Lover.replace("NPC-", "")); }
+function DialogIsLover() { return CurrentCharacter.IsLoverOfCharacter(Player); }
 
 /**
  * Determines if the current character is owned by the player
