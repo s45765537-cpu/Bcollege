@@ -8361,6 +8361,19 @@ var AssetFemale3DCG = [
 				HideItem: ["HatFurHeadband"],
 			},
 			{
+				Name: "DobermanMask", Fetish: ["Leather"], Value: 1, Difficulty: 5, Time: 15, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default", "Default"], HasType: false,
+				Prerequisite: ["NotProtrudingFromMouth"],
+				Hide: ["HairFront", "FacialHair", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+				HideItem: ["HatFurHeadband"],
+				Layer: [
+					{ Name: "Mask", AllowColorize: true },
+					{ Name: "Edges", AllowColorize: true },
+					{ Name: "Metal", AllowColorize: true },
+					{ Name: "Shine", AllowColorize: true },
+				],	
+			},
+			{
 				Name: "TechnoHelmet1", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 7, DefaultColor: ["#1E7484", "Default", "#2F2F2F", "#999999", "#246489"], RemoveTime: 10, AllowLock: true, DrawLocks: false, Effect: [], Extended: true,
 				Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "ItemEars", "Glasses"],
 				Layer: [

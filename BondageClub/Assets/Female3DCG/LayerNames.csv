@@ -877,6 +877,10 @@ ItemHoodGP9GasMaskMouth,Mouthpiece
 ItemHoodGP9GasMaskLens,Lens
 ItemHoodGP9GasMaskMask,Mask
 ItemHoodGP9GasMaskEdges,Edges
+ItemHoodDobermanMaskMask,Mask
+ItemHoodDobermanMaskEdges,Edges
+ItemHoodDobermanMaskMetal,Rivets
+ItemHoodDobermanMaskShine,Shine
 ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
 ItemHoodOldGasMaskMask,Mask
