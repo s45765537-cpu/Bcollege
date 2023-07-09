@@ -903,6 +903,7 @@ ItemLegs,LeatherDeluxeLegCuffs,Leather Deluxe Leg Cuffs
 ItemLegs,FuturisticLegCuffs,Futuristic Leg Cuffs
 ItemLegs,OrnateLegCuffs,Ornate Leg Cuffs
 ItemLegs,LegBinder,Leg Binder
+ItemLegs,ShinyLegBinder,Shiny Leg Binder
 ItemLegs,HobbleSkirt,Hobble Skirt
 ItemLegs,SeamlessLegBinder,Seamless Leg Binder
 ItemLegs,SeamlessHobbleSkirt,Seamless Hobble Skirt
@@ -1151,6 +1152,7 @@ ItemArms,Bolero,Bolero Straitjacket
 ItemArms,DuctTape,Duct Tape
 ItemArms,BitchSuit,Pet Suit
 ItemArms,ShinyPetSuit,Shiny Pet Suit
+ItemArms,ShinyStraitjacket,Shiny Straitjacket
 ItemArms,StraitDress,Strait Dress
 ItemArms,StraitDressOpen,Open Crotch Strait Dress
 ItemArms,SeamlessStraitDress,Seamless Strait Dress

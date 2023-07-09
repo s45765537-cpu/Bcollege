@@ -434,6 +434,12 @@ ItemLegsLeatherDeluxeLegCuffsChain,Chain
 ItemLegsLeatherDeluxeLegCuffsLock,Lock
 ItemLegsLegBinderLatex,Binder
 ItemLegsLegBinderBelts,Belts
+ItemLegsShinyLegBinderLatex,Binder
+ItemLegsShinyLegBinderShine,Shine
+ItemLegsShinyLegBinderBelts,Straps
+ItemLegsShinyLegBinderMetal,Buckles
+ItemLegsShinyLegBinderDetails,Details
+ItemLegsShinyLegBinderLock,Locks
 ItemLegsHobbleSkirtLatex,Skirt
 ItemLegsHobbleSkirtBelts,Belts
 ItemLegsMedicalBedRestraintsBase,Bed Straps
@@ -634,6 +640,12 @@ ItemArmsShinyPetSuitZips,Shine
 ItemArmsShinyPetSuitStraps,Straps
 ItemArmsShinyPetSuitBuckles,Buckles
 ItemArmsShinyPetSuitLock,Locks
+ItemArmsShinyStraitjacketLeather,Jacket
+ItemArmsShinyStraitjacketLeather2,Stripes
+ItemArmsShinyStraitjacketShine,Shine
+ItemArmsShinyStraitjacketBelts,Straps
+ItemArmsShinyStraitjacketMetal,Buckles
+ItemArmsShinyStraitjacketLock,Locks
 ItemArmsTentaclesLowerInner,Inner
 ItemArmsTentaclesLowerSucker,Suckers
 ItemArmsTentaclesLowerOuter,Outer
