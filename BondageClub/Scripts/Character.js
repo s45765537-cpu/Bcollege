@@ -1856,8 +1856,18 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			refresh = true;
 
 
-		if (C.DrawAppearance.some(a => a.Asset && a.Asset.NotVisibleOnScreen && a.Asset.NotVisibleOnScreen.length > 0))
-			refresh = true;
+		// We use Appearance there so that the hook's registration is stable.
+		// Otherwise it would get unregistered on a second draw pass as the asset has been correctly removed.
+		if (C.Appearance.some(a => a.Asset && a.Asset.NotVisibleOnScreen && a.Asset.NotVisibleOnScreen.includes(CurrentScreen))) {
+			const notVisibleOnScreenHook = () => {
+				C.DrawAppearance = C.DrawAppearance.filter(item => !item.Asset.NotVisibleOnScreen || !item.Asset.NotVisibleOnScreen.includes(CurrentScreen));
+			};
+			if (C.RegisterHook("BeforeSortLayers", "NotVisibleOnScreen", notVisibleOnScreenHook))
+				refresh = true;
+		} else {
+			if (C.UnregisterHook("BeforeSortLayers", "NotVisibleOnScreen"))
+				refresh = true;
+		}
 
 		// Hook for layer visibility
 		// Visibility is a string individual layers have. If an item has any layers with visibility, it should have the LayerVisibility: true property

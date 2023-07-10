@@ -472,9 +472,6 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		return true;
 	}
 
-	if (assetToCheck && assetToCheck.NotVisibleOnScreen && assetToCheck.NotVisibleOnScreen.indexOf(CurrentScreen) >= 0)
-		return false;
-
 	if (C.Pose != null) {
 		for (let A = 0; A < C.Pose.length; A++) {
 			const P = Pose.find(p => p.Name === C.Pose[A]);
