@@ -3543,7 +3543,7 @@ var AssetFemale3DCG = [
 		Group: "EyeShadow",
 		Priority: 8,
 		Left: 200,
-		Top: 135,
+		Top: 133,
 		PreviewZone: [190, 100, 120, 120],
 		Random: false,
 		Asset: [
