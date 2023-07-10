@@ -1068,7 +1068,12 @@ function InventoryGetItemProperty(Item, PropertyName, CheckGroup=false) {
  * @param {readonly ExpressionTrigger[]} expressions - The expression change to apply to each group
  */
 function InventoryExpressionTriggerApply(C, expressions) {
-	const expressionsAllowed = C.ID === 0 || C.AccountName.startsWith("Online-") ? C.OnlineSharedSettings.ItemsAffectExpressions : true;
+	// NPCs and simple character usually lack `OnlineSharedSettings.ItemsAffectExpressions` unless explicitly added
+	let expressionsAllowed = C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions;
+	if (expressionsAllowed === undefined) {
+		expressionsAllowed = true;
+	}
+
 	if (expressionsAllowed) {
 		expressions.forEach(expression => {
 			const targetGroupItem = InventoryGet(C, expression.Group);
