@@ -6,9 +6,9 @@ function AssetsItemNeckRestraintsPetPostAfterDrawHook(data, originalFunction, {
 }) {
 	if (L === "_Text") {
 		// Setup a canvas to draw the post's text
-		let Height = 100;
+		let Height = 110;
 		let Width = 90;
-		let YOffset = 20;
+		let YOffset = 10;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 		TextItem.Init(data, C, CA, false);
