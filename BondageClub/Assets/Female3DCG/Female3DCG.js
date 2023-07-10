@@ -4023,7 +4023,7 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowTypes: [""], },
 					{ Name: "Shine_Asylum", AllowTypes: ["Asylum"], CopyLayerColor: "Shine", },
 					{ Name: "Shine_Classic", AllowTypes: ["Classic"], CopyLayerColor: "Shine", },
-					{ Name: "Shine_Beltbinder", AllowTypes: ["Beltbinder"], CopyLayerColor: "Shine", },					
+					{ Name: "Shine_Beltbinder", AllowTypes: ["Beltbinder"], CopyLayerColor: "Shine", },
 					{ Name: "Lock", LockLayer: true, AllowTypes: ["", "Classic", "Beltbinder"], AllowColorize: true},
 					{ Name: "Lock_Asylum", LockLayer: true, AllowColorize: true, AllowTypes: ["Asylum"], CopyLayerColor: "Lock", },
 				]
@@ -8371,7 +8371,7 @@ var AssetFemale3DCG = [
 					{ Name: "Edges", AllowColorize: true },
 					{ Name: "Metal", AllowColorize: true },
 					{ Name: "Shine", AllowColorize: true },
-				],	
+				],
 			},
 			{
 				Name: "TechnoHelmet1", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 7, DefaultColor: ["#1E7484", "Default", "#2F2F2F", "#999999", "#246489"], RemoveTime: 10, AllowLock: true, DrawLocks: false, Effect: [], Extended: true,
@@ -8920,6 +8920,7 @@ var AssetFemale3DCG = [
 				AllowPose: [], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }, { Name: "Soft", Group: "Eyebrows", Timer: 5 }],
 				DynamicAfterDraw: true, Extended: true, AlwaysExtend: true, Top: 352, Left: 310,
 				FixedPosition: true,
+				DynamicGroupName: "ItemNeckRestraints",
 				Layer: [
 					//Pole Base
 					{ Name: "PoleShade", Priority: 10, AllowColorize: false, HasType: false},
