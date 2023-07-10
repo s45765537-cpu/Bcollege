@@ -6567,6 +6567,7 @@ var AssetFemale3DCG = [
 				AllowPose: [], Effect: ["IsChained", "Tethered"], ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }, { Name: "Soft", Group: "Eyebrows", Timer: 5 }],
 				DynamicAfterDraw: true, Extended: true, AlwaysExtend: true, Top: 352, Left: 310,
 				FixedPosition: true,
+				HideItem: ["ItemMiscPetPost"],
 				Layer: [
 					//Pole Base
 					{ Name: "PoleShade", Priority: 10, AllowColorize: false, HasType: false},

@@ -3314,6 +3314,9 @@ var AssetFemale3DCGExtended = {
 									AfterDraw: AssetsItemHeadDroneMaskAfterDrawHook,
 								},
 							},
+							Property: {
+								HideItem: ["ItemHeadDroneMask"],
+							},
 						}, // text
 					],
 				},
@@ -7524,6 +7527,9 @@ var AssetFemale3DCGExtended = {
 								ScriptHooks: {
 									AfterDraw: AssetsItemHeadDroneMaskAfterDrawHook,
 								},
+							},
+							Property: {
+								HideItem: ["ItemHeadDroneMask", "ItemHoodDroneMask"],
 							},
 						}, // text
 					],
