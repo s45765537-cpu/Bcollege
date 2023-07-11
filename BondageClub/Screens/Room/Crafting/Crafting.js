@@ -229,7 +229,7 @@ function CraftingRun() {
 		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		if (CraftingDestroy) {
-			DrawText(TextGet("SelectDestroy"), 840, 60, "White", "Black");
+			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${CraftingSlotMax / 20}.`, 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 		} else {
 			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${CraftingSlotMax / 20}.`, 840, 60, "White", "Black");
