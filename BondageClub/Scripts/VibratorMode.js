@@ -380,7 +380,6 @@ function VibratorModeSetAssetProperties(data) {
 	VibratorModeSetAllowEffect(data);
 	if (data.parentOption === null) {
 		asset.AllowType = Object.values(VibratorMode);
-		VibratorModeSetEffect(data);
 	}
 }
 
@@ -397,17 +396,6 @@ function VibratorModeSetAllowEffect({asset, modeSet}) {
 		// @ts-ignore: ignore `readonly` while still building the asset
 		CommonArrayConcatDedupe(asset.AllowEffect, ["Edged"]);
 	}
-}
-
-/**
- * Sets the Effect property for a vibrating item
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeSetEffect({asset}) {
-	asset.Effect = Array.isArray(asset.Effect) ? [...asset.Effect] : [];
-	// @ts-ignore: ignore `readonly` while still building the asset
-	CommonArrayConcatDedupe(asset.Effect, ["Egged"]);
 }
 
 /**
