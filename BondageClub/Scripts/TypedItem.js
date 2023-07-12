@@ -118,8 +118,13 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
  * @param {Partial<ElementMetaData.Typed>} overrideMetaData
  * @return {ExtendedItemDrawData<ElementMetaData.Typed>} - The parsed draw data
  */
-function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={ drawImage: true }) {
-	const drawImage = ("drawImage" in overrideMetaData) ? overrideMetaData.drawImage : true;
+function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
+	let drawImage = true;
+	if (typeof overrideMetaData.drawImage !== "boolean") {
+		overrideMetaData = { ...overrideMetaData, drawImage: true };
+	} else {
+		drawImage = overrideMetaData.drawImage;
+	}
 	const IsCloth = asset.Group.Clothing;
 	const standardPositions = !IsCloth ? (overrideMetaData.drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
 	const height = overrideMetaData.drawImage ? 275 : 55;
