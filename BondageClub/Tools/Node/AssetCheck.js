@@ -642,6 +642,71 @@ function testAssetLayerNames(assets) {
 }
 
 /**
+ * Test whether a subset of asset and extended item properties are disjoint.
+ * The subset concerns those properties that BC always checks at both the asset and item level.
+ * @param {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ */
+function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
+	/**
+	 * All array-like properties that BC checks at both the asset and item level.
+	 * @satisfies {readonly (keyof ItemProperties)[]}
+	 */
+	const propNames = /** @type {const} */([
+		"Effect",
+		"Hide",
+		"HideItem",
+		"HideItemExclude",
+		"Block",
+		"AllowActivityOn",
+	]);
+
+	// Gather all expected image paths
+	for (const [archetype, dataRecord] of Object.entries(dataSuperRecord)) {
+		if (dataRecord === null || typeof dataRecord !== "object") {
+			error(`${archetype} data lookup not found`);
+			continue;
+		}
+
+		for (const data of Object.values(dataRecord)) {
+			/** @type {ExtendedItemOption[]} */
+			const options = [];
+			if (data.archetype === "modular") {
+				// Check the modules' drawdata as well
+				for (const mod of data.modules) {
+					options.push(...mod.Options);
+				}
+			} else {
+				if (Array.isArray(data.options)) {
+					options.push(...data.options);
+				}
+			}
+
+			const asset = data.asset;
+			for (const propName of propNames) {
+				/** @type {Set<string>} */
+				const propSet = new Set();
+				for (const option of options) {
+					/** @type {string[]} */
+					const propArray = (option.Property && option.Property[propName]) || [];
+					for (const i of propArray) {
+						propSet.add(i);
+					}
+				}
+
+				/** @type {string[]} */
+				const intersection = (asset[propName] || []).filter(i => propSet.has(i)).sort();
+				if (intersection.length > 0) {
+					error(
+						`${asset.Group.Name}:${asset.Name}: found ${intersection.length} intersection(s) `
+						+ `between asset and extended item option "${propName}" properties: ${intersection}`
+					);
+				}
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -845,4 +910,11 @@ function sanitizeVMOutput(input) {
 		vibrating: VibratingItemDataLookup,
 	});
 	testAssetLayerNames(assetList);
+	testAssetAndExtendedPropertyIsDisjoint({
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	});
 })();
