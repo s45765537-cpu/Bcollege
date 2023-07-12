@@ -157,14 +157,22 @@ function CommonDrawAppearanceBuild(C, {
 		}
 
 		// Check if we need to copy the color of another asset
-		const InheritColor = (Color == "Default" ? (Layer.InheritColor || A.InheritColor || AG.InheritColor) : null);
 		let ColorInherited = false;
-		if (InheritColor != null) {
-			const ParentAsset = InventoryGet(C, InheritColor);
-			if (ParentAsset != null) {
-				const ParentColor = Array.isArray(ParentAsset.Color) ? ParentAsset.Color[0] : ParentAsset.Color;
-				Color = CommonDrawColorValid(ParentColor, ParentAsset.Asset.Group) ? ParentColor : "Default";
-				ColorInherited = true;
+		let colorGroup = (Color == "Default" ? (Layer.InheritColor || A.InheritColor || AG.InheritColor) : null);
+		while (colorGroup != null) {
+			const parentItem = InventoryGet(C, colorGroup);
+			if (parentItem != null) {
+				const InheritColor = parentItem.Color === "Default" && (parentItem.Asset.InheritColor || parentItem.Asset.Group.InheritColor);
+				if (InheritColor) {
+					colorGroup = InheritColor;
+				} else {
+					const ParentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
+					Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
+					ColorInherited = true;
+					colorGroup = null;
+				}
+			} else {
+				colorGroup = null;
 			}
 		}
 
@@ -266,7 +274,7 @@ function CommonDrawAppearanceBuild(C, {
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
 			// that text)
 			if ((Color != null) && (Color.indexOf("#") == 0) && Layer.AllowColorize) {
-				const ColorName = ((SuffixName == undefined) || (L != "")) ? "" : "_" + SuffixName;
+				const ColorName = (SuffixName != undefined) ? "_" + SuffixName : "";
 
 				drawImageColorize(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
@@ -286,9 +294,7 @@ function CommonDrawAppearanceBuild(C, {
 					|| (Color.indexOf("#") == 0)
 				) ? "" : "_" + Color;
 
-				if (L != "") {
-					ColorName = "";
-				} else if (SuffixName != undefined) {
+				if (SuffixName != undefined) {
 					ColorName = ((SuffixName == "Default") || (SuffixName == "")) ? "" : "_" + SuffixName;
 				}
 

@@ -9536,11 +9536,11 @@ var AssetFemale3DCG = [
 					"ItemHandheld", "ItemNeck", "ItemNeckRestraints", "ItemNeckRestraints", "ItemAddon",
 				],
 				Layer: [
-					{ Name: "Butt", InheritColor: "BodyUpper", Priority: 64, HideColoring: true },
+					{ Name: "Butt", InheritColor: "BodyLower", Priority: 64, HideColoring: true },
 					{ Name: "Penis", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PenisLayer"], HideColoring: true },
 					{ Name: "Pussy", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PussyLayer"], HideColoring: true },
-					{ Name: "Feet", InheritColor: "BodyUpper", AllowModuleTypes: ["l0"], Priority: 64, HideColoring: true },
-					{ Name: "Legs", InheritColor: "BodyUpper", AllowModuleTypes: ["l1"], Priority: 64, HideColoring: true },
+					{ Name: "Feet", InheritColor: "BodyLower", AllowModuleTypes: ["l0"], Priority: 64, HideColoring: true },
+					{ Name: "Legs", InheritColor: "BodyLower", AllowModuleTypes: ["l1"], Priority: 64, HideColoring: true },
 					{ Name: "Hands", InheritColor: "BodyUpper", AllowModuleTypes: ["a0"], Priority: 64, HideColoring: true },
 					{ Name: "Text", HasImage: false, Priority: 65 },
 
