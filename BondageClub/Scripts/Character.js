@@ -1544,12 +1544,13 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color) {
 	if (Expression != null && !item.Asset.Group.AllowExpression.includes(Expression)) return;
 
 	if (!item.Property) item.Property = {};
-	if (item.Property.Expression == Expression) return;
+	if (item.Property.Expression == Expression && (!Color || item.Color == Color)) return;
 
 	item.Property.Expression = Expression;
 	if (Color && CommonColorIsValid(Color)) item.Color = Color;
 	delete item.Property.RemoveTimer;
-	if (Timer != null) TimerInventoryRemoveSet(C, AssetGroup, Timer);
+	// We can't have timers on the null/default expression.
+	if (Timer != null && Expression != null) TimerInventoryRemoveSet(C, AssetGroup, Timer);
 
 	CharacterRefresh(C);
 	if (CurrentScreen == "ChatRoom") {
