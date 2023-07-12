@@ -556,6 +556,9 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption) {
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return DialogFindPlayer("ExtendedItemUnlockBeforeChange");
+	} else if (newOption.OptionType === "ExtendedItemOption" && CurrentScreen === "Crafting") {
+		// Disable things like the shock button while modifying the crafting preview character
+		return DialogFindPlayer("ExtendedItemNoCraftingScreen");
 	}
 
 	return "";
