@@ -1396,6 +1396,10 @@ function PreferenceSubscreenOnlineRun() {
 	MainCanvas.textAlign = "center";
 }
 
+function PreferenceSubscreenArousalLoad() {
+	CharacterAppearanceForceUpCharacter = Player.MemberNumber;
+}
+
 /**
  * Sets the arousal preferences for a player. Redirected to from the main Run function if the player is in the arousal
  * settings subscreen
@@ -2745,6 +2749,8 @@ function PreferenceSubscreenChatExit() {
 function PreferenceSubscreenArousalExit() {
 	PreferenceSubscreen = "";
 	Player.FocusGroup = null;
+	CharacterAppearanceForceUpCharacter = -1;
+	CharacterLoadCanvas(Player);
 }
 
 /**
