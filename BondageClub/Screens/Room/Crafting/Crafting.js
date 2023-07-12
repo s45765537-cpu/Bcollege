@@ -163,6 +163,10 @@ function CraftingLoad() {
 	CraftingPreview.Lovership = [
 		{ MemberNumber: Player.MemberNumber, Name: Player.Name, Start: CommonTime(), Stage: 2 },
 	];
+	// @ts-expect-error: partially initialized interface
+	CraftingPreview.OnlineSharedSettings = {
+		ItemsAffectExpressions: false,
+	};
 	CharacterReleaseTotal(CraftingPreview);
 }
 
