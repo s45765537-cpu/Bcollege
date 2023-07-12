@@ -950,7 +950,7 @@ interface AssetGroup {
 	SetPose?: readonly AssetPoseName[];
 	AllowPose: readonly AssetPoseName[];
 	AllowExpression?: readonly ExpressionName[];
-	Effect?: readonly EffectName[];
+	Effect: readonly EffectName[];
 	MirrorGroup: AssetGroupName | "";
 	RemoveItemOnRemove: readonly { Group: AssetGroupItemName; Name: string; Type?: string }[];
 	DrawingPriority: number;
@@ -1137,7 +1137,7 @@ interface Asset {
 	AllowActivityOn?: readonly AssetGroupItemName[];
 	BuyGroup?: string;
 	PrerequisiteBuyGroups?: readonly string[];
-	Effect?: readonly EffectName[];
+	Effect: readonly EffectName[];
 	Bonus?: AssetBonusName;
 	Block?: readonly AssetGroupItemName[];
 	Expose: readonly AssetGroupItemName[];
