@@ -2195,11 +2195,3 @@ declare function UpdateModels(m: Character);
 declare function KDGetAvailablePosesArms(m: Model);
 declare function KDGetAvailablePosesLegs(m: Model);
 declare function suppressCanvasUpdate(cb: () => void);
-
-declare var EYEPOSES: string[];
-declare var EYE2POSES: string[];
-declare var BROWPOSES: string[];
-declare var BROW2POSES: string[];
-declare var MOUTHPOSES: string[];
-declare var BLUSHPOSES: string[];
-declare var STANDPOSES: string[];

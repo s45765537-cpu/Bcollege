@@ -265,6 +265,7 @@ var KinkyDungeonFiles = [
 	"Screens/MiniGame/KinkyDungeon/KinkyDungeonLootList.js",
 	"Screens/MiniGame/KinkyDungeon/KinkyDungeonMusic.js",
 	"Screens/MiniGame/KinkyDungeon/KDDelayedActions.js",
+	"Screens/MiniGame/KinkyDungeon/KDWardrobe.js",
 ];
 
 var KinkyDungeonIsLoading = false;
