@@ -1,6 +1,6 @@
 PlayerGagged,,,"Let me guess, you've lost your last battle?   (She laughs.)",,
-ClubCardVictory,,,"Congratulations Miss, you're a true card sensei.  I'm your prisoner to bind, we have more ropes in these bags.",,
-ClubCardDefeat,,,"That was good game Miss.  Sorry I won't tie you up, but we can play another match if you want.",,
+ClubCardVictory,,,"Well done, you're a card Mistress.  It's a good thing we haven't bet anything on that game.  (She winks at you.)",,
+ClubCardDefeat,,,"Good game girl!   Don't be sad for losing, my deck has been studied carefully.  Another match?",,
 0,,,It's an honor to see you DialogPlayerName.  Would you like to try a new class?,,"DialogReputationGreater(""LARP"", 100)"
 0,,,It's always a pleasure to see you DialogPlayerName.  Would you like to try a new class?,,"DialogReputationGreater(""LARP"", 50)"
 0,,,"Welcome to the Live Action Role Playing battles DialogPlayerName.  Do you need some explanations, or would you like to try a new class?",,"DialogReputationGreater(""LARP"", 1)"
