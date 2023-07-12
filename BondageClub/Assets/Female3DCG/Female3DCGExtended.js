@@ -740,8 +740,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 2,
 						SetPose: ["LegsClosed", "BackElbowTouch"],
-						Effect: ["Block", "Freeze", "Prone"],
-						Block: ["ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 					},
 				},
@@ -753,8 +751,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 4,
 						SetPose: ["LegsClosed", "BackElbowTouch"],
-						Effect: ["Block", "Freeze", "Prone"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 					},
 					Random: false,
@@ -767,9 +764,8 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 4,
 						SetPose: ["Hogtied"],
-						Effect: ["Block", "Freeze", "Prone"],
-						Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
+						Hide: ["ClothAccessory", "Necklace", "Socks"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 					},
 					Random: false,
 				},
@@ -781,8 +777,8 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+						Effect: ["Suspended"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 					},
 					Random: false,
@@ -795,9 +791,9 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 8,
 						SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
-						Effect: ["Block", "Freeze", "Prone"],
-						Hide: ["BodyLower", "Cloth", "ClothLower", "Shoes", "SuitLower", "Panties", "Socks", "Pussy", "ItemFeet", "ItemLegs", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemBoots", "ItemHands", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+						Effect: ["Suspended"],
+						Hide: ["BodyLower", "SuitLower", "Panties", "Socks", "Pussy", "ItemFeet", "ItemLegs", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemBoots", "ItemHands", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 					},
 					Random: false,
 				},
@@ -809,9 +805,9 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 11,
 						SetPose: ["Hogtied"],
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
-						Hide: ["Cloth", "ClothLower", "ClothAccessory", "Necklace", "Shoes", "Socks"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
+						Effect: ["Suspended"],
+						Hide: ["ClothAccessory", "Necklace", "Socks"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
 						OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 },
 					},
 					Random: false,
@@ -830,28 +826,23 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Light",
-					Property: {
-						Effect: ["Block", "Prone"],
-					},
 				},
 				{
 					Name: "Inflated",
 					Property: {
-						Effect: ["Block", "Prone"],
 						Difficulty: 1,
 					},
 				},
 				{
 					Name: "Bloated",
 					Property: {
-						Effect: ["Block", "Prone"],
 						Difficulty: 2,
 					},
 				},
 				{
 					Name: "Max",
 					Property: {
-						Effect: ["Block", "Prone", "Freeze"],
+						Effect: ["Freeze"],
 						Difficulty: 3,
 					},
 				},
@@ -894,38 +885,38 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "WristTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "BoxTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
 				}, {
 					Name: "ChainCuffs",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
+					Property: { SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "WristElbowTie",
 					BondageLevel: 2,
-					Property: { Effect: ["Block", "Prone", "NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 2 },
+					Property: { Effect: ["NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
-					Property: { Effect: ["Block", "Prone", "NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 3 },
+					Property: { Effect: ["NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3, AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "KneelingSpread"], WhitelistActivePose: ["Kneel", "KneelingSpread"] },
+					Property: { Effect: ["Freeze", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3, AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "KneelingSpread"], WhitelistActivePose: ["Kneel", "KneelingSpread"] },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 				}, {
 					Name: "Hogtied",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied"], Difficulty: 3 },
+					Property: { Effect: ["Freeze", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 				}, {
@@ -940,7 +931,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "NotSelfPickable", "Suspended"],
+						Effect: ["Freeze", "NotSelfPickable", "Suspended"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
@@ -1164,28 +1155,25 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Crosstie",
-					Property: {
-						Block: ["ItemHands", "ItemHandheld"],
-					},
 				},
 				{
 					Name: "Asylum",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
 					},
 				},
 				{
 					Name: "Hardbinder",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
 					},
 				},
 				{
 					Name: "Classic",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
 					},
 				},
@@ -1224,16 +1212,16 @@ var AssetFemale3DCGExtended = {
 					Name: "Behind",
 					Property: {
 						SetPose: ["BackCuffs"],
-						Effect: ["Block", "Prone"],
-						Difficulty: 3
+						Effect: ["Block"],
+						Difficulty: 3,
 					},
 				},
 				{
 					Name: "Overhead",
 					Property: {
 						SetPose: ["OverTheHead"],
-						Effect: ["Block", "Prone"],
-						Difficulty: 3
+						Effect: ["Block"],
+						Difficulty: 3,
 					},
 				},
 			],
@@ -1554,14 +1542,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ZipLight",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackElbowTouch"],
 						Difficulty: 1
 					}
 				}, {
 					Name: "ZipMedium",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackElbowTouch"],
 						Difficulty: 2
 					},
@@ -1569,7 +1555,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipFull",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackElbowTouch"],
 						Difficulty: 3
 					},
@@ -1577,7 +1562,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipElbowWrist",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackElbowTouch"],
 						Difficulty: 1
 					},
@@ -1585,7 +1569,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipWristLight",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackBoxTie"],
 						Difficulty: 3
 					},
@@ -1593,7 +1576,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipWristMedium",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackBoxTie"],
 						Difficulty: 3
 					},
@@ -1601,7 +1583,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipWristFull",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackBoxTie"],
 						Difficulty: 3
 					},
@@ -1609,7 +1590,6 @@ var AssetFemale3DCGExtended = {
 				}, {
 					Name: "ZipWrist",
 					Property: {
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackBoxTie"],
 						Difficulty: 1
 					},
@@ -1618,7 +1598,7 @@ var AssetFemale3DCGExtended = {
 					Name: "ZipKneelingHogtie",
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3
@@ -1629,7 +1609,7 @@ var AssetFemale3DCGExtended = {
 					Name: "ZipHogtied",
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"], Difficulty: 3
@@ -1664,11 +1644,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Hogtie",
 					Property: {
-						SetPose: ["Hogtied"], Effect: ["Block", "Freeze", "Prone"], Difficulty: 6
+						SetPose: ["Hogtied"],
+						Effect: ["Freeze"],
+						Difficulty: 6,
 					},
 					Random: false,
-				}
-			]
+				},
+			],
 		}, //ThinLeatherStraps
 		MermaidSuit: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1894,40 +1876,40 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "WristTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "BoxTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
 				}, {
 					Name: "WristElbowTie",
 					BondageLevel: 2,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackElbowTouch"], Difficulty: 2 },
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "SimpleHogtie",
 					BondageLevel: 2,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Block", "Prone"], SetPose: ["Hogtied"], Difficulty: 2 },
+					Property: { SetPose: ["Hogtied"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
 					Random: false,
 				}, {
 					Name: "TightBoxtie",
 					BondageLevel: 3,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 3 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackElbowTouch"], Difficulty: 3 },
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
@@ -1943,7 +1925,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
@@ -1968,7 +1950,7 @@ var AssetFemale3DCGExtended = {
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Prerequisite: ["OnBed"],
-					Property: { Effect: ["Block", "Freeze", "Prone"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+					Property: { Effect: ["Freeze"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 				},
@@ -1986,48 +1968,48 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "WristTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "BoxTie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
 				}, {
 					Name: "CrossedBoxtie",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 1 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "RopeCuffs",
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
+					Property: { SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
 				}, {
 					Name: "WristElbowTie",
 					BondageLevel: 2,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackElbowTouch"], Difficulty: 2 },
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "SimpleHogtie",
 					BondageLevel: 2,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Block", "Prone"], SetPose: ["Hogtied"], Difficulty: 2 },
+					Property: { SetPose: ["Hogtied"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
 					Random: false,
 				}, {
 					Name: "TightBoxtie",
 					BondageLevel: 3,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackBoxTie"], Difficulty: 3 },
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
-					Property: { Effect: ["Block", "Prone"], SetPose: ["BackElbowTouch"], Difficulty: 3 },
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
 				}, {
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze",],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
@@ -2043,7 +2025,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone"],
+						Effect: ["Freeze"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
@@ -2068,7 +2050,7 @@ var AssetFemale3DCGExtended = {
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Prerequisite: ["OnBed"],
-					Property: { Effect: ["Block", "Freeze", "Prone"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+					Property: { Effect: ["Freeze"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 				}, {
@@ -2076,7 +2058,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 6,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Freeze", "Suspended"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
@@ -2107,7 +2089,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Freeze", "Suspended"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
@@ -2135,7 +2117,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Freeze", "Suspended"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
@@ -2163,7 +2145,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Freeze", "Suspended"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied", "Suspension"],
@@ -2191,7 +2173,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Freeze", "Suspended"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours", "Suspension"],
@@ -2250,7 +2232,6 @@ var AssetFemale3DCGExtended = {
 					Name: "HandsFront",
 					Property: {
 						Difficulty: 2,
-						Effect: ["Block", "Prone"],
 						SetPose: ["BaseUpper"],
 						SelfUnlock: true,
 					},
@@ -2259,7 +2240,6 @@ var AssetFemale3DCGExtended = {
 					Name: "HandsBack",
 					Property: {
 						Difficulty: 3,
-						Effect: ["Block", "Prone"],
 						SetPose: ["BackCuffs"],
 						SelfUnlock: false,
 					},
@@ -2268,7 +2248,7 @@ var AssetFemale3DCGExtended = {
 					Name: "HandsHead",
 					Property: {
 						Difficulty: 4,
-						Effect: ["Block", "Prone", "NotSelfPickable"],
+						Effect: ["NotSelfPickable"],
 						SetPose: ["Yoked"],
 						SelfUnlock: false,
 					},
@@ -2278,7 +2258,7 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Difficulty: 5,
-						Effect: ["Block", "Freeze", "Prone", "NotSelfPickable"],
+						Effect: ["Freeze", "NotSelfPickable"],
 						SetPose: ["Hogtied"],
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
@@ -2332,25 +2312,22 @@ var AssetFemale3DCGExtended = {
 						{
 							Property: {
 								Difficulty: 0,
-								Effect: ["Block", "Prone", "Slow"],
 							},
 						}, // r0 - Free
 						{
 							Property: {
 								Difficulty: 2,
-								Effect: ["Block", "Prone", "Slow"],
 							},
 						}, // r1 - Ankles
 						{
 							Property: {
 								Difficulty: 1,
-								Effect: ["Block", "Prone", "Slow"],
 							},
 						}, // r2 - Thighs
 						{
 							Property: {
 								Difficulty: 3,
-								Effect: ["Block", "Prone", "Freeze"],
+								Effect: ["Freeze"],
 							},
 						}, // r3 - Full
 					],
@@ -2931,7 +2908,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 2,
 						InflateLevel: 1,
-						Effect: ["GagLight", "BlockMouth"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
@@ -2939,7 +2916,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 4,
 						InflateLevel: 2,
-						Effect: ["GagEasy", "BlockMouth"],
+						Effect: ["GagEasy"],
 					},
 				},
 				{
@@ -2947,7 +2924,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						InflateLevel: 3,
-						Effect: ["GagMedium", "BlockMouth"],
+						Effect: ["GagMedium"],
 					},
 				},
 				{
@@ -2955,7 +2932,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 8,
 						InflateLevel: 4,
-						Effect: ["GagVeryHeavy", "BlockMouth"],
+						Effect: ["GagVeryHeavy"],
 					},
 				},
 			],
@@ -4575,7 +4552,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						SetPose: ["LegsClosed"],
-						Effect: ["Mounted"],
 					},
 				},
 				{
@@ -4585,7 +4561,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 2,
 						SetPose: ["LegsClosed", "BaseUpper"],
-						Effect: ["Block", "Prone", "Freeze", "Mounted"],
+						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 					},
 				},
@@ -4596,7 +4572,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 3,
 						SetPose: ["LegsClosed", "BaseUpper"],
-						Effect: ["Block", "Prone", "Freeze", "Mounted"],
+						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 					},
 				},
@@ -4607,7 +4583,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["LegsClosed", "BaseUpper"],
-						Effect: ["Block", "Prone", "Freeze", "Mounted"],
+						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 					},
@@ -4619,7 +4595,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 9,
 						SetPose: ["LegsClosed", "BaseUpper"],
-						Effect: ["Block", "Prone", "Freeze", "Mounted"],
+						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
 					},
@@ -4889,7 +4865,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Kneel",
 					Property: {
 						Difficulty: 3,
-						Effect: ["Freeze", "Prone", "ForceKneel"],
 						SetPose: ["Kneel"],
 					},
 				},
@@ -4897,7 +4872,6 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					Property: {
 						Difficulty: 6,
-						Effect: ["Freeze", "Prone"],
 						SetPose: ["AllFours"],
 					},
 				},
@@ -4905,7 +4879,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Suspended",
 					Property: {
 						Difficulty: 7,
-						Effect: ["Block", "Freeze", "Prone", "Suspended"],
+						Effect: ["Suspended"],
 						SetPose: ["Hogtied"],
 						Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
 						Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
@@ -4943,7 +4917,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["Yoked"],
 								AllowActivePose: ["LegsClosed", "BaseLower"],
 								Block: ["ItemArms"],
-								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "Block", "BlockKneel"],
 							},
 						}, // t1 - Rope
 						{
@@ -4953,7 +4927,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["OverTheHead"],
 								AllowActivePose: ["LegsClosed", "BaseLower"],
 								Block: ["ItemArms"],
-								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "Block", "BlockKneel"],
 
 							},
 						}, // t2 - RopeTight
@@ -4965,7 +4939,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["Yoked"],
 								AllowActivePose: ["LegsClosed", "BaseLower"],
 								Block: ["ItemArms"],
-								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "Block", "BlockKneel"],
 							},
 						}, // t3 - Chains
 						{
@@ -4976,7 +4950,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["OverTheHead"],
 								AllowActivePose: ["LegsClosed", "BaseLower"],
 								Block: ["ItemArms"],
-								Effect: ["Prone", "Freeze", "Block", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "Block", "BlockKneel"],
 							},
 						}, // t4 - ChainsTight
 						{
@@ -4985,7 +4959,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 12,
 								SetPose: ["Yoked"],
 								Block: ["ItemArms"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 							},
 						}, // t5 - Stocks
 					],
@@ -4999,7 +4973,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 6,
 								SetPose: ["Spread"],
 								Block: ["ItemFeet", "ItemLegs"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						}, // b1 - Rope
@@ -5008,7 +4982,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 6,
 								SetPose: ["LegsClosed"],
 								Block: ["ItemFeet", "ItemLegs"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						}, // b2 - RopeTight
@@ -5019,7 +4993,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 10,
 								SetPose: ["Spread"],
 								Block: ["ItemFeet", "ItemLegs"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						}, // b3 - Chains
@@ -5030,7 +5004,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 10,
 								SetPose: ["LegsClosed"],
 								Block: ["ItemFeet", "ItemLegs"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 								Hide: ["ItemBoots", "Shoes"]
 							},
 						}, // b4 - ChainsTogether
@@ -5040,7 +5014,7 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 12,
 								SetPose: ["BaseLower"],
 								Block: ["ItemFeet", "ItemLegs"],
-								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
+								Effect: ["Prone", "BlockKneel"],
 								Hide: ["ItemBoots", "Shoes", "ItemFeet", "ItemLegs"],
 							},
 						}, // b5 - Stocks
@@ -5149,11 +5123,9 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "SWNE",
-					Property: { Effect: ["Prone", "Enclose", "Freeze"] },
 				},
 				{
 					Name: "NWSE",
-					Property: { Effect: ["Prone", "Enclose", "Freeze"] },
 				},
 			],
 			BaselineProperty: { Opacity: 0, Text: "" },
@@ -5492,11 +5464,11 @@ var AssetFemale3DCGExtended = {
 					Key: "i",
 					DrawImages: false,
 					Options: [
-						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // i0 - Turn Off
-						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // i1 - Low
-						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // i2 - Medium
-						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // i3 - High
-						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // i4 - Maximum
+						{ Property: { Intensity: -1 } }, // i0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Vibrating"] } }, // i1 - Low
+						{ Property: { Intensity: 1, Effect: ["Vibrating"] } }, // i2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Vibrating"] } }, // i3 - High
+						{ Property: { Intensity: 3, Effect: ["Vibrating"] } }, // i4 - Maximum
 					],
 				},
 			],
@@ -5570,11 +5542,11 @@ var AssetFemale3DCGExtended = {
 					Key: "d",
 					DrawImages: false,
 					Options: [
-						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // d0 - Turn Off
-						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // d1 - Low
-						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // d2 - Medium
-						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // d3 - High
-						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // d4 - Maximum
+						{ Property: { Intensity: -1 } }, // d0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Vibrating"] } }, // d1 - Low
+						{ Property: { Intensity: 1, Effect: ["Vibrating"] } }, // d2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Vibrating"] } }, // d3 - High
+						{ Property: { Intensity: 3, Effect: ["Vibrating"] } }, // d4 - Maximum
 					],
 				},
 				{
@@ -5582,11 +5554,11 @@ var AssetFemale3DCGExtended = {
 					Key: "e",
 					DrawImages: false,
 					Options: [
-						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // e0 - Turn Off
-						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // e1 - Low
-						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // e2 - Medium
-						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // e3 - High
-						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // e4 - Maximum
+						{ Property: { Intensity: -1 } }, // e0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Vibrating"] } }, // e1 - Low
+						{ Property: { Intensity: 1, Effect: ["Vibrating"] } }, // e2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Vibrating"] } }, // e3 - High
+						{ Property: { Intensity: 3, Effect: ["Vibrating"] } }, // e4 - Maximum
 					],
 				},
 			],
@@ -5722,7 +5694,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						Intensity: 0,
-						Effect: ["IsPlugged"],
 					},
 				},
 				{
@@ -5730,7 +5701,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 8,
 						Intensity: 1,
-						Effect: ["IsPlugged", "Freeze", "Egged"]
+						Effect: ["Freeze", "Egged"],
 					},
 					Random: false,
 				},
@@ -5739,8 +5710,8 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 4,
 						Intensity: 1,
-						Effect: ["IsPlugged", "Egged"]
-					}
+						Effect: ["Egged"],
+					},
 				},
 			],
 			DialogPrefix: {
@@ -6441,31 +6412,31 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Small",
 					Property: {
-						Effect: ["BlockMouth", "GagVeryLight"],
+						Effect: ["GagVeryLight"],
 					},
 				},
 				{
 					Name: "Cleave",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
 					Name: "Knotted",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
 					Name: "OTM",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
 					Name: "OTN",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 			],
@@ -6481,13 +6452,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Loose",
 					Property: {
-						Effect: ["BlockMouth", "GagVeryLight"],
+						Effect: ["GagVeryLight"],
 					},
 				},
 				{
 					Name: "OTN",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 			],
@@ -6502,15 +6473,9 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
-					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
-					},
 				},
 				{
 					Name: "Tight",
-					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
-					},
 				},
 			],
 			DialogPrefix: {
@@ -6524,21 +6489,12 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
-					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
-					},
 				},
 				{
 					Name: "Shiny",
-					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
-					},
 				},
 				{
 					Name: "Tight",
-					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
-					},
 				},
 			],
 			DialogPrefix: {
@@ -6553,13 +6509,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 					Property: {
-						Effect: ["BlockMouth", "GagEasy"],
+						Effect: ["GagEasy"],
 					},
 				},
 				{
 					Name: "Tight",
 					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
+						Effect: ["GagNormal"],
 					},
 				},
 			],
@@ -6579,31 +6535,31 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Small",
 					Property: {
-						Effect: ["BlockMouth", "GagVeryLight"],
+						Effect: ["GagVeryLight"],
 					},
 				},
 				{
 					Name: "Crossed",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
 					Name: "Full",
 					Property: {
-						Effect: ["BlockMouth", "GagEasy"],
+						Effect: ["GagEasy"],
 					},
 				},
 				{
 					Name: "Double",
 					Property: {
-						Effect: ["BlockMouth", "GagNormal"],
+						Effect: ["GagNormal"],
 					},
 				},
 				{
 					Name: "Cover",
 					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
+						Effect: ["GagMedium"],
 					},
 				},
 			],
@@ -6618,15 +6574,9 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
-					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
-					},
 				},
 				{
 					Name: "Tight",
-					Property: {
-						Effect: ["BlockMouth", "GagMedium"],
-					},
 				},
 			],
 			DialogPrefix: {
@@ -6640,21 +6590,12 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "NoCup",
-					Property: {
-						Effect: ["BlockMouth", "GagEasy"],
-					},
 				},
 				{
 					Name: "Tip",
-					Property: {
-						Effect: ["BlockMouth", "GagEasy"],
-					},
 				},
 				{
 					Name: "Cup",
-					Property: {
-						Effect: ["BlockMouth", "GagEasy"],
-					},
 				},
 			],
 			DialogPrefix: {
@@ -6672,7 +6613,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						InflateLevel: 0,
 						Difficulty: 0,
-						Effect: ["BlockMouth"],
 					},
 				},
 				{
@@ -6680,7 +6620,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						InflateLevel: 1,
 						Difficulty: 2,
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 				{
@@ -6688,7 +6628,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						InflateLevel: 2,
 						Difficulty: 4,
-						Effect: ["BlockMouth", "GagEasy"],
+						Effect: ["GagEasy"],
 					},
 				},
 				{
@@ -6696,7 +6636,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						InflateLevel: 3,
 						Difficulty: 6,
-						Effect: ["BlockMouth", "GagMedium"],
+						Effect: ["GagMedium"],
 					},
 				},
 				{
@@ -6704,7 +6644,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						InflateLevel: 4,
 						Difficulty: 8,
-						Effect: ["BlockMouth", "GagVeryHeavy"],
+						Effect: ["GagVeryHeavy"],
 					},
 				},
 			],
@@ -6721,12 +6661,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Open",
+					Property: {
+						Effect: ["GagMedium", "OpenMouth"],
+					},
 				},
 				{
 					Name: "Plug",
 					Property: {
 						Effect: ["BlockMouth", "GagTotal"],
-						OverrideAssetEffect: true,
 					},
 				},
 			],
@@ -6741,12 +6683,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Open",
+					Property: {
+						Effect: ["GagEasy", "OpenMouth"],
+					},
 				},
 				{
 					Name: "Plug",
 					Property: {
 						Effect: ["BlockMouth", "GagTotal2"],
-						OverrideAssetEffect: true,
 					},
 				},
 			],
@@ -6780,12 +6724,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "None",
+					Property: {
+						Effect: ["OpenMouth"]
+					}
 				},
 				{
 					Name: "Funnel",
 					Property: {
-						Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
-						OverrideAssetEffect: true,
+						Effect: ["BlockMouth", "ProtrudingMouth"],
 					},
 				},
 			],
@@ -6800,12 +6746,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Attached",
+					Property: {
+						Effect: ["BlockMouth", "GagLight"],
+					},
 				},
 				{
 					Name: "Detached",
 					Property: {
 						Effect: ["OpenMouth"],
-						OverrideAssetEffect: true
 					},
 				},
 			],
@@ -6822,12 +6770,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Open",
+					Property: {
+						Effect: ["OpenMouth", "GagLight"],
+					},
 				},
 				{
 					Name: "Closed",
 					Property: {
 						Effect: ["BlockMouth", "GagMedium"],
-						OverrideAssetEffect: true
 					},
 				},
 			],
@@ -6839,13 +6789,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Basic",
 					Property: {
-						Effect: ["BlockMouth", "GagVeryLight"],
+						Effect: ["GagVeryLight"],
 					},
 				},
 				{
 					Name: "Bow",
 					Property: {
-						Effect: ["BlockMouth", "GagLight"],
+						Effect: ["GagLight"],
 					},
 				},
 			],
@@ -6902,12 +6852,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Open",
+					Property: {
+						Effect: ["GagMedium", "OpenMouth"],
+					},
 				},
 				{
 					Name: "Plug",
 					Property: {
 						Effect: ["BlockMouth", "GagTotal"],
-						OverrideAssetEffect: true,
 					},
 				},
 			],
@@ -7003,15 +6955,14 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Thin",
-					Property: { Effect: ["OpenMouth",], },
 				},
 				{
 					Name: "Thick",
-					Property: { Effect: ["OpenMouth", "GagVeryLight"],},
+					Property: { Effect: ["GagVeryLight"] },
 				},
 				{
 					Name: "VeryThick",
-					Property: { Effect: ["OpenMouth", "GagMedium"],},
+					Property: { Effect: ["GagMedium"] },
 				},
 			],
 			DrawImages: false,
@@ -7029,10 +6980,10 @@ var AssetFemale3DCGExtended = {
 					Name: "Gag", Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0, Effect: ["BlockMouth"] } }, // g0 - Padded
-						{ Property: { OriginalSetting: 1, Effect: ["BlockMouth", "GagVeryLight"] } }, // g1 - LightBall
-						{ Property: { OriginalSetting: 2, Effect: ["BlockMouth", "GagMedium"] } }, // g2 - Ball
-						{ Property: { OriginalSetting: 3, Effect: ["BlockMouth", "GagTotal"] } }, // g3 - Plug
+						{ Property: { OriginalSetting: 0 } }, // g0 - Padded
+						{ Property: { OriginalSetting: 1, Effect: ["GagVeryLight"] } }, // g1 - LightBall
+						{ Property: { OriginalSetting: 2, Effect: ["GagMedium"] } }, // g2 - Ball
+						{ Property: { OriginalSetting: 3, Effect: ["GagTotal"] } }, // g3 - Plug
 					],
 				},
 				{
@@ -7086,9 +7037,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Gag", Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0, Effect: ["BlockMouth", "GagLight"] } }, // g0 - LightBall
-						{ Property: { OriginalSetting: 1, Effect: ["BlockMouth", "GagMedium"] } }, // g1 - Ball
-						{ Property: { OriginalSetting: 2, Effect: ["BlockMouth", "GagTotal"] } }, // g2 - Plug
+						{ Property: { OriginalSetting: 0, Effect: ["GagLight"] } }, // g0 - LightBall
+						{ Property: { OriginalSetting: 1, Effect: ["GagMedium"] } }, // g1 - Ball
+						{ Property: { OriginalSetting: 2, Effect: ["GagTotal"] } }, // g2 - Plug
 					],
 				},
 				{
@@ -7347,11 +7298,9 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Thickness", Key: "t",
 					Options:[
+						{},
 						{
-							Property: {Effect: ["BlockMouth"]}
-						},
-						{
-							Property: {Effect: ["BlockMouth", "GagLight"]}
+							Property: { Effect: ["GagLight"] },
 						},
 					]
 				},
@@ -7815,31 +7764,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Laced",
-					Property: {
-						Block: ["ItemFeet"],
-						Hide: ["Panties"],
-					},
 				},
 				{
 					Name: "Asylum",
-					Property: {
-						Block: ["ItemFeet"],
-						Hide: ["Panties"],
-					},
 				},
 				{
 					Name: "Beltbinder",
-					Property: {
-						Block: ["ItemFeet"],
-						Hide: ["Panties"],
-					},
 				},
 				{
 					Name: "Classic",
-					Property: {
-						Block: ["ItemFeet"],
-						Hide: ["Panties"],
-					},
 				},
 			],
 			ChangeWhenLocked: false,
@@ -7964,15 +7897,15 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Narrow",
 					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["LegsOpen"],
-					}
+						SetPose: ["LegsOpen"],
+					},
 				},
 				{
 					Name: "Wide",
 					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["Spread"],
-					}
-				}
+						SetPose: ["Spread"],
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectSpreaderType",
@@ -7982,25 +7915,11 @@ var AssetFemale3DCGExtended = {
 		}, // SpreaderMetal
 		HeavySpreaderMetal: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Narrow",
-					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["LegsOpen"],
-					}
-				},
-				{
-					Name: "Wide",
-					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["Spread"],
-					}
-				}
-			],
+			CopyConfig: { GroupName: "ItemFeet", AssetName: "SpreaderMetal" },
 			DialogPrefix: {
 				Header: "SelectSpreaderType",
 				Option: "HeavySpreaderMetalPose",
 			},
-			ChatSetting: TypedItemChatSetting.SILENT,
 		}, // HeavySpreaderMetal
 		Chains: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8199,9 +8118,9 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						OverridePriority: 25,
 						SetPose: ["Spread"],
-						Effect: ["Freeze", "Prone", "BlockKneel"],
+						Effect: ["BlockKneel"],
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
-						OverrideHeight: {Height: 0, Priority: 60},
+						OverrideHeight: { Height: 0, Priority: 60 },
 					},
 				},
 			],
@@ -8213,7 +8132,6 @@ var AssetFemale3DCGExtended = {
 					Name: "LegsOpen",
 					Property: {
 						Difficulty: 2,
-						Effect: ["Freeze", "Prone"],
 						SetPose: ["LegsOpen"],
 						SelfUnlock: true,
 					},
@@ -8222,7 +8140,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Spread2",
 					Property: {
 						Difficulty: 3,
-						Effect: ["Freeze", "Prone"],
 						SetPose: ["Spread"],
 						SelfUnlock: true,
 					},
@@ -8231,7 +8148,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Spread3",
 					Property: {
 						Difficulty: 3,
-						Effect: ["Freeze", "Prone"],
 						SetPose: ["LegsClosed"],
 						SelfUnlock: true,
 					},
@@ -8262,7 +8178,6 @@ var AssetFemale3DCGExtended = {
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Property: {
-						Effect: ["Freeze", "Prone"],
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemBoots"],
 						SetPose: ["Spread"],
@@ -8315,7 +8230,6 @@ var AssetFemale3DCGExtended = {
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Property: {
-						Effect: ["Freeze", "Prone"],
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemBoots"],
 						SetPose: ["Spread"],
@@ -8703,11 +8617,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Intensity", Key: "i",
 					DrawImages: false,
 					Options: [
-						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // i0 - Turn Off
-						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // i1 - Low
-						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // i2 - Medium
-						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // i3 - High
-						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // i4 - Maximum
+						{ Property: { Intensity: -1 } }, // i0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Vibrating"] } }, // i1 - Low
+						{ Property: { Intensity: 1, Effect: ["Vibrating"] } }, // i2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Vibrating"] } }, // i3 - High
+						{ Property: { Intensity: 3, Effect: ["Vibrating"] } }, // i4 - Maximum
 					],
 				},
 				{
@@ -9489,13 +9403,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Basic",
 					Property: {
-						Effect: ["BlindLight", "Prone"],
+						Effect: ["BlindLight"],
 					},
 				},
 				{
 					Name: "Wrap",
 					Property: {
-						Effect: ["BlindNormal", "Prone"],
+						Effect: ["BlindNormal"],
 					},
 				},
 			],
@@ -9511,15 +9425,16 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						Block: ["ItemNose"],
+						Effect: ["BlindLight"],
 					},
 				},
 				{
 					Name: "Cocoon",
 					Property: {
 						Difficulty: 30,
-						Hide: ["HairFront", "HairBack", "Glasses", "Hat", "ItemMouth", "ItemMouth2", "ItemMouth3"],
+						Hide: ["HairFront", "HairBack", "Hat", "ItemMouth", "ItemMouth2", "ItemMouth3"],
 						Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
-						Effect: ["BlindHeavy", "Prone", "GagNormal", "BlockMouth"],
+						Effect: ["BlindHeavy", "GagNormal", "BlockMouth"],
 					},
 				},
 			],
