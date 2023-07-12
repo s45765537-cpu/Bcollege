@@ -3997,12 +3997,11 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ShinyLegBinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Value: 100, Difficulty: 20, SelfBondage: 5, Time: 35, RemoveTime: 20, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default"], Attribute: ["HoodieFix"],
-				Hide: ["Shoes", "Socks", "SocksRight", "SocksLeft", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "HighStyleSteelAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"], AllowActivePose: ["Kneel"],
+				Name: "ShinyLegBinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Value: 100, Difficulty: 20, SelfBondage: 5, Time: 35, RemoveTime: 20, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default", "#FFFFFF"], Attribute: ["HoodieFix"],
+				Hide: ["Shoes", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "HighStyleSteelAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"],
 				Extended: true,
 				DrawLocks: false,
 				HasType: false,
-				DefaultColor: ["Default", "Default", "Default", "Default", "Default"],
 				Layer: [
 					{ Name: "Latex", AllowTypes: [""], },
 					{ Name: "Latex_Asylum", AllowTypes: ["Asylum"], CopyLayerColor: "Latex", },
@@ -5328,14 +5327,13 @@ var AssetFemale3DCG = [
 				SelfUnlock: false
 			},
 			{
-				Name: "ShinyStraitjacket", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Priority: 33, Value: 100, Difficulty: 20, SelfBondage: 5, Time: 35, RemoveTime: 20, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands", "ItemHandheld"], Attribute: ["HoodieFix"],
+				Name: "ShinyStraitjacket", Gender: "F", Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader", "HasBreasts"], Fetish: ["Latex"], Priority: 33, Value: 100, Difficulty: 20, SelfBondage: 5, Time: 35, RemoveTime: 20, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "#FFFFFF", "Default"], SetPose: ["BackElbowTouch", "BaseLower"], AllowActivePose: ["BackElbowTouch", "BaseLower", "LegsClosed", "Kneel"], Effect: ["Block", "Prone"], Block: ["ItemHands", "ItemHandheld"], Attribute: ["HoodieFix"],
 				Hide: ["Cloth", "ClothLower", "Corset", "Gloves", "Hands", "LeftHand", "RightHand", "ItemHandheld", "ItemHands", "Garters"],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho", "NecklaceBodyChainNecklace", "ClothAccessoryStudentOutfit3Scarf", "ClothAccessoryStudentOutfit3Bow1", "ClothAccessoryStudentOutfit3Bow2", "ClothAccessoryStudentOutfit3Bow3", "ClothAccessoryBunnyCollarCuffs", "SuitBlouse1", "BraLatexBunnySuit", "BraHeartTop", "BraCamisole", "BraStuddedHarness", "PantiesBikini1", "PantiesHarnessPanties2", "SocksSocks6", "SocksSocksFur"],
 				HideItemExclude: ["GartersDropBag"],
 				Extended: true,
 				DrawLocks: false,
 				HasType: false,
-				DefaultColor: ["Default", "Default", "Default", "Default", "Default"],
 				Layer: [
 					{ Name: "Leather", AllowTypes: [""], },
 					{ Name: "Leather_Asylum", AllowTypes: ["Asylum"], CopyLayerColor: "Leather", },
@@ -8361,11 +8359,14 @@ var AssetFemale3DCG = [
 				HideItem: ["HatFurHeadband"],
 			},
 			{
-				Name: "DobermanMask", Fetish: ["Leather"], Value: 1, Difficulty: 5, Time: 15, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default", "Default"], HasType: false,
+				Name: "DobermanMask", Fetish: ["Leather"], Value: 10, Difficulty: 5, Time: 15, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default"], HasType: false,
 				Prerequisite: ["NotProtrudingFromMouth"],
-				Hide: ["HairFront", "FacialHair", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+				Hide: ["HairFront", "HairBack", "FacialHair", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 				HideItem: ["HatFurHeadband"],
+				Alpha: [
+					{ Group: ["Head"], Masks: [[0, 0, 203, 250], [295, 0, 205, 250], [150, 75, 150, 50]] },
+				],
 				Layer: [
 					{ Name: "Mask", AllowColorize: true },
 					{ Name: "Edges", AllowColorize: true },

@@ -1819,6 +1819,12 @@ Pet Suit
 Костюм питомца
 Shiny Pet Suit
 Полированный Петсьют
+Shiny Straitjacket
+Полированная смирительная рубашка
+Shiny Leg Binder
+Полированный легбиндер
+Doberman Mask
+Маска Добермана
 Pet Suit Exposed
 Костюм питомца Открытый
 Holding Leash

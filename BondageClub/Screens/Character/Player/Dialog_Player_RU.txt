@@ -3750,6 +3750,38 @@ SourceCharacter opened DestinationCharacter suit and fully exposes her breasts a
 SourceCharacter расстегивает костюм DestinationCharacter и полностью обнажает TargetPronounPossessive грудь и киску.
 SourceCharacter chose the classic look of the costume on DestinationCharacter.
 SourceCharacter выбирает классический вид костюма на DestinationCharacter.
+Customize the look of the jacket
+Настройте внешний вид рубашки
+Asylum
+Лечебница
+Hardbinder
+Строгий
+Crosstie
+Открытый
+SourceCharacter close up DestinationCharacter to Asylum straitjacket.
+SourceCharacter закрывает DestinationCharacter в смирительную рубашку псих-лечебницы.
+SourceCharacter Hard bindered DestinationCharacter straitjacket.
+SourceCharacter строго связывает руки DestinationCharacter позе обратной молитвы.
+SourceCharacter Cross tied DestinationCharacter straitjacket and fully exposes her breasts.
+SourceCharacter связывает руки DestinationCharacter сзади крестом  и полностью обнажает ее грудь.
+SourceCharacter chose the classic look of the straitjacket on DestinationCharacter.
+SourceCharacter выбирает класический вид с коробчатой перевязкой для рубашки DestinationCharacter.
+Customize the look of the legbinder
+Настройте внешний вид легбиндера
+Asylum
+Лечебница
+Beltbinder
+Ременная стяжка
+Laced
+Зашнурованный
+SourceCharacter close up DestinationCharacter to Asylum legbinder.
+SourceCharacter закрывает DestinationCharacter в легбиндер псих-лечебницы.
+SourceCharacter Belt bindered DestinationCharacter legbinder.
+SourceCharacter стягивает ремнями легбиндер DestinationCharacter.
+SourceCharacter Laced up DestinationCharacter legbinder.
+SourceCharacter зашнуровывает легбиндер DestinationCharacter.
+SourceCharacter chose the classic look of the legbinder on DestinationCharacter.
+SourceCharacter выбирает класический вид для легбиндера DestinationCharacter.
 Configure suit
 Настроить костюм
 Zip or unzip the suit
