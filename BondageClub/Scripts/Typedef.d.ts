@@ -2559,9 +2559,6 @@ interface ItemPropertiesBase {
 	/** A facial expression */
 	Expression?: ExpressionName;
 
-	/** Whether the asset affects should be overriden rather than extended */
-	OverrideAssetEffect?: boolean;
-
 	// Vibratory-related properties
 
 	/** The vibrator mode */

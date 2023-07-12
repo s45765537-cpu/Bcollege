@@ -1043,19 +1043,10 @@ function CharacterGetEffects(C, Groups = null, AllowDuplicates = false) {
 		.filter(A => !Array.isArray(Groups) || Groups.length == 0 || Groups.includes(A.Asset.Group.Name))
 		.forEach(item => {
 			let itemEffects = [];
-			let overrideAsset = false;
-
 			if (item.Property && Array.isArray(item.Property.Effect)) {
 				CommonArrayConcatDedupe(itemEffects, item.Property.Effect);
-				overrideAsset = !!item.Property.OverrideAssetEffect;
 			}
-			if (!overrideAsset) {
-				if (Array.isArray(item.Asset.Effect)) {
-					CommonArrayConcatDedupe(itemEffects, item.Asset.Effect);
-				} else if (Array.isArray(item.Asset.Group.Effect)) {
-					CommonArrayConcatDedupe(itemEffects, item.Asset.Group.Effect);
-				}
-			}
+			CommonArrayConcatDedupe(itemEffects, item.Asset.Effect);
 
 			if (AllowDuplicates) {
 				totalEffects = totalEffects.concat(itemEffects);
