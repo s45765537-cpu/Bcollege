@@ -1262,6 +1262,7 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
 	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 	if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
+	if (MemberNumber != null && Lock.Asset.Name == "FamilyPadlock" && C.IsInFamilyOfMemberNumber(MemberNumber)) Item.Property.LockMemberNumber = C.Ownership.MemberNumber;
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 	const args = [C, Item, false];
