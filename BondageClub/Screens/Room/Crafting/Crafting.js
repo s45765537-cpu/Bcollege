@@ -38,9 +38,6 @@ let CraftingOffset = 0;
  */
 let CraftingItemList = [];
 
-/** The maximum number of crafting slots. */
-let CraftingSlotMax = 80;
-
 /**
  * The character used for the crafting preview.
  * @type {Character | null}
@@ -233,10 +230,10 @@ function CraftingRun() {
 		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		if (CraftingDestroy) {
-			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${CraftingSlotMax / 20}.`, 840, 60, "White", "Black");
+			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 		} else {
-			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${CraftingSlotMax / 20}.`, 840, 60, "White", "Black");
+			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 840, 60, "White", "Black");
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Trash.png", TextGet("Destroy"));
 		}
 		for (let S = CraftingOffset; S < CraftingOffset + 20; S++) {
@@ -718,7 +715,7 @@ function CraftingLoadServer(Packet) {
 		}
 
 		// Too many items, skip the rest
-		if (Player.Crafting.length >= CraftingSlotMax) break;
+		if (Player.Crafting.length >= 80) break;
 	}
 	/**
 	 * One or more validation errors were encountered that were successfully resolved;
@@ -743,10 +740,10 @@ function CraftingClick() {
 		// Two pages of slots
 		if (MouseIn(1580, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset - 20;
-			if (CraftingOffset < 0) CraftingOffset = CraftingSlotMax - 20;
+			if (CraftingOffset < 0) CraftingOffset = 80 - 20;
 		} else if (MouseIn(1685, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset + 20;
-			if (CraftingOffset >= CraftingSlotMax) CraftingOffset = 0;
+			if (CraftingOffset >= 80) CraftingOffset = 0;
 		}
 
 		// Enter/Exit the destroy item mode
