@@ -3998,7 +3998,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyLegBinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Value: 100, Difficulty: 20, SelfBondage: 5, Time: 35, RemoveTime: 20, AllowLock: true, AllowTighten: true, DefaultColor: ["Default", "Default", "Default", "Default", "#FFFFFF"], Attribute: ["HoodieFix"],
-				Hide: ["Shoes", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "HighStyleSteelAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], Effect: ["Prone", "Slow"], Block: ["ItemFeet"],
+				Hide: ["Shoes", "ClothLower", "Garters"], HideItem: ["ItemFeetOrnateAnkleCuffs", "HighStyleSteelAnkleCuffs", "ItemFeetNylonRope", "ItemFeetHempRope", "ItemFeetLeatherBelt", "ItemFeetFuturisticAnkleCuffs", "ItemFeetFuturisticAnkleCuffs","ItemBootsThighHighLatexHeels", "ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], SetPose: ["LegsClosed"], AllowPose: ["Kneel"], AllowActivePose: ["LegsClosed", "Kneel"], FreezeActivePose: [], Effect: ["Prone", "Slow"], Block: ["ItemFeet"],
 				Extended: true,
 				DrawLocks: false,
 				HasType: false,
