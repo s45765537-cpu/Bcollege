@@ -3650,11 +3650,11 @@ var AssetFemale3DCG = [
 			{ Name: "PussyDark1", Gender: "F", Attribute: ["PussyLayer", "PussyDark1"] },
 			{ Name: "PussyDark2", Gender: "F", Attribute: ["PussyLayer", "PussyDark2"] },
 			{ Name: "PussyDark3", Gender: "F", Attribute: ["PussyLayer", "PussyDark3"] },
-			{ Name: "Penis", Random: false, Left: 200, Top: 410, Priority: 23, Gender: "M", InheritColor: "BodyUpper", AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]}
+			{
+				Name: "Penis", Gender: "M", Random: false, Left: 200, Top: 410, Priority: 23, InheritColor: "BodyUpper", AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]
+			}
 		],
 		Color: ["Default", "#6a3628", "#443330", "#222222"],
-		ColorSuffix: { "White": "Default", "Asian": "Default", "Black": "Default" },
-		InheritColor: "BodyUpper",
 	},
 
 	{
