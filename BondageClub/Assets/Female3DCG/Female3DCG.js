@@ -3650,11 +3650,11 @@ var AssetFemale3DCG = [
 			{ Name: "PussyDark1", Gender: "F", Attribute: ["PussyLayer", "PussyDark1"] },
 			{ Name: "PussyDark2", Gender: "F", Attribute: ["PussyLayer", "PussyDark2"] },
 			{ Name: "PussyDark3", Gender: "F", Attribute: ["PussyLayer", "PussyDark3"] },
-			{ Name: "Penis", Random: false, Left: 200, Top: 410, Priority: 23, Gender: "M", InheritColor: "BodyUpper", AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]}
+			{
+				Name: "Penis", Gender: "M", Random: false, Left: 200, Top: 410, Priority: 23, InheritColor: "BodyUpper", AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]
+			}
 		],
 		Color: ["Default", "#6a3628", "#443330", "#222222"],
-		ColorSuffix: { "White": "Default", "Asian": "Default", "Black": "Default" },
-		InheritColor: "BodyUpper",
 	},
 
 	{
@@ -5641,6 +5641,7 @@ var AssetFemale3DCG = [
 				Effect: ["Block", "Prone"],
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemHands", "ItemHandheld"],
 				Extended: true,
+				HasType: false,
 				Layer: [
 				//Attributes used in this layering:
 				//PenisLayer denotes the player uses a penis
@@ -5648,41 +5649,44 @@ var AssetFemale3DCG = [
 				//GenitaliaCover denotes a covered up penis by clothing or chastity belts
 				//3 Attributes to show different cages, Plastic1 falls under CageTechno
 					//Crotch, Male has 1 standard and 3 cage variants
-					{ Name: "Crotch", ColorGroup: "Canvas", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["c1"], HasType: false },
-					{ Name: "CrotchMale", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["c1"], HasType: false },
-					{ Name: "CrotchMalePlastic2", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], HasType: false },
-					{ Name: "CrotchMaleTechno", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], HasType: false },
-					{ Name: "CrotchMaleFlat", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], HasType: false },
+					{ Name: "Crotch", ColorGroup: "Canvas", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["c1"], },
+					{ Name: "CrotchMale", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["c1"], },
+					{ Name: "CrotchMalePlastic2", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], },
+					{ Name: "CrotchMaleTechno", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], },
+					{ Name: "CrotchMaleFlat", CopyLayerColor: "Crotch", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["c1"], },
 					//Jacket
-					{ Name: "JacketLoose", ColorGroup: "Canvas", ParentGroup: null, AllowModuleTypes: ["a0"], HasType: false},
-					{ Name: "JacketFront", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a1"], HasType: false },
-					{ Name: "JacketBack", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a2"], HasType: false },
+					{ Name: "JacketLoose", ColorGroup: "Canvas", ParentGroup: null, AllowModuleTypes: ["a0"], },
+					{ Name: "JacketFront", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a1"], },
+					{ Name: "JacketBack", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a2"], },
 					//Straps
-					{ Name: "StrapsLoose", ColorGroup: "Straps", AllowModuleTypes: ["a0"], HasType: false},
-					{ Name: "StrapsFront", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a1"], HasType: false },
-					{ Name: "StrapsBack", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a2"], HasType: false },
+					{ Name: "StrapsLoose", ColorGroup: "Straps", AllowModuleTypes: ["a0"], },
+					{ Name: "StrapsFront", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a1"], },
+					{ Name: "StrapsBack", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a2"], },
 					//Crotch Strap Single, Male has 1 standard and 3 cage variants
-					{ Name: "CrotchStrapsSingle", ColorGroup: "Straps", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s1"], HasType: false },
-					{ Name: "CrotchStrapsSingleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s1"], HasType: false },
-					{ Name: "CrotchStrapsSingleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], HasType: false },
-					{ Name: "CrotchStrapsSingleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], HasType: false },
-					{ Name: "CrotchStrapsSingleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], HasType: false },
+					{ Name: "CrotchStrapsSingle", ColorGroup: "Straps", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s1"], },
+					{ Name: "CrotchStrapsSingleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s1"], },
+					{ Name: "CrotchStrapsSingleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], },
+					{ Name: "CrotchStrapsSingleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], },
+					{ Name: "CrotchStrapsSingleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s1"], },
 					//Crotch Strap Double, Male has 1 standard and 3 cage variants
-					{ Name: "CrotchStrapsDouble", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s2"], HasType: false },
-					{ Name: "CrotchStrapsDoubleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s2"], HasType: false },
-					{ Name: "CrotchStrapsDoubleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], HasType: false },
-					{ Name: "CrotchStrapsDoubleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], HasType: false },
-					{ Name: "CrotchStrapsDoubleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], HasType: false },
+					{ Name: "CrotchStrapsDouble", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s2"], },
+					{ Name: "CrotchStrapsDoubleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s2"], },
+					{ Name: "CrotchStrapsDoubleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], },
+					{ Name: "CrotchStrapsDoubleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], },
+					{ Name: "CrotchStrapsDoubleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s2"], },
 					//Crotch Strap Triple, Male has 1 standard and 3 cage variants
-					{ Name: "CrotchStrapsTriple", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s3"], HasType: false },
-					{ Name: "CrotchStrapsTripleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s3"], HasType: false },
-					{ Name: "CrotchStrapsTripleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], HasType: false },
-					{ Name: "CrotchStrapsTripleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], HasType: false },
-					{ Name: "CrotchStrapsTripleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], HasType: false },
+					{ Name: "CrotchStrapsTriple", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PussyLayer", "GenitaliaCover"], AllowModuleTypes: ["s3"], },
+					{ Name: "CrotchStrapsTripleMale", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["PenisLayer"], HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"], AllowModuleTypes: ["s3"], },
+					{ Name: "CrotchStrapsTripleMalePlastic2", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CagePlastic2"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], },
+					{ Name: "CrotchStrapsTripleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], },
+					{ Name: "CrotchStrapsTripleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], },
 					//Standard Penis
 					{ Name: "Penis", ShowForAttribute: ["PenisLayer"], HideForAttribute: ["GenitaliaCover", "CagePlastic2", "CageTechno", "CageFlat"], ParentGroup: null, AllowModuleTypes: ["c1", "s1", "s2", "s3"], InheritColor: "Pussy", HideColoring: true, MirrorExpression: "Pussy"},
 					//Lock
-					{ Name: "Lock", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s1", "s2", "s3", "a2"], MirrorExpression: "Pussy", LockLayer: true },
+					{ Name: "ArmsLock", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["a2"], LockLayer: true },
+					{ Name: "StrapsLockSingle", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s1"], MirrorExpression: "Pussy", LockLayer: true },
+					{ Name: "StrapsLockDouble", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s2"], MirrorExpression: "Pussy", LockLayer: true },
+					{ Name: "StrapsLockTriple", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s3"], MirrorExpression: "Pussy", LockLayer: true },
 				],
 				SelfUnlock: false
 			},
