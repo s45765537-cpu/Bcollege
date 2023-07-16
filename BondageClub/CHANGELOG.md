@@ -11,10 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-07-09
-* Last recorded PR: [#4369](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4369)
-* Last recorded commit hash: `96580e86fe7a1890df186e42edd9a4e23abe711a`
-
+* Changelog last updated: 2023-07-16
+* Last recorded PR: [#4394](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4394)
+* Last recorded commit hash: `8db7a31c016085403a27a3cef988671f023dda79`
 
 ## [R94]
 
@@ -30,6 +29,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Added the new Shark Plush handheld item by Toshiro ([#4358](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4358))
 * Constantan - Updated the Russian translation for Kinky Dangeon 3.19 to 4.25 ([#4359](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4359))
 * Rama - Added new eye shadows by Toshiro ([#4368](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4368))
+* Constantan - Added new assets: Shiny Straitjacket, Shiny Leg Binder, and Doberman Mask ([#4370](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4370), [#4391](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4391), [#4392](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4392))
 
 ### [Removed]
 
@@ -41,9 +41,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Removed the base lock layer of the InflatableVibratingPanties ([#4328](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4328))
 * Rama - Modified substitutions to display the name of crafted items when handling chat messages ([#4343](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4343))
 * KyraObscura - Removed redundant effect properties from Ballgagmask ([#4351](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4351))
+* Sepia Oulomenohn - Allowed locks on the latex respirator ([#4394](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4394))
+* Ben987 - Bumped the maximum amount of crafted items to 80
+* Kotax - Fixed a couple issues in the LARP NPC's card game dialogs
 
 ### [Fixed]
-* Estsanatlehi - Split out Egged from the remote-enabled check, fixing a couple problems where an item would incorrectly become remotable ([#4302](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4302))
+* Estsanatlehi - Split out Egged from the remote-enabled check, fixing a couple problems where an item would incorrectly become remotable ([#4302](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4302), [#4388](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4388))
 * Estsanatlehi - Added back the missing modules from the futuristic crate ([#4339](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4339))
 * Estsanatlehi - Fix a couple crash by enforcing the correct object type when it's not valid ([#4338](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4338))
 * Rama - Trimmed away empty space around the activity button images ([#4300](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4300))
@@ -59,6 +62,21 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fixed the substitutions for the futuristic belt ([#4363](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4363))
 * Rama - Removed duplicate layer names of the latex respirator ([#4366](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4366))
 * Estsanatlehi - Refactored CharacterSetFacialExpression ([#4369](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4369))
+* Rama - Fixed a few issues related to the petpost crafting extended item menu ([#4374](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4374))
+* Rama - Tweaked the layer priorities of the Kabeshiri Wall ([#4375](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4375))
+* Rama - Fixed the `EyeShadow` y-offset ([#4376](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4376))
+* Rama - Fixed the image drawing being disabled for typed item extended item buttons ([#4379](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4379))
+* Estsanatlehi - Fixed issues with CharacterSetFacialExpression ([#4380](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4380))
+* Estsanatlehi - Fixed a massive FPS drop when using `NotVisibleOnScreen` ([#4381](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4381))
+* Estsanatlehi - Fixed Kinky Dungeon not loading properly ([#4382](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4382))
+* Rama - Disabled single-click buttons while in the crafting extended item menu ([#4383](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4383))
+* Rama - Made the page number visible when deleting crafted items ([#4384](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4384))
+* Constantan - Fixed a few bugs with the new shiny items ([#4385](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4385))
+* Rama - Made sure that all arousal zones are actually clickable in the arousal preference menu ([#4386](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4386))
+* Rama - Fixed the casing of the thin leather strap file names ([#4387](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4387))
+* Rama - Fixed the skin color-specific layer names of the Kabeshiri Wall ([#4378](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4378))
+* Rama - Fixed a casing issue with one of the Kabeshiri Wall layers ([#4389](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4389))
+* Tsubasahane - Fixed the FamilyPadlock being removed by validation ([#4390](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4390))
 
 ### [Technical]
 * Rama - Added a test to verify that modular item properties are disjoint w.r.t. the various modules ([#4335](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4335))
@@ -68,7 +86,6 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Refactored and cleaned up the handling of advanced vibrator modes ([#4357](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4357))
 * Rama - Added basic support for storing extended item subscreen properties for crafted items ([#4365](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4365))
 * Rama - Expanded the checks for extended item `Allow<x>` properties ([#4367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4367))
-
 
 ## [R93]
 
