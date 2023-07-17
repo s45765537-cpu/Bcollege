@@ -570,7 +570,7 @@ const CommonCommands = [
 			ForbiddenList.splice(0, 1);
 
 			// Shows the list in the chat window
-			ChatRoomMessage({Type: "LocalMessage",  Content: ForbiddenList.join(", "), Sender: Player.MemberNumber});
+			ChatRoomSendLocal(ChatRoomHTMLEntities(ForbiddenList.join(", ")));
 
 		},
 	},
