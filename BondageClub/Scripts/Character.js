@@ -520,27 +520,20 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
 		},
 		IsFamilyOfPlayer: function () {
-			if (this.IsPlayer()) return false;
-			if (this.IsOwner() || this.IsOwnedByPlayer()) return true;
-			if ((Player.Ownership != null) && (this.MemberNumber === Player.Ownership.MemberNumber)) return true;
-			return ((Player.Ownership != null) && (this.Ownership != null) && (Player.Ownership.MemberNumber === this.Ownership.MemberNumber));
+			return this.IsInFamilyOfMemberNumber(Player.MemberNumber);
 		},
-		IsInFamilyOfMemberNumber: function(MemberNum) {
-			if (ChatRoomCharacter == null) return false;
-			if (this.IsPlayer())
-				for (let Char of ChatRoomCharacter)
-					if (Char.MemberNumber == MemberNum)
-						return Char.IsFamilyOfPlayer();
-			if ((!this.IsPlayer()) && (MemberNum === Player.MemberNumber))
-				return this.IsFamilyOfPlayer();
-			if ((!this.IsPlayer()) && (MemberNum !== Player.MemberNumber))
-				for (let Char of ChatRoomCharacter)
-					if (Char.MemberNumber == MemberNum) {
-						if ((Char.Ownership != null) && (this.Ownership != null) && (Char.Ownership.MemberNumber === this.Ownership.MemberNumber)) return true;
-						if ((Char.Ownership != null) && (Char.Ownership.MemberNumber == this.MemberNumber)) return true;
-						if ((this.Ownership != null) && (this.Ownership.MemberNumber == Char.MemberNumber)) return true;
-						return false;
-					}
+		IsInFamilyOfMemberNumber: function (MemberNum) {
+			if (MemberNum === Player.MemberNumber) return false;
+
+			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
+			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
+			if (!C) C = Character.find(c => c.MemberNumber === MemberNum);
+			if (!C) return false;
+
+			// Check that we either share owners, are owned by this character, or that this character owns us
+			if (this.OwnerNumber() === C.OwnerNumber()) return true;
+			if (this.IsOwnedByCharacter(C)) return true;
+			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
 		IsOnline: function () {
