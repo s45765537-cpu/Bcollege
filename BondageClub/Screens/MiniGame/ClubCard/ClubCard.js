@@ -591,7 +591,7 @@ var ClubCardList = [
 		Name: "College Dropout",
 		Group: ["Liability"],
 		OnTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "College") * -1);
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") * -1);
 		}
 	},
 	{
