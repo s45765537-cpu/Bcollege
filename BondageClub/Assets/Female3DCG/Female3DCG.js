@@ -3643,18 +3643,17 @@ var AssetFemale3DCG = [
 		AllowNone: false,
 		AllowExpression: [null, "Hard"],
 		ExpressionPrerequisite: ["HasPenis", "CanHaveErection"],
+		InheritColor: "BodyUpper",
 		Asset: [
-			{ Name: "PussyLight1", Gender: "F", Attribute: ["PussyLayer", "PussyLight1"] },
-			{ Name: "PussyLight2", Gender: "F", Attribute: ["PussyLayer", "PussyLight2"] },
-			{ Name: "PussyLight3", Gender: "F", Attribute: ["PussyLayer", "PussyLight3"] },
-			{ Name: "PussyDark1", Gender: "F", Attribute: ["PussyLayer", "PussyDark1"] },
-			{ Name: "PussyDark2", Gender: "F", Attribute: ["PussyLayer", "PussyDark2"] },
-			{ Name: "PussyDark3", Gender: "F", Attribute: ["PussyLayer", "PussyDark3"] },
+			{ Name: "Pussy1", Gender: "F", Attribute: ["PussyLayer", "Pussy1"] },
+			{ Name: "Pussy2", Gender: "F", Attribute: ["PussyLayer", "Pussy2"] },
+			{ Name: "Pussy3", Gender: "F", Attribute: ["PussyLayer", "Pussy3"] },
 			{
-				Name: "Penis", Gender: "M", Random: false, Left: 200, Top: 410, Priority: 23, InheritColor: "BodyUpper", AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]
+				Name: "Penis", Gender: "M", Random: false, Left: 200, Top: 410, Priority: 23, AllowActivity: ["PenetrateItem"], Attribute: ["PenisLayer"]
 			}
 		],
-		Color: ["Default", "#6a3628", "#443330", "#222222"],
+		ColorSuffix: { "HEX_COLOR": "White", "Asian": "White" },
+		Color: ["Default", "White", "Asian", "Black", "#6a3628", "#443330", "#222222"],
 	},
 
 	{
@@ -4662,14 +4661,23 @@ var AssetFemale3DCG = [
 					//Backside
 					{ Name: "Backside", CopyLayerColor: "MetalBelt", ParentGroup: null, HasType: false, Priority: 1},
 					//Spread pussy
-					{ Name: "SpreadPussyLight1", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyLight1"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
-					{ Name: "SpreadPussyLight2", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyLight2"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
-					{ Name: "SpreadPussyLight3", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyLight3"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
-					{ Name: "SpreadPussyDark1", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyDark1"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
-					{ Name: "SpreadPussyDark2", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyDark2"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
-					{ Name: "SpreadPussyDark3", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["PussyDark3"], ParentGroup: null, InheritColor: "Pussy", AllowModuleTypes: ["m1", "m3"], HideColoring: true},
+					{
+						Name: "SpreadPussy1", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["Pussy1"], ParentGroup: null, InheritColor: "Pussy",
+						AllowModuleTypes: ["m1", "m3"], HideColoring: true, ColorSuffix: { "HEX_COLOR": "White", "Asian": "White" },
+					},
+					{
+						Name: "SpreadPussy2", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["Pussy2"], ParentGroup: null, InheritColor: "Pussy",
+						AllowModuleTypes: ["m1", "m3"], HideColoring: true, ColorSuffix: { "HEX_COLOR": "White", "Asian": "White" },
+					},
+					{
+						Name: "SpreadPussy3", Top: 372, Left: 126, Priority: 10, ShowForAttribute: ["Pussy3"], ParentGroup: null, InheritColor: "Pussy",
+						AllowModuleTypes: ["m1", "m3"], HideColoring: true, ColorSuffix: { "HEX_COLOR": "White", "Asian": "White" },
+					},
 					//Small Penis, used for cage module and shields. Blocks erect penis visually.
-					{ Name: "Penis", ShowForAttribute: ["PenisLayer"], ParentGroup: null, Priority: 10, InheritColor: "BodyUpper", AllowModuleTypes: ["c1", "m1", "m2", "m3"], HideColoring: true},
+					{
+						Name: "Penis", ShowForAttribute: ["PenisLayer"], ParentGroup: null, Priority: 10, InheritColor: "Pussy",
+						AllowModuleTypes: ["c1", "m1", "m2", "m3"], HideColoring: true, ColorSuffix: { "HEX_COLOR": "White" },
+					},
 					//Modules
 					//Cage & Spreader
 					{ Name: "Cage", ColorGroup: "Metal", ParentGroup: null, Priority: 10, ShowForAttribute: ["PenisLayer"], AllowModuleTypes: ["m1", "m3"], HasType: false },

@@ -45,7 +45,7 @@ function CollegeDetentionYukiWillRelease() { return (CollegeDetentionYukiWillRel
 function CollegeDetentionYukiClothes(C) {
 	CharacterNaked(C);
 	InventoryWear(C, "TeacherOutfit1", "Cloth", "Default");
-	InventoryWear(C, "PussyDark3", "Pussy", "#333333");
+	InventoryWear(C, "Pussy3", "Pussy", "#333333");
 	InventoryWear(C, "Eyes1", "Eyes", "#a57b78");
 	InventoryWear(C, "Eyes1", "Eyes2", "#a57b78");
 	InventoryWear(C, "Glasses1", "Glasses", "#333333");
