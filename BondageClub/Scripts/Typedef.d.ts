@@ -125,6 +125,32 @@ type VibratorRemoteAvailability = "Available" | "NoRemote" | "NoRemoteOwnerRuleA
 
 type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
 
+/** The {@link EffectName} values for all gag-related effects. */
+type GagEffectName = (
+	"GagVeryLight"
+	| "GagEasy"
+	| "GagLight"
+	| "GagNormal"
+	| "GagMedium"
+	| "GagHeavy"
+	| "GagVeryHeavy"
+	| "GagTotal"
+
+	// Those are only supposed to be "transient", as in, they appear because of stacked gags
+	| "GagTotal2"
+	| "GagTotal3"
+	| "GagTotal4"
+);
+
+/** The {@link EffectName} values for all blindness-related effects. */
+type BlindEffectName = "BlindLight" | "BlindNormal" | "BlindHeavy" | "BlindTotal";
+
+/** The {@link EffectName} values for all blurring-related effects. */
+type BlurEffectName = "BlurLight" | "BlurNormal" | "BlurHeavy" | "BlurTotal";
+
+/** The {@link EffectName} values for all deafness-related effects. */
+type DeafEffectName = "DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal";
+
 /**
  * @property Freeze - Prevents walking and kneeling unaided. There's a few caveats with the kneeling part.
  * @property Prone - Indicates the character is prone. Looks non-functional.
@@ -212,6 +238,8 @@ type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
  *   triggering arousal. Used as part of the stimulation event system.
  */
 type EffectName =
+	GagEffectName | BlindEffectName | BlurEffectName | DeafEffectName |
+
 	"Freeze" | "Prone" | "Block" | "Mounted" | "KneelFreeze" | "ForceKneel" | "BlockKneel" |
 
 	"CuffedFeet" | "CuffedLegs" | "CuffedArms" | "IsChained" | "FixedHead" | "MergedFingers" |
@@ -237,15 +265,6 @@ type EffectName =
 	"OpenPermission" | "OpenPermissionArm" | "OpenPermissionLeg" | "OpenPermissionChastity" |
 
 	"BlockMouth" | "OpenMouth" |
-
-	"GagVeryLight" | "GagEasy" | "GagLight" | "GagNormal" | "GagMedium" | "GagHeavy" | "GagVeryHeavy" | "GagTotal" |
-
-	// Those are only supposed to be "transient", as in, they appear because of stacked gags
-	"GagTotal2" | "GagTotal3" | "GagTotal4" |
-
-	"BlindLight" | "BlindNormal" | "BlindHeavy" | "BlindTotal" |
-	"BlurLight" | "BlurNormal" | "BlurHeavy" | "BlurTotal" |
-	"DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal" |
 
 	"VR" | "VRAvatars" | "KinkyDungeonParty" |
 
