@@ -569,7 +569,7 @@ function recursivelyListDir(dir, pathSet, filter) {
 
 /**
  *
- * @param  {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ * @param  {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
  */
 function testExtendedItemButtonImage(dataSuperRecord) {
 	// Gather all expected image paths
@@ -592,7 +592,7 @@ function testExtendedItemButtonImage(dataSuperRecord) {
 				}
 			}
 			for (const buttonData of data.drawData.elementData) {
-				if (buttonData.imagePath != null) {
+				if ("imagePath" in buttonData && buttonData.imagePath != null) {
 					requiredImages.add(buttonData.imagePath);
 				}
 			}
@@ -644,7 +644,7 @@ function testAssetLayerNames(assets) {
 /**
  * Test whether a subset of asset and extended item properties are disjoint.
  * The subset concerns those properties that BC always checks at both the asset and item level.
- * @param {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
  */
 function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
 	/**
@@ -676,7 +676,7 @@ function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
 					options.push(...mod.Options);
 				}
 			} else {
-				if (Array.isArray(data.options)) {
+				if ("options" in data && Array.isArray(data.options)) {
 					options.push(...data.options);
 				}
 			}
@@ -752,6 +752,17 @@ const DEAF_EFFECTS = new Set([
 ]);
 
 /**
+ * A {@link Set.has} variant for string-based sets that returns a typeguard.
+ * @template {string} T
+ * @param {Set<T>} set
+ * @param {string} value
+ * @returns {value is T}
+ */
+function setHas(set, value) {
+	return set.has(/** @type {T} */(value));
+}
+
+/**
  * A helper for {@link testAssetAndExtendedPropertyIsDisjoint} that performs a stricter check for `Effect` disjointment.
  * More specifically, this checks whether only a single effect (at most) of each of the following effect categories is present:
  *
@@ -766,19 +777,18 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 	/** @type {Set<string>} */
 	const propSet = new Set();
 	for (const option of options) {
-		/** @type {string[]} */
 		const propArray = (option.Property && option.Property.Effect) || [];
 		for (const i of propArray) {
-			if (GAG_EFFECTS.has(i)) {
+			if (setHas(GAG_EFFECTS, i)) {
 				propSet.add("Gag level");
 			}
-			if (BLIND_EFFECTS.has(i)) {
+			if (setHas(BLIND_EFFECTS, i)) {
 				propSet.add("Blind level");
 			}
-			if (BLUR_EFFECTS.has(i)) {
+			if (setHas(BLUR_EFFECTS, i)) {
 				propSet.add("Blur level");
 			}
-			if (DEAF_EFFECTS.has(i)) {
+			if (setHas(DEAF_EFFECTS, i)) {
 				propSet.add("Deaf level");
 			}
 		}
@@ -787,16 +797,16 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 	/** @type {string[]} */
 	const intersection = [];
 	for (const i of asset.Effect) {
-		if (GAG_EFFECTS.has(i) && propSet.has("Gag level")) {
+		if (setHas(GAG_EFFECTS, i) && propSet.has("Gag level")) {
 			intersection.push("Gag level");
 		}
-		if (BLIND_EFFECTS.has(i) && propSet.has("Blind level")) {
+		if (setHas(DEAF_EFFECTS, i) && propSet.has("Blind level")) {
 			intersection.push("Blind level");
 		}
-		if (BLUR_EFFECTS.has(i) && propSet.has("Blur level")) {
+		if (setHas(BLUR_EFFECTS, i) && propSet.has("Blur level")) {
 			intersection.push("Blur level");
 		}
-		if (DEAF_EFFECTS.has(i) && propSet.has("Deaf level")) {
+		if (setHas(DEAF_EFFECTS, i) && propSet.has("Deaf level")) {
 			intersection.push("Deaf level");
 		}
 	}
