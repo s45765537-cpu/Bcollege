@@ -926,9 +926,8 @@ function ManagementClubSlaveVisitRoom() {
  */
 function ManagementChangeSlaveCollarType(NewType) {
 	var Collar = InventoryGet(Player, "ItemNeck");
-	var TypeProperties = InventoryItemNeckSlaveCollarTypes.find(T => T.Name == NewType);
-	if (!TypeProperties) Collar.Property = null;
-	else Collar.Property = TypeProperties.Property;
+	var TypeProperties = InventoryItemNeckSlaveCollarTypes.find(T => T.Name == NewType) || InventoryItemNeckSlaveCollarTypes[0];
+	Collar.Property = CommonCloneDeep(TypeProperties.Property);
 	CharacterRefresh(Player);
 	CharacterChangeMoney(Player, -30);
 }

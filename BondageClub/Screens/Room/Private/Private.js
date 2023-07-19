@@ -1279,7 +1279,7 @@ function PrivateActivityRun(LoveFactor) {
 			if (Item !== null) {
 				let NewProperty = Item.Property;
 				while (NewProperty == Item.Property)
-					Item.Property = CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property;
+					Item.Property = CommonCloneDeep(CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property);
 				CharacterRefresh(Player, true);
 			}
 			break;
