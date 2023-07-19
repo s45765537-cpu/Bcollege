@@ -788,3 +788,21 @@ function VibratorModeInit(data, C, Item, Refresh=true) {
 function VibratorModeSetOptionByName(...args) {
 	return TypedItemSetOptionByName(...args);
 }
+
+/**
+ * Return the (standard) vibrator mode one would get by incrementing/decrementing the passed mode.
+ * @param {VibratorMode} mode - The current vibrator mode
+ * @param {boolean} decrement - Whether the mode should be decremented rather than incremented
+ * @returns {VibratorMode} The new vibrator mode
+ */
+function VibratorModeIntensityIncrement(mode, decrement=false) {
+	const options = VibratorModeOptions[VibratorModeSet.STANDARD];
+	let index = options.findIndex(o => o.Name === mode);
+	index += decrement ? -1 : 1;
+	const optionNew = options[index];
+	if (optionNew === undefined) {
+		return decrement ? VibratorMode.OFF : VibratorMode.MAXIMUM;
+	} else {
+		return optionNew.Name;
+	}
+}
