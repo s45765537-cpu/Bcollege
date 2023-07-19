@@ -5057,6 +5057,7 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Vents",
+					Property: { Effect: ["BlindLight"] },
 				},
 				{
 					Name: "Ventless",

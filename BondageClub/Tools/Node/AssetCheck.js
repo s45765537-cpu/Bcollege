@@ -683,6 +683,10 @@ function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
 
 			const asset = data.asset;
 			for (const propName of propNames) {
+				if (propName === "Effect") {
+					testAssetAndExtendedEffectIsDisjoint(options, asset);
+				}
+
 				/** @type {Set<string>} */
 				const propSet = new Set();
 				for (const option of options) {
@@ -703,6 +707,105 @@ function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
 				}
 			}
 		}
+	}
+}
+
+/** @type {Set<GagEffectName>} */
+const GAG_EFFECTS = new Set([
+	"GagVeryLight",
+	"GagEasy",
+	"GagLight",
+	"GagNormal",
+	"GagMedium",
+	"GagHeavy",
+	"GagVeryHeavy",
+	"GagTotal",
+	"GagTotal2",
+	"GagTotal3",
+	"GagTotal4",
+]);
+
+/** @type {Set<BlindEffectName>} */
+const BLIND_EFFECTS = new Set([
+	"BlindLight",
+	"BlindNormal",
+	"BlindHeavy",
+	"BlindTotal",
+]);
+
+
+/** @type {Set<BlurEffectName>} */
+const BLUR_EFFECTS = new Set([
+	"BlurLight",
+	"BlurNormal",
+	"BlurHeavy",
+	"BlurTotal",
+]);
+
+
+/** @type {Set<DeafEffectName>} */
+const DEAF_EFFECTS = new Set([
+	"DeafLight",
+	"DeafNormal",
+	"DeafHeavy",
+	"DeafTotal",
+]);
+
+/**
+ * A helper for {@link testAssetAndExtendedPropertyIsDisjoint} that performs a stricter check for `Effect` disjointment.
+ * More specifically, this checks whether only a single effect (at most) of each of the following effect categories is present:
+ *
+ * * Gag level
+ * * Blindness level
+ * * Deafness level
+ * * Blur level
+ * @param {readonly ExtendedItemOption[]} options
+ * @param {Asset} asset
+ */
+function testAssetAndExtendedEffectIsDisjoint(options, asset) {
+	/** @type {Set<string>} */
+	const propSet = new Set();
+	for (const option of options) {
+		/** @type {string[]} */
+		const propArray = (option.Property && option.Property.Effect) || [];
+		for (const i of propArray) {
+			if (GAG_EFFECTS.has(i)) {
+				propSet.add("Gag level");
+			}
+			if (BLIND_EFFECTS.has(i)) {
+				propSet.add("Blind level");
+			}
+			if (BLUR_EFFECTS.has(i)) {
+				propSet.add("Blur level");
+			}
+			if (DEAF_EFFECTS.has(i)) {
+				propSet.add("Deaf level");
+			}
+		}
+	}
+
+	/** @type {string[]} */
+	const intersection = [];
+	for (const i of asset.Effect) {
+		if (GAG_EFFECTS.has(i) && propSet.has("Gag level")) {
+			intersection.push("Gag level");
+		}
+		if (BLIND_EFFECTS.has(i) && propSet.has("Blind level")) {
+			intersection.push("Blind level");
+		}
+		if (BLUR_EFFECTS.has(i) && propSet.has("Blur level")) {
+			intersection.push("Blur level");
+		}
+		if (DEAF_EFFECTS.has(i) && propSet.has("Deaf level")) {
+			intersection.push("Deaf level");
+		}
+	}
+	if (intersection.length > 0) {
+		intersection.sort();
+		error(
+			`${asset.Group.Name}:${asset.Name}: found ${intersection.length} intersection(s) `
+			+ `between asset and extended item option "Effect" properties categories: ${intersection}`
+		);
 	}
 }
 
