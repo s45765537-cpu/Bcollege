@@ -266,9 +266,10 @@ function CommonDrawAppearanceBuild(C, {
 			/** Check whether the asset requires a custom suffix
 			 * @type {string | undefined} */
 			let SuffixName = undefined;
-			if ((A.ColorSuffix != null) && (Color != null)) {
+			const colorSuffix = Layer.ColorSuffix || A.ColorSuffix;
+			if ((colorSuffix != null) && (Color != null)) {
 				// eslint-disable-next-line dot-notation
-				SuffixName = (Color.indexOf("#") == 0) ? A.ColorSuffix["HEX_COLOR"] : A.ColorSuffix[Color];
+				SuffixName = (Color.indexOf("#") == 0) ? colorSuffix["HEX_COLOR"] : colorSuffix[Color];
 			}
 
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
