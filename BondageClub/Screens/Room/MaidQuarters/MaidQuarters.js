@@ -332,9 +332,7 @@ function MaidQuartersMaidUngagPlayer() {
  */
 function MaidQuartersWearMaidUniform() {
 	const InUniform = MaidQuartersPlayerInMaidUniform();
-
-	const groupNames = /** @type {AssetGroupName[]} */(Object.keys(MaidQuartersItemClothPrev));
-	for (const ItemAssetGroupName of groupNames) {
+	for (const ItemAssetGroupName of CommonKeys(MaidQuartersItemClothPrev)) {
 		MaidQuartersItemClothPrev[ItemAssetGroupName] = InventoryGet(Player, ItemAssetGroupName);
 		if (!InUniform)
 			InventoryRemove(Player, ItemAssetGroupName);
@@ -357,8 +355,7 @@ function MaidQuartersRemoveMaidUniform() {
 	} else if (MaidQuartersSelfBondageMaidDrinksAccepted) {
 		MaidQuartersSelfBondageMaidDrinksAccepted = false;
 	} else {
-		const groupNames = /** @type {AssetGroupName[]} */(Object.keys(MaidQuartersItemClothPrev));
-		for (let ItemAssetGroupName of groupNames) {
+		for (let ItemAssetGroupName of CommonKeys(MaidQuartersItemClothPrev)) {
 			var PreviousItem = MaidQuartersItemClothPrev[ItemAssetGroupName];
 			InventoryRemove(Player, ItemAssetGroupName);
 			if (PreviousItem) InventoryWear(Player, PreviousItem.Asset.Name, ItemAssetGroupName, PreviousItem.Color);

@@ -595,13 +595,10 @@ function MainHallPunishFromChatroomInsertToy() {
 	var I = MainHallPunishmentChoice;
 	// We might lock in a toy under the chastity
 	if (MainHallPunishmentList[I].ItemVulva && InventoryGet(Player, "ItemVulva") == null) {
-		InventoryWear(Player, MainHallPunishmentList[I].ItemVulva, "ItemVulva");
-		InventoryGet(Player, "ItemVulva").Property = { Intensity: 1 };
+		const item = InventoryWear(Player, MainHallPunishmentList[I].ItemVulva, "ItemVulva");
+		VibratorModeSetOptionByName(Player, item, VibratorMode.MEDIUM);
 	}
-
 	CharacterRefresh(Player);
-
-
 }
 
 /**
@@ -667,9 +664,10 @@ function MainHallPunishFromChatroomArms() {
 
 
 		// Wears more item with higher levels
-		InventoryWear(Player, "HempRope", "ItemArms", MainHallRopeColor, Math.floor(Math.random()*10));
-		if (Math.random() > 0.5) // Random chance of wrist elbow tie instead of boxtie
-			InventoryGet(Player, "ItemArms").Property = { Type: "WristElbowHarnessTie", Effect: ["Block", "Prone"], SetPose: ["BackElbowTouch"], Difficulty: 3};
+		const item = InventoryWear(Player, "HempRope", "ItemArms", MainHallRopeColor, Math.floor(Math.random()*10));
+		if (Math.random() > 0.5) {  // Random chance of wrist elbow tie instead of boxtie
+			TypedItemSetOptionByName(Player, item, "WristElbowHarnessTie");
+		}
 	} else {
 		if (MainHallPunishmentList[I].ItemArms) {
 			var ArmsColor = "Default";

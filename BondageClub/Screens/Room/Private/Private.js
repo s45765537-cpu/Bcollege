@@ -1752,8 +1752,6 @@ function PrivateLoveYou() {
 			ActivityEffect(Player, CurrentCharacter, PrivateLoverActivity, Zone);
 		}
 
-		let Egg, newInt;
-
 		switch (PrivateLoverActivity){
 			// When the NPC masturbates herself or the player
 			case "MasturbatePlayer": ActivityEffect(CurrentCharacter, Player, "MasturbateHand", "ItemVulva"); break;
@@ -1762,19 +1760,26 @@ function PrivateLoveYou() {
 			case "Underwear":  { CharacterUnderwear(Player, Player.Appearance); CharacterUnderwear(CurrentCharacter, CurrentCharacter.Appearance); } break;
 			case "Naked":  { CharacterNaked(Player); CharacterNaked(CurrentCharacter); } break;
 			// When the NPC equips an egg or a belt on the player
-			case "EggInsert":  { InventoryWear(Player, "VibratingEgg", "ItemVulva"); InventoryGet(Player, "ItemVulva").Property = { Intensity: 0 }; } break;
+			case "EggInsert":  {
+				const item = InventoryWear(Player, "VibratingEgg", "ItemVulva");
+				VibratorModeSetOptionByName(Player, item, VibratorMode.LOW);
+				break;
+			}
 			case "LockBelt":  { InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true); InventoryLock(Player, "ItemPelvis", "LoversPadlock", null); } break;
 			case "UnlockBelt":  InventoryRemove(Player, "ItemPelvis"); break;
 			case "LoverLock":  InventoryFullLock(Player, "LoversPadlock"); break;
 			case "LoverUnlock":  CharacterReleaseFromLock(Player, "LoversPadlock"); break;
 			// When the NPC plays with the egg speed
 			case "EggSpeedUp":
-			case "EggSpeedDown":
-				Egg = InventoryGet(Player, "ItemVulva");
-				if (!Egg.Property) Egg.Property = { Intensity: -1 };
-				newInt = Egg.Property.Intensity + ((PrivateLoverActivity == "EggSpeedUp") ? 1 : -1);
-				Egg.Property.Intensity = /** @type {VibratorIntensity} */ (Math.min(3, Math.max(-1, newInt)));
+			case "EggSpeedDown": {
+				const egg = InventoryGet(Player, "ItemVulva");
+				const newMode = VibratorModeIntensityIncrement(
+					(egg.Property && egg.Property.Mode) || VibratorMode.OFF,
+					PrivateLoverActivity == "EggSpeedUp",
+				);
+				VibratorModeSetOptionByName(Player, egg, newMode);
 				break;
+			}
 			// When the NPC lover enters the bed, waiting for the player
 			case "Bed":
 				PrivateEnterBed();

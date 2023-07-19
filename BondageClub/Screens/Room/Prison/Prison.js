@@ -653,8 +653,8 @@ function PrisonCatchHandcuffed() {
 // player fails to escape if they try after kneeling, Police puts them in hogtie as punishment
 function PrisonCatchKneelingEscape() {
 	CharacterSetActivePose(Player, null, true);
-	InventoryWear(Player, "Chains", "ItemArms", "Default", 3);
-	InventoryGet(Player, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 0, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
+	const item = InventoryWear(Player, "Chains", "ItemArms", "Default", 3);
+	TypedItemSetOptionByName(Player, item, "Hogtied");
 	CharacterRefresh(Player);
 	PrisonPolice.Stage = "CatchAggressive5";
 	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveFailedEscape");

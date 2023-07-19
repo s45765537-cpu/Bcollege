@@ -573,8 +573,8 @@ function WheelFortuneHogtie() {
 	if (!WheelFortuneCanWear(ItemName, "ItemArms")) return;
 	InventoryRemove(Player, "ItemArms");
 	let Type = (ItemName == "ThinLeatherStraps") ? "Hogtie" : "Hogtied";
-	InventoryWear(Player, ItemName, "ItemArms", "Default", 15);
-	InventoryGet(Player, "ItemArms").Property = { Type: Type, SetPose: ["Hogtied"], Difficulty: 0, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
+	const itemArms = InventoryWear(Player, ItemName, "ItemArms", "Default", 15);
+	TypedItemSetOptionByName(Player, itemArms, Type);
 	CharacterRefresh(Player);
 	ChatRoomCharacterUpdate(Player);
 }
@@ -584,24 +584,34 @@ function WheelFortuneHogtie() {
  * @returns {void} - Nothing
  */
 function WheelFortuneShibari() {
-	if (WheelFortuneCanWear("HempRope", "ItemArms")) InventoryWear(Player, "HempRope", "ItemArms", "Default", 15);
+	/** @type {null | Item} */
+	let feetItem = null;
+	/** @type {null | Item} */
+	let armsItem = null;
+	if (WheelFortuneCanWear("HempRope", "ItemArms")) armsItem = InventoryWear(Player, "HempRope", "ItemArms", "Default", 15);
 	if (WheelFortuneCanWear("HempRope", "ItemLegs")) InventoryWear(Player, "HempRope", "ItemLegs", "Default", 15);
-	if (WheelFortuneCanWear("HempRope", "ItemFeet")) InventoryWear(Player, "HempRope", "ItemFeet", "Default", 15);
+	if (WheelFortuneCanWear("HempRope", "ItemFeet")) feetItem = InventoryWear(Player, "HempRope", "ItemFeet", "Default", 15);
 	if (WheelFortuneCanWear("HempRopeHarness", "ItemTorso")) {
-		InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 15);
-		if (Math.random() > 0.66) InventoryGet(Player, "ItemTorso").Property = { Type: "Diamond", Difficulty: 0, Effect: [] };
-		else if (Math.random() > 0.5) InventoryGet(Player, "ItemTorso").Property = { Type: "Harness", Difficulty: 0, Effect: [] };
+		const torsoItem = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 15);
+		if (Math.random() > 0.66) {
+			TypedItemSetOptionByName(Player, torsoItem, "Diamond");
+		} else if (Math.random() > 0.5) {
+			TypedItemSetOptionByName(Player, torsoItem, "Harness");
+		}
 	}
 	if (Math.random() >= 0.5) InventoryWear(Player, "BambooGag", "ItemMouth");
 	let Level = Math.floor(Math.random() * 3);
-	if ((Level == 1) && InventoryIsWorn(Player, "HempRope", "ItemFeet")) InventoryGet(Player, "ItemFeet").Property = { Type: "Suspension", SetPose: ["Suspension", "LegsClosed"], Difficulty: 0, Effect: [] };
-	if ((Level == 2) && InventoryIsWorn(Player, "HempRope", "ItemArms")) {
-		let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
+	if ((Level == 1) && feetItem != null) {
+		TypedItemSetOptionByName(Player, feetItem, "Suspension");
+	}
+	if ((Level == 2) && armsItem != null) {
+		TypedItemSetOptionByName(Player, armsItem, "SuspensionHogtied");
 		const height = 0.67 * Math.random();
-		SuspensionHogtiedProperty.Difficulty = 0;
-		SuspensionHogtiedProperty.OverrideHeight.Height = height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
-		SuspensionHogtiedProperty.OverrideHeight.HeightRatioProportion = height;
-		InventoryGet(Player, "ItemArms").Property = SuspensionHogtiedProperty;
+		armsItem.Property.OverrideHeight = {
+			Height: height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+			HeightRatioProportion: height,
+			Priority: 0,
+		};
 	}
 	CharacterRefresh(Player);
 	ChatRoomCharacterUpdate(Player);
@@ -660,12 +670,14 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	let Try = 0;
 	while (((Item == null) || (Item.Asset == null) || (Item.Asset.AllowLock == false)) && (Try <= 30)) {
 		InventoryRemove(Player, Group, false);
-		if (Group == "ItemDevices")
-			InventoryWear(Player, CommonRandomItemFromList("", WheelFortuneEncaseList), "ItemDevices", "Default", 20);
-		else
-			InventoryWearRandom(Player, Group, null, false);
-		Item = InventoryGet(Player, Group);
-		if (Group == "ItemDevices") Item.Property = { Type: (WheelFortuneEncaseClosedList.includes(Item.Asset.Name)) ? "Closed" : null, Difficulty: 50, SelfUnlock: false, Effect:  ["Freeze", "Prone", "Enclose"]};
+		if (Group == "ItemDevices") {
+			Item = InventoryWear(Player, CommonRandomItemFromList("", WheelFortuneEncaseList), "ItemDevices", "Default", 20);
+		} else {
+			Item = InventoryWearRandom(Player, Group, null, false);
+		}
+		if (Group == "ItemDevices" && WheelFortuneEncaseClosedList.includes(Item.Asset.Name)) {
+			TypedItemSetOptionByName(Player, Item, "Closed");
+		}
 		Try++;
 		if (InventoryBlockedOrLimited(Player, Item)) {
 			InventoryRemove(Player, Group, false);

@@ -775,9 +775,9 @@ function MovieStudioDoActivity(Activity) {
 		InventoryWear(Player, "LeatherLegCuffs", "ItemLegs");
 		InventoryWear(Player, "LeatherAnkleCuffs", "ItemFeet");
 	}
-	if (Activity == "InterviewCuffElbowPlayer") { InventoryGet(Player, "ItemArms").Property = { Type: "Elbow", Effect: ["Block"], SetPose: ["BackElbowTouch"] }; CharacterRefresh(Player); }
-	if (Activity == "InterviewCuffBoxTiePlayer") { InventoryGet(Player, "ItemArms").Property = { Type: "Wrist", Effect: ["Block"], SetPose: ["BackBoxTie"] }; CharacterRefresh(Player); }
-	if (Activity == "InterviewCuffLegsPlayer") { InventoryGet(Player, "ItemLegs").Property = { SetPose: ["LegsClosed"] }; CharacterRefresh(Player); }
+	if (Activity == "InterviewCuffElbowPlayer") { TypedItemSetOptionByName(Player, "ItemArms", "Elbow"); }
+	if (Activity == "InterviewCuffBoxTiePlayer") { TypedItemSetOptionByName(Player, "ItemArms", "Wrist"); }
+	if (Activity == "InterviewCuffLegsPlayer") { TypedItemSetOptionByName(Player, "ItemLegs", "Closed"); }
 	if (Activity == "InterviewMaidGagFromMistress") { InventoryWear(Player, "DusterGag", "ItemMouth"); CharacterSetFacialExpression(Player, "Eyes", "Closed", 8); CharacterSetFacialExpression(Player, "Eyes2", "Closed", 8); }
 	if (Activity == "InterviewMaidCleanForMistress") { Player.InterviewCleanCount = (Player.InterviewCleanCount == null) ? 1 : Player.InterviewCleanCount + 1; CharacterSetFacialExpression(Player, "Eyes", "Angry", 8); CharacterSetFacialExpression(Player, "Eyes", "Angry", 8); }
 	if (Activity == "InterviewMaidStripByMistress") {
@@ -789,7 +789,7 @@ function MovieStudioDoActivity(Activity) {
 	if (Activity == "InterviewMaidChainByMistress1") InventoryWear(Player, "Chains", "ItemFeet");
 	if (Activity == "InterviewMaidChainByMistress2") InventoryWear(Player, "Chains", "ItemLegs");
 	if (Activity == "InterviewMaidChainByMistress3") InventoryWear(Player, "Chains", "ItemArms");
-	if (Activity == "InterviewMaidChainByMistress4") { InventoryGet(Player, "ItemArms").Property = { Type: "AllFours", Effect: ["Block"], SetPose: ["AllFours"] }; CharacterRefresh(Player); }
+	if (Activity == "InterviewMaidChainByMistress4") { TypedItemSetOptionByName(Player, "ItemArms", "AllFours"); }
 	if (Activity == "InterviewMaidMistressPrepareRoom") {
 		CharacterRelease(MovieStudioActor2);
 		CharacterNaked(MovieStudioActor2);

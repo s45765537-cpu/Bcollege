@@ -387,9 +387,11 @@ function PandoraPrisonPlayerTickle(Damage) {
  * @returns {void} - Nothing
  */
 function PandoraPrisonAddHood() {
-	InventoryWear(Player, CommonRandomItemFromList("", ["LeatherHoodSealed", "PolishedSteelHood", "SackHood", "LeatherHoodSensDep", "LeatherHood", "LeatherHoodOpenMouth", "CanvasHood"]), "ItemHood");
-	InventoryGet(Player, "ItemHood").Property = { Effect: ["BlindHeavy", "Prone"] };
-	CharacterRefresh(Player);
+	InventoryWear(
+		Player,
+		CommonRandomItemFromList("", ["LeatherHoodSealed", "PolishedSteelHood", "SackHood", "LeatherHoodSensDep", "LeatherHood", "LeatherHoodOpenMouth", "CanvasHood"]),
+		"ItemHood",
+	);
 }
 
 /**

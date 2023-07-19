@@ -189,9 +189,8 @@ function MagicSpellEffect(C, Spell) {
 		if (InventoryGet(C, "ItemArms") == null) {
 			InventoryWear(C, "HempRope", "ItemArms");
 		} else {
-			InventoryWear(C, "HempRopeHarness", "ItemTorso");
-			InventoryGet(C, "ItemTorso").Property = { Type: "Diamond", Difficulty: 0, Effect: [] };
-			CharacterRefresh(C);
+			const item = InventoryWear(C, "HempRopeHarness", "ItemTorso");
+			TypedItemSetOptionByName(C, item, "Diamond", true);
 		}
 	}
 

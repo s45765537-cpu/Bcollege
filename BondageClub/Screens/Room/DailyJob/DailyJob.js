@@ -203,8 +203,8 @@ function DailyJobPuppyPlayer() {
 function DailyJobDojoRestrainPlayer() {
 	InventoryWear(Player, "HempRope", "ItemArms", "Default", 7);
 	if (InventoryGet(Player, "ItemTorso") == null) {
-		InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 7);
-		InventoryGet(Player, "ItemTorso").Property = { Type: "Harness", Difficulty: 0, Effect: [] };
+		const item = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 7);
+		TypedItemSetOptionByName(Player, item, "Harness");
 	}
 	CharacterRefresh(Player);
 }
