@@ -4236,7 +4236,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "Default", "Default", "#8D8D8D"],
 				Left: 200, Top: 410,
 				Layer: [
-					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true },
+					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Ring" },
 					{ Name: "Cage" },
 					{ Name: "Lock", LockLayer: true}
@@ -4260,7 +4260,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#404040", "#404040", "#FFBC00"],
 				Left: 200, Top: 410,
 				Layer: [
-					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true },
+					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Ring" },
 					{ Name: "Cage" },
 					{ Name: "Lock", LockLayer: true}
@@ -4273,7 +4273,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#555555", "#555555", "#FF0000"],
 				Left: 200, Top: 410,
 				Layer: [
-					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true },
+					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true , ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Ring" },
 					{ Name: "Cage" },
 					{ Name: "Lock", LockLayer: true}
@@ -4286,7 +4286,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "Default", "Default"],
 				Left: 200, Top: 410,
 				Layer: [
-					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true },
+					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Cage" },
 					{ Name: "Lock", LockLayer: true}
 				],
@@ -5689,7 +5689,11 @@ var AssetFemale3DCG = [
 					{ Name: "CrotchStrapsTripleMaleTechno", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageTechno"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], },
 					{ Name: "CrotchStrapsTripleMaleFlat", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, ShowForAttribute: ["CageFlat"], HideForAttribute: ["GenitaliaCover"], AllowModuleTypes: ["s3"], },
 					//Standard Penis
-					{ Name: "Penis", ShowForAttribute: ["PenisLayer"], HideForAttribute: ["GenitaliaCover", "CagePlastic2", "CageTechno", "CageFlat"], ParentGroup: null, AllowModuleTypes: ["c1", "s1", "s2", "s3"], InheritColor: "Pussy", HideColoring: true, MirrorExpression: "Pussy"},
+					{
+						Name: "Penis", ShowForAttribute: ["PenisLayer"], HideForAttribute: ["GenitaliaCover", "CagePlastic2", "CageTechno", "CageFlat"],
+						ParentGroup: null, AllowModuleTypes: ["c1", "s1", "s2", "s3"], InheritColor: "Pussy", HideColoring: true, MirrorExpression: "Pussy",
+						ColorSuffix: { HEX_COLOR: "White" },
+					},
 					//Lock
 					{ Name: "ArmsLock", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["a2"], LockLayer: true },
 					{ Name: "StrapsLockSingle", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s1"], MirrorExpression: "Pussy", LockLayer: true },
@@ -9548,12 +9552,12 @@ var AssetFemale3DCG = [
 					"ItemHandheld", "ItemNeck", "ItemNeckRestraints", "ItemNeckRestraints", "ItemAddon",
 				],
 				Layer: [
-					{ Name: "Butt", InheritColor: "BodyLower", Priority: 64, HideColoring: true },
-					{ Name: "Penis", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PenisLayer"], HideColoring: true },
-					{ Name: "Pussy", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PussyLayer"], HideColoring: true },
-					{ Name: "Feet", InheritColor: "BodyLower", AllowModuleTypes: ["l0"], Priority: 64, HideColoring: true },
-					{ Name: "Legs", InheritColor: "BodyLower", AllowModuleTypes: ["l1"], Priority: 64, HideColoring: true },
-					{ Name: "Hands", InheritColor: "BodyUpper", AllowModuleTypes: ["a0"], Priority: 64, HideColoring: true },
+					{ Name: "Butt", InheritColor: "BodyLower", Priority: 64, HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
+					{ Name: "Penis", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PenisLayer"], HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
+					{ Name: "Pussy", InheritColor: "Pussy", Priority: 63, ShowForAttribute: ["PussyLayer"], HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
+					{ Name: "Feet", InheritColor: "BodyLower", AllowModuleTypes: ["l0"], Priority: 64, HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
+					{ Name: "Legs", InheritColor: "BodyLower", AllowModuleTypes: ["l1"], Priority: 64, HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
+					{ Name: "Hands", InheritColor: "BodyUpper", AllowModuleTypes: ["a0"], Priority: 64, HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Text", HasImage: false, Priority: 65 },
 
 					{ Name: "CuffsBody", Priority: 62 },
