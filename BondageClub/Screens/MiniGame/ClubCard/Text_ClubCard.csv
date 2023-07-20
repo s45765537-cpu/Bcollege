@@ -43,10 +43,10 @@ UpgradeToLevel2,Get Cottage (MONEY)
 UpgradeToLevel3,Get House (MONEY)
 UpgradeToLevel4,Get Mansion (MONEY)
 UpgradeToLevel5,Get Manor (MONEY)
-UpgradedToLevel2,PLAYERNAME upgraded to Cottage for MONEY.
-UpgradedToLevel3,PLAYERNAME upgraded to House for MONEY.
-UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEY.
-UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEY.
+UpgradedToLevel2,PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
+UpgradedToLevel3,PLAYERNAME upgraded to House for MONEYAMOUNT Money.
+UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
+UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
 GainFame,SOURCEPLAYER gained AMOUNT Fame.
 GainMoney,SOURCEPLAYER gained AMOUNT Money.
 LoseFame,SOURCEPLAYER lost AMOUNT Fame.

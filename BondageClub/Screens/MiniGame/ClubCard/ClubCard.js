@@ -18,7 +18,7 @@ var ClubCardPopup = null;
 var ClubCardSelection = null;
 var ClubCardPending = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
-var ClubCardLevelCost = [0, 0, 10, 20, 40, 80];
+var ClubCardLevelCost = [0, 0, 10, 20, 35, 50];
 /** @type {ClubCardPlayer[]} */
 var ClubCardPlayer = [];
 /** @type {ClubCard[]} */
@@ -753,7 +753,7 @@ var ClubCardList = [
 		ID: 11007,
 		Name: "Substitute Teacher",
 		Group: ["CollegeTeacher"],
-		MoneyPerTurn: -1,
+		MoneyPerTurn: -2,
 		OnTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent"));
 		}
@@ -1323,9 +1323,8 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	ClubCardPlayerAddMoney(CCPlayer, ClubCardLevelCost[CCPlayer.Level] * -1);
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
-	Text = Text.replace("MONEY", ClubCardLevelCost[CCPlayer.Level].toString());
+	Text = Text.replace("MONEYAMOUNT", ClubCardLevelCost[CCPlayer.Level].toString());
 	ClubCardLogAdd(Text);
-	ClubCardEndTurn();
 }
 
 /**
@@ -1878,8 +1877,11 @@ function ClubCardAIPlay() {
 	if (CCPlayer.Control != "AI") return;
 
 	// If the AI can upgrade, there's a 50/50 odds he does it
-	if ((Math.random() >= 0.5) && (CCPlayer.Level < ClubCardLevelCost.length - 1) && (CCPlayer.Money >= ClubCardLevelCost[CCPlayer.Level + 1]))
-		return ClubCardUpgradeLevel(CCPlayer);
+	if ((Math.random() >= 0.5) && (CCPlayer.Level < ClubCardLevelCost.length - 1) && (CCPlayer.Money >= ClubCardLevelCost[CCPlayer.Level + 1])) {
+		ClubCardUpgradeLevel(CCPlayer);
+		ClubCardAIStart();
+		return;
+	}
 
 	// Builds an array of all valid cards
 	let ValidCards = [];

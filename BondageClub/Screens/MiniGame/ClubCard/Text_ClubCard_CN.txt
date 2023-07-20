@@ -76,13 +76,13 @@ Get Mansion (MONEY)
 获得豪宅(MONEY)
 Get Manor (MONEY)
 获得庄园(MONEY)
-PLAYERNAME upgraded to Cottage for MONEY.
+PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到小屋。
-PLAYERNAME upgraded to House for MONEY.
+PLAYERNAME upgraded to House for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到房屋。
-PLAYERNAME upgraded to Mansion for MONEY.
+PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到豪宅。
-PLAYERNAME upgraded to Manor for MONEY.
+PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到庄园。
 SOURCEPLAYER gained AMOUNT Fame.
 SOURCEPLAYER获得了AMOUNT声望。
