@@ -1960,6 +1960,7 @@ function ClubCardBankrupt() {
  */
 function ClubCardEndGame(Victory) {
 	ElementRemove("CCLog");
+	ElementRemove("CCChat");
 	MiniGameEnded = true;
 	if (Victory != null) MiniGameVictory = Victory;
 	ClubCardOpponentDeck = [];
@@ -2242,7 +2243,15 @@ function ClubCardRenderPanel() {
 		Elem.style.backgroundColor = "#000000";
 		Elem.style.color = "#FFFFFF";
 	}
-	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 10 : 600, 285, (ClubCardFocus == null) ? 880 : 290);
+	if (document.getElementById("CCChat") == null) {
+		ElementCreateInput("CCChat", "text", "", "100");
+		let Elem = document.getElementById("CCChat");
+		Elem.style.backgroundColor = "#FFFFFF";
+		Elem.style.color = "#000000";
+		Elem.setAttribute("placeholder", TextGet("ChatHere"));
+	}
+	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
+	ElementPosition("CCChat", 1857, 865, 306);
 	ElementValue("CCLog", ClubCardLogText);
 	if (ClubCardLogScroll) {
 		ElementScrollToEnd("CCLog");
@@ -2352,4 +2361,16 @@ function ClubCardClick() {
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) return ClubCardFocus = {...ClubCardHover};
 
+}
+
+// The enter key sends a chat
+function ClubCardKeyDown(event) {
+	if ((document.activeElement.id == "CCChat") && (KeyPress == 13)) {
+		let Value = ElementValue("CCChat").trim();
+		if (Value != "") {
+			event.preventDefault();
+			ClubCardLogAdd(CharacterNickname(Player) + ": " + Value);
+			ElementValue("CCChat", "");
+		}
+	}
 }

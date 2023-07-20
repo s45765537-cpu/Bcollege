@@ -56,6 +56,7 @@ StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER club.
 EventRemoved,CARDTITLE event is removed.
 EventExpired,CARDTITLE event has expired.
+ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff
 GroupPolice,Police
