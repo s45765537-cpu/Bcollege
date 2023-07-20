@@ -81,16 +81,17 @@ function CollegeChessStrip(C) {
 
 /**
  * In bondage chess, a player can get restrained progressively
+ * @param {Character} C
  * @returns {void} - Nothing, the returns are quick exit short cuts
  */
 function CollegeChessRestrain(C) {
-	if ((InventoryGet(C, "ItemLegs") == null) && !InventoryGroupIsBlocked(C, "ItemLegs")) return InventoryWearRandom(C, "ItemLegs");
-	if ((InventoryGet(C, "ItemFeet") == null) && !InventoryGroupIsBlocked(C, "ItemFeet")) return InventoryWearRandom(C, "ItemFeet");
-	if ((InventoryGet(C, "ItemNeck") == null) && !InventoryGroupIsBlocked(C, "ItemNeck")) return InventoryWearRandom(C, "ItemNeck");
-	if (InventoryGet(C, "Cloth") != null || InventoryGet(C, "ClothLower") != null) return;
-	if ((InventoryGet(C, "ItemTorso") == null) && !InventoryGroupIsBlocked(C, "ItemTorso")) return InventoryWearRandom(C, "ItemTorso");
-	if ((InventoryGet(C, "ItemBreast") == null) && !InventoryGroupIsBlocked(C, "ItemBreast")) return InventoryWearRandom(C, "ItemBreast");
-	if ((InventoryGet(C, "ItemPelvis") == null) && !InventoryGroupIsBlocked(C, "ItemPelvis")) return InventoryWearRandom(C, "ItemPelvis");
+	if ((InventoryGet(C, "ItemLegs") == null) && !InventoryGroupIsBlocked(C, "ItemLegs")) InventoryWearRandom(C, "ItemLegs");
+	else if ((InventoryGet(C, "ItemFeet") == null) && !InventoryGroupIsBlocked(C, "ItemFeet")) InventoryWearRandom(C, "ItemFeet");
+	else if ((InventoryGet(C, "ItemNeck") == null) && !InventoryGroupIsBlocked(C, "ItemNeck")) InventoryWearRandom(C, "ItemNeck");
+	else if (InventoryGet(C, "Cloth") != null || InventoryGet(C, "ClothLower") != null) return;
+	else if ((InventoryGet(C, "ItemTorso") == null) && !InventoryGroupIsBlocked(C, "ItemTorso")) InventoryWearRandom(C, "ItemTorso");
+	else if ((InventoryGet(C, "ItemBreast") == null) && !InventoryGroupIsBlocked(C, "ItemBreast")) InventoryWearRandom(C, "ItemBreast");
+	else if ((InventoryGet(C, "ItemPelvis") == null) && !InventoryGroupIsBlocked(C, "ItemPelvis")) InventoryWearRandom(C, "ItemPelvis");
 }
 
 /**
@@ -102,8 +103,14 @@ function CollegeChessGameProgress() {
 	if (MiniGameChessGame.board() == null) return;
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterBlack);
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterWhite);
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Bondage")) return InventoryWearRandom(ChessCharacterBlack, "ItemArms", 5);
-	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Bondage")) return InventoryWearRandom(ChessCharacterWhite, "ItemArms", 5);
+	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Bondage")) {
+		InventoryWearRandom(ChessCharacterBlack, "ItemArms", 5);
+		return;
+	}
+	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Bondage")) {
+		InventoryWearRandom(ChessCharacterWhite, "ItemArms", 5);
+		return;
+	}
 	let MinorWhite = 0;
 	let MajorWhite = 0;
 	let MinorBlack = 0;

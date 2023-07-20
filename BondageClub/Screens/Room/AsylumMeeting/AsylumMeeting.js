@@ -72,8 +72,8 @@ function AsylumMeetingLoad() {
 
 		// At level 2 GGTS or more, the right patient joins the system
 		if (Level >= 2) {
-			InventoryWear(AsylumMeetingPatientRight, "FuturisticCuffs", "ItemArms");
-			InventoryGet(AsylumMeetingPatientRight, "ItemArms").Property = { SetPose: ["BackBoxTie"], Difficulty: 10, Effect: ["Block", "Prone"] };
+			const item = InventoryWear(AsylumMeetingPatientRight, "FuturisticCuffs", "ItemArms");
+			TypedItemSetOptionByName(AsylumMeetingPatientRight, item, "Wrist");
 			InventoryWear(AsylumMeetingPatientRight, "FuturisticAnkleCuffs", "ItemFeet");
 			InventoryAdd(AsylumMeetingPatientRight, "FuturisticCuffs", "ItemArms");
 			InventoryAdd(AsylumMeetingPatientRight, "FuturisticAnkleCuffs", "ItemFeet");

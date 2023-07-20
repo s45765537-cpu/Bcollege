@@ -530,34 +530,6 @@ function AsylumGGTSConfigureGag(Group) {
 }
 
 /**
- * Selects a random pose for an item and picks one, applying effects as appropriate
- * @param {Item} Item
- * @param {AssetPoseName[]} AdditionalPoses
- * @param {EffectName[]} Effects
- */
-function AsylumGGTSSetForcedPoseForItem(Item, AdditionalPoses, Effects) {
-	let SetPose = "";
-	if (Item.Property && Item.Property.SetPose && Item.Property.SetPose.length > 0)
-		SetPose = Item.Property.SetPose[0];
-
-	// @ts-ignore Used as a marker to reset the pose
-	AdditionalPoses.push("");
-	let Pose = CommonRandomItemFromList(SetPose, AdditionalPoses);
-	if (Pose == "")
-		Item.Property = { SetPose: [], Difficulty: 0, Effect: [], Type: null };
-	else
-		Item.Property = { SetPose: /** @type {AssetPoseName[]} */ ([Pose]), Difficulty: 10, Effect: Effects };
-
-	if (Pose == "BackBoxTie") {
-		TypedItemSetOptionByName(Player, Item, "Wrist");
-	} else if (Pose == "BackElbowTouch") {
-		TypedItemSetOptionByName(Player, Item, "Elbow");
-	} else if (Pose == "LegsClosed") {
-		TypedItemSetOptionByName(Player, Item, "Closed");
-	}
-}
-
-/**
  * Processes the tasks that doesn't need any player input. GGTS does everything and ends the task automatically.
  * @returns {void} - Nothing
  */
@@ -567,8 +539,11 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemPose") {
 		let Item = InventoryGet(Player, "ItemArms");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticCuffs")) {
-			AsylumGGTSSetForcedPoseForItem(Item, ["BackBoxTie", "BackElbowTouch"], ["Block", "Prone"]);
+			const typeOld = (Item.Property && Item.Property.Type) || "None";
+			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Wrist", "Elbow"]);
+			TypedItemSetOptionByName(Player, Item, typeNew);
 		}
+
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticStraitjacket")) {
 			if (Item.Property && Item.Property.Type === "cl0co0np0vp0a1") {
 				ModularItemSetOptionByName(Player, Item, "cl0co0np0vp0a0");
@@ -576,14 +551,21 @@ function AsylumGGTSAutomaticTask() {
 				ModularItemSetOptionByName(Player, Item, "cl0co0np0vp0a1");
 			}
 		}
+
 		Item = InventoryGet(Player, "ItemFeet");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticAnkleCuffs")) {
-			AsylumGGTSSetForcedPoseForItem(Item, ["LegsClosed"], ["Prone"]);
+			const typeOld = (Item.Property && Item.Property.Type) || "None";
+			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Closed"]);
+			TypedItemSetOptionByName(Player, Item, typeNew);
 		}
+
 		Item = InventoryGet(Player, "ItemLegs");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticLegCuffs")) {
-			AsylumGGTSSetForcedPoseForItem(Item, ["LegsClosed"], ["Prone", "Slow"]);
+			const typeOld = (Item.Property && Item.Property.Type) || "None";
+			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Closed"]);
+			TypedItemSetOptionByName(Player, Item, typeNew);
 		}
+
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);
 		return AsylumGGTSEndTaskSave();

@@ -103,26 +103,31 @@ function ShibariRandomBondage(C, Level) {
 		if (Level >= 2) InventoryWear(C, "HempRope", "ItemLegs", "Default", (Level - 1) * 3);
 		if (Level >= 2) InventoryWear(C, "HempRope", "ItemFeet", "Default", (Level - 1) * 3);
 		if ((Level >= 3) && (InventoryGet(C, "Cloth") == null) && (InventoryGet(C, "ItemTorso") == null)) {
-			InventoryWear(C, "HempRopeHarness", "ItemTorso", "Default", (Level - 1) * 3);
-			if (Math.random() > 0.66) InventoryGet(C, "ItemTorso").Property = { Type: "Diamond", Difficulty: 0, Effect: [] };
-			else if (Math.random() > 0.5) InventoryGet(C, "ItemTorso").Property = { Type: "Harness", Difficulty: 0, Effect: [] };
+			const torsoItem = InventoryWear(C, "HempRopeHarness", "ItemTorso", "Default", (Level - 1) * 3);
+			if (Math.random() > 0.66) {
+				TypedItemSetOptionByName(C, torsoItem, "Diamond");
+			} else if (Math.random() > 0.5) {
+				TypedItemSetOptionByName(C, torsoItem, "Harness");
+			}
 		}
 		if (Level >= 4) InventoryWear(C, "BambooGag", "ItemMouth");
 
 		// At 3 or more, there's a random chance of a more complicated bondage
 		if (Level >= 3) {
 			Level = Math.floor(Math.random() * 4);
-			InventoryGet(C, "ItemFeet").Property = { Type: null };
-			InventoryGet(C, "ItemArms").Property = { Type: null };
-			if (Level == 1) InventoryGet(C, "ItemFeet").Property = { Type: "Suspension", SetPose: ["Suspension", "LegsClosed"], Difficulty: 0, Effect: [] };
-			if (Level == 2) InventoryGet(C, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 0, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
-			if (Level == 3) {
-				let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
+			if (Level == 1) {
+				TypedItemSetOptionByName(C, "ItemFeet", "Suspension");
+			} else if (Level == 2) {
+				TypedItemSetOptionByName(C, "ItemArms", "Hogtied");
+			} else if (Level == 3) {
+				const armsItem = InventoryGet(C, "ItemArms");
+				TypedItemSetOptionByName(C, armsItem, "SuspensionHogtied");
 				const height = 0.67 * Math.random();
-				SuspensionHogtiedProperty.Difficulty = 0;
-				SuspensionHogtiedProperty.OverrideHeight.Height = height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
-				SuspensionHogtiedProperty.OverrideHeight.HeightRatioProportion = height;
-				InventoryGet(C, "ItemArms").Property = SuspensionHogtiedProperty;
+				armsItem.Property.OverrideHeight = {
+					Height: height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+					HeightRatioProportion: height,
+					Priority: 0,
+				};
 			}
 		}
 		CharacterRefresh(C);

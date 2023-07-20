@@ -481,17 +481,23 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 	if (Spell == "Tight") { CharacterSetFacialExpression(Player, "Blush", "Low", 8); CharacterSetFacialExpression(Player, "Eyes", "Closed", 8); }
 	if (Spell == "Fail") { CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Blush", "Medium", 8); CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Eyes", "Angry", 8); }
 	if (Spell == "FlyingHogtie") {
-		let SuspensionHogtiedProperty = JSON.parse(JSON.stringify(TypedItemGetOption("ItemArms", "HempRope", "SuspensionHogtied").Property));
-		let Height = 0.67 * Math.random();
-		SuspensionHogtiedProperty.Difficulty = 5;
-		SuspensionHogtiedProperty.OverrideHeight.Height = Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height;
-		SuspensionHogtiedProperty.OverrideHeight.HeightRatioProportion = Height;
-		InventoryGet(Player, "ItemArms").Property = SuspensionHogtiedProperty;
+		const item = InventoryGet(Player, "ItemArms");
+		TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
+		const Height = 0.67 * Math.random();
+		item.Property.OverrideHeight = {
+			Height: Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+			HeightRatioProportion: Height,
+			Priority: 0,
+		};
 		CharacterSetFacialExpression(Player, "Blush", "High", 8);
 		CharacterSetFacialExpression(Player, "Eyes", "Surprised", 8);
 	}
-	if (Spell == "Hogtie") InventoryGet(Player, "ItemArms").Property = { Type: "Hogtied", SetPose: ["Hogtied"], Difficulty: 5, Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], Effect: ["Block", "Freeze", "Prone"] };
-	if (Spell == "ReleaseHogtie") InventoryGet(Player, "ItemArms").Property = { Type: null };
+	if (Spell == "Hogtie") {
+		TypedItemSetOptionByName(Player, "ItemArms", "Hogtied");
+	}
+	if (Spell == "ReleaseHogtie") {
+		TypedItemSetOptionByName(Player, "ItemArms", "Basic");
+	}
 	if (Spell == "SwitchRope") {
 		if (InventoryGet(Player, "ItemLegs") != null) InventoryWear(Player, "HempRope", "ItemLegs");
 		if (InventoryGet(Player, "ItemFeet") != null) InventoryWear(Player, "HempRope", "ItemFeet");

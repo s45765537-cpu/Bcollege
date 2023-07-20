@@ -7835,7 +7835,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
 			},
-		}, // LeatherLegCuffs
+		}, // LeatherDeluxeLegCuffs
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],

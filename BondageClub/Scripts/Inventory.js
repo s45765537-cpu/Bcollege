@@ -690,7 +690,7 @@ function InventoryLocked(C, AssetGroup, CheckProperties) {
  * @param {readonly string[]} [AllowedAssets=null] - A list of assets from which one must be selected
  * @param {boolean} [IgnoreRequirements=false] - If True, the group being blocked and prerequisites will not prevent the item being added.
  *  NOTE: Long-term this should be replaced with better checks before calling this function.
- * @returns {void} - Nothing
+ * @returns {Item | null} - The equipped item (if any)
  */
 function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn = false, Extend = true, AllowedAssets = null, IgnoreRequirements = false) {
 	if (InventoryLocked(C, /** @type {AssetGroupItemName} */(GroupName), true)) {
@@ -724,15 +724,15 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 	// Pick a random color for clothes from their schema
 	const SelectedColor = IsClothes ? SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)] : null;
 
-	CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty, null, false);
-
+	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty, null, false);
 	if (Extend) {
-		InventoryRandomExtend(C, GroupName);
+		item = InventoryRandomExtend(C, GroupName);
 	}
 
 	if (Refresh) {
 		CharacterRefresh(C);
 	}
+	return item;
 }
 
 /**
@@ -740,7 +740,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
  * @param {Character} C - The character wearing the item
  * @param {AssetGroupName} GroupName - The name of the item's group
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @returns {void} - Nothing
+ * @returns {Item | null} - The equipped item (if any)
  */
 function InventoryRandomExtend(C, GroupName, C_Source=null) {
 	const Item = InventoryGet(C, GroupName);
@@ -757,6 +757,7 @@ function InventoryRandomExtend(C, GroupName, C_Source=null) {
 			// Archetype does not yet support random extension
 			break;
 	}
+	return Item;
 }
 
 /**
