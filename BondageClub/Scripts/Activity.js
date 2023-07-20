@@ -770,6 +770,13 @@ function ActivityExpression(C, Progress) {
 		if (C.Appearance[A].Asset.Group.Name == "Eyes2") C.Appearance[A].Property = { Expression: Eyes };
 	}
 
+	// Penis gets hard at arousal 30+
+	let Penis = InventoryGet(C, "Pussy");
+	if ((Penis != null) && (Penis.Asset != null) && (Penis.Asset.Name == "Penis")) {
+		if (Progress < 30) Penis.Property = { Expression: null };
+		else Penis.Property = { Expression: "Hard" };
+	}
+
 	// Refreshes the character
 	CharacterRefresh(C, false);
 
