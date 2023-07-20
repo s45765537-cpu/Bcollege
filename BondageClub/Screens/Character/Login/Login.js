@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Christian", 
-	"DarkStar", "Desch", "Dynilath", "Edwin", "Elfreda", "Escurse", "Faleata", "FanRunner", 
-	"Greendragon", "JoeyDubDee", "Komiro", "M4c0202", "Michal", "Michel", "Mike", "Mindtie", 
-	"Misa", "Nick", "Nightcore", "Nora", "PotatoOtter", "Qrroww", "Rika", "Shadow", "SoulCollar", 
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Christian",
+	"DarkStar", "Desch", "Dynilath", "Edwin", "Elfreda", "Escurse", "Faleata", "FanRunner",
+	"Greendragon", "JoeyDubDee", "Komiro", "M4c0202", "Michal", "Michel", "Mike", "Mindtie",
+	"Misa", "Nick", "Nightcore", "Nora", "PotatoOtter", "Qrroww", "Rika", "Shadow", "SoulCollar",
 	"Tam", "Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xepherio", "William"
 ];
 
@@ -216,6 +216,12 @@ let LoginInventoryFixups = [
 	{ Old: { Group: "ItemHands", Name: "SpankingToysWartenbergWheel" }, New: { Group: "ItemHandheld", Name: "WartenbergWheel"} },
 	{ Old: { Group: "ItemHands", Name: "SpankingToysWhip" }, New: { Group: "ItemHandheld", Name: "Whip"} },
 	{ Old: { Group: "ItemHands", Name: "SpankingToysWhipPaddle" }, New: { Group:"ItemHandheld", Name:"WhipPaddle" } },
+	{ Old: { Group: "Pussy", Name: "PussyLight1" }, New: { Group: "Pussy", Name: "Pussy1" } },
+	{ Old: { Group: "Pussy", Name: "PussyLight2" }, New: { Group: "Pussy", Name: "Pussy2" } },
+	{ Old: { Group: "Pussy", Name: "PussyLight3" }, New: { Group: "Pussy", Name: "Pussy3" } },
+	{ Old: { Group: "Pussy", Name: "PussyDark1" }, New: { Group: "Pussy", Name: "Pussy1" } },
+	{ Old: { Group: "Pussy", Name: "PussyDark2" }, New: { Group: "Pussy", Name: "Pussy2" } },
+	{ Old: { Group: "Pussy", Name: "PussyDark3" }, New: { Group: "Pussy", Name: "Pussy3" } },
 ];
 
 /**

@@ -374,7 +374,7 @@ type AssetAttribute =
 	"Skirt" | "SuitLower" | "UpperLarge" |
 	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
 	"CanAttachMittens" |
-	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "PussyLight1" | "PussyLight2" | "PussyLight3" | "PussyDark1" | "PussyDark2" | "PussyDark3" |
+	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3" |
 	"CagePlastic2" | "CageTechno" | "CageFlat" |
 	"FuturisticRecolor" | "FuturisticRecolorDisplay" |
 	"PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
@@ -1091,6 +1091,7 @@ interface AssetLayer {
 	ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
+	ColorSuffix: Record<string, string> | null;
 }
 
 /** An object defining a group of alpha masks to be applied when drawing an asset layer */

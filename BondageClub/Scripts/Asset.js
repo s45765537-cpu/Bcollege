@@ -215,7 +215,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
 		Gender: AssetDef.Gender,
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
-		ColorSuffix: typeof Group.ColorSuffix === "object" ? Group.ColorSuffix : {},
+		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
 	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
 
@@ -390,6 +390,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		PoseMapping: Layer.PoseMapping || A.PoseMapping,
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
+		ColorSuffix: CommonIsObject(Layer.ColorSuffix) ? Layer.ColorSuffix : null,
 	}, AssetParsePoseProperties(
 		Layer,
 		Array.isArray(A.AllowPose) ? A.AllowPose.slice() : [])

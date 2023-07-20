@@ -45,7 +45,7 @@ function CollegeTennisLoad() {
 		CharacterNaked(CollegeTennisJennifer);
 		if (CollegeTennisJenniferStatus != "Away") {
 			CollegeTennisJennifer.Name = "Jennifer";
-			InventoryWear(CollegeTennisJennifer, "PussyLight1", "Pussy", "#edd6b0");
+			InventoryWear(CollegeTennisJennifer, "Pussy1", "Pussy", "#edd6b0");
 			InventoryWear(CollegeTennisJennifer, "Eyes5", "Eyes", "#ffa239");
 			InventoryWear(CollegeTennisJennifer, "Eyes5", "Eyes2", "#ffa239");
 			InventoryWear(CollegeTennisJennifer, "Mouth", "Mouth", "Default");

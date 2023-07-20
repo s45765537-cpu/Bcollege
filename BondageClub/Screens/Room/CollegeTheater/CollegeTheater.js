@@ -36,7 +36,7 @@ function CollegeTheaterGetTeacherKey() { LogAdd("TeacherKey", "College"); }
 function CollegeTheaterJuliaClothes(C) {
 	CharacterNaked(C);
 	InventoryWear(C, "Yukata1", "Cloth", "#993333");
-	InventoryWear(C, "PussyDark1", "Pussy", "#e86e37");
+	InventoryWear(C, "Pussy1", "Pussy", "#e86e37");
 	InventoryWear(C, "Eyes3", "Eyes", "#f85e27");
 	InventoryWear(C, "Eyes3", "Eyes2", "#f85e27");
 	InventoryWear(C, "Mouth", "Mouth", "Default");

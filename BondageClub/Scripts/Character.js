@@ -391,7 +391,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return InventoryIsItemInList(this, "Pussy", ["Penis"]);
 		},
 		HasVagina: function () {
-			return InventoryIsItemInList(this, "Pussy", ["PussyLight1", "PussyLight2", "PussyLight3", "PussyDark1", "PussyDark2", "PussyDark3"]);
+			return InventoryIsItemInList(this, "Pussy", ["Pussy1", "Pussy2", "Pussy3"]);
 		},
 		IsFlatChested: function () {
 			return InventoryIsItemInList(this, "BodyUpper", ["FlatSmall", "FlatMedium"]);

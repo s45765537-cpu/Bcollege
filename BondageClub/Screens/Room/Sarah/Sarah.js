@@ -120,7 +120,7 @@ function SarahLoad() {
 			Sarah.AllowItem = false;
 			CharacterNaked(Sarah);
 			InventoryRemove(Sarah, "Nipples");
-			InventoryWear(Sarah, "PussyLight1", "Pussy", "#edd6b0");
+			InventoryWear(Sarah, "Pussy1", "Pussy", "#edd6b0");
 			InventoryWear(Sarah, "Eyes1", "Eyes", "#b98364");
 			InventoryWear(Sarah, "Eyes1", "Eyes2", "#b98364");
 			InventoryWear(Sarah, "Mouth", "Mouth", "Default");
@@ -192,7 +192,7 @@ function SarahLoad() {
 		InventoryWear(Sophie, "Stockings4", "Socks", "#222222");
 		InventoryWear(Sophie, "Corset3", "Bra", "#222222");
 		InventoryWear(Sophie, "Panties13", "Panties", "#222222");
-		InventoryWear(Sophie, "PussyLight1", "Pussy", "#555555");
+		InventoryWear(Sophie, "Pussy1", "Pussy", "#555555");
 		InventoryWear(Sophie, "Eyes1", "Eyes", "#b08061");
 		InventoryWear(Sophie, "Eyes1", "Eyes2", "#b08061");
 		InventoryWear(Sophie, "Glasses5", "Glasses", "#222222");
