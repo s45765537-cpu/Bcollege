@@ -5,7 +5,7 @@ const chineseRandomGarbledSound = ['啊', '恩', '咕', '唔', '哈', '嗷', '�
 
 /**
  * A lookup mapping the gag effect names to their corresponding gag level numbers.
- * @type {Partial<Record<EffectName, number>>}
+ * @type {Record<GagEffectName, number>}
  * @constant
  */
 var SpeechGagLevelLookup = {
@@ -33,7 +33,7 @@ function SpeechFullEmote(D) {
 
 /**
  * Returns the gag level corresponding to the given effect array, or 0 if the effect array contains no gag effects
- * @param {EffectName[]} Effect - The effect to lookup the gag level for
+ * @param {readonly EffectName[]} Effect - The effect to lookup the gag level for
  * @return {number} - The gag level corresponding to the given effects
  */
 function SpeechGetEffectGagLevel(Effect) {

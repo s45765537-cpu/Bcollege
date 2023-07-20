@@ -9,6 +9,7 @@
 	},
 	"include": [
 		"../../Assets/Female3DCG/Female3DCG_Types.d.ts",
+		"../../Scripts/Typedef.d.ts",
 		"AssetCheck.js"
 	]
 }

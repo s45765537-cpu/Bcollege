@@ -64,10 +64,10 @@ let CraftingLayerNames = null;
  */
 const CraftingPropertyMap = new Map([
 	["Normal", function(Item) { return true; }],
-	["Large", function(Item) { return CraftingItemHasEffect(Item, ["GagVeryLight", "GagEasy", "GagLight", "GagNormal", "GagMedium", "GagHeavy", "GagVeryHeavy", "GagTotal", "GagTotal2"]); }],
-	["Small", function(Item) { return CraftingItemHasEffect(Item, ["GagVeryLight", "GagEasy", "GagLight", "GagNormal", "GagMedium", "GagHeavy", "GagVeryHeavy", "GagTotal", "GagTotal2"]); }],
-	["Thick", function(Item) { return CraftingItemHasEffect(Item, ["BlindLight", "BlindNormal", "BlindHeavy", "BlindTotal"]); }],
-	["Thin", function(Item) { return CraftingItemHasEffect(Item, ["BlindLight", "BlindNormal", "BlindHeavy", "BlindTotal"]); }],
+	["Large", function(Item) { return CraftingItemHasEffect(Item, CommonKeys(SpeechGagLevelLookup)); }],
+	["Small", function(Item) { return CraftingItemHasEffect(Item, CommonKeys(SpeechGagLevelLookup)); }],
+	["Thick", function(Item) { return CraftingItemHasEffect(Item, [...CharacterBlindLevels.keys()]); }],
+	["Thin", function(Item) { return CraftingItemHasEffect(Item, [...CharacterBlindLevels.keys()]); }],
 	["Secure", function(Item) { return true; }],
 	["Loose", function(Item) { return true; }],
 	["Decoy", function(Item) { return true; }],

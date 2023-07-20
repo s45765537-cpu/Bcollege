@@ -569,7 +569,7 @@ function recursivelyListDir(dir, pathSet, filter) {
 
 /**
  *
- * @param  {Record<ExtendedArchetype, Record<string, ExtendedItemData>>} dataSuperRecord
+ * @param  {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
  */
 function testExtendedItemButtonImage(dataSuperRecord) {
 	// Gather all expected image paths
@@ -592,7 +592,7 @@ function testExtendedItemButtonImage(dataSuperRecord) {
 				}
 			}
 			for (const buttonData of data.drawData.elementData) {
-				if (buttonData.imagePath != null) {
+				if ("imagePath" in buttonData && buttonData.imagePath != null) {
 					requiredImages.add(buttonData.imagePath);
 				}
 			}
@@ -638,6 +638,184 @@ function testAssetLayerNames(assets) {
 				+ `with duplicate names: ${duplicateLayers}`
 			);
 		}
+	}
+}
+
+/**
+ * Test whether a subset of asset and extended item properties are disjoint.
+ * The subset concerns those properties that BC always checks at both the asset and item level.
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
+ */
+function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
+	/**
+	 * All array-like properties that BC checks at both the asset and item level.
+	 * @satisfies {readonly (keyof ItemProperties)[]}
+	 */
+	const propNames = /** @type {const} */([
+		"Effect",
+		"Hide",
+		"HideItem",
+		"HideItemExclude",
+		"Block",
+		"AllowActivityOn",
+	]);
+
+	// Gather all expected image paths
+	for (const [archetype, dataRecord] of Object.entries(dataSuperRecord)) {
+		if (dataRecord === null || typeof dataRecord !== "object") {
+			error(`${archetype} data lookup not found`);
+			continue;
+		}
+
+		for (const data of Object.values(dataRecord)) {
+			/** @type {ExtendedItemOption[]} */
+			const options = [];
+			if (data.archetype === "modular") {
+				// Check the modules' drawdata as well
+				for (const mod of data.modules) {
+					options.push(...mod.Options);
+				}
+			} else {
+				if ("options" in data && Array.isArray(data.options)) {
+					options.push(...data.options);
+				}
+			}
+
+			const asset = data.asset;
+			for (const propName of propNames) {
+				if (propName === "Effect") {
+					testAssetAndExtendedEffectIsDisjoint(options, asset);
+				}
+
+				/** @type {Set<string>} */
+				const propSet = new Set();
+				for (const option of options) {
+					/** @type {string[]} */
+					const propArray = (option.Property && option.Property[propName]) || [];
+					for (const i of propArray) {
+						propSet.add(i);
+					}
+				}
+
+				/** @type {string[]} */
+				const intersection = (asset[propName] || []).filter(i => propSet.has(i)).sort();
+				if (intersection.length > 0) {
+					error(
+						`${asset.Group.Name}:${asset.Name}: found ${intersection.length} intersection(s) `
+						+ `between asset and extended item option "${propName}" properties: ${intersection}`
+					);
+				}
+			}
+		}
+	}
+}
+
+/** @type {Set<GagEffectName>} */
+const GAG_EFFECTS = new Set([
+	"GagVeryLight",
+	"GagEasy",
+	"GagLight",
+	"GagNormal",
+	"GagMedium",
+	"GagHeavy",
+	"GagVeryHeavy",
+	"GagTotal",
+	"GagTotal2",
+	"GagTotal3",
+	"GagTotal4",
+]);
+
+/** @type {Set<BlindEffectName>} */
+const BLIND_EFFECTS = new Set([
+	"BlindLight",
+	"BlindNormal",
+	"BlindHeavy",
+	"BlindTotal",
+]);
+
+
+/** @type {Set<BlurEffectName>} */
+const BLUR_EFFECTS = new Set([
+	"BlurLight",
+	"BlurNormal",
+	"BlurHeavy",
+	"BlurTotal",
+]);
+
+
+/** @type {Set<DeafEffectName>} */
+const DEAF_EFFECTS = new Set([
+	"DeafLight",
+	"DeafNormal",
+	"DeafHeavy",
+	"DeafTotal",
+]);
+
+/**
+ * A {@link Set.has} variant for string-based sets that returns a typeguard.
+ * @template {string} T
+ * @param {Set<T>} set
+ * @param {string} value
+ * @returns {value is T}
+ */
+function setHas(set, value) {
+	return set.has(/** @type {T} */(value));
+}
+
+/**
+ * A helper for {@link testAssetAndExtendedPropertyIsDisjoint} that performs a stricter check for `Effect` disjointment.
+ * More specifically, this checks whether only a single effect (at most) of each of the following effect categories is present:
+ *
+ * * Gag level
+ * * Blindness level
+ * * Deafness level
+ * * Blur level
+ * @param {readonly ExtendedItemOption[]} options
+ * @param {Asset} asset
+ */
+function testAssetAndExtendedEffectIsDisjoint(options, asset) {
+	/** @type {Set<string>} */
+	const propSet = new Set();
+	for (const option of options) {
+		const propArray = (option.Property && option.Property.Effect) || [];
+		for (const i of propArray) {
+			if (setHas(GAG_EFFECTS, i)) {
+				propSet.add("Gag level");
+			}
+			if (setHas(BLIND_EFFECTS, i)) {
+				propSet.add("Blind level");
+			}
+			if (setHas(BLUR_EFFECTS, i)) {
+				propSet.add("Blur level");
+			}
+			if (setHas(DEAF_EFFECTS, i)) {
+				propSet.add("Deaf level");
+			}
+		}
+	}
+
+	/** @type {string[]} */
+	const intersection = [];
+	for (const i of asset.Effect) {
+		if (setHas(GAG_EFFECTS, i) && propSet.has("Gag level")) {
+			intersection.push("Gag level");
+		}
+		if (setHas(DEAF_EFFECTS, i) && propSet.has("Blind level")) {
+			intersection.push("Blind level");
+		}
+		if (setHas(BLUR_EFFECTS, i) && propSet.has("Blur level")) {
+			intersection.push("Blur level");
+		}
+		if (setHas(DEAF_EFFECTS, i) && propSet.has("Deaf level")) {
+			intersection.push("Deaf level");
+		}
+	}
+	if (intersection.length > 0) {
+		intersection.sort();
+		error(
+			`${asset.Group.Name}:${asset.Name}: found ${intersection.length} intersection(s) `
+			+ `between asset and extended item option "Effect" properties categories: ${intersection}`
+		);
 	}
 }
 
@@ -845,4 +1023,11 @@ function sanitizeVMOutput(input) {
 		vibrating: VibratingItemDataLookup,
 	});
 	testAssetLayerNames(assetList);
+	testAssetAndExtendedPropertyIsDisjoint({
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	});
 })();

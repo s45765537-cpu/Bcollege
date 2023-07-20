@@ -3,7 +3,7 @@
 var Character = [];
 var CharacterNextId = 1;
 
-/** @type Map<EffectName, number> */
+/** @type {Map<BlindEffectName, number>} */
 const CharacterBlindLevels = new Map([
 	/** Reserve `BlindTotal` for situations where the blindness level should never
 	 *  be lowered by crafted properties (e.g. while in VR) */
@@ -13,7 +13,7 @@ const CharacterBlindLevels = new Map([
 	["BlindLight", 1],
 ]);
 
-/** @type Map<EffectName, number> */
+/** @type {Map<DeafEffectName, number>} */
 const CharacterDeafLevels = new Map([
 	["DeafTotal", 4],
 	["DeafHeavy", 3],
@@ -21,7 +21,7 @@ const CharacterDeafLevels = new Map([
 	["DeafLight", 1],
 ]);
 
-/** @type Map<EffectName, number> */
+/** @type {Map<BlurEffectName, number>} */
 const CharacterBlurLevels = new Map([
 	["BlurTotal", 50],
 	["BlurHeavy", 20],
@@ -157,7 +157,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			}
 			if (!eyesOnly) {
 				const effects = CharacterGetEffects(this, ["ItemHead", "ItemHood", "ItemNeck", "ItemDevices"], true);
-				blindLevel += effects.reduce((Start, EffectName) => Start + (CharacterBlindLevels.get(EffectName) || 0), 0);
+				blindLevel += effects.reduce((Start, EffectName) => Start + (CharacterBlindLevels.get(/**@type {BlindEffectName} */(EffectName)) || 0), 0);
 				blindLevel += InventoryCraftCount(this, "Thick");
 				blindLevel -= InventoryCraftCount(this, "Thin");
 			}
@@ -1043,19 +1043,10 @@ function CharacterGetEffects(C, Groups = null, AllowDuplicates = false) {
 		.filter(A => !Array.isArray(Groups) || Groups.length == 0 || Groups.includes(A.Asset.Group.Name))
 		.forEach(item => {
 			let itemEffects = [];
-			let overrideAsset = false;
-
 			if (item.Property && Array.isArray(item.Property.Effect)) {
 				CommonArrayConcatDedupe(itemEffects, item.Property.Effect);
-				overrideAsset = !!item.Property.OverrideAssetEffect;
 			}
-			if (!overrideAsset) {
-				if (Array.isArray(item.Asset.Effect)) {
-					CommonArrayConcatDedupe(itemEffects, item.Asset.Effect);
-				} else if (Array.isArray(item.Asset.Group.Effect)) {
-					CommonArrayConcatDedupe(itemEffects, item.Asset.Group.Effect);
-				}
-			}
+			CommonArrayConcatDedupe(itemEffects, item.Asset.Effect);
 
 			if (AllowDuplicates) {
 				totalEffects = totalEffects.concat(itemEffects);
