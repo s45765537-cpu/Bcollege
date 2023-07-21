@@ -49,47 +49,59 @@ function TimerHourToString(T) {
  */
 function TimerInventoryRemove() {
 
+	let updatedNPCs = false;
+
 	// Cycles through all items items for all offline characters (player + NPC)
-	for (let C = 0; C < Character.length; C++)
-		if (Character[C].IsPlayer() || Character[C].IsNpc())
-			for (let A = 0; A < Character[C].Appearance.length; A++) {
-				const item = Character[C].Appearance[A];
-				if ((item.Property != null) && (item.Property.RemoveTimer != null))
-					if ((typeof item.Property.RemoveTimer == "number") && (item.Property.RemoveTimer <= CurrentTime)) {
-						const Lock = InventoryGetLock(item);
-						const ShouldRemoveItem = item.Property.RemoveItem;
+	for (const C of Character) {
+		let update = false;
+		if (!C.IsPlayer() && !C.IsNpc())
+			continue;
 
-						// Remove any lock or timer
-						ValidationDeleteLock(item.Property, false);
+		const expressionItems = C.Appearance.filter(item => item.Property && typeof item.Property.ExpressionTimer === "number" && item.Property.ExpressionTimer <= CurrentTime);
+		for (let item of expressionItems) {
+			const group = item.Asset.Group;
+			if (group.IsAppearance() && group.AllowExpression != null)
+				CharacterSetFacialExpression(C, group.Name, null);
+		}
 
-						// If we're removing a lock and we're in a chatroom, send a chatroom message
-						if (Lock && ServerPlayerIsInChatRoom()) {
+		const timedItems = C.Appearance.filter(item => item.Property && typeof item.Property.RemoveTimer === "number" && item.Property.RemoveTimer <= CurrentTime);
+		for (let item of timedItems) {
+			const Lock = InventoryGetLock(item);
+			const ShouldRemoveItem = item.Property.RemoveItem;
 
-							const Dictionary = new DictionaryBuilder()
-								.destinationCharacterName(Character[C])
-								.focusGroup(item.Asset.Group.Name)
-								.asset(Lock.Asset, "LockName")
-								.build();
-							ServerSend("ChatRoomChat", {Content: "TimerRelease", Type: "Action", Dictionary});
-						}
+			// Remove any lock or timer
+			ValidationDeleteLock(item.Property, false);
 
-						// If we must remove the linked item from the character or the facial expression
-						const group = item.Asset.Group;
-						if (ShouldRemoveItem && group.IsItem())
-							InventoryRemove(Character[C], group.Name);
-						else if (group.IsAppearance() && group.AllowExpression != null)
-							CharacterSetFacialExpression(Character[C], group.Name, null);
-						else
-							CharacterRefresh(Character[C]);
-
-						// Sync with the server and exit
-						if (Character[C].ID == 0) ChatRoomCharacterUpdate(Character[C]);
-						else ServerPrivateCharacterSync();
-						return;
-
-					}
+			// If we're removing a lock and we're in a chatroom, send a chatroom message
+			if (Lock && ServerPlayerIsInChatRoom()) {
+				const Dictionary = new DictionaryBuilder()
+					.destinationCharacterName(C)
+					.focusGroup(item.Asset.Group.Name)
+					.asset(Lock.Asset, "LockName")
+					.build();
+				ServerSend("ChatRoomChat", {Content: "TimerRelease", Type: "Action", Dictionary});
 			}
 
+			// If we must remove the linked item from the character or the facial expression
+			const group = item.Asset.Group;
+			if (ShouldRemoveItem) {
+				InventoryRemove(C, group.Name);
+				update = true;
+			}
+		}
+
+		if (update) {
+			CharacterRefresh(C);
+			if (C.IsPlayer())
+				ChatRoomCharacterUpdate(C);
+			else
+				updatedNPCs = updatedNPCs || true;
+		}
+	}
+
+	if (updatedNPCs) {
+		ServerPrivateCharacterSync();
+	}
 }
 
 /**
