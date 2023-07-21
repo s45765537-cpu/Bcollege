@@ -119,6 +119,7 @@ function OnlineGameAllowBlockItems() {
  * @returns {void} - Nothing
  */
 function OnlineGameLoadStatus() {
+	if (ChatRoomGame == "ClubCard") GameClubCardLoadStatus();
 	if (ChatRoomGame == "LARP") GameLARPLoadStatus();
 	if (ChatRoomGame == "MagicBattle") GameMagicBattleLoadStatus();
 }
@@ -128,6 +129,7 @@ function OnlineGameLoadStatus() {
  * @returns {void} - Nothing
  */
 function OnlineGameReset() {
+	if (ChatRoomGame != "ClubCard") GameClubCardReset();
 	if (ChatRoomGame != "LARP") GameLARPReset();
 	if (ChatRoomGame != "MagicBattle") GameMagicBattleReset();
 	if (ChatRoomGame == "GGTS") AsylumGGTSReset();
@@ -155,6 +157,7 @@ function OnlineGameCharacterInChatRoom(MemberNumber) {
  */
 function OnlineGameDrawCharacter(C, X, Y, Zoom) {
 	if (ChatRoomGame === "GGTS") AsylumGGTSDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGame === "ClubCard") GameClubCardDrawCharacter(C, X, Y, Zoom);
 	if (ChatRoomGame === "LARP") GameLARPDrawCharacter(C, X, Y, Zoom);
 	if (ChatRoomGame === "MagicBattle") GameMagicBattleDrawCharacter(C, X, Y, Zoom);
 }

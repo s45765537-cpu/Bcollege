@@ -525,7 +525,6 @@ function GameMagicBattleLoadStatus() {
 	GameMagicBattleReset();
 }
 
-
 /**
  * Draws the online game images/text needed on the characters
  * @param {Character} C - Character to draw the info for

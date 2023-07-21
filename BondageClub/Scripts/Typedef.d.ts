@@ -464,6 +464,7 @@ interface IChatRoomGameResponse {
 	Data: {
 		KinkyDungeon: any;
 		OnlineBounty: any;
+
 		/* LARP */
 		GameProgress?: "Start" | "Stop" | "Next" | "Skip" | "Action";
 		Action?: undefined;
@@ -473,6 +474,10 @@ interface IChatRoomGameResponse {
 		/* MagicBattle */
 		Spell?: string;
 		Time?: number; /* ms */
+
+		/* Club Card */
+		Player1?: number;
+		Player2?: number;
 	}
 	Sender: number;
 	RNG: number
@@ -508,7 +513,7 @@ interface IChatRoomSyncArousalMessage {
 type ChatRoomLovershipOption = "" | "CanOfferBeginWedding" | "CanBeginWedding";
 type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanEndTrial";
 type ChatRoomSpaceType = "X" | "" | "M" | "Asylum";
-type ChatRoomGame = "" | "LARP" | "MagicBattle" | "GGTS";
+type ChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS";
 type ChatRoomBlockCategory = AssetCategory | "Leashing" | "Photos" | "Arousal";
 type ChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU";
 
@@ -3155,6 +3160,8 @@ interface GamePokerParameters {
 interface GameClubCardParameters {
 	Deck: string[];
 	Reward?: string;
+	Status?: OnlineGameStatus;
+	PlayerSlot?: number;
 }
 
 //#endregion

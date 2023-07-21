@@ -4379,6 +4379,7 @@ function ChatRoomGameResponse(data) {
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
 	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
+	else if (ChatRoomGame == "ClubCard") GameClubCardProcess(data);
 }
 
 /**

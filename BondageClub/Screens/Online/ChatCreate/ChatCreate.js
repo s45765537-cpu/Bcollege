@@ -9,7 +9,7 @@ var ChatCreateLocked = null;
 /** @type {ChatRoomGame} */
 var ChatCreateGame = "";
 /** @type {ChatRoomGame[]} */
-var ChatCreateGameList = ["", "LARP", "MagicBattle", "GGTS"];
+var ChatCreateGameList = ["", "ClubCard", "LARP", "MagicBattle", "GGTS"];
 var ChatCreateBackgroundIndex = 0;
 var ChatCreateBackgroundSelect = "";
 /** @type {null | string[]} */
@@ -27,15 +27,10 @@ var ChatCreateLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU"];
  */
 function ChatCreateLoad() {
 
-	// Resets the LARP game status
-	if ((ChatRoomGame == "LARP") && (GameLARPGetStatus() != "")) {
-		GameLARPSetStatus("");
-	}
-
-	// Resets the Magic Battle game status
-	if ((ChatRoomGame == "MagicBattle") && (GameMagicBattleGetStatus() != "")) {
-		GameMagicBattleSetStatus("");
-	}
+	// Resets the online games status
+	if (GameLARPGetStatus() != "") GameLARPSetStatus("");
+	if (GameMagicBattleGetStatus() != "") GameMagicBattleSetStatus("");
+	if (GameClubCardGetStatus() != "") GameClubCardSetStatus("");
 
 	// If the current background isn't valid, we pick the first one
 	ChatCreateBackgroundIndex = ChatCreateBackgroundList.indexOf(ChatCreateBackgroundSelect);
