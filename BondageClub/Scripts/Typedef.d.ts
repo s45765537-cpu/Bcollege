@@ -2543,10 +2543,14 @@ interface AssetDefinitionProperties {
 
 	/**
 	 * The timer for after how long until a lock should be removed.
-	 * Also used for timed emoticons.
 	 * @see {@link Asset.RemoveTimer}
 	 */
 	RemoveTimer?: number;
+
+	/**
+	 * The timer for an expression change.
+	 */
+	ExpressionTimer?: number;
 
 	/**
 	 * The asset's draw opacity

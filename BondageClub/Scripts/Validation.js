@@ -1012,9 +1012,6 @@ function ValidationDeleteLock(property, verbose = true) {
 	if (property) {
 		ValidationAllLockProperties.forEach(key => {
 			if (property[key] != null) {
-				// Special casing for RemoveTimer because it is used for both locks and expressions :(
-				if (key === "RemoveTimer" && property.Expression != null) return;
-				// Otherwise remove the property
 				if (verbose) console.warn("Removing invalid lock property:", key);
 				delete property[key];
 				changed = true;
