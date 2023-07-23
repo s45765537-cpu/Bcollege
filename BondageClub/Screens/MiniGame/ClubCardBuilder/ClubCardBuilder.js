@@ -129,8 +129,8 @@ function ClubCardBuilderRun() {
 	DrawButton(5, 5, 150, 60, TextGet("Clear"), "White", "", TextGet("ClearHover"));
 	DrawButton(159, 5, 150, 60, TextGet("Default"), "White", "", TextGet("DefaultHover"));
 	DrawBackNextButton(313, 5, 305, 60, TextGet("Group" + ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex]), "White", "",
-	() => TextGet("Group" + ClubCardBuilderFilterGroup[(ClubCardBuilderFilterIndex + ClubCardBuilderFilterGroup.length - 1) % ClubCardBuilderFilterGroup.length].toString()),
-	() => TextGet("Group" + ClubCardBuilderFilterGroup[(ClubCardBuilderFilterIndex + 1) % ClubCardBuilderFilterGroup.length].toString()));
+		() => TextGet("Group" + ClubCardBuilderFilterGroup[(ClubCardBuilderFilterIndex + ClubCardBuilderFilterGroup.length - 1) % ClubCardBuilderFilterGroup.length].toString()),
+		() => TextGet("Group" + ClubCardBuilderFilterGroup[(ClubCardBuilderFilterIndex + 1) % ClubCardBuilderFilterGroup.length].toString()));
 
 }
 
