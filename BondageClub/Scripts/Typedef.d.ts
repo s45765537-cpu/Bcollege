@@ -687,7 +687,10 @@ interface AssetLayer {
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
 	readonly GroupAlpha?: readonly Alpha.Data[];
-	/** A module for which the layer can have types. */
+	/**
+	 * A module for which the layer can have types.
+	 * Allows one to define different module-specific assets for a single layer.
+	 */
 	readonly ModuleType: readonly string[] | null;
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	readonly HideForAttribute: readonly AssetAttribute[] | null;
