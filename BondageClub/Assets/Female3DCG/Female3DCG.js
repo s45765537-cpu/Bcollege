@@ -5513,16 +5513,17 @@ var AssetFemale3DCG = [
 				Effect: ["Block", "Prone", "Freeze", "BlockKneel", "Slow"],
 				Block: ["ItemBoots", "ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemLegs", "ItemFeet"],
 				Extended: true,
+				HasType: false,
 				Layer: [
 					{
-						Name: "Latex", AllowTypes: ["", "Base"], HasType: false,
+						Name: "Latex", AllowTypes: [""],
 						Alpha: [{Group: ["BodyLower"], Masks: [[100, 546, 300, 440], [150, 462, 70, 98], [280, 462, 70, 98]]}],
 					},
 					{
-						Name: "UnZip", CopyLayerColor: "Latex", AllowTypes: ["UnZip", "Base"], HasType: false,
+						Name: "UnZip", CopyLayerColor: "Latex", AllowTypes: ["UnZip"],
 						Alpha: [{Group: ["BodyLower"], Masks: [[100, 546, 300, 440], [150, 462, 70, 98], [280, 462, 70, 98]]}],
 					},
-					{ Name: "Base", AllowTypes: ["", "Base", "UnZip", "Latex"], HasType: false }
+					{ Name: "Base" },
 				],
 				RemoveItemOnRemove: [{ Name: "FullLatexSuitWand", Group: "ItemVulva" }],
 			},
@@ -7155,9 +7156,9 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
 					{ Name: "Straps", AllowColorize: true, HasType: false },
-					{ Name: "StrapsLong", AllowColorize: true, HasType: false, HideForAttribute: ["ShortHair"], CopyLayerColor: "Straps", },
+					{ Name: "StrapsLong", AllowColorize: true, HasType: false, HideForAttribute: ["ShortHair"], CopyLayerColor: "Straps" },
 					{ Name: "Metal", AllowColorize: false, HasType: false },
-					{ Name: "Tongue", AllowColorize: false, AllowTypes: ["", "Open"]},
+					{ Name: "Tongue", AllowColorize: false, AllowTypes: [""] },
 					{ Name: "Plug", AllowColorize: true, AllowTypes: ["Plug"] },
 				]
 			},
