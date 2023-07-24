@@ -871,6 +871,26 @@ function testAllowModuleTypes(dataRecord) {
 }
 
 /**
+ * @param {readonly Asset[]} assets
+ */
+function testCopyLayerColor(assets) {
+	for (const asset of assets) {
+		const layerNames = asset.Layer.map(l => l.Name);
+		for (const layer of asset.Layer) {
+			if (layer.CopyLayerColor == null) {
+				continue;
+			}
+			if (!layerNames.includes(layer.CopyLayerColor)) {
+				error(
+					`${asset.Group.Name}:${asset.Name}: found an invalid `
+					+ `CopyLayerColor value in layer ${layer.Name}: ${layer.CopyLayerColor}`
+				);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1083,4 +1103,5 @@ function sanitizeVMOutput(input) {
 	});
 	testAllowTypes({ ...TypedItemDataLookup, ...ModularItemDataLookup });
 	testAllowModuleTypes(ModularItemDataLookup);
+	testCopyLayerColor(assetList);
 })();
