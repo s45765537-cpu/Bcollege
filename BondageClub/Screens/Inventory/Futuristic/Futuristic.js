@@ -166,7 +166,18 @@ function InventoryItemFuturisticClickAccessDenied() {
 function InventoryItemFuturisticValidate(C, Item = DialogFocusItem, changeWhenLocked=false) {
 	var Allowed = "";
 
-	if (Item && Item.Property && Item.Property.LockedBy && !DialogCanUnlock(C, Item) && !changeWhenLocked) {
+	/**
+	 * TODO: Find a better way for dealing with the crafting preview character rather
+	 * than just hard-coding it as an exception here.
+	 */
+	if (
+		Item
+		&& Item.Property
+		&& Item.Property.LockedBy
+		&& !DialogCanUnlock(C, Item)
+		&& !changeWhenLocked
+		&& (!CraftingPreview || C.ID !== CraftingPreview.ID)
+	) {
 		var collar = InventoryGet(C, "ItemNeck");
 		if (!collar || (!collar.Property ||
 			(FuturisticAccessCollarGroups.includes(Item.Asset.Group.Name) && collar.Property.OpenPermission != true) ||
