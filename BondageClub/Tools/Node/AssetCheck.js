@@ -820,6 +820,77 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 }
 
 /**
+ * @param {Record<string, TypedItemData | ModularItemData>} dataRecord
+ */
+function testAllowTypes(dataRecord) {
+	for (const data of Object.values(dataRecord)) {
+		const asset = data.asset;
+		const allowType = /** @type {readonly string[]} */(asset.AllowType);
+		for (const layer of asset.Layer) {
+			if (!layer.AllowTypes) {
+				continue;
+			}
+			const invalid = layer.AllowTypes.filter(t => t == "" ? false : !allowType.includes(t));
+			if (invalid.length > 0) {
+				error(
+					`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid types `
+					+ `in the AllowTypes array of layer ${layer.Name}: ${invalid}`
+				);
+			}
+		}
+	}
+}
+
+/**
+ * @param {Record<string, ModularItemData>} dataRecord
+ */
+function testAllowModuleTypes(dataRecord) {
+	for (const data of Object.values(dataRecord)) {
+		const asset = data.asset;
+		const optionNames = data.modules.map(m => m.Options.map(o => o.Name)).flat();
+		for (const layer of asset.Layer) {
+			if (!layer.AllowModuleTypes) {
+				continue;
+			}
+			const invalid = layer.AllowModuleTypes.filter(t => {
+				for (const subType of (t.match(/([a-zA-Z]+\d+)/g) || [])) {
+					if (!optionNames.includes(subType)) {
+						return true;
+					}
+				}
+				return false;
+			});
+			if (invalid.length > 0) {
+				error(
+					`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid (sub-)types `
+					+ `in the AllowModuleTypes array of layer ${layer.Name}: ${invalid}`
+				);
+			}
+		}
+	}
+}
+
+/**
+ * @param {readonly Asset[]} assets
+ */
+function testCopyLayerColor(assets) {
+	for (const asset of assets) {
+		const layerNames = asset.Layer.map(l => l.Name);
+		for (const layer of asset.Layer) {
+			if (layer.CopyLayerColor == null) {
+				continue;
+			}
+			if (!layerNames.includes(layer.CopyLayerColor)) {
+				error(
+					`${asset.Group.Name}:${asset.Name}: found an invalid `
+					+ `CopyLayerColor value in layer ${layer.Name}: ${layer.CopyLayerColor}`
+				);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1030,4 +1101,7 @@ function sanitizeVMOutput(input) {
 		variableheight: VariableHeightItemDataLookup,
 		vibrating: VibratingItemDataLookup,
 	});
+	testAllowTypes({ ...TypedItemDataLookup, ...ModularItemDataLookup });
+	testAllowModuleTypes(ModularItemDataLookup);
+	testCopyLayerColor(assetList);
 })();
