@@ -14,7 +14,7 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 0,40,I'd like to take a mission.,Very good comrade DialogPlayerName!  (She salutes you.)  What kind of challenge are you up to?,,"DialogSkillGreater(""Infiltration"", 3)"
 0,40,I'd like to take a mission.,Very good!  What kind of challenge are you up to?,,"!DialogSkillGreater(""Infiltration"", 3)"
 0,Brainwash0,"Comrade, I've got a prisoner from Pandora in my private room.",Very good comrade DialogPlayerName! We can send someone to pick her up for interrogation!,,PandoraPrisonerPresent()
-0,80,Would you like to play Club Cards?,(She thinks aloud.)  I guess we could do a game between two missions.  It's not too busy right now.,,!PandoraPrisonerPresent()
+0,80,Would you like to play Club Cards?,(She thinks aloud.)  I guess we could do a game between two missions.  It's not too busy right now.,,CanPlayClubCard()
 0,,I need to go.  (Leave her.),,DialogLeave(),
 10,,Pandora's Box?,"Yes, they opened their BDSM club right next to us a few months ago.  At first it was healthy competition, until they started to play dirty.",,
 10,,They play dirty?,"They sell our slaves, attack our Mistresses, jail our members, hack our computers and steal our money.  Is that dirty enough?",,

@@ -240,7 +240,7 @@ Prerequisite Jennifer,Select a member from your club to remove before Jennifer e
 Title College Freshwoman,College Freshwoman
 Text College Freshwoman,+1 Fame per turn if Julia is present.  +1 Fame per turn if Yuki is present.
 Title College Nerd,College Nerd
-Text College Nerd,+1 Money per turn if Julia is present.  +1 Fame per turn if Yuki is present.
+Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Yuki is present.
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+5 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher

@@ -78,6 +78,11 @@ function InfiltrationPartyPrisonerIsMistress() { return (InfiltrationPartyPrison
  * @returns {boolean} - TRUE if successful
  */
 function InfiltrationCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
+ */
+function InfiltrationCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Loads the infiltration screen by generating the supervisor.
