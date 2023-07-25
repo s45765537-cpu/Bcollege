@@ -150,6 +150,7 @@ function CraftingShowScreen(FromChatRoom) {
  */
 function CraftingLoad() {
 	CraftingModeSet("Slot");
+	CraftingOffset = 0;
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
 	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
@@ -462,7 +463,6 @@ function CraftingUpdateFromItem(item) {
 function CraftingModeSet(NewMode) {
 	CraftingDestroy = false;
 	CraftingMode = NewMode;
-	CraftingOffset = 0;
 	CraftingOverridePriorityOffset = 0;
 	CraftingLayerNames = null;
 	if (NewMode == "Item") {
