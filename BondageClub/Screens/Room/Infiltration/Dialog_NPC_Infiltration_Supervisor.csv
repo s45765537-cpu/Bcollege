@@ -10,7 +10,6 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 0,,Who are you?,"My name isn't important, I serve the Bondage Club best interests and give infiltration missions.",DialogRemove(),"!DialogSkillGreater(""Infiltration"", 1)"
 0,,Greetings comrade.  (Salute her.),"(She salutes you back.)  Greetings, we have lots of work ahead.",DialogRemove(),"DialogSkillGreater(""Infiltration"", 1)"
 0,10,What's going on here?,"You're in the bunker.  This is where we plan missions against Pandora's Box, our rival club.",,
-0,20,Tell me about the missions.,"Make it quick, what would you like to know?",,
 0,30,What are the perks?,"You can train some perks to help you, before going into a mission.  Do you need details?",,
 0,40,I'd like to take a mission.,Very good comrade DialogPlayerName!  (She salutes you.)  What kind of challenge are you up to?,,"DialogSkillGreater(""Infiltration"", 3)"
 0,40,I'd like to take a mission.,Very good!  What kind of challenge are you up to?,,"!DialogSkillGreater(""Infiltration"", 3)"
