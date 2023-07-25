@@ -186,13 +186,13 @@ function CraftingUpdatePreview() {
 		return true;
 	});
 	for (const RelevantAsset of RelevantAssets) {
-		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, CraftingPreview.MemberNumber, Craft);
+		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft);
 		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
 		if (RelevantAsset.Prerequisite.includes("OnBed")) {
 			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";
 			const bed = AssetGet(CraftingPreview.AssetFamily, "ItemDevices", bedType);
-			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, CraftingPreview.MemberNumber);
+			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, Player.MemberNumber);
 		}
 	}
 	CharacterRefresh(CraftingPreview);
