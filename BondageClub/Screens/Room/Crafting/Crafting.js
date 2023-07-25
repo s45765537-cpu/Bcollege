@@ -451,7 +451,7 @@ function CraftingUpdateFromItem(item) {
 	}
 
 	if (item.Property.TypeRecord) {
-		CraftingSelectedItem.Type = Object.entries(item.Property.TypeRecord).map(([k, v]) => `${k}${v}`).join("");
+		CraftingSelectedItem.TypeRecord = item.Property.TypeRecord;
 	}
 
 	/** @type {Set<keyof ItemProperties>} */
@@ -644,7 +644,8 @@ function CraftingSaveServer() {
 			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
 			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + "¶"; // Old field as used by the deprecated `OverridePriority` crafted item property, DO NOT REMOVE!
-			P = P + (C.ItemProperty == null ? "" : JSON.stringify(C.ItemProperty)) + "§";
+			P = P + (C.ItemProperty == null ? "" : JSON.stringify(C.ItemProperty)) + "¶";
+			P = P + (C.TypeRecord == null ? "" : JSON.stringify(C.TypeRecord)) + "§";
 		} else P = P + "§";
 	while ((P.length >= 1) && (P.substring(P.length - 1) == "§"))
 		P = P.substring(0, P.length - 1);
@@ -689,7 +690,9 @@ function CraftingDecompressServerData(Data) {
 		Craft.Description = (Element.length >= 5) ? Element[4] : "";
 		Craft.Color = (Element.length >= 6) ? Element[5] : "";
 		Craft.Private = ((Element.length >= 7) && (Element[6] == "T"));
-		Craft.Type = (Element.length >= 8) ? Element[7] || null : null;
+		if (Element.length >= 8 && Element[7]) {
+			Craft.Type = Element[7];
+		}
 		Craft.ItemProperty = /** @type {ItemProperties} */({});
 		if (Element.length >= 9 && Element[8] !== "") {
 			Craft.ItemProperty.OverridePriority = Number.parseInt(Element[8]);
@@ -697,6 +700,7 @@ function CraftingDecompressServerData(Data) {
 		if (Element.length >= 10 && Element[9] !== "") {
 			Object.assign(Craft.ItemProperty, JSON.parse(Element[9]));
 		}
+		Craft.TypeRecord =  (Element.length >= 1 && Element[10]) ? Element[10] : null;
 		if (Craft.Item && Craft.Name && (Craft.Item != "") && (Craft.Name != "")) Crafts.push(Craft);
 		else Crafts.push(null);
 	}
@@ -870,7 +874,7 @@ function CraftingClick() {
 					Property: "Normal",
 					Lock: null,
 					Private: false,
-					Type: "",
+					TypeRecord: null,
 					ItemProperty: {},
 					get OverridePriority() {
 						return this.ItemProperty.OverridePriority;
@@ -902,12 +906,12 @@ function CraftingClick() {
 			if (CraftingOffset >= CraftingItemList.length) CraftingOffset = 0;
 		}
 		for (let I = CraftingOffset; I < CraftingItemList.length && I < CraftingOffset + 24; I++) {
-			let X = ((I - CraftingOffset) % 8) * 249 + 17;
-			let Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
+			const X = ((I - CraftingOffset) % 8) * 249 + 17;
+			const Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
+			const asset = CraftingItemList[I];
 			if (MouseIn(X, Y, 225, 275)) {
-				CraftingSelectedItem.Asset = CraftingItemList[I];
-				// @ts-ignore
-				CraftingSelectedItem.Type = CraftingValidationRecord.Type.GetDefault(CraftingSelectedItem, CraftingSelectedItem.Asset) || "";
+				CraftingSelectedItem.Asset = asset;
+				CraftingSelectedItem.TypeRecord = {};
 				CraftingSelectedItem.Lock = null;
 				CraftingSelectedItem.Color = CraftingSelectedItem.Asset.DefaultColor.join(",");
 				CraftingModeSet("Property");
@@ -1066,7 +1070,6 @@ function CraftingConvertSelectedToItem() {
 	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim().substring(0, 30) : CraftingSelectedItem.Name;
 	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 200) : CraftingSelectedItem.Description;
 	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
-	let Type = CraftingSelectedItem.Type;
 	return {
 		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
 		Property: CraftingSelectedItem.Property,
@@ -1075,7 +1078,7 @@ function CraftingConvertSelectedToItem() {
 		Description: Description,
 		Color: Color,
 		Private: CraftingSelectedItem.Private,
-		Type: Type || null,
+		TypeRecord: CraftingSelectedItem.TypeRecord || null,
 		ItemProperty: CraftingSelectedItem.ItemProperty,
 	};
 }
@@ -1086,14 +1089,15 @@ function CraftingConvertSelectedToItem() {
  * @returns {CraftingItemSelected}
  */
 function CraftingConvertItemToSelected(Craft) {
+	const asset = Player.Inventory.find(a => a.Asset.Name === Craft.Item && !a.Asset.IsLock).Asset;
 	return {
 		Name: Craft.Name,
 		Description: Craft.Description,
 		Color: Craft.Color,
 		Private: Craft.Private,
-		Type: Craft.Type || "",
+		TypeRecord: Craft.TypeRecord || null,
 		Property: Craft.Property,
-		Asset: Player.Inventory.find(a => a.Asset.Name === Craft.Item && !a.Asset.IsLock).Asset,
+		Asset: asset,
 		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
 		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
 		get OverridePriority() {
@@ -1360,23 +1364,41 @@ const CraftingValidationRecord = {
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
-	Type: {
+	// NOTE: More thorough `TypeRecord` validation is performed by the extended item `...Init` functions
+	TypeRecord: {
 		Validate: function (c, a) {
-			// We can't reliably validate w.r.t. `Asset.AllowTypes` here, as there are potentially multiple assets with
-			// the same name but distinct types (e.g. the SturdyLeatherBelt and Ribbons)
-			return (c.Type == null) || (typeof c.Type === "string");
+			const typeRecord = c.TypeRecord;
+			if (typeRecord == null) {
+				return true;
+			} else if (!CommonIsObject(typeRecord)) {
+				return false;
+			} else if (a == null) {
+				return true;
+			} else if (!a.Archetype) {
+				return typeRecord == null;
+			} else {
+				return true;
+			}
 		},
 		GetDefault: function (c, a) {
-			if (a == null) {
-				return c.Type;
-			} else if (a.Archetype === ExtendedArchetype.TYPED) {
+			if (a == null || !a.Archetype) {
 				return null;
 			} else {
-				return (a.AllowTypes && (a.AllowTypes.length >= 1)) ? a.AllowTypes[0] : null;
+				return {};
 			}
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
+	/** @deprecated */
+	Type: {
+		Validate: function (c, a) {
+			return c.Type == null || typeof c.Type === "string";
+		},
+		GetDefault: function (c, a) {
+			return null;
+		},
+		StatusCode: CraftingStatusType.ERROR,
+	}
 };
 
 /**

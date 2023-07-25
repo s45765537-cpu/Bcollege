@@ -3237,9 +3237,10 @@ interface CraftingItem {
 	Private: boolean;
 	/**
 	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
+	 * @deprecated - superseded by {@link CraftingItem.TypeRecord}
 	 * @see {@link ItemProperties.Type}
 	 */
-	Type: string | null;
+	Type?: string | null;
 	/**
 	 * An integer (or `null`) representing the item layering priority; see {@link ItemProperties.OverridePriority}.
 	 * @deprecated - superseded by {@link CraftingItem.ItemProperty}
@@ -3251,6 +3252,11 @@ interface CraftingItem {
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
 	ItemProperty: ItemProperties | null;
+	/**
+	 * A record for extended items mapping screen names to option indices.
+	 * @see {@link ItemProperties.TypeRecord}
+	 */
+	TypeRecord?: null | TypeRecord;
 }
 
 /**
@@ -3273,11 +3279,10 @@ interface CraftingItemSelected {
 	/** Whether the crafted item should be private or not. */
 	Private: boolean;
 	/**
-	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
-	 * Note that `null` values, which are legal for Typed extended items, *must* be converted to empty strings.
-	 * @see {@link ItemProperties.Type}
+	 * A record for extended items mapping screen names to option indices.
+	 * @see {@link ItemProperties.TypeRecord}
 	 */
-	Type: string;
+	TypeRecord: null | TypeRecord;
 	/**
 	 * A record with a select few (optional) extra item properties:
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.

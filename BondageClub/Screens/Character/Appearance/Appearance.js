@@ -374,13 +374,16 @@ function CharacterAppearanceAllowForTypes(allowTypes, typeRecord) {
 			continue;
 		}
 		typeKeys.add(key);
-		idUnion.add.apply(idUnion, idSet);
+		idSet.forEach(i => idUnion.add(i));
 	}
 
 	// Now verify whether the typerecord _fully_ intersects with any of the identified `AllowTypes` key/value groups.
 	// Only relevant when there is an AND condition involving multiple modules/subscreens.
 	for (const id of idUnion) {
-		if (allowTypes.IDToTypeKey[id].every(typeKeys.has)) {
+		if (allowTypes.IDToTypeKey[id] === undefined) {
+			console.error(id, allowTypes, typeRecord);
+		}
+		if (allowTypes.IDToTypeKey[id].every(i => typeKeys.has(i))) {
 			return true;
 		}
 	}
