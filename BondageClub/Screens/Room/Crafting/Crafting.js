@@ -208,19 +208,6 @@ function CraftingUpdatePreview() {
 }
 
 /**
- * Check whether the item can safely be used with the crafting auto-type system.
- * @returns {Boolean}
- */
-function CraftingItemSupportsAutoType() {
-	const ItemAsset = CraftingSelectedItem.Asset;
-	if (ItemAsset == null) {
-		return false;
-	} else {
-		return (ItemAsset.AllowTypes != null) && (ItemAsset.AllowTypes.length > 0);
-	}
-}
-
-/**
  * Run the club crafting room if all possible modes
  * @returns {void} - Nothing
  */
@@ -383,10 +370,6 @@ function CraftingRun() {
 		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
 		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
 		if (CraftingSelectedItem.Asset.Archetype) {
-			if (CraftingItemSupportsAutoType()) {
-				ElementPosition("InputType", 1685, 884, 310);
-				DrawButton(1840, 858, 60, 60, "", "White", "Icons/Small/Next.png");
-			}
 			MainCanvas.textAlign = "left";
 			DrawText(TextGet("EnterType"), 1175, 890, "White", "Black");
 			MainCanvas.textAlign = "center";
@@ -542,17 +525,11 @@ function CraftingModeSet(NewMode) {
 			(CraftingSelectedItem.Asset == null) ? "" :
 				(typeof CraftingSelectedItem.OverridePriority !== "number") ? AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString() : CraftingSelectedItem.OverridePriority.toString(),
 		);
-		if (CraftingItemSupportsAutoType()) {
-			ElementCreateInput("InputType", "text", "", "20");
-			document.getElementById("InputType").addEventListener('keyup', CraftingKeyUp);
-			ElementValue("InputType", CraftingSelectedItem.Type || "");
-		}
 		CraftingUpdatePreview();
 	} else {
 		ElementRemove("InputName");
 		ElementRemove("InputDescription");
 		ElementRemove("InputColor");
-		ElementRemove("InputType");
 		ElementRemove("InputPriority");
 	}
 
@@ -626,12 +603,6 @@ function CraftingKeyUp() {
 		const prev = CraftingSelectedItem.Color;
 		CraftingSelectedItem.Color = ElementValue("InputColor");
 		if (CraftingSelectedItem.Color !== prev)
-			do_update = true;
-	}
-	if (document.getElementById("InputType") != null) {
-		const prev = CraftingSelectedItem.Type;
-		CraftingSelectedItem.Type = ElementValue("InputType");
-		if (CraftingSelectedItem.Type !== prev)
 			do_update = true;
 	}
 	if (document.getElementById("InputPriority") != null) {
@@ -1026,17 +997,6 @@ function CraftingClick() {
 			});
 		} else if (MouseIn(1175, 768, 64, 64)) {
 			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
-		} else if (MouseIn(1840, 858, 60, 60) && CraftingItemSupportsAutoType()) {
-			if ((CraftingSelectedItem.Type == null) || (CraftingSelectedItem.Type == "") || (CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) < 0))
-				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowTypes[0];
-			else
-			if (CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) >= CraftingSelectedItem.Asset.AllowTypes.length - 1)
-			// @ts-ignore
-				CraftingSelectedItem.Type = CraftingValidationRecord.Type.GetDefault(CraftingSelectedItem, CraftingSelectedItem.Asset) || "";
-			else
-				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowTypes[CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) + 1];
-			ElementValue("InputType", CraftingSelectedItem.Type);
-			CraftingUpdatePreview();
 		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
 			const item = CraftingPreview.Appearance.find(i => {
 				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
@@ -1113,7 +1073,7 @@ function CraftingConvertSelectedToItem() {
 	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim().substring(0, 30) : CraftingSelectedItem.Name;
 	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 100) : CraftingSelectedItem.Description;
 	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
-	let Type = ((CraftingMode == "Name") && (document.getElementById("InputType") != null)) ? ElementValue("InputType").trim() : CraftingSelectedItem.Type;
+	let Type = CraftingSelectedItem.Type;
 	return {
 		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
 		Property: CraftingSelectedItem.Property,
