@@ -3546,6 +3546,8 @@ var AssetFemale3DCG = [
 		Top: 133,
 		PreviewZone: [190, 100, 120, 120],
 		Random: false,
+		Clothing: true,
+		Underwear: true,
 		Asset: [
 			{ Name: "CatEye", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "CatEye2", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
