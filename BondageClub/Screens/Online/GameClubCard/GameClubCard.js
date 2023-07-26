@@ -210,6 +210,57 @@ function GameClubCardLoadStatus() {
 }
 
 /**
+ * Creates a bundle of cards in a string to push to the server.
+ * @param {ClubCard[]} Cards - An array of c
+ * @returns {string} - A string with all the cards
+ */
+function GameClubCardDoBundle(Cards) {
+	let Result = "";
+	if (Cards != null)
+		for (let C of Cards)
+			Result = Result + String.fromCharCode(C.ID);
+	return Result;
+}
+
+/**
+ * Processes the club card game data received from the server
+ * @param {string} Bundle - An array of c
+ * @returns {ClubCard[]} - A string with all the cards
+ */
+function GameClubCardUndoBundle(Bundle) {
+	let Result = [];
+	if (Bundle != null)
+		for (let B of Bundle) {
+			let D = B.charCodeAt(0);
+			for (let C of ClubCardList)
+				if (C.ID == D) {
+					let Card = {...C};
+					if (Card.Type == null) Card.Type = "Member";
+					Result.push(Card);
+					break;
+				}
+		}
+	return Result;
+}
+
+/**
+ * Loads the full server bundle for a player
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {any} Bundle - An array of c
+ * @returns {void} - Nothing
+ */
+function GameClubCardLoadBundle(CCPlayer, Bundle) {
+	if (Bundle.Level != null) CCPlayer.Level = Bundle.Level;
+	if (Bundle.Fame != null) CCPlayer.Fame = Bundle.Fame;
+	if (Bundle.Money != null) CCPlayer.Money = Bundle.Money;
+	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
+	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
+	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board);
+	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
+}
+
+/**
  * Processes the club card game data received from the server
  * @param {IChatRoomGameResponse} Packet - The data packet to process
  * @returns {void} - Nothing
@@ -228,6 +279,7 @@ function GameClubCardProcess(Packet) {
 
 	// If a room admin started the game
 	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
+		let Msg = TextGet("SelectedPlayerToStart");
 		GameClubCardSetStatus("Running");
 		MiniGameStart("ClubCard", 0, "GameClubCardEnd");
 		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
@@ -237,28 +289,67 @@ function GameClubCardProcess(Packet) {
 		ClubCardPlayer[1].FullDeck = [];
 		ClubCardOnlinePlayerMemberNumber1 = Packet.Data.Player1;
 		ClubCardOnlinePlayerMemberNumber2 = Packet.Data.Player2;
+		let C1 = null;
+		let C2 = null;
 		for (let C = 0; C < ChatRoomCharacter.length; C++) {
-			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player1) {
-				ClubCardPlayer[0].Character = ChatRoomCharacter[C];
-				ClubCardPlayer[0].Control = (ChatRoomCharacter[C].MemberNumber === Player.MemberNumber) ? "Player" : "Online";
-			}
-			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player2) {
-				ClubCardPlayer[1].Character = ChatRoomCharacter[C];
-				ClubCardPlayer[1].Control = (ChatRoomCharacter[C].MemberNumber === Player.MemberNumber) ? "Player" : "Online";
-			}
+			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player1) C1 = ChatRoomCharacter[C];
+			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player2) C2 = ChatRoomCharacter[C];
 		}
-		if (ClubCardPlayer[ClubCardTurnIndex].Character.MemberNumber == Player.MemberNumber)
-			ClubCardLogPublish("StartOnline", ClubCardPlayer[ClubCardTurnIndex]);
+		if (C1.IsPlayer()) {
+			ClubCardPlayer[0].Character = C1;
+			ClubCardPlayer[0].Control = "Player";
+			ClubCardPlayer[1].Character = C2;
+			ClubCardPlayer[1].Control = "Online";
+		} else if (C2.IsPlayer()) {
+			ClubCardPlayer[0].Character = C2;
+			ClubCardPlayer[0].Control = "Player";
+			ClubCardPlayer[1].Character = C1;
+			ClubCardPlayer[1].Control = "Online";
+		} else {
+			ClubCardPlayer[0].Character = C1;
+			ClubCardPlayer[0].Control = "Online";
+			ClubCardPlayer[1].Character = C2;
+			ClubCardPlayer[1].Control = "Online";
+		}
+		if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C1)));
+		if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C2)));
 		ElementRemove("InputChat");
 		ElementRemove("TextAreaChatLog");
 	}
 
 	// If the game progresses, we sync it locally
 	if ((Packet.Data.GameProgress === "Action") && (Packet.Sender != Player.MemberNumber)) {
-		if (Packet.Data.CCPlayer != null) ClubCardPlayer = Packet.Data.CCPlayer;
+		if (Packet.Data.CCData != null) {
+			for (let P of Packet.Data.CCData) {
+				if (P.MemberNumber == ClubCardPlayer[0].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[0], P);
+				if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
+			}
+		}
 		if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
 	}
 
+}
+
+/**
+ * Syncs the online data with all players
+ * @returns {void} - Nothing
+ */
+function GameClubCardSyncOnlineData() {
+	if (!ClubCardIsOnline()) return;
+	let Packet = [];
+	for (let CCPlayer of ClubCardPlayer)
+		Packet.push({
+			MemberNumber: CCPlayer.Character.MemberNumber,
+			Playing: (CCPlayer.Index == ClubCardTurnIndex),
+			Level: CCPlayer.Level,
+			Fame: CCPlayer.Fame,
+			Money: CCPlayer.Money,
+			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
+			Deck: GameClubCardDoBundle(CCPlayer.Deck),
+			Hand: GameClubCardDoBundle(CCPlayer.Hand),
+			Board: GameClubCardDoBundle(CCPlayer.Board)
+		});
+	ServerSend("ChatRoomGame", { GameProgress: "Action", CCData: Packet });
 }
 
 /**

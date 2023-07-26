@@ -31,3 +31,4 @@ OwnerPresenceBlockWhisper,Whispering to others is forbidden when your owner is p
 OwnerPresenceBlockChangePose,Changing pose is forbidden when your owner is present.
 OwnerPresenceBlockAccessSelf,Accessing yourself is forbidden when your owner is present.
 OwnerPresenceBlockAccessOther,Accessing others is forbidden when your owner is present.
+SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.

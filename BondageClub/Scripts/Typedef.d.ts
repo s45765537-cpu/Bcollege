@@ -478,7 +478,7 @@ interface IChatRoomGameResponse {
 		/* Club Card */
 		Player1?: number;
 		Player2?: number;
-		CCPlayer: [ClubCardPlayer];
+		CCData: [any];
 		CCLog: string;
 	}
 	Sender: number;

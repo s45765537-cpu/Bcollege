@@ -29,6 +29,7 @@ function ClubCardBuilderLoadDeck(Deck) {
 	ClubCardBuilderDeckIndex = Deck;
 	if ((Player.Game.ClubCard.Deck.length <= Deck) || (Player.Game.ClubCard.Deck[Deck].length != ClubCardBuilderDeckSize)) {
 		ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDeck.slice();
+		ClubCardBuilderFilterLoad();
 		return;
 	}
 

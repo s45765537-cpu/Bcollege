@@ -1338,6 +1338,7 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 	Text = Text.replace("MONEYAMOUNT", ClubCardLevelCost[CCPlayer.Level].toString());
 	ClubCardLogAdd(Text);
+	GameClubCardSyncOnlineData();
 }
 
 /**
@@ -1568,6 +1569,9 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 
+	// Syncs online data
+	GameClubCardSyncOnlineData();
+
 	// If a card can be won against the NPC
 	ClubCardReward = null;
 	if (!ClubCardIsOnline() && (ClubCardPlayer[1].Character.IsNpc()))
@@ -1679,10 +1683,10 @@ function ClubCardEndTurn(Draw = false) {
 	// Adds an entry to the log
 	ClubCardTurnEndDraw = Draw;
 	if (Draw) {
-		ClubCardLogAdd(TextGet((ClubCardTurnIndex == 0) ? "EndDrawPlayer" : "EndDrawOpponent").replace("FAMEMONEY", FameMoneyText));
+		ClubCardLogAdd(TextGet("EndDrawPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 		ClubCardPlayerDrawCard(ClubCardPlayer[ClubCardTurnIndex]);
 	} else {
-		ClubCardLogAdd(TextGet((ClubCardTurnIndex == 0) ? "EndTurnPlayer" : "EndTurnOpponent").replace("FAMEMONEY", FameMoneyText));
+		ClubCardLogAdd(TextGet("EndTurnPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 	}
 
 	// Move to the next player
@@ -1690,6 +1694,9 @@ function ClubCardEndTurn(Draw = false) {
 	if (ClubCardTurnIndex >= ClubCardPlayer.length) ClubCardTurnIndex = 0;
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
+
+	// Syncs online data
+	GameClubCardSyncOnlineData();
 
 	// When a turn starts, the event time goes down and might expire
 	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
@@ -1941,8 +1948,6 @@ function ClubCardAIPlay() {
 function ClubCardAIStart() {
 	ClubCardDestroyPopup();
 	if (!MiniGameEnded && ClubCardPlayer[ClubCardTurnIndex].Control == "AI") setTimeout(ClubCardAIPlay, 3000);
-	if (!ClubCardIsOnline()) return;
-	ServerSend("ChatRoomGame", { GameProgress: "Action", CCPlayer: ClubCardPlayer });
 }
 
 /**
@@ -1976,7 +1981,7 @@ function ClubCardBankrupt() {
 	ClubCardRemoveGroupFromBoard(Opponent, "Liability");
 
 	// Announces the bankrupty and jumps to the next turn
-	ClubCardLogAdd(ClubCardTextGet("Bankrupt" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent")));
+	ClubCardLogPublish("WentBankrupt", CCPlayer);
 	ClubCardDestroyPopup();
 	ClubCardFocus = null;
 	ClubCardEndTurn(false);
