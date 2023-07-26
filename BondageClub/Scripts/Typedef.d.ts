@@ -478,6 +478,8 @@ interface IChatRoomGameResponse {
 		/* Club Card */
 		Player1?: number;
 		Player2?: number;
+		CCPlayer: [ClubCardPlayer];
+		CCLog: string;
 	}
 	Sender: number;
 	RNG: number

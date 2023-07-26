@@ -230,11 +230,33 @@ function GameClubCardProcess(Packet) {
 	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
 		GameClubCardSetStatus("Running");
 		MiniGameStart("ClubCard", 0, "GameClubCardEnd");
-		ClubCardOpponent = Player;
-		ClubCardOpponentDeck = ClubCardBuilderDefaultDeck;
-		ClubCardLoadOnlinePlayers(Packet.Data.Player1, Packet.Data.Player2, Packet.RNG);
+		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
+		ClubCardPlayer[0].Deck = [];
+		ClubCardPlayer[0].FullDeck = [];
+		ClubCardPlayer[1].Deck = [];
+		ClubCardPlayer[1].FullDeck = [];
+		ClubCardOnlinePlayerMemberNumber1 = Packet.Data.Player1;
+		ClubCardOnlinePlayerMemberNumber2 = Packet.Data.Player2;
+		for (let C = 0; C < ChatRoomCharacter.length; C++) {
+			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player1) {
+				ClubCardPlayer[0].Character = ChatRoomCharacter[C];
+				ClubCardPlayer[0].Control = (ChatRoomCharacter[C].MemberNumber === Player.MemberNumber) ? "Player" : "Online";
+			}
+			if (ChatRoomCharacter[C].MemberNumber === Packet.Data.Player2) {
+				ClubCardPlayer[1].Character = ChatRoomCharacter[C];
+				ClubCardPlayer[1].Control = (ChatRoomCharacter[C].MemberNumber === Player.MemberNumber) ? "Player" : "Online";
+			}
+		}
+		if (ClubCardPlayer[ClubCardTurnIndex].Character.MemberNumber == Player.MemberNumber)
+			ClubCardLogPublish("StartOnline", ClubCardPlayer[ClubCardTurnIndex]);
 		ElementRemove("InputChat");
 		ElementRemove("TextAreaChatLog");
+	}
+
+	// If the game progresses, we sync it locally
+	if ((Packet.Data.GameProgress === "Action") && (Packet.Sender != Player.MemberNumber)) {
+		if (Packet.Data.CCPlayer != null) ClubCardPlayer = Packet.Data.CCPlayer;
+		if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
 	}
 
 }

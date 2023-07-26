@@ -19,9 +19,9 @@ DeckNumber,Deck #
 Play,Play
 CanWinNewCard,Your opponent has this card you can win:
 WonNewCard,You've reached 100 Fame and won this card:
-NoValidDeckFound,Deck #DECKNUMBER isn't valid.  Using the default deck instead.
+NoValidDeckFound,PLAYERNAME deck isn't valid.  Using the default deck instead.
 SelectDeck,Select the deck to play with.
-UsingDeck,You will play with deck #DECKNUMBER.
+UsingDeck,PLAYERNAME deck is selected.
 ConfirmBankrupt,Go bankrupt and start a fresh new club?
 ConfirmConcede,Do you really want to concede this game?
 BankruptPlayer,You've gone bankrupt and started a new club.
@@ -35,6 +35,7 @@ PlayACardOpponentBoard,PLAYERNAME plays CARDNAME on the opponent board.
 PlayAnotherCard,PLAYERNAME can play another card.  The turn continues.
 StartPlayer,You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
+StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
 EndTurnPlayer,FAMEMONEY.  It's your opponent turn.
 EndTurnOpponent,FAMEMONEY.  It's your turn.
 EndDrawPlayer,FAMEMONEY.  You draw a card.  It's your opponent turn.

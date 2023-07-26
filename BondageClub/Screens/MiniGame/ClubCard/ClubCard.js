@@ -21,8 +21,8 @@ var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
 var ClubCardLevelCost = [0, 0, 10, 20, 35, 50];
 /** @type {ClubCardPlayer[]} */
 var ClubCardPlayer = [];
-var ClubCardPlayer1MemberNumber = -1;
-var ClubCardPlayer2MemberNumber = -1;
+var ClubCardOnlinePlayerMemberNumber1 = -1;
+var ClubCardOnlinePlayerMemberNumber2 = -1;
 /** @type {ClubCard[]} */
 var ClubCardList = [
 
@@ -1213,16 +1213,27 @@ var ClubCardList = [
 ];
 
 /**
+ * Returns TRUE if the current game is online
+ * @returns {boolean} - Nothing
+ */
+function ClubCardIsOnline() {
+	return ((ClubCardOnlinePlayerMemberNumber1 != null) && (ClubCardOnlinePlayerMemberNumber1 >= 0));
+}
+
+/**
  * Adds a text entry to the game log
  * @param {string} LogEntry - The club card player
+ * @param {boolean} Push - The club card player
  * @returns {void} - Nothing
  */
-function ClubCardLogAdd(LogEntry) {
-	ClubCardLog.push(LogEntry);
+function ClubCardLogAdd(LogEntry, Push = true) {
+	if (LogEntry != null) ClubCardLog.push(LogEntry);
 	ClubCardLogScroll = true;
 	ClubCardLogText = "";
 	for (let L of ClubCardLog)
 		ClubCardLogText = ClubCardLogText + ((ClubCardLogText == "") ? "" : "\r\n--------------------\r\n") + L;
+	if (!ClubCardIsOnline()) return;
+	if ((LogEntry != null) && Push) ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: LogEntry });
 }
 
 /**
@@ -1516,6 +1527,16 @@ function ClubCardLoadDeck(InDeck) {
 }
 
 /**
+ * Returns the index of the player in the ClubCardPlayer array
+ * @returns {number} - The array index position
+ */
+function ClubCardGetPlayerIndex() {
+	if (ClubCardPlayer[0].Control == "Player") return 0;
+	if (ClubCardPlayer[1].Control == "Player") return 1;
+	return -1;
+}
+
+/**
  * Builds a deck array of object from a deck array of numbers
  * @param {number} DeckNum - The array of number deck
  * @returns {void} - The resulting deck
@@ -1525,26 +1546,31 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
 	if ((Player.Game.ClubCard.Deck.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum].length != ClubCardBuilderDeckSize)) {
-		ClubCardLogAdd(TextGet("NoValidDeckFound").replace("DECKNUMBER", (DeckNum + 1).toString()));
+		ClubCardLogAdd(TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player)));
 		Deck = ClubCardBuilderDefaultDeck.slice();
 	} else {
-		ClubCardLogAdd(TextGet("UsingDeck").replace("DECKNUMBER", (DeckNum + 1).toString()));
+		ClubCardLogAdd(TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player)));
 		for (let Index = 0; Index < ClubCardBuilderDeckSize; Index++)
 			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(Index));
 	}
 
 	// Loads the deck and shuffles it
-	ClubCardPlayer[0].Deck = ClubCardShuffle(ClubCardLoadDeck(Deck));
-	ClubCardPlayer[0].FullDeck = ClubCardLoadDeck(Deck);
+	let Index = ClubCardGetPlayerIndex();
+	if (Index >= 0) {
+		ClubCardPlayer[Index].Deck = ClubCardShuffle(ClubCardLoadDeck(Deck));
+		ClubCardPlayer[Index].FullDeck = ClubCardLoadDeck(Deck);
+	}
 
 	// Starts the game with the loaded deck
-	ClubCardLogAdd(ClubCardTextGet("Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent")));
-	ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
-	ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
+	if (!ClubCardIsOnline()) {
+		ClubCardLogAdd(ClubCardTextGet("Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent")));
+		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
+		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
+	} else ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 
 	// If a card can be won against the NPC
 	ClubCardReward = null;
-	if (ClubCardPlayer[1].Character.IsNpc())
+	if (!ClubCardIsOnline() && (ClubCardPlayer[1].Character.IsNpc()))
 		for (let Card of ClubCardList)
 			if ((Card.Reward === "NPC-" + ClubCardPlayer[1].Character.Name) || (Card.Reward === ClubCardPlayer[1].Character.AccountName)) {
 				let Char = String.fromCharCode(Card.ID);
@@ -1914,8 +1940,9 @@ function ClubCardAIPlay() {
  */
 function ClubCardAIStart() {
 	ClubCardDestroyPopup();
-	if (!MiniGameEnded && ClubCardPlayer[ClubCardTurnIndex].Control == "AI")
-		setTimeout(ClubCardAIPlay, 3000);
+	if (!MiniGameEnded && ClubCardPlayer[ClubCardTurnIndex].Control == "AI") setTimeout(ClubCardAIPlay, 3000);
+	if (!ClubCardIsOnline()) return;
+	ServerSend("ChatRoomGame", { GameProgress: "Action", CCPlayer: ClubCardPlayer });
 }
 
 /**
@@ -2036,8 +2063,8 @@ function ClubCardCommonLoad() {
  */
 function ClubCardLoad() {
 	ClubCardCommonLoad();
-	ClubCardPlayer1MemberNumber = -1;
-	ClubCardPlayer2MemberNumber = -1;
+	ClubCardOnlinePlayerMemberNumber1 = -1;
+	ClubCardOnlinePlayerMemberNumber2 = -1;
 	ClubCardTurnCardPlayed = 0;
 	ClubCardLogText = "";
 	ClubCardFocus = null;
@@ -2048,23 +2075,6 @@ function ClubCardLoad() {
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 	ClubCardCreatePopup("DECK");
-}
-
-/**
- * Changes the two players structure for online play
- * @param {Number} P1 - The first player member number
- * @param {number} P2 - The second player member number
- * @param {number} RNG - The random RNG number generated by the server
- * @returns {void} - Nothing
- */
-function ClubCardLoadOnlinePlayers(P1, P2, RNG) {
-	ClubCardTurnIndex = Math.round(RNG * 2);
-	ClubCardPlayer1MemberNumber = P1;
-	ClubCardPlayer2MemberNumber = P2;
-	for (let C = 0; C < ChatRoomCharacter.length; C++) {
-		if (ChatRoomCharacter[C].MemberNumber === P1) ClubCardPlayer[0].Character = ChatRoomCharacter[C];
-		if (ChatRoomCharacter[C].MemberNumber === P2) ClubCardPlayer[1].Character = ChatRoomCharacter[C];
-	}
 }
 
 /**
