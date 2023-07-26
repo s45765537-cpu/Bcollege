@@ -15,7 +15,7 @@ const ValidationAllLockProperties = ValidationNonModifiableLockProperties
 	.concat(ValidationRestrictedLockProperties)
 	.concat(ValidationTimerLockProperties)
 	.concat(["MemberNumberListKeys"]);
-const ValidationModifiableProperties = ValidationAllLockProperties.concat(["Effect", "Expression"]);
+const ValidationModifiableProperties = ValidationAllLockProperties.concat(["Effect", "Expression", "ExpressionTimer"]);
 const ValidationScriptableProperties = ["Hide", "HideItem", "UnHide", "Block"];
 /** @type {Partial<Record<keyof ItemProperties, ScriptPermissionProperty>>} */
 const ValidationPropertyPermissions = {
