@@ -66,35 +66,36 @@ function TightenLoosenItemClick() {
 	// Gets the current character and action to do
 	const C = CharacterGetCurrent();
 	let Action = "";
+	let Item = DialogTightenLoosenItem;
 
 	// Tighten a little
-	if (MouseIn(1150, 650, 300, 65) && (DialogTightenLoosenItem.Difficulty < TightenLoosenItemMaximumDifficulty)) {
-		DialogTightenLoosenItem.Difficulty = DialogTightenLoosenItem.Difficulty + 2;
-		if (DialogTightenLoosenItem.Difficulty > TightenLoosenItemMaximumDifficulty) DialogTightenLoosenItem.Difficulty = TightenLoosenItemMaximumDifficulty;
+	if (MouseIn(1150, 650, 300, 65) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
+		Item.Difficulty = Item.Difficulty + 2;
+		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Low", "Angry", "Angry");
 		Action = "TightenLittle";
 	}
 
 	// Tighten a lot
-	if (MouseIn(1150, 800, 300, 65) && (DialogTightenLoosenItem.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
-		DialogTightenLoosenItem.Difficulty = DialogTightenLoosenItem.Difficulty + 4;
-		if (DialogTightenLoosenItem.Difficulty > TightenLoosenItemMaximumDifficulty) DialogTightenLoosenItem.Difficulty = TightenLoosenItemMaximumDifficulty;
+	if (MouseIn(1150, 800, 300, 65) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
+		Item.Difficulty = Item.Difficulty + 4;
+		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Medium", "Surprised", "Harsh");
 		Action = "TightenLot";
 	}
 
 	// Loosen a little
-	if (MouseIn(1550, 650, 300, 65) && (DialogTightenLoosenItem.Difficulty > TightenLoosenItemMinimumDifficulty)) {
-		DialogTightenLoosenItem.Difficulty = DialogTightenLoosenItem.Difficulty - 2;
-		if (DialogTightenLoosenItem.Difficulty < TightenLoosenItemMinimumDifficulty) DialogTightenLoosenItem.Difficulty = TightenLoosenItemMinimumDifficulty;
+	if (MouseIn(1550, 650, 300, 65) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
+		Item.Difficulty = Item.Difficulty - 2;
+		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "", "Shy", "Lowered");
 		Action = "LoosenLittle";
 	}
 
 	// Loosen a lot
-	if (MouseIn(1550, 800, 300, 65) && (DialogTightenLoosenItem.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
-		DialogTightenLoosenItem.Difficulty = DialogTightenLoosenItem.Difficulty - 4;
-		if (DialogTightenLoosenItem.Difficulty < TightenLoosenItemMinimumDifficulty) DialogTightenLoosenItem.Difficulty = TightenLoosenItemMinimumDifficulty;
+	if (MouseIn(1550, 800, 300, 65) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
+		Item.Difficulty = Item.Difficulty - 4;
+		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "ShortBreath", "Closed", "Soft");
 		Action = "LoosenLot";
 	}
@@ -108,7 +109,7 @@ function TightenLoosenItemClick() {
 			if (((Action == "TightenLot") || (Action == "TightenLittle")) && C.IsPlayer()) SkillProgress("SelfBondage", 25);
 			if (((Action == "TightenLot") || (Action == "TightenLittle")) && !C.IsPlayer()) SkillProgress("Bondage", 25);
 			ChatRoomCharacterUpdate(C);
-			ChatRoomPublishAction(C, "Action" + Action, DialogTightenLoosenItem, null);
+			ChatRoomPublishAction(C, "Action" + Action, Item, null);
 			DialogLeave();
 		}
 	}
