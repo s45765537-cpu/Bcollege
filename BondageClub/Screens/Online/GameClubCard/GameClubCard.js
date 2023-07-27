@@ -253,6 +253,8 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.Level != null) CCPlayer.Level = Bundle.Level;
 	if (Bundle.Fame != null) CCPlayer.Fame = Bundle.Fame;
 	if (Bundle.Money != null) CCPlayer.Money = Bundle.Money;
+	if (Bundle.LastFamePerTurn != null) CCPlayer.LastFamePerTurn = Bundle.LastFamePerTurn;
+	if (Bundle.LastMoneyPerTurn != null) CCPlayer.LastMoneyPerTurn = Bundle.LastMoneyPerTurn;
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
@@ -282,7 +284,6 @@ function GameClubCardProcess(Packet) {
 		let Msg = TextGet("SelectedPlayerToStart");
 		GameClubCardSetStatus("Running");
 		MiniGameStart("ClubCard", 0, "GameClubCardEnd");
-		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		ClubCardPlayer[0].Deck = [];
 		ClubCardPlayer[0].FullDeck = [];
 		ClubCardPlayer[1].Deck = [];
@@ -300,16 +301,20 @@ function GameClubCardProcess(Packet) {
 			ClubCardPlayer[0].Control = "Player";
 			ClubCardPlayer[1].Character = C2;
 			ClubCardPlayer[1].Control = "Online";
+			ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		} else if (C2.IsPlayer()) {
 			ClubCardPlayer[0].Character = C2;
 			ClubCardPlayer[0].Control = "Player";
 			ClubCardPlayer[1].Character = C1;
 			ClubCardPlayer[1].Control = "Online";
+			ClubCardTurnIndex = 1 - Math.floor(Packet.RNG * 2);
 		} else {
 			ClubCardPlayer[0].Character = C1;
 			ClubCardPlayer[0].Control = "Online";
 			ClubCardPlayer[1].Character = C2;
 			ClubCardPlayer[1].Control = "Online";
+			ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
+			ClubCardDestroyPopup();
 		}
 		if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C1)));
 		if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C2)));
@@ -344,6 +349,8 @@ function GameClubCardSyncOnlineData() {
 			Level: CCPlayer.Level,
 			Fame: CCPlayer.Fame,
 			Money: CCPlayer.Money,
+			LastFamePerTurn: CCPlayer.LastFamePerTurn,
+			LastMoneyPerTurn: CCPlayer.LastMoneyPerTurn,
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),

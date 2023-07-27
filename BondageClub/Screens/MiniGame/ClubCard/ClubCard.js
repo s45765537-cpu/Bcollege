@@ -1221,6 +1221,14 @@ function ClubCardIsOnline() {
 }
 
 /**
+ * Returns TRUE if the BC Player is a player in the current Club Card game
+ * @returns {boolean} - Nothing
+ */
+function ClubCardIsPlaying() {
+	return ((ClubCardOnlinePlayerMemberNumber1 == null) || (ClubCardOnlinePlayerMemberNumber1 === -1) || (ClubCardOnlinePlayerMemberNumber1 == Player.MemberNumber) || (ClubCardOnlinePlayerMemberNumber2 == Player.MemberNumber));
+}
+
+/**
  * Adds a text entry to the game log
  * @param {string} LogEntry - The club card player
  * @param {boolean} Push - The club card player
@@ -1233,7 +1241,10 @@ function ClubCardLogAdd(LogEntry, Push = true) {
 	for (let L of ClubCardLog)
 		ClubCardLogText = ClubCardLogText + ((ClubCardLogText == "") ? "" : "\r\n--------------------\r\n") + L;
 	if (!ClubCardIsOnline()) return;
-	if ((LogEntry != null) && Push) ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: LogEntry });
+	if ((LogEntry != null) && Push) {
+		ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: LogEntry });
+		// ServerSend("ChatRoomChat", { Content: LogEntry, Type: "Emote" });  Publish to chat room or not???
+	}
 }
 
 /**
@@ -1673,8 +1684,10 @@ function ClubCardEndTurn(Draw = false) {
 	if (CCPlayer.Fame >= ClubCardFameGoal) {
 		MiniGameVictory = (CCPlayer.Control == "Player");
 		MiniGameEnded = true;
-		ClubCardLogAdd(TextGet("VictoryFor" + CCPlayer.Control));
-		ClubCardCreatePopup("TEXT", TextGet("VictoryFor" + CCPlayer.Control), TextGet("Return"), null, "ClubCardEndGame()", null);
+		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
+		if (ClubCardIsOnline) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
+		ClubCardLogAdd(Msg);
+		ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
 		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
 		GameClubCardReset();
 		return;
@@ -1955,6 +1968,7 @@ function ClubCardAIStart() {
  * @returns {void} - Nothing
  */
 function ClubCardConcede() {
+	if (ClubCardIsOnline()) ClubCardLogAdd(TextGet(ClubCardIsPlaying() ? "OnlineConcede" : "OnlineStopWatch").replace("SOURCEPLAYER", CharacterNickname(Player)));
 	ClubCardDestroyPopup();
 	ClubCardEndGame(false);
 }
@@ -2260,8 +2274,8 @@ function ClubCardRenderHand(CCPlayer, X, Y, W, H) {
  * @returns {void} - Nothing
  */
 function ClubCardStatusText(Text) {
-	MainCanvas.font = CommonGetFont(32);
-	DrawTextWrap(TextGet(Text), 1745, 900, 230, 100, "White");
+	MainCanvas.font = CommonGetFont((ClubCardPopup == null) ? 26 : 32);
+	DrawTextWrap(TextGet(Text), 1715, 900, (ClubCardPopup == null) ? 190 : 280, 100, "White");
 	MainCanvas.font = CommonGetFont(36);
 }
 
@@ -2309,13 +2323,21 @@ function ClubCardRenderPanel() {
 		return;
 	}
 
+	// Can concede/exit out of popup mode
+	if (ClubCardPopup == null) DrawButton(1905, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Concede.png", TextGet(ClubCardIsPlaying() ? "Concede" : "StopWatch"));
+
+	// If we are waiting for deck selection
+	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) {
+		ClubCardStatusText("WaitingSelectDeck");
+		return;
+	}
+
 	// Draw the bottom butttons and texts
-	if (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") {
-		DrawButton(1905, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Concede.png", TextGet("Concede"));
+	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(1725, 300, 250, 60, TextGet("PlayCard"), "White");
-	} else ClubCardStatusText("OpponentPlaying");
+	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 
 }
 
@@ -2388,12 +2410,17 @@ function ClubCardClick() {
 	if ((ClubCardPending != null) && MouseIn(1725, 300, 250, 60) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
 	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) return ClubCardPending = null;
 
+	// Can always concede/exit
+	if (MouseIn(1905, 905, 90, 90)) return ClubCardCreatePopup("YESNO", TextGet(ClubCardIsPlaying() ? "ConfirmConcede": "ConfirmExit"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
+
+	// If we are waiting for deck selection
+	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) return;
+
 	// Runs the basic game buttons
 	if (MouseIn(1725, 300, 250, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus);
 	if (MouseIn(1700, 0, 300, 600) && (ClubCardFocus != null)) return ClubCardFocus = null;
 	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardBankrupt()", "ClubCardDestroyPopup()");
-	if (MouseIn(1905, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmConcede"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
 	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1])) return ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
 
 	// Sets the focus card if nothing else was clicked

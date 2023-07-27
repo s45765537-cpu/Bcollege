@@ -13,6 +13,9 @@ SelectCard,Select this card
 CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
+StopWatch,Stop watching
+OnlineConcede,SOURCEPLAYER conceded and left the game.
+OnlineStopWatch,SOURCEPLAYER stopped watching and left the game.
 Yes,Yes
 No,No
 DeckNumber,Deck #
@@ -21,14 +24,18 @@ CanWinNewCard,Your opponent has this card you can win:
 WonNewCard,You've reached 100 Fame and won this card:
 NoValidDeckFound,PLAYERNAME deck isn't valid.  Using the default deck instead.
 SelectDeck,Select the deck to play with.
+WaitingSelectDeck,Waiting for deck selection.
 UsingDeck,PLAYERNAME deck is selected.
 ConfirmBankrupt,Go bankrupt and start a fresh new club?
 ConfirmConcede,Do you really want to concede this game?
+ConfirmExit,Do you want to stop watching this game?
 WentBankrupt,SOURCEPLAYER went bankrupt and started a new club.
 VictoryForPlayer,Congratulations!  You've reached 100 Fame and won the game.
 VictoryForAI,Your opponent reached 100 Fame and won the game.
+VictoryOnline,PLAYERNAME reached 100 Fame and won the game.
 Return,End the game
 OpponentPlaying,Your opponent is playing...
+WatchingGame,Watching the game...
 PlayACard,PLAYERNAME plays CARDNAME.
 PlayACardOpponentBoard,PLAYERNAME plays CARDNAME on the opponent board.
 PlayAnotherCard,PLAYERNAME can play another card.  The turn continues.
