@@ -1194,3 +1194,24 @@ function PandoraChestLoot() {
 function PandoraGetPaint() {
 	PandoraPaint = true;
 }
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function PandoraClubCardStart() {
+	PandoraFightCharacter = CurrentCharacter;
+	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
+	MiniGameStart("ClubCard", 0, "PandoraClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function PandoraClubCardEnd() {
+	CommonSetScreen("Room", "Pandora");
+	CharacterSetCurrent(PandoraFightCharacter);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+}

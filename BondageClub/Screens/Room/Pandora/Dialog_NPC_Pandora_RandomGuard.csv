@@ -1,6 +1,8 @@
 PlayerGagged,,,(She checks your gag.)  Prisoners don't need to be understood.,,
 FightVictory,,,"(She pouts.)  You're tough, but I represent the law and you're still under arrest.",,
 FightDefeat,,,(She smiles and laughs.)  You really thought you could defeat the law?  You are under arrest.,,
+ClubCardVictory,,,Well played fellow guard.  Let's get back to work before we get caught playing.,,
+ClubCardDefeat,,,"Don't be bitter fellow guard, it was a good game.  Let's get back to work before we get caught playing.",,
 Punishment8,,,"(A Dominatrix takes you away from the guard.)  So, we've caught the infamous DialogPlayerName.  You'll never forget this lesson.",,
 Punishment5,,,(A Dominatrix takes you away from the guard.)  You've been on list for a while DialogPlayerName.  I'll teach you a lesson.,,
 Punishment2,,,"(A Dominatrix takes you away from the guard.)  (She cracks her knuckles.)  So, you're a troublemaker?  I'll teach you a lesson.",,
@@ -131,12 +133,15 @@ Guard0,GuardEnd,I've been a guard for a while.,(She seems a little suspicious.) 
 Guard0,Arrest,I've been a guard for a while.,(She seems very suspicious.)  That's impossible!  I know all the old guards.  I will put you under arrest right now.,,!Odds25()
 Guard0,GuardEnd,"Yes, I'm a new guard.","Very well, let me know if you need help with your job.  We support each other in the force.",,Odds50()
 Guard0,Arrest,"Yes, I'm a new guard.","(She inspects you some more.)  This is strange, I've already met the new guards.  I will put you under arrest for safety.",,!Odds50()
+Guard0,GuardCC,(Try to change subject.)  Do you play cards?,"Of course!  This job is so boring, it's the only way to stay awake.  Let's play one game for honor.",,Odds50()
+Guard0,Arrest,(Try to change subject.)  Do you play cards?,Don't try to change subject!  I will put you under arrest for safety.,,!Odds50()
 Guard0,Arrest,"You got me, I'm actually a spy.",A spy!   Surrender right now!  You are under arrest.,,
 Guard10,GuardEnd,(Give a false description.),"(She takes notes.)  Thanks a lot, I will keep my eyes open for her.",,Odds50()
 Guard10,Arrest,(Give a false description.),(She looks at you.)  You know what?  I've never seen you in the force.  I think you're the spy!  I will arrest you for safety.,,!Odds50()
 Guard10,GuardEnd,(Describe yourself cleverly.),"(She takes notes.)  Thanks a lot, I will keep my eyes open.  She will never fool me.",,Odds25()
 Guard10,Arrest,(Describe yourself cleverly.),(She seems really angry.)  You think you're funny?  You're under arrest!,,!Odds25()
 Guard10,Arrest,I'm the spy!,Surrender right now!  You are under arrest.,,
+GuardCC,GuardEnd,(Play Club Card with her.),,ClubCardStart(),
 GuardEnd,,,Have a pleasant day fellow guard.  Let me know if you need backup.,,
 GuardEnd,,Take care.  (Go explore.),,CharacterAllowMove(),
 Maid0,MaidEnd,I've been a maid for a while.,(She ponders.)  I guess I've missed a few meetings.  Carry on little maid.,,Odds50()

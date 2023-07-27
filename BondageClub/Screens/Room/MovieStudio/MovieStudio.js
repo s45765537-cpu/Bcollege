@@ -58,6 +58,12 @@ function MovieStudioCanGetForSaleSign() { return (!InventoryAvailable(Player, "F
 function MovieStudioDailyMovieIs(Type) { return MovieStudioDailyMovie == Type; }
 
 /**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function MovieStudioCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+
+/**
  * When the player fails the movie, we jump back to the director
  * @returns {void} - Nothing
  */
@@ -1421,4 +1427,24 @@ function MovieStudioGetForSaleSign() {
 function MovieStudioGetMoney() {
 	CharacterChangeMoney(Player, MovieStudioMoney);
 	MovieStudioDirector.CurrentDialog = DialogFind(MovieStudioDirector, "MovieSalary").replace("SALARYAMOUNT", (MovieStudioMoney).toString());
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function MovieStudioClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderPornDeck;
+	MiniGameStart("ClubCard", 0, "MovieStudioClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function MovieStudioClubCardEnd() {
+	CommonSetScreen("Room", "MovieStudio");
+	CharacterSetCurrent(MovieStudioDirector);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

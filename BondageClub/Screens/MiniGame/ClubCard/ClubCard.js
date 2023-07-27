@@ -143,7 +143,7 @@ var ClubCardList = [
 		Name: "Local Influencer",
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, -3);
+			ClubCardPlayerAddMoney(CCPlayer, -4);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 		}
 	},
@@ -282,6 +282,18 @@ var ClubCardList = [
 			ClubCardRemoveGroupFromBoard(CCPlayer, "Liability");
 		}
 	},
+	{
+		ID: 3008,
+		Name: "Sheriff",
+		Group: ["Police"],
+		Reward: "NPC_Pandora_RandomGuard",
+		FamePerTurn: 1,
+		MoneyPerTurn: 1,
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 2);
+		}
+	},
 
 	// 4000 - Fetishists (Synergies with other groups)
 	{
@@ -335,6 +347,9 @@ var ClubCardList = [
 		Name: "Fin-Dom Whale",
 		Group: ["Fetishist"],
 		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		},
 		OnTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Mistress") * 2);
 		}
@@ -393,6 +408,17 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: 4,
 		RequiredLevel: 5
+	},
+	{
+		ID: 5005,
+		Name: "Cam Girl",
+		Group: ["PornActress"],
+		Reward: "NPC_MovieStudio_Director",
+		MoneyPerTurn: 1,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		}
 	},
 
 	// 6000 - Maid Members (Raise Fame, cost Money)
@@ -1240,8 +1266,7 @@ function ClubCardLogAdd(LogEntry, Push = true) {
 	ClubCardLogText = "";
 	for (let L of ClubCardLog)
 		ClubCardLogText = ClubCardLogText + ((ClubCardLogText == "") ? "" : "\r\n--------------------\r\n") + L;
-	if (!ClubCardIsOnline()) return;
-	if ((LogEntry != null) && Push) {
+	if ((LogEntry != null) && Push && ClubCardIsOnline()) {
 		ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: LogEntry });
 		// ServerSend("ChatRoomChat", { Content: LogEntry, Type: "Emote" });  Publish to chat room or not???
 	}
@@ -1685,7 +1710,7 @@ function ClubCardEndTurn(Draw = false) {
 		MiniGameVictory = (CCPlayer.Control == "Player");
 		MiniGameEnded = true;
 		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
-		if (ClubCardIsOnline) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
+		if (ClubCardIsOnline()) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 		ClubCardLogAdd(Msg);
 		ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
 		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();

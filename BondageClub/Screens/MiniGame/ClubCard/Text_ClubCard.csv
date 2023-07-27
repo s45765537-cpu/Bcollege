@@ -110,7 +110,7 @@ Text Rope Sensei,<F>ロープを尊重する
 Title LARP Queen,LARP Queen
 Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt."
 Title Local Influencer,Local Influencer
-Text Local Influencer,You lose 3 Money and draw a card when she enters your club.
+Text Local Influencer,You lose 4 Money and draw a card when she enters your club.
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -122,7 +122,7 @@ Text Secretary,Your 3 turns event cards will last one extra turn.
 Title Associate,Associate
 Text Associate,You can play one extra card per turn.
 Title Human Resource,Human Resource
-Text Human Resource,Draw an extra card each time you draw a card.
+Text Human Resource,Draw an extra card each time you end your turn by drawing a card.
 Title Policewoman,Policewoman
 Text Policewoman,<F>I took the job for the free handcuffs.
 Title Pusher,Pusher
@@ -139,6 +139,8 @@ Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
 Text Stepmother,Removes all Police and Liability members from your club when she enters.
+Title Sheriff,Sheriff
+Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
 Text Maid Lover,+1 Money per turn for each Maid present.
 Title Diaper Lover,Diaper Lover
@@ -150,7 +152,7 @@ Text Feet Worshiper,+2 Money per turn if at least one Porn Actress or ABDL Mommy
 Title Fin-Dom Simp,Fin-Dom Simp
 Text Fin-Dom Simp,"+1 Money per turn for each Dominant present, maximum of +3."
 Title Fin-Dom Whale,Fin-Dom Whale
-Text Fin-Dom Whale,+2 Money per turn for each Mistress present.
+Text Fin-Dom Whale,+2 Money per turn for each Mistress present.  Draw a card when she enters your club.
 Title Porn Addict,Porn Addict
 Text Porn Addict,+1 Money per turn for each Porn member present.
 Title Porn Amateur,Porn Amateur
@@ -163,6 +165,8 @@ Title Porn Veteran,Porn Veteran
 Text Porn Veteran,<F>My body count?  You don't want to know.
 Title Porn Star,Porn Star
 Text Porn Star,"<F>My father would not approve, until I got him a new house."
+Title Cam Girl,Cam Girl
+Text Cam Girl,Draw a card when she enters your club.
 Title Rookie Maid,Rookie Maid
 Text Rookie Maid,<F>I can't wait for the sorority initiation.
 Title Coat Check Maid,Coat Check Maid
