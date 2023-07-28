@@ -217,6 +217,22 @@ function validateArgv(argv, template) {
 	return ret;
 }
 
+/**
+ * Iterate through the passed iterable and yield index/value pairs.
+ * @template T
+ * @param {Iterable<T>} iterable
+ * @param {number} start
+ * @param {number} step
+ * @returns {Generator<[index: number, value: T], void>}
+ */
+function *enumerate(iterable, start=0, step=1) {
+	let i = start;
+	for (const j of iterable) {
+		yield [i, j];
+		i += step;
+	}
+}
+
 module.exports = {
 	NEEDED_FILES,
 	BASE_PATH,
@@ -231,4 +247,5 @@ module.exports = {
 	parseCSV,
 	zip,
 	validateArgv,
+	enumerate,
 };
