@@ -32189,7 +32189,7 @@ var AssetFemale3DCG = [
 					{
 						Group: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 						Masks: [[0, 220, 500, 500]],
-						Type: ["Mummy", "Open"],
+						AllowTypes: { typed: [2, 3] },
 					},
 				],
 			},

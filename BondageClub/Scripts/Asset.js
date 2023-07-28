@@ -552,6 +552,7 @@ function AssetParseAlpha(alphaDef, warningPrefix=null) {
 		const data = {
 			...a,
 			Pose: a.Pose ? PoseToMapping.Array(a.Pose, warningPrefix) : null,
+			AllowTypes: a.AllowTypes ? AssetParseAllowTypes(a.AllowTypes) : null,
 		};
 		return data;
 	});

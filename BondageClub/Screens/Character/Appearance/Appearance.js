@@ -436,18 +436,18 @@ function CharacterAppearanceSortLayers(C) {
 		// Only include layers for visible assets
 		if (asset.Visible && CharacterAppearanceVisible(C, asset.Name, asset.Group.Name) && InventoryChatRoomAllow(asset.Category)) {
 			// Check if we need to draw a different variation (from type property)
-			const type = (item.Property && item.Property.Type) || "";
+			const typeRecord = item.Property && item.Property.TypeRecord;
 			const layersToDraw = asset.Layer
-				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, type))
+				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord))
 				.map(layer => {
 					/** @type {Mutable<AssetLayer>} */
 					const drawLayer = { ...layer };
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alpha => {
-						if (alpha.Group && (!alpha.Type || alpha.Type.includes(type))) {
+						if (alpha.Group && (!alpha.AllowTypes || !CharacterAppearanceAllowForTypes(alpha.AllowTypes, typeRecord))) {
 							alpha.Group.forEach(groupName => {
 								groupAlphas[groupName] = groupAlphas[groupName] || [];
-								groupAlphas[groupName].push({ Pose: alpha.Pose, Masks: alpha.Masks });
+								groupAlphas[groupName].push({ Pose: alpha.Pose, Masks: alpha.Masks, AllowTypes: null });
 							});
 						}
 					});

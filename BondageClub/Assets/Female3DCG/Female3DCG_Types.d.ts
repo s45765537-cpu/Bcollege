@@ -32,7 +32,7 @@ declare namespace Alpha {
 		 * A list of the extended types that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of the extended type.
 		 */
-		readonly Type?: readonly string[];
+		readonly AllowTypes: null | AllowTypes.Data;
 		/**
 		 * A record mapping pose categories to a list of the poses that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of character pose.
@@ -40,10 +40,14 @@ declare namespace Alpha {
 		readonly Pose: null | Readonly<Partial<Record<AssetPoseCategory, readonly AssetPoseName[]>>>;
 	}
 	/** The unparsed alpha masks. */
-	interface Definition extends Partial<Omit<Data, "Pose">> {
+	interface Definition extends Partial<Omit<Data, "Pose" | "AllowTypes">> {
 		Masks: RectTuple[];
 		Group?: AssetGroupName[];
-		Type?: string[];
+		/**
+		 * A list of the extended types that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied regardless of the extended type.
+		 */
+		AllowTypes?: null | AllowTypes.Definition;
 		/**
 		 * A list of the poses that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of character pose.
