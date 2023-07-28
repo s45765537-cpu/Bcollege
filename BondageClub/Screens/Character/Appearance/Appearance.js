@@ -1391,6 +1391,7 @@ function AppearanceMenuClick(C) {
 					// Opens permission mode
 					if (Button === "DialogPermissionMode") {
 						DialogChangeMode("permissions");
+						AppearancePreviewBuild(C, true);
 					}
 
 					// Strips the current item
