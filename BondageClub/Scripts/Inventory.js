@@ -631,24 +631,11 @@ function InventoryWearCraft(Item, C, Craft) {
 	if ((Item == null) || (Item.Asset == null) || (Craft == null)) return;
 	Item.Craft = Craft;
 
-	switch(Item.Asset.Archetype) {
-		case ExtendedArchetype.TYPED:
-			if (Craft.Type != null) {
-				TypedItemSetOptionByName(C, Item, Craft.Type, false, Player);
-			}
-			break;
-		case ExtendedArchetype.MODULAR:
-			ModularItemSetOptionByName(C, Item, Craft.Type, false, Player);
-			break;
-		case ExtendedArchetype.VIBRATING:
-			VibratorModeSetOptionByName(C, Item, Craft.Type, false, Player);
-			break;
-	}
-
-	// Initialize vibrating item subscreens (i.e. from the futuristic crate)
-	// TODO: Remove the hard-coding after reworking `ItemProperties.Type` and creating `ExtendedItemSetOptionByName()`
-	if (Craft.ItemProperty && Craft.ItemProperty.Mode) {
-		VibratorModeSetOptionByName(C, Item, Craft.ItemProperty.Mode, false, Player, [ExtendedArchetype.VIBRATING, "d1"]);
+	if (Craft.TypeRecord) {
+		ExtendedItemSetOptionByRecord(
+			C, Item, Craft.TypeRecord,
+			{ push: false, C_Source: Player, properties: Craft.ItemProperty },
+		);
 	}
 }
 

@@ -456,12 +456,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @param {null | [archetype: "typed" | "vibrating", screen: string]} [subscreen]
  * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null, refresh=true) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, refresh=true) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -472,12 +471,12 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 
 	/** @type {TypedItemData | VibratingItemData} */
 	let data;
-	switch (subscreen ? subscreen[0] : item.Asset.Archetype) {
+	switch (item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
-			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
+			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 			break;
 		case ExtendedArchetype.VIBRATING:
-			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
+			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 			break;
 		default: {
 			const msg = `${warningMessage}: item does not use the typed or vibrating archetype`;
@@ -495,17 +494,9 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 		return msg;
 	}
 
-	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
-	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
-	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
-	if (requirementMessage) {
-		if (newOption.Name !== previousOption.Name) {
-			console.warn(`${warningMessage}: ${requirementMessage}`);
-		}
-		return requirementMessage;
-	} else {
-		ExtendedItemSetOption(data, C, item, newOption, previousOption, push, refresh);
-	}
+	ExtendedItemSetOptionByRecord(
+		C, item, newOption.Property.TypeRecord, { push, refresh, C_Source },
+	);
 }
 
 /**

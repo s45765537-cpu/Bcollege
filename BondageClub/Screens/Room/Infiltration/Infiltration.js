@@ -521,7 +521,7 @@ function InfiltrationPandoraPrisonerBrainwash() {
 	InventoryWear(C,"SteelCuffs","ItemArms");
 	InventoryWear(C,"SteelAnkleCuffs","ItemFeet");
 	InventoryWear(C,"WoodenRack","ItemDevices");
-	ModularItemSetOptionByName(C,"ItemDevices","f1t4b4",true);
+	ExtendedItemSetOptionByRecord(C, "ItemDevices", { f: 1, t: 4, b: 4 }, { push: true });
 	//Move towards submission by a random amount between 0-10 + Infiltration skill adjustment between 50-100
 	var S = Math.floor(Math.random()*10) + (SkillGetLevel(Player, "Infiltration") * 10) + (Math.round(SkillGetProgress(Player, "Infiltration") / 100));
 	var T = NPCTraitGet(C, "Dominant") - S;

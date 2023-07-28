@@ -716,65 +716,6 @@ function ModularItemSetType(module, index, data) {
 }
 
 /**
- * Sets a modular item's type and properties to the option whose name matches the provided option name parameter.
- * @param {Character} C - The character on whom the item is equipped
- * @param {Item | AssetGroupName} itemOrGroupName - The item whose type to set, or the group name for the item
- * @param {string} optionNames - The name of the option to set
- * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
- * player) - defaults to false.
- * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
- * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
- * informing the player of the requirements that are not met.
- */
-function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false, C_Source=null, refresh=true) {
-	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
-	if (!item) return;
-
-	const assetName = item.Asset.Name;
-	const groupName = item.Asset.Group.Name;
-	const warningMessage = `Cannot set option for ${groupName}:${assetName} to ${optionNames}`;
-
-	if (item.Asset.Archetype !== ExtendedArchetype.MODULAR) {
-		const msg = `${warningMessage}: item does not use the modular archetype`;
-		console.warn(msg);
-		return msg;
-	}
-
-	if (!item.Asset.AllowTypes.includes(optionNames)) {
-		const msg = `${warningMessage}: option "${optionNames}" does not exist`;
-		console.warn(msg);
-		return msg;
-	}
-
-	const data = ModularItemDataLookup[`${groupName}${assetName}`];
-	const newModuleValues = ModularItemParseCurrent(data, optionNames);
-	const previousModuleValues = ModularItemParseCurrent(data, item.Property.TypeRecord);
-
-	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
-	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
-	let i = -1;
-	for (const mod of data.modules) {
-		i += 1;
-		const newOption = mod.Options[newModuleValues[i]];
-		const previousOption = mod.Options[previousModuleValues[i]];
-		const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
-		if (requirementMessage && newOption.Name !== previousOption.Name) {
-			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
-		} else {
-			ExtendedItemSetOption(data, C, item, newOption, previousOption, false, false);
-		}
-	}
-
-	if (refresh) {
-		CharacterRefresh(C, push, false);
-	}
-	if (push) {
-		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
-	}
-}
-
-/**
  * Publishes the chatroom message for a modular item when one of its modules has changed.
  * @param {ModularItemData} data
  * @param {Character} C

@@ -547,7 +547,6 @@ function PortalLinkCycleChastityModule(sender, item) {
 	}
 
 	if (item.Asset.Archetype === "modular") {
-		// FIXME: Bleh. I want a better ModularItemSetOptionByName~
 		const modularData = ModularItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 		if (!modularData) return;
 
@@ -555,13 +554,10 @@ function PortalLinkCycleChastityModule(sender, item) {
 		if (!shield) return;
 
 		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
-		let shieldIndex = typeRecord[shield.Name];
-		if (shield.Options[shieldIndex] === undefined) {
-			shieldIndex = 0;
-		}
+		const shieldIndex = typeRecord[shield.Name] || 0;
 		const idx = (shieldIndex + 1) % shield.Options.length;
 
-		ModularItemSetOptionByName(Player, item, ModularItemConstructType(modularData.modules, [0, idx]), true, sender);
+		ExtendedItemSetOptionByRecord(Player, item, { [shield.Key]: idx }, { push: true, C_Source: sender });
 		ModularItemPublishAction(modularData, Player, item, shield.Options[idx], shield.Options[shieldIndex]);
 	}
 }

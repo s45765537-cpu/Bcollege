@@ -170,7 +170,7 @@ function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
 			InventoryWear(C, "FuturisticChastityBelt", "ItemPelvis");
 			let Item = InventoryGet(Player, "ItemPelvis");
 			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticChastityBelt")) {
-				ModularItemSetOptionByName(Player, Item, "m0f1b1t0o0");
+				ExtendedItemSetOptionByRecord(Player, Item, { m: 0, f: 1, b: 1, t: 0, o: 0 });
 				Item.Color = ["#D06060", "#803030", "Default", "Default", "Default", "Default", "#222222", "Default"];
 			}
 			InventoryWear(C, "FuturisticBra", "ItemBreast");

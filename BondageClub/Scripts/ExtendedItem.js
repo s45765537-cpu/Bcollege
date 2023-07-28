@@ -1200,9 +1200,9 @@ function ExtendedItemGetDrawData(drawData, defaults) {
  * @returns The list of active extended item options
  */
 const ExtendedItemGatherOptions = (function () {
-	/** @type {(item: Item) => ExtendedItemOption[]} */
+	/** @type {(item: Item) => ExtendedItemOptionUnion[]} */
 	function gatherOptions(item) {
-		/** @type {ExtendedItemOption[]} */
+		/** @type {ExtendedItemOptionUnion[]} */
 		const options = [];
 		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
 		if (data) {
@@ -1288,4 +1288,89 @@ function ExtendedItemParseOptions(option, asset) {
 		parsedOption.Property.AllowActivePose = AllowActivePose;
 	}
 	return parsedOption;
+}
+
+/**
+ *
+ * @param {Character} C
+ * @param {AssetGroupName | Item} itemOrGroupName
+ * @param {TypeRecord} typeRecord
+ * @param {Object} options
+ * @param {boolean} [options.push]
+ * @param {Character} [options.C_Source]
+ * @param {boolean} [options.refresh]
+ * @param {ItemProperties} [options.properties]
+ * @returns {void}
+ */
+function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=null) {
+	const { push, C_Source, refresh, properties } = options || {};
+	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
+	if (!item || !typeRecord) return;
+
+	const assetName = item.Asset.Name;
+	const groupName = item.Asset.Group.Name;
+	const previousOptions = ExtendedItemGatherOptions(item);
+	const newOptions = ExtendedItemGatherOptions({
+		...item,
+		Property: {
+			...(item.Property || {}),
+			TypeRecord: {
+				...((item.Property && item.Property.TypeRecord) || {}),
+				...typeRecord,
+			},
+		},
+	});
+
+	/** @type {Set<keyof ItemProperties>} */
+	const propertyKeys = new Set();
+	/** @type {Set<keyof ItemProperties>} */
+	const whiteListKeys = new Set(["OverridePriority"]);
+	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+	for (const newOption of newOptions) {
+		/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
+		let previousOption;
+		switch (newOption.OptionType) {
+			case "ModularItemOption": {
+				const module = newOption.ParentData.modules[newOption.Index];
+				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
+				break;
+			}
+			case "TypedItemOption":
+			case "VibratingItemOption": {
+				const data = newOption.ParentData;
+				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === data.name) || data.options[0];
+				break;
+			}
+			default:
+				continue;
+
+		}
+
+		const baseline = newOption.ParentData.baselineProperty;
+		if (baseline != null) {
+			propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+		}
+
+		const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
+		if (requirementMessage && newOption.Name !== previousOption.Name) {
+			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+		} else {
+			ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
+		}
+	}
+
+	if (properties != null) {
+		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i) && !whiteListKeys.has(i));
+		if (invalidProperties.length > 0) {
+			console.warn("");
+		}
+		Object.assign(item, CommonPick(properties, propertyKeys));
+	}
+
+	if (refresh || refresh == null) {
+		CharacterRefresh(C, push);
+	}
+	if (push) {
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+	}
 }

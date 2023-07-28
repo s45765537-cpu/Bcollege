@@ -886,6 +886,14 @@ interface ExtendedItemOption extends Omit<ExtendedItemOptionConfig, "ArchetypeCo
 	ArchetypeData?: null | AssetArchetypeData;
 }
 
+type ExtendedItemOptionUnion = (
+	TypedItemOption
+	| ModularItemOption
+	| VibratingItemOption
+	| TextItemOption
+	| VariableHeightOption
+);
+
 /**
  * An object containing data about the type change that triggered the chat message
  * @param {Character} C - A reference to the character wearing the item
