@@ -6,9 +6,10 @@ function C002_FirstClass_Outro_Load() {
 	// Time is always 9:15:00 in the outro
 	StopTimer(9 * 60 * 60 * 1000);
 	C002_FirstClass_Outro_Restrained = Common_PlayerRestrained;
-	ActorSpecificClearInventory("Sidney", false);
-	ActorSpecificClearInventory("Amanda", false);
-	ActorSpecificClearInventory("Sarah", false);
+	// If player subdued Mildred and remains free, recover all restraints except Mildred's
+	ActorSpecificClearInventory("Sidney", (C002_FirstClass_Classroom_MildredSubdueSuccess && !C002_FirstClass_Outro_Restrained));
+	ActorSpecificClearInventory("Amanda", (C002_FirstClass_Classroom_MildredSubdueSuccess && !C002_FirstClass_Outro_Restrained));
+	ActorSpecificClearInventory("Sarah", (C002_FirstClass_Classroom_MildredSubdueSuccess && !C002_FirstClass_Outro_Restrained));
 	ActorSpecificClearInventory("Mildred", false);
 
 }
