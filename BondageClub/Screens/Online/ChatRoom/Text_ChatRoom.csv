@@ -32,3 +32,4 @@ OwnerPresenceBlockChangePose,Changing pose is forbidden when your owner is prese
 OwnerPresenceBlockAccessSelf,Accessing yourself is forbidden when your owner is present.
 OwnerPresenceBlockAccessOther,Accessing others is forbidden when your owner is present.
 SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.
+JoinedClubCardGame,PLAYERNAME has joined the Club Card game.

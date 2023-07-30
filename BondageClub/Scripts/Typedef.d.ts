@@ -466,7 +466,7 @@ interface IChatRoomGameResponse {
 		OnlineBounty: any;
 
 		/* LARP */
-		GameProgress?: "Start" | "Stop" | "Next" | "Skip" | "Action";
+		GameProgress?: "Start" | "Stop" | "Next" | "Skip" | "Action" | "Query";
 		Action?: undefined;
 		Target?: number;
 		Item?: string;
