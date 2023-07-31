@@ -113,6 +113,11 @@ function C013_BondageClub_Entrance_EnterClub() {
 	localStorage.setItem("BondageCollegeExportCuffsKey", (PlayerHasInventory("CuffsKey")) ? "true" : "false");
 	localStorage.setItem("BondageCollegeExportSleepingPill", (PlayerHasInventory("SleepingPill")) ? "true" : "false");
 	localStorage.setItem("BondageCollegeExportVibratingEgg", (PlayerHasInventory("VibratingEgg")) ? "true" : "false");
+	localStorage.setItem("BondageCollegeExportArts", +(PlayerGetSkillLevel("Arts")));
+	localStorage.setItem("BondageCollegeExportFighting", +(PlayerGetSkillLevel("Fighting")));
+	localStorage.setItem("BondageCollegeExportRopeMastery", +(PlayerGetSkillLevel("RopeMastery")));
+	localStorage.setItem("BondageCollegeExportSeduction", +(PlayerGetSkillLevel("Seduction")));
+	localStorage.setItem("BondageCollegeExportSports", +(PlayerGetSkillLevel("Sports")));
 	window.location = "BondageClub/index.html";
 
 }
