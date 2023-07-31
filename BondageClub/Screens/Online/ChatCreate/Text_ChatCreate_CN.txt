@@ -56,6 +56,8 @@ Block Categories
 禁用分类
 No Game
 无游戏
+Club Card
+俱乐部卡牌
 LARP
 体感对战
 Magic Battle

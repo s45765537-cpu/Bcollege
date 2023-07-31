@@ -65,6 +65,10 @@
 （当你在她的胸部上使用这件道具时，她深吸一口气。）这会留下痕迹的。
 (She whimpers as you remove the device.)  Madam!  This is such a devious therapy.
 （当你移除这件道具时，她呜咽着。）女士！这次治疗太坏了！
+Well done!  This patient is all yours to bind.  I'm ready for any treatment.  (She giggles.)
+打得不错！这个病人随便你束缚。我准备好进行任何治疗了。（她呵呵地笑起来。）
+That was good game, I got lucky.  Please see the nurses for your punishment, I'm not allowed to strap you up.
+这是一场好游戏，我运气不错。请向护士咨询你的惩罚，我不被允许把你绑起来。
 (She barely seems to notice that you're there.)
 （她几乎没注意到你在这里。）
 Hello nurse DialogPlayerName, are you here for my bondage treatment?
@@ -128,6 +132,12 @@ Do you enjoy GGTS?
 (She nods rapidly.)  Yes, GGTS is perfect.  I'm such a good girl now.
 （她迅速点头。）是的，GGTS是完美的。我现在真是个好女孩。
 ###_PLAYER
+Would you like to play Club Cards?
+你想玩俱乐部卡牌吗？
+###_NPC
+(She nods and smiles.)  It could be a good way to relax while I'm locked up.
+（她点头并笑起来。）在我被锁起来的时候，这是个休息的好方法。
+###_PLAYER
 I need to run.  (Leave her.)
 我要走了。（离开她。）
 ###_NPC
@@ -173,3 +183,19 @@ Hello Madam, would you like to touch me?
 ###_NPC
 (She nods as you stop playing with her.)
 （你停止玩弄她，她点点头。）
+###_PLAYER
+Can I restrain you if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+Absolutely.  This patient is always available for more bondage therapies.  (She smiles.)
+当然。这个病人总是可以进行更多的束缚疗法。（她笑起来。）
+###_PLAYER
+Will you tie me up if you win?
+如果你赢了的话，你会绑住我吗？
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's talk about something else.
+我们聊聊其他的事情吧。
+###_NPC
+(She nods.)  The asylum is more than a place to play cards.
+（她点点头。）收容所可不只是玩卡牌的地方。

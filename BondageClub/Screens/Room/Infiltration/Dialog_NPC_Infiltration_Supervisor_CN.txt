@@ -1,6 +1,10 @@
 ###_NPC
 (She frowns at you.)  Go see a maid girl.  I don't have time for this.
 （她向你皱眉。）去找女仆。我没时间做这个。
+Well done comrade.  Your tactical skills will certainly be helpful in Pandora's missions.  Would you like to play again?
+打得不错，同志。你的战术能力在潘多拉的任务里一定会很有帮助。想要再来一局吗？
+You'll need to review your strategies comrade.  Losing is part of learning, would you like a rematch?
+你需要整理一下你的战术，同志。失败是成功之母，想要再来一局吗？
 Comrade DialogPlayerName!  (She gives you a military salute.)  The bunker is yours to command.
 DialogPlayerName同志！（她向你敬了一个军礼。）这处潜入暗堡听你指挥。
 Comrade DialogPlayerName!  (She gives you a military salute.)  We were waiting for you to review the planning.
@@ -32,12 +36,6 @@ What's going on here?
 You're in the bunker.  This is where we plan missions against Pandora's Box, our rival club.
 你正在地堡掩体里。我们在这里谋划对抗我们的对手俱乐部，潘多拉魔盒的任务。
 ###_PLAYER
-Tell me about the missions.
-跟我讲讲这些任务。
-###_NPC
-Make it quick, what would you like to know?
-长话短说，你有什么想知道的？
-###_PLAYER
 What are the perks?
 特技是什么？
 ###_NPC
@@ -58,6 +56,12 @@ Comrade, I've got a prisoner from Pandora in my private room.
 Very good comrade DialogPlayerName! We can send someone to pick her up for interrogation!
 做的很好，DialogPlayerName同志！我们会派人把她抓来审讯的！
 ###_PLAYER
+Would you like to play Club Cards?
+你想玩俱乐部卡牌吗？
+###_NPC
+(She thinks aloud.)  I guess we could do a game between two missions.  It's not too busy right now.
+（她出声地思考。）我想我们在两次任务之间可以来一场游戏。现在并不是很忙。
+###_PLAYER
 I need to go.  (Leave her.)
 我要走了。（离开她。）
 Pandora's Box?
@@ -77,6 +81,12 @@ You're at war with that club?
 ###_NPC
 It's too risky for BDSM clubs to do a public war, we could both get closed.  That's why we created this bunker and do infiltration missions.
 BDSM俱乐部之间，在明面上进行对抗的风险太大了，我们可能会被同时勒令关闭。所以这就是我们转入地下，安排潜入任务的原因。
+###_PLAYER
+Tell me about the missions.
+跟我讲讲这些任务。
+###_NPC
+Make it quick, what would you like to know?
+长话短说，你有什么想知道的？
 ###_PLAYER
 That's all I wanted to know.
 我就想知道这么多。
@@ -222,7 +232,19 @@ I'll do it comrade.
 ###_PLAYER
 I need to prepare first.
 我需要先做好准备。
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
 ###_NPC
+No, I don't have time for that.  We'll play to hone our tactical skills.
+不，我没有这个时间。我们玩只是为了增强战术技能。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's talk about something else.
+我们谈谈其他的事情吧。
+###_NPC
+Good, we have no time to waste.
+很好，我们没有时间可以浪费。
 USB key
 USB密钥
 BDSM painting

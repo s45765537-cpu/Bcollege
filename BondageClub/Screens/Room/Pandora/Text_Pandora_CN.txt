@@ -18,6 +18,8 @@ You already found the TargetName.  Get out now.
 你已经找到了TargetName。赶紧走吧。
 You found the TargetName.  Get out while you can.
 你找到了TargetName。赶紧趁机走吧。
+You found the Pandora's Box Club Card.
+你找到了潘多拉魔盒俱乐部卡牌。
 You first need to find some paint.
 你首先需要找到一些油漆。
 This room is already painted.

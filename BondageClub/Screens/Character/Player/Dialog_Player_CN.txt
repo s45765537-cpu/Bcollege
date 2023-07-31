@@ -371,6 +371,8 @@ Cannot be used over the applied hood.
 不能在已穿戴的头套上使用
 Requires round piercings on nipples.
 需要乳头上是圆形穿环。
+Requires a harness.
+需要一个束缚。
 Blocked in this room.
 被房间禁止
 Cancel
@@ -695,8 +697,16 @@ SourceCharacter helps TargetCharacter to stand up
 SourceCharacter帮助TargetCharacter站了起来
 SourceCharacter changes DestinationCharacter clothes.
 SourceCharacter换掉了DestinationCharacter衣服。
+SourceCharacter will not play Club Card.
+SourceCharacter不玩俱乐部卡牌。
+SourceCharacter chose to be the first player.
+SourceCharacter选择成为先手玩家。
+SourceCharacter chose to be the second player.
+SourceCharacter选择成为后手玩家。
 SourceCharacter selects PronounPossessive team and class.
 SourceCharacter选择了PronounObject的队伍和职业。
+SourceCharacter has started the Club Card game.
+SourceCharacter开始了俱乐部卡牌游戏。
 SourceCharacter has started the LARP game.
 SourceCharacter开始了体感对战
 SourceCharacter has started the Magic Battle.
@@ -1071,6 +1081,8 @@ Remove locks before changing
 更改前移除锁
 Blocked due to item permissions
 因物品权限而被禁止
+Unavailable while crafting
+在制作物品时不可用。
 (As you enter the luxurious hallway, a maid comes to greet you.)  Welcome to the Bondage Club, is this your first visit?
 (当你走进富丽堂皇的入口时,一位女仆向你鞠躬.)   欢迎来到拘束俱乐部,这是您第一次来吗?
 SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
@@ -3801,6 +3813,36 @@ SourceCharacter opened DestinationCharacter suit and fully exposes her breasts a
 SourceCharacter打开了DestinationCharacter宠物服，完全露出她的胸和阴部。
 SourceCharacter chose the classic look of the costume on DestinationCharacter.
 SourceCharacter将DestinationCharacter宠物服选择为标准外观。
+Customize the look of the jacket
+设定拘束衣外观
+Asylum
+收容所
+Hardbinder
+坚固束缚
+Crosstie
+交叉束缚
+SourceCharacter close up DestinationCharacter to Asylum straitjacket.
+SourceCharacter关上了DestinationCharacter拘束衣，设定为收容所样式。
+SourceCharacter Hard bindered DestinationCharacter straitjacket.
+SourceCharacter将DestinationCharacter拘束衣坚固地固定住。
+SourceCharacter Cross tied DestinationCharacter straitjacket and fully exposes her breasts.
+SourceCharacter用交错的皮带将DestinationCharacter拘束衣束缚起来，完全暴露她的乳房。
+SourceCharacter chose the classic look of the straitjacket on DestinationCharacter.
+SourceCharacter为DestinationCharacter拘束衣选择了标准外观。
+Customize the look of the legbinder
+自定义绑腿器的外观
+Beltbinder
+皮带束缚
+Laced
+系带
+SourceCharacter close up DestinationCharacter to Asylum legbinder.
+SourceCharacter关上了DestinationCharacter束腿器，设定为收容所样式。
+SourceCharacter Belt bindered DestinationCharacter legbinder.
+SourceCharacter用皮带绑住了DestinationCharacter的拘束衣。
+SourceCharacter Laced up DestinationCharacter legbinder.
+SourceCharacter用系带固定住了DestinationCharacter束腿器。
+SourceCharacter chose the classic look of the legbinder on DestinationCharacter.
+SourceCharacter为DestinationCharacter束腿器选择了标准外观。
 Select egg intensity
 选择跳蛋强度
 Select dildo intensity
@@ -3877,20 +3919,42 @@ Edge Mode
 寸止模式
 Denial Mode
 拒绝模式
-The front and rear chastity shields on DestinationCharacter AssetName open.
-DestinationCharacterAssetName前部和后部的贞操护盾打开了。
-The front chastity shields on DestinationCharacter AssetName closes.
-DestinationCharacterAssetName前部的贞操护盾关闭了。
-The rear chastity shields on DestinationCharacter AssetName closes.
-DestinationCharacterAssetName后部的贞操护盾关闭了。
-The front and rear chastity shields on DestinationCharacter AssetName close.
-DestinationCharacterAssetName前部和后部的贞操护盾关闭了。
-The special mode on DestinationCharacter AssetName deactivates, allowing orgasms again.
-DestinationCharacterNameAssetName的特殊模式关闭了，现在允许高潮。
-The edging mode on DestinationCharacter AssetName activates, preventing orgasms no matter what.
-DestinationCharacterNameAssetName的寸止模式启动了，无论如何也不会再得到高潮。
-The denial mode on DestinationCharacter AssetName activates, teasing them endlessly.
-DestinationCharacterNameAssetName的拒绝模式启动了，开始无休止地逗弄。
+The front and rear chastity shields on TargetCharacterName's AssetName open.
+TargetCharacterName的AssetName前部和后部的贞操护盾打开了。
+The front chastity shields on TargetCharacterName's AssetName closes.
+TargetCharacterName的AssetName前部的贞操护盾关闭了。
+The rear chastity shields on TargetCharacterName's AssetName closes.
+TargetCharacterName的AssetName后部的贞操护盾关闭了。
+The front and rear chastity shields on TargetCharacterName's AssetName close.
+TargetCharacterName的AssetName前部和后部的贞操护盾关闭了。
+TargetCharacterName's AssetName activates tease vibe mode.
+TargetCharacterName的AssetName开始以玩弄模式振动。
+TargetCharacterName's AssetName builds up to vibration level 1.
+TargetCharacterName的AssetName的振动强度提升到级别1。
+TargetCharacterName's AssetName starts buzzing at vibration level 2!
+TargetCharacterName的NameAssetName开始以级别2的强度振动！
+TargetCharacterName's AssetName jumps up to vibration level 3!
+TargetCharacterName的NameAssetName的振动强度突然到达级别3！
+TargetCharacterName's AssetName vibration mode is deactivated.
+TargetCharacterName的NameAssetName振动模式关闭。
+TargetCharacterName's AssetName slows down to tease vibe mode.
+TargetCharacterName的NameAssetName减慢为玩弄模式。
+TargetCharacterName's AssetName returns to vibration level 1.
+TargetCharacterName的NameAssetName的振动强度回到了级别1。
+TargetCharacterName's AssetName slows down to vibration level 2.
+TargetCharacterName的NameAssetName的振动强度降低到了级别2。
+The special mode on TargetCharacterName's AssetName deactivates, allowing orgasms again.
+TargetCharacterName的AssetName的特殊模式关闭了，现在允许高潮。
+The edging mode on TargetCharacterName's AssetName activates, preventing orgasms no matter what.
+TargetCharacterName的AssetName的寸止模式启动了，无论如何也不会再得到高潮。
+The denial mode on TargetCharacterName's AssetName activates, teasing them endlessly.
+TargetCharacterName的AssetName的拒绝模式启动了，开始无休止地逗弄。
+TargetCharacterName's AssetName are set to shock level 1.
+TargetCharacterName的AssetName设定到电击强度1。
+TargetCharacterName's AssetName are set to shock level 2.
+TargetCharacterName的AssetName设定到电击强度2。
+TargetCharacterName's AssetName are set to shock level 3.
+TargetCharacterName的AssetName设定到电击强度3。
 Save text
 保存文本
 Select a module.
@@ -7011,3 +7075,37 @@ The edging mode on DestinationCharacterName AssetName activates, preventing orga
 DestinationCharacterNameAssetName的寸止模式启动了，无论如何也不会再得到高潮。
 The denial mode on DestinationCharacterName AssetName activates, teasing them endlessly.
 DestinationCharacterNameAssetName的拒绝模式启动了，开始无休止地逗弄。
+Select Wall Details
+选择墙壁细节
+Select Leg Restraints
+选择腿部束缚
+Select Arm Restraints
+选择手臂束缚
+Select Cum Options
+选择精液选项
+Select Portrait Type
+选择人像类型
+Cum Options
+精液选项
+Portrait
+人像
+Cuffed
+铐住
+Dangling
+悬挂
+Butt
+屁股
+Vagina
+阴道
+Monitor
+监视器
+Picture
+照片
+SourceCharacter changes DestinationCharacterName leg position in the AssetName.
+SourceCharacter改变了AssetName里的DestinationCharacterName腿部位置。
+SourceCharacter changes DestinationCharacterName arm position in the AssetName.
+SourceCharacter改变了AssetName里的DestinationCharacterName手臂位置。
+SourceCharacter changes the fluids on DestinationCharacterName behind.
+SourceCharacter改变了AssetName里的DestinationCharacterName后面的液体。
+SourceCharacter changes DestinationCharacterName portrait on the AssetName.
+SourceCharacter改变了AssetName里的DestinationCharacterName人像形式。

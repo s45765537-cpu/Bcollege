@@ -1,6 +1,10 @@
 ###_NPC
 Let me guess, you've lost your last battle?   (She laughs.)
 让我猜猜，你输掉了你的最后一场战斗？ （她笑了。）
+Well done, you're a card Mistress.  It's a good thing we haven't bet anything on that game.  (She winks at you.)
+打得不错，你真是个卡牌女主人。我们没在这局游戏上赌什么真是好事。（她朝你眨眨眼。）
+Good game girl!   Don't be sad for losing, my deck has been studied carefully.  Another match?
+好游戏，女孩！别因为失败而难过，我的牌组可是仔细研究过的。再来一局吗？
 It's an honor to see you DialogPlayerName.  Would you like to try a new class?
 很荣幸见到您，DialogPlayerName。 你想要尝试新的职业吗？
 It's always a pleasure to see you DialogPlayerName.  Would you like to try a new class?
@@ -53,6 +57,12 @@ I'd like to select a new class.
 ###_NPC
 Very good.  Which class would you like to select?
 很好。 你想选哪个职业？
+###_PLAYER
+Are you also a card player?
+你也是一个卡牌玩家？
+###_NPC
+Lots of LARP players also play Club Card.  Would you like to do a game?
+许多LARP玩家也玩俱乐部卡牌。你想要来一局吗？
 ###_PLAYER
 I'm fine, thanks.  (Leave her.)
 我很好，谢谢。 (离开她。)
@@ -409,6 +419,18 @@ Let's talk about something else.
 ###_NPC
 How can I help you?
 我要怎么帮你？
+###_PLAYER
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+(She shakes her head no.)  I have a LARP session soon.  Let's play without stakes.
+（她摇摇头，表示拒绝。）我很快就要开始LARP了。我们还是不要玩赌什么的。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+###_NPC
+Let's focus on LARP games.  We can play cards later.
+我们专心在LARP上吧。之后我们再玩卡牌。
 ###_PLAYER
 (Check the battles.)
 （检查战斗。）

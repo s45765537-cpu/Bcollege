@@ -5,6 +5,10 @@
 （她撅起嘴。）你很强，但我代表法律，你还是被捕了。
 (She smiles and laughs.)  You really thought you could defeat the law?  You are under arrest.
 （她微笑，然后笑出声。）你真以为你能战胜法律？你被捕了。
+Well played fellow guard.  Let's get back to work before we get caught playing.
+打得不错，守卫同事。在被抓到偷懒之前我们快回去工作吧。
+Don't be bitter fellow guard, it was a good game.  Let's get back to work before we get caught playing.
+别灰心，守卫同事。在被抓到偷懒之前我们快回去工作吧。
 (A Dominatrix takes you away from the guard.)  So, we've caught the infamous DialogPlayerName.  You'll never forget this lesson.
 （一位女王把你从警卫身边带走。）所以，我们抓住了臭名昭著的DialogPlayerName。你永远不会忘记这一课的。
 (A Dominatrix takes you away from the guard.)  You've been on list for a while DialogPlayerName.  I'll teach you a lesson.
@@ -326,6 +330,14 @@ Very well, let me know if you need help with your job.  We support each other in
 (She inspects you some more.)  This is strange, I've already met the new guards.  I will put you under arrest for safety.
 （她又进一步检查了你。）这不对劲，我已经见过新的守卫了。为了安全起见，我会逮捕你。
 ###_PLAYER
+(Try to change subject.)  Do you play cards?
+（试图换个话题。）你玩卡牌吗？
+###_NPC
+Of course!  This job is so boring, it's the only way to stay awake.  Let's play one game for honor.
+当然啦！这份工作无聊的很，打牌才能保持清醒。我们赶紧切磋一局吧。
+Don't try to change subject!  I will put you under arrest for safety.
+不要尝试改变话题！我会逮捕你的！
+###_PLAYER
 You got me, I'm actually a spy.
 你抓到我了，我其实是个间谍。
 ###_NPC
@@ -353,6 +365,10 @@ I'm the spy!
 ###_NPC
 Surrender right now!  You are under arrest.
 立即投降！你被捕了。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+###_NPC
 Have a pleasant day fellow guard.  Let me know if you need backup.
 希望你度过愉快的一天，警卫同事。如果你需要支援，请告诉我。
 ###_PLAYER

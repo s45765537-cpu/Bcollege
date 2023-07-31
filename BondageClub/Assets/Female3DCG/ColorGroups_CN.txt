@@ -58,6 +58,8 @@ Misc
 杂项
 Wheel Sections
 转盘分区
+Wall
+墙壁
 Linings
 线条
 Panels

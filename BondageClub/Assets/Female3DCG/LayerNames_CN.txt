@@ -300,6 +300,16 @@ Honor Ring Jewels
 荣誉戒指珠宝
 String
 系绳
+Mask
+面罩
+Eyes
+眼睛
+Mouth
+嘴巴
+Harness
+束带
+Metal
+金属
 Tail
 尾巴
 Ribbon
@@ -346,6 +356,10 @@ Color 2
 颜色2
 Binder
 束缚
+Details
+细节
+Locks
+锁
 Wand
 振动棒
 Remote
@@ -378,8 +392,6 @@ Harem Veil
 后宫纱
 Studs
 嵌钉
-Locks
-锁
 Crotch Plate
 胯部挡板
 Rivets
@@ -392,8 +404,6 @@ Positive Wire
 阳极线
 Negative Wire
 阴极线
-Metal
-金属
 Clamps
 夹子
 Left Vibe Egg
@@ -450,6 +460,8 @@ Shorts
 短裤
 Zippers
 拉链
+Stripes
+条带
 Slime Girl
 史莱姆女孩
 Seams
@@ -468,6 +480,10 @@ Brooch
 饰针
 Mesh (for copying to items)
 色调（用于复制到其他物品）
+ Collar
+领子
+ Buckles
+搭扣
 Ornaments
 饰物
 Side Plates
@@ -500,10 +516,6 @@ Clip
 扣环
 Handle
 抓手
-Harness
-束带
-Stripes
-条带
 Stripes Shine
 条带高光
 Sign
@@ -600,6 +612,16 @@ Shadow
 影子
 Paper
 纸
+Cum
+精液
+Portrait Frame
+特写框
+Recording
+录像
+Background
+背景
+Foreground
+前景
 Hook
 钩子
 Nose
@@ -608,6 +630,12 @@ Mug
 马克杯
 Fluids
 液体
+Belly
+腹部
+Eye
+眼睛
+Teeth
+牙齿
 Hair
 头发
 Hood
@@ -616,18 +644,12 @@ Snaps
 皮带扣
 Face
 面部
-Eyes
-眼睛
-Mouth
-嘴巴
 Blush
 腮红
 Mouthpiece
 滤嘴
 Lens
 镜片
-Mask
-面罩
 Edges
 边缘
 Canvas
@@ -898,8 +920,6 @@ Tray
 托盘
 Refreshments
 物件
-Details
-细节
 Spikes
 尖刺
 Gears
@@ -992,8 +1012,6 @@ Wiring
 头发
  Tank Top
 坎肩
- Collar
-领子
  Loose Hood
 松垮头套
  Pulled Hood
@@ -1026,6 +1044,8 @@ Boot
 隔音器
  Lips
 嘴唇
+Bun
+包子
 Spreader Straps
 开阴器束带
 Spreader Clips
@@ -1038,3 +1058,7 @@ Transparent Shield
 透明挡板
 Shield
 挡板
+ Lacing
+束带
+ Outline
+边缘

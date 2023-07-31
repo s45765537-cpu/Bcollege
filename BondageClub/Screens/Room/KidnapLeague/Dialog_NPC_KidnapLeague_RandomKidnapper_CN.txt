@@ -11,7 +11,7 @@ Silence is gold, and gags are better than gold.
 （她交叉双臂，微笑起来。）现在你是我的了！
 (You surrender as she grabs your arms and restrains them.)  That was easy!
 （你投降了，她抓住你的手臂并约束住。）这真简单！
-(A kidnapper runs down the hall to meet you.)  I've heard about you and I will kidnap you!
+(A kidnapper carrying cards runs down the hall to meet you.)  I've heard about you and I will kidnap you!
 （一个绑匪跑过大厅来找你。）我听说过你，我会绑架你！
 (A kidnapper runs down the hall to meet you.)  You will be my easiest victim today.
 （一个绑匪跑过大厅来找你。）你会是我今天最容易得手的受害者。
@@ -145,6 +145,10 @@ Look at me, I cannot help you now.
 （你用长长的麻绳束缚住她的脚，把她吊在天花板上。）哦，天哪……你这绑匪！
 (You let her down from the ceiling and untie her feet.)  Thanks!  I was getting dizzy.
 （你把她从天花板放上下来，并解开她的脚。）非常感谢！我已经有点头晕了。
+(She puts her deck away and surrenders to you.)  Well done, you're both a good player and kidnapper.
+（她收起了牌组，并向你投降。）很好，你是个厉害的玩家和绑匪。
+(She puts her deck away and quickly restraints you.)  Enough cards!  It's time to play with my prey.
+（她收起了牌组，并迅速绑住了你。）玩够牌了！现在我该玩你了！
 ###_PLAYER
 I don't want mercy and I won't show any.
 我不需要怜悯，也不会怜悯别人。
@@ -166,6 +170,12 @@ Never mind.  We need less chatting and more fighting.
 ###_PLAYER
 We'll see who kidnaps who!
 看看谁绑架了谁！
+Wait!  Do I see Club Cards?
+等等，我看见了俱乐部卡牌？
+###_NPC
+(She nods.)  Yeah, I'm also a Club Card player.  Do you want to settle this kidnapping with cards instead?
+（她点点头。）是的，我也是俱乐部卡牌玩家。你想要用卡牌来决定这场绑架吗？
+###_PLAYER
 Lady of Ropes?  You're mistaking me for someone else.
 绳索夫人？你把我误认为别人了。
 ###_NPC
@@ -211,6 +221,10 @@ Please Mistress.  I don't want to fight you.
 ###_NPC
 Too bad, because I will fight you whether you want it or not.
 那可太糟了，因为不管你愿意不愿意，我都会和你战斗。
+###_PLAYER
+(Play Club Cards.)
+（玩俱乐部卡牌。）
+###_NPC
 (She bows her head and submits to you.)  Well done bounty hunter, you can have me and collect your money.
 （她低头向你屈服。）干得好，赏金猎人，你可以带走我，并拿到钱。
 (You struggle as she looks at you with an evil grin.)  You missed your mark bounty hunter, and now you're mine.
@@ -591,4 +605,3 @@ Follow me!  (Bring her to your room.)
 ###_NPC
 (She lets you go and sighs.)  Sadly, I need to go.  Find your owner to get out.
 （她让你走，叹了口气。）可悲的是，我得走了。找你的主人来放你出来吧。
-

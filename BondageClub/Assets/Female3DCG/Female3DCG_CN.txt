@@ -724,6 +724,8 @@ Swim Cap
 游泳帽
 Cowboy Hat
 牛仔帽
+Beanie
+小圆帽
 Hair Accessory
 发饰
 Hair Ribbon 1
@@ -922,6 +924,10 @@ Head Harness
 头束带
 Festival Fox Mask
 狐妖面具
+Smooth Latex Mask
+平滑乳胶面具
+Medical Mask
+医用口罩
 Jewelry
 珠宝
 Tail Strap
@@ -1168,6 +1174,10 @@ Style 51
 样式 51
 Style 51b
 样式 51b
+Style 52
+样式 52
+Style 52b
+样式 52b
 Facial Hair
 胡子
 Goatee
@@ -1186,6 +1196,8 @@ Back Hair
 后发
 None
 无
+Style 7c
+样式 7c
 Style 15b
 样式 15b
 Style 18b
@@ -1194,8 +1206,6 @@ Style 19b
 样式 19b
 Style 20b
 样式 20b
-Style 52
-样式 52
 Style 53
 样式 53
 Style 54
@@ -1204,6 +1214,12 @@ Style 55
 样式 55
 Style 56
 样式 56
+Style 57
+样式 57
+Style 57b
+样式 57b
+Style 57c
+样式 57c
 Left eye
 左眼
 Right eye
@@ -1220,18 +1236,12 @@ Light
 浅色
 Genitalia
 生殖器
-Light 1
-浅色 1
-Light 2
-浅色 2
-Light 3
-浅色 3
-Dark 1
-深色 1
-Dark 2
-深色 2
-Dark 3
-深色 3
+Pussy 1
+阴阜 1
+Pussy 2
+阴阜 2
+Pussy 3
+阴阜 3
 Penis
 阴茎
 Pronouns
@@ -1338,6 +1348,8 @@ Ornate Leg Cuffs
 华丽腿铐
 Leg Binder
 绑腿器
+Shiny Leg Binder
+闪亮绑腿器
 Hobble Skirt
 蹒跚裙
 Seamless Leg Binder
@@ -1708,6 +1720,8 @@ Pet Suit
 宠物拘束服
 Shiny Pet Suit
 闪亮宠物拘束服
+Shiny Straitjacket
+闪亮拘束衣
 Strait Dress
 拘束连衣裙
 Open Crotch Strait Dress
@@ -1904,6 +1918,8 @@ Mug
 马克杯
 PortalLink Tablet
 传送门连接平板
+Shark Plush
+鲨鱼布偶
 Neck
 颈部
 Leather Collar
@@ -2148,8 +2164,6 @@ Rope Ball Gag
 麻绳口球
 Milk Bottle
 奶瓶
-Medical Mask
-医用口罩
 Nursery Milk
 婴儿奶瓶
 Prison Lockdown Gag
@@ -2234,8 +2248,6 @@ Ribbon Blindfold
 丝带眼罩
 Medical Patches
 医用胶布
-Smooth Latex Mask
-平滑乳胶面具
 Nose
 鼻子
 Nose Hook
@@ -2288,6 +2300,8 @@ GP-9 Gas Mask
 GP-9防毒面具
 Gwen Hood
 情趣头套
+Doberman Mask
+杜宾犬头套
 Techno Helmet
 高科技头盔
 GGTS Helmet
@@ -2330,6 +2344,8 @@ Panty Hood
 真空头套
 Sensory Hood
 感官封闭头套
+Corset Hood
+束腰式头套
 Light Duty Ear Plugs
 轻型耳塞
 Heavy Duty Ear Plugs
@@ -2522,6 +2538,8 @@ Wheel of Fortune
 命运之轮
 Folding Screen
 折叠屏风
+Kabeshiri Wall
+壁尻
 Blanket
 毛毯
 Bed Ropes
@@ -2568,3 +2586,27 @@ Monoheel
 单跟靴
 Script
 脚本
+Eye Shadow
+眼影
+Cat Eye
+猫眼
+Cat Eye 2
+猫眼 2
+Large (Blurred)
+大 (渐变)
+Large (Solid)
+大 (纯色)
+Small (Blurred)
+小 (渐变)
+Small (Solid)
+小 (纯色)
+Superstar (Blurred)
+明星 (渐变)
+Superstar (Solid)
+明星 (纯色)
+Tanuki
+狸猫
+Undershadowed (Blurred)
+下眼影 (渐变)
+Undershadowed (Solid)
+下眼影 (纯色)
