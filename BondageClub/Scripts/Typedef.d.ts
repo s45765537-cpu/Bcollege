@@ -456,6 +456,9 @@ type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantas
 type PortalLinkStatus = "PortalLinkInvalidCode" | "PortalLinkClipboardError" | "PortalLinkValidCode" | `PortalLinkSearching${number}` | "PortalLinkDuplicateCode" | "PortalLinkTargetNotFound" | "PortalLinkEstablished";
 type PortalLinkFunction = "PortalLinkFunctionLock" | "PortalLinkFunctionUnlock" | "PortalLinkFunctionCycleChastity" | `PortalLinkFunctionActivity${ActivityName}`;
 
+/** Valid thumb icons for range slider elements */
+type ThumbIcon = "lock" | "blindfold" | "lightbulb" | "player" | "rope";
+
 //#endregion
 
 //#region Server Messages
@@ -1982,7 +1985,7 @@ interface ElementMetaData {
 	 */
 	imagePath?: null | string,
 	/** The name of a supported thumbnail image in \CSS\Styles.css that will show the current position on the slider */
-	icon?: string,
+	icon?: ThumbIcon,
 	/** Whether an options shows up in the UI. Useful for options that are managed programmatically. */
 	hidden?: boolean,
 }
@@ -1992,7 +1995,7 @@ declare namespace ElementMetaData {
 	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string }
 	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
-	interface VariableHeight { icon: string }
+	interface VariableHeight { icon: ThumbIcon }
 }
 
 /** @see {@link ElementData} */
@@ -2021,7 +2024,7 @@ interface ExtendedItemConfigDrawData<MetaData extends ElementMetaData> {
 
 /** @see {@link ExtendedItemDrawData} */
 interface VariableHeightConfigDrawData extends ExtendedItemConfigDrawData<{}> {
-	elementData: { position: RectTuple, icon: string }[],
+	elementData: { position: RectTuple, icon: ThumbIcon }[],
 }
 
 /**
