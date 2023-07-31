@@ -464,11 +464,13 @@ function ExtendedItemSetProperty(C, item, previousProperty, newProperty, push=fa
  * @param {Item} item - The item in question
  * @param {T} Option - The selected type definition
  * @param {T} CurrentOption - The current type definition
+ * @param {boolean} permitExisting - Determines whether the validation should allow the new option and previous option
+ * to be identical. Defaults to false.
  * @returns {string|null} null if the player meets the option requirements. Otherwise a string message informing them
  * of the requirements they do not meet
  */
-function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOption) {
-	return TypedItemValidateOption(data, C, item, Option, CurrentOption)
+function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOption, permitExisting = false) {
+	return TypedItemValidateOption(data, C, item, Option, CurrentOption, permitExisting)
 		|| ExtendedItemCheckSelfSelect(C, Option)
 		|| ExtendedItemCheckBuyGroups(Option)
 		|| ExtendedItemCheckSkillRequirements(C, item, Option);
@@ -533,10 +535,12 @@ function ExtendedItemCheckBuyGroups(Option) {
  * @param {Item} Item - The extended item to validate
  * @param {T} newOption - The selected option
  * @param {T} previousOption - The currently applied option on the item
+ * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
+ * to be identical. Defaults to false.
  * @returns {string} - Returns a non-empty message string if the item failed validation, or an empty string otherwise
  */
-function ExtendedItemValidate(data, C, Item, newOption, previousOption) {
-	// In the case of susbscreens the super screens `ChangeWhenLocked` value takes priority
+function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitExisting = false) {
+	// In the case of subscreens the super screens `ChangeWhenLocked` value takes priority
 	let canChangeWhenLocked = true;
 	if (data && data.parentOption && typeof data.parentOption.ChangeWhenLocked === "boolean") {
 		canChangeWhenLocked = data.parentOption.ChangeWhenLocked;
@@ -545,7 +549,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption) {
 	}
 	const currentLockedBy = InventoryGetItemProperty(Item, "LockedBy");
 
-	if (newOption.Name === previousOption.Name) {
+	if (newOption.Name === previousOption.Name && !permitExisting) {
 		return newOption.HasSubscreen ? "" : DialogFindPlayer("AlreadySet");
 	} else if (!canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)

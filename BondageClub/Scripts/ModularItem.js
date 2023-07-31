@@ -665,7 +665,7 @@ function ModularItemSetType(module, index, data) {
 	const moduleIndex = data.modules.indexOf(module);
 	const previousOption = module.Options[currentModuleValues[moduleIndex]];
 
-	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
+	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption, true);
 	if (requirementMessage) {
 		DialogExtendedMessage = requirementMessage;
 		return;
