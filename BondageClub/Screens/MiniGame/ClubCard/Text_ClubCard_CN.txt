@@ -18,56 +18,78 @@ Play this card
 打出这张卡牌
 Draw and end your turn
 抽牌并结束你的回合
+End your turn
+结束你的回合
+Select this card
+选择这张牌
+Don't play this card
+不打出这张牌
 Go bankrupt
 宣布破产
 Concede the game
 认输
+Stop watching
+停止观战
+SOURCEPLAYER conceded and left the game.
+SOURCEPLAYER认输并离开了游戏。
+SOURCEPLAYER stopped watching and left the game.
+SOURCEPLAYER结束观战并离开了了游戏。
 Yes
 是
 No
 否
 Deck #
 套牌#
-Deck #DECKNUMBER isn't valid.  Using the default deck instead.
-套牌#DECKNUMBER不可用。改为使用默认套牌。
+Play
+打出
+Your opponent has this card you can win:
+你得队友拥有这张你可以赢得的卡牌：
+You've reached 100 Fame and won this card:
+你到达了100声望并赢得了这张卡牌：
+PLAYERNAME deck isn't valid.  Using the default deck instead.
+PLAYERNAME的牌组不合规则。改为使用默认牌组。
 Select the deck to play with.
 选择要游玩的套牌。
-You will play with deck #DECKNUMBER.
-你将要使用套牌#DECKNUMBER游玩。
+Waiting for deck selection.
+等待选择牌组。
+PLAYERNAME deck is selected.
+PLAYERNAME选择了牌组。
 Go bankrupt and start a fresh new club?
 宣布破产并重新开始一个新的俱乐部？
 Do you really want to concede this game?
 你真的想要在这场游戏里认输吗？
-You've gone bankrupt and started a new club.
-你已经宣布破产，并开始了一个新的俱乐部。
-Your opponent has gone bankrupt and started a new club.
-你的对手已经宣布破产，并开始了一个新的俱乐部。
-Congratulations!  You reached 100 Fame and won the game.
+Do you want to stop watching this game?
+你想要停止观战这场游戏吗？
+SOURCEPLAYER went bankrupt and started a new club.
+SOURCEPLAYER破产了，并并开始了一个新的俱乐部。
+Congratulations!  You've reached 100 Fame and won the game.
 恭喜！你达到了100声望，并赢得了这场游戏。
 Your opponent reached 100 Fame and won the game.
 你的对手达到了100声望并赢得了游戏。
+PLAYERNAME reached 100 Fame and won the game.
+PLAYERNAME达到了100声望并赢得了游戏。
 End the game
 结束游戏
 Your opponent is playing...
 你的对手正在打出卡牌……
+Watching the game...
+观战游戏中……
 PLAYERNAME plays CARDNAME.
 PLAYERNAME打出了CARDNAME。
 PLAYERNAME plays CARDNAME on the opponent board.
 PLAYERNAME将CARDNAME打出到了对手的区域。
-PLAYER can play another card.  The turn continues.
-PLAYER可以打出另一张拍。回合继续。
+PLAYERNAME can play another card.  The turn continues.
+PLAYERNAME可以打出另一张卡牌。回合继续。
 You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 由你开始游戏。选择一张卡牌打出，或者抽牌来结束回合。
 Your opponent has been chosen to start the game.  Please wait for her move.
 由你的对手开始游戏。请等待她的行动。
-FAMEMONEY.  It's your opponent turn.
-FAMEMONEY。到你的对手的回合。
-FAMEMONEY.  It's your turn.
-FAMEMONEY。到你的回合。
-FAMEMONEY.  You draw a card.  It's your opponent turn.
-FAMEMONEY。你抽了一张卡牌。到你的对手的回合。
-FAMEMONEY.  Your opponent draws a card.  It's your turn.
-FAMEMONEY。你的对手抽了一张卡牌。到你的回合。
+PLAYERNAME has been selected to start.  Both players must pick a deck.
+PLAYERNAME选择了开始。每位玩家必须选择一个牌组。
+SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
+SOURCEPLAYER FAMEMONEY。现在是OPPONENTPLAYER的回合。
+SOURCEPLAYER draw a card.  FAMEMONEY.  It's OPPONENTPLAYER turn.
+SOURCEPLAYER抽了一张牌。FAMEMONEY。现在是OPPONENTPLAYER的回合。
 Get Cottage (MONEY)
 获得小屋(MONEY)
 Get House (MONEY)
@@ -88,10 +110,22 @@ SOURCEPLAYER gained AMOUNT Fame.
 SOURCEPLAYER获得了AMOUNT声望。
 SOURCEPLAYER gained AMOUNT Money.
 SOURCEPLAYER获得了AMOUNT金钱。
+SOURCEPLAYER lost AMOUNT Fame.
+SOURCEPLAYER失去了AMOUNT声望。
+SOURCEPLAYER lost AMOUNT Money.
+SOURCEPLAYER失去了AMOUNT金钱。
 SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT声望。
 SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT金钱。
+CARDTITLE leaves SOURCEPLAYER club.
+CARDTITLE离开了SOURCEPLAYER俱乐部。
+CARDTITLE event is removed.
+CARDTITLE事件被移除。
+CARDTITLE event has expired.
+CARDTITLE事件已经失效。
+Chat here...
+在这里聊天……
 Liability
 闹事者
 Staff
@@ -145,7 +179,7 @@ Party Animal
 Auctioneer
 拍卖师
 Double all bonuses from auctions.
-拍卖所有加价翻倍。
+拍卖所有收益翻倍。
 Uptown Girl
 上城女孩
 <F>She's been living in her white bread world.
@@ -178,6 +212,18 @@ Shy Submissive
 羞涩顺从者
 Will leave your club at end of turn if there are more than 6 members.
 如果有超过6个会员在场，在回合结束时会离开你的俱乐部。
+Rope Sensei
+绳艺老师
+<F>ロープを尊重する
+<F>（日语）尊重绳子
+LARP Queen
+LARP女王
+<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt.
+<F>在我的下个任务里，我需要附魔绳子，情欲药剂以及一个诅咒贞操带。
+Local Influencer
+地区领袖
+You lose 4 Money and draw a card when she enters your club.
+当她进入你的俱乐部时，你失去4金钱，并抽一张牌。
 Waitress
 女招待
 +1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
@@ -200,20 +246,20 @@ You can play one extra card per turn.
 每回合你能打出额外一张卡牌。
 Human Resource
 人力资源
-Draw an extra card each time you draw a card.
-每当你抽牌时，抽额外一张卡牌。
+Draw an extra card each time you end your turn by drawing a card.
+每当你通过抽牌结束回合时，抽额外一张卡牌。
 Policewoman
 女警察
 <F>I took the job for the free handcuffs.
 <F>我为了免费的手铐选择这个工作。
 Pusher
 毒贩
-Will leave the club at end of turn if a Police is present.
-如果警察在场，在回合结束时会离开俱乐部。
++3 Money per turn for Junkie and +1 Money per turn for Sidney.   Leave the club at end of turn if a Police is present.
+如果瘾君子在场，每回合+3金钱，并且如果Sidyney在场，每回合+1金钱。如果警察在场，在回合结束时会离开俱乐部。
 Junkie
 瘾君子
-+3 Money per turn if Pusher is present.  Leave club at end of turn if a Police is present.
-如果毒贩在场，每回合+3金钱。如果警察在场，在回合结束时会离开俱乐部。
+Leave club at end of turn if a Police is present.
+如果警察在场，在回合结束时会离开俱乐部。
 Zealous Cop
 狂热条子
 <F>Rules are rules, and I'll make sure they will be followed.
@@ -230,6 +276,14 @@ Police Cadet
 警察学院
 <F>Hey!  Give me back my keys!
 <F>嘿！把我的钥匙还给我！
+Stepmother
+继母
+Removes all Police and Liability members from your club when she enters.
+当她进入你的俱乐部时，从你的俱乐部移除所有的警察和闹事者。
+Sheriff
+警长
+Draw 2 cards when she enters your club.
+当她进入你的俱乐部时，抽2张卡牌。
 Maid Lover
 女仆爱好者
 +1 Money per turn for each Maid present.
@@ -248,12 +302,12 @@ Feet Worshiper
 如果至少有一个色情女演员或者ABDL妈咪在场，每回合+2金钱。
 Fin-Dom Simp
 取款机小虾奴
-+1 Money per turn for each Dominant present.
-如果至少一个支配者在场，每回合+1金钱。
++1 Money per turn for each Dominant present, maximum of +3.
+如果至少一个支配者在场，每回合+1金钱，最大+3。
 Fin-Dom Whale
 取款机大鲸奴
-+1 Money per turn for each Dominant present and +2 Money per turn for each Mistress present.
-如果至少一个支配者在场，每回合+1金钱。每有一个女主人在场，每回合+2金钱。
++2 Money per turn for each Mistress present.  Draw a card when she enters your club.
+每有一个女主人在场，每回合+2金钱。当她进入你的俱乐部时，抽一张卡牌。
 Porn Addict
 色情成瘾者
 +1 Money per turn for each Porn member present.
@@ -278,6 +332,10 @@ Porn Star
 色情明星
 <F>My father would not approve, until I got him a new house.
 <F>我爸不会同意的，直到我给他买了新房子。
+Cam Girl
+直播女孩
+Draw a card when she enters your club.
+当她进入你的俱乐部时，抽一张卡牌。
 Rookie Maid
 菜鸟女仆
 <F>I can't wait for the sorority initiation.
@@ -298,6 +356,10 @@ Head Maid
 女仆长
 +1 Fame per turn for each other Maid present.
 每有一个女仆在场，每回合+1声望。
+Confused Maid
+迷糊女仆
+<F>I've tried three dusters but this toilet is still clogged.
+<F>我用过三个掸子了但是这个马桶还是堵着的。
 Curious Patient
 好奇病人
 <F>Why are the walls padded?
@@ -326,6 +388,10 @@ Doctor
 医生
 +3 Fame per turn for each Asylum Patient present.
 每有一个收容所病人在场，每回合+3声望。
+Picky Nurse
+难伺候的护士
+Only enters if 2 Asylum Patient or more are present.  Leaves if there are less than 2 Asylum Patient.
+如果有2个或更多收容所病人在场，才能进场。如果少于2个收容所病人在场，则会离开。
 Amateur Rigger
 业余绳师
 <F>Purple hands?  I'm sure it's normal.
@@ -410,28 +476,30 @@ Soap Opera Mother
 如果至少一个ABDL宝宝在场，当她进入你的俱乐部时，+25声望。
 Amanda
 Amanda
-Immune to Ransomware.
-免疫勒索软件。
+<F>I never taught I would find a second home in this perverted place.
+<F>我没想到在这种色情的地方能找到第二个家。
 Sarah
 Sarah
-+2 Fame per turn if Amanda is present.  -2 Fame per turn if Sidney is present.
-如果Amanda在场，每回合+2声望。如果Sidney在场，每回合-2声望。
++2 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
+如果Amanda或者女主人Sophie在场，每回合+2声望。如果Sidney在场，每回合-2声望。
 Sidney
 Sidney
-Double all College Party bonuses.
-加倍所有大学阵营的加成。
+<F>Anyone that calls me Piggy will end up in a hogtie.
+<F>叫我小猪的都会被五花大绑。
 Jennifer
 Jennifer
-Remove one of your member cards when she enters your club.
-当她进入你的俱乐部时，移除一张你的会员卡牌。
+Select and remove one member from your club before she enters.
+当她进入你的俱乐部时，从你的俱乐部里选择并一个会员。
+Select a member from your club to remove before Jennifer enters.
+在Jennifer进场前，从你的俱乐部里选择一个会员移除。
 College Freshwoman
 大学女新生
 +1 Fame per turn if Julia is present.  +1 Fame per turn if Yuki is present.
 如果Julia在场，每回合+1声望。如果Yuki在场，每回合+1声望。
 College Nerd
 大学书呆子
-+1 Money per turn if Julia is present.  +1 Fame per turn if Yuki is present.
-如果Julia在场，每回合+1声望。如果Yuki在场，每回合+1声望。
++1 Money per turn if Julia is present.  +1 Money per turn if Yuki is present.
+如果Julia在场，每回合+1金钱。如果Yuki在场，每回合+1金币。
 Hidden Genius
 隐藏天才
 +5 Fame per turn if Mildred is present.
@@ -488,3 +556,105 @@ Straitjacket Saturday
 拘束衣周末
 +4 Money for each Asylum Patient and Asylum Nurse.
 每有一个收容所病人和收容所护士，+4金钱。
+Charity Auction
+慈善拍卖
+Select and remove one member from your club, gain 1 Fame per building level.
+从你的俱乐部选择并移除一个会员，每有一个建筑等级，获得1声望。
+Select a member from your club to remove for Fame.
+从你的俱乐部选择一个会员，移除以换取声望。
+Slave Auction
+奴隶拍卖
+Select and remove one member from your club, gain 1 Money per building level.
+从你的俱乐部选择并移除一个会员，每有一个建筑等级，获得1金钱。
+Select a member from your club to remove for Money.
+从你的俱乐部选择一个会员，移除以换取金钱。
+College Bash
+大学狂欢
++2 Fame for each College Girl.  Extra +2 Fame if Sidney is present.
+每有一个大学学生+2声望。如果Sidney在场，额外+2声望。
+Ransomware
+勒索软件
+Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
+对手每有一个建筑等级失去5金钱。如果你的对手有Amanda或者Jennifer不能打出。
+Shibari Evening
+绳艺之夜
++1 Fame for each Non-Dominant members in your club.  Extra +1 Fame if Rope Sensei is present.
+你的俱乐部里每有一个非支配者会员+1声望。如果绳艺老师在场，额外+1声望。
+Moving Out of Town
+搬出城市
+Remove any member from your opponent club.
+从你对手的俱乐部里移除任一会员。
+Select a member from your opponent club to remove.
+从你对手的俱乐部里选择一个会员移除。
+Virtual Meeting
+虚拟聚会
+Draw 2 cards
+抽2张卡牌
+Weekend Meeting
+周末聚会
+Draw 3 cards
+抽3张卡牌
+Fancy Meeting
+奢华聚会
+Draw 5 cards
+抽5张卡牌
+Prank
+恶作剧
+Your opponent discards 2 random cards.
+你的对手弃2张随机卡牌。
+Sabotage
+蓄意破坏
+Your opponent discards 4 random cards.
+你的对手弃4张随机卡牌。
+Nursery Night
+幼儿之夜
++3 Money for each ABDL Baby, ABDL Mommy and Maid in your club.
+你的俱乐部里每有一个ABDL宝宝、ABDL妈咪和女仆，+3金钱。
+Bad Press
+负面新闻
+For 3 turns, your opponent gains no Fame at the end of turn.  Cancels opponent Clever Marketing.
+在3回合内，你的对手在回合结束时不会获得声望。取消对手的精妙营销。
+No Fame is gained because of OPPONENTPLAYER Bad Press event.
+由于OPPONENTPLAYER的负面新闻事件，没有获得声望。
+Clever Marketing
+精妙营销
+For 3 turns, you gain double Fame at the end of turn.  Cancels opponent Bad Press.
+在3回合内，你在回合结束时获得双倍声望。取消对手的负面新闻。
+Fame gained is doubled because of SOURCEPLAYER Clever Marketing event.
+由于SOURCEPLAYER的精妙营销事件，获得声望。翻倍1
+Repay Loan
+偿付借贷
+For 3 turns, your opponent gains no Money at the end of turn.  Cancels opponent Bank Loan.
+在3回合内，你的对手在回合结束时不会获得金钱。取消对手的银行贷款。
+No Money is gained because of OPPONENTPLAYER Repay Loan event.
+由于OPPONENTPLAYER的偿付借贷事件，没有金钱收入。
+Bank Loan
+银行贷款
+For 3 turns, you gain double Money at the end of turn.  Cancels opponent Repay Loan.
+在3回合内，你在回合结束时获得双倍金钱。取消对手的偿付借贷。
+Money gained is doubled because of SOURCEPLAYER Bank Loan event.
+由于OPPONENTPLAYER的银行贷款事件，金钱收入翻倍。
+Teamwork
+合作
+For 4 turns, you draw an extra card each time you draw a card.
+在3回合内，每当你抽一张卡牌时，你额外抽一张卡牌。
+Overtime
+加班
+For 3 turns, you can play an extra card.
+在3回合内，你可以额外打出一张卡牌。
+Porn Convention
+色情大会
+For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn.
+在3回合内，所有玩家在回合结束时，俱乐部中每有一个色情演员，获得3声望。
+SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
+SOURCEPLAYER从色情大会中获得了AMOUNT声望。
+Kidnapping
+绑架
+Remove any member from your opponent club.  You lose 2 Money for each opponent building level.
+从你对手的俱乐部里移除任一会员。对手每有一个建筑等级，你失去2金钱。
+Pandora's Box
+潘多拉魔盒
+All players discard their current hand and draw 5 new cards.
+所有玩家弃掉当前的手牌，抽5张新的卡牌。
+SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
+SOURCEPLAYER打开了潘多拉魔盒。所有玩家弃掉手牌，并抽五张新的卡牌。

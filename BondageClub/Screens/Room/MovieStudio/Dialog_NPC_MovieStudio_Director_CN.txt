@@ -1,6 +1,10 @@
 ###_NPC
 Hun, speak clearer if you want to become a star.
 亲爱的，想当明星就说清楚点。
+Well played hun.  Now move along, we have a movie to film.
+打得不错，亲爱的。现在走开吧，我们还要拍电影呢。
+Ah!  Once again my porn deck is best.  Do you want to try your luck again?
+啊！又一次，我的色情片牌组是最棒的。你想要再试一次吗？
 Cut!  That's enough hun!  I told you to be sexy.
 暂停！够了，亲爱的！我告诉过你要性感。
 Cut!  Sorry hun, you don't have what it takes to be a star.
@@ -62,8 +66,28 @@ The movie is called: "The Interview".  It's the story of a curious journalist th
 The movie is called: "Open House".  It's the story of a divorced wife confronting her husband new girlfriend, which is trying to sell the family house. Are you interested?
 这部电影叫做：“房屋参观”。这是一个离异的妻子面对试图卖掉房子的丈夫新女友的故事。你感兴趣吗？
 ###_PLAYER
+Do you play Club Card?
+你玩俱乐部卡牌吗？
+###_NPC
+(She thinks aloud.)  Sure, we can play a few games before the next scene.
+（她出声地思考。）当然，我们在下个场景开始前可以来几局。
+###_PLAYER
 Take care.  (Leave her.)
 多保重。（离开她。）
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+(She shakes her head no.)  Hun, I have a movie to prepare.  Let's play for honor only.
+（她摇摇头，表示拒绝。）亲爱的，我还要拍电影呢。我们普通玩玩吧。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's talk about something else.
+我们聊聊其他的事情吧。
+###_NPC
+Yeah, we can play cards later.  We are making porn here, this is serious stuff.
+好的，我们可以稍后再玩卡牌。我们正在拍色情片呢，这是很重要的事情。
+###_PLAYER
 Tell me about the script.
 说说剧本吧。
 ###_NPC

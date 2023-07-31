@@ -102,6 +102,8 @@ Fantasy
 奇幻风
 Game:
 游戏:
+Club Card
+俱乐部卡牌
 LARP
 体感对战
 Magic Battle

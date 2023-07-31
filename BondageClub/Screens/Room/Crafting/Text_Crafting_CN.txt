@@ -1,5 +1,7 @@
 Return to the main hall
 返回大厅
+Return to item customizer
+返回物品制作器
 Destroy an item
 摧毁一件物品
 Craft your item
@@ -12,10 +14,10 @@ Next
 下一页
 No lock
 无锁
-Select an empty slot to craft a new item, or click on the item to edit.
-为你新制作的物品选择一个栏位，或者点击物品来编辑它。
-Select a crafted item slot to destroy.
-选择一个已经制作的物品栏来摧毁。
+Select an empty slot to craft a new item, or click on the item to edit.  Page
+为你新制作的物品选择一个栏位，或者点击物品来编辑它。 页面
+Select a crafted item slot to destroy.  Page
+选择摧毁一个已经制作的物品栏来。 页面
 Select an item to craft or search on your left.
 从你的左边选择一个物品来制作或者研究。
 Select a property for your AssetDescription.
@@ -26,6 +28,8 @@ Enter a name and description for your PropertyName AssetDescription.
 为你的PropertyName AssetDescription输入一个名称和描述。
 Pick the item colors
 选择该物品的颜色
+Configure layer priority
+配置图层优先级
 Name of the crafted item
 制作物品的名称
 Engrave a description
@@ -36,8 +40,8 @@ Item drawing priority
 物品绘图优先级
 Private (only you can use it)
 私用（只有你能使用它）
-Automatic selection:
-自动选择：
+Configure item:
+配置物品：
 Empty
 空
 Normal

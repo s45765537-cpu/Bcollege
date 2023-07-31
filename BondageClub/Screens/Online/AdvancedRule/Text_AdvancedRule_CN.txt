@@ -48,6 +48,8 @@ Bondage Brawl
 束缚格斗
 Item Crafting
 物品制作
+Club Card Lounge
+俱乐部卡牌大厅
 Gambling
 赌场
 Prison

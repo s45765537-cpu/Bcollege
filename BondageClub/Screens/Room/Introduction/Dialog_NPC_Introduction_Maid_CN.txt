@@ -131,6 +131,10 @@ Falling down and getting up is the biggest accomplishment.  Are you ready to try
 跌倒并爬起来就是最大的成就。你准备好再试一次了吗？
 Konichiwa!  (She smiles and bows politely.)  I trust you want to challenge the ropes again?
 你好（日语）！（她微笑着礼貌地鞠躬。）我相信，你想再次来挑战绳子？
+Very good!  There are many other Club Card players throughout the Bondage Club.  Try to find all of them.
+很好！在束缚俱乐部里还有许多其他的俱乐部卡牌玩家。试着找到她们吧！
+Don't be sad, practice makes perfect and I won't strap you up for losing.
+被灰心，熟能生巧，并且我不会因为失败就绑住你的。
 Greetings Mistress DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.)
 女主人DialogPlayerName你好。欢迎来到介绍课程。（她向你行屈膝礼。）
 Greetings head maid DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.)
@@ -175,6 +179,12 @@ Yes, there are special jobs you could do for us today for a great salary.  Pick 
 （她摇头，表示否认。）对不起，改天再来吧。
 (She giggles and shakes her head no.)  We are not in a good situation to hire you.
 （她咯咯地笑着，摇摇头。）我们现在的状态很难雇用你。
+###_PLAYER
+Have you heard about Club Cards?
+你听说过俱乐部卡牌吗？
+###_NPC
+You can learn more about it in the Club Card Lounge or we can play a fun game together if you want.
+你可以在俱乐部卡牌大厅了解更多，或者如果你想的花，我们能一起切磋一下。
 ###_PLAYER
 I can't stay to chat.  (Leave her.)
 我没法儿留下来闲聊。（离开她。）
@@ -323,6 +333,32 @@ Can you tie me up now?
 ###_NPC
 I can certainly tie you up.  It's a good time to practice.
 我当然可以绑你。这是个练习的好时间。
+###_PLAYER
+Tell me about the rules.
+跟我讲讲规则。
+###_NPC
+I'm not the best to do that.  Go back to the main hall and check for the Club Card Lounge to learn more about it.
+这个事情我不是最好的。去大厅，然后去俱乐部卡牌大厅来了解吧。
+###_PLAYER
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+(She shakes her head no.)  I'm on duty, we can only play for fun.
+（她摇摇头，表示拒绝。）我正在工作，我们只能普通地玩。
+###_PLAYER
+Will you restrain me if I lose?
+如果我输了，你会把我绑起来吗？
+###_NPC
+I cannot do that while I'm working.
+我在工作的时候不能这么做。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's talk about something else.
+我们谈谈其他的事情吧。
+###_NPC
+(She nods and does a curtsy.)  How can I help you?
+（她点点头，向你行礼。）需要我帮忙吗？
 You can practice your bondage skills here.  Would you prefer to restrain someone, or be tied up yourself?
 你可以在这里练习你的束缚技能。你想束缚某人呢，还是想让自己被绑起来呢？
 ###_PLAYER

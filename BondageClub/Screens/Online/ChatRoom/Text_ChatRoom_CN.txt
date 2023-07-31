@@ -64,3 +64,7 @@ Accessing yourself is forbidden when your owner is present.
 当你的主人在场时，禁止接触自己
 Accessing others is forbidden when your owner is present.
 当你的主人在场时，禁止接触他人
+PLAYERNAME has been selected randomly to start the game.
+PLAYERNAME被随机选择开始游戏。
+PLAYERNAME has joined the Club Card game.
+PLAYERNAME加入了俱乐部卡牌游戏。

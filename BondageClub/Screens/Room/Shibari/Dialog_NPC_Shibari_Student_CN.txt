@@ -95,6 +95,10 @@ I love your gag, it looks both comfy and effective.
 （你用绳子在她的身体周围做一套束缚带。）我喜欢一个好的安全带的感觉。
 (You use the ropes and create a diamond harness around her body.)  You're a rope artist Miss DialogPlayerName.
 （你使用绳子在她的身体周围制作一个菱形束缚带。）你是一位绳缚艺术家，DialogPlayerName女士。
+Congratulations Miss, you're a true card sensei.  I'm your prisoner to bind, we have more ropes in these bags.
+恭喜，女士，你是真正的卡牌大师。我是随你捆绑的囚犯，在这些包里有更多的绳子。
+That was good game Miss.  Sorry I won't tie you up, but we can play another match if you want.
+这是一场好游戏，女士。抱歉我不会把你绑起来，但如果你想的花我们可以再来一局。
 Konichiwa Miss.  I hope you're enjoying the Dojo.
 你好（日语）女士。希望你喜欢道场。
 ###_PLAYER
@@ -127,6 +131,12 @@ You are in the Shibari Dojo.  Most people come here to practice their rope and e
 ###_NPC
 (You spank her on the butt as she dangles on the rope.)  Oooooh!  I love the way it stings Miss.
 （你打她的屁股，她在绳子上晃来晃去。）噢噢噢！我喜欢这种刺痛，女士。
+###_PLAYER
+Would you like to play Club Cards?
+你想玩俱乐部卡牌吗？
+###_NPC
+(She stretches her arms.)  Yes Miss, it could be a nice pause after being bound for so long.
+（她伸展手臂。）是的，女士，在被绑了这么久之后，那会是个不错的休息。
 ###_PLAYER
 I need to go.  (Leave her.)
 我要走了。（离开她。）
@@ -165,6 +175,18 @@ Let's talk about something else.
 ###_NPC
 Yes Miss.
 是的，女士。
+###_PLAYER
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+Of course Miss!  You can tie me up right now if you want.  (She giggles.)  I'm a submissive though, I won't restrain you if I win.
+当然，女士！如果你想，现在就可以把我绑起来。（她呵呵地笑起来。）我是个顺从者呀，即使我赢了也不会绑你的。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+###_NPC
+Yes Miss.  Would you like to use more ropes on me?
+是的女士。你愿意在我身上使用更多绳子吗？
 Konichiwa Miss.  It seems that we got in trouble.
 你好（日语）女士。看来我们遇到了麻烦。
 ###_PLAYER

@@ -870,22 +870,22 @@ SourceCharacter nibbles TargetCharacter's arm.
 SourceCharacter轻咬TargetCharacter的手臂
 SourceCharacter pinches TargetCharacter's upper arm.
 SourceCharacter掐捏TargetCharacter的上臂.
-SourceCharacter pours UsedAsset onto TargetCharacter's arm.
-SourceCharacter将UsedAsset泼洒到TargetCharacter的手臂上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's arm.
-SourceCharacter用UsedAsset在TargetCharacter的手臂上滚动。
-SourceCharacter rubs TargetCharacter's arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的手臂。
-SourceCharacter shocks TargetCharacter's arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的手臂。
+SourceCharacter pours ActivityAsset onto TargetCharacter's arm.
+SourceCharacter将ActivityAsset泼洒到TargetCharacter的手臂上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's arm.
+SourceCharacter用ActivityAsset在TargetCharacter的手臂上滚动。
+SourceCharacter rubs TargetCharacter's arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的手臂。
+SourceCharacter shocks TargetCharacter's arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的手臂。
 SourceCharacter spanks TargetCharacter's arm.
 SourceCharacter拍打TargetCharacter的手臂.
-SourceCharacter hits TargetCharacter's arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的手臂。
+SourceCharacter hits TargetCharacter's arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的手臂。
 SourceCharacter tickles TargetCharacter's arms.
 SourceCharacter挠了挠TargetCharacter的手臂.
-SourceCharacter tickles TargetCharacter's arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的手臂。
+SourceCharacter tickles TargetCharacter's arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的手臂。
 SourceCharacter shares a warm sisterly hug with TargetCharacter.
 SourceCharacter与TargetCharacter互相如姐妹般温暖拥抱。
 SourceCharacter bites TargetCharacter's foot.
@@ -908,26 +908,26 @@ SourceCharacter nibbles TargetCharacter's foot.
 SourceCharacter轻咬TargetCharacter的脚
 SourceCharacter gives a small and polite kiss on TargetCharacter's foot.
 SourceCharacter轻轻地吻TargetCharacter的脚。
-SourceCharacter pours UsedAsset onto TargetCharacter's feet.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的脚上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's feet.
-SourceCharacter用UsedAsset在TargetCharacter的脚滚动。
-SourceCharacter rubs TargetCharacter's feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的脚。
-SourceCharacter shocks TargetCharacter's feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的脚。
+SourceCharacter pours ActivityAsset onto TargetCharacter's feet.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的脚上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's feet.
+SourceCharacter用ActivityAsset在TargetCharacter的脚滚动。
+SourceCharacter rubs TargetCharacter's feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的脚。
+SourceCharacter shocks TargetCharacter's feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的脚。
 SourceCharacter spanks TargetCharacter's foot sole.
 SourceCharacter拍打TargetCharacter的脚心.
-SourceCharacter hits TargetCharacter's feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的脚。
+SourceCharacter hits TargetCharacter's feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的脚。
 SourceCharacter sucks on TargetCharacter's big toe.
 SourceCharacter吮吸TargetCharacter的大脚趾.
 SourceCharacter cleans and polishes TargetCharacter's toenails.
 SourceCharacter清理TargetCharacter的脚指甲，并涂了指甲油。
 SourceCharacter tickles TargetCharacter's foot sole.
 SourceCharacter挠了挠TargetCharacter的脚心.
-SourceCharacter tickles TargetCharacter's feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的脚。
+SourceCharacter tickles TargetCharacter's feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的脚。
 SourceCharacter bites TargetCharacter's breast.
 SourceCharacter咬了一口TargetCharacter的乳房.
 SourceCharacter caresses TargetCharacter's breast.
@@ -944,28 +944,28 @@ SourceCharacter licks TargetCharacter's breast.
 SourceCharacter舔TargetCharacter的乳房.
 SourceCharacter masturbates TargetCharacter's breast.
 SourceCharacter玩弄TargetCharacter的乳房.
-SourceCharacter masturbates TargetCharacter's breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的乳房。
-SourceCharacter pours UsedAsset onto TargetCharacter's breast.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的乳房上。
+SourceCharacter masturbates TargetCharacter's breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的乳房。
+SourceCharacter pours ActivityAsset onto TargetCharacter's breast.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的乳房上。
 SourceCharacter rests PronounPossessive head on TargetCharacter's breasts.
 SourceCharacter把头枕在TargetCharacter的乳房上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's breast.
-SourceCharacter用UsedAsset在TargetCharacter的乳房滚动。
-SourceCharacter rubs TargetCharacter's breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的乳房。
-SourceCharacter shocks TargetCharacter's breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的乳房。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's breast.
+SourceCharacter用ActivityAsset在TargetCharacter的乳房滚动。
+SourceCharacter rubs TargetCharacter's breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的乳房。
+SourceCharacter shocks TargetCharacter's breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的乳房。
 SourceCharacter slaps TargetCharacter's breast.
 SourceCharacter拍打TargetCharacter的乳房.
-SourceCharacter hits TargetCharacter's breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的乳房。
+SourceCharacter hits TargetCharacter's breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的乳房。
 SourceCharacter steps on TargetCharacter's breast.
 SourceCharacter踩在TargetCharacter的乳房上.
 SourceCharacter tickles TargetCharacter's breast.
 SourceCharacter挠了挠TargetCharacter的乳房.
-SourceCharacter tickles TargetCharacter's breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的乳房。
+SourceCharacter tickles TargetCharacter's breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的乳房。
 SourceCharacter bites TargetCharacter's butt.
 SourceCharacter咬了一口TargetCharacter的臀部.
 SourceCharacter caresses TargetCharacter's butt.
@@ -984,30 +984,30 @@ SourceCharacter uses PronounPossessive fist to masturbate TargetCharacter's ass.
 SourceCharacter用拳头玩弄TargetCharacter的屁股.
 SourceCharacter uses PronounPossessive fingers to masturbate TargetCharacter's ass.
 SourceCharacter用手指玩弄TargetCharacter的屁股.
-SourceCharacter masturbates TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的臀部。
+SourceCharacter masturbates TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的臀部。
 SourceCharacter uses PronounPossessive tongue to masturbate TargetCharacter's ass.
 SourceCharacter用舌头玩弄TargetCharacter的屁股.
-SourceCharacter roughly penetrates TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset猛烈地抽插TargetCharacter的臀部。
-SourceCharacter slowly penetrates TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset缓慢地抽插TargetCharacter的臀部。
-SourceCharacter pours UsedAsset onto TargetCharacter's butt.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的臀部上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's butt.
-SourceCharacter用UsedAsset在TargetCharacter的臀部滚动。
-SourceCharacter rubs TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的臀部。
-SourceCharacter shocks TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的臀部。
+SourceCharacter roughly penetrates TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset猛烈地抽插TargetCharacter的臀部。
+SourceCharacter slowly penetrates TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset缓慢地抽插TargetCharacter的臀部。
+SourceCharacter pours ActivityAsset onto TargetCharacter's butt.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的臀部上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's butt.
+SourceCharacter用ActivityAsset在TargetCharacter的臀部滚动。
+SourceCharacter rubs TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的臀部。
+SourceCharacter shocks TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的臀部。
 SourceCharacter spanks TargetCharacter's butt.
 SourceCharacter拍打TargetCharacter的臀部.
-SourceCharacter hits TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的臀部。
+SourceCharacter hits TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的臀部。
 SourceCharacter presses PronounPossessive foot into TargetCharacter's ass.
 SourceCharacter把脚踩进了TargetCharacter的屁股.
-SourceCharacter tickles TargetCharacter's butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的臀部。
+SourceCharacter tickles TargetCharacter's butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的臀部。
 SourceCharacter bites TargetCharacter's ear.
 SourceCharacter咬了一口TargetCharacter的耳朵.
 SourceCharacter caresses TargetCharacter's ear.
@@ -1022,12 +1022,12 @@ SourceCharacter nibbles TargetCharacter's ear.
 SourceCharacter轻咬TargetCharacter的耳朵.
 SourceCharacter pinches TargetCharacter's ear.
 SourceCharacter掐捏TargetCharacter的耳朵.
-SourceCharacter rolls a UsedAsset over TargetCharacter's ear.
-SourceCharacter用UsedAsset在TargetCharacter的耳朵滚动。
-SourceCharacter rubs TargetCharacter's ear with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的耳朵。
-SourceCharacter tickles TargetCharacter's ear with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的耳朵。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's ear.
+SourceCharacter用ActivityAsset在TargetCharacter的耳朵滚动。
+SourceCharacter rubs TargetCharacter's ear with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的耳朵。
+SourceCharacter tickles TargetCharacter's ear with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的耳朵。
 SourceCharacter whispers slowly in TargetCharacter's ear.
 SourceCharacter在TargetCharacter耳边低声轻语.
 SourceCharacter bites TargetCharacter's leg.
@@ -1048,24 +1048,24 @@ SourceCharacter licks TargetCharacter's leg.
 SourceCharacter舔TargetCharacter的小腿.
 SourceCharacter massages TargetCharacter's leg.
 SourceCharacter按摩TargetCharacter的小腿.
-SourceCharacter masturbates TargetCharacter's leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的小腿。
+SourceCharacter masturbates TargetCharacter's leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的小腿。
 SourceCharacter nibbles TargetCharacter's leg.
 SourceCharacter轻咬TargetCharacter的小腿.
-SourceCharacter pours UsedAsset onto TargetCharacter's leg.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的小腿上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's leg.
-SourceCharacter用UsedAsset在TargetCharacter的小腿滚动。
-SourceCharacter rubs TargetCharacter's leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的小腿。
-SourceCharacter shocks TargetCharacter's leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的小腿。
+SourceCharacter pours ActivityAsset onto TargetCharacter's leg.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的小腿上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's leg.
+SourceCharacter用ActivityAsset在TargetCharacter的小腿滚动。
+SourceCharacter rubs TargetCharacter's leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的小腿。
+SourceCharacter shocks TargetCharacter's leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的小腿。
 SourceCharacter spanks TargetCharacter's leg.
 SourceCharacter拍打TargetCharacter的小腿.
 SourceCharacter tickles TargetCharacter's leg.
 SourceCharacter挠了挠TargetCharacter的小腿.
-SourceCharacter tickles TargetCharacter's leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的小腿。
+SourceCharacter tickles TargetCharacter's leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的小腿。
 SourceCharacter caresses TargetCharacter's glans with PronounPossessive fingers.
 SourceCharacter用手指轻抚TargetCharacter的龟头。
 SourceCharacter gags kiss TargetCharacter's glans.
@@ -1082,22 +1082,22 @@ SourceCharacter masturbates TargetCharacter's glans with PronounPossessive foot.
 SourceCharacter用脚玩弄TargetCharacter的龟头。
 SourceCharacter masturbates TargetCharacter's glans with PronounPossessive fingers.
 SourceCharacter用手指玩弄TargetCharacter的龟头。
-SourceCharacter uses PronounPossessive UsedAsset to masturbate TargetCharacter's glans.
-SourceCharacter用UsedAsset玩弄TargetCharacter的龟头。
+SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's glans.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的龟头。
 SourceCharacter masturbates TargetCharacter's glans with PronounPossessive tongue.
 SourceCharacter用舌头玩弄TargetCharacter的龟头。
 SourceCharacter nibbles TargetCharacter's glans.
 SourceCharacter轻咬TargetCharacter的龟头。
-SourceCharacter rubs TargetCharacter's glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的龟头。
-SourceCharacter shocks TargetCharacter's glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的龟头。
+SourceCharacter rubs TargetCharacter's glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的龟头。
+SourceCharacter shocks TargetCharacter's glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的龟头。
 SourceCharacter slaps TargetCharacter's glans.
 SourceCharacter扇TargetCharacter的龟头。
-SourceCharacter hits TargetCharacter's glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的龟头。
-SourceCharacter tickles TargetCharacter's glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的龟头。
+SourceCharacter hits TargetCharacter's glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的龟头。
+SourceCharacter tickles TargetCharacter's glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的龟头。
 SourceCharacter bites TargetCharacter's hand.
 SourceCharacter咬了一口TargetCharacter的手.
 SourceCharacter caresses TargetCharacter's hand.
@@ -1140,10 +1140,10 @@ SourceCharacter rubs PronounPossessive foot on TargetCharacter's face.
 SourceCharacter用脚摩擦TargetCharacter的脸.
 SourceCharacter brushes TargetCharacter's hair.
 SourceCharacter给TargetCharacter梳头.
-SourceCharacter rubs TargetCharacter's head with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的头。
-SourceCharacter tickles TargetCharacter's head with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的头。
+SourceCharacter rubs TargetCharacter's head with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的头。
+SourceCharacter tickles TargetCharacter's head with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的头。
 SourceCharacter bites TargetCharacter's thigh.
 SourceCharacter咬了一口TargetCharacter的大腿
 SourceCharacter caresses TargetCharacter's thigh.
@@ -1162,30 +1162,30 @@ SourceCharacter licks TargetCharacter's thigh.
 SourceCharacter舔TargetCharacter的大腿.
 SourceCharacter massages TargetCharacter's thigh.
 SourceCharacter按摩TargetCharacter的大腿.
-SourceCharacter masturbates TargetCharacter's thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的大腿。
+SourceCharacter masturbates TargetCharacter's thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的大腿。
 SourceCharacter nibbles TargetCharacter's thigh.
 SourceCharacter轻咬TargetCharacter的大腿.
-SourceCharacter pours UsedAsset onto TargetCharacter's thigh.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的大腿上。
+SourceCharacter pours ActivityAsset onto TargetCharacter's thigh.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的大腿上。
 SourceCharacter rests PronounPossessive head in TargetCharacter's lap.
 SourceCharacter把PronounObject的头枕在TargetCharacter的大腿上.
-SourceCharacter rolls a UsedAsset over TargetCharacter's thigh.
-SourceCharacter用UsedAsset在TargetCharacter的大腿滚动。
-SourceCharacter rubs TargetCharacter's thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的大腿。
-SourceCharacter shocks TargetCharacter's thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的大腿。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's thigh.
+SourceCharacter用ActivityAsset在TargetCharacter的大腿滚动。
+SourceCharacter rubs TargetCharacter's thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的大腿。
+SourceCharacter shocks TargetCharacter's thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的大腿。
 SourceCharacter sits in TargetCharacter's lap.
 SourceCharacter坐在TargetCharacter的大腿上.
 SourceCharacter spanks TargetCharacter's thigh.
 SourceCharacter拍打TargetCharacter的大腿.
-SourceCharacter hits TargetCharacter's thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的大腿。
+SourceCharacter hits TargetCharacter's thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的大腿。
 SourceCharacter tickles TargetCharacter's thigh.
 SourceCharacter挠了挠TargetCharacter的大腿.
-SourceCharacter tickles TargetCharacter's thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的大腿。
+SourceCharacter tickles TargetCharacter's thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的大腿。
 SourceCharacter bites TargetCharacter's lips.
 SourceCharacter咬了一口TargetCharacter的嘴唇.
 SourceCharacter caresses and cleans TargetCharacter's mouth.
@@ -1204,26 +1204,26 @@ SourceCharacter licks TargetCharacter's lips.
 SourceCharacter舔TargetCharacter的嘴唇.
 SourceCharacter nibbles TargetCharacter's lips.
 SourceCharacter轻咬TargetCharacter的嘴唇.
-SourceCharacter roughly penetrates TargetCharacter's mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset猛烈地抽插TargetCharacter的嘴。
-SourceCharacter slowly penetrates TargetCharacter's mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset缓慢地抽插TargetCharacter的嘴。
-SourceCharacter fucks TargetCharacter's UsedAsset with PronounPossessive ass.
-SourceCharacter用自己的屁股操TargetCharacter的UsedAsset。
-SourceCharacter fucks TargetCharacter's UsedAsset with PronounPossessive pussy.
-SourceCharacter用自己的阴部操TargetCharacter的UsedAsset。
-SourceCharacter sucks on TargetCharacter's UsedAsset.
-SourceCharacter吮吸TargetCharacter的UsedAsset。
+SourceCharacter roughly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset猛烈地抽插TargetCharacter的嘴。
+SourceCharacter slowly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset缓慢地抽插TargetCharacter的嘴。
+SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive ass.
+SourceCharacter用自己的屁股操TargetCharacter的ActivityAsset。
+SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive pussy.
+SourceCharacter用自己的阴部操TargetCharacter的ActivityAsset。
+SourceCharacter sucks on TargetCharacter's ActivityAsset.
+SourceCharacter吮吸TargetCharacter的ActivityAsset。
 SourceCharacter gives a friendly kiss on TargetCharacter's cheek.
 SourceCharacter友好地亲吻TargetCharacter的脸颊。
-SourceCharacter rolls a UsedAsset over TargetCharacter's mouth.
-SourceCharacter用UsedAsset在TargetCharacter的嘴滚动。
-SourceCharacter rubs TargetCharacter's mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的嘴。
-SourceCharacter gives TargetCharacter a sip from PronounPossessive UsedAsset.
-SourceCharacter让TargetCharacter从PronounObject的UsedAsset喝了一口。
-SourceCharacter tickles TargetCharacter's mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的嘴。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's mouth.
+SourceCharacter用ActivityAsset在TargetCharacter的嘴滚动。
+SourceCharacter rubs TargetCharacter's mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的嘴。
+SourceCharacter gives TargetCharacter a sip from PronounPossessive ActivityAsset.
+SourceCharacter让TargetCharacter从PronounObject的ActivityAsset喝了一口。
+SourceCharacter tickles TargetCharacter's mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的嘴。
 SourceCharacter shares a kind sibling cheek kiss with TargetCharacter.
 SourceCharacter与TargetCharacter互相如兄弟姐妹般亲吻脸颊。
 SourceCharacter bites TargetCharacter's neck.
@@ -1244,18 +1244,18 @@ SourceCharacter massages TargetCharacter's neck.
 SourceCharacter按摩TargetCharacter的脖子.
 SourceCharacter nibbles TargetCharacter's neck.
 SourceCharacter轻咬TargetCharacter的脖子.
-SourceCharacter rolls a UsedAsset over TargetCharacter's neck.
-SourceCharacter用UsedAsset在TargetCharacter的脖子滚动。
-SourceCharacter rubs TargetCharacter's neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的脖子。
-SourceCharacter shocks TargetCharacter's neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的脖子。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's neck.
+SourceCharacter用ActivityAsset在TargetCharacter的脖子滚动。
+SourceCharacter rubs TargetCharacter's neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的脖子。
+SourceCharacter shocks TargetCharacter's neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的脖子。
 SourceCharacter gently places PronounPossessive foot over TargetCharacter's neck.
 SourceCharacter轻轻地把脚放在TargetCharacter的脖子上。
 SourceCharacter tickles TargetCharacter's neck.
 SourceCharacter挠了挠TargetCharacter的脖子。
-SourceCharacter tickles TargetCharacter's neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的脖子。
+SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的脖子。
 SourceCharacter bites TargetCharacter's nipple.
 SourceCharacter咬了一口TargetCharacter的乳头.
 SourceCharacter caresses TargetCharacter's nipples.
@@ -1266,28 +1266,28 @@ SourceCharacter kisses TargetCharacter's nipple.
 SourceCharacter亲吻TargetCharacter的乳头.
 SourceCharacter licks TargetCharacter's nipple.
 SourceCharacter舔TargetCharacter的乳头.
-SourceCharacter masturbates TargetCharacter's nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的乳头。
+SourceCharacter masturbates TargetCharacter's nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的乳头。
 SourceCharacter nibbles on TargetCharacter's nipple.
 SourceCharacter轻咬TargetCharacter的乳头.
 SourceCharacter pinches TargetCharacter's nipple.
 SourceCharacter掐捏TargetCharacter的乳头.
-SourceCharacter pours UsedAsset onto TargetCharacter's nipple.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的乳头上。
+SourceCharacter pours ActivityAsset onto TargetCharacter's nipple.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的乳头上。
 SourceCharacter pulls TargetCharacter's nipples.
 SourceCharacter拉扯TargetCharacter的乳头.
-SourceCharacter rolls a UsedAsset over TargetCharacter's nipple.
-SourceCharacter用UsedAsset在TargetCharacter的乳头滚动。
-SourceCharacter rubs TargetCharacter's nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的乳头。
-SourceCharacter shocks TargetCharacter's nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的乳头。
-SourceCharacter hits TargetCharacter's nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的乳头。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's nipple.
+SourceCharacter用ActivityAsset在TargetCharacter的乳头滚动。
+SourceCharacter rubs TargetCharacter's nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的乳头。
+SourceCharacter shocks TargetCharacter's nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的乳头。
+SourceCharacter hits TargetCharacter's nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的乳头。
 SourceCharacter sucks on TargetCharacter's nipple.
 SourceCharacter吮吸TargetCharacter的乳头.
-SourceCharacter tickles TargetCharacter's nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的乳头。
+SourceCharacter tickles TargetCharacter's nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的乳头。
 SourceCharacter bites TargetCharacter's nose.
 SourceCharacter咬了一口TargetCharacter的鼻子
 SourceCharacter caresses TargetCharacter's nose.
@@ -1312,12 +1312,12 @@ SourceCharacter pulls TargetCharacter's nose.
 SourceCharacter拉扯TargetCharacter的鼻子.
 SourceCharacter rubs TargetCharacter's nose.
 SourceCharacter揉了揉TargetCharacter的鼻子.
-SourceCharacter rubs TargetCharacter's nose with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的鼻子。
+SourceCharacter rubs TargetCharacter's nose with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的鼻子。
 SourceCharacter makes TargetCharacter smell PronounPossessive feet.
 SourceCharacter让TargetCharacter闻PronounObject的脚.
-SourceCharacter tickles TargetCharacter's nose with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的鼻子。
+SourceCharacter tickles TargetCharacter's nose with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的鼻子。
 SourceCharacter caresses TargetCharacter's tummy.
 SourceCharacter轻抚TargetCharacter的肚子.
 SourceCharacter gives a gagged kiss on TargetCharacter's tummy.
@@ -1330,34 +1330,34 @@ SourceCharacter licks TargetCharacter's tummy.
 SourceCharacter舔TargetCharacter的肚子.
 SourceCharacter massages TargetCharacter's tummy.
 SourceCharacter按摩TargetCharacter的肚子.
-SourceCharacter masturbates TargetCharacter's tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄TargetCharacter的肚子。
+SourceCharacter masturbates TargetCharacter's tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的肚子。
 SourceCharacter nibbles TargetCharacter's tummy.
 SourceCharacter轻咬TargetCharacter的肚子.
 SourceCharacter pinches TargetCharacter's tummy.
 SourceCharacter掐捏TargetCharacter的肚子.
-SourceCharacter pours UsedAsset onto TargetCharacter's tummy.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的肚子上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's tummy.
-SourceCharacter用UsedAsset在TargetCharacter的肚子滚动。
-SourceCharacter rubs TargetCharacter's tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的肚子。
-SourceCharacter shocks TargetCharacter's tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的肚子。
+SourceCharacter pours ActivityAsset onto TargetCharacter's tummy.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的肚子上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's tummy.
+SourceCharacter用ActivityAsset在TargetCharacter的肚子滚动。
+SourceCharacter rubs TargetCharacter's tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的肚子。
+SourceCharacter shocks TargetCharacter's tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的肚子。
 SourceCharacter spanks TargetCharacter's tummy.
 SourceCharacter拍打TargetCharacter的肚子.
-SourceCharacter hits TargetCharacter's tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的肚子。
+SourceCharacter hits TargetCharacter's tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的肚子。
 SourceCharacter presses PronounPossessive foot into TargetCharacter's chest.
 SourceCharacter把脚踩进了TargetCharacter的胸部.
 SourceCharacter tickles TargetCharacter's tummy.
 SourceCharacter挠了挠TargetCharacter的肚子
-SourceCharacter tickles TargetCharacter's tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的肚子。
+SourceCharacter tickles TargetCharacter's tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的肚子。
 SourceCharacter caresses TargetCharacter's penis base with PronounPossessive fingers.
 SourceCharacter用手指轻抚TargetCharacter的阴茎根部。
-SourceCharacter fucks TargetCharacter's UsedAsset with PronounPossessive penis.
-SourceCharacter用TargetCharacter的UsedAsset操PronounPossessive的阴茎。
+SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive penis.
+SourceCharacter用TargetCharacter的ActivityAsset操PronounPossessive的阴茎。
 SourceCharacter presses PronounPossessive gag into TargetCharacter's penis base.
 SourceCharacter把口塞按进TargetCharacter的阴茎根部。
 SourceCharacter kicks TargetCharacter on TargetPronounPossessive penis.
@@ -1370,24 +1370,24 @@ SourceCharacter masturbates TargetCharacter's penis with PronounPossessive foot.
 SourceCharacter用脚玩弄TargetCharacter的阴茎。
 SourceCharacter masturbates TargetCharacter's penis with PronounPossessive fingers.
 SourceCharacter用手指玩弄TargetCharacter的阴茎。
-SourceCharacter uses PronounPossessive UsedAsset to masturbate TargetCharacter's penis.
-SourceCharacter用UsedAsset玩弄TargetCharacter的阴茎。
+SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's penis.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的阴茎。
 SourceCharacter masturbates TargetCharacter's penis with PronounPossessive tongue.
 SourceCharacter用舌头玩弄TargetCharacter的阴茎。
 SourceCharacter nibbles TargetCharacter's penis.
 SourceCharacter轻咬TargetCharacter的阴茎。
-SourceCharacter rubs TargetCharacter's penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的阴茎。
-SourceCharacter shocks TargetCharacter's penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的阴茎。
+SourceCharacter rubs TargetCharacter's penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的阴茎。
+SourceCharacter shocks TargetCharacter's penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的阴茎。
 SourceCharacter slaps TargetCharacter's penis.
 SourceCharacter扇TargetCharacter的阴茎。
-SourceCharacter hits TargetCharacter's penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的阴茎。
-SourceCharacter eagerly sucks TargetCharacter's UsedAsset.
-SourceCharacter渴望地吸吮TargetCharacter的UsedAsset。
-SourceCharacter tickles TargetCharacter's penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的阴茎。
+SourceCharacter hits TargetCharacter's penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的阴茎。
+SourceCharacter eagerly sucks TargetCharacter's ActivityAsset.
+SourceCharacter渴望地吸吮TargetCharacter的ActivityAsset。
+SourceCharacter tickles TargetCharacter's penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的阴茎。
 SourceCharacter bites TargetCharacter's back.
 SourceCharacter咬了一口TargetCharacter的后背.
 SourceCharacter caresses TargetCharacter's back.
@@ -1404,26 +1404,26 @@ SourceCharacter massages TargetCharacter's back with PronounPossessive hands.
 SourceCharacter用手按摩TargetCharacter的背.
 SourceCharacter nibbles TargetCharacter's ribs.
 SourceCharacter轻咬TargetCharacter的侧肋.
-SourceCharacter pours UsedAsset onto TargetCharacter's back.
-SourceCharacter把UsedAsset泼洒在TargetCharacter的后背上。
-SourceCharacter rolls a UsedAsset over TargetCharacter's back.
-SourceCharacter用UsedAsset在TargetCharacter的后背滚动。
+SourceCharacter pours ActivityAsset onto TargetCharacter's back.
+SourceCharacter把ActivityAsset泼洒在TargetCharacter的后背上。
+SourceCharacter rolls a ActivityAsset over TargetCharacter's back.
+SourceCharacter用ActivityAsset在TargetCharacter的后背滚动。
 SourceCharacter rubs PronounPossessive body against TargetCharacter's body.
 SourceCharacter用身体摩擦TargetCharacter的身体.
-SourceCharacter rubs TargetCharacter's back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的后背。
-SourceCharacter shocks TargetCharacter's back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的后背。
+SourceCharacter rubs TargetCharacter's back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的后背。
+SourceCharacter shocks TargetCharacter's back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的后背。
 SourceCharacter spanks TargetCharacter's back.
 SourceCharacter拍打TargetCharacter的后背.
-SourceCharacter hits TargetCharacter's back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的后背。
+SourceCharacter hits TargetCharacter's back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的后背。
 SourceCharacter rests PronounPossessive feet on TargetCharacter's back.
 SourceCharacter把脚搭在TargetCharacter的背上.
 SourceCharacter tickles TargetCharacter's ribs.
 SourceCharacter挠了挠TargetCharacter的侧肋.
-SourceCharacter tickles TargetCharacter's back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的后背。
+SourceCharacter tickles TargetCharacter's back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的后背。
 SourceCharacter caresses TargetCharacter's pussy with PronounPossessive fingers.
 SourceCharacter用手指轻抚TargetCharacter的阴部.
 SourceCharacter pushes PronounPossessive gag into TargetCharacter's vagina.
@@ -1440,26 +1440,26 @@ SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive foot.
 SourceCharacter用脚玩弄TargetCharacter的阴部.
 SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive fingers.
 SourceCharacter用手指玩弄TargetCharacter的阴部.
-SourceCharacter uses PronounPossessive UsedAsset to masturbate TargetCharacter's pussy lips.
-SourceCharacter用UsedAsset玩弄TargetCharacter的阴唇。
+SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's pussy lips.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的阴唇。
 SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive tongue.
 SourceCharacter用舌头玩弄TargetCharacter的阴部.
 SourceCharacter nibbles TargetCharacter's pussy lips.
 SourceCharacter轻咬TargetCharacter的阴唇.
-SourceCharacter roughly penetrates TargetCharacter's vagina with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset猛烈地抽插TargetCharacter的阴道。
-SourceCharacter slowly penetrates TargetCharacter's vagina with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset缓慢地抽插TargetCharacter的阴道。
-SourceCharacter rubs TargetCharacter's vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的外阴。
-SourceCharacter shocks TargetCharacter's vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的外阴。
+SourceCharacter roughly penetrates TargetCharacter's vagina with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset猛烈地抽插TargetCharacter的阴道。
+SourceCharacter slowly penetrates TargetCharacter's vagina with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset缓慢地抽插TargetCharacter的阴道。
+SourceCharacter rubs TargetCharacter's vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的外阴。
+SourceCharacter shocks TargetCharacter's vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的外阴。
 SourceCharacter slaps TargetCharacter's pussy lips.
 SourceCharacter扇TargetCharacter的阴唇.
-SourceCharacter hits TargetCharacter's pussy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的阴部。
-SourceCharacter tickles TargetCharacter's vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的外阴。
+SourceCharacter hits TargetCharacter's pussy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的阴部。
+SourceCharacter tickles TargetCharacter's vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的外阴。
 SourceCharacter caresses TargetCharacter's clitoris with PronounPossessive fingers.
 SourceCharacter用手指轻抚TargetCharacter的阴蒂。
 SourceCharacter gags kiss TargetCharacter's clitoris.
@@ -1476,22 +1476,22 @@ SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive fo
 SourceCharacter用脚玩弄TargetCharacter的阴蒂。
 SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive fingers.
 SourceCharacter用手指玩弄TargetCharacter的阴蒂。
-SourceCharacter uses PronounPossessive UsedAsset to masturbate TargetCharacter's clitoris.
-SourceCharacter用UsedAsset玩弄TargetCharacter的阴蒂。
+SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's clitoris.
+SourceCharacter用ActivityAsset玩弄TargetCharacter的阴蒂。
 SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive tongue.
 SourceCharacter用舌头玩弄TargetCharacter的阴蒂。
 SourceCharacter nibbles TargetCharacter's clitoris.
 SourceCharacter轻咬TargetCharacter的阴蒂。
-SourceCharacter rubs TargetCharacter's clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦TargetCharacter的阴蒂。
-SourceCharacter shocks TargetCharacter's clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击TargetCharacter的阴蒂。
+SourceCharacter rubs TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦TargetCharacter的阴蒂。
+SourceCharacter shocks TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击TargetCharacter的阴蒂。
 SourceCharacter slaps TargetCharacter's clitoris.
 SourceCharacter扇TargetCharacter的阴蒂。
-SourceCharacter hits TargetCharacter's clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打TargetCharacter的阴蒂。
-SourceCharacter tickles TargetCharacter's clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠TargetCharacter的阴蒂。
+SourceCharacter hits TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打TargetCharacter的阴蒂。
+SourceCharacter tickles TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠TargetCharacter的阴蒂。
 SourceCharacter bites PronounPossessive arm.
 SourceCharacter咬了一口自己的手臂.
 SourceCharacter caresses PronounPossessive arms.
@@ -1508,24 +1508,24 @@ SourceCharacter nibbles PronounPossessive own arm.
 SourceCharacter轻咬自己的手臂.
 SourceCharacter pinches PronounPossessive upper arm.
 SourceCharacter掐捏自己的上臂.
-SourceCharacter pours UsedAsset onto PronounPossessive own arm.
-SourceCharacter把UsedAsset泼洒自己的手臂上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own arm.
-SourceCharacter用UsedAsset在自己的手臂滚动。
-SourceCharacter rubs PronounPossessive own arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的手臂。
-SourceCharacter shocks PronounPossessive own arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的手臂。
+SourceCharacter pours ActivityAsset onto PronounPossessive own arm.
+SourceCharacter把ActivityAsset泼洒自己的手臂上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own arm.
+SourceCharacter用ActivityAsset在自己的手臂滚动。
+SourceCharacter rubs PronounPossessive own arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的手臂。
+SourceCharacter shocks PronounPossessive own arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的手臂。
 SourceCharacter spanks PronounPossessive own arm.
 SourceCharacter拍打自己的手臂.
-SourceCharacter hits PronounPossessive arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的手臂。
+SourceCharacter hits PronounPossessive arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的手臂。
 SourceCharacter struggles against PronounPossessive bindings.
 SourceCharacter在束缚中挣扎.
 SourceCharacter tickles PronounPossessive arms.
 SourceCharacter挠了挠自己的手臂.
-SourceCharacter tickles PronounPossessive own arm with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的手臂。
+SourceCharacter tickles PronounPossessive own arm with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的手臂。
 SourceCharacter wiggles PronounPossessive shoulders.
 SourceCharacter摇晃自己的肩膀.
 SourceCharacter bites PronounPossessive foot.
@@ -1542,26 +1542,26 @@ SourceCharacter nibbles PronounPossessive own foot.
 SourceCharacter轻咬PronounObject的脚.
 SourceCharacter gives a small kiss on PronounPossessive foot.
 SourceCharacter轻吻了PronounObject的脚.
-SourceCharacter pours UsedAsset onto PronounPossessive own feet.
-SourceCharacter把UsedAsset泼洒自己的脚上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own feet.
-SourceCharacter用UsedAsset在自己的脚滚动。
-SourceCharacter rubs PronounPossessive own feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的脚。
-SourceCharacter shocks PronounPossessive own feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的脚。
+SourceCharacter pours ActivityAsset onto PronounPossessive own feet.
+SourceCharacter把ActivityAsset泼洒自己的脚上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own feet.
+SourceCharacter用ActivityAsset在自己的脚滚动。
+SourceCharacter rubs PronounPossessive own feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的脚。
+SourceCharacter shocks PronounPossessive own feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的脚。
 SourceCharacter spanks PronounPossessive own feet.
 SourceCharacter拍打了自己的脚。
-SourceCharacter hits PronounPossessive feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的脚。
+SourceCharacter hits PronounPossessive feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的脚。
 SourceCharacter sucks on PronounPossessive big toe.
 SourceCharacter吮吸PronounObject的大脚趾.
 SourceCharacter cleans and polishes PronounPossessive toenails.
 SourceCharacter清理了PronounObject的脚趾甲，并涂了指甲油。
 SourceCharacter tickles PronounPossessive own feet.
 SourceCharacter挠了挠PronounObject的脚.
-SourceCharacter tickles PronounPossessive own feet with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的脚。
+SourceCharacter tickles PronounPossessive own feet with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的脚。
 SourceCharacter wiggles PronounPossessive feet.
 SourceCharacter摇晃PronounObject的脚.
 SourceCharacter caresses PronounPossessive own breast.
@@ -1576,24 +1576,24 @@ SourceCharacter licks PronounPossessive own breast.
 SourceCharacter舔自己的乳房.
 SourceCharacter masturbates PronounPossessive own breast.
 SourceCharacter玩弄自己的乳房.
-SourceCharacter masturbates PronounPossessive own breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的胸部。
-SourceCharacter pours UsedAsset onto PronounPossessive own breast.
-SourceCharacter把UsedAsset泼洒自己的胸部上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own breast.
-SourceCharacter用UsedAsset在自己的胸部滚动。
-SourceCharacter rubs PronounPossessive own breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的胸部。
-SourceCharacter shocks PronounPossessive own breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的胸部。
+SourceCharacter masturbates PronounPossessive own breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的胸部。
+SourceCharacter pours ActivityAsset onto PronounPossessive own breast.
+SourceCharacter把ActivityAsset泼洒自己的胸部上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own breast.
+SourceCharacter用ActivityAsset在自己的胸部滚动。
+SourceCharacter rubs PronounPossessive own breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的胸部。
+SourceCharacter shocks PronounPossessive own breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的胸部。
 SourceCharacter slaps PronounPossessive own breast.
 SourceCharacter拍打自己的乳房.
-SourceCharacter hits PronounPossessive breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的胸部。
+SourceCharacter hits PronounPossessive breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的胸部。
 SourceCharacter tickles PronounPossessive own breast.
 SourceCharacter挠了挠自己的乳房.
-SourceCharacter tickles PronounPossessive own breast with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的胸部。
+SourceCharacter tickles PronounPossessive own breast with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的胸部。
 SourceCharacter shakes PronounPossessive breasts around.
 SourceCharacter摇晃自己的乳房.
 SourceCharacter caresses PronounPossessive butt.
@@ -1606,34 +1606,34 @@ SourceCharacter fists and masturbates PronounPossessive ass.
 SourceCharacter用拳头玩弄TargetCharacter的屁股。
 SourceCharacter fingers and masturbates PronounPossessive ass.
 SourceCharacter用手指玩弄自己的屁股.
-SourceCharacter masturbates PronounPossessive own butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的屁股。
-SourceCharacter pours UsedAsset onto PronounPossessive own butt.
-SourceCharacter把UsedAsset泼洒自己的屁股上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own butt.
-SourceCharacter用UsedAsset在自己的屁股滚动。
-SourceCharacter rubs PronounPossessive own butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的屁股。
-SourceCharacter shocks PronounPossessive own butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的屁股。
+SourceCharacter masturbates PronounPossessive own butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的屁股。
+SourceCharacter pours ActivityAsset onto PronounPossessive own butt.
+SourceCharacter把ActivityAsset泼洒自己的屁股上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own butt.
+SourceCharacter用ActivityAsset在自己的屁股滚动。
+SourceCharacter rubs PronounPossessive own butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的屁股。
+SourceCharacter shocks PronounPossessive own butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的屁股。
 SourceCharacter spanks herself on the butt.
 SourceCharacter拍打自己的臀部。
-SourceCharacter hits PronounPossessive butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的屁股。
-SourceCharacter tickles PronounPossessive own butt with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的屁股。
+SourceCharacter hits PronounPossessive butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的屁股。
+SourceCharacter tickles PronounPossessive own butt with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的屁股。
 SourceCharacter wiggles PronounPossessive butt.
 SourceCharacter摇晃自己的臀部.
 SourceCharacter caresses PronounPossessive ear.
 SourceCharacter轻抚自己的耳朵.
 SourceCharacter pinches PronounPossessive ear.
 SourceCharacter掐捏自己的耳朵.
-SourceCharacter rolls a UsedAsset over PronounPossessive own ear.
-SourceCharacter用UsedAsset在自己的耳朵滚动。
-SourceCharacter rubs PronounPossessive own ear with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的耳朵。
-SourceCharacter tickles PronounPossessive own ear with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的耳朵。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own ear.
+SourceCharacter用ActivityAsset在自己的耳朵滚动。
+SourceCharacter rubs PronounPossessive own ear with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的耳朵。
+SourceCharacter tickles PronounPossessive own ear with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的耳朵。
 SourceCharacter wiggles PronounPossessive ears.
 SourceCharacter摇晃自己的耳朵.
 SourceCharacter bites PronounPossessive leg.
@@ -1644,24 +1644,24 @@ SourceCharacter injects PronounPossessive leg.
 SourceCharacter注射自己的小腿.
 SourceCharacter massages PronounPossessive legs.
 SourceCharacter按摩自己的小腿.
-SourceCharacter masturbates PronounPossessive own leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的小腿。
-SourceCharacter pours UsedAsset onto PronounPossessive own leg.
-SourceCharacter把UsedAsset泼洒自己的小腿上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own leg.
-SourceCharacter用UsedAsset在自己的小腿滚动。
-SourceCharacter rubs PronounPossessive own leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的小腿。
-SourceCharacter shocks PronounPossessive own leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的小腿。
+SourceCharacter masturbates PronounPossessive own leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的小腿。
+SourceCharacter pours ActivityAsset onto PronounPossessive own leg.
+SourceCharacter把ActivityAsset泼洒自己的小腿上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own leg.
+SourceCharacter用ActivityAsset在自己的小腿滚动。
+SourceCharacter rubs PronounPossessive own leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的小腿。
+SourceCharacter shocks PronounPossessive own leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的小腿。
 SourceCharacter spanks PronounPossessive own leg.
 SourceCharacter拍打自己的小腿.
-SourceCharacter hits PronounPossessive leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的小腿。
+SourceCharacter hits PronounPossessive leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的小腿。
 SourceCharacter tickles PronounPossessive legs.
 SourceCharacter挠了挠自己的小腿.
-SourceCharacter tickles PronounPossessive own leg with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的小腿。
+SourceCharacter tickles PronounPossessive own leg with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的小腿。
 SourceCharacter wiggles PronounPossessive legs.
 SourceCharacter摇晃自己的小腿.
 SourceCharacter caresses PronounPossessive glans.
@@ -1670,18 +1670,18 @@ SourceCharacter injects PronounPossessive glans.
 SourceCharacter注射自己的龟头。
 SourceCharacter masturbates PronounPossessive glans.
 SourceCharacter玩弄自己的龟头。
-SourceCharacter masturbates PronounPossessive own glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的龟头。
-SourceCharacter rubs PronounPossessive own glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的龟头。
-SourceCharacter shocks PronounPossessive own glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的龟头。
+SourceCharacter masturbates PronounPossessive own glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的龟头。
+SourceCharacter rubs PronounPossessive own glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的龟头。
+SourceCharacter shocks PronounPossessive own glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的龟头。
 SourceCharacter slaps PronounPossessive glans.
 SourceCharacter扇自己的龟头。
-SourceCharacter hits PronounPossessive glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的龟头。
-SourceCharacter tickles PronounPossessive own glans with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的龟头。
+SourceCharacter hits PronounPossessive glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的龟头。
+SourceCharacter tickles PronounPossessive own glans with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的龟头。
 SourceCharacter bites PronounPossessive hand.
 SourceCharacter咬了一口自己的手.
 SourceCharacter rubs PronounPossessive hands together.
@@ -1716,10 +1716,10 @@ SourceCharacter brushes PronounPossessive hair.
 SourceCharacter给自己梳头.
 SourceCharacter shakes PronounPossessive head.
 SourceCharacter摇头
-SourceCharacter rubs PronounPossessive own head with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的头。
-SourceCharacter tickles PronounPossessive own head with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的头。
+SourceCharacter rubs PronounPossessive own head with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的头。
+SourceCharacter tickles PronounPossessive own head with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的头。
 SourceCharacter bites PronounPossessive thigh.
 SourceCharacter咬了一口自己的大腿.
 SourceCharacter caresses PronounPossessive thighs.
@@ -1728,26 +1728,26 @@ SourceCharacter injects PronounPossessive thigh.
 SourceCharacter注射自己的大腿。
 SourceCharacter massages PronounPossessive thighs.
 SourceCharacter按摩自己的大腿.
-SourceCharacter masturbates PronounPossessive own thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的大腿。
-SourceCharacter pours UsedAsset onto PronounPossessive own thigh.
-SourceCharacter把UsedAsset泼洒自己的大腿上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own thigh.
-SourceCharacter用UsedAsset在自己的大腿滚动。
-SourceCharacter rubs PronounPossessive own thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的大腿。
-SourceCharacter shocks PronounPossessive own thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的大腿。
+SourceCharacter masturbates PronounPossessive own thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的大腿。
+SourceCharacter pours ActivityAsset onto PronounPossessive own thigh.
+SourceCharacter把ActivityAsset泼洒自己的大腿上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own thigh.
+SourceCharacter用ActivityAsset在自己的大腿滚动。
+SourceCharacter rubs PronounPossessive own thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的大腿。
+SourceCharacter shocks PronounPossessive own thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的大腿。
 SourceCharacter spanks PronounPossessive own thigh.
 SourceCharacter拍打自己的大腿.
-SourceCharacter hits PronounPossessive thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的大腿。
+SourceCharacter hits PronounPossessive thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的大腿。
 SourceCharacter thrashes around in PronounPossessive bindings.
 SourceCharacter在束缚中挣扎.
 SourceCharacter tickles PronounPossessive thighs.
 SourceCharacter挠了挠自己的大腿.
-SourceCharacter tickles PronounPossessive own thigh with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的大腿。
+SourceCharacter tickles PronounPossessive own thigh with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的大腿。
 SourceCharacter rubs PronounPossessive thighs together.
 SourceCharacter摩擦自己的大腿.
 SourceCharacter bites PronounPossessive lips.
@@ -1772,14 +1772,14 @@ SourceCharacter whimpers pleadingly into PronounPossessive gag.
 SourceCharacter带着口塞呜咽着哀求.
 SourceCharacter nibbles PronounPossessive lips.
 SourceCharacter轻咬自己的嘴唇.
-SourceCharacter rolls a UsedAsset over PronounPossessive own mouth.
-SourceCharacter用UsedAsset在自己的嘴滚动。
-SourceCharacter rubs PronounPossessive own mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的嘴。
-SourceCharacter takes a sip from PronounPossessive UsedAsset.
-SourceCharacter从自己的UsedAsset喝了一口。
-SourceCharacter tickles PronounPossessive own mouth with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的嘴。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own mouth.
+SourceCharacter用ActivityAsset在自己的嘴滚动。
+SourceCharacter rubs PronounPossessive own mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的嘴。
+SourceCharacter takes a sip from PronounPossessive ActivityAsset.
+SourceCharacter从自己的ActivityAsset喝了一口。
+SourceCharacter tickles PronounPossessive own mouth with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的嘴。
 SourceCharacter caresses PronounPossessive neck.
 SourceCharacter轻抚自己的脖子.
 SourceCharacter chokes herself.
@@ -1788,44 +1788,44 @@ SourceCharacter injects PronounPossessive neck.
 SourceCharacter注射自己的脖子。
 SourceCharacter massages PronounPossessive neck.
 SourceCharacter按摩自己的脖子.
-SourceCharacter rolls a UsedAsset over PronounPossessive own neck.
-SourceCharacter用UsedAsset在自己的脖子滚动。
-SourceCharacter rubs PronounPossessive own neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的脖子。
-SourceCharacter shocks PronounPossessive own neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的脖子。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own neck.
+SourceCharacter用ActivityAsset在自己的脖子滚动。
+SourceCharacter rubs PronounPossessive own neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的脖子。
+SourceCharacter shocks PronounPossessive own neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的脖子。
 SourceCharacter tickles PronounPossessive neck.
 SourceCharacter挠了挠自己的脖子。
-SourceCharacter tickles PronounPossessive own neck with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的脖子。
+SourceCharacter tickles PronounPossessive own neck with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的脖子。
 SourceCharacter caresses PronounPossessive nipples.
 SourceCharacter轻抚自己的乳头.
 SourceCharacter kisses PronounPossessive own nipple.
 SourceCharacter亲吻自己的乳头.
 SourceCharacter licks PronounPossessive own nipple.
 SourceCharacter舔自己的乳头.
-SourceCharacter masturbates PronounPossessive own nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的乳头。
+SourceCharacter masturbates PronounPossessive own nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的乳头。
 SourceCharacter nibbles PronounPossessive own nipple.
 SourceCharacter轻咬自己的乳头.
 SourceCharacter pinches PronounPossessive own nipple.
 SourceCharacter掐捏自己的乳头.
-SourceCharacter pours UsedAsset onto PronounPossessive own nipple.
-SourceCharacter把UsedAsset泼洒自己的乳头上。
+SourceCharacter pours ActivityAsset onto PronounPossessive own nipple.
+SourceCharacter把ActivityAsset泼洒自己的乳头上。
 SourceCharacter pulls PronounPossessive nipples.
 SourceCharacter拉扯自己的乳头.
-SourceCharacter rolls a UsedAsset over PronounPossessive own nipple.
-SourceCharacter用UsedAsset在自己的乳头滚动。
-SourceCharacter rubs PronounPossessive own nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的乳头。
-SourceCharacter shocks PronounPossessive own nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的乳头。
-SourceCharacter hits PronounPossessive own nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的乳头。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own nipple.
+SourceCharacter用ActivityAsset在自己的乳头滚动。
+SourceCharacter rubs PronounPossessive own nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的乳头。
+SourceCharacter shocks PronounPossessive own nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的乳头。
+SourceCharacter hits PronounPossessive own nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的乳头。
 SourceCharacter sucks on PronounPossessive own nipple.
 SourceCharacter吮吸自己的乳头.
-SourceCharacter tickles PronounPossessive own nipple with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的乳头。
+SourceCharacter tickles PronounPossessive own nipple with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的乳头。
 SourceCharacter caresses PronounPossessive nose.
 SourceCharacter轻抚自己的鼻子.
 SourceCharacter pinches PronounPossessive nostrils closed.
@@ -1838,36 +1838,36 @@ SourceCharacter pulls PronounPossessive nose.
 SourceCharacter拉扯自己的鼻子.
 SourceCharacter rubs PronounPossessive nose.
 SourceCharacter揉自己的鼻子.
-SourceCharacter rubs PronounPossessive own nose with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的鼻子。
-SourceCharacter tickles PronounPossessive own nose with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的鼻子。
+SourceCharacter rubs PronounPossessive own nose with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的鼻子。
+SourceCharacter tickles PronounPossessive own nose with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的鼻子。
 SourceCharacter wiggles PronounPossessive nose.
 SourceCharacter摇晃自己的鼻子.
 SourceCharacter caresses PronounPossessive tummy.
 SourceCharacter轻抚自己的肚子.
 SourceCharacter massages PronounPossessive tummy.
 SourceCharacter按摩自己的肚子.
-SourceCharacter masturbates PronounPossessive own tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的肚子。
+SourceCharacter masturbates PronounPossessive own tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的肚子。
 SourceCharacter pinches PronounPossessive own tummy.
 SourceCharacter掐捏自己的肚子.
-SourceCharacter pours UsedAsset onto PronounPossessive own tummy.
-SourceCharacter把UsedAsset泼洒自己的肚子上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own tummy.
-SourceCharacter用UsedAsset在自己的肚子滚动。
-SourceCharacter rubs PronounPossessive own tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的肚子。
-SourceCharacter shocks PronounPossessive own tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的肚子。
+SourceCharacter pours ActivityAsset onto PronounPossessive own tummy.
+SourceCharacter把ActivityAsset泼洒自己的肚子上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own tummy.
+SourceCharacter用ActivityAsset在自己的肚子滚动。
+SourceCharacter rubs PronounPossessive own tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的肚子。
+SourceCharacter shocks PronounPossessive own tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的肚子。
 SourceCharacter spanks PronounPossessive own tummy.
 SourceCharacter拍打自己的肚子.
-SourceCharacter hits PronounPossessive tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的肚子。
+SourceCharacter hits PronounPossessive tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的肚子。
 SourceCharacter tickles PronounPossessive own tummy.
 SourceCharacter挠了挠自己的肚子.
-SourceCharacter tickles PronounPossessive own tummy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的肚子。
+SourceCharacter tickles PronounPossessive own tummy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的肚子。
 SourceCharacter wiggles PronounPossessive hips.
 SourceCharacter摇晃自己的髋.
 SourceCharacter caresses PronounPossessive penis.
@@ -1876,38 +1876,38 @@ SourceCharacter fists and masturbates PronounPossessive penis.
 SourceCharacter用拳头玩弄自己的阴茎.
 SourceCharacter masturbates PronounPossessive penis.
 SourceCharacter玩弄自己的阴茎.
-SourceCharacter masturbates PronounPossessive penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的阴茎.
-SourceCharacter rubs PronounPossessive penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的阴茎。
-SourceCharacter shocks PronounPossessive penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的阴茎。
+SourceCharacter masturbates PronounPossessive penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的阴茎.
+SourceCharacter rubs PronounPossessive penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的阴茎。
+SourceCharacter shocks PronounPossessive penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的阴茎。
 SourceCharacter slaps PronounPossessive penis.
 SourceCharacter扇自己的阴茎。
-SourceCharacter hits PronounPossessive penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的阴茎。
-SourceCharacter tickles PronounPossessive penis with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的阴茎。
+SourceCharacter hits PronounPossessive penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的阴茎。
+SourceCharacter tickles PronounPossessive penis with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的阴茎。
 SourceCharacter caresses PronounPossessive ribs.
 SourceCharacter轻抚自己的侧肋.
 SourceCharacter massages PronounPossessive back.
 SourceCharacter按摩自己的背.
-SourceCharacter pours UsedAsset onto PronounPossessive own back.
-SourceCharacter把UsedAsset泼洒自己的背部上。
-SourceCharacter rolls a UsedAsset over PronounPossessive own back.
-SourceCharacter用UsedAsset在自己的背部滚动。
-SourceCharacter rubs PronounPossessive own back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的背部。
-SourceCharacter shocks PronounPossessive own back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的背部。
+SourceCharacter pours ActivityAsset onto PronounPossessive own back.
+SourceCharacter把ActivityAsset泼洒自己的背部上。
+SourceCharacter rolls a ActivityAsset over PronounPossessive own back.
+SourceCharacter用ActivityAsset在自己的背部滚动。
+SourceCharacter rubs PronounPossessive own back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的背部。
+SourceCharacter shocks PronounPossessive own back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的背部。
 SourceCharacter spanks PronounPossessive own ribs.
 SourceCharacter拍打自己的侧肋.
-SourceCharacter hits PronounPossessive ribs with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的侧肋。
+SourceCharacter hits PronounPossessive ribs with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的侧肋。
 SourceCharacter tickles PronounPossessive own ribs.
 SourceCharacter挠了挠自己的侧肋.
-SourceCharacter tickles PronounPossessive own back with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的背部。
+SourceCharacter tickles PronounPossessive own back with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的背部。
 SourceCharacter wiggles PronounPossessive body.
 SourceCharacter摇晃自己的身体.
 SourceCharacter caresses PronounPossessive pussy.
@@ -1916,33 +1916,33 @@ SourceCharacter fists and masturbates PronounPossessive pussy.
 SourceCharacter用拳头玩弄自己的阴部。
 SourceCharacter masturbates PronounPossessive pussy.
 SourceCharacter玩弄自己的阴部.
-SourceCharacter masturbates PronounPossessive own vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的外阴。
-SourceCharacter rubs PronounPossessive own vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的外阴。
-SourceCharacter shocks PronounPossessive own vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的外阴。
+SourceCharacter masturbates PronounPossessive own vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的外阴。
+SourceCharacter rubs PronounPossessive own vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的外阴。
+SourceCharacter shocks PronounPossessive own vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的外阴。
 SourceCharacter slaps PronounPossessive pussy.
 SourceCharacter扇自己的阴部。
-SourceCharacter hits PronounPossessive pussy with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的阴部。
-SourceCharacter tickles PronounPossessive own vulva with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的外阴。
+SourceCharacter hits PronounPossessive pussy with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的阴部。
+SourceCharacter tickles PronounPossessive own vulva with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的外阴。
 SourceCharacter caresses PronounPossessive clitoris.
 SourceCharacter轻抚自己的阴蒂。
 SourceCharacter injects PronounPossessive clitoris.
 SourceCharacter注射自己的阴蒂。
 SourceCharacter masturbates PronounPossessive clitoris.
 SourceCharacter自慰自己的阴蒂。
-SourceCharacter masturbates PronounPossessive own clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset玩弄自己的阴蒂。
-SourceCharacter rubs PronounPossessive own clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset摩擦自己的阴蒂。
-SourceCharacter shocks PronounPossessive own clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset电击自己的阴蒂。
+SourceCharacter masturbates PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset玩弄自己的阴蒂。
+SourceCharacter rubs PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset摩擦自己的阴蒂。
+SourceCharacter shocks PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset电击自己的阴蒂。
 SourceCharacter slaps PronounPossessive clitoris.
 SourceCharacter扇自己的阴蒂。
-SourceCharacter hits PronounPossessive clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset击打自己的阴蒂。
-SourceCharacter tickles PronounPossessive own clitoris with PronounPossessive UsedAsset.
-SourceCharacter用UsedAsset搔挠自己的阴蒂。
+SourceCharacter hits PronounPossessive clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset击打自己的阴蒂。
+SourceCharacter tickles PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+SourceCharacter用ActivityAsset搔挠自己的阴蒂。

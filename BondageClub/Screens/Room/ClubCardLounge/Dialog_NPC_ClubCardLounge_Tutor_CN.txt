@@ -148,6 +148,12 @@ Cards have categories?
 Yes, these categories go below the image.  For example, a card with the Maid category will have an impact on all other cards that gives bonuses for maids.
 是的，卡牌的类别在图片下面。例如，有女仆类别的卡牌，会影响所有其他因为女仆而产生增益的卡牌。
 ###_PLAYER
+Why would I go bankrupt?
+我为什么要破产呢？
+###_NPC
+Going bankrupt resets your board and hand, without losing the game.  It can be used if you're in a dead-end, losing too much each turn or got a bad starting hand.
+破产可以重置你的面板和手牌，并且不会输掉游戏。如果你无法操作、每回合损失过多、起始手牌太差，就可以使用。
+###_PLAYER
 (Play a Club Card game with her.)
 （和她玩俱乐部纸牌游戏。）
 I've changed my mind.
