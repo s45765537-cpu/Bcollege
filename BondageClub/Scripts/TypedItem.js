@@ -394,10 +394,12 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * @param {Item} item - The item whose options are being validated
  * @param {T} option - The new option
  * @param {T} previousOption - The previously applied option
+ * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
+ * to be identical. Defaults to false.
  * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
  * message informing the player of the requirements that are not met.
  */
-function TypedItemValidateOption(data, C, item, option, previousOption) {
+function TypedItemValidateOption(data, C, item, option, previousOption, permitExisting = false) {
 	let PermissionFailure = false;
 	switch (option.OptionType) {
 		case "ModularItemOption":
@@ -423,12 +425,12 @@ function TypedItemValidateOption(data, C, item, option, previousOption) {
 
 	const validationFunctionName = `${ExtendedItemFunctionPrefix(item)}${ExtendedItemSubscreen || ""}Validate`;
 	/** @type {Parameters<ExtendedItemCallbacks.Validate<T>>} */
-	const args = [C, item, option, previousOption];
+	const args = [C, item, option, previousOption, permitExisting];
 	const validationMessage = CommonCallFunctionByName(validationFunctionName, ...args);
 	if (typeof validationMessage === "string") {
 		return validationMessage;
 	} else {
-		return ExtendedItemValidate(data, C, item, option, previousOption);
+		return ExtendedItemValidate(data, C, item, option, previousOption, permitExisting);
 	}
 }
 

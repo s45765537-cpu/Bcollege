@@ -103,10 +103,10 @@ function FuturisticAccessExit() {
  * Hook script for injecting futuristic features into a typed or modular item
  * @type {ExtendedItemScriptHookCallbacks.Validate<ExtendedItemData<any>, any>}
  */
-function FuturisticAccessValidate(Data, OriginalFunction, C, Item, Option, CurrentOption) {
+function FuturisticAccessValidate(Data, OriginalFunction, C, Item, Option, CurrentOption, permitExisting) {
 	let futureString = InventoryItemFuturisticValidate(C, Item, CurrentOption.ChangeWhenLocked);
 	if (futureString) return futureString;
-	else return OriginalFunction(C, Item, Option, CurrentOption);
+	else return OriginalFunction(C, Item, Option, CurrentOption, permitExisting);
 }
 
 // Load the futuristic item ACCESS DENIED screen
