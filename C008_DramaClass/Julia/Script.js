@@ -13,11 +13,13 @@ var C008_DramaClass_Julia_CanUntie = false;
 var C008_DramaClass_Julia_CanUngag = false;
 var C008_DramaClass_Julia_CanAbuse = false;
 var C008_DramaClass_Julia_CanKiss = false;
+var C008_DramaClass_Julia_CanSearch = false;
 var C008_DramaClass_Julia_CropDone = false;
 var C008_DramaClass_Julia_KissDone = false;
 var C008_DramaClass_Julia_TickleDone = false;
 var C008_DramaClass_Julia_SpankDone = false;
 var C008_DramaClass_Julia_OrgasmDone = false;
+var C008_DramaClass_Julia_SearchDone = false;
 var C008_DramaClass_Julia_MastubateCount = 0;
 var C008_DramaClass_Julia_QuaintCommentDone = false;
 var C008_DramaClass_Julia_WeightCommentDone = false;
@@ -30,6 +32,7 @@ function C008_DramaClass_Julia_CalcParams() {
 	C008_DramaClass_Julia_CanUngag = (C008_DramaClass_Julia_IsGagged && !Common_PlayerRestrained);
 	C008_DramaClass_Julia_CanAbuse = (ActorIsRestrained() && !Common_PlayerRestrained);
 	C008_DramaClass_Julia_CanKiss = ((ActorIsRestrained() || (ActorGetValue(ActorLove) >= 5)) && !Common_PlayerGagged && !C008_DramaClass_Julia_IsGagged);
+	C008_DramaClass_Julia_CanSearch = (ActorIsRestrained() && !Common_PlayerRestrained && !C008_DramaClass_Julia_SearchDone);
 	OverridenIntroImage = "";
 }
 
@@ -183,6 +186,16 @@ function C008_DramaClass_Julia_Tickle() {
 // Chapter 8 - Julia Spank
 function C008_DramaClass_Julia_Spank() {
 	if (!C008_DramaClass_Julia_SpankDone) { C008_DramaClass_Julia_SpankDone = true; ActorChangeAttitude(-1, 0); }
+	C008_DramaClass_Julia_CalcParams();
+}
+
+// Chapter 8 - Julia Search
+function C008_DramaClass_Julia_Search() {
+	if (!C008_DramaClass_Julia_SearchDone) { 
+		C008_DramaClass_Julia_SearchDone = true;
+		OverridenIntroText = GetText("FindRopes");
+		PlayerAddInventory("Rope", 6);
+	}
 	C008_DramaClass_Julia_CalcParams();
 }
 
