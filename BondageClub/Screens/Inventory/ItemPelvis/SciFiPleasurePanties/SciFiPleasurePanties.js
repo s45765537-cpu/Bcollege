@@ -25,7 +25,7 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
-		ExtendedItemCustomDraw("TriggerShock", 1637, 825, false, false);
+		ExtendedItemCustomDraw("TriggerShock", 1637, 825);
 	}
 }
 

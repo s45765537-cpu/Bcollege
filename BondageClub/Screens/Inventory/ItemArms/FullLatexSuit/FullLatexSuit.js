@@ -5,7 +5,12 @@ function InventoryItemArmsFullLatexSuitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	const C = CharacterGetCurrent();
 	const CanEquip = InventoryGet(C, "ItemVulva") == null;
-	ExtendedItemCustomDraw(`${Data.dialogPrefix.option}Wand`, ...ExtendedXY[6][4], true, !CanEquip);
+	ExtendedItemCustomDraw(
+		`${Data.dialogPrefix.option}Wand`,
+		...ExtendedXY[6][4],
+		"Assets/Female3DCG/ItemVulva/Preview/FullLatexSuitWand.png",
+		!CanEquip,
+	);
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<TypedItemData>} */

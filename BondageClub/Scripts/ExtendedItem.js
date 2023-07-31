@@ -698,19 +698,23 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  * @param {string} Name - The name of the button and its pseudo-type
  * @param {number} X - The X coordinate of the button
  * @param {number} Y - The Y coordinate of the button
- * @param {boolean} drawImage — Denotes whether images should be shown for the specific item
+ * @param {string | null} imagePath — The pa
  * @param {boolean} IsSelected - Whether the button is selected or not
  * @returns {void} Nothing
  */
-function ExtendedItemCustomDraw(Name, X, Y, drawImage=false, IsSelected=false) {
+function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	// TODO: Add a proper archetype rather than relying on `ParentData == null`
 	/** @type {ExtendedItemOption} */
 	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
 	/** @type {ExtendedItemOption} */
 	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
-	/** @type {ElementData<{ drawImage: boolean }>} */
-	const elementData = { position: [X, Y, 225, drawImage ? 275 : 50], drawImage };
+	/** @type {ElementData<{ drawImage: boolean, imagePath: string | null }>} */
+	const elementData = {
+		position: [X, Y, 225, imagePath != null ? 275 : 50],
+		drawImage: imagePath != null,
+		imagePath,
+	};
 	return ExtendedItemDrawButton(newOption, previousOption, "", elementData, DialogFocusItem, IsSelected);
 }
 
