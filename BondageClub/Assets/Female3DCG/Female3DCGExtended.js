@@ -946,7 +946,7 @@ var AssetFemale3DCGExtended = {
 						MinHeight: -575,
 						DrawData: {
 							elementData: [
-								{ position: [1140, 465, 100, 675], icon: "Player" },
+								{ position: [1140, 465, 100, 675], icon: "player" },
 							],
 						},
 						DialogPrefix: {

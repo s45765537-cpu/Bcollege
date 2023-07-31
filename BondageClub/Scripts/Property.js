@@ -40,7 +40,7 @@ const PropertyOpacityChange = CommonLimitFunction((C, Item, Opacity) => {
  * Load function for items with opacity sliders. Constructs the opacity slider.
  * @param {null | ExtendedItemData<any>} Data - The items extended item data
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
- * @param {string} thumbIcon The icon to use for the range input's "thumb" (handle).
+ * @param {ThumbIcon} thumbIcon The icon to use for the range input's "thumb" (handle).
  * @returns {HTMLInputElement} - The new or pre-existing range input element of the opacity slider
  */
 function PropertyOpacityLoad(Data=null, OriginalFunction=null, thumbIcon="blindfold") {
@@ -59,7 +59,8 @@ function PropertyOpacityLoad(Data=null, OriginalFunction=null, thumbIcon="blindf
 		DialogFocusItem.Property.Opacity,
 		Asset.MinOpacity,
 		Asset.MaxOpacity,
-		0.01, thumbIcon,
+		0.01,
+		thumbIcon,
 	);
 
 	if (opacitySlider) {
