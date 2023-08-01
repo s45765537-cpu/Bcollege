@@ -1,9 +1,11 @@
 Exit,Exit the deck builder
 SelectDeck,Select the deck to modify
 DeckNumber,Deck #
+RenameDeck,Rename
+RenameThisDeck,Enter a new name for this deck
 Clear,Clear
 Default,Default
-SelectCards,Select the cards to put in deck #
+SelectCards,Select the cards for
 ClickCard,Click on a card to zoom it
 UndoChanges,Undo changes
 SaveChanges,Save your deck

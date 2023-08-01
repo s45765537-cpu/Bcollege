@@ -2377,10 +2377,10 @@ function ClubCardRenderPopup() {
 
 	// In deck mode, we draw 10 deck buttons
 	if (ClubCardPopup.Mode == "DECK") {
-		DrawRect(648, 298, 404, 404, "White");
-		DrawRect(650, 300, 400, 400, "Black");
+		DrawRect(548, 298, 604, 404, "White");
+		DrawRect(550, 300, 600, 400, "Black");
 		for (let Deck = 0; Deck < 10; Deck++)
-			DrawButton(660 + Math.floor(Deck / 5) * 200, 310 + (Deck % 5) * 80, 180, 60, TextGet("DeckNumber") + (Deck + 1).toString(), "White");
+			DrawButton(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60, ClubCardBuilderGetDeckName(Deck), "White");
 		return;
 	}
 
@@ -2426,7 +2426,7 @@ function ClubCardClick() {
 		if ((ClubCardPopup.Mode == "YESNO") && MouseIn(860, 570, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function2);
 		if (ClubCardPopup.Mode == "DECK")
 			for (let Deck = 0; Deck < 10; Deck++)
-				if (MouseIn(660 + Math.floor(Deck / 5) * 200, 310 + (Deck % 5) * 80, 180, 60))
+				if (MouseIn(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60))
 					ClubCardLoadDeckNumber(Deck);
 		return;
 	}

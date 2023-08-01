@@ -3172,6 +3172,7 @@ interface GamePokerParameters {
 
 interface GameClubCardParameters {
 	Deck: string[];
+	DeckName?: string[];
 	Reward?: string;
 	Status?: OnlineGameStatus;
 	PlayerSlot?: number;

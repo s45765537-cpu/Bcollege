@@ -8,6 +8,7 @@ var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderDeckSize = 30;
 var ClubCardBuilderFilterIndex = 0;
 var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher"];
+var ClubCardBuilderRenameIndex = -1;
 
 // All the default decks that NPCs can use
 var ClubCardBuilderDefaultDeck = [1000, 1001, 1002, 1003, 1004, 1006, 1007, 1009, 2000, 2002, 2004, 2005, 4000, 4002, 4003, 4004, 4005, 6000, 6001, 6002, 6003, 6004, 8000, 8001, 8002, 8003, 8004, 9000, 9001, 30000];
@@ -59,6 +60,23 @@ function ClubCardBuilderSaveChanges() {
 }
 
 /**
+ * Saves the modified deck as a string on the server
+ * @param {boolean} Save - TRUE to save, FALSE to skip saving
+ * @returns {void} - Nothing
+ */
+function ClubCardBuilderSaveName(Save) {
+	if (Save) {
+		if (Player.Game.ClubCard.DeckName == null) Player.Game.ClubCard.DeckName = [];
+		while (Player.Game.ClubCard.DeckName.length <= 10)
+			Player.Game.ClubCard.DeckName.push("");
+		Player.Game.ClubCard.DeckName[ClubCardBuilderRenameIndex] = ElementValue("InputName").trim().substring(0, 20);
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+	ClubCardBuilderRenameIndex = -1;
+	ElementRemove("InputName");
+}
+
+/**
  * Loads the filtered cards
  * @returns {void} - Nothing
  */
@@ -84,6 +102,28 @@ function ClubCardBuilderFilterLoad() {
 function ClubCardBuilderLoad() {
 	ClubCardCommonLoad();
 	ClubCardBuilderDeckIndex = -1;
+	ClubCardBuilderRenameIndex = -1;
+}
+
+/**
+ * Returns the deck name on slot "Deck"
+ * @param {number} Deck - The deck #
+ * @returns {string} - The deck name or Deck #X if no name is assigned
+ */
+function ClubCardBuilderGetDeckName(Deck) {
+	if ((Player.Game.ClubCard.DeckName == null) || (Player.Game.ClubCard.DeckName.length < Deck + 1)) return TextGet("DeckNumber") + (Deck + 1).toString();
+	if ((Player.Game.ClubCard.DeckName[Deck] == null) || (Player.Game.ClubCard.DeckName[Deck] === "")) return TextGet("DeckNumber") + (Deck + 1).toString();
+	return Player.Game.ClubCard.DeckName[Deck];
+}
+
+/**
+ * Enters in deck rename mode
+ * @param {number} Deck - The deck #
+ * @returns {void} - Nothing
+ */
+function ClubCardBuilderRenameMode(Deck) {
+	ClubCardBuilderRenameIndex = Deck;
+	ElementCreateInput("InputName", "text", "", "20");
 }
 
 /**
@@ -92,14 +132,28 @@ function ClubCardBuilderLoad() {
  */
 function ClubCardBuilderRun() {
 
-	// In deck selection mode
+	// Makes sure the captions are loaded
 	ClubCardLoadCaption();
+
+	// In deck rename mode
+	if (ClubCardBuilderRenameIndex >= 0) {
+		DrawText(TextGet("RenameThisDeck"), 1000, 70, "White", "Black");
+		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
+		DrawButton(1770, 25, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));	
+		DrawText(ClubCardBuilderGetDeckName(ClubCardBuilderRenameIndex), 1000, 400, "White", "Black");
+		ElementPosition("InputName", 1000, 500, 500);
+		return;
+	}
+
+	// In deck selection mode
 	if (ClubCardBuilderDeckIndex == -1) {
 
 		// Draws the 10 decks buttons
 		DrawText(TextGet("SelectDeck"), 940, 70, "White", "Black");
-		for (let Deck = 0; Deck < 10; Deck++)
-			DrawButton(180 + (Deck % 5) * 350, 350 + Math.floor(Deck / 5) * 300, 250, 60, TextGet("DeckNumber") + (Deck + 1).toString(), "White");
+		for (let Deck = 0; Deck < 10; Deck++) {
+			DrawButton(150 + (Deck % 5) * 350, 300 + Math.floor(Deck / 5) * 300, 300, 60, ClubCardBuilderGetDeckName(Deck), "White");
+			DrawButton(150 + (Deck % 5) * 350, 390 + Math.floor(Deck / 5) * 300, 300, 60, TextGet("RenameDeck"), "White");
+		}
 		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Exit.png", TextGet("Exit"));
 		return;
 
@@ -121,7 +175,7 @@ function ClubCardBuilderRun() {
 	// Draw the text, the zoomed card and buttons
 	ClubCardRenderCard(ClubCardBuilderFocus, 1545, 105, 445);
 	if ((ClubCardBuilderFocus != null) && (ClubCardBuilderDeckCurrent.indexOf(ClubCardBuilderFocus.ID) >= 0)) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
-	DrawText(TextGet("SelectCards") + (ClubCardBuilderDeckIndex + 1).toString() + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderDeckSize.toString() + ")", 1100, 37, (ClubCardBuilderDeckCurrent.length == ClubCardBuilderDeckSize) ? "White" : "Pink", "Black");
+	DrawText(TextGet("SelectCards") + " " + ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderDeckSize.toString() + ")", 1100, 37, (ClubCardBuilderDeckCurrent.length == ClubCardBuilderDeckSize) ? "White" : "Pink", "Black");
 	if (ClubCardBuilderFocus == null) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
 	DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 	DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
@@ -140,6 +194,13 @@ function ClubCardBuilderRun() {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderClick() {
+
+	// In deck rename mode
+	if (ClubCardBuilderRenameIndex >= 0) {
+		if (MouseIn(1885, 25, 90, 90)) return ClubCardBuilderSaveName(false);
+		if (MouseIn(1770, 25, 90, 90)) return ClubCardBuilderSaveName(true);
+		return;
+	}
 
 	// If the user wants to exit
 	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1885, 25, 90, 90)) return CommonSetScreen("Room", "ClubCardLounge");
@@ -171,9 +232,10 @@ function ClubCardBuilderClick() {
 
 	// If the user clicks to select a deck
 	if (ClubCardBuilderDeckIndex == -1)
-		for (let Deck = 0; Deck < 10; Deck++)
-			if (MouseIn(180 + (Deck % 5) * 350, 350 + Math.floor(Deck / 5) * 300, 250, 60))
-				return ClubCardBuilderLoadDeck(Deck);
+		for (let Deck = 0; Deck < 10; Deck++) {
+			if (MouseIn(150 + (Deck % 5) * 350, 300 + Math.floor(Deck / 5) * 300, 300, 60)) return ClubCardBuilderLoadDeck(Deck);
+			if (MouseIn(150 + (Deck % 5) * 350, 390 + Math.floor(Deck / 5) * 300, 300, 60)) return ClubCardBuilderRenameMode(Deck);
+		}
 
 	// If the user clicks on the focused card
 	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1545, 105, 445, 890) && (ClubCardBuilderFocus != null)) {
