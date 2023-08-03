@@ -9,6 +9,7 @@ var PlatformDialogGoto = null;
 var PlatformDialogCharacterDisplay = null;
 var PlatformDialogPosition = 0;
 var PlatformDialogCharacter = null;
+var PlatformDialogAudio = null;
 var PlatformDialogCharacterTemplate = [
 	{
 		Name: "Melody",
@@ -98,27 +99,32 @@ var PlatformDialogData = [
 					}
 				]
 			},
-			{ Text: "Is it morning already?" },
-			{ Text: "It's a big day today, there's so much to do.  Let's review..." },
+			{ Text: "Is it morning already?", Audio: "10" },
+			{ Text: "It's a big day today, there's so much to do.  Let's review...", Audio: "20" },
 			{
 				Background: "Black",
 				Text: "First thing first, I need to retrieve Lady Olivia collar's key and bathe her.",
+				Audio: "30",
 				Character: [{ Name: "Olivia", Status: "Kimono", Pose: "Idle" }]
 			},
 			{
 				Text: "Secondly, I have to clean the dungeon restraints for Countess Isabella.",
+				Audio: "40",
 				Character: [{ Name: "Isabella", Status: "Winter", Pose: "Idle" }]
 			},
 			{
 				Text: "And finally, I need to serve dinner for Marchioness Camille visit.",
+				Audio: "50",
 				Character: [{ Name: "Camille", Status: "Armor", Pose: "Idle" }]
 			},
 			{
 				Text: "Time to get dressed!",
+				Audio: "60",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 			},
 			{
 				Text: "Lady Olivia needs me first.  Let's go find her.",
+				Audio: "70",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 					{ Name: "Olivia", Status: "Kimono", Pose: "Idle" }
@@ -141,25 +147,25 @@ var PlatformDialogData = [
 					{ Name: "Hazel", Status: "Maid", Pose: "Angry" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
-				Text: "Well, well, well.  Here comes little Melody the perfect servant.",
+				Text: "Well, well, well.  Here comes little Melody the perfect servant.", Audio: "10",
 				Answer: [
-					{ Text: "What do you want?", Reply: "You're not very bright aren't you?" },
-					{ Text: "And here comes the laziest maid of the year.", Reply: "Shut up Melody, you're not funny." },
-					{ Text: "It's great to see you sister.", Reply: "(She shakes her head no.)  Don't call me sister today." },
-					{ Text: "(Ignore her and move forward.)", Reply: "You think you can snob me?  (She raises her fists.)", Goto: "End" }
+					{ Text: "What do you want?", Reply: "You're not very bright aren't you?", Audio: "11" },
+					{ Text: "And here comes the laziest maid of the year.", Reply: "Shut up Melody, you're not funny.", Audio: "12" },
+					{ Text: "It's great to see you sister.", Reply: "(She shakes her head no.)  Don't call me sister today.", Audio: "13" },
+					{ Text: "(Ignore her and move forward.)", Reply: "You think you can snob me?  (She raises her fists.)", Audio: "14", Goto: "End" }
 				]
 			},
-			{ Text: "The maid staff has been talking about you." },
-			{ Text: "We think you're getting too friendly with Lady Olivia." },
-			{ Text: "There's no reason why Countess Isabella gave you that chore." },
-			{ Text: "Today, I will unlock and bathe her, you can go back to bed." },
+			{ Text: "The maid staff has been talking about you.", Audio: "20" },
+			{ Text: "We think you're getting too friendly with Lady Olivia.", Audio: "30" },
+			{ Text: "There's no reason why Countess Isabella gave you that chore.", Audio: "40" },
+			{ Text: "Today, I will unlock and bathe her, you can go back to bed.", Audio: "50" },
 			{
-				Text: "Stay in your room or you will get hurt.",
+				Text: "Stay in your room or you will get hurt.", Audio: "60",
 				Answer: [
-					{ Text: "Sorry, I have work to do.", Reply: "Fine, I'll make sure you cannot work then.  (She raises her fists.)" },
-					{ Text: "Please, can we negotiate a deal?", Reply: "There won't be any deal, only bruises.  (She raises her fists.)" },
-					{ Text: "Over my dead body.", Reply: "I won't kill you, but you'll be in pain.  (She raises her fists.)" },
-					{ Text: "(Try to run past her.)", Reply: "You're not going anywhere!  (She raises her fists.)" }
+					{ Text: "Sorry, I have work to do.", Reply: "Fine, I'll make sure you cannot work then.  (She raises her fists.)", Audio: "61" },
+					{ Text: "Please, can we negotiate a deal?", Reply: "There won't be any deal, only bruises.  (She raises her fists.)", Audio: "62" },
+					{ Text: "Over my dead body.", Reply: "I won't kill you, but you'll be in pain.  (She raises her fists.)", Audio: "63" },
+					{ Text: "(Try to run past her.)", Reply: "You're not going anywhere!  (She raises her fists.)", Audio: "64" }
 				]
 			},
 			{ ID: "End", Text: "(She rushes toward you.  You'll need to fight or dodge her.)" }
@@ -2559,6 +2565,25 @@ var PlatformDialogData = [
 ];
 
 /**
+ * Players the audio track for the dialog
+ * @param {string} Source - The source file to use
+ * @returns {void} - Nothing
+ */
+function PlatformDialogVoice(Source) {
+	if ((Source == null) || (Source == "")) {
+		if (PlatformDialogAudio != null) PlatformDialogAudio.pause();
+		return;
+	}
+	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	if (vol > 0) {
+		if (PlatformDialogAudio == null) PlatformDialogAudio = new Audio();
+		PlatformDialogAudio.src = "Screens/Room/Platform/Audio/" + PlatformDialog.Name + "/" + Source + ".mp3";
+		PlatformDialogAudio.volume = Math.min(vol, 1);
+		PlatformDialogAudio.play();
+	}
+}
+
+/**
  * Loads the dialog at a specific position
  * @param {Number} Position - The position # to load
  * @returns {void} - Nothing
@@ -2580,6 +2605,7 @@ function PlatformDialogLoadPosition(Position) {
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : JSON.parse(JSON.stringify(PlatformDialog.Dialog[Position].Character));
 	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
+	PlatformDialogVoice(PlatformDialog.Dialog[Position].Audio);
 }
 
 /**
@@ -2758,6 +2784,7 @@ function PlatformDialogPickAnswer(Position) {
 							Character.Domination = PlatformDialogChangeValue(Character.Domination, Answer.Domination, PlatformDialogLeaderHasPerk("Persuasion"), Character.OwnerLevel);
 						}
 				if (Answer.Script != null) Answer.Script();
+				PlatformDialogVoice(Answer.Audio);
 			}
 			P++;
 		}
@@ -2820,6 +2847,7 @@ function PlatformDialogKeyDown(Key) {
  * @returns {void} - Nothing
  */
 function PlatformDialogLeave() {
+	PlatformDialogVoice(null);
 	CommonSetScreen("Room", "Platform");
 }
 
