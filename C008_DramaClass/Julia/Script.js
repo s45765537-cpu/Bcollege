@@ -210,6 +210,7 @@ function C008_DramaClass_Julia_Masturbate() {
 		ActorChangeAttitude(2, 0);
 		OverridenIntroText = GetText("Orgasm");
 		OverridenIntroImage = "BackgroundOrgasm.jpg";
+		GameLogAdd("DamselSuccess");
 	}
 }
 

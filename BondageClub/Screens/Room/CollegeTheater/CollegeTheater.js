@@ -27,6 +27,16 @@ function CollegeTheaterCanChooseRole() { return ((ReputationGet("Dominant") > -3
  * @returns {void} - Nothing
  */
 function CollegeTheaterGetTeacherKey() { LogAdd("TeacherKey", "College"); }
+/**
+ * Checks if Julia stopped rebellion as Queen in College and if player doesn't have owner.
+ * @returns {boolean} - Returns TRUE if Julia stopped rebellion as Queen in College and if player doesn't have owner
+ */
+function CollegeTheaterIsJuliaQueen() { return (LogQuery("Dominant", "NPC-Julia") && !(Player.Owner)); }
+/**
+ * Checks if Julia submitted as a damsel in College.
+ * @returns {boolean} - Returns TRUE if Julia submitted as a damsel in College
+ */
+function CollegeTheaterIsJuliaDamsel() { return (LogQuery("Submissive", "NPC-Julia")); }
 
 /**
  * Dresses Julia in her full theater outfit.
@@ -219,6 +229,18 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 	NPCTraitSet(C, "Horny", 40);
 	NPCTraitSet(C, "Polite", 20);
 	C.Love = 20;
+	if (Role == "Submissive") {
+		NPCEventAdd(C, "NPCCollaring", CurrentTime);
+		InventoryWear(C, "SlaveCollar", "ItemNeck");
+		C.Owner = Player.Name;
+		C.Love = 100;
+	}
+	if (Role == "Domninant") {
+		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
+		NPCEventAdd(C, "LastGift", CurrentTime);
+		Player.Owner = "NPC-Julia";
+		C.Love = 100;
+	}
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();

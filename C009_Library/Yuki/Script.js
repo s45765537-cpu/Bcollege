@@ -440,3 +440,10 @@ function C009_Library_Yuki_StopPleasure() {
 	}
 
 }
+
+// Chapter 9 Library - Yuki Blackmailed
+function C009_Library_Yuki_Blackmailed() {
+
+	//Logged for BondageClub
+	GameLogAdd("Blackmailed");
+}

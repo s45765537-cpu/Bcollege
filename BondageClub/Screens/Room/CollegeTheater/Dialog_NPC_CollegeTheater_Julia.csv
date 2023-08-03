@@ -1,7 +1,7 @@
 PlayerGagged,,,Pupil!  This is not a silent play.  (She laughs.),,
 0,,,(A large woman greets you warmly.)  Oooooh!  Are you here to audition for the next play?,,
 0,,Who are you?,I'm Julia!  An art teacher is this wonderful institution.  I'm pleased to meet you pupil.,DialogRemove(),"!DialogLogQuery(""BondageCollege"", ""Import"")"
-0,,It's nice to see you again Julia.,(She gives you a warm hug.)  It's grande to see you again young pupil!,DialogRemove(),"DialogLogQuery(""BondageCollege"", ""Import"")"
+0,2000,It's nice to see you again Julia.,(She gives you a warm hug.)  It's grande to see you again young pupil!,,"DialogLogQuery(""BondageCollege"", ""Import"")"
 0,10,Theater is for losers.,"No, no, no, no.  Teatro is one of the oldest and greatest form or art, it transcends time and your soul.",JuliaLoveChange(0),
 0,10,I'm not a great actor.,"Practice makes perfect!  Teatro is one of the oldest and greatest form or art, it transcends time and your soul.",JuliaLoveChange(1),
 0,10,I would love to audition.,"Magnifico!  Teatro is one of the oldest and greatest form or art, it transcends time and your soul.",JuliaLoveChange(2),
@@ -165,7 +165,7 @@ PlayerGagged,,,Pupil!  This is not a silent play.  (She laughs.),,
 710,720,In a club downtown.,A club where I could meet artists?  An acting club?  An impro club?,,
 710,720,I've had great teachers.,"I would love to meet them, are they in a school in town?  Or in a theater group?",,
 710,1000,That's my secret.,"I respect that.  Check the school board, as soon as all the actors are found, we will start repeating.",,
-720,730,I could bring you there.,"I would love to go there with you, but you cannot out like that.",,CanInviteToPrivateRoom()
+720,730,I could bring you there.,"I would love to go there with you, but you cannot go out like that.",,CanInviteToPrivateRoom()
 720,1000,I could bring you there.,"Maybe another day.  For now, check the school board, as soon as all the actors are found, we will start repeating.",,!CanInviteToPrivateRoom()
 720,1000,I'll tell you more another time.,"Very well.  Check the school board, as soon as all the actors are found, we will start repeating.",,
 730,740,That's not a problem.  I'll explain on the road.,If you say so.  Let's change and let's go young pupil.,,
@@ -177,3 +177,18 @@ PlayerGagged,,,Pupil!  This is not a silent play.  (She laughs.),,
 1000,1010,I'll do that.,"(You both dress up as she smiles.)  You have lots of potential, see you soon little pupil.",DressBack(),
 1010,,,"See you soon little pupil.  If you see the next student, you can tell her to come in.",,
 1010,,See you soon.  (Leave her.),,DialogLeave(),
+2000,2100,Doth my queen need ministrations from this servant?,"(She smiles broadly) Surely your services are indeed valuable, alas, this is but a fleeting moment.",,IsJuliaQueen()
+2000,2200,"My damsel dearest, your services were most enjoyable.","(She giggles) And would I adore to serve you again, alas this is but a fleeting moment.",,IsJuliaDamsel()
+2000,10,"I see you're running another show, can I audition?",Of course dear!,JuliaLoveChange(2),
+2100,2110,"Maybe not. I have room at a club downtown. ",Si! And you could continue to serve me there!,,CanInviteToPrivateRoom()
+2100,10,"And what a pity, but maybe we have a different story?",Teatro always has more stories to tell!,JuliaLoveChange(2),
+2110,2120,The club does not take relationships lightly.,"(She turns serious and offers you a collar) I've seen this around campus as a symbol of service, do you promise to serve me?",,
+2120,2130,"I do, Queen. (Kneel and allow her to lock the collar.)","Splendid! Take me to thy domicile, servant!",,
+2120,10,I cannot. Maybe we can discover another relationship?,Magnifico! How about auditioning for my new show?,JuliaLoveChange(2),
+2130,,(Bring her to your room.),,"InviteToPrivateRoom(""Dominant"")",
+2200,2210,"Maybe not. I have room at a club downtown. ",Si! And I could continue to serve you there!,,CanInviteToPrivateRoom()
+2200,10,"And what a pity, but maybe we have a different story?",Teatro always has more stories to tell!,JuliaLoveChange(2),
+2210,2220,The club does not take relationships lightly.,"(She kneels and offers you a collar) I've seen this around campus as a symbol of service, can you take me as your servant?",,
+2220,2230,"I do, my girl. (Lock the collar on her.)",Thank you Mistress! I promise to obey and serve you!,,
+2220,10,I cannot. Maybe we can discover another relationship?,Magnifico! How about auditioning for my new show?,JuliaLoveChange(2),
+2230,,(Bring her to your room.),,"InviteToPrivateRoom(""Submissive"")",

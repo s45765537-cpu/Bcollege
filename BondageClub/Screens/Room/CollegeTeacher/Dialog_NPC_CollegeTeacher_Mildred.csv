@@ -1,11 +1,11 @@
 PlayerGagged,,,(She smirks and makes fun of your mumblings.),,
 0,,,(A gray-haired woman stares at you as you enter the teacher's lounge.)  What are you doing here?,,
 0,,Who are you?,I'm teacher Mildred.  How did you get here little miss?,DialogRemove(),"!DialogLogQuery(""BondageCollege"", ""Import"")"
-0,,Hello teacher Mildred.,Greetings little miss DialogPlayerName.  How did you get here?,DialogRemove(),"DialogLogQuery(""BondageCollege"", ""Import"")"
-0,10,The door was open.,"That's impossible.  I always double-check it.  You've sneaked in, didn't you?",,
+0,1000,Hello teacher Mildred.,Greetings little miss DialogPlayerName.  How did you get here?,,"DialogLogQuery(""BondageCollege"", ""Import"")"
+0,10,The door was open.,"That's impossible.  I always double-check it.  You sneaked in, didn't you?",,
 0,10,I've found this key.,You've stolen it!  And now you're sneaking in to steal our belongings?,,
-0,10,Julia let me in.,"Even an eccentric like her wouldn't do that.  You've sneaked in, didn't you?",,
-0,10,Yuki let me in.,"That's impossible.  Teacher Yuki knows the rules.  You've sneaked in, didn't you?",,
+0,10,Julia let me in.,"Even an eccentric like her wouldn't do that.  You sneaked in, didn't you?",,
+0,10,Yuki let me in.,"That's impossible.  Teacher Yuki knows the rules.  You sneaked in, didn't you?",,
 0,,"Sorry, I will leave.  (Leave her.)",,DialogLeave(),
 10,20,I was looking for a place to relax.,That's not valid reason little miss.  You should not be here.,,
 10,20,I was curious.  Is that a crime?,"(She gets angry.)  Yes, it's against the rules!  You should not be here little miss.",MildredLoveChange(-1),
@@ -146,3 +146,16 @@ PlayerGagged,,,(She smirks and makes fun of your mumblings.),,
 390,395,(Leave her.),,DialogLeave(),
 395,,,Get out before I call security.,,
 395,,(Leave her.),,DialogLeave(),
+1000,1010,About the quiz in Literature Class...,(She noticably pauses and raises an eyebrow.),,CanInviteToPrivateRoom()
+1000,10,I wanted to ask you a math question.,"It's not my office hours, and I don't leave the door unlocked. You sneaked in, didn't you?",,
+1010,1100,I need discipline to improve my grades.,That much is clear. It's a pity that even the school has limits.,,IsMildredDominant()
+1010,1200,You clearly don't have the discipline to lead.,"(She sighs.) I thought discipline was lacking in today's students, but it turns out it was me.",,IsMildredSubmissive()
+1010,10,I'm not clear about question 69.,"It's not my office hours, and I don't leave the door unlocked. You sneaked in, didn't you?",,
+1100,1110,Can you tutor me? I have a private room.,"I'm glad you're seeking discipline. However, I require strict obedience. Do you accept? (She shows you a collar.)",,
+1110,1120,"Yes, Miss. (You kneel and the collar is locked.)","Good. Now take me to your room so we can start your lessons. ",,
+1110,10,"(You gulp.) No, that's too much!",Then you snuck in here without a reason?,,
+1120,,(Bring her to your room.),,"InviteToPrivateRoom(""Dominant"")",
+1200,1210,"I can give you ""Professional Development"".","You would do that for me? I would be eternally grateful. ",,
+1210,1220,I'll need your compliance. (Show her a collar.),"Yes Miss, anything to be more disciplined.",,
+1210,10,"Actually, that sounds like too much work.",(She fumes.) You think this is funny? Why are you really here?,,
+1220,,"Come with me now. ",,"InviteToPrivateRoom(""Submissive"")",
