@@ -58,6 +58,16 @@ function ImportBondageCollege(C) {
 			if ((localStorage.getItem("BondageCollegeExportLockedCollar") != null) && (localStorage.getItem("BondageCollegeExportLockedCollar") == "true")) DialogWearItem("SlaveCollar", "ItemNeck");
 			if ((localStorage.getItem("BondageCollegeExportLockedVibratingEgg") != null) && (localStorage.getItem("BondageCollegeExportLockedVibratingEgg") == "true")) DialogWearItem("VibratingEgg", "ItemVulva");
 
+			// Imports skills
+			if (localStorage.getItem("BondageCollegeExportArts") != null) SkillChange("LockPicking", +(localStorage.getItem("BondageCollegeExportArts")), 0, true);
+			if (localStorage.getItem("BondageCollegeExportFighting") != null) SkillChange("Willpower", +(localStorage.getItem("BondageCollegeExportFighting")), 0, true);
+			if (localStorage.getItem("BondageCollegeExportRopeMastery") != null) {
+				SkillChange("Bondage", +(localStorage.getItem("BondageCollegeExportRopeMastery")), 0, true);
+				SkillChange("SelfBondage", +(localStorage.getItem("BondageCollegeExportRopeMastery")), 0, true);
+			}
+			if (localStorage.getItem("BondageCollegeExportSeduction") != null) SkillChange("Infiltration", +(localStorage.getItem("BondageCollegeExportSeduction")), 0, true);
+			if (localStorage.getItem("BondageCollegeExportSports") != null) SkillChange("Evasion", +(localStorage.getItem("BondageCollegeExportSports")), 0, true);
+
 			// Sync with the server
 			ServerPlayerSync();
 			ServerPlayerInventorySync();
