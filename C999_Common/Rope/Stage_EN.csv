@@ -5,5 +5,6 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 10,0,0,,(Try to reach a knot.)ADD_MINUTES:1,You struggle to reach a knot to|undo but none can be reached.,10,0,0,
 10,0,0,,(Struggle to get out.)ADD_MINUTES:1,You struggle madly in the rope|but can't manage to get out.,10,0,0,
 10,0,0,,(Pull on the crotch rope.)ADD_MINUTES:1,You manage to pull on the|crotch rope and it's quite pleasurable.,10,0,0,
+10,0,0,IsRopeMasterTwo,(Find an edge to|work the rope.)ADD_MINUTES:1,You catch an edge|but make no progress.,10,0,0,DoFreeSelf()
 20,0,0,,(Tie yourself.)ADD_MINUTES:1,You carefully wrap the rope around your torso|and manage to pull a tight and secure knot.,10,0,0,DoSelfBondage()
 20,0,0,,(Don't do it.),You resist the urge of tying yourself up.,0,0,0,
