@@ -346,11 +346,13 @@ function C011_LiteratureClass_Mildred_CheckForWinnerMildred() {
 	OverridenIntroImage = "";
 	if (C011_LiteratureClass_Mildred_PlayerVictoryCount >= C011_LiteratureClass_Mildred_MildredVictoryCount) {
 		GameLogSpecificAdd(CurrentChapter, "", "WonVersusMildred");
+		GameLogAdd("PlayerWon");
 		ActorChangeAttitude(1, 1);
 		C011_LiteratureClass_Mildred_CurrentStage = 150;
 		OverridenIntroText = GetText("MildredShameForDefeat");
 	} else {
 		GameLogSpecificAdd(CurrentChapter, "", "LostVersusMildred");
+		GameLogAdd("PlayerLost");
 		if (C011_LiteratureClass_Mildred_QuizMildredStatus != "Clothed")
 			OverridenIntroText = GetText("MildredFreedBySidney");
 	}

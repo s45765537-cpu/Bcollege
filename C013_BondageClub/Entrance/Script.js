@@ -87,7 +87,21 @@ function C013_BondageClub_Entrance_EnterClub() {
 	if ((ActorGetValue(ActorOwner) == "Player") && GameLogQuery("", "Jennifer", "CurfewStay")) Jennifer = "JenniferCollaredWithCurfew";
 	if (Common_PlayerOwner == "Jennifer") Jennifer = "JenniferMistress";
 
-	// Exports all items and Sarah's data
+	// Save Teacher status
+	var Julia = "";
+	CurrentActor = "Julia";
+	if (GameLogQuery("C008_DramaClass", CurrentActor, "DamselSuccess")) Julia = "Submissive";
+	if (GameLogQuery("C008_DramaClass", CurrentActor, "Rebellion")) Julia = "Dominant";
+	var Yuki = "";
+	CurrentActor = "Yuki";
+	if (GameLogQuery("C009_Library", CurrentActor, "Blackmailed")) Yuki = "Submissive";
+	if (GameLogQuery("C009_Library", CurrentActor, "PleasureSuccess")) Yuki = "Dominant";
+	var Mildred = "";
+	CurrentActor = "Mildred";
+	if (GameLogQuery("C011_LiteratureClass", CurrentActor, "PlayerWon")) Mildred = "Submissive";
+	if (GameLogQuery("C011_LiteratureClass", CurrentActor, "PlayerLost")) Mildred = "Dominant";
+
+	// Exports all actors, items, and skills data
 	localStorage.setItem("BondageClubImportSource", "BondageCollege");
 	localStorage.setItem("BondageCollegeExportName", Common_PlayerName);
 	localStorage.setItem("BondageCollegeExportLover", Common_PlayerLover);
@@ -101,6 +115,9 @@ function C013_BondageClub_Entrance_EnterClub() {
 	localStorage.setItem("BondageCollegeExportSarah", Sarah);
 	localStorage.setItem("BondageCollegeExportSidney", Sidney);
 	localStorage.setItem("BondageCollegeExportJennifer", Jennifer);
+	localStorage.setItem("BondageCollegeExportJulia", Julia);
+	localStorage.setItem("BondageCollegeExportYuki", Yuki);
+	localStorage.setItem("BondageCollegeExportMildred", Mildred);
 	localStorage.setItem("BondageCollegeExportBallGag", (PlayerHasInventory("BallGag")) ? "true" : "false");
 	localStorage.setItem("BondageCollegeExportClothGag", (PlayerHasInventory("ClothGag")) ? "true" : "false");
 	localStorage.setItem("BondageCollegeExportTapeGag", (PlayerHasInventory("TapeGag")) ? "true" : "false");

@@ -5,7 +5,7 @@ Orgasm,,,(She shakes and screams from a long orgasm.)  Fuuuuuuuuck yeah!  That..
 NoOrgasm,,,(She pushes you away.)  That's enough!  I'm not in the mood anymore and I need to go.,,
 0,,,(A small woman welcomes you coldly.)  Another one?  What's your story?  Why were you sent to detention?,,
 0,,Who are you?,I'm teacher Yuki.  I monitor the detention room today.  Why are you here?,DialogRemove(),"!DialogLogQuery(""BondageCollege"", ""Import"")"
-0,,Hello teacher Yuki.,Hello DialogPlayerName.  Why were you sent to detention today?,DialogRemove(),"DialogLogQuery(""BondageCollege"", ""Import"")"
+0,3000,Hello teacher Yuki.,Hello DialogPlayerName.  Why were you sent to detention today?,,"DialogLogQuery(""BondageCollege"", ""Import"")"
 0,10,I shouldn't be here.,"If a teacher sent you here, then you should be here.  What did you do wrong?",,
 0,10,You're mistaken.,You've made the mistake by getting sent here.  What did you do wrong?,,
 0,10,That's none of your business.,(She frowns.)  That's absolutely my business.  What did you do wrong?,YukiLoveChange(-1),
@@ -169,3 +169,16 @@ NoOrgasm,,,(She pushes you away.)  That's enough!  I'm not in the mood anymore a
 2210,,No goodbye kisses?,Don't think you're funny young lady.,DialogRemove(),
 2210,,What are you doing later?,That's none of your business.  Now go.,DialogRemove(),
 2210,,(Leave her.),,DialogLeave(),
+3000,3100,"Your little pet is coming back to owner. ","How adorable DialogPlayerName, but I'm busy with detention right now. ",,IsYukiDominant()
+3000,3200,(Menacingly) I'm putting you in detention.,(She stiffens from your tone and eyes you warily.) You dare to bring up the trap you laid in the library?,,IsYukiSubmissive()
+3000,10,I just came by to say hi.,No one comes in by just to do that. What did you do wrong?,,
+3100,3110,I've a room at a club just for pets like me.,"Oh? I can meet you there after I'm finished, but you must understand all pets need a collar. (She dangles a collar in your face.)",,CanInviteToPrivateRoom()
+3100,20,But I just wanted to play for a little while.,A little while? How about the rest of the day instead!,,
+3110,3120,Of course. (Kneel and allow her to lock the collar.),"(She smirks.) Now you're all mine to play with. See you at the club later, kitty.",,
+3110,20,"I'm sorry, I can't wear that. ",(She frowns.) You've got some guts playing around. Looks like you get to spend the rest of the day with me!,,
+3120,,(Meet her at the club later.),,"InviteToPrivateRoom(""Dominant"")",
+3200,3210,"I dare, because I know a way to keep you quiet. ",And what might that be?,,
+3210,3220,(Show her a collar). This will ensure your silence.,"(She shivers.) Well, I can't argue with that... ",,CanInviteToPrivateRoom()
+3210,20,Um.... (You search frantically for a spare collar),Hah! I knew you were bluffing. Now you get to spend the rest of the day with me!,,
+3220,3230,Now kneel and let me collar you.,"(She kneels and bows her head). Yes, Miss DialogPlayerName.",,
+3230,,(Bring her to your room.),,"InviteToPrivateRoom(""Submissive"")",

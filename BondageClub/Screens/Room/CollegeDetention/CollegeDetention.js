@@ -38,6 +38,18 @@ function CollegeDetentionGetTeacherKey() { LogAdd("TeacherKey", "College"); }
 function CollegeDetentionYukiWillRelease() { return (CollegeDetentionYukiWillReleaseAt < CurrentTime); }
 
 /**
+ * Checks, if Yuki dominated the player in the library and player is not owned
+ * @returns {boolean} - Returns true if Yuki is Dominant and player is not owned
+ */
+function CollegeDetentionIsYukiDominant() { return (DialogLogQuery("Dominant", "NPC-Yuki") && !(Player.Owner)); }
+
+/**
+ * Checks, if Yuki was blackmailed in the library
+ * @returns {boolean} - Returns true if Yuki is Submissive
+ */
+function CollegeDetentionIsYukiSubmissive() { return (DialogLogQuery("Submissive", "NPC-Yuki")); }
+
+/**
  * Creates a fully dressed Yuki
  * @param {Character} C - The character object to dress up
  * @returns {void} - Nothing
@@ -192,9 +204,10 @@ function CollegeDetentionRestrainPlayer(Type) {
 
 /**
  * The player invites Yuki to her room. Add her ribbon and the sleeping pill to the player's inventory
+ * @param {string} Role - How Yuki should join private room (Default: "None")
  * @returns {void} - Nothing
  */
-function CollegeDetentionInviteToPrivateRoom() {
+function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	CollegeDetentionDressBack();
 
 	/** @type {ItemBundle[]} */
@@ -213,6 +226,18 @@ function CollegeDetentionInviteToPrivateRoom() {
 	NPCTraitSet(C, "Rude", 60);
 	NPCTraitSet(C, "Serious", 40);
 	C.Love = 20;
+	if (Role == "Submissive") {
+		NPCEventAdd(C, "NPCCollaring", CurrentTime);
+		InventoryWear(C, "SlaveCollar", "ItemNeck");
+		C.Owner = Player.Name;
+		C.Love = 100;
+	}
+	if (Role == "Domninant") {
+		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
+		NPCEventAdd(C, "LastGift", CurrentTime);
+		Player.Owner = "NPC-Yuki";
+		C.Love = 100;
+	}
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();

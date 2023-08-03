@@ -19,6 +19,19 @@ function CollegeTeacherCanInviteToPrivateRoom() { return (LogQuery("RentRoom", "
 function CollegeTeacherMildredLoveIs(LoveLevel) { return (CollegeTeacherMildredLove >= parseInt(LoveLevel)); }
 
 /**
+ * Checks, if Mildred won the Literature Class quiz and player is not owned
+ * @returns {boolean} - Returns true if Mildred is Dominant and player is not owned
+ */
+function CollegeDetentionIsMildredDominant() { return (DialogLogQuery("Dominant", "NPC-Mildred") && !(Player.Owner)); }
+
+/**
+ * Checks, if Mildred lost the Literature Class quiz
+ * @returns {boolean} - Returns true if Mildred is Submissive
+ */
+function CollegeDetentionIsMildredSubmissive() { return (DialogLogQuery("Submissive", "NPC-Mildred")); }
+
+
+/**
  * Fully dress-up Mildred
  * @param {Character} C - The character object to dress up
  * @returns {void} - Nothing
@@ -140,9 +153,10 @@ function CollegeTeacherNewBackground(New) {
 //
 /**
  * When the plater invites Mildred to her room, she gets the pillory
+ * @param {string} Role - How Mildred should join private room (Default: "None")
  * @returns {void} - Nothing
  */
-function CollegeTeacherInviteToPrivateRoom() {
+function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	CollegeTeacherDressBack();
 	InventoryAdd(Player, "Pillory", "ItemArms");
 	CommonSetScreen("Room", "Private");
@@ -156,6 +170,20 @@ function CollegeTeacherInviteToPrivateRoom() {
 	NPCTraitSet(C, "Wise", 30);
 	NPCTraitSet(C, "Serious", 80);
 	C.Love = 20;
+	if (Role == "Submissive") {
+		NPCTraitSet(C, "Dominant", 40);
+		NPCEventAdd(C, "NPCCollaring", CurrentTime);
+		InventoryWear(C, "SlaveCollar", "ItemNeck");
+		C.Owner = Player.Name;
+		C.Love = 100;
+	}
+	if (Role == "Domninant") {
+		NPCTraitSet(C, "Dominant", 80);
+		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
+		NPCEventAdd(C, "LastGift", CurrentTime);
+		Player.Owner = "NPC-Mildred";
+		C.Love = 100;
+	}
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();

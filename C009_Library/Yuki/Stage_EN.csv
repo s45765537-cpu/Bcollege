@@ -226,8 +226,8 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 610,0,0,,Yes Miss Yuki.|(Turn around.),(You turn around and give her your hands|while she straps them in an armbinder.),300,0,-1,RestrainPlayer()
 620,0,0,,You would be humiliated|if people knew.,You're not thinking about starting|rumors on what happened are you?,630,0,0,"SetPose("""")"
 620,0,0,,"Everyone will know|what happened, unless... ",Unless what?  You're not thinking|about starting rumors are you?,630,0,0,"SetPose("""")"
-630,0,0,,If you stay good to|me.  I won't talk.,"Fine, we have a deal Miss.|I won't cause you any trouble.",640,0,1,
-630,0,0,,You stay cool.|I stay cool.,"Very well, we have a deal.|I won't cause you any trouble.",640,0,0,
+630,0,0,,If you stay good to|me.  I won't talk.,"Fine, we have a deal Miss.|I won't cause you any trouble.",640,0,1,Blackmailed()
+630,0,0,,You stay cool.|I stay cool.,"Very well, we have a deal.|I won't cause you any trouble.",640,0,0,Blackmailed()
 640,0,0,,"Alright, I'm going now.|(Walk away.)",,650,0,0,PlayerLeaveForBook()
 640,0,0,,I don't want to|see you again.,Fine!  Go away then.,650,-1,0,
 640,0,0,,Very good Yuki.|(Shake her hand.),(You both shake hands with a firm grip.)|You're free to wander young lady.,650,1,0,

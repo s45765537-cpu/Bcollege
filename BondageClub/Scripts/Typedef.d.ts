@@ -3643,6 +3643,9 @@ interface LogNameType {
 	"NPC-Sarah": "SarahLover" | "SarahCollared" | "SarahCollaredWithCurfew",
 	"NPC-SarahIntro": "SarahWillBePunished" | "SarahCameWithPlayer",
 	"NPC-Sidney": "SidneyLover" | "SidneyMistress" | "SidneyCollared" | "SidneyCollaredWithCurfew",
+	"NPC-Julia": "Dominant" | "Submissive",
+	"NPC-Yuki": "Dominant" | "Submissive",
+	"NPC-Mildred": "Dominant" | "Submissive",
 	// NOTE: A number of owner rules can have arbitrary suffices, and can thus not be expressed as string literals
 	OwnerRule: (
 		"BlockChange"

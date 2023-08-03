@@ -19,9 +19,9 @@ function ImportBondageCollege(C) {
 			if ((localStorage.getItem("BondageCollegeExportOwner") != null) && (localStorage.getItem("BondageCollegeExportOwner") != "")) C.Owner = "NPC-" + localStorage.getItem("BondageCollegeExportOwner");
 			if ((localStorage.getItem("BondageCollegeExportLover") != null) && (localStorage.getItem("BondageCollegeExportLover") != "")) C.Lover = "NPC-" + localStorage.getItem("BondageCollegeExportLover");
 
-			// Imports the 4 main character status
+			// Imports the 4 main students and 3 main teachers status
 			if ((localStorage.getItem("BondageClubImportSource") != null) && (localStorage.getItem("BondageClubImportSource") == "BondageCollege")) {
-				for (const storyline of ["Amanda", "Sarah", "Sidney", "Jennifer", "AmandaSarah", "SarahIntro"]) {
+				for (const storyline of ["Amanda", "Sarah", "Sidney", "Jennifer", "AmandaSarah", "SarahIntro", "Julia", "Yuki", "Mildred"]) {
 					const value = localStorage.getItem("BondageCollegeExport" + storyline);
 					if (value)
 						LogAdd(value, /** @type {keyof LogNameType} */ ("NPC-" + storyline));
