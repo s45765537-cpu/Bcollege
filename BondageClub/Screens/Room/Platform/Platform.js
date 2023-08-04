@@ -7,6 +7,7 @@ var PlatformFloor = 1180;
 var PlatformViewX = 0;
 var PlatformViewY = 200;
 var PlatformRoom = null;
+var PlatformMusic = null;
 var PlatformGravitySpeed = 6;
 var PlatformLastKeyCode = 0;
 var PlatformLastKeyTime = 0;
@@ -559,6 +560,7 @@ var PlatformRoomList = [
 		Name: "BedroomMelody",
 		Text: "Melody's Bedroom (heal and save)",
 		Background: "Castle/BedroomMelody",
+		Music: "MelodyRoom",
 		Width: 2000,
 		Height: 1200,
 		LimitLeft: 200,
@@ -573,6 +575,7 @@ var PlatformRoomList = [
 		Entry: function() { if (!PlatformEventDone("JealousMaid")) PlatformDialogStart("JealousMaid"); },
 		Text: "3F - Bedroom Hallway - West",
 		Background: "Castle/Hall3W",
+		Music: "CastleHall",
 		Width: 3200,
 		Height: 1200,
 		LimitLeft: 250,
@@ -595,6 +598,7 @@ var PlatformRoomList = [
 		Text: "3F - Bedroom Hallway - Center",
 		Background: "Castle/Hall3C",
 		AlternateBackground: "Castle/Hall3Cv2",
+		Music: "CastleHall",
 		Width: 4800,
 		Height: 1200,
 		Door: [
@@ -612,6 +616,7 @@ var PlatformRoomList = [
 		Name: "CastleHall3E",
 		Text: "3F - Bedroom Hallway - East",
 		Background: "Castle/Hall3E",
+		Music: "CastleHall",
 		Width: 3800,
 		Height: 1200,
 		LimitRight: 3550,
@@ -637,6 +642,7 @@ var PlatformRoomList = [
 		},
 		Text: "Olivia's Bedroom (heal and save)",
 		Background: "Castle/BedroomOlivia",
+		Music: "OliviaRoom",
 		Width: 3000,
 		Height: 1200,
 		Heal: 250,
@@ -652,6 +658,7 @@ var PlatformRoomList = [
 		},
 		Text: "Olivia's Bathroom",
 		Background: "Castle/BathroomOlivia",
+		Music: "OliviaRoom",
 		Width: 2000,
 		Height: 1200,
 		Door: [
@@ -666,6 +673,7 @@ var PlatformRoomList = [
 		},
 		Text: "Isabella's Bedroom",
 		Background: "Castle/BedroomIsabella",
+		Music: "IsabellaRoom",
 		Width: 2400,
 		Height: 1200,
 		Door: [
@@ -676,6 +684,7 @@ var PlatformRoomList = [
 		Name: "CastleHall4C",
 		Text: "4F - Roof Hallway - Center",
 		Background: "Castle/Hall4C",
+		Music: "CastleHall",
 		Width: 4800,
 		Height: 1200,
 		Door: [
@@ -692,6 +701,7 @@ var PlatformRoomList = [
 		Name: "CastleHall4E",
 		Text: "4F - Roof Hallway - East",
 		Background: "Castle/Hall4E",
+		Music: "CastleHall",
 		Width: 3800,
 		Height: 1200,
 		LimitRight: 3550,
@@ -713,6 +723,7 @@ var PlatformRoomList = [
 		},
 		Text: "Roof Balcony",
 		Background: "Castle/Balcony",
+		Music: "IsabellaRoom",
 		Width: 2000,
 		Height: 1200,
 		LimitRight: 1700,
@@ -724,6 +735,7 @@ var PlatformRoomList = [
 		Name: "CastleHall4W1",
 		Text: "4F - Roof Hallway - West 1",
 		Background: "Castle/Hall4W1",
+		Music: "CastleHall",
 		Width: 2400,
 		Height: 1200,
 		Door: [
@@ -739,6 +751,7 @@ var PlatformRoomList = [
 		Name: "CastleHall4W2",
 		Text: "4F - Roof Hallway - West 2",
 		Background: "Castle/Hall4W2",
+		Music: "CastleHall",
 		Width: 2400,
 		Height: 1200,
 		Door: [
@@ -760,6 +773,7 @@ var PlatformRoomList = [
 		},
 		Text: "4F - Roof Hallway - West 3",
 		Background: "Castle/Hall4W1",
+		Music: "CastleHall",
 		Width: 2400,
 		Height: 1200,
 		Door: [
@@ -794,6 +808,7 @@ var PlatformRoomList = [
 		Text: "Countess Hall",
 		Background: "Castle/CountessHallDeadEnd",
 		AlternateBackground: "Castle/CountessHallClosed",
+		Music: "IsabellaRoom",
 		Width: 2400,
 		Height: 1200,
 		LimitLeft: 200,
@@ -812,6 +827,7 @@ var PlatformRoomList = [
 		},
 		Text: "Countess Terrace",
 		Background: "Castle/Terrace",
+		Music: "IsabellaRoom",
 		Width: 2000,
 		Height: 1200,
 		LimitLeft: 200,
@@ -2321,6 +2337,39 @@ function PlatformDrawRightButtons() {
 
 }
 
+
+/**
+ * Plays the dialog ambient music
+ * @returns {void} - Nothing
+ */
+function PlatformBackgroundMusic(Music) {
+
+	// If no music should play
+	if ((Music == null) || (Music == "")) {
+		if ((PlatformMusic != null) && !PlatformMusic.paused) PlatformMusic.pause();
+		return;
+	}
+
+	// If volume is more than zero, we start the background music at lower volume
+	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	if (vol > 0) {
+		if (PlatformMusic == null) PlatformMusic = new Audio();
+		let FileName = "Screens/Room/Platform/Audio/Background/" + Music + ".mp3";
+		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
+			PlatformMusic.currentTime = 0;
+			PlatformMusic.src = FileName;
+			PlatformMusic.volume = Math.min(vol, 1) * 0.2;
+			PlatformMusic.play();
+			PlatformMusic.addEventListener('ended', function() {
+				PlatformMusic.currentTime = 0;
+				PlatformMusic.play();
+			}, false);
+		}
+		if (PlatformMusic.paused) PlatformMusic.play();
+	}
+
+}
+
 /**
  * Runs and draws the screen.
  * @returns {void} - Nothing
@@ -2336,6 +2385,7 @@ function PlatformRun() {
 			DrawButton(250 + (S * 157), 200, 90, 90, S.toString(), "White", "", TextGet("SaveOn") + S.toString());
 	if (PlatformHeal != null) PlatformDrawRightButtons();
 	if (CommonIsMobile) PlatformTouch();
+	PlatformBackgroundMusic(PlatformRoom.Music);
 }
 
 /**
@@ -2394,6 +2444,7 @@ function PlatformClick() {
  * @returns {void} - Nothing
  */
 function PlatformLeave() {
+	PlatformBackgroundMusic(null);
 	window.removeEventListener("keydown", PlatformEventKeyDown);
 	window.removeEventListener("keyup", PlatformEventKeyUp);
 	CommonSetScreen("Room", "MainHall");

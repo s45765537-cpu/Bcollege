@@ -71,6 +71,7 @@ var PlatformDialogCharacterTemplate = [
 var PlatformDialogData = [
 	{
 		Name: "IntroMelody",
+		Music: "MelodyRoom",
 		Dialog: [
 			{
 				Text: "(Click or hit the spacebar to continue.)",
@@ -135,6 +136,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "JealousMaid",
+		Music: "CastleHall",
 		Exit : function () { PlatformEventSet("JealousMaid"); },
 		Dialog: [
 			{
@@ -174,6 +176,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroIsabellaBeforeCollarKey",
+		Music: "IsabellaRoom",
 		Exit : function () { PlatformEventSet("OliviaCollarKey"); PlatformChar[1].Dialog = "IntroIsabellaAfterCollarKey"; },
 		Dialog: [
 			{
@@ -215,6 +218,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroIsabellaAfterCollarKey",
+		Music: "IsabellaRoom",
 		Dialog: [
 			{
 				Background: "Balcony",
@@ -226,6 +230,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroOliviaBeforeCollarKey",
+		Music: "OliviaRoom",
 		Dialog: [
 			{
 				Background: "BedroomOlivia",
@@ -248,6 +253,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroOliviaAfterCollarKey",
+		Music: "OliviaRoom",
 		Exit : function () { PlatformEventSet("OliviaUnchain"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -305,6 +311,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaBath",
+		Music: "OliviaRoom",
 		Exit : function () { PlatformEventSet("OliviaBath"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -487,6 +494,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaAfterBath",
+		Music: "OliviaRoom",
 		Dialog: [
 			{
 				Background: "BedroomOlivia",
@@ -2713,6 +2721,7 @@ function PlatformDialogRun() {
 	if ((PlatformDialogAnswer != null) && MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
 		PlatformDialogAnswerPosition = Math.floor((MouseY - 695) / 70);
 	PlatformDialogDraw();
+	PlatformBackgroundMusic(PlatformDialog.Music);
 }
 
 /**
