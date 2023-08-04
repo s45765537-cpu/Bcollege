@@ -183,36 +183,39 @@ var PlatformDialogData = [
 				Background: "Balcony",
 				Character: [{ Name: "Isabella", Status: "Winter", Animation: "Idle" }]
 			},
-			{ Text: "You finally made it Melody." },
+			{ Text: "You finally made it Melody.", Audio: "10" },
 			{
 				Text: "Maids must be clean.  Why are you sweaty?",
+				Audio: "20",
 				Answer: [
-					{ Text: "I had a scuffle with other maids.", Reply: "I understand.  They envy your position." },
-					{ Text: "I crushed some jealous maids.", Reply: "Very good, you have a sacred duty to do.", Domination: 2 },
-					{ Text: "Other maids were mean with me Countess.", Reply: "Get stronger, don't let your sisters step on your toes.", Domination: -2 }
+					{ Text: "I had a scuffle with other maids.", Reply: "I understand.  They envy your position.", Audio: "21" },
+					{ Text: "I crushed some jealous maids.", Reply: "Very good, you have a sacred duty to do.", Audio: "22", Domination: 2 },
+					{ Text: "Other maids were mean with me Countess.", Reply: "Get stronger, don't let your sisters step on your toes.", Audio: "23", Domination: -2 }
 				]
 			},
 			{
 				Text: "Do you know why I gave you the unlocking chore?",
+				Audio: "30",
 				Answer: [
-					{ Text: "I don't know.  Please explain.", Reply: "Because you're strong, you're a protector for Olivia." },
-					{ Text: "Because I have a pretty butt.", Reply: "Don't try to be funny, you're better than that.", Love: -2 },
-					{ Text: "Because Lady Olivia means the world to me.", Reply: "Absolutely.  You're her knight, her protector.", Love: 2 }
+					{ Text: "I don't know.  Please explain.", Reply: "Because you're strong, you're a protector for Olivia.", Audio: "31" },
+					{ Text: "Because I have a pretty butt.", Reply: "Don't try to be funny, you're better than that.", Audio: "32", Love: -2 },
+					{ Text: "Because Lady Olivia means the world to me.", Reply: "Absolutely.  You're her knight, her protector.", Audio: "33", Love: 2 }
 				]
 			},
-			{ Text: "Since we lost the war and so many of our men died, we need tough women like you." },
-			{ Text: "There is strength in you Melody.  I've known this since I found you as a baby in that orphanage." },
+			{ Text: "Since we lost the war and so many of our men died, we need tough women like you.", Audio: "40" },
+			{ Text: "There is strength in you Melody.  I've known this since I found you as a baby in that orphanage.", Audio: "50" },
 			{
 				Text: "Do you feel worthy of that collar key?",
+				Audio: "60",
 				Answer: [
-					{ Text: "It's an honor to carry that key.", Reply: "(She nods slowly.)  Don't let anyone steal that honor.", Love: 1, Domination: 1 },
-					{ Text: "I don't know.  Maybe not.", Reply: "(She shakes her head from left to right.)  You talk better with your actions than your words.", Love: -1, Domination: -1 },
-					{ Text: "You should not lock your daughter.", Reply: "Someday you will understand and accept my rules.", Love: -1, Domination: 1 },
-					{ Text: "It's a heavy burden to carry.", Reply: "That's true.  Have more faith in yourself girl.", Love: 1, Domination: -1 }
+					{ Text: "It's an honor to carry that key.", Reply: "(She nods slowly.)  Don't let anyone steal that honor.", Audio: "61", Love: 1, Domination: 1 },
+					{ Text: "I don't know.  Maybe not.", Reply: "(She shakes her head from left to right.)  You talk better with your actions than your words.", Audio: "62", Love: -1, Domination: -1 },
+					{ Text: "You should not lock your daughter.", Reply: "Someday you will understand and accept my rules.", Audio: "63", Love: -1, Domination: 1 },
+					{ Text: "It's a heavy burden to carry.", Reply: "That's true.  Have more faith in yourself girl.", Audio: "64", Love: 1, Domination: -1 }
 				]
 			},
-			{ Text: "Enough chit-chat.  Olivia is waiting for you." },
-			{ Text: "Go unlock my daughter.  (She gives you the collar key and points toward the hallway.)" },
+			{ Text: "Enough chit-chat.  Olivia is waiting for you.", Audio: "70" },
+			{ Text: "Go unlock my daughter.  (She gives you the collar key and points toward the hallway.)", Audio: "80" },
 		]
 	},
 
@@ -224,7 +227,7 @@ var PlatformDialogData = [
 				Background: "Balcony",
 				Character: [{ Name: "Isabella", Status: "Winter", Animation: "Idle" }]
 			},
-			{ Text: "Why are you still here?  Go unlock my daughter.  (She points toward the hallway.)" },
+			{ Text: "Why are you still here?  Go unlock my daughter.  (She points toward the hallway.)", Audio: "10" },
 		]
 	},
 
@@ -236,18 +239,19 @@ var PlatformDialogData = [
 				Background: "BedroomOlivia",
 				Character: [{ Name: "Olivia", Status: "Chained", Animation: "Idle" }]
 			},
-			{ Text: "I'm happy to see you Melody." },
+			{ Text: "I'm happy to see you Melody.", Audio: "10" },
 			{
 				Text: "Do you have the key for my collar?",
+				Audio: "20",
 				Answer: [
-					{ Text: "Where is that key?", Reply: "(She giggles.)  You know that Mother sleeps with it." },
-					{ Text: "No, I'll go get it.", Reply: "(She nods.)  Thanks!  Send my good words to Mother when you see her." },
-					{ Text: "Why are you chained?", Reply: "(She sighs.)  I know that Mother's rules aren't easy to understand.  She keeps me chained to the bed so I don't run away or get kidnapped." },
+					{ Text: "Where is that key?", Reply: "(She giggles.)  You know that Mother sleeps with it.", Audio: "21" },
+					{ Text: "No, I'll go get it.", Reply: "(She nods.)  Thanks!  Send my good words to Mother when you see her.", Audio: "22" },
+					{ Text: "Why are you chained?", Reply: "(She sighs.)  I know that Mother's rules aren't easy to understand.  She keeps me chained to the bed so I don't run away or get kidnapped.", Audio: "23" },
 				]
 			},
-			{ Text: "Countess Isabella is usually on the balcony around that time." },
-			{ Text: "Go upstairs and head east to find the balcony." },
-			{ Text: "Please get the key so we can start the day." }
+			{ Text: "Countess Isabella is usually on the balcony around that time.", Audio: "30" },
+			{ Text: "Go upstairs and head east to find the balcony.", Audio: "40" },
+			{ Text: "Please get the key, so we can start the day.", Audio: "50" }
 		]
 	},
 
@@ -260,48 +264,49 @@ var PlatformDialogData = [
 				Background: "BedroomOlivia",
 				Character: [{ Name: "Olivia", Status: "Chained", Animation: "Idle" }]
 			},
-			{ Text: "Melody!  Do you have the key?" },
+			{ Text: "Melody!  Do you have the key?", Audio: "10" },
 			{
-				Text: "Yes, your Mother sends her salutations.",
+				Text: "Yes, your Mother sends her salutations.", Audio: "20",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 			},
 			{
-				Text: "Great, we have a big day ahead.",
+				Text: "Great, we have a big day ahead.", Audio: "30",
 				Character: [{ Name: "Olivia", Status: "Chained", Animation: "Idle" }]
 			},
 			{
 				Text: "(She tugs on her neck chain.)",
 				Answer: [
-					{ Text: "Why are you chained?", Reply: "(She sighs.)  Mother's rules aren't easy to understand.  She keeps me chained so I don't run away or get kidnapped." },
-					{ Text: "I like to see you in chains.", Reply: "(She bows her head.)  Mother's rules are very strict, but they are for my own good.  I'm glad you like them.", Domination: 2 },
-					{ Text: "An important Lady like you should not be chained.", Reply: "(She nods.)  You're sweet.  Mother's rules are strict but logical.  She's very protective.", Domination: -2 }
+					{ Text: "Why are you chained?", Reply: "(She sighs.)  Mother's rules aren't easy to understand.  She keeps me chained so I don't run away or get kidnapped.", Audio: "41" },
+					{ Text: "I like to see you in chains.", Reply: "(She bows her head.)  Mother's rules are very strict, but they are for my own good.  I'm glad you like them.", Audio: "42", Domination: 2 },
+					{ Text: "An important Lady like you should not be chained.", Reply: "(She nods.)  You're sweet.  Mother's rules are strict but logical.  She's very protective.", Audio: "43", Domination: -2 }
 				]
 			},
 			{
-				Text: "Can you unlock me?",
+				Text: "Can you unlock me?", Audio: "50",
 				Answer: [
-					{ Text: "Yes.  I will unlock you now.", Reply: "(You unlock her collar and she smiles.)  Thank you very much.  I appreciate." },
-					{ Text: "A hug before I unlock you?", Reply: "(You exchange a warm hug before you unlock her.)  You're the best maid around Melody.", Love: 2 },
-					{ Text: "You're spoiled.  (Unlock her.)", Reply: "(You unlock her collar and she pouts.)  I know we come from two different realities.", Love: -2 }
+					{ Text: "Yes.  I will unlock you now.", Reply: "(You unlock her collar and she smiles.)  Thank you very much.  I appreciate.", Audio: "51" },
+					{ Text: "A hug before I unlock you?", Reply: "(You exchange a warm hug before you unlock her.)  You're the best maid around Melody.", Audio: "52", Love: 2 },
+					{ Text: "You're spoiled.  (Unlock her.)", Reply: "(You unlock her collar and she pouts.)  I know we come from two different realities.", Audio: "53", Love: -2 }
 				]
 			},
 			{
+				Audio: "60",
 				Character: [
 					{ Name: "Olivia", Status: "Babydoll", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Thank you very much." },
+			{ Text: "Thank you very much.", Audio: "70" },
 			{
-				Text: "I hope it's not painful or boring to come unlock me every morning.",
+				Text: "I hope it's not painful or boring to come unlock me every morning.", Audio: "80",
 				Answer: [
-					{ Text: "Seeing you is the best part of my day.", Reply: "(She smiles at you.)  You're so sweet.", Love: 1 },
-					{ Text: "It's my duty and honor.", Reply: "(She nods slowly.)  I feel safe knowing you carry that duty.", Domination: 1 },
-					{ Text: "I hope I'll get a vacation someday.", Reply: "(She giggles.)  You can ask Mother, but I doubt it will work.", Domination: -1 },
-					{ Text: "This is kind of pointless.", Reply: "(She sighs.)  I'm sorry you feel that way.", Love: -1 }
+					{ Text: "Seeing you is the best part of my day.", Reply: "(She smiles at you.)  You're so sweet.", Audio: "81", Love: 1 },
+					{ Text: "It's my duty and honor.", Reply: "(She nods slowly.)  I feel safe knowing you carry that duty.", Audio: "82", Domination: 1 },
+					{ Text: "I hope I'll get a vacation someday.", Reply: "(She giggles.)  You can ask Mother, but I doubt it will work.", Audio: "83", Domination: -1 },
+					{ Text: "This is kind of pointless.", Reply: "(She sighs.)  I'm sorry you feel that way.", Audio: "84", Love: -1 }
 				]
 			},
-			{ Text: "It's time for my morning soap, please join me in the bathroom." },
+			{ Text: "It's time for my morning soap, please join me in the bathroom.", Audio: "90" },
 			{
 				Text: "(She leaves for her bathroom.)",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
@@ -318,12 +323,12 @@ var PlatformDialogData = [
 				Background: "BathroomOlivia",
 				Character: [{ Name: "Olivia", Status: "Chastity", Animation: "Idle" }]
 			},
-			{ Text: "A warm bath is the best way to start the day." },
+			{ Text: "A warm bath is the best way to start the day.", Audio: "10", },
 			{
-				Text: "Please help me to get inside.",
+				Text: "Please help me to get inside.", Audio: "20",
 				Answer: [
-					{ Text: "It's my pleasure Lady Olivia.", Reply: "(You help her as she sinks in the bath with a huge smile.)  Such a good maid.", Domination: -1, Love: 1 },
-					{ Text: "You're not a child, get in by yourself.", Reply: "You're in a grumpy mood today.  (She goes in the bath.)", Domination: 1, Love: -1 },
+					{ Text: "It's my pleasure Lady Olivia.", Reply: "(You help her as she sinks in the bath with a huge smile.)  Such a good maid.", Audio: "21", Domination: -1, Love: 1 },
+					{ Text: "You're not a child, get in by yourself.", Reply: "You're in a grumpy mood today.  (She goes in the bath.)", Audio: "22", Domination: 1, Love: -1 },
 					{ Text: "(Help her to get in the bath.)", Reply: "(You help her as she sinks in the bath slowly.)" }
 				]
 			},
@@ -331,69 +336,69 @@ var PlatformDialogData = [
 				Background: "Black",
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
-			{ Text: "(She slides down as her chastity belt makes a loud metallic sound from scraping the bath.)" },
+			{ Text: "(She slides down as her chastity belt makes a loud metallic sound from scraping the bath.)", Audio: "30" },
 			{
-				Text: "Sorry for that noise.  The belt scraped the bath.",
+				Text: "Sorry for that noise.  The belt scraped the bath.", Audio: "40",
 				Answer: [
-					{ Text: "That belt is cruel but necessary.", Reply: "Yes, cruel and necessary indeed.", Domination: 1 },
-					{ Text: "When will you get out?", Reply: "Not until I get married next year." },
-					{ Text: "Aren't you afraid it will get rusted?", Reply: "Don't worry, that belt is indestructible.", Domination: -1 }
+					{ Text: "That belt is cruel but necessary.", Reply: "Yes, cruel and necessary indeed.", Audio: "41", Domination: 1 },
+					{ Text: "When will you get out?", Reply: "Not until I get married next year.", Audio: "42" },
+					{ Text: "Aren't you afraid it will get rusted?", Reply: "Don't worry, that belt is indestructible.", Audio: "43", Domination: -1 }
 				]
 			},
 			{
-				Text: "Would you like to hear why I must wear it?  If you already know that story, we can talk about something else.",
+				Text: "Would you like to hear why I must wear it?  If you already know that story, we can talk about something else.", Audio: "50",
 				Answer: [
-					{ Text: "Tell me about it.", Reply: "Very well, I'll try not to get lost in the details." },
-					{ Text: "I already know.", Reply: "Yes, we already spoke about that belt a few times before.", Goto: "SkipBelt" }
+					{ Text: "Tell me about it.", Reply: "Very well, I'll try not to get lost in the details.", Audio: "51" },
+					{ Text: "I already know.", Reply: "Yes, we already spoke about that belt a few times before.", Audio: "52", Goto: "SkipBelt" }
 				]
 			},
-			{ Text: "All women in my family must wear a chastity belt, from puberty until marriage.  My mother Isabella, my sister Camille, my aunts, my grandmother, everyone." },
-			{ Text: "It's part of an ancient tradition in House Alberus.  It's almost religious.  The belts cannot be destroyed and never rust." },
-			{ Text: "Rumors says we have special powers, and this is a tool to protect us.  They say we are Oracles." },
-			{ Text: "I'm not sure if it's true.  Mother seems to believe it, but I've never seen her do any magic trick." },
-			{ Text: "She told me that she will explain everything on my wedding day.  I wish she wasn't so mysterious." },
-			{ Text: "There's only one key for that belt.  It belongs to Duke Sunesk of Slandia, my future husband." },
-			{ Text: "When we lost the war against Slandia, the key was one of the tributes we had to offer." },
-			{ Text: "I'm getting married next year, I hope the Duke will be a good spouse.  I'm nervous since I've never met him before." },
-			{ Text: "Enough rambling.  I don't have the right to be sad or sour.  I have a privileged life." },
+			{ Text: "All women in my family must wear a chastity belt, from puberty until marriage.  My mother Isabella, my sister Camille, my aunts, my grandmother, everyone.", Audio: "B10" },
+			{ Text: "It's part of an ancient tradition in House Alberus.  It's almost religious.  The belts cannot be destroyed and never rust.", Audio: "B20" },
+			{ Text: "Rumors says we have special powers, and this is a tool to protect us.  They say we are Oracles.", Audio: "B30" },
+			{ Text: "I'm not sure if it's true.  Mother seems to believe it, but I've never seen her do any magic trick.", Audio: "B40" },
+			{ Text: "She told me that she will explain everything on my wedding day.  I wish she wasn't so mysterious.", Audio: "B50" },
+			{ Text: "There's only one key for that belt.  It belongs to Duke Sunesk of Slandia, my future husband.", Audio: "B60" },
+			{ Text: "When we lost the war against Slandia, the key was one of the tributes we had to offer.", Audio: "B70" },
+			{ Text: "I'm getting married next year, I hope the Duke will be a good spouse.  I'm nervous since I've never met him before.", Audio: "B80" },
+			{ Text: "Enough rambling.  I don't have the right to be sad or sour.  I have a privileged life.", Audio: "B90" },
 
 			{
 				ID: "SkipBelt",
-				Text: "Please start scrubbing Melody.",
+				Text: "Please start scrubbing Melody.", Audio: "60",
 				Answer: [
-					{ Text: "(Wash her delicately.)", Reply: "(You wash her delicately as she relaxes.)  Put a little more effort my friend.", Domination: -1 },
-					{ Text: "(Wash her normally.)", Reply: "(You wash her as she smiles.)  I would be miserable without my bath." },
-					{ Text: "(Wash her slowly and passionately.)", Reply: "(She moans as you wash her lovingly.)  Oooooh, Melody.", Love: 2 },
-					{ Text: "(Wash her vigorously.)", Reply: "(She gets rigid as you wash her with strength.)  Wow!  I know I'll be clean.", Domination: 1 }
+					{ Text: "(Wash her delicately.)", Reply: "(You wash her delicately as she relaxes.)  Put a little more effort my friend.", Audio: "61", Domination: -1 },
+					{ Text: "(Wash her normally.)", Reply: "(You wash her as she smiles.)  I would be miserable without my bath.", Audio: "62" },
+					{ Text: "(Wash her slowly and passionately.)", Reply: "(She moans as you wash her lovingly.)  Oooooh, Melody.", Audio: "63", Love: 2 },
+					{ Text: "(Wash her vigorously.)", Reply: "(She gets rigid as you wash her with strength.)  Wow!  I know I'll be clean.", Audio: "64", Domination: 1 }
 				]
 			},
 
-			{ Text: "I've heard you will serve dinner tonight when my sister visits." },
+			{ Text: "I've heard you will serve dinner tonight when my sister visits.", Audio: "70" },
 			{
-				Text: "I haven't seen Camille for two years, since her wedding with Marquess Alister.",
+				Text: "I haven't seen Camille for two years, since her wedding with Marquess Alister.", Audio: "80",
 				Answer: [
-					{ Text: "I've always been scared of her.", Reply: "Don't worry, she yells a lot but she won't hurt you.", Domination: -1 },
-					{ Text: "Do you miss your sister?", Reply: "I do, even if I don't know her that much.  We've never been close." },
-					{ Text: "Camille is a bitch.", Reply: "Please don't say that.  She's my only sister.", Love: -1, Domination: 1 },
-					{ Text: "Let me know if she bullies you.", Reply: "Thanks, I will.  But she probably matured now, it should be fine.", Love: 1, Domination: 1 }
+					{ Text: "I've always been scared of her.", Reply: "Don't worry, she yells a lot but she won't hurt you.", Audio: "81", Domination: -1 },
+					{ Text: "Do you miss your sister?", Reply: "I do, even if I don't know her that much.  We've never been close.", Audio: "82" },
+					{ Text: "Camille is a bitch.", Reply: "Please don't say that.  She's my only sister.", Audio: "83", Love: -1, Domination: 1 },
+					{ Text: "Let me know if she bullies you.", Reply: "Thanks, I will.  But she probably matured now, it should be fine.", Audio: "84", Love: 1, Domination: 1 }
 				]
 			},
-			{ Text: "We are very different, but we both did not choose our husband.  Her wedding was arranged at her birth." },
+			{ Text: "We are very different, but we both did not choose our husband.  Her wedding was arranged at her birth.", Audio: "90" },
 			{
-				Text: "I have a weird feeling, I hope that tonight's dinner will be pleasant.",
+				Text: "I have a weird feeling, I hope that tonight's dinner will be pleasant.", Audio: "100",
 				Answer: [
-					{ Text: "It will be a great feast.", Reply: "(She nods slowly.)  Yes, I should focus on the meal." },
-					{ Text: "What weird feeling?", Reply: "Thanks for asking Melody.  I'm scared, but I don't know why.  There's no reason.", Love: 1 },
-					{ Text: "Don't be so chicken.", Reply: "(She sighs.)  I guess I'm going crazy.", Love: -1, Domination: 1 },
+					{ Text: "It will be a great feast.", Reply: "(She nods slowly.)  Yes, I should focus on the meal.", Audio: "101" },
+					{ Text: "What weird feeling?", Reply: "Thanks for asking Melody.  I'm scared, but I don't know why.  There's no reason.", Audio: "102", Love: 1 },
+					{ Text: "Don't be so chicken.", Reply: "(She sighs.)  I guess I'm going crazy.", Audio: "103", Love: -1, Domination: 1 },
 				]
 			},
-			{ Text: "Sorry if I sound ridiculous." },
+			{ Text: "Sorry if I sound ridiculous.", Audio: "110" },
 			{
-				Text: "I have these strange emotions lately and I cannot control them.",
+				Text: "I have these strange emotions lately and I cannot control them.", Audio: "120",
 				Answer: [
-					{ Text: "You need better self-control.", Reply: "(She nods slowly.)  I know, Mother also told me that.", Domination: 1 },
-					{ Text: "This is really scary.", Reply: "Don't be scared Melody.  Everything will be fine.", Domination: -1 },
-					{ Text: "Maybe it's the Oracle in you.", Reply: "(She shrugs.)  I don't know, maybe you're right." },
+					{ Text: "You need better self-control.", Reply: "(She nods slowly.)  I know, Mother also told me that.", Audio: "121", Domination: 1 },
+					{ Text: "This is really scary.", Reply: "Don't be scared Melody.  Everything will be fine.", Audio: "122", Domination: -1 },
+					{ Text: "Maybe it's the Oracle in you.", Reply: "(She shrugs.)  I don't know, maybe you're right.", Audio: "123" },
 				]
 			},
 			{
@@ -472,22 +477,22 @@ var PlatformDialogData = [
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
 			{ Text: "Thanks you so much Melody, I've learned a lot." },
-			{ ID: "Towel", Text: "Can you give me a towel?  I'd like to get out." },
+			{ ID: "Towel", Text: "Can you give me a towel?  I'd like to get out.", Audio: "130" },
 			{ Text: "(You help her out as she dresses up.)" },
 			{
 				Background: "BathroomOlivia",
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }]
 			},
-			{ Text: "Thanks Melody, what is your next duty today?" },
+			{ Text: "Thanks Melody, what is your next duty today?", Audio: "140" },
 			{
-				Text: "I need to go to the dungeon and clean the restraints.",
+				Text: "I need to go to the dungeon and clean the restraints.", Audio: "150",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 			},
 			{
-				Text: "Very well, I'll ask the staff to open the gate.",
+				Text: "Very well, I'll ask the staff to open the gate.", Audio: "160",
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }]
 			},
-			{ Text: "The dungeon is scary, good luck down there." },
+			{ Text: "The dungeon is scary, good luck down there.", Audio: "170" },
 			{ Text: "(She heads back to her bedroom.)" }
 		]
 	},
@@ -500,8 +505,8 @@ var PlatformDialogData = [
 				Background: "BedroomOlivia",
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }]
 			},
-			{ Text: "The gate leading downstairs should be open." },
-			{ Text: "The dungeon is scary, good luck down there." }
+			{ Text: "The gate leading downstairs should be open.", Audio: "10" },
+			{ Text: "The dungeon is scary, good luck down there.", Audio: "20" }
 		]
 	},
 
@@ -2578,6 +2583,7 @@ var PlatformDialogData = [
  * @returns {void} - Nothing
  */
 function PlatformDialogVoice(Source) {
+	if (!PlatformAllowAudio) return;
 	if ((Source == null) || (Source == "")) {
 		if (PlatformDialogAudio != null) PlatformDialogAudio.pause();
 		return;
@@ -2585,7 +2591,8 @@ function PlatformDialogVoice(Source) {
 	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
 	if (vol > 0) {
 		if (PlatformDialogAudio == null) PlatformDialogAudio = new Audio();
-		PlatformDialogAudio.src = "Screens/Room/Platform/Audio/" + PlatformDialog.Name + "/" + Source + ".mp3";
+		PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/" + PlatformDialog.Name + "/" + Source + ".mp3";
+		PlatformDialogAudio.currentTime = 0.25;
 		PlatformDialogAudio.volume = Math.min(vol, 1);
 		PlatformDialogAudio.play();
 	}
@@ -2612,8 +2619,8 @@ function PlatformDialogLoadPosition(Position) {
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : JSON.parse(JSON.stringify(PlatformDialog.Dialog[Position].Character));
-	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
 	PlatformDialogVoice(PlatformDialog.Dialog[Position].Audio);
+	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
 }
 
 /**
@@ -2792,8 +2799,8 @@ function PlatformDialogPickAnswer(Position) {
 							Character.Love = PlatformDialogChangeValue(Character.Love, Answer.Love, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel);
 							Character.Domination = PlatformDialogChangeValue(Character.Domination, Answer.Domination, PlatformDialogLeaderHasPerk("Persuasion"), Character.OwnerLevel);
 						}
+				if (PlatformDialogGoto == null) PlatformDialogVoice(Answer.Audio);
 				if (Answer.Script != null) Answer.Script();
-				PlatformDialogVoice(Answer.Audio);
 			}
 			P++;
 		}

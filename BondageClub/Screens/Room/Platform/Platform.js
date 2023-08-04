@@ -8,6 +8,7 @@ var PlatformViewX = 0;
 var PlatformViewY = 200;
 var PlatformRoom = null;
 var PlatformMusic = null;
+var PlatformAllowAudio = true;
 var PlatformGravitySpeed = 6;
 var PlatformLastKeyCode = 0;
 var PlatformLastKeyTime = 0;
@@ -52,6 +53,8 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 30,
+		DamageAudio: ["Melody0", "Melody1", "Generic0", "Generic1"],
+		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 150 },
@@ -70,10 +73,10 @@ var PlatformTemplate = [
 			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], Speed: 43 },
 		],
 		Attack: [
-			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 },
-			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "CrouchAttackSlow", HitBox: [0.8, 0.7, 1, 0.8], HitAnimation: [5, 6, 7, 8, 9], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 }
+			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 },
+			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackSlow", HitBox: [0.8, 0.7, 1, 0.8], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 }
 		]
 	},
 	{
@@ -97,6 +100,7 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
+		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 },
 			{ Name: "HalfBoundIdle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
@@ -148,6 +152,7 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
+		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 130 },
@@ -1828,6 +1833,7 @@ function PlatformDamage(Source, Target, Damage, Time, Type) {
 		Target.RiseTime = Time + (PlatformHasPerk(Target, "Vigorous") ? 7000 : 10000);
 		Target.Immunity = Time + 2000;
 	}
+	PlatformSoundEffect("Damage", Target.DamageAudio);
 }
 
 /**
@@ -1883,6 +1889,34 @@ function PlatformHitBoxClash(Source, Target, HitBox) {
 }
 
 /**
+ * Plays a sound effect if needed
+ * @param {String} Category - The sound effect category
+ * @param {Object} Sound - The sound or array of sound to play
+ * @param {Number} Factor - The volume factor to apply
+ * @returns {void} - Nothing
+ */
+function PlatformSoundEffect(Category, Sound, Factor = 0.4) {
+
+	// Selects a sound effect from the list
+	if (!PlatformAllowAudio) return;
+	if ((Category == null) || (Sound == null)) return;
+	let Select = "";
+	if (typeof Sound === "string") Select = Sound;
+	else if (CommonIsArray(Sound)) Select = CommonRandomItemFromList("", Sound).toString();
+
+	// If volume is more than zero, we start the sound effect
+	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	if (vol > 0) {
+		let SoundEffect = new Audio();
+		SoundEffect.currentTime = 0;
+		SoundEffect.src = "Screens/Room/Platform/Audio/" + Category + "/" + Select + ".mp3";
+		SoundEffect.volume = Math.min(vol, 1) * Factor;
+		SoundEffect.play();
+	}
+
+}
+
+/**
  * Checks if the character action can attack someone else
  * @param {Object} Source - The character doing the action
  * @param {Number} Time - The current time when the action is done
@@ -1894,15 +1928,20 @@ function PlatformProcessAction(Source, Time) {
 		if ((Target.ID != Source.ID) && (Target.Health > 0) && Target.Combat && ((Target.Immunity == null) || (Target.Immunity < Time))) {
 			let HitBox = null;
 			let Damage = 0;
+			let Audio = null;
 			if (Source.Attack != null)
 				for (let Attack of Source.Attack)
 					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
 						Damage = Attack.Damage[Source.Level];
 						HitBox = Attack.HitBox;
+						Audio = Attack.HitAudio;
 						break;
 					}
-			if (PlatformHitBoxClash(Source, Target, HitBox))
-				return PlatformDamage(Source, Target, Damage, Time, "Action");
+			if (PlatformHitBoxClash(Source, Target, HitBox)) {
+				PlatformSoundEffect("Hit", Audio);
+				PlatformDamage(Source, Target, Damage, Time, "Action");
+				return;
+			}
 		}
 }
 
@@ -2345,6 +2384,7 @@ function PlatformDrawRightButtons() {
 function PlatformBackgroundMusic(Music) {
 
 	// If no music should play
+	if (!PlatformAllowAudio) return;
 	if ((Music == null) || (Music == "")) {
 		if ((PlatformMusic != null) && !PlatformMusic.paused) PlatformMusic.pause();
 		return;
@@ -2358,7 +2398,7 @@ function PlatformBackgroundMusic(Music) {
 		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
 			PlatformMusic.currentTime = 0;
 			PlatformMusic.src = FileName;
-			PlatformMusic.volume = Math.min(vol, 1) * 0.2;
+			PlatformMusic.volume = Math.min(vol, 1) * 0.1;
 			PlatformMusic.play();
 			PlatformMusic.addEventListener('ended', function() {
 				PlatformMusic.currentTime = 0;
@@ -2378,8 +2418,9 @@ function PlatformRun() {
 	PlatformDraw();
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	if (PlatformHeal != null) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Save.png", TextGet("Save"));
-	if (PlatformHeal != null) DrawButton(1700, 10, 90, 90, "", "White", "Icons/Character.png", TextGet("Character"));
-	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1600, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
+	if (PlatformHeal != null) DrawButton(1700, 10, 90, 90, "", "White", "Icons/Audio" + (PlatformAllowAudio ? "On" : "Off") + ".png", TextGet("AudioToggle"));
+	if (PlatformHeal != null) DrawButton(1600, 10, 90, 90, "", "White", "Icons/Character.png", TextGet("Character"));
+	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1500, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
 	if ((PlatformHeal != null) && PlatformSaveMode)
 		for (let S = 0; S < 10; S++)
 			DrawButton(250 + (S * 157), 200, 90, 90, S.toString(), "White", "", TextGet("SaveOn") + S.toString());
@@ -2413,7 +2454,17 @@ function PlatformAttack(Source, Type) {
 				}
 				if (Type == "Backflip") Source.ForceX = (Source.FaceLeft ? 1 : -1) * (PlatformHasPerk(Source, "Acrobat") ? 180 : 120);
 				Source.Action = { Name: Type, Start: CommonTime(), Expire: CommonTime() + Attack.Speed };
+				PlatformSoundEffect("Attack", Attack.StartAudio);
 			}
+}
+
+/**
+ * Toggles the audio on or off
+ * @returns {void} - Nothing
+ */
+function PlatformAudioToggle() {
+	if (PlatformAllowAudio) PlatformBackgroundMusic(null);
+	PlatformAllowAudio = !PlatformAllowAudio;
 }
 
 /**
@@ -2431,8 +2482,9 @@ function PlatformClick() {
 		if (PlatformSaveMode) PlatformMessageSet(TextGet("SelectSave"));
 		return;
 	}
-	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null)) return CommonSetScreen("Room", "PlatformProfile");
-	if (MouseIn(1600, 10, 90, 90) && (PlatformHeal != null)) return PlatformPartyNext();
+	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null)) return PlatformAudioToggle();
+	if (MouseIn(1600, 10, 90, 90) && (PlatformHeal != null)) return CommonSetScreen("Room", "PlatformProfile");
+	if (MouseIn(1500, 10, 90, 90) && (PlatformHeal != null)) return PlatformPartyNext();
 	if (!CommonIsMobile && !PlatformPlayer.HalfBound) PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 	for (let B = 0; B < PlatformRightButtons.length; B++)
 		if (MouseIn(1900, 10 + (B + 1) * 100, 90, 90))
@@ -2489,6 +2541,7 @@ function PlatformBindStart(Source) {
 			C.RiseTime = CommonTime() + 10000;
 			Source.ForceX = 0;
 			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + (PlatformHasPerk(PlatformPlayer, "Kidnapper") ? 1200 : 2400)};
+			PlatformSoundEffect("Bind", Source.BindAudio, 1);
 			return;
 		}
 }

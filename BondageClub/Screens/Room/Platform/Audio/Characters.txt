@@ -1,2 +1,4 @@
 Melody - Microsoft Azure - English US - Michelle - Rate: 1:00 - Pitch 3 - Volume 100
-Hazel - Microsoft Azure - English Ireland - Rate: 1:00 - Pitch 12 - Volume 100
+Hazel - Microsoft Azure - English Ireland - Emily - Rate: 1:00 - Pitch 12 - Volume 100
+Olivia - Microsoft Azure - English UK - Sonia - Rate: 1:00 - Pitch 8 - Volume 100
+Isabella - Microsoft Azure - English UK - Libby - Rate: 1:00 - Pitch -8 - Volumn 100
