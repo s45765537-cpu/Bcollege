@@ -813,7 +813,7 @@ var PlatformRoomList = [
 		Text: "Countess Hall",
 		Background: "Castle/CountessHallDeadEnd",
 		AlternateBackground: "Castle/CountessHallClosed",
-		Music: "IsabellaRoom",
+		Music: "CamilleCastleBattle",
 		Width: 2400,
 		Height: 1200,
 		LimitLeft: 200,
@@ -832,7 +832,7 @@ var PlatformRoomList = [
 		},
 		Text: "Countess Terrace",
 		Background: "Castle/Terrace",
-		Music: "IsabellaRoom",
+		Music: "MelodyRoom",
 		Width: 2000,
 		Height: 1200,
 		LimitLeft: 200,
@@ -846,6 +846,7 @@ var PlatformRoomList = [
 		Entry: function() { if (!PlatformEventDone("CursedMaid") && PlatformEventDone("Curse")) PlatformDialogStart("CursedMaid"); },
 		Text: "2F - Storehouse Hallway - Center",
 		Background: "Castle/Hall2C",
+		Music: "CastleHall",
 		Width: 8200,
 		Height: 1200,
 		LimitLeft: 200,
@@ -870,6 +871,7 @@ var PlatformRoomList = [
 		},
 		Text: "Wine Cellar",
 		Background: "Castle/WineCellar",
+		Music: "CastleHall",
 		Width: 3000,
 		Height: 1200,
 		Door: [
@@ -884,6 +886,7 @@ var PlatformRoomList = [
 		},
 		Text: "1F - Guard Hallway - Center",
 		Background: "Castle/Hall1C",
+		Music: "CastleDungeon",
 		Width: 4000,
 		Height: 1200,
 		LimitRight: 3800,
@@ -902,6 +905,7 @@ var PlatformRoomList = [
 		},
 		Text: "1F - Guard Hallway - West",
 		Background: "Castle/Hall1W",
+		Music: "CastleDungeon",
 		Width: 6400,
 		Height: 1200,
 		LimitLeft: 200,
@@ -922,6 +926,7 @@ var PlatformRoomList = [
 		Text: "Dungeon Hallway - West",
 		Background: "Castle/Dungeon1W",
 		BackgroundFilter: "#00000040",
+		Music: "CastleDungeon",
 		Width: 6200,
 		Height: 1200,
 		LimitLeft: 200,
@@ -944,6 +949,7 @@ var PlatformRoomList = [
 		Text: "Dungeon Hallway - East",
 		Background: "Castle/Dungeon1C",
 		BackgroundFilter: "#00000040",
+		Music: "CastleDungeon",
 		Width: 4400,
 		Height: 1200,
 		LimitRight: 4200,
@@ -961,6 +967,7 @@ var PlatformRoomList = [
 		Text: "Dungeon Bedroom (heal and save)",
 		Background: "Castle/BedroomDungeon",
 		BackgroundFilter: "#00000080",
+		Music: "MelodyRoom",
 		Width: 2200,
 		Height: 1200,
 		Heal: 250,
@@ -980,6 +987,7 @@ var PlatformRoomList = [
 		Text: "Dungeon Cell",
 		Background: "Castle/DungeonCell",
 		BackgroundFilter: "#00000080",
+		Music: "CastleDungeon",
 		Width: 2000,
 		Height: 1200,
 		Door: [
@@ -994,6 +1002,7 @@ var PlatformRoomList = [
 		Text: "Dungeon Restraints Storage",
 		Background: "Castle/DungeonStorage",
 		BackgroundFilter: "#00000060",
+		Music: "CastleDungeon",
 		Width: 2000,
 		Height: 1200,
 		Door: [
@@ -2398,7 +2407,7 @@ function PlatformBackgroundMusic(Music) {
 		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
 			PlatformMusic.currentTime = 0;
 			PlatformMusic.src = FileName;
-			PlatformMusic.volume = Math.min(vol, 1) * 0.1;
+			PlatformMusic.volume = Math.min(vol, 1) * 0.15;
 			PlatformMusic.play();
 			PlatformMusic.addEventListener('ended', function() {
 				PlatformMusic.currentTime = 0;

@@ -407,76 +407,80 @@ var PlatformDialogData = [
 					PlatformDialogProcess();
 				}
 			},
-			{ ID: "Orgasm", Text: "(She takes a long breath.)  Melody, you're such a dear friend." },
-			{ Text: "(She blushes.)  I have a very personal question for you." },
+			{ ID: "Orgasm", Text: "(She takes a long breath.)  Melody, you're such a dear friend.", Audio: "O10" },
+			{ Text: "(She blushes.)  I have a very personal question for you.", Audio: "O20" },
 			{
-				Text: "How does it feel to have an orgasm?",
+				Text: "How does it feel to have an orgasm?", Audio: "O30",
 				Answer: [
-					{ Text: "It's overrated.", Reply: "Please be honest.  You're not my mother.", Love: -1 },
+					{ Text: "It's overrated.", Reply: "Please be honest.  You're not my mother.", Audio: "O31", Love: -1 },
 					{ Text: "Why do you ask?", Reply: "(She blushes some more and ponders.)" },
-					{ Text: "It's heaven.  I wish I could give you one.", Reply: "(She nods.)  That would be wonderful.", Love: 1 },
-					{ Text: "I don't know.  I'm not married.", Reply: "Please be honest.  I know you've had some adventures.", Love: -1 },
+					{ Text: "It's heaven.  I wish I could give you one.", Reply: "(She nods.)  That would be wonderful.", Audio: "O33", Love: 1 },
+					{ Text: "I don't know.  I'm not married.", Reply: "Please be honest.  I know you've had some adventures.", Audio: "O34", Love: -1 },
 				]
 			},
-			{ Text: "This belt protects me, but also shields me from life's pleasures." },
+			{ Text: "This belt protects me, but also shields me from life's pleasures.", Audio: "O40" },
 			{
-				Text: "Should I have an orgasm?",
+				Text: "Should I have an orgasm?", Audio: "O50",
 				Answer: [
-					{ Text: "Yes, but you might need patience.", Reply: "Yes, lots of patience.  I'm too curious." },
-					{ Text: "Yes Lady Olivia.  If only I could help you.", Reply: "You're a wonderful maid.  I'm too curious.", Domination: -1 },
-					{ Text: "The Duke of Slandia will take care of that.", Reply: "I know, but I wish I could experiment first.  I'm too curious.", Domination: 1 },
+					{ Text: "Yes, but you might need patience.", Reply: "Yes, lots of patience.  I'm too curious.", Audio: "O51" },
+					{ Text: "Yes Lady Olivia.  If only I could help you.", Reply: "You're a wonderful maid.  I'm too curious.", Audio: "O52", Domination: -1 },
+					{ Text: "The Duke of Slandia will take care of that.", Reply: "I know, but I wish I could experiment first.  I'm too curious.", Audio: "O53", Domination: 1 },
 				]
 			},
-			{ Text: "I bet it feels so nice and relaxing, like spring flowers." },
+			{ Text: "I bet it feels so nice and relaxing, like spring flowers.", Audio: "O60" },
 			{
-				Text: "Melody, could you show me an orgasm?",
+				Text: "Melody, could you show me an orgasm?", Audio: "O70",
 				Answer: [
 					{ Text: "(Nod politely and get naked.)", Reply: "(She smirks as you strip down.)", Domination: -1 },
 					{ Text: "My pleasure.  (Get naked.)", Reply: "(She smiles as you strip down.)" },
-					{ Text: "Olivia, this is not appropriate.", Reply: "(She bows her head.)  Of course, sorry about that.", Goto: "Towel", Domination: 1 },
-					{ Text: "(Blush.)  Sorry, not now.", Reply: "I understand, sorry about that.", Goto: "Towel" },
+					{ Text: "Olivia, this is not appropriate.", Reply: "(She bows her head.)  Of course, sorry about that.", Audio: "O73", Goto: "Towel", Domination: 1 },
+					{ Text: "(Blush.)  Sorry, not now.", Reply: "I understand, sorry about that.", Audio: "O74", Goto: "Towel" },
 				]
 			},
 			{
 				Text: "(You slowly get naked and expose your body.)",
 				Character: [{ Name: "Melody", Status: "Naked", Pose: "CoverBreast" }]
 			},
-			{ Text: "It's been a long while since we got naked together." },
-			{ Text: "Since we were little girls, way before we became adults." },
-			{ Text: "Let me show you an orgasm.  (You wink at her.)" },
+			{ Text: "It's been a long while since we got naked together.", Audio: "O80" },
+			{ Text: "Since we were little girls, way before we became adults.", Audio: "O90" },
+			{ Text: "Let me show you an orgasm.  (You wink at her.)", Audio: "O100" },
 			{
 				Text: "(You slowly start to masturbate your breast and pussy lips.)",
 				Character: [{ Name: "Melody", Status: "Naked", Pose: "Masturbate" }]
 			},
-			{ Text: "You first need to learn your body and how it reacts." },
-			{ Text: "Some prefer the clitoris, others the vagina, and others the butt, breast and more." },
-			{ Text: "Discovering your body is both important and fun." },
+			{ Text: "You first need to learn your body and how it reacts.", Audio: "O120" },
+			{ Text: "Some prefer the clitoris, others the vagina, and others the butt, breast and more.", Audio: "O130" },
+			{ Text: "Discovering your body is both important and fun.", Audio: "O140" },
 			{ Text: "(You start to masturbate lovingly and moan lightly.)" },
-			{ Text: "Aaaaaaafter some stimulation, the pleasure starts to build." },
-			{ Text: "It will grow stronger and stronger, getting you on the edge." },
-			{ Text: "Oooooooooonce on the edge, you can go slowly to keep that feeling." },
-			{ Text: "Or gain momentum to reach the orgasm." },
+			{ Text: "Aaaaaaafter some stimulation, the pleasure starts to build.", Audio: "O160" },
+			{ Text: "It will grow stronger and stronger, getting you on the edge.", Audio: "O170" },
+			{ Text: "Oooooooooonce on the edge, you can go slowly to keep that feeling.", Audio: "O180" },
+			{ Text: "Or gain momentum to reach the orgasm.", Audio: "O190" },
 			{ Text: "(You masturbate faster and moan loudly.)" },
-			{ Text: "Iiiiiiiii'm very cl cl close now." },
-			{ Text: "It it it becomes haaaaaaard to stay in control." },
-			{ TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Can I have my orgasm Lady Olivia?" : "It's time for the climax"; } },
+			{ Text: "Iiiiiiiii'm very cl cl close now.", Audio: "O200" },
+			{ Text: "It it it becomes haaaaaaard to stay in control.", Audio: "O210" },
+			{ 
+				TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Can I have my orgasm Lady Olivia?" : "It's time for the climax."; },
+				AudioScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "O221" : "O222"; }
+			},
 			{
 				TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Yes, you can have your orgasm my maid." : "(She smiles and watches you carefully.)"; },
+				AudioScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "O231" : null; },
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
 			{
 				Entry: function() { PlatformEventSet("OliviaBathOrgasm"); PlatformAddExperience(PlatformPlayer, 10); },
-				Text: "Yes!  Yeah!  Eeeeeeeeeeeeaaaaaaaaahhh!",
+				Text: "Yes!  Yeah!  Eeeeeeeeeeeeaaaaaaaaahhh!", Audio: "O240",
 				Character: [{ Name: "Melody", Status: "Naked", Pose: "MasturbateOrgasm" }]
 			},
 			{ Text: "(You get a wonderful orgasm right in front of her.)" },
-			{ Text: "Aaaaaaahhh, and the moment after the orgasm is also great." },
-			{ Text: "I hope you enjoyed the orgasm class." },
+			{ Text: "Aaaaaaahhh, and the moment after the orgasm is also great.", Audio: "O260" },
+			{ Text: "I hope you enjoyed the orgasm class.", Audio: "O270" },
 			{
 				Text: "(You dress back up as she relaxes in the bath with a huge smile.)",
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
-			{ Text: "Thanks you so much Melody, I've learned a lot." },
+			{ Text: "Thank you so much Melody, I've learned a lot.", Audio: "O290" },
 			{ ID: "Towel", Text: "Can you give me a towel?  I'd like to get out.", Audio: "130" },
 			{ Text: "(You help her out as she dresses up.)" },
 			{
@@ -512,6 +516,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroGuardBeforeCurse",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("IntroGuard"); },
 		Dialog: [
 			{
@@ -519,43 +524,43 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lucy", Status: "Armor", Pose: "Idle" }]
 			},
 			{ Text: "(As you enter the first floor, a guard greets you.)" },
-			{ Text: "Sorry little maid, you cannot clean here.  We are expecting a prestige guest very soon." },
+			{ Text: "Sorry little maid, you cannot clean here.  We are expecting a prestige guest very soon.", Audio: "20" },
 			{
 				Character: [
 					{ Name: "Lucy", Status: "Armor", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
-				Text: "All maids must work upstairs.",
+				Text: "All maids must work upstairs.", Audio: "30",
 				Answer: [
-					{ Text: "What prestige guest?", Reply: "Marchioness Camille of House Alister will be arriving shortly." },
-					{ Text: "I will not bother Marchioness Camille.", Reply: "Good, she doesn't want to questioned or bothered." },
-					{ Text: "Camille isn't prestigious.", Reply: "Do not be impolite!  Especially when she arrives." },
-					{ Text: "I need to clean the dungeon restraints.", Reply: "You're Melody aren't you?  We've been warned by Countess Isabella.", Goto: "End" }
+					{ Text: "What prestige guest?", Reply: "Marchioness Camille of House Alister will be arriving shortly.", Audio: "31" },
+					{ Text: "I will not bother Marchioness Camille.", Reply: "Good, she doesn't want to be questioned or bothered.", Audio: "32" },
+					{ Text: "Camille isn't prestigious.", Reply: "Do not be impolite!  Especially when she arrives.", Audio: "33" },
+					{ Text: "I need to clean the dungeon restraints.", Reply: "You're Melody aren't you?  We've been warned by Countess Isabella.", Audio: "34", Goto: "End" }
 				]
 			},
 			{
 				Character: [{ Name: "Lucy", Status: "Armor", Pose: "Idle" }],
-				Text: "Marchioness Camille wants to do a full review of the guards when she arrives."
+				Text: "Marchioness Camille wants to do a full review of the guards when she arrives.", Audio: "40"
 			},
-			{ Text: "It's quite unusual since she doesn't live here anymore." },
-			{ Text: "She's a fierce swordswoman as you might know, with a boiling demeanor." },
-			{ Text: "You don't want to be there when she comes for the review." },
+			{ Text: "It's quite unusual since she doesn't live here anymore.", Audio: "50" },
+			{ Text: "She's a fierce swordswoman as you might know, with a boiling demeanor.", Audio: "60" },
+			{ Text: "You don't want to be there when she comes for the review.", Audio: "70" },
 			{
 				Character: [
 					{ Name: "Lucy", Status: "Armor", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
-				Text: "Why did you come downstairs?",
+				Text: "Why did you come downstairs?", Audio: "80",
 				Answer: [
-					{ Text: "I must clean the restraints.", Reply: "You're Melody aren't you?  We've been warned by Countess Isabella." },
-					{ Text: "I'm going to the dungeon.", Reply: "To clean the restraints?  We've been warned by Countess Isabella." },
-					{ Text: "Countess Isabella gave me a secret mission.", Reply: "(She laughs.)  It's not a secret.  You're here to clean restraints.  We've been warned by Countess Isabella." }
+					{ Text: "I must clean the restraints.", Reply: "You're Melody aren't you?  We've been warned by Countess Isabella.", Audio: "81" },
+					{ Text: "I'm going to the dungeon.", Reply: "To clean the restraints?  We've been warned by Countess Isabella.", Audio: "82" },
+					{ Text: "Countess Isabella gave me a secret mission.", Reply: "(She laughs.)  It's not a secret.  You're here to clean restraints.  We've been warned by Countess Isabella.", Audio: "83" }
 				]
 			},
 			{
 				ID: "End",
 				Character: [{ Name: "Lucy", Status: "Armor", Pose: "Idle" }],
-				Text: "You may proceed.  Walk the hall to reach the dungeon."
+				Text: "You may proceed.  Walk the hall to reach the dungeon.", Audio: "90"
 			},
 			{ Text: "(She starts to patrol the hallway.)" }
 		]
@@ -563,6 +568,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroGuardAfterCurse",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("IntroGuardCurse"); },
 		Dialog: [
 			{
@@ -588,6 +594,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "CursedMaid",
+		Music: "CastleHall",
 		Exit : function () { PlatformEventSet("CursedMaid"); },
 		Dialog: [
 			{
@@ -614,6 +621,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroEdlaranBeforeCurseStart",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("EdlaranIntro"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -680,6 +688,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroEdlaranBeforeCurseEnd",
+		Music: "CastleDungeon",
 		Dialog: [
 			{
 				Background: "DungeonCell",
@@ -701,6 +710,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroEdlaranAfterCurseStart",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("EdlaranCurseIntro"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -748,6 +758,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroEdlaranAfterCurseEnd",
+		Music: "CastleDungeon",
 		Dialog: [
 			{
 				Background: "DungeonCell",
@@ -762,6 +773,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranUnlock",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("EdlaranUnlock"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -811,6 +823,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranBedroomIsabella",
+		Music: "IsabellaRoom",
 		Exit : function () { PlatformEventSet("EdlaranBedroomIsabella"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -976,6 +989,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranWineCellar",
+		Music: "CastleHall",
 		Exit : function () { PlatformEventSet("EdlaranWineCellar"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -1019,6 +1033,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ChestRestraintsBeforeCurse",
+		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("Curse"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -1045,7 +1060,7 @@ var PlatformDialogData = [
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "CurseStart" }],
 				Text: "(As you finish your work, everything goes dark.)"
 			},
-			{ Text: "(You hear a loud woman scream coming from upstairs.)" },
+			{ Text: "(You hear a loud woman scream coming from upstairs.)", Audio: "OliviaScream" },
 			{ Text: "(The scream fades and everything becomes very silent.)" },
 			{ Text: "(The world around you is dark, silent and oppressing.)" },
 			{
@@ -1059,6 +1074,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ChestRestraintsAfterCurse",
+		Music: "CastleDungeon",
 		Dialog: [
 			{
 				Text: "(The dungeon restraints are clean.)",
@@ -1070,6 +1086,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaCurseIntro",
+		Music: "OliviaRoom",
 		Exit : function () { PlatformEventSet("OliviaCurseIntro"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -1122,6 +1139,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaCurse",
+		Music: "OliviaRoom",
 		Dialog: [
 			{
 				Text: "Please be careful Melody.",
@@ -1136,6 +1154,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaCurseRelease",
+		Music: "OliviaRoom",
 		Exit : function () { PlatformEventSet("OliviaCurseRelease"); PlatformPartyBuild(); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -1191,6 +1210,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaLearnMagic",
+		Music: "OliviaRoom",
 		Dialog: [
 			{
 				Background: "Black",
@@ -1268,6 +1288,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "CamilleIntro",
+		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
 				Background: "CountessHall",
@@ -1317,6 +1338,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "CamilleDefeat",
+		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
 				Text: "Mel...  Melody...  How could you...",
@@ -1361,6 +1383,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "CamilleDefeatEnd",
+		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
 				Text: "Go help Olivia.",
@@ -1373,6 +1396,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "CamilleEscape",
+		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
 				Background: "CountessHall",
@@ -1400,6 +1424,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaTerrace",
+		Music: "MelodyRoom",
 		Exit : function () { PlatformEventSet("OliviaTerrace"); PlatformLoadRoom(); },
 		Dialog: [
 			{
@@ -1483,6 +1508,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranTerrace",
+		Music: "MelodyRoom",
 		Dialog: [
 			{
 				Background: "Terrace",
@@ -2619,7 +2645,9 @@ function PlatformDialogLoadPosition(Position) {
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : JSON.parse(JSON.stringify(PlatformDialog.Dialog[Position].Character));
-	PlatformDialogVoice(PlatformDialog.Dialog[Position].Audio);
+	let Audio = PlatformDialog.Dialog[Position].Audio;
+	if (PlatformDialog.Dialog[Position].AudioScript != null) Audio = PlatformDialog.Dialog[Position].AudioScript();
+	PlatformDialogVoice(Audio);
 	if (PlatformDialog.Dialog[Position].Entry != null) PlatformDialog.Dialog[Position].Entry();
 }
 
@@ -2799,7 +2827,7 @@ function PlatformDialogPickAnswer(Position) {
 							Character.Love = PlatformDialogChangeValue(Character.Love, Answer.Love, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel);
 							Character.Domination = PlatformDialogChangeValue(Character.Domination, Answer.Domination, PlatformDialogLeaderHasPerk("Persuasion"), Character.OwnerLevel);
 						}
-				if (PlatformDialogGoto == null) PlatformDialogVoice(Answer.Audio);
+				PlatformDialogVoice(Answer.Audio);
 				if (Answer.Script != null) Answer.Script();
 			}
 			P++;
