@@ -147,6 +147,15 @@ var ClubCardList = [
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 		}
 	},
+	{
+		ID: 1017,
+		Name: "Wannabe Princess",
+		FamePerTurn: 1,
+		Reward: "Bondage-Brawl-Maid",
+		OnTurnEnd: function(CCPlayer) {
+			if ((CCPlayer.Level != null) && (CCPlayer.Level >= 5)) ClubCardPlayerAddFame(CCPlayer, 2);
+		}
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{

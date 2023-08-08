@@ -111,6 +111,8 @@ Title LARP Queen,LARP Queen
 Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt."
 Title Local Influencer,Local Influencer
 Text Local Influencer,You lose 4 Money and draw a card when she enters your club.
+Title Wannabe Princess,Wannabe Princess
+Text Wannabe Princess,+2 Fame per turn if your building level is a Manor.
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer

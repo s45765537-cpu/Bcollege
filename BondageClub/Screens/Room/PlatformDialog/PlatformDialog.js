@@ -628,58 +628,58 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "Hey!  Hey maid!  Can you help me?" },
+			{ Text: "Hey!  Hey maid!  Can you help me?", Audio: "10" },
 			{
-				Text: "Can you unlock me?",
+				Text: "Can you unlock me?", Audio: "20",
 				Answer: [
-					{ Text: "Why are you chained?", Reply: "For no reason.  I swear it's true!" },
-					{ Text: "You know you're a cute prisoner?", Reply: "(She blushes.)  Well thanks, I guess.", Domination: 1, Love: 1 },
-					{ Text: "There's too many rats in that dungeon.", Reply: "(She grumbles.)  That's not very kind!", Love: -2 },
-					{ Text: "This is cruel and inhumane.", Reply: "(She nods.)  That's very true girl.", Domination: -1, Love: 1 }
+					{ Text: "Why are you chained?", Reply: "For no reason.  I swear it's true!", Audio: "21" },
+					{ Text: "You know you're a cute prisoner?", Reply: "(She blushes.)  Well thanks, I guess.", Audio: "22", Domination: 1, Love: 1 },
+					{ Text: "There's too many rats in that dungeon.", Reply: "(She grumbles.)  That's not very kind!", Audio: "23", Love: -2 },
+					{ Text: "This is cruel and inhumane.", Reply: "(She nods.)  That's very true girl.", Audio: "24", Domination: -1, Love: 1 }
 				]
 			},
-			{ Text: "The manor guards jumped on me without any reason or warning." },
-			{ Text: "They chained me up and locked me in that cell." },
+			{ Text: "The manor guards jumped on me without any reason or warning.", Audio: "30" },
+			{ Text: "They chained me up and locked me in that cell.", Audio: "40" },
 			{
-				Text: "Release me before they come back.",
+				Text: "Release me before they come back.", Audio: "50",
 				Answer: [
-					{ Text: "You must be lying.", Reply: "Fine!  I admit I was inside the manor without permission.", Love: -1 },
-					{ Text: "It's hard to believe.", Reply: "Alright, I was inside the manor without permission." },
-					{ Text: "The guards can be too strict.", Reply: "Yeah, simply because I was inside the manor without permission.", Love: 1 }
+					{ Text: "You must be lying.", Reply: "Fine!  I admit I was inside the manor without permission.", Audio: "51", Love: -1 },
+					{ Text: "It's hard to believe.", Reply: "Alright, I was inside the manor without permission.", Audio: "52" },
+					{ Text: "The guards can be too strict.", Reply: "Yeah, simply because I was inside the manor without permission.", Audio: "53", Love: 1 }
 				]
 			},
-			{ Text: "Is it a crime to enter a building without being invited?  Don't answer." },
-			{ Text: "These silly guards think I'm a thief, it's so unfair." },
+			{ Text: "Is it a crime to enter a building without being invited?  Don't answer.", Audio: "60" },
+			{ Text: "These silly guards think I'm a thief, it's so unfair.", Audio: "70" },
 			{
-				Text: "They must be racist.",
+				Text: "They must be racist.", Audio: "80",
 				Answer: [
-					{ Text: "Racist?  Why?", Reply: "(She wiggles her ears.)  Isn't it obvious?  I'm an elf.", Domination: -1 },
-					{ Text: "Elves have a bad reputation?", Reply: "I don't know, it's the first time I come here." },
-					{ Text: "It's not racism.  They enforce the law.", Reply: "(Sighs.)  Well the law is unfair then.", Domination: 1 },
+					{ Text: "Racist?  Why?", Reply: "(She wiggles her ears.)  Isn't it obvious?  I'm an elf.", Audio: "81", Domination: -1 },
+					{ Text: "Elves have a bad reputation?", Reply: "I don't know, it's the first time I come here.", Audio: "82" },
+					{ Text: "It's not racism.  They enforce the law.", Reply: "(Sighs.)  Well the law is unfair then.", Audio: "83", Domination: 1 },
 				]
 			},
-			{ Text: "I'm Edlaran by the way, a wood elf archer." },
-			{ Text: "I protect travelers, but we were attacked by zombies." },
-			{ Text: "I came here for help, but they wanted to take my bow, so I aimed for a guard." },
-			{ Text: "Is it a crime to threaten a guard?  Don't answer."},
-			{ Text: "So after an unsuccessful negotiation, they threw me in jail."},
+			{ Text: "I'm Edlaran by the way, a wood elf archer.", Audio: "90" },
+			{ Text: "I protect travelers, but we were attacked by zombies.", Audio: "100" },
+			{ Text: "I came here for help, but they wanted to take my bow, so I aimed for a guard.", Audio: "110" },
+			{ Text: "Is it a crime to threaten a guard?  Don't answer.", Audio: "120" },
+			{ Text: "So after an unsuccessful negotiation, they threw me in jail.", Audio: "130" },
 			{
-				Text: "Enough about me.  Who are you?",
+				Text: "Enough about me.  Who are you?", Audio: "140",
 				Answer: [
-					{ Text: "I'm Melody, it's a pleasure to meet you.", Reply: "(She nods happily.)  Same here.", Love: 1 },
-					{ Text: "I'm Melody the manor maid.  (Do a curtsy.)", Reply: "You're a good maid.", Domination: -1 },
-					{ Text: "I'm Melody.", Reply: "Very good Melody." },
-					{ Text: "I'm Melody, remember that name little elf.", Reply: "(She gulps and nods.)  Yes Miss.", Domination: 1 },
+					{ Text: "I'm Melody, it's a pleasure to meet you.", Reply: "(She nods happily.)  Same here.", Audio: "141", Love: 1 },
+					{ Text: "I'm Melody the manor maid.  (Do a curtsy.)", Reply: "You're a good maid.", Audio: "142", Domination: -1 },
+					{ Text: "I'm Melody.", Reply: "Very good Melody.", Audio: "143" },
+					{ Text: "I'm Melody, remember that name little elf.", Reply: "(She gulps and nods.)  Yes Miss.", Audio: "144", Domination: 1 },
 				]
 			},
-			{ Text: "Now that we know each other, can you help?" },
+			{ Text: "Now that we know each other, can you help?", Audio: "150" },
 			{
-				Text: "Will you unlock me?",
+				Text: "Will you unlock me?", Audio: "160",
 				Answer: [
-					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture." },
-					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Domination: -1 },
-					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway.", Love: 1 },
-					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Domination: 1, Love: -1 }
+					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", Audio: "161" },
+					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Audio: "162", Domination: -1 },
+					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway.", Audio: "163", Love: 1 },
+					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Audio: "164", Domination: 1, Love: -1 }
 				]
 			},
 			{ Text: "(She gets grumpy and stops talking.)" },
@@ -694,14 +694,14 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "Have you changed your mind?" },
+			{ Text: "Have you changed your mind?", Audio: "10" },
 			{
-				Text: "Will you unlock me?",
+				Text: "Will you unlock me?", Audio: "20",
 				Answer: [
-					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture." },
-					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday." },
-					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway." },
-					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!" }
+					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", Audio: "21" },
+					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Audio: "22" },
+					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway.", Audio: "23" },
+					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Audio: "24" }
 				]
 			},
 			{ Text: "(She gets grumpy and stops talking.)" },
@@ -717,42 +717,45 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ TextScript:  function () { return (PlatformEventDone("EdlaranIntro")) ? "Is it you Melody?  Are you a zombie?" :  "Hey!  I'm Edlaran, a wood elf, are you a zombie?"; } },
+			{ 
+				TextScript: function () { return (PlatformEventDone("EdlaranIntro")) ? "Is it you Melody?  Are you a zombie?" : "Hey!  I'm Edlaran, a wood elf, are you a zombie?"; },
+				AudioScript: function () { return (PlatformEventDone("EdlaranIntro")) ? "11" : "12"; }
+			},
 			{
-				Text: "Talk to me maid.",
+				Text: "Talk to me maid.", Audio: "20",
 				Answer: [
-					{ Text: "Don't be scared.  I'm not a zombie.", Reply: "Thanks a lot.  Something is very wrong.", Domination: 1 },
-					{ Text: "I'm fine, but the guards are going nuts.", Reply: "Yes, something is very wrong." },
-					{ Text: "UeeeehhgggAHAHAHA!  Just kidding.", Reply: "That's not funny!  Something is very wrong.", Love: -1 },
+					{ Text: "Don't be scared.  I'm not a zombie.", Reply: "Thanks a lot.  Something is very wrong.", Audio: "21", Domination: 1 },
+					{ Text: "I'm fine, but the guards are going nuts.", Reply: "Yes, something is very wrong.", Audio: "22" },
+					{ Text: "UeeeehhgggAHAHAHA!  Just kidding.", Reply: "That's not funny!  Something is very wrong.", Audio: "23", Love: -1 },
 				]
 			},
-			{ Text: "The guards have a dead look in their eyes, they only mumble." },
-			{ Text: "I've tried offering them some gold or a favor but they were not interested." },
-			{ Text: "Is it a crime to bribe a guard?  Don't answer." },
+			{ Text: "The guards have a dead look in their eyes, they only mumble.", Audio: "30" },
+			{ Text: "I've tried offering them some gold or a favor but they were not interested.", Audio: "40" },
+			{ Text: "Is it a crime to bribe a guard?  Don't answer.", Audio: "50" },
 			{
-				Text: "What is going on with them?",
+				Text: "What is going on with them?", Audio: "60",
 				Answer: [
-					{ Text: "They fallen for your pretty face.", Reply: "(She blushes.)  You sure pick your time to flirt.", Love: 1 },
-					{ Text: "Some magic is going on.", Reply: "You're probably right, but I don't know magic." },
-					{ Text: "I don't know, but I'm scared.", Reply: "I understand, this is scary indeed.", Domination: -1 },
-					{ Text: "Maybe they are undead.", Reply: "Yes, some kind of zombies, this is scary." },
+					{ Text: "They fallen for your pretty face.", Reply: "(She blushes.)  You sure pick your time to flirt.", Audio: "61", Love: 1 },
+					{ Text: "Some magic is going on.", Reply: "You're probably right, but I don't know magic.", Audio: "62" },
+					{ Text: "I don't know, but I'm scared.", Reply: "I understand, this is scary indeed.", Audio: "63", Domination: -1 },
+					{ Text: "Maybe they are undead.", Reply: "Yes, some kind of zombies, this is scary.", Audio: "64" },
 				]
 			},
-			{ Text: "At first, there was a loud woman scream." },
-			{ Text: "Then it went pitch black for a minute in here." },
+			{ Text: "At first, there was a loud woman scream.", Audio: "70" },
+			{ Text: "Then it went pitch black for a minute in here.", Audio: "80" },
 			{
-				Text: "What was that darkness?",
+				Text: "What was that darkness?", Audio: "90",
 				Answer: [
-					{ Text: "Whatever it was, it's a bad omen.", Reply: "Yes, something evil is brewing.", Domination: -1 },
-					{ Text: "It could be a solar eclipse.", Reply: "(She nods.)  Yes, it makes a lot of sense.", Love: 1 },
-					{ Text: "I will investigate it later.", Reply: "That's great to hear.", Domination: 1 },
-					{ Text: "I don't know what you're talking about.", Reply: "Don't pretend you did not see it.", Love: -1 },
+					{ Text: "Whatever it was, it's a bad omen.", Reply: "Yes, something evil is brewing.", Audio: "91", Domination: -1 },
+					{ Text: "It could be a solar eclipse.", Reply: "(She nods.)  Yes, it makes a lot of sense.", Audio: "92", Love: 1 },
+					{ Text: "I will investigate it later.", Reply: "That's great to hear.", Audio: "93", Domination: 1 },
+					{ Text: "I don't know what you're talking about.", Reply: "Don't pretend you did not see it.", Audio: "94", Love: -1 },
 				]
 			},
-			{ Text: "It's dangerous to keep me here in chains.  I could be killed." },
-			{ Text: "If you find the key for my shackles, can you release me?" },
-			{ Text: "One of the guards must have that key.  I don't know which one." },
-			{ Text: "Please find the key and come back to rescue me.  I'll repay you." }
+			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100" },
+			{ Text: "If you find the key for my shackles, can you release me?", Audio: "110" },
+			{ Text: "One of the guards must have it.  I don't know which one.", Audio: "120" },
+			{ Text: "Please find the key and come back to rescue me.  I'll repay you.", Audio: "130" }
 		]
 	},
 
@@ -764,10 +767,10 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "It's dangerous to keep me here in chains.  I could be killed." },
-			{ Text: "If you find the key for my shackles, can you release me?" },
-			{ Text: "One of the guards must have that key.  I don't know which one." },
-			{ Text: "Please find the key and come back to rescue me.  I'll repay you." }
+			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100" },
+			{ Text: "If you find the key for my shackles, can you release me?", Audio: "110" },
+			{ Text: "One of the guards must have it.  I don't know which one.", Audio: "120" },
+			{ Text: "Please find the key and come back to rescue me.  I'll repay you.", Audio: "130" }
 		]
 	},
 
@@ -780,43 +783,43 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "Melody!  Have you found the key?" },
+			{ Text: "Melody!  Have you found the key?", Audio: "10" },
 			{
-				Text: "Will you unlock me?",
+				Text: "Will you unlock me?", Audio: "20",
 				Answer: [
-					{ Text: "Sure, it's too dangerous right now.", Reply: "(She nods happily.)  Absolutely." },
-					{ Text: "Yes, but you will owe me a favor.", Reply: "(She gulps.)  Very good, I swear I'll repay you somehow someday.", Domination: 1 },
-					{ Text: "Of course, elves are too important to be chained.", Reply: "(She nods slowly.)  Well said little maid.", Domination: -1 },
+					{ Text: "Sure, it's too dangerous right now.", Reply: "(She nods happily.)  Absolutely.", Audio: "21" },
+					{ Text: "Yes, but you will owe me a favor.", Reply: "(She gulps.)  Very good, I swear I'll repay you somehow someday.", Audio: "22", Domination: 1 },
+					{ Text: "Of course, elves are too important to be chained.", Reply: "(She nods slowly.)  Well said little maid.", Audio: "23", Domination: -1 },
 					{ Text: "Not right now.  (Leave her.)", Script: function() { PlatformDialogLeave(); } },
 				]
 			},
 			{
-				Text: "(You unlock her shackles as she gathers her equipment.)",
+				Text: "(You unlock her shackles as she gathers her equipment.)", Audio: "30",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Thanks a lot Melody.  (She stretches happily.)" },
+			{ Text: "Thanks a lot Melody.  (She stretches happily.)", Audio: "40" },
 			{
-				Text: "How about a hug?",
+				Text: "How about a hug?", Audio: "50",
 				Answer: [
 					{ Text: "Alright, let's do a quick hug.", Reply: "(You exchange a friendly hug.)", Love: 1 },
-					{ Text: "It's not the best time.", Reply: "(She pouts.)  I guess you're right.", Love: -1 },
+					{ Text: "It's not the best time.", Reply: "(She pouts.)  I guess you're right.", Audio: "52", Love: -1 },
 					{ Text: "(Give her a long loving hug.)", Reply: "(You exchange a long and warm hug.)", Love: 2 },
-					{ Text: "Don't touch me.", Reply: "Oh!  Alright then.", Love: -2 },
+					{ Text: "Don't touch me.", Reply: "Oh!  Alright then.", Audio: "54", Love: -2 },
 				]
 			},
-			{ Text: "I'll try to escape while I can." },
+			{ Text: "I'll try to escape while I can.", Audio: "60" },
 			{
-				Text: "What will you do?",
+				Text: "What will you do?", Audio: "70",
 				Answer: [
-					{ Text: "My duty is to protect Lady Olivia.", Reply: "You're her maid in shiny armor.  (She giggles.)", Domination: 1 },
-					{ Text: "I'll check for Countess Isabella.", Reply: "Good luck with that, whoever that is." },
-					{ Text: "I'll find a place to hide.", Reply: "Find a broom closet.  (She laughs.)", Domination: -1 },
+					{ Text: "My duty is to protect Lady Olivia.", Reply: "You're her maid in shiny armor.  (She giggles.)", Audio: "71", Domination: 1 },
+					{ Text: "I'll check for Countess Isabella.", Reply: "Good luck with that, whoever that is.", Audio: "72" },
+					{ Text: "I'll find a place to hide.", Reply: "Find a broom closet.  (She laughs.)", Audio: "73", Domination: -1 },
 				]
 			},
-			{ Text: "See you later Melody.  I'll repay you someday." },
+			{ Text: "See you later Melody.  I'll repay you someday.", Audio: "80" },
 			{ Text: "(She leaves the room.)" },
 		]
 	},
@@ -1525,6 +1528,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaCabin",
+		Music: "MelodyRoom",
 		Exit : function () { PlatformEventSet("OliviaCabin"); },
 		Dialog: [
 			{
@@ -1578,6 +1582,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranCabin",
+		Music: "MelodyRoom",
 		Exit : function () { PlatformEventSet("EdlaranCabin"); },
 		Dialog: [
 			{
@@ -1640,6 +1645,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroForestBanditEdlaran",
+		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("IntroForestBandit"); },
 		Dialog: [
 			{
@@ -1693,6 +1699,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroForestBanditOlivia",
+		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("IntroForestBandit"); },
 		Dialog: [
 			{
@@ -1723,6 +1730,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "IntroForestBanditKidnapEdlaran",
+		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("EdlaranForestIntro"); },
 		Dialog: [
 			{
@@ -1759,6 +1767,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "EdlaranForestBeg",
+		Music: "ForestTheme",
 		Dialog: [
 			{
 				Background: "OakHeavy",
@@ -1802,6 +1811,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ForestLost",
+		Music: "ForestTheme",
 		Dialog: [
 			{
 				Background: "ForestMaze",
@@ -1827,6 +1837,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ForestPath",
+		Music: "ForestTheme",
 		Dialog: [
 			{
 				Background: "ForestMaze",
@@ -1864,6 +1875,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ForestTrap",
+		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("ForestCapture"); PlatformPartyActivate("Olivia"); },
 		Dialog: [
 			{
@@ -1970,6 +1982,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "BarnThief",
+		Music: "ForestPlainTheme",
 		Dialog: [
 			{
 				Background: "BarnInterior",
@@ -1986,6 +1999,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ForestBanditCrate",
+		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("ForestBanditCrate"); },
 		Dialog: [
 			{
@@ -2006,6 +2020,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "MelodyCrate",
+		Music: "ForestTheme",
 		Dialog: [
 			{
 				Background: "SecludedClearing",
@@ -2022,6 +2037,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "MelodyCrateOpen",
+		Music: "ForestTheme",
 		Dialog: [
 			{
 				Background: "SecludedClearing",
@@ -2142,6 +2158,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "BarnThiefRescueMelody",
+		Music: "ForestPlainTheme",
 		Exit : function () { PlatformEventSet("BarnThiefRescueMelody"); PlatformLoadRoom(); PlatformPlayer.X = 200; },
 		Dialog: [
 			{
@@ -2183,6 +2200,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ForestCaptureEnd",
+		Music: "ForestPlainTheme",
 		Exit : function () { PlatformEventSet("ForestCaptureEnd"); PlatformLoadRoom(); PlatformPlayer.HalfBound = false; PlatformAddExperience(PlatformPlayer, 20); },
 		Dialog: [
 			{
@@ -2351,6 +2369,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ThiefBossFlee",
+		Music: "CamilleCastleBattle",
 		Exit : function () { PlatformLoadRoom("ForestPlainToSavannah"); PlatformPlayer.X = 100; PlatformPlayer.FaceLeft = false; },
 		Dialog: [
 			{
@@ -2370,6 +2389,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ThiefBossIntro",
+		Music: "CamilleCastleBattle",
 		Exit : function () { PlatformLoadRoom("ForestPlainToSavannah"); PlatformPlayer.X = 100; PlatformPlayer.FaceLeft = false; },
 		Dialog: [
 			{
@@ -2410,6 +2430,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaLover1Start",
+		Music: "MelodyRoom",
 		Dialog: [
 			{
 				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
@@ -2539,6 +2560,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "OliviaLover1End",
+		Music: "MelodyRoom",
 		Dialog: [
 			{
 				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },

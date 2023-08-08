@@ -73,9 +73,9 @@ var PlatformTemplate = [
 			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], Speed: 43 },
 		],
 		Attack: [
-			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 },
-			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "CrouchAttackSlow", HitBox: [0.8, 0.7, 1, 0.8], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 }
 		]
 	},
@@ -100,6 +100,7 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
+		DamageAudio: ["Olivia0", "Olivia1", "Generic0", "Generic1"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 },
@@ -120,11 +121,11 @@ var PlatformTemplate = [
 			{ Name: "HalfBoundStun", Cycle: [0], Speed: 1000 },
 			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], Speed: 17 },
 			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 19 },
-			{ Name: "Scream", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 10 }
+			{ Name: "Scream", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 10, Audio: ["OliviaScream0"] }
 		],
 		Attack: [
-			{ Name: "StandAttackFast", HitBox: [0.7, 0.15, 0.9, 0.3], HitAnimation: [6, 7, 8, 9, 10], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [6, 7, 8, 9], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackFast", HitBox: [0.7, 0.15, 0.9, 0.3], HitAnimation: [6, 7, 8, 9, 10], StartAudio: ["OliviaSlap0"], HitAudio: ["OliviaSlap0", "OliviaSlap1", "OliviaSlap2", "OliviaSlap3"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [6, 7, 8, 9], HitAudio: ["OliviaSlap0", "OliviaSlap1", "OliviaSlap2", "OliviaSlap3"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "Scream", Magic: 2, Cooldown: 3000, HitBox: [-100, -100, 100, 100], HitAnimation: [8, 9, 10], Damage: [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4], Speed: 200 }
 		]
 	},
@@ -142,6 +143,7 @@ var PlatformTemplate = [
 		ProjectileType: "Wood",
 		ProjectileDamage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 		ProjectileTime: 1000,
+		ProjectileHitAudio: ["EdlaranBow0"],
 		HitBox: [0.43, 0.07, 0.57, 1],
 		JumpHitBox: [0.43, 0.07, 0.57, 0.7],
 		RunSpeed: 21,
@@ -152,6 +154,7 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
+		DamageAudio: ["Edlaran0", "Generic0", "Generic1"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
@@ -164,16 +167,16 @@ var PlatformTemplate = [
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
-			{ Name: "Aim", Cycle: [0], Speed: 1000 },
-			{ Name: "AimReady", Cycle: [0], Speed: 1000 },
-			{ Name: "AimFull", Cycle: [0], Speed: 1000 },
+			{ Name: "Aim", Cycle: [0], Speed: 1000, Audio: ["EdlaranBowCharge0"] },
+			{ Name: "AimReady", Cycle: [0], Speed: 1000, Audio: ["EdlaranBowCharge0"] },
+			{ Name: "AimFull", Cycle: [0], Speed: 1000, Audio: ["EdlaranBowCharge0"] },
 			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 15 },
 			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], Speed: 20 },
 			{ Name: "Backflip", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 16 },
 		],
 		Attack: [
-			{ Name: "StandAttackFast", HitBox: [0.8, 0.1, 1, 0.3], HitAnimation: [7, 8, 9, 10, 11, 12], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "CrouchAttackFast", HitBox: [0.8, 0.58, 1, 0.78], HitAnimation: [4, 5, 6, 7], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackFast", HitBox: [0.8, 0.1, 1, 0.3], HitAnimation: [7, 8, 9, 10, 11, 12], StartAudio: ["EdlaranKick0"], HitAudio: ["EdlaranKick0", "EdlaranKick1"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackFast", HitBox: [0.8, 0.58, 1, 0.78], HitAnimation: [4, 5, 6, 7], StartAudio: ["EdlaranKick0"], HitAudio: ["EdlaranKick0", "EdlaranKick1"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "Backflip", Speed: 336 },
 		]
 
@@ -341,7 +344,18 @@ var PlatformTemplate = [
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 35 },
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1], Speed: 130 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 }
-		]
+		],
+		OnBind: function() {
+			// 10% odds of getting the "Wannabe Princess" Club Card when restraining a maid
+			if ((Math.random() > 0.9) && (Player.Game != null) && (Player.Game.ClubCard != null) && (Player.Game.ClubCard.Reward != null)) {
+				let Char = String.fromCharCode(1017);
+				if (Player.Game.ClubCard.Reward.indexOf(Char) < 0) {
+					Player.Game.ClubCard.Reward = Player.Game.ClubCard.Reward + Char;
+					ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+					PlatformMessageSet("You found this Club Card: Wannabe Princess");
+				}
+			}
+		}
 	},
 	{
 		Name: "Yuna",
@@ -370,7 +384,18 @@ var PlatformTemplate = [
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 }
-		]
+		],
+		OnBind: function() {
+			// 10% odds of getting the "Wannabe Princess" Club Card when restraining a maid
+			if ((Math.random() > 0.9) && (Player.Game != null) && (Player.Game.ClubCard != null) && (Player.Game.ClubCard.Reward != null)) {
+				let Char = String.fromCharCode(1017);
+				if (Player.Game.ClubCard.Reward.indexOf(Char) < 0) {
+					Player.Game.ClubCard.Reward = Player.Game.ClubCard.Reward + Char;
+					ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+					PlatformMessageSet("You found this Club Card: Wannabe Princess");
+				}
+			}
+		}
 	},
 	{
 		Name: "Lucy",
@@ -1016,6 +1041,7 @@ var PlatformRoomList = [
 		Name: "ForestCastleWall",
 		Text: "Wall Exterior",
 		Background: "Forest/CastleWall",
+		Music: "ForestTheme",
 		Width: 3800,
 		Height: 1200,
 		LimitLeft: 300,
@@ -1032,6 +1058,7 @@ var PlatformRoomList = [
 		Name: "ForestVulture",
 		Text: "Forest Entrance",
 		Background: "Forest/VulturePlain",
+		Music: "ForestTheme",
 		Width: 2200,
 		Height: 1200,
 		Door: [
@@ -1046,6 +1073,7 @@ var PlatformRoomList = [
 		Name: "ForestCabinPath",
 		Text: "Cabin Path",
 		Background: "Forest/CabinPath",
+		Music: "ForestTheme",
 		Width: 3800,
 		Height: 1200,
 		Door: [
@@ -1066,6 +1094,7 @@ var PlatformRoomList = [
 		},
 		Text: "Wooden Cabin (heal and save)",
 		Background: "Forest/CabinInterior",
+		Music: "MelodyRoom",
 		Width: 3300,
 		Height: 1000,
 		Heal: 250,
@@ -1081,6 +1110,7 @@ var PlatformRoomList = [
 		},
 		Text: "Birch Path West",
 		Background: "Forest/BirchLight",
+		Music: "ForestTheme",
 		Width: 3500,
 		Height: 1400,
 		Door: [
@@ -1095,6 +1125,7 @@ var PlatformRoomList = [
 		Name: "ForestBirchCenter",
 		Text: "Birch Path Center",
 		Background: "Forest/BirchHeavy",
+		Music: "ForestTheme",
 		Width: 3200,
 		Height: 1400,
 		Door: [
@@ -1109,6 +1140,7 @@ var PlatformRoomList = [
 		Name: "ForestBirchEast",
 		Text: "Birch Path East",
 		Background: "Forest/BirchClear",
+		Music: "ForestTheme",
 		Width: 4300,
 		Height: 1400,
 		Door: [
@@ -1133,6 +1165,7 @@ var PlatformRoomList = [
 		},
 		Text: "Giant Oak",
 		Background: "Forest/OakHeavy",
+		Music: "ForestTheme",
 		Width: 2700,
 		Height: 1400,
 		LimitRight: 2500,
@@ -1148,6 +1181,7 @@ var PlatformRoomList = [
 		Text: "Lost Birch Path",
 		Background: "Forest/BirchMaze",
 		BackgroundFilter: "#00000040",
+		Music: "ForestTheme",
 		Width: 3200,
 		Height: 1400,
 		Door: [
@@ -1161,6 +1195,7 @@ var PlatformRoomList = [
 	{
 		Name: "ForestBirchMazePath",
 		Background: "Forest/BirchMaze",
+		Music: "ForestTheme",
 		Entry: function() {
 			if (PlatformEventDone("ForestCapture") || PlatformEventDone("ForestCaptureEnd")) PlatformLoadRoom("ForestFirPath");
 			else PlatformDialogStart(PlatformEventDone("EdlaranJoin") ? "ForestPath" : "ForestLost");
@@ -1181,6 +1216,7 @@ var PlatformRoomList = [
 		},
 		Text: "Wooden Barn (heal and save)",
 		Background: "Forest/BarnInterior",
+		Music: "ForestPlainTheme",
 		Width: 2000,
 		Height: 1333,
 		Heal: 250,
@@ -1190,6 +1226,7 @@ var PlatformRoomList = [
 		Name: "ForestCrateInterior",
 		Text: "Wooden Crate (heal and save)",
 		Background: "Forest/CrateInterior",
+		Music: "MelodyRoom",
 		Width: 2000,
 		Height: 1000,
 		Heal: 250,
@@ -1200,6 +1237,7 @@ var PlatformRoomList = [
 		Text: "Camp Site (heal and save)",
 		Background: "Forest/CampGround",
 		AlternateBackground: "Forest/CampGroundRaft",
+		Music: "ForestTheme",
 		Entry: function() {
 			if (PlatformEventDone("ForestCaptureEnd")) {
 				PlatformRoom.Door.push({ Name: "ForestLakeShore", FromX: 200, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 3100, ToFaceLeft: true });
@@ -1219,6 +1257,7 @@ var PlatformRoomList = [
 		Name: "ForestLakePath",
 		Text: "Lake Path",
 		Background: "Forest/LakeBetweenRocks",
+		Music: "ForestTheme",
 		Width: 2800,
 		Height: 1400,
 		Door: [
@@ -1234,6 +1273,7 @@ var PlatformRoomList = [
 		Name: "ForestFirPath",
 		Text: "Fir Path",
 		Background: "Forest/FirLight",
+		Music: "ForestTheme",
 		Width: 3000,
 		Height: 1400,
 		Door: [
@@ -1250,6 +1290,7 @@ var PlatformRoomList = [
 		Name: "ForestPond",
 		Text: "Frog Pond",
 		Background: "Forest/LostPond",
+		Music: "ForestTheme",
 		Width: 4200,
 		Height: 1400,
 		Door: [
@@ -1269,6 +1310,7 @@ var PlatformRoomList = [
 		},
 		Text: "Secluded Clearing",
 		Background: "Forest/SecludedClearing",
+		Music: "ForestTheme",
 		Width: 2500,
 		Height: 1400,
 		LimitRight: 2350,
@@ -1285,6 +1327,7 @@ var PlatformRoomList = [
 		Name: "ForestBarnExterior",
 		Text: "Barn Exterior",
 		Background: "Forest/BarnExterior",
+		Music: "ForestPlainTheme",
 		Width: 3000,
 		Height: 1400,
 		Door: [
@@ -1300,6 +1343,7 @@ var PlatformRoomList = [
 		Name: "ForestPlainSparseRocks",
 		Text: "Sparse Plain",
 		Background: "Forest/PlainSparseRocks",
+		Music: "ForestPlainTheme",
 		Width: 5000,
 		Height: 1400,
 		Door: [
@@ -1315,6 +1359,7 @@ var PlatformRoomList = [
 		Name: "ForestMountainLake",
 		Text: "Lake Path",
 		Background: "Forest/MountainLake",
+		Music: "ForestPlainTheme",
 		Width: 4400,
 		Height: 1400,
 		Door: [
@@ -1330,6 +1375,7 @@ var PlatformRoomList = [
 		Name: "ForestLakeShore",
 		Text: "Lake Shore",
 		Background: "Forest/LakeShoreRaft",
+		Music: "ForestPlainTheme",
 		Width: 4000,
 		Height: 1400,
 		LimitRight: 3300,
@@ -1345,6 +1391,7 @@ var PlatformRoomList = [
 	{
 		Name: "ForestLake",
 		Background: "Forest/LakeShore",
+		Music: "ForestPlainTheme",
 		Entry: function() {
 			PlatformLoadRoom("ForestCampGround");
 			if (!PlatformEventDone("ForestCaptureEnd")) PlatformDialogStart("ForestCaptureEnd");
@@ -1354,6 +1401,7 @@ var PlatformRoomList = [
 		Name: "ForestPlainToSavannah",
 		Text: "Savannah Plain",
 		Background: "Forest/PlainToSavannah",
+		Music: "ForestPlainTheme",
 		Width: 3600,
 		Height: 1400,
 		Door: [
@@ -1369,6 +1417,7 @@ var PlatformRoomList = [
 		Name: "ForestSavannah",
 		Text: "Savannah",
 		Background: "Forest/Savannah",
+		Music: "CamilleCastleBattle",
 		Entry: function() {
 			if (!PlatformEventDone("ForestCaptureEnd")) PlatformDialogStart("ThiefBossFlee");
 			else if (!PlatformEventDone("ThiefBossIntro")) PlatformDialogStart("ThiefBossIntro");
@@ -1633,6 +1682,7 @@ function PlatformGetAnim(C, Pose, Cycle = null) {
 			if (AnimPos < 0) AnimPos = 0;
 			if (AnimPos >= CycleList.length) AnimPos = CycleList.length - 1;
 			if ((C.FaceLeft === true) && (C.Animation[A].CycleLeft != null)) Pose = Pose + "Left";
+			if ((C.Anim == null) || (C.Anim.Name == null) || (C.Anim.Name != C.Animation[A].Name)) PlatformSoundEffect("Animation", C.Animation[A].Audio);
 			return {
 				Name: Pose,
 				Image: CycleList[AnimPos],
@@ -1904,7 +1954,7 @@ function PlatformHitBoxClash(Source, Target, HitBox) {
  * @param {Number} Factor - The volume factor to apply
  * @returns {void} - Nothing
  */
-function PlatformSoundEffect(Category, Sound, Factor = 0.4) {
+function PlatformSoundEffect(Category, Sound, Factor = 0.3333) {
 
 	// Selects a sound effect from the list
 	if (!PlatformAllowAudio) return;
@@ -2063,15 +2113,17 @@ function PlatformAnimAvailable(C, AnimationName) {
  * @param {Number} Y - The Y position
  * @param {Number} Force - The speed of the projectile
  * @param {Number} Damage - The damage done by the projectile
+ * @param {any} HitAudio - The damage done by the projectile
  * @returns {void} - Nothing
  */
-function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Damage) {
+function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Damage, HitAudio) {
 	let Proj = PlatformCreateCharacter(Name, Type, X, false, true, null, FaceLeft, null);
 	Proj.Y = PlatformFloor - Y;
 	Proj.IsProjectile = true;
 	Proj.Gravity = 0.25;
 	Proj.CollisionDamage = Damage;
 	Proj.ProjectileForce = Force * (FaceLeft ? -1 : 1);
+	Proj.HitAudio = HitAudio;
 }
 
 /**
@@ -2105,6 +2157,7 @@ function PlatformProcessProjectile(Time) {
 				if ((Source.ID != Target.ID) && (Target.Health > 0) && !Remove && Target.Combat && ((Target.Immunity == null) || (Target.Immunity < Time)))
 					if (PlatformHitBoxClash(Source, Target, Source.HitBox)) {
 						PlatformDamage(Source, Target, Source.CollisionDamage, Time, "Collision");
+						PlatformSoundEffect("Hit", Source.HitAudio);
 						Remove = true;
 					}
 			if (Remove) {
@@ -2126,7 +2179,7 @@ function PlatformProjectile(C, LongShot) {
 	let Damage = C.ProjectileDamage[C.Level];
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
-	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -200 : 200), C.Height * 0.8, LongShot ? 60 : 36, Damage);
+	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -200 : 200), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
 }
 
 /**
@@ -2407,7 +2460,7 @@ function PlatformBackgroundMusic(Music) {
 		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
 			PlatformMusic.currentTime = 0;
 			PlatformMusic.src = FileName;
-			PlatformMusic.volume = Math.min(vol, 1) * 0.15;
+			PlatformMusic.volume = Math.min(vol, 1) * 0.1667;
 			PlatformMusic.play();
 			PlatformMusic.addEventListener('ended', function() {
 				PlatformMusic.currentTime = 0;

@@ -1176,7 +1176,7 @@ function PandoraChestLoot() {
 	PandoraCurrentRoom.Character.splice(0, 1);
 
 	// Can also get a special card from the chest (higher odds with higher difficulty)
-	if ((Math.random() < InfiltrationDifficulty / 25) || (Player.Game == null) || (Player.Game.ClubCard == null) || (Player.Game.ClubCard.Reward == null)) {
+	if ((Math.random() < InfiltrationDifficulty / 25) && (Player.Game != null) && (Player.Game.ClubCard != null) && (Player.Game.ClubCard.Reward != null)) {
 		let Char = String.fromCharCode(30022);
 		if (Player.Game.ClubCard.Reward.indexOf(Char) < 0) {
 			Player.Game.ClubCard.Reward = Player.Game.ClubCard.Reward + Char;
