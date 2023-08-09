@@ -364,6 +364,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // LatexLacedSuit
+		RetroGirdle: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "NonGarters",
+				},
+				{
+					Name: "Garters",
+				},
+			],
+		}, // RetroGirdle
 		ReverseBunnySuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
@@ -1206,6 +1217,37 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // ShinyStraitjacket
+		ShinyArmbinder: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Armbinder",
+					Property: {
+						Block: ["ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Hard",
+					Property: {
+						Block: ["ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Reverse",
+					Property: {
+						Block: ["ItemHands", "ItemHandheld"],
+					},
+				},
+				{
+					Name: "Xcross",
+					Property: {
+						Block: ["ItemHands", "ItemHandheld"],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // ShinyArmbinder
 		LeatherArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -6896,6 +6938,26 @@ var AssetFemale3DCGExtended = {
 				Chat: "PlugGagMouthSet",
 			},
 		}, // OTNPlugGag
+		TechnoGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Masked",
+				},
+				{
+					Name: "Gagged",
+					Property: {
+						Effect: ["BlockMouth", "GagMedium"],
+						OverrideAssetEffect: true,
+					},
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "PlugGagMouthType",
+				Chat: "PlugGagMouthSet",
+			},
+		}, // TechnoGag
 		PonyGag: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],

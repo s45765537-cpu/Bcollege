@@ -56,6 +56,9 @@ ClothCropTopDesign,Design
 ClothLaurelBase,Top
 ClothLaurelDesign,Design
 ClothLaurelLace,Lace
+ClothRetroGirdleBase,Dress
+ClothRetroGirdleDesign,Design
+ClothRetroGirdleLace,Lace
 ClothSeethroughTopLace,Lace
 ClothSeethroughTopDesign,Design
 ClothJacketBase,Jacket
@@ -650,6 +653,10 @@ ItemArmsShinyStraitjacketShine,Shine
 ItemArmsShinyStraitjacketBelts,Straps
 ItemArmsShinyStraitjacketMetal,Buckles
 ItemArmsShinyStraitjacketLock,Locks
+ItemArmsShinyArmbinderBondage,Binder
+ItemArmsShinyArmbinderBand,Straps
+ItemArmsShinyArmbinderBuckets,Buckles
+ItemArmsShinyArmbinderLock,Locks
 ItemArmsTentaclesLowerInner,Inner
 ItemArmsTentaclesLowerSucker,Suckers
 ItemArmsTentaclesLowerOuter,Outer
@@ -1108,6 +1115,10 @@ ItemMouthPaciGagMetal,Buckles
 ItemMouthOTNPlugGagBase,Base
 ItemMouthOTNPlugGagStraps,Straps
 ItemMouthOTNPlugGagPlug,Plug
+ItemMouthTechnoGagBase,Base
+ItemMouthTechnoGagStraps,Straps
+ItemMouthTechnoGagPlastic,Plastic
+ItemMouthTechnoGagShine,Shine
 ItemMouthKittyGagBase,Base
 ItemMouthKittyGagLines,Lines
 ItemMouthKittyGagMouth,Mouth
