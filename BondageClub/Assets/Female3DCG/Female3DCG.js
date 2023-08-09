@@ -1973,6 +1973,27 @@ var AssetFemale3DCG = [
 					{ Name: "ShortBack", CopyLayerColor: "Long", ShowForAttribute: ["ShortHair"], Priority: 6 },
 				],
 			},
+			{
+				Name: "NunHabit", Value: 30, Left: 83, Top: 20,
+				Hide: ["HairAccessory1", "HairAccessory2"],
+				DefaultColor: ["#FFFFFF", "#282F50", "#FFFFFF", "#EF9C00"],
+				Layer: [
+					{ Name: "Cowl", HasType: false },
+					{
+						Name: "Shawl", HasType: false,
+						Alpha: [{
+							Group: ["HairBack", "HairFront"],
+							Masks: [
+								[0, 0, 2000, 65],
+								[0, 0, 200, 1000],
+								[300, 0, 200, 1000],
+							],
+						}],
+					},
+					{ Name: "Shoulders", HasType: false, Priority: 30 },
+					{ Name: "Symbol", AllowTypes: ["Ass", "Breasts", "Chastity", "Cock", "Pussy", "Thighs"], Priority: 30 },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

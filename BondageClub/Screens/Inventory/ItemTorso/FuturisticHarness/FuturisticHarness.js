@@ -5,7 +5,7 @@ function InventoryItemTorsoFuturisticHarnessDrawHook(Data, OriginalFunction) {
 	if (!FuturisticAccessDraw(Data, OriginalFunction)) {
 		return;
 	}
-	ExtendedItemCustomDraw("FuturisticCollarColor", 1385, 800, false, !InventoryItemTorsoFuturisticHarnessIsColorable());
+	ExtendedItemCustomDraw("FuturisticCollarColor", 1385, 800, null, !InventoryItemTorsoFuturisticHarnessIsColorable());
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<TypedItemData>} */

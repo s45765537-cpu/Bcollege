@@ -139,7 +139,7 @@ function ClubCardBuilderRun() {
 	if (ClubCardBuilderRenameIndex >= 0) {
 		DrawText(TextGet("RenameThisDeck"), 1000, 70, "White", "Black");
 		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
-		DrawButton(1770, 25, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));	
+		DrawButton(1770, 25, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
 		DrawText(ClubCardBuilderGetDeckName(ClubCardBuilderRenameIndex), 1000, 400, "White", "Black");
 		ElementPosition("InputName", 1000, 500, 500);
 		return;

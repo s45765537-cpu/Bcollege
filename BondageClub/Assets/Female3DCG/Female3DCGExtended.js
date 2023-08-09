@@ -207,6 +207,32 @@ var AssetFemale3DCGExtended = {
 				},
 			]
 		},//LatexHabit
+		NunHabit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Blank",
+				},
+				{
+					Name: "Ass",
+				},
+				{
+					Name: "Breasts",
+				},
+				{
+					Name: "Chastity",
+				},
+				{
+					Name: "Cock",
+				},
+				{
+					Name: "Pussy",
+				},
+				{
+					Name: "Thighs",
+				},
+			],
+		}, // NunHabit
 	},
 	LeftHand: {
 		Rings: {

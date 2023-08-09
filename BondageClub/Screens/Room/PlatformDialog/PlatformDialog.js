@@ -459,7 +459,7 @@ var PlatformDialogData = [
 			{ Text: "(You masturbate faster and moan loudly.)" },
 			{ Text: "Iiiiiiiii'm very cl cl close now.", Audio: "O200" },
 			{ Text: "It it it becomes haaaaaaard to stay in control.", Audio: "O210" },
-			{ 
+			{
 				TextScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "Can I have my orgasm Lady Olivia?" : "It's time for the climax."; },
 				AudioScript:  function () { return (PlatformDialogGetCharacter("Olivia").Domination < 0) ? "O221" : "O222"; }
 			},
@@ -717,7 +717,7 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ 
+			{
 				TextScript: function () { return (PlatformEventDone("EdlaranIntro")) ? "Is it you Melody?  Are you a zombie?" : "Hey!  I'm Edlaran, a wood elf, are you a zombie?"; },
 				AudioScript: function () { return (PlatformEventDone("EdlaranIntro")) ? "11" : "12"; }
 			},
