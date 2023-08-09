@@ -61,6 +61,7 @@ Cloth,FurCoat,Fur Coat
 Cloth,FuzzyDress,Fuzzy Dress
 Cloth,CropTop,Crop Top
 Cloth,Laurel,Laurel Top
+Cloth,RetroGirdle,Retro Girdle Dress
 Cloth,SeethroughTop,See-through Top
 Cloth,Jacket,Jacket
 Cloth,MaleTankTop1,Male Cloth Tank-Top
@@ -1150,6 +1151,7 @@ ItemArms,DuctTape,Duct Tape
 ItemArms,BitchSuit,Pet Suit
 ItemArms,ShinyPetSuit,Shiny Pet Suit
 ItemArms,ShinyStraitjacket,Shiny Straitjacket
+ItemArms,ShinyArmbinder,Shiny Armbinder
 ItemArms,StraitDress,Strait Dress
 ItemArms,StraitDressOpen,Open Crotch Strait Dress
 ItemArms,SeamlessStraitDress,Seamless Strait Dress
@@ -1412,6 +1414,7 @@ ItemMouth,CaneGag,Cane
 ItemMouth,PaciGag,Pacifier Gag
 ItemMouth,Tentacles,Tentacle
 ItemMouth,OTNPlugGag,Harness OTN Plug Gag
+ItemMouth,TechnoGag,Techno Gag
 ItemMouth,PonyGag,Bridle Gag
 ItemMouth,LatexSheathGag, Latex Sheath Gag
 ItemMouth,Slime,Slime

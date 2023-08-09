@@ -267,6 +267,16 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "RetroGirdle", Gender: "F", Prerequisite: ["HasBreasts"], Value: 1, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
+				HideItem: ["ItemNipplesLactationPump"], Prerequisite: ["HasBreasts"], Extended: true,
+				Layer: [
+					{ Name: "Base", AllowTypes: [""], },
+					{ Name: "Base_Garters", AllowTypes: ["Garters"], CopyLayerColor: "Base", },
+					{ Name: "Design", AllowTypes: ["", "Garters"], },
+					{ Name: "Lace", AllowTypes: ["", "Garters"], },
+				],
+			},
+			{
 				Name: "SeethroughTop", Gender: "F", Prerequisite: ["HasBreasts"], Value: 50, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [
@@ -5617,6 +5627,34 @@ var AssetFemale3DCG = [
 					{ Name: "Lock", LockLayer: true,AllowColorize: true, Priority: 31, ParentGroup: null},
 				]
 			},
+			{
+				Name: "ShinyArmbinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Random: false, Priority: 31, Value: 1, Difficulty: 20, Left: 0, Top: 0, SelfBondage: 4, Time: 20, RemoveTime: 15, AllowLock: true, DrawLocks: false,
+				DefaultColor: ["Default", "Default", "Default", "Default",], SetPose: ["BackElbowTouch"],  Attribute: ["HoodieFix"],
+				Effect: [ "Block", "Prone"], Block: ["ItemHands", "ItemHandheld"], SelfUnlock: false, Extended: true,
+				Layer: [
+				    { Name: "Bondage", AllowTypes: [""], Priority: 6, Left: 50, Top: 200 },
+					{ Name: "Band", AllowTypes: [""], Priority: 6, Left: 50, Top: 200 },
+					{ Name: "Band_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
+					{ Name: "Band_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
+					{ Name: "Band_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
+					{ Name: "Binder", AllowTypes: [""], Priority: 31, Left: 50, Top: 200 },
+					{ Name: "Binder_Xcross", AllowTypes: ["Xcross"], Priority: 31, Left: 50, Top: 200 },
+					{ Name: "Straps", AllowTypes: [""], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Straps_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Straps_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Straps_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Buckets", AllowTypes: [""], Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Buckets_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Buckets", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Buckets_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Buckets", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Buckets_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Buckets", Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Metal", AllowTypes: [""], CopyLayerColor: "Buckets", Priority: 6, Left: 50, Top: 200  },
+					{ Name: "Metal_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Buckets", Priority: 6, Left: 50, Top: 200  },			
+					{ Name: "Lock", LockLayer: true, AllowTypes: [""], AllowColorize: true,  Priority: 31, Left: 50, Top: 200  },
+					{ Name: "Lock_Hard", LockLayer: true, AllowColorize: true, AllowTypes: ["Hard"], CopyLayerColor: "Lock",  Priority: 31, Left: 50, Top: 200   },
+					{ Name: "Lock_Reverse", LockLayer: true, AllowColorize: true, AllowTypes: ["Reverse"], CopyLayerColor: "Lock",  Priority: 31, Left: 50, Top: 200   },
+					{ Name: "Lock_Xcross", LockLayer: true, AllowColorize: true, AllowTypes: ["Xcross"], CopyLayerColor: "Lock",  Priority: 31, Left: 50, Top: 200   },
+				]
+			},
 			{ Name: "SeamlessLatexArmbinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Priority: 6, Value: 60, Difficulty: 10, SelfBondage: 7, Time: 25, RemoveTime: 10, AllowLock: true, AllowTighten: true, SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false },
 			{
 				Name: "FullBodyLeatherHarness", Gender: "F", Fetish: ["Leather"], Priority: 29, Value: 60, Difficulty: 14, SelfBondage: 6, Time: 20, RemoveTime: 15, AllowLock: true, AllowTighten: true, SetPose: ["BackElbowTouch", "LegsClosed"], AllowPose: ["Kneel"], Prerequisite: ["NotSuspended", "NotHogtied", "NotMounted", "NotKneelingSpread", "NoFeetSpreader", "NotShackled", "HasBreasts"], Effect: ["Block", "Prone", "Slow"], SelfUnlock: false,
@@ -7162,6 +7200,23 @@ var AssetFemale3DCG = [
 					{ Name: "Metal", AllowColorize: false, HasType: false },
 					{ Name: "Tongue", AllowColorize: false, AllowTypes: [""] },
 					{ Name: "Plug", AllowColorize: true, AllowTypes: ["Plug"] },
+				]
+			},
+			{
+				Name: "TechnoGag", Gender: "F", Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"], Value: 1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, DrawLocks: false, Extended: true,
+				Hide: ["Mouth"],
+				Effect: ["OpenMouth"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+				Layer: [
+					{ Name: "Base", AllowColorize: true, AllowTypes: [""]},
+					{ Name: "Base_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Base",},					
+					{ Name: "Straps", AllowColorize: true, AllowTypes: [""]},
+					{ Name: "Straps_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Straps",},
+					{ Name: "Plastic", AllowColorize: true, AllowTypes: [""]},
+					{ Name: "Plastic_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Plastic",},
+					{ Name: "Lips", AllowColorize: false, AllowTypes: ["Gagged"]},
+					{ Name: "Shine", AllowColorize: true, AllowTypes: [""]},
+					{ Name: "Shine_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Shine",},
 				]
 			},
 			{
