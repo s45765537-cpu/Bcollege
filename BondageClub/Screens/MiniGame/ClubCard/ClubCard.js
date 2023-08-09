@@ -1596,8 +1596,8 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		Deck = ClubCardBuilderDefaultDeck.slice();
 	} else {
 		ClubCardLogAdd(TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player)));
-		for (let Index = 0; Index < ClubCardBuilderDeckSize; Index++)
-			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(Index));
+		for (let i = 0; i < ClubCardBuilderDeckSize; i++)
+			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
 	}
 
 	// Loads the deck and shuffles it
