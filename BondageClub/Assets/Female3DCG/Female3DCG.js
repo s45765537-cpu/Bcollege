@@ -268,7 +268,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RetroGirdle", Gender: "F", Prerequisite: ["HasBreasts"], Value: 1, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
-				HideItem: ["ItemNipplesLactationPump"], Prerequisite: ["HasBreasts"], Extended: true,
+				HideItem: ["ItemNipplesLactationPump"], Extended: true,
 				Layer: [
 					{ Name: "Base", AllowTypes: [""], },
 					{ Name: "Base_Garters", AllowTypes: ["Garters"], CopyLayerColor: "Base", },
@@ -5659,7 +5659,7 @@ var AssetFemale3DCG = [
 					{ Name: "Band_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Band_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Binder", AllowTypes: [""], Priority: 31, Left: 50, Top: 200 },
-					{ Name: "Binder_Xcross", AllowTypes: ["Xcross"], Priority: 31, Left: 50, Top: 200 },
+					{ Name: "Binder_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Binder", Priority: 31, Left: 50, Top: 200 },
 					{ Name: "Straps", AllowTypes: [""], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Straps_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Straps_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
@@ -5669,7 +5669,7 @@ var AssetFemale3DCG = [
 					{ Name: "Buckets_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Buckets", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Buckets_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Buckets", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Metal", AllowTypes: [""], CopyLayerColor: "Buckets", Priority: 6, Left: 50, Top: 200  },
-					{ Name: "Metal_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Buckets", Priority: 6, Left: 50, Top: 200  },			
+					{ Name: "Metal_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Buckets", Priority: 6, Left: 50, Top: 200  },
 					{ Name: "Lock", LockLayer: true, AllowTypes: [""], AllowColorize: true,  Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Lock_Hard", LockLayer: true, AllowColorize: true, AllowTypes: ["Hard"], CopyLayerColor: "Lock",  Priority: 31, Left: 50, Top: 200   },
 					{ Name: "Lock_Reverse", LockLayer: true, AllowColorize: true, AllowTypes: ["Reverse"], CopyLayerColor: "Lock",  Priority: 31, Left: 50, Top: 200   },
@@ -7230,7 +7230,7 @@ var AssetFemale3DCG = [
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, AllowTypes: [""]},
-					{ Name: "Base_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Base",},					
+					{ Name: "Base_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Base",},
 					{ Name: "Straps", AllowColorize: true, AllowTypes: [""]},
 					{ Name: "Straps_Gagged", AllowColorize: true, AllowTypes: ["Gagged"], CopyLayerColor: "Straps",},
 					{ Name: "Plastic", AllowColorize: true, AllowTypes: [""]},

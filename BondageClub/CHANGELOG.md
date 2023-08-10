@@ -11,9 +11,52 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-07-16
-* Last recorded PR: [#4394](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4394)
-* Last recorded commit hash: `8db7a31c016085403a27a3cef988671f023dda79`
+* Changelog last updated: 2023-08-09
+* Last recorded PR: [#4425](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4425)
+* Last recorded commit hash: `d87e9ea3bf009b9b1f7251fbc83be8331b32a788`
+
+## [R95]
+
+### [Added]
+* Rama - Added a new Nun Habit by Toshiro ([#4423](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4423))
+* Constantan - Added a Retro Gridle dress, an armbinder to the Shiny set, and a Techno gag ([#4424](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4424), [#4425](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4425))
+* Ben987 - Added names to Club Card decks
+* Ben987 - Added a group filter to the Club Card deck builder
+* Ben987 - Added Online Play to the Club Card game
+* Ben987 - Added some voiced dialog lines and music to the Bondage Brawl as an experiment
+### [Removed]
+
+### [Changed]
+* Rama - Readjusted the Kabeshiri Wall width and eyeshadow group ([#4403](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4403))
+* Da'Inihlus - Updated the chinese translation ([#4421](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4421))
+* kotax - Added extra ropes to Bondage College's Chapter 8 ([#4415](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4415))
+* kotax - Gave back restraints in Bondage College's Chapter 2 ([#4416](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4416))
+* kotax - Added more migrated skills when you complete Bondage College and enter the Club ([#4417](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4417), [#4422](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4422))
+* kotax - Added the ability to self-tie/untie in some chapters of Bondage College ([#4414](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4414))
+* kotax - Added more dominant/submissive paths to the Club's College teachers from the choices made in Bondage College ([#4411](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4411))
+* Ben987 - Changed the penis to become hard penis when above 30% arousal
+* Ben987 - Rebalanced building upgrades in the Club Card minigame
+
+### [Fixed]
+* Rama - Fixed `InheritColor` failing if the parent item color is an array ([#4400](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4400))
+* kotax & Sally - Fixed the swapped icons order for the Futuristic Straightjacket ([#4401](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4401))
+* Ada - Fixed a couple of crashes in Kinky Dungeon ([#4404](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4404))
+* kotax - Removed an extra dialog option in the Infiltration supervisor dialog ([#4406](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4406))
+* Rama - Fixed being unable to open the crafting extended item menu of futuristic items when tied up ([#4407](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4407))
+* Rama - Made the currently viewed page stick when switching crafting subscreens ([#4408](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4408))
+* Estsanatlehi - Fixed a crash when switching to permission mode in the wardrobe ([#4413](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4413))
+* Ellie - Fixed broken thumb icons for range slider inputs ([#4420](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4420))
+* Ellie - Fixed currently set modular options not being selectable anymore in the extended screen ([#4419](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4419))
+* Rama - Fixed a crash in the extended item menu of the full latex lockdown suit ([#4418](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4418))
+
+### [Technical]
+* Rama - Improved the tests to ensure item properties are disjoint w.r.t. their asset counterpart ([#4397](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4397))
+* Rama - Merged the `PussyLight{x}`/`PussyDark{x}` assets ([#4398](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4398))
+* Rama - Replaced manual item property setting with `TypedItemSetOptionByName` ([#4399](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4399))
+* Estsanatlehi - Split out expression timers from the lock timers ([#4402](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4402))
+* Rama - Added tests to verify that all types referenced in the asset layers `AllowTypes` and `AllowModuleTypes` array actually exist ([#4405](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4405))
+* EllieThePink - Fixed a missing substitution in the tighten/loosen actions ([#4409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4409))
+* EllieThePink - Fixed triggered expressions not clearing after #4402 ([#4410](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4410))
 
 ## [R94]
 
@@ -86,6 +129,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Refactored and cleaned up the handling of advanced vibrator modes ([#4357](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4357))
 * Rama - Added basic support for storing extended item subscreen properties for crafted items ([#4365](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4365))
 * Rama - Expanded the checks for extended item `Allow<x>` properties ([#4367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4367))
+
+### [Hotfixes]
+* Estsanatlehi - Provided colorized versions of the penis ([#4393](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4393))
+* Estsanatlehi - Provided a un-toned penis layer for manual coloring purposes ([#4396](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4396))
+* Estsanatlehi - Fixed an issue allowing Javascript to be passed through using ForbiddenWords
+* Ben987 - Fixed the Club Card game's College Dropout not checking for the correct card types
 
 ## [R93]
 

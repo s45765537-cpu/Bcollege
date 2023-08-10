@@ -1223,27 +1223,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Armbinder",
-					Property: {
-						Block: ["ItemHands", "ItemHandheld"],
-					},
 				},
 				{
 					Name: "Hard",
-					Property: {
-						Block: ["ItemHands", "ItemHandheld"],
-					},
 				},
 				{
 					Name: "Reverse",
-					Property: {
-						Block: ["ItemHands", "ItemHandheld"],
-					},
 				},
 				{
 					Name: "Xcross",
-					Property: {
-						Block: ["ItemHands", "ItemHandheld"],
-					},
 				},
 			],
 			ChangeWhenLocked: false,
@@ -6948,14 +6936,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Gagged",
 					Property: {
 						Effect: ["BlockMouth", "GagMedium"],
-						OverrideAssetEffect: true,
 					},
 				},
 			],
 			DialogPrefix: {
 				Header: "SelectGagType",
-				Option: "PlugGagMouthType",
-				Chat: "PlugGagMouthSet",
 			},
 		}, // TechnoGag
 		PonyGag: {
