@@ -13,7 +13,7 @@ Clear
 Default
 默认
 Select the cards for
-选择卡牌：
+选择卡牌放入套牌:
 Click on a card to zoom it
 点击卡牌放大
 Undo changes
@@ -64,9 +64,3 @@ College Student
 大学学生
 College Teacher
 大学老师
-
-########################
-### DEPRECATED LINES ###
-########################
-Select the cards to put in deck #
-选择卡牌放入套牌#

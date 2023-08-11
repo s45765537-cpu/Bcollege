@@ -1,7 +1,5 @@
 Exit the game
 退出游戏
-undefined
-undefined
 Apartment
 公寓
 Cottage
