@@ -4,12 +4,16 @@ Select the deck to modify
 选择要编辑的套牌
 Deck #
 套牌#
+Rename
+更改名称
+Enter a new name for this deck
+为这个牌组输入新的名称
 Clear
 清空
 Default
 默认
-Select the cards to put in deck #
-选择卡牌放入套牌#
+Select the cards for
+选择卡牌：
 Click on a card to zoom it
 点击卡牌放大
 Undo changes
@@ -60,3 +64,9 @@ College Student
 大学学生
 College Teacher
 大学老师
+
+########################
+### DEPRECATED LINES ###
+########################
+Select the cards to put in deck #
+选择卡牌放入套牌#

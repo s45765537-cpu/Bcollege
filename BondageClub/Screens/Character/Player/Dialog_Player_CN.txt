@@ -1959,6 +1959,16 @@ SourceCharacter ties the cloth into a large gag over DestinationCharacter mouth.
 SourceCharacter将布料缠成一个大号口塞，盖住DestinationCharacter嘴。
 SourceCharacter ties the cloth into a large gag over DestinationCharacter mouth and nose.
 SourceCharacter将布料缠成一个大号口塞，盖住DestinationCharacter嘴和鼻子。
+Select type
+选择类型
+Masked
+面具
+Gagged
+口塞
+SourceCharacter change masked on DestinationCharacter gag.
+SourceCharacter改变DestinationCharacter口塞为面罩。
+SourceCharacter change gagged on DestinationCharacter gag.
+SourceCharacter改变DestinationCharacter面罩为口塞。
 SourceCharacter ties the scarf loosely over DestinationCharacter mouth.
 SourceCharacter系起围巾，松垮地盖住DestinationCharacter嘴。
 SourceCharacter ties the scarf covering DestinationCharacter mouth and nose.
@@ -3829,6 +3839,24 @@ SourceCharacter Cross tied DestinationCharacter straitjacket and fully exposes h
 SourceCharacter用交错的皮带将DestinationCharacter拘束衣束缚起来，完全暴露她的乳房。
 SourceCharacter chose the classic look of the straitjacket on DestinationCharacter.
 SourceCharacter为DestinationCharacter拘束衣选择了标准外观。
+Customize the look of the binder
+自定义单手套外观
+Armbinder
+单手套
+Hard Armbinder
+坚固单手套
+Reverse prayer
+后手观音
+X-cross tie
+十字束缚
+SourceCharacter close up DestinationCharacter to laced armbinder.
+SourceCharacter拉上了DestinationCharacter单手套的束带。
+SourceCharacter  bindered DestinationCharacter hard tied armbinder.
+SourceCharacter扣上了DestinationCharacter坚固单手套。
+SourceCharacter tightly tightens DestinationCharacter hands in the pose of reverse prayer.
+SourceCharacter结实地固定DestinationCharacter手，摆出后手观音的姿势。
+SourceCharacter X-Cross tied DestinationCharacter boxbinder and tightens tight.
+SourceCharacter把DestinationCharacter的束手十字交叉，牢牢地固定住。
 Customize the look of the legbinder
 自定义绑腿器的外观
 Beltbinder
@@ -5191,6 +5219,16 @@ Sun
 太阳
 Tick
 打钩
+Select nun habit ornament.
+选择修女罩袍装饰。
+Ass
+屁股
+Chastity
+贞操带
+Vulva
+阴阜
+Thighs
+大腿
 Select your design
 选择你的图案
 Club Logo
@@ -5215,6 +5253,10 @@ Laced body.
 身体系带。
 Non-Laced body.
 身体无系带。
+Non Garters.
+没有吊袜带。
+With Garters.
+有吊袜带。
 Select an option.
 选择一个选项。
 No shine

@@ -659,7 +659,7 @@ Can you give me another chance?
 ###_NPC
 (She shakes her head as you both dress up.)  I'm sorry, it wouldn't be fair to the other students.  Everyone gets one try.
 （你们穿回衣服，她摇摇头。）对不起，这对其他学生不公平。每个人可以尝试一次。
-I would love to go there with you, but you cannot out like that.
+I would love to go there with you, but you cannot go out like that.
 我很想和你一起去那里，但你不能那样出去。
 Sorry little pupil, I cannot give you the role.  You can try again on the next play.
 对不起，小学徒，我不能给你这个角色。你可以在下一场戏中再试一次。
@@ -682,3 +682,60 @@ See you soon little pupil.  If you see the next student, you can tell her to com
 ###_PLAYER
 See you soon.  (Leave her.)
 再见。（离开她。）
+Doth my queen need ministrations from this servant?
+我的女王需要这位仆人的服务吗？
+###_NPC
+(She smiles broadly) Surely your services are indeed valuable, alas, this is but a fleeting moment.
+（她露出灿烂的笑）你的服务确实很有价值，可惜美好时光转瞬即逝。
+###_PLAYER
+My damsel dearest, your services were most enjoyable.
+我最亲爱的姑娘，你的服务非常令人愉快。
+###_NPC
+(She giggles) And would I adore to serve you again, alas this is but a fleeting moment.
+（她咯咯笑）我很乐意再次为您服务，可惜美好时光转瞬即逝。
+###_PLAYER
+I see you're running another show, can I audition?
+我看到你正在排演另一场戏，我可以试镜吗？
+###_NPC
+Of course dear!
+当然，亲爱的！
+###_PLAYER
+Maybe not. I have room at a club downtown. 
+也许不。我在市中心的俱乐部有个房间。
+###_NPC
+Si! And you could continue to serve me there!
+哎！你可以继续在那里为我服务！
+###_PLAYER
+And what a pity, but maybe we have a different story?
+多么可惜，但也许我们有不同的故事？
+###_NPC
+Teatro always has more stories to tell!
+剧院总是有更多故事可讲！
+###_PLAYER
+The club does not take relationships lightly.
+俱乐部不会轻视关系。
+###_NPC
+(She turns serious and offers you a collar) I've seen this around campus as a symbol of service, do you promise to serve me?
+（她变得严肃，给你一个项圈）我在校园里看到过这个，作为服务的象征，你答应为我服务吗？
+###_PLAYER
+I do, Queen. (Kneel and allow her to lock the collar.)
+我愿意，女王。（跪下来，让她锁上项圈。）
+###_NPC
+Splendid! Take me to thy domicile, servant!
+完美无瑕！带我去你的住处吧，仆人！
+###_PLAYER
+I cannot. Maybe we can discover another relationship?
+我不能。也许我们可以探索另一种关系？
+###_NPC
+Magnifico! How about auditioning for my new show?
+精彩绝伦！那么参加我的新剧的试镜怎么样？
+Si! And I could continue to serve you there!
+哎！我可以继续在那里为你服务！
+(She kneels and offers you a collar) I've seen this around campus as a symbol of service, can you take me as your servant?
+（她跪下来，给你一个项圈）我在校园里见过这个，作为服务的象征，你可以收我做你的仆人吗？
+###_PLAYER
+I do, my girl. (Lock the collar on her.)
+我愿意，我的女孩。（把项圈锁在她身上。）
+###_NPC
+Thank you Mistress! I promise to obey and serve you!
+谢谢你，女主人！我保证服从并服务您！
