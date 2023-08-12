@@ -240,33 +240,45 @@ function GameClubCardLoadStatus() {
 /**
  * Creates a bundle of cards in a string to push to the server.
  * @param {ClubCard[]} Cards - An array of c
+ * @param {boolean} IncludeTime - If we must include the time property
  * @returns {string} - A string with all the cards
  */
-function GameClubCardDoBundle(Cards) {
+function GameClubCardDoBundle(Cards, IncludeTime = false) {
 	let Result = "";
 	if (Cards != null)
 		for (let C of Cards)
-			Result = Result + String.fromCharCode(C.ID);
+			Result = Result + String.fromCharCode(C.ID) + (IncludeTime ? ((C.Time == null) ? "N" : C.Time.toString()) : "");
 	return Result;
 }
 
 /**
  * Processes the club card game data received from the server
  * @param {string} Bundle - An array of c
+ * @param {boolean} IncludeTime - If we must include the time property
+ * @param {string} Location - The location of the card
  * @returns {ClubCard[]} - A string with all the cards
  */
-function GameClubCardUndoBundle(Bundle) {
+function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
 	let Result = [];
+	let Card;
+	let CardMode = true;
 	if (Bundle != null)
 		for (let B of Bundle) {
-			let D = B.charCodeAt(0);
-			for (let C of ClubCardList)
-				if (C.ID == D) {
-					let Card = {...C};
-					if (Card.Type == null) Card.Type = "Member";
-					Result.push(Card);
-					break;
-				}
+			if (CardMode) {
+				let D = B.charCodeAt(0);
+				for (let C of ClubCardList)
+					if (C.ID == D) {
+						Card = {...C};
+						if (Card.Type == null) Card.Type = "Member";
+						if (Location != null) Card.Location = Location;
+						Result.push(Card);
+						break;
+					}
+				if (IncludeTime) CardMode = false;
+			} else {
+				if (CommonIsNumeric(B)) Card.Time = parseInt(B);
+				CardMode = true;
+			}
 		}
 	return Result;
 }
@@ -278,6 +290,7 @@ function GameClubCardUndoBundle(Bundle) {
  * @returns {void} - Nothing
  */
 function GameClubCardLoadBundle(CCPlayer, Bundle) {
+	let Location = (Bundle.MemberNumber === Player.MemberNumber) ? "PlayerBoard" : "OpponentBoard";
 	if (Bundle.Level != null) CCPlayer.Level = Bundle.Level;
 	if (Bundle.Fame != null) CCPlayer.Fame = Bundle.Fame;
 	if (Bundle.Money != null) CCPlayer.Money = Bundle.Money;
@@ -286,7 +299,8 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
-	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board, false, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 }
 
@@ -414,7 +428,8 @@ function GameClubCardSyncOnlineData(Progress = "Action") {
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
-			Board: GameClubCardDoBundle(CCPlayer.Board)
+			Board: GameClubCardDoBundle(CCPlayer.Board),
+			Event: GameClubCardDoBundle(CCPlayer.Event, true)
 		});
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });
 	if (Progress == "Query") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet, Player1: ClubCardOnlinePlayerMemberNumber1, Player2: ClubCardOnlinePlayerMemberNumber2 });

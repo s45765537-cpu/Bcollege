@@ -1742,9 +1742,6 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
-	// Syncs online data
-	GameClubCardSyncOnlineData();
-
 	// When a turn starts, the event time goes down and might expire
 	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (CCPlayer.Event != null)
@@ -1757,6 +1754,9 @@ function ClubCardEndTurn(Draw = false) {
 				Pos--;
 			}
 		}
+
+	// Syncs online data
+	GameClubCardSyncOnlineData();
 
 }
 
