@@ -3782,6 +3782,40 @@ SourceCharacter Laced up DestinationCharacter legbinder.
 SourceCharacter зашнуровывает легбиндер DestinationCharacter.
 SourceCharacter chose the classic look of the legbinder on DestinationCharacter.
 SourceCharacter выбирает класический вид для легбиндера DestinationCharacter.
+Customize the look of the binder
+Настройте внешний вид армбиндера
+Armbinder
+Армбиндер
+Hard Armbinder
+Строгий Армбиндер
+Reverse prayer
+Обратная молитва
+X-cross tie
+Руки крестом
+SourceCharacter close up DestinationCharacter to laced armbinder.
+SourceCharacter закрывает DestinationCharacter в зашнурованный армбиндер.
+SourceCharacter  bindered DestinationCharacter hard tied armbinder.
+SourceCharacter связывает DestinationCharacter строгими ремнями армбиндера.
+SourceCharacter tightly tightens DestinationCharacter hands in the pose of reverse prayer.
+SourceCharacter туго стягивает руки DestinationCharacter в позе обратной молитвы.
+SourceCharacter X-Cross tied DestinationCharacter boxbinder and tightens tight.
+SourceCharacter складывает крестом за спиной руки DestinationCharacter и туго стягивает.
+Select type
+Выберите тип
+Masked
+Респиратор
+Gagged
+С кляпом
+SourceCharacter change masked on DestinationCharacter gag.
+SourceCharacter выбирает для DestinationCharacter респираторную маску.
+SourceCharacter change gagged on DestinationCharacter gag.
+SourceCharacter выбирает для DestinationCharacter маску с кляпом.
+Select your style.
+Выберите стиль
+Non Garters.
+Без подвязок
+With Garters.
+С подвязками
 Configure suit
 Настроить костюм
 Zip or unzip the suit
