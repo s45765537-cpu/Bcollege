@@ -246,6 +246,8 @@ Visor
 面罩
 Cap
 柱子顶盖
+Symbol
+徽记
 Outer Ear
 耳朵外侧
 Inner Ear

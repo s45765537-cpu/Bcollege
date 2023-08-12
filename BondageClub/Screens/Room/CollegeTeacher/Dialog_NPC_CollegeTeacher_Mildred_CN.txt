@@ -19,7 +19,7 @@ Greetings little miss DialogPlayerName.  How did you get here?
 The door was open.
 门是开着的。
 ###_NPC
-That's impossible.  I always double-check it.  You've sneaked in, didn't you?
+That's impossible.  I always double-check it.  You sneaked in, didn't you?
 这不可能。我总是仔细检查它。你是偷偷溜进来的，对吧？
 ###_PLAYER
 I've found this key.
@@ -31,13 +31,13 @@ You've stolen it!  And now you're sneaking in to steal our belongings?
 Julia let me in.
 Julia让我进来的。
 ###_NPC
-Even an eccentric like her wouldn't do that.  You've sneaked in, didn't you?
+Even an eccentric like her wouldn't do that.  You sneaked in, didn't you?
 即使是像她那样的怪人也不会做这种事。你是偷偷溜进来的，对吧？
 ###_PLAYER
 Yuki let me in.
 Yuki让我进来的。
 ###_NPC
-That's impossible.  Teacher Yuki knows the rules.  You've sneaked in, didn't you?
+That's impossible.  Teacher Yuki knows the rules.  You sneaked in, didn't you?
 这不可能。Yuki老师非常清楚规则。你是偷偷溜进来的，对吧？
 ###_PLAYER
 Sorry, I will leave.  (Leave her.)
@@ -612,3 +612,69 @@ Stay like that and get lost then.  Get out before I call security.
 （摇头，表示拒绝。）
 I'll have my revenge someday.  (Leave her.)
 总有一天我会报仇的。（离开她。）
+About the quiz in Literature Class...
+关于文学课测验...
+###_NPC
+(She noticably pauses and raises an eyebrow.)
+（她明显停了一会儿，扬起了眉毛。）
+###_PLAYER
+I wanted to ask you a math question.
+我想问你一个数学问题。
+###_NPC
+It's not my office hours, and I don't leave the door unlocked. You sneaked in, didn't you?
+现在不是我的办公时间，我不会不锁门。你偷偷溜进来的，对吗？
+###_PLAYER
+I need discipline to improve my grades.
+我需要一些训诫来提高我的成绩。
+###_NPC
+That much is clear. It's a pity that even the school has limits.
+这就很清楚了。可惜，现在连学校也有限制。
+###_PLAYER
+You clearly don't have the discipline to lead.
+你显然没有可以训诫的领导力。
+###_NPC
+(She sighs.) I thought discipline was lacking in today's students, but it turns out it was me.
+（她叹了口气。）我本以为现在的学生缺乏训诫，但事实上是我缺乏。
+###_PLAYER
+I'm not clear about question 69.
+关于问题69我不是很清楚。
+Can you tutor me? I have a private room.
+你可以辅导我吗？我有一个私人房间。
+###_NPC
+I'm glad you're seeking discipline. However, I require strict obedience. Do you accept? (She shows you a collar.)
+你寻求训诫让我很高兴。但是，我要求严格服从。你接受吗？（她向你展示一个项圈。）
+###_PLAYER
+Yes, Miss. (You kneel and the collar is locked.)
+是的，女士。（你跪下来，项圈被锁上了。）
+###_NPC
+Good. Now take me to your room so we can start your lessons. 
+好的。现在带我去你的房间，这样我们就可以开始你的课程了。
+###_PLAYER
+(You gulp.) No, that's too much!
+（你咽了咽。）不，这太过分了！
+###_NPC
+Then you snuck in here without a reason?
+那你就无缘无故地溜进来了？
+###_PLAYER
+(Bring her to your room.)
+（把她带到你的房间。）
+I can give you "Professional Development".
+我可以给你“专业进修课”。
+###_NPC
+You would do that for me? I would be eternally grateful. 
+你愿意为我做这个吗？我将永远感激。
+###_PLAYER
+I'll need your compliance. (Show her a collar.)
+我会需要你的配合。（给她展示一个项圈。）
+###_NPC
+Yes Miss, anything to be more disciplined.
+是的，女士，为了更自律任何事都可以。
+###_PLAYER
+Actually, that sounds like too much work.
+事实上，这听起来事情太多了。
+###_NPC
+(She fumes.) You think this is funny? Why are you really here?
+（她生气了。）你觉得这很有趣吗？你到底为什么在这里？
+###_PLAYER
+Come with me now. 
+现在跟我走吧。

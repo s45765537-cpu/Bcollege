@@ -734,3 +734,73 @@ We do.  (You both dress back up.)  You're not good enough, now get out.
 ###_PLAYER
 That's it?  I can go?
 就这了吗？我可以走了？
+Your little pet is coming back to owner. 
+你的小宠物来找主人了。
+###_NPC
+How adorable DialogPlayerName, but I'm busy with detention right now. 
+多么可爱的DialogPlayerName，但现在我要处理留堂的事情。
+###_PLAYER
+(Menacingly) I'm putting you in detention.
+（威胁地）我现在就要让你留堂。
+###_NPC
+(She stiffens from your tone and eyes you warily.) You dare to bring up the trap you laid in the library?
+（因你的语气，她紧张起来，警惕地看着你。）你还敢起你在图书馆设下的陷阱吗？
+###_PLAYER
+I just came by to say hi.
+我只是过来打个招呼。
+###_NPC
+No one comes in by just to do that. What did you do wrong?
+没有人进来只是做这。你犯了什么错？
+###_PLAYER
+I've a room at a club just for pets like me.
+我在俱乐部有一间房间，专门为像我这样的宠物准备的。
+###_NPC
+Oh? I can meet you there after I'm finished, but you must understand all pets need a collar. (She dangles a collar in your face.)
+哦？这里事情处理完了之后，我可以在那里见你，但你必须明白所有的宠物都需要项圈。（她在你面前晃了晃项圈。）
+###_PLAYER
+But I just wanted to play for a little while.
+但我只是想玩一会儿。
+###_NPC
+A little while? How about the rest of the day instead!
+一会儿？改成今天剩下的时间如何啊！
+###_PLAYER
+Of course. (Kneel and allow her to lock the collar.)
+当然。（跪下来，让她锁上项圈。）
+###_NPC
+(She smirks.) Now you're all mine to play with. See you at the club later, kitty.
+（她得意地笑。）现在你整个人都是我的玩物了。稍后在俱乐部见，小猫咪。
+###_PLAYER
+I'm sorry, I can't wear that. 
+抱歉，我不能戴上这个。
+###_NPC
+(She frowns.) You've got some guts playing around. Looks like you get to spend the rest of the day with me!
+（她皱起眉毛。）你可真敢玩啊。看来你需要和我一起度过这一天了！
+###_PLAYER
+(Meet her at the club later.)
+（稍后在俱乐部见她。）
+I dare, because I know a way to keep you quiet. 
+我当然敢，因为我知道有办法让你保持安静。
+###_NPC
+And what might that be?
+那可能是什么？
+###_PLAYER
+(Show her a collar). This will ensure your silence.
+（给她看展示一个项圈）。这将让你保持沉默的。
+###_NPC
+(She shivers.) Well, I can't argue with that... 
+（她颤抖着。）好吧，我无法反驳这一点……
+###_PLAYER
+Um.... (You search frantically for a spare collar)
+嗯……（你疯狂地翻找一个备用的项圈）
+###_NPC
+Hah! I knew you were bluffing. Now you get to spend the rest of the day with me!
+哈！我知道你就是在虚张声势。现在你可以和我一起度过这一天剩下的时间了！
+###_PLAYER
+Now kneel and let me collar you.
+现在跪下，让我给你戴上项圈。
+###_NPC
+(She kneels and bows her head). Yes, Miss DialogPlayerName.
+（她跪下并低下头。）。好的，DialogPlayerName女士。
+###_PLAYER
+(Bring her to your room.)
+（把她带到你的房间。）

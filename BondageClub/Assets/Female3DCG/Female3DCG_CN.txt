@@ -124,6 +124,8 @@ Crop Top
 露腹短上衣
 Laurel Top
 月桂上衣
+Retro Girdle Dress
+复古修身衣
 See-through Top
 透视上衣
 Jacket
@@ -715,7 +717,7 @@ Flower Crown
 Poppy Crown
 罂粟花冠
 Latex Habit
-乳胶修女
+乳胶修女罩袍
 Baseball Cap Back
 棒球帽后
 Baseball Cap Front
@@ -726,6 +728,8 @@ Cowboy Hat
 牛仔帽
 Beanie
 小圆帽
+Nun Habit
+修女罩袍
 Hair Accessory
 发饰
 Hair Ribbon 1
@@ -1722,6 +1726,8 @@ Shiny Pet Suit
 闪亮宠物拘束服
 Shiny Straitjacket
 闪亮拘束衣
+Shiny Armbinder
+闪亮单手套
 Strait Dress
 拘束连衣裙
 Open Crotch Strait Dress
@@ -2188,6 +2194,8 @@ Tentacle
 触手
 Harness OTN Plug Gag
 马具覆嘴式塞子口塞
+Techno Gag
+科技口塞
 Bridle Gag
 缰绳口塞
  Latex Sheath Gag

@@ -203,7 +203,7 @@ Red Twin
 Blue Twin
 蓝色双子
 +4 Fame per turn if Red Twin is present.
-如果蓝色双子在场，每回合+4声望。
+如果红色双子在场，每回合+4声望。
 Rope Bunny
 小绳兔
 +2 Money per turn if at least one Dominant is present.
@@ -224,6 +224,10 @@ Local Influencer
 地区领袖
 You lose 4 Money and draw a card when she enters your club.
 当她进入你的俱乐部时，你失去4金钱，并抽一张牌。
+Wannabe Princess
+梦想公主
++2 Fame per turn if your building level is a Manor.
+如果你的建筑等级是庄园，每回合+2声望。
 Waitress
 女招待
 +1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
@@ -637,7 +641,7 @@ Money gained is doubled because of SOURCEPLAYER Bank Loan event.
 Teamwork
 合作
 For 4 turns, you draw an extra card each time you draw a card.
-在3回合内，每当你抽一张卡牌时，你额外抽一张卡牌。
+在4回合内，每当你抽一张卡牌时，你额外抽一张卡牌。
 Overtime
 加班
 For 3 turns, you can play an extra card.
