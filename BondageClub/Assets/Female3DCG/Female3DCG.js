@@ -267,8 +267,8 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "RetroGirdle", Gender: "F", Prerequisite: ["HasBreasts"], Value: 1, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
-				HideItem: ["ItemNipplesLactationPump"], Extended: true,
+				Name: "RetroGirdle", Gender: "F", Prerequisite: ["HasBreasts"], Value: 50, Priority: 25, AllowPose: ["Hogtied"], HideForPose: ["AllFours"],
+				HideItem: ["ItemNipplesLactationPump"], Extended: true, HasType: false,
 				Layer: [
 					{ Name: "Base", AllowTypes: [""], },
 					{ Name: "Base_Garters", AllowTypes: ["Garters"], CopyLayerColor: "Base", },
@@ -5649,17 +5649,17 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "ShinyArmbinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Random: false, Priority: 31, Value: 1, Difficulty: 20, Left: 0, Top: 0, SelfBondage: 4, Time: 20, RemoveTime: 15, AllowLock: true, DrawLocks: false,
+				Name: "ShinyArmbinder", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Random: false, Priority: 31, Value: 50, Difficulty: 20, Left: 0, Top: 0, SelfBondage: 4, Time: 20, RemoveTime: 15, AllowLock: true, DrawLocks: false,
 				DefaultColor: ["Default", "Default", "Default", "Default",], SetPose: ["BackElbowTouch"],  Attribute: ["HoodieFix"],
-				Effect: [ "Block", "Prone"], Block: ["ItemHands", "ItemHandheld"], SelfUnlock: false, Extended: true,
+				Effect: [ "Block", "Prone"], Block: ["ItemHands", "ItemHandheld"], SelfUnlock: false, Extended: true,  HasType: false,
 				Layer: [
 				    { Name: "Bondage", AllowTypes: [""], Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Band", AllowTypes: [""], Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Band_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Band_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
 					{ Name: "Band_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Band", Priority: 6, Left: 50, Top: 200 },
-					{ Name: "Binder", AllowTypes: [""], Priority: 31, Left: 50, Top: 200 },
-					{ Name: "Binder_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Binder", Priority: 31, Left: 50, Top: 200 },
+					{ Name: "Binder", AllowTypes: [""], CopyLayerColor: "Bondage", Priority: 31, Left: 50, Top: 200 },
+					{ Name: "Binder_Xcross", AllowTypes: ["Xcross"], CopyLayerColor: "Bondage", Priority: 31, Left: 50, Top: 200 },
 					{ Name: "Straps", AllowTypes: [""], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Straps_Hard", AllowTypes: ["Hard"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
 					{ Name: "Straps_Reverse", AllowTypes: ["Reverse"], CopyLayerColor: "Band", Priority: 31, Left: 50, Top: 200  },
@@ -7224,7 +7224,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "TechnoGag", Gender: "F", Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"], Value: 1, Difficulty: 4, Time: 20, Random: false, AllowLock: true, DrawLocks: false, Extended: true,
+				Name: "TechnoGag", Gender: "F", Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"], Value: 20, Difficulty: 4, Time: 20, Random: false, AllowLock: true, DrawLocks: false, Extended: true, HasType: false,
 				Hide: ["Mouth"],
 				Effect: ["OpenMouth"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
