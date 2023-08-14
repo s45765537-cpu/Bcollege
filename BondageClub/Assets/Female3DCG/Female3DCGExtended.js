@@ -4031,21 +4031,24 @@ var AssetFemale3DCGExtended = {
 					Name: "HairShow", Key: "h",
 					Options: [
 						{}, // h0 - Show Hair
-						{
+						{ // h1 - Hide Hair
 							Property: {
 								Hide: ["HairFront", "HairBack",],
+								Attribute: ["ShortHair"],
 							},
-						},  // h1 - Hide Hair
-						{
+						},
+						{ // h2 - Show Back Hair
 							Property: {
 								Hide: ["HairFront"],
+								Attribute: ["ShortHair"],
 							},
-						}, // h2 - Show Back Hair
-						{
+						},
+						{ // h3 - Hide Hair and Accessories
 							Property: {
-								Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3"]
+								Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+								Attribute: ["ShortHair"],
 							},
-						}, // h3 - Hide Hair and Accessories
+						},
 					]
 				},
 				{
