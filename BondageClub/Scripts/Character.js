@@ -1021,10 +1021,9 @@ function CharacterLoadAttributes(C) {
 	const attributes = new Set();
 	C.Attribute = [];
 	for (const item of C.Appearance) {
-		if (Array.isArray(item.Asset.Attribute)) {
-			for (const attribute of item.Asset.Attribute) {
-				attributes.add(attribute);
-			}
+		const itemAttrs = InventoryGetItemProperty(item, "Attribute");
+		for (const attribute of itemAttrs) {
+			attributes.add(attribute);
 		}
 	}
 	C.Attribute = Array.from(attributes);
