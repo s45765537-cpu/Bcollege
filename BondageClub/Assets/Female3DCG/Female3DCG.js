@@ -4044,7 +4044,7 @@ var AssetFemale3DCG = [
 					"ItemBootsHighThighBoots", "PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["LegsClosed"], AllowPose: ["Kneel"], AllowActivePose: ["LegsClosed", "Kneel"],
-				FreezeActivePose: [], Effect: ["Prone", "Freeze", "Slow"], Block: ["ItemFeet"],
+				FreezeActivePose: [], Effect: ["Prone", "Slow"], Block: ["ItemFeet"],
 				Extended: true,
 				DrawLocks: false,
 				HasType: false,
