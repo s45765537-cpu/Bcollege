@@ -2000,6 +2000,7 @@ var AssetFemale3DCG = [
 							],
 						}],
 					},
+					{ Name: "Back", HasType: false, Priority: 1, CopyLayerColor: "Shawl" },
 					{ Name: "Shoulders", HasType: false, Priority: 30 },
 					{ Name: "Symbol", AllowTypes: ["Ass", "Breasts", "Chastity", "Cock", "Pussy", "Thighs"], Priority: 30 },
 				],
