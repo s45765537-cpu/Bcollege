@@ -3459,6 +3459,9 @@ type CraftingMode = (
 	| "OverridePriority"
 );
 
+type CraftingReorderType = "None" | "Select" | "Place";
+
+
 /**
  * A struct with an items crafting-related information.
  * @see {@link Item.Craft}
