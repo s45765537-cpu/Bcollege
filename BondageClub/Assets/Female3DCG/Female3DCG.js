@@ -541,6 +541,13 @@ var AssetFemale3DCG = [
 			{ Name: "NecklaceRope", Priority: 29, Value: -1, Left: 220, Top: 200, DefaultColor: "#956B1C", BuyGroup: "HempRope", CraftGroup: "HempRope", ParentGroup: null, Extended: true, AllowTighten: true },
 			{ Name: "ChokerTattoo", Priority: 29, Value: 5, Left: 230, Top: 200, DefaultColor: "#444444", ParentGroup: null, Extended: true },
 			{ Name: "CatsuitCollar", Priority: 31, Value: -1, Left: 148, Top: 97, BuyGroup: "Catsuit", ParentGroup: null},
+			{
+				Name: "NecklaceButterfly", Value: 50, Left: 155, Top: 152, ParentGroup: null, BuyGroup: "ButterflyPendant",
+				Layer: [
+					{ Name: "Metal" },
+					{ Name: "Stones" },
+				]
+			},
 			// Breast Compatible Clothing
 			{
 				Name: "BodyChainNecklace", Prerequisite: ["HasBreasts"], Priority: 29, Value: 50, DefaultColor: ["#d1951f", "#d1951f"], HideForPose: ["AllFours"],
@@ -6621,7 +6628,7 @@ var AssetFemale3DCG = [
 			{ Name: "CollarSun", Value: 10, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared" },
 			{ Name: "CollarLapis", Value: 10, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared" },
 			{ 
-				Name: "CollarButterfly", Value: 10, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared",
+				Name: "CollarButterfly", Value: 50, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared", BuyGroup: "ButterflyPendant",
 				Layer: [
 					{ Name: "Metal" },
 					{ Name: "Stones" },
