@@ -54,6 +54,9 @@ Item Crafting
 Создание предметов
 Leave the Club
 Покинуть Клуб
+Club Card Lounge
+Карточный Зал Клуба
+Покинуть Клуб
 Do you want to leave the club?
 Вы хотите покинуть клуб?
 Sarah's Bedroom

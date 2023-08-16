@@ -1,0 +1,489 @@
+Exit the game
+Выйти из игры
+Apartment
+Квартира
+Cottage
+Коттедж
+House
+Дом
+Mansion
+Особняк
+Manor
+Усадьба
+Fame:
+Слава:
+Money:
+Деньги:
+Play this card
+Разыграть эту карту
+Draw and end your turn
+Возьми и закончи свой ход
+Go bankrupt
+Обанкротиться
+Concede the game
+Сдаться
+Yes
+Да
+No
+Нет
+Deck #
+Колода #
+Deck #DECKNUMBER isn't valid.  Using the default deck instead.
+Колода #DECKNUMBER несуществует. Вместо этого используйте колоду по умолчанию.
+Select the deck to play with.
+Выберите колоду для игры.
+You will play with deck #DECKNUMBER.
+Вы будете играть с колодой #DECKNUMBER.
+Go bankrupt and start a fresh new club?
+Обанкротиться и основать новый клуб?
+Do you really want to concede this game?
+Вы действительно хотите сдаться и покинуть эту игру?
+You've gone bankrupt and started a new club.
+Вы обанкротились и основали новый клуб.
+Your opponent has gone bankrupt and started a new club.
+Ваш оппонент обанкротился и основал новый клуб.
+Congratulations!  You reached 100 Fame and won the game.
+Поздравляем! Вы достигли 100 славы и выиграли игру.
+Your opponent reached 100 Fame and won the game.
+Ваш оппонент набрал 100 славы и выиграл игру.
+End the game
+Завершить игру
+Your opponent is playing...
+Ваш оппонент играет...
+PLAYERNAME plays CARDNAME.
+PLAYERNAME играет с CARDNAME.
+PLAYERNAME plays CARDNAME on the opponent board.
+PLAYERNAME играет с CARDNAME на столе противника.
+PLAYER can play another card.  The turn continues.
+PLAYER может сыграть другую карту. Ход продолжается.
+You've been chosen to start the game.  Select a card to play or end your turn by drawing.
+Вы были выбраны, чтобы начать игру. Выберите карту для игры или закончите свой ход взятием карты.
+Your opponent has been chosen to start the game.  Please wait for her move.
+Ваш противник выбран для начала игры. Пожалуйста, дождитесь его хода.
+FAMEMONEY.  It's your opponent turn.
+FAMEMONEY.  Это ход вашего оппонента.
+FAMEMONEY.  It's your turn.
+FAMEMONEY.  Ваш ход.
+FAMEMONEY.  You draw a card.  It's your opponent turn.
+FAMEMONEY.  Вы берете карту. Это ход вашего оппонента.
+FAMEMONEY.  Your opponent draws a card.  It's your turn.
+FAMEMONEY.  Ваш оппонент берет карту. Ваш ход.
+Get Cottage (MONEY)
+Получить Коттедж (MONEY)
+Get House (MONEY)
+Получить Дом (MONEY)
+Get Mansion (MONEY)
+Получить Особняк (MONEY)
+Get Manor (MONEY)
+Получить Усадьбу (MONEY)
+PLAYERNAME upgraded to Cottage for MONEY.
+PLAYERNAME повышен до Коттеджа за MONEY.
+PLAYERNAME upgraded to House for MONEY.
+PLAYERNAME повышен до Дома за MONEY.
+PLAYERNAME upgraded to Mansion for MONEY.
+PLAYERNAME повышен до Особняк за MONEY.
+PLAYERNAME upgraded to Manor for MONEY.
+PLAYERNAME повешен до Усадьбы за MONEY.
+SOURCEPLAYER gained AMOUNT Fame.
+SOURCEPLAYER получил AMOUNT Славы.
+SOURCEPLAYER gained AMOUNT Money.
+SOURCEPLAYER получил AMOUNT Денег.
+SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
+SOURCEPLAYER украл AMOUNT Славы у OPPONENTPLAYER.
+SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
+SOURCEPLAYER украл AMOUNT Денег у OPPONENTPLAYER.
+Liability
+Ответственность
+Staff
+Персонал
+Police
+Полиция
+Criminal
+Преступник
+Fetishist
+Фетишист
+Porn Actress
+Порноактриса
+Maid
+Гоничная
+Asylum Patient
+Пациент психушки
+Asylum Nurse
+Медсестра психушки
+Dominant
+Доминант
+Mistress
+Госпожа
+ABDL Baby
+ABDL Ребенок
+ABDL Mommy
+ABDL Мамочка
+College Student
+Студент
+College Teacher
+Учитель
+Kinky Neighbor
+Извращенная соседка
++2 Money per turn if Cute Girl Next Door is present.
++2 Денег за ход, если присутствует Милая Соседка
+Cute Girl Next Door
+Милая Соседка
+<F>The neighborhood is getting better everyday.
+"Район становится лучше с каждым днем"
+Voyeur
+Вуайеристка
++4 Money per turn if Exhibitionist is present.
++4 Денег за ход, если присутствует Эксгибиционистка.
+Exhibitionist
+Эксгибиционистка
+<F>We prefer the term naturist.
+"Мы предпочитаем термин натурист"
+Party Animal
+Тусовщица
+<F>The best plans always begin by: Hold my beer.
+"Лучшие планы всегда начинаются со слов: «Подержи мое пиво»
+Auctioneer
+Аукционистка
+Double all bonuses from auctions.
+Удвойте все бонусы от аукционов.
+Uptown Girl
+Девушка из центра
+<F>She's been living in her white bread world.
+"Она жила в своем мире белого хлеба"
+Tourist
+Туристка
+<F>I'll need a vacation from my vacation.
+"Мне нужен отпуск от моего отпуска"
+Diplomat
+Дипломат
+<F>Business or leasure?  Pain and pleasure.
+"Бизнес или отдых? Боль и удовольствие
+Gambler
+Картежница
++4 Money when she enters your club.
++4 Денег, когда она входит в ваш клуб.
+Red Twin
+Красный близнец
+<F>We don't share minds but can share orgasms.
+"Мы не разделяем умы, но можем разделять оргазмы"
+Blue Twin
+Синий близнец
++4 Fame per turn if Red Twin is present.
++4 Славы за ход, если присутствует Красный близнец.
+Rope Bunny
+Веревочный кролик
++2 Money per turn if at least one Dominant is present.
++2 Денег за ход, если присутствует хотя бы один Доминант.
+Shy Submissive
+Застенчивая саба
+Will leave your club at end of turn if there are more than 6 members.
+Покинет ваш клуб в конце хода, если в нем больше 6 членов.
+Waitress
+Официантка
++1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
++1 Денег за ход, если присутствует Тусовщица. +1 Денег за ход, если присутствует Туристка.
+Bouncer
+Вышибала
+<F>Your ass will bounce on the street if you make me mad.
+"Твоя задница будет прыгать по улице, если ты меня разозлишь"
+Accountant
+Бухгалтер
++1 Money per turn at House level or better.  +1 Money per turn at Manor level.
++1 Денег за ход на уровне Дом или выше. +1 Денег за ход на уровне Усадьбы.
+Secretary
+Секретарша
+Your 3 turns event cards will last one extra turn.
+Ваши 3-х ходовые карты событий будут длиться один дополнительный ход.
+Associate
+Ассоциированный
+You can play one extra card per turn.
+Вы можете разыграть одну дополнительную карту за ход.
+Human Resource
+Человеческие ресурсы
+Draw an extra card each time you draw a card.
+Возьмите дополнительную карту каждый раз, когда вы берете карту.
+Policewoman
+Полицейская
+<F>I took the job for the free handcuffs.
+"Я пошла на эту работу из-за бесплатных наручников"
+Pusher
+Пушер
+Will leave the club at end of turn if a Police is present.
+Покинет клуб в конце хода, если присутствует Полиция.
+Junkie
+Наркоман
++3 Money per turn if Pusher is present.  Leave club at end of turn if a Police is present.
++3 Денег за ход, если присутствует Пушер. Покинет клуб в конце хода, если присутствует Полиция.
+Zealous Cop
+Рьяный полицейский
+<F>Rules are rules, and I'll make sure they will be followed.
+"Правила есть правила, и я позабочусь о том, чтобы они соблюдались"
+Gangster
+Гангстер
++2 Money per turn per Criminal present.  Leave the club at end of turn if a Police is present.
++2 Денег за ход за каждого присутствующего Преступника. Покинет клуб в конце хода, если присутствует Полиция.
+Paroled Thief
+Условно освобожденный
+Opponent gets +1 Money at end of turn.  Leave the club at end of turn if a Police is present.
+Соперник получает +1 Денег в конце хода. Покинет клуб в конце хода, если присутствует Полиция.
+Police Cadet
+Кадет полиции
+<F>Hey!  Give me back my keys!
+"Привет! Верните мне мои ключи!"
+Maid Lover
+Любитель горничных
++1 Money per turn for each Maid present.
++1 Денег за ход за каждую присутствующую Горничную.
+Diaper Lover
+Любитель подгузников
++1 Money per turn for each ABDL Baby present.
++1 Денег за ход за каждого присутсвующего ABDL Ребенка
+Masochist
+Мазохист
++1 Fame per turn and +1 Money per turn if at least one Dominant is present.
++1 Славы за ход и +1 Денег за ход, если присутствует хотя бы один Доминант
+Feet Worshiper
+Фут-фетешист
++2 Money per turn if at least one Porn Actress or ABDL Mommy is present.
++2 Денег за ход, если присутствует хотя бы одна Порноактриса или ABDL Мамочка
+Fin-Dom Simp
+Фин-Дом простофиля
++1 Money per turn for each Dominant present.
++1 Денег за ход за каждого присутствующего Доминанта.
+Fin-Dom Whale
+Фин-Дом растратчик
++1 Money per turn for each Dominant present and +2 Money per turn for each Mistress present.
++1 Денег за ход за каждого присутствующего Доминанта и +2 Деньги за ход за каждую присутствующую Госпожу
+Porn Addict
+Порно наркоман
++1 Money per turn for each Porn member present.
++1 Денег за ход за каждого присутствующего участника Порно.
+Porn Amateur
+Любительское порно
+<F>I'll be the next Marylin Cumroe.
+"Я буду следующей Мэрилин Камро""
+Porn Movie Director
+Режиссер порнофильмов
++1 Fame per turn and +1 Money per turn for each Porn Actress present.
++1 Слава за ход и +1 Денег за ход за каждую присутствующую Порноактрису.
+Porn Lesbian
+Лейсбийское порно
++1 Fame per turn if at least one other Porn Actress is present.
++1 Слава за ход, если присутствует хотя бы одна Порноактриса.
+Porn Veteran
+Порно ветеран
+<F>My body count?  You don't want to know.
+"Число моих партнеров? Вам лучше и не знать"
+Porn Star
+Порнозвезда
+<F>My father would not approve, until I got him a new house.
+"Мой отец не одобрял, пока я не купила ему новый дом"
+Rookie Maid
+Начинающая горничная
+<F>I can't wait for the sorority initiation.
+"Не могу дождаться посвящения в женский клуб"
+Coat Check Maid
+Гардеробщица
+<F>Do not lose your receipt ticket.
+"Не теряйте квитанцию""
+Regular Maid
+Обычная горничная
+<F>Should I refresh your drink Miss?
+"Мне освежить ваш напиток, Мисс?"
+French Maid
+Французская горничная
+<F>Pour un service impécable et coquin.
+"За безупречный и озорной сервис."
+Head Maid
+Старшая горничная
++1 Fame per turn for each other Maid present.
++1 Слава за ход за каждую присутствующую Горничную.
+Curious Patient
+Любопытный пациент
+<F>Why are the walls padded?
+Part-Time Patient
+Пациент на неполный день
++6 Money when she enters your club.
++6 Денег, когда он входит в ваш клуб.
+Novice Nurse
+Начинающая медсестра
++1 Fame per turn for each Asylum Patient present.
++1 Слава за ход за каждого присутствующего Пациента психушки
+Commited Patient
+Преданный пациент
+<F>My jacket is never tight enough.
+"Моя куртка никогда не бывает достаточно узкой"
+Veteran Nurse
+Медсестра-ветеран
++2 Fame per turn for each Asylum Patient present.
++2 Славы за ход за каждого присутствующего Пациента психушки
+Permanent Patient
+Постоянный пациент
+<F>Monday exam is quite similar to therapy Tuesday.
+"Экзамен в понедельник очень похож на терапию во вторник"
+Doctor
+Доктор
++3 Fame per turn for each Asylum Patient present.
++3 Славы за ход за каждого присутствующего Пациента психушки
+Amateur Rigger
+Любитель стяжек
+<F>Purple hands?  I'm sure it's normal.
+Фиолетовые руки? Я уверен, что это нормально.
+Domme
+Домина
+<F>Your knees will be soar tonight.
+Твои колени будут красными сегодня вечером.
+Madam
+Мадам
+<F>I will take care of your needs and your money.
+"Я позабочусь о твоих потребностях и твоих деньгах"
+<F>This collar will remind you of my power.
+"Этот ошейник будет напоминать тебе о моей власти"
+Dominatrix
+Доминантрикс
+<F>Bring your credit card slave.
+"Принеси свою кредитную карту, раб"
+Mistress Sophie
+Госпожа Софи
+<F>Votre douleur est mon plaisir.
+"Твоя боль - мое удовольствие"
+Scammer
+Мошенник
+<F>This new crypto will change everything.
+"Эта новая криптовалюта изменит все"
+Pyramid Schemer
+Интриган пирамиды
+<F>You recruit five friends, who recruit five friends, who...
+"Вы вербуете пятерых друзей, которые вербуют пятерых друзей, которые..."
+Ponzi Schemer
+Схема Понзи
+<F>Trust me, this police ankle bracelet is only a kink of mine.
+"Поверь мне, этот полицейский браслет на щиколотке - всего лишь моя изюминка"
+Party Pooper
+Зануда
+<F>Why is everyone so boring nowadays?
+"Почему в наше время все такие скучные?"
+College Dropout
+Отчисление из колледжа
+-1 Fame per turn for each College Student present.
+-1 Слава за ход за каждого присутствующую Студента
+Union Leader
+Лидер Союза
+-1 Money per turn for each Maid and Staff present.
+-1 Денег за ход за каждую присутствующую Горничную и Персонал.
+No-Fap Advocate
+Противник маструбации
+-2 Fame per turn for each Porn Actress present.
+-2 Славы за ход за каждую присутствующую Порноактрису.
+Pandora Infiltrator
+Инфильтратор Пандоры
+<F>Pssssst, you want to try a real BDSM club?
+"Псссс, хочешь попробовать настоящий БДСМ-клуб?"
+Uncontrollable Sub
+Неуправляемая саба
+-1 Fame per turn for each Dominant present.  -1 Fame per turn for each Mistress present.
+-1 Славы за ход за каждого присутствующего Доминанта. -1 Славы за ход за каждую присутствующую Госпожу.
+Baby Girl
+Малышка
++1 Money per turn if at least one ABDL Mommy is present.
++1 Денег за ход, если присутствует хотя бы одна ABDL Мамочка
+Caring Mother
+Заботливая Мать
+<F>Mother do you think they'll try to break my balls.
+"Мама, как ты думаешь, они попытаются разбить мне яйца?"
+Diaper Baby
+Подгузник для младенцев
++3 Money per turn if at least one Maid is present.
++3 Денег за ход, если присутствует хотя бы одна Горничная.
+Sugar Baby
+Богатенький младенец
+<F>This baby wants a diamond pacifier.
+"Этот ребенок хочет алмазную соску"
+Babysitter
+Няня
++2 Fame per turn for each ABDL Baby present.
++2 Славы за ход за каждого присутствующего ABDL Ребенка
+Soap Opera Mother
+Фанатка сериалов
++25 Fame when she enters your club if at least one ABDL Baby is present.
++25 Славы, когда она входит в ваш клуб, если присутствует хотя бы один ABDL Ребенок
+Amanda
+Аманда
+Immune to Ransomware.
+Иммунитет к программам-вымогателям
+Sarah
+Сара
++2 Fame per turn if Amanda is present.  -2 Fame per turn if Sidney is present.
++2 Славы за ход, если Аманда присутствует. -2 Славы за ход, если присутствует Сидни
+Sidney
+Синди
+Double all College Party bonuses.
+Удвойте все бонусы Студенческой Вечеринки.
+Jennifer
+Дженнифер
+Remove one of your member cards when she enters your club.
+Удалите одну из ваших членских карточек, когда она войдет в ваш клуб.
+College Freshwoman
+Первокурсница
++1 Fame per turn if Julia is present.  +1 Fame per turn if Yuki is present.
++1 Слава за ход, если Джулия присутствует. +1 Слава за ход, если присутствует Юки.
+College Nerd
+Ботан
++1 Money per turn if Julia is present.  +1 Fame per turn if Yuki is present.
++1 Денег за ход, если Джулия присутствует. +1 Слава за ход, если присутствует Юки.
+Hidden Genius
+Скрытый гений
++5 Fame per turn if Mildred is present.
++5 Славы за ход, если Милдред присутствует.
+Substitute Teacher
+Подмена Учителя
++1 Fame per turn for each College Student present.
++1 Слава за ход за каждого присутствующего Студента.
+Julia
+Джулия
+<F>Seeing them learn and grow is magnifico.
+"Видеть, как они учатся и растут — это великолепно"
+Yuki
+Юки
+<F>You cannot learn with a closed mind or closed legs.
+"Вы не можете учиться с закрытым умом или закрытыми ногами"
+Mildred
+Милдред
+<F>In my class, silence is gold and will be enforced.
+"В моем классе молчание — золото, и к нему будут принуждать"
+Scratch and Win
+Соскреби и выиграй
++7 Money.
++7 Денег
+Kinky Garage Sale
+Извращенная распродажа
++12 Money.
++12 Денег
+Second Mortgage
+Вторая ипотека
++20 Money.
++20 Денег
+Foreign Investment
+Иностранные инвестиции
++30 Money.
++30 Денег
+Cat Burglar
+Кошка-грабитель
+Steals up to 4 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
+Крадет до 4 денег у противника. Деньги должны быть положительными. Не сработает, если у соперника есть Полиция.
+Money Heist
+Ограбление денег
+Steals up to 12 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
+Крадет до 12 денег у противника. Деньги должны быть положительными. Не сработает, если у противника есть Полиция.
+BDSM Ball
+БДСМ Балл
++1 Fame for each member that's not Dominant, Liability, Maid or Staff.
++1 Слава за каждого члена, кроме Доминанта, Ответственности, Горничной или Персонала.
+Vampire Ball
+Вампирский Балл
++3 Fame for each member that's not Dominant, Liability, Maid or Staff.
++3 Славы за каждого члена, кроме Доминанта, Ответственности, Горничной или Персонала.
+Straitjacket Saturday
+Смирительная рубашка
++4 Money for each Asylum Patient and Asylum Nurse.
++4 Денег за каждого Пациента психушки и Медсестры психушки
