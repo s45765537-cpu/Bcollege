@@ -96,11 +96,13 @@ function TimerInventoryRemove() {
 					.build();
 				ServerSend("ChatRoomChat", {Content: "TimerRelease", Type: "Action", Dictionary});
 			} else if (removedLocks.length > 1) {
-				const Dictionary = new DictionaryBuilder()
+				const builder = new DictionaryBuilder()
 					.destinationCharacterName(C)
-					.text("LockCount", removedLocks.length.toString())
-					.build();
-				ServerSend("ChatRoomChat", {Content: "TimerReleaseMany", Type: "Action", Dictionary});
+					.text("LockCount", removedLocks.length.toString());
+				for (const [item, _lock] of removedLocks) {
+					builder.group("UnlockedGroup", item.Asset.Group.Name);
+				}
+				ServerSend("ChatRoomChat", {Content: "TimerReleaseMany", Type: "Action", Dictionary: builder.build()});
 			}
 		}
 
