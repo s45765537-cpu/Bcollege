@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-08-09
-* Last recorded PR: [#4425](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4425)
-* Last recorded commit hash: `d87e9ea3bf009b9b1f7251fbc83be8331b32a788`
+* Changelog last updated: 2023-08-16
+* Last recorded PR: [#4431](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4431)
+* Last recorded commit hash: `cac9a14907ee0bdc329e7a02b7e7fcef8c1718f1`
 
 ## [R95]
 
@@ -57,6 +57,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Added tests to verify that all types referenced in the asset layers `AllowTypes` and `AllowModuleTypes` array actually exist ([#4405](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4405))
 * EllieThePink - Fixed a missing substitution in the tighten/loosen actions ([#4409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4409))
 * EllieThePink - Fixed triggered expressions not clearing after #4402 ([#4410](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4410))
+
+## [Beta fixes]
+* Da'Inihlus - Updated chinese translation for the beta ([#4427](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4427))
+* Constantan - Fixed a couple issues with their items ([#4428](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4428), [#4429](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4429))
+* Rama - Added the missing back-part of the nun habit ([#4430](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4430))
+* Estsanatlehi - Fixed the Custom Latex Hood causing ears to "sink" ([#4431](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4431))
+* Ben987 - Corrected Sync Events in the multiplayer Club Card games
+* MAKeevchanin - Updated the Russian Translation
 
 ## [R94]
 
