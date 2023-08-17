@@ -996,6 +996,20 @@ function CommonStringSubstitute(msg, substitutions) {
 }
 
 /**
+ * Returns a nice version of the passed strings
+ *
+ * This turns ["this", "this", "that"] into "this, this, and that" using appropriate localization
+ *
+ * @param {string[]} strings The strings to join
+ */
+function CommonArrayJoinPretty(strings) {
+	const last = strings.pop();
+	let pretty = strings.join(DialogFindPlayer("PrettyArrayJoin"));
+	pretty += DialogFindPlayer("PrettyArrayJoinFinal") + last;
+	return pretty;
+}
+
+/**
  * Returns a titlecased version of the given string.
  * @param {string} str
  * @returns {string}

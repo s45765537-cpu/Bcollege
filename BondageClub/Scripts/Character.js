@@ -513,9 +513,9 @@ function CharacterBuildDialog(C, CSV) {
 
 	function parseField(fieldContents) {
 		if (typeof fieldContents !== "string") return null;
-		const str = fieldContents.trim();
+		const str = fieldContents;
 		if (str === "") return null;
-		return (str !== "" ? str : null);
+		return str;
 	}
 
 	// For each lines in the file
