@@ -100,6 +100,19 @@ class DictionaryBuilder {
 	}
 
 	/**
+	 * Adds a dictionary entry which identifies a given group.
+	 * @param {string} tag - The tag to use as the substitution
+	 * @param {AssetGroupName} groupName - The name of the group
+	 * @returns {this}
+	 */
+	group(tag, groupName) {
+		if (this._condition && groupName) {
+			this._addEntry({Tag: tag, GroupName: groupName});
+		}
+		return this;
+	}
+
+	/**
 	 * Adds a dictionary entry which identifies the focused group - the group that was acted upon to generate the message, if applicable.
 	 * @param {AssetGroupName} groupName - The name of the focus group
 	 * @returns {this}
