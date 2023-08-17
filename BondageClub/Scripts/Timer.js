@@ -64,29 +64,43 @@ function TimerInventoryRemove() {
 				CharacterSetFacialExpression(C, group.Name, null);
 		}
 
+		const removedLocks = [];
 		const timedItems = C.Appearance.filter(item => item.Property && typeof item.Property.RemoveTimer === "number" && item.Property.RemoveTimer <= CurrentTime);
 		for (let item of timedItems) {
-			const Lock = InventoryGetLock(item);
+			const lock = InventoryGetLock(item);
 			const ShouldRemoveItem = item.Property.RemoveItem;
+
+			// Keep track of the locks we've removed to send a message afterward
+			if (lock)
+				removedLocks.push([item, lock]);
 
 			// Remove any lock or timer
 			ValidationDeleteLock(item.Property, false);
-
-			// If we're removing a lock and we're in a chatroom, send a chatroom message
-			if (Lock && ServerPlayerIsInChatRoom()) {
-				const Dictionary = new DictionaryBuilder()
-					.destinationCharacterName(C)
-					.focusGroup(item.Asset.Group.Name)
-					.asset(Lock.Asset, "LockName")
-					.build();
-				ServerSend("ChatRoomChat", {Content: "TimerRelease", Type: "Action", Dictionary});
-			}
 
 			// If we must remove the linked item from the character or the facial expression
 			const group = item.Asset.Group;
 			if (ShouldRemoveItem) {
 				InventoryRemove(C, group.Name);
 				update = true;
+			}
+		}
+
+		if (ServerPlayerIsInChatRoom()) {
+			// We're in a chat room, send a message about the locks that expired
+			if (removedLocks.length === 1) {
+				const [item, lock] = removedLocks[0];
+				const Dictionary = new DictionaryBuilder()
+					.destinationCharacterName(C)
+					.focusGroup(item.Asset.Group.Name)
+					.asset(lock.Asset, "LockName")
+					.build();
+				ServerSend("ChatRoomChat", {Content: "TimerRelease", Type: "Action", Dictionary});
+			} else if (removedLocks.length > 1) {
+				const Dictionary = new DictionaryBuilder()
+					.destinationCharacterName(C)
+					.text("LockCount", removedLocks.length.toString())
+					.build();
+				ServerSend("ChatRoomChat", {Content: "TimerReleaseMany", Type: "Action", Dictionary});
 			}
 		}
 

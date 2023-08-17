@@ -687,6 +687,7 @@ TimerAddTime,,,SourceCharacter adds TimerTime TimerUnit to the padlock on Destin
 TimerRemoveTime,,,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.,,
 TimerAddRemoveUnknownTime,,,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup,,
 TimerRelease,,,The LockName on DestinationCharacterName FocusAssetGroup opens with a click,,
+TimerReleaseMany,,,The LockCount locks on DestinationCharacterName open with a click,,
 HighSecurityUpdate,,,SourceCharacter updates the key settings for the lock on DestinationCharacter FocusAssetGroup,,
 HighSecuritySave,,,Save key list,,
 HighSecuritySaveIntro,,,Enter keyholders' member numbers separated by commas.,,
