@@ -115,6 +115,8 @@ type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "A
 
 type CharacterType = "online" | "npc" | "simple";
 
+type CharacterPronouns = "SheHer" | "HeHim";
+
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 
 type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
@@ -1611,6 +1613,7 @@ interface Character {
 	RunHooks: (hookName: CharacterHook) => void;
 	HeightRatioProportion?: number;
 	GetGenders: () => string[];
+	GetPronouns: () => CharacterPronouns;
 	HasPenis: () => boolean;
 	HasVagina: () => boolean;
 	IsFlatChested: () => boolean;

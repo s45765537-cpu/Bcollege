@@ -387,6 +387,11 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		GetGenders: function () {
 			return this.Appearance.map(asset => asset.Asset.Gender).filter(a => a);
 		},
+		GetPronouns: function () {
+			const pronounItem = InventoryGet(this, "Pronouns");
+			const pronouns = pronounItem ? pronounItem.Asset.Name : "SheHer";
+			return /** @type {CharacterPronouns} */(pronouns);
+		},
 		HasPenis: function () {
 			return InventoryIsItemInList(this, "Pussy", ["Penis"]);
 		},
@@ -740,6 +745,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (Char.ID != 0 && Array.isArray(data.WhiteList)) Char.WhiteList = data.WhiteList;
 	if (Char.ID != 0 && Array.isArray(data.BlackList)) Char.BlackList = data.BlackList;
 
+
+	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
@@ -747,9 +754,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (Char.ID == 0) LoginValidCollar();
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
 
-	let tmp;
-	const oldPronouns = (tmp = currentAppearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
-	const newPronouns = (tmp = Char.Appearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
+	const newPronouns = Char.GetPronouns();
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
 		// Reload the dialog so the new gender takes effect
 		// Don't reload in initialization (when oldPronouns is undefined), which breaks translation
@@ -1983,8 +1988,7 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
 	if (HideIdentity && ChatRoomSpace == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
-		const pronounItem = C.Appearance.find(A => A.Asset.Group.Name == "Pronouns");
-		pronounName = pronounItem ? pronounItem.Asset.Name : "SheHer";
+		pronounName = C.GetPronouns();
 	}
 	return DialogFindPlayer("Pronoun" + DialogKey + pronounName);
 }
@@ -1995,8 +1999,7 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
  * @returns {string} - The text to use
  */
 function CharacterPronounDescription(C) {
-	const pronounItem = C.Appearance.find(A => A.Asset.Group.Name == "Pronouns");
-	const pronounAsset = pronounItem ? pronounItem.Asset : AssetGet(C.AssetFamily, "Pronouns", "SheHer");
+	const pronounAsset = AssetGet(C.AssetFamily, "Pronouns", C.GetPronouns());
 	return pronounAsset.Description;
 }
 
