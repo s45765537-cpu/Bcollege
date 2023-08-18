@@ -105,6 +105,7 @@ function LoginLoad() {
 	Character = [];
 	CharacterNextId = 1;
 	CharacterReset(0, "Female3DCG");
+	CharacterAppearanceSetDefault(Player);
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
