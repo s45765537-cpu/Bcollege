@@ -418,7 +418,7 @@ function VibratorModeSetAssetProperties(data) {
 function VibratorModeScriptDraw(data, drawData) {
 	var C = drawData.C;
 	// Only run vibrator updates on the player and NPCs
-	if (C.ID !== 0 && C.MemberNumber !== null) return;
+	if (!C.IsPlayer() && C.MemberNumber !== null) return;
 
 	var Item = drawData.Item;
 	// No need to update the vibrator if it has no mode

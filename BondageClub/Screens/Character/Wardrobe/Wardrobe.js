@@ -383,8 +383,8 @@ function WardrobeFastLoad(C, W, Update) {
 		PoseRefresh(C);
 		CharacterLoadCanvas(C);
 		if (Update == null || Update) {
-			if (C.ID == 0 && C.OnlineID != null) ServerPlayerAppearanceSync();
-			if (C.ID == 0 || C.AccountName.indexOf("Online-") == 0) ChatRoomCharacterUpdate(C);
+			if (C.IsPlayer() && C.OnlineID != null) ServerPlayerAppearanceSync();
+			if (C.IsPlayer() || C.AccountName.indexOf("Online-") == 0) ChatRoomCharacterUpdate(C);
 		}
 	}
 }
@@ -398,7 +398,7 @@ function WardrobeFastLoad(C, W, Update) {
  */
 function WardrobeFastSave(C, W, Push) {
 	if (Player.Wardrobe != null) {
-		var AddAll = C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0;
+		var AddAll = C.IsPlayer() || C.AccountName.indexOf("Wardrobe-") == 0;
 		Player.Wardrobe[W] = C.Appearance
 			.filter(a => a.Asset.Group.Category == "Appearance")
 			.filter(a => WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: AddAll }))

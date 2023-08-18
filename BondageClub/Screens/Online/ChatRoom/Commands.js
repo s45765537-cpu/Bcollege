@@ -541,9 +541,10 @@ const CommonCommands = [
 	{
 		Tag: 'bot',
 		Action: (_, msg) => {
-			for (const { ID, MemberNumber } of ChatRoomCharacter)
-				if (ID != 0 && MemberNumber >= 0)
-					ServerSend("ChatRoomChat", { Content: "ChatRoomBot " + msg.substring(4), Type: "Hidden", Target: MemberNumber });
+			const matches = ChatRoomCharacter.filter(c => !c.IsPlayer() && c.MemberNumber >= 0);
+			for (const match of matches) {
+				ServerSend("ChatRoomChat", { Content: "ChatRoomBot " + msg.substring(4), Type: "Hidden", Target: match.MemberNumber });
+			}
 		}
 	},
 	{

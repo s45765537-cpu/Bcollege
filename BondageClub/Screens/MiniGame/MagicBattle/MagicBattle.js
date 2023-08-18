@@ -50,8 +50,8 @@ function MagicBattleLoad() {
  */
 function MagicBattleGetDifficulty(C) {
 	let D = 0;
-	let NF = ((C.ID == 0) && (ReputationGet("HouseAmplector") >= 100) && LogQuery("Mastery", "MagicSchool")) ? 0 : 1; // House Amplector masters aren't affected by nudity
-	let BF = ((C.ID == 0) && (ReputationGet("HouseMaiestas") >= 100) && LogQuery("Mastery", "MagicSchool")) ? 0.5 : 1; // House Maiestas masters are half affected by bondage items
+	let NF = ((C.IsPlayer()) && (ReputationGet("HouseAmplector") >= 100) && LogQuery("Mastery", "MagicSchool")) ? 0 : 1; // House Amplector masters aren't affected by nudity
+	let BF = ((C.IsPlayer()) && (ReputationGet("HouseMaiestas") >= 100) && LogQuery("Mastery", "MagicSchool")) ? 0.5 : 1; // House Maiestas masters are half affected by bondage items
 	if ((InventoryGet(C, "Cloth") == null) && (InventoryGet(C, "ClothLower") == null) && (InventoryGet(C, "ClothAccessory") == null) && (InventoryGet(C, "Shoes") == null)) D = D + 2 * NF;
 	if ((InventoryGet(C, "Bra") == null) && (InventoryGet(C, "Panties") == null) && (InventoryGet(C, "Socks") == null) && (InventoryGet(C, "Gloves") == null) && (InventoryGet(C, "Garters") == null) && (InventoryGet(C, "Corset") == null)) D = D + 3 * NF;
 	if (InventoryGet(C, "ItemLegs") != null) D = D + 1 * BF;

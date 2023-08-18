@@ -276,7 +276,7 @@ function AssetsItemVulvaFuturisticVibratorScriptDrawHook(data, originalFunction,
 	var C = drawData.C;
 	var Item = drawData.Item;
 	// Only run updates on the player and NPCs
-	if (C.ID !== 0 && C.MemberNumber !== null) return;
+	if (!C.IsPlayer() && C.MemberNumber !== null) return;
 
 	// Default to some number that just means all messages are viable
 	if (typeof PersistentData.CheckTime !== "number") PersistentData.CheckTime = CommonTime();

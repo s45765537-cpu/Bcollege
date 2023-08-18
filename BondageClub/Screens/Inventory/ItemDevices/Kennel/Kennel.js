@@ -46,6 +46,6 @@ function AssetsItemDevicesKennelScriptDraw({ C, PersistentData, Item }) {
  */
 function InventoryItemDevicesKennelGetAudio(C) {
 	let wasWorn = InventoryGet(C, "ItemDevices") && InventoryGet(C, "ItemDevices").Asset.Name === "Kennel";
-	let isSelf = C.ID == 0;
+	let isSelf = C.IsPlayer();
 	return isSelf && wasWorn ? "CageStruggle" : "CageEquip";
 }

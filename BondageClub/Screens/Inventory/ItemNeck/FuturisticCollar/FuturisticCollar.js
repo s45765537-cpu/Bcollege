@@ -241,13 +241,13 @@ function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
 
 		// Make sure we do not add owner/lover only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (LockItem.Asset.OwnerOnly && !C.IsOwnedByPlayer())
-			if ((C.ID != 0) || ((C.Owner == "") && (C.Ownership == null)) || ((C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
+			if ((!C.IsPlayer()) || ((C.Owner == "") && (C.Ownership == null)) || ((C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return false;
 		if (LockItem.Asset.LoverOnly && !C.IsLoverOfPlayer())
-			if ((C.ID != 0) || (C.Lovership.length == 0) || ((C.ID == 0) && C.GetLoversNumbers(true).length == 0))
+			if ((!C.IsPlayer()) || (C.Lovership.length == 0) || ((C.IsPlayer()) && C.GetLoversNumbers(true).length == 0))
 				return false;
 		if (LockItem.Asset.FamilyOnly && !C.IsFamilyOfPlayer())
-			if ((C.ID != 0) || ((C.Owner == "") && (C.Ownership == null)) || ((C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
+			if ((!C.IsPlayer()) || ((C.Owner == "") && (C.Ownership == null)) || ((C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return false;
 
 		if (LockItem.Asset.Name == "TimerPasswordPadlock" || LockItem.Asset.Name == "MistressTimerPadlock" || LockItem.Asset.Name == "LoversTimerPadlock" || LockItem.Asset.Name == "OwnerTimerPadlock") {

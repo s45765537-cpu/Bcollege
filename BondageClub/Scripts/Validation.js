@@ -42,7 +42,7 @@ function ValidationCreateDiffParams(C, sourceMemberNumber) {
 	// An update from the player's owner is counted as being from a lover if lover locks aren't blocked by a lover rule
 	if (fromOwner && !fromLover) {
 		let ownerCanUseLoverLocks = true;
-		if (C.ID === 0 && LogQuery("BlockLoverLockOwner", "LoverRule")) {
+		if (C.IsPlayer() && LogQuery("BlockLoverLockOwner", "LoverRule")) {
 			ownerCanUseLoverLocks = false;
 		}
 		fromLover = ownerCanUseLoverLocks;

@@ -366,7 +366,7 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
 
 	let ButtonColor;
 	if (ExtendedItemPermissionMode) {
-		const IsSelfBondage = C.ID === 0;
+		const IsSelfBondage = C.IsPlayer();
 		const PlayerBlocked = InventoryIsPermissionBlocked(
 			Player, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, Type,
 		);
@@ -499,7 +499,7 @@ function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOptio
  * @returns {string | undefined} - undefined if the
  */
 function ExtendedItemCheckSelfSelect(C, Option) {
-	if (C.ID === 0 && Option.AllowSelfSelect === false) {
+	if (C.IsPlayer() && Option.AllowSelfSelect === false) {
 		return DialogFindPlayer("CannotSelfSelect");
 	}
 }
@@ -513,7 +513,7 @@ function ExtendedItemCheckSelfSelect(C, Option) {
  * a string message informing them of the requirements they do not meet.
  */
 function ExtendedItemCheckSkillRequirements(C, Item, Option) {
-	const SelfBondage = C.ID === 0;
+	const SelfBondage = C.IsPlayer();
 	if (SelfBondage) {
 		let RequiredLevel = Option.SelfBondageLevel;
 		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);

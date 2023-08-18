@@ -66,7 +66,7 @@ function SpeechGetTotalGagLevel(C, NoDeaf=false) {
 	GagEffect = GagEffect + InventoryCraftCount(C, "Large") * 2;
 	GagEffect = GagEffect - InventoryCraftCount(C, "Small") * 2;
 
-	if (C.ID != 0 && !NoDeaf) {
+	if (!C.IsPlayer() && !NoDeaf) {
 		if (Player.GetDeafLevel() >= 7) GagEffect = Math.max(GagEffect, 20);
 		else if (Player.GetDeafLevel() >= 6) GagEffect = Math.max(GagEffect, 16);
 		else if (Player.GetDeafLevel() >= 5) GagEffect = Math.max(GagEffect, 12);

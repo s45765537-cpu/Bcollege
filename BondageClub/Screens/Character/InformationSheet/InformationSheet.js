@@ -110,7 +110,7 @@ function InformationSheetRun() {
 	currentY += spacingLarge;
 
 	// For the current player or an online player
-	if ((C.ID == 0) || OnlinePlayer) {
+	if ((C.IsPlayer()) || OnlinePlayer) {
 
 		// Shows the difficulty level
 		let Days = Math.floor((CurrentTime - (((C.Difficulty == null) || (C.Difficulty.LastChange == null) || (typeof C.Difficulty.LastChange !== "number")) ? C.Creation : C.Difficulty.LastChange)) / 86400000);
@@ -146,7 +146,7 @@ function InformationSheetRun() {
 	// Draw the buttons on the right side
 	MainCanvas.textAlign = "center";
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (C.ID == 0) {
+	if (C.IsPlayer()) {
 		if (!TitleIsForced(CurrentTitle)) DrawButton(1815, 190, 90, 90, "", "White", "Icons/Title.png");
 		DrawButton(1815, 305, 90, 90, "", "White", "Icons/Preference.png");
 		DrawButton(1815, 420, 90, 90, "", "White", "Icons/FriendList.png");
@@ -174,12 +174,11 @@ function InformationSheetRun() {
 			}
 		}
 	} else if (C.IsNpc()) {
-
 		// For NPC characters, shows the lover, owner & traits
 		DrawText(TextGet("Lover") + " " + (((C.Lover == null) || (C.Lover == "")) ? TextGet("LoverNone") : C.Lover.replace("NPC-", "")), 550, 500, "Black", "Gray");
-		if ((C.Lover != null) && (C.Lover != "") && (C.ID != 0) && (NPCEventGet(C, "Girlfriend") > 0)) DrawText(TextGet("LoverFor") + " " + (Math.floor((CurrentTime - NPCEventGet(C, "Girlfriend")) / 86400000)).toString() + " " + TextGet("Days"), 550, 575, "Black", "Gray");
+		if ((C.Lover != null) && (C.Lover != "") && (NPCEventGet(C, "Girlfriend") > 0)) DrawText(TextGet("LoverFor") + " " + (Math.floor((CurrentTime - NPCEventGet(C, "Girlfriend")) / 86400000)).toString() + " " + TextGet("Days"), 550, 575, "Black", "Gray");
 		DrawText(TextGet("Owner") + " " + (((C.Owner == null) || (C.Owner == "")) ? TextGet("OwnerNone") : C.Owner.replace("NPC-", "")), 550, 650, "Black", "Gray");
-		if ((C.Owner != null) && (C.Owner != "") && (C.ID != 0) && (NPCEventGet(C, "NPCCollaring") > 0)) DrawText(TextGet("CollaredFor") + " " + (Math.floor((CurrentTime - NPCEventGet(C, "NPCCollaring")) / 86400000)).toString() + " " + TextGet("Days"), 550, 725, "Black", "Gray");
+		if ((C.Owner != null) && (C.Owner != "") && (NPCEventGet(C, "NPCCollaring") > 0)) DrawText(TextGet("CollaredFor") + " " + (Math.floor((CurrentTime - NPCEventGet(C, "NPCCollaring")) / 86400000)).toString() + " " + TextGet("Days"), 550, 725, "Black", "Gray");
 		DrawText(TextGet("Trait"), 1000, 125, "Black", "Gray");
 
 		// After one week we show the traits, after two weeks we show the level
@@ -206,7 +205,7 @@ function InformationSheetSecondScreenRun() {
 	// For current player and online characters
 	var C = InformationSheetSelection;
 	var OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
-	if ((C.ID == 0) || OnlinePlayer) {
+	if ((C.IsPlayer()) || OnlinePlayer) {
 		const lineHeight = 55;
 		// Draw the reputation section
 		DrawText(TextGet("Reputation"), 1000, 125, "Black", "Gray");
@@ -266,7 +265,7 @@ function InformationSheetSecondScreenRun() {
 function InformationSheetClick() {
 	var C = InformationSheetSelection;
 	if (MouseIn(1815, 75, 90, 90)) InformationSheetExit();
-	if (C.ID == 0) {
+	if (C.IsPlayer()) {
 		if (MouseIn(1815, 190, 90, 90) && !TitleIsForced(TitleGet(C))) CommonSetScreen("Character", "Title");
 		if (MouseIn(1815, 305, 90, 90)) CommonSetScreen("Character", "Preference");
 		if (MouseIn(1815, 420, 90, 90)) CommonSetScreen("Character", "FriendList");

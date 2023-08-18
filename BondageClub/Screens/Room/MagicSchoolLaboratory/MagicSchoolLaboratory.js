@@ -15,7 +15,7 @@ var MagicSchoolLaboratorySpellCount = 0;
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryPrepareNPC(C, House) {
-	if (C.ID != 0) {
+	if (!C.IsPlayer()) {
 		C.Stage = "0";
 		C.AllowItem = false;
 		C.House = House;

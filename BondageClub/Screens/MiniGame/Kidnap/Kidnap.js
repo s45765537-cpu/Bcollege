@@ -49,7 +49,7 @@ var KidnapRPS = ["Rock", "Scissors", "Paper"];
  */
 function KidnapLoadStats(C, Bonus) {
 	let Pandora = (KidnapReturnFunction.indexOf("Pandora") == 0);
-	if (C.ID == 0)
+	if (C.IsPlayer())
 		C.KidnapStat = [
 			6 + CharacterGetBonus(C, "Kidnap" + KidnapMoveType[0]) + ((Pandora && InfiltrationPerksActive("Strength")) ? 2 : 0),
 			6 + CharacterGetBonus(C, "Kidnap" + KidnapMoveType[1]) + ((Pandora && InfiltrationPerksActive("Charisma")) ? 2 : 0),
@@ -109,7 +109,7 @@ function KidnapSetMode(NewMode) {
 	// If we must enter in Upper Hand mode
 	if (KidnapMode == "UpperHand") KidnapUpperHandVictim = null;
 	if ((NewMode == "SelectMove") && (KidnapUpperHandVictim != null)) NewMode = "UpperHand";
-	if ((NewMode == "UpperHand") && (KidnapUpperHandVictim.ID == 0)) KidnapAIMoveUpperHand();
+	if ((NewMode == "UpperHand") && (KidnapUpperHandVictim.IsPlayer())) KidnapAIMoveUpperHand();
 
 	// If we must enter the sudden death mode
 	if ((NewMode == "SelectMove") && (Player.KidnapWillpower <= 0) && (KidnapOpponent.KidnapWillpower <= 0)) {
@@ -209,15 +209,15 @@ function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
 
 	// If we need to check to apply a restrain
 	if (((MoveName == "ItemFeet") || (MoveName == "ItemMouth")) && (InventoryGet(KidnapUpperHandVictim, MoveName) == null)) {
-		if (DoMove) InventoryWearRandom(KidnapUpperHandVictim, MoveName, (KidnapUpperHandVictim.ID == 0) ? KidnapDifficulty : 0);
+		if (DoMove) InventoryWearRandom(KidnapUpperHandVictim, MoveName, (KidnapUpperHandVictim.IsPlayer()) ? KidnapDifficulty : 0);
 		return true;
 	}
 
 	// If we need to check to dress back
-	let C = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponent : Player;
-	let Cloth = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentCloth : KidnapPlayerCloth;
-	let ClothAccessory = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentClothAccessory : KidnapPlayerClothAccessory;
-	let ClothLower = (KidnapUpperHandVictim.ID == 0) ? KidnapOpponentClothLower : KidnapPlayerClothLower;
+	let C = (KidnapUpperHandVictim.IsPlayer()) ? KidnapOpponent : Player;
+	let Cloth = (KidnapUpperHandVictim.IsPlayer()) ? KidnapOpponentCloth : KidnapPlayerCloth;
+	let ClothAccessory = (KidnapUpperHandVictim.IsPlayer()) ? KidnapOpponentClothAccessory : KidnapPlayerClothAccessory;
+	let ClothLower = (KidnapUpperHandVictim.IsPlayer()) ? KidnapOpponentClothLower : KidnapPlayerClothLower;
 	if ((MoveName == "UndoCloth") && (InventoryGet(C, "Cloth") == null) && (Cloth != null)) {
 		if (DoMove) InventoryWear(C, Cloth.Asset.Name, "Cloth", Cloth.Color);
 		if (DoMove && (ClothAccessory != null)) InventoryWear(C, ClothAccessory.Asset.Name, "ClothAccessory", ClothAccessory.Color);
@@ -229,7 +229,7 @@ function KidnapUpperHandMoveAvailable(MoveType, DoMove) {
 	if ((MoveName == "UndoItemFeet") || (MoveName == "UndoItemMouth")) {
 		const groupName = /** @type {AssetGroupName} */(MoveName.replace("Undo", ""));
 		let I = InventoryGet(C, groupName);
-		if ((I != null) && ((C.ID != 0) || !InventoryItemHasEffect(I, "Lock", true))) {
+		if ((I != null) && ((!C.IsPlayer()) || !InventoryItemHasEffect(I, "Lock", true))) {
 			if (DoMove) InventoryRemove(C, groupName);
 			return true;
 		}
@@ -446,11 +446,11 @@ function KidnapDrawMove(C, Header, X, Side) {
  * @returns {void} - Nothing
  */
 function KidnapDrawMoveUpperHand() {
-	var X = (KidnapUpperHandVictim.ID == 0) ? 1500 : 0;
-	if (KidnapUpperHandVictim.ID == 0) DrawTextWrap(TextGet("UpperHand" + KidnapUpperHandMoveType[KidnapUpperHandSelection]), 10, 300, 580, 200, "White");
+	var X = (KidnapUpperHandVictim.IsPlayer()) ? 1500 : 0;
+	if (KidnapUpperHandVictim.IsPlayer()) DrawTextWrap(TextGet("UpperHand" + KidnapUpperHandMoveType[KidnapUpperHandSelection]), 10, 300, 580, 200, "White");
 	DrawText(TextGet("UpperHandMove"), X + 250, 50, "white", "gray");
 	for (let M = 0; M <= KidnapUpperHandMoveType.length - 1; M++)
-		DrawButton(X + 50, (M * 100) + 100, 400, 70, TextGet(KidnapUpperHandMoveType[M]), (KidnapUpperHandVictim.ID != 0) ? ((KidnapUpperHandMoveAvailable(M, false)) ? "White" : "Pink") : ((KidnapUpperHandSelection == M) ? "Aquamarine" : "Pink"));
+		DrawButton(X + 50, (M * 100) + 100, 400, 70, TextGet(KidnapUpperHandMoveType[M]), (!KidnapUpperHandVictim.IsPlayer()) ? ((KidnapUpperHandMoveAvailable(M, false)) ? "White" : "Pink") : ((KidnapUpperHandSelection == M) ? "Aquamarine" : "Pink"));
 }
 
 /**
@@ -546,7 +546,7 @@ function KidnapClick() {
 	if (KidnapMode == "End") { CommonDynamicFunction(KidnapReturnFunction); return; }
 
 	// When the user wants to skip the result or upper hand selection from the AI
-	if ((KidnapMode == "Intro") || (KidnapMode == "SuddenDeath") || (KidnapMode == "ShowMove") || ((KidnapMode == "UpperHand") && (KidnapUpperHandVictim.ID == 0))) {
+	if ((KidnapMode == "Intro") || (KidnapMode == "SuddenDeath") || (KidnapMode == "ShowMove") || ((KidnapMode == "UpperHand") && (KidnapUpperHandVictim.IsPlayer()))) {
 		KidnapSetMode("SelectMove");
 		return;
 	}

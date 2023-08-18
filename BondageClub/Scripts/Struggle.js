@@ -213,7 +213,7 @@ function StruggleMinigameDraw(C) {
  */
 function StruggleProgressGetOperation(C, PrevItem, NextItem) {
 	if ((PrevItem != null) && (NextItem != null)) return DialogFindPlayer("Swapping");
-	if ((C.ID == 0) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
+	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return DialogFindPlayer("Struggling");
 	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return DialogFindPlayer("Struggling");
 	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return DialogFindPlayer("Unlocking");
@@ -661,17 +661,17 @@ function StruggleStrengthProcess(Decrease) {
  */
 function StruggleStrengthGetDifficulty(C, PrevItem, NextItem) {
 	var S = 0;
-	if ((PrevItem != null) && (C.ID == 0)) {
+	if ((PrevItem != null) && (C.IsPlayer())) {
 		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
-	if ((C.ID != 0) || ((C.ID == 0) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
+	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 2; // A little harder if there's an enclosing or mounting item
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 4; // Harder to struggle from a locked item
 
 	// When struggling to remove or swap an item while being blocked from interacting
-	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
+	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 4; // Non-blocking items become harder to struggle out when already blocked
 		if ((PrevItem.Asset.Group.Name != "ItemArms") && InventoryItemHasEffect(InventoryGet(C, "ItemArms"), "Block", true)) S = S - 4; // Harder If we don't target the arms while arms are restrained
 		if ((PrevItem.Asset.Group.Name != "ItemHands") && InventoryItemHasEffect(InventoryGet(C, "ItemHands"), "Block", true)) S = S - 4; // Harder If we don't target the hands while hands are restrained
@@ -808,17 +808,17 @@ function StruggleFlexibilitySetup(C, PrevItem, NextItem) {
 
 	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
 	var S = 0;
-	if ((PrevItem != null) && (C.ID == 0)) {
+	if ((PrevItem != null) && (C.IsPlayer())) {
 		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
-	if ((C.ID != 0) || ((C.ID == 0) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
+	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 4; // Harder if there's an enclosing or mounting item
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 2; // Locking the item has less effect on flexibility escapes
 
 	// When struggling to remove or swap an item while being blocked from interacting
-	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
+	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 4; // Non-blocking items become harder to struggle out when already blocked
 		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {
 			if (PrevItem.Asset.Fetish.includes("Metal")) S = S - 2; // Metal items are very inflexible
@@ -1012,17 +1012,17 @@ function StruggleDexteritySetup(C, PrevItem, NextItem) {
 
 	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
 	var S = 0;
-	if ((PrevItem != null) && (C.ID == 0)) {
+	if ((PrevItem != null) && (C.IsPlayer())) {
 		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
-	if ((C.ID != 0) || ((C.ID == 0) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
+	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 1; // A little harder if there's an enclosing or mounting item
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 12; // Very hard to struggle from a locked item
 
 	// When struggling to remove or swap an item while being blocked from interacting
-	if ((C.ID == 0) && !C.CanInteract() && (PrevItem != null)) {
+	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 2; // Non-blocking items become slightly harder to struggle out when already blocked
 
 		if (PrevItem.Asset.Category && PrevItem.Asset.Fetish) {

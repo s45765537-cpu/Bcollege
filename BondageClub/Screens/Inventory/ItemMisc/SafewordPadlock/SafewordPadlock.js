@@ -23,7 +23,7 @@ function InventoryItemMiscSafewordPadlockLoad() {
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
 		// It is also shown for the person who is bound by it
 		if (
-			C.ID === 0 ||
+			C.IsPlayer() ||
 			Player.MemberNumber === Property.LockMemberNumber ||
 			C.IsOwnedByPlayer() ||
 			C.IsLoverOfPlayer()

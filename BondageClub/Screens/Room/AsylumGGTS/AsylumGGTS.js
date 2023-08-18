@@ -480,9 +480,9 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "ItemEarsFuturisticEarphones") && ((InventoryGet(C, "ItemEars") != null) || InventoryGroupIsBlocked(C, "ItemEars"))) return false;
 	if ((T == "ItemNeckFuturisticCollar") && ((InventoryGet(C, "ItemNeck") != null) || InventoryGroupIsBlocked(C, "ItemNeck"))) return false;
 	if ((T == "ItemArmsFuturisticArmbinder") && ((InventoryGet(C, "ItemArms") != null) || InventoryGroupIsBlocked(C, "ItemArms"))) return false;
-	if ((T == "ItemArmsFuturisticArmbinder") && (C.ID == 0) && (SkillGetLevel(Player, "SelfBondage") < 6)) return false;
+	if ((T == "ItemArmsFuturisticArmbinder") && (C.IsPlayer()) && (SkillGetLevel(Player, "SelfBondage") < 6)) return false;
 	if ((T == "ItemArmsFuturisticStraitjacket") && ((InventoryGet(C, "ItemArms") != null) || InventoryGroupIsBlocked(C, "ItemArms"))) return false;
-	if ((T == "ItemArmsFuturisticStraitjacket") && (C.ID == 0) && (SkillGetLevel(Player, "SelfBondage") < 4)) return false;
+	if ((T == "ItemArmsFuturisticStraitjacket") && (C.IsPlayer()) && (SkillGetLevel(Player, "SelfBondage") < 4)) return false;
 	if ((T == "ItemArmsFuturisticCuffs") && ((InventoryGet(C, "ItemArms") != null) || InventoryGroupIsBlocked(C, "ItemArms"))) return false;
 	if ((T == "ItemArmsFeetFuturisticCuffs") && ((InventoryGet(C, "ItemArms") != null) || (InventoryGet(C, "ItemFeet") != null) || (InventoryGet(C, "ItemLegs") != null))) return false;
 	if ((T == "ItemArmsFeetFuturisticCuffs") && (InventoryGroupIsBlocked(C, "ItemArms") || InventoryGroupIsBlocked(C, "ItemFeet") || InventoryGroupIsBlocked(C, "ItemLegs"))) return false;
@@ -1071,7 +1071,7 @@ function AsylumGGTSProcess() {
 function AsylumGGTSActivity(S, C, A, Z, Count) {
 	if ((AsylumGGTSTask == null) || (AsylumGGTSTask.substr(0, 8) != "Activity")) return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
-	if ((S == null) || (S.ID != 0)) return;
+	if ((S == null) || !S.IsPlayer()) return;
 	if ((AsylumGGTSTaskTarget != null) && ((C == null) || (C.MemberNumber != AsylumGGTSTaskTarget.MemberNumber))) return;
 	if ((AsylumGGTSTaskTarget == null) && (C != null) && (C.MemberNumber != Player.MemberNumber)) return;
 	let Level = AsylumGGTSGetLevel(Player);
@@ -1221,7 +1221,7 @@ function AsylumGGTSUngag() {
 function AsylumGGTSTOrgasm(C) {
 	if (ChatRoomSpace !== "Asylum") return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
-	if ((C == null) || (C.ID != 0)) return;
+	if ((C == null) || (!C.IsPlayer())) return;
 	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
 	if (!AsylumGGTSGetRules(Player).includes("NoOrgasm")) return;
 	AsylumGGTSAddStrike();
@@ -1378,7 +1378,7 @@ function AsylumGGTSDrawCharacter(C, X, Y, Zoom) {
 			if (C.Game.GGTS.Rule != null)
 				for (let R = 0; R < C.Game.GGTS.Rule.length; R++)
 					DrawImageZoomCanvas("Screens/Room/AsylumGGTS/Rule" + C.Game.GGTS.Rule[R] + ".png", MainCanvas, 0, 0, 33, 33, X + 50 * Zoom + R * 33 * Zoom, Y + 902 * Zoom, 33 * Zoom, 33 * Zoom);
-			if ((C.ID == 0) && (AsylumGGTSTimer > 0) && (AsylumGGTSTimer > CommonTime()) && (C.Game.GGTS.Strike < 3)) {
+			if ((C.IsPlayer()) && (AsylumGGTSTimer > 0) && (AsylumGGTSTimer > CommonTime()) && (C.Game.GGTS.Strike < 3)) {
 				let ForeColor = (AsylumGGTSTask == null) ? "Black" : "White";
 				let BackColor = (ForeColor == "White") ? "Black" : "White";
 				if ((BackColor == "Black") && (Math.round((AsylumGGTSTimer - CommonTime()) / 1000) <= 10)) BackColor = "Red";

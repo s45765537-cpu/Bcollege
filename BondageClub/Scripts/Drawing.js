@@ -212,8 +212,8 @@ function DrawArousalThermometer(X, Y, Zoom, Progress, Automatic, Orgasm) {
  */
 function DrawArousalMeter(C, X, Y, Zoom) {
 	if (ActivityAllowed() && PreferenceArousalAtLeast(C, "Manual"))
-		if (C.ID == 0 || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
-			if (C.ID == 0 || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
+		if (C.IsPlayer() || (C.ArousalSettings.Visible == "Access" && C.AllowItem) || C.ArousalSettings.Visible == "All")
+			if (C.IsPlayer() || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter) {
 				ActivitySetArousal(C, C.ArousalSettings.Progress);
 				if (Player.ArousalSettings.VFX != "VFXInactive" && C.ArousalSettings.Progress > 0 && PreferenceArousalAtLeast(C, "Hybrid")) {
 					let Progress = 0;
@@ -278,7 +278,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapVisible === true) && (CurrentCharacter == null)
 	);
 
-	if ((C != null) && ((C.ID == 0) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
+	if ((C != null) && ((C.IsPlayer()) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
 
 		CharacterCheckHooks(C, CurrentCharacter != null);
 
@@ -316,7 +316,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		let Canvas = (Math.round(CurrentTime / 400) % C.BlinkFactor == 0 && !CommonPhotoMode) ? C.CanvasBlink : C.Canvas;
 
 		// If we must dark the Canvas characters
-		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
+		if (!C.IsPlayer() && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
 			TempCanvas.canvas.width = CanvasDrawWidth;
 		    TempCanvas.canvas.height = CanvasDrawHeight;
 
@@ -394,7 +394,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the character name below herself
-		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
+		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
 			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapVisible === false) || (CurrentCharacter != null))
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);

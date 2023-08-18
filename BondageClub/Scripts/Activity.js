@@ -114,7 +114,7 @@ function ActivityGetAllMirrorGroups(family, groupName) {
  * @returns {boolean} Whether any activity is possible
  */
 function ActivityPossibleOnGroup(char, groupname) {
-	const characterNotEnclosedOrSelfActivity = ((!char.IsEnclose() && !Player.IsEnclose()) || char.ID == 0);
+	const characterNotEnclosedOrSelfActivity = ((!char.IsEnclose() && !Player.IsEnclose()) || char.IsPlayer());
 	if (!characterNotEnclosedOrSelfActivity || !ActivityAllowed() || !CharacterHasArousalEnabled(char))
 		return false;
 
@@ -399,10 +399,10 @@ function ActivityEffect(S, C, A, Z, Count, Asset) {
 	if ((Count == null) || (Count == undefined) || (Count == 0)) Count = 1;
 
 	// Calculates the next progress factor
-	var Factor = (PreferenceGetActivityFactor(C, A.Name, (C.ID == 0)) * 5) - 10; // Check how much the character likes the activity, from -10 to +10
+	var Factor = (PreferenceGetActivityFactor(C, A.Name, (C.IsPlayer())) * 5) - 10; // Check how much the character likes the activity, from -10 to +10
 	Factor = Factor + (PreferenceGetZoneFactor(C, Z) * 5) - 10; // The zone used also adds from -10 to +10
 	Factor = Factor + Math.floor((Math.random() * 8)); // Random 0 to 7 bonus
-	if ((C.ID != S.ID) && (((C.ID != 0) && C.IsLoverOfPlayer()) || ((C.ID == 0) && S.IsLoverOfPlayer()))) Factor = Factor + Math.floor((Math.random() * 8)); // Another random 0 to 7 bonus if the target is the player's lover
+	if ((C.ID != S.ID) && (((!C.IsPlayer()) && C.IsLoverOfPlayer()) || ((C.IsPlayer()) && S.IsLoverOfPlayer()))) Factor = Factor + Math.floor((Math.random() * 8)); // Another random 0 to 7 bonus if the target is the player's lover
 	Factor = Factor + ActivityFetishFactor(C) * 2; // Adds a fetish factor based on the character preferences
 	Factor = Factor + Math.round(Factor * (Count - 1) / 3); // if the action is done repeatedly, we apply a multiplication factor based on the count
 
@@ -447,7 +447,7 @@ function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
  * @return {void} - Nothing
  */
 function ActivityChatRoomArousalSync(C) {
-	if ((C.ID == 0) && (CurrentScreen == "ChatRoom"))
+	if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom"))
 		ServerSend("ChatRoomCharacterArousalUpdate", { OrgasmTimer: C.ArousalSettings.OrgasmTimer, Progress: C.ArousalSettings.Progress, ProgressTimer: C.ArousalSettings.ProgressTimer, OrgasmCount: C.ArousalSettings.OrgasmCount });
 }
 
@@ -572,7 +572,7 @@ function ActivityOrgasmControl() {
  * @return {void} - Nothing
  */
 function ActivityOrgasmWillpowerProgress(C) {
-	if ((C.ID == 0) && (ActivityOrgasmGameProgress > 0)) {
+	if ((C.IsPlayer()) && (ActivityOrgasmGameProgress > 0)) {
 		SkillProgress(Player, "Willpower", ActivityOrgasmGameProgress);
 		ActivityOrgasmGameProgress = 0;
 	}
@@ -584,8 +584,8 @@ function ActivityOrgasmWillpowerProgress(C) {
  * @returns {void} - Nothing
  */
 function ActivityOrgasmStart(C) {
-	if ((C.ID == 0) || C.IsNpc()) {
-		if (C.ID == 0 && !ActivityOrgasmRuined) ActivityOrgasmGameResistCount = 0;
+	if ((C.IsPlayer()) || C.IsNpc()) {
+		if (C.IsPlayer() && !ActivityOrgasmRuined) ActivityOrgasmGameResistCount = 0;
 		AsylumGGTSTOrgasm(C);
 		PrivateBedOrgasm(C);
 		ActivityOrgasmWillpowerProgress(C);
@@ -594,7 +594,7 @@ function ActivityOrgasmStart(C) {
 			C.ArousalSettings.OrgasmStage = 2;
 			C.ArousalSettings.OrgasmCount = (C.ArousalSettings.OrgasmCount == null) ? 1 : C.ArousalSettings.OrgasmCount + 1;
 			ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
+			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
 
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -604,7 +604,7 @@ function ActivityOrgasmStart(C) {
 			}
 		} else {
 			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random() * 20));
-			if ((C.ID == 0) && (CurrentScreen == "ChatRoom")) {
+			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
 				let ChatModifier = C.ArousalSettings.OrgasmStage == 1 ? "Timeout" : "Surrender";
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -623,7 +623,7 @@ function ActivityOrgasmStart(C) {
  * @returns {void} - Nothing
  */
 function ActivityOrgasmStop(C, Progress) {
-	if ((C.ID == 0) || C.IsNpc()) {
+	if ((C.IsPlayer()) || C.IsNpc()) {
 		ActivityOrgasmWillpowerProgress(C);
 		C.ArousalSettings.OrgasmTimer = 0;
 		C.ArousalSettings.OrgasmStage = 0;
@@ -677,33 +677,33 @@ function ActivityOrgasmGameGenerate(Progress) {
  * @returns {void} - Nothing
  */
 function ActivityOrgasmPrepare(C, Bypass) {
-	if (C.ID == 0)
+	if (C.IsPlayer())
 		ActivityOrgasmRuined = false;
 
 	if (C.Effect.includes("DenialMode")) {
 		C.ArousalSettings.Progress = 99;
-		if (C.ID == 0 && (Bypass || C.Effect.includes("RuinOrgasms"))) ActivityOrgasmRuined = true;
+		if (C.IsPlayer() && (Bypass || C.Effect.includes("RuinOrgasms"))) ActivityOrgasmRuined = true;
 		else return;
 	}
 
 	if (C.IsEdged()) {
 		C.ArousalSettings.Progress = 95;
-		if (C.ID == 0 && Bypass) ActivityOrgasmRuined = true;
+		if (C.IsPlayer() && Bypass) ActivityOrgasmRuined = true;
 		else return;
 	}
 
-	if (C.ID == 0 && ActivityOrgasmRuined) {
+	if (C.IsPlayer() && ActivityOrgasmRuined) {
 		ActivityOrgasmGameGenerate(0); // Resets the game
 	}
 
-	if ((C.ID == 0) || C.IsNpc()) {
+	if ((C.IsPlayer()) || C.IsNpc()) {
 
 		// Starts the timer and exits from dialog if necessary
-		C.ArousalSettings.OrgasmTimer = (C.ID == 0) ? CurrentTime + 5000 : CurrentTime + (Math.random() * 10000) + 5000;
-		C.ArousalSettings.OrgasmStage = (C.ID == 0) ? 0 : 2;
+		C.ArousalSettings.OrgasmTimer = (C.IsPlayer()) ? CurrentTime + 5000 : CurrentTime + (Math.random() * 10000) + 5000;
+		C.ArousalSettings.OrgasmStage = (C.IsPlayer()) ? 0 : 2;
 		if (C.IsNpc()) PrivateBedOrgasm(C);
-		if (C.ID == 0) ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-		if ((CurrentCharacter != null) && ((C.ID == 0) || (CurrentCharacter.ID == C.ID))) DialogLeave();
+		if (C.IsPlayer()) ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
+		if ((CurrentCharacter != null) && ((C.IsPlayer()) || (CurrentCharacter.ID == C.ID))) DialogLeave();
 		ActivityChatRoomArousalSync(C);
 
 		// If an NPC orgasmed, it will raise her love based on the horny trait
@@ -836,7 +836,7 @@ function ActivityVibratorLevel(C, Level) {
  * @returns {void} - Nothing
  */
 function ActivityRunSelf(Source, Target, Activity, Group, Asset) {
-	if (((Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic")) && (Source.ID == 0) && (Target.ID != 0)) {
+	if (((Player.ArousalSettings.Active == "Hybrid") || (Player.ArousalSettings.Active == "Automatic")) && Source.IsPlayer() && !Target.IsPlayer()) {
 		var Factor = (PreferenceGetActivityFactor(Player, Activity.Name, false) * 5) - 10; // Check how much the player likes the activity, from -10 to +10
 		Factor = Factor + Math.floor((Math.random() * 8)); // Random 0 to 7 bonus
 		if (Target.IsLoverOfPlayer()) Factor = Factor + Math.floor((Math.random() * 8)); // Another random 0 to 7 bonus if the target is the player's lover
@@ -921,8 +921,8 @@ function ActivityArousalItem(Source, Target, Asset) {
 	var AssetActivity = Asset.DynamicActivity(Source);
 	if (AssetActivity != null) {
 		var Activity = AssetGetActivity(Target.AssetFamily, AssetActivity);
-		if ((Source.ID == 0) && (Target.ID != 0)) ActivityRunSelf(Source, Target, Activity, Asset.Group);
-		if (PreferenceArousalAtLeast(Target, "Hybrid") && ((Target.ID == 0) || (Target.IsNpc())))
+		if (Source.IsPlayer() && !Target.IsPlayer()) ActivityRunSelf(Source, Target, Activity, Asset.Group);
+		if (PreferenceArousalAtLeast(Target, "Hybrid") && (Target.IsPlayer() || Target.IsNpc()))
 			ActivityEffect(Source, Target, AssetActivity, Asset.Group.Name);
 	}
 }

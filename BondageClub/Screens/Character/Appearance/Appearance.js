@@ -700,7 +700,7 @@ function AppearanceMenuBuild(C) {
 
 	switch (CharacterAppearanceMode) {
 		case "":
-			if (C.ID === 0) {
+			if (C.IsPlayer()) {
 				AppearanceMenu.push(LogQuery("Wardrobe", "PrivateRoom") ? "Wardrobe" : "WardrobeDisabled");
 				if (!LogQuery("Wardrobe", "PrivateRoom") && AppearanceGroupAllowed(C, "ALL")) AppearanceMenu.push("Reset");
 				if (DialogMenuMode !== "permissions") AppearanceMenu.push("WearRandom");
@@ -816,7 +816,7 @@ function AppearanceRun() {
 	if (CharacterAppearanceHeaderTextTime < CommonTime() && CharacterAppearanceMode == "Cloth")
 		CharacterAppearanceHeaderText = "";
 	if (CharacterAppearanceHeaderText == "") {
-		if (C.ID == 0) CharacterAppearanceHeaderText = TextGet("SelectYourAppearance");
+		if (C.IsPlayer()) CharacterAppearanceHeaderText = TextGet("SelectYourAppearance");
 		else CharacterAppearanceHeaderText = TextGet("SelectSomeoneAppearance").replace("TargetCharacterName", C.Name);
 	}
 	DrawCharacter(C, -600, -100 + 4 * C.HeightModifier, 4, false);
@@ -992,7 +992,7 @@ function AppearanceRun() {
  * @returns {string} - A CSS color string determining the color that the preview icon should be drawn in
  */
 function AppearanceGetPreviewImageColor(C, item, hover) {
-	if (DialogMenuMode === "permissions" && C.ID === 0) {
+	if (DialogMenuMode === "permissions" && C.IsPlayer()) {
 		let permission = "green";
 		if (InventoryIsPermissionBlocked(C, item.Asset.Name, item.Asset.Group.Name)) permission = "red";
 		else if (InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) permission = "amber";
@@ -1700,7 +1700,7 @@ function CharacterAppearanceCopy(FromC, ToC) {
 
 	// Refreshes the second character and saves it if it's the player
 	CharacterRefresh(ToC);
-	if (ToC.ID == 0) ServerPlayerAppearanceSync();
+	if (ToC.IsPlayer()) ServerPlayerAppearanceSync();
 
 }
 

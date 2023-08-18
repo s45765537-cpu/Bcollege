@@ -11,7 +11,7 @@ function KinkyDungeonMultiplayerUpdate(Delay) {
 		for (let C = 0; C < ChatRoomCharacter.length; C++) {
 			let Char = ChatRoomCharacter[C];
 
-			if (KinkyDungeonStreamingPlayers.includes(Char.MemberNumber) && Char.ID != 0 && Char.Effect.includes("VR")) MN.push(Char.MemberNumber);
+			if (KinkyDungeonStreamingPlayers.includes(Char.MemberNumber) && !Char.IsPlayer() && Char.Effect.includes("VR")) MN.push(Char.MemberNumber);
 		}
 
 		if (MN.length > 0) {

@@ -465,7 +465,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 	}
 
 	// If the appearance update was invalid, send another update to correct any issues
-	if (!updateValid && C.ID === 0) {
+	if (!updateValid && C.IsPlayer()) {
 		console.warn("Invalid appearance update bundle received. Updating with sanitized appearance.");
 		ChatRoomCharacterUpdate(C);
 	}

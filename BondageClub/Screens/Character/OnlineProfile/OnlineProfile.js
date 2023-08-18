@@ -16,7 +16,7 @@ function OnlineProfileLoad() {
 	const DescriptionInput = /** @type {HTMLInputElement} */ (document.getElementById("DescriptionInput"));
 	DescriptionInput.setAttribute("maxlength", 10000);
 	DescriptionInput.value = (InformationSheetSelection.Description != null) ? InformationSheetSelection.Description : "";
-	if (InformationSheetSelection.ID != 0) DescriptionInput.setAttribute("readonly", "readonly");
+	if (!InformationSheetSelection.IsPlayer()) DescriptionInput.setAttribute("readonly", "readonly");
 }
 
 /**
@@ -25,10 +25,10 @@ function OnlineProfileLoad() {
  */
 function OnlineProfileRun() {
 	// Sets the screen controls
-	DrawText(TextGet((InformationSheetSelection.ID == 0) ? "EnterDescription" : "ViewDescription").replace("CharacterName", InformationSheetSelection.Name), 910, 105, "Black", "Gray");
+	DrawText(TextGet((InformationSheetSelection.IsPlayer()) ? "EnterDescription" : "ViewDescription").replace("CharacterName", InformationSheetSelection.Name), 910, 105, "Black", "Gray");
 	ElementPositionFix("DescriptionInput", 36, 100, 160, 1790, 750);
-	if (InformationSheetSelection.ID == 0) DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
-	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.ID == 0) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.ID == 0) ? "LeaveNoSave" : "Leave"));
+	if (InformationSheetSelection.IsPlayer()) DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
+	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.IsPlayer()) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.IsPlayer()) ? "LeaveNoSave" : "Leave"));
 
 }
 
@@ -38,7 +38,7 @@ function OnlineProfileRun() {
  */
 function OnlineProfileClick() {
 	if (MouseIn(1820, 60, 90, 90)) OnlineProfileExit(false);
-	if (InformationSheetSelection.ID == 0 && MouseIn(1720, 60, 90, 90)) OnlineProfileExit(true);
+	if (InformationSheetSelection.IsPlayer() && MouseIn(1720, 60, 90, 90)) OnlineProfileExit(true);
 }
 
 /**
@@ -48,7 +48,7 @@ function OnlineProfileClick() {
  */
 function OnlineProfileExit(Save) {
 	// If the current character is the player, we update the description
-	if ((InformationSheetSelection.ID == 0) && (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) && Save) {
+	if ((InformationSheetSelection.IsPlayer()) && (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) && Save) {
 		InformationSheetSelection.Description = ElementValue("DescriptionInput").trim().substr(0, 10000);
 		let Description = InformationSheetSelection.Description;
 		const CompressedDescription = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16(Description);

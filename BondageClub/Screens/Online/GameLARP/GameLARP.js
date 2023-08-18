@@ -170,7 +170,7 @@ function GameLARPRunProcess() {
 	}
 
 	// Clears the focused character if it's not the player turn
-	if ((GameLARPTurnFocusCharacter != null) && ((GameLARPGetStatus() != "Running") || (GameLARPPlayer[GameLARPTurnPosition].ID != 0))) GameLARPTurnFocusCharacter = null;
+	if ((GameLARPTurnFocusCharacter != null) && ((GameLARPGetStatus() != "Running") || !GameLARPPlayer[GameLARPTurnPosition].IsPlayer())) GameLARPTurnFocusCharacter = null;
 
 	// If we must show the focused character and available abilities
 	if (GameLARPTurnFocusCharacter != null) {
@@ -767,7 +767,7 @@ function GameLARPProcessAction(Action, ItemName, Source, Target, RNG) {
 function GameLARPCharacterClick(C) {
 
 	// If it's the player turn, we allow clicking on a character to get the abilities menu
-	if ((GameLARPGetStatus() == "Running") && (GameLARPPlayer[GameLARPTurnPosition].ID == 0) && (C.Game != null) && (C.Game.LARP != null) && (C.Game.LARP.Team != null) && (C.Game.LARP.Team != "") && (C.Game.LARP.Team != "None")) {
+	if ((GameLARPGetStatus() == "Running") && (GameLARPPlayer[GameLARPTurnPosition].IsPlayer()) && (C.Game != null) && (C.Game.LARP != null) && (C.Game.LARP.Team != null) && (C.Game.LARP.Team != "") && (C.Game.LARP.Team != "None")) {
 		GameLARPTurnFocusCharacter = C;
 		GameLARPTurnFocusGroup = null;
 		GameLARPOption = GameLARPBuildOption(Player, GameLARPTurnFocusCharacter);
@@ -849,7 +849,7 @@ function GameLARPNewTurn(Msg) {
 	else if ((!GameLARPTurnAscending) && (GameLARPTurnPosition == 0)) GameLARPNewTurnPublish(GameLARPTurnPosition, true, Msg);
 
 	// Raise a notification if it's the player's turn and they're away
-	if (!document.hasFocus() && GameLARPPlayer[GameLARPTurnPosition].ID === 0) {
+	if (!document.hasFocus() && GameLARPPlayer[GameLARPTurnPosition].IsPlayer()) {
 		NotificationRaise(NotificationEventType.LARP);
 	}
 }
