@@ -30,7 +30,13 @@ function DisclaimerClick() {
 		InventoryRemove(Player, "ItemFeet");
 		InventoryRemove(Player, "ItemLegs");
 		InventoryRemove(Player, "ItemArms");
-		CharacterAppearanceLoadCharacter(Player);
+		// Redirect the player to the login screen after they have their character created
+		CharacterAppearanceLoadCharacter(Player, (result) => {
+			if (result)
+				CommonSetScreen("Character", "Creation");
+			else
+				CommonSetScreen("Character", "Login");
+		});
 	}
 }
 
