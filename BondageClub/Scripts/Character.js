@@ -857,7 +857,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Checks if the character already exists and returns it if it's the case
 	var Char = null;
-	if (data.ID.toString() == Player.OnlineID)
+	if (data.ID.toString() == Player.CharacterID)
 		Char = Player;
 	else
 		for (let C = 0; C < Character.length; C++)
@@ -1158,7 +1158,7 @@ function CharacterRefresh(C, Push, RefreshDialog = true) {
 		C.CustomBackground = customBGItem ? customBGItem.Property.CustomBlindBackground : undefined;
 	}
 
-	if ((C.IsPlayer()) && (C.OnlineID != null) && ((Push == null) || (Push == true))) {
+	if ((C.IsPlayer()) && (C.CharacterID != null) && ((Push == null) || (Push == true))) {
 		ChatRoomRefreshChatSettings();
 		ServerPlayerAppearanceSync();
 	}

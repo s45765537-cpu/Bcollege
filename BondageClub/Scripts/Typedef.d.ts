@@ -1152,13 +1152,18 @@ interface PrivateCharacterData {
 
 interface Character {
 	ID: number;
-	/** Only on `Player` */
-	OnlineID?: string;
+	CharacterID: string;
 	Type: CharacterType;
 	/**
 	 * The character's loaded dialog info
 	 */
 	DialogInfo?: DialogInfo;
+	/**
+	 * A deprecated identifier for online characters
+	 * Only exists on the player, has the same value as their character ID.
+	 * @deprecated
+	 */
+	OnlineID?: string;
 	Name: string;
 	Nickname?: string;
 	AssetFamily: IAssetFamily;

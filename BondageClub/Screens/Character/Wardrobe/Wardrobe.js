@@ -383,7 +383,7 @@ function WardrobeFastLoad(C, W, Update) {
 		PoseRefresh(C);
 		CharacterLoadCanvas(C);
 		if (Update == null || Update) {
-			if (C.IsPlayer() && C.OnlineID != null) ServerPlayerAppearanceSync();
+			if (C.IsPlayer() && C.CharacterID != null) ServerPlayerAppearanceSync();
 			if (C.IsPlayer() || C.AccountName.indexOf("Online-") == 0) ChatRoomCharacterUpdate(C);
 		}
 	}

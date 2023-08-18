@@ -626,6 +626,7 @@ function LoginResponse(C) {
 		if (RelogData != null) {
 			LoginUpdateMessage();
 			ElementRemove("InputPassword");
+			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			CurrentCharacter = RelogData.Character;
 			CommonSetScreen(RelogData.Module, RelogData.Screen);
@@ -663,6 +664,7 @@ function LoginResponse(C) {
 			Player.Creation = C.Creation;
 			Player.Wardrobe = CharacterDecompressWardrobe(C.Wardrobe);
 			WardrobeFixLength();
+			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
 			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
