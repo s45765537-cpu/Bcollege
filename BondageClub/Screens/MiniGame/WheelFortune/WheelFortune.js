@@ -671,17 +671,19 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	while (((Item == null) || (Item.Asset == null) || (Item.Asset.AllowLock == false)) && (Try <= 30)) {
 		InventoryRemove(Player, Group, false);
 		if (Group == "ItemDevices") {
-			Item = InventoryWear(Player, CommonRandomItemFromList("", WheelFortuneEncaseList), "ItemDevices", "Default", 20);
+			const assetName = CommonRandomItemFromList("", WheelFortuneEncaseList);
+			Item = InventoryBlockedOrLimited(Player, Item) ? null : InventoryWear(Player, assetName, "ItemDevices", "Default", 20);
 		} else {
 			Item = InventoryWearRandom(Player, Group, null, false);
 		}
+
+		Try++;
+		if (Item == null) {
+			continue;
+		}
+
 		if (Group == "ItemDevices" && WheelFortuneEncaseClosedList.includes(Item.Asset.Name)) {
 			TypedItemSetOptionByName(Player, Item, "Closed");
-		}
-		Try++;
-		if (InventoryBlockedOrLimited(Player, Item)) {
-			InventoryRemove(Player, Group, false);
-			Item = InventoryGet(Player, Group);
 		}
 	}
 	if (Try > 30) {
