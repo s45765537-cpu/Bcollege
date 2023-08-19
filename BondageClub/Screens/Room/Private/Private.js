@@ -968,10 +968,11 @@ function PrivateLoadCharacter(data) {
 
 	if (!data.Name) return updateRequired;
 
-	const C = CharacterLoadNPC("NPC_Private_Custom", "Room", "Private");
+	const charID = "NPC_Private_Custom_" + PrivateCharacter.length;
+
+	const C = CharacterLoadNPC(charID, "NPC_Private_Custom", "Room", "Private");
 
 	C.Name = data.Name;
-	C.AccountName = "NPC_Private_Custom" + C.ID.toString();
 	if (data.Title != null) C.Title = data.Title;
 	if (data.AssetFamily != null) C.AssetFamily = data.AssetFamily;
 	if (data.Appearance != null) {
@@ -1018,9 +1019,8 @@ function PrivateLoadCharacter(data) {
  * @returns {NPCCharacter} - The new private room character.
  */
 function PrivateAddCharacter(Template, Archetype, CustomData) {
-	var C = CharacterLoadNPC("NPC_Private_Custom");
+	var C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom");
 	C.Name = Template.Name;
-	C.AccountName = "NPC_Private_Custom" + PrivateCharacter.length.toString();
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
 	C.Love = 0;
@@ -1055,12 +1055,9 @@ function PrivateGetCurrentID() {
  */
 function PrivateKickOut() {
 	var ID = PrivateGetCurrentID();
-	PrivateCharacter[ID] = null;
+	CharacterDelete(PrivateCharacter[ID]);
 	PrivateCharacter.splice(ID, 1);
 	ServerPrivateCharacterSync();
-	for (let P = 1; P < PrivateCharacter.length; P++)
-		if (PrivateCharacter[P] != null)
-			PrivateCharacter[P].AccountName = "NPC_Private_Custom" + P.toString();
 	DialogLeave();
 }
 
@@ -1100,10 +1097,9 @@ function PrivateChange(NewCloth) {
  * @returns {boolean} - Returns TRUE if the player's owner is inside her private room.
  */
 function PrivateOwnerInRoom() {
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		if ((PrivateCharacter[C].AccountName == null) && (PrivateCharacter[C].Name != null) && (PrivateCharacter[C].Name == Player.Owner.replace("NPC-", ""))) return true;
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsOwner() && (CurrentCharacter != null) && (PrivateCharacter[C].ID != CurrentCharacter.ID)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsOwner() && (CurrentCharacter == null)) return true;
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		if (character.IsOwner()) return true;
 	}
 	return false;
 }
@@ -1114,10 +1110,10 @@ function PrivateOwnerInRoom() {
  * @returns {boolean} - Returns TRUE if the player's lover is inside her private room.
  */
 function PrivateLoverInRoom(L) {
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		if ((PrivateCharacter[C].AccountName == null) && (PrivateCharacter[C].Name != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name) && (CurrentCharacter != null) && (PrivateCharacter[C].ID != CurrentCharacter.ID)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name) && (CurrentCharacter == null)) return true;
+	const loverInfo = Player.GetLoversNumbers()[L];
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		if ("NPC-" + character.Name === loverInfo) return true;
 	}
 	return false;
 }

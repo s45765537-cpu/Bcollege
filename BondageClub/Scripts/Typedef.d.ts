@@ -1151,9 +1151,29 @@ interface PrivateCharacterData {
 }
 
 interface Character {
+	/**
+	 * The character's cache slot ID in the Character array
+	 *
+	 * Usually meaningless, except that ID 0 is always the player,
+	 * but please use `IsPlayer()` instead of checking that.
+	 */
 	ID: number;
+	/**
+	 * The unique identifier for the character
+	 *
+	 * A value of `""` indicates the player before the login happens
+	 */
 	CharacterID: string;
+	/** The type of character: online, npc, or simple */
 	Type: CharacterType;
+	/**
+	 * The character's account name
+	 *
+	 * Note that it's only meaningful for the logged in player as the server never provides account names.
+	 * Online characters will use `"Online-"` plus their character ID, NPCs will have their dialog identifier,
+	 * and simple characters set it to CharacterID.
+	 */
+	AccountName: string;
 	/**
 	 * The character's loaded dialog info
 	 */
@@ -1164,10 +1184,10 @@ interface Character {
 	 * @deprecated
 	 */
 	OnlineID?: string;
+	/** The asset family used by the character */
+	AssetFamily: IAssetFamily;
 	Name: string;
 	Nickname?: string;
-	AssetFamily: IAssetFamily;
-	AccountName: string;
 	Owner: string;
 	Lover: string;
 	Money: number;

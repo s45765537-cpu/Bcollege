@@ -1071,7 +1071,7 @@ function AppearancePreviewBuild(C, buildCanvases) {
  */
 function AppearancePreviewCleanup() {
 	AppearancePreviews = [];
-	const previews = Character.filter(c => c.AccountName.startsWith("AppearancePreview-"));
+	const previews = Character.filter(c => c.CharacterID.startsWith("AppearancePreview-"));
 	for (const preview of previews) {
 		CharacterDelete(preview);
 	}
@@ -1668,7 +1668,7 @@ function CharacterAppearanceReady(C) {
 	CharacterAppearanceClose();
 
 	// If the character is logged in, we sync its appearance
-	if (C.IsPlayer() && C.AccountName != "") {
+	if (C.IsPlayer() && C.CharacterID != "") {
 		ServerPlayerAppearanceSync();
 	}
 	if (C.IsNpc()) {

@@ -363,7 +363,7 @@ function PandoraMsgBox(Text) {
  * @returns {NPCCharacter} - The NPC character to return
  */
 function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
-	const oldNPC = Character.find(c => c.AccountName === "NPC_Pandora_" + Group + Archetype);
+	const oldNPC = Character.find(c => c.CharacterID === "NPC_Pandora_" + Group + Archetype);
 	if (oldNPC) {
 		CharacterDelete(oldNPC);
 	}

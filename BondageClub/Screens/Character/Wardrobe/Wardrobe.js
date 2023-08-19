@@ -383,8 +383,8 @@ function WardrobeFastLoad(C, W, Update) {
 		PoseRefresh(C);
 		CharacterLoadCanvas(C);
 		if (Update == null || Update) {
-			if (C.IsPlayer() && C.CharacterID != null) ServerPlayerAppearanceSync();
-			if (C.IsPlayer() || C.AccountName.indexOf("Online-") == 0) ChatRoomCharacterUpdate(C);
+			if (C.IsPlayer()) ServerPlayerAppearanceSync();
+			if (C.IsPlayer() || C.IsOnline()) ChatRoomCharacterUpdate(C);
 		}
 	}
 }
@@ -398,7 +398,7 @@ function WardrobeFastLoad(C, W, Update) {
  */
 function WardrobeFastSave(C, W, Push) {
 	if (Player.Wardrobe != null) {
-		var AddAll = C.IsPlayer() || C.AccountName.indexOf("Wardrobe-") == 0;
+		var AddAll = C.IsPlayer() || C.CharacterID.indexOf("Wardrobe-") == 0;
 		Player.Wardrobe[W] = C.Appearance
 			.filter(a => a.Asset.Group.Category == "Appearance")
 			.filter(a => WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: AddAll }))
@@ -411,7 +411,7 @@ function WardrobeFastSave(C, W, Push) {
 				.map(WardrobeAssetBundle));
 		}
 		WardrobeFixLength();
-		if (WardrobeCharacter != null && WardrobeCharacter[W] != null && C.AccountName != WardrobeCharacter[W].AccountName) WardrobeFastLoad(WardrobeCharacter[W], W);
+		if (WardrobeCharacter != null && WardrobeCharacter[W] != null && C.CharacterID != WardrobeCharacter[W].CharacterID) WardrobeFastLoad(WardrobeCharacter[W], W);
 		if ((Push == null) || Push) ServerAccountUpdate.QueueData({ Wardrobe: CharacterCompressWardrobe(Player.Wardrobe) });
 	}
 }
@@ -491,7 +491,7 @@ function WardrobeGetExpression(C) {
 function WardrobeGroupAccessible(C, Group, Options) {
 
 	// You can always edit yourself.
-	if (C.IsPlayer() || C.AccountName.indexOf("Wardrobe-") == 0) return true;
+	if (C.IsPlayer() || C.CharacterID.indexOf("Wardrobe-") == 0) return true;
 
 	// You cannot always change body cosplay
 	if (Group.BodyCosplay && C.OnlineSharedSettings && C.OnlineSharedSettings.BlockBodyCosplay) return false;

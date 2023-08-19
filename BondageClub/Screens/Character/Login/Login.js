@@ -103,8 +103,9 @@ function LoginLoad() {
 
 	// Resets the player and other characters
 	Character = [];
-	CharacterNextId = 1;
-	CharacterReset(0, "Female3DCG");
+	CharacterNextId = 0;
+	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, ""));
 	CharacterAppearanceSetDefault(Player);
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
