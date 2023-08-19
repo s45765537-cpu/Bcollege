@@ -1133,6 +1133,23 @@ interface DialogInfo {
 	name: string;
 }
 
+/** The packed representation of a Private Room NPC */
+interface PrivateCharacterData {
+	Name: string;
+	Love: number;
+	Title: TitleName;
+	Trait: NPCTrait[];
+	Cage: boolean;
+	Owner: string;
+	Lover: string;
+	AssetFamily: "Female3DCG";
+	Appearance: AppearanceBundle,
+	AppearanceFull: AppearanceBundle,
+	ArousalSettings: Character["ArousalSettings"];
+	Event: NPCTrait[];
+	FromPandora?: boolean;
+}
+
 interface Character {
 	ID: number;
 	/** Only on `Player` */

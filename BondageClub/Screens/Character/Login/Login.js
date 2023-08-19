@@ -821,7 +821,7 @@ function LoginResponse(C) {
 			PrivateCharacter.push(Player);
 			if (C.PrivateCharacter != null)
 				for (let P = 0; P < C.PrivateCharacter.length; P++)
-					PrivateCharacter.push(C.PrivateCharacter[P]);
+					PrivateCharacterShouldSync = PrivateLoadCharacter(C.PrivateCharacter[P]) || PrivateCharacterShouldSync;
 			SarahSetStatus();
 
 			// Fixes a few items
