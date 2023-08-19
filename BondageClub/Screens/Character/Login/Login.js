@@ -104,7 +104,7 @@ function LoginLoad() {
 	Character = [];
 	CharacterNextId = 1;
 	CharacterReset(0, "Female3DCG");
-	CharacterLoadCSVDialog(Player);
+	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
@@ -758,7 +758,7 @@ function LoginResponse(C) {
 			NotificationLoad();
 
 			// Loads the dialog and removes the login controls
-			CharacterLoadCSVDialog(Player);
+			CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 			PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 			CharacterRefresh(Player, false);
 			ElementRemove("InputName");

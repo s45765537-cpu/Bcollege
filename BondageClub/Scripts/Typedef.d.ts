@@ -1475,11 +1475,21 @@ interface DialogLine {
 	Trait: string;
 }
 
+interface DialogInfo {
+	module: ModuleType;
+	screen: string;
+	name: string;
+}
+
 interface Character {
 	ID: number;
 	/** Only on `Player` */
 	OnlineID?: string;
 	Type: CharacterType;
+	/**
+	 * The character's loaded dialog info
+	 */
+	DialogInfo?: DialogInfo;
 	Name: string;
 	Nickname?: string;
 	AssetFamily: IAssetFamily;
@@ -1623,7 +1633,7 @@ interface Character {
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
-	Cage?: true | null;
+	Cage?: boolean;
 	Difficulty?: {
 		Level: number;
 		LastChange?: number;

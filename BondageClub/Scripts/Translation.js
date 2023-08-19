@@ -834,7 +834,6 @@ function TranslationDialogArray(C, T) {
 		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T, C.Name);
 		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T, C.Name);
 	}
-	CharacterDialogSubstitution(C);
 }
 
 /**
@@ -859,9 +858,8 @@ function TranslationDialog(C) {
 	// If we play in a foreign language
 	if (TranslationEnabled()) {
 
-		var OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
 		// Finds the full path of the translation file to use
-		var FullPath = (OnlinePlayer ? "Screens/Online/ChatRoom/Dialog_Online" :  (C.ID == 0) ? "Screens/Character/Player/Dialog_Player" : "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName) + "_" + TranslationLanguage + ".txt";
+		const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
 
 		// If the translation file is already loaded, we translate from it
 		if (TranslationCache[FullPath]) {
@@ -877,9 +875,6 @@ function TranslationDialog(C) {
 					TranslationDialogArray(C, TranslationCache[FullPath]);
 				}
 			});
-
-	} else {
-		CharacterDialogSubstitution(C);
 	}
 
 }
