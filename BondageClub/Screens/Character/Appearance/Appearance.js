@@ -1508,6 +1508,16 @@ function CharacterAppearanceReady(C) {
 	if (C.IsPlayer() && C.AccountName != "") {
 		ServerPlayerAppearanceSync();
 	}
+	if (C.IsNpc()) {
+		const oldAppearance = /** @type {Item[]} */(AppearanceItemParse(CharacterAppearanceBackup));
+		const pronounGroup = oldAppearance.find(a => a.Asset.Group.Name === "Pronouns");
+
+		const oldPronouns = pronounGroup ? pronounGroup.Asset.Name : "SheHer";
+
+		if (oldPronouns != C.GetPronouns()) {
+			CharacterLoadCSVDialog(C);
+		}
+	}
 	CharacterAppearanceResultCallback(true);
 }
 

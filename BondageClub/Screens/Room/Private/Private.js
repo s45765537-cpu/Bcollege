@@ -997,6 +997,7 @@ function PrivateLoadCharacter(C) {
 		NPCTraitDialog(N);
 		NPCArousal(N);
 		ActivityTimerProgress(N, 0);
+		CharacterLoadCSVDialog(N, { module: CurrentModule, screen: CurrentScreen, name: "NPC_Private_Custom" });
 		CharacterRefresh(N);
 		if (NPCEventGet(N, "PrivateRoomEntry") == 0) NPCEventAdd(N, "PrivateRoomEntry", CurrentTime);
 		PrivateCharacter[C] = N;
