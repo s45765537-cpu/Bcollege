@@ -35,6 +35,8 @@ var CharacterAppearanceColorPickerBackup = "";
 var CharacterAppearanceColorPickerRefreshTimer = null;
 /** @type {Character | null} */
 var CharacterAppearanceSelection = null;
+/** @type {(accept: boolean) => void} */
+var CharacterAppearanceResultCallback = undefined;
 var CharacterAppearanceReturnRoom = "MainHall";
 /** @type {ModuleType} */
 var CharacterAppearanceReturnModule = "Room";
@@ -1468,19 +1470,11 @@ function AppearanceExit() {
 }
 
 /**
- * Restore the characters appearance backup, if the exit button is clicked
- * @param {Character} C - The character, whose appearance backup should be used
- * @returns {void} - Nothing
+ * Common cleanup that must happen when the appearance editor closes
  */
-function CharacterAppearanceExit(C) {
+function CharacterAppearanceClose() {
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
-	CharacterAppearanceRestore(C, CharacterAppearanceBackup);
-	CharacterLoadCanvas(C);
-	if (C.AccountName != "") CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
-	else CommonSetScreen("Character", "Login");
-	CharacterAppearanceReturnRoom = "MainHall";
-	CharacterAppearanceReturnModule = "Room";
 	CharacterAppearanceHeaderText = "";
 	AppearancePreviewCleanup();
 	CharacterAppearanceWardrobeName = "";
@@ -1491,36 +1485,40 @@ function CharacterAppearanceExit(C) {
 }
 
 /**
+ * Restore the characters appearance backup, if the exit button is clicked
+ * @param {Character} C - The character, whose appearance backup should be used
+ * @returns {void} - Nothing
+ */
+function CharacterAppearanceExit(C) {
+	CharacterAppearanceClose();
+	CharacterAppearanceRestore(C, CharacterAppearanceBackup);
+	CharacterLoadCanvas(C);
+	CharacterAppearanceResultCallback(false);
+}
+
+/**
  * Handle the confirmation click in the wardrobe screen.
  * @param {Character} C - The character who has been changed
  * @returns {void} - Nothing
  */
 function CharacterAppearanceReady(C) {
-	// Exits wardrobe mode
-	ElementRemove("InputWardrobeName");
-	CharacterAppearanceMode = "";
-	CharacterAppearanceHeaderText = "";
+	CharacterAppearanceClose();
 
-	// If there's no error, we continue to the login or main hall if already logged
-	if (C.AccountName != "") {
+	// If the character is logged in, we sync its appearance
+	if (C.IsPlayer() && C.AccountName != "") {
 		ServerPlayerAppearanceSync();
-		if ((CharacterAppearanceReturnRoom == "ChatRoom") && (C.ID != 0)) {
-			const Dictionary = new DictionaryBuilder()
-				.sourceCharacter(Player)
-				.destinationCharacter(C)
-				.build();
-			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
-			ChatRoomCharacterUpdate(C);
-		}
-		CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
-		CharacterAppearanceReturnRoom = "MainHall";
-		CharacterAppearanceReturnModule = "Room";
-		if (Player.VisualSettings && AppearanceUseCharacterInPreviewsSetting !== Player.VisualSettings.UseCharacterInPreviews) {
-			Player.VisualSettings.UseCharacterInPreviews = AppearanceUseCharacterInPreviewsSetting;
-			ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
-		}
-	} else CommonSetScreen("Character", "Creation");
+	}
+	if (C.IsNpc()) {
+		const oldAppearance = /** @type {Item[]} */(AppearanceItemParse(CharacterAppearanceBackup));
+		const pronounGroup = oldAppearance.find(a => a.Asset.Group.Name === "Pronouns");
 
+		const oldPronouns = pronounGroup ? pronounGroup.Asset.Name : "SheHer";
+
+		if (oldPronouns != C.GetPronouns()) {
+			CharacterLoadCSVDialog(C);
+		}
+	}
+	CharacterAppearanceResultCallback(true);
 }
 
 /**
@@ -1550,14 +1548,21 @@ function CharacterAppearanceCopy(FromC, ToC) {
 /**
  * Loads the appearance editing screen for a character
  * @param {Character} C - The character for whom the appearance screen should be loaded
+ * @param {(result: boolean) => void} [resultCallback] - A callback executed when the appearance editor closes.
+ *  If not specified, it will change back to the previous screen automatically, otherwise the caller is
+ *  reponsible for screen changes, and `result` will be true if the appearance change was made, false otherwise.
  * @returns {void} - nothing
  */
-function CharacterAppearanceLoadCharacter(C) {
+function CharacterAppearanceLoadCharacter(C, resultCallback) {
 	CharacterAppearanceSelection = C;
-	CharacterAppearanceReturnRoom = CurrentScreen;
 	CharacterAppearanceReturnModule = CurrentModule;
-	if (CharacterAppearanceReturnRoom == "ChatRoom") {
-		ChatRoomStatusUpdate("Wardrobe");
+	CharacterAppearanceReturnRoom = CurrentScreen;
+	if (!resultCallback) {
+		CharacterAppearanceResultCallback = (_result) => {
+			CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
+		};
+	} else {
+		CharacterAppearanceResultCallback = resultCallback;
 	}
 	CommonSetScreen("Character", "Appearance");
 }

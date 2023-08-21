@@ -387,6 +387,11 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		GetGenders: function () {
 			return this.Appearance.map(asset => asset.Asset.Gender).filter(a => a);
 		},
+		GetPronouns: function () {
+			const pronounItem = InventoryGet(this, "Pronouns");
+			const pronouns = pronounItem ? pronounItem.Asset.Name : "SheHer";
+			return /** @type {CharacterPronouns} */(pronouns);
+		},
 		HasPenis: function () {
 			return InventoryIsItemInList(this, "Pussy", ["Penis"]);
 		},
@@ -505,9 +510,10 @@ function CharacterDialogSubstitution(C){
  * Builds the dialog objects from the character CSV file
  * @param {Character} C - Character for which to build the dialog
  * @param {readonly string[][]} CSV - Content of the CSV file
+ * @param {string} functionPrefix - A prefix that will be added to functions that aren't part of the Dialog or ChatRoom "namespace"
  * @returns {void} - Nothing
  */
-function CharacterBuildDialog(C, CSV) {
+function CharacterBuildDialog(C, CSV, functionPrefix) {
 
 	C.Dialog = [];
 
@@ -537,34 +543,49 @@ function CharacterBuildDialog(C, CSV) {
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
 		if (D.Function && D.Function !== "")
-			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : CurrentScreen) + D.Function;
+			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : functionPrefix) + D.Function;
 
 		C.Dialog.push(D);
-	}
-
-	// Translate the dialog if needed
-	TranslationDialog(C);
-
-	if (C === Player) {
-		for (const D of C.Dialog) {
-			if (typeof D.Result === "string")
-				PlayerDialog.set(D.Stage, D.Result);
-		}
 	}
 }
 
 /**
  * Loads the content of a CSV file to build the character dialog. Can override the current screen.
  * @param {Character} C - Character for which to build the dialog objects
- * @param {string} [Override] - Optional: Path to the specific CSV to build the character dialog with
+ * @param {DialogInfo} [info]
  * @returns {void} - Nothing
  */
-function CharacterLoadCSVDialog(C, Override) {
+function CharacterLoadCSVDialog(C, info) {
+
+	if (!info && !C.DialogInfo) {
+		console.error(`cannot refresh dialog for character ${C.ID}`);
+		return;
+	} else if (info) {
+		C.DialogInfo = info;
+	} else {
+		// Just refresh the info we have
+	}
+
+	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}.csv`;
+
+	function buildDialog() {
+		CharacterBuildDialog(C, CommonCSVCache[FullPath], C.DialogInfo.screen);
+
+		// Translate the dialog if needed and perform substitutions
+		TranslationDialog(C);
+		CharacterDialogSubstitution(C);
+
+		if (C.IsPlayer()) {
+			for (const D of C.Dialog) {
+				if (typeof D.Result === "string")
+					PlayerDialog.set(D.Stage, D.Result);
+			}
+		}
+	}
 
 	// Finds the full path of the CSV file to use cache
-	var FullPath = ((C.ID == 0) ? "Screens/Character/Player/Dialog_Player" : ((Override == null) ? "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName : Override)) + ".csv";
 	if (CommonCSVCache[FullPath]) {
-		CharacterBuildDialog(C, CommonCSVCache[FullPath]);
+		buildDialog();
 		return;
 	}
 
@@ -572,7 +593,7 @@ function CharacterLoadCSVDialog(C, Override) {
 	CommonGet(FullPath, function () {
 		if (this.status == 200) {
 			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-			CharacterBuildDialog(C, CommonCSVCache[FullPath]);
+			buildDialog();
 		}
 	});
 
@@ -659,7 +680,7 @@ function CharacterLoadNPC(NPCType) {
 	CharacterReset(CharacterNextId++, "Female3DCG", CharacterType.NPC);
 	let C = Character[Character.length - 1];
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C);
+	CharacterLoadCSVDialog(C, { module: CurrentModule, screen: CurrentScreen, name: NPCType });
 	CharacterRandomName(C);
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
@@ -724,6 +745,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (Char.ID != 0 && Array.isArray(data.WhiteList)) Char.WhiteList = data.WhiteList;
 	if (Char.ID != 0 && Array.isArray(data.BlackList)) Char.BlackList = data.BlackList;
 
+
+	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
@@ -731,13 +754,11 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (Char.ID == 0) LoginValidCollar();
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
 
-	let tmp;
-	const oldPronouns = (tmp = currentAppearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
-	const newPronouns = (tmp = Char.Appearance.find(item => item.Asset.Group.Name === "Pronouns")) && tmp && tmp.Asset.Name;
+	const newPronouns = Char.GetPronouns();
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
 		// Reload the dialog so the new gender takes effect
 		// Don't reload in initialization (when oldPronouns is undefined), which breaks translation
-		CharacterLoadCSVDialog(Char, "Screens/Online/ChatRoom/Dialog_Online");
+		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
 	}
 	CharacterLoadEffect(Char);
 	CharacterRefresh(Char);
@@ -801,7 +822,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.MemberNumber = data.MemberNumber;
 		Char.Difficulty = data.Difficulty;
 		Char.AllowItem = false;
-		CharacterLoadCSVDialog(Char, "Screens/Online/ChatRoom/Dialog_Online");
+		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
 		CharacterOnlineRefresh(Char, data, SourceMemberNumber);
 
 	} else {
@@ -1967,8 +1988,7 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
 	if (HideIdentity && ChatRoomSpace == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
-		const pronounItem = C.Appearance.find(A => A.Asset.Group.Name == "Pronouns");
-		pronounName = pronounItem ? pronounItem.Asset.Name : "SheHer";
+		pronounName = C.GetPronouns();
 	}
 	return DialogFindPlayer("Pronoun" + DialogKey + pronounName);
 }
@@ -1979,8 +1999,7 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
  * @returns {string} - The text to use
  */
 function CharacterPronounDescription(C) {
-	const pronounItem = C.Appearance.find(A => A.Asset.Group.Name == "Pronouns");
-	const pronounAsset = pronounItem ? pronounItem.Asset : AssetGet(C.AssetFamily, "Pronouns", "SheHer");
+	const pronounAsset = AssetGet(C.AssetFamily, "Pronouns", C.GetPronouns());
 	return pronounAsset.Description;
 }
 

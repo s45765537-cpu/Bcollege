@@ -435,13 +435,6 @@ function PrivateClubCardVictoryModeActive() {
  */
 function PrivateLoad() {
 
-	// Saves the private character new clothes
-	if (PrivateCharacterNewClothes != null) {
-		PrivateCharacterNewClothes.AppearanceFull = PrivateCharacterNewClothes.Appearance;
-		ServerPrivateCharacterSync();
-		PrivateCharacterNewClothes = null;
-	}
-
 	// Loads the vendor and NPCs, also check for relationship decay
 	PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
 	PrivateVendor.AllowItem = false;
@@ -1004,6 +997,7 @@ function PrivateLoadCharacter(C) {
 		NPCTraitDialog(N);
 		NPCArousal(N);
 		ActivityTimerProgress(N, 0);
+		CharacterLoadCSVDialog(N, { module: CurrentModule, screen: CurrentScreen, name: "NPC_Private_Custom" });
 		CharacterRefresh(N);
 		if (NPCEventGet(N, "PrivateRoomEntry") == 0) NPCEventAdd(N, "PrivateRoomEntry", CurrentTime);
 		PrivateCharacter[C] = N;
@@ -1093,7 +1087,14 @@ function PrivateChange(NewCloth) {
 			if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
 			PrivateCharacterNewClothes = CurrentCharacter;
 			DialogLeave();
-			CharacterAppearanceLoadCharacter(PrivateCharacterNewClothes);
+			CharacterAppearanceLoadCharacter(PrivateCharacterNewClothes, (result) => {
+				CommonSetScreen("Room", "Private");
+				if (result) {
+					PrivateCharacterNewClothes.AppearanceFull = PrivateCharacterNewClothes.Appearance;
+					ServerPrivateCharacterSync();
+					PrivateCharacterNewClothes = null;
+				}
+			});
 	}
 }
 

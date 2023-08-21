@@ -2053,11 +2053,7 @@ function ChatRoomMenuClick() {
 				case "Dress":
 					// When the user wants to change clothes
 					if (Player.CanChangeOwnClothes()) {
-						ChatRoomHideElements();
-						CharacterAppearanceReturnRoom = "ChatRoom";
-						CharacterAppearanceReturnModule = "Online";
-						ChatRoomStatusUpdate("Wardrobe");
-						CharacterAppearanceLoadCharacter(Player);
+						ChatRoomAppearanceLoadCharacter(Player);
 					}
 					break;
 				case "Profile":
@@ -4036,13 +4032,36 @@ function ChatRoomAllowItem(data) {
 }
 
 /**
+ * Opens the appearance editor for the given character
+ * @param {Character} C
+ */
+function ChatRoomAppearanceLoadCharacter(C) {
+	ChatRoomHideElements();
+	ChatRoomStatusUpdate("Wardrobe");
+	if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
+		ChatRoomStatusUpdate("Wardrobe");
+	}
+	CharacterAppearanceLoadCharacter(C, (ready) => {
+		CommonSetScreen("Online", "ChatRoom");
+		if (ready && !C.IsPlayer()) {
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.destinationCharacter(C)
+				.build();
+			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+			ChatRoomCharacterUpdate(C);
+		}
+	});
+}
+
+/**
  * Triggered when the player wants to change another player's outfit.
  * @returns {void} - Nothing
  */
 function DialogChangeClothes() {
-	var C = CurrentCharacter;
+	const C = CurrentCharacter;
 	DialogLeave();
-	CharacterAppearanceLoadCharacter(C);
+	ChatRoomAppearanceLoadCharacter(C);
 }
 
 /**
