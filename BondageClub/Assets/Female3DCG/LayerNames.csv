@@ -99,6 +99,8 @@ NecklaceNecklaceBallGagBall,Ball
 NecklaceNecklaceBallGagStrap,Strap
 NecklaceBodyChainNecklaceChains,Chains
 NecklaceBodyChainNecklaceChoker,Choker
+NecklaceNecklaceButterflyMetal,Metal
+NecklaceNecklaceButterflyStones,Jewels
 SuitCatsuitBase,Suit
 SuitCatsuitZip,Zip
 SuitCatsuitOpaqueGloves,Gloves
@@ -718,6 +720,8 @@ ItemNeckAccessoriesCustomCollarTagText,Text
 ItemNeckAccessoriesElectronicTagTag,Tag
 ItemNeckAccessoriesElectronicTagDisplay,Display
 ItemNeckAccessoriesElectronicTagText,Text
+ItemNeckAccessoriesCollarButterflyMetal,Metal
+ItemNeckAccessoriesCollarButterflyStones,Jewels
 ItemNeckRestraintsCollarRopeShortRope,Rope
 ItemNeckRestraintsCollarRopeShortPlate,Plate
 ItemNeckRestraintsCollarRopeMediumRope,Rope

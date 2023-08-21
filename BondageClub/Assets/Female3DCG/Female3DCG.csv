@@ -111,6 +111,7 @@ Necklace,NecklaceRope,Rope Necklace
 Necklace,ChokerTattoo,Tattoo Choker
 Necklace,CatsuitCollar,Catsuit Collar
 Necklace,BodyChainNecklace,Body Chain Necklace
+Necklace,NecklaceButterfly,Butterfly Necklace
 Suit,,Upper Suit
 Suit,Catsuit,Catsuit
 Suit,SeamlessCatsuit, Seamless Catsuit
@@ -1329,6 +1330,7 @@ ItemNeckAccessories,CollarRose,Rose
 ItemNeckAccessories,CollarCowBell,Cowbell
 ItemNeckAccessories,CollarPupBone,Pup Bone
 ItemNeckAccessories,Key,Key
+ItemNeckAccessories,CollarButterfly,Butterfly Pendant
 ItemNeckRestraints,,Collar
 ItemNeckRestraints,CollarChainLong,Long Chain
 ItemNeckRestraints,CollarChainShort,Short Chain
