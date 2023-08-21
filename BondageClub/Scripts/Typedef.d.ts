@@ -841,7 +841,7 @@ interface IChatRoomMessageMetadata {
 	/** The {@link CraftingItem.Name} of the assets referenced in the message (if applicable) */
 	CraftingNames?: Record<string, string>;
 	/** The groups referenced in the message */
-	Groups?: Partial<Record<AssetGroupName, AssetGroup>>;
+	Groups?: Partial<Record<AssetGroupName, AssetGroup[]>>;
 	/** How intense the shock should be */
 	ShockIntensity?: number;
 	ActivityCounter?: number;

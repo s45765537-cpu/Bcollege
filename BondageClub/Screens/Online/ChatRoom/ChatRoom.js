@@ -2836,7 +2836,8 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			const group = AssetGroupGet("Female3DCG", entry.GroupName);
 			if (group) {
 				if (!meta.Groups) meta.Groups = {};
-				meta.Groups[entry.Tag] = group;
+				if (!meta.Groups[entry.Tag]) meta.Groups[entry.Tag] = [];
+				meta.Groups[entry.Tag].push(group);
 			}
 		} else if (IsFocusGroupDictionaryEntry(entry)) {
 			const group = /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", entry.FocusGroupName));
@@ -2893,6 +2894,20 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 	// If there's a focus group, add a substitution for the group name
 	if (meta.FocusGroup) {
 		substitutions.push(...ChatRoomGetFocusGroupSubstitutions(data, meta.FocusGroup, meta.TargetCharacter));
+	}
+
+	// If there are referenced groups, add a substitution for the collected groups under their pluralized tag
+	if (meta.Groups) {
+		for (const [tag, groups] of Object.entries(meta.Groups)) {
+			const groupNames = groups.map(group => {
+				if (meta.TargetCharacter) {
+					return DialogActualNameForGroup(meta.TargetCharacter, group).toLowerCase();
+				}
+				return group.Description;
+			});
+			groupNames.sort((a, b) => a.localeCompare(b));
+			substitutions.push([tag + "s", CommonArrayJoinPretty(groupNames)]);
+		}
 	}
 
 	// If there are referenced assets, substitute asset names

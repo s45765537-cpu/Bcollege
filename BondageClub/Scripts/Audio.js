@@ -73,7 +73,7 @@ var AudioActions = [
 		GetSoundEffect: () => "LockSmall"
 	},
 	{
-		IsAction: (data) => data.Content === "TimerRelease",
+		IsAction: (data) => data.Content.startsWith("TimerRelease"),
 		GetSoundEffect: () => "Unlock"
 	},
 	{
