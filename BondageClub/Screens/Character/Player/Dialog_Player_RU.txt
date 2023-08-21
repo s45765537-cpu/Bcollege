@@ -92,6 +92,12 @@
 (You can use or remove items by selecting specific body regions on yourself.)
 (Вы можете использовать или удалять предметы, выбирая определенные области тела на себе.)
 ###_PLAYER
+(Boot Kinky Dungeon)
+(Пни Kinky Dungeon)
+###_NPC
+(The helmet chimes as Kinky Dungeon starts up)
+(Шлем звенит, когда запускается Kinky Dungeon)
+###_PLAYER
 (Call the maids for help)
 (Позовите горничных на помощь)
 ###_NPC
@@ -245,10 +251,18 @@ Select an item to use.
 Выберите предмет для использования.
 Select an item to use on the GroupName.
 Выберите предмет для использования в GroupName.
+Select a lock to use on the GroupName.
+Выберите замок для использования на GroupName.
+This looks like its locked by a AssetName.
+Похоже на то, что он заблокирован AssetName.
+This looks like its locked by something.
+Похоже, он чем-то заблокирован.
 Select an activity.
 Выберите действие.
 Select an activity to use on the GroupName.
 Выберите действие для использования в GroupName.
+No activity available on the GroupName.
+Нет доступных действий в GroupName.
 Cannot use on yourself.
 Нельзя использовать на себе.
 Requires self-bondage 1.
@@ -329,6 +343,8 @@ Must remove shackles first.
 Сначала нужно снять кандалы.
 Must remove face mask first.
 Сначала необходимо снять маску с лица.
+Cannot close on shaft.
+Не может закрыться тут.
 Must empty vulva first.
 Сначала нужно освободить вульву.
 Must remove clitoris piercings first
@@ -357,6 +373,8 @@ Cannot be used over the applied mask.
 Нельзя использовать поверх установленной маски.
 Cannot be used over the applied hood.
 Нельзя использовать поверх установленного капюшона.
+Requires round piercings on nipples.
+Требует круглого пирсинга в сосках.
 Blocked in this room.
 Заблокирован в этой комнате.
 Cancel
@@ -415,6 +433,8 @@ Unlock the item
 Разблокировать предмет
 Try to pick the lock
 Попробовать взломать замок
+Unable to pick the lock due to player permissions
+Невозможно взломать замок из-за разрешений игрока
 Try to pick the lock (jammed)
 Попробовать взломать замок (заклинил)
 Return to the item menu
@@ -447,6 +467,10 @@ Show all zones
 Показать все зоны
 Use the butt plug's pump
 Используйте насос анальной пробки
+Select default color
+Выберите цвет по умолчанию
+Change item color
+Изменить цвет элемента
 Color of next item
 Цвет следующего предмета
 Unable to change color due to player permissions
@@ -1580,6 +1604,10 @@ Can be opened by anyone but the wearer
 "Находчивые хранители"
 Can be opened only with the correct password
 Можно открыть только с правильным паролем
+"Accidents hurts… Safety First!"
+"Несчастные случаи причиняют боль… Безопасность превыше всего!"
+Can only be opened using a PortalLink Tablet
+Можно открыть только с помощью планшета.
 In-front of body
 Перед телом
 Behind back
@@ -2557,7 +2585,7 @@ SourceCharacter полирует обувь у DestinationCharacter .
 SourceCharacter removes the polish on DestinationCharacter shoes.
 SourceCharacter удаляет лак с обуви у DestinationCharacter .
 Select binder length
-Выберите длину переплета
+Выберите длину стяжки
 Full length
 Полная длина
 Half length
@@ -2660,12 +2688,24 @@ SourceCharacter wraps DestinationCharacter head in tape with the eyes free.
 SourceCharacter оборачивает голову DestinationCharacter лентой, оставляя глаза свободными.
 Change Opacity
 Изменить непрозрачность
+Select transparancy
+Выберите прозрачность
+Shadow
+Тень
+SourceCharacter folds DestinationCharacter folding screen.
+SourceCharacter сворачивает ширму перед DestinationCharacter.
+SourceCharacter unfolds DestinationCharacter folding screen.
+SourceCharacter разворачивает ширму перед DestinationCharacter.
 Select Locker type
 Выберите тип шкафчика
 Vents
 Вентиляция
 Ventless
 безвентиляторный
+SourceCharacter adds vents to DestinationCharacter locker.
+SourceCharacter добавляет вентиляционные отверстия в шкафчик DestinationCharacter.
+SourceCharacter removes vents to DestinationCharacter locker.
+SourceCharacter удаляет вентиляционные отверстия в шкафчике DestinationCharacter.
 SourceCharacter changes the vents on DestinationCharacter locker.
 SourceCharacter меняет вентиляционные отверстия в шкафчике у DestinationCharacter .
 Select vacbed type.
@@ -2680,6 +2720,26 @@ SourceCharacter tucks DestinationCharacter hair into the vacbed.
 SourceCharacter заправляет волосы DestinationCharacter в вакуумную кровать.
 Opacity
 Непрозрачность
+Select arm position
+Выберите положение рук
+Select leg position
+Выберите положение ног
+Arm Position
+Положение рук
+Leg Position
+Положение ног
+Arms Down
+Руки вниз
+Arms Yoked
+Руки в ярме
+SourceCharacter puts DestinationCharacter arms down in TargetPronounPossessive Vacuum Bed Deluxe.
+SourceCharacter опускает руки DestinationCharacter в TargetPronounPossessive Вакуумной кровати Делюкс.
+SourceCharacter pulls DestinationCharacter arms up in TargetPronounPossessive Vacuum Bed Deluxe.
+SourceCharacter поднимает руки DestinationCharacter в TargetPronounPossessive Вакуумной кровати Делюкс.
+SourceCharacter pulls DestinationCharacter legs together in TargetPronounPossessive Vacuum Bed Deluxe.
+SourceCharacter соединяет ноги DestinationCharacter в TargetPronounPossessive Вакуумной кровати Делюкс.
+SourceCharacter spreads DestinationCharacter legs in TargetPronounPossessive Vacuum Bed Deluxe.
+SourceCharacter раздвигает ноги DestinationCharacter в TargetPronounPossessive Вакуумной кровати Делюкс.
 SourceCharacter changes DestinationCharacter pose in TargetPronounPossessive Vacuum Bed Deluxe.
 SourceCharacter меняет позу DestinationCharacter pose в TargetPronounPossessive вакуумной кровати Deluxe.
 Select the rope bondage
@@ -3582,6 +3642,8 @@ DestinationCharacterName AssetName shrinks down to it's normal size.
 DestinationCharacterName AssetName сжимается до нормального размера.
 DestinationCharacterName AssetName grows to it's large size.
 DestinationCharacterName AssetName вырастает до больших размеров.
+Choose piercing addons.
+Выберите дополнения для пирсинга.
 Padlock mitten buckles
 Пряжки для варежек с навесным замком
 Unlock mittens
@@ -3734,6 +3796,8 @@ Classic
 Классический
 Wand Attachment
 Насадка для жезла
+Customize the look of the suit
+Настройте внешний вид костюма
 SourceCharacter zips up DestinationCharacter suit.
 SourceCharacter застегивает костюм DestinationCharacter .
 SourceCharacter unzips DestinationCharacter suit.
@@ -3898,42 +3962,42 @@ SourceCharacter locks vibe to DestinationCharacter love chastity belt.
 SourceCharacter приклепляет вибратор к поясу верности DestinationCharacter.
 SourceCharacter locks shock device to DestinationCharacter love chastity belt.
 SourceCharacter приклепляет шокер к поясу верности DestinationCharacter .
-The front and rear chastity shields on DestinationCharacter AssetName open.
+The front and rear chastity shields on TargetCharacterName's AssetName open.
 Передние и задние щиты целомудрия на DestinationCharacter AssetName открыты.
-The front chastity shields on DestinationCharacter AssetName closes.
+The front chastity shields on TargetCharacterName's AssetName closes.
 Передний щит целомудрия на DestinationCharacter AssetName закрыт.
-The rear chastity shields on DestinationCharacter AssetName closes.
+The rear chastity shields on TargetCharacterName's AssetName closes.
 Задний щит целомудрия на  DestinationCharacter AssetName закрыт.
-The front and rear chastity shields on DestinationCharacter AssetName close.
+The front and rear chastity shields on TargetCharacterName's AssetName close.
 Передние и задние щиты целомудрия на DestinationCharacter AssetName закрыты.
-DestinationCharacterName AssetName activates tease vibe mode.
-На AssetName DestinationCharacterName  активируется дразнящей режим вибрации.
-DestinationCharacterName AssetName builds up to vibration level 1.
-Вибрация на AssetName DestinationCharacterName увиличивается до уровня 1.
-DestinationCharacterName AssetName starts buzzing at vibration level 2!
-Вибрация на AssetName DestinationCharacterName увиличивается до уровня 2!
-DestinationCharacterName AssetName jumps up to vibration level 3!
-Вибрация на AssetName DestinationCharacterName увиличивается до уровня 3!
-DestinationCharacterName AssetName vibration mode is deactivated.
-На AssetName DestinationCharacterName деактивируется режим вибрации.
-DestinationCharacterName AssetName slows down to tease vibe mode.
-AssetName DestinationCharacterName замедляются, до дразнящего режима вибрации.
-DestinationCharacterName AssetName returns to vibration level 1.
-AssetName DestinationCharacterName возвращаются к уровню вибрации 1.
-DestinationCharacterName AssetName slows down to vibration level 2.
-AssetName DestinationCharacterName замедляются до уровня вибрации 2.
-The special mode on DestinationCharacter AssetName deactivates, allowing orgasms again.
-Специальный режим на DestinationCharacter AssetName деактивируется, позволяя снова испытать оргазм.
-The edging mode on DestinationCharacter AssetName activates, preventing orgasms no matter what.
-На AssetName DestinationCharacter активируется режим удержания, предотвращающий оргазм, несмотря ни на что.
-The denial mode on DestinationCharacter AssetName activates, teasing them endlessly.
-Режим запрета на DestinationCharacter AssetName активируется, дразня бесконечно.
-DestinationCharacter AssetName are set to shock level 1.
-DestinationCharacter AssetName настроены на уровень шока 1.
-DestinationCharacter AssetName are set to shock level 2.
-DestinationCharacter AssetName настроены на уровень шока 2.
-DestinationCharacter AssetName are set to shock level 3.
-DestinationCharacter AssetName настроены на уровень шока 3.
+TargetCharacterName's AssetName activates tease vibe mode.
+На AssetName TargetCharacterName's  активируется дразнящей режим вибрации.
+TargetCharacterName's AssetName builds up to vibration level 1.
+Вибрация на AssetName TargetCharacterName's увиличивается до уровня 1.
+TargetCharacterName's AssetName starts buzzing at vibration level 2!
+Вибрация на AssetName TargetCharacterName's увиличивается до уровня 2!
+TargetCharacterName's AssetName jumps up to vibration level 3!
+Вибрация на AssetName TargetCharacterName's увиличивается до уровня 3!
+TargetCharacterName's AssetName vibration mode is deactivated.
+На AssetName TargetCharacterName's деактивируется режим вибрации.
+TargetCharacterName's AssetName slows down to tease vibe mode.
+AssetName TargetCharacterName's замедляются, до дразнящего режима вибрации.
+TargetCharacterName's AssetName returns to vibration level 1.
+AssetName TargetCharacterName's возвращаются к уровню вибрации 1.
+TargetCharacterName's AssetName slows down to vibration level 2.
+AssetName TargetCharacterName's  замедляются до уровня вибрации 2.
+The special mode on TargetCharacterName's AssetName deactivates, allowing orgasms again.
+Специальный режим на TargetCharacterName's AssetName деактивируется, позволяя снова испытать оргазм.
+The edging mode on TargetCharacterName's AssetName activates, preventing orgasms no matter what.
+На AssetName TargetCharacterName's активируется режим удержания, предотвращающий оргазм, несмотря ни на что.
+The denial mode on TargetCharacterName's AssetName activates, teasing them endlessly.
+Режим запрета на TargetCharacterName's AssetName активируется, дразня бесконечно.
+TargetCharacterName's AssetName are set to shock level 1.
+TargetCharacterName's AssetName настроены на уровень шока 1.
+TargetCharacterName's AssetName are set to shock level 2.
+TargetCharacterName's AssetName настроены на уровень шока 2.
+TargetCharacterName's AssetName are set to shock level 3.
+TargetCharacterName's AssetName настроены на уровень шока 3.
 The front and rear chastity shields on DestinationCharacter sci-fi pleasure panties open.
 Передние и задние щиты целомудрия на DestinationCharacter научно-фантастических трусиках открыты.
 The front chastity shields on DestinationCharacter sci-fi pleasure panties closes.
@@ -4205,11 +4269,11 @@ SourceCharacter использует бирку имени домашнего с
 Animal
 Животное
 BreedMe
-Разводить меня
+Оплодотвори меня
 Cow
 Корова
 MilkMe
-Доить меня
+Подои меня
 Pig
 Свинья
 Base
@@ -4387,7 +4451,9 @@ SourceCharacter открывает двери питомника DestinationChar
 SourceCharacter uses chains on TargetCharacter to do a box tie.
 SourceCharacter использует цепи на TargetCharacter для квадратной привязки.
 SourceCharacter uses chains to hogtie TargetCharacter.
-SourceCharacter использует цепи, чтобы связать TargetCharacter .
+SourceCharacter использует цепи, чтобы связать TargetCharacter.
+SourceCharacter uses chains to suspend and hogtie TargetCharacter.
+SourceCharacter использует цепи, чтобы подвесить и связать TargetCharacter.
 SourceCharacter uses chains to tie DestinationCharacter wrists and elbows together behind TargetPronounPossessive back.
 SourceCharacter использует цепи, чтобы связать запястья и локти DestinationCharacter за TargetPronounPossessive спиной.
 SourceCharacter uses chains to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
@@ -4568,6 +4634,8 @@ Select suit options
 Выберите варианты костюма
 Configure suit restraints
 Настройка ограничений костюма
+Configure shock intensity
+Настройка интенсивности шокера
 Configure shock module
 Настроить шоковый модуль
 Restraints
@@ -4670,6 +4738,10 @@ Hidden
 Скрытый
 Visible
 Видимый
+Underwear Visible
+Нижнее белье видимое
+Underwear and Socks Visible
+Нижнее белье и носки видны
 DestinationCharacterName clothes are now hidden when wearing TargetPronounPossessive AssetName.
 Одежда DestinationCharacterName теперь скрыта при ношении AssetName .
 DestinationCharacterName clothes are now visible when wearing TargetPronounPossessive AssetName.
@@ -4842,12 +4914,20 @@ Edit Text
 Редактировать текст
 SourceCharacter removes the text from DestinationCharacterName AssetName
 SourceCharacter удаляет текст из AssetName на DestinationCharacterName
+SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter изменяет ориентацию текста DestinationCharacterName AssetName
 SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
 SourceCharacter изменяет текст у DestinationCharacterName в AssetName на «NewText».
 Select Text Orientation
 Выберите ориентацию текста
+SW-NE
+ЮЗ-СВ
+NW-SE
+СЗ-ЮВ
 SourceCharacter modifies DestinationCharacter bowl to read "NewText"
 SourceCharacter изменяет надпись на миске DestinationCharacter , на "NewText" .
+Configure item text
+Настроить текст элемента
 Select Halo Type
 Выберите тип ореола
 Broken
@@ -5340,6 +5420,8 @@ Blinds
 Ослепление
 Heavily blinds
 Суровое ослепление
+Locked with a AssetName
+Заблокировано с помощью AssetName
 Cannot use this option when wearing the item
 Невозможно использовать эту опцию при ношении предмета
 Configure Collar
@@ -5415,7 +5497,7 @@ Strict Posture
 No Shock Module
 Нет шокового модуля
 SourceCharacter sets DestinationCharacter collar to a slender one.
-SourceCharacter устанавливает тонкий воротник на DestinationCharacter .
+SourceCharacter устанавливает тонкий ошейник на DestinationCharacter .
 SourceCharacter sets DestinationCharacter collar to a choker one.
 SourceCharacter устанавливает ошейник на DestinationCharacter чокер.
 SourceCharacter sets DestinationCharacter collar to a full one.
@@ -5678,6 +5760,8 @@ SourceCharacter uses a large bit gag on DestinationCharacter bridle gag.
 SourceCharacter использует кляп с большим мундштуком на уздечке DestinationCharacter .
 SourceCharacter uses a tongue depressor on DestinationCharacter bridle gag.
 SourceCharacter использует депрессор языка на уздечке DestinationCharacter .
+SourceCharacter uses a ballgag on DestinationCharacter bridle gag.
+SourceCharacter использует кляп на уздечке DestinationCharacter.
 SourceCharacter uses a dildo gag on DestinationCharacter bridle gag.
 SourceCharacter использует кляп с фаллоимитатором на уздечке DestinationCharacter .
 Select Extra Straps
@@ -6344,6 +6428,8 @@ SourceCharacter stitches DestinationCharacter pussy shut with a spiraling thread
 SourceCharacter зашивает киску DestinationCharacter спиралевидным швом.
 SourceCharacter stitches DestinationCharacter pussy shut with crossed threads.
 SourceCharacter зашивает киску DestinationCharacter перекрещенным швом.
+Choose what to stitch
+Выбрать, что зашивать
 Right Eye
 Правый глаз
 Left Eye
@@ -7027,6 +7113,8 @@ Double Ring
 Двойное кольцо
 Choose Design
 Выберите дизайн
+Style Options
+Параметры стиля
 Choose Pattern
 Выберите узор
 Stripe
@@ -7073,6 +7161,8 @@ SourceCharacter changes the pattern of DestinationCharacter face mask.
 SourceCharacter изменяет шаблон на DestinationCharacter лицевой маске.
 Fake Mouth
 Поддельный рот
+Choose Mouth
+Выберите рот
 Choose Fit
 Настройте прилегание
 SourceCharacter changes out the mouth of DestinationCharacter hood.
@@ -7161,12 +7251,26 @@ Prison Stripes
 Тюремные полосы
 Boot
 Обувь
+Boot with Sock
+Сапоги с чулком
+Thigh High Boot
+Высокие сапоги до бедра
 Boot Options
 Настройте обувь
 No Boot
 Без обуви
 Wear Boot
 Надеть обувь
+Bands
+Группы
+Band Options
+Настроить полосы
+SourceCharacter shortens DestinationCharacter boots.
+SourceCharacter укорачивает обувь DestinationCharacter.
+SourceCharacter extends the sock on DestinationCharacter boots.
+SourceCharacter удлиняет носок обуви DestinationCharacter.
+SourceCharacter extends DestinationCharacter boots.
+SourceCharacter удлиняет обувь DestinationCharacter.
 SourceCharacter removes pants from DestinationCharacter boots.
 SourceCharacter снимает с DestinationCharacter  обуви.
 SourceCharacter adds pants to DestinationCharacter boots.
@@ -7175,6 +7279,10 @@ SourceCharacter removes the stripes on DestinationCharacter boots.
 SourceCharacter удаляет полосы с DestinationCharacter одежды.
 SourceCharacter reveals the stripes on DestinationCharacter boots.
 SourceCharacter показывает полосы на DestinationCharacter одежду.
+SourceCharacter removes the bands from DestinationCharacter boots.
+SourceCharacter удаляет полосы с обуви DestinationCharacter.
+SourceCharacter adds bands to DestinationCharacter boots
+SourceCharacter добавляет полосы к обуви DestinationCharacter
 Layer
 Слой
 Layer Options
@@ -7253,3 +7361,157 @@ SourceCharacter detaches DestinationCharacter paw mittens from the harness.
 SourceCharacter отсоединяет лапы-варежки от DestinationCharacter сбруи.
 SourceCharacter chains DestinationCharacter paw mittens to the harness.
 SourceCharacter пристегивает лапы-варежки к DestinationCharacter сбруи
+Portal options
+Настройки связи
+Open configuration screen
+Открыть экран конфигурации
+Configuration screen
+Экран конфигурации
+Cannot access this tablet
+Не удается получить доступ к этому планшету
+Sync code:
+Код синхронизации:
+Invalid code
+Неверный код
+Clipboard error
+Ошибка буфера обмена
+Valid code
+Действительный код
+Searching
+Идет поиск
+Searching.
+Идет поиск.
+Searching..
+Идет поиск..
+Searching...
+Идет поиск...
+Too many links
+Слишком много ссылок
+Target not found
+Цель не найдена
+PortalLink established
+Связь установлена
+No functions detected
+Функции не обнаружены
+Available functions detected:
+Обнаружены доступные функции:
+DestinationCharacterName AssetName get locked remotely.
+DestinationCharacterName AssetName получает блокировку удаленно.
+DestinationCharacterName AssetName get unlocked remotely.
+DestinationCharacterName AssetName получает разблокировку удаленно.
+Cycle chastity
+Цикл целомудрия
+The front and rear chastity shields on DestinationCharacterName AssetName open.
+Передний и задний щиты целомудрия на AssetName DestinationCharacterName открываются.
+The front chastity shield on DestinationCharacterName AssetName closes.
+Передний щит целомудрия на AssetName DestinationCharacterName закрывается.
+The front and rear chastity shields on DestinationCharacterName AssetName close.
+Передний и задний щиты верности на AssetName DestinationCharacterName закрываются.
+Caress
+Ласкать
+SourceCharacter caresses RecieverCharacter FocusAssetGroup through the AssetName portal.
+SourceCharacter ласкает FocusAssetGroup RecieverCharacter через портал AssetName.
+Kiss
+Целовать
+SourceCharacter kisses RecieverCharacter FocusAssetGroup through the AssetName portal.
+SourceCharacter целует FocusAssetGroup RecieverCharacter через портал AssetName.
+Slap
+Шлепок
+SourceCharacter slaps RecieverCharacter FocusAssetGroup through the AssetName portal.
+SourceCharacter шлепает FocusAssetGroup RecieverCharacter через портал AssetName.
+Masturbate
+Маструбировать
+SourceCharacter masturbates RecieverCharacter FocusAssetGroup through the AssetName portal.
+SourceCharacter мастурбирует FocusAssetGroup RecieverCharacter через портал AssetName.
+SourceCharacter tongues RecieverCharacter FocusAssetGroup through the AssetName portal.
+SourceCharacter лижет FocusAssetGroup RecieverCharacter через портал AssetName.
+SourceCharacter detaches the unit on DestinationCharacter portal panties.
+SourceCharacter отсоединить блок от PortalLink трусиков DestinationCharacter.
+SourceCharacter attaches the unit on DestinationCharacter portal panties.
+SourceCharacter прикрепляет блок к PortalLink трусикам DestinationCharacter.
+Detached Unit
+Отсоеденить блок
+Attached Unit
+Прикрепить блок
+Select back shield
+Настройте задний щит
+Select modules
+Настройте модули
+Back Shield
+Задний щит
+Modules
+Модули
+Metal
+Металл
+Cage/Spreader
+Клетка/разбрасыватель
+Brushes
+Кисти
+The front chastity shield on DestinationCharacterName AssetName opens.
+Передний щит целомудрия на AssetName DestinationCharacterName открывается.
+The front chastity shield on DestinationCharacterName AssetName turns into a transparent shield.
+Передний щит целомудрия на AssetName DestinationCharacterName превращается в прозрачный щит.
+The front chastity shield on DestinationCharacterName AssetName turns into a metal shield.
+Передний щит целомудрия на AssetName DestinationCharacterName превращается в металлический щит.
+The rear chastity shield on DestinationCharacterName AssetName opens.
+Задний щит целомудрия на AssetName DestinationCharacterName открывается.
+The rear chastity shield on DestinationCharacterName AssetName closes.
+Задний щит целомудрия на AssetName DestinationCharacterName закрывается.
+All modules on DestinationCharacterName AssetName are deactivated.
+Все модули на AssetName DestinationCharacterName деактивированы.
+The Cage/Spreader module on DestinationCharacterName AssetName is activated.
+Модуль Клетка/разбрасыватель для AssetName DestinationCharacterName активирован.
+The Brushes module on DestinationCharacterName AssetName is activated.
+Модуль Кисти для AssetName DestinationCharacterName активирован.
+All modules on DestinationCharacterName AssetName are activated.
+Все модули на AssetName DestinationCharacterName активированы.
+DestinationCharacterName AssetName rotation mode is deactivated.
+Режим вибрации AssetName DestinationCharacterName деактивирован.
+DestinationCharacterName AssetName goes to tease rotor mode.
+AssetName DestinationCharacterName переходит в пробный режим вибрации.
+DestinationCharacterName AssetName goes to rotation level 1.
+AssetName DestinationCharacterName переходит на уровень вибрации 1.
+DestinationCharacterName AssetName starts teasing at rotation level 2!.
+AssetName DestinationCharacterName начинает дразнить на уровне вибрации 2!
+DestinationCharacterName AssetName jumps up to rotation level 3!.
+AssetName DestinationCharacterName переходит на уровень вибрации 3!
+The special mode on DestinationCharacterName AssetName deactivates, allowing orgasms again.
+Специальный режим на AssetName DestinationCharacterName деактивируется, позволяя снова испытывать оргазм.
+The edging mode on DestinationCharacterName AssetName activates, preventing orgasms no matter what.
+Режим удержания на краю для AssetName DestinationCharacterName активируется, предотвращая оргазмы, несмотря ни на что.
+The denial mode on DestinationCharacterName AssetName activates, teasing them endlessly.
+Режим запрета на AssetName DestinationCharacterName активируется, бесконечно дразня.
+Select Wall Details
+Выберите детали стены
+Select Leg Restraints
+Выберите ограничители для ног
+Select Arm Restraints
+Выберите ограничители для рук
+Select Cum Options
+Выберите следы спермы
+Select Portrait Type
+Выберите тип окошка
+Cum Options
+Варианты спермы
+Portrait
+Монитор
+Cuffed
+в наручниках
+Dangling
+свисающие
+Butt
+Задница
+Вагина
+Monitor
+Экран
+Picture
+Картина
+SourceCharacter changes DestinationCharacterName leg position in the AssetName.
+SourceCharacter изменяет положение ног DestinationCharacterName в AssetName.
+SourceCharacter changes DestinationCharacterName arm position in the AssetName.
+SourceCharacter изменяет положение рук DestinationCharacterName в AssetName.
+SourceCharacter changes the fluids on DestinationCharacterName behind.
+SourceCharacter изменяет следы семени на DestinationCharacterName.
+SourceCharacter changes DestinationCharacterName portrait on the AssetName.
+SourceCharacter изменяет монитор для DestinationCharacterName на AssetName.
+

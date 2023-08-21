@@ -128,6 +128,8 @@ Crop Top
 Укороченный Топ
 Laurel Top
 Торжественный Топ
+Retro Girdle Dress
+Закрытый Винтажный купальник
 See-through Top
 Прозрачный топ
 Jacket
@@ -196,6 +198,8 @@ Vac Hood
 Вакуумный капюшон
 Sensory Hood
 Сенсорный капюшон
+Corset Hood
+Корсет с капюшоном
 Lipstick Marks
 Следы помады
 Jewelry
@@ -208,6 +212,8 @@ Piercing Set
 Набор для пирсинга
 Smoochy Lipstick
 Губная помада
+Bug Legs
+Лапки жука
 Necklace
 Для шеи
 Fancy Necklace
@@ -642,6 +648,8 @@ Lace and Satin Garter Belt
 Кружевной и атласный пояс для чулок
 Tentacles
 Тентакли
+Plumed Tail Strap
+Хвостовой ремень с плюмажем
 Drop Bag
 Сумка на бедро
 Shoes
@@ -760,6 +768,12 @@ Baseball Cap Front
 Бейсболка козырьком вперед
 Swim Cap
 Шапочка для плаванья
+Cowboy Hat
+Ковбойская шляпа
+Beanie
+Вязаная шапочка
+Nun Habit
+Одеяние монахини
 Hair Accessory
 Аксессуар для волос
 Hair Ribbon 1
@@ -837,6 +851,8 @@ Unicorn Horn
 Рог единорога
 Dildocorn Horn
 Рог дилдорога
+Lynx Ears
+Уши рыси
 Ears
 Уши
 UnicornHorn
@@ -1303,20 +1319,12 @@ Light
 Светлые
 Genitalia
 Гениталии
-Pussy
-Киска
-Light 1
-Светлая 1
-Light 2
-Светлая 2
-Light 3
-Светлая 3
-Dark 1
-Темная 1
-Dark 2
-Темная 2
-Dark 3
-Темная 3
+Pussy 1
+Киска 1
+Pussy 2
+Киска 2
+Pussy 3
+Киска 3
 Penis
 Пенис
 Pronouns
@@ -1435,6 +1443,8 @@ Ornate Leg Cuffs
 Изысканные манжеты на ноги
 Leg Binder
 Корсет для ног
+Shiny Leg Binder
+Полированный легбиндер
 Hobble Skirt
 узкая юбка
 Wooden Horse
@@ -1657,8 +1667,10 @@ Hybrid Chastity Belt
 Гибридный пояс целомудрия
 Obedience Belt
 Пояс послушания
-Portal Panties
-Портальные трусики
+PortalLink Panties
+Трусики PortalLink
+Heavy Duty Belt
+Пояс сурового режима
 Torso
 Туловище
 Leather Harness
@@ -2025,6 +2037,10 @@ Medical Injector
 медицинский инъектор
 Mug
 Кружка
+PortalLink Tablet
+Планшет PortalLink
+Shark Plush
+Плюшевая акула
 Tablet
 Планшет
 Neck
@@ -2311,6 +2327,8 @@ Tentacle
 Тентакль
 Harness OTN Plug Gag
 Кляп-сбруя с пробкой
+Air-valve Gag
+Кляп с воздушным клапаном 
 Bridle Gag
 Уздечка кляп
 Latex Sheath Gag
@@ -2429,6 +2447,8 @@ GP-9 Gas Mask
 GP-9 Противогаз
 Gwen Hood
 Гвен капюшон
+Doberman Mask
+Маска Добермана
 Techno Helmet
 Техно-Шлем
 GGTS Helmet
@@ -2643,6 +2663,8 @@ Wheel of Fortune
 Колесо Фортуны
 Folding Screen
 Раскладная ширма
+Kabeshiri Wall
+Стена Кабешири
 Blanket
 Одеяло
 Bed Ropes
@@ -2687,3 +2709,29 @@ High Thigh Boots
 Высокие сапоги до бедра
 Monoheel
 Монокаблук
+Script
+Скрипт
+Eye Shadow
+Тени для век
+Cat Eye
+Кошачий глаз
+Cat Eye 2
+Кошачий глаз 2
+Large (Blurred)
+Большой (Размытый)
+Large (Solid)
+Большой (Сплошной)
+Small (Blurred)
+Маленький (Размытый)
+Small (Solid)
+Маленький (Сплошной)
+Superstar (Blurred)
+Суперзвезда (Размытый)
+Superstar (Solid)
+Суперзвезда (Сплошной)
+Tanuki
+Тануки
+Undershadowed (Blurred)
+под веком (Размытый)
+Undershadowed (Solid)
+под веком (Сплошной)
