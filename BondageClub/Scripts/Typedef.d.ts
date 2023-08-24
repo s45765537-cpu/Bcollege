@@ -548,6 +548,8 @@ type Mutable<T> = {
 
 type IAssetFamily = "Female3DCG";
 
+type AppearanceWardrobeReorderType = "None" | "Select" | "Place";
+
 interface AssetGroup {
 	readonly Family: IAssetFamily;
 	readonly Name: AssetGroupName;
