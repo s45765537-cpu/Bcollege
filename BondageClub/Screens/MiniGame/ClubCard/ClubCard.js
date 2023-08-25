@@ -399,7 +399,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		OnTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupOnBoardCount(CCPlayer, "PornActress") >= 2)
-				ClubCardPlayerAddMoney(CCPlayer, 1);
+				ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
 	{
