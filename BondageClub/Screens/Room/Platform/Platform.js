@@ -31,6 +31,41 @@ var PlatformRegen = 0;
 var PlatformCooldown = [];
 var PlatformTimedScreenFilter = { End: 0, Filter: "" };
 var PlatformRightButtons = [];
+var PlatformInventory = [];
+var PlatformInventoryList = [
+	{
+		Name: "RedRose",
+		Description: "Red Rose",
+		SubText: "Increase love",
+		OnGive: function(Char) {
+			PlatformDialogAlterProperty(Char.Name, "Love", 1);
+		}
+	},
+	{
+		Name: "PoisonApple",
+		Description: "Poison Apple",
+		SubText: "Decrease love",
+		OnGive: function(Char) {
+			PlatformDialogAlterProperty(Char.Name, "Love", -1);
+		}
+	},
+	{
+		Name: "LeatherWhip",
+		Description: "Leather Whip",
+		SubText: "Increase domination",
+		OnGive: function(Char) {
+			PlatformDialogAlterProperty(Char.Name, "Domination", 1);
+		}
+	},
+	{
+		Name: "AnimalCollar",
+		Description: "Animal Collar",
+		SubText: "Increase submission",
+		OnGive: function(Char) {
+			PlatformDialogAlterProperty(Char.Name, "Domination", -1);
+		}
+	}
+]
 
 // Template for characters with their animations
 var PlatformTemplate = [
@@ -1803,6 +1838,10 @@ function PlatformDrawCharacter(C, Time) {
 				DrawImageZoomCanvas("Screens/Room/Platform/" + (Damage.Value < 0 ? "Green" : (C.Camera ? "Enemy" : "Player")) + "Hit.png", MainCanvas, 0, 0, 512, 512, X + C.Anim.Width / 2 - 50, Y - 250 + Math.floor((Damage.Expire - Time) / 10), 100, 100);
 				DrawText(Math.abs(Damage.Value).toString(), X + C.Anim.Width / 2, Y - 200 + Math.floor((Damage.Expire - Time) / 10), (C.Camera && Damage.Value >= 0 ? "White" : "Black"), (C.Camera && Damage.Value >= 0 ? "Black" : "White"));
 			}
+	if (C.Loot != null)
+		for (let L of C.Loot)
+			if (L.Expire >= Time)
+				DrawImageZoomCanvas("Screens/Room/Platform/Inventory/" + L.Name + ".png", MainCanvas, 0, 0, 120, 120, X + C.Anim.Width / 2 - 45, Y - 250 + Math.floor((L.Expire - Time) / 10), 90, 90);
 }
 
 /**
@@ -1843,7 +1882,7 @@ function PlatformAddExperience(C, Value) {
 }
 
 /**
- * Some perks allow the player to steal items from bound ennemies
+ * Some perks allow the player to steal items from bound enemies
  * @param {Object} C - The character that will gain experience
  * @param {Number} Value - The experience value to factor the quantity
  * @returns {void} - Nothing
@@ -1858,6 +1897,23 @@ function PlatformSteal(C, Value) {
 	if (PlatformHasPerk(C, "Burglar")) {
 		let Money = Math.floor(Math.random() * (Value + 1));
 		if (Money > 0) CharacterChangeMoney(Player, Money);
+	}
+}
+
+/**
+ * Random odds of finding inventory on a defeated enemy
+ * @param {Object} Source - The victorious character
+ * @param {Object} Target - The defeated character
+ * @returns {void} - Nothing
+ */
+function PlatformFindInventory(Source, Target) {
+	if ((Source == null) || (Target == null) || (Target.ExperienceValue == null) || (Target.ExperienceValue <= 0)) return;
+	let Odds = PlatformHasPerk(Source, "Burglar") ? 0.2 : 0.1;
+	if (Math.random() < Odds) {
+		let Item = CommonRandomItemFromList(null, PlatformInventoryList);
+		PlatformInventoryAdd(Item.Name);
+		if (Target.Loot == null) Target.Loot = [];
+		Target.Loot.push({ Name: Item.Name, Expire: CommonTime() + 2000});
 	}
 }
 
@@ -2306,6 +2362,7 @@ function PlatformDraw() {
 				for (let Target of PlatformChar)
 					if (Target.ID == C.Action.Target) {
 						PlatformAddExperience(C, Target.ExperienceValue);
+						PlatformFindInventory(C, Target);
 						PlatformSteal(C, Target.ExperienceValue);
 						if (Target.OnBind != null) Target.OnBind();
 						Target.Bound = true;
@@ -2626,10 +2683,27 @@ function PlatformSaveGame(Slot) {
 		Party: PlatformParty,
 		Room: PlatformRoom.Name,
 		Event: PlatformEvent,
-		Dialog: SaveDialog
+		Dialog: SaveDialog,
+		Inventory: PlatformInventory
 	};
 	localStorage.setItem("BondageBrawlSave" + Slot.toString(), JSON.stringify(SaveObj));
 	PlatformMessageSet("Game saved on slot " + Slot.toString());
+}
+
+/**
+ * Adds an item to the player inventory
+ * @param {string} InventoryName - The item name to add
+ * @param {number} QuantityToAdd - The quantity to add (1 if null)
+ * @returns {void} - Nothing
+ */
+function PlatformInventoryAdd(InventoryName, QuantityToAdd = 1) {
+	if (QuantityToAdd == null) QuantityToAdd = 1;
+	for (let I of PlatformInventory)
+		if (I.Name == InventoryName) {
+			I.Quantity = I.Quantity + QuantityToAdd;
+			return;
+		}
+	PlatformInventory.push({ Name: InventoryName, Quantity: QuantityToAdd });
 }
 
 /**
@@ -2657,6 +2731,8 @@ function PlatformLoadGame(Slot) {
 	}
 	PlatformCreateCharacter(LoadObj.Character, LoadObj.Status, 1000);
 	PlatformPartyLoad();
+	PlatformInventory = LoadObj.Inventory;
+	if (PlatformInventory == null) PlatformInventory = [];
 
 	// Loads the game events and party
 	PlatformEvent = LoadObj.Event;

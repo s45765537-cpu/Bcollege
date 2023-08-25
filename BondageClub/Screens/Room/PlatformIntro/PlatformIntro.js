@@ -90,6 +90,7 @@ function PlatformIntroClick() {
 		PlatformEvent = [];
 		PlatformChar = [];
 		PlatformParty = [];
+		PlatformInventory = [];
 		PlatformCreateCharacter("Melody", "Maid", 1000);
 		PlatformPartyBuild();
 		PlatformLoadRoom("BedroomMelody");
