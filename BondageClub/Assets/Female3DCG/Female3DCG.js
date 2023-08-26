@@ -3587,6 +3587,8 @@ var AssetFemale3DCG = [
 		Random: false,
 		Clothing: true,
 		Underwear: true,
+		Color: ["#131313", "#542828", "#6B9BBD", "#847453", "#C271d1", "#55388B", "#86D3CC", "#49656F", "#100E1E", "#DEDEDE", "#100C08", "#180713", "#202020", "#0C0D24"],
+		DefaultColor: ["#131313", "#131313"],
 		Asset: [
 			{ Name: "CatEye", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "CatEye2", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
@@ -3596,9 +3598,16 @@ var AssetFemale3DCG = [
 			{ Name: "SmallSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "SuperstarBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "SuperstarSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
-			{ Name: "Tanuki", MinOpacity: 0, Opacity: 1, MaxOpacity: 0.8, Extended: true },
+			{ Name: "Tanuki", MinOpacity: 0, Opacity: 1, MaxOpacity: 0.8, Extended: true, Random: false },
 			{ Name: "UndershadowedBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "UndershadowedSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
+			{ 
+				Name: "Wings", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true, Random: false,
+				Layer: [
+					{ Name: "Shad", HasType: false },
+					{ Name: "Line", HasType: false, MinOpacity: 0.8 }, //MinOpacity set in order to 'turn off' opacity control for this layer.
+				],
+			},
 		],
 	},
 
