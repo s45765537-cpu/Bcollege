@@ -7,5 +7,6 @@ ChangeCharacter,Change active character
 AudioToggle,Turn audio on/off
 GameOver,Game over.  Use the exit button to try again.
 LevelUp,CharacterName gained a level!
+ButtonGift,Give her an item
 ButtonOliviaLover1Start,Start dating Olivia
 ButtonOliviaLover1End,Break-up with Olivia

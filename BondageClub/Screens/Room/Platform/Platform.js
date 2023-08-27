@@ -1,5 +1,6 @@
 "use strict";
 var PlatformChar = [];
+var PlatformFocusCharacter = null;
 var PlatformPlayer = null;
 var PlatformLastTime = null;
 var PlatformKeys = [];
@@ -25,6 +26,7 @@ var PlatformRunTime = 0;
 var PlatformLastTouch = null;
 var PlatformImmunityTime = 500;
 var PlatformSaveMode = false;
+var PlatformGiftMode = false;
 var PlatformJumpPhase = "";
 var PlatformParty = [];
 var PlatformRegen = 0;
@@ -35,34 +37,38 @@ var PlatformInventory = [];
 var PlatformInventoryList = [
 	{
 		Name: "RedRose",
-		Description: "Red Rose",
-		SubText: "Increase love",
+		DisplayName: "Red Rose",
+		Description: "Increase her love",
 		OnGive: function(Char) {
 			PlatformDialogAlterProperty(Char.Name, "Love", 1);
+			PlatformMessageSet("She loves your gift.");
 		}
 	},
 	{
 		Name: "PoisonApple",
-		Description: "Poison Apple",
-		SubText: "Decrease love",
+		DisplayName: "Poison Apple",
+		Description: "Decrease her love",
 		OnGive: function(Char) {
 			PlatformDialogAlterProperty(Char.Name, "Love", -1);
+			PlatformMessageSet("She hates your gift.");
 		}
 	},
 	{
 		Name: "LeatherWhip",
-		Description: "Leather Whip",
-		SubText: "Increase domination",
+		DisplayName: "Leather Whip",
+		Description: "Become dominant",
 		OnGive: function(Char) {
-			PlatformDialogAlterProperty(Char.Name, "Domination", 1);
+			PlatformDialogAlterProperty(Char.Name, "Domination", -1);
+			PlatformMessageSet("She's getting more dominant.");
 		}
 	},
 	{
 		Name: "AnimalCollar",
-		Description: "Animal Collar",
-		SubText: "Increase submission",
+		DisplayName: "Animal Collar",
+		Description: "Become submissive",
 		OnGive: function(Char) {
-			PlatformDialogAlterProperty(Char.Name, "Domination", -1);
+			PlatformDialogAlterProperty(Char.Name, "Domination", 1);
+			PlatformMessageSet("She's getting more submissive.");
 		}
 	}
 ]
@@ -1566,6 +1572,7 @@ function PlatformLoadRoom(RoomName) {
 	if (RoomName == null) RoomName = PlatformRoom.Name;
 	PlatformRoom = null;
 	PlatformSaveMode = false;
+	PlatformGiftMode = false;
 	for (let Room of PlatformRoomList)
 		if (Room.Name == RoomName)
 			PlatformRoom = JSON.parse(JSON.stringify(Room));
@@ -2486,8 +2493,10 @@ function PlatformDrawRightButtons() {
 	// Adds the possible buttons, only available if Melody is C1
 	if ((C1 == null) || (C2 == null)) return;
 	if (C1.Name != "Melody") return;
+	if ((PlatformInventory != null) && (PlatformInventory.length > 0)) PlatformRightButtons.push("Gift");
 	if ((C2.Love >= 20) && ((C1.LoverName == null) || (C1.LoverName == ""))&& ((C2.LoverName == null) || (C2.LoverName == ""))) PlatformRightButtons.push(C2.Name + "Lover1Start");
 	if ((C2.LoverName != null) && (C2.LoverName == C1.Name)) PlatformRightButtons.push(C2.Name + "Lover1End");
+	PlatformFocusCharacter = C2;
 
 	// Draw the buttons on the right side
 	for (let B = 0; B < PlatformRightButtons.length; B++)
@@ -2530,7 +2539,32 @@ function PlatformBackgroundMusic(Music) {
 }
 
 /**
- * Runs and draws the screen.
+ * Draws the possible gifts on the top of the screen, exit gift mode if too far from target
+ * @returns {void} - Nothing
+ */
+function PlatformDrawGiftButtons() {
+	if (PlatformRightButtons.length == 0) {
+		PlatformGiftMode = false;
+		return;
+	}
+	for (let I = 0; I < PlatformInventory.length; I++) {
+		let Item = null;
+		for (let Inv of PlatformInventoryList)
+			if (Inv.Name == PlatformInventory[I].Name)
+				Item = Inv;
+		if (Item != null) {
+			DrawButton(100 + (I * 450), 200, 400, 100, "", "White");
+			DrawImageZoomCanvas("Screens/Room/Platform/Inventory/" + Item.Name + ".png", MainCanvas, 0, 0, 120, 120, 110 + (I * 450), 205, 90, 90);
+			MainCanvas.font = CommonGetFont(24);
+			DrawText(Item.DisplayName + " (x" + PlatformInventory[I].Quantity.toString() + ")", 350 + (I * 450), 230, "Black", "Silver");
+			DrawText(Item.Description, 350 + (I * 450), 270, "Black", "Silver");
+			MainCanvas.font = CommonGetFont(36);
+		}
+	}
+}
+
+/**
+ * Runs and draws the screen
  * @returns {void} - Nothing
  */
 function PlatformRun() {
@@ -2543,6 +2577,7 @@ function PlatformRun() {
 	if ((PlatformHeal != null) && PlatformSaveMode)
 		for (let S = 0; S < 10; S++)
 			DrawButton(250 + (S * 157), 200, 90, 90, S.toString(), "White", "", TextGet("SaveOn") + S.toString());
+	if ((PlatformHeal != null) && PlatformGiftMode) PlatformDrawGiftButtons();
 	if (PlatformHeal != null) PlatformDrawRightButtons();
 	if (CommonIsMobile) PlatformTouch();
 	PlatformBackgroundMusic(PlatformRoom.Music);
@@ -2587,6 +2622,32 @@ function PlatformAudioToggle() {
 }
 
 /**
+ * Gives an item to the currrent NPC
+ * @param {string} ItemName - 
+ * @returns {void} - Nothing
+ */
+function PlatformGiveItem(ItemName) {
+
+	// If the character and item is valid, we continue
+	if (PlatformFocusCharacter == null) return;
+	let Item = null;
+	for (let Inv of PlatformInventoryList)
+		if (Inv.Name == ItemName)
+			Item = Inv;
+	if (Item == null) return;
+
+	// Runs the script and removes the item
+	if (Item.OnGive != null) Item.OnGive(PlatformFocusCharacter);
+	PlatformInventoryRemove(ItemName);
+
+	// Shows the item over the character
+	for (let C of PlatformChar)
+		if (C.Name == PlatformFocusCharacter.Name)
+			C.Loot = [{ Name: Item.Name, Expire: CommonTime() + 2000}];
+
+}
+
+/**
  * Handles clicks in the screen
  * @returns {void} - Nothing
  */
@@ -2598,16 +2659,28 @@ function PlatformClick() {
 				return PlatformSaveGame(S);
 	if (MouseIn(1800, 10, 90, 90) && (PlatformHeal != null)) {
 		PlatformSaveMode = !PlatformSaveMode;
+		PlatformGiftMode = false;
 		if (PlatformSaveMode) PlatformMessageSet(TextGet("SelectSave"));
 		return;
 	}
 	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null)) return PlatformAudioToggle();
 	if (MouseIn(1600, 10, 90, 90) && (PlatformHeal != null)) return CommonSetScreen("Room", "PlatformProfile");
 	if (MouseIn(1500, 10, 90, 90) && (PlatformHeal != null)) return PlatformPartyNext();
-	if (!CommonIsMobile && !PlatformPlayer.HalfBound) PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 	for (let B = 0; B < PlatformRightButtons.length; B++)
-		if (MouseIn(1900, 10 + (B + 1) * 100, 90, 90))
-			PlatformDialogStart(PlatformRightButtons[B]);
+		if (MouseIn(1900, 10 + (B + 1) * 100, 90, 90)) {
+			if (PlatformRightButtons[B] == "Gift") PlatformGiftMode = !PlatformGiftMode;
+			else PlatformDialogStart(PlatformRightButtons[B]);
+			PlatformSaveMode = false;
+			return;
+		}
+	if (PlatformGiftMode)
+		for (let I = 0; I < PlatformInventory.length; I++)
+			if (MouseIn(100 + (I * 450), 200, 400, 100)) {
+				PlatformGiveItem(PlatformInventory[I].Name);
+				PlatformGiftMode = false;
+				return;
+			}
+	if (!CommonIsMobile && !PlatformPlayer.HalfBound) PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 }
 
 /**
@@ -2704,6 +2777,22 @@ function PlatformInventoryAdd(InventoryName, QuantityToAdd = 1) {
 			return;
 		}
 	PlatformInventory.push({ Name: InventoryName, Quantity: QuantityToAdd });
+}
+
+/**
+ * Removes an item from the player inventory
+ * @param {string} InventoryName - The item name to add
+ * @param {number} QuantityToRemove - The quantity to add (1 if null)
+ * @returns {void} - Nothing
+ */
+function PlatformInventoryRemove(InventoryName, QuantityToRemove = 1) {
+	if (QuantityToRemove == null) QuantityToRemove = 1;
+	for (let I = 0; I < PlatformInventory.length; I++)
+		if (PlatformInventory[I].Name == InventoryName) {
+			PlatformInventory[I].Quantity = PlatformInventory[I].Quantity - QuantityToRemove;
+			if (PlatformInventory[I].Quantity <= 0) PlatformInventory.splice(I, 1);
+			return;
+		}
 }
 
 /**
