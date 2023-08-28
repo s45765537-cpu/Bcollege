@@ -53,6 +53,14 @@ let CraftingReturnToChatroom = false;
 /** Pagination offset used for the `Priority` {@link CraftingMode}. */
 let CraftingOverridePriorityOffset = 0;
 
+/** List of item indices collected for swapping.
+ * @type {number[]}
+ */
+let CraftingReorderList = [];
+
+/** @type {CraftingReorderType} */
+let CraftingReorderMode = "None";
+
 /**
  * @type {null | TextCache}
  */
@@ -228,25 +236,61 @@ function CraftingRun() {
 
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
-		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
-		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
-		if (CraftingDestroy) {
-			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 840, 60, "White", "Black");
-			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
+		let BGColor;
+		let TrashCancel = false;
+
+		switch (CraftingReorderMode) {
+		case "None":
+			BGColor = CraftingDestroy ? "Pink" : "White";
+			break;
+
+		case "Select":
+			BGColor = "Yellow";
+			break;
+
+		case "Place":
+			BGColor = "Grey";
+			break;
+		}
+
+		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
+		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
+		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet("Reorder"));
+		if (CraftingReorderMode == "Select") {
+			DrawText(`${TextGet("ReorderSelect")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
+		} else if (CraftingReorderMode == "Place") {
+			DrawText(`${TextGet("ReorderPlace")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
+		} else if (CraftingDestroy) {
+			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 737, 60, "White", "Black");
 		} else {
-			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 840, 60, "White", "Black");
+			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 737, 60, "White", "Black");
+			TrashCancel = true;
+		}
+		if (TrashCancel) {
 			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Trash.png", TextGet("Destroy"));
+		} else {
+			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 		}
 		for (let S = CraftingOffset; S < CraftingOffset + 20; S++) {
 			let X = ((S - CraftingOffset) % 4) * 500 + 15;
 			let Y = Math.floor((S - CraftingOffset) / 4) * 180 + 130;
 			let Craft = Player.Crafting[S];
+			switch (CraftingReorderMode) {
+			case "Select":
+				BGColor = CraftingReorderList.includes (S) ? "Chartreuse" : "Yellow";
+				break;
+
+			case "Place":
+				BGColor = CraftingReorderList.includes (S) ? "Green" : "Grey";
+			default:
+				break;
+			}
 			if (!Craft) {
-				DrawButton(X, Y, 470, 140, TextGet("EmptySlot"), CraftingDestroy ? "Pink" : "White");
+				DrawButton(X, Y, 470, 140, TextGet("EmptySlot"), BGColor);
 			} else {
-				DrawButton(X, Y, 470, 140, "", CraftingDestroy ? "Pink" : "White");
+				DrawButton(X, Y, 470, 140, "", BGColor);
 				DrawTextFit(Craft.Name, X + 295, Y + 25, 315, "Black", "Silver");
-				for (let Item of Player.Inventory)
+				for (let Item of Player.Inventory) {
 					if (Item.Asset.Name == Craft.Item) {
 						DrawImageResize("Assets/" + Player.AssetFamily + "/" + Item.Asset.DynamicGroupName + "/Preview/" + Item.Asset.Name + ".png", X + 3, Y + 3, 135, 135);
 						DrawTextFit(Item.Asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
@@ -255,6 +299,7 @@ function CraftingRun() {
 							DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
 						break;
 					}
+				}
 			}
 		}
 	}
@@ -462,6 +507,10 @@ function CraftingUpdateFromItem(item) {
  */
 function CraftingModeSet(NewMode) {
 	CraftingDestroy = false;
+	if (CraftingMode == "Slot"  &&  NewMode != "Slot") {
+		CraftingReorderModeSet ("None");
+	}
+
 	CraftingMode = NewMode;
 	CraftingOverridePriorityOffset = 0;
 	CraftingLayerNames = null;
@@ -726,6 +775,50 @@ function CraftingLoadServer(Packet) {
 }
 
 /**
+ * Advance to the next crafting reordering mode, or set the mode to the specified value.
+ * @param {CraftingReorderType} newmode - The mode to set.  If null, advance to next mode.
+ */
+function CraftingReorderModeSet (newmode=null)
+{
+	let pushcrafts = true;
+
+	if (newmode == null) {
+		switch (CraftingReorderMode) {
+		case "None":
+			newmode = "Select";
+			break;
+
+		case "Select":
+			if (CraftingReorderList.length <= 0) {
+				// If selection list is empty, flip back to
+				// "None"; skip unnecessary network traffic.
+				pushcrafts = false;
+				newmode = "None";
+			} else {
+				newmode = "Place";
+			}
+			break;
+
+		case "Place":
+			newmode = "None";
+			break;
+		}
+	}
+
+	if (newmode == "None"  &&  CraftingReorderMode != "None") {
+		/*
+		 * We may have been in the middle of reordering things.
+		 * Commit the current state, and empty the list.
+		 */
+		if (pushcrafts) {
+			CraftingSaveServer();
+		}
+		CraftingReorderList = [];
+	}
+	CraftingReorderMode = newmode;
+}
+
+/**
  * Handles clicks in the crafting room.
  * @returns {void} - Nothing
  */
@@ -737,17 +830,30 @@ function CraftingClick() {
 	// In slot mode, we can select which item slot to craft
 	if (CraftingMode == "Slot") {
 
-		// Two pages of slots
-		if (MouseIn(1580, 15, 90, 90)) {
+		// Four-ish pages of slots
+		if (MouseIn(1475, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset - 20;
 			if (CraftingOffset < 0) CraftingOffset = 80 - 20;
-		} else if (MouseIn(1685, 15, 90, 90)) {
+		} else if (MouseIn(1580, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset + 20;
 			if (CraftingOffset >= 80) CraftingOffset = 0;
 		}
 
-		// Enter/Exit the destroy item mode
-		if (MouseIn(1790, 15, 90, 90)) CraftingDestroy = !CraftingDestroy;
+		// Enter/Exit destroy item mode; or exit reorder mode.
+		if (MouseIn(1790, 15, 90, 90)) {
+			if (CraftingReorderMode != "None") {
+				CraftingReorderModeSet ("None");
+			} else {
+				CraftingDestroy = !CraftingDestroy;
+			}
+		}
+
+		// Craft slot reordering mode.
+		if (MouseIn (1675, 15, 90, 90)) {
+			if (CraftingDestroy)	CraftingDestroy = false;
+
+			CraftingReorderModeSet();	// Advance mode
+		}
 
 		// Scan 20 items for clicks
 		for (let S = 0; S < 20; S++) {
@@ -758,8 +864,28 @@ function CraftingClick() {
 			const Craft = Player.Crafting[S + CraftingOffset];
 			if (!MouseIn(X, Y, 470, 140)) continue;
 
-			// Destroy, edit or create a new crafting item
-			if (CraftingDestroy) {
+			// Reorder, destroy, edit or create a new crafting item
+			if (CraftingReorderMode == "Select") {
+				// If the index isn't present, add it.  If it
+				// is present, delete it.  This has the effect
+				// of toggling the slot in the UI.
+				const idx = CraftingReorderList.indexOf (S + CraftingOffset);
+				if (idx >= 0) {
+					CraftingReorderList.splice (idx, 1);
+				} else {
+					CraftingReorderList.push (S + CraftingOffset);
+				}
+			} else if (CraftingReorderMode == "Place") {
+				// Swap the slot clicked with the first entry in the list.
+				const idx = CraftingReorderList.shift();
+				const item = Player.Crafting[S + CraftingOffset];
+				Player.Crafting[S + CraftingOffset] = Player.Crafting[idx];
+				Player.Crafting[idx] = item;
+				if (CraftingReorderList.length <= 0) {
+					// List exhausted; commit changes and end reorder mode.
+					CraftingReorderModeSet ("None");
+				}
+			} else if (CraftingDestroy) {
 				if (Craft && Craft.Name) {
 					if (S + CraftingOffset < Player.Crafting.length) Player.Crafting[S + CraftingOffset] = null;
 					CraftingSaveServer();
@@ -1034,6 +1160,7 @@ function CraftingConvertItemToSelected(Craft) {
  */
 function CraftingExit() {
 	CharacterDelete(CraftingPreview.AccountName);
+	CraftingReorderModeSet ("None");
 	CraftingModeSet("Slot");
 	if (CraftingReturnToChatroom)
 		CommonSetScreen("Online", "ChatRoom");
