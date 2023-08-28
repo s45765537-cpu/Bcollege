@@ -11,6 +11,7 @@ var InventoryEyeShadowSuperstarSolidInit = InventoryClothFrilledShirtInit;
 var InventoryEyeShadowTanukiInit = InventoryClothFrilledShirtInit;
 var InventoryEyeShadowUndershadowedBlurredInit = InventoryClothFrilledShirtInit;
 var InventoryEyeShadowUndershadowedSolidInit = InventoryClothFrilledShirtInit;
+var InventoryEyeShadowWingsInit = InventoryClothFrilledShirtInit;
 
 var InventoryEyeShadowCatEyeLoad = InventoryClothFrilledShirtLoad;
 var InventoryEyeShadowCatEye2Load = InventoryClothFrilledShirtLoad;
@@ -23,6 +24,7 @@ var InventoryEyeShadowSuperstarSolidLoad = InventoryClothFrilledShirtLoad;
 var InventoryEyeShadowTanukiLoad = InventoryClothFrilledShirtLoad;
 var InventoryEyeShadowUndershadowedBlurredLoad = InventoryClothFrilledShirtLoad;
 var InventoryEyeShadowUndershadowedSolidLoad = InventoryClothFrilledShirtLoad;
+var InventoryEyeShadowWingsLoad = InventoryClothFrilledShirtLoad;
 
 var InventoryEyeShadowCatEyeDraw = InventoryClothFrilledShirtDraw;
 var InventoryEyeShadowCatEye2Draw = InventoryClothFrilledShirtDraw;
@@ -35,6 +37,7 @@ var InventoryEyeShadowSuperstarSolidDraw = InventoryClothFrilledShirtDraw;
 var InventoryEyeShadowTanukiDraw = InventoryClothFrilledShirtDraw;
 var InventoryEyeShadowUndershadowedBlurredDraw = InventoryClothFrilledShirtDraw;
 var InventoryEyeShadowUndershadowedSolidDraw = InventoryClothFrilledShirtDraw;
+var InventoryEyeShadowWingsDraw = InventoryClothFrilledShirtDraw;
 
 var InventoryEyeShadowCatEyeClick = InventoryClothFrilledShirtClick;
 var InventoryEyeShadowCatEye2Click = InventoryClothFrilledShirtClick;
@@ -47,6 +50,7 @@ var InventoryEyeShadowSuperstarSolidClick = InventoryClothFrilledShirtClick;
 var InventoryEyeShadowTanukiClick = InventoryClothFrilledShirtClick;
 var InventoryEyeShadowUndershadowedBlurredClick = InventoryClothFrilledShirtClick;
 var InventoryEyeShadowUndershadowedSolidClick = InventoryClothFrilledShirtClick;
+var InventoryEyeShadowWingsClick = InventoryClothFrilledShirtClick;
 
 var InventoryEyeShadowCatEyeExit = InventoryClothFrilledShirtExit;
 var InventoryEyeShadowCatEye2Exit = InventoryClothFrilledShirtExit;
@@ -59,3 +63,4 @@ var InventoryEyeShadowSuperstarSolidExit = InventoryClothFrilledShirtExit;
 var InventoryEyeShadowTanukiExit = InventoryClothFrilledShirtExit;
 var InventoryEyeShadowUndershadowedBlurredExit = InventoryClothFrilledShirtExit;
 var InventoryEyeShadowUndershadowedSolidExit = InventoryClothFrilledShirtExit;
+var InventoryEyeShadowWingsExit = InventoryClothFrilledShirtExit;
