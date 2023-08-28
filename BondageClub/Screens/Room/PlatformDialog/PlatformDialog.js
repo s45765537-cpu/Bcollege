@@ -1637,9 +1637,17 @@ var PlatformDialogData = [
 			},
 			{
 				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
 				Text: "Let's rest while we can, we have a long journey ahead."
 			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
+				Text: "A quick kiss before we travel again.  (You share a loving kiss.)"
+			},
+
+
 		]
 	},
 
@@ -2623,6 +2631,217 @@ var PlatformDialogData = [
 		],
 	},
 
+	{
+		Name: "EdlaranLover1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
+				Text: "(You lick your lips and get closer to Edlaran.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
+				Text: "(You come closer to Edlaran and look at each other in the eyes.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
+				Text: "(You slowly come closer to Edlaran and look down.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
+				Text: "(She giggles shyly, not daring to look at you.)",
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
+				Text: "(She trembles a little, looking at your eyes while smiling.)",
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
+				Text: "(She makes a smug smile and address you confidently.)",
+			},
+
+			{
+				Text: "Melody, what's going on?",
+				Answer: [
+					{ Text: "(Propose to become girlfriends.)", Reply: "(You take a long stare at each other and smile.)" },
+					{ Text: "(Talk about an insect you saw.)", Reply: "(She rolls her eyes up and turns away.)", Love: -1, Goto: "Skip" },
+					{ Text: "(Compliment her.)", Reply: "(She smiles but quickly turns away.)", Perk: true, Goto: "Skip" }
+				]
+			},
+			{
+				Text: "Edlaran, we've only known each other for a little while.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" }
+				]
+			},
+			{ Text: "But I feel there is something strong between us." },
+			{ Text: "Your eyes, your smile, your laughter.  I love everything about you." },
+			{ Text: "This might sound weird or ridiculous, please hear me." },
+			{ Text: "You're an elf and I'm human, we are both women, and we have such different backgrounds." },
+			{ Text: "Whenever you smile, I smile.  Whenever you laugh, I laugh." },
+			{ Text: "I don't know where life will lead us, but I'm so happy it brought me to you." },
+			{ Text: "Would you be my girlfriend?" },
+
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
+				Text: "Absolutely!  I would love to be your girlfriend.  (She blushes as you grab her for a loving kiss.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
+				Text: "Oh yeah!  Yes Melody!  (You get closer and exchange a loving kiss.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
+				Text: "Melody, you sexy little maid.  Yes!  (She grins and grabs you for a loving kiss.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
+				]
+			},
+			{
+				Entry: function() {
+					PlatformDialogGetCharacter("Edlaran").Love = PlatformDialogGetCharacter("Edlaran").Love + 3;
+					PlatformDialogGetCharacter("Edlaran").LoverName = "Melody";
+					PlatformDialogGetCharacter("Melody").LoverName = "Edlaran";
+					PlatformDialogGetCharacter("Edlaran").LoverLevel = 1;
+					PlatformDialogGetCharacter("Melody").LoverLevel = 1;
+				},
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }]
+			},
+			{ Text: "(You kiss each other on the mouth, cheeks and neck.  Moaning a little with each kisses.)" },
+			{ Text: "I love you Melody.  I hope we stay together for a long time" },
+			{
+				Text: "We will have so much fun!",
+				Answer: [
+					{ Text: "Let's have even more fun.", Reply: "(She giggles and nods.)  I agree.", Domination: 1, Love: 1 },
+					{ Text: "(Blush.)  Should we have more fun?", Reply: "(She smirks.)  Absolutely.", Domination: -1, Love: 1 },
+					{ Text: "We will have fun when our quest is done.", Reply: "(She nods.)  Yes my love, I agree.  We need to focus on the mission.", Domination: 1, Goto: "NoSex" },
+					{ Text: "Is it wise to think about fun?", Reply: "(She checks her quiver.)  That's correct, sweetie.  We need to focus on the mission.", Domination: -1, Goto: "NoSex" }
+				]
+			},
+			{ Text: "(You hastily run away to find a private place.)" },
+			{
+				Text: "(You both strip down and smile at each other warmly.)",
+				Background: "Black",
+				Character: [
+					{ Name: "Edlaran", Status: "Naked", Pose: "LookLeft", X: 1000 },
+					{ Name: "Melody", Status: "Naked", Pose: "LookRight", X: 500 }
+				]
+			},
+			{},
+			{ Text: "You're so beautiful naked my love." },
+			{ Text: "I want to feel you.  I want to taste you." },
+			{
+				Text: "(You both lie down, pussy against pussy.)",
+				Character: [{ Name: "Edlaran", Status: "Naked", Pose: "ScissorNakedMelody", X: 0 }]
+			},
+			{},
+			{ Text: "This is such a magical moment!" },
+			{ Text: "(You rub each other pussy slowly and lovingly.)" },
+			{ Text: "Oh yeah!  I love you Melody!" },
+			{ Text: "(You both rub faster and faster, scissoring each other with passion.)" },
+			{ Text: "Yyyyyyeeeeeeeeaaaaaahhhh!" },
+			{ Text: "(You get shattering orgasms, sharing your new found love.)" },
+			{ ID: "NoSex", Text: "(You and Edlaran are now girlfriends, the first lover stage.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+
+		],
+	},
+
+	{
+		Name: "EdlaranLover1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{ Text: "(You give a weird look to each other.)" },
+			{
+				Text: "Melody, what's going on?",
+				Answer: [
+					{
+						Text: "(Break up with her.)",
+						Reply: "That's it?  You had your fun and now it's over?",
+						Script: function() {
+							PlatformDialogGetCharacter("Edlaran").Love = PlatformDialogGetCharacter("Edlaran").Love - 6;
+							if (PlatformDialogGetCharacter("Edlaran").Love >= 19) PlatformDialogGetCharacter("Edlaran").Love = 18;
+							delete PlatformDialogGetCharacter("Edlaran").LoverName;
+							delete PlatformDialogGetCharacter("Melody").LoverName;
+							delete PlatformDialogGetCharacter("Edlaran").LoverLevel;
+							delete PlatformDialogGetCharacter("Melody").LoverLevel;
+						}
+					},
+					{ Text: "(Kiss her.)", Reply: "(You enjoy a short kiss and the journey goes on.)", Goto: "Skip" },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
+				Text: "Why?  Why now?  What did I do?  (She starts to cry.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
+				Text: "This is really disappointing.  (She pouts and lowers and shoulders.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
+				Text: "It's not that bad.  I've had humans before you and I'll get more after you're dead.",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+			{ Text: "Just like seasons, our love was never meant to last." },
+			{ Text: "Let's forget this silly affair and resume our journey." },
+			{ Text: "Our quest is way more important than some romance." },
+			{ Text: "(You and Edlaran are no longer lovers.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
 ];
 
 /**
@@ -2709,14 +2928,14 @@ function PlatformDialogDraw() {
 			if (Character.Pose != null)
 				DrawImage("Screens/Room/PlatformDialog/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Pose + ".png", (Character.X == null) ? X : Character.X, (Character.Y == null) ? Y : Character.Y);
 			else
-			if (Character.Animation != null)
-				for (let Char of PlatformTemplate)
-					if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
-						for (let Anim of Char.Animation)
-							if (Anim.Name == Character.Animation) {
-								let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
-								DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
-							}
+				if (Character.Animation != null)
+					for (let Char of PlatformTemplate)
+						if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
+							for (let Anim of Char.Animation)
+								if (Anim.Name == Character.Animation) {
+									let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
+									DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
+								}
 			X = X + 500;
 		}
 	}
