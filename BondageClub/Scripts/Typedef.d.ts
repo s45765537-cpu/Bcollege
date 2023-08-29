@@ -3839,6 +3839,7 @@ interface ClubCard {
 	Text?: string;
 	Prerequisite?: string;
 	Reward?: string;
+	RewardMemberNumber?: number;
 	MoneyPerTurn?: number;
 	FamePerTurn?: number;
 	RequiredLevel?: number;

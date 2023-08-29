@@ -821,6 +821,38 @@ var ClubCardList = [
 		FamePerTurn: 3,
 	},
 
+	// 12000 - Cards based on online players
+	{   // Patreon 2023/09 Contest Winner
+		ID: 12000,
+		Name: "Sam the Busty Cow",
+		Group: ["Player"],
+		Reward: "NPC_Stable_Trainer",
+		RewardMemberNumber: 98677,
+		MoneyPerTurn: 2,
+		RequiredLevel: 2
+	},
+	{   // Discord 2023/09 Contest Winner
+		ID: 12001,
+		Name: "Suki",
+		Group: ["Player"],
+		Reward: "NPC_AsylumEntrance_Nurse",
+		RewardMemberNumber: 649,
+		FamePerTurn: 1,
+		OnTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
+		}
+	}, 
+	{   // Deviant Art 2023/09 Contest Winner
+		ID: 12002,
+		Name: "Angela",
+		Group: ["Player"],
+		Reward: "NPC_Cafe_Maid",
+		RewardMemberNumber: 20950,
+		FamePerTurn: 1,
+		MoneyPerTurn: 3,
+		RequiredLevel: 4
+	}, 
+
 	// Event cards
 	{
 		ID: 30000,
@@ -2217,6 +2249,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 		DrawRect(X + W * 0.05, Y + W * 1.5, W * 0.9, W * 0.48, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
 		if (GroupText != "") {
+			if (Card.RewardMemberNumber != null) GroupText = GroupText + " #" + Card.RewardMemberNumber.toString();
 			MainCanvas.font = "bold " + Math.round(W / 16) + "px arial";
 			DrawTextWrap(GroupText, X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.1, "Black");
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
