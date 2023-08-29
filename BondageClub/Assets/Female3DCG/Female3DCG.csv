@@ -93,6 +93,7 @@ ClothAccessory,JewelrySet,Piercing Set
 ClothAccessory,KissmarkDummy,Smoochy Lipstick
 ClothAccessory,Kissmark,Lipstick Marks
 ClothAccessory,BugLegs,Bug Legs
+ClothAccessory,LargeBelt,Large Belt
 Necklace,,Necklace
 Necklace,Necklace1,Fancy Necklace
 Necklace,Necklace2,Beaded Necklace
@@ -167,6 +168,7 @@ ClothLower,CheerleaderSkirt,Cheerleader Skirt
 ClothLower,CrossSkirtLight,Cross Skirt (light)
 ClothLower,TulleSkirt,Fitted Pleated Skirt
 ClothLower,PantBoots,Long Latex Pants
+ClothLower,BusinessSkirt,Business Skirt
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
