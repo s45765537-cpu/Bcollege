@@ -470,7 +470,9 @@ var AssetFemale3DCG = [
 					{ Name: "Lneck", HasType: false, CopyLayerColor: "Rfhead", AllowModuleTypes: ["l1"] },
 					{ Name: "Rneck", HasType: false, CopyLayerColor: "Rfhead", AllowModuleTypes: ["n1"] }
 				]
-			},
+			},																																			{ 																																				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15, DefaultColor: ["#E59292", "#FFFFFF"],HideForPose: ["AllFours","Hogtied"],AllowPose: ["TapedHands", "BackBoxTie","BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],				Layer:[
+					{ Name: "Belt", AllowColorize: true},
+					{ Name: "Buckles", AllowColorize: true}																									]																																		},
 			{
 				Name: "BugLegs", Priority: 6, Value: 40, DefaultColor: ["#406A50", "#7F795F"],
 				Layer: [
@@ -885,6 +887,7 @@ var AssetFemale3DCG = [
 					{ Name: "Stripe" }
 				]
 			},
+			{ 																																				Name: "BusinessSkirt", Gender: "F", Prerequisite: ["HasVagina"], Fetish: ["Leather"], Value: 32, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Attribute: ["Skirt"],																			},
 			{
 				Name: "PantBoots", Gender: "F", Prerequisite: ["HasVagina"], Value: 40, Left: 120, Top: 450, Priority: 22, Extended: true,
 				Layer: [
