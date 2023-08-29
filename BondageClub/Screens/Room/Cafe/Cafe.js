@@ -79,6 +79,12 @@ function CafeCanDildo() { return (!Player.IsVulvaChaste() && InventoryGet(Player
  */
 function CafeEquired(Type) { return (Type == CafeAskedFor); }
 
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function CafeCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+
 //
 /**
  * Loads the Cafe room and initializes the NPCs. This function is called dynamically
@@ -430,4 +436,36 @@ function CafeTurnDildoUp() {
 	const vibe = InventoryGet(Player, "ItemVulva");
 	ModularItemSetOptionByName(Player, vibe, "f0i2", true);
 	CafeVibeIncreased = true;
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function CafeClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderMaidDeck;
+	MiniGameStart("ClubCard", 0, "CafeClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function CafeClubCardEnd() {
+	CommonSetScreen("Room", "Cafe");
+	CharacterSetCurrent(CafeMaid);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CurrentCharacter.AllowItem = MiniGameVictory;
+	CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
+	if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
+}
+
+/**
+ * Sends the bound player back to the main hall
+ * @returns {void} - Nothing
+ */
+function CafeClubCardMainHall() {
+	CommonSetScreen("Room", "MainHall");
+	DialogLeave();
 }
