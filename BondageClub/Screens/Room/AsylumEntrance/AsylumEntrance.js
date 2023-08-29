@@ -34,6 +34,11 @@ function AsylumEntranceCanGetNurseUniform() { return ((ReputationGet("Asylum") >
  * @returns {boolean} - Returns TRUE if the nurse is collared by GGTS
  */
 function AsylumEntranceNurseHasGGTSCollar() { return (AsylumGGTSGetLevel(Player) >= 4); }
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Loads the room and generates the nurse. Is called dynamically
@@ -599,4 +604,24 @@ function AsylumEntranceGiveRestraints() {
  */
 function AsylumEntrancePayTenMinutes() {
 	AsylumGGTSSpendMinute(10);
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function AsylumEntranceClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderAsylumDeck;
+	MiniGameStart("ClubCard", 0, "AsylumEntranceClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function AsylumEntranceClubCardEnd() {
+	CommonSetScreen("Room", "AsylumEntrance");
+	CharacterSetCurrent(AsylumEntranceNurse);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

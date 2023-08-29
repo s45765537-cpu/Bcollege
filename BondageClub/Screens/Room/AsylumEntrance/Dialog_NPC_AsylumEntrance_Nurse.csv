@@ -1,6 +1,8 @@
 PlayerGagged,,,"Lovely gag, but you'll need to get it off if you want to talk with me.",,
 FightVictory,,,"Ow!  Well done, you're a tough patient.  I'm not letting you out anyway.",,
 FightDefeat,,,"You really thought you could beat me?  You're truly mad, little patient.",,
+ClubCardVictory,,,"Well done, that was a good game.  (She checks the clock.)  My shift isn't over yet, can I have a rematch?",,
+ClubCardDefeat,,,"Victory!  (She does a few dance moves and checks the clock.)  My shift isn't over yet, do you want a rematch?",,
 ClubSlave,,,What are you doing here little slave?  Go back to the club and serve our customers.,,
 ClubSlave,,Can we talk about the asylum?,"No, as a club slave you have work to do.  Get going girl.",,
 ClubSlave,,(Leave her.),,DialogLeave(),
@@ -28,6 +30,7 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 10,,Tell me about nurses.,Nurses are paid by the asylum to take care of patients.  They give the therapies and strap-up feisty customers.  (She grins.),,
 10,,What are the therapies?,"There are lots of therapies available, depending on the patient needs.  They are bondage, pain, tickling and orgasm therapies.",,
 10,,Can I send my slaves here?,"Yes, if your submissive doesn't behave the way you want it.  You can send her here to correct her behavior.  Talk with her first.",,
+10,40,This is boring.  Wanna play cards?,"(She checks around her.)  Sure, since we're alone at the entrance, we can play a card game.",,CanPlayClubCard()
 10,0,Thanks for the information.,My pleasure.  Do you need anything else?,,
 20,21,"Yes, I want to transfer from nurse to patient.","Very well.  By committing yourself, you will be locked down in the asylum until your time is up.",,
 20,0,Let me think about it.,Of course.  Do you need anything else?,,
@@ -35,7 +38,7 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 21,0,I accept to be locked down.,"(She grins.)  Perfect!  But you need to get out of these restraints first.  Go get a maid to help you, I'm busy.",,Player.IsRestrained()
 21,0,Let me think about it.,Of course.  Do you need anything else?,,
 22,23,I'm already dressed like that.,(She nods.) For how long you wish to commit yourself?,,IsWearingPatientClothes()
-22,23,Can you help me to change?,I certainly can.  (She helps you to get dressed as a patient.)  For how long you wish to commit yourself?,"PlayerWearPatientClothes()",!IsWearingPatientClothes()
+22,23,Can you help me to change?,I certainly can.  (She helps you to get dressed as a patient.)  For how long you wish to commit yourself?,PlayerWearPatientClothes(),!IsWearingPatientClothes()
 23,24,15 minutes.,"You're taking it easy, don't you?  Very well, step inside.  (She locks the door behind you.)","CommitPatient(900000, 1)",
 23,24,1 hour.,"It should give you some time to relax.  Very well, step inside.  (She locks the door behind you.)","CommitPatient(3600000, 3)",
 23,24,4 hours.,"It should give you plenty of time to relax.  Very well, step inside.  (She locks the door behind you.)","CommitPatient(14400000, 6)",
@@ -53,6 +56,10 @@ ClubSlave,,(Leave her.),,DialogLeave(),
 32,33,I'm already dressed up.,"Wonderful!  Come inside then, there are lots of patients to take care of.",StartNurse(),IsWearingNurseClothes()
 32,33,Can you help me to change?,"(She gives you the nurse clothes.)  Come inside, there are lots of patients to take care of.",StartNurse(),!IsWearingNurseClothes()
 33,0,Thanks!  (Leave her.),,DialogLeave(),
+40,,Can I tie you up if I win?,"No, I still have my shift to finish.  I cannot get in bondage.",,
+40,,Will you restrain me if I loose?,(She shakes head from left to right.)  Get into therapy and we can strap you up.  (She laughs.),,
+40,,(Play Club Card with her.),,ClubCardStart(),
+40,0,Let's do something else.,"Yeah, we can play cards when my shift is over.",,
 100,,,"If it isn't the famous patient DialogPlayerName.  As usual, I hope your stay in the asylum is going well.",,"DialogReputationLess(""Asylum"", -100)"
 100,,,Hello again patient DialogPlayerName.  I hope your stay in the asylum is going well.,,"DialogReputationLess(""Asylum"", -50)"
 100,,,Hello there.  I hope your stay in the asylum is going well.,,
