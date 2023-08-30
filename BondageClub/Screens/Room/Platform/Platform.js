@@ -558,29 +558,38 @@ var PlatformTemplate = [
 	{
 		Name: "Lyn", // MMD Z: 41.00
 		Status: "Thief",
-		Health: 29,
+		Health: 73,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
-		RunSpeed: 19,
-		WalkSpeed: 13,
-		CrawlSpeed: 7,
-		Projectile: 10,
+		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
+		JumpForce: 60,
+		WalkSpeed: 20,
+		CrawlSpeed: 10,
+		Projectile: 25,
 		ProjectileName: "Dagger",
 		ProjectileType: "Iron",
-		ProjectileDamage: [6, 6],
-		ProjectileOdds: 0.0002,
-		ProjectileTime: 900,
-		CollisionDamage: 3,
-		ExperienceValue: 6,
-		RunOdds: 0.0004,
+		ProjectileDamage: [11, 11],
+		JumpOdds: 0.0004,
+		ProjectileOdds: 0.0003,
+		ProjectileTime: 675,
+		ProjectileBothSides: true,
+		CollisionDamage: 6,
+		ExperienceValue: 20,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 1000 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
+			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
+			{ Name: "Stun", Cycle: [0], Speed: 1000 },
+			{ Name: "FireProjectile", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 36 }
 		],
 		Attack: [
-			{ Name: "FireProjectile", Speed: 1000 }
+			{ Name: "FireProjectile", Speed: 750 }
 		],
 	},
 
@@ -2242,7 +2251,8 @@ function PlatformProjectile(C, LongShot) {
 	let Damage = C.ProjectileDamage[C.Level];
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
-	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -200 : 200), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
+	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
+	if (C.ProjectileBothSides) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
 }
 
 /**
@@ -2356,7 +2366,7 @@ function PlatformDraw() {
 					C.Run = !C.Run;
 				if ((C.StandAttackSlowOdds != null) && (C.StandAttackSlowOdds > 0) && (Math.random() < C.StandAttackSlowOdds * Frame))
 					PlatformAttack(C, "StandAttackSlow");
-				if ((C.ProjectileOdds != null) && (C.Projectile != null) && (C.Projectile > 0) && (C.ProjectileOdds > 0) && (Math.random() < C.ProjectileOdds * Frame))
+				if ((C.ProjectileOdds != null) && (C.Projectile != null) && (C.Projectile > 0) && (C.ProjectileOdds > 0) && (Math.random() < C.ProjectileOdds * Frame) && (C.Y == PlatformFloor))
 					PlatformAttack(C, "FireProjectile");
 				PlatformBindPlayer(C, PlatformTime);
 			}
