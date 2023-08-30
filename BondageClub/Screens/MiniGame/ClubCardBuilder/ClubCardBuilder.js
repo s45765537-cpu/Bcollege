@@ -7,7 +7,7 @@ var ClubCardBuilderOffset = 0;
 var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderDeckSize = 30;
 var ClubCardBuilderFilterIndex = 0;
-var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher"];
+var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher", "Reward"];
 var ClubCardBuilderRenameIndex = -1;
 
 // All the default decks that NPCs can use
@@ -85,9 +85,15 @@ function ClubCardBuilderFilterLoad() {
 	ClubCardBuilderList = [];
 	ClubCardBuilderOffset = 0;
 	for (let Card of ClubCardList)
-		if ((Card.Reward == null) || (Player.Game.ClubCard.Reward.indexOf(String.fromCharCode(Card.ID)) >= 0))
-			if ((ClubCardBuilderFilterIndex == 0) || ((ClubCardBuilderFilterIndex == 1) && (Card.Type === "Event")) || ((ClubCardBuilderFilterIndex == 2) && (Card.Group == null) && (Card.Type == null)) || ((Card.Group != null) && (Card.Group.indexOf(ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex]) >= 0)))
-				ClubCardBuilderList.push({...Card});
+		if ((Card.Reward == null) || (Player.Game.ClubCard.Reward.indexOf(String.fromCharCode(Card.ID)) >= 0)) {
+			let Include = false;
+			if (ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex] == "All") Include = true;
+			else if ((ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex] == "Event") && (Card.Type === "Event")) Include = true;
+			else if ((ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex] == "NoGroup") && (Card.Group == null) && (Card.Type == null)) Include = true;
+			else if ((ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex] == "Reward") && (Card.Reward != null)) Include = true;
+			else if ((Card.Group != null) && (Card.Group.indexOf(ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex]) >= 0)) Include = true;
+			if (Include) ClubCardBuilderList.push({...Card});
+		}				
 	for (let Card of ClubCardBuilderList)
 		if (Card.RequiredLevel == null)
 			Card.RequiredLevel = 1;
