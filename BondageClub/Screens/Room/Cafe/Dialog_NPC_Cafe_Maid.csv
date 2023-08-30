@@ -1,4 +1,6 @@
 PlayerGagged,,,"You may wear gags in the cafe, but they do make it much harder to eat and drink.",,
+ClubCardVictory,,,"Congrats!  Just like head maids, you can boss me around.  (She presents her wrists.)",,
+ClubCardDefeat,,,Oh yeah!  (She quickly restrains you and sends you back to the main hall.)  Maybe a maid will get you out.,,
 MaidDrinkOnline,,,Hello sister.  I see you are busy serving.  Come here and let me help you.,,
 NotEnoughMoney,,,Sorry miss. You don't have enough money for that right now.,,
 EnergyDrinkLimit,,,"(The maid takes your money and gives you a can of energy drink.  You consume it, but only feel invigorated and no more skillful than before.)",,
@@ -45,6 +47,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid wo
 10,,What is so special about those items?,Well the energy drinks are very stimulating for mind and body.  The nursery supplies this milk and the cupcakes seem to really amplify the mood you are in.,,
 10,,They sound a bit suspicious.  Are you sure they are safe?,Of course they are Miss.  If there happens to be any side effects from them then I am sure they will only be temporary.,,
 10,,Temporary side effects?,"Yes, some customers claimed our specialities had an effect on them, but only for an hour.",,
+10,50,Do you have time for a Club Card game?,"The cafe isn't busy, I guess we can play a game.  Be warned, you will get in trouble if you lose.",,CanPlayClubCard()
 10,0,That is all I wanted to know.,Very well.  Can I get you anything?,,
 20,0,Okay. I will catch one of them,,,
 30,40,I would like an energy drink,Certainly miss. They are $REPLACEMONEY per can.,EquirePrice(EnergyDrink),
@@ -56,6 +59,12 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid wo
 40,0,(Buy cupcake.),"(The maid takes your money and gives you your choice of cupcake.  You consume it and feel more conscious, receptive and engaged.)",ConsumeSpeciiality(),Equired(Cupcake)
 40,30,What were those other specials?,"We have energy drinks, milk and cupcakes.  Would you like one of them?",,
 40,0,"Actually, I won't have a special at the moment",That is quite alright.  Is there anything else you would like?,,
+50,,Can I tie you up if I win?,"Yes, just like head maids, you'll have control over me.",,
+50,,Will you restrain me if I loose?,Yep!  I hope you're ready to get in trouble.  (She giggles.),,
+50,,(Play Club Card with her.),,ClubCardStart(),
+50,0,Let's do something else.,"Yeah, we can play cards when my shift is over.",,
+51,,(Grumble and protest.),(She laughs loudly and pushes you toward the main hall.)  My sisters will take care of you.,,
+51,0,(Back to the main hall.),,ClubCardMainHall(),
 90,,,"Hello sister.  I see you are busy serving.  I would love to help you, but it is rather difficult for me right now",,
 90,,(Nod and go closer to her.),"(As a sister, she shares a bound cuddle with you.  She then resumes serving the cafe.)",,Player.IsRestrained()
 90,,(Struggle in your restraints.),"Yes, it looks like you bound to serve with that tray.  Alas it is not so easy for me to run this cafe while bound.",,Player.IsRestrained()

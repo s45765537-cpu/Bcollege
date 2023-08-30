@@ -1661,6 +1661,17 @@ function ClubCardLoadDeckNumber(DeckNum) {
 				}
 			}
 
+	// If a card can be won against the online player
+	if (ClubCardIsOnline() && ClubCardIsPlaying())
+		for (let Card of ClubCardList)
+			if ((Card.RewardMemberNumber === ClubCardOnlinePlayerMemberNumber1) || (Card.RewardMemberNumber === ClubCardOnlinePlayerMemberNumber2)) {
+				let Char = String.fromCharCode(Card.ID);
+				if ((Player.Game == null) || (Player.Game.ClubCard == null) || (Player.Game.ClubCard.Reward == null) || (Player.Game.ClubCard.Reward.indexOf(Char) < 0)) {
+					ClubCardReward = Card;
+					break;
+				}
+			}
+
 	// Show the winnable card or start the game right away
 	if (ClubCardReward != null) {
 		if (ClubCardReward.Type == null) ClubCardReward.Type = "Member";

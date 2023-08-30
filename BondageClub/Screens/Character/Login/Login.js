@@ -389,6 +389,33 @@ function LoginMistressItems() {
 }
 
 /**
+ * Give the matching RewardMemberNumber Club Card to the player
+ * @returns {void} Nothing
+ */
+function LoginClubCard() {
+
+	// Loops in all the cards to see if there's a card that matches the player MembeNumber
+	for (let Card of ClubCardList)
+		if (Player.MemberNumber === Card.RewardMemberNumber) {
+
+			// Make sure the proper objects are created
+			if (Player.Game == null) Player.Game = {};
+			if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
+			if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
+
+			// If the player doesn't have that card, we add it
+			let Char = String.fromCharCode(Card.ID);
+			if (Player.Game.ClubCard.Reward.indexOf(Char) < 0) {
+				Player.Game.ClubCard.Reward = Player.Game.ClubCard.Reward + Char;
+				ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+			}
+			return;
+
+		}
+
+}
+
+/**
  * Adds or confiscates pony equipment from the player. Only players that are ponies or trainers can have the pony
  * equipment.
  * @returns {void} Nothing
@@ -778,6 +805,7 @@ function LoginResponse(C) {
 			var InventoryBeforeFixes = InventoryStringify(Player);
 			LoginValidCollar();
 			LoginMistressItems();
+			LoginClubCard();
 			LoginStableItems();
 			LoginMaidItems();
 			LoginLoversItems();

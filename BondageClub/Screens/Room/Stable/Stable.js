@@ -60,7 +60,6 @@ function StablePlayerIsNewby() {
 function StablePlayerIsWearingOutfit(Outfit) {
 	return Outfit == StablePlayerOutfitWorn;
 }
-
 function StablePlayerIsCollared() {return StableCharacterAppearanceGroupAvailable(Player, "ItemNeck");}
 function StablePlayerOtherPony()  {return StableTrainer.Stage == "StableTrainingOtherPoniesBack" || StableTrainer.Stage == "StableTrainingEnd";}
 function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTrainingIsolationBack";}
@@ -69,10 +68,12 @@ function StablePlayerAllowedPonyExamen() {return (!StablePlayerIsExamPony() && S
 function StablePlayerDisallowedPonyExamen() {return (!StablePlayerIsExamPony() && StablePlayerIsPony() && (SkillGetLevel(Player, "Dressage") < 6));}
 function StablePlayerAllowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") >= 6));}
 function StablePlayerDisallowedTrainerExamen() {return (!StablePlayerIsExamTrainer() && StablePlayerIsTrainer() && (SkillGetLevel(Player, "Dressage") < 6));}
-
-//BadGirlClub
 function StableCanHideDice() {return (LogQuery("Joined", "BadGirl") && LogQuery("Stolen", "BadGirl") && !LogQuery("Hide", "BadGirl"));}
-
+/**
+ * Returns TRUE if the player and the current character can play Club Card
+ * @returns {boolean} - Returns TRUE if both aren't restrained
+ */
+function StableCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 // Loads the stable characters with many restrains
 function StableLoad() {
@@ -1117,4 +1118,24 @@ function StableHideDice() {
 		LogDelete("Stolen", "BadGirl");
 		LogAdd("Hide", "BadGirl");
 	}
+}
+
+/**
+ * When the player starts a club card game
+ * @returns {void} - Nothing
+ */
+function StableClubCardStart() {
+	ClubCardOpponent = CurrentCharacter;
+	ClubCardOpponentDeck = ClubCardBuilderABDLDeck;
+	MiniGameStart("ClubCard", 0, "StableClubCardEnd");
+}
+
+/**
+ * When the player ends a club card game
+ * @returns {void} - Nothing
+ */
+function StableClubCardEnd() {
+	CommonSetScreen("Room", "Stable");
+	CharacterSetCurrent(StableTrainer);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
