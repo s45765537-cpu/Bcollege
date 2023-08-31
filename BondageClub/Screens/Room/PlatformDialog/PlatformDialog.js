@@ -2398,7 +2398,6 @@ var PlatformDialogData = [
 	{
 		Name: "ThiefBossIntro",
 		Music: "CamilleCastleBattle",
-		Exit : function () { PlatformLoadRoom("ForestPlainToSavannah"); PlatformPlayer.X = 100; PlatformPlayer.FaceLeft = false; },
 		Dialog: [
 			{
 				Background: "Savannah",
@@ -2425,13 +2424,11 @@ var PlatformDialogData = [
 					{ Name: "Vera", Status: "Leather", Pose: "Angry" }
 				]
 			},
-			{ Text: "Good!  Spring the trap girls." },
-			{ Text: "(A fence springs from the ground behind you.)" },
-			{ Text: "I'll take care of that rat myself." },
-			{ Text: "(She charges toward you with her minions.)" },
-			{ Text: "(*** You've reached the end of Bondage Brawl for now. ***)" },
-			{ Text: "(*** The Brawl will continue in a future update of the Club. ***)" },
-			{ Text: "(*** If you like the game or have ideas for it, please reach Ben987. ***)" },
+			{ Text: "So the slaves came back.  Get them girls!" },
+			{
+				Entry: function() { PlatformEventSet("ThiefBossIntro"); },
+				Text: "(Three bandits spring on you while the boss watches from her camp.)"
+			}
 		],
 
 	},

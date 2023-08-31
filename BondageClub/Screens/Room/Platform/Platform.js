@@ -367,8 +367,8 @@ var PlatformTemplate = [
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
-		RunSpeed: 12,
-		WalkSpeed: 8,
+		RunSpeed: 11,
+		WalkSpeed: 7,
 		CrawlSpeed: 4,
 		JumpForce: 50,
 		CollisionDamage: 1,
@@ -406,8 +406,8 @@ var PlatformTemplate = [
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
-		RunSpeed: 12,
-		WalkSpeed: 8,
+		RunSpeed: 11,
+		WalkSpeed: 7,
 		CrawlSpeed: 4,
 		JumpForce: 70,
 		CollisionDamage: 2,
@@ -445,8 +445,8 @@ var PlatformTemplate = [
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
-		RunSpeed: 15,
-		WalkSpeed: 10,
+		RunSpeed: 13,
+		WalkSpeed: 9,
 		CrawlSpeed: 5,
 		CollisionDamage: 3,
 		ExperienceValue: 4,
@@ -519,8 +519,8 @@ var PlatformTemplate = [
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
-		RunSpeed: 19,
-		WalkSpeed: 13,
+		RunSpeed: 16,
+		WalkSpeed: 11,
 		CrawlSpeed: 7,
 		Projectile: 10,
 		ProjectileName: "Dagger",
@@ -564,7 +564,7 @@ var PlatformTemplate = [
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
 		JumpForce: 60,
-		WalkSpeed: 20,
+		WalkSpeed: 18,
 		CrawlSpeed: 10,
 		Projectile: 25,
 		ProjectileName: "Dagger",
@@ -1455,7 +1455,7 @@ var PlatformRoomList = [
 		Width: 3600,
 		Height: 1400,
 		Door: [
-			{ Name: "ForestSavannah", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 5400, ToFaceLeft: true },
+			{ Name: "SavannahBanditCampGate", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 5400, ToFaceLeft: true },
 			{ Name: "ForestBarnExterior", FromX: 3500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 		],
 		Character: [
@@ -1464,23 +1464,72 @@ var PlatformRoomList = [
 		]
 	},
 	{
-		Name: "ForestSavannah",
-		Text: "Savannah",
-		Background: "Forest/Savannah",
-		Music: "CamilleCastleBattle",
+		Name: "SavannahBanditCampGate",
+		Text: "Bandit Camp Gate",
+		Background: "Savannah/BanditCampGateClosed",
+		Music: "ThiefBossBattle",
 		Entry: function() {
 			if (!PlatformEventDone("ForestCaptureEnd")) PlatformDialogStart("ThiefBossFlee");
 			else if (!PlatformEventDone("ThiefBossIntro")) PlatformDialogStart("ThiefBossIntro");
+			if (!PlatformEventDone("ThiefBossRetreat")) PlatformCreateCharacter("Lyn", "Thief", 500, true, false);
 		},
 		Width: 5500,
 		Height: 1400,
+		LimitLeft: 1025,
 		Door: [
 			{ Name: "ForestPlainToSavannah", FromX: 5400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+			{ Name: "SavannahBanditPath", FromX: 2600, FromY: 0, FromW: 1000, FromH: 1200, FromType: "Up", ToX: 400, ToFaceLeft: false },
 		],
 		Character: [
-			{ Name: "Vera", Status: "Leather", X: 1400 },
-			{ Name: "Lyn", Status: "Thief", X: 2800 },
-			{ Name: "Vera", Status: "Leather", X: 4100 },
+			{ Name: "Vera", Status: "Leather", X: 1100 },
+			{ Name: "Vera", Status: "Leather", X: 1900 },
+			{ Name: "Vera", Status: "Leather", X: 4400 },
+		]
+	},
+	{
+		Name: "SavannahBanditPath",
+		Text: "Bandit Path",
+		Background: "Savannah/BanditPath",
+		Music: "Savannah",
+		Width: 2800,
+		Height: 1400,
+		Door: [
+			{ Name: "SavannahBanditCampGate", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3100, ToFaceLeft: true },
+			{ Name: "SavannahTentExterior", FromX: 2700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+		],
+		Character: [
+			{ Name: "Lucy", Status: "Armor", X: 1800 },
+		]
+	},
+	{
+		Name: "SavannahTentExterior",
+		Text: "Savannah Tent Exterior",
+		Background: "Savannah/TentExterior",
+		Music: "Savannah",
+		Width: 2000,
+		Height: 1000,
+		Door: [
+			{ Name: "SavannahBanditPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
+			{ Name: "SavannahTentInterior", FromX: 800, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 100, ToFaceLeft: false },
+		]
+	},
+	{
+		Name: "SavannahTentInterior",
+		Text: "Savannah Tent Interior (heal and save)",
+		Background: "Savannah/TentInterior",
+		Music: "MelodyRoom",
+		Width: 2000,
+		Height: 1400,
+		LimitRight: 1800,
+		Heal: 250,
+		Entry: function() {
+			PlatformChar.splice(1, 100);
+			if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaText", true);
+			if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1300, true, false, (PlatformPlayer.Name == "Olivia") ? "OliviaTent" : "EdlaranTent", (PlatformPlayer.Name == "Olivia"));
+			if (PlatformPlayer.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 900, true, false, "EdlaranTent");
+		},
+		Door: [
+			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1000, ToFaceLeft: false },
 		]
 	},
 
@@ -1943,6 +1992,7 @@ function PlatformFindInventory(Source, Target) {
  * @returns {void} - Nothing
  */
 function PlatformDamage(Source, Target, Damage, Time, Type) {
+	if (Target.Combat === false) return;
 	if (!PlatformActionIs(Target, "Any") && (!PlatformActionIs(Source, "Scream") || PlatformHasPerk(Source, "Roar"))) {
 		if (Math.random() < Target.DamageBackOdds) Target.FaceLeft = (Source.X - Target.X > 0);
 		else if (Math.random() < Target.DamageFaceOdds) Target.FaceLeft = (Source.X - Target.X <= 0);
@@ -2391,9 +2441,9 @@ function PlatformDraw() {
 		// Applies the forces and turns the face
 		C.X = C.X + ((C.ProjectileForce != null) ? C.ProjectileForce : C.ForceX) * Frame / 16.6667;
 		if (C.X < 100) C.X = 100;
-		if ((PlatformRoom.LimitLeft != null) && (C.X < PlatformRoom.LimitLeft)) C.X = PlatformRoom.LimitLeft;
+		if ((PlatformRoom.LimitLeft != null) && (C.X < PlatformRoom.LimitLeft) && !C.Fix) C.X = PlatformRoom.LimitLeft;
 		if (C.X > PlatformRoom.Width - 100) C.X = PlatformRoom.Width - 100;
-		if ((PlatformRoom.LimitRight != null) && (C.X > PlatformRoom.LimitRight)) C.X = PlatformRoom.LimitRight;
+		if ((PlatformRoom.LimitRight != null) && (C.X > PlatformRoom.LimitRight) && !C.Fix) C.X = PlatformRoom.LimitRight;
 		C.Y = C.Y + C.ForceY * ((C.Gravity != null) ? C.Gravity : 1) * Frame / 16.6667;
 		if (C.Y > PlatformFloor) {
 			C.Y = PlatformFloor;
@@ -2767,7 +2817,8 @@ function PlatformSaveGame(Slot) {
 		Room: PlatformRoom.Name,
 		Event: PlatformEvent,
 		Dialog: SaveDialog,
-		Inventory: PlatformInventory
+		Inventory: PlatformInventory,
+		Audio: PlatformAllowAudio
 	};
 	localStorage.setItem("BondageBrawlSave" + Slot.toString(), JSON.stringify(SaveObj));
 	PlatformMessageSet("Game saved on slot " + Slot.toString());
@@ -2832,6 +2883,8 @@ function PlatformLoadGame(Slot) {
 	PlatformPartyLoad();
 	PlatformInventory = LoadObj.Inventory;
 	if (PlatformInventory == null) PlatformInventory = [];
+	PlatformAllowAudio = LoadObj.Audio;
+	if (PlatformAllowAudio == null) PlatformAllowAudio = true;
 
 	// Loads the game events and party
 	PlatformEvent = LoadObj.Event;
@@ -2888,6 +2941,7 @@ function PlatformCastHeal(C) {
 	C.Health = C.Health + Heal;
 	C.Magic = C.Magic - 3;
 	C.Damage.push({ Value: Heal * -1, Expire: CommonTime() + 2000});
+	C.Effect = { Name: "Heal", End: CommonTime() + 1000 };
 	let Time = 30000;
 	if (PlatformHasPerk(C, "Cure")) Time = 20000;
 	if (C.Camera) PlatformCooldown.push({Type: "Heal", Time: CommonTime() + Time, Delay: Time});
