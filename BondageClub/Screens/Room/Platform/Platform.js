@@ -40,6 +40,7 @@ var PlatformInventoryList = [
 		DisplayName: "Red Rose",
 		Description: "Increase her love",
 		OnGive: function(Char) {
+			debugger;
 			PlatformDialogAlterProperty(Char.Name, "Love", 1);
 			PlatformMessageSet("She loves your gift.");
 		}
@@ -1467,7 +1468,7 @@ var PlatformRoomList = [
 		Name: "SavannahBanditCampGate",
 		Text: "Bandit Camp Gate",
 		Background: "Savannah/BanditCampGateClosed",
-		Music: "ThiefBossBattle",
+		Music: "ThiefBoss",
 		Entry: function() {
 			if (!PlatformEventDone("ForestCaptureEnd")) PlatformDialogStart("ThiefBossFlee");
 			else if (!PlatformEventDone("ThiefBossIntro")) PlatformDialogStart("ThiefBossIntro");
@@ -1524,7 +1525,7 @@ var PlatformRoomList = [
 		Heal: 250,
 		Entry: function() {
 			PlatformChar.splice(1, 100);
-			if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaText", true);
+			if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaTent", true);
 			if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1300, true, false, (PlatformPlayer.Name == "Olivia") ? "OliviaTent" : "EdlaranTent", (PlatformPlayer.Name == "Olivia"));
 			if (PlatformPlayer.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 900, true, false, "EdlaranTent");
 		},
@@ -2651,6 +2652,7 @@ function PlatformRun() {
  */
 function PlatformAttack(Source, Type) {
 	if (PlatformActionIs(Source, "Any")) return;
+	if (Source.Health <= 0) return;
 	Source.Run = false;
 	if (Source.Attack != null)
 		for (let Attack of Source.Attack)

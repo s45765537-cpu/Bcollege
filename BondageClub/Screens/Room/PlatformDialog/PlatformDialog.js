@@ -1645,9 +1645,7 @@ var PlatformDialogData = [
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
 				Text: "A quick kiss before we travel again.  (You share a loving kiss.)"
-			},
-
-
+			}
 		]
 	},
 
@@ -1990,7 +1988,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "BarnThief",
-		Music: "ForestPlainTheme",
+		Music: "ThiefBoss",
 		Dialog: [
 			{
 				Background: "BarnInterior",
@@ -2166,7 +2164,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "BarnThiefRescueMelody",
-		Music: "ForestPlainTheme",
+		Music: "ThiefBoss",
 		Exit : function () { PlatformEventSet("BarnThiefRescueMelody"); PlatformLoadRoom(); PlatformPlayer.X = 200; },
 		Dialog: [
 			{
@@ -2377,7 +2375,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ThiefBossFlee",
-		Music: "CamilleCastleBattle",
+		Music: "ThiefBoss",
 		Exit : function () { PlatformLoadRoom("ForestPlainToSavannah"); PlatformPlayer.X = 100; PlatformPlayer.FaceLeft = false; },
 		Dialog: [
 			{
@@ -2397,7 +2395,7 @@ var PlatformDialogData = [
 
 	{
 		Name: "ThiefBossIntro",
-		Music: "CamilleCastleBattle",
+		Music: "ThiefBoss",
 		Dialog: [
 			{
 				Background: "Savannah",
@@ -2431,6 +2429,75 @@ var PlatformDialogData = [
 			}
 		],
 
+	},
+
+	{
+		Name: "OliviaTent",
+		Music: "MelodyRoom",
+		Exit : function () { PlatformEventSet("OliviaTent"); },
+		Dialog: [
+			{
+				Background: "SavannahTentInterior",
+				Entry: function() {
+					if (PlatformEventDone("OliviaTent")) PlatformDialogGoto = "End";
+					PlatformDialogProcess();
+				}
+			},
+			{
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }
+				]
+			},
+			{ Text: "TO DO" },
+			{
+				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }],
+				Text: "(She checks the tent.)  I will consult Mother to purchase a tent like this for our garden."
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }],
+				Text: "Be careful in the sun my love.  (You exchange a lovely kiss.)"
+			},
+
+		]
+	},
+
+	{
+		Name: "EdlaranTent",
+		Music: "MelodyRoom",
+		Exit : function () { PlatformEventSet("EdlaranTent"); },
+		Dialog: [
+			{
+				Background: "SavannahTentInterior",
+				Entry: function() {
+					if (PlatformEventDone("EdlaranTent")) PlatformDialogGoto = "End";
+					PlatformDialogProcess();
+				}
+			},
+			{
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
+				]
+			},
+			{ Text: "TO DO" },
+			{
+				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
+				Text: "This tent will shelter us from the heat.  We could also travel by night, but it's more dangerous."
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
+				Text: "I love you so much Melody.  (You share kiss before resuming your journey.)"
+			}
+		]
 	},
 
 	{
@@ -3083,8 +3150,8 @@ function PlatformDialogAlterProperty(CharacterName, Property, Value) {
 	if ((Character == null) || (Property == null) || (Value == null) || (Value == 0)) return;
 	for (let Character of PlatformDialogCharacter)
 		if (Character.Name == CharacterName) {
-			if (Property == "Love") Character.Love = PlatformDialogChangeValue(Character.Love, Value, PlatformDialogLeaderHasPerk("Seduction"));
-			if (Property == "Domination") Character.Domination = PlatformDialogChangeValue(Character.Domination, Value, PlatformDialogLeaderHasPerk("Persuasion"));
+			if (Property == "Love") Character.Love = PlatformDialogChangeValue(Character.Love, Value, PlatformDialogLeaderHasPerk("Seduction"), Character.LoverLevel);
+			if (Property == "Domination") Character.Domination = PlatformDialogChangeValue(Character.Domination, Value, PlatformDialogLeaderHasPerk("Persuasion"), Character.OwnerLevel);
 		}
 }
 
