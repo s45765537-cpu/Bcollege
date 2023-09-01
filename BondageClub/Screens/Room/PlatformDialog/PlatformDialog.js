@@ -2432,6 +2432,92 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "ThiefBossRetreat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGateGround",
+				Character: [
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: -100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 1100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 500, Y: -400 },
+				]
+			},
+			{ Text: "(The bandit minions struggle in their bondage.)" },
+			{ Text: "Boss!  We might need your help here!" },
+			{ Background: "BanditCampGateOpen", Character: [] },
+			{ 
+				Background: "BanditCampGateGround",
+				Text: "Boss?  It's now or never!",
+				Character: [
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: -100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 1100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 500, Y: -400 },
+				]
+			},
+			{ Text: "BOOOOOOOOOOOSS???" },
+			{ Background: "BanditCampGateOpen", Character: [] },
+			{ 
+				Background: "BanditCampGateGround",
+				Text: "Errr...  Well...",
+				Character: [
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: -100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 1100, Y: -400 },
+					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 500, Y: -400 },
+				]
+			},
+			{ Text: "Isn't the weater nice today?" },
+			{ Background: "BanditCampGateOpen", Character: [] },
+			{ Text: "(Their leader disappeared and the bandit camp gate lays wide open.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossBattle",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCamp",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
+			},
+			{ Text: "(As you enter the bandit camp, the boss comes to greet you with a smirk on her face.)" },
+			{ Text: "TO DO" },
+			{
+				Text: "TO DO",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+			},
+			{ Text: "(She picks up her knives and charges at you.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossBattleRepeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCamp",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+			},
+			{ Text: "(The bandit boss gets furious as you enter her camp again.)" },
+			{ Text: "TO DO" },
+			{ Text: "(She picks up her knives and charges at you once again.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossDefeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "TO DO" },
+		],
+
+	},
+
+	{
 		Name: "OliviaTent",
 		Music: "MelodyRoom",
 		Exit : function () { PlatformEventSet("OliviaTent"); },

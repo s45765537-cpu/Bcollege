@@ -516,7 +516,7 @@ var PlatformTemplate = [
 	{
 		Name: "Vera", // MMD Z: 41.00
 		Status: "Leather",
-		Health: 29,
+		Health: 1, // TO DO 29
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
@@ -553,13 +553,19 @@ var PlatformTemplate = [
 					PlatformMessageSet("You found keys for chains on the bandit.");
 					PlatformEventSet("EdlaranForestKey");
 				} else PlatformMessageSet("The keys are not on this bandit.");
+			} else if (!PlatformEventDone("ThiefBossRetreat") && (PlatformRoom.Name == "SavannahBanditCampGate") && PlatformChar[1].Bound && PlatformChar[2].Bound && PlatformChar[3].Bound) {
+				PlatformEventSet("ThiefBossRetreat");
+				PlatformDialogStart("ThiefBossRetreat");
+				PlatformRoom.Background = "Savannah/BanditCampGateOpen";
+				PlatformRoom.LimitLeft = null;
+				PlatformChar.splice(4, 100);
 			}
 		}
 	},
 	{
 		Name: "Lyn", // MMD Z: 41.00
 		Status: "Thief",
-		Health: 73,
+		Health: 1, // TO DO 73
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
@@ -592,6 +598,12 @@ var PlatformTemplate = [
 		Attack: [
 			{ Name: "FireProjectile", Speed: 750 }
 		],
+		OnBind: function() {
+			PlatformEventSet("ThiefBossDefeat");
+			PlatformDialogStart("ThiefBossDefeat");
+			PlatformRoom.Background = "Savannah/BanditCampOpen";
+			PlatformRoom.LimitRight = null;
+	}
 	},
 
 ];
@@ -1468,16 +1480,22 @@ var PlatformRoomList = [
 		Name: "SavannahBanditCampGate",
 		Text: "Bandit Camp Gate",
 		Background: "Savannah/BanditCampGateClosed",
+		AlternateBackground: "Savannah/BanditCampGateOpen",
 		Music: "ThiefBoss",
 		Entry: function() {
 			if (!PlatformEventDone("ForestCaptureEnd")) PlatformDialogStart("ThiefBossFlee");
 			else if (!PlatformEventDone("ThiefBossIntro")) PlatformDialogStart("ThiefBossIntro");
 			if (!PlatformEventDone("ThiefBossRetreat")) PlatformCreateCharacter("Lyn", "Thief", 500, true, false);
+			else {
+				PlatformRoom.Background = "Savannah/BanditCampGateOpen";
+				PlatformRoom.LimitLeft = null;
+			}
 		},
 		Width: 5500,
 		Height: 1400,
 		LimitLeft: 1025,
 		Door: [
+			{ Name: "SavannahBanditCamp", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1600, ToFaceLeft: true },
 			{ Name: "ForestPlainToSavannah", FromX: 5400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 			{ Name: "SavannahBanditPath", FromX: 2600, FromY: 0, FromW: 1000, FromH: 1200, FromType: "Up", ToX: 400, ToFaceLeft: false },
 		],
@@ -1485,6 +1503,26 @@ var PlatformRoomList = [
 			{ Name: "Vera", Status: "Leather", X: 1100 },
 			{ Name: "Vera", Status: "Leather", X: 1900 },
 			{ Name: "Vera", Status: "Leather", X: 4400 },
+		]
+	},
+	{
+		Name: "SavannahBanditCamp",
+		Text: "Bandit Camp",
+		Background: "Savannah/BanditCampClosed",
+		AlternateBackground: "Savannah/BanditCampOpen",
+		Music: "ThiefBoss",
+		Entry: function() {
+			PlatformDialogStart("ThiefBossBattle" + (PlatformEventDone("ThiefBossDefeat") ? "Repeat" : ""));
+		},
+		Width: 2000,
+		Height: 1400,
+		LimitLeft: 200,
+		LimitRight: 1800,
+		Door: [
+			{ Name: "SavannahBanditCampGate", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+		],
+		Character: [
+			{ Name: "Lyn", Status: "Thief", X: 400 },
 		]
 	},
 	{
@@ -2432,8 +2470,8 @@ function PlatformDraw() {
 						PlatformAddExperience(C, Target.ExperienceValue);
 						PlatformFindInventory(C, Target);
 						PlatformSteal(C, Target.ExperienceValue);
-						if (Target.OnBind != null) Target.OnBind();
 						Target.Bound = true;
+						if (Target.OnBind != null) Target.OnBind();
 					}
 				C.Action = null;
 			}
