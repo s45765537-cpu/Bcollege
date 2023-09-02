@@ -2738,7 +2738,7 @@ Das ist zu viel!
 (Try to look away.)
 (Versuchen, woanders hinzuschauen.)
 ###_NPC
-My submissive, since you have cages around here, you're going to spend some time into one.  I'll give you the keys back when I'm satisfied.
+My submissive, since you have cages around here, you're going to spend some time in one.  I'll give you the keys back when I'm satisfied.
 Da du hier Käfige herumstehen hast, wirst du etwas Zeit in einem davon verbringen. Ich gebe dir die Schlüssel wieder, wenn ich zufrieden bin.
 ###_PLAYER
 Alright Mistress.  (Get in the cage.)
@@ -2908,7 +2908,7 @@ Ihr stehlt meine Peitsche?
 ###_NPC
 (She grabs the item and whips your butt a few times.)  I'm not stealing, this item simply doesn't belong to you.
 (Sie nimmt sie und peitscht damit ein paar Mal auf deinen Hintern.) Ich stehle nicht, so etwas gehört einfach nur nicht zu dir.
-(She grabs the item and whips your butt a few times.)  This item might come handy later anyway.
+(She grabs the item and whips your butt a few times.)  This item might come in handy later anyway.
 (Sie nimmt sie und peitscht damit ein paar Mal auf deinen Hintern.) Das könnte mir später sogar noch nützlich werden.
 As punishment, you will sleep in your own cage everyday for a week.
 Als Bestrafung wirst du eine Woche lang jeden Tag in deinem eigenen Käfig schlafen.
