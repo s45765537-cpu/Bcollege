@@ -1567,14 +1567,24 @@ var PlatformDialogData = [
 			},
 			{
 				ID: "End",
-				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Back" }],
 				Text: "(She warms herself by the fireplace and gets lost in her thoughts.)"
 			},
 			{
-				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }],
 				Text: "I love you sweetie.  (You exchange a lovely kiss.)"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 }],
+				Text: "(She kneels close to you.)  I will not go in the woods alone Miss."
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelLoverMaidMelody", X: 500 }],
+				Text: "(She kneels and hugs your legs lovingly.)  I will not go in the woods without you Miss."
 			},
 
 		]
@@ -2481,12 +2491,128 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
 			},
 			{ Text: "(As you enter the bandit camp, the boss comes to greet you with a smirk on her face.)" },
-			{ Text: "TO DO" },
+			{ Text: "Welcome, welcome, welcome.  Welcome to your new life.  Your new slave life!" },
+			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business." },
 			{
-				Text: "TO DO",
-				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+				Text: "Honest business?  You're kidnapping women and selling them for ransom!",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 1000 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1500 },
+				]
 			},
+			{
+				Text: "If I remember correctly, you were happy to share the loot with us Edlaran.",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 1000 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1500 },
+				]
+			},
+			{
+				Text: "Is it a crime to join a kidnapper gang?  Don't answer.",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1500 },
+				]
+			},
+			{
+				Text: "Why are you staring at me you two?",
+				Answer: [
+					{ Text: "You're a horrible liar.", Reply: "(She grumbles and kicks a rock.)", Love: -1 },
+					{ Text: "I will punish you later little elf.", Reply: "(She gulps and nods slowly.)", Domination: 2 },
+					{ Text: "(Roll your eyes up and giggle.)", Reply: "(She giggles back and winks at you.)", Love: 1 },
+					{ Text: "I'm sure you did it for a noble cause.", Reply: "(She does a cocky pose and smirks.)", Domination: -2 },
+				]
+			},
+			{
+				Text: "Enough!  Since you betrayed me, I will keep you as my personal slave Edlaran.",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Angry", X: 0 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1500 },
+				]
+			},
+			{ Text: "Since my minions cannot capture you, I will do it myself." },
+			{ Text: "(Her minions close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossDefeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She struggles in vain and slowly accepts her fate.)" },
+			{ Text: "How?  How could you?" },
+			{ Text: "You betrayed me Edlaran!  You want to be the boss now?" },
+			{
+				Text: "Me?  The gang boss?",
+				Background: "BanditCamp",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 250 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 750 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1250 },
+				]
+			},
+			{
+				Text: "That's an interesting idea.",
+				Answer: [
+					{ Text: "Don't even think about it.", Reply: "It's my mistake, let's forget this.", Domination: 1 },
+					{ Text: "You're way better than that my friend.", Reply: "Thanks Melody, you're very kind.", Love: 2 },
+					{ Text: "You would be the worst boss ever.", Reply: "That's not very kind you know!", Love: -2 },
+					{ Text: "You could rule them better than her.", Reply: "Yep!  I would get tons of loot.", Domination: -1 },
+				]
+			},
+			{ Text: "But I've made a deal with you two.  We need to complete our mission before I start any business." },
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She tugs on her bonds and moans from the pain.)" },
+			{
+				Text: "What will you do with me?",
+				Answer: [
+					{ Text: "We'll take your loot and go.", Reply: "(She struggles harder.)  Fine!  Take it!" },
+					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work." },
+					{ Text: "We won't waste anymore time with you.", Reply: "Get out then!" },
+				]
+			},
+			{ Text: "I will get out of that bondage as soon as you're gone." },
+			{ Text: "But if you don't come back, I promise I won't go out again to hunt you." },
+			{
+				Text: "Do we have a deal?",
+				Answer: [
+					{ Text: "It's a deal!", Reply: "Alright!  You can go now." },
+					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now." },
+					{ Text: "(Shrug and turn away.)", Reply: "Get out!" },
+				]
+			},
+			{ Text: "(You leave her to struggle.)" }
+		]
+	},
+
+	{
+		Name: "ThiefBossDefeatRepeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She struggles a little and sighs.)" },
+			{ Text: "The deal is simple." },
+			{ Text: "Don't come back, and I promise I won't hunt you again." },
+			{ Text: "(You leave her to struggle.)" }
 		],
 	},
 
@@ -2499,22 +2625,11 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
 			},
 			{ Text: "(The bandit boss gets furious as you enter her camp again.)" },
-			{ Text: "TO DO" },
+			{ Text: "What?  You came back?  You broke the deal!" },
+			{ Text: "It means I have one more chance to enslave you." },
+			{ Text: "(Her minions close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you once again.)" },
 		],
-	},
-
-	{
-		Name: "ThiefBossDefeat",
-		Music: "ThiefBoss",
-		Dialog: [
-			{
-				Background: "BanditCampGround",
-				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
-			},
-			{ Text: "TO DO" },
-		],
-
 	},
 
 	{
@@ -2530,23 +2645,67 @@ var PlatformDialogData = [
 				}
 			},
 			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Text: "This tent is a nice protection, my skin is burning.",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }
 				]
 			},
-			{ Text: "TO DO" },
-			{
-				ID: "End",
-				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
-				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }],
-				Text: "(She checks the tent.)  I will consult Mother to purchase a tent like this for our garden."
-			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Text: "Sweetie, please come with me under the tent, my skin is burning.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy" },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }
+				]
+			},
+			{
+				Text: "I rarely get so much sun.",
+				Answer: [
+					{ Text: "The weather is certainly hot.", Reply: "I've read it can even get worse." },
+					{ Text: "You have very delicate skin.", Reply: "That's true.  I need to protect it better.", Domination: 1 },
+					{ Text: "I have horrible sunburns also.", Reply: "Poor Melody, I wish I could help you.", Domination: -1 },
+					{ Text: "I will train you to endure it.", Reply: "Train me Melody?  Very well.", Perk: true, Domination: 2 },
+				]
+			},
+			{ Text: "We are getting closer to the desert, and the kingdom of Sunesk." },
+			{ Text: "The Duke, my future husband, lives there.  We could ask him for help." },
+			{ Text: "Maybe he knows about the curse that's plaguing our home." },
+			{ Text: "Or maybe he knows where Mother is, they know each other." },
+			{
+				Text: "I miss her very much.",
+				Answer: [
+					{ Text: "She's a wonderful woman.", Reply: "She is.  Strict and caring at the same time.", Love: 1 },
+					{ Text: "She ran like a coward.", Reply: "Don't say that.  I'm sure she had her reasons.", Love: -1 },
+					{ Text: "She could be in Sunesk.", Reply: "Yes, it's a possibility." },
+					{ Text: "I'm sure she would be proud of you.", Reply: "Thank you so much Melody.  I needed to hear this.", Perk: true, Love: 2 },
+				]
+			},
+			{ Text: "I'm very nervous to see the Duke of Sunesk, but it's out best hope for now." },
+			{ Text: "Let's rest a little before we go out on the road." },
+			{
+				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }],
+				Text: "(She inspects the tent.)  I will consult Mother to purchase a tent like this for our garden."
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }],
 				Text: "Be careful in the sun my love.  (You exchange a lovely kiss.)"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 }],
+				Text: "(She kneels close to you.)  I promise to be careful and not to get sunburn Miss."
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelLoverMaidMelody", X: 500 }],
+				Text: "(She kneels and hugs your legs lovingly.)  I promise to be careful and not to get sunburn Miss."
 			},
 
 		]
@@ -2565,13 +2724,46 @@ var PlatformDialogData = [
 				}
 			},
 			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Text: "I've slept many nights in a tent like that, with my old bandit sisters.",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
 				]
 			},
-			{ Text: "TO DO" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Text: "My love, I must confess that I've slept many nights in a tent like that, with my old bandit sisters.",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
+				]
+			},
+			{ Text: "Some nights were very quiet, and others were totally wild." },
+			{ Text: "The best evenings happened when we had cute slaves to tease." },
+			{ Text: "Is it a crime to tease slaves?  Don't answer." },
+			{
+				Text: "These are good memories.",
+				Answer: [
+					{ Text: "It's also fun to tease you.", Reply: "(She blushes.)  It can be fun also.", Domination: 1 },
+					{ Text: "I'm sure you had a good time.", Reply: "Oh yes, lots of kinky moments." },
+					{ Text: "You treated them well?", Reply: "I've never hurt a slave... too badly.", Domination: -1 },
+					{ Text: "I envy these slaves.", Reply: "(She smirks.)  One day you could try it.", Perk: true, Domination: -2 },
+				]
+			},
+			{ Text: "But this is the past, I won't do it again... probably." },
+			{
+				Text: "I'm an honest archer now.",
+				Answer: [
+					{ Text: "We'll see about that.", Reply: "Only time will tell.  (She laughs.)" },
+					{ Text: "Don't make me laugh.", Reply: "(She pouts)  I'll show you!", Love: -1 },
+					{ Text: "I believe you Edlaran.", Reply: "Thanks.  I appreciate.", Love: 1 },
+					{ Text: "You're the cutest archer now.", Reply: "(She smiles)  You're way too kind.", Perk: true, Love: 2 },
+				]
+			},
+			{ Text: "Enough talking about me.  We have a long road ahead until we reach Sunesk." },
 			{
 				ID: "End",
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
@@ -2776,6 +2968,187 @@ var PlatformDialogData = [
 			{ Text: "Let's pretend we've never dated and continue our quest." },
 			{ Text: "There is more at stake than a silly impossible romance." },
 			{ Text: "(You and Olivia are no longer lovers.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "OliviaDomination1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Text: "(You grab Olivia's butt as she smile at you.)  Hello my love.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy", X: 1000 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Text: "(You get closer to Olivia with a grin on your face.)  Hello girl.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Text: "(She gets flustered and looks down at the ground.)",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "Hello Melody, why are you looking at me like that?  (She trembles a little.)" },
+			{
+				Text: "How can help you?",
+				Answer: [
+					{ Text: "(Propose to become her protector.)", Reply: "(You stare at her in the eyes as she bows her head.)" },
+					{ Text: "(Talk about the weather.)", Reply: "(She sighs and turns away.)", Domination: -1, Goto: "Skip" },
+					{ Text: "(Pet her head.)", Reply: "(She giggles but quickly turns away.)", Perk: true, Goto: "Skip" }
+				]
+			},
+			{ 
+				Text: "Olivia, I've been there for you since you were a child.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{ Text: "I was there to protect you when the other kids were mean with you." },
+			{ Text: "I was there to catch you when you fell down the stairs." },
+			{ Text: "I was there to lock and unlock you everyday." },
+			{ Text: "I was there to pull you out when the kitchen caught on fire." },
+			{ Text: "I was there to rescue you when Camille locked you up." },
+			{ Text: "Wherever you go, whatever you do, I will be there for you." },
+			{ Text: "Your health isn't great, you're not very strong and you have many fears." },
+			{ Text: "I'm in great shape, I'm stronger than a bull and nothing scares me." },
+			{ Text: "You need someone like me, you need a guide, a protector." },
+			{ Text: "Will you be my protégée?" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Text: "Yes sweetie.  I would be thrilled to be your lover and your protégée.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Text: "Yes Melody.  I would be honored to be your protégée.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ 
+				Entry: function() {
+					PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination + 3;
+					PlatformDialogGetCharacter("Olivia").OwnerName = "Melody";
+					PlatformDialogGetCharacter("Olivia").OwnerLevel = 1;
+				},				
+				Text: "Please explain to me what it means exactly."
+			},
+			{
+				Text: "Does it change our relationship?",
+				Answer: [
+					{ Text: "It won't change much.", Reply: "I'm confused Melody.  Please explain.", Domination: -2 },
+					{ Text: "It means I will control you.", Reply: "(She nods slowly.)  Control me how?", Domination: 2 },
+					{ Text: "Let me explain.", Reply: "(She nods and listens to you.)" },
+				]
+			},
+			{
+				Text: "Come closer, and get on your knees next to me.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Kneel", X: 1000 },
+				]
+			},
+			{ Text: "(She nods and slowly gets on her knees.  She trembles and breathes quickly.)" },
+			{ Text: "As your protector, I will always be there to protect you." },
+			{ Text: "As my protégée, you will follow my rules and commands." },
+			{ Text: "As your protector, I will make sure you stay in good shape and good health." },
+			{ Text: "As my protégée, you will kneel, dance, run and sing for me." },
+			{ Text: "As your protector, I will lock your every night and unlock you every morning." },
+			{ Text: "As my protégée, you will respect me and call me 'Miss'." },
+			{ Text: "Do you understand my girl?" },
+			{
+				Text: "(She gets closer to you as you pet her head.)  Yes Mel...  Yes Miss.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 },
+				]
+			},
+			{ Text: "I will aim to be the best protégée ever Miss Melody." },
+			{ Text: "Under your wing, nothing will scare me anymore." },
+			{ Text: "(You're now Olivia's protector, the first owner stage.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "OliviaDomination1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "(She seems nervous and doesn't dare to look at you.)" },
+			{ Text: "I'm scared Miss.  I'm not sure what's going on." },
+			{
+				Text: "What is on your mind?",
+				Answer: [
+					{
+						Text: "(Release her from your ownership.)",
+						Reply: "You're releasing me Miss?",
+						Script: function() {
+							PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination - 6;
+							if (PlatformDialogGetCharacter("Olivia").Domination >= 19) PlatformDialogGetCharacter("Olivia").Domination = 18;
+							delete PlatformDialogGetCharacter("Olivia").OwnerName;
+							delete PlatformDialogGetCharacter("Olivia").OwnerLevel;
+						}
+					},
+					{ Text: "(Pet her head.)", Reply: "(You pet her head and the adventure continues.)", Goto: "Skip" },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Text: "It will be hard for me sweetie.  But at least I will still have your loving kisses.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
+				Text: "My life without a protector will be hard.  But I will be strong, I will get over it.",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{ Text: "Maybe it never made any sense from the start." },
+			{ Text: "You're a maid and I'm of noble blood." },
+			{ Text: "Let's forget this story, we have a long quest ahead." },
+			{ Text: "(You're no longer Olivia's Dominant.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -3376,5 +3749,26 @@ function PlatformDialogEvent() {
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsLover(Name) {
+	if (PlatformDialogGetCharacter(Name) == null) return false;
 	return ((PlatformDialogGetCharacter(Name).LoverName === "Melody") && ((PlatformPlayer.Name === "Melody") || (PlatformPlayer.Name === Name)));
+}
+
+/**
+ * Returns TRUE if the character is Melody's slave, make sure that character or Melody is currently active
+ * @param {String} Name - The name of a character
+ * @returns {boolean} - TRUE if lover
+ */
+ function PlatformDialogIsSlave(Name) {
+	if (PlatformDialogGetCharacter(Name) == null) return false;
+	return ((PlatformDialogGetCharacter(Name).OwnerName === "Melody") && ((PlatformPlayer.Name === "Melody") || (PlatformPlayer.Name === Name)));
+}
+
+/**
+ * Returns TRUE if the character is Melody's owner, make sure that character or Melody is currently active
+ * @param {String} Name - The name of a character
+ * @returns {boolean} - TRUE if lover
+ */
+ function PlatformDialogIsOwner(Name) {
+	if (PlatformDialogGetCharacter(Name) == null) return false;
+	return ((PlatformDialogGetCharacter("Melody").OwnerName === Name) && ((PlatformPlayer.Name === "Melody") || (PlatformPlayer.Name === Name)));
 }

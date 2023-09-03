@@ -40,7 +40,6 @@ var PlatformInventoryList = [
 		DisplayName: "Red Rose",
 		Description: "Increase her love",
 		OnGive: function(Char) {
-			debugger;
 			PlatformDialogAlterProperty(Char.Name, "Love", 1);
 			PlatformMessageSet("She loves your gift.");
 		}
@@ -297,6 +296,25 @@ var PlatformTemplate = [
 			{ Name: "Idle", Cycle: [0], Speed: 1000 }
 		]
 	},
+	{
+		Name: "Treasure",
+		Status: "Metal",
+		Health: 0,
+		Width: 400,
+		Height: 400,
+		Animation: [
+			{ Name: "Idle", Cycle: [0], Speed: 1000 },
+			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Bound", Cycle: [0], Speed: 1000 }
+		],
+		OnBind: function() {
+			let Treasure = this;
+			PlatformAddRandomInventory(Treasure);
+			setTimeout(function() { PlatformAddRandomInventory(Treasure); }, 800);
+			setTimeout(function() { PlatformAddRandomInventory(Treasure); }, 1600);
+			setTimeout(function() { PlatformAddRandomInventory(Treasure); }, 2400);
+		}
+	},
 	/*{
 		Name: "Kara",
 		Status: "Nude",
@@ -377,6 +395,7 @@ var PlatformTemplate = [
 		JumpOdds: 0.0003,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
+		LootOdds: 0.06,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 150 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
@@ -416,6 +435,7 @@ var PlatformTemplate = [
 		JumpOdds: 0.0006,
 		RunOdds: 0.0003,
 		DamageKnockForce: 40,
+		LootOdds: 0.08,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
@@ -455,6 +475,7 @@ var PlatformTemplate = [
 		DamageBackOdds: 0,
 		DamageFaceOdds: 0.5,
 		DamageKnockForce: 30,
+		LootOdds: 0.1,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 150 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 40 },
@@ -493,6 +514,7 @@ var PlatformTemplate = [
 		DamageBackOdds: 0,
 		DamageFaceOdds: 0.5,
 		DamageKnockForce: 20,
+		LootOdds: 0,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 100 },
@@ -510,13 +532,14 @@ var PlatformTemplate = [
 		OnBind: function() {
 			PlatformEventSet("CamilleDefeat");
 			PlatformDialogStart("CamilleDefeat");
-			PlatformLoadRoom();
+			PlatformLoadRoom();			
+			PlatformCreateTreasure();
 		}
 	},
 	{
 		Name: "Vera", // MMD Z: 41.00
 		Status: "Leather",
-		Health: 1, // TO DO 29
+		Health: 29,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
@@ -534,6 +557,7 @@ var PlatformTemplate = [
 		RunOdds: 0.0004,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
+		LootOdds: 0.15,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 150 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
@@ -565,13 +589,13 @@ var PlatformTemplate = [
 	{
 		Name: "Lyn", // MMD Z: 41.00
 		Status: "Thief",
-		Health: 1, // TO DO 73
+		Health: 73,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
 		JumpForce: 60,
-		WalkSpeed: 18,
+		WalkSpeed: 17,
 		CrawlSpeed: 10,
 		Projectile: 25,
 		ProjectileName: "Dagger",
@@ -582,9 +606,10 @@ var PlatformTemplate = [
 		ProjectileTime: 675,
 		ProjectileBothSides: true,
 		CollisionDamage: 6,
-		ExperienceValue: 20,
+		ExperienceValue: 15,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
+		LootOdds: 0,
 		Animation: [
 			{ Name: "Idle", Cycle: [0], Speed: 1000 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
@@ -599,11 +624,16 @@ var PlatformTemplate = [
 			{ Name: "FireProjectile", Speed: 750 }
 		],
 		OnBind: function() {
-			PlatformEventSet("ThiefBossDefeat");
-			PlatformDialogStart("ThiefBossDefeat");
+			if (!PlatformEventDone("ThiefBossDefeat")) {
+				PlatformEventSet("ThiefBossDefeat");
+				PlatformDialogStart("ThiefBossDefeat");
+				PlatformCreateTreasure();
+			}
 			PlatformRoom.Background = "Savannah/BanditCampOpen";
 			PlatformRoom.LimitRight = null;
-	}
+			PlatformChar[1].Combat = false;
+			PlatformChar[1].Dialog = "ThiefBossDefeatRepeat";
+		}
 	},
 
 ];
@@ -1975,6 +2005,7 @@ function PlatformSetHealth(C) {
  * @returns {void} - Nothing
  */
 function PlatformAddExperience(C, Value) {
+	if ((Value == null) || (Value <= 0)) return;
 	if (C.Camera) Value = Value * CheatFactor("DoubleBrawlExperience", 2);
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
@@ -2005,6 +2036,18 @@ function PlatformSteal(C, Value) {
 }
 
 /**
+ * Gives a random inventory to the player
+ * @param {Object} Target - The target that gives the inventory
+ * @returns {void} - Nothing
+ */
+ function PlatformAddRandomInventory(Target) {
+	let Item = CommonRandomItemFromList(null, PlatformInventoryList);
+	PlatformInventoryAdd(Item.Name);
+	if (Target.Loot == null) Target.Loot = [];
+	Target.Loot.push({ Name: Item.Name, Expire: CommonTime() + 2000});
+}
+
+/**
  * Random odds of finding inventory on a defeated enemy
  * @param {Object} Source - The victorious character
  * @param {Object} Target - The defeated character
@@ -2012,13 +2055,20 @@ function PlatformSteal(C, Value) {
  */
 function PlatformFindInventory(Source, Target) {
 	if ((Source == null) || (Target == null) || (Target.ExperienceValue == null) || (Target.ExperienceValue <= 0)) return;
-	let Odds = PlatformHasPerk(Source, "Burglar") ? 0.2 : 0.1;
-	if (Math.random() < Odds) {
-		let Item = CommonRandomItemFromList(null, PlatformInventoryList);
-		PlatformInventoryAdd(Item.Name);
-		if (Target.Loot == null) Target.Loot = [];
-		Target.Loot.push({ Name: Item.Name, Expire: CommonTime() + 2000});
-	}
+	let Odds = (Target.LootOdds == null) ? 0.1 : Target.LootOdds;
+	if (PlatformHasPerk(Source, "Burglar")) Odds = Odds * 1.5;
+	if (Math.random() < Odds) PlatformAddRandomInventory(Target);
+}
+
+/**
+ * Creates a treasure chest in the current room, tries not to put the chest over the enemy
+ * @returns {void} - TRUE if active
+ */
+ function PlatformCreateTreasure() {
+	let X = Math.round(PlatformRoom.Width / 2);
+	if ((PlatformChar.length >= 2) && (PlatformChar[1].X >= X)) X = X - 500;
+	else if ((PlatformChar.length >= 2) && (PlatformChar[1].X <= X)) X = X + 500;
+	PlatformCreateCharacter("Treasure", "Metal", X, true, true);
 }
 
 /**
@@ -2491,6 +2541,7 @@ function PlatformDraw() {
 
 		// Finds the animation based on what the character is doing
 		let Crouch = (C.Camera && PlatformMoveActive("Crouch"));
+		if ((C.Name != PlatformPlayer.Name) && (PlatformRoom.Heal != null) && PlatformDialogIsSlave(C.Name) && (Math.abs(C.X - PlatformPlayer.X) < 500)) Crouch = true;
 		if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
 		else if (C.Health <= 0 && C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundWounded");
 		else if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
@@ -2595,6 +2646,8 @@ function PlatformDrawRightButtons() {
 	if ((PlatformInventory != null) && (PlatformInventory.length > 0)) PlatformRightButtons.push("Gift");
 	if ((C2.Love >= 20) && ((C1.LoverName == null) || (C1.LoverName == ""))&& ((C2.LoverName == null) || (C2.LoverName == ""))) PlatformRightButtons.push(C2.Name + "Lover1Start");
 	if ((C2.LoverName != null) && (C2.LoverName == C1.Name)) PlatformRightButtons.push(C2.Name + "Lover1End");
+	if ((C2.Domination >= 20) && ((C1.OwnerName == null) || (C1.OwnerName == ""))&& ((C2.OwnerName == null) || (C2.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Domination1Start");
+	if ((C2.OwnerName != null) && (C2.OwnerName == C1.Name)) PlatformRightButtons.push(C2.Name + "Domination1End");
 	PlatformFocusCharacter = C2;
 
 	// Draw the buttons on the right side
@@ -2848,8 +2901,8 @@ function PlatformSaveGame(Slot) {
 	PlatformSaveMode = false;
 	let SaveDialog = [];
 	for (let Char of PlatformDialogCharacter)
-		if ((Char.Love != null) || (Char.Domination != null) || (Char.LoverName != null) || (Char.LoverLevel != null))
-			SaveDialog.push({ Name: Char.Name, Love: Char.Love, Domination: Char.Domination, LoverName: Char.LoverName, LoverLevel: Char.LoverLevel });
+		if ((Char.Love != null) || (Char.Domination != null) || (Char.LoverName != null) || (Char.LoverLevel != null) || (Char.OwnerName != null) || (Char.OwnerLevel != null))
+			SaveDialog.push({ Name: Char.Name, Love: Char.Love, Domination: Char.Domination, LoverName: Char.LoverName, LoverLevel: Char.LoverLevel, OwnerName: Char.OwnerName, OwnerLevel: Char.OwnerLevel });
 	let SaveObj = {
 		Character: PlatformPlayer.Name,
 		Status: PlatformPlayer.Status,
@@ -2941,6 +2994,8 @@ function PlatformLoadGame(Slot) {
 					if (DialogChar.Domination != null) Char.Domination = DialogChar.Domination;
 					if (DialogChar.LoverName != null) Char.LoverName = DialogChar.LoverName;
 					if (DialogChar.LoverLevel != null) Char.LoverLevel = DialogChar.LoverLevel;
+					if (DialogChar.OwnerName != null) Char.OwnerName = DialogChar.OwnerName;
+					if (DialogChar.OwnerLevel != null) Char.OwnerLevel = DialogChar.OwnerLevel;
 				}
 
 	// Loads the current room and launches it
