@@ -1647,15 +1647,26 @@ var PlatformDialogData = [
 			},
 			{
 				ID: "End",
-				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
 				Text: "Let's rest while we can, we have a long journey ahead."
 			},
 			{
-				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
 				Text: "A quick kiss before we travel again.  (You share a loving kiss.)"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "SpankedMaidMelody", X: 500 }],
+				Text: "(You give your girl a playful spank on the butt before resuming your adventure.)"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "GropedMaidMelody", X: 500 }],
+				Text: "(You grab your lover with strength and grope her breast as she moans.)"
 			}
+
 		]
 	},
 
@@ -2766,15 +2777,26 @@ var PlatformDialogData = [
 			{ Text: "Enough talking about me.  We have a long road ahead until we reach Sunesk." },
 			{
 				ID: "End",
-				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
 				Text: "This tent will shelter us from the heat.  We could also travel by night, but it's more dangerous."
 			},
 			{
-				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
 				Text: "I love you so much Melody.  (You share kiss before resuming your journey.)"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "SpankedMaidMelody", X: 500 }],
+				Text: "(You give your girl a playful spank on the butt before resuming your adventure.)"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
+				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "GropedMaidMelody", X: 500 }],
+				Text: "(You grab your submissive lover with strength and grope her breast as she moans.)"
 			}
+
 		]
 	},
 
@@ -3360,6 +3382,165 @@ var PlatformDialogData = [
 			{ Text: "Let's forget this silly affair and resume our journey." },
 			{ Text: "Our quest is way more important than some romance." },
 			{ Text: "(You and Edlaran are no longer lovers.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+
+	{
+		Name: "EdlaranDomination1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Text: "(You get closer to Edlaran and grope her breast.)  I love you little elf..",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Text: "(You get closer to Edlaran and cross your arms.)  Hi little elf.",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Text: "(She gets nervous and takes a few breaths before answering.)",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "Hi Melody.  Sorry, I should not be nervous.  There's something strange in the air." },
+			{
+				Text: "What's going on?",
+				Answer: [
+					{ Text: "(Propose to become her protector.)", Reply: "(You get even closer as she takes deep breaths.)" },
+					{ Text: "(Talk about a cloud you saw.)", Reply: "(She rolls her eyes up and turns away.)", Domination: -1, Goto: "Skip" },
+					{ Text: "(Compliment her.)", Reply: "(She smiles but quickly turns away.)", Perk: true, Goto: "Skip" }
+				]
+			},
+			{ 
+				Text: "TO DO",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Text: "TO DO",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Text: "TO DO",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ 
+				Entry: function() {
+					PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination + 3;
+					PlatformDialogGetCharacter("Edlaran").OwnerName = "Melody";
+					PlatformDialogGetCharacter("Edlaran").OwnerLevel = 1;
+				},				
+				Text: "TO DO"
+			},
+			{
+				Text: "TO DO",
+				Answer: [
+					{ Text: "TO DO", Reply: "TO DO", Domination: -2 },
+					{ Text: "TO DO", Reply: "TO DO", Domination: 2 },
+					{ Text: "TO DO", Reply: "TO DO" },
+				]
+			},
+			{
+				Text: "TO DO",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "KneelLeft", X: 1000 },
+				]
+			},
+			{
+				Text: "TO DO",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "SpankedMaidMelody", X: 500 },
+				]
+			},
+			{ Text: "(You're now Edlaran's protector, the first owner stage.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "EdlaranDomination1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "(You get closer to Edlaran with a stern look on your face.)" },
+			{ Text: "Hi Miss Melody.  I hope you're having a good day." },
+			{
+				Text: "Would you like to talk about something?",
+				Answer: [
+					{
+						Text: "(Release her from your ownership.)",
+						Reply: "Oh!  You don't want me anymore.",
+						Script: function() {
+							PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination - 6;
+							if (PlatformDialogGetCharacter("Edlaran").Domination >= 19) PlatformDialogGetCharacter("Edlaran").Domination = 18;
+							delete PlatformDialogGetCharacter("Edlaran").OwnerName;
+							delete PlatformDialogGetCharacter("Edlaran").OwnerLevel;
+						}
+					},
+					{ Text: "(Pinch her cheek.)", Reply: "(You pinch her playfully and the adventure continues.)", Goto: "Skip" },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
+				Text: "TO DO",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
+				Text: "TO DO",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{ Text: "(You're no longer Edlaran's Dominant.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
