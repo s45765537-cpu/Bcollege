@@ -311,6 +311,9 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
  * @returns {void} - Nothing
  */
 function GameClubCardAssignPlayers(Packet, Char) {
+	if (CurrentScreen === "ChatAdmin") ChatAdminExit();
+	if (CurrentScreen === "FriendList") FriendListExit();
+	if (CurrentScreen === "Preference") PreferenceExit();
 	let Msg = TextGet("SelectedPlayerToStart");
 	GameClubCardSetStatus("Running");
 	MiniGameStart("ClubCard", 0, "GameClubCardEnd");
