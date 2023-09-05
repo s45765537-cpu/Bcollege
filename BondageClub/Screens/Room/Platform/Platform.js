@@ -133,8 +133,8 @@ var PlatformTemplate = [
 		MagicPerLevel: 1,
 		HitBox: [0.42, 0.03, 0.58, 1],
 		JumpHitBox: [0.42, 0.03, 0.58, 0.65],
-		RunSpeed: 18,
-		WalkSpeed: 12,
+		RunSpeed: 17,
+		WalkSpeed: 11,
 		CrawlSpeed: 6,
 		JumpForce: 43,
 		CollisionDamage: 0,
@@ -1638,6 +1638,10 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Comb
 	NewChar.BaseProjectile = NewChar.Projectile;
 	NewChar.BaseProjectileTime = NewChar.ProjectileTime;
 	NewChar.HalfBound = false;
+	if (PlatformDialogCharactersAreLovers(NewChar.Name, "Edlaran")) {
+		NewChar.WalkSpeed = Math.round(NewChar.WalkSpeed * 1.1);
+		NewChar.RunSpeed = Math.round(NewChar.RunSpeed * 1.1);
+	}
 	PlatformSetHealth(NewChar);
 	if (Fix != null) NewChar.Fix = Fix;
 	if (Combat != null) NewChar.Combat = Combat;
@@ -1989,7 +1993,7 @@ function PlatformSetHealth(C) {
 	C.MaxProjectile = C.BaseProjectile;
 	if (C.HealthPerLevel != null) C.MaxHealth = C.MaxHealth + C.HealthPerLevel * C.Level;
 	if (C.MagicPerLevel != null) C.MaxMagic = C.MaxMagic + C.MagicPerLevel * C.Level;
-	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0))));
+	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0) + (PlatformDialogCharactersAreLovers(C.Name, "Melody") ? 0.1 : 0))));
 	if (C.MaxMagic != null) C.MaxMagic = Math.round(C.MaxMagic * (1 + ((PlatformHasPerk(C, "Magician") ? 0.1 : 0) + (PlatformHasPerk(C, "Witch") ? 0.15 : 0))));
 	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Capacity")) C.MaxProjectile = C.MaxProjectile + 5;
 	C.Health = C.MaxHealth;
@@ -2007,6 +2011,7 @@ function PlatformSetHealth(C) {
 function PlatformAddExperience(C, Value) {
 	if ((Value == null) || (Value <= 0)) return;
 	if (C.Camera) Value = Value * CheatFactor("DoubleBrawlExperience", 2);
+	if (PlatformDialogCharactersAreLovers(C.Name, "Olivia")) Value = Math.round(Value * 1.15);
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
 		if (C.Camera) PlatformMessageSet(TextGet("LevelUp").replace("CharacterName", C.Name));
@@ -2203,6 +2208,7 @@ function PlatformProcessAction(Source, Time) {
 				for (let Attack of Source.Attack)
 					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
 						Damage = Attack.Damage[Source.Level];
+						if (((Attack.Name === "StandAttackFast") || (Attack.Name === "CrouchAttackFast")) && PlatformDialogIsSlave(Source.Name)) Damage = Math.round(Damage * 1.15);
 						HitBox = Attack.HitBox;
 						Audio = Attack.HitAudio;
 						break;
@@ -2964,7 +2970,7 @@ function PlatformLoadGame(Slot) {
 	if (LoadObj.Status == null) return;
 	if (LoadObj.Room == null) return;
 
-	// Adds the character manually or load the saved party
+	// Load the game parameters and inventory
 	PlatformChar = [];
 	if (Array.isArray(LoadObj.Party)) {
 		PlatformParty = LoadObj.Party;
@@ -2972,8 +2978,6 @@ function PlatformLoadGame(Slot) {
 		PlatformParty = [];
 		PlatformPartyAdd(LoadObj);
 	}
-	PlatformCreateCharacter(LoadObj.Character, LoadObj.Status, 1000);
-	PlatformPartyLoad();
 	PlatformInventory = LoadObj.Inventory;
 	if (PlatformInventory == null) PlatformInventory = [];
 	PlatformAllowAudio = LoadObj.Audio;
@@ -2997,6 +3001,10 @@ function PlatformLoadGame(Slot) {
 					if (DialogChar.OwnerName != null) Char.OwnerName = DialogChar.OwnerName;
 					if (DialogChar.OwnerLevel != null) Char.OwnerLevel = DialogChar.OwnerLevel;
 				}
+
+	// Loads the current character
+	PlatformCreateCharacter(LoadObj.Character, LoadObj.Status, 1000);
+	PlatformPartyLoad();
 
 	// Loads the current room and launches it
 	PlatformLoadRoom(LoadObj.Room);

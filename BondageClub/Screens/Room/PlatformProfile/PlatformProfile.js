@@ -51,21 +51,46 @@ function PlatformProfileDrawPerkButton(X, Y, PerkNum, Prerequisite1, Prerequisit
 }
 
 /**
+ * Returns the text associated to the bonus given by the owner of the current player
+ * @param {Object} PlatformChar - The platform character to evaluate
+ * @returns {string} - The text string linked to the bonus
+ */
+function PlatformGetOwnerBonus(PlatformChar) {
+	let Char = PlatformDialogGetCharacter(PlatformChar.Name);
+	if ((Char == null) || (Char.OwnerName == null) || (Char.OwnerName == "") || (Char.OwnerLevel == null) || (Char.OwnerLevel <= 0)) return TextGet("NoOwnerBonus");
+	return TextGet(Char.OwnerName + "OwnerBonus" + Char.OwnerLevel.toString());
+}
+
+/**
+ * Returns the text associated to the bonus given by the lover of the current player
+ * @param {Object} PlatformChar - The platform character to evaluate
+ * @returns {string} - The text string linked to the bonus
+ */
+function PlatformGetLoverBonus(PlatformChar) {
+	let Char = PlatformDialogGetCharacter(PlatformChar.Name);
+	if ((Char == null) || (Char.LoverName == null) || (Char.LoverName == "") || (Char.LoverLevel == null) || (Char.LoverLevel <= 0)) return TextGet("NoLoverBonus");
+	return TextGet(Char.LoverName + "LoverBonus" + Char.LoverLevel.toString());
+}
+
+/**
  * Runs and draws the screen.
  * @returns {void} - Nothing
  */
 function PlatformProfileRun() {
 	DrawRect(0, 0, 2000, 1000, "#EEEEEE");
 	DrawImageResize("Screens/Room/PlatformDialog/Character/" + PlatformPlayer.Name + "/" + PlatformPlayer.Status + "/Idle.png", -50, 0, 500, 1000);
-	DrawText(TextGet("Name") + " " + PlatformPlayer.Name, 700, 60, "Black", "Silver");
-	DrawText(TextGet("Class") + " " + PlatformPlayer.Status, 700, 120, "Black", "Silver");
-	DrawText(TextGet("Age" + PlatformPlayer.Name), 700, 180, "Black", "Silver");
-	DrawText(TextGet("Owner" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName), 700, 240, "Black", "Silver");
+	DrawText(TextGet("Name") + " " + PlatformPlayer.Name, 700, 50, "Black", "Silver");
+	DrawText(TextGet("Class") + " " + PlatformPlayer.Status, 700, 100, "Black", "Silver");
+	DrawText(TextGet("Age" + PlatformPlayer.Name), 700, 150, "Black", "Silver");
+	DrawText(TextGet("Owner" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName), 700, 200, "Black", "Silver");
+	DrawText(PlatformGetOwnerBonus(PlatformPlayer), 700, 250, "Black", "Silver");
 	DrawText(TextGet("Lover" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName), 700, 300, "Black", "Silver");
-	DrawText(TextGet("Health") + " " + PlatformPlayer.MaxHealth.toString(), 700, 360, "Black", "Silver");
-	DrawText(TextGet("Level") + " " + PlatformPlayer.Level.toString() + " (" + (PlatformPlayer.Level >= 10 ? 0 : Math.floor(PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100)).toString() + "%)", 700, 420, "Black", "Silver");
-	DrawText(TextGet("Perks") + " " + PlatformProfileGetFreePerk().toString(), 700, 480, "Black", "Silver");
-	DrawTextWrap(TextGet("Intro" + PlatformPlayer.Name), 420, 500, 600, 500, "Black", null, 9);
+	DrawText(PlatformGetLoverBonus(PlatformPlayer), 700, 350, "Black", "Silver");
+	DrawText(TextGet("Health") + " " + PlatformPlayer.MaxHealth.toString(), 700, 400, "Black", "Silver");
+	DrawText(TextGet("Level") + " " + PlatformPlayer.Level.toString() + " (" + (PlatformPlayer.Level >= 10 ? 0 : Math.floor(PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100)).toString() + "%)", 700, 450, "Black", "Silver");
+	DrawText(TextGet("Perks") + " " + PlatformProfileGetFreePerk().toString(), 700, 500, "Black", "Silver");
+	DrawTextWrap(TextGet("Intro" + PlatformPlayer.Name), 420, 520, 600, 480, "Black", null, 9);
+
 	if (PlatformPlayer.Name == "Melody") {
 		PlatformProfileDrawArrow(1150, 50, 1250, 150);
 		PlatformProfileDrawArrow(1150, 50, 1250, 250);
@@ -125,6 +150,7 @@ function PlatformProfileRun() {
 		PlatformProfileDrawPerkButton(1300, 820, 8, "Archery");
 		PlatformProfileDrawPerkButton(1300, 920, 9, "Archery");
 	}
+	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 }
 
@@ -149,6 +175,7 @@ function PlatformProfileBuyPerk(PerkNum) {
  * @returns {void} - Nothing
  */
 function PlatformProfileClick() {
+	if (MouseIn(1800, 10, 90, 90) && (PlatformHeal != null) && (PlatformParty.length >= 2)) return PlatformPartyNext();
 	if (MouseIn(1900, 10, 90, 90)) return PlatformProfileExit();
 	if ((PlatformPlayer.Name == "Melody") && MouseIn(1100, 20, 400, 60)) PlatformProfileBuyPerk(0);
 	if ((PlatformPlayer.Name == "Melody") && MouseIn(1300, 120, 400, 60) && PlatformHasPerk(PlatformPlayer, "Healthy")) PlatformProfileBuyPerk(1);
