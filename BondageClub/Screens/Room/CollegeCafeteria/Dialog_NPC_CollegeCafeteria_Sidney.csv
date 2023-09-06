@@ -1,13 +1,13 @@
 PlayerGagged,,,(She gives you a curious look.)  Why are you wearing that?  Are you on a fucking diet?,,
 FightVictory,,,(A teacher comes and separates you.  You both clean up as she catches her breath.)  Fuck this!  I'm too hungry to fight anyway.,,
 FightDefeat,,,(A teacher comes and separates you.  You both clean up as she smirks.)  This is what you get for messing with me bitch.,,
-0,,,(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cutting in front of me.,,"SidneyStatusIs(""SchoolMate"")"
+0,,,(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cut in front of me.,,"SidneyStatusIs(""SchoolMate"")"
 0,,,Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?,,"SidneyStatusIs(""Lover"")"
-0,,,(She snobs you.)  You broke with me fucking fast.  What do you want now?,,"SidneyStatusIs(""ExLover"")"
+0,,,(She snubs you.)  You broke with me fucking fast.  What do you want now?,,"SidneyStatusIs(""ExLover"")"
 0,,,"(She doesn't dare to look you in the eyes.)  Hello Mistress, would you like to step in front of me?",,"SidneyStatusIs(""Owned"")"
 0,,,"(She laughs.)  My slut is back!  Stay behind me, you will carry my lunch.",,"SidneyStatusIs(""Owner"")"
-0,,,(She frowns.)  Hey ex-slut.  Don't you dare cutting in front of me.,,"SidneyStatusIs(""ExOwner"")"
-0,,,(She doesn't seem to recognize you.)  Hey!  Don't you dare cutting in front of me.,,
+0,,,(She frowns.)  Hey ex-slut.  Don't you dare cut in front of me.,,"SidneyStatusIs(""ExOwner"")"
+0,,,(She doesn't seem to recognize you.)  Hey!  Don't you dare cut in front of me.,,
 0,,Who are you?,"That's none of your business.  Get lost, I'm waiting to eat.",DialogRemove(),"SidneyStatusIs("""")"
 0,,How have you been?,Hungry as shit!  This line is taking forever.,DialogRemove(),"!SidneyStatusIs("""")"
 0,,What is that hat?,(She grumbles.)  Let's change subject please.,DialogRemove(),"SidneyStatusIs(""Owned"")"
@@ -62,9 +62,9 @@ FightDefeat,,,(A teacher comes and separates you.  You both clean up as she smir
 300,310,That was quite a fight!,"(She recovers her breath and nods.)  Yeah, you're dangerous.",SidneyLoveChange(2),
 300,310,You're such a loser.,(She recovers her breath and frowns.)  I'll get my revenge someday.,,
 300,310,(Stare at her.),(She recovers her breath and stares back.)  This isn't over.,SidneyLoveChange(1),
-310,320,(Crack your knuckles.),(She also cracks her knuckles as a teacher sermon you two on fighting and make sure you won't do it again.),SidneyLoveChange(1),
-310,320,We should ally instead of fighting each other.,(She nods as a teacher sermon you two on fighting and make sure you won't do it again.),SidneyLoveChange(2),
-310,320,Don't cross my path again.,(She grumbles as a teacher sermon you two on fighting and make sure you won't do it again.),,
+310,320,(Crack your knuckles.),(She also cracks her knuckles as a teacher lectures both of you on fighting and makes sure you won't do it again.),SidneyLoveChange(1),
+310,320,We should ally instead of fighting each other.,(She nods as a teacher lectures both of you on fighting and makes sure you won't do it again.),SidneyLoveChange(2),
+310,320,Don't cross my path again.,(She grumbles as a teacher lectures both of you on fighting and makes sure you won't do it again.),,
 320,,,(A teacher is making sure you don't fight again.  Sidney is ignoring you.),,
 320,330,Pssst!  Wanna skip the line and go out with me?,(She seems intrigued.)  Anything to get out of here.  Where should we go?,,CanInviteToPrivateRoom()
 320,,Pssst!  Wanna skip the line and go out with me?,(She ignores you.),,!CanInviteToPrivateRoom()
@@ -74,9 +74,9 @@ FightDefeat,,,(A teacher comes and separates you.  You both clean up as she smir
 331,332,"Come with me, I will explain on the road.",Adios suckers!  (She gives the middle finger to everyone in the line.),,
 331,320,Forget it then.,"Fine, leave me alone.",,
 332,,(Bring her to your room.),,InviteToPrivateRoom(),
-400,200,Well done.  That was quite a fight.,"(She ignores you as a teacher sermon you two on fighting, and make sure you won't do it again.)",,
-400,200,You fight like a dirty bitch.,"(She ignores you as a teacher sermon you two on fighting, and make sure you won't do it again.)",,
-400,200,(Stare at her.),"(She ignores you as a teacher sermon you two on fighting, and make sure you won't do it again.)",,
+400,200,Well done.  That was quite a fight.,"(She ignores you as a teacher lectures both of you on fighting, and makes sure you won't do it again.)",,
+400,200,You fight like a dirty bitch.,"(She ignores you as a teacher lectures both of you on fighting, and makes sure you won't do it again.)",,
+400,200,(Stare at her.),"(She ignores you as a teacher lectures both of you on fighting, and makes sure you won't do it again.)",,
 1000,,,"(A student is waiting in line in front of you.)  Hey there.  Be patient, the line is long today.",,
 1000,,Who are you?,"I study music, I don't think I've seen you before.",DialogRemove(),
 1000,,I'm DialogPlayerName.,"Pleased to meet you.  I hope you're not too hungry, this line isn't moving much.",DialogRemove(),

@@ -5,11 +5,11 @@
 （一位老师过来把你们分开。你们拍了拍衣服，她调整呼吸。）操！反正我太饿了，打不过。
 (A teacher comes and separates you.  You both clean up as she smirks.)  This is what you get for messing with me bitch.
 （一位老师过来把你们分开。你们拍了拍衣服，她傻笑起来。）这就是你惹我的结果，婊子。
-(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cutting in front of me.
+(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cut in front of me.
 （Sidney正在排队等着拿她的食物。）嘿，DialogPlayerName。你竟敢在我面前插队。
 Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
 亲爱的！（她握着你的手微笑）你和我一起吃午饭吗？
-(She snobs you.)  You broke with me fucking fast.  What do you want now?
+(She snubs you.)  You broke with me fucking fast.  What do you want now?
 （她嘲弄你。）你他妈的快跟我分手了。你现在想要什么？
 (She doesn't dare to look you in the eyes.)  Hello Mistress, would you like to step in front of me?
 （不敢看你的眼睛。）你好，女主人，要不要来我前面？
@@ -17,7 +17,7 @@ Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
 （她笑起来。）我的骚货回来了！来我身后吧，你会带我吃午饭。
 (She frowns.)  Hey ex-slut.  Don't you dare cutting in front of me.
 （她皱起眉头。）嘿，我的前任骚货。你竟敢在我面前插队。
-(She doesn't seem to recognize you.)  Hey!  Don't you dare cutting in front of me.
+(She frowns.)  Hey ex-slut.  Don't you dare cut in front of me.
 （她看起来没认出来你。）嘿！你竟敢在我面前插队。
 ###_PLAYER
 Who are you?
@@ -287,7 +287,7 @@ You're such a loser.
 (Crack your knuckles.)
 （捏响你的指关节。）
 ###_NPC
-(She also cracks her knuckles as a teacher sermon you two on fighting and make sure you won't do it again.)
+(She doesn't seem to recognize you.)  Hey!  Don't you dare cut in front of me.
 （老师对这场打架给你们俩来了一场冗长的说教，她也捏响指关节，让你们保证不会再犯。）
 ###_PLAYER
 We should ally instead of fighting each other.
@@ -299,7 +299,7 @@ We should ally instead of fighting each other.
 Don't cross my path again.
 别想再挡我的路。
 ###_NPC
-(She grumbles as a teacher sermon you two on fighting and make sure you won't do it again.)
+(She also cracks her knuckles as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 （她嘟囔着，一位老师对这场打架给你们俩来了一场冗长的说教，让你们保证不会再犯。）
 (A teacher is making sure you don't fight again.  Sidney is ignoring you.)
 （老师让你们保证不会再犯。Sidney没有看你。）
@@ -321,7 +321,7 @@ Fine, leave me alone.
 Well done.  That was quite a fight.
 做得好。那是一场激烈的战斗。
 ###_NPC
-(She ignores you as a teacher sermon you two on fighting, and make sure you won't do it again.)
+(She grumbles as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 （她故意不看你，老师对这场打架给你们俩来了一场冗长的说教，让你们保证不会再犯。）
 ###_PLAYER
 You fight like a dirty bitch.
