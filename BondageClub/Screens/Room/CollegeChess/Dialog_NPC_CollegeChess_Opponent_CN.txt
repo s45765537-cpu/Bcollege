@@ -149,7 +149,7 @@ Let's make some rules.  Each major piece like a knight or a rook gets one cloth 
 Each major piece gets one cloth off.
 每个主要棋子被吃掉时，都要脱一件衣服。
 ###_NPC
-Let's make some rules.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
+That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
 我觉得很完美。每个骑士或城堡这样的主要棋子被吃掉时，都要脱一件衣服。你以前玩过吗？我应该对你放水吗？
 ###_PLAYER
 (Play strip chess with her.)
@@ -229,7 +229,7 @@ You don't need to be embarrassed.
 Get dressed girl.
 穿好衣服，女孩。
 ###_NPC
-That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
+Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 好主意，我们都不想被抓到。（你捡起脱掉的衣服，重新穿上。）再赌一局？
 ###_PLAYER
 Maybe you should dress back up.
@@ -249,13 +249,13 @@ It could be even more kinky.  Since you're naked and you lost, you could do a se
 This is too embarrassing.
 这太羞人了。
 ###_NPC
-Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
+Get clothed, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 穿好衣服吧，我们都不想被抓到。（你捡起脱掉的衣服，重新穿上。）再赌一局？
 ###_PLAYER
 Can I dress back up?
 我可以重新穿好衣服吗？
 ###_NPC
-Get clothed, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
+Of course, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 当然，我们都不想被抓到。（你捡起脱掉的衣服，重新穿上。）再赌一局？
 Absolutely!   Should we bet some clothes again?  Or something else?
 那是当然！我们要再赌一些衣服吗？或者赌其他东西？

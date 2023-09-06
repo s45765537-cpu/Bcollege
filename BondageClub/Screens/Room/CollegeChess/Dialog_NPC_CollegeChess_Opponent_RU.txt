@@ -149,7 +149,7 @@ Let's make some rules.  Each major piece like a knight or a rook gets one cloth 
 Each major piece gets one cloth off.
 С каждой крупной фигурой снимается одна ткань.
 ###_NPC
-Let's make some rules.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
+That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.
 Это звучит идеально. Каждая крупная фигура, такая как конь или ладья, снимает одну ткань. Ты играла раньше? Мне с тобой полегче?
 ###_PLAYER
 (Play strip chess with her.)
@@ -229,7 +229,7 @@ You don't need to be embarrassed.
 Get dressed girl.
 Оденься, девочка.
 ###_NPC
-That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
+Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)
 Хорошая идея, мы же не хотим, чтобы нас поймали. (Вы подбираете снятую одежду и снова одеваетесь.) Еще пари?
 ###_PLAYER
 Maybe you should dress back up.
@@ -255,7 +255,7 @@ Good idea, we don't want to get caught.  (You pick up the removed clothes and dr
 Can I dress back up?
 Могу я снова одеться?
 ###_NPC
-Get clothed, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
+Of course, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 Конечно, мы не хотим, чтобы нас поймали. (Вы подбираете снятую одежду и снова одеваетесь.) Еще пари?
 Absolutely!   Should we bet some clothes again?  Or something else?
 Безусловно! Должны ли мы снова поспорить на одежду? Или что-то другое?
