@@ -149,7 +149,7 @@ Let's make some rules.  Each major piece like a knight or a rook gets one cloth 
 Each major piece gets one cloth off.
 С каждой крупной фигурой снимается одна ткань.
 ###_NPC
-That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.
+That sounds perfect.  Each major piece like a knight or a rook gets one piece of clothing off.  Have you played before?  Should I go easy on you?
 Это звучит идеально. Каждая крупная фигура, такая как конь или ладья, снимает одну ткань. Ты играла раньше? Мне с тобой полегче?
 ###_PLAYER
 (Play strip chess with her.)
@@ -229,7 +229,7 @@ You don't need to be embarrassed.
 Get dressed girl.
 Оденься, девочка.
 ###_NPC
-Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)
+Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 Хорошая идея, мы же не хотим, чтобы нас поймали. (Вы подбираете снятую одежду и снова одеваетесь.) Еще пари?
 ###_PLAYER
 Maybe you should dress back up.
@@ -249,7 +249,7 @@ It could be even more kinky.  Since you're naked and you lost, you could do a se
 This is too embarrassing.
 Это слишком неловко.
 ###_NPC
-Good idea, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
+Get clothed, we don't want to get caught.  (You pick up the removed clothes and dress back up.)  Another bet?
 Оденьтесь, мы же не хотим, чтобы нас поймали. (Вы подбираете снятую одежду и снова одеваетесь.) Еще пари?
 ###_PLAYER
 Can I dress back up?

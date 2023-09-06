@@ -287,7 +287,7 @@ You're such a loser.
 (Crack your knuckles.)
 (Хрустите костяшками пальцев.)
 ###_NPC
-(She also cracks her knuckles as a teacher lectures both of you on fighting and makes sure you won't do it again.)  Hey!  Don't you dare cut in front of me.
+(She also cracks her knuckles as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 (Она также хрустит костяшками пальцев, пока учитель проповедует вам двоим о драках и следит за тем, чтобы вы больше этого не делали.)
 ###_PLAYER
 We should ally instead of fighting each other.
