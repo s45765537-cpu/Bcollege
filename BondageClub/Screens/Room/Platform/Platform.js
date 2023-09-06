@@ -2012,6 +2012,7 @@ function PlatformAddExperience(C, Value) {
 	if ((Value == null) || (Value <= 0)) return;
 	if (C.Camera) Value = Value * CheatFactor("DoubleBrawlExperience", 2);
 	if (PlatformDialogCharactersAreLovers(C.Name, "Olivia")) Value = Math.round(Value * 1.15);
+	if (PlatformDialogIsSlaveOfCharacter(C.Name, "Olivia")) Value = Math.round(Value * 1.15);
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
 		if (C.Camera) PlatformMessageSet(TextGet("LevelUp").replace("CharacterName", C.Name));
@@ -2034,7 +2035,7 @@ function PlatformSteal(C, Value) {
 		C.Projectile = C.Projectile + Qty;
 		if (C.Projectile > C.MaxProjectile) C.Projectile = C.MaxProjectile;
 	}
-	if (PlatformHasPerk(C, "Burglar")) {
+	if (PlatformHasPerk(C, "Burglar") || PlatformDialogIsSlaveOfCharacter(C.Name, "Edlaran")) {
 		let Money = Math.floor(Math.random() * (Value + 1));
 		if (Money > 0) CharacterChangeMoney(Player, Money);
 	}
@@ -2061,7 +2062,8 @@ function PlatformSteal(C, Value) {
 function PlatformFindInventory(Source, Target) {
 	if ((Source == null) || (Target == null) || (Target.ExperienceValue == null) || (Target.ExperienceValue <= 0)) return;
 	let Odds = (Target.LootOdds == null) ? 0.1 : Target.LootOdds;
-	if (PlatformHasPerk(Source, "Burglar")) Odds = Odds * 1.5;
+	if (PlatformHasPerk(Source, "Burglar")) Odds = Odds * 1.75;
+	if (PlatformDialogIsSlaveOfCharacter(Source.Name, "Edlaran")) Odds = Odds * 1.75;
 	if (Math.random() < Odds) PlatformAddRandomInventory(Target);
 }
 
@@ -2547,7 +2549,7 @@ function PlatformDraw() {
 
 		// Finds the animation based on what the character is doing
 		let Crouch = (C.Camera && PlatformMoveActive("Crouch"));
-		if ((C.Name != PlatformPlayer.Name) && (PlatformRoom.Heal != null) && PlatformDialogIsSlave(C.Name) && (Math.abs(C.X - PlatformPlayer.X) < 500)) Crouch = true;
+		if ((C.Name != PlatformPlayer.Name) && (PlatformRoom.Heal != null) && PlatformDialogIsSlaveOfCharacter(C.Name, PlatformPlayer.Name) && (Math.abs(C.X - PlatformPlayer.X) < 500)) Crouch = true;
 		if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
 		else if (C.Health <= 0 && C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundWounded");
 		else if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
@@ -2652,13 +2654,18 @@ function PlatformDrawRightButtons() {
 	if ((PlatformInventory != null) && (PlatformInventory.length > 0)) PlatformRightButtons.push("Gift");
 	if ((C2.Love >= 20) && ((C1.LoverName == null) || (C1.LoverName == ""))&& ((C2.LoverName == null) || (C2.LoverName == ""))) PlatformRightButtons.push(C2.Name + "Lover1Start");
 	if ((C2.LoverName != null) && (C2.LoverName == C1.Name)) PlatformRightButtons.push(C2.Name + "Lover1End");
-	if ((C2.Domination >= 20) && ((C1.OwnerName == null) || (C1.OwnerName == ""))&& ((C2.OwnerName == null) || (C2.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Domination1Start");
+	if ((C2.Domination >= 20) && ((C2.OwnerName == null) || (C2.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Domination1Start");
 	if ((C2.OwnerName != null) && (C2.OwnerName == C1.Name)) PlatformRightButtons.push(C2.Name + "Domination1End");
+	if ((C2.Domination <= -20) && ((C1.OwnerName == null) || (C1.OwnerName == ""))) PlatformRightButtons.push(C2.Name + "Submission1Start");
+	if ((C1.OwnerName != null) && (C1.OwnerName == C2.Name)) PlatformRightButtons.push(C2.Name + "Submission1End");
 	PlatformFocusCharacter = C2;
 
 	// Draw the buttons on the right side
-	for (let B = 0; B < PlatformRightButtons.length; B++)
-		DrawButton(1900, 10 + (B + 1) * 100, 90, 90, "", "White", "Screens/Room/Platform/Button/" + PlatformRightButtons[B] + ".png", TextGet("Button" + PlatformRightButtons[B]));
+	for (let B = 0; B < PlatformRightButtons.length; B++) {
+		let ButtonName = "Screens/Room/Platform/Button/" + PlatformRightButtons[B] + ".png";
+		if (PlatformFocusCharacter != null) ButtonName = ButtonName.replace(PlatformFocusCharacter.Name, "");
+		DrawButton(1900, 10 + (B + 1) * 100, 90, 90, "", "White", ButtonName, TextGet("Button" + PlatformRightButtons[B]));
+	}
 
 }
 

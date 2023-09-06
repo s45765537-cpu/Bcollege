@@ -83,9 +83,11 @@ function PlatformProfileRun() {
 	DrawText(TextGet("Class") + " " + PlatformPlayer.Status, 700, 100, "Black", "Silver");
 	DrawText(TextGet("Age" + PlatformPlayer.Name), 700, 150, "Black", "Silver");
 	DrawText(TextGet("Owner" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).OwnerName), 700, 200, "Black", "Silver");
-	DrawText(PlatformGetOwnerBonus(PlatformPlayer), 700, 250, "Black", "Silver");
 	DrawText(TextGet("Lover" + ((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel == null) ? "0" : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverLevel.toString())) + " " + (((PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == null) || (PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName == "")) ? TextGet("None") : PlatformDialogGetCharacter(PlatformPlayer.Name).LoverName), 700, 300, "Black", "Silver");
+	MainCanvas.font = "italic " + CommonGetFont(30);
+	DrawText(PlatformGetOwnerBonus(PlatformPlayer), 700, 250, "Black", "Silver");
 	DrawText(PlatformGetLoverBonus(PlatformPlayer), 700, 350, "Black", "Silver");
+	MainCanvas.font = CommonGetFont(36);
 	DrawText(TextGet("Health") + " " + PlatformPlayer.MaxHealth.toString(), 700, 400, "Black", "Silver");
 	DrawText(TextGet("Level") + " " + PlatformPlayer.Level.toString() + " (" + (PlatformPlayer.Level >= 10 ? 0 : Math.floor(PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100)).toString() + "%)", 700, 450, "Black", "Silver");
 	DrawText(TextGet("Perks") + " " + PlatformProfileGetFreePerk().toString(), 700, 500, "Black", "Silver");

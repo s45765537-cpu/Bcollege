@@ -24,7 +24,9 @@ NoOwnerBonus,No owner bonus
 NoLoverBonus,No lover bonus
 MelodyOwnerBonus1,+15% basic attack damage
 MelodyLoverBonus1,+10% maximum health points
+OliviaOwnerBonus1,+15% experience gained
 OliviaLoverBonus1,+15% experience gained
+EdlaranOwnerBonus1,Find more loot and BC money
 EdlaranLoverBonus1,+10% walking & running speed
 PerkMelody0,Healthy
 PerkDescMelody0,+10% Health
