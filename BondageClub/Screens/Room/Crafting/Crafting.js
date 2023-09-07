@@ -240,17 +240,17 @@ function CraftingRun() {
 		let TrashCancel = false;
 
 		switch (CraftingReorderMode) {
-		case "None":
-			BGColor = CraftingDestroy ? "Pink" : "White";
-			break;
+			case "None":
+				BGColor = CraftingDestroy ? "Pink" : "White";
+				break;
 
-		case "Select":
-			BGColor = "Yellow";
-			break;
+			case "Select":
+				BGColor = "Yellow";
+				break;
 
-		case "Place":
-			BGColor = "Grey";
-			break;
+			case "Place":
+				BGColor = "Grey";
+				break;
 		}
 
 		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
@@ -276,14 +276,16 @@ function CraftingRun() {
 			let Y = Math.floor((S - CraftingOffset) / 4) * 180 + 130;
 			let Craft = Player.Crafting[S];
 			switch (CraftingReorderMode) {
-			case "Select":
-				BGColor = CraftingReorderList.includes (S) ? "Chartreuse" : "Yellow";
-				break;
+				case "Select":
+					BGColor = CraftingReorderList.includes (S) ? "Chartreuse" : "Yellow";
+					break;
 
-			case "Place":
-				BGColor = CraftingReorderList.includes (S) ? "Green" : "Grey";
-			default:
-				break;
+				case "Place":
+					BGColor = CraftingReorderList.includes (S) ? "Green" : "Grey";
+					break;
+
+				default:
+					break;
 			}
 			if (!Craft) {
 				DrawButton(X, Y, 470, 140, TextGet("EmptySlot"), BGColor);
@@ -778,30 +780,30 @@ function CraftingLoadServer(Packet) {
  * Advance to the next crafting reordering mode, or set the mode to the specified value.
  * @param {CraftingReorderType} newmode - The mode to set.  If null, advance to next mode.
  */
-function CraftingReorderModeSet (newmode=null)
+function CraftingReorderModeSet(newmode=null)
 {
 	let pushcrafts = true;
 
 	if (newmode == null) {
 		switch (CraftingReorderMode) {
-		case "None":
-			newmode = "Select";
-			break;
+			case "None":
+				newmode = "Select";
+				break;
 
-		case "Select":
-			if (CraftingReorderList.length <= 0) {
-				// If selection list is empty, flip back to
-				// "None"; skip unnecessary network traffic.
-				pushcrafts = false;
+			case "Select":
+				if (CraftingReorderList.length <= 0) {
+					// If selection list is empty, flip back to
+					// "None"; skip unnecessary network traffic.
+					pushcrafts = false;
+					newmode = "None";
+				} else {
+					newmode = "Place";
+				}
+				break;
+
+			case "Place":
 				newmode = "None";
-			} else {
-				newmode = "Place";
-			}
-			break;
-
-		case "Place":
-			newmode = "None";
-			break;
+				break;
 		}
 	}
 
@@ -850,9 +852,9 @@ function CraftingClick() {
 
 		// Craft slot reordering mode.
 		if (MouseIn (1675, 15, 90, 90)) {
-			if (CraftingDestroy)	CraftingDestroy = false;
+			if (CraftingDestroy) CraftingDestroy = false;
 
-			CraftingReorderModeSet();	// Advance mode
+			CraftingReorderModeSet(); // Advance mode
 		}
 
 		// Scan 20 items for clicks
@@ -1160,7 +1162,7 @@ function CraftingConvertItemToSelected(Craft) {
  */
 function CraftingExit() {
 	CharacterDelete(CraftingPreview.AccountName);
-	CraftingReorderModeSet ("None");
+	CraftingReorderModeSet("None");
 	CraftingModeSet("Slot");
 	if (CraftingReturnToChatroom)
 		CommonSetScreen("Online", "ChatRoom");

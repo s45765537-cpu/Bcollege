@@ -471,15 +471,15 @@ var AssetFemale3DCG = [
 					{ Name: "Rneck", HasType: false, CopyLayerColor: "Rfhead", AllowModuleTypes: ["n1"] }
 				]
 			},
-			{ 
-				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15, 
+			{
+				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15,
 				Alpha: [{ Pose: ["BackCuffs"], Group: ["Bracelet"], Masks: [[279, 376, 34, 34]] }], DefaultColor: ["#E59292", "#FFFFFF"],
 				HideForPose: ["AllFours","Hogtied"],
 				AllowPose: ["TapedHands", "BackBoxTie","BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],
-				 Layer:[
+				Layer:[
 					{ Name: "Belt", AllowColorize: true},
 					{ Name: "Buckles", AllowColorize: true}
-					]
+				]
 			},
 			{
 				Name: "BugLegs", Priority: 6, Value: 40, DefaultColor: ["#406A50", "#7F795F"],
@@ -895,7 +895,9 @@ var AssetFemale3DCG = [
 					{ Name: "Stripe" }
 				]
 			},
-			{ 																																				Name: "BusinessSkirt", Gender: "F", Prerequisite: ["HasVagina"], Fetish: ["Leather"], Value: 32, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Attribute: ["Skirt"],																			},
+			{
+				Name: "BusinessSkirt", Gender: "F", Prerequisite: ["HasVagina"], Fetish: ["Leather"], Value: 32, HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], Attribute: ["Skirt"],
+			},
 			{
 				Name: "PantBoots", Gender: "F", Prerequisite: ["HasVagina"], Value: 40, Left: 120, Top: 450, Priority: 22, Extended: true,
 				Layer: [
@@ -1708,19 +1710,38 @@ var AssetFemale3DCG = [
 					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[75, 870, 350, 150]] },
 				],
 			},
-			{ 																																				Name: "DutyShoes", Height: 12, Value: 20, 																									HideForPose: ["Kneel", "KneelingSpread"],
-				Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], 																	Masks: [[45, 936, 350, 100]] },
-						{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], 												Masks: [[45, 936, 350, 100]] },],
-				Layer: [{ Name: "Main", Priority: 22, AllowColorize: true },
-						{ Name: "Rear", Priority: 6, CopyLayerColor: "Main" }]																			},
-			{ 																																				Name: "SocialHeels", Height: 15, 																											HideForPose: ["Kneel", "KneelingSpread"],
-				Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], 																	Masks: [[45, 936, 350, 100]] },
-						{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], 												Masks: [[45, 936, 350, 100]] },],
-				Layer: [{ Name: "Main", Priority: 22, AllowColorize: true },
-						{ Name: "Rear", Priority: 6,  CopyLayerColor: "Main"}]
- 			},
-			{ 																																				Name: "StreetBoots", Fetish: ["Leather"], Value: 45, 																						Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], 																	Masks: [[75, 850, 350, 200]] }], Height: 22, HideForPose: ["KneelingSpread","Kneel"] 											},
-			{ 																																				Name: "WesternBoots", Fetish: ["Leather"], Value: 38, 																						Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], 																	Masks: [[75, 850, 350, 200]] }], Height: 22, HideForPose: ["KneelingSpread","Kneel"] 											},
+			{
+				Name: "DutyShoes", Height: 12, Value: 20,
+				HideForPose: ["Kneel", "KneelingSpread"],
+				Alpha: [
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 936, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 936, 350, 100]] },
+				],
+				Layer: [
+					{ Name: "Main", Priority: 22, AllowColorize: true },
+					{ Name: "Rear", Priority: 6, CopyLayerColor: "Main" },
+				],
+			},
+			{
+				Name: "SocialHeels", Height: 15,
+				HideForPose: ["Kneel", "KneelingSpread"],
+				Alpha: [
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 936, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 936, 350, 100]] },
+				],
+				Layer: [
+					{ Name: "Main", Priority: 22, AllowColorize: true },
+					{ Name: "Rear", Priority: 6,  CopyLayerColor: "Main"},
+				],
+			},
+			{
+				Name: "StreetBoots", Fetish: ["Leather"], Value: 45, Height: 22, HideForPose: ["KneelingSpread", "Kneel"],
+				Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[75, 850, 350, 200]] }],
+			},
+			{
+				Name: "WesternBoots", Fetish: ["Leather"], Value: 38, Height: 22, HideForPose: ["KneelingSpread", "Kneel"],
+				Alpha: [{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[75, 850, 350, 200]] }],
+			},
 			{
 				Name: "ThighBoots", Fetish: ["Latex"], Value: 50, Left: 91,
 				HideItem: ["SocksSocks4", "SocksSocks5", "LeftAnkletRibbon1", "RightAnkletRibbon1"],
@@ -3613,7 +3634,6 @@ var AssetFemale3DCG = [
 		Clothing: true,
 		Underwear: true,
 		Color: ["#131313", "#542828", "#6B9BBD", "#847453", "#C271d1", "#55388B", "#86D3CC", "#49656F", "#100E1E", "#DEDEDE", "#100C08", "#180713", "#202020", "#0C0D24"],
-		DefaultColor: ["#131313", "#131313"],
 		Asset: [
 			{ Name: "CatEye", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "CatEye2", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
@@ -3626,7 +3646,7 @@ var AssetFemale3DCG = [
 			{ Name: "Tanuki", MinOpacity: 0, Opacity: 1, MaxOpacity: 0.8, Extended: true, Random: false },
 			{ Name: "UndershadowedBlurred", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
 			{ Name: "UndershadowedSolid", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true },
-			{ 
+			{
 				Name: "Wings", MinOpacity: 0, Opacity: 0.8, MaxOpacity: 1, Extended: true, Random: false,
 				Layer: [
 					{ Name: "Shad", HasType: false },
@@ -6661,7 +6681,7 @@ var AssetFemale3DCG = [
 			{ Name: "CollarMoon", Value: 5, Difficulty: 3, Time: 5, Random: false, AllowLock: true, Prerequisite: "Collared" },
 			{ Name: "CollarSun", Value: 10, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared" },
 			{ Name: "CollarLapis", Value: 10, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared" },
-			{ 
+			{
 				Name: "CollarButterfly", Value: 50, Difficulty: 3, Time: 5, Random: false, AllowLock: true, DrawLocks: false, Prerequisite: "Collared", BuyGroup: "ButterflyPendant",
 				Layer: [
 					{ Name: "Metal" },

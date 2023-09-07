@@ -93,7 +93,7 @@ function ClubCardBuilderFilterLoad() {
 			else if ((ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex] == "Reward") && (Card.Reward != null)) Include = true;
 			else if ((Card.Group != null) && (Card.Group.indexOf(ClubCardBuilderFilterGroup[ClubCardBuilderFilterIndex]) >= 0)) Include = true;
 			if (Include) ClubCardBuilderList.push({...Card});
-		}				
+		}
 	for (let Card of ClubCardBuilderList)
 		if (Card.RequiredLevel == null)
 			Card.RequiredLevel = 1;
