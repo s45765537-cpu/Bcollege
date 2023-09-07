@@ -838,7 +838,7 @@ function PandoraCharacterFight() {
  */
 function PandoraCharacterFightEnd() {
 	CharacterSetCurrent(PandoraFightCharacter);
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CurrentCharacter.KidnapMaxWillpower - CurrentCharacter.KidnapWillpower)));
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
 	PandoraWillpower = Player.KidnapWillpower;
 	if (InfiltrationPerksActive("Recovery")) {
 		PandoraWillpower = PandoraWillpower + Math.round(PandoraMaxWillpower / 10);
@@ -914,7 +914,7 @@ function PandoraInfiltrationChange(Progress) {
 	if (InfiltrationDifficulty == 2) P = Math.round(P * 2.25);
 	if (InfiltrationDifficulty == 3) P = Math.round(P * 3);
 	if (InfiltrationDifficulty == 4) P = Math.round(P * 4);
-	SkillProgress("Infiltration", P);
+	SkillProgress(Player, "Infiltration", P);
 }
 
 /**

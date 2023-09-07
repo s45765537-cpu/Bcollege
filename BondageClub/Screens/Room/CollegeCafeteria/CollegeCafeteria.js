@@ -142,7 +142,7 @@ function CollegeCafeteriaFightStart() {
  * @returns {void} - Nothing
  */
 function CollegeCafeteriaFightEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CollegeCafeteriaSidney.KidnapMaxWillpower - CollegeCafeteriaSidney.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CollegeCafeteriaSidney));
 	CollegeCafeteriaSidney.Stage = (KidnapVictory) ? "300" : "400";
 	CharacterRelease(Player);
 	CharacterRelease(CollegeCafeteriaSidney);

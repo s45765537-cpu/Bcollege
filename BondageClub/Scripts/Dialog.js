@@ -3163,11 +3163,11 @@ function DialogDrawOwnerRulesMenu() {
  * Sets the skill ratio for the player, will be a % of effectiveness applied to the skill when using it.
  * This way a player can use only a part of her bondage or evasion skill.
  * @param {SkillType} SkillType - The name of the skill to influence
- * @param {string} NewRatio - The ration of this skill that should be used
+ * @param {string} NewRatio - The ratio of this skill that should be used
  * @returns {void} - Nothing
  */
 function DialogSetSkillRatio(SkillType, NewRatio) {
-	SkillSetRatio(SkillType, parseInt(NewRatio) / 100);
+	SkillSetRatio(Player, SkillType, parseInt(NewRatio) / 100);
 }
 
 /**
@@ -3301,7 +3301,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 					ChatRoomPublishAction(C, "ActionPick", item, null);
 				}
 			}
-			SkillProgress("LockPicking", Skill);
+			SkillProgress(Player, "LockPicking", Skill);
 		}
 
 		// For an NPC we move out to their reaction, for other characters we return to the item list
@@ -3329,7 +3329,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 				Color = NextItem.Craft.Color;
 
 			const isCraft = (NextItem.Craft != null);
-			InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio("Bondage"), Player.MemberNumber, NextItem.Craft, !isCraft);
+			InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, !isCraft);
 			if (isCraft) {
 				InventoryCraft(Player, C, /** @type {AssetGroupItemName} */(NextItem.Asset.Group.Name), NextItem.Craft, true);
 			}
@@ -3342,14 +3342,14 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		if (C.IsPlayer()) {
 			if (NextItem === null) {
 				// We successfully removed one of our items
-				SkillProgress("Evasion", Skill);
+				SkillProgress(Player, "Evasion", Skill);
 			} else if (PrevItem === null) {
 				// We successfully added an item
-				SkillProgress("SelfBondage", Skill);
+				SkillProgress(Player, "SelfBondage", Skill);
 			}
 		} else if (NextItem !== null) {
 			// We successfully added an item on someone
-			SkillProgress("Bondage", Skill);
+			SkillProgress(Player, "Bondage", Skill);
 		}
 
 		// Reset the the character's position

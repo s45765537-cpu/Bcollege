@@ -680,7 +680,7 @@ function PrisonFightPolice() {
 // When the fight against Police ends
 function PrisonFightPoliceEnd() {
 	CommonSetScreen("Room", "Prison");
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (PrisonPolice.KidnapMaxWillpower - PrisonPolice.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(PrisonPolice));
 	if (!KidnapVictory) {
 		CharacterRelease(PrisonPolice);
 		InventoryRemove(PrisonPolice, "ItemNeck");

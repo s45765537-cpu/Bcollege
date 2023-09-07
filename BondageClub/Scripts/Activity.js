@@ -581,7 +581,7 @@ function ActivityOrgasmControl() {
  */
 function ActivityOrgasmWillpowerProgress(C) {
 	if ((C.ID == 0) && (ActivityOrgasmGameProgress > 0)) {
-		SkillProgress("Willpower", ActivityOrgasmGameProgress);
+		SkillProgress(Player, "Willpower", ActivityOrgasmGameProgress);
 		ActivityOrgasmGameProgress = 0;
 	}
 }

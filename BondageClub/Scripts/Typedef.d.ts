@@ -1380,6 +1380,8 @@ interface Skill {
 	Level: number;
 	Progress: number;
 	Ratio?: number;
+	ModifierLevel?: number;
+	ModifierTimeout?: number;
 }
 
 type ReputationType =

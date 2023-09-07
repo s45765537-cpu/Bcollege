@@ -155,21 +155,20 @@ function CafeConsumeSpeciiality() {
 	}
 	else {
 		CharacterChangeMoney(Player, CafePrice * -1);
-		if (!LogQuery("ModifierDuration", "SkillModifier")) LogAdd("ModifierLevel", "SkillModifier", 0);
-		SkillModifier = LogValue("ModifierLevel", "SkillModifier");
+		const evasionModifier = SkillGetModifier(Player, "Evasion");
+		const bondageModifier = SkillGetModifier(Player, "Bondage");
+		const SPECIAL_DRINK_DURATION = 3600000;
 
 		if (CafeAskedFor == "EnergyDrink") {
-			if (SkillModifier >= SkillModifierMax) CafeMaid.CurrentDialog = DialogFind(CafeMaid, "EnergyDrinkLimit");
-			else SkillModifier++;
-			LogAdd("ModifierDuration", "SkillModifier", CurrentTime + 3600000); // affects lasts 1 hour
-			LogAdd("ModifierLevel", "SkillModifier", SkillModifier); // alters the skill modifier level
+			if (!SkillSetModifier(Player, "Evasion", evasionModifier + 1, SPECIAL_DRINK_DURATION)
+				&& !SkillSetModifier(Player, "Bondage", bondageModifier + 1, SPECIAL_DRINK_DURATION))
+				CafeMaid.CurrentDialog = DialogFind(CafeMaid, "EnergyDrinkLimit");
 		}
 
 		if (CafeAskedFor == "GlassMilk") {
-			if (SkillModifier <= SkillModifierMin) CafeMaid.CurrentDialog = DialogFind(CafeMaid, "GlassMilkLimit");
-			else SkillModifier = SkillModifier - 2;
-			LogAdd("ModifierDuration", "SkillModifier", CurrentTime + 3600000); // affects lasts 1 hour
-			LogAdd("ModifierLevel", "SkillModifier", SkillModifier); // alters the skill modifier level
+			if (!SkillSetModifier(Player, "Evasion", evasionModifier - 2, SPECIAL_DRINK_DURATION)
+				&& !SkillSetModifier(Player, "Bondage", bondageModifier - 2, SPECIAL_DRINK_DURATION))
+				CafeMaid.CurrentDialog = DialogFind(CafeMaid, "GlassMilkLimit");
 		}
 
 		if (CafeAskedFor == "Cupcake") {
