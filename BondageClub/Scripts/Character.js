@@ -750,7 +750,7 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
  * @param {string} NPCType - Archetype of the NPC
  * @returns {NPCCharacter} - The randomly generated NPC
  */
-function CharacterLoadNPC(NPCType) {
+function CharacterLoadNPC(NPCType, module = CurrentModule, screen = CurrentScreen) {
 
 	// Checks if the NPC already exists and returns it if it's the case
 	const duplicate = Character.find(c => c.AccountName === NPCType);
@@ -760,7 +760,7 @@ function CharacterLoadNPC(NPCType) {
 	CharacterReset(CharacterNextId++, "Female3DCG", CharacterType.NPC);
 	let C = Character[Character.length - 1];
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C, { module: CurrentModule, screen: CurrentScreen, name: NPCType });
+	CharacterLoadCSVDialog(C, { module: module, screen: screen, name: NPCType });
 	CharacterRandomName(C);
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
