@@ -5,11 +5,11 @@
 (Учитель подходит и разделяет вас. Вы оба убираете, пока она переводит дыхание.) К черту это! В любом случае, я слишком голодна, чтобы драться.
 (A teacher comes and separates you.  You both clean up as she smirks.)  This is what you get for messing with me bitch.
 (Приходит учитель и разводит вас. Вы оба убираете, а она ухмыляется.) Вот что ты получила за то, что возишься со мной, сука.
-(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cutting in front of me.
+(Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cut in front of me.
 (Сидни стоит в очереди за едой.) Привет, DialogPlayerName. Не смей вставать передо мной.
 Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
 Дорогая! (Она держит тебя за руку и улыбается.) Ты пообедаешь со мной?
-(She snobs you.)  You broke with me fucking fast.  What do you want now?
+(She snubs you.)  You broke with me fucking fast.  What do you want now?
 (Она узнает тебя.) Ты чертовски быстро порвала со мной. Что ты хочешь сейчас?
 (She doesn't dare to look you in the eyes.)  Hello Mistress, would you like to step in front of me?
 (Она не смеет смотреть вам в глаза.) Привет, госпожа, не хочешь ли ты встать передо мной?
@@ -17,7 +17,7 @@ Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
 (Смеется.) Моя шлюшка вернулась! Оставайся позади меня, ты понесешь мой обед.
 (She frowns.)  Hey ex-slut.  Don't you dare cutting in front of me.
 (Она хмурится.) Эй, бывшая шлюха. Не смей вставать передо мной.
-(She doesn't seem to recognize you.)  Hey!  Don't you dare cutting in front of me.
+(She doesn't seem to recognize you.)  Hey!  Don't you dare cut in front of me.
 (Кажется, она не узнает вас.) Эй! Не смей вставать передо мной.
 ###_PLAYER
 Who are you?
@@ -287,7 +287,7 @@ You're such a loser.
 (Crack your knuckles.)
 (Хрустите костяшками пальцев.)
 ###_NPC
-(She also cracks her knuckles as a teacher sermon you two on fighting and make sure you won't do it again.)
+(She also cracks her knuckles as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 (Она также хрустит костяшками пальцев, пока учитель проповедует вам двоим о драках и следит за тем, чтобы вы больше этого не делали.)
 ###_PLAYER
 We should ally instead of fighting each other.
@@ -299,7 +299,7 @@ We should ally instead of fighting each other.
 Don't cross my path again.
 Не переходи мне дорогу снова.
 ###_NPC
-(She grumbles as a teacher sermon you two on fighting and make sure you won't do it again.)
+(She grumbles as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 (Она ворчит, пока учитель проповедует вам двоим о драках и следит за тем, чтобы вы больше этого не делали.)
 (A teacher is making sure you don't fight again.  Sidney is ignoring you.)
 (Учитель следит, чтобы вы больше не дрались. Сидни игнорирует вас.)
@@ -321,7 +321,7 @@ Fine, leave me alone.
 Well done.  That was quite a fight.
 Отличная работа. Это был настоящий бой.
 ###_NPC
-(She ignores you as a teacher sermon you two on fighting, and make sure you won't do it again.)
+(She ignores you as a teacher lectures both of you on fighting, and makes sure you won't do it again.)
 (Она игнорирует вас как учителя, проповедующего вам двоим о драках, и следите за тем, чтобы вы больше этого не делали.)
 ###_PLAYER
 You fight like a dirty bitch.
