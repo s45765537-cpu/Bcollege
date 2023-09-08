@@ -470,9 +470,17 @@ var AssetFemale3DCG = [
 					{ Name: "Lneck", HasType: false, CopyLayerColor: "Rfhead", AllowModuleTypes: ["l1"] },
 					{ Name: "Rneck", HasType: false, CopyLayerColor: "Rfhead", AllowModuleTypes: ["n1"] }
 				]
-			},																																			{ 																																				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15, DefaultColor: ["#E59292", "#FFFFFF"],HideForPose: ["AllFours","Hogtied"],AllowPose: ["TapedHands", "BackBoxTie","BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],				Layer:[
+			},
+			{ 
+				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15, 
+				Alpha: [{ Pose: ["BackCuffs"], Group: ["Bracelet"], Masks: [[279, 376, 34, 34]] }], DefaultColor: ["#E59292", "#FFFFFF"],
+				HideForPose: ["AllFours","Hogtied"],
+				AllowPose: ["TapedHands", "BackBoxTie","BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],
+				 Layer:[
 					{ Name: "Belt", AllowColorize: true},
-					{ Name: "Buckles", AllowColorize: true}																									]																																		},
+					{ Name: "Buckles", AllowColorize: true}
+					]
+			},
 			{
 				Name: "BugLegs", Priority: 6, Value: 40, DefaultColor: ["#406A50", "#7F795F"],
 				Layer: [
@@ -2601,6 +2609,7 @@ var AssetFemale3DCG = [
 				{ Name: "Spikes" },
 			]
 			},
+			{ Name: "Wristband", HideForPose: ["BackBoxTie"], Extended: true},
 			{ Name: "Band1", Value: 25, HideForPose: ["BackCuffs", "BackBoxTie"], Extended: true},
 			{ Name: "LaceBands", Value: 20, Priority: 29, DefaultColor: ["Default", "#151515"], Layer: [
 				{ Name: "Lace" },
