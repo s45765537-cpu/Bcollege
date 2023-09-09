@@ -2487,7 +2487,7 @@ var PlatformDialogData = [
 			{ Text: "(The bandit minions struggle in their bondage.)" },
 			{ Text: "Boss!  We might need your help here!" },
 			{ Background: "BanditCampGateOpen", Character: [] },
-			{ 
+			{
 				Background: "BanditCampGateGround",
 				Text: "Boss?  It's now or never!",
 				Character: [
@@ -2498,7 +2498,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "BOOOOOOOOOOOSS???" },
 			{ Background: "BanditCampGateOpen", Character: [] },
-			{ 
+			{
 				Background: "BanditCampGateGround",
 				Text: "Errr...  Well...",
 				Character: [
@@ -3083,7 +3083,7 @@ var PlatformDialogData = [
 					{ Text: "(Pet her head.)", Reply: "(She giggles but quickly turns away.)", Perk: true, Goto: "Skip" }
 				]
 			},
-			{ 
+			{
 				Text: "Olivia, I've been there for you since you were a child.",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3116,12 +3116,12 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 				]
 			},
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination + 3;
 					PlatformDialogGetCharacter("Olivia").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Olivia").OwnerLevel = 1;
-				},				
+				},
 				Text: "Please explain to me what it means exactly."
 			},
 			{
@@ -3277,7 +3277,7 @@ var PlatformDialogData = [
 					{ Text: "I guess so.", Reply: "(She giggles.)  I expected a more convincing answer.", Domination: 2 },
 				]
 			},
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination - 3;
 					PlatformDialogGetCharacter("Melody").OwnerName = "Olivia";
@@ -3355,12 +3355,12 @@ var PlatformDialogData = [
 					{ Text: "(Do a maid curtsy.)", Reply: "(You do a maid curtsy, and the adventure continues.)", Goto: "Skip" },
 				]
 			},
-			{ 
+			{
 				Text: "(She sighs.)  I will miss having you as my pet, but you will always be my maid.",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
-				]			
+				]
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Melody"); },
@@ -3633,7 +3633,7 @@ var PlatformDialogData = [
 					{ Text: "(Compliment her.)", Reply: "(She smiles but quickly turns away.)", Perk: true, Goto: "Skip" }
 				]
 			},
-			{ 
+			{
 				Text: "Face me little elf, we need to talk.",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3663,12 +3663,12 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 				]
 			},
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination + 3;
 					PlatformDialogGetCharacter("Edlaran").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Edlaran").OwnerLevel = 1;
-				},				
+				},
 				Text: "But it won't be easy to undo my bad habits."
 			},
 			{
@@ -3679,7 +3679,7 @@ var PlatformDialogData = [
 					{ Text: "I will supervise what you do.", Reply: "(She bows her head.)  Yes Melody.", Domination: 2 },
 				]
 			},
-			{ Text: "What will change between us?  Will there be rules?" },			
+			{ Text: "What will change between us?  Will there be rules?" },
 			{
 				Text: "Yes, rules will be introduced with time.",
 				Character: [
@@ -3754,12 +3754,12 @@ var PlatformDialogData = [
 					{ Text: "(Pinch her cheek.)", Reply: "(You pinch her playfully and the adventure continues.)", Goto: "Skip" },
 				]
 			},
-			{ 
+			{
 				Text: "That sucks, I thought you enjoyed having me under your wing.",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
-				]			
+				]
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
@@ -3818,7 +3818,7 @@ var PlatformDialogData = [
 					{ Text: "(Compliment her.)", Reply: "(She smiles but quickly turns away.)", Perk: true, Goto: "Skip" }
 				]
 			},
-			{ 
+			{
 				Text: "Miss Edlaran, please listen to me.",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
@@ -3845,12 +3845,12 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination - 3;
 					PlatformDialogGetCharacter("Melody").OwnerName = "Edlaran";
 					PlatformDialogGetCharacter("Melody").OwnerLevel = 1;
-				},				
+				},
 				Text: "Fine!  I'll do it!  I'll take control of you."
 			},
 			{ Text: "I'll teach you my tricks.  You'll get richer in no time." },
@@ -3957,12 +3957,12 @@ var PlatformDialogData = [
 					{ Text: "(Do a maid curtsy.)", Reply: "(You do a maid curtsy, and the adventure continues.)", Goto: "Skip" },
 				]
 			},
-			{ 
+			{
 				Text: "(She crosses her arms.)  I will miss being able to control you, but I understand.",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleAngry", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
-				]			
+				]
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
@@ -4062,14 +4062,14 @@ function PlatformDialogDraw() {
 			if (Character.Pose != null)
 				DrawImage("Screens/Room/PlatformDialog/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Pose + ".png", (Character.X == null) ? X : Character.X, (Character.Y == null) ? Y : Character.Y);
 			else
-				if (Character.Animation != null)
-					for (let Char of PlatformTemplate)
-						if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
-							for (let Anim of Char.Animation)
-								if (Anim.Name == Character.Animation) {
-									let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
-									DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
-								}
+			if (Character.Animation != null)
+				for (let Char of PlatformTemplate)
+					if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
+						for (let Anim of Char.Animation)
+							if (Anim.Name == Character.Animation) {
+								let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
+								DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
+							}
 			X = X + 500;
 		}
 	}
@@ -4431,10 +4431,10 @@ function PlatformDialogOutputAll() {
 		for (let Data of Dialog.Dialog) {
 			if (Data.Text != null) S = S + Data.Text + "\r\n";
 			if (Data.Answer != null)
-			for (let Answer of Data.Answer) {
-				if (Answer.Text != null) S = S + Answer.Text + "\r\n";
-				if (Answer.Reply != null) S = S + Answer.Reply + "\r\n";			
-			}
+				for (let Answer of Data.Answer) {
+					if (Answer.Text != null) S = S + Answer.Text + "\r\n";
+					if (Answer.Reply != null) S = S + Answer.Reply + "\r\n";
+				}
 		}
 	}
 	console.log(S);

@@ -841,7 +841,7 @@ var ClubCardList = [
 		OnTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
-	}, 
+	},
 	{   // Deviant Art 2023/09 Contest Winner
 		ID: 12002,
 		Name: "Angela",
@@ -851,7 +851,7 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		MoneyPerTurn: 3,
 		RequiredLevel: 4
-	}, 
+	},
 
 	// Event cards
 	{

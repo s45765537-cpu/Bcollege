@@ -71,7 +71,7 @@ var PlatformInventoryList = [
 			PlatformMessageSet("She's getting more submissive.");
 		}
 	}
-]
+];
 
 // Template for characters with their animations
 var PlatformTemplate = [
@@ -532,7 +532,7 @@ var PlatformTemplate = [
 		OnBind: function() {
 			PlatformEventSet("CamilleDefeat");
 			PlatformDialogStart("CamilleDefeat");
-			PlatformLoadRoom();			
+			PlatformLoadRoom();
 			PlatformCreateTreasure();
 		}
 	},
@@ -2046,7 +2046,7 @@ function PlatformSteal(C, Value) {
  * @param {Object} Target - The target that gives the inventory
  * @returns {void} - Nothing
  */
- function PlatformAddRandomInventory(Target) {
+function PlatformAddRandomInventory(Target) {
 	let Item = CommonRandomItemFromList(null, PlatformInventoryList);
 	PlatformInventoryAdd(Item.Name);
 	if (Target.Loot == null) Target.Loot = [];
@@ -2071,7 +2071,7 @@ function PlatformFindInventory(Source, Target) {
  * Creates a treasure chest in the current room, tries not to put the chest over the enemy
  * @returns {void} - TRUE if active
  */
- function PlatformCreateTreasure() {
+function PlatformCreateTreasure() {
 	let X = Math.round(PlatformRoom.Width / 2);
 	if ((PlatformChar.length >= 2) && (PlatformChar[1].X >= X)) X = X - 500;
 	else if ((PlatformChar.length >= 2) && (PlatformChar[1].X <= X)) X = X + 500;
@@ -2789,7 +2789,7 @@ function PlatformAudioToggle() {
 
 /**
  * Gives an item to the currrent NPC
- * @param {string} ItemName - 
+ * @param {string} ItemName -
  * @returns {void} - Nothing
  */
 function PlatformGiveItem(ItemName) {
