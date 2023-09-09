@@ -35,6 +35,8 @@ var StruggleLoosenSpeed = 400; // Higher number gives slower spin speed
 var StruggleLoosenAngle = 0;
 var StruggleLoosenHoleAngle = Math.PI; // 6.28 for a full 360 circle
 
+var StruggleExpressionStore = null; // Store starting expression
+
 /**
  * The struggle minigame progress
  *
@@ -315,33 +317,17 @@ function StruggleMinigameHandleExpression(Decrease) {
 
 	const Count = StruggleProgressStruggleCount;
 	if (!Decrease && Player.OnlineSharedSettings.ItemsAffectExpressions) {
-		// At 15 hit: low blush, 50: Medium and 125: High
-		if (DialogAllowBlush) {
-			if (Count >= 15) CharacterSetFacialExpression(Player, "Blush", "Low");
-			else if (Count >= 50) CharacterSetFacialExpression(Player, "Blush", "Medium");
-			else if (Count >= 125) CharacterSetFacialExpression(Player, "Blush", "High");
+		// At 15 hit: Eyes angry
+		if (StruggleProgressCurrentMinigame === "Strength") {
+			if (Count >= 15) CharacterSetFacialExpression(Player, "Eyes", "Angry");
 		}
-
-		// At 15 hit: Start drooling
-		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Strength") {
-			if (Count >= 15) CharacterSetFacialExpression(Player, "Fluids", "DroolMessy");
+		// At 25 hit: Eyes Lewd
+		if (StruggleProgressCurrentMinigame === "Flexibility") {
+			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Lewd");
 		}
-		// At 25 hit: Start one eye closed
-		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Flexibility") {
-			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes2", "Closed");
-		}
-		// At 25 hit: Eyes look glazed
-		if (DialogAllowFluids && StruggleProgressCurrentMinigame === "Dexterity") {
+		// At 25 hit: Eyes dazed
+		if (StruggleProgressCurrentMinigame === "Dexterity") {
 			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
-		}
-
-		// Over 50 progress, the character frowns
-		if (DialogAllowEyebrows) {
-			if (StruggleProgress >= 50) {
-				CharacterSetFacialExpression(Player, "Eyebrows", "Angry");
-			} else {
-				CharacterSetFacialExpression(Player, "Eyebrows", null);
-			}
 		}
 	}
 }
@@ -400,6 +386,8 @@ function StruggleMinigameIsRunning() {
  */
 function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 
+	StruggleExpressionStore = WardrobeGetExpression(C); // Get and store facial expressions at struggle start
+
 	if (!StruggleMinigames[MiniGame])
 		return;
 
@@ -424,11 +412,55 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 		StruggleProgressSkill = 5;
 	}
 
-	// If there's no current blushing, we update the blushing state while struggling
-	DialogAllowBlush = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Blush") == null) || (InventoryGet(C, "Blush").Property == null) || (InventoryGet(C, "Blush").Property.Expression == null)));
-	DialogAllowEyebrows = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Eyebrows") == null) || (InventoryGet(C, "Eyebrows").Property == null) || (InventoryGet(C, "Eyebrows").Property.Expression == null)));
-	DialogAllowFluids = ((StruggleProgressAuto < 0) && (StruggleProgressChallenge > 0) && (C.ID == 0) && ((InventoryGet(C, "Fluids") == null) || (InventoryGet(C, "Fluids").Property == null) || (InventoryGet(C, "Fluids").Property.Expression == null)));
-
+	// If there's no current expressions, we update the expressions state while struggling.
+	if (C.OnlineSharedSettings.ItemsAffectExpressions) {
+		var StruggleFacesList = {
+			10: {
+				Blush: "Low",
+				Fluids: "DroolLow",
+				Eyebrows: "Soft",
+				Mouth: null
+			},
+			20: {
+				Blush: "Medium",
+				Fluids: "DroolMedium",
+				Eyebrows: "Raised",
+				Mouth: "Pout"
+			},
+			30: {
+				Blush: "High",
+				Fluids: "DroolSides",
+				Eyebrows: "Lowered",
+				Mouth: "LipBite"
+			},
+			40: {
+				Blush: "VeryHigh",
+				Fluids: "DroolMessy",
+				Eyebrows: "OneRaised",
+				Mouth: "Frown"
+			},
+			50: {
+				Blush: "Extreme",
+				Fluids: "DroolTearsMedium",
+				Eyebrows: "Harsh",
+				Mouth: "Pained"
+			},
+			60: {
+				Blush: "ShortBreath",
+				Fluids: "DroolTearsHigh",
+				Eyebrows: "Angry",
+				Mouth: "Angry"
+			}			
+		};
+		Object.keys(StruggleFacesList).forEach(Time => {
+			var StruggleExpressionsList = StruggleFacesList[Time];
+			Object.keys(StruggleExpressionsList).forEach(ExpressionGroupName => {
+				TimerExpressionSet(C,/** @type {ExpressionGroupName} */(ExpressionGroupName),parseInt(Time),StruggleExpressionsList[ExpressionGroupName]);
+			});
+		}); // Eyes are set by struggle count in StruggleMinigameHandleExpression()
+	}
+	
+	
 	// Applying or removing specific items can trigger an audio sound to play
 	if (StruggleProgressCurrentMinigame !== "LockPick") {
 		let played = false;
@@ -449,6 +481,27 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 function StruggleMinigameStop() {
 	// Stops the dialog sounds
 	AudioDialogStop();
+
+	// Clear ExpressionQueue and ExpressionTimer
+	const expressionQueues = Player.Appearance.filter(item => item.Property && (item.Property.ExpressionQueue || item.Property.ExpressionTimer || item.Property.NextExpression) );
+	for (let item of expressionQueues) {
+		item.Property["ExpressionTimer"] = null;
+		item.Property["NextExpression"] = null;
+		item.Property["ExpressionQueue"] = null;
+	}
+		
+	// Reset player expressions to default
+	DialogFacialExpressions.forEach(FE => {
+		let Color = null;
+		if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
+		CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
+		FE.CurrentExpression = null;
+	});
+
+	// Set player expressions to store
+	Object.keys(StruggleExpressionStore).forEach(Expression => {
+		CharacterSetFacialExpression(Player, /** @type {AssetGroupBodyName} */ (Expression), StruggleExpressionStore[Expression]);
+	});	
 
 	StruggleProgress = -1;
 	StruggleProgressCurrentMinigame = "";
