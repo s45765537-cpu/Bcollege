@@ -572,15 +572,17 @@ function CharacterLoadCSVDialog(C, info) {
 		CharacterBuildDialog(C, CommonCSVCache[FullPath], C.DialogInfo.screen);
 
 		// Translate the dialog if needed and perform substitutions
-		TranslationDialog(C);
-		CharacterDialogSubstitution(C);
+		TranslationLoadDialog(C, () => {
+			TranslationTranslateDialog(C);
+			CharacterDialogSubstitution(C);
 
-		if (C.IsPlayer()) {
-			for (const D of C.Dialog) {
-				if (typeof D.Result === "string")
-					PlayerDialog.set(D.Stage, D.Result);
+			if (C.IsPlayer()) {
+				for (const D of C.Dialog) {
+					if (typeof D.Result === "string")
+						PlayerDialog.set(D.Stage, D.Result);
+				}
 			}
-		}
+		});
 	}
 
 	// Finds the full path of the CSV file to use cache

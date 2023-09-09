@@ -811,10 +811,9 @@ function TranslationParseTXT(str) {
  * Translates a string to another language from the array, the translation is always the one right after the english line
  * @param {string} S - The original english string to translate
  * @param {readonly string[]} T - The active translation dictionary
- * @param {string} CharacterName - Name of the character if it is required to replace it within the string.
  * @returns {string} - The translated string
  */
-function TranslationString(S, T, CharacterName) {
+function TranslationString(S, T) {
 	if(S && S.trim()){
 		S = S.trim();
 		let r = T.findIndex(_=>_===S);
@@ -833,6 +832,8 @@ function TranslationDialogArray(C, T) {
 	for (let D = 0; D < C.Dialog.length; D++) {
 		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T, C.Name);
 		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T, C.Name);
+		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T);
+		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T);
 	}
 }
 
@@ -844,39 +845,47 @@ function TranslationDialogArray(C, T) {
  */
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
-		S[P].Value = TranslationString(S[P].Value, T, "");
+		S[P].Value = TranslationString(S[P].Value, T);
 	if (CurrentScreen == "Login") LoginUpdateMessage();
 }
 
 /**
- * Translate a character dialog if the file is in the dictionary
+ * Loads a character dialog translation and caches it
  * @param {Character} C - The character for which we want to translate the dialog
  * @returns {void} - Nothing
  */
-function TranslationDialog(C) {
+function TranslationLoadDialog(C, cb) {
+	// Only translate if we play in a foreign language
+	if (!TranslationEnabled()) return;
 
-	// If we play in a foreign language
-	if (TranslationEnabled()) {
+	// Finds the full path of the translation file to use
+	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
 
-		// Finds the full path of the translation file to use
-		const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
-
-		// If the translation file is already loaded, we translate from it
-		if (TranslationCache[FullPath]) {
-			TranslationDialogArray(C, TranslationCache[FullPath]);
-			return;
-		}
-
-		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
-					TranslationDialogArray(C, TranslationCache[FullPath]);
-				}
-			});
+	// If the translation file is already loaded, we translate from it
+	if (TranslationCache[FullPath]) {
+		cb();
+		return;
 	}
 
+	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
+	if (TranslationAvailable(FullPath)) {
+		CommonGet(FullPath, function() {
+			if (this.status == 200) {
+				TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+				cb();
+			}
+		});
+	}
+}
+
+/**
+ * Translate a character dialog if the file is in the dictionary
+ * @param {Character} C
+ */
+function TranslationTranslateDialog(C) {
+	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
+
+	TranslationDialogArray(C, TranslationCache[FullPath]);
 }
 
 /**
@@ -917,9 +926,9 @@ function TranslationText(Text) {
  */
 function TranslationAssetProcess(T) {
 	for (let A = 0; A < AssetGroup.length; A++)
-		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T, "");
+		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T);
 	for (let A = 0; A < Asset.length; A++)
-		Asset[A].Description = TranslationString(Asset[A].Description, T, "");
+		Asset[A].Description = TranslationString(Asset[A].Description, T);
 }
 
 /**
