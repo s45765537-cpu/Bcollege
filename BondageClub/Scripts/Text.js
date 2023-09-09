@@ -183,6 +183,6 @@ class TextCache {
 	 * values translated to the current game language
 	 */
 	buildTranslations(lines, translations) {
-		return lines.map(line => ([line[0], TranslationString(line[1], translations, "")]));
+		return lines.map(line => ([line[0], TranslationString(line[1], translations)]));
 	}
 }

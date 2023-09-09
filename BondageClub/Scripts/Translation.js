@@ -811,10 +811,9 @@ function TranslationParseTXT(str) {
  * Translates a string to another language from the array, the translation is always the one right after the english line
  * @param {string} S - The original english string to translate
  * @param {readonly string[]} T - The active translation dictionary
- * @param {string} CharacterName - Name of the character if it is required to replace it within the string.
  * @returns {string} - The translated string
  */
-function TranslationString(S, T, CharacterName) {
+function TranslationString(S, T) {
 	if(S && S.trim()){
 		S = S.trim();
 		let r = T.findIndex(_=>_===S);
@@ -833,6 +832,8 @@ function TranslationDialogArray(C, T) {
 	for (let D = 0; D < C.Dialog.length; D++) {
 		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T, C.Name);
 		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T, C.Name);
+		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T);
+		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T);
 	}
 }
 
@@ -844,7 +845,7 @@ function TranslationDialogArray(C, T) {
  */
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
-		S[P].Value = TranslationString(S[P].Value, T, "");
+		S[P].Value = TranslationString(S[P].Value, T);
 	if (CurrentScreen == "Login") LoginUpdateMessage();
 }
 
@@ -917,9 +918,9 @@ function TranslationText(Text) {
  */
 function TranslationAssetProcess(T) {
 	for (let A = 0; A < AssetGroup.length; A++)
-		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T, "");
+		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T);
 	for (let A = 0; A < Asset.length; A++)
-		Asset[A].Description = TranslationString(Asset[A].Description, T, "");
+		Asset[A].Description = TranslationString(Asset[A].Description, T);
 }
 
 /**
