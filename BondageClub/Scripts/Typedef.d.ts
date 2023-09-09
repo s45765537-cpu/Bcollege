@@ -2580,6 +2580,22 @@ interface AssetDefinitionProperties {
 	ExpressionTimer?: number;
 
 	/**
+	 * The expression to change to after timer expires.
+	 */
+	NextExpression?: ExpressionName;
+	
+	/**
+	 * Storage for expression reversion.
+	 */
+	StoredExpression?: ExpressionName;
+
+	/** 
+	 * Expression queue array
+	 */
+
+	ExpressionQueue?: ExpressionQueueItem[]
+
+	/**
 	 * The asset's draw opacity
 	 * @see {@link Asset.Opacity}
 	 */
@@ -2596,6 +2612,16 @@ interface AssetDefinitionProperties {
 	 * @see {@link Asset.Fetish}
 	 */
 	Fetish?: FetishName[];
+}
+
+/**
+ * Properties for Expression Queue item
+ */
+
+interface ExpressionQueueItem {
+	Time?: number;
+
+	Expression?: ExpressionName;
 }
 
 /**

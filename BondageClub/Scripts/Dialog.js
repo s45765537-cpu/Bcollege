@@ -80,10 +80,6 @@ var DialogLockMenu = false;
 /** @deprecated Use DialogMenuMode. */
 var DialogCraftingMenu = false;
 
-var DialogAllowBlush = false;
-var DialogAllowEyebrows = false;
-var DialogAllowFluids = false;
-
 /**
  * The group that was selected before we entered the expression coloring screen
  * @type {{mode: DialogMenuMode, group: AssetItemGroup}}
@@ -772,29 +768,6 @@ function DialogRemoveGroup(GroupName) {
 		if ((CurrentCharacter.Dialog[D].Group != null) && (CurrentCharacter.Dialog[D].Group.trim().toUpperCase() == GroupNameUpper)) {
 			CurrentCharacter.Dialog.splice(D, 1);
 		}
-}
-
-/**
- * Clears the timers used for expression changes caused by struggling
- * @returns {void} - Nothing
- */
-function DialogEndExpression() {
-	const update = DialogAllowBlush || DialogAllowEyebrows || DialogAllowFluids;
-
-	if (DialogAllowBlush) {
-		TimerInventoryRemoveSet(Player, "Blush", 15);
-		DialogAllowBlush = false;
-	}
-	if (DialogAllowEyebrows) {
-		TimerInventoryRemoveSet(Player, "Eyebrows", 5);
-		DialogAllowEyebrows = false;
-	}
-	if (DialogAllowFluids) {
-		TimerInventoryRemoveSet(Player, "Fluids", 5);
-		DialogAllowFluids = false;
-	}
-	if (update)
-		CharacterRefresh(Player);
 }
 
 /**
@@ -2127,7 +2100,6 @@ function DialogChangeFocusToGroup(C, Group) {
 
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
-	DialogEndExpression();
 
 	// Stop any strugling minigame
 	if(StruggleMinigameIsRunning()) {
@@ -3378,7 +3350,6 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		} else {
 			// Applying a non-extended or crafted-with-preset-type item, just exit the dialog altogether
 			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, NextItem);
-			DialogEndExpression();
 			DialogLeave();
 		}
 	}
