@@ -413,7 +413,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	}
 
 	// If there's no current expressions, we update the expressions state while struggling.
-	if (C.OnlineSharedSettings.ItemsAffectExpressions) {
+	if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions) {
 		var StruggleFacesList = {
 			10: {
 				Blush: "Low",
@@ -450,7 +450,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 				Fluids: "DroolTearsHigh",
 				Eyebrows: "Angry",
 				Mouth: "Angry"
-			}			
+			}
 		};
 		Object.keys(StruggleFacesList).forEach(Time => {
 			var StruggleExpressionsList = StruggleFacesList[Time];
@@ -459,8 +459,8 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 			});
 		}); // Eyes are set by struggle count in StruggleMinigameHandleExpression()
 	}
-	
-	
+
+
 	// Applying or removing specific items can trigger an audio sound to play
 	if (StruggleProgressCurrentMinigame !== "LockPick") {
 		let played = false;
@@ -489,7 +489,7 @@ function StruggleMinigameStop() {
 		item.Property["NextExpression"] = null;
 		item.Property["ExpressionQueue"] = null;
 	}
-		
+
 	// Reset player expressions to default
 	DialogFacialExpressions.forEach(FE => {
 		let Color = null;
@@ -501,7 +501,7 @@ function StruggleMinigameStop() {
 	// Set player expressions to store
 	Object.keys(StruggleExpressionStore).forEach(Expression => {
 		CharacterSetFacialExpression(Player, /** @type {AssetGroupBodyName} */ (Expression), StruggleExpressionStore[Expression]);
-	});	
+	});
 
 	StruggleProgress = -1;
 	StruggleProgressCurrentMinigame = "";
