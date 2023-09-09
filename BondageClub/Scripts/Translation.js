@@ -850,34 +850,42 @@ function TranslationTextArray(S, T) {
 }
 
 /**
- * Translate a character dialog if the file is in the dictionary
+ * Loads a character dialog translation and caches it
  * @param {Character} C - The character for which we want to translate the dialog
  * @returns {void} - Nothing
  */
-function TranslationDialog(C) {
+function TranslationLoadDialog(C, cb) {
+	// Only translate if we play in a foreign language
+	if (!TranslationEnabled()) return;
 
-	// If we play in a foreign language
-	if (TranslationEnabled()) {
+	// Finds the full path of the translation file to use
+	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
 
-		// Finds the full path of the translation file to use
-		const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
-
-		// If the translation file is already loaded, we translate from it
-		if (TranslationCache[FullPath]) {
-			TranslationDialogArray(C, TranslationCache[FullPath]);
-			return;
-		}
-
-		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
-					TranslationDialogArray(C, TranslationCache[FullPath]);
-				}
-			});
+	// If the translation file is already loaded, we translate from it
+	if (TranslationCache[FullPath]) {
+		cb();
+		return;
 	}
 
+	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
+	if (TranslationAvailable(FullPath)) {
+		CommonGet(FullPath, function() {
+			if (this.status == 200) {
+				TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+				cb();
+			}
+		});
+	}
+}
+
+/**
+ * Translate a character dialog if the file is in the dictionary
+ * @param {Character} C
+ */
+function TranslationTranslateDialog(C) {
+	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
+
+	TranslationDialogArray(C, TranslationCache[FullPath]);
 }
 
 /**
