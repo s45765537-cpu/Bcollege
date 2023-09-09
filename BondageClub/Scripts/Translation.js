@@ -856,7 +856,10 @@ function TranslationTextArray(S, T) {
  */
 function TranslationLoadDialog(C, cb) {
 	// Only translate if we play in a foreign language
-	if (!TranslationEnabled()) return;
+	if (!TranslationEnabled()) {
+		cb();
+		return;
+	}
 
 	// Finds the full path of the translation file to use
 	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
@@ -884,6 +887,7 @@ function TranslationLoadDialog(C, cb) {
  */
 function TranslationTranslateDialog(C) {
 	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
+	if (!TranslationCache[FullPath]) return;
 
 	TranslationDialogArray(C, TranslationCache[FullPath]);
 }
