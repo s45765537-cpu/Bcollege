@@ -754,6 +754,27 @@ var AssetFemale3DCGExtended = {
 		TickleBra: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // TickleBra
+		ForbiddenChastityBra: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+					Options: [
+				       { Name: "Low", Property: { ShockLevel: 0 } },
+				       { Name: "Medium", Property: { ShockLevel: 1 } },
+				       { Name: "High", Property: { ShockLevel: 2 } },
+			        ],
+			ScriptHooks: {
+				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
+				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+			},
+			DrawImages: false,
+			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
+			DialogPrefix: {
+				Header: "ItemBreastForbiddenChastityBraSelect",
+				Module: "ItemBreastForbiddenChastityBraSelectModule",
+				Option: "ItemBreastForbiddenChastityBraSelect",
+				Chat: "ItemBreastForbiddenChastityBraSelectSet",
+			},
+		}, // ForbiddenChastityBra
 	}, // ItemBreast
 	ItemArms: {
 		Web: {
@@ -3196,6 +3217,27 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // TechnoHelmet1
+		GGTSHelmet: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "GoodGirl",
+				},
+				{
+					Name: "GoodSlaveGirl",
+				},
+				{
+					Name: "SlaveGirl",
+				},
+				{
+					Name: "PSlaveGirl",
+				},
+				{
+					Name: "PGirl",
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // GGTSHelmet
 		ZipperHood: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -8520,6 +8562,27 @@ var AssetFemale3DCGExtended = {
 			},
 			ChangeWhenLocked: false,
 		}, // MetalChastityBelt
+		ForbiddenChastityBelt: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+					Options: [
+				       { Name: "Low", Property: { ShockLevel: 0 } },
+				       { Name: "Medium", Property: { ShockLevel: 1 } },
+				       { Name: "High", Property: { ShockLevel: 2 } },
+			        ],
+			ScriptHooks: {
+				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
+				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+			},
+			DrawImages: false,
+			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
+			DialogPrefix: {
+				Header: "ItemPelvisForbiddenChastityBeltSelect",
+				Module: "ItemPelvisForbiddenChastityBeltSelectModule",
+				Option: "ItemPelvisForbiddenChastityBeltSelect",
+				Chat: "ItemPelvisForbiddenChastityBeltSelectSet",
+			},
+		}, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "MetalChastityBelt" },

@@ -1013,6 +1013,7 @@ ItemPelvis,LeatherChastityBelt,Leather Chastity Belt
 ItemPelvis,SleekLeatherChastityBelt,Sleek Leather Chastity Belt
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
 ItemPelvis,MetalChastityBelt,Metal Chastity Belt
+ItemPelvis,ForbiddenChastityBelt,Forbidden Chastity Belt
 ItemPelvis,PolishedChastityBelt,Polished Chastity Belt
 ItemPelvis,FuturisticChastityBelt,Futuristic Chastity Belt
 ItemPelvis,FuturisticTrainingBelt,Futuristic Training Belt
@@ -1128,6 +1129,7 @@ ItemBreast,PolishedChastityBra,Polished Chastity Bra
 ItemBreast,FuturisticBra,Futuristic Chastity Bra
 ItemBreast,FuturisticBra2,Futuristic Bra
 ItemBreast,OrnateChastityBra,Ornate Chastity Bra
+ItemBreast,ForbiddenChastityBra,Forbidden Chastity Bra
 ItemBreast,Ribbons,Ribbons
 ItemBreast,LeatherBreastBinder,Leather Breast Binder
 ItemBreast,TickleBra, Tickle Bra
@@ -1607,6 +1609,7 @@ ItemHood,GwenHood,Gwen Hood
 ItemHood,DobermanMask,Doberman Mask
 ItemHood,TechnoHelmet1,Techno Helmet
 ItemHood,FuturisticHelmet,GGTS Helmet
+ItemHood,GGTSHelmet,GGTS Slave Helmet
 ItemHood,LampHeadHood,Lampshade Hood
 ItemHood,AccentHood,Accent Hood
 ItemHood,CollarHood,Collar Hood
