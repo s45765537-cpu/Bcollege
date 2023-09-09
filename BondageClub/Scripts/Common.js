@@ -1200,3 +1200,13 @@ function* CommonEnumerate(iterable, start=0, step=1) {
 		i += step;
 	}
 }
+
+/**
+ * Return a value clamped to a minimum and maximum
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ */
+function CommonClamp(value, min, max) {
+	return Math.max(min, Math.min(max, value));
+}

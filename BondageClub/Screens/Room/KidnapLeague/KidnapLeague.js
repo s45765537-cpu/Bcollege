@@ -255,7 +255,7 @@ function KidnapLeagueBountyFightStart() {
 function KidnapLeagueBountyFightEnd() {
 	CurrentDarkFactor = 1.0;
 	KidnapLeagueRandomActivityCount = 0;
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (KidnapLeagueBounty.KidnapMaxWillpower - KidnapLeagueBounty.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueBounty));
 	KidnapLeagueBounty.AllowItem = KidnapVictory;
 	KidnapLeagueBountyVictory = KidnapVictory;
 	KidnapLeagueBounty.Stage = (KidnapVictory) ? "101" : "201";
@@ -303,7 +303,7 @@ function KidnapLeagueStartKidnap(Difficulty) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueEndKidnap() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (KidnapLeagueTrainer.KidnapMaxWillpower - KidnapLeagueTrainer.KidnapWillpower)));
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueTrainer));
 	KidnapLeagueTrainer.AllowItem = KidnapVictory;
 	KidnapLeagueTrainer.Stage = (KidnapVictory) ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueTrainer);
@@ -376,7 +376,7 @@ function KidnapLeagueRandomIntro() {
 function KidnapLeagueRandomOutro(Surrender) {
 	KidnapLeagueRandomActivityCount = 0;
 	CommonSetScreen("Room", "KidnapLeague");
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (KidnapLeagueRandomKidnapper.KidnapMaxWillpower - KidnapLeagueRandomKidnapper.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueRandomKidnapper));
 	KidnapLeagueBackground = "MainHall";
 	if ((Surrender == null) || (Surrender == false)) ReputationProgress("Kidnap", KidnapVictory ? 4 : 2);
 	KidnapLeagueRandomKidnapper.AllowItem = KidnapVictory;

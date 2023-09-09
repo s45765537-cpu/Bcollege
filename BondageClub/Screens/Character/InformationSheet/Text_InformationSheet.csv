@@ -110,13 +110,12 @@ Skill,- Skills -
 SkillNone,None
 SkillBondage,Bondage:
 SkillSelfBondage,Self-bondage:
-SkillLockPicking,Lock-Picking:
+SkillLockPicking,Lockpicking:
 SkillEvasion,Evasion:
 SkillWillpower,Willpower:
 SkillInfiltration,Infiltration:
 SkillDressage,Dressage:
-SkillModifier,Skills modifier:
-SkillModifierDuration, Time left:
+SkillModifier,ABSVAL for DURATION
 Trait,- Traits -
 TraitUnknown,Spend more time with her to know her traits
 TraitDominant,Dominant:

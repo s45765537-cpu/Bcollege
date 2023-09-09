@@ -456,7 +456,7 @@ function SarahFightSophie() {
 
 // When the fight against Sophie ends
 function SarahFightSophieEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (Sophie.KidnapMaxWillpower - Sophie.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(Sophie));
 	Sophie.Name = "Mistress Sophie";
 	SophieFightDone = true;
 	SophieUpsetCount = -100;

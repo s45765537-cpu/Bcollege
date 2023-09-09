@@ -151,14 +151,14 @@ function StruggleMinigameDraw(C) {
  */
 function StruggleProgressGetOperation(C, PrevItem, NextItem) {
 	if ((PrevItem != null) && (NextItem != null)) return DialogFindPlayer("Swapping");
-	if ((C.ID == 0) && (PrevItem != null) && (SkillGetRatio("Evasion") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio("Evasion") * 100).toString());
+	if ((C.ID == 0) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return DialogFindPlayer("Struggling");
 	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return DialogFindPlayer("Struggling");
 	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return DialogFindPlayer("Unlocking");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Mounted", true)) return DialogFindPlayer("Dismounting");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Enclose", true)) return DialogFindPlayer("Escaping");
 	if (PrevItem != null) return DialogFindPlayer("Removing");
-	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio("Bondage") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio("Bondage") * 100).toString());
+	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Bondage") * 100).toString());
 	if (InventoryItemHasEffect(NextItem, "Lock", true)) return DialogFindPlayer("Locking");
 	if ((PrevItem == null) && (NextItem != null)) return DialogFindPlayer("Adding");
 	return "...";
@@ -585,7 +585,7 @@ function StruggleStrengthProcess(Decrease) {
 function StruggleStrengthGetDifficulty(C, PrevItem, NextItem) {
 	var S = 0;
 	if ((PrevItem != null) && (C.ID == 0)) {
-		S = S + SkillGetWithRatio("Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
+		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
@@ -680,7 +680,7 @@ function StruggleLoosenHandleEvent(EventType) {
 			} else {
 				StruggleProgressStruggleCount--;
 				if (StruggleProgressStruggleCount <= 0) {
-					SkillProgress("Evasion", (StruggleProgressChallenge + 1) * 5);
+					SkillProgress(Player, "Evasion", (StruggleProgressChallenge + 1) * 5);
 					if (StruggleProgressPrevItem.Difficulty == null) StruggleProgressPrevItem.Difficulty = 0;
 					StruggleProgressPrevItem.Difficulty = StruggleProgressPrevItem.Difficulty - 2;
 					CharacterRefresh(Player);
@@ -727,7 +727,7 @@ function StruggleFlexibilitySetup(C, PrevItem, NextItem) {
 	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
 	var S = 0;
 	if ((PrevItem != null) && (C.ID == 0)) {
-		S = S + SkillGetWithRatio("Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
+		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
@@ -931,7 +931,7 @@ function StruggleDexteritySetup(C, PrevItem, NextItem) {
 	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
 	var S = 0;
 	if ((PrevItem != null) && (C.ID == 0)) {
-		S = S + SkillGetWithRatio("Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
+		S = S + SkillGetWithRatio(Player, "Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (PrevItem.Difficulty != null) S = S - PrevItem.Difficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 		if ((PrevItem.Property != null) && (PrevItem.Property.Difficulty != null)) S = S - PrevItem.Property.Difficulty; // Subtract the additional item difficulty for expanded items only
 	}
@@ -1105,7 +1105,7 @@ function StruggleLockPickProcess() {
 	var PinSpacing = 100;
 	var PinWidth = 200;
 	var PinHeight = 200;
-	var skill = Math.min(10, SkillGetWithRatio("LockPicking"));
+	var skill = Math.min(10, SkillGetWithRatio(Player, "LockPicking"));
 	var current_pins = StruggleLockPickSet.filter(x => x==true).length;
 	var false_set_chance = 0.75 - 0.15 * skill/10;
 	var unset_false_set_chance = 0.1 + 0.2 * skill/10;
@@ -1150,7 +1150,7 @@ function StruggleLockPickProcess() {
 						StruggleLockPickOffsetTarget[P] = (StruggleLockPickSet[P] || StruggleLockPickSetFalse[P]) ? PinHeight : PinHeight*(0.1+0.8*order);
 
 						if (StruggleLockPickProgressCurrentTries == StruggleLockPickProgressMaxTries && StruggleLockPickSet.filter(x => x==false).length > 0 ) {
-							SkillProgress("LockPicking", StruggleLockPickProgressSkillLose);
+							SkillProgress(Player, "LockPicking", StruggleLockPickProgressSkillLose);
 
 						}
 					}
@@ -1363,7 +1363,7 @@ function StruggleLockPickSetup(C, Item) {
 
 		// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to pick)
 		var S = 0;
-		S = S + SkillGetWithRatio("LockPicking"); // Add the player evasion level (modified by the effectiveness ratio)
+		S = S + SkillGetWithRatio(Player, "LockPicking"); // Add the player evasion level (modified by the effectiveness ratio)
 		if (lock.Asset.PickDifficulty && lock.Asset.PickDifficulty > 0) {
 			S = S - lock.Asset.PickDifficulty; // Subtract the item difficulty (regular difficulty + player that restrained difficulty)
 			LockRating = lock.Asset.PickDifficulty; // Some features of the minigame are independent of the relative skill level

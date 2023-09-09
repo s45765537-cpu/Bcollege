@@ -161,7 +161,7 @@ function HorseWalkRun() {
 		if (MiniGameDifficultyMode == "Carrot") {
 			if (HorseWalkCollectedCarrots > HorseWalkCollectedCrops) {
 				let HorseWalkSkillProgress = (HorseWalkCollectedCarrots - HorseWalkCollectedCrops) * 5;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(true);
 			} else {
 				HorseWalkEnd(false);
@@ -169,29 +169,29 @@ function HorseWalkRun() {
 		} else if (MiniGameDifficultyMode == "Hurdle" || MiniGameDifficultyMode == "HurdleTraining") {
 			if (HorseWalkHurdleWin > 0 && HorseWalkHurdleFail < 1) {
 				let HorseWalkSkillProgress = HorseWalkHurdleWin * 6;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(true);
 			} else if (HorseWalkHurdleWin > HorseWalkHurdleFail) {
 				let HorseWalkSkillProgress = HorseWalkHurdleWin * 4;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(true);
 			} else {
 				let HorseWalkSkillProgress = HorseWalkHurdleWin * 2;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(false);
 			}
 		} else if (MiniGameDifficultyMode == "WhipPony") {
 			if (HorseWalkHitPony > 0 && HorseWalkHitTrainer < 1) {
 				let HorseWalkSkillProgress = HorseWalkHitPony * 4;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(true);
 			} else if (HorseWalkHitPony > HorseWalkHitTrainer) {
 				let HorseWalkSkillProgress = HorseWalkHitPony * 3;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(true);
 			} else {
 				let HorseWalkSkillProgress = HorseWalkHitPony * 2;
-				SkillProgress("Dressage",  HorseWalkSkillProgress);
+				SkillProgress(Player, "Dressage",  HorseWalkSkillProgress);
 				HorseWalkEnd(false);
 			}
 		}

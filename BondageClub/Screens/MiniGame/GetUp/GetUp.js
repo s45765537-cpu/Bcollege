@@ -77,7 +77,7 @@ function GetUpRun() {
 		} else {
 			GetUpEnd(true);
 		}
-		SkillProgress("Evasion",  GetUpChallenge/2 + 1);
+		SkillProgress(Player, "Evasion",  GetUpChallenge/2 + 1);
 	} else if (Time < MiniGameTimer) {
 		GetUpPhysics(TimerRunInterval);
 	}

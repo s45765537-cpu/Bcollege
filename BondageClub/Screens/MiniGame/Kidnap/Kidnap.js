@@ -600,6 +600,15 @@ function KidnapClick() {
 }
 
 /**
+ * Returns the experience gained from having successfully fought an opponent
+ * @param {Character} opponent
+ * @returns
+ */
+function KidnapSuccessWillpowerProgress(opponent) {
+	return ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (opponent.KidnapMaxWillpower - opponent.KidnapWillpower)) * 2;
+}
+
+/**
  * Handles the key press in the kidnap mini game, the C cheat key can help you recover some lost willpower
  * @returns {void} - Nothing
  */

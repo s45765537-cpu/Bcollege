@@ -255,7 +255,7 @@ function AsylumEntranceFightNurse() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceFightNurseEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceNurse.KidnapMaxWillpower - AsylumEntranceNurse.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceNurse));
 	AsylumEntranceNurse.Stage = (KidnapVictory) ? "120" : "130";
 	DialogChangeReputation("Asylum", -6);
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceNurse);
@@ -371,7 +371,7 @@ function AsylumEntranceKidnapNurseFight() {
  */
 function AsylumEntranceKidnapNurseFightOutro(Surrender) {
 	CommonSetScreen("Room", "AsylumEntrance");
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceKidnapNurse.KidnapMaxWillpower - AsylumEntranceKidnapNurse.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceKidnapNurse));
 	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
 	AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
@@ -477,7 +477,7 @@ function AsylumEntranceEscapedPatientFight() {
 function AsylumEntranceEscapedPatientFightOutro(Surrender) {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (AsylumEntranceEscapedPatient.KidnapMaxWillpower - AsylumEntranceEscapedPatient.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceEscapedPatient));
 	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
 	AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);

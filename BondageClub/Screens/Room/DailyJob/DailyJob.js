@@ -126,7 +126,7 @@ function DailyJobKidnapStart() {
  * @returns {void} - Nothing
  */
 function DailyJobKidnapEnd() {
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (DailyJobOpponent.KidnapMaxWillpower - DailyJobOpponent.KidnapWillpower)) * 2);
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(DailyJobOpponent));
 	DailyJobOpponent.Stage = (KidnapVictory) ? "100" : "200";
 	if (KidnapVictory) CharacterRelease(Player);
 	else CharacterRelease(DailyJobOpponent);

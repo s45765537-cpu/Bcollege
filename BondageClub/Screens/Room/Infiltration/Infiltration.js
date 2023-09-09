@@ -216,11 +216,11 @@ function InfiltrationReturnMission() {
  * @returns {void} - Nothing
  */
 function InfiltrationCompleteMission() {
-	if (InfiltrationDifficulty == 0) SkillProgress("Infiltration", 100);
-	if (InfiltrationDifficulty == 1) SkillProgress("Infiltration", 200);
-	if (InfiltrationDifficulty == 2) SkillProgress("Infiltration", 350);
-	if (InfiltrationDifficulty == 3) SkillProgress("Infiltration", 600);
-	if (InfiltrationDifficulty == 4) SkillProgress("Infiltration", 1000);
+	if (InfiltrationDifficulty == 0) SkillProgress(Player, "Infiltration", 100);
+	if (InfiltrationDifficulty == 1) SkillProgress(Player, "Infiltration", 200);
+	if (InfiltrationDifficulty == 2) SkillProgress(Player, "Infiltration", 350);
+	if (InfiltrationDifficulty == 3) SkillProgress(Player, "Infiltration", 600);
+	if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 1000);
 	let Money = (InfiltrationMission != "CatBurglar") ? 12 + (InfiltrationDifficulty * 6) : 0;
 	if ((InfiltrationMission == "ReverseMaid") && (PandoraReverseMaidDone >= PandoraReverseMaidTotal)) Money = Math.round(Money * 1.5);
 	Money = Money + Math.round(PandoraMoney / 2);
@@ -279,11 +279,11 @@ function InfiltrationPayRansom(Type) {
 		if (InfiltrationPartyPrisoner.Archetype != "Mistress") Money = Math.round(Money / 2); //Pay half as much for non-mistress
 		CharacterChangeMoney(Player, Money);
 	} else if (Type == "Skill") {
-		if (InfiltrationDifficulty == 0) SkillProgress("Infiltration", 100);
-		if (InfiltrationDifficulty == 1) SkillProgress("Infiltration", 150);
-		if (InfiltrationDifficulty == 2) SkillProgress("Infiltration", 225);
-		if (InfiltrationDifficulty == 3) SkillProgress("Infiltration", 300);
-		if (InfiltrationDifficulty == 4) SkillProgress("Infiltration", 400);
+		if (InfiltrationDifficulty == 0) SkillProgress(Player, "Infiltration", 100);
+		if (InfiltrationDifficulty == 1) SkillProgress(Player, "Infiltration", 150);
+		if (InfiltrationDifficulty == 2) SkillProgress(Player, "Infiltration", 225);
+		if (InfiltrationDifficulty == 3) SkillProgress(Player, "Infiltration", 300);
+		if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 400);
 	} else if (Type == "Private") {
 		//Add prisoner to private room
 		CurrentScreen = "Private";
@@ -336,7 +336,7 @@ function InfiltrationStartKidnapping() {
  */
 function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Money") CharacterChangeMoney(Player, 18);
-	if (Reward === "Skill") SkillProgress("Infiltration", 400);
+	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
 		CurrentScreen = "Private";
 		PrivateAddCharacter(CurrentCharacter);
@@ -381,7 +381,7 @@ function InfiltrationKidnapperStartFight() {
  */
 function InfiltrationKidnapperEndFight() {
 	CharacterSetCurrent(InfiltrationKidnapper);
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CurrentCharacter.KidnapMaxWillpower - CurrentCharacter.KidnapWillpower)));
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
 	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;

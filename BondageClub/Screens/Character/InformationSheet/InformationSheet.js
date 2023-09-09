@@ -222,25 +222,38 @@ function InformationSheetSecondScreenRun() {
 		DrawText(TextGet("Skill"), 1425, 125, "Black", "Gray");
 		if (C.AccountName.indexOf("Online-") >= 0) {
 			DrawText(TextGet("Unknown"), 1425, 200, "Black", "Gray");
-		}
-		else {
-			for (let S = 0; S < C.Skill.length; S++)
-				DrawText(TextGet("Skill" + C.Skill[S].Type) + " " + C.Skill[S].Level.toString() + " (" + Math.floor(C.Skill[S].Progress / 10) + "%)", 1425, 200 + S * lineHeight, ((C.Skill[S].Ratio != null) && (C.Skill[S].Ratio != 1)) ? "Red" : "Black", "Gray");
-			if (C.Skill.length == 0) DrawText(TextGet("SkillNone"), 1425, 200, "Black", "Gray");
-		}
+		} else {
+			let skillLine = 0;
+			for (const type of SkillValidSkills) {
+				const name = TextGet(`Skill${type}`);
+				const level = SkillGetLevel(C, type);
+				const progress = SkillGetProgress(C, type);
+				if (level === 0 && progress === 0) continue;
+				const ratio = SkillGetRatio(C, type);
+				const modifier = SkillGetModifier(C, type);
+				const duration = SkillGetModifierDuration(C, type);
 
-		// Draw the player skill modifier if there's one
-		// FIXME: this relies on the side-effects of that function to grab onto the modifier
-		SkillGetLevel(C, "Evasion");
-		if ((C.ID == 0) && (SkillModifier != 0)) {
-			pos = 0;
-			var PlusSign = (SkillModifier > 0) ? "+" : "";
-			DrawText(TextGet("SkillModifier"), 1425, 650 + (pos++ * lineHeight), "Black", "Gray");
-			DrawText(TextGet("SkillBondage") + " " + PlusSign + SkillModifier, 1425, 650 + (pos++ * lineHeight), "Black", "Gray");
-			DrawText(TextGet("SkillEvasion") + " " + PlusSign + SkillModifier, 1425, 650 + (pos++ * lineHeight), "Black", "Gray");
-			DrawText(TextGet("SkillModifierDuration") + " " + (TimermsToTime(LogValue("ModifierDuration", "SkillModifier") - CurrentTime)), 1425, 650 + (pos++ * lineHeight), "Black", "Gray");
+				const skillText = `${name} ${level} (${progress}%)`;
+				const color = ratio !== 1 ? "Red" : "Black";
+				DrawText(skillText, 1425, 200 + skillLine * lineHeight, color, "Gray");
+				skillLine++;
+				if (modifier && modifier !== 0) {
+					/** @type {CommonSubtituteSubstitution[]} */
+					const subst = [
+						["ABS", (modifier > 0 ? "+" : "-")],
+						["VAL", modifier.toString()],
+						["DURATION", TimermsToTime(duration)],
+					];
+					const modifierColor = modifier > 0 ? "Green" : "Red";
+					const modifierText = CommonStringSubstitute(TextGet("SkillModifier"), subst);
+					DrawText(modifierText, 1440, 200 + skillLine * lineHeight, modifierColor, "Gray");
+					skillLine++;
+				}
+			}
+			if (C.Skill.length == 0) {
+				DrawText(TextGet("SkillNone"), 1425, 200, "Black", "Gray");
+			}
 		}
-
 	}
 	MainCanvas.textAlign = "center";
 

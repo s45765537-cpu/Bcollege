@@ -104,10 +104,10 @@ function TightenLoosenItemClick() {
 	if (Action != "") {
 		CharacterRefresh(C, true);
 		if (CurrentScreen == "ChatRoom") {
-			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && C.IsPlayer()) SkillProgress("Evasion", 25);
-			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && !C.IsPlayer()) SkillProgress("Bondage", 25);
-			if (((Action == "TightenLot") || (Action == "TightenLittle")) && C.IsPlayer()) SkillProgress("SelfBondage", 25);
-			if (((Action == "TightenLot") || (Action == "TightenLittle")) && !C.IsPlayer()) SkillProgress("Bondage", 25);
+			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && C.IsPlayer()) SkillProgress(Player, "Evasion", 25);
+			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && !C.IsPlayer()) SkillProgress(Player, "Bondage", 25);
+			if (((Action == "TightenLot") || (Action == "TightenLittle")) && C.IsPlayer()) SkillProgress(Player, "SelfBondage", 25);
+			if (((Action == "TightenLot") || (Action == "TightenLittle")) && !C.IsPlayer()) SkillProgress(Player, "Bondage", 25);
 			ChatRoomCharacterUpdate(C);
 			ChatRoomPublishAction(C, "Action" + Action, Item, null);
 			DialogLeave();

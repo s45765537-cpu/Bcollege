@@ -235,7 +235,7 @@ function PandoraPrisonStartFight() {
  */
 function PandoraPrisonFightEnd() {
 	CharacterSetCurrent(PandoraPrisonGuard);
-	SkillProgress("Willpower", ((Player.KidnapMaxWillpower - Player.KidnapWillpower) + (CurrentCharacter.KidnapMaxWillpower - CurrentCharacter.KidnapWillpower)));
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
 	PandoraWillpower = Player.KidnapWillpower;
 	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
