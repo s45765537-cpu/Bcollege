@@ -413,7 +413,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	}
 
 	// If there's no current expressions, we update the expressions state while struggling.
-	if (C.OnlineSharedSettings.ItemsAffectExpressions) {
+	if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions) {
 		var StruggleFacesList = {
 			10: {
 				Blush: "Low",
