@@ -406,13 +406,13 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	// Prepares the progress bar and timer
 	StruggleProgressCurrentMinigame = MiniGame;
 	StruggleProgress = 0;
-	StruggleProgressPrevItem = PrevItem;
-	StruggleProgressNextItem = NextItem;
-	StruggleProgressOperation = StruggleProgressGetOperation(C, PrevItem, NextItem);
+	StruggleProgressPrevItem = PrevItem ? Object.assign({}, PrevItem) : null;
+	StruggleProgressNextItem = NextItem ? Object.assign({}, NextItem) : null;
+	StruggleProgressOperation = StruggleProgressGetOperation(C, StruggleProgressPrevItem, StruggleProgressNextItem);
 	StruggleProgressStruggleCount = 0;
 	StruggleExitFunction = Completion;
 
-	StruggleMinigames[MiniGame].Setup(C, PrevItem, NextItem);
+	StruggleMinigames[MiniGame].Setup(C, StruggleProgressPrevItem, StruggleProgressNextItem);
 
 	// The progress bar will not go down if the player can use her hands for a new item, or if she has the key for the locked item
 	if ((StruggleProgressAuto < 0) && Player.CanInteract() && (PrevItem == null)) StruggleProgressAuto = 0;
