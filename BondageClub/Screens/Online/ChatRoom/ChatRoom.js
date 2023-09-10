@@ -4036,9 +4036,8 @@ function ChatRoomAllowItem(data) {
  * @param {Character} C
  */
 function ChatRoomAppearanceLoadCharacter(C) {
-	ChatRoomHideElements();
-	ChatRoomStatusUpdate("Wardrobe");
-	if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
+	if (ServerPlayerIsInChatRoom()) {
+		ChatRoomHideElements();
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
