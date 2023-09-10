@@ -9333,6 +9333,20 @@ var AssetFemale3DCGExtended = {
 				Option: "BraceletSpikeBands",
 			}
 		}, // SpikeBands
+		Wristband: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Both",
+				},
+				{
+					Name: "Right",
+				},
+			],
+		}, // Wristband
 	}, //Bracelet
 	Garters: {
 		GarterBelt: {
