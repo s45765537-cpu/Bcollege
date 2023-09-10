@@ -1,7 +1,7 @@
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData>} */
-function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunction) {
+function InventoryItemPelvisForbiddenChastityBeltDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 
 	MainCanvas.textAlign = "right";
@@ -17,7 +17,7 @@ function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunct
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<ExtendedItemData>} */
-function InventoryItemNeckAccessoriesCollarShockUnitClickHook(Data, OriginalFunction) {
+function InventoryItemPelvisForbiddenChastityBeltClickHook(Data, OriginalFunction) {
 	OriginalFunction();
 
 	if (!DialogFocusItem) {
@@ -25,14 +25,14 @@ function InventoryItemNeckAccessoriesCollarShockUnitClickHook(Data, OriginalFunc
 	} else if (MouseIn(1175, 618, 64, 64) && !ExtendedItemPermissionMode) {
 		DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
 	} else if (MouseIn(1635, 550, 225, 55)) {
-		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
+		ExtendedItemCustomClick("ResetShockCount", InventoryItemPelvisForbiddenChastityBeltResetCount);
 	} else if (MouseIn(1635, 625, 225, 55)) {
 		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
 	}
 }
 
 // Resets the trigger count
-function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
+function InventoryItemPelvisForbiddenChastityBeltResetCount() {
 	// Gets the current item and character
 	DialogFocusItem.Property.TriggerCount = 0;
 	const C = CharacterGetCurrent();
@@ -47,12 +47,8 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 	}
 }
 
-/**
- * @typedef {{ ChangeTime?: number, DisplayCount?: number, LastTriggerCount?: number }} ShockUnitPersistentData
- */
-
 /** @type {ExtendedItemCallbacks.BeforeDraw<ShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarShockUnitBeforeDraw(data) {
+function AssetsItemPelvisForbiddenChastityBeltBeforeDraw(data) {
 	if (data.L === "_Light") {
 		const persistentData = data.PersistentData();
 		const property = data.Property || {};
@@ -69,7 +65,7 @@ function AssetsItemNeckAccessoriesCollarShockUnitBeforeDraw(data) {
 }
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<ShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarShockUnitScriptDraw(data) {
+function AssetsItemPelvisForbiddenChastityBeltScriptDraw(data) {
 	const persistentData = data.PersistentData();
 	/** @type {ItemProperties} */
 	const property = (data.Item.Property = data.Item.Property || {});

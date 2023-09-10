@@ -763,8 +763,8 @@ var AssetFemale3DCGExtended = {
 				{ Name: "High", Property: { ShockLevel: 2 } },
 			],
 			ScriptHooks: {
-				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
-				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+				Draw: InventoryItemBreastForbiddenChastityBraDrawHook,
+				Click: InventoryItemBreastForbiddenChastityBraClickHook,
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
@@ -8565,8 +8565,8 @@ var AssetFemale3DCGExtended = {
 				{ Name: "High", Property: { ShockLevel: 2 } },
 			],
 			ScriptHooks: {
-				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
-				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+				Draw: InventoryItemPelvisForbiddenChastityBeltDrawHook,
+				Click: InventoryItemPelvisForbiddenChastityBeltClickHook,
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
