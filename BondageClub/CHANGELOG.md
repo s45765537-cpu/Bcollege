@@ -11,9 +11,40 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-08-16
-* Last recorded PR: [#4431](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4431)
-* Last recorded commit hash: `cac9a14907ee0bdc329e7a02b7e7fcef8c1718f1`
+* Changelog last updated: 2023-09-10
+* Last recorded PR: [#4452](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4452)
+* Last recorded commit hash: `5f64add9a85d2bb38db046be0ef4da6f255bcb31`
+
+## [R96]
+
+### [Added]
+* KyraObscura - Added new Butterfly Pendant items as both a collar accessory and a necklace ([#4433](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4433))
+* ewhac - Added support for reordering crafts from the crafting screen ([#4432](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4432))
+* KyraObscura - Added eye shadow support with multiple styles ([#4438](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4438))
+* Cleon - Added a *lot* of new assets, a Business Skirt and Large Belt ([#4439](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4439)), Social Heels, Duty Shoes, Street Boots and Western Boots([#4440](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4440)), and Wristbands Bracelets ([#4443](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4443))
+* Constantan - Added a Forbidden Chastity Belt and Bra as well as a new GGTS Helmet by Jimmy_g ([#4448](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4448))
+* Ben987 - The cards from the Club Card contest have been added, as well as three new ones
+* Ben987 - The Club Card deck builder now supports filtering
+* Ben987 - Bondage Brawl has seen lots of changes; there's now an inventory system, some new scenes and more voices have been added.
+
+### [Removed]
+
+### [Changed]
+* Estsanatlehi - Multiple locks expiring at once are now only causing a single message ([#4435](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4435))
+* EllieThePink - Fixed a couple typos ([#4441](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4441))
+* EllieThePink - Fixed some spelling / grammar issues in the cafeteria and chess college rooms ([#4444](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4444))
+* MAKeevchanin - Updated the Russian translation
+
+### [Fixed]
+* Rama - Fixed the wheel of fortune crashing when failing to equip an item ([#4436](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4436))
+* Estsanatlehi - Fixed a crash when struggling gets interrupted ([#4447](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4447))
+* kotax - Fixed struggle expressions not working correctly ([#4450](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4450)), with a follow up from Estsanatlehi ([#4452](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4452))
+* Ben987 - Some Club Cards weren't giving the correct reward; those have been fixed
+
+### [Technical]
+* Estsanatlehi - Allowed NPC dialogs to track and use pronouns correctly; this is only the technical part, none of the dialogs have been updated yet ([#4437](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4437), [#4449](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4449), [#4451](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4451))
+* Estsanatlehi - Corrected most of the CI issues ([#4445](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4445))
+* Estsanatlehi - Reworked the handling of skills ([#4446](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4446))
 
 ## [R95]
 
