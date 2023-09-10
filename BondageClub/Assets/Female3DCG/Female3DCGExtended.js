@@ -756,7 +756,7 @@ var AssetFemale3DCGExtended = {
 		}, // TickleBra
 		ForbiddenChastityBra: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{ Name: "Low", Property: { ShockLevel: 0 } },
 				{ Name: "Medium", Property: { ShockLevel: 1 } },
@@ -768,11 +768,6 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
-			DialogPrefix: {
-				Header: "ItemBreastForbiddenChastityBraSelect",
-				Option: "ItemBreastForbiddenChastityBraSelect",
-				Chat: "ItemBreastForbiddenChastityBraSelectSet",
-			},
 		}, // ForbiddenChastityBra
 	}, // ItemBreast
 	ItemArms: {
@@ -8563,7 +8558,7 @@ var AssetFemale3DCGExtended = {
 		}, // MetalChastityBelt
 		ForbiddenChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{ Name: "Low", Property: { ShockLevel: 0 } },
 				{ Name: "Medium", Property: { ShockLevel: 1 } },
@@ -8575,11 +8570,6 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
-			DialogPrefix: {
-				Header: "ItemPelvisForbiddenChastityBeltSelect",
-				Option: "ItemPelvisForbiddenChastityBeltSelect",
-				Chat: "ItemPelvisForbiddenChastityBeltSelectSet",
-			},
 		}, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
