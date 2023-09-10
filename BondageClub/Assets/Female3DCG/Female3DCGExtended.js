@@ -756,24 +756,18 @@ var AssetFemale3DCGExtended = {
 		}, // TickleBra
 		ForbiddenChastityBra: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-					Options: [
-				       { Name: "Low", Property: { ShockLevel: 0 } },
-				       { Name: "Medium", Property: { ShockLevel: 1 } },
-				       { Name: "High", Property: { ShockLevel: 2 } },
-			        ],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			Options: [
+				{ Name: "Low", Property: { ShockLevel: 0 } },
+				{ Name: "Medium", Property: { ShockLevel: 1 } },
+				{ Name: "High", Property: { ShockLevel: 2 } },
+			],
 			ScriptHooks: {
-				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
-				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+				Draw: InventoryItemBreastForbiddenChastityBraDrawHook,
+				Click: InventoryItemBreastForbiddenChastityBraClickHook,
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
-			DialogPrefix: {
-				Header: "ItemBreastForbiddenChastityBraSelect",
-				Module: "ItemBreastForbiddenChastityBraSelectModule",
-				Option: "ItemBreastForbiddenChastityBraSelect",
-				Chat: "ItemBreastForbiddenChastityBraSelectSet",
-			},
 		}, // ForbiddenChastityBra
 	}, // ItemBreast
 	ItemArms: {
@@ -1209,7 +1203,7 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyPetSuit
 		ShinyStraitjacket: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Crosstie",
@@ -1240,7 +1234,7 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyStraitjacket
 		ShinyArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Armbinder",
@@ -7879,7 +7873,7 @@ var AssetFemale3DCGExtended = {
 		}, // FuturisticLegCuffs
 		ShinyLegBinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Laced",
@@ -8564,24 +8558,18 @@ var AssetFemale3DCGExtended = {
 		}, // MetalChastityBelt
 		ForbiddenChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-					Options: [
-				       { Name: "Low", Property: { ShockLevel: 0 } },
-				       { Name: "Medium", Property: { ShockLevel: 1 } },
-				       { Name: "High", Property: { ShockLevel: 2 } },
-			        ],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			Options: [
+				{ Name: "Low", Property: { ShockLevel: 0 } },
+				{ Name: "Medium", Property: { ShockLevel: 1 } },
+				{ Name: "High", Property: { ShockLevel: 2 } },
+			],
 			ScriptHooks: {
-				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
-				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+				Draw: InventoryItemPelvisForbiddenChastityBeltDrawHook,
+				Click: InventoryItemPelvisForbiddenChastityBeltClickHook,
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
-			DialogPrefix: {
-				Header: "ItemPelvisForbiddenChastityBeltSelect",
-				Module: "ItemPelvisForbiddenChastityBeltSelectModule",
-				Option: "ItemPelvisForbiddenChastityBeltSelect",
-				Chat: "ItemPelvisForbiddenChastityBeltSelectSet",
-			},
 		}, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9345,6 +9333,20 @@ var AssetFemale3DCGExtended = {
 				Option: "BraceletSpikeBands",
 			}
 		}, // SpikeBands
+		Wristband: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Both",
+				},
+				{
+					Name: "Right",
+				},
+			],
+		}, // Wristband
 	}, //Bracelet
 	Garters: {
 		GarterBelt: {
