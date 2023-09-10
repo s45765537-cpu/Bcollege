@@ -757,11 +757,11 @@ var AssetFemale3DCGExtended = {
 		ForbiddenChastityBra: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-					Options: [
-				       { Name: "Low", Property: { ShockLevel: 0 } },
-				       { Name: "Medium", Property: { ShockLevel: 1 } },
-				       { Name: "High", Property: { ShockLevel: 2 } },
-			        ],
+			Options: [
+				{ Name: "Low", Property: { ShockLevel: 0 } },
+				{ Name: "Medium", Property: { ShockLevel: 1 } },
+				{ Name: "High", Property: { ShockLevel: 2 } },
+			],
 			ScriptHooks: {
 				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
 				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
@@ -770,7 +770,6 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
 			DialogPrefix: {
 				Header: "ItemBreastForbiddenChastityBraSelect",
-				Module: "ItemBreastForbiddenChastityBraSelectModule",
 				Option: "ItemBreastForbiddenChastityBraSelect",
 				Chat: "ItemBreastForbiddenChastityBraSelectSet",
 			},
@@ -8565,11 +8564,11 @@ var AssetFemale3DCGExtended = {
 		ForbiddenChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-					Options: [
-				       { Name: "Low", Property: { ShockLevel: 0 } },
-				       { Name: "Medium", Property: { ShockLevel: 1 } },
-				       { Name: "High", Property: { ShockLevel: 2 } },
-			        ],
+			Options: [
+				{ Name: "Low", Property: { ShockLevel: 0 } },
+				{ Name: "Medium", Property: { ShockLevel: 1 } },
+				{ Name: "High", Property: { ShockLevel: 2 } },
+			],
 			ScriptHooks: {
 				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
 				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
@@ -8578,7 +8577,6 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
 			DialogPrefix: {
 				Header: "ItemPelvisForbiddenChastityBeltSelect",
-				Module: "ItemPelvisForbiddenChastityBeltSelectModule",
 				Option: "ItemPelvisForbiddenChastityBeltSelect",
 				Chat: "ItemPelvisForbiddenChastityBeltSelectSet",
 			},
