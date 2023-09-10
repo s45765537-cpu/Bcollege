@@ -15,7 +15,7 @@ Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
 （不敢看你的眼睛。）你好，女主人，要不要来我前面？
 (She laughs.)  My slut is back!  Stay behind me, you will carry my lunch.
 （她笑起来。）我的骚货回来了！来我身后吧，你会带我吃午饭。
-(She frowns.)  Hey ex-slut.  Don't you dare cutting in front of me.
+(She frowns.)  Hey ex-slut.  Don't you dare cut in front of me.
 （她皱起眉头。）嘿，我的前任骚货。你竟敢在我面前插队。
 (She doesn't seem to recognize you.)  Hey!  Don't you dare cut in front of me.
 （她看起来没认出来你。）嘿！你竟敢在我面前插队。
@@ -293,7 +293,7 @@ You're such a loser.
 We should ally instead of fighting each other.
 我们应该结盟而不是互相打架。
 ###_NPC
-(She nods as a teacher sermon you two on fighting and make sure you won't do it again.)
+(She nods as a teacher lectures both of you on fighting and makes sure you won't do it again.)
 （她点点头，一位老师对这场打架给你们俩来了一场冗长的说教，让你们保证不会再犯。）
 ###_PLAYER
 Don't cross my path again.

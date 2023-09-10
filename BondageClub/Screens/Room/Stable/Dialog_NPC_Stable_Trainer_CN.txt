@@ -1,6 +1,10 @@
 ###_NPC
 Good. Horses don't speak.
 好的。马是不会说话的。
+Well done, you have talent.  Another game or I get you into a tack?
+干得不错，你很有天赋。再来一局，或者我把你弄进赛道上？
+(She cheers.)  I hope you're better with ponies than with cards.  Another game or I get you into a tack?
+（她庆祝起来。）我希望你对小马比这些卡牌更厉害。再来一局，或者我把你弄进赛道上？
 (She first shakes her head to avoid the gag, but finally surrenders and lets you silence her.)
 （她先是摇头避开口塞，但最后还是投降了，任你让她无法说话。）
 (You remove her gag while she stretches her mouth.)  Thanks Miss, it's hard to dispatch ponies with that gag.
@@ -306,6 +310,12 @@ I need to ask about a particular exercise.
 Sure, which one?
 当然，是哪一个？
 ###_PLAYER
+Do you take breaks to play cards?
+你会在休息时间玩卡牌吗？
+###_NPC
+(She nods.)  Yes, I can play a few Club Card games with you.
+（她点点头。）是的，可以和你玩几局俱乐部卡牌。
+###_PLAYER
 (Listen.)
 （听。）
 ###_NPC
@@ -391,6 +401,26 @@ No further special questions.
 ###_NPC
 What else do you want to know?
 你还想知道什么？
+###_PLAYER
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+No, I have ponies to train.
+不，我还要训练小马。
+###_PLAYER
+Will you restrain me if I loose?
+如果我输了，你会把我绑起来吗？
+###_NPC
+(She shakes head from left to right.)  I only restrain ponies.
+（她左右来回摇头。）我只会绑小马。
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's talk about something else.
+聊聊其他的事情吧。
+###_NPC
+(She nods.)  These ponies are not going to train themselves.
+（她点点头。）这些小马自己可没有办法训练。
 ###_PLAYER
 (Wait for instructions.)
 （等待指示。）

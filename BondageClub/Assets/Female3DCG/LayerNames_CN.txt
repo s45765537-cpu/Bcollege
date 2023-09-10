@@ -47,7 +47,7 @@ Lace
 Belt
 皮带
 Collar
-领子
+项圈
 Suit
 套装
 Gloves
@@ -114,6 +114,8 @@ Strap
 束带
 Choker
 颈环
+Metal
+金属
 Zip
 拉链
 Catsuit
@@ -310,8 +312,6 @@ Mouth
 嘴巴
 Harness
 束带
-Metal
-金属
 Tail
 尾巴
 Ribbon
@@ -422,6 +422,8 @@ Weights
 配重
 Piercing
 穿刺
+Detail
+细节
 Lower Half
 下半部
 Upper Half
@@ -668,6 +670,12 @@ Side Pieces
 两侧组件
 Hypno Spiral Icon
 催眠旋涡标志
+Frames
+框架
+Bolts
+螺丝
+Lables
+标签
 Interior
 内侧
 Switch
@@ -1064,3 +1072,9 @@ Shield
 束带
  Outline
 边缘
+ Eyeshadow
+眼影
+ Eyeliner
+眼线
+Rear
+后部

@@ -156,6 +156,8 @@ College Student
 大学学生
 College Teacher
 大学老师
+Online Player
+在线玩家
 Kinky Neighbor
 变态邻居
 +2 Money per turn if Cute Girl Next Door is present.
@@ -524,6 +526,18 @@ Mildred
 Mildred
 <F>In my class, silence is gold and will be enforced.
 <F>在我的课上，沉默是金，并且强制执行。
+Sam the Busty Cow
+大奶牛Sam
+<F>Got Milk?
+<F>有牛奶吗?
+Suki
+Suki
++1 Fame per turn if at least one maid is present.
+如果至少一个女仆在场，每回合+1声望。
+Angela
+Angela
+<F>Hmms nya~ Could I interest you in a lewd potion mew?~
+<F>呼喵~我可以让你对色色药水感兴趣吗喵~
 Scratch and Win
 刮刮彩
 +7 Money.
