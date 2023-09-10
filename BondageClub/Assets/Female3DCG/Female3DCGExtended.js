@@ -1203,7 +1203,7 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyPetSuit
 		ShinyStraitjacket: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Crosstie",
@@ -1234,7 +1234,7 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyStraitjacket
 		ShinyArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Armbinder",
@@ -7873,7 +7873,7 @@ var AssetFemale3DCGExtended = {
 		}, // FuturisticLegCuffs
 		ShinyLegBinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
 			Options: [
 				{
 					Name: "Laced",
