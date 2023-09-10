@@ -485,9 +485,9 @@ function StruggleMinigameStop() {
 	// Clear ExpressionQueue and ExpressionTimer
 	const expressionQueues = Player.Appearance.filter(item => item.Property && (item.Property.ExpressionQueue || item.Property.ExpressionTimer || item.Property.NextExpression) );
 	for (let item of expressionQueues) {
-		item.Property["ExpressionTimer"] = null;
-		item.Property["NextExpression"] = null;
-		item.Property["ExpressionQueue"] = null;
+		item.Property.ExpressionTimer = null;
+		item.Property.NextExpression = null;
+		item.Property.ExpressionQueue = null;
 	}
 
 	// Reset player expressions to default

@@ -287,6 +287,7 @@ function InfiltrationPayRansom(Type) {
 	} else if (Type == "Private") {
 		//Add prisoner to private room
 		CurrentScreen = "Private";
+		/** @type {NPCArchetype} */
 		var PrisonerArchetype = null;
 		if (InfiltrationPartyPrisoner.Archetype === "Slave") {
 			PrisonerArchetype = "Submissive";
