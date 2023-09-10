@@ -672,7 +672,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 		InventoryRemove(Player, Group, false);
 		if (Group == "ItemDevices") {
 			const assetName = CommonRandomItemFromList("", WheelFortuneEncaseList);
-			Item = InventoryBlockedOrLimited(Player, Item) ? null : InventoryWear(Player, assetName, "ItemDevices", "Default", 20);
+			Item = (Item != null && InventoryBlockedOrLimited(Player, Item)) ? null : InventoryWear(Player, assetName, "ItemDevices", "Default", 20);
 		} else {
 			Item = InventoryWearRandom(Player, Group, null, false);
 		}
