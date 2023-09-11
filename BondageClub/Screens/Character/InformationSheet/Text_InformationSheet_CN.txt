@@ -115,13 +115,13 @@ Angel
 Succubus
 魅魔
 Good Girl
-Good Girl
+乖女孩
 Good Slave Girl
-Good Slave Girl
+乖女奴
 Good Slave
-Good Slave
+乖奴隶
 Drone
-Drone
+仆从机
 Pronouns:
 称谓：
 Member Number:
@@ -206,7 +206,7 @@ Bondage:
 捆绑：
 Self-bondage:
 自缚：
-Lock-Picking:
+Lockpicking:
 开锁：
 Evasion:
 逃脱：
@@ -216,10 +216,8 @@ Infiltration:
 潜入：
 Dressage:
 马术：
-Skills modifier:
-技能倍率：
- Time left:
-剩余时间：
+ABSVAL for DURATION
+ABSVAL持续了DURATION
 - Traits -
 - 特点 -
 Spend more time with her to know her traits

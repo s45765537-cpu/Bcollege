@@ -188,6 +188,8 @@ Lipstick Marks
 唇印
 Bug Legs
 虫虫腿
+Large Belt
+大腰带
 Necklace
 项链
 Fancy Necklace
@@ -222,6 +224,8 @@ Tattoo Choker
 纹身项圈
 Body Chain Necklace
 身体项链
+Butterfly Necklace
+蝴蝶项链
 Upper Suit
 套装(上身)
 Catsuit
@@ -328,6 +332,8 @@ Fitted Pleated Skirt
 合身百褶裙
 Long Latex Pants
 长乳胶裤
+Business Skirt
+商务裙
 Suit Lower
 套装(下身)
  Catsuit Panties
@@ -656,6 +662,14 @@ Fuzzy Boots
 乳胶高跟鞋
  Latex ThighBoots
 乳胶大腿靴
+Duty Shoes
+工作鞋
+Social Heels
+交谊鞋
+Street Boots
+街头靴
+Western Boots
+西式靴
 Hat
 帽子
 Hair Band
@@ -862,6 +876,8 @@ Bow Band
 五色环
 Spiked Wristbands
 尖刺腕带
+Wristbands
+腕带
 Band 1
 手环 1
 Lace Armbands
@@ -1536,6 +1552,8 @@ Studded Chastity Belt
 铆钉式贞操腰带
 Metal Chastity Belt
 金属贞操带
+Forbidden Chastity Belt
+禁制贞操带
 Polished Chastity Belt
 抛光贞操带
 Futuristic Chastity Belt
@@ -1674,6 +1692,8 @@ Futuristic Bra
 未来文胸
 Ornate Chastity Bra
 华丽贞操文胸
+Forbidden Chastity Bra
+禁制贞操文胸
  Tickle Bra
 挠痒文胸
 Arms
@@ -2046,6 +2066,8 @@ Cowbell
 牛铃
 Pup Bone
 小狗骨头
+Butterfly Pendant
+蝴蝶吊坠
 Long Chain
 长锁链
 Short Chain
@@ -2194,8 +2216,8 @@ Tentacle
 触手
 Harness OTN Plug Gag
 马具覆嘴式塞子口塞
-Techno Gag
-科技口塞
+Air-valve Gag
+气阀口塞
 Bridle Gag
 缰绳口塞
  Latex Sheath Gag
@@ -2314,6 +2336,8 @@ Techno Helmet
 高科技头盔
 GGTS Helmet
 GGTS头盔
+GGTS Slave Helmet
+GGTS奴隶头盔
 Lampshade Hood
 灯罩头套
 Accent Hood

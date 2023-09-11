@@ -1,6 +1,10 @@
 ###_NPC
 You may wear gags in the cafe, but they do make it much harder to eat and drink.
 你可以在咖啡店里戴上口塞，但这真的会让你就餐更费劲。
+Congrats!  Just like head maids, you can boss me around.  (She presents her wrists.)
+恭喜！你可以随意支配我啦，就像女仆长那样。（她伸出手腕。）
+Oh yeah!  (She quickly restrains you and sends you back to the main hall.)  Maybe a maid will get you out.
+好耶！（她迅速把你绑起来，并且把你送到了大厅。）也许一个女仆会解开你吧。
 Hello sister.  I see you are busy serving.  Come here and let me help you.
 你好，姐妹。我看到你正忙于服务。过来，我来帮你。
 Sorry miss. You don't have enough money for that right now.
@@ -134,6 +138,12 @@ Temporary side effects?
 Yes, some customers claimed our specialities had an effect on them, but only for an hour.
 是的，有一些客人声称我们的特色餐点对他们产生了影响，但也只影响了一个小时。
 ###_PLAYER
+Do you have time for a Club Card game?
+你有时间来一局俱乐部卡牌吗？
+###_NPC
+The cafe isn't busy, I guess we can play a game.  Be warned, you will get in trouble if you lose.
+咖啡店并不忙，我觉得我们能来一局。小心啊，如果你输了可是会有麻烦的。
+###_PLAYER
 That is all I wanted to know.
 我想知道的就这些了。
 ###_NPC
@@ -189,6 +199,36 @@ What were those other specials?
 ###_NPC
 We have energy drinks, milk and cupcakes.  Would you like one of them?
 我们提供能量饮料，牛奶和纸杯蛋糕。你要不要从中选一份？
+###_PLAYER
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
+###_NPC
+Yes, just like head maids, you'll have control over me.
+是的，你可以像女仆长那样掌控我。
+###_PLAYER
+Will you restrain me if I loose?
+如果我输了，你会绑住我吗？
+###_NPC
+Yep!  I hope you're ready to get in trouble.  (She giggles.)
+好的！我希望你准备好遭遇麻烦了。（她呵呵地笑。）
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's do something else.
+我们做其他的事吧。
+###_NPC
+Yeah, we can play cards when my shift is over.
+好呀，在我轮班结束后，我们可以玩牌。
+###_PLAYER
+(Grumble and protest.)
+（咕哝并抗议。）
+###_NPC
+(She laughs loudly and pushes you toward the main hall.)  My sisters will take care of you.
+（她大声地笑起来，把你推进了大厅里。）我的姐妹们会照顾好你的。
+###_PLAYER
+(Back to the main hall.)
+（回到大厅。）
+###_NPC
 Hello sister.  I see you are busy serving.  I would love to help you, but it is rather difficult for me right now
 你好，姐妹。我见你正忙着供应食物，我很乐意帮助你。不过现在这件事对我来说相当不容易。
 ###_PLAYER

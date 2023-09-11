@@ -533,9 +533,9 @@ Impact
 Verdana
 Verdana
 Helvetica Neue
-Helvetica Neue
+黑体
 Century Gothic
-Century Gothic
+世纪哥特体
 Georgia
 Georgia
 Courier New

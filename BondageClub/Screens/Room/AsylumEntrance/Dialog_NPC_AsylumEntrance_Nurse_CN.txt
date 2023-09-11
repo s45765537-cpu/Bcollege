@@ -5,6 +5,10 @@ Ow!  Well done, you're a tough patient.  I'm not letting you out anyway.
 很好。。。很好。。。你真是个顽固的病人。我绝对不会让你出去的。
 You really thought you could beat me?  You're truly mad, little patient.
 你真的以为你打得过我吗？你真是疯了，我可爱的的 小-病-人-❤~
+Well done, that was a good game.  (She checks the clock.)  My shift isn't over yet, can I have a rematch?
+打得不错，这是一场好游戏。（她看了看时间。）我的轮班还没结束，我们能再来一局吗？
+Victory!  (She does a few dance moves and checks the clock.)  My shift isn't over yet, do you want a rematch?
+胜利了！（她跳了一段舞，然后看了看时间。）我的轮班还没结束，你想要再来一局吗？
 What are you doing here little slave?  Go back to the club and serve our customers.
 小奴隶，你在这里干什么？快回俱乐部去为顾客服务吧。
 ###_PLAYER
@@ -18,7 +22,7 @@ No, as a club slave you have work to do.  Get going girl.
 （离开她）
 ###_NPC
 Greetings doctor DialogPlayerName.  It's always a pleasure to see you.  Are you working today?
-你好啊 DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？ 
+你好啊 DialogPlayerName医生，很高兴见到你！请问你今天要工作吗？
 Welcome to the asylum nurse DialogPlayerName.  Our patients are expecting you.  Are you here to work?
 欢迎来到收容所，DialogPlayerName护士。病人们都很期待你能来，请问你今天要工作吗？
 Hello assistant DialogPlayerName.  It's time to get to work for the asylum!
@@ -52,10 +56,10 @@ I'd like to work as a nurse.
 You can, but you will lose your patient status and reputation.  Are you sure about that?
 可以哦，但是你会失去你的病人资格以及其所积累的名声。你真的想这么做吗？
 Perfect!  We need staff to take care of our patients.  Are you ready to work now?
-好耶！我们正需要人手来照顾我们的病人。你确定你现在就想开工吗？ 
+好耶！我们正需要人手来照顾我们的病人。你确定你现在就想开工吗？
 ###_PLAYER
 Did you join GGTS?
-你加入GGTS了吗？ 
+你加入GGTS了吗？
 ###_NPC
 Not really.  (She sighs.)  There are new rules in the Asylum and nurses must wear the collar while on duty.
 并不（叹气）。收容所有了新规定，护士现在得在上班时戴项圈了。
@@ -109,6 +113,12 @@ Can I send my slaves here?
 ###_NPC
 Yes, if your submissive doesn't behave the way you want it.  You can send her here to correct her behavior.  Talk with her first.
 可以的，如果你的SUB的表现不能令你满意，你可以送她来这里“矫正”她的行为。不过当然了，先和她谈谈。
+###_PLAYER
+This is boring.  Wanna play cards?
+好无聊啊。想打牌吗？
+###_NPC
+(She checks around her.)  Sure, since we're alone at the entrance, we can play a card game.
+（她观察四周。）好的，由于入口只有我们，我们可以来一局卡牌。
 ###_PLAYER
 Thanks for the information.
 都了解啦，谢谢
@@ -214,7 +224,25 @@ Wonderful!  Come inside then, there are lots of patients to take care of.
 ###_PLAYER
 Thanks!  (Leave her.)
 谢谢！（离开她）
+Can I tie you up if I win?
+如果我赢了，我可以绑住你吗？
 ###_NPC
+No, I still have my shift to finish.  I cannot get in bondage.
+不，我的轮班还没结束呢。我不能被绑起来。
+###_PLAYER
+Will you restrain me if I loose?
+如果我输了，你会把我绑起来吗？
+###_NPC
+(She shakes head from left to right.)  Get into therapy and we can strap you up.  (She laughs.)
+（她左右来回摇头。）接受疗程，这样我们就能把你绑起来了。（她笑起来。）
+###_PLAYER
+(Play Club Card with her.)
+（和她玩俱乐部卡牌。）
+Let's do something else.
+我们做其他的事吧。
+###_NPC
+Yeah, we can play cards when my shift is over.
+好呀，在我轮班结束后，我们可以玩牌。
 If it isn't the famous patient DialogPlayerName.  As usual, I hope your stay in the asylum is going well.
 哇！你不是那个我们院超出名的病人DialogPlayerName吗？你懂的，希望你这次好好在这里呆着。
 Hello again patient DialogPlayerName.  I hope your stay in the asylum is going well.
