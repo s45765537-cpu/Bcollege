@@ -2333,6 +2333,13 @@ function ChatRoomCharacterUpdate(C) {
 		ServerSend("ChatRoomCharacterUpdate", data);
 	}
 }
+
+/**
+ * Regex used to split out a string at word boundaries, handling chinese characters properly.
+ */
+// eslint-disable-next-line no-control-regex
+const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
+
 /**
  * Checks if the message contains mentions of the character. Case-insensitive.
  * @param {Character} C - Character to check mentions of
@@ -2340,13 +2347,24 @@ function ChatRoomCharacterUpdate(C) {
  * @returns {boolean} - msg contains mention of C
  */
 function ChatRoomMessageMentionsCharacter(C, msg) {
-	const nameParts = C.Name.toLowerCase().split(/\b/gu);
-	const msgParts = msg.toLowerCase().split(/\b/gu);
+	const nameParts = C.Name.toLowerCase().split(mentionNameSplitter);
+	const nickParts = C.Nickname ? C.Nickname.toLowerCase().split(mentionNameSplitter) : [];
+	const msgParts = msg.toLowerCase().split(mentionNameSplitter);
 	for (let i = 0; i < msgParts.length - (nameParts.length - 1); i++) {
 		if (msgParts[i] === nameParts[0]) {
 			let match = true;
 			for (let j = 0; j < nameParts.length; j++) {
 				if (msgParts[i + j] !== nameParts[j]) {
+					match = false;
+					break;
+				}
+			}
+			if (match) return true;
+		}
+		if (msgParts[i] === nickParts[0]) {
+			let match = true;
+			for (let j = 0; j < nickParts.length; j++) {
+				if (msgParts[i + j] !== nickParts[j]) {
 					match = false;
 					break;
 				}
@@ -2375,7 +2393,9 @@ function ChatRoomHTMLEntities(str) {
 function ChatRoomMessageInvolvesPlayer(data) {
 	return (data.Sender == Player.MemberNumber
 		|| Array.isArray(data.Dictionary) && data.Dictionary.some(d => {
-			return IsCharacterReferenceDictionaryEntry(d) && d.MemberNumber === Player.MemberNumber;
+			return IsCharacterReferenceDictionaryEntry(d) && d.MemberNumber === Player.MemberNumber
+				|| IsTargetCharacterDictionaryEntry(d) && d.TargetCharacter === Player.MemberNumber
+				|| IsSourceCharacterDictionaryEntry(d) && d.SourceCharacter === Player.MemberNumber;
 		}));
 }
 
