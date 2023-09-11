@@ -1529,6 +1529,7 @@ interface Character {
 	ItemPermission?: number;
 	Ownership?: Ownership;
 	Lovership?: Lovership[];
+	ExpressionQueue?: ExpressionQueueItem[];
 	CanTalk: () => boolean;
 	CanWalk: () => boolean;
 	CanKneel: () => boolean;
@@ -2577,27 +2578,6 @@ interface AssetDefinitionProperties {
 	RemoveTimer?: number;
 
 	/**
-	 * The timer for an expression change.
-	 */
-	ExpressionTimer?: number;
-
-	/**
-	 * The expression to change to after timer expires.
-	 */
-	NextExpression?: ExpressionName;
-	
-	/**
-	 * Storage for expression reversion.
-	 */
-	StoredExpression?: ExpressionName;
-
-	/** 
-	 * Expression queue array
-	 */
-
-	ExpressionQueue?: ExpressionQueueItem[]
-
-	/**
 	 * The asset's draw opacity
 	 * @see {@link Asset.Opacity}
 	 */
@@ -2622,7 +2602,7 @@ interface AssetDefinitionProperties {
 
 interface ExpressionQueueItem {
 	Time?: number;
-
+	Group?: ExpressionGroupName;
 	Expression?: ExpressionName;
 }
 

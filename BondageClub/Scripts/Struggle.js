@@ -35,7 +35,11 @@ var StruggleLoosenSpeed = 400; // Higher number gives slower spin speed
 var StruggleLoosenAngle = 0;
 var StruggleLoosenHoleAngle = Math.PI; // 6.28 for a full 360 circle
 
-var StruggleExpressionStore = null; // Store starting expression
+/**
+ * Character expression at the beginning of the minigame; player-only
+ * @type {Partial<Record<ExpressionGroupName, ExpressionName>> | undefined}
+ */
+var StruggleExpressionStore = undefined;
 
 /**
  * The struggle minigame progress
@@ -119,6 +123,49 @@ const StruggleMinigames = {
 	}
 };
 
+/**
+ * List of expressions to go through while struggling, keyed by duration
+ * @type {Record<number, Partial<Record<ExpressionGroupName, ExpressionName>>>}
+ */
+const StruggleFacesList = {
+		10: {
+			Blush: "Low",
+			Fluids: "DroolLow",
+			Eyebrows: "Soft",
+			Mouth: null
+		},
+		20: {
+			Blush: "Medium",
+			Fluids: "DroolMedium",
+			Eyebrows: "Raised",
+			Mouth: "Pout"
+		},
+		30: {
+			Blush: "High",
+			Fluids: "DroolSides",
+			Eyebrows: "Lowered",
+			Mouth: "LipBite"
+		},
+		40: {
+			Blush: "VeryHigh",
+			Fluids: "DroolMessy",
+			Eyebrows: "OneRaised",
+			Mouth: "Frown"
+		},
+		50: {
+			Blush: "Extreme",
+			Fluids: "DroolTearsMedium",
+			Eyebrows: "Harsh",
+			Mouth: "Pained"
+		},
+		60: {
+			Blush: "ShortBreath",
+			Fluids: "DroolTearsHigh",
+			Eyebrows: "Angry",
+			Mouth: "Angry"
+		}
+	};
+	
 /**
  * Get the list of struggle minigames.
  */
@@ -378,15 +425,13 @@ function StruggleMinigameIsRunning() {
  * This function initializes the common state and calls the requested minigame
  * setup function.
  *
- * @param {Character} C
- * @param {StruggleKnownMinigames} MiniGame
- * @param {Item} PrevItem
- * @param {Item} NextItem
- * @param {StruggleCompletionCallback} Completion
+ * @param {Character} C - The character currently doing the struggling, either on itself (ie. as Player), or on someone else.
+ * @param {StruggleKnownMinigames} MiniGame - The minigame to start
+ * @param {Item | null} PrevItem - The item currently being present on the character, or null if none
+ * @param {Item} NextItem - The item currently being added on the character, or null if it's a removal
+ * @param {StruggleCompletionCallback} Completion - A callback that will be called when the minigame ends
  */
 function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
-
-	StruggleExpressionStore = WardrobeGetExpression(C); // Get and store facial expressions at struggle start
 
 	if (!StruggleMinigames[MiniGame])
 		return;
@@ -414,52 +459,17 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 
 	// If there's no current expressions, we update the expressions state while struggling.
 	if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions) {
-		var StruggleFacesList = {
-			10: {
-				Blush: "Low",
-				Fluids: "DroolLow",
-				Eyebrows: "Soft",
-				Mouth: null
-			},
-			20: {
-				Blush: "Medium",
-				Fluids: "DroolMedium",
-				Eyebrows: "Raised",
-				Mouth: "Pout"
-			},
-			30: {
-				Blush: "High",
-				Fluids: "DroolSides",
-				Eyebrows: "Lowered",
-				Mouth: "LipBite"
-			},
-			40: {
-				Blush: "VeryHigh",
-				Fluids: "DroolMessy",
-				Eyebrows: "OneRaised",
-				Mouth: "Frown"
-			},
-			50: {
-				Blush: "Extreme",
-				Fluids: "DroolTearsMedium",
-				Eyebrows: "Harsh",
-				Mouth: "Pained"
-			},
-			60: {
-				Blush: "ShortBreath",
-				Fluids: "DroolTearsHigh",
-				Eyebrows: "Angry",
-				Mouth: "Angry"
+		// Grab a copy of the player's expressions and apply timers for the new ones
+		// Eyes are set by struggle count in StruggleMinigameHandleExpression()
+		StruggleExpressionStore = WardrobeGetExpression(Player);
+		for (const [Time, List] of CommonEntries(StruggleFacesList)) {
+			for (const [group, expression] of CommonEntries(List)) {
+				TimerExpressionQueuePush(C, group, parseInt(Time), expression);
 			}
-		};
-		Object.keys(StruggleFacesList).forEach(Time => {
-			var StruggleExpressionsList = StruggleFacesList[Time];
-			Object.keys(StruggleExpressionsList).forEach(ExpressionGroupName => {
-				TimerExpressionSet(C,/** @type {ExpressionGroupName} */(ExpressionGroupName),parseInt(Time),StruggleExpressionsList[ExpressionGroupName]);
-			});
-		}); // Eyes are set by struggle count in StruggleMinigameHandleExpression()
+		}
+	} else {
+		StruggleExpressionStore = undefined;
 	}
-
 
 	// Applying or removing specific items can trigger an audio sound to play
 	if (StruggleProgressCurrentMinigame !== "LockPick") {
@@ -482,26 +492,23 @@ function StruggleMinigameStop() {
 	// Stops the dialog sounds
 	AudioDialogStop();
 
-	// Clear ExpressionQueue and ExpressionTimer
-	const expressionQueues = Player.Appearance.filter(item => item.Property && (item.Property.ExpressionQueue || item.Property.ExpressionTimer || item.Property.NextExpression) );
-	for (let item of expressionQueues) {
-		item.Property.ExpressionTimer = null;
-		item.Property.NextExpression = null;
-		item.Property.ExpressionQueue = null;
+	if (StruggleExpressionStore) {
+		// Clear ExpressionQueue
+		delete Player.ExpressionQueue;
+
+		// Reset player expressions to default
+		for (const [_, FE] of DialogFacialExpressions.entries()) {
+			let Color = null;
+			if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
+			CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
+			FE.CurrentExpression = null;
+		}
+
+		// Set player expressions to store
+		for (const [group, name] of CommonEntries(StruggleExpressionStore)) {
+			CharacterSetFacialExpression(Player, group, name);
+		}
 	}
-
-	// Reset player expressions to default
-	DialogFacialExpressions.forEach(FE => {
-		let Color = null;
-		if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
-		CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
-		FE.CurrentExpression = null;
-	});
-
-	// Set player expressions to store
-	Object.keys(StruggleExpressionStore).forEach(Expression => {
-		CharacterSetFacialExpression(Player, /** @type {AssetGroupBodyName} */ (Expression), StruggleExpressionStore[Expression]);
-	});
 
 	StruggleProgress = -1;
 	StruggleProgressCurrentMinigame = "";

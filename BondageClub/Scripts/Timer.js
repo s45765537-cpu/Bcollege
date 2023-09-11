@@ -58,21 +58,11 @@ function TimerInventoryRemove() {
 			continue;
 
 		// Process first in queue to active timer
-		const expressionQueues = C.Appearance.filter(item => item.Property && item.Property.ExpressionQueue && !item.Property.ExpressionTimer);
-		for (let item of expressionQueues) {
-			if (item.Property.ExpressionQueue.length > 0) {
-				item.Property.ExpressionQueue.sort((a, b) => a.Time - b.Time);
-				item.Property["ExpressionTimer"] = item.Property.ExpressionQueue[0].Time;
-				item.Property["NextExpression"] = item.Property.ExpressionQueue[0].Expression;
-				item.Property.ExpressionQueue.splice(0,1); // Remove first from queue after processing.
-			}
-		}
-
-		const expressionItems = C.Appearance.filter(item => item.Property && typeof item.Property.ExpressionTimer === "number" && item.Property.ExpressionTimer <= CurrentTime);
-		for (let item of expressionItems) {
-			const group = item.Asset.Group;
-			if (group.IsAppearance() && group.AllowExpression != null) {
-				CharacterSetFacialExpression(C, group.Name, item.Property.NextExpression);
+		if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions && C.ExpressionQueue) {
+			C.ExpressionQueue.sort((a, b) => a.Time - b.Time);
+			while (C.ExpressionQueue[0].Time <= CurrentTime) {
+				CharacterSetFacialExpression(C, C.ExpressionQueue[0].Group, C.ExpressionQueue[0].Expression);
+				C.ExpressionQueue.splice(0, 1); // Remove first from queue after processing.
 			}
 		}
 
@@ -144,28 +134,25 @@ function TimerInventoryRemoveSet(C, AssetGroup, Timer) {
 	if (!item) return;
 
 	if (item.Property == null) item.Property = {};
-	item.Property["RemoveTimer"] = Math.round(CurrentTime + Timer * 1000);
+	item.Property.RemoveTimer = Math.round(CurrentTime + Timer * 1000);
 }
 
 /**
  * Sets a remove timer in seconds for expressions, adds to Expression Queue.
- * @param {Character} C - Character for which we are removing an item
- * @param {ExpressionGroupName} ExpressionGroup - Group targeted by the removal
- * @param {number} Timer - Seconds it takes to remove the item
+ * @param {Character} C - Character for which we are changing expression.
+ * @param {ExpressionGroupName} ExpressionGroup - Group targeted by the removal.
+ * @param {number} Timer - Seconds it takes to change the expression.
  * @param {ExpressionName} Expression - Expression to queue. Defaults to null if not specified.
  * @returns {void} - Nothing
  */
-function TimerExpressionSet(C, ExpressionGroup, Timer, Expression = null) {
-	const item = InventoryGet(C, ExpressionGroup);
-	if (!item) return;
-
-	if (item.Property == null) item.Property = {};
-	if (item.Property.ExpressionQueue == null) item.Property.ExpressionQueue = [];
-	var QueueItem = {
+function TimerExpressionQueuePush(C, ExpressionGroup, Timer, Expression = null) {
+	if (C.ExpressionQueue == null) C.ExpressionQueue = [];
+	const QueueItem = {
 		Time: Math.round(CurrentTime + Timer * 1000),
+		Group: ExpressionGroup,
 		Expression: Expression
 	};
-	item.Property.ExpressionQueue.push(QueueItem);
+	C.ExpressionQueue.push(QueueItem);
 }
 
 /**
