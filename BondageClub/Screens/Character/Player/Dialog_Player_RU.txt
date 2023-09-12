@@ -7514,4 +7514,25 @@ SourceCharacter changes the fluids on DestinationCharacterName behind.
 SourceCharacter изменяет следы семени на DestinationCharacterName.
 SourceCharacter changes DestinationCharacterName portrait on the AssetName.
 SourceCharacter изменяет монитор для DestinationCharacterName на AssetName.
-
+Disable
+Выключить
+Settings
+Настройки
+Forbidden Orgasm
+Наказание за Оргазм
+Forbidden Stand Up
+Назазание за попытку встать
+Forbidden Struggle
+Назазание за попытку освободиться 
+SourceCharacter sets DestinationCharacter AssetName to disable shock module.
+SourceCharacter выбирает на  DestinationCharacter AssetName отключить шоковый модуль.
+SourceCharacter sets DestinationCharacter AssetName to enable shock module.
+SourceCharacter выбирает на DestinationCharacter AssetName включить шоковый модуль.
+SourceCharacter sets DestinationCharacter AssetName to open all crotch shields.
+SourceCharacter выбирает на DestinationCharacter AssetName открыть все щитки.
+SourceCharacter sets DestinationCharacter AssetName to close front crotch shield.
+SourceCharacter выбирает на DestinationCharacter AssetName закрыть передний щиток.
+SourceCharacter sets DestinationCharacter AssetName to close rear crotch shield.
+SourceCharacter выбирает на DestinationCharacter AssetName закрыть задний щиток.
+SourceCharacter sets DestinationCharacter AssetName to close all crotch shields.
+SourceCharacter выбирает на DestinationCharacter AssetName закрыть все щитки.

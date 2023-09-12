@@ -702,3 +702,5 @@ Lenses
 Линзы
 Edging
 Кайма
+Detail
+Элементы

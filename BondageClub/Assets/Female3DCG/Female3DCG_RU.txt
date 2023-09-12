@@ -1637,6 +1637,8 @@ Studded Chastity Belt
 Шипованный Пояс Верности
 Metal Chastity Belt
 Металлический Пояс Верности
+Forbidden Chastity Belt
+Запретный Пояс Верности
 Polished Chastity Belt
 Полированный Пояс Верности
 Futuristic Chastity Belt
@@ -1773,6 +1775,8 @@ Breasts
 Грудь
 Metal Chastity Bra
 Металлический бюстгальтер целомудрия
+Forbidden Chastity Bra
+Запретный бюстгальтер целомудрия
 Polished Chastity Bra
 Полированный бюстгальтер целомудрия
 Futuristic Chastity Bra
