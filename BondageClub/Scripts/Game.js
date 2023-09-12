@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R96Beta1";
+var GameVersion = "R96Beta2";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
