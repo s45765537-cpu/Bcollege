@@ -755,19 +755,19 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // TickleBra
 		ForbiddenChastityBra: {
-			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
-			Options: [
-				{ Name: "Low", Property: { ShockLevel: 0 } },
-				{ Name: "Medium", Property: { ShockLevel: 1 } },
-				{ Name: "High", Property: { ShockLevel: 2 } },
-			],
-			ScriptHooks: {
-				Draw: InventoryItemBreastForbiddenChastityBraDrawHook,
-				Click: InventoryItemBreastForbiddenChastityBraClickHook,
-			},
-			DrawImages: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
+			Archetype: ExtendedArchetype.MODULAR,
+            ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+            Modules: [
+                {
+                    Name: "ShockModule", Key: "s",
+                    Options: [
+                        {}, // 0 - disabled
+                        { HasSubscreen: true }, // 1 - enabled
+                    ],
+                },
+            ],
+            ChangeWhenLocked: false,
+            BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
 		}, // ForbiddenChastityBra
 	}, // ItemBreast
 	ItemArms: {
@@ -8557,20 +8557,48 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 		}, // MetalChastityBelt
 		ForbiddenChastityBelt: {
-			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
-			Options: [
-				{ Name: "Low", Property: { ShockLevel: 0 } },
-				{ Name: "Medium", Property: { ShockLevel: 1 } },
-				{ Name: "High", Property: { ShockLevel: 2 } },
-			],
-			ScriptHooks: {
-				Draw: InventoryItemPelvisForbiddenChastityBeltDrawHook,
-				Click: InventoryItemPelvisForbiddenChastityBeltClickHook,
-			},
-			DrawImages: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
-		}, // ForbiddenChastityBelt
+            Archetype: ExtendedArchetype.MODULAR,
+            ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+            Modules: [
+                {
+                    Name: "CrotchShield", Key: "c",
+                    Options: [
+                        {}, // 0 - open
+                        { // 1 - close front
+                            Prerequisite: ["CanCoverVulva"],
+                            Property: {
+                                Effect: ["Chaste"],
+                                Block: ["ItemVulva", "ItemVulvaPiercings"],
+                                HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
+                            }
+                        },
+                        { // 2 - close back
+                            Property: {
+                                Effect: ["Chaste"],
+                                Block: ["ItemButt"],
+                            }
+                        },
+                        { // 3 - close both
+                            Prerequisite: ["CanCoverVulva"],
+                            Property: {
+                                Effect: ["Chaste"],
+                                Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+                                HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
+                            }
+                        },
+                    ],
+                },
+                {
+                    Name: "ShockModule", Key: "s",
+                    Options: [
+                        {}, // 0 - disabled
+                        { HasSubscreen: true }, // 1 - enabled
+                    ],
+                },
+            ],
+            ChangeWhenLocked: false,
+            BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
+        }, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "MetalChastityBelt" },
