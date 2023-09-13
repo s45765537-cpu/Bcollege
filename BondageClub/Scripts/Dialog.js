@@ -478,7 +478,7 @@ function DialogGGTSCanUnlock() {
  * @returns {boolean} - TRUE if GGTS can unlock
  */
 function DialogGGTSCanGetHelmet() {
-	return (AsylumGGTSHasMinutes(200) && !InventoryAvailable(Player, "FuturisticHelmet", "ItemHood"));
+	return (AsylumGGTSHasMinutes(200) && (!InventoryAvailable(Player, "FuturisticHelmet", "ItemHood") || !InventoryAvailable(Player, "GGTSHelmet", "ItemHood")));
 }
 
 /**

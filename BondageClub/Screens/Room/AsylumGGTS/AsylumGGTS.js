@@ -1270,7 +1270,11 @@ function AsylumGGTSDialogAction(Action, Minute) {
 
 	// Adds $100 to the player money in exchange for 120 GGTS minutes
 	if (Action == "MoneyForMinutes") return CharacterChangeMoney(Player, 100);
-	if (Action == "GetHelmet") return InventoryAdd(Player, "FuturisticHelmet", "ItemHood");
+	if (Action == "GetHelmet") {
+		InventoryAdd(Player, "FuturisticHelmet", "ItemHood");
+		InventoryAdd(Player, "GGTSHelmet", "ItemHood");
+		return;
+	}
 
 	// Call a regular automated task
 	DialogLeave();
