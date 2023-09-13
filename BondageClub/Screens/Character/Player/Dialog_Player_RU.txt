@@ -3808,9 +3808,9 @@ SourceCharacter attaches a wand to DestinationCharacter suit.
 SourceCharacter прикрепляет жезл к костюму DestinationCharacter .
 SourceCharacter close up DestinationCharacter suit.
 SourceCharacter застегивает костюм DestinationCharacter .
-SourceCharacter opened DestinationCharacter suit.
+SourceCharacter opens DestinationCharacter suit.
 SourceCharacter расстегивает костюм DestinationCharacter .
-SourceCharacter opened DestinationCharacter suit and fully exposes her breasts and pussy.
+SourceCharacter opens DestinationCharacter suit and fully exposes her breasts and pussy.
 SourceCharacter расстегивает костюм DestinationCharacter и полностью обнажает TargetPronounPossessive грудь и киску.
 SourceCharacter chose the classic look of the costume on DestinationCharacter.
 SourceCharacter выбирает классический вид костюма на DestinationCharacter.
@@ -3822,13 +3822,13 @@ Hardbinder
 Строгий
 Crosstie
 Открытый
-SourceCharacter close up DestinationCharacter to Asylum straitjacket.
+SourceCharacter wraps up DestinationCharacter in an asylum AssetName.
 SourceCharacter закрывает DestinationCharacter в смирительную рубашку псих-лечебницы.
-SourceCharacter Hard bindered DestinationCharacter straitjacket.
+SourceCharacter wraps DestinationCharacter arms in a hard-binder AssetName.
 SourceCharacter строго связывает руки DestinationCharacter позе обратной молитвы.
-SourceCharacter Cross tied DestinationCharacter straitjacket and fully exposes her breasts.
-SourceCharacter связывает руки DestinationCharacter сзади крестом  и полностью обнажает ее грудь.
-SourceCharacter chose the classic look of the straitjacket on DestinationCharacter.
+SourceCharacter wraps DestinationCharacter arms in a AssetName and exposes TargetPronounPossessive breasts.
+SourceCharacter связывает руки DestinationCharacter сзади крестом  и полностью обнажает TargetPronounPossessive грудь.
+SourceCharacter wraps up DestinationCharacter arms in a classic AssetName.
 SourceCharacter выбирает класический вид с коробчатой перевязкой для рубашки DestinationCharacter.
 Customize the look of the legbinder
 Настройте внешний вид легбиндера
@@ -3838,13 +3838,13 @@ Beltbinder
 Ременная стяжка
 Laced
 Зашнурованный
-SourceCharacter close up DestinationCharacter to Asylum legbinder.
+SourceCharacter wraps DestinationCharacter legs in an asylum AssetName.
 SourceCharacter закрывает DestinationCharacter в легбиндер псих-лечебницы.
-SourceCharacter Belt bindered DestinationCharacter legbinder.
+SourceCharacter belts up DestinationCharacter legs in a AssetName.
 SourceCharacter стягивает ремнями легбиндер DestinationCharacter.
-SourceCharacter Laced up DestinationCharacter legbinder.
+SourceCharacter laces up DestinationCharacter legs in a AssetName.
 SourceCharacter зашнуровывает легбиндер DestinationCharacter.
-SourceCharacter chose the classic look of the legbinder on DestinationCharacter.
+SourceCharacter wraps DestinationCharacter legs in a classic AssetName.
 SourceCharacter выбирает класический вид для легбиндера DestinationCharacter.
 Customize the look of the binder
 Настройте внешний вид армбиндера
@@ -3856,13 +3856,13 @@ Reverse prayer
 Обратная молитва
 X-cross tie
 Руки крестом
-SourceCharacter close up DestinationCharacter to laced armbinder.
+SourceCharacter wraps DestinationCharacter arms in a laced AssetName.
 SourceCharacter закрывает DestinationCharacter в зашнурованный армбиндер.
-SourceCharacter  bindered DestinationCharacter hard tied armbinder.
+SourceCharacter wraps DestinationCharacter arms in a sturdy AssetName.
 SourceCharacter связывает DestinationCharacter строгими ремнями армбиндера.
-SourceCharacter tightly tightens DestinationCharacter hands in the pose of reverse prayer.
+SourceCharacter folds DestinationCharacter arms in a reverse prayer pose and binds them with a AssetName.
 SourceCharacter туго стягивает руки DestinationCharacter в позе обратной молитвы.
-SourceCharacter X-Cross tied DestinationCharacter boxbinder and tightens tight.
+SourceCharacter folds DestinationCharacter arms in a box pose and binds them with a AssetName.
 SourceCharacter складывает крестом за спиной руки DestinationCharacter и туго стягивает.
 Select type
 Выберите тип

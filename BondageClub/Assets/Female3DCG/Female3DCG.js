@@ -8713,7 +8713,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticHelmet", Category: ["SciFi"], Fetish: ["Metal"], Value: -1, Difficulty: 10, RemoveTime: 10, AllowLock: true, DrawLocks: false, Effect: [],
 				Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Glasses"],
-				DefaultColor: ["Default", "Default", "#53B63B", "Default", "Default"],
+				DefaultColor: ["Default", "Default", "#40812C", "Default", "Default"],
 				Alpha: [{ Group: ["ItemHead"], Masks: [[0, 0, 203, 250], [295, 0, 205, 250]] }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true },
@@ -8726,7 +8726,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GGTSHelmet", Category: ["SciFi"], Fetish: ["Metal"], Value: 100, Difficulty: 15, RemoveTime: 10, AllowLock: true, DrawLocks: false, Effect: [],
 				Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Glasses"],
-				DefaultColor: ["Default", "#53B63B", "Default", "Default", "Default", "Default"],
+				DefaultColor: ["Default", "#40812C", "Default", "Default", "Default", "Default"],
 				Alpha: [{ Group: ["ItemHead"], Masks: [[0, 0, 203, 250], [295, 0, 205, 250]] }],
 				Extended: true,
 				HasType: false,
