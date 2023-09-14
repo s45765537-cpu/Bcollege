@@ -4056,19 +4056,27 @@ function ChatRoomAllowItem(data) {
  * @param {Character} C
  */
 function ChatRoomAppearanceLoadCharacter(C) {
-	if (ServerPlayerIsInChatRoom()) {
+	const module = CurrentModule;
+	const screen = CurrentScreen;
+	const inChatRoom = ServerPlayerIsInChatRoom();
+	if (inChatRoom) {
 		ChatRoomHideElements();
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
-		CommonSetScreen("Online", "ChatRoom");
-		if (ready && !C.IsPlayer()) {
-			const Dictionary = new DictionaryBuilder()
-				.sourceCharacter(Player)
-				.destinationCharacter(C)
-				.build();
-			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
-			ChatRoomCharacterUpdate(C);
+		CommonSetScreen(module, screen);
+		if (inChatRoom) {
+			ChatRoomShowElements();
+			ChatRoomStatusUpdate(null);
+			if (ready && !C.IsPlayer()) {
+				// Send a notification if we've changed clothes on someone else
+				const Dictionary = new DictionaryBuilder()
+					.sourceCharacter(Player)
+					.destinationCharacter(C)
+					.build();
+				ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+				ChatRoomCharacterUpdate(C);
+			}
 		}
 	});
 }
