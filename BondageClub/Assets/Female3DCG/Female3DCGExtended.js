@@ -6970,6 +6970,9 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Masked",
+					Property: {
+						Effect: ["BlockMouth"],
+					},
 				},
 				{
 					Name: "Gagged",
