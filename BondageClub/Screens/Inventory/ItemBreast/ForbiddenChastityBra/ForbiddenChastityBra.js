@@ -144,7 +144,6 @@ function AssetsItemBreastForbiddenChastityBraUpdate(data, LastTime) {
 	if (!Item.Property) return;
 
 	let punishment = InventoryForbiddenChastityBraCheckPunish(Item);
-	console.log(`punishment: ${punishment}`);
 	switch (punishment) {
 		case "Orgasm":
 			PropertyShockPublishAction(C, Item, true);
