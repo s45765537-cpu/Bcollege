@@ -134,7 +134,7 @@ function InventoryForbiddenChastityBraCheckPunish(Item) {
 }
 
 /**
- * @param {DynamicScriptCallbackData<FuturisticChastityBraPersistentData>} data
+ * @param {DynamicScriptCallbackData<ForbiddenChastityBraPersistentData>} data
  * @param {number} LastTime
  */
 function AssetsItemBreastForbiddenChastityBraUpdate(data, LastTime) {
