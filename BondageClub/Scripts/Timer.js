@@ -60,8 +60,8 @@ function TimerInventoryRemove() {
 		// Process first in queue to active timer
 		if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions && C.ExpressionQueue) {
 			C.ExpressionQueue.sort((a, b) => a.Time - b.Time);
-			while (C.ExpressionQueue[0].Time <= CurrentTime) {
-				CharacterSetFacialExpression(C, C.ExpressionQueue[0].Group, C.ExpressionQueue[0].Expression);
+			while (C.ExpressionQueue.length > 0 && C.ExpressionQueue[0].Time <= CurrentTime) {
+				CharacterSetFacialExpression(C, C.ExpressionQueue[0].Group, C.ExpressionQueue[0].Expression, undefined, undefined, true);
 				C.ExpressionQueue.splice(0, 1); // Remove first from queue after processing.
 			}
 		}

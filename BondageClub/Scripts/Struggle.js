@@ -128,37 +128,37 @@ const StruggleMinigames = {
  * @type {Record<number, Partial<Record<ExpressionGroupName, ExpressionName>>>}
  */
 const StruggleFacesList = {
-	10: {
+	2: {
 		Blush: "Low",
 		Fluids: "DroolLow",
 		Eyebrows: "Soft",
 		Mouth: null
 	},
-	20: {
+	5: {
 		Blush: "Medium",
 		Fluids: "DroolMedium",
 		Eyebrows: "Raised",
 		Mouth: "Pout"
 	},
-	30: {
+	10: {
 		Blush: "High",
 		Fluids: "DroolSides",
 		Eyebrows: "Lowered",
 		Mouth: "LipBite"
 	},
-	40: {
+	15: {
 		Blush: "VeryHigh",
 		Fluids: "DroolMessy",
 		Eyebrows: "OneRaised",
 		Mouth: "Frown"
 	},
-	50: {
+	30: {
 		Blush: "Extreme",
 		Fluids: "DroolTearsMedium",
 		Eyebrows: "Harsh",
 		Mouth: "Pained"
 	},
-	60: {
+	45: {
 		Blush: "ShortBreath",
 		Fluids: "DroolTearsHigh",
 		Eyebrows: "Angry",
