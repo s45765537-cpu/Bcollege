@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-09-10
-* Last recorded PR: [#4452](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4452)
-* Last recorded commit hash: `5f64add9a85d2bb38db046be0ef4da6f255bcb31`
+* Changelog last updated: 2023-09-15
+* Last recorded PR: [#4467](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4467)
+* Last recorded commit hash: `942a8ed98f86042559b6a8fe1588e4b36537a561`
 
 ## [R96]
 
@@ -34,6 +34,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * EllieThePink - Fixed a couple typos ([#4441](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4441))
 * EllieThePink - Fixed some spelling / grammar issues in the cafeteria and chess college rooms ([#4444](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4444))
 * MAKeevchanin - Updated the Russian translation
+* Da'Inihlus - Updated the chinese translation ([#4459](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4459))
 
 ### [Fixed]
 * Rama - Fixed the wheel of fortune crashing when failing to equip an item ([#4436](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4436))
@@ -45,6 +46,18 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Allowed NPC dialogs to track and use pronouns correctly; this is only the technical part, none of the dialogs have been updated yet ([#4437](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4437), [#4449](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4449), [#4451](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4451))
 * Estsanatlehi - Corrected most of the CI issues ([#4445](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4445))
 * Estsanatlehi - Reworked the handling of skills ([#4446](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4446))
+
+### [Beta fixes]
+* Estsanatlehi - Fixed a crash when checking for item blockedness in the fortune wheel ([#4453](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4453))
+* Estsanatlehi - Fixed ordering of the ForbiddenChastity files ([#4455](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4455))
+* Estsanatlehi - Fixed a crash when trying to change clothes outside of the chatroom ([#4456](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4456), [#4463](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4463))
+* Estsanatlehi - Fixed bugs involving player names in notifications ([#4458](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4458))
+* kotax - Tweaked how expressions are queued when struggling ([#4457](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4457))
+* Constantan - Finalized the features of the new Forbidden Chastity Belt & Bra with help from Estsanaltehi ([#4462](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4462), [#4467](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4467))
+* Estsanatlehi - Reworded a couple of the dialogs on the shiny set
+* Estsanatlehi - Fixed missing dialogs on the GGTS helmet
+* Estsanatlehi - Fixed the wristbands not having a configuration screen
+
 
 ## [R95]
 
@@ -89,7 +102,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * EllieThePink - Fixed a missing substitution in the tighten/loosen actions ([#4409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4409))
 * EllieThePink - Fixed triggered expressions not clearing after #4402 ([#4410](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4410))
 
-## [Beta fixes]
+### [Beta fixes]
 * Da'Inihlus - Updated chinese translation for the beta ([#4427](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4427))
 * Constantan - Fixed a couple issues with their items ([#4428](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4428), [#4429](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4429))
 * Rama - Added the missing back-part of the nun habit ([#4430](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4430))
