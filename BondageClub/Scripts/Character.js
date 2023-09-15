@@ -1540,13 +1540,13 @@ function CharacterSetActivePose(C, NewPose, ForceChange = false) {
  * Be careful that "Eyes" for this function means both eyes. Use Eyes1/Eyes2 to target the left or right one only.
  *
  * @param {Character} C - Character for which to set the expression of
- * @param {AssetGroupBodyName | "Eyes1"} AssetGroup - Asset group for the expression
+ * @param {ExpressionGroupName | "Eyes1"} AssetGroup - Asset group for the expression
  * @param {ExpressionName} Expression - Name of the expression to use
  * @param {number} [Timer] - Optional: time the expression will last
  * @param {string|string[]} [Color] - Optional: color of the expression to set
  * @returns {void} - Nothing
  */
-function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color) {
+function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, fromQueue=false) {
 	// A normal eye expression is triggered for both eyes
 	if (AssetGroup == "Eyes") CharacterSetFacialExpression(C, "Eyes2", Expression, Timer, Color);
 	if (AssetGroup == "Eyes1") AssetGroup = "Eyes";
@@ -1561,10 +1561,13 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color) {
 
 	item.Property.Expression = Expression;
 	if (Color && CommonColorIsValid(Color)) item.Color = Color;
-	delete item.Property.ExpressionTimer;
+	// Remove all queued expression for that group if it's not coming from the queue
+	if (!fromQueue && C.ExpressionQueue) {
+		C.ExpressionQueue = C.ExpressionQueue.filter(({ Group }) => Group !== AssetGroup);
+	};
 	// We can't have timers on the null/default expression.
 	if (Timer != null && Expression != null) {
-		item.Property.ExpressionTimer = Math.round(CurrentTime + Timer * 1000);
+		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), Expression);
 	}
 
 	CharacterRefresh(C);
@@ -1585,7 +1588,7 @@ function CharacterResetFacialExpression(C) {
 	for (const item of C.Appearance) {
 		const group = item.Asset.Group;
 		if (group.IsAppearance() && group.AllowExpression) {
-			CharacterSetFacialExpression(C, group.Name, null);
+			CharacterSetFacialExpression(C, /** @type {ExpressionGroupName} - group.Name filtered by expression unique group.AllowExpression */ (group.Name), null);
 		}
 	}
 }

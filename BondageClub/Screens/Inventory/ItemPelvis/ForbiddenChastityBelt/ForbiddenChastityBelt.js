@@ -144,7 +144,6 @@ function AssetsItemPelvisForbiddenChastityBeltUpdate(data, LastTime) {
 	if (!Item.Property) return;
 
 	let punishment = InventoryForbiddenChastityBeltCheckPunish(Item);
-	console.log(`punishment: ${punishment}`);
 	switch (punishment) {
 		case "Orgasm":
 			PropertyShockPublishAction(C, Item, true);
