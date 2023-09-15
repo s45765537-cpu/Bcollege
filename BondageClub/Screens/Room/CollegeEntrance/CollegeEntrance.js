@@ -98,7 +98,7 @@ function CollegeEntranceWearStudentClothes(C) {
 function CollegeEntranceIsWearingTennisClothes() {
 	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "TennisShirt1")) return false;
 	if ((InventoryGet(Player, "ClothLower") == null) || (InventoryGet(Player, "ClothLower").Asset.Name != "TennisSkirt1")) return false;
-	if ((InventoryGet(Player, "Shoes") == null) || ((InventoryGet(Player, "Shoes").Asset.Name != "Sneakers1") && (InventoryGet(Player, "Shoes").Asset.Name != "Sneakers2"))) return false;
+	if ((InventoryGet(Player, "Shoes") == null) || ((InventoryGet(Player, "Shoes").Asset.Name != "Sneakers1") && (InventoryGet(Player, "Shoes").Asset.Name != "Sneakers2") && (InventoryGet(Player, "Shoes").Asset.Name != "SneakersSport"))) return false;
 	if (InventoryGet(Player, "Wings") != null) return false;
 	if (InventoryGet(Player, "TailStraps") != null) return false;
 	return true;
