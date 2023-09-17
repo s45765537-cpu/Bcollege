@@ -246,8 +246,10 @@ function SkillSetRatio(C, SkillType, Ratio, Push) {
 function SkillGetRatio(C, SkillType) {
 	let ratio = 1;
 	const skill = SkillGet(C, SkillType);
-	if (!skill) return ratio;
-	return Math.max(0, Math.min(1, skill.Ratio || ratio));
+	if (!skill) return 1;
+	ratio = skill.Ratio;
+	if (typeof skill.Ratio !== "number") ratio = 1;
+	return Math.max(0, Math.min(1, ratio));
 }
 
 /**
