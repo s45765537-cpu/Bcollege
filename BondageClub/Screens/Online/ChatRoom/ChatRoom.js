@@ -2335,10 +2335,12 @@ function ChatRoomCharacterUpdate(C) {
 }
 
 /**
- * Regex used to split out a string at word boundaries, handling chinese characters properly.
+ * Regex used to split out a string at word boundaries
+ *
+ * Note that due to a bug in Safari, we can't use the one that handles chinese characters properly.
  */
-// eslint-disable-next-line no-control-regex
-const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
+// const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
+const mentionNameSplitter = /\b/gu;
 
 /**
  * Checks if the message contains mentions of the character. Case-insensitive.
