@@ -233,7 +233,7 @@ function InformationSheetSecondScreenRun() {
 				const modifier = SkillGetModifier(C, type);
 				const duration = SkillGetModifierDuration(C, type);
 
-				const skillText = `${name} ${level} (${progress}%)`;
+				const skillText = `${name} ${level} (${progress / 10}%)`;
 				const color = ratio !== 1 ? "Red" : "Black";
 				DrawText(skillText, 1425, 200 + skillLine * lineHeight, color, "Gray");
 				skillLine++;
