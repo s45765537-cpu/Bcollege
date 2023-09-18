@@ -3290,10 +3290,18 @@ var AssetFemale3DCG = [
 			{ Name: "HairFront30" },
 			{ Name: "HairFront31" },
 			{ Name: "HairFront32" },
-			{ Name: "HairFront33", Layer: [
-				{ Name: "Main" },
-				{ Name: "Front", Priority: 55, CopyLayerColor: "Main" },
-			], Random: false, Top: 33, Attribute: ["ShortHair"], Left: 150 },
+			{ Name: "HairFront33", 
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" },
+				], Random: false, Top: 33, Attribute: ["ShortHair"], Left: 150
+			},
+			{ Name: "HairFront33b", 
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" },
+				], Random: false, Top: 33, Attribute: ["ShortHair"], Left: 150
+			},
 			{ Name: "HairFront34", Random: false, Priority: 8, Attribute: ["ShortHair"], Top: 33, Left: 150 },
 			{ Name: "HairFront35", Random: false, Priority: 8, Attribute: ["ShortHair"], Top: 33, Left: 150 },
 			{ Name: "HairFront36", Random: false, Priority: 8, Attribute: ["ShortHair"], Top: 33, Left: 150 },
