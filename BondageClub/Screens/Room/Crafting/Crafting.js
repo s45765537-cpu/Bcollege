@@ -1445,7 +1445,7 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 
 	// Manually search for the Asset if it has not been provided
 	if (asset == null) {
-		asset = Asset.find(a => a.Name === Craft.Item);
+		asset = Asset.find(a => a.Name === Craft.Item && a.DynamicGroupName === a.Group.Name);
 		if (asset === undefined) {
 			StatusMap.set("Item", CraftingStatusType.CRITICAL_ERROR);
 		}
