@@ -3268,12 +3268,25 @@ var AssetFemale3DCG = [
 					{ Name: "Tips", Priority: 54 },
 				],
 			}, //HairFront28
+			{ Name: "HairFront28b",
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Bangs" },
+					{ Name: "Tips", Priority: 54 },
+				],
+			}, //HairFront28b
 			{ Name: "HairFront29",
 				Layer: [
 					{ Name: "Left", Priority: 53 },
 					{ Name: "Right" },
 				],
 			},//HairFront29
+			{ Name: "HairFront29b",
+				Layer: [
+					{ Name: "Left", Priority: 53 },
+					{ Name: "Right" },
+				],
+			},//HairFront29b
 			{ Name: "HairFront30" },
 			{ Name: "HairFront31" },
 			{ Name: "HairFront32" },
@@ -3289,6 +3302,11 @@ var AssetFemale3DCG = [
 				{ Name: "Front", Priority: 55 },
 			], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront37
+			{ Name: "HairFront37b", Layer: [
+				{ Name: "Main" },
+				{ Name: "Front", Priority: 55 },
+			], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront37b
 			{ Name: "HairFront38",
 				Layer: [
 					{ Name: "Main" },
@@ -3296,12 +3314,27 @@ var AssetFemale3DCG = [
 					{ Name: "Front", Priority: 55},
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront38
+			{ Name: "HairFront38b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+					{ Name: "Front", Priority: 55},
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront38b
 			{ Name: "HairFront39",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Front", Priority: 55, CopyLayerColor: "Main"},
 					{ Name: "Behind", Priority: 5, CopyLayerColor: "Main"},
-				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 100 },
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 100
+			},//HairFront39
+			{ Name: "HairFront39b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main"},
+					{ Name: "Behind", Priority: 5, CopyLayerColor: "Main"},
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 100
+			},//HairFront39b
 			{ Name: "HairFront40",
 				Layer: [
 					{ Name: "Main" },
@@ -3310,27 +3343,56 @@ var AssetFemale3DCG = [
 					{ Name: "Behind", Priority: 5, CopyLayerColor: "Main"},
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 100
 			},//HairFront40
+			{ Name: "HairFront40b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main"},
+					{ Name: "Behind", Priority: 5, CopyLayerColor: "Main"},
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 100
+			},//HairFront40b
 			{ Name: "HairFront41", Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150 },
+			{ Name: "HairFront41b", Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150 },
 			{ Name: "HairFront42",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Fade", Priority: 8 },
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront42
+			{ Name: "HairFront42b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront42b
 			{ Name: "HairFront43",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Fade", Priority: 8 },
-					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" }
+					{ Name: "Front", Priority: 55 }
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront43
+			{ Name: "HairFront43b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+					{ Name: "Front", Priority: 55 }
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront43b
 			{ Name: "HairFront44",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Fade", Priority: 8 },
-					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" }
+					{ Name: "Front", Priority: 55 }
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront44
+			{ Name: "HairFront44b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+					{ Name: "Front", Priority: 55 }
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront44b
 			{ Name: "HairFront45",
 				Layer: [
 					{ Name: "Main" },
@@ -3340,6 +3402,15 @@ var AssetFemale3DCG = [
 					{ Name: "FrontTint", Priority: 55, CopyLayerColor: "Tint"},
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront45
+			{ Name: "HairFront45b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+					{ Name: "Tint" },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main"},
+					{ Name: "FrontTint", Priority: 55, CopyLayerColor: "Tint"},
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront45b
 			{ Name: "HairFront46",
 				Layer: [
 					{ Name: "Main" },
@@ -3347,13 +3418,27 @@ var AssetFemale3DCG = [
 					{ Name: "Fade", Priority: 8 },
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront46
+			{ Name: "HairFront46b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Front", Priority: 55, CopyLayerColor: "Main"},
+					{ Name: "Fade", Priority: 8 },
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront46b
 			{ Name: "HairFront47",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Fade", Priority: 8 },
 				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
 			},//HairFront47
+			{ Name: "HairFront47b",
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8 },
+				], Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150
+			},//HairFront47b
 			{ Name: "HairFront48", Priority: 8, Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150 },
+			{ Name: "HairFront48b", Priority: 8, Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150 },
 			{ Name: "HairFront49", Attribute: ["ShortHair"], Random: false,
 				Layer: [
 					{ Name: "Right" },
@@ -3383,7 +3468,9 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Fade", Priority: 8 },
-				], },
+				],
+			},//HairFront52b
+			{ Name: "HairFront53", Random: false, Attribute: ["ShortHair"], Top: 33, Left: 150 },
 		],
 		Color: ["#6a3628", "#202020", "#dcc787", "#6c2132", "#999999", "#dddddd", "#e781b1", "#81e7b1", "#81b1e7", "#eeee99", "#ee9999", "#ee99ee"]
 	},
@@ -3564,8 +3651,17 @@ var AssetFemale3DCG = [
 					{ Name: "Right" },
 				]
 			},
+			{
+				Name: "HairBack54b", AllowPose: ["Suspension"],
+				Layer: [
+					{ Name: "Left" },
+					{ Name: "Right" },
+				]
+			},
 			{ Name: "HairBack55" },
+			{ Name: "HairBack55b" },
 			{ Name: "HairBack56", Left: 50, Random: false },
+			{ Name: "HairBack56b", Left: 50, Random: false },
 			{ Name: "HairBack57", Random: false },
 			{ Name: "HairBack57b", Random: false },
 			{ Name: "HairBack57c", Random: false },
