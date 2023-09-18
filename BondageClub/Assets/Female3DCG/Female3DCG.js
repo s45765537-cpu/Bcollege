@@ -2057,6 +2057,20 @@ var AssetFemale3DCG = [
 					{ Name: "Symbol", AllowTypes: ["Ass", "Breasts", "Chastity", "Cock", "Pussy", "Thighs"], Priority: 30 },
 				],
 			},
+			{
+				Name: "PirateHat", Value: 30, HasType: false, Extended: true, Left: 100, Top: -30,
+				DefaultColor: ["#242424", "#EBEBEB", "#247234", "#CB771A", "#A92626", "#FFFFFF"],
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Feather2", AllowModuleTypes: ["f0", "f2"] },
+					{ Name: "Feather1", AllowModuleTypes: ["f0", "f1"] },
+					{ Name: "Trim" },
+					{ Name: "BandanaBack", AllowModuleTypes: ["b0"] },
+					{ Name: "Bandana", AllowModuleTypes: ["b0"], CopyLayerColor: "BandanaBack" },
+					{ Name: "ClassicSymbol", AllowModuleTypes: ["s0"] },
+					{ Name: "KinkSymbol", AllowModuleTypes: ["s1"], CopyLayerColor: "ClassicSymbol" },
+				],
+			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},

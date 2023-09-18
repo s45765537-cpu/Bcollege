@@ -233,6 +233,40 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NunHabit
+		PirateHat: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Bandana", Key: "b",
+					Options: [
+						{}, // Bandana
+						{}, // No bandana :(
+					],
+				},
+				{
+					Name: "Symbol", Key: "s",
+					Options: [
+						{}, // Classic
+						{}, // Kinky
+						{}, // None
+					],
+				},
+				{
+					Name: "Feathers", Key: "f", DrawImages: false,
+					Options: [
+						{}, // Both
+						{}, // Front
+						{}, // Back
+						{}, // None
+					],
+				},
+			],
+		}, // PirateHat
 	},
 	LeftHand: {
 		Rings: {
