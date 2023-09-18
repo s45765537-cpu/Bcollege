@@ -58,13 +58,25 @@ let StruggleProgress = -1;
 var StruggleProgressCurrentMinigame = "";
 
 /**
- * The item worn at the beginning of the minigame
+ * The item worn at the beginning of the minigame.
+ *
+ * This is a (shallow) copy so that changes made outside of the minigame
+ * don't cause crashes if the data gets changed externally —
+ * which can happen if someone else removes the item we're currently
+ * struggling with. Changes made to it might be ignored!
+ *
  * @type {Item | null}
  */
 var StruggleProgressPrevItem = null;
 
 /**
  * The item that should be worn at the end of the minigame
+ *
+ * This is a (shallow) copy so that changes made outside of the minigame
+ * don't cause crashes if the data gets changed externally —
+ * which can happen if someone else removes the item we're currently
+ * struggling with. Changes made to it might be ignored!
+ *
  * @type {Item | null}
  */
 var StruggleProgressNextItem = null;
@@ -486,6 +498,10 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
  *
  * If the game was already played a bit, it will also log the failure in chat.
  *
+ * Do not call this from within minigames, use {@link StruggleMinigameCheckCancel}
+ * and {@link StruggleProgressCheckEnd} instead so whoever started the minigame
+ * knows it has ended and can react accordingly.
+ *
  * @returns {void}
  */
 function StruggleMinigameStop() {
@@ -740,13 +756,18 @@ function StruggleLoosenHandleEvent(EventType) {
 			} else {
 				StruggleProgressStruggleCount--;
 				if (StruggleProgressStruggleCount <= 0) {
+					// FIXME: this should be handled by Dialog, using the minigame completion callback.
+					// It cannot at the time, as this was entered forcibly through calling StruggleLoosenSetup
+					// directly, which makes Dialog severely out-of-sync with what's going on.
 					SkillProgress(Player, "Evasion", (StruggleProgressChallenge + 1) * 5);
-					if (StruggleProgressPrevItem.Difficulty == null) StruggleProgressPrevItem.Difficulty = 0;
-					StruggleProgressPrevItem.Difficulty = StruggleProgressPrevItem.Difficulty - 2;
+					if (DialogStrugglePrevItem) {
+						if (DialogStrugglePrevItem.Difficulty == null) DialogStrugglePrevItem.Difficulty = 0;
+						DialogStrugglePrevItem.Difficulty = DialogStrugglePrevItem.Difficulty - 2;
+					}
 					CharacterRefresh(Player);
 					if (CurrentScreen == "ChatRoom") {
 						ChatRoomCharacterUpdate(Player);
-						ChatRoomPublishAction(Player, "ActionLoosenStruggle", StruggleProgressPrevItem, null);
+						ChatRoomPublishAction(Player, "ActionLoosenStruggle", DialogStrugglePrevItem, null);
 						DialogLeave();
 					} else {
 						StruggleMinigameStop();
