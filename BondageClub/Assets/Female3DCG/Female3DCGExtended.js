@@ -5270,6 +5270,10 @@ var AssetFemale3DCGExtended = {
 				PublishAction: InventoryItemDevicesWoodenBoxPublishActionHook,
 				AfterDraw: AssetsItemDevicesWoodenBoxAfterDrawHook,
 			},
+			AllowEffect: [
+				"BlindNormal",
+				"GagLight",
+			],
 		}, // WoodenBox
 		TransportWoodenBox: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9021,6 +9025,10 @@ var AssetFemale3DCGExtended = {
 				PublicModeCurrent: 0,
 				PublicModePermission: 0,
 			},
+			AllowEffect: [
+				"DenialMode",
+				"RuinOrgasms",
+			],
 		}, // FuturisticTrainingBelt
 		HeavyDutyBelt: {
 			Archetype: ExtendedArchetype.MODULAR,
