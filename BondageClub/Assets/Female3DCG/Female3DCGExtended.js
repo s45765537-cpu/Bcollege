@@ -756,7 +756,11 @@ var AssetFemale3DCGExtended = {
 		}, // TickleBra
 		ForbiddenChastityBra: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
 					Name: "ShockModule", Key: "s",
@@ -8561,7 +8565,11 @@ var AssetFemale3DCGExtended = {
 		}, // MetalChastityBelt
 		ForbiddenChastityBelt: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
 					Name: "CrotchShield", Key: "c",
