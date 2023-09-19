@@ -244,7 +244,7 @@ function VibratorModeGetDrawData(modeSet, drawData, y=450) {
  * @returns {VibratingItemData} - The generated vibrating item data for the asset
  */
 function VibratorModeCreateData(asset,
-	{ Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix, DrawData, ChatTags },
+	{ Options, ScriptHooks, BaselineProperty, Dictionary, DialogPrefix, DrawData, ChatTags, AllowEffect },
 	parentOption=null,
 ) {
 	const key = `${asset.Group.Name}${asset.Name}${parentOption ? parentOption.Name : ""}`;
@@ -275,6 +275,7 @@ function VibratorModeCreateData(asset,
 			CommonChatTags.ASSET_NAME,
 		],
 		drawData: VibratorModeGetDrawData(modeSet, DrawData),
+		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
 	data.options = VibratorModeGetOptions(data, modeSet);
 	return data;
@@ -379,24 +380,9 @@ function VibratorModeSetAssetProperties(data) {
 	const { asset } = data;
 	asset.DynamicScriptDraw = true;
 	asset.Extended = true;
-	VibratorModeSetAllowEffect(data);
+	TypedItemGenerateAllowEffect(data);
 	if (data.parentOption === null) {
 		asset.AllowTypes = Object.values(VibratorMode);
-	}
-}
-
-/**
- * Sets the AllowEffect property for a vibrating item
- * @param {VibratingItemData} data - The vibrating item data for the asset
- * @returns {void} - Nothing
- */
-function VibratorModeSetAllowEffect({asset, modeSet}) {
-	asset.AllowEffect = Array.isArray(asset.AllowEffect) ? [...asset.AllowEffect] : [];
-	// @ts-ignore: ignore `readonly` while still building the asset
-	CommonArrayConcatDedupe(asset.AllowEffect, ["Egged", "Vibrating"]);
-	if (modeSet.includes(VibratorModeSet.ADVANCED)) {
-		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(asset.AllowEffect, ["Edged"]);
 	}
 }
 

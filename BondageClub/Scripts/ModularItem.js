@@ -205,6 +205,7 @@ function ModularItemCreateModularData(asset, {
 	ScriptHooks,
 	Dictionary,
 	DrawData,
+	AllowEffect,
 	BaselineProperty=null,
 	DrawImages=null,
 }) {
@@ -245,6 +246,7 @@ function ModularItemCreateModularData(asset, {
 		baselineProperty: typeof BaselineProperty === "object" ? BaselineProperty : null,
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		parentOption: null,
+		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
 
 	// Populate the modules drawdata
@@ -867,12 +869,12 @@ function ModularItemGenerateValidationProperties(data) {
 	const {asset, modules} = data;
 	asset.Extended = true;
 	asset.AllowTypes = ModularItemGenerateTypeList(data);
-	asset.AllowEffect = Array.isArray(asset.AllowEffect) ? asset.AllowEffect.slice() : [];
+	asset.AllowEffect = CommonIsArray(asset.AllowEffect) ? [...data.allowEffect, ...asset.AllowEffect] : [...data.allowEffect];
 	// @ts-ignore: ignore `readonly` while still building the asset
 	CommonArrayConcatDedupe(asset.AllowEffect, asset.Effect);
-	asset.AllowBlock = Array.isArray(asset.Block) ? asset.Block.slice() : [];
-	asset.AllowHide = Array.isArray(asset.Hide) ? asset.Hide.slice() : [];
-	asset.AllowHideItem = Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [];
+	asset.AllowBlock = CommonIsArray(asset.Block) ? asset.Block.slice() : [];
+	asset.AllowHide = CommonIsArray(asset.Hide) ? asset.Hide.slice() : [];
+	asset.AllowHideItem = CommonIsArray(asset.HideItem) ? asset.HideItem.slice() : [];
 	for (const module of modules) {
 		for (const {Property} of module.Options) {
 			if (Property) {

@@ -32,6 +32,14 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 		};
 		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	}
+
+	if (data.allowEffect.length) {
+		asset.AllowEffect = Array.from(new Set([
+			...asset.Effect,
+			...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+			...data.allowEffect,
+		]));
+	}
 	asset.Extended = true;
 	return data;
 }
@@ -69,6 +77,7 @@ function TextItemCreateTextItemData(asset, {
 	EventListeners,
 	DrawData,
 	PushOnPublish,
+	AllowEffect,
 }, parentOption=null) {
 	// Gather the asset's relevant text property names
 	const textNames = CommonKeys(MaxLength);
@@ -116,6 +125,7 @@ function TextItemCreateTextItemData(asset, {
 		parentOption,
 		drawData: TextItemGetDrawData(textNames, DrawData),
 		pushOnPublish: typeof PushOnPublish === "boolean" ? PushOnPublish : true,
+		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
 }
 

@@ -168,6 +168,7 @@ function TypedItemCreateTypedItemData(asset, {
 	ChangeWhenLocked,
 	ScriptHooks,
 	DrawData,
+	AllowEffect,
 	BaselineProperty=null,
 }) {
 	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked);
@@ -197,6 +198,7 @@ function TypedItemCreateTypedItemData(asset, {
 		baselineProperty: typeof BaselineProperty === "object" ? BaselineProperty : null,
 		parentOption: null,
 		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed, { drawImage: DrawImages }),
+		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
 	for (const option of optionsParsed) {
 		option.ParentData = data;
@@ -251,15 +253,17 @@ function TypedItemGenerateAllowType({ asset, options }) {
 
 /**
  * Generates an asset's AllowEffect property based on its typed item data.
- * @param {TypedItemData} data - The typed item's data
+ * @param {TypedItemData | VibratingItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowEffect({asset, options}) {
-	asset.AllowEffect = Array.isArray(asset.Effect) ? asset.Effect.slice() : [];
-	for (const option of options) {
-		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(asset.AllowEffect, option.Property.Effect);
-	}
+function TypedItemGenerateAllowEffect({ asset, options, allowEffect }) {
+	const effects = [
+		...asset.Effect,
+		...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+		...allowEffect,
+	];
+	options.forEach(o => effects.push(...(o.Property.Effect || [])));
+	asset.AllowEffect = Array.from(new Set(effects));
 }
 
 /**

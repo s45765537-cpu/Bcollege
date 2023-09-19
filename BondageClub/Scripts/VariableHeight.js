@@ -42,7 +42,15 @@ function VariableHeightRegister(asset, config, parentOption=null) {
 		};
 		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	}
+
 	asset.Extended = true;
+	if (data.allowEffect.length) {
+		asset.AllowEffect = Array.from(new Set([
+			...asset.Effect,
+			...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+			...data.allowEffect,
+		]));
+	}
 	return data;
 }
 
@@ -80,6 +88,7 @@ function VariableHeightCreateData(asset,
 		ScriptHooks,
 		BaselineProperty,
 		DrawData,
+		AllowEffect,
 	},
 	parentOption=null)
 {
@@ -112,6 +121,7 @@ function VariableHeightCreateData(asset,
 		chatSetting: "default",
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		drawData: VariableHeightGetDrawData(DrawData),
+		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
 }
 
