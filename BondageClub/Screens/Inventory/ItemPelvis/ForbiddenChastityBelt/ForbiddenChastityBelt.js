@@ -39,7 +39,7 @@ function InventoryItemPelvisForbiddenChastityBelts1Click() {
 		return;
 	}
 
-	const C = CurrentCharacter;
+	const C = CharacterGetCurrent();
 
 	if (!DialogFocusItem) {
 		return;
