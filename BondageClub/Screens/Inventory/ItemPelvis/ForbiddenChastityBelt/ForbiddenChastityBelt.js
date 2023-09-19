@@ -172,9 +172,10 @@ function AssetsItemPelvisForbiddenChastityBeltScriptDraw(data) {
 	if (typeof persistentData.CheckTime !== "number") persistentData.CheckTime = CommonTime();
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
 	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
-
 	if (typeof property.NextShockTime !== "number") property.NextShockTime = 0;
-	if (typeof property.Type !== "string") property.Type = "";
+
+	const moduleTypes = ModularItemDeconstructType(property.Type) || [];
+	const canShock = moduleTypes.includes("s1");
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
@@ -189,7 +190,9 @@ function AssetsItemPelvisForbiddenChastityBeltScriptDraw(data) {
 	if (persistentData.UpdateTime < CommonTime()) {
 
 		if (data.C.IsPlayer() && CommonTime() > data.Item.Property.NextShockTime) {
-			AssetsItemPelvisForbiddenChastityBeltUpdate(data, persistentData.CheckTime);
+			if (canShock) {
+				AssetsItemPelvisForbiddenChastityBeltUpdate(data, persistentData.CheckTime);
+			}
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}
 
