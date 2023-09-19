@@ -244,7 +244,7 @@ function TypedItemPublishAction(data, C, item, newOption, previousOption) {
  * @returns {void} - Nothing
  */
 function TypedItemGenerateAllowType({ asset, options }) {
-	asset.AllowType = options
+	asset.AllowTypes = options
 		.map((option) => option.Property.Type)
 		.filter(Boolean);
 }
@@ -561,7 +561,7 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
  * @returns {boolean} Whether properties were initialized or not
  */
 function TypedItemInit(Data, C, Item, Refresh=true) {
-	const AllowType = [null, ...Item.Asset.AllowType];
+	const AllowType = [null, ...Item.Asset.AllowTypes];
 	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
 		return false;
 	}

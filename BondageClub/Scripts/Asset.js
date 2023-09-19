@@ -163,7 +163,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowEffect: AssetDef.AllowEffect,
 		AllowBlock: AssetDef.AllowBlock,
 		AllowTighten: AssetDef.AllowTighten,
-		AllowType: AssetDef.AllowType,
+		AllowTypes: AssetDef.AllowTypes,
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
