@@ -160,15 +160,19 @@ function CafeConsumeSpeciiality() {
 		const SPECIAL_DRINK_DURATION = 3600000;
 
 		if (CafeAskedFor == "EnergyDrink") {
-			if (!SkillSetModifier(Player, "Evasion", evasionModifier + 1, SPECIAL_DRINK_DURATION)
-				&& !SkillSetModifier(Player, "Bondage", bondageModifier + 1, SPECIAL_DRINK_DURATION))
+			let success = SkillSetModifier(Player, "Evasion", evasionModifier + 1, SPECIAL_DRINK_DURATION);
+			success = success && SkillSetModifier(Player, "Bondage", bondageModifier + 1, SPECIAL_DRINK_DURATION);
+			if (!success) {
 				CafeMaid.CurrentDialog = DialogFind(CafeMaid, "EnergyDrinkLimit");
+			}
 		}
 
 		if (CafeAskedFor == "GlassMilk") {
-			if (!SkillSetModifier(Player, "Evasion", evasionModifier - 2, SPECIAL_DRINK_DURATION)
-				&& !SkillSetModifier(Player, "Bondage", bondageModifier - 2, SPECIAL_DRINK_DURATION))
+			let success = SkillSetModifier(Player, "Evasion", evasionModifier - 2, SPECIAL_DRINK_DURATION);
+			success = success && SkillSetModifier(Player, "Bondage", bondageModifier - 2, SPECIAL_DRINK_DURATION);
+			if (!success) {
 				CafeMaid.CurrentDialog = DialogFind(CafeMaid, "GlassMilkLimit");
+			}
 		}
 
 		if (CafeAskedFor == "Cupcake") {
