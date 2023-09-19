@@ -4617,7 +4617,7 @@ var AssetFemale3DCG = [
 			    Prerequisite: ["AccessCrotch", "CanCoverVulva"], Hide: ["ItemVulva", "Pussy"],
 			    DefaultColor: ["Default", "Default", "Default", "Default", "#4FFF00" ],
 			    HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaPenisDildo", "ItemVulvaShockDildo", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing", "ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
-			    Effect: ["Chaste"], ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+			    ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			    Extended: true, HasType: false,
 			    Layer: [
 					{ Name: "Belt" },
