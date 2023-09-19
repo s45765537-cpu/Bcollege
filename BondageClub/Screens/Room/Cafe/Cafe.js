@@ -157,6 +157,8 @@ function CafeConsumeSpeciiality() {
 		CharacterChangeMoney(Player, CafePrice * -1);
 		const evasionModifier = SkillGetModifier(Player, "Evasion");
 		const bondageModifier = SkillGetModifier(Player, "Bondage");
+		const willpowerModifier = SkillGetModifier(Player, "Willpower");
+		const lockpickModifier = SkillGetModifier(Player, "LockPicking");
 		const SPECIAL_DRINK_DURATION = 3600000;
 
 		if (CafeAskedFor == "EnergyDrink") {
@@ -176,7 +178,11 @@ function CafeConsumeSpeciiality() {
 		}
 
 		if (CafeAskedFor == "Cupcake") {
-			// No effect
+			let success = SkillSetModifier(Player, "LockPicking", lockpickModifier + 1, SPECIAL_DRINK_DURATION);
+			success = success && SkillSetModifier(Player, "Willpower", willpowerModifier + 1, SPECIAL_DRINK_DURATION);
+			if (!success) {
+				CafeMaid.CurrentDialog = DialogFind(CafeMaid, "CupcakeLimit");
+			}
 		}
 	}
 }
