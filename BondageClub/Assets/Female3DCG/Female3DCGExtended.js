@@ -8577,14 +8577,14 @@ var AssetFemale3DCGExtended = {
 						},
 						{ // 2 - close back
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
 							}
 						},
 						{ // 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 							}
@@ -8693,14 +8693,14 @@ var AssetFemale3DCGExtended = {
 						},
 						{ // 2 - close back
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
 							}
 						},
 						{ // 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 							}
