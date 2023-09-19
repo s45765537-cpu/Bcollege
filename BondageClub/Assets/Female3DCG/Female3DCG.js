@@ -3660,7 +3660,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "HairBack54b", AllowPose: ["Suspension"],
+				Name: "HairBack54b",
 				Layer: [
 					{ Name: "Left" },
 					{ Name: "Right" },
