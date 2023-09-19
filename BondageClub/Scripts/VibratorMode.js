@@ -319,10 +319,12 @@ function VibratorModeLoad({ dialogPrefix: { header } }) {
  * @param {Item} item - The item whose options are being validated
  * @param {VibratingItemOption} newOption - The new option
  * @param {VibratingItemOption} previousOption - The previously applied option
+ * @param {boolean} permitExisting - Determines whether the validation should allow the new option and previous option
+ * to be identical. Defaults to `false`.
  * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
  * message informing the player of the requirements that are not met.
  */
-function VibratorModeValidate(data, C, item, newOption, previousOption) {
+function VibratorModeValidate(data, C, item, newOption, previousOption, permitExisting=false) {
 	if (
 		newOption.Property
 		&& VibratorModesAdvanced.includes(newOption.Property.Mode)
@@ -331,7 +333,7 @@ function VibratorModeValidate(data, C, item, newOption, previousOption) {
 	) {
 		return DialogFindPlayer("ExtendedItemNoItemPermission");
 	} else {
-		return ExtendedItemValidate(data, C, item, newOption, previousOption);
+		return ExtendedItemValidate(data, C, item, newOption, previousOption, permitExisting);
 	}
 }
 
