@@ -789,21 +789,42 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // TickleBra
 		ForbiddenChastityBra: {
-			Archetype: ExtendedArchetype.MODULAR,
+			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
 				CommonChatTags.SOURCE_CHAR,
 				CommonChatTags.DEST_CHAR,
 				CommonChatTags.ASSET_NAME,
 			],
-			Modules: [
+			DrawImages: false,
+			Options: [
+				{ Name: "Off" },
 				{
-					Name: "ShockModule", Key: "s",
-					Options: [
-						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
-					],
+					Name: "Low",
+					Property: { ShockLevel: 0 },
+				},
+				{
+					Name: "Medium",
+					Property: { ShockLevel: 1 },
+				},
+				{
+					Name: "High",
+					Property: { ShockLevel: 2 },
 				},
 			],
+			DrawData: {
+				elementData: [
+					{ position: ExtendedXYWithoutImages[8][0] },
+					{ position: ExtendedXYWithoutImages[8][1] },
+					{ position: ExtendedXYWithoutImages[8][2] },
+					{ position: ExtendedXYWithoutImages[8][3] },
+				],
+			},
+			ScriptHooks: {
+				Draw: InventoryItemBreastForbiddenChastityBraDrawHook,
+				Click: InventoryItemBreastForbiddenChastityBraClickHook,
+				BeforeDraw: AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook,
+				ScriptDraw: AssetsItemBreastForbiddenChastityBraScriptDrawHook,
+			},
 			ChangeWhenLocked: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
 		}, // ForbiddenChastityBra
@@ -8608,6 +8629,7 @@ var AssetFemale3DCGExtended = {
 				CommonChatTags.DEST_CHAR,
 				CommonChatTags.ASSET_NAME,
 			],
+			DrawImages: true,
 			Modules: [
 				{
 					Name: "CrotchShield", Key: "c",
@@ -8636,15 +8658,37 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "ShockModule", Key: "s",
+					Name: "ShockModule", Key: "s", DrawImages: false,
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[8][0] },
+							{ position: ExtendedXYWithoutImages[8][1] },
+							{ position: ExtendedXYWithoutImages[8][2] },
+							{ position: ExtendedXYWithoutImages[8][3] },
+						],
+					},
 					Options: [
-						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
+						{}, // Off
+						{ Property: { ShockLevel: 0 } }, // Low
+						{ Property: { ShockLevel: 1 } }, // Medium
+						{ Property: { ShockLevel: 2 } }, // High
 					],
 				},
 			],
+			DrawData: {
+				elementData: [
+					{}, // CrotchShield
+					{ imagePath: "Screens/Inventory/ItemPelvis/ForbiddenChastityBelt/s0.png" }, // ShockModule
+				],
+			},
+			ScriptHooks: {
+				Draw: InventoryItemBreastForbiddenChastityBraDrawHook,
+				Click: InventoryItemBreastForbiddenChastityBraClickHook,
+				BeforeDraw: AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook,
+				ScriptDraw: AssetsItemBreastForbiddenChastityBraScriptDrawHook,
+			},
 			ChangeWhenLocked: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
+			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
 		}, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
