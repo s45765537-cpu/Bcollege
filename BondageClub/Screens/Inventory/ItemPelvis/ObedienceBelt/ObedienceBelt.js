@@ -57,18 +57,21 @@ function InventoryItemPelvisObedienceBelts1Exit() {
 
 /**
  * @param {Item} Item
+ * @param {Character} C
  */
-function InventoryObedienceBeltCheckPunish(Item) {
-	const { Type, PunishOrgasm, PunishStandup } = Item.Property;
-	const wearsShockModule = Type.includes("s1");
-	if (Item.Property.NextShockTime - CurrentTime <= 0 && PunishOrgasm && wearsShockModule && Player.ArousalSettings && Player.ArousalSettings.OrgasmStage > 1) {
+function InventoryObedienceBeltCheckPunish(Item, C) {
+	const { PunishOrgasm, PunishStandup, PunishStruggle } = Item.Property;
+	if (Item.Property.NextShockTime - CurrentTime <= 0 && PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1) {
 		// Punish the player if they orgasm
 		Item.Property.NextShockTime = CurrentTime + FuturisticChastityBeltShockCooldownOrgasm; // Difficult to have two orgasms in 10 seconds
 		return "Orgasm";
-	} else if (PunishStandup && wearsShockModule && FuturisticTrainingBeltStandUpFlag) {
+	} else if (PunishStandup && FuturisticTrainingBeltStandUpFlag) {
 		// Punish the player if they stand up
 		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
+	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 10 || StruggleLockPickProgressCurrentTries > 0)) {
+		// Punish the player if they Struggle
+		return "Struggle";
 	}
 	return "";
 }
@@ -83,7 +86,7 @@ function AssetsItemPelvisObedienceBeltUpdate(data, LastTime) {
 
 	if (!Item.Property) return;
 
-	let punishment = InventoryObedienceBeltCheckPunish(Item);
+	const punishment = InventoryObedienceBeltCheckPunish(Item, C);
 	switch (punishment) {
 		case "Orgasm":
 			PropertyShockPublishAction(C, Item, true);
@@ -92,6 +95,14 @@ function AssetsItemPelvisObedienceBeltUpdate(data, LastTime) {
 			PropertyShockPublishAction(C, Item, true);
 			CharacterSetActivePose(Player, "Kneel");
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			break;
+		case "Struggle":
+			// NOTE: The `Struggle` case is currently unused by the obedience belt,
+			// but is used by the forbidden chastity bra/belt
+			PropertyShockPublishAction(C, Item, true);
+			StruggleProgressStruggleCount = 0;
+			StruggleProgress = 0;
+			DialogLeaveDueToItem = true;
 			break;
 	}
 }
@@ -109,7 +120,9 @@ function AssetsItemPelvisObedienceBeltScriptDraw(data) {
 
 	if (!data.Item.Property) data.Item.Property = {};
 	if (typeof data.Item.Property.NextShockTime !== "number") data.Item.Property.NextShockTime = 0;
-	if (typeof data.Item.Property.Type !== "string") data.Item.Property.Type = "";
+
+	const moduleTypes = ModularItemDeconstructType(data.Item.Property.Type) || [];
+	const canShock = moduleTypes.includes("s1");
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
@@ -119,7 +132,9 @@ function AssetsItemPelvisObedienceBeltScriptDraw(data) {
 	if (persistentData.UpdateTime < CommonTime() && data.C == Player) {
 
 		if (CommonTime() > data.Item.Property.NextShockTime) {
-			AssetsItemPelvisObedienceBeltUpdate(data, persistentData.CheckTime);
+			if (canShock) {
+				AssetsItemPelvisObedienceBeltUpdate(data, persistentData.CheckTime);
+			}
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}
 
