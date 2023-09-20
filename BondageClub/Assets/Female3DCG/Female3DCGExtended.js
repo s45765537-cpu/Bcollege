@@ -2864,6 +2864,8 @@ var AssetFemale3DCGExtended = {
 			ScriptHooks: {
 				Draw: InventoryItemNeckAccessoriesCollarShockUnitDrawHook,
 				Click: InventoryItemNeckAccessoriesCollarShockUnitClickHook,
+				BeforeDraw: AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook,
+				ScriptDraw: AssetsItemNeckAccessoriesCollarShockUnitScriptDrawHook,
 			},
 			DrawImages: false,
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
@@ -2897,8 +2899,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ScriptHooks: {
-				Draw: InventoryItemNeckAccessoriesCollarAutoShockUnitDraw,
-				Click: InventoryItemNeckAccessoriesCollarAutoShockUnitClick,
+				Draw: InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook,
+				Click: InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook,
+				BeforeDraw: AssetsItemNeckAccessoriesCollarAutoShockUnitBeforeDrawHook,
+				ScriptDraw: AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDrawHook,
 			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false },
 		}, // CollarAutoShockUnit
