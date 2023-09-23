@@ -1737,6 +1737,8 @@ ClothLatexTankTopHoodDown, Loose Hood
 ClothLatexTankTopHoodFull, Pulled Hood
 ClothLatexTankTopHoodHigh, Hoddie Up
 ClothLatexTankTopHoodLow, Hoodie Down
+ClothFishnetTop,Fishnet Top
+SuitFishnetTop,Fishnet Top
 ItemHoodVacHoodBase,Hood
 ItemHoodVacHoodLenses,Lenses
 ItemHoodVacHoodTube,Breathing Tube

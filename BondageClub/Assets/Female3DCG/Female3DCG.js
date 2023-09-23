@@ -352,6 +352,16 @@ var AssetFemale3DCG = [
 					{ Name: "Frill", MinOpacity: 1,},
 				],
 			},
+			{
+				Name: "FishnetTop", Value: 30, HasType: false, DefaultColor: ["#1C1C1C"],
+				BuyGroup: "FishnetTop",
+				Layer: [
+					{ Name: "Chest" },
+					{ Name: "Full", AllowModuleTypes: ["t0"], CopyLayerColor: "Chest", HideColoring: true },
+					{ Name: "Crop", AllowModuleTypes: ["t1"], CopyLayerColor: "Chest", HideColoring: true },
+					{ Name: "Sleeves", AllowModuleTypes: ["s0"], CopyLayerColor: "Chest", HideColoring: true },
+				],
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "MaleTankTop1", Gender: "M", Prerequisite: ["HasFlatChest"], HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsNecklacePiercingChain", "ItemNipplesLactationPump", "BraRibbons", "ItemBreastRibbons"]
@@ -651,6 +661,16 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false },
 					{ Name: "BreastShade", AllowColorize: false }
 				]
+			},
+			{
+				Name: "FishnetTop", Value: -1, HasType: false, DefaultColor: ["#1C1C1C"],
+				BuyGroup: "FishnetTop", DynamicGroupName: "Cloth",
+				Layer: [
+					{ Name: "Chest" },
+					{ Name: "Full", AllowModuleTypes: ["t0"], CopyLayerColor: "Chest", HideColoring: true },
+					{ Name: "Crop", AllowModuleTypes: ["t1"], CopyLayerColor: "Chest", HideColoring: true },
+					{ Name: "Sleeves", AllowModuleTypes: ["s0"], CopyLayerColor: "Chest", HideColoring: true, Priority: 27 },
+				],
 			},
 			// Flat Chest Compatible Clothing
 			{
