@@ -1324,7 +1324,18 @@ var AssetFemale3DCG = [
 					{ Name: "Sidestraps", AllowColorize: true, HasType: false, AllowTypes: ["Sidestraps", "Holemesh"], AllowPose: ["KneelingSpread", "LegsClosed", "Spread", "Kneel"]},
 					{ Name: "Waistband", AllowColorize: true, HasType: false, AllowPose: ["KneelingSpread", "LegsClosed", "Spread", "Kneel"]},
 				]
-			}
+			},
+			{
+				Name: "CockSock", Gender: "M", Prerequisite: ["HasPenis"], Attribute: ["GenitaliaCover"], Value: 30,
+				Hide: ["Pussy", "ItemVulva", "ItemVulvaPiercings"], ParentGroup: null,
+				Top: 450, Left: 200, DefaultColor: [ "#363636", "#FF7386", "#FF7386" ],
+				Priority: 21, AllowExpression: ["Hard"],
+				Layer: [
+					{ Name: "Base", MirrorExpression: "Pussy" },
+					{ Name: "Stripes", MirrorExpression: "Pussy" },
+					{ Name: "Bow" },
+				],
+			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -4517,6 +4528,19 @@ var AssetFemale3DCG = [
 					{ Name: "Penis", InheritColor: "Pussy", HideColoring: true, ColorSuffix: { HEX_COLOR: "White" } },
 					{ Name: "Cage" },
 					{ Name: "Lock", LockLayer: true}
+				],
+			},
+			{
+				Name: "ChastityPouch", Gender: "M", Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Value: 25, Difficulty: 50, Effect: ["Chaste"], Hide: ["Pussy"], AllowPose: [], AllowLock: true,
+				Left: 200, Top: 510, Priority: 21,
+				DefaultColor: ["#EE7F8F", "#F5F5F5", "#141414", "#B6B6B6", "Default"],
+				Layer: [
+					{ Name: "Pouch" },
+					{ Name: "Lace" },
+					{ Name: "Belt" },
+					{ Name: "Buckle" },
+					{ Name: "Lock", LockLayer: true, AllowColorize: false },
 				],
 			},
 		],

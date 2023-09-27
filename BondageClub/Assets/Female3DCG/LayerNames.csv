@@ -199,6 +199,9 @@ PantiesFloralPanties2Base,Base
 PantiesFloralPanties2Flowers,Pattern
 PantiesMaidPanties2Frills,Frills
 PantiesMaidPanties2Panties,Panties
+PantiesCockSockBase,Cock Sock
+PantiesCockSockStripes,Stripes
+PantiesCockSockBow,Bow
 SocksSocks6Sock,Sock
 SocksSocks6Frill,Trim
 SocksSocksFurFabric,Sock
@@ -1617,6 +1620,11 @@ ItemVulvaTechnoChastityCageCage,Cage
 ItemVulvaTechnoChastityCageLock,Lock Icon
 ItemVulvaFlatChastityCageCage,Cage
 ItemVulvaFlatChastityCageLock,Lock
+ItemVulvaChastityPouchPouch,Pouch
+ItemVulvaChastityPouchLace,Lace
+ItemVulvaChastityPouchBelt,Belt
+ItemVulvaChastityPouchBuckle,Buckle
+ItemVulvaChastityPouchLock,Lock
 HairFrontHairFront37Main,Main
 HairFrontHairFront37Front,Front
 HairFrontHairFront37bMain,Main
