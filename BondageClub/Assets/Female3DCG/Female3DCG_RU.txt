@@ -214,6 +214,8 @@ Smoochy Lipstick
 Губная помада
 Bug Legs
 Лапки жука
+Large Belt
+Большой пояс
 Necklace
 Для шеи
 Fancy Necklace
@@ -252,6 +254,8 @@ Tattoo Choker
 Тату Колье
 Body Chain Necklace
 Ожерелье с цепочками
+Butterfly Necklace
+Ожерелье с бабочкой
 Upper Suit
 Верхний костюм
 Catsuit
@@ -362,6 +366,8 @@ Fitted Pleated Skirt
 Облегающая плиссированная юбка
 Long Latex Pants
 Длинные латексные штаны
+Business Skirt
+Деловая юбка
 Suit Lower
 Нижний костюм
 Catsuit Panties
@@ -684,6 +690,14 @@ Latex Heels
 Латексные каблуки
 Latex ThighBoots
 Латексные высокие сапоги
+Duty Shoes
+Служебная обувь
+Social Heels
+Светские каблуки
+Street Boots
+Уличные сапоги
+Western Boots
+Сапоги Дикого Запада
 Multi-Strap Heels
 Каблуки с несколькими ремешками
 Barefoot Sandals
@@ -905,6 +919,8 @@ Kinky Band
 5-цветная полоса
 Spiked Wristbands
 Браслеты с шипами
+Wristbands
+Браслеты
 Band 1
 Браслет 1
 Lace Armbands
@@ -2171,6 +2187,8 @@ Cowbell
 Колокольчик для коровы
 Pup Bone
 Щенячья кость
+Butterfly Pendant
+Подвеска-бабочка
 Long Chain
 длинная цепочка
 Short Chain
@@ -2457,6 +2475,8 @@ Techno Helmet
 Техно-Шлем
 GGTS Helmet
 GGTS Шлем
+GGTS Slave Helmet
+GGTS Рабский шлем
 Lampshade Hood
 Абажур Капот
 Accent Hood

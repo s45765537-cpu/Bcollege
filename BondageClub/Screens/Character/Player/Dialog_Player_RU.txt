@@ -1422,6 +1422,8 @@ an unknown amount of time
 неизвестное количество времени
 The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 LockName на DestinationCharacterName FocusAssetGroup открывается щелчком мыши
+The locks on DestinationCharacterName UnlockedGroups open with a click
+Замки в DestinationCharacterName UnlockedGroups открываются одним щелчком мыши.
 SourceCharacter updates the key settings for the lock on DestinationCharacter FocusAssetGroup
 SourceCharacter обновляет настройки ключа для блокировки на DestinationCharacter FocusAssetGroup
 Save key list
@@ -4106,6 +4108,24 @@ Goddess
 Богиня
 Good Girl
 Хорошая девочка
+Good Slave Girl
+Хорошая девочка рабыня
+Slave Girl
+Девочка рабыня
+Perfect Slave Girl
+Идеальная девочка рабыня
+Perfect Girl
+Идеальная девушка
+SourceCharacter sets DestinationCharacter helmet status to "Good Girl".
+SourceCharacter устанавливает статус шлема DestinationCharacter на "Хорошая девочка".
+SourceCharacter sets DestinationCharacter helmet status to "Good Slave Girl".
+SourceCharacter устанавливает статус шлема DestinationCharacter на Хорошая девочка рабыня".
+SourceCharacter sets DestinationCharacter helmet status to "Slave Girl".
+SourceCharacter устанавливает статус шлема DestinationCharacter на "Девочка рабыня".
+SourceCharacter sets DestinationCharacter helmet status to "Perfect Slave Girl".
+SourceCharacter устанавливает статус шлема DestinationCharacter на "Идеальная девочка рабыня".
+SourceCharacter sets DestinationCharacter helmet status to "Perfect Girl".
+SourceCharacter устанавливает статус шлема DestinationCharacter на "«"Идеальная девушка".
 Hold Me
 Держи меня
 Jewel
@@ -5376,6 +5396,8 @@ Right arm
 Правая рука
 Left arm
 Левая рука
+Select a wristband style.
+Выберите стиль браслета.
 Select a diaper pattern.
 Выберите рисунок подгузника.
 Butterflies
@@ -7524,6 +7546,8 @@ Forbidden Stand Up
 Назазание за попытку встать
 Forbidden Struggle
 Назазание за попытку освободиться 
+Select Shock Module
+Настройте шоковый модуль
 SourceCharacter sets DestinationCharacter AssetName to disable shock module.
 SourceCharacter выбирает на  DestinationCharacter AssetName отключить шоковый модуль.
 SourceCharacter sets DestinationCharacter AssetName to enable shock module.
