@@ -825,7 +825,7 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 function testAllowTypes(dataRecord) {
 	for (const data of Object.values(dataRecord)) {
 		const asset = data.asset;
-		const allowType = /** @type {readonly string[]} */(asset.AllowType);
+		const allowType = /** @type {readonly string[]} */(asset.AllowTypes);
 		for (const layer of asset.Layer) {
 			if (!layer.AllowTypes) {
 				continue;

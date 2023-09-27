@@ -111,7 +111,7 @@ function ModularItemRegister(asset, config) {
  * @returns {boolean} Whether properties were initialized or not
  */
 function ModularItemInit(Data, C, Item, Refresh=true) {
-	const AllowType = Data.asset.AllowType;
+	const AllowType = Data.asset.AllowTypes;
 	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
 		return false;
 	}
@@ -725,7 +725,7 @@ function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = fals
 		return msg;
 	}
 
-	if (!item.Asset.AllowType.includes(optionNames)) {
+	if (!item.Asset.AllowTypes.includes(optionNames)) {
 		const msg = `${warningMessage}: option "${optionNames}" does not exist`;
 		console.warn(msg);
 		return msg;
@@ -866,7 +866,7 @@ function ModularItemGenerateAllowLockType(data) {
 function ModularItemGenerateValidationProperties(data) {
 	const {asset, modules} = data;
 	asset.Extended = true;
-	asset.AllowType = ModularItemGenerateTypeList(data);
+	asset.AllowTypes = ModularItemGenerateTypeList(data);
 	asset.AllowEffect = Array.isArray(asset.AllowEffect) ? asset.AllowEffect.slice() : [];
 	// @ts-ignore: ignore `readonly` while still building the asset
 	CommonArrayConcatDedupe(asset.AllowEffect, asset.Effect);

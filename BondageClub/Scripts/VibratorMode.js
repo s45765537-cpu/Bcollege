@@ -379,7 +379,7 @@ function VibratorModeSetAssetProperties(data) {
 	asset.Extended = true;
 	VibratorModeSetAllowEffect(data);
 	if (data.parentOption === null) {
-		asset.AllowType = Object.values(VibratorMode);
+		asset.AllowTypes = Object.values(VibratorMode);
 	}
 }
 

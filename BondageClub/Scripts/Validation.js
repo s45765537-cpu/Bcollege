@@ -684,7 +684,7 @@ function ValidationSanitizeProperties(C, item) {
 	changed = ValidationSanitizeStringArray(property, "Hide") || changed;
 
 	// If the property has a type, it needs to be in the asset's AllowType array
-	const allowType = asset.AllowType || [];
+	const allowType = asset.AllowTypes || [];
 	if (property.Type != null && !allowType.includes(property.Type)) {
 		console.warn(`Removing invalid type "${property.Type}" from ${asset.Name}`);
 		delete property.Type;
@@ -717,7 +717,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Remove invalid properties from non-typed items
-	if (!asset.AllowType || !asset.AllowType.length) {
+	if (!asset.AllowTypes || !asset.AllowTypes.length) {
 		["SetPose", "Difficulty", "SelfUnlock", "Hide"].forEach(P => {
 			if (property[P] != null) {
 				console.warn(`Removing invalid property "${P}" from ${asset.Name}`);

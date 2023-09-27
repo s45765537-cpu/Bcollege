@@ -216,7 +216,7 @@ function CraftingItemSupportsAutoType() {
 	if (ItemAsset == null) {
 		return false;
 	} else {
-		return (ItemAsset.AllowType != null) && (ItemAsset.AllowType.length > 0);
+		return (ItemAsset.AllowTypes != null) && (ItemAsset.AllowTypes.length > 0);
 	}
 }
 
@@ -1027,14 +1027,14 @@ function CraftingClick() {
 		} else if (MouseIn(1175, 768, 64, 64)) {
 			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
 		} else if (MouseIn(1840, 858, 60, 60) && CraftingItemSupportsAutoType()) {
-			if ((CraftingSelectedItem.Type == null) || (CraftingSelectedItem.Type == "") || (CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) < 0))
-				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowType[0];
+			if ((CraftingSelectedItem.Type == null) || (CraftingSelectedItem.Type == "") || (CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) < 0))
+				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowTypes[0];
 			else
-			if (CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) >= CraftingSelectedItem.Asset.AllowType.length - 1)
+			if (CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) >= CraftingSelectedItem.Asset.AllowTypes.length - 1)
 			// @ts-ignore
 				CraftingSelectedItem.Type = CraftingValidationRecord.Type.GetDefault(CraftingSelectedItem, CraftingSelectedItem.Asset) || "";
 			else
-				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowType[CraftingSelectedItem.Asset.AllowType.indexOf(CraftingSelectedItem.Type) + 1];
+				CraftingSelectedItem.Type = CraftingSelectedItem.Asset.AllowTypes[CraftingSelectedItem.Asset.AllowTypes.indexOf(CraftingSelectedItem.Type) + 1];
 			ElementValue("InputType", CraftingSelectedItem.Type);
 			CraftingUpdatePreview();
 		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
@@ -1421,7 +1421,7 @@ const CraftingValidationRecord = {
 			} else if (a.Archetype === ExtendedArchetype.TYPED) {
 				return null;
 			} else {
-				return (a.AllowType && (a.AllowType.length >= 1)) ? a.AllowType[0] : null;
+				return (a.AllowTypes && (a.AllowTypes.length >= 1)) ? a.AllowTypes[0] : null;
 			}
 		},
 		StatusCode: CraftingStatusType.ERROR,

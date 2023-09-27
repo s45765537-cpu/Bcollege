@@ -1218,7 +1218,7 @@ interface Asset {
 	AllowBlock?: readonly AssetGroupItemName[];
 	AllowHide?: readonly AssetGroupName[];
 	AllowHideItem?: readonly string[];
-	AllowType?: readonly string[];
+	AllowTypes?: readonly string[];
 	AllowTighten?: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of `"Default"` and/or valid color hex codes.
