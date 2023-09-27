@@ -1564,7 +1564,7 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	// Remove all queued expression for that group if it's not coming from the queue
 	if (!fromQueue && C.ExpressionQueue) {
 		C.ExpressionQueue = C.ExpressionQueue.filter(({ Group }) => Group !== AssetGroup);
-	};
+	}
 	// We can't have timers on the null/default expression.
 	if (Timer != null && Expression != null) {
 		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), Expression);

@@ -790,7 +790,11 @@ var AssetFemale3DCGExtended = {
 		}, // TickleBra
 		ForbiddenChastityBra: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
 					Name: "ShockModule", Key: "s",
@@ -8595,7 +8599,11 @@ var AssetFemale3DCGExtended = {
 		}, // MetalChastityBelt
 		ForbiddenChastityBelt: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
 					Name: "CrotchShield", Key: "c",
@@ -8606,21 +8614,19 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 							}
 						},
 						{ // 2 - close back
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
 							}
 						},
 						{ // 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 							}
 						},
 					],
@@ -8727,14 +8733,14 @@ var AssetFemale3DCGExtended = {
 						},
 						{ // 2 - close back
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
 							}
 						},
 						{ // 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
-								Effect: ["Chaste"],
+								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
 							}

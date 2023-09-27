@@ -39,7 +39,7 @@ function InventoryItemBreastForbiddenChastityBras1Click() {
 		return;
 	}
 
-	const C = CurrentCharacter;
+	const C = CharacterGetCurrent();
 
 	if (!DialogFocusItem) {
 		return;
@@ -172,9 +172,10 @@ function AssetsItemBreastForbiddenChastityBraScriptDraw(data) {
 	if (typeof persistentData.CheckTime !== "number") persistentData.CheckTime = CommonTime();
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
 	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
-
 	if (typeof property.NextShockTime !== "number") property.NextShockTime = 0;
-	if (typeof property.Type !== "string") property.Type = "";
+
+	const moduleTypes = ModularItemDeconstructType(property.Type) || [];
+	const canShock = moduleTypes.includes("s1");
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
@@ -189,7 +190,9 @@ function AssetsItemBreastForbiddenChastityBraScriptDraw(data) {
 	if (persistentData.UpdateTime < CommonTime()) {
 
 		if (data.C.IsPlayer() && CommonTime() > data.Item.Property.NextShockTime) {
-			AssetsItemBreastForbiddenChastityBraUpdate(data, persistentData.CheckTime);
+			if (canShock) {
+				AssetsItemBreastForbiddenChastityBraUpdate(data, persistentData.CheckTime);
+			}
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}
 
