@@ -65,7 +65,7 @@ function InfiltrationReverseMaidCanComplete() { return ((PandoraReverseMaidDone 
  * Returns TRUE if the player hasat least 1 NPC from Pandora in their private room and has reached 5 infiltration
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationPandoraPrisonerPresent() { return InfiltrationPandoraPrisoner != null && SkillGetLevel(Player, "Infiltration") >= 5;}
+function InfiltrationPandoraPrisonerPresent() { return (InfiltrationPandoraPrisoner != null && SkillGetLevel(Player, "Infiltration") >= 5);}
 
 /**
  * Returns TRUE if the player brought back a Mistress from Pandoras Box
@@ -83,6 +83,12 @@ function InfiltrationCanJoinPrivateRoom() { return (LogQuery("RentRoom", "Privat
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
  */
 function InfiltrationCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+
+/**
+ * Returns TRUE if the player has free space and is skilled enough.
+ * @returns {boolean} - * Returns TRUE if the player has free space and is skilled enough.
+ */
+function InfiltrationCanBrainwashCaptive() { return (InfiltrationCanJoinPrivateRoom() && SkillGetLevel(Player, "Infiltration") >= 5);}
 
 /**
  * Loads the infiltration screen by generating the supervisor.
@@ -166,7 +172,7 @@ function InfiltrationPrepareMission() {
 	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
 	//InfiltrationMission = "ReverseMaid"; // DEBUG
 	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
-		let C = {};
+		let C = /** @type {NPCCharacter} */ ({});
 		CharacterRandomName(C);
 		InfiltrationTarget = {
 			Type: "NPC",
@@ -500,8 +506,8 @@ function InfiltrationDressMaid(Rep) {
 
 function InfiltrationPandoraPrisonerBrainwash() {
 	var C = InfiltrationPandoraPrisoner;
-	//Hide character for 3 days
-	NPCEventAdd(C, "NPCBrainwashing", CurrentTime + 259200000);
+	//Hide character for 1 day
+	NPCEventAdd(C, "NPCBrainwashing", CurrentTime + 86400000);
 	//Remove Pandora flag
 	C.FromPandora = false;
 	//Enslave to player
@@ -521,7 +527,7 @@ function InfiltrationPandoraPrisonerBrainwash() {
 	var T = NPCTraitGet(C, "Dominant") - S;
 	if (T < -100) { T = -100; }
 	NPCTraitSet(C, "Dominant", T);
-	//Neutralize relation, will further decay over time to represent resentment from interrogation
+	//Neutralize relation, will further decay over time to represent resentment from sending to interrogation
 	C.Love = 0;
 	//Reset and recheck for smoother dialog
 	InfiltrationSetPandoraPrisoner();
