@@ -9,18 +9,17 @@ var PasswordResetMessage = "";
 function PasswordResetLoad() {
 
 	// Creates the controls
-	ElementCreateInput("InputEmail", "text", "", "100");
-	ElementCreateInput("InputAccountName", "text", "", "50");
-	ElementCreateInput("InputResetNumber", "text", "", "20");
-	ElementCreateInput("InputPassword1", "password", "", "20");
-	ElementCreateInput("InputPassword2", "password", "", "20");
-
-	// No autocomplete
-	document.getElementById("InputEmail").setAttribute("autocomplete", "off");
-	document.getElementById("InputAccountName").setAttribute("autocomplete", "off");
-	document.getElementById("InputResetNumber").setAttribute("autocomplete", "off");
-	document.getElementById("InputPassword1").setAttribute("autocomplete", "off");
-	document.getElementById("InputPassword2").setAttribute("autocomplete", "off");
+	const form = ElementCreateForm("Reset");
+	const email = ElementCreateInput("InputEmail", "email", "", "100", form);
+	email.setAttribute("autocomplete", "email");
+	const account = ElementCreateInput("InputAccountName", "text", "", "50", form);
+	account.setAttribute("autocomplete", "username");
+	const nonce = ElementCreateInput("InputResetNumber", "text", "", "20", form);
+	nonce.setAttribute("autocomplete", "one-time-code");
+	const pass1 = ElementCreateInput("InputPassword1", "password", "", "20", form);
+	pass1.setAttribute("autocomplete", "old-password");
+	const pass2 = ElementCreateInput("InputPassword2", "password", "", "20", form);
+	pass2.setAttribute("autocomplete", "new-password");
 
 	// Clears the fields after a little while
 	setTimeout(function() {

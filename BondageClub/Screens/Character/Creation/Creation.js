@@ -17,11 +17,17 @@ function CreationLoad() {
 	} else ImportBondageCollegeData = null;
 
 	// Creates the text fields element
-	ElementCreateInput("InputCharacter", "text", DefaultName, "20");
-	ElementCreateInput("InputName", "text", "", "20");
-	ElementCreateInput("InputPassword1", "password", "", "20");
-	ElementCreateInput("InputPassword2", "password", "", "20");
-	ElementCreateInput("InputEmail", "text", "", "100");
+	const form = ElementCreateForm("Creation");
+	const name = ElementCreateInput("InputCharacter", "text", DefaultName, "20", form);
+	name.setAttribute("autocomplete", "name");
+	const username = ElementCreateInput("InputName", "text", "", "20", form);
+	username.setAttribute("autocomplete", "username");
+	const pass1 = ElementCreateInput("InputPassword1", "password", "", "20", form);
+	pass1.setAttribute("autocomplete", "new-password");
+	const pass2 = ElementCreateInput("InputPassword2", "password", "", "20", form);
+	pass2.setAttribute("autocomplete", "new-password");
+	const email = ElementCreateInput("InputEmail", "email", "", "100", form);
+	email.setAttribute("autocomplete", "email");
 
 }
 

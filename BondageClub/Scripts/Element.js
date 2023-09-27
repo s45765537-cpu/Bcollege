@@ -41,20 +41,50 @@ function ElementContent(ID, Content) {
 }
 
 /**
+ * Creates a new from element in the main document.
+ *
+ * @param {string} ID - The id of the form to create
+ * @returns {HTMLFormElement}
+ */
+function ElementCreateForm(ID) {
+	let e = /** @type {HTMLFormElement} */ (document.getElementById(ID));
+	if (e) return e;
+
+	e = document.createElement("form");
+	e.setAttribute("id", ID);
+	e.setAttribute("name", ID);
+	e.setAttribute("screen-generated", CurrentScreen);
+	e.setAttribute("method", "dialog");
+
+	document.body.appendChild(e);
+
+	return e;
+}
+
+/**
  * Creates a new text area element in the main document. Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the text area to create.
- * @returns {void} - Nothing
+ * @param {HTMLFormElement} [form] - The form the element belongs to
+ * @returns {HTMLTextAreaElement}
  */
-function ElementCreateTextArea(ID) {
-	if (document.getElementById(ID) == null) {
-		var TextArea = document.createElement("TextArea");
-		TextArea.setAttribute("ID", ID);
-		TextArea.setAttribute("screen-generated", CurrentScreen);
-		TextArea.setAttribute("name", ID);
-		TextArea.addEventListener("keydown", GameKeyDown);
-		TextArea.className = "HideOnPopup";
-		document.body.appendChild(TextArea);
+function ElementCreateTextArea(ID, form) {
+	let e = /** @type {HTMLTextAreaElement} */ (document.getElementById(ID));
+	if (e) return e;
+
+	e = document.createElement("textarea");
+	e.setAttribute("ID", ID);
+	e.setAttribute("screen-generated", CurrentScreen);
+	e.setAttribute("name", ID);
+	e.addEventListener("keydown", GameKeyDown);
+	e.className = "HideOnPopup";
+
+	if (form) {
+		form.appendChild(e);
+	} else {
+		document.body.appendChild(e);
 	}
+
+	return e;
 }
 
 /**
@@ -63,23 +93,31 @@ function ElementCreateTextArea(ID) {
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
  * @param {string | number} [MaxLength] - Maximum input tag of the input to create.
+ * * @param {HTMLFormElement} [form] - The form the element belongs to
  * @returns {HTMLInputElement} - The created HTML input element
  */
-function ElementCreateInput(ID, Type, Value, MaxLength) {
-	if (document.getElementById(ID) == null) {
-		var Input = document.createElement("input");
-		Input.setAttribute("ID", ID);
-		Input.setAttribute("name", ID);
-		Input.setAttribute("type", Type);
-		Input.setAttribute("value", Value);
-		Input.setAttribute("screen-generated", CurrentScreen);
-		Input.setAttribute("maxlength", MaxLength);
-		Input.setAttribute("onfocus", "this.removeAttribute('readonly');");
-		Input.addEventListener("keydown", GameKeyDown);
-		Input.className = "HideOnPopup";
-		document.body.appendChild(Input);
-		return Input;
+function ElementCreateInput(ID, Type, Value, MaxLength, form) {
+	let e = /** @type {HTMLInputElement} */ (document.getElementById(ID));
+	if (e) return e;
+
+	e = document.createElement("input");
+	e.setAttribute("ID", ID);
+	e.setAttribute("name", ID);
+	e.setAttribute("type", Type);
+	e.setAttribute("value", Value);
+	e.setAttribute("screen-generated", CurrentScreen);
+	e.setAttribute("maxlength", MaxLength);
+	e.setAttribute("onfocus", "this.removeAttribute('readonly');");
+	e.addEventListener("keydown", GameKeyDown);
+	e.className = "HideOnPopup";
+
+	if (form) {
+		form.appendChild(e);
+	} else {
+		document.body.appendChild(e);
 	}
+
+	return e;
 }
 
 /**
