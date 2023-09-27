@@ -112,8 +112,11 @@ function LoginLoad() {
 	if (LoginCredits == null) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
-	ElementCreateInput("InputName", "text", "", "20");
-	ElementCreateInput("InputPassword", "password", "", "20");
+	const form = ElementCreateForm("Login");
+	const username = ElementCreateInput("InputName", "text", "", "20", form);
+	username.setAttribute("autocomplete", "username");
+	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
+	pass.setAttribute("autocomplete", "current-password");
 	TextPrefetch("Room", "Mainhall");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
 
