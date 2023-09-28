@@ -536,6 +536,7 @@ interface ChatRoom {
 	Locked: boolean;
 	BlockCategory: ChatRoomBlockCategory[];
 	Language: ChatRoomLanguage;
+	Custom: any;
 	Character?: any[]; /* From server, not really a Character object */
 }
 
@@ -1867,6 +1868,7 @@ interface PlayerCharacter extends Character {
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
 		AllowTints: boolean;
+		ShowRoomCustomization: number; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	};
 	LastChatRoom?: string;
 	LastChatRoomBG?: string;

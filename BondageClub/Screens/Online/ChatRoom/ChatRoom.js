@@ -321,6 +321,16 @@ function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnership
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
 /**
+ * Returns TRUE if room customization is allowed based on player preference
+ * @returns {boolean} - TRUE if allowed
+ */
+function ChatRoomCustomizationAllowed() { return ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 2)); }
+/**
+ * Returns TRUE if the room customization button can be used
+ * @returns {boolean} - TRUE if can be used
+ */
+function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.ImmersionSettings == null) || (Player.ImmersionSettings.ShowRoomCustomization == null) || (Player.ImmersionSettings.ShowRoomCustomization == 1) || (Player.ImmersionSettings.ShowRoomCustomization == 2))); }
+/**
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
  */
@@ -807,6 +817,11 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputBanList");
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
+
+	// Admin Custom
+	ElementRemove("InputImageURL");
+	ElementRemove("InputImageFilter");
+	ElementRemove("InputMusicURL");
 
 	// Chatroom
 	ElementRemove("InputChat");

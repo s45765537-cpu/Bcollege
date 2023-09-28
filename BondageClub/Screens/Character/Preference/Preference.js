@@ -511,6 +511,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ImmersionSettings.ChatRoomMuffle !== "boolean") C.ImmersionSettings.ChatRoomMuffle = false;
 	if (typeof C.ImmersionSettings.BlindAdjacent !== "boolean") C.ImmersionSettings.BlindAdjacent = false;
 	if (typeof C.ImmersionSettings.AllowTints !== "boolean") C.ImmersionSettings.AllowTints = true;
+	if (typeof C.ImmersionSettings.ShowRoomCustomization !== "number") C.ImmersionSettings.ShowRoomCustomization = 1;
 
 	// Misc
 	if (typeof C.LastChatRoom !== "string") C.LastChatRoom = "";
@@ -668,6 +669,7 @@ function PreferenceInitPlayer() {
 		C.ImmersionSettings.ChatRoomMuffle = true;
 		C.ImmersionSettings.BlindAdjacent = true;
 		C.ImmersionSettings.AllowTints = true;
+		C.ImmersionSettings.ShowRoomCustomization = 1;
 		C.OnlineSharedSettings.AllowPlayerLeashing = true;
 	}
 
@@ -1097,9 +1099,7 @@ function PreferenceSubscreenImmersionRun() {
 		CheckHeight += CheckSpacing;
 		const canHideMessages = Player.GameplaySettings.SensDepChatLog !== "SensDepLight";
 		DrawCheckbox(1300, 272, 64, 64, TextGet("SenseDepMessages"), canHideMessages && Player.ImmersionSettings.SenseDepMessages, !canHideMessages || disableButtons);
-
 		MainCanvas.textAlign = "center";
-
 		DrawBackNextButton(500, 272, 250, 64, TextGet(Player.GameplaySettings.SensDepChatLog), "White", "",
 			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + PreferenceSettingsSensDepList.length - 1) % PreferenceSettingsSensDepList.length]),
 			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + 1) % PreferenceSettingsSensDepList.length]));
@@ -1107,9 +1107,10 @@ function PreferenceSubscreenImmersionRun() {
 	else if (PreferencePageCurrent === 2) {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
+		MainCanvas.textAlign = "center";
+		DrawButton(500, CheckHeight, 750, 64, TextGet("RoomCustomizationLevel" + Player.ImmersionSettings.ShowRoomCustomization.toString()), "White");
 	}
 
-	MainCanvas.textAlign = "center";
 }
 
 /**
@@ -1165,12 +1166,18 @@ function PreferenceSubscreenImmersionClick() {
 
 			if (MouseIn(1300, 272, 64, 64) && Player.GameplaySettings.SensDepChatLog !== "SensDepLight")
 				Player.ImmersionSettings.SenseDepMessages = !Player.ImmersionSettings.SenseDepMessages;
+
 		}
 		else if (PreferencePageCurrent === 2) {
 			// Stimulation
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.StimulationEvents = !Player.ImmersionSettings.StimulationEvents;
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.AllowTints = !Player.ImmersionSettings.AllowTints;
+			CheckHeight += CheckSpacing;
+			if (MouseIn(500, CheckHeight, 750, 64)) {
+				Player.ImmersionSettings.ShowRoomCustomization++;
+				if (Player.ImmersionSettings.ShowRoomCustomization > 3) Player.ImmersionSettings.ShowRoomCustomization = 0;
+			}
 		}
 	}
 
