@@ -254,9 +254,14 @@ function ServerPlayerIsInChatRoom() {
 		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
 }
 
-/** Sends a message with the given data to the server via socket.emit */
-function ServerSend(Message, Data) {
-	ServerSocket.emit(Message, Data);
+/**
+ * Sends a message with the given data to the server via socket.emit
+ * @type {<Ev extends import("@socket.io/component-emitter").EventNames<ClientToServerEvents>>(
+ *     ev: Ev, ...args: import("@socket.io/component-emitter").EventParams<ClientToServerEvents, Ev>
+ * ) => void}
+ */
+function ServerSend(Message, ...args) {
+	ServerSocket.emit(Message, ...args);
 }
 
 /**
@@ -575,7 +580,7 @@ function ServerPrivateCharacterSync() {
 /**
  * Callback used to parse received information related to a query made by the player such as viewing their online
  * friends or current email status
- * @param {object} data - Data object containing the query data
+ * @param {ServerAccountQueryResponse} data - Data object containing the query data
  * @returns {void} - Nothing
  */
 function ServerAccountQueryResult(data) {

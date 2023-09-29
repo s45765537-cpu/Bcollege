@@ -215,13 +215,15 @@ function AsylumGGTSBuildPrivate() {
 		Background: "AsylumGGTSRoom",
 		Private: true,
 		Locked: false,
-		Space: "Asylum",
+		Space: /** @type {ServerChatRoomSpace} */ ("Asylum"),
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
 		Ban: [],
 		Limit: "2",
-		BlockCategory: []
+		BlockCategory: [],
+		Language: ChatCreateLanguage,
 	};
+	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	DialogLeave();
 }
@@ -761,7 +763,7 @@ function AsylumGGTSAutomaticTask() {
 			Language: ChatCreateLanguage,
 			Description: ChatRoomData.Description,
 			Background: ChatRoomData.Background,
-			Limit: ChatRoomData.Limit.toString(),
+			Limit: ChatRoomData.Limit,
 			Admin: ChatRoomData.Admin,
 			Ban: ChatRoomData.Ban,
 			BlockCategory: ChatRoomData.BlockCategory,
@@ -1301,7 +1303,7 @@ function AsylumGGTSDialogInteraction(Interaction) {
  * Called from chat room, processes hidden GGTS messages
  * @param {Character} SenderCharacter - The character sending the message
  * @param {String} Interaction - The message sent
- * @param {IChatRoomMessage} data - The full message recieved
+ * @param {ServerChatRoomMessage} data - The full message recieved
  * @returns {Object} - Nothing to be used
  */
 function AsylumGGTSHiddenMessage(SenderCharacter, Interaction, data) {

@@ -36,12 +36,13 @@ var GameLARPTeamList = ["None", "Red", "Green", "Blue", "Yellow", "Cyan", "Purpl
 var GameLARPTimerDelay = [20, 60];
 var GameLARPEntryClass = "";
 var GameLARPEntryTeam = "";
-/** @type { { Sender: number, Time: number, RNG: number, Data: IChatRoomGameResponse["Data"], Success?: boolean }[] } */
+/** @type { { Sender: number, Time: number, RNG: number, Data: ServerChatRoomGameResponse["Data"], Success?: boolean }[] } */
 var GameLARPProgress = [];
 /** @type {Character[]} */
 var GameLARPPlayer = [];
 /** @type {GameLARPOption[]} */
 var GameLARPOption = [];
+/** @type {GameLARPOptionName | ""} */
 var GameLARPAction = "";
 /** @type {Asset[]} */
 var GameLARPInventory = [];
@@ -239,7 +240,7 @@ function GameLARPBuildInventory(FocusGroup) {
 
 /**
  * Triggered when an option is selected for the current target character. The inventory for it is built and the action is published
- * @param {string} Name - Name of the selected option
+ * @param {GameLARPOptionName} Name - Name of the selected option
  * @returns {void} - Nothing
  */
 function GameLARPClickOption(Name) {
@@ -620,6 +621,7 @@ function GameLARPBuildOptionAbility(Source, Target, Option, Ability) {
 function GameLARPBuildOption(Source, Target) {
 
 	// If the source clicks on herself, she can always pass her turn and do nothing
+	/** @type {GameLARPOption[]} */
 	var Option = [];
 	if (Source.MemberNumber == Target.MemberNumber) Option.push({ Name: "Pass", Odds: GameLARPGetOdds("Pass", Source, Source) });
 
@@ -975,7 +977,7 @@ function GameLARPContinue() {
 
 /**
  * Processes the LARP game messages for turns and actions.
- * @param {IChatRoomGameResponse} P - Data object containing the message data.
+ * @param {ServerChatRoomGameResponse} P - Data object containing the message data.
  * @returns {void} - Nothing
  */
 function GameLARPProcess(P) {

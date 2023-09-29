@@ -207,14 +207,7 @@ function FriendListChatSearch(room) {
 
 /**
  * Loads the friend list data into the HTML div element.
- * @param {{
- * MemberName: string;
- * MemberNumber: number;
- * ChatRoomName: string | null;
- * ChatRoomSpace: string | null;
- * Private?: boolean
- * Type: "Submissive" | "Friend";
- * }[]} data - An array of data, we receive from the server
+ * @param {ServerFriendInfo[]} data - An array of data, we receive from the server
  *
  * `data.MemberName` - The name of the player
  *

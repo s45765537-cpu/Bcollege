@@ -574,7 +574,11 @@ function ManagementBreakOnlineOwnership() {
  */
 function ManagementBreakLover(L) {
 	Player.Lover = "";
-	ServerSend("AccountLovership", { MemberNumber: Player.Lovership[L].MemberNumber ? Player.Lovership[L].MemberNumber : -1, Name: Player.Lovership[L].Name, Action: "Break" });
+	if (Player.Lovership[L].MemberNumber) {
+		ServerSend("AccountLovership", { MemberNumber: Player.Lovership[L].MemberNumber, Action: "Break" });
+	} else {
+		ServerSend("AccountLovership", { MemberNumber: -1, Name: Player.Lovership[L].Name, Action: "Break" });
+	}
 	ServerPlayerSync();
 }
 

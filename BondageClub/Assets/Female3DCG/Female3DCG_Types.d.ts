@@ -238,6 +238,7 @@ interface AssetGroupDefinition extends AssetCommonPropertiesGroupAsset, AssetCom
 }
 
 type AssetBonusName = "KidnapDomination" | "KidnapSneakiness" | "KidnapBruteForce";
+type AssetGender = 'F' | 'M';
 
 interface AssetCommonPropertiesAssetLayer {
 	/** A list of poses that hide the asset when they get set. */
@@ -480,7 +481,7 @@ interface AssetDefinition extends AssetCommonPropertiesGroupAsset, AssetCommonPr
 
 	Tint?: TintDefinition[];
 	DefaultTint?: string;
-	Gender?: "F" | "M";
+	Gender?: AssetGender;
 
 	/**
 	 * An identifier that marks the asset as being the same for the purpose of crafting.

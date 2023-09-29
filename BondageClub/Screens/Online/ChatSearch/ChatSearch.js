@@ -1,6 +1,6 @@
 "use strict";
 var ChatSearchBackground = "Introduction";
-/** @type {{ Name: string, CreatorMemberNumber: number, MemberLimit: number, MemberCount: number, DisplayName: string, BlockCategory: ChatRoomBlockCategory[], Game: ChatRoomGame, Friends: { MemberName: string, MemberNumber: number, Type: string }[], Description: string, Creator: string, Order: number }[]} */
+/** @type {{ Name: string, CreatorMemberNumber: number, MemberLimit: number, MemberCount: number, DisplayName: string, BlockCategory: ServerChatRoomBlockCategory[], Game: ServerChatRoomGame, Friends: { MemberName: string, MemberNumber: number, Type: string }[], Description: string, Creator: string, Order: number }[]} */
 var ChatSearchResult = [];
 /** @type {typeof ChatSearchResult} */
 var ChatSearchHiddenResult = [];
@@ -32,9 +32,9 @@ var ChatSearchFilterUnhideConfirm = null;
 var ChatSearchRejoinIncrement = 1;
 /** @type {null | string} */
 var ChatSearchReturnToScreen = null;
-/** @type {"" | ChatRoomLanguage} */
+/** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguage = "";
-/** @type {"" | ChatRoomLanguage} */
+/** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguageTemp = "";
 var ChatSearchFilterTermsTemp = "";
 
@@ -832,15 +832,19 @@ function ChatSearchAutoJoinRoom() {
 						Space: Player.LastChatRoomSpace,
 						Game: "",
 						Admin: [Player.MemberNumber],
-						Limit: ("" + Math.min(Math.max(Player.LastChatRoomSize, 2), 10)).trim(),
+						Limit: Math.min(Math.max(Player.LastChatRoomSize, 2), 10).toString(),
 						Language: Player.LastChatRoomLanguage,
-						BlockCategory: ChatBlockItemCategory || []
+						BlockCategory: ChatBlockItemCategory || [],
+						Locked: false,
+						Ban: [],
 					};
+					// @ts-expect-error because of Limit being forced to a string above to please the server
 					ServerSend("ChatRoomCreate", NewRoom);
 					ChatCreateMessage = "CreatingRoom";
 
 					if (Player.ImmersionSettings.ReturnToChatRoomAdmin && Player.LastChatRoomAdmin) {
 						NewRoom.Admin = Player.LastChatRoomAdmin;
+						// @ts-expect-error because of Limit being forced to a string above
 						ChatRoomNewRoomToUpdate = NewRoom;
 						ChatRoomNewRoomToUpdateTimer = CurrentTime + 1000;
 					}

@@ -1053,8 +1053,9 @@ function CommonCensor(S) {
 
 /**
  * Type guard which checks that a value is a simple object (i.e. a non-null object which is not an array)
- * @param {unknown} value - The value to test
- * @returns {value is Record<string, unknown>}
+ * @template T
+ * @param {T} value - The value to test
+ * @returns {value is Record<string, T>}
  */
 function CommonIsObject(value) {
 	return !!value && typeof value === "object" && !Array.isArray(value);
