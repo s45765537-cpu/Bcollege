@@ -3315,13 +3315,13 @@ var AssetFemale3DCG = [
 			{ Name: "HairFront30" },
 			{ Name: "HairFront31" },
 			{ Name: "HairFront32" },
-			{ Name: "HairFront33", 
+			{ Name: "HairFront33",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" },
 				], Random: false, Top: 33, Attribute: ["ShortHair"], Left: 150
 			},
-			{ Name: "HairFront33b", 
+			{ Name: "HairFront33b",
 				Layer: [
 					{ Name: "Main" },
 					{ Name: "Front", Priority: 55, CopyLayerColor: "Main" },
