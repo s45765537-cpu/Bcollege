@@ -2431,6 +2431,11 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	parentOption: null | ExtendedItemOption;
 	/** An interface with element-specific drawing data for a given screen. */
 	drawData: ExtendedItemDrawData<{}>;
+	/**
+	 * A list with extra to-be allowed effect names.
+	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
+	 */
+	allowEffect: readonly EffectName[];
 }
 
 /** A struct-type that maps archetypes to their respective extended item data.  */

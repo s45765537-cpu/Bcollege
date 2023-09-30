@@ -595,6 +595,11 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	CopyConfig?: { GroupName?: AssetGroupName, AssetName: string };
 	/** An interface with element-specific drawing data for a given screen. */
 	DrawData?: ExtendedItemConfigDrawData<{}>;
+	/**
+	 * A list with extra to-be allowed effect names.
+	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
+	 */
+	AllowEffect?: EffectName[];
 }
 
 /** Defines a single (partially parsed) extended item option */
