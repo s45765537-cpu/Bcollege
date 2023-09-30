@@ -111,7 +111,7 @@ function ChatAdminRun() {
 	DrawButton(1840, 450, 60, 60, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", "Icons/Small/Preference.png", null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
 	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + ChatAdminGame), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, () => "", () => "");
-	DrawButton(1400, 640, 400, 60, TextGet("RoomCustomization"), "White");
+	DrawButton(1400, 640, 400, 60, TextGet("RoomCustomization"), (ChatAdminCustom == null) ? "White" : "#B0FFB0");
 
 	// Private and Locked check boxes
 	DrawText(TextGet("RoomPrivate"), 1384, 760, "Black", "Gray");

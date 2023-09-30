@@ -2669,9 +2669,9 @@ function PlatformDrawRightButtons() {
 
 }
 
-
 /**
  * Plays the dialog ambient music
+ * @param {string} Music - The URL of the music to play
  * @returns {void} - Nothing
  */
 function PlatformBackgroundMusic(Music) {

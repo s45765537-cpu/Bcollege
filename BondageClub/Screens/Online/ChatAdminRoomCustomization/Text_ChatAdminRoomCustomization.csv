@@ -2,7 +2,8 @@ Title,"Room customization allows using external resources.  By default, players 
 BackgroundImage1,Put the address of the background jpg image to use.  Ex: https://bondageprojects.com/images/school.jpg
 BackgroundImage2,You can use game resources also.  Ex: Screens/Room/Platform/Background/Savannah/TentInterior.jpg
 BackgroundFilter,"You can put a color filter that will go over your background.  For example, use #00000080 to dim the lights."
-BackgroundMusic,Put the address of the background mp3 music file to use.  Ex: https://bondageprojects.com/music/joy.mp3
+BackgroundMusic,Put the address of the background mp3 music file to use.  Ex: https://bondageprojects.com/music/relax.mp3
+Preview,Preview
 Clear,Clear All
 Save,Save
 Cancel,Cancel

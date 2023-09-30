@@ -68,6 +68,7 @@ var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 var ChatRoomLastName = "";
 var ChatRoomLastBG = "";
+var ChatRoomLastCustom = null;
 var ChatRoomLastPrivate = false;
 var ChatRoomLastSize = 0;
 var ChatRoomLastLanguage = "EN";
@@ -1386,6 +1387,7 @@ function ChatRoomSetLastChatRoom(room) {
 
 			ChatRoomLastName = ChatRoomData.Name;
 			ChatRoomLastBG = ChatRoomData.Background;
+			ChatRoomLastCustom = ChatRoomData.Custom;
 			ChatRoomLastSize = ChatRoomData.Limit;
 			ChatRoomLastLanguage = ChatRoomData.Language;
 			ChatRoomLastPrivate = ChatRoomData.Private;
@@ -1400,6 +1402,7 @@ function ChatRoomSetLastChatRoom(room) {
 		Player.LastChatRoomPrivate = false;
 		ChatRoomLastName = "";
 		ChatRoomLastBG = "";
+		ChatRoomLastCustom = null;
 		ChatRoomLastSize = 0;
 		ChatRoomLastPrivate = false;
 		ChatRoomLastDesc = "";
@@ -4757,10 +4760,15 @@ function ChatRoomCheckForLastChatRoomUpdates() {
 }
 
 /**
- * Determines whether or not the current chatroom data differs from the locally stroed chatroom data
+ * Determines whether or not the current chatroom data differs from the locally stored chatroom data
  * @returns {boolean} - TRUE if the stored chatroom data is different from the current chatroom data, FALSE otherwise
  */
 function ChatRoomDataChanged() {
+	if (typeof ChatRoomData.Custom != typeof ChatRoomLastCustom) return true;
+	if ((typeof ChatRoomData.Custom === "object") && (typeof ChatRoomLastCustom === "object")) {
+		if ((ChatRoomData.Custom == null) != (ChatRoomLastCustom == null)) return true;
+		if (JSON.stringify(ChatRoomData.Custom) !== JSON.stringify(ChatRoomLastCustom)) return true;
+	}
 	return ChatRoomLastName != ChatRoomData.Name ||
 		ChatRoomLastBG != ChatRoomData.Background ||
 		ChatRoomLastSize != ChatRoomData.Limit ||
