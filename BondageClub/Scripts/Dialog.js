@@ -2588,14 +2588,14 @@ function DialogIsMenuButtonDisabled(ButtonName) {
 function DialogDrawCrafting(C, Item) {
 	if ((C == null) || (Item == null) || (Item.Craft == null)) return;
 	DrawTextWrap(DialogFind(Player, "CraftedItemProperties"), 1000, 0, 975 - DialogMenuButton.length * 110, 125, "White", null, 3);
-	if (Item.Craft.Name != null)
-		DrawTextWrap(DialogFind(Player, "CraftingName").replace("CraftName", Item.Craft.Name), 1050, 200, 900, 125, "White", null, 3);
+	if ((Item.Craft.Name != null) && (typeof Item.Craft.Name === "string"))
+		DrawTextWrap(DialogFind(Player, "CraftingName").replace("CraftName", Item.Craft.Name.substring(0, 30)), 1050, 200, 900, 125, "White", null, 3);
 	if ((Item.Craft.MemberName != null) && (Item.Craft.MemberNumber != null))
 		DrawTextWrap(DialogFind(Player, "CraftingMember").replace("MemberName", Item.Craft.MemberName).replace("MemberNumber", Item.Craft.MemberNumber.toString()), 1050, 400, 900, 125, "White", null, 3);
 	if (Item.Craft.Property != null)
 		DrawTextWrap(DialogFind(Player, "CraftingProperty").replace("CraftProperty", Item.Craft.Property), 1050, 600, 900, 125, "White", null, 3);
-	if (Item.Craft.Description != null)
-		DrawTextWrap(DialogFind(Player, "CraftingDescription").replace("CraftDescription", Item.Craft.Description), 1050, 800, 900, 125, "White", null, 3);
+	if ((Item.Craft.Description != null) && (typeof Item.Craft.Description === "string"))
+		DrawTextWrap(DialogFind(Player, "CraftingDescription").replace("CraftDescription", Item.Craft.Description.substring(0, 100)), 1050, 800, 900, 125, "White", null, 3);
 }
 
 /**

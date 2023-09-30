@@ -674,8 +674,8 @@ function CraftingSaveServer() {
 			P = P + C.Item + "¶";
 			P = P + ((C.Property == null) ? "" : C.Property) + "¶";
 			P = P + ((C.Lock == null) ? "" : C.Lock) + "¶";
-			P = P + ((C.Name == null) ? "" : C.Name.replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + ((C.Description == null) ? "" : C.Description.replace("¶", " ").replace("§", " ")) + "¶";
+			P = P + ((C.Name == null) ? "" : C.Name.substring(0, 30).replace("¶", " ").replace("§", " ")) + "¶";
+			P = P + ((C.Description == null) ? "" : C.Description.substring(0, 100).replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + ((C.Color == null) ? "" : C.Color.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
 			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
@@ -1110,8 +1110,8 @@ function CraftingRefreshPreview() {
  * @return {CraftingItem}
  * */
 function CraftingConvertSelectedToItem() {
-	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim() : CraftingSelectedItem.Name;
-	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim() : CraftingSelectedItem.Description;
+	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim().substring(0, 30) : CraftingSelectedItem.Name;
+	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 100) : CraftingSelectedItem.Description;
 	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
 	let Type = ((CraftingMode == "Name") && (document.getElementById("InputType") != null)) ? ElementValue("InputType").trim() : CraftingSelectedItem.Type;
 	return {
