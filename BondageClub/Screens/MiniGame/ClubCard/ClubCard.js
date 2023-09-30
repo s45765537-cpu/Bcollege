@@ -1758,15 +1758,11 @@ function ClubCardEndTurn(Draw = false) {
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
 
 	// If that player wins the game from Fame gain
-	if (CCPlayer.Fame >= ClubCardFameGoal) {
-		MiniGameVictory = (CCPlayer.Control == "Player");
-		MiniGameEnded = true;
+	if (ClubCardCheckVictory(CCPlayer)) {
 		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
 		if (ClubCardIsOnline()) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 		ClubCardLogAdd(Msg);
-		ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
-		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
-		GameClubCardReset();
+		GameClubCardSyncOnlineData();
 		return;
 	}
 
@@ -1801,6 +1797,20 @@ function ClubCardEndTurn(Draw = false) {
 	// Syncs online data
 	GameClubCardSyncOnlineData();
 
+}
+
+function ClubCardCheckVictory(CCPlayer) {
+	if (CCPlayer.Fame >= ClubCardFameGoal) {
+		MiniGameVictory = (CCPlayer.Control == "Player");
+		MiniGameEnded = true;
+		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
+		if (ClubCardIsOnline()) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
+		ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
+		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
+		GameClubCardReset();
+		return true;
+	}
+	return false;
 }
 
 /**
