@@ -50,6 +50,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
 	"Screens/Inventory/ItemDevices/KabeshiriWall/KabeshiriWall.js",
 	"Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js",
+	"Screens/Inventory/ItemBreast/ForbiddenChastityBra/ForbiddenChastityBra.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Scripts/Translation.js",

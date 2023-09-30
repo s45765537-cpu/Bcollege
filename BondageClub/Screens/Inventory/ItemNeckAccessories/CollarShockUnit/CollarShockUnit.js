@@ -51,11 +51,11 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
  * @typedef {{ ChangeTime?: number, DisplayCount?: number, LastTriggerCount?: number }} ShockUnitPersistentData
  */
 
-/** @type {ExtendedItemCallbacks.BeforeDraw<ShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarShockUnitBeforeDraw(data) {
-	if (data.L === "_Light") {
-		const persistentData = data.PersistentData();
-		const property = data.Property || {};
+/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, ShockUnitPersistentData>} */
+function AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook(data, originalFunction, drawData) {
+	if (drawData.L === "_Light") {
+		const persistentData = drawData.PersistentData();
+		const property = drawData.Property || {};
 		const Triggered = persistentData.LastTriggerCount < property.TriggerCount;
 		const intensity = property.ShockLevel || 0;
 		const wasBlinking = property.BlinkState;
@@ -68,11 +68,11 @@ function AssetsItemNeckAccessoriesCollarShockUnitBeforeDraw(data) {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.ScriptDraw<ShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarShockUnitScriptDraw(data) {
-	const persistentData = data.PersistentData();
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData, ShockUnitPersistentData>} */
+function AssetsItemNeckAccessoriesCollarShockUnitScriptDrawHook(data, originalFunction, drawData) {
+	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
-	const property = (data.Item.Property = data.Item.Property || {});
+	const property = (drawData.Item.Property = drawData.Item.Property || {});
 	if (typeof persistentData.ChangeTime !== "number") persistentData.ChangeTime = CommonTime() + 4000;
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
 	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
@@ -89,7 +89,7 @@ function AssetsItemNeckAccessoriesCollarShockUnitScriptDraw(data) {
 		const timeFactor = isTriggered ? 12 : 1;
 		const timeToNextRefresh = (wasBlinking ? 4000 : 1000) / timeFactor;
 		persistentData.ChangeTime = CommonTime() + timeToNextRefresh;
-		AnimationRequestRefreshRate(data.C, (5000 / timeFactor) - timeToNextRefresh);
-		AnimationRequestDraw(data.C);
+		AnimationRequestRefreshRate(drawData.C, (5000 / timeFactor) - timeToNextRefresh);
+		AnimationRequestDraw(drawData.C);
 	}
 }

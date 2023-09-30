@@ -1,7 +1,7 @@
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
-function InventoryItemNeckAccessoriesCollarAutoShockUnitDraw(Data, OriginalFunction) {
+function InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	if (Data.currentModule === ModularItemBase) {
 		const [ShockLevel, AutoPunish] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
@@ -26,7 +26,7 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitDraw(Data, OriginalFunct
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} */
-function InventoryItemNeckAccessoriesCollarAutoShockUnitClick(Data, OriginalFunction) {
+function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, OriginalFunction) {
 	OriginalFunction();
 	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
 		if (MouseIn(1175, 768, 64, 64) && !ExtendedItemPermissionMode) {
@@ -43,23 +43,23 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClick(Data, OriginalFunc
  * @typedef {{ ChangeTime?: number, LastMessageLen?: number }} AutoShockUnitPersistentData
  */
 
-/** @type {ExtendedItemCallbacks.BeforeDraw<AutoShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarAutoShockUnitBeforeDraw(data) {
-	if (data.L === "_Light") {
-		const property = data.Property || {};
+/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, AutoShockUnitPersistentData>} */
+function AssetsItemNeckAccessoriesCollarAutoShockUnitBeforeDrawHook(data, originalFunction, drawData) {
+	if (drawData.L === "_Light") {
+		const property = drawData.Property || {};
 		return { Color: "#2f0", Opacity: property.BlinkState ? 0 : 1 };
 	}
 }
 
-/** @type {ExtendedItemCallbacks.ScriptDraw<AutoShockUnitPersistentData>} */
-function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDraw(data) {
-	const persistentData = data.PersistentData();
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData, AutoShockUnitPersistentData>} */
+function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDrawHook(data, originalFunction, drawData) {
+	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
-	const property = (data.Item.Property = data.Item.Property || {});
+	const property = (drawData.Item.Property = drawData.Item.Property || {});
 	if (typeof persistentData.ChangeTime !== "number") persistentData.ChangeTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 
-	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && data.Item && data.Item.Property && data.Item.Property.AutoPunish > 0)
+	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && drawData.Item && drawData.Item.Property && drawData.Item.Property.AutoPunish > 0)
 		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime()); // Trigger immediately if the user speaks
 
 	if (persistentData.ChangeTime < CommonTime()) {
@@ -67,15 +67,15 @@ function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDraw(data) {
 		property.BlinkState = !wasBlinking;
 		const timeToNextRefresh = wasBlinking ? 4000 : 1000;
 
-		if (CurrentScreen == "ChatRoom" && data.C == Player) {
-			if (PropertyAutoPunishDetectSpeech(data.Item, persistentData.LastMessageLen)) {
-				PropertyShockPublishAction(data.C, data.Item, true);
+		if (CurrentScreen == "ChatRoom" && drawData.C == Player) {
+			if (PropertyAutoPunishDetectSpeech(drawData.Item, persistentData.LastMessageLen)) {
+				PropertyShockPublishAction(drawData.C, drawData.Item, true);
 			}
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}
 
 		persistentData.ChangeTime = CommonTime() + timeToNextRefresh;
-		AnimationRequestRefreshRate(data.C, 5000 - timeToNextRefresh);
-		AnimationRequestDraw(data.C);
+		AnimationRequestRefreshRate(drawData.C, 5000 - timeToNextRefresh);
+		AnimationRequestDraw(drawData.C);
 	}
 }
