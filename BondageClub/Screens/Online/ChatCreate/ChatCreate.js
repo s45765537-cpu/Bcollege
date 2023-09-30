@@ -6,9 +6,9 @@ var ChatCreateMessage = "";
 var ChatCreatePrivate = null;
 /** @type {null | boolean} */
 var ChatCreateLocked = null;
-/** @type {ChatRoomGame} */
+/** @type {ServerChatRoomGame} */
 var ChatCreateGame = "";
-/** @type {ChatRoomGame[]} */
+/** @type {ServerChatRoomGame[]} */
 var ChatCreateGameList = ["", "ClubCard", "LARP", "MagicBattle", "GGTS"];
 var ChatCreateBackgroundIndex = 0;
 var ChatCreateBackgroundSelect = "";
@@ -16,9 +16,9 @@ var ChatCreateBackgroundSelect = "";
 var ChatCreateBackgroundList = null;
 var ChatCreateShowBackgroundMode = false;
 var ChatCreateIsHidden = false;
-/** @type {ChatRoomLanguage} */
+/** @type {ServerChatRoomLanguage} */
 var ChatCreateLanguage = "EN";
-/** @type {ChatRoomLanguage[]} */
+/** @type {ServerChatRoomLanguage[]} */
 var ChatCreateLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU"];
 
 /**
@@ -244,9 +244,10 @@ function ChatCreateRoom() {
 		Game: ChatCreateGame,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
-		Limit: ElementValue("InputSize").trim(),
+		Limit: ElementValue("InputSize"),
 		BlockCategory: ChatBlockItemCategory
 	};
+	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
 	ChatRoomPingLeashedPlayers();

@@ -76,7 +76,7 @@ function ChatSelectLoad() {
 
 /**
  * Start the chat search screen for the relevant chat room space
- * @param {ChatRoomSpaceType} space - The space to join
+ * @param {ServerChatRoomSpace} space - The space to join
  */
 function ChatSelectStartSearch(space) {
 	ChatRoomStart(space, "", null, null, "Introduction", BackgroundsTagList);
@@ -88,8 +88,8 @@ function ChatSelectExit() {
 
 /**
  * Returns whether all provided genders are allowed in the specified space
- * @param {string} space - The chatroom space
- * @param {string[]} genders - A list of relevant genders to check#
+ * @param {ServerChatRoomSpace} space - The chatroom space
+ * @param {AssetGender[]} genders - A list of relevant genders to check
  * @returns {boolean} - Whether the genders are allowed
  */
 function ChatSelectGendersAllowed(space, genders) {

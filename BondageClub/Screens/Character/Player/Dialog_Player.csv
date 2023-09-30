@@ -7,7 +7,7 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 0,40,(Spend GGTS minutes.),(Select how to spend your minutes.),,DialogGGTSCanSpendMinutes()
 0,0,(View your current rules.),(Here are your currently active rules.),DialogViewOwnerRules(),DialogCanViewRules()
 0,,(Leave this menu.),,DialogLeave(),
-30,0,(Move Character.),(Move started.),"DialogChatRoomAdminAction(""Move"")",
+30,0,(Move Character.),(Move started.),"AdminAction(""Move"")",
 30,0,(Back to main menu.),(You can use or remove items by selecting specific body regions on yourself.),,
 40,0,(Spend 15 minutes for a bondage position change.),,"DialogGGTSAction(""ItemPose"", ""15"")",DialogGGTSMinuteGreater(15)
 40,,(Spend 15 minutes for a bondage position change.),(You don't have enough minutes available.),,!DialogGGTSMinuteGreater(15)

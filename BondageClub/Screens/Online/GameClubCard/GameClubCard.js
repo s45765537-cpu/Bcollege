@@ -306,7 +306,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 
 /**
  * Assigns both club card players based on the players selection
- * @param {IChatRoomGameResponse} Packet - The data packet to process
+ * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @param {Character} Char - The character that's sending the packet
  * @returns {void} - Nothing
  */
@@ -357,7 +357,7 @@ function GameClubCardAssignPlayers(Packet, Char) {
 
 /**
  * Loads the club card game data
- * @param {IChatRoomGameResponse} Packet - The data packet to process
+ * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @returns {void} - Nothing
  */
 function GameClubCardLoadData(Packet) {
@@ -372,7 +372,7 @@ function GameClubCardLoadData(Packet) {
 
 /**
  * Processes the club card game data received from the server
- * @param {IChatRoomGameResponse} Packet - The data packet to process
+ * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @returns {void} - Nothing
  */
 function GameClubCardProcess(Packet) {

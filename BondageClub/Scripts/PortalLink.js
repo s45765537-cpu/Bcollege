@@ -570,7 +570,7 @@ function PortalLinkCycleChastityModule(sender, item) {
 /**
  * The handler for processing the hidden PortalLink messages
  * @param {Character} sender
- * @param {IChatRoomMessage} data
+ * @param {ServerChatRoomMessage} data
  */
 function PortalLinkProcessMessage(sender, data) {
 	if (!CommonIsObject(sender) || !CommonIsObject(data)) return;

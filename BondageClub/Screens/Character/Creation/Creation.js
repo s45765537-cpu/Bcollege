@@ -71,14 +71,13 @@ function CreationRun() {
 /**
  * Handles the server response to a creation request. Creates the character, if possible,
  * initializes the basic data and sends the newborn to the maid in the main hall.
- * @param {object} data - The set of data, received from the server
- * @param {string} data.ServerAnswer - The outcome of the creation request: should always be "AccountCreated"
- * @param {string} data.OnlineID - The ID of the newly created account
- * @param {number} data.MemberNumber - The member number of the newly created account
+ * @param {ServerAccountCreateResponse} data - The recieved data from the server
  * @returns {void} - Nothing
  */
 function CreationResponse(data) {
-	if ((data != null) && (data.ServerAnswer != null)) {
+	if (typeof data === "string") {
+		CreationMessage = data;
+	} else if (CommonIsObject(data)) {
 		if (data.ServerAnswer == "AccountCreated") {
 
 			// Keep the character data and pushes it's appearance to the server
@@ -125,10 +124,11 @@ function CreationResponse(data) {
 			// A maid will introduce the player to the club and explain the basic rules
 			MainHallMaidIntroduction();
 
-		} else CreationMessage = TextGet("Error") + " " + data.ServerAnswer;
+		} else {
+			CreationMessage = TextGet("Error") + " " + data.ServerAnswer;
+		}
 	} else {
-		if ((data != null) && (typeof data === "string")) CreationMessage = data;
-		else CreationMessage = TextGet("InvalidServerAnswer");
+		CreationMessage = TextGet("InvalidServerAnswer");
 	}
 }
 

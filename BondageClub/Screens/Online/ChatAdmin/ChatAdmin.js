@@ -5,18 +5,18 @@ var ChatAdminBackgroundIndex = 0;
 var ChatAdminBackgroundSelect = "";
 var ChatAdminPrivate = false;
 var ChatAdminLocked = false;
-/** @type {ChatRoomGame} */
+/** @type {ServerChatRoomGame} */
 var ChatAdminGame = "";
-/** @type {ChatRoomGame[]} */
+/** @type {ServerChatRoomGame[]} */
 var ChatAdminGameList = ["", "ClubCard", "LARP", "MagicBattle", "GGTS"];
-/** @type {null | string} */
+/** @type {string | null} */
 var ChatAdminBackgroundSelected = null;
-/** @type {null | { Name: string, Language: ChatRoomLanguage, Description: string, Limit: string, AdminList: string, BanList: string, Private: boolean, Locked: boolean, Custom: any }} */
+/** @type {Partial<ServerChatRoomData> | null} */
 var ChatAdminTemporaryData = null;
-/** @type {ChatRoomBlockCategory[]} */
+/** @type {ServerChatRoomBlockCategory[]} */
 var ChatAdminBlockCategory = [];
 var ChatAdminInitialLoad = false;
-/** @type {ChatRoomLanguage} */
+/** @type {ServerChatRoomLanguage} */
 var ChatAdminLanguage = "EN";
 var ChatAdminCustom = null;
 
@@ -37,37 +37,42 @@ function ChatAdminLoad() {
 	if (!ChatAdminInitialLoad) ChatAdminBlockCategory = ChatRoomData.BlockCategory.slice();
 	ChatAdminGame = ChatRoomGame;
 
+	const roomData = ChatAdminTemporaryData ? ChatAdminTemporaryData : ChatRoomData;
 	// Sets the chat room language
-	ChatAdminLanguage = ChatAdminTemporaryData ? ChatAdminTemporaryData.Language : ChatRoomData.Language;
+	ChatAdminLanguage = roomData.Language;
 	if (ChatAdminLanguage == null) ChatAdminLanguage = ChatCreateLanguageList[0];
 	if (ChatCreateLanguageList.indexOf(ChatAdminLanguage) < 0) ChatAdminLanguage = ChatCreateLanguageList[0];
 
 	// Prepares the controls to edit a room
-	ElementCreateInput("InputName", "text", ChatAdminTemporaryData ? ChatAdminTemporaryData.Name : ChatRoomData.Name, "20");
+	ElementCreateInput("InputName", "text", roomData.Name, "20");
 	document.getElementById("InputName").setAttribute("autocomplete", "off");
-	ElementCreateInput("InputSize", "text", ChatAdminTemporaryData ? ChatAdminTemporaryData.Limit : ChatRoomData.Limit.toString(), "2");
+	ElementCreateInput("InputSize", "text", roomData.Limit.toString(), "2");
 	document.getElementById("InputSize").setAttribute("autocomplete", "off");
 	ElementCreateTextArea("InputDescription");
 	document.getElementById("InputDescription").setAttribute("maxLength", 100);
 	document.getElementById("InputDescription").setAttribute("autocomplete", "off");
-	ElementValue("InputDescription", ChatAdminTemporaryData ? ChatAdminTemporaryData.Description : ChatRoomData.Description);
+	ElementValue("InputDescription", roomData.Description);
 	ElementCreateTextArea("InputAdminList");
 	document.getElementById("InputAdminList").setAttribute("maxLength", 250);
 	document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
-	ElementValue("InputAdminList", ChatAdminTemporaryData ? ChatAdminTemporaryData.AdminList : CommonConvertArrayToString(ChatRoomData.Admin));
+	ElementValue("InputAdminList", CommonConvertArrayToString(roomData.Admin));
 	ElementCreateTextArea("InputBanList");
 	document.getElementById("InputBanList").setAttribute("maxLength", 1000);
 	document.getElementById("InputBanList").setAttribute("autocomplete", "off");
-	ElementValue("InputBanList", ChatAdminTemporaryData ? ChatAdminTemporaryData.BanList : CommonConvertArrayToString(ChatRoomData.Ban));
-	ChatAdminPrivate = ChatAdminTemporaryData ? ChatAdminTemporaryData.Private :ChatRoomData.Private;
-	ChatAdminLocked = ChatAdminTemporaryData ? ChatAdminTemporaryData.Locked : ChatRoomData.Locked;
+	ElementValue("InputBanList", CommonConvertArrayToString(roomData.Ban));
+	ChatAdminPrivate = roomData.Private;
+	ChatAdminLocked = roomData.Locked;
 
 	// If the player isn't an admin, we disable the inputs
 	if (!ChatRoomPlayerIsAdmin()) {
 		document.getElementById("InputName").setAttribute("disabled", "disabled");
 		document.getElementById("InputDescription").setAttribute("disabled", "disabled");
-		ElementValue("InputName", ChatSearchMuffle(ChatAdminTemporaryData ? ChatAdminTemporaryData.Name : ChatRoomData.Name));
-		ElementValue("InputDescription", ChatSearchMuffle(ChatAdminTemporaryData ? ChatAdminTemporaryData.Description : ChatRoomData.Description));
+
+		// We also garble them if possible
+		ElementValue("InputName", ChatSearchMuffle(roomData.Name));
+		ElementValue("InputDescription", ChatSearchMuffle(roomData.Description));
+
+
 		document.getElementById("InputAdminList").setAttribute("disabled", "disabled");
 		document.getElementById("InputBanList").setAttribute("disabled", "disabled");
 		document.getElementById("InputSize").setAttribute("disabled", "disabled");
@@ -140,9 +145,9 @@ function ChatAdminClick() {
 			Name: ElementValue("InputName"),
 			Language: ChatAdminLanguage,
 			Description: ElementValue("InputDescription"),
-			Limit: ElementValue("InputSize"),
-			AdminList: ElementValue("InputAdminList"),
-			BanList: ElementValue("InputBanList"),
+			Limit: parseInt(ElementValue("InputSize"), 10),
+			Admin: CommonConvertStringToArray(ElementValue("InputAdminList")),
+			Ban: CommonConvertStringToArray(ElementValue("InputBanList")),
 			Private: ChatAdminPrivate,
 			Locked: ChatAdminLocked,
 			Custom: ChatAdminCustom
@@ -241,7 +246,7 @@ function ChatAdminUpdateRoom() {
 		Language: ChatAdminLanguage,
 		Description: ElementValue("InputDescription").trim(),
 		Background: ChatAdminBackgroundSelect,
-		Limit: ElementValue("InputSize").trim(),
+		Limit: parseInt(ElementValue("InputSize"), 10).toString(),
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		BlockCategory: ChatAdminBlockCategory,
@@ -250,6 +255,7 @@ function ChatAdminUpdateRoom() {
 		Locked: ChatAdminLocked,
 		Custom: ChatAdminCustom
 	};
+	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 	ChatAdminMessage = "UpdatingRoom";
 }

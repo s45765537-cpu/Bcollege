@@ -387,7 +387,7 @@ function AudioShouldSilenceSound(IsPlayerInvolved = false) {
 
 /**
  * Takes the received data dictionary content and identifies the audio to be played
- * @param {IChatRoomMessage} data - Data received
+ * @param {ServerChatRoomMessage} data - Data received
  * @param {Character} sender
  * @param {string} msg
  * @param {any} metadata
@@ -509,7 +509,7 @@ function AudioGetFileName(sound) {
 
 /**
  * Processes which sound should be played for items
- * @param {IChatRoomMessage} data - Data content triggering the potential sound
+ * @param {ServerChatRoomMessage} data - Data content triggering the potential sound
  * @param {IChatRoomMessageMetadata} metadata - The chat message metadata
  * @returns {AudioSoundEffect | undefined} - The name of the sound to play, followed by the noise modifier
  */
@@ -544,7 +544,7 @@ function AudioGetSoundFromChatMessage(data, metadata) {
 
 /**
  * Processes the sound for vibrators
- * @param {IChatRoomMessage} data - Represents the chat message received
+ * @param {ServerChatRoomMessage} data - Represents the chat message received
  * @param {IChatRoomMessageMetadata} metadata - The metadata from the recieved message
  * @returns {[string, number]} - The name of the sound to play, followed by the noise modifier
  */
@@ -600,7 +600,7 @@ function AudioVibratorSounds(data, metadata) {
 
 /**
  * Processes the sound for shocks
- * @param {IChatRoomMessage} data - Represents the chat message received
+ * @param {ServerChatRoomMessage} data - Represents the chat message received
  * @returns {[string, number]} - The name of the sound to play, followed by the noise modifier
  */
 function AudioShockSounds(data) {
