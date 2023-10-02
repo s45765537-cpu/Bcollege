@@ -100,7 +100,7 @@ function AssetActivityMirrorGroupSet(group) {
  * @returns {void} - Nothing
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
-	/** @type {Asset} */
+	/** @type {Mutable<Asset>} */
 	var A = Object.assign({
 		Name: AssetDef.Name,
 		Description: AssetDef.Name,
@@ -318,7 +318,7 @@ function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, cr
 	}
 
 	if (!A.Archetype && parentOption == null) {
-		A.Archetype = config.Archetype;
+		/** @type {Mutable<Asset>} */(A).Archetype = config.Archetype;
 	}
 	return data;
 }
@@ -463,7 +463,7 @@ function AssetLayerAlpha(Layer, NewAsset, I) {
 /**
  * Assigns color indices to the layers of an asset. These determine which colors get applied to the layer. Also adds
  * a count of colorable layers to the asset definition.
- * @param {Asset} A - The built asset
+ * @param {Mutable<Asset>} A - The built asset
  * @returns {void} - Nothing
  */
 function AssetAssignColorIndices(A) {
@@ -516,11 +516,7 @@ function AssetBuildDescription(Family, CSV) {
 			continue;
 
 		const res = map.get(`${G.Name}:`);
-		if (res === undefined) {
-			G.Description = `MISSING ASSETGROUP DESCRIPTION: ${G.Name}`;
-		} else {
-			G.Description = res;
-		}
+		/** @type {Mutable<AssetGroup>} */(G).Description = (res !== undefined) ? res : `MISSING ASSETGROUP DESCRIPTION: ${G.Name}`;
 	}
 
 	// For each asset in the family
@@ -529,11 +525,7 @@ function AssetBuildDescription(Family, CSV) {
 			continue;
 
 		const res = map.get(`${A.Group.Name}:${A.Name}`);
-		if (res === undefined) {
-			A.Description = `MISSING ASSET DESCRIPTION: ${A.Group.Name}:${A.Name}`;
-		} else {
-			A.Description = res;
-		}
+		/** @type {Mutable<Asset>} */(A).Description = (res !== undefined) ? res : `MISSING ASSET DESCRIPTION: ${A.Group.Name}:${A.Name}`;
 	}
 
 	// Translates the descriptions to a foreign language

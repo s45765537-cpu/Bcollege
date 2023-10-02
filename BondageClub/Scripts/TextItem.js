@@ -33,14 +33,15 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	}
 
+	const mutableAsset = /** @type {Mutable<Asset>} */(data.asset);
 	if (data.allowEffect.length) {
-		asset.AllowEffect = Array.from(new Set([
-			...asset.Effect,
-			...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+		mutableAsset.AllowEffect = Array.from(new Set([
+			...mutableAsset.Effect,
+			...(CommonIsArray(mutableAsset.AllowEffect) ? mutableAsset.AllowEffect : []),
 			...data.allowEffect,
 		]));
 	}
-	asset.Extended = true;
+	mutableAsset.Extended = true;
 	return data;
 }
 

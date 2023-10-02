@@ -43,11 +43,12 @@ function VariableHeightRegister(asset, config, parentOption=null) {
 		ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	}
 
-	asset.Extended = true;
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	mutableAsset.Extended = true;
 	if (data.allowEffect.length) {
-		asset.AllowEffect = Array.from(new Set([
-			...asset.Effect,
-			...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+		mutableAsset.AllowEffect = Array.from(new Set([
+			...mutableAsset.Effect,
+			...(CommonIsArray(mutableAsset.AllowEffect) ? mutableAsset.AllowEffect : []),
 			...data.allowEffect,
 		]));
 	}
