@@ -96,7 +96,7 @@ function ChatAdminRoomCustomizationProcess(Custom) {
 
 	// The background music can be any MP3 file from the web
 	if ((Custom.MusicURL != null) && (typeof Custom.MusicURL === "string") && (Custom.MusicURL.length <= 250))
-		ChatAdminRoomCustomizationPlayMusic(Custom.MusicURL)
+		ChatAdminRoomCustomizationPlayMusic(Custom.MusicURL);
 	else
 		ChatAdminRoomCustomizationPlayMusic("");
 
