@@ -626,6 +626,14 @@ interface IFriendListBeepLogMessage {
 
 //#endregion
 
+/**
+ * Make all properties in T mutable.
+ * Opposite of {@link Readonly}
+ */
+type Mutable<T> = {
+    -readonly[P in keyof T]: T[P];
+};
+
 //#region Assets
 
 type IAssetFamily = "Female3DCG";
