@@ -454,10 +454,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @param {null | [archetype: "typed" | "vibrating", screen: string]} [subscreen]
+ * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null, refresh=true) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -506,7 +507,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 		}
 		return requirementMessage;
 	} else {
-		ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
+		ExtendedItemSetOption(data, C, item, newOption, previousOption, push, refresh);
 	}
 }
 
@@ -568,10 +569,11 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
  * @param {TypedItemData} Data - The item's extended item data
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
- * @param {boolean} Refresh - Whether the character and relevant item should be refreshed and pushed to the server
+ * @param {boolean} Push - Whether to push to changes to the server
+ * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not
  */
-function TypedItemInit(Data, C, Item, Refresh=true) {
+function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
 	const AllowType = [null, ...Item.Asset.AllowTypes];
 	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
 		return false;
@@ -585,7 +587,9 @@ function TypedItemInit(Data, C, Item, Refresh=true) {
 	};
 
 	if (Refresh) {
-		CharacterRefresh(C, true, false);
+		CharacterRefresh(C, Push, false);
+	}
+	if (Push) {
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 	}
 	return true;
@@ -767,7 +771,7 @@ function TypedItemSetType(data, C, newOption) {
 
 	// Do not sync appearance while in the wardrobe
 	/** @type {Parameters<ExtendedItemCallbacks.SetOption<TypedItemOption | VibratingItemOption>>} */
-	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
+	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth, true];
 	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 	if (data.archetype === ExtendedArchetype.VIBRATING) {
 		DialogExtendedMessage = DialogFindPlayer(`${data.dialogPrefix.header}${DialogFocusItem.Property.Intensity}`);

@@ -64,7 +64,7 @@ function AssetsItemArmsTransportJacketAfterDraw(
 		const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const flatCtx = flatCanvas.getContext("2d");
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const text = CA.Property.Text;
 
 		DynamicDrawText(text, flatCtx, width / 2, height / 2, {

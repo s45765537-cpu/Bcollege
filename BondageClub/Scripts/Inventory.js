@@ -1266,7 +1266,7 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	if (MemberNumber != null && Lock.Asset.Name == "FamilyPadlock" && C.IsInFamilyOfMemberNumber(MemberNumber)) Item.Property.LockMemberNumber = C.Ownership.MemberNumber;
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-	const args = [C, Item, false];
+	const args = [C, Item, false, false];
 	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 	if (Update) {
 		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);

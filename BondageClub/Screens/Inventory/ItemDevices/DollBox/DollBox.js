@@ -12,7 +12,7 @@ function AssetsItemDevicesDollBoxAfterDrawHook(data, originalFunction,
 		const ctx = tempCanvas.getContext("2d");
 
 		// One line of text will be centered
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const [text1, text2] = [CA.Property.Text, CA.Property.Text2];
 		const isAlone = !text1 || !text2;
 

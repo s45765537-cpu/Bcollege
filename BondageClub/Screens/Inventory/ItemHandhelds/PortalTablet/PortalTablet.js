@@ -1,8 +1,8 @@
 "use strict";
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemHandheldPortalTabletInit(C, Item, Refresh) {
-	return PortalLinkTransmitterInit(C, Item, Refresh);
+function InventoryItemHandheldPortalTabletInit(C, Item, Push, Refresh) {
+	return PortalLinkTransmitterInit(C, Item, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

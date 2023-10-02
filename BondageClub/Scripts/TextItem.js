@@ -136,9 +136,11 @@ const TextItem = {
 	 * @param {TextItemData} data
 	 * @param {Character} C — The character that has the item equiped
 	 * @param {Item} item — The item in question
-	 * @param {boolean} refresh — Whether the character and relevant item should be refreshed and pushed to the server
+	 * @param {boolean} push - Whether to push to changes to the server
+	 * @param {boolean} refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
+	 * @returns {boolean} Whether properties were updated or not
 	 */
-	Init: function ({ asset, font, baselineProperty, maxLength }, C, item, refresh=true) {
+	Init: function ({ asset, font, baselineProperty, maxLength }, C, item, push=true, refresh=true) {
 		if (font != null) {
 			DynamicDrawLoadFont(font);
 		}
@@ -160,11 +162,16 @@ const TextItem = {
 			}
 		}
 
-		if (refresh && changed) {
-			CharacterRefresh(C, true, false);
+		if (!changed) {
+			return false;
+		}
+		if (refresh) {
+			CharacterRefresh(C, push, false);
+		}
+		if (push) {
 			ChatRoomCharacterItemUpdate(C, asset.Group.Name);
 		}
-		return changed;
+		return true;
 	},
 	/**
 	 * Load function for items with text input fields.

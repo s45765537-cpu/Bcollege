@@ -733,10 +733,11 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
  * @param {VibratingItemData} data
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
- * @param {boolean} Refresh - Whether the character and relevant item should be refreshed and pushed to the server
+ * @param {boolean} Push - Whether to push to changes to the server
+ * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not
  */
-function VibratorModeInit(data, C, Item, Refresh=true) {
+function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
 	if (!CommonIsObject(Item.Property)) {
 		Item.Property = {};
 	}
@@ -751,7 +752,9 @@ function VibratorModeInit(data, C, Item, Refresh=true) {
 	);
 
 	if (Refresh) {
-		CharacterRefresh(C, true, false);
+		CharacterRefresh(C, Push, false);
+	}
+	if (Push) {
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 	}
 	return true;

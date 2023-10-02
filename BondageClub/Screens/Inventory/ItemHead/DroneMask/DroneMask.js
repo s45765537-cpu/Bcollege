@@ -16,7 +16,7 @@ function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 		let YOffset = 89;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const text = CA.Property.Text;
 		const isAlone = !text;
 

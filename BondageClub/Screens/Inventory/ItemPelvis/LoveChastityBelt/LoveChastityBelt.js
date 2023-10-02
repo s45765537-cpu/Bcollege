@@ -41,8 +41,8 @@ function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
-function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push) {
-	originalFunction(C, item, newOption, previousOption, false);
+function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
+	originalFunction(C, item, newOption, previousOption, false, false);
 
 	// Switch off the vibe module if the corresponding front shield is removed
 	if (previousOption.Name === "f2") { // 2 - close front & vibrator
@@ -50,7 +50,7 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 		const previousModuleValues = ModularItemParseCurrent(data, item.Property.Type);
 		const vibePreviousOption = data.modules[2].Options[previousModuleValues[2]];
 		const vibeNewOption = data.modules[2].Options[0];
-		return originalFunction(C, item, vibeNewOption, vibePreviousOption, push);
+		return originalFunction(C, item, vibeNewOption, vibePreviousOption, push, refresh);
 	} else {
 		CharacterRefresh(C, push, false);
 	}

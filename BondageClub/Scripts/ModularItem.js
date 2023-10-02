@@ -107,10 +107,11 @@ function ModularItemRegister(asset, config) {
  * @param {ModularItemData} Data - The item's extended item data
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
- * @param {boolean} Refresh - Whether the character and relevant item should be refreshed and pushed to the server
+ * @param {boolean} Push - Whether to push to changes to the server
+ * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not
  */
-function ModularItemInit(Data, C, Item, Refresh=true) {
+function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 	const AllowType = Data.asset.AllowTypes;
 	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
 		return false;
@@ -120,7 +121,9 @@ function ModularItemInit(Data, C, Item, Refresh=true) {
 	Item.Property = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
 
 	if (Refresh) {
-		CharacterRefresh(C, true, false);
+		CharacterRefresh(C, Push, false);
+	}
+	if (Push) {
 		ChatRoomCharacterItemUpdate(C, Data.asset.Group.Name);
 	}
 	return true;
@@ -676,7 +679,7 @@ function ModularItemSetType(module, index, data) {
 	// Do not sync appearance while in the wardrobe
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
 	/** @type {Parameters<ExtendedItemCallbacks.SetOption<ModularItemOption>>} */
-	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth];
+	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth, true];
 	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 
 	if (!IsCloth) {
@@ -710,10 +713,11 @@ function ModularItemSetType(module, index, data) {
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
+ * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false, C_Source=null) {
+function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false, C_Source=null, refresh=true) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 	if (!item) return;
 
@@ -748,10 +752,13 @@ function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = fals
 		if (requirementMessage && newOption.Name !== previousOption.Name) {
 			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
 		} else {
-			ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
+			ExtendedItemSetOption(data, C, item, newOption, previousOption, false, false);
 		}
 	}
 
+	if (refresh) {
+		CharacterRefresh(C, push, false);
+	}
 	if (push) {
 		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 	}

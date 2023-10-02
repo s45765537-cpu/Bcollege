@@ -38,11 +38,11 @@ function InventoryItemDevicesLuckyWheelClickHook(data, next) {
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Init<ModularItemData>} */
-function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, character, item, refresh) {
+function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, character, item, push, refresh) {
 	// NOTE: We can't pass `Texts` to `ModularItemData.BaselineProperty` as `DialogFindPlayer` has yet to be initialized at the time
 	const Texts = [ItemDevicesLuckyWheelLabelForNum(1), ItemDevicesLuckyWheelLabelForNum(2)];
-	let ret = originalFunction(character, item, false);
-	ret = ExtendedItemInitNoArch(character, item, { Texts }, refresh) || ret;
+	let ret = originalFunction(character, item, false, false);
+	ret = ExtendedItemInitNoArch(character, item, { Texts }, push, refresh) || ret;
 	return ret;
 }
 

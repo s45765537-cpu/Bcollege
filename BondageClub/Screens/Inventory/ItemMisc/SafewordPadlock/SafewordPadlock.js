@@ -8,7 +8,7 @@ function InventoryItemMiscSafewordPadlockInit(C, Item) {
 		LockSet: false,
 		RemoveOnUnlock: false,
 	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false);
+	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

@@ -25,7 +25,7 @@ function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFun
 			YOffset = 31;
 		}
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const text = CA.Property.Text;
 
 		/** @type {DynamicDrawOptions} */

@@ -68,7 +68,7 @@ function AssetsItemDevicesKabeshiriWallAfterDrawHook(
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const text1 = CA.Property.Text;
 		const text2 = CA.Property.Text2;
 

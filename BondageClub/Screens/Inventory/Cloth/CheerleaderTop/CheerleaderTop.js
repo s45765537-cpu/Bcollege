@@ -52,7 +52,7 @@ function AssetsClothCheerleaderTopAfterDrawHook(data, originalFunction, {
 		}
 	}
 
-	TextItem.Init(data, C, CA, false);
+	TextItem.Init(data, C, CA, false, false);
 	const text = CA.Property.Text;
 
 	const sizeData = AssetsClothCheerleaderTopData[G] || AssetsClothCheerleaderTopData._Small;
