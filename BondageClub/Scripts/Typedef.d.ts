@@ -639,51 +639,51 @@ type Mutable<T> = {
 type IAssetFamily = "Female3DCG";
 
 interface AssetGroup {
-	Family: IAssetFamily;
-	Name: AssetGroupName;
-	Description: string;
-	Asset: readonly Asset[];
-	ParentGroupName: AssetGroupName | "";
-	Category: 'Appearance' | 'Item' | 'Script';
-	IsDefault: boolean;
-	IsRestraint: boolean;
-	AllowNone: boolean;
-	AllowColorize: boolean;
-	AllowCustomize: boolean;
-	Random?: boolean;
-	ColorSchema: readonly string[];
-	ParentSize: AssetGroupName | "";
-	ParentColor: AssetGroupName | "";
-	Clothing: boolean;
-	Underwear: boolean;
-	BodyCosplay: boolean;
-	Hide?: readonly AssetGroupName[];
-	Block?: readonly AssetGroupItemName[];
-	Zone?: readonly [number, number, number, number][];
-	SetPose?: readonly AssetPoseName[];
-	AllowPose: readonly AssetPoseName[];
-	AllowExpression?: readonly ExpressionName[];
-	Effect: readonly EffectName[];
-	MirrorGroup: AssetGroupName | "";
-	RemoveItemOnRemove: readonly { Group: AssetGroupItemName; Name: string; Type?: string }[];
-	DrawingPriority: number;
-	DrawingLeft: number;
-	DrawingTop: number;
-	DrawingFullAlpha: boolean;
-	DrawingBlink: boolean;
-	InheritColor: AssetGroupName | null;
-	FreezeActivePose: readonly AssetPoseCategory[];
-	PreviewZone?: RectTuple;
-	DynamicGroupName: AssetGroupName;
+	readonly Family: IAssetFamily;
+	readonly Name: AssetGroupName;
+	readonly Description: string;
+	readonly Asset: readonly Asset[];
+	readonly ParentGroupName: AssetGroupName | "";
+	readonly Category: 'Appearance' | 'Item' | 'Script';
+	readonly IsDefault: boolean;
+	readonly IsRestraint: boolean;
+	readonly AllowNone: boolean;
+	readonly AllowColorize: boolean;
+	readonly AllowCustomize: boolean;
+	readonly Random?: boolean;
+	readonly ColorSchema: readonly string[];
+	readonly ParentSize: AssetGroupName | "";
+	readonly ParentColor: AssetGroupName | "";
+	readonly Clothing: boolean;
+	readonly Underwear: boolean;
+	readonly BodyCosplay: boolean;
+	readonly Hide?: readonly AssetGroupName[];
+	readonly Block?: readonly AssetGroupItemName[];
+	readonly Zone?: readonly [number, number, number, number][];
+	readonly SetPose?: readonly AssetPoseName[];
+	readonly AllowPose: readonly AssetPoseName[];
+	readonly AllowExpression?: readonly ExpressionName[];
+	readonly Effect: readonly EffectName[];
+	readonly MirrorGroup: AssetGroupName | "";
+	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; Type?: string }>[];
+	readonly DrawingPriority: number;
+	readonly DrawingLeft: number;
+	readonly DrawingTop: number;
+	readonly DrawingFullAlpha: boolean;
+	readonly DrawingBlink: boolean;
+	readonly InheritColor: AssetGroupName | null;
+	readonly FreezeActivePose: readonly AssetPoseCategory[];
+	readonly PreviewZone?: RectTuple;
+	readonly DynamicGroupName: AssetGroupName;
 
-	MirrorActivitiesFrom?: AssetGroupItemName;
-	ArousalZone?: AssetGroupItemName;
+	readonly MirrorActivitiesFrom?: AssetGroupItemName;
+	readonly ArousalZone?: AssetGroupItemName;
 
 	/** A dict mapping colors to custom filename suffices.
 	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
-	ColorSuffix?: Record<string, string>;
-	ExpressionPrerequisite?: readonly AssetPrerequisite[];
-	HasPreviewImages: boolean;
+	readonly ColorSuffix?: Readonly<Record<string, string>>;
+	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
+	readonly HasPreviewImages: boolean;
 	/** Return whether this group belongs to the `Appearance` {@link AssetGroup.Category} */
 	IsAppearance(): this is AssetAppearanceGroup;
 	/** Return whether this group belongs to the `Item` {@link AssetGroup.Category} */
@@ -694,34 +694,34 @@ interface AssetGroup {
 
 /** An AssetGroup subtype for the `Appearance` {@link AssetGroup.Category} */
 interface AssetAppearanceGroup extends AssetGroup {
-	Category: "Appearance";
-	Name: AssetGroupBodyName;
-	IsRestraint: false;
-	AllowExpression?: readonly ExpressionName[];
+	readonly Category: "Appearance";
+	readonly Name: AssetGroupBodyName;
+	readonly IsRestraint: false;
+	readonly AllowExpression?: readonly ExpressionName[];
 }
 
 /** An AssetGroup subtype for the `Item` {@link AssetGroup.Category} */
 interface AssetItemGroup extends AssetGroup {
-	Category: "Item";
-	Name: AssetGroupItemName;
-	Underwear: false;
-	BodyCosplay: false;
-	Clothing: false;
-	IsDefault: false;
-	AllowExpression?: undefined;
-	Zone: readonly [number, number, number, number][];
+	readonly Category: "Item";
+	readonly Name: AssetGroupItemName;
+	readonly Underwear: false;
+	readonly BodyCosplay: false;
+	readonly Clothing: false;
+	readonly IsDefault: false;
+	readonly AllowExpression?: undefined;
+	readonly Zone: readonly RectTuple[];
 }
 
 /** An AssetGroup subtype for the `Script` {@link AssetGroup.Category} */
 interface AssetScriptGroup extends AssetGroup {
-	Category: "Script";
-	Name: AssetGroupScriptName;
-	IsRestraint: false;
-	BodyCosplay: false;
-	Underwear: false;
-	Clothing: false;
-	IsDefault: false;
-	AllowExpression?: undefined;
+	readonly Category: "Script";
+	readonly Name: AssetGroupScriptName;
+	readonly IsRestraint: false;
+	readonly BodyCosplay: false;
+	readonly Underwear: false;
+	readonly Clothing: false;
+	readonly IsDefault: false;
+	readonly AllowExpression?: undefined;
 }
 
 /** An object defining a drawable layer of an asset */
@@ -751,7 +751,7 @@ interface AssetLayer {
 	/** An array of poses that this layer should be hidden for. */
 	HideForPose: readonly (AssetPoseName | "")[];
 	/** An array of objects mapping poses to other poses to determine their draw folder */
-	PoseMapping?: AssetPoseMapping;
+	PoseMapping?: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
 	definition. */
 	Priority: number;
@@ -761,7 +761,7 @@ interface AssetLayer {
 	Asset: Asset;
 	DrawingLeft?: number;
 	DrawingTop?: number;
-	HideAs?: { Group: AssetGroupName; Asset?: string };
+	HideAs?: Readonly<{ Group: AssetGroupName; Asset?: string }>;
 	/** That layer is drawing at a fixed Y position */
 	FixedPosition?: boolean;
 	HasImage: boolean;
@@ -785,7 +785,7 @@ interface AssetLayer {
 	ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
-	ColorSuffix: Record<string, string> | null;
+	ColorSuffix: Readonly<Record<string, string>> | null;
 }
 
 /** An object defining a group of alpha masks to be applied when drawing an asset layer */
@@ -834,7 +834,7 @@ interface ExpressionItem {
  *
  * See AssetDefinition in Female3DCG.d.ts for documentation.
  */
-interface Asset {
+type Asset = Readonly<{
 	Name: string;
 	Description: string;
 	Group: AssetGroup;
@@ -954,7 +954,7 @@ interface Asset {
 	CraftGroup: string;
 	ColorSuffix: Record<string, string>;
 	ExpressionPrerequisite?: readonly AssetPrerequisite[];
-}
+}>;
 
 //#endregion
 
