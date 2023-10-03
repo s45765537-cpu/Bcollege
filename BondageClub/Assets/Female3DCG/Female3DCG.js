@@ -1722,11 +1722,11 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "DutyShoes", Height: 12, Value: 20,
+				Name: "DutyShoes", Height: 8, Value: 20,
 				HideForPose: ["Kneel", "KneelingSpread"],
 				Alpha: [
-					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 936, 350, 100]] },
-					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 936, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 934, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 935, 350, 100]] },
 				],
 				Layer: [
 					{ Name: "Main", Priority: 22, AllowColorize: true },
@@ -1734,11 +1734,11 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "SocialHeels", Height: 15,
+				Name: "SocialHeels", Height: 10,
 				HideForPose: ["Kneel", "KneelingSpread"],
 				Alpha: [
-					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 936, 350, 100]] },
-					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 936, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[45, 932, 350, 100]] },
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Pose: ["LegsClosed"], Masks: [[45, 935, 350, 100]] },
 				],
 				Layer: [
 					{ Name: "Main", Priority: 22, AllowColorize: true },
