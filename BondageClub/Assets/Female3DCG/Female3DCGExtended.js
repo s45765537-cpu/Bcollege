@@ -540,6 +540,30 @@ var AssetFemale3DCGExtended = {
 				Header: "ClothCheerleaderTopTextLabel",
 			},
 		}, // CheerleaderTop
+		FishnetTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Sleeves", Key: "s",
+					Options: [
+						{}, // Sleeves
+						{}, // No sleeves
+					],
+				},
+				{
+					Name: "Top", Key: "t",
+					Options: [
+						{}, // Full
+						{}, // Crop
+					],
+				},
+			],
+		}, // FishnetTop
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -9606,6 +9630,16 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
 		}, // MaleSeamlessCatsuit
+		FishnetTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "Cloth", AssetName: "FishnetTop" },
+			DialogPrefix: {
+				Header: "ClothFishnetTopSelect",
+				Module: "ClothFishnetTopModule",
+				Option: "ClothFishnetTopOption",
+				Chat: "ClothFishnetTopSet",
+			},
+		}, // FishnetTop
 	}, // Suit
 	SuitLower: {
 		MaleSeamlessCatsuit: {

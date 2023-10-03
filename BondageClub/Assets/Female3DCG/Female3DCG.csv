@@ -71,6 +71,7 @@ Cloth,Hoodie,Cropped Hoodie
 Cloth,LatexTankTop,Latex Tank Top
 Cloth,CheerleaderTop,Cheerleader Top
 Cloth,FrilledShirt,Latex Frilled Shirt
+Cloth,FishnetTop,Fishnet Top
 ClothAccessory,,Cloth Accessory
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -124,6 +125,7 @@ Suit,ReverseBunnySuit,Reverse Bunny Suit
 Suit,Blouse1,Blouse
 Suit,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
 Suit,MaleSeamlessCatsuit,Male Seamless Catsuit
+Suit,FishnetTop,Fishnet Top
 ClothLower,,Bottom
 ClothLower,Skirt1,Skirt
 ClothLower,Skirt2,Student Skirt
