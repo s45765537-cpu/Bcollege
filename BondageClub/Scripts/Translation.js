@@ -927,10 +927,12 @@ function TranslationText(Text) {
  * @returns {void} - Nothing
  */
 function TranslationAssetProcess(T) {
-	for (let A = 0; A < AssetGroup.length; A++)
-		AssetGroup[A].Description = TranslationString(AssetGroup[A].Description, T);
-	for (let A = 0; A < Asset.length; A++)
-		Asset[A].Description = TranslationString(Asset[A].Description, T);
+	for (const group of AssetGroup) {
+		/** @type {Mutable<AssetGroup>} */(group).Description = TranslationString(group.Description, T);
+	}
+	for (const asset of Asset) {
+		/** @type {Mutable<Asset>} */(asset).Description = TranslationString(asset.Description, T);
+	}
 }
 
 /**

@@ -75,7 +75,9 @@ function TypedItemRegister(asset, config) {
 	TypedItemGenerateAllowHide(data);
 	TypedItemGenerateAllowTint(data);
 	TypedItemGenerateAllowLockType(data);
-	asset.Extended = true;
+
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	mutableAsset.Extended = true;
 	return data;
 }
 
@@ -246,7 +248,8 @@ function TypedItemPublishAction(data, C, item, newOption, previousOption) {
  * @returns {void} - Nothing
  */
 function TypedItemGenerateAllowType({ asset, options }) {
-	asset.AllowTypes = options
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	mutableAsset.AllowTypes = options
 		.map((option) => option.Property.Type)
 		.filter(Boolean);
 }
@@ -257,13 +260,14 @@ function TypedItemGenerateAllowType({ asset, options }) {
  * @returns {void} - Nothing
  */
 function TypedItemGenerateAllowEffect({ asset, options, allowEffect }) {
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
 	const effects = [
-		...asset.Effect,
-		...(CommonIsArray(asset.AllowEffect) ? asset.AllowEffect : []),
+		...mutableAsset.Effect,
+		...(CommonIsArray(mutableAsset.AllowEffect) ? mutableAsset.AllowEffect : []),
 		...allowEffect,
 	];
 	options.forEach(o => effects.push(...(o.Property.Effect || [])));
-	asset.AllowEffect = Array.from(new Set(effects));
+	mutableAsset.AllowEffect = Array.from(new Set(effects));
 }
 
 /**
@@ -271,11 +275,12 @@ function TypedItemGenerateAllowEffect({ asset, options, allowEffect }) {
  * @param {TypedItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowBlock({asset, options}) {
-	asset.AllowBlock = Array.isArray(asset.Block) ? asset.Block.slice() : [];
+function TypedItemGenerateAllowBlock({ asset, options }) {
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	mutableAsset.AllowBlock = Array.isArray(mutableAsset.Block) ? mutableAsset.Block.slice() : [];
 	for (const option of options) {
 		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(asset.AllowBlock, option.Property.Block);
+		CommonArrayConcatDedupe(mutableAsset.AllowBlock, option.Property.Block);
 	}
 }
 
@@ -285,13 +290,14 @@ function TypedItemGenerateAllowBlock({asset, options}) {
  * @returns {void} - Nothing
  */
 function TypedItemGenerateAllowHide({asset, options}) {
-	asset.AllowHide = Array.isArray(asset.Hide) ? asset.Hide.slice() : [];
-	asset.AllowHideItem = Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [];
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	mutableAsset.AllowHide = Array.isArray(mutableAsset.Hide) ? mutableAsset.Hide.slice() : [];
+	mutableAsset.AllowHideItem = Array.isArray(mutableAsset.HideItem) ? mutableAsset.HideItem.slice() : [];
 	for (const option of options) {
 		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(asset.AllowHide, option.Property.Hide);
+		CommonArrayConcatDedupe(mutableAsset.AllowHide, option.Property.Hide);
 		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(asset.AllowHideItem, option.Property.HideItem);
+		CommonArrayConcatDedupe(mutableAsset.AllowHideItem, option.Property.HideItem);
 	}
 }
 
@@ -300,13 +306,14 @@ function TypedItemGenerateAllowHide({asset, options}) {
  * @param {TypedItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowTint({asset, options}) {
-	if (asset.AllowTint) {
+function TypedItemGenerateAllowTint({ asset, options }) {
+	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
+	if (mutableAsset.AllowTint) {
 		return;
 	}
 	for (const option of options) {
 		if (option.Property && Array.isArray(option.Property.Tint) && option.Property.Tint.length > 0) {
-			asset.AllowTint = true;
+			mutableAsset.AllowTint = true;
 			return;
 		}
 	}
@@ -333,7 +340,7 @@ function TypedItemGenerateAllowLockType({asset, options}) {
 /**
  * Sets the AllowLock and AllowLockType properties on an asset based on an AllowLockType array and the total number of
  * possible types.
- * @param {Asset} asset - The asset to set properties on
+ * @param {Mutable<Asset>} asset - The asset to set properties on
  * @param {readonly string[]} allowLockType - The AllowLockType array indicating which of the asset's types permit locks
  * @param {number} typeCount - The total number of types available on the asset
  * @returns {void} - Nothing

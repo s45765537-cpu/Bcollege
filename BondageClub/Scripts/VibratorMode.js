@@ -377,7 +377,7 @@ function VibratorModePublishAction(data, C, item, newOption, previousOption) {
  * @returns {void} - Nothing
  */
 function VibratorModeSetAssetProperties(data) {
-	const { asset } = data;
+	const asset = /** @type {Mutable<Asset>} */(data.asset);
 	asset.DynamicScriptDraw = true;
 	asset.Extended = true;
 	TypedItemGenerateAllowEffect(data);

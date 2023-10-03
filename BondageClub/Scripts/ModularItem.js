@@ -866,7 +866,8 @@ function ModularItemGenerateAllowLockType(data) {
  * @returns {void} - Nothing
  */
 function ModularItemGenerateValidationProperties(data) {
-	const {asset, modules} = data;
+	const asset = /** @type {Mutable<Asset>} */(data.asset);
+	const { modules } = data;
 	asset.Extended = true;
 	asset.AllowTypes = ModularItemGenerateTypeList(data);
 	asset.AllowEffect = CommonIsArray(asset.AllowEffect) ? [...data.allowEffect, ...asset.AllowEffect] : [...data.allowEffect];
