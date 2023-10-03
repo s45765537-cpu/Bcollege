@@ -111,6 +111,9 @@ var ChatRoomLeashPlayer = null;
  */
 var ChatRoomJoinLeash = "";
 var ChatRoomTargetDirty = false;
+var ChatRoomCustomized = false;
+var ChatRoomCustomBackground = "";
+var ChatRoomCustomFilter = "";
 
 /**
  * Chances of a chat message popping up reminding you of some stimulation.
@@ -333,11 +336,6 @@ function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnership
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
-/**
- * Returns TRUE if room customization is allowed based on player preference
- * @returns {boolean} - TRUE if allowed
- */
-function ChatRoomCustomizationAllowed() { return ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 2)); }
 /**
  * Returns TRUE if the room customization button can be used
  * @returns {boolean} - TRUE if can be used
@@ -803,9 +801,7 @@ function ChatRoomLoad() {
 		ChatRoomHideIconState = 0;
 	}
 	ChatRoomMenuBuild();
-
 	ChatRoomCharacterInitialize = true;
-
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
 }
@@ -1088,18 +1084,26 @@ function ChatRoomDrawCharacter(DoClick) {
  */
 function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
 	if (DarkFactor > 0) {
+
+		// Sets the blur level
 		const BlurLevel = Player.GetBlurLevel();
-		if (BlurLevel > 0) {
-			MainCanvas.filter = `blur(${BlurLevel}px)`;
-		}
-		// Draw the zoomed background
-		DrawImageZoomCanvas("Backgrounds/" + Background + ".jpg", MainCanvas, 500 * (2 - 1 / Zoom), 0, 1000 / Zoom, 1000, 0, Y, 1000, 1000 * Zoom, InvertRoom);
+		if (BlurLevel > 0) MainCanvas.filter = `blur(${BlurLevel}px)`;
+
+		// Draw the zoomed or custom background
+		if (ChatRoomCustomized && (ChatRoomCustomBackground != null) && (ChatRoomCustomBackground != ""))
+			DrawImageResize(ChatRoomCustomBackground, 0, Y, 1000, 1000 * Zoom);
+		else
+			DrawImageZoomCanvas("Backgrounds/" + Background + ".jpg", MainCanvas, 500 * (2 - 1 / Zoom), 0, 1000 / Zoom, 1000, 0, Y, 1000, 1000 * Zoom, InvertRoom);
+
+		// Draw the custom filter
+		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != ""))
+			DrawRect(0, Y, 1000, 1000 * Zoom, ChatRoomCustomFilter);
 		MainCanvas.filter = 'none';
 
 		// Draw an overlay if the character is partially blinded
-		if (DarkFactor < 1.0) {
+		if (DarkFactor < 1.0)
 			DrawRect(0, Y, 1000, 1000 - Y, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
-		}
+
 	}
 	const Tints = Player.GetTints();
 	for (const {r, g, b, a} of Tints) {
@@ -1827,14 +1831,41 @@ function ChatRoomStatusCheckExpiration() {
 }
 
 /**
+ * Clears the room customization data
+ * @returns {void} - Nothing.
+ */
+function ChatRoomCustomizationClear() {
+	ChatRoomCustomBackground = "";
+	ChatRoomCustomFilter = "";
+	ChatAdminRoomCustomizationPlayMusic("");
+}
+
+/**
+ * Use the room customization features if needed	
+ * @returns {void} - Nothing.
+ */
+function ChatRoomCustomizationRun() {
+	if ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
+	if (ChatRoomCustomized) {
+		if ((Player.ImmersionSettings == null) || (Player.ImmersionSettings.ShowRoomCustomization == null) || (Player.ImmersionSettings.ShowRoomCustomization >= 1)) {
+			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, false);
+		} else {
+			ChatRoomCustomized = false;
+			ChatRoomCustomizationClear();
+		}
+	}
+}
+
+/**
  * Runs the chatroom screen.
  * @returns {void} - Nothing.
  */
 function ChatRoomRun() {
 
-	// Handles online GGTS & bounty game
+	// Handles online GGTS, bounty & customizations
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
+	ChatRoomCustomizationRun();
 
 	// Draws the chat room controls
 	ChatRoomStatusCheckExpiration();
@@ -1845,9 +1876,7 @@ function ChatRoomRun() {
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
 	ChatRoomDrawCharacter(false);
-	if (ChatRoomChatHidden) {
-		ChatRoomShowElements();
-	}
+	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
 	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
 	if (!ChatRoomCanLeave() && ChatRoomSlowtimer != 0){//Player got interrupted while trying to leave. (Via a bind)
@@ -1932,6 +1961,10 @@ function ChatRoomRun() {
 		ChatRoomVibrationScreenFilter(y1, h, 1003, Player);
 	}
 
+	// Draw the customization button in the lower left if the room allows it
+	if (ChatRoomCustomizationButton())
+		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
+
 	// Runs any needed online game script
 	OnlineGameRun();
 
@@ -1984,6 +2017,13 @@ function ChatRoomClick() {
 		if ((MouseX >= ActivityOrgasmGameButtonX) && (MouseX <= ActivityOrgasmGameButtonX + 250) && (MouseY >= ActivityOrgasmGameButtonY) && (MouseY <= ActivityOrgasmGameButtonY + 64) && (Player.ArousalSettings.OrgasmStage == 1)) ActivityOrgasmGameGenerate(ActivityOrgasmGameProgress + 1);
 		return;
 
+	}
+
+	// If the allow customization button is toggled, always stops the music from here
+	if (ChatRoomCustomizationButton() && MouseIn(10, 930, 60, 60)) {
+		 ChatRoomCustomized = !ChatRoomCustomized;
+		 ChatRoomCustomizationClear();
+		 return;
 	}
 
 	// When the user chats or clicks on a character
@@ -2159,6 +2199,7 @@ function ChatRoomCanLeave() {
  * @param {boolean} clearCharacters - Whether the online character cache should be cleared
  */
 function ChatRoomLeave(clearCharacters = false) {
+	ChatRoomCustomizationClear();
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;

@@ -18,9 +18,9 @@ function ChatAdminRoomCustomizationLoad() {
 	document.getElementById("InputImageFilter").setAttribute("autocomplete", "off");
 	document.getElementById("InputMusicURL").setAttribute("autocomplete", "off");
 	if (!ChatRoomPlayerIsAdmin()) {
-		document.getElementById("InputAdminList").setAttribute("disabled", "disabled");
-		document.getElementById("InputBanList").setAttribute("disabled", "disabled");
-		document.getElementById("InputSize").setAttribute("disabled", "disabled");
+		document.getElementById("InputImageURL").setAttribute("disabled", "disabled");
+		document.getElementById("InputImageFilter").setAttribute("disabled", "disabled");
+		document.getElementById("InputMusicURL").setAttribute("disabled", "disabled");
 	}
 }
 
@@ -69,9 +69,10 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 /**
  * Runs the customization on the current screen, can be called from elsewhere
  * @param {object} Custom - The customazation to apply
+ * @param {boolean} Draw - If we must draw directly or keep values to be used by online chat rooms 
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationProcess(Custom) {
+function ChatAdminRoomCustomizationProcess(Custom, Draw) {
 
 	// Make sure the customozation data is valid first
 	if ((Custom == null) || (typeof Custom !== "object")) {
@@ -80,19 +81,24 @@ function ChatAdminRoomCustomizationProcess(Custom) {
 	}
 
 	// The background image full image URL over the current background
+	ChatRoomCustomBackground = "";
 	if ((Custom.ImageURL != null) && (typeof Custom.ImageURL === "string") && (Custom.ImageURL !== "") && (Custom.ImageURL.length <= 250)) {
 
 		// Only allows .jpg and .png files for now
 		let URL = Custom.ImageURL.trim();
 		if (URL.toLowerCase().endsWith(".jpg") || URL.trim().toLowerCase().endsWith(".jpeg") || URL.trim().toLowerCase().endsWith(".png")) {
-			DrawImageResize(URL, 0, 0, 2000, 1000);
+			if (Draw) DrawImageResize(URL, 0, 0, 2000, 1000);
+			else ChatRoomCustomBackground = URL;
 		}
 
 	}
 
 	// The image filter is a full rectangle over the current background
-	if ((Custom.ImageFilter != null) && (typeof Custom.ImageFilter === "string") && (Custom.ImageFilter !== "") && (Custom.ImageFilter.length <= 10))
-		DrawRect(0, 0, 2000, 1000, Custom.ImageFilter);
+	ChatRoomCustomFilter = "";
+	if ((Custom.ImageFilter != null) && (typeof Custom.ImageFilter === "string") && (Custom.ImageFilter !== "") && (Custom.ImageFilter.length <= 10)) {
+		if (Draw) DrawRect(0, 0, 2000, 1000, Custom.ImageFilter);
+		else ChatRoomCustomFilter = Custom.ImageFilter;
+	}
 
 	// The background music can be any MP3 file from the web
 	if ((Custom.MusicURL != null) && (typeof Custom.MusicURL === "string") && (Custom.MusicURL.length <= 250))
@@ -107,7 +113,7 @@ function ChatAdminRoomCustomizationProcess(Custom) {
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationRun() {
-	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent);
+	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, true);
 	DrawText(TextGet("Title"), 1000, 120, "Black", "White");
 	DrawText(TextGet("BackgroundImage1"), 1000, 230, "Black", "White");
 	DrawText(TextGet("BackgroundImage2"), 1000, 290, "Black", "White");
@@ -132,7 +138,7 @@ function ChatAdminRoomCustomizationClick() {
 	if (MouseIn(1800, 800, 200, 200)) {
 		ElementValue("InputImageURL", "https://bondageprojects.com/images/school.jpg");
 		ElementValue("InputImageURL", "Screens/Room/Platform/Background/Savannah/TentInterior.jpg");
-		ElementValue("InputImageFilter", "#00000080");
+		ElementValue("InputImageFilter", "#00008080");
 		ElementValue("InputMusicURL", "https://bondageprojects.com/music/relax.mp3");
 	}
 

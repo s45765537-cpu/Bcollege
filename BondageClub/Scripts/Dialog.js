@@ -2713,6 +2713,11 @@ function DialogDrawTopMenu(C) {
  * @returns {void} - Nothing
  */
 function DialogDraw() {
+
+	// Customization can be used in dialog if screen is online chat room
+	if ((CurrentScreen == "ChatRoom") && ChatRoomCustomized)
+		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, true);
+
 	// Check that there's actually a character selected
 	if (!CurrentCharacter) return;
 	if (ControllerIsActive()) {

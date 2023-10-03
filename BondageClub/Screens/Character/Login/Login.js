@@ -817,10 +817,10 @@ function LoginResponse(C) {
 			LoginValideBuyGroups();
 			LoginValidateArrays();
 			PrisonRestoreConfiscatedItems();
-
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
 			AsylumGGTSSAddItems();
+			ChatRoomCustomized = ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 2));
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {

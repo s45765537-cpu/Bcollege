@@ -43,6 +43,7 @@ var ChatSearchFilterTermsTemp = "";
  * @returns {void} - Nothing
  */
 function ChatSearchLoad() {
+	ChatRoomCustomizationClear();
 	if (ChatSearchReturnToScreen != null) {
 		CommonSetScreen("Room", ChatSearchReturnToScreen);
 		ChatSearchReturnToScreen = null;
