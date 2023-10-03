@@ -368,6 +368,10 @@ function GameClubCardLoadData(Packet) {
 		}
 	}
 	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
+
+	// Check if either player has now won
+	ClubCardCheckVictory(ClubCardPlayer[0]);
+	ClubCardCheckVictory(ClubCardPlayer[1]);
 }
 
 /**
