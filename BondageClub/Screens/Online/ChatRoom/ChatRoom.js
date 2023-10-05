@@ -1841,7 +1841,7 @@ function ChatRoomCustomizationClear() {
 }
 
 /**
- * Use the room customization features if needed	
+ * Use the room customization features if needed
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationRun() {
