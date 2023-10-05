@@ -1422,6 +1422,12 @@ var AssetFemale3DCG = [
 					{ Name: "Bands" }
 				]
 			},
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
+			},
+			{ Name: "KneePads", Value: 7, HideForPose: ["Hogtied"], BuyGroup: "KneePads", Layer: [
+				{ Name: "Body", AllowColorize: true },
+				{ Name: "Guards", AllowColorize: true },]
+			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -1478,7 +1484,15 @@ var AssetFemale3DCG = [
 					{ Name: "Bands" }
 				]
 			},
-		],
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
+			},
+			{Name: "KneePads", Value: 7, HideForPose: ["Hogtied"], BuyGroup: "KneePads", 
+			Layer: [
+				{ Name: "Body", AllowColorize: true },
+				{ Name: "Guards", AllowColorize: true },
+				]
+			},
+			],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
 	{
@@ -1534,6 +1548,13 @@ var AssetFemale3DCG = [
 					{ Name: "Bands" }
 				]
 			},
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
+			},
+			{Name: "KneePads", Value: 7, HideForPose: ["Hogtied"], BuyGroup: "KneePads", Layer: [
+				{ Name: "Body", AllowColorize: true },
+				{ Name: "Guards", AllowColorize: true },
+				]
+				},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -10249,6 +10270,15 @@ var AssetFemale3DCG = [
 					{ Name: "Trim", HasType: false },
 					{ Name: "Shine", AllowColorize: false },
 				]
+			},
+			{ Name: "ShortPonyBoots", Fetish: ["Leather", "Pony"], Value: 55, Difficulty: 6, Time: 10, RemoveTime: 10, AllowLock: true, AllowTighten: true, 
+			    Alpha: [
+					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[75, 840, 350, 200]] }], Height: 35, AllowPose: ["LegsClosed", "Kneel", "Hogtied", "Spread"], HideForPose: ["KneelingSpread"],
+					Layer: [
+						{ Name: "Toe", AllowColorize: true },{ Name: "Foot", AllowColorize: true },
+						{ Name: "Ankle", AllowColorize: true },
+						{ Name: "U", AllowColorize: true },
+			] 
 			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
