@@ -336,7 +336,7 @@ var PlatformDialogData = [
 				Background: "Black",
 				Character: [{ Name: "Olivia", Status: "Chastity", Pose: "Bathing", X: 0 }]
 			},
-			{ Text: "(She slides down as her chastity belt makes a loud metallic sound from scraping the bath.)", Audio: "30" },
+			{ Text: "(She slides down as her chastity belt makes a loud metallic sound from scraping the bath.)", Audio: "CommonChain" },
 			{
 				Text: "Sorry for that noise.  The belt scraped the bath.", Audio: "40",
 				Answer: [
@@ -794,7 +794,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "(You unlock her shackles as she gathers her equipment.)", Audio: "30",
+				Text: "(You unlock her shackles as she gathers her equipment.)", Audio: "CommonChain",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
@@ -1619,52 +1619,52 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
 				]
 			},
-			{ Text: "I love this cabin, it's a good place to hide and get a free lunch." },
-			{ Text: "I mean... it would be a good place to hide and eat, since it's my first time here." },
+			{ Text: "I love this cabin, it's a good place to hide and get a free lunch.", Audio: "10" },
+			{ Text: "I mean... it would be a good place to hide and eat, since it's my first time here.", Audio: "20" },
 			{
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
 				],
-				Text: "Edlaran, this hunting cabin used to belong to my late father."
+				Text: "Edlaran, this hunting cabin used to belong to my late father.", Audio: "30", AudioStyle: "angry",
 			},
-			{ Text: "You should not break in to sleep or get a free meal.  This is not appropriate." },
+			{ Text: "You should not break in to sleep or get a free meal.  This is not appropriate.", Audio: "40", AudioStyle: "angry" },
 			{
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
-				Text: "Is it a crime to sleep in an unoccupied cabin?  Don't answer."
+				Text: "Is it a crime to sleep in an unoccupied cabin?  Don't answer.", Audio: "50"
 			},
-			{ Text: "It's easy to judge others when you're rich and never knew cold or hunger." },
+			{ Text: "It's easy to judge others when you're rich and never knew cold or hunger.", Audio: "60" },
 			{
-				Text: "Tell her Melody.",
+				Text: "Tell her Melody.", Audio: "70",
 				Answer: [
-					{ Text: "I don't want to get involved.", Reply: "Yeah, she would not understand anyway." },
-					{ Text: "Breaking in the cabin is wrong.", Reply: "(She looks disappointed.)  Don't side with her rich family.", Love: -2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", 2); } },
-					{ Text: "House Alberus can share its cabin.", Reply: "Thanks Melody!  (She pulls her tongue at Olivia.)", Love: 2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", -2); } },
-					{ Text: "No jury would convict you Edlaran.", Reply: "(She nods.)  There's nothing wrong with finding some shelter.", Love: 1, Perk: true },
+					{ Text: "I don't want to get involved.", Reply: "Yeah, she would not understand anyway.", Audio: "71" },
+					{ Text: "Breaking in the cabin is wrong.", Reply: "(She looks disappointed.)  Don't side with her rich family.", Audio: "72", AudioStyle: "sad", Love: -2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", 2); } },
+					{ Text: "House Alberus can share its cabin.", Reply: "Thanks Melody!  (She pulls her tongue at Olivia.)", Audio: "73", AudioStyle: "cheerful", Love: 2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", -2); } },
+					{ Text: "No jury would convict you Edlaran.", Reply: "(She nods.)  There's nothing wrong with finding some shelter.", Audio: "74", Love: 1, Perk: true },
 				]
 			},
-			{ Text: "(She looks around.)  This cabin can be our new castle." },
+			{ Text: "(She looks around.)  This cabin can be our new castle.", Audio: "80" },
 			{
-				Text: "I'll use the big chair as my throne.",
+				Text: "I'll use the big chair as my throne.", Audio: "90", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "Girl, the throne is mine.", Reply: "(She gulps.)  You can have the comfy chair.", Domination: 2 },
-					{ Text: "You'll make a good cabin queen.", Reply: "(She smirks.)  Cabin queen?  I like it.", Domination: -2 },
-					{ Text: "This is not a throne.", Reply: "(She laughs.)  You need to use your imagination." },
-					{ Text: "Lady Olivia should have the throne.", Reply: "(She sighs.)  You're no fun.", Love: -1 },
+					{ Text: "Girl, the throne is mine.", Reply: "(She gulps.)  You can have the comfy chair.", Audio: "91", AudioStyle: "terrified", Domination: 2 },
+					{ Text: "You'll make a good cabin queen.", Reply: "(She smirks.)  Cabin queen?  I like it.", Audio: "92", AudioStyle: "cheerful", Domination: -2 },
+					{ Text: "This is not a throne.", Reply: "(She laughs.)  You need to use your imagination.", Audio: "93", AudioStyle: "cheerful" },
+					{ Text: "Lady Olivia should have the throne.", Reply: "(She sighs.)  You're no fun.", Audio: "94", AudioStyle: "sad", Love: -1 },
 				]
 			},
 			{
 				ID: "End",
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran") && !PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
-				Text: "Let's rest while we can, we have a long journey ahead."
+				Text: "Let's rest while we can, we have a long journey ahead.", Audio: "100"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran") && !PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
-				Text: "A quick kiss before we travel again.  (You share a loving kiss.)"
+				Text: "A quick kiss before we travel again.  (You share a loving kiss.)", Audio: "110", AudioStyle: "cheerful"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
@@ -1679,12 +1679,12 @@ var PlatformDialogData = [
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "MasturbateMaidMelodyUnderDress" }],
-				Text: "Don't forget who you belong to.  (She slides her hand under your dress and pinches your pussy lips.)"
+				Text: "Don't forget who you belong to.  (She slides her hand under your dress and pinches your pussy lips.)", Audio: "120", AudioStyle: "angry"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "MasturbateMaidMelodyUnderDress" }],
-				Text: "(She slides her hand under your dress and touches your pussy playfully.)  Tonight, you're mine my love."
+				Text: "(She slides her hand under your dress and touches your pussy playfully.)  Tonight, you're mine my love.", Audio: "130", AudioStyle: "cheerful"
 			}
 
 		]
@@ -1944,10 +1944,10 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Alert" }
 				]
 			},
-			{ Text: "That smoke!  *Cough*  It's coming from the soil." },
-			{ Text: "*Cough*  Where is Edlaran?  *Cough*" },
+			{ Text: "That smoke!  (She coughs.)  It's coming from the soil.", Audio: "10", AudioStyle: "terrified" },
+			{ Text: "(She coughs.)  Where is Edlaran?", Audio: "20", AudioStyle: "angry" },
 			{
-				Text: "*Cough*   I feel sick.",
+				Text: "I feel sick. (She coughs deeper, getting dizzy.)", Audio: "30", AudioStyle: "terrified",
 				Answer: [
 					{ Text: "Everyone is afraid!", Reply: "(She whimpers and starts to get dizzy.)", Love: -1, Domination: -1 },
 					{ Text: "That cloud is toxic.", Reply: "(She nods and starts to get dizzy.)", },
@@ -1956,7 +1956,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "*Cough*  Melody!  *Cough*",
+				Text: "Melody!  Mel...  (Her eyes rolls up and her knees get week.)", Audio: "40", AudioStyle: "terrified",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive" },
 					{ Name: "Melody", Status: "Maid", Pose: "Alert" }
@@ -2525,7 +2525,7 @@ var PlatformDialogData = [
 			{ Text: "Welcome, welcome, welcome.  Welcome to your new life.  Your new slave life!", Audio: "10" },
 			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business.", Audio: "20" },
 			{
-				Text: "Honest business?  You're kidnapping women and selling them for ransom!",
+				Text: "Honest business?  You're kidnapping women and selling them for ransom!", Audio: "30", AudioStyle: "angry",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
 					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
@@ -2543,7 +2543,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Is it a crime to join a kidnapper gang?  Don't answer.",
+				Text: "Is it a crime to join a kidnapper gang?  Don't answer.", Audio: "50",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
 					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
@@ -2552,7 +2552,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Why are you staring at me you two?",
+				Text: "Why are you staring at me you two?", Audio: "60",
 				Answer: [
 					{ Text: "You're a horrible liar.", Reply: "(She grumbles and kicks a rock.)", Love: -1 },
 					{ Text: "I will punish you later little elf.", Reply: "(She gulps and nods slowly.)", Domination: 2 },
@@ -2587,7 +2587,7 @@ var PlatformDialogData = [
 			{ Text: "How?  How could you?", Audio: "10" },
 			{ Text: "You betrayed me Edlaran!  You want to be the boss now?", Audio: "20" },
 			{
-				Text: "Me?  The gang boss?",
+				Text: "Me?  The gang boss?", Audio: "30", AudioStyle: "cheerful",
 				Background: "BanditCamp",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 250 },
@@ -2596,15 +2596,15 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "That's an interesting idea.",
+				Text: "That's an interesting idea.", Audio: "40", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "Don't even think about it.", Reply: "It's my mistake, let's forget this.", Domination: 1 },
-					{ Text: "You're way better than that my friend.", Reply: "Thanks Melody, you're very kind.", Love: 2 },
-					{ Text: "You would be the worst boss ever.", Reply: "That's not very kind you know!", Love: -2 },
-					{ Text: "You could rule them better than her.", Reply: "Yep!  I would get tons of loot.", Domination: -1 },
+					{ Text: "Don't even think about it.", Reply: "It's my mistake, let's forget this.", Audio: "41", AudioStyle: "calm", Domination: 1 },
+					{ Text: "You're way better than that my friend.", Reply: "Thanks Melody, you're very kind.", Audio: "42", AudioStyle: "cheerful", Love: 2 },
+					{ Text: "You would be the worst boss ever.", Reply: "That's not very kind you know!", Audio: "43", AudioStyle: "angry", Love: -2 },
+					{ Text: "You could rule them better than her.", Reply: "Yep!  I would get tons of loot.", Audio: "44", Domination: -1 },
 				]
 			},
-			{ Text: "But I've made a deal with you two.  We need to complete our mission before I start any business." },
+			{ Text: "But I've made a deal with you two.  We need to complete our mission before I start any business.", Audio: "50" },
 			{
 				Background: "BanditCampGround",
 				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
@@ -2613,9 +2613,9 @@ var PlatformDialogData = [
 			{
 				Text: "What will you do with me?", Audio: "60",
 				Answer: [
-					{ Text: "We'll take your loot and go.", Reply: "(She struggles harder.)  Fine!  Take it!" },
-					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work." },
-					{ Text: "We won't waste any time with you.", Reply: "Get out then!" },
+					{ Text: "We'll take your loot and go.", Reply: "(She struggles harder.)  Fine!  Take it!", Audio: "61" },
+					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work.", Audio: "62" },
+					{ Text: "We won't waste any time with you.", Reply: "Get out then!", Audio: "63", AudioStyle: "angry" },
 				]
 			},
 			{ Text: "I will get out of that bondage as soon as you're gone.", Audio: "70" },
@@ -2623,9 +2623,9 @@ var PlatformDialogData = [
 			{
 				Text: "Do we have a deal?", Audio: "90",
 				Answer: [
-					{ Text: "It's a deal!", Reply: "Alright!  You can go now." },
-					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now." },
-					{ Text: "(Shrug and turn away.)", Reply: "Get out!" },
+					{ Text: "It's a deal!", Reply: "Alright!  You can go now.", Audio: "91" },
+					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now.", Audio: "92" },
+					{ Text: "(Shrug and turn away.)", Reply: "Get out!", Audio: "93", AudioStyle: "angry" },
 				]
 			},
 			{ Text: "(You leave her to struggle.)" }
@@ -2766,7 +2766,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
-				Text: "I've slept many nights in a tent like that, with my old bandit sisters.",
+				Text: "I've slept many nights in a tent like that, with my old bandit sisters.", Audio: "10",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -2775,46 +2775,46 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "My love, I must confess that I've slept many nights in a tent like that, with my old bandit sisters.",
+				Text: "My love, I must confess that I've slept many nights in a tent like that, with my old bandit sisters.", Audio: "20", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }
 				]
 			},
-			{ Text: "Some nights were very quiet, and others were totally wild." },
-			{ Text: "The best evenings happened when we had cute slaves to tease." },
-			{ Text: "Is it a crime to tease slaves?  Don't answer." },
+			{ Text: "Some nights were very quiet, and others were totally wild.", Audio: "30" },
+			{ Text: "The best evenings happened when we had cute slaves to tease.", Audio: "40" },
+			{ Text: "Is it a crime to tease slaves?  Don't answer.", Audio: "50" },
 			{
-				Text: "These are good memories.",
+				Text: "These are good memories.", Audio: "60", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "It's also fun to tease you.", Reply: "(She blushes.)  It can be fun also.", Domination: 1 },
-					{ Text: "I'm sure you had a good time.", Reply: "Oh yes, lots of kinky moments." },
-					{ Text: "You treated them well?", Reply: "I've never hurt a slave... too badly.", Domination: -1 },
-					{ Text: "I envy these slaves.", Reply: "(She smirks.)  One day you could try it.", Perk: true, Domination: -2 },
+					{ Text: "It's also fun to tease you.", Reply: "(She blushes.)  It can be fun also.", Audio: "61", AudioStyle: "calm", Domination: 1 },
+					{ Text: "I'm sure you had a good time.", Reply: "Oh yes, lots of kinky moments.", Audio: "62", AudioStyle: "cheerful" },
+					{ Text: "You treated them well?", Reply: "I've never hurt a slave... too badly.", Audio: "63", Domination: -1 },
+					{ Text: "I envy these slaves.", Reply: "(She smirks.)  One day you could try it.", Audio: "64", AudioStyle: "serious", Perk: true, Domination: -2 },
 				]
 			},
-			{ Text: "But this is the past, I won't do it again... probably." },
+			{ Text: "But this is the past, I won't do it again... probably.", Audio: "70" },
 			{
-				Text: "I'm an honest archer now.",
+				Text: "I'm an honest archer now.", Audio: "80",
 				Answer: [
-					{ Text: "We'll see about that.", Reply: "Only time will tell.  (She laughs.)" },
-					{ Text: "Don't make me laugh.", Reply: "(She pouts.)  I'll show you!", Love: -1 },
-					{ Text: "I believe you Edlaran.", Reply: "Thanks.  I appreciate.", Love: 1 },
-					{ Text: "You're the cutest archer now.", Reply: "(She smiles.)  You're way too kind.", Perk: true, Love: 2 },
+					{ Text: "We'll see about that.", Reply: "Only time will tell.  (She laughs.)", Audio: "81", AudioStyle: "cheerful" },
+					{ Text: "Don't make me laugh.", Reply: "(She pouts.)  I'll show you!", Audio: "82", AudioStyle: "angry", Love: -1 },
+					{ Text: "I believe you Edlaran.", Reply: "Thanks.  I appreciate.", Audio: "83", Love: 1 },
+					{ Text: "You're the cutest archer now.", Reply: "(She smiles.)  You're way too kind.", Audio: "84", AudioStyle: "cheerful", Perk: true, Love: 2 },
 				]
 			},
-			{ Text: "Enough talking about me.  We have a long road ahead until we reach Slandia." },
+			{ Text: "Enough talking about me.  We have a long road ahead until we reach Slandia.", Audio: "90" },
 			{
 				ID: "End",
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran") && !PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }],
-				Text: "This tent will shelter us from the heat.  We could also travel by night, but it's more dangerous."
+				Text: "This tent will shelter us from the heat.  We could also travel by night, but it's more dangerous.", Audio: "100"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && !PlatformDialogIsSlave("Edlaran") && !PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }],
-				Text: "I love you so much Melody.  (You share kiss before resuming your journey.)"
+				Text: "I love you so much Melody.  (You share kiss before resuming your journey.)", Audio: "110", AudioStyle: "cheerful"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsSlave("Edlaran"); },
@@ -2829,12 +2829,12 @@ var PlatformDialogData = [
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran") && PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "MasturbateMaidMelodyUnderDress" }],
-				Text: "Don't forget who you belong to.  (She slides her hand under your dress and pinches your pussy lips.)"
+				Text: "Don't forget who you belong to.  (She slides her hand under your dress and pinches your pussy lips.)", Audio: "120", AudioStyle: "angry"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran") && PlatformDialogIsOwner("Edlaran"); },
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "MasturbateMaidMelodyUnderDress" }],
-				Text: "(She slides her hand under your dress and touches your pussy playfully.)  Tonight, you're mine my love."
+				Text: "(She slides her hand under your dress and touches your pussy playfully.)  Tonight, you're mine my love.", Audio: "130", AudioStyle: "cheerful"
 			}
 
 		]
@@ -3425,7 +3425,7 @@ var PlatformDialogData = [
 			},
 
 			{
-				Text: "Melody, what's going on?",
+				Text: "Melody, what's going on?", Audio: "10",
 				Answer: [
 					{ Text: "(Propose to become girlfriends.)", Reply: "(You take a long stare at each other and smile.)" },
 					{ Text: "(Talk about an insect you saw.)", Reply: "(She rolls her eyes up and turns away.)", Love: -1, Goto: "Skip" },
@@ -3433,23 +3433,23 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Edlaran, we've only known each other for a little while.",
+				Text: "Edlaran, we've only known each other for a little while.", Audio: "20",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" }
 				]
 			},
-			{ Text: "But I feel there is something strong between us." },
-			{ Text: "Your eyes, your smile, your laughter.  I love everything about you." },
-			{ Text: "This might sound weird or ridiculous, please hear me." },
-			{ Text: "You're an elf and I'm human, we are both women, and we have such different backgrounds." },
-			{ Text: "Whenever you smile, I smile.  Whenever you laugh, I laugh." },
-			{ Text: "I don't know where life will lead us, but I'm so happy it brought me to you." },
-			{ Text: "Would you be my girlfriend?" },
+			{ Text: "But I feel there is something strong between us.", Audio: "30" },
+			{ Text: "Your eyes, your smile, your laughter.  I love everything about you.", Audio: "40" },
+			{ Text: "This might sound weird or ridiculous, please hear me.", Audio: "50" },
+			{ Text: "You're an elf and I'm human, we are both women, and we have such different backgrounds.", Audio: "60" },
+			{ Text: "Whenever you smile, I smile.  Whenever you laugh, I laugh.", Audio: "70" },
+			{ Text: "I don't know where life will lead us, but I'm so happy it brought me to you.", Audio: "80" },
+			{ Text: "Would you be my girlfriend?", Audio: "90" },
 
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
-				Text: "Absolutely!  I would love to be your girlfriend.  (She blushes as you grab her for a loving kiss.)",
+				Text: "Absolutely!  I would love to be your girlfriend.  (She blushes as you grab her for a loving kiss.)", Audio: "100", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
@@ -3457,7 +3457,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
-				Text: "Oh yeah!  Yes Melody!  (You get closer and exchange a loving kiss.)",
+				Text: "Oh yeah!  Yes Melody!  (You get closer and exchange a loving kiss.)", Audio: "110", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
@@ -3465,7 +3465,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
-				Text: "Melody, you sexy little maid.  Yes!  (She grins and grabs you for a loving kiss.)",
+				Text: "Melody, you sexy little maid.  Yes!  (She grins and grabs you for a loving kiss.)", Audio: "120", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
@@ -3483,14 +3483,14 @@ var PlatformDialogData = [
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }]
 			},
 			{ Text: "(You kiss each other on the mouth, cheeks and neck.  Moaning a little with each kiss.)" },
-			{ Text: "I love you Melody.  I hope we stay together for a long time." },
+			{ Text: "I love you Melody.  I hope we stay together for a long time.", Audio: "130", AudioStyle: "cheerful" },
 			{
-				Text: "We will have so much fun!",
+				Text: "We will have so much fun!", Audio: "140", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "Let's have even more fun.", Reply: "(She giggles and nods.)  I agree.", Domination: 1, Love: 1 },
-					{ Text: "(Blush.)  Should we have more fun?", Reply: "(She smirks.)  Absolutely.", Domination: -1, Love: 1 },
-					{ Text: "We will have fun when our quest is done.", Reply: "(She nods.)  Yes my love, I agree.  We need to focus on the mission.", Domination: 1, Goto: "NoSex" },
-					{ Text: "Is it wise to think about fun?", Reply: "(She checks her quiver.)  That's correct, sweetie.  We need to focus on the mission.", Domination: -1, Goto: "NoSex" }
+					{ Text: "Let's have even more fun.", Reply: "(She giggles and nods.)  I agree.", Audio: "141", AudioStyle: "cheerful", Domination: 1, Love: 1 },
+					{ Text: "(Blush.)  Should we have more fun?", Reply: "(She smirks.)  Absolutely.", Audio: "142", AudioStyle: "cheerful", Domination: -1, Love: 1 },
+					{ Text: "We will have fun when our quest is done.", Reply: "(She nods.)  Yes my love, I agree.  We need to focus on the mission.", Audio: "143", Domination: 1, Goto: "NoSex" },
+					{ Text: "Is it wise to think about fun?", Reply: "(She checks her quiver.)  That's correct, sweetie.  We need to focus on the mission.", Audio: "144", Domination: -1, Goto: "NoSex" }
 				]
 			},
 			{ Text: "(You hastily run away to find a private place.)" },
@@ -3503,16 +3503,16 @@ var PlatformDialogData = [
 				]
 			},
 			{},
-			{ Text: "You're so beautiful naked my love." },
-			{ Text: "I want to feel you.  I want to taste you." },
+			{ Text: "You're so beautiful naked my love.", Audio: "150", AudioStyle: "cheerful" },
+			{ Text: "I want to feel you.  I want to taste you.", Audio: "160", AudioStyle: "cheerful" },
 			{
 				Text: "(You both lie down, pussy against pussy.)",
 				Character: [{ Name: "Edlaran", Status: "Naked", Pose: "ScissorNakedMelody", X: 0 }]
 			},
 			{},
-			{ Text: "This is such a magical moment!" },
+			{ Text: "This is such a magical moment!", Audio: "170", AudioStyle: "cheerful" },
 			{ Text: "(You rub each other pussy slowly and lovingly.)" },
-			{ Text: "Oh yeah!  I love you Melody!" },
+			{ Text: "Oh yeah!  I love you Melody!", Audio: "180", AudioStyle: "cheerful" },
 			{ Text: "(You both rub faster and faster, scissoring each other with passion.)" },
 			{ Text: "Yyyyyyeeeeeeeeaaaaaahhhh!" },
 			{ Text: "(You get shattering orgasms, sharing your newfound love.)" },
@@ -3538,11 +3538,11 @@ var PlatformDialogData = [
 			},
 			{ Text: "(You give a weird look to each other.)" },
 			{
-				Text: "Melody, what's going on?",
+				Text: "Melody, what's going on?", Audio: "10",
 				Answer: [
 					{
 						Text: "(Break up with her.)",
-						Reply: "That's it?  You had your fun and now it's over?",
+						Reply: "That's it?  You had your fun and now it's over?", Audio: "20", AudioStyle: "sad",
 						Script: function() {
 							PlatformDialogGetCharacter("Edlaran").Love = PlatformDialogGetCharacter("Edlaran").Love - 6;
 							if (PlatformDialogGetCharacter("Edlaran").Love >= 19) PlatformDialogGetCharacter("Edlaran").Love = 18;
@@ -3558,7 +3558,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination > 5); },
-				Text: "Why?  Why now?  What did I do?  (She starts to cry.)",
+				Text: "Why?  Why now?  What did I do?  (She starts to cry.)", Audio: "30", AudioStyle: "sad",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3566,7 +3566,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return ((PlatformDialogGetCharacter("Edlaran").Domination >= -5) && (PlatformDialogGetCharacter("Edlaran").Domination <= 5)); },
-				Text: "This is really disappointing.  (She pouts and lowers and shoulders.)",
+				Text: "This is really disappointing.  (She pouts and lowers and shoulders.)", Audio: "40", AudioStyle: "sad",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
@@ -3574,15 +3574,15 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Edlaran").Domination < -5); },
-				Text: "It's not that bad.  I've had humans before you and I'll get more after you're dead.",
+				Text: "It's not that bad.  I've had humans before you and I'll get more after you're dead.", Audio: "50", AudioStyle: "angry",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-			{ Text: "Just like seasons, our love was never meant to last." },
-			{ Text: "Let's forget this silly affair and resume our journey." },
-			{ Text: "Our quest is way more important than some romance." },
+			{ Text: "Just like seasons, our love was never meant to last.", Audio: "60", AudioStyle: "sad" },
+			{ Text: "Let's forget this silly affair and resume our journey.", Audio: "70" },
+			{ Text: "Our quest is way more important than some romance.", Audio: "80" },
 			{ Text: "(You and Edlaran are no longer lovers.)" },
 			{ Text: "(Melody loses her speed bonus and Edlaran loses her health bonus.)" },
 			{ Text: "(The adventure continues...)" },
@@ -3603,7 +3603,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "(You get closer to Edlaran and grope her breast.)  I love you little elf.",
+				Text: "(You get closer to Edlaran and grope her breast.)  I love you little elf.", Audio: "10", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
@@ -3611,7 +3611,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
-				Text: "(You get closer to Edlaran and cross your arms.)  Hi little elf.",
+				Text: "(You get closer to Edlaran and cross your arms.)  Hi little elf.", Audio: "20",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
@@ -3624,9 +3624,9 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 				]
 			},
-			{ Text: "Hi Melody.  Sorry, I should not be nervous.  There's something strange in the air." },
+			{ Text: "Hi Melody.  Sorry, I should not be nervous.  There's something strange in the air.", Audio: "30", AudioStyle: "terrified" },
 			{
-				Text: "What's going on?",
+				Text: "What's going on?", Audio: "40", AudioStyle: "terrified",
 				Answer: [
 					{ Text: "(Propose to become her Protector.)", Reply: "(You get even closer as she takes deep breaths.)" },
 					{ Text: "(Talk about a cloud you saw.)", Reply: "(She rolls her eyes up and turns away.)", Domination: -1, Goto: "Skip" },
@@ -3634,22 +3634,22 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Face me little elf, we need to talk.",
+				Text: "Face me little elf, we need to talk.", Audio: "50",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
 				]
 			},
-			{ Text: "You have no structure.  You don't know where you sleep every night." },
-			{ Text: "You no plans in life, you simply get drunk and steal your meals." },
-			{ Text: "You live a life of petty crimes, getting jailed or banned wherever you go." },
-			{ Text: "You need a coach, a mentor, someone to put you in the right track." },
-			{ Text: "You need a Protector, someone to control you and your bad habits." },
-			{ Text: "I could be your Protector and guide you through life." },
-			{ Text: "Would you be my protégée?" },
+			{ Text: "You have no structure.  You don't know where you sleep from night to night.", Audio: "60" },
+			{ Text: "You have no plans in life, you simply get drunk and steal your meals.", Audio: "70" },
+			{ Text: "You live a life of petty crimes, getting jailed or banned wherever you go.", Audio: "80" },
+			{ Text: "You need a coach, a mentor, someone to put you in the right track.", Audio: "90" },
+			{ Text: "You need a Protector, someone to control you and your bad habits.", Audio: "100" },
+			{ Text: "I could be your Protector and guide you through life.", Audio: "110" },
+			{ Text: "Would you be my protégée?", Audio: "120" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "(She gulps and nods.)  Yes, my love, it sounds like a good idea.",
+				Text: "(She gulps and nods.)  Yes, my love, it sounds like a good idea.", Audio: "130", AudioStyle: "calm",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3657,7 +3657,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
-				Text: "(She gulps and nods.)  Yes Melody, it sounds like a good idea.",
+				Text: "(She gulps and nods.)  Yes Melody, it sounds like a good idea.", Audio: "140", AudioStyle: "calm",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3669,54 +3669,54 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Edlaran").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Edlaran").OwnerLevel = 1;
 				},
-				Text: "But it won't be easy to undo my bad habits."
+				Text: "But it won't be easy to undo my bad habits.", Audio: "150"
 			},
 			{
-				Text: "You want to change my life?",
+				Text: "You want to change my life?", Audio: "160", AudioStyle: "calm",
 				Answer: [
-					{ Text: "We'll review your habits later.", Reply: "(She nods.)  Yes, let's not rush anything." },
-					{ Text: "You will keep some freedom.", Reply: "That should be fine then!", Domination: -2 },
-					{ Text: "I will supervise what you do.", Reply: "(She bows her head.)  Yes Melody.", Domination: 2 },
+					{ Text: "We'll review your habits later.", Reply: "(She nods.)  Yes, let's not rush anything.", Audio: "161", AudioStyle: "calm" },
+					{ Text: "You will keep some freedom.", Reply: "That should be fine then!", Audio: "162", Domination: -2 },
+					{ Text: "I will supervise what you do.", Reply: "(She bows her head.)  Yes Melody.", Audio: "163", AudioStyle: "calm", Domination: 2 },
 				]
 			},
-			{ Text: "What will change between us?  Will there be rules?" },
+			{ Text: "What will change between us?  Will there be rules?", Audio: "170", AudioStyle: "calm" },
 			{
-				Text: "Yes, rules will be introduced with time.",
+				Text: "Yes, rules will be introduced with time.", Audio: "180",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSubmissive", X: 1000 },
 				]
 			},
-			{ Text: "Get on your knees my girl." },
+			{ Text: "Get on your knees my girl.", Audio: "190" },
 			{
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "KneelLeft", X: 1000 },
 				]
 			},
-			{ Text: "As your Protector, you will kneel for me." },
-			{ Text: "As my protégée, you will do physical training every day." },
-			{ Text: "As your Protector, I will make sure you live an honest life." },
-			{ Text: "As my protégée, you will be punished or restrained if you fail to obey my commands." },
-			{ Text: "As your Protector, I will ensure that you stay healthy and ready for battle." },
+			{ Text: "As your Protector, you will kneel for me.", Audio: "200" },
+			{ Text: "As my protégée, you will do physical training every day.", Audio: "210" },
+			{ Text: "As your Protector, I will make sure you live an honest life.", Audio: "220" },
+			{ Text: "As my protégée, you will be punished or restrained if you fail to obey my commands.", Audio: "230" },
+			{ Text: "As your Protector, I will ensure that you stay healthy and ready for battle.", Audio: "240" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "As my protégée and lover, you will be put in bondage when we have sex."
+				Text: "As my protégée and lover, you will be put in bondage when we have sex.", Audio: "250", AudioStyle: "cheerful"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "As my protégée, you need to accept that I'm dating Olivia.  Do not fight with her."
+				Text: "As my protégée, you need to accept that I'm dating Olivia.  Do not fight with her.", Audio: "260", AudioStyle: "angry"
 			},
-			{ Text: "As my protégée, you will call me 'Miss' or 'Miss Melody'." },
-			{ Text: "As your Protector, I will spank from time to time for my amusement." },
-			{ Text: "Present your butt my girl." },
+			{ Text: "As my protégée, you will call me 'Miss' or 'Miss Melody'.", Audio: "270" },
+			{ Text: "As your Protector, I will spank you from time to time for my amusement.", Audio: "280" },
+			{ Text: "Present your butt my girl.", Audio: "290" },
 			{
-				Text: "Oh!  Yes Miss Melody.  (She presents her butt for her first spanking.)",
+				Text: "Oh!  Yes Miss Melody.  (She presents her butt for her first spanking.)", Audio: "300", AudioStyle: "calm",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "SpankedMaidMelody", X: 500 },
 				]
 			},
-			{ Text: "I will try to follow your orders and live a better life." },
+			{ Text: "I will try to follow your orders and live a better life.", Audio: "310", AudioStyle: "calm" },
 			{ Text: "(She presents her butt again for another playful spank.)" },
 			{ Text: "(You're now Edlaran's Protector, the first owner stage.)" },
 			{ Text: "(As Melody's submissive, Edlaran's kick attack gets +15% damage.)" },
@@ -3737,13 +3737,13 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You get closer to Edlaran with a stern look on your face.)" },
-			{ Text: "Hi Miss Melody.  I hope you're having a good day." },
+			{ Text: "Hi Miss Melody.  I hope you're having a good day.", Audio: "10", AudioStyle: "calm" },
 			{
-				Text: "Would you like to talk about something?",
+				Text: "Would you like to talk about something?", Audio: "20", AudioStyle: "calm",
 				Answer: [
 					{
 						Text: "(Release her from your ownership.)",
-						Reply: "Oh!  You don't want me anymore.",
+						Reply: "Oh!  You don't want me anymore.", Audio: "30", AudioStyle: "sad",
 						Script: function() {
 							PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination - 6;
 							if (PlatformDialogGetCharacter("Edlaran").Domination >= 19) PlatformDialogGetCharacter("Edlaran").Domination = 18;
@@ -3755,7 +3755,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "That sucks, I thought you enjoyed having me under your wing.",
+				Text: "That sucks, I thought you enjoyed having me under your wing.", Audio: "40", AudioStyle: "sad",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
@@ -3763,12 +3763,12 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "At least we'll still have each other in bed my love.",
+				Text: "At least we'll still have each other in bed my love.", Audio: "50", AudioStyle: "Sad",
 			},
-			{ Text: "Maybe I'll find another owner someday.  I don't know." },
-			{ Text: "I'm a free elf after all.  I should not be controlled by a human." },
-			{ Text: "Without chains, I'll be able to do more shady businesses." },
-			{ Text: "Is it a crime to do shady businesses?  Don't answer." },
+			{ Text: "Maybe I'll find another owner someday.  I don't know.", Audio: "60", AudioStyle: "Sad" },
+			{ Text: "I'm a free elf after all.  I should not be controlled by a human.", Audio: "70" },
+			{ Text: "Without chains, I'll be able to do more shady businesses.", Audio: "80" },
+			{ Text: "Is it a crime to do shady businesses?  Don't answer.", Audio: "90" },
 			{ Text: "(You're no longer Edlaran's Dominant.  She loses her kick damage bonus.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
@@ -3788,7 +3788,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "(You get closer to Edlaran as she pinches your cheek.)  I love you Miss Edlaran.",
+				Text: "(You get closer to Edlaran as she pinches your cheek.)  I love you Miss Edlaran.", Audio: "10", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer", X: 1000 },
@@ -3796,7 +3796,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
-				Text: "(You get closer to Edlaran and address her timidly.)  Hello Miss Edlaran.",
+				Text: "(You get closer to Edlaran and address her timidly.)  Hello Miss Edlaran.", Audio: "20", AudioStyle: "whisper",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
@@ -3809,9 +3809,9 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-			{ Text: "Miss Edlaran?  That sounds good." },
+			{ Text: "Miss Edlaran?  That sounds good.", Audio: "30" },
 			{
-				Text: "What's going on little maid?",
+				Text: "What's going on little maid?", Audio: "40", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "(Propose to become her submissive.)", Reply: "(You bow your head and take a deep breath.)" },
 					{ Text: "(Talk about an animal you saw.)", Reply: "(She rolls her eyes up and turns away.)", Domination: 1, Goto: "Skip" },
@@ -3819,19 +3819,19 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Miss Edlaran, please listen to me.",
+				Text: "Miss Edlaran, please listen to me.", Audio: "50",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
 				]
 			},
-			{ Text: "I'm not sure why, but I see something in you.  I see strength." },
-			{ Text: "You're free, you're careless, you're quick and you're resourceful." },
-			{ Text: "I would love to learn from you.  I would love to follow you." },
-			{ Text: "Would you like to be my mentor and Protector?  I could be your protégée." },
+			{ Text: "I'm not sure why, but I see something in you.  I see strength.", Audio: "60" },
+			{ Text: "You're free, you're careless, you're quick and you're resourceful.", Audio: "70" },
+			{ Text: "I would love to learn from you.  I would love to follow you.", Audio: "80" },
+			{ Text: "Would you like to be my mentor and Protector?  I could be your protégée.", Audio: "90" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "Your Protector my love?  That's very interesting.  (She thinks for one second.)",
+				Text: "Your Protector my love?  That's very interesting.  (She thinks for one second.)", Audio: "100",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
@@ -3839,7 +3839,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Edlaran"); },
-				Text: "Your Protector Melody?  That's interesting. (She thinks for a few seconds.)",
+				Text: "Your Protector Melody?  That's interesting. (She thinks for a few seconds.)", Audio: "110",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
@@ -3851,30 +3851,30 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Melody").OwnerName = "Edlaran";
 					PlatformDialogGetCharacter("Melody").OwnerLevel = 1;
 				},
-				Text: "Fine!  I'll do it!  I'll take control of you."
+				Text: "Fine!  I'll do it!  I'll take control of you.", Audio: "120"
 			},
-			{ Text: "I'll teach you my tricks.  You'll get richer in no time." },
-			{ Text: "I'll show you how to dash out of taverns and get free coins." },
-			{ Text: "But don't think it will be easy.  There will be constraints." },
-			{ Text: "You'll need to be polite with me.  You'll call me 'Miss' or 'Madam' or something similar." },
+			{ Text: "I'll teach you my tricks.  You'll get richer in no time.", Audio: "130" },
+			{ Text: "I'll show you how to dash out of taverns and get free coins.", Audio: "140" },
+			{ Text: "But don't think it will be easy.  There will be constraints.", Audio: "150" },
+			{ Text: "You'll need to be polite with me.  You'll call me 'Miss' or 'Madam' or something similar.", Audio: "160" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "You can continue to date your little princess, but I will be your top priority."
+				Text: "You can continue to date your little princess, but I will be your top priority.", Audio: "170", AudioStyle: "angry"
 			},
-			{ Text: "You'll have to please me from time to time, as a good slave maid should." },
-			{ Text: "Since you'll be under my control, I will punish and restrain you when I want." },
+			{ Text: "You'll have to please me from time to time, as a good slave maid should.", Audio: "180" },
+			{ Text: "Since you'll be under my control, I will punish and restrain you when I want.", Audio: "190" },
 			{
-				Text: "Is that understood my protégée?",
+				Text: "Is that understood my protégée?", Audio: "200",
 				Answer: [
-					{ Text: "Yes Miss Edlaran.", Reply: "(She smiles and pinches your cheek.)  Good girl.", Domination: -2 },
-					{ Text: "I understand.", Reply: "(She nods.)  Of course." },
-					{ Text: "Maybe that wasn't a good idea.", Reply: "(She grumbles.)  Nonsense!  It will be easy.", Domination: 2 },
+					{ Text: "Yes Miss Edlaran.", Reply: "(She smiles and pinches your cheek.)  Good girl.", Audio: "201", AudioStyle: "cheerful", Domination: -2 },
+					{ Text: "I understand.", Reply: "(She nods.)  Of course.", Audio: "202" },
+					{ Text: "Maybe that wasn't a good idea.", Reply: "(She grumbles.)  Nonsense!  It will be easy.", Audio: "203", AudioStyle: "angry", Domination: 2 },
 				]
 			},
-			{ Text: "Your first task will be to give me some pleasure." },
-			{ Text: "Get on your knees, little maid.  (She pulls out a few chains.)" },
+			{ Text: "Your first task will be to give me some pleasure.", Audio: "210" },
+			{ Text: "Get on your knees, little maid.  (She pulls out a few chains.)", Audio: "220" },
 			{
-				Text: "(As you kneel, she quickly chains your arms and legs.)",
+				Text: "(As you kneel, she quickly chains your arms and legs.)", Audio: "CommonChain",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
 					{ Name: "Melody", Status: "Maid", Pose: "ChainedKneel", X: 1000 },
@@ -3882,9 +3882,9 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "(She smirks.)  This will spice up our sex life my love.  You'll get bound when we fuck."
+				Text: "(She smirks.)  This will spice up our sex life my love.  You'll get bound when we fuck.", Audio: "230", AudioStyle: "cheerful"
 			},
-			{ Text: "You won't be allowed to use anything but your tongue." },
+			{ Text: "You won't be allowed to use anything but your tongue.", Audio: "240", AudioStyle: "cheerful" },
 			{
 				Text: "(She removes her bottom and starts to touch herself.)",
 				Character: [
@@ -3892,18 +3892,18 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "ChainedKneel", X: 1000 },
 				]
 			},
-			{ Text: "You're not getting out until I cum." },
+			{ Text: "You're not getting out until I cum.", Audio: "250", AudioStyle: "cheerful" },
 			{
-				Text: "Get to work my girl!  (She pulls your head between her legs.)",
+				Text: "Get to work my girl!  (She pulls your head between her legs.)", Audio: "260", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "LickedByMaidMelody" },
 				]
 			},
 			{ Text: "(You start by playing with her clitoris with your tongue.)" },
-			{ Text: "Ooooooooooh!  Yeah!  Keep it up!" },
+			{ Text: "Oh!  Yeah!  Keep it up!", Audio: "270", AudioStyle: "cheerful" },
 			{ Text: "(You lower your head a little and start to lick her pussy lips.)" },
 			{ Text: "(In combo, you nuzzle her clitoris and lick her pussy up and down.)" },
-			{ Text: "If you stop now, you will be punished for months." },
+			{ Text: "If you stop now, you will be punished for months.", Audio: "280", AudioStyle: "cheerful" },
 			{ Text: "(You dig in with your tongue at start to explore inside.)" },
 			{ Text: "(While trusting in and out, you masturbate her clitoris with your nose.)" },
 			{
@@ -3913,7 +3913,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "Yeeeeeeeeeeeeaaaaaaaaaaaahhhhh!!!" },
 			{ Text: "(She gets a long and wonderful orgasm, squirting on your face.)" },
-			{ Text: "Having you as my protégée is the best idea of the year." },
+			{ Text: "Having you as my protégée is the best idea of the year.", Audio: "290", AudioStyle: "cheerful" },
 			{
 				Text: "(She dresses back up and releases you.)",
 				Character: [
@@ -3921,7 +3921,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-			{ Text: "I will protect and control you my little maid.  It will be fun." },
+			{ Text: "I will protect and control you my little maid.  It will be fun.", Audio: "300", AudioStyle: "cheerful" },
 			{ Text: "(Edlaran is now your Protector, the first owner stage.)" },
 			{ Text: "(As Edlaran's submissive, Melody will find BC money and more loot when binding someone.)" },
 			{ Text: "(The adventure continues...)" },
@@ -3992,7 +3992,10 @@ function PlatformDialogVoice(Source) {
 	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
 	if (vol > 0) {
 		if (PlatformDialogAudio == null) PlatformDialogAudio = new Audio();
-		PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/" + PlatformDialog.Name + "/" + Source + ".mp3";
+		if (Source.substring(0, 6) == "Common")
+			PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/Common/" + Source.substring(6, 1000) + ".mp3";
+		else
+			PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/" + PlatformDialog.Name + "/" + Source + ".mp3";
 		PlatformDialogAudio.currentTime = 0;
 		PlatformDialogAudio.volume = Math.min(vol, 1);
 		PlatformDialogAudio.play();
