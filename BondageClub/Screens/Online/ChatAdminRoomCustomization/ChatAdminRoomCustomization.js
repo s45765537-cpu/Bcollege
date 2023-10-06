@@ -69,7 +69,7 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 /**
  * Runs the customization on the current screen, can be called from elsewhere
  * @param {object} Custom - The customazation to apply
- * @param {boolean} Draw - If we must draw directly or keep values to be used by online chat rooms 
+ * @param {boolean} Draw - If we must draw directly or keep values to be used by online chat rooms
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationProcess(Custom, Draw) {
