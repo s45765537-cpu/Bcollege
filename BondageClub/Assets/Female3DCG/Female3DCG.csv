@@ -322,6 +322,8 @@ Socks,Pantyhose2,Crotchless Pantyhose
 Socks,GradientPantyhose,Gradient Pantyhose
 Socks,CowPrintedSocks,Cow Printed Socks
 Socks,HaremStockings,Harem Stockings
+Socks,VSocks1,Vinyl Socks
+Socks,KneePads,Knee Pads
 SocksRight,,Right Leg
 SocksRight,Socks0,Ankle
 SocksRight,Socks1,Short
@@ -341,6 +343,8 @@ SocksRight,FootlessSocks1,Footless Socks
 SocksRight,LeatherSocks1,Short Leather Socks
 SocksRight,CowPrintedSocks,Cow Printed Socks
 SocksRight,HaremStockings,Harem Stockings
+SocksRight,VSocks1,Vinyl Socks
+SocksRight,KneePads, Knee Pads
 SocksLeft,,Left Leg
 SocksLeft,Socks0,Ankle
 SocksLeft,Socks1,Short
@@ -360,6 +364,8 @@ SocksLeft,FootlessSocks1,Footless Socks
 SocksLeft,LeatherSocks1,Short Leather Socks
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,HaremStockings,Harem Stockings
+SocksLeft,VSocks1,Vinyl Socks
+SocksLeft,KneePads, Knee Pads
 RightAnklet,,Anklet (Right)
 RightAnklet,BandAnklet,Band Anklet
 RightAnklet,Ribbon,Ribbon
@@ -1786,6 +1792,7 @@ ItemBoots,Zipties,Zip Ties
 ItemBoots,HighThighBoots,High Thigh Boots
 ItemBoots,Slime,Slime
 ItemBoots,MonoHeel,Monoheel
+ItemBoots,ShortPonyBoots,Short Pony Boots
 ItemScript,,Body
 ItemScript,Script,Script
 EyeShadow,,Eye Shadow
