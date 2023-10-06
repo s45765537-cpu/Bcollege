@@ -1544,6 +1544,7 @@ function CharacterSetActivePose(C, NewPose, ForceChange = false) {
  * @param {ExpressionName} Expression - Name of the expression to use
  * @param {number} [Timer] - Optional: time the expression will last
  * @param {string|string[]} [Color] - Optional: color of the expression to set
+ * @param {boolean} [fromQueue] - Internal: used to skip queuing the expression change if it comes from the queued expressions
  * @returns {void} - Nothing
  */
 function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, fromQueue=false) {
@@ -1570,12 +1571,19 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), Expression);
 	}
 
-	CharacterRefresh(C);
-	if (CurrentScreen == "ChatRoom") {
-		if (C.IsPlayer())
-			ChatRoomCharacterItemUpdate(C, AssetGroup);
-		else
+	// The usual weird sync-dance: if we're in a chat room, then C isn't an NPC and we can skip doing a
+	// push-refresh in favor of only a local-refresh plus an expression update if its a transient/animated change,
+	// otherwise we do a whole character update to get the appearance saved.
+	const inChatRoom = ServerPlayerIsInChatRoom();
+	const isTransient = Timer != null || fromQueue;
+
+	CharacterRefresh(C, !inChatRoom);
+	if (inChatRoom) {
+		if (isTransient) {
+			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
+		} else {
 			ChatRoomCharacterUpdate(C);
+		}
 	}
 }
 
