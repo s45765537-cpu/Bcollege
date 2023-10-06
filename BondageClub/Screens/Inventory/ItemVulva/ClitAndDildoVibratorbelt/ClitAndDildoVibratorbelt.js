@@ -18,9 +18,9 @@ function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFuncti
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
-function InventoryItemVulvaClitAndDildoVibratorbeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push) {
+function InventoryItemVulvaClitAndDildoVibratorbeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
 	// Ensure that the vibrator intensity is set to the maximum of the egg and dildo intensity
-	originalFunction(C, item, newOption, previousOption, false);
+	originalFunction(C, item, newOption, previousOption, false, false);
 	const CurrentModuleValues = ModularItemParseCurrent(data);
 	const Intensities = data.modules.map((m, i) => m.Options[CurrentModuleValues[i]].Property.Intensity);
 	item.Property.Intensity = /** @type {VibratorIntensity}*/(Math.max(...Intensities));

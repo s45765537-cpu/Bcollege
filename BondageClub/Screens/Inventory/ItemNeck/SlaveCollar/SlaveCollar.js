@@ -95,8 +95,8 @@ var InventoryItemNeckSlaveCollarTypes = [
 ];
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemNeckSlaveCollarInit(C, Item, Refresh) {
-	return ExtendedItemInitNoArch(C, Item, { Type: null, Effect: [], Block: [] }, Refresh);
+function InventoryItemNeckSlaveCollarInit(C, Item, Push, Refresh) {
+	return ExtendedItemInitNoArch(C, Item, { Type: null, Effect: [], Block: [] }, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

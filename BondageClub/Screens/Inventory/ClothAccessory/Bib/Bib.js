@@ -16,7 +16,7 @@ function AssetsClothAccessoryBibAfterDrawHook(data, originalFunction, {
 		let YOffset = 40;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const [text1, text2] = [CA.Property.Text, CA.Property.Text2];
 		const isAlone = !text1 || !text2;
 

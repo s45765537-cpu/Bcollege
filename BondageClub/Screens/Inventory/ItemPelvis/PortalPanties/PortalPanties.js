@@ -1,8 +1,8 @@
 "use strict";
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemPelvisPortalPantieso0Init(C, Item, Refresh) {
-	return PortalLinkRecieverInit(C, Item, Refresh);
+function InventoryItemPelvisPortalPantieso0Init(C, Item, Push, Refresh) {
+	return PortalLinkRecieverInit(C, Item, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

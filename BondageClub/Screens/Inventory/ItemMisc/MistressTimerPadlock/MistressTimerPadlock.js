@@ -11,7 +11,7 @@ function InventoryItemMiscMistressTimerPadlockInit(C, Item) {
 		EnableRandomInput: false,
 		MemberNumberList: [],
 	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false);
+	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

@@ -11,7 +11,7 @@ function AssetsItemNeckRestraintsPetPostAfterDrawHook(data, originalFunction, {
 		let YOffset = 10;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const [text1, text2, text3] = [CA.Property.Text, CA.Property.Text2, CA.Property.Text3];
 
 		/** @type {DynamicDrawOptions} */

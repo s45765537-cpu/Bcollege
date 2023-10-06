@@ -1,8 +1,8 @@
 "use strict";
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryClothFrilledShirtInit(C, Item, Refresh) {
-	return ExtendedItemInitNoArch(C, Item, { Opacity: Item.Asset.Opacity }, Refresh);
+function InventoryClothFrilledShirtInit(C, Item, Push, Refresh) {
+	return ExtendedItemInitNoArch(C, Item, { Opacity: Item.Asset.Opacity }, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

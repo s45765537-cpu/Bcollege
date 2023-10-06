@@ -213,7 +213,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 	if (!Item) return;
 	if (!Item.Property) {
 		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-		const args = [C, Item, true];
+		const args = [C, Item, true, true];
 		CommonCallFunctionByNameWarn(`${data.functionPrefix}Init`, ...args);
 	}
 

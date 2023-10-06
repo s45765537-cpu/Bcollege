@@ -7,7 +7,7 @@ let CombinationPadlockLoaded = false;
 
 /** @type {ExtendedItemCallbacks.Init} */
 function InventoryItemMiscCombinationPadlockInit(C, Item) {
-	return ExtendedItemInitNoArch(C, Item, { CombinationNumber: "0000" }, false);
+	return ExtendedItemInitNoArch(C, Item, { CombinationNumber: "0000" }, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

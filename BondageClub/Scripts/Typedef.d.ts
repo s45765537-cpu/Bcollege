@@ -1881,10 +1881,11 @@ declare namespace ExtendedItemCallbacks {
 	 * `Init` functions are responsible for setting the initial properties of an extended item.
 	 * @param C The character that has the item equiped
 	 * @param item The item in question
-	 * @param refresh Whether the character and relevant item should be refreshed and pushed to the server
+	 * @param push Whether to push to changes to the server
+	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 * @returns Whether the items properties were actually updated or not
 	 */
-	type Init = ExtendedItemCallback<[C: Character, item: Item, refresh: boolean], boolean>;
+	type Init = ExtendedItemCallback<[C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
 	/**
 	 * Callback for extended item `SetOption` functions.
 	 * @param C The character that has the item equiped
@@ -1892,10 +1893,11 @@ declare namespace ExtendedItemCallbacks {
 	 * @param newOption The newly selected extended item option
 	 * @param previousOption The previusly selected extended item option
 	 * @param push Whether to push to changes to the server
+	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 */
 	type SetOption<
 		OptionType extends ExtendedItemOption
-	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean]>;
+	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
 	 * Relevant for assets that define {@link Asset.DynamicAfterDraw}.
@@ -2002,12 +2004,13 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
 	 * @param C The character that has the item equiped
 	 * @param item The item in question
-	 * @param refresh Whether the character and relevant item should be refreshed and pushed to the server
+	 * @param push Whether to push to changes to the server
+	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 * @returns Whether the items properties were actually updated or not
 	 */
 	type Init<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, refresh: boolean], boolean>;
+	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
 	/**
 	 * Callback for extended item `SetOption` functions.
 	 * @param data The items extended item data
@@ -2017,12 +2020,13 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 * @param newOption The newly selected extended item option
 	 * @param previousOption The previusly selected extended item option
 	 * @param push Whether to push to changes to the server
+	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 * @returns
 	 */
 	type SetOption<
 		DataType extends ExtendedItemData<any>,
 		OptionType extends ExtendedItemOption
-	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean]>;
+	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
 	 * Relevant for assets that define {@link Asset.DynamicAfterDraw}.

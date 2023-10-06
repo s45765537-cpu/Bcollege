@@ -84,11 +84,11 @@ const PortalLinkFunctionGrid = {
 //#region PortalLink reciever
 
 /** @type {ExtendedItemCallbacks.Init} */
-function PortalLinkRecieverInit(C, Item, Refresh) {
+function PortalLinkRecieverInit(C, Item, Push, Refresh) {
 	const props = {
 		PortalLinkCode: "",
 	};
-	return ExtendedItemInitNoArch(C, Item, props, Refresh);
+	return ExtendedItemInitNoArch(C, Item, props, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */
@@ -145,11 +145,11 @@ let PortalLinkTransmitterStatus = "PortalLinkInvalidCode";
 let PortalLinkTransmitterLastLinkCheck = null;
 
 /** @type {ExtendedItemCallbacks.Init} */
-function PortalLinkTransmitterInit(C, Item, Refresh) {
+function PortalLinkTransmitterInit(C, Item, Push, Refresh) {
 	const baselineProperties = {
 		PortalLinkCode: "",
 	};
-	return ExtendedItemInitNoArch(C, Item, baselineProperties, Refresh);
+	return ExtendedItemInitNoArch(C, Item, baselineProperties, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

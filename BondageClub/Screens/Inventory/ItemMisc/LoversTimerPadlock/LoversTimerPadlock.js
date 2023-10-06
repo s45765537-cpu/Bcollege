@@ -5,7 +5,7 @@ let LoverTimerChooseIndex = 0;
 
 /** @type {ExtendedItemCallbacks.Init} */
 function InventoryItemMiscLoversTimerPadlockInit(C, Item) {
-	return InventoryItemMiscOwnerTimerPadlockInit(C, Item, false);
+	return InventoryItemMiscOwnerTimerPadlockInit(C, Item, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

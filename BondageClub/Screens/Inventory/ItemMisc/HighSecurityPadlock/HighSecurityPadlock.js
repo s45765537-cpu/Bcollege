@@ -8,7 +8,7 @@ var HighSecurityPadlockConfigWhitelist = false;
 /** @type {ExtendedItemCallbacks.Init} */
 function InventoryItemMiscHighSecurityPadlockInit(C, Item) {
 	const MemberNumberListKeys = (Item.Property.LockMemberNumber) ? `${Item.Property.LockMemberNumber}` : "";
-	return ExtendedItemInitNoArch(C, Item, { MemberNumberListKeys: MemberNumberListKeys }, false);
+	return ExtendedItemInitNoArch(C, Item, { MemberNumberListKeys: MemberNumberListKeys }, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

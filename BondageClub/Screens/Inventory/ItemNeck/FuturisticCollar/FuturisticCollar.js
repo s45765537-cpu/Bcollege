@@ -5,7 +5,7 @@ var FuturisticCollarPage = 0;
 var FuturisticCollarMaxPage = 2;
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemNeckFuturisticCollarInit(C, Item, Refresh) {
+function InventoryItemNeckFuturisticCollarInit(C, Item, Push, Refresh) {
 	const Property = {
 		OpenPermission: false,
 		OpenPermissionChastity: false,
@@ -13,7 +13,7 @@ function InventoryItemNeckFuturisticCollarInit(C, Item, Refresh) {
 		OpenPermissionLeg: false,
 		BlockRemotes: false,
 	};
-	return ExtendedItemInitNoArch(C, Item, Property, Refresh);
+	return ExtendedItemInitNoArch(C, Item, Property, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

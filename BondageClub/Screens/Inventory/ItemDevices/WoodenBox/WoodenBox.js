@@ -81,7 +81,7 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 		const text = CA.Property.Text;
 
 		let from;

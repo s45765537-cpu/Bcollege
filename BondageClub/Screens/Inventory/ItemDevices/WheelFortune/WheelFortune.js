@@ -1,8 +1,8 @@
 "use strict";
 
 /** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemDevicesWheelFortuneInit(C, item, refresh) {
-	return ExtendedItemInitNoArch(C, item, {}, refresh);
+function InventoryItemDevicesWheelFortuneInit(C, item, push, refresh) {
+	return ExtendedItemInitNoArch(C, item, {}, push, refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */

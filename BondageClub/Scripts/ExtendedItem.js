@@ -162,17 +162,18 @@ function ExtendedItemParseScriptHooks(scriptHooks) {
  * Initialize the extended item properties
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
- * @param {boolean} Refresh - Whether the character and relevant item should be refreshed
+ * @param {boolean} Push - Whether to push to changes to the server
+ * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were updated or not
  */
-function ExtendedItemInit(C, Item, Refresh=true) {
+function ExtendedItemInit(C, Item, Push=true, Refresh=true) {
 	if (Item == null || C == null || !Item.Asset.Extended) {
 		return false;
 	}
 
 	const functionName = `Inventory${Item.Asset.Group.Name}${Item.Asset.Name}Init`;
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-	const args = [C, Item, Refresh];
+	const args = [C, Item, Push, Refresh];
 	return CommonCallFunctionByNameWarn(functionName, ...args);
 }
 
@@ -183,10 +184,11 @@ function ExtendedItemInit(C, Item, Refresh=true) {
  * @param {Character} C - The character that has the item equiped
  * @param {ItemProperties} Properties - A record that maps property keys to their default value.
  *        The type of each value is used for basic validation.
- * @param {boolean} Refresh - Whether the character and relevant item should be refreshed
+ * @param {boolean} Push - Whether to push to changes to the server
+ * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were updated or not
  */
-function ExtendedItemInitNoArch(C, Item, Properties, Refresh=true) {
+function ExtendedItemInitNoArch(C, Item, Properties, Push=true, Refresh=true) {
 	if (!CommonIsObject(Item.Property)) {
 		Item.Property = {};
 	}
@@ -201,7 +203,9 @@ function ExtendedItemInitNoArch(C, Item, Properties, Refresh=true) {
 	}
 
 	if (Refresh) {
-		CharacterRefresh(C, true);
+		CharacterRefresh(C, Push, false);
+	}
+	if (Push) {
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 	}
 	return Update;
@@ -429,11 +433,11 @@ function ExtendedItemExit() {
  * @param {Item} item - The item whose type to set
  * @param {ItemProperties} previousProperty - The typed item options for the item
  * @param {ItemProperties} newProperty - The option to set
- * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
- * player) - defaults to false.
+ * @param {boolean} push - Whether to push to changes to the server
+ * @param {boolean} refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {void} Nothing
  */
-function ExtendedItemSetProperty(C, item, previousProperty, newProperty, push=false) {
+function ExtendedItemSetProperty(C, item, previousProperty, newProperty, push=false, refresh=true) {
 	// Delete properties added by the previous option and clone the new properties
 	if (!item.Property) {
 		item.Property = {};
@@ -452,7 +456,10 @@ function ExtendedItemSetProperty(C, item, previousProperty, newProperty, push=fa
 		// If the new type does not permit locking, remove the lock
 		ValidationDeleteLock(Property, false);
 	}
-	CharacterRefresh(C, push, false);
+
+	if (refresh || push) {
+		CharacterRefresh(C, push, false);
+	}
 }
 
 /**
@@ -907,10 +914,10 @@ function ExtendedItemGatherSubscreenProperty(item, option) {
  * @param {Item} item - The item whose type to set
  * @param {OptionType} newOption - The to-be applied extended item option
  * @param {OptionType} previousOption - The previously applied extended item option
- * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
- * player) - defaults to false.
+ * @param {boolean} push - Whether to push to changes to the server
+ * @param {boolean} refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  */
-function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=false) {
+function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=false, refresh=true) {
 	/** @type {ItemProperties} */
 	let previousOptionProperty;
 	/** @type {ItemProperties} */
@@ -939,7 +946,7 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 
 	if (newOption.HasSubscreen) {
 		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-		const args = [C, item, false];
+		const args = [C, item, false, false];
 		CommonCallFunctionByNameWarn(`${data.functionPrefix}${newOption.Name}Init`, ...args);
 	}
 
@@ -952,7 +959,7 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 		ExtendedItemGatherSubscreenProperty(item, previousOption),
 	);
 	CommonKeys(data.baselineProperty || {}).forEach(i => delete previousProperty[i]);
-	ExtendedItemSetProperty(C, item, previousProperty, newProperty, push);
+	ExtendedItemSetProperty(C, item, previousProperty, newProperty, push, refresh);
 
 	if (newOption.Expression) {
 		InventoryExpressionTriggerApply(C, newOption.Expression);
