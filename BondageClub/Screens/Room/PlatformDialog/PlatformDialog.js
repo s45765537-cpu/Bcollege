@@ -630,11 +630,11 @@ var PlatformDialogData = [
 			},
 			{ Text: "Hey!  Hey maid!  Can you help me?", Audio: "10" },
 			{
-				Text: "Can you unlock me?", Audio: "20",
+				Text: "Can you unlock me?", Audio: "20", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Why are you chained?", Reply: "For no reason.  I swear it's true!", Audio: "21" },
-					{ Text: "You know you're a cute prisoner?", Reply: "(She blushes.)  Well thanks, I guess.", Audio: "22", Domination: 1, Love: 1 },
-					{ Text: "There are too many rats in that dungeon.", Reply: "(She grumbles.)  That's not very kind!", Audio: "23", Love: -2 },
+					{ Text: "You know you're a cute prisoner?", Reply: "(She blushes.)  Well thanks, I guess.", Audio: "22", AudioStyle: "cheerful", Domination: 1, Love: 1 },
+					{ Text: "There are too many rats in that dungeon.", Reply: "(She grumbles.)  That's not very kind!", AudioStyle: "angry", Audio: "23", Love: -2 },
 					{ Text: "This is cruel and inhumane.", Reply: "(She nods.)  That's very true girl.", Audio: "24", Domination: -1, Love: 1 }
 				]
 			},
@@ -666,7 +666,7 @@ var PlatformDialogData = [
 			{
 				Text: "Enough about me.  Who are you?", Audio: "140",
 				Answer: [
-					{ Text: "I'm Melody, it's a pleasure to meet you.", Reply: "(She nods happily.)  Same here.", Audio: "141", Love: 1 },
+					{ Text: "I'm Melody, it's a pleasure to meet you.", Reply: "(She nods happily.)  Same here.", Audio: "141", AudioStyle: "cheerful", Love: 1 },
 					{ Text: "I'm Melody the manor maid.  (Do a curtsy.)", Reply: "You're a good maid.", Audio: "142", Domination: -1 },
 					{ Text: "I'm Melody.", Reply: "Very good Melody.", Audio: "143" },
 					{ Text: "I'm Melody, remember that name little elf.", Reply: "(She gulps and nods.)  Yes Miss.", Audio: "144", Domination: 1 },
@@ -676,10 +676,10 @@ var PlatformDialogData = [
 			{
 				Text: "Will you unlock me?", Audio: "160",
 				Answer: [
-					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", Audio: "161" },
-					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Audio: "162", Domination: -1 },
+					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", AudioStyle: "angry", Audio: "161" },
+					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Audio: "162", AudioStyle: "sad", Domination: -1 },
 					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway.", Audio: "163", Love: 1 },
-					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Audio: "164", Domination: 1, Love: -1 }
+					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Audio: "164", AudioStyle: "angry", Domination: 1, Love: -1 }
 				]
 			},
 			{ Text: "(She gets grumpy and stops talking.)" },
@@ -696,12 +696,12 @@ var PlatformDialogData = [
 			},
 			{ Text: "Have you changed your mind?", Audio: "10" },
 			{
-				Text: "Will you unlock me?", Audio: "20",
+				Text: "Will you unlock me?", Audio: "20", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", Audio: "21" },
-					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", Audio: "22" },
+					{ Text: "It's not my job.", Reply: "(She grumbles.)  Fine, go clean some furniture.", AudioStyle: "angry", Audio: "21" },
+					{ Text: "I don't want trouble with the guards.", Reply: "(She sighs.)  I'll show you real trouble someday.", AudioStyle: "sad", Audio: "22" },
 					{ Text: "I don't have the key.", Reply: "(She pouts.)  Thanks anyway.", Audio: "23" },
-					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", Audio: "24" }
+					{ Text: "Thieves must be punished.", Reply: "(She gets angry.)  I'm not a thief!", AudioStyle: "angry", Audio: "24" }
 				]
 			},
 			{ Text: "(She gets grumpy and stops talking.)" },
@@ -722,7 +722,7 @@ var PlatformDialogData = [
 				AudioScript: function () { return (PlatformEventDone("EdlaranIntro")) ? "11" : "12"; }
 			},
 			{
-				Text: "Talk to me maid.", Audio: "20",
+				Text: "(She looks scared.)  Talk to me maid.", Audio: "20", AudioStyle: "terrified",
 				Answer: [
 					{ Text: "Don't be scared.  I'm not a zombie.", Reply: "Thanks a lot.  Something is very wrong.", Audio: "21", Domination: 1 },
 					{ Text: "I'm fine, but the guards are going nuts.", Reply: "Yes, something is very wrong.", Audio: "22" },
@@ -735,9 +735,9 @@ var PlatformDialogData = [
 			{
 				Text: "What is going on with them?", Audio: "60",
 				Answer: [
-					{ Text: "They have fallen for your pretty face.", Reply: "(She blushes.)  You sure pick your time to flirt.", Audio: "61", Love: 1 },
+					{ Text: "They have fallen for your pretty face.", Reply: "(She blushes.)  You sure pick your time to flirt.", Audio: "61", AudioStyle: "cheerful", Love: 1 },
 					{ Text: "Some magic is going on.", Reply: "You're probably right, but I don't know magic.", Audio: "62" },
-					{ Text: "I don't know, but I'm scared.", Reply: "I understand, this is scary indeed.", Audio: "63", Domination: -1 },
+					{ Text: "I don't know, but I'm scared.", Reply: "I understand, this is scary indeed.", Audio: "63", AudioStyle: "terrified", Domination: -1 },
 					{ Text: "Maybe they are undead.", Reply: "Yes, some kind of zombies, this is scary.", Audio: "64" },
 				]
 			},
@@ -746,13 +746,13 @@ var PlatformDialogData = [
 			{
 				Text: "What was that darkness?", Audio: "90",
 				Answer: [
-					{ Text: "Whatever it was, it's a bad omen.", Reply: "Yes, something evil is brewing.", Audio: "91", Domination: -1 },
+					{ Text: "Whatever it was, it's a bad omen.", Reply: "Yes, something evil is brewing.", Audio: "91", AudioStyle: "terrified", Domination: -1 },
 					{ Text: "It could be a solar eclipse.", Reply: "(She nods.)  Yes, it makes a lot of sense.", Audio: "92", Love: 1 },
 					{ Text: "I will investigate it later.", Reply: "That's great to hear.", Audio: "93", Domination: 1 },
 					{ Text: "I don't know what you're talking about.", Reply: "Don't pretend you did not see it.", Audio: "94", Love: -1 },
 				]
 			},
-			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100" },
+			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100", AudioStyle: "terrified" },
 			{ Text: "If you find the key for my shackles, can you release me?", Audio: "110" },
 			{ Text: "One of the guards must have it.  I don't know which one.", Audio: "120" },
 			{ Text: "Please find the key and come back to rescue me.  I'll repay you.", Audio: "130" }
@@ -767,7 +767,7 @@ var PlatformDialogData = [
 				Background: "DungeonCell",
 				Character: [{ Name: "Edlaran", Status: "Chained", Pose: "Idle" }]
 			},
-			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100" },
+			{ Text: "It's dangerous to keep me here in chains.  I could be killed.", Audio: "100", AudioStyle: "terrified" },
 			{ Text: "If you find the key for my shackles, can you release me?", Audio: "110" },
 			{ Text: "One of the guards must have it.  I don't know which one.", Audio: "120" },
 			{ Text: "Please find the key and come back to rescue me.  I'll repay you.", Audio: "130" }
@@ -785,11 +785,11 @@ var PlatformDialogData = [
 			},
 			{ Text: "Melody!  Have you found the key?", Audio: "10" },
 			{
-				Text: "Will you unlock me?", Audio: "20",
+				Text: "Will you unlock me?", Audio: "20", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Sure, it's too dangerous right now.", Reply: "(She nods happily.)  Absolutely.", Audio: "21" },
-					{ Text: "Yes, but you will owe me a favor.", Reply: "(She gulps.)  Very good, I swear I'll repay you somehow someday.", Audio: "22", Domination: 1 },
-					{ Text: "Of course, elves are too important to be chained.", Reply: "(She nods slowly.)  Well said little maid.", Audio: "23", Domination: -1 },
+					{ Text: "Yes, but you will owe me a favor.", Reply: "(She gulps.)  Very good, I swear I'll repay you somehow someday.", Audio: "22", AudioStyle: "calm", Domination: 1 },
+					{ Text: "Of course, elves are too important to be chained.", Reply: "(She nods slowly.)  Well said little maid.", Audio: "23", AudioStyle: "serious", Domination: -1 },
 					{ Text: "Not right now.  (Leave her.)", Script: function() { PlatformDialogLeave(); } },
 				]
 			},
@@ -800,23 +800,23 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Thanks a lot Melody.  (She stretches happily.)", Audio: "40" },
+			{ Text: "Thanks a lot Melody.  (She stretches happily.)", Audio: "40", AudioStyle: "cheerful" },
 			{
-				Text: "How about a hug?", Audio: "50",
+				Text: "How about a hug?", Audio: "50", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Alright, let's do a quick hug.", Reply: "(You exchange a friendly hug.)", Love: 1 },
-					{ Text: "It's not the best time.", Reply: "(She pouts.)  I guess you're right.", Audio: "52", Love: -1 },
+					{ Text: "It's not the best time.", Reply: "(She pouts.)  I guess you're right.", Audio: "52", AudioStyle: "sad", Love: -1 },
 					{ Text: "(Give her a long loving hug.)", Reply: "(You exchange a long and warm hug.)", Love: 2 },
-					{ Text: "Don't touch me.", Reply: "Oh!  Alright then.", Audio: "54", Love: -2 },
+					{ Text: "Don't touch me.", Reply: "Oh!  Alright then.", Audio: "54",  AudioStyle: "sad", Love: -2 },
 				]
 			},
 			{ Text: "I'll try to escape while I can.", Audio: "60" },
 			{
 				Text: "What will you do?", Audio: "70",
 				Answer: [
-					{ Text: "My duty is to protect Lady Olivia.", Reply: "You're her maid in shiny armor.  (She giggles.)", Audio: "71", Domination: 1 },
+					{ Text: "My duty is to protect Lady Olivia.", Reply: "You're her maid in shiny armor.  (She giggles.)", Audio: "71", AudioStyle: "cheerful", Domination: 1 },
 					{ Text: "I'll check for Countess Isabella.", Reply: "Good luck with that, whoever that is.", Audio: "72" },
-					{ Text: "I'll find a place to hide.", Reply: "Find a broom closet.  (She laughs.)", Audio: "73", Domination: -1 },
+					{ Text: "I'll find a place to hide.", Reply: "Find a broom closet.  (She laughs.)", Audio: "73", AudioStyle: "cheerful", Domination: -1 },
 				]
 			},
 			{ Text: "See you later Melody.  I'll repay you someday.", Audio: "80" },
@@ -1299,42 +1299,42 @@ var PlatformDialogData = [
 			},
 			{ Text: "(As you enter the countess hall, you can see Camille next to a closed iron gate.)" },
 			{ Text: "(She yells at the gate furiously and doesn't seem to notice you.)" },
-			{ Text: "Mother!  I swear on my blade and Father's grave that I will kill you if you don't open the gate." },
-			{ Text: "OPEN NOW!  (She kicks the iron gate, but nothing happens.)" },
+			{ Text: "Mother!  I swear on my blade and Father's grave that I will kill you if you don't open the gate.", Audio: "10" },
+			{ Text: "OPEN NOW!  (She kicks the iron gate, but nothing happens.)", Audio: "20" },
 			{ Text: "(She turns around and sees you.)" },
 			{
-				Text: "Melody.  It's been a while.",
+				Text: "Melody.  It's been a while.", Audio: "30",
 				Character: [
 					{ Name: "Camille", Status: "Armor", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				]
 			},
 			{
-				Text: "The curse isn't working on you?",
+				Text: "The curse isn't working on you?", Audio: "40",
 				Answer: [
-					{ Text: "What curse?", Reply: "You've always been clueless little maid.", Domination: -1 },
-					{ Text: "So, you're the source of the zombies.", Reply: "They are not zombies.", Love: -1 },
-					{ Text: "Your tricks cannot affect me.", Reply: "You've gained some confidence since we last met.", Domination: 1 },
-					{ Text: "You're way too weak for me.", Reply: "You're not afraid of anything aren't you?", Domination: 2, Perk: true }
+					{ Text: "What curse?", Reply: "You've always been clueless little maid.", Audio: "41", Domination: -1 },
+					{ Text: "So, you're the source of the zombies.", Reply: "They are not zombies.", Audio: "42", Love: -1 },
+					{ Text: "Your tricks cannot affect me.", Reply: "You've gained some confidence since we last met.", Audio: "43", Domination: 1 },
+					{ Text: "You're way too weak for me.", Reply: "You're not afraid of anything aren't you?", Audio: "44", Domination: 2, Perk: true }
 				]
 			},
-			{ Text: "I don't know why you're not affected.  You've always been weird." },
-			{ Text: "Mother might have selected you for that reason.  That old bitch!" },
-			{ Text: "Whatever it is, you're not welcome here." },
+			{ Text: "I don't know why you're not affected.  You've always been weird.", Audio: "50" },
+			{ Text: "Mother might have selected you for that reason.  That old bitch!", Audio: "60" },
+			{ Text: "Whatever it is, you're not welcome here.", Audio: "70" },
 			{
-				Text: "Get out!",
+				Text: "Get out!", Audio: "80",
 				Answer: [
-					{ Text: "Stop the curse and I'll go.", Reply: "You think I will obey you?", Domination: 1 },
-					{ Text: "I'm not going anywhere bitch.", Reply: "Now you're in trouble.", Love: -2 },
-					{ Text: "Please Lady Camille, you must stop that curse.", Reply: "Forget it Melody.", Domination: -1, Love: 1 },
-					{ Text: "(Get on your knees.) I beg you, Lady Camille.", Reply: "You're not worthy of my time.", Domination: -2, Perk: true }
+					{ Text: "Stop the curse and I'll go.", Reply: "You think I will obey you?", Audio: "81", Domination: 1 },
+					{ Text: "I'm not going anywhere bitch.", Reply: "Now you're in trouble.", Audio: "82", Love: -2 },
+					{ Text: "Please Lady Camille, you must stop that curse.", Reply: "Forget it Melody.", Audio: "83", Domination: -1, Love: 1 },
+					{ Text: "(Get on your knees.) I beg you, Lady Camille.", Reply: "You're not worthy of my time.", Audio: "84", Domination: -2, Perk: true }
 				]
 			},
 			{
 				Text: "(She raises her arm, mumbles some words and an iron gate closes behind you.)",
 				Character: [{ Name: "Camille", Status: "Armor", Pose: "Angry" }]
 			},
-			{ Text: "You're going down little maid." },
+			{ Text: "You're going down little maid.", Audio: "90" },
 			{ Text: "(She draws her sword and advances toward you.)" },
 		]
 	},
@@ -1344,40 +1344,40 @@ var PlatformDialogData = [
 		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
-				Text: "Mel...  Melody...  How could you...",
+				Text: "Mel...  Melody...  How could you...", Audio: "10",
 				Background: "CountessHallFloor",
 				Character: [{ Name: "Camille", Status: "Armor", Animation: "Bound", Y: -400 }]
 			},
 			{
-				Text: "How could you defeat me?",
+				Text: "How could you defeat me?", Audio: "20",
 				Answer: [
-					{ Text: "Face it, you're not that strong.", Reply: "I underestimated you maid.", Domination: 2 },
-					{ Text: "I protect the manor.", Reply: "You've always been a loyal maid.", Domination: 1, Love: 1 },
-					{ Text: "It doesn't matter.", Reply: "You're very direct.", Domination: 1, Love: -1 },
-					{ Text: "The good Camille within you allowed me to win.", Reply: "The good Camille?  Don't...  Don't be ridiculous.", Love: 2, Perk: true }
+					{ Text: "Face it, you're not that strong.", Reply: "I underestimated you maid.", Audio: "21", Domination: 2 },
+					{ Text: "I protect the manor.", Reply: "You've always been a loyal maid.", Audio: "22", Domination: 1, Love: 1 },
+					{ Text: "It doesn't matter.", Reply: "You're very direct.", Audio: "23", Domination: 1, Love: -1 },
+					{ Text: "The good Camille within you allowed me to win.", Reply: "The good Camille?  Don't...  Don't be ridiculous.", Audio: "24", Love: 2, Perk: true }
 				]
 			},
 			{ Text: "(She struggles and sighs.)" },
-			{ Text: "You know, I've always envied the relationship between you and Olivia." },
-			{ Text: "You two were so close, like sisters.  I barely know my little sister." },
+			{ Text: "You know, I've always envied the relationship between you and Olivia.", Audio: "30" },
+			{ Text: "You two were so close, like sisters.  I barely know my little sister.", Audio: "40" },
 			{
-				Text: "Do you think she will forgive me?",
+				Text: "Do you think she will forgive me?", Audio: "50",
 				Answer: [
-					{ Text: "I don't know.", Reply: "Only time will tell." },
-					{ Text: "She will hate you forever.", Reply: "Fine, I don't care.", Love: -1, Domination: 1 },
-					{ Text: "She will forgive you someday.", Reply: "You have a kind heart.", Love: 1, Domination: -1 },
-					{ Text: "I will convince her to forgive you.", Reply: "Thanks.  I don't think I deserve such good treatment from you.", Love: 1, Domination: 1, Perk: true }
+					{ Text: "I don't know.", Reply: "Only time will tell.", Audio: "51" },
+					{ Text: "She will hate you forever.", Reply: "Fine, I don't care.", Audio: "52", Love: -1, Domination: 1 },
+					{ Text: "She will forgive you someday.", Reply: "You have a kind heart.", Audio: "53", Love: 1, Domination: -1 },
+					{ Text: "I will convince her to forgive you.", Reply: "Thanks.  I don't think I deserve such good treatment from you.", Audio: "54", Love: 1, Domination: 1, Perk: true }
 				]
 			},
-			{ Text: "Take these keys for her shackles and go rescue her." },
-			{ Text: "(She gives you the key for Olivia's restraints.)" },
+			{ Text: "Take these keys for her shackles and go rescue her.", Audio: "60" },
+			{ Text: "(She gives you the key for Olivia's restraints.)", Audio: "70" },
 			{
-				Text: "Go help Olivia.",
+				Text: "Go help Olivia.", Audio: "80",
 				Answer: [
-					{ Text: "Stop the curse first.", Reply: "I'll need Mother for that.  Now go.", Domination: 1 },
-					{ Text: "Enjoy your struggles.", Reply: "(She tries to spit on you.)  Get lost.", Love: -1 },
-					{ Text: "I'll be back to help you.", Reply: "Very well, be quick.", Love: 1 },
-					{ Text: "(Nod slowly.)", Reply: "Run little maid.", Love: 1, Domination: -1 },
+					{ Text: "Stop the curse first.", Reply: "I'll need Mother for that.  Now go.", Audio: "81", Domination: 1 },
+					{ Text: "Enjoy your struggles.", Reply: "(She tries to spit on you.)  Get lost.", Audio: "82", Love: -1 },
+					{ Text: "I'll be back to help you.", Reply: "Very well, be quick.", Audio: "83", Love: 1 },
+					{ Text: "(Nod slowly.)", Reply: "Run little maid.", Audio: "84", Love: 1, Domination: -1 },
 				]
 			},
 			{ Text: "(She stares at the floor and stops talking.)" },
@@ -1393,7 +1393,7 @@ var PlatformDialogData = [
 				Background: "CountessHallFloor",
 				Character: [{ Name: "Camille", Status: "Armor", Animation: "Bound", Y: -400 }]
 			},
-			{ Text: "(She stares at the floor and stops talking.)" },
+			{ Text: "(She stares at the floor and stays silent.)" },
 		]
 	},
 
@@ -1700,8 +1700,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Grumpy" }]
 			},
 			{ Text: "(As you venture deeper in the woods, a shady lady jumps in front in you.)" },
-			{ Text: "You're finally back Edlaran.  I don't know why you're accompanied." },
-			{ Text: "How was the manor raid?  Any good loot to repay your debt?" },
+			{ Text: "You're finally back Edlaran.  I don't know why you're accompanied.", Audio: "10" },
+			{ Text: "How was the manor raid?  Any good loot to repay your debt?", Audio: "20" },
 			{
 				Text: "Mmmmmh...  What?  Manor raid?  Loot?  Debt?  Do I know you?",
 				Character: [
@@ -1724,7 +1724,7 @@ var PlatformDialogData = [
 				Text: "(She stares at your group.)",
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Angry" }]
 			},
-			{ Text: "Lady Olivia, you say?  Thanks for the tip, she would fetch a good ransom." },
+			{ Text: "Lady Olivia, you say?  Thanks for the tip, she would fetch a good ransom.", Audio: "90" },
 			{
 				Text: "What?  That wasn't a tip.",
 				Character: [
@@ -1754,11 +1754,11 @@ var PlatformDialogData = [
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Grumpy" }]
 			},
 			{ Text: "(As you venture deeper in the woods, a shady lady jumps in front in you.)" },
-			{ Text: "Well, well, well, who dares to enter our forest?" },
+			{ Text: "Well, well, well, who dares to enter our forest?", Audio: "10" },
 			{ Text: "(She looks at Olivia carefully.)" },
-			{ Text: "Wait... aren't you some kind of royalty?" },
+			{ Text: "Wait... aren't you some kind of royalty?", Audio: "20" },
 			{
-				Text: "You're the Countess daughter!",
+				Text: "You're the Countess daughter!", Audio: "30",
 				Character: [
 					{ Name: "Vera", Status: "Leather", Pose: "Angry" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -1770,8 +1770,8 @@ var PlatformDialogData = [
 					{ Text: "Please don't give us trouble.", Reply: "You've set yourself in trouble." },
 				]
 			},
-			{ Text: "She will fetch a great ransom." },
-			{ Text: "Get her!  (The bandits attack you.)" },
+			{ Text: "She will fetch a great ransom.", Audio: "40" },
+			{ Text: "Get her!  (The bandits attack you.)", Audio: "50" },
 		]
 	},
 
@@ -1788,7 +1788,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(Next to a giant oak, you find a forest bandit tormenting a bound elf.)" },
-			{ Text: "This is your last warning!  Pay your debt or I cut your pretty ears Edlaran." },
+			{ Text: "This is your last warning!  Pay your debt or I cut your pretty ears Edlaran.", Audio: "10" },
 			{ Text: "(She pulls out a knife, and the elf notices you.)" },
 			{
 				Text: "Help!  Please!",
@@ -1805,7 +1805,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "It seems I have more urgent matters to settle first.  Don't try anything Edlaran.",
+				Text: "It seems I have more urgent matters to settle first.  Don't try anything Edlaran.", Audio: "30",
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Grumpy" }]
 			},
 			{ Text: "(She charges toward you)." }
@@ -1981,17 +1981,17 @@ var PlatformDialogData = [
 				Background: "BarnInterior",
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
 			},
-			{ Text: "You're waking up?  Good." },
-			{ Text: "We have a long trip ahead your highness." },
-			{ Text: "You must be wondering why you're restrained." },
-			{ Text: "That gag isn't pleasant, but it's necessary." },
+			{ Text: "You're waking up?  Good.", Audio: "100" },
+			{ Text: "We have a long trip ahead your highness.", Audio: "110" },
+			{ Text: "You must be wondering why you're restrained.", Audio: "120" },
+			{ Text: "That gag isn't pleasant, but it's necessary.", Audio: "130" },
 			{
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Curious" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "We don't want a screamer while we travel." },
+			{ Text: "We don't want a screamer while we travel.", Audio: "140" },
 			{
 				Text: "Mmmgnh!  Uuungmm mn!",
 				Character: [
@@ -2000,13 +2000,13 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Don't be afraid, we are bringing you back to your husband, the Duke.",
+				Text: "Don't be afraid, we are bringing you back to your husband, the Duke.", Audio: "160",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Curious" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "He will surely pay a huge amount to see you safe." },
+			{ Text: "He will surely pay a huge amount to see you safe.", Audio: "170" },
 			{
 				Text: "Aaamh mmhmm Mmmnndy!  Mh maaym!",
 				Character: [
@@ -2015,14 +2015,14 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "We cannot bring your maid.  She will be sold in a nearby town.",
+				Text: "We cannot bring your maid.  She will be sold in a nearby town.", Audio: "190",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Pretty" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "It's better than to be left for the crows." },
-			{ Text: "Exercise your legs, we will leave soon." },
+			{ Text: "It's better than to be left for the crows.", Audio: "200" },
+			{ Text: "Exercise your legs, we will leave soon.", Audio: "210" },
 
 		]
 	},
@@ -2038,9 +2038,9 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "I'm not letting you out of the barn." },
-			{ Text: "Your husband will pay a royal ransom for you." },
-			{ Text: "Exercise your legs, we will leave soon." },
+			{ Text: "I'm not letting you out of the barn.", Audio: "10" },
+			{ Text: "Your husband will pay a royal ransom for you.", Audio: "20" },
+			{ Text: "Exercise your legs, we will leave soon.", Audio: "30" },
 		],
 	},
 
@@ -2058,10 +2058,10 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(Two thieves are watching a crate and talking.)" },
-			{ Text: "This is boring.  When is that slave trader coming?" },
-			{ Text: "Did you bring some cards or some..." },
+			{ Text: "This is boring.  When is that slave trader coming?", Audio: "10" },
+			{ Text: "Did you bring some cards or some...", Audio: "20" },
 			{ Text: "(She turns to Edlaran.)" },
-			{ Text: "It seems we have a rat.  Get her!" },
+			{ Text: "It seems we have a rat.  Get her!", Audio: "30" },
 		],
 	},
 
@@ -2216,9 +2216,9 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(A servant enters the barn to speak with the thief boss.)" },
-			{ Text: "Boss, we have a problem." },
-			{ Text: "The slave trading outpost has been attacked." },
-			{ Text: "The maid we were expecting to sell has run away." },
+			{ Text: "Boss, we have a problem.", Audio: "10" },
+			{ Text: "The slave trading outpost has been attacked.", Audio: "20" },
+			{ Text: "The maid we were expecting to sell has run away.", Audio: "30" },
 			{
 				Text: "(The boss gets angry.)",
 				Character: [
@@ -2227,14 +2227,14 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "Do I need to do everything myself?" },
-			{ Text: "I'll get the whip cracking.  You stay here and guard the prisoner." },
-			{ Text: "Do not ungag her, do not unlock her and do not let her out." },
+			{ Text: "Do I need to do everything myself?", Audio: "40" },
+			{ Text: "I'll get the whip cracking.  You stay here and guard the prisoner.", Audio: "50" },
+			{ Text: "Do not ungag her, do not unlock her and do not let her out.", Audio: "60" },
 			{ Text: "(She gets even more angry.)" },
-			{ Text: "You know what?  Torture the bitch!  It will teach her not to try to escape." },
+			{ Text: "You know what?  Torture the bitch!  It will teach her not to try to escape.", Audio: "70" },
 			{ Text: "(She runs away and slams the barn door, which makes a loud creaking sound.)" },
 			{
-				Text: "I can torture you?  Sweet!",
+				Text: "I can torture you?  Sweet!", Audio: "80",
 				Character: [
 					{ Name: "Hazel", Status: "Maid", Pose: "Angry" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
@@ -2455,7 +2455,7 @@ var PlatformDialogData = [
 					{ Text: "(Provoke them.)", Reply: "(All bandits turn toward you.)" },
 				]
 			},
-			{ Text: "Boss!  We have a rat in the camp." },
+			{ Text: "Boss!  We have a rat in the camp.", Audio: "10" },
 			{
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Angry" },
@@ -2463,7 +2463,7 @@ var PlatformDialogData = [
 					{ Name: "Vera", Status: "Leather", Pose: "Angry" }
 				]
 			},
-			{ Text: "So, the slaves came back.  Get them girls!" },
+			{ Text: "So, the slaves came back.  Get them girls!", Audio: "20" },
 			{
 				Entry: function() { PlatformEventSet("ThiefBossIntro"); },
 				Text: "(Three bandits spring on you while the boss watches from her camp.)"
@@ -2485,29 +2485,29 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(The bandit minions struggle in their bondage.)" },
-			{ Text: "Boss!  We might need your help here!" },
+			{ Text: "Boss!  We might need your help here!", Audio: "10" },
 			{ Background: "BanditCampGateOpen", Character: [] },
 			{
 				Background: "BanditCampGateGround",
-				Text: "Boss?  It's now or never!",
+				Text: "Boss?  It's now or never!", Audio: "20",
 				Character: [
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: -100, Y: -400 },
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 1100, Y: -400 },
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 500, Y: -400 },
 				]
 			},
-			{ Text: "BOOOOOOOOOOOSS???" },
+			{ Text: "BOSS?  HELP?", Audio: "30" },
 			{ Background: "BanditCampGateOpen", Character: [] },
 			{
 				Background: "BanditCampGateGround",
-				Text: "Errr...  Well...",
+				Text: "Errr...  Well...", Audio: "40",
 				Character: [
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: -100, Y: -400 },
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 1100, Y: -400 },
 					{ Name: "Vera", Status: "Leather", Animation: "Bound", X: 500, Y: -400 },
 				]
 			},
-			{ Text: "Isn't the weather nice today?" },
+			{ Text: "Isn't the weather nice today?", Audio: "50" },
 			{ Background: "BanditCampGateOpen", Character: [] },
 			{ Text: "(Their leader disappeared.  The bandit camp gate lays wide open.)" },
 		],
@@ -2522,8 +2522,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
 			},
 			{ Text: "(As you enter the bandit camp, the boss comes to greet you with a smirk on her face.)" },
-			{ Text: "Welcome, welcome, welcome.  Welcome to your new life.  Your new slave life!" },
-			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business." },
+			{ Text: "Welcome, welcome, welcome.  Welcome to your new life.  Your new slave life!", Audio: "10" },
+			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business.", Audio: "20" },
 			{
 				Text: "Honest business?  You're kidnapping women and selling them for ransom!",
 				Character: [
@@ -2534,7 +2534,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "If I remember correctly, you were happy to share the loot with us Edlaran.",
+				Text: "If I remember correctly, you were happy to share the loot with us Edlaran.", Audio: "40",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
@@ -2561,7 +2561,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Enough!  Since you betrayed me, I will keep you as my personal slave Edlaran.",
+				Text: "Enough!  Since you betrayed me, I will keep you as my personal slave Edlaran.", Audio: "70",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Angry", X: 0 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
@@ -2569,7 +2569,7 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1500 },
 				]
 			},
-			{ Text: "Since my minions cannot capture you, I will do it myself." },
+			{ Text: "Since my minions cannot capture you, I will do it myself.", Audio: "80" },
 			{ Text: "(Her minions close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you.)" },
 		],
@@ -2584,8 +2584,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
 			},
 			{ Text: "(She struggles in vain and slowly accepts her fate.)" },
-			{ Text: "How?  How could you?" },
-			{ Text: "You betrayed me Edlaran!  You want to be the boss now?" },
+			{ Text: "How?  How could you?", Audio: "10" },
+			{ Text: "You betrayed me Edlaran!  You want to be the boss now?", Audio: "20" },
 			{
 				Text: "Me?  The gang boss?",
 				Background: "BanditCamp",
@@ -2611,17 +2611,17 @@ var PlatformDialogData = [
 			},
 			{ Text: "(She tugs on her bonds and moans from the pain.)" },
 			{
-				Text: "What will you do with me?",
+				Text: "What will you do with me?", Audio: "60",
 				Answer: [
 					{ Text: "We'll take your loot and go.", Reply: "(She struggles harder.)  Fine!  Take it!" },
 					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work." },
 					{ Text: "We won't waste any time with you.", Reply: "Get out then!" },
 				]
 			},
-			{ Text: "I will get out of that bondage as soon as you're gone." },
-			{ Text: "But if you don't come back, I promise I won't go out again to hunt you." },
+			{ Text: "I will get out of that bondage as soon as you're gone.", Audio: "70" },
+			{ Text: "But if you don't come back, I promise I won't go out again to hunt you.", Audio: "80" },
 			{
-				Text: "Do we have a deal?",
+				Text: "Do we have a deal?", Audio: "90",
 				Answer: [
 					{ Text: "It's a deal!", Reply: "Alright!  You can go now." },
 					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now." },
@@ -2641,8 +2641,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
 			},
 			{ Text: "(She struggles a little and sighs.)" },
-			{ Text: "The deal is simple." },
-			{ Text: "Don't come back, and I promise I won't hunt you again." },
+			{ Text: "The deal is simple.", Audio: "10" },
+			{ Text: "Don't come back, and I promise I won't hunt you again.", Audio: "20" },
 			{ Text: "(You leave her to struggle.)" }
 		],
 	},
@@ -2656,8 +2656,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
 			},
 			{ Text: "(The bandit boss gets furious as you enter her camp again.)" },
-			{ Text: "What?  You came back?  You broke the deal!" },
-			{ Text: "It means I have one more chance to enslave you." },
+			{ Text: "What?  You came back?  You broke the deal!", Audio: "10" },
+			{ Text: "It means I have one more chance to enslave you.", Audio: "20" },
 			{ Text: "(Her minions close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you once again.)" },
 		],
@@ -3942,11 +3942,11 @@ var PlatformDialogData = [
 			},
 			{ Text: "(You confidently get closer to Edlaran and shake your head from left to right.)" },
 			{
-				Text: "What's going on my girl?",
+				Text: "What's going on my girl?", Audio: "10",
 				Answer: [
 					{
 						Text: "(Get released from her ownership.)",
-						Reply: "It seems the bird is flying away from her nest.",
+						Reply: "It seems the bird is flying away from her nest.", Audio: "11", AudioStyle: "sad",
 						Script: function() {
 							PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination + 6;
 							if (PlatformDialogGetCharacter("Edlaran").Domination <= -19) PlatformDialogGetCharacter("Edlaran").Domination = -18;
@@ -3958,7 +3958,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "(She crosses her arms.)  I will miss being able to control you, but I understand.",
+				Text: "(She crosses her arms.)  I will miss being able to control you, but I understand.", Audio: "20", AudioStyle: "sad",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleAngry", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
@@ -3966,10 +3966,10 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "I hope it won't impact our sex life my love.",
+				Text: "I hope it won't impact our sex life my love.", Audio: "30", AudioStyle: "friendly",
 			},
-			{ Text: "Go roam and explore the world, Melody.  Have fun in your newfound freedom." },
-			{ Text: "Liberty is important, I'm proud that you can go on without an owner." },
+			{ Text: "Melody, go roam and explore the world.  Have fun in your newfound freedom.", Audio: "40" },
+			{ Text: "Liberty is important, I'm proud that you can go on without an owner.", Audio: "50" },
 			{ Text: "(You're no longer Edlaran's submissive.  You lose all looting bonuses.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
@@ -3993,7 +3993,7 @@ function PlatformDialogVoice(Source) {
 	if (vol > 0) {
 		if (PlatformDialogAudio == null) PlatformDialogAudio = new Audio();
 		PlatformDialogAudio.src = "Screens/Room/Platform/Audio/Dialog/" + PlatformDialog.Name + "/" + Source + ".mp3";
-		PlatformDialogAudio.currentTime = 0.25;
+		PlatformDialogAudio.currentTime = 0;
 		PlatformDialogAudio.volume = Math.min(vol, 1);
 		PlatformDialogAudio.play();
 	}
