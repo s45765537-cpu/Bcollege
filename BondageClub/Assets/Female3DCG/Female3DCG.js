@@ -1486,7 +1486,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
 			},
-			{Name: "KneePads", Value: 7, HideForPose: ["Hogtied"], BuyGroup: "KneePads", 
+			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads", 
 			Layer: [
 				{ Name: "Body", AllowColorize: true },
 				{ Name: "Guards", AllowColorize: true },
@@ -1550,7 +1550,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
 			},
-			{Name: "KneePads", Value: 7, HideForPose: ["Hogtied"], BuyGroup: "KneePads", Layer: [
+			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads", Layer: [
 				{ Name: "Body", AllowColorize: true },
 				{ Name: "Guards", AllowColorize: true },
 				]
