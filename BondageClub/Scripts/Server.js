@@ -532,7 +532,11 @@ function ServerValidateColorAgainstSchema(Color, Schema) {
 }
 
 /**
- * Syncs the player appearance with the server
+ * Syncs the player appearance with the server database.
+ *
+ * Note that this will *not* push appearance changes to the rest of the chatroom,
+ * which requires either {@link ChatRoomCharacterItemUpdate} or {@link ChatRoomCharacterUpdate}.
+ *
  * @returns {void} - Nothing
  */
 function ServerPlayerAppearanceSync() {
