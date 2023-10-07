@@ -807,7 +807,7 @@ var AssetFemale3DCGExtended = {
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
 			},
-			BaselineProperty: { HeartRate: 0, HeartIcon: false },
+			BaselineProperty: { HeartRate: 0 },
 		}, // FuturisticBra
 		TickleBra: {
 			Archetype: ExtendedArchetype.VIBRATING,
