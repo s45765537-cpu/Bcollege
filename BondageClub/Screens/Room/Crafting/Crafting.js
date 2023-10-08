@@ -370,10 +370,8 @@ function CraftingRun() {
 		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
 		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
 		if (CraftingSelectedItem.Asset.Archetype) {
-			MainCanvas.textAlign = "left";
-			DrawText(TextGet("EnterType"), 1175, 890, "White", "Black");
-			MainCanvas.textAlign = "center";
-			DrawButton(1460, 858, 60, 60, "", "White", "Icons/Small/Use.png");
+			DrawText(TextGet("EnterType"), 1550, 890, "White", "Black");
+			DrawButton(1175, 858, 60, 60, "", "White", "Icons/Small/Use.png");
 		}
 		DrawButton(1276, 683, 60, 60, "", "White", "Icons/Small/Use.png");
 	}
@@ -997,7 +995,7 @@ function CraftingClick() {
 			});
 		} else if (MouseIn(1175, 768, 64, 64)) {
 			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
-		} else if (MouseIn(1460, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
+		} else if (MouseIn(1175, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
 			const item = CraftingPreview.Appearance.find(i => {
 				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
 			});
