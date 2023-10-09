@@ -348,6 +348,19 @@ function ServerPlayerRelationsSync() {
 }
 
 /**
+ * Syncs {@link Player.ExtensionSettings} to the server.
+ * @param {keyof ExtensionSettings} dataKeyName - The single key to sync
+ * @param {boolean} [force] - force immediate sync to server (by default data is delayed a bit to avoid rapid saving and reduce server load)
+ */
+function ServerPlayerExtensionSettingsSync(dataKeyName, force = false) {
+	if (Player.ExtensionSettings[dataKeyName] === undefined) {
+		throw new Error(`Invalid key '${dataKeyName}' attempting to save 'undefined'`);
+	}
+	const obj = { [`ExtensionSettings.${dataKeyName}`]: Player.ExtensionSettings[dataKeyName] };
+	ServerAccountUpdate.QueueData(obj, force || undefined);
+}
+
+/**
  * Prepares an appearance bundle so we can push it to the server. It minimizes it by keeping only the necessary
  * information. (Asset name, group name, color, properties and difficulty)
  * @param {readonly Item[]} Appearance - The appearance array to bundle

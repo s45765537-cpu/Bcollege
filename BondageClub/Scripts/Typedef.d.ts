@@ -1459,6 +1459,10 @@ interface Character {
 	TrainingCountPerfect?: number;
 }
 
+interface ExtensionSettings {
+
+}
+
 interface PlayerCharacter extends Character {
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
 	ChatSettings?: {
@@ -1614,6 +1618,7 @@ interface PlayerCharacter extends Character {
 	};
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
+	ExtensionSettings: ExtensionSettings;
 }
 
 /**
