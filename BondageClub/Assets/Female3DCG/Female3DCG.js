@@ -5118,6 +5118,13 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "HeavyLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "HeavyLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], AllowPose: ["OverTheHead"], HideForPose: ["AllFours", "Hogtied"], Extended: true},
+			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
+				Layer: [
+					{ Name: "Corset" },
+					{ Name: "Belt" },
+					{ Name: "Buckles" }
+				]
+			},
 			{ Name: "Ribbons", Gender: "F", Fetish: ["Lingerie"], Value: 30, Difficulty: 3, Time: 10, RemoveTime: 5, BuyGroup: "Ribbon", Prerequisite: ["AccessTorso", "HasBreasts"], AllowPose: ["AllFours", "Hogtied"], Extended: true },
 			{ Name: "ThinLeatherStraps", Gender: "F", Fetish: ["Leather"], Value: 70, Difficulty: 2, Time: 20, RemoveTime: 20, BuyGroup: "ThinLeatherStraps", Prerequisite: ["AccessTorso", "HasBreasts"], Random: false, AllowLock: true, AllowTighten: true, DrawLocks: false, Extended: true,
 				Layer: [
@@ -5221,6 +5228,13 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "HeavyLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "HeavyLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], AllowPose: ["OverTheHead"], HideForPose: ["AllFours", "Hogtied"], Extended: true },
+			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
+				Layer: [
+					{ Name: "Corset" },
+					{ Name: "Belt" },
+					{ Name: "Buckles" }
+				]
+			},
 			{ Name: "Ribbons", Gender: "F", Fetish: ["Lingerie"], Value: 30, Difficulty: 3, Time: 10, RemoveTime: 5, BuyGroup: "Ribbon", Prerequisite: ["AccessTorso", "HasBreasts"], AllowPose: ["AllFours", "Hogtied"], Extended: true },
 			{ Name: "ThinLeatherStraps", Gender: "F", Fetish: ["Leather"], Value: 70, Difficulty: 2, Time: 20, RemoveTime: 20, BuyGroup: "ThinLeatherStraps", Prerequisite: ["AccessTorso", "HasBreasts"], Random: false, AllowLock: true, AllowTighten: true, DrawLocks: false, Extended: true,
 				Layer: [
