@@ -5228,7 +5228,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "HeavyLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "HeavyLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], AllowPose: ["OverTheHead"], HideForPose: ["AllFours", "Hogtied"], Extended: true },
-			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
+			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: -1, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
 				Layer: [
 					{ Name: "Corset" },
 					{ Name: "Belt" },
