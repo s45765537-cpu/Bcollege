@@ -775,6 +775,7 @@ function LoginResponse(C) {
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
 			CraftingLoadServer(C.Crafting);
+			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 			Player.ConfiscatedItems = C.ConfiscatedItems;
 
 			// Calls the preference init to make sure the preferences are loaded correctly
