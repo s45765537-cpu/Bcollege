@@ -892,6 +892,66 @@ function testCopyLayerColor(assets) {
 }
 
 /**
+ * Validate whether all extended item prerequisites of the default option are a subset of the asset-level prerequisites.
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
+ */
+function testExtendedPrerequisite(dataSuperRecord) {
+	for (const dataRecord of Object.values(dataSuperRecord)) {
+		for (const data of Object.values(dataRecord)) {
+			const asset = data.asset;
+
+			/** @type {AssetPrerequisite[]} */
+			const extendedPrereq = [];
+			switch (data.archetype) {
+				case "typed":
+				case "vibrating": {
+					const prereq = data.options[0].Prerequisite;
+					if (Array.isArray(prereq)) {
+						extendedPrereq.push(...prereq);
+					} else if (typeof prereq === "string") {
+						extendedPrereq.push(prereq);
+					}
+					break;
+				}
+				case "modular": {
+					for (const mod of data.modules) {
+						const prereq = mod.Options[0].Prerequisite;
+						if (Array.isArray(prereq)) {
+							extendedPrereq.push(...prereq);
+						} else if (typeof prereq === "string") {
+							extendedPrereq.push(prereq);
+						}
+					}
+					break;
+				}
+				default:
+					break;
+			}
+
+			if (extendedPrereq.length === 0) {
+				continue;
+			}
+
+			/** @type {AssetPrerequisite[]} */
+			const invalidSuperset = [];
+			for (const prereq of extendedPrereq) {
+				if (!asset.Prerequisite.includes(prereq)) {
+					invalidSuperset.push(prereq);
+				}
+			}
+
+			if (invalidSuperset.length > 0) {
+				invalidSuperset.sort();
+				error(
+					`${asset.Group.Name}:${asset.Name}: default extended item prerequisites must `
+					+ `be a subset of asset-level prerequisites; offending members: ${invalidSuperset}`
+				);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1105,4 +1165,11 @@ function sanitizeVMOutput(input) {
 	testAllowTypes({ ...TypedItemDataLookup, ...ModularItemDataLookup });
 	testAllowModuleTypes(ModularItemDataLookup);
 	testCopyLayerColor(assetList);
+	testExtendedPrerequisite({
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	});
 })();

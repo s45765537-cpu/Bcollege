@@ -1486,7 +1486,7 @@ var AssetFemale3DCG = [
 			},
 			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
 			},
-			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads", 
+			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads",
 			Layer: [
 				{ Name: "Body", AllowColorize: true },
 				{ Name: "Guards", AllowColorize: true },
@@ -4199,7 +4199,11 @@ var AssetFemale3DCG = [
 		FreezeActivePose: ["BodyLower"],
 		Zone: [[100, 580, 300, 170]],
 		Asset: [
-			{ Name: "NylonRope", Fetish: ["Rope", "Nylon"], Value: 30, Time: 10, BuyGroup: "NylonRope", Audio: "RopeShort", SetPose: ["LegsClosed"], AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "LegsClosed"], FreezeActivePose: [], Extended: true, AllowTighten: true,
+			{
+				Name: "NylonRope", Fetish: ["Rope", "Nylon"], Value: 30, Time: 10, BuyGroup: "NylonRope",
+				Audio: "RopeShort", SetPose: ["LegsClosed"], AllowPose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: ["Kneel", "LegsClosed"], FreezeActivePose: [], Extended: true, AllowTighten: true,
+				Prerequisite: ["CanCloseLegs"],
 				DefaultColor: ["#CCCCCC","#CCCCCC", "#CCCCCC"],
 				Layer: [
 					{ Name: "UpperRope", HasType: false, AllowTypes: ["Thighs", "KneesThighs"] },
@@ -4210,7 +4214,13 @@ var AssetFemale3DCG = [
 					{ Name: "FrogtieShine", AllowColorize: false, HasType: false, AllowTypes: ["Frogtie"], CopyLayerColor: "UpperRope" },
 				]
 			},
-			{ Name: "HempRope", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 10, RemoveTime: 15, DefaultColor: "#956B1C", BuyGroup: "HempRope", SetPose: ["LegsClosed"], Extended: true, Audio: "RopeShort", AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "LegsClosed"], FreezeActivePose: [], AllowTighten: true },
+			{
+				Name: "HempRope", Fetish: ["Rope"], Value: 60, Difficulty: 3, Time: 10, RemoveTime: 15,
+				DefaultColor: "#956B1C", BuyGroup: "HempRope", SetPose: ["LegsClosed"], Extended: true,
+				Audio: "RopeShort", AllowPose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: ["Kneel", "LegsClosed"], FreezeActivePose: [], AllowTighten: true,
+				Prerequisite: ["CanCloseLegs"],
+			},
 			{ Name: "LeatherBelt", Fetish: ["Leather"], Value: 25, Difficulty: 2, Time: 5, AllowLock: true, AllowTighten: true, SetPose: ["LegsClosed"], AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"] },
 			{ Name: "SturdyLeatherBelts", Fetish: ["Leather"], Value: 50, Time: 5, AllowLock: true, AllowTighten: true, BuyGroup: "SturdyLeatherBelts", SetPose: ["LegsClosed"], Extended: true, AllowActivePose: ["Kneel"], Prerequisite: ["CanCloseLegs"], Audio: "Buckle",
 				DefaultColor: ["#11161B", "#403E40", "#11161B", "#403E40"],
@@ -5337,7 +5347,8 @@ var AssetFemale3DCG = [
 		Zone: [[200, 270, 100, 70]],
 		Asset: [
 			{ Name: "StraightPiercing", Fetish: ["Metal"], Value: 10, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }] },
-			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, DrawLocks: false, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
+			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, DrawLocks: false,
+			Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
 				Layer: [
 					{ Name: "Piercings", HasType: false, AllowTypes: ["", "Weighted"] },
 					{ Name: "PiercingsChained", HasType: false, AllowTypes: ["Chain", "WeightedChain"], CopyLayerColor: "Piercings" },
@@ -9685,7 +9696,7 @@ var AssetFemale3DCG = [
 				Name: "VacBedDeluxe", Gender: "F", Fetish: ["Latex"], Priority: 36, Value: 250, Difficulty: 50, SelfBondage: 3, Time: 10, RemoveTime: 10, AllowLock: true, RemoveAtLogin: true, DefaultColor: ["#808080", "#808080", "#808080"], Extended: true, MinOpacity: 0.25, MaxOpacity: 1, Opacity: 1,
 				Hide: ["Hands", "HairBack", "Cloth", "ClothLower", "ClothAccessory", "Necklace", "Suit", "SuitLower", "Bra", "Panties", "Socks", "SocksRight", "SocksLeft", "RightAnklet", "LeftAnklet", "Shoes", "Gloves", "TailStraps", "Wings", "ItemFeet", "ItemLegs", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemTorso2", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemArms", "ItemHands", "ItemHandheld", "ItemBoots", "Pussy", "Corset", "Bracelet", "Garters", "LeftHand" ,"RightHand"],
 				HideItem: ["ItemMiscTeddyBear"],
-				Prerequisite: ["NotKneeling", "AllFours", "NotSuspended", "NotHogtied", "NotKneelingSpread", "NoItemArms", "NoItemHands", "NoItemLegs", "NotHorse", "NoItemFeet", "HasBreasts"],
+				Prerequisite: ["NotKneeling", "AllFours", "NotSuspended", "NotHogtied", "NotKneelingSpread", "NoItemArms", "NoItemHands", "NoItemLegs", "NotHorse", "NoItemFeet", "HasBreasts", "LegsOpen"],
 				Block: ["ItemArms", "ItemBoots", "ItemBreast", "ItemButt", "ItemFeet", "ItemHands", "ItemHandheld", "ItemLegs", "ItemMisc", "ItemNeck", "ItemNeckAccessories", "ItemNeckRestraints", "ItemNipples", "ItemNipplesPiercings", "ItemPelvis", "ItemTorso", "ItemTorso2", "ItemVulva", "ItemVulvaPiercings"],
 				AllowActivityOn: ["ItemArms", "ItemFeet", "ItemLegs", "ItemBoots"],
 				SetPose: ["BaseUpper", "BaseLower"],
@@ -10271,14 +10282,14 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowColorize: false },
 				]
 			},
-			{ Name: "ShortPonyBoots", Fetish: ["Leather", "Pony"], Value: 55, Difficulty: 6, Time: 10, RemoveTime: 10, AllowLock: true, AllowTighten: true, 
+			{ Name: "ShortPonyBoots", Fetish: ["Leather", "Pony"], Value: 55, Difficulty: 6, Time: 10, RemoveTime: 10, AllowLock: true, AllowTighten: true,
 			    Alpha: [
 					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[75, 840, 350, 200]] }], Height: 35, AllowPose: ["LegsClosed", "Kneel", "Hogtied", "Spread"], HideForPose: ["KneelingSpread"],
 					Layer: [
 						{ Name: "Toe", AllowColorize: true },{ Name: "Foot", AllowColorize: true },
 						{ Name: "Ankle", AllowColorize: true },
 						{ Name: "U", AllowColorize: true },
-			] 
+			]
 			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
