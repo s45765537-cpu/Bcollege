@@ -707,14 +707,14 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Loose",
 				},
-				{	
+				{
 					Name: "Fit",
 				},
-				],
-				DialogPrefix: {
-					Header: "SelectLargeBeltWidth",
-					Option: "LargeBeltStyle",
-				}
+			],
+			DialogPrefix: {
+				Header: "SelectLargeBeltWidth",
+				Option: "LargeBeltStyle",
+			}
 		}, // LargeBelt
 	}, // ClothAccessory
 	ClothLower: {

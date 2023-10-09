@@ -4818,6 +4818,6 @@ ClothFishnetTopSets0,,,SourceCharacter attaches sleeves to DestinationCharacterN
 ClothFishnetTopSets1,,,SourceCharacter detaches the sleeves of DestinationCharacterName AssetName.,,
 ClothFishnetTopSett0,,,SourceCharacter switches to DestinationCharacterName AssetName to a full shirt.,,
 ClothFishnetTopSett1,,,SourceCharacter switches to DestinationCharacterName AssetName to a crop top.,,
-SelectLargeBeltWidt,,,,Select Large Belt Width.,,
+SelectLargeBeltWidth,,,Select Large Belt Width.,,
 LargeBeltStyleLoose,,,Loose,,
 LargeBeltStyleFit,,,Fit,,
