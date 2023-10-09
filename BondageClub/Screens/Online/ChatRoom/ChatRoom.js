@@ -2340,7 +2340,8 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
 /**
  * Updates an item on character for everyone in a chat room - replaces ChatRoomCharacterUpdate to cut on the lag.
  *
- * DO NOT USE. The server doesn't persist changes made that way to the database.
+ * Note that this will *not* update the server database,
+ * which requires either {@link CharacterRefresh}, {@link ServerPlayerAppearanceSync} or {@link ChatRoomCharacterUpdate}.
  *
  * @param {Character} C - Character to update.
  * @param {AssetGroupName} [Group] - Item group to update.
@@ -2389,7 +2390,11 @@ function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
 }
 
 /**
- * Pushes the new character data/appearance to the server.
+ * Pushes the new character data/appearance to everyone else in a chat room and updates the server database.
+ *
+ * Note that this will *not* update the server database,
+ * which requires either {@link CharacterRefresh} or {@link ServerPlayerAppearanceSync}.
+ *
  * @param {Character} C - Character to update.
  * @returns {void} - Nothing.
  */
