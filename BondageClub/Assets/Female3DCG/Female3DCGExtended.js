@@ -701,6 +701,21 @@ var AssetFemale3DCGExtended = {
 				},
 			]
 		}, //KissMark
+		LargeBelt: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+				},
+				{	
+					Name: "Fit",
+				},
+				],
+				DialogPrefix: {
+					Header: "SelectLargeBeltWidth",
+					Option: "LargeBeltStyle",
+				}
+		}, // LargeBelt
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {

@@ -482,7 +482,7 @@ var AssetFemale3DCG = [
 				]
 			},
 			{
-				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15,
+				Name: "LargeBelt", Top: 370, Fetish: ["Leather"], ParentGroup:"BodyUpper", Value: 15, Extended: true,
 				Alpha: [{ Pose: ["BackCuffs"], Group: ["Bracelet"], Masks: [[279, 376, 34, 34]] }], DefaultColor: ["#E59292", "#FFFFFF"],
 				HideForPose: ["AllFours","Hogtied"],
 				AllowPose: ["TapedHands", "BackBoxTie","BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],
