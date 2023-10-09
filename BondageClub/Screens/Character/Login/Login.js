@@ -481,7 +481,7 @@ function LoginLoversItems() {
 	if (LoversNumbers.length < 1) {
 		const Collar = InventoryGet(Player,"ItemNeck");
 		if (Collar && Collar.Property && (Collar.Asset.Name == "SlaveCollar") && (Collar.Property.Type == "LoveLeatherCollar")) {
-			Collar.Property = null;
+			Collar.Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
 			Collar.Color = "Default";
 		}
 	}
