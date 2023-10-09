@@ -22,7 +22,7 @@ EnterDescription,Engrave a description
 EnterColor,Enter or pick the colors
 EnterPriority,Item drawing priority
 EnterPrivate,Private (only you can use it)
-EnterType,Configure item:
+EnterType,Configure extended item
 EmptySlot,Empty
 PropertyNormal,Normal
 PropertyLarge,Large
