@@ -1487,12 +1487,12 @@ var AssetFemale3DCG = [
 			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"]
 			},
 			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads",
-			Layer: [
-				{ Name: "Body", AllowColorize: true },
-				{ Name: "Guards", AllowColorize: true },
+				Layer: [
+					{ Name: "Body", AllowColorize: true },
+					{ Name: "Guards", AllowColorize: true },
 				]
 			},
-			],
+		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
 	{
@@ -1553,8 +1553,8 @@ var AssetFemale3DCG = [
 			{Name: "KneePads", Value: -1, HideForPose: ["Hogtied"], BuyGroup: "KneePads", Layer: [
 				{ Name: "Body", AllowColorize: true },
 				{ Name: "Guards", AllowColorize: true },
-				]
-				},
+			]
+			},
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -5118,7 +5118,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "HeavyLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "HeavyLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], AllowPose: ["OverTheHead"], HideForPose: ["AllFours", "Hogtied"], Extended: true},
-			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
+			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"],
 				Layer: [
 					{ Name: "Corset" },
 					{ Name: "Belt" },
@@ -5228,7 +5228,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "HeavyLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: 60, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "HeavyLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], AllowPose: ["OverTheHead"], HideForPose: ["AllFours", "Hogtied"], Extended: true },
-			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: -1, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"], 
+			{ Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: -1, Difficulty: 10, Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: true, AllowTighten: true, DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"],
 				Layer: [
 					{ Name: "Corset" },
 					{ Name: "Belt" },
@@ -5362,7 +5362,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{ Name: "StraightPiercing", Fetish: ["Metal"], Value: 10, Difficulty: 10, Time: 15, AllowLock: true, Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }] },
 			{ Name: "RoundPiercing", Fetish: ["Metal"], Value: 40, Difficulty: 10, Time: 15, AllowLock: true, DrawLocks: false,
-			Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
+				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"], ExpressionTrigger: [{ Name: "Closed", Group: "Eyes", Timer: 5 }, { Name: "Angry", Group: "Eyebrows", Timer: 5 }], Extended: true,
 				Layer: [
 					{ Name: "Piercings", HasType: false, AllowTypes: ["", "Weighted"] },
 					{ Name: "PiercingsChained", HasType: false, AllowTypes: ["Chain", "WeightedChain"], CopyLayerColor: "Piercings" },
@@ -10299,11 +10299,11 @@ var AssetFemale3DCG = [
 			{ Name: "ShortPonyBoots", Fetish: ["Leather", "Pony"], Value: 55, Difficulty: 6, Time: 10, RemoveTime: 10, AllowLock: true, AllowTighten: true,
 			    Alpha: [
 					{ Group: ["BodyLower", "Socks", "SocksRight", "SocksLeft", "SuitLower"], Masks: [[75, 840, 350, 200]] }], Height: 35, AllowPose: ["LegsClosed", "Kneel", "Hogtied", "Spread"], HideForPose: ["KneelingSpread"],
-					Layer: [
-						{ Name: "Toe", AllowColorize: true },{ Name: "Foot", AllowColorize: true },
-						{ Name: "Ankle", AllowColorize: true },
-						{ Name: "U", AllowColorize: true },
-			]
+				Layer: [
+					{ Name: "Toe", AllowColorize: true },{ Name: "Foot", AllowColorize: true },
+					{ Name: "Ankle", AllowColorize: true },
+					{ Name: "U", AllowColorize: true },
+				]
 			},
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
