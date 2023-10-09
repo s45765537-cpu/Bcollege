@@ -2373,6 +2373,24 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 }
 
 /**
+ * Updates an item on a character for everyone in a chat room, for expression changes only.
+ *
+ * Note that this will *not* update the server database,
+ * which requires either {@link CharacterRefresh}, {@link ServerPlayerAppearanceSync} or {@link ChatRoomCharacterUpdate}.
+ *
+ * @param {Character} C
+ * @param {ExpressionGroupName} Group
+ */
+function ChatRoomCharacterExpressionUpdate(C, Group) {
+	if (!ServerPlayerIsInChatRoom() || !C.IsPlayer()) return;
+	const item = InventoryGet(C, Group);
+	if (!item) return;
+
+	const Name = item.Property ? item.Property.Expression : null;
+	ServerSend("ChatRoomCharacterExpressionUpdate", { Name, Group, Appearance: ServerAppearanceBundle(C.Appearance) });
+}
+
+/**
  * Publishes a custom action to the chat
  * @param {string} msg - Tag of the action to send
  * @param {boolean} LeaveDialog - Whether or not the dialog should be left.

@@ -711,7 +711,7 @@ function KinkyDungeonLoad() {
 
 			// @ts-expect-error
 			CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
-			ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Gaming", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
+			CharacterSetFacialExpression(Player, "Emoticon", "Gaming");
 		} else {
 			KinkyDungeonState = "Game";
 			if (!KinkyDungeonGameData) {
