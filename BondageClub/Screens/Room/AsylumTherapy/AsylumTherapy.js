@@ -211,7 +211,7 @@ function AsylumTherapyPatientTickleIntro(RepChange) {
  * Initiates the orgasm therapy as a nurse
  * @param {number} RepChange - The amount, the player's reputation changes
  * @returns {void} - Nothing
-*/
+ */
 function AsylumTherapyPatientOrgasmIntro(RepChange) {
 	DialogChangeReputation("Dominant", RepChange);
 	InventoryWear(AsylumTherapyPatient, "FourLimbsShackles", "ItemArms");
@@ -272,7 +272,7 @@ function AsylumTherapyPatientNew() {
 	CharacterRelease(AsylumTherapyPatient);
 	InventoryRemove(AsylumTherapyPatient, "ItemNeck");
 	InventoryRemove(AsylumTherapyPatient, "ItemNipples");
-	InventoryRemove(Player, "ItemHands");
+	InventoryRemove(Player, "ItemHandheld");
 	AsylumTherapyPatient = CharacterLoadNPC("NPC_AsylumTherapy_Patient");
 	if (AsylumGGTSGetLevel(Player) >= 5) InventoryWear(AsylumTherapyPatient, "FuturisticCollar", "ItemNeck");
 	CharacterAppearanceFullRandom(AsylumTherapyPatient);
