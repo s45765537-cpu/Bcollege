@@ -5998,7 +5998,7 @@ SourceCharacter在DestinationCharacter缰绳口塞上添加了装饰旗帜。
 Select Top Accessory
 选择顶部配饰
 Top
-头顶
+上部
 Plume
 羽饰
 Mane Left
@@ -6462,9 +6462,9 @@ SourceCharacter将DestinationCharacter幸运轮盘的箭头改为肛塞造型。
 Choose the wheel's position
 选择轮盘的位置
 Front
-前方
+前部
 Back
-背后
+后部
 SourceCharacter places TargetCharacter behind the wheel.
 SourceCharacter将TargetCharacter放置在轮盘后。
 SourceCharacter moves TargetCharacter in front of the wheel.
