@@ -1579,9 +1579,9 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	const isTransient = Timer != null || fromQueue;
 
-	CharacterRefresh(C, !inChatRoom);
+	CharacterRefresh(C, !inChatRoom && !isTransient);
 	if (inChatRoom) {
-		if (isTransient) {
+		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
 		} else {
 			ChatRoomCharacterUpdate(C);
