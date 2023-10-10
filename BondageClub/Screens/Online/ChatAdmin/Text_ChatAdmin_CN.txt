@@ -44,6 +44,8 @@ Invalid chat room data detected
 无效的聊天室数据
 Block Categories
 屏蔽性癖
+Room Customization
+房间自定义
 No Game
 无游戏
 Club Card

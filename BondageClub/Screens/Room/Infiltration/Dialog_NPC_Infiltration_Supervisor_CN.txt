@@ -533,8 +533,8 @@ Here you go comrade.  (She gives you a money envelope.)  Are you ready to go bac
 Actually, I could use a new slave.
 实际上，我可以使用一个新的奴隶。
 ###_NPC
-Very well, comrade.  We'll break her and send her to your room in 3 days.  Are you ready to go back?
-很好，同志。我们会弄坏她，并在3天内把她送到你的房间。你准备好回去了了吗？
+Very well, comrade.  We'll break her and send her to your room in 1 day.  Are you ready to go back?
+很好，同志。我们会弄坏她，并在1天内把她送到你的房间。你准备好回去了了吗？
 ###_PLAYER
 No, but I want some infiltration training.
 不，但我想要一些潜入训练。

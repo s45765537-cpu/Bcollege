@@ -16,7 +16,7 @@ Reorder Slots
 重排栏位
 Click slots to select items to move: 
 选择要移动的栏位：
-Click slots to place selected items:
+Click slots to place selected items: 
 选择栏位放置选择物品：
 No lock
 无锁
@@ -46,8 +46,8 @@ Item drawing priority
 物品绘图优先级
 Private (only you can use it)
 私用（只有你能使用它）
-Configure item:
-配置物品：
+Configure extended item
+配置扩展物品
 Empty
 空
 Normal

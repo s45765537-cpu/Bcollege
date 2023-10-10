@@ -182,6 +182,10 @@ Waist Band
 腰带
 Panties
 内裤
+Cock Sock
+鸡鸡袜
+Stripes
+条带
 Sock
 袜子
 Light Stripes
@@ -464,8 +468,6 @@ Shorts
 短裤
 Zippers
 拉链
-Stripes
-条带
 Slime Girl
 史莱姆女孩
 Seams
@@ -962,6 +964,8 @@ Crotch Straps
 胯部束带
 Arm Strap
 手臂束带
+Pouch
+包囊
 Fade
 变暗
 Eyebrow
@@ -1030,6 +1034,8 @@ Wiring
 拉起兜帽
  Hoodie Down
 放下兜帽
+Fishnet Top
+渔网上衣
 Breathing Tube
 呼吸管
 Clipped Hose
@@ -1078,3 +1084,19 @@ Shield
 眼线
 Rear
 后部
+Feather Back
+羽毛后部
+Feather Front
+羽毛前部
+Logo
+标志
+Guards
+护板
+Guard
+护板
+Toes
+指头
+Ankles
+膝盖
+Horseshoes
+马蹄铁

@@ -250,6 +250,14 @@ Events while plugged or vibed
 被插入或被振动时的事件
 Garble chat room names and descriptions while blind
 失明时隐藏聊天室名和描述
+Never use room customization, no button
+永不使用房间自定义，没有按钮
+Don't use room customization by default
+默认不使用房间自定义
+Use room customization by default
+默认使用房间自定义
+Always use room customization, no button
+总是使用房间自定义，没有按钮
 Sensory deprivation setting
 感觉剥夺设置
 Hide names

@@ -144,6 +144,8 @@ Cheerleader Top
 啦啦队上衣
 Latex Frilled Shirt
 乳胶褶边衬衫
+Fishnet Top
+渔网上衣
 Cloth Accessory
 服装配饰
 Student Scarf
@@ -552,6 +554,8 @@ Briefs
 内裤
 Jockstrap
 下体护身
+Cock Sock
+鸡鸡袜
 Socks
 袜子
 Ankle
@@ -586,6 +590,10 @@ Cow Printed Socks
 奶牛印花袜
 Harem Stockings
 后宫丝袜
+Vinyl Socks
+聚乙烯袜
+Knee Pads
+护膝
 Right Leg
 右腿
 Left Leg
@@ -744,6 +752,8 @@ Beanie
 小圆帽
 Nun Habit
 修女罩袍
+Pirate Hat
+海盗帽
 Hair Accessory
 发饰
 Hair Ribbon 1
@@ -1146,8 +1156,12 @@ Style 27
 样式 27
 Style 28
 样式 28
+Style 28b
+样式 28b
 Style 29
 样式 29
+Style 29b
+样式 29b
 Style 30
 样式 30
 Style 31
@@ -1156,6 +1170,8 @@ Style 32
 样式 32
 Style 33
 样式 33
+Style 33b
+样式 33b
 Style 34
 样式 34
 Style 35
@@ -1164,28 +1180,52 @@ Style 36
 样式 36
 Style 37
 样式 37
+Style 37b
+样式 37b
 Style 38
 样式 38
+Style 38b
+样式 38b
 Style 39
 样式 39
+Style 39b
+样式 39b
 Style 40
 样式 40
+Style 40b
+样式 40b
 Style 41
 样式 41
+Style 41b
+样式 41b
 Style 42
 样式 42
+Style 42b
+样式 42b
 Style 43
 样式 43
+Style 43b
+样式 43b
 Style 44
 样式 44
+Style 44b
+样式 44b
 Style 45
 样式 45
+Style 45b
+样式 45b
 Style 46
 样式 46
+Style 46b
+样式 46b
 Style 47
 样式 47
+Style 47b
+样式 47b
 Style 48
 样式 48
+Style 48b
+样式 48b
 Style 49
 样式 49
 Style 50
@@ -1198,6 +1238,8 @@ Style 52
 样式 52
 Style 52b
 样式 52b
+Style 53
+样式 53
 Facial Hair
 胡子
 Goatee
@@ -1226,14 +1268,18 @@ Style 19b
 样式 19b
 Style 20b
 样式 20b
-Style 53
-样式 53
 Style 54
 样式 54
+Style 54b
+样式 54b
 Style 55
 样式 55
+Style 55b
+样式 55b
 Style 56
 样式 56
+Style 56b
+样式 56b
 Style 57
 样式 57
 Style 57b
@@ -1440,6 +1486,8 @@ Flat Chastity Cage
 平板贞操笼
  Inflatable Vibrating Panties
 充气振动内裤
+Chastity Pouch
+贞操包囊
 Clitoris
 阴蒂
 Straight Clitoris Piercing
@@ -1602,6 +1650,8 @@ High Security Harness
 裆链
 Heavy Latex Corset
 重型乳胶束腰
+Classic Latex Corset
+经典乳胶束腰
 Thin Leather Straps
 细皮革束带
 Locking Swimsuit
@@ -2616,6 +2666,8 @@ High Thigh Boots
 高筒靴
 Monoheel
 单跟靴
+Short Pony Boots
+短小马靴
 Script
 脚本
 Eye Shadow
