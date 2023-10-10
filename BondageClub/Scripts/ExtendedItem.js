@@ -556,9 +556,12 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 	}
 	const currentLockedBy = InventoryGetItemProperty(Item, "LockedBy");
 
+	// If we're dealing with simple characters (e.g. `CraftingPreview`) then a number of checks should be disabled
+	const isPreviewChar = C.IsSimple();
+
 	if (newOption.Name === previousOption.Name && !permitExisting) {
 		return newOption.HasSubscreen ? "" : DialogFindPlayer("AlreadySet");
-	} else if (!canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
+	} else if (!isPreviewChar && !canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)
 		return DialogFindPlayer("CantChangeWhileLocked");
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true)) {
@@ -567,7 +570,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return DialogFindPlayer("ExtendedItemUnlockBeforeChange");
-	} else if (newOption.OptionType === "ExtendedItemOption" && CurrentScreen === "Crafting") {
+	} else if (newOption.OptionType === "ExtendedItemOption" && isPreviewChar) {
 		// Disable things like the shock button while modifying the crafting preview character
 		return DialogFindPlayer("ExtendedItemNoCraftingScreen");
 	}
