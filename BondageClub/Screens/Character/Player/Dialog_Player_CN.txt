@@ -108,7 +108,7 @@
 (启动淫靡地城)
 ###_NPC
 (The helmet chimes as Kinky Dungeon starts up)
-(淫靡地城启动的时候，头盔叮铃作响)
+(淫靡地城启动的时候，头盔轻轻嗡鸣)
 ###_PLAYER
 (Play Kinky Dungeon)
 (玩淫靡地城)
@@ -4030,7 +4030,7 @@ Bad Girl
 Bind Me
 绑我
 Bitch
-娼妇
+母狗
 Boobs
 胸部
 Cupcake
@@ -4062,7 +4062,7 @@ Meat
 Miss
 女士
 Needy
-贪心
+盛欲
 Nice
 愉快
 Owned
@@ -4070,7 +4070,7 @@ Owned
 Precious
 珍贵
 Pudding
-果冻
+布丁
 Queen
 女王
 Slave

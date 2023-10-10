@@ -67,7 +67,7 @@ Loose
 Decoy
 诱饵
 Malleable
-柔韧
+易塑
 Rigid
 坚硬
 Simple
@@ -81,7 +81,7 @@ Comfy
 Strong
 强力
 Flexible
-柔韧
+柔软
 Nimble
 灵敏
 Arousing
