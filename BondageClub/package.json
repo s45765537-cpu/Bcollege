@@ -5,7 +5,7 @@
 	"scripts": {
 		"changelog:generate": "cd Tools/Node && node GenerateChangelog generate",
 		"changelog:prepare": "cd Tools/Node && node GenerateChangelog prepare",
-		"checks": "npm run assets:lint -- --max-warnings 0 && npm run assets:typecheck && npm run assets:check && npm run scripts:lint",
+		"checks": "npm run files:case && npm run assets:lint -- --max-warnings 0 && npm run assets:typecheck && npm run assets:check && npm run scripts:lint",
 		"assets:clean": "gulp --gulpfile Tools/Node/gulpfile.js clean",
 		"assets:minify": "gulp --gulpfile Tools/Node/gulpfile.js assetMinify --max-old-space-size=8192",
 		"assets:lint": "eslint Assets/Female3DCG/Female3DCG.js Assets/Female3DCG/Female3DCGExtended.js",
@@ -15,6 +15,7 @@
 		"scripts:lint": "eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:typecheck": "cd ../ && tsc -p BondageClub/jsconfig.json",
+		"files:case": "(! (git ls-files | sort -f | uniq -D -i | grep --color=never . )) && echo 'Ok'",
 		"test": "echo \\\"Error: no test specified\\\" && exit 1"
 	},
 	"repository": {
