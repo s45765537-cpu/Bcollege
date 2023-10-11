@@ -1836,17 +1836,17 @@ function PreferenceSubscreenAudioClick() {
 		if (MouseX <= 625) {
 			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeList.length + PreferenceSettingsMusicVolumeIndex - 1) % PreferenceSettingsVolumeList.length;
 		} else {
-			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeIndex + 1) % PreferenceSettingsVolumeList.length;
+			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsMusicVolumeIndex + 1) % PreferenceSettingsVolumeList.length;
 		}
 		Player.AudioSettings.MusicVolume = PreferenceSettingsVolumeList[PreferenceSettingsMusicVolumeIndex];
 	}
 
 	// Individual audio check-boxes
 	if (MouseXIn(500, 64)) {
-		if (MouseYIn(272, 64)) Player.AudioSettings.PlayBeeps = !Player.AudioSettings.PlayBeeps;
-		if (MouseYIn(352, 64)) Player.AudioSettings.PlayItem = !Player.AudioSettings.PlayItem;
-		if (MouseYIn(432, 64)) Player.AudioSettings.PlayItemPlayerOnly = !Player.AudioSettings.PlayItemPlayerOnly;
-		if (MouseYIn(512, 64)) Player.AudioSettings.Notifications = !Player.AudioSettings.Notifications;
+		if (MouseYIn(352, 64)) Player.AudioSettings.PlayBeeps = !Player.AudioSettings.PlayBeeps;
+		if (MouseYIn(432, 64)) Player.AudioSettings.PlayItem = !Player.AudioSettings.PlayItem;
+		if (MouseYIn(512, 64)) Player.AudioSettings.PlayItemPlayerOnly = !Player.AudioSettings.PlayItemPlayerOnly;
+		if (MouseYIn(592, 64)) Player.AudioSettings.Notifications = !Player.AudioSettings.Notifications;
 	}
 }
 
