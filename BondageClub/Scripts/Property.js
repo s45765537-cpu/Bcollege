@@ -216,6 +216,13 @@ function PropertyShockPublishAction(C=null, Item=DialogFocusItem, Automatic=fals
 let PropertyAutoPunishHandled = new Set();
 
 /**
+ * A set with the names of all activities as performed by the player.
+ * Functions as a cache for {@link PropertyPunishActivityCheck} and can be automatically emptied out by the latter.
+ * @type {Set<ActivityName>}
+ */
+let PropertyPunishActivityCache = new Set();
+
+/**
  * A list of keywords that can trigger automatic punishment when included in `/me`- or `*`-based messages
  * @type {readonly string[]}
  */
@@ -319,6 +326,29 @@ function PropertyAutoPunishDetectSpeech(Item, LastMessageLen=null) {
 
 	const msg = ChatRoomLastMessage[ChatRoomLastMessage.length - 1];
 	return PropertyAutoPunishParseMessage(Item.Property.AutoPunish, msg);
+}
+
+/**
+ * Check if the player character has performed one or more of the passed activities ever since the last {@link PropertyPunishActivityNames} refresh.
+ * @param {null | ActivityName | readonly ActivityName[]} name - The name(s) of the activity to check. If `null`, check if any activity at all is present
+ * @param {boolean} clearCache - Whether to automatically remove `name` from the {@link PropertyPunishActivityNames} cache.
+ * `name == null` implies that all entries should be removed.
+ * @returns {boolean}
+ */
+function PropertyPunishActivityCheck(name=null, clearCache=true) {
+	/** @type {boolean} */
+	let punish;
+	if (typeof name === "string") {
+		punish = PropertyPunishActivityCache.has(name);
+		if (clearCache) { PropertyPunishActivityCache.delete(name); }
+	} else if (CommonIsArray(name)) {
+		punish = name.some(PropertyPunishActivityCache.has);
+		if (clearCache) { name.forEach(PropertyPunishActivityCache.delete); }
+	} else {
+		punish = PropertyPunishActivityCache.size > 0;
+		if (clearCache) { PropertyPunishActivityCache.clear(); }
+	}
+	return punish;
 }
 
 /**

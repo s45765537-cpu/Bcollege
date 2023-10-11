@@ -888,6 +888,9 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 			PropertyAutoPunishHandled = new Set();
 		}
 	}
+	if (actor.IsPlayer()) {
+		PropertyPunishActivityCache.add(Activity.Name);
+	}
 
 	// If the player does the activity on someone else, we calculate the progress for the player right away
 	ActivityRunSelf(actor, acted, Activity, group, UsedAsset);
