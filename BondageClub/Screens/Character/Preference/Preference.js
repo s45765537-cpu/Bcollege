@@ -37,6 +37,7 @@ var PreferenceSettingsVolumeList = [1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8
 var PreferenceSettingsSensitivityList = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 var PreferenceSettingsDeadZoneList = [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 var PreferenceSettingsVolumeIndex = 0;
+var PreferenceSettingsMusicVolumeIndex = 0;
 var PreferenceSettingsSensitivityIndex = 13;
 var PreferenceSettingsDeadZoneIndex = 1;
 /** @type {ArousalActiveName[]} */
@@ -446,6 +447,7 @@ function PreferenceInitPlayer() {
 	// @ts-ignore: Individual properties validated separately
 	if (!C.AudioSettings) C.AudioSettings = {};
 	if (typeof C.AudioSettings.Volume !== "number") C.AudioSettings.Volume = 1;
+	if (typeof C.AudioSettings.MusicVolume !== "number") C.AudioSettings.MusicVolume = 1;
 	if (typeof C.AudioSettings.PlayBeeps !== "boolean") C.AudioSettings.PlayBeeps = false;
 	if (typeof C.AudioSettings.PlayItem !== "boolean") C.AudioSettings.PlayItem = false;
 	if (typeof C.AudioSettings.PlayItemPlayerOnly !== "boolean") C.AudioSettings.PlayItemPlayerOnly = false;
@@ -753,6 +755,7 @@ function PreferenceLoad() {
 	PreferenceChatFontSizeIndex = (PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize)) < 0 ? 1 : PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize);
 	PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog) < 0) ? 0 : PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog);
 	PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.Volume);
+	PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume) < 0) ? 0 : PreferenceSettingsVolumeList.indexOf(Player.AudioSettings.MusicVolume);
 	PreferenceArousalActiveIndex = (PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active) < 0) ? 0 : PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active);
 	PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX) < 0) ? 0 : PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX);
 	PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator) < 0) ? 0 : PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator);
@@ -1234,14 +1237,21 @@ function PreferenceSubscreenAudioRun() {
 	MainCanvas.textAlign = "left";
 	DrawText(TextGet("AudioPreferences"), 500, 125, "Black", "Gray");
 	DrawText(TextGet("AudioVolume"), 800, 225, "Black", "Gray");
-	DrawCheckbox(500, 272, 64, 64, TextGet("AudioPlayBeeps"), Player.AudioSettings.PlayBeeps);
-	DrawCheckbox(500, 352, 64, 64, TextGet("AudioPlayItem"), Player.AudioSettings.PlayItem);
-	DrawCheckbox(500, 432, 64, 64, TextGet("AudioPlayItemPlayerOnly"), Player.AudioSettings.PlayItemPlayerOnly);
-	DrawCheckbox(500, 512, 64, 64, TextGet("AudioNotifications"), Player.AudioSettings.Notifications);
 	MainCanvas.textAlign = "center";
 	DrawBackNextButton(500, 193, 250, 64, Player.AudioSettings.Volume * 100 + "%", "White", "",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsVolumeIndex + PreferenceSettingsVolumeList.length - 1) % PreferenceSettingsVolumeList.length] * 100 + "%",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsVolumeIndex + 1) % PreferenceSettingsVolumeList.length] * 100 + "%");
+	MainCanvas.textAlign = "left";
+	DrawText(TextGet("MusicVolume"), 800, 310, "Black", "Gray");
+	MainCanvas.textAlign = "center";
+	DrawBackNextButton(500, 272, 250, 64, Player.AudioSettings.MusicVolume * 100 + "%", "White", "",
+		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + PreferenceSettingsVolumeList.length - 1) % PreferenceSettingsVolumeList.length] * 100 + "%",
+		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + 1) % PreferenceSettingsVolumeList.length] * 100 + "%");
+	MainCanvas.textAlign = "left";
+	DrawCheckbox(500, 352, 64, 64, TextGet("AudioPlayBeeps"), Player.AudioSettings.PlayBeeps);
+	DrawCheckbox(500, 432, 64, 64, TextGet("AudioPlayItem"), Player.AudioSettings.PlayItem);
+	DrawCheckbox(500, 512, 64, 64, TextGet("AudioPlayItemPlayerOnly"), Player.AudioSettings.PlayItemPlayerOnly);
+	DrawCheckbox(500, 592, 64, 64, TextGet("AudioNotifications"), Player.AudioSettings.Notifications);
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 }
 
@@ -1821,6 +1831,16 @@ function PreferenceSubscreenAudioClick() {
 		if (MouseX <= 625) PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeList.length + PreferenceSettingsVolumeIndex - 1) % PreferenceSettingsVolumeList.length;
 		else PreferenceSettingsVolumeIndex = (PreferenceSettingsVolumeIndex + 1) % PreferenceSettingsVolumeList.length;
 		Player.AudioSettings.Volume = PreferenceSettingsVolumeList[PreferenceSettingsVolumeIndex];
+	}
+
+	// Music volume increase/decrease control
+	if (MouseIn(500, 272, 250, 64)) {
+		if (MouseX <= 625) {
+			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeList.length + PreferenceSettingsMusicVolumeIndex - 1) % PreferenceSettingsVolumeList.length;
+		} else {
+			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsVolumeIndex + 1) % PreferenceSettingsVolumeList.length;
+		}
+		Player.AudioSettings.MusicVolume = PreferenceSettingsVolumeList[PreferenceSettingsMusicVolumeIndex];
 	}
 
 	// Individual audio check-boxes

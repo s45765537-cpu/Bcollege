@@ -2684,7 +2684,7 @@ function PlatformBackgroundMusic(Music) {
 	}
 
 	// If volume is more than zero, we start the background music at lower volume
-	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	const vol = (Player.AudioSettings.MusicVolume == null) ? 100 : Player.AudioSettings.MusicVolume;
 	if (vol > 0) {
 		if (PlatformMusic == null) PlatformMusic = new Audio();
 		let FileName = "Screens/Room/Platform/Audio/Background/" + Music + ".mp3";
