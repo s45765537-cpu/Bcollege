@@ -1541,7 +1541,6 @@ interface PlayerCharacter extends Character {
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
 		AllowTints: boolean;
-		ShowRoomCustomization: number; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	};
 	LastChatRoom?: string;
 	LastChatRoomBG?: string;
@@ -1629,6 +1628,7 @@ interface PlayerOnlineSettings {
 	SendStatus?: boolean;
 	ShowStatus?: boolean;
 	EnableAfkTimer: boolean;
+	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 }
 
 /** Pandora Player extension */

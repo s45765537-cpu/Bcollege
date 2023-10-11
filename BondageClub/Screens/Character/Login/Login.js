@@ -821,7 +821,7 @@ function LoginResponse(C) {
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
 			AsylumGGTSSAddItems();
-			ChatRoomCustomized = ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 2));
+			ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {
