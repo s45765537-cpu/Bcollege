@@ -1229,7 +1229,7 @@ function CommonURLHasExtension(TestURL, Extension) {
 				return true;
 	} catch (err) {
 		let FormatUrl = TestURL.trim().toLowerCase();
-		if ((FormatUrl.startsWith("screens/")) || (FormatUrl.startsWith("backgrounds/"))) 
+		if ((FormatUrl.startsWith("screens/")) || (FormatUrl.startsWith("backgrounds/")))
 			for (let Ext of Extension)
 				if (FormatUrl.endsWith(Ext))
 					return true;
