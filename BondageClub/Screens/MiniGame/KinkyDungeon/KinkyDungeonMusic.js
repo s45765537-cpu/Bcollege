@@ -73,7 +73,7 @@ function KDUpdateMusic() {
 		}
 
 		if (KDCurrentMusicSound) {
-			KDCurrentMusicSound.volume = Math.min(Player.AudioSettings.Volume * globalVolume, 1) * KDCurrentFade;
+			KDCurrentMusicSound.volume = Math.min(Player.AudioSettings.MusicVolume * globalVolume, 1) * KDCurrentFade;
 		}
 
 		lastKDMusicTick = performance.now();
@@ -86,7 +86,7 @@ function KDPlayMusic(Sound, Volume) {
 
 	// Start the new sound
 	let audio = KDCurrentMusicSound || new Audio();
-	let vol = Player.AudioSettings.Volume * (Volume != undefined ? Volume : 1.0);
+	let vol = Player.AudioSettings.MusicVolume * (Volume != undefined ? Volume : 1.0);
 	KDCurrentMusicSound = audio;
 	KDCurrentMusicSoundUpdate = true;
 	if (KDPatched) {

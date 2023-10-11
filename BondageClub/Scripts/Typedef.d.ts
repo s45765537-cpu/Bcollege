@@ -1499,6 +1499,7 @@ interface PlayerCharacter extends Character {
 	};
 	AudioSettings?: {
 		Volume: number;
+		MusicVolume: number;
 		PlayBeeps: boolean;
 		/** Play items sounds in chatrooms */
 		PlayItem: boolean;
