@@ -38,7 +38,7 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 	}
 
 	// Only allows .mp3 and .mp4 files for now
-	if (!Music.trim().toLowerCase().endsWith(".mp3") && !Music.trim().toLowerCase().endsWith(".mp4")) {
+	if (!CommonURLHasExtension(Music, [".mp3", ".mp4"])) {
 		if ((ChatAdminRoomCustomizationMusic != null) && !ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.pause();
 		return;
 	}
@@ -86,7 +86,7 @@ function ChatAdminRoomCustomizationProcess(Custom, Draw) {
 
 		// Only allows .jpg and .png files for now
 		let URL = Custom.ImageURL.trim();
-		if (URL.toLowerCase().endsWith(".jpg") || URL.trim().toLowerCase().endsWith(".jpeg") || URL.trim().toLowerCase().endsWith(".png")) {
+		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png"])) {
 			if (Draw) DrawImageResize(URL, 0, 0, 2000, 1000);
 			else ChatRoomCustomBackground = URL;
 		}
@@ -135,12 +135,12 @@ function ChatAdminRoomCustomizationRun() {
 function ChatAdminRoomCustomizationClick() {
 
 	// TO DO : REMOVE
-	if (MouseIn(1800, 800, 200, 200)) {
+	/*if (MouseIn(1800, 800, 200, 200)) {
 		ElementValue("InputImageURL", "https://bondageprojects.com/images/school.jpg");
 		ElementValue("InputImageURL", "Screens/Room/Platform/Background/Savannah/TentInterior.jpg");
 		ElementValue("InputImageFilter", "#00008080");
 		ElementValue("InputMusicURL", "https://bondageprojects.com/music/relax.mp3");
-	}
+	}*/
 
 	// Can show a preview right away in the screen
 	if (MouseIn(425, 840, 250, 65)) {

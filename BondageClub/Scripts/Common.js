@@ -1211,3 +1211,28 @@ function* CommonEnumerate(iterable, start=0, step=1) {
 function CommonClamp(value, min, max) {
 	return Math.max(min, Math.min(max, value));
 }
+
+/**
+ * Returns TRUE if the URL is valid, is from http or https or screens/ or backgrounds/ and has the required extension
+ * @param {string} TestURL - The URL to test
+ * @param {array} Extension - An array containing the valid extensions
+ * @returns {boolean}
+*/
+function CommonURLHasExtension(TestURL, Extension) {
+	if ((TestURL == null) || (typeof TestURL !== "string") || (Extension == null) || !CommonIsArray(Extension)) return false;
+	try {
+		const Url = new URL(TestURL);
+		if ((Url.protocol !== 'http:') && (Url.protocol !== 'https:')) return false;
+		let FormatUrl = Url.pathname.trim().toLowerCase();
+		for (let Ext of Extension)
+			if (FormatUrl.endsWith(Ext))
+				return true;
+	} catch (err) {
+		let FormatUrl = TestURL.trim().toLowerCase();
+		if ((FormatUrl.startsWith("screens/")) || (FormatUrl.startsWith("backgrounds/"))) 
+			for (let Ext of Extension)
+				if (FormatUrl.endsWith(Ext))
+					return true;
+	}
+	return false;
+}
