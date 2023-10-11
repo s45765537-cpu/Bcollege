@@ -108,7 +108,7 @@
 (启动淫靡地城)
 ###_NPC
 (The helmet chimes as Kinky Dungeon starts up)
-(淫靡地城启动的时候，头盔叮铃作响)
+(淫靡地城启动的时候，头盔轻轻嗡鸣)
 ###_PLAYER
 (Play Kinky Dungeon)
 (玩淫靡地城)
@@ -2749,8 +2749,18 @@ BPM
 心率
 Select shock intensity
 选择电击强度
+Disable
+关闭
 High
 高
+Forbidden Orgasm
+禁止高潮
+Forbidden Stand Up
+禁止站起
+Forbidden Struggle
+禁止挣扎
+SourceCharacter disables DestinationCharacter AssetName shock module.
+SourceCharacter将DestinationCharacterAssetName的电击模块关闭。
 SourceCharacter sets DestinationCharacter AssetName to low intensity.
 SourceCharacter将DestinationCharacterAssetName设置为低强度。
 SourceCharacter sets DestinationCharacter AssetName to moderate intensity.
@@ -4030,7 +4040,7 @@ Bad Girl
 Bind Me
 绑我
 Bitch
-娼妇
+母狗
 Boobs
 胸部
 Cupcake
@@ -4062,7 +4072,7 @@ Meat
 Miss
 女士
 Needy
-贪心
+盛欲
 Nice
 愉快
 Owned
@@ -4070,7 +4080,7 @@ Owned
 Precious
 珍贵
 Pudding
-果冻
+布丁
 Queen
 女王
 Slave
@@ -5988,7 +5998,7 @@ SourceCharacter在DestinationCharacter缰绳口塞上添加了装饰旗帜。
 Select Top Accessory
 选择顶部配饰
 Top
-头顶
+上部
 Plume
 羽饰
 Mane Left
@@ -6452,9 +6462,9 @@ SourceCharacter将DestinationCharacter幸运轮盘的箭头改为肛塞造型。
 Choose the wheel's position
 选择轮盘的位置
 Front
-前方
+前部
 Back
-背后
+后部
 SourceCharacter places TargetCharacter behind the wheel.
 SourceCharacter将TargetCharacter放置在轮盘后。
 SourceCharacter moves TargetCharacter in front of the wheel.
@@ -6845,6 +6855,32 @@ SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 SourceCharacter改变了DestinationCharacter泳帽开口。
 Back Opening
 后开口
+Bandana
+大头巾
+Choose Bandana Style
+选择大头巾样式
+SourceCharacter adds a bandana to DestinationCharacter AssetName.
+SourceCharacter在DestinationCharacterAssetName添加了大头巾。
+SourceCharacter removes the bandana from DestinationCharacter AssetName.
+SourceCharacter在DestinationCharacterAssetName移除了大头巾。
+Logo
+标志
+Choose Logo Style
+选择标志样式
+Skull and Bones
+头颅和骨骼
+SourceCharacter adds a skull and bones logo to DestinationCharacter AssetName.
+SourceCharacter在DestinationCharacterAssetName添加了一个头颅和骨骼标志。
+SourceCharacter adds a kinky logo to DestinationCharacter AssetName.
+SourceCharacter在DestinationCharacterAssetName添加了一个恋物标志。
+SourceCharacter removes the logo from DestinationCharacter AssetName.
+SourceCharacter从DestinationCharacterAssetName移除了标志。
+Choose Feathers
+选择羽毛
+SourceCharacter adds a feather to DestinationCharacter AssetName.
+SourceCharacter在DestinationCharacterAssetName添加了一根羽毛。
+SourceCharacter removes a feather from DestinationCharacter AssetName.
+SourceCharacter从DestinationCharacterAssetName移除了羽毛。
 Choose Restriction
 选择限制
 Choose Lenses
@@ -6999,6 +7035,18 @@ The rear chastity shield on DestinationCharacterName AssetName closes.
 DestinationCharacterNameAssetName上后面的贞操护盾关闭了。
 The front and rear chastity shields on DestinationCharacterName AssetName close.
 DestinationCharacterNameAssetName上前后的贞操护盾关闭了。
+Select Shock Module
+选择电击模块
+SourceCharacter sets DestinationCharacter AssetName to open all crotch shields.
+SourceCharacter将DestinationCharacterAssetName设置为打开所有胯部护盾。
+SourceCharacter sets DestinationCharacter AssetName to close front crotch shield.
+SourceCharacter将DestinationCharacterAssetName设置为关闭前部胯部护盾。
+SourceCharacter sets DestinationCharacter AssetName to close rear crotch shield.
+SourceCharacter将DestinationCharacterAssetName设置为关闭后部胯部护盾。
+SourceCharacter sets DestinationCharacter AssetName to close all crotch shields.
+SourceCharacter将DestinationCharacterAssetName设置为关闭所有胯部护盾。
+SourceCharacter sets DestinationCharacter AssetName to medium intensity.
+SourceCharacter将DestinationCharacterAssetName设置为中等强度。
 Boot Options
 靴子选项
 No Boot
@@ -7179,3 +7227,25 @@ SourceCharacter changes the fluids on DestinationCharacterName behind.
 SourceCharacter改变了AssetName里的DestinationCharacterName后面的液体。
 SourceCharacter changes DestinationCharacterName portrait on the AssetName.
 SourceCharacter改变了AssetName里的DestinationCharacterName人像形式。
+Select AssetName Options
+选择AssetName选项
+Select Sleeves
+选择袖子
+Select Top
+选择上衣
+No Sleeves
+没有袖子
+Full Top
+完整上衣
+Crop Top
+露腹上衣
+SourceCharacter attaches sleeves to DestinationCharacterName AssetName.
+SourceCharacter在DestinationCharacterNameAssetName加上了袖子。
+SourceCharacter detaches the sleeves of DestinationCharacterName AssetName.
+SourceCharacter在DestinationCharacterNameAssetName移除了袖子。
+SourceCharacter switches to DestinationCharacterName AssetName to a full shirt.
+SourceCharacter将DestinationCharacterNameAssetName改为完整上衣。
+SourceCharacter switches to DestinationCharacterName AssetName to a crop top.
+SourceCharacter将DestinationCharacterNameAssetName改为露腹上衣。
+Select Large Belt Width.
+选择大皮带宽度
