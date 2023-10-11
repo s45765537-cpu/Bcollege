@@ -11,9 +11,60 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-09-15
-* Last recorded PR: [#4467](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4467)
-* Last recorded commit hash: `942a8ed98f86042559b6a8fe1588e4b36537a561`
+* Changelog last updated: 2023-10-10
+* Last recorded PR: [#4506](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4506)
+* Last recorded commit hash: `59efa705dac3a832e12f4751101812a25dbdb2b4`
+
+## [R97]
+
+### [Added]
+* KyraObscura - Added 19 new hairstyles ([#4474](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4474))
+* Rama - Added the pirate hat by Toshiro ([#4476](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4476))
+* Rama - Added the chastity pouch and cock sock by Toshiro ([#4477](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4477))
+* Estsanatlehi - Wired cupcakes in the cafe, giving a lockpicking & willpower boost ([#4480](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4480))
+* Rama - Added the fishnet top by Toshiro ([#4490](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4490))
+* Cleon - Added Vinyl Socks, Knee Pads (as Socks) and Short Pony Boots (as Boots item) ([#4493](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4493))
+* Cleon - Added Large Belt "fit" option, with minor fixes to Knee Pads. ([#4497](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4497))
+* Constantan - Added a new Classic Latex Corset ([#4505](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4505))
+* Ben987 - Added support for custom background & music to chat rooms
+* Ben987 - Added more voiced dialogs to Bondage Brawl
+
+### [Changed]
+* Estsanatlehi - Made the login, reset & register forms support autocompletion ([#4483](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4483))
+* Cleon - Made several adjustments to the Duty Shoes, Social Heels, and added their missing spread pose assets. ([#4488](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4488))
+* Rama - Removed the unused `HeartIcon` item property ([#4499](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4499))
+* Ben987 - Changed Tennis to allow playing with Sport Sneakers
+* MAKeevchanin - Updated the Russian translation
+
+### [Removed]
+* Rama - Removed support for manually setting the type-strings of crafted extended items ([#4501](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4501))
+
+### [Fixed]
+* kotax - Changed brainwashing to require 5+ Infiltration, shortened its delay to 1 day, and fixed naked Pandora slaves not being recruitable ([#4464](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4464))
+* kotax - Fixed the check that cause the Pandora entrance maid to ignore kidnapped Mistresses wearing hoods ([#4466](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4466))
+* Rama - Fixed the crafting validation sometimes looking up the wrong asset ([#4475](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4475))
+* Rama - Fixed a bunch issues related to the forbidden chastity belt and bra ([#4478](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4478))
+* Estsanatlehi - Fixed the skill modifiers being able to get out of sync in the cafe ([#4479](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4479))
+* Rama - Fixed the `Effect`-validation removing certain wooden crate and futuristic training belt effects ([#4481](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4481))
+* EllieThePink - Fixed a missing message defeat message in the online Club Card game ([#4487](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4487))
+* Estsanatlehi - Fixed facial expression changes causing two appearance updates ([#4496](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4496))
+* Rama - Fixed a double character refresh in `CharacterAppearanceSetItem` ([#4498](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4498))
+* Rama - Fixed another slave collar null-property initialization ([#4500](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4500))
+* Estsanatlehi - Changed the nurse player's removed item to be handhelds, not hands ([#4506](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4506))
+* Ben987 - Added name & description length validation to crafts
+* Ben987 - Fixed an issue with broken dialogs in the Slave Market
+* Ben987 - Fixed a bug with being able to navigate to invalid pages when crafting
+
+### [Technical]
+* Estsanatlehi - Separated and document the shared Group/Asset/Layer properties ([#4469](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4469))
+* Estsanatlehi - Removed casing duplicates ([#4484](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4484))
+* Rama - Refactored and deduplicated the forbidden chastity belt/bra code ([#4486](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4486))
+* Estsanatlehi - Implemented strict-typing on the socket.io messages ([#4194](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4194))
+* Rama - Changed the `Asset`, `AssetGroup` and `AssetLayer` interfaces to be typed as readonly ([#4489](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4489))
+* Rama - Gave `Init` and `SetOption` tighter control over character refreshing ([#4491](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4491))
+* Rama - Documented the different behaviors of various server synchronization functions ([#4495](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4495))
+* Rama - Made CI ensure that default extended item prerequisites are a subset of asset-level prerequisites ([#4502](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4502))
+
 
 ## [R96]
 
@@ -58,6 +109,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fixed missing dialogs on the GGTS helmet
 * Estsanatlehi - Fixed the wristbands not having a configuration screen
 
+### [Hotfixes]
+* Estsanatlehi - Fixed a skill ratio of 0 being ignored entirely ([#4470](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4470))
+* Estsanatlehi - Reverted to the simpler regex for name splitting to fix a Safari bug ([#4471](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4471))
+* Estsanatlehi - Fixed the loosen minigame not loosening anymore ([#4472](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4472))
+* Estsanatlehi - Fixed the the skill progress not being shown as a percent anymore ([#4473](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4473))
 
 ## [R95]
 
