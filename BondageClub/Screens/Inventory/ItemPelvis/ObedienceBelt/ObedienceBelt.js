@@ -69,7 +69,7 @@ function InventoryObedienceBeltCheckPunish(Item, C) {
 		// Punish the player if they stand up
 		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
-	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 10 || StruggleLockPickProgressCurrentTries > 0)) {
+	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
 		// Punish the player if they Struggle
 		return "Struggle";
 	}
