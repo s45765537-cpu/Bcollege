@@ -129,10 +129,11 @@ BlockGaggedOOC,Prevent OOC & whispers while gagged
 BlindAdjacent,Hide non-adjacent players while partially blind
 StimulationEvents,Events while plugged or vibed
 ChatRoomMuffle,Garble chat room names and descriptions while blind
-RoomCustomizationLevel0,"Never use room customization, no button"
-RoomCustomizationLevel1,Don't use room customization by default
-RoomCustomizationLevel2,Use room customization by default
-RoomCustomizationLevel3,"Always use room customization, no button"
+RoomCustomizationLabel,Room customization:
+RoomCustomizationLevel0,Never
+RoomCustomizationLevel1,Disabled by default
+RoomCustomizationLevel2,Enabled by default
+RoomCustomizationLevel3,Always
 SensDepSetting,Sensory deprivation setting
 SensDepLight,Light
 SensDepNames,Hide names

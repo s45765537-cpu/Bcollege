@@ -511,7 +511,6 @@ function PreferenceInitPlayer() {
 	if (typeof C.ImmersionSettings.ChatRoomMuffle !== "boolean") C.ImmersionSettings.ChatRoomMuffle = false;
 	if (typeof C.ImmersionSettings.BlindAdjacent !== "boolean") C.ImmersionSettings.BlindAdjacent = false;
 	if (typeof C.ImmersionSettings.AllowTints !== "boolean") C.ImmersionSettings.AllowTints = true;
-	if (typeof C.ImmersionSettings.ShowRoomCustomization !== "number") C.ImmersionSettings.ShowRoomCustomization = 1;
 
 	// Misc
 	if (typeof C.LastChatRoom !== "string") C.LastChatRoom = "";
@@ -581,6 +580,7 @@ function PreferenceInitPlayer() {
 			ScriptPermissions[property].permission = 0;
 		}
 	}
+	if (typeof C.OnlineSettings.ShowRoomCustomization !== "number") C.OnlineSettings.ShowRoomCustomization = 1;
 
 	// Graphical settings
 	// @ts-ignore: Individual properties validated separately
@@ -669,7 +669,6 @@ function PreferenceInitPlayer() {
 		C.ImmersionSettings.ChatRoomMuffle = true;
 		C.ImmersionSettings.BlindAdjacent = true;
 		C.ImmersionSettings.AllowTints = true;
-		C.ImmersionSettings.ShowRoomCustomization = 1;
 		C.OnlineSharedSettings.AllowPlayerLeashing = true;
 	}
 
@@ -1108,7 +1107,6 @@ function PreferenceSubscreenImmersionRun() {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
 		MainCanvas.textAlign = "center";
-		DrawButton(500, CheckHeight, 750, 64, TextGet("RoomCustomizationLevel" + Player.ImmersionSettings.ShowRoomCustomization.toString()), "White");
 	}
 
 }
@@ -1174,10 +1172,6 @@ function PreferenceSubscreenImmersionClick() {
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.AllowTints = !Player.ImmersionSettings.AllowTints;
 			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 750, 64)) {
-				Player.ImmersionSettings.ShowRoomCustomization++;
-				if (Player.ImmersionSettings.ShowRoomCustomization > 3) Player.ImmersionSettings.ShowRoomCustomization = 0;
-			}
 		}
 	}
 
@@ -1398,6 +1392,10 @@ function PreferenceSubscreenOnlineRun() {
 	DrawCheckbox(500, 735, 64, 64, TextGet("BlockBodyCosplay"), Player.OnlineSharedSettings.BlockBodyCosplay);
 	DrawCheckbox(1300, 172, 64, 64, TextGet("ShowStatus"), Player.OnlineSettings.ShowStatus);
 	DrawCheckbox(1300, 255, 64, 64, TextGet("SendStatus"), Player.OnlineSettings.SendStatus);
+	DrawText(TextGet("RoomCustomizationLabel"), 500, 840, "Black", "Gray");
+	MainCanvas.textAlign = "center";
+	DrawButton(850, 808, 350, 64, TextGet("RoomCustomizationLevel" + Player.OnlineSettings.ShowRoomCustomization.toString()), "White");
+	MainCanvas.textAlign = "left";
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 	DrawCharacter(Player, 50, 50, 0.9);
 	MainCanvas.textAlign = "center";
@@ -2002,6 +2000,10 @@ function PreferenceSubscreenOnlineClick() {
 	}
 	else if (MouseIn(500, 655, 64, 64)) OnlineSharedSettings.AllowFullWardrobeAccess = !OnlineSharedSettings.AllowFullWardrobeAccess;
 	else if (MouseIn(500, 735, 64, 64)) OnlineSharedSettings.BlockBodyCosplay = !OnlineSharedSettings.BlockBodyCosplay;
+	else if (MouseIn(850, 808, 350, 64)) {
+		Player.OnlineSettings.ShowRoomCustomization++;
+		if (Player.OnlineSettings.ShowRoomCustomization > 3) Player.OnlineSettings.ShowRoomCustomization = 0;
+	}
 	else if (MouseIn(1300, 175, 64, 64)) OnlineSettings.ShowStatus = !OnlineSettings.ShowStatus;
 	else if (MouseIn(1300, 255, 64, 64)) OnlineSettings.SendStatus = !OnlineSettings.SendStatus;
 }

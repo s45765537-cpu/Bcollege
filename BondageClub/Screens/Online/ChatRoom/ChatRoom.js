@@ -340,7 +340,7 @@ function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovership
  * Returns TRUE if the room customization button can be used
  * @returns {boolean} - TRUE if can be used
  */
-function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.ImmersionSettings == null) || (Player.ImmersionSettings.ShowRoomCustomization == null) || (Player.ImmersionSettings.ShowRoomCustomization == 1) || (Player.ImmersionSettings.ShowRoomCustomization == 2))); }
+function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.OnlineSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization == 1) || (Player.OnlineSettings.ShowRoomCustomization == 2))); }
 /**
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
@@ -1845,9 +1845,9 @@ function ChatRoomCustomizationClear() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationRun() {
-	if ((Player.ImmersionSettings != null) && (Player.ImmersionSettings.ShowRoomCustomization != null) && (Player.ImmersionSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
+	if ((Player.ImmersionSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
 	if (ChatRoomCustomized) {
-		if ((Player.ImmersionSettings == null) || (Player.ImmersionSettings.ShowRoomCustomization == null) || (Player.ImmersionSettings.ShowRoomCustomization >= 1)) {
+		if ((Player.ImmersionSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization >= 1)) {
 			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, false);
 		} else {
 			ChatRoomCustomized = false;
