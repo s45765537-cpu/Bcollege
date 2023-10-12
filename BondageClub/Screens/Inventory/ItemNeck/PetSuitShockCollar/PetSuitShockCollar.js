@@ -119,11 +119,11 @@ function InventoryPetSuitShockCollarCheckPunish(Item) {
 	const { PunishActivity, PunishStandup, PunishStruggle} = Item.Property;
 
 	if (PunishActivity && PropertyPunishActivityCheck("Bite")) {
-        // Punish the player if they Activity
-        return "Activity";
-    } else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
-        // Punish the player if they Activity
-        return "Activity";    
+		// Punish the player if they Activity
+		return "Activity";
+	} else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
+		// Punish the player if they Activity
+		return "Activity";
 	} else if (PunishStandup && FuturisticTrainingBeltStandUpFlag) {
 		// Punish the player if they stand up
 		FuturisticTrainingBeltStandUpFlag = false;
@@ -146,7 +146,7 @@ function AssetsItemNeckPetSuitShockCollarUpdate(data, LastTime) {
 	if (!Item.Property) return;
 
 	let punishment = InventoryPetSuitShockCollarCheckPunish(Item);
-		switch (punishment) {
+	switch (punishment) {
 		case "Activity":
 			PropertyShockPublishAction(C, Item, true);
 			break;
