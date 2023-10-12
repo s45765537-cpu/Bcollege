@@ -2235,13 +2235,8 @@ function DialogClick() {
 	}
 
 	// If the user clicked in the facial expression menu
-	if (MouseXIn(0, 500) && CurrentCharacter != null && CurrentCharacter.IsPlayer()) {
-		if (MouseIn(420, 50, 90, 90) && DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1)
-			DialogFindNextSubMenu();
-		if (!DialogSelfMenuSelected)
-			DialogClickExpressionMenu();
-		else
-			DialogSelfMenuSelected.Click();
+	if (MouseXIn(0, 500) && CurrentCharacter != null) {
+		DialogSelfMenuClick(CurrentCharacter);
 	}
 
 	if (DialogMenuMode === "dialog") {
@@ -2784,6 +2779,40 @@ function DialogDrawTopMenu(C) {
 }
 
 /**
+ * Draws the left menu for the character
+ * @param {Character} C - The currently focused character
+ */
+function DialogSelfMenuDraw(C) {
+	if (!C.IsPlayer()) return;
+
+	if (DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1 && !CommonPhotoMode)
+		DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", DialogFindPlayer("NextPage"));
+
+	if (!DialogSelfMenuSelected)
+		DialogDrawExpressionMenu();
+	else
+		DialogSelfMenuSelected.Draw();
+}
+
+/**
+ * Handles clicks on the left menu
+ * @param {Character} C - The currently focused character
+ */
+function DialogSelfMenuClick(C) {
+	if (!C.IsPlayer()) return;
+
+	if (MouseIn(420, 50, 90, 90) && DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1) {
+		DialogFindNextSubMenu();
+		return;
+	}
+
+	if (!DialogSelfMenuSelected)
+		DialogClickExpressionMenu();
+	else
+		DialogSelfMenuSelected.Click();
+}
+
+/**
  * Draws the initial Dialog screen.
  *
  * This is the main handler for drawing the Dialog UI, which activates
@@ -2815,16 +2844,7 @@ function DialogDraw() {
 	if (!C) return;
 	CharacterCheckHooks(C, true);
 
-	// Draw the menu for facial expressions if the player clicked on herself
-	if (CurrentCharacter.IsPlayer()) {
-		if (DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1 && !CommonPhotoMode)
-			DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", DialogFindPlayer("NextPage"));
-
-		if (!DialogSelfMenuSelected)
-			DialogDrawExpressionMenu();
-		else
-			DialogSelfMenuSelected.Draw();
-	}
+	DialogSelfMenuDraw(C);
 
 	if (DialogMenuMode === "dialog") {
 		// Draws the intro text or dialog result
