@@ -2421,6 +2421,8 @@ interface ItemPropertiesCustom {
 	PunishOrgasm?: boolean;
 	/** Whether standing up should result in punishment */
 	PunishStandup?: boolean;
+	/** Whether performing activities should result in punishment */
+	PunishActivity?: boolean;
 	/** The punishment for talking; represents an index of {@link FuturisticTrainingBeltSpeechPunishments} */
 	PunishSpeech?: 0 | 1 | 2 | 3;
 	/** The punishment for not speaking a required word; represents an index of {@link FuturisticTrainingBeltSpeechPunishments} */

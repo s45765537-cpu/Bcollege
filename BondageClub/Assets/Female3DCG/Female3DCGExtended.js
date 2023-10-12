@@ -2730,20 +2730,20 @@ var AssetFemale3DCGExtended = {
 		}, // AutoShockCollar
 		PetSuitShockCollar: {
 			Archetype: ExtendedArchetype.MODULAR,
-            ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME,],
-            DrawImages: false,
-            Modules: [
-                {   
-                	DrawImages: false,
-                    Name: "ShockModule", Key: "s",
-                    Options: [
-                        {}, // 0 - disabled
-                        { HasSubscreen: true }, // 1 - enabled
-                    ],
-                },
-            ],
-            ChangeWhenLocked: false,
-            BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishActivity: false, PunishStandup: false, PunishStruggle: false },
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME,],
+			DrawImages: false,
+			Modules: [
+				{
+					DrawImages: false,
+					Name: "ShockModule", Key: "s",
+					Options: [
+						{}, // 0 - disabled
+						{ HasSubscreen: true }, // 1 - enabled
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishActivity: false, PunishStandup: false, PunishStruggle: false },
 		}, // PetSuitShockCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {

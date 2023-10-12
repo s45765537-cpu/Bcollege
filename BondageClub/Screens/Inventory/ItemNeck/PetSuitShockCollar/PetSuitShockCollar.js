@@ -57,6 +57,12 @@ function InventoryItemNeckPetSuitShockCollars1Click() {
 		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
 	} else if (MouseIn(1100, 700, 64, 64)) {
 		DialogFocusItem.Property.PunishActivity = !DialogFocusItem.Property.PunishActivity;
+		if (DialogFocusItem.Property.PunishActivity) {
+			// Clear the activity cache of `Bite` and `Kick` activities to prevent retro-active punishments
+			PropertyPunishActivityCache.delete("Bite");
+			PropertyPunishActivityCache.delete("Kick");
+		}
+
 		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 		return;
 	} else if (MouseIn(1100, 770, 64, 64)) {
@@ -119,11 +125,11 @@ function InventoryPetSuitShockCollarCheckPunish(Item) {
 	const { PunishActivity, PunishStandup, PunishStruggle} = Item.Property;
 
 	if (PunishActivity && PropertyPunishActivityCheck("Bite")) {
-        // Punish the player if they Activity
-        return "Activity";
-    } else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
-        // Punish the player if they Activity
-        return "Activity";    
+		// Punish the player if they Activity
+		return "Activity";
+	} else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
+		// Punish the player if they Activity
+		return "Activity";
 	} else if (PunishStandup && FuturisticTrainingBeltStandUpFlag) {
 		// Punish the player if they stand up
 		FuturisticTrainingBeltStandUpFlag = false;
@@ -146,7 +152,7 @@ function AssetsItemNeckPetSuitShockCollarUpdate(data, LastTime) {
 	if (!Item.Property) return;
 
 	let punishment = InventoryPetSuitShockCollarCheckPunish(Item);
-		switch (punishment) {
+	switch (punishment) {
 		case "Activity":
 			PropertyShockPublishAction(C, Item, true);
 			break;
@@ -175,8 +181,14 @@ function AssetsItemNeckPetSuitShockCollarScriptDraw(data) {
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
 	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
 
-	if (typeof property.NextShockTime !== "number") property.NextShockTime = 0;
-	if (typeof property.Type !== "string") property.Type = "";
+	if (typeof property.NextShockTime !== "number") {
+		property.NextShockTime = 0;
+
+		// Extra cache clearing precaution (see `InventoryItemNeckPetSuitShockCollars1Click`) in case
+		// `PunishStandup` was not enabled via the UI (e.g. via equipping a preconfigured crafted extended item)
+		PropertyPunishActivityCache.delete("Bite");
+		PropertyPunishActivityCache.delete("Kick");
+	}
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
