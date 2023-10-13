@@ -119,7 +119,8 @@ function DrawGetImage(Source) {
 			DrawGetImageOnError(Img, IsAsset);
 		});
 
-		//Img.crossOrigin = "anonymous";
+		// For CORS access
+		Img.crossOrigin = "anonymous";
 		// Start loading
 		Img.src = Source;
 	}
@@ -149,6 +150,8 @@ function DrawGetImageOnError(Img, IsAsset) {
 	if (Img.errorcount < 3) {
 		// eslint-disable-next-line no-self-assign
 		Img.src = Img.src;
+		// On the third attempt, we try without the crossOrigin
+		if (Img.errorcount == 2) Img.crossOrigin = null;
 	} else {
 		// Load failed. Display the error in the console and mark it as done.
 		console.log("Error loading image " + Img.src);
