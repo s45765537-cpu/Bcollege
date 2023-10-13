@@ -4,6 +4,47 @@ var ChatAdminRoomCustomizationCurrent = null;
 var ChatAdminRoomCustomizationMusic = null;
 
 /**
+ * Changes a customiation value from a chat room command
+ * @param {string} Property - The custom property to change (Image, Filter or Music)
+ * @param {string} Value - The value to set in that property
+ * @returns {void} - Nothing
+ */
+function ChatAdminRoomCustomizationCommand(Property, Value) {
+
+	// Command type & value must be valid and player must be a room administrator
+	if ((Property == null) || (Value == null) || (typeof Value !== "string") || !ChatRoomPlayerIsAdmin()) return;
+	Value = Value.trim();
+
+	// Builds the custom object
+	let Custom = ChatRoomData.Custom;
+	if (Custom == null) Custom = { ImageURL: "", ImageFilter: "", MusicURL: "" };
+	if (Property == "Image") Custom.ImageURL = Value;
+	if (Property == "Filter") Custom.ImageFilter = Value;
+	if (Property == "Music") Custom.MusicURL = Value;
+	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = null;
+
+	// Prepares an object to update the room
+	var UpdatedRoom = {
+		Name: ChatRoomData.Name,
+		Language: ChatRoomData.Language,
+		Description: ChatRoomData.Description,
+		Background: ChatRoomData.Background,
+		Limit: ChatRoomData.Limit,
+		Admin: ChatRoomData.Admin,
+		Ban: ChatRoomData.Ban,
+		BlockCategory: ChatRoomData.BlockCategory,
+		Game: ChatRoomData.Game,
+		Private: ChatRoomData.Private,
+		Locked: ChatRoomData.Locked,
+		Custom: Custom
+	};
+
+	// Sends that objet to the server for everyone to refresh the room
+	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
+
+}
+
+/**
  * Loads the chat Admin Custom screen properties and creates the inputs
  * @returns {void} - Nothing
  */

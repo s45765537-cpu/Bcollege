@@ -593,5 +593,18 @@ const CommonCommands = [
 			if ((typeof MemberNumber == "number") && !isNaN(MemberNumber) && (MemberNumber >= 0))
 				ServerSend("AccountOwnership", { MemberNumber: MemberNumber, Action: "Release" });
 		},
-	}
+	},
+	{
+		Tag: "customimage",
+		Action: args => { ChatAdminRoomCustomizationCommand("Image", args); },
+	},
+	{
+		Tag: "customfilter",
+		Action: args => { ChatAdminRoomCustomizationCommand("Filter", args); },
+	},
+	{
+		Tag: "custommusic",
+		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
+	},
+
 ];

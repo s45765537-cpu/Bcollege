@@ -119,7 +119,7 @@ function DrawGetImage(Source) {
 			DrawGetImageOnError(Img, IsAsset);
 		});
 
-		Img.crossOrigin = "anonymous";
+		//Img.crossOrigin = "anonymous";
 		// Start loading
 		Img.src = Source;
 	}

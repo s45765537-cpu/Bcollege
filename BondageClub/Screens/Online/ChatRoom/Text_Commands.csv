@@ -34,3 +34,6 @@ whitelistremove,[MemberNumber]: Remove a player from your whitelist
 forbiddenwords,Display your forbidden words set by your owner
 wheel,Spin your Wheel of Fortune
 release,[MemberNumber]: Release a submissive from your ownership
+customimage,[URL]: Set the http address of the background jpg/png image to use
+customfilter,[Color]: Set the color code of the background filter (ex: #0000FF40)
+custommusic,[URL]: Set the http address of the background mp3/mp4 music to use
