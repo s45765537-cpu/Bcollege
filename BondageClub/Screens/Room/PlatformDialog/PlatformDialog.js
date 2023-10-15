@@ -1867,11 +1867,11 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Wait... didn't we walk on that path a few minutes ago?" },
-			{ Text: "Yes!  It's the exact same tree!  And the same rock!" },
-			{ Text: "How is that possible?  We followed the path.  Did we?" },
+			{ Text: "Wait... didn't we walk on that path a few minutes ago?", Audio: "10" },
+			{ Text: "Yes!  It's the exact same tree!  And the same rock!", Audio: "20" },
+			{ Text: "How is that possible?  We followed the path.  Did we?", Audio: "30" },
 			{
-				Text: "Where should we go?",
+				Text: "Where should we go?", Audio: "40",
 				Answer: [
 					{ Text: "Let's go straight on the path.", Reply: "(She nods as you walk together.)", Script: function() { PlatformLoadRoom("ForestBirchEast"); } },
 					{ Text: "Let's turn left here.", Reply: "(She nods as you walk together.)", Script: function() { PlatformLoadRoom("ForestBirchMaze"); }  },
@@ -1894,22 +1894,22 @@ var PlatformDialogData = [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }
 				]
 			},
-			{ Text: "Wait... didn't we walk on that path a few minutes ago?" },
-			{ Text: "Yes!  It's the exact same tree!  And the same rock!" },
-			{ Text: "How is that possible?  We followed the path.  Did we?" },
+			{ Text: "Wait... didn't we walk on that path a few minutes ago?", Audio: "10" },
+			{ Text: "Yes!  It's the exact same tree!  And the same rock!", Audio: "20" },
+			{ Text: "How is that possible?  We followed the path.  Did we?", Audio: "30" },
 			{
-				Text: "(Edlaran steps forward.)  Move over princess.",
+				Text: "(Edlaran steps forward.)  Move over princess.", Audio: "40",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleAngry" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "You could not find your way out of your own golden bathroom." },
+			{ Text: "You could not find your way out of your own golden bathroom.", Audio: "50" },
 			{ Text: "(She inspects the forest for a while.)" },
-			{ Text: "I see what's going on, this place is a clever maze." },
+			{ Text: "I see what's going on, this place is a clever maze.", Audio: "70" },
 			{
-				Text: "Let me guide the group.  I'll show you the way.",
+				Text: "Let me guide the group.  I'll show you the way.", Audio: "80",
 				Answer: [
 					{ Text: "Guide us Edlaran.", Script: function() { PlatformDialogStart("ForestTrap"); } },
 					{ Text: "I fully trust you Edlaran.", Domination: -1, Love: 1, Script: function() { PlatformDialogStart("ForestTrap"); } },
@@ -4337,6 +4337,9 @@ function PlatformDialogLeaderHasPerk(PerkName) {
  * @returns {void}
  */
 function PlatformDialogEvent() {
+
+	// Skip events if no player is loaded
+	if (PlatformPlayer == null) return;
 
 	// In the forest capture mode, Olivia is stuck half bound in a barn
 	if (PlatformEventDone("ForestCapture") && !PlatformEventDone("ForestCaptureEnd") && (PlatformPlayer.Name == "Olivia")) {

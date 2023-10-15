@@ -1797,6 +1797,7 @@ function PlatformPartyNext() {
  * @returns {void} - Nothing
  */
 function PlatformPartyActivate(CharacterName) {
+	PlatformPlayer.Name = "";
 	while (PlatformPlayer.Name != CharacterName)
 		PlatformPartyNext();
 }
@@ -3012,6 +3013,7 @@ function PlatformLoadGame(Slot) {
 	// Loads the current character
 	PlatformCreateCharacter(LoadObj.Character, LoadObj.Status, 1000);
 	PlatformPartyLoad();
+	PlatformDialogEvent();
 
 	// Loads the current room and launches it
 	PlatformLoadRoom(LoadObj.Room);
