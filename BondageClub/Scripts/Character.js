@@ -905,23 +905,29 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Checks whether the given character can change to the named pose unaided
+ * Checks whether the given character can change to the named pose (without aid by default)
  * @param {Character} C - The character to check
  * @param {AssetPoseName} poseName - The name of the pose to check for
+ * @param {boolean} changeUnaided - Whether the character can change the pose unaided or not,
+ * _i.e._ whether one can stand up using the pose menu or requires usage of the "kneel/stand up" button
  * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
  * the provided pose
  */
-function CharacterCanChangeToPose(C, poseName) {
+function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
 	const pose = PoseFemale3DCG.find(P => P.Name === poseName);
 	if (!pose) return false;
 	const poseCategory = pose.Category;
 	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
 
-	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
-	if (poseCategory !== "BodyLower") {
-		return true;
+	if (changeUnaided) {
+		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
+		if (poseCategory !== "BodyLower") {
+			return true;
+		} else {
+			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+		}
 	} else {
-		return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+		return true;
 	}
 }
 

@@ -291,7 +291,8 @@ function VibratorModeGetOptions(data, modeSet) {
 	/** @type {VibratingItemOption[]} */
 	const options = [];
 	for (const mode of modeSet) {
-		for (const protoOption of VibratorModeOptions[mode]) {
+		for (const _protoOption of VibratorModeOptions[mode]) {
+			const protoOption = ExtendedItemParseOptions(_protoOption, data.asset);
 			options.push({
 				...CommonOmit(protoOption, ["ArchetypeConfig"]),
 				OptionType: "VibratingItemOption",

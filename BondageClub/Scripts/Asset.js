@@ -215,6 +215,10 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
 	}, AssetParsePoseProperties(AssetDef, AssetDef.AllowActivePose || Group.AllowPose));
 
+	if (A.SetPose) {
+		A.Prerequisite = AssetParsePosePrerequisite(A);
+	}
+
 	// Ensure opacity value is valid
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
 	if (A.MaxOpacity < A.Opacity) A.MaxOpacity = A.Opacity;
@@ -237,6 +241,31 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 			AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
 		}
 	}
+}
+
+/**
+ * Automatically generated pose-related asset prerequisites
+ * @param {Partial<Pick<Asset, "AllowActivePose" | "SetPose" | "Prerequisite" | "Effect">>} asset The asset or any other object with the expected asset interface subset
+ * @returns {AssetPrerequisite[]} The newly generated prerequisites
+ */
+function AssetParsePosePrerequisite(asset) {
+	if (!asset.SetPose) {
+		return [];
+	}
+
+	/** @type {AssetPrerequisite[]} */
+	const posePrerequisite = asset.SetPose.map(i => /** @type {const} */(`Can${i}`));
+	if (
+		(asset.SetPose.includes("LegsClosed") || (asset.SetPose.includes("BaseLower")))
+		&& !(asset.AllowActivePose && asset.AllowActivePose.includes("Kneel"))
+	) {
+		posePrerequisite.push("NotKneeling");
+	}
+
+	if (asset.Effect && asset.Effect.includes("Suspended")) {
+		posePrerequisite.push("NotChained");
+	}
+	return CommonArrayConcatDedupe([...(asset.Prerequisite || [])], posePrerequisite)
 }
 
 /**
