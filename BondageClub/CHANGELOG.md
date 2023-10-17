@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-10-10
-* Last recorded PR: [#4506](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4506)
-* Last recorded commit hash: `59efa705dac3a832e12f4751101812a25dbdb2b4`
+* Changelog last updated: 2023-10-17
+* Last recorded PR: [#4519](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4519)
+* Last recorded commit hash: `6ea2d8d0d62c67bc385a45e7c5ceb1ee04deaead`
 
 ## [R97]
 
@@ -65,6 +65,21 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Documented the different behaviors of various server synchronization functions ([#4495](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4495))
 * Rama - Made CI ensure that default extended item prerequisites are a subset of asset-level prerequisites ([#4502](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4502))
 
+## [Beta fixes]
+* Estsanatlehi - Fixed items not being applicable anymore ([#4508](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4508))
+* Rama - Fixed `CantChangeWhileLocked` stopping player-made changes to the crafting preview character when tied up ([#4509](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4509))
+* Da'Inihlus - Updated chinese translation ([#4510](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4510))
+* Estsanatlehi - Fixed inconsistent casing in files ([#4511](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4511))
+* Estsanatlehi - Moved room customization setting to Online prefs ([#4513](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4513))
+* Estsanatlehi - Added a separate music volume slider to Audio preferences ([#4514](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4514)), with a follow-up from Ben987
+* Estsanatlehi - Marked image downloads' cross-origin correctly ([#4515](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4515))
+* Constantan - Made the pet suit shock collar automatic ([#4517](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4517))
+* Rama - Added a mechanism for caching player activities ([#4516](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4516))
+* Rama - Fixed a couple issues with the pet shock collar changes ([#4518](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4518))
+* Rama - Made the classic latex corset also available in the `Corset` group ([#4519](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4519))
+* Ben987 - Improved the validation on URL extensions for custom URLs
+* Ben987 - Added `/customimage`, `/customfilter` and `/custommusic` chat commands
+* Ben987 - Fixed a couple audio issues in Bondage Brawl
 
 ## [R96]
 
