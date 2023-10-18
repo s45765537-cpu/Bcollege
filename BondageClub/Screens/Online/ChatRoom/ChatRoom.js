@@ -684,6 +684,7 @@ function ChatRoomCanBeLeashedBy(sourceMemberNumber, C) {
 				}
 			}
 
+		// TODO: Use `DialogHasKey` here after refactoring it with access to both the source and destination character
 		const isOwner = C.IsOwnedByMemberNumber(sourceMemberNumber);
 		const isLover = C.IsLoverOfMemberNumber(sourceMemberNumber);
 		const isFamily = C.IsFamilyOfPlayer();
