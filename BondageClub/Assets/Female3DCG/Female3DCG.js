@@ -1187,8 +1187,7 @@ var AssetFemale3DCG = [
 			{ Name: "Underbust", Fetish: ["Lingerie"], Priority: 22, Value: 20, BuyGroup: "Underbust", Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], HideForPose: ["AllFours"] },
 			{
 				Name: "ClassicLatexCorset", Fetish: ["Lingerie", "Latex"], Priority: 22, Value: -1, Difficulty: 10,
-				Time: 20, RemoveTime: 15, BuyGroup: "ClassicLatexCorset", AllowLock: false, AllowTighten: true,
-				DrawLocks: false, Prerequisite: ["AccessTorso"], HideForPose: ["AllFours", "Hogtied"],
+				BuyGroup: "ClassicLatexCorset", AllowLock: false, HideForPose: ["AllFours", "Hogtied"],
 				DynamicGroupName: "ItemTorso", Top: 200, Left: 125,
 				Layer: [
 					{ Name: "Corset" },
