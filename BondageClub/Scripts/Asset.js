@@ -217,7 +217,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
 		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
-	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
+	}, AssetParsePoseProperties(AssetDef, AssetDef.AllowActivePose || Group.AllowPose));
 
 	// Ensure opacity value is valid
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
@@ -403,17 +403,15 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 /**
  * Resolves the AllowPose and HideForPose properties on a layer or an asset
  * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
- * @param {AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
+ * @param {readonly AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
  * object
  * @return {{AllowPose: AssetPoseName[], HideForPose: (AssetPoseName | "")[]}} - A partial object containing AllowPose and HideForPose
  * properties
  */
-function AssetParsePoseProperties(obj, defaultAllowPose = []) {
+function AssetParsePoseProperties(obj, defaultAllowPose) {
 	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
-	let AllowPose = Array.isArray(obj.AllowPose) ? obj.AllowPose : defaultAllowPose;
+	const AllowPose = Array.isArray(obj.AllowPose) ? obj.AllowPose : [...defaultAllowPose];
 	if (HideForPose.length > 0) {
-		// Automatically add any entries from HideForPose into AllowPose
-		AllowPose = AllowPose || [];
 		CommonArrayConcatDedupe(AllowPose, HideForPose);
 	}
 	return {AllowPose, HideForPose};
