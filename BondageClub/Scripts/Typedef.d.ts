@@ -753,11 +753,11 @@ interface AssetLayer {
 	ParentGroupName?: AssetGroupName | "" | null;
 	/** An array of poses that this layer permits. If set, it will override the poses permitted
 	by the parent asset/group. */
-	AllowPose: readonly AssetPoseName[] | null;
+	AllowPose: readonly AssetPoseName[];
 	/** An array of poses that this layer should be hidden for. */
 	HideForPose: readonly (AssetPoseName | "")[];
 	/** An array of objects mapping poses to other poses to determine their draw folder */
-	PoseMapping?: Readonly<AssetPoseMapping>;
+	PoseMapping: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
 	definition. */
 	Priority: number;
@@ -867,9 +867,9 @@ type Asset = Readonly<{
 	HideItemAttribute: readonly AssetAttribute[];
 	Require: readonly AssetGroupBodyName[];
 	SetPose?: readonly AssetPoseName[];
-	AllowPose: readonly AssetPoseName[] | null;
+	AllowPose: readonly AssetPoseName[];
 	HideForPose: readonly (AssetPoseName | "")[];
-	PoseMapping?: AssetPoseMapping;
+	PoseMapping: AssetPoseMapping;
 	AllowActivePose?: readonly AssetPoseName[];
 	WhitelistActivePose?: readonly AssetPoseName[];
 	Value: number;
