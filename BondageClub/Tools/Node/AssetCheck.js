@@ -953,6 +953,63 @@ function testExtendedPrerequisite(dataSuperRecord) {
 }
 
 /**
+ * Convert a flattened list of pose names to a record mapping pose categories to their respective names.
+ * @param {readonly AssetPoseName[]} poses - A list of to-be mapped poses
+ * @param {Record<AssetPoseCategory, Set<AssetPoseName>>} referencePoseMap - A record containing all pose categories and all their respective members
+ * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} - A record containing all the subset of pose categories and members member names as specified in `poses`
+ */
+function poseToPoseMap(poses, referencePoseMap) {
+	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
+	const poseMap = {};
+	for (const pose of poses) {
+		for (const [_category, poseSet] of Object.entries(referencePoseMap)) {
+			const category = /** @type {AssetPoseCategory} */(_category);
+			if (poseSet.has(pose)) {
+				poseMap[category] = [...(poseMap[category] || []), pose];
+				break;
+			}
+		}
+	}
+	return poseMap;
+}
+
+/**
+ * @param {readonly Asset[]} assets
+ * @param {Record<AssetPoseCategory, Set<AssetPoseName>>} poseMap
+ */
+function testActivePose(assets, poseMap) {
+	for (const asset of assets) {
+		if (!(asset.AllowActivePose || asset.SetPose)) {
+			continue;
+		}
+
+		const allowActivePose = [
+			...(asset.AllowActivePose || []),
+			...(asset.SetPose || []),
+		];
+		const allowPoseMap = poseToPoseMap(asset.AllowPose, poseMap);
+		const allowActivePoseMap = poseToPoseMap(allowActivePose, poseMap);
+
+		for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {
+			const category = /** @type {AssetPoseCategory} */(_category);
+			const allowPoseList = allowPoseMap[category];
+			if (!allowPoseList) {
+				continue;
+			}
+
+			const invalidSuperset = allowPoseList.filter(p => !allowActivePoseList.includes(p));
+			if (invalidSuperset.length > 0) {
+				invalidSuperset.sort();
+				error(
+					`${asset.Group.Name}:${asset.Name}: AllowPose must be a subset of AllowActivePose | SetPose for a given pose category; `
+					+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
+				);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1017,6 +1074,8 @@ function sanitizeVMOutput(input) {
 	const VariableHeightItemDataLookup = context.TestingTextItemDataLookup;
 	/** @type {Asset[]} */
 	const assetList = context.Asset;
+	/** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */
+	const poseMap = context.TestingPoseMap;
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -1173,4 +1232,5 @@ function sanitizeVMOutput(input) {
 		variableheight: VariableHeightItemDataLookup,
 		vibrating: VibratingItemDataLookup,
 	});
+	testActivePose(assetList, poseMap);
 })();

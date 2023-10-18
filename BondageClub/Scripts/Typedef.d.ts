@@ -353,15 +353,16 @@ type AssetGroupBodyName =
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
 
-type AssetPoseCategory = 'BodyUpper' | 'BodyLower' | 'BodyFull';
+interface AssetPoseMap {
+	BodyHands: 'TapedHands',
+	BodyUpper: 'BaseUpper' | 'BackBoxTie' | 'BackCuffs' | 'BackElbowTouch' | 'OverTheHead' | 'Yoked',
+	BodyLower: 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'LegsOpen' | 'Spread',
+	BodyFull: 'Hogtied' | 'AllFours',
+	BodyAddon: 'Suspension',
+}
 
-type AssetPoseName =
-	/* BodyUpper */ 'BaseUpper' | 'BackBoxTie' | 'BackCuffs' | 'BackElbowTouch' | 'OverTheHead' | 'TapedHands' | 'Yoked' |
-	/* BodyLower */ 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'LegsOpen' | 'Spread' |
-
-	/* BodyFull  */ 'Hogtied' | 'AllFours' |
-	/* BodyAddon */ 'Suspension'
-	;
+type AssetPoseCategory = keyof AssetPoseMap;
+type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
 
 type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | "">>;
 
@@ -971,7 +972,7 @@ type AppearanceBundle = ItemBundle[];
 
 interface Pose {
 	Name: AssetPoseName;
-	Category?: AssetPoseCategory;
+	Category: AssetPoseCategory;
 	AllowMenu?: true;
 	/** Only show in menu if an asset supports it */
 	AllowMenuTransient?: true;

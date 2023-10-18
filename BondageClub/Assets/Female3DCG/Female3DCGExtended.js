@@ -11181,6 +11181,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						OverridePriority: 25,
 						SetPose: ["Spread"],
+						AllowPose: ["Spread"],
 						Effect: ["BlockKneel"],
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						OverrideHeight: { Height: 0, Priority: 60 },
