@@ -684,11 +684,18 @@ function ChatRoomCanBeLeashedBy(sourceMemberNumber, C) {
 				}
 			}
 
+		const isOwner = C.IsOwnedByMemberNumber(sourceMemberNumber);
+		const isLover = C.IsLoverOfMemberNumber(sourceMemberNumber);
+		const isFamily = C.IsFamilyOfPlayer();
 		if (canLeash && !isTrapped) {
-			if (sourceMemberNumber == 0 || !neckLock || (!neckLock.Asset.OwnerOnly && !neckLock.Asset.LoverOnly && !neckLock.Asset.FamilyOnly) ||
-				(neckLock.Asset.OwnerOnly && C.IsOwnedByMemberNumber(sourceMemberNumber)) ||
-				(neckLock.Asset.FamilyOnly && C.IsFamilyOfPlayer()) ||
-				(neckLock.Asset.LoverOnly && C.IsLoverOfMemberNumber(sourceMemberNumber))) {
+			if (
+				sourceMemberNumber == 0
+				|| !neckLock
+				|| (!neckLock.Asset.OwnerOnly && !neckLock.Asset.LoverOnly && !neckLock.Asset.FamilyOnly)
+				|| (neckLock.Asset.OwnerOnly && isOwner)
+				|| (neckLock.Asset.LoverOnly && (isOwner || isLover))
+				|| (neckLock.Asset.FamilyOnly && (isOwner || isLover || isFamily))
+			) {
 				return true;
 			}
 		}
