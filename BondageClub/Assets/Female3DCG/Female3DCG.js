@@ -354,7 +354,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FishnetTop", Value: 30, HasType: false, DefaultColor: ["#1C1C1C"],
-				BuyGroup: "FishnetTop",
+				BuyGroup: "FishnetTop", PoseMapping: { TapedHands: "" },
 				Layer: [
 					{ Name: "Chest" },
 					{ Name: "Full", AllowModuleTypes: ["t0"], CopyLayerColor: "Chest", HideColoring: true },
@@ -665,6 +665,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FishnetTop", Value: -1, HasType: false, DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop", DynamicGroupName: "Cloth",
+				PoseMapping: { TapedHands: "" },
 				Layer: [
 					{ Name: "Chest" },
 					{ Name: "Full", AllowModuleTypes: ["t0"], CopyLayerColor: "Chest", HideColoring: true },
