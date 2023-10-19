@@ -361,6 +361,10 @@ function GameClubCardAssignPlayers(Packet, Char) {
  * @returns {void} - Nothing
  */
 function GameClubCardLoadData(Packet) {
+	if (ClubCardPlayer.length < 2 || !ClubCardPlayer[0] || !ClubCardPlayer[1]) {
+        return;
+    }
+
 	if (Packet.Data.CCData != null) {
 		for (let P of Packet.Data.CCData) {
 			if (P.MemberNumber == ClubCardPlayer[0].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[0], P);
