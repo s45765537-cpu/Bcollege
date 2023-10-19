@@ -226,7 +226,7 @@ function DialogGetCharacter(C) {
 
 /**
  * Compares the player's reputation with a given value
- * @param {string} RepType - The name of the reputation to check
+ * @param {ReputationType} RepType - The name of the reputation to check
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is less or equal than a given value
  */
@@ -234,7 +234,7 @@ function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <
 
 /**
  * Compares the player's reputation with a given value
- * @param {string} RepType - The name of the reputation to check
+ * @param {ReputationType} RepType - The name of the reputation to check
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is greater or equal than a given value
  */

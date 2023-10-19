@@ -1620,6 +1620,10 @@ function CharacterAppearanceRestore(C, backup) {
 	C.Appearance = AppearanceItemParse(backup);
 }
 
+/**
+ * @param {string} stringified
+ * @returns {any}
+ */
 function AppearanceItemParse(stringified) {
 	return JSON.parse(stringified, (key, value) => {
 		if (key === "Asset") {

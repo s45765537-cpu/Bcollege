@@ -1070,14 +1070,14 @@ interface Reputation {
 interface Ownership {
 	Name: string;
 	MemberNumber: number;
-	Stage: number;
+	Stage: 0 | 1;
 	Start: number;
 }
 
 interface Lovership {
 	Name: string;
 	MemberNumber?: number;
-	Stage?: number;
+	Stage?: 0 | 1 | 2;
 	Start?: number;
 	// Bad data sometimes received from server
 	BeginDatingOfferedByMemberNumber?: unknown;
@@ -1200,7 +1200,7 @@ interface Character {
 	WhiteList: number[];
 	HeightModifier: number;
 	MemberNumber?: number;
-	ItemPermission?: number;
+	ItemPermission?: 0 | 1 | 2 | 3 | 4 | 5;
 	Ownership?: Ownership;
 	Lovership?: Lovership[];
 	ExpressionQueue?: ExpressionQueueItem[];
@@ -1285,7 +1285,7 @@ interface Character {
 	DrawAppearance?: Item[];
 	AppearanceLayers?: AssetLayer[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;
-	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean | any;
+	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean;
 	UnregisterHook: (hookName: CharacterHook, hookInstance: string) => boolean;
 	RunHooks: (hookName: CharacterHook) => void;
 	HeightRatioProportion?: number;
@@ -1299,9 +1299,9 @@ interface Character {
 	AppearanceFull?: Item[];
 	// Online character properties
 	Title?: TitleName;
-	LabelColor?: any;
-	Creation?: any;
-	Description?: any;
+	LabelColor?: string;
+	Creation?: number;
+	Description?: string;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;
 	Game?: {
 		LARP?: GameLARPParameters,
@@ -1481,7 +1481,7 @@ interface PlayerCharacter extends Character {
 		ShowBeepChat: boolean;
 		ShowChatHelp: boolean;
 		ShrinkNonDialogue: boolean;
-		WhiteSpace: string;
+		WhiteSpace: "" | "Preserve";
 		/** @deprecated */
 		AutoBanBlackList?: any;
 		/** @deprecated */
@@ -1553,9 +1553,9 @@ interface PlayerCharacter extends Character {
 	LastChatRoomSize?: number;
 	LastChatRoomLanguage?: ServerChatRoomLanguage;
 	LastChatRoomDesc?: string;
-	LastChatRoomCustom?: any;
-	LastChatRoomAdmin?: any[];
-	LastChatRoomBan?: any[];
+	LastChatRoomCustom?: ServerChatRoomData["Custom"];
+	LastChatRoomAdmin?: number[];
+	LastChatRoomBan?: number[];
 	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
 	LastChatRoomTimer?: any;
 	LastChatRoomSpace?: ServerChatRoomSpace;
@@ -1605,7 +1605,7 @@ interface PlayerCharacter extends Character {
 		Test: NotificationSetting;
 	};
 	GhostList?: number[];
-	Wardrobe?: any[][];
+	Wardrobe?: ItemBundle[][];
 	WardrobeCharacterNames?: string[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
@@ -3583,7 +3583,7 @@ interface ClubCard {
 	ExtraTime?: number;
 	ExtraDraw?: number;
 	ExtraPlay?: number;
-	Group?: any[];
+	Group?: string[];
 	Location?: string;
 	GlowTimer?: number;
 	GlowColor?: string;
