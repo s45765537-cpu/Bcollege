@@ -18,13 +18,19 @@ type MemoizedFunction<T extends Function> = T & {
 };
 
 // GL shim
+interface WebGLTextureData {
+	width: number,
+	height: number,
+	texture: WebGLTexture,
+}
+
 interface WebGL2RenderingContext {
 	program?: WebGLProgram;
 	programFull?: WebGLProgram;
 	programHalf?: WebGLProgram;
 	programTexMask?: WebGLProgram;
-	textureCache?: Map<string, any>;
-	maskCache?: Map<string, any>;
+	textureCache?: Map<string, WebGLTextureData>;
+	maskCache?: Map<string, WebGLTexture>;
 }
 
 interface WebGLProgram {
