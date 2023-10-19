@@ -41,27 +41,27 @@ var AssetFemale3DCGExtended = {
 					Name: "Default",
 				},
 			],
-		},  // Small
+		}, // Small
 		Normal: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "BodyUpper", AssetName: "Small" },
-		},  // Normal
+		}, // Normal
 		Large: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "BodyUpper", AssetName: "Small" },
-		},  // Large
+		}, // Large
 		XLarge: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "BodyUpper", AssetName: "Small" },
-		},  // XLarge
+		}, // XLarge
 		FlatSmall: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "BodyUpper", AssetName: "Small" },
-		},  // FlatSmall
+		}, // FlatSmall
 		FlatMedium: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "BodyUpper", AssetName: "Small" },
-		},  // FlatMedium
+		}, // FlatMedium
 	},
 	Hat: {
 		Bandana: {
@@ -174,25 +174,36 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "Pattern", Key: "p",
-					Options: [{},{},{},{},{},{},] //None, Stripes 1, Stripes 2, Tirangle, Cowprint, Tigerprint
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}, {}, {}, {}], //None, Stripes 1, Stripes 2, Tirangle, Cowprint, Tigerprint
 				},
 				{
-					Name: "Hair", Key: "h",
-					Options:[
+					Name: "Hair",
+					Key: "h",
+					Options: [
 						{
-							Property: {Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2"]}
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+							},
 						}, // No Hair Openings
 						{
-							Property: {Hide: ["HairFront", "HairAccessory1", "HairAccessory2"]}
+							Property: {
+								Hide: ["HairFront", "HairAccessory1", "HairAccessory2"],
+							},
 						}, // Hair Openings
 						{
-							Property: {Hide: ["HairFront", "HairBack"]}
+							Property: { Hide: ["HairFront", "HairBack"] },
 						}, // Ear Openings
 						{
-							Property: {Hide: ["HairFront",]}
+							Property: { Hide: ["HairFront"] },
 						},
-					]
+					],
 				},
 			],
 		}, // SwimCap
@@ -205,8 +216,8 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Tight",
 				},
-			]
-		},//LatexHabit
+			],
+		}, //LatexHabit
 		NunHabit: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -242,14 +253,16 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "Bandana", Key: "b",
+					Name: "Bandana",
+					Key: "b",
 					Options: [
 						{}, // Bandana
 						{}, // No bandana :(
 					],
 				},
 				{
-					Name: "Symbol", Key: "s",
+					Name: "Symbol",
+					Key: "s",
 					Options: [
 						{}, // Classic
 						{}, // Kinky
@@ -257,7 +270,9 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Feathers", Key: "f", DrawImages: false,
+					Name: "Feathers",
+					Key: "f",
+					DrawImages: false,
 					Options: [
 						{}, // Both
 						{}, // Front
@@ -273,23 +288,28 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Thumb", Key: "t",
+					Name: "Thumb",
+					Key: "t",
 					Options: [{}, {}],
 				},
 				{
-					Name: "Index", Key: "i",
+					Name: "Index",
+					Key: "i",
 					Options: [{}, {}],
 				},
 				{
-					Name: "Middle", Key: "m",
+					Name: "Middle",
+					Key: "m",
 					Options: [{}, {}],
 				},
 				{
-					Name: "Ring", Key: "r",
+					Name: "Ring",
+					Key: "r",
 					Options: [{}, {}, {}],
 				},
 				{
-					Name: "Pinkie", Key: "p",
+					Name: "Pinkie",
+					Key: "p",
 					Options: [{}, {}, {}],
 				},
 			],
@@ -300,23 +320,28 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Thumb", Key: "t",
+					Name: "Thumb",
+					Key: "t",
 					Options: [{}, {}],
 				},
 				{
-					Name: "Index", Key: "i",
+					Name: "Index",
+					Key: "i",
 					Options: [{}, {}],
 				},
 				{
-					Name: "Middle", Key: "m",
-					Options: [{}, {},],
+					Name: "Middle",
+					Key: "m",
+					Options: [{}, {}],
 				},
 				{
-					Name: "Ring", Key: "r",
+					Name: "Ring",
+					Key: "r",
 					Options: [{}, {}, {}],
 				},
 				{
-					Name: "Pinkie", Key: "p",
+					Name: "Pinkie",
+					Key: "p",
 					Options: [{}, {}, {}],
 				},
 			],
@@ -423,8 +448,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Hooded",
 					Property: {
 						Hide: [
-							"HairFront", "HairBack",
-							"HairAccessory1", "HairAccessory2", "HairAccessory3",
+							"HairFront",
+							"HairBack",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
 							"Hat",
 						],
 					},
@@ -432,21 +460,27 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "HoodedEarsOut",
 					Property: {
-						HideItem: ["HairAccessory2UnicornHorn", "HairAccessory2DildocornHorn"],
+						HideItem: [
+							"HairAccessory2UnicornHorn",
+							"HairAccessory2DildocornHorn",
+						],
 						Hide: [
-							"HairFront", "HairBack",
-							"HairAccessory1", "HairAccessory3",
+							"HairFront",
+							"HairBack",
+							"HairAccessory1",
+							"HairAccessory3",
 							"Hat",
 						],
 					},
-				}
-			]
+				},
+			],
 		}, // Jacket
 		SlaveRags: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Cloth", Key: "c",
+					Name: "Cloth",
+					Key: "c",
 					Options: [
 						{}, //c0 - Base
 						{}, //c1 - BaseStained
@@ -455,7 +489,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Belt", Key: "b",
+					Name: "Belt",
+					Key: "b",
 					Options: [
 						{}, //b0
 						{}, //b1
@@ -468,7 +503,8 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Hood", Key: "h",
+					Name: "Hood",
+					Key: "h",
 					Options: [
 						{}, //h0 - Down
 						{}, //h1 - Up Regular
@@ -476,11 +512,13 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Length", Key: "l", DrawImages: false,
+					Name: "Length",
+					Key: "l",
+					DrawImages: false,
 					Options: [
 						{}, //l0 - Cropped
 						{}, //l1 - Bolero
-					//{}, //l2 - Full Length - not yet implemented
+						//{}, //l2 - Full Length - not yet implemented
 					],
 				},
 				//{
@@ -496,36 +534,60 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "BackHood", Key: "lh",
-					Options:[
-						{ // lh0 - None
-							Property: { Effect: [] }
+					Name: "BackHood",
+					Key: "lh",
+					Options: [
+						{
+							// lh0 - None
+							Property: { Effect: [] },
 						},
-						{ // lh1 - Down
-							Property: { Effect: [] }
+						{
+							// lh1 - Down
+							Property: { Effect: [] },
 						},
-						{ // lh2 - Pulled Up
-							Property: { Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Hat"] }
+						{
+							// lh2 - Pulled Up
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"Hat",
+								],
+							},
 						},
-					]
+					],
 				},
 				{
-					Name: "ReverseHood", Key: "rh",
-					Options:[
-						{ // rh0 - None
-							Property: { Effect: [] }
+					Name: "ReverseHood",
+					Key: "rh",
+					Options: [
+						{
+							// rh0 - None
+							Property: { Effect: [] },
 						},
-						{ // rh1 - Loose
-							Property: { Effect: [] }
+						{
+							// rh1 - Loose
+							Property: { Effect: [] },
 						},
-						{ // rh2 - Pulled Up
+						{
+							// rh2 - Pulled Up
 							Property: {
 								Effect: ["Slow"],
-								Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Hat", "Head"],
-							}
-
-						}
-					]
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"Hat",
+									"Head",
+								],
+							},
+						},
+					],
 				},
 			],
 		}, //LatexTankTop
@@ -549,14 +611,16 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "Sleeves", Key: "s",
+					Name: "Sleeves",
+					Key: "s",
 					Options: [
 						{}, // Sleeves
 						{}, // No sleeves
 					],
 				},
 				{
-					Name: "Top", Key: "t",
+					Name: "Top",
+					Key: "t",
 					Options: [
 						{}, // Full
 						{}, // Crop
@@ -596,11 +660,13 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Pattern", Key: "p",
+					Name: "Pattern",
+					Key: "p",
 					Options: [{}, {}, {}, {}, {}, {}],
 				},
 				{
-					Name: "Txt", Key: "x",
+					Name: "Txt",
+					Key: "x",
 					Options: [
 						{},
 						{
@@ -631,12 +697,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "HideMouth",
 				},
-
-			], DrawImages: false,
+			],
+			DrawImages: false,
 		}, // Scarf
 		Glitter: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options:[
+			Options: [
 				{
 					Name: "Freckles",
 				},
@@ -680,26 +746,31 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "Lcheek", Key: "c",
-					Options: [{}, {}, ] // n,y
+					Name: "Lcheek",
+					Key: "c",
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name: "Rcheek", Key: "r",
-					Options: [{}, {}, ] // y,n
+					Name: "Rcheek",
+					Key: "r",
+					Options: [{}, {}], // y,n
 				},
 				{
-					Name: "Rfhead", Key: "f",
-					Options: [{}, {}, ] // n,y
+					Name: "Rfhead",
+					Key: "f",
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name: "Rneck", Key: "n",
-					Options: [{}, {}, ] // n,y
+					Name: "Rneck",
+					Key: "n",
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name: "Lneck", Key: "l",
-					Options: [{}, {}, ] // n,y
+					Name: "Lneck",
+					Key: "l",
+					Options: [{}, {}], // n,y
 				},
-			]
+			],
 		}, //KissMark
 		LargeBelt: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -714,7 +785,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectLargeBeltWidth",
 				Option: "LargeBeltStyle",
-			}
+			},
 		}, // LargeBelt
 	}, // ClothAccessory
 	ClothLower: {
@@ -722,27 +793,32 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Stripe", Key: "s",
-					Options:[
-						{ // s0 - No stripe
-							Property: { Effect: [] }
+					Name: "Stripe",
+					Key: "s",
+					Options: [
+						{
+							// s0 - No stripe
+							Property: { Effect: [] },
 						},
-						{ // s1 - Striped
-							Property: { Effect: [] }
+						{
+							// s1 - Striped
+							Property: { Effect: [] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Boot", Key: "b",
-					Options:[
-						{ // b0 - Detached Boots
-							Property: { Effect: [] }
+					Name: "Boot",
+					Key: "b",
+					Options: [
+						{
+							// b0 - Detached Boots
+							Property: { Effect: [] },
 						},
-						{ // b1 - Attached Boots
-							Property: { Effect: [] }
-
-						}
-					]
+						{
+							// b1 - Attached Boots
+							Property: { Effect: [] },
+						},
+					],
 				},
 			],
 		}, //PantBoots
@@ -776,14 +852,16 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Display", Key: "d",
+					Name: "Display",
+					Key: "d",
 					Options: [
 						{}, // d0 - Display
 						{}, // d1 - No Display
 					],
 				},
 				{
-					Name: "Shiny", Key: "s",
+					Name: "Shiny",
+					Key: "s",
 					Options: [
 						{}, // s0 - Shiny
 						{}, // s1 - No Shiny
@@ -796,7 +874,7 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticBra2
 		FuturisticBra: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -865,7 +943,15 @@ var AssetFemale3DCGExtended = {
 				ScriptDraw: AssetsItemBreastForbiddenChastityBraScriptDrawHook,
 			},
 			ChangeWhenLocked: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
+			BaselineProperty: {
+				TriggerCount: 0,
+				ShowText: true,
+				BlinkState: false,
+				ShockLevel: 0,
+				PunishOrgasm: false,
+				PunishStandup: false,
+				PunishStruggle: false,
+			},
 		}, // ForbiddenChastityBra
 	}, // ItemBreast
 	ItemArms: {
@@ -874,7 +960,10 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 			Dictionary: [
 				(dictionary, { newIndex, previousIndex }) => {
-					dictionary.text("Action", newIndex > previousIndex ? "tightens" : "loosens");
+					dictionary.text(
+						"Action",
+						newIndex > previousIndex ? "tightens" : "loosens",
+					);
 				},
 			],
 			Options: [
@@ -890,7 +979,12 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 2,
 						SetPose: ["LegsClosed", "BackElbowTouch"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 					},
 				},
 				{
@@ -901,8 +995,21 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 4,
 						SetPose: ["LegsClosed", "BackElbowTouch"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 					},
 					Random: false,
 				},
@@ -915,7 +1022,16 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 4,
 						SetPose: ["Hogtied"],
 						Hide: ["ClothAccessory", "Necklace", "Socks"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
+						Block: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+							"ItemDevices",
+						],
 					},
 					Random: false,
 				},
@@ -928,8 +1044,21 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 6,
 						SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
 						Effect: ["Suspended"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 					},
 					Random: false,
 				},
@@ -942,8 +1071,33 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 8,
 						SetPose: ["LegsClosed", "BackElbowTouch", "Suspension"],
 						Effect: ["Suspended"],
-						Hide: ["BodyLower", "SuitLower", "Panties", "Socks", "Pussy", "ItemFeet", "ItemLegs", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemBoots", "ItemHands", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+						Hide: [
+							"BodyLower",
+							"SuitLower",
+							"Panties",
+							"Socks",
+							"Pussy",
+							"ItemFeet",
+							"ItemLegs",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemBoots",
+							"ItemHands",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
+						Block: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
 					},
 					Random: false,
 				},
@@ -957,8 +1111,21 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["Hogtied"],
 						Effect: ["Suspended"],
 						Hide: ["ClothAccessory", "Necklace", "Socks"],
-						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemDevices"],
-						OverrideHeight: { Height: 0, Priority: 51, HeightRatioProportion: 0 },
+						Block: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+							"ItemDevices",
+						],
+						OverrideHeight: {
+							Height: 0,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 					},
 					Random: false,
 				},
@@ -1012,7 +1179,7 @@ var AssetFemale3DCGExtended = {
 					Name: "InFront",
 					Property: {
 						SetPose: ["BaseUpper"],
-					}
+					},
 				},
 				{
 					Name: "BehindBack",
@@ -1020,7 +1187,7 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["BackCuffs"],
 					},
 					NPCDefault: true,
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
@@ -1031,52 +1198,109 @@ var AssetFemale3DCGExtended = {
 		}, // MetalCuffs
 		Chains: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.DEST_CHAR,
+			],
 			Options: [
 				{
 					Name: "WristTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "BoxTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
-				}, {
+				},
+				{
 					Name: "ChainCuffs",
-					Property: { SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Property: {
+						SetPose: ["BackCuffs"],
+						Difficulty: 1,
+						OverridePriority: 29,
+					},
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "WristElbowTie",
 					BondageLevel: 2,
-					Property: { Effect: ["NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 2 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Property: {
+						Effect: ["NotSelfPickable"],
+						SetPose: ["BackElbowTouch"],
+						Difficulty: 2,
+					},
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
-					Property: { Effect: ["NotSelfPickable"], SetPose: ["BackElbowTouch"], Difficulty: 3 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Property: {
+						Effect: ["NotSelfPickable"],
+						SetPose: ["BackElbowTouch"],
+						Difficulty: 3,
+					},
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Freeze", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3, AllowPose: ["Kneel", "KneelingSpread"], AllowActivePose: ["Kneel", "KneelingSpread"], WhitelistActivePose: ["Kneel", "KneelingSpread"] },
+					Property: {
+						Effect: ["Freeze", "NotSelfPickable"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						SetPose: ["Kneel", "BackElbowTouch"],
+						Difficulty: 3,
+						AllowPose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: ["Kneel", "KneelingSpread"],
+						WhitelistActivePose: ["Kneel", "KneelingSpread"],
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "Hogtied",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["Freeze", "NotSelfPickable"], Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"], AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["Hogtied"], Difficulty: 3 },
+					Property: {
+						Effect: ["Freeze", "NotSelfPickable"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						SetPose: ["Hogtied"],
+						Difficulty: 3,
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "AllFours",
 					BondageLevel: 6,
 					Prerequisite: ["NotMounted", "NotSuspended"],
-					Property: { Effect: ["ForceKneel", "NotSelfPickable"], Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],  AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"], SetPose: ["AllFours"], Difficulty: 3 },
+					Property: {
+						Effect: ["ForceKneel", "NotSelfPickable"],
+						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						SetPose: ["AllFours"],
+						Difficulty: 3,
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "SuspensionHogtied",
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
@@ -1086,7 +1310,12 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 } },
+						OverrideHeight: {
+							Height: -575,
+							Priority: 51,
+							HeightRatioProportion: 1,
+						},
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 					HasSubscreen: true,
@@ -1103,7 +1332,7 @@ var AssetFemale3DCGExtended = {
 							Chat: "SuspensionChange",
 						},
 					},
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectChainBondage",
@@ -1117,13 +1346,20 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Crotch", Key: "c",
+					Name: "Crotch",
+					Key: "c",
 					Options: [
 						{}, // c0 - No crotch panel
-						{ // c1 - Crotch panel
+						{
+							// c1 - Crotch panel
 							Property: {
 								Difficulty: 1,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								Block: [
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+								],
 								Hide: ["ItemVulvaPiercings", "Pussy"],
 								HideItem: ["ItemButtAnalBeads2"],
 							},
@@ -1131,7 +1367,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Arms", Key: "a",
+					Name: "Arms",
+					Key: "a",
 					Options: [
 						{}, // a0 - Arms loose
 						{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // a1 - Arms in front
@@ -1139,22 +1376,41 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Straps", Key: "s",
+					Name: "Straps",
+					Key: "s",
 					Options: [
 						{}, // s0 - No crotch straps
-						{ // s1 - One crotch strap
+						{
+							// s1 - One crotch strap
 							Property: {
 								Difficulty: 1,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								Block: [
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+								],
 								Hide: ["ItemVulvaPiercings", "Pussy"],
 								HideItem: ["ItemButtAnalBeads2"],
 							},
 						},
-						{ Property: { Difficulty: 2, Block: ["ItemPelvis"], Hide: ["Pussy"], } }, // s2 - Two crotch straps
-						{ // s3 - Three crotch straps
+						{
 							Property: {
 								Difficulty: 2,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								Block: ["ItemPelvis"],
+								Hide: ["Pussy"],
+							},
+						}, // s2 - Two crotch straps
+						{
+							// s3 - Three crotch straps
+							Property: {
+								Difficulty: 2,
+								Block: [
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+								],
 								Hide: ["ItemVulvaPiercings", "Pussy"],
 								HideItem: ["ItemButtAnalBeads2"],
 							},
@@ -1195,72 +1451,142 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "HeadLevel",
 					Property: {
-						SetPose: ["Yoked"]
+						SetPose: ["Yoked"],
 					},
 				},
 				{
 					Name: "Overhead",
 					Property: {
-						SetPose: ["OverTheHead"]
+						SetPose: ["OverTheHead"],
 					},
 				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
-				Chat: ({ C }) => `ItemArmsCeilingShacklesSet${C.Pose.includes("Suspension") ? "Suspension" : ""}`
+				Chat: ({ C }) =>
+					`ItemArmsCeilingShacklesSet${
+						C.Pose.includes("Suspension") ? "Suspension" : ""
+					}`,
 			},
 		}, // CeilingShackles
 		BitchSuit: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
-					Name: "Zipped", Key: "z",
+					Name: "Zipped",
+					Key: "z",
 					Options: [
-						{ // z0 - Zipped up
+						{
+							// z0 - Zipped up
 							Property: {
-								Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								Hide: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemVulva", "ItemVulvaPiercings", "Suit", "SuitLower"],
-							}
+								Block: [
+									"ItemPelvis",
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemHands",
+									"ItemHandheld",
+									"ItemBreast",
+									"ItemNipples",
+									"ItemNipplesPiercings",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+								],
+								Hide: [
+									"ItemNipples",
+									"ItemNipplesPiercings",
+									"ItemBreast",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"Suit",
+									"SuitLower",
+								],
+							},
 						},
-						{ // z1 - Unzipped
+						{
+							// z1 - Unzipped
 							Property: {
-								Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld"],
-							}
+								Block: [
+									"ItemPelvis",
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemHands",
+									"ItemHandheld",
+								],
+							},
 						},
-						{ // z2 - Seemless
+						{
+							// z2 - Seemless
 							Property: {
-								Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								Hide: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemVulva", "ItemVulvaPiercings", "Suit", "SuitLower"],
-							}
+								Block: [
+									"ItemPelvis",
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemHands",
+									"ItemHandheld",
+									"ItemBreast",
+									"ItemNipples",
+									"ItemNipplesPiercings",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+								],
+								Hide: [
+									"ItemNipples",
+									"ItemNipplesPiercings",
+									"ItemBreast",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"Suit",
+									"SuitLower",
+								],
+							},
 						},
-						{ // z3 - Exposed
+						{
+							// z3 - Exposed
 							Property: {
-								Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemHands", "ItemHandheld"],
-							}
+								Block: [
+									"ItemPelvis",
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemHands",
+									"ItemHandheld",
+								],
+							},
 						},
 					],
 				},
 				{
-					Name: "Straps", Key: "st",
-					Options: [
-						{},
-						{ Property: { Difficulty: 3 }, },
-					],
+					Name: "Straps",
+					Key: "st",
+					Options: [{}, { Property: { Difficulty: 3 } }],
 				},
 				{
-					Name: "Clothes", Key: "cl",
-					Options: [
-						{ Property: { Hide: ["Cloth", "ClothLower"], } },
-						{},
-					],
+					Name: "Clothes",
+					Key: "cl",
+					Options: [{ Property: { Hide: ["Cloth", "ClothLower"] } }, {}],
 				},
 				{
-					Name: "Underwear", Key: "un",
+					Name: "Underwear",
+					Key: "un",
 					Options: [
-						{ Property: { Hide: ["Corset", "Garters", "Socks", "SocksLeft", "SocksRight"], } },
-						{ Property: { OverridePriority: 14, Hide: ["Suit", "SuitLower", "Socks", "SocksLeft", "SocksRight"], }, },
-						{ Property: { OverridePriority: 14, }, },
+						{
+							Property: {
+								Hide: ["Corset", "Garters", "Socks", "SocksLeft", "SocksRight"],
+							},
+						},
+						{
+							Property: {
+								OverridePriority: 14,
+								Hide: ["Suit", "SuitLower", "Socks", "SocksLeft", "SocksRight"],
+							},
+						},
+						{ Property: { OverridePriority: 14 } },
 					],
 				},
 			],
@@ -1279,8 +1605,31 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Closed",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemLegs", "ItemFeet","ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "Socks", "Suit", "SuitLower"],
+						Block: [
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemHands",
+							"ItemHandheld",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: [
+							"Bra",
+							"Panties",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+							"Socks",
+							"Suit",
+							"SuitLower",
+						],
 					},
 				},
 				{
@@ -1292,8 +1641,31 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Classic",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemLegs", "ItemFeet","ItemHands", "ItemHandheld", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "Socks", "Suit", "SuitLower"],
+						Block: [
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemHands",
+							"ItemHandheld",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: [
+							"Bra",
+							"Panties",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+							"Socks",
+							"Suit",
+							"SuitLower",
+						],
 					},
 				},
 			],
@@ -1301,7 +1673,11 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyPetSuit
 		ShinyStraitjacket: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Crosstie",
@@ -1309,22 +1685,70 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Asylum",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+						Block: [
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: [
+							"Bra",
+							"Panties",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
 					},
 				},
 				{
 					Name: "Hardbinder",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+						Block: [
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: [
+							"Bra",
+							"Panties",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
 					},
 				},
 				{
 					Name: "Classic",
 					Property: {
-						Block: ["ItemPelvis", "ItemTorso", "ItemTorso2", "ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["Bra", "Panties", "ItemNipples", "ItemNipplesPiercings", "ItemBreast",],
+						Block: [
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: [
+							"Bra",
+							"Panties",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
 					},
 				},
 			],
@@ -1332,7 +1756,11 @@ var AssetFemale3DCGExtended = {
 		}, // ShinyStraitjacket
 		ShinyArmbinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Armbinder",
@@ -1396,7 +1824,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
-			}
+			},
 		}, // WristShackles
 		FuturisticCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1517,11 +1945,22 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Hogtie",
-					Prerequisite: ["CuffedFeet", "NotSuspended", "NotMounted", "NoFeetSpreader"],
+					Prerequisite: [
+						"CuffedFeet",
+						"NotSuspended",
+						"NotMounted",
+						"NoFeetSpreader",
+					],
 					Property: {
 						Difficulty: 6,
 						Effect: ["Block", "Prone", "Freeze", "NotSelfPickable"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
 						SelfUnlock: false,
@@ -1556,9 +1995,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Wrist",
 					Property: {
 						Effect: ["Block", "Prone"],
-						SetPose: ["BackBoxTie"]
-					}
-				}
+						SetPose: ["BackBoxTie"],
+					},
+				},
 			],
 		}, // SteelCuffs
 		StraitJacket: {
@@ -1633,7 +2072,7 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Arms",
-					Property: {  Difficulty: 1 },
+					Property: { Difficulty: 1 },
 				},
 				{
 					Name: "Bottom",
@@ -1641,8 +2080,18 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NoOuterClothes"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemVulvaPiercings"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemVulvaPiercings",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 						Difficulty: 2,
 					},
 				},
@@ -1652,7 +2101,12 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NoOuterClothes"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemTorso", "ItemBreast", "ItemNipples", "ItemNipplesPiercings"],
+						Block: [
+							"ItemTorso",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+						],
 						Difficulty: 4,
 					},
 				},
@@ -1662,10 +2116,24 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NoOuterClothes"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemVulvaPiercings",
+							"ItemNipplesPiercings",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 						Difficulty: 6,
-					}
+					},
 				},
 				{
 					Name: "Complete",
@@ -1673,10 +2141,24 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NoOuterClothes"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemBreast", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemBreast",
+							"ItemNipples",
+							"ItemVulvaPiercings",
+							"ItemNipplesPiercings",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 						Difficulty: 7,
-					}
+					},
 				},
 				{
 					Name: "ExposedComplete",
@@ -1684,10 +2166,22 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NoOuterClothes"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemVulva", "ItemButt", "ItemPelvis", "ItemTorso", "ItemVulvaPiercings", "ItemBreast"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						Block: [
+							"ItemVulva",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemVulvaPiercings",
+							"ItemBreast",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 						Difficulty: 7,
-					}
+					},
 				},
 				{
 					Name: "PetTape",
@@ -1697,13 +2191,17 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemHands"],
 						HideItem: ["ClothAccessoryPoncho"],
 						Difficulty: 7,
-					}
+					},
 				},
 			],
 			DialogPrefix: {
 				Header: "SelectTapeWrapping",
 			},
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.DEST_CHAR,
+			],
 		}, // DuctTape
 		Zipties: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1712,87 +2210,112 @@ var AssetFemale3DCGExtended = {
 					Name: "ZipLight",
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Difficulty: 1
-					}
-				}, {
+						Difficulty: 1,
+					},
+				},
+				{
 					Name: "ZipMedium",
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Difficulty: 2
+						Difficulty: 2,
 					},
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "ZipFull",
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "ZipElbowWrist",
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Difficulty: 1
+						Difficulty: 1,
 					},
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "ZipWristLight",
 					Property: {
 						SetPose: ["BackBoxTie"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "ZipWristMedium",
 					Property: {
 						SetPose: ["BackBoxTie"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "ZipWristFull",
 					Property: {
 						SetPose: ["BackBoxTie"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "ZipWrist",
 					Property: {
 						SetPose: ["BackBoxTie"],
-						Difficulty: 1
+						Difficulty: 1,
 					},
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "ZipKneelingHogtie",
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["Freeze"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
-						SetPose: ["Kneel", "BackElbowTouch"], Difficulty: 3
+						SetPose: ["Kneel", "BackElbowTouch"],
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "ZipHogtied",
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["Freeze"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
-						SetPose: ["Hogtied"], Difficulty: 3
+						SetPose: ["Hogtied"],
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "ZipAllFours",
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["ForceKneel"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
-						SetPose: ["AllFours"], Difficulty: 3
+						SetPose: ["AllFours"],
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -1801,15 +2324,25 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
 			DialogPrefix: {
 				Header: "SelectZipTie",
-			}
+			},
 		}, // Zipties
 		ThinLeatherStraps: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
 				{ Name: "Wrist", Property: { SetPose: ["BackBoxTie"] } },
-				{ Name: "Boxtie", Property: { SetPose: ["BackBoxTie"], Difficulty: 4 }, NPCDefault: true },
-				{ Name: "WristElbow", Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 } },
-				{ Name: "WristElbowHarness", Property: { SetPose: ["BackElbowTouch"], Difficulty: 5 } },
+				{
+					Name: "Boxtie",
+					Property: { SetPose: ["BackBoxTie"], Difficulty: 4 },
+					NPCDefault: true,
+				},
+				{
+					Name: "WristElbow",
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 },
+				},
+				{
+					Name: "WristElbowHarness",
+					Property: { SetPose: ["BackElbowTouch"], Difficulty: 5 },
+				},
 				{
 					Name: "Hogtie",
 					Property: {
@@ -1828,7 +2361,14 @@ var AssetFemale3DCGExtended = {
 					Name: "Zipped",
 					Property: {
 						Difficulty: 0,
-						Block: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Block: [
+							"ItemBreast",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
 					},
 				},
 				{
@@ -1924,12 +2464,12 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Cross",
-					Property: {  Difficulty: 1 },
+					Property: { Difficulty: 1 },
 				},
 				{
 					Name: "Heavy",
 					SelfBondageLevel: 4,
-					Property: { Difficulty: 2 }
+					Property: { Difficulty: 2 },
 				},
 			],
 			DialogPrefix: {
@@ -1951,11 +2491,11 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Two",
-					Property: { Difficulty: 2, },
+					Property: { Difficulty: 2 },
 				},
 				{
 					Name: "Three",
-					Property: { Difficulty: 4, },
+					Property: { Difficulty: 4 },
 				},
 			],
 		}, // SturdyLeatherBelts
@@ -1964,20 +2504,38 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
 			Modules: [
 				{
-					Name: "Cloth", Key: "cl",
+					Name: "Cloth",
+					Key: "cl",
 					Options: [{ Property: { Hide: ["Cloth"] } }, {}],
 				},
 				{
-					Name: "Corset", Key: "co",
+					Name: "Corset",
+					Key: "co",
 					Options: [{ Property: { Hide: ["Corset", "ItemTorso"] } }, {}],
 				},
 				{
-					Name: "NipplesPiercings", Key: "np",
-					Options: [{ Property: { Hide: ["ItemNipplesPiercings", "ItemNipples", "ItemBreast"] } }, {}],
+					Name: "NipplesPiercings",
+					Key: "np",
+					Options: [
+						{
+							Property: {
+								Hide: ["ItemNipplesPiercings", "ItemNipples", "ItemBreast"],
+							},
+						},
+						{},
+					],
 				},
 				{
-					Name: "VulvaPiercings", Key: "vp",
-					Options: [{ Property: { Hide: ["ItemVulvaPiercings", "Panties", "ItemPelvis"] } }, {}],
+					Name: "VulvaPiercings",
+					Key: "vp",
+					Options: [
+						{
+							Property: {
+								Hide: ["ItemVulvaPiercings", "Panties", "ItemPelvis"],
+							},
+						},
+						{},
+					],
 				},
 			],
 			ChangeWhenLocked: false,
@@ -1986,29 +2544,49 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Cloth", Key: "cl",
+					Name: "Cloth",
+					Key: "cl",
 					Options: [{ Property: { Hide: ["Cloth"] } }, {}],
 				},
 				{
-					Name: "Corset", Key: "co",
+					Name: "Corset",
+					Key: "co",
 					Options: [{ Property: { Hide: ["Corset", "ItemTorso"] } }, {}],
 				},
 				{
-					Name: "NipplesPiercings", Key: "np",
-					Options: [{ Property: { Hide: ["ItemNipplesPiercings", "ItemNipples", "ItemBreast"] } }, {}],
+					Name: "NipplesPiercings",
+					Key: "np",
+					Options: [
+						{
+							Property: {
+								Hide: ["ItemNipplesPiercings", "ItemNipples", "ItemBreast"],
+							},
+						},
+						{},
+					],
 				},
 				{
-					Name: "VulvaPiercings", Key: "vp",
-					Options: [{ Property: { Hide: ["ItemVulvaPiercings", "Panties", "ItemPelvis"] } }, {}],
+					Name: "VulvaPiercings",
+					Key: "vp",
+					Options: [
+						{
+							Property: {
+								Hide: ["ItemVulvaPiercings", "Panties", "ItemPelvis"],
+							},
+						},
+						{},
+					],
 				},
 				{
-					Name: "Arms", Key: "a",
+					Name: "Arms",
+					Key: "a",
 					Options: [
 						{}, // a0 - Arms front
-						{ // a1 - Arms behind
+						{
+							// a1 - Arms behind
 							Property: {
 								Difficulty: 2,
-							}
+							},
 						},
 					],
 				},
@@ -2019,7 +2597,7 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticStraitjacket
 		Tentacles: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -2034,52 +2612,74 @@ var AssetFemale3DCGExtended = {
 					Name: "OverTheHead",
 					Property: {
 						SetPose: ["OverTheHead"],
-						HideItem: ["ClothAdmiralTop", "ClothFurCoat", "ClothStudentOutfit2", "ClothSweater1", "ClothTeacherOutfit1"],
+						HideItem: [
+							"ClothAdmiralTop",
+							"ClothFurCoat",
+							"ClothStudentOutfit2",
+							"ClothSweater1",
+							"ClothTeacherOutfit1",
+						],
 					},
 				},
 			],
 		}, // Tentacles
 		NylonRope: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.DEST_CHAR,
+			],
 			Options: [
 				{
 					Name: "WristTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "BoxTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
-				}, {
+				},
+				{
 					Name: "WristElbowTie",
 					BondageLevel: 2,
 					Property: { SetPose: ["BackElbowTouch"], Difficulty: 2 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "SimpleHogtie",
 					BondageLevel: 2,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: { SetPose: ["Hogtied"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "TightBoxtie",
 					BondageLevel: 3,
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 3 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
 					Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["Freeze"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
@@ -2089,20 +2689,28 @@ var AssetFemale3DCGExtended = {
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "Hogtied",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["Freeze"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "AllFours",
 					BondageLevel: 6,
 					Prerequisite: ["NotMounted", "NotSuspended"],
@@ -2111,15 +2719,21 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Prerequisite: ["OnBed"],
-					Property: { Effect: ["Freeze"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+					Property: {
+						Effect: ["Freeze"],
+						Block: ["ItemDevices"],
+						SetPose: ["Yoked"],
+						Difficulty: 5,
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
 				},
@@ -2133,53 +2747,75 @@ var AssetFemale3DCGExtended = {
 		}, // NylonRope
 		HempRope: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.DEST_CHAR,
+			],
 			Options: [
 				{
 					Name: "WristTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "BoxTie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
 					NPCDefault: true,
-				}, {
+				},
+				{
 					Name: "CrossedBoxtie",
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 1 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "RopeCuffs",
-					Property: { SetPose: ["BackCuffs"], Difficulty: 1, OverridePriority: 29 },
-					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }]
-				}, {
+					Property: {
+						SetPose: ["BackCuffs"],
+						Difficulty: 1,
+						OverridePriority: 29,
+					},
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+				},
+				{
 					Name: "WristElbowTie",
 					BondageLevel: 2,
 					Property: { SetPose: ["BackElbowTouch"], Difficulty: 2 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "SimpleHogtie",
 					BondageLevel: 2,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: { SetPose: ["Hogtied"], Difficulty: 2 },
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "TightBoxtie",
 					BondageLevel: 3,
 					Property: { SetPose: ["BackBoxTie"], Difficulty: 3 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "WristElbowHarnessTie",
 					BondageLevel: 3,
 					Property: { SetPose: ["BackElbowTouch"], Difficulty: 3 },
-					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }]
-				}, {
+					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
+				},
+				{
 					Name: "KneelingHogtie",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
-						Effect: ["Freeze",],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Effect: ["Freeze"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
@@ -2189,20 +2825,28 @@ var AssetFemale3DCGExtended = {
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "Hogtied",
 					BondageLevel: 4,
 					Prerequisite: ["NotMounted", "NotSuspended"],
 					Property: {
 						Effect: ["Freeze"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "AllFours",
 					BondageLevel: 6,
 					Prerequisite: ["NotMounted", "NotSuspended"],
@@ -2211,18 +2855,25 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
-						Difficulty: 3
+						Difficulty: 3,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Prerequisite: ["OnBed"],
-					Property: { Effect: ["Freeze"], Block: ["ItemDevices"], SetPose: ["Yoked"], Difficulty: 5 },
+					Property: {
+						Effect: ["Freeze"],
+						Block: ["ItemDevices"],
+						SetPose: ["Yoked"],
+						Difficulty: 5,
+					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "SuspensionKneelingHogtie",
 					BondageLevel: 6,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
@@ -2235,7 +2886,11 @@ var AssetFemale3DCGExtended = {
 						AllowActivePose: ["Kneel", "KneelingSpread"],
 						WhitelistActivePose: ["Kneel", "KneelingSpread"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -250, Priority: 51, HeightRatioProportion: 1 }
+						OverrideHeight: {
+							Height: -250,
+							Priority: 51,
+							HeightRatioProportion: 1,
+						},
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2245,15 +2900,14 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -250,
 						DrawData: {
-							elementData: [
-								{ position: [1140, 375, 100, 400], icon: "rope" },
-							],
+							elementData: [{ position: [1140, 375, 100, 400], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
 						},
 					},
-				}, {
+				},
+				{
 					Name: "SuspensionHogtied",
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
@@ -2263,7 +2917,11 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -575, Priority: 51, HeightRatioProportion: 1 }
+						OverrideHeight: {
+							Height: -575,
+							Priority: 51,
+							HeightRatioProportion: 1,
+						},
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2273,15 +2931,14 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -575,
 						DrawData: {
-							elementData: [
-								{ position: [1140, 465, 100, 675], icon: "rope" },
-							],
+							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
 						},
 					},
-				}, {
+				},
+				{
 					Name: "SuspensionAllFours",
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotSuspended"],
@@ -2291,7 +2948,11 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -560, Priority: 51, HeightRatioProportion: 1 }
+						OverrideHeight: {
+							Height: -560,
+							Priority: 51,
+							HeightRatioProportion: 1,
+						},
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2301,15 +2962,14 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [
-								{ position: [1140, 465, 100, 675], icon: "rope" },
-							],
+							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
 						},
 					},
-				}, {
+				},
+				{
 					Name: "InvertedSuspensionHogtied",
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotChained", "NotSuspended"],
@@ -2319,7 +2979,11 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Hogtied", "Suspension"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -600, Priority: 51, HeightRatioProportion: 0 }
+						OverrideHeight: {
+							Height: -600,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2329,15 +2993,14 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: -50,
 						MinHeight: -600,
 						DrawData: {
-							elementData: [
-								{ position: [1140, 450, 100, 700], icon: "rope" },
-							],
+							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
 						},
 					},
-				}, {
+				},
+				{
 					Name: "InvertedSuspensionAllFours",
 					BondageLevel: 8,
 					Prerequisite: ["NotMounted", "NotSuspended"],
@@ -2347,7 +3010,11 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours", "Suspension"],
 						Difficulty: 6,
-						OverrideHeight: { Height: -560, Priority: 51, HeightRatioProportion: 0 }
+						OverrideHeight: {
+							Height: -560,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2357,9 +3024,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [
-								{ position: [1140, 450, 100, 700], icon: "rope" },
-							],
+							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2378,19 +3043,21 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Position", Key: "p",
+					Name: "Position",
+					Key: "p",
 					Options: [
 						{}, // p0 - Arms behind back
 						{ Property: { Difficulty: 2, SetPose: ["Hogtied"] } }, // p1 - Hogtied
 					],
 				},
 				{
-					Name: "Type", Key: "t",
+					Name: "Type",
+					Key: "t",
 					Options: [
 						{}, // t0 - Normal slime
 						{ Property: { Difficulty: 3 } }, // t1 - Slime girl
-					]
-				}
+					],
+				},
 			],
 			ChatTags: [CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
 		},
@@ -2429,7 +3096,13 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 5,
 						Effect: ["Freeze", "NotSelfPickable"],
 						SetPose: ["Hogtied"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
+						Block: [
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemDevices",
+						],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SelfUnlock: false,
 					},
@@ -2476,7 +3149,8 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Restraints", Key: "r",
+					Name: "Restraints",
+					Key: "r",
 					Options: [
 						{
 							Property: {
@@ -2502,7 +3176,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "ShockModule", Key: "s",
+					Name: "ShockModule",
+					Key: "s",
 					DrawImages: false,
 					Options: [
 						{ Property: { ShockLevel: 0 } },
@@ -2514,7 +3189,10 @@ var AssetFemale3DCGExtended = {
 			DrawData: {
 				elementData: [
 					{}, // Restraints
-					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+					{
+						imagePath:
+							"Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png",
+					}, // ShockModule
 				],
 			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
@@ -2528,38 +3206,39 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "BinderPosition", Key: "b",
-					Options:  [
+					Name: "BinderPosition",
+					Key: "b",
+					Options: [
 						{}, // b0 Left
 						{}, // b1 Back
-						{} // b2 Right
-					]
+						{}, // b2 Right
+					],
 				},
 				{
-					Name: "ShoulderStraps", Key: "s",
-					Options:[
+					Name: "ShoulderStraps",
+					Key: "s",
+					Options: [
 						{}, // s0 No Straps
 						{
 							Property: {
-								Difficulty: 20
-							}
+								Difficulty: 20,
+							},
 						}, // s1 Basic Shoulder Straps
 						{
 							Property: {
-								Difficulty: 30
-							}
+								Difficulty: 30,
+							},
 						}, // s2 Wrapping Shoulder Straps
 						{
 							Property: {
-								Difficulty: 40
-							}
+								Difficulty: 40,
+							},
 						}, // s3 Harness Shoulder Straps
-
 					],
 
-					AllowSelfSelect: false
-				}
-			]
+					AllowSelfSelect: false,
+				},
+			],
 		}, // SmoothLeatherArmbinder1
 		TransportJacket: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -2578,14 +3257,26 @@ var AssetFemale3DCGExtended = {
 					Name: "Shorts",
 					Property: {
 						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "Panties", "Corset"],
+						Hide: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"Panties",
+							"Corset",
+						],
 					},
 				},
 				{
 					Name: "ShortsAndStraps",
 					Property: {
 						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-						Hide: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "Panties", "Corset"],
+						Hide: [
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"Panties",
+							"Corset",
+						],
 					},
 				},
 			],
@@ -2603,35 +3294,42 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			Modules: [
 				{
-					Name: "Stripes", Key: "p",
-					Options:[
-						{ // p0 - No Stripes
-							Property: { Effect: [] }
+					Name: "Stripes",
+					Key: "p",
+					Options: [
+						{
+							// p0 - No Stripes
+							Property: { Effect: [] },
 						},
-						{ // p1 - Prison Stripes
-							Property: { Effect: [] }
+						{
+							// p1 - Prison Stripes
+							Property: { Effect: [] },
 						},
-						{ // p2 - Sides
-							Property: { Effect: [] }
+						{
+							// p2 - Sides
+							Property: { Effect: [] },
 						},
 					],
 				},
 				{
-					Name: "Zipper", Key: "c",
-					Options:[
-						{ // c0 - closed
+					Name: "Zipper",
+					Key: "c",
+					Options: [
+						{
+							// c0 - closed
 							Property: {
 								Effect: ["Chaste"],
-								Block: ["ItemVulva", "ItemVulvaPiercings",]
-							}
+								Block: ["ItemVulva", "ItemVulvaPiercings"],
+							},
 						},
-						{ // c1 - Exposed
+						{
+							// c1 - Exposed
 							Property: {
 								Effect: [],
 								Block: [],
 							},
-						}
-					]
+						},
+					],
 				},
 			],
 		}, //PrisonSJ
@@ -2639,17 +3337,15 @@ var AssetFemale3DCGExtended = {
 	ItemNeck: {
 		ShinySteelCollar: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "NoRing" },
-				{ Name: "Ring" }
-			],
-			DrawImages: false
+			Options: [{ Name: "NoRing" }, { Name: "Ring" }],
+			DrawImages: false,
 		}, // ShinySteelCollar
 		TechnoCollar: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "CollarType", Key: "c",
+					Name: "CollarType",
+					Key: "c",
 					Options: [
 						{}, // c0 Slender Collar
 						{
@@ -2675,7 +3371,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "ShockModule", Key: "s",
+					Name: "ShockModule",
+					Key: "s",
 					DrawImages: false,
 					Options: [
 						{ Property: { ShockLevel: 0 } },
@@ -2687,7 +3384,10 @@ var AssetFemale3DCGExtended = {
 			DrawData: {
 				elementData: [
 					{}, // CollarType
-					{ imagePath: "Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png" }, // ShockModule
+					{
+						imagePath:
+							"Screens/Inventory/ItemArms/PrisonLockdownSuit/ShockModule.png",
+					}, // ShockModule
 				],
 			},
 			BaselineProperty: { TriggerCount: 0, ShowText: true },
@@ -2703,14 +3403,14 @@ var AssetFemale3DCGExtended = {
 		}, // ComboHarness
 		BonedNeckCorset: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "NoRing" },
-				{ Name: "Ring" },
-			],
+			Options: [{ Name: "NoRing" }, { Name: "Ring" }],
 		}, // BonedNeckCorset
 		ShockCollar: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarShockUnit" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarShockUnit",
+			},
 			DialogPrefix: {
 				Header: "ItemNeckAccessoriesCollarShockUnitSelect",
 				Option: "ItemNeckAccessoriesCollarShockUnit",
@@ -2720,7 +3420,10 @@ var AssetFemale3DCGExtended = {
 		}, // ShockCollar
 		AutoShockCollar: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarAutoShockUnit" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarAutoShockUnit",
+			},
 			DialogPrefix: {
 				Header: "ItemNeckAccessoriesCollarAutoShockUnitSelect",
 				Module: "ItemNeckAccessoriesCollarAutoShockUnitModule",
@@ -2730,12 +3433,17 @@ var AssetFemale3DCGExtended = {
 		}, // AutoShockCollar
 		PetSuitShockCollar: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME,],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			DrawImages: false,
 			Modules: [
 				{
 					DrawImages: false,
-					Name: "ShockModule", Key: "s",
+					Name: "ShockModule",
+					Key: "s",
 					Options: [
 						{}, // 0 - disabled
 						{ HasSubscreen: true }, // 1 - enabled
@@ -2743,7 +3451,15 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ChangeWhenLocked: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, ShockLevel: 0, PunishActivity: false, PunishStandup: false, PunishStruggle: false },
+			BaselineProperty: {
+				TriggerCount: 0,
+				ShowText: true,
+				BlinkState: false,
+				ShockLevel: 0,
+				PunishActivity: false,
+				PunishStandup: false,
+				PunishStruggle: false,
+			},
 		}, // PetSuitShockCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
@@ -2752,22 +3468,27 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "Tag", Key: "t",
+					Name: "Tag",
+					Key: "t",
 					Options: [{}, {}, {}, {}, {}, {}],
 				},
 				{
-					Name: "Txt", Key: "x",
-					Options: [{
-						HasSubscreen: true,
-						ArchetypeConfig: {
-							Archetype: ExtendedArchetype.TEXT,
-							MaxLength: { Text: 9 },
-							Font: "sans-serif",
-							ScriptHooks: {
-								AfterDraw: AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook,
+					Name: "Txt",
+					Key: "x",
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 9 },
+								Font: "sans-serif",
+								ScriptHooks: {
+									AfterDraw:
+										AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook,
+								},
 							},
 						},
-					}],
+					],
 				},
 			],
 			ChangeWhenLocked: false,
@@ -2815,7 +3536,8 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawData: InventoryItemNeckAccessoriesCollarNameTagGetDrawData(36),
 			ScriptHooks: {
-				PublishAction: InventoryItemNeckAccessoriesCollarNameTagPublishActionHook,
+				PublishAction:
+					InventoryItemNeckAccessoriesCollarNameTagPublishActionHook,
 			},
 			DrawImages: false,
 			ChangeWhenLocked: false,
@@ -2823,12 +3545,15 @@ var AssetFemale3DCGExtended = {
 		}, // CollarNameTag
 		CollarNameTagOval: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarNameTag" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarNameTag",
+			},
 			Options: [
 				{ Name: "Blank" },
 				{ Name: "AnalSlut" },
 				{ Name: "Babe" },
-				{ Name: "Bandit",},
+				{ Name: "Bandit" },
 				{ Name: "Bimbo" },
 				{ Name: "Bratty" },
 				{ Name: "ButtSlut" },
@@ -2868,7 +3593,10 @@ var AssetFemale3DCGExtended = {
 		}, // CollarNameTagOval
 		CollarNameTagPet: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarNameTag" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarNameTag",
+			},
 			Options: [
 				{ Name: "Blank" },
 				{ Name: "Bunny" },
@@ -2892,7 +3620,10 @@ var AssetFemale3DCGExtended = {
 		}, // CollarNameTagPet
 		CollarNameTagLover: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarNameTag" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarNameTag",
+			},
 			Options: [
 				{ Name: "Blank" },
 				{ Name: "Cookie" },
@@ -2904,7 +3635,10 @@ var AssetFemale3DCGExtended = {
 		}, // CollarNameTagLover
 		CollarNameTagLivestock: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarNameTag" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarNameTag",
+			},
 			Options: [
 				{ Name: "Blank" },
 				{ Name: "Animal" },
@@ -2946,7 +3680,8 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "ShockLevel", Key: "s",
+					Name: "ShockLevel",
+					Key: "s",
 					DrawImages: false,
 					Options: [
 						{ Property: { ShockLevel: 0 } }, // s0 - Level 1
@@ -2955,14 +3690,15 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "AutoPunish", Key: "y",
+					Name: "AutoPunish",
+					Key: "y",
 					DrawImages: false,
 					Options: [
 						{ Property: { AutoPunish: 0 } }, // y0 - Off
 						{ Property: { AutoPunish: 1 } }, // y1 - Low
 						{ Property: { AutoPunish: 2 } }, // y2 - Medium
 						{ Property: { AutoPunish: 3 } }, // y3 - High
-					]
+					],
 				},
 			],
 			ScriptHooks: {
@@ -2987,29 +3723,33 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Plaque", Key: "p",
+					Name: "Plaque",
+					Key: "p",
 					Options: [
 						{}, //p0 - Border
 						{}, //p1 - Border
-					]
+					],
 				},
 				{
-					Name: "Dirt", Key: "d",
+					Name: "Dirt",
+					Key: "d",
 					Options: [
 						{}, //d0 - Clean
 						{}, //d1 - Dirty
-					]
+					],
 				},
 				{
-					Name: "Leash", Key: "l",
+					Name: "Leash",
+					Key: "l",
 					Options: [
 						{}, //l0 - Leash
-						{Property: { Difficulty: 5,  },}, //l1 - Rope
-						{AllowLock: true, Property: { Difficulty: 6 },}, //l2 - Chain
-					]
+						{ Property: { Difficulty: 5 } }, //l1 - Rope
+						{ AllowLock: true, Property: { Difficulty: 6 } }, //l2 - Chain
+					],
 				},
 				{
-					Name: "Sticker", Key: "s",
+					Name: "Sticker",
+					Key: "s",
 					Options: [
 						{}, //s0 - Paw
 						{}, //s1 - Triskel
@@ -3019,17 +3759,19 @@ var AssetFemale3DCGExtended = {
 						{}, //s5 - Bi
 						{}, //s6 - NoSwim
 						{}, //s7 - None
-					]
+					],
 				},
 				{
-					Name: "PostIt", Key: "m",
+					Name: "PostIt",
+					Key: "m",
 					Options: [
 						{}, //m0 - Postit
 						{}, //m1 - No PostIt
-					]
+					],
 				},
 				{
-					Name: "Txt", Key: "x",
+					Name: "Txt",
+					Key: "x",
 					Options: [
 						{
 							HasSubscreen: true,
@@ -3047,21 +3789,20 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 			BaselineProperty: { Text: "Pet", Text2: "Leashing", Text3: "Post" },
-		},//PetPost
-	},//ItemNeckRestraints
+		}, //PetPost
+	}, //ItemNeckRestraints
 	ItemHood: {
 		OldGasMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Lenses", Key: "l",
-					Options: [
-						{},
-						{ Property: { Effect: ["BlindHeavy"] } },
-					],
+					Name: "Lenses",
+					Key: "l",
+					Options: [{}, { Property: { Effect: ["BlindHeavy"] } }],
 				},
 				{
-					Name: "Addons", Key: "a",
+					Name: "Addons",
+					Key: "a",
 					Options: [
 						{},
 						{ Property: { Effect: ["GagEasy"] } },
@@ -3119,33 +3860,43 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectInflateLevel",
 				Option: "InflateLevel",
-				Chat: ({ newIndex, previousIndex }) => `InflatedHood${(newIndex > previousIndex) ? "pumps" : "deflates"}To`,
+				Chat: ({ newIndex, previousIndex }) =>
+					`InflatedHood${newIndex > previousIndex ? "pumps" : "deflates"}To`,
 			},
 			DrawImages: false,
 		}, // InflatedBallHood
 		KirugumiMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.TARGET_CHAR,
+			],
 			Modules: [
 				{
-					Name: "Eyes", Key: "e",
+					Name: "Eyes",
+					Key: "e",
 					Options: [{}, {}, {}, {}], // All options are merely cosmetic
 				},
 				{
-					Name: "Mouth", Key: "m",
+					Name: "Mouth",
+					Key: "m",
 					Options: [{}, {}, {}, {}], // All options are merely cosmetic,
 				},
 				{
-					Name: "Blush", Key: "b",
+					Name: "Blush",
+					Key: "b",
 					Options: [{}, {}, {}, {}], // All options are merely cosmetic,
 				},
 				{
-					Name: "Brows", Key: "br",
+					Name: "Brows",
+					Key: "br",
 					Options: [{}, {}, {}, {}], // All options are merely cosmetic,
 				},
 				{
-					Name: "Opacity", Key: "op",
+					Name: "Opacity",
+					Key: "op",
 					Options: [
 						{},
 						{
@@ -3157,25 +3908,40 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Effect: ["BlindHeavy", "Prone"],
 							},
-						}
+						},
 					], // Opacity
 				},
 				{
-					Name: "MaskStyle", Key: "ms",
+					Name: "MaskStyle",
+					Key: "ms",
 					Options: [
 						{
 							Property: {
 								Effect: ["BlockMouth"],
-								Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3", "Mask", "ItemHead"],
+								Hide: [
+									"Glasses",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"Mask",
+									"ItemHead",
+								],
 								HideItem: ["ItemHeadSnorkel"],
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose", "ItemEars"]
-							}
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"ItemNose",
+									"ItemEars",
+								],
+							},
 						},
 						{
 							Property: {
 								OverridePriority: 35,
 								Hide: ["Head"],
-							}
+							},
 						},
 					],
 				},
@@ -3189,25 +3955,30 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "HairOutAccOut",
 					Property: {
-						Hide: []
+						Hide: [],
 					},
 				},
 				{
 					Name: "HairInAccOut",
 					Property: {
-						Hide: ["HairBack"]
+						Hide: ["HairBack"],
 					},
 				},
 				{
 					Name: "HairOutAccIn",
 					Property: {
-						Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"]
+						Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
 					},
 				},
 				{
 					Name: "HairInAccIn",
 					Property: {
-						Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3", "HairBack"]
+						Hide: [
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"HairBack",
+						],
 					},
 				},
 			],
@@ -3240,20 +4011,21 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Visor", Key: "v",
-					Options:[
+					Name: "Visor",
+					Key: "v",
+					Options: [
 						{
 							Property: {
 								CustomBlindBackground: "",
 								Effect: [],
-							}
+							},
 						}, //v0 No Visor
 						{
 							Property: {
 								CustomBlindBackground: "",
 								Effect: [],
 								Tint: [{ Color: 0, Strength: 0.1 }],
-							}
+							},
 						}, // v1 Transparent Visor
 						{
 							Property: {
@@ -3279,19 +4051,19 @@ var AssetFemale3DCGExtended = {
 						{
 							Property: {
 								CustomBlindBackground: "HypnoSpiral2",
-								Effect: ["BlindHeavy", "Prone"]
+								Effect: ["BlindHeavy", "Prone"],
 							},
 						}, // v5 Hypnotic Visor
 					],
-
 				},
 				{
-					Name: "DeafeningModule", Key: "d",
+					Name: "DeafeningModule",
+					Key: "d",
 					Options: [
 						{}, //h0 Disabled
 						{
 							Property: {
-								Effect: ["DeafLight"]
+								Effect: ["DeafLight"],
 							},
 						}, //h1 Light
 						{
@@ -3301,19 +4073,20 @@ var AssetFemale3DCGExtended = {
 						}, //h2 Heavy
 						{
 							Property: {
-								Effect: ["DeafTotal"]
+								Effect: ["DeafTotal"],
 							},
 						}, //h3 Noise-Cancelling
 					],
 				},
 				{
-					Name: "ChinStrap", Key: "c",
+					Name: "ChinStrap",
+					Key: "c",
 					Options: [
 						{}, //c0 No Chin Strap
 						{
 							Property: {
-								Difficulty: 10
-							}
+								Difficulty: 10,
+							},
 						}, //h1 Chin Strap
 					],
 				},
@@ -3358,7 +4131,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ZippersClosedMouth",
 				},
-			]
+			],
 		}, // ZipperHood
 		HeadboxSeethrough: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -3367,7 +4140,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Seethrough",
 					Property: {
-						Tint: [{Color: 0, Strength: 1}],
+						Tint: [{ Color: 0, Strength: 1 }],
 					},
 				},
 				{
@@ -3381,102 +4154,122 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 			Modules: [
 				{
-					Name: "Blindfold", Key: "b",
+					Name: "Blindfold",
+					Key: "b",
 					Options: [
 						{}, // b0 - None
 						{
 							Property: {
 								Effect: ["BlindHeavy"],
-							}
+							},
 						}, // b1 - Blindfold
-					]
+					],
 				},
 				{
-					Name: "Gag", Key: "g",
+					Name: "Gag",
+					Key: "g",
 					Options: [
 						{}, // g0 - None
 						{
 							Property: {
 								Effect: ["GagLight"],
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-							}
+							},
 						}, // g1 - Gag
-					]
+					],
 				},
 				{
-					Name: "Expression", Key: "e",
+					Name: "Expression",
+					Key: "e",
 					Options: [
 						{}, // e0 - Neutral
 						{}, // e1 - OwO
 						{}, // e2 - UwU
-					]
+					],
 				},
 				{
-					Name: "Tightness", Key: "t",
-					Options: [{},{}], // t0 - Loose, t1 - Tight
+					Name: "Tightness",
+					Key: "t",
+					Options: [{}, {}], // t0 - Loose, t1 - Tight
 				},
-			]
+			],
 		}, //KittyHood
 		DroneMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemHead", AssetName: "DroneMask" },
 			Modules: [
 				{
-					Name: "Mouth", Key: "m",
-					Options:[
-						{ // m0 - None
-							Property: { Effect: ["BlockMouth"] }
+					Name: "Mouth",
+					Key: "m",
+					Options: [
+						{
+							// m0 - None
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m1 - Onahole
-							Property: { Effect: ["GagMedium","OpenMouth"] }
+						{
+							// m1 - Onahole
+							Property: { Effect: ["GagMedium", "OpenMouth"] },
 						},
-						{ // m2 - Fleshlight
-							Property: { Effect: ["GagMedium","OpenMouth"] }
+						{
+							// m2 - Fleshlight
+							Property: { Effect: ["GagMedium", "OpenMouth"] },
 						},
-						{ // m3 - Smile
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m3 - Smile
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m4 - Holes
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m4 - Holes
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m5 - Sculpted
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m5 - Sculpted
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m6 - Subtle
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m6 - Subtle
+							Property: { Effect: ["BlockMouth"] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Eyes", Key: "e",
-					Options:[
-						{ // e0 - None
-							Property: { Effect: ["BlindLight"] }
+					Name: "Eyes",
+					Key: "e",
+					Options: [
+						{
+							// e0 - None
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e1 - Regular
-							Property: { Effect: [] }
+						{
+							// e1 - Regular
+							Property: { Effect: [] },
 						},
-						{ // e2 - Spiral
-							Property: { Effect: [] }
+						{
+							// e2 - Spiral
+							Property: { Effect: [] },
 						},
-						{ // e3 - Smile
-							Property: { Effect: [] }
+						{
+							// e3 - Smile
+							Property: { Effect: [] },
 						},
-						{ // e4 - Holes
-							Property: { Effect: ["BlindLight"] }
+						{
+							// e4 - Holes
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e5 - Sculpted
-							Property: { Effect: [] }
+						{
+							// e5 - Sculpted
+							Property: { Effect: [] },
 						},
-						{ // e6 - Concave
-							Property: {Effect: ["BlindLight"] }
-						}
-
-					]
+						{
+							// e6 - Concave
+							Property: { Effect: ["BlindLight"] },
+						},
+					],
 				},
 				{
-					Name: "Pattern", Key: "p",
-					Options:[
+					Name: "Pattern",
+					Key: "p",
+					Options: [
 						{}, // Blank
 						{}, // Barcode
 						{}, // Scarab
@@ -3499,736 +4292,2318 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Glow", Key: "g",
-					Options: [{},{},] // Glow Off, Glow On
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], // Glow Off, Glow On
 				},
 				{
-					Name: "Sight", Key: "s",
+					Name: "Sight",
+					Key: "s",
 					Options: [
-						{ // s0 - Opaque
-							Property: { Effect: ["BlindHeavy", "Prone"] }
+						{
+							// s0 - Opaque
+							Property: { Effect: ["BlindHeavy", "Prone"] },
 						},
-						{ // s1 - One Way
-							Property: { Effect: [""] }
+						{
+							// s1 - One Way
+							Property: { Effect: [""] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Helmet", Key: "h",
+					Name: "Helmet",
+					Key: "h",
 					Options: [
 						{}, // h0 - Mask
 						{
 							Property: {
-								Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+								Hide: ["HairFront", "HairBack"], //"HairAccessory1", "HairAccessory2"],
 								HideItem: [
-									"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
-									"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
-									"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
+									"HatBonnet1",
+									"HatBonnet2",
+									"HatBunnySuccubus2",
+									"HatCrown1",
+									"HatCrown2",
+									"HatCrown4",
+									"HatCrown5",
+									"HatBand1",
+									"HatBand2",
+									"HatPirateBandana1",
+									"HatVeil1",
+									"HatVeil2", // Hat items
+									"MaskFuturisticVisor",
+									"MaskShinobiMask", // Mask items
 									"HairAccessory3Ribbons4", // HairAccessory items
-									"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars",
-									"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
-									"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
-									"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2", "HairAccessory1WolfEars1", "HairAccessory1WolfEars2",
+									"HairAccessory1Antennae",
+									"HairAccessory1BunnyEars1",
+									"HairAccessory1BunnyEars2",
+									"HairAccessory1CowHorns",
+									"HairAccessory1ElfEars",
+									"HairAccessory1Ears1",
+									"HairAccessory1Ears2",
+									"HairAccessory1FoxEars1",
+									"HairAccessory1FoxEars2",
+									"HairAccessory1FoxEars3",
+									"HairAccessory1KittenEars1",
+									"HairAccessory1KittenEars2",
+									"HairAccessory1MouseEars1",
+									"HairAccessory1MouseEars2",
+									"HairAccessory1PuppyEars1",
+									"HairAccessory1Ribbons2",
+									"HairAccessory1WolfEars1",
+									"HairAccessory1WolfEars2",
 									"HairAccessory1Ribbons4", // Ear items (HA1)
-									"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars",
-									"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
-									"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
-									"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2", "HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)
+									"HairAccessory2Antennae",
+									"HairAccessory2BunnyEars1",
+									"HairAccessory2BunnyEars2",
+									"HairAccessory2CowHorns",
+									"HairAccessory2ElfEars",
+									"HairAccessory2Ears1",
+									"HairAccessory2Ears2",
+									"HairAccessory2FoxEars1",
+									"HairAccessory2FoxEars2",
+									"HairAccessory2FoxEars3",
+									"HairAccessory2KittenEars1",
+									"HairAccessory2KittenEars2",
+									"HairAccessory2MouseEars1",
+									"HairAccessory2MouseEars2",
+									"HairAccessory2PuppyEars1",
+									"HairAccessory2Ribbons2",
+									"HairAccessory2WolfEars1",
+									"HairAccessory2WolfEars2", // Ear items (HA2)
 								], // These items are hidden because they have clear mismatch issues with the hood.
 							},
 						}, // h1 - Helmet (hood)
-						{ // h2 - Helmet ( hood but nothing shows)
+						{
+							// h2 - Helmet ( hood but nothing shows)
 							Property: {
-								Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"Hat",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+								],
+								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
 							},
 						},
-					]
+					],
 				},
 				{
-					Name: "Layering", Key: "j",
+					Name: "Layering",
+					Key: "j",
 					Options: [
 						{
-							Property:{
+							Property: {
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
-							}
+								Hide: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"Glasses",
+								],
+							},
 						}, // No gags or blindfolds visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
-								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemHead", "Glasses"],
+							},
 						}, // Highest layer gag visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: ["ItemHead"],
 								Hide: ["ItemHead", "Glasses"],
-							}
+							},
 						}, // All gags visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-							}
+							},
 						}, // Blindfold items visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
-								Block: ["ItemMouth", "ItemMouth2",],
-								Hide: ["ItemMouth", "ItemMouth2",],
-							}
+								Block: ["ItemMouth", "ItemMouth2"],
+								Hide: ["ItemMouth", "ItemMouth2"],
+							},
 						}, // Blindfold and highest layer gag
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: [],
 								Hide: [],
-							}
+							},
 						}, // Blindfold and all gags
-
-					]
-
+					],
 				},
-			]
+			],
 		}, // DroneMask
 		CustomLatexHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "MPanel", Key: "m", DrawImages: true,
-					Options:[
-						{ // m0 - No Mouth
+					Name: "MPanel",
+					Key: "m",
+					DrawImages: true,
+					Options: [
+						{
+							// m0 - No Mouth
 							Property: {
-								Effect: ["GagEasy","BlockMouth"],
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m1 - Hole Only
+						{
+							// m1 - Hole Only
 							Property: {
 								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m2 - Round Mouth
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m2 - Round Mouth
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m3 - Shaped Mouth
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m3 - Shaped Mouth
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m4 - No Mouth Transparent
+						{
+							// m4 - No Mouth Transparent
 							Property: {
-								Effect: ["GagEasy","BlockMouth"],
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m5 - Hole Only Transparent
+						{
+							// m5 - Hole Only Transparent
 							Property: {
 								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m6 - Round Mouth Transparent
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m6 - Round Mouth Transparent
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m7 - Shaped Mouth Transparent
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m7 - Shaped Mouth Transparent
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m8 - Round Mouth Opaque, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m8 - Round Mouth Opaque, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m9 - Round Mouth Opaque, filled Opaque + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m9 - Round Mouth Opaque, filled Opaque + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m10 - Round Mouth Opaque, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m10 - Round Mouth Opaque, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m11 - Round Mouth Opaque, filled Transparent + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m11 - Round Mouth Opaque, filled Transparent + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m12 - Shaped Mouth Opaque, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m12 - Shaped Mouth Opaque, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m13 - Shaped Mouth Opaque, filled Opaque + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m13 - Shaped Mouth Opaque, filled Opaque + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m14 - Shaped Mouth Opaque, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m14 - Shaped Mouth Opaque, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m15 - Shaped Mouth Opaque, filled Transparent + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m15 - Shaped Mouth Opaque, filled Transparent + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m16 - Round Mouth Transparent, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m16 - Round Mouth Transparent, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m17 - Round Mouth Transparent, filled Opaque + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m17 - Round Mouth Transparent, filled Opaque + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m18 - Round Mouth Transparent, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m18 - Round Mouth Transparent, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m19 - Round Mouth Transparent, filled Transparent + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m19 - Round Mouth Transparent, filled Transparent + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m20 - Shaped Mouth Transparent, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m20 - Shaped Mouth Transparent, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m21 - Shaped Mouth Transparent, filled Opaque + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m21 - Shaped Mouth Transparent, filled Opaque + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m22 - Shaped Mouth Transparent, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m22 - Shaped Mouth Transparent, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m23 - Shaped Mouth Transparent, filled Transparent + pinhole
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m23 - Shaped Mouth Transparent, filled Transparent + pinhole
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m24 - Open
-							Property: { Effect: []}
+						{
+							// m24 - Open
+							Property: { Effect: [] },
 						},
-						{ // m25 - Fishnet Mouth
-							Property: { Effect: ["BlockMouth"],
+						{
+							// m25 - Fishnet Mouth
+							Property: {
+								Effect: ["BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m26 - Circle Mouth
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m26 - Circle Mouth
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m27 - Circle Mouth Transparent
-							Property: { Effect: ["OpenMouth"] }
+						{
+							// m27 - Circle Mouth Transparent
+							Property: { Effect: ["OpenMouth"] },
 						},
-						{ // m28 - Circle Mouth Opaque, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m28 - Circle Mouth Opaque, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m29 - Circle Mouth Transparent, filled Opaque
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m29 - Circle Mouth Transparent, filled Opaque
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m30 - Circle Mouth Opaque, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m30 - Circle Mouth Opaque, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-						{ // m31 - Circle Mouth Transparent, filled Transparent
-							Property: { Effect: ["GagEasy","BlockMouth"],
+						{
+							// m31 - Circle Mouth Transparent, filled Transparent
+							Property: {
+								Effect: ["GagEasy", "BlockMouth"],
 								OverridePriority: {
-									"PanelHead": 38, "PanelHeadTransparent": 38, "PanelHeadHighlight": 38, "PanelNoEye": 38, "PanelNoEyeTransparent": 38, "PanelHoleNoEye": 38, "PanelHoleNoEyeTransparent": 38,
-									"PanelNoEyeHighlight": 38, "PanelRoundEye": 38, "PanelRoundEyeTransparent": 38, "PanelRoundEyeHighlight": 38, "PanelShapedEye": 38, "PanelShapedEyeTransparent": 38, "PanelShapedEyeHighlight": 38,
-									"PanelCircleEye": 38, "PanelCircleEyeTransparent": 38, "PanelCircleEyeHighlight": 38, "FillRoundEye": 38, "FillRoundEyeTransparent": 38, "FillHoleRoundEye": 38, "FillHoleRoundEyeTransparent": 38,
-									"FillRoundEyeHighlight": 38, "FillShapedEye": 38, "FillShapedEyeTransparent": 38, "FillHoleShapedEye": 38, "FillHoleShapedEyeTransparent": 38, "FillShapedEyeHighlight": 38, "FillCircleEye": 38,
-									"FillCircleEyeTransparent": 38, "PanelNoMouth": 38, "PanelNoMouthTransparent": 38, "PanelHoleNoMouth": 38, "PanelHoleNoMouthTransparent": 38, "PanelNoMouthHighlight": 38, "PanelRoundMouth": 38,
-									"PanelRoundMouthTransparent": 38, "PanelRoundMouthHighlight": 38, "PanelShapedMouth": 38, "PanelShapedMouthTransparent": 38, "PanelShapedMouthHighlight": 38, "PanelFishnetMouth": 38,
-									"PanelCircleMouth": 38, "PanelCircleMouthTransparent": 38, "PanelCircleMouthHighlight": 38, "FillRoundMouth": 38, "FillRoundMouthTransparent": 38, "FillHoleRoundMouth": 38, "FillHoleRoundMouthTransparent": 38,
-									"FillShapedMouth": 38, "FillShapedMouthTransparent": 38, "FillHoleShapedMouth": 38, "FillHoleShapedMouthTransparent": 38, "FillCircleMouth": 38, "FillCircleMouthTransparent": 38, "LiningRoundFace": 38,
-									"LiningRoundFaceHighlight": 38, "LiningCrossFace": 38, "LiningCrossFaceHighlight": 38, "LiningRoundEye": 38, "LiningRoundEyeHighlight": 38, "LiningShapedEye": 38, "LiningShapedEyeHighlight": 38,
-									"LiningRoundMouth": 38, "LiningShapedMouth": 38, "LiningCircleEye": 38, "LiningCircleEyeHighlight": 38, "LiningCircleMouth": 38,
+									PanelHead: 38,
+									PanelHeadTransparent: 38,
+									PanelHeadHighlight: 38,
+									PanelNoEye: 38,
+									PanelNoEyeTransparent: 38,
+									PanelHoleNoEye: 38,
+									PanelHoleNoEyeTransparent: 38,
+									PanelNoEyeHighlight: 38,
+									PanelRoundEye: 38,
+									PanelRoundEyeTransparent: 38,
+									PanelRoundEyeHighlight: 38,
+									PanelShapedEye: 38,
+									PanelShapedEyeTransparent: 38,
+									PanelShapedEyeHighlight: 38,
+									PanelCircleEye: 38,
+									PanelCircleEyeTransparent: 38,
+									PanelCircleEyeHighlight: 38,
+									FillRoundEye: 38,
+									FillRoundEyeTransparent: 38,
+									FillHoleRoundEye: 38,
+									FillHoleRoundEyeTransparent: 38,
+									FillRoundEyeHighlight: 38,
+									FillShapedEye: 38,
+									FillShapedEyeTransparent: 38,
+									FillHoleShapedEye: 38,
+									FillHoleShapedEyeTransparent: 38,
+									FillShapedEyeHighlight: 38,
+									FillCircleEye: 38,
+									FillCircleEyeTransparent: 38,
+									PanelNoMouth: 38,
+									PanelNoMouthTransparent: 38,
+									PanelHoleNoMouth: 38,
+									PanelHoleNoMouthTransparent: 38,
+									PanelNoMouthHighlight: 38,
+									PanelRoundMouth: 38,
+									PanelRoundMouthTransparent: 38,
+									PanelRoundMouthHighlight: 38,
+									PanelShapedMouth: 38,
+									PanelShapedMouthTransparent: 38,
+									PanelShapedMouthHighlight: 38,
+									PanelFishnetMouth: 38,
+									PanelCircleMouth: 38,
+									PanelCircleMouthTransparent: 38,
+									PanelCircleMouthHighlight: 38,
+									FillRoundMouth: 38,
+									FillRoundMouthTransparent: 38,
+									FillHoleRoundMouth: 38,
+									FillHoleRoundMouthTransparent: 38,
+									FillShapedMouth: 38,
+									FillShapedMouthTransparent: 38,
+									FillHoleShapedMouth: 38,
+									FillHoleShapedMouthTransparent: 38,
+									FillCircleMouth: 38,
+									FillCircleMouthTransparent: 38,
+									LiningRoundFace: 38,
+									LiningRoundFaceHighlight: 38,
+									LiningCrossFace: 38,
+									LiningCrossFaceHighlight: 38,
+									LiningRoundEye: 38,
+									LiningRoundEyeHighlight: 38,
+									LiningShapedEye: 38,
+									LiningShapedEyeHighlight: 38,
+									LiningRoundMouth: 38,
+									LiningShapedMouth: 38,
+									LiningCircleEye: 38,
+									LiningCircleEyeHighlight: 38,
+									LiningCircleMouth: 38,
 								},
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"]
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
 						},
-					]
+					],
 				},
 				{
-					Name: "EPanel", Key: "e", DrawImages: true,
-					Options:[
-						{ // e0 - No Eyes
-							Property: { Effect: ["BlindHeavy"]
-							}
+					Name: "EPanel",
+					Key: "e",
+					DrawImages: true,
+					Options: [
+						{
+							// e0 - No Eyes
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e1 - Hole Only
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e1 - Hole Only
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e2 - Round Eyes
-							Property: { Effect: []}
+						{
+							// e2 - Round Eyes
+							Property: { Effect: [] },
 						},
-						{ // e3 - Shaped Eyes
-							Property: { Effect: []}
+						{
+							// e3 - Shaped Eyes
+							Property: { Effect: [] },
 						},
-						{ // e4 - No Eyes Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e4 - No Eyes Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e5 - Hole Only Transparent
-							Property: { Effect: []}
+						{
+							// e5 - Hole Only Transparent
+							Property: { Effect: [] },
 						},
-						{ // e6 - Round Eyes Transparent
-							Property: { Effect: []}
+						{
+							// e6 - Round Eyes Transparent
+							Property: { Effect: [] },
 						},
-						{ // e7 - Shaped Eyes Transparent
-							Property: { Effect: []}
+						{
+							// e7 - Shaped Eyes Transparent
+							Property: { Effect: [] },
 						},
-						{ // e8 - Round Eyes Opaque, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e8 - Round Eyes Opaque, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e9 - Round Eyes Opaque, filled Opaque + pinhole
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e9 - Round Eyes Opaque, filled Opaque + pinhole
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e10 - Round Eyes Opaque, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e10 - Round Eyes Opaque, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e11 - Round Eyes Opaque, filled Transparent + pinhole
-							Property: { Effect: []}
+						{
+							// e11 - Round Eyes Opaque, filled Transparent + pinhole
+							Property: { Effect: [] },
 						},
-						{ // e12 - Shaped Eyes Opaque, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e12 - Shaped Eyes Opaque, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e13 - Shaped Eyes Opaque, filled Opaque + pinhole
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e13 - Shaped Eyes Opaque, filled Opaque + pinhole
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e14 - Shaped Eyes Opaque, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e14 - Shaped Eyes Opaque, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e15 - Shaped Eyes Opaque, filled Transparent + pinhole
-							Property: { Effect: []}
+						{
+							// e15 - Shaped Eyes Opaque, filled Transparent + pinhole
+							Property: { Effect: [] },
 						},
-						{ // e16 - Round Eyes Transparent, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e16 - Round Eyes Transparent, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e17 - Round Eyes Transparent, filled Opaque + pinhole
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e17 - Round Eyes Transparent, filled Opaque + pinhole
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e18 - Round Eyes Transparent, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e18 - Round Eyes Transparent, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e19 - Round Eyes Transparent, filled Transparent + pinhole
-							Property: { Effect: []}
+						{
+							// e19 - Round Eyes Transparent, filled Transparent + pinhole
+							Property: { Effect: [] },
 						},
-						{ // e20 - Shaped Eyes Transparent, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e20 - Shaped Eyes Transparent, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e21 - Shaped Eyes Transparent, filled Opaque + pinhole
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e21 - Shaped Eyes Transparent, filled Opaque + pinhole
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e22 - Shaped Eyes Transparent, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e22 - Shaped Eyes Transparent, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e23 - Shaped Eyes Transparent, filled Transparent + pinhole
-							Property: { Effect: []}
+						{
+							// e23 - Shaped Eyes Transparent, filled Transparent + pinhole
+							Property: { Effect: [] },
 						},
-						{ // e24 - Circle Eyes
-							Property: { Effect: []}
+						{
+							// e24 - Circle Eyes
+							Property: { Effect: [] },
 						},
-						{ // e25 - Circle Eyes Transparent
-							Property: { Effect: []}
+						{
+							// e25 - Circle Eyes Transparent
+							Property: { Effect: [] },
 						},
-						{ // e26 - Circle Eyes Opaque, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e26 - Circle Eyes Opaque, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e27 - Circle Eyes Opaque, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e27 - Circle Eyes Opaque, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e28 - Circle Eyes Transparent, filled Opaque
-							Property: { Effect: ["BlindHeavy"]
-							}
+						{
+							// e28 - Circle Eyes Transparent, filled Opaque
+							Property: { Effect: ["BlindHeavy"] },
 						},
-						{ // e29 - Circle Eyes Transparent, filled Transparent
-							Property: { Effect: ["BlindLight"]
-							}
+						{
+							// e29 - Circle Eyes Transparent, filled Transparent
+							Property: { Effect: ["BlindLight"] },
 						},
-					]
+					],
 				},
 				{
-					Name: "HeadT", Key: "x",
-					Options:[{},{},] // Opaque, Transparent
+					Name: "HeadT",
+					Key: "x",
+					Options: [{}, {}], // Opaque, Transparent
 				},
 				{
-					Name: "HairShow", Key: "h",
+					Name: "HairShow",
+					Key: "h",
 					Options: [
 						{}, // h0 - Show Hair
-						{ // h1 - Hide Hair
+						{
+							// h1 - Hide Hair
 							Property: {
-								Hide: ["HairFront", "HairBack",],
+								Hide: ["HairFront", "HairBack"],
 								Attribute: ["ShortHair"],
 							},
 						},
-						{ // h2 - Show Back Hair
+						{
+							// h2 - Show Back Hair
 							Property: {
 								Hide: ["HairFront"],
 								Attribute: ["ShortHair"],
 							},
 						},
-						{ // h3 - Hide Hair and Accessories
+						{
+							// h3 - Hide Hair and Accessories
 							Property: {
-								Hide: ["HairFront", "HairBack", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+								],
 								Attribute: ["ShortHair"],
 							},
 						},
-					]
+					],
 				},
 				{
-					Name: "ZHood", Key: "z",
+					Name: "ZHood",
+					Key: "z",
 					Options: [
-						{// z0 - None
-							Property: { Effect: [""], }
+						{
+							// z0 - None
+							Property: { Effect: [""] },
 						},
-						{// z1 - Open
-							Property: { Effect: [""],
-								Hide: ["HairFront"],
-								HideItem: ["MaskOpenFaceHood", "MaskFaceVeil", "MaskFoxMask"],
-							}
-						},
-						{// z2 - Closed
+						{
+							// z1 - Open
 							Property: {
-								Effect: ["BlindHeavy","GagEasy","BlockMouth"],
-								Hide: ["HairFront","Mask"],
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose"],
-							}
-						},
-						{// z3 - Open Transparent
-							Property: { Effect: [""],
+								Effect: [""],
 								Hide: ["HairFront"],
 								HideItem: ["MaskOpenFaceHood", "MaskFaceVeil", "MaskFoxMask"],
-							}
+							},
 						},
-						{// z4 - Closed Transparent
-							Property: { Effect: ["BlindLight","GagEasy","BlockMouth"],
+						{
+							// z2 - Closed
+							Property: {
+								Effect: ["BlindHeavy", "GagEasy", "BlockMouth"],
+								Hide: ["HairFront", "Mask"],
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"ItemNose",
+								],
+							},
+						},
+						{
+							// z3 - Open Transparent
+							Property: {
+								Effect: [""],
 								Hide: ["HairFront"],
 								HideItem: ["MaskOpenFaceHood", "MaskFaceVeil", "MaskFoxMask"],
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemNose"],
-							}
+							},
 						},
-					]
+						{
+							// z4 - Closed Transparent
+							Property: {
+								Effect: ["BlindLight", "GagEasy", "BlockMouth"],
+								Hide: ["HairFront"],
+								HideItem: ["MaskOpenFaceHood", "MaskFaceVeil", "MaskFoxMask"],
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"ItemNose",
+								],
+							},
+						},
+					],
 				},
 			],
 			ChangeWhenLocked: false,
@@ -4236,109 +6611,114 @@ var AssetFemale3DCGExtended = {
 		}, // CustomLatexHood
 		HarnessCatMask: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "NoEars" },
-				{ Name: "Ears" },
-			],
+			Options: [{ Name: "NoEars" }, { Name: "Ears" }],
 			ChangeWhenLocked: false,
 		}, // HarnessCatMask
 		InflatableGagMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules:[
+			Modules: [
 				{
-					Name: "Lenses", Key: "l",
-					Options:[
-						{
-							Property:{ Effect: [] }
-						},
-						{
-							Property:{
-								Effect: ["BlindLight"],
-								Tint: [{Color: 2, Strength: 0.2}],
-							}
-						},
-						{
-							Property:{ Effect: ["BlindHeavy"] }
-						},
-					]
-				},
-				{
-					Name: "GagLevel", Key: "g",
-					Options:[
-						{Property: {Effect: ["BlockMouth"] }},
-						{Property: {Effect: ["BlockMouth","GagLight"]}},
-						{Property: {Effect: ["BlockMouth","GagMedium"]}},
-						{Property: {Effect: ["BlockMouth","GagVeryHeavy"]}},
-					]
-				},
-				{
-					Name: "Hair", Key: "h",
+					Name: "Lenses",
+					Key: "l",
 					Options: [
-						{Property: {Hide: ["HairBack"]}},
-						{Property: {Hide: []}},
-					]
+						{
+							Property: { Effect: [] },
+						},
+						{
+							Property: {
+								Effect: ["BlindLight"],
+								Tint: [{ Color: 2, Strength: 0.2 }],
+							},
+						},
+						{
+							Property: { Effect: ["BlindHeavy"] },
+						},
+					],
 				},
-			]
+				{
+					Name: "GagLevel",
+					Key: "g",
+					Options: [
+						{ Property: { Effect: ["BlockMouth"] } },
+						{ Property: { Effect: ["BlockMouth", "GagLight"] } },
+						{ Property: { Effect: ["BlockMouth", "GagMedium"] } },
+						{ Property: { Effect: ["BlockMouth", "GagVeryHeavy"] } },
+					],
+				},
+				{
+					Name: "Hair",
+					Key: "h",
+					Options: [
+						{ Property: { Hide: ["HairBack"] } },
+						{ Property: { Hide: [] } },
+					],
+				},
+			],
 		}, //Inflatable Gag Mask
 		OpenMouthPlugHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules:[
+			Modules: [
 				{
-					Name: "FakeMouth", Key: "m",
+					Name: "FakeMouth",
+					Key: "m",
 					Options: [
-						{Property: {Effect: [] }},
-						{Property: {Effect: ["BlockMouth"] }},
+						{ Property: { Effect: [] } },
+						{ Property: { Effect: ["BlockMouth"] } },
 					], //None, Fake Mouth
 				},
 				{
-					Name: "Thickness", Key: "t",
-					Options: [{},{}]
+					Name: "Thickness",
+					Key: "t",
+					Options: [{}, {}],
 				}, // Thick, Thin
-			]
+			],
 		}, // Open Mouth Plug Hood
 		LatexDogHood: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Thick" },
-				{ Name: "Thin" },
-			],
+			Options: [{ Name: "Thick" }, { Name: "Thin" }],
 		}, //Latex Dog Hood
 		VacHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Breathplay", Key: "bp",
-					Options:[
-						{ // hp0 - None
+					Name: "Breathplay",
+					Key: "bp",
+					Options: [
+						{
+							// hp0 - None
 							Property: { Effect: [] },
 						},
-						{ // hp1 - Hand Pump
+						{
+							// hp1 - Hand Pump
 							Property: {
 								Effect: ["GagMedium", "BlockMouth"],
 							},
 						},
-						{ // r1 - Rebreather
+						{
+							// r1 - Rebreather
 							Property: {
 								Effect: ["GagMedium", "BlockMouth"],
 							},
 						},
-					]
+					],
 				},
 				{
-					Name: "PlasticClip", Key: "pc",
-					Options:[
-						{ // pc0 - None
-							Property: { Effect: [] }
+					Name: "PlasticClip",
+					Key: "pc",
+					Options: [
+						{
+							// pc0 - None
+							Property: { Effect: [] },
 						},
-						{ // pc1 - Tube Clamped
+						{
+							// pc1 - Tube Clamped
 							Property: {
-								Effect: ["GagMedium", "BlockMouth"]
-							}
-						}
-
-					]
+								Effect: ["GagMedium", "BlockMouth"],
+							},
+						},
+					],
 				},
 			],
 		}, //VacHood
@@ -4350,40 +6730,46 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Muzzle", Key: "m",
-					Options:[
-						{ // M0 - None
-							Property: { Effect: [] }
+					Name: "Muzzle",
+					Key: "m",
+					Options: [
+						{
+							// M0 - None
+							Property: { Effect: [] },
 						},
-						{ // M1 - muzzled
-							Property: { Effect: ["GagMedium","BlockMouth"] }
+						{
+							// M1 - muzzled
+							Property: { Effect: ["GagMedium", "BlockMouth"] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Lenses", Key: "l",
-					Options:[
-						{ // l0 - None
-							Property: { Effect: [] }
+					Name: "Lenses",
+					Key: "l",
+					Options: [
+						{
+							// l0 - None
+							Property: { Effect: [] },
 						},
-						{ // l1 - Covered
-							Property: { Effect: ["BlindLight"] }
-
-						}
-
-					]
+						{
+							// l1 - Covered
+							Property: { Effect: ["BlindLight"] },
+						},
+					],
 				},
 				{
-					Name: "Collar", Key: "c",
-					Options:[
-						{ // M0 - None
-							Property: { Effect: [] }
+					Name: "Collar",
+					Key: "c",
+					Options: [
+						{
+							// M0 - None
+							Property: { Effect: [] },
 						},
-						{ // M1 - Collar
-							Property: { Effect: [] }
-
+						{
+							// M1 - Collar
+							Property: { Effect: [] },
 						},
-					]
+					],
 				},
 			],
 		}, //Latex Dog Mask
@@ -4401,9 +6787,9 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Ears1", Key: "e", // Left Ear!
-					Options:
-					[
+					Name: "Ears1",
+					Key: "e", // Left Ear!
+					Options: [
 						{}, // e0 - none
 						{}, // e1 - stud
 						{}, // e2 - ring
@@ -4419,9 +6805,9 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Ears2", Key: "a", // Right Ear!
-					Options:
-					[
+					Name: "Ears2",
+					Key: "a", // Right Ear!
+					Options: [
 						{}, // a0 - none
 						{}, // a1 - stud
 						{}, // a2 - ring
@@ -4437,9 +6823,9 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Nose", Key: "n",
-					Options:
-					[
+					Name: "Nose",
+					Key: "n",
+					Options: [
 						{}, // n0 - none
 						{}, // n1 - septum ring
 						{}, // n2 - stud right
@@ -4449,9 +6835,9 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Face", Key: "f",
-					Options:
-					[
+					Name: "Face",
+					Key: "f",
+					Options: [
 						{}, // f0 - none
 						{}, // f1 - dermals both
 						{}, // f2 - dermals right
@@ -4474,36 +6860,39 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Style", Key: "s",
+					Name: "Style",
+					Key: "s",
 					Options: [
 						{}, // s0 eyebrows2
 						{}, // s1 eyebrows3
 						{}, // s2 eyebrows4
 						{}, // s3 eyebrows5
 						{}, // s4 eyebrows6
-					]
+					],
 				},
 				{
-					Name: "LeftPiercing", Key: "p",
+					Name: "LeftPiercing",
+					Key: "p",
 					Options: [
 						{}, // p0 none
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // p1 1Bar
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // p2 2Bar
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // p3 1Ring
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // p4 2Ring
-					]
+					],
 				},
 				{
-					Name: "RightPiercing", Key: "r",
+					Name: "RightPiercing",
+					Key: "r",
 					Options: [
 						{}, // r0 none
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // r1 1Bar
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // r2 2Bar
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // r3 1Ring
 						{ PrerequisiteBuyGroup: "JewelrySet" }, // r4 2Ring
-					]
+					],
 				},
-			]
+			],
 		},
 	},
 	Mouth: {
@@ -4511,53 +6900,57 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Lips", Key: "l",
+					Name: "Lips",
+					Key: "l",
 					Options: [
 						{}, // l0 - none
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l1 - middle
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l2 - left
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l3 - right
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l4 - both sides
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l5 - triple
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l6 - vertical labret
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l7 - vertical labret with rings
-					]
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l1 - middle
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l2 - left
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l3 - right
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l4 - both sides
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l5 - triple
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l6 - vertical labret
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l7 - vertical labret with rings
+					],
 				},
 				{
-					Name: "Tongue", Key: "t",
+					Name: "Tongue",
+					Key: "t",
 					Options: [
 						{}, // t0 - none
-						{PrerequisiteBuyGroup: "JewelrySet"}, // t1 - one stud
-						{PrerequisiteBuyGroup: "JewelrySet"}, // t2 - double studs
-					]
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // t1 - one stud
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // t2 - double studs
+					],
 				},
-			]
+			],
 		},
 		Full: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Lips", Key: "l",
+					Name: "Lips",
+					Key: "l",
 					Options: [
 						{}, // l0 - none
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l1 - middle
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l2 - left
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l3 - right
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l4 - both sides
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l5 - triple
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l6 - vertical labret
-						{PrerequisiteBuyGroup: "JewelrySet"}, // l7 - vertical labret with rings
-					]
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l1 - middle
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l2 - left
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l3 - right
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l4 - both sides
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l5 - triple
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l6 - vertical labret
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // l7 - vertical labret with rings
+					],
 				},
 				{
-					Name: "Tongue", Key: "t",
+					Name: "Tongue",
+					Key: "t",
 					Options: [
 						{}, // t0 - none
-						{PrerequisiteBuyGroup: "JewelrySet"}, // t1 - one stud
-						{PrerequisiteBuyGroup: "JewelrySet"}, // t2 - double studs
-					]
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // t1 - one stud
+						{ PrerequisiteBuyGroup: "JewelrySet" }, // t2 - double studs
+					],
 				},
-			]
+			],
 		},
 	},
 	ItemDevices: {
@@ -4565,41 +6958,58 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Window", Key: "w",
+					Name: "Window",
+					Key: "w",
 					Options: [
 						{}, // d0 - Open
 						{
 							Property: {
 								Difficulty: 20,
-								Effect: ["Prone", "Freeze", "Enclose"]
+								Effect: ["Prone", "Freeze", "Enclose"],
 							},
 						}, // d1 - Window
 						{
 							Property: {
 								Difficulty: 22,
-								Effect: ["BlindLight", "Prone", "Freeze", "Enclose"]
+								Effect: ["BlindLight", "Prone", "Freeze", "Enclose"],
 							},
 						}, // d2 - Normal Window
 						{
 							Property: {
 								Difficulty: 22,
-								Effect: ["BlindNormal", "Prone", "Freeze", "Enclose"]
+								Effect: ["BlindNormal", "Prone", "Freeze", "Enclose"],
 							},
 						}, // d3 - Small window
 						{
 							Property: {
 								Difficulty: 52,
-								Effect: ["BlindHeavy", "GagLight", "Prone", "Freeze", "Enclose"]
+								Effect: [
+									"BlindHeavy",
+									"GagLight",
+									"Prone",
+									"Freeze",
+									"Enclose",
+								],
 							},
 						}, // d4 - Closed
 					],
 				},
 				{
-					Name: "LegCuffs", Key: "l",
+					Name: "LegCuffs",
+					Key: "l",
 					Options: [
 						{}, // l0 - No leg straps
-						{ // l1 - Kneel leg restraints
-							Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+						{
+							// l1 - Kneel leg restraints
+							Prerequisite: [
+								"LegsOpen",
+								"CuffedLegsOrEmpty",
+								"CuffedFeetOrEmpty",
+								"NotSuspended",
+								"NotHogtied",
+								"NotHorse",
+								"NotKneeling",
+							],
 							Property: {
 								Difficulty: 18,
 								SetPose: ["Kneel"],
@@ -4609,33 +7019,53 @@ var AssetFemale3DCGExtended = {
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // l2 - Closed leg restraints
-							Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+						{
+							// l2 - Closed leg restraints
+							Prerequisite: [
+								"LegsOpen",
+								"CuffedLegsOrEmpty",
+								"CuffedFeetOrEmpty",
+								"NotSuspended",
+								"NotHogtied",
+								"NotHorse",
+								"NotKneeling",
+							],
 							Property: {
 								Difficulty: 22,
 								SetPose: ["LegsClosed"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						},
-						{ // l3 - Spread leg restraints
-							Prerequisite: ["LegsOpen", "CuffedLegsOrEmpty", "CuffedFeetOrEmpty", "NotSuspended", "NotHogtied", "NotHorse", "NotKneeling"],
+						{
+							// l3 - Spread leg restraints
+							Prerequisite: [
+								"LegsOpen",
+								"CuffedLegsOrEmpty",
+								"CuffedFeetOrEmpty",
+								"NotSuspended",
+								"NotHogtied",
+								"NotHorse",
+								"NotKneeling",
+							],
 							Property: {
 								Difficulty: 22,
 								SetPose: ["Spread"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "Freeze", "BlockKneel", "Mounted"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						},
 					],
 				},
 				{
-					Name: "ArmCuffs", Key: "a",
+					Name: "ArmCuffs",
+					Key: "a",
 					Options: [
 						{}, // s0 - No arm cuffs
-						{ // s1 - Elbow cuffs
+						{
+							// s1 - Elbow cuffs
 							Prerequisite: ["CuffedArmsOrEmpty"],
 							Property: {
 								Difficulty: 18,
@@ -4646,7 +7076,8 @@ var AssetFemale3DCGExtended = {
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // s2 - Box cuffs
+						{
+							// s2 - Box cuffs
 							Prerequisite: ["CuffedArmsOrEmpty"],
 							Property: {
 								Difficulty: 18,
@@ -4657,7 +7088,8 @@ var AssetFemale3DCGExtended = {
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // s3 - Overhead restraints
+						{
+							// s3 - Overhead restraints
 							Prerequisite: ["CuffedArmsOrEmpty"],
 							Property: {
 								Difficulty: 22,
@@ -4671,10 +7103,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Device", Key: "d",
+					Name: "Device",
+					Key: "d",
 					Options: [
 						{}, // d0 - No devvice
-						{ // s1 - Pleasure module
+						{
+							// s1 - Pleasure module
 							HasSubscreen: true,
 							Prerequisite: ["AccessVulva", "VulvaEmpty"],
 							Property: {
@@ -4693,7 +7127,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Structure", Key: "t",
+					Name: "Structure",
+					Key: "t",
 					Options: [
 						{}, // t0 - No harness
 						{}, // t1 - X
@@ -4702,31 +7137,36 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Harness", Key: "h",
+					Name: "Harness",
+					Key: "h",
 					Options: [
 						{}, // h0 - None
-						{ // h1 - Minimal
+						{
+							// h1 - Minimal
 							Property: {
 								Difficulty: 12,
 								Effect: ["Prone", "Freeze"],
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // h2 - Comprehensive
+						{
+							// h2 - Comprehensive
 							Property: {
 								Difficulty: 18,
 								Effect: ["Prone", "Freeze"],
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // h3 - Comprehensive (breast)
+						{
+							// h3 - Comprehensive (breast)
 							Property: {
 								Difficulty: 18,
 								Effect: ["Prone", "Freeze"],
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
 						},
-						{ // h4 - High Security
+						{
+							// h4 - High Security
 							Property: {
 								Difficulty: 24,
 								Effect: ["Prone", "Freeze"],
@@ -4743,12 +7183,16 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticCrate
 
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.TARGET_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.TARGET_CHAR,
+			],
 			Options: [
 				{
 					Name: "None",
@@ -4789,7 +7233,12 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["LegsClosed", "BaseUpper"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 					},
 				},
 				{
@@ -4801,7 +7250,12 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["LegsClosed", "BaseUpper"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
 					},
 				},
 			],
@@ -4827,7 +7281,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						OverrideHeight: { Height: -200, Priority: 21 },
 						OverridePriority: 1,
-						SetPose: ["Kneel"]
+						SetPose: ["Kneel"],
 					},
 				},
 			],
@@ -4841,14 +7295,16 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Gate", Key: "g",
+					Name: "Gate",
+					Key: "g",
 					Options: [
 						{}, // g0 - Gate open
 						{ Property: { Difficulty: 15 } }, // g1 - Gate closed
 					],
 				},
 				{
-					Name: "Plushies", Key: "p",
+					Name: "Plushies",
+					Key: "p",
 					Options: [
 						{}, // p0 - No plushies
 						{}, // p1 - Plushies
@@ -4869,12 +7325,26 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["AllFours"],
 						Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 						HideItem: ["ItemMiscTeddyBear"],
-						HideItemExclude: ["ItemArmsBitchSuit", "ItemArmsBitchSuitExposed", "ItemArmsShinyPetSuit"],
+						HideItemExclude: [
+							"ItemArmsBitchSuit",
+							"ItemArmsBitchSuitExposed",
+							"ItemArmsShinyPetSuit",
+						],
 						Block: [
-							"ItemArms", "ItemBreast", "ItemButt", "ItemFeet", "ItemBoots",
-							"ItemLegs", "ItemMisc", "ItemNipples", "ItemNipplesPiercings",
-							"ItemPelvis", "ItemTorso", "ItemVulva", "ItemVulvaPiercings"
-						]
+							"ItemArms",
+							"ItemBreast",
+							"ItemButt",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemLegs",
+							"ItemMisc",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+						],
 					},
 					Random: false,
 				},
@@ -4890,7 +7360,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Nohair",
 					Property: {
-						Hide: ["HairFront", "HairAccessory1", "HairAccessory2", "HairAccessory3", "Hat"],
+						Hide: [
+							"HairFront",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"Hat",
+						],
 					},
 				},
 			],
@@ -5002,7 +7478,7 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 8,
 						SetPose: ["BackBoxTie"],
 						Effect: ["Block", "Freeze", "Prone"],
-					}
+					},
 				},
 			],
 		}, // Pole
@@ -5015,17 +7491,17 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						Effect: ["Freeze"],
-						SelfUnlock: true
-					}
+						SelfUnlock: true,
+					},
 				},
 				{
 					Name: "Closed",
 					Property: {
 						Difficulty: 50,
 						Effect: ["Freeze", "GagMedium", "Prone", "Enclose", "BlindLight"],
-						SelfUnlock: false
-					}
-				}
+						SelfUnlock: false,
+					},
+				},
 			],
 			ChangeWhenLocked: false,
 			DialogPrefix: {
@@ -5043,17 +7519,17 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						Effect: ["Freeze"],
-						SelfUnlock: true
-					}
+						SelfUnlock: true,
+					},
 				},
 				{
 					Name: "Closed",
 					Property: {
 						Difficulty: 50,
 						Effect: ["Freeze", "GagMedium", "Prone", "Enclose", "BlindLight"],
-						SelfUnlock: false
-					}
-				}
+						SelfUnlock: false,
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectCoffinType",
@@ -5085,10 +7561,47 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 7,
 						Effect: ["Suspended"],
 						SetPose: ["Hogtied"],
-						Block: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						Hide: ["ItemArms","ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemHands", "ItemLegs", "ItemFeet", "ItemBoots", "ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
-						HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"],
-						OverrideHeight: { Height: 25, Priority: 51, HeightRatioProportion: 0 },
+						Block: [
+							"ItemArms",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
+						Hide: [
+							"ItemArms",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemHands",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+						],
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
+						OverrideHeight: {
+							Height: 25,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 					},
 				},
 			],
@@ -5099,10 +7612,16 @@ var AssetFemale3DCGExtended = {
 		}, // Net
 		WoodenRack: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.TARGET_CHAR_NAME],
-			Modules:[
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.TARGET_CHAR_NAME,
+			],
+			Modules: [
 				{
-					Name: "Frame", Key: "f",
+					Name: "Frame",
+					Key: "f",
 					Options: [
 						{}, // f0 - Normal
 						{}, // f1 - Stained
@@ -5111,7 +7630,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "TopRestraints", Key: "t",
+					Name: "TopRestraints",
+					Key: "t",
 					Options: [
 						{}, // t0 - No
 						{
@@ -5132,7 +7652,6 @@ var AssetFemale3DCGExtended = {
 								AllowActivePose: ["LegsClosed", "BaseLower"],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Block", "BlockKneel"],
-
 							},
 						}, // t2 - RopeTight
 						{
@@ -5169,7 +7688,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "BotRestraints", Key: "b",
+					Name: "BotRestraints",
+					Key: "b",
 					Options: [
 						{}, // b0 - No
 						{
@@ -5178,7 +7698,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["Spread"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "BlockKneel"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						}, // b1 - Rope
 						{
@@ -5187,7 +7707,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["LegsClosed"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "BlockKneel"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						}, // b2 - RopeTight
 						{
@@ -5198,7 +7718,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["Spread"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "BlockKneel"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						}, // b3 - Chains
 						{
@@ -5209,7 +7729,7 @@ var AssetFemale3DCGExtended = {
 								SetPose: ["LegsClosed"],
 								Block: ["ItemFeet", "ItemLegs"],
 								Effect: ["Prone", "BlockKneel"],
-								Hide: ["ItemBoots", "Shoes"]
+								Hide: ["ItemBoots", "Shoes"],
 							},
 						}, // b4 - ChainsTogether
 						{
@@ -5240,14 +7760,22 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Door", Key: "d",
+					Name: "Door",
+					Key: "d",
 					Options: [
 						{ Property: { Difficulty: -100, Door: false } },
-						{ Property: { Difficulty: 10, Effect: ["OneWayEnclose", "Prone", "Freeze"], Door: true } },
+						{
+							Property: {
+								Difficulty: 10,
+								Effect: ["OneWayEnclose", "Prone", "Freeze"],
+								Door: true,
+							},
+						},
 					],
 				},
 				{
-					Name: "Padding", Key: "p",
+					Name: "Padding",
+					Key: "p",
 					Options: [
 						{ Property: { Padding: false } },
 						{ Property: { Padding: true } },
@@ -5277,7 +7805,7 @@ var AssetFemale3DCGExtended = {
 			},
 			DialogPrefix: {
 				Npc: (C, Option, PreviousOption) => `ItemDevicesLocker${Option.Name}`,
-			}
+			},
 		}, // Locker
 		SmallLocker: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -5324,7 +7852,11 @@ var AssetFemale3DCGExtended = {
 		}, // VacBedDeluxe
 		WoodenBox: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "SWNE",
@@ -5341,10 +7873,7 @@ var AssetFemale3DCGExtended = {
 				PublishAction: InventoryItemDevicesWoodenBoxPublishActionHook,
 				AfterDraw: AssetsItemDevicesWoodenBoxAfterDrawHook,
 			},
-			AllowEffect: [
-				"BlindNormal",
-				"GagLight",
-			],
+			AllowEffect: ["BlindNormal", "GagLight"],
 		}, // WoodenBox
 		TransportWoodenBox: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -5359,39 +7888,47 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Game", Key: "g",
+					Name: "Game",
+					Key: "g",
+					Options: [{ HasSubscreen: true }],
+				},
+				{
+					Name: "Stand",
+					Key: "s",
 					Options: [
-						{ HasSubscreen: true },
+						{},
+						{}, // s0 - WoodenBase, s1 - MetalBase
 					],
 				},
 				{
-					Name: "Stand", Key: "s",
+					Name: "Misc",
+					Key: "m",
 					Options: [
-						{}, {}, // s0 - WoodenBase, s1 - MetalBase
+						{},
+						{}, // m0 - MiscOn, m1 - MiscOff
 					],
 				},
 				{
-					Name: "Misc", Key: "m",
+					Name: "Arrow",
+					Key: "a",
 					Options: [
-						{}, {}, // m0 - MiscOn, m1 - MiscOff
+						{},
+						{},
+						{}, // a0 - DefaultArrow, a1 - AlternateArrow, a2 - PlugArrow
 					],
 				},
 				{
-					Name: "Arrow", Key: "a",
-					Options: [
-						{}, {}, {}, // a0 - DefaultArrow, a1 - AlternateArrow, a2 - PlugArrow
-					],
-				},
-				{
-					Name: "Position", Key: "p",
+					Name: "Position",
+					Key: "p",
 					Options: [
 						{}, // p0 - WheelFront
-						{ // p1 - WheelBack
+						{
+							// p1 - WheelBack
 							Property: {
 								OverridePriority: 0,
 							},
 						},
-					]
+					],
 				},
 			],
 			ScriptHooks: {
@@ -5403,22 +7940,69 @@ var AssetFemale3DCGExtended = {
 		}, //LuckyWheel
 		FoldingScreen: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Opaque",
-					Property:
-					{
-						Hide: ["BodyLower", "BodyUpper", "Hands", "HairFront", "HairBack", "Glasses",
-							"ItemMouth","ItemMouth2", "ItemMouth3", "FacialHair", "HairAccessory1",
-							"HairAccessory2", "HairAccessory3", "Hat", "Mask", "ItemEars", "ItemHead",
-							"Cloth", "ClothLower", "ClothAccessory", "Necklace", "Suit", "SuitLower",
-							"Bra", "Panties", "Garters", "Socks", "RightAnklet", "LeftAnklet", "Shoes",
-							"Gloves", "TailStraps", "Wings", "ItemFeet", "ItemLegs", "ItemVulva",
-							"ItemVulvaPiercings", "ItemButt", "ItemPelvis", "ItemTorso", "ItemTorso2",
-							"ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemArms", "ItemHands",
-							"ItemHandheld", "ItemBoots", "Pussy", "Corset", "Bracelet", "LeftHand" ,
-							"RightHand"
+					Property: {
+						Hide: [
+							"BodyLower",
+							"BodyUpper",
+							"Hands",
+							"HairFront",
+							"HairBack",
+							"Glasses",
+							"ItemMouth",
+							"ItemMouth2",
+							"ItemMouth3",
+							"FacialHair",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"Hat",
+							"Mask",
+							"ItemEars",
+							"ItemHead",
+							"Cloth",
+							"ClothLower",
+							"ClothAccessory",
+							"Necklace",
+							"Suit",
+							"SuitLower",
+							"Bra",
+							"Panties",
+							"Garters",
+							"Socks",
+							"RightAnklet",
+							"LeftAnklet",
+							"Shoes",
+							"Gloves",
+							"TailStraps",
+							"Wings",
+							"ItemFeet",
+							"ItemLegs",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemBreast",
+							"ItemArms",
+							"ItemHands",
+							"ItemHandheld",
+							"ItemBoots",
+							"Pussy",
+							"Corset",
+							"Bracelet",
+							"LeftHand",
+							"RightHand",
 						],
 					},
 				},
@@ -5448,10 +8032,15 @@ var AssetFemale3DCGExtended = {
 		KabeshiriWall: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
-					Name: "Legs", Key: "l",
+					Name: "Legs",
+					Key: "l",
 					Options: [
 						{}, // l0 - Cuffed
 						{
@@ -5467,7 +8056,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Arms", Key: "a",
+					Name: "Arms",
+					Key: "a",
 					Options: [
 						{}, // a0 - Cuffed
 						{
@@ -5478,7 +8068,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Cum", Key: "c",
+					Name: "Cum",
+					Key: "c",
 					Options: [
 						{}, // c0 - none
 						{}, // c1 - butt
@@ -5487,7 +8078,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Wall", Key: "w",
+					Name: "Wall",
+					Key: "w",
 					Options: [
 						{}, // w0 - monitor
 						{}, // w1 - photo
@@ -5552,25 +8144,26 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticHeels
 		FuturisticHeels2: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Shiny" },
-				{ Name: "Matte" },
-			],
+			Options: [{ Name: "Shiny" }, { Name: "Matte" }],
 			ScriptHooks: {
 				Load: FuturisticAccessLoad,
 				Click: FuturisticAccessClick,
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticHeels2
 		MonoHeel: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Full",
@@ -5622,8 +8215,9 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectSuctionLevel",
 				Option: "SuctionLevel",
-				Chat: ({ newIndex, previousIndex }) => `ClitSuc${(newIndex > previousIndex) ? "tightens" : "loosens"}To`,
-				Npc: "ItemVulvaClitSuctionCupNPCReaction"
+				Chat: ({ newIndex, previousIndex }) =>
+					`ClitSuc${newIndex > previousIndex ? "tightens" : "loosens"}To`,
+				Npc: "ItemVulvaClitSuctionCupNPCReaction",
 			},
 			DrawImages: false,
 		}, // ClitSuctionCup
@@ -5654,7 +8248,11 @@ var AssetFemale3DCGExtended = {
 		}, // VibratingLatexPanties
 		InflatableVibratingPanties: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
 			Modules: [
 				{
 					Name: "InflateLevel",
@@ -5688,10 +8286,12 @@ var AssetFemale3DCGExtended = {
 				Header: "InflatableVibratingPantiesSelect",
 				Module: "InflatableVibratingPantiesModule",
 				Option: "InflatableVibratingPantiesOption",
-				Chat: ({previousOption, newOption}) => {
+				Chat: ({ previousOption, newOption }) => {
 					const Prefix = "InflatableVibratingPanties";
-					const Change = Number.parseInt(newOption.Name[1]) - Number.parseInt(previousOption.Name[1]);
-					const StateChange = (Change > 0) ? "Increase" : "Decrease";
+					const Change =
+						Number.parseInt(newOption.Name[1]) -
+						Number.parseInt(previousOption.Name[1]);
+					const StateChange = Change > 0 ? "Increase" : "Decrease";
 					return `${Prefix}${StateChange}To`;
 				},
 			},
@@ -5710,7 +8310,7 @@ var AssetFemale3DCGExtended = {
 		}, // WiredEgg
 		Stitches: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options:[
+			Options: [
 				{
 					Name: "Straight",
 				},
@@ -5734,7 +8334,10 @@ var AssetFemale3DCGExtended = {
 		}, // InflatableVibeDildo
 		ShockDildo: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarShockUnit" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarShockUnit",
+			},
 			DialogPrefix: {
 				Header: "ItemNeckAccessoriesCollarShockUnitSelect",
 				Option: "ItemNeckAccessoriesCollarShockUnit",
@@ -5776,13 +8379,16 @@ var AssetFemale3DCGExtended = {
 				SetOption: InventoryItemVulvaClitAndDildoVibratorbeltSetOptionHook,
 			},
 			DialogPrefix: {
-				Chat: ({previousOption, newOption}) => {
+				Chat: ({ previousOption, newOption }) => {
 					if (DialogFocusItem == null) {
 						return "";
 					}
-					const Prefix = DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name;
-					const Change = Number.parseInt(newOption.Name[1]) - Number.parseInt(previousOption.Name[1]);
-					const StateChange = (Change > 0) ? "Increase" : "Decrease";
+					const Prefix =
+						DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name;
+					const Change =
+						Number.parseInt(newOption.Name[1]) -
+						Number.parseInt(previousOption.Name[1]);
+					const StateChange = Change > 0 ? "Increase" : "Decrease";
 					return `${Prefix}${StateChange}`;
 				},
 			},
@@ -5790,7 +8396,9 @@ var AssetFemale3DCGExtended = {
 		LoversVibrator: {
 			Archetype: ExtendedArchetype.VIBRATING,
 			DrawData: VibratorModeGetDrawData(
-				[VibratorModeSet.ADVANCED, VibratorModeSet.STANDARD], {}, 525
+				[VibratorModeSet.ADVANCED, VibratorModeSet.STANDARD],
+				{},
+				525,
 			),
 			ScriptHooks: {
 				Draw: InventoryItemVulvaLoversVibratorDrawHook,
@@ -5814,7 +8422,9 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: {
 				AccessMode: "",
-				TriggerValues: CommonConvertArrayToString(ItemVulvaFuturisticVibratorTriggers),
+				TriggerValues: CommonConvertArrayToString(
+					ItemVulvaFuturisticVibratorTriggers,
+				),
 			},
 		}, // FuturisticVibrator
 	}, // ItemVulva
@@ -5851,13 +8461,13 @@ var AssetFemale3DCGExtended = {
 					Name: "Ring",
 					Property: {
 						Effect: [],
-					}
+					},
 				},
 				{
 					Name: "Weight",
 					Property: {
 						Effect: ["Wiggling"],
-					}
+					},
 				},
 				{
 					Name: "Bell",
@@ -6000,7 +8610,8 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectInflateLevel",
 				Option: "InflateLevel",
-				Chat: ({ newIndex, previousIndex }) => `BPumps${(newIndex > previousIndex) ? "pumps" : "deflates"}To`,
+				Chat: ({ newIndex, previousIndex }) =>
+					`BPumps${newIndex > previousIndex ? "pumps" : "deflates"}To`,
 				Npc: "InventoryItemButtButtPumpNPCReaction",
 			},
 			DrawImages: false,
@@ -6038,7 +8649,7 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: TypedItemChatSetting.SILENT,
 			ScriptHooks: {
 				PublishAction: InventoryItemButtAnalBeads2PublishActionHook,
-			}
+			},
 		}, // AnalBeads2
 		InflVibeButtPlug: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -6081,17 +8692,22 @@ var AssetFemale3DCGExtended = {
 				Header: "ItemButtInflVibeButtPlugSelect",
 				Module: "ItemButtInflVibeButtPlugModule",
 				Option: "ItemButtInflVibeButtPlugOption",
-				Chat: ({previousOption, newOption}) => {
+				Chat: ({ previousOption, newOption }) => {
 					const Prefix = "ItemButtInflVibeButtPlug";
-					const Change = Number.parseInt(newOption.Name[1]) - Number.parseInt(previousOption.Name[1]);
-					const StateChange = (Change > 0) ? "Increase" : "Decrease";
+					const Change =
+						Number.parseInt(newOption.Name[1]) -
+						Number.parseInt(previousOption.Name[1]);
+					const StateChange = Change > 0 ? "Increase" : "Decrease";
 					return `${Prefix}${StateChange}To`;
 				},
 			},
 		}, // InflVibeButtPlug
 		ShockPlug: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarShockUnit" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarShockUnit",
+			},
 			DialogPrefix: {
 				Header: "ItemNeckAccessoriesCollarShockUnitSelect",
 				Option: "ItemNeckAccessoriesCollarShockUnit",
@@ -6120,7 +8736,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						Block: ["ItemNeck"],
-						AllowActivityOn: ["ItemNeck"]
+						AllowActivityOn: ["ItemNeck"],
 					},
 				},
 				{
@@ -6165,7 +8781,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Chain2",
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectChainType",
@@ -6173,7 +8789,7 @@ var AssetFemale3DCGExtended = {
 				Chat: "ChainClampSet",
 				Npc: "ItemNipplesChainClamp",
 			},
-		},  //ChainClamp
+		}, //ChainClamp
 		LactationPump: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
@@ -6212,7 +8828,10 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "LactationPumpSelectSetting",
 				Option: "LactationPump",
-				Chat: ({ newIndex, previousIndex }) => `LactationPumpPower${(newIndex > previousIndex) ? "tightens" : "loosens"}To`,
+				Chat: ({ newIndex, previousIndex }) =>
+					`LactationPumpPower${
+						newIndex > previousIndex ? "tightens" : "loosens"
+					}To`,
 			},
 			DrawImages: false,
 		}, // LactationPump
@@ -6254,7 +8873,8 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectSuctionLevel",
 				Option: "SuctionLevel",
-				Chat: ({ newIndex, previousIndex }) => `NipSuc${(newIndex > previousIndex) ? "tightens" : "loosens"}To`,
+				Chat: ({ newIndex, previousIndex }) =>
+					`NipSuc${newIndex > previousIndex ? "tightens" : "loosens"}To`,
 			},
 			DrawImages: false,
 		}, // NippleSuctionCups
@@ -6267,7 +8887,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Tight",
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "ItemNipplesPlateClampsSelectTightness",
@@ -6287,7 +8907,10 @@ var AssetFemale3DCGExtended = {
 		}, // NippleVibe
 		ShockClamps: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemNeckAccessories", AssetName: "CollarShockUnit" },
+			CopyConfig: {
+				GroupName: "ItemNeckAccessories",
+				AssetName: "CollarShockUnit",
+			},
 			DialogPrefix: {
 				Header: "ItemNeckAccessoriesCollarShockUnitSelect",
 				Option: "ItemNeckAccessoriesCollarShockUnit",
@@ -6339,16 +8962,18 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Basic",
-					Property: { Difficulty: 1 }
-				}, {
+					Property: { Difficulty: 1 },
+				},
+				{
 					Name: "Harness1",
 					BondageLevel: 2,
-					Property: { Difficulty: 3 , Effect: ["CrotchRope"]}
-				}, {
+					Property: { Difficulty: 3, Effect: ["CrotchRope"] },
+				},
+				{
 					Name: "Harness2",
 					BondageLevel: 3,
-					Property: { Difficulty: 4, Effect: ["CrotchRope"] }
-				}
+					Property: { Difficulty: 4, Effect: ["CrotchRope"] },
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRibbonType",
@@ -6362,16 +8987,19 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "LowSec",
-				}, {
+				},
+				{
 					Name: "h2", // MedSec
-					Property: { Difficulty: 5 , Effect: ["CrotchRope"]}
-				}, {
+					Property: { Difficulty: 5, Effect: ["CrotchRope"] },
+				},
+				{
 					Name: "h3", // MedSecBreast
-					Property: { Difficulty: 5 }
-				}, {
+					Property: { Difficulty: 5 },
+				},
+				{
 					Name: "h4", // MaxSec
-					Property: { Difficulty: 10, Effect: ["CrotchRope"] }
-				}
+					Property: { Difficulty: 10, Effect: ["CrotchRope"] },
+				},
 			],
 			DialogPrefix: {
 				Header: "HighSecurityHarnessType",
@@ -6385,15 +9013,11 @@ var AssetFemale3DCGExtended = {
 		}, //LatexCorset1
 		ThinLeatherStraps: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Crotch" },
-				{ Name: "Waist" },
-				{ Name: "Harness" },
-			]
+			Options: [{ Name: "Crotch" }, { Name: "Waist" }, { Name: "Harness" }],
 		}, // ThinLeatherStraps
 		NylonRopeHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { AssetName: "HempRopeHarness" }
+			CopyConfig: { AssetName: "HempRopeHarness" },
 		}, // NylonRopeHarness
 		HempRopeHarness: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -6401,22 +9025,26 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Crotch",
-					Property: { Difficulty: 1, Effect: ["CrotchRope"] }
-				}, {
+					Property: { Difficulty: 1, Effect: ["CrotchRope"] },
+				},
+				{
 					Name: "Waist",
-					Property: { Difficulty: 1 }
-				}, {
+					Property: { Difficulty: 1 },
+				},
+				{
 					Name: "Harness",
 					BondageLevel: 2,
-					Property: { Difficulty: 1, Effect: ["CrotchRope"] }
-				}, {
+					Property: { Difficulty: 1, Effect: ["CrotchRope"] },
+				},
+				{
 					Name: "Star",
 					BondageLevel: 3,
-					Property: { Difficulty: 2 }
-				}, {
+					Property: { Difficulty: 2 },
+				},
+				{
 					Name: "Diamond",
 					BondageLevel: 4,
-					Property: { Difficulty: 3, Effect: ["CrotchRope"] }
+					Property: { Difficulty: 3, Effect: ["CrotchRope"] },
 				},
 			],
 			DialogPrefix: {
@@ -6434,7 +9062,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Dull",
-				}
+				},
 			],
 		}, //LockingSwimsuit
 		FuturisticHarness: {
@@ -6484,7 +9112,7 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		} // NavelBar1
+		}, // NavelBar1
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
@@ -6501,7 +9129,7 @@ var AssetFemale3DCGExtended = {
 		}, // HempRopeHarness
 		HighSecurityHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemTorso", AssetName: "HighSecurityHarness"},
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "HighSecurityHarness" },
 		}, // HighSecurityHarness
 		LatexCorset1: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -6536,21 +9164,20 @@ var AssetFemale3DCGExtended = {
 	Shoes: {
 		FuturisticHeels2: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Shiny" },
-				{ Name: "Matte" },
-			]
+			Options: [{ Name: "Shiny" }, { Name: "Matte" }],
 		}, // FuturisticHeels2
 		ThighBoots: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Layer", Key: "l",
-					Options:[{}, {}, {}, ] // None, Sock, Thigh High
+					Name: "Layer",
+					Key: "l",
+					Options: [{}, {}, {}], // None, Sock, Thigh High
 				},
 				{
-					Name: "Band", Key: "b",
-					Options:[{}, {}, ] // None, Band
+					Name: "Band",
+					Key: "b",
+					Options: [{}, {}], // None, Band
 				},
 			],
 		}, // Thighboots
@@ -6934,8 +9561,8 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "None",
 					Property: {
-						Effect: ["OpenMouth"]
-					}
+						Effect: ["OpenMouth"],
+					},
 				},
 				{
 					Name: "Funnel",
@@ -6971,7 +9598,7 @@ var AssetFemale3DCGExtended = {
 				Option: "ItemMouthHarnessPonyBits",
 				Chat: "ItemMouthHarnessPonyBitsSet",
 				Npc: "ItemMouthHarnessPonyBits",
-			}
+			},
 		}, // PonyBit
 		DentalGag: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -7018,10 +9645,12 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Nose", Key: "n",
+					Name: "Nose",
+					Key: "n",
 					Options: [
 						{}, // n0 - No nose
-						{ // n1 - OTN
+						{
+							// n1 - OTN
 							Property: {
 								Difficulty: 1,
 							},
@@ -7029,10 +9658,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Harness", Key: "h",
+					Name: "Harness",
+					Key: "h",
 					Options: [
 						{}, // h0 - No straps
-						{ // h1 - Harness straps
+						{
+							// h1 - Harness straps
 							Property: {
 								Difficulty: 1,
 							},
@@ -7040,7 +9671,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Symbol", Key: "s",
+					Name: "Symbol",
+					Key: "s",
 					Options: [
 						{}, // s0 - Nothing
 						{}, // s1 - Lock symbol
@@ -7054,7 +9686,7 @@ var AssetFemale3DCGExtended = {
 				Click: FuturisticAccessClick,
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
-			}
+			},
 		}, // FuturisticMuzzle
 		OTNPlugGag: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -7100,22 +9732,33 @@ var AssetFemale3DCGExtended = {
 		}, // TechnoGag
 		PonyGag: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.DEST_CHAR],
-			Modules:[
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.DEST_CHAR,
+			],
+			Modules: [
 				{
-					Name: "Gag", Key: "g",
-					Options:[
-						{ Property: { Effect: ["BlockMouth", "GagLight"] },},  //g0 - Regular BitGag
-						{ Property: {},}, //g1 - No Gag
-						{ Property: { Effect: ["BlockMouth", "GagMedium"] },}, //g2 - Thick BitGag
-						{ Property: { Effect: ["BlockMouth", "GagHeavy"] },}, //g3 - Tongue Depresor
-						{ Property: { Effect: ["BlockMouth", "GagMedium"] },}, //g4 - Ballgag
-						{ Property: { Effect: ["BlockMouth", "GagVeryHeavy"], Hide: ["Mouth"] },}, //g5 - DildoGag
+					Name: "Gag",
+					Key: "g",
+					Options: [
+						{ Property: { Effect: ["BlockMouth", "GagLight"] } }, //g0 - Regular BitGag
+						{ Property: {} }, //g1 - No Gag
+						{ Property: { Effect: ["BlockMouth", "GagMedium"] } }, //g2 - Thick BitGag
+						{ Property: { Effect: ["BlockMouth", "GagHeavy"] } }, //g3 - Tongue Depresor
+						{ Property: { Effect: ["BlockMouth", "GagMedium"] } }, //g4 - Ballgag
+						{
+							Property: {
+								Effect: ["BlockMouth", "GagVeryHeavy"],
+								Hide: ["Mouth"],
+							},
+						}, //g5 - DildoGag
 					],
 				},
 				{
-					Name: "Panel", Key: "p",
-					Options:[
+					Name: "Panel",
+					Key: "p",
+					Options: [
 						{}, //None
 						{}, //p1 - Panel
 						{}, //p2 - PanelShield
@@ -7129,43 +9772,53 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Reins", Key: "r",
-					Options:[
+					Name: "Reins",
+					Key: "r",
+					Options: [
 						{}, //r0 - None
-						{ Property: { Effect: ["Leash"] },}, //r1 - Reins
-						{ Property: { Effect: ["Leash"] },}, //r2 - Rope
-						{ Property: { Effect: ["Tethered", "IsChained"], Block: ["ItemAddon", "ItemDevices"] }}, //r3 - Pole
+						{ Property: { Effect: ["Leash"] } }, //r1 - Reins
+						{ Property: { Effect: ["Leash"] } }, //r2 - Rope
+						{
+							Property: {
+								Effect: ["Tethered", "IsChained"],
+								Block: ["ItemAddon", "ItemDevices"],
+							},
+						}, //r3 - Pole
 					],
 				},
 				{
-					Name: "Top", Key: "t",
-					Options:[
+					Name: "Top",
+					Key: "t",
+					Options: [
 						{}, //t0 - None
 						{}, //t1 - Plume
-						{Property: { Hide: ["HairFront"]},}, //t2 - Mane Left
-						{Property: { Hide: ["HairFront"]},}, //t3 - Mane Right
-						{Property: { Hide: ["HairFront"]},}, //t4 - Mohawk
+						{ Property: { Hide: ["HairFront"] } }, //t2 - Mane Left
+						{ Property: { Hide: ["HairFront"] } }, //t3 - Mane Right
+						{ Property: { Hide: ["HairFront"] } }, //t4 - Mohawk
 					],
 				},
 				{
-					Name: "Extra", Key: "e",
-					Options:[
+					Name: "Extra",
+					Key: "e",
+					Options: [
 						{}, //e0 - None
-						{ Property: {Difficulty: 7}}, //e1 - ExtraStraps
+						{ Property: { Difficulty: 7 } }, //e1 - ExtraStraps
 						{}, //e2 - Flags
 					],
 				},
 				{
-					Name: "Horn", Key: "h",
-					Options:[
+					Name: "Horn",
+					Key: "h",
+					Options: [
 						{}, //h0 - None
-						{ Property: { AllowActivity: ["PenetrateItem"]},}, //h1 - Horn
-						{ Property: { AllowActivity: ["PenetrateItem"]},}, //h2 - Dildocorn
+						{ Property: { AllowActivity: ["PenetrateItem"] } }, //h1 - Horn
+						{ Property: { AllowActivity: ["PenetrateItem"] } }, //h2 - Dildocorn
 					],
 				},
 				{
-					Name: "Blinders", Key: "b",
-					Options:[
+					Name: "Blinders",
+					Key: "b",
+					Options: [
 						{}, //b0 - None
 						{}, //b1 - Blinders
 					],
@@ -7206,7 +9859,8 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "Gag", Key: "g",
+					Name: "Gag",
+					Key: "g",
 					DrawImages: true,
 					Options: [
 						{ Property: { OriginalSetting: 0 } }, // g0 - Padded
@@ -7216,7 +9870,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "AutoPunish", Key: "p",
+					Name: "AutoPunish",
+					Key: "p",
 					DrawImages: false,
 					Options: [
 						{ Property: { AutoPunish: 0 } }, // p0 - Off
@@ -7226,7 +9881,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "DeflationTime", Key: "t",
+					Name: "DeflationTime",
+					Key: "t",
 					DrawImages: false,
 					Options: [
 						{ Property: { AutoPunishUndoTimeSetting: 120000 } }, // t0 - 2 min
@@ -7237,7 +9893,11 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-			BaselineProperty: { ShowText: true, BlinkState: false, AutoPunishUndoTime: 0 },
+			BaselineProperty: {
+				ShowText: true,
+				BlinkState: false,
+				AutoPunishUndoTime: 0,
+			},
 			ScriptHooks: {
 				Load: FuturisticAccessLoad,
 				Click: InventoryItemMouthFuturisticPanelGagClickHook,
@@ -7263,7 +9923,8 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticPanelGag" },
 			Modules: [
 				{
-					Name: "Gag", Key: "g",
+					Name: "Gag",
+					Key: "g",
 					DrawImages: true,
 					Options: [
 						{ Property: { OriginalSetting: 0, Effect: ["GagLight"] } }, // g0 - LightBall
@@ -7272,7 +9933,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "AutoPunish", Key: "p",
+					Name: "AutoPunish",
+					Key: "p",
 					DrawImages: false,
 					Options: [
 						{ Property: { AutoPunish: 0 } }, // p0 - Off
@@ -7282,7 +9944,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "DeflationTime", Key: "t",
+					Name: "DeflationTime",
+					Key: "t",
 					DrawImages: false,
 					Options: [
 						{ Property: { AutoPunishUndoTimeSetting: 120000 } }, // t0 - 2 min
@@ -7382,11 +10045,17 @@ var AssetFemale3DCGExtended = {
 		},
 		FuturisticHarnessPanelGag: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticHarnessPanelGag" },
+			CopyConfig: {
+				GroupName: "ItemMouth",
+				AssetName: "FuturisticHarnessPanelGag",
+			},
 		},
 		FuturisticHarnessBallGag: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticHarnessBallGag" },
+			CopyConfig: {
+				GroupName: "ItemMouth",
+				AssetName: "FuturisticHarnessBallGag",
+			},
 		},
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -7452,15 +10121,21 @@ var AssetFemale3DCGExtended = {
 		},
 		FuturisticHarnessPanelGag: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticHarnessPanelGag" },
+			CopyConfig: {
+				GroupName: "ItemMouth",
+				AssetName: "FuturisticHarnessPanelGag",
+			},
 		},
 		FuturisticHarnessBallGag: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "FuturisticHarnessBallGag" },
+			CopyConfig: {
+				GroupName: "ItemMouth",
+				AssetName: "FuturisticHarnessBallGag",
+			},
 		},
 		Stitches: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options:[
+			Options: [
 				{
 					Name: "Straight",
 				},
@@ -7480,27 +10155,32 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "Filter", Key: "f",
-					Options: [{}, {}, {}, {}, ] // None,Filter,SmallTubes,LargeTubes
+					Name: "Filter",
+					Key: "f",
+					Options: [{}, {}, {}, {}], // None,Filter,SmallTubes,LargeTubes
 				},
 				{
-					Name: "Glow", Key: "g",
-					Options: [ {}, {},] //  Glow off or on
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], //  Glow off or on
 				},
 				{
-					Name: "Straps", Key: "s",
-					Options: [ {}, {},] // No Straps, Straps
+					Name: "Straps",
+					Key: "s",
+					Options: [{}, {}], // No Straps, Straps
 				},
 				{
-					Name: "Mask", Key: "m",
+					Name: "Mask",
+					Key: "m",
 					Options: [
-						{Property: {Effect: ["BlockMouth"]}},
-						{Property: {Effect: ["BlockMouth", "GagVeryLight"]}},
-						{Property: {Effect:[""]}},
-					] // Mask, Thick Filters, No Mask
+						{ Property: { Effect: ["BlockMouth"] } },
+						{ Property: { Effect: ["BlockMouth", "GagVeryLight"] } },
+						{ Property: { Effect: [""] } },
+					], // Mask, Thick Filters, No Mask
 				},
 				{
-					Name: "Length", Key: "l",
+					Name: "Length",
+					Key: "l",
 					Options: [
 						{},
 						{
@@ -7516,28 +10196,30 @@ var AssetFemale3DCGExtended = {
 								},
 							},
 						},
-					] // Behind Hair, Over Hair
+					], // Behind Hair, Over Hair
 				},
-			]
+			],
 		}, //LatexRespirator
-		PaddedFaceMask:{
+		PaddedFaceMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Modules: [
 				{
-					Name: "Thickness", Key: "t",
-					Options:[
+					Name: "Thickness",
+					Key: "t",
+					Options: [
 						{},
 						{
 							Property: { Effect: ["GagLight"] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Pattern", Key: "p",
-					Options:[{},{},{}] //None, Lips, Heart
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}], //None, Lips, Heart
 				},
-			]
+			],
 		}, //PaddedFaceMask
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -7582,37 +10264,45 @@ var AssetFemale3DCGExtended = {
 		PetNose: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
-				{ Name: "Nose", Key: "n",
+				{
+					Name: "Nose",
+					Key: "n",
 					Options: [
 						{}, // n0 - Nose
 						{}, // n1 - No Nose
-					]
+					],
 				},
-				{ Name: "Cheeks", Key: "c",
+				{
+					Name: "Cheeks",
+					Key: "c",
 					Options: [
 						{}, // c0 - No Cheeks
 						{}, // c1 - Small Cheeks
 						{}, // c2 - Big Cheeks
-					]
+					],
 				},
-				{ Name: "Whiskers", Key: "w",
+				{
+					Name: "Whiskers",
+					Key: "w",
 					Options: [
 						{}, // w0 - No Whiskers
 						{}, // w1 - Short Whiskers
 						{}, // w2 - Long Whiskers
-					]
+					],
 				},
-				{ Name: "Mouth", Key: "m",
+				{
+					Name: "Mouth",
+					Key: "m",
 					Options: [
 						{}, // m0 - Show Mouth
 						{ Property: { Hide: ["Mouth"] } }, // m1 - Hide Mouth
-					]
+					],
 				},
 			],
 		}, //PetNose
 		Glitter: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options:[
+			Options: [
 				{
 					Name: "Freckles",
 				},
@@ -7653,7 +10343,7 @@ var AssetFemale3DCGExtended = {
 		}, //Glitter
 		HeadHarness: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options:[
+			Options: [
 				{
 					Name: "Simple",
 				},
@@ -7681,16 +10371,19 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { GroupName: "ItemHead", AssetName: "DroneMask" },
 			Modules: [
 				{
-					Name: "Mouth", Key: "m",
-					Options:[ {}, {}, {}, {}, {}, {}, {}, ] // none, onahole, fleshlight, smile, holes, sculpted, subtle
+					Name: "Mouth",
+					Key: "m",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // none, onahole, fleshlight, smile, holes, sculpted, subtle
 				},
 				{
-					Name: "Eyes", Key: "e",
-					Options:[ {},{},{},{},{},{},{},] // none, regular, spiral, smile, holes, sculpted, concave
+					Name: "Eyes",
+					Key: "e",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // none, regular, spiral, smile, holes, sculpted, concave
 				},
 				{
-					Name: "Pattern", Key: "p",
-					Options:[
+					Name: "Pattern",
+					Key: "p",
+					Options: [
 						{}, // Blank
 						{}, // Barcode
 						{}, // Scarab
@@ -7713,90 +10406,144 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Glow", Key: "g",
-					Options: [{},{},] // Glow Off, Glow On
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], // Glow Off, Glow On
 				},
 				{
-					Name: "Helmet", Key: "h",
+					Name: "Helmet",
+					Key: "h",
 					Options: [
 						{}, // h0 - Mask
 						{
 							Property: {
-								Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+								Hide: ["HairFront", "HairBack"], //"HairAccessory1", "HairAccessory2"],
 								HideItem: [
-									"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
-									"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
-									"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
+									"HatBonnet1",
+									"HatBonnet2",
+									"HatBunnySuccubus2",
+									"HatCrown1",
+									"HatCrown2",
+									"HatCrown4",
+									"HatCrown5",
+									"HatBand1",
+									"HatBand2",
+									"HatPirateBandana1",
+									"HatVeil1",
+									"HatVeil2", // Hat items
+									"MaskFuturisticVisor",
+									"MaskShinobiMask", // Mask items
 									"HairAccessory3Ribbons4", // HairAccessory items
-									"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars",
-									"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
-									"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
-									"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2", "HairAccessory1WolfEars1", "HairAccessory1WolfEars2",
+									"HairAccessory1Antennae",
+									"HairAccessory1BunnyEars1",
+									"HairAccessory1BunnyEars2",
+									"HairAccessory1CowHorns",
+									"HairAccessory1ElfEars",
+									"HairAccessory1Ears1",
+									"HairAccessory1Ears2",
+									"HairAccessory1FoxEars1",
+									"HairAccessory1FoxEars2",
+									"HairAccessory1FoxEars3",
+									"HairAccessory1KittenEars1",
+									"HairAccessory1KittenEars2",
+									"HairAccessory1MouseEars1",
+									"HairAccessory1MouseEars2",
+									"HairAccessory1PuppyEars1",
+									"HairAccessory1Ribbons2",
+									"HairAccessory1WolfEars1",
+									"HairAccessory1WolfEars2",
 									"HairAccessory1Ribbons4", // Ear items (HA1)
-									"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars",
-									"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
-									"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
-									"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2", "HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)
+									"HairAccessory2Antennae",
+									"HairAccessory2BunnyEars1",
+									"HairAccessory2BunnyEars2",
+									"HairAccessory2CowHorns",
+									"HairAccessory2ElfEars",
+									"HairAccessory2Ears1",
+									"HairAccessory2Ears2",
+									"HairAccessory2FoxEars1",
+									"HairAccessory2FoxEars2",
+									"HairAccessory2FoxEars3",
+									"HairAccessory2KittenEars1",
+									"HairAccessory2KittenEars2",
+									"HairAccessory2MouseEars1",
+									"HairAccessory2MouseEars2",
+									"HairAccessory2PuppyEars1",
+									"HairAccessory2Ribbons2",
+									"HairAccessory2WolfEars1",
+									"HairAccessory2WolfEars2", // Ear items (HA2)
 								], // These items are hidden because they have clear mismatch issues with the hood.
 							},
 						}, // h1 - Helmet (hood)
-						{ // h2 - Helmet ( hood but nothing shows)
+						{
+							// h2 - Helmet ( hood but nothing shows)
 							Property: {
-								Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"Hat",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+								],
+								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
 							},
 						},
-					]
+					],
 				},
 				{
-					Name: "Layering", Key: "j",
+					Name: "Layering",
+					Key: "j",
 					Options: [
 						{
-							Property:{
-								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", ],
-								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "Glasses"],
-							}
+							Property: {
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead"],
+								Hide: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"Glasses",
+								],
+							},
 						}, // No gags or blindfolds visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
-								Block: ["ItemMouth", "ItemMouth2","ItemHead"],
-								Hide: ["ItemMouth", "ItemMouth2","ItemHead", "Glasses"],
-							}
+								Block: ["ItemMouth", "ItemMouth2", "ItemHead"],
+								Hide: ["ItemMouth", "ItemMouth2", "ItemHead", "Glasses"],
+							},
 						}, // Highest layer gag visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: ["ItemHead"],
 								Hide: ["ItemHead", "Glasses"],
-							}
+							},
 						}, // All gags visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-							}
+							},
 						}, // Blindfold items visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
-								Block: ["ItemMouth", "ItemMouth2",],
-								Hide: ["ItemMouth", "ItemMouth2",],
-							}
+								Block: ["ItemMouth", "ItemMouth2"],
+								Hide: ["ItemMouth", "ItemMouth2"],
+							},
 						}, // Blindfold and highest layer gag
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: [],
 								Hide: [],
-							}
+							},
 						}, // Blindfold and all gags
-
-					]
-
+					],
 				},
-			]
+			],
 		}, // DroneMask
 	}, // Mask
 	ItemLegs: {
@@ -7806,29 +10553,59 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Legs",
-					Property: { Difficulty: 0 }
-				}, {
+					Property: { Difficulty: 0 },
+				},
+				{
 					Name: "HalfLegs",
 					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 2 }
-				}, {
+					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 2 },
+				},
+				{
 					Name: "MostLegs",
 					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 4, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
-				}, {
+					Property: {
+						Hide: ["ClothLower", "Garters"],
+						Difficulty: 4,
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
+					},
+				},
+				{
 					Name: "CompleteLegs",
 					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"], Difficulty: 6, HideItem: ["PantiesPoofyDiaper", "PantiesBulkyDiaper", "ItemPelvisPoofyDiaper", "ItemPelvisBulkyDiaper"], }
-				}, {
+					Property: {
+						Hide: ["ClothLower", "Garters"],
+						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+						Difficulty: 6,
+						HideItem: [
+							"PantiesPoofyDiaper",
+							"PantiesBulkyDiaper",
+							"ItemPelvisPoofyDiaper",
+							"ItemPelvisBulkyDiaper",
+						],
+					},
+				},
+				{
 					Name: "PetLegs",
 					Prerequisite: ["NoClothLower", "NotSuspended", "CanKneel"],
-					Property: { Hide: ["ClothLower", "Garters"], SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 6 },
+					Property: {
+						Hide: ["ClothLower", "Garters"],
+						SetPose: ["Kneel"],
+						Block: ["ItemFeet"],
+						Effect: ["ForceKneel"],
+						Difficulty: 6,
+					},
 					Random: false,
-				}, {
+				},
+				{
 					Name: "CutOut",
 					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 6 }
-				}
+					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 6 },
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectTapeWrapping",
@@ -7859,7 +10636,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Frogtie",
 					BondageLevel: 3,
-					Property: { SetPose: ["Kneel"], AllowActivePose: ["Kneel", "KneelingSpread"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
+					Property: {
+						SetPose: ["Kneel"],
+						AllowActivePose: ["Kneel", "KneelingSpread"],
+						Block: ["ItemFeet"],
+						Effect: ["ForceKneel"],
+						Difficulty: 3,
+					},
 					Prerequisite: ["NotSuspended", "CanKneel"],
 					Random: false,
 				},
@@ -7879,33 +10662,44 @@ var AssetFemale3DCGExtended = {
 					Name: "Basic",
 					Property: { SetPose: ["LegsClosed"], Difficulty: 1 },
 					Prerequisite: ["CanCloseLegs"],
-				}, {
+				},
+				{
 					Name: "FullBinding",
 					BondageLevel: 2,
 					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
 					Prerequisite: ["CanCloseLegs"],
-				}, {
+				},
+				{
 					Name: "Link",
 					BondageLevel: 2,
 					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
 					Prerequisite: ["CanCloseLegs"],
-				}, {
+				},
+				{
 					Name: "Frogtie",
 					BondageLevel: 3,
-					Property: { SetPose: ["Kneel"], AllowActivePose: ["Kneel", "KneelingSpread"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
+					Property: {
+						SetPose: ["Kneel"],
+						AllowActivePose: ["Kneel", "KneelingSpread"],
+						Block: ["ItemFeet"],
+						Effect: ["ForceKneel"],
+						Difficulty: 3,
+					},
 					Prerequisite: ["NotSuspended", "CanKneel"],
 					Random: false,
-				}, {
+				},
+				{
 					Name: "Crossed",
 					BondageLevel: 4,
 					Property: { SetPose: ["LegsClosed"], Difficulty: 4 },
 					Prerequisite: ["CanCloseLegs"],
-				}, {
+				},
+				{
 					Name: "Mermaid",
 					BondageLevel: 4,
 					Property: { SetPose: ["LegsClosed"], Difficulty: 4 },
 					Prerequisite: ["CanCloseLegs"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",
@@ -7921,12 +10715,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Basic",
 					BondageLevel: 0,
-					Property: { Difficulty: 0 }
-				}, {
+					Property: { Difficulty: 0 },
+				},
+				{
 					Name: "Strict",
 					BondageLevel: 2,
-					Property: { Difficulty: 2 }
-				}
+					Property: { Difficulty: 2 },
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectChainBondage",
@@ -7945,7 +10740,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Two",
-					Property: { Difficulty: 2, },
+					Property: { Difficulty: 2 },
 				},
 			],
 		}, // SturdyLeatherBelts
@@ -7972,7 +10767,7 @@ var AssetFemale3DCGExtended = {
 						Effect: ["Slow"],
 					},
 					Prerequisite: ["NotHorse"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
@@ -7985,11 +10780,15 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticLegCuffs
 		ShinyLegBinder: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Laced",
@@ -8029,11 +10828,11 @@ var AssetFemale3DCGExtended = {
 						Effect: ["Slow"],
 					},
 					Prerequisite: ["NotHorse"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
-			}
+			},
 		}, // LeatherLegCuffs
 		LeatherDeluxeLegCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8058,7 +10857,7 @@ var AssetFemale3DCGExtended = {
 						Effect: ["Slow"],
 					},
 					Prerequisite: ["NotHorse"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
@@ -8083,7 +10882,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DialogPrefix: {
 				Header: "SelectRibbonType",
-			}
+			},
 		}, // Ribbons
 		OrnateLegCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8095,25 +10894,33 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "ZipLegLight",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 1 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 1 },
+				},
+				{
 					Name: "ZipLegMedium",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
+				{
 					Name: "ZipLegFull",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
+				{
 					Name: "ZipFrogtie",
-					Property: { SetPose: ["Kneel"], Block: ["ItemFeet"], Effect: ["ForceKneel"], Difficulty: 3 },
+					Property: {
+						SetPose: ["Kneel"],
+						Block: ["ItemFeet"],
+						Effect: ["ForceKneel"],
+						Difficulty: 3,
+					},
 					Prerequisite: ["NotSuspended", "CanKneel"],
 					Random: false,
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectZipTie",
 				Option: "ZipBondage",
 				Npc: "Zip",
-			}
+			},
 		}, // Zipties
 		MermaidTail: {
 			Archetype: ExtendedArchetype.VIBRATING,
@@ -8167,7 +10974,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Suspension",
 					BondageLevel: 6,
-					Prerequisite: ["NotKneeling", "NotMounted", "NotChained", "NotHogtied"],
+					Prerequisite: [
+						"NotKneeling",
+						"NotMounted",
+						"NotChained",
+						"NotHogtied",
+					],
 					Property: {
 						Difficulty: 4,
 						SetPose: ["Suspension", "LegsClosed"],
@@ -8186,26 +10998,36 @@ var AssetFemale3DCGExtended = {
 		}, // Chains
 		FuturisticAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "None",
 					Property: {
-						SetPose: [], Difficulty: 0, Effect: [], FreezeActivePose: [],
-					}
+						SetPose: [],
+						Difficulty: 0,
+						Effect: [],
+						FreezeActivePose: [],
+					},
 				},
 				{
 					Name: "Closed",
 					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["LegsClosed"], Difficulty: 6, FreezeActivePose: ["BodyLower"],
-					}
+						Effect: ["Prone", "Freeze"],
+						SetPose: ["LegsClosed"],
+						Difficulty: 6,
+						FreezeActivePose: ["BodyLower"],
+					},
 				},
 				{
 					Name: "Chained",
 					Property: {
 						Effect: ["Slow"],
-					}
-				}
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
@@ -8218,36 +11040,46 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticAnkleCuffs
 		SteelAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "None",
 					Property: {
-						SetPose: [], Difficulty: 0, Effect: [], FreezeActivePose: [],
-					}
+						SetPose: [],
+						Difficulty: 0,
+						Effect: [],
+						FreezeActivePose: [],
+					},
 				},
 				{
 					Name: "Closed",
 					Property: {
-						Effect: ["Prone", "Freeze"], SetPose: ["LegsClosed"], Difficulty: 6, FreezeActivePose: ["BodyLower"],
-					}
+						Effect: ["Prone", "Freeze"],
+						SetPose: ["LegsClosed"],
+						Difficulty: 6,
+						FreezeActivePose: ["BodyLower"],
+					},
 				},
 				{
 					Name: "Chained",
 					Property: {
 						Effect: ["Slow"],
-					}
-				}
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
 				Option: "ItemFeetSteelAnkleCuffs",
 				Chat: "ItemFeetSteelAnkleCuffsSet",
-			}
+			},
 		}, // SteelAnkleCuffs
 		SturdyLeatherBelts: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8310,7 +11142,7 @@ var AssetFemale3DCGExtended = {
 				Chat: "DuctTapeRestrain",
 				Npc: "DuctTapeRestrain",
 				Option: "DuctTapePose",
-			}
+			},
 		}, // DuctTape
 		Zipties: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8319,13 +11151,15 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ZipFeetLight",
 					Property: { SetPose: ["LegsClosed"], Difficulty: 1 },
-				}, {
+				},
+				{
 					Name: "ZipFeetMedium",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
+				{
 					Name: "ZipFeetFull",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectZipTie",
@@ -8410,10 +11244,10 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemBoots"],
 						SetPose: ["Spread"],
-						Difficulty: 5
+						Difficulty: 5,
 					},
 					Prerequisite: ["OnBed", "NoItemLegs", "LegsOpen"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",
@@ -8428,51 +11262,62 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Basic",
-					Property: { SetPose: ["LegsClosed"], Difficulty: 1 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 1 },
+				},
+				{
 					Name: "FullBinding",
 					BondageLevel: 2,
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
+				{
 					Name: "Link",
 					BondageLevel: 2,
-					Property: { SetPose: ["LegsClosed"], Difficulty: 2 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 2 },
+				},
+				{
 					Name: "Diamond",
 					BondageLevel: 4,
-					Property: { SetPose: ["LegsClosed"], Difficulty: 4 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 4 },
+				},
+				{
 					Name: "Mermaid",
 					BondageLevel: 4,
-					Property: { SetPose: ["LegsClosed"], Difficulty: 4 }
-				}, {
+					Property: { SetPose: ["LegsClosed"], Difficulty: 4 },
+				},
+				{
 					Name: "Suspension",
 					BondageLevel: 6,
 					Property: {
 						SetPose: ["LegsClosed", "Suspension"],
 						AllowActivePose: [],
-						Difficulty: 6
+						Difficulty: 6,
 					},
 					Expression: [{ Group: "Blush", Name: "High", Timer: 30 }],
-					Prerequisite: ["NotKneeling", "NotMounted", "NotChained", "NotHogtied"]
-				}, {
+					Prerequisite: [
+						"NotKneeling",
+						"NotMounted",
+						"NotChained",
+						"NotHogtied",
+					],
+				},
+				{
 					Name: "BedSpreadEagle",
 					BondageLevel: 1,
 					Property: {
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemBoots"],
 						SetPose: ["Spread"],
-						Difficulty: 5
+						Difficulty: 5,
 					},
 					Prerequisite: ["OnBed", "NoItemLegs", "LegsOpen"],
-				}
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",
 				Option: "RopeBondage",
 				Npc: "RopeBondage",
 				Chat: "LegRopeSet",
-			}
+			},
 		},
 		SpreaderVibratingDildoBar: {
 			Archetype: ExtendedArchetype.VIBRATING,
@@ -8518,21 +11363,24 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { GroupName: "ItemNeckRestraints", AssetName: "PetPost" },
 			Modules: [
 				{
-					Name: "Plaque", Key: "p",
+					Name: "Plaque",
+					Key: "p",
 					Options: [
 						{}, //p0 - Border
 						{}, //p1 - Border
-					]
+					],
 				},
 				{
-					Name: "Dirt", Key: "d",
+					Name: "Dirt",
+					Key: "d",
 					Options: [
 						{}, //d0 - Clean
 						{}, //d1 - Dirty
-					]
+					],
 				},
 				{
-					Name: "Sticker", Key: "s",
+					Name: "Sticker",
+					Key: "s",
 					Options: [
 						{}, //s0 - Paw
 						{}, //s1 - Triskel
@@ -8542,17 +11390,19 @@ var AssetFemale3DCGExtended = {
 						{}, //s5 - Bi
 						{}, //s6 - NoSwim
 						{}, //s7 - None
-					]
+					],
 				},
 				{
-					Name: "PostIt", Key: "m",
+					Name: "PostIt",
+					Key: "m",
 					Options: [
 						{}, //m0 - Postit
 						{}, //m1 - No PostIt
-					]
+					],
 				},
 				{
-					Name: "Txt", Key: "x",
+					Name: "Txt",
+					Key: "x",
 					Options: [
 						{
 							HasSubscreen: true,
@@ -8571,7 +11421,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Chat: "ItemNeckRestraintsPetPostSet",
 			},
-		},//PetPost
+		}, //PetPost
 		WoodenSign: {
 			Archetype: ExtendedArchetype.TEXT,
 			MaxLength: { Text: 12, Text2: 12 },
@@ -8586,20 +11436,16 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Model", Key: "m",
-					Options: [
-						{},
-						{},
-						{},
-						{},
-					],
+					Name: "Model",
+					Key: "m",
+					Options: [{}, {}, {}, {}],
 				},
 				{
-					Name: "Front", Key: "f",
+					Name: "Front",
+					Key: "f",
 					Options: [
 						{
-							Property: {
-							},
+							Property: {},
 						},
 						{
 							Prerequisite: ["CanCoverVulva"],
@@ -8611,11 +11457,11 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Back", Key: "b",
+					Name: "Back",
+					Key: "b",
 					Options: [
 						{
-							Property: {
-							},
+							Property: {},
 						},
 						{
 							Property: {
@@ -8625,19 +11471,14 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Tamper", Key: "t",
-					Options: [
-						{},
-						{},
-						{},
-					],
+					Name: "Tamper",
+					Key: "t",
+					Options: [{}, {}, {}],
 				},
 				{
-					Name: "Orgasm", Key: "o",
-					Options: [
-						{},
-						{},
-					],
+					Name: "Orgasm",
+					Key: "o",
+					Options: [{}, {}],
 				},
 			],
 			ScriptHooks: {
@@ -8645,7 +11486,7 @@ var AssetFemale3DCGExtended = {
 				Click: FuturisticAccessClick,
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
-			}
+			},
 		}, // FuturisticChastityBelt
 		MetalChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8682,33 +11523,39 @@ var AssetFemale3DCGExtended = {
 			DrawImages: true,
 			Modules: [
 				{
-					Name: "CrotchShield", Key: "c",
+					Name: "CrotchShield",
+					Key: "c",
 					Options: [
 						{}, // 0 - open
-						{ // 1 - close front
+						{
+							// 1 - close front
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-							}
+							},
 						},
-						{ // 2 - close back
+						{
+							// 2 - close back
 							Property: {
 								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
-							}
+							},
 						},
-						{ // 3 - close both
+						{
+							// 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-							}
+							},
 						},
 					],
 				},
 				{
-					Name: "ShockModule", Key: "s", DrawImages: false,
+					Name: "ShockModule",
+					Key: "s",
+					DrawImages: false,
 					DrawData: {
 						elementData: [
 							{ position: ExtendedXYWithoutImages[8][0] },
@@ -8728,7 +11575,10 @@ var AssetFemale3DCGExtended = {
 			DrawData: {
 				elementData: [
 					{}, // CrotchShield
-					{ imagePath: "Screens/Inventory/ItemPelvis/ForbiddenChastityBelt/s0.png" }, // ShockModule
+					{
+						imagePath:
+							"Screens/Inventory/ItemPelvis/ForbiddenChastityBelt/s0.png",
+					}, // ShockModule
 				],
 			},
 			ScriptHooks: {
@@ -8738,7 +11588,14 @@ var AssetFemale3DCGExtended = {
 				ScriptDraw: AssetsItemBreastForbiddenChastityBraScriptDrawHook,
 			},
 			ChangeWhenLocked: false,
-			BaselineProperty: { TriggerCount: 0, ShowText: true, BlinkState: false, PunishOrgasm: false, PunishStandup: false, PunishStruggle: false },
+			BaselineProperty: {
+				TriggerCount: 0,
+				ShowText: true,
+				BlinkState: false,
+				PunishOrgasm: false,
+				PunishStandup: false,
+				PunishStruggle: false,
+			},
 		}, // ForbiddenChastityBelt
 		OrnateChastityBelt: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8770,7 +11627,7 @@ var AssetFemale3DCGExtended = {
 				Option: "RibbonsBelt",
 				Npc: "ItemPelvisRibbons",
 				Chat: "PelvisRibbonsSet",
-			}
+			},
 		}, // Ribbons
 		HempRope: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8778,26 +11635,33 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Crotch",
-					Property: { Difficulty: 1, Effect: ["CrotchRope"] }
-				}, {
+					Property: { Difficulty: 1, Effect: ["CrotchRope"] },
+				},
+				{
 					Name: "OverPanties",
-					Property: { Difficulty: 1, OverridePriority: 21, Effect: ["CrotchRope"] }
-				}, {
+					Property: {
+						Difficulty: 1,
+						OverridePriority: 21,
+						Effect: ["CrotchRope"],
+					},
+				},
+				{
 					Name: "SwissSeat",
 					BondageLevel: 4,
-					Property: { Difficulty: 4 }
-				}, {
+					Property: { Difficulty: 4 },
+				},
+				{
 					Name: "KikkouHip",
 					BondageLevel: 5,
-					Property: { Difficulty: 5 }
-				}
+					Property: { Difficulty: 5 },
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",
 				Option: "RopeBondage",
 				Npc: "RopeBondage",
 				Chat: "PelvisRopeSet",
-			}
+			},
 		}, // HempRope
 		PoofyDiaper: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -8808,7 +11672,9 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Poofy",
-					Property: { HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"] },
+					Property: {
+						HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"],
+					},
 				},
 			],
 		}, // PoofyDiaper
@@ -8818,42 +11684,54 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			Modules: [
 				{
-					Name: "CrotchShield", Key: "c",
+					Name: "CrotchShield",
+					Key: "c",
 					Options: [
 						{}, // 0 - open
-						{ // 1 - close front
+						{
+							// 1 - close front
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
-							}
+								HideItem: [
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+							},
 						},
-						{ // 2 - close back
+						{
+							// 2 - close back
 							Property: {
 								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
-							}
+							},
 						},
-						{ // 3 - close both
+						{
+							// 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								HideItem: ["ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield"],
-							}
+								HideItem: [
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+							},
 						},
 					],
 				},
 				{
-					Name: "ShockModule", Key: "s",
+					Name: "ShockModule",
+					Key: "s",
 					Options: [
 						{}, // 0 - disabled
 						{ HasSubscreen: true }, // 1 - enabled
 					],
 				},
 				{
-					Name: "Engraving", Key: "e",
+					Name: "Engraving",
+					Key: "e",
 					Options: [
 						{
 							HasSubscreen: true,
@@ -8872,7 +11750,13 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-			BaselineProperty: { Text: "", ShowText: false, PunishOrgasm: false, PunishStandup: false, NextShockTime: 0 },
+			BaselineProperty: {
+				Text: "",
+				ShowText: false,
+				PunishOrgasm: false,
+				PunishStandup: false,
+				NextShockTime: 0,
+			},
 		},
 		SciFiPleasurePanties: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -8884,24 +11768,28 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "CrotchShield", Key: "c",
+					Name: "CrotchShield",
+					Key: "c",
 					DrawImages: false,
 					Options: [
 						{}, // 0 - open
-						{ // 1 - close front
+						{
+							// 1 - close front
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
 							},
 						},
-						{ // 2 - close back
+						{
+							// 2 - close back
 							Property: {
 								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
 							},
 						},
-						{ // 3 - close both
+						{
+							// 3 - close both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste", "ButtChaste"],
@@ -8911,7 +11799,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Intensity", Key: "i",
+					Name: "Intensity",
+					Key: "i",
 					DrawImages: false,
 					Options: [
 						{ Property: { Intensity: -1 } }, // i0 - Turn Off
@@ -8922,7 +11811,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "OrgasmLock", Key: "o",
+					Name: "OrgasmLock",
+					Key: "o",
 					DrawImages: false,
 					Options: [
 						{}, // o0 - Normal
@@ -8931,7 +11821,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "ShockLevel", Key: "s",
+					Name: "ShockLevel",
+					Key: "s",
 					DrawImages: false,
 					Options: [
 						{ Property: { ShockLevel: 0 } }, // s0 - Level 1
@@ -8957,32 +11848,49 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.DEST_CHAR_NAME, CommonChatTags.ASSET_NAME],
 			Modules: [
 				{
-					Name: "Code", Key: "o",
-					Options: [
-						{ HasSubscreen: true, ChangeWhenLocked: false, },
-					],
+					Name: "Code",
+					Key: "o",
+					Options: [{ HasSubscreen: true, ChangeWhenLocked: false }],
 				},
 				{
-					Name: "CrotchShield", Key: "c",
+					Name: "CrotchShield",
+					Key: "c",
 					Options: [
 						{}, // 0 - open
-						{ // 1 - close front
+						{
+							// 1 - close front
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								Attribute: ["PortalLinkTargetItemVulva", "PortalLinkActivityCaress", "PortalLinkActivityKiss", "PortalLinkActivitySlap", "PortalLinkActivityMasturbateHand", "PortalLinkActivityMasturbateTongue"],
+								Attribute: [
+									"PortalLinkTargetItemVulva",
+									"PortalLinkActivityCaress",
+									"PortalLinkActivityKiss",
+									"PortalLinkActivitySlap",
+									"PortalLinkActivityMasturbateHand",
+									"PortalLinkActivityMasturbateTongue",
+								],
 								Hide: ["Pussy"],
 							},
 						},
-						{ // 2 - close back
+						{
+							// 2 - close back
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemButt"],
-								Attribute: ["PortalLinkTargetItemButt", "PortalLinkActivityCaress", "PortalLinkActivityKiss", "PortalLinkActivitySlap", "PortalLinkActivityMasturbateHand", "PortalLinkActivityMasturbateTongue"],
+								Attribute: [
+									"PortalLinkTargetItemButt",
+									"PortalLinkActivityCaress",
+									"PortalLinkActivityKiss",
+									"PortalLinkActivitySlap",
+									"PortalLinkActivityMasturbateHand",
+									"PortalLinkActivityMasturbateTongue",
+								],
 								Hide: ["Pussy"],
 							},
 						},
-						{ // 3 - close both
+						{
+							// 3 - close both
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
@@ -8993,10 +11901,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			DrawData: {
-				elementData: [
-					{ position: ExtendedXY[1][0] },
-					{ hidden: true },
-				],
+				elementData: [{ position: ExtendedXY[1][0] }, { hidden: true }],
 			},
 			BaselineProperty: {
 				PortalLinkCode: "00000000",
@@ -9006,7 +11911,7 @@ var AssetFemale3DCGExtended = {
 				Click: FuturisticAccessClick,
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
-			}
+			},
 		},
 		LoveChastityBelt: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -9017,13 +11922,16 @@ var AssetFemale3DCGExtended = {
 			],
 			Modules: [
 				{
-					Name: "FrontShield", Key: "f",
+					Name: "FrontShield",
+					Key: "f",
 					DrawImages: false,
 					Options: [
-						{ // 0 - open
+						{
+							// 0 - open
 							Expression: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 						},
-						{ // 1 - close front
+						{
+							// 1 - close front
 							Prerequisite: ["CanCoverVulva"],
 							Expression: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 							Property: {
@@ -9031,7 +11939,8 @@ var AssetFemale3DCGExtended = {
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
 							},
 						},
-						{ // 2 - close front & vibrator
+						{
+							// 2 - close front & vibrator
 							Prerequisite: ["CanCoverVulva"],
 							Expression: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 							Property: {
@@ -9039,7 +11948,8 @@ var AssetFemale3DCGExtended = {
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
 							},
 						},
-						{ // 3 - close front & shock unit
+						{
+							// 3 - close front & shock unit
 							Prerequisite: ["CanCoverVulva"],
 							Expression: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 							Property: {
@@ -9050,11 +11960,13 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "BackShield", Key: "b",
+					Name: "BackShield",
+					Key: "b",
 					DrawImages: false,
 					Options: [
 						{}, // 0 - open
-						{ // 1 - closed
+						{
+							// 1 - closed
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemButt"],
@@ -9063,7 +11975,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Intensity", Key: "i",
+					Name: "Intensity",
+					Key: "i",
 					DrawImages: false,
 					Options: [
 						{ Property: { Intensity: -1 } }, // i0 - Turn Off
@@ -9074,7 +11987,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "ShockLevel", Key: "s",
+					Name: "ShockLevel",
+					Key: "s",
 					DrawImages: false,
 					Options: [
 						{ Property: { ShockLevel: 0 } }, // s0 - Level 1
@@ -9119,10 +12033,7 @@ var AssetFemale3DCGExtended = {
 				PublicModeCurrent: 0,
 				PublicModePermission: 0,
 			},
-			AllowEffect: [
-				"DenialMode",
-				"RuinOrgasms",
-			],
+			AllowEffect: ["DenialMode", "RuinOrgasms"],
 		}, // FuturisticTrainingBelt
 		HeavyDutyBelt: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -9135,69 +12046,97 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			Modules: [
 				{
-					Name: "CrotchShield", Key: "c",
+					Name: "CrotchShield",
+					Key: "c",
 					Options: [
 						{}, // 0 - open
-						{ // 1 - transparent
+						{
+							// 1 - transparent
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								Hide: ["Pussy"]
-							}
+								Hide: ["Pussy"],
+							},
 						},
-						{ // 2 - metal
+						{
+							// 2 - metal
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								HideItem: ["ItemButtAnalBeads2", "ItemVulvaVibratingDildo", "ItemVulvaClitSuctionCup", "ItemVulvaInflatableVibeDildo", "ItemVulvaHeavyWeightClamp", "ItemVulvaPenisDildo", "ItemVulvaShockDildo", "ItemVulvaPiercingsVibeHeartClitPiercing", "ItemVulvaPiercingsClitRing", "ItemVulvaPiercingsChastityClitShield", "ItemVulvaPiercingsHighSecurityVulvaShield", "ItemVulvaPlasticChastityCage1", "ItemVulvaPlasticChastityCage2", "ItemVulvaTechnoChastityCage", "ItemVulvaFlatChastityCage", "ItemVulvaVibeEggPenisBase", "ItemVulvaChastityPouch"],
-								Hide: ["Pussy"]
-							}
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaChastityPouch",
+								],
+								Hide: ["Pussy"],
+							},
 						},
 					],
 				},
 				{
-					Name: "BackShield", Key: "b",
+					Name: "BackShield",
+					Key: "b",
 					DrawImages: false,
 					Options: [
 						{}, // 0 - open
-						{ // 1 - close back
+						{
+							// 1 - close back
 							Property: {
 								Block: ["ItemButt"],
-							}
+							},
 						},
 					],
 				},
 				{
-					Name: "Modules", Key: "m",
+					Name: "Modules",
+					Key: "m",
 					Options: [
 						{}, // 0 - none
-						{ // 1 - cage/spreader
+						{
+							// 1 - cage/spreader
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								Hide: ["Pussy"]
-							}
+								Hide: ["Pussy"],
+							},
 						},
-						{ // 2 - rotors
+						{
+							// 2 - rotors
 							Property: {
-								Hide: ["Pussy"]
-							}
+								Hide: ["Pussy"],
+							},
 						},
-						{ // 3 - both
+						{
+							// 3 - both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
 								Effect: ["Chaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings"],
-								Hide: ["Pussy"]
-							}
+								Hide: ["Pussy"],
+							},
 						},
 					],
 				},
 				{
-					Name: "Intensity", Key: "i",
+					Name: "Intensity",
+					Key: "i",
 					DrawImages: false,
 					Options: [
 						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // i0 - Turn Off
@@ -9208,7 +12147,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "OrgasmLock", Key: "o",
+					Name: "OrgasmLock",
+					Key: "o",
 					DrawImages: false,
 					Options: [
 						{}, // o0 - Normal
@@ -9217,12 +12157,16 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		},//HeavyDutyBelt
+		}, //HeavyDutyBelt
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Off",
@@ -9261,11 +12205,15 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticEarphones
 		HeadphoneEarPlugs: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Off",
@@ -9297,7 +12245,7 @@ var AssetFemale3DCGExtended = {
 				Option: "HeadphoneEarPlugsPose",
 				Chat: "HeadphoneEarPlugsRestrain",
 				Npc: "ItemEarsHeadphonePlugs",
-			}
+			},
 		}, // HeadphoneEarPlugs
 		Headphones: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9325,7 +12273,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Option: "RibbonBraType",
 				Header: "SelectRibbonStyle",
-			}
+			},
 		}, // Ribbons
 		SexyBikini1: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9340,7 +12288,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Option: "BikiniType",
 				Header: "SelectBikiniType",
-			}
+			},
 		}, // SexyBikini1
 		CuteBikini1: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9388,7 +12336,9 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Poofy",
-					Property: { HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"], },
+					Property: {
+						HideItem: ["ClothLowerSkirt3", "ClothLowerTennisSkirt1"],
+					},
 				},
 			],
 		}, // PoofyDiaper
@@ -9425,7 +12375,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectEyePatchType",
 				Option: "EyePatchType",
-			}
+			},
 		}, // EyePatch1
 		CatGlasses: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9433,13 +12383,13 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Front",
 					Property: {
-						OverridePriority: 53
+						OverridePriority: 53,
 					},
 				},
 				{
 					Name: "Back",
 					Property: {
-						OverridePriority: 27
+						OverridePriority: 27,
 					},
 				},
 			],
@@ -9504,7 +12454,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "BraceletSpikeBandsSelect",
 				Option: "BraceletSpikeBands",
-			}
+			},
 		}, // SpikeBands
 		Wristband: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9545,20 +12495,20 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 					Property: {
-						OverridePriority: 31
+						OverridePriority: 31,
 					},
 				},
 				{
 					Name: "Tucked",
 					Property: {
-						OverridePriority: 29
+						OverridePriority: 29,
 					},
 				},
 			],
 			DialogPrefix: {
 				Header: "SelectPriorityType",
 				Option: "ClothPriorityType",
-			}
+			},
 		}, // NecklaceKey
 		NecklaceLock: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9708,7 +12658,14 @@ var AssetFemale3DCGExtended = {
 					Name: "Mummy",
 					Property: {
 						Hide: ["HairFront", "HairBack"],
-						Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
+						Block: [
+							"ItemMouth",
+							"ItemMouth2",
+							"ItemMouth3",
+							"ItemEars",
+							"ItemHood",
+							"ItemNose",
+						],
 						Effect: ["GagNormal", "BlindNormal", "Prone", "BlockMouth"],
 					},
 				},
@@ -9716,11 +12673,17 @@ var AssetFemale3DCGExtended = {
 					Name: "Open",
 					Property: {
 						Hide: ["HairFront", "HairBack"],
-						Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood"],
+						Block: [
+							"ItemMouth",
+							"ItemMouth2",
+							"ItemMouth3",
+							"ItemEars",
+							"ItemHood",
+						],
 						Effect: ["GagNormal", "BlockMouth"],
 					},
-				}
-			]
+				},
+			],
 		}, // DuctTape
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9757,8 +12720,22 @@ var AssetFemale3DCGExtended = {
 					Name: "Cocoon",
 					Property: {
 						Difficulty: 30,
-						Hide: ["HairFront", "HairBack", "Hat", "ItemMouth", "ItemMouth2", "ItemMouth3"],
-						Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemEars", "ItemHood", "ItemNose"],
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"ItemMouth",
+							"ItemMouth2",
+							"ItemMouth3",
+						],
+						Block: [
+							"ItemMouth",
+							"ItemMouth2",
+							"ItemMouth3",
+							"ItemEars",
+							"ItemHood",
+							"ItemNose",
+						],
 						Effect: ["BlindHeavy", "GagNormal", "BlockMouth"],
 					},
 				},
@@ -9782,14 +12759,14 @@ var AssetFemale3DCGExtended = {
 					Name: "LightTint",
 					Property: {
 						Effect: ["BlindLight", "Prone"],
-						Tint: [{Color: 0, Strength: 0.2}],
+						Tint: [{ Color: 0, Strength: 0.2 }],
 					},
 				},
 				{
 					Name: "HeavyTint",
 					Property: {
 						Effect: ["BlindNormal", "Prone"],
-						Tint: [{Color: 0, Strength: 0.5}],
+						Tint: [{ Color: 0, Strength: 0.5 }],
 					},
 				},
 				{
@@ -9810,7 +12787,7 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticMask
 		InteractiveVisor: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -9826,14 +12803,14 @@ var AssetFemale3DCGExtended = {
 					Name: "LightTint",
 					Property: {
 						Effect: ["BlindLight", "Prone"],
-						Tint: [{ Color: 0, Strength: 0.2 }]
+						Tint: [{ Color: 0, Strength: 0.2 }],
 					},
 				},
 				{
 					Name: "HeavyTint",
 					Property: {
 						Effect: ["BlindNormal", "Prone"],
-						Tint: [{ Color: 0, Strength: 0.5 }]
+						Tint: [{ Color: 0, Strength: 0.5 }],
 					},
 				},
 				{
@@ -9854,91 +12831,106 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // InteractiveVisor
 		InteractiveVRHeadset: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Background", Key: "b",
+					Name: "Background",
+					Key: "b",
 					Options: [
 						//CustomBlindBackground: {"None" : "SynthWave", "FreeVR" : "SynthWave", "Gaming" : "Dungeon", "Off" : "", "AR" : ""},
-						{ // b0 - Passthrough
+						{
+							// b0 - Passthrough
 							Property: {
 								CustomBlindBackground: "",
-							}
+							},
 						},
-						{ // b1 - SynthWave
+						{
+							// b1 - SynthWave
 							Property: {
 								CustomBlindBackground: "SynthWave",
 								Effect: [],
-							}
+							},
 						},
-						{ // b2 - Dungeon
+						{
+							// b2 - Dungeon
 							Property: {
 								CustomBlindBackground: "Dungeon",
 								Effect: [],
-							}
+							},
 						},
-						{ // b3 - SciFiCell
+						{
+							// b3 - SciFiCell
 							Property: {
 								CustomBlindBackground: "SciFiCell",
 								Effect: [],
-							}
+							},
 						},
-						{ // b4 - AncientRuins
+						{
+							// b4 - AncientRuins
 							Property: {
 								CustomBlindBackground: "AncientRuins",
 								Effect: [],
-							}
+							},
 						},
-						{ // b5 - HypnoticSpiral
+						{
+							// b5 - HypnoticSpiral
 							Property: {
 								CustomBlindBackground: "HypnoticSpiral",
 								Effect: [],
-							}
+							},
 						},
 					],
 				},
 				{
 					// Use `BlindTotal` for VR avatars to ensure that the `thin` property never reduces the blindness level below `BlindHeavy`,
 					// as lowering it any more will result in visual odities related to partial blindness
-					Name: "Function", Key: "f",
+					Name: "Function",
+					Key: "f",
 					Options: [
-						{ // f0 - Passthrough
+						{
+							// f0 - Passthrough
 							Property: {
 								Effect: [],
-							}
+							},
 						},
-						{ // f1 - Off
+						{
+							// f1 - Off
 							Property: {
 								Effect: ["BlindHeavy", "Prone"],
-							}
+							},
 						},
-						{ // f2 - VR Avatar
+						{
+							// f2 - VR Avatar
 							Property: {
 								Effect: ["BlindTotal", "Prone", "VRAvatars"],
-							}
+							},
 						},
-						{ // f3 - VR Avatar (hide restraints)
+						{
+							// f3 - VR Avatar (hide restraints)
 							Property: {
 								Effect: ["BlindTotal", "VRAvatars", "HideRestraints"],
-							}
+							},
 						},
 					],
 				},
 				{
-					Name: "Game", Key: "g",
+					Name: "Game",
+					Key: "g",
 					Options: [
-						{ // g0 - None
+						{
+							// g0 - None
 							Property: {
 								Effect: [],
-							}
+							},
 						},
-						{ // f1 - Kinky Dungeon
+						{
+							// f1 - Kinky Dungeon
 							Property: {
 								Effect: ["KinkyDungeonParty"],
-							}
+							},
 						},
 					],
 				},
@@ -9948,18 +12940,19 @@ var AssetFemale3DCGExtended = {
 				Click: FuturisticAccessClick,
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
-			}
+			},
 		}, // InteractiveVRHeadset
 		MedicalPatch: {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Archetype: ExtendedArchetype.MODULAR,
-			Modules:[
+			Modules: [
 				{
-					Name: "Eye", Key: "e",
-					Options:[
+					Name: "Eye",
+					Key: "e",
+					Options: [
 						{
 							Property: {
-								Effect: ["BlindNormal", "Prone"]
+								Effect: ["BlindNormal", "Prone"],
 							},
 						},
 						{},
@@ -9967,75 +12960,93 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name:"RightSticker", Key: "r",
-					Options: [{},{},{},{},{}], //Just blank and cosmetic options
+					Name: "RightSticker",
+					Key: "r",
+					Options: [{}, {}, {}, {}, {}], //Just blank and cosmetic options
 				},
 				{
-					Name:"LeftSticker", Key: "l",
-					Options: [{},{},{},{},{}], //Just blank and cosmetic options
+					Name: "LeftSticker",
+					Key: "l",
+					Options: [{}, {}, {}, {}, {}], //Just blank and cosmetic options
 				},
 			],
 		}, //MedicalPatch
 		DroneMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules:[
+			Modules: [
 				{
-					Name: "Mouth", Key: "m",
-					Options:[
-						{ // m0 - None
-							Property: { Effect: ["BlockMouth"] }
+					Name: "Mouth",
+					Key: "m",
+					Options: [
+						{
+							// m0 - None
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m1 - Onahole
-							Property: { Effect: ["GagMedium","OpenMouth"] }
+						{
+							// m1 - Onahole
+							Property: { Effect: ["GagMedium", "OpenMouth"] },
 						},
-						{ // m2 - Fleshlight
-							Property: { Effect: ["GagMedium","OpenMouth"] }
+						{
+							// m2 - Fleshlight
+							Property: { Effect: ["GagMedium", "OpenMouth"] },
 						},
-						{ // m3 - Smile
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m3 - Smile
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m4 - Holes
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m4 - Holes
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m5 - Sculpted
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m5 - Sculpted
+							Property: { Effect: ["BlockMouth"] },
 						},
-						{ // m6 - Subtle
-							Property: { Effect: ["BlockMouth"] }
+						{
+							// m6 - Subtle
+							Property: { Effect: ["BlockMouth"] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Eyes", Key: "e",
-					Options:[
-						{ // e0 - None
-							Property: { Effect: ["BlindLight"] }
+					Name: "Eyes",
+					Key: "e",
+					Options: [
+						{
+							// e0 - None
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e1 - Regular
-							Property: { Effect: [] }
+						{
+							// e1 - Regular
+							Property: { Effect: [] },
 						},
-						{ // e2 - Spiral
-							Property: { Effect: [] }
+						{
+							// e2 - Spiral
+							Property: { Effect: [] },
 						},
-						{ // e3 - Smile
-							Property: { Effect: [] }
+						{
+							// e3 - Smile
+							Property: { Effect: [] },
 						},
-						{ // e4 - Holes
-							Property: { Effect: ["BlindLight"] }
+						{
+							// e4 - Holes
+							Property: { Effect: ["BlindLight"] },
 						},
-						{ // e5 - Sculpted
-							Property: { Effect: [] }
+						{
+							// e5 - Sculpted
+							Property: { Effect: [] },
 						},
-						{ // e6 - Concave
-							Property: {Effect: ["BlindLight"] }
-						}
-
-					]
+						{
+							// e6 - Concave
+							Property: { Effect: ["BlindLight"] },
+						},
+					],
 				},
 				{
-					Name: "Pattern", Key: "p",
-					Options:[
+					Name: "Pattern",
+					Key: "p",
+					Options: [
 						{}, // Blank
 						{}, // Barcode
 						{}, // Scarab
@@ -10055,74 +13066,127 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name: "Glow", Key: "g",
-					Options: [{},{},] // Glow Off, Glow On
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], // Glow Off, Glow On
 				},
 				{
-					Name: "Sight", Key: "s",
+					Name: "Sight",
+					Key: "s",
 					Options: [
-						{ // s0 - Opaque
-							Property: { Effect: ["BlindHeavy", "Prone"] }
+						{
+							// s0 - Opaque
+							Property: { Effect: ["BlindHeavy", "Prone"] },
 						},
-						{ // s1 - One Way
-							Property: { Effect: [""] }
+						{
+							// s1 - One Way
+							Property: { Effect: [""] },
 						},
-					]
+					],
 				},
 				{
-					Name: "Helmet", Key: "h",
+					Name: "Helmet",
+					Key: "h",
 					Options: [
 						{}, // h0 - Mask
 						{
 							Property: {
-								Hide: ["HairFront", "HairBack",], //"HairAccessory1", "HairAccessory2"],
+								Hide: ["HairFront", "HairBack"], //"HairAccessory1", "HairAccessory2"],
 								HideItem: [
-									"HatBonnet1", "HatBonnet2", "HatBunnySuccubus2", "HatCrown1", "HatCrown2", "HatCrown4", "HatCrown5", "HatBand1",
-									"HatBand2", "HatPirateBandana1", "HatVeil1","HatVeil2", // Hat items
-									"MaskFuturisticVisor", "MaskShinobiMask", // Mask items
+									"HatBonnet1",
+									"HatBonnet2",
+									"HatBunnySuccubus2",
+									"HatCrown1",
+									"HatCrown2",
+									"HatCrown4",
+									"HatCrown5",
+									"HatBand1",
+									"HatBand2",
+									"HatPirateBandana1",
+									"HatVeil1",
+									"HatVeil2", // Hat items
+									"MaskFuturisticVisor",
+									"MaskShinobiMask", // Mask items
 									"HairAccessory3Ribbons4", // HairAccessory items
-									"HairAccessory1Antennae", "HairAccessory1BunnyEars1", "HairAccessory1BunnyEars2", "HairAccessory1CowHorns", "HairAccessory1ElfEars",
-									"HairAccessory1Ears1", "HairAccessory1Ears2", "HairAccessory1FoxEars1", "HairAccessory1FoxEars2", "HairAccessory1FoxEars3",
-									"HairAccessory1KittenEars1", "HairAccessory1KittenEars2", "HairAccessory1MouseEars1", "HairAccessory1MouseEars2",
-									"HairAccessory1PuppyEars1", "HairAccessory1Ribbons2", "HairAccessory1WolfEars1", "HairAccessory1WolfEars2",
+									"HairAccessory1Antennae",
+									"HairAccessory1BunnyEars1",
+									"HairAccessory1BunnyEars2",
+									"HairAccessory1CowHorns",
+									"HairAccessory1ElfEars",
+									"HairAccessory1Ears1",
+									"HairAccessory1Ears2",
+									"HairAccessory1FoxEars1",
+									"HairAccessory1FoxEars2",
+									"HairAccessory1FoxEars3",
+									"HairAccessory1KittenEars1",
+									"HairAccessory1KittenEars2",
+									"HairAccessory1MouseEars1",
+									"HairAccessory1MouseEars2",
+									"HairAccessory1PuppyEars1",
+									"HairAccessory1Ribbons2",
+									"HairAccessory1WolfEars1",
+									"HairAccessory1WolfEars2",
 									"HairAccessory1Ribbons4", // Ear items (HA1)
-									"HairAccessory2Antennae", "HairAccessory2BunnyEars1", "HairAccessory2BunnyEars2", "HairAccessory2CowHorns", "HairAccessory2ElfEars",
-									"HairAccessory2Ears1", "HairAccessory2Ears2", "HairAccessory2FoxEars1", "HairAccessory2FoxEars2", "HairAccessory2FoxEars3",
-									"HairAccessory2KittenEars1", "HairAccessory2KittenEars2", "HairAccessory2MouseEars1", "HairAccessory2MouseEars2",
-									"HairAccessory2PuppyEars1", "HairAccessory2Ribbons2", "HairAccessory2WolfEars1", "HairAccessory2WolfEars2", // Ear items (HA2)
+									"HairAccessory2Antennae",
+									"HairAccessory2BunnyEars1",
+									"HairAccessory2BunnyEars2",
+									"HairAccessory2CowHorns",
+									"HairAccessory2ElfEars",
+									"HairAccessory2Ears1",
+									"HairAccessory2Ears2",
+									"HairAccessory2FoxEars1",
+									"HairAccessory2FoxEars2",
+									"HairAccessory2FoxEars3",
+									"HairAccessory2KittenEars1",
+									"HairAccessory2KittenEars2",
+									"HairAccessory2MouseEars1",
+									"HairAccessory2MouseEars2",
+									"HairAccessory2PuppyEars1",
+									"HairAccessory2Ribbons2",
+									"HairAccessory2WolfEars1",
+									"HairAccessory2WolfEars2", // Ear items (HA2)
 								], // These items are hidden because they have clear mismatch issues with the hood.
 							},
 						}, // h1 - Helmet (hood)
-						{ // h2 - Helmet ( hood but nothing shows)
+						{
+							// h2 - Helmet ( hood but nothing shows)
 							Property: {
-								Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"Hat",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+								],
+								HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
 							},
 						},
-					]
+					],
 				},
 				{
-					Name: "Layering", Key: "j",
+					Name: "Layering",
+					Key: "j",
 					Options: [
 						{
-							Property:{
+							Property: {
 								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
 								Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3", "Glasses"],
-							}
+							},
 						}, // No gags visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: ["ItemMouth", "ItemMouth2"],
 								Hide: ["ItemMouth", "ItemMouth2", "Glasses"],
-							}
+							},
 						}, // Highest layer gag visible
 						{
-							Property:{
+							Property: {
 								OverridePriority: 12,
 								Block: [],
 								Hide: [],
-							}
+							},
 						}, // All gags visible
 					],
 				},
@@ -10132,17 +13196,24 @@ var AssetFemale3DCGExtended = {
 		}, // DroneMask
 		Stitches: {
 			Archetype: ExtendedArchetype.MODULAR,
-			Modules:[
+			Modules: [
 				{
-					Name:"Main", Key: "m",
+					Name: "Main",
+					Key: "m",
 					Options: [
-						{Property: { Hide: ["Eyes"]}, }, // Right Eye
-						{Property: { Hide: ["Eyes2"]}, }, // Left Eye
-						{Property: { Hide: ["Eyes","Eyes2"], Effect: ["BlindHeavy", "Prone"]},} //Both Eyes
+						{ Property: { Hide: ["Eyes"] } }, // Right Eye
+						{ Property: { Hide: ["Eyes2"] } }, // Left Eye
+						{
+							Property: {
+								Hide: ["Eyes", "Eyes2"],
+								Effect: ["BlindHeavy", "Prone"],
+							},
+						}, //Both Eyes
 					],
 				},
 				{
-					Name:"Right", Key: "r",
+					Name: "Right",
+					Key: "r",
 					Options: [
 						{}, // Straight
 						{}, // ZigZag
@@ -10151,7 +13222,8 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 				{
-					Name:"Left", Key: "l",
+					Name: "Left",
+					Key: "l",
 					Options: [
 						{}, // Straight
 						{}, // ZigZag
@@ -10168,7 +13240,13 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Mittens",
-					Property: { Difficulty: 8, SelfUnlock: false, Effect: ["Block", "Prone", "MergedFingers"], Block: ["ItemHandheld"], Hide: ["ItemHandheld"]},
+					Property: {
+						Difficulty: 8,
+						SelfUnlock: false,
+						Effect: ["Block", "Prone", "MergedFingers"],
+						Block: ["ItemHandheld"],
+						Hide: ["ItemHandheld"],
+					},
 				},
 				{
 					Name: "Gloves",
@@ -10186,7 +13264,7 @@ var AssetFemale3DCGExtended = {
 				Draw: FuturisticAccessDraw,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
-			}
+			},
 		}, // FuturisticMittens
 		PaddedMittens: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -10200,8 +13278,8 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						SetPose: ["BaseUpper"],
 						Block: ["ItemArms", "ItemTorso", "ItemTorso2"],
-					}
-				}
+					},
+				},
 			],
 		}, // PaddedMittens
 		PawMittens: {
@@ -10216,14 +13294,24 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Lowered",
-					Property: { Difficulty: 6, Effect: []}
-				}, {
+					Property: { Difficulty: 6, Effect: [] },
+				},
+				{
 					Name: "Suspended",
 					Property: {
 						Difficulty: 7,
-						OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
+						OverrideHeight: {
+							Height: 30,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 						Effect: ["Lifted"],
-						AllowActivePose: ["BaseLower", "LegsClosed", "Kneel", "KneelingSpread"],
+						AllowActivePose: [
+							"BaseLower",
+							"LegsClosed",
+							"Kneel",
+							"KneelingSpread",
+						],
 					},
 				},
 			],
@@ -10241,14 +13329,24 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Lowered",
-					Property: { Difficulty: 6}
-				}, {
+					Property: { Difficulty: 6 },
+				},
+				{
 					Name: "Suspended",
 					Property: {
 						Difficulty: 7,
-						OverrideHeight: { Height: 30, Priority: 51, HeightRatioProportion: 0 },
+						OverrideHeight: {
+							Height: 30,
+							Priority: 51,
+							HeightRatioProportion: 0,
+						},
 						Effect: ["Lifted"],
-						AllowActivePose: ["BaseLower", "LegsClosed", "Kneel", "KneelingSpread"],
+						AllowActivePose: [
+							"BaseLower",
+							"LegsClosed",
+							"Kneel",
+							"KneelingSpread",
+						],
 					},
 				},
 			],
