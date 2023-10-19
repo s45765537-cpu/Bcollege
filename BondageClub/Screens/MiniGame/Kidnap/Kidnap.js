@@ -277,10 +277,10 @@ function KidnapShowMove() {
  * @returns {boolean} - Returns TRUE if the move for that person is effective
  */
 function KidnapMoveEffective(C, MoveType) {
+	const groupName = KidnapUpperHandMoveType[MoveType];
+	if ((groupName == "Cloth") && (InventoryGet(C, groupName) != null)) return true;
 	// Not completely true, but unknown groups will just return null anyway
-	const groupName = /** @type {AssetGroupName} */(KidnapUpperHandMoveType[MoveType]);
-	if ((KidnapUpperHandMoveType[MoveType] == "Cloth") && (InventoryGet(C, groupName) != null)) return true;
-	if ((KidnapUpperHandMoveType[MoveType] != "Cloth") && (InventoryGet(C, groupName) == null)) return true;
+	if ((groupName != "Cloth") && (InventoryGet(C, /** @type {AssetGroupName} */(groupName)) == null)) return true;
 	return false;
 }
 

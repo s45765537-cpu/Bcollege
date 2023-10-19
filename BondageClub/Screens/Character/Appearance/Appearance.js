@@ -1509,7 +1509,8 @@ function CharacterAppearanceReady(C) {
 		ServerPlayerAppearanceSync();
 	}
 	if (C.IsNpc()) {
-		const oldAppearance = /** @type {Item[]} */(AppearanceItemParse(CharacterAppearanceBackup));
+		/** @type {Item[]} */
+		const oldAppearance = AppearanceItemParse(CharacterAppearanceBackup);
 		const pronounGroup = oldAppearance.find(a => a.Asset.Group.Name === "Pronouns");
 
 		const oldPronouns = pronounGroup ? pronounGroup.Asset.Name : "SheHer";

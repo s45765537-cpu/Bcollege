@@ -529,7 +529,8 @@ function ModularItemParseCurrent({ asset, modules }, type=null) {
  */
 function ModularItemMergeModuleValues({ asset, modules }, moduleValues, BaselineProperty=null) {
 	const options = modules.map((module, i) => module.Options[moduleValues[i] || 0]);
-	const BaseLineProperties = /** @type {ItemProperties} */({
+	 /** @type {ItemProperties} */
+	const BaseLineProperties ={
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: 0,
 		CustomBlindBackground: asset.CustomBlindBackground,
@@ -540,7 +541,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues, Baseline
 		AllowActivity: Array.isArray(asset.AllowActivity) ? asset.AllowActivity.slice() : [],
 		Attribute: Array.isArray(asset.Attribute) ? asset.Attribute.slice() : [],
 		Tint: asset.AllowTint ? Array.isArray(asset.Tint) ? asset.Tint.slice() : [] : undefined,
-	});
+	};
 	if (BaselineProperty != null) {
 		ModularItemSanitizeProperties(BaselineProperty, BaseLineProperties, asset);
 	}

@@ -74,7 +74,7 @@ function LogDelete(DelLogName, DelLogGroup, Push) {
 function LogDeleteStarting(DelLogName, DelLogGroup, Push) {
 	for (let L = 0; L < Log.length; L++)
 		if ((Log[L].Name.substring(0, DelLogName.length) == DelLogName) && (Log[L].Group == DelLogGroup)) {
-			LogDelete(/** @type {any} */(Log[L].Name), DelLogGroup, Push);
+			LogDelete(Log[L].Name, DelLogGroup, Push);
 			L = L - 1;
 		}
 }
@@ -155,7 +155,7 @@ function LogLoad(NewLog) {
 		// Add each log entry one by one, validates the type to prevent client crashes
 		for (let L = 0; L < NewLog.length; L++)
 			if ((typeof NewLog[L].Name === "string") && (typeof NewLog[L].Group === "string") && ((NewLog[L].Value == null) || (typeof NewLog[L].Value === "number")))
-				LogAdd(/** @type {any} */(NewLog[L].Name), NewLog[L].Group, NewLog[L].Value, false);
+				LogAdd(NewLog[L].Name, NewLog[L].Group, NewLog[L].Value, false);
 
 	}
 

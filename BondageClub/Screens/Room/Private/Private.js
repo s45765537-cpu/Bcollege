@@ -1889,9 +1889,7 @@ function PrivateGetBed(Type) {
 	LogDelete("BedWhite", "PrivateRoom");
 	LogDelete("BedBlack", "PrivateRoom");
 	LogDelete("BedPink", "PrivateRoom");
-
-	const BedType = /** @type {"BedWhite" | "BedBlack" | "BedPink"} */("Bed" + Type);
-	LogAdd(BedType, "PrivateRoom");
+	LogAdd(`Bed${Type}`, "PrivateRoom");
 }
 
 /**

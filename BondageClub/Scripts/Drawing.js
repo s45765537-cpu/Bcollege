@@ -1455,13 +1455,13 @@ function DrawProcessHoverElements() {
  * @param {number} [options.Height] - The width of the preview rectangle. Defaults to 275.
  */
 function DrawItemPreview(itemOrDialogItem, char, X, Y, options) {
-	const item = /** @type {DialogInventoryItem} */(itemOrDialogItem);
+	const item = itemOrDialogItem;
 	// Now we act like this is a real DialogInventoryItem, reusing its properties or generating them otherwise
 
-	const Vibrating = typeof item.Vibrating === "undefined" ? InventoryItemHasEffect(item, "Vibrating", true) : item.Vibrating;
+	const Vibrating = !("Vibrating" in item) ? InventoryItemHasEffect(item, "Vibrating", true) : item.Vibrating;
 	/** @type {InventoryIcon[]} */
 	let Icons = [];
-	if (typeof item.Icons === "undefined") {
+	if (!("Icons" in item)) {
 		// We're an item, so it makes sense to default to "worn"
 		Icons = Icons.concat(DialogGetLockIcon(item, true));
 		Icons = Icons.concat(DialogGetAssetIcons(item.Asset));

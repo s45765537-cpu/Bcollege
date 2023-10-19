@@ -404,8 +404,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 	if (SourceMemberNumber == null) SourceMemberNumber = C.MemberNumber;
 	const updateParams = ValidationCreateDiffParams(C, SourceMemberNumber);
 
-	const appearanceKeys = /** @type {AssetGroupName[]} */(Object.keys(appearanceDiffs));
-	let { appearance, updateValid } = appearanceKeys
+	let { appearance, updateValid } = CommonKeys(appearanceDiffs)
 		// eslint-disable-next-line
 		.reduce(({ appearance, updateValid }, groupName) => {
 			const diff = appearanceDiffs[groupName];

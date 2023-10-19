@@ -216,7 +216,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		IsSlow: function () {
 			return (
 				((this.Effect.indexOf("Slow") >= 0) || (this.Pose.indexOf("Kneel") >= 0)) &&
-				((this.ID != 0) || !/** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
+				((!this.IsPlayer()) || !this.RestrictionSettings.SlowImmunity)
 			);
 		},
 		IsEgged: function () {

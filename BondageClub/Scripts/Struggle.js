@@ -102,7 +102,7 @@ var StruggleProgressDexMax = 300;
 var StruggleProgressDexDirectionRight = false; // Moves left when false, right when true
 
 
-/** @type {Record<string, StruggleMinigame>} */
+/** @type {Record<StruggleKnownMinigames, StruggleMinigame>} */
 const StruggleMinigames = {
 	Strength: {
 		Setup: StruggleStrengthSetup,
@@ -180,9 +180,10 @@ const StruggleFacesList = {
 
 /**
  * Get the list of struggle minigames.
+ * @returns {[StruggleKnownMinigames, StruggleMinigame][]}
  */
 function StruggleGetMinigames() {
-	return /** @type {[StruggleKnownMinigames, StruggleMinigame][]} */(Object.entries(StruggleMinigames).filter(e => e[0] !== "LockPick" && e[0] !== "Loosen"));
+	return CommonEntries(StruggleMinigames).filter(e => e[0] !== "LockPick" && e[0] !== "Loosen");
 }
 
 /**
