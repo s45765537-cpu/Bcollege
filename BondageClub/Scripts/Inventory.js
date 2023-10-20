@@ -1021,7 +1021,7 @@ const PropertiesArrayLike = new Set([
 	"AllowActivity", "AllowActivityOn",
 	"Hide", "HideForPose", "HideItem", "HideItemExclude", "UnHide",
 	"MemberNumberList", "Texts",
-	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowType",
+	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowTypes",
 	"AvailableLocations", "ExpressionPrerequisite",
 ]);
 
