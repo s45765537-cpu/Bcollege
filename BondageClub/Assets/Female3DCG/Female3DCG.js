@@ -3278,7 +3278,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				WhitelistActivePose: ["BaseLower", "Kneel"],
-				HideForPose: ["KneelingSpread"],
 				Attribute: ["Skirt"],
 			},
 			{
@@ -3435,7 +3434,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				WhitelistActivePose: ["BaseLower", "Kneel"],
-				HideForPose: ["KneelingSpread"],
 				Attribute: ["Skirt"],
 			},
 			{
@@ -3503,7 +3501,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				WhitelistActivePose: ["BaseLower", "Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 				Effect: ["Slow"],
 				Hide: ["Pussy"],
 				HideItem: ["ItemFeetSlime"],
@@ -4921,8 +4918,8 @@ var AssetFemale3DCG = [
 				Random: false,
 				Value: 30,
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
-				AllowPose: ["LegsClosed", "Kneel"],
-				HideForPose: ["KneelingSpread", "Hogtied", "AllFours"],
+				AllowPose: ["Kneel"],
+				HideForPose: ["Hogtied", "AllFours"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -4959,8 +4956,8 @@ var AssetFemale3DCG = [
 				Random: false,
 				Value: 30,
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
-				AllowPose: ["LegsClosed", "Kneel"],
-				HideForPose: ["KneelingSpread", "Hogtied", "AllFours"],
+				AllowPose: ["Kneel"],
+				HideForPose: ["Hogtied", "AllFours"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -12765,8 +12762,8 @@ var AssetFemale3DCG = [
 				Top: 465,
 				Left: 0,
 				Extended: true,
-				AllowPose: ["Spread"],
 				SetPose: ["LegsClosed"],
+				AllowActivePose: ["Kneel"],
 				HideItem: [
 					"ShoesBoots1",
 					"ShoesAnkleBoots1",
@@ -12816,7 +12813,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				Effect: ["Freeze"],
-				HideForPose: ["Kneel", "Spread", "KneelingSpread"],
+				HideForPose: ["Kneel"],
 				Layer: [{ Name: "One" }, { Name: "Two" }],
 			},
 		],
@@ -12861,7 +12858,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "NylonRope",
 				Audio: "RopeShort",
 				SetPose: ["LegsClosed"],
-				AllowPose: ["Kneel", "KneelingSpread"],
+				AllowPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "LegsClosed"],
 				Extended: true,
 				AllowTighten: true,
@@ -12917,7 +12914,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				Audio: "RopeShort",
-				AllowPose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: ["Kneel"],
 				AllowTighten: true,
 				Prerequisite: ["CanCloseLegs"],
 			},
@@ -13399,6 +13396,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				Prerequisite: ["CanCloseLegs"],
+				AllowActivePose: ["Kneel"],
 			},
 			{
 				Name: "Chains",
@@ -13560,6 +13558,7 @@ var AssetFemale3DCG = [
 				Left: 142,
 				Top: 560,
 				SetPose: ["LegsClosed"],
+				AllowActivePose: ["Kneel"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				Layer: [
 					{ Name: "Inner" },
@@ -13583,7 +13582,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowPose: [],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 				Effect: ["Slow"],
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis"],
 				HideItemAttribute: ["Skirt"],
@@ -15804,8 +15802,8 @@ var AssetFemale3DCG = [
 				Effect: ["Chaste"],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
-				AllowPose: ["LegsClosed", "Kneel"],
-				HideForPose: ["KneelingSpread", "Hogtied", "AllFours"],
+				AllowPose: ["Kneel"],
+				HideForPose: ["Hogtied", "AllFours"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -15855,8 +15853,8 @@ var AssetFemale3DCG = [
 				Effect: ["Chaste"],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
-				AllowPose: ["LegsClosed", "Kneel"],
-				HideForPose: ["KneelingSpread", "Hogtied", "AllFours"],
+				AllowPose: ["Kneel"],
+				HideForPose: ["Hogtied", "AllFours"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -18783,7 +18781,6 @@ var AssetFemale3DCG = [
 				Extended: true,
 				ParentGroup: null,
 				HasType: false,
-				AllowPose: ["BackCuffs", "OverTheHead"],
 				Effect: ["Prone"],
 				SetPose: ["BaseUpper"],
 				Layer: [{ Name: "Cuffs" }, { Name: "Chain" }],
@@ -20182,7 +20179,8 @@ var AssetFemale3DCG = [
 				Hide: ["Cloth", "ClothLower", "Shoes"],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				AllowPose: ["Kneel", "Hogtied", "Suspension"],
-				SetPose: ["LegsOpen", "BackElbowTouch"],
+				SetPose: ["BaseLower", "BackElbowTouch"],
+				AllowActivePose: ["BaseLower", "Kneel"],
 				Effect: ["Block", "Freeze", "Prone"],
 				Block: [
 					"ItemTorso",
@@ -21695,6 +21693,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				AllowPose: ["Kneel"],
+				AllowActivePose: ["Kneel"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				Effect: ["Block", "Prone"],
 				Block: [
@@ -21766,7 +21765,6 @@ var AssetFemale3DCG = [
 				Extended: true,
 				SetPose: ["BackElbowTouch"],
 				Prerequisite: ["HasBreasts"],
-				AllowPose: ["OverTheHead"],
 				HideForPose: ["Hogtied", "AllFours"],
 				Effect: ["Block", "Prone"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
@@ -35378,7 +35376,6 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercings",
 				],
 				AllowActivityOn: ["ItemArms", "ItemFeet", "ItemLegs", "ItemBoots"],
-				SetPose: ["BaseUpper", "BaseLower"],
 				Effect: ["Prone", "Freeze", "Block", "Mounted"],
 				AllowActivePose: [],
 				DrawLocks: false,
@@ -37047,7 +37044,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Effect: ["Freeze", "Prone"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 			},
 			{
 				Name: "LeatherToeCuffs",
@@ -37064,7 +37060,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Effect: ["Freeze", "Prone"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 			},
 			{
 				Name: "ToeTie",
@@ -37082,7 +37077,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Effect: ["Freeze", "Prone"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 			},
 			{
 				Name: "ThighHighLatexHeels",
@@ -37299,7 +37293,6 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 			},
 			{
 				Name: "Zipties",
@@ -37314,7 +37307,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Effect: ["Freeze", "Prone"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread"],
 			},
 			{
 				Name: "HighThighBoots",
@@ -37373,7 +37365,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				Effect: ["Freeze"],
-				HideForPose: ["Kneel", "Spread", "KneelingSpread", "Hogtied"],
+				HideForPose: ["Kneel", "Hogtied"],
 				Layer: [{ Name: "One" }, { Name: "Two" }],
 			},
 			{
@@ -37390,7 +37382,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["CanCloseLegs"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				HideForPose: ["Spread", "KneelingSpread", "Kneel"],
+				HideForPose: ["Kneel"],
 				Effect: ["Freeze", "Prone"],
 				Hide: ["Shoes", "ItemFeet"],
 				HideItem: [
@@ -37575,6 +37567,7 @@ var PoseFemale3DCG = [
 	},
 	{
 		Name: "Suspension",
+		Category: "BodyAddon",
 		OverrideHeight: { Height: -150, Priority: 40 },
 		Hide: [],
 	},
@@ -37648,6 +37641,7 @@ var PoseFemale3DCG = [
 	},
 	{
 		Name: "TapedHands",
+		Category: "BodyHands",
 	},
 	{
 		Name: "LegsOpen",
