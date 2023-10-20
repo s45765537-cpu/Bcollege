@@ -57,7 +57,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		DrawingFullAlpha: (GroupDef.FullAlpha == null) ? true : GroupDef.FullAlpha,
 		DrawingBlink: (GroupDef.Blink == null) ? false : GroupDef.Blink,
 		InheritColor: (typeof GroupDef.InheritColor === "string" ? GroupDef.InheritColor : null),
-		FreezeActivePose: Array.isArray(GroupDef.FreezeActivePose) ? GroupDef.FreezeActivePose : [],
 		PreviewZone: GroupDef.PreviewZone,
 		DynamicGroupName: GroupDef.DynamicGroupName || GroupDef.Group,
 		MirrorActivitiesFrom: GroupDef.MirrorActivitiesFrom || undefined,
@@ -198,8 +197,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowColorizeAll: typeof AssetDef.AllowColorizeAll === "boolean" ? AssetDef.AllowColorizeAll : true,
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
-		FreezeActivePose: Array.isArray(AssetDef.FreezeActivePose) ? AssetDef.FreezeActivePose :
-			Array.isArray(Group.FreezeActivePose) ? Group.FreezeActivePose : [],
 		DrawLocks: typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true,
 		AllowExpression: AssetDef.AllowExpression,
 		MirrorExpression: AssetDef.MirrorExpression,

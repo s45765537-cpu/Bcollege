@@ -679,7 +679,8 @@ interface AssetGroup {
 	readonly DrawingFullAlpha: boolean;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
-	readonly FreezeActivePose: readonly AssetPoseCategory[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
 
@@ -943,7 +944,8 @@ type Asset = Readonly<{
 	AllowColorizeAll: boolean;
 	AvailableLocations: readonly string[];
 	OverrideHeight?: AssetOverrideHeight;
-	FreezeActivePose: readonly AssetPoseCategory[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	FreezeActivePose?: never;
 	DrawLocks: boolean;
 	AllowExpression?: readonly ExpressionName[];
 	MirrorExpression?: AssetGroupName;
@@ -2260,8 +2262,9 @@ interface AssetDefinitionProperties {
 	/**
 	 * A list of poses that should be frozen
 	 * @see {@link Asset.FreezeActivePose}
+	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
 	 */
-	FreezeActivePose?: AssetPoseCategory[];
+	FreezeActivePose?: never;
 
 	/**
 	 * Whether an item can be unlocked by the player even if they're restrained

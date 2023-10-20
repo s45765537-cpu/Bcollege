@@ -63,8 +63,11 @@ interface AssetCommonPropertiesGroupAsset {
 	/** A pose that the character will change to when wearing the asset */
 	SetPose?: AssetPoseName[];
 
-	/** A list of pose categories that the character will be prevented to change */
-	FreezeActivePose?: AssetPoseCategory[];
+	/**
+	 * A list of pose categories that the character will be prevented to change
+	 * @deprecated Use {@link AssetDefinition.AllowActivePose} instead
+	 */
+	FreezeActivePose?: never;
 
 	/** Which expression the group allows to be set on it */
 	AllowExpression?: ExpressionName[];

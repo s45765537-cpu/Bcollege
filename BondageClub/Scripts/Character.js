@@ -916,7 +916,13 @@ function CharacterCanChangeToPose(C, poseName) {
 	if (!pose) return false;
 	const poseCategory = pose.Category;
 	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
-	return !C.Appearance.some(item => InventoryGetItemProperty(item, "FreezeActivePose").includes(poseCategory));
+
+	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
+	if (poseCategory !== "BodyLower") {
+		return true;
+	} else {
+		return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+	}
 }
 
 /**
