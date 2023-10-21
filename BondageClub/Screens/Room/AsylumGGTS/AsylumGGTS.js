@@ -1148,6 +1148,13 @@ function AsylumGGTSAddStrike() {
 		ChatRoomCharacterUpdate(Player);
 	}
 
+	// On the third strike, we change the fuck machine to a training belt if we can
+	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "FuckMachine", "ItemDevices")) {
+		InventoryRemove(Player, "ItemDevices");
+		InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", null, 10);
+		ChatRoomCharacterUpdate(Player);
+	}
+
 }
 
 /**
