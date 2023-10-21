@@ -1839,6 +1839,11 @@ function PreferenceSubscreenAudioClick() {
 			PreferenceSettingsMusicVolumeIndex = (PreferenceSettingsMusicVolumeIndex + 1) % PreferenceSettingsVolumeList.length;
 		}
 		Player.AudioSettings.MusicVolume = PreferenceSettingsVolumeList[PreferenceSettingsMusicVolumeIndex];
+		if ((ChatAdminRoomCustomizationMusic != null) && (ChatAdminRoomCustomizationMusic.src != null)) {
+			ChatAdminRoomCustomizationPlayMusic(ChatAdminRoomCustomizationMusic.src);
+			if (Player.AudioSettings.MusicVolume > 0)
+				ChatAdminRoomCustomizationMusic.volume = Math.min(Player.AudioSettings.MusicVolume, 1) * 0.25;
+		}
 	}
 
 	// Individual audio check-boxes
