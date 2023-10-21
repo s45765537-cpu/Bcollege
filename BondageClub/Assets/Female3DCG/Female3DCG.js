@@ -3173,7 +3173,6 @@ var AssetFemale3DCG = [
 				Hide: ["ItemFeet", "Garters", "ItemLegs", "Pussy"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				ParentItem: "Gown2Top",
 				Attribute: ["Skirt"],
 				HideItem: [
@@ -3270,7 +3269,6 @@ var AssetFemale3DCG = [
 				],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Attribute: ["Skirt"],
 			},
 			{
@@ -3426,7 +3424,6 @@ var AssetFemale3DCG = [
 				],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Attribute: ["Skirt"],
 			},
 			{
@@ -3493,7 +3490,6 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#25d", "#25d"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Effect: ["Slow"],
 				Hide: ["Pussy"],
 				HideItem: ["ItemFeetSlime"],
@@ -4925,7 +4921,6 @@ var AssetFemale3DCG = [
 				Top: 360,
 				SetPose: ["LegsOpen"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -4972,7 +4967,6 @@ var AssetFemale3DCG = [
 				Top: 360,
 				SetPose: ["LegsOpen"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
@@ -15815,7 +15809,6 @@ var AssetFemale3DCG = [
 				Top: 360,
 				SetPose: ["LegsOpen"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -15866,7 +15859,6 @@ var AssetFemale3DCG = [
 				Top: 360,
 				SetPose: ["LegsOpen"],
 				AllowActivePose: ["Kneel"],
-				WhitelistActivePose: ["BaseLower", "Kneel"],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
@@ -36884,7 +36876,6 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				Effect: ["Freeze"],
 				SetPose: ["BaseLower"],
-				WhitelistActivePose: ["BaseLower", "LegsClosed"],
 				AllowActivePose: ["LegsClosed"],
 				Layer: [{ Name: "Ring", AllowColorize: false }, { Name: "Ropes" }],
 			},
@@ -36906,7 +36897,6 @@ var AssetFemale3DCG = [
 				HasType: false,
 				Effect: ["Freeze"],
 				SetPose: ["BaseLower"],
-				WhitelistActivePose: ["BaseLower", "LegsClosed"],
 				AllowActivePose: ["LegsClosed"],
 			},
 		],

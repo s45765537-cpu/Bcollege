@@ -1018,7 +1018,7 @@ function InventoryItemIsPickable(Item) {
 /** @satisfies {Set<keyof PropertiesArray>} */
 const PropertiesArrayLike = new Set(/** @type {const} */([
 	"Alpha", "Attribute", "Block", "Category", "DefaultColor", "Effect", "Expose", "ExpressionTrigger", "Prerequisite", "Require", "Fetish", "Tint",
-	"AllowPose", "AllowActivePose", "SetPose", "WhitelistActivePose",
+	"AllowPose", "AllowActivePose", "SetPose",
 	"AllowActivity", "AllowActivityOn",
 	"Hide", "HideForPose", "HideItem", "HideItemExclude", "UnHide",
 	"MemberNumberList", "Texts",

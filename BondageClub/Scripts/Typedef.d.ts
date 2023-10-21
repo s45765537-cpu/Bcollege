@@ -873,7 +873,8 @@ type Asset = Readonly<{
 	HideForPose: readonly (AssetPoseName | "")[];
 	PoseMapping: AssetPoseMapping;
 	AllowActivePose?: readonly AssetPoseName[];
-	WhitelistActivePose?: readonly AssetPoseName[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	WhitelistActivePose?: never;
 	Value: number;
 	Difficulty: number;
 	SelfBondage: number;
@@ -2257,8 +2258,9 @@ interface AssetDefinitionProperties {
 	/**
 	 * A list of poses
 	 * @see {@link Asset.WhitelistActivePose}
+	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
 	 */
-	WhitelistActivePose?: AssetPoseName[];
+	WhitelistActivePose?: never;
 	/**
 	 * A list of poses that should be frozen
 	 * @see {@link Asset.FreezeActivePose}

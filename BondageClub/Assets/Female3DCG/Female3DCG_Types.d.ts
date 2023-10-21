@@ -369,7 +369,8 @@ interface AssetDefinition extends AssetCommonPropertiesGroupAsset, AssetCommonPr
 	 */
 	AllowActivePose?: AssetPoseName[];
 
-	WhitelistActivePose?: AssetPoseName[];
+	/** @deprecated - Use {@link AssetDefinition.AllowActivePose} instead */
+	WhitelistActivePose?: never;
 
 	/**
 	 * The cost of the asset in the shop. Defaults to 0.

@@ -128,7 +128,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Require: (!Array.isArray(AssetDef.Require) ? [] : AssetDef.Require),
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
-		WhitelistActivePose: AssetDef.WhitelistActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
 		Difficulty: (AssetDef.Difficulty == null) ? 0 : AssetDef.Difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
