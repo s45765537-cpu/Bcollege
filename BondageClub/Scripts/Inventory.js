@@ -1015,19 +1015,21 @@ function InventoryItemIsPickable(Item) {
 	else return false;
 }
 
-const PropertiesArrayLike = new Set([
+/** @satisfies {Set<keyof PropertiesArray>} */
+const PropertiesArrayLike = new Set(/** @type {const} */([
 	"Alpha", "Attribute", "Block", "Category", "DefaultColor", "Effect", "Expose", "ExpressionTrigger", "Prerequisite", "Require", "Fetish", "Tint",
 	"AllowPose", "AllowActivePose", "FreezeActivePose", "SetPose", "WhitelistActivePose",
 	"AllowActivity", "AllowActivityOn",
 	"Hide", "HideForPose", "HideItem", "HideItemExclude", "UnHide",
 	"MemberNumberList", "Texts",
-	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowType",
+	"AllowBlock", "AllowEffect", "AllowExpression", "AllowHide", "AllowHideItem", "AllowLockType", "AllowTypes",
 	"AvailableLocations", "ExpressionPrerequisite",
-]);
+]));
 
-const PropertiesObjectLike = new Set([
+/** @satisfies {Set<keyof PropertiesRecord>} */
+const PropertiesObjectLike = new Set(/** @type {const} */([
 	"ActivityExpression", "PoseMapping", "RemoveItemOnRemove",
-]);
+]));
 
 /**
  * Returns the value of a given property of an appearance item, prioritizes the Property object.
