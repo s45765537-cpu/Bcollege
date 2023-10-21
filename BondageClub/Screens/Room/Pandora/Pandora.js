@@ -38,7 +38,7 @@ var PandoraReverseMaidTotal = 0;
  * @returns {boolean} - TRUE if the dialog option will be available to the player
  */
 function PandoraCanStartRecruit() { return (((CurrentCharacter.Recruit == null) || (CurrentCharacter.Recruit == 0)) && (!CurrentCharacter.IsNaked() || CurrentCharacter.Archetype == "Slave")); }
-function PandoraCanRecruit() { return (CurrentCharacter.Recruit + (InfiltrationPerksActive("Recruiter") ? 0.25 : 0) >= CurrentCharacter.RecruitOdds); }
+function PandoraCanRecruit() { return (CurrentCharacter.Recruit + (InfiltrationPerksActive("Recruiter") ? 0.25 : 0) + ((CurrentCharacter.Archetype === "Slave" && PandoraClothes == "Mistress") ? 0.25 : 0) >= CurrentCharacter.RecruitOdds); }
 function PandoraCharacterCanJoin() { return ((PandoraParty.length == 0) || (PandoraParty[0].Name != CurrentCharacter.Name)); }
 function PandoraCharacterCanLeave() { return ((PandoraParty.length == 1) && (PandoraParty[0].Name == CurrentCharacter.Name) && ((PandoraCurrentRoom.Character == null) || (PandoraCurrentRoom.Character.length <= 1))); }
 function PandoraOdds75() { return ((CurrentCharacter.RandomOdds == null) || (CurrentCharacter.RandomOdds > 0.25)); }
