@@ -402,14 +402,18 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
  * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
  * @param {readonly AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
  * object
- * @return {{AllowPose: AssetPoseName[], HideForPose: (AssetPoseName | "")[]}} - A partial object containing AllowPose and HideForPose
+ * @return {Pick<Asset, "AllowPose" | "HideForPose">} - A partial object containing AllowPose and HideForPose
  * properties
  */
 function AssetParsePoseProperties(obj, defaultAllowPose) {
 	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
 	const AllowPose = Array.isArray(obj.AllowPose) ? obj.AllowPose : [...defaultAllowPose];
+	const poseMappingKeys = CommonKeys(obj.PoseMapping || {});
 	if (HideForPose.length > 0) {
 		CommonArrayConcatDedupe(AllowPose, HideForPose);
+	}
+	if (poseMappingKeys.length > 0) {
+		CommonArrayConcatDedupe(AllowPose, poseMappingKeys);
 	}
 	return {AllowPose, HideForPose};
 }

@@ -251,6 +251,7 @@ interface AssetCommonPropertiesAssetLayer {
 	 * A list of poses that hide the asset when they get set.
 	 *
 	 * Note that this does not prevent usage of the pose (see {@link AssetDefinition.AllowActivePose}).
+	 * Values are automatically added to {@link Asset.AllowPose}.
 	 */
 	HideForPose?: (AssetPoseName | "")[];
 
@@ -357,6 +358,7 @@ interface AssetDefinition extends AssetCommonPropertiesGroupAsset, AssetCommonPr
 	 * being used when generating the file paths for the asset's layers.
 	 *
 	 * Works like DynamicGroupName, but for poses.
+	 * Values are automatically added to {@link Asset.AllowPose}.
 	 */
 	PoseMapping?: AssetPoseMapping;
 
