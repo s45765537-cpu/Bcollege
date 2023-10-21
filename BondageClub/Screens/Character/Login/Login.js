@@ -777,6 +777,7 @@ function LoginResponse(C) {
 			CraftingLoadServer(C.Crafting);
 			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 			Player.ConfiscatedItems = C.ConfiscatedItems;
+			Player.ExtensionSettings = (C.ExtensionSettings || {});
 
 			// Calls the preference init to make sure the preferences are loaded correctly
 			PreferenceInitPlayer();
