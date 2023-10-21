@@ -974,6 +974,7 @@ function poseToPoseMap(poses, referencePoseMap) {
 }
 
 /**
+ * Test that `AllowActivePose` is, on pose category by category basis, a superset of `AllowPose`
  * @param {readonly Asset[]} assets
  * @param {Record<AssetPoseCategory, Set<AssetPoseName>>} poseMap
  */
@@ -1003,6 +1004,48 @@ function testActivePose(assets, poseMap) {
 				error(
 					`${asset.Group.Name}:${asset.Name}: AllowPose must be a subset of AllowActivePose | SetPose for a given pose category; `
 					+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
+				);
+			}
+		}
+	}
+}
+
+/**
+ * Test that `HideForPose`, `AllowPose` and the `PoseMapping` keys are disjoint.
+ * @param {readonly AssetGroupDefinition[]} assetDefs
+ */
+function testPoseDisjoint(assetDefs) {
+	for (const groupDef of assetDefs) {
+		for (const assetDef of groupDef.Asset) {
+			if (typeof assetDef === "string") {
+				continue;
+			}
+
+			const poseNames = {
+				PoseMapping: /** @type {AssetPoseName[]} */(Object.keys(assetDef.PoseMapping || {})),
+				AllowPose: assetDef.AllowPose || [],
+				HideForPose: assetDef.HideForPose || [],
+			};
+
+			/** @type {("" | AssetPoseName)[]} */
+			let intersection = [];
+			for (const [key1, poses1] of Object.entries(poseNames)) {
+				for (const [key2, poses2] of Object.entries(poseNames)) {
+					if (key1 === key2) {
+						continue;
+					}
+					intersection.push(
+						...poses1.filter(p => /** @type {(AssetPoseName | "")[]} */(poses2).includes(p)),
+						...poses2.filter(p => /** @type {(AssetPoseName | "")[]} */(poses1).includes(p)),
+					);
+				}
+			}
+
+			if (intersection.length > 0) {
+				intersection = Array.from(new Set(intersection)).sort();
+				error(
+					`${groupDef.Group}:${assetDef.Name}: HideForPose, AllowPose and PoseMapping keys must all be disjoint; `
+					+ `offending members: ${intersection}`
 				);
 			}
 		}
@@ -1233,4 +1276,5 @@ function sanitizeVMOutput(input) {
 		vibrating: VibratingItemDataLookup,
 	});
 	testActivePose(assetList, poseMap);
+	testPoseDisjoint(AssetFemale3DCG);
 })();

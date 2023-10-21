@@ -407,7 +407,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
  */
 function AssetParsePoseProperties(obj, defaultAllowPose) {
 	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
-	const AllowPose = Array.isArray(obj.AllowPose) ? obj.AllowPose : [...defaultAllowPose];
+	const AllowPose = Array.isArray(obj.AllowPose) ? [...obj.AllowPose] : [...defaultAllowPose];
 	const poseMappingKeys = CommonKeys(obj.PoseMapping || {});
 	if (HideForPose.length > 0) {
 		CommonArrayConcatDedupe(AllowPose, HideForPose);
