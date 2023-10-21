@@ -2595,7 +2595,7 @@ function DialogDrawCrafting(C, Item) {
 	if (Item.Craft.Property != null)
 		DrawTextWrap(DialogFind(Player, "CraftingProperty").replace("CraftProperty", Item.Craft.Property), 1050, 600, 900, 125, "White", null, 3);
 	if ((Item.Craft.Description != null) && (typeof Item.Craft.Description === "string"))
-		DrawTextWrap(DialogFind(Player, "CraftingDescription").replace("CraftDescription", Item.Craft.Description.substring(0, 100)), 1050, 800, 900, 125, "White", null, 3);
+		DrawTextWrap(DialogFind(Player, "CraftingDescription").replace("CraftDescription", Item.Craft.Description.substring(0, 200)), 1050, 800, 900, 125, "White", null, 3);
 }
 
 /**

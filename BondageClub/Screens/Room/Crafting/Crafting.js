@@ -508,7 +508,7 @@ function CraftingModeSet(NewMode) {
 	if (NewMode == "Name") {
 		ElementCreateInput("InputName", "text", "", "30");
 		document.getElementById("InputName").addEventListener('keyup', CraftingKeyUp);
-		ElementCreateInput("InputDescription", "text", "", "100");
+		ElementCreateInput("InputDescription", "text", "", "200");
 		document.getElementById("InputDescription").addEventListener('keyup', CraftingKeyUp);
 		ElementCreateInput("InputColor", "text", "", "500");
 		document.getElementById("InputColor").addEventListener('keyup', CraftingKeyUp);
@@ -644,7 +644,7 @@ function CraftingSaveServer() {
 			P = P + ((C.Property == null) ? "" : C.Property) + "¶";
 			P = P + ((C.Lock == null) ? "" : C.Lock) + "¶";
 			P = P + ((C.Name == null) ? "" : C.Name.substring(0, 30).replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + ((C.Description == null) ? "" : C.Description.substring(0, 100).replace("¶", " ").replace("§", " ")) + "¶";
+			P = P + ((C.Description == null) ? "" : C.Description.substring(0, 200).replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + ((C.Color == null) ? "" : C.Color.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
 			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
@@ -1069,7 +1069,7 @@ function CraftingRefreshPreview() {
  * */
 function CraftingConvertSelectedToItem() {
 	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim().substring(0, 30) : CraftingSelectedItem.Name;
-	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 100) : CraftingSelectedItem.Description;
+	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 200) : CraftingSelectedItem.Description;
 	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
 	let Type = CraftingSelectedItem.Type;
 	return {
