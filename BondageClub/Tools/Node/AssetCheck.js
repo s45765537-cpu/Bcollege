@@ -659,6 +659,7 @@ function testAssetAndExtendedPropertyIsDisjoint(dataSuperRecord) {
 		"HideItemExclude",
 		"Block",
 		"AllowActivityOn",
+		"Fetish",
 	]);
 
 	// Gather all expected image paths
