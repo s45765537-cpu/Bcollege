@@ -828,6 +828,7 @@ function ChatSearchAutoJoinRoom() {
 					var NewRoom = {
 						Name: Player.LastChatRoom.trim(),
 						Description: Player.LastChatRoomDesc.trim(),
+						Custom: Player.LastChatRoomCustom,
 						Background: Player.LastChatRoomBG,
 						Private: Player.LastChatRoomPrivate,
 						Space: Player.LastChatRoomSpace,

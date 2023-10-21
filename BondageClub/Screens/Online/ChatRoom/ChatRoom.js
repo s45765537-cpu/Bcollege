@@ -1400,6 +1400,8 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomLanguage = ChatRoomData.Language;
 			if (ChatRoomData && ChatRoomData.Description != null) // empty string is valid
 				Player.LastChatRoomDesc = ChatRoomData.Description;
+			if (ChatRoomData)
+				Player.LastChatRoomCustom = ChatRoomData.Custom;
 			if (ChatRoomData && ChatRoomData.Admin)
 				Player.LastChatRoomAdmin = ChatRoomData.Admin;
 			if (ChatRoomData && ChatRoomData.Ban)
@@ -1443,6 +1445,7 @@ function ChatRoomSetLastChatRoom(room) {
 		LastChatRoomSize: Player.LastChatRoomSize,
 		LastChatRoomLanguage: Player.LastChatRoomLanguage,
 		LastChatRoomDesc: Player.LastChatRoomDesc,
+		LastChatRoomCustom: Player.LastChatRoomCustom,
 		LastChatRoomAdmin: Player.LastChatRoomAdmin.toString(),
 		LastChatRoomBan: Player.LastChatRoomBan.toString(),
 		LastChatRoomBlockCategory: [...Player.LastChatRoomBlockCategory],
@@ -4812,6 +4815,7 @@ function ChatRoomRecreate() {
 		var UpdatedRoom = {
 			Name: Player.LastChatRoom,
 			Description: Player.LastChatRoomDesc,
+			Custom: Player.LastChatRoomCustom,
 			Background: Player.LastChatRoomBG,
 			Limit: Player.LastChatRoomSize.toString(),
 			Language: Player.LastChatRoomLanguage,

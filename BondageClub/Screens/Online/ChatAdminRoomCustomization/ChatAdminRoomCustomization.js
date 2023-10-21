@@ -117,7 +117,7 @@ function ChatAdminRoomCustomizationProcess(Custom, Draw) {
 
 	// Make sure the customozation data is valid first
 	if ((Custom == null) || (typeof Custom !== "object")) {
-		ChatAdminRoomCustomizationPlayMusic("");
+		ChatRoomCustomizationClear();
 		return;
 	}
 

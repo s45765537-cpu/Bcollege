@@ -1553,6 +1553,7 @@ interface PlayerCharacter extends Character {
 	LastChatRoomSize?: number;
 	LastChatRoomLanguage?: ServerChatRoomLanguage;
 	LastChatRoomDesc?: string;
+	LastChatRoomCustom?: any;
 	LastChatRoomAdmin?: any[];
 	LastChatRoomBan?: any[];
 	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
