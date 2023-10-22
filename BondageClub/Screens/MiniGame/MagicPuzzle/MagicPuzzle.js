@@ -128,12 +128,11 @@ function MagicPuzzleRun() {
 		else
 			DrawText(TextGet("FailMessage") + " " + MagicPuzzleTime((MagicPuzzleFinish - MagicPuzzleStart) / 1000), 1000, 975, "#FFC0C0", "grey");
 	} else {
-		if (CommonTime() < MagicPuzzleStart)
+		if (CommonTime() < MagicPuzzleStart) {
 			DrawText(TextGet("StartMessage") + " " + MagicPuzzleTime((MagicPuzzleStart - CommonTime()) / 1000), 1000, 975, "#FFFFFF", "grey");
-		else
-		if (MagicPuzzleTimer == 0)
+		} else if (MagicPuzzleTimer == 0) {
 			DrawText(TextGet("GameMessage") + " " + MagicPuzzleTime((CommonTime() - MagicPuzzleStart) / 1000), 1000, 975, "#C0C0FF", "grey");
-		else {
+		} else {
 			let Pos = 100 - (CommonTime() - MagicPuzzleStart) / (MagicPuzzleTimer - MagicPuzzleStart) * 100;
 			DrawProgressBar(0, 950, 2000, 50, Pos);
 			DrawText(TextGet("GameMessage") + " " + MagicPuzzleTime((CommonTime() - MagicPuzzleStart) / 1000), 1000, 975, "black", "white");

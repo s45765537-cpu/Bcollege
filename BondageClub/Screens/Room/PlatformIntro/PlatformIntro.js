@@ -35,9 +35,7 @@ function PlatformIntroRun() {
 				if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
 					if (Count == PlatformIntroDrawAsset) DrawImageZoomCanvas(FileName, MainCanvas, 0, 0, Obj.width, Obj.height, -50, 0, 1000, 1000);
 					Count++;
-				}
-				else
-				if (Load > 0) {
+				} else if (Load > 0) {
 					DrawImage(FileName, 2000, 1000);
 					Load--;
 				}
@@ -53,9 +51,7 @@ function PlatformIntroRun() {
 					if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
 						if (Count == PlatformIntroDrawAsset) DrawImageZoomCanvas(FileName, MainCanvas, 0, 0, Obj.width, Obj.height, -50, 0, 1000, 1000);
 						Count++;
-					}
-					else
-					if (Load > 0) {
+					} else if (Load > 0) {
 						DrawImage(FileName, 2000, 1000);
 						Load--;
 					}

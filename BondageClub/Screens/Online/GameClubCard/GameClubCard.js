@@ -362,8 +362,8 @@ function GameClubCardAssignPlayers(Packet, Char) {
  */
 function GameClubCardLoadData(Packet) {
 	if (ClubCardPlayer.length < 2 || !ClubCardPlayer[0] || !ClubCardPlayer[1]) {
-        return;
-    }
+		return;
+	}
 
 	if (Packet.Data.CCData != null) {
 		for (let P of Packet.Data.CCData) {

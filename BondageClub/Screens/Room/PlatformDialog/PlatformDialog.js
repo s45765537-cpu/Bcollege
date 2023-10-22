@@ -4062,10 +4062,9 @@ function PlatformDialogDraw() {
 		let X = 1000 - (PlatformDialogCharacterDisplay.length * 250);
 		let Y = 0;
 		for (let Character of PlatformDialogCharacterDisplay) {
-			if (Character.Pose != null)
+			if (Character.Pose != null) {
 				DrawImage("Screens/Room/PlatformDialog/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Pose + ".png", (Character.X == null) ? X : Character.X, (Character.Y == null) ? Y : Character.Y);
-			else
-			if (Character.Animation != null)
+			} else if (Character.Animation != null) {
 				for (let Char of PlatformTemplate)
 					if ((Char.Name == Character.Name) && (Char.Status == Character.Status))
 						for (let Anim of Char.Animation)
@@ -4073,6 +4072,7 @@ function PlatformDialogDraw() {
 								let AnimPos = Math.floor(CommonTime() / Anim.Speed) % Anim.Cycle.length;
 								DrawImage("Screens/Room/Platform/Character/" + Character.Name + "/" + Character.Status + "/" + Character.Animation + "/" + Anim.Cycle[AnimPos].toString() + ".png", (Character.X == null) ? X - 250 : Character.X, (Character.Y == null) ? Y : Character.Y);
 							}
+			}
 			X = X + 500;
 		}
 	}
