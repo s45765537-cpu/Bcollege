@@ -65,7 +65,7 @@ function ReputationLoad(NewRep) {
 
 /**
  * Returns a specific reputation value for the player
- * @param {string} RepType - Type/name of the reputation to get the value of.
+ * @param {ReputationType} RepType - Type/name of the reputation to get the value of.
  * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
  */
 function ReputationGet(RepType) {

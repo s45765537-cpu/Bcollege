@@ -226,7 +226,7 @@ function DialogGetCharacter(C) {
 
 /**
  * Compares the player's reputation with a given value
- * @param {string} RepType - The name of the reputation to check
+ * @param {ReputationType} RepType - The name of the reputation to check
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is less or equal than a given value
  */
@@ -234,7 +234,7 @@ function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <
 
 /**
  * Compares the player's reputation with a given value
- * @param {string} RepType - The name of the reputation to check
+ * @param {ReputationType} RepType - The name of the reputation to check
  * @param {string} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is greater or equal than a given value
  */
@@ -276,21 +276,21 @@ function DialogChangeReputation(RepType, Value) { ReputationProgress(RepType, Va
  * @param {AssetGroupName} AssetGroup - The name of the corresponding asset group
  * @returns {void} - Nothing
  */
-function DialogWearItem(AssetName, AssetGroup) { InventoryWear(Player, AssetName, /** @type {AssetGroupName} */(AssetGroup)); }
+function DialogWearItem(AssetName, AssetGroup) { InventoryWear(Player, AssetName, AssetGroup); }
 
 /**
  * Equips a random item from a given group to the player from dialog
  * @param {AssetGroupName} AssetGroup - The name of the asset group to pick from
  * @returns {void} - Nothing
  */
-function DialogWearRandomItem(AssetGroup) { InventoryWearRandom(Player, /** @type {AssetGroupName} */(AssetGroup)); }
+function DialogWearRandomItem(AssetGroup) { InventoryWearRandom(Player, AssetGroup); }
 
 /**
  * Removes an item of a specific item group from the player
  * @param {AssetGroupName} AssetGroup - The item to be removed belongs to this asset group
  * @returns {void} - Nothing
  */
-function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, /** @type {AssetGroupName} */(AssetGroup)); }
+function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, AssetGroup); }
 
 /**
  * Releases a character from restraints
@@ -651,7 +651,7 @@ function DialogCanPickLock(C, Item) {
 		return false;
 
 	// Check that the lock is accessible, and that we're free to do so
-	const groupIsBlocked = InventoryGroupIsBlocked(C, /** @type {AssetGroupItemName} */(Item.Asset.Group.Name));
+	const groupIsBlocked = Item.Asset.Group.IsItem() && InventoryGroupIsBlocked(C, Item.Asset.Group.Name);
 	const playerHandsAreBlocked = InventoryGroupIsBlocked(Player, "ItemHands");
 	if (!InventoryAllow(C, Item.Asset) || groupIsBlocked || playerHandsAreBlocked || !InventoryItemIsPickable(Item))
 		return false;

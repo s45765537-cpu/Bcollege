@@ -137,7 +137,7 @@ function InventoryDeleteGroup(C, group, push) {
 * Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using
 * LZString
 * @param {Character} C - The character on which we should load the inventory
-* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
+* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly AssetGroupName[]>>} Inventory - An array of Name / Group of items to load
 */
 function InventoryLoad(C, Inventory) {
 	if (Inventory == null) return;
@@ -150,13 +150,13 @@ function InventoryLoad(C, Inventory) {
 			console.log("Error while loading compressed inventory, no inventory loaded.");
 		}
 	}
-	if (Array.isArray(Inventory)) {
+	if (CommonIsArray(Inventory)) {
 		for (let I = 0; I < Inventory.length; I++)
 			InventoryAdd(C, Inventory[I].Name, Inventory[I].Group, false);
 	} else if (typeof Inventory === "object") {
-		for (const G of Object.keys(Inventory)) {
+		for (const G of CommonKeys(Inventory)) {
 			for (const A of Inventory[G]) {
-				InventoryAdd(C, A, /** @type {AssetGroupName} */(G), false);
+				InventoryAdd(C, A, G, false);
 			}
 		}
 	}
@@ -880,7 +880,7 @@ function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
 	if (Activity == null) Activity = false;
 
 	// Default to characters focused group
-	if (GroupName == null) GroupName = /** @type {AssetGroupItemName} */(C.FocusGroup.Name);
+	if (GroupName == null) GroupName = C.FocusGroup.Name;
 
 	if (Activity) {
 		for (let E = 0; E < C.Appearance.length; E++) {

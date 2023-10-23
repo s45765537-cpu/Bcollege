@@ -39,6 +39,7 @@ var DrawHoverElements = [];
 
 /**
  * The last canvas position in format `[left, top, width, height]`
+ * @type {RectTuple}
  */
 var DrawCanvasPosition = [0, 0, 0, 0];
 
@@ -67,7 +68,7 @@ function DrawHexToRGB(color) {
 
 /**
  * Converts a RGB color to a hex color string
- * @param {number[]} color - RGB color to conver
+ * @param {readonly number[]} color - RGB color to conver
  * @returns {string} - Hex color string
  */
 function DrawRGBToHex(color) {
@@ -403,7 +404,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 /**
  * Draws an asset group zone outline over the character
  * @param {Character} C - Character for which to draw the zone
- * @param {readonly [number, number, number, number][]} Zone - Zone to be drawn
+ * @param {readonly RectTuple[]} Zone - Zone to be drawn
  * @param {number} Zoom - Height ratio of the character
  * @param {number} X - Position of the character on the X axis
  * @param {number} Y - Position of the character on the Y axis
@@ -776,7 +777,7 @@ function DrawImageEx(
  * This function can also break between a long English word if somehow needed in the script.
  * @param {string} text - The text to be fragmented.
  * @param {number} maxWidth - The max width the text will be filled in.
- * @returns {Array<string>} - A list of string that being fragmented.
+ * @returns {string[]} - A list of string that being fragmented.
  */
 function fragmentText(text, maxWidth) {
 	let words = text.split(' '),
@@ -956,24 +957,26 @@ function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
  * @param {number} Width - Width in which the text has to fit
  * @returns {[string, number]} - Text to draw and its font size
  */
-const DrawingGetTextSize = CommonMemoize((Text, Width) => {
+const DrawingGetTextSize = CommonMemoize(
+	/** @type {(Text: string, width: number) => [text: string, size: number]} */
+	(Text, Width) => {
 	// If it doesn't fit, test with smaller and smaller fonts until it fits
-	let S;
-	for (S = 36; S >= 10; S = S - 2) {
-		MainCanvas.font = CommonGetFont(S.toString());
-		const metrics = MainCanvas.measureText(Text);
-		if (metrics.width <= Width)
-			return [Text, S];
-	}
+		let S;
+		for (S = 36; S >= 10; S = S - 2) {
+			MainCanvas.font = CommonGetFont(S.toString());
+			const metrics = MainCanvas.measureText(Text);
+			if (metrics.width <= Width)
+				return [Text, S];
+		}
 
-	// Cuts the text if it would go over the box
-	while (Text.length > 0) {
-		Text = Text.substr(1);
-		const metrics = MainCanvas.measureText(Text);
-		if (metrics.width <= Width)
-			return [Text, S];
-	}
-});
+		// Cuts the text if it would go over the box
+		while (Text.length > 0) {
+			Text = Text.substr(1);
+			const metrics = MainCanvas.measureText(Text);
+			if (metrics.width <= Width)
+				return [Text, S];
+		}
+	});
 
 /**
  * Draws a text element on the canvas
@@ -1390,6 +1393,7 @@ function DrawProcess(time) {
 	}
 
 	// Checks for screen resize/position change and calls appropriate function
+	/** @type {RectTuple} */
 	const newCanvasPosition = [MainCanvas.canvas.offsetLeft, MainCanvas.canvas.offsetTop, MainCanvas.canvas.clientWidth, MainCanvas.canvas.clientHeight];
 	if (!CommonArraysEqual(newCanvasPosition, DrawCanvasPosition)) {
 		DrawCanvasPosition = newCanvasPosition;
@@ -1444,24 +1448,16 @@ function DrawProcessHoverElements() {
  * @param {Character} char - The character using the item (used to calculate dynamic item descriptions/previews)
  * @param {number} X
  * @param {number} Y
- * @param {object} [options]
- * @param {string} [options.Background] - The background color to draw the preview box in - defaults to white
- * @param {string} [options.Foreground] - The foreground (text) color to draw the description in - defaults to black
- * @param {boolean} [options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [options.Hover] - Whether or not the button should enable hover behavior (background color change)
- * @param {string} [options.HoverBackground] - The background color that should be used on mouse hover, if any
- * @param {boolean} [options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
- * @param {number} [options.Width] - The width of the preview rectangle. Defaults to 225.
- * @param {number} [options.Height] - The width of the preview rectangle. Defaults to 275.
+ * @param {PreviewDrawOptions} [options]
  */
 function DrawItemPreview(itemOrDialogItem, char, X, Y, options) {
-	const item = /** @type {DialogInventoryItem} */(itemOrDialogItem);
+	const item = itemOrDialogItem;
 	// Now we act like this is a real DialogInventoryItem, reusing its properties or generating them otherwise
 
-	const Vibrating = typeof item.Vibrating === "undefined" ? InventoryItemHasEffect(item, "Vibrating", true) : item.Vibrating;
+	const Vibrating = !("Vibrating" in item) ? InventoryItemHasEffect(item, "Vibrating", true) : item.Vibrating;
 	/** @type {InventoryIcon[]} */
 	let Icons = [];
-	if (typeof item.Icons === "undefined") {
+	if (!("Icons" in item)) {
 		// We're an item, so it makes sense to default to "worn"
 		Icons = Icons.concat(DialogGetLockIcon(item, true));
 		Icons = Icons.concat(DialogGetAssetIcons(item.Asset));
@@ -1480,19 +1476,7 @@ function DrawItemPreview(itemOrDialogItem, char, X, Y, options) {
  * @param {number} X - Position of the preview box on the X axis
  * @param {number} Y - Position of the preview box on the Y axis
  * @param {Asset} A - The asset to draw the preview for
- * @param {object} [Options] - Additional optional drawing options
- * @param {Character} [Options.C] - The character using the item (used to calculate dynamic item descriptions/previews)
- * @param {string} [Options.Description] - The preview box description
- * @param {string} [Options.Background] - The background color to draw the preview box in - defaults to white
- * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
- * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
- * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
- * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
- * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
- * @param {readonly InventoryIcon[]} [Options.Icons] - A list of small icons to display in the top-left corner
- * @param {number} [Options.Width] - The width of the preview rectangle. Defaults to 225.
- * @param {number} [Options.Height] - The width of the preview rectangle. Defaults to 275.
+ * @param {PreviewDrawOptions} [Options] - Additional optional drawing options
  * @returns {void} - Nothing
  */
 function DrawAssetPreview(X, Y, A, Options) {
@@ -1520,17 +1504,7 @@ const DrawAssetPreviewDefaultHeight = 275;
  * @param {number} Y - Position of the preview box on the Y axis
  * @param {string} Path - The path of the image to draw
  * @param {string} Description - The preview box description
- * @param {object} [Options] - Additional optional drawing options
- * @param {string} [Options.Background] - The background color to draw the preview box in - defaults to white
- * @param {string} [Options.Foreground] - The foreground (text) color to draw the description in - defaults to black
- * @param {boolean} [Options.Vibrating] - Whether or not to add vibration effects to the item - defaults to false
- * @param {boolean} [Options.Border] - Whether or not to draw a border around the preview box
- * @param {boolean} [Options.Hover] - Whether or not the button should enable hover behavior (background color change)
- * @param {string} [Options.HoverBackground] - The background color that should be used on mouse hover, if any
- * @param {boolean} [Options.Disabled] - Whether or not the element is disabled (prevents hover functionality)
- * @param {readonly InventoryIcon[]} [Options.Icons] - A list of images to draw in the top-left of the preview box
- * @param {number} [Options.Width] - The width of the preview rectangle. Defaults to 225.
- * @param {number} [Options.Height] - The width of the preview rectangle. Defaults to 275.
+ * @param {PreviewDrawOptions} [Options] - Additional optional drawing options
  * @returns {void} - Nothing
  */
 function DrawPreviewBox(X, Y, Path, Description, Options) {
@@ -1616,7 +1590,7 @@ function DrawPreviewIcons(icons, X, Y) {
  * @param {number} Y - Position of the preview box on the Y axis
  * @param {HTMLCanvasElement} Canvas - The canvas element containing the image to draw
  * @param {string} Description - The preview box description
- * @param {object} Options - Additional optional drawing options
+ * @param {PreviewDrawOptions} Options - Additional optional drawing options
  * @returns {void} - Nothing
  */
 function DrawCanvasPreview(X, Y, Canvas, Description, Options) {

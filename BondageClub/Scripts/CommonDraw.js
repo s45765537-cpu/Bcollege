@@ -364,10 +364,11 @@ function CommonDrawColorValid(Color, AssetGroup) {
  * Finds the correct pose to draw for drawable layer for the provided character from the provided list of allowed poses
  * @param {Character} C - The character to check for poses against
  * @param {readonly AssetPoseName[]} AllowedPoses - The list of permitted poses for the current layer
- * @return {AssetPoseName} - The name of the pose to draw for the layer, or an empty string if no pose should be drawn
+ * @return {AssetPoseName | null} - The name of the pose to draw for the layer, or an empty string if no pose should be drawn
  */
 function CommonDrawFindPose(C, AllowedPoses) {
-	let Pose = /** @type {AssetPoseName} */(null);
+	/** @type {AssetPoseName | null} */
+	let Pose = null;
 	if (AllowedPoses && AllowedPoses.length) {
 		AllowedPoses.forEach(AllowedPose => {
 			if (C.DrawPose.includes(AllowedPose)) Pose = AllowedPose;
@@ -381,10 +382,11 @@ function CommonDrawFindPose(C, AllowedPoses) {
  * @param {Character} C - The character whose poses to check
  * @param {Asset} A - The asset to check
  * @param {AssetLayer} [Layer] - The layer to check (optional)
- * @returns {AssetPoseName} - The pose to use when drawing the given asset (or layer)
+ * @returns {AssetPoseName | null} - The pose to use when drawing the given asset (or layer)
  */
 function CommonDrawResolveAssetPose(C, A, Layer) {
-	let Pose = /** @type {AssetPoseName} */(null);
+	/** @type {AssetPoseName | null} */
+	let Pose = null;
 	if (C.DrawPose && C.DrawPose.length) {
 		let AllowPose = Layer && Layer.AllowPose;
 		if (!Array.isArray(AllowPose)) AllowPose = A.AllowPose;

@@ -18,13 +18,19 @@ type MemoizedFunction<T extends Function> = T & {
 };
 
 // GL shim
+interface WebGLTextureData {
+	width: number,
+	height: number,
+	texture: WebGLTexture,
+}
+
 interface WebGL2RenderingContext {
 	program?: WebGLProgram;
 	programFull?: WebGLProgram;
 	programHalf?: WebGLProgram;
 	programTexMask?: WebGLProgram;
-	textureCache?: Map<string, any>;
-	maskCache?: Map<string, any>;
+	textureCache?: Map<string, WebGLTextureData>;
+	maskCache?: Map<string, WebGLTexture>;
 }
 
 interface WebGLProgram {
@@ -1070,14 +1076,14 @@ interface Reputation {
 interface Ownership {
 	Name: string;
 	MemberNumber: number;
-	Stage: number;
+	Stage: 0 | 1;
 	Start: number;
 }
 
 interface Lovership {
 	Name: string;
 	MemberNumber?: number;
-	Stage?: number;
+	Stage?: 0 | 1 | 2;
 	Start?: number;
 	// Bad data sometimes received from server
 	BeginDatingOfferedByMemberNumber?: unknown;
@@ -1200,7 +1206,7 @@ interface Character {
 	WhiteList: number[];
 	HeightModifier: number;
 	MemberNumber?: number;
-	ItemPermission?: number;
+	ItemPermission?: 0 | 1 | 2 | 3 | 4 | 5;
 	Ownership?: Ownership;
 	Lovership?: Lovership[];
 	ExpressionQueue?: ExpressionQueueItem[];
@@ -1285,7 +1291,7 @@ interface Character {
 	DrawAppearance?: Item[];
 	AppearanceLayers?: AssetLayer[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;
-	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean | any;
+	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean;
 	UnregisterHook: (hookName: CharacterHook, hookInstance: string) => boolean;
 	RunHooks: (hookName: CharacterHook) => void;
 	HeightRatioProportion?: number;
@@ -1299,9 +1305,9 @@ interface Character {
 	AppearanceFull?: Item[];
 	// Online character properties
 	Title?: TitleName;
-	LabelColor?: any;
-	Creation?: any;
-	Description?: any;
+	LabelColor?: string;
+	Creation?: number;
+	Description?: string;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;
 	Game?: {
 		LARP?: GameLARPParameters,
@@ -1481,7 +1487,7 @@ interface PlayerCharacter extends Character {
 		ShowBeepChat: boolean;
 		ShowChatHelp: boolean;
 		ShrinkNonDialogue: boolean;
-		WhiteSpace: string;
+		WhiteSpace: "" | "Preserve";
 		/** @deprecated */
 		AutoBanBlackList?: any;
 		/** @deprecated */
@@ -1553,9 +1559,9 @@ interface PlayerCharacter extends Character {
 	LastChatRoomSize?: number;
 	LastChatRoomLanguage?: ServerChatRoomLanguage;
 	LastChatRoomDesc?: string;
-	LastChatRoomCustom?: any;
-	LastChatRoomAdmin?: any[];
-	LastChatRoomBan?: any[];
+	LastChatRoomCustom?: ServerChatRoomData["Custom"];
+	LastChatRoomAdmin?: number[];
+	LastChatRoomBan?: number[];
 	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
 	LastChatRoomTimer?: any;
 	LastChatRoomSpace?: ServerChatRoomSpace;
@@ -1605,7 +1611,7 @@ interface PlayerCharacter extends Character {
 		Test: NotificationSetting;
 	};
 	GhostList?: number[];
-	Wardrobe?: any[][];
+	Wardrobe?: ItemBundle[][];
 	WardrobeCharacterNames?: string[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
@@ -3583,7 +3589,7 @@ interface ClubCard {
 	ExtraTime?: number;
 	ExtraDraw?: number;
 	ExtraPlay?: number;
-	Group?: any[];
+	Group?: string[];
 	Location?: string;
 	GlowTimer?: number;
 	GlowColor?: string;
@@ -3609,3 +3615,37 @@ interface ClubCardPlayer {
 	LastFamePerTurn?: number;
 	LastMoneyPerTurn?: number;
 }
+
+// #region drawing
+
+/** Drawing options for an item's preview box */
+interface PreviewDrawOptions {
+	/** The character using the item (used to calculate dynamic item descriptions/previews) */
+	C?: Character;
+	/** The preview box description. */
+	Description?: string;
+	/** The background color to draw the preview box in - defaults to white */
+	Background?: string;
+	/** The foreground (text) color to draw the description in - defaults to black */
+	Foreground?: string;
+	/** Whether or not to add vibration effects to the item - defaults to false */
+	Vibrating?: boolean;
+	/** Whether or not to draw a border around the preview box */
+	Border?: boolean;
+	/** Whether or not the button should enable hover behavior (background color change) */
+	Hover?: boolean;
+	/** The background color that should be used on mouse hover, if any */
+	HoverBackground?: string;
+	/** Whether or not the element is disabled (prevents hover functionality) */
+	Disabled?: boolean;
+	/** A list of images to draw in the top-left of the preview box */
+	Icons?: readonly InventoryIcon[];
+	/** The crafted properties of the item */
+	Craft?: CraftingItem;
+	/** The width of the preview rectangle */
+	Width?: number;
+	/** The height of the preview rectangle */
+	Height?: number;
+}
+
+// #end region

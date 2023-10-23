@@ -469,7 +469,7 @@ function ShopJobStart() {
 
 /**
  * Filters the list of shop demo items down to the groups that are currently available on the player
- * @returns {string[]} - The filtered list demo item groups that are both empty and unblocked
+ * @returns {AssetGroupItemName[]} - The filtered list demo item groups that are both empty and unblocked
  */
 function ShopJobFilterAvailableGroups() {
 	return ShopDemoItemGroupList.filter((group) => {

@@ -139,7 +139,7 @@ function MagicSchoolLaboratorySpellPracticeEnd() {
  */
 function MagicSchoolLaboratoryInHouse(House) {
 	if (House == "") return ((ReputationGet("HouseMaiestas") <= 0) && (ReputationGet("HouseVincula") <= 0) && (ReputationGet("HouseAmplector") <= 0) && (ReputationGet("HouseCorporis") <= 0));
-	return (ReputationGet("House" + House) > 0);
+	return (ReputationGet(`House${House}`) > 0);
 }
 
 /**
@@ -302,9 +302,9 @@ function MagicSchoolLaboratoryFindStudent() {
 	}
 
 	// Creates the student NPC and gives her a house
-	/** @type {MagicSchoolHouse | ""} */
-	let NPCHouse = CommonRandomItemFromList("", Houses);
-	let NPCType = (ReputationGet("House" + NPCHouse) >= 100) ? "Master" : "Student";
+	/** @type {MagicSchoolHouse} */
+	let NPCHouse = CommonRandomItemFromList(null, Houses);
+	let NPCType = (ReputationGet(`House${NPCHouse}`) >= 100) ? "Master" : "Student";
 	CharacterDelete("NPC_MagicSchoolLaboratory_" + NPCType);
 	if (MagicSchoolLaboratoryStudent != null) {
 		delete CommonCSVCache["Screens/Room/MagicSchoolLaboratory/Dialog_NPC_MagicSchoolLaboratory_" + NPCType + ".csv"];
