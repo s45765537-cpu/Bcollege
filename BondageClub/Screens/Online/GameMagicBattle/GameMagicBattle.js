@@ -292,11 +292,11 @@ function GameMagicBattleCanLaunchGame() {
 	var House = "";
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.MagicBattle != null) && (ChatRoomCharacter[C].Game.MagicBattle.House != null) && (ChatRoomCharacter[C].Game.MagicBattle.House != "NotPlaying") && ChatRoomCharacter[C].CanTalk()) {
-			if (House == "")
+			if (House == "") {
 				House = ChatRoomCharacter[C].Game.MagicBattle.House;
-			else
-			if ((House != ChatRoomCharacter[C].Game.MagicBattle.House) || (ChatRoomCharacter[C].Game.MagicBattle.House == "Independent") || (Player.Game.MagicBattle.TeamType == "FreeForAll"))
+			} else if ((House != ChatRoomCharacter[C].Game.MagicBattle.House) || (ChatRoomCharacter[C].Game.MagicBattle.House == "Independent") || (Player.Game.MagicBattle.TeamType == "FreeForAll")) {
 				return true;
+			}
 		}
 	return false;
 }
@@ -416,12 +416,11 @@ function GameMagicBattleCalculateTurnWinner() {
 			}
 
 	// If there's no winner, we show a chat log, if there's one, we apply the effects on the loser
-	if (WinNum == null)
+	if (WinNum == null) {
 		GameMagicBattleAddChatLog("NoWinner", Player, Player, null, "#000000");
-	else
-	if (TieRound)
+	} else if (TieRound) {
 		GameMagicBattleAddChatLog("TieRound", Player, Player, null, "#000000");
-	else {
+	} else {
 		let Source = GameMagicBattleGetPlayer(GameMagicBattleLog[WinNum].Sender);
 		let Target = GameMagicBattleGetPlayer(GameMagicBattleLog[WinNum].Data.Target);
 		if ((Source != null) && (Target != null)) {

@@ -422,11 +422,11 @@ function GameLARPCanLaunchGame() {
 	var Team = "";
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.LARP != null) && (ChatRoomCharacter[C].Game.LARP.Team != null) && (ChatRoomCharacter[C].Game.LARP.Team != "") && (ChatRoomCharacter[C].Game.LARP.Team != "None") && (InventoryGet(ChatRoomCharacter[C], "ItemArms") == null)) {
-			if (Team == "")
+			if (Team == "") {
 				Team = ChatRoomCharacter[C].Game.LARP.Team;
-			else
-			if (Team != ChatRoomCharacter[C].Game.LARP.Team)
+			} else if (Team != ChatRoomCharacter[C].Game.LARP.Team) {
 				return true;
+			}
 		}
 	return false;
 }
@@ -934,11 +934,11 @@ function GameLARPContinue() {
 	var Team = "";
 	for (let C = 0; C < GameLARPPlayer.length; C++)
 		if ((GameLARPPlayer[C].Game.LARP.Team != "") && (GameLARPPlayer[C].Game.LARP.Team != "None") && (InventoryGet(GameLARPPlayer[C], "ItemArms") == null) && OnlineGameCharacterInChatRoom(GameLARPPlayer[C].MemberNumber)) {
-			if (Team == "")
+			if (Team == "") {
 				Team = GameLARPPlayer[C].Game.LARP.Team;
-			else
-			if (Team != GameLARPPlayer[C].Game.LARP.Team)
+			} else if (Team != GameLARPPlayer[C].Game.LARP.Team) {
 				return true;
+			}
 		}
 
 	// If there's a winning team, we announce it and stop the game
