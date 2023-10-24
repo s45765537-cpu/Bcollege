@@ -1550,7 +1550,7 @@ function InventoryExtractLockProperties(property) {
 	const lockProperties = {};
 	for (const key of Object.keys(property)) {
 		if (ValidationAllLockProperties.includes(key)) {
-			lockProperties[key] = JSON.parse(JSON.stringify(property[key]));
+			lockProperties[key] = CommonCloneDeep(property[key]);
 		}
 	}
 	return lockProperties;

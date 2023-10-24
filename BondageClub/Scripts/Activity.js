@@ -29,13 +29,13 @@ function ActivityDictionaryLoad() {
 	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
 
 	if (CommonCSVCache[FullPath]) {
-		ActivityDictionary = JSON.parse(JSON.stringify(CommonCSVCache[FullPath]));
+		ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
 	} else {
 		// Opens the file, parse it and returns the result in an object
 		CommonGet(FullPath, function () {
 			if (this.status == 200) {
 				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-				ActivityDictionary = JSON.parse(JSON.stringify(CommonCSVCache[FullPath]));
+				ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
 			}
 		});
 	}
