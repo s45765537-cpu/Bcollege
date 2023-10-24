@@ -1236,3 +1236,19 @@ function CommonURLHasExtension(TestURL, Extension) {
 	}
 	return false;
 }
+
+/**
+ * Return whether two records are equivalent for {@link Object.keys} fields
+ * @template T
+ * @param {T} rec1
+ * @param {unknown} rec2
+ * @returns {rec2 is T}
+ */
+function CommonObjectEqual(rec1, rec2) {
+	const entries1 = Object.entries(rec1);
+	const keys2 = Object.keys(rec2);
+	if (entries1.length !== keys2.length) {
+		return false;
+	}
+	return entries1.every(([k, v]) => rec2[k] === v);
+}
