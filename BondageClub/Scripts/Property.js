@@ -360,14 +360,31 @@ function PropertyPunishActivityCheck(name=null, clearCache=true) {
 function PropertyUnion(output, ...args) {
 	for (const property of args) {
 		for (const [key, value] of Object.entries(property)) {
-			if (Array.isArray(value)) {
-				const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
-				output[key] = [
-					...previousValue,
-					...value.filter(i => !previousValue.includes(i)),
-				];
-			} else {
-				output[key] = value;
+			switch (key) {
+				case "Tint": {
+					const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
+					output[key] = [
+						...previousValue,
+						...value.filter(i => !previousValue.some(j => CommonObjectEqual(i, j))),
+					];
+					break;
+				}
+				case "HeightModifier":
+				case "Difficulty": {
+					output[key] = (output[key] || 0) + (value || 0);
+					break;
+				}
+				default: {
+					if (Array.isArray(value)) {
+						const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
+						output[key] = [
+							...previousValue,
+							...value.filter(i => !previousValue.includes(i)),
+						];
+					} else {
+						output[key] = value;
+					}
+				}
 			}
 		}
 	}
@@ -383,11 +400,25 @@ function PropertyUnion(output, ...args) {
 function PropertyDifference(output, ...args) {
 	for (const property of args) {
 		for (const [key, value] of Object.entries(property)) {
-			if (Array.isArray(value)) {
-				const previousValue = Array.isArray(output[key]) ? output[key] : [];
-				output[key] = previousValue.filter(i => !value.includes(i));
-			} else {
-				delete output[key];
+			switch (key) {
+				case "Tint": {
+					const previousValue = Array.isArray(output[key]) ? output[key] : [];
+					output[key] = previousValue.filter(i => !value.some(j => CommonObjectEqual(i, j)));
+					break;
+				}
+				case "HeightModifier":
+				case "Difficulty": {
+					output[key] = (output[key] || 0) - (value || 0);
+					break;
+				}
+				default: {
+					if (Array.isArray(value)) {
+						const previousValue = Array.isArray(output[key]) ? output[key] : [];
+						output[key] = previousValue.filter(i => !value.includes(i));
+					} else {
+						delete output[key];
+					}
+				}
 			}
 		}
 	}

@@ -1238,7 +1238,8 @@ function CommonURLHasExtension(TestURL, Extension) {
 }
 
 /**
- * Return whether two records are equivalent for {@link Object.keys} fields
+ * Return whether two records are equivalent for all fields as returned by {@link Object.keys}.
+ * @note does *not* support the comparison of nested structures.
  * @template T
  * @param {T} rec1
  * @param {unknown} rec2
