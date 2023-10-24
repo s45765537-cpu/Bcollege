@@ -88,3 +88,13 @@ var TestingTypedItemDataLookup = TypedItemDataLookup;
 var TestingVibratingItemDataLookup = VibratorModeDataLookup;
 var TestingVariableHeightItemDataLookup = VariableHeightDataLookup;
 var TestingTextItemDataLookup = TextItemDataLookup;
+
+/** A record mapping pose categories to pose names */
+var TestingPoseMap = /** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */({});
+for (const { Category, Name } of Pose) {
+	if (TestingPoseMap[Category]) {
+		TestingPoseMap[Category].add(Name);
+	} else {
+		TestingPoseMap[Category] = new Set([Name]);
+	}
+}

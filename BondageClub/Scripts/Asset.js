@@ -57,7 +57,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		DrawingFullAlpha: (GroupDef.FullAlpha == null) ? true : GroupDef.FullAlpha,
 		DrawingBlink: (GroupDef.Blink == null) ? false : GroupDef.Blink,
 		InheritColor: (typeof GroupDef.InheritColor === "string" ? GroupDef.InheritColor : null),
-		FreezeActivePose: Array.isArray(GroupDef.FreezeActivePose) ? GroupDef.FreezeActivePose : [],
 		PreviewZone: GroupDef.PreviewZone,
 		DynamicGroupName: GroupDef.DynamicGroupName || GroupDef.Group,
 		MirrorActivitiesFrom: GroupDef.MirrorActivitiesFrom || undefined,
@@ -129,7 +128,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Require: (!Array.isArray(AssetDef.Require) ? [] : AssetDef.Require),
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
-		WhitelistActivePose: AssetDef.WhitelistActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
 		Difficulty: (AssetDef.Difficulty == null) ? 0 : AssetDef.Difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
@@ -198,8 +196,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowColorizeAll: typeof AssetDef.AllowColorizeAll === "boolean" ? AssetDef.AllowColorizeAll : true,
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
-		FreezeActivePose: Array.isArray(AssetDef.FreezeActivePose) ? AssetDef.FreezeActivePose :
-			Array.isArray(Group.FreezeActivePose) ? Group.FreezeActivePose : [],
 		DrawLocks: typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true,
 		AllowExpression: AssetDef.AllowExpression,
 		MirrorExpression: AssetDef.MirrorExpression,
@@ -217,7 +213,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
 		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
-	}, AssetParsePoseProperties(AssetDef, Group.AllowPose.slice()));
+	}, AssetParsePoseProperties(AssetDef, AssetDef.AllowActivePose || Group.AllowPose));
 
 	// Ensure opacity value is valid
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
@@ -403,18 +399,20 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 /**
  * Resolves the AllowPose and HideForPose properties on a layer or an asset
  * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
- * @param {AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
+ * @param {readonly AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
  * object
- * @return {{AllowPose: AssetPoseName[], HideForPose: (AssetPoseName | "")[]}} - A partial object containing AllowPose and HideForPose
+ * @return {Pick<Asset, "AllowPose" | "HideForPose">} - A partial object containing AllowPose and HideForPose
  * properties
  */
-function AssetParsePoseProperties(obj, defaultAllowPose = []) {
+function AssetParsePoseProperties(obj, defaultAllowPose) {
 	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
-	let AllowPose = Array.isArray(obj.AllowPose) ? obj.AllowPose : defaultAllowPose;
+	const AllowPose = Array.isArray(obj.AllowPose) ? [...obj.AllowPose] : [...defaultAllowPose];
+	const poseMappingKeys = CommonKeys(obj.PoseMapping || {});
 	if (HideForPose.length > 0) {
-		// Automatically add any entries from HideForPose into AllowPose
-		AllowPose = AllowPose || [];
 		CommonArrayConcatDedupe(AllowPose, HideForPose);
+	}
+	if (poseMappingKeys.length > 0) {
+		CommonArrayConcatDedupe(AllowPose, poseMappingKeys);
 	}
 	return {AllowPose, HideForPose};
 }

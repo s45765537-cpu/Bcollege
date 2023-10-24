@@ -353,15 +353,16 @@ type AssetGroupBodyName =
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
 
-type AssetPoseCategory = 'BodyUpper' | 'BodyLower' | 'BodyFull';
+interface AssetPoseMap {
+	BodyHands: 'TapedHands',
+	BodyUpper: 'BaseUpper' | 'BackBoxTie' | 'BackCuffs' | 'BackElbowTouch' | 'OverTheHead' | 'Yoked',
+	BodyLower: 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'LegsOpen' | 'Spread',
+	BodyFull: 'Hogtied' | 'AllFours',
+	BodyAddon: 'Suspension',
+}
 
-type AssetPoseName =
-	/* BodyUpper */ 'BaseUpper' | 'BackBoxTie' | 'BackCuffs' | 'BackElbowTouch' | 'OverTheHead' | 'TapedHands' | 'Yoked' |
-	/* BodyLower */ 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'LegsOpen' | 'Spread' |
-
-	/* BodyFull  */ 'Hogtied' | 'AllFours' |
-	/* BodyAddon */ 'Suspension'
-	;
+type AssetPoseCategory = keyof AssetPoseMap;
+type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
 
 type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | "">>;
 
@@ -678,7 +679,8 @@ interface AssetGroup {
 	readonly DrawingFullAlpha: boolean;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
-	readonly FreezeActivePose: readonly AssetPoseCategory[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
 
@@ -753,11 +755,11 @@ interface AssetLayer {
 	ParentGroupName?: AssetGroupName | "" | null;
 	/** An array of poses that this layer permits. If set, it will override the poses permitted
 	by the parent asset/group. */
-	AllowPose: readonly AssetPoseName[] | null;
+	AllowPose: readonly AssetPoseName[];
 	/** An array of poses that this layer should be hidden for. */
 	HideForPose: readonly (AssetPoseName | "")[];
 	/** An array of objects mapping poses to other poses to determine their draw folder */
-	PoseMapping?: Readonly<AssetPoseMapping>;
+	PoseMapping: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
 	definition. */
 	Priority: number;
@@ -867,11 +869,12 @@ type Asset = Readonly<{
 	HideItemAttribute: readonly AssetAttribute[];
 	Require: readonly AssetGroupBodyName[];
 	SetPose?: readonly AssetPoseName[];
-	AllowPose: readonly AssetPoseName[] | null;
+	AllowPose: readonly AssetPoseName[];
 	HideForPose: readonly (AssetPoseName | "")[];
-	PoseMapping?: AssetPoseMapping;
+	PoseMapping: AssetPoseMapping;
 	AllowActivePose?: readonly AssetPoseName[];
-	WhitelistActivePose?: readonly AssetPoseName[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	WhitelistActivePose?: never;
 	Value: number;
 	Difficulty: number;
 	SelfBondage: number;
@@ -942,7 +945,8 @@ type Asset = Readonly<{
 	AllowColorizeAll: boolean;
 	AvailableLocations: readonly string[];
 	OverrideHeight?: AssetOverrideHeight;
-	FreezeActivePose: readonly AssetPoseCategory[];
+	/** @deprecated Use {@link Asset.AllowActivePose} instead */
+	FreezeActivePose?: never;
 	DrawLocks: boolean;
 	AllowExpression?: readonly ExpressionName[];
 	MirrorExpression?: AssetGroupName;
@@ -971,7 +975,7 @@ type AppearanceBundle = ItemBundle[];
 
 interface Pose {
 	Name: AssetPoseName;
-	Category?: AssetPoseCategory;
+	Category: AssetPoseCategory;
 	AllowMenu?: true;
 	/** Only show in menu if an asset supports it */
 	AllowMenuTransient?: true;
@@ -2254,13 +2258,15 @@ interface AssetDefinitionProperties {
 	/**
 	 * A list of poses
 	 * @see {@link Asset.WhitelistActivePose}
+	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
 	 */
-	WhitelistActivePose?: AssetPoseName[];
+	WhitelistActivePose?: never;
 	/**
 	 * A list of poses that should be frozen
 	 * @see {@link Asset.FreezeActivePose}
+	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
 	 */
-	FreezeActivePose?: AssetPoseCategory[];
+	FreezeActivePose?: never;
 
 	/**
 	 * Whether an item can be unlocked by the player even if they're restrained

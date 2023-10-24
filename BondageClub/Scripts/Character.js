@@ -916,25 +916,27 @@ function CharacterCanChangeToPose(C, poseName) {
 	if (!pose) return false;
 	const poseCategory = pose.Category;
 	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
-	return !C.Appearance.some(item => InventoryGetItemProperty(item, "FreezeActivePose").includes(poseCategory));
+
+	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
+	if (poseCategory !== "BodyLower") {
+		return true;
+	} else {
+		return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+	}
 }
 
 /**
  * Checks if a certain pose is whitelisted and available for the pose menu
  * @param {Character} C - Character to check for the pose
- * @param {AssetPoseCategory|undefined} Type - Pose type to check for within items
+ * @param {AssetPoseCategory} Type - Pose type to check for within items
  * @param {AssetPoseName} Pose - Pose to check for whitelist
  * @returns {boolean} - TRUE if the character has the pose available
  */
 function CharacterItemsHavePoseAvailable(C, Type, Pose) {
 	const ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
-
-	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
-		Item = C.Appearance[i];
-
-		if (InventoryGetItemProperty(Item, "WhitelistActivePose", true).includes(Pose)) continue;
-		if (InventoryGetItemProperty(Item, "AllowActivePose", true).includes(Pose)) continue;
-		if (InventoryGetItemProperty(Item, "SetPose", true).find(P => ConflictingPoses.includes(P))) return false;
+	for (const item of C.Appearance) {
+		if (InventoryGetItemProperty(item, "AllowActivePose", true).includes(Pose)) continue;
+		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
 	}
 	return true;
 }

@@ -1261,7 +1261,6 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 3,
 						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						WhitelistActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2685,7 +2684,6 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 3,
 						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						WhitelistActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2821,7 +2819,6 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 3,
 						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						WhitelistActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2884,7 +2881,6 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["Kneel", "BackElbowTouch"],
 						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						WhitelistActivePose: ["Kneel", "KneelingSpread"],
 						Difficulty: 6,
 						OverrideHeight: {
 							Height: -250,
@@ -7837,7 +7833,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Arms",
 					Key: "a",
 					Options: [
-						{}, // a0 - Arms down
+						{ Property: { SetPose: ["BaseUpper"] } }, // a0 - Arms down
 						{ Property: { SetPose: ["Yoked"] } }, // a1 - Arms yoked
 					],
 				},
@@ -10553,19 +10549,28 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Legs",
-					Property: { Difficulty: 0 },
+					Property: {
+						Difficulty: 0,
+						SetPose: ["LegsClosed"],
+					},
+					Prerequisite: ["CanCloseLegs"],
 				},
 				{
 					Name: "HalfLegs",
-					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 2 },
+					Prerequisite: ["NoClothLower", "CanCloseLegs"],
+					Property: {
+						Hide: ["ClothLower", "Garters"],
+						Difficulty: 2,
+						SetPose: ["LegsClosed"],
+					},
 				},
 				{
 					Name: "MostLegs",
-					Prerequisite: ["NoClothLower"],
+					Prerequisite: ["NoClothLower", "CanCloseLegs"],
 					Property: {
 						Hide: ["ClothLower", "Garters"],
 						Difficulty: 4,
+						SetPose: ["LegsClosed"],
 						HideItem: [
 							"PantiesPoofyDiaper",
 							"PantiesBulkyDiaper",
@@ -10576,11 +10581,12 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "CompleteLegs",
-					Prerequisite: ["NoClothLower"],
+					Prerequisite: ["NoClothLower", "CanCloseLegs"],
 					Property: {
 						Hide: ["ClothLower", "Garters"],
 						Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 						Difficulty: 6,
+						SetPose: ["LegsClosed"],
 						HideItem: [
 							"PantiesPoofyDiaper",
 							"PantiesBulkyDiaper",
@@ -10603,8 +10609,12 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "CutOut",
-					Prerequisite: ["NoClothLower"],
-					Property: { Hide: ["ClothLower", "Garters"], Difficulty: 6 },
+					Prerequisite: ["NoClothLower", "CanCloseLegs"],
+					Property: {
+						Hide: ["ClothLower", "Garters"],
+						SetPose: ["LegsClosed"],
+						Difficulty: 6,
+					},
 				},
 			],
 			DialogPrefix: {
@@ -10756,7 +10766,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						SetPose: ["LegsClosed"],
 						Effect: ["Prone", "KneelFreeze", "Slow"],
-						FreezeActivePose: ["BodyLower"],
+						AllowActivePose: ["Kneel"],
 						Difficulty: 6,
 					},
 					Prerequisite: ["CanCloseLegs"],
@@ -10998,42 +11008,7 @@ var AssetFemale3DCGExtended = {
 		}, // Chains
 		FuturisticAnkleCuffs: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [
-				CommonChatTags.SOURCE_CHAR,
-				CommonChatTags.DEST_CHAR,
-				CommonChatTags.ASSET_NAME,
-			],
-			Options: [
-				{
-					Name: "None",
-					Property: {
-						SetPose: [],
-						Difficulty: 0,
-						Effect: [],
-						FreezeActivePose: [],
-					},
-				},
-				{
-					Name: "Closed",
-					Property: {
-						Effect: ["Prone", "Freeze"],
-						SetPose: ["LegsClosed"],
-						Difficulty: 6,
-						FreezeActivePose: ["BodyLower"],
-					},
-				},
-				{
-					Name: "Chained",
-					Property: {
-						Effect: ["Slow"],
-					},
-				},
-			],
-			DialogPrefix: {
-				Header: "SelectBondagePosition",
-				Option: "ItemFeetSteelAnkleCuffs",
-				Chat: "FuturisticAnkleCuffsRestrain",
-			},
+			CopyConfig: { GroupName: "ItemFeet", AssetName: "SteelAnkleCuffs" },
 			ScriptHooks: {
 				Load: FuturisticAccessLoad,
 				Click: FuturisticAccessClick,
@@ -11053,10 +11028,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "None",
 					Property: {
-						SetPose: [],
 						Difficulty: 0,
-						Effect: [],
-						FreezeActivePose: [],
 					},
 				},
 				{
@@ -11065,7 +11037,7 @@ var AssetFemale3DCGExtended = {
 						Effect: ["Prone", "Freeze"],
 						SetPose: ["LegsClosed"],
 						Difficulty: 6,
-						FreezeActivePose: ["BodyLower"],
+						AllowActivePose: ["Kneel"],
 					},
 				},
 				{
@@ -11181,6 +11153,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						OverridePriority: 25,
 						SetPose: ["Spread"],
+						AllowPose: ["Spread"],
 						Effect: ["BlockKneel"],
 						Block: ["ItemLegs", "ItemBoots", "ItemDevices"],
 						OverrideHeight: { Height: 0, Priority: 60 },
