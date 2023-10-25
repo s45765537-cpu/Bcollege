@@ -939,7 +939,15 @@ function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
  * @returns {boolean} - TRUE if the character has the pose available
  */
 function CharacterItemsHavePoseAvailable(C, Type, Pose) {
-	const ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
+	/** @type {AssetPoseName[]} */
+	let ConflictingPoses;
+	if (Type === "BodyFull") {
+		// `BodyFull` Conflicts with everything
+		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose).map(P => P.Name);
+	} else {
+		// Arbitrary poses conflict with `BodyFull` and everything in its own category
+		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
+	}
 	for (const item of C.Appearance) {
 		if (InventoryGetItemProperty(item, "AllowActivePose", true).includes(Pose)) continue;
 		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
