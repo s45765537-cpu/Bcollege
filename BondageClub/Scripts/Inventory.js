@@ -230,8 +230,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NotChaste": return C.Effect.includes("Chaste") ? "RemoveChastityFirst" : "";
 		case "NotChained": return C.Effect.includes("IsChained") ? "RemoveChainForItem" : "";
 		case "Collared": return (InventoryGet(C, "ItemNeck") == null) ? "MustCollaredFirst" : "";
-		case "CannotHaveWand": return InventoryIsItemInList(C, "ItemArms", ["FullLatexSuit"]) ? "CannotHaveWand" : "";
-		case "CannotBeSuited": return InventoryIsItemInList(C, "ItemVulva", ["WandBelt", "HempRopeBelt"]) ? "CannotHaveWand" : "";
+		case "CannotBeSuited": return InventoryIsItemInList(C, "ItemArms", ["FullLatexSuit"]) ? "CannotBeSuited" : "";
+		case "CannotHaveWand": return InventoryIsItemInList(C, "ItemVulva", ["WandBelt", "HempRopeBelt"]) ? "CannotHaveWand" : "";
 		case "OnBed": return !C.Effect.includes("OnBed") ? "MustBeOnBed" : "";
 		case "CuffedArms": return  !C.Effect.includes("CuffedArms") ? "MustBeArmCuffedFirst" : "";
 		case "CuffedLegs": return !C.Effect.includes("CuffedFeet") ? "MustBeFeetCuffedFirst" : "";
