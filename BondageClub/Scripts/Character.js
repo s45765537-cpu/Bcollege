@@ -1029,6 +1029,12 @@ function CharacterLoadPose(C) {
 				C.Pose.push(ActivePoses[P].Name);
 		}
 	}
+
+	// Avoid duplicate `BodyLower` poses upon kneeling down
+	// TODO: Find a better way of encourcing 1-pose-per-category
+	if (C.Pose.includes("Kneel")) {
+		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
+	}
 }
 
 /**
