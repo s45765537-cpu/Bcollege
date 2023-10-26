@@ -2692,7 +2692,7 @@ function PlatformBackgroundMusic(Music) {
 		if ((PlatformMusic.src == null) || (PlatformMusic.src.indexOf(FileName) < 0)) {
 			PlatformMusic.currentTime = 0;
 			PlatformMusic.src = FileName;
-			PlatformMusic.volume = Math.min(vol, 1) * 0.1667;
+			PlatformMusic.volume = Math.min(vol, 1) * 0.125;
 			PlatformMusic.play();
 			PlatformMusic.addEventListener('ended', function() {
 				PlatformMusic.currentTime = 0;

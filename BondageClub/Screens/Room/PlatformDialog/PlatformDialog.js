@@ -10,6 +10,7 @@ var PlatformDialogCharacterDisplay = null;
 var PlatformDialogPosition = 0;
 var PlatformDialogCharacter = null;
 var PlatformDialogAudio = null;
+var PlatformDialogAudioStyle = ["", "angry", "calm", "chat", "cheerful", "friendly", "sad", "serious", "shouting", "terrified", "unfriendly", "whispering"];
 var PlatformDialogCharacterTemplate = [
 	{
 		Name: "Melody",
@@ -834,37 +835,37 @@ var PlatformDialogData = [
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Idle" }]
 			},
 			{ Text: "(Edlaran is searching in Countess Isabella armoire.)" },
-			{ Text: "Oh!  Hello Melody.  (She looks surprised.)" },
+			{ Text: "Oh!  Hello Melody.  (She looks surprised.)", Audio: "10", AudioStyle: "terrified" },
 			{
-				Text: "What's going on?",
+				Text: "What's going on?", Audio: "20",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
 				Answer: [
-					{ Text: "I'm patrolling for thieves.", Reply: "(She looks around.)  Thieves?  I hope you're not talking about me.", Love: -1, Domination: 1 },
-					{ Text: "Why are you in the Countess bedroom?", Reply: "I...  I was...  I got lost!  This place is confusing." },
-					{ Text: "Did you find any good loot?", Reply: "(She shakes her head no.)  Not yet, but we could share if I do.", Love: 1 },
-					{ Text: "Stealing is wrong you know.", Reply: "You sound like my mother.  I'm not stealing.", Love: -1, Domination: -1 },
+					{ Text: "I'm patrolling for thieves.", Reply: "(She looks around.)  Thieves?  I hope you're not talking about me.", Audio: "21", AudioStyle: "terrified", Love: -1, Domination: 1 },
+					{ Text: "Why are you in the Countess bedroom?", Reply: "I...  I was...  I got lost!  This place is confusing.", Audio: "22", AudioStyle: "terrified" },
+					{ Text: "Did you find any good loot?", Reply: "(She shakes her head no.)  Not yet, but we could share if I do.", Audio: "23", Love: 1 },
+					{ Text: "Stealing is wrong you know.", Reply: "You sound like my mother.  I'm not stealing.", Audio: "24", AudioStyle: "angry", Love: -1, Domination: -1 },
 				]
 			},
-			{ Text: "I was trying to leave the manor, but the guards chased me down." },
-			{ Text: "I ran upstairs, but the maids are also nuts." },
-			{ Text: "I found this comfy room to catch my breath, and checked this armoire while I was there." },
-			{ Text: "Is it a crime to search in a random armoire?  Don't answer." },
-			{ Text: "Look!  There are lots of kinky toys in here." },
+			{ Text: "I was trying to leave the manor, but the guards chased me down.", Audio: "30" },
+			{ Text: "I ran upstairs, but the maids are also nuts.", Audio: "40" },
+			{ Text: "I found this comfy room to catch my breath, and checked this armoire while I was there.", Audio: "50" },
+			{ Text: "Is it a crime to search in a random armoire?  Don't answer.", Audio: "60" },
+			{ Text: "Look!  There are lots of kinky toys in here.", Audio: "70" },
 			{ Text: "(She shows you a pile of gags and restraints that belongs to Countess Isabella.)" },
 			{
-				Text: "What is that for?",
+				Text: "What is that for?", Audio: "80",
 				Answer: [
-					{ Text: "The Countess secret garden should stay secret.", Reply: "You're so boring, aren't you a little curious?", Love: -1 },
-					{ Text: "It's used to lock up cute elves.", Reply: "(She blushes.)  You're very direct for a maid.", Love: 1, Domination: 1 },
-					{ Text: "These are tools punish servants like me.", Reply: "(She laughs.)  I must get punished all the time.", Domination: -1 },
+					{ Text: "The Countess secret garden should stay secret.", Reply: "You're so boring, aren't you a little curious?", Audio: "81", Love: -1 },
+					{ Text: "It's used to lock up cute elves.", Reply: "(She blushes.)  You're very direct for a maid.", Audio: "82", Love: 1, Domination: 1 },
+					{ Text: "These are tools to punish servants like me.", Reply: "(She laughs.)  You must get punished all the time.", Audio: "83", AudioStyle: "cheerful", Domination: -1 },
 				]
 			},
-			{ Text: "I bet she uses these naughty toys when lovers come by." },
-			{ Text: "She might be the Dominant, the submissive or switch roles." },
-			{ Text: "She's probably very naughty.  (She giggles.)" },
+			{ Text: "I bet she uses these naughty toys when lovers come by.", Audio: "90" },
+			{ Text: "She might be the Dominant, the submissive or switch roles.", Audio: "100" },
+			{ Text: "She's probably very naughty.  (She giggles.)", Audio: "110", AudioStyle: "cheerful" },
 			{
 				Entry: function() {
 					if (PlatformDialogGetCharacter("Edlaran").Domination >= 4) PlatformDialogGoto = "Dominant";
@@ -876,18 +877,18 @@ var PlatformDialogData = [
 
 			{
 				ID: "Dominant",
-				Text: "(You grab a few cuffs and look at her.)",
+				Text: "(You grab a few cuffs and look at her.)", Audio: "CommonChain",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "CleanRestraints" }
 				]
 			},
 			{
-				Text: "What are you doing with these restraints?",
+				Text: "What are you doing with these restraints?", Audio: "130", AudioStyle: "terrified",
 				Answer: [
-					{ Text: "Turn around and give me your hands.", Reply: "(She turns slowly as you lock and chain her.)" },
-					{ Text: "(Snap them on her forcefully).", Reply: "(She grumbles as you lock and chain her.)", Love: -1, Domination: 1 },
-					{ Text: "You need to put them back.", Reply: "(She nods.)  Yeah, yeah, I know.", Goto: "End" },
+					{ Text: "Turn around and give me your hands.", Reply: "(She turns slowly as you lock and chain her.)", Audio: "CommonChain" },
+					{ Text: "(Snap them on her forcefully).", Reply: "(She grumbles as you lock and chain her.)", Audio: "CommonChain", Love: -1, Domination: 1 },
+					{ Text: "You need to put them back.", Reply: "(She nods.)  Yeah, yeah, I know.", Audio: "133", AudioStyle: "sad", Goto: "End" },
 				]
 			},
 			{
@@ -896,9 +897,9 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "This is really tight Miss Melody." },
+			{ Text: "This is really tight Miss Melody.", Audio: "140", AudioStyle: "terrified" },
 			{
-				Text: "Why did you lock me up?",
+				Text: "Why did you lock me up?", Audio: "150", AudioStyle: "terrified",
 				Answer: [
 					{ Text: "So you can please me sweetie.", Reply: "(She nods and crawls under your skirt.)", Love: 1 },
 					{ Text: "(Pull her head under your skirt).", Reply: "(You pull her head under your skirt.)", Domination: 1 },
@@ -916,23 +917,23 @@ var PlatformDialogData = [
 				Answer: [
 					{ Text: "Please help me cum.", Reply: "(She goes faster to help you reach a tremendous orgasm.)", Love: 1, Domination: -1 },
 					{ Text: "EDLARAAAAAAAN! YES!", Reply: "(You scream and reach a tremendous orgasm.)", Love: 1 },
-					{ Text: "That's enough.  (Push her back.)", Reply: "(She pouts as you push her back and release her.)  You were so close.", Love: -2, Goto: "End" },
+					{ Text: "That's enough.  (Push her back.)", Reply: "(She pouts as you push her back and release her.)  You were so close.", Audio: "203", AudioStyle: "sad", Love: -2, Goto: "End" },
 				]
 			},
 			{ Character: [{ Name: "Edlaran", Status: "Chained", Pose: "KneelUnderMaidMelodySkirtOrgasm" }] },
 			{ Text: "(You slowly catch your breath after a long and powerful orgasm.)" },
 			{ Text: "(You pet her head gently to reward her, while recovering from the pleasure wave.)" },
-			{ Text: "I hope you enjoyed it Miss Melody.  (You push her back and unlock her.)" },
+			{ Text: "I hope you enjoyed it Miss Melody.  (You push her back and unlock her.)", Audio: "230" },
 			{ Entry: function() { PlatformEventSet("EdlaranCountessBedroomOrgasmDom"); PlatformAddExperience(PlatformPlayer, 10); PlatformDialogGoto = "End"; PlatformDialogProcess(); } },
 
 			{ ID: "Submissive", Text: "(She grabs a few cuffs and looks at you.)" },
 			{
-				Text: "I have a wild idea.",
+				Text: "I have a wild idea.", Audio: "300", AudioStyle: "serious",
 				Answer: [
-					{ Text: "I don't like the look on your face.", Reply: "Turn around and you won't see it.  (She turns you around and chains you.)", Love: -1 },
-					{ Text: "What's on your mind?", Reply: "It's a surprise!  (She turns you around and chains you.)" },
-					{ Text: "(Turn around and present your hands.)", Reply: "Such a good maid.  (She cuffs and chains you.)", Domination: -1 },
-					{ Text: "Don't you dare!", Reply: "Fine!  You're no fun.", Love: -1, Domination: 1, Goto: "End" },
+					{ Text: "I don't like the look on your face.", Reply: "Turn around and you won't see it.  (She turns you around and chains you.)", Audio: "301", AudioStyle: "serious", Love: -1 },
+					{ Text: "What's on your mind?", Reply: "It's a surprise!  (She turns you around and chains you.)", Audio: "302", AudioStyle: "cheerful" },
+					{ Text: "(Turn around and present your hands.)", Reply: "Such a good maid.  (She cuffs and chains you.)", Audio: "303", AudioStyle: "serious", Domination: -1 },
+					{ Text: "Don't you dare!", Reply: "Fine!  You're no fun.", Audio: "304", AudioStyle: "sad", Love: -1, Domination: 1, Goto: "End" },
 				]
 			},
 			{
@@ -941,9 +942,9 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "ChainedKneel" }
 				]
 			},
-			{ Text: "(You tug on the cuffs and chains to test them.)" },
+			{ Text: "(You tug on the cuffs and chains to test them.)", Audio: "CommonChain" },
 			{
-				Text: "You know what's coming next?",
+				Text: "You know what's coming next?", Audio: "310", AudioStyle: "serious",
 				Answer: [
 					{ Text: "I know who's coming.  (Wink at her.)", Reply: "(She laughs and removes her pants and undies.)", Love: 1 },
 					{ Text: "(Stay silent and nod slowly.)", Reply: "(She smirks and removes her pants and undies.)", Domination: -1 },
@@ -956,7 +957,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "ChainedKneel" }
 				]
 			},
-			{ Text: "Come here little maid, don't be shy." },
+			{ Text: "Come here little maid, don't be shy.", Audio: "320", AudioStyle: "serious" },
 			{ Text: "(She snaps her fingers as you slowly crawl next to her.)" },
 			{ Character: [{ Name: "Edlaran", Status: "Archer", Pose: "LickedByMaidMelody" }] },
 			{ Text: "(You lick her slowly and skillfully, making her shiver from pleasure.)" },
@@ -967,15 +968,14 @@ var PlatformDialogData = [
 				Answer: [
 					{ Text: "(Tease her some more.)", Reply: "(She moans loudly for a long time and finally reaches a great orgasm.)", Love: 1 },
 					{ Text: "(Try to give her the best orgasm of her life.)", Reply: "(She screams from the pleasure and reaches a tremendous orgasm.)", Love: 2 },
-					{ Text: "(Pull back suddenly.)", Reply: "(She grumbles as you pull back before her orgasm.)  That was cruel!  (She releases you and dresses back.)", Domination: 1, Love: -2, Goto: "End" },
+					{ Text: "(Pull back suddenly.)", Reply: "(She grumbles as you pull back before her orgasm.)  That was cruel!  (She releases you and dresses back.)", Audio: "353", AudioStyle: "sad", Domination: 1, Love: -2, Goto: "End" },
 				]
 			},
 			{ Character: [{ Name: "Edlaran", Status: "Archer", Pose: "LickedByMaidMelodyOrgasm" }] },
-			{ Text: "Wow!  Simply wow!  (She tries to recover from her powerful orgasm.)" },
-			{ Text: "That was amazing Melody, you're the best maid ever." },
-			{ Text: "(She slowly pushes you back and releases you.)" },
+			{ Text: "Wow!  Simply wow!  (She tries to recover from her powerful orgasm.)", Audio: "360", AudioStyle: "cheerful" },
+			{ Text: "That was amazing Melody, you're the best maid ever.", Audio: "370", AudioStyle: "cheerful" },
+			{ Text: "(She slowly pushes you back and releases you.)", Audio: "CommonChain" },
 			{ Entry: function() { PlatformEventSet("EdlaranCountessBedroomOrgasmSub"); PlatformAddExperience(PlatformPlayer, 10); PlatformDialogGoto = "End"; PlatformDialogProcess(); } },
-
 			{
 				ID: "End",
 				Character: [
@@ -984,8 +984,8 @@ var PlatformDialogData = [
 				],
 				Text: "(She puts the kinky items back in the armoire.)"
 			},
-			{ Text: "Time flies too quickly, I need to go." },
-			{ Text: "Melody, I haven't forgot my promise.  I'll repay you someday." },
+			{ Text: "Time flies too quickly, I need to go.", Audio: "380" },
+			{ Text: "Melody, I haven't forgot my promise.  I'll repay you someday.", Audio: "390" },
 			{ Text: "(She leaves the room.)" },
 		]
 	},
@@ -1000,10 +1000,10 @@ var PlatformDialogData = [
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "Flirt" }]
 			},
 			{ Text: "(Edlaran is tasting some wine.  She opened a few bottles from the Countess cellar.)" },
-			{ Text: "(She hiccups and turns to you.)  Meldy!  (She looks a little tipsy.)" },
-			{ Text: "Ish it a crime to open wine battles?  Don't ansher." },
+			{ Text: "(She hiccups and turns to you.)  Meldy!  (She looks a little tipsy.)", Audio: "10", AudioStyle: "cheerful" },
+			{ Text: "Ish it a crime to open wine battles?  Don't ansher.", Audio: "15", AudioStyle: "cheerful" },
 			{
-				Text: "Are you thristy?",
+				Text: "Are you thristy?", Audio: "20", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Flirt" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
@@ -1011,8 +1011,8 @@ var PlatformDialogData = [
 				Answer: [
 					{ Text: "Party time!  (Drink with her.)", Reply: "(You open another bottle and share a good time.)", Love: 1 },
 					{ Text: "Sure, one glass.  (Have a glass.)", Reply: "(You try a glass of wine from the Countess cellar.)" },
-					{ Text: "No, drinking is bad for your health.", Reply: "You no fun!  (She hiccups.)  Shcared of wine.", Domination: -1, Love: -1 },
-					{ Text: "No, this is stolen wine.", Reply: "(She pouts.)  Why are you sho sherious?", Domination: 1, Love: -1 },
+					{ Text: "No, drinking is bad for your health.", Reply: "You no fun!  (She hiccups.)  Shcared of wine.", Audio: "23", AudioStyle: "sad", Domination: -1, Love: -1 },
+					{ Text: "No, this is stolen wine.", Reply: "(She pouts.)  Why are you sho sherious?", Audio: "24", AudioStyle: "sad", Domination: 1, Love: -1 },
 				]
 			},
 			{
@@ -1021,14 +1021,14 @@ var PlatformDialogData = [
 					PlatformDialogProcess();
 				}
 			},
-			{ Text: "Meldy, you're shuch a good friend.  (She gives you a hug.)" },
-			{ Text: "You're a shuper... friend.  (She hugs you some more.)" },
-			{ Text: "How about I (She hiccups.) repay you now?  I'll help you in bottles." },
-			{ Text: "Gimme a minute to shober up and I'll fight for you." },
+			{ Text: "Meldy, you're shuch a good friend.  (She gives you a hug.)", Audio: "30", AudioStyle: "cheerful" },
+			{ Text: "You're a shuper... friend.  (She hugs you some more.)", Audio: "40", AudioStyle: "cheerful" },
+			{ Text: "How about I (She hiccups.) repay you now?  I'll help you in bottles.", Audio: "50", AudioStyle: "cheerful" },
+			{ Text: "Gimme a minute to shober up and I'll fight for you.", Audio: "60", AudioStyle: "cheerful" },
 			{ Text: "(Edlaran joined your party.  You can switch your active character at any save point.)" },
 			{ Entry: function() { PlatformEventSet("EdlaranJoin"); PlatformPartyBuild(); PlatformLoadRoom(); PlatformDialogLeave(); } },
-			{ ID: "End", Text: "Drinking ish fun, but we have important shtuff to... do." },
-			{ Text: "Shee you later Meldy.  I'll repay you some (She hiccups.) day." },
+			{ ID: "End", Text: "Drinking ish fun, but we have important shtuff to... do.", Audio: "70", AudioStyle: "cheerful" },
+			{ Text: "Shee you later Meldy.  I'll repay you shoon(She hiccups.).", Audio: "80", AudioStyle: "cheerful" },
 			{ Text: "(She leaves the room.)" },
 
 		]
@@ -1055,7 +1055,7 @@ var PlatformDialogData = [
 				Text: "(There are many cuffs, shackles, chains, and collars.)",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "CleanRestraints" }]
 			},
-			{ Text: "(You start cleaning restraints one by one.)" },
+			{ Text: "(You start cleaning restraints one by one.)", Audio: "CommonChain" },
 			{ Text: "(It's a lot of work, it will take you many hours.)" },
 			{ Text: "(You clean, scrub, oil and repair the restraints.)" },
 			{
@@ -1093,50 +1093,50 @@ var PlatformDialogData = [
 		Exit : function () { PlatformEventSet("OliviaCurseIntro"); PlatformLoadRoom(); },
 		Dialog: [
 			{
-				Text: "Melody!  (She tugs on the cuffs in vain.)",
+				Text: "Melody!  (She tugs on the cuffs in vain.)", Audio: "10", AudioStyle: "terrified",
 				Background: "BedroomOliviaFloor",
 				Character: [{ Name: "Olivia", Status: "Oracle", Animation: "Bound", Y: -400 }]
 			},
 			{
-				Text: "I'm relieved to see you.",
+				Text: "I'm relieved to see you.", Audio: "20",
 				Answer: [
 					{ Text: "Who dared to touch you?", Reply: "(She bows her head slowly.)", Domination: 1 },
-					{ Text: "Poor Lady Olivia.", Reply: "I know this is scary Melody.", Domination: -1 },
+					{ Text: "Poor Lady Olivia.", Reply: "I know this is scary Melody.", Audio: "22", AudioStyle: "terrified", Domination: -1 },
 					{ Text: "What happened?", Reply: "(She takes a long deep breath.)" },
-					{ Text: "(Spank her butt.)  You're cute in chains.", Reply: "(She whimpers and blushes.)  Thanks, but it's not the best time to be flirty.", Domination: 2, Love: 1, Perk: true }
+					{ Text: "(Spank her butt.)  You're cute in chains.", Reply: "(She whimpers and blushes.)  Thanks, but it's not the best time to be flirty.", Audio: "24", AudioStyle: "calm", Domination: 2, Love: 1, Perk: true }
 				]
 			},
-			{ Text: "My sister Camille came from far away to visit the family." },
-			{ Text: "She had a stern look on her face and a weird voice." },
-			{ Text: "She talked privately with Mother for a long while, I think they had an argument." },
-			{ Text: "I was hiding from the dispute in my room when darkness fell suddenly." },
+			{ Text: "My sister Camille came from far away to visit the family.", Audio: "30" },
+			{ Text: "She had a stern look on her face and a weird voice.", Audio: "40" },
+			{ Text: "She talked privately with Mother for a long while, I think they had an argument.", Audio: "50" },
+			{ Text: "I was hiding from the dispute in my room when darkness fell suddenly.", Audio: "60" },
 			{
-				Text: "Everything was black.",
+				Text: "Everything was black.", Audio: "70",
 				Answer: [
-					{ Text: "Did you hear that horrible scream?", Reply: "(She blushes.)  Sorry about that.  I did that scream.", Love: -1 },
-					{ Text: "I heard a woman scream.", Reply: "(She sighs.)  I did that scream." },
-					{ Text: "I heard your voice in the dark.", Reply: "Wow, you recognized my scream from the dungeon?", Love: 1 },
-					{ Text: "I was terrified from a loud scream Miss.", Reply: "(She nods.)  Don't be scared Melody, I did that scream.", Domination: -2, Perk: true }
+					{ Text: "Did you hear that horrible scream?", Reply: "(She blushes.)  Sorry about that.  I did that scream.", Audio: "71", AudioStyle: "whispering", Love: -1 },
+					{ Text: "I heard a woman scream.", Reply: "(She sighs.)  I did that scream.", Audio: "72", AudioStyle: "whispering" },
+					{ Text: "I heard your voice in the dark.", Reply: "Wow, you recognized my scream from the dungeon?", Audio: "73", Love: 1 },
+					{ Text: "I was terrified from a loud scream Miss.", Reply: "(She nods.)  Don't be scared Melody, I did that scream.", Audio: "74", Domination: -2, Perk: true }
 				]
 			},
-			{ Text: "When darkness came, the maids came in my room with strange eyes." },
-			{ Text: "They started to grab me, so I screamed.  Louder than I ever did." },
-			{ Text: "I don't know what happened, but glass shattered everywhere and the maids fell unconscious." },
-			{ Text: "I was scared and trembling, then Camille entered my room as light came back." },
-			{ Text: "She slapped me and locked me up in these chains.  She said it was to protect me." },
-			{ Text: "Camille took the key for these shackles and left me hogtied on the floor." },
+			{ Text: "When darkness came, the maids came in my room with strange eyes.", Audio: "80" },
+			{ Text: "They started to grab me, so I screamed.  Louder than I ever did.", Audio: "90" },
+			{ Text: "I don't know what happened, but glass shattered everywhere and the maids fell unconscious.", Audio: "100" },
+			{ Text: "I was scared and trembling, then Camille entered my room as light came back.", Audio: "110" },
+			{ Text: "She slapped me and locked me up in these chains.  She said it was to protect me.", Audio: "120" },
+			{ Text: "Camille took the key for these shackles and left me hogtied on the floor.", Audio: "130" },
 			{
-				Text: "I've been stuck since then.",
+				Text: "I've been stuck since then.", Audio: "140",
 				Answer: [
-					{ Text: "I'll go kick her butt.", Reply: "Do you really think violence is the answer?  Be careful.", Domination: 1, Love: -1 },
-					{ Text: "Maybe I can beg her for the key.", Reply: "Negotiation might be possible but be careful.", Domination: -1, Love: 1 },
-					{ Text: "I'll see what I can do.", Reply: "(She nods.)  Be careful Melody." },
-					{ Text: "There will be blood!", Reply: "(She struggles.)  Please don't kill her Melody.  She is my sister.", Domination: 2, Love: -2, Perk: true }
+					{ Text: "I'll go kick her butt.", Reply: "Do you really think violence is the answer?  Be careful.", Audio: "141", Domination: 1, Love: -1 },
+					{ Text: "Maybe I can beg her for the key.", Reply: "Negotiation might be possible but be careful.", Audio: "142", Domination: -1, Love: 1 },
+					{ Text: "I'll see what I can do.", Reply: "(She nods.)  Be careful Melody.", Audio: "143" },
+					{ Text: "There will be blood!", Reply: "(She struggles.)  Please don't kill her Melody.  She is my sister.", Audio: "144", Domination: 2, Love: -2, Perk: true }
 				]
 			},
-			{ Text: "Camille is very dangerous.  She might kill you." },
-			{ Text: "I think she went upstairs, maybe she's still there." },
-			{ Text: "Best of luck if you go there." }
+			{ Text: "Camille is very dangerous.  She might kill you.", Audio: "150" },
+			{ Text: "I think she went upstairs, maybe she's still there.", Audio: "160" },
+			{ Text: "Best of luck if you go there.", Audio: "170" }
 		]
 	},
 
@@ -1145,13 +1145,13 @@ var PlatformDialogData = [
 		Music: "OliviaRoom",
 		Dialog: [
 			{
-				Text: "Please be careful Melody.",
+				Text: "Please be careful Melody.", Audio: "10", AudioStyle: "terrified",
 				Background: "BedroomOliviaFloor",
 				Character: [{ Name: "Olivia", Status: "Oracle", Animation: "Bound", Y: -400 }]
 			},
-			{ Text: "Camille is very dangerous.  She might kill you." },
-			{ Text: "I think she went upstairs, maybe she's still there." },
-			{ Text: "Best of luck if you go there." }
+			{ Text: "Camille is very dangerous.  She might kill you.", Audio: "20" },
+			{ Text: "I think she went upstairs, maybe she's still there.", Audio: "30" },
+			{ Text: "Best of luck if you go there.", Audio: "40" }
 		]
 	},
 
@@ -1161,52 +1161,52 @@ var PlatformDialogData = [
 		Exit : function () { PlatformEventSet("OliviaCurseRelease"); PlatformPartyBuild(); PlatformLoadRoom(); },
 		Dialog: [
 			{
-				Text: "Melody!  Are you alright?",
+				Text: "Melody!  Are you alright?", Audio: "10", AudioStyle: "terrified",
 				Background: "BedroomOliviaFloor",
 				Character: [{ Name: "Olivia", Status: "Oracle", Animation: "Bound", Y: -400 }]
 			},
 			{
-				Text: "Yes, I found your sister Camille in the Countess Hall.",
+				Text: "Yes, I found your sister Camille in the Countess Hall.", Audio: "20",
 				Background: "BedroomOlivia",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 			},
-			{ Text: "She's behind that strange curse that's affecting everyone but us." },
-			{ Text: "She was looking for Countess Isabella." },
-			{ Text: "We talked a little, but she got mad and attacked me." },
-			{ Text: "I was able to knock her down and restrain her." },
-			{ Text: "She gave me this key to rescue you." },
-			{ Text: "(You unlock Olivia.)" },
+			{ Text: "She's behind that strange curse that's affecting everyone but us.", Audio: "30" },
+			{ Text: "She was looking for Countess Isabella.", Audio: "40" },
+			{ Text: "We talked a little, but she got mad and attacked me.", Audio: "50" },
+			{ Text: "I was able to knock her down and restrain her.", Audio: "60" },
+			{ Text: "She gave me this key to rescue you.", Audio: "70" },
+			{ Text: "(You unlock Olivia.)", Audio: "CommonChain" },
 			{
-				Text: "(She stretches happily.)  Thank you so much Melody.",
+				Text: "(She stretches happily.)  Thank you so much Melody.", Audio: "80", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
 			{
-				Text: "You're the best.",
+				Text: "You're the best.", Audio: "90", AudioStyle: "cheerful",
 				Answer: [
-					{ Text: "It's my pleasure and duty.", Reply: "You're a wonderful protector.", Love: 1, Domination: 1 },
-					{ Text: "I would do anything for you.", Reply: "You're the best friend ever.", Love: 2, Perk: true },
-					{ Text: "Don't mention it.", Reply: "You're such a good friend.", Love: 1, Perk: false },
-					{ Text: "(Do a maid curtsy.)", Reply: "You're a wonderful maid.", Domination: -1, Love: 1 },
+					{ Text: "It's my pleasure and duty.", Reply: "You're a wonderful protector.", Audio: "91", AudioStyle: "calm", Love: 1, Domination: 1 },
+					{ Text: "I would do anything for you.", Reply: "You're the best friend ever.", Audio: "92", AudioStyle: "cheerful", Love: 2, Perk: true },
+					{ Text: "Don't mention it.", Reply: "You're such a good friend.", Audio: "93", AudioStyle: "cheerful", Love: 1, Perk: false },
+					{ Text: "(Do a maid curtsy.)", Reply: "You're a wonderful maid.", Audio: "94", AudioStyle: "calm", Domination: -1, Love: 1 },
 				]
 			},
 			{ Text: "(Everything goes dark suddenly.)", Background: "BedroomOliviaDark" },
 			{
-				Text: "What's going on?",
+				Text: "What's going on?", Audio: "100", AudioStyle: "terrified",
 				Answer: [
-					{ Text: "I don't know.  This is scary.", Reply: "(She nods.)  Maybe it's another curse from Camille.", Domination: -1 },
-					{ Text: "Another curse?", Reply: "Yes, it could be another curse." },
-					{ Text: "Don't be afraid.  I'm here.", Reply: "(She gets closer to you.)  Maybe it's another curse from Camille.", Domination: 1 },
+					{ Text: "I don't know.  This is scary.", Reply: "(She nods.)  Maybe it's another curse from Camille.", Audio: "101", AudioStyle: "terrified", Domination: -1 },
+					{ Text: "Another curse?", Reply: "Yes, it could be another curse.", Audio: "102", AudioStyle: "terrified" },
+					{ Text: "Don't be afraid.  I'm here.", Reply: "(She gets closer to you.)  Maybe it's another curse from Camille.", Audio: "103", AudioStyle: "terrified", Domination: 1 },
 					{ Text: "(Hold her in your arms.)", Reply: "(You hold each other close for a little while.)", Love: 1, Perk: true },
 				]
 			},
-			{ Text: "Could she have more magic tricks?" },
-			{ Text: "She's restrained, she could be in danger." },
+			{ Text: "Could she have more magic tricks?", Audio: "110", AudioStyle: "terrified" },
+			{ Text: "She's restrained, she could be in danger.", Audio: "120", AudioStyle: "terrified" },
 			{ Text: "(Darkness fades after a few seconds.)", Background: "BedroomOlivia" },
-			{ Text: "It was faster than the previous time.  Is that a good sign?" },
-			{ Text: "Let's go check for Camille.  I'm worried for her." },
+			{ Text: "It was faster than the previous time.  Is that a good sign?", Audio: "130" },
+			{ Text: "Let's go check for Camille.  I'm worried for her.", Audio: "140" },
 			{ Text: "(Olivia joined your party.  You can switch your active character at any save point.)" },
 		]
 	},
@@ -1221,38 +1221,38 @@ var PlatformDialogData = [
 			},
 			{ Text: "(Olivia seems to be sweating and breathing heavily.)" },
 			{
-				Text: "M... M, M... Melody!",
+				Text: "Mel... Mel, Mel... Melody!", Audio: "10", AudioStyle: "terrified",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Flustered" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
 				Answer: [
-					{ Text: "That's my name.", Reply: "It's...  It's no time for jokes...  It's...  It's the belt...", Love: -1 },
-					{ Text: "Are you in distress Miss Olivia?", Reply: "(She nods quickly.)  It's...  It's the belt...", Domination: -1 },
-					{ Text: "Who dared to touch you?", Reply: "No...  No one...  It's...  It's the belt...", Domination: 1 },
-					{ Text: "Was your belt activated?", Reply: "Yes!  (She nods quickly.)  Y, y, yes...  The belt...", Love: 1, Perk: true }
+					{ Text: "That's my name.", Reply: "It's...  It's no time for jokes...  It's...  It's the belt...", Audio: "11", AudioStyle: "terrified", Love: -1 },
+					{ Text: "Are you in distress Miss Olivia?", Reply: "(She nods quickly.)  It's...  It's the belt...", Audio: "12", AudioStyle: "terrified", Domination: -1 },
+					{ Text: "Who dared to touch you?", Reply: "No...  No one...  It's...  It's the belt...", Audio: "13", AudioStyle: "terrified", Domination: 1 },
+					{ Text: "Was your belt activated?", Reply: "Yes!  (She nods quickly.)  Y, y, yes...  The belt...", Audio: "14", AudioStyle: "terrified", Love: 1, Perk: true }
 				]
 			},
-			{ Text: "It's moving!  (She shivers without much control.)" },
+			{ Text: "It's moving!  (She shivers without much control.)", Audio: "20", AudioStyle: "shouting" },
 			{
-				Text: "What...  What is going on?",
+				Text: "What...  What is going on?", Audio: "30", AudioStyle: "terrified",
 				Answer: [
-					{ Text: "I don't know.", Reply: "Why...  Why is it moving like that?" },
-					{ Text: "Everything will be fine sweetie.", Reply: "You...  You think?  Why is it moving like that?", Love: 1 },
-					{ Text: "That belt is cursed.", Reply: "It's...  It's a family tradition.  Why is it moving like that?", Love: -1 },
-					{ Text: "I'm scared Lady Olivia.", Reply: "Don't worry...  Ever...  Everything will be aaaaaa....", Domination: -1, Perk: true }
+					{ Text: "I don't know.", Reply: "Why...  Why is it moving like that?", Audio: "31", AudioStyle: "terrified" },
+					{ Text: "Everything will be fine sweetie.", Reply: "You...  You think?  Why is it moving like that?", Audio: "32", AudioStyle: "terrified", Love: 1 },
+					{ Text: "That belt is cursed.", Reply: "It's...  It's a family tradition.  Why is it moving like that?", Audio: "33", AudioStyle: "terrified", Love: -1 },
+					{ Text: "I'm scared Lady Olivia.", Reply: "Don't worry...  Ever...  Everything will be ah....", Audio: "34", AudioStyle: "terrified", Domination: -1, Perk: true }
 				]
 			},
 			{ Text: "AaaaaaaAAAAHHH!" },
 			{ Text: "(She starts to breath faster and faster.)" },
-			{ Text: "MELODY!  Why...  Why am I sweating?" },
+			{ Text: "MELODY!  Why...  Why am I sweating?", Audio: "50", AudioStyle: "shouting" },
 			{
-				Text: "Why am I so wet?",
+				Text: "Why am I so wet?", Audio: "60", AudioStyle: "terrified",
 				Answer: [
-					{ Text: "The chastity belt is training you.", Reply: "T... Train...  Training me?  What...", Domination: 1 },
-					{ Text: "I'm sorry, I cannot help you.", Reply: "D....  Don't worry...  You're a good...", Domination: -1 },
-					{ Text: "Relax and enjoy.  (Caress her hair.)", Reply: "R.... Relax?   En... En, en, enjoy...", Love: 1 },
-					{ Text: "Wake your naughty side.", Reply: "W... What?  No, no, no.  I cannot...", Love: -1 }
+					{ Text: "The chastity belt is training you.", Reply: "Train... Train...  Training me?  What...", Audio: "61", AudioStyle: "terrified", Domination: 1 },
+					{ Text: "I'm sorry, I cannot help you.", Reply: "Don....  Don't worry...  You're a good...", Audio: "62", AudioStyle: "terrified", Domination: -1 },
+					{ Text: "Relax and enjoy.  (Caress her hair.)", Reply: "(She looks confused.)  Relax, relax?   Enjoy, enjoy?", Audio: "63", AudioStyle: "calm", Love: 1 },
+					{ Text: "Wake your naughty side.", Reply: "W... What?  No, no, no.  I cannot...", Audio: "64", AudioStyle: "terrified", Love: -1 }
 				]
 			},
 			{ Text: "(She falls on her knees.)", Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelOrgasm", Y: -400 }] },
@@ -1261,8 +1261,8 @@ var PlatformDialogData = [
 			{ Text: "(She gets a shattering orgasm right in front of you.)" },
 			{ Text: "(Everything goes dark for a second and becomes bright again.)" },
 			{ Text: "(Her powerful scream rings in your ears, giving you a headache.)" },
-			{ Text: "Oh..." },
-			{ Text: "Melody..." },
+			{ Text: "Oh...", Audio: "100", AudioStyle: "calm" },
+			{ Text: "Melody...", Audio: "110", AudioStyle: "calm" },
 			{
 				Text: "(She stands up.)",
 				Character: [
@@ -1270,21 +1270,21 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				],
 			},
-			{ Text: "It stopped moving." },
+			{ Text: "It stopped moving.", Audio: "120", AudioStyle: "calm" },
 			{
-				Text: "I'm sorry.",
+				Text: "I'm sorry.", Audio: "130", AudioStyle: "calm",
 				Answer: [
-					{ Text: "It's fine.  Are you alright?", Reply: "I don't know." },
-					{ Text: "Welcome to heaven.", Reply: "That was so...  so wonderful.", Love: 1 },
-					{ Text: "That scream was horrible.", Reply: "I know, I could not control it.", Love: -1 },
-					{ Text: "You're a woman now, an Oracle.", Reply: "(She nods.)  You might be right.", Domination: 1, Perk: true }
+					{ Text: "It's fine.  Are you alright?", Reply: "I don't know.", Audio: "131", AudioStyle: "calm" },
+					{ Text: "Welcome to heaven.", Reply: "That was so...  so wonderful.", Audio: "132", AudioStyle: "calm", Love: 1 },
+					{ Text: "That scream was horrible.", Reply: "I know, I could not control it.", Audio: "133", AudioStyle: "calm", Love: -1 },
+					{ Text: "You're a woman now, an Oracle.", Reply: "(She nods.)  You might be right.", Audio: "134", AudioStyle: "calm", Domination: 1, Perk: true }
 				]
 			},
-			{ Text: "I feel weird.  I feel different." },
-			{ Text: "It's like I've been sleeping and now I'm awake." },
-			{ Text: "Why did it become dark?  It's probably the same power that Camille is using." },
-			{ Text: "Let's head out, there's something I'd like to try." },
-			{ Text: "(Olivia can now use magic.  Her magic points will be shown in the upper corner.)" },
+			{ Text: "I feel weird.  I feel different.", Audio: "140", AudioStyle: "calm" },
+			{ Text: "It's like I've been sleeping and now I'm awake.", Audio: "150", AudioStyle: "calm" },
+			{ Text: "Why did it become dark?  It's probably the same power that Camille is using.", Audio: "160" },
+			{ Text: "Let's head out, there's something I'd like to try.", Audio: "170" },
+			{ Text: "(Olivia can now use magic.  Her magic points will be shown in the upper corner.)", Audio: "180" },
 			{ Text: "(Use the K key to scream and harm all enemies in the current area.)" }
 		]
 	},
@@ -1389,7 +1389,7 @@ var PlatformDialogData = [
 		Music: "CamilleCastleBattle",
 		Dialog: [
 			{
-				Text: "Go help Olivia.",
+				Text: "Go help Olivia.", Audio: "10",
 				Background: "CountessHallFloor",
 				Character: [{ Name: "Camille", Status: "Armor", Animation: "Bound", Y: -400 }]
 			},
@@ -1409,18 +1409,18 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(As you enter the countess hall, you see the open iron gates and that Camille is missing.)" },
-			{ Text: "This is where you two had your battle?" },
+			{ Text: "This is where you two had your battle?", Audio: "10" },
 			{
-				Text: "Where is she?",
+				Text: "Where is she?", Audio: "20",
 				Answer: [
-					{ Text: "This is dangerous!  She escaped.", Reply: "Don't worry Melody.  I'm sure she learned her lesson.", Domination: -1, Perk: false },
-					{ Text: "(Hide behind Lady Olivia.)", Reply: "(She moves to protect you.)  Don't worry little Melody.  I'm sure she learned her lesson.", Domination: -2, Perk: true },
-					{ Text: "Damn bitch!  I'll track her down.", Reply: "(She gulps.)  Is violence always the answer?", Domination: 1, Love: -1 },
-					{ Text: "Let's investigate.", Reply: "Yes, she cannot be too far away." },
+					{ Text: "This is dangerous!  She escaped.", Reply: "Don't worry Melody.  I'm sure she learned her lesson.", Audio: "21", AudioStyle: "serious", Domination: -1, Perk: false },
+					{ Text: "(Hide behind Lady Olivia.)", Reply: "(She moves to protect you.)  Don't worry little Melody.  I'm sure she learned her lesson.", Audio: "22", AudioStyle: "serious", Domination: -2, Perk: true },
+					{ Text: "Damn bitch!  I'll track her down.", Reply: "(She gulps.)  Is violence always the answer?", Audio: "23", AudioStyle: "terrified", Domination: 1, Love: -1 },
+					{ Text: "Let's investigate.", Reply: "Yes, she cannot be too far away.", Audio: "24" },
 					{ Text: "Stay behind me, it could be a trap.", Reply: "(She nods and hides behind you.)", Domination: 1 },
 				]
 			},
-			{ Text: "The terrace gate is open, let's see if she's there." },
+			{ Text: "The terrace gate is open, let's see if she's there.", Audio: "30" },
 			{ Text: "(She invites you to walk the countess hall.)" }
 		]
 	},
@@ -1437,32 +1437,42 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Where could they be?  (She starts to look around.)" },
-			{ Text: "Look!  There's a rope!  (She points to a tied rope, going down the manor wall.)" },
-			{ Text: "(She checks the rope carefully.)  This knot was made by Mother." },
-			{ Text: "Trust me, I know her knots.  (She blushes.)" },
-			{ Text: "Mother must have fled, and Camille chased her down." },
+			{ Text: "Where could they be?  (She starts to look around.)", Audio: "10" },
+			{ Text: "Look!  There's a rope!  (She points to a tied rope, going down the manor wall.)", Audio: "20", AudioStyle: "shouting" },
+			{ Text: "(She checks the rope carefully.)  This knot was made by Mother.", Audio: "30" },
+			{ Text: "Trust me, I know her knots.  (She blushes.)", Audio: "40", AudioStyle: "calm" },
+			{ Text: "Mother must have fled, and Camille chased her down.", Audio: "50" },
 			{
-				Text: "What should we do?",
+				Text: "What should we do?", Audio: "60",
 				Answer: [
-					{ Text: "We could track them.", Reply: "It won't be easy, but if anyone can do it, it's you.", Domination: 1 },
-					{ Text: "Let's find a cure for that curse.", Reply: "(She smiles.)  Yes, we need to help our friends.", Love: 1 },
-					{ Text: "It's safer to stay here.", Reply: "(She nods.)  I'm sure Mother will manage on her own.", Domination: -1 },
-					{ Text: "I don't know.", Reply: "(She sighs.)  I'm sure we'll figure a way to help.", Love: -1, Perk: false },
-					{ Text: "We will find her and cure everyone.", Reply: "(She nods happily.)  I know we can do it.", Love: 2, Perk: true }
+					{ Text: "We could track them.", Reply: "It won't be easy, but if anyone can do it, it's you.", Audio: "61", Domination: 1 },
+					{ Text: "Let's find a cure for that curse.", Reply: "(She smiles.)  Yes, we need to help our friends.", Audio: "62", AudioStyle: "cheerful", Love: 1 },
+					{ Text: "It's safer to stay here.", Reply: "(She nods.)  I'm sure Mother will manage on her own.", Audio: "63", Domination: -1 },
+					{ Text: "I don't know.", Reply: "(She sighs.)  I'm sure we'll figure a way to help.", Audio: "64", AudioStyle: "sad", Love: -1, Perk: false },
+					{ Text: "We will find her and cure everyone.", Reply: "(She nods happily.)  I know we can do it.", Audio: "65", AudioStyle: "cheerful", Love: 2, Perk: true }
 				]
 			},
-			{ Text: "Whatever you do Melody.  I will be there with you." },
+			{ Text: "Whatever you do Melody.  I will be there with you.", Audio: "70", AudioStyle: "cheerful" },
 			{
 				TextScript: function () {
 					let Love = PlatformDialogGetCharacter("Olivia").Love - 10;
 					let Dom = PlatformDialogGetCharacter("Olivia").Domination;
 					if ((Love >= 5) && (Love >= Math.abs(Dom))) return "My dear Olivia, together we are unstoppable.";
-					if ((Love >= 0) && (Love >= Math.abs(Dom))) return "I'm glad we are in this mess together Olivia.";
-					if (Dom >= 5) return "And I'll be there to lock you up every night little lady.";
-					if (Dom >= 0) return "And I'll be there to protect you Olivia.";
-					if (Dom <= -5) return "And your maid will be there to serve and obey you Lady Olivia.  (You do a maid curtsy.)";
-					return "And I'll be there to help you Lady Olivia.";
+					if ((Love >= 0) && (Love >= Math.abs(Dom))) return "Olivia, I'm glad we are in this mess together.";
+					if (Dom >= 5) return "Little lady, I'll be there to lock you up every night.";
+					if (Dom >= 0) return "Olivia, I'll be there to protect you.";
+					if (Dom <= -5) return "Lady Olivia, your maid will be there to serve and obey you.  (You do a maid curtsy.)";
+					return "Lady Olivia, I'll be there to help you.";
+				},
+				AudioScript: function () {
+					let Love = PlatformDialogGetCharacter("Olivia").Love - 10;
+					let Dom = PlatformDialogGetCharacter("Olivia").Domination;
+					if ((Love >= 5) && (Love >= Math.abs(Dom))) return "81";
+					if ((Love >= 0) && (Love >= Math.abs(Dom))) return "82";
+					if (Dom >= 5) return "83";
+					if (Dom >= 0) return "84";
+					if (Dom <= -5) return "85";
+					return "86";
 				},
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 			},
@@ -1476,14 +1486,14 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "(She blushes.)  There's something I'd like to ask you." },
+			{ Text: "(She blushes.)  There's something I'd like to ask you.", Audio: "100", AudioStyle: "whispering" },
 			{
-				Text: "Can...  Can I kiss you?",
+				Text: "Can...  Can I kiss you?", Audio: "110", AudioStyle: "whispering",
 				Answer: [
 					{ Text: "Of course, my love.  (Kiss her.)", Reply: "(You both get closer and prepare for a long kiss.)", Love: 1 },
 					{ Text: "(Grab her and kiss her.)", Reply: "(You grab her waist and bring her closer for a long kiss.)", Domination: 1 },
 					{ Text: "(Blush and giggle.)", Reply: "(She grabs your waist and brings you closer for a long kiss.)", Domination: -1 },
-					{ Text: "Sorry, it wouldn't be appropriate.", Reply: "(She sighs.)  I guess you're right.  Let's head for our next mission.", Love: -2, Goto: "End" },
+					{ Text: "Sorry, it wouldn't be appropriate.", Reply: "(She sighs.)  I guess you're right.  Let's head for our next mission.", Audio: "114", AudioStyle: "sad", Love: -2, Goto: "End" },
 				]
 			},
 			{
@@ -1504,7 +1514,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ ID: "End", Text: "Should we go down that rope?" },
+			{ ID: "End", Text: "Should we go down that rope?", Audio: "150" },
 			{ Text: "(She points to the rope that runs down the castle wall.)" }
 		]
 	},
@@ -1521,7 +1531,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Where are they?" },
+			{ Text: "Where are they?", Audio: "10" },
 			{ Text: "(She looks at Olivia.)" },
 		]
 	},
@@ -1544,25 +1554,25 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
 				]
 			},
-			{ Text: "Way before the war, when I was a child, Father used to bring us to this hunting cabin." },
-			{ Text: "Mother and sister kept complaining about mosquitos, but I loved the fresh air." },
-			{ Text: "Father said that me and Camille needed to learn on how to survive in the forest.  That real life is harsher than a comfy manor." },
+			{ Text: "Way before the war, when I was a child, Father used to bring us to this hunting cabin.", Audio: "10" },
+			{ Text: "Mother and sister kept complaining about mosquitos, but I loved the fresh air.", Audio: "20" },
+			{ Text: "Father said that me and Camille needed to learn on how to survive in the forest.  That real life is harsher than a comfy manor.", Audio: "30" },
 			{
-				Text: "I guess he was right.  (She sighs.)",
+				Text: "I guess he was right.  (She sighs.)", Audio: "40", AudioStyle: "sad",
 				Answer: [
-					{ Text: "The forest is a scary place.", Reply: "Don't worry Melody, we will be fine.", Domination: -1 },
+					{ Text: "The forest is a scary place.", Reply: "Don't worry Melody, we will be fine.", Audio: "41", AudioStyle: "serious", Domination: -1 },
 					{ Text: "(Nod in agreement.)", Reply: "(She nods and puts another log in the fireplace.)" },
-					{ Text: "The Count educated you well.", Reply: "(She bows her head slowly.)  He did.", Domination: 1 },
-					{ Text: "(Put a log in the fireplace.)", Reply: "Thanks Melody, I was getting cold.", Love: 1, Perk: true },
+					{ Text: "The Count educated you well.", Reply: "(She bows her head slowly.)  He did.", Audio: "43", AudioStyle: "calm", Domination: 1 },
+					{ Text: "(Put a log in the fireplace.)", Reply: "Thanks Melody, I was getting cold.", Audio: "44", AudioStyle: "cheerful", Love: 1, Perk: true },
 				]
 			},
-			{ Text: "Father is dead, Mother is gone, and sister went insane." },
+			{ Text: "Father is dead, Mother is gone, and sister went insane.", Audio: "50", AudioStyle: "sad" },
 			{
-				Text: "I'm all alone now.",
+				Text: "I'm all alone now.", Audio: "60", AudioStyle: "sad",
 				Answer: [
-					{ Text: "Learn to accept it.", Reply: "(She sighs and nods.)  Complaining will not solve anything.", Love: -1 },
-					{ Text: "I know how you feel.", Reply: "As an orphan, you must certainly understand." },
-					{ Text: "You're not alone, you have me.", Reply: "(She smiles at you.)  I do, thanks my friend.", Love: 1 },
+					{ Text: "Learn to accept it.", Reply: "(She sighs and nods.)  Complaining will not solve anything.", Audio: "61", AudioStyle: "sad", Love: -1 },
+					{ Text: "I know how you feel.", Reply: "As an orphan, you must certainly understand.", Audio: "62", AudioStyle: "sad" },
+					{ Text: "You're not alone, you have me.", Reply: "(She smiles at you.)  I do, thanks my friend.", Audio: "63", Love: 1 },
 				]
 			},
 			{
@@ -1574,27 +1584,27 @@ var PlatformDialogData = [
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia") && !PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }],
-				Text: "I love you sweetie.  (You exchange a lovely kiss.)"
+				Text: "I love you sweetie.  (You exchange a lovely kiss.)", Audio: "210", AudioStyle: "cheerful"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 }],
-				Text: "(She kneels close to you.)  I will not go in the woods alone Miss."
+				Text: "(She kneels close to you.)  I will not go in the woods alone Miss.", Audio: "220", AudioStyle: "calm"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelLoverMaidMelody", X: 500 }],
-				Text: "(She kneels and hugs your legs lovingly.)  I will not go in the woods without you Miss."
+				Text: "(She kneels and hugs your legs lovingly.)  I will not go in the woods without you Miss.", Audio: "230", AudioStyle: "calm"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "StrictMaidMelodyKissFeet", X: 500 }],
-				Text: "(She points to her feet as you bend to kiss her boots.)  That's a good pet."
+				Text: "(She points to her feet as you bend to kiss her boots.)  That's a good pet.", Audio: "240", AudioStyle: "serious"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "MaidMelodyKissFeet", X: 500 }],
-				Text: "(She points to her feet as you bend to kiss her boots.)  I love you my pet."
+				Text: "(She points to her feet as you bend to kiss her boots.)  I love you my pet.", Audio: "250", AudioStyle: "serious"
 			}
 
 		]
@@ -1703,7 +1713,7 @@ var PlatformDialogData = [
 			{ Text: "You're finally back Edlaran.  I don't know why you're accompanied.", Audio: "10" },
 			{ Text: "How was the manor raid?  Any good loot to repay your debt?", Audio: "20" },
 			{
-				Text: "Mmmmmh...  What?  Manor raid?  Loot?  Debt?  Do I know you?",
+				Text: "What?  Manor raid?  Loot?  Debt?  Do I know you?", Audio: "30",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -1711,22 +1721,22 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "I don't know what she's talking about.",
+				Text: "I don't know what she's talking about.", Audio: "40",
 				Answer: [
-					{ Text: "She's mistaken you for someone else.", Reply: "Exactly!  That peasant girl is confused.", Domination: -1, Love: 1 },
-					{ Text: "I think you know what's going on.", Reply: "(She shakes her head.)  That girl is delirious." },
+					{ Text: "She's mistaken you for someone else.", Reply: "Exactly!  That peasant girl is confused.", Audio: "41", AudioStyle: "cheerful", Domination: -1, Love: 1 },
+					{ Text: "I think you know what's going on.", Reply: "(She shakes her head.)  That girl is delirious.", Audio: "42" },
 					{ Text: "You will be punished later Edlaran.", Reply: "(She bows her head and ponders for a few seconds.)", Domination: 2, Love: -1 },
 				]
 			},
-			{ Text: "We are on an official mission with her Highness Lady Olivia or Alberus!" },
-			{ Text: "Move out of the way or you'll get hurt." },
+			{ Text: "We are on an official mission with her Highness Lady Olivia of House Alber...  Albersomething.", Audio: "50", AudioStyle: "serious" },
+			{ Text: "Move out of the way or you'll get hurt.", Audio: "60", AudioStyle: "serious" },
 			{
 				Text: "(She stares at your group.)",
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Angry" }]
 			},
 			{ Text: "Lady Olivia, you say?  Thanks for the tip, she would fetch a good ransom.", Audio: "90" },
 			{
-				Text: "What?  That wasn't a tip.",
+				Text: "What?  That wasn't a tip.", Audio: "100",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -1734,13 +1744,13 @@ var PlatformDialogData = [
 					{ Name: "Vera", Status: "Leather", Pose: "Angry" }
 				],
 				Answer: [
-					{ Text: "She knows too much now.", Reply: "That's very true, we'll need to get rid of the bandits.", Love: 1 },
-					{ Text: "Edlaran, you're an idiot.", Reply: "That's not fair!  Damn it, let's get rid of the bandits.", Domination: 1, Love: -2 },
-					{ Text: "Oh my!  What do we do?", Reply: "Don't stand there like a tree, we must get rid of the bandits.", Domination: -2 },
+					{ Text: "She knows too much now.", Reply: "That's very true, we'll need to get rid of the bandits.", Audio: "101", AudioStyle: "cheerful", Love: 1 },
+					{ Text: "Edlaran, you're an idiot.", Reply: "That's not fair!  Damn it, let's get rid of the bandits.", Audio: "102", AudioStyle: "calm", Domination: 1, Love: -2 },
+					{ Text: "Oh my!  What do we do?", Reply: "Don't stand there like a tree, we must get rid of the bandits.", Audio: "103", AudioStyle: "serious", Domination: -2 },
 					{ Text: "(Wink at Edlaran and flank the bandit.)", Reply: "(She winks back as you both flank her.)", Love: 2, Perk: true },
 				]
 			},
-			{ Text: "Attack!" },
+			{ Text: "Attack!", Audio: "110", AudioStyle: "shouting" },
 		]
 	},
 
@@ -1765,9 +1775,9 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive" }
 				],
 				Answer: [
-					{ Text: "You're mistaken.", Reply: "I'm not mistaken at all." },
-					{ Text: "Get lost or you'll get hurt.", Reply: "You think a maid can scare me?" },
-					{ Text: "Please don't give us trouble.", Reply: "You've set yourself in trouble." },
+					{ Text: "You're mistaken.", Reply: "I'm not mistaken at all.", Audio: "31" },
+					{ Text: "Get lost or you'll get hurt.", Reply: "You think a maid can scare me?", Audio: "32" },
+					{ Text: "Please don't give us trouble.", Reply: "You've set yourself in trouble.", Audio: "33" },
 				]
 			},
 			{ Text: "She will fetch a great ransom.", Audio: "40" },
@@ -1791,7 +1801,7 @@ var PlatformDialogData = [
 			{ Text: "This is your last warning!  Pay your debt or I cut your pretty ears Edlaran.", Audio: "10" },
 			{ Text: "(She pulls out a knife, and the elf notices you.)" },
 			{
-				Text: "Help!  Please!",
+				Text: "Help!  Please!", Audio: "20", AudioStyle: "shouting",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", X: 1100, Animation: "Bound" },
 					{ Name: "Vera", Status: "Leather", X: 1000, Pose: "StareDownRight" },
@@ -1808,7 +1818,7 @@ var PlatformDialogData = [
 				Text: "It seems I have more urgent matters to settle first.  Don't try anything Edlaran.", Audio: "30",
 				Character: [{ Name: "Vera", Status: "Leather", Pose: "Grumpy" }]
 			},
-			{ Text: "(She charges toward you)." }
+			{ Text: "(She charges toward you.)" }
 		]
 	},
 
@@ -1820,11 +1830,11 @@ var PlatformDialogData = [
 				Background: "OakHeavy",
 				Character: [{ Name: "Edlaran", Status: "Archer", Animation: "Bound" }]
 			},
-			{ Text: "Help!  One of these bandits must have the keys to these chains." },
+			{ Text: "Help!  One of these bandits must have the keys to these chains.", Audio: "10" },
 			{ Text: "(She struggles in vain and whimpers.)" },
 			{ Entry: function() { if (!PlatformEventDone("EdlaranForestKey")) PlatformDialogLeave(); else PlatformDialogProcess(); } },
 			{
-				Text: "Do you have the key?",
+				Text: "Do you have the key?", Audio: "20",
 				Answer: [
 					{ Text: "I don't.  (Leave her.)", Reply: "(She sighs and nods.)", Script: function() { PlatformDialogLeave(); } },
 					{ Text: "It's the least I can do.  (Unlock her.)", Reply: "(She nods slowly as you unlock her.)", Domination: -2, Love: 1 },
@@ -1833,25 +1843,25 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Thanks!  You're the best.",
+				Text: "Thanks!  You're the best.", Audio: "30", AudioStyle: "cheerful",
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" }]
 			},
 			{
-				Text: "I owe you one.  I could help you against these bandits or in your adventures.",
+				Text: "I owe you one.  I could help you against these bandits or in your adventures.", Audio: "40", AudioStyle: "cheerful",
 				Entry: function() { PlatformEventSet("EdlaranJoin"); PlatformPartyBuild(); PlatformLoadRoom(); }
 			},
 			{
-				Text: "I'm Edlaran.  I know how to fight, shoot and plunder.  I also know these woods.",
+				Text: "I'm Edlaran.  I know how to fight, shoot and plunder.  I also know these woods.", Audio: "50",
 				Answer: [
 					{ Text: "Deal!  You can join our quest.", Reply: "(She gives you a thumbs up.)", Love: 1 },
-					{ Text: "Fine, but don't steal from us.", Reply: "Of course.  (She rolls her eyes up.)", Domination: 1 },
-					{ Text: "Fine, it will share the burden.", Reply: "I can share anything.  (She giggles.)", Domination: -1 },
-					{ Text: "Ok, but don't touch Lady Olivia.", Reply: "Very well, I won't." },
+					{ Text: "Fine, but don't steal from us.", Reply: "Of course.  (She rolls her eyes up.)", Audio: "52", AudioStyle: "serious", Domination: 1 },
+					{ Text: "Fine, it will share the burden.", Reply: "I can share anything.  (She giggles.)", Audio: "53", AudioStyle: "cheerful", Domination: -1 },
+					{ Text: "Ok, but don't touch Lady Olivia.", Reply: "Very well, I won't.", Audio: "54", AudioStyle: "calm" },
 				]
 			},
-			{ Text: "Just let me know what's going on and I'll be your best shooter." },
+			{ Text: "Just let me know what's going on and I'll be your best shooter.", Audio: "60" },
 			{ Text: "(You take some time to tell her about the castle, the curse and the quest.)" },
-			{ Text: "Thanks!  Let's go!" },
+			{ Text: "Thanks!  Let's go!", Audio: "70", AudioStyle: "cheerful" },
 			{ Text: "(Edlaran joined your party.  You can switch your active character at any save point.)" },
 		]
 	},
@@ -1976,7 +1986,7 @@ var PlatformDialogData = [
 				Text: "(Everything turns dark...)",
 				Character: []
 			},
-			{ Text: "..." },
+			{ Text: "(...)" },
 			{
 				Background: "BarnInterior",
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
@@ -2109,13 +2119,13 @@ var PlatformDialogData = [
 				],
 			},
 			{ Text: "(Melody slowly crawls out of the box in tight bondage.)" },
-			{ Text: "I'm glad to see you again." },
+			{ Text: "I'm glad to see you again.", Audio: "10", AudioStyle: "cheerful" },
 			{
-				Text: "Why did you stay in the smoke trap?",
+				Text: "Why did you stay in the smoke trap?", Audio: "20",
 				Answer: [
-					{ Text: "Why did you abandon us?", Reply: "(She frowns.)  When there's a trap you run, it's common knowledge.", Love: -1 },
-					{ Text: "I was trying to save Lady Olivia.", Reply: "That princess needs to watch where she steps." },
-					{ Text: "Never mind.  Thanks for the rescue.", Reply: "(She smiles.)  My pleasure Melody.", Love: 1 },
+					{ Text: "Why did you abandon us?", Reply: "(She frowns.)  When there's a trap, you run, it's common knowledge.", Audio: "21", Love: -1 },
+					{ Text: "I was trying to save Lady Olivia.", Reply: "That princess needs to watch where she steps.", Audio: "22", AudioStyle: "serious" },
+					{ Text: "Never mind.  Thanks for the rescue.", Reply: "(She smiles.)  My pleasure Melody.", Audio: "23", AudioStyle: "cheerful", Love: 1 },
 				]
 			},
 			{
@@ -2124,14 +2134,14 @@ var PlatformDialogData = [
 					PlatformDialogProcess();
 				}
 			},
-			{ Text: "They got you in tight ropes." },
+			{ Text: "They got you in tight ropes.", Audio: "30" },
 			{
-				Text: "Can you struggle out?",
+				Text: "Can you struggle out?", Audio: "40",
 				Answer: [
-					{ Text: "I don't think so.", Reply: "(She nods and unties you.)  There you go." },
-					{ Text: "Can you please help?", Reply: "(She smirks and unites you.)  There you go girl.", Domination: -1 },
-					{ Text: "Stop being silly and untie me.", Reply: "(She unties you quickly.)  You should be good now.", Domination: 1 },
-					{ Text: "Help me and I'll pay you.", Reply: "Deal!  (She releases you happily.)  There you go Melody.", Love: 1, Perk: true },
+					{ Text: "I don't think so.", Reply: "(She nods and unties you.)  There you go.", Audio: "41" },
+					{ Text: "Can you please help?", Reply: "(She smirks and unites you.)  There you go girl.", Audio: "42", AudioStyle: "serious", Domination: -1 },
+					{ Text: "Stop being silly and untie me.", Reply: "(She unties you quickly.)  You should be good now.", Audio: "43", AudioStyle: "calm", Domination: 1 },
+					{ Text: "Help me and I'll pay you.", Reply: "Deal!  (She releases you happily.)  There you go Melody.", Audio: "44", AudioStyle: "cheerful", Love: 1, Perk: true },
 				]
 			},
 			{
@@ -2141,29 +2151,29 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				],
 			},
-			{ Text: "They wanted to sell you to a slaver." },
+			{ Text: "They wanted to sell you to a slaver.", Audio: "50" },
 			{
-				Text: "Did they sell Olivia?",
+				Text: "Did they sell Olivia?", Audio: "60",
 				Answer: [
-					{ Text: "We must save our friend.", Reply: "(She nods.)  That's the spirit!", Love: 1 },
-					{ Text: "Let's move, we must find her.", Reply: "(She grabs her bow.)  Well said!", Domination: 1 },
-					{ Text: "Never say that!", Reply: "(She frowns.)  No need to yell.", Love: -1 },
-					{ Text: "I'm so scared for her.", Reply: "(She shakes her head.)  Everything will be alright.", Domination: -1 },
+					{ Text: "We must save our friend.", Reply: "(She nods.)  That's the spirit!", Audio: "61", AudioStyle: "cheerful", Love: 1 },
+					{ Text: "Let's move, we must find her.", Reply: "(She grabs her bow.)  Well said!", Audio: "62", AudioStyle: "serious", Domination: 1 },
+					{ Text: "Never say that!", Reply: "(She frowns.)  No need to yell.", Audio: "63", AudioStyle: "sad", Love: -1 },
+					{ Text: "I'm so scared for her.", Reply: "(She shakes her head.)  Everything will be alright.", Audio: "64", AudioStyle: "calm", Domination: -1 },
 				]
 			},
-			{ Text: "Let's go find her." },
+			{ Text: "Let's go find her.", Audio: "70" },
 			{ Text: "(Meanwhile...  In Olivia's barn.)" },
 			{ Entry: function() { PlatformPartyActivate("Olivia"); PlatformDialogLeave(); } },
 			{
 				ID: "PayForRelease",
-				Text: "I could release you..."
+				Text: "I could release you...", Audio: "80", AudioStyle: "serious"
 			},
 			{
-				Text: "But there's a price.",
+				Text: "But there's a price.", Audio: "90", AudioStyle: "serious",
 				Answer: [
-					{ Text: "What price?", Reply: "(She removes her bottom and smirks.)  Can you guess?" },
-					{ Text: "I will pay your price.", Reply: "(She removes her bottom and smirks.)  Good girl.", Domination: -1 },
-					{ Text: "I'm not giving you any money.", Reply: "(She removes her bottom and smirks.)  I don't want money from you.", Domination: 1 },
+					{ Text: "What price?", Reply: "(She removes her bottom and smirks.)  Can you guess?", Audio: "91", AudioStyle: "serious" },
+					{ Text: "I will pay your price.", Reply: "(She removes her bottom and smirks.)  Good girl.", Audio: "92", AudioStyle: "serious", Domination: -1 },
+					{ Text: "I'm not giving you any money.", Reply: "(She removes her bottom and smirks.)  I don't want money from you.", Audio: "93", AudioStyle: "serious", Domination: 1 },
 				]
 			},
 			{
@@ -2172,7 +2182,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Animation: "Bound" },
 				]
 			},
-			{ Text: "You will need to work for your freedom." },
+			{ Text: "You will need to work for your freedom.", Audio: "100", AudioStyle: "serious" },
 			{ Text: "(She gets on her knees and closer to your mouth.)" },
 			{
 				Character: [
@@ -2180,11 +2190,11 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Get to work!",
+				Text: "Get to work!", Audio: "110", AudioStyle: "shouting",
 				Answer: [
 					{ Text: "(Lick her slowly, without much passion.)", Reply: "(You slowly lick as she masturbates to get an orgasm.)", Love: 1 },
 					{ Text: "(Lick her lovingly and skillfully,)", Reply: "(You lick her with skill as she gets a wonderful orgasm.)", Love: 2, Domination: -1 },
-					{ Text: "(Do nothing.)", Reply: "(She grumbles, dresses back and releases you.)  Fine!  I'll release you for free.  You ungrateful bitch.", Love: -2, Domination: 1, Goto: "EndLick" },
+					{ Text: "(Do nothing.)", Reply: "(She grumbles, dresses back and releases you.)  Fine!  I'll release you for free.  You ungrateful bitch.", Audio: "113", AudioStyle: "serious", Love: -2, Domination: 1, Goto: "EndLick" },
 				]
 			},
 			{
@@ -2195,8 +2205,8 @@ var PlatformDialogData = [
 			},
 			{ Text: "OoooOOOooooh! Oooohhh yeah!  YEAAAAAAAAAAAAHHHH!!!" },
 			{ Text: "(She gets a shattering orgasm in front of the bound bandits.)" },
-			{ Text: "Yes!  That feels so good.  I needed that." },
-			{ Text: "But we're wasting time with your naughty ideas, we need to rush." },
+			{ Text: "Yes!  That feels so good.  I needed that.", Audio: "120", AudioStyle: "calm" },
+			{ Text: "But we're wasting time with your naughty ideas, we need to rush.", Audio: "130", AudioStyle: "calm" },
 			{ Text: "(She releases you and dresses back.)" },
 			{ Entry: function() { PlatformDialogGoto = "EndLick"; PlatformDialogProcess(); } },
 
@@ -2276,26 +2286,26 @@ var PlatformDialogData = [
 			},
 			{ Text: "(Edlaran stares at the lake.)" },
 			{
-				Text: "The sea is a harsh Mistress.",
+				Text: "The sea is a harsh Mistress.", Audio: "10",
 				Answer: [
-					{ Text: "What's going on?", Reply: "I'm philosophizing by the lake." },
-					{ Text: "I should be your Mistress.", Reply: "(She blushes and looks down.)  That's not what I meant.", Domination: 2 },
-					{ Text: "Why are you saying that?", Reply: "It's an old sailor proverb." },
-					{ Text: "I would love to have a Mistress.", Reply: "(She grins.)  Be careful on what you wish for.", Domination: -2 },
+					{ Text: "What's going on?", Reply: "I'm philosophizing by the lake.", Audio: "11" },
+					{ Text: "I should be your Mistress.", Reply: "(She blushes and looks down.)  That's not what I meant.", Audio: "12", AudioStyle: "calm", Domination: 2 },
+					{ Text: "Why are you saying that?", Reply: "It's an old sailor proverb.", Audio: "13" },
+					{ Text: "I would love to have a Mistress.", Reply: "(She grins.)  Be careful on what you wish for.", Audio: "14", AudioStyle: "serious", Domination: -2 },
 				]
 			},
 			{ Text: "(She points to the middle of the lake.)" },
-			{ Text: "Do you see that little raft?  Look carefully." },
-			{ Text: "You don't have my perfect elven vision.  (She winks at you.)" },
-			{ Text: "(You finally see the raft.)  Check the girl in white, isn't it Olivia?" },
-			{ Text: "Oh my!  I think she's bound.  Is she stranded on the lake?" },
+			{ Text: "Do you see that little raft?  Look carefully.", Audio: "20" },
+			{ Text: "You don't have my perfect elven vision.  (She winks at you.)", Audio: "30" },
+			{ Text: "(You finally see the raft.)  Check the girl in white, isn't it Olivia?", Audio: "40" },
+			{ Text: "Oh my!  I think she's bound.  Is she stranded on the lake?", Audio: "50" },
 			{
-				Text: "What should we do?",
+				Text: "What should we do?", Audio: "60", AudioStyle: "terrified",
 				Answer: [
-					{ Text: "Move!  I'll go get her.", Reply: "No need to yell.  (She steps away from the lake.)", Love: -1 },
-					{ Text: "Save her!  Like the friends we are.", Reply: "(She nods in agreement.)  What will you do?", Love: 1 },
-					{ Text: "I think I can swim it.", Reply: "Are you sure?  (She looks at the middle of the lake.)" },
-					{ Text: "Heroes must get wet.", Reply: "You will try to swim?  (She seems impressed.)", Perk: true, Domination: 1 },
+					{ Text: "Move!  I'll go get her.", Reply: "No need to yell.  (She steps away from the lake.)", Audio: "61", AudioStyle: "terrified", Love: -1 },
+					{ Text: "Save her!  Like the friends we are.", Reply: "(She nods in agreement.)  What will you do?", Audio: "62", Love: 1 },
+					{ Text: "I think I can swim it.", Reply: "Are you sure?  (She looks at the middle of the lake.)", Audio: "63" },
+					{ Text: "Heroes must get wet.", Reply: "You will try to swim?  (She seems impressed.)", Audio: "64", Perk: true, Domination: 1 },
 				]
 			},
 			{
@@ -2305,7 +2315,7 @@ var PlatformDialogData = [
 				],
 			},
 			{ Text: "(You quickly remove your clothes.)" },
-			{ Text: "If I drown, you'll need to find another way to save her." },
+			{ Text: "If I drown, you'll need to find another way to save her.", Audio: "70", AudioStyle: "serious" },
 			{ Text: "(You dive in the water.)" },
 			{
 				Background: "Water",
@@ -2343,14 +2353,14 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Underwear", Pose: "Cocky" },
 				]
 			},
-			{ Text: "Ah!  Thank you so much." },
+			{ Text: "Ah!  Thank you so much.", Audio: "100", AudioStyle: "cheerful" },
 			{
-				Text: "I owe you one.",
+				Text: "I owe you one.", Audio: "110", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Kiss me girl.", Reply: "(You grab her for a long kiss.)", Love: 1, Domination: 1 },
-					{ Text: "Don't mention it.", Reply: "You're way too humble." },
-					{ Text: "No Miss.  I'm doing my servant work.", Reply: "(She gives you a curious look.)  I'll have to raise your salary my maid.", Love: -1, Domination: -1 },
-					{ Text: "I would die to save your life Miss.", Reply: "(She gives you a hug.)  Please don't die my maid.", Perk: true, Love: 1, Domination: -1 },
+					{ Text: "Don't mention it.", Reply: "You're way too humble.", Audio: "112" },
+					{ Text: "No Miss.  I'm doing my servant work.", Reply: "(She gives you a curious look.)  I'll have to raise your salary my maid.", Audio: "113", AudioStyle: "serious", Love: -1, Domination: -1 },
+					{ Text: "I would die to save your life Miss.", Reply: "(She gives you a hug.)  Please don't die my maid.", Audio: "114", AudioStyle: "serious", Perk: true, Love: 1, Domination: -1 },
 				]
 			},
 			{
@@ -2360,28 +2370,28 @@ var PlatformDialogData = [
 				}
 			},
 			{
-				Text: "It was very reckless to go on the lake alone, bound and gagged.",
+				Text: "It was very reckless to go on the lake alone, bound and gagged.", Audio: "120", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Underwear", Pose: "Cocky", X: 1000 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 500 },
 				]
 			},
-			{ Text: "You could have been killed young lady." },
+			{ Text: "Young lady, you could have been killed.", Audio: "130", AudioStyle: "serious" },
 			{
-				Text: "I'm sorry Melody.  (She bows her head.)",
+				Text: "I'm sorry Melody.  (She bows her head.)", Audio: "140", AudioStyle: "calm",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive" },
 					{ Name: "Melody", Status: "Underwear", Pose: "Cocky" },
 				],
 				Answer: [
-					{ Text: "Promise me not to do it again.", Reply: "I promise!  (She smiles at you.)  Let's go back.", Domination: -1, Love: 1, Goto: "End" },
-					{ Text: "I forgive you.", Reply: "Very good.  (She nods.)  Let's go back.", Goto: "End" },
-					{ Text: "You must be punished.  (Spank her.)", Reply: "Punished?  What?  How?  Melody!  You cannot do that!", Love: -2, Domination: 2 },
-					{ Text: "What would your mother do?  (Spank her.)", Reply: "She... she would spank me, Melody.", Perk: true, Domination: 2 },
+					{ Text: "Promise me not to do it again.", Reply: "I promise!  (She smiles at you.)  Let's go back.", Audio: "141", Domination: -1, Love: 1, Goto: "End" },
+					{ Text: "I forgive you.", Reply: "Very good.  (She nods.)  Let's go back.", Audio: "142", Goto: "End" },
+					{ Text: "You must be punished.  (Spank her.)", Reply: "Punished?  What?  How?  Melody!  You cannot do that!", Audio: "143", AudioStyle: "terrified", Love: -2, Domination: 2 },
+					{ Text: "What would your mother do?  (Spank her.)", Reply: "She... she would spank me, Melody.", Audio: "144", AudioStyle: "terrified", Perk: true, Domination: 2 },
 				]
 			},
 			{
-				Text: "Bend down young lady.  You will be spanked.",
+				Text: "Bend down young lady.  You will be spanked.", Audio: "150", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Underwear", Pose: "Cocky", X: 1000 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 500 },
@@ -2395,11 +2405,11 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You spank her many times, making sure she remembers that lesson.)" },
-			{ Text: "Ow!  Melody!  Please don't hit me so hard." },
+			{ Text: "Ow!  Melody!  Please don't hit me so hard.", Audio: "160", AudioStyle: "terrified" },
 			{ Text: "(She's cries from the physical pain and from the humiliation.)" },
 			{ Text: "(You spank her a few times again, hitting the same spots.)" },
-			{ Text: "I promise I will be a good girl.  I won't do it again." },
-			{ Text: "I've learned my lesson.  Can we go back to firm land?" },
+			{ Text: "I promise I will be a good girl.  I won't do it again.", Audio: "170", AudioStyle: "terrified" },
+			{ Text: "I've learned my lesson.  Can we go back to firm land?", Audio: "180" },
 			{
 				Text: "(You nod and stop spanking her.)",
 				Character: [
@@ -2408,8 +2418,8 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(She bows her head and changes subject.)" },
-			{ ID: "End", Text: "It will take us hours to reach the shore." },
-			{ Text: "More time to know each other.  (She smiles.)" },
+			{ ID: "End", Text: "It will take us hours to reach the shore.", Audio: "190" },
+			{ Text: "More time to know each other.  (She smiles.)", Audio: "200" },
 			{ Text: "(You work together to bring the raft back.)" },
 		],
 	},
@@ -2677,7 +2687,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
-				Text: "This tent is a nice protection, my skin is burning.",
+				Text: "This tent is a nice protection, my skin is burning.", Audio: "10",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -2686,7 +2696,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "Sweetie, please come with me under the tent, my skin is burning.",
+				Text: "Sweetie, please come with me under the tent, my skin is burning.", Audio: "20",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy" },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
@@ -2694,59 +2704,59 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "I rarely get so much sun.",
+				Text: "I rarely get so much sun.", Audio: "30",
 				Answer: [
-					{ Text: "The weather is certainly hot.", Reply: "I've read it can even get worse." },
-					{ Text: "You have very delicate skin.", Reply: "That's true.  I need to protect it better.", Domination: 1 },
-					{ Text: "I have horrible sunburns also.", Reply: "Poor Melody, I wish I could help you.", Domination: -1 },
-					{ Text: "I will train you to endure it.", Reply: "Train me Melody?  Very well.", Perk: true, Domination: 2 },
+					{ Text: "The weather is certainly hot.", Reply: "I've read it can even get worse.", Audio: "31" },
+					{ Text: "You have very delicate skin.", Reply: "That's true.  I need to protect it better.", Audio: "32", AudioStyle: "calm", Domination: 1 },
+					{ Text: "I have horrible sunburns also.", Reply: "Poor Melody, I wish I could help you.", Audio: "33", AudioStyle: "serious", Domination: -1 },
+					{ Text: "I will train you to endure it.", Reply: "Train me Melody?  Very well.", Audio: "34", AudioStyle: "terrified", Perk: true, Domination: 2 },
 				]
 			},
-			{ Text: "We are getting closer to the desert, and the kingdom of Slandia." },
-			{ Text: "The Duke, my future husband, lives there.  We could ask him for help." },
-			{ Text: "Maybe he knows about the curse that's plaguing our home." },
-			{ Text: "Or maybe he knows where Mother is, they know each other." },
+			{ Text: "We are getting closer to the desert, and the kingdom of Slandia.", Audio: "40" },
+			{ Text: "The Duke, my future husband, lives there.  We could ask him for help.", Audio: "50" },
+			{ Text: "Maybe he knows about the curse that's plaguing our home.", Audio: "60" },
+			{ Text: "Or maybe he knows where Mother is, they know each other.", Audio: "70" },
 			{
-				Text: "I miss her very much.",
+				Text: "I miss her very much.", Audio: "80", AudioStyle: "sad",
 				Answer: [
-					{ Text: "She's a wonderful woman.", Reply: "She is.  Strict and caring at the same time.", Love: 1 },
-					{ Text: "She ran like a coward.", Reply: "Don't say that.  I'm sure she had her reasons.", Love: -1 },
-					{ Text: "She could be in Slandia.", Reply: "Yes, it's a possibility." },
-					{ Text: "I'm sure she would be proud of you.", Reply: "Thank you so much Melody.  I needed to hear this.", Perk: true, Love: 2 },
+					{ Text: "She's a wonderful woman.", Reply: "She is.  Strict and caring at the same time.", Audio: "81", AudioStyle: "cheerful", Love: 1 },
+					{ Text: "She ran like a coward.", Reply: "Don't say that.  I'm sure she had her reasons.", Audio: "82", AudioStyle: "sad", Love: -1 },
+					{ Text: "She could be in Slandia.", Reply: "Yes, it's a possibility.", Audio: "83" },
+					{ Text: "I'm sure she would be proud of you.", Reply: "Thank you so much Melody.  I needed to hear this.", Audio: "84", AudioStyle: "cheerful", Perk: true, Love: 2 },
 				]
 			},
-			{ Text: "I'm very nervous to see Duke Sunesk of Slandia, but it's out best hope for now." },
-			{ Text: "Let's rest a little before we go out on the road." },
+			{ Text: "I'm very nervous to see Duke Sunesk of Slandia, but it's out best hope for now.", Audio: "90" },
+			{ Text: "Let's rest a little before we go out on the road.", Audio: "100" },
 			{
 				ID: "End",
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia") && !PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "Idle" }],
-				Text: "(She inspects the tent.)  I will consult Mother to purchase a tent like this for our garden."
+				Text: "(She inspects the tent.)  I will consult Mother to purchase a tent like this for our garden.", Audio: "200"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && !PlatformDialogIsSlave("Olivia") && !PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }],
-				Text: "Be careful in the sun my love.  (You exchange a lovely kiss.)"
+				Text: "Be careful in the sun my love.  (You exchange a lovely kiss.)", Audio: "210", AudioStyle: "cheerful"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 }],
-				Text: "(She kneels close to you.)  I promise to be careful and not to get sunburn Miss."
+				Text: "(She kneels close to you.)  I promise to be careful and not to get sunburn Miss.", Audio: "220", AudioStyle: "calm"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsSlave("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "KneelLoverMaidMelody", X: 500 }],
-				Text: "(She kneels and hugs your legs lovingly.)  I promise to be careful and not to get sunburn Miss."
+				Text: "(She kneels and hugs your legs lovingly.)  I promise to be careful and not to get sunburn Miss.", Audio: "230", AudioStyle: "calm"
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia") && PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "StrictMaidMelodyKissFeet", X: 500 }],
-				Text: "(She points to her feet as you bend to kiss her boots.)  That's a good pet."
+				Text: "(She points to her feet as you bend to kiss her boots.)  That's a good pet.", Audio: "240", AudioStyle: "serious"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia") && PlatformDialogIsOwner("Olivia"); },
 				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "MaidMelodyKissFeet", X: 500 }],
-				Text: "(She points to her feet as you bend to kiss her boots.)  I love you my pet."
+				Text: "(She points to her feet as you bend to kiss her boots.)  I love you my pet.", Audio: "250", AudioStyle: "serious"
 			}
 
 		]
@@ -2891,7 +2901,7 @@ var PlatformDialogData = [
 			},
 
 			{
-				Text: "What's on your mind Melody?",
+				Text: "What is on your mind Melody?", Audio: "10",
 				Answer: [
 					{ Text: "(Propose to become girlfriends.)", Reply: "(You look at each other and smiles.)" },
 					{ Text: "(Talk about the weather.)", Reply: "(She sighs and turns away.)", Love: -1, Goto: "Skip" },
@@ -2899,32 +2909,35 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Olivia, we've been best friends for most of our lives.",
+				Text: "Olivia, we've been best friends for most of our lives.", Audio: "20",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy" }
 				]
 			},
-			{ Text: "Whenever you're around, the sun is brighter." },
-			{ Text: "Whenever you're around, the flowers smell better." },
-			{ Text: "Whenever you're around, I smile a little wider." },
-			{ Text: "I know this is foolish, we are both women." },
-			{ Text: "I know this is foolish, we come from different casts of society." },
-			{ Text: "I know this is foolish, you will marry some Duke someday." },
-			{ Text: "But for this brief moment in your lives, in our adventures." },
-			{ Text: "Would you be my girlfriend?" },
+			{ Text: "Whenever you're around, the sun is brighter.", Audio: "30" },
+			{ Text: "Whenever you're around, the flowers smell better.", Audio: "40" },
+			{ Text: "Whenever you're around, I smile a little wider.", Audio: "50" },
+			{ Text: "I know this is foolish, we are both women.", Audio: "60" },
+			{ Text: "I know this is foolish, we come from different casts of society.", Audio: "70" },
+			{ Text: "I know this is foolish, you will marry some Duke someday.", Audio: "80" },
+			{ Text: "But for this brief moment in our lives, in our adventures.", Audio: "90" },
+			{ Text: "Would you be my girlfriend?", Audio: "100", AudioStyle: "serious" },
 
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination > 5); },
-				Text: "I would be honored to be your girlfriend.  (She blushes as you jump on her for a passionate kiss.)",
+				Text: "I would be honored to be your girlfriend.  (She blushes as you jump on her for a passionate kiss.)", Audio: "110", AudioStyle: "cheerful",
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }]
 			},
 			{
 				Prerequisite: function() { return ((PlatformDialogGetCharacter("Olivia").Domination >= -5) && (PlatformDialogGetCharacter("Olivia").Domination <= 5)); },
-				Text: "Yes Melody!  Yes, yes, yes!  (You both get closer and exchange a passionate kiss.)",
+				Text: "Yes Melody!  Yes, yes, yes!  (You both get closer and exchange a passionate kiss.)", Audio: "120", AudioStyle: "cheerful",
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }]
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination < -5); },
-				Text: "No!  YOU will be my girlfriend.  (She laughs and jumps on you for a passionate kiss.)",
+				Text: "No!  YOU will be my girlfriend.  (She laughs and jumps on you for a passionate kiss.)", Audio: "130", AudioStyle: "cheerful",
+				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }]
 			},
 			{
 				Entry: function() {
@@ -2934,8 +2947,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Olivia").LoverLevel = 1;
 					PlatformDialogGetCharacter("Melody").LoverLevel = 1;
 					PlatformSetHealth(PlatformPlayer);
-				},
-				Character: [{ Name: "Olivia", Status: "Oracle", Pose: "FrenchKissMaidMelody", X: 500 }]
+				}
 			},
 
 			{ Text: "(You kiss and kiss again for a long time, exchanging heat and saliva.)" },
@@ -2951,11 +2963,11 @@ var PlatformDialogData = [
 			{},
 			{ Text: "(She looks down at her chastity belt and sighs loudly.)" },
 			{
-				Text: "This belt will be a problem sweetheart.",
+				Text: "This belt will be a problem sweetheart.", Audio: "150", AudioStyle: "sad",
 				Answer: [
-					{ Text: "I know!  We are so helpless my love.", Reply: "(She caresses your head slowly.)  We will find a solution someday honey.", Domination: -2 },
-					{ Text: "I promise to unlock you someday.", Reply: "(She smiles at you.)  I know you will Melody.", Domination: 2 },
-					{ Text: "Let's forget about it for a moment.", Reply: "(She nods in agreement.)  That's a good idea my love." },
+					{ Text: "I know!  We are so helpless my love.", Reply: "(She caresses your head slowly.)  We will find a solution someday honey.", Audio: "151", AudioStyle: "sad", Domination: -2 },
+					{ Text: "I promise to unlock you someday.", Reply: "(She smiles at you.)  I know you will Melody.", Audio: "152", AudioStyle: "sad", Domination: 2 },
+					{ Text: "Let's forget about it for a moment.", Reply: "(She nods in agreement.)  That is a good idea my love.", Audio: "153", AudioStyle: "sad" },
 				]
 			},
 			{ Text: "(You both lie down, exchanging kisses and caresses all night.)" },
@@ -2985,13 +2997,13 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You exchange a cold stare.)" },
-			{ Text: "I don't like that look on your face." },
+			{ Text: "I do not like that look on your face.", Audio: "10", AudioStyle: "sad" },
 			{
-				Text: "What's on your mind Melody?",
+				Text: "What is on your mind Melody?", Audio: "20", AudioStyle: "sad",
 				Answer: [
 					{
 						Text: "(Break up with her.)",
-						Reply: "Then it's over.  You don't want me as your lover.",
+						Reply: "Then it's over.  You do not want me as your lover.", Audio: "30", AudioStyle: "sad",
 						Script: function() {
 							PlatformDialogGetCharacter("Olivia").Love = PlatformDialogGetCharacter("Olivia").Love - 6;
 							if (PlatformDialogGetCharacter("Olivia").Love >= 19) PlatformDialogGetCharacter("Olivia").Love = 18;
@@ -3007,7 +3019,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination > 5); },
-				Text: "Life is so unfair!  (She starts to cry.)",
+				Text: "Life is so unfair!  (She starts to cry.)", Audio: "40", AudioStyle: "sad",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3015,7 +3027,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return ((PlatformDialogGetCharacter("Olivia").Domination >= -5) && (PlatformDialogGetCharacter("Olivia").Domination <= 5)); },
-				Text: "I'm sad to hear that.  (She sighs loudly.)",
+				Text: "I am sad to hear that.  (She sighs loudly.)", Audio: "50", AudioStyle: "sad",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
@@ -3023,16 +3035,16 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination < -5); },
-				Text: "It's fine for me.  You're only a maid, I can do much better.",
+				Text: "It is fine for me.  You're only a maid, I can do much better.", Audio: "60", AudioStyle: "serious",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-			{ Text: "Our love was doomed from the beginning." },
-			{ Text: "I will marry Duke Sunesk of Slandia next year." },
-			{ Text: "Let's pretend we've never dated and continue our quest." },
-			{ Text: "There is more at stake than a silly impossible romance." },
+			{ Text: "Our love was doomed from the beginning.", Audio: "70", AudioStyle: "sad" },
+			{ Text: "I will marry Duke Sunesk of Slandia next year.", Audio: "80", AudioStyle: "sad" },
+			{ Text: "Let's pretend that we never dated and continue our quest.", Audio: "90" },
+			{ Text: "There is more at stake than a silly impossible romance.", Audio: "100" },
 			{ Text: "(You and Olivia are no longer lovers.)" },
 			{ Text: "(Melody loses her experience bonus and Olivia loses her health bonus.)" },
 			{ Text: "(The adventure continues...)" },
@@ -3053,7 +3065,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "(You grab Olivia's butt as she smiles at you.)  Hello my love.",
+				Text: "(You grab Olivia's butt as she smiles at you.)  Hello my love.", Audio: "11", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy", X: 1000 },
@@ -3061,7 +3073,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
-				Text: "(You get closer to Olivia with a grin on your face.)  Hello girl.",
+				Text: "(You get closer to Olivia with a grin on your face.)  Hello girl.", Audio: "12", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
@@ -3074,9 +3086,9 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 				]
 			},
-			{ Text: "Hello Melody, why are you looking at me like that?  (She trembles a little.)" },
+			{ Text: "Hello Melody, why are you looking at me like that?  (She trembles a little.)", Audio: "14", AudioStyle: "terrified" },
 			{
-				Text: "How can help you?",
+				Text: "How can I help you?", Audio: "20", AudioStyle: "terrified",
 				Answer: [
 					{ Text: "(Propose to become her Protector.)", Reply: "(You stare at her in the eyes as she bows her head.)" },
 					{ Text: "(Talk about the weather.)", Reply: "(She sighs and turns away.)", Domination: -1, Goto: "Skip" },
@@ -3084,25 +3096,25 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Olivia, I've been there for you since you were a child.",
+				Text: "Olivia, I've been there for you since you were a child.", Audio: "30", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
 				]
 			},
-			{ Text: "I was there to protect you when the other kids were mean with you." },
-			{ Text: "I was there to catch you when you fell down the stairs." },
-			{ Text: "I was there to lock and unlock you every day." },
-			{ Text: "I was there to pull you out when the kitchen caught on fire." },
-			{ Text: "I was there to rescue you when Camille locked you up." },
-			{ Text: "Wherever you go, whatever you do, I will be there for you." },
-			{ Text: "Your health isn't great, you're not very strong and you have many fears." },
-			{ Text: "I'm in great shape, I'm stronger than a bull and nothing scares me." },
-			{ Text: "You need someone like me, you need a guide, a Protector." },
-			{ Text: "Will you be my protégée?" },
+			{ Text: "I was there to protect you when the other kids were mean with you.", Audio: "40", AudioStyle: "serious" },
+			{ Text: "I was there to catch you when you fell down the stairs.", Audio: "50", AudioStyle: "serious" },
+			{ Text: "I was there to lock and unlock you every day.", Audio: "60", AudioStyle: "serious" },
+			{ Text: "I was there to pull you out when the kitchen caught on fire.", Audio: "70", AudioStyle: "serious" },
+			{ Text: "I was there to rescue you when Camille locked you up.", Audio: "80", AudioStyle: "serious" },
+			{ Text: "Wherever you go, whatever you do, I will be there for you.", Audio: "90", AudioStyle: "serious" },
+			{ Text: "Your health isn't great, you're not very strong and you have many fears.", Audio: "100", AudioStyle: "serious" },
+			{ Text: "I'm in great shape, I'm stronger than a bull and nothing scares me.", Audio: "110", AudioStyle: "serious" },
+			{ Text: "You need someone like me, you need a guide, a Protector.", Audio: "120", AudioStyle: "serious" },
+			{ Text: "Will you be my protégée?", Audio: "130", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "Yes sweetie.  I would be thrilled to be your lover and your protégée.",
+				Text: "Yes sweetie.  I would be thrilled to be both your lover and protégée.", Audio: "140", AudioStyle: "cheerful",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleHappy", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3110,7 +3122,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
-				Text: "Yes Melody.  I would be honored to be your protégée.",
+				Text: "Yes Melody.  I would be honored to be your protégée.", Audio: "150", AudioStyle: "calm",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
@@ -3122,18 +3134,18 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Olivia").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Olivia").OwnerLevel = 1;
 				},
-				Text: "Please explain to me what it means exactly."
+				Text: "Please explain to me what it means exactly.", Audio: "160", AudioStyle: "calm"
 			},
 			{
-				Text: "Does it change our relationship?",
+				Text: "Does it change our relationship?", Audio: "170",
 				Answer: [
-					{ Text: "It won't change much.", Reply: "I'm confused Melody.  Please explain.", Domination: -2 },
-					{ Text: "It means I will control you.", Reply: "(She nods slowly.)  Control me how?", Domination: 2 },
+					{ Text: "It won't change much.", Reply: "I am confused Melody.  Please explain.", Audio: "171", Domination: -2 },
+					{ Text: "It means I will control you.", Reply: "(She nods slowly.)  Control me how?", Audio: "172", Domination: 2 },
 					{ Text: "Let me explain.", Reply: "(She nods and listens to you.)" },
 				]
 			},
 			{
-				Text: "Come closer girl.  Get on your knees next to me.",
+				Text: "Come closer girl.  Get on your knees next to me.", Audio: "180", AudioStyle: "serious",
 				Character: [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive", X: 1000 },
@@ -3146,29 +3158,29 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(She nods and slowly gets on her knees.  She trembles and breathes quickly.)" },
-			{ Text: "As your Protector, I will always be there to protect you." },
-			{ Text: "As my protégée, you will follow my rules and commands." },
-			{ Text: "As your Protector, I will make sure you stay healthy and give you physical training." },
-			{ Text: "As my protégée, you will kneel, dance, run and sing for me." },
+			{ Text: "As your Protector, I will always be there to protect you.", Audio: "200", AudioStyle: "serious" },
+			{ Text: "As my protégée, you will follow my rules and commands.", Audio: "210", AudioStyle: "serious" },
+			{ Text: "As your Protector, I will make sure you stay healthy and give you physical training.", Audio: "220", AudioStyle: "serious" },
+			{ Text: "As my protégée, you will kneel, dance, run and sing for me.", Audio: "230", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "As my protégée and lover, you will be restrained to pleasure me from time to time."
+				Text: "As my protégée and lover, you will be restrained to pleasure me from time to time.", Audio: "240", AudioStyle: "serious"
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "As my protégée, you need to accept that I'm dating Edlaran.  Do not fight with her."
+				Text: "As my protégée, you need to accept that I'm dating Edlaran.  Do not fight with her.", Audio: "250", AudioStyle: "serious"
 			},
-			{ Text: "As your Protector, I will lock your every night and unlock you every morning." },
-			{ Text: "As my protégée, you will respect me and call me 'Miss'." },
-			{ Text: "Do you understand my girl?" },
+			{ Text: "As your Protector, I will lock your every night and unlock you every morning.", Audio: "260", AudioStyle: "serious" },
+			{ Text: "As my protégée, you will respect me and call me 'Miss'.", Audio: "270", AudioStyle: "serious" },
+			{ Text: "Do you understand my girl?", Audio: "280", AudioStyle: "serious" },
 			{
-				Text: "(She gets closer to you as you pet her head.)  Yes Mel...  Yes Miss.",
+				Text: "(She gets closer to you as you pet her head.)  Yes Mel...  Yes Miss.", Audio: "290", AudioStyle: "calm",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "KneelMaidMelody", X: 500 },
 				]
 			},
-			{ Text: "I will aim to be the best protégée ever Miss Melody." },
-			{ Text: "Under your wing, nothing will scare me anymore." },
+			{ Text: "I will aim to be the best protégée ever, Miss Melody.", Audio: "300", AudioStyle: "calm" },
+			{ Text: "Under your wing, nothing will scare me anymore.", Audio: "310", AudioStyle: "calm" },
 			{ Text: "(You're now Olivia's Protector, the first owner stage.)" },
 			{ Text: "(As Melody's submissive, Olivia's fist attack gets +15% damage.)" },
 			{ Text: "(The adventure continues...)" },
@@ -3188,13 +3200,13 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(She seems nervous and doesn't dare to look at you.)" },
-			{ Text: "I'm scared Miss.  I'm not sure what's going on." },
+			{ Text: "I'm scared Miss.  I am not sure what is going on.", Audio: "10", AudioStyle: "terrified" },
 			{
-				Text: "What is on your mind?",
+				Text: "What is on your mind?", Audio: "20", AudioStyle: "terrified",
 				Answer: [
 					{
 						Text: "(Release her from your ownership.)",
-						Reply: "Miss?  Are you releasing me?",
+						Reply: "Miss?  Are you releasing me?", Audio: "30", AudioStyle: "terrified",
 						Script: function() {
 							PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination - 6;
 							if (PlatformDialogGetCharacter("Olivia").Domination >= 19) PlatformDialogGetCharacter("Olivia").Domination = 18;
@@ -3207,7 +3219,7 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "It will be hard for me sweetie.  But at least I will still have your loving kisses.",
+				Text: "It will be hard for me sweetie.  But at least I will still have your loving kisses.", Audio: "40", AudioStyle: "terrified",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
@@ -3215,15 +3227,15 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Olivia"); },
-				Text: "My life without a Protector will be hard.  But I will be strong, I will get over it.",
+				Text: "My life without a Protector will be hard.  But I will be strong, I will get over it.", Audio: "50", AudioStyle: "terrified",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSad", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
 				]
 			},
-			{ Text: "Maybe it never made any sense from the start." },
-			{ Text: "You're a maid and I'm of noble blood." },
-			{ Text: "Let's forget this story, we have a long quest ahead." },
+			{ Text: "Maybe it never made any sense from the start.", Audio: "60", AudioStyle: "terrified" },
+			{ Text: "You're a maid and I'm of noble blood.", Audio: "70" },
+			{ Text: "Let's forget this story, we have a long quest ahead.", Audio: "80" },
 			{ Text: "(You're no longer Olivia's Dominant.  She loses her fist damage bonus.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
@@ -3250,31 +3262,31 @@ var PlatformDialogData = [
 			},
 			{ Text: "(She looks at you and smiles warmly.)" },
 			{
-				Text: "What is on your mind my maid?",
+				Text: "What is on your mind my maid?", Audio: "10", AudioStyle: "serious",
 				Answer: [
 					{ Text: "(Propose to become her submissive.)", Reply: "(As you start to speak, she puts a finger on your mouth.)" },
 					{ Text: "(Talk about a dream you had.)", Reply: "(She sighs and turns away.)", Domination: 1, Goto: "Skip" },
 					{ Text: "(Compliment her.)", Reply: "(She smiles but quickly turns away.)", Perk: true, Goto: "Skip" }
 				]
 			},
-			{ Text: "Do not talk little Melody.  I know what's on your mind." },
-			{ Text: "We have known each other for such a long time.  I will talk for both of us." },
+			{ Text: "Do not talk little Melody.  I know you better than yourself.", Audio: "20", AudioStyle: "serious" },
+			{ Text: "We have known each other for such a long time.  I will talk for both of us.", Audio: "30", AudioStyle: "serious" },
 			{ Text: "(You nod slowly and listen to Lady Olivia.)" },
-			{ Text: "You've been a servant for our family for your whole life." },
-			{ Text: "Since we started adventuring, you lost something that was important to you." },
-			{ Text: "You lost the submission and dedication that you were giving to Mother.  You lost the control she had over you." },
-			{ Text: "You're a submissive, you need to be controlled, you need a Protector." },
-			{ Text: "I'm not as strong as Mother, but I could be that Protector." },
+			{ Text: "You have been a servant for our family for your whole life.", Audio: "40", AudioStyle: "serious" },
+			{ Text: "Since we started adventuring, you lost something that was important to you.", Audio: "50", AudioStyle: "serious" },
+			{ Text: "You lost the submission and dedication that you were giving to Mother.  You lost the control she had over you.", Audio: "60", AudioStyle: "serious" },
+			{ Text: "You are a submissive, you need to be controlled, you need a Protector.", Audio: "70", AudioStyle: "serious" },
+			{ Text: "I am not as strong as Mother, but I could be that Protector.", Audio: "80", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "(She kisses you.)  I love you so much sweetie, I care for you."
+				Text: "(She kisses you.)  I love you so much sweetie, I care for you.", Audio: "90", AudioStyle: "serious"
 			},
 			{
-				Text: "Will you be my protégée?",
+				Text: "Will you be my protégée?", Audio: "100", AudioStyle: "serious",
 				Answer: [
-					{ Text: "Yes!", Reply: "(She nods.)  I knew you would." },
+					{ Text: "Yes!", Reply: "(She nods.)  I knew you would.", Audio: "101", AudioStyle: "serious" },
 					{ Text: "That would be an honor, Lady Olivia.", Reply: "(She smiles and caresses your hair slowly.)", Domination: -2 },
-					{ Text: "I guess so.", Reply: "(She giggles.)  I expected a more convincing answer.", Domination: 2 },
+					{ Text: "I guess so.", Reply: "(She giggles.)  I expected a more convincing answer.", Audio: "103", AudioStyle: "serious", Domination: 2 },
 				]
 			},
 			{
@@ -3285,22 +3297,22 @@ var PlatformDialogData = [
 				},
 				Text: "(She looks at you and inspects your maid costume.)"
 			},
-			{ Text: "From now on, you will be both my maid and my pet." },
-			{ Text: "I will take care of you.  You will learn literature, science and etiquette." },
-			{ Text: "In exchange, you will worship the ground that I walk on.  Just like you did for Mother." },
-			{ Text: "When this adventure is over, the roles will be reversed.  You will be chained up at night in my room." },
+			{ Text: "From now on, you will be both my maid and my pet.", Audio: "110", AudioStyle: "serious" },
+			{ Text: "I will take care of you.  You will learn literature, science and etiquette.", Audio: "120", AudioStyle: "serious" },
+			{ Text: "In exchange, you will worship the ground that I walk on.  Just like you did for Mother.", Audio: "130", AudioStyle: "serious" },
+			{ Text: "When this adventure is over, the roles will be reversed.  You will be chained up at night in my room.", Audio: "140", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
-				Text: "(She smiles.)  Sweetheart, I will restrain you tight in my bed, to hug you all night when we sleep."
+				Text: "(She smiles.)  Sweetheart, I will restrain you tight in my bed, to hug you all night when we sleep.", Audio: "150", AudioStyle: "serious"
 			},
-			{ Text: "I will ensure that you take clever choices in life.  You will become the best maid in the land." },
+			{ Text: "I will ensure that you take clever choices in life.  You will become the best maid in the land.", Audio: "160", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Edlaran"); },
-				Text: "We will review the romantic affair you're having with the elf thief another day."
+				Text: "We will review the romantic affair you are having with the elf thief another day.", Audio: "170", AudioStyle: "serious"
 			},
-			{ Text: "You will cook, clean, iron, brush my hair, massage and even take hits for me." },
-			{ Text: "You will kiss my feet if I ask you.  I want total control." },
-			{ Text: "In fact, get on your knees right now, and put your arms behind your back." },
+			{ Text: "You will cook, clean, iron, brush my hair, massage and even take hits for me.", Audio: "180", AudioStyle: "serious" },
+			{ Text: "You will kiss my feet if I ask you.  I want total control.", Audio: "190", AudioStyle: "serious" },
+			{ Text: "In fact, get on your knees right now, and put your arms behind your back.", Audio: "200", AudioStyle: "serious" },
 			{
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleAngry", X: 1000 },
@@ -3308,17 +3320,17 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You slowly obey and get on your knees.)" },
-			{ Text: "You will get on your knees whenever I ask you." },
-			{ Text: "Now bend down to my feet while keeping your arms behind your back." },
+			{ Text: "You will get on your knees whenever I ask you.", Audio: "210", AudioStyle: "serious" },
+			{ Text: "Now bend down to my feet while keeping your arms behind your back.", Audio: "220", AudioStyle: "serious" },
 			{
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "StrictMaidMelodyKissFeet", X: 500 },
 				]
 			},
 			{ Text: "(You awkwardly comply and reach her heel with your face.)" },
-			{ Text: "This is how you will greet me my pet.  Kiss my feet." },
+			{ Text: "This is how you will greet me my pet.  Kiss my feet.", Audio: "230", AudioStyle: "serious" },
 			{ Text: "(You carefully kiss her feet many times as she smirks.)" },
-			{ Text: "It will be wonderful to have as my maid and pet.  I will take good care of you." },
+			{ Text: "It will be wonderful to have you as my maid and pet.  I will take good care of you.", Audio: "240", AudioStyle: "serious" },
 			{ Text: "(Olivia is now your Protector, the first owner stage.)" },
 			{ Text: "(As Olivia's submissive, Melody gets +15% experience points.)" },
 			{ Text: "(The adventure continues...)" },
@@ -3338,13 +3350,13 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You get close to Olivia and stare at her in the eyes.)" },
-			{ Text: "I can see that something is troubling you." },
+			{ Text: "I can see that something is troubling you.", Audio: "10", AudioStyle: "serious" },
 			{
-				Text: "Why is on your mind my pet?",
+				Text: "Why is on your mind my pet?", Audio: "20", AudioStyle: "serious",
 				Answer: [
 					{
 						Text: "(Get released from her ownership.)",
-						Reply: "I am not happy to hear this.",
+						Reply: "I am not happy to hear this.", Audio: "30", AudioStyle: "sad",
 						Script: function() {
 							PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination + 6;
 							if (PlatformDialogGetCharacter("Olivia").Domination <= -19) PlatformDialogGetCharacter("Olivia").Domination = -18;
@@ -3356,7 +3368,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "(She sighs.)  I will miss having you as my pet, but you will always be my maid.",
+				Text: "(She sighs.)  I will miss having you as my pet, but you will always be my maid.", Audio: "40", AudioStyle: "sad",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1000 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
@@ -3364,10 +3376,10 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Melody"); },
-				Text: "Our love is stronger than any Protector and protégée status anyway.",
+				Text: "Our love is stronger than any Protector and protégée status anyway.", Audio: "50", AudioStyle: "sad",
 			},
-			{ Text: "I hope you learned a few things as my girl, and you could grow from it." },
-			{ Text: "Enjoy your freedom Melody, remember that there is a home for you if you want to be my pet again." },
+			{ Text: "I hope you learned a few things as my girl, and you could grow from it.", Audio: "60" },
+			{ Text: "Enjoy your freedom Melody, remember that there is a home for you if you want to be my pet again.", Audio: "70" },
 			{ Text: "(You're no longer Olivia's submissive.  You lose the experience bonuses.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
