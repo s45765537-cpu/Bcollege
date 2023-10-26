@@ -720,7 +720,6 @@ interface AssetAppearanceGroup extends AssetGroup {
 	readonly Category: "Appearance";
 	readonly Name: AssetGroupBodyName;
 	readonly IsRestraint: false;
-	readonly AllowExpression?: readonly ExpressionName[];
 }
 
 /** An AssetGroup subtype for the `Item` {@link AssetGroup.Category} */
@@ -731,7 +730,6 @@ interface AssetItemGroup extends AssetGroup {
 	readonly BodyCosplay: false;
 	readonly Clothing: false;
 	readonly IsDefault: false;
-	readonly AllowExpression?: undefined;
 	readonly Zone: readonly RectTuple[];
 }
 
@@ -744,7 +742,6 @@ interface AssetScriptGroup extends AssetGroup {
 	readonly Underwear: false;
 	readonly Clothing: false;
 	readonly IsDefault: false;
-	readonly AllowExpression?: undefined;
 }
 
 /** An object defining a drawable layer of an asset */
