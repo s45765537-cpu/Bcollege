@@ -5660,12 +5660,13 @@ var AssetFemale3DCG = [
 				BuyGroup: "HaremStockings",
 				Layer: [{ Name: "Fabric" }, { Name: "Bands" }],
 			},
-			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"] },
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"], BuyGroup: "LeatherSocks1", Random: false },
 			{
 				Name: "KneePads",
 				Value: 7,
 				HideForPose: ["Hogtied"],
 				BuyGroup: "KneePads",
+				Random: false,
 				Layer: [
 					{ Name: "Body", AllowColorize: true },
 					{ Name: "Guards", AllowColorize: true },
@@ -5800,12 +5801,13 @@ var AssetFemale3DCG = [
 				Random: false,
 				Layer: [{ Name: "Fabric" }, { Name: "Bands" }],
 			},
-			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"] },
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"], BuyGroup: "LeatherSocks1", Random: false },
 			{
 				Name: "KneePads",
 				Value: -1,
 				HideForPose: ["Hogtied"],
 				BuyGroup: "KneePads",
+				Random: false,
 				Layer: [
 					{ Name: "Body", AllowColorize: true },
 					{ Name: "Guards", AllowColorize: true },
@@ -5940,12 +5942,13 @@ var AssetFemale3DCG = [
 				Random: false,
 				Layer: [{ Name: "Fabric" }, { Name: "Bands" }],
 			},
-			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"] },
+			{ Name: "VSocks1", Fetish: ["Latex"], DefaultColor: ["#663699"], BuyGroup: "LeatherSocks1", Random: false },
 			{
 				Name: "KneePads",
 				Value: -1,
 				HideForPose: ["Hogtied"],
 				BuyGroup: "KneePads",
+				Random: false,
 				Layer: [
 					{ Name: "Body", AllowColorize: true },
 					{ Name: "Guards", AllowColorize: true },
