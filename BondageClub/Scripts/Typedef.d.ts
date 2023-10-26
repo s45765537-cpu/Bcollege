@@ -747,64 +747,64 @@ interface AssetScriptGroup extends AssetGroup {
 /** An object defining a drawable layer of an asset */
 interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */
-	Name: string | null;
+	readonly Name: string | null;
 	/** whether or not this layer can be colored */
-	AllowColorize: boolean;
+	readonly AllowColorize: boolean;
 	/** if not null, specifies that this layer should always copy the color of the named layer */
-	CopyLayerColor: string | null;
+	readonly CopyLayerColor: string | null;
 	/** specifies the name of a color group that this layer belongs to. Any layers within the same color group can be colored together via the item color UI */
-	ColorGroup: string | null;
+	readonly ColorGroup: string | null;
 	/** whether or not this layer can be colored in the coloring UI */
-	HideColoring: boolean;
+	readonly HideColoring: boolean;
 	/** A list of allowed extended item types that this layer permits - the layer will only be drawn if
 	the item type matches one of these types. If null, the layer is considered to permit all extended types. */
-	AllowTypes: readonly string[] | null;
+	readonly AllowTypes: readonly string[] | null;
 	/** whether or not the layer has separate assets per type. If not, the extended type will not be included in
 	the URL when fetching the layer's image */
-	HasType: boolean;
+	readonly HasType: boolean;
 	/** The name of the parent group for this layer. If null, the layer has no parent group. If
 	undefined, the layer inherits its parent group from it's asset/group. */
-	ParentGroupName: AssetGroupName | null;
+	readonly ParentGroupName: AssetGroupName | null;
 	/** @deprecated - Superceded by {@link PoseMapping} */
-	AllowPose?: never;
+	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link PoseMapping} */
-	HideForPose?: never;
+	readonly HideForPose?: never;
 	/** An array of objects mapping poses to other poses to determine their draw folder */
-	PoseMapping: Readonly<AssetPoseMapping>;
+	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
 	definition. */
-	Priority: number;
-	InheritColor: AssetGroupName | null;
-	Alpha: readonly AlphaDefinition[];
+	readonly Priority: number;
+	readonly InheritColor: AssetGroupName | null;
+	readonly Alpha: readonly AlphaDefinition[];
 	/** The asset that this layer belongs to */
-	Asset: Asset;
-	DrawingLeft?: number;
-	DrawingTop?: number;
-	HideAs?: Readonly<{ Group: AssetGroupName; Asset?: string }>;
+	readonly Asset: Asset;
+	readonly DrawingLeft?: number;
+	readonly DrawingTop?: number;
+	readonly HideAs?: Readonly<{ Group: AssetGroupName; Asset?: string }>;
 	/** That layer is drawing at a fixed Y position */
-	FixedPosition?: boolean;
-	HasImage: boolean;
-	Opacity: number;
-	MinOpacity: number;
-	MaxOpacity: number;
-	BlendingMode: GlobalCompositeOperation;
-	LockLayer: boolean;
-	MirrorExpression?: AssetGroupName;
-	AllowModuleTypes?: readonly string[];
+	readonly FixedPosition?: boolean;
+	readonly HasImage: boolean;
+	readonly Opacity: number;
+	readonly MinOpacity: number;
+	readonly MaxOpacity: number;
+	readonly BlendingMode: GlobalCompositeOperation;
+	readonly LockLayer: boolean;
+	readonly MirrorExpression?: AssetGroupName;
+	readonly AllowModuleTypes?: readonly string[];
 	/** The coloring index for this layer */
-	ColorIndex: number;
+	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
-	GroupAlpha?: AlphaDefinition[];
+	readonly GroupAlpha?: Readonly<AlphaDefinition>[];
 	/** A module for which the layer can have types. */
-	ModuleType: readonly string[] | null;
+	readonly ModuleType: readonly string[] | null;
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
-	HideForAttribute: readonly AssetAttribute[] | null;
+	readonly HideForAttribute: readonly AssetAttribute[] | null;
 	/* Specifies that this layer should not be drawn unless the character is wearing an item with one of the given attributes */
-	ShowForAttribute: readonly AssetAttribute[] | null;
+	readonly ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
-	Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
-	ColorSuffix: Readonly<Record<string, string>> | null;
+	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
+	readonly ColorSuffix: Readonly<Record<string, string>> | null;
 }
 
 /** An object defining a group of alpha masks to be applied when drawing an asset layer */
