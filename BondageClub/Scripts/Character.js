@@ -905,23 +905,29 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Checks whether the given character can change to the named pose unaided
+ * Checks whether the given character can change to the named pose (without aid by default)
  * @param {Character} C - The character to check
  * @param {AssetPoseName} poseName - The name of the pose to check for
+ * @param {boolean} changeUnaided - Whether the character can change the pose unaided or not,
+ * _i.e._ whether one can stand up using the pose menu or requires usage of the "kneel/stand up" button
  * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
  * the provided pose
  */
-function CharacterCanChangeToPose(C, poseName) {
+function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
 	const pose = PoseFemale3DCG.find(P => P.Name === poseName);
 	if (!pose) return false;
 	const poseCategory = pose.Category;
 	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
 
-	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
-	if (poseCategory !== "BodyLower") {
-		return true;
+	if (changeUnaided) {
+		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
+		if (poseCategory !== "BodyLower") {
+			return true;
+		} else {
+			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+		}
 	} else {
-		return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+		return true;
 	}
 }
 
@@ -933,7 +939,15 @@ function CharacterCanChangeToPose(C, poseName) {
  * @returns {boolean} - TRUE if the character has the pose available
  */
 function CharacterItemsHavePoseAvailable(C, Type, Pose) {
-	const ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
+	/** @type {AssetPoseName[]} */
+	let ConflictingPoses;
+	if (Type === "BodyFull") {
+		// `BodyFull` Conflicts with everything
+		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose).map(P => P.Name);
+	} else {
+		// Arbitrary poses conflict with `BodyFull` and everything in its own category
+		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
+	}
 	for (const item of C.Appearance) {
 		if (InventoryGetItemProperty(item, "AllowActivePose", true).includes(Pose)) continue;
 		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
@@ -1022,6 +1036,12 @@ function CharacterLoadPose(C) {
 			if (!HasPose && (IsAllowed || (MissingGroup && !IsFullBody)))
 				C.Pose.push(ActivePoses[P].Name);
 		}
+	}
+
+	// Avoid duplicate `BodyLower` poses upon kneeling down
+	// TODO: Find a better way of encourcing 1-pose-per-category
+	if (C.Pose.includes("Kneel")) {
+		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
 	}
 }
 

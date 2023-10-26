@@ -1173,3 +1173,29 @@ const ExtendedItemGatherOptions = (function () {
 
 	return gatherOptions;
 })();
+
+/**
+ * Pre-process the passed extended item option and return a shallow copy.
+ * @template {Pick<ExtendedItemOption, "Property" | "Prerequisite">} T
+ * @param {T} option The to-be processed extended item option
+ * @param {Asset} asset
+ * @returns {T}
+ */
+function ExtendedItemParseOptions(option, asset) {
+	const parsedOption = { ...option };
+	if (!option.Property) {
+		return parsedOption;
+	}
+
+	if (option.Property.SetPose) {
+		const prereq = parsedOption.Prerequisite;
+		const data = {
+			AllowActivePose: option.Property.AllowActivePose || asset.AllowActivePose,
+			SetPose: option.Property.SetPose,
+			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : null),
+			Effect: option.Property.Effect,
+		};
+		parsedOption.Prerequisite = AssetParsePosePrerequisite(data);
+	}
+	return parsedOption;
+}

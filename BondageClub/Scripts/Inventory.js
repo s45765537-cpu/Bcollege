@@ -176,6 +176,23 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 }
 
 /**
+ * Return whether the character has a given pose or is elligble to change to it.
+ * @param {Character} C The character
+ * @param {AssetPoseName} pose The to-be addopted pose
+ * @returns {boolean} Whether the pose change can occur
+ */
+function InventoryPrerequisiteCanChangeToPose(C, pose) {
+	switch (pose) {
+		case "BaseLower":
+		case "LegsClosed":
+			if (C.Pose.includes("Kneel") || CharacterCanChangeToPose(C, "Kneel", false)) {
+				return true;
+			}
+	}
+	return C.Pose.includes(pose) || CharacterCanChangeToPose(C, pose, false);
+}
+
+/**
 * Returns an error message if a prerequisite clashes with the character's items and clothes
 * @param {Character} C - The character on which we check for prerequisites
 * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
@@ -183,30 +200,38 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 */
 function InventoryPrerequisiteMessage(C, Prerequisite) {
 	switch (Prerequisite) {
+		// Basic pose prerequisites
+		case "CanBaseUpper": return !InventoryPrerequisiteCanChangeToPose(C, "BaseUpper") ? "CannotBaseUpper" : "";
+		case "CanBackBoxTie": return !InventoryPrerequisiteCanChangeToPose(C, "BackBoxTie") ? "CannotBackBoxTie" : "";
+		case "CanBackCuffs": return !InventoryPrerequisiteCanChangeToPose(C, "BackCuffs") ? "CannotBackCuffs" : "";
+		case "CanBackElbowTouch": return !InventoryPrerequisiteCanChangeToPose(C, "BackElbowTouch") ? "CannotBackElbowTouch" : "";
+		case "CanOverTheHead": return !InventoryPrerequisiteCanChangeToPose(C, "OverTheHead") ? "CannotOverTheHead" : "";
+		case "CanTapedHands": return !InventoryPrerequisiteCanChangeToPose(C, "TapedHands") ? "CannotTapedHands" : "";
+		case "CanYoked": return !InventoryPrerequisiteCanChangeToPose(C, "Yoked") ? "CannotYoked" : "";
+		case "CanBaseLower": return !InventoryPrerequisiteCanChangeToPose(C, "BaseLower") ? "CannotBaseLower" : "";
+		case "CanKneel": return !InventoryPrerequisiteCanChangeToPose(C, "Kneel") ? "CannotKneel" : "";
+		case "CanKneelingSpread": return !InventoryPrerequisiteCanChangeToPose(C, "KneelingSpread") ? "CannotKneelingSpread" : "";
+		case "CanLegsClosed": return !InventoryPrerequisiteCanChangeToPose(C, "LegsClosed") ? "CannotLegsClosed" : "";
+		case "CanLegsOpen": return !InventoryPrerequisiteCanChangeToPose(C, "LegsOpen") ? "CannotLegsOpen" : "";
+		case "CanSpread": return !InventoryPrerequisiteCanChangeToPose(C, "Spread") ? "CannotSpread" : "";
+		case "CanHogtied": return !InventoryPrerequisiteCanChangeToPose(C, "Hogtied") ? "CannotHogtied" : "";
+		case "CanAllFours": return !InventoryPrerequisiteCanChangeToPose(C, "AllFours") ? "CannotAllFours" : "";
+		case "CanSuspension": return !InventoryPrerequisiteCanChangeToPose(C, "Suspension") ? "CannotSuspension" : "";
+
 		// Basic prerequisites that can apply to many items
 		case "NoItemFeet": return (InventoryGet(C, "ItemFeet") != null) ? "MustFreeFeetFirst" : "";
 		case "NoItemArms": return (InventoryGet(C, "ItemArms") != null) ? "MustFreeArmsFirst" : "";
 		case "NoItemLegs": return (InventoryGet(C, "ItemLegs") != null) ? "MustFreeLegsFirst" : "";
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
-		case "LegsOpen": return CharacterItemsHavePose(C, "LegsClosed") ? "LegsCannotOpen" : "";
-		case "CanCloseLegs": return !CharacterItemsHavePoseAvailable(C, "BodyLower", "LegsClosed") && !CharacterItemsHavePose(C, "Kneel") ? "LegsCannotClose" : "";
 		case "NotKneeling": return CharacterItemsHavePose(C, "Kneel") ? "MustStandUpFirst" : "";
-		case "CanKneel": return C.Effect.includes("BlockKneel") ? "MustBeAbleToKneel" : "";
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
-		case "NotHorse": return InventoryIsItemInList(C, "ItemDevices", ["WoodenHorse"]) ? "CannotBeUsedWhenMounted" : "";
 		case "NotSuspended": return C.IsSuspended() ? "RemoveSuspensionForItem" : "";
 		case "NotLifted": return C.Effect.includes("Lifted") ? "RemoveSuspensionForItem" : "";
-		case "NotHogtied": return C.Pose.includes("Hogtied") ? "ReleaseHogtieForItem" : "";
-		case "NotYoked": return CharacterItemsHavePose(C, "Yoked") ? "CannotBeUsedWhenYoked" : "";
-		case "NotKneelingSpread": return C.Pose.includes("KneelingSpread") ? "MustStandUpFirst" : "";
 		case "NotChaste": return C.Effect.includes("Chaste") ? "RemoveChastityFirst" : "";
 		case "NotChained": return C.Effect.includes("IsChained") ? "RemoveChainForItem" : "";
-		case "NoFeetSpreader": return CharacterItemsHavePose(C, "Spread", true) || CharacterItemsHavePose(C, "LegsOpen", true) ? "CannotBeUsedWithFeetSpreader" : "";
-		case "NotShackled": return C.Effect.includes("Shackled") ? "RemoveShacklesFirst" : "";
 		case "Collared": return (InventoryGet(C, "ItemNeck") == null) ? "MustCollaredFirst" : "";
-		case "CannotHaveWand": return InventoryIsItemInList(C, "ItemArms", ["FullLatexSuit"]) ? "CannotHaveWand" : "";
-		case "CannotBeSuited": return InventoryIsItemInList(C, "ItemVulva", ["WandBelt", "HempRopeBelt"]) ? "CannotHaveWand" : "";
-		case "AllFours": return CharacterItemsHavePose(C, "AllFours") ? "CannotUse" : "";
+		case "CannotBeSuited": return InventoryIsItemInList(C, "ItemArms", ["FullLatexSuit"]) ? "CannotBeSuited" : "";
+		case "CannotHaveWand": return InventoryIsItemInList(C, "ItemVulva", ["WandBelt", "HempRopeBelt"]) ? "CannotHaveWand" : "";
 		case "OnBed": return !C.Effect.includes("OnBed") ? "MustBeOnBed" : "";
 		case "CuffedArms": return  !C.Effect.includes("CuffedArms") ? "MustBeArmCuffedFirst" : "";
 		case "CuffedLegs": return !C.Effect.includes("CuffedFeet") ? "MustBeFeetCuffedFirst" : "";

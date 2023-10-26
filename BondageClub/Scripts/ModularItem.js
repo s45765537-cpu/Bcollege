@@ -169,7 +169,9 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 			drawData: null, // Initialized later on in ModularItemCreateModularData
 			OptionType: "ModularItemModule",
 			DrawImages: drawImages,
-			Options: protoMod.Options.map((protoOption, i) => {
+			Options: protoMod.Options.map((_protoOption, i) => {
+				const protoOption = ExtendedItemParseOptions(_protoOption, asset);
+
 				/** @type {ModularItemOption} */
 				const option = {
 					...CommonOmit(protoOption, ["ArchetypeConfig"]),

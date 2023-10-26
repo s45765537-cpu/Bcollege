@@ -89,7 +89,9 @@ function TypedItemRegister(asset, config) {
  * @returns {TypedItemOption[]} The newly generated extended item options
  */
 function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
-	return protoOptions.map((protoOption, i) => {
+	return protoOptions.map((_protoOption, i) => {
+		const protoOption = ExtendedItemParseOptions(_protoOption, asset);
+
 		/** @type {TypedItemOption} */
 		const option = {
 			...CommonOmit(protoOption, ["ArchetypeConfig"]),
