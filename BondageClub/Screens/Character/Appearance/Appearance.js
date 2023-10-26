@@ -46,7 +46,9 @@ var CharacterAppearanceWardrobeName = "";
 var CharacterAppearanceForceUpCharacter = -1;
 /** @type {"" | ExpressionNameMap["Emoticon"]} */
 var CharacterAppearancePreviousEmoticon = "";
+/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
 var CharacterAppearanceMode = "";
+/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
@@ -1143,7 +1145,7 @@ function CharacterAppearanceMoveGroup(C, Move) {
  * Sets the color for a specific group
  * @param {Character} C - The character whose item group should be colored
  * @param {string} Color - The color (in the format "#rrggbb") to be applied to the group
- * @param {string} Group - The name of the group, whose color should be changed
+ * @param {AssetGroupName} Group - The name of the group, whose color should be changed
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetColorForGroup(C, Color, Group) {
@@ -1596,7 +1598,7 @@ function CharacterAppearanceStringify(C) {
 /**
  * Serialize items to JSON, breaking the cyclic link between Item, Asset & Group
  * by serializing that into a single string representing the link.
- * @param {Item[] | Item | any} Item
+ * @param {readonly Item[] | Item | any} Item
  * @returns {string}
  */
 function AppearanceItemStringify(Item) {
@@ -1637,7 +1639,7 @@ function AppearanceItemParse(stringified) {
  * @param {Character} C - The character the appearance is being changed for
  * @param {Item} Item - The currently selected item
  * @param {AssetGroupName} AssetGroup - The focused group
- * @param {string} CurrentMode - The mode to revert to on exiting the color picker
+ * @param {"" | "Wardrobe" | "Cloth" | "Color"} CurrentMode - The mode to revert to on exiting the color picker
  * @returns {void}
  */
 function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {

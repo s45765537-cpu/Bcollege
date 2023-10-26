@@ -2,6 +2,7 @@
 var AdvancedRuleBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */
 var AdvancedRuleTarget = null;
+/** @type {"" | LogNameAdvanced} */
 var AdvancedRuleType = "";
 /** @type {string[]} */
 var AdvancedRuleOption = [];
@@ -21,6 +22,7 @@ function AdvancedRuleLoad() {
 
 /**
  * Starts the advanced rule screen and loads it
+ * @param {LogNameAdvanced} RuleType
  * @returns {void} - Nothing
  */
 function AdvancedRuleOpen(RuleType) {

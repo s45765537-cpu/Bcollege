@@ -68,7 +68,7 @@ var ChatAdminRoomCustomizationMusicLibrary = [
 
 /**
  * Changes a customiation value from a chat room command
- * @param {string} Property - The custom property to change (Image, Filter or Music)
+ * @param {"Image" | "Filter" | "Music"} Property - The custom property to change (Image, Filter or Music)
  * @param {string} Value - The value to set in that property
  * @returns {void} - Nothing
  */

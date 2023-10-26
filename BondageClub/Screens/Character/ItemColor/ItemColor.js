@@ -1,34 +1,20 @@
 "use strict";
 
-/**
- * A configuration object containing constants used by the ItemColor UI scripts
- * @constant {{
- *     colorPickerButtonWidth: number,
- *     colorInputHeight: number,
- *     colorDisplayWidth: number,
- *     buttonSpacing: number,
- *     headerButtonSize: number,
- *     buttonSize: number,
- * }}
- */
-const ItemColorConfig = {
+/** A configuration object containing constants used by the ItemColor UI scripts */
+const ItemColorConfig = /** @type {const} */({
 	buttonSpacing: 20,
 	buttonSize: 65,
 	headerButtonSize: 90,
 	colorPickerButtonWidth: 65,
 	colorDisplayWidth: 160,
 	colorInputHeight: 45,
-};
+});
 
-/**
- * An enum for the possible item color UI modes
- * @readonly
- * @type {{DEFAULT: "Default", COLOR_PICKER: "ColorPicker"}}
- */
-const ItemColorMode = {
+/** An enum for the possible item color UI modes */
+const ItemColorMode = /** @type {const} */({
 	DEFAULT: "Default",
 	COLOR_PICKER: "ColorPicker",
-};
+});
 
 /** @type {Character} */
 let ItemColorCharacter;
@@ -207,7 +193,7 @@ function ItemColorDrawDefault(x, y) {
 /**
  * A debounced callback for when the item color picker changes its value. This sets the color for the currently selected set of color
  * indices
- * @const {function(): void}
+ * @type {(color: string) => void}
  */
 const ItemColorOnPickerChange = CommonLimitFunction((color) => {
 	if (!ItemColorState) return;
@@ -643,7 +629,7 @@ function ItemColorIsSimple(item) {
 /**
  * Fetches the color button text key for the provided item color. If the item's color is already a string, the color string is returned.
  * Otherwise, returns "Many" or "Default" as appropriate.
- * @param {string|string[]} color - The item color
+ * @param {string | readonly string[]} color - The item color
  * @returns {string} - The appropriate color button key for the provided item color(s)
  */
 function ItemColorGetColorButtonTextKey(color) {
@@ -659,7 +645,7 @@ function ItemColorGetColorButtonTextKey(color) {
 /**
  * Fetches the color button text for the provided item color. If the item's color is already a string, the color string is returned.
  * Otherwise, returns "Many" or "Default" as appropriate.
- * @param {string|string[]} color - The item color
+ * @param {string | readonly string[]} color - The item color
  * @returns {string} - The appropriate color button text for the provided item color(s), translated to the current game language
  */
 function ItemColorGetColorButtonText(color) {

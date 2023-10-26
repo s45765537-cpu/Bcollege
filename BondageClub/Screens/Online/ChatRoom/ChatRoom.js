@@ -2,15 +2,14 @@
 
 /**
  * An enum for the options for chat room spaces
- * @readonly
- * @type {Record<ChatRoomSpaceLabel, ServerChatRoomSpace>}
+ * @satisfies {Record<ChatRoomSpaceLabel, ServerChatRoomSpace>}
  */
-const ChatRoomSpaceType = {
+const ChatRoomSpaceType = /** @type {const} */({
 	MIXED: "X",
 	FEMALE_ONLY: "",
 	MALE_ONLY: "M",
 	ASYLUM: "Asylum",
-};
+});
 
 var ChatRoomBackground = "";
 /**
@@ -80,9 +79,11 @@ var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 var ChatRoomLastName = "";
 var ChatRoomLastBG = "";
+/** @type {null | {ImageURL?: string, ImageFilter?: string, MusicURL?: string }} */
 var ChatRoomLastCustom = null;
 var ChatRoomLastPrivate = false;
 var ChatRoomLastSize = 0;
+/** @type {ServerChatRoomLanguage} */
 var ChatRoomLastLanguage = "EN";
 var ChatRoomLastDesc = "";
 /** @type {number[]} */
@@ -236,11 +237,12 @@ const ChatRoomListOperationTriggers = () => [
 /**
  * Chat room resize manager object: Handles resize events for the chat log.
  * @constant
- * @type {object} - The chat room resize manager object. Contains the functions and properties required to handle
+ * The chat room resize manager object. Contains the functions and properties required to handle
  *     resize events.
  */
 let ChatRoomResizeManager = {
 	atStart: true, // Is this the first event in a chain of resize events?
+	/** @type {null | number} */
 	timer: null, // Timer that triggers the end function after no resize events have been received recently.
 	timeOut: 200, // The amount of milliseconds that has to pass before the chain of resize events is considered over and the timer is called.
 	ChatRoomScrollPercentage: 0, // Height of the chat log scroll bar before the first resize event occurs, as a percentage.
@@ -2802,6 +2804,7 @@ function ChatRoomRegisterMessageHandler(handler) {
  *
  * @param {ServerChatRoomMessage} data
  * @param {Character} SenderCharacter
+ * @returns {boolean}
  */
 function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	if (data.Content == "RuleInfoGet") ChatRoomGetLoadRules(SenderCharacter);
@@ -3189,7 +3192,8 @@ function ChatRoomMessageRunExtractors(data, sender) {
  * @param {ServerChatRoomMessage} data - The recieved message
  * @param {Character} sender - The actual message sender character object
  * @param {string} msg - The escaped message, likely different from data.Contents
- * @param {any} metadata - The message metadata, only available for post-handlers
+ * @param {IChatRoomMessageMetadata} [metadata] - The message metadata, only available for post-handlers
+ * @returns {boolean | string}
  */
 function ChatRoomMessageRunHandlers(type, data, sender, msg, metadata) {
 	if (!['pre', 'post'].includes(type) || !data || !sender) return;
@@ -3917,7 +3921,7 @@ function ChatRoomGiveLockpicks() {
 	DialogLeave();
 }
 
-/*
+/**
  * Triggered when the player grabs another player's leash
  * @returns {void} - Nothing.
  */
@@ -4096,7 +4100,7 @@ function ChatRoomGetTransparentColor(Color) {
 /**
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
- * @param {string} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist)
+ * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist)
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType) {
@@ -4255,8 +4259,11 @@ function ChatRoomDrinkPick(DrinkType, Money) {
 	}
 }
 
+/** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
 function ChatRoomSendLoverRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Lover"); }
+/** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
 function ChatRoomSendOwnerRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Owner"); }
+/** @type {(RuleType: LogNameAdvanced) => void} */
 function ChatRoomAdvancedRule(RuleType) { AdvancedRuleOpen(RuleType); }
 function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
 
@@ -4410,28 +4417,28 @@ function ChatRoomSetRule(data) {
 		// Advanced rules - Block screens
 		if (data.Content.startsWith("OwnerRuleBlockScreen")) {
 			LogDeleteStarting("BlockScreen", "OwnerRule");
-			LogAdd("BlockScreen" + data.Content.substring("OwnerRuleBlockScreen".length, 100), "OwnerRule");
+			LogAdd(`BlockScreen${data.Content.substring("OwnerRuleBlockScreen".length, 100)}`, "OwnerRule");
 			data.Content = "OwnerRuleBlockScreen";
 		}
 
 		// Advanced rules - Block appearance zones
 		if (data.Content.startsWith("OwnerRuleBlockAppearance")) {
 			LogDeleteStarting("BlockAppearance", "OwnerRule");
-			LogAdd("BlockAppearance" + data.Content.substring("OwnerRuleBlockAppearance".length, 100), "OwnerRule");
+			LogAdd(`BlockAppearance${data.Content.substring("OwnerRuleBlockAppearance".length, 100)}`, "OwnerRule");
 			data.Content = "OwnerRuleBlockAppearance";
 		}
 
 		// Advanced rules - Block item groups
 		if (data.Content.startsWith("OwnerRuleBlockItemGroup")) {
 			LogDeleteStarting("BlockItemGroup", "OwnerRule");
-			LogAdd("BlockItemGroup" + data.Content.substring("OwnerRuleBlockItemGroup".length, 100), "OwnerRule");
+			LogAdd(`BlockItemGroup${data.Content.substring("OwnerRuleBlockItemGroup".length, 100)}`, "OwnerRule");
 			data.Content = "OwnerRuleBlockItemGroup";
 		}
 
 		// Advanced rules - Forbidden Words List
 		if (data.Content.startsWith("OwnerRuleForbiddenWords")) {
 			LogDeleteStarting("ForbiddenWords", "OwnerRule");
-			LogAdd("ForbiddenWords" + data.Content.substring("OwnerRuleForbiddenWords".length, 10000), "OwnerRule");
+			LogAdd(`ForbiddenWords${data.Content.substring("OwnerRuleForbiddenWords".length, 10000)}`, "OwnerRule");
 			data.Content = "OwnerRuleForbiddenWords";
 		}
 
@@ -4524,7 +4531,8 @@ function ChatRoomPayQuest(questGiverNumber, paymentAmount) {
 
 /**
  * Triggered when online game data comes in
- * @param {object} data - Game data to process, sent to the current game handler.
+ * @param {ServerChatRoomGameBountyUpdateRequest["OnlineBounty"]} data - Game data to process, sent to the current game handler.
+ * @param {number} sender
  * @returns {void} - Nothing
  */
 function ChatRoomOnlineBountyHandleData(data, sender) {
@@ -4617,7 +4625,7 @@ function ChatRoomSafewordRelease() {
  * Concatenates the list of users to ban.
  * @param {boolean} IncludesBlackList - Adds the blacklist to the banlist
  * @param {boolean} IncludesGhostList - Adds the ghostlist to the banlist
- * @param {number[]} [ExistingList] - The existing Banlist, if applicable
+ * @param {readonly number[]} [ExistingList] - The existing Banlist, if applicable
  * @returns {number[]} Complete array of members to ban
  */
 function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, ExistingList) {
@@ -4631,7 +4639,7 @@ function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, Existi
  * Concatenates the list of users for Admin list.
  * @param {boolean} IncludesOwner - Adds the owner to the admin list
  * @param {boolean} IncludesLovers - Adds lovers to the admin list
- * @param {number[]} [ExistingList] - The existing Admin list, if applicable
+ * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
  */
 function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {

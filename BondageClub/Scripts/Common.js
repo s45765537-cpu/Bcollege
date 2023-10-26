@@ -1142,7 +1142,7 @@ function CommonIncludes(array, searchElement, fromIndex) {
  * so you don't keep checking items after handling one.
  *
  * @template T
- * @param {T[]} items
+ * @param {readonly T[]} items
  * @param {number} offset
  * @param {CommonGenerateGridParameters} grid
  * @param {CommonGenerateGridCallback<T>} callback
@@ -1175,7 +1175,7 @@ function CommonGenerateGrid(items, offset, grid, callback) {
  * @template {keyof RecordType} KeyType
  * @template {{}} RecordType
  * @param {RecordType} object - The to-be copied record
- * @param {KeyType[]} keys - The to-be removed keys from the record
+ * @param {readonly KeyType[]} keys - The to-be removed keys from the record
  * @returns {Omit<RecordType, KeyType>}
  */
 function CommonOmit(object, keys) {
@@ -1207,6 +1207,7 @@ function* CommonEnumerate(iterable, start=0, step=1) {
  * @param {number} value
  * @param {number} min
  * @param {number} max
+ * @returns {number}
  */
 function CommonClamp(value, min, max) {
 	return Math.max(min, Math.min(max, value));
@@ -1215,7 +1216,7 @@ function CommonClamp(value, min, max) {
 /**
  * Returns TRUE if the URL is valid, is from http or https or screens/ or backgrounds/ and has the required extension
  * @param {string} TestURL - The URL to test
- * @param {array} Extension - An array containing the valid extensions
+ * @param {readonly string[]} Extension - An array containing the valid extensions
  * @returns {boolean}
 */
 function CommonURLHasExtension(TestURL, Extension) {

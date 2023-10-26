@@ -64,7 +64,7 @@ var TitleList = [
 /** @type {null | TitleName} */
 var TitleSelectedTitle = null;
 var TitleCanEditNickname = true;
-/** @type {null | string} */
+/** @type {null | "NicknameTooLong" | "NicknameInvalidChars"} */
 var TitleNicknameStatus = null;
 let TitleOffset = 0;
 /** @type {{ Name: TitleName; Requirement: () => boolean; Earned?: boolean, Force?: boolean }[]} */
