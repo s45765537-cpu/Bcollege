@@ -4022,7 +4022,7 @@ function PlatformDialogLoadPosition(Position) {
 	PlatformDialogReply = null;
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
-	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : JSON.parse(JSON.stringify(PlatformDialog.Dialog[Position].Character));
+	if ((Position == 0) || (PlatformDialog.Dialog[Position].Character != null)) PlatformDialogCharacterDisplay = (PlatformDialog.Dialog[Position].Character == null) ? null : CommonCloneDeep(PlatformDialog.Dialog[Position].Character);
 	let Audio = PlatformDialog.Dialog[Position].Audio;
 	if (PlatformDialog.Dialog[Position].AudioScript != null) Audio = PlatformDialog.Dialog[Position].AudioScript();
 	PlatformDialogVoice(Audio);

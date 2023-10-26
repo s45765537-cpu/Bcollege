@@ -1620,7 +1620,7 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Comb
 	let NewChar = null;
 	for (let CharTemplate of PlatformTemplate)
 		if ((CharTemplate.Name == CharacterName) && (CharTemplate.Status == StatusName)) {
-			NewChar = JSON.parse(JSON.stringify(CharTemplate));
+			NewChar = CommonCloneDeep(CharTemplate);
 			if (CharTemplate.OnBind != null) NewChar.OnBind = CharTemplate.OnBind;
 			break;
 		}
@@ -1706,7 +1706,7 @@ function PlatformLoadRoom(RoomName) {
 	PlatformGiftMode = false;
 	for (let Room of PlatformRoomList)
 		if (Room.Name == RoomName)
-			PlatformRoom = JSON.parse(JSON.stringify(Room));
+			PlatformRoom = CommonCloneDeep(Room);
 	if (PlatformRoom == null) return;
 	if (PlatformRoom.Text != null) PlatformMessageSet(PlatformRoom.Text);
 	PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
@@ -2997,7 +2997,7 @@ function PlatformLoadGame(Slot) {
 	PlatformPartyBuild();
 
 	// Loads the character relationships
-	PlatformDialogCharacter = JSON.parse(JSON.stringify(PlatformDialogCharacterTemplate));
+	PlatformDialogCharacter = CommonCloneDeep(PlatformDialogCharacterTemplate);
 	if (LoadObj.Dialog != null)
 		for (let DialogChar of LoadObj.Dialog)
 			for (let Char of PlatformDialogCharacter)

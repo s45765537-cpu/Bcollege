@@ -194,7 +194,7 @@ function ExtendedItemInitNoArch(C, Item, Properties, Push=true, Refresh=true) {
 	}
 
 	let Update = false;
-	const PropertiesCopy = JSON.parse(JSON.stringify(Properties));
+	const PropertiesCopy = CommonCloneDeep(Properties);
 	for (const [name, value] of Object.entries(PropertiesCopy)) {
 		if (Item.Property[name] == null) {
 			Update = true;
@@ -939,7 +939,7 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 		}
 		case "VibratingItemOption":
 		case "TypedItemOption":
-			newOptionProperty = JSON.parse(JSON.stringify(newOption.Property));
+			newOptionProperty = CommonCloneDeep(newOption.Property);
 			previousOptionProperty = { ...previousOption.Property };
 			break;
 		default:
