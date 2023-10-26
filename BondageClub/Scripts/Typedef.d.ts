@@ -1306,7 +1306,7 @@ interface Character {
 	HasAttribute: (attribute: AssetAttribute) => boolean;
 	DrawPose?: AssetPoseName[];
 	DrawAppearance?: Item[];
-	AppearanceLayers?: AssetLayer[];
+	AppearanceLayers?: Mutable<AssetLayer>[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;
 	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean;
 	UnregisterHook: (hookName: CharacterHook, hookInstance: string) => boolean;

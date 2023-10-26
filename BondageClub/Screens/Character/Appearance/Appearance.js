@@ -390,7 +390,7 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, type= "") {
  * Builds a filtered and sorted set of appearance layers, each representing a drawable layer of a character's current appearance. Layers
  * that will not be drawn (because their asset is not visible or they do not permit the current asset type) are filtered out at this stage.
  * @param {Character} C - The character to build the layers for
- * @return {AssetLayer[]} - A sorted set of layers, sorted by layer drawing priority
+ * @return {Mutable<AssetLayer>[]} - A sorted set of (shallow copied) layers, sorted by layer drawing priority
  */
 function CharacterAppearanceSortLayers(C) {
 	/** @type {Partial<Record<AssetGroupName, AlphaDefinition[]>>} */
@@ -404,7 +404,8 @@ function CharacterAppearanceSortLayers(C) {
 			const layersToDraw = asset.Layer
 				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, type))
 				.map(layer => {
-					const drawLayer = Object.assign({}, layer);
+					/** @type {Mutable<AssetLayer>} */
+					const drawLayer = { ...layer };
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alphaDef => {
 						if ((alphaDef.Group && alphaDef.Group.length) && (!alphaDef.Type || !Array.isArray(alphaDef.Type) || alphaDef.Type.includes(type))) {
@@ -427,7 +428,7 @@ function CharacterAppearanceSortLayers(C) {
 			Array.prototype.push.apply(layersAcc, layersToDraw);
 		}
 		return layersAcc;
-	}, []);
+	}, /** @type {Mutable<AssetLayer>[]} */([]));
 
 	// Run back over the layers to apply the group-level alpha mask definitions to the appropriate layers
 	layers.forEach(layer => {
