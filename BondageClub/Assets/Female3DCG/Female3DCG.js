@@ -12677,11 +12677,9 @@ var AssetFemale3DCG = [
 				Audio: "WoodenCuffs",
 				BuyGroup: "WoodenCuffs",
 				SetPose: ["LegsOpen"],
-				AllowPose: ["Spread", "LegsClosed"],
 				Effect: ["Freeze", "Prone"],
 				RemoveAtLogin: false,
 				Extended: true,
-				HasType: false,
 			},
 			{
 				Name: "MedicalBedRestraints",
@@ -18292,10 +18290,8 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Audio: "MetalCuffs",
 				Extended: true,
-				HasType: false,
-				SetPose: ["BackCuffs"],
+				SetPose: ["BaseUpper"],
 				Effect: ["Lock", "Block", "Prone"],
-				AllowPose: ["BackCuffs"],
 			},
 			{
 				Name: "SturdyLeatherBelts",
@@ -21133,12 +21129,10 @@ var AssetFemale3DCG = [
 				Audio: "WoodenCuffs",
 				BuyGroup: "WoodenCuffs",
 				Effect: ["Block", "Prone"],
-				AllowPose: ["Yoked", "BackCuffs", "Hogtied"],
 				HideItem: ["ClothFurCoat"],
 				Extended: true,
-				HasType: false,
 				Layer: [
-					{ Name: "Main", Priority: 50, HasType: false, AllowColorize: true },
+					{ Name: "Main", Priority: 50 },
 					{
 						Name: "Bgnd",
 						Priority: 1,
@@ -21147,6 +21141,7 @@ var AssetFemale3DCG = [
 						AllowTypes: ["Hogtied"],
 					},
 				],
+				SetPose: ["BaseUpper"],
 			},
 			{
 				Name: "InflatableStraightLeotard",

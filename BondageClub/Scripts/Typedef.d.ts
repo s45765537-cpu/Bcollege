@@ -7,7 +7,7 @@ declare namespace SocketIO {
 declare function io(serv: string): SocketIO.Socket;
 
 type ClientEvent = import("@socket.io/component-emitter").EventNames<ClientToServerEvents>;
-type ClientEventParams<Ev> = import("@socket.io/component-emitter").EventParams<ClientToServerEvents, Ev>;
+type ClientEventParams<Ev extends ClientEvent> = import("@socket.io/component-emitter").EventParams<ClientToServerEvents, Ev>;
 
 interface String {
 	replaceAt(index: number, character: string): string;
