@@ -321,7 +321,7 @@ interface ExpressionNameMap {
 	Emoticon: (
 		null | "Afk" | "Whisper" | "Sleep" | "Hearts" | "Tear" | "Hearing" | "Confusion" | "Exclamation" |
 		"Annoyed" | "Read" | "RaisedHand" | "Spectator" | "ThumbsDown" | "ThumbsUp" | "LoveRope" |
-		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee"
+		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork"
 	),
 }
 
