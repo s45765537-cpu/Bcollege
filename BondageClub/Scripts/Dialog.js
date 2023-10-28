@@ -644,25 +644,36 @@ function DialogCanUnlock(C, Item) {
  * @returns {boolean}
  */
 function DialogCanPickLock(C, Item) {
-	if (!C || !Item) return;
+	return DialogGetPickLockDialog(C, Item) === "PickLock";
+}
+
+/**
+ * Checks whether we can lockpick a lock and return an appropriate dialog key.
+ * `"PickLock"` will be returned if the lock can be picked.
+ * @param {Character} C
+ * @param {Item} Item
+ * @returns {`PickLock${PickLockAvailability}`}
+ */
+function DialogGetPickLockDialog(C, Item) {
+	if (!C || !Item) return "PickLockDisabled";
 
 	// Check that the character allows lockpicking
 	if (!C.IsPlayer() && C.OnlineSharedSettings && C.OnlineSharedSettings.DisablePickingLocksOnSelf)
-		return false;
+		return "PickLockPermissionsDisabled";
 
 	// Check that the lock is accessible, and that we're free to do so
 	const groupIsBlocked = Item.Asset.Group.IsItem() && InventoryGroupIsBlocked(C, Item.Asset.Group.Name);
 	const playerHandsAreBlocked = InventoryGroupIsBlocked(Player, "ItemHands");
 	if (!InventoryAllow(C, Item.Asset) || groupIsBlocked || playerHandsAreBlocked || !InventoryItemIsPickable(Item))
-		return false;
+		return "PickLockInaccessibleDisabled";
 
 	// Check that he player can access their tools.
 	// Maybe in the future you will be able to hide a lockpick in your panties :>
 	const CanAccessLockpicks = (Player.CanInteract() || Player.CanWalk()) && InventoryAvailable(Player, "Lockpicks", "ItemMisc");
 	if (!CanAccessLockpicks && !DialogLentLockpicks)
-		return false;
+		return "PickLockNoPicksDisabled";
 
-	return true;
+	return "PickLock";
 }
 
 /**
@@ -1214,7 +1225,7 @@ function DialogMenuButtonBuild(C) {
 			DialogMenuButton.push("Unlock");
 		}
 		if (InventoryItemIsPickable(Item)) {
-			DialogMenuButton.push(DialogCanPickLock(C, Item) ? "PickLock" : "PickLockDisabled");
+			DialogMenuButton.push(DialogGetPickLockDialog(C, Item));
 		}
 		if (DialogCanInspectLock(Item)) {
 			DialogMenuButton.push(LockBlockedOrLimited ? "InspectLockDisabled" : "InspectLock");
@@ -2548,6 +2559,8 @@ function DialogDrawActivityMenu(C) {
 function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 	if (ButtonName === "ColorDefault" || ButtonName === "ColorChange" || ButtonName === "ColorPickDisabled") {
 		return ItemColorIsSimple(FocusItem) ? "ColorChange" : "ColorChangeMulti";
+	} else if (ButtonName.includes("PickLock")) {
+		return "PickLock";
 	} else if (DialogIsMenuButtonDisabled(ButtonName)) {
 		return ButtonName.replace(DialogButtonDisabledTester, "");
 	} else {

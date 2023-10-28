@@ -110,7 +110,7 @@ type DialogMenuButton = "Activity" |
 	"GGTSControl" |
 	"InspectLock" | "InspectLockDisabled" |
 	"Lock" | "LockDisabled" | "LockMenu" |
-	"Next" | "Prev" | "PickLock" | "PickLockDisabled" |
+	"Next" | "Prev" | `PickLock${PickLockAvailability}` |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
 	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
 	// Wardrobe buttons
@@ -132,6 +132,8 @@ type VibratorModeState = "Default" | "Deny" | "Orgasm" | "Rest";
 type VibratorMode = "Off" | "Low" | "Medium" | "High" | "Maximum" | "Random" | "Escalate" | "Tease" | "Deny" | "Edge";
 
 type VibratorRemoteAvailability = "Available" | "NoRemote" | "NoRemoteOwnerRuleActive" | "NoLoversRemote" | "RemotesBlocked" | "CannotInteract" | "NoAccess" | "InvalidItem";
+
+type PickLockAvailability = "" | "Disabled" | "PermissionsDisabled" | "InaccessibleDisabled" | "NoPicksDisabled";
 
 type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
 
