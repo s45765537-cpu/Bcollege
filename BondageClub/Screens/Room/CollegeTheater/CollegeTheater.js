@@ -235,7 +235,7 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 		C.Owner = Player.Name;
 		C.Love = 100;
 	}
-	if (Role == "Domninant") {
+	if (Role == "Dominant") {
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
 		Player.Owner = "NPC-Julia";

@@ -22,13 +22,13 @@ function CollegeTeacherMildredLoveIs(LoveLevel) { return (CollegeTeacherMildredL
  * Checks, if Mildred won the Literature Class quiz and player is not owned
  * @returns {boolean} - Returns true if Mildred is Dominant and player is not owned
  */
-function CollegeDetentionIsMildredDominant() { return (DialogLogQuery("Dominant", "NPC-Mildred") && !(Player.Owner)); }
+function CollegeTeacherIsMildredDominant() { return (DialogLogQuery("Dominant", "NPC-Mildred") && !(Player.Owner)); }
 
 /**
  * Checks, if Mildred lost the Literature Class quiz
  * @returns {boolean} - Returns true if Mildred is Submissive
  */
-function CollegeDetentionIsMildredSubmissive() { return (DialogLogQuery("Submissive", "NPC-Mildred")); }
+function CollegeTeacherIsMildredSubmissive() { return (DialogLogQuery("Submissive", "NPC-Mildred")); }
 
 
 /**
@@ -177,7 +177,7 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 		C.Owner = Player.Name;
 		C.Love = 100;
 	}
-	if (Role == "Domninant") {
+	if (Role == "Dominant") {
 		NPCTraitSet(C, "Dominant", 80);
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
