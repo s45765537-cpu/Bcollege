@@ -99,6 +99,8 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
 			Property: {
 				...(protoOption.Property || {}),
 				TypeRecord: { [screenName]: i },
+				// TODO: Remove `Type` once R99 is live
+				Type: (i === 0) ? null : _protoOption.Name,
 			},
 			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
 		};
@@ -563,11 +565,18 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
  * @param {"Type" | "Mode"} field
  * @returns {boolean} Whether properties were initialized or not
  */
-function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push=true, Refresh=true) {
+function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push=true, Refresh=true, field="Type") {
 	if (!CommonIsObject(Item.Property)) {
 		Item.Property = { TypeRecord: {} };
 	} else if (!CommonIsObject(Item.Property.TypeRecord)) {
-		Item.Property.TypeRecord = {};
+		const type = Item.Property[field];
+		if (typeof type === "string") {
+			Item.Property.TypeRecord = ExtendedItemTypeToRecord(asset, type);
+			// TODO: Uncomment once R99 is live
+			// delete Item.Property.Type;
+		} else {
+			Item.Property.TypeRecord = {};
+		}
 	}
 
 	const optionIndex = Item.Property.TypeRecord[name];

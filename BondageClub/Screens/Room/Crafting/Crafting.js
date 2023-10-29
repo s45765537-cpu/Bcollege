@@ -642,6 +642,7 @@ function CraftingSaveServer() {
 			P = P + ((C.Description == null) ? "" : C.Description.substring(0, 200).replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + ((C.Color == null) ? "" : C.Color.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
+			// TODO: Replace the `Type` field with an empty field-separator once R99 is live
 			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
 			P = P + "¶"; // Old field as used by the deprecated `OverridePriority` crafted item property, DO NOT REMOVE!
 			P = P + (C.ItemProperty == null ? "" : JSON.stringify(C.ItemProperty)) + "¶";
@@ -700,7 +701,7 @@ function CraftingDecompressServerData(Data) {
 		if (Element.length >= 10 && Element[9] !== "") {
 			Object.assign(Craft.ItemProperty, JSON.parse(Element[9]));
 		}
-		Craft.TypeRecord =  (Element.length >= 1 && Element[10]) ? Element[10] : null;
+		Craft.TypeRecord = (Element.length >= 1 && Element[10]) ? Element[10] : null;
 		if (Craft.Item && Craft.Name && (Craft.Item != "") && (Craft.Name != "")) Crafts.push(Craft);
 		else Crafts.push(null);
 	}
@@ -1435,6 +1436,12 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 		if (asset === undefined) {
 			StatusMap.set("Item", CraftingStatusType.CRITICAL_ERROR);
 		}
+	}
+
+	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string") {
+		Craft.TypeRecord = ExtendedItemTypeToRecord(asset, Craft.Type);
+		// TODO: Uncomment once R99 is live
+		// delete Craft.Type;
 	}
 
 	/**

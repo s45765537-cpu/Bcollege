@@ -1374,3 +1374,39 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=n
 		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 	}
 }
+
+/**
+ * Take an old {@link ItemProperties.Type} and convert it into a {@link ItemProperties.TypeRecord}.
+ * @param {Asset} asset - The asset in question
+ * @param {null | string} type - The to-be convert type string
+ * @returns {TypeRecord} The newly created type record
+ */
+function ExtendedItemTypeToRecord(asset, type) {
+	const data = ExtendedItemGetData(asset, asset.Archetype);
+	if (data == null || typeof type !== "string") {
+		return {};
+	}
+
+	switch (data.archetype) {
+		case ExtendedArchetype.TYPED:
+		case ExtendedArchetype.VIBRATING: {
+			const index = data.options.findIndex(o => o.Name === type) || 0;
+			return { [data.name]: index };
+		}
+		case ExtendedArchetype.MODULAR: {
+			/** @type {TypeRecord} */
+			const typeRecord = {};
+			const typeList = type.split(/([a-zA-Z]+\d+)/).filter(Boolean).map(i => i.split(/([a-zA-Z]+)(\d+)/));
+			for (const [_, k, i] of typeList) {
+				const module = data.modules.find(m => m.Key === k);
+				const index = module && module.Options[i] ? Number(i) : null;
+				if (index != null) {
+					typeRecord[k] = index;
+				}
+			}
+			return typeRecord;
+		}
+		default:
+			return {};
+	}
+}
