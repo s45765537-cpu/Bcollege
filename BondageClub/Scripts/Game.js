@@ -62,6 +62,8 @@ function GameRun(Timestamp) {
 	DrawProcess(Timestamp);
 	TimerProcess();
 
+	ServerSendQueueProcess();
+
 	requestAnimationFrame(MainRun);
 }
 
