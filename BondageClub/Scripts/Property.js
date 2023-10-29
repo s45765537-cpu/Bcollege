@@ -362,6 +362,9 @@ function PropertyUnion(output, ...args) {
 		for (const [key, value] of Object.entries(property)) {
 			switch (key) {
 				case "Tint": {
+					if (!Array.isArray(value)) {
+						break;
+					}
 					const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
 					output[key] = [
 						...previousValue,
@@ -402,6 +405,9 @@ function PropertyDifference(output, ...args) {
 		for (const [key, value] of Object.entries(property)) {
 			switch (key) {
 				case "Tint": {
+					if (!Array.isArray(value)) {
+						break;
+					}
 					const previousValue = Array.isArray(output[key]) ? output[key] : [];
 					output[key] = previousValue.filter(i => !value.some(j => CommonObjectEqual(i, j)));
 					break;
