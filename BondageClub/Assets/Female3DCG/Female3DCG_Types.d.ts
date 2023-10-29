@@ -315,7 +315,7 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	 *
 	 * Used for things like auto-removing collar accessories if the collar is removed.
 	 */
-	RemoveItemOnRemove?: { Group: AssetGroupItemName, Name: string, Type?: string }[];
+	RemoveItemOnRemove?: { Group: AssetGroupItemName, Name: string, TypeRecord?: TypeRecord }[];
 
 	/**
 	 * Whether the group has a blinking variant
@@ -566,7 +566,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	ExpressionTrigger?: ExpressionTrigger[];
 
 	/** A list of assets to also remove when the asset is taken off. */
-	RemoveItemOnRemove?: { Name: string, Group: AssetGroupItemName, Type?: string }[];
+	RemoveItemOnRemove?: { Name: string, Group: AssetGroupItemName, TypeRecord?: TypeRecord }[];
 
 	AllowEffect?: EffectName[];
 	AllowBlock?: AssetGroupItemName[];

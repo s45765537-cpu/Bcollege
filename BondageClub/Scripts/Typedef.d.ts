@@ -579,7 +579,7 @@ interface AssetGroup {
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
-	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; Type?: string }>[];
+	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
 	readonly DrawingPriority: number;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
@@ -796,7 +796,7 @@ interface Asset {
 	readonly LoverOnly: boolean;
 	readonly FamilyOnly: boolean;
 	readonly ExpressionTrigger?: readonly ExpressionTrigger[];
-	readonly RemoveItemOnRemove: readonly Readonly<{ Name: string; Group: AssetGroupName; Type?: string; }>[];
+	readonly RemoveItemOnRemove: readonly { Name: string; Group: AssetGroupName; TypeRecord?: TypeRecord; }[];
 	readonly AllowEffect?: readonly EffectName[];
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];

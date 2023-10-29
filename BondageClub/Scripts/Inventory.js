@@ -875,9 +875,14 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 					// If a name is specified check if the item is worn
 					if (AssetFound && (AssetFound.Asset.Name == AssetToCheck.Name))
 						// If there is no type check or there is a type check and the item type matches, remove it
-						if (AssetToCheck.Type) {
-							if (AssetFound.Property && AssetFound.Property.Type === AssetToCheck.Type)
+						if (AssetToCheck.TypeRecord) {
+							if (
+								AssetFound.Property
+								&& AssetFound.Property.TypeRecord
+								&& CommonObjectIsSubset(AssetToCheck.TypeRecord, AssetFound.Property.TypeRecord)
+							) {
 								InventoryRemove(C, AssetToCheck.Group, false);
+							}
 						} else {
 							InventoryRemove(C, AssetToCheck.Group, false);
 						}
