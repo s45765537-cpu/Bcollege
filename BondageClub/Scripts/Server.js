@@ -97,7 +97,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 		const Data = {};
 		Queue.forEach((value, key) => Data[key] = value);
 
-		ServerSocket.emit('AccountUpdate', Data);
+		ServerSend("AccountUpdate", Data);
 	}
 
 	/**
@@ -254,6 +254,23 @@ function ServerPlayerIsInChatRoom() {
 		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
 }
 
+/** Ratelimit: Max number of messages per interval */
+var ServerSendRateLimit = 18;
+/** Ratelimit: Length of the rate-limit window, in msec */
+var ServerSendRateLimitInterval = 1200;
+
+/**
+ * Queued messages waiting to be sent
+ *
+ * @typedef {{ Message: ClientEvent, args: ClientEventParams<ClientEvent>}} SendRateLimitQueueItem
+ *
+ * @type {SendRateLimitQueueItem[]}
+ */
+const ServerSendRateLimitQueue = [];
+
+/** @type {number[]} */
+let ServerSendRateLimitTimes = [];
+
 /**
  * Sends a message with the given data to the server via socket.emit
  * @type {<Ev extends import("@socket.io/component-emitter").EventNames<ClientToServerEvents>>(
@@ -261,7 +278,27 @@ function ServerPlayerIsInChatRoom() {
  * ) => void}
  */
 function ServerSend(Message, ...args) {
-	ServerSocket.emit(Message, ...args);
+	ServerSendRateLimitQueue.push({ Message, args });
+}
+
+/**
+ * Process the outgoing server messages queue
+ */
+function ServerSendQueueProcess() {
+	ServerSendRateLimitTimes = ServerSendRateLimitTimes.filter(
+		(t) => Date.now() - t < ServerSendRateLimitInterval
+	);
+
+	while (
+		ServerSendRateLimitTimes.length < ServerSendRateLimit &&
+		ServerSendRateLimitQueue.length > 0
+	) {
+		const item = ServerSendRateLimitQueue.shift();
+		if (item) {
+			ServerSocket.emit(item.Message, ...item.args);
+			ServerSendRateLimitTimes.push(Date.now());
+		}
+	}
 }
 
 /**
