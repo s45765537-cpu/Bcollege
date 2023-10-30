@@ -2600,11 +2600,21 @@ function PlatformDraw() {
 	// Process the projectiles damage & life spawn
 	PlatformProcessProjectile(PlatformTime);
 
-	// Draws the UpArrow
-	if (PlatformDrawUpArrow[0] != null || PlatformDrawUpArrow[1] != null) {
-		DrawRect(PlatformDrawUpArrow[0] - PlatformViewX - 43, PlatformDrawUpArrow[1] - PlatformViewY - 43, 86, 86, "white");
-		DrawImage("Icons/North.png", PlatformDrawUpArrow[0] - PlatformViewX - 43, PlatformDrawUpArrow[1] - PlatformViewY - 43);
-	}
+	// Draws the up arrow
+	if (PlatformDrawUpArrow[0] != null || PlatformDrawUpArrow[1] != null)
+		DrawImage("Screens/Room/Platform/Icon/UpArrow.png", PlatformDrawUpArrow[0] - PlatformViewX - 43, 157);
+
+	// Draws the left arrow
+	if ((PlatformRoom.LimitLeft == null) && (PlatformViewX == 0))
+		for (let Door of PlatformRoom.Door)
+			if (Door.FromType == "Left")
+				DrawImage("Screens/Room/Platform/Icon/LeftArrow.png", 14, 157);
+
+	// Draws the right arrow
+	if ((PlatformRoom.LimitRight == null) && (PlatformViewX == PlatformRoom.Width - 2000))
+		for (let Door of PlatformRoom.Door)
+			if (Door.FromType == "Right")
+				DrawImage("Screens/Room/Platform/Icon/RightArrow.png", 1900, 157);
 
 	// Draws the player last to put her in front
 	PlatformDrawCharacter(PlatformPlayer, PlatformTime);
