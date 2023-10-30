@@ -235,6 +235,7 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	if (Role == "Dominant") {
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
+		InventoryWear(Player, "SlaveCollar", "ItemNeck");
 		Player.Owner = "NPC-Yuki";
 		C.Love = 100;
 	}
