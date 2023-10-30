@@ -94,7 +94,8 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 30,
-		DamageAudio: ["Melody0", "Melody1", "Generic0", "Generic1"],
+		DamageAudio: ["Melody0", "Melody1", "Melody2", "Melody3", "Melody4", "Generic0", "Generic1"],
+		DownAudio: ["Melody0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
@@ -141,7 +142,8 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
-		DamageAudio: ["Olivia0", "Olivia1", "Generic0", "Generic1"],
+		DamageAudio: ["Olivia0", "Olivia1", "Olivia2", "Olivia3", "Olivia4", "Generic0", "Generic1"],
+		DownAudio: ["Olivia0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 },
@@ -195,7 +197,8 @@ var PlatformTemplate = [
 		ExperienceValue: 0,
 		DamageBackOdds: 0,
 		DamageKnockForce: 25,
-		DamageAudio: ["Edlaran0", "Generic0", "Generic1"],
+		DamageAudio: ["Edlaran0", "Edlaran1", "Edlaran2", "Edlaran3", "Edlaran4", "Generic0", "Generic1"],
+		DownAudio: ["Edlaran0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
@@ -2125,8 +2128,8 @@ function PlatformDamage(Source, Target, Damage, Time, Type) {
 		Target.Health = 0;
 		Target.RiseTime = Time + (PlatformHasPerk(Target, "Vigorous") ? 7000 : 10000);
 		Target.Immunity = Time + 2000;
-	}
-	PlatformSoundEffect("Damage", Target.DamageAudio);
+		PlatformSoundEffect("Down", Target.DownAudio);
+	} else PlatformSoundEffect("Damage", Target.DamageAudio);
 }
 
 /**
