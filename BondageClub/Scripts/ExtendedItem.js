@@ -760,6 +760,28 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 }
 
 /**
+ * Helper click function for creating custom buttons, including extended item permission support, and pushing the changes to the server.
+ * @param {Character} C - The character
+ * @param {Item} item - The item
+ * @param {string} name - The name of the button and its pseudo-type
+ * @param {() => void} callback - A callback to be executed whenever the button is clicked and all requirements are met
+ * @param {boolean} worn - `true` if the player is changing permissions for an item they're wearing
+ * @returns {boolean} `false` if the item's requirement check failed and `true` otherwise
+ */
+function ExtendedItemCustomClickAndPush(C, item, name, callback, worn=false) {
+	const status = ExtendedItemCustomClick(name, callback, worn);
+	if (ExtendedItemPermissionMode) {
+		return status;
+	}
+
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
+	}
+	ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+	return status;
+}
+
+/**
  * Helper publish + exit function for creating custom buttons whose clicks exit the dialog menu.
  *
  * If exiting the dialog menu is undesirable then something akin to the following example should be used instead:

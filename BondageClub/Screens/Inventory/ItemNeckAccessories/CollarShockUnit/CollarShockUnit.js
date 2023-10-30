@@ -44,6 +44,11 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 
 	if (DialogFocusItem.Property.ShowText) {
 		ChatRoomPublishCustomAction("ShockCountReset", false, Dictionary);
+	} else {
+		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+	}
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
 	}
 }
 

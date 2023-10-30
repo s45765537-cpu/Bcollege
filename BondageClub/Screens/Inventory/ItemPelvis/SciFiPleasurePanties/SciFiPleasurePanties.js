@@ -39,8 +39,9 @@ function InventoryItemPelvisSciFiPleasurePantiesClickHook(Data, OriginalFunction
 
 	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
 		if (MouseIn(1175, 818, 64, 64) && !ExtendedItemPermissionMode) {
-			const Property = DialogFocusItem.Property;
-			ExtendedItemCustomClick("ShowText", () => Property.ShowText = !Property.ShowText);
+			const C = CharacterGetCurrent();
+			const property = DialogFocusItem.Property;
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText);
 		} else if (MouseIn(1637, 825, 225, 55)) {
 			ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
 		}
