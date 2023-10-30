@@ -12,15 +12,26 @@ function InventoryItemBreastForbiddenChastityBraDrawHook(data, originalFunction)
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 
-	DrawCheckbox(1100, 618, 64, 64, DialogFindPlayer("ShowMessageInChat"), DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode, "White");
-
 	MainCanvas.textAlign = "center";
-	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
-	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
+	ExtendedItemCustomDraw("ResetShockCount", 1635, 550, null, false, false);
+	ExtendedItemCustomDraw("TriggerShock", 1635, 625, null, false, false);
 	MainCanvas.textAlign = "left";
-	DrawCheckbox(1100, 700, 64, 64, DialogFindPlayer("ForbiddenChastityBraPunishOrgasm"), DialogFocusItem.Property.PunishOrgasm, ExtendedItemPermissionMode, "White");
-	DrawCheckbox(1100, 770, 64, 64, DialogFindPlayer("ForbiddenChastityBraPunishStandup"), DialogFocusItem.Property.PunishStandup, ExtendedItemPermissionMode, "White");
-	DrawCheckbox(1100, 840, 64, 64, DialogFindPlayer("ForbiddenChastityBraPunishStruggle"), DialogFocusItem.Property.PunishStruggle, ExtendedItemPermissionMode, "White");
+	ExtendedItemDrawCheckbox(
+		"ShowText", 1100, 618, DialogFocusItem.Property.ShowText,
+		{ text: DialogFindPlayer("ShowMessageInChat"), textColor: "White", changeWhenLocked: false },
+	);
+	ExtendedItemDrawCheckbox(
+		"PunishOrgasm", 1100, 700, DialogFocusItem.Property.PunishOrgasm,
+		{ text: DialogFindPlayer("ForbiddenChastityBraPunishOrgasm"), textColor: "White", changeWhenLocked: false },
+	);
+	ExtendedItemDrawCheckbox(
+		"PunishStandup", 1100, 770, DialogFocusItem.Property.PunishStandup,
+		{ text: DialogFindPlayer("ForbiddenChastityBraPunishStandup"), textColor: "White", changeWhenLocked: false },
+	);
+	ExtendedItemDrawCheckbox(
+		"PunishStruggle", 1100, 840, DialogFocusItem.Property.PunishStruggle,
+		{ text: DialogFindPlayer("ForbiddenChastityBraPunishStruggle"), textColor: "White", changeWhenLocked: false },
+	);
 	MainCanvas.textAlign = "center";
 }
 
@@ -33,25 +44,22 @@ function InventoryItemBreastForbiddenChastityBraClickHook(data, originalFunction
 
 	const C = CharacterGetCurrent();
 	if (MouseIn(1635, 550, 225, 55)) {
-		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
+		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount, false, false);
 		return;
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
 		return;
 	}
 	if (!ExtendedItemPermissionMode) {
+		const property = DialogFocusItem.Property;
 		if (MouseIn(1100, 618, 64, 64)) {
-			DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
-			ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1100, 700, 64, 64)) {
-			DialogFocusItem.Property.PunishOrgasm = !DialogFocusItem.Property.PunishOrgasm;
-			ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
 		} else if (MouseIn(1100, 770, 64, 64)) {
-			DialogFocusItem.Property.PunishStandup = !DialogFocusItem.Property.PunishStandup;
-			ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
 		} else if (MouseIn(1100, 840, 64, 64)) {
-			DialogFocusItem.Property.PunishStruggle = !DialogFocusItem.Property.PunishStruggle;
-			ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStruggle", () => property.PunishStruggle = !property.PunishStruggle, false, false);
 		}
 	}
 	originalFunction();
