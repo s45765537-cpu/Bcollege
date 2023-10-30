@@ -906,7 +906,7 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine, 
 				break;
 			case "Center":
 			default:
-				Y -= ((LineCount - 1) * LineSpacing) + (Height / 2);
+				Y = Y - ((LineCount - 1) * LineSpacing) + (Height / 2);
 		}
 
 		for (let n = 0; n < words.length; n++) {
