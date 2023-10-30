@@ -265,7 +265,7 @@ function AssetParsePosePrerequisite(asset) {
 	if (asset.Effect && asset.Effect.includes("Suspended")) {
 		posePrerequisite.push("NotChained");
 	}
-	return CommonArrayConcatDedupe([...(asset.Prerequisite || [])], posePrerequisite)
+	return CommonArrayConcatDedupe([...(asset.Prerequisite || [])], posePrerequisite);
 }
 
 /**
