@@ -109,12 +109,14 @@ var PlatformTemplate = [
 			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39], Speed: 20 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
 			{ Name: "Block", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Uppercut", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 15 },
 			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 13 },
 			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 30 },
 			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], Speed: 18 },
 			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], Speed: 43 },
 		],
 		Attack: [
+			{ Name: "Uppercut", HitBox: [0.55, -0.1, 0.75, 0.1], HitAnimation: [9, 10, 11, 12, 13, 14], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 },
 			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
@@ -395,7 +397,7 @@ var PlatformTemplate = [
 		JumpForce: 50,
 		CollisionDamage: 1,
 		ExperienceValue: 1,
-		JumpOdds: 0.0003,
+		JumpOdds: 0.0033,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
 		LootOdds: 0.06,
@@ -2104,9 +2106,10 @@ function PlatformCreateTreasure() {
  * @param {Number} Damage - The number of damage to apply
  * @param {Number} Time - The current time when the action is done
  * @param {String} Type - The damage type (Collsion or Action)
+ * @param {String} AttackName - The name of the attack that was done
  * @returns {void} - Nothing
  */
-function PlatformDamage(Source, Target, Damage, Time, Type) {
+function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 	if (Target.Combat === false) return;
 	if (!PlatformActionIs(Target, "Any") && (!PlatformActionIs(Source, "Scream") || PlatformHasPerk(Source, "Roar"))) {
 		if (Math.random() < Target.DamageBackOdds) Target.FaceLeft = (Source.X - Target.X > 0);
@@ -2119,7 +2122,11 @@ function PlatformDamage(Source, Target, Damage, Time, Type) {
 			Source.FaceLeft = !Source.FaceLeft;
 			Source.ForceX = (30 + Math.random() * 30) * (Source.FaceLeft ? -1 : 1);
 		}
-	} else Target.ForceX = (Target.DamageKnockForce + Math.random() * Target.DamageKnockForce) * ((Source.X - Target.X < 0) ? 1 : -1);
+	} else {
+		Target.ForceX = (Target.DamageKnockForce + Math.random() * Target.DamageKnockForce) * ((Source.X - Target.X < 0) ? 1 : -1);
+		if ((Target.Y < PlatformFloor) && (Type == "Action"))
+			Target.ForceY = (AttackName === "Uppercut") ? -40 : -25;
+	}
 	Target.Health = Target.Health - Damage;
 	Target.Immunity = Time + PlatformImmunityTime;
 	if (Target.Damage == null) Target.Damage = [];
@@ -2225,10 +2232,12 @@ function PlatformProcessAction(Source, Time) {
 			let HitBox = null;
 			let Damage = 0;
 			let Audio = null;
+			let AttackName = "";
 			if (Source.Attack != null)
 				for (let Attack of Source.Attack)
 					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
 						Damage = Attack.Damage[Source.Level];
+						AttackName = Attack.Name;
 						if (((Attack.Name === "StandAttackFast") || (Attack.Name === "CrouchAttackFast")) && PlatformDialogIsSlave(Source.Name)) Damage = Math.round(Damage * 1.15);
 						HitBox = Attack.HitBox;
 						Audio = Attack.HitAudio;
@@ -2236,7 +2245,7 @@ function PlatformProcessAction(Source, Time) {
 					}
 			if (PlatformHitBoxClash(Source, Target, HitBox)) {
 				PlatformSoundEffect("Hit", Audio);
-				PlatformDamage(Source, Target, Damage, Time, "Action");
+				PlatformDamage(Source, Target, Damage, Time, "Action", AttackName);
 				return;
 			}
 		}
@@ -2620,19 +2629,19 @@ function PlatformDraw() {
 
 	// Draws the up arrow
 	if (PlatformDrawUpArrow[0] != null || PlatformDrawUpArrow[1] != null)
-		DrawImage("Screens/Room/Platform/Icon/UpArrow.png", PlatformDrawUpArrow[0] - PlatformViewX - 43, 157);
+		DrawImage("Screens/Room/Platform/Icon/UpArrow.png", PlatformDrawUpArrow[0] - PlatformViewX - 43, 177);
 
 	// Draws the left arrow
 	if ((PlatformRoom.LimitLeft == null) && (PlatformViewX == 0))
 		for (let Door of PlatformRoom.Door)
 			if (Door.FromType == "Left")
-				DrawImage("Screens/Room/Platform/Icon/LeftArrow.png", 14, 157);
+				DrawImage("Screens/Room/Platform/Icon/LeftArrow.png", 14, 177);
 
 	// Draws the right arrow
 	if ((PlatformRoom.LimitRight == null) && (PlatformViewX == PlatformRoom.Width - 2000))
 		for (let Door of PlatformRoom.Door)
 			if (Door.FromType == "Right")
-				DrawImage("Screens/Room/Platform/Icon/RightArrow.png", 1900, 157);
+				DrawImage("Screens/Room/Platform/Icon/RightArrow.png", 1900, 177);
 
 	// Draws the player last to put her in front
 	PlatformDrawCharacter(PlatformPlayer, PlatformTime);
@@ -3105,6 +3114,7 @@ function PlatformEventKeyDown(e) {
 	if (((e.keyCode == 76) || (e.keyCode == 108)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackFast")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 	if (((e.keyCode == 75) || (e.keyCode == 107)) && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
 	if (((e.keyCode == 75) || (e.keyCode == 107)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
+	if (((e.keyCode == 74) || (e.keyCode == 106)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
 	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (e.keyCode >= 48) && (e.keyCode <= 57)) return PlatformSaveGame(e.keyCode - 48);
 	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);

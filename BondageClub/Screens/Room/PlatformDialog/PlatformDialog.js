@@ -4293,7 +4293,7 @@ function PlatformDialogProcess() {
 function PlatformDialogKeyDown(Key) {
 	if (typeof Key === "object") Key = Key.keyCode;
 	if (Key == null) Key = KeyPress;
-	if ((Key == 32) || (Key == 13) || (Key == 75) || (Key == 76) || (Key == 107) || (Key == 108)) PlatformDialogProcess();
+	if ((Key == 32) || (Key == 13) || (Key == 74) || (Key == 75) || (Key == 76) || (Key == 106) || (Key == 107) || (Key == 108)) PlatformDialogProcess();
 	if ((Key == 87) || (Key == 119) || (Key == 90) || (Key == 122)) {
 		PlatformDialogAnswerPosition--;
 		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
