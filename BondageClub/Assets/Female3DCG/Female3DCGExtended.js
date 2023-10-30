@@ -11834,6 +11834,9 @@ var AssetFemale3DCGExtended = {
 				SetOption: InventoryItemPelvisLoveChastityBeltSetOptionHook,
 				Draw: InventoryItemPelvisLoveChastityBeltDraw,
 				Validate: InventoryItemPelvisLoveChastityBeltValidate,
+				Click: (...args) => {
+					InventoryItemPelvisSciFiPleasurePantiesClickHook(...args, false);
+				},
 			},
 			DialogPrefix: {
 				Chat: InventoryItemPelvisSciFiPleasurePantiesChatPrefix,
