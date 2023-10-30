@@ -1580,6 +1580,7 @@ var PlatformRoomList = [
 		Door: [
 			{ Name: "SavannahBanditPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
 			{ Name: "SavannahTentInterior", FromX: 800, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 100, ToFaceLeft: false },
+			{ Name: "DesertEntrance", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 		]
 	},
 	{
@@ -1600,6 +1601,20 @@ var PlatformRoomList = [
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1000, ToFaceLeft: false },
 		]
+	},
+	{
+		Name: "DesertEntrance",
+		Text: "Desert Entrance",
+		Background: "Desert/Entrance",
+		Music: "Savannah",
+		Width: 2000,
+		Height: 1000,
+		Door: [
+			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
+		],
+		Entry: function() {
+			PlatformDialogStart("DesertEntrance");
+		}
 	},
 
 ];

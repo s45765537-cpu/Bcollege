@@ -2851,6 +2851,26 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "DesertEntrance",
+		Music: "Savannah",
+		Exit : function () { PlatformLoadRoom("SavannahTentExterior"); PlatformPlayer.X = 1900; PlatformPlayer.FaceLeft = true; },
+		Dialog: [
+			{
+				Background: "DesertEntrance",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
+				]
+			},
+			{ Text: "(*** You've reached the current ending of Bondage Brawl. ***)" },
+			{ Text: "(*** I hope you enjoyed the game, more content will be available later. ***)" },
+			{ Text: "(*** If you have suggestions or bugs to report, please contact Ben987. ***)" },
+		],
+
+	},
+
+	{
 		Name: "OliviaLover1Start",
 		Music: "MelodyRoom",
 		Dialog: [
