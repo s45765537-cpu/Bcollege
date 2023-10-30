@@ -181,6 +181,7 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 		NPCTraitSet(C, "Dominant", 80);
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
+		InventoryWear(Player, "SlaveCollar", "ItemNeck");
 		Player.Owner = "NPC-Mildred";
 		C.Love = 100;
 	}

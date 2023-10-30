@@ -238,6 +238,7 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 	if (Role == "Dominant") {
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
+		InventoryWear(Player, "SlaveCollar", "ItemNeck");
 		Player.Owner = "NPC-Julia";
 		C.Love = 100;
 	}
