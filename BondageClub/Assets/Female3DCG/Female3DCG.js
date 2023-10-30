@@ -12127,6 +12127,7 @@ var AssetFemale3DCG = [
 			"Wardrobe",
 			"Gaming",
 			"Coffee",
+			"Fork",
 		],
 		Asset: ["Emoticon"],
 	},
