@@ -21,11 +21,11 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox
-		DrawCheckbox(1175, 818, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
+		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
-		ExtendedItemCustomDraw("TriggerShock", 1637, 825);
+		ExtendedItemCustomDraw("TriggerShock", 1637, 825, null, false, false);
 	}
 }
 
@@ -39,8 +39,9 @@ function InventoryItemPelvisSciFiPleasurePantiesClickHook(Data, OriginalFunction
 
 	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
 		if (MouseIn(1175, 818, 64, 64) && !ExtendedItemPermissionMode) {
-			const Property = DialogFocusItem.Property;
-			ExtendedItemCustomClick("ShowText", () => Property.ShowText = !Property.ShowText);
+			const C = CharacterGetCurrent();
+			const property = DialogFocusItem.Property;
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1637, 825, 225, 55)) {
 			ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
 		}

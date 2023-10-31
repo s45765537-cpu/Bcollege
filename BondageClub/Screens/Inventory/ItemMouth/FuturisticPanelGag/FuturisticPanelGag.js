@@ -21,7 +21,7 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 		DrawText(AutoPunishUndoTime ? TimerToString(AutoPunishUndoTime - CurrentTime) : "00:00", 1510, 700, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
-		DrawCheckbox(1175, 743, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
+		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 773, "White", "Gray");
 		ExtendedItemCustomDraw(`${Data.dialogPrefix.option}Pump`, 1637, 750);
 	}
@@ -40,15 +40,16 @@ function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
 		DialogFocusItem.Property.AutoPunishUndoTime = 0;
 	}
 
-	if (Data.currentModule ===ModularItemBase) {
+	if (Data.currentModule === ModularItemBase) {
+		const C = CharacterGetCurrent();
 		if (MouseIn(1637, 750, 225, 50)) {
-			const C = CharacterGetCurrent();
 			ExtendedItemCustomClick(
 				`${Data.dialogPrefix.option}Pump`,
 				() => InventoryItemMouthFuturisticPanelGagTrigger(Data, C, DialogFocusItem, false),
 			);
 		} else if (MouseIn(1175, 743, 64, 64) && !ExtendedItemPermissionMode) {
-			DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
+			const property = DialogFocusItem.Property;
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		}
 	}
 }

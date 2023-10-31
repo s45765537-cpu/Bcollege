@@ -10,12 +10,20 @@ function InventoryItemPelvisObedienceBelts1Draw() {
 	ExtendedItemDrawHeader(1387, 125);
 
 	MainCanvas.textAlign = "left";
-	DrawCheckbox(1100, 590, 64, 64, DialogFindPlayer("ObedienceBeltShowChatMessage"), DialogFocusItem.Property.ShowText, false, "White");
-	DrawCheckbox(1100, 660, 64, 64, DialogFindPlayer("ObedienceBeltPunishOrgasm"), DialogFocusItem.Property.PunishOrgasm, false, "White");
-	DrawCheckbox(1100, 730, 64, 64, DialogFindPlayer("ObedienceBeltPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
-
+	ExtendedItemDrawCheckbox(
+		"ShowText", 1100, 590, DialogFocusItem.Property.ShowText,
+		{ text: DialogFindPlayer("ObedienceBeltShowChatMessage"), textColor: "White", changeWhenLocked: false },
+	);
+	ExtendedItemDrawCheckbox(
+		"PunishOrgasm", 1100, 660, DialogFocusItem.Property.PunishOrgasm,
+		{ text: DialogFindPlayer("ObedienceBeltPunishOrgasm"), textColor: "White", changeWhenLocked: false },
+	);
+	ExtendedItemDrawCheckbox(
+		"PunishStandup", 1100, 730, DialogFocusItem.Property.PunishStandup,
+		{ text: DialogFindPlayer("ObedienceBeltPunishStandup"), textColor: "White", changeWhenLocked: false },
+	);
 	MainCanvas.textAlign = "center";
-	DrawButton(1387, 800, 225, 55, DialogFindPlayer("TriggerShock"), "White");
+	ExtendedItemCustomDraw("TriggerShock", 1635, 625, null, false, false);
 }
 
 /** @type {ExtendedItemCallbacks.Click} */
@@ -26,27 +34,15 @@ function InventoryItemPelvisObedienceBelts1Click() {
 	}
 
 	const C = CharacterGetCurrent();
+	const property = DialogFocusItem.Property;
 	if (MouseIn(1100, 590, 64, 64)) {
-		DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
-		return;
-	}
-
-	if (MouseIn(1100, 660, 64, 64)) {
-		DialogFocusItem.Property.PunishOrgasm = !DialogFocusItem.Property.PunishOrgasm;
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
-		return;
-	}
-
-	if (MouseIn(1100, 730, 64, 64)) {
-		DialogFocusItem.Property.PunishStandup = !DialogFocusItem.Property.PunishStandup;
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
-		return;
-	}
-
-	if (MouseIn(1387, 800, 225, 55)) {
-		PropertyShockPublishAction();
-		return;
+		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
+	} else if (MouseIn(1100, 660, 64, 64)) {
+		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
+	} else if (MouseIn(1100, 730, 64, 64)) {
+		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
+	} else if (MouseIn(1387, 800, 225, 55)) {
+		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
 	}
 }
 

@@ -32,7 +32,7 @@ function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox
-		DrawCheckbox(1175, 818, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
+		ExtendedItemDrawCheckbox("ShowText", 1175, 818, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button

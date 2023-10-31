@@ -10,7 +10,7 @@ function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunct
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 	MainCanvas.textAlign = "center";
 
-	DrawCheckbox(1175, 618, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
+	ExtendedItemDrawCheckbox("ShowText", 1175, 618, DialogFocusItem.Property.ShowText);
 	DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 648, "White", "Gray");
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
@@ -44,6 +44,11 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 
 	if (DialogFocusItem.Property.ShowText) {
 		ChatRoomPublishCustomAction("ShockCountReset", false, Dictionary);
+	} else {
+		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+	}
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
 	}
 }
 

@@ -710,15 +710,16 @@ function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
  * @param {number} Y - The Y coordinate of the button
  * @param {string | null} imagePath — The pa
  * @param {boolean} IsSelected - Whether the button is selected or not
+ * @param {boolean} ChangeWhenLocked - Whether the button can be clicked when locked
  * @returns {void} Nothing
  */
-function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false) {
+function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false, ChangeWhenLocked=true) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	// TODO: Add a proper archetype rather than relying on `ParentData == null`
 	/** @type {ExtendedItemOption} */
-	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
+	const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked };
 	/** @type {ExtendedItemOption} */
-	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
+	const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked };
 	/** @type {ElementData<{ drawImage: boolean, imagePath: string | null }>} */
 	const elementData = {
 		position: [X, Y, 225, imagePath != null ? 275 : 50],
@@ -729,13 +730,52 @@ function ExtendedItemCustomDraw(Name, X, Y, imagePath=null, IsSelected=false) {
 }
 
 /**
+ * Helper click function for creating custom check boxes, including extended item permission support.
+ * @param {string} name - The name of the checkbox and its pseudo-type
+ * @param {number} x - The X coordinate of the checkbox
+ * @param {number} y - The Y coordinate of the checkbox
+ * @param {boolean} isChecked - Whether the checkbox is checked or not
+ * @param {Object} options
+ * @param {string} [options.text] - Label associated with the checkbox
+ * @param {number} [options.width] - Width of the checkbox
+ * @param {number} [options.height] - Height of the checkbox
+ * @param {boolean} [options.changeWhenLocked] - Whether the checkbox can be toggled when locked
+ * @param {string} [options.textColor]
+ */
+function ExtendedItemDrawCheckbox(name, x, y, isChecked, options=null) {
+	const { text, width, height, changeWhenLocked, textColor } = options || {};
+
+	// TODO: Add a proper archetype rather than relying on `ParentData == null`
+	/** @type {ExtendedItemOption} */
+	const newOption = {
+		OptionType: "ExtendedItemOption",
+		Name: name,
+		ParentData: null,
+		ChangeWhenLocked: changeWhenLocked == null ? true : changeWhenLocked,
+	};
+	/** @type {ExtendedItemOption} */
+	const previousOption = {
+		OptionType: "ExtendedItemOption",
+		Name: `${name}Previous`,
+		ParentData: null,
+		ChangeWhenLocked: changeWhenLocked == null ? true : changeWhenLocked,
+	};
+
+	const msg = ExtendedItemRequirementCheckMessageMemo(
+		null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption,
+	);
+	const disabled = !!(msg || ExtendedItemPermissionMode);
+	DrawCheckbox(x, y, width || 64, height || 64, text || "", isChecked, disabled, textColor || "Black");
+}
+
+/**
  * Helper click function for creating custom buttons, including extended item permission support.
  * @param {string} Name - The name of the button and its pseudo-type
  * @param {() => void} Callback - A callback to be executed whenever the button is clicked and all requirements are met
  * @param {boolean} Worn - `true` if the player is changing permissions for an item they're wearing
  * @returns {boolean} `false` if the item's requirement check failed and `true` otherwise
  */
-function ExtendedItemCustomClick(Name, Callback, Worn=false) {
+function ExtendedItemCustomClick(Name, Callback, Worn=false, ChangeWhenLocked=true) {
 	// Use a `name` for a "fictional" item option for interfacing with the extended item API
 	if (ExtendedItemPermissionMode) {
 		InventoryTogglePermission(DialogFocusItem, Name, Worn);
@@ -744,9 +784,9 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 		// Check if the option is blocked/limited/etc.
 		// TODO: Add a proper archetype rather than relying on `ParentData == null`
 		/** @type {ExtendedItemOption} */
-		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null };
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked };
 		/** @type {ExtendedItemOption} */
-		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null };
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked };
 		const requirementMessage = ExtendedItemRequirementCheckMessage(null, CharacterGetCurrent(), DialogFocusItem, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;
@@ -757,6 +797,29 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false) {
 			return true;
 		}
 	}
+}
+
+/**
+ * Helper click function for creating custom buttons, including extended item permission support, and pushing the changes to the server.
+ * @param {Character} C - The character
+ * @param {Item} item - The item
+ * @param {string} name - The name of the button and its pseudo-type
+ * @param {() => void} callback - A callback to be executed whenever the button is clicked and all requirements are met
+ * @param {boolean} worn - `true` if the player is changing permissions for an item they're wearing
+ * @param {boolean} changeWhenLocked - Whether the button r
+ * @returns {boolean} `false` if the item's requirement check failed and `true` otherwise
+ */
+function ExtendedItemCustomClickAndPush(C, item, name, callback, worn=false, changeWhenLocked=true) {
+	const status = ExtendedItemCustomClick(name, callback, worn, changeWhenLocked);
+	if (ExtendedItemPermissionMode) {
+		return status;
+	}
+
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
+	}
+	ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+	return status;
 }
 
 /**

@@ -18,7 +18,7 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook(Data, OriginalF
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox and reset/trigger buttons
-		DrawCheckbox(1175, 743, 64, 64, "", DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode);
+		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
 		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 773, "White", "Gray");
 		ExtendedItemCustomDraw("ResetShockCount", 1635, 675);
 		ExtendedItemCustomDraw("TriggerShock", 1635, 750);
@@ -30,7 +30,9 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, Original
 	OriginalFunction();
 	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
 		if (MouseIn(1175, 768, 64, 64) && !ExtendedItemPermissionMode) {
-			DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
+			const C = CharacterGetCurrent();
+			const property = DialogFocusItem.Property;
+			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText);
 		} else if (MouseIn(1635, 700, 225, 55)) {
 			ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
 		} else if (MouseIn(1635, 775, 225, 55)) {
