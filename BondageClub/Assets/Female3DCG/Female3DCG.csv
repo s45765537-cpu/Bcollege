@@ -171,6 +171,8 @@ ClothLower,CrossSkirtLight,Cross Skirt (light)
 ClothLower,TulleSkirt,Fitted Pleated Skirt
 ClothLower,PantBoots,Long Latex Pants
 ClothLower,BusinessSkirt,Business Skirt
+ClothLower,LongLeatherSkirt,Long Leather Skirt
+ClothLower,LongPleatedSkirt,Long Pleated Skirt
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
@@ -414,6 +416,7 @@ Shoes,DutyShoes,Duty Shoes
 Shoes,SocialHeels,Social Heels
 Shoes,StreetBoots,Street Boots
 Shoes,WesternBoots,Western Boots
+Shoes,BalletHeels1,Ballet Hi-Shoes
 Hat,,Hat
 Hat,Band1,Hair Band
 Hat,Band2,Jeweled Band
@@ -1466,6 +1469,7 @@ ItemMouth,PonyGag,Bridle Gag
 ItemMouth,LatexSheathGag, Latex Sheath Gag
 ItemMouth,Slime,Slime
 ItemMouth,FurScarf,Fur Scarf
+ItemMouth,BigMouth,Big Mouth
 ItemMouth2,,Mouth
 ItemMouth2,ClothGag,Cloth Gag
 ItemMouth2,WiffleGag,Wiffle Ball Gag
@@ -1610,6 +1614,7 @@ ItemHead,DroneMask,Smooth Latex Mask
 ItemHead,Slime,Slime
 ItemHead,FurScarf,Fur Scarf
 ItemHead,Stitches,Stitches
+ItemHead,AnimeLenses,Anime Lenses
 ItemNose,,Nose
 ItemNose,NoseHook,Nose Hook
 ItemNose,PigNose,Pig Nose
@@ -1770,6 +1775,7 @@ ItemDevices,LuckyWheel,Lucky Wheel
 ItemDevices,WheelFortune,Wheel of Fortune
 ItemDevices,FoldingScreen,Folding Screen
 ItemDevices,KabeshiriWall,Kabeshiri Wall
+ItemDevices,PersonalCage,Personal Cage
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes
@@ -1800,6 +1806,7 @@ ItemBoots,HighThighBoots,High Thigh Boots
 ItemBoots,Slime,Slime
 ItemBoots,MonoHeel,Monoheel
 ItemBoots,ShortPonyBoots,Short Pony Boots
+ItemBoots,BalletHeels1,Ballet Hi-Shoes
 ItemScript,,Body
 ItemScript,Script,Script
 EyeShadow,,Eye Shadow

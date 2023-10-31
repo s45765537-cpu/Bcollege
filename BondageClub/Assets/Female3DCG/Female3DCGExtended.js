@@ -7124,7 +7124,42 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 			},
 		}, // FuturisticCrate
-
+		PersonalCage: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+			Options: [
+				{
+					Name: "Lowered",
+					Property: { 
+						Difficulty: 0, 
+						Effect: ["Freeze", "BlockKneel"],
+						SetPose: ["BaseLower"],
+						AllowActivePose: ["LegsOpen","LegsClosed"],
+					}
+				}, 
+				{
+					Name: "Suspended",
+					Property: {
+						Difficulty: 5,
+						OverrideHeight: { 
+							Height: 30, 
+							Priority: 51, 
+							HeightRatioProportion: 0 
+						},
+						SetPose: ["BaseLower"],
+						Effect: ["Freeze", "BlockKneel", "Lifted"],
+						AllowActivePose: ["LegsOpen","LegsClosed"],
+					},
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectPersonalCageHeight",
+				Option: "PersonalCageHeight",
+				Chat: "PersonalCageHeightSet",
+				Npc: "PersonalCageHeight",
+			},
+			ChangeWhenLocked: false,
+		}, // PersonalCage
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
@@ -9577,6 +9612,27 @@ var AssetFemale3DCGExtended = {
 				Chat: "RibbonsGagSet",
 			},
 		}, // Ribbons
+		BigMouth: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ 
+					Name: "Default",
+					},
+					{ 
+					Name: "Open",
+					},	
+					{ 
+					Name: "Serious",
+					},	
+					{ 
+					Name: "Grin",
+					},			
+				],
+			DialogPrefix: {
+				Header: "BigMouthSelectMouthStyle",
+				Option: "BigMouthMouthStyle",
+			}
+		}, // BigMouth
 		FuturisticMuzzle: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
