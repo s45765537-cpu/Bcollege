@@ -649,9 +649,8 @@ interface AssetLayer {
 	readonly HideColoring: boolean;
 	/** A record mapping stringified {@link PartialType} values to a set of unique IDs. */
 	readonly AllowTypes: AllowTypes.Data | null;
-	/** whether or not the layer has separate assets per type. If not, the extended type will not be included in
-	the URL when fetching the layer's image */
-	readonly HasType: boolean;
+	/** @deprecated - superceded by {@link CreateLayerTypes} */
+	readonly HasType?: never;
 	/** The name of the parent group for this layer. If null, the layer has no parent group. If
 	undefined, the layer inherits its parent group from it's asset/group. */
 	readonly ParentGroupName: AssetGroupName | null;
@@ -687,12 +686,9 @@ interface AssetLayer {
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
 	readonly GroupAlpha?: readonly Alpha.Data[];
-	/**
-	 * A module for which the layer can have types.
-	 * Allows one to define different module-specific assets for a single layer.
-	 * @note takes priority over {@link Asset.HasType}
-	 */
-	readonly ModuleType: readonly string[] | null;
+	/** @deprecated - Superceded by {@link CreateLayerTypes} */
+	readonly ModuleType?: never;
+	readonly CreateLayerTypes: readonly string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	readonly HideForAttribute: readonly AssetAttribute[] | null;
 	/* Specifies that this layer should not be drawn unless the character is wearing an item with one of the given attributes */
@@ -833,7 +829,13 @@ interface Asset {
 	readonly DynamicBeforeDraw: boolean;
 	readonly DynamicAfterDraw: boolean;
 	readonly DynamicScriptDraw: boolean;
-	readonly HasType: boolean;
+	/** @deprecated - superceded by {@link CreateLayerTypes} */
+	readonly HasType?: never;
+	/**
+	 * A module for which the layer can have types.
+	 * Allows one to define different module-specific assets for a single layer.
+	 */
+	readonly CreateLayerTypes: readonly string[];
 	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
 	readonly AllowLockType: null | Record<string, Set<number>>;
 	readonly AllowColorizeAll: boolean;

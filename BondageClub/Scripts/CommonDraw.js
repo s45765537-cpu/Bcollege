@@ -114,10 +114,8 @@ function CommonDrawAppearanceBuild(C, {
 		const TypeRecord = (Property && Property.TypeRecord) || {};
 		let L = "";
 		let LayerType = "";
-		if (Layer.ModuleType) {
-			LayerType = Layer.ModuleType.map(k => `${k}${TypeRecord[k] || 0}`).join("");
-		} else if (Layer.HasType) {
-			LayerType = PropertyTypeRecordToStrings(TypeRecord).join("");
+		if (Layer.CreateLayerTypes.length > 0) {
+			LayerType = "_" + Layer.CreateLayerTypes.map(k => `${k}${TypeRecord[k] || 0}`).join("");
 		}
 		if (Layer.Name) L = "_" + Layer.Name;
 

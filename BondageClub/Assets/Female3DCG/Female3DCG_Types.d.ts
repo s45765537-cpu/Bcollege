@@ -418,8 +418,6 @@ interface AssetCommonPropertiesAssetLayer {
 	/** Whether the asset is drawn at an absolute position. */
 	FixedPosition?: boolean;
 
-	HasType?: boolean;
-
 	Opacity?: number;
 	MinOpacity?: number;
 	MaxOpacity?: number;
@@ -577,6 +575,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * Only still used by the slave collar.
 	 */
 	AllowTypes?: string[];
+	CreateLayerTypes?: string[];
 	AllowTighten?: boolean;
 	DefaultColor?: ItemColor;
 	Audio?: string;
@@ -761,7 +760,7 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 
 	MirrorExpression?: AssetGroupName;
 	PoseMapping?: AssetPoseMapping;
-	ModuleType?: string[];
+	CreateLayerTypes?: string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	HideForAttribute?: AssetAttribute[];
 	/* Specifies that this layer should not be drawn unless the character is wearing an item with one of the given attributes */
