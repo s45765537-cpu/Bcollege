@@ -3234,6 +3234,25 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Attribute: ["Skirt"],
 			},
+			{ 
+				Name: "LongLeatherSkirt",
+				Fetish: ["Leather"],
+				Value: 53, 
+				AllowPose: ["KneelingSpread","Kneel"],
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				Alpha: [
+					{ Group: ["ItemFeet", "ItemLegs"], Masks: [[140, 570, 190, 300]] }],
+				Attribute: ["Skirt"] 
+			}, 
+			{ 
+				Name: "LongPleatedSkirt", 
+				Value: 26, 
+				AllowPose: ["KneelingSpread","Kneel"], 
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"], 
+				Alpha: [
+					{  Group: ["ItemFeet", "ItemLegs"], Masks: [[174, 570, 153, 264]] }], 
+				Attribute: ["Skirt"] 
+			},
 			{
 				Name: "PencilSkirt",
 				Gender: "F",
@@ -6655,6 +6674,50 @@ var AssetFemale3DCG = [
 						Masks: [[75, 850, 350, 200]],
 					},
 				],
+			},
+			{ 
+				Name: "BalletHeels1",
+				Fetish: ["Leather"],				
+				Height: 27, 
+				Value: 25,
+				BuyGroup: "BalletHeels1", 
+				Random: false,
+				HideForPose: ["Kneel", "KneelingSpread"],
+				Alpha: [
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+							Masks: [[45, 928, 350, 100]]
+						},
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+							Pose: ["LegsClosed"],
+							Masks: [[45, 937, 350, 100]]
+						},
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower"
+						], 
+							Pose: ["Spread"], 
+							Masks: [[45, 918, 350, 100]
+						],
+					},
+				], 
 			},
 			{
 				Name: "WesternBoots",
@@ -25574,6 +25637,19 @@ var AssetFemale3DCG = [
 				Effect: ["BlockMouth", "GagLight"],
 			},
 			{
+				Name: "BigMouth",
+				Fetish: ["Latex"],
+				Value: 20,
+				Extended: true,
+				AllowTighten: true,
+				Effect: ["GagLight"], 
+				Hide: ["Mouth"], 
+				Layer: [
+					{ Name: "Base", AllowColorize: false, Priority: 20 },
+					{ Name: "Mouth", AllowColorize: true, Priority: 32 },
+				],
+			},
+			{
 				Name: "FuturisticMuzzle",
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
@@ -29389,6 +29465,25 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Left", MirrorExpression: "Eyes" },
 					{ Name: "Right", MirrorExpression: "Eyes2" },
+				],
+			},
+			{
+				Name: "AnimeLenses",
+				Priority: 9,
+				Value: 12,
+				Difficulty: 12,
+				Random: false,
+				DefaultColor: "#98FFE6",
+				OverrideBlinking: true,
+				Hide: ["Eyes", "Eyes2"],
+				Block: [],
+				Effect: ["BlindLight"],
+				AllowExpression: ["Closed"],
+				Layer: [
+					{ Name: "LeftIris", MirrorExpression: "Eyes", AllowColorize: true },
+					{ Name: "LeftEye", MirrorExpression: "Eyes", AllowColorize: false },
+					{ Name: "RightIris", MirrorExpression: "Eyes2", AllowColorize: true },
+					{ Name: "RightEye", MirrorExpression: "Eyes2", AllowColorize: false} 
 				],
 			},
 			{
@@ -34479,6 +34574,36 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 			},
 			{
+				Name: "PersonalCage", 
+				Priority: 58, 
+				Value: 150, 
+				Difficulty: -2, 
+				SelfBondage: 5, 
+				Time: 10, 
+				RemoveTime: 10, 
+				Top: 10, 
+				AllowLock: true, 
+				Extended: true, 
+				RemoveAtLogin: true, 
+				Block: ["ItemAddon"],
+				Prerequisite: [
+					"NotSuspended", 
+					"AllFours", 
+					"NotKneeling", 
+					"NotHogtied", 
+					"NotMounted", 
+					"NotKneelingSpread",
+				], 
+				Effect: [ "Freeze", "BlockKneel"],
+				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen","LegsClosed"],
+				Layer: [
+					{ Name: "Base", Priority: 1, MinOpacity: 1, HasType: false }, 
+					{ Name: "Closed", Priority: 58, CopyLayerColor: "Base", HasType: false }, 
+					{ Name: "Shadow", Priority: 1 , Top: 140, HasType: false , AllowColorize: false },
+				],
+			}, 
+			{
 				Name: "TheDisplayFrame",
 				Fetish: ["Metal"],
 				Value: 100,
@@ -36616,6 +36741,54 @@ var AssetFemale3DCG = [
 				Height: 35,
 				HideForPose: ["Spread", "KneelingSpread"],
 			},
+			{ 
+				Name: "BalletHeels1",
+				Fetish: ["Leather"], 
+				Height: 27,
+				BuyGroup: "BalletHeels1", 
+				Value: 25, 
+				Difficulty: 6, 
+				Time: 10, 
+				RemoveTime: 15, 
+				AllowLock: true, 
+				AllowTighten: true, 
+				HideForPose: ["Kneel", "KneelingSpread"],
+				AllowPose:["Spread","LegsClosed","Hogtied"], 
+				Alpha: [
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+						Masks: [[45, 928, 350, 100]] 
+					},
+					{ 
+							Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+					], 
+						Pose: ["LegsClosed"], 
+						Masks: [[45, 937, 350, 100]]
+					},
+					{ 
+						Group: [
+						"BodyLower", 
+						"Socks", 
+						"SocksRight", 
+						"SocksLeft", 
+						"SuitLower"
+					], 
+						Pose: ["Spread"], 
+						Masks: [[45, 918, 350, 100]]
+					},
+				], 
+			}, 
 			{
 				Name: "BalletWedges",
 				Fetish: ["Leather"],

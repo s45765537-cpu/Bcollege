@@ -1847,3 +1847,19 @@ ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
+ItemDevicesPersonalCageBase,Base
+ItemDevicesPersonalCageClosed,Closed
+ItemDevicesPersonalCageLock,Lock
+ItemDevicesPersonalCageSuspendedLock,Lock
+ItemMouthBigMouthDefault,Default
+ItemMouthBigMouthGrin,Grin
+ItemMouthBigMouthSerious,Serious
+ItemMouthBigMouthOpen,Open
+ItemDevicesOneBarGirlBar,Bar
+ItemDevicesOneBarGirlSoft,Tiny Cushion
+ItemDevicesOneBarGirlLegs,Legs
+ItemDevicesOneBarGirlShoes,Shoes
+ItemHeadAnimalLensesLeft,Left Lens
+ItemHeadAnimalLensesRight,Right Lens
+ItemHeadAnimeLensesLeftIris,Left Lens
+ItemHeadAnimeLensesRightIris,Right Lens
