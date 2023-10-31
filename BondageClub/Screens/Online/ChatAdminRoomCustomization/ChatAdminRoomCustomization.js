@@ -2,6 +2,69 @@
 var ChatAdminRoomCustomizationBackground = "Sheet";
 var ChatAdminRoomCustomizationCurrent = null;
 var ChatAdminRoomCustomizationMusic = null;
+var ChatAdminRoomCustomizationMode = null;
+var ChatAdminRoomCustomizationMusicLibrary = [
+	{
+		Name: "FantasyAmbience",
+		URL: "https://bondageprojects.com/music/FantasyAmbience.mp3",
+		Source: "https://www.youtube.com/watch?v=enk9srBmTqQ&ab_channel=Jota-RMusicChannel"
+	},
+	{
+		Name: "HorrorAmbience",
+		URL: "https://bondageprojects.com/music/HorrorAmbience.mp3",
+		Source: "https://www.youtube.com/watch?v=1JnPSMNuHtw&ab_channel=MarcvanderMeulen%E2%99%AB"
+	},
+	{
+		Name: "WesternAmbience",
+		URL: "https://bondageprojects.com/music/WesternAmbience.mp3",
+		Source: "https://www.youtube.com/watch?v=wTm-WFM0v-g&ab_channel=MrSnoozeIBackgroundMusicforVideos"
+	},
+	{
+		Name: "MetalInstrumental2021",
+		URL: "https://bondageprojects.com/music/MetalInstrumental2021.mp3",
+		Source: "https://www.youtube.com/watch?v=AZum7ymw_Ws&ab_channel=MaximumOfHeaven"
+	},
+	{
+		Name: "Pop2020",
+		URL: "https://bondageprojects.com/music/Pop2020.mp3",
+		Source: "https://www.youtube.com/watch?v=Y7Dk3_hA3-8&ab_channel=therealahmedtn"
+	},
+	{
+		Name: "Pop2022",
+		URL: "https://bondageprojects.com/music/Pop2022.mp3",
+		Source: "https://www.youtube.com/watch?v=IW0QkXpQs3k&ab_channel=MusicToListen"
+	},
+	{
+		Name: "ProgressiveHouse2022",
+		URL: "https://bondageprojects.com/music/ProgressiveHouse2022.mp3",
+		Source: "https://www.youtube.com/watch?v=u6PUX87ZaX0&ab_channel=ElectroDanceMixes"
+	},
+	{
+		Name: "ElectroDance2022",
+		URL: "https://bondageprojects.com/music/ElectroDance2022.mp3",
+		Source: "https://www.youtube.com/watch?v=oqGEyAFf6MI&ab_channel=ElectroDanceMixes"
+	},
+	{
+		Name: "ElectroDance2023",
+		URL: "https://bondageprojects.com/music/ElectroDance2023.mp3",
+		Source: "https://www.youtube.com/watch?v=7IjvFZox1Jc&ab_channel=ElectroDanceMixes"
+	},
+	{
+		Name: "ElectroRoyKnox",
+		URL: "https://bondageprojects.com/music/ElectroRoyKnox.mp3",
+		Source: "https://www.youtube.com/watch?v=dh01eSOn9_E&ab_channel=MagicMusic"
+	},
+	{
+		Name: "DanceElectroPop",
+		URL: "https://bondageprojects.com/music/DanceElectroPop.mp3",
+		Source: "https://www.youtube.com/watch?v=MEkaqZecpUQ&ab_channel=NoCopyrightSounds"
+	},
+	{
+		Name: "DarkTechno",
+		URL: "https://bondageprojects.com/music/DarkTechno.mp3",
+		Source: "https://www.youtube.com/watch?v=iAguE62acA8&ab_channel=AimToHeadOfficial"
+	}
+];
 
 /**
  * Changes a customiation value from a chat room command
@@ -49,6 +112,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationLoad() {
+	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
 	let Data = ChatAdminTemporaryData ? ChatAdminTemporaryData.Custom : ChatRoomData.Custom;
 	if (Data == null) Data = {};
@@ -154,19 +218,44 @@ function ChatAdminRoomCustomizationProcess(Custom, Draw) {
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationRun() {
+
+	// Shows the background and plays the music if needed
 	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, true);
-	DrawText(TextGet("Title"), 1000, 120, "Black", "White");
-	DrawText(TextGet("BackgroundImage1"), 1000, 230, "Black", "White");
-	DrawText(TextGet("BackgroundImage2"), 1000, 290, "Black", "White");
-	ElementPosition("InputImageURL", 1000, 350, 1500);
-	DrawText(TextGet("BackgroundFilter"), 1000, 480, "Black", "White");
-	ElementPosition("InputImageFilter", 1000, 540, 250);
-	DrawText(TextGet("BackgroundMusic"), 1000, 660, "Black", "White");
-	ElementPosition("InputMusicURL", 1000, 720, 1500);
+
+	// In no special mode
+	if (ChatAdminRoomCustomizationMode == null) {
+		DrawText(TextGet("Title"), 1000, 120, "Black", "White");
+		DrawText(TextGet("BackgroundImage1"), 1000, 230, "Black", "White");
+		DrawText(TextGet("BackgroundImage2"), 1000, 290, "Black", "White");
+		ElementPosition("InputImageURL", 1000, 350, 1500);
+		DrawText(TextGet("BackgroundFilter"), 1000, 480, "Black", "White");
+		ElementPosition("InputImageFilter", 1000, 540, 250);
+		DrawText(TextGet("BackgroundMusic"), 1000, 660, "Black", "White");
+		ElementPosition("InputMusicURL", 880, 720, 1360);
+		DrawButton(1570, 692, 200, 65, TextGet("Library"), "White");
+	}
+
+	// In music library mode
+	if (ChatAdminRoomCustomizationMode === "MusicLibrary") {
+		ElementPosition("InputImageURL", 1000, -10000, 1500);
+		ElementPosition("InputImageFilter", 1000, -10000, 250);
+		ElementPosition("InputMusicURL", 880, 720, 1360);
+		DrawText(TextGet("TitleMusicLibrary"), 1000, 120, "Black", "White");
+		DrawButton(1570, 692, 200, 65, TextGet("Return"), "White");
+		for (let L = 0; L < ChatAdminRoomCustomizationMusicLibrary.length; L++) {
+			let X = Math.floor(L % 3) * 600 + 115;
+			let Y = Math.floor(L / 3) * 100 + 210;
+			DrawButton(X, Y, 500, 65, TextGet("MusicLibrary" + ChatAdminRoomCustomizationMusicLibrary[L].Name), "White");
+			DrawButton(X + 500, Y, 65, 65, "", "White", "Icons/Small/YouTube.png");
+		}
+	}
+
+	// Shows the bottom buttons
 	DrawButton(425, 840, 250, 65, TextGet("Preview"), "White");
 	DrawButton(725, 840, 250, 65, TextGet("Clear"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1025, 840, 250, 65, TextGet("Save"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1325, 840, 250, 65, TextGet("Cancel"), "White");
+
 }
 
 /**
@@ -182,6 +271,42 @@ function ChatAdminRoomCustomizationClick() {
 		ElementValue("InputImageFilter", "#00008080");
 		ElementValue("InputMusicURL", "https://bondageprojects.com/music/relax.mp3");
 	}*/
+
+	// If there's no special mode loaded
+	if (ChatAdminRoomCustomizationMode == null) {
+
+		// Can show a preview right away in the screen
+		if (MouseIn(1570, 692, 200, 65)) {
+			ChatAdminRoomCustomizationMode = "MusicLibrary";
+			return;
+		}
+
+	}
+
+	// In Music Library mode
+	if (ChatAdminRoomCustomizationMode === "MusicLibrary") {
+
+		// Can show a preview right away in the screen
+		if (MouseIn(1570, 692, 200, 65)) {
+			ChatAdminRoomCustomizationMode = null;
+			return;
+		}
+
+		// If a button is clicked, we select that song
+		for (let L = 0; L < ChatAdminRoomCustomizationMusicLibrary.length; L++) {
+			let X = Math.floor(L % 3) * 600 + 115;
+			let Y = Math.floor(L / 3) * 100 + 210;
+			if (MouseIn(X, Y, 500, 65)) {
+				ElementValue("InputMusicURL", ChatAdminRoomCustomizationMusicLibrary[L].URL);
+				return;
+			}
+			if (MouseIn(X + 500, Y, 65, 65)) {
+				window.open(ChatAdminRoomCustomizationMusicLibrary[L].Source, '_blank').focus();
+				return;
+			}
+		}
+
+	}
 
 	// Can show a preview right away in the screen
 	if (MouseIn(425, 840, 250, 65)) {
