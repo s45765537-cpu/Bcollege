@@ -7130,25 +7130,24 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Lowered",
-					Property: { 
-						Difficulty: 0, 
-						Effect: ["Freeze", "BlockKneel"],
+					Property: {
+						Difficulty: 0,
 						SetPose: ["BaseLower"],
-						AllowActivePose: ["LegsOpen","LegsClosed"],
-					}
-				}, 
+						AllowActivePose: ["LegsOpen", "LegsClosed"],
+					},
+				},
 				{
 					Name: "Suspended",
 					Property: {
 						Difficulty: 5,
-						OverrideHeight: { 
-							Height: 30, 
-							Priority: 51, 
-							HeightRatioProportion: 0 
+						OverrideHeight: {
+							Height: 30,
+							Priority: 51,
+							HeightRatioProportion: 0,
 						},
 						SetPose: ["BaseLower"],
-						Effect: ["Freeze", "BlockKneel", "Lifted"],
-						AllowActivePose: ["LegsOpen","LegsClosed"],
+						Effect: ["Lifted"],
+						AllowActivePose: ["LegsOpen", "LegsClosed"],
 					},
 				},
 			],
@@ -9615,23 +9614,23 @@ var AssetFemale3DCGExtended = {
 		BigMouth: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
-				{ 
+				{
 					Name: "Default",
-					},
-					{ 
+				},
+				{
 					Name: "Open",
-					},	
-					{ 
+				},
+				{
 					Name: "Serious",
-					},	
-					{ 
+				},
+				{
 					Name: "Grin",
-					},			
-				],
+				},
+			],
 			DialogPrefix: {
 				Header: "BigMouthSelectMouthStyle",
 				Option: "BigMouthMouthStyle",
-			}
+			},
 		}, // BigMouth
 		FuturisticMuzzle: {
 			Archetype: ExtendedArchetype.MODULAR,

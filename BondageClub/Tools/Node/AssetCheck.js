@@ -1053,6 +1053,19 @@ function testPoseDisjoint(assetDefs) {
 }
 
 /**
+ * Check that all assets have a preview image
+ * @param {readonly Asset[]} assets
+ */
+function testHasPreview(assets) {
+	for (const asset of assets) {
+		const path = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(path)) {
+			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${path}"`);
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1277,4 +1290,5 @@ function sanitizeVMOutput(input) {
 	});
 	testActivePose(assetList, poseMap);
 	testPoseDisjoint(AssetFemale3DCG);
+	testHasPreview(assetList);
 })();
