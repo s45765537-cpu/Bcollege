@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Anna", "ArashiSama", "Aylea", "Bastien", "BlueWinter", "Bryce", 
-	"Christian", "DarkStar", "Desch", "Dragokahn", "Dynilath", "Edwin", "Elfreda", "Escurse", 
-	"Faleata", "FanRunner", "Greendragon", "JoeyDubDee", "Komiro", "Lyall", "Michal", "Michel", 
-	"Mindtie", "Misa", "Nick", "Nightcore", "Qrroww", "Rika", "Roxxy", "Shadow", "SoulCollar", 
+	"Abysseia", "Aceffect", "Anna", "ArashiSama", "Aylea", "Bastien", "BlueWinter", "Bryce",
+	"Christian", "DarkStar", "Desch", "Dragokahn", "Dynilath", "Edwin", "Elfreda", "Escurse",
+	"Faleata", "FanRunner", "Greendragon", "JoeyDubDee", "Komiro", "Lyall", "Michal", "Michel",
+	"Mindtie", "Misa", "Nick", "Nightcore", "Qrroww", "Rika", "Roxxy", "Shadow", "SoulCollar",
 	"Tam", "Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xepherio", "William"
 ];
 
@@ -876,6 +876,32 @@ function LoginResponse(C) {
 		}
 	} else LoginStatusReset(C);
 	LoginUpdateMessage();
+	LoginCheckES2020();
+}
+
+const ES2020_MESSAGE = `If you see this message, it means that your browser lacks ES2020 support and will not be working in the next Bondage Club version (R99).
+
+Please update your browser or contact the developer team on Discord before the next release so we can review the upcoming changes`;
+
+/** Check if the player's browser has ES2020 support */
+function LoginCheckES2020() {
+	try {
+		// eslint-disable-next-line no-eval
+		eval("{}?.foo");
+		// eslint-disable-next-line no-eval
+		eval("null ?? null");
+	} catch (error) {
+		if (error.name === "SyntaxError") {
+			ServerAccountBeep({
+				MemberNumber: Player.MemberNumber,
+				MemberName: "Bondage Club Dev Team",
+				ChatRoomName: "Outdated Browser Warning",
+				Private: true,
+				Message: ES2020_MESSAGE,
+				ChatRoomSpace: "",
+			});
+		}
+	}
 }
 
 /**
