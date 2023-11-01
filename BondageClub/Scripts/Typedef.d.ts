@@ -369,7 +369,13 @@ interface AssetPoseMap {
 type AssetPoseCategory = keyof AssetPoseMap;
 type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
 
-type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | "">>;
+/**
+ * A record mapping pose names to the actually to-be drawn poses.
+ * Special values can be specified, via use of {@link PoseType}, for either hiding the asset or using pose-agnostic assets.
+ */
+type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | PoseType>>;
+
+type PoseType = "Hide" | "";
 
 type AssetLockType =
 	"CombinationPadlock" | "ExclusivePadlock" | "HighSecurityPadlock" |
@@ -675,7 +681,9 @@ interface AssetGroup {
 	readonly Block?: readonly AssetGroupItemName[];
 	readonly Zone?: readonly [number, number, number, number][];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly AllowPose: readonly AssetPoseName[];
+	/** @deprecated - Superceded by {@link PoseMapping} */
+	readonly AllowPose?: never;
+	readonly PoseMapping: AssetPoseMapping;
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
@@ -760,11 +768,10 @@ interface AssetLayer {
 	/** The name of the parent group for this layer. If null, the layer has no parent group. If
 	undefined, the layer inherits its parent group from it's asset/group. */
 	ParentGroupName?: AssetGroupName | "" | null;
-	/** An array of poses that this layer permits. If set, it will override the poses permitted
-	by the parent asset/group. */
-	AllowPose: readonly AssetPoseName[];
-	/** An array of poses that this layer should be hidden for. */
-	HideForPose: readonly (AssetPoseName | "")[];
+	/** @deprecated - Superceded by {@link PoseMapping} */
+	AllowPose?: never;
+	/** @deprecated - Superceded by {@link PoseMapping} */
+	HideForPose?: never;
 	/** An array of objects mapping poses to other poses to determine their draw folder */
 	PoseMapping: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
@@ -876,8 +883,10 @@ type Asset = Readonly<{
 	HideItemAttribute: readonly AssetAttribute[];
 	Require: readonly AssetGroupBodyName[];
 	SetPose?: readonly AssetPoseName[];
-	AllowPose: readonly AssetPoseName[];
-	HideForPose: readonly (AssetPoseName | "")[];
+	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
+	AllowPose?: never;
+	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
+	HideForPose?: never;
 	PoseMapping: AssetPoseMapping;
 	AllowActivePose?: readonly AssetPoseName[];
 	/** @deprecated Use {@link Asset.AllowActivePose} instead */
@@ -2260,8 +2269,13 @@ interface AssetDefinitionProperties {
 	/**
 	 * A list of allowed poses
 	 * @see {@link Asset.AllowPose}
+	 * @deprecated - Superceded by {@link PoseMapping}
 	 */
-	AllowPose?: AssetPoseName[];
+	AllowPose?: never;
+	/**
+	 * @see {@link Asset.PoseMapping}
+	 */
+	PoseMapping?: AssetPoseMapping;
 	/**
 	 * A list of poses
 	 * @see {@link Asset.WhitelistActivePose}

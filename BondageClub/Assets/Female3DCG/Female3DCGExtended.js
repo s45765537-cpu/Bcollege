@@ -825,20 +825,14 @@ var AssetFemale3DCGExtended = {
 	}, // ClothLower
 	SocksLeft: {
 		LooseSocks: {
-			Archetype: ExtendedArchetype.TYPED, 
-			Options: 
-			[{ Name: "Normal" },
-			{ Name: "Flat" },
-			],
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Normal" }, { Name: "Flat" }],
 		}, // LooseSocks
 	}, // SocksLeft
 	SocksRight: {
 		LooseSocks: {
-			Archetype: ExtendedArchetype.TYPED, 
-			Options: 
-			[{ Name: "Normal" },
-			{ Name: "Flat" },
-			],
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "SocksLeft", AssetName: "LooseSocks" },
 		}, // LooseSocks
 	}, // SocksRight
 	ItemBreast: {

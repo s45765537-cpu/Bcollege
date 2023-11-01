@@ -59,7 +59,7 @@ function CommonDrawAppearanceBuild(C, {
 		}
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
-		let Pose = CommonDrawResolveAssetPose(C, A, Layer);
+		let Pose = CommonDrawResolveAssetPose(C, Layer);
 
 		// Check if we need to draw a different expression (for facial features)
 		let Expression = "";
@@ -260,8 +260,19 @@ function CommonDrawAppearanceBuild(C, {
 
 		const ItemLocked = !!(Property && Property.LockedBy);
 
-		let PoseFolder = typeof Layer.PoseMapping[Pose] === "string" ? Layer.PoseMapping[Pose] : Pose;
-		if (PoseFolder) PoseFolder += '/';
+		/** @type {string} */
+		let PoseFolder = Layer.PoseMapping[Pose];
+		switch (PoseFolder) {
+			case PoseType.HIDE:
+			case PoseType.DEFAULT:
+			case undefined:
+				PoseFolder = "";
+				break;
+			default:
+				PoseFolder += "/";
+				break;
+		}
+
 		if (Layer.HasImage && (!Layer.LockLayer || ItemLocked)) {
 			/** Check whether the asset requires a custom suffix
 			 * @type {string | undefined} */
@@ -380,18 +391,11 @@ function CommonDrawFindPose(C, AllowedPoses) {
 /**
  * Finds the pose that should be used when a given asset (and optionally layer) is drawn.
  * @param {Character} C - The character whose poses to check
- * @param {Asset} A - The asset to check
  * @param {AssetLayer} [Layer] - The layer to check (optional)
  * @returns {AssetPoseName | null} - The pose to use when drawing the given asset (or layer)
  */
-function CommonDrawResolveAssetPose(C, A, Layer) {
-	/** @type {AssetPoseName | null} */
-	let Pose = null;
-	if (C.DrawPose && C.DrawPose.length) {
-		let AllowPose = Layer && Layer.AllowPose;
-		if (!Array.isArray(AllowPose)) AllowPose = A.AllowPose;
-		if (!Array.isArray(AllowPose)) AllowPose = A.Group.AllowPose;
-		Pose = CommonDrawFindPose(C, AllowPose);
-	}
-	return Pose;
+function CommonDrawResolveAssetPose(C, Layer) {
+	const poseEntries = CommonEntries(Layer.PoseMapping);
+	const poses = poseEntries.filter(ij => ij[1] !== PoseType.DEFAULT).map(i => i[0]);
+	return CommonDrawFindPose(C, poses);
 }

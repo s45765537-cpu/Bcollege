@@ -14,6 +14,20 @@ var Pose = [];
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
+/** Special values for {@link AssetDefinition.PoseMapping} for hiding or using pose-agnostic assets. */
+const PoseType = /** @type {const} */({
+	/**
+	 * Ensures that the asset is hidden for a specific pose.
+	 * Supercedes the old `HideForPose` property.
+	 */
+	HIDE: "Hide",
+	/**
+	 * Ensures that the default (pose-agnostic) asset used for a particular pose.
+	 * Supercedes the old `AllowPose` property.
+	 */
+	DEFAULT: "",
+});
+
 /**
  * Adds a new asset group to the main list
  * @param {IAssetFamily} Family
@@ -46,7 +60,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
 		SetPose: GroupDef.SetPose,
-		AllowPose: Array.isArray(GroupDef.AllowPose) ? GroupDef.AllowPose : [],
+		PoseMapping: GroupDef.PoseMapping || {},
 		AllowExpression: GroupDef.AllowExpression,
 		Effect: Array.isArray(GroupDef.Effect) ? GroupDef.Effect : [],
 		MirrorGroup: (GroupDef.MirrorGroup == null) ? "" : GroupDef.MirrorGroup,
@@ -100,7 +114,7 @@ function AssetActivityMirrorGroupSet(group) {
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	/** @type {Mutable<Asset>} */
-	var A = Object.assign({
+	var A = {
 		Name: AssetDef.Name,
 		Description: AssetDef.Name,
 		Group: Group,
@@ -205,7 +219,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetDef.PoseMapping || {},
+		PoseMapping: AssetDef.PoseMapping || Group.PoseMapping,
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
@@ -213,7 +227,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
 		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
-	}, AssetParsePoseProperties(AssetDef, AssetDef.AllowActivePose || Group.AllowPose));
+	};
 
 	if (A.SetPose) {
 		A.Prerequisite = AssetParsePosePrerequisite(A);
@@ -384,7 +398,7 @@ function AssetBuildLayer(AssetDefinition, A) {
  */
 function AssetMapLayer(Layer, AssetDefinition, A, I) {
 	/** @type {AssetLayer} */
-	const L = Object.assign({
+	const L = {
 		Name: Layer.Name || null,
 		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition, A.Group),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
@@ -416,34 +430,10 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: CommonIsObject(Layer.ColorSuffix) ? Layer.ColorSuffix : null,
-	}, AssetParsePoseProperties(
-		Layer,
-		Array.isArray(A.AllowPose) ? A.AllowPose.slice() : [])
-	);
+	};
 	if (L.MinOpacity > L.Opacity) L.MinOpacity = L.Opacity;
 	if (L.MaxOpacity < L.Opacity) L.MaxOpacity = L.Opacity;
 	return L;
-}
-
-/**
- * Resolves the AllowPose and HideForPose properties on a layer or an asset
- * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
- * @param {readonly AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
- * object
- * @return {Pick<Asset, "AllowPose" | "HideForPose">} - A partial object containing AllowPose and HideForPose
- * properties
- */
-function AssetParsePoseProperties(obj, defaultAllowPose) {
-	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
-	const AllowPose = Array.isArray(obj.AllowPose) ? [...obj.AllowPose] : [...defaultAllowPose];
-	const poseMappingKeys = CommonKeys(obj.PoseMapping || {});
-	if (HideForPose.length > 0) {
-		CommonArrayConcatDedupe(AllowPose, HideForPose);
-	}
-	if (poseMappingKeys.length > 0) {
-		CommonArrayConcatDedupe(AllowPose, poseMappingKeys);
-	}
-	return {AllowPose, HideForPose};
 }
 
 /**
