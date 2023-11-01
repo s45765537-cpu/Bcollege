@@ -29483,8 +29483,10 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "LeftIris", MirrorExpression: "Eyes", AllowColorize: true },
 					{ Name: "LeftEye", MirrorExpression: "Eyes", AllowColorize: false },
+					{ Name: "LeftEyelids", MirrorExpression: "Eyes", InheritColor: "BodyUpper", AllowColorize: true },
 					{ Name: "RightIris", MirrorExpression: "Eyes2", AllowColorize: true },
 					{ Name: "RightEye", MirrorExpression: "Eyes2", AllowColorize: false },
+					{ Name: "RightEyelids", MirrorExpression: "Eyes2", InheritColor: "BodyUpper", AllowColorize: true},
 				],
 			},
 			{
