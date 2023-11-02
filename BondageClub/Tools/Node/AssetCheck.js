@@ -1123,10 +1123,7 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			}
 
 			// Combinations involving parent group members
-			let parentGroupName = layer.ParentGroupName;
-			if (typeof parentGroupName === "undefined") parentGroupName = asset.ParentGroupName;
-			if (typeof parentGroupName === "undefined") parentGroupName = asset.Group.ParentGroupName;
-			const parentNames = parentGroupName && parentGroupName in assetGroupMap ? assetGroupMap[parentGroupName][asset.Gender ?? "FM"] : [null];
+			const parentNames = layer.ParentGroupName == null ? [null] : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
 
 			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
 			for (const parent of parentNames) {

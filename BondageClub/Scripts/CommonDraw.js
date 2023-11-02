@@ -49,12 +49,9 @@ function CommonDrawAppearanceBuild(C, {
 		LayerCounts[CountKey] = (LayerCounts[CountKey] || 0) + 1;
 
 		// If there's a parent group (parent group of the layer overrides that of the asset, which overrides that of the group)
-		let ParentGroupName = Layer.ParentGroupName;
-		if (typeof ParentGroupName === "undefined") ParentGroupName = A.ParentGroupName;
-		if (typeof ParentGroupName === "undefined") ParentGroupName = AG.ParentGroupName;
 		let G = "";
-		if (ParentGroupName) {
-			const ParentItem = C.Appearance.find(Item => Item.Asset.Group.Name === ParentGroupName);
+		if (Layer.ParentGroupName) {
+			const ParentItem = C.Appearance.find(Item => Item.Asset.Group.Name === Layer.ParentGroupName);
 			if (ParentItem) G = "_" + ParentItem.Asset.Name;
 		}
 

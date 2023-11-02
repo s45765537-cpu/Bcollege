@@ -663,7 +663,7 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	readonly ParentGroupName: AssetGroupName | "";
+	readonly ParentGroupName: AssetGroupName | null;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -767,7 +767,7 @@ interface AssetLayer {
 	HasType: boolean;
 	/** The name of the parent group for this layer. If null, the layer has no parent group. If
 	undefined, the layer inherits its parent group from it's asset/group. */
-	ParentGroupName?: AssetGroupName | "" | null;
+	ParentGroupName: AssetGroupName | null;
 	/** @deprecated - Superceded by {@link PoseMapping} */
 	AllowPose?: never;
 	/** @deprecated - Superceded by {@link PoseMapping} */
@@ -861,7 +861,7 @@ type Asset = Readonly<{
 	Description: string;
 	Group: AssetGroup;
 	ParentItem?: string;
-	ParentGroupName?: AssetGroupName | null;
+	ParentGroupName: AssetGroupName | null;
 	Enable: boolean;
 	Visible: boolean;
 	NotVisibleOnScreen?: readonly string[];
