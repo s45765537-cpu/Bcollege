@@ -1024,6 +1024,136 @@ function testHasPreview(assets) {
 }
 
 /**
+ * Check that all assets have the expected .png images.
+ * @param {readonly Asset[]} assets
+ * @param {{ typed: Record<string, TypedItemData>, modular: Record<string, ModularItemData> }} extendedDataRecords
+ */
+function testAssetHasPNG(assets, extendedDataRecords) {
+	const assetGroups = /** @type {Record<AssetGroupName, AssetGroup>} */({});
+	const assetGroupMap = /** @type {Record<AssetGroupName, { F: string[], M: string[], FM: string[] }>} */({});
+	for (const asset of assets) {
+		const gender = asset.Gender ?? "FM";
+		if (!(asset.Group.Name in assetGroupMap)) {
+			assetGroupMap[asset.Group.Name] = { "F": [], "M": [], "FM": [] };
+		}
+		assetGroupMap[asset.Group.Name][gender].push(asset.Name);
+		assetGroups[asset.Group.Name] = asset.Group;
+	}
+
+	for (const asset of assets) {
+		if (!asset.Visible) {
+			continue;
+		}
+
+		for (const layer of asset.Layer) {
+			if (!layer.HasImage) {
+				continue;
+			}
+
+			// Combinations involving pose-specific directories
+			const poses = new Set(Object.values(layer.PoseMapping).filter(p => p !== "Hide"));
+			if (poses.size === 0) {
+				poses.add("");
+			}
+
+			// Combinations involving modular/typed item types
+			/** @type {{ type: string, option: ExtendedItemOption }[]} */
+			let layerOptions = [];
+			if (layer.HasType || layer.ModuleType) {
+				switch (asset.Archetype) {
+					case "typed": {
+						const data = extendedDataRecords.typed[`${asset.Group.Name}${asset.Name}`];
+						layerOptions = data.options.map((o, i) => {
+							const ret = { type: i === 0 ? "" : o.Name, option: o };
+							return (layer.AllowTypes?.includes(ret.type) ?? true) ? ret : /** @type {never} */(null);
+						}).filter(i => i != null);
+						break;
+					}
+					case "modular": {
+						if (!layer.ModuleType) {
+							break;
+						}
+
+						const data = extendedDataRecords.modular[`${asset.Group.Name}${asset.Name}`];
+						layerOptions = layer.ModuleType.flatMap(key => {
+							/** @type {null | string[]} */
+							let allowedTypes = layer.AllowModuleTypes?.filter(typ => key === typ.slice(0, key.length)) ?? [];
+							if (allowedTypes.length === 0) {
+								allowedTypes = null;
+							}
+							const module = data.modules.find(m => m.Key === key);
+							return (module?.Options ?? []).filter(o => allowedTypes?.includes(o.Name) ?? true).map(o => {
+								return { type: o.Name, option: o };
+							});
+						});
+						break;
+					}
+				}
+			}
+
+			// Extended item options can have a set of allowed poses distinct from their base asset
+			/** @type {[type: string | null, poses: Iterable<AssetPoseName | PoseType>][]} */
+			const layerTypes = layerOptions.length === 0 ? [[null, poses]] : layerOptions.map(({ type, option }) => {
+				if (option.Property?.SetPose || option.Property?.AllowActivePose) {
+					/** @type {(AssetPoseName | PoseType)[]} */
+					const allowedPoses = [...(option.Property?.SetPose ?? []), ...(option.Property?.AllowActivePose ?? [])];
+					if (allowedPoses.length === 0) {
+						allowedPoses.push("");
+					}
+					return [type, [...poses].filter(p => allowedPoses.includes(p))];
+				} else {
+					return [type, poses];
+				}
+			});
+
+			// Combinations involving non-hex based colors (white, black, asian, etc)
+			/** @type {readonly (string | null)[]} */
+			let colors = asset.Group.ColorSchema;
+			/** @type {null | AssetLayer | AssetGroup} */
+			let layerOrGroup = layer;
+			while (layerOrGroup?.InheritColor) {
+				layerOrGroup = assetGroups[layerOrGroup.InheritColor];
+				if ("ColorSchema" in layerOrGroup) {
+					colors = layerOrGroup.ColorSchema;
+				}
+			}
+			colors = asset.Group.ColorSchema.filter(i => i !== "Default" && !i.startsWith("#"));
+			if (colors.length === 0) {
+				colors = [null];
+			}
+
+			// Combinations involving parent group members
+			let parentGroupName = layer.ParentGroupName;
+			if (typeof parentGroupName === "undefined") parentGroupName = asset.ParentGroupName;
+			if (typeof parentGroupName === "undefined") parentGroupName = asset.Group.ParentGroupName;
+			const parentNames = parentGroupName && parentGroupName in assetGroupMap ? assetGroupMap[parentGroupName][asset.Gender ?? "FM"] : [null];
+
+			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
+			for (const parent of parentNames) {
+				for (const color of colors) {
+					for (const [type, poseList] of layerTypes) {
+						for (const pose of poseList) {
+							const file = (
+								root
+								+ (pose ? `${pose}/` : "")
+								+ asset.Name
+								+ (parent ? `_${parent}` : "")
+								+ (type ?? "")
+								+ (color == null ? "" : `_${color}`)
+								+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
+							);
+							if (!fs.existsSync(file)) {
+								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1248,4 +1378,8 @@ function sanitizeVMOutput(input) {
 	});
 	testActivePose(assetList, poseMap);
 	testHasPreview(assetList);
+	testAssetHasPNG(assetList, {
+		modular: ModularItemDataLookup,
+		typed: TypedItemDataLookup,
+	});
 })();
