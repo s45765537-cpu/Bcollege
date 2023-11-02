@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "ES2018",
-		"lib": ["es2018"],
+		"target": "ES2022",
+		"lib": ["es2022"],
 		"checkJs": true,
 		"strict": true,
 		"noImplicitAny": false
