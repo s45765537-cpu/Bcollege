@@ -887,7 +887,7 @@ Please update your browser or contact the developer team on Discord before the n
 function LoginCheckES2020() {
 	try {
 		// eslint-disable-next-line no-eval
-		eval("{}?.foo");
+		eval("({})?.foo");
 		// eslint-disable-next-line no-eval
 		eval("null ?? null");
 	} catch (error) {
