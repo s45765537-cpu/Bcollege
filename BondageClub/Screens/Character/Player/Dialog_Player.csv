@@ -4853,8 +4853,3 @@ ItemMouthBigMouthSetDefault,,,SourceCharacter puts a default lips in Destination
 ItemMouthBigMouthSetGrin,,,SourceCharacter puts a grin lips in DestinationCharacterName mouth.,,
 ItemMouthBigMouthSetSerious,,,SourceCharacter puts a serious lips in DestinationCharacterName mouth.,,
 ItemMouthBigMouthSetOpen,,,SourceCharacter puts a wide open lips in DestinationCharacterName mouth.,,
-OneBarGirlSelectGirlPose,,,Choose a fake legs pose:,,
-OneBarGirlGirlPoseModel1,,,Crossed legs,,
-OneBarGirlGirlPoseModel2,,,Laid-back legs,,
-ItemDevicesOneBarGirlSetModel1,,,SourceCharacter traps DestinationCharacterName body on the bar with fake crossed legs.,,
-ItemDevicesOneBarGirlSetModel2,,,SourceCharacter traps DestinationCharacterName body on the bar with fake laid-back legs.,,
