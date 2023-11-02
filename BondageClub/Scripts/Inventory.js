@@ -580,7 +580,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=tr
 	}
 
 	// Refreshes the character if needed
-	if (Refresh && (Target.IsPlayer() || Target.IsNpc()))
+	if (Refresh)
 		CharacterRefresh(Target, true);
 
 }
