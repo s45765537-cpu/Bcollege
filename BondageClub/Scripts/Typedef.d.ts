@@ -2269,13 +2269,9 @@ interface AssetDefinitionProperties {
 	/**
 	 * A list of allowed poses
 	 * @see {@link Asset.AllowPose}
-	 * @deprecated - Superceded by {@link PoseMapping}
+	 * @deprecated - Was never actually functional
 	 */
 	AllowPose?: never;
-	/**
-	 * @see {@link Asset.PoseMapping}
-	 */
-	PoseMapping?: AssetPoseMapping;
 	/**
 	 * A list of poses
 	 * @see {@link Asset.WhitelistActivePose}
