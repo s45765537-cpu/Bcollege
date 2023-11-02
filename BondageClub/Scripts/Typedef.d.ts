@@ -952,7 +952,7 @@ type Asset = Readonly<{
 	DynamicAudio: ((C: Character) => string) | null;
 	CharacterRestricted: boolean;
 	AllowRemoveExclusive: boolean;
-	InheritColor?: AssetGroupName;
+	InheritColor: null | AssetGroupName;
 	DynamicBeforeDraw: boolean;
 	DynamicAfterDraw: boolean;
 	DynamicScriptDraw: boolean;

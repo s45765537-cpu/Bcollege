@@ -1107,17 +1107,14 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			});
 
 			// Combinations involving non-hex based colors (white, black, asian, etc)
-			/** @type {readonly (string | null)[]} */
-			let colors = asset.Group.ColorSchema;
-			/** @type {null | AssetLayer | AssetGroup} */
-			let layerOrGroup = layer;
-			while (layerOrGroup?.InheritColor) {
-				layerOrGroup = assetGroups[layerOrGroup.InheritColor];
-				if ("ColorSchema" in layerOrGroup) {
-					colors = layerOrGroup.ColorSchema;
-				}
+			/** @type {(string | null)[]} */
+			let colors;
+			if (layer.InheritColor) {
+				const colorParent = assetGroups[layer.InheritColor];
+				colors = colorParent.ColorSchema.map(i => layer.ColorSuffix?.[i] ?? i).filter(i => i !== "Default" && !i.startsWith("#"));
+			} else {
+				colors = asset.Group.ColorSchema.filter(i => i !== "Default" && !i.startsWith("#"));
 			}
-			colors = asset.Group.ColorSchema.filter(i => i !== "Default" && !i.startsWith("#"));
 			if (colors.length === 0) {
 				colors = [null];
 			}
