@@ -57,6 +57,7 @@ var AudioList = [
 	{ Name: "ZipTie", File: "ZipTie" },
 	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
 	{ Name: "WhipCrack", File: ["WhipCrack"] },
+	{ Name: "LeverShort", File: "Lever1" },
 ];
 
 
@@ -307,6 +308,12 @@ var AudioActions = [
 	{
 		IsAction: (data) => data.Type === "Activity",
 		GetSoundEffect: AudioGetSoundFromChatMessage
+	},
+	{
+		IsAction: (data) => [
+			"PersonalCageHeightSet",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "LeverShort"
 	},
 ];
 

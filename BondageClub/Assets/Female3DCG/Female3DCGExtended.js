@@ -7131,7 +7131,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Lowered",
 					Property: {
-						Difficulty: 0,
+						Difficulty: 10,
 						SetPose: ["BaseLower"],
 						AllowActivePose: ["LegsOpen", "LegsClosed"],
 					},
@@ -7139,7 +7139,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Suspended",
 					Property: {
-						Difficulty: 5,
+						Difficulty: 15,
 						OverrideHeight: {
 							Height: 30,
 							Priority: 51,
