@@ -274,7 +274,7 @@ function CommonDrawAppearanceBuild(C, {
 			/** Check whether the asset requires a custom suffix
 			 * @type {string | undefined} */
 			let SuffixName = undefined;
-			const colorSuffix = Layer.ColorSuffix || A.ColorSuffix;
+			const colorSuffix = Layer.ColorSuffix;
 			if ((colorSuffix != null) && (Color != null)) {
 				// eslint-disable-next-line dot-notation
 				SuffixName = (Color.indexOf("#") == 0) ? colorSuffix["HEX_COLOR"] : colorSuffix[Color];

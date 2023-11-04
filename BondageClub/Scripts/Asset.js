@@ -75,7 +75,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		DynamicGroupName: GroupDef.DynamicGroupName || GroupDef.Group,
 		MirrorActivitiesFrom: GroupDef.MirrorActivitiesFrom || undefined,
 		ArousalZone: (typeof GroupDef.ArousalZone === "string" ? GroupDef.ArousalZone : undefined),
-		ColorSuffix: GroupDef.ColorSuffix,
+		ColorSuffix: GroupDef.ColorSuffix || {},
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
 		IsAppearance() { return this.Category === "Appearance"; },
@@ -225,7 +225,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
 		Gender: AssetDef.Gender,
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
-		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
+		ColorSuffix: AssetDef.ColorSuffix || Group.ColorSuffix,
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
 	};
 
@@ -429,7 +429,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		PoseMapping: Layer.PoseMapping || A.PoseMapping,
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
-		ColorSuffix: CommonIsObject(Layer.ColorSuffix) ? Layer.ColorSuffix : null,
+		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
 	};
 	if (L.MinOpacity > L.Opacity) L.MinOpacity = L.Opacity;
 	if (L.MaxOpacity < L.Opacity) L.MaxOpacity = L.Opacity;

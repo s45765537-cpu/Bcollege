@@ -704,7 +704,7 @@ interface AssetGroup {
 
 	/** A dict mapping colors to custom filename suffices.
 	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
-	readonly ColorSuffix?: Readonly<Record<string, string>>;
+	readonly ColorSuffix: Readonly<Record<string, string>>;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly HasPreviewImages: boolean;
 	/** Return whether this group belongs to the `Appearance` {@link AssetGroup.Category} */
