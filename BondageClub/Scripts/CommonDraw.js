@@ -268,8 +268,11 @@ function CommonDrawAppearanceBuild(C, {
 			let SuffixName = undefined;
 			const colorSuffix = Layer.ColorSuffix;
 			if ((colorSuffix != null) && (Color != null)) {
-				// eslint-disable-next-line dot-notation
-				SuffixName = (Color.indexOf("#") == 0) ? colorSuffix["HEX_COLOR"] : colorSuffix[Color];
+				SuffixName = (Color[0] === "#") ? colorSuffix.HEX_COLOR : colorSuffix[Color];
+				if (SuffixName && SuffixName[0] === "#") {
+					Color = SuffixName;
+					SuffixName = undefined;
+				}
 			}
 
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply

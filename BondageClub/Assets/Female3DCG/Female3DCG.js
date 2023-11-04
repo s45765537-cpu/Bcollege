@@ -10388,11 +10388,20 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Left: 185,
 				Top: 95,
-				DefaultColor: ["#303030", "Default", "#967165"],
+				DefaultColor: ["#303030", "Default", "Default"],
 				Layer: [
 					{ Name: "Glasses" },
 					{ Name: "Hair", InheritColor: "HairFront" },
-					{ Name: "Nose" },
+					{
+						Name: "Nose",
+						InheritColor: "BodyUpper",
+						ColorSuffix: {
+							Default: "#967165",
+							White: "#967165",
+							Black: "#5F3B23",
+							Asian: "#89705F",
+						},
+					},
 				],
 			},
 		],
