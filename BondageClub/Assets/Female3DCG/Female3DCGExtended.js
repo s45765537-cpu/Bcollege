@@ -823,6 +823,24 @@ var AssetFemale3DCGExtended = {
 			],
 		}, //PantBoots
 	}, // ClothLower
+	SocksLeft: {
+		LooseSocks: {
+			Archetype: ExtendedArchetype.TYPED, 
+			Options: 
+			[{ Name: "Normal" },
+			{ Name: "Flat" },
+			],
+		}, // LooseSocks
+	}, // SocksLeft
+	SocksRight: {
+		LooseSocks: {
+			Archetype: ExtendedArchetype.TYPED, 
+			Options: 
+			[{ Name: "Normal" },
+			{ Name: "Flat" },
+			],
+		}, // LooseSocks
+	}, // SocksRight
 	ItemBreast: {
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,

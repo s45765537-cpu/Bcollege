@@ -348,6 +348,7 @@ SocksRight,CowPrintedSocks,Cow Printed Socks
 SocksRight,HaremStockings,Harem Stockings
 SocksRight,VSocks1,Vinyl Socks
 SocksRight,KneePads,Knee Pads
+SocksRight,LooseSocks,Loose Socks
 SocksLeft,,Left Leg
 SocksLeft,Socks0,Ankle
 SocksLeft,Socks1,Short
@@ -369,6 +370,7 @@ SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,HaremStockings,Harem Stockings
 SocksLeft,VSocks1,Vinyl Socks
 SocksLeft,KneePads,Knee Pads
+SocksLeft,LooseSocks,Loose Socks
 RightAnklet,,Anklet (Right)
 RightAnklet,BandAnklet,Band Anklet
 RightAnklet,Ribbon,Ribbon
