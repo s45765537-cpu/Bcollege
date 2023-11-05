@@ -1122,22 +1122,32 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			// Combinations involving parent group members
 			const parentNames = layer.ParentGroupName == null ? [null] : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
 
+			// Combinations involving expressions
+			/** @type {readonly (null | ExpressionName)[]} */
+			let expressions = layer.Asset.AllowExpression ?? [];
+			if (expressions.length === 0 || !layer.MirrorExpression) {
+				expressions = [null];
+			}
+
 			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
 			for (const parent of parentNames) {
 				for (const color of colors) {
-					for (const [type, poseList] of layerTypes) {
-						for (const pose of poseList) {
-							const file = (
-								root
-								+ (pose ? `${pose}/` : "")
-								+ asset.Name
-								+ (parent ? `_${parent}` : "")
-								+ (type ?? "")
-								+ (color == null ? "" : `_${color}`)
-								+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
-							);
-							if (!fs.existsSync(file)) {
-								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+					for (const expression of expressions) {
+						for (const [type, poseList] of layerTypes) {
+							for (const pose of poseList) {
+								const file = (
+									root
+									+ (pose ? `${pose}/` : "")
+									+ (expression ? `${expression}/` : "")
+									+ asset.Name
+									+ (parent ? `_${parent}` : "")
+									+ (type ?? "")
+									+ (color == null ? "" : `_${color}`)
+									+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
+								);
+								if (!fs.existsSync(file)) {
+									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+								}
 							}
 						}
 					}

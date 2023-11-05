@@ -22622,7 +22622,6 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 						ParentGroup: null,
 						AllowModuleTypes: ["s1"],
-						MirrorExpression: "Pussy",
 						LockLayer: true,
 					},
 					{
@@ -22630,7 +22629,6 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 						ParentGroup: null,
 						AllowModuleTypes: ["s2"],
-						MirrorExpression: "Pussy",
 						LockLayer: true,
 					},
 					{
@@ -22638,7 +22636,6 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 						ParentGroup: null,
 						AllowModuleTypes: ["s3"],
-						MirrorExpression: "Pussy",
 						LockLayer: true,
 					},
 				],
