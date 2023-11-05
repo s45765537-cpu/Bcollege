@@ -1576,6 +1576,9 @@ GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
 GlassesGradientSunglassesFrame,Frame
 GlassesGradientSunglassesGlass,Glass
+GlassesJokeGlassesGlasses,Glasses
+GlassesJokeGlassesNose,Nose
+GlassesJokeGlassesHair,Hair
 GlassesGogglesBase,Goggles
 GlassesGogglesStrap,Strap
 GlassesGogglesGlass,Lenses

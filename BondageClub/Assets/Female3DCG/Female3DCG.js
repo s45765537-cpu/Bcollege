@@ -9411,6 +9411,18 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Layer: [{ Name: "Frame" }, { Name: "Glass" }],
 			},
+			{
+				Name: "JokeGlasses",
+				Value: 20,
+				Left: 185,
+				Top: 95,
+				DefaultColor: ["#303030", "Default", "#967165"],
+				Layer: [
+					{ Name: "Glasses" },
+					{ Name: "Hair", InheritColor: "HairFront" },
+					{ Name: "Nose" },
+				],
+			},
 		],
 		Color: [
 			"Default",
