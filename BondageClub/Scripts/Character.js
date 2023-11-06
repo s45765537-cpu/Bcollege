@@ -1042,10 +1042,23 @@ function CharacterLoadPose(C) {
 	// TODO: Find a better way of enforcing 1 pose-per-category
 	if (C.Pose.includes("Hogtied")) {
 		C.Pose = ["Hogtied"];
+		return;
 	} else if (C.Pose.includes("AllFours")) {
 		C.Pose = ["AllFours"];
+		return;
+	}
+	if (C.Pose.includes("KneelingSpread")) {
+		C.Pose = C.Pose.filter(p => p !== "Kneel");
 	} else if (C.Pose.includes("Kneel")) {
 		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
+	}
+	if (C.Pose.includes("TapedHands")) {
+		// Ensure that `TapedHands`, being the hack that it is, is removed if any `BodyUpper` member is present
+		if (C.Pose.includes("BaseUpper")) {
+			C.Pose = C.Pose.filter(p => p !== "BaseUpper");
+		} else if (PoseFemale3DCG.filter(p => p.Category == "BodyUpper").some(p => C.Pose.includes(p.Name))) {
+			C.Pose = C.Pose.filter(p => p !== "TapedHands");
+		}
 	}
 }
 

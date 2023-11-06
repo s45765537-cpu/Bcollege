@@ -980,16 +980,13 @@ function poseToPoseMap(poses, referencePoseMap) {
  */
 function testActivePose(assets, poseMap) {
 	for (const asset of assets) {
-		if (!(asset.AllowActivePose || asset.SetPose)) {
+		// TODO: For archetypical items we have to check against a `AllowActivePose` union involving all extended item option allowed poses
+		if (!asset.AllowActivePose || asset.Archetype) {
 			continue;
 		}
 
-		const allowActivePose = [
-			...(asset.AllowActivePose || []),
-			...(asset.SetPose || []),
-		];
 		const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(asset.PoseMapping)), poseMap);
-		const allowActivePoseMap = poseToPoseMap(allowActivePose, poseMap);
+		const allowActivePoseMap = poseToPoseMap(asset.AllowActivePose ?? [], poseMap);
 
 		for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {
 			const category = /** @type {AssetPoseCategory} */(_category);
@@ -1002,7 +999,7 @@ function testActivePose(assets, poseMap) {
 			if (invalidSuperset.length > 0) {
 				invalidSuperset.sort();
 				error(
-					`${asset.Group.Name}:${asset.Name}: PoseMapping keys must be a subset of AllowActivePose | SetPose for a given pose category; `
+					`${asset.Group.Name}:${asset.Name}: PoseMapping keys must be a subset of AllowActivePose for a given pose category; `
 					+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
 				);
 			}
@@ -1094,13 +1091,15 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			// Extended item options can have a set of allowed poses distinct from their base asset
 			/** @type {[type: string | null, poses: Iterable<AssetPoseName | PoseType>][]} */
 			const layerTypes = layerOptions.length === 0 ? [[null, poses]] : layerOptions.map(({ type, option }) => {
-				if (option.Property?.SetPose || option.Property?.AllowActivePose) {
-					/** @type {(AssetPoseName | PoseType)[]} */
-					const allowedPoses = [...(option.Property?.SetPose ?? []), ...(option.Property?.AllowActivePose ?? [])];
-					if (allowedPoses.length === 0) {
-						allowedPoses.push("");
+				if (option.Property?.AllowActivePose) {
+					const allowedPoses = /** @type {Set<AssetPoseName | PoseType>} */(new Set(option.Property.AllowActivePose.filter(p => {
+						const mappedPose = layer.PoseMapping[p];
+						return mappedPose && mappedPose !== "Hide";
+					}).map(p => layer.PoseMapping[p])));
+					if (allowedPoses.size === 0) {
+						allowedPoses.add("");
 					}
-					return [type, [...poses].filter(p => allowedPoses.includes(p))];
+					return [type, allowedPoses];
 				} else {
 					return [type, poses];
 				}

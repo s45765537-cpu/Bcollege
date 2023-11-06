@@ -7601,9 +7601,9 @@ var AssetFemale3DCG = [
 				Height: 8,
 				HideForPose: ["Kneel", "KneelingSpread"],
 				Layer: [
-					{ Name: "Dai", Priority: 6, },
+					{ Name: "Dai", Priority: 6 },
 					{ Name: "Hanao", Priority: 22 },
-					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" }
+					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" },
 				],
 			},
 			{
@@ -14168,6 +14168,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
 				},
 				AllowActivePose: ["Kneel", "LegsClosed"],
 				Extended: true,
@@ -14225,6 +14226,10 @@ var AssetFemale3DCG = [
 				Audio: "RopeShort",
 				AllowActivePose: ["Kneel"],
 				AllowTighten: true,
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
 			},
 			{
 				Name: "LeatherBelt",
@@ -20278,6 +20283,11 @@ var AssetFemale3DCG = [
 				HasType: false,
 				Effect: ["Prone"],
 				SetPose: ["BaseUpper"],
+				PoseMapping: {
+					BaseUpper: PoseType.DEFAULT,
+					BackCuffs: "BackCuffs",
+					OverTheHead: "OverTheHead",
+				},
 				Layer: [{ Name: "Cuffs" }, { Name: "Chain" }],
 			},
 			{
@@ -23209,6 +23219,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
+					OverTheHead: "OverTheHead",
 				},
 				Effect: ["Block", "Prone"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
@@ -37712,7 +37723,6 @@ var AssetFemale3DCG = [
 					AllFours: "AllFours",
 					Hogtied: "Hogtied",
 					Kneel: "Kneel",
-					Yoked: "Yoked",
 				},
 				SetPose: ["Kneel"],
 				Effect: ["Freeze", "Block", "Prone", "ForceKneel"],
@@ -37722,22 +37732,20 @@ var AssetFemale3DCG = [
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },
 					{
 						Name: "WeightsFront",
+						AllowTypes: ["", "AllFours"],
 						PoseMapping: {
-							Hogtied: PoseType.HIDE,
 							AllFours: "AllFours",
 							Kneel: "Kneel",
-							Yoked: "Yoked",
 						},
 					},
 					{
 						Name: "WeightsBack",
+						AllowTypes: ["", "AllFours"],
 						Priority: 3,
 						CopyLayerColor: "WeightsFront",
 						PoseMapping: {
-							Hogtied: PoseType.HIDE,
 							AllFours: "AllFours",
 							Kneel: "Kneel",
-							Yoked: "Yoked",
 						},
 					},
 				],

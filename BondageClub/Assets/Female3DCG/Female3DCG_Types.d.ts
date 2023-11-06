@@ -364,7 +364,9 @@ interface AssetDefinition extends AssetCommonPropertiesGroupAsset, AssetCommonPr
 	Require?: AssetGroupBodyName[];
 
 	/**
-	 * A list of poses that, in combination with {@link AssetDefinition.SetPose}, represents all poses that wearing the asset enables.
+	 * A list of poses that represents all poses that wearing the asset enables.
+	 *
+	 * Automatically concatenated with {@link AssetDefinition.SetPose} members.
 	 *
 	 * Contrary to {@link AssetDefinition.AllowPose} poses that are absent from this list can *not* be used.
 	 */
