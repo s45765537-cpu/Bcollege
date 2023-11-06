@@ -948,8 +948,16 @@ function CharacterItemsHavePoseAvailable(C, Type, Pose) {
 		// Arbitrary poses conflict with `BodyFull` and everything in its own category
 		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
 	}
+
 	for (const item of C.Appearance) {
-		if (InventoryGetItemProperty(item, "AllowActivePose", true).includes(Pose)) continue;
+		// Check if there are any allowed poses within the `Type` category, and if yes check if `Pose` is a member
+		const allowedPoses = InventoryGetItemProperty(item, "AllowActivePose").filter(p => (PoseRecord[p] || {}).Category === Type);
+		if (allowedPoses.length > 0) {
+			if (!allowedPoses.includes(Pose)) {
+				return false;
+			}
+			continue;
+		}
 		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
 	}
 	return true;

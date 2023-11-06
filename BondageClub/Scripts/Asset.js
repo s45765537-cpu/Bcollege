@@ -11,6 +11,8 @@ var AssetMap = new Map();
 var AssetGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
+/** A record mapping pose names to their respective {@link Pose}. */
+const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
@@ -650,6 +652,7 @@ function AssetLoadAll() {
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
 	ExtendedItemManualRegister();
 	Pose = PoseFemale3DCG;
+	Pose.forEach(p => PoseRecord[p.Name] = p);
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 }
 
