@@ -14,6 +14,20 @@ var Pose = [];
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
+/** Special values for {@link AssetDefinition.PoseMapping} for hiding or using pose-agnostic assets. */
+const PoseType = /** @type {const} */({
+	/**
+	 * Ensures that the asset is hidden for a specific pose.
+	 * Supercedes the old `HideForPose` property.
+	 */
+	HIDE: "Hide",
+	/**
+	 * Ensures that the default (pose-agnostic) asset used for a particular pose.
+	 * Supercedes the old `AllowPose` property.
+	 */
+	DEFAULT: "",
+});
+
 /**
  * Adds a new asset group to the main list
  * @param {IAssetFamily} Family
@@ -28,7 +42,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Name: GroupDef.Group,
 		Description: GroupDef.Group,
 		Asset: [],
-		ParentGroupName: (GroupDef.ParentGroup == null) ? "" : GroupDef.ParentGroup,
+		ParentGroupName: GroupDef.ParentGroup || null,
 		Category: (GroupDef.Category == null) ? "Appearance" : GroupDef.Category,
 		IsDefault: (GroupDef.Default == null) ? true : GroupDef.Default,
 		IsRestraint: (GroupDef.IsRestraint == null) ? false : GroupDef.IsRestraint,
@@ -46,7 +60,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
 		SetPose: GroupDef.SetPose,
-		AllowPose: Array.isArray(GroupDef.AllowPose) ? GroupDef.AllowPose : [],
+		PoseMapping: GroupDef.PoseMapping || {},
 		AllowExpression: GroupDef.AllowExpression,
 		Effect: Array.isArray(GroupDef.Effect) ? GroupDef.Effect : [],
 		MirrorGroup: (GroupDef.MirrorGroup == null) ? "" : GroupDef.MirrorGroup,
@@ -61,7 +75,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		DynamicGroupName: GroupDef.DynamicGroupName || GroupDef.Group,
 		MirrorActivitiesFrom: GroupDef.MirrorActivitiesFrom || undefined,
 		ArousalZone: (typeof GroupDef.ArousalZone === "string" ? GroupDef.ArousalZone : undefined),
-		ColorSuffix: GroupDef.ColorSuffix,
+		ColorSuffix: GroupDef.ColorSuffix || {},
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
 		IsAppearance() { return this.Category === "Appearance"; },
@@ -100,12 +114,12 @@ function AssetActivityMirrorGroupSet(group) {
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	/** @type {Mutable<Asset>} */
-	var A = Object.assign({
+	var A = {
 		Name: AssetDef.Name,
 		Description: AssetDef.Name,
 		Group: Group,
 		ParentItem: AssetDef.ParentItem,
-		ParentGroupName: AssetDef.ParentGroup,
+		ParentGroupName: AssetDef.ParentGroup === undefined ? Group.ParentGroupName : AssetDef.ParentGroup,
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
@@ -187,7 +201,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DynamicAudio: (typeof AssetDef.DynamicAudio === 'function') ? AssetDef.DynamicAudio : null,
 		CharacterRestricted: typeof AssetDef.CharacterRestricted === 'boolean' ? AssetDef.CharacterRestricted : false,
 		AllowRemoveExclusive: typeof AssetDef.AllowRemoveExclusive === 'boolean' ? AssetDef.AllowRemoveExclusive : false,
-		InheritColor: AssetDef.InheritColor,
+		InheritColor: AssetDef.InheritColor || Group.InheritColor,
 		DynamicBeforeDraw: (typeof AssetDef.DynamicBeforeDraw === 'boolean') ? AssetDef.DynamicBeforeDraw : false,
 		DynamicAfterDraw: (typeof AssetDef.DynamicAfterDraw === 'boolean') ? AssetDef.DynamicAfterDraw : false,
 		DynamicScriptDraw: (typeof AssetDef.DynamicScriptDraw === 'boolean') ? AssetDef.DynamicScriptDraw : false,
@@ -205,15 +219,15 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetDef.PoseMapping || {},
+		PoseMapping: AssetDef.PoseMapping || Group.PoseMapping,
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
 		Gender: AssetDef.Gender,
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
-		ColorSuffix: (AssetDef.ColorSuffix || Group.ColorSuffix) || {},
+		ColorSuffix: AssetDef.ColorSuffix || Group.ColorSuffix,
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
-	}, AssetParsePoseProperties(AssetDef, AssetDef.AllowActivePose || Group.AllowPose));
+	};
 
 	if (A.SetPose) {
 		A.Prerequisite = AssetParsePosePrerequisite(A);
@@ -384,7 +398,7 @@ function AssetBuildLayer(AssetDefinition, A) {
  */
 function AssetMapLayer(Layer, AssetDefinition, A, I) {
 	/** @type {AssetLayer} */
-	const L = Object.assign({
+	const L = {
 		Name: Layer.Name || null,
 		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition, A.Group),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
@@ -394,9 +408,9 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		ModuleType: Array.isArray(Layer.ModuleType) ? Layer.ModuleType : null,
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
-		ParentGroupName: Layer.ParentGroup,
+		ParentGroupName: Layer.ParentGroup === undefined ? A.ParentGroupName : Layer.ParentGroup,
 		Priority: Layer.Priority || AssetDefinition.Priority || A.Group.DrawingPriority,
-		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : null,
+		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
 		Alpha: AssetLayerAlpha(Layer, AssetDefinition, I),
 		Asset: A,
 		DrawingLeft: Layer.Left,
@@ -415,35 +429,11 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		PoseMapping: Layer.PoseMapping || A.PoseMapping,
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
-		ColorSuffix: CommonIsObject(Layer.ColorSuffix) ? Layer.ColorSuffix : null,
-	}, AssetParsePoseProperties(
-		Layer,
-		Array.isArray(A.AllowPose) ? A.AllowPose.slice() : [])
-	);
+		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
+	};
 	if (L.MinOpacity > L.Opacity) L.MinOpacity = L.Opacity;
 	if (L.MaxOpacity < L.Opacity) L.MaxOpacity = L.Opacity;
 	return L;
-}
-
-/**
- * Resolves the AllowPose and HideForPose properties on a layer or an asset
- * @param {Asset | AssetLayerDefinition} obj - The asset or layer object
- * @param {readonly AssetPoseName[]} defaultAllowPose - A fallback value for the AllowPose property if it's not defined on the
- * object
- * @return {Pick<Asset, "AllowPose" | "HideForPose">} - A partial object containing AllowPose and HideForPose
- * properties
- */
-function AssetParsePoseProperties(obj, defaultAllowPose) {
-	const HideForPose = Array.isArray(obj.HideForPose) ? obj.HideForPose : [];
-	const AllowPose = Array.isArray(obj.AllowPose) ? [...obj.AllowPose] : [...defaultAllowPose];
-	const poseMappingKeys = CommonKeys(obj.PoseMapping || {});
-	if (HideForPose.length > 0) {
-		CommonArrayConcatDedupe(AllowPose, HideForPose);
-	}
-	if (poseMappingKeys.length > 0) {
-		CommonArrayConcatDedupe(AllowPose, poseMappingKeys);
-	}
-	return {AllowPose, HideForPose};
 }
 
 /**
@@ -584,6 +574,19 @@ function AssetLoadDescription(Family) {
 }
 
 /**
+ * Yield the passed group, all its assets and all their layers
+ * @param {AssetGroup} group
+ * @return {Generator<AssetGroup | Asset | AssetLayer, void>}
+ */
+function *AssetYieldAll(group) {
+	yield group;
+	yield *group.Asset;
+	for (const asset of group.Asset) {
+		yield *asset.Layer;
+	}
+}
+
+/**
  * Loads a specific asset file
  * @param {readonly AssetGroupDefinition[]} Groups
  * @param {IAssetFamily} Family
@@ -602,6 +605,31 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 				AssetAdd(G, { Name: asset }, ExtendedConfig);
 			else
 				AssetAdd(G, asset, ExtendedConfig);
+		}
+	}
+
+	// Flatten any `InheritColor` graphs, transforming the likes of `A > B > C` into `A > C`
+	for (const group of AssetGroup) {
+		if (group.InheritColor == null) {
+			continue;
+		}
+
+		for (const obj of AssetYieldAll(group)) {
+			if (!obj.InheritColor) {
+				continue;
+			}
+
+			/** @type {undefined | typeof obj} */
+			let groupAssetOrLayer = obj;
+			while (groupAssetOrLayer && groupAssetOrLayer.InheritColor) {
+				groupAssetOrLayer = AssetGroupMap.get(groupAssetOrLayer.InheritColor);
+			}
+			const parentGroup = /** @type {AssetGroup} */(groupAssetOrLayer);
+
+			/** @type {{ InheritColor: AssetGroupName }} */(obj).InheritColor = parentGroup.Name;
+			if (AssetGroupMap.has(/** @type {AssetGroupName} */(obj.Name))) {
+				/** @type {Mutable<AssetGroup>} */(obj).ColorSchema = [...parentGroup.ColorSchema];
+			}
 		}
 	}
 

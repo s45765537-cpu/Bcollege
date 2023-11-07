@@ -49,17 +49,14 @@ function CommonDrawAppearanceBuild(C, {
 		LayerCounts[CountKey] = (LayerCounts[CountKey] || 0) + 1;
 
 		// If there's a parent group (parent group of the layer overrides that of the asset, which overrides that of the group)
-		let ParentGroupName = Layer.ParentGroupName;
-		if (typeof ParentGroupName === "undefined") ParentGroupName = A.ParentGroupName;
-		if (typeof ParentGroupName === "undefined") ParentGroupName = AG.ParentGroupName;
 		let G = "";
-		if (ParentGroupName) {
-			const ParentItem = C.Appearance.find(Item => Item.Asset.Group.Name === ParentGroupName);
+		if (Layer.ParentGroupName) {
+			const ParentItem = C.Appearance.find(Item => Item.Asset.Group.Name === Layer.ParentGroupName);
 			if (ParentItem) G = "_" + ParentItem.Asset.Name;
 		}
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
-		let Pose = CommonDrawResolveAssetPose(C, A, Layer);
+		let Pose = CommonDrawResolveAssetPose(C, Layer);
 
 		// Check if we need to draw a different expression (for facial features)
 		let Expression = "";
@@ -158,21 +155,13 @@ function CommonDrawAppearanceBuild(C, {
 
 		// Check if we need to copy the color of another asset
 		let ColorInherited = false;
-		let colorGroup = (Color == "Default" ? (Layer.InheritColor || A.InheritColor || AG.InheritColor) : null);
-		while (colorGroup != null) {
+		const colorGroup = (Color == "Default" ? Layer.InheritColor : null);
+		if (colorGroup != null) {
 			const parentItem = InventoryGet(C, colorGroup);
 			if (parentItem != null) {
 				const ParentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
-				const InheritColor = ParentColor === "Default" && (parentItem.Asset.InheritColor || parentItem.Asset.Group.InheritColor);
-				if (InheritColor) {
-					colorGroup = InheritColor;
-				} else {
-					Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
-					ColorInherited = true;
-					colorGroup = null;
-				}
-			} else {
-				colorGroup = null;
+				Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
+				ColorInherited = true;
 			}
 		}
 
@@ -260,16 +249,30 @@ function CommonDrawAppearanceBuild(C, {
 
 		const ItemLocked = !!(Property && Property.LockedBy);
 
-		let PoseFolder = typeof Layer.PoseMapping[Pose] === "string" ? Layer.PoseMapping[Pose] : Pose;
-		if (PoseFolder) PoseFolder += '/';
+		/** @type {string} */
+		let PoseFolder = Layer.PoseMapping[Pose];
+		switch (PoseFolder) {
+			case PoseType.HIDE:
+			case PoseType.DEFAULT:
+			case undefined:
+				PoseFolder = "";
+				break;
+			default:
+				PoseFolder += "/";
+				break;
+		}
+
 		if (Layer.HasImage && (!Layer.LockLayer || ItemLocked)) {
 			/** Check whether the asset requires a custom suffix
 			 * @type {string | undefined} */
 			let SuffixName = undefined;
-			const colorSuffix = Layer.ColorSuffix || A.ColorSuffix;
+			const colorSuffix = Layer.ColorSuffix;
 			if ((colorSuffix != null) && (Color != null)) {
-				// eslint-disable-next-line dot-notation
-				SuffixName = (Color.indexOf("#") == 0) ? colorSuffix["HEX_COLOR"] : colorSuffix[Color];
+				SuffixName = (Color[0] === "#") ? colorSuffix.HEX_COLOR : colorSuffix[Color];
+				if (SuffixName && SuffixName[0] === "#") {
+					Color = SuffixName;
+					SuffixName = undefined;
+				}
 			}
 
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
@@ -380,18 +383,11 @@ function CommonDrawFindPose(C, AllowedPoses) {
 /**
  * Finds the pose that should be used when a given asset (and optionally layer) is drawn.
  * @param {Character} C - The character whose poses to check
- * @param {Asset} A - The asset to check
  * @param {AssetLayer} [Layer] - The layer to check (optional)
  * @returns {AssetPoseName | null} - The pose to use when drawing the given asset (or layer)
  */
-function CommonDrawResolveAssetPose(C, A, Layer) {
-	/** @type {AssetPoseName | null} */
-	let Pose = null;
-	if (C.DrawPose && C.DrawPose.length) {
-		let AllowPose = Layer && Layer.AllowPose;
-		if (!Array.isArray(AllowPose)) AllowPose = A.AllowPose;
-		if (!Array.isArray(AllowPose)) AllowPose = A.Group.AllowPose;
-		Pose = CommonDrawFindPose(C, AllowPose);
-	}
-	return Pose;
+function CommonDrawResolveAssetPose(C, Layer) {
+	const poseEntries = CommonEntries(Layer.PoseMapping);
+	const poses = poseEntries.filter(ij => ij[1] !== PoseType.DEFAULT).map(i => i[0]);
+	return CommonDrawFindPose(C, poses);
 }

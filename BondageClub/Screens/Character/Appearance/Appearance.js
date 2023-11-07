@@ -372,7 +372,7 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, type= "") {
 		return false;
 
 	// Hide the layer if it should be hidden for the current pose
-	if (layer.HideForPose && layer.HideForPose.includes(CommonDrawResolveAssetPose(C, asset, layer)))
+	if (layer.PoseMapping[CommonDrawResolveAssetPose(C, layer)] === PoseType.HIDE)
 		return false;
 
 	// Hide the layer if the character has any matching attribute
@@ -461,9 +461,6 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 
 	const assetToCheck = AssetGet(C.AssetFamily, GroupName, AssetName);
 	if (assetToCheck) {
-		const Pose = CommonDrawResolveAssetPose(C, assetToCheck);
-		if (Pose && assetToCheck.HideForPose.includes(Pose)) return false;
-
 		if (!CharacterAppearanceGenderAllowed(assetToCheck)) {
 			return false;
 		}

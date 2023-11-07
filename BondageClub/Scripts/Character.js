@@ -1038,9 +1038,13 @@ function CharacterLoadPose(C) {
 		}
 	}
 
-	// Avoid duplicate `BodyLower` poses upon kneeling down
-	// TODO: Find a better way of encourcing 1-pose-per-category
-	if (C.Pose.includes("Kneel")) {
+	// Avoid duplicate `BodyLower` poses upon kneeling down and ensure that `BodyFull` enforces the presence of only one pose
+	// TODO: Find a better way of enforcing 1 pose-per-category
+	if (C.Pose.includes("Hogtied")) {
+		C.Pose = ["Hogtied"];
+	} else if (C.Pose.includes("AllFours")) {
+		C.Pose = ["AllFours"];
+	} else if (C.Pose.includes("Kneel")) {
 		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
 	}
 }

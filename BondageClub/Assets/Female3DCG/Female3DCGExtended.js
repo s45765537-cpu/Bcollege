@@ -825,20 +825,14 @@ var AssetFemale3DCGExtended = {
 	}, // ClothLower
 	SocksLeft: {
 		LooseSocks: {
-			Archetype: ExtendedArchetype.TYPED, 
-			Options: 
-			[{ Name: "Normal" },
-			{ Name: "Flat" },
-			],
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Normal" }, { Name: "Flat" }],
 		}, // LooseSocks
 	}, // SocksLeft
 	SocksRight: {
 		LooseSocks: {
-			Archetype: ExtendedArchetype.TYPED, 
-			Options: 
-			[{ Name: "Normal" },
-			{ Name: "Flat" },
-			],
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "SocksLeft", AssetName: "LooseSocks" },
 		}, // LooseSocks
 	}, // SocksRight
 	ItemBreast: {
@@ -1270,7 +1264,6 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
@@ -2679,7 +2672,6 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
@@ -2810,7 +2802,6 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
@@ -2869,7 +2860,6 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
-						AllowPose: ["Kneel", "KneelingSpread"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
 						Difficulty: 6,
 						OverrideHeight: {
@@ -11094,7 +11084,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						OverridePriority: 25,
 						SetPose: ["Spread"],
-						AllowPose: ["Spread"],
 						Effect: ["BlockKneel"],
 						OverrideHeight: { Height: 0, Priority: 60 },
 					},

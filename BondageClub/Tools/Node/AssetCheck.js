@@ -974,7 +974,7 @@ function poseToPoseMap(poses, referencePoseMap) {
 }
 
 /**
- * Test that `AllowActivePose` is, on pose category by category basis, a superset of `AllowPose`
+ * Test that `AllowActivePose` is, on pose category by category basis, a superset of `PoseMapping` key.
  * @param {readonly Asset[]} assets
  * @param {Record<AssetPoseCategory, Set<AssetPoseName>>} poseMap
  */
@@ -988,7 +988,7 @@ function testActivePose(assets, poseMap) {
 			...(asset.AllowActivePose || []),
 			...(asset.SetPose || []),
 		];
-		const allowPoseMap = poseToPoseMap(asset.AllowPose, poseMap);
+		const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(asset.PoseMapping)), poseMap);
 		const allowActivePoseMap = poseToPoseMap(allowActivePose, poseMap);
 
 		for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {
@@ -1002,50 +1002,8 @@ function testActivePose(assets, poseMap) {
 			if (invalidSuperset.length > 0) {
 				invalidSuperset.sort();
 				error(
-					`${asset.Group.Name}:${asset.Name}: AllowPose must be a subset of AllowActivePose | SetPose for a given pose category; `
+					`${asset.Group.Name}:${asset.Name}: PoseMapping keys must be a subset of AllowActivePose | SetPose for a given pose category; `
 					+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
-				);
-			}
-		}
-	}
-}
-
-/**
- * Test that `HideForPose`, `AllowPose` and the `PoseMapping` keys are disjoint.
- * @param {readonly AssetGroupDefinition[]} assetDefs
- */
-function testPoseDisjoint(assetDefs) {
-	for (const groupDef of assetDefs) {
-		for (const assetDef of groupDef.Asset) {
-			if (typeof assetDef === "string") {
-				continue;
-			}
-
-			const poseNames = {
-				PoseMapping: /** @type {AssetPoseName[]} */(Object.keys(assetDef.PoseMapping || {})),
-				AllowPose: assetDef.AllowPose || [],
-				HideForPose: assetDef.HideForPose || [],
-			};
-
-			/** @type {("" | AssetPoseName)[]} */
-			let intersection = [];
-			for (const [key1, poses1] of Object.entries(poseNames)) {
-				for (const [key2, poses2] of Object.entries(poseNames)) {
-					if (key1 === key2) {
-						continue;
-					}
-					intersection.push(
-						...poses1.filter(p => /** @type {(AssetPoseName | "")[]} */(poses2).includes(p)),
-						...poses2.filter(p => /** @type {(AssetPoseName | "")[]} */(poses1).includes(p)),
-					);
-				}
-			}
-
-			if (intersection.length > 0) {
-				intersection = Array.from(new Set(intersection)).sort();
-				error(
-					`${groupDef.Group}:${assetDef.Name}: HideForPose, AllowPose and PoseMapping keys must all be disjoint; `
-					+ `offending members: ${intersection}`
 				);
 			}
 		}
@@ -1061,6 +1019,140 @@ function testHasPreview(assets) {
 		const path = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
 		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(path)) {
 			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${path}"`);
+		}
+	}
+}
+
+/**
+ * Check that all assets have the expected .png images.
+ * @param {readonly Asset[]} assets
+ * @param {{ typed: Record<string, TypedItemData>, modular: Record<string, ModularItemData> }} extendedDataRecords
+ */
+function testAssetHasPNG(assets, extendedDataRecords) {
+	const assetGroups = /** @type {Record<AssetGroupName, AssetGroup>} */({});
+	const assetGroupMap = /** @type {Record<AssetGroupName, { F: string[], M: string[], FM: string[] }>} */({});
+	for (const asset of assets) {
+		const gender = asset.Gender ?? "FM";
+		if (!(asset.Group.Name in assetGroupMap)) {
+			assetGroupMap[asset.Group.Name] = { "F": [], "M": [], "FM": [] };
+		}
+		assetGroupMap[asset.Group.Name][gender].push(asset.Name);
+		assetGroups[asset.Group.Name] = asset.Group;
+	}
+
+	for (const asset of assets) {
+		if (!asset.Visible) {
+			continue;
+		}
+
+		for (const layer of asset.Layer) {
+			if (!layer.HasImage) {
+				continue;
+			}
+
+			// Combinations involving pose-specific directories
+			const poses = new Set(Object.values(layer.PoseMapping).filter(p => p !== "Hide"));
+			if (poses.size === 0) {
+				poses.add("");
+			}
+
+			// Combinations involving modular/typed item types
+			/** @type {{ type: string, option: ExtendedItemOption }[]} */
+			let layerOptions = [];
+			if (layer.HasType || layer.ModuleType) {
+				switch (asset.Archetype) {
+					case "typed": {
+						const data = extendedDataRecords.typed[`${asset.Group.Name}${asset.Name}`];
+						layerOptions = data.options.map((o, i) => {
+							const ret = { type: i === 0 ? "" : o.Name, option: o };
+							return (layer.AllowTypes?.includes(ret.type) ?? true) ? ret : /** @type {never} */(null);
+						}).filter(i => i != null);
+						break;
+					}
+					case "modular": {
+						if (!layer.ModuleType) {
+							break;
+						}
+
+						const data = extendedDataRecords.modular[`${asset.Group.Name}${asset.Name}`];
+						layerOptions = layer.ModuleType.flatMap(key => {
+							/** @type {null | string[]} */
+							let allowedTypes = layer.AllowModuleTypes?.filter(typ => key === typ.slice(0, key.length)) ?? [];
+							if (allowedTypes.length === 0) {
+								allowedTypes = null;
+							}
+							const module = data.modules.find(m => m.Key === key);
+							return (module?.Options ?? []).filter(o => allowedTypes?.includes(o.Name) ?? true).map(o => {
+								return { type: o.Name, option: o };
+							});
+						});
+						break;
+					}
+				}
+			}
+
+			// Extended item options can have a set of allowed poses distinct from their base asset
+			/** @type {[type: string | null, poses: Iterable<AssetPoseName | PoseType>][]} */
+			const layerTypes = layerOptions.length === 0 ? [[null, poses]] : layerOptions.map(({ type, option }) => {
+				if (option.Property?.SetPose || option.Property?.AllowActivePose) {
+					/** @type {(AssetPoseName | PoseType)[]} */
+					const allowedPoses = [...(option.Property?.SetPose ?? []), ...(option.Property?.AllowActivePose ?? [])];
+					if (allowedPoses.length === 0) {
+						allowedPoses.push("");
+					}
+					return [type, [...poses].filter(p => allowedPoses.includes(p))];
+				} else {
+					return [type, poses];
+				}
+			});
+
+			// Combinations involving non-hex based colors (white, black, asian, etc)
+			/** @type {(string | null)[]} */
+			let colors;
+			if (layer.InheritColor) {
+				const colorParent = assetGroups[layer.InheritColor];
+				colors = colorParent.ColorSchema.map(i => layer.ColorSuffix?.[i] ?? i).filter(i => i !== "Default" && !i.startsWith("#"));
+			} else {
+				colors = asset.Group.ColorSchema.filter(i => i !== "Default" && !i.startsWith("#"));
+			}
+			if (colors.length === 0) {
+				colors = [null];
+			}
+
+			// Combinations involving parent group members
+			const parentNames = layer.ParentGroupName == null ? [null] : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
+
+			// Combinations involving expressions
+			/** @type {readonly (null | ExpressionName)[]} */
+			let expressions = layer.Asset.AllowExpression ?? [];
+			if (expressions.length === 0 || !layer.MirrorExpression) {
+				expressions = [null];
+			}
+
+			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
+			for (const parent of parentNames) {
+				for (const color of colors) {
+					for (const expression of expressions) {
+						for (const [type, poseList] of layerTypes) {
+							for (const pose of poseList) {
+								const file = (
+									root
+									+ (pose ? `${pose}/` : "")
+									+ (expression ? `${expression}/` : "")
+									+ asset.Name
+									+ (parent ? `_${parent}` : "")
+									+ (type ?? "")
+									+ (color == null ? "" : `_${color}`)
+									+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
+								);
+								if (!fs.existsSync(file)) {
+									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -1289,6 +1381,9 @@ function sanitizeVMOutput(input) {
 		vibrating: VibratingItemDataLookup,
 	});
 	testActivePose(assetList, poseMap);
-	testPoseDisjoint(AssetFemale3DCG);
 	testHasPreview(assetList);
+	testAssetHasPNG(assetList, {
+		modular: ModularItemDataLookup,
+		typed: TypedItemDataLookup,
+	});
 })();
