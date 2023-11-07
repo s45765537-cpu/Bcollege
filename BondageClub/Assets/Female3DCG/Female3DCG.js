@@ -6778,6 +6778,17 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Geta",
+				Value: 35,
+				Height: 8,
+				HideForPose: ["Kneel", "KneelingSpread"],
+				Layer: [
+					{ Name: "Dai", Priority: 6, },
+					{ Name: "Hanao", Priority: 22 },
+					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" }
+				],
+			},
+			{
 				Name: "ThighBoots",
 				Fetish: ["Latex"],
 				Value: 50,
