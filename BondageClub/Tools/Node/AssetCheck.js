@@ -1090,20 +1090,41 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 
 			// Extended item options can have a set of allowed poses distinct from their base asset
 			/** @type {[type: string | null, poses: Iterable<AssetPoseName | PoseType>][]} */
-			const layerTypes = layerOptions.length === 0 ? [[null, poses]] : layerOptions.map(({ type, option }) => {
-				if (option.Property?.AllowActivePose) {
-					const allowedPoses = /** @type {Set<AssetPoseName | PoseType>} */(new Set(option.Property.AllowActivePose.filter(p => {
+			let layerTypes = [[null, poses]];
+			if (!layer.HasType && layer.AllowTypes && asset.Archetype === "typed") {
+				// We need special logic
+				const data = extendedDataRecords.typed[`${asset.Group.Name}${asset.Name}`];
+				/** @type {Set<AssetPoseName | PoseType>} */
+				const posesSubset = new Set();
+				layer.AllowTypes.forEach((name, i) => {
+					const option = i === 0 ? data.options[0] : data.options.find(o => o.Name === name);
+					for (const p of (option?.Property?.AllowActivePose ?? asset.AllowActivePose ?? [])) {
 						const mappedPose = layer.PoseMapping[p];
-						return mappedPose && mappedPose !== "Hide";
-					}).map(p => layer.PoseMapping[p])));
-					if (allowedPoses.size === 0) {
-						allowedPoses.add("");
+						if (mappedPose && mappedPose !== "Hide") {
+							posesSubset.add(mappedPose);
+						}
 					}
-					return [type, allowedPoses];
-				} else {
-					return [type, poses];
+				});
+				if (posesSubset.size === 0) {
+					posesSubset.add("");
 				}
-			});
+				layerTypes = [[null, posesSubset]];
+			} else if (layerOptions.length !== 0) {
+				layerTypes = layerOptions.map(({ type, option }) => {
+					if (option.Property?.AllowActivePose) {
+						const allowedPoses = /** @type {Set<AssetPoseName | PoseType>} */(new Set(option.Property.AllowActivePose.filter(p => {
+							const mappedPose = layer.PoseMapping[p];
+							return mappedPose && mappedPose !== "Hide";
+						}).map(p => layer.PoseMapping[p])));
+						if (allowedPoses.size === 0) {
+							allowedPoses.add("");
+						}
+						return [type, allowedPoses];
+					} else {
+						return [type, poses];
+					}
+				});
+			}
 
 			// Combinations involving non-hex based colors (white, black, asian, etc)
 			/** @type {(string | null)[]} */
