@@ -1296,7 +1296,7 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					BondageLevel: 6,
 					Property: {
-						Effect: ["ForceKneel", "NotSelfPickable"],
+						Effect: ["NotSelfPickable"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
@@ -2306,7 +2306,6 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ZipAllFours",
 					Property: {
-						Effect: ["ForceKneel"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
@@ -2704,7 +2703,6 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					BondageLevel: 6,
 					Property: {
-						Effect: ["ForceKneel"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
@@ -2834,7 +2832,6 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					BondageLevel: 6,
 					Property: {
-						Effect: ["ForceKneel"],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
 						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["AllFours"],
@@ -8533,7 +8530,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ChainShort",
 					Property: {
-						Effect: ["Freeze", "ForceKneel", "IsChained"],
+						Effect: ["Freeze", "IsChained"],
 						SetPose: ["Kneel"],
 					},
 					Random: false,
@@ -10667,7 +10664,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						SetPose: ["Kneel"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						Effect: ["ForceKneel"],
 						Difficulty: 3,
 					},
 					Random: false,
@@ -10716,7 +10712,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						SetPose: ["Kneel"],
 						AllowActivePose: ["Kneel", "KneelingSpread"],
-						Effect: ["ForceKneel"],
 						Difficulty: 3,
 					},
 					Random: false,
@@ -13372,7 +13367,9 @@ var AssetFemale3DCGExtended = {
 					Name: "ChainShort",
 					Prerequisite: ["NotSuspended"],
 					Property: {
-						Effect: ["Freeze", "ForceKneel", "IsChained"],
+						SetPose: ["Kneel"],
+						AllowActivePose: ["KneelingSpread"],
+						Effect: ["Freeze", "IsChained"],
 					},
 				},
 				{

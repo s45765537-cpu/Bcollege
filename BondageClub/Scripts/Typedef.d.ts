@@ -172,7 +172,7 @@ type DeafEffectName = "DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal";
  * @property Block - Indicates that the character is "blocked". Acts as a restraint.
  * @property Mounted - Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around.
  * @property KneelFreeze - Prevents walking.
- * @property ForceKneel - Prevents kneeling unaided.
+ * @property ForceKneel - Deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose}
  * @property BlockKneel - Deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead
  *
  * @property CuffedFeet - Enable items that have the CuffedFeet prerequisite to be applied.
@@ -255,7 +255,7 @@ type DeafEffectName = "DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal";
 type EffectName =
 	GagEffectName | BlindEffectName | BlurEffectName | DeafEffectName |
 
-	"Freeze" | "Prone" | "Block" | "Mounted" | "KneelFreeze" | "ForceKneel" |
+	"Freeze" | "Prone" | "Block" | "Mounted" | "KneelFreeze" |
 
 	"CuffedFeet" | "CuffedLegs" | "CuffedArms" | "IsChained" | "FixedHead" | "MergedFingers" |
 

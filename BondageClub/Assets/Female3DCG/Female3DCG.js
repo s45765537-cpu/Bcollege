@@ -14760,7 +14760,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 				},
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["ForceKneel", "Slow"],
+				Effect: ["Slow"],
 			},
 			{
 				Name: "MermaidTail",
@@ -20246,7 +20246,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["NoItemFeet"],
 				SetPose: ["BackBoxTie", "Kneel"],
-				Effect: ["Block", "Freeze", "Prone", "ForceKneel"],
+				Effect: ["Block", "Freeze", "Prone"],
 				Block: ["ItemFeet"],
 				AllowActivityOn: ["ItemFeet"],
 			},
@@ -20588,7 +20588,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
+				Effect: ["Block", "Prone", "Slow"],
 				Hide: [
 					"Shoes",
 					"ItemBoots",
@@ -20689,7 +20689,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
+				Effect: ["Block", "Prone", "Slow"],
 				Hide: [
 					"Cloth",
 					"ClothLower",
@@ -21518,7 +21518,7 @@ var AssetFemale3DCG = [
 					"RightHandRings",
 				],
 				SetPose: ["AllFours"],
-				Effect: ["Block", "Prone", "ForceKneel"],
+				Effect: ["Block", "Prone"],
 				Block: ["ItemDevices"],
 			},
 			{
@@ -22842,7 +22842,7 @@ var AssetFemale3DCG = [
 					"AllFours",
 				],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel"],
+				Effect: ["Block", "Prone"],
 				Block: ["ItemHands", "ItemHandheld"],
 				SelfUnlock: false,
 				DefaultColor: ["#888888"],
@@ -25865,7 +25865,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -25887,7 +25887,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -25996,7 +25996,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -35861,14 +35861,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: [
-					"ForceKneel",
-					"Prone",
-					"Enclose",
-					"BlindNormal",
-					"GagLight",
-					"Freeze",
-				],
+				Effect: ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -35963,7 +35956,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: ["ForceKneel", "Prone", "Enclose", "Freeze"],
+				Effect: ["Prone", "Enclose", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36024,7 +36017,7 @@ var AssetFemale3DCG = [
 					"RightHand",
 				],
 				SetPose: ["Kneel", "BackElbowTouch"],
-				Effect: ["ForceKneel", "Block", "Prone", "Freeze"],
+				Effect: ["Block", "Prone", "Freeze"],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -36517,14 +36510,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: [
-					"ForceKneel",
-					"Prone",
-					"Enclose",
-					"DeafLight",
-					"GagLight",
-					"Freeze",
-				],
+				Effect: ["Prone", "Enclose", "DeafLight", "GagLight", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36815,7 +36801,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Hide: ["Wings"],
 				SetPose: ["Kneel"],
-				Effect: ["ForceKneel", "Prone", "Freeze", "Block"],
+				Effect: ["Prone", "Freeze", "Block"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37333,7 +37319,7 @@ var AssetFemale3DCG = [
 				Opacity: 0,
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["ForceKneel", "Prone", "Enclose", "Freeze"],
+				Effect: ["Prone", "Enclose", "Freeze"],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Door", CopyLayerColor: "Back", HasType: false },
@@ -37425,7 +37411,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#2E2E29", "#780E0E", "#2E2E29", "#2E2E29"],
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["ForceKneel", "Tethered"],
+				Effect: ["Tethered"],
 				Layer: [
 					{ Name: "Kennel", Priority: 1, HasType: false },
 					{
@@ -37725,7 +37711,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["Kneel"],
-				Effect: ["Freeze", "Block", "Prone", "ForceKneel"],
+				Effect: ["Freeze", "Block", "Prone"],
 				Extended: true,
 				Layer: [
 					{ Name: "Front" },

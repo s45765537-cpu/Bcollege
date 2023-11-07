@@ -1833,7 +1833,7 @@ function CharacterAppearsInverted(C) {
  * @returns {boolean} - Returns true if the character is capable of kneeling unaided, false otherwise
  */
 function CharacterCanKneel(C) {
-	if (C.Effect.includes("Freeze") || C.Effect.includes("ForceKneel")) return false;
+	if (C.Effect.includes("Freeze")) return false;
 	if (C.Pose == null) return true;
 	if (C.Pose.includes("Suspension") || C.Pose.includes("Hogtied")) return false;
 	return C.CanChangeToPose("Kneel");
