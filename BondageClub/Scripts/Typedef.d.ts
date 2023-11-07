@@ -171,7 +171,7 @@ type DeafEffectName = "DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal";
  * @property Prone - Indicates the character is prone. Looks non-functional.
  * @property Block - Indicates that the character is "blocked". Acts as a restraint.
  * @property Mounted - Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around.
- * @property KneelFreeze - Prevents walking.
+ * @property KneelFreeze - Prevents walking while kneeling.
  * @property ForceKneel - Deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose}
  * @property BlockKneel - Deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead
  *
