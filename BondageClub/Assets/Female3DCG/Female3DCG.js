@@ -7599,7 +7599,11 @@ var AssetFemale3DCG = [
 				Name: "Geta",
 				Value: 35,
 				Height: 8,
-				HideForPose: ["Kneel", "KneelingSpread"],
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
 				Layer: [
 					{ Name: "Dai", Priority: 6 },
 					{ Name: "Hanao", Priority: 22 },
