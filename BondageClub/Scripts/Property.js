@@ -421,9 +421,11 @@ function PropertyDifference(output, ...args) {
 					if (Array.isArray(value)) {
 						const previousValue = Array.isArray(output[key]) ? output[key] : [];
 						output[key] = previousValue.filter(i => !value.includes(i));
-					} else {
-						delete output[key];
+						if (output[key].length > 0) {
+							break;
+						}
 					}
+					delete output[key];
 				}
 			}
 		}
