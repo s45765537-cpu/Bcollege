@@ -1018,6 +1018,10 @@ function CharacterItemsHavePoseType(C, Type, OnlyItems) {
  * @returns {void} - Nothing
  */
 function CharacterLoadPose(C) {
+	/**
+	 * TODO: `AllowedActivePose` should form an intersection (not a union) on a category by category basis
+	 * while `SetPose` should be narrowed down to a subset of aforementioned union
+	 */
 	C.Pose = [];
 	C.AllowedActivePose = [];
 
