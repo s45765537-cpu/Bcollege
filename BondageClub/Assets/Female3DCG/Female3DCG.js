@@ -7645,6 +7645,67 @@ var AssetFemale3DCG = [
 					{ Name: "Band", AllowModuleTypes: ["b1"] },
 				],
 			},
+			{
+				Name: "StilettoHeels",
+				Fetish: ["Leather"],
+				Value: 45,
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[180, 890, 30, 100],
+							[292, 890, 30, 110],
+							[140, 925, 50, 50],
+							[275, 930, 100, 50]
+						],
+					},
+					{
+						Pose: ["Spread"],
+						Masks: [[162, 890, 13, 100],]
+					},
+					{
+						Group: [
+							"BodyLower",
+							"BodyUpper",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["Hogtied"],
+						Masks: [[0, 0, 500, 70]],
+					}
+				],
+				Top: 462,
+				Left: 0,
+				DefaultColor: ["#090909", "#A80000", "#800000"],
+				Height: 35,
+				Layer: [
+					{
+						Name: "Top", 
+						AllowColorize: true,
+					},
+					{	Name: "Heels", 
+						AllowColorize: true,
+						Priority: 4,
+					},
+					{	Name: "Sole", 
+						AllowColorize: true,
+						Priority: 3,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
