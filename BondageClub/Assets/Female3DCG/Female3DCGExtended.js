@@ -11425,6 +11425,14 @@ var AssetFemale3DCGExtended = {
 				AfterDraw: AssetsItemMiscWoodenSignAfterDrawHook,
 			},
 		}, // WoodenSign
+		PetPotato: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Lap" },
+				{ Name: "Floor" },
+			],
+			DrawImages: false,
+		}, // TeddyBear
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
