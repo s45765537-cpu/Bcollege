@@ -1237,7 +1237,7 @@ interface Character {
 	 *
 	 * @see {@link ItemProperties.AllowActivePose} - The item-/asset-level equivalent of this property
 	 */
-	AllowedActivePoseMapping: Record<AssetPoseCategory, null | AssetPoseName[]>;
+	AllowedActivePoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName[]>>;
 	/**
 	 * A record mapping pose categories to something something.
 	 */

@@ -1098,59 +1098,84 @@ function CharacterItemsHavePoseType(C, Type, OnlyItems) {
  * @returns {void} - Nothing
  */
 function CharacterLoadPose(C) {
+	C.AllowedActivePoseMapping = {};
+
 	/**
-	 * TODO: `AllowedActivePose` should form an intersection (not a union) on a category by category basis
-	 * while `SetPose` should be narrowed down to a subset of aforementioned union
+	 * Categories mapped to the `SetPose` name-union of all items
+	 * @type {Partial<Record<AssetPoseCategory, Set<AssetPoseName>>>}
 	 */
-	C.Pose = [];
-	C.AllowedActivePose = [];
+	const setPose = {};
 
-	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
-		Item = C.Appearance[i];
-		C.AllowedActivePose.push(...InventoryGetItemProperty(Item, "AllowActivePose"));
-		C.Pose = CommonArrayConcatDedupe(C.Pose, InventoryGetItemProperty(Item, "SetPose", true));
-	}
+	for (const item of C.Appearance) {
+		const allowActivePoseList = InventoryGetItemProperty(item, "AllowActivePose");
+		if (allowActivePoseList.length === 0) {
+			continue;
+		}
+		const itemAllowActivePose = AssetPoseToMapping(allowActivePoseList);
+		const itemSetPose = AssetPoseToMapping(InventoryGetItemProperty(item, "SetPose"));
 
-	// Add possible active poses (Bodyfull can only be alone, and cannot have two of upperbody or bodylower)
-	var Poses = C.Pose.map(CP => PoseFemale3DCG.find(P => P.Name == CP)).filter(P => P);
-	if (C.ActivePose != null && typeof C.ActivePose == "string") C.ActivePose = [C.ActivePose];
+		// Update the allowed pose intersections
+		for (const [category, poses] of CommonEntries(itemAllowActivePose)) {
+			const poseList = C.AllowedActivePoseMapping[category];
+			if (poseList) {
+				C.AllowedActivePoseMapping[category] = poseList.filter(i => poses.includes(i));
+			} else {
+				C.AllowedActivePoseMapping[category] = poses;
+			}
+		}
 
-	if (C.ActivePose != null && Array.isArray(C.ActivePose)) {
-		var ActivePoses = C.ActivePose
-			.map(CP => PoseFemale3DCG.find(P => P.Name == CP))
-			.filter(P => P);
+		// BodyLower & BodyUpper are incompatible with `BodyFull`
+		if ((itemAllowActivePose.BodyUpper || itemAllowActivePose.BodyLower) && !itemAllowActivePose.BodyFull) {
+			C.AllowedActivePoseMapping.BodyFull = [];
+		}
 
-		for (let P = 0; P < ActivePoses.length; P++) {
-			var HasPose = C.Pose.includes(ActivePoses[P].Name);
-			var IsAllowed = C.AllowedActivePose.includes(ActivePoses[P].Name) && CharacterItemsHavePoseAvailable(C, ActivePoses[P].Category, ActivePoses[P].Name);
-			var MissingGroup = !Poses.find(Pose => Pose.Category == "BodyFull") && !Poses.find(Pose => Pose.Category == ActivePoses[P].Category);
-			var IsFullBody = C.Pose.length > 0 && ActivePoses[P].Category == "BodyFull";
-			if (!HasPose && (IsAllowed || (MissingGroup && !IsFullBody)))
-				C.Pose.push(ActivePoses[P].Name);
+		// Update the setpose union
+		for (const [category, poses] of CommonEntries(itemSetPose)) {
+			if (category in setPose) {
+				poses.forEach(p => setPose[category].add(p));
+			} else {
+				setPose[category] = new Set(poses);
+			}
 		}
 	}
 
-	// Avoid duplicate `BodyLower` poses upon kneeling down and ensure that `BodyFull` enforces the presence of only one pose
-	// TODO: Find a better way of enforcing 1 pose-per-category
-	if (C.Pose.includes("Hogtied")) {
-		C.Pose = ["Hogtied"];
-		return;
-	} else if (C.Pose.includes("AllFours")) {
-		C.Pose = ["AllFours"];
-		return;
-	}
-	if (C.Pose.includes("KneelingSpread")) {
-		C.Pose = C.Pose.filter(p => p !== "Kneel");
-	} else if (C.Pose.includes("Kneel")) {
-		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
-	}
-	if (C.Pose.includes("TapedHands")) {
-		// Ensure that `TapedHands`, being the hack that it is, is removed if any `BodyUpper` member is present
-		if (C.Pose.includes("BaseUpper")) {
-			C.Pose = C.Pose.filter(p => p !== "BaseUpper");
-		} else if (PoseFemale3DCG.filter(p => p.Category == "BodyUpper").some(p => C.Pose.includes(p.Name))) {
-			C.Pose = C.Pose.filter(p => p !== "TapedHands");
+	// Dissalow the three categories below if they're not explicitly supported
+	if (!C.AllowedActivePoseMapping.BodyFull) C.AllowedActivePoseMapping.BodyFull = [];
+	if (!C.AllowedActivePoseMapping.BodyAddon) C.AllowedActivePoseMapping.BodyAddon = [];
+	if (!C.AllowedActivePoseMapping.BodyHands) C.AllowedActivePoseMapping.BodyHands = [];
+
+	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
+	const activePose = AssetPoseToMapping(C.ActivePose);
+	for (const [category, poses] of CommonEntries(setPose)) {
+		if (activePose[category]) {
+			activePose[category].push(...poses);
+		} else {
+			activePose[category] = [...poses];
 		}
+	}
+
+	// Make the (somewhat arbitrary?) decision to have `BodyFull` take priority over `BodyUpper/Lower`
+	// Only relevant in rare/hypothetical cases wherein both are elligble
+	if (activePose.BodyFull && activePose.BodyFull.length) {
+		delete activePose.BodyUpper;
+		delete activePose.BodyLower;
+	}
+
+	// Find the intersection between the allowed active poses and the set poses
+	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName>>} */
+	C.PoseMapping = {};
+	const categories = new Set(PoseFemale3DCG.map(p => p.Category));
+	for (const category of categories) {
+		const poses = C.ActivePoseMapping[category];
+		const poseCandidate = activePose[category] && activePose[category].find(p => !poses || poses.includes(p));
+		if (poseCandidate) {
+			C.PoseMapping[category] = poseCandidate;
+		}
+	}
+
+	// The `TapedHands` pose acts like a drop-in replacement for the `BaseUpper` pose
+	if (C.PoseMapping.BodyHands) {
+		delete C.PoseMapping[C.PoseMapping.BodyUpper === "BaseUpper" ? "BaseUpper" : "BodyHands"];
 	}
 }
 
