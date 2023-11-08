@@ -569,6 +569,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);
 	if (Property.HideItem) CommonArrayConcatDedupe(mergedProperty.HideItem, Property.HideItem);
 	if (Property.SetPose) mergedProperty.SetPose = CommonArrayConcatDedupe(mergedProperty.SetPose || [], Property.SetPose);
+	if (Property.AllowActivePose) mergedProperty.AllowActivePose = CommonArrayConcatDedupe(mergedProperty.AllowActivePose || [], Property.AllowActivePose);
 	if (Property.AllowActivity) CommonArrayConcatDedupe(mergedProperty.AllowActivity, Property.AllowActivity);
 	if (Property.Attribute) CommonArrayConcatDedupe(mergedProperty.Attribute, Property.Attribute);
 	if (typeof Property.OverridePriority === "number") mergedProperty.OverridePriority = Property.OverridePriority;

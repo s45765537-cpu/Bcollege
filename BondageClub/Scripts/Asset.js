@@ -11,6 +11,8 @@ var AssetMap = new Map();
 var AssetGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
+/** A record mapping pose names to their respective {@link Pose}. */
+const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
@@ -230,7 +232,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	};
 
 	if (A.SetPose) {
-		A.Prerequisite = AssetParsePosePrerequisite(A);
+		Object.assign(A, AssetParsePosePrerequisite(A));
 	}
 
 	// Ensure opacity value is valid
@@ -260,26 +262,29 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 /**
  * Automatically generated pose-related asset prerequisites
  * @param {Partial<Pick<Asset, "AllowActivePose" | "SetPose" | "Prerequisite" | "Effect">>} asset The asset or any other object with the expected asset interface subset
- * @returns {AssetPrerequisite[]} The newly generated prerequisites
+ * @returns {{ Prerequisite?: AssetPrerequisite[], AllowActivePose?: AssetPoseName[] }} The newly generated prerequisites
  */
-function AssetParsePosePrerequisite(asset) {
-	if (!asset.SetPose) {
-		return [];
+function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequisite }) {
+	if (SetPose == null) {
+		return {};
 	}
+	const allowActivePose = CommonArrayConcatDedupe([...(AllowActivePose || [])], SetPose);
 
 	/** @type {AssetPrerequisite[]} */
-	const posePrerequisite = asset.SetPose.map(i => /** @type {const} */(`Can${i}`));
-	if (
-		(asset.SetPose.includes("LegsClosed") || (asset.SetPose.includes("BaseLower")))
-		&& !(asset.AllowActivePose && asset.AllowActivePose.includes("Kneel"))
-	) {
+	const posePrerequisite = SetPose.map(i => /** @type {const} */(`Can${i}`));
+	const standingPoses = /** @type {const} */(["BaseLower", "LegsClosed", "LegsOpen", "Spread"]);
+	if (standingPoses.some(p => SetPose.includes(p)) && !allowActivePose.includes("Kneel")) {
 		posePrerequisite.push("NotKneeling");
 	}
 
-	if (asset.Effect && asset.Effect.includes("Suspended")) {
+	if (Effect && Effect.includes("Suspended")) {
 		posePrerequisite.push("NotChained");
 	}
-	return CommonArrayConcatDedupe([...(asset.Prerequisite || [])], posePrerequisite);
+
+	return {
+		Prerequisite: CommonArrayConcatDedupe([...(Prerequisite || [])], posePrerequisite),
+		AllowActivePose: allowActivePose,
+	};
 }
 
 /**
@@ -647,6 +652,7 @@ function AssetLoadAll() {
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
 	ExtendedItemManualRegister();
 	Pose = PoseFemale3DCG;
+	Pose.forEach(p => PoseRecord[p.Name] = p);
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 }
 

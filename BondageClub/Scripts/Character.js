@@ -948,8 +948,16 @@ function CharacterItemsHavePoseAvailable(C, Type, Pose) {
 		// Arbitrary poses conflict with `BodyFull` and everything in its own category
 		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
 	}
+
 	for (const item of C.Appearance) {
-		if (InventoryGetItemProperty(item, "AllowActivePose", true).includes(Pose)) continue;
+		// Check if there are any allowed poses within the `Type` category, and if yes check if `Pose` is a member
+		const allowedPoses = InventoryGetItemProperty(item, "AllowActivePose").filter(p => (PoseRecord[p] || {}).Category === Type);
+		if (allowedPoses.length > 0) {
+			if (!allowedPoses.includes(Pose)) {
+				return false;
+			}
+			continue;
+		}
 		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
 	}
 	return true;
@@ -1010,6 +1018,10 @@ function CharacterItemsHavePoseType(C, Type, OnlyItems) {
  * @returns {void} - Nothing
  */
 function CharacterLoadPose(C) {
+	/**
+	 * TODO: `AllowedActivePose` should form an intersection (not a union) on a category by category basis
+	 * while `SetPose` should be narrowed down to a subset of aforementioned union
+	 */
 	C.Pose = [];
 	C.AllowedActivePose = [];
 
@@ -1042,10 +1054,23 @@ function CharacterLoadPose(C) {
 	// TODO: Find a better way of enforcing 1 pose-per-category
 	if (C.Pose.includes("Hogtied")) {
 		C.Pose = ["Hogtied"];
+		return;
 	} else if (C.Pose.includes("AllFours")) {
 		C.Pose = ["AllFours"];
+		return;
+	}
+	if (C.Pose.includes("KneelingSpread")) {
+		C.Pose = C.Pose.filter(p => p !== "Kneel");
 	} else if (C.Pose.includes("Kneel")) {
 		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
+	}
+	if (C.Pose.includes("TapedHands")) {
+		// Ensure that `TapedHands`, being the hack that it is, is removed if any `BodyUpper` member is present
+		if (C.Pose.includes("BaseUpper")) {
+			C.Pose = C.Pose.filter(p => p !== "BaseUpper");
+		} else if (PoseFemale3DCG.filter(p => p.Category == "BodyUpper").some(p => C.Pose.includes(p.Name))) {
+			C.Pose = C.Pose.filter(p => p !== "TapedHands");
+		}
 	}
 }
 
@@ -1812,7 +1837,7 @@ function CharacterAppearsInverted(C) {
  * @returns {boolean} - Returns true if the character is capable of kneeling unaided, false otherwise
  */
 function CharacterCanKneel(C) {
-	if (C.Effect.includes("Freeze") || C.Effect.includes("ForceKneel")) return false;
+	if (C.Effect.includes("Freeze")) return false;
 	if (C.Pose == null) return true;
 	if (C.Pose.includes("Suspension") || C.Pose.includes("Hogtied")) return false;
 	return C.CanChangeToPose("Kneel");

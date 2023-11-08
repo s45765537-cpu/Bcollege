@@ -7599,11 +7599,15 @@ var AssetFemale3DCG = [
 				Name: "Geta",
 				Value: 35,
 				Height: 8,
-				HideForPose: ["Kneel", "KneelingSpread"],
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
 				Layer: [
-					{ Name: "Dai", Priority: 6, },
+					{ Name: "Dai", Priority: 6 },
 					{ Name: "Hanao", Priority: 22 },
-					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" }
+					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" },
 				],
 			},
 			{
@@ -13801,7 +13805,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				AllowLock: true,
 				SetPose: ["Spread"],
-				Effect: ["Freeze", "Prone", "BlockKneel"],
+				Effect: ["Freeze", "Prone"],
 				AllowActivityOn: ["ItemLegs", "ItemBoots"],
 				Layer: [{ Name: "Chain", Priority: 6 }, { Name: "Cuffs" }],
 			},
@@ -14038,7 +14042,7 @@ var AssetFemale3DCG = [
 				Top: 400,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: ["FillVulva", "Freeze", "Prone", "BlockKneel"],
+				Effect: ["FillVulva", "Freeze", "Prone"],
 				Block: ["ItemPelvis", "ItemVulva"],
 				AllowActivityOn: ["ItemPelvis"],
 				Layer: [
@@ -14061,7 +14065,7 @@ var AssetFemale3DCG = [
 				Top: 400,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: ["FillVulva", "Freeze", "Prone", "BlockKneel"],
+				Effect: ["FillVulva", "Freeze", "Prone"],
 				Block: ["ItemPelvis", "ItemVulva"],
 				AllowActivityOn: ["ItemPelvis"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
@@ -14104,7 +14108,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Prerequisite: ["OnBed"],
 				SetPose: ["LegsOpen"],
-				Effect: ["Prone", "BlockKneel"],
+				Effect: ["Prone"],
 				Block: ["ItemDevices"],
 				AvailableLocations: ["Asylum"],
 				HideItem: ["ClothLowerGown2Skirt", "ClothLowerPajama1"],
@@ -14229,6 +14233,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
 				},
 				AllowActivePose: ["Kneel", "LegsClosed"],
 				Extended: true,
@@ -14286,6 +14291,10 @@ var AssetFemale3DCG = [
 				Audio: "RopeShort",
 				AllowActivePose: ["Kneel"],
 				AllowTighten: true,
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
 			},
 			{
 				Name: "LeatherBelt",
@@ -14816,7 +14825,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 				},
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["ForceKneel", "Slow"],
+				Effect: ["Slow"],
 			},
 			{
 				Name: "MermaidTail",
@@ -14845,7 +14854,7 @@ var AssetFemale3DCG = [
 					"Garters",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Freeze", "FillVulva", "UseRemote", "BlockKneel"],
+				Effect: ["Prone", "Freeze", "FillVulva", "UseRemote"],
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -14878,7 +14887,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {},
 				Prerequisite: ["OnBed"],
 				SetPose: ["LegsOpen"],
-				Effect: ["Prone", "BlockKneel"],
+				Effect: ["Prone"],
 				Block: ["ItemDevices"],
 				AvailableLocations: ["Asylum"],
 				HideItem: [
@@ -20302,7 +20311,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["NoItemFeet"],
 				SetPose: ["BackBoxTie", "Kneel"],
-				Effect: ["Block", "Freeze", "Prone", "ForceKneel"],
+				Effect: ["Block", "Freeze", "Prone"],
 				Block: ["ItemFeet"],
 				AllowActivityOn: ["ItemFeet"],
 			},
@@ -20339,6 +20348,11 @@ var AssetFemale3DCG = [
 				HasType: false,
 				Effect: ["Prone"],
 				SetPose: ["BaseUpper"],
+				PoseMapping: {
+					BaseUpper: PoseType.DEFAULT,
+					BackCuffs: "BackCuffs",
+					OverTheHead: "OverTheHead",
+				},
 				Layer: [{ Name: "Cuffs" }, { Name: "Chain" }],
 			},
 			{
@@ -20639,7 +20653,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
+				Effect: ["Block", "Prone", "Slow"],
 				Hide: [
 					"Shoes",
 					"ItemBoots",
@@ -20740,7 +20754,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel", "Slow"],
+				Effect: ["Block", "Prone", "Slow"],
 				Hide: [
 					"Cloth",
 					"ClothLower",
@@ -21399,7 +21413,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemNipplesLactationPump"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Freeze", "BlockKneel", "Slow"],
+				Effect: ["Block", "Prone", "Freeze", "Slow"],
 				Block: [
 					"ItemBoots",
 					"ItemPelvis",
@@ -21569,7 +21583,7 @@ var AssetFemale3DCG = [
 					"RightHandRings",
 				],
 				SetPose: ["AllFours"],
-				Effect: ["Block", "Prone", "ForceKneel"],
+				Effect: ["Block", "Prone"],
 				Block: ["ItemDevices"],
 			},
 			{
@@ -21606,7 +21620,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Freeze", "BlockKneel"],
+				Effect: ["Block", "Prone", "Freeze"],
 				Block: [
 					"ItemBoots",
 					"ItemPelvis",
@@ -22039,7 +22053,7 @@ var AssetFemale3DCG = [
 				IsRestraint: true,
 				SetPose: ["Yoked", "LegsOpen"],
 				Prerequisite: ["OnBed", "HasBreasts"],
-				Effect: ["Block", "Prone", "Freeze", "BlockKneel"],
+				Effect: ["Block", "Prone", "Freeze"],
 				Block: ["ItemDevices", "ItemLegs", "ItemFeet", "ItemBoots"],
 				AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 				AllowLock: true,
@@ -22306,7 +22320,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemButtAnalBeads2", "ClothAccessoryPoncho"],
 				SetPose: ["LegsClosed", "BackElbowTouch"],
 				Prerequisite: ["HasBreasts"],
-				Effect: ["Block", "Prone", "Slow", "BlockKneel"],
+				Effect: ["Block", "Prone", "Slow"],
 				Block: [
 					"ItemBreast",
 					"ItemNipplesPiercings",
@@ -22893,7 +22907,7 @@ var AssetFemale3DCG = [
 					"AllFours",
 				],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "ForceKneel"],
+				Effect: ["Block", "Prone"],
 				Block: ["ItemHands", "ItemHandheld"],
 				SelfUnlock: false,
 				DefaultColor: ["#888888"],
@@ -23270,6 +23284,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
+					OverTheHead: "OverTheHead",
 				},
 				Effect: ["Block", "Prone"],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
@@ -25915,7 +25930,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -25937,7 +25952,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -26046,7 +26061,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: ["Kneel", "KneelingSpread"],
-				Effect: ["Freeze", "ForceKneel", "IsChained"],
+				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -35911,14 +35926,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: [
-					"ForceKneel",
-					"Prone",
-					"Enclose",
-					"BlindNormal",
-					"GagLight",
-					"Freeze",
-				],
+				Effect: ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36013,7 +36021,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: ["ForceKneel", "Prone", "Enclose", "Freeze"],
+				Effect: ["Prone", "Enclose", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36074,7 +36082,7 @@ var AssetFemale3DCG = [
 					"RightHand",
 				],
 				SetPose: ["Kneel", "BackElbowTouch"],
-				Effect: ["ForceKneel", "Block", "Prone", "Freeze"],
+				Effect: ["Block", "Prone", "Freeze"],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -36455,7 +36463,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				Audio: "CageEquip",
 				Block: ["ItemAddon"],
-				Effect: ["Freeze", "BlockKneel"],
+				Effect: ["Freeze"],
 				SetPose: ["BaseLower"],
 				AllowActivePose: ["LegsOpen", "LegsClosed"],
 				Layer: [
@@ -36567,14 +36575,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: [
-					"ForceKneel",
-					"Prone",
-					"Enclose",
-					"DeafLight",
-					"GagLight",
-					"Freeze",
-				],
+				Effect: ["Prone", "Enclose", "DeafLight", "GagLight", "Freeze"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36865,7 +36866,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Hide: ["Wings"],
 				SetPose: ["Kneel"],
-				Effect: ["ForceKneel", "Prone", "Freeze", "Block"],
+				Effect: ["Prone", "Freeze", "Block"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37383,7 +37384,7 @@ var AssetFemale3DCG = [
 				Opacity: 0,
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["ForceKneel", "Prone", "Enclose", "Freeze"],
+				Effect: ["Prone", "Enclose", "Freeze"],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Door", CopyLayerColor: "Back", HasType: false },
@@ -37475,7 +37476,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#2E2E29", "#780E0E", "#2E2E29", "#2E2E29"],
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["ForceKneel", "Tethered"],
+				Effect: ["Tethered"],
 				Layer: [
 					{ Name: "Kennel", Priority: 1, HasType: false },
 					{
@@ -37740,7 +37741,7 @@ var AssetFemale3DCG = [
 				Priority: 6,
 				RemoveAtLogin: true,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
-				Effect: ["Mounted", "Freeze", "BlockKneel"],
+				Effect: ["Mounted", "Freeze"],
 				Block: ["ItemVulva", "ItemPelvis", "ItemVulvaPiercings"],
 				DynamicBeforeDraw: true,
 				DynamicScriptDraw: true,
@@ -37773,32 +37774,29 @@ var AssetFemale3DCG = [
 					AllFours: "AllFours",
 					Hogtied: "Hogtied",
 					Kneel: "Kneel",
-					Yoked: "Yoked",
 				},
 				SetPose: ["Kneel"],
-				Effect: ["Freeze", "Block", "Prone", "ForceKneel"],
+				Effect: ["Freeze", "Block", "Prone"],
 				Extended: true,
 				Layer: [
 					{ Name: "Front" },
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },
 					{
 						Name: "WeightsFront",
+						AllowTypes: ["", "AllFours"],
 						PoseMapping: {
-							Hogtied: PoseType.HIDE,
 							AllFours: "AllFours",
 							Kneel: "Kneel",
-							Yoked: "Yoked",
 						},
 					},
 					{
 						Name: "WeightsBack",
+						AllowTypes: ["", "AllFours"],
 						Priority: 3,
 						CopyLayerColor: "WeightsFront",
 						PoseMapping: {
-							Hogtied: PoseType.HIDE,
 							AllFours: "AllFours",
 							Kneel: "Kneel",
-							Yoked: "Yoked",
 						},
 					},
 				],

@@ -1246,19 +1246,21 @@ const ExtendedItemGatherOptions = (function () {
  */
 function ExtendedItemParseOptions(option, asset) {
 	const parsedOption = { ...option };
-	if (!option.Property) {
+	if (!parsedOption.Property) {
 		return parsedOption;
 	}
 
-	if (option.Property.SetPose) {
+	if (parsedOption.Property.SetPose) {
 		const prereq = parsedOption.Prerequisite;
 		const data = {
-			AllowActivePose: option.Property.AllowActivePose || asset.AllowActivePose,
+			AllowActivePose: option.Property.AllowActivePose,
 			SetPose: option.Property.SetPose,
 			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : null),
 			Effect: option.Property.Effect,
 		};
-		parsedOption.Prerequisite = AssetParsePosePrerequisite(data);
+		const { Prerequisite, AllowActivePose } = AssetParsePosePrerequisite(data);
+		parsedOption.Prerequisite = Prerequisite;
+		parsedOption.Property.AllowActivePose = AllowActivePose;
 	}
 	return parsedOption;
 }
