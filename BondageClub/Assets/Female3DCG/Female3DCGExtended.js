@@ -10663,7 +10663,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 3,
 					Property: {
 						SetPose: ["Kneel"],
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: ["Kneel", "KneelingSpread", "AllFours", "Hogtied"],
 						Difficulty: 3,
 					},
 					Random: false,
@@ -10711,7 +10711,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 3,
 					Property: {
 						SetPose: ["Kneel"],
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: ["Kneel", "KneelingSpread", "Hogtied", "AllFours"],
 						Difficulty: 3,
 					},
 					Random: false,
@@ -10905,6 +10905,7 @@ var AssetFemale3DCGExtended = {
 					Name: "ZipFrogtie",
 					Property: {
 						SetPose: ["Kneel"],
+						AllowActivePose: ["AllFours", "Hogtied"],
 						Difficulty: 3,
 					},
 					Random: false,
