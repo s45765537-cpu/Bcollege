@@ -11427,12 +11427,27 @@ var AssetFemale3DCGExtended = {
 		}, // WoodenSign
 		PetPotato: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Lap" },
-				{ Name: "Floor" },
-			],
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.ASSET_NAME],
+			Options: [{ Name: "Lap" }, { Name: "Floor" }],
 			DrawImages: false,
-		}, // TeddyBear
+			DialogPrefix: {
+				Header: "ItemMiscPetPotatoSelect",
+				Option: "ItemMiscPetPotato",
+				Chat: "ItemMiscPetPotatoSet",
+			},
+		}, // PetPotato
+		Karl: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
+		}, // Karl
+		FoxPlush: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
+		}, // FoxPlush
+		BunPlush: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
+		}, // BunPlush
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
