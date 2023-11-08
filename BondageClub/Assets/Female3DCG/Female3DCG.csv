@@ -1320,6 +1320,7 @@ ItemHandheld,PortalTablet,PortalLink Tablet
 ItemHandheld,Shark,Shark Plush
 ItemHandheld,BunPlush,Bunny Plush
 ItemHandheld,FoxPlush,Fox Plush
+ItemHandheld,Karl,Pet Rock
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
 ItemNeck,LeatherDeluxeCollar, Leather Deluxe Collar
@@ -1723,6 +1724,7 @@ ItemMisc,TeddyBear,Teddy Bear Set
 ItemMisc,PetPost,Pet Sign
 ItemMisc,BunPlush,Bunny Plush
 ItemMisc,FoxPlush,Fox Plush
+ItemMisc,Karl,Pet Rock
 ItemDevices,,Body
 ItemDevices,WoodenBox,Wooden Box
 ItemDevices,SmallWoodenBox,Small Wooden Box
