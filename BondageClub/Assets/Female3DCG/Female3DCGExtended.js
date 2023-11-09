@@ -12557,6 +12557,22 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // Catsuit
+		LatexCatsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Standart",
+				},
+				{
+					Name: "Prisoner",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectSuitType",
+				Option: "SuitType",
+			},
+			DrawImages: false,
+		}, // LatexCatsuit
 		SeamlessCatsuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Suit", AssetName: "Catsuit" },
@@ -12628,6 +12644,22 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // MaleSeamlessCatsuit
+		LatexCatsuit: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Standart",
+				},
+				{
+					Name: "Prisoner",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectSuitType",
+				Option: "SuitType",
+			},
+			DrawImages: false,
+		}, // LatexCatsuit
 		MaleCatsuitPanties: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "SuitLower", AssetName: "MaleSeamlessCatsuit" },
