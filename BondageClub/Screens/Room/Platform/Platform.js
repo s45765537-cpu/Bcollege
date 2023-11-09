@@ -397,7 +397,7 @@ var PlatformTemplate = [
 		JumpForce: 50,
 		CollisionDamage: 1,
 		ExperienceValue: 1,
-		JumpOdds: 0.0033,
+		JumpOdds: 0.0003,
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
 		LootOdds: 0.06,
