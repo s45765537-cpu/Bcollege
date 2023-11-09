@@ -191,6 +191,15 @@ const AssetPoseMapping = /** @type {const} */ ({
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
+	Suit: {
+		BackBoxTie: "BackBoxTie",
+		BackCuffs: "BackCuffs",
+		BackElbowTouch: "BackElbowTouch",
+		Hogtied: "Hogtied",
+		OverTheHead: "OverTheHead",
+		TapedHands: "TapedHands",
+		Yoked: "Yoked",
+	},
 	SuitLower: {
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
@@ -2787,15 +2796,7 @@ var AssetFemale3DCG = [
 		Default: false,
 		Random: false,
 		Clothing: true,
-		PoseMapping: {
-			BackBoxTie: "BackBoxTie",
-			BackCuffs: "BackCuffs",
-			BackElbowTouch: "BackElbowTouch",
-			Hogtied: "Hogtied",
-			OverTheHead: "OverTheHead",
-			TapedHands: "TapedHands",
-			Yoked: "Yoked",
-		},
+		PoseMapping: { ...AssetPoseMapping.Suit },
 		PreviewZone: [75, 150, 350, 350],
 		Asset: [
 			// Breast Compatible Clothing
