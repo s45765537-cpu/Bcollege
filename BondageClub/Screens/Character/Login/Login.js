@@ -115,6 +115,7 @@ function LoginLoad() {
 	const form = ElementCreateForm("Login");
 	const username = ElementCreateInput("InputName", "text", "", "20", form);
 	username.setAttribute("autocomplete", "username");
+	username.focus();
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
 	TextPrefetch("Room", "Mainhall");
