@@ -7671,12 +7671,12 @@ var AssetFemale3DCG = [
 							[180, 890, 30, 100],
 							[292, 890, 30, 110],
 							[140, 925, 50, 50],
-							[275, 930, 100, 50]
+							[275, 930, 100, 50],
 						],
 					},
 					{
 						Pose: ["Spread"],
-						Masks: [[162, 890, 13, 100],]
+						Masks: [[162, 890, 13, 100]],
 					},
 					{
 						Group: [
@@ -7689,7 +7689,7 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["Hogtied"],
 						Masks: [[0, 0, 500, 70]],
-					}
+					},
 				],
 				Top: 462,
 				Left: 0,
@@ -7697,17 +7697,11 @@ var AssetFemale3DCG = [
 				Height: 35,
 				Layer: [
 					{
-						Name: "Top", 
+						Name: "Top",
 						AllowColorize: true,
 					},
-					{	Name: "Heels", 
-						AllowColorize: true,
-						Priority: 4,
-					},
-					{	Name: "Sole", 
-						AllowColorize: true,
-						Priority: 3,
-					},
+					{ Name: "Heels", AllowColorize: true, Priority: 4 },
+					{ Name: "Sole", AllowColorize: true, Priority: 3 },
 				],
 			},
 		],
@@ -14234,8 +14228,10 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
-				AllowActivePose: ["Kneel", "LegsClosed"],
+				AllowActivePose: ["Kneel", "LegsClosed", "Hogtied", "AllFours"],
 				Extended: true,
 				AllowTighten: true,
 				DefaultColor: ["#CCCCCC", "#CCCCCC", "#CCCCCC"],
@@ -14289,11 +14285,13 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				Audio: "RopeShort",
-				AllowActivePose: ["Kneel"],
+				AllowActivePose: ["Kneel", "AllFours", "Hogtied"],
 				AllowTighten: true,
 				PoseMapping: {
 					...AssetPoseMapping.ItemLegs,
 					KneelingSpread: "KneelingSpread",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
 			},
 			{
@@ -14783,7 +14781,7 @@ var AssetFemale3DCG = [
 				Audio: "ZipTie",
 				SetPose: ["LegsClosed"],
 				Extended: true,
-				AllowActivePose: ["Kneel"],
+				AllowActivePose: ["Kneel", "Hogtied", "AllFours"],
 			},
 			{
 				Name: "Chains",
@@ -14823,8 +14821,10 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
-				AllowActivePose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: ["Kneel", "KneelingSpread", "AllFours", "Hogtied"],
 				Effect: ["Slow"],
 			},
 			{
@@ -23864,6 +23864,7 @@ var AssetFemale3DCG = [
 					Yoked: "Yoked",
 				},
 				SetPose: ["TapedHands"],
+				AllowActivePose: ["Hogtied", "AllFours"],
 				Attribute: ["FuturisticRecolor"],
 				Effect: ["UseRemote"],
 				SelfUnlock: false,
@@ -23903,6 +23904,7 @@ var AssetFemale3DCG = [
 					Yoked: "Yoked",
 				},
 				SetPose: ["TapedHands"],
+				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: ["Block", "Prone", "MergedFingers"],
 				Hide: ["ItemHandheld"],
 			},
@@ -23949,6 +23951,7 @@ var AssetFemale3DCG = [
 					Yoked: "Yoked",
 				},
 				SetPose: ["TapedHands"],
+				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: ["Block", "Prone", "MergedFingers"],
 			},
 			{
@@ -23972,6 +23975,7 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 				},
 				SetPose: ["TapedHands"],
+				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: ["Block", "Prone", "MergedFingers"],
 				Hide: ["ItemHandheld"],
 			},
@@ -23989,6 +23993,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				SetPose: ["TapedHands"],
+				AllowActivePose: ["Hogtied", "AllFours"],
 				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
 				Effect: ["Block", "Prone", "MergedFingers"],
 				DefaultColor: ["#323232", "#252525", "Default", "Default"],
