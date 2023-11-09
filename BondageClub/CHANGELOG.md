@@ -11,9 +11,61 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-10-17
-* Last recorded PR: [#4519](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4519)
-* Last recorded commit hash: `6ea2d8d0d62c67bc385a45e7c5ceb1ee04deaead`
+* Changelog last updated: 2023-11-09
+* Last recorded PR: [#4565](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4565)
+* Last recorded commit hash: `1da06817166ede920b97ef8a2a3565dd5a491dda`
+
+## [R98]
+
+### [Added]
+* KyraObscura - Updated alt hair ([#4533](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4533))
+* Rama - Added the new fox and bun plushies in collaboration with Triz ([#4538](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4538))
+* Rama - Added a new knife & fork emoticon ([#4540](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4540))
+* Cleon - Added a load of new items: Long Leather and Pleated regular skirts, Ballet Hi-Shoes (Shoes and ItemBoots), Personal Cage (Item Devices), Big Mouth (Item Mouth) and Anime Lenses (Item Head) ([#4547](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4547), [#4549](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4549), [#4553](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4553)), with a few fixes from Rama ([#4548](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4548))
+* Cleon - Added Loose Socks, Street Boots, Western Boots ([#4555](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4555))
+* Rama - Added the Inconspicious Glasses by Toshiro ([#4556](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4556))
+* Cleon - Added Geta Sandals. ([#4558](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4558))
+* Haruhi - Added Stiletto Heels ([#4560](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4560))
+* Rama - Added the pet potato and rock in collaboration with Triz ([#4563](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4563))
+* Constantan - Added a new Latex Catsuit ([#4564](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4564))
+* Rama - Fixed the new Latex Catsuit missing `TapedHands` support and hide more layers when unused ([#4565](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4565))
+* Ben987 - Added a Music Library function to custom online rooms
+
+### [Changed]
+* Ben987 - Bumped back the crafted item description limit to 200 characters max
+* kotax - Increased the chance for slave recruit when wearing stolen mistress clothes ([#4465](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4465))
+* Rama - Adjusted the `DialogDrawCrafting` Y-spacing to better deal with longer descriptions ([#4534](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4534))
+* Rama - Provided better feedback if one cannot pick a lock (when out of lockpicks or the lock is inaccessible) ([#4539](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4539))
+* Ben987 - Removed VSocks1 & KneePads from the random NPC clothing pool
+* Ben987 - Completed the voices for the full Bondage Brawl game
+
+### [Removed]
+
+
+### [Fixed]
+* Ben987 - Changed GGTS to revert the F-Machine to a Training Belt on the 3rd strike to prevent a soft-lock
+* Ben987 - Fixed customized rooms not getting recreated properly on a relog
+* Ben987 - Fixed the music volume slider to apply changes immediately
+* EllieThePink - Fixed a crash on entering a room with a club card game in progress ([#4525](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4525))
+* Rama - Made sure that `Fetish` properties are checked at both the item and asset level ([#4520](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4520))
+* Rama - Fixed a leftover `AllowType` -> `AllowTypes` change ([#4528](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4528))
+* EllieThePink - Fixed the "cancel" option in the lover breakup sub-menu being broken ([#4529](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4529))
+* Rama - Added special casing to `PropertyUnion/Difference` for dealing with a few properties ([#4535](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4535))
+* kotax - Fixed a couple typos that would have impacted College Detention and interacting with Mildred ([#4541](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4541))
+* Rama - Fixed missing `Tint` validation in `PropertyDifference/Union` ([#4543](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4543))
+* Rama - Fixed the `Center` allignment in `DrawTextWrap` having the wrong Y offset ([#4544](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4544))
+* Rama - Fixed a few issues related to extended items with custom script hooks/subscreens ([#4546](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4546))
+* EllieThePink - Fixed crafted items not displaying properly with the delayed appearance updates ([#4551](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4551))
+* kotax - Changed the "submit to teacher" dialog to collar the player on completion ([#4545](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4545))
+
+### [Technical]
+* Estsanatlehi - Gave extensions some storage directly in the login packet ([#4503](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4503))
+* Rama - Applied a code formatter to `Female3DCG.js` and `Female3DCGExtended.js` ([#4527](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4527))
+* Rama - Tweaked various type annotations and bumped typescript ([#4526](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4526))
+* Rama - Fixed the `npm run checks` command ([#4531](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4531))
+* Rama - Made lots of changes to the pose-handling system, most notably trimming down how they're specified as well as expanding tests ([#4532](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4532), [#4536](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4536), [#4554](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4554), [#4559](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4559), [#4561](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4561))
+* Rama - Added a warning if the player's browser does not support ES2020 ([#4550](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4550), [#4552](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4552))
+* Rama - Improved asset and layer typings ([#4562](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4562))
 
 ## [R97]
 
@@ -80,6 +132,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Improved the validation on URL extensions for custom URLs
 * Ben987 - Added `/customimage`, `/customfilter` and `/custommusic` chat commands
 * Ben987 - Fixed a couple audio issues in Bondage Brawl
+
+## [Hotfixes]
+* Rama - Fixed the prerequisites of the clothing based classic latex corset ([#4522](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4522))
+* Rama - Fixed the fishnet top disappearing when adopting the `TapedHands` pose ([#4523](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4523))
+* Rama - Fixed the leashing logic for lovers and family locks ([#4524](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4524))
+* Estsanatlehi - Made the client rate-limit its messages to not overwhelm the server ([#4542](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4542))
 
 ## [R96]
 
