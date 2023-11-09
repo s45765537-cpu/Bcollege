@@ -1,6 +1,7 @@
 "use strict";
 var RelogBackground = "";
 var RelogCanvas = document.createElement("canvas");
+/** @type {null | { Screen: string, Module: ModuleType, Character: Character }} */
 var RelogData = null;
 /** @type {HTMLDivElement | null} */
 var RelogChatLog = null;

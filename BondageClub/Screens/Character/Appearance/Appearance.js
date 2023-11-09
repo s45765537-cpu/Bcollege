@@ -46,7 +46,9 @@ var CharacterAppearanceWardrobeName = "";
 var CharacterAppearanceForceUpCharacter = -1;
 /** @type {"" | ExpressionNameMap["Emoticon"]} */
 var CharacterAppearancePreviousEmoticon = "";
+/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
 var CharacterAppearanceMode = "";
+/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
@@ -390,7 +392,7 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, type= "") {
  * Builds a filtered and sorted set of appearance layers, each representing a drawable layer of a character's current appearance. Layers
  * that will not be drawn (because their asset is not visible or they do not permit the current asset type) are filtered out at this stage.
  * @param {Character} C - The character to build the layers for
- * @return {AssetLayer[]} - A sorted set of layers, sorted by layer drawing priority
+ * @return {Mutable<AssetLayer>[]} - A sorted set of (shallow copied) layers, sorted by layer drawing priority
  */
 function CharacterAppearanceSortLayers(C) {
 	/** @type {Partial<Record<AssetGroupName, AlphaDefinition[]>>} */
@@ -404,7 +406,8 @@ function CharacterAppearanceSortLayers(C) {
 			const layersToDraw = asset.Layer
 				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, type))
 				.map(layer => {
-					const drawLayer = Object.assign({}, layer);
+					/** @type {Mutable<AssetLayer>} */
+					const drawLayer = { ...layer };
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alphaDef => {
 						if ((alphaDef.Group && alphaDef.Group.length) && (!alphaDef.Type || !Array.isArray(alphaDef.Type) || alphaDef.Type.includes(type))) {
@@ -427,7 +430,7 @@ function CharacterAppearanceSortLayers(C) {
 			Array.prototype.push.apply(layersAcc, layersToDraw);
 		}
 		return layersAcc;
-	}, []);
+	}, /** @type {Mutable<AssetLayer>[]} */([]));
 
 	// Run back over the layers to apply the group-level alpha mask definitions to the appropriate layers
 	layers.forEach(layer => {
@@ -1142,7 +1145,7 @@ function CharacterAppearanceMoveGroup(C, Move) {
  * Sets the color for a specific group
  * @param {Character} C - The character whose item group should be colored
  * @param {string} Color - The color (in the format "#rrggbb") to be applied to the group
- * @param {string} Group - The name of the group, whose color should be changed
+ * @param {AssetGroupName} Group - The name of the group, whose color should be changed
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetColorForGroup(C, Color, Group) {
@@ -1595,7 +1598,7 @@ function CharacterAppearanceStringify(C) {
 /**
  * Serialize items to JSON, breaking the cyclic link between Item, Asset & Group
  * by serializing that into a single string representing the link.
- * @param {Item[] | Item | any} Item
+ * @param {readonly Item[] | Item | any} Item
  * @returns {string}
  */
 function AppearanceItemStringify(Item) {
@@ -1636,7 +1639,7 @@ function AppearanceItemParse(stringified) {
  * @param {Character} C - The character the appearance is being changed for
  * @param {Item} Item - The currently selected item
  * @param {AssetGroupName} AssetGroup - The focused group
- * @param {string} CurrentMode - The mode to revert to on exiting the color picker
+ * @param {"" | "Wardrobe" | "Cloth" | "Color"} CurrentMode - The mode to revert to on exiting the color picker
  * @returns {void}
  */
 function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {

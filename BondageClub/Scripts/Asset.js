@@ -402,6 +402,8 @@ function AssetBuildLayer(AssetDefinition, A) {
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, AssetDefinition, A, I) {
+	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity) : 1;
+
 	/** @type {AssetLayer} */
 	const L = {
 		Name: Layer.Name || null,
@@ -423,9 +425,9 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		HideAs: Layer.HideAs,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
 		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
-		Opacity: typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity) : 1,
-		MinOpacity: typeof Layer.MinOpacity === "number" ? AssetParseOpacity(Layer.Opacity) : A.MinOpacity,
-		MaxOpacity: typeof Layer.MaxOpacity === "number" ? AssetParseOpacity(Layer.Opacity) : A.MaxOpacity,
+		Opacity: opacity,
+		MinOpacity: AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, opacity, 1),
+		MaxOpacity: AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, opacity),
 		BlendingMode: Layer.BlendingMode || "source-over",
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
@@ -436,21 +438,21 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
 	};
-	if (L.MinOpacity > L.Opacity) L.MinOpacity = L.Opacity;
-	if (L.MaxOpacity < L.Opacity) L.MaxOpacity = L.Opacity;
 	return L;
 }
 
 /**
  * Parses and validates asset's opacity
  * @param {number|undefined} opacity
+ * @param {number} min - The minimum opacity
+ * @param {number} max - The maximum opacity
  * @returns {number}
  */
-function AssetParseOpacity(opacity) {
+function AssetParseOpacity(opacity, min=0, max=1) {
 	if (typeof opacity === "number" && !isNaN(opacity)) {
-		return Math.max(0, Math.min(1, opacity));
+		return CommonClamp(opacity, min, max);
 	}
-	return 1;
+	return max;
 }
 
 /**
@@ -501,12 +503,12 @@ function AssetAssignColorIndices(A) {
 			LayerKey = "undefined";
 		if (LayerKey === null)
 			LayerKey = "null";
-		if (typeof colorMap[LayerKey] === "number") {
-			Layer.ColorIndex = colorMap[LayerKey];
-		} else {
-			Layer.ColorIndex = colorMap[LayerKey] = colorIndex;
+
+		if (typeof colorMap[LayerKey] !== "number") {
+			colorMap[LayerKey] = colorIndex;
 			colorIndex++;
 		}
+		/** @type {Mutable<AssetLayer>} */(Layer).ColorIndex = colorMap[LayerKey];
 	});
 	A.ColorableLayerCount = colorIndex;
 }

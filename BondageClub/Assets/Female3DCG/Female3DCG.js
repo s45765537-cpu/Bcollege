@@ -2699,10 +2699,8 @@ var AssetFemale3DCG = [
 				Top: 200,
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
-				CraftGroup: "HempRope",
 				ParentGroup: null,
 				Extended: true,
-				AllowTighten: true,
 			},
 			{
 				Name: "ChokerTattoo",
@@ -5061,7 +5059,6 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
 				Value: -1,
-				Difficulty: 10,
 				BuyGroup: "ClassicLatexCorset",
 				AllowLock: false,
 				PoseMapping: {
@@ -7255,9 +7252,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticHeels2",
 				Value: 50,
-				Difficulty: 7,
 				Time: 10,
-				RemoveTime: 20,
 				Left: 75,
 				DefaultColor: [
 					"Default",
@@ -7377,9 +7372,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexHeels",
 				Value: 40,
-				Difficulty: 7,
-				Time: 10,
-				RemoveTime: 20,
 				Left: 123,
 				Random: false,
 				AllowLock: false,

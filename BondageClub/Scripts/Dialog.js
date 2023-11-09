@@ -8,12 +8,12 @@ var DialogTextDefaultTimer = -1;
 var DialogTextDefaultDuration = 5000;
 /**
  * The default color to use when applying items.
- * @type {string}
+ * @type {null | string}
  */
 var DialogColorSelect = null;
 /**
  * The list of available items for the selected group.
- * @type DialogInventoryItem[]
+ * @type {DialogInventoryItem[]}
  */
 var DialogInventory = [];
 /**
@@ -62,23 +62,18 @@ var DialogMenuButton = [];
  */
 var DialogMenuMode = "dialog";
 
-/** @deprecated Use DialogMenuMode. */
-var DialogColor = null;
-/** @deprecated Use DialogMenuMode. */
-var DialogItemPermissionMode = null;
-/**
- * @deprecated Use DialogMenuMode.
- * @type {null | Item}
- * */
-var DialogItemToLock = null;
-/**
- * @deprecated Use DialogMenuMode.
- */
-var DialogActivityMode = false;
-/** @deprecated Use DialogMenuMode. */
-var DialogLockMenu = false;
-/** @deprecated Use DialogMenuMode. */
-var DialogCraftingMenu = false;
+/** @deprecated Use {@link DialogMenuMode}. */
+var DialogColor = /** @type {never} */(null);
+/** @deprecated Use {@link DialogMenuMode}. */
+var DialogItemPermissionMode = /** @type {never} */(null);
+/** @deprecated Use {@link DialogMenuMode}.*/
+var DialogItemToLock = /** @type {never} */(null);
+/** @deprecated Use {@link DialogMenuMode}. */
+var DialogActivityMode = /** @type {never} */(false);
+/** @deprecated Use {@link DialogMenuMode}. */
+var DialogLockMenu = /** @type {never} */(false);
+/** @deprecated Use {@link DialogMenuMode}. */
+var DialogCraftingMenu = /** @type {never} */(false);
 
 /**
  * The group that was selected before we entered the expression coloring screen
@@ -107,8 +102,8 @@ var DialogExtendedMessage = "";
  * @type {ItemActivity[]}
  */
 var DialogActivity = [];
-/** @type {Record<"Enabled" | "Equipped" | "BothFavoriteUsable" | "TargetFavoriteUsable" | "PlayerFavoriteUsable" | "Usable" | "TargetFavoriteUnusable" | "PlayerFavoriteUnusable" | "Unusable" | "Blocked", DialogSortOrder>} */
-var DialogSortOrder = {
+/** @satisfies {Record<string, DialogSortOrder>} */
+var DialogSortOrder = /** @type {const} */({
 	Enabled: 1,
 	Equipped: 2,
 	BothFavoriteUsable: 3,
@@ -119,7 +114,7 @@ var DialogSortOrder = {
 	PlayerFavoriteUnusable: 8,
 	Unusable: 9,
 	Blocked: 10
-};
+});
 /** @type {null | DialogSelfMenuOptionType} */
 var DialogSelfMenuSelected = null;
 var DialogLeaveDueToItem = false; // This allows dynamic items to call DialogLeave() without crashing the game
@@ -1351,7 +1346,7 @@ function DialogInventorySort() {
 /**
  * Returns TRUE if the crafted item can be used on a character, validates for owners and lovers
  * @param {Character} C - The character whose inventory must be built
- * @param {Object} Craft - The crafting properties of the item
+ * @param {CraftingItem} Craft - The crafting properties of the item
  * @returns {Boolean} - TRUE if we can use it
  */
 function DialogCanUseCraftedItem(C, Craft) {
@@ -1874,8 +1869,8 @@ function DialogPublishAction(C, Action, ClickItem) {
 
 /**
  * Returns TRUE if the clicked item can be processed, make sure it's not the same item as the one already used
- * @param {Object} CurrentItem - The item currently equiped
- * @param {Object} ClickItem - The clicked item
+ * @param {Item} CurrentItem - The item currently equiped
+ * @param {Item} ClickItem - The clicked item
  * @returns {boolean} - TRUE when we can process
  */
 function DialogAllowItemClick(CurrentItem, ClickItem) {
@@ -2313,7 +2308,7 @@ function DialogClick() {
 /**
  * Returns whether the clicked co-ordinates are inside the asset zone
  * @param {Character} C - The character the click is on
- * @param {readonly [number, number, number, number]} Zone - The 4 part array of the rectangular asset zone on the character's body: [X, Y, Width, Height]
+ * @param {RectTuple} Zone - The 4 part array of the rectangular asset zone on the character's body: [X, Y, Width, Height]
  * @param {number} Zoom - The amount the character has been zoomed
  * @param {number} X - The X co-ordinate of the click
  * @param {number} Y - The Y co-ordinate of the click
@@ -2392,7 +2387,7 @@ function DialogFindSubMenu(MenuName, force=false) {
 
 /**
  * Finds and sets a facial expression group. The expression sub menu has to be already opened.
- * @param {string} ExpressionGroup - The name of the expression group, see XXX.
+ * @param {ExpressionGroupName} ExpressionGroup - The name of the expression group, see XXX.
  * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
  */
 function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
