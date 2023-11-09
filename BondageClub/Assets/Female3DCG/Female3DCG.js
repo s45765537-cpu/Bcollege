@@ -2828,6 +2828,16 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "LatexCatsuit", Gender: "F", Prerequisite: ["HasBreasts"], Fetish: ["Latex"], Value: 100, BuyGroup: "LatexCatsuit", HideItem: ["ItemNipplesChopStickNippleClamps"], Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"], HasType: false, Extended: true,
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Sleeves", CopyLayerColor: "Base", Priority: 27,  },
+					{ Name: "PP", AllowTypes: ["Prisoner"], },
+					{ Name: "Zip" },
+					{ Name: "Shine", CopyLayerColor: "Zip", Priority: 28,}
+				]
+			},
+			{
 				Name: "SeamlessCatsuit",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -4079,6 +4089,14 @@ var AssetFemale3DCG = [
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
 				Layer: [{ Name: "Base" }, { Name: "Zip" }],
+			},
+			{
+				Name: "LatexCatsuit", Gender: "F", Prerequisite: ["HasVagina"], Fetish: ["Latex"], Value: -1, BuyGroup: "LatexCatsuit", Hide: ["ItemVulvaPiercings"], HideItem: ["SocksPantyhose1"], Attribute: ["SuitLower"],  HasType: false, Extended: true,
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "PP", AllowTypes: ["Prisoner"], },
+					{ Name: "Zip" },
+				]
 			},
 			{
 				Name: "SeamlessCatsuit",

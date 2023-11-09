@@ -116,6 +116,7 @@ Necklace,BodyChainNecklace,Body Chain Necklace
 Necklace,NecklaceButterfly,Butterfly Necklace
 Suit,,Upper Suit
 Suit,Catsuit,Catsuit
+Suit,LatexCatsuit,Latex Catsuit
 Suit,SeamlessCatsuit, Seamless Catsuit
 Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,PilotSuit,Pilot Suit
@@ -175,6 +176,7 @@ ClothLower,LongLeatherSkirt,Long Leather Skirt
 ClothLower,LongPleatedSkirt,Long Pleated Skirt
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
+SuitLower,LatexCatsuit,Latex Catsuit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
 SuitLower,CatsuitPanties, Catsuit Panties
 SuitLower,PilotSuit,Pilot Suit
