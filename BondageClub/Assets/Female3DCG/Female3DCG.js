@@ -7757,7 +7757,7 @@ var AssetFemale3DCG = [
 				Top: 462,
 				Left: 0,
 				DefaultColor: ["#090909", "#A80000", "#800000"],
-				Height: 35,
+				Height: 23,
 				Layer: [
 					{
 						Name: "Top",
