@@ -577,16 +577,32 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
  */
 function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
 	const AllowType = [null, ...Item.Asset.AllowTypes];
-	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
-		return false;
-	}
+	validateType: if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
+		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
+			// We cannot reliably validate properties of people in different versions
+			break validateType;
+		}
 
-	// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
-	const initialProperty = C.IsNpc() ? (Data.options.find(o => o.NPCDefault) || Data.options[0]) : Data.options[0];
-	Item.Property = {
-		...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
-		...CommonCloneDeep(initialProperty.Property),
-	};
+		// Check if all the expected properties are present; extra properties are ignored
+		const option = Data.options.find((o, i) => (i === 0 ? null : o.Name) === Item.Property.Type);
+		const newProps = {
+			...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
+			...CommonCloneDeep(option.Property),
+		};
+
+		if (!CommonDeepIsSubset(newProps, Item.Property)) {
+			Item.Property = Object.assign(Item.Property, newProps);
+		} else {
+			return false;
+		}
+	} else {
+		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
+		const option = C.IsNpc() ? (Data.options.find(o => o.NPCDefault) || Data.options[0]) : Data.options[0];
+		Item.Property = {
+			...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
+			...CommonCloneDeep(option.Property),
+		};
+	}
 
 	if (Refresh) {
 		CharacterRefresh(C, Push, false);

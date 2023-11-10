@@ -739,18 +739,30 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
  * @returns {boolean} Whether properties were initialized or not
  */
 function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
-	if (!CommonIsObject(Item.Property)) {
-		Item.Property = {};
-	}
-	if (data.options.some(o => o.Name === Item.Property.Mode)) {
-		return false;
+	validateType: if (CommonIsObject(Item.Property) && data.options.some(o => o.Name === Item.Property.Mode)) {
+		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
+			// We cannot reliably validate properties of people in different versions
+			break validateType;
+		}
+
+		const newProps = {
+			...(data.baselineProperty ? CommonCloneDeep(data.baselineProperty) : {}),
+			...CommonCloneDeep(data.options.find(o => o.Name === Item.Property.Mode).Property),
+		};
+		if (!CommonDeepIsSubset(newProps, Item.Property)) {
+			Item.Property = Object.assign(Item.Property, newProps);
+		} else {
+			return false;
+		}
+	} else {
+		Item.Property = Object.assign(
+			Item.Property || {},
+			data.baselineProperty ? CommonCloneDeep(data.baselineProperty) : {},
+			CommonCloneDeep(VibratorModeOff.Property),
+		);
 	}
 
-	Object.assign(
-		Item.Property,
-		data.baselineProperty ? CommonCloneDeep(data.baselineProperty) : null,
-		CommonCloneDeep(VibratorModeOff.Property),
-	);
+
 
 	if (Refresh) {
 		CharacterRefresh(C, Push, false);
