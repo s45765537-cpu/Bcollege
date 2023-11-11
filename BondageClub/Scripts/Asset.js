@@ -617,10 +617,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 
 	// Flatten any `InheritColor` graphs, transforming the likes of `A > B > C` into `A > C`
 	for (const group of AssetGroup) {
-		if (group.InheritColor == null) {
-			continue;
-		}
-
 		for (const obj of AssetYieldAll(group)) {
 			if (!obj.InheritColor) {
 				continue;
