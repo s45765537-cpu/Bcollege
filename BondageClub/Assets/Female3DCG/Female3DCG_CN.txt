@@ -1651,7 +1651,7 @@ Obedience Belt
 PortalLink Panties
 传送门连接内裤
 Heavy Duty Belt
-重型使命贞操带
+重型耐久贞操带
 Torso
 躯干
 Leather Harness
@@ -2459,7 +2459,7 @@ Corset Hood
 Light Duty Ear Plugs
 轻型耳塞
 Heavy Duty Ear Plugs
-重型耳塞
+重型耐久耳塞
 Headphone Ear Plugs
 耳机耳塞
 Bluetooth Earbuds
