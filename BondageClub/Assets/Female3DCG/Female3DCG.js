@@ -4186,10 +4186,6 @@ var AssetFemale3DCG = [
 				Hide: ["ItemVulvaPiercings", "BodyLower"],
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
-				PoseMapping: {
-					Hogtied: "Hogtied",
-					KneelingSpread: PoseType.HIDE,
-				},
 				Layer: [
 					{ Name: "Layer1", AllowColorize: true },
 					{ Name: "Layer2", AllowColorize: true },
