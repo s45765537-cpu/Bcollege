@@ -305,6 +305,8 @@ Cannot be used while serving drinks.
 不能在送餐时使用
 Remove the wand first.
 先把棒子拔了
+Remove the suit first.
+先移除紧身衣
 Cannot use this.
 无法使用
 Must remove chastity first.
@@ -379,6 +381,38 @@ Requires a harness.
 需要一个束缚。
 Blocked in this room.
 被房间禁止
+Cannot change to the BaseUpper pose.
+无法改变到BaseUpper姿势。
+Cannot change to the BackBoxTie pose.
+无法改变到BackBoxTie姿势。
+Cannot change to the BackCuffs pose.
+无法改变到BackCuffs姿势。
+Cannot change to the BackElbowTouch pose.
+无法改变到BackElbowTouch姿势。
+Cannot change to the OverTheHead pose.
+无法改变到OverTheHead姿势。
+Cannot change to the TapedHands pose.
+无法改变到TapedHands姿势。
+Cannot change to the Yoked pose.
+无法改变到Yoked姿势。
+Cannot change to the BaseLower pose.
+无法改变到BaseLower姿势。
+Cannot change to the Kneel pose.
+无法改变到Kneel姿势。
+Cannot change to the KneelingSpread pose.
+无法改变到KneelingSpread姿势。
+Cannot change to the LegsClosed pose.
+无法改变到LegsClosed姿势。
+Cannot change to the LegsOpen pose.
+无法改变到LegsOpen姿势。
+Cannot change to the Spread pose.
+无法改变到Spread姿势。
+Cannot change to the Hogtied pose.
+无法改变到Hogtied姿势。
+Cannot change to the AllFours pose.
+无法改变到AllFours姿势。
+Cannot change to the Suspension pose.
+无法改变到Suspension姿势。
 Cancel
 取消
 Back to character
@@ -429,8 +463,14 @@ Unlock the item
 解锁物品
 Try to pick the lock
 尝试开锁
+Unable to pick the lock
+无法撬锁
 Unable to pick the lock due to player permissions
 由于玩家权限设置无法撬锁
+Unable to pick without lockpicks
+没有开锁工具无法撬锁
+Cannot reach lock
+无法接触到锁
 Try to pick the lock (jammed)
 尝试开锁（卡住了）
 Return to the item menu
@@ -1226,7 +1266,7 @@ TargetCharacterName被SourceCharacter移到了左边.
 TargetCharacterName was moved to the right by SourceCharacter.
 TargetCharacterName被SourceCharacter移到了右边.
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
-SourceCharacter交换了TargetCharacterName和DestinationCharacterName位置.
+SourceCharacter交换了TargetCharacterName和DestinationCharacterName1的位置。
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter随机安排了房间中所有人的位置.
 TargetCharacterName was promoted to administrator by SourceCharacter.
@@ -3259,6 +3299,18 @@ SourceCharacter sets DestinationCharacter AssetName to medium sensitivity.
 SourceCharacter将DestinationCharacterAssetName设置为中敏感度。
 SourceCharacter sets DestinationCharacter AssetName to maximum sensitivity.
 SourceCharacter将DestinationCharacterAssetName设置为高敏感度。
+Choose the collar's options.
+选择项圈的选项。
+Select Shock Module
+选择电击模块
+Settings
+设置
+Forbidden Aggression
+禁止攻击
+SourceCharacter sets DestinationCharacter AssetName to disable shock module.
+SourceCharacter设置DestinationCharacterAssetName并关闭了电击模组。
+SourceCharacter sets DestinationCharacter AssetName to enable shock module.
+SourceCharacter设置DestinationCharacterAssetName并启用了电击模组。
 DestinationCharacterName AssetName gives TargetPronounObject a light shock.
 DestinationCharacterNameAssetName轻微地电了TargetPronounObject一下。
 DestinationCharacterName AssetName lets out a sharp jolt!
@@ -4763,6 +4815,18 @@ Opaque Gloves
 不透明手套
 See-through Gloves
 透明手套
+Select the suit's type
+选择样式
+Standard suit
+标准紧身衣
+Prisoner suit
+监狱紧身衣
+Label:
+标签：
+Barcode:
+条码：
+Text:
+文本：
 DestinationCharacterName AssetName switches to a random pattern
 DestinationCharacterNameAssetName改为了随机模式
 DestinationCharacterName AssetName switches to a escalating pattern
@@ -7035,8 +7099,6 @@ The rear chastity shield on DestinationCharacterName AssetName closes.
 DestinationCharacterNameAssetName上后面的贞操护盾关闭了。
 The front and rear chastity shields on DestinationCharacterName AssetName close.
 DestinationCharacterNameAssetName上前后的贞操护盾关闭了。
-Select Shock Module
-选择电击模块
 SourceCharacter sets DestinationCharacter AssetName to open all crotch shields.
 SourceCharacter将DestinationCharacterAssetName设置为打开所有胯部护盾。
 SourceCharacter sets DestinationCharacter AssetName to close front crotch shield.
@@ -7249,3 +7311,47 @@ SourceCharacter switches to DestinationCharacterName AssetName to a crop top.
 SourceCharacter将DestinationCharacterNameAssetName改为露腹上衣。
 Select Large Belt Width.
 选择大皮带宽度
+Use the lever to:
+使用拉杆来：
+Go down
+向上
+Go up
+向下
+SourceCharacter returns DestinationCharacterName to the floor.
+SourceCharacter将DestinationCharacterName放回到地面上。
+SourceCharacter pulls the level and DestinationCharacterName is lifted.
+SourceCharacter拉动拉杆将DestinationCharacterName抬升起来。
+Pick a latex lip type:
+选择乳胶嘴唇类型：
+Default lips
+默认嘴唇
+Grin lips
+咧嘴
+Serious lips
+严肃
+Open mouth lips
+张嘴
+SourceCharacter puts a default lips in DestinationCharacterName mouth.
+SourceCharacter将DestinationCharacterName的嘴设置为默认嘴唇。
+SourceCharacter puts a grin lips in DestinationCharacterName mouth.
+SourceCharacter将DestinationCharacterName的嘴设置为咧嘴。
+SourceCharacter puts a serious lips in DestinationCharacterName mouth.
+SourceCharacter将DestinationCharacterName的嘴设置为严肃。
+SourceCharacter puts a wide open lips in DestinationCharacterName mouth.
+SourceCharacter将DestinationCharacterName的嘴设置为张开。
+Loose style
+松散样式
+Flat style
+平坦样式
+Choose how to wear right socks:
+选择如何穿右侧袜子：
+Choose how to wear left socks:
+选择如何穿左侧袜子：
+SourceCharacter puts the AssetName down.
+SourceCharacter将AssetName放下来。
+SourceCharacter picks up the AssetName.
+SourceCharacter将AssetName拿起来。
+Floor
+地面
+Lap
+大腿

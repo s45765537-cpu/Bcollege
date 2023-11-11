@@ -1,5 +1,7 @@
 [Message]: Send a message starting with /. Example: //message will send /message
 [Message]: 发送一条包含/的消息. 如: //message会发送 /message
+undefined
+undefined
 [Message]: Display the message as an action
 [Message]: 以动作来表现跟随的信息
 : Toggle AFK emote
@@ -70,3 +72,9 @@ Spin your Wheel of Fortune
 转动你的命运之轮
 [MemberNumber]: Release a submissive from your ownership
 [MemberNumber]: 释放一个被你拥有的顺从者
+[URL]: Set the http address of the background jpg/png image to use
+[URL]: 设置背景使用的jpg/png图片的http地址
+[Color]: Set the color code of the background filter (ex: #0000FF40)
+[Color]: 设置背景图片的滤镜颜色（例如：#0000FF40）
+[URL]: Set the http address of the background mp3/mp4 music to use
+[URL]: 设置背景mp3/mp4音乐使用的http地址
