@@ -268,7 +268,7 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 	if (SetPose == null) {
 		return {};
 	}
-	const allowActivePose = CommonArrayConcatDedupe([...(AllowActivePose || [])], SetPose);
+	const allowActivePose = CommonArrayConcatDedupe([...SetPose], AllowActivePose || []);
 
 	/** @type {AssetPrerequisite[]} */
 	const posePrerequisite = SetPose.map(i => /** @type {const} */(`Can${i}`));
