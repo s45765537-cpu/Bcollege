@@ -795,3 +795,33 @@ function AssetParseDefaultColor(colorableLayerCount, color) {
 	}
 	return defaultColor;
 }
+
+/**
+ * Unflatten a pose name array, converting it into a dictionary mapping pose categories to aforementioned pose names
+ * @param {readonly AssetPoseName[]} poses
+ * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>}
+ */
+function AssetPoseToMapping(poses) {
+	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
+	const poseMapping = {};
+	if (!CommonIsArray(poses)) {
+		console.warn(`Invalid pose array type: ${typeof poses}`);
+		return poseMapping;
+	}
+
+	for (const poseName of poses) {
+		const pose = PoseRecord[poseName];
+		if (!pose) {
+			console.warn(`Ignoring invalid "${poseName}" pose`);
+			continue;
+		}
+
+		const poseList = poseMapping[pose.Category];
+		if (poseList) {
+			poseList.push(poseName);
+		} else {
+			poseMapping[pose.Category] = [poseName];
+		}
+	}
+	return poseMapping;
+}

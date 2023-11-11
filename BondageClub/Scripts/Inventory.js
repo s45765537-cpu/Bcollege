@@ -469,7 +469,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	}
 
 	// If prerequisite isn't a valid array, return true
-	if (!Array.isArray(prerequisites)) {
+	if (!CommonIsArray(prerequisites)) {
 		return true;
 	}
 
@@ -480,7 +480,29 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	CharacterLoadPose(checkCharacter);
 
 	let Msg = "";
-	prerequisites.some((prerequisite) => (Msg = InventoryPrerequisiteMessage(checkCharacter, prerequisite)));
+	if (!asset.SetPose) {
+		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq)));
+	} else {
+		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
+		const poseMapping = AssetPoseToMapping(asset.AllowActivePose);
+		const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
+		for (const prereq of prerequisites) {
+			if (CommonIncludes(posePrereq, prereq)) {
+				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
+				const allowedActivePoses = poseMapping[setPose.Category] || [setPose.Name];
+				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
+				// console.log(messages, poseMapping, asset);
+				if (messages.every(Boolean)) {
+					Msg = messages[0];
+				}
+			} else {
+				Msg = InventoryPrerequisiteMessage(checkCharacter, prereq);
+			}
+			if (Msg) {
+				break;
+			}
+		}
+	}
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
 	if (Msg && setDialog) DialogSetStatus(DialogFindPlayer(Msg), DialogTextDefaultDuration);
