@@ -877,9 +877,10 @@ function CommonCompareVersion(Current, Other) {
 /**
  * A simple deep equality check function which checks whether two objects are equal. The function traverses recursively
  * into objects and arrays to check for equality. Primitives and simple types are considered equal as defined by `===`.
- * @param {*} obj1 - The first object to compare
- * @param {*} obj2 - The second object to compare
- * @returns {boolean} - TRUE if both objects are equal, up to arbitrarily deeply nested property values, FALSE
+ * @template T
+ * @param {unknown} obj1 - The first object to compare
+ * @param {T} obj2 - The second object to compare
+ * @returns {obj1 is T} - TRUE if both objects are equal, up to arbitrarily deeply nested property values, FALSE
  * otherwise.
  */
 function CommonDeepEqual(obj1, obj2) {
@@ -915,6 +916,44 @@ function CommonDeepEqual(obj1, obj2) {
 		});
 	}
 
+	return false;
+}
+
+/**
+ * A simple deep equality check function which checks whether two objects are equal for all properties in `subRec`.
+ * The function traverses recursively into objects and arrays to check for equality.
+ * Primitives and simple types are considered equal as defined by `===`.
+ * @template T
+ * @param {unknown} subRec - The subset-containg object to compare
+ * @param {T} superRec - The superset-containg object to compare
+ * @returns {subRec is Partial<T>} - Whether `subRec` is a subset of `superRec` up to arbitrarily deeply nested property values
+ */
+function CommonDeepIsSubset(subRec, superRec) {
+	if (subRec === superRec) {
+		return true;
+	}
+
+	if (subRec && superRec && typeof subRec === "object" && typeof superRec === "object") {
+		// If the objects do not share a prototype, they are not equal
+		if (Object.getPrototypeOf(subRec) !== Object.getPrototypeOf(superRec)) {
+			return false;
+		}
+
+		if (CommonIsArray(subRec) && CommonIsArray(superRec)) {
+			return subRec.every(subValue => superRec.some(superValue => CommonDeepIsSubset(subValue, superValue)));
+		} else {
+			// Get the keys for the objects
+			const subKeys = Object.keys(subRec);
+			const superKeys = new Set(Object.keys(superRec));
+
+			// If the objects have different numbers of keys, they are not equal
+			if (!subKeys.every(k => superKeys.has(k))) {
+				return false;
+			} else {
+				return subKeys.every(key => CommonDeepIsSubset(subRec[key], superRec[key]));
+			}
+		}
+	}
 	return false;
 }
 

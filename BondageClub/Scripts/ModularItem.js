@@ -113,12 +113,24 @@ function ModularItemRegister(asset, config) {
  */
 function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 	const AllowType = Data.asset.AllowTypes;
-	if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
-		return false;
-	}
+	validateType: if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
+		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
+			// We cannot reliably validate properties of people in different versions
+			break validateType;
+		}
 
-	const currentModuleValues = ModularItemParseCurrent(Data, null);
-	Item.Property = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
+		// Check if all the expected properties are present; extra properties are ignored
+		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.Type);
+		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
+		if (!CommonDeepIsSubset(newProps, Item.Property)) {
+			Item.Property = Object.assign(Item.Property, newProps);
+		} else {
+			return false;
+		}
+	} else {
+		const currentModuleValues = ModularItemParseCurrent(Data, null);
+		Item.Property = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
+	}
 
 	if (Refresh) {
 		CharacterRefresh(C, Push, false);
@@ -532,18 +544,19 @@ function ModularItemParseCurrent({ asset, modules }, type=null) {
 function ModularItemMergeModuleValues({ asset, modules }, moduleValues, BaselineProperty=null) {
 	const options = modules.map((module, i) => module.Options[moduleValues[i] || 0]);
 	 /** @type {ItemProperties} */
-	const BaseLineProperties ={
+	const BaseLineProperties = {
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: 0,
-		CustomBlindBackground: asset.CustomBlindBackground,
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
 		Effect: Array.isArray(asset.Effect) ? asset.Effect.slice() : [],
 		Hide: Array.isArray(asset.Hide) ? asset.Hide.slice() : [],
 		HideItem: Array.isArray(asset.HideItem) ? asset.HideItem.slice() : [],
 		AllowActivity: Array.isArray(asset.AllowActivity) ? asset.AllowActivity.slice() : [],
 		Attribute: Array.isArray(asset.Attribute) ? asset.Attribute.slice() : [],
-		Tint: asset.AllowTint ? Array.isArray(asset.Tint) ? asset.Tint.slice() : [] : undefined,
 	};
+	if (asset.CustomBlindBackground) BaseLineProperties.CustomBlindBackground = asset.CustomBlindBackground;
+	if (asset.AllowTint) BaseLineProperties.Tint = CommonIsArray(asset.Tint) ? [...asset.Tint] : [];
+
 	if (BaselineProperty != null) {
 		ModularItemSanitizeProperties(BaselineProperty, BaseLineProperties, asset);
 	}
