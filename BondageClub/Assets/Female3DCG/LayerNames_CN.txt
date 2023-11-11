@@ -118,6 +118,10 @@ Metal
 金属
 Zip
 拉链
+Shine
+高光
+Label
+标签
 Catsuit
 紧身衣
 Fabric
@@ -128,8 +132,6 @@ Jewel
 珠宝
 Bra
 胸罩
-Shine
-高光
 Leather
 皮革
 Buckles
@@ -882,8 +884,6 @@ Structure
 结构
 Window
 窗户
-Label
-标签
 Custom Text
 自定义文本
 Glass
@@ -942,6 +942,8 @@ Veins
 脉络
 Shade
 阴影
+Glasses
+眼镜
 Goggles
 护目镜
 Bar
@@ -1100,3 +1102,31 @@ Ankles
 膝盖
 Horseshoes
 马蹄铁
+Accent
+风格
+Closed
+关闭
+Default
+默认
+Grin
+咧嘴
+Serious
+严肃
+Open
+打开
+Left Eyelids
+左眼睑
+Right Eyelids
+右眼睑
+Right Sock
+右袜子
+Left Sock
+左袜子
+Hanao
+鞋带
+Dai
+鞋底
+ Heels
+鞋跟
+ Sole
+脚跟

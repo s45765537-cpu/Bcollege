@@ -232,6 +232,8 @@ Upper Suit
 套装(上身)
 Catsuit
 紧身衣
+Latex Catsuit
+乳胶紧身衣
  Seamless Catsuit
 无缝紧身衣
  Sleeveless Catsuit
@@ -336,6 +338,10 @@ Long Latex Pants
 长乳胶裤
 Business Skirt
 商务裙
+Long Leather Skirt
+长皮革裙
+Long Pleated Skirt
+长百褶裙
 Suit Lower
 套装(下身)
  Catsuit Panties
@@ -472,6 +478,8 @@ Noble Corset
 皇家束腰
 Boned Underbust Corset
 撑骨胸下束腰
+Classic Latex Corset
+经典乳胶束腰
 Panties
 内裤
 String Bikini
@@ -596,6 +604,8 @@ Knee Pads
 护膝
 Right Leg
 右腿
+Loose Socks
+松散袜
 Left Leg
 左腿
 Anklet (Right)
@@ -678,6 +688,12 @@ Street Boots
 街头靴
 Western Boots
 西式靴
+Ballet Hi-Shoes
+芭蕾高鞋
+Geta Sandals
+木屐拖鞋
+Stiletto Heels
+细高跟鞋
 Hat
 帽子
 Hair Band
@@ -914,6 +930,8 @@ Gradient Sunglasses
 渐变太阳镜
 Goggles
 护目镜
+Inconspicious Glasses
+吹胡子瞪眼
 Mask
 面具
 Venetian Mask
@@ -1650,8 +1668,6 @@ High Security Harness
 裆链
 Heavy Latex Corset
 重型乳胶束腰
-Classic Latex Corset
-经典乳胶束腰
 Thin Leather Straps
 细皮革束带
 Locking Swimsuit
@@ -1996,6 +2012,14 @@ PortalLink Tablet
 传送门连接平板
 Shark Plush
 鲨鱼布偶
+Bunny Plush
+兔兔布偶
+Fox Plush
+狐狸布偶
+Pet Rock
+宠物石头
+Pet Potato
+宠物土豆
 Neck
 颈部
 Leather Collar
@@ -2272,6 +2296,8 @@ Bridle Gag
 缰绳口塞
  Latex Sheath Gag
 乳胶隐藏口塞
+Big Mouth
+大嘴口型口塞
  Mouthfeature Gag
 嘴内特征口塞
 Latex Respirator
@@ -2328,6 +2354,8 @@ Ribbon Blindfold
 丝带眼罩
 Medical Patches
 医用胶布
+Anime Lenses
+动漫美瞳
 Nose
 鼻子
 Nose Hook
@@ -2622,6 +2650,8 @@ Folding Screen
 折叠屏风
 Kabeshiri Wall
 壁尻
+Personal Cage
+单人铁笼
 Blanket
 毛毯
 Bed Ropes

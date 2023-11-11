@@ -223,7 +223,9 @@ Show help on first enter
 Show beep notifications in chat
 在聊天中显示好友私聊提示
 Audio volume
-音量
+声音音量
+Music volume
+音乐音量
 Audio alarm for beeps
 播放好友私聊提示音
 Play item sounds in chatrooms
@@ -250,14 +252,12 @@ Events while plugged or vibed
 被插入或被振动时的事件
 Garble chat room names and descriptions while blind
 失明时隐藏聊天室名和描述
-Never use room customization, no button
-永不使用房间自定义，没有按钮
-Don't use room customization by default
-默认不使用房间自定义
-Use room customization by default
-默认使用房间自定义
-Always use room customization, no button
-总是使用房间自定义，没有按钮
+Room customization:
+房间自定义：
+Disabled by default
+默认关闭
+Enabled by default
+默认启用
 Sensory deprivation setting
 感觉剥夺设置
 Hide names
