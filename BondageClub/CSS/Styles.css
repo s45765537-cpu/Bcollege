@@ -465,3 +465,7 @@ input[type=range][data-thumb=rope]::-moz-range-thumb {
 	font-family: 'Caveat-Bold';
 	src: url('../Fonts/Caveat/Caveat-Bold.ttf');
 }
+@font-face {
+	font-family: 'Libre Barcode 39';
+	src: url('../Fonts/Libre_Barcode_39/LibreBarcode39-Regular.ttf');
+  }

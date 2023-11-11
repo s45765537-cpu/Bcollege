@@ -12583,19 +12583,29 @@ var AssetFemale3DCGExtended = {
 		}, // Catsuit
 		LatexCatsuit: {
 			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
-					Name: "Standart",
+					Name: "Standard",
 				},
 				{
 					Name: "Prisoner",
 				},
 			],
-			DialogPrefix: {
-				Header: "SelectSuitType",
-				Option: "SuitType",
-			},
 			DrawImages: false,
+			BaselineProperty: { Text: "PRISONER", Text2: "#0000" },
+			ChatSetting: TypedItemChatSetting.FROM_TO,
+			ScriptHooks: {
+				Load: InventorySuitLatexCatsuitLoadHook,
+				Draw: InventorySuitLatexCatsuitDrawHook,
+				Exit: InventorySuitLatexCatsuitExitHook,
+				PublishAction: InventorySuitLatexCatsuitPublishActionHook,
+			},
 		}, // LatexCatsuit
 		SeamlessCatsuit: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -12672,15 +12682,15 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
 				{
-					Name: "Standart",
+					Name: "Standard",
 				},
 				{
 					Name: "Prisoner",
 				},
 			],
 			DialogPrefix: {
-				Header: "SelectSuitType",
-				Option: "SuitType",
+				Header: "SuitLatexCatsuitSelect",
+				Option: "SuitLatexCatsuit",
 			},
 			DrawImages: false,
 		}, // LatexCatsuit

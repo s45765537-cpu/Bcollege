@@ -2839,6 +2839,7 @@ var AssetFemale3DCG = [
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
 				HasType: false,
 				Extended: true,
+				DynamicAfterDraw: true,
 				PoseMapping: {
 					...AssetPoseMapping.Suit,
 					TapedHands: PoseType.DEFAULT,
@@ -2863,6 +2864,7 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "PP", AllowTypes: ["Prisoner"] },
 					{ Name: "Zip" },
+					{ Name: "Text", HasImage: false },
 					{
 						Name: "Shine",
 						CopyLayerColor: "Zip",
