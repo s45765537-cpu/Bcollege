@@ -1107,6 +1107,25 @@ function ExtendedItemManualRegister() {
 				},
 			},
 		},
+		{
+			group: "Suit",
+			name: "LatexCatsuit",
+			config: {
+				Archetype: ExtendedArchetype.TEXT,
+				MaxLength: { Text: 14, Text2: 14, Text3: 14, },
+				Font: "'Saira Stencil One', 'Arial', sans-serif",
+				DrawData: {
+					elementData: [
+						{ position: [1505, 750] },
+						{ position: [1505, 800] },
+						{ position: [1505, 850] },
+					],
+				},
+				DialogPrefix: {
+					Header: "SuitLatexCatsuitSelect",
+				},
+			},
+		},
 	];
 
 	for (const { group, name, config } of items) {
