@@ -36769,7 +36769,7 @@ var AssetFemale3DCG = [
 				Block: ["ItemAddon"],
 				Effect: ["Freeze"],
 				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsOpen", "LegsClosed"],
+				AllowActivePose: ["LegsOpen", "LegsClosed", "Spread"],
 				Layer: [
 					{ Name: "Base", Priority: 1, MinOpacity: 1, HasType: false },
 					{
