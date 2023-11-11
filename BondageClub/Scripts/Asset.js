@@ -427,7 +427,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
 		Opacity: opacity,
 		MinOpacity: AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, opacity, 1),
-		MaxOpacity: AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, opacity),
+		MaxOpacity: AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, opacity),
 		BlendingMode: Layer.BlendingMode || "source-over",
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
