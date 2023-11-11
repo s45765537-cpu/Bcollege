@@ -182,13 +182,6 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
  * @returns {boolean} Whether the pose change can occur
  */
 function InventoryPrerequisiteCanChangeToPose(C, pose) {
-	switch (pose) {
-		case "BaseLower":
-		case "LegsClosed":
-			if (C.Pose.includes("Kneel") || CharacterCanChangeToPose(C, "Kneel", false)) {
-				return true;
-			}
-	}
 	return C.Pose.includes(pose) || CharacterCanChangeToPose(C, pose, false);
 }
 
@@ -491,7 +484,6 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
 				const allowedActivePoses = poseMapping[setPose.Category] || [setPose.Name];
 				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
-				// console.log(messages, poseMapping, asset);
 				if (messages.every(Boolean)) {
 					Msg = messages[0];
 				}
