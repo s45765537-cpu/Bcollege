@@ -2083,7 +2083,10 @@ var AssetFemale3DCG = [
 				HasType: false,
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
-				PoseMapping: { TapedHands: PoseType.DEFAULT },
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					TapedHands: PoseType.DEFAULT,
+				},
 				Layer: [
 					{ Name: "Chest" },
 					{
@@ -3101,7 +3104,10 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
 				DynamicGroupName: "Cloth",
-				PoseMapping: { TapedHands: PoseType.DEFAULT },
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					TapedHands: PoseType.DEFAULT,
+				},
 				Layer: [
 					{ Name: "Chest" },
 					{
