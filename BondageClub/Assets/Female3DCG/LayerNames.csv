@@ -1876,3 +1876,7 @@ ShoesGetaDai,Dai
 ShoesStilettoHeelsTop, Base
 ShoesStilettoHeelsHeels, Heels
 ShoesStilettoHeelsSole, Sole
+MaskAnimeLensesLeftIris,Left Lens
+MaskAnimeLensesRightIris,Right Lens
+MaskAnimeLensesLeftEyelids,Left Eyelids
+MaskAnimeLensesRightEyelids,Right Eyelids
