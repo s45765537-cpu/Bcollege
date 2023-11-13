@@ -89,8 +89,8 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 30,0,(Demote DialogCharacterObject from room administration.),,"AdminAction(""Demote"")",CurrentCharacterIsAdmin()
 30,0,(Back to main menu.),(Main menu.),,
 40,,,(Possible character actions.),,
-40,,(Hold on to DialogCharacterObject leash.),,HoldLeash(),CanHoldLeash()
-40,,(Let go of DialogCharacterObject leash.),,StopHoldLeash(),CanStopHoldLeash()
+40,,(Hold on to DialogCharacterPossessive leash.),,HoldLeash(),CanHoldLeash()
+40,,(Let go of DialogCharacterPossessive leash.),,StopHoldLeash(),CanStopHoldLeash()
 40,0,(Help DialogCharacterObject stand.),(You help DialogCharacterObject up on DialogCharacterPossessive feet.),KneelStandAssist(),CanAssistStand()
 40,0,(Help DialogCharacterObject kneel.),(You help DialogCharacterObject down on DialogCharacterPossessive knees.),KneelStandAssist(),CanAssistKneel()
 40,0,(Help DialogCharacterObject to struggle free.),,StruggleAssist(),CanAssistStruggle()
