@@ -745,13 +745,24 @@ function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
 			break validateType;
 		}
 
-		const newProps = {
-			...(data.baselineProperty ? CommonCloneDeep(data.baselineProperty) : {}),
-			...CommonCloneDeep(data.options.find(o => o.Name === Item.Property.Mode).Property),
-		};
+		const option = data.options.find(o => o.Name === Item.Property.Mode);
+		const newProps = CommonCloneDeep(option.Property);
+		delete newProps.OverridePriority;
+		const baseLineProps = Object.entries(CommonCloneDeep(data.baselineProperty || {})).filter(([k, v]) => {
+			const existingValue = Item.Property[k];
+			return existingValue == null && typeof existingValue !== typeof v;
+		});
+
+		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
-		} else {
+			update = true;
+		}
+		if (baseLineProps.length > 0) {
+			baseLineProps.forEach(([k, v]) => Item.Property[k] = v);
+			update = true;
+		}
+		if (!update) {
 			return false;
 		}
 	} else {
