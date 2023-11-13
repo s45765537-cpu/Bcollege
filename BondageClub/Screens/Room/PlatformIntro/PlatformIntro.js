@@ -60,7 +60,7 @@ function PlatformIntroRun() {
 		}
 		if ((PlatformIntroDrawAsset == Total) && (Char.Name == "Melody")) PlatformIntroDrawAsset = -1;
 	}
-	DrawText(TextGet("LoadingAssets") + " " + Count.toString() + " / " + Total.toString(), 1125, 930, "Black", "Silver");
+	DrawText(TextGet("LoadingAssets") + " " + Count.toString() + " / " + Total.toString(), 1140, 930, "Black", "Silver");
 
 	for (let X = 0; X <= 9; X++)
 		DrawText(TextGet("Text" + X.toString()), 1400, 67 + X * 65, "Black", "Silver");
@@ -68,8 +68,8 @@ function PlatformIntroRun() {
 	for (let X = 0; X <= 9; X++)
 		DrawButton(920 + (X % 5) * 200, 710 + Math.floor(X / 5) * 90, 160, 60, TextGet("Load") + " " + X.toString(), "White", "");
 
-	DrawButton(1370, 900, 230, 60, TextGet("NewGame"), "White", "");
-	DrawButton(1650, 900, 230, 60, TextGet("Cancel"), "White", "");
+	DrawButton(1400, 900, 225, 60, TextGet("NewGame"), "White", "");
+	DrawButton(1655, 900, 225, 60, TextGet("Exit"), "White", "");
 
 }
 
@@ -81,7 +81,7 @@ function PlatformIntroClick() {
 	for (let X = 0; X <= 9; X++)
 		if (MouseIn(920 + (X % 5) * 200, 710 + Math.floor(X / 5) * 90, 160, 60))
 			PlatformLoadGame(X);
-	if (MouseIn(1370, 900, 230, 60)) {
+	if (MouseIn(1400, 900, 225, 60)) {
 		PlatformDialogCharacter = CommonCloneDeep(PlatformDialogCharacterTemplate);
 		PlatformEvent = [];
 		PlatformChar = [];
@@ -92,7 +92,7 @@ function PlatformIntroClick() {
 		PlatformLoadRoom("BedroomMelody");
 		PlatformDialogStart("IntroMelody");
 	}
-	if (MouseIn(1650, 900, 230, 60)) PlatformIntroExit();
+	if (MouseIn(1655, 900, 225, 60)) PlatformIntroExit();
 }
 
 /**

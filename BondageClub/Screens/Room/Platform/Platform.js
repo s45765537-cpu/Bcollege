@@ -284,6 +284,16 @@ var PlatformTemplate = [
 		]
 	},
 	{
+		Name: "Barrel",
+		Status: "Wood",
+		Width: 200,
+		Height: 200,
+		HitBox: [0, 0, 1, 1],
+		Animation: [
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], Speed: 25 }
+		]
+	},
+	{
 		Name: "Chest",
 		Status: "Metal",
 		Width: 400,
@@ -1230,9 +1240,13 @@ var PlatformRoomList = [
 			{ Name: "ForestBirchWest", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3400, ToFaceLeft: true },
 			{ Name: "ForestBirchEast", FromX: 3100, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
-		Character: [
-			{ Name: "Vera", Status: "Leather", X: 1800 },
-		]
+		Entry: function() {
+			if (PlatformPlayer.X <= 1000) {
+				PlatformCreateProjectile("Barrel", "Wood", false, 500, 1, 24, 0, 6);
+			} else {
+				PlatformCreateProjectile("Barrel", "Wood", true, 2700, 1, 24, 0, 6);
+			}
+		}
 	},
 	{
 		Name: "ForestBirchEast",
@@ -1377,12 +1391,31 @@ var PlatformRoomList = [
 		Door: [
 			{ Name: "ForestLakePath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
 			{ Name: "ForestBirchMaze", FromX: 1200, FromY: 0, FromW: 600, FromH: 1200, FromType: "Up", ToX: 3100, ToFaceLeft: true },
-			{ Name: "ForestPond", FromX: 2900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
+			{ Name: "ForestGreenWoods", FromX: 2900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
 			{ Name: "Lucy", Status: "Armor", X: 600 },
 			{ Name: "Yuna", Status: "Maid", X: 2400 }
 		]
+	},
+	{
+		Name: "ForestGreenWoods",
+		Text: "Green Woods",
+		Background: "Forest/GreenWoods",
+		Music: "ForestTheme",
+		Width: 2000,
+		Height: 1300,
+		Door: [
+			{ Name: "ForestFirPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
+			{ Name: "ForestPond", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
+		],
+		Entry: function() {
+			if (PlatformPlayer.X <= 1000) {
+				PlatformCreateProjectile("Barrel", "Wood", false, 100, 1, 24, 0, 6);
+			} else {
+				PlatformCreateProjectile("Barrel", "Wood", true, 1900, 1, 24, 0, 6);
+			}
+		}
 	},
 	{
 		Name: "ForestPond",
@@ -1392,7 +1425,7 @@ var PlatformRoomList = [
 		Width: 4200,
 		Height: 1400,
 		Door: [
-			{ Name: "ForestFirPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2900, ToFaceLeft: true },
+			{ Name: "ForestGreenWoods", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2900, ToFaceLeft: true },
 			{ Name: "ForestSecluded", FromX: 4100, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false }
 		],
 		Character: [
@@ -1569,7 +1602,28 @@ var PlatformRoomList = [
 		Height: 1400,
 		Door: [
 			{ Name: "SavannahBanditCampGate", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3100, ToFaceLeft: true },
-			{ Name: "SavannahTentExterior", FromX: 2700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+			{ Name: "SavannahEdge", FromX: 2700, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
+		],
+		Entry: function() {
+			if (PlatformPlayer.X <= 1000) {
+				PlatformCreateProjectile("Barrel", "Wood", false, 100, 1, 24, 0, 6);
+				PlatformCreateProjectile("Barrel", "Wood", false, 1000, 1, 24, 0, 6);
+			} else {
+				PlatformCreateProjectile("Barrel", "Wood", true, 2700, 1, 24, 0, 6);
+				PlatformCreateProjectile("Barrel", "Wood", true, 1800, 1, 24, 0, 6);
+			}
+		},
+	},
+	{
+		Name: "SavannahEdge",
+		Text: "Savannah's Edge",
+		Background: "Savannah/Edge",
+		Music: "Savannah",
+		Width: 2500,
+		Height: 1400,
+		Door: [
+			{ Name: "SavannahBanditPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3100, ToFaceLeft: true },
+			{ Name: "SavannahTentExterior", FromX: 2400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 		],
 		Character: [
 			{ Name: "Lucy", Status: "Armor", X: 1800 },
@@ -1583,7 +1637,7 @@ var PlatformRoomList = [
 		Width: 2000,
 		Height: 1000,
 		Door: [
-			{ Name: "SavannahBanditPath", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
+			{ Name: "SavannahEdge", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2700, ToFaceLeft: true },
 			{ Name: "SavannahTentInterior", FromX: 800, FromY: 0, FromW: 400, FromH: 1200, FromType: "Up", ToX: 100, ToFaceLeft: false },
 			{ Name: "DesertEntrance", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
 		]
@@ -1912,7 +1966,7 @@ function PlatformDrawBackground() {
 	PlatformViewX = PlatformPlayer.X - 1000;
 	if (PlatformViewX < 0) PlatformViewX = 0;
 	if (PlatformViewX > PlatformRoom.Width - 2000) PlatformViewX = PlatformRoom.Width - 2000;
-	PlatformViewY = PlatformPlayer.Y - 600;
+	PlatformViewY = PlatformPlayer.Y - 400;
 	if (PlatformViewY < 0) PlatformViewY = 0;
 	if (PlatformViewY > PlatformRoom.Height - 1000) PlatformViewY = PlatformRoom.Height - 1000;
 	DrawImageZoomCanvas("Screens/Room/Platform/Background/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
@@ -2359,15 +2413,16 @@ function PlatformAnimAvailable(C, AnimationName) {
  * @param {Number} X - The X position
  * @param {Number} Y - The Y position
  * @param {Number} Force - The speed of the projectile
+ * @param {Number} Gravity - The Y axis gravity pulling that projectile down (default to 0.25)
  * @param {Number} Damage - The damage done by the projectile
  * @param {any} HitAudio - The damage done by the projectile
  * @returns {void} - Nothing
  */
-function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Damage, HitAudio) {
+function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Gravity = 0.25, Damage, HitAudio) {
 	let Proj = PlatformCreateCharacter(Name, Type, X, false, true, null, FaceLeft, null);
 	Proj.Y = PlatformFloor - Y;
 	Proj.IsProjectile = true;
-	Proj.Gravity = 0.25;
+	Proj.Gravity = Gravity;
 	Proj.CollisionDamage = Damage;
 	Proj.ProjectileForce = Force * (FaceLeft ? -1 : 1);
 	Proj.HitAudio = HitAudio;
@@ -2426,8 +2481,8 @@ function PlatformProjectile(C, LongShot) {
 	let Damage = C.ProjectileDamage[C.Level];
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
-	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
-	if (C.ProjectileBothSides) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, Damage, C.ProjectileHitAudio);
+	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	if (C.ProjectileBothSides) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
 }
 
 /**
@@ -2895,7 +2950,7 @@ function PlatformLeave() {
 	PlatformBackgroundMusic(null);
 	window.removeEventListener("keydown", PlatformEventKeyDown);
 	window.removeEventListener("keyup", PlatformEventKeyUp);
-	CommonSetScreen("Room", "MainHall");
+	CommonSetScreen("Room", "PlatformIntro");
 }
 
 /**
