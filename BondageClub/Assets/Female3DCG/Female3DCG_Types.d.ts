@@ -517,7 +517,13 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 
 	OverrideHeight?: AssetOverrideHeight;
 
-	/** Whether the game should auto-add a Lock layer to the asset. */
+	/**
+	 * Whether a {@link AssetLayerDefinition.LockLayer}-supporting layer should automatically be generated.
+	 *
+	 * Will always be set to `false` if {@link AssetDefinition.AllowLock} is `false`.
+	 *
+	 * @default true
+	 */
 	DrawLocks?: boolean;
 
 	MirrorExpression?: AssetGroupName;
@@ -598,7 +604,7 @@ type AssetDefinition = (
 
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
 	/** The layer's name */
-	Name: string;
+	Name?: string;
 
 	/** Uses the color of the named layer. */
 	CopyLayerColor?: string;
@@ -635,7 +641,11 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	 */
 	BlendingMode?: GlobalCompositeOperation;
 
-	/** Specify that this is (one of) the asset's lock layer. See DrawsLock at the asset level. */
+	/**
+	 * Specify that this is (one of) the asset's lock layer.
+	 *
+	 * Allows for the manual specification lock layers as opposed to {@link AssetDefinition.AllowLock}'s automatic assignment.
+	 */
 	LockLayer?: boolean;
 
 	MirrorExpression?: AssetGroupName;

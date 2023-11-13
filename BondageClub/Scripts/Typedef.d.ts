@@ -977,6 +977,7 @@ interface Asset {
 	readonly CraftGroup: string;
 	readonly ColorSuffix: Readonly<Record<string, string>>;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
+	readonly AllowColorize: boolean;
 }
 
 //#endregion

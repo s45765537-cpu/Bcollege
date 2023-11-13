@@ -115,6 +115,8 @@ function AssetActivityMirrorGroupSet(group) {
  * @returns {void} - Nothing
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
+	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
+
 	/** @type {Mutable<Asset>} */
 	var A = {
 		Name: AssetDef.Name,
@@ -165,7 +167,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
 		AlwaysExtend: (AssetDef.AlwaysExtend == null) ? false : AssetDef.AlwaysExtend,
 		AlwaysInteract: (AssetDef.AlwaysInteract == null) ? false : AssetDef.AlwaysInteract,
-		AllowLock: typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false,
+		AllowLock: allowLock,
 		LayerVisibility: (AssetDef.LayerVisibility == null) ? false : AssetDef.LayerVisibility,
 		IsLock: (AssetDef.IsLock == null) ? false : AssetDef.IsLock,
 		PickDifficulty: (AssetDef.PickDifficulty == null) ? 0 : AssetDef.PickDifficulty,
@@ -212,7 +214,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowColorizeAll: typeof AssetDef.AllowColorizeAll === "boolean" ? AssetDef.AllowColorizeAll : true,
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
-		DrawLocks: typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true,
+		DrawLocks: allowLock && (typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true),
 		AllowExpression: AssetDef.AllowExpression,
 		MirrorExpression: AssetDef.MirrorExpression,
 		FixedPosition: typeof AssetDef.FixedPosition === "boolean" ? AssetDef.FixedPosition : false,
@@ -229,6 +231,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
 		ColorSuffix: AssetDef.ColorSuffix || Group.ColorSuffix,
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
+		AllowColorize: typeof AssetDef.AllowColorize === "boolean" ? AssetDef.AllowColorize : Group.AllowColorize,
 	};
 
 	if (A.SetPose) {
@@ -239,14 +242,18 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
 	if (A.MaxOpacity < A.Opacity) A.MaxOpacity = A.Opacity;
 
-	A.Layer = AssetBuildLayer(AssetDef, A);
+	const layers = AssetDef.Layer || [{}];
+	if (A.DrawLocks) {
+		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
+	}
+	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
+
 	AssetAssignColorIndices(A);
 	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, AssetDef.DefaultColor);
 
 	// Unwearable assets are not visible but can be overwritten
 	if (!A.Wear && AssetDef.Visible != true) A.Visible = false;
-	// @ts-ignore: ignore `readonly` while still building the group properties
-	Group.Asset.push(A);
+	/** @type {Asset[]} */(Group.Asset).push(A);
 	AssetMap.set(Group.Name + "/" + A.Name, A);
 	Asset.push(A);
 
@@ -381,27 +388,13 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
 }
 
 /**
- * Builds the layer array for an asset based on the asset definition. One layer is created for each drawable part of
- * the asset (excluding the lock). If the asset definition contains no layer definitions, a default layer definition
- * will be created.
- * @param {AssetDefinition} AssetDefinition - The raw asset definition
- * @param {Asset} A - The built asset
- * @return {AssetLayer[]} - An array of layer objects representing the drawable layers of the asset
- */
-function AssetBuildLayer(AssetDefinition, A) {
-	const Layers = Array.isArray(AssetDefinition.Layer) ? AssetDefinition.Layer : /** @type {AssetLayerDefinition[]} */([{}]);
-	return Layers.map((Layer, I) => AssetMapLayer(Layer, AssetDefinition, A, I));
-}
-
-/**
  * Maps a layer definition to a drawable layer object
  * @param {AssetLayerDefinition} Layer - The raw layer definition
- * @param {AssetDefinition} AssetDefinition - The raw asset definition
  * @param {Asset} A - The built asset
  * @param {number} I - The index of the layer within the asset
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
-function AssetMapLayer(Layer, AssetDefinition, A, I) {
+function AssetMapLayer(Layer, A, I) {
 	const minOpacity = AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, 1);
 	const maxOpacity = AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, 1);
 	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity, minOpacity, maxOpacity) : 1;
@@ -409,7 +402,7 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 	/** @type {AssetLayer} */
 	const L = {
 		Name: Layer.Name || null,
-		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition, A.Group),
+		AllowColorize: typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize,
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -418,9 +411,9 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : A.HasType,
 		ParentGroupName: Layer.ParentGroup === undefined ? A.ParentGroupName : Layer.ParentGroup,
-		Priority: Layer.Priority || AssetDefinition.Priority || A.Group.DrawingPriority,
+		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
-		Alpha: AssetLayerAlpha(Layer, AssetDefinition, I),
+		Alpha: AssetLayerAlpha(Layer, A, I),
 		Asset: A,
 		DrawingLeft: Layer.Left,
 		DrawingTop: Layer.Top,
@@ -458,30 +451,17 @@ function AssetParseOpacity(opacity, min=0, max=1) {
 }
 
 /**
- * Determines whether a layer can be colorized, based on the layer definition and its parent asset/group definitions
- * @param {AssetLayerDefinition} Layer - The raw layer definition
- * @param {AssetDefinition} NewAsset - The raw asset definition
- * @param {AssetGroup} Group - The group being processed
- * @return {boolean} - Whether or not the layer should be permit colors
- */
-function AssetLayerAllowColorize(Layer, NewAsset, Group) {
-	return typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize :
-		typeof NewAsset.AllowColorize === "boolean" ? NewAsset.AllowColorize :
-			typeof Group.AllowColorize === "boolean" ? Group.AllowColorize : true;
-}
-
-/**
  * Builds the alpha mask definitions for a layer, based on the
  * @param {AssetLayerDefinition} Layer - The raw layer definition
- * @param {AssetDefinition} NewAsset - The raw asset definition
+ * @param {Asset} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
  * @return {AlphaDefinition[]} - a list of alpha mask definitions for the layer
  */
 function AssetLayerAlpha(Layer, NewAsset, I) {
-	var Alpha = Layer.Alpha || [];
+	const Alpha = Layer.Alpha || [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
-	if (I === 0 && NewAsset.Alpha && NewAsset.Alpha.length) {
-		Array.prototype.push.apply(Alpha, NewAsset.Alpha);
+	if (I === 0 && NewAsset.Alpha) {
+		Alpha.push(...NewAsset.Alpha);
 	}
 	return Alpha;
 }

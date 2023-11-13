@@ -323,24 +323,6 @@ function CommonDrawAppearanceBuild(C, {
 			}
 		}
 
-		// If the item has been locked
-		if (ItemLocked && A.DrawLocks) {
-			// How many layers should be drawn for the asset
-			const DrawableLayerCount = C.AppearanceLayers.filter(AL => AL.Asset === A).length;
-
-			// If we just drew the last drawable layer for this asset, draw the lock too (never colorized)
-			if (DrawableLayerCount === LayerCounts[CountKey]) {
-				drawImage(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + (A.HasType ? Type : "") +
-					"_Lock.png",
-					X, Y, AlphaMasks
-				);
-				drawImageBlink(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + (A.HasType ? Type : "") +
-					"_Lock.png", X, Y, AlphaMasks);
-			}
-		}
-
 		// After drawing hook, receives all processed data.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
