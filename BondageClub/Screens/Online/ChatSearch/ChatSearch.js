@@ -16,9 +16,9 @@ var ChatSearchLeaveRoom = "MainHall";
 var ChatSearchLeaveSpace = "Room";
 /** @type {null | Item[]} */
 var ChatSearchSafewordAppearance = null;
-/** @type {null | AssetPoseName[]} */
+/** @type {null | Partial<Record<AssetPoseCategory, AssetPoseName>>} */
 var ChatSearchSafewordPose = null;
-/** @type {null | AssetPoseName[]} */
+/** @type {null | Partial<Record<AssetPoseCategory, AssetPoseName>>} */
 var ChatSearchPreviousActivePose = null;
 /** @type {number[]} */
 var ChatSearchTempHiddenRooms = [];
@@ -57,11 +57,11 @@ function ChatSearchLoad() {
 	}
 	if (ChatSearchSafewordAppearance == null) {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
-		ChatSearchSafewordPose = Player.ActivePose;
+		ChatSearchSafewordPose = Player.ActivePoseMapping;
 	}
 	AsylumGGTSIntroDone = false;
 	AsylumGGTSTask = null;
-	AsylumGGTSPreviousPose = [...Player.Pose];
+	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 	Player.ArousalSettings.OrgasmCount = 0;
 	ElementCreateInput("InputSearch", "text", "", "20");
 	ChatSearchQuery();
@@ -275,7 +275,7 @@ function ChatSearchExit() {
 	ChatSearchShowHiddenRoomsActive = false;
 	ChatSearchFilterHelpActive = false;
 	ChatSearchFilterUnhideConfirm = null;
-	ChatSearchPreviousActivePose = Player.ActivePose;
+	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
 	ElementRemove("InputSearch");
 	CommonSetScreen(ChatSearchLeaveSpace, ChatSearchLeaveRoom);
 	DrawingGetTextSize.clearCache();

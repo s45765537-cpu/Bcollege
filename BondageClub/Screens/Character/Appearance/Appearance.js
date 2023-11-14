@@ -138,7 +138,7 @@ function CharacterAppearanceSetDefault(C) {
 	// Resets the current appearance and prepares the assets
 	if (!AppearanceGroupAllowed(C, "ALL")) return;
 	C.Appearance = [];
-	C.Pose = [];
+	C.PoseMapping = {};
 	if (CharacterAppearanceAssets.length == 0) CharacterAppearanceBuildAssets(C);
 
 	// For each items in the character appearance assets
@@ -526,7 +526,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 
 		// Check if there is any setting to override the standard asset height modifiers
 		let HeightOverrides = [];
-		let PoseOverrides = Pose.filter(P => C.Pose != null && C.Pose.indexOf(P.Name) >= 0 && P.OverrideHeight != null).map(P => P.OverrideHeight);
+		let PoseOverrides = Pose.filter(P => P.OverrideHeight != null && C.PoseMapping[P.Category] === P.Name).map(P => P.OverrideHeight);
 		let AssetOverrides = C.DrawAppearance.filter(A => A.Asset.OverrideHeight != null).map(A => A.Asset.OverrideHeight);
 		let PropertyOverrides = C.DrawAppearance.filter(A => A.Property && A.Property.OverrideHeight != null).map(A => A.Property.OverrideHeight);
 		HeightOverrides = HeightOverrides.concat(PoseOverrides, AssetOverrides, PropertyOverrides);

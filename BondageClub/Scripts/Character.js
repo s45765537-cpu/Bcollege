@@ -157,7 +157,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		get AllowedActivePose() {
 			/** @type {AssetPoseName[]} */
 			const ret = [];
-			Object.values(this.AllowedActivePoseMapping).forEach(poses => ret.push(...poses))
+			Object.values(this.AllowedActivePoseMapping).forEach(poses => ret.push(...poses));
 			return ret;
 		},
 		set AllowedActivePose(poses) {
@@ -180,7 +180,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				!this.HasEffect("Freeze") &&
 				!this.HasEffect("Tethered") &&
 				!this.HasEffect("Mounted") &&
-				((this.Pose == null) || !this.Pose.includes("Kneel") || !this.HasEffect("KneelFreeze"))
+				(this.PoseMapping.BodyLower !== "Kneel" || !this.HasEffect("KneelFreeze"))
 			);
 		},
 		CanKneel: function () {
@@ -293,7 +293,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		IsSlow: function () {
 			return (
-				((this.Effect.indexOf("Slow") >= 0) || (this.Pose.indexOf("Kneel") >= 0)) &&
+				(this.Effect.includes("Slow") || this.PoseMapping.BodyLower === "Kneel") &&
 				((!this.IsPlayer()) || !this.RestrictionSettings.SlowImmunity)
 			);
 		},
@@ -366,7 +366,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return ((NPCEventGet(this, "Girlfriend") > 0) || (Player.GetLoversNumbers().indexOf("NPC-" + this.Name) >= 0));
 		},
 		IsKneeling: function () {
-			return (this.Pose != null && (this.Pose.includes("Kneel") || this.Pose.includes("KneelingSpread")));
+			return ["Kneel", "KneelingSpread"].includes(this.PoseMapping.BodyLower);
 		},
 		IsNaked: function () {
 			return CharacterIsNaked(this);
@@ -436,10 +436,10 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			) ? 1 : this.Difficulty.Level;
 		},
 		IsSuspended: function () {
-			return this.Pose.includes("Suspension") || this.Effect.includes("Suspended");
+			return this.PoseMapping.BodyAddon === "Suspension" || this.Effect.includes("Suspended");
 		},
 		IsInverted: function () {
-			return this.Pose.indexOf("Suspension") >= 0;
+			return this.PoseMapping.BodyAddon === "Suspension";
 		},
 		CanChangeToPose: function (Pose) {
 			return CharacterCanChangeToPose(this, Pose);
@@ -802,7 +802,8 @@ function CharacterLoadSimple(AccName) {
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Title == null))) Char.Title = data.Title;
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Nickname == null))) Char.Nickname = data.Nickname;
-	Char.ActivePose = Array.isArray(data.ActivePose) ? data.ActivePose.filter(i => typeof i === "string") : [];
+	// Validated in the `ActivePose` setter
+	Char.ActivePose = data.ActivePose || [];
 	Char.LabelColor = data.LabelColor;
 	Char.Creation = data.Creation;
 	Char.Description = data.Description;
@@ -992,23 +993,20 @@ function CharacterDeleteAllOnline() {
  * the provided pose
  */
 function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
-	const pose = PoseFemale3DCG.find(P => P.Name === poseName);
-	if (!pose) return false;
-	const poseCategory = pose.Category;
-	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
-
-	if (changeUnaided) {
-		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
-		if (poseCategory !== "BodyLower") {
-			return true;
-		} else {
-			/** @type {Set<AssetPoseName>} */
-			const standingPoses = new Set(/** @type {const} */(["LegsClosed", "LegsOpen", "Spread"]));
-			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").some(i => standingPoses.has(i)));
-		}
-	} else {
-		return true;
+	const pose = PoseRecord[poseName];
+	if (!pose) {
+		return false;
 	}
+
+	let canChange = CharacterItemsHavePoseAvailable(C, pose.Category, pose.Name);
+	if (canChange && changeUnaided && pose.Category === "BodyLower") {
+		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support
+		/** @type {AssetPoseName[]} */
+		const standingPoses = ["LegsClosed", "LegsOpen", "Spread"];
+		const allowedBodyLower = C.AllowedActivePoseMapping.BodyLower;
+		canChange = !allowedBodyLower ? true : !standingPoses.some(p => allowedBodyLower.includes(p));
+	}
+	return canChange;
 }
 
 /**
@@ -1019,28 +1017,8 @@ function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
  * @returns {boolean} - TRUE if the character has the pose available
  */
 function CharacterItemsHavePoseAvailable(C, Type, Pose) {
-	/** @type {AssetPoseName[]} */
-	let ConflictingPoses;
-	if (Type === "BodyFull") {
-		// `BodyFull` Conflicts with everything
-		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose).map(P => P.Name);
-	} else {
-		// Arbitrary poses conflict with `BodyFull` and everything in its own category
-		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
-	}
-
-	for (const item of C.Appearance) {
-		// Check if there are any allowed poses within the `Type` category, and if yes check if `Pose` is a member
-		const allowedPoses = InventoryGetItemProperty(item, "AllowActivePose").filter(p => (PoseRecord[p] || {}).Category === Type);
-		if (allowedPoses.length > 0) {
-			if (!allowedPoses.includes(Pose)) {
-				return false;
-			}
-			continue;
-		}
-		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
-	}
-	return true;
+	const poseList = C.AllowedActivePoseMapping[Type];
+	return !poseList || poseList.includes(Pose);
 }
 
 /**
@@ -1051,7 +1029,7 @@ function CharacterItemsHavePoseAvailable(C, Type, Pose) {
  * @returns {boolean} - TRUE if the character has the pose
  */
 function CharacterItemsHavePose(C, Pose, ExcludeClothes = false) {
-	if (C.ActivePose != null && C.AllowedActivePose.includes(Pose) && (typeof C.ActivePose == "string" && C.ActivePose == Pose || Array.isArray(C.ActivePose) && C.ActivePose.includes(Pose))) return true;
+	if (C.AllowedActivePose.includes(Pose) && C.ActivePose.includes(Pose)) return true;
 	return CharacterDoItemsSetPose(C, Pose, ExcludeClothes);
 }
 
@@ -1066,11 +1044,7 @@ function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
 	if (C == null) return false;
 	return C.Appearance
 		.filter(item => !excludeClothes || !item.Asset.Group.Clothing)
-		.some(item => {
-			let Value = InventoryGetItemProperty(item, "SetPose", true);
-			if (Value == null) return false;
-			return Value.includes(pose);
-		});
+		.some(item => InventoryGetItemProperty(item, "SetPose").includes(pose));
 }
 
 /**
@@ -1103,9 +1077,9 @@ function CharacterLoadPose(C) {
 	/**
 	 * Categories mapped to the `SetPose` name-union of all items
 	 * @type {Partial<Record<AssetPoseCategory, Set<AssetPoseName>>>}
+	 * @see {@link Character.PoseMapping}
 	 */
 	const setPose = {};
-
 	for (const item of C.Appearance) {
 		const allowActivePoseList = InventoryGetItemProperty(item, "AllowActivePose");
 		if (allowActivePoseList.length === 0) {
@@ -1162,7 +1136,6 @@ function CharacterLoadPose(C) {
 	}
 
 	// Find the intersection between the allowed active poses and the set poses
-	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName>>} */
 	C.PoseMapping = {};
 	const categories = new Set(PoseFemale3DCG.map(p => p.Category));
 	for (const category of categories) {
@@ -1265,7 +1238,7 @@ function CharacterLoadCanvas(C) {
 
 	// We add a temporary appearance and pose here so that it can be modified by hooks.  We copy the arrays so no hooks can alter the reference accidentally
 	C.DrawAppearance = AppearanceItemParse(CharacterAppearanceStringify(C));
-	C.DrawPose = C.Pose.slice(); // Deep copy of pose array
+	C.DrawPoseMapping = { ...C.PoseMapping }; // Deep copy of pose record
 
 	// Run BeforeSortLayers hook
 	C.RunHooks("BeforeSortLayers");
@@ -1659,34 +1632,37 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
 /**
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
- * @param {null | AssetPoseName} NewPose - Name of the pose to set as active or `null` to return to the default pose
+ * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
  * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
  * @returns {void} - Nothing
  */
-function CharacterSetActivePose(C, NewPose, ForceChange = false) {
-	if (NewPose == null || ForceChange || C.ActivePose == null) {
-		C.ActivePose = (NewPose == null) ? [] : [NewPose];
+function CharacterSetActivePose(C, poseName, ForceChange = false) {
+	const newPose = PoseRecord[poseName];
+	if (
+		poseName == null
+		|| ForceChange
+		|| (newPose && newPose.Category === "BodyFull")
+	) {
+		C.ActivePoseMapping = (newPose == null) ? {} : { [newPose.Category]: newPose.Name };
 		CharacterRefresh(C, false);
 		return;
 	}
 
-	if (C.ActivePose == null) C.ActivePose = [];
-	if (typeof C.ActivePose == "string") C.ActivePose = [C.ActivePose];
-
-	const PreviousPoses = C.ActivePose.map(AP => PoseFemale3DCG.find(P => P.Name == AP)).filter(AP => typeof AP == "object");
-	const Pose = PoseFemale3DCG.find(P => P.Name == NewPose);
-
-	// We only allow poses of different categories to be matched together
-	if (Pose && Pose.Category) {
-		C.ActivePose = PreviousPoses
-			.filter(PP => PP.AllowMenu && Pose.Category !== "BodyFull" && PP.Category !== "BodyFull" && PP.Category !== Pose.Category)
-			.map(AP => AP.Name);
-		C.ActivePose.push(Pose.Name);
+	// Validate the pre-existing activated poses before setting the new pose
+	if (newPose) {
+		for (const [category, name] of CommonEntries(C.ActivePoseMapping)) {
+			const pose = PoseRecord[name];
+			if (!pose || !pose.AllowMenu || pose.Category === "BodyFull") {
+				delete C.ActivePoseMapping[category];
+				continue;
+			}
+		}
+		C.ActivePoseMapping[newPose.Category] = newPose.Name;
 	}
 
 	// If we reset to base, we remove the poses
-	if (C.ActivePose.filter(P => P !== "BaseUpper" && P !== "BaseLower").length == 0) C.ActivePose = [];
-
+	if (C.ActivePoseMapping.BodyUpper === "BaseUpper") delete C.ActivePoseMapping.BodyUpper;
+	if (C.ActivePoseMapping.BodyLower === "BaseLower") delete C.ActivePoseMapping.BodyLower;
 	CharacterRefresh(C, false);
 }
 
@@ -1943,8 +1919,7 @@ function CharacterAppearsInverted(C) {
  */
 function CharacterCanKneel(C) {
 	if (C.Effect.includes("Freeze")) return false;
-	if (C.Pose == null) return true;
-	if (C.Pose.includes("Suspension") || C.Pose.includes("Hogtied")) return false;
+	if (C.PoseMapping.BodyAddon || C.PoseMapping.BodyFull) return false;
 	return C.CanChangeToPose("Kneel");
 }
 
@@ -2031,7 +2006,7 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Then when that character enters the virtual world, register a hook to strip out restraint layers (if needed):
 			const hideRestraintsHook = () => {
 				C.DrawAppearance = C.DrawAppearance.filter((Layer) => !(Layer.Asset && Layer.Asset.IsRestraint));
-				C.DrawPose = C.DrawPose.filter((Pose) => (Pose != "TapedHands"));
+				delete C.DrawPoseMapping.BodyHands;
 			};
 
 			if (C.RegisterHook("BeforeSortLayers", "HideRestraints", hideRestraintsHook))

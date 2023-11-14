@@ -1646,14 +1646,14 @@ function DialogLoadPoseMenu() {
 	DialogActivePoses = [];
 
 	// Gather all unique categories from poses
-	const PoseCategories = PoseFemale3DCG
-		.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePose.includes(P.Name)))
+	const PoseCategories = new Set(PoseFemale3DCG
+		.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePoseMapping[P.Category].includes(P.Name)))
 		.map(P => P.Category)
-		.filter((C, I, Categories) => C && Categories.indexOf(C) === I);
+	);
 
 	// Add their pose in order so they're grouped together
 	PoseCategories.forEach(Category => {
-		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePose.includes(P.Name)) && P.Category == Category));
+		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePoseMapping[P.Category].includes(P.Name)) && P.Category == Category));
 	});
 }
 
@@ -3050,27 +3050,17 @@ function DialogDrawPoseMenu() {
 	// Draw the pose groups
 	DrawText(DialogFindPlayer("PoseMenu"), 250, 100, "White", "Black");
 
-	for (let I = 0; I < DialogActivePoses.length; I++) {
-		var OffsetX = 140 + 140 * I;
-		var PoseGroup = DialogActivePoses[I];
-
-		for (let P = 0; P < PoseGroup.length; P++) {
-			var OffsetY = 180 + 100 * P;
-			var IsActive = false;
-
-			if (typeof Player.ActivePose == "string" && Player.ActivePose == PoseGroup[P].Name)
-				IsActive = true;
-			else if (Array.isArray(Player.ActivePose)) {
-				if (Player.ActivePose.includes(PoseGroup[P].Name))
-					IsActive = true;
-				else if (PoseGroup[P].Name == "BaseUpper" && !Player.ActivePose.map(Pose => PoseFemale3DCG.find(PP => PP.Name == Pose)).filter(Pose => Pose).find(Pose => Pose.Category == "BodyUpper" || Pose.Category == "BodyFull"))
-					IsActive = true;
-				else if (PoseGroup[P].Name == "BaseLower" && !Player.ActivePose.map(Pose => PoseFemale3DCG.find(PP => PP.Name == Pose)).filter(Pose => Pose).find(Pose => Pose.Category == "BodyLower" || Pose.Category == "BodyFull"))
-					IsActive = true;
+	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
+		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
+			let isActive = false;
+			if (Player.ActivePoseMapping[Category] === Name) {
+				isActive = true;
+			} else if (Name === "BaseUpper" && !(Player.ActivePoseMapping.BodyUpper || Player.ActivePoseMapping.BodyFull)) {
+				isActive = true;
+			} else if (Name === "BaseLower" && !(Player.ActivePoseMapping.BodyLower || Player.ActivePoseMapping.BodyFull)) {
+				isActive = true;
 			}
-			else if ((PoseGroup[P].Name == "BaseUpper" || PoseGroup[P].Name == "BaseLower") && Player.ActivePose == null)
-				IsActive = true;
-			DrawButton(OffsetX, OffsetY, 90, 90, "", !Player.CanChangeToPose(PoseGroup[P].Name) ? "#888" : IsActive ? "Pink" : "White", "Icons/Poses/" + PoseGroup[P].Name + ".png");
+			DrawButton(offsetX, offsetY, 90, 90, "", !Player.CanChangeToPose(Name) ? "#888" : isActive ? "Pink" : "White", `Icons/Poses/${Name}.png`);
 		}
 	}
 }
@@ -3080,24 +3070,15 @@ function DialogDrawPoseMenu() {
  * @returns {void} - Nothing
  */
 function DialogClickPoseMenu() {
-	for (let I = 0; I < DialogActivePoses.length; I++) {
-		var OffsetX = 140 + 140 * I;
-		var PoseGroup = DialogActivePoses[I];
-		for (let P = 0; P < PoseGroup.length; P++) {
-			var OffsetY = 180 + 100 * P;
-			var IsActive = false;
-
-			if (typeof Player.ActivePose == "string" && Player.ActivePose == PoseGroup[P].Name)
-				IsActive = true;
-			if (Array.isArray(Player.ActivePose) && Player.ActivePose.includes(PoseGroup[P].Name))
-				IsActive = true;
-
-			if (MouseIn(OffsetX, OffsetY, 90, 90) && !IsActive && Player.CanChangeToPose(PoseGroup[P].Name)) {
+	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
+		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
+			const isActive = Player.ActivePoseMapping[Category] === Name;
+			if (MouseIn(offsetX, offsetY, 90, 90) && !isActive && Player.CanChangeToPose(Name)) {
 				if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) {
 					DialogLeave();
 					return;
 				}
-				CharacterSetActivePose(Player, PoseGroup[P].Name);
+				CharacterSetActivePose(Player, Name);
 				if (CurrentScreen == "ChatRoom") ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 			}
 		}

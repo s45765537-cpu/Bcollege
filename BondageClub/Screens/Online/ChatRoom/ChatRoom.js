@@ -3741,14 +3741,14 @@ function ChatRoomSyncPose(data) {
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character) return;
 
-	// Sets the active pose
+	// Sets the active pose; data is validated by the `ActivePose` setter
 	character.ActivePose = /** @type {AssetPoseName[]} */(data.Pose);
 	CharacterRefresh(character, false);
 
 	// Update the cached copy in the chatroom
 	const roomCharacter = ChatRoomData.Character.find(c => c.MemberNumber === data.MemberNumber);
 	if (roomCharacter) {
-		roomCharacter.ActivePose = character.ActivePose;
+		roomCharacter.ActivePose = [...character.ActivePose];
 	}
 }
 
@@ -4606,7 +4606,7 @@ function ChatRoomSafewordChatCommand() {
 function ChatRoomSafewordRevert() {
 	if (ChatSearchSafewordAppearance != null) {
 		Player.Appearance = ChatSearchSafewordAppearance.slice(0);
-		Player.ActivePose = ChatSearchSafewordPose;
+		Player.ActivePoseMapping = ChatSearchSafewordPose;
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);
 		const Dictionary = new DictionaryBuilder()
