@@ -130,7 +130,12 @@ function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
 		drawImage = overrideMetaData.drawImage;
 	}
 	const IsCloth = asset.Group.Clothing;
-	const standardPositions = !IsCloth ? (overrideMetaData.drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
+	let standardPositions;
+	if (IsCloth) {
+		standardPositions = (drawImage ? ExtendedXYClothes : ExtendedXYClothesWithoutImages);
+	} else {
+		standardPositions = (drawImage ? ExtendedXY : ExtendedXYWithoutImages);
+	}
 	const height = overrideMetaData.drawImage ? 275 : 55;
 	const itemsPerPage = Math.min(standardPositions.length - 1, options.length);
 	const assetPath = AssetGetInventoryPath(asset);
