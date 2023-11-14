@@ -8,6 +8,7 @@ function InventorySuitLatexCatsuitLoadHook(Data, OriginalFunction) {
 		return;
 	}
 
+
 	OriginalFunction();
 	// Load that font manually
 	DynamicDrawLoadFont("'Libre Barcode 39'");

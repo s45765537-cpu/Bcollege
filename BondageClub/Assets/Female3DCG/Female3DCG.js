@@ -2869,13 +2869,21 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Suit,
 					TapedHands: PoseType.DEFAULT,
-					Hogtied: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Base" },
+					{
+						Name: "Base",
+						AllowTypes: ["", "Prisoner"],
+					},
+					{
+						Name: "Base_Transparent",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
+						CopyLayerColor: "Base",
+					},
 					{
 						Name: "Sleeves",
 						CopyLayerColor: "Base",
+						AllowTypes: ["", "Prisoner"],
 						Priority: 27,
 						PoseMapping: {
 							...AssetPoseMapping.Suit,
@@ -2888,12 +2896,59 @@ var AssetFemale3DCG = [
 							Yoked: PoseType.HIDE,
 						},
 					},
-					{ Name: "PP", AllowTypes: ["Prisoner"] },
-					{ Name: "Zip" },
-					{ Name: "Text", HasImage: false },
+					{
+						Name: "Sleeves_Transparent",
+						CopyLayerColor: "Base",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
+						Priority: 27,
+						PoseMapping: {
+							...AssetPoseMapping.Suit,
+							TapedHands: PoseType.DEFAULT,
+							Hogtied: PoseType.HIDE,
+							BackBoxTie: PoseType.HIDE,
+							BackElbowTouch: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "PP",
+						AllowTypes: ["Prisoner", "PrisonerTransparent"],
+					},
+					{
+						Name: "Zip",
+						AllowTypes: ["", "Prisoner"],
+					},
+					{
+						Name: "Zip_Transparent",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
+						CopyLayerColor: "Zip",
+					},
+					{
+						Name: "Text",
+						HasImage: false,
+					},
 					{
 						Name: "Shine",
 						CopyLayerColor: "Zip",
+						AllowTypes: ["", "Prisoner"],
+						Priority: 28,
+						PoseMapping: {
+							...AssetPoseMapping.Suit,
+							TapedHands: PoseType.DEFAULT,
+							Hogtied: PoseType.HIDE,
+							BackBoxTie: PoseType.HIDE,
+							BackElbowTouch: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Shine_Transparent",
+						CopyLayerColor: "Zip",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
 						Priority: 28,
 						PoseMapping: {
 							...AssetPoseMapping.Suit,
@@ -4198,14 +4253,29 @@ var AssetFemale3DCG = [
 				Attribute: ["SuitLower"],
 				HasType: false,
 				Extended: true,
-				PoseMapping: {
-					...AssetPoseMapping.SuitLower,
-					Hogtied: PoseType.HIDE,
-				},
 				Layer: [
-					{ Name: "Base" },
-					{ Name: "PP", AllowTypes: ["Prisoner"] },
-					{ Name: "Zip" },
+					{
+						Name: "Base",
+						AllowTypes: ["", "Prisoner"],
+					},
+					{
+						Name: "Base_Transparent",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
+						CopyLayerColor: "Base",
+					},
+					{
+						Name: "PP",
+						AllowTypes: ["Prisoner", "PrisonerTransparent"],
+					},
+					{
+						Name: "Zip",
+						AllowTypes: ["", "Prisoner"],
+					},
+					{
+						Name: "Zip_Transparent",
+						AllowTypes: ["Transparent", "PrisonerTransparent"],
+						CopyLayerColor: "Zip",
+					},
 				],
 			},
 			{

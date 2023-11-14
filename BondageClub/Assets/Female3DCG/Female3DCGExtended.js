@@ -12592,9 +12592,15 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Prisoner",
 				},
+				{
+					Name: "Transparent",
+				},
+				{
+					Name: "PrisonerTransparent",
+				},
 			],
 			DrawImages: false,
-			BaselineProperty: { Text: "PRISONER", Text2: "#0000" },
+			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "", },
 			ChatSetting: TypedItemChatSetting.FROM_TO,
 			ScriptHooks: {
 				Load: InventorySuitLatexCatsuitLoadHook,
@@ -12682,6 +12688,12 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Prisoner",
+				},
+				{
+					Name: "Transparent",
+				},
+				{
+					Name: "PrisonerTransparent",
 				},
 			],
 			DialogPrefix: {
