@@ -13349,11 +13349,23 @@ var AssetFemale3DCGExtended = {
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Lowered",
-					Property: { Difficulty: 6, Effect: [] },
+					Property: { Difficulty: 6 },
+				},
+				{
+					Name: "LoweredShort",
+					Property: {
+						Difficulty: 6,
+						SetPose: ["BaseLower"],
+						AllowActivePose: ["LegsClosed", "Spread"],
+					},
 				},
 				{
 					Name: "Suspended",
@@ -13365,12 +13377,6 @@ var AssetFemale3DCGExtended = {
 							HeightRatioProportion: 0,
 						},
 						Effect: ["Lifted"],
-						AllowActivePose: [
-							"BaseLower",
-							"LegsClosed",
-							"Kneel",
-							"KneelingSpread",
-						],
 					},
 				},
 			],
@@ -13384,37 +13390,7 @@ var AssetFemale3DCGExtended = {
 		}, // CeilingChain
 		CeilingRope: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
-			Options: [
-				{
-					Name: "Lowered",
-					Property: { Difficulty: 6 },
-				},
-				{
-					Name: "Suspended",
-					Property: {
-						Difficulty: 7,
-						OverrideHeight: {
-							Height: 30,
-							Priority: 51,
-							HeightRatioProportion: 0,
-						},
-						Effect: ["Lifted"],
-						AllowActivePose: [
-							"BaseLower",
-							"LegsClosed",
-							"Kneel",
-							"KneelingSpread",
-						],
-					},
-				},
-			],
-			DialogPrefix: {
-				Header: "SelectCeilingRopeState",
-				Option: "CeilingRopeBondage",
-				Chat: "CeilingRopeSet",
-				Npc: "CeilingRope",
-			},
+			CopyConfig: { GroupName: "ItemAddon", AssetName: "CeilingChain" },
 		}, // CeilingRope
 	}, // ItemAddon
 	ItemNose: {

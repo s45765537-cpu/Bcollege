@@ -38927,8 +38927,6 @@ var AssetFemale3DCG = [
 				HasType: false,
 				DefaultColor: "#956B1C",
 				Effect: ["Freeze"],
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsClosed"],
 				Layer: [{ Name: "Ring", AllowColorize: false }, { Name: "Ropes" }],
 			},
 			{
@@ -38948,8 +38946,6 @@ var AssetFemale3DCG = [
 				Extended: true,
 				HasType: false,
 				Effect: ["Freeze"],
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsClosed"],
 			},
 		],
 		Color: [
