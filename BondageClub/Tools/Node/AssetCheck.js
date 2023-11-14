@@ -1131,7 +1131,10 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			/** @type {(string | null)[]} */
 			let colors;
 			if (layer.InheritColor) {
-				const colorParent = assetGroups[layer.InheritColor];
+				let colorParent = assetGroups[layer.InheritColor];
+				while (colorParent.InheritColor) {
+					colorParent = assetGroups[colorParent.InheritColor];
+				}
 				colors = colorParent.ColorSchema.map(i => layer.ColorSuffix?.[i] ?? i).filter(i => i !== "Default" && !i.startsWith("#"));
 			} else {
 				colors = asset.Group.ColorSchema.filter(i => i !== "Default" && !i.startsWith("#"));

@@ -155,13 +155,21 @@ function CommonDrawAppearanceBuild(C, {
 
 		// Check if we need to copy the color of another asset
 		let ColorInherited = false;
-		const colorGroup = (Color == "Default" ? Layer.InheritColor : null);
-		if (colorGroup != null) {
+		let colorGroup = Color == "Default" ? Layer.InheritColor : null;
+		while (colorGroup != null) {
 			const parentItem = InventoryGet(C, colorGroup);
 			if (parentItem != null) {
 				const ParentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
-				Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
-				ColorInherited = true;
+				const InheritColor = ParentColor === "Default" && parentItem.Asset.InheritColor;
+				if (InheritColor) {
+					colorGroup = InheritColor;
+				} else {
+					Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
+					ColorInherited = true;
+					colorGroup = null;
+				}
+			} else {
+				colorGroup = null;
 			}
 		}
 
