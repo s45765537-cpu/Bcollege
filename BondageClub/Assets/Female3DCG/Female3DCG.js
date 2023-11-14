@@ -36933,6 +36933,10 @@ var AssetFemale3DCG = [
 				Time: 10,
 				IsRestraint: false,
 				AllowActivity: ["PenetrateItem"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 			},
 			{
 				Name: "StrapOnStuds",
@@ -36943,6 +36947,10 @@ var AssetFemale3DCG = [
 				Time: 10,
 				IsRestraint: false,
 				AllowActivity: ["PenetrateItem"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 			},
 			{
 				Name: "DisplayCase",
