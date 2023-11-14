@@ -7300,6 +7300,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Blanket",
 					Property: {
 						SetPose: ["AllFours"],
+						AllowActivePose: ["Hogtied"],
 						Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 						HideItem: ["ItemMiscTeddyBear"],
 						HideItemExclude: [

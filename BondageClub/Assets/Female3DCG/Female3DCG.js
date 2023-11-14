@@ -37923,6 +37923,7 @@ var AssetFemale3DCG = [
 				Effect: ["Tethered"],
 				RemoveAtLogin: true,
 				SetPose: ["Kneel"],
+				AllowActivePose: ["AllFours", "KneelingSpread", "Hogtied"],
 				FixedPosition: true,
 				Extended: true,
 				HasType: false,
@@ -37939,6 +37940,22 @@ var AssetFemale3DCG = [
 						Priority: 4,
 						AllowColorize: true,
 						AllowTypes: ["Blanket"],
+						Alpha: [
+							{
+								Pose: ["Hogtied"],
+								Group: [
+									"ItemBoots",
+									"Shoes",
+									"Socks",
+									"SocksLeft",
+									"SocksRight",
+									"ClothLower",
+									"SuitLower",
+									"BodyUpper",
+								],
+								Masks: [[0, 0, 500, 100]],
+							},
+						],
 					},
 					{
 						Name: "Inner",
