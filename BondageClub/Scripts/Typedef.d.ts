@@ -1190,9 +1190,58 @@ interface Character {
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
-	Pose: AssetPoseName[];
-	ActivePose: AssetPoseName[];
-	AllowedActivePose: AssetPoseName[];
+	/**
+	 * Get a copy or set the array of currently enabled poses.
+	 * @see {@link PoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get Pose(): readonly AssetPoseName[];
+	set Pose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of the last set of manually activated poses.
+	 *
+	 * Note that these poses are by no means guaranted to be enabled, as they do not reflect any item-specific automatic pose changes (see {@link Pose}).
+	 * @see {@link ActivePoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get ActivePose(): readonly AssetPoseName[];
+	set ActivePose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of the last of a subset of all allowed poses.
+	 *
+	 * Only guaranteed to reflect the total number of allowed poses if, for a given pose category, at least one pose is allowed.
+	 * @see {@link ActivePoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get AllowedActivePose(): readonly AssetPoseName[];
+	set AllowedActivePose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of something something poses.
+	 * @see {@link DrawPoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get DrawPose(): readonly AssetPoseName[];
+	set DrawPose(value: readonly AssetPoseName[]);
+	/**
+	 * A record mapping pose categories to the currently enabled pose belonging to it.
+	 *
+	 * @see {@link ItemProperties.SetPose} - The item-/asset-level equivalent of this property
+	 */
+	PoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
+	/**
+	 * A record mapping pose categories to the last manually enabled pose belonging to it.
+	 *
+	 * Note that these poses are by no means guaranted to be enabled, as they do not reflect any item-specific automatic pose changes (see {@link PoseMapping}).
+	 */
+	ActivePoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
+	/**
+	 * A record mapping pose categories to all allowed poses belonging to it.
+	 *
+	 * A value of `null` implies that all poses within the category are allowed.
+	 *
+	 * @see {@link ItemProperties.AllowActivePose} - The item-/asset-level equivalent of this property
+	 */
+	AllowedActivePoseMapping: Record<AssetPoseCategory, null | AssetPoseName[]>;
+	/**
+	 * A record mapping pose categories to something something.
+	 */
+	DrawPoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
 	Effect: EffectName[];
 	Tints: ResolvedTintDefinition[];
 	Attribute: AssetAttribute[];
@@ -1289,7 +1338,6 @@ interface Character {
 	HasTints: () => boolean;
 	GetTints: () => RGBAColor[];
 	HasAttribute: (attribute: AssetAttribute) => boolean;
-	DrawPose?: AssetPoseName[];
 	DrawAppearance?: Item[];
 	AppearanceLayers?: Mutable<AssetLayer>[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;

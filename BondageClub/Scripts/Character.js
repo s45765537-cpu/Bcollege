@@ -53,7 +53,6 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 	// Prepares the character sheet
 	/** @type {Character} */
 	var NewCharacter = {
-		ActivePose: [],
 		ID: CharacterID,
 		Hooks: null,
 		Name: "",
@@ -70,10 +69,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		Dialog: [],
 		Reputation: [],
 		Skill: [],
-		Pose: [],
-		DrawPose: [],
 		DrawAppearance: [],
-		AllowedActivePose: [],
 		Effect: [],
 		Tints: [],
 		Attribute: [],
@@ -93,6 +89,88 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+
+		PoseMapping: {},
+		get Pose() {
+			return Object.values(this.PoseMapping);
+		},
+		set Pose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			} else if (!CommonIsArray(poses)) {
+				console.error(`Cannot set invalid Character.Pose type: ${typeof poses}`);
+				return;
+			}
+
+			this.PoseMapping = {};
+			for (const poseName of poses) {
+				const pose = PoseRecord[poseName];
+				if (pose) {
+					this.PoseMapping[pose.Category] = poseName;
+				}
+			}
+		},
+
+		ActivePoseMapping: {},
+		get ActivePose() {
+			return Object.values(this.ActivePoseMapping);
+		},
+		set ActivePose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			} else if (!CommonIsArray(poses)) {
+				console.error(`Cannot set invalid Character.ActivePose type: ${typeof poses}`);
+				return;
+			}
+
+			this.ActivePoseMapping = {};
+			for (const poseName of poses) {
+				const pose = PoseRecord[poseName];
+				if (pose) {
+					this.ActivePoseMapping[pose.Category] = poseName;
+				}
+			}
+		},
+
+		DrawPoseMapping: {},
+		get DrawPose() {
+			return Object.values(this.DrawPoseMapping);
+		},
+		set DrawPose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			} else if (!CommonIsArray(poses)) {
+				console.error(`Cannot set invalid Character.DrawPose type: ${typeof poses}`);
+				return;
+			}
+
+			this.DrawPoseMapping = {};
+			for (const poseName of poses) {
+				const pose = PoseRecord[poseName];
+				if (pose) {
+					this.DrawPoseMapping[pose.Category] = poseName;
+				}
+			}
+		},
+
+		AllowedActivePoseMapping: {},
+		get AllowedActivePose() {
+			/** @type {AssetPoseName[]} */
+			const ret = [];
+			Object.values(this.AllowedActivePoseMapping).forEach(poses => ret.push(...poses))
+			return ret;
+		},
+		set AllowedActivePose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			} else if (!CommonIsArray(poses)) {
+				console.error(`Cannot set invalid Character.AllowedActivePose type: ${typeof poses}`);
+				this.AllowedActivePoseMapping = {};
+				return;
+			}
+			this.AllowedActivePoseMapping = AssetPoseToMapping(poses);
+		},
+
 		CanTalk: function () {
 			const GagEffect = SpeechGetTotalGagLevel(this, true);
 			return (GagEffect <= 0);
