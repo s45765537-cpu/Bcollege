@@ -2932,6 +2932,7 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				PoseMapping: {
 					...AssetPoseMapping.Suit,
+					AllFours: "AllFours",
 					TapedHands: PoseType.DEFAULT,
 				},
 				Layer: [
