@@ -1112,7 +1112,7 @@ function ExtendedItemManualRegister() {
 			name: "LatexCatsuit",
 			config: {
 				Archetype: ExtendedArchetype.TEXT,
-				MaxLength: { Text: 14, Text2: 14, Text3: 14, },
+				MaxLength: { Text: 14, Text2: 10, Text3: 14, },
 				Font: "'Saira Stencil One', 'Arial', sans-serif",
 				DrawData: {
 					elementData: [
