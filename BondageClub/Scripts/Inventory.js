@@ -482,7 +482,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
-				const allowedActivePoses = poseMapping[setPose.Category] || [setPose.Name];
+				const allowedActivePoses = [...(poseMapping[setPose.Category] || [setPose.Name]), ...(poseMapping.BodyFull || [])];
 				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
 				if (messages.every(Boolean)) {
 					Msg = messages[0];
