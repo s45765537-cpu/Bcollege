@@ -924,7 +924,9 @@ function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
 		if (poseCategory !== "BodyLower") {
 			return true;
 		} else {
-			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").includes("LegsClosed"));
+			/** @type {Set<AssetPoseName>} */
+			const standingPoses = new Set(/** @type {const} */(["LegsClosed", "LegsOpen", "Spread"]));
+			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").some(i => standingPoses.has(i)));
 		}
 	} else {
 		return true;
