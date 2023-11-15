@@ -581,19 +581,6 @@ function AssetLoadDescription(Family) {
 }
 
 /**
- * Yield the passed group, all its assets and all their layers
- * @param {AssetGroup} group
- * @return {Generator<AssetGroup | Asset | AssetLayer, void>}
- */
-function *AssetYieldAll(group) {
-	yield group;
-	yield *group.Asset;
-	for (const asset of group.Asset) {
-		yield *asset.Layer;
-	}
-}
-
-/**
  * Loads a specific asset file
  * @param {readonly AssetGroupDefinition[]} Groups
  * @param {IAssetFamily} Family
@@ -612,27 +599,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 				AssetAdd(G, { Name: asset }, ExtendedConfig);
 			else
 				AssetAdd(G, asset, ExtendedConfig);
-		}
-	}
-
-	// Flatten any `InheritColor` graphs, transforming the likes of `A > B > C` into `A > C`
-	for (const group of AssetGroup) {
-		for (const obj of AssetYieldAll(group)) {
-			if (!obj.InheritColor) {
-				continue;
-			}
-
-			/** @type {undefined | typeof obj} */
-			let groupAssetOrLayer = obj;
-			while (groupAssetOrLayer && groupAssetOrLayer.InheritColor) {
-				groupAssetOrLayer = AssetGroupMap.get(groupAssetOrLayer.InheritColor);
-			}
-			const parentGroup = /** @type {AssetGroup} */(groupAssetOrLayer);
-
-			/** @type {{ InheritColor: AssetGroupName }} */(obj).InheritColor = parentGroup.Name;
-			if (AssetGroupMap.has(/** @type {AssetGroupName} */(obj.Name))) {
-				/** @type {Mutable<AssetGroup>} */(obj).ColorSchema = [...parentGroup.ColorSchema];
-			}
 		}
 	}
 
