@@ -12552,7 +12552,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			DrawImages: false,
-			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "", },
+			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "" },
 			ChatSetting: TypedItemChatSetting.FROM_TO,
 			ScriptHooks: {
 				Load: InventorySuitLatexCatsuitLoadHook,
