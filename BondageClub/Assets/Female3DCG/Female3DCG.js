@@ -5539,6 +5539,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
 					Spread: "Spread",
 					AllFours: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
@@ -5554,7 +5555,13 @@ var AssetFemale3DCG = [
 				Left: 49,
 				Top: 360,
 				SetPose: ["LegsOpen"],
-				AllowActivePose: ["Kneel", "Spread"],
+				AllowActivePose: [
+					"Kneel",
+					"Spread",
+					"KneelingSpread",
+					"AllFours",
+					"Hogtied",
+				],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -5580,6 +5587,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
 					Spread: "Spread",
 					AllFours: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
@@ -5604,7 +5612,13 @@ var AssetFemale3DCG = [
 				Left: 49,
 				Top: 360,
 				SetPose: ["LegsOpen"],
-				AllowActivePose: ["Kneel", "Spread"],
+				AllowActivePose: [
+					"Kneel",
+					"Spread",
+					"KneelingSpread",
+					"AllFours",
+					"Hogtied",
+				],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
@@ -17453,9 +17467,10 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -17474,7 +17489,13 @@ var AssetFemale3DCG = [
 				Left: 49,
 				Top: 360,
 				SetPose: ["LegsOpen"],
-				AllowActivePose: ["Kneel", "Spread"],
+				AllowActivePose: [
+					"Kneel",
+					"Spread",
+					"KneelingSpread",
+					"AllFours",
+					"Hogtied",
+				],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -17507,9 +17528,10 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
 				PoseMapping: {
 					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -17528,7 +17550,13 @@ var AssetFemale3DCG = [
 				Left: 49,
 				Top: 360,
 				SetPose: ["LegsOpen", "Spread"],
-				AllowActivePose: ["Kneel"],
+				AllowActivePose: [
+					"Kneel",
+					"Spread",
+					"KneelingSpread",
+					"AllFours",
+					"Hogtied",
+				],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
