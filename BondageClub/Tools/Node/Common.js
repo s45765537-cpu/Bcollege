@@ -79,13 +79,13 @@ function error(text) {
 }
 
 /** @see {@link Object.entries} */
-const entries = /** @type {<KT extends String, VT>(record: Partial<Record<KT, VT>>) => [key: KT, value: VT][]} */(Object.entries);
+const entries = /** @type {<KT extends string, VT>(record: Partial<Record<KT, VT>>) => [key: KT, value: VT][]} */(Object.entries);
 
 /** @see {@link Object.keys} */
-const keys = /** @type {<KT extends String>(record: Partial<Record<KT, unknown>>) => KT[]} */(Object.keys);
+const keys = /** @type {<KT extends string>(record: Partial<Record<KT, unknown>>) => KT[]} */(Object.keys);
 
 /** @see {@link Object.fromEntries} */
-const fromEntries = /** @type {<KT extends String, VT>(list: [key: KT, value: VT][]) => Record<KT, VT>} */(Object.fromEntries);
+const fromEntries = /** @type {<KT extends string, VT>(list: Iterable<readonly [key: KT, value: VT]>) => Record<KT, VT>} */(Object.fromEntries);
 
 /**
  * Return whether the passed object is a record/interface.
