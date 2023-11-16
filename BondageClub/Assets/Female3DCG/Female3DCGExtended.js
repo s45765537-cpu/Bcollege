@@ -13328,7 +13328,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["BaseLower"],
-						AllowActivePose: ["LegsClosed", "Spread"],
+						AllowActivePose: ["LegsClosed", "Spread", "LegsOpen"],
 					},
 				},
 				{
