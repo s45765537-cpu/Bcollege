@@ -235,7 +235,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NoOuterClothes": return InventoryHasItemInAnyGroup(C, ["Cloth", "ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoClothLower": return InventoryHasItemInAnyGroup(C, ["ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoMaidTray": return InventoryIsItemInList(C, "ItemMisc", ["WoodenMaidTray", "WoodenMaidTrayFull"]) ? "CannotBeUsedWhileServingDrinks" : "";
-		case "CanBeCeilingTethered": return InventoryHasItemInAnyGroup(C, ["ItemArms", "ItemTorso", "ItemPelvis"]) ? "" : "AddItemsToUse";
+		case "CanBeCeilingTethered": return InventoryHasItemInAnyGroup(C, ["ItemArms", "ItemTorso", "ItemTorso2", "ItemPelvis"]) ? "" : "AddItemsToUse";
 
 		// Checks for body
 		case "HasBreasts": return !InventoryIsItemInList(C, "BodyUpper", ["XLarge", "Large", "Normal", "Small"]) ? "MustHaveBreasts" : "";
@@ -482,7 +482,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
-				const allowedActivePoses = poseMapping[setPose.Category] || [setPose.Name];
+				const allowedActivePoses = [...(poseMapping[setPose.Category] || [setPose.Name]), ...(poseMapping.BodyFull || [])];
 				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
 				if (messages.every(Boolean)) {
 					Msg = messages[0];

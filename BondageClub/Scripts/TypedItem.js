@@ -130,7 +130,12 @@ function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
 		drawImage = overrideMetaData.drawImage;
 	}
 	const IsCloth = asset.Group.Clothing;
-	const standardPositions = !IsCloth ? (overrideMetaData.drawImage ? ExtendedXY : ExtendedXYWithoutImages) : ExtendedXYClothes;
+	let standardPositions;
+	if (IsCloth) {
+		standardPositions = (drawImage ? ExtendedXYClothes : ExtendedXYClothesWithoutImages);
+	} else {
+		standardPositions = (drawImage ? ExtendedXY : ExtendedXYWithoutImages);
+	}
 	const height = overrideMetaData.drawImage ? 275 : 55;
 	const itemsPerPage = Math.min(standardPositions.length - 1, options.length);
 	const assetPath = AssetGetInventoryPath(asset);
@@ -585,14 +590,24 @@ function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
 
 		// Check if all the expected properties are present; extra properties are ignored
 		const option = Data.options.find((o, i) => (i === 0 ? null : o.Name) === Item.Property.Type);
-		const newProps = {
-			...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
-			...CommonCloneDeep(option.Property),
-		};
+		const newProps = CommonCloneDeep(option.Property);
+		delete newProps.OverridePriority;
+		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
+			const existingValue = Item.Property[k];
+			return existingValue == null && typeof existingValue !== typeof v;
+		});
 
+
+		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
-		} else {
+			update = true;
+		}
+		if (baseLineProps.length > 0) {
+			baseLineProps.forEach(([k, v]) => Item.Property[k] = v);
+			update = true;
+		}
+		if (!update) {
 			return false;
 		}
 	} else {

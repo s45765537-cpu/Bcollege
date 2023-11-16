@@ -402,7 +402,9 @@ function AssetBuildLayer(AssetDefinition, A) {
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, AssetDefinition, A, I) {
-	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity) : 1;
+	const minOpacity = AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, 1);
+	const maxOpacity = AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, 1);
+	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity, minOpacity, maxOpacity) : 1;
 
 	/** @type {AssetLayer} */
 	const L = {
@@ -426,8 +428,8 @@ function AssetMapLayer(Layer, AssetDefinition, A, I) {
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
 		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
 		Opacity: opacity,
-		MinOpacity: AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, opacity, 1),
-		MaxOpacity: AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, opacity),
+		MinOpacity: minOpacity,
+		MaxOpacity: maxOpacity,
 		BlendingMode: Layer.BlendingMode || "source-over",
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
@@ -581,19 +583,6 @@ function AssetLoadDescription(Family) {
 }
 
 /**
- * Yield the passed group, all its assets and all their layers
- * @param {AssetGroup} group
- * @return {Generator<AssetGroup | Asset | AssetLayer, void>}
- */
-function *AssetYieldAll(group) {
-	yield group;
-	yield *group.Asset;
-	for (const asset of group.Asset) {
-		yield *asset.Layer;
-	}
-}
-
-/**
  * Loads a specific asset file
  * @param {readonly AssetGroupDefinition[]} Groups
  * @param {IAssetFamily} Family
@@ -612,27 +601,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 				AssetAdd(G, { Name: asset }, ExtendedConfig);
 			else
 				AssetAdd(G, asset, ExtendedConfig);
-		}
-	}
-
-	// Flatten any `InheritColor` graphs, transforming the likes of `A > B > C` into `A > C`
-	for (const group of AssetGroup) {
-		for (const obj of AssetYieldAll(group)) {
-			if (!obj.InheritColor) {
-				continue;
-			}
-
-			/** @type {undefined | typeof obj} */
-			let groupAssetOrLayer = obj;
-			while (groupAssetOrLayer && groupAssetOrLayer.InheritColor) {
-				groupAssetOrLayer = AssetGroupMap.get(groupAssetOrLayer.InheritColor);
-			}
-			const parentGroup = /** @type {AssetGroup} */(groupAssetOrLayer);
-
-			/** @type {{ InheritColor: AssetGroupName }} */(obj).InheritColor = parentGroup.Name;
-			if (AssetGroupMap.has(/** @type {AssetGroupName} */(obj.Name))) {
-				/** @type {Mutable<AssetGroup>} */(obj).ColorSchema = [...parentGroup.ColorSchema];
-			}
 		}
 	}
 

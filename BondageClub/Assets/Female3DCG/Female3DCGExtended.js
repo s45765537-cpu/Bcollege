@@ -1043,7 +1043,6 @@ var AssetFemale3DCGExtended = {
 							"ItemNipples",
 							"ItemNipplesPiercings",
 							"ItemBreast",
-							"ItemDevices",
 						],
 					},
 					Random: false,
@@ -1258,14 +1257,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Property: {
 						Effect: ["Freeze", "NotSelfPickable"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
 						AllowActivePose: ["Kneel", "KneelingSpread"],
@@ -1278,14 +1271,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Property: {
 						Effect: ["Freeze", "NotSelfPickable"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						Difficulty: 3,
 					},
@@ -1297,8 +1284,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 6,
 					Property: {
 						Effect: ["NotSelfPickable"],
-						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
-						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet"],
 						SetPose: ["AllFours"],
 						Difficulty: 3,
 					},
@@ -1952,14 +1939,8 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						Effect: ["Block", "Prone", "Freeze", "NotSelfPickable"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						SelfUnlock: false,
 					},
@@ -2289,14 +2270,8 @@ var AssetFemale3DCGExtended = {
 					Name: "ZipHogtied",
 					Property: {
 						Effect: ["Freeze"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						Difficulty: 3,
 					},
@@ -2306,8 +2281,8 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ZipAllFours",
 					Property: {
-						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
-						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet"],
 						SetPose: ["AllFours"],
 						Difficulty: 3,
 					},
@@ -2685,14 +2660,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Property: {
 						Effect: ["Freeze"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						Difficulty: 3,
 					},
@@ -2703,8 +2672,8 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					BondageLevel: 6,
 					Property: {
-						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
-						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet"],
 						SetPose: ["AllFours"],
 						Difficulty: 3,
 					},
@@ -2794,14 +2763,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Property: {
 						Effect: ["Freeze"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
 						AllowActivePose: ["Kneel", "KneelingSpread"],
@@ -2814,14 +2777,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 4,
 					Property: {
 						Effect: ["Freeze"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						Difficulty: 3,
 					},
@@ -2832,8 +2789,8 @@ var AssetFemale3DCGExtended = {
 					Name: "AllFours",
 					BondageLevel: 6,
 					Property: {
-						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
-						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet"],
 						SetPose: ["AllFours"],
 						Difficulty: 3,
 					},
@@ -2889,8 +2846,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Property: {
 						Effect: ["Freeze", "Suspended"],
-						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Hogtied"],
 						Difficulty: 6,
 						OverrideHeight: {
@@ -2919,8 +2876,8 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 8,
 					Property: {
 						Effect: ["Freeze", "Suspended"],
-						Block: ["ItemLegs", "ItemFeet", "ItemBoots", "ItemDevices"],
-						AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemLegs", "ItemFeet", "ItemDevices"],
+						AllowActivityOn: ["ItemLegs", "ItemFeet"],
 						SetPose: ["AllFours"],
 						Difficulty: 6,
 						OverrideHeight: {
@@ -3068,14 +3025,8 @@ var AssetFemale3DCGExtended = {
 						Difficulty: 5,
 						Effect: ["Freeze", "NotSelfPickable"],
 						SetPose: ["Hogtied"],
-						Block: [
-							"ItemHands",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-							"ItemDevices",
-						],
-						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
+						Block: ["ItemHands", "ItemLegs", "ItemFeet"],
+						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SelfUnlock: false,
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 5 }],
@@ -7300,6 +7251,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Blanket",
 					Property: {
 						SetPose: ["AllFours"],
+						AllowActivePose: ["Hogtied"],
 						Hide: ["ItemArms", "ItemButt", "TailStraps", "Wings"],
 						HideItem: ["ItemMiscTeddyBear"],
 						HideItemExclude: [
@@ -12592,9 +12544,15 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Prisoner",
 				},
+				{
+					Name: "Transparent",
+				},
+				{
+					Name: "PrisonerTransparent",
+				},
 			],
 			DrawImages: false,
-			BaselineProperty: { Text: "PRISONER", Text2: "#0000" },
+			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "", },
 			ChatSetting: TypedItemChatSetting.FROM_TO,
 			ScriptHooks: {
 				Load: InventorySuitLatexCatsuitLoadHook,
@@ -12682,6 +12640,12 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Prisoner",
+				},
+				{
+					Name: "Transparent",
+				},
+				{
+					Name: "PrisonerTransparent",
 				},
 			],
 			DialogPrefix: {
@@ -13349,11 +13313,23 @@ var AssetFemale3DCGExtended = {
 	ItemAddon: {
 		CeilingChain: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			Options: [
 				{
 					Name: "Lowered",
-					Property: { Difficulty: 6, Effect: [] },
+					Property: { Difficulty: 6 },
+				},
+				{
+					Name: "LoweredShort",
+					Property: {
+						Difficulty: 6,
+						SetPose: ["BaseLower"],
+						AllowActivePose: ["LegsClosed", "Spread"],
+					},
 				},
 				{
 					Name: "Suspended",
@@ -13365,12 +13341,6 @@ var AssetFemale3DCGExtended = {
 							HeightRatioProportion: 0,
 						},
 						Effect: ["Lifted"],
-						AllowActivePose: [
-							"BaseLower",
-							"LegsClosed",
-							"Kneel",
-							"KneelingSpread",
-						],
 					},
 				},
 			],
@@ -13384,37 +13354,7 @@ var AssetFemale3DCGExtended = {
 		}, // CeilingChain
 		CeilingRope: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
-			Options: [
-				{
-					Name: "Lowered",
-					Property: { Difficulty: 6 },
-				},
-				{
-					Name: "Suspended",
-					Property: {
-						Difficulty: 7,
-						OverrideHeight: {
-							Height: 30,
-							Priority: 51,
-							HeightRatioProportion: 0,
-						},
-						Effect: ["Lifted"],
-						AllowActivePose: [
-							"BaseLower",
-							"LegsClosed",
-							"Kneel",
-							"KneelingSpread",
-						],
-					},
-				},
-			],
-			DialogPrefix: {
-				Header: "SelectCeilingRopeState",
-				Option: "CeilingRopeBondage",
-				Chat: "CeilingRopeSet",
-				Npc: "CeilingRope",
-			},
+			CopyConfig: { GroupName: "ItemAddon", AssetName: "CeilingChain" },
 		}, // CeilingRope
 	}, // ItemAddon
 	ItemNose: {

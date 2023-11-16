@@ -63,6 +63,21 @@ const ExtendedXYClothes = [
 	[[1140, 400], [1385, 400], [1630, 400], [1140, 700], [1385, 700], [1630, 700]], //6 options per page
 ];
 
+
+/**
+ * The X & Y co-ordinates of each option's button, based on the number to be displayed per page.
+ * @type {[number, number][][]}
+ */
+const ExtendedXYClothesWithoutImages = [
+	[], //0 placeholder
+	[[1385, 450]], //1 option per page
+	[[1220, 450], [1550, 450]], //2 options per page
+	[[1140, 450], [1385, 450], [1630, 450]], //3 options per page
+	[[1220, 400], [1550, 400], [1220, 525], [1550, 525]], //4 options per page
+	[[1140, 400], [1385, 400], [1630, 400], [1220, 525], [1550, 525]], //5 options per page
+	[[1140, 400], [1385, 400], [1630, 400], [1140, 525], [1385, 525], [1630, 525]], //6 options per page
+];
+
 /** Memoization of the requirements check */
 const ExtendedItemRequirementCheckMessageMemo = CommonMemoize(ExtendedItemRequirementCheckMessage, [
 	(data) => data ? data.Archetype : "",
@@ -1112,7 +1127,7 @@ function ExtendedItemManualRegister() {
 			name: "LatexCatsuit",
 			config: {
 				Archetype: ExtendedArchetype.TEXT,
-				MaxLength: { Text: 14, Text2: 14, Text3: 14, },
+				MaxLength: { Text: 14, Text2: 10, Text3: 14, },
 				Font: "'Saira Stencil One', 'Arial', sans-serif",
 				DrawData: {
 					elementData: [
