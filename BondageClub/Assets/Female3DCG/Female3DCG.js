@@ -37835,6 +37835,7 @@ var AssetFemale3DCG = [
 				Effect: ["Freeze"],
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsClosed", "LegsOpen", "Spread"],
 				Layer: [{ Name: "Frame" }, { Name: "Table" }],
 			},
 			{
