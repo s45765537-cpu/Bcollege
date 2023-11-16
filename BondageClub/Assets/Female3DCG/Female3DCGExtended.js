@@ -12552,7 +12552,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			DrawImages: false,
-			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "", },
+			BaselineProperty: { Text: "PRISONER", Text2: "#0000", Text3: "" },
 			ChatSetting: TypedItemChatSetting.FROM_TO,
 			ScriptHooks: {
 				Load: InventorySuitLatexCatsuitLoadHook,
@@ -13328,7 +13328,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["BaseLower"],
-						AllowActivePose: ["LegsClosed", "Spread"],
+						AllowActivePose: ["LegsClosed", "Spread", "LegsOpen"],
 					},
 				},
 				{
