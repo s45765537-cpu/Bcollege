@@ -784,8 +784,11 @@ function ValidationSanitizeLock(C, item) {
 
 	const lock = InventoryGetLock(item);
 
-	// If there is no lock, or the item in its current state does not permit locks
-	if (!lock || !InventoryDoesItemAllowLock(item)) {
+	if (!lock && item.Asset.Effect.includes("Lock")) {
+		// Special casing for locked items without a proper lock item (e.g. love chastity belt)
+		return;
+	} else if (!lock || !InventoryDoesItemAllowLock(item)) {
+		// If there is no lock, or the item in its current state does not permit locks
 		return ValidationDeleteLock(property);
 	} else if (lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(item, "Attribute").includes("PortalLinkLockable")) {
 		// Protect against using the PortalLink lock on incompatible items
