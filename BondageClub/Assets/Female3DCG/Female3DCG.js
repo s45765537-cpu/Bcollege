@@ -10302,7 +10302,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
-					TapedHands: "",
+					TapedHands: PoseType.HIDE,
 				},
 			},
 			{
