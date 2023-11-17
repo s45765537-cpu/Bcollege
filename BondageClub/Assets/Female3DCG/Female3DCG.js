@@ -25138,6 +25138,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
+				Top: -30,
 				DynamicGroupName: "ItemMisc",
 				ParentGroup: null,
 				Layer: [
