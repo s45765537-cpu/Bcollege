@@ -748,6 +748,7 @@ function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
 		const option = data.options.find(o => o.Name === Item.Property.Mode);
 		const newProps = CommonCloneDeep(option.Property);
 		delete newProps.OverridePriority;
+		delete newProps.Effect; // TODO: Can't easily validate effects yet due to their dynamic nature with advanced vibe modes
 		const baseLineProps = Object.entries(CommonCloneDeep(data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
