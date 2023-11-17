@@ -5554,14 +5554,6 @@ var AssetFemale3DCG = [
 				],
 				Left: 49,
 				Top: 360,
-				SetPose: ["LegsOpen"],
-				AllowActivePose: [
-					"Kneel",
-					"Spread",
-					"KneelingSpread",
-					"AllFours",
-					"Hogtied",
-				],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -5611,14 +5603,6 @@ var AssetFemale3DCG = [
 				],
 				Left: 49,
 				Top: 360,
-				SetPose: ["LegsOpen"],
-				AllowActivePose: [
-					"Kneel",
-					"Spread",
-					"KneelingSpread",
-					"AllFours",
-					"Hogtied",
-				],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
@@ -10302,7 +10286,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
-					TapedHands: "",
+					TapedHands: PoseType.HIDE,
 				},
 			},
 			{
@@ -17488,14 +17472,6 @@ var AssetFemale3DCG = [
 				],
 				Left: 49,
 				Top: 360,
-				SetPose: ["LegsOpen"],
-				AllowActivePose: [
-					"Kneel",
-					"Spread",
-					"KneelingSpread",
-					"AllFours",
-					"Hogtied",
-				],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
@@ -17549,14 +17525,6 @@ var AssetFemale3DCG = [
 				],
 				Left: 49,
 				Top: 360,
-				SetPose: ["LegsOpen", "Spread"],
-				AllowActivePose: [
-					"Kneel",
-					"Spread",
-					"KneelingSpread",
-					"AllFours",
-					"Hogtied",
-				],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false, AllowTypes: [""] },
