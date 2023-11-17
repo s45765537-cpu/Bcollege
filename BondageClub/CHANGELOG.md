@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-11-09
-* Last recorded PR: [#4565](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4565)
-* Last recorded commit hash: `1da06817166ede920b97ef8a2a3565dd5a491dda`
+* Changelog last updated: 2023-11-17
+* Last recorded PR: [#4595](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4595)
+* Last recorded commit hash: `690b5782f7e4567523a2a848b3b767e737602a79`
 
 ## [R98]
 
@@ -66,6 +66,27 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Made lots of changes to the pose-handling system, most notably trimming down how they're specified as well as expanding tests ([#4532](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4532), [#4536](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4536), [#4554](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4554), [#4559](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4559), [#4561](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4561))
 * Rama - Added a warning if the player's browser does not support ES2020 ([#4550](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4550), [#4552](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4552))
 * Rama - Improved asset and layer typings ([#4562](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4562))
+
+### [Beta fixes]
+* Rama - Fixed the `MaxOpacity` parsing ([#4569](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4569), [#4591](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4591))
+* Haruhi - Fixed the height offset of Stiletto Heels ([#4570](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4570))
+* Rama - Tightened the validation of extended item properties ([#4571](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4571))
+* Estsanatlehi - Fixed an issue with color inheritance flattening missing some layers ([#4573](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4573))
+* Estsanatlehi - Fixed incorrect PoseMapping for the CatSuit panties ([#4574](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4574))
+* Constantan & Estsanatlehi - Improved on the Latex Catsuit ([#4575](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4575), [#4587](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4587))
+* Rama - Changed pose-based prerequisite checks to fall back from `SetPose` to any `AllowActivePose` member within the same category, fixing pose problems with a couple assets ([#4576](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4576))
+* Rama - Reintroduced `Spread` support for the personal cage ([#4578](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4578))
+* Da'Inihlus - Updated the chinese translation ([#4579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4579))
+* Rama - Made the extended item `Init` validation a bit more lenient ([#4581](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4581))
+* Rama - Fixed the fishnet top pose mapping ([#4582](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4582))
+* Estsanatlehi - Fixed an incorrect substitution tag for the "Hold onto leash dialog" option ([#4583](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4583))
+* Estsanatlehi - Fixed the second torso slot not being recognized as a tether point for addons ([#4585](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4585))
+* Rama - Made sure that the ceiling rope/chain works with the petsuit ([#4586](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4586))
+* Estsanatlehi - Added another set of imageless button coordinates for clothing ([#4588](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4588))
+* Rama - Reverted the `InheritColor` flattening as it is causing issues with default hair colors ([#4589](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4589))
+* Rama - Made the petbed pose requirements less strict ([#4590](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4590))
+* Rama - Changed the unassisted kneeling check to account all standing poses ([#4595](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4595))
+
 
 ## [R97]
 
