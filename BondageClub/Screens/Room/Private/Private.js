@@ -1050,13 +1050,25 @@ function PrivateGetCurrentID() {
 }
 
 /**
- * Triggered when the player kicks out a character.
+ * Triggered when the player kicks out a character from the dialog
  * @returns {void} - Nothing.
  */
 function PrivateKickOut() {
-	var ID = PrivateGetCurrentID();
-	CharacterDelete(PrivateCharacter[ID]);
-	PrivateCharacter.splice(ID, 1);
+	PrivateKickCharacterOut(CurrentCharacter);
+	DialogLeave();
+}
+
+/**
+ * Triggered when the player kicks out a character.
+ * @param {Character} C
+ * @returns {void} - Nothing.
+ */
+function PrivateKickCharacterOut(C) {
+	const charIdx = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	if (charIdx < 0) return;
+
+	CharacterDelete(C);
+	PrivateCharacter.splice(charIdx, 1);
 	ServerPrivateCharacterSync();
 	DialogLeave();
 }
@@ -1133,19 +1145,19 @@ function PrivateRestrainPlayer() {
  * @returns {boolean} - Whether or not any private characters require updating.
  */
 function PrivateRelationDecay() {
-	var MustSave = false;
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		var LastDecay = NPCEventGet(PrivateCharacter[C], "LastDecay");
+	let MustSave = false;
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		const LastDecay = NPCEventGet(character, "LastDecay");
 		if (LastDecay * CheatFactor("NoLoveDecay", 0) == 0) {
-			NPCEventAdd(PrivateCharacter[C], "LastDecay", CurrentTime);
+			NPCEventAdd(character, "LastDecay", CurrentTime);
 		} else if (LastDecay <= CurrentTime - 7200000) {
-			var Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
-			NPCEventAdd(PrivateCharacter[C], "LastDecay", LastDecay + (Decay * 7200000));
-			NPCLoveChange(PrivateCharacter[C], Decay * -1);
+			const Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
+			NPCEventAdd(character, "LastDecay", LastDecay + (Decay * 7200000));
+			NPCLoveChange(character, Decay * -1);
 			MustSave = true;
-			if ((PrivateCharacter[C].Love <= -100) && (!PrivateCharacter[C].Cage)) {
-				CurrentCharacter = PrivateCharacter[C];
-				PrivateKickOut();
+			if ((character.Love <= -100) && (!character.Cage)) {
+				PrivateKickCharacterOut(character);
 			}
 		}
 	}
