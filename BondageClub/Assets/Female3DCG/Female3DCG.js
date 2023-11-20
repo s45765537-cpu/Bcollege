@@ -3599,7 +3599,10 @@ var AssetFemale3DCG = [
 				Name: "Tutu",
 				Value: 30,
 				Top: 370,
-				Left: 40,
+				Left: {
+					[PoseType.DEFAULT]: 40,
+					KneelingSpread: 130,
+				},
 				DefaultColor: ["#845e9e", "#c385d0", "#e4d1fc", "#927D99", "#811790"],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
@@ -3610,7 +3613,6 @@ var AssetFemale3DCG = [
 					BackElbowTouch: "OverTheHead",
 					BackCuffs: "OverTheHead",
 					BackBoxTie: "OverTheHead",
-					KneelingSpread: PoseType.HIDE,
 				},
 				Layer: [
 					{ Name: "Layer1", ParentGroup: "BodyUpper", ColorGroup: "Tutu" },
@@ -3916,6 +3918,9 @@ var AssetFemale3DCG = [
 					{ Name: "Skirt", ParentGroup: null, AllowColorize: true },
 					{ Name: "Waist", ParentGroup: null, AllowColorize: true },
 				],
+				Left: {
+					KneelingSpread: 195,
+				},
 				PoseMapping: {
 					LegsClosed: PoseType.DEFAULT,
 					Kneel: PoseType.DEFAULT,
@@ -4240,7 +4245,10 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
 				Value: 40,
-				Left: 120,
+				Left: {
+					[PoseType.DEFAULT]: 120,
+					KneelingSpread: 109,
+				},
 				Top: 450,
 				Priority: 22,
 				Extended: true,
