@@ -12,6 +12,7 @@
 		"assets:lint:fix": "prettier-eslint --write Assets/Female3DCG/Female3DCG.js Assets/Female3DCG/Female3DCGExtended.js",
 		"assets:check": "cd Tools/Node && node --unhandled-rejections=strict AssetCheck",
 		"assets:typecheck": "cd ../ && tsc -p BondageClub/Tools/Node/tsconfig-assetcheck.json",
+		"assets:posemapping": "cd Tools/Node && node --unhandled-rejections=strict PoseMapping",
 		"scripts:lint": "eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:typecheck": "cd ../ && tsc -p BondageClub/jsconfig.json",
@@ -61,7 +62,8 @@
 		"through2": "^4.0.2",
 		"typescript": "^5.2.2",
 		"@types/css-font-loading-module": "^0.0.9",
-		"@types/node": "^20.8.7"
+		"@types/node": "^20.8.7",
+		"minimist": "^1.2.6"
 	},
 	"dependencies": {
 		"pixi-filters": "^5.2.1",
