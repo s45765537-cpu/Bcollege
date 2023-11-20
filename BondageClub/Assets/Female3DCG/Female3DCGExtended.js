@@ -7138,6 +7138,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 2,
 						SetPose: ["LegsClosed", "BaseUpper"],
+						AllowActivePose: ["BackCuffs", "BackBoxTie", "BackElbowTouch"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 					},
@@ -7149,6 +7150,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 3,
 						SetPose: ["LegsClosed", "BaseUpper"],
+						AllowActivePose: ["BackCuffs", "BackBoxTie", "BackElbowTouch"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 					},
@@ -7160,6 +7162,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["LegsClosed", "BaseUpper"],
+						AllowActivePose: ["BackCuffs", "BackBoxTie", "BackElbowTouch"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 						HideItem: [
@@ -7177,6 +7180,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 9,
 						SetPose: ["LegsClosed", "BaseUpper"],
+						AllowActivePose: ["BackCuffs", "BackBoxTie", "BackElbowTouch"],
 						Effect: ["Block", "Prone", "Freeze"],
 						Hide: ["HairBack", "Wings", "TailStraps", "ItemButt"],
 						HideItem: [
