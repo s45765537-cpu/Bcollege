@@ -953,6 +953,20 @@ function testExtendedPrerequisite(dataSuperRecord) {
 	}
 }
 
+/** Copy of the definition in Asset.js */
+const PoseType = /** @type {const} */({
+	/**
+	 * Ensures that the asset is hidden for a specific pose.
+	 * Supercedes the old `HideForPose` property.
+	 */
+	HIDE: "Hide",
+	/**
+	 * Ensures that the default (pose-agnostic) asset used for a particular pose.
+	 * Supercedes the old `AllowPose` property.
+	 */
+	DEFAULT: "",
+});
+
 /**
  * Convert a flattened list of pose names to a record mapping pose categories to their respective names.
  * @param {readonly AssetPoseName[]} poses - A list of to-be mapped poses
@@ -996,7 +1010,7 @@ function testActivePose(assets, poseMap) {
 				continue;
 			}
 
-			const invalidSuperset = allowPoseList.filter(p => !allowActivePoseList.includes(p));
+			const invalidSuperset = allowPoseList.filter(p => !allowActivePoseList.includes(p) && asset.PoseMapping[p] !== PoseType.DEFAULT && asset.PoseMapping[p] !== PoseType.HIDE);
 			if (invalidSuperset.length > 0) {
 				invalidSuperset.sort();
 				error(

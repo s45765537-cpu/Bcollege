@@ -994,7 +994,6 @@ interface Pose {
 	/** Only show in menu if an asset supports it */
 	AllowMenuTransient?: true;
 	OverrideHeight?: AssetOverrideHeight;
-	Hide?: AssetGroupName[];
 	MovePosition?: { Group: AssetGroupName; X: number; Y: number; }[];
 }
 

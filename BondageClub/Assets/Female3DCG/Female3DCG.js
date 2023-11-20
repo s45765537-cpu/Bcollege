@@ -33,6 +33,8 @@ const AssetLowerOverflowAlpha = [0, 1000, 500, 1000 + 150];
  */
 const AssetPoseMapping = /** @type {const} */ ({
 	BodyLower: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
 		LegsClosed: "LegsClosed",
@@ -49,26 +51,31 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Yoked: "Yoked",
 	},
 	Bra: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Yoked: "Yoked",
 	},
 	Bracelet: {
+		AllFours: PoseType.HIDE,
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
+		BackElbowTouch: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
 		OverTheHead: "OverTheHead",
 		Yoked: "Yoked",
 	},
 	Cloth: {
-		TapedHands: "TapedHands",
+		AllFours: "AllFours",
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
-		Yoked: "Yoked",
 		Hogtied: "Hogtied",
-		AllFours: "AllFours",
 		OverTheHead: "OverTheHead",
+		TapedHands: "TapedHands",
+		Yoked: "Yoked",
 	},
 	ClothLower: {
+		AllFours: PoseType.HIDE,
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
 		LegsClosed: "LegsClosed",
@@ -78,10 +85,12 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Hogtied: "Hogtied",
 	},
 	Garters: {
+		Hogtied: PoseType.HIDE,
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
+		AllFours: PoseType.HIDE,
 	},
 	Glasses: {},
 	Gloves: {
@@ -89,6 +98,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
+		Hogtied: PoseType.HIDE,
 		OverTheHead: "OverTheHead",
 		TapedHands: "TapedHands",
 		Yoked: "Yoked",
@@ -98,9 +108,13 @@ const AssetPoseMapping = /** @type {const} */ ({
 		BackBoxTie: PoseType.HIDE,
 		BackCuffs: PoseType.HIDE,
 		BackElbowTouch: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+		OverTheHead: PoseType.HIDE,
 		TapedHands: "TapedHands",
+		Yoked: PoseType.HIDE,
 	},
 	ItemBoots: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
@@ -109,15 +123,24 @@ const AssetPoseMapping = /** @type {const} */ ({
 	ItemBreast: {
 		AllFours: "AllFours",
 	},
+	ItemFeet: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+		Kneel: PoseType.HIDE,
+		KneelingSpread: PoseType.HIDE,
+	},
 	ItemHandheld: {
 		AllFours: "AllFours",
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
+		Hogtied: PoseType.HIDE,
 		OverTheHead: "OverTheHead",
 		Yoked: "Yoked",
 	},
 	ItemLegs: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
 		Kneel: "Kneel",
 	},
 	ItemNipples: {
@@ -125,6 +148,10 @@ const AssetPoseMapping = /** @type {const} */ ({
 	},
 	ItemNipplesPiercings: {
 		AllFours: "AllFours",
+	},
+	ItemPelvis: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
 	},
 	ItemTorso2: {
 		AllFours: "AllFours",
@@ -135,9 +162,19 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Hogtied: "Hogtied",
 	},
 	ItemVulva: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
 		Kneel: "Kneel",
 	},
+	ItemVulvaPiercings: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+	},
 	LeftAnklet: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+		Kneel: PoseType.HIDE,
+		KneelingSpread: PoseType.HIDE,
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
@@ -146,11 +183,27 @@ const AssetPoseMapping = /** @type {const} */ ({
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
+		Hogtied: PoseType.HIDE,
 		OverTheHead: "OverTheHead",
 		TapedHands: "TapedHands",
 		Yoked: "Yoked",
 	},
+	Nipples: {
+		AllFours: PoseType.HIDE,
+	},
+	Panties: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+	},
+	Pussy: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+	},
 	RightAnklet: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+		Kneel: PoseType.HIDE,
+		KneelingSpread: PoseType.HIDE,
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
@@ -159,11 +212,13 @@ const AssetPoseMapping = /** @type {const} */ ({
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
+		Hogtied: PoseType.HIDE,
 		OverTheHead: "OverTheHead",
 		TapedHands: "TapedHands",
 		Yoked: "Yoked",
 	},
 	Shoes: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
@@ -171,6 +226,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Spread: "Spread",
 	},
 	Socks: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
@@ -178,6 +234,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Spread: "Spread",
 	},
 	SocksLeft: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
@@ -185,6 +242,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Spread: "Spread",
 	},
 	SocksRight: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
@@ -192,6 +250,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Spread: "Spread",
 	},
 	Suit: {
+		AllFours: PoseType.HIDE,
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
 		BackElbowTouch: "BackElbowTouch",
@@ -201,12 +260,17 @@ const AssetPoseMapping = /** @type {const} */ ({
 		Yoked: "Yoked",
 	},
 	SuitLower: {
+		AllFours: PoseType.HIDE,
 		Hogtied: "Hogtied",
 		Kneel: "Kneel",
 		KneelingSpread: "KneelingSpread",
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
+	Wings: {
+		AllFours: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+	}
 });
 
 /**
@@ -2868,6 +2932,7 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				PoseMapping: {
 					...AssetPoseMapping.Suit,
+					AllFours: "AllFours",
 					TapedHands: PoseType.DEFAULT,
 				},
 				Layer: [
@@ -5315,6 +5380,7 @@ var AssetFemale3DCG = [
 		Underwear: true,
 		Left: 150,
 		Top: 395,
+		PoseMapping: { ...AssetPoseMapping.Panties },
 		PreviewZone: [125, 350, 250, 250],
 		Asset: [
 			// Vagina Compatible Clothing
@@ -5538,11 +5604,10 @@ var AssetFemale3DCG = [
 				Value: 30,
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
 				PoseMapping: {
+					...AssetPoseMapping.Panties,
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					AllFours: PoseType.HIDE,
-					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -5578,11 +5643,10 @@ var AssetFemale3DCG = [
 				Value: 30,
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
 				PoseMapping: {
+					...AssetPoseMapping.Panties,
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					AllFours: PoseType.HIDE,
-					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -5790,6 +5854,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemPelvis",
 				BuyGroup: "HarnessPanties2",
 				PoseMapping: {
+					...AssetPoseMapping.Panties,
 					Kneel: "Kneel",
 					KneelingSpread: PoseType.HIDE,
 					LegsClosed: "LegsClosed",
@@ -6041,6 +6106,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Shorts",
 						PoseMapping: {
+							...AssetPoseMapping.Panties,
 							Kneel: "Kneel",
 							KneelingSpread: "KneelingSpread",
 							LegsClosed: "LegsClosed",
@@ -6100,6 +6166,7 @@ var AssetFemale3DCG = [
 						Name: "Shorts",
 						AllowColorize: true,
 						PoseMapping: {
+							...AssetPoseMapping.Panties,
 							Kneel: "Kneel",
 							KneelingSpread: "KneelingSpread",
 							LegsClosed: "LegsClosed",
@@ -6110,6 +6177,7 @@ var AssetFemale3DCG = [
 						Name: "Bands",
 						AllowColorize: true,
 						PoseMapping: {
+							...AssetPoseMapping.Panties,
 							Kneel: "Kneel",
 							KneelingSpread: "KneelingSpread",
 							LegsClosed: "LegsClosed",
@@ -6128,52 +6196,29 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#222222", "#C01C1C", "#C01C1C", "#C01C1C"],
 				Top: 413,
 				Left: 120,
+				PoseMapping: {
+					...AssetPoseMapping.Panties,
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+				},
+				AllowColorize: true,
+				HasType: false,
 				Layer: [
 					{
 						Name: "Holemesh",
-						AllowColorize: true,
-						HasType: false,
 						AllowTypes: ["Holemesh"],
-						PoseMapping: {
-							Kneel: "Kneel",
-							KneelingSpread: "KneelingSpread",
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-						},
 					},
 					{
 						Name: "Bulge",
-						AllowColorize: true,
-						HasType: false,
-						PoseMapping: {
-							Kneel: "Kneel",
-							KneelingSpread: "KneelingSpread",
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-						},
 					},
 					{
 						Name: "Sidestraps",
-						AllowColorize: true,
-						HasType: false,
 						AllowTypes: ["Sidestraps", "Holemesh"],
-						PoseMapping: {
-							Kneel: "Kneel",
-							KneelingSpread: "KneelingSpread",
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-						},
 					},
 					{
 						Name: "Waistband",
-						AllowColorize: true,
-						HasType: false,
-						PoseMapping: {
-							Kneel: "Kneel",
-							KneelingSpread: "KneelingSpread",
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-						},
 					},
 				],
 			},
@@ -11942,6 +11987,7 @@ var AssetFemale3DCG = [
 		Underwear: true,
 		BodyCosplay: true,
 		PreviewZone: [0, 50, 500, 500],
+		PoseMapping: { ...AssetPoseMapping.Wings },
 		Asset: [
 			{ Name: "SuccubusFeather", Value: 35 },
 			{ Name: "SuccubusWings", Value: 35 },
@@ -13638,6 +13684,7 @@ var AssetFemale3DCG = [
 		Left: 175,
 		Top: 285,
 		AllowNone: false,
+		PoseMapping: { ...AssetPoseMapping.Nipples },
 		Asset: [
 			{ Name: "Nipples1" },
 			{ Name: "Nipples2", Gender: "F", Prerequisite: ["HasBreasts"] },
@@ -13657,6 +13704,7 @@ var AssetFemale3DCG = [
 		AllowExpression: [null, "Hard"],
 		ExpressionPrerequisite: ["HasPenis", "CanHaveErection"],
 		InheritColor: "BodyUpper",
+		PoseMapping: { ...AssetPoseMapping.Pussy },
 		Asset: [
 			{ Name: "Pussy1", Gender: "F", Attribute: ["PussyLayer", "Pussy1"] },
 			{ Name: "Pussy2", Gender: "F", Attribute: ["PussyLayer", "Pussy2"] },
@@ -13819,6 +13867,7 @@ var AssetFemale3DCG = [
 		IsRestraint: true,
 		Left: 125,
 		Top: 725,
+		PoseMapping: { ...AssetPoseMapping.ItemFeet },
 		Effect: ["Freeze", "Prone"],
 		Zone: [[100, 750, 300, 120]],
 		Asset: [
@@ -14014,6 +14063,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					KneelingSpread: PoseType.HIDE,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -14087,6 +14137,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 					Kneel: PoseType.HIDE,
@@ -14112,6 +14163,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Audio: "MetalCuffs",
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 					Spread: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
@@ -14135,6 +14187,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
@@ -14191,6 +14244,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "CuffsMetal",
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
@@ -14242,6 +14296,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 				},
 				Effect: ["Slow"],
@@ -14257,6 +14312,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "CuffsMetal",
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 				},
 				Effect: ["Prone", "Slow"],
@@ -14414,6 +14470,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					LegsClosed: PoseType.DEFAULT,
 					Kneel: PoseType.HIDE,
 				},
@@ -14452,6 +14509,7 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Kneel"],
 				Effect: ["Freeze"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemFeet,
 					Kneel: PoseType.HIDE,
 				},
 				Layer: [{ Name: "One" }, { Name: "Two" }],
@@ -15859,6 +15917,7 @@ var AssetFemale3DCG = [
 		Default: false,
 		Left: 125,
 		Top: 400,
+		PoseMapping: { ...AssetPoseMapping.ItemVulvaPiercings },
 		Zone: [[200, 500, 100, 80]],
 		Asset: [
 			{
@@ -16061,6 +16120,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Left: 50,
 				PoseMapping: {
+					...AssetPoseMapping.ItemVulvaPiercings,
 					Kneel: "Kneel",
 				},
 				Prerequisite: ["AccessVulva", "HasVagina"],
@@ -16092,7 +16152,6 @@ var AssetFemale3DCG = [
 				Top: 410,
 				Priority: 24,
 				DefaultColor: ["#323232", "#EFB0F4"],
-				PoseMapping: {},
 				Layer: [
 					{ Name: "Strap", MirrorExpression: "Pussy" },
 					{ Name: "Egg", MirrorExpression: "Pussy" },
@@ -16604,6 +16663,7 @@ var AssetFemale3DCG = [
 		Left: 125,
 		Top: 375,
 		Zone: [[100, 420, 300, 80]],
+		PoseMapping: { ...AssetPoseMapping.ItemPelvis },
 		RemoveItemOnRemove: [
 			{ Group: "ItemAddon", Name: "CeilingRope" },
 			{ Group: "ItemAddon", Name: "CeilingChain" },
@@ -17285,6 +17345,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPanties1",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
@@ -17307,6 +17368,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPanties2",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: PoseType.HIDE,
 					LegsClosed: "LegsClosed",
@@ -17422,6 +17484,7 @@ var AssetFemale3DCG = [
 				Audio: "RopeShort",
 				Prerequisite: ["AccessTorso", "HasVagina"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
@@ -17491,6 +17554,7 @@ var AssetFemale3DCG = [
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 					Spread: "Spread",
@@ -17544,11 +17608,10 @@ var AssetFemale3DCG = [
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					AllFours: PoseType.HIDE,
-					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -39796,14 +39859,12 @@ var PoseFemale3DCG = [
 		Category: "BodyLower",
 		AllowMenu: true,
 		OverrideHeight: { Height: -250, Priority: 20 },
-		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
 	},
 	{
 		Name: "KneelingSpread",
 		Category: "BodyLower",
 		OverrideHeight: { Height: -250, Priority: 20 },
 		AllowMenu: true,
-		Hide: ["ItemFeet", "LeftAnklet", "RightAnklet"],
 		MovePosition: [
 			{ Group: "ClothLower", X: -90, Y: 0 },
 			{ Group: "ItemLegs", X: -60, Y: 0 },
@@ -39818,40 +39879,16 @@ var PoseFemale3DCG = [
 		Name: "Yoked",
 		Category: "BodyUpper",
 		AllowMenu: true,
-		Hide: ["Hands"],
 	},
 	{
 		Name: "OverTheHead",
 		Category: "BodyUpper",
 		AllowMenu: true,
-		Hide: ["Hands"],
 	},
 	{
 		Name: "Hogtied",
 		Category: "BodyFull",
 		OverrideHeight: { Height: -575, Priority: 50 },
-		Hide: [
-			"BodyLower",
-			"Hands",
-			"ClothLower",
-			"Wings",
-			"Gloves",
-			"Panties",
-			"Pussy",
-			"ItemHands",
-			"ItemHandheld",
-			"ItemPelvis",
-			"ItemVulva",
-			"ItemVulvaPiercings",
-			"ItemLegs",
-			"ItemFeet",
-			"LeftAnklet",
-			"RightAnklet",
-			"Garters",
-			"Bracelet",
-			"LeftHand",
-			"RightHand",
-		],
 		MovePosition: [
 			{ Group: "Socks", X: 0, Y: -400 },
 			{ Group: "SocksRight", X: 0, Y: -400 },
@@ -39867,37 +39904,11 @@ var PoseFemale3DCG = [
 		Name: "Suspension",
 		Category: "BodyAddon",
 		OverrideHeight: { Height: -150, Priority: 40 },
-		Hide: [],
 	},
 	{
 		Name: "AllFours",
 		Category: "BodyFull",
 		OverrideHeight: { Height: -560, Priority: 50 },
-		Hide: [
-			"ItemFeet",
-			"ClothLower",
-			"SuitLower",
-			"Nipples",
-			"Pussy",
-			"BodyLower",
-			"Wings",
-			"ItemPelvis",
-			"ItemVulva",
-			"ItemVulvaPiercings",
-			"ItemLegs",
-			"ItemBoots",
-			"Suit",
-			"Panties",
-			"Bra",
-			"Socks",
-			"SocksRight",
-			"SocksLeft",
-			"Shoes",
-			"LeftAnklet",
-			"RightAnklet",
-			"Garters",
-			"Bracelet",
-		],
 		MovePosition: [
 			{ Group: "TailStraps", X: 0, Y: -300 },
 			{ Group: "ItemButt", X: 0, Y: -300 },
@@ -39930,7 +39941,6 @@ var PoseFemale3DCG = [
 		Name: "BackElbowTouch",
 		Category: "BodyUpper",
 		AllowMenu: true,
-		Hide: ["Bracelet"],
 	},
 	{
 		Name: "BackCuffs",
