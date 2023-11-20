@@ -279,6 +279,9 @@ let ServerSendRateLimitTimes = [];
  */
 function ServerSend(Message, ...args) {
 	ServerSendRateLimitQueue.push({ Message, args });
+
+	// Pump the queue manually to fight back against background tab throttling
+	ServerSendQueueProcess();
 }
 
 /**
