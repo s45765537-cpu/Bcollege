@@ -34,8 +34,9 @@ function RelogLoad() {
 	Context.fillRect(0, 0, 2000, 1000);
 
 	// Creates the password control without autocomplete and make sure it's cleared
-	ElementCreateInput("InputPassword", "password", "", "20");
-	document.getElementById("InputPassword").setAttribute("autocomplete", "off");
+	const passwordField = ElementCreateInput("InputPassword", "password", "", "20");
+	passwordField.setAttribute("autocomplete", "off");
+	passwordField.focus();
 	setTimeout(function() { ElementValue("InputPassword", ""); }, 500);
 
 }
