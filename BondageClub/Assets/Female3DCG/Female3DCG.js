@@ -37817,8 +37817,6 @@ var AssetFemale3DCG = [
 				HideItem: ["ShoesFlippers"],
 				RemoveAtLogin: true,
 				Extended: true,
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsOpen", "LegsClosed", "Spread"],
 				Layer: [
 					{
 						Name: "GateClosed",
@@ -37913,8 +37911,6 @@ var AssetFemale3DCG = [
 				Top: -235,
 				Effect: ["Freeze", "OnBed"],
 				RemoveAtLogin: true,
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsClosed", "LegsOpen", "Spread"],
 				Layer: [{ Name: "Frame" }, { Name: "Table" }],
 			},
 			{
@@ -38523,8 +38519,6 @@ var AssetFemale3DCG = [
 				],
 				Effect: ["Freeze", "Mounted", "OnBed", "Leash"],
 				AvailableLocations: ["Asylum"],
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsOpen", "LegsClosed", "Spread"],
 				Layer: [{ Name: "BedFrame" }, { Name: "Mattress" }, { Name: "Pillow" }],
 			},
 			{
@@ -38552,8 +38546,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: ["Freeze", "Mounted", "OnBed"],
-				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsOpen", "LegsClosed", "Spread"],
 				Layer: [
 					{
 						Name: "Back",
