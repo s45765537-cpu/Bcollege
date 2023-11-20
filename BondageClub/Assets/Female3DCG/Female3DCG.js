@@ -15111,6 +15111,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				AllowTighten: true,
+				DrawLocks: false,
 				DefaultColor: "#0D7800",
 				ArousalZone: "ItemVulva",
 				Fetish: ["Latex", "Pet"],
@@ -15828,7 +15829,6 @@ var AssetFemale3DCG = [
 					{ Name: "Lace" },
 					{ Name: "Belt" },
 					{ Name: "Buckle" },
-					{ Name: "Lock", LockLayer: true, AllowColorize: false },
 				],
 			},
 		],
@@ -17598,6 +17598,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: true,
 				AllowTighten: true,
+				DrawLocks: false,
 				Prerequisite: ["AccessCrotch", "HasVagina"],
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -20544,6 +20545,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				Random: false,
 				AllowLock: true,
+				DrawLocks: false,
 				Audio: "CuffsMetal",
 				PoseMapping: {
 					BackBoxTie: PoseType.HIDE,
@@ -21808,6 +21810,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				AllowLock: true,
 				BuyGroup: "Chains",
+				DrawLocks: false,
 				Audio: "ChainLong",
 				Extended: true,
 				SetPose: ["BackBoxTie"],
@@ -22572,6 +22575,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				BuyGroup: "PrisonLockdownSuit",
 				DefaultColor: ["#ab5207", "Default"],
+				DrawLocks: false,
 				Hide: [
 					"BodyUpper",
 					"BodyLower",
@@ -25393,6 +25397,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				AllowLock: true,
+				DrawLocks: false,
 				BuyGroup: "ShockCollar",
 				Effect: ["ReceiveShock", "UseRemote"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -26824,7 +26829,6 @@ var AssetFemale3DCG = [
 					{ Name: "Gag", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Holder", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Cup", AllowTypes: ["Cup"] },
-					{ Name: "Lock", LockLayer: true, AllowColorize: false },
 				],
 			},
 			{
@@ -28694,7 +28698,6 @@ var AssetFemale3DCG = [
 					{ Name: "Gag", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Holder", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Cup", AllowTypes: ["Cup"] },
-					{ Name: "Lock", LockLayer: true, AllowColorize: false },
 				],
 			},
 			{
@@ -30012,7 +30015,6 @@ var AssetFemale3DCG = [
 					{ Name: "Gag", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Holder", AllowTypes: ["", "Tip", "Cup"] },
 					{ Name: "Cup", AllowTypes: ["Cup"] },
-					{ Name: "Lock", LockLayer: true, AllowColorize: false },
 				],
 			},
 			{
@@ -33515,6 +33517,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				AllowTighten: true,
+				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "Default", "Default"],
 				HasType: false,
 				Prerequisite: ["NotProtrudingFromMouth"],
@@ -34221,6 +34224,7 @@ var AssetFemale3DCG = [
 				Top: 19,
 				Left: 150,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				Extended: true,
 				Hide: [
@@ -35194,25 +35198,19 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DrawLocks: true,
 				AllowLock: true,
+				HasType: false,
 				Hide: [],
 				Block: [],
 				Layer: [
-					{ Name: "Base", HasType: false },
-					{ Name: "EarsUnder", HasType: false, AllowTypes: ["Ears"] },
+					{ Name: "Base" },
+					{ Name: "EarsUnder", AllowTypes: ["Ears"] },
 					{
 						Name: "EarsOver",
-						HasType: false,
 						AllowTypes: ["Ears"],
 						Priority: 53,
 						CopyLayerColor: "EarsUnder",
 					},
-					{ Name: "Metal", HasType: false },
-					{
-						Name: "Lock",
-						LockLayer: true,
-						HasType: false,
-						AllowColorize: false,
-					},
+					{ Name: "Metal" },
 				],
 			},
 			{
@@ -36770,6 +36768,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				Extended: true,
 				RemoveAtLogin: true,
+				DrawLocks: false,
 				SetPose: ["LegsClosed"],
 				Effect: ["Mounted"],
 				AllowLock: true,
@@ -36777,6 +36776,13 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Bench", AllowColorize: true, Priority: 1, HasType: false },
 					{ Name: "Straps", AllowColorize: true, Priority: 53, HasType: true },
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						ParentGroup: null,
+						HasType: true,
+						AllowTypes: ["Light", "Normal", "Heavy", "Full"],
+					},
 				],
 			},
 
@@ -37741,6 +37747,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				IsRestraint: true,
 				AllowLock: true,
+				DrawLocks: false,
 				Left: -30,
 				Top: -235,
 				Effect: ["Freeze", "Leash"],
@@ -37998,22 +38005,22 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				DynamicBeforeDraw: true,
 				DynamicScriptDraw: true,
+				HasType: false,
+				DrawLocks: false,
 				DynamicAudio: (C) => InventoryItemDevicesKennelGetAudio(C),
 				DefaultColor: ["#2E2E29", "#780E0E", "#2E2E29", "#2E2E29"],
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
 				Effect: ["Tethered"],
 				Layer: [
-					{ Name: "Kennel", Priority: 1, HasType: false },
+					{ Name: "Kennel", Priority: 1 },
 					{
 						Name: "Padding",
 						Priority: 1,
-						AllowTypes: ["d0p1", "d1p1"],
-						HasType: false,
+						AllowModuleTypes: ["p1"],
 					},
 					{
 						Name: "Frame",
-						HasType: false,
 						Priority: 58,
 						Alpha: [
 							{
@@ -38026,7 +38033,17 @@ var AssetFemale3DCG = [
 							},
 						],
 					},
-					{ Name: "Door", Priority: 58 },
+					{
+						Name: "Door",
+						Priority: 58,
+						ModuleType: ["d"],
+					},
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						ModuleType: ["d"],
+					},
 				],
 			},
 			{

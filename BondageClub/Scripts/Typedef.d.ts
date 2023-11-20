@@ -977,6 +977,7 @@ interface Asset {
 	readonly ColorSuffix: Readonly<Record<string, string>>;
 	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
+	readonly AllowColorize: boolean;
 }
 
 //#endregion
