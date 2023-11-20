@@ -247,7 +247,8 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 		}
 
 		if (includeResetButton && MouseIn(ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize)) {
-			ElementValue("InputColor", "Default");
+			const defaultColor = ItemColorState.defaultColors[ItemColorPickerIndices[0]] || "Default";
+			ElementValue("InputColor", defaultColor);
 			return;
 		}
 	}
@@ -530,18 +531,16 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 	const colorableLayers = ItemColorGetColorableLayers(item);
 	const colorGroups = ItemColorGetGroups(item, colorableLayers);
 
+	/** @type {string[]} */
 	let colors;
+	const defaultColors = item.Asset.DefaultColor;
 	if (Array.isArray(item.Color)) {
 		colors = item.Color;
-		for (let i = colors.length; i < item.Asset.ColorableLayerCount; i++) {
-			colors.push("Default");
-		}
+		colors.push(...defaultColors.slice(colors.length));
+	} else if (typeof item.Color === "string") {
+		colors = Array(item.Asset.ColorableLayerCount).fill(item.Color);
 	} else {
-		const colorStr = typeof item.Color === "string" ? item.Color : "Default";
-		colors = [];
-		for (let i = 0; i < item.Asset.ColorableLayerCount; i++) {
-			colors.push(colorStr);
-		}
+		colors = [...defaultColors];
 	}
 
 	const simpleMode = colorableLayers.length === 1;
@@ -584,6 +583,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 	ItemColorState = {
 		colorGroups,
 		colors,
+		defaultColors,
 		simpleMode,
 		paginationButtonX,
 		cancelButtonX,
