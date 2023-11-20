@@ -9815,10 +9815,10 @@ var AssetFemale3DCGExtended = {
 					Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0 } }, // g0 - Padded
-						{ Property: { OriginalSetting: 1, Effect: ["GagVeryLight"] } }, // g1 - LightBall
-						{ Property: { OriginalSetting: 2, Effect: ["GagMedium"] } }, // g2 - Ball
-						{ Property: { OriginalSetting: 3, Effect: ["GagTotal"] } }, // g3 - Plug
+						{}, // g0 - Padded
+						{ Property: { Effect: ["GagVeryLight"] } }, // g1 - LightBall
+						{ Property: { Effect: ["GagMedium"] } }, // g2 - Ball
+						{ Property: { Effect: ["GagTotal"] } }, // g3 - Plug
 					],
 				},
 				{
@@ -9849,11 +9849,13 @@ var AssetFemale3DCGExtended = {
 				ShowText: true,
 				BlinkState: false,
 				AutoPunishUndoTime: 0,
+				OriginalSetting: 0,
 			},
 			ScriptHooks: {
 				Load: FuturisticAccessLoad,
 				Click: InventoryItemMouthFuturisticPanelGagClickHook,
 				Draw: InventoryItemMouthFuturisticPanelGagDrawHook,
+				SetOption: InventoryItemMouthFuturisticPanelGagSetOptionHook,
 				Exit: FuturisticAccessExit,
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemMouthFuturisticPanelGagScriptDrawHook,

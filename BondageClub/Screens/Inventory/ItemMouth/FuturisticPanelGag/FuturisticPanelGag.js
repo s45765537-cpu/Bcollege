@@ -54,6 +54,25 @@ function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
 	}
 }
 
+/** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
+function InventoryItemMouthFuturisticPanelGagSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
+	// NOTE: Use a `SetOption` + baseline properties rather in order to avoid triggering an `Init` validation.
+	if (newOption.ModuleName !== "Gag") {
+		originalFunction(C, item, newOption, previousOption, push, refresh);
+		return;
+	} else {
+		originalFunction(C, item, newOption, previousOption, false, false);
+	}
+
+	const module = data.modules.find(m => m.Name === "Gag");
+	const index = /** @type {-1 | 0 | 1 | 2 | 3} */(module.Options.findIndex(o => o.Name === newOption.Name));
+	item.Property.OriginalSetting = index === -1 ? 0 : index;
+
+	if (refresh || push) {
+		CharacterRefresh(C, push, false);
+	}
+}
+
 /**
  * Send message for an automatic gag inflation.
  * @param {Character} C - The selected character
