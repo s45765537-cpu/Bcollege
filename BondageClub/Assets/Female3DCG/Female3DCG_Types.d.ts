@@ -1,3 +1,19 @@
+/** Types for representing the left/top coordinate of a target draw rect. */
+declare namespace TopLeft {
+	/**
+	 * The parsed top/left coordinate translation.
+	 * Will include a default value under {@link PoseType.DEFAULT} and may include pose-specific values
+	 * under their respective pose names.
+	 */
+	type Data = Readonly<Partial<Record<AssetPoseName, number>> & Record<PoseTypeDefault, number>>;
+	/**
+	 * The unparsed top/left coordinate translation.
+	 * Can be either a number or, if one wants to specify pose-specific translations, a record mapping pose names to numbers.
+	 * The {@link PoseType.DEFAULT} key can be specified in the record-notation as a default pose-agnostic value.
+	 */
+	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
+}
+
 /**
  * Properties common to groups, assets and layers
  *
@@ -9,10 +25,26 @@ interface AssetCommonPropertiesGroupAssetLayer {
 	/** The drawing priority of the target */
 	Priority?: number;
 
-	/** The left coordinate of the target draw rect */
-	Left?: number;
-	/** The top coordinate of the target draw rect */
-	Top?: number;
+	/**
+	 * The left coordinate of the target draw rect or a record with pose-specific left coordinates.
+	 *
+	 * @example
+	 * Left: {
+	 *     [PoseType.Default]: 100,
+	 *     Kneeling: 150,
+	 * },
+	 */
+	Left?: TopLeft.Definition;
+	/**
+	 * The top coordinate of the target draw rect or a record with pose-specific top coordinates.
+	 *
+	 * @example
+	 * Top: {
+	 *     [PoseType.Default]: 100,
+	 *     Kneeling: 150,
+	 * },
+	 */
+	Top?: TopLeft.Definition;
 
 	/** The group the target should inherit its color from. */
 	InheritColor?: AssetGroupName;

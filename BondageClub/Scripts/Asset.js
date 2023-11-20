@@ -68,8 +68,8 @@ function AssetGroupAdd(Family, GroupDef) {
 		MirrorGroup: (GroupDef.MirrorGroup == null) ? "" : GroupDef.MirrorGroup,
 		RemoveItemOnRemove: (GroupDef.RemoveItemOnRemove == null) ? [] : GroupDef.RemoveItemOnRemove,
 		DrawingPriority: (GroupDef.Priority == null) ? AssetGroup.length : GroupDef.Priority,
-		DrawingLeft: (GroupDef.Left == null) ? 0 : GroupDef.Left,
-		DrawingTop: (GroupDef.Top == null) ? 0 : GroupDef.Top,
+		DrawingLeft: AssetParseTopLeft(GroupDef.Left, 0),
+		DrawingTop: AssetParseTopLeft(GroupDef.Top, 0),
 		DrawingBlink: (GroupDef.Blink == null) ? false : GroupDef.Blink,
 		InheritColor: (typeof GroupDef.InheritColor === "string" ? GroupDef.InheritColor : null),
 		PreviewZone: GroupDef.PreviewZone,
@@ -87,6 +87,27 @@ function AssetGroupAdd(Family, GroupDef) {
 	AssetActivityMirrorGroupSet(A);
 	AssetGroup.push(A);
 	return A;
+}
+
+/**
+ * Parse the passed {@link AssetDefinition.Top} and Left values
+ * @param {undefined | TopLeft.Definition} value
+ * @param {number | TopLeft.Data} fallback
+ * @returns {TopLeft.Data}
+ */
+function AssetParseTopLeft(value, fallback) {
+	fallback = typeof fallback === "number" ? { [PoseType.DEFAULT]: fallback } : { ...fallback };
+	if (value == null) {
+		return fallback;
+	} else if (typeof value === "number") {
+		return { [PoseType.DEFAULT]: value };
+	} else {
+		let def = value[PoseType.DEFAULT];
+		if (def == null) {
+			def = fallback[PoseType.DEFAULT];
+		}
+		return { ...value, [PoseType.DEFAULT]: def };
+	}
 }
 
 /**
@@ -157,8 +178,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		RemoveTimer: (AssetDef.RemoveTimer == null) ? 0 : AssetDef.RemoveTimer,
 		MaxTimer: (AssetDef.MaxTimer == null) ? 0 : AssetDef.MaxTimer,
 		DrawingPriority: AssetDef.Priority,
-		DrawingLeft: AssetDef.Left,
-		DrawingTop: AssetDef.Top,
+		DrawingLeft: AssetParseTopLeft(AssetDef.Left, Group.DrawingLeft),
+		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: (AssetDef.Zoom == null) ? 1 : AssetDef.Zoom,
 		Alpha: AssetDef.Alpha,
@@ -415,8 +436,8 @@ function AssetMapLayer(Layer, A, I) {
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
 		Alpha: AssetLayerAlpha(Layer, A, I),
 		Asset: A,
-		DrawingLeft: Layer.Left,
-		DrawingTop: Layer.Top,
+		DrawingLeft: AssetParseTopLeft(Layer.Left, A.DrawingLeft),
+		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
 		HideAs: Layer.HideAs,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
 		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,

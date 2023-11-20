@@ -375,7 +375,8 @@ type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
  */
 type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | PoseType>>;
 
-type PoseType = "Hide" | "";
+type PoseType = "Hide" | PoseTypeDefault;
+type PoseTypeDefault = "";
 
 type AssetLockType =
 	"CombinationPadlock" | "ExclusivePadlock" | "HighSecurityPadlock" |
@@ -689,8 +690,8 @@ interface AssetGroup {
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; Type?: string }>[];
 	readonly DrawingPriority: number;
-	readonly DrawingLeft: number;
-	readonly DrawingTop: number;
+	readonly DrawingLeft: TopLeft.Data;
+	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	/** @deprecated Use {@link Asset.AllowActivePose} instead */
@@ -777,8 +778,8 @@ interface AssetLayer {
 	readonly Alpha: readonly AlphaDefinition[];
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
-	readonly DrawingLeft?: number;
-	readonly DrawingTop?: number;
+	readonly DrawingLeft: TopLeft.Data;
+	readonly DrawingTop: TopLeft.Data;
 	readonly HideAs?: Readonly<{ Group: AssetGroupName; Asset?: string }>;
 	/** That layer is drawing at a fixed Y position */
 	readonly FixedPosition?: boolean;
@@ -899,8 +900,8 @@ interface Asset {
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
 	readonly DrawingPriority?: number;
-	readonly DrawingLeft?: number;
-	readonly DrawingTop?: number;
+	readonly DrawingLeft: TopLeft.Data;
+	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	readonly ZoomModifier: number;
 	readonly Alpha?: readonly AlphaDefinition[];

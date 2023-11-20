@@ -72,8 +72,10 @@ function CommonDrawAppearanceBuild(C, {
 		let GroupName = A.DynamicGroupName;
 
 		// Find the X and Y position to draw on
-		let X = Layer.DrawingLeft != null ? Layer.DrawingLeft : (A.DrawingLeft != null ? A.DrawingLeft : AG.DrawingLeft);
-		let Y = Layer.DrawingTop != null ? Layer.DrawingTop : (A.DrawingTop != null ? A.DrawingTop : AG.DrawingTop);
+		const poseX = C.DrawPose.find(p => Layer.DrawingLeft[p] != null);
+		const poseY = C.DrawPose.find(p => Layer.DrawingTop[p] != null);
+		let X = poseX === undefined ? Layer.DrawingLeft[PoseType.DEFAULT] : Layer.DrawingLeft[poseX];
+		let Y = poseY === undefined ? Layer.DrawingTop[PoseType.DEFAULT] : Layer.DrawingTop[poseY];
 		if (C.DrawPose && C.DrawPose.length) {
 			C.DrawPose.forEach(CP => {
 				const PoseDef = PoseFemale3DCG.find(P => P.Name === CP && P.MovePosition);
