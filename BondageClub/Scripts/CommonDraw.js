@@ -291,11 +291,11 @@ function CommonDrawAppearanceBuild(C, {
 				drawImageColorize(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
 					Color,
-					AG.DrawingFullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
+					A.FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
 				);
 				drawImageColorizeBlink(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
-					Color, AG.DrawingFullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
+					Color, A.FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
 				);
 			} else {
 				let ColorName = (

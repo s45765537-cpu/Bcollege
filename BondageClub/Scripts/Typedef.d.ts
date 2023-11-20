@@ -691,7 +691,6 @@ interface AssetGroup {
 	readonly DrawingPriority: number;
 	readonly DrawingLeft: number;
 	readonly DrawingTop: number;
-	readonly DrawingFullAlpha: boolean;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	/** @deprecated Use {@link Asset.AllowActivePose} instead */
@@ -976,6 +975,7 @@ interface Asset {
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
 	readonly ColorSuffix: Readonly<Record<string, string>>;
+	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 }
 

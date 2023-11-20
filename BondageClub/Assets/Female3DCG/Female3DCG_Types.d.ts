@@ -212,9 +212,6 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	 */
 	RemoveItemOnRemove?: { Group: AssetGroupItemName, Name: string, Type?: string }[];
 
-	/** Enable the special color drawing mode used for eyes */
-	FullAlpha?: boolean;
-
 	/**
 	 * Whether the group has a blinking variant
 	 *
@@ -519,6 +516,9 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 
 	/** Whether the game should auto-add a Lock layer to the asset. */
 	DrawLocks?: boolean;
+
+	/** Enable the special color drawing mode used for eyes */
+	FullAlpha?: boolean;
 
 	MirrorExpression?: AssetGroupName;
 
