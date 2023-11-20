@@ -3355,6 +3355,11 @@ type itemColorExitListener = (
 interface ItemColorStateType {
 	colorGroups: ColorGroup[];
 	colors: string[];
+	/**
+	 * The underlying assets default colors.
+	 * @see {@link Asset.DefaultColor}
+	 */
+	defaultColors: readonly string[];
 	simpleMode: boolean;
 	paginationButtonX: number;
 	cancelButtonX: number;
