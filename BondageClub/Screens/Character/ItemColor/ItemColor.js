@@ -447,12 +447,18 @@ function ItemColorOpenPicker(colorGroup) {
 function ItemColorNextColor(colorGroup) {
 	const colorIndicesToSet = ItemColorGetColorIndices(colorGroup);
 	const groupColors = ItemColorState.colors.filter((c, i) => colorIndicesToSet.includes(i));
+	const defaultGroupColors = ItemColorState.defaultColors.filter((c, i) => colorIndicesToSet.includes(i));
 	const colorTextKey = ItemColorGetColorButtonTextKey(groupColors);
+	const defaultColorTextKey = ItemColorGetColorButtonTextKey(defaultGroupColors);
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
-	const nextIndex = (schema.indexOf(colorTextKey) + 1) % schema.length;
+	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length
 	const nextColor = schema[nextIndex];
-	const newColors = ItemColorState.colors.slice();
-	colorIndicesToSet.forEach(i => newColors[i] = nextColor);
+	const newColors = [...ItemColorState.colors];
+	if (nextColor === "Default") {
+		colorIndicesToSet.forEach(i => newColors[i] = ItemColorState.defaultColors[i]);
+	} else {
+		colorIndicesToSet.forEach(i => newColors[i] = nextColor);
+	}
 	ItemColorItem.Color = newColors;
 	CharacterLoadCanvas(ItemColorCharacter);
 }
