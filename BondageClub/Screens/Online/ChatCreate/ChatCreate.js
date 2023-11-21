@@ -6,6 +6,8 @@ var ChatCreateMessage = "";
 var ChatCreatePrivate = null;
 /** @type {null | boolean} */
 var ChatCreateLocked = null;
+/** @type {null | boolean} */
+var ChatCreateUseMap = null;
 /** @type {ServerChatRoomGame} */
 var ChatCreateGame = "";
 /** @type {ServerChatRoomGame[]} */
@@ -117,18 +119,20 @@ function ChatCreateRun() {
 		() => DialogFindPlayer((ChatCreateBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatCreateBackgroundIndex - 1]),
 		() => DialogFindPlayer((ChatCreateBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatCreateBackgroundIndex + 1]));
 	DrawButton(1840, 450, 60, 60, "", "White", "Icons/Small/Preference.png", null);
-	DrawButton(1300, 540, 275, 60, TextGet("BlockCategory"), "White");
-	DrawBackNextButton(1625, 540, 275, 60, TextGet("Game" + ChatCreateGame), "White",  null, () => "", () => "");
+	DrawButton(1300, 530, 275, 60, TextGet("BlockCategory"), "White");
+	DrawBackNextButton(1625, 530, 275, 60, TextGet("Game" + ChatCreateGame), "White",  null, () => "", () => "");
 
 	// Private and Locked check boxes
-	DrawTextFit(TextGet("RoomPrivate"), 1650, 663, 550, "Black", "Gray");
-	DrawButton(1300, 633, 64, 64, "",  "White", ChatCreatePrivate ? "Icons/Checked.png" : "");
-	DrawTextFit(TextGet("RoomLocked"), 1650, 755, 550, "Black", "Gray");
-	DrawButton(1300, 725, 64, 64, "", "White", ChatCreateLocked ? "Icons/Checked.png" : "");
+	DrawTextFit(TextGet("RoomPrivate"), 1650, 640, 550, "Black", "Gray");
+	DrawButton(1300, 610, 64, 64, "",  "White", ChatCreatePrivate ? "Icons/Checked.png" : "");
+	DrawTextFit(TextGet("RoomLocked"), 1650, 720, 550, "Black", "Gray");
+	DrawButton(1300, 690, 64, 64, "", "White", ChatCreateLocked ? "Icons/Checked.png" : "");
+	DrawTextFit(TextGet("UseMap"), 1650, 800, 550, "Black", "Gray");
+	DrawButton(1300, 770, 64, 64, "", "White", ChatCreateUseMap ? "Icons/Checked.png" : "");
 
 	// Create & Exit buttons
-	DrawButton(1325, 840, 250, 65, TextGet("Create"), "White");
-	DrawButton(1625, 840, 250, 65, TextGet("Exit"), "White");
+	DrawButton(1325, 860, 250, 65, TextGet("Create"), "White");
+	DrawButton(1625, 860, 250, 65, TextGet("Exit"), "White");
 }
 
 /**
@@ -146,7 +150,7 @@ function ChatCreateClick() {
 	}
 
 	// When the user cancels/exits
-	if (MouseIn(1625, 840, 250, 65)) ChatCreateExit();
+	if (MouseIn(1625, 860, 250, 65)) ChatCreateExit();
 
 	// When we select a new background
 	if (MouseIn(1300, 450, 500, 60)) {
@@ -157,7 +161,7 @@ function ChatCreateClick() {
 	}
 
 	// When we select a new game type
-	if (MouseIn(1625, 540, 275, 60)) {
+	if (MouseIn(1625, 530, 275, 60)) {
 		let Index = ChatCreateGameList.indexOf(ChatCreateGame);
 		Index = Index + ((MouseX < 1763) ? -1 : 1);
 		if (Index < 0) Index = ChatCreateGameList.length - 1;
@@ -166,7 +170,7 @@ function ChatCreateClick() {
 	}
 
 	// Item block button
-	if (MouseIn(1300, 540, 275, 60)) {
+	if (MouseIn(1300, 530, 275, 60)) {
 		ElementToggleGeneratedElements("ChatCreate", false);
 		ChatCreateBlockItems();
 	}
@@ -187,9 +191,10 @@ function ChatCreateClick() {
 	}
 
 	// Private & Locked check boxes + save button + quickban buttons
-	if (MouseIn(1300, 633, 64, 64)) ChatCreatePrivate = !ChatCreatePrivate;
-	if (MouseIn(1300, 725, 64, 64)) ChatCreateLocked = !ChatCreateLocked;
-	if (MouseIn(1325, 840, 250, 65)) ChatCreateRoom();
+	if (MouseIn(1300, 610, 64, 64)) ChatCreatePrivate = !ChatCreatePrivate;
+	if (MouseIn(1300, 690, 64, 64)) ChatCreateLocked = !ChatCreateLocked;
+	if (MouseIn(1300, 770, 64, 64)) ChatCreateUseMap = !ChatCreateUseMap;
+	if (MouseIn(1325, 860, 250, 65)) ChatCreateRoom();
 	if (MouseIn(125, 770, 250, 65)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateAdminList(true, false, CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 	if (MouseIn(390, 770, 250, 65)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateAdminList(false, true, CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 	if (MouseIn(695, 770, 250, 65)) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(true, false, CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
@@ -212,6 +217,7 @@ function ChatCreateKeyDown() {
 function ChatCreateExit() {
 	ChatCreatePrivate = null;
 	ChatCreateLocked = null;
+	ChatCreateUseMap = null;
 	ChatRoomCreateRemoveInput();
 	CommonSetScreen("Online", "ChatSearch");
 }
@@ -247,6 +253,7 @@ function ChatCreateRoom() {
 		Limit: ElementValue("InputSize"),
 		BlockCategory: ChatBlockItemCategory
 	};
+	if (ChatCreateUseMap) NewRoom.MapData = { Active: true };
 	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";

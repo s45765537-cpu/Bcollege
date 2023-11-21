@@ -4833,6 +4833,7 @@ function ChatRoomRecreate() {
 			Game: ChatRoomData.Game,
 			Private: Player.LastChatRoomPrivate,
 			Locked: ChatRoomData.Locked,
+			MapData: ChatRoomData.MapData,
 			Space: Player.LastChatRoomSpace,
 		};
 

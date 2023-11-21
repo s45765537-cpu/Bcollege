@@ -5,6 +5,8 @@ var ChatAdminBackgroundIndex = 0;
 var ChatAdminBackgroundSelect = "";
 var ChatAdminPrivate = false;
 var ChatAdminLocked = false;
+/** @type {object} */
+var ChatAdminMapData = { Active: false };
 /** @type {ServerChatRoomGame} */
 var ChatAdminGame = "";
 /** @type {ServerChatRoomGame[]} */
@@ -62,6 +64,8 @@ function ChatAdminLoad() {
 	ElementValue("InputBanList", CommonConvertArrayToString(roomData.Ban));
 	ChatAdminPrivate = roomData.Private;
 	ChatAdminLocked = roomData.Locked;
+	ChatAdminMapData = roomData.MapData;
+	if (ChatAdminMapData == null) ChatAdminMapData = { Active: false };
 
 	// If the player isn't an admin, we disable the inputs
 	if (!ChatRoomPlayerIsAdmin()) {
@@ -119,10 +123,12 @@ function ChatAdminRun() {
 	DrawButton(1400, 640, 400, 60, TextGet("RoomCustomization"), (ChatAdminCustom == null) ? "White" : "#B0FFB0");
 
 	// Private and Locked check boxes
-	DrawText(TextGet("RoomPrivate"), 1384, 760, "Black", "Gray");
-	DrawButton(1486, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminPrivate ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
-	DrawText(TextGet("RoomLocked"), 1684, 760, "Black", "Gray");
-	DrawButton(1786, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminLocked ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
+	DrawText(TextGet("RoomPrivate"), 1347, 760, "Black", "Gray");
+	DrawButton(1426, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminPrivate ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
+	DrawText(TextGet("RoomLocked"), 1576, 760, "Black", "Gray");
+	DrawButton(1656, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminLocked ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
+	DrawText(TextGet("UseMap"), 1784, 760, "Black", "Gray");
+	DrawButton(1836, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminMapData.Active ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
 
 	// Save & Cancel/Exit buttons + help text
 	DrawButton(1325, 840, 250, 65, TextGet("Save"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
@@ -150,6 +156,7 @@ function ChatAdminClick() {
 			Ban: CommonConvertStringToArray(ElementValue("InputBanList")),
 			Private: ChatAdminPrivate,
 			Locked: ChatAdminLocked,
+			MapData: ChatAdminMapData,
 			Custom: ChatAdminCustom
 		};
 		ElementRemove("InputName");
@@ -197,8 +204,9 @@ function ChatAdminClick() {
 		}
 
 		// Private & Locked check boxes + save button + quickban buttons
-		if (MouseIn(1486, 728, 64, 64)) ChatAdminPrivate = !ChatAdminPrivate;
-		if (MouseIn(1786, 728, 64, 64)) ChatAdminLocked = !ChatAdminLocked;
+		if (MouseIn(1426, 728, 64, 64)) ChatAdminPrivate = !ChatAdminPrivate;
+		if (MouseIn(1656, 728, 64, 64)) ChatAdminLocked = !ChatAdminLocked;
+		if (MouseIn(1836, 728, 64, 64)) ChatAdminMapData.Active = !ChatAdminMapData.Active;
 		if (MouseIn(1325, 840, 250, 65) && ChatRoomPlayerIsAdmin()) ChatAdminUpdateRoom();
 		if (MouseIn(125, 770, 250, 65)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateAdminList(true, false, CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 		if (MouseIn(390, 770, 250, 65)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateAdminList(false, true, CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
@@ -253,6 +261,7 @@ function ChatAdminUpdateRoom() {
 		Game: ChatAdminGame,
 		Private: ChatAdminPrivate,
 		Locked: ChatAdminLocked,
+		MapData: ChatAdminMapData,
 		Custom: ChatAdminCustom
 	};
 	// @ts-expect-error because of Limit being forced to a string above to please the server
