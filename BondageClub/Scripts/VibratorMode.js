@@ -95,7 +95,7 @@ var VibratorModeOptions = {
 			Property: {
 				Mode: VibratorMode.RANDOM,
 				Intensity: 0,
-				Effect: ["Egged", "Vibrating"],
+				Effect: ["Egged"],
 			},
 		},
 		{
@@ -748,7 +748,10 @@ function VibratorModeInit(data, C, Item, Push=true, Refresh=true) {
 		const option = data.options.find(o => o.Name === Item.Property.Mode);
 		const newProps = CommonCloneDeep(option.Property);
 		delete newProps.OverridePriority;
-		delete newProps.Effect; // TODO: Can't easily validate effects yet due to their dynamic nature with advanced vibe modes
+		if (VibratorModesAdvanced.includes(option.Name)) {
+			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
+			delete newProps.Intensity;
+		}
 		const baseLineProps = Object.entries(CommonCloneDeep(data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
