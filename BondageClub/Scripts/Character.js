@@ -1427,19 +1427,6 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
 }
 
 /**
- * Sets a new pose for the character
- * @param {Character} C - Character for which to set the pose
- * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
- * @returns {void} - Nothing
- * @satisfies {typeof PoseSetActive}
- * @deprecated - Deprecated alias for {@link PoseSetActive}
- */
-function CharacterSetActivePose(C, poseName, ForceChange = false) {
-	return PoseSetActive(C, poseName, ForceChange);
-}
-
-/**
  * Sets a specific facial expression on the character's specified AssetGroup.
  *
  * If there's a timer, the expression will expire after it. Note that a timed expression cannot override another one.
@@ -2038,3 +2025,26 @@ function CharacterScriptRefresh(C) {
 function CharacterScriptRemove(C) {
 	InventoryRemove(C, "ItemScript", true);
 }
+
+
+// Don't remove, these function are used too much downstream
+
+/**
+ * Sets a new pose for the character
+ * @param {Character} C - Character for which to set the pose
+ * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
+ * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @returns {void} - Nothing
+ * @deprecated - Deprecated alias for {@link PoseSetActive}
+ */
+var CharacterSetActivePose = PoseSetActive;
+
+/**
+ * Checks whether the given character can change to the named pose (without aid by default).
+ * @param {Character} C - The character to check
+ * @param {AssetPoseName} poseName - The name of the pose to check for
+ * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
+ * the provided pose
+ * @deprecated Superseded by {@link PoseCanChangeUnaided}
+ */
+var CharacterCanChangeToPose = PoseCanChangeUnaided;

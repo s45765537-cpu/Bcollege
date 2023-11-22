@@ -3715,3 +3715,22 @@ interface PreviewDrawOptions {
 }
 
 // #end region
+
+// #region deprecation
+
+/** @deprecated superseded by {@link PoseAvailable} */
+declare const CharacterItemsHavePoseAvailable: never;
+/** @deprecated superseded by {@link PoseAvailable} */
+declare const InventoryPrerequisiteCanChangeToPose: never;
+/** @deprecated superseded by {@link PoseSetByItems} */
+declare const CharacterItemsHavePose: never;
+/** @deprecated superseded by {@link PoseSetByItems} */
+declare const CharacterDoItemsSetPose: never;
+/** @deprecated superseded by {@link PoseCategoryAvailable} */
+declare const CharacterItemsHavePoseType: never;
+/** @deprecated superseded by {@link PoseRefresh} */
+declare const CharacterLoadPose: never;
+/** @deprecated superseded by {@link PoseToMapping} */
+declare const AssetPoseToMapping: never;
+
+// #end region
