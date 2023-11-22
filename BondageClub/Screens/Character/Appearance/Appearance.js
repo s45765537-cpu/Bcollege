@@ -468,6 +468,8 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		if (!CharacterAppearanceGenderAllowed(assetToCheck)) {
 			return false;
 		}
+	} else {
+		return false;
 	}
 
 	const scriptItem = InventoryGet(C, "ItemScript");
@@ -483,7 +485,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
 		const Excluded = HideItemExclude.includes(GroupName + AssetName);
 		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !Excluded) HidingItem = true;
-		else if (!Excluded && item.Asset.HideItemAttribute.length && assetToCheck && assetToCheck.Attribute.length) {
+		else if (!Excluded && item.Asset.HideItemAttribute.length && assetToCheck.Attribute.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
 		}
 		else if ((item.Property != null) && (item.Property.Hide != null) && (item.Property.Hide.indexOf(GroupName) >= 0) && !Excluded) HidingItem = true;
