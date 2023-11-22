@@ -41,7 +41,7 @@ function PrivateBedLoad() {
 	// Clears the previous data and adds the player in bed
 	PrivateBedActivityMustRefresh = true;
 	PrivateBedLog = [];
-	CharacterSetActivePose(Player, null, true);
+	PoseSetActive(Player, null, true);
 	PrivateBedBackground = PrivateBackground;
 	PrivateBedCharacter = [];
 	PrivateBedCharacter.push(Player);
@@ -90,8 +90,8 @@ function PrivateBedLoad() {
 function PrivateBedDrawCharacter(C) {
 	if (C.PrivateBedMoveTimer == null) C.PrivateBedMoveTimer = 0;
 	if (C.PrivateBedMoveTimer < CommonTime()) {
-		CharacterSetActivePose(C, CommonRandomItemFromList(undefined, ["OverTheHead", "Yoked", "BackBoxTie", null, null, null]));
-		CharacterSetActivePose(C, CommonRandomItemFromList(null, ["LegsOpen", "LegsClosed"]));
+		PoseSetActive(C, CommonRandomItemFromList(undefined, ["OverTheHead", "Yoked", "BackBoxTie", null, null, null]));
+		PoseSetActive(C, CommonRandomItemFromList(null, ["LegsOpen", "LegsClosed"]));
 		C.PrivateBedMoveTimer = CommonTime() + 10000 + Math.round(Math.random() * 20000);
 	}
 	if (C.IsNpc() && (C.PrivateBedActivityTimer < CommonTime())) PrivateBedNPCActivity(C);
@@ -394,7 +394,7 @@ function PrivateBedExit(Type) {
 
 	// Refreshes the characters in the private room
 	for (let C of PrivateBedCharacter) {
-		CharacterSetActivePose(C, null);
+		PoseSetActive(C, null);
 		if (C.IsNpc()) {
 			NPCEventAdd(C, "NextBed", CurrentTime + 300000 + Math.round(Math.random() * 300000) + NPCTraitGet(C, "Frigid") * 3000);
 			CharacterAppearanceRestore(C, C.PrivateBedAppearance);

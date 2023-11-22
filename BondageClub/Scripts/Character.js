@@ -950,92 +950,6 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Refreshes the list of poses for a character. Each pose can only be found once in the pose array
- * @param {Character} C - Character for which to refresh the pose list
- * @returns {void} - Nothing
- */
-function CharacterLoadPose(C) {
-	C.AllowedActivePoseMapping = {};
-
-	/**
-	 * Categories mapped to the `SetPose` name-union of all items
-	 * @type {Partial<Record<AssetPoseCategory, Set<AssetPoseName>>>}
-	 * @see {@link Character.PoseMapping}
-	 */
-	const setPose = {};
-	for (const item of C.Appearance) {
-		const allowActivePoseList = InventoryGetItemProperty(item, "AllowActivePose");
-		if (allowActivePoseList.length === 0) {
-			continue;
-		}
-		const itemAllowActivePose = PoseToMapping.Array(allowActivePoseList, "Item.AllowActivePose");
-		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose"), "Item.SetPose");
-
-		// Update the allowed pose intersections
-		for (const [category, poses] of CommonEntries(itemAllowActivePose)) {
-			const poseList = C.AllowedActivePoseMapping[category];
-			if (poseList) {
-				C.AllowedActivePoseMapping[category] = poseList.filter(i => poses.includes(i));
-			} else {
-				C.AllowedActivePoseMapping[category] = poses;
-			}
-		}
-
-		// BodyLower & BodyUpper are incompatible with `BodyFull`
-		if ((itemAllowActivePose.BodyUpper || itemAllowActivePose.BodyLower) && !itemAllowActivePose.BodyFull) {
-			C.AllowedActivePoseMapping.BodyFull = [];
-		}
-
-		// Update the setpose union
-		for (const [category, poses] of CommonEntries(itemSetPose)) {
-			if (category in setPose) {
-				poses.forEach(p => setPose[category].add(p));
-			} else {
-				setPose[category] = new Set(poses);
-			}
-		}
-	}
-
-	// Dissalow the three categories below if they're not explicitly supported
-	if (!C.AllowedActivePoseMapping.BodyFull) C.AllowedActivePoseMapping.BodyFull = [];
-	if (!C.AllowedActivePoseMapping.BodyAddon) C.AllowedActivePoseMapping.BodyAddon = [];
-	if (!C.AllowedActivePoseMapping.BodyHands) C.AllowedActivePoseMapping.BodyHands = [];
-
-	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
-	const activePose = PoseToMapping.Array(C.ActivePose, "Character.ActivePose");
-	for (const [category, poses] of CommonEntries(setPose)) {
-		if (activePose[category]) {
-			activePose[category].push(...poses);
-		} else {
-			activePose[category] = [...poses];
-		}
-	}
-
-	// Make the (somewhat arbitrary?) decision to have `BodyFull` take priority over `BodyUpper/Lower`
-	// Only relevant in rare/hypothetical cases wherein both are elligble
-	if (activePose.BodyFull && activePose.BodyFull.length) {
-		delete activePose.BodyUpper;
-		delete activePose.BodyLower;
-	}
-
-	// Find the intersection between the allowed active poses and the set poses
-	C.PoseMapping = {};
-	const categories = new Set(PoseFemale3DCG.map(p => p.Category));
-	for (const category of categories) {
-		const poses = C.ActivePoseMapping[category];
-		const poseCandidate = activePose[category] && activePose[category].find(p => !poses || poses.includes(p));
-		if (poseCandidate) {
-			C.PoseMapping[category] = poseCandidate;
-		}
-	}
-
-	// The `TapedHands` pose acts like a drop-in replacement for the `BaseUpper` pose
-	if (C.PoseMapping.BodyHands) {
-		delete C.PoseMapping[C.PoseMapping.BodyUpper === "BaseUpper" ? "BaseUpper" : "BodyHands"];
-	}
-}
-
-/**
  * Refreshes the list of effects for a character. Each effect can only be found once in the effect array
  * @param {Character} C - Character for which to refresh the effect list
  * @returns {void} - Nothing
@@ -1187,7 +1101,7 @@ function CharacterChangeMoney(C, Value) {
 function CharacterRefresh(C, Push, RefreshDialog = true) {
 	AnimationPurge(C, false);
 	CharacterLoadEffect(C);
-	CharacterLoadPose(C);
+	PoseRefresh(C);
 	CharacterLoadCanvas(C);
 	// Label often looped through checks:
 	C.RunScripts = (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
@@ -1518,35 +1432,11 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
  * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
  * @returns {void} - Nothing
+ * @satisfies {typeof PoseSetActive}
+ * @deprecated - Deprecated alias for {@link PoseSetActive}
  */
 function CharacterSetActivePose(C, poseName, ForceChange = false) {
-	const newPose = PoseRecord[poseName];
-	if (
-		poseName == null
-		|| ForceChange
-		|| (newPose && newPose.Category === "BodyFull")
-	) {
-		C.ActivePoseMapping = (newPose == null) ? {} : { [newPose.Category]: newPose.Name };
-		CharacterRefresh(C, false);
-		return;
-	}
-
-	// Validate the pre-existing activated poses before setting the new pose
-	if (newPose) {
-		for (const [category, name] of CommonEntries(C.ActivePoseMapping)) {
-			const pose = PoseRecord[name];
-			if (!pose || !pose.AllowMenu || pose.Category === "BodyFull") {
-				delete C.ActivePoseMapping[category];
-				continue;
-			}
-		}
-		C.ActivePoseMapping[newPose.Category] = newPose.Name;
-	}
-
-	// If we reset to base, we remove the poses
-	if (C.ActivePoseMapping.BodyUpper === "BaseUpper") delete C.ActivePoseMapping.BodyUpper;
-	if (C.ActivePoseMapping.BodyLower === "BaseLower") delete C.ActivePoseMapping.BodyLower;
-	CharacterRefresh(C, false);
+	return PoseSetActive(C, poseName, ForceChange);
 }
 
 /**

@@ -401,7 +401,7 @@ function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
  * Can be omitted to bring the character back to the standing position.
  * @returns {void} - Nothing
  */
-function DialogSetPose(C, NewPose) { CharacterSetActivePose((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter, NewPose || null, true); }
+function DialogSetPose(C, NewPose) { PoseSetActive((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter, NewPose || null, true); }
 
 /**
  * Checks, whether a given skill of the player is greater or equal a given value
@@ -3078,7 +3078,7 @@ function DialogClickPoseMenu() {
 					DialogLeave();
 					return;
 				}
-				CharacterSetActivePose(Player, Name);
+				PoseSetActive(Player, Name);
 				if (CurrentScreen == "ChatRoom") ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 			}
 		}

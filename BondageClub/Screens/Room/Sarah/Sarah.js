@@ -140,7 +140,7 @@ function SarahLoad() {
 				InventoryWear(Sarah, "SlaveCollar", "ItemNeck");
 				Sarah.Owner = Player.Name;
 			}
-			CharacterSetActivePose(Sarah, "Kneel", true);
+			PoseSetActive(Sarah, "Kneel", true);
 			AmandaIntroTime = CurrentTime + 400000;
 			SarahCharacter.push(Sarah);
 
@@ -309,7 +309,7 @@ function SarahUnlock() {
 	CharacterRelease(Sarah);
 	SarahUnlockQuest = false;
 	Sarah.Stage = "200";
-	CharacterSetActivePose(Sarah, null);
+	PoseSetActive(Sarah, null);
 }
 
 function SarahEvasion() {

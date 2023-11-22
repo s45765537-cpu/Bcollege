@@ -72,7 +72,7 @@ function PhotographicClick() {
 	}
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 265) && (MouseY < 355) && Player.CanInteract()) CommonTakePhoto(750, 0, 500, 1000);
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 385) && (MouseY < 475)  && Player.CanKneel()) CharacterSetActivePose(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 385) && (MouseY < 475)  && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 505) && (MouseY < 595) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 }
 
@@ -149,7 +149,7 @@ function PhotographicSubPoseCategoryAllowed(PoseCategory) {
  * @param {AssetPoseName} PoseName
  */
 function PhotographicSubSetPose(PoseName) {
-	CharacterSetActivePose(PhotographicSub, PoseName);
+	PoseSetActive(PhotographicSub, PoseName);
 }
 
 /**

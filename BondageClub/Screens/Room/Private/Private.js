@@ -455,7 +455,7 @@ function PrivateLoad() {
 	if ((Math.random() < 0.2) && PrivateEntryEvent && Player.IsOwned() && !LogQuery("OwnerBeepActive", "PrivateRoom"))
 		for (let C = 1; C < PrivateCharacter.length; C++)
 			if (PrivateCharacter[C].IsOwner()) {
-				CharacterSetActivePose(Player, "Kneel", true);
+				PoseSetActive(Player, "Kneel", true);
 				CharacterSetCurrent(PrivateCharacter[C]);
 				PrivateCharacter[C].CurrentDialog = DialogFind(CurrentCharacter, "1060");
 				PrivateCharacter[C].Stage = "1061";
@@ -865,7 +865,7 @@ function PrivateClick() {
 	if (MouseIn(500, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) { NPCTraitDialog(PrivateVendor); CharacterSetCurrent(PrivateVendor); }
 	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && (!Player.Cage)) PrivateExit();
-	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) CharacterSetActivePose(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
+	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if (MouseIn(1885, PrivateButtonTop(2), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (!Player.Cage)) CharacterSetCurrent(PrivateVendor);
 	if (MouseIn(1885, PrivateButtonTop(3), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	if (MouseIn(1885, PrivateButtonTop(4), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes() && LogQuery("Wardrobe", "PrivateRoom")) CommonSetScreen("Character", "Wardrobe");
@@ -1001,7 +1001,7 @@ function PrivateLoadCharacter(C) {
 		CharacterRefresh(N);
 		if (NPCEventGet(N, "PrivateRoomEntry") == 0) NPCEventAdd(N, "PrivateRoomEntry", CurrentTime);
 		PrivateCharacter[C] = N;
-		if (PrivateCharacter[C].CanKneel() && PrivateCharacter[C].IsOwnedByPlayer()) CharacterSetActivePose(PrivateCharacter[C], "Kneel", true);
+		if (PrivateCharacter[C].CanKneel() && PrivateCharacter[C].IsOwnedByPlayer()) PoseSetActive(PrivateCharacter[C], "Kneel", true);
 	}
 
 	// We allow items on NPC if 25+ dominant reputation, not owner or restrained
@@ -1285,7 +1285,7 @@ function PrivateActivityRun(LoveFactor) {
 			break;
 		case "Shibari": // In Shibari, the player gets naked and fully roped in hemp
 			CharacterNaked(Player);
-			CharacterSetActivePose(Player, null);
+			PoseSetActive(Player, null);
 			InventoryRemove(Player, "ItemHood");
 			InventoryRemove(Player, "ItemHead");
 			ShibariRandomBondage(Player, 3);
@@ -1486,7 +1486,7 @@ function PrivateRunPunishment(LoveFactor) {
 	switch (PrivatePunishment) {
 		case "Cage": Player.Cage = true; LogAdd("BlockCage", "Rule", CurrentTime + 120000); DialogLeave(); break;
 		case "Bound": PrivateReleaseTimer = CommonTime() + 240000; CharacterFullRandomRestrain(Player, "ALL"); InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "HempRope", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 12); break;
-		case "BoundPet": PrivateReleaseTimer = CommonTime() + 240000; CharacterSetActivePose(Player, "Kneel", true); InventoryWear(Player, "LeatherBelt", "ItemLegs"); InventoryWear(Player, "TailButtPlug", "ItemButt"); InventoryWear(Player, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "Hat"); InventoryWear(Player, "LeatherArmbinder", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 15); break;
+		case "BoundPet": PrivateReleaseTimer = CommonTime() + 240000; PoseSetActive(Player, "Kneel", true); InventoryWear(Player, "LeatherBelt", "ItemLegs"); InventoryWear(Player, "TailButtPlug", "ItemButt"); InventoryWear(Player, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "Hat"); InventoryWear(Player, "LeatherArmbinder", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 15); break;
 		case "ChastityBra": InventoryWear(Player, "MetalChastityBra", "ItemBreast"); InventoryLock(Player, "ItemBreast", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), null); break;
 		case "ForceNaked": LogAdd("BlockChange", "Rule", CurrentTime + 1800000); break;
 		case "ConfiscateKey": InventoryConfiscateKey(); break;
@@ -1518,7 +1518,7 @@ function PrivatePlayerCollaring() {
 	InventoryRemove(Player, "ItemNeckAccessories");
 	InventoryRemove(Player, "ItemNeckRestraints");
 	CharacterRelease(Player);
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	ReputationProgress("Dominant", -20);
 	Player.Owner = "NPC-" + CurrentCharacter.Name;
 	ServerPrivateCharacterSync();
@@ -1551,8 +1551,8 @@ function PrivateNPCCollaring() {
 	InventoryRemove(CurrentCharacter, "ItemNeck");
 	CharacterRelease(Player);
 	CharacterRelease(CurrentCharacter);
-	CharacterSetActivePose(Player, null);
-	CharacterSetActivePose(CurrentCharacter, null);
+	PoseSetActive(Player, null);
+	PoseSetActive(CurrentCharacter, null);
 	ReputationProgress("Dominant", 10);
 	CurrentCharacter.Owner = Player.Name;
 	CurrentCharacter.Love = 100;
@@ -1636,7 +1636,7 @@ function PrivateSlaveMarketStart(AuctionType) {
 	else InventoryRemove(CurrentCharacter, "ItemNeck");
 	CharacterRelease(CurrentCharacter);
 	CharacterNaked(CurrentCharacter);
-	CharacterSetActivePose(CurrentCharacter, "Kneel", true);
+	PoseSetActive(CurrentCharacter, "Kneel", true);
 	NPCSlaveAuctionVendor = Player;
 	NPCSlaveAuctionSlave = CurrentCharacter;
 	NPCSlaveAuctionAmount = Math.floor((CurrentTime - NPCEventGet(CurrentCharacter, "NPCCollaring")) / 86400000);
@@ -1802,7 +1802,7 @@ function PrivateLoveYou() {
  * @returns {void} - Nothing.
  */
 function PrivatePlayerTurnTablesStart() {
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	PrivateNPCInteraction(-5);
 }
 
@@ -1835,7 +1835,7 @@ function PrivatePlayerTurnTablesCollar() {
  * @returns {void} - Nothing.
  */
 function PrivateSubTurnTablesStart() {
-	CharacterSetActivePose(CurrentCharacter, null);
+	PoseSetActive(CurrentCharacter, null);
 	PrivateNPCInteraction(-3);
 }
 
@@ -2112,7 +2112,7 @@ function PrivateClubCardDoConsequence(Act, LoveFactor) {
 		case "Shibari": {
 			PrivateReleaseTimer = CommonTime() + 300000;
 			CharacterNaked(Player);
-			CharacterSetActivePose(Player, null);
+			PoseSetActive(Player, null);
 			InventoryRemove(Player, "ItemHood");
 			InventoryRemove(Player, "ItemHead");
 			ShibariRandomBondage(Player, 3);

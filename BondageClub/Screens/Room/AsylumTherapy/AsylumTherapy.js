@@ -103,7 +103,7 @@ function AsylumTherapyTherapyEnd() {
 	CharacterRelease(Player);
 	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples");
 	InventoryRemove(AsylumTherapyNurse, "ItemHandheld");
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 }
 
 /**
@@ -132,7 +132,7 @@ function AsylumTherapyTherapySuccess() {
  */
 function AsylumTherapyPainTherapyRestrain() {
 	InventoryWear(Player, "FourLimbsShackles", "ItemArms");
-	CharacterSetActivePose(Player, "Kneel", true);
+	PoseSetActive(Player, "Kneel", true);
 	if ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") >= -99))
 		InventoryWear(AsylumTherapyNurse, "Paddle", "ItemHandheld");
 	if (ReputationGet("Asylum") <= -100)
@@ -187,7 +187,7 @@ function AsylumTherapyPatientBondageIntro(RepChange, RestraintsLevel) {
 function AsylumTherapyPatientPainIntro(RepChange) {
 	DialogChangeReputation("Dominant", RepChange);
 	InventoryWear(AsylumTherapyPatient, "FourLimbsShackles", "ItemArms");
-	CharacterSetActivePose(AsylumTherapyPatient, "Kneel", true);
+	PoseSetActive(AsylumTherapyPatient, "Kneel", true);
 	if ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") <= 99)) InventoryWear(Player, "Paddle", "ItemHandheld");
 	if (ReputationGet("Asylum") >= 100) InventoryWear(Player, "Whip", "ItemHandheld");
 	CharacterRefresh(Player);
@@ -238,7 +238,7 @@ function AsylumTherapyTherapyStart(Difficulty) {
  */
 function AsylumTherapyTherapyMiniGameEnd() {
 	CommonSetScreen("Room", "AsylumTherapy");
-	CharacterSetActivePose(AsylumTherapyPatient, null);
+	PoseSetActive(AsylumTherapyPatient, null);
 	InventoryRemove(AsylumTherapyPatient, "ItemHead");
 	InventoryRemove(AsylumTherapyPatient, "ItemHood");
 	InventoryRemove(AsylumTherapyPatient, "ItemMouth");

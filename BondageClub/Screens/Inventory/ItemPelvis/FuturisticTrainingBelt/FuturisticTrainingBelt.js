@@ -467,7 +467,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
 		}
 	} else if (Item.Property.PunishStandup && FuturisticTrainingBeltStandUpFlag) {
 		AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "Standup");
-		CharacterSetActivePose(Player, "Kneel");
+		PoseSetActive(Player, "Kneel");
 		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 	} else {
 		const {name, word} = InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime);

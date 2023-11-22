@@ -2119,7 +2119,7 @@ function ChatRoomMenuClick() {
 							.build();
 						ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
 						FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-						CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+						PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
 						ChatRoomStimulationMessage("Kneel");
 						ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 					} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) { // If the player can theoretically get up, we start a minigame!
@@ -2180,7 +2180,7 @@ function ChatRoomAttemptStandMinigameEnd() {
 				.build();
 			ServerSend("ChatRoomChat", { Content: (!Player.IsKneeling()) ? "KneelDownPass" : "StandUpPass", Type: "Action", Dictionary });
 			FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-			CharacterSetActivePose(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
+			PoseSetActive(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 		}
 	} else {
@@ -4043,7 +4043,7 @@ function ChatRoomKneelStandAssist() {
 		.targetCharacter(CurrentCharacter)
 		.build();
 	ServerSend("ChatRoomChat", { Content: !CurrentCharacter.IsKneeling() ? "HelpKneelDown" : "HelpStandUp", Type: "Action", Dictionary });
-	CharacterSetActivePose(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : "BaseLower", false);
+	PoseSetActive(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : "BaseLower", false);
 	ChatRoomCharacterUpdate(CurrentCharacter);
 }
 
@@ -4461,7 +4461,7 @@ function ChatRoomSetRule(data) {
 
 		// Forced labor
 		if (data.Content == "OwnerRuleLaborMaidDrinks" && Player.CanTalk()) {
-			CharacterSetActivePose(Player, null);
+			PoseSetActive(Player, null);
 			var D = TextGet("ActionGrabbedToServeDrinksIntro");
 			const Dictionary = new DictionaryBuilder()
 				.targetCharacterName(CurrentCharacter)

@@ -12,7 +12,7 @@ var CellKeyDepositStaff = null;
 function CellLoad() {
 	CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");
 	CellKeyDepositStaff.AllowItem = false;
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	CellOpenTimer = LogValue("Locked", "Cell");
 	if (CellOpenTimer == null) CellOpenTimer = 0;
 	if (CellOpenTimer > CurrentTime + 3600000) {
@@ -43,7 +43,7 @@ function CellRun() {
  * @returns {void} - Nothing
  */
 function CellClick() {
-	if (MouseIn(1885, 25, 90, 90) && Player.CanKneel() && (CellOpenTimer > CurrentTime)) CharacterSetActivePose(Player, (Player.ActivePoseMapping.BodyLower !== "Kneel") ? "Kneel" : "BaseLower", true);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanKneel() && (CellOpenTimer > CurrentTime)) PoseSetActive(Player, (Player.ActivePoseMapping.BodyLower !== "Kneel") ? "Kneel" : "BaseLower", true);
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if (CellOpenTimer < CurrentTime) {

@@ -379,7 +379,7 @@ var WheelFortuneOption = [
 			if (InventoryGet(Player, "ItemMouth") == null) InventoryWearRandom(Player, "ItemMouth", 8);
 			if (InventoryGet(Player, "ItemNeck") == null) InventoryWearRandom(Player, "ItemNeck", 8);
 			if ((InventoryGet(Player, "ItemNeckRestraints") == null) && WheelFortuneCanWear("ChainLeash", "ItemNeckRestraints")) InventoryWear(Player, "ChainLeash", "ItemNeckRestraints", null, 8);
-			CharacterSetActivePose(Player, "Kneel", true);
+			PoseSetActive(Player, "Kneel", true);
 			ChatRoomCharacterUpdate(Player);
 		}
 	},

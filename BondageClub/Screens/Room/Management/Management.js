@@ -384,7 +384,7 @@ function ManagementLoad() {
 		InventoryWear(ManagementSub, "TailButtPlug", "ItemButt");
 		InventoryWear(ManagementSub, "MetalChastityBelt", "ItemPelvis");
 		InventoryWear(ManagementSub, "MetalChastityBra", "ItemBreast");
-		CharacterSetActivePose(ManagementSub, "Kneel", true);
+		PoseSetActive(ManagementSub, "Kneel", true);
 		ManagementSub.AllowItem = false;
 	}
 }
@@ -426,7 +426,7 @@ function ManagementClick() {
 	if (MouseIn(1250, 0, 500, 1000) && !ManagementEmpty) CharacterSetCurrent(ManagementSub);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && Player.CanKneel()) CharacterSetActivePose(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
+	if (MouseIn(1885, 265, 90, 90) && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 }
 
 /**

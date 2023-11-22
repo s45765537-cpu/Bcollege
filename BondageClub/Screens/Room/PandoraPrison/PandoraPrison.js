@@ -36,7 +36,7 @@ function PandoraPrisonLoad() {
 	PandoraMaxWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2) + (InfiltrationPerksActive("Resilience") ? 5 : 0) + (InfiltrationPerksActive("Endurance") ? 5 : 0);
 	PandoraPrisonBackground = Player.Infiltration.Punishment.Background;
 	PandoraPrisonCharacterTimer = CommonTime() + 30000 + Math.floor(Math.random() * 30000);
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 }
 
 /**
@@ -106,7 +106,7 @@ function PandoraPrisonGuardNewActivity() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonClick() {
-	if (MouseIn(1885, 25, 90, 90) && Player.CanKneel()) CharacterSetActivePose(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
+	if (MouseIn(1885, 25, 90, 90) && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if ((PandoraPrisonCharacter == null) && MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if ((PandoraPrisonCharacter != null) && MouseIn(1000, 0, 500, 1000)) {
 		if (PandoraPrisonGuard.Stage == "RANDOM") PandoraPrisonGuardNewActivity();
@@ -122,7 +122,7 @@ function PandoraPrisonClick() {
  */
 function PandoraPrisonReleasePlayer() {
 	CharacterRelease(Player);
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	PandoraPrisonBackground = "MainHall";
 }
 
@@ -136,7 +136,7 @@ function PandoraPrisonExitPrison() {
 	PandoraDress(PandoraPrisonGuard, "Guard");
 	PandoraPrisonGuard.AllowItem = false;
 	PandoraPrisonEscaped = false;
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	delete Player.Infiltration.Punishment;
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
@@ -164,7 +164,7 @@ function PandoraPrisonPlayerUngag() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonPlayerRestrain(Level) {
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	CharacterRelease(Player);
 	CharacterFullRandomRestrain(Player, Level);
 	let Item = InventoryGet(Player, "ItemArms");
@@ -224,7 +224,7 @@ function PandoraPrisonCanStartFight() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonStartFight() {
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	let Difficulty = (InfiltrationDifficulty * 2) + 2;
 	KidnapStart(CurrentCharacter, PandoraPrisonBackground, Difficulty, "PandoraPrisonFightEnd()");
 }
@@ -272,7 +272,7 @@ function PandoraPrisonPlayerClothes(Type) {
  * @returns {void} - Nothing
  */
 function PandoraPrisonEscape() {
-	CharacterSetActivePose(Player, null);
+	PoseSetActive(Player, null);
 	PandoraInfiltrationChange(75);
 	PandoraPrisonExitPrison();
 }
@@ -410,7 +410,7 @@ function PandoraPrisonRemoveHood() {
  * @returns {void} - Nothing
  */
 function PandoraPrisonQuikieStart() {
-	CharacterSetActivePose(Player, "Kneel", true);
+	PoseSetActive(Player, "Kneel", true);
 	InventoryRemove(PandoraPrisonGuard, "ClothLower");
 	InventoryRemove(PandoraPrisonGuard, "Panties");
 	PandoraQuickieCount = 0;
@@ -456,7 +456,7 @@ function PandoraPrisonQuickieEnd(Message) {
 	if ((Message != null) && (Message != "")) PandoraPrisonCharacter.CurrentDialog = DialogFind(PandoraPrisonCharacter, Message);
 	PandoraPrisonCharacter.Stage = "QuickieLeave";
 	PandoraDress(PandoraPrisonGuard, "Guard");
-	CharacterSetActivePose(Player, null, true);
+	PoseSetActive(Player, null, true);
 }
 
 /**

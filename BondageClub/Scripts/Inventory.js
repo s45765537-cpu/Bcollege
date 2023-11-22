@@ -466,7 +466,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	const checkCharacter = CharacterLoadSimple("InventoryAllow");
 	checkCharacter.Appearance = C.Appearance.filter((item) => item.Asset.Group.Name !== asset.Group.Name);
 	CharacterLoadEffect(checkCharacter);
-	CharacterLoadPose(checkCharacter);
+	PoseRefresh(checkCharacter);
 
 	let Msg = "";
 	if (!asset.SetPose) {
