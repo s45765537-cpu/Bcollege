@@ -633,10 +633,10 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 function AssetLoadAll() {
 	Asset = [];
 	AssetGroup = [];
-	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
-	ExtendedItemManualRegister();
 	Pose = PoseFemale3DCG;
 	Pose.forEach(p => PoseRecord[p.Name] = p);
+	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
+	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 }
 
