@@ -451,7 +451,7 @@ function ItemColorNextColor(colorGroup) {
 	const colorTextKey = ItemColorGetColorButtonTextKey(groupColors);
 	const defaultColorTextKey = ItemColorGetColorButtonTextKey(defaultGroupColors);
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
-	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length
+	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
 	const newColors = [...ItemColorState.colors];
 	if (nextColor === "Default") {
