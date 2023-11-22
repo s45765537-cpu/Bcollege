@@ -80,10 +80,17 @@ function PhotographicShotThePlayerPhoto() {
 	CommonTakePhoto(0, 0, 500, 1000);
 }
 
+/**
+ * @param {AssetGroupName} Group
+ */
 function PhotographicPlayerClothRemove(Group) {
 	InventoryRemove(Player, Group);
 }
 
+/**
+ * @param {Character} C
+ * @param {AssetGroupName} Group
+ */
 function PhotographicAppearanceAvailable(C, Group) {
 	for (let I = 0; I < C.Appearance.length; I++) {
 		if (C.Appearance[I].Asset.Group.Name == Group) {
@@ -93,6 +100,10 @@ function PhotographicAppearanceAvailable(C, Group) {
 	return false;
 }
 
+/**
+ * @param {string} Asset
+ * @param {AssetGroupName} Group
+ */
 function PhotographicPlayerAssetAvailable(Asset, Group) {
 	for (let I = Player.Inventory.length - 1; I > -1; I--)
 		if ((Player.Inventory[I].Name == Asset) && (Player.Inventory[I].Group == Group)) {return true;}
@@ -108,6 +119,10 @@ function PhotographicPlayerRelease() {
 	}
 }
 
+/**
+ * @param {string} Asset
+ * @param {AssetGroupName} Group
+ */
 function PhotographicUseAsset(Asset,Group) {
 	InventoryWear(Player, Asset, Group);
 	CharacterRefresh(Player);
@@ -122,20 +137,32 @@ function PhotographicSubDressBack() {
 	CharacterDress(PhotographicSub, PhotographicSubAppearance);
 }
 
+/**
+ * @param {AssetPoseCategory} PoseCategory
+ * @returns {boolean}
+ */
 function PhotographicSubPoseCategoryAllowed(PoseCategory) {
 	return PoseCategoryAvailable(PhotographicSub, PoseCategory);
 }
 
+/**
+ * @param {AssetPoseName} PoseName
+ */
 function PhotographicSubSetPose(PoseName) {
 	CharacterSetActivePose(PhotographicSub, PoseName);
 }
 
+/**
+ * @param {AssetGroupName} Group
+ */
 function PhotographicSubClothRemove(Group) {
 	InventoryRemove(PhotographicSub, Group);
 }
 
+/**
+ * @param {AssetGroupName} ItemGroup
+ */
 function PhotographicStartInventoryPlayer(ItemGroup) {
 	DialogLeaveItemMenu();
 	DialogChangeFocusToGroup(Player, ItemGroup);
 }
-
