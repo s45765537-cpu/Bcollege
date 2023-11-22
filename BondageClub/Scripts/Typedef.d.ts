@@ -775,7 +775,7 @@ interface AssetLayer {
 	definition. */
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
-	readonly Alpha: readonly AlphaDefinition[];
+	readonly Alpha: readonly Alpha.Data[];
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -795,7 +795,7 @@ interface AssetLayer {
 	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
-	readonly GroupAlpha?: Readonly<AlphaDefinition>[];
+	readonly GroupAlpha?: readonly Alpha.Data[];
 	/** A module for which the layer can have types. */
 	readonly ModuleType: readonly string[] | null;
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
@@ -805,22 +805,6 @@ interface AssetLayer {
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
 	readonly ColorSuffix: Readonly<Record<string, string>> | null;
-}
-
-/** An object defining a group of alpha masks to be applied when drawing an asset layer */
-interface AlphaDefinition {
-	/** A list of the group names that the given alpha masks should be applied to. If empty or not present, the
-alpha masks will be applied to every layer underneath the present one. */
-	Group?: AssetGroupName[];
-	/** A list of the poses that the given alpha masks should be applied to. If empty or not present, the alpha
-masks will be applied regardless of character pose. */
-	Pose?: AssetPoseName[];
-	/** A list of the extended types that the given alpha masks should be applied to. If empty or not present, the alpha
-masks will be applied regardless of the extended type. */
-	Type?: string[];
-	/** A list of alpha mask definitions. A definition is a 4-tuple of numbers defining the top left coordinate of
-a rectangle and the rectangle's width and height - e.g. [left, top, width, height] */
-	Masks: RectTuple[];
 }
 
 interface TintDefinition {
@@ -904,7 +888,7 @@ interface Asset {
 	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	readonly ZoomModifier: number;
-	readonly Alpha?: readonly AlphaDefinition[];
+	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;

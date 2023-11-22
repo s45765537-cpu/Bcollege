@@ -14,6 +14,44 @@ declare namespace TopLeft {
 	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
 }
 
+/** Types for objects defining a group of alpha masks to be applied when drawing an asset layer. */
+declare namespace Alpha {
+	/** The parsed alpha masks. */
+	interface Data {
+		/**
+		 * A list of alpha masks.
+		 * Consists of 4-tuples defining the top & left coordinate of a rectangle followed by the rectangle's width & height
+		 */
+		readonly Masks: readonly RectTuple[];
+		/**
+		 * A list of the group names that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied to every layer underneath the present one.
+		 */
+		readonly Group?: readonly AssetGroupName[];
+		/**
+		 * A list of the extended types that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied regardless of the extended type.
+		 */
+		readonly Type?: readonly string[];
+		/**
+		 * A record mapping pose categories to a list of the poses that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied regardless of character pose.
+		 */
+		readonly Pose: null | Readonly<Partial<Record<AssetPoseCategory, readonly AssetPoseName[]>>>;
+	}
+	/** The unparsed alpha masks. */
+	interface Definition extends Partial<Omit<Data, "Pose">> {
+		Masks: RectTuple[];
+		Group?: AssetGroupName[];
+		Type?: string[];
+		/**
+		 * A list of the poses that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied regardless of character pose.
+		 */
+		Pose?: AssetPoseName[];
+	}
+}
+
 /**
  * Properties common to groups, assets and layers
  *
@@ -337,7 +375,8 @@ interface AssetCommonPropertiesAssetLayer {
 	 */
 	HideForPose?: never;
 
-	Alpha?: AlphaDefinition[];
+	/** A list of alpha mask definitions. */
+	Alpha?: Alpha.Definition[];
 
 	ColorSuffix?: Record<string, string>;
 

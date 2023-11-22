@@ -395,7 +395,7 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, type= "") {
  * @return {Mutable<AssetLayer>[]} - A sorted set of (shallow copied) layers, sorted by layer drawing priority
  */
 function CharacterAppearanceSortLayers(C) {
-	/** @type {Partial<Record<AssetGroupName, AlphaDefinition[]>>} */
+	/** @type {Partial<Record<AssetGroupName, Alpha.Data[]>>} */
 	const groupAlphas = {};
 	const layers = C.DrawAppearance.reduce((layersAcc, item) => {
 		const asset = item.Asset;
@@ -409,11 +409,11 @@ function CharacterAppearanceSortLayers(C) {
 					/** @type {Mutable<AssetLayer>} */
 					const drawLayer = { ...layer };
 					// Store any group-level alpha mask definitions
-					drawLayer.Alpha.forEach(alphaDef => {
-						if ((alphaDef.Group && alphaDef.Group.length) && (!alphaDef.Type || !Array.isArray(alphaDef.Type) || alphaDef.Type.includes(type))) {
-							alphaDef.Group.forEach(groupName => {
+					drawLayer.Alpha.forEach(alpha => {
+						if (alpha.Group && (!alpha.Type || alpha.Type.includes(type))) {
+							alpha.Group.forEach(groupName => {
 								groupAlphas[groupName] = groupAlphas[groupName] || [];
-								groupAlphas[groupName].push({Pose: alphaDef.Pose, Masks: alphaDef.Masks});
+								groupAlphas[groupName].push({ Pose: alpha.Pose, Masks: alpha.Masks });
 							});
 						}
 					});
@@ -427,7 +427,7 @@ function CharacterAppearanceSortLayers(C) {
 					}
 					return drawLayer;
 				});
-			Array.prototype.push.apply(layersAcc, layersToDraw);
+			layersAcc.push(...layersToDraw);
 		}
 		return layersAcc;
 	}, /** @type {Mutable<AssetLayer>[]} */([]));
@@ -436,9 +436,10 @@ function CharacterAppearanceSortLayers(C) {
 	layers.forEach(layer => {
 		// If the layer has a HideAs proxy group name, apply those alphas rather than the actual group alphas
 		const groupName = (layer.HideAs && layer.HideAs.Group) || layer.Asset.Group.Name;
-		layer.GroupAlpha = [];
 		if (groupAlphas[groupName]) {
-			Array.prototype.push.apply(layer.GroupAlpha, groupAlphas[groupName]);
+			layer.GroupAlpha = [...groupAlphas[groupName]];
+		} else {
+			layer.GroupAlpha = [];
 		}
 	});
 

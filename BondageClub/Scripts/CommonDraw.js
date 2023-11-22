@@ -136,7 +136,7 @@ function CommonDrawAppearanceBuild(C, {
 		let AlphaMasks = Layer.GroupAlpha
 			.filter(({ Pose: P }) => !P || !Array.isArray(P) || !!CommonDrawFindPose(C, P))
 			.reduce((Acc, { Masks }) => {
-				Array.prototype.push.apply(Acc, Masks);
+				Acc.push(...Masks);
 				return Acc;
 			}, []);
 

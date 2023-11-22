@@ -182,7 +182,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: (AssetDef.Zoom == null) ? 1 : AssetDef.Zoom,
-		Alpha: AssetDef.Alpha,
+		Alpha: AssetParseAlpha(AssetDef.Alpha),
 		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
@@ -434,7 +434,7 @@ function AssetMapLayer(Layer, A, I) {
 		ParentGroupName: Layer.ParentGroup === undefined ? A.ParentGroupName : Layer.ParentGroup,
 		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
-		Alpha: AssetLayerAlpha(Layer, A, I),
+		Alpha: AssetParseLayerAlpha(Layer, A, I),
 		Asset: A,
 		DrawingLeft: AssetParseTopLeft(Layer.Left, A.DrawingLeft),
 		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
@@ -472,14 +472,30 @@ function AssetParseOpacity(opacity, min=0, max=1) {
 }
 
 /**
- * Builds the alpha mask definitions for a layer, based on the
+ * Parse the passed alpha mask definitions.
+ * @param {undefined | Alpha.Definition[]} alphaDef The unparsed alpha mask definition
+ * @returns {null | Alpha.Data[]} The parsed alpha mask data
+ */
+function AssetParseAlpha(alphaDef) {
+	return (alphaDef == null) ? null : alphaDef.map(a => {
+		/** @type {Mutable<Alpha.Data>} */
+		const data = {
+			...a,
+			Pose: a.Pose ? AssetPoseToMapping(a.Pose) : null,
+		};
+		return data;
+	});
+}
+
+/**
+ * Parse the passed layers alpha mask definitions.
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {Asset} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
- * @return {AlphaDefinition[]} - a list of alpha mask definitions for the layer
+ * @return {Alpha.Data[]} - a list of alpha mask data for the layer
  */
-function AssetLayerAlpha(Layer, NewAsset, I) {
-	const Alpha = Layer.Alpha || [];
+function AssetParseLayerAlpha(Layer, NewAsset, I) {
+	const Alpha = AssetParseAlpha(Layer.Alpha) || [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
 	if (I === 0 && NewAsset.Alpha) {
 		Alpha.push(...NewAsset.Alpha);
