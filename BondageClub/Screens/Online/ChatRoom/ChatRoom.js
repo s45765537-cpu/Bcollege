@@ -2248,7 +2248,7 @@ function ChatRoomKeyDown(event) {
 	if (document.activeElement.id != "InputChat") {
 		if (ChatRoomMapVisible) ChatRoomMapKeyDown();
 		else ElementFocus("InputChat");
-	}  
+	}
 
 	if (KeyPress == 9 && !event.shiftKey) {
 		event.preventDefault();
