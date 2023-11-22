@@ -114,7 +114,10 @@ interface ServerChatRoomData {
 	Character?: ServerAccountDataSynced[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData: object;
+	MapData: {
+		Active?: boolean;
+		Grid?: string;
+	};
 	Custom: {
 		ImageURL?: string;
 		ImageFilter?: string;

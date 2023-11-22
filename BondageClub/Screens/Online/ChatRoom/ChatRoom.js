@@ -1888,7 +1888,8 @@ function ChatRoomRun() {
 	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
-	ChatRoomDrawCharacter(false);
+	if (!ChatRoomMapVisible) ChatRoomDrawCharacter(false);
+	else ChatRoomMapDraw();
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
 	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
@@ -1978,6 +1979,9 @@ function ChatRoomRun() {
 	if (ChatRoomCustomizationButton())
 		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
 
+	// Draw the map button in the upper left if the room allows it
+	if (ChatRoomMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+
 	// Runs any needed online game script
 	OnlineGameRun();
 
@@ -2039,8 +2043,17 @@ function ChatRoomClick() {
 		 return;
 	}
 
+	// Go from character view to map view
+	if (ChatRoomMapButton() && MouseIn(10, 10, 60, 60)) {
+		ChatRoomMapVisible = true;
+		return;
+	}
+
+	// Forward the clicks to the chat room map
+	if (ChatRoomMapVisible) ChatRoomMapClick();
+
 	// When the user chats or clicks on a character
-	if (MouseIn(0, 0, 1000, 1000)) ChatRoomDrawCharacter(true);
+	if (!ChatRoomMapVisible && MouseIn(0, 0, 1000, 1000)) ChatRoomDrawCharacter(true);
 
 	// When the user clicks a menu button in the top-right
 	if (MouseYIn(0, 62)) ChatRoomMenuClick();
@@ -2232,7 +2245,10 @@ function ChatRoomLeave(clearCharacters = false) {
 function ChatRoomKeyDown(event) {
 
 	// If the input text is not focused and not on mobile, set the focus to it
-	if (document.activeElement.id != "InputChat") ElementFocus("InputChat");
+	if (document.activeElement.id != "InputChat") {
+		if (ChatRoomMapVisible) ChatRoomMapKeyDown();
+		else ElementFocus("InputChat");
+	}  
 
 	if (KeyPress == 9 && !event.shiftKey) {
 		event.preventDefault();
@@ -2261,6 +2277,7 @@ function ChatRoomKeyDown(event) {
 
 	// On escape, scroll to the bottom of the chat
 	if (KeyPress == 27) ElementScrollToEnd("TextAreaChatLog");
+
 }
 
 /**
