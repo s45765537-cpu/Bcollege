@@ -1647,13 +1647,13 @@ function DialogLoadPoseMenu() {
 
 	// Gather all unique categories from poses
 	const PoseCategories = new Set(PoseFemale3DCG
-		.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePoseMapping[P.Category].includes(P.Name)))
+		.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(CurrentCharacter, P.Category, P.Name)))
 		.map(P => P.Category)
 	);
 
 	// Add their pose in order so they're grouped together
 	PoseCategories.forEach(Category => {
-		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && CurrentCharacter.AllowedActivePoseMapping[P.Category].includes(P.Name)) && P.Category == Category));
+		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(CurrentCharacter, P.Category, P.Name)) && P.Category == Category));
 	});
 }
 

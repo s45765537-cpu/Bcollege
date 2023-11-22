@@ -378,5 +378,5 @@ function CommonDrawFindPose(C, AllowedPoses) {
 function CommonDrawResolveAssetPose(C, Layer) {
 	const poseEntries = CommonEntries(Layer.PoseMapping);
 	const poses = poseEntries.filter(ij => ij[1] !== PoseType.DEFAULT).map(i => i[0]);
-	return CommonDrawFindPose(C, AssetPoseToMapping(poses));
+	return CommonDrawFindPose(C, PoseToMapping.Array(poses, "Layer.PoseMapping"));
 }

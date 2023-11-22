@@ -184,22 +184,22 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 function InventoryPrerequisiteMessage(C, Prerequisite) {
 	switch (Prerequisite) {
 		// Basic pose prerequisites
-		case "CanBaseUpper": return !CharacterCanChangeToPose(C, "BaseUpper", false) ? "CannotBaseUpper" : "";
-		case "CanBackBoxTie": return !CharacterCanChangeToPose(C, "BackBoxTie", false) ? "CannotBackBoxTie" : "";
-		case "CanBackCuffs": return !CharacterCanChangeToPose(C, "BackCuffs", false) ? "CannotBackCuffs" : "";
-		case "CanBackElbowTouch": return !CharacterCanChangeToPose(C, "BackElbowTouch", false) ? "CannotBackElbowTouch" : "";
-		case "CanOverTheHead": return !CharacterCanChangeToPose(C, "OverTheHead", false) ? "CannotOverTheHead" : "";
-		case "CanTapedHands": return !CharacterCanChangeToPose(C, "TapedHands", false) ? "CannotTapedHands" : "";
-		case "CanYoked": return !CharacterCanChangeToPose(C, "Yoked", false) ? "CannotYoked" : "";
-		case "CanBaseLower": return !CharacterCanChangeToPose(C, "BaseLower", false) ? "CannotBaseLower" : "";
-		case "CanKneel": return !CharacterCanChangeToPose(C, "Kneel", false) ? "CannotKneel" : "";
-		case "CanKneelingSpread": return !CharacterCanChangeToPose(C, "KneelingSpread", false) ? "CannotKneelingSpread" : "";
-		case "CanLegsClosed": return !CharacterCanChangeToPose(C, "LegsClosed", false) ? "CannotLegsClosed" : "";
-		case "CanLegsOpen": return !CharacterCanChangeToPose(C, "LegsOpen", false) ? "CannotLegsOpen" : "";
-		case "CanSpread": return !CharacterCanChangeToPose(C, "Spread", false) ? "CannotSpread" : "";
-		case "CanHogtied": return !CharacterCanChangeToPose(C, "Hogtied", false) ? "CannotHogtied" : "";
-		case "CanAllFours": return !CharacterCanChangeToPose(C, "AllFours", false) ? "CannotAllFours" : "";
-		case "CanSuspension": return !CharacterCanChangeToPose(C, "Suspension", false) ? "CannotSuspension" : "";
+		case "CanBaseUpper": return !PoseAvailable(C, "BodyUpper", "BaseUpper") ? "CannotBaseUpper" : "";
+		case "CanBackBoxTie": return !PoseAvailable(C, "BodyUpper", "BackBoxTie") ? "CannotBackBoxTie" : "";
+		case "CanBackCuffs": return !PoseAvailable(C, "BodyUpper", "BackCuffs") ? "CannotBackCuffs" : "";
+		case "CanBackElbowTouch": return !PoseAvailable(C, "BodyUpper", "BackElbowTouch") ? "CannotBackElbowTouch" : "";
+		case "CanOverTheHead": return !PoseAvailable(C, "BodyUpper", "OverTheHead") ? "CannotOverTheHead" : "";
+		case "CanYoked": return !PoseAvailable(C, "BodyUpper", "Yoked") ? "CannotYoked" : "";
+		case "CanTapedHands": return !PoseAvailable(C, "BodyHands", "TapedHands") ? "CannotTapedHands" : "";
+		case "CanBaseLower": return !PoseAvailable(C, "BodyLower", "BaseLower") ? "CannotBaseLower" : "";
+		case "CanKneel": return !PoseAvailable(C, "BodyLower", "Kneel") ? "CannotKneel" : "";
+		case "CanKneelingSpread": return !PoseAvailable(C, "BodyLower", "KneelingSpread") ? "CannotKneelingSpread" : "";
+		case "CanLegsClosed": return !PoseAvailable(C, "BodyLower", "LegsClosed") ? "CannotLegsClosed" : "";
+		case "CanLegsOpen": return !PoseAvailable(C, "BodyLower", "LegsOpen") ? "CannotLegsOpen" : "";
+		case "CanSpread": return !PoseAvailable(C, "BodyLower", "Spread") ? "CannotSpread" : "";
+		case "CanHogtied": return !PoseAvailable(C, "BodyFull", "Hogtied") ? "CannotHogtied" : "";
+		case "CanAllFours": return !PoseAvailable(C, "BodyFull", "AllFours") ? "CannotAllFours" : "";
+		case "CanSuspension": return !PoseAvailable(C, "BodyAddon", "Suspension") ? "CannotSuspension" : "";
 
 		// Basic prerequisites that can apply to many items
 		case "NoItemFeet": return (InventoryGet(C, "ItemFeet") != null) ? "MustFreeFeetFirst" : "";
@@ -208,10 +208,9 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
 		case "NotKneeling": {
 			const standingPoses = /** @type {const} */(["BaseLower", "LegsClosed", "LegsOpen", "Spread"]);
-			const allowedPoses = C.AllowedActivePoseMapping.BodyLower;
 			return (
 				C.PoseMapping.BodyLower === "Kneel"
-				&& !standingPoses.some(p => !allowedPoses || allowedPoses.includes(p))
+				&& !standingPoses.some(p => PoseAvailable(C, "BodyLower", p))
 			 ) ? "MustStandUpFirst" : "";
 		}
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
@@ -474,7 +473,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
-		const poseMapping = AssetPoseToMapping(asset.AllowActivePose);
+		const poseMapping = PoseToMapping.Array(asset.AllowActivePose, "Assset.AllowActivePose");
 		const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {

@@ -97,18 +97,8 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		set Pose(poses) {
 			if (typeof poses === "string") {
 				poses = [poses];
-			} else if (!CommonIsArray(poses)) {
-				console.error(`Cannot set invalid Character.Pose type: ${typeof poses}`);
-				return;
 			}
-
-			this.PoseMapping = {};
-			for (const poseName of poses) {
-				const pose = PoseRecord[poseName];
-				if (pose) {
-					this.PoseMapping[pose.Category] = poseName;
-				}
-			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.Pose");
 		},
 
 		ActivePoseMapping: {},
@@ -118,18 +108,8 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		set ActivePose(poses) {
 			if (typeof poses === "string") {
 				poses = [poses];
-			} else if (!CommonIsArray(poses)) {
-				console.error(`Cannot set invalid Character.ActivePose type: ${typeof poses}`);
-				return;
 			}
-
-			this.ActivePoseMapping = {};
-			for (const poseName of poses) {
-				const pose = PoseRecord[poseName];
-				if (pose) {
-					this.ActivePoseMapping[pose.Category] = poseName;
-				}
-			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.ActivePose");
 		},
 
 		DrawPoseMapping: {},
@@ -139,18 +119,8 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		set DrawPose(poses) {
 			if (typeof poses === "string") {
 				poses = [poses];
-			} else if (!CommonIsArray(poses)) {
-				console.error(`Cannot set invalid Character.DrawPose type: ${typeof poses}`);
-				return;
 			}
-
-			this.DrawPoseMapping = {};
-			for (const poseName of poses) {
-				const pose = PoseRecord[poseName];
-				if (pose) {
-					this.DrawPoseMapping[pose.Category] = poseName;
-				}
-			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.DrawPose");
 		},
 
 		AllowedActivePoseMapping: {},
@@ -163,12 +133,8 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		set AllowedActivePose(poses) {
 			if (typeof poses === "string") {
 				poses = [poses];
-			} else if (!CommonIsArray(poses)) {
-				console.error(`Cannot set invalid Character.AllowedActivePose type: ${typeof poses}`);
-				this.AllowedActivePoseMapping = {};
-				return;
 			}
-			this.AllowedActivePoseMapping = AssetPoseToMapping(poses);
+			this.AllowedActivePoseMapping = PoseToMapping.Array(poses, "Character.AllowedActivePose");
 		},
 
 		CanTalk: function () {
@@ -442,7 +408,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return this.PoseMapping.BodyAddon === "Suspension";
 		},
 		CanChangeToPose: function (Pose) {
-			return CharacterCanChangeToPose(this, Pose);
+			return PoseCanChangeUnaided(this, Pose);
 		},
 		GetClumsiness: function () {
 			return CharacterGetClumsiness(this);
@@ -984,89 +950,6 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Checks whether the given character can change to the named pose (without aid by default)
- * @param {Character} C - The character to check
- * @param {AssetPoseName} poseName - The name of the pose to check for
- * @param {boolean} changeUnaided - Whether the character can change the pose unaided or not,
- * _i.e._ whether one can stand up using the pose menu or requires usage of the "kneel/stand up" button
- * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
- * the provided pose
- */
-function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
-	const pose = PoseRecord[poseName];
-	if (!pose) {
-		return false;
-	}
-
-	let canChange = CharacterItemsHavePoseAvailable(C, pose.Category, pose.Name);
-	if (canChange && changeUnaided && pose.Category === "BodyLower") {
-		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support
-		/** @type {AssetPoseName[]} */
-		const standingPoses = ["LegsClosed", "LegsOpen", "Spread"];
-		const allowedBodyLower = C.AllowedActivePoseMapping.BodyLower;
-		canChange = !allowedBodyLower ? true : !standingPoses.some(p => allowedBodyLower.includes(p));
-	}
-	return canChange;
-}
-
-/**
- * Checks if a certain pose is whitelisted and available for the pose menu
- * @param {Character} C - Character to check for the pose
- * @param {AssetPoseCategory} Type - Pose type to check for within items
- * @param {AssetPoseName} Pose - Pose to check for whitelist
- * @returns {boolean} - TRUE if the character has the pose available
- */
-function CharacterItemsHavePoseAvailable(C, Type, Pose) {
-	const poseList = C.AllowedActivePoseMapping[Type];
-	return !poseList || poseList.includes(Pose);
-}
-
-/**
- * Checks if a character has a pose from items (not active pose unless an item lets it through)
- * @param {Character} C - Character to check for the pose
- * @param {AssetPoseName} Pose - Pose to check for within items
- * @param {boolean} [ExcludeClothes=false] - Ignore clothing items in the check
- * @returns {boolean} - TRUE if the character has the pose
- */
-function CharacterItemsHavePose(C, Pose, ExcludeClothes = false) {
-	if (C.AllowedActivePose.includes(Pose) && C.ActivePose.includes(Pose)) return true;
-	return CharacterDoItemsSetPose(C, Pose, ExcludeClothes);
-}
-
-/**
- * Checks whether the items on a character set a given pose on the character
- * @param {Character} C - The character to check
- * @param {AssetPoseName} pose - The name of the pose to check for
- * @param {boolean} [excludeClothes=false] - Ignore clothing items in the check
- * @returns {boolean} - Returns true if the character is wearing an item that sets the given pose, false otherwise
- */
-function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
-	if (C == null) return false;
-	return C.Appearance
-		.filter(item => !excludeClothes || !item.Asset.Group.Clothing)
-		.some(item => InventoryGetItemProperty(item, "SetPose").includes(pose));
-}
-
-/**
- * Checks if a character has a pose type from items (not active pose unless an item lets it through)
- * @param {Character} C - Character to check for the pose type
- * @param {string} Type - Pose type to check for within items
- * @param {boolean} OnlyItems - Whether or not allowed activeposes should be ignored.
- * @returns {boolean} - TRUE if the character has the pose type active
- */
-function CharacterItemsHavePoseType(C, Type, OnlyItems) {
-	var PossiblePoses = PoseFemale3DCG.filter(P => P.Category == Type || P.Category == "BodyFull").map(P => P.Name);
-
-	for (const item of C.Appearance) {
-		if (!OnlyItems && InventoryGetItemProperty(item, "AllowActivePose", true).find(P => PossiblePoses.includes(P) && C.AllowedActivePose.includes(P)))
-			return true;
-		if (InventoryGetItemProperty(item, "SetPose", true).find(P => PossiblePoses.includes(P)))
-			return true;
-	}
-	return false;
-}
-
-/**
  * Refreshes the list of poses for a character. Each pose can only be found once in the pose array
  * @param {Character} C - Character for which to refresh the pose list
  * @returns {void} - Nothing
@@ -1085,8 +968,8 @@ function CharacterLoadPose(C) {
 		if (allowActivePoseList.length === 0) {
 			continue;
 		}
-		const itemAllowActivePose = AssetPoseToMapping(allowActivePoseList);
-		const itemSetPose = AssetPoseToMapping(InventoryGetItemProperty(item, "SetPose"));
+		const itemAllowActivePose = PoseToMapping.Array(allowActivePoseList, "Item.AllowActivePose");
+		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose"), "Item.SetPose");
 
 		// Update the allowed pose intersections
 		for (const [category, poses] of CommonEntries(itemAllowActivePose)) {
@@ -1119,7 +1002,7 @@ function CharacterLoadPose(C) {
 	if (!C.AllowedActivePoseMapping.BodyHands) C.AllowedActivePoseMapping.BodyHands = [];
 
 	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
-	const activePose = AssetPoseToMapping(C.ActivePose);
+	const activePose = PoseToMapping.Array(C.ActivePose, "Character.ActivePose");
 	for (const [category, poses] of CommonEntries(setPose)) {
 		if (activePose[category]) {
 			activePose[category].push(...poses);

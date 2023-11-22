@@ -123,7 +123,7 @@ function PhotographicSubDressBack() {
 }
 
 function PhotographicSubPoseCategoryAllowed(PoseCategory) {
-	return !CharacterItemsHavePoseType(PhotographicSub, PoseCategory, true);
+	return PoseCategoryAvailable(PhotographicSub, PoseCategory);
 }
 
 function PhotographicSubSetPose(PoseName) {

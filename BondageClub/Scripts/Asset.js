@@ -182,7 +182,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: (AssetDef.Zoom == null) ? 1 : AssetDef.Zoom,
-		Alpha: AssetParseAlpha(AssetDef.Alpha),
+		Alpha: AssetParseAlpha(AssetDef.Alpha, "Asset.Alpha"),
 		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
@@ -474,14 +474,15 @@ function AssetParseOpacity(opacity, min=0, max=1) {
 /**
  * Parse the passed alpha mask definitions.
  * @param {undefined | Alpha.Definition[]} alphaDef The unparsed alpha mask definition
+ * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
  * @returns {null | Alpha.Data[]} The parsed alpha mask data
  */
-function AssetParseAlpha(alphaDef) {
+function AssetParseAlpha(alphaDef, warningPrefix=null) {
 	return (alphaDef == null) ? null : alphaDef.map(a => {
 		/** @type {Mutable<Alpha.Data>} */
 		const data = {
 			...a,
-			Pose: a.Pose ? AssetPoseToMapping(a.Pose) : null,
+			Pose: a.Pose ? PoseToMapping.Array(a.Pose, warningPrefix) : null,
 		};
 		return data;
 	});
@@ -495,7 +496,7 @@ function AssetParseAlpha(alphaDef) {
  * @return {Alpha.Data[]} - a list of alpha mask data for the layer
  */
 function AssetParseLayerAlpha(Layer, NewAsset, I) {
-	const Alpha = AssetParseAlpha(Layer.Alpha) || [];
+	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") || [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
 	if (I === 0 && NewAsset.Alpha) {
 		Alpha.push(...NewAsset.Alpha);
@@ -779,34 +780,4 @@ function AssetParseDefaultColor(colorableLayerCount, color) {
 		color.slice(0, colorableLayerCount).forEach((c, i) => defaultColor[i] = c);
 	}
 	return defaultColor;
-}
-
-/**
- * Unflatten a pose name array, converting it into a dictionary mapping pose categories to aforementioned pose names
- * @param {readonly AssetPoseName[]} poses
- * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>}
- */
-function AssetPoseToMapping(poses) {
-	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
-	const poseMapping = {};
-	if (!CommonIsArray(poses)) {
-		console.warn(`Invalid pose array type: ${typeof poses}`);
-		return poseMapping;
-	}
-
-	for (const poseName of poses) {
-		const pose = PoseRecord[poseName];
-		if (!pose) {
-			console.warn(`Ignoring invalid "${poseName}" pose`);
-			continue;
-		}
-
-		const poseList = poseMapping[pose.Category];
-		if (poseList) {
-			poseList.push(poseName);
-		} else {
-			poseMapping[pose.Category] = [poseName];
-		}
-	}
-	return poseMapping;
 }

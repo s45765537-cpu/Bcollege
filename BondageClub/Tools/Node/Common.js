@@ -8,6 +8,7 @@ const fs = require("fs");
 const NEEDED_FILES = [
 	"Scripts/Common.js",
 	"Scripts/Dialog.js",
+	"Scripts/Pose.js",
 	"Scripts/Asset.js",
 	"Scripts/ExtendedItem.js",
 	"Scripts/ModularItem.js",

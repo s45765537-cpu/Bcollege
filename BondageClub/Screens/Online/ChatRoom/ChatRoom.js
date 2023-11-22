@@ -601,7 +601,7 @@ function DialogCanPerformCharacterAction() {
  * @returns {boolean} - Whether or not the target character can stand
  */
 function ChatRoomCanAssistStand() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && CharacterItemsHavePoseAvailable(CurrentCharacter, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(CurrentCharacter, "Kneel") && CurrentCharacter.IsKneeling();
+	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && CurrentCharacter.IsKneeling();
 }
 
 /**
@@ -612,7 +612,7 @@ function ChatRoomCanAssistStand() {
  */
 
 function ChatRoomCanAssistKneel() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && CharacterItemsHavePoseAvailable(CurrentCharacter, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(CurrentCharacter, "Kneel") && !CurrentCharacter.IsKneeling();
+	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && !CurrentCharacter.IsKneeling();
 }
 
 /**
@@ -620,14 +620,14 @@ function ChatRoomCanAssistKneel() {
 * listens for the current active pose, but it forces the player to do a minigame.
  * @returns {boolean} - Whether or not the player character can stand
  */
-function ChatRoomCanAttemptStand() { return CharacterItemsHavePoseAvailable(Player, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Player, "Kneel") && Player.IsKneeling();}
+function ChatRoomCanAttemptStand() { return PoseSetByItems(Player, "BodyLower", "Kneel") && Player.IsKneeling();}
 /**
  * Checks if the player character can attempt to get down on her knees. This is different than
  * CurrentCharacter.CanKneel() because it listens for the current active pose, but it forces the player to do a
  * minigame.
  * @returns {boolean} - Whether or not the player character can stand
  */
-function ChatRoomCanAttemptKneel() { return CharacterItemsHavePoseAvailable(Player, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Player, "Kneel") && !Player.IsKneeling(); }
+function ChatRoomCanAttemptKneel() { return PoseSetByItems(Player, "BodyLower", "Kneel") && !Player.IsKneeling(); }
 
 /**
  * Checks if the player can stop the current character from leaving.
