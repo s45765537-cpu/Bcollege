@@ -34,7 +34,8 @@ var ChatRoomMapTileList = [
 	{ ID: 2000, Type: "Water", Style: "Sea" },
 	{ ID: 2010, Type: "Water", Style: "Ocean" },
 
-/*	{ ID: 2000, Type: "Path", Style: "WoodWallDoor", Locked: false },
+/*
+	{ ID: 2000, Type: "Path", Style: "WoodWallDoor", Locked: false },
 	{ ID: 2001, Type: "Path", Style: "WoodWallDoor", Locked: true },
 	{ ID: 2010, Type: "Path", Style: "StoneFloorIronBars", Locked: false },
 	{ ID: 2011, Type: "Path", Style: "IronBars", Locked: true },
@@ -44,8 +45,8 @@ var ChatRoomMapTileList = [
 	{ ID: 3000, Type: "Path", Style: "WoodWindow", Crawl: false },
 	{ ID: 3001, Type: "Path", Style: "WoodWindowHidden", Crawl: false },
 	{ ID: 3010, Type: "Path", Style: "StoneTunnel", Crawl: true },
-	{ ID: 3011, Type: "Path", Style: "StoneHidden", Crawl: false },*/
-
+	{ ID: 3011, Type: "Path", Style: "StoneHidden", Crawl: false },
+*/
 ];
 
 /**
@@ -57,73 +58,73 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != n
 // Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
 function ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE) {
 
-    if (SC && NC && CE && CW && SE && NE && NW && SW) return 0;
-    if (!NC && !CW && !CE && !SC) return 1;
+	if (SC && NC && CE && CW && SE && NE && NW && SW) return 0;
+	if (!NC && !CW && !CE && !SC) return 1;
 
-    if (NC && !CW && !CE && !SC) return 2;
-    if (!NC && !CW && !CE && SC) return 3;
-    if (!NC && !CW && CE && !SC) return 4;
-    if (!NC && CW && !CE && !SC) return 5;
+	if (NC && !CW && !CE && !SC) return 2;
+	if (!NC && !CW && !CE && SC) return 3;
+	if (!NC && !CW && CE && !SC) return 4;
+	if (!NC && CW && !CE && !SC) return 5;
 
-    if (NC && !CW && !CE && SC) return 6;
-    if (!NC && CW && CE && !SC) return 7;
-    if (!NW && NC && !NE && CW && CE && !SW && SC && !SE) return 8;
+	if (NC && !CW && !CE && SC) return 6;
+	if (!NC && CW && CE && !SC) return 7;
+	if (!NW && NC && !NE && CW && CE && !SW && SC && !SE) return 8;
 
-    if (!NW && NC && !NE && CW && CE && !SC) return 9;
-    if (!NC && CW && CE && !SW && SC && !SE) return 10;
-    if (NC && !NE && !CW && CE && SC && !SE) return 11;
-    if (!NW && NC && CW && !CE && !SW && SC) return 12;
+	if (!NW && NC && !NE && CW && CE && !SC) return 9;
+	if (!NC && CW && CE && !SW && SC && !SE) return 10;
+	if (NC && !NE && !CW && CE && SC && !SE) return 11;
+	if (!NW && NC && CW && !CE && !SW && SC) return 12;
 
-    if (NC && !NE && !CW && CE && !SC) return 13;
-    if (!NC && !CW && CE && SC && !SE) return 14;
-    if (!NW && NC && CW && !CE && !SC) return 15;
-    if (!NC && CW && !CE && !SW && SC) return 16;
+	if (NC && !NE && !CW && CE && !SC) return 13;
+	if (!NC && !CW && CE && SC && !SE) return 14;
+	if (!NW && NC && CW && !CE && !SC) return 15;
+	if (!NC && CW && !CE && !SW && SC) return 16;
 
-    if (!NC && CW && CE && SW && SC && SE) return 17;
-    if (NW && NC && NE && CW && CE && !SC) return 18;
-    if (NW && NC && CW && !CE && SW && SC) return 19;
-    if (NC && NE && !CW && CE && SC && SE) return 20;
+	if (!NC && CW && CE && SW && SC && SE) return 17;
+	if (NW && NC && NE && CW && CE && !SC) return 18;
+	if (NW && NC && CW && !CE && SW && SC) return 19;
+	if (NC && NE && !CW && CE && SC && SE) return 20;
 
-    if (NC && NE && !CW && CE && !SC) return 21;
-    if (NW && NC && CW && !CE && !SC) return 22;
-    if (!NC && !CW && CE && SC && SE) return 23;
-    if (!NC && CW && !CE && SW && SC) return 24;
+	if (NC && NE && !CW && CE && !SC) return 21;
+	if (NW && NC && CW && !CE && !SC) return 22;
+	if (!NC && !CW && CE && SC && SE) return 23;
+	if (!NC && CW && !CE && SW && SC) return 24;
 
-    if (NW && NC && NE && CW && CE && !SW && SC && SE) return 25;
-    if (NW && NC && NE && CW && CE && SW && SC && !SE) return 26;
-    if (!NW && NC && NE && CW && CE && SW && SC && SE) return 27;
-    if (NW && NC && !NE && CW && CE && SW && SC && SE) return 28;
+	if (NW && NC && NE && CW && CE && !SW && SC && SE) return 25;
+	if (NW && NC && NE && CW && CE && SW && SC && !SE) return 26;
+	if (!NW && NC && NE && CW && CE && SW && SC && SE) return 27;
+	if (NW && NC && !NE && CW && CE && SW && SC && SE) return 28;
 
-    if (NW && NC && NE && CW && CE && !SW && SC && !SE) return 29;
-    if (!NW && NC && !NE && CW && CE && SW && SC && SE) return 30;
-    if (!NW && NC && NE && CW && CE && !SW && SC && SE) return 31;
-    if (NW && NC && !NE && CW && CE && SW && SC && !SE) return 32;
+	if (NW && NC && NE && CW && CE && !SW && SC && !SE) return 29;
+	if (!NW && NC && !NE && CW && CE && SW && SC && SE) return 30;
+	if (!NW && NC && NE && CW && CE && !SW && SC && SE) return 31;
+	if (NW && NC && !NE && CW && CE && SW && SC && !SE) return 32;
 
-    if (!NW && NC && NE && CW && CE && !SW && SC && !SE) return 33;
-    if (NW && NC && !NE && CW && CE && !SW && SC && !SE) return 34;
-    if (!NW && NC && !NE && CW && CE && !SW && SC && SE) return 35;
-    if (!NW && NC && !NE && CW && CE && SW && SC && !SE) return 36;
+	if (!NW && NC && NE && CW && CE && !SW && SC && !SE) return 33;
+	if (NW && NC && !NE && CW && CE && !SW && SC && !SE) return 34;
+	if (!NW && NC && !NE && CW && CE && !SW && SC && SE) return 35;
+	if (!NW && NC && !NE && CW && CE && SW && SC && !SE) return 36;
 
-    if (!NC && CW && CE && !SW && SC && SE) return 37;
-    if (!NC && CW && CE && SW && SC && !SE) return 38;
-    if (!NW && NC && NE && CW && CE && !SC) return 39;
-    if (NW && NC && !NE && CW && CE && !SC) return 40;
+	if (!NC && CW && CE && !SW && SC && SE) return 37;
+	if (!NC && CW && CE && SW && SC && !SE) return 38;
+	if (!NW && NC && NE && CW && CE && !SC) return 39;
+	if (NW && NC && !NE && CW && CE && !SC) return 40;
 
-    if (NC && NE && !CW && CE && SC && !SE) return 41;
-    if (NC && !NE && !CW && CE && SC && SE) return 42;
-    if (NW && NC && CW && !CE && !SW && SC) return 43;
-    if (!NW && NC && CW && !CE && SW && SC) return 44;
+	if (NC && NE && !CW && CE && SC && !SE) return 41;
+	if (NC && !NE && !CW && CE && SC && SE) return 42;
+	if (NW && NC && CW && !CE && !SW && SC) return 43;
+	if (!NW && NC && CW && !CE && SW && SC) return 44;
 
-    if (NW && NC && !NE && CW && CE && !SW && SC && SE) return 45;
-    if (!NW && NC && NE && CW && CE && SW && SC && !SE) return 46;
+	if (NW && NC && !NE && CW && CE && !SW && SC && SE) return 45;
+	if (!NW && NC && NE && CW && CE && SW && SC && !SE) return 46;
 
-    return 50;
+	return 50;
 
 }
 
 // Returns TRUE if the current tile is a wall
 function ChatRoomMapIsWall(X, Y) {
-    if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
 	let ID = ChatRoomData.MapData.Grid.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
 	return ((ID >= 1000) && (ID < 2000));
 }
@@ -134,21 +135,21 @@ function ChatRoomMapIsWall(X, Y) {
  * @param {number} Y - The Y position on the map
  * @param {number} ScreenX - The X position on the screen
  * @param {number} ScreenY - The Y position on the screen
- * @param {number} TileHeight - The visible width of a tile
+ * @param {number} TileWidth - The visible width of a tile
  * @param {number} TileHeight - The visible height of a tile
  * @returns {void} - Nothing
  */
 function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
-    // Find all other walls around the current tile
-	let	NW = ChatRoomMapIsWall(X - 1, Y - 1);
-	let	NC = ChatRoomMapIsWall(X, Y - 1);
-	let	NE = ChatRoomMapIsWall(X + 1, Y - 1);
-	let	CW = ChatRoomMapIsWall(X - 1, Y);
-	let	CE = ChatRoomMapIsWall(X + 1, Y);
-	let	SW = ChatRoomMapIsWall(X - 1, Y + 1);
-	let	SC = ChatRoomMapIsWall(X, Y + 1);
-	let	SE = ChatRoomMapIsWall(X + 1, Y + 1);
+	// Find all other walls around the current tile
+	let NW = ChatRoomMapIsWall(X - 1, Y - 1);
+	let NC = ChatRoomMapIsWall(X, Y - 1);
+	let NE = ChatRoomMapIsWall(X + 1, Y - 1);
+	let CW = ChatRoomMapIsWall(X - 1, Y);
+	let CE = ChatRoomMapIsWall(X + 1, Y);
+	let SW = ChatRoomMapIsWall(X - 1, Y + 1);
+	let SC = ChatRoomMapIsWall(X, Y + 1);
+	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
 	let Effect = ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE);
 	DrawImageResize("Screens/Online/ChatRoom/Map/WallEffect/" + Effect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
 
