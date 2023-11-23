@@ -1070,7 +1070,7 @@ function testSetPose(assets, poses) {
 			continue;
 		}
 
-		/** @type {Partial<Record<AssetPoseCategory, { n: number, poses: Pose[] }> }} */
+		/** @type {Partial<Record<AssetPoseCategory, { n: number, poses: Pose[] }>> }} */
 		const categories = {};
 		for (const poseName of setPose) {
 			const pose = poseRecord[poseName];

@@ -10,8 +10,6 @@
 	"include": [
 		"../../Assets/Female3DCG/Female3DCG_Types.d.ts",
 		"../../Scripts/Typedef.d.ts",
-		"node.d.ts",
-		"AssetCheck.js",
-		"PoseMapping.js"
+		"."
 	]
 }
