@@ -53,7 +53,6 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 	// Prepares the character sheet
 	/** @type {Character} */
 	var NewCharacter = {
-		ActivePose: [],
 		ID: CharacterID,
 		Hooks: null,
 		Name: "",
@@ -70,10 +69,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		Dialog: [],
 		Reputation: [],
 		Skill: [],
-		Pose: [],
-		DrawPose: [],
 		DrawAppearance: [],
-		AllowedActivePose: [],
 		Effect: [],
 		Tints: [],
 		Attribute: [],
@@ -93,6 +89,54 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+
+		PoseMapping: {},
+		get Pose() {
+			return Object.values(this.PoseMapping);
+		},
+		set Pose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.Pose");
+		},
+
+		ActivePoseMapping: {},
+		get ActivePose() {
+			return Object.values(this.ActivePoseMapping);
+		},
+		set ActivePose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.ActivePose");
+		},
+
+		DrawPoseMapping: {},
+		get DrawPose() {
+			return Object.values(this.DrawPoseMapping);
+		},
+		set DrawPose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			}
+			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.DrawPose");
+		},
+
+		AllowedActivePoseMapping: {},
+		get AllowedActivePose() {
+			/** @type {AssetPoseName[]} */
+			const ret = [];
+			Object.values(this.AllowedActivePoseMapping).forEach(poses => ret.push(...poses));
+			return ret;
+		},
+		set AllowedActivePose(poses) {
+			if (typeof poses === "string") {
+				poses = [poses];
+			}
+			this.AllowedActivePoseMapping = PoseToMapping.Array(poses, "Character.AllowedActivePose");
+		},
+
 		CanTalk: function () {
 			const GagEffect = SpeechGetTotalGagLevel(this, true);
 			return (GagEffect <= 0);
@@ -102,7 +146,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				!this.HasEffect("Freeze") &&
 				!this.HasEffect("Tethered") &&
 				!this.HasEffect("Mounted") &&
-				((this.Pose == null) || !this.Pose.includes("Kneel") || !this.HasEffect("KneelFreeze"))
+				(this.PoseMapping.BodyLower !== "Kneel" || !this.HasEffect("KneelFreeze"))
 			);
 		},
 		CanKneel: function () {
@@ -215,7 +259,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		IsSlow: function () {
 			return (
-				((this.Effect.indexOf("Slow") >= 0) || (this.Pose.indexOf("Kneel") >= 0)) &&
+				(this.Effect.includes("Slow") || this.PoseMapping.BodyLower === "Kneel") &&
 				((!this.IsPlayer()) || !this.RestrictionSettings.SlowImmunity)
 			);
 		},
@@ -288,7 +332,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return ((NPCEventGet(this, "Girlfriend") > 0) || (Player.GetLoversNumbers().indexOf("NPC-" + this.Name) >= 0));
 		},
 		IsKneeling: function () {
-			return (this.Pose != null && (this.Pose.includes("Kneel") || this.Pose.includes("KneelingSpread")));
+			return ["Kneel", "KneelingSpread"].includes(this.PoseMapping.BodyLower);
 		},
 		IsNaked: function () {
 			return CharacterIsNaked(this);
@@ -358,13 +402,13 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			) ? 1 : this.Difficulty.Level;
 		},
 		IsSuspended: function () {
-			return this.Pose.includes("Suspension") || this.Effect.includes("Suspended");
+			return this.PoseMapping.BodyAddon === "Suspension" || this.Effect.includes("Suspended");
 		},
 		IsInverted: function () {
-			return this.Pose.indexOf("Suspension") >= 0;
+			return this.PoseMapping.BodyAddon === "Suspension";
 		},
 		CanChangeToPose: function (Pose) {
-			return CharacterCanChangeToPose(this, Pose);
+			return PoseCanChangeUnaided(this, Pose);
 		},
 		GetClumsiness: function () {
 			return CharacterGetClumsiness(this);
@@ -724,7 +768,8 @@ function CharacterLoadSimple(AccName) {
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Title == null))) Char.Title = data.Title;
 	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Nickname == null))) Char.Nickname = data.Nickname;
-	Char.ActivePose = Array.isArray(data.ActivePose) ? data.ActivePose.filter(i => typeof i === "string") : [];
+	// Validated in the `ActivePose` setter
+	Char.ActivePose = data.ActivePose || [];
 	Char.LabelColor = data.LabelColor;
 	Char.Creation = data.Creation;
 	Char.Description = data.Description;
@@ -905,178 +950,6 @@ function CharacterDeleteAllOnline() {
 }
 
 /**
- * Checks whether the given character can change to the named pose (without aid by default)
- * @param {Character} C - The character to check
- * @param {AssetPoseName} poseName - The name of the pose to check for
- * @param {boolean} changeUnaided - Whether the character can change the pose unaided or not,
- * _i.e._ whether one can stand up using the pose menu or requires usage of the "kneel/stand up" button
- * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
- * the provided pose
- */
-function CharacterCanChangeToPose(C, poseName, changeUnaided=true) {
-	const pose = PoseFemale3DCG.find(P => P.Name === poseName);
-	if (!pose) return false;
-	const poseCategory = pose.Category;
-	if (!CharacterItemsHavePoseAvailable(C, poseCategory, pose.Name)) return false;
-
-	if (changeUnaided) {
-		// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button for changing pose
-		if (poseCategory !== "BodyLower") {
-			return true;
-		} else {
-			/** @type {Set<AssetPoseName>} */
-			const standingPoses = new Set(/** @type {const} */(["LegsClosed", "LegsOpen", "Spread"]));
-			return !C.Appearance.some(item => InventoryGetItemProperty(item, "SetPose").some(i => standingPoses.has(i)));
-		}
-	} else {
-		return true;
-	}
-}
-
-/**
- * Checks if a certain pose is whitelisted and available for the pose menu
- * @param {Character} C - Character to check for the pose
- * @param {AssetPoseCategory} Type - Pose type to check for within items
- * @param {AssetPoseName} Pose - Pose to check for whitelist
- * @returns {boolean} - TRUE if the character has the pose available
- */
-function CharacterItemsHavePoseAvailable(C, Type, Pose) {
-	/** @type {AssetPoseName[]} */
-	let ConflictingPoses;
-	if (Type === "BodyFull") {
-		// `BodyFull` Conflicts with everything
-		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose).map(P => P.Name);
-	} else {
-		// Arbitrary poses conflict with `BodyFull` and everything in its own category
-		ConflictingPoses = PoseFemale3DCG.filter(P => P.Name !== Pose && (P.Category == Type || P.Category == "BodyFull")).map(P => P.Name);
-	}
-
-	for (const item of C.Appearance) {
-		// Check if there are any allowed poses within the `Type` category, and if yes check if `Pose` is a member
-		const allowedPoses = InventoryGetItemProperty(item, "AllowActivePose").filter(p => (PoseRecord[p] || {}).Category === Type);
-		if (allowedPoses.length > 0) {
-			if (!allowedPoses.includes(Pose)) {
-				return false;
-			}
-			continue;
-		}
-		if (InventoryGetItemProperty(item, "SetPose", true).some(P => ConflictingPoses.includes(P))) return false;
-	}
-	return true;
-}
-
-/**
- * Checks if a character has a pose from items (not active pose unless an item lets it through)
- * @param {Character} C - Character to check for the pose
- * @param {AssetPoseName} Pose - Pose to check for within items
- * @param {boolean} [ExcludeClothes=false] - Ignore clothing items in the check
- * @returns {boolean} - TRUE if the character has the pose
- */
-function CharacterItemsHavePose(C, Pose, ExcludeClothes = false) {
-	if (C.ActivePose != null && C.AllowedActivePose.includes(Pose) && (typeof C.ActivePose == "string" && C.ActivePose == Pose || Array.isArray(C.ActivePose) && C.ActivePose.includes(Pose))) return true;
-	return CharacterDoItemsSetPose(C, Pose, ExcludeClothes);
-}
-
-/**
- * Checks whether the items on a character set a given pose on the character
- * @param {Character} C - The character to check
- * @param {AssetPoseName} pose - The name of the pose to check for
- * @param {boolean} [excludeClothes=false] - Ignore clothing items in the check
- * @returns {boolean} - Returns true if the character is wearing an item that sets the given pose, false otherwise
- */
-function CharacterDoItemsSetPose(C, pose, excludeClothes = false) {
-	if (C == null) return false;
-	return C.Appearance
-		.filter(item => !excludeClothes || !item.Asset.Group.Clothing)
-		.some(item => {
-			let Value = InventoryGetItemProperty(item, "SetPose", true);
-			if (Value == null) return false;
-			return Value.includes(pose);
-		});
-}
-
-/**
- * Checks if a character has a pose type from items (not active pose unless an item lets it through)
- * @param {Character} C - Character to check for the pose type
- * @param {string} Type - Pose type to check for within items
- * @param {boolean} OnlyItems - Whether or not allowed activeposes should be ignored.
- * @returns {boolean} - TRUE if the character has the pose type active
- */
-function CharacterItemsHavePoseType(C, Type, OnlyItems) {
-	var PossiblePoses = PoseFemale3DCG.filter(P => P.Category == Type || P.Category == "BodyFull").map(P => P.Name);
-
-	for (const item of C.Appearance) {
-		if (!OnlyItems && InventoryGetItemProperty(item, "AllowActivePose", true).find(P => PossiblePoses.includes(P) && C.AllowedActivePose.includes(P)))
-			return true;
-		if (InventoryGetItemProperty(item, "SetPose", true).find(P => PossiblePoses.includes(P)))
-			return true;
-	}
-	return false;
-}
-
-/**
- * Refreshes the list of poses for a character. Each pose can only be found once in the pose array
- * @param {Character} C - Character for which to refresh the pose list
- * @returns {void} - Nothing
- */
-function CharacterLoadPose(C) {
-	/**
-	 * TODO: `AllowedActivePose` should form an intersection (not a union) on a category by category basis
-	 * while `SetPose` should be narrowed down to a subset of aforementioned union
-	 */
-	C.Pose = [];
-	C.AllowedActivePose = [];
-
-	for (let i = 0, Item = null; i < C.Appearance.length; i++) {
-		Item = C.Appearance[i];
-		C.AllowedActivePose.push(...InventoryGetItemProperty(Item, "AllowActivePose"));
-		C.Pose = CommonArrayConcatDedupe(C.Pose, InventoryGetItemProperty(Item, "SetPose", true));
-	}
-
-	// Add possible active poses (Bodyfull can only be alone, and cannot have two of upperbody or bodylower)
-	var Poses = C.Pose.map(CP => PoseFemale3DCG.find(P => P.Name == CP)).filter(P => P);
-	if (C.ActivePose != null && typeof C.ActivePose == "string") C.ActivePose = [C.ActivePose];
-
-	if (C.ActivePose != null && Array.isArray(C.ActivePose)) {
-		var ActivePoses = C.ActivePose
-			.map(CP => PoseFemale3DCG.find(P => P.Name == CP))
-			.filter(P => P);
-
-		for (let P = 0; P < ActivePoses.length; P++) {
-			var HasPose = C.Pose.includes(ActivePoses[P].Name);
-			var IsAllowed = C.AllowedActivePose.includes(ActivePoses[P].Name) && CharacterItemsHavePoseAvailable(C, ActivePoses[P].Category, ActivePoses[P].Name);
-			var MissingGroup = !Poses.find(Pose => Pose.Category == "BodyFull") && !Poses.find(Pose => Pose.Category == ActivePoses[P].Category);
-			var IsFullBody = C.Pose.length > 0 && ActivePoses[P].Category == "BodyFull";
-			if (!HasPose && (IsAllowed || (MissingGroup && !IsFullBody)))
-				C.Pose.push(ActivePoses[P].Name);
-		}
-	}
-
-	// Avoid duplicate `BodyLower` poses upon kneeling down and ensure that `BodyFull` enforces the presence of only one pose
-	// TODO: Find a better way of enforcing 1 pose-per-category
-	if (C.Pose.includes("Hogtied")) {
-		C.Pose = ["Hogtied"];
-		return;
-	} else if (C.Pose.includes("AllFours")) {
-		C.Pose = ["AllFours"];
-		return;
-	}
-	if (C.Pose.includes("KneelingSpread")) {
-		C.Pose = C.Pose.filter(p => p !== "Kneel");
-	} else if (C.Pose.includes("Kneel")) {
-		C.Pose = C.Pose.filter(p => p !== "BaseLower" && p != "LegsClosed");
-	}
-	if (C.Pose.includes("TapedHands")) {
-		// Ensure that `TapedHands`, being the hack that it is, is removed if any `BodyUpper` member is present
-		if (C.Pose.includes("BaseUpper")) {
-			C.Pose = C.Pose.filter(p => p !== "BaseUpper");
-		} else if (PoseFemale3DCG.filter(p => p.Category == "BodyUpper").some(p => C.Pose.includes(p.Name))) {
-			C.Pose = C.Pose.filter(p => p !== "TapedHands");
-		}
-	}
-}
-
-/**
  * Refreshes the list of effects for a character. Each effect can only be found once in the effect array
  * @param {Character} C - Character for which to refresh the effect list
  * @returns {void} - Nothing
@@ -1162,7 +1035,7 @@ function CharacterLoadCanvas(C) {
 
 	// We add a temporary appearance and pose here so that it can be modified by hooks.  We copy the arrays so no hooks can alter the reference accidentally
 	C.DrawAppearance = AppearanceItemParse(CharacterAppearanceStringify(C));
-	C.DrawPose = C.Pose.slice(); // Deep copy of pose array
+	C.DrawPoseMapping = { ...C.PoseMapping }; // Deep copy of pose record
 
 	// Run BeforeSortLayers hook
 	C.RunHooks("BeforeSortLayers");
@@ -1228,7 +1101,7 @@ function CharacterChangeMoney(C, Value) {
 function CharacterRefresh(C, Push, RefreshDialog = true) {
 	AnimationPurge(C, false);
 	CharacterLoadEffect(C);
-	CharacterLoadPose(C);
+	PoseRefresh(C);
 	CharacterLoadCanvas(C);
 	// Label often looped through checks:
 	C.RunScripts = (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
@@ -1554,40 +1427,6 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
 }
 
 /**
- * Sets a new pose for the character
- * @param {Character} C - Character for which to set the pose
- * @param {null | AssetPoseName} NewPose - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
- * @returns {void} - Nothing
- */
-function CharacterSetActivePose(C, NewPose, ForceChange = false) {
-	if (NewPose == null || ForceChange || C.ActivePose == null) {
-		C.ActivePose = (NewPose == null) ? [] : [NewPose];
-		CharacterRefresh(C, false);
-		return;
-	}
-
-	if (C.ActivePose == null) C.ActivePose = [];
-	if (typeof C.ActivePose == "string") C.ActivePose = [C.ActivePose];
-
-	const PreviousPoses = C.ActivePose.map(AP => PoseFemale3DCG.find(P => P.Name == AP)).filter(AP => typeof AP == "object");
-	const Pose = PoseFemale3DCG.find(P => P.Name == NewPose);
-
-	// We only allow poses of different categories to be matched together
-	if (Pose && Pose.Category) {
-		C.ActivePose = PreviousPoses
-			.filter(PP => PP.AllowMenu && Pose.Category !== "BodyFull" && PP.Category !== "BodyFull" && PP.Category !== Pose.Category)
-			.map(AP => AP.Name);
-		C.ActivePose.push(Pose.Name);
-	}
-
-	// If we reset to base, we remove the poses
-	if (C.ActivePose.filter(P => P !== "BaseUpper" && P !== "BaseLower").length == 0) C.ActivePose = [];
-
-	CharacterRefresh(C, false);
-}
-
-/**
  * Sets a specific facial expression on the character's specified AssetGroup.
  *
  * If there's a timer, the expression will expire after it. Note that a timed expression cannot override another one.
@@ -1840,8 +1679,7 @@ function CharacterAppearsInverted(C) {
  */
 function CharacterCanKneel(C) {
 	if (C.Effect.includes("Freeze")) return false;
-	if (C.Pose == null) return true;
-	if (C.Pose.includes("Suspension") || C.Pose.includes("Hogtied")) return false;
+	if (C.PoseMapping.BodyAddon || C.PoseMapping.BodyFull) return false;
 	return C.CanChangeToPose("Kneel");
 }
 
@@ -1928,7 +1766,7 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Then when that character enters the virtual world, register a hook to strip out restraint layers (if needed):
 			const hideRestraintsHook = () => {
 				C.DrawAppearance = C.DrawAppearance.filter((Layer) => !(Layer.Asset && Layer.Asset.IsRestraint));
-				C.DrawPose = C.DrawPose.filter((Pose) => (Pose != "TapedHands"));
+				delete C.DrawPoseMapping.BodyHands;
 			};
 
 			if (C.RegisterHook("BeforeSortLayers", "HideRestraints", hideRestraintsHook))
@@ -2187,3 +2025,26 @@ function CharacterScriptRefresh(C) {
 function CharacterScriptRemove(C) {
 	InventoryRemove(C, "ItemScript", true);
 }
+
+
+// Don't remove, these function are used too much downstream
+
+/**
+ * Sets a new pose for the character
+ * @param {Character} C - Character for which to set the pose
+ * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
+ * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @returns {void} - Nothing
+ * @deprecated - Deprecated alias for {@link PoseSetActive}
+ */
+var CharacterSetActivePose = PoseSetActive;
+
+/**
+ * Checks whether the given character can change to the named pose (without aid by default).
+ * @param {Character} C - The character to check
+ * @param {AssetPoseName} poseName - The name of the pose to check for
+ * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
+ * the provided pose
+ * @deprecated Superseded by {@link PoseCanChangeUnaided}
+ */
+var CharacterCanChangeToPose = PoseCanChangeUnaided;

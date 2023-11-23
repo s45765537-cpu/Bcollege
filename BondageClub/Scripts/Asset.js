@@ -182,7 +182,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: (AssetDef.Zoom == null) ? 1 : AssetDef.Zoom,
-		Alpha: AssetDef.Alpha,
+		Alpha: AssetParseAlpha(AssetDef.Alpha, "Asset.Alpha"),
 		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
@@ -434,7 +434,7 @@ function AssetMapLayer(Layer, A, I) {
 		ParentGroupName: Layer.ParentGroup === undefined ? A.ParentGroupName : Layer.ParentGroup,
 		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
-		Alpha: AssetLayerAlpha(Layer, A, I),
+		Alpha: AssetParseLayerAlpha(Layer, A, I),
 		Asset: A,
 		DrawingLeft: AssetParseTopLeft(Layer.Left, A.DrawingLeft),
 		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
@@ -472,14 +472,31 @@ function AssetParseOpacity(opacity, min=0, max=1) {
 }
 
 /**
- * Builds the alpha mask definitions for a layer, based on the
+ * Parse the passed alpha mask definitions.
+ * @param {undefined | Alpha.Definition[]} alphaDef The unparsed alpha mask definition
+ * @param {null | string} warningPrefix - A prefix to-be prepended to any warning messages
+ * @returns {null | Alpha.Data[]} The parsed alpha mask data
+ */
+function AssetParseAlpha(alphaDef, warningPrefix=null) {
+	return (alphaDef == null) ? null : alphaDef.map(a => {
+		/** @type {Mutable<Alpha.Data>} */
+		const data = {
+			...a,
+			Pose: a.Pose ? PoseToMapping.Array(a.Pose, warningPrefix) : null,
+		};
+		return data;
+	});
+}
+
+/**
+ * Parse the passed layers alpha mask definitions.
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {Asset} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
- * @return {AlphaDefinition[]} - a list of alpha mask definitions for the layer
+ * @return {Alpha.Data[]} - a list of alpha mask data for the layer
  */
-function AssetLayerAlpha(Layer, NewAsset, I) {
-	const Alpha = Layer.Alpha || [];
+function AssetParseLayerAlpha(Layer, NewAsset, I) {
+	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") || [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
 	if (I === 0 && NewAsset.Alpha) {
 		Alpha.push(...NewAsset.Alpha);
@@ -616,10 +633,10 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 function AssetLoadAll() {
 	Asset = [];
 	AssetGroup = [];
-	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
-	ExtendedItemManualRegister();
 	Pose = PoseFemale3DCG;
 	Pose.forEach(p => PoseRecord[p.Name] = p);
+	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
+	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 }
 
@@ -763,34 +780,4 @@ function AssetParseDefaultColor(colorableLayerCount, color) {
 		color.slice(0, colorableLayerCount).forEach((c, i) => defaultColor[i] = c);
 	}
 	return defaultColor;
-}
-
-/**
- * Unflatten a pose name array, converting it into a dictionary mapping pose categories to aforementioned pose names
- * @param {readonly AssetPoseName[]} poses
- * @returns {Partial<Record<AssetPoseCategory, AssetPoseName[]>>}
- */
-function AssetPoseToMapping(poses) {
-	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
-	const poseMapping = {};
-	if (!CommonIsArray(poses)) {
-		console.warn(`Invalid pose array type: ${typeof poses}`);
-		return poseMapping;
-	}
-
-	for (const poseName of poses) {
-		const pose = PoseRecord[poseName];
-		if (!pose) {
-			console.warn(`Ignoring invalid "${poseName}" pose`);
-			continue;
-		}
-
-		const poseList = poseMapping[pose.Category];
-		if (poseList) {
-			poseList.push(poseName);
-		} else {
-			poseMapping[pose.Category] = [poseName];
-		}
-	}
-	return poseMapping;
 }

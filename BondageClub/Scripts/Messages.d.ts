@@ -724,7 +724,7 @@ interface ServerChatRoomReorderResponse {
 
 interface ServerCharacterUpdate {
 	ID: string;
-	ActivePose: string[];
+	ActivePose: readonly string[];
 	Appearance: ServerAppearanceBundle;
 }
 
@@ -741,7 +741,7 @@ interface ServerCharacterExpressionResponse {
 }
 
 interface ServerCharacterPoseUpdate {
-	Pose: string | string[] | null;
+	Pose: string | readonly string[] | null;
 }
 
 interface ServerCharacterPoseResponse {

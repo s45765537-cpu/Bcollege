@@ -1456,7 +1456,7 @@ var AssetFemale3DCGExtended = {
 				Header: "SelectBondagePosition",
 				Chat: ({ C }) =>
 					`ItemArmsCeilingShacklesSet${
-						C.Pose.includes("Suspension") ? "Suspension" : ""
+						C.PoseMapping.BodyFull === "Suspension" ? "Suspension" : ""
 					}`,
 			},
 		}, // CeilingShackles

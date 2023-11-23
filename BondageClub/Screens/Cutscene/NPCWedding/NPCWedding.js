@@ -41,8 +41,8 @@ function NPCWeddingBridesmaid(C) {
 function NPCWeddingLoad() {
 	CharacterRelease(Player);
 	CharacterRelease(NPCWeddingWife);
-	CharacterSetActivePose(Player, null);
-	CharacterSetActivePose(NPCWeddingWife, null);
+	PoseSetActive(Player, null);
+	PoseSetActive(NPCWeddingWife, null);
 	CutsceneStage = 0;
 	NPCWeddingBackground = CommonRandomItemFromList("", ["WeddingRoom", "WeddingArch", "WeddingBeach"]);
 	NPCWeddingGirlLeft = CharacterLoadNPC("NPC_NPCWedding_GirlLeft");

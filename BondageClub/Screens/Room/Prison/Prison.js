@@ -621,7 +621,7 @@ function PrisonMeetPoliceIntro(RoomBackground) {
 }
 
 function PrisonPutHandsInTheAir() {
-	CharacterSetActivePose(Player, "Yoked", true);
+	PoseSetActive(Player, "Yoked", true);
 	if (Math.floor(PrisonWantedPlayer() * Math.random()) >= 3) {
 		// cop yells at player to raise her hands higher
 		PrisonPolice.Stage = "CatchAggressiveHigher";
@@ -633,13 +633,13 @@ function PrisonPutHandsInTheAir() {
 }
 
 function PrisonRaiseHandsHigher() {
-	CharacterSetActivePose(Player, "OverTheHead", true);
+	PoseSetActive(Player, "OverTheHead", true);
 	PrisonPolice.Stage = "CatchAggressive2";
 	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveHandsInAir");
 }
 
 function PrisonCatchKneel() {
-	CharacterSetActivePose(Player, "Kneel", false);
+	PoseSetActive(Player, "Kneel", false);
 	PrisonPolice.Stage = "CatchAggressive3";
 	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveKneeling");
 }
@@ -652,7 +652,7 @@ function PrisonCatchHandcuffed() {
 
 // player fails to escape if they try after kneeling, Police puts them in hogtie as punishment
 function PrisonCatchKneelingEscape() {
-	CharacterSetActivePose(Player, null, true);
+	PoseSetActive(Player, null, true);
 	const item = InventoryWear(Player, "Chains", "ItemArms", "Default", 3);
 	TypedItemSetOptionByName(Player, item, "Hogtied");
 	CharacterRefresh(Player);
@@ -673,7 +673,7 @@ function PrisonCatchAdmitDefeat() {
 
 //When a fight starts between the player and the Police
 function PrisonFightPolice() {
-	CharacterSetActivePose(Player, null, true);
+	PoseSetActive(Player, null, true);
 	KidnapStart(PrisonPolice, PrisonBackground, 5 + Math.floor(Math.random() * 5), "PrisonFightPoliceEnd()");
 }
 
@@ -757,7 +757,7 @@ function PrisonArrestStripUnderware() {
 
 function PrisonArrestSuit() {
 	// reset character pose
-	CharacterSetActivePose(Player, null, true);
+	PoseSetActive(Player, null, true);
 	InventoryWear(Player, "TShirt1", "Cloth", "#644000");
 	InventoryWear(Player, "Pajama1", "ClothLower", "#ffa500");
 	InventoryWear(Player, "Socks2", "Socks", "#CCCCCC");

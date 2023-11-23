@@ -44,7 +44,7 @@ function PlayerCollaringRun() {
 function PlayerCollaringClick() {
 	CutsceneStage++;
 	if (CutsceneStage == 2) CharacterNaked(Player);
-	if (CutsceneStage == 4) CharacterSetActivePose(Player, "Kneel", true);
+	if (CutsceneStage == 4) PoseSetActive(Player, "Kneel", true);
 	if (CutsceneStage == 6) InventoryWear(Player, "SlaveCollar", "ItemNeck");
 	if (CutsceneStage > 8) {
 		CommonSetScreen("Room", "Private");

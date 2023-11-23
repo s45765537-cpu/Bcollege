@@ -158,7 +158,7 @@ function AssetsItemNeckPetSuitShockCollarUpdate(data, LastTime) {
 			break;
 		case "StandUp":
 			PropertyShockPublishAction(C, Item, true);
-			CharacterSetActivePose(Player, "Kneel");
+			PoseSetActive(Player, "Kneel");
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 			break;
 		case "Struggle":

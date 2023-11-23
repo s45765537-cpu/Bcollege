@@ -601,7 +601,7 @@ function DialogCanPerformCharacterAction() {
  * @returns {boolean} - Whether or not the target character can stand
  */
 function ChatRoomCanAssistStand() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && CharacterItemsHavePoseAvailable(CurrentCharacter, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(CurrentCharacter, "Kneel") && CurrentCharacter.IsKneeling();
+	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && CurrentCharacter.IsKneeling();
 }
 
 /**
@@ -612,7 +612,7 @@ function ChatRoomCanAssistStand() {
  */
 
 function ChatRoomCanAssistKneel() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && CharacterItemsHavePoseAvailable(CurrentCharacter, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(CurrentCharacter, "Kneel") && !CurrentCharacter.IsKneeling();
+	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && !CurrentCharacter.IsKneeling();
 }
 
 /**
@@ -620,14 +620,14 @@ function ChatRoomCanAssistKneel() {
 * listens for the current active pose, but it forces the player to do a minigame.
  * @returns {boolean} - Whether or not the player character can stand
  */
-function ChatRoomCanAttemptStand() { return CharacterItemsHavePoseAvailable(Player, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Player, "Kneel") && Player.IsKneeling();}
+function ChatRoomCanAttemptStand() { return PoseSetByItems(Player, "BodyLower", "Kneel") && Player.IsKneeling();}
 /**
  * Checks if the player character can attempt to get down on her knees. This is different than
  * CurrentCharacter.CanKneel() because it listens for the current active pose, but it forces the player to do a
  * minigame.
  * @returns {boolean} - Whether or not the player character can stand
  */
-function ChatRoomCanAttemptKneel() { return CharacterItemsHavePoseAvailable(Player, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Player, "Kneel") && !Player.IsKneeling(); }
+function ChatRoomCanAttemptKneel() { return PoseSetByItems(Player, "BodyLower", "Kneel") && !Player.IsKneeling(); }
 
 /**
  * Checks if the player can stop the current character from leaving.
@@ -2119,7 +2119,7 @@ function ChatRoomMenuClick() {
 							.build();
 						ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
 						FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-						CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+						PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
 						ChatRoomStimulationMessage("Kneel");
 						ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 					} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) { // If the player can theoretically get up, we start a minigame!
@@ -2180,7 +2180,7 @@ function ChatRoomAttemptStandMinigameEnd() {
 				.build();
 			ServerSend("ChatRoomChat", { Content: (!Player.IsKneeling()) ? "KneelDownPass" : "StandUpPass", Type: "Action", Dictionary });
 			FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-			CharacterSetActivePose(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
+			PoseSetActive(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 		}
 	} else {
@@ -2248,7 +2248,7 @@ function ChatRoomKeyDown(event) {
 	if (document.activeElement.id != "InputChat") {
 		if (ChatRoomMapVisible) ChatRoomMapKeyDown();
 		else ElementFocus("InputChat");
-	}  
+	}
 
 	if (KeyPress == 9 && !event.shiftKey) {
 		event.preventDefault();
@@ -3741,14 +3741,14 @@ function ChatRoomSyncPose(data) {
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character) return;
 
-	// Sets the active pose
+	// Sets the active pose; data is validated by the `ActivePose` setter
 	character.ActivePose = /** @type {AssetPoseName[]} */(data.Pose);
 	CharacterRefresh(character, false);
 
 	// Update the cached copy in the chatroom
 	const roomCharacter = ChatRoomData.Character.find(c => c.MemberNumber === data.MemberNumber);
 	if (roomCharacter) {
-		roomCharacter.ActivePose = character.ActivePose;
+		roomCharacter.ActivePose = [...character.ActivePose];
 	}
 }
 
@@ -4043,7 +4043,7 @@ function ChatRoomKneelStandAssist() {
 		.targetCharacter(CurrentCharacter)
 		.build();
 	ServerSend("ChatRoomChat", { Content: !CurrentCharacter.IsKneeling() ? "HelpKneelDown" : "HelpStandUp", Type: "Action", Dictionary });
-	CharacterSetActivePose(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : "BaseLower", false);
+	PoseSetActive(CurrentCharacter, !CurrentCharacter.IsKneeling() ? "Kneel" : "BaseLower", false);
 	ChatRoomCharacterUpdate(CurrentCharacter);
 }
 
@@ -4461,7 +4461,7 @@ function ChatRoomSetRule(data) {
 
 		// Forced labor
 		if (data.Content == "OwnerRuleLaborMaidDrinks" && Player.CanTalk()) {
-			CharacterSetActivePose(Player, null);
+			PoseSetActive(Player, null);
 			var D = TextGet("ActionGrabbedToServeDrinksIntro");
 			const Dictionary = new DictionaryBuilder()
 				.targetCharacterName(CurrentCharacter)
@@ -4606,7 +4606,7 @@ function ChatRoomSafewordChatCommand() {
 function ChatRoomSafewordRevert() {
 	if (ChatSearchSafewordAppearance != null) {
 		Player.Appearance = ChatSearchSafewordAppearance.slice(0);
-		Player.ActivePose = ChatSearchSafewordPose;
+		Player.ActivePoseMapping = ChatSearchSafewordPose;
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);
 		const Dictionary = new DictionaryBuilder()

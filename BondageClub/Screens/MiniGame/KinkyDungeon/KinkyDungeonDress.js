@@ -310,8 +310,8 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 				let newLegPoses = AllowedLegPoses.filter((element) => {return !STANDPOSES.includes(element);});
 				if (newLegPoses.length > 0) AllowedLegPoses = newLegPoses;
 			} else {
-				if (CharacterItemsHavePoseAvailable(Character, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Character, "Kneel") && !Character.IsKneeling()) {
-					CharacterSetActivePose(Character, "Kneel", false);
+				if (!PoseSetByItems(Character, "BodyLower", "Kneel") && !Character.IsKneeling()) {
+					PoseSetActive(Character, "Kneel", false);
 				}
 			}
 
@@ -319,8 +319,8 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 			if (StandalonePatched) {
 				// Nothing needed
 			} else {
-				if (CharacterItemsHavePoseAvailable(Character, "BodyLower", "Kneel") && !CharacterDoItemsSetPose(Character, "Kneel") && Character.IsKneeling()) {
-					CharacterSetActivePose(Character, "BaseLower", false);
+				if (!PoseSetByItems(Character, "BodyLower", "Kneel") && Character.IsKneeling()) {
+					PoseSetActive(Character, "BaseLower", false);
 				}
 			}
 

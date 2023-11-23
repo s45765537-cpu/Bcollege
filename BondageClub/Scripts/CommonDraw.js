@@ -76,18 +76,16 @@ function CommonDrawAppearanceBuild(C, {
 		const poseY = C.DrawPose.find(p => Layer.DrawingTop[p] != null);
 		let X = poseX === undefined ? Layer.DrawingLeft[PoseType.DEFAULT] : Layer.DrawingLeft[poseX];
 		let Y = poseY === undefined ? Layer.DrawingTop[PoseType.DEFAULT] : Layer.DrawingTop[poseY];
-		if (C.DrawPose && C.DrawPose.length) {
-			C.DrawPose.forEach(CP => {
-				const PoseDef = PoseFemale3DCG.find(P => P.Name === CP && P.MovePosition);
-				if (PoseDef) {
-					const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === GroupName);
-					if (MovePosition) {
-						X += MovePosition.X;
-						Y += MovePosition.Y;
-					}
+		C.DrawPose.forEach(CP => {
+			const PoseDef = PoseRecord[CP];
+			if (PoseDef && PoseDef.MovePosition) {
+				const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === GroupName);
+				if (MovePosition) {
+					X += MovePosition.X;
+					Y += MovePosition.Y;
 				}
-			});
-		}
+			}
+		});
 
 		// Offset Y to counteract height modifiers for fixed-position assets
 		let YFixedOffset = 0;
@@ -104,7 +102,7 @@ function CommonDrawAppearanceBuild(C, {
 		Layer.Alpha.forEach(AlphaDef => {
 			// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
 			if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
-				(!AlphaDef.Pose || !Array.isArray(AlphaDef.Pose) || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
+				(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
 				AlphaDef.Masks.forEach(rect => {
 					clearRect(rect[0], rect[1] + CanvasUpperOverflow + YFixedOffset, rect[2], rect[3]);
 					clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + YFixedOffset, rect[2], rect[3]);
@@ -134,9 +132,9 @@ function CommonDrawAppearanceBuild(C, {
 		const BlinkExpression = (A.OverrideBlinking ? !AG.DrawingBlink : AG.DrawingBlink) ? "Closed/" : Expression;
 		/** @type {RectTuple[]} */
 		let AlphaMasks = Layer.GroupAlpha
-			.filter(({ Pose: P }) => !P || !Array.isArray(P) || !!CommonDrawFindPose(C, P))
+			.filter(({ Pose: P }) => !P || !!CommonDrawFindPose(C, P))
 			.reduce((Acc, { Masks }) => {
-				Array.prototype.push.apply(Acc, Masks);
+				Acc.push(...Masks);
 				return Acc;
 			}, []);
 
@@ -358,18 +356,17 @@ function CommonDrawColorValid(Color, AssetGroup) {
 /**
  * Finds the correct pose to draw for drawable layer for the provided character from the provided list of allowed poses
  * @param {Character} C - The character to check for poses against
- * @param {readonly AssetPoseName[]} AllowedPoses - The list of permitted poses for the current layer
+ * @param {Partial<Record<AssetPoseCategory, readonly AssetPoseName[]>>} AllowedPoses - The list of permitted poses for the current layer
  * @return {AssetPoseName | null} - The name of the pose to draw for the layer, or an empty string if no pose should be drawn
  */
 function CommonDrawFindPose(C, AllowedPoses) {
-	/** @type {AssetPoseName | null} */
-	let Pose = null;
-	if (AllowedPoses && AllowedPoses.length) {
-		AllowedPoses.forEach(AllowedPose => {
-			if (C.DrawPose.includes(AllowedPose)) Pose = AllowedPose;
-		});
+	for (const [category, poses] of CommonEntries(AllowedPoses)) {
+		const drawPose = C.DrawPoseMapping[category];
+		if (poses.includes(drawPose)) {
+			return drawPose;
+		}
 	}
-	return Pose;
+	return null;
 }
 
 /**
@@ -381,5 +378,5 @@ function CommonDrawFindPose(C, AllowedPoses) {
 function CommonDrawResolveAssetPose(C, Layer) {
 	const poseEntries = CommonEntries(Layer.PoseMapping);
 	const poses = poseEntries.filter(ij => ij[1] !== PoseType.DEFAULT).map(i => i[0]);
-	return CommonDrawFindPose(C, poses);
+	return CommonDrawFindPose(C, PoseToMapping.Array(poses, "Layer.PoseMapping"));
 }

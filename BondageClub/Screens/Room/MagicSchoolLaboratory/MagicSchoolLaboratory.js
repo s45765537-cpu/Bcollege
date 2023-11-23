@@ -463,11 +463,11 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 	let Spell = "";
 	while (Spell == "") {
 		Spell = CommonRandomItemFromList(MagicSchoolLaboratoryLastSpell, ["Hogtie", "ReleaseHogtie", "FlyingHogtie", "Arousal", "Tickle", "Pain", "SwitchRope", "SwitchChain", "Fail", "Tight"]);
-		if ((Spell == "Hogtie") && Player.Pose.includes("Hogtied")) Spell = "";
-		if ((Spell == "ReleaseHogtie") && !Player.Pose.includes("Hogtied")) Spell = "";
-		if ((Spell == "FlyingHogtie") && !Player.Pose.includes("Hogtied")) Spell = "";
-		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.Pose.includes("Hogtied"))) Spell = "";
-		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.Pose.includes("Hogtied"))) Spell = "";
+		if ((Spell == "Hogtie") && Player.PoseMapping.BodyFull === "Hogtied") Spell = "";
+		if ((Spell == "ReleaseHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
+		if ((Spell == "FlyingHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
+		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
+		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
 		if ((Spell == "Arousal") && (MagicSchoolLaboratoryStudent.House != "Maiestas")) Spell = "";
 		if ((Spell == "FlyingHogtie") && (MagicSchoolLaboratoryStudent.House != "Vincula")) Spell = "";
 		if ((Spell == "Tickle") && (MagicSchoolLaboratoryStudent.House != "Amplector")) Spell = "";

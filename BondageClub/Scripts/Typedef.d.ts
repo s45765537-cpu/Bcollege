@@ -775,7 +775,7 @@ interface AssetLayer {
 	definition. */
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
-	readonly Alpha: readonly AlphaDefinition[];
+	readonly Alpha: readonly Alpha.Data[];
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -795,7 +795,7 @@ interface AssetLayer {
 	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
-	readonly GroupAlpha?: Readonly<AlphaDefinition>[];
+	readonly GroupAlpha?: readonly Alpha.Data[];
 	/** A module for which the layer can have types. */
 	readonly ModuleType: readonly string[] | null;
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
@@ -805,22 +805,6 @@ interface AssetLayer {
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
 	readonly ColorSuffix: Readonly<Record<string, string>> | null;
-}
-
-/** An object defining a group of alpha masks to be applied when drawing an asset layer */
-interface AlphaDefinition {
-	/** A list of the group names that the given alpha masks should be applied to. If empty or not present, the
-alpha masks will be applied to every layer underneath the present one. */
-	Group?: AssetGroupName[];
-	/** A list of the poses that the given alpha masks should be applied to. If empty or not present, the alpha
-masks will be applied regardless of character pose. */
-	Pose?: AssetPoseName[];
-	/** A list of the extended types that the given alpha masks should be applied to. If empty or not present, the alpha
-masks will be applied regardless of the extended type. */
-	Type?: string[];
-	/** A list of alpha mask definitions. A definition is a 4-tuple of numbers defining the top left coordinate of
-a rectangle and the rectangle's width and height - e.g. [left, top, width, height] */
-	Masks: RectTuple[];
 }
 
 interface TintDefinition {
@@ -904,7 +888,7 @@ interface Asset {
 	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	readonly ZoomModifier: number;
-	readonly Alpha?: readonly AlphaDefinition[];
+	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;
@@ -1206,9 +1190,58 @@ interface Character {
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
-	Pose: AssetPoseName[];
-	ActivePose: AssetPoseName[];
-	AllowedActivePose: AssetPoseName[];
+	/**
+	 * Get a copy or set the array of currently enabled poses.
+	 * @see {@link PoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get Pose(): readonly AssetPoseName[];
+	set Pose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of the last set of manually activated poses.
+	 *
+	 * Note that these poses are by no means guaranted to be enabled, as they do not reflect any item-specific automatic pose changes (see {@link Pose}).
+	 * @see {@link ActivePoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get ActivePose(): readonly AssetPoseName[];
+	set ActivePose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of the last of a subset of all allowed poses.
+	 *
+	 * Only guaranteed to reflect the total number of allowed poses if, for a given pose category, at least one pose is allowed.
+	 * @see {@link ActivePoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get AllowedActivePose(): readonly AssetPoseName[];
+	set AllowedActivePose(value: readonly AssetPoseName[]);
+	/**
+	 * Get a copy or set the array of something something poses.
+	 * @see {@link DrawPoseMapping} - The underlying record of this property, usage of which is recommended
+	 */
+	get DrawPose(): readonly AssetPoseName[];
+	set DrawPose(value: readonly AssetPoseName[]);
+	/**
+	 * A record mapping pose categories to the currently enabled pose belonging to it.
+	 *
+	 * @see {@link ItemProperties.SetPose} - The item-/asset-level equivalent of this property
+	 */
+	PoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
+	/**
+	 * A record mapping pose categories to the last manually enabled pose belonging to it.
+	 *
+	 * Note that these poses are by no means guaranted to be enabled, as they do not reflect any item-specific automatic pose changes (see {@link PoseMapping}).
+	 */
+	ActivePoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
+	/**
+	 * A record mapping pose categories to all allowed poses belonging to it.
+	 *
+	 * A value of `null` implies that all poses within the category are allowed.
+	 *
+	 * @see {@link ItemProperties.AllowActivePose} - The item-/asset-level equivalent of this property
+	 */
+	AllowedActivePoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName[]>>;
+	/**
+	 * A record mapping pose categories to something something.
+	 */
+	DrawPoseMapping: Partial<Record<AssetPoseCategory, AssetPoseName>>;
 	Effect: EffectName[];
 	Tints: ResolvedTintDefinition[];
 	Attribute: AssetAttribute[];
@@ -1305,7 +1338,6 @@ interface Character {
 	HasTints: () => boolean;
 	GetTints: () => RGBAColor[];
 	HasAttribute: (attribute: AssetAttribute) => boolean;
-	DrawPose?: AssetPoseName[];
 	DrawAppearance?: Item[];
 	AppearanceLayers?: Mutable<AssetLayer>[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;
@@ -3681,5 +3713,24 @@ interface PreviewDrawOptions {
 	/** The height of the preview rectangle */
 	Height?: number;
 }
+
+// #end region
+
+// #region deprecation
+
+/** @deprecated superseded by {@link PoseAvailable} */
+declare const CharacterItemsHavePoseAvailable: never;
+/** @deprecated superseded by {@link PoseAvailable} */
+declare const InventoryPrerequisiteCanChangeToPose: never;
+/** @deprecated superseded by {@link PoseSetByItems} */
+declare const CharacterItemsHavePose: never;
+/** @deprecated superseded by {@link PoseSetByItems} */
+declare const CharacterDoItemsSetPose: never;
+/** @deprecated superseded by {@link PoseCategoryAvailable} */
+declare const CharacterItemsHavePoseType: never;
+/** @deprecated superseded by {@link PoseRefresh} */
+declare const CharacterLoadPose: never;
+/** @deprecated superseded by {@link PoseToMapping} */
+declare const AssetPoseToMapping: never;
 
 // #end region

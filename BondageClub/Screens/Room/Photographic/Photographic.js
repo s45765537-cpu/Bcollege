@@ -72,7 +72,7 @@ function PhotographicClick() {
 	}
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 265) && (MouseY < 355) && Player.CanInteract()) CommonTakePhoto(750, 0, 500, 1000);
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 385) && (MouseY < 475)  && Player.CanKneel()) CharacterSetActivePose(Player, (Player.ActivePose.length === 0) ? "Kneel" : null, true);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 385) && (MouseY < 475)  && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 505) && (MouseY < 595) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 }
 
@@ -80,10 +80,17 @@ function PhotographicShotThePlayerPhoto() {
 	CommonTakePhoto(0, 0, 500, 1000);
 }
 
+/**
+ * @param {AssetGroupName} Group
+ */
 function PhotographicPlayerClothRemove(Group) {
 	InventoryRemove(Player, Group);
 }
 
+/**
+ * @param {Character} C
+ * @param {AssetGroupName} Group
+ */
 function PhotographicAppearanceAvailable(C, Group) {
 	for (let I = 0; I < C.Appearance.length; I++) {
 		if (C.Appearance[I].Asset.Group.Name == Group) {
@@ -93,6 +100,10 @@ function PhotographicAppearanceAvailable(C, Group) {
 	return false;
 }
 
+/**
+ * @param {string} Asset
+ * @param {AssetGroupName} Group
+ */
 function PhotographicPlayerAssetAvailable(Asset, Group) {
 	for (let I = Player.Inventory.length - 1; I > -1; I--)
 		if ((Player.Inventory[I].Name == Asset) && (Player.Inventory[I].Group == Group)) {return true;}
@@ -108,6 +119,10 @@ function PhotographicPlayerRelease() {
 	}
 }
 
+/**
+ * @param {string} Asset
+ * @param {AssetGroupName} Group
+ */
 function PhotographicUseAsset(Asset,Group) {
 	InventoryWear(Player, Asset, Group);
 	CharacterRefresh(Player);
@@ -122,20 +137,32 @@ function PhotographicSubDressBack() {
 	CharacterDress(PhotographicSub, PhotographicSubAppearance);
 }
 
+/**
+ * @param {AssetPoseCategory} PoseCategory
+ * @returns {boolean}
+ */
 function PhotographicSubPoseCategoryAllowed(PoseCategory) {
-	return !CharacterItemsHavePoseType(PhotographicSub, PoseCategory, true);
+	return PoseCategoryAvailable(PhotographicSub, PoseCategory);
 }
 
+/**
+ * @param {AssetPoseName} PoseName
+ */
 function PhotographicSubSetPose(PoseName) {
-	CharacterSetActivePose(PhotographicSub, PoseName);
+	PoseSetActive(PhotographicSub, PoseName);
 }
 
+/**
+ * @param {AssetGroupName} Group
+ */
 function PhotographicSubClothRemove(Group) {
 	InventoryRemove(PhotographicSub, Group);
 }
 
+/**
+ * @param {AssetGroupName} ItemGroup
+ */
 function PhotographicStartInventoryPlayer(ItemGroup) {
 	DialogLeaveItemMenu();
 	DialogChangeFocusToGroup(Player, ItemGroup);
 }
-

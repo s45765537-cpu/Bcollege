@@ -176,16 +176,6 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 }
 
 /**
- * Return whether the character has a given pose or is elligble to change to it.
- * @param {Character} C The character
- * @param {AssetPoseName} pose The to-be addopted pose
- * @returns {boolean} Whether the pose change can occur
- */
-function InventoryPrerequisiteCanChangeToPose(C, pose) {
-	return C.Pose.includes(pose) || CharacterCanChangeToPose(C, pose, false);
-}
-
-/**
 * Returns an error message if a prerequisite clashes with the character's items and clothes
 * @param {Character} C - The character on which we check for prerequisites
 * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
@@ -194,29 +184,35 @@ function InventoryPrerequisiteCanChangeToPose(C, pose) {
 function InventoryPrerequisiteMessage(C, Prerequisite) {
 	switch (Prerequisite) {
 		// Basic pose prerequisites
-		case "CanBaseUpper": return !InventoryPrerequisiteCanChangeToPose(C, "BaseUpper") ? "CannotBaseUpper" : "";
-		case "CanBackBoxTie": return !InventoryPrerequisiteCanChangeToPose(C, "BackBoxTie") ? "CannotBackBoxTie" : "";
-		case "CanBackCuffs": return !InventoryPrerequisiteCanChangeToPose(C, "BackCuffs") ? "CannotBackCuffs" : "";
-		case "CanBackElbowTouch": return !InventoryPrerequisiteCanChangeToPose(C, "BackElbowTouch") ? "CannotBackElbowTouch" : "";
-		case "CanOverTheHead": return !InventoryPrerequisiteCanChangeToPose(C, "OverTheHead") ? "CannotOverTheHead" : "";
-		case "CanTapedHands": return !InventoryPrerequisiteCanChangeToPose(C, "TapedHands") ? "CannotTapedHands" : "";
-		case "CanYoked": return !InventoryPrerequisiteCanChangeToPose(C, "Yoked") ? "CannotYoked" : "";
-		case "CanBaseLower": return !InventoryPrerequisiteCanChangeToPose(C, "BaseLower") ? "CannotBaseLower" : "";
-		case "CanKneel": return !InventoryPrerequisiteCanChangeToPose(C, "Kneel") ? "CannotKneel" : "";
-		case "CanKneelingSpread": return !InventoryPrerequisiteCanChangeToPose(C, "KneelingSpread") ? "CannotKneelingSpread" : "";
-		case "CanLegsClosed": return !InventoryPrerequisiteCanChangeToPose(C, "LegsClosed") ? "CannotLegsClosed" : "";
-		case "CanLegsOpen": return !InventoryPrerequisiteCanChangeToPose(C, "LegsOpen") ? "CannotLegsOpen" : "";
-		case "CanSpread": return !InventoryPrerequisiteCanChangeToPose(C, "Spread") ? "CannotSpread" : "";
-		case "CanHogtied": return !InventoryPrerequisiteCanChangeToPose(C, "Hogtied") ? "CannotHogtied" : "";
-		case "CanAllFours": return !InventoryPrerequisiteCanChangeToPose(C, "AllFours") ? "CannotAllFours" : "";
-		case "CanSuspension": return !InventoryPrerequisiteCanChangeToPose(C, "Suspension") ? "CannotSuspension" : "";
+		case "CanBaseUpper": return !PoseAvailable(C, "BodyUpper", "BaseUpper") ? "CannotBaseUpper" : "";
+		case "CanBackBoxTie": return !PoseAvailable(C, "BodyUpper", "BackBoxTie") ? "CannotBackBoxTie" : "";
+		case "CanBackCuffs": return !PoseAvailable(C, "BodyUpper", "BackCuffs") ? "CannotBackCuffs" : "";
+		case "CanBackElbowTouch": return !PoseAvailable(C, "BodyUpper", "BackElbowTouch") ? "CannotBackElbowTouch" : "";
+		case "CanOverTheHead": return !PoseAvailable(C, "BodyUpper", "OverTheHead") ? "CannotOverTheHead" : "";
+		case "CanYoked": return !PoseAvailable(C, "BodyUpper", "Yoked") ? "CannotYoked" : "";
+		case "CanTapedHands": return !PoseAvailable(C, "BodyHands", "TapedHands") ? "CannotTapedHands" : "";
+		case "CanBaseLower": return !PoseAvailable(C, "BodyLower", "BaseLower") ? "CannotBaseLower" : "";
+		case "CanKneel": return !PoseAvailable(C, "BodyLower", "Kneel") ? "CannotKneel" : "";
+		case "CanKneelingSpread": return !PoseAvailable(C, "BodyLower", "KneelingSpread") ? "CannotKneelingSpread" : "";
+		case "CanLegsClosed": return !PoseAvailable(C, "BodyLower", "LegsClosed") ? "CannotLegsClosed" : "";
+		case "CanLegsOpen": return !PoseAvailable(C, "BodyLower", "LegsOpen") ? "CannotLegsOpen" : "";
+		case "CanSpread": return !PoseAvailable(C, "BodyLower", "Spread") ? "CannotSpread" : "";
+		case "CanHogtied": return !PoseAvailable(C, "BodyFull", "Hogtied") ? "CannotHogtied" : "";
+		case "CanAllFours": return !PoseAvailable(C, "BodyFull", "AllFours") ? "CannotAllFours" : "";
+		case "CanSuspension": return !PoseAvailable(C, "BodyAddon", "Suspension") ? "CannotSuspension" : "";
 
 		// Basic prerequisites that can apply to many items
 		case "NoItemFeet": return (InventoryGet(C, "ItemFeet") != null) ? "MustFreeFeetFirst" : "";
 		case "NoItemArms": return (InventoryGet(C, "ItemArms") != null) ? "MustFreeArmsFirst" : "";
 		case "NoItemLegs": return (InventoryGet(C, "ItemLegs") != null) ? "MustFreeLegsFirst" : "";
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
-		case "NotKneeling": return CharacterItemsHavePose(C, "Kneel") ? "MustStandUpFirst" : "";
+		case "NotKneeling": {
+			const standingPoses = /** @type {const} */(["BaseLower", "LegsClosed", "LegsOpen", "Spread"]);
+			return (
+				C.PoseMapping.BodyLower === "Kneel"
+				&& !standingPoses.some(p => PoseAvailable(C, "BodyLower", p))
+			 ) ? "MustStandUpFirst" : "";
+		}
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
 		case "NotSuspended": return C.IsSuspended() ? "RemoveSuspensionForItem" : "";
 		case "NotLifted": return C.Effect.includes("Lifted") ? "RemoveSuspensionForItem" : "";
@@ -470,14 +466,14 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	const checkCharacter = CharacterLoadSimple("InventoryAllow");
 	checkCharacter.Appearance = C.Appearance.filter((item) => item.Asset.Group.Name !== asset.Group.Name);
 	CharacterLoadEffect(checkCharacter);
-	CharacterLoadPose(checkCharacter);
+	PoseRefresh(checkCharacter);
 
 	let Msg = "";
 	if (!asset.SetPose) {
 		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
-		const poseMapping = AssetPoseToMapping(asset.AllowActivePose);
+		const poseMapping = PoseToMapping.Array(asset.AllowActivePose, "Assset.AllowActivePose");
 		const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {

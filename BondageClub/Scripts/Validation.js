@@ -1208,12 +1208,12 @@ function ValidationGetPrerequisiteBlockingGroups(item, appearance) {
 	for (const checkItem of appearance) {
 		char.Appearance = appearance;
 		CharacterLoadEffect(char);
-		CharacterLoadPose(char);
+		PoseRefresh(char);
 		const allowedWithCheckItem = InventoryAllow(char, item.Asset, undefined, false);
 		if (!allowedWithCheckItem) {
 			char.Appearance = appearance.filter((appearanceItem) => appearanceItem.Asset !== checkItem.Asset);
 			CharacterLoadEffect(char);
-			CharacterLoadPose(char);
+			PoseRefresh(char);
 			const allowedWithoutCheckItem = InventoryAllow(char, item.Asset, undefined, false);
 			if (allowedWithoutCheckItem) {
 				blockingGroups.push(checkItem.Asset.Group.Name);

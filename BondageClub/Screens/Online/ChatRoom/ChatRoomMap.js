@@ -10,36 +10,36 @@ var ChatRoomMapViewRangeMax = 7;
 var ChatRoomMapTileOffset = 100;
 var ChatRoomMapTileList = [
 
-    { ID: 0, Type: "Floor", Style: "OakWood" },
-    { ID: 10, Type: "Floor", Style: "Stone" },
-    { ID: 20, Type: "Floor", Style: "Ceramic" }, // TO DO : Add Color tag for Ceramic tint
-    { ID: 30, Type: "Floor", Style: "Padded" },
+	{ ID: 0, Type: "Floor", Style: "OakWood" },
+	{ ID: 10, Type: "Floor", Style: "Stone" },
+	{ ID: 20, Type: "Floor", Style: "Ceramic" }, // TO DO : Add Color tag for Ceramic tint
+	{ ID: 30, Type: "Floor", Style: "Padded" },
 
-    { ID: 100, Type: "Floor", Style: "Dirt" },
-    { ID: 110, Type: "Floor", Style: "Grass" },
-    { ID: 120, Type: "Floor", Style: "Sand" },
-    { ID: 130, Type: "Floor", Style: "Gravel" },
+	{ ID: 100, Type: "Floor", Style: "Dirt" },
+	{ ID: 110, Type: "Floor", Style: "Grass" },
+	{ ID: 120, Type: "Floor", Style: "Sand" },
+	{ ID: 130, Type: "Floor", Style: "Gravel" },
 
-    { ID: 1000, Type: "Wall", Style: "Wood" },
-    { ID: 1010, Type: "Wall", Style: "Stone" },
-    { ID: 1020, Type: "Wall", Style: "Brick" },
-    { ID: 1030, Type: "Wall", Style: "Steel" },
-    { ID: 1040, Type: "Wall", Style: "Padded" },
+	{ ID: 1000, Type: "Wall", Style: "Wood" },
+	{ ID: 1010, Type: "Wall", Style: "Stone" },
+	{ ID: 1020, Type: "Wall", Style: "Brick" },
+	{ ID: 1030, Type: "Wall", Style: "Steel" },
+	{ ID: 1040, Type: "Wall", Style: "Padded" },
 
-    { ID: 2000, Type: "Door", Style: "Wood", Locked: false },
-    { ID: 2001, Type: "Door", Style: "Wood", Locked: true },
-    { ID: 2010, Type: "Door", Style: "IronBars", Locked: false },
-    { ID: 2011, Type: "Door", Style: "IronBars", Locked: true },
-    { ID: 2020, Type: "Door", Style: "Padded", Locked: false },
-    { ID: 2021, Type: "Door", Style: "Padded", Locked: true },
+	{ ID: 2000, Type: "Door", Style: "Wood", Locked: false },
+	{ ID: 2001, Type: "Door", Style: "Wood", Locked: true },
+	{ ID: 2010, Type: "Door", Style: "IronBars", Locked: false },
+	{ ID: 2011, Type: "Door", Style: "IronBars", Locked: true },
+	{ ID: 2020, Type: "Door", Style: "Padded", Locked: false },
+	{ ID: 2021, Type: "Door", Style: "Padded", Locked: true },
 
-    { ID: 3000, Type: "Window", Style: "Wood", Crawl: false },
-    { ID: 3001, Type: "Window", Style: "WoodHidden", Crawl: false },
-    { ID: 3010, Type: "Window", Style: "StoneTunnel", Crawl: true },
-    { ID: 3011, Type: "Window", Style: "StoneHidden", Crawl: false },
+	{ ID: 3000, Type: "Window", Style: "Wood", Crawl: false },
+	{ ID: 3001, Type: "Window", Style: "WoodHidden", Crawl: false },
+	{ ID: 3010, Type: "Window", Style: "StoneTunnel", Crawl: true },
+	{ ID: 3011, Type: "Window", Style: "StoneHidden", Crawl: false },
 
-    { ID: 4000, Type: "Water", Style: "Ocean" },
-    { ID: 4010, Type: "Water", Style: "Wave" },
+	{ ID: 4000, Type: "Water", Style: "Ocean" },
+	{ ID: 4010, Type: "Water", Style: "Wave" },
 
 ];
 

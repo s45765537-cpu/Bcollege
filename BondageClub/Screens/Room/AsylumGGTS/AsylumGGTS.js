@@ -24,8 +24,11 @@ var AsylumGGTSTaskList = [
 	["QueryCanFailMaster", "QueryLoveMaster", "QuerySurrenderMaster", "QueryWhoControlMaster", "QueryServeObeyMaster"]
 ];
 var AsylumGGTSLevelTime = [0, 7200000, 10800000, 18000000, 28800000, 46800000, 75600000];
-/** The last pose the character had. Used to enforce KeepPose rules */
-var AsylumGGTSPreviousPose = [];
+/**
+ * The last pose the character had. Used to enforce KeepPose rules.
+ * @type {null | Partial<Record<AssetPoseCategory, AssetPoseName>>}
+ */
+var AsylumGGTSPreviousPose = null;
 var AsylumGGTSWordCheck = 0;
 var AsylumGGTSSpeed = 1;
 
@@ -204,7 +207,7 @@ function AsylumGGTSBuildPrivate() {
 	ChatRoomSpace = "Asylum";
 	AsylumGGTSTimer = 0;
 	AsylumGGTSTask = null;
-	AsylumGGTSPreviousPose = [...Player.Pose];
+	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 	ChatSearchReturnToScreen = "AsylumGGTS";
 	ChatCreateLoad();
@@ -360,10 +363,10 @@ function AsylumGGTSTaskDone(C, T) {
 	if (T == "QueryFreeWill") return AsylumGGTSQueryDone(Level, C.MemberNumber, "idonthavefreewill", "I don't have free will.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "idonothavefreewill", "I do not have free will.");
 	if (T == "QuerySlaveWorthy") return AsylumGGTSQueryDone(Level, C.MemberNumber, "istrivetobeslaveworthy", "I strive to be slave worthy.");
 	if ((T == "NoTalking") && (CommonTime() >= AsylumGGTSTimer - 1000)) return true;
-	if ((T == "PoseOverHead") && ((C.Pose.indexOf("Yoked") >= 0) || (C.Pose.indexOf("OverTheHead") >= 0))) return true;
-	if ((T == "PoseBehindBack") && ((C.Pose.indexOf("BackBoxTie") >= 0) || (C.Pose.indexOf("BackElbowTouch") >= 0) || (C.Pose.indexOf("BackCuffs") >= 0))) return true;
-	if ((T == "PoseLegsClosed") && (C.Pose.indexOf("LegsClosed") >= 0)) return true;
-	if ((T == "PoseLegsOpen") && (C.Pose.indexOf("LegsClosed") < 0)) return true;
+	if ((T == "PoseOverHead") && ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)) return true;
+	if ((T == "PoseBehindBack") && ["BlackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) return true;
+	if ((T == "PoseLegsClosed") && C.PoseMapping.BodyLower === "LegsClosed") return true;
+	if ((T == "PoseLegsOpen") && C.PoseMapping.BodyLower === "LegsOpen") return true;
 	return false;
 }
 
@@ -860,7 +863,7 @@ function AsylumGGTSNewTask() {
 	AsylumGGTSLastTask = AsylumGGTSTask;
 	AsylumGGTSTaskStart = CommonTime();
 	AsylumGGTSAutomaticTask();
-	AsylumGGTSPreviousPose = [...Player.Pose];
+	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 }
 
 /**
@@ -893,7 +896,7 @@ function AsylumGGTSEndTaskSave(Fail) {
 	}
 	ChatRoomCharacterUpdate(Player);
 	AsylumGGTSTaskEnd = CommonTime();
-	AsylumGGTSPreviousPose = [...Player.Pose];
+	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 }
 
 /**
@@ -1013,7 +1016,7 @@ function AsylumGGTSProcess() {
 	}
 
 	// Validates that the pose rule isn't broken
-	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("KeepPose") >= 0) && !CommonArraysEqual(AsylumGGTSPreviousPose, Player.Pose, true))
+	if ((Player.Game != null) && (Player.Game.GGTS != null) && (Player.Game.GGTS.Rule != null) && (Player.Game.GGTS.Rule.indexOf("KeepPose") >= 0) && !CommonObjectEqual(AsylumGGTSPreviousPose, Player.PoseMapping))
 		if (!AsylumGGTSTaskDone(Player, AsylumGGTSTask)) {
 			AsylumGGTSAddStrike();
 			AsylumGGTSMessage("KeepPoseStrike" + Player.Game.GGTS.Strike.toString());
@@ -1365,5 +1368,5 @@ function AsylumGGTSDrawCharacter(C, X, Y, Zoom) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSReset() {
-	AsylumGGTSPreviousPose = [...Player.Pose];
+	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 }
