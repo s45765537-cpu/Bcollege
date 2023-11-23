@@ -45,6 +45,7 @@ var ChatSearchFilterTermsTemp = "";
 function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
 	ChatRoomMapVisible = false;
+	ChatRoomMapEditMode = "";
 	if (ChatSearchReturnToScreen != null) {
 		CommonSetScreen("Room", ChatSearchReturnToScreen);
 		ChatSearchReturnToScreen = null;

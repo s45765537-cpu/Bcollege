@@ -11,8 +11,8 @@ var ChatRoomMapTileOffset = 100;
 var ChatRoomMapEditMode = "";
 var ChatRoomMapEditSubMode = "";
 var ChatRoomMapEditTileID = -1;
-var ChatRoomMapEditTileX = 0;
-var ChatRoomMapEditTileY = 0;
+var ChatRoomMapEditSelection = [];
+var ChatRoomMapEditRange = 1;
 var ChatRoomMapTileList = [
 
 	{ ID: 0, Type: "Floor", Style: "OakWood" },
@@ -71,8 +71,9 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
 	let TileHeight = Height / ((ChatRoomMapViewRange * 2) + 1);
 	let Pos = 0;
-	ChatRoomMapEditTileX = -1;
-	ChatRoomMapEditTileY = -1;
+	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
+	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
+	ChatRoomMapEditSelection = [];
 
 	// For each tiles in the grid
 	while (Pos < ChatRoomMapWidth * ChatRoomMapHeight) {
@@ -87,10 +88,9 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 					break;
 				}
-			if ((ChatRoomMapEditMode != "") && (Left + ScreenX <= MouseX) && (Left + ScreenX + TileWidth >= MouseX) && (Top + ScreenY <= MouseY) && (Top + ScreenY + TileHeight >= MouseY)) {
-				ChatRoomMapEditTileX = X;
-				ChatRoomMapEditTileY = Y;
-				DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 2);
+			if ((ChatRoomMapEditMode == "Tile") && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+				ChatRoomMapEditSelection.push(Pos);
+				DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 			}
 		}
 		Pos++;
@@ -134,7 +134,8 @@ function ChatRoomMapDraw() {
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapEditMode == "Tile") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
-		let Y = 10;
+		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/Map/Range/" + ChatRoomMapEditRange.toString() + ".png");
+		let Y = 80;
 		for (let Tile of ChatRoomMapTileList)
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
@@ -184,11 +185,22 @@ function ChatRoomMapClick() {
 
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapEditMode == "Tile") {
+
+		// The first button returns to type selection
 		if (MouseIn(10, 10, 60, 60)) {
 			ChatRoomMapEditMode = "Type";
 			return;
 		}
-		let Y = 10;
+
+		// The second button allows changing the edit size from 1 to 5
+		if (MouseIn(10, 80, 60, 60)) {
+			ChatRoomMapEditRange++;
+			if (ChatRoomMapEditRange > 5) ChatRoomMapEditRange = 1;
+			return;
+		}
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
 		for (let Tile of ChatRoomMapTileList)
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
@@ -197,10 +209,12 @@ function ChatRoomMapClick() {
 					return;
 				}
 			}
-		if ((ChatRoomMapEditTileX >= 0) && (ChatRoomMapEditTileY >= 0) && (ChatRoomMapEditTileID >= 0)) {
-			let I = ChatRoomMapEditTileY * ChatRoomMapWidth + ChatRoomMapEditTileX;
-			ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, I) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(I + 1);
-		}
+
+		// When clicking on the map the user can edit tiles
+		if (ChatRoomMapEditTileID >= 0)
+			for (let Pos of ChatRoomMapEditSelection)
+				ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(Pos + 1);
+
 	}
 
 }
