@@ -15163,7 +15163,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
-				AllowActivePose: ["Kneel", "KneelingSpread", "AllFours", "Hogtied"],
+				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
 				Effect: ["Slow"],
 			},
 			{
@@ -22034,7 +22034,7 @@ var AssetFemale3DCG = [
 					Suspension: "Suspension",
 				},
 				SetPose: ["BaseLower", "BackElbowTouch"],
-				AllowActivePose: ["BaseLower", "Kneel"],
+				AllowActivePose: ["LegsOpen", "Kneel"],
 				Effect: ["Block", "Freeze", "Prone"],
 				Block: [
 					"ItemTorso",
@@ -23249,12 +23249,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				AllowActivePose: [
-					"BackElbowTouch",
-					"Kneel",
-					"KneelingSpread",
-					"AllFours",
-				],
+				AllowActivePose: [...PoseAllKneeling, "BackElbowTouch", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
 				Effect: ["Block", "Prone"],
 				Block: ["ItemHands", "ItemHandheld"],
@@ -26334,7 +26329,7 @@ var AssetFemale3DCG = [
 					Hogtied: "Hogtied",
 				},
 				SetPose: ["Kneel"],
-				AllowActivePose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: [...PoseAllKneeling],
 				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
@@ -26356,7 +26351,7 @@ var AssetFemale3DCG = [
 					Hogtied: "Hogtied",
 				},
 				SetPose: ["Kneel"],
-				AllowActivePose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: [...PoseAllKneeling],
 				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
@@ -26465,7 +26460,7 @@ var AssetFemale3DCG = [
 					Hogtied: "Hogtied",
 				},
 				SetPose: ["Kneel"],
-				AllowActivePose: ["Kneel", "KneelingSpread"],
+				AllowActivePose: [...PoseAllKneeling],
 				Effect: ["Freeze", "IsChained"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
@@ -36469,6 +36464,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				DefaultColor: ["Default", "#600"],
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 				Extended: true,
 				DynamicAfterDraw: true,
 				MinOpacity: 0,
@@ -36589,6 +36585,7 @@ var AssetFemale3DCG = [
 					},
 				],
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 				Layer: [
 					{ Name: "Frame", ColorGroup: "Cage" },
 					{ Name: "Mesh", ColorGroup: "Cage" },
@@ -37059,7 +37056,7 @@ var AssetFemale3DCG = [
 				Block: ["ItemAddon"],
 				Effect: ["Freeze"],
 				SetPose: ["BaseLower"],
-				AllowActivePose: ["LegsOpen", "LegsClosed", "Spread"],
+				AllowActivePose: [...PoseAllStanding],
 				Layer: [
 					{ Name: "Base", Priority: 1, MinOpacity: 1, HasType: false },
 					{
@@ -37163,6 +37160,7 @@ var AssetFemale3DCG = [
 				],
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 			},
 			{
 				Name: "SmallDisplayCase",
@@ -37380,6 +37378,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				Extended: true,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 				DefaultColor: [
 					"#530E50",
 					"#DD2BD5",
@@ -37456,6 +37455,7 @@ var AssetFemale3DCG = [
 				],
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 			},
 			{
 				Name: "SmallWoodenBoxOpenHead",
@@ -38123,7 +38123,7 @@ var AssetFemale3DCG = [
 				Effect: ["Tethered"],
 				RemoveAtLogin: true,
 				SetPose: ["Kneel"],
-				AllowActivePose: ["AllFours", "KneelingSpread", "Hogtied"],
+				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
 				FixedPosition: true,
 				Extended: true,
 				HasType: false,
@@ -38179,6 +38179,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "LegsClosed"],
 				MinOpacity: 0,
 				Opacity: 0,
 				DynamicAfterDraw: true,
@@ -38362,6 +38363,7 @@ var AssetFemale3DCG = [
 				Difficulty: -100,
 				RemoveTime: 15,
 				SetPose: ["BaseLower"],
+				AllowActivePose: ["LegsOpen", "Spread"],
 				Left: 1,
 				Top: 465,
 				Priority: 6,
@@ -38439,6 +38441,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				DefaultColor: ["#666", "#974338"],
 				SetPose: ["BackBoxTie", "BaseLower"],
+				AllowActivePose: [...PoseAllStanding],
 				Effect: ["Freeze", "Block", "Prone", "KneelFreeze"],
 				Hide: [
 					"BodyLower",

@@ -984,7 +984,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						SetPose: ["BaseLower", "BackElbowTouch"],
-						AllowActivePose: ["Kneel"],
+						AllowActivePose: ["Kneel", "LegsOpen", "LegsClosed"],
 					},
 				},
 				{
@@ -1261,7 +1261,7 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: [...PoseAllKneeling],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2650,7 +2650,7 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: [...PoseAllKneeling],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2767,7 +2767,7 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: [...PoseAllKneeling],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
 					Random: false,
@@ -2818,7 +2818,7 @@ var AssetFemale3DCGExtended = {
 						Block: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
-						AllowActivePose: ["Kneel", "KneelingSpread"],
+						AllowActivePose: [...PoseAllKneeling],
 						Difficulty: 6,
 						OverrideHeight: {
 							Height: -250,
@@ -6969,7 +6969,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 18,
 								SetPose: ["BackElbowTouch"],
-								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Freeze", "Block", "Mounted"],
 								OverrideHeight: { Height: 0, Priority: 60 },
@@ -6981,7 +6981,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 18,
 								SetPose: ["BackBoxTie"],
-								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Freeze", "Block", "Mounted"],
 								OverrideHeight: { Height: 0, Priority: 60 },
@@ -6993,7 +6993,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 22,
 								SetPose: ["OverTheHead"],
-								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Freeze", "Block", "Mounted"],
 								OverrideHeight: { Height: 0, Priority: 60 },
@@ -7012,7 +7012,7 @@ var AssetFemale3DCGExtended = {
 							Prerequisite: ["AccessVulva", "VulvaEmpty"],
 							Property: {
 								SetPose: ["BaseLower"],
-								AllowActivePose: ["Spread", "LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Effect: ["Prone", "Freeze", "VulvaShaft"],
 								OverrideHeight: { Height: 0, Priority: 60 },
 							},
@@ -7572,7 +7572,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 6,
 								SetPose: ["Yoked"],
-								AllowActivePose: ["LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Block"],
 							},
@@ -7582,7 +7582,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 6,
 								SetPose: ["OverTheHead"],
-								AllowActivePose: ["LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Block"],
 							},
@@ -7593,7 +7593,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 10,
 								SetPose: ["Yoked"],
-								AllowActivePose: ["LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Block"],
 							},
@@ -7604,7 +7604,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 10,
 								SetPose: ["OverTheHead"],
-								AllowActivePose: ["LegsClosed", "BaseLower"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone", "Block"],
 							},
@@ -7614,6 +7614,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 12,
 								SetPose: ["Yoked"],
+								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: ["Prone"],
 							},
@@ -7669,7 +7670,7 @@ var AssetFemale3DCGExtended = {
 							AllowLock: true,
 							Property: {
 								Difficulty: 12,
-								SetPose: ["BaseLower"],
+								SetPose: ["LegsOpen"],
 								Block: ["ItemFeet"],
 								Effect: ["Prone"],
 								Hide: ["ItemBoots", "Shoes"],
@@ -10617,7 +10618,7 @@ var AssetFemale3DCGExtended = {
 					BondageLevel: 3,
 					Property: {
 						SetPose: ["Kneel"],
-						AllowActivePose: ["Kneel", "KneelingSpread", "AllFours", "Hogtied"],
+						AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
 						Difficulty: 3,
 					},
 					Random: false,
@@ -13334,7 +13335,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["BaseLower"],
-						AllowActivePose: ["LegsClosed", "Spread", "LegsOpen"],
+						AllowActivePose: [...PoseAllStanding],
 					},
 				},
 				{
@@ -13376,7 +13377,7 @@ var AssetFemale3DCGExtended = {
 					Prerequisite: ["NotSuspended"],
 					Property: {
 						SetPose: ["Kneel"],
-						AllowActivePose: ["KneelingSpread"],
+						AllowActivePose: [...PoseAllKneeling],
 						Effect: ["Freeze", "IsChained"],
 					},
 				},
