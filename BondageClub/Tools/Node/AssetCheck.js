@@ -3,7 +3,7 @@
 const vm = require("vm");
 const fs = require("fs");
 
-const { NEEDED_FILES, BASE_PATH, error, loadCSV } = require("./Common.js");
+const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries } = require("./Common.js");
 const common = require("./Common.js");
 
 /**
@@ -1058,6 +1058,54 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 }
 
 /**
+ * Check that {@link Asset.SetPose} contains only one pose per category.
+ * @param {readonly Asset[]} assets
+ * @param {readonly Pose[]} poses
+ */
+function testSetPose(assets, poses) {
+	const poseRecord = fromEntries(poses.map(p => [p.Name, p]));
+	for (const asset of assets) {
+		const setPose = asset.SetPose;
+		if (!setPose) {
+			continue;
+		}
+
+		/** @type {Partial<Record<AssetPoseCategory, { n: number, poses: Pose[] }> }} */
+		const categories = {};
+		for (const poseName of setPose) {
+			const pose = poseRecord[poseName];
+			const rec = categories[pose.Category];
+			if (rec) {
+				rec.n += 1;
+				rec.poses.push(pose);
+			} else {
+				categories[pose.Category] = { n: 1, poses: [pose] };
+			}
+		}
+
+		if ("BodyFull" in categories && ("BodyUpper" in categories || "BodyLower" in categories)) {
+			const invalidPoses = [
+				...(categories.BodyFull?.poses ?? []),
+				...(categories.BodyUpper?.poses ?? []),
+				...(categories.BodyLower?.poses ?? []),
+			].map(p => p.Name);
+			error(
+				`${asset.Group.Name}:${asset.Name}: Cannot have both BodyFull and BodyUpper/BodyLower poses specified in SetPose`
+				+ `; offending members: ${invalidPoses}`,
+			);
+		}
+
+		const duplicates = Object.values(categories).filter(pose => pose.n > 1).flatMap(pose => pose.poses.map(p => p.Name));
+		if (duplicates.length > 0) {
+			error(
+				`${asset.Group.Name}:${asset.Name}: Cannot have both multiple poses of the same category specified in SetPose`
+				+ `; offending members: ${duplicates}`,
+			);
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1124,6 +1172,8 @@ function sanitizeVMOutput(input) {
 	const assetList = context.Asset;
 	/** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */
 	const poseMap = context.TestingPoseMap;
+	/** @type {Pose[]} */
+	const pose = context.PoseFemale3DCG;
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -1286,4 +1336,5 @@ function sanitizeVMOutput(input) {
 		modular: ModularItemDataLookup,
 		typed: TypedItemDataLookup,
 	});
+	testSetPose(assetList, pose);
 })();
