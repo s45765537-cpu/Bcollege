@@ -25917,7 +25917,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#4D4848", "Default", "#7E7B77", "#FFFFFF", "#ACA1A1"],
 				Effect: ["BlockMouth", "GagMedium", "BlindNormal", "Prone"],
 				Prerequisite: ["AccessMouth", "EyesEmpty", "HoodEmpty", "GagUnique"],
-				Block: ["ItemHood", "ItemHead", "ItemMouth"],
+				Block: ["ItemHead", "ItemMouth"],
 				AllowActivityOn: ["ItemHead"],
 				Value: 100,
 				Difficulty: 30,
