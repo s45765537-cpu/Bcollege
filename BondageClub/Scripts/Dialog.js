@@ -1214,9 +1214,15 @@ function DialogMenuButtonBuild(C) {
 
 		const LockBlockedOrLimited = InventoryBlockedOrLimited(C, Lock) || ItemBlockedOrLimited;
 
-		if (!Player.IsBlind() && DialogCanUnlock(C, Item) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract())
-			|| ((Item != null) && (C.ID == 0) && !Player.CanInteract() && InventoryItemHasEffect(Item, "Block", true) && DialogCanUnlock(C, Item) && InventoryAllow(
-				C, Item.Asset) && !IsGroupBlocked)) {
+		if (
+			Item != null
+			&& !IsGroupBlocked
+			&& DialogCanUnlock(C, Item)
+			&& (
+				(!Player.IsBlind() && (!C.IsPlayer() || C.CanInteract()))
+				|| (C.IsPlayer() && !Player.CanInteract() && InventoryItemHasEffect(Item, "Block", true))
+			)
+		) {
 			DialogMenuButton.push("Unlock");
 		}
 		if (InventoryItemIsPickable(Item)) {
@@ -1254,16 +1260,16 @@ function DialogMenuButtonBuild(C) {
 			DialogMenuButton.push("Prev");
 		}
 
-		if (IsItemLocked && DialogCanUnlock(C, Item) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract()))
+		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract()))
 			DialogMenuButton.push("Remove");
 
-		if (!IsItemLocked && !IsGroupBlocked && (Item != null) && (Item.Asset != null) && Item.Asset.AllowTighten && Player.CanInteract() && InventoryAllow(C, Item.Asset))
+		if (!IsItemLocked && !IsGroupBlocked && (Item != null) && (Item.Asset != null) && Item.Asset.AllowTighten && Player.CanInteract())
 			DialogMenuButton.push("TightenLoosen");
 
 		if (DialogCanCheckLock(C, Item))
 			DialogMenuButton.push("LockMenu");
 
-		if ((Item != null) && (C.ID == 0) && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && InventoryAllow(C, Item.Asset) && !IsGroupBlocked)
+		if ((Item != null) && (C.ID == 0) && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && !IsGroupBlocked)
 			DialogMenuButton.push("Struggle");
 
 		if ((Item != null) && (Item.Craft != null))
@@ -1275,7 +1281,7 @@ function DialogMenuButtonBuild(C) {
 		} else if (Item != null) {
 			// There's an item in the slot
 
-			if (!IsItemLocked && Player.CanInteract() && InventoryAllow(C, Item.Asset) && !IsGroupBlocked) {
+			if (!IsItemLocked && Player.CanInteract() && !IsGroupBlocked) {
 				if (InventoryDoesItemAllowLock(Item)) {
 					DialogMenuButton.push(ItemBlockedOrLimited ? "LockDisabled" : "Lock");
 				}
