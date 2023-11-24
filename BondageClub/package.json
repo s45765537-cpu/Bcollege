@@ -16,7 +16,7 @@
 		"scripts:lint": "eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:typecheck": "cd ../ && tsc -p BondageClub/jsconfig.json",
-		"files:case": "(! (git ls-files | sort -f | uniq -D -i | grep --color=never . )) && echo 'Ok'",
+		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"test": "echo \\\"Error: no test specified\\\" && exit 1"
 	},
 	"repository": {

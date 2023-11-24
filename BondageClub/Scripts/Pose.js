@@ -1,6 +1,18 @@
 "use strict";
 
 /**
+ * A list with all kneeling {@link AssetPoseMap["BodyLower"]} pose names.
+ * @satisfies {readonly AssetPoseMap["BodyLower"][]}
+ */
+const PoseAllKneeling = Object.freeze(["Kneel", "KneelingSpread"]);
+
+/**
+ * A list with all standing {@link AssetPoseMap["BodyLower"]} pose names.
+ * @satisfies {readonly AssetPoseMap["BodyLower"][]}
+ */
+const PoseAllStanding = Object.freeze(["BaseLower", "LegsOpen", "LegsClosed", "Spread"]);
+
+/**
  * Namespace with functions for converting pose name arrays into records
  * @namespace
  */
@@ -89,8 +101,7 @@ function PoseCanChangeUnaided(C, poseName) {
 	}
 
 	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support
-	const standingPoses = /** @type {const} */(["LegsClosed", "LegsOpen", "Spread"]);
-	return !standingPoses.some(p => PoseSetByItems(C, pose.Category, p));
+	return !PoseAllStanding.some(p => PoseSetByItems(C, pose.Category, p));
 }
 
 /**

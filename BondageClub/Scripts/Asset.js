@@ -300,8 +300,7 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 
 	/** @type {AssetPrerequisite[]} */
 	const posePrerequisite = SetPose.map(i => /** @type {const} */(`Can${i}`));
-	const standingPoses = /** @type {const} */(["BaseLower", "LegsClosed", "LegsOpen", "Spread"]);
-	if (standingPoses.some(p => SetPose.includes(p)) && !allowActivePose.includes("Kneel")) {
+	if (PoseAllStanding.some(p => SetPose.includes(p)) && !allowActivePose.includes("Kneel")) {
 		posePrerequisite.push("NotKneeling");
 	}
 

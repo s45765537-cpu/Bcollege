@@ -207,10 +207,9 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NoItemLegs": return (InventoryGet(C, "ItemLegs") != null) ? "MustFreeLegsFirst" : "";
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
 		case "NotKneeling": {
-			const standingPoses = /** @type {const} */(["BaseLower", "LegsClosed", "LegsOpen", "Spread"]);
 			return (
 				C.PoseMapping.BodyLower === "Kneel"
-				&& !standingPoses.some(p => PoseAvailable(C, "BodyLower", p))
+				&& !PoseAllStanding.some(p => PoseAvailable(C, "BodyLower", p))
 			 ) ? "MustStandUpFirst" : "";
 		}
 		case "NotMounted": return C.Effect.includes("Mounted") ? "CannotBeUsedWhenMounted" : "";
