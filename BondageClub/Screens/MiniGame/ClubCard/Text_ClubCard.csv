@@ -302,6 +302,7 @@ Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.  Extra 
 Title Moving Out of Town,Moving Out of Town
 Text Moving Out of Town,Remove any member from your opponent club.
 Prerequisite Moving Out of Town,Select a member from your opponent club to remove.
+Prerequisite Kidnapping,Select a member from your opponent's club to kidnap.
 Title Virtual Meeting,Virtual Meeting
 Text Virtual Meeting,Draw 2 cards
 Title Weekend Meeting,Weekend Meeting
