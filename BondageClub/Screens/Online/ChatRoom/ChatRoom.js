@@ -1980,7 +1980,7 @@ function ChatRoomRun() {
 		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
 
 	// Draw the map button in the upper left if the room allows it
-	if (ChatRoomMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+	if (ChatRoomMapButton()) DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 
 	// Runs any needed online game script
 	OnlineGameRun();
@@ -2044,13 +2044,17 @@ function ChatRoomClick() {
 	}
 
 	// Go from character view to map view
-	if (ChatRoomMapButton() && MouseIn(10, 10, 60, 60)) {
+	if (ChatRoomMapButton() && MouseIn(930, 930, 60, 60)) {
 		ChatRoomMapVisible = true;
+		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
+		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
+		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", ChatRoomMapMouseUp);
+		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("wheel", ChatRoomMapMouseWheel);
+		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", ChatRoomMapMouseDown);
+		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchmove", ChatRoomMapMouseMove);
+		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", ChatRoomMapMouseUp);
 		return;
 	}
-
-	// Forward the clicks to the chat room map
-	if (ChatRoomMapVisible) ChatRoomMapClick();
 
 	// When the user chats or clicks on a character
 	if (!ChatRoomMapVisible && MouseIn(0, 0, 1000, 1000)) ChatRoomDrawCharacter(true);

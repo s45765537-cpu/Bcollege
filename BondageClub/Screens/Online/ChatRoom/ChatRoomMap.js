@@ -4,12 +4,13 @@ var ChatRoomMapWidth = 40;
 var ChatRoomMapHeight = 40;
 var ChatRoomMapPosX = ChatRoomMapWidth / 2;
 var ChatRoomMapPosY = ChatRoomMapHeight / 2;
-var ChatRoomMapViewRange = 2;
+var ChatRoomMapViewRange = 4;
 var ChatRoomMapViewRangeMin = 1;
 var ChatRoomMapViewRangeMax = 7;
 var ChatRoomMapTileOffset = 100;
 var ChatRoomMapEditMode = "";
 var ChatRoomMapEditSubMode = "";
+var ChatRoomMapEditStarted = false;
 var ChatRoomMapEditTileID = -1;
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
@@ -55,7 +56,18 @@ var ChatRoomMapTileList = [
  */
 function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != null) && (ChatRoomData.MapData != null) && ChatRoomData.MapData.Active); }
 
-// Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
+/**
+ * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
+ * @param {boolean} NW - If North West is a wall
+ * @param {boolean} NC - If North Center is a wall
+ * @param {boolean} NE - If North East is a wall
+ * @param {boolean} CW - If Center West is a wall
+ * @param {boolean} CE - If Center East is a wall
+ * @param {boolean} SW - If South West is a wall
+ * @param {boolean} SC - If South Center is a wall
+ * @param {boolean} SE - If South East is a wall
+ * @returns {number} - a number linked on the image to use
+ */
 function ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE) {
 
 	if (SC && NC && CE && CW && SE && NE && NW && SW) return 0;
@@ -122,7 +134,12 @@ function ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE) {
 
 }
 
-// Returns TRUE if the current tile is a wall
+/**
+ * Returns TRUE if the X and Y coordinates is a wall tile, if out of bound we also return TRUE
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {boolean} - TRUE if it's a wall
+ */
 function ChatRoomMapIsWall(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
 	let ID = ChatRoomData.MapData.Grid.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
@@ -216,6 +233,12 @@ function ChatRoomMapDraw() {
 	// Draw the full grid on the left side of the screen
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
 
+	// Draw the movement buttons
+	DrawButton(860, 790, 60, 60, "", "White", "Icons/Small/North.png");
+	DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/West.png");
+	DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/East.png");
+	DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
+
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapEditMode == "") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowCharacter.png");
@@ -254,10 +277,69 @@ function ChatRoomMapDraw() {
 }
 
 /**
- * Handles clicks in the chat room map screen
+ * Check if a tile on the map can be entered by a player
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {boolean} - TRUE if the player can enter that tile
+ */
+function ChatRoomMapCanEnterTile(X, Y) {
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
+	if (ChatRoomMapIsWall(X, Y)) return false;
+	return true;
+}
+
+/**
+ * Moves the player
+ * @param {string} D - The X position on the screen
  * @returns {void} - Nothing
  */
-function ChatRoomMapClick() {
+function ChatRoomMapMove(D) {
+
+	// Gets the new position
+	let X = ChatRoomMapPosX + ((D == "W") ? -1 : 0) + ((D == "E") ? 1 : 0);
+	let Y = ChatRoomMapPosY + ((D == "N") ? -1 : 0) + ((D == "S") ? 1 : 0);
+
+	// If we can enter the tile
+	if (ChatRoomMapCanEnterTile(X, Y)) {
+		ChatRoomMapPosX = X;
+		ChatRoomMapPosY = Y;
+	}
+
+}
+
+/**
+ * Handles keyboard keys in the chat room map screen
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapKeyDown() {
+
+	// ENTER to go back to the chat box
+	if (KeyPress == 13) ElementFocus("InputChat");
+
+	// + and - to change the view range / zoom
+	if (((KeyPress == 43) || (KeyPress == 61)) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
+	if (((KeyPress == 45) || (KeyPress == 95)) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
+
+	// WASD to move
+	if ((KeyPress == 87) || (KeyPress == 119)) ChatRoomMapMove("N");
+	if ((KeyPress == 65) || (KeyPress == 97)) ChatRoomMapMove("W");
+	if ((KeyPress == 83) || (KeyPress == 115)) ChatRoomMapMove("S");
+	if ((KeyPress == 68) || (KeyPress == 100)) ChatRoomMapMove("E");
+
+}
+
+/**
+ * Mouse down event is used to draw on screen and handle the tiles buttons
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapMouseDown() {
+
+	// The walk buttons
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if (MouseIn(860, 790, 60, 60)) return ChatRoomMapMove("N");
+	if (MouseIn(790, 860, 60, 60)) return ChatRoomMapMove("W");
+	if (MouseIn(930, 860, 60, 60)) return ChatRoomMapMove("E");
+	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("S");
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapEditMode == "") {
@@ -288,9 +370,9 @@ function ChatRoomMapClick() {
 				}
 			}
 	}
-
-	// In tile edit mode, we show all tiles of a spectific tyle
-	if (ChatRoomMapEditMode == "Tile") {
+	
+	// If tile edit mode
+	if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
 
 		// The first button returns to type selection
 		if (MouseIn(10, 10, 60, 60)) {
@@ -316,26 +398,40 @@ function ChatRoomMapClick() {
 				}
 			}
 
-		// When clicking on the map the user can edit tiles
-		if (ChatRoomMapEditTileID >= 0)
-			for (let Pos of ChatRoomMapEditSelection)
-				ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(Pos + 1);
+		// Enter the drawing mode
+		ChatRoomMapEditStarted = true;
+		ChatRoomMapMouseMove();
 
 	}
 
 }
 
 /**
- * Handles keyboard keys in the chat room map screen
+ * Mouse move event is used to draw on screen
  * @returns {void} - Nothing
  */
-function ChatRoomMapKeyDown() {
+function ChatRoomMapMouseMove() {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditTileID >= 0))
+		for (let Pos of ChatRoomMapEditSelection)
+			ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(Pos + 1);
+}
 
-	// ENTER to go back to the chat box
-	if (KeyPress == 13) ElementFocus("InputChat");
+/**
+ * Mouse up event is used to stop drawing
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapMouseUp() {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	ChatRoomMapEditStarted = false;
+}
 
-	// + and - to change the view range / zoom
-	if (((KeyPress == 43) || (KeyPress == 61)) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
-	if (((KeyPress == 45) || (KeyPress == 95)) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
-
+/**
+ * Mouse wheel event is used to zoom the map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapMouseWheel(Event) {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((MouseX <= 1000) && (Event.deltaY < 0) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
+	if ((MouseX <= 1000) && (Event.deltaY > 0) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
 }
