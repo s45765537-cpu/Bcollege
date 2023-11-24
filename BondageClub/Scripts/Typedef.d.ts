@@ -1366,6 +1366,10 @@ interface Character {
 		Poker?: GamePokerParameters,
 		ClubCard?: GameClubCardParameters,
 	};
+	MapData?: {
+		X?: number;
+		Y?: number;
+	};
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;

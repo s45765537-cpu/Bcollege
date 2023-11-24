@@ -1,9 +1,8 @@
 "use strict";
 var ChatRoomMapVisible = false;
+var ChatRoomMapAllow = true;
 var ChatRoomMapWidth = 40;
 var ChatRoomMapHeight = 40;
-var ChatRoomMapPosX = ChatRoomMapWidth / 2;
-var ChatRoomMapPosY = ChatRoomMapHeight / 2;
 var ChatRoomMapViewRange = 4;
 var ChatRoomMapViewRangeMin = 1;
 var ChatRoomMapViewRangeMax = 7;
@@ -14,6 +13,8 @@ var ChatRoomMapEditStarted = false;
 var ChatRoomMapEditTileID = -1;
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
+var ChatRoomMapUpdateRoomNext = null;
+var ChatRoomMapUpdatePlayerNext = null;
 var ChatRoomMapTileList = [
 
 	{ ID: 0, Type: "Floor", Style: "OakWood" },
@@ -183,8 +184,15 @@ function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 	// Make sure the player position on the grid is valid
-	if ((ChatRoomMapPosX == null) || (ChatRoomMapPosX < 0) || (ChatRoomMapPosX >= ChatRoomMapWidth)) ChatRoomMapPosX = ChatRoomMapWidth / 2;
-	if ((ChatRoomMapPosY == null) || (ChatRoomMapPosY < 0) || (ChatRoomMapPosY >= ChatRoomMapWidth)) ChatRoomMapPosY = ChatRoomMapWidth / 2;
+	if (Player.MapData == null) Player.MapData = {};
+	if ((Player.MapData.X == null) || (Player.MapData.X < 0) || (Player.MapData.X >= ChatRoomMapWidth)) {
+		Player.MapData.X = ChatRoomMapWidth / 2;
+		ChatRoomMapUpdatePlayerFlag();
+	}
+	if ((Player.MapData.Y == null) || (Player.MapData.Y < 0) || (Player.MapData.Y >= ChatRoomMapWidth)) {
+		Player.MapData.Y = ChatRoomMapWidth / 2;
+		ChatRoomMapUpdatePlayerFlag();
+	}
 
 	// Make sure the map grid is valid
 	if ((ChatRoomData.MapData.Grid == null) || (ChatRoomData.MapData.Grid.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Grid = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
@@ -199,10 +207,14 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 	// For each tiles in the grid
 	while (Pos < ChatRoomMapWidth * ChatRoomMapHeight) {
+
+		// Find the screen positions to draw on
 		let X = Pos % ChatRoomMapWidth;
 		let Y = Math.floor(Pos / ChatRoomMapWidth);
-		let ScreenX = (X - ChatRoomMapPosX) * TileWidth + ChatRoomMapViewRange * TileWidth;
-		let ScreenY = (Y - ChatRoomMapPosY) * TileHeight + ChatRoomMapViewRange * TileWidth;
+		let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
+		let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
+
+		// Draws the image and applies the visual effects if needed
 		if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
 			let TileID = ChatRoomData.MapData.Grid.charCodeAt(Pos) - ChatRoomMapTileOffset;
 			for (let Tile of ChatRoomMapTileList)
@@ -216,12 +228,67 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 				DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 			}
 		}
+
+		// Draws the characters on that tile
+		for (let C of ChatRoomCharacter)
+			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
+				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.9), TileHeight * 1.8 / 1000);
 		Pos++;
+
 	}
 
-	// Draws the player in front of everything
-	DrawCharacter(Player, Left + TileWidth * ChatRoomMapViewRange, Top + TileHeight * (ChatRoomMapViewRange - 1), TileHeight * 2 / 1000);
+}
 
+/**
+ * Sets the next update flag for the room if it's not already set, the delay is 3 seconds
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapUpdateFlag() {
+	if (ChatRoomMapUpdateRoomNext == null) ChatRoomMapUpdateRoomNext = CommonTime() + 3000;
+}
+
+/**
+ * Sets the next update flag for the player if it's not already set, the delay is 1 seconds
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapUpdatePlayerFlag() {
+	if (ChatRoomMapUpdatePlayerNext == null) ChatRoomMapUpdatePlayerNext = CommonTime() + 1000;
+}
+
+/**
+ * Updates the room data if needed
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapUpdateRoomSync() {
+	if ((ChatRoomMapUpdateRoomNext == null) || (ChatRoomMapUpdateRoomNext > CommonTime())) return;
+	if (!ChatRoomPlayerIsAdmin()) return;
+	ChatRoomMapUpdateRoomNext = null;
+	var UpdatedRoom = {
+		Name: ChatRoomData.Name,
+		Language: ChatRoomData.Language,
+		Description: ChatRoomData.Description,
+		Background: ChatRoomData.Background,
+		Limit: ChatRoomData.Limit.toString(),
+		Admin: ChatRoomData.Admin,
+		Ban: ChatRoomData.Ban,
+		BlockCategory: ChatRoomData.BlockCategory,
+		Game: ChatRoomData.Game,
+		Private: ChatRoomData.Private,
+		Locked: ChatRoomData.Locked,
+		MapData: ChatRoomData.MapData,
+		Custom: ChatRoomData.Custom	
+	};
+	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
+}
+
+/**
+ * Updates the player data if needed
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapUpdatePlayerSync() {
+	if ((ChatRoomMapUpdatePlayerNext == null) || (ChatRoomMapUpdatePlayerNext > CommonTime())) return;
+	ChatRoomMapUpdatePlayerNext = null;
+	ServerAccountUpdate.QueueData({ MapData: Player.MapData }, true);
 }
 
 /**
@@ -229,6 +296,10 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
  * @returns {void} - Nothing
  */
 function ChatRoomMapDraw() {
+
+	// Syncs the room map data with the server if needed
+	ChatRoomMapUpdateRoomSync();
+	ChatRoomMapUpdatePlayerSync();
 
 	// Draw the full grid on the left side of the screen
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
@@ -285,6 +356,9 @@ function ChatRoomMapDraw() {
 function ChatRoomMapCanEnterTile(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
 	if (ChatRoomMapIsWall(X, Y)) return false;
+	for (let C of ChatRoomCharacter)
+		if (!C.IsPlayer() && (C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
+			return false;
 	return true;
 }
 
@@ -296,13 +370,14 @@ function ChatRoomMapCanEnterTile(X, Y) {
 function ChatRoomMapMove(D) {
 
 	// Gets the new position
-	let X = ChatRoomMapPosX + ((D == "W") ? -1 : 0) + ((D == "E") ? 1 : 0);
-	let Y = ChatRoomMapPosY + ((D == "N") ? -1 : 0) + ((D == "S") ? 1 : 0);
+	let X = Player.MapData.X + ((D == "W") ? -1 : 0) + ((D == "E") ? 1 : 0);
+	let Y = Player.MapData.Y + ((D == "N") ? -1 : 0) + ((D == "S") ? 1 : 0);
 
 	// If we can enter the tile
 	if (ChatRoomMapCanEnterTile(X, Y)) {
-		ChatRoomMapPosX = X;
-		ChatRoomMapPosY = Y;
+		Player.MapData.X = X;
+		Player.MapData.Y = Y;
+		ChatRoomMapUpdatePlayerFlag();
 	}
 
 }
@@ -332,7 +407,7 @@ function ChatRoomMapKeyDown() {
  * Mouse down event is used to draw on screen and handle the tiles buttons
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseDown() {
+function ChatRoomMapMouseDown(Event) {
 
 	// The walk buttons
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
@@ -343,7 +418,10 @@ function ChatRoomMapMouseDown() {
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapEditMode == "") {
-		if (MouseIn(10, 10, 60, 60)) ChatRoomMapVisible = false;
+		if (MouseIn(10, 10, 60, 60)) {
+			ChatRoomMapVisible = false;
+			ChatRoomMapAllow = false;
+		}
 		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
 		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
 		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
@@ -412,9 +490,11 @@ function ChatRoomMapMouseDown() {
  */
 function ChatRoomMapMouseMove() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditTileID >= 0))
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditTileID >= 0)) {
 		for (let Pos of ChatRoomMapEditSelection)
 			ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(Pos + 1);
+		ChatRoomMapUpdateFlag();
+	}
 }
 
 /**

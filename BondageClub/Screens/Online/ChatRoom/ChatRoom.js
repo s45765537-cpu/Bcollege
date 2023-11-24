@@ -1980,7 +1980,7 @@ function ChatRoomRun() {
 		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
 
 	// Draw the map button in the upper left if the room allows it
-	if (ChatRoomMapButton()) DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+	if (ChatRoomMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 
 	// Runs any needed online game script
 	OnlineGameRun();
@@ -2044,7 +2044,11 @@ function ChatRoomClick() {
 	}
 
 	// Go from character view to map view
-	if (ChatRoomMapButton() && MouseIn(930, 930, 60, 60)) {
+	if (ChatRoomMapButton() && MouseIn(10, 10, 60, 60)) {
+		if (ChatRoomMapAllow == false) {
+			ChatRoomMapAllow = true;
+			return;
+		}
 		ChatRoomMapVisible = true;
 		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
 		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
