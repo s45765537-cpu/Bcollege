@@ -13418,4 +13418,22 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // SteampunkWings
 	}, // Wings
+	ItemHandheld: {
+		Smartphone: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Case",
+					Key: "c",
+					DrawImages: true,
+					Options: [
+						// none, matte, stripes, dots, hearts
+						{}, {}, {}, {}, {}
+					]
+				}
+			]
+		}, // Smartphone
+	}, // ItemHandheld
 };
