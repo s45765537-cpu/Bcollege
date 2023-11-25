@@ -1000,7 +1000,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 	icons = icons.concat(DialogGetLockIcon(item, isWorn));
 	if (!C.IsPlayer() && InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
 	icons = icons.concat(DialogGetAssetIcons(asset));
-	icons = icons.concat(DialogGetEffectIcons(item));
+	icons = icons.concat(DialogEffectIcons.GetIcons(item));
 
 	/** @type {DialogInventoryItem} */
 	return {
@@ -1061,38 +1061,82 @@ function DialogGetAssetIcons(asset) {
 	return icons;
 }
 
-/** @type {Partial<Record<InventoryIcon, EffectName[]>>} */
-const DialogEffectIconTable = {
-	"GagLight": ["GagVeryLight", "GagLight", "GagEasy"],
-	"GagNormal": ["GagNormal", "GagMedium"],
-	"GagHeavy": ["GagHeavy", "GagVeryHeavy"],
-	"GagTotal": ["GagTotal", "GagTotal2", "GagTotal3", "GagTotal4"],
-	"DeafLight": ["DeafLight"],
-	"DeafNormal": ["DeafNormal", "DeafHeavy"],
-	"DeafHeavy": ["DeafTotal"],
-	"BlindLight": ["BlindLight"],
-	"BlindNormal": ["BlindNormal", "BlindHeavy"],
-	"BlindHeavy": ["BlindTotal"],
-};
-
 /**
- * Return icons for each "interesting" effect on the item.
- * @param {Item} item
- * @returns {InventoryIcon[]} - A list of icon names.
+ * Namespace with functions for getting inventory icons (see {@link DialogEffectIcons.GetIcons})
+ * @namespace
  */
-function DialogGetEffectIcons(item) {
-	/** @type {InventoryIcon[]} */
-	let icons = [];
-	for (const [icon, effects] of /** @type {[InventoryIcon, EffectName[]][]} */(Object.entries(DialogEffectIconTable))) {
-		for (const effect of effects) {
-			if (InventoryItemHasEffect(item, effect, true)) {
+const DialogEffectIcons = /** @type {const} */({
+	/**
+	 * Return icons for each "interesting" effect on the item.
+	 * @param {Item} item
+	 * @returns {InventoryIcon[]} - A list of icon names.
+	 */
+	GetIcons: function(item) {
+		const craftingProperty = (item.Craft && item.Craft.Property) || undefined;
+		/** @type {InventoryIcon[]} */
+		const icons = [];
+		for (const effect of InventoryGetItemProperty(item, "Effect")) {
+			const icon = (
+				DialogEffectIcons._GetGagIcon(effect, craftingProperty)
+				|| DialogEffectIcons._GetBlindIcon(effect, craftingProperty)
+			);
+			if (icon) {
 				icons.push(icon);
-				break;
 			}
 		}
-	}
-	return icons;
-}
+		return icons;
+	},
+	/** @type {(effect: EffectName, prop?: CraftingPropertyType) => null | InventoryIcon} */
+	_GetGagIcon(effect, prop) {
+		let level = SpeechGagLevelLookup[/** @type {GagEffectName} */(effect)];
+		if (level === undefined) {
+			return null;
+		} else if (prop === "Small") {
+			level -= 2;
+		} else if (prop === "Large") {
+			level += 2;
+		}
+		return DialogEffectIcons._GagLevelToIcon(level);
+	},
+	/** @type {(effect: EffectName, prop?: CraftingPropertyType) => null | InventoryIcon} */
+	_GetBlindIcon(effect, prop) {
+		let level = CharacterBlindLevels.get(/** @type {BlindEffectName} */(effect));
+		if (level === undefined) {
+			return null;
+		} else if (prop === "Thin") {
+			level -= 2;
+		} else if (prop === "Thick") {
+			level += 2;
+		}
+		return DialogEffectIcons._BlindLevelToIcon(level);
+	},
+	/** @type {(level?: number) => null | InventoryIcon} */
+	_GagLevelToIcon: function (level) {
+		if (!level || level < SpeechGagLevelLookup.GagVeryLight) {
+			return null;
+		} else if (level <= SpeechGagLevelLookup.GagEasy) {
+			return "GagLight";
+		} else if (level <= SpeechGagLevelLookup.GagMedium) {
+			return "GagNormal";
+		} else if (level <= SpeechGagLevelLookup.GagVeryHeavy) {
+			return "GagHeavy";
+		} else {
+			return "GagTotal";
+		}
+	},
+	/** @type {(level?: number) => null | InventoryIcon} */
+	_BlindLevelToIcon: function (level) {
+		if (!level || level < CharacterBlindLevels.get("BlindLight")) {
+			return null;
+		} else if (level <= CharacterBlindLevels.get("BlindLight")) {
+			return "BlindLight";
+		} else if (level <= CharacterBlindLevels.get("BlindHeavy")) {
+			return "BlindNormal";
+		} else {
+			return "BlindHeavy";
+		}
+	},
+});
 
 /**
  * Some special screens can always allow you to put on new restraints. This function determines, if this is possible
