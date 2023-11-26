@@ -1730,6 +1730,7 @@ ItemMisc,BunPlush,Bunny Plush
 ItemMisc,FoxPlush,Fox Plush
 ItemMisc,Karl,Pet Rock
 ItemMisc,PetPotato,Pet Potato
+ItemMisc,Trolley,Trolley
 ItemDevices,,Body
 ItemDevices,WoodenBox,Wooden Box
 ItemDevices,SmallWoodenBox,Small Wooden Box
@@ -1788,6 +1789,7 @@ ItemDevices,WheelFortune,Wheel of Fortune
 ItemDevices,FoldingScreen,Folding Screen
 ItemDevices,KabeshiriWall,Kabeshiri Wall
 ItemDevices,PersonalCage,Personal Cage
+ItemDevices,Trolley,Trolley
 ItemAddon,,Body
 ItemAddon,Covers,Blanket
 ItemAddon,BedRopes,Bed Ropes
