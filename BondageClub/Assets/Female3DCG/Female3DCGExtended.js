@@ -8037,6 +8037,28 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: { Text: "", Text2: "" },
 		}, // KabeshiriWall
+		Trolley: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
+			Options: [
+				{
+					Name: "Open",
+					Property: {
+						Difficulty: -2,
+					},
+				},
+				{
+					Name: "Closed",
+					AllowLock: true,
+					Property: {
+						Difficulty: 5,
+                        AllowActivePose: [...PoseAllStanding],						
+					},
+				},
+			],
+			DrawImages: false,
+			ChangeWhenLocked: false,
+		}, // Trolley
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
