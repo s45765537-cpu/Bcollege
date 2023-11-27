@@ -448,7 +448,7 @@ function ChatRoomMapMouseDown(Event) {
 				}
 			}
 	}
-	
+
 	// If tile edit mode
 	if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
 

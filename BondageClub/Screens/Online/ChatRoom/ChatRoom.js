@@ -2339,7 +2339,11 @@ function ChatRoomSendEmote(msg) {
 }
 
 /**
- * Publishes common player actions (add, remove, swap) to the chat.
+ * Publishes common player actions (add, remove, swap) to the rest of the chatroom.
+ *
+ * Note that this will *not* update the server database,
+ * which requires either {@link CharacterRefresh}, {@link ServerPlayerAppearanceSync} or {@link ChatRoomCharacterUpdate}.
+ *
  * @param {Character} C - Character on which the action is done.
  * @param {string} Action - Action modifier
  * @param {Item} PrevItem - The item that has been removed.
@@ -2429,7 +2433,11 @@ function ChatRoomCharacterExpressionUpdate(C, Group) {
 }
 
 /**
- * Publishes a custom action to the chat
+ * Publishes a custom action to the rest of the chatroom.
+ *
+ * Note that this will *not* update the server database,
+ * which requires either {@link CharacterRefresh}, {@link ServerPlayerAppearanceSync} or {@link ChatRoomCharacterUpdate}.
+ *
  * @param {string} msg - Tag of the action to send
  * @param {boolean} LeaveDialog - Whether or not the dialog should be left.
  * @param {ChatMessageDictionary} Dictionary - Dictionary of tags and data to send
