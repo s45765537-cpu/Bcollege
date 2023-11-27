@@ -8052,6 +8052,8 @@ var AssetFemale3DCGExtended = {
 					AllowLock: true,
 					Property: {
 						Difficulty: 5,
+                        //SetPose: ["BaseLower"],
+                        AllowActivePose: [...PoseAllStanding],						
 					},
 				},
 			],
@@ -11424,10 +11426,6 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
 		}, // BunPlush
-		Trolley: {
-			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemDevices", AssetName: "Trolley" },
-		}, // Trolley
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
