@@ -1471,7 +1471,7 @@ function DrawItemPreview(itemOrDialogItem, char, X, Y, options) {
 		// We're an item, so it makes sense to default to "worn"
 		Icons = Icons.concat(DialogGetLockIcon(item, true));
 		Icons = Icons.concat(DialogGetAssetIcons(item.Asset));
-		Icons = Icons.concat(DialogGetEffectIcons(item));
+		Icons = Icons.concat(DialogEffectIcons.GetIcons(item));
 	} else {
 		Icons = item.Icons;
 	}

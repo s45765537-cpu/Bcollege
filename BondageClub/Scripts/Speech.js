@@ -5,10 +5,10 @@ const chineseRandomGarbledSound = ['啊', '恩', '咕', '唔', '哈', '嗷', '�
 
 /**
  * A lookup mapping the gag effect names to their corresponding gag level numbers.
- * @type {Record<GagEffectName, number>}
+ * @satisfies {Record<GagEffectName, number>}
  * @constant
  */
-var SpeechGagLevelLookup = {
+var SpeechGagLevelLookup = /** @type {const} */({
 	GagTotal4: 20,
 	GagTotal3: 16,
 	GagTotal2: 12,
@@ -20,7 +20,7 @@ var SpeechGagLevelLookup = {
 	GagEasy: 3,
 	GagLight: 2,
 	GagVeryLight: 1,
-};
+});
 
 /**
  * Analyzes a phrase to determine if it is a full emote. A full emote is a phrase wrapped in "()"
