@@ -988,22 +988,13 @@ function DrawStatus(C, X, Y, Zoom) {
 }
 
 /**
- * Draws the chatroom characters.
- * @param {boolean} DoClick - Whether or not a click was registered.
- * @returns {void} - Nothing.
+ * Iterate over a room's characters
+ *
+ * This function takes a callback it will call for each character in turn after having
+ * calculated their respective drawing parameters (location), accounting for the smooth zoom effect
+ * @param {(charIdx: number, charX: number, charY: number, space: number, zoom: number) => boolean | void} callback
  */
-function ChatRoomDrawCharacter(DoClick) {
-
-	// Intercepts the online game chat room clicks if we need to
-	if (DoClick && OnlineGameClick()) return;
-
-	// The darkness factors varies with blindness level (1 is bright, 0 is pitch black)
-	let DarkFactor = CharacterGetDarkFactor(Player);
-
-	// Check if we should use a custom background
-	const CustomBG = !DoClick ? DrawGetCustomBackground() : "";
-	const Background = CustomBG || ChatRoomData.Background;
-	if (CustomBG && (DarkFactor === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) DarkFactor = CharacterGetDarkFactor(Player, true);
+function ChatRoomLoopCharacters(callback) {
 
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
 	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
@@ -1050,10 +1041,6 @@ function ChatRoomDrawCharacter(DoClick) {
 	const Zoom = ChatRoomCharacterZoom;
 	const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
 	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-
-	// Draw the background
-	if (!DoClick) ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom);
 
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
@@ -1065,22 +1052,87 @@ function ChatRoomDrawCharacter(DoClick) {
 		const CharY = ChatRoomCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
 		if ((ChatRoomCharacterCount == 1) && ChatRoomCharacterDrawlist[C].ID !== 0) continue;
 
-		// Intercepts the clicks or draw
-		if (DoClick) {
-			if (MouseIn(CharX, CharY, Space, 1000 * Zoom)) return ChatRoomClickCharacter(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom, (MouseX - CharX) / Zoom, (MouseY - CharY) / Zoom, C);
-		} else {
+		const res = callback(C, CharX, CharY, Space, Zoom);
+		if (res) break;
+	}
+}
 
-			// Draw the background a second time for characters 6 to 10 (we do it here to correct clipping errors from the first part)
-			if (C === 5) ChatRoomDrawBackground(Background, 500, Zoom, DarkFactor, InvertRoom);
+/**
+ * Draws the chatroom characters.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomDrawCharacter() {
 
-			// Draw the character, it's status bubble and it's overlay
-			DrawCharacter(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
-			DrawStatus(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom);
-			if (ChatRoomCharacterDrawlist[C].MemberNumber != null) ChatRoomDrawCharacterOverlay(ChatRoomCharacterDrawlist[C], CharX, CharY, Zoom, C);
+	// The darkness factors varies with blindness level (1 is bright, 0 is pitch black)
+	let DarkFactor = CharacterGetDarkFactor(Player);
 
+	// Check if we should use a custom background
+	const CustomBG = DrawGetCustomBackground();
+	const Background = CustomBG || ChatRoomData.Background;
+	if (CustomBG && (DarkFactor === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) DarkFactor = CharacterGetDarkFactor(Player, true);
+
+	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
+	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
+
+	// Gradually slide the characters around to make room
+	let weight = ChatRoomSlideWeight;
+	// Calculate a multiplier based on current framerate to keep the speed of the animation consistent across different framerates
+	let frametimeAdjustment = TimerRunInterval / (1000 / 30);
+	if (ChatRoomCharacterInitialize || !(Player.GraphicsSettings && Player.GraphicsSettings.SmoothZoom)) {
+		ChatRoomCharacterInitialize = false;
+		weight = 0;
+	}
+
+	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
+	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
+
+	for (let i = 0; i < frametimeAdjustment; i++) {
+		const nextZoom = zoomFrameStep(ChatRoomCharacterZoom);
+		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterX_Upper);
+		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterX_Lower);
+
+		if (weight === 0) {
+			// skip unnecessary calculations
+			ChatRoomCharacterZoom = nextZoom;
+			ChatRoomCharacterX_Upper = nextUpperX;
+			ChatRoomCharacterX_Lower = nextLowerX;
+			break;
 		}
 
+		const frametimeRemainder = frametimeAdjustment - i;
+		if (frametimeRemainder >= 1) {
+			ChatRoomCharacterZoom = nextZoom;
+			ChatRoomCharacterX_Upper = nextUpperX;
+			ChatRoomCharacterX_Lower = nextLowerX;
+		} else {
+			ChatRoomCharacterZoom += (nextZoom - ChatRoomCharacterZoom) * frametimeRemainder;
+			ChatRoomCharacterX_Upper += (nextUpperX - ChatRoomCharacterX_Upper) * frametimeRemainder;
+			ChatRoomCharacterX_Lower += (nextLowerX - ChatRoomCharacterX_Lower) * frametimeRemainder;
+		}
 	}
+
+	// The more players, the higher the zoom, also changes the drawing coordinates
+	const Zoom = ChatRoomCharacterZoom;
+	// const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
+	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
+
+	// Draw the background
+	ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom);
+
+	// Loop over the room's characters to draw each of them
+	ChatRoomLoopCharacters((charIdx, charX, charY, _space, zoom) => {
+		// Draw the background a second time for characters 6 to 10 (we do it here to correct clipping errors from the first part)
+		if (charIdx === 5) ChatRoomDrawBackground(Background, 500, zoom, DarkFactor, InvertRoom);
+
+		// Draw the character, it's status bubble and it's overlay
+		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
+		DrawStatus(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
+		if (ChatRoomCharacterDrawlist[charIdx].MemberNumber != null) {
+			ChatRoomDrawCharacterOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, charIdx);
+		}
+	});
 }
 
 /**
@@ -1888,8 +1940,12 @@ function ChatRoomRun() {
 	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
-	if (!ChatRoomMapVisible) ChatRoomDrawCharacter(false);
-	else ChatRoomMapDraw();
+	if (!ChatRoomMapVisible) {
+		ChatRoomDrawCharacter();
+	} else {
+		ChatRoomMapDraw();
+	}
+
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
 	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
@@ -2061,7 +2117,16 @@ function ChatRoomClick() {
 	}
 
 	// When the user chats or clicks on a character
-	if (!ChatRoomMapVisible && MouseIn(0, 0, 1000, 1000)) ChatRoomDrawCharacter(true);
+	if (!ChatRoomMapVisible && MouseIn(0, 0, 1000, 1000)) {
+		// Intercepts the online game chat room clicks if we need to
+		if (OnlineGameClick()) return;
+
+		ChatRoomLoopCharacters((charIdx, charX, charY, space, zoom) => {
+			if (MouseIn(charX, charY, space, 1000 * zoom)) {
+				return ChatRoomClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom, charIdx);
+			}
+		});
+	}
 
 	// When the user clicks a menu button in the top-right
 	if (MouseYIn(0, 62)) ChatRoomMenuClick();
