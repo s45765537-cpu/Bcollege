@@ -8052,7 +8052,6 @@ var AssetFemale3DCGExtended = {
 					AllowLock: true,
 					Property: {
 						Difficulty: 5,
-                        //SetPose: ["BaseLower"],
                         AllowActivePose: [...PoseAllStanding],						
 					},
 				},
