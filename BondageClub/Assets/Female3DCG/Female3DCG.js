@@ -25303,6 +25303,31 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
 			},
+			{
+				Name:"Smartphone",
+				ParentGroup: null,
+				Value: 100,
+				DefaultColor: ["#333", "#133769", "#900000"],
+				Random: false,
+				Extended: true,
+				PoseMapping: {
+					BaseUpper: PoseType.DEFAULT,
+					BackBoxTie: PoseType.HIDE,
+					BackCuffs: PoseType.HIDE,
+					BackElbowTouch: PoseType.HIDE,
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Layer: [
+					{Name: "Phone", Priority: 45, HasType: false},
+					{Name: "Case", Priority: 46, HasType: false, AllowModuleTypes: ["c1", "c2", "c3", "c4"]},
+					{Name: "Stripes", Priority: 47, HasType: false, AllowModuleTypes: ["c2"]},
+					{Name: "Dots", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c3"]},
+					{Name: "Hearts", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c4"]},
+				]
+			},
 		],
 		Color: [
 			"Default",
