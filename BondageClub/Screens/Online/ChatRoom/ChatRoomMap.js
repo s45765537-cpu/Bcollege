@@ -16,6 +16,7 @@ var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
 var ChatRoomMapFocusedCharacter = null;
+
 var ChatRoomMapTileList = [
 
 	{ ID: 0, Type: "Floor", Style: "OakWood" },
@@ -42,19 +43,28 @@ var ChatRoomMapTileList = [
 	{ ID: 2010, Type: "Water", Style: "Sea" },
 	{ ID: 2020, Type: "Water", Style: "Ocean" },
 
-/*
-	{ ID: 2000, Type: "Path", Style: "WoodWallDoor", Locked: false },
-	{ ID: 2001, Type: "Path", Style: "WoodWallDoor", Locked: true },
-	{ ID: 2010, Type: "Path", Style: "StoneFloorIronBars", Locked: false },
-	{ ID: 2011, Type: "Path", Style: "IronBars", Locked: true },
-	{ ID: 2020, Type: "Path", Style: "PaddedDoor", Locked: false },
-	{ ID: 2021, Type: "Path", Style: "PaddedDoor", Locked: true },
+];
 
-	{ ID: 3000, Type: "Path", Style: "WoodWindow", Crawl: false },
-	{ ID: 3001, Type: "Path", Style: "WoodWindowHidden", Crawl: false },
-	{ ID: 3010, Type: "Path", Style: "StoneTunnel", Crawl: true },
-	{ ID: 3011, Type: "Path", Style: "StoneHidden", Crawl: false },
-*/
+var ChatRoomMapObjectList = [
+
+	{ ID: 0, Type: "FloorDecoration", Style: "Bed", Speed: 0.5 },
+	{ ID: 10, Type: "FloorDecoration", Style: "XCross", Speed: 0.5 },
+	{ ID: 20, Type: "FloorDecoration", Style: "Undies" },
+
+	{ ID: 1000, Type: "FloorObstacle", Style: "Statue" },
+	{ ID: 1010, Type: "FloorObstacle", Style: "IronBars", Locked: true },
+
+	{ ID: 2000, Type: "WallDecoration", Style: "Painting" },
+	{ ID: 2010, Type: "WallDecoration", Style: "Candelabra" },
+	{ ID: 2020, Type: "WallDecoration", Style: "Whip" },
+
+	{ ID: 3000, Type: "WallPath", Style: "WoodDoor", Path: true, Locked: false },
+	{ ID: 3001, Type: "WallPath", Style: "WoodDoor", Path: true, Locked: true },
+	{ ID: 3010, Type: "WallPath", Style: "PaddedDoor", Path: true, Locked: false },
+	{ ID: 3011, Type: "WallPath", Style: "PaddedDoor", Path: true, Locked: true },
+	{ ID: 3020, Type: "WallPath", Style: "HiddenDoor", Path: true, Locked: false },
+	{ ID: 3021, Type: "WallPath", Style: "HiddenDoor", Path: true, Locked: true },
+
 ];
 
 /**
@@ -149,7 +159,7 @@ function ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE) {
  */
 function ChatRoomMapIsWall(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
-	let ID = ChatRoomData.MapData.Grid.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
 	return ((ID >= 1000) && (ID < 2000));
 }
 
@@ -201,7 +211,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	}
 
 	// Make sure the map grid is valid
-	if ((ChatRoomData.MapData.Grid == null) || (ChatRoomData.MapData.Grid.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Grid = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
 
 	// Defines the width and height of the visible tile
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
@@ -233,7 +243,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 			// Draws the image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
-				let TileID = ChatRoomData.MapData.Grid.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
 				for (let Tile of ChatRoomMapTileList)
 					if (Tile.ID == TileID) {
 						DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
@@ -302,7 +312,7 @@ function ChatRoomMapUpdateRoomSync() {
 		MapData: ChatRoomData.MapData,
 		Custom: ChatRoomData.Custom,
 	};
-	// @ts-expect-error because of Limit being forced to a string above to please the server
+	// @ts-ignore
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 }
 
@@ -519,7 +529,7 @@ function ChatRoomMapMouseMove() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
 	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditTileID >= 0)) {
 		for (let Pos of ChatRoomMapEditSelection)
-			ChatRoomData.MapData.Grid = ChatRoomData.MapData.Grid.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Grid.substring(Pos + 1);
+			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
 		ChatRoomMapUpdateFlag();
 	}
 }
