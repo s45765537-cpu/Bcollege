@@ -204,6 +204,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let Pos = 0;
 	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
+	let MaxVisibleRange = ChatRoomMapViewRangeMax - Player.GetBlindLevel() * 2;
+	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
 
 	// Clears the tile and character selection
 	ChatRoomMapEditSelection = [];
@@ -212,35 +214,44 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	// For each tiles in the grid
 	while (Pos < ChatRoomMapWidth * ChatRoomMapHeight) {
 
-		// Find the screen positions to draw on
+		// Find the X & Y position of the grid
 		let X = Pos % ChatRoomMapWidth;
 		let Y = Math.floor(Pos / ChatRoomMapWidth);
-		let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
-		let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
 
-		// Draws the image and applies the visual effects if needed
-		if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
-			let TileID = ChatRoomData.MapData.Grid.charCodeAt(Pos) - ChatRoomMapTileOffset;
-			for (let Tile of ChatRoomMapTileList)
-				if (Tile.ID == TileID) {
-					DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
-					if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
-					break;
+		// Only process if the X & Y are within the visible sight range
+		let MaxRange = Math.max(Math.abs(X - Player.MapData.X), Math.abs(Y - Player.MapData.Y));
+		if (MaxRange <= MaxVisibleRange) {
+
+			// Defines the screen X and Y positions
+			let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
+			let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
+	
+			// Draws the image and applies the visual effects if needed
+			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
+				let TileID = ChatRoomData.MapData.Grid.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				for (let Tile of ChatRoomMapTileList)
+					if (Tile.ID == TileID) {
+						DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+						if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+						break;
+					}
+				if ((ChatRoomMapEditMode == "Tile") && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+					ChatRoomMapEditSelection.push(Pos);
+					DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 				}
-			if ((ChatRoomMapEditMode == "Tile") && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
-				ChatRoomMapEditSelection.push(Pos);
-				DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 			}
+
+			// Draws the characters on that tile
+			for (let C of ChatRoomCharacter)
+				if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
+					DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.9), TileHeight * 1.8 / 1000);
+					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.9)) && (MouseY <= Top + ScreenY + (TileHeight * 0.9)))
+						ChatRoomMapFocusedCharacter = C;
+				}
+			
 		}
 
-		// Draws the characters on that tile
-		for (let C of ChatRoomCharacter)
-			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
-				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.9), TileHeight * 1.8 / 1000);
-				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.9)) && (MouseY <= Top + ScreenY + (TileHeight * 0.9)))
-					ChatRoomMapFocusedCharacter = C;
-			}
-				
+		// Jumps to the next grid position
 		Pos++;
 
 	}

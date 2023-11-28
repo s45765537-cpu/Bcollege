@@ -273,6 +273,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
+		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapVisible === true) && (CurrentCharacter == null)
 	);
 
 	if ((C != null) && ((C.ID == 0) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
