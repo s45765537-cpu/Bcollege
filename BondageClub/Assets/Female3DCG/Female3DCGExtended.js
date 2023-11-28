@@ -13452,10 +13452,14 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 					Options: [
 						// none, matte, stripes, dots, hearts
-						{}, {}, {}, {}, {}
-					]
-				}
-			]
+						{},
+						{},
+						{},
+						{},
+						{},
+					],
+				},
+			],
 		}, // Smartphone
 	}, // ItemHandheld
 };

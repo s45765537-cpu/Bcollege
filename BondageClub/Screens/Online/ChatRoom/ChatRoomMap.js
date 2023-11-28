@@ -230,7 +230,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			// Defines the screen X and Y positions
 			let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
 			let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
-	
+
 			// Draws the image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
 				let TileID = ChatRoomData.MapData.Grid.charCodeAt(Pos) - ChatRoomMapTileOffset;
@@ -253,7 +253,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.9)) && (MouseY <= Top + ScreenY + (TileHeight * 0.9)))
 						ChatRoomMapFocusedCharacter = C;
 				}
-			
+
 		}
 
 		// Jumps to the next grid position

@@ -25304,7 +25304,7 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
 			},
 			{
-				Name:"Smartphone",
+				Name: "Smartphone",
 				ParentGroup: null,
 				Value: 100,
 				DefaultColor: ["#333", "#133769", "#900000"],
@@ -25321,12 +25321,34 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{Name: "Phone", Priority: 45, HasType: false},
-					{Name: "Case", Priority: 46, HasType: false, AllowModuleTypes: ["c1", "c2", "c3", "c4"]},
-					{Name: "Stripes", Priority: 47, HasType: false, AllowModuleTypes: ["c2"]},
-					{Name: "Dots", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c3"]},
-					{Name: "Hearts", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c4"]},
-				]
+					{ Name: "Phone", Priority: 45, HasType: false },
+					{
+						Name: "Case",
+						Priority: 46,
+						HasType: false,
+						AllowModuleTypes: ["c1", "c2", "c3", "c4"],
+					},
+					{
+						Name: "Stripes",
+						Priority: 47,
+						HasType: false,
+						AllowModuleTypes: ["c2"],
+					},
+					{
+						Name: "Dots",
+						Priority: 47,
+						CopyLayerColor: "Stripes",
+						HasType: false,
+						AllowModuleTypes: ["c3"],
+					},
+					{
+						Name: "Hearts",
+						Priority: 47,
+						CopyLayerColor: "Stripes",
+						HasType: false,
+						AllowModuleTypes: ["c4"],
+					},
+				],
 			},
 		],
 		Color: [
@@ -39075,6 +39097,12 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Main", Priority: -5 },
 					{ Name: "Strap", CopyLayerColor: "Main", AllowTypes: ["Closed"] },
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						AllowTypes: ["Closed"],
+					},
 				],
 			},
 		],
