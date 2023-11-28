@@ -8052,7 +8052,7 @@ var AssetFemale3DCGExtended = {
 					AllowLock: true,
 					Property: {
 						Difficulty: 5,
-                        AllowActivePose: [...PoseAllStanding],						
+						AllowActivePose: [...PoseAllStanding],
 					},
 				},
 			],
