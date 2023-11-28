@@ -295,8 +295,9 @@ function ChatRoomMapUpdateRoomSync() {
 		Private: ChatRoomData.Private,
 		Locked: ChatRoomData.Locked,
 		MapData: ChatRoomData.MapData,
-		Custom: ChatRoomData.Custom	
+		Custom: ChatRoomData.Custom,
 	};
+	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 }
 
