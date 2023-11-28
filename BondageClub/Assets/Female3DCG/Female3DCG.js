@@ -39075,6 +39075,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Main", Priority: -5 },
 					{ Name: "Strap", CopyLayerColor: "Main", AllowTypes: ["Closed"] },
+					{ Name: "Lock", AllowColorize: false, LockLayer: true, AllowTypes: ["Closed"] },
 				],
 			},
 		],
