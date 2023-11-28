@@ -39068,7 +39068,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				BuyGroup: "Trolley",
 				RemoveTime: 5,
-				AllowLock: true,
+				AllowLock: false,
 				Extended: true,
 				FixedPosition: true,
 				Effect: ["Prone", "Freeze", "Leash", "Mounted"],
