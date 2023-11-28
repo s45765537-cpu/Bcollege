@@ -20,22 +20,27 @@ var ChatRoomMapTileList = [
 
 	{ ID: 0, Type: "Floor", Style: "OakWood" },
 	{ ID: 10, Type: "Floor", Style: "Stone" },
-	{ ID: 20, Type: "Floor", Style: "Ceramic" }, // TO DO : Add Color tag for Ceramic tint
-	{ ID: 30, Type: "Floor", Style: "Padded" },
-
+	{ ID: 20, Type: "Floor", Style: "Ceramic" },
+	{ ID: 30, Type: "Floor", Style: "Carpet" },
+	{ ID: 40, Type: "Floor", Style: "Padded" },
 	{ ID: 100, Type: "Floor", Style: "Dirt" },
 	{ ID: 110, Type: "Floor", Style: "Grass" },
 	{ ID: 120, Type: "Floor", Style: "Sand" },
 	{ ID: 130, Type: "Floor", Style: "Gravel" },
 
 	{ ID: 1000, Type: "Wall", Style: "Wood" },
-	{ ID: 1010, Type: "Wall", Style: "Stone" },
-	{ ID: 1020, Type: "Wall", Style: "Brick" },
-	{ ID: 1030, Type: "Wall", Style: "Steel" },
-	{ ID: 1040, Type: "Wall", Style: "Padded" },
+	{ ID: 1010, Type: "Wall", Style: "Log" },
+	{ ID: 1020, Type: "Wall", Style: "Japanese" },
+	{ ID: 1030, Type: "Wall", Style: "Stone" },
+	{ ID: 1040, Type: "Wall", Style: "Brick" },
+	{ ID: 1050, Type: "Wall", Style: "Dungeon" },
+	{ ID: 1060, Type: "Wall", Style: "Square" },
+	{ ID: 1070, Type: "Wall", Style: "Steel" },
+	{ ID: 1080, Type: "Wall", Style: "Padded" },
 
-	{ ID: 2000, Type: "Water", Style: "Sea" },
-	{ ID: 2010, Type: "Water", Style: "Ocean" },
+	{ ID: 2000, Type: "Water", Style: "Pool" },
+	{ ID: 2010, Type: "Water", Style: "Sea" },
+	{ ID: 2020, Type: "Water", Style: "Ocean" },
 
 /*
 	{ ID: 2000, Type: "Path", Style: "WoodWallDoor", Locked: false },
