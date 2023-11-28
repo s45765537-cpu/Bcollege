@@ -684,14 +684,7 @@ function ExtendItemGetIcons(C, Asset, Type=null, Effects=null) {
 	}
 
 	if (Array.isArray(Effects)) {
-		for (const [icon, effects] of CommonEntries(DialogEffectIconTable)) {
-			for (const effect of effects) {
-				if (Effects.includes(effect)) {
-					icons.push(icon);
-					break;
-				}
-			}
-		}
+		icons.push(...DialogEffectIcons.GetEffectIcons(Effects));
 	}
 
 	return icons;
