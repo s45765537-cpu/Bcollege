@@ -15,6 +15,7 @@ var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
+var ChatRoomMapFocusedCharacter = null;
 var ChatRoomMapTileList = [
 
 	{ ID: 0, Type: "Floor", Style: "OakWood" },
@@ -203,7 +204,10 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let Pos = 0;
 	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
+
+	// Clears the tile and character selection
 	ChatRoomMapEditSelection = [];
+	ChatRoomMapFocusedCharacter = null;
 
 	// For each tiles in the grid
 	while (Pos < ChatRoomMapWidth * ChatRoomMapHeight) {
@@ -231,8 +235,12 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		// Draws the characters on that tile
 		for (let C of ChatRoomCharacter)
-			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
+			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
 				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.9), TileHeight * 1.8 / 1000);
+				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.9)) && (MouseY <= Top + ScreenY + (TileHeight * 0.9)))
+					ChatRoomMapFocusedCharacter = C;
+			}
+				
 		Pos++;
 
 	}
@@ -421,9 +429,10 @@ function ChatRoomMapMouseDown(Event) {
 		if (MouseIn(10, 10, 60, 60)) {
 			ChatRoomMapVisible = false;
 			ChatRoomMapAllow = false;
+			return;
 		}
-		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
-		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
+		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) { ChatRoomMapViewRange--; return; }
+		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) { ChatRoomMapViewRange++; return; }
 		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
 			ChatRoomMapEditMode = "Type";
 			ChatRoomMapEditSubMode = "";
@@ -479,6 +488,7 @@ function ChatRoomMapMouseDown(Event) {
 		// Enter the drawing mode
 		ChatRoomMapEditStarted = true;
 		ChatRoomMapMouseMove();
+		return;
 
 	}
 
@@ -503,6 +513,8 @@ function ChatRoomMapMouseMove() {
  */
 function ChatRoomMapMouseUp() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && !ChatRoomMapEditStarted)
+		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
 	ChatRoomMapEditStarted = false;
 }
 
