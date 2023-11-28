@@ -1066,19 +1066,37 @@ function DialogGetAssetIcons(asset) {
  * @namespace
  */
 const DialogEffectIcons = /** @type {const} */({
+	/** @type {Partial<Record<InventoryIcon, readonly EffectName[]>>} */
+	Table: {
+		"GagLight": ["GagVeryLight", "GagLight", "GagEasy"],
+		"GagNormal": ["GagNormal", "GagMedium"],
+		"GagHeavy": ["GagHeavy", "GagVeryHeavy"],
+		"GagTotal": ["GagTotal", "GagTotal2", "GagTotal3", "GagTotal4"],
+		"DeafLight": ["DeafLight"],
+		"DeafNormal": ["DeafNormal", "DeafHeavy"],
+		"DeafHeavy": ["DeafTotal"],
+		"BlindLight": ["BlindLight"],
+		"BlindNormal": ["BlindNormal", "BlindHeavy"],
+		"BlindHeavy": ["BlindTotal"],
+	},
 	/**
 	 * Return icons for each "interesting" effect on the item.
 	 * @param {Item} item
 	 * @returns {InventoryIcon[]} - A list of icon names.
 	 */
 	GetIcons: function(item) {
+		const effects = InventoryGetItemProperty(item, "Effect");
 		const craftingProperty = (item.Craft && item.Craft.Property) || undefined;
+		return DialogEffectIcons.GetEffectIcons(effects, craftingProperty);
+	},
+	/** @type {(effects: EffectName[], prop?: CraftingPropertyType) => null | InventoryIcon[]} */
+	GetEffectIcons: function (effects, prop) {
 		/** @type {InventoryIcon[]} */
 		const icons = [];
-		for (const effect of InventoryGetItemProperty(item, "Effect")) {
+		for (const effect of effects) {
 			const icon = (
-				DialogEffectIcons._GetGagIcon(effect, craftingProperty)
-				|| DialogEffectIcons._GetBlindIcon(effect, craftingProperty)
+				DialogEffectIcons._GetGagIcon(effect, prop)
+				|| DialogEffectIcons._GetBlindIcon(effect, prop)
 			);
 			if (icon) {
 				icons.push(icon);
