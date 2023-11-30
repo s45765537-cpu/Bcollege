@@ -167,6 +167,56 @@ function loadCSV(path, expectedWidth) {
 	return data;
 }
 
+/**
+ * Construct an array that aggregates elements from two other arrays.
+ * @template T1
+ * @template T2
+ * @param {readonly T1[]} lst1
+ * @param {readonly T2[]} lst2
+ * @returns {[T1, T2][]}
+ */
+function zip(lst1, lst2) {
+	const length = Math.min(lst1.length, lst2.length);
+	/** @type {[T1, T2][]} */
+	const ret = [];
+	for (let i=0; i < length; i++) {
+		ret.push([lst1[i], lst2[i]]);
+	}
+	return ret;
+}
+
+/**
+ * Validate the passed command line arguments
+ * @template {Record<string, any>} T
+ * @param {import("minimist").ParsedArgs} argv The unparsed command line arguments
+ * @param {Readonly<T>} template A record containing *all* allowed keys and their default values
+ * @returns {T}
+ */
+function validateArgv(argv, template) {
+	const { _, ...kwargs } = argv;
+
+	/** @type {string[]} */
+	const invalidArguments = [];
+	invalidArguments.push(..._);
+
+	const ret = { ...template };
+	for (const [k, v] of Object.entries(kwargs)) {
+		if (k in ret) {
+			// @ts-ignore
+			ret[k] = v;
+		} else {
+			invalidArguments.push(k);
+		}
+	}
+
+	if (invalidArguments.length > 0) {
+		throw new Error(`Found ${invalidArguments.length} unknown arguments: ${invalidArguments.join()}`);
+	} else if (!Object.values(ret).some(Boolean)) {
+		throw new Error(`Expected at least one argument`);
+	}
+	return ret;
+}
+
 module.exports = {
 	NEEDED_FILES,
 	BASE_PATH,
@@ -178,4 +228,7 @@ module.exports = {
 	fromEntries,
 	isObject,
 	loadCSV,
+	parseCSV,
+	zip,
+	validateArgv,
 };
