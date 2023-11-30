@@ -20971,6 +20971,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemNipplesLactationPump"],
 				PoseMapping: {
 					KneelingSpread: "KneelingSpread",
+					AllFours: PoseType.HIDE,
 				},
 				SetPose: ["BackElbowTouch"],
 				Effect: ["Block", "Prone"],
