@@ -233,11 +233,6 @@ function PoseRefresh(C) {
 		}
 	}
 
-	// Dissalow the three categories below if they're not explicitly supported
-	if (!C.AllowedActivePoseMapping.BodyFull) C.AllowedActivePoseMapping.BodyFull = [];
-	if (!C.AllowedActivePoseMapping.BodyAddon) C.AllowedActivePoseMapping.BodyAddon = [];
-	if (!C.AllowedActivePoseMapping.BodyHands) C.AllowedActivePoseMapping.BodyHands = [];
-
 	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
 	const activePose = PoseToMapping.Array(C.ActivePose, "Character.ActivePose");
 	for (const [category, poses] of CommonEntries(setPose)) {
