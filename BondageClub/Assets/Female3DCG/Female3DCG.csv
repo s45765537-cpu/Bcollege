@@ -557,7 +557,11 @@ Gloves,BikerGloves,Biker Gloves
 Gloves,CheerleaderPomPoms,Pom Poms
 Gloves,LatexShortGloves,Latex Gloves
 LeftHand,,Left Hand
+LeftHand,Claws,Claws
+LeftHand,Fingernails,Fingernails
 LeftHand,Rings,Rings
+RightHand,Claws,Claws
+RightHand,Fingernails,Fingernails
 RightHand,,Right Hand
 RightHand,Rings,Rings
 Bracelet,,Bracelet
@@ -1325,6 +1329,7 @@ ItemHandheld,BunPlush,Bunny Plush
 ItemHandheld,FoxPlush,Fox Plush
 ItemHandheld,Karl,Pet Rock
 ItemHandheld,PetPotato,Pet Potato
+ItemHandheld,Popcorn,Popcorn
 ItemHandheld,Smartphone,Smartphone
 ItemNeck,,Neck
 ItemNeck,LeatherCollar,Leather Collar
@@ -1627,6 +1632,7 @@ ItemHead,FurScarf,Fur Scarf
 ItemHead,Stitches,Stitches
 ItemHead,AnimeLenses,Anime Lenses
 ItemNose,,Nose
+ItemNose,ClownNose,Clown Nose
 ItemNose,NoseHook,Nose Hook
 ItemNose,PigNose,Pig Nose
 ItemNose,NoseRing,Nose Ring

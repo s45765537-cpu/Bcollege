@@ -2008,6 +2008,8 @@ Medical Injector
 医用注射器
 Mug
 马克杯
+Popcorn
+爆玉米花
 PortalLink Tablet
 传送门连接平板
 Shark Plush
