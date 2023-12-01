@@ -9962,6 +9962,38 @@ var AssetFemale3DCGExtended = {
 				Chat: "BallGagMouthSet",
 			},
 		}, // BallGagMask
+		LatexMuzzleMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {
+						Effect: ["GagNormal"],
+						Difficulty: 4,
+					},
+				},
+				{
+					Name: "Loose",
+					Property: {
+						Effect: ["GagEasy"],
+						Difficulty: 3,
+					},
+				},
+				{
+					Name: "Panel",
+					Property: {
+						Effect: ["GagHeavy"],
+						Difficulty: 6,
+					},
+					ChangeWhenLocked: false,
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "LatexMuzzleMaskMouthType",
+				Chat: "LatexMuzzleMaskMouthSet",
+			},
+		}, // LatexMuzzleMask
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10037,6 +10069,10 @@ var AssetFemale3DCGExtended = {
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
+		},
+		LatexMuzzleMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask"},
 		},
 	}, // ItemMouth2
 	ItemMouth3: {
@@ -10201,6 +10237,10 @@ var AssetFemale3DCGExtended = {
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
+		},
+		LatexMuzzleMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask"},
 		},
 	}, // ItemMouth3
 	Mask: {

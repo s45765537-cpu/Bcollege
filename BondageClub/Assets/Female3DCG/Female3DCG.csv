@@ -611,6 +611,7 @@ Mask,SwimCap,Swim Cap
 Mask,DroneMask,Smooth Latex Mask
 Mask,MedicalMask,Medical Mask
 Mask,AnimeLenses,Anime Lenses
+Mask,LatexMuzzleMask,Latex Muzzle Mask
 Jewelry,,Jewelry
 Jewelry,JewelrySet,Piercing Set
 TailStraps,,Tail Strap
@@ -1481,6 +1482,7 @@ ItemMouth,LatexSheathGag, Latex Sheath Gag
 ItemMouth,Slime,Slime
 ItemMouth,FurScarf,Fur Scarf
 ItemMouth,BigMouth,Big Mouth
+ItemMouth,LatexMuzzleMask,Latex Muzzle Mask
 ItemMouth2,,Mouth
 ItemMouth2,ClothGag,Cloth Gag
 ItemMouth2,WiffleGag,Wiffle Ball Gag
@@ -1535,6 +1537,7 @@ ItemMouth2,PonyGag,Bridle Gag
 ItemMouth2,MouthFeatureGag, Mouthfeature Gag
 ItemMouth2,Slime,Slime
 ItemMouth2,FurScarf,Fur Scarf
+ItemMouth2,LatexMuzzleMask,Latex Muzzle Mask
 ItemMouth3,,Mouth
 ItemMouth3,ClothGag,Cloth Gag
 ItemMouth3,WiffleGag,Wiffle Ball Gag
@@ -1592,6 +1595,7 @@ ItemMouth3,FurScarf,Fur Scarf
 ItemMouth3,LatexRespirator,Latex Respirator
 ItemMouth3,Kissmark,Lipstick Marks
 ItemMouth3,PaddedFaceMask,Padded Face Mask
+ItemMouth3,LatexMuzzleMask,Latex Muzzle Mask
 ItemHead,,Eyes
 ItemHead,ClothBlindfold,Cloth Blindfold
 ItemHead,ScarfBlindfold,Scarf Blindfold
