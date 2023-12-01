@@ -41,11 +41,11 @@ const E = /** @type {const} */ ({
 	Block: "Block",
 	/** Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around. */
 	Mounted: "Mounted",
-	/** Prevents walking while kneeling. */
-	KneelFreeze: "KneelFreeze",
-	/** Deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose} */
+	/** @deprecated: Removed without replacement */
+	// KneelFreeze: "KneelFreeze",
+	/** @deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose} */
 	// ForceKneel: "ForceKneel",
-	/** Deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead */
+	/** @deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead */
 	// BlockKneel: "BlockKneel",
 	/** Enable items that have the CuffedFeet prerequisite to be applied. */
 	CuffedFeet: "CuffedFeet",
@@ -14878,7 +14878,7 @@ var AssetFemale3DCG = [
 		Left: 125,
 		Top: 400,
 		PoseMapping: { ...AssetPoseMapping.ItemLegs },
-		Effect: [E.BlockWardrobe, E.KneelFreeze, E.Slow],
+		Effect: [E.BlockWardrobe, E.Slow],
 		Zone: [[100, 580, 300, 170]],
 		Asset: [
 			{
@@ -39072,7 +39072,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#666", "#974338"],
 				SetPose: ["BackBoxTie", "BaseLower"],
 				AllowActivePose: [...PoseAllStanding],
-				Effect: [E.Freeze, E.Block, E.BlockWardrobe, E.KneelFreeze],
+				Effect: [E.Freeze, E.Block, E.BlockWardrobe],
 				Hide: [
 					"BodyLower",
 					"Hands",

@@ -10859,7 +10859,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Closed",
 					Property: {
 						SetPose: ["LegsClosed"],
-						Effect: [E.BlockWardrobe, E.KneelFreeze, E.Slow],
+						Effect: [E.BlockWardrobe, E.Slow],
 						AllowActivePose: ["Kneel", "LegsClosed"],
 						Difficulty: 6,
 					},
