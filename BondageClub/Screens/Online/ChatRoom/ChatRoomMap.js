@@ -101,7 +101,7 @@ function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) {
 	if (!CW && !CE && SW && SC && !SE) return 6;
 	if (!CW && !CE && !SW && SC && SE) return 7;
 
-	if (CW && CE && !SW && SC && !SE) return 8;	
+	if (CW && CE && !SW && SC && !SE) return 8;
 	if (!CW && CE && !SW && SC && !SE) return 9;
 	if (CW && !CE && !SW && SC && !SE) return 10;
 

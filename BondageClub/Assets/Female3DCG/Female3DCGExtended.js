@@ -7432,7 +7432,13 @@ var AssetFemale3DCGExtended = {
 					Name: "Closed",
 					Property: {
 						Difficulty: 50,
-						Effect: [E.Freeze, E.GagMedium, E.BlockWardrobe, E.Enclose, E.BlindLight],
+						Effect: [
+							E.Freeze,
+							E.GagMedium,
+							E.BlockWardrobe,
+							E.Enclose,
+							E.BlindLight,
+						],
 						SelfUnlock: false,
 					},
 				},
@@ -7460,7 +7466,13 @@ var AssetFemale3DCGExtended = {
 					Name: "Closed",
 					Property: {
 						Difficulty: 50,
-						Effect: [E.Freeze, E.GagMedium, E.BlockWardrobe, E.Enclose, E.BlindLight],
+						Effect: [
+							E.Freeze,
+							E.GagMedium,
+							E.BlockWardrobe,
+							E.Enclose,
+							E.BlindLight,
+						],
 						SelfUnlock: false,
 					},
 				},
@@ -10074,7 +10086,7 @@ var AssetFemale3DCGExtended = {
 		},
 		LatexMuzzleMask: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask"},
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask" },
 		},
 	}, // ItemMouth2
 	ItemMouth3: {
@@ -10242,7 +10254,7 @@ var AssetFemale3DCGExtended = {
 		},
 		LatexMuzzleMask: {
 			Archetype: ExtendedArchetype.TYPED,
-			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask"},
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask" },
 		},
 	}, // ItemMouth3
 	Mask: {
