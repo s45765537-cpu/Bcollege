@@ -834,6 +834,7 @@ function ChatSearchAutoJoinRoom() {
 						Background: Player.LastChatRoomBG,
 						Private: Player.LastChatRoomPrivate,
 						Space: Player.LastChatRoomSpace,
+						MapData: Player.LastChatRoomMapData,
 						Game: "",
 						Admin: [Player.MemberNumber],
 						Limit: Math.min(Math.max(Player.LastChatRoomSize, 2), 10).toString(),

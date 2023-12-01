@@ -48,15 +48,19 @@ var ChatRoomMapTileList = [
 var ChatRoomMapObjectList = [
 
 	{ ID: 0, Type: "FloorDecoration", Style: "Blank" },
-	{ ID: 10, Type: "FloorDecoration", Style: "Pillow" },
-	{ ID: 20, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 30, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 10, Type: "FloorDecoration", Style: "Bed", Top: -0.25 },
+	{ ID: 20, Type: "FloorDecoration", Style: "Pillow" },
+	{ ID: 30, Type: "FloorDecoration", Style: "Kennel", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 40, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 50, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 60, Type: "FloorDecoration", Style: "Coffin", Top: -1, Height: 2, Speed: 0.5 },
 
 	{ ID: 1000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 1010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
-	{ ID: 1020, Type: "FloorObstacle", Style: "Barrel", Top: -1, Height: 2 },
-	{ ID: 1030, Type: "FloorObstacle", Style: "OakTree", Top: -1, Height: 2 },
-	{ ID: 1040, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
+	{ ID: 1020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
+	{ ID: 1030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
+	{ ID: 1040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
+	{ ID: 1050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
 
 	{ ID: 2000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 2010, Type: "WallDecoration", Style: "Painting" },
@@ -326,7 +330,7 @@ function ChatRoomMapUpdateFlag() {
 
 				// Invalid tiles and invalid objects for that tile must be cleared
 				if (Tile == null) ClearObject = true;
-				else if ((Obj.Type == "FloorDeoration") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
 				else if ((Obj.Type == "WallPath") && (Tile.Type != "Wall")) ClearObject = true;

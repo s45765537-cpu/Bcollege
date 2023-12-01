@@ -1506,6 +1506,7 @@ interface PlayerCharacter extends Character {
 	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
 	LastChatRoomTimer?: any;
 	LastChatRoomSpace?: ServerChatRoomSpace;
+	LastChatRoomMapData? : any;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
 		SlowImmunity: boolean;

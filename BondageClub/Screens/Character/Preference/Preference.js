@@ -525,6 +525,7 @@ function PreferenceInitPlayer() {
 	if (!C.LastChatRoomBan) C.LastChatRoomBan = [];
 	if (!C.LastChatRoomBlockCategory) C.LastChatRoomBlockCategory = [];
 	if (typeof C.LastChatRoomSpace !== "string") C.LastChatRoomSpace = ChatRoomSpaceType.MIXED;
+	if (typeof C.LastChatRoomMapData !== "object") C.LastChatRoomMapData = null;
 
 	// Restriction settings
 	// @ts-ignore: Individual properties validated separately

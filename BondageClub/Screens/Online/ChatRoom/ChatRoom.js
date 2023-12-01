@@ -93,6 +93,7 @@ var ChatRoomLastBan = [];
 /** @type {string[]} */
 var ChatRoomLastBlockCategory = [];
 var ChatRoomLastSpace = "";
+var ChatRoomLastMapData = null;
 /** @type {ServerChatRoomData | null} */
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
@@ -1464,6 +1465,8 @@ function ChatRoomSetLastChatRoom(room) {
 				Player.LastChatRoomBlockCategory = [...ChatRoomData.BlockCategory];
 			if (ChatRoomData)
 				Player.LastChatRoomSpace = ChatRoomSpace;
+			if (ChatRoomData)
+				Player.LastChatRoomMapData = ChatRoomData.MapData;
 
 			ChatRoomLastName = ChatRoomData.Name;
 			ChatRoomLastBG = ChatRoomData.Background;
@@ -1476,6 +1479,7 @@ function ChatRoomSetLastChatRoom(room) {
 			ChatRoomLastBan = ChatRoomData.Ban;
 			ChatRoomLastBlockCategory = [...ChatRoomData.BlockCategory];
 			ChatRoomLastSpace = ChatRoomSpace;
+			ChatRoomLastMapData = ChatRoomData.MapData;
 		}
 	} else {
 		Player.LastChatRoomBG = "";
@@ -1490,6 +1494,7 @@ function ChatRoomSetLastChatRoom(room) {
 		ChatRoomLastBan = [];
 		ChatRoomLastBlockCategory = [];
 		ChatRoomLastSpace = "";
+		ChatRoomLastMapData = null;
 	}
 	Player.LastChatRoom = room;
 	var P = {
@@ -1504,6 +1509,7 @@ function ChatRoomSetLastChatRoom(room) {
 		LastChatRoomBan: Player.LastChatRoomBan.toString(),
 		LastChatRoomBlockCategory: [...Player.LastChatRoomBlockCategory],
 		LastChatRoomSpace: Player.LastChatRoomSpace,
+		LastChatRoomMapData: Player.LastChatRoomMapData
 	};
 	ServerAccountUpdate.QueueData(P);
 }
@@ -4984,7 +4990,8 @@ function ChatRoomDataChanged() {
 		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin) ||
 		!CommonArraysEqual(ChatRoomLastBan, ChatRoomData.Ban) ||
 		!CommonArraysEqual(ChatRoomLastBlockCategory, ChatRoomData.BlockCategory) ||
-		ChatRoomLastSpace != ChatRoomSpace;
+		ChatRoomLastSpace != ChatRoomSpace ||
+		JSON.stringify(ChatRoomLastMapData) != JSON.stringify(ChatRoomData.MapData);
 }
 
 function ChatRoomRefreshFontSize() {
