@@ -250,7 +250,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					if (Tile.ID == TileID) {
 						DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 						if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
-						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
 						break;
 					}
 				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
@@ -292,7 +292,65 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
  * @returns {void} - Nothing
  */
 function ChatRoomMapUpdateFlag() {
+
+	// Clears the wrong objects on the map
+	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
+
+		// If there's an object to check
+		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
+		if (ObjectID >= 1) {
+
+			// Finds the object
+			//debugger;
+			let ClearObject = false;
+			let Obj = null;
+			for (let O of ChatRoomMapObjectList)
+				if (O.ID == ObjectID) {
+					Obj = O;
+					break;
+				}
+
+			// Clears invalid objects
+			if ((Obj == null) || (Obj.Style == "Blank")) {
+				ClearObject = true;
+			} else {
+
+				// Gets the tile for that object
+				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				let Tile = null;
+				for (let T of ChatRoomMapTileList)
+					if (T.ID == TileID) {
+						Tile = T;
+						break;
+					}
+
+				// Invalid tiles and invalid objects for that tile must be cleared
+				if (Tile == null) ClearObject = true;
+				else if ((Obj.Type == "FloorDeoration") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
+				else if ((Obj.Type == "WallPath") && (Tile.Type != "Wall")) ClearObject = true;
+				else if (Tile.Type == "Wall") {
+
+					// If the current tile and the one below is a wall, we clear the object
+					let X = Pos % ChatRoomMapWidth;
+					let Y = Math.floor(Pos / ChatRoomMapWidth);
+					if (ChatRoomMapIsWall(X, Y + 1)) ClearObject = true;
+
+				}
+
+			}
+
+			// Clears the object if needed
+			if (ClearObject) ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapTileOffset) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+
+		}
+
+	}
+
+	// Sets the flag
 	if (ChatRoomMapUpdateRoomNext == null) ChatRoomMapUpdateRoomNext = CommonTime() + 3000;
+
 }
 
 /**
