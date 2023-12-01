@@ -2057,6 +2057,8 @@ Medical Injector
 медицинский инъектор
 Mug
 Кружка
+Popcorn
+попкорн
 PortalLink Tablet
 Планшет PortalLink
 Shark Plush

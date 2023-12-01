@@ -356,6 +356,10 @@ GlovesGlovesFurFabric,Glove
 GlovesGlovesFurFur,Fur
 GlovesHaremGloveFabric,Fabric
 GlovesHaremGloveBands,Bands
+LeftHandClawsColor,Color
+LeftHandClawsOutline,Outline
+LeftHandFingernailsColor,Color
+LeftHandFingernailsOutline,Outline
 LeftHandRingsThumbSteel,Thumb Ring
 LeftHandRingsIndexSteel,Index Ring
 LeftHandRingsMiddleSteel,Middle Finger Ring
@@ -364,6 +368,10 @@ LeftHandRingsWedding,Wedding Ring
 LeftHandRingsPinkieSteel,Pinkie Ring
 LeftHandRingsHonorBase,Honor Ring
 LeftHandRingsHonorJewels,Honor Ring Jewels
+RightHandClawsColor,Color
+RightHandClawsOutline,Outline
+RightHandFingernailsColor,Color
+RightHandFingernailsOutline,Outline
 RightHandRingsThumbSteel,Thumb Ring
 RightHandRingsIndexSteel,Index Ring
 RightHandRingsMiddleSteel,Middle Finger Ring
@@ -890,6 +898,8 @@ ItemNosePigNoseNose,Nose
 ItemNosePigNoseStrap,Strap
 ItemNosePigNoseHookBand,Band
 ItemNosePigNoseHookHook,Hook
+ItemHandheldPopcornCorn,Corn
+ItemHandheldPopcornBag,Bag
 ItemHandheldMugMug,Mug
 ItemHandheldMugFluids,Fluids
 ItemHandheldSharkBelly,Belly
