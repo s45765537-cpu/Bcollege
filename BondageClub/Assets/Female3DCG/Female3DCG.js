@@ -41170,12 +41170,12 @@ var ActivityFemale3DCG = [
 			"ItemTorso",
 			"ItemTorso2",
 			"ItemVulva",
-			],
+		],
 		ActivityExpression: [
 			{ Group: "Blush", Name: "Low", Timer: 10 },
 			{ Group: "Eyebrows", Name: "Soft", Timer: 10 },
 			{ Group: "Eyes", Name: "Daydream", Timer: 10 },
-			],		
+		],
 		TargetSelf: true,
 	},
 	{
@@ -41183,12 +41183,12 @@ var ActivityFemale3DCG = [
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-ThrowItem"],
 		Target: [
-					"ItemTorso",
-					"ItemMouth",
-					"ItemBreast",
-					"ItemFeet",
-					"ItemHead"
-				],
+			"ItemTorso",
+			"ItemMouth",
+			"ItemBreast",
+			"ItemFeet",
+			"ItemHead"
+		],
 		TargetSelf: true,
 	},
 
