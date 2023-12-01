@@ -10,7 +10,7 @@ var ChatRoomMapTileOffset = 100;
 var ChatRoomMapEditMode = "";
 var ChatRoomMapEditSubMode = "";
 var ChatRoomMapEditStarted = false;
-var ChatRoomMapEditTileID = -1;
+var ChatRoomMapEditID = -1;
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
@@ -47,23 +47,30 @@ var ChatRoomMapTileList = [
 
 var ChatRoomMapObjectList = [
 
-	{ ID: 0, Type: "FloorDecoration", Style: "Bed", Speed: 0.5 },
-	{ ID: 10, Type: "FloorDecoration", Style: "XCross", Speed: 0.5 },
-	{ ID: 20, Type: "FloorDecoration", Style: "Undies" },
+	{ ID: 0, Type: "FloorDecoration", Style: "Blank" },
+	{ ID: 10, Type: "FloorDecoration", Style: "Pillow" },
+	{ ID: 20, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 30, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
 
-	{ ID: 1000, Type: "FloorObstacle", Style: "Statue" },
-	{ ID: 1010, Type: "FloorObstacle", Style: "IronBars", Locked: true },
+	{ ID: 1000, Type: "FloorObstacle", Style: "Blank" },
+	{ ID: 1010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
+	{ ID: 1020, Type: "FloorObstacle", Style: "Barrel", Top: -1, Height: 2 },
+	{ ID: 1030, Type: "FloorObstacle", Style: "OakTree", Top: -1, Height: 2 },
+	{ ID: 1040, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
 
-	{ ID: 2000, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 2010, Type: "WallDecoration", Style: "Candelabra" },
-	{ ID: 2020, Type: "WallDecoration", Style: "Whip" },
+	{ ID: 2000, Type: "WallDecoration", Style: "Blank" },
+	{ ID: 2010, Type: "WallDecoration", Style: "Painting" },
+	{ ID: 2020, Type: "WallDecoration", Style: "Mirror" },
+	{ ID: 2030, Type: "WallDecoration", Style: "Candelabra" },
+	{ ID: 2040, Type: "WallDecoration", Style: "Whip" },
 
-	{ ID: 3000, Type: "WallPath", Style: "WoodDoor", Path: true, Locked: false },
-	{ ID: 3001, Type: "WallPath", Style: "WoodDoor", Path: true, Locked: true },
-	{ ID: 3010, Type: "WallPath", Style: "PaddedDoor", Path: true, Locked: false },
-	{ ID: 3011, Type: "WallPath", Style: "PaddedDoor", Path: true, Locked: true },
-	{ ID: 3020, Type: "WallPath", Style: "HiddenDoor", Path: true, Locked: false },
-	{ ID: 3021, Type: "WallPath", Style: "HiddenDoor", Path: true, Locked: true },
+	{ ID: 3000, Type: "WallPath", Style: "Blank" },
+	{ ID: 3010, Type: "WallPath", Style: "WoodDoor", Locked: false },
+	{ ID: 3011, Type: "WallPath", Style: "WoodDoor", Locked: true },
+	{ ID: 3020, Type: "WallPath", Style: "PaddedDoor", Locked: false },
+	{ ID: 3021, Type: "WallPath", Style: "PaddedDoor", Locked: true },
+	{ ID: 3030, Type: "WallPath", Style: "HiddenDoor", Locked: false },
+	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },
 
 ];
 
@@ -185,7 +192,7 @@ function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 	let SC = ChatRoomMapIsWall(X, Y + 1);
 	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
 	let Effect = ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE);
-	DrawImageResize("Screens/Online/ChatRoom/Map/WallEffect/" + Effect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
+	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
 
 }
 
@@ -212,6 +219,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 	// Make sure the map grid is valid
 	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Objects = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
 
 	// Defines the width and height of the visible tile
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
@@ -241,16 +249,23 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
 			let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
 
-			// Draws the image and applies the visual effects if needed
+			// Draws the tile and object image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
 				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
 				for (let Tile of ChatRoomMapTileList)
 					if (Tile.ID == TileID) {
-						DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+						DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 						if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 						break;
 					}
-				if ((ChatRoomMapEditMode == "Tile") && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				if (ObjectID > 0)
+					for (let Obj of ChatRoomMapObjectList)
+						if (Obj.ID == ObjectID) {
+							DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
+							break;
+						}
+				if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
 					ChatRoomMapEditSelection.push(Pos);
 					DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 				}
@@ -259,8 +274,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			// Draws the characters on that tile
 			for (let C of ChatRoomCharacter)
 				if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
-					DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.9), TileHeight * 1.8 / 1000);
-					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.9)) && (MouseY <= Top + ScreenY + (TileHeight * 0.9)))
+					DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
+					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95)))
 						ChatRoomMapFocusedCharacter = C;
 				}
 
@@ -350,33 +365,63 @@ function ChatRoomMapDraw() {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowCharacter.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Plus.png");
 		DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/Minus.png");
-		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/Edit.png");
+		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
+		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/EditObject.png");
 	}
 
-	// In type edit mode, the user can select a tile type (floor, wall, etc.)
-	if (ChatRoomMapEditMode == "Type") {
+	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
+	if (ChatRoomMapEditMode == "TileType") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
-		let Y = 10;
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
+		let Y = 80;
 		let Type = "";
 		for (let Tile of ChatRoomMapTileList)
 			if (Type != Tile.Type) {
 				Type = Tile.Type;
 				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/Map/Type/" + Type + ".png");
+				DrawButton(10, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Type/" + Type + ".png");
 			}
 	}
 
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapEditMode == "Tile") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/Map/Range/" + ChatRoomMapEditRange.toString() + ".png");
+		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapEditRange.toString() + ".png");
 		let Y = 80;
 		for (let Tile of ChatRoomMapTileList)
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
-				if (Tile.ID == ChatRoomMapEditTileID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
-				DrawImageResize("Screens/Online/ChatRoom/Map/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
+				if (Tile.ID == ChatRoomMapEditID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
+			}
+	}
+
+	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
+	if (ChatRoomMapEditMode == "ObjectType") {
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
+		let Y = 80;
+		let Type = "";
+		for (let Obj of ChatRoomMapObjectList)
+			if (Type != Obj.Type) {
+				Type = Obj.Type;
+				Y = Y + 70;
+				DrawButton(10, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapObject/Type/" + Type + ".png");
+			}
+	}
+
+	// In object edit mode, we show all objects of a spectific tyle
+	if (ChatRoomMapEditMode == "Object") {
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapEditRange.toString() + ".png");
+		let Y = 80;
+		for (let Obj of ChatRoomMapObjectList)
+			if (ChatRoomMapEditSubMode == Obj.Type) {
+				Y = Y + 70;
+				DrawButton(10, Y, 60, 60, "", "White");
+				if (Obj.ID == ChatRoomMapEditID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
 
@@ -389,12 +434,21 @@ function ChatRoomMapDraw() {
  * @returns {boolean} - TRUE if the player can enter that tile
  */
 function ChatRoomMapCanEnterTile(X, Y) {
+
+	// Out of map bound or walls cannot enter
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
 	if (ChatRoomMapIsWall(X, Y)) return false;
+
+	// Floor obstacles from 1000 to 2000 cannot be crossed
+	let ID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	if ((ID >= 1000) && (ID < 2000)) return false;
+
+	// Cannot enter a tile occupied by another player
 	for (let C of ChatRoomCharacter)
 		if (!C.IsPlayer() && (C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
 			return false;
 	return true;
+
 }
 
 /**
@@ -461,16 +515,22 @@ function ChatRoomMapMouseDown(Event) {
 		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) { ChatRoomMapViewRange--; return; }
 		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) { ChatRoomMapViewRange++; return; }
 		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
-			ChatRoomMapEditMode = "Type";
+			ChatRoomMapEditMode = "TileType";
+			ChatRoomMapEditSubMode = "";
+			return;
+		}
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
+			ChatRoomMapEditMode = "ObjectType";
 			ChatRoomMapEditSubMode = "";
 			return;
 		}
 	}
 
-	// In type edit mode, the user can select a tile type (floor, wall, etc.)
-	if (ChatRoomMapEditMode == "Type") {
-		if (MouseIn(10, 10, 60, 60)) ChatRoomMapEditMode = "";
-		let Y = 10;
+	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
+	if (ChatRoomMapEditMode == "TileType") {
+		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
+		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "ObjectType"; return; }
+		let Y = 80;
 		let Type = "";
 		for (let Tile of ChatRoomMapTileList)
 			if (Type != Tile.Type) {
@@ -479,18 +539,18 @@ function ChatRoomMapMouseDown(Event) {
 				if (MouseIn(10, Y, 60, 60)) {
 					ChatRoomMapEditMode = "Tile";
 					ChatRoomMapEditSubMode = Tile.Type;
-					ChatRoomMapEditTileID = Tile.ID;
+					ChatRoomMapEditID = Tile.ID;
 					return;
 				}
 			}
 	}
 
-	// If tile edit mode
+	// In tile edit mode
 	if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
 
 		// The first button returns to type selection
 		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomMapEditMode = "Type";
+			ChatRoomMapEditMode = "TileType";
 			return;
 		}
 
@@ -507,7 +567,60 @@ function ChatRoomMapMouseDown(Event) {
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditTileID = Tile.ID;
+					ChatRoomMapEditID = Tile.ID;
+					return;
+				}
+			}
+
+		// Enter the drawing mode
+		ChatRoomMapEditStarted = true;
+		ChatRoomMapMouseMove();
+		return;
+
+	}
+
+	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
+	if (ChatRoomMapEditMode == "ObjectType") {
+		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
+		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "TileType"; return; }
+		let Y = 80;
+		let Type = "";
+		for (let Obj of ChatRoomMapObjectList)
+			if (Type != Obj.Type) {
+				Type = Obj.Type;
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					ChatRoomMapEditMode = "Object";
+					ChatRoomMapEditSubMode = Obj.Type;
+					ChatRoomMapEditID = Obj.ID;
+					return;
+				}
+			}
+	}
+
+	// In object edit mode
+	if ((ChatRoomMapEditMode == "Object") && MouseIn(0, 0, 1000, 1000)) {
+
+		// The first button returns to type selection
+		if (MouseIn(10, 10, 60, 60)) {
+			ChatRoomMapEditMode = "ObjectType";
+			return;
+		}
+
+		// The second button allows changing the edit size from 1 to 5
+		if (MouseIn(10, 80, 60, 60)) {
+			ChatRoomMapEditRange++;
+			if (ChatRoomMapEditRange > 5) ChatRoomMapEditRange = 1;
+			return;
+		}
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
+		for (let Obj of ChatRoomMapObjectList)
+			if (ChatRoomMapEditSubMode == Obj.Type) {
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					ChatRoomMapEditID = Obj.ID;
 					return;
 				}
 			}
@@ -527,9 +640,14 @@ function ChatRoomMapMouseDown(Event) {
  */
 function ChatRoomMapMouseMove() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditTileID >= 0)) {
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditID >= 0)) {
 		for (let Pos of ChatRoomMapEditSelection)
-			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditTileID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
+			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
+		ChatRoomMapUpdateFlag();
+	}
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Object") && (ChatRoomMapEditID >= 0)) {
+		for (let Pos of ChatRoomMapEditSelection)
+			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Objects.substring(Pos + 1);
 		ChatRoomMapUpdateFlag();
 	}
 }
@@ -540,7 +658,7 @@ function ChatRoomMapMouseMove() {
  */
 function ChatRoomMapMouseUp() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && !ChatRoomMapEditStarted)
+	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
 		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
 	ChatRoomMapEditStarted = false;
 }
