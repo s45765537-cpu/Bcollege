@@ -116,7 +116,8 @@ interface ServerChatRoomData {
 	Space: ServerChatRoomSpace;
 	MapData: {
 		Active?: boolean;
-		Grid?: string;
+		Tiles?: string;
+		Objects?: string;
 	};
 	Custom: {
 		ImageURL?: string;

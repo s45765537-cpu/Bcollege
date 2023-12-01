@@ -1984,9 +1984,10 @@ function DialogItemClick(ClickItem) {
 		return;
 	}
 
-	// Cannot change item if the previous one is locked or blocked by another group
+	// Main check: If there was no previous item, or it wasn't locked,
+	// or we can unlock it, use/swap/remove what's in the group
 	if (
-		CurrentItem == null || InventoryItemHasEffect(CurrentItem, "Lock", true) || DialogCanUnlock(C, CurrentItem)
+		CurrentItem == null || !InventoryItemHasEffect(CurrentItem, "Lock", true) || DialogCanUnlock(C, CurrentItem)
 	) {
 		if (!InventoryGroupIsBlocked(C, null, true) && (!InventoryGroupIsBlocked(C) || !ClickItem.Worn))
 			if (InventoryAllow(C, ClickItem.Asset)) {

@@ -10445,6 +10445,40 @@ var AssetFemale3DCG = [
 		PreviewZone: [183, 360, 135, 135],
 		Asset: [
 			{
+				Name: "Claws",
+				Value: 0,
+				AllowActivity: ["Scratch"],
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					...AssetPoseMapping.LeftHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				DefaultColor: ["#CC3333", "#222222"],
+				Layer: [
+					{ Name: "Color" },
+					{ Name: "Outline" },
+				]
+			},
+			{
+				Name: "Fingernails",
+				Value: 0,
+				DefaultColor: ["#CC3333", "#222222"],
+				AllowActivity: ["Scratch"],
+				PoseMapping: {
+					...AssetPoseMapping.LeftHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				Layer: [
+					{ Name: "Color" },
+					{ Name: "Outline"}
+				]
+			},
+			{
 				/*
 				To allow rings to have more diversity, they have been built as a modular item.
 				If you wish to add more rings, add the corresponding layers to the left and right hand groups and
@@ -10518,6 +10552,40 @@ var AssetFemale3DCG = [
 		PoseMapping: { ...AssetPoseMapping.RightHand },
 		PreviewZone: [183, 360, 135, 135],
 		Asset: [
+			{
+				Name: "Claws",
+				Value: 0,
+				AllowActivity: ["Scratch"],
+				PoseMapping: {
+					...AssetPoseMapping.RightHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+					BackCuffs: PoseType.HIDE
+				},
+				DefaultColor: ["#CC3333", "#222222"],
+				Layer: [
+					{ Name: "Color" },
+					{ Name: "Outline" },
+				]
+			},
+			{
+				Name: "Fingernails",
+				Value: 0,
+				DefaultColor: ["#CC3333", "#222222"],
+				AllowActivity: ["Scratch"],
+				PoseMapping: {
+					...AssetPoseMapping.RightHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+					BackCuffs: PoseType.HIDE
+				},
+				Layer: [
+					{ Name: "Color" },
+					{ Name: "Outline"},
+				]
+			},
 			{
 				/*
 				To allow rings to have more diversity, they have been built as a modular item.
@@ -20989,6 +21057,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemNipplesLactationPump"],
 				PoseMapping: {
 					KneelingSpread: "KneelingSpread",
+					AllFours: PoseType.HIDE,
 				},
 				SetPose: ["BackElbowTouch"],
 				Effect: ["Block", "Prone"],
@@ -25180,6 +25249,27 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Popcorn",
+				ParentGroup: null,
+				Value: 2,
+				Priority: 46,
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+					BackCuffs: PoseType.HIDE,
+					BackElbowTouch: PoseType.HIDE,
+					OverTheHead: PoseType.HIDE,
+					Yoked: PoseType.HIDE,
+				},
+				AllowActivity: ["EatItem","ThrowItem"],
+				Layer: [
+					{ Name: "Bag", AllowColorize: false },
+					{ Name: "Corn", AllowColorize: false },
+				],
+			},
+			{
 				Name: "PortalTablet",
 				ParentGroup: null,
 				BuyGroup: "PortalTablet",
@@ -25322,7 +25412,7 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
 			},
 			{
-				Name:"Smartphone",
+				Name: "Smartphone",
 				ParentGroup: null,
 				Value: 100,
 				DefaultColor: ["#333", "#133769", "#900000"],
@@ -25339,12 +25429,34 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{Name: "Phone", Priority: 45, HasType: false},
-					{Name: "Case", Priority: 46, HasType: false, AllowModuleTypes: ["c1", "c2", "c3", "c4"]},
-					{Name: "Stripes", Priority: 47, HasType: false, AllowModuleTypes: ["c2"]},
-					{Name: "Dots", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c3"]},
-					{Name: "Hearts", Priority: 47, CopyLayerColor: "Stripes", HasType: false, AllowModuleTypes: ["c4"]},
-				]
+					{ Name: "Phone", Priority: 45, HasType: false },
+					{
+						Name: "Case",
+						Priority: 46,
+						HasType: false,
+						AllowModuleTypes: ["c1", "c2", "c3", "c4"],
+					},
+					{
+						Name: "Stripes",
+						Priority: 47,
+						HasType: false,
+						AllowModuleTypes: ["c2"],
+					},
+					{
+						Name: "Dots",
+						Priority: 47,
+						CopyLayerColor: "Stripes",
+						HasType: false,
+						AllowModuleTypes: ["c3"],
+					},
+					{
+						Name: "Hearts",
+						Priority: 47,
+						CopyLayerColor: "Stripes",
+						HasType: false,
+						AllowModuleTypes: ["c4"],
+					},
+				],
 			},
 		],
 		Color: [
@@ -27761,7 +27873,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
 				Effect: ["BlockMouth"],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [{ Name: "Mask" }, { Name: "Sides" }, { Name: "Highlights" }],
@@ -29283,7 +29395,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
 				Effect: ["BlockMouth"],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth3"],
@@ -30630,7 +30742,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
 				Effect: ["BlockMouth"],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth2"],
@@ -31711,7 +31823,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#555555",
 				Hide: ["Glasses"],
-				HideItem: ["ItemNosePigNose"],
+				HideItem: ["ItemNosePigNose","ClownNose"],
 				Effect: ["BlindHeavy", "Prone"],
 				Block: ["ItemEars", "ItemNose"],
 			},
@@ -32595,6 +32707,18 @@ var AssetFemale3DCG = [
 		Top: 20,
 		Zone: [[175, 65, 150, 65]],
 		Asset: [
+			{
+				Name: "ClownNose",
+				Priority: 26,
+				Value: 2,
+				Difficulty: 1,
+				Time: 15,
+				Top: 18,
+				Left: 151,
+				Random: false,
+				AllowLock: false,
+				DefaultColor: "#FF0000",
+			},
 			{
 				Name: "NoseHook",
 				Fetish: ["Metal"],
@@ -33498,6 +33622,7 @@ var AssetFemale3DCG = [
 				HideItem: [
 					"ItemHeadSnorkel",
 					"ItemNosePigNose",
+					"ClownNose",
 					"ItemEarsFuturisticEarphones",
 					"HatFurHeadband",
 				],
@@ -39200,6 +39325,12 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Main", Priority: -5 },
 					{ Name: "Strap", CopyLayerColor: "Main", AllowTypes: ["Closed"] },
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						AllowTypes: ["Closed"],
+					},
 				],
 			},
 		],
@@ -40885,6 +41016,57 @@ var ActivityFemale3DCG = [
 		Target: ["ItemMouth"],
 		TargetSelf: true,
 	},
+	{
+		Name: "EatItem",
+		MaxProgress: 0,
+		Prerequisite: ["TargetCanUseTongue", "Needs-EatItem"],
+		Target: ["ItemMouth"],
+		TargetSelf: true,
+	},
+	{
+		Name: "Scratch",
+		MaxProgress: 0,
+		Prerequisite: ["UseHands","Needs-Scratch"],
+		Target: [
+			"ItemArms",
+			"ItemBreast",
+			"ItemButt",
+			"ItemEars",
+			"ItemFeet",
+			"ItemBoots",
+			"ItemHands",
+			"ItemHead",
+			"ItemLegs",
+			"ItemMouth",
+			"ItemNeck",
+			"ItemNipples",
+			"ItemNose",
+			"ItemPelvis",
+			"ItemTorso",
+			"ItemTorso2",
+			"ItemVulva",
+			],
+		ActivityExpression: [
+			{ Group: "Blush", Name: "Low", Timer: 10 },
+			{ Group: "Eyebrows", Name: "Soft", Timer: 10 },
+			{ Group: "Eyes", Name: "Daydream", Timer: 10 },
+			],		
+		TargetSelf: true,
+	},
+	{
+		Name: "ThrowItem",
+		MaxProgress: 0,
+		Prerequisite: ["UseHands", "Needs-ThrowItem"],
+		Target: [
+					"ItemTorso",
+					"ItemMouth",
+					"ItemBreast",
+					"ItemFeet",
+					"ItemHead"
+				],
+		TargetSelf: true,
+	},
+
 	/* Family activities */
 	{
 		Name: "SistersHug",
