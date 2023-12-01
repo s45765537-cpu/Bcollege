@@ -10708,10 +10708,7 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.HIDE,
 				},
 				DefaultColor: ["#CC3333", "#222222"],
-				Layer: [
-					{ Name: "Color" },
-					{ Name: "Outline" },
-				]
+				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
 				Name: "Fingernails",
@@ -10724,10 +10721,7 @@ var AssetFemale3DCG = [
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
 				},
-				Layer: [
-					{ Name: "Color" },
-					{ Name: "Outline"}
-				]
+				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
 				/*
@@ -10812,13 +10806,10 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
-					BackCuffs: PoseType.HIDE
+					BackCuffs: PoseType.HIDE,
 				},
 				DefaultColor: ["#CC3333", "#222222"],
-				Layer: [
-					{ Name: "Color" },
-					{ Name: "Outline" },
-				]
+				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
 				Name: "Fingernails",
@@ -10830,12 +10821,9 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
-					BackCuffs: PoseType.HIDE
+					BackCuffs: PoseType.HIDE,
 				},
-				Layer: [
-					{ Name: "Color" },
-					{ Name: "Outline"},
-				]
+				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
 				/*
@@ -25514,7 +25502,7 @@ var AssetFemale3DCG = [
 					OverTheHead: PoseType.HIDE,
 					Yoked: PoseType.HIDE,
 				},
-				AllowActivity: ["EatItem","ThrowItem"],
+				AllowActivity: ["EatItem", "ThrowItem"],
 				Layer: [
 					{ Name: "Bag", AllowColorize: false },
 					{ Name: "Corn", AllowColorize: false },
@@ -28124,7 +28112,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose", "ClownNose"],
 				Effect: [E.BlockMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [{ Name: "Mask" }, { Name: "Sides" }, { Name: "Highlights" }],
@@ -28983,25 +28971,46 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Top: 0,
 				Left: 0,
-				DefaultColor: ["#141414", "Default", "#141414", "Default", "#262626", "#8B8B8B"],
+				DefaultColor: [
+					"#141414",
+					"Default",
+					"#141414",
+					"Default",
+					"#262626",
+					"#8B8B8B",
+				],
 				Hide: ["Mouth"],
 				Prerequisite: "GagFlat",
 				Effect: ["BlockMouth"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"]},
-					{ Name: "BaseLoose", CopyLayerColor: "BaseShine", AllowTypes: ["Loose"] },
+					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"] },
+					{
+						Name: "BaseLoose",
+						CopyLayerColor: "BaseShine",
+						AllowTypes: ["Loose"],
+					},
 					{ Name: "Panel", AllowColorize: true, AllowTypes: ["Panel"] },
 					{ Name: "PanelShine", AllowColorize: true, AllowTypes: ["Panel"] },
-					{ Name: "Straps", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
-					{ Name: "StrapsBuckles", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
 					{
-						Name: "PanelLocks", 
-						AllowColorize: false, 
+						Name: "Straps",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "StrapsBuckles",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "PanelLocks",
+						AllowColorize: false,
 						LockLayer: true,
-						Priority: 36, 
-						AllowTypes: ["Panel"] 
+						Priority: 36,
+						AllowTypes: ["Panel"],
 					},
 				],
 			},
@@ -29646,7 +29655,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose", "ClownNose"],
 				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth3"],
@@ -30339,29 +30348,49 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Top: 0,
 				Left: 0,
-				DefaultColor: ["#141414", "Default", "#141414", "Default", "#262626", "#8B8B8B"],
+				DefaultColor: [
+					"#141414",
+					"Default",
+					"#141414",
+					"Default",
+					"#262626",
+					"#8B8B8B",
+				],
 				Hide: ["Mouth"],
 				Prerequisite: "GagFlat",
 				Effect: ["BlockMouth"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"]},
-					{ Name: "BaseLoose", CopyLayerColor: "BaseShine", AllowTypes: ["Loose"] },
+					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"] },
+					{
+						Name: "BaseLoose",
+						CopyLayerColor: "BaseShine",
+						AllowTypes: ["Loose"],
+					},
 					{ Name: "Panel", AllowColorize: true, AllowTypes: ["Panel"] },
 					{ Name: "PanelShine", AllowColorize: true, AllowTypes: ["Panel"] },
-					{ Name: "Straps", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
-					{ Name: "StrapsBuckles", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
 					{
-						Name: "PanelLocks", 
-						AllowColorize: false, 
+						Name: "Straps",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "StrapsBuckles",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "PanelLocks",
+						AllowColorize: false,
 						LockLayer: true,
-						Priority: 36, 
-						AllowTypes: ["Panel"] 
+						Priority: 36,
+						AllowTypes: ["Panel"],
 					},
 				],
 			},
-
 		],
 		Color: [
 			"Default",
@@ -30993,7 +31022,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
-				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
+				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose", "ClownNose"],
 				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth2"],
@@ -31861,29 +31890,49 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Top: 0,
 				Left: 0,
-				DefaultColor: ["#141414", "Default", "#141414", "Default", "#262626", "#8B8B8B"],
+				DefaultColor: [
+					"#141414",
+					"Default",
+					"#141414",
+					"Default",
+					"#262626",
+					"#8B8B8B",
+				],
 				Hide: ["Mouth"],
 				Prerequisite: "GagFlat",
 				Effect: ["BlockMouth"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
-					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"]},
-					{ Name: "BaseLoose", CopyLayerColor: "BaseShine", AllowTypes: ["Loose"] },
+					{ Name: "BaseShine", AllowColorize: true, AllowTypes: ["", "Panel"] },
+					{
+						Name: "BaseLoose",
+						CopyLayerColor: "BaseShine",
+						AllowTypes: ["Loose"],
+					},
 					{ Name: "Panel", AllowColorize: true, AllowTypes: ["Panel"] },
 					{ Name: "PanelShine", AllowColorize: true, AllowTypes: ["Panel"] },
-					{ Name: "Straps", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
-					{ Name: "StrapsBuckles", AllowColorize: true, Priority: 36, AllowTypes: ["Panel"] },
 					{
-						Name: "PanelLocks", 
-						AllowColorize: false, 
+						Name: "Straps",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "StrapsBuckles",
+						AllowColorize: true,
+						Priority: 36,
+						AllowTypes: ["Panel"],
+					},
+					{
+						Name: "PanelLocks",
+						AllowColorize: false,
 						LockLayer: true,
-						Priority: 36, 
-						AllowTypes: ["Panel"] 
+						Priority: 36,
+						AllowTypes: ["Panel"],
 					},
 				],
 			},
-
 		],
 		Color: [
 			"Default",
@@ -32074,7 +32123,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#555555",
 				Hide: ["Glasses"],
-				HideItem: ["ItemNosePigNose","ClownNose"],
+				HideItem: ["ItemNosePigNose", "ClownNose"],
 				Effect: [E.BlindHeavy, E.BlockWardrobe],
 				Block: ["ItemEars", "ItemNose"],
 			},
@@ -33180,7 +33229,13 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatBand1", "HatBand2", "HatTiara1"],
-				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.GagHeavy, E.BlockMouth],
+				Effect: [
+					E.BlindHeavy,
+					E.DeafLight,
+					E.BlockWardrobe,
+					E.GagHeavy,
+					E.BlockMouth,
+				],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33569,7 +33624,13 @@ var AssetFemale3DCG = [
 					"Mask",
 					"ItemHead",
 				],
-				Effect: [E.BlindHeavy, E.DeafHeavy, E.BlockWardrobe, E.GagHeavy, E.BlockMouth],
+				Effect: [
+					E.BlindHeavy,
+					E.DeafHeavy,
+					E.BlockWardrobe,
+					E.GagHeavy,
+					E.BlockMouth,
+				],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33641,7 +33702,13 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatFurHeadband"],
-				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.GagNormal, E.BlockMouth],
+				Effect: [
+					E.BlindHeavy,
+					E.DeafLight,
+					E.BlockWardrobe,
+					E.GagNormal,
+					E.BlockMouth,
+				],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33912,7 +33979,13 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatFurHeadband"],
-				Effect: [E.BlockWardrobe, E.BlindHeavy, E.GagHeavy, E.BlockMouth, E.DeafLight],
+				Effect: [
+					E.BlockWardrobe,
+					E.BlindHeavy,
+					E.GagHeavy,
+					E.BlockMouth,
+					E.DeafLight,
+				],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -37033,7 +37106,13 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: [E.BlockWardrobe, E.Enclose, E.BlindNormal, E.GagLight, E.Freeze],
+				Effect: [
+					E.BlockWardrobe,
+					E.Enclose,
+					E.BlindNormal,
+					E.GagLight,
+					E.Freeze,
+				],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37056,7 +37135,13 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				SetPose: ["Kneel"],
-				Effect: [E.BlindHeavy, E.BlockWardrobe, E.Enclose, E.GagHeavy, E.Freeze],
+				Effect: [
+					E.BlindHeavy,
+					E.BlockWardrobe,
+					E.Enclose,
+					E.GagHeavy,
+					E.Freeze,
+				],
 				HideItem: ["ShoesFlippers"],
 				RemoveAtLogin: true,
 			},
@@ -37557,7 +37642,13 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["AccessVulva", "NotChaste", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: [E.FillVulva, E.BlockWardrobe, E.Freeze, E.Mounted, E.VulvaShaft],
+				Effect: [
+					E.FillVulva,
+					E.BlockWardrobe,
+					E.Freeze,
+					E.Mounted,
+					E.VulvaShaft,
+				],
 				Block: ["ItemVulva"],
 				Layer: [
 					{ Name: "Bar", AllowColorize: true },
@@ -38069,7 +38160,14 @@ var AssetFemale3DCG = [
 					"Garters",
 				],
 				SetPose: ["Yoked", "BaseLower"],
-				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted, E.Chaste, E.ButtChaste],
+				Effect: [
+					E.BlockWardrobe,
+					E.Freeze,
+					E.Block,
+					E.Mounted,
+					E.Chaste,
+					E.ButtChaste,
+				],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -38283,7 +38381,14 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemMiscTeddyBear", "ItemMiscBunPlush", "ItemMiscFoxPlush"],
 				SetPose: ["Yoked", "BaseLower"],
-				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted, E.Chaste, E.ButtChaste],
+				Effect: [
+					E.BlockWardrobe,
+					E.Freeze,
+					E.Block,
+					E.Mounted,
+					E.Chaste,
+					E.ButtChaste,
+				],
 				Alpha: [
 					{
 						Masks: [
@@ -41276,7 +41381,7 @@ var ActivityFemale3DCG = [
 	{
 		Name: "Scratch",
 		MaxProgress: 0,
-		Prerequisite: ["UseHands","Needs-Scratch"],
+		Prerequisite: ["UseHands", "Needs-Scratch"],
 		Target: [
 			"ItemArms",
 			"ItemBreast",
@@ -41307,13 +41412,7 @@ var ActivityFemale3DCG = [
 		Name: "ThrowItem",
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-ThrowItem"],
-		Target: [
-			"ItemTorso",
-			"ItemMouth",
-			"ItemBreast",
-			"ItemFeet",
-			"ItemHead"
-		],
+		Target: ["ItemTorso", "ItemMouth", "ItemBreast", "ItemFeet", "ItemHead"],
 		TargetSelf: true,
 	},
 

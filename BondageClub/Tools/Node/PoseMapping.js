@@ -6,7 +6,16 @@ const process = require("process");
 const minimist = require("minimist");
 const util = require('util');
 
-const { NEEDED_FILES, BASE_PATH, loadCSV, entries, fromEntries, keys, isObject } = require("./Common.js");
+const {
+	NEEDED_FILES,
+	BASE_PATH,
+	loadCSV,
+	entries,
+	fromEntries,
+	keys,
+	isObject,
+	validateArgv,
+} = require("./Common.js");
 
 /** @type {<T>(obj: T) => T} */
 function noop(obj) {
@@ -54,41 +63,6 @@ Options:
 	--compare <path>    Compare the current pose mappings with those in the passed JSON file
 `;
 
-/**
- * Validate the passed command line arguments
- * @param {minimist.ParsedArgs} argv
- * @returns {{ help?: boolean, dump?: string, compare?: string }}
- */
-function validateArgv(argv) {
-	const { _, ...kwargs } = argv;
-	delete kwargs.h;
-
-	/** @type {string[]} */
-	const invalidArguments = [];
-	invalidArguments.push(..._);
-
-	/** @type {ReturnType<typeof validateArgv>} */
-	const ret = {};
-	const validKeys = new Set(["help", "dump", "compare"]);
-	for (const [k, v] of Object.entries(kwargs)) {
-		if (validKeys.has(k)) {
-			ret[k] = v;
-		} else {
-			invalidArguments.push(k);
-		}
-	}
-
-	if (invalidArguments.length > 0) {
-		throw new Error(`Found ${invalidArguments.length} unknown arguments: ${invalidArguments.join()}`);
-	} else if (keys(ret).length === 0) {
-		throw new Error(`Expects at least one argument`);
-	} else if ("dump" in kwargs && !kwargs.dump) {
-		throw new Error("Dump file path must be a non-empty string");
-	} else if ("compare" in kwargs && !kwargs.compare) {
-		throw new Error("Compare file path must be a non-empty string");
-	}
-	return ret;
-}
 
 /**
  * Dump the pose mappings, extracted from the passed assets, to the output json file specified in `outputPath`
@@ -208,10 +182,11 @@ function runVM() {
 }
 
 (function () {
+	const kwargsTemplate = { help: false, h: false, compare: "", dump: "" };
 	const kwargs = validateArgv(minimist(
 		process.argv.slice(2),
 		{ string: ["compare", "dump"], alias: { "h": "help" } },
-	));
+	), kwargsTemplate);
 	if (kwargs.help) {
 		console.log(HELP);
 		return;
@@ -219,12 +194,12 @@ function runVM() {
 
 	const { poseMapping } = runVM();
 
-	if (kwargs.dump !== undefined) {
+	if (kwargs.dump) {
 		fs.writeFileSync(kwargs.dump, JSON.stringify(poseMapping, undefined, 4));
 		console.log(`Succesfully written pose mapping to "${kwargs.dump}"`);
 	}
 
-	if (kwargs.compare !== undefined) {
+	if (kwargs.compare) {
 		/** @type {null | Record<string, any> | any[]} */
 		const poseMappingOld = JSON.parse(fs.readFileSync(kwargs.compare, { encoding: "utf8" }));
 		if (!isObject(poseMappingOld)) {
