@@ -36,8 +36,8 @@ function InventoryItemMiscHighSecurityPadlockLoad() {
 // FIXME: should be merged into either DialogHasKey or DialogCanUnlock
 function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	let UnlockName = "Unlock-" + Item.Asset.Name;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock-" + Item.Property.LockedBy;
+	let UnlockName = "Unlock" + Item.Asset.Name;
+	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock" + Item.Property.LockedBy;
 	for (let I = 0; I < Player.Inventory.length; I++)
 		if (InventoryItemHasEffect(Player.Inventory[I], /** @type {EffectName} */ (UnlockName))) {
 			var Lock = InventoryGetLock(Item);

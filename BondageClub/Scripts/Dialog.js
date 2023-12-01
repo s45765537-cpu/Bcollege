@@ -602,9 +602,9 @@ function DialogHasKey(C, Item) {
 		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
 	}
 	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (C.ID != 0) && !C.IsFamilyOfPlayer()) return false;
-	let UnlockName = /** @type {EffectName} */("Unlock-" + Item.Asset.Name);
+	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
-		UnlockName = /** @type {EffectName} */("Unlock-" + Item.Property.LockedBy);
+		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
 	for (let I = 0; I < Player.Inventory.length; I++)
 		if (InventoryItemHasEffect(Player.Inventory[I], UnlockName)) {
 			if (lock != null) {
@@ -2042,7 +2042,7 @@ function DialogItemClick(ClickItem) {
 
 	// If the item can unlock another item or simply show dialog text (not wearable)
 	if (InventoryAllow(C, ClickItem.Asset))
-		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */("Unlock-" + CurrentItem.Asset.Name)))
+		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */("Unlock" + CurrentItem.Asset.Name)))
 			DialogStruggleStart(C, "ActionUnlock", CurrentItem, null);
 		else if ((CurrentItem.Asset.Name == ClickItem.Asset.Name) && CurrentItem.Asset.Extended)
 			DialogExtendItem(CurrentItem);

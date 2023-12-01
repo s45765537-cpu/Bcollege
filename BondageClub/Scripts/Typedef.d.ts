@@ -166,142 +166,30 @@ type BlurEffectName = "BlurLight" | "BlurNormal" | "BlurHeavy" | "BlurTotal";
 /** The {@link EffectName} values for all deafness-related effects. */
 type DeafEffectName = "DeafLight" | "DeafNormal" | "DeafHeavy" | "DeafTotal";
 
-/**
- * @property Freeze - Prevents walking and kneeling unaided. There's a few caveats with the kneeling part.
- * @property Prone - Indicates the character is prone. Looks non-functional.
- * @property Block - Indicates that the character is "blocked". Acts as a restraint.
- * @property Mounted - Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around.
- * @property KneelFreeze - Prevents walking while kneeling.
- * @property ForceKneel - Deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose}
- * @property BlockKneel - Deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead
- *
- * @property CuffedFeet - Enable items that have the CuffedFeet prerequisite to be applied.
- * @property CuffedLegs - Enable items that have the CuffedLegs prerequisite to be applied.
- * @property CuffedArms - Enable items that have the CuffedArms prerequisite to be applied.
- * @property IsChained - Prevents items that have the NotChained prerequisite from being applied.
- * @property FixedHead - Locks the character's head in-place. Prevents nodding and shaking activities on it.
- * @property MergedFingers - Indicates the character can't use their fingers normally. Limits activities.
- *
- * @property Shackled - Prevents items that have the NotShackled prerequisite from being applied.
- * @property Tethered - Prevents leashing items from working.
- * @property Enclose - Indicates the character cannot be interacted with and can't interact back.
- * @property OneWayEnclose - Indicates the character can be interacted with but can't interact back.
- * @property OnBed - Enable items that have the OnBed prerequisite to be applied.
- * @property Lifted - Prevents items that have the NotLifted prerequisite to be applied.
- *
- * @property Slow - Indicates the character is slowed. Used when exiting chatrooms.
- * @property FillVulva - Marks the item as filling the character's vulva.
- *   Used when checking activities' prerequisites and the auto-stimulation events.
- * @property ShaftVulva - Marks the item as being some sort of shaft extending out of the vulva.
- *   Used to block things like chastity from closing.
- * @property IsPlugged - Marks the item as filling the character's butt.
- * @property IsPlugged - Marks the item as filling the character's butt.
- *   Used when checking activities' prerequisites and the auto-stimulation events.
- *
- * @property Egged - Marks the item as being a "vibrator" kind-of item.
- *   Make the item's Vibrator-related properties be taken into account for arousal,
- *   as well as the stuttering effect.
- * @property Vibrating - Indicates an "Egged" item as being vibrating.
- *   Normally handled automatically by VibrationMode. Makes the item preview wobble
- *   in the inventory, as well as cause auto-stimulation events.
- *
- * @property Edged - Marks the item as causing the character to be edged.
- *   Normally handled automatically by VibrationMode. Causes the character's arousal
- *   to be capped, and ruins its orgasms.
- * @property DenialMode - Marks the item as causing the character to be denied.
- *   Causes the character's arousal to be capped (higher that Edged).
- * @property RuinOrgasms - Marks the item as ruining orgasms.
- *   Requires DenialMode. Makes the character unable to fully orgasm.
- *
- * @property Remote - Marks the item as a remote. Looks non-functional.
- * @property UseRemote - Marks the item as needing a remote to be changed.
- * @property BlockRemotes - Marks the item as preventing remotes from being used
- *   on the character.
- *
- * @property Lock - Marks the item as being some kind of lock.
- * @property NotSelfPickable - Disables the item from being lock-picked.
- *
- * @property Chaste - Marks the item as applying chastity.
- *   Prevents items that have the NotChaste prerequisite from being applied.
- *   Allows the item to be taken off at the club management.
- * @property BreastChaste - Marks the item as applying breast chastity.
- *   Allows the item to be taken off at the club management.
- *
- * @property Leash - Marks the item as being usable as a leash.
- * @property IsLeashed - Marks a leash item as being held.
- * @property CrotchRope - Marks the item as being a crotchrope-style item.
- *   Used for the auto-stimulation events.
- *
- * @property ReceiveShock - Marks the item as being a shock-dispensing item.
- * @property TriggerShock - Marks the item as being a trigger for shock-dispensing items.
- *
- * @property OpenPermission - Marks the item as requiring collar-permissions (Futuristic).
- * @property OpenPermissionArm - Marks the item as requiring arm-permissions (Futuristic).
- * @property OpenPermissionLeg - Marks the item as requiring arm-permissions (Futuristic).
- * @property OpenPermissionChastity - Marks the item as requiring chastity-permissions (Futuristic).
- *
- * @property BlockMouth - Marks the item as blocking the character's mouth.
- *   Prevents items that have the NotLifted prerequisite to be applied.
- *   Also used when checking activities' prerequisites.
- * @property OpenMouth - Marks the item as opening the character's mouth.
- *   Used when checking activities' prerequisites.
- *
- * @property ProtrudingMouth - Indicates that the item bulges out from the character's mouth.
- *   Prevents items that wrap the head to be applied.
- *
- * @property Wiggling - Indicates that the item hangs from the character and can wiggle from it,
- *   triggering arousal. Used as part of the stimulation event system.
- */
+/** All known effects */
 type EffectName =
 	GagEffectName | BlindEffectName | BlurEffectName | DeafEffectName |
-
-	"Freeze" | "Prone" | "Block" | "Mounted" | "KneelFreeze" |
-
+	"Freeze" | "BlockWardrobe" | "Block" | "Mounted" | "KneelFreeze" |
 	"CuffedFeet" | "CuffedLegs" | "CuffedArms" | "IsChained" | "FixedHead" | "MergedFingers" |
-
 	"Shackled" | "Tethered" | "Enclose" | "OneWayEnclose" | "OnBed" | "Lifted" | "Suspended" |
-
 	"Slow" | "FillVulva" | "VulvaShaft" | "IsPlugged" |
-
 	"Egged" | "Vibrating" |
-
 	"Edged" | "DenialMode" | "RuinOrgasms" |
-
 	"Remote" | "UseRemote" | "BlockRemotes" |
-
 	"Lock" | "NotSelfPickable" |
-
 	"Chaste" | "BreastChaste" | "ButtChaste" |
-
 	"Leash" | "IsLeashed" | "CrotchRope" |
-
 	"ReceiveShock" | "TriggerShock" |
-
 	"OpenPermission" | "OpenPermissionArm" | "OpenPermissionLeg" | "OpenPermissionChastity" |
-
 	"BlockMouth" | "OpenMouth" |
-
 	"VR" | "VRAvatars" | "KinkyDungeonParty" |
-
-	"LightBall" |
-
 	"RegressedTalk" |
-
 	"HideRestraints" |
-
-	"Unlock-MetalPadlock" | "Unlock-OwnerPadlock" | "Unlock-OwnerTimerPadlock" |
-	"Unlock-LoversPadlock" | "Unlock-LoversTimerPadlock" |
-	"Unlock-FamilyPadlock" |
-	"Unlock-MistressPadlock" | "Unlock-MistressTimerPadlock" |
-	"Unlock-PandoraPadlock" |
-
-	"Unlock-MetalCuffs" | "Unlock-EscortAnkleCuffs" | "Unlock-PortalPanties" |
-
-	// XXX: only for lockpicks?
-	"Unlock-" |
-
-	"ProtrudingMouth" | "Wiggling" |
-	""
+	"UnlockMetalPadlock" | "UnlockOwnerPadlock" | "UnlockOwnerTimerPadlock" |
+	"UnlockLoversPadlock" | "UnlockLoversTimerPadlock" |
+	"UnlockFamilyPadlock" | "UnlockMistressPadlock" | "UnlockMistressTimerPadlock" |
+	"UnlockPandoraPadlock" | "UnlockMetalCuffs" | "UnlockEscortAnkleCuffs" | "UnlockPortalPanties" |
+	"ProtrudingMouth" | "Wiggling"
 	;
 
 interface ExpressionNameMap {
@@ -1281,7 +1169,6 @@ interface Character {
 	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
 	 */
 	CanChangeClothesOn: (C: Character) => boolean;
-	IsProne: () => boolean;
 	IsRestrained: () => boolean;
 	IsBlind: () => boolean;
 	IsEnclose: () => boolean;

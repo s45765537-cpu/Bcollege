@@ -179,14 +179,11 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 				);
 			}
 		},
-		IsProne: function () {
-			return (this.Effect.indexOf("Prone") >= 0);
-		},
 		IsRestrained: function () {
 			return (
 				(this.Effect.indexOf("Freeze") >= 0) ||
 				(this.Effect.indexOf("Block") >= 0) ||
-				(this.Effect.indexOf("Prone") >= 0)
+				(this.Effect.indexOf("BlockWardrobe") >= 0)
 			);
 		},
 		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */

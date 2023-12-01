@@ -28,6 +28,257 @@ const AssetUpperOverflowAlpha = [0, -700, 500, 700];
 const AssetLowerOverflowAlpha = [0, 1000, 500, 1000 + 150];
 
 /**
+ * The list of available effects.
+ *
+ * @satisfies {Partial<Record<EffectName, EffectName>>}
+ */
+const E = /** @type {const} */ ({
+	/** Prevents walking and kneeling unaided. There's a few caveats with the kneeling part. */
+	Freeze: "Freeze",
+	/** Prevents accessing the wardrobe. */
+	BlockWardrobe: "BlockWardrobe",
+	/** Indicates that the character is "blocked". Acts as a restraint. */
+	Block: "Block",
+	/** Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around. */
+	Mounted: "Mounted",
+	/** Prevents walking while kneeling. */
+	KneelFreeze: "KneelFreeze",
+	/** Deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose} */
+	// ForceKneel: "ForceKneel",
+	/** Deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead */
+	// BlockKneel: "BlockKneel",
+	/** Enable items that have the CuffedFeet prerequisite to be applied. */
+	CuffedFeet: "CuffedFeet",
+	/** Enable items that have the CuffedLegs prerequisite to be applied. */
+	CuffedLegs: "CuffedLegs",
+	/** Enable items that have the CuffedArms prerequisite to be applied. */
+	CuffedArms: "CuffedArms",
+	/** Prevents items that have the NotChained prerequisite from being applied. */
+	IsChained: "IsChained",
+	/** Locks the character's head in-place. Prevents nodding and shaking activities on it. */
+	FixedHead: "FixedHead",
+	/** Indicates the character can't use their fingers normally. Limits activities. */
+	MergedFingers: "MergedFingers",
+	/** Prevents items that have the NotShackled prerequisite from being applied. */
+	Shackled: "Shackled",
+	/** Prevents leashing items from working. */
+	Tethered: "Tethered",
+	/** Indicates the character cannot be interacted with and can't interact back. */
+	Enclose: "Enclose",
+	/** Indicates the character can be interacted with but can't interact back. */
+	OneWayEnclose: "OneWayEnclose",
+	/** Enable items that have the OnBed prerequisite to be applied. */
+	OnBed: "OnBed",
+	/** Prevents items that have the NotLifted prerequisite to be applied. */
+	Lifted: "Lifted",
+	Suspended: "Suspended",
+	/** Indicates the character is slowed. Used when exiting chatrooms. */
+	Slow: "Slow",
+	/**
+	 * Marks the item as filling the character's vulva.
+	 *
+	 * Used when checking activities' prerequisites and the stimulation events
+	 */
+	FillVulva: "FillVulva",
+	/**
+	 * Marks the item as being some sort of shaft extending out of the vulva.
+	 *
+	 * Used to block things like chastity from closing.
+	 */
+	VulvaShaft: "VulvaShaft",
+	/**
+	 * Marks the item as filling the character's butt.
+	 *
+	 * Used when checking activities' prerequisites and the auto-stimulation events.
+	 */
+	IsPlugged: "IsPlugged",
+
+	// #region Vibrator effects
+
+	/**
+	 * Marks the item as being a "vibrator" kind-of item.
+	 *
+	 * Make the item's Vibrator-related properties be taken into account for arousal,
+	 * as well as the stuttering effect.
+	 */
+	Egged: "Egged",
+	/**
+	 * Indicates an Effect.Egged item as being vibrating.
+	 *
+	 * Normally handled automatically by VibrationMode. Makes the item preview wobble
+	 * in the inventory, as well as cause auto-stimulation events.
+	 */
+	Vibrating: "Vibrating",
+	/**
+	 * Marks the item as causing the character to be edged.
+	 *
+	 * Normally handled automatically by VibrationMode. Causes the character's arousal
+	 * to be capped, and ruins its orgasms.
+	 */
+	Edged: "Edged",
+	/**
+	 * Marks the item as causing the character to be denied.
+	 *
+	 * Causes the character's arousal to be capped (higher that Edged).
+	 */
+	DenialMode: "DenialMode",
+	/**
+	 * Marks the item as ruining orgasms.
+	 *
+	 * Requires DenialMode. Makes the character unable to fully orgasm.
+	 */
+	RuinOrgasms: "RuinOrgasms",
+
+	// #endregion
+
+	// #region Remotes
+	/** Marks the item as a remote. Looks non-functional. */
+	Remote: "Remote",
+	/** Marks the item as needing a remote to be changed. */
+	UseRemote: "UseRemote",
+	/** Marks the item as preventing remotes from being used on the character. */
+	BlockRemotes: "BlockRemotes",
+	// #endregion
+
+	// #region Chastity
+	/**
+	 * Marks the item as applying chastity.
+	 *
+	 * Prevents items that have the NotChaste prerequisite from being applied.
+	 * Allows the item to be taken off at the club management.
+	 */
+	Chaste: "Chaste",
+	/**
+	 * Marks the item as applying breast chastity.
+	 *
+	 * Allows the item to be taken off at the club management.
+	 */
+	BreastChaste: "BreastChaste",
+	ButtChaste: "ButtChaste",
+	// #endregion
+
+	// #region Leash
+	/** Marks the item as being usable as a leash. */
+	Leash: "Leash",
+	/** Marks a leash item as being held. */
+	IsLeashed: "IsLeashed",
+	//#endregion
+
+	// #region Stimulation events
+	/**
+	 * Marks the item as being a crotchrope-style item.
+	 *
+	 * Used for the auto-stimulation events.
+	 */
+	CrotchRope: "CrotchRope",
+	/**
+	 * Indicates that the item hangs from the character and can wiggle from it.
+	 *
+	 * Used as part of the stimulation event system.
+	 */
+	Wiggling: "Wiggling",
+	//#endregion
+
+	// #region Shocks
+	/** Marks the item as being a shock-dispensing item. */
+	ReceiveShock: "ReceiveShock",
+	/** Marks the item as being a trigger for shock-dispensing items. */
+	TriggerShock: "TriggerShock",
+	// #endregion
+
+	// #region Futuristic set effects
+	/** Marks the item as requiring collar-permissions (Futuristic). */
+	OpenPermission: "OpenPermission",
+	/** Marks the item as requiring arm-permissions (Futuristic). */
+	OpenPermissionArm: "OpenPermissionArm",
+	/** Marks the item as requiring arm-permissions (Futuristic). */
+	OpenPermissionLeg: "OpenPermissionLeg",
+	/** Marks the item as requiring chastity-permissions (Futuristic). */
+	OpenPermissionChastity: "OpenPermissionChastity",
+	// #endregion
+
+	VR: "VR",
+	VRAvatars: "VRAvatars",
+	KinkyDungeonParty: "KinkyDungeonParty",
+	HideRestraints: "HideRestraints",
+
+	// #region Locks
+	/** Marks the item as being some kind of lock. @todo not renamed because layers usually have that name */
+	Lock: "Lock",
+	/** Disables the item from being lock-picked by its wearer. */
+	NotSelfPickable: "NotSelfPickable",
+
+	UnlockMetalPadlock: "UnlockMetalPadlock",
+	UnlockOwnerPadlock: "UnlockOwnerPadlock",
+	UnlockOwnerTimerPadlock: "UnlockOwnerTimerPadlock",
+	UnlockLoversPadlock: "UnlockLoversPadlock",
+	UnlockLoversTimerPadlock: "UnlockLoversTimerPadlock",
+	UnlockFamilyPadlock: "UnlockFamilyPadlock",
+	UnlockMistressPadlock: "UnlockMistressPadlock",
+	UnlockMistressTimerPadlock: "UnlockMistressTimerPadlock",
+	UnlockPandoraPadlock: "UnlockPandoraPadlock",
+	UnlockMetalCuffs: "UnlockMetalCuffs",
+	UnlockEscortAnkleCuffs: "UnlockEscortAnkleCuffs",
+	UnlockPortalPanties: "UnlockPortalPanties",
+	// #endregion
+
+	// #region Gags & garbling effects
+	/**
+	 * Marks the item as blocking the character's mouth.
+	 *
+	 * Prevents items that have the NotLifted prerequisite to be applied.
+	 * Also used when checking activities' prerequisites.
+	 */
+	BlockMouth: "BlockMouth",
+	/**
+	 * Marks the item as opening the character's mouth.
+	 *
+	 * Used when checking activities' prerequisites.
+	 */
+	OpenMouth: "OpenMouth",
+	/**
+	 * Indicates that the item bulges out from the character's mouth.
+	 *
+	 * Prevents items that wrap the head to be applied.
+	 */
+	ProtrudingMouth: "ProtrudingMouth",
+
+	GagVeryLight: "GagVeryLight",
+	GagEasy: "GagEasy",
+	GagLight: "GagLight",
+	GagNormal: "GagNormal",
+	GagMedium: "GagMedium",
+	GagHeavy: "GagHeavy",
+	GagVeryHeavy: "GagVeryHeavy",
+	GagTotal: "GagTotal",
+
+	// Those are only supposed to be "transient", as in, they appear because of stacked gags
+	GagTotal2: "GagTotal2",
+	GagTotal3: "GagTotal3",
+	GagTotal4: "GagTotal4",
+	RegressedTalk: "RegressedTalk",
+	// #endregion
+
+	// #region Blindness effects
+	BlindLight: "BlindLight",
+	BlindNormal: "BlindNormal",
+	BlindHeavy: "BlindHeavy",
+	BlindTotal: "BlindTotal",
+	BlurLight: "BlurLight",
+	BlurNormal: "BlurNormal",
+	BlurHeavy: "BlurHeavy",
+	BlurTotal: "BlurTotal",
+	// #endregion
+
+	// #region Deafness effects
+	DeafLight: "DeafLight",
+	DeafNormal: "DeafNormal",
+	DeafHeavy: "DeafHeavy",
+	DeafTotal: "DeafTotal",
+	// #endregion
+});
+
+/**
  * All the default {@link AssetGroupDefinition.PoseMapping} values for the various groups.
  * @satisfies {Partial<Record<AssetGroupName, AssetPoseMapping>>}
  */
@@ -4052,7 +4303,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#25d", "#25d"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				Effect: ["Slow"],
+				Effect: [E.Slow],
 				Hide: ["Pussy"],
 				HideItem: ["ItemFeetSlime"],
 				Layer: [
@@ -13962,7 +14213,7 @@ var AssetFemale3DCG = [
 		Left: 125,
 		Top: 725,
 		PoseMapping: { ...AssetPoseMapping.ItemFeet },
-		Effect: ["Freeze", "Prone"],
+		Effect: [E.Freeze, E.BlockWardrobe],
 		Zone: [[100, 750, 300, 120]],
 		Asset: [
 			{
@@ -14162,7 +14413,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14188,7 +14439,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14216,7 +14467,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				AllowLock: true,
 				SetPose: ["Spread"],
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivityOn: ["ItemLegs", "ItemBoots"],
 				Layer: [{ Name: "Chain", Priority: 6 }, { Name: "Cuffs" }],
 			},
@@ -14236,7 +14487,7 @@ var AssetFemale3DCG = [
 					Spread: "Spread",
 					Kneel: PoseType.HIDE,
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14262,7 +14513,7 @@ var AssetFemale3DCG = [
 					Spread: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 				},
-				Effect: ["CuffedFeet", "Lock", "Slow"],
+				Effect: [E.CuffedFeet, "Lock", E.Slow],
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [{ Name: "Cuffs" }],
@@ -14285,7 +14536,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14317,7 +14568,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14342,7 +14593,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 				},
-				Effect: ["CuffedFeet"],
+				Effect: [E.CuffedFeet],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -14393,7 +14644,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["Slow"],
+				Effect: [E.Slow],
 			},
 			{
 				Name: "AnkleShackles",
@@ -14409,7 +14660,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemFeet,
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 			},
 			{
 				Name: "PlasticWrap",
@@ -14459,7 +14710,7 @@ var AssetFemale3DCG = [
 				Top: 400,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: ["FillVulva", "Freeze", "Prone"],
+				Effect: [E.FillVulva, E.Freeze, E.BlockWardrobe],
 				Block: ["ItemPelvis", "ItemVulva"],
 				AllowActivityOn: ["ItemPelvis"],
 				Layer: [
@@ -14482,7 +14733,7 @@ var AssetFemale3DCG = [
 				Top: 400,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: ["FillVulva", "Freeze", "Prone"],
+				Effect: [E.FillVulva, E.Freeze, E.BlockWardrobe],
 				Block: ["ItemPelvis", "ItemVulva"],
 				AllowActivityOn: ["ItemPelvis"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
@@ -14506,7 +14757,7 @@ var AssetFemale3DCG = [
 				Audio: "WoodenCuffs",
 				BuyGroup: "WoodenCuffs",
 				SetPose: ["LegsOpen"],
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				RemoveAtLogin: false,
 				Extended: true,
 			},
@@ -14525,7 +14776,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Prerequisite: ["OnBed"],
 				SetPose: ["LegsOpen"],
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				Block: ["ItemDevices"],
 				AvailableLocations: ["Asylum"],
 				HideItem: ["ClothLowerGown2Skirt", "ClothLowerPajama1"],
@@ -14545,7 +14796,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Random: false,
 				SetPose: ["LegsOpen", "Suspension"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Hide: ["Shoes"],
 				OverrideHeight: { Height: -100, Priority: 41 },
 			},
@@ -14601,7 +14852,7 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				Effect: ["Freeze"],
+				Effect: [E.Freeze],
 				PoseMapping: {
 					...AssetPoseMapping.ItemFeet,
 					Kneel: PoseType.HIDE,
@@ -14639,7 +14890,7 @@ var AssetFemale3DCG = [
 		Left: 125,
 		Top: 400,
 		PoseMapping: { ...AssetPoseMapping.ItemLegs },
-		Effect: ["Prone", "KneelFreeze", "Slow"],
+		Effect: [E.BlockWardrobe, E.KneelFreeze, E.Slow],
 		Zone: [[100, 580, 300, 170]],
 		Asset: [
 			{
@@ -14802,7 +15053,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["CuffedLegs"],
+				Effect: [E.CuffedLegs],
 				Extended: true,
 				HasType: false,
 				DefaultColor: ["Default", "#2E2E2E", "Default"],
@@ -14828,7 +15079,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["CuffedLegs"],
+				Effect: [E.CuffedLegs],
 				Extended: true,
 				HasType: false,
 				DefaultColor: ["Default", "Default", "#612C2C", "Default"],
@@ -14858,7 +15109,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					KneelingSpread: PoseType.HIDE,
 				},
-				Effect: ["CuffedLegs"],
+				Effect: [E.CuffedLegs],
 				Extended: true,
 				HasType: false,
 				Attribute: ["FuturisticRecolor"],
@@ -14889,7 +15140,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["CuffedLegs"],
+				Effect: [E.CuffedLegs],
 				Extended: true,
 				HasType: false,
 				Layer: [
@@ -14932,7 +15183,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 				Block: ["ItemFeet"],
 				AllowActivePose: ["Kneel"],
 				Layer: [{ Name: "Latex" }, { Name: "Belts" }],
@@ -14972,7 +15223,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				AllowActivePose: ["LegsClosed", "Kneel"],
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 				Block: ["ItemFeet"],
 				Extended: true,
 				DrawLocks: false,
@@ -15107,7 +15358,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemFeet",
@@ -15146,7 +15397,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 				Block: ["ItemFeet"],
 				AllowActivePose: ["Kneel"],
 			},
@@ -15186,7 +15437,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Slow"],
+				Effect: [E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemFeet",
@@ -15250,7 +15501,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
-				Effect: ["Slow"],
+				Effect: [E.Slow],
 			},
 			{
 				Name: "MermaidTail",
@@ -15280,7 +15531,7 @@ var AssetFemale3DCG = [
 					"Garters",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: ["Prone", "Freeze", "FillVulva", "UseRemote"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.FillVulva, E.UseRemote],
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -15313,7 +15564,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {},
 				Prerequisite: ["OnBed"],
 				SetPose: ["LegsOpen"],
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				Block: ["ItemDevices"],
 				AvailableLocations: ["Asylum"],
 				HideItem: [
@@ -15386,7 +15637,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				PoseMapping: {},
 				AllowActivePose: ["Kneel"],
-				Effect: ["Slow"],
+				Effect: [E.Slow],
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis"],
 				HideItemAttribute: ["Skirt"],
 				HideItemExclude: ["ClothLowerGown2Skirt"],
@@ -15457,7 +15708,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Visible: false,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -15468,7 +15719,7 @@ var AssetFemale3DCG = [
 				Wear: false,
 				BuyGroup: "VibratorRemote",
 				Prerequisite: ["RemotesAllowed"],
-				Effect: ["Remote"],
+				Effect: [E.Remote],
 			},
 			{
 				Name: "VibratingLatexPanties",
@@ -15479,7 +15730,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#60A0AF",
 				Prerequisite: ["AccessVulva", "CannotHaveWand", "HasVagina"],
-				Effect: ["Chaste", "UseRemote"],
+				Effect: [E.Chaste, E.UseRemote],
 				Block: ["ItemButt"],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
@@ -15505,7 +15756,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				BuyGroup: "PenisDildo",
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["FillVulva"],
+				Effect: [E.FillVulva],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Dildo", AllowColorize: true },
@@ -15522,7 +15773,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["FillVulva"],
+				Effect: [E.FillVulva],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				HasType: false,
 				Layer: [
@@ -15539,7 +15790,7 @@ var AssetFemale3DCG = [
 				Value: 60,
 				Time: 10,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["FillVulva", "UseRemote"],
+				Effect: [E.FillVulva, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Dildo", AllowColorize: true },
@@ -15557,7 +15808,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Time: 10,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote", "FillVulva"],
+				Effect: [E.UseRemote, E.FillVulva],
 				Attribute: ["FuturisticRecolor"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				DynamicScriptDraw: true,
@@ -15581,7 +15832,7 @@ var AssetFemale3DCG = [
 				Value: 100,
 				Time: 10,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote", "FillVulva"],
+				Effect: [E.UseRemote, E.FillVulva],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Extended: true,
 				Layer: [
@@ -15603,7 +15854,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote", "Egged", "FillVulva", "Wiggling"],
+				Effect: [E.UseRemote, E.Egged, E.FillVulva, E.Wiggling],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", HasType: false, Left: 160, Top: 393 },
@@ -15627,7 +15878,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				DefaultColor: "#8a00d1",
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Layer: [
 					{ Name: "Stimulator", AllowColorize: true },
@@ -15692,7 +15943,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Block: ["ItemVulvaPiercings"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 			},
 			{
 				Name: "ClitAndDildoVibratorbelt",
@@ -15705,7 +15956,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: ["AccessVulva", "HasVagina"],
 				Hide: ["Panties"],
-				Effect: ["Egged", "UseRemote", "FillVulva"],
+				Effect: [E.Egged, E.UseRemote, E.FillVulva],
 				Block: ["ItemPelvis"],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Extended: true,
@@ -15753,7 +16004,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#790c0c",
 				Prerequisite: ["AccessVulva", "HasVagina"],
 				Extended: true,
-				Effect: ["UseRemote", "FillVulva"],
+				Effect: [E.UseRemote, E.FillVulva],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				AllowRemoveExclusive: true,
 				CharacterRestricted: true,
@@ -15767,7 +16018,7 @@ var AssetFemale3DCG = [
 				Wear: false,
 				LoverOnly: true,
 				Prerequisite: ["RemotesAllowed"],
-				Effect: ["Remote"],
+				Effect: [E.Remote],
 			},
 			{
 				Name: "DoubleEndDildo",
@@ -15775,7 +16026,7 @@ var AssetFemale3DCG = [
 				Value: 15,
 				Time: 10,
 				DefaultColor: ["#624662"],
-				Effect: ["FillVulva"],
+				Effect: [E.FillVulva],
 				Prerequisite: ["AccessVulva", "HasVagina"],
 				PoseMapping: {},
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 20 }],
@@ -15795,7 +16046,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				RemoveTime: 5,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				DefaultColor: ["#3f3c3a"],
 				PoseMapping: {
 					Spread: "Spread",
@@ -15842,7 +16093,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
 				Difficulty: 50,
 				Value: 20,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {},
@@ -15868,7 +16119,7 @@ var AssetFemale3DCG = [
 				Gender: "M",
 				Prerequisite: ["AccessVulva", "HasPenis"],
 				Value: 20,
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				AllowExpression: ["Hard"],
 				Left: 200,
 				Top: 410,
@@ -15886,7 +16137,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
 				Value: 20,
 				Difficulty: 50,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CagePlastic2"],
 				PoseMapping: {},
@@ -15914,7 +16165,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Value: 50,
 				Difficulty: 50,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {},
@@ -15942,7 +16193,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
 				Value: 25,
 				Difficulty: 50,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageFlat"],
 				PoseMapping: {},
@@ -15968,7 +16219,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
 				Value: 25,
 				Difficulty: 50,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				PoseMapping: {},
 				AllowLock: true,
@@ -16105,7 +16356,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaVibratingDildo",
 					"ItemVulvaInflatableVibeDildo",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva"],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -16128,7 +16379,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaVibratingDildo",
 					"ItemVulvaInflatableVibeDildo",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva"],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -16151,7 +16402,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaVibratingDildo",
 					"ItemVulvaInflatableVibeDildo",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva"],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -16198,7 +16449,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				BuyGroup: "VibeHeart",
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Heart" }, { Name: "Ring" }],
 			},
@@ -16231,7 +16482,7 @@ var AssetFemale3DCG = [
 				Value: 25,
 				Time: 5,
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Egg" }, { Name: "Tape" }],
 			},
@@ -16240,7 +16491,7 @@ var AssetFemale3DCG = [
 				Gender: "M",
 				Prerequisite: ["AccessVulva", "HasPenis"],
 				Value: 20,
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				AllowExpression: ["Hard"],
 				Left: 200,
 				Top: 410,
@@ -16279,7 +16530,7 @@ var AssetFemale3DCG = [
 		Default: false,
 		Left: 0,
 		Top: 0,
-		Effect: ["IsPlugged"],
+		Effect: [E.IsPlugged],
 		Zone: [[300, 500, 100, 80]],
 		Asset: [
 			{
@@ -16288,7 +16539,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16298,7 +16549,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				BuyGroup: "PenisDildo",
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16308,7 +16559,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 100,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Tail" }, { Name: "Ribbon" }, { Name: "Bell" }],
 			},
@@ -16318,7 +16569,7 @@ var AssetFemale3DCG = [
 				Value: 30,
 				Time: 10,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -16330,7 +16581,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Time: 10,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -16343,7 +16594,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 20,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -16356,7 +16607,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 30,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16366,7 +16617,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 65,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -16379,7 +16630,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 60,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Tail" }, { Name: "Heart" }],
 			},
@@ -16401,7 +16652,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 20,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16411,7 +16662,7 @@ var AssetFemale3DCG = [
 				Value: 50,
 				Time: 10,
 				Top: 30,
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				Prerequisite: ["AccessButt"],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
@@ -16421,7 +16672,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16430,7 +16681,7 @@ var AssetFemale3DCG = [
 				Value: 70,
 				Time: 14,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Extended: true,
 				Activity: "MasturbateItem",
@@ -16441,7 +16692,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Extended: true,
 			},
@@ -16451,7 +16702,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16460,7 +16711,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Extended: true,
 			},
@@ -16471,7 +16722,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				IsRestraint: true,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 10 }],
 				Extended: true,
 			},
@@ -16485,7 +16736,7 @@ var AssetFemale3DCG = [
 				IsRestraint: true,
 				AllowLock: true,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -16580,7 +16831,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 70,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16608,7 +16859,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				BuyGroup: "VibratingDildo",
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 			},
 			{
 				Name: "BunnyTailPlug1",
@@ -16617,7 +16868,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16627,13 +16878,13 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
 				Name: "BunnyTailVibePlug",
 				Fetish: ["Pet"],
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 				Value: 75,
 				Prerequisite: ["AccessButt"],
 				Time: 10,
@@ -16642,7 +16893,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "EggVibePlugXXL",
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 				Value: 90,
 				Prerequisite: ["AccessButt"],
 				Time: 10,
@@ -16651,7 +16902,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingVibePlug",
-				Effect: ["IsPlugged", "UseRemote"],
+				Effect: [E.IsPlugged, E.UseRemote],
 				Value: 80,
 				Difficulty: 30,
 				Time: 30,
@@ -16671,7 +16922,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				Prerequisite: ["AccessButt"],
-				Effect: ["IsPlugged"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -16784,7 +17035,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsVibeHeartClitPiercing",
 					"ItemVulvaPiercingsClitRing",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 			},
 			{
@@ -16811,7 +17062,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [{ Name: "Belt" }, { Name: "Studs" }],
@@ -16840,7 +17091,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -16868,7 +17119,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -16901,7 +17152,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -16977,7 +17228,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -17022,7 +17273,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -17269,7 +17520,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["FillVulva", "UseRemote", "UseRemote", "Chaste", "Edged"],
+				Effect: [E.FillVulva, E.UseRemote, E.UseRemote, E.Chaste, E.Edged],
 				Block: ["ItemVulvaPiercings", "ItemButt", "ItemVulva"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -17332,7 +17583,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaVibeEggPenisBase",
 				],
 				Hide: ["Pussy"],
-				Effect: ["UseRemote", "Egged", "UseRemote"],
+				Effect: [E.UseRemote, E.Egged, E.UseRemote],
 				ArousalZone: "ItemVulva",
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -17400,7 +17651,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -17419,7 +17670,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				Hide: ["ItemVulva", "ItemVulvaPiercings"],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -17498,7 +17749,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -17601,7 +17852,7 @@ var AssetFemale3DCG = [
 				Left: 150,
 				Top: 395,
 				Hide: ["ItemVulva", "ItemVulvaPiercings"],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -17616,7 +17867,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				RemoveTime: 25,
 				AllowLock: true,
-				Effect: ["Leash"],
+				Effect: [E.Leash],
 			},
 			{
 				Name: "Ribbons",
@@ -17644,7 +17895,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97"],
 				PoseMapping: {
@@ -17698,7 +17949,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc"],
 				PoseMapping: {
@@ -17768,7 +18019,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: ["Chaste"],
+				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
@@ -17902,7 +18153,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "#FF98EC"],
 				Prerequisite: ["AccessCrotch"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				ArousalZone: "ItemVulva",
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -18581,7 +18832,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: true,
 				Audio: "ChainLong",
-				Effect: ["CrotchRope"],
+				Effect: [E.CrotchRope],
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
@@ -19243,7 +19494,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: true,
 				Audio: "ChainLong",
-				Effect: ["CrotchRope"],
+				Effect: [E.CrotchRope],
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
@@ -19477,7 +19728,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
-				Effect: ["Wiggling", "UseRemote"],
+				Effect: [E.Wiggling, E.UseRemote],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
@@ -19489,7 +19740,7 @@ var AssetFemale3DCG = [
 				Wear: false,
 				BuyGroup: "VibratorRemote",
 				Prerequisite: ["RemotesAllowed"],
-				Effect: ["Remote"],
+				Effect: [E.Remote],
 			},
 			{
 				Name: "ChainClamp",
@@ -19497,7 +19748,7 @@ var AssetFemale3DCG = [
 				Value: 25,
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
-				Effect: ["Wiggling"],
+				Effect: [E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -19554,7 +19805,7 @@ var AssetFemale3DCG = [
 				Value: 30,
 				Time: 5,
 				Prerequisite: ["AccessBreast"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				Layer: [
 					{ Name: "Egg1", ColorGroup: "Eggs" },
 					{ Name: "Egg2", ColorGroup: "Eggs" },
@@ -19568,7 +19819,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
 				Hide: ["ItemNipplesPiercings"],
-				Effect: ["Wiggling"],
+				Effect: [E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
@@ -19592,7 +19843,7 @@ var AssetFemale3DCG = [
 				Value: 25,
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
-				Effect: ["Wiggling"],
+				Effect: [E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -19624,7 +19875,7 @@ var AssetFemale3DCG = [
 				Value: 35,
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
-				Effect: ["Wiggling"],
+				Effect: [E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Angry", Group: "Eyebrows", Timer: 10 },
@@ -19637,7 +19888,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Prerequisite: ["AccessBreast"],
 				Audio: "BellSmall",
-				Effect: ["Wiggling"],
+				Effect: [E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Angry", Group: "Eyebrows", Timer: 10 },
@@ -19652,7 +19903,7 @@ var AssetFemale3DCG = [
 				Left: 152,
 				Time: 10,
 				Prerequisite: ["AccessBreast", "HasBreasts"],
-				Effect: ["UseRemote", "Wiggling"],
+				Effect: [E.UseRemote, E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Horny", Group: "Eyes", Timer: 5 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -19889,7 +20140,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 30,
 				AllowLock: true,
 				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -19902,7 +20153,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 30,
 				AllowLock: true,
 				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -19915,7 +20166,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				BuyGroup: "VibeHeart",
 				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
-				Effect: ["UseRemote", "Wiggling"],
+				Effect: [E.UseRemote, E.Wiggling],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
@@ -19992,7 +20243,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -20007,7 +20258,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -20031,7 +20282,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BreastChaste", "UseRemote"],
+				Effect: [E.BreastChaste, E.UseRemote],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -20088,7 +20339,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BreastChaste", "UseRemote"],
+				Effect: [E.BreastChaste, E.UseRemote],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -20130,7 +20381,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [{ Name: "Bra" }, { Name: "Gems" }],
@@ -20148,7 +20399,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
-				Effect: ["BreastChaste"],
+				Effect: [E.BreastChaste],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				DefaultColor: ["Default", "Default", "Default", "Default", "#4FFF00"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -20203,7 +20454,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
-				Effect: ["BreastChaste", "UseRemote", "UseRemote"],
+				Effect: [E.BreastChaste, E.UseRemote, E.UseRemote],
 				Block: ["ItemNipples", "ItemNipplesPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -20286,7 +20537,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				BuyGroup: "NylonRope",
 				SetPose: ["BackBoxTie"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Audio: "RopeShort",
 				Extended: true,
 				DynamicBeforeDraw: true,
@@ -20308,7 +20559,7 @@ var AssetFemale3DCG = [
 				DynamicBeforeDraw: true,
 				AllowTighten: true,
 				SetPose: ["BackBoxTie"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Layer: [
 					{ Name: "" },
 					{
@@ -20346,7 +20597,7 @@ var AssetFemale3DCG = [
 				Audio: "MetalCuffs",
 				Extended: true,
 				SetPose: ["BaseUpper"],
-				Effect: ["Lock", "Block", "Prone"],
+				Effect: ["Lock", E.Block, E.BlockWardrobe],
 			},
 			{
 				Name: "SturdyLeatherBelts",
@@ -20359,7 +20610,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "SturdyLeatherBelts",
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone", "NotSelfPickable"],
+				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Extended: true,
 				SelfUnlock: false,
 				Audio: "Buckle",
@@ -20440,7 +20691,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				Extended: true,
 				SelfUnlock: false,
@@ -20490,7 +20741,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Hide: ["Cloth", "LeftHand", "RightHand"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				HideItem: [
 					"ClothAccessoryStudentOutfit3Scarf",
 					"ClothAccessoryStudentOutfit3Bow1",
@@ -20532,7 +20783,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				Hide: ["Bracelet"],
@@ -20561,7 +20812,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				Hide: ["Bracelet"],
@@ -20593,7 +20844,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Suspension: "Suspension",
 				},
-				Effect: ["Block", "Prone", "Freeze", "NotSelfPickable"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze, E.NotSelfPickable],
 				SetPose: ["Yoked"],
 				Hide: ["Bracelet"],
 				Extended: true,
@@ -20617,7 +20868,7 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.HIDE,
 					BackElbowTouch: PoseType.HIDE,
 				},
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -20647,7 +20898,7 @@ var AssetFemale3DCG = [
 					Yoked: "Yoked",
 				},
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				Hide: ["Bracelet"],
@@ -20684,7 +20935,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				Hide: ["Bracelet"],
@@ -20713,7 +20964,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["CuffedArms"],
+				Effect: [E.CuffedArms],
 				Extended: true,
 				HasType: false,
 				Hide: ["Bracelet"],
@@ -20727,7 +20978,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				Enable: false,
 				SetPose: ["BackBoxTie"],
-				Effect: ["Block", "Prone", "Lock"],
+				Effect: [E.Block, E.BlockWardrobe, "Lock"],
 				RemoveAtLogin: true,
 			},
 			{
@@ -20742,7 +20993,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["NoItemFeet"],
 				SetPose: ["BackBoxTie", "Kneel"],
-				Effect: ["Block", "Freeze", "Prone"],
+				Effect: [E.Block, E.Freeze, E.BlockWardrobe],
 				Block: ["ItemFeet"],
 				AllowActivityOn: ["ItemFeet"],
 			},
@@ -20759,7 +21010,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					LegsClosed: "LegsClosed",
 				},
-				Effect: ["Prone", "Shackled"],
+				Effect: [E.BlockWardrobe, E.Shackled],
 				Block: ["ItemFeet"],
 				AllowActivityOn: ["ItemFeet"],
 				SetPose: ["BaseUpper"],
@@ -20777,7 +21028,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				ParentGroup: null,
 				HasType: false,
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				SetPose: ["BaseUpper"],
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -20811,7 +21062,7 @@ var AssetFemale3DCG = [
 					"ItemNipplesLactationPump",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -20862,7 +21113,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemButtAnalBeads2"],
 				SetPose: ["BackElbowTouch"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				SelfUnlock: false,
 				Extended: true,
 				Layer: [
@@ -20914,7 +21165,7 @@ var AssetFemale3DCG = [
 				HideItemAttribute: ["Skirt"],
 				HideItem: ["ItemNipplesLactationPump"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -20942,7 +21193,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: ["Collared"],
 				SetPose: ["BackBoxTie"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemNeck"],
 				Extended: true,
 				SelfUnlock: false,
@@ -20963,7 +21214,7 @@ var AssetFemale3DCG = [
 				HideItemAttribute: ["Skirt"],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -20989,7 +21240,7 @@ var AssetFemale3DCG = [
 				HideItemAttribute: ["Skirt"],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -21018,7 +21269,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#E080A0", "Default"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				HideItem: [
 					"ClothAccessoryStudentOutfit3Scarf",
 					"ClothAccessoryStudentOutfit3Bow1",
@@ -21060,7 +21311,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Extended: true,
 			},
 			{
@@ -21085,7 +21336,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Hide: [
 					"Shoes",
 					"ItemBoots",
@@ -21186,7 +21437,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Hide: [
 					"Cloth",
 					"ClothLower",
@@ -21330,7 +21581,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "Default", "#FFFFFF", "Default"],
 				SetPose: ["BackElbowTouch"],
 				AllowActivePose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				Attribute: ["HoodieFix"],
 				PoseMapping: {},
@@ -21524,7 +21775,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemTorso",
@@ -21578,7 +21829,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemTorso",
@@ -21671,7 +21922,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemTorso",
@@ -21724,7 +21975,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemPelvis",
 					"ItemTorso",
@@ -21775,7 +22026,7 @@ var AssetFemale3DCG = [
 				HideItem: ["BraceletSpikeBands"],
 				ParentGroup: null,
 				SetPose: ["Yoked"],
-				Effect: ["Block", "Prone", "NotSelfPickable"],
+				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Layer: [{ Name: "Straps" }, { Name: "Bars" }],
 			},
 			{
@@ -21791,7 +22042,7 @@ var AssetFemale3DCG = [
 				HideItem: ["BraceletSpikeBands"],
 				ParentGroup: null,
 				SetPose: ["Yoked"],
-				Effect: ["Block", "Prone", "NotSelfPickable"],
+				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Layer: [{ Name: "Frame" }, { Name: "Cuffs" }],
 			},
 			{
@@ -21809,7 +22060,7 @@ var AssetFemale3DCG = [
 				Bonus: "KidnapDomination",
 				Prerequisite: ["NotMasked", "HasBreasts"],
 				SetPose: ["Yoked"],
-				Effect: ["Block", "Prone", "NotSelfPickable"],
+				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Layer: [{ Name: "Wood" }, { Name: "Metal" }],
 			},
 			{
@@ -21845,7 +22096,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemNipplesLactationPump"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Freeze", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze, E.Slow],
 				Block: [
 					"ItemBoots",
 					"ItemPelvis",
@@ -21903,7 +22154,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "Zipties",
 				Audio: "ZipTie",
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Extended: true,
 			},
 			{
@@ -21920,7 +22171,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				HideItem: [
 					"ClothAccessoryStudentOutfit3Scarf",
 					"ClothAccessoryStudentOutfit3Bow1",
@@ -21955,7 +22206,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "CuffsMetal",
 				BuyGroup: "Bouquet",
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				SetPose: ["BaseUpper"],
 				Layer: [{ Name: "Base" }, { Name: "Flowers" }],
 			},
@@ -21972,7 +22223,7 @@ var AssetFemale3DCG = [
 				Audio: "ChainLong",
 				Extended: true,
 				SetPose: ["BackBoxTie"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Layer: [
 					{ Name: "" },
 					{
@@ -22016,7 +22267,7 @@ var AssetFemale3DCG = [
 					"RightHandRings",
 				],
 				SetPose: ["AllFours"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemDevices"],
 			},
 			{
@@ -22053,7 +22304,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Block: [
 					"ItemBoots",
 					"ItemPelvis",
@@ -22122,7 +22373,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["BaseLower", "BackElbowTouch"],
 				AllowActivePose: ["LegsOpen", "Kneel"],
-				Effect: ["Block", "Freeze", "Prone"],
+				Effect: [E.Block, E.Freeze, E.BlockWardrobe],
 				Block: [
 					"ItemTorso",
 					"ItemTorso2",
@@ -22147,7 +22398,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				Prerequisite: ["HasBreasts"],
 				SelfUnlock: false,
@@ -22183,7 +22434,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#40812C", "#555555", "#777777", "Default"],
 				SetPose: ["BackElbowTouch"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				SelfUnlock: false,
 				Extended: true,
@@ -22241,7 +22492,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "Default", "Default", "Default"],
 				SetPose: ["BackElbowTouch"],
 				Attribute: ["HoodieFix"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				SelfUnlock: false,
 				Extended: true,
@@ -22429,7 +22680,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands"],
 				SelfUnlock: false,
 			},
@@ -22450,7 +22701,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				Prerequisite: ["HasBreasts"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				SelfUnlock: false,
 				HideItem: [
 					"ClothLowerSkirt1",
@@ -22488,7 +22739,7 @@ var AssetFemale3DCG = [
 				IsRestraint: true,
 				SetPose: ["Yoked", "LegsOpen"],
 				Prerequisite: ["OnBed", "HasBreasts"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Block: ["ItemDevices", "ItemLegs", "ItemFeet", "ItemBoots"],
 				AllowActivityOn: ["ItemLegs", "ItemFeet", "ItemBoots"],
 				AllowLock: true,
@@ -22538,7 +22789,7 @@ var AssetFemale3DCG = [
 					"ClothAccessoryPoncho",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -22577,7 +22828,7 @@ var AssetFemale3DCG = [
 					"NecklaceBodyChainNecklace",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -22633,7 +22884,7 @@ var AssetFemale3DCG = [
 					"NecklaceBodyChainNecklace",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -22693,7 +22944,7 @@ var AssetFemale3DCG = [
 					"NecklaceBodyChainNecklace",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -22756,7 +23007,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemButtAnalBeads2", "ClothAccessoryPoncho"],
 				SetPose: ["LegsClosed", "BackElbowTouch"],
 				Prerequisite: ["HasBreasts"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Block: [
 					"ItemBreast",
 					"ItemNipplesPiercings",
@@ -22833,7 +23084,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				SelfUnlock: false,
 			},
 			{
@@ -22873,7 +23124,7 @@ var AssetFemale3DCG = [
 					"ClothAccessoryPoncho",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -22903,7 +23154,7 @@ var AssetFemale3DCG = [
 				Hide: ["Cloth", "ItemNipplesPiercings"],
 				HideItem: ["NecklaceBodyChainNecklace"],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
@@ -23179,7 +23430,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Prerequisite: ["HasBreasts"],
 				Hide: ["Cloth", "ClothLower", "Suit", "SuitLower", "Garters"],
 				Block: [
@@ -23209,7 +23460,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Prerequisite: ["HasBreasts"],
 				Hide: ["Cloth", "ClothLower", "Suit", "SuitLower", "Garters"],
 				Block: ["ItemHands", "ItemHandheld", "ItemNipplesPiercings"],
@@ -23229,7 +23480,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "WoodenCuffs",
 				BuyGroup: "WoodenCuffs",
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				HideItem: ["ClothFurCoat"],
 				Extended: true,
 				Layer: [
@@ -23282,7 +23533,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisBulkyDiaper",
 				],
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemBreast",
 					"ItemButt",
@@ -23338,7 +23589,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: [...PoseAllKneeling, "BackElbowTouch", "AllFours"],
 				SetPose: ["BackElbowTouch", "Kneel"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				SelfUnlock: false,
 				DefaultColor: ["#888888"],
@@ -23399,7 +23650,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "MedicalBedRestraints",
 				Prerequisite: ["OnBed", "HasBreasts"],
 				SetPose: ["Yoked"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemDevices"],
 				AvailableLocations: ["Asylum"],
 				Hide: ["Cloth", "ClothLower", "ItemVulva", "ItemVulvaPiercings"],
@@ -23460,7 +23711,7 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				DefaultColor: ["#888", "#801612", "#888", "#eee", "#801612", "#888"],
 				Prerequisite: ["HasBreasts"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Hide: ["Cloth", "ClothLower", "ItemNipplesPiercings"],
 				HideItem: [
 					"PantiesPoofyDiaper",
@@ -23588,7 +23839,7 @@ var AssetFemale3DCG = [
 					"ItemPelvisPoofyDiaper",
 					"ItemPelvisBulkyDiaper",
 				],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 			},
 			{
 				Name: "WrappedBlanket",
@@ -23636,7 +23887,7 @@ var AssetFemale3DCG = [
 				},
 				AllowActivePose: ["Kneel"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemPelvis",
 					"ItemTorso",
@@ -23668,7 +23919,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				SetPose: ["BackBoxTie"],
 				Extended: true,
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 			},
 			{
 				Name: "ThinLeatherStraps",
@@ -23684,7 +23935,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Extended: true,
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Layer: [
 					{ Name: "Strap" },
 					{ Name: "Buckle" },
@@ -23718,7 +23969,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 					OverTheHead: "OverTheHead",
 				},
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				Layer: [
 					{ Name: "Inner", HasType: false },
@@ -23746,7 +23997,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				SetPose: ["BackElbowTouch"],
 				PoseMapping: {},
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: [
 					"ItemHands",
 					"ItemHandheld",
@@ -23847,7 +24098,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 1,
 				Left: 150,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				Prerequisite: ["HasBreasts"],
 			},
@@ -23867,7 +24118,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Random: false,
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Prerequisite: ["HasBreasts"],
 				Hide: [
 					"Cloth",
@@ -23951,7 +24202,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				HasType: false,
 				DefaultColor: ["#666666", "#EAEAEA", "#FF1A1A"],
-				Effect: ["Block", "Prone", "Slow"],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Stripe", AllowModuleTypes: ["p1"] },
@@ -23977,7 +24228,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				SetPose: ["BackElbowTouch"],
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands"],
 				SelfUnlock: false,
 				DrawLocks: false,
@@ -24090,7 +24341,7 @@ var AssetFemale3DCG = [
 				Time: 35,
 				RemoveTime: 20,
 				DefaultColor: "#FFFFFF",
-				Effect: ["Block", "Prone"],
+				Effect: [E.Block, E.BlockWardrobe],
 				Hide: ["Cloth", "ItemNipplesPiercings"],
 				Layer: [
 					{ Name: "Straps", Priority: 11, ParentGroup: null },
@@ -24149,7 +24400,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["LeftHand", "RightHand", "ItemHandheld"],
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
@@ -24207,7 +24458,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["LeftHand", "RightHand", "ItemHandheld"],
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
@@ -24268,7 +24519,7 @@ var AssetFemale3DCG = [
 					Yoked: "Yoked",
 				},
 				SetPose: ["TapedHands"],
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
 			},
 			{
@@ -24298,7 +24549,7 @@ var AssetFemale3DCG = [
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				SelfUnlock: false,
 				Extended: true,
 				Block: [],
@@ -24337,7 +24588,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
 			},
 			{
@@ -24360,7 +24611,7 @@ var AssetFemale3DCG = [
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
 			},
 			{
@@ -24384,7 +24635,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 			},
 			{
 				Name: "HoofMittens",
@@ -24408,7 +24659,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
 			},
 			{
@@ -24427,7 +24678,7 @@ var AssetFemale3DCG = [
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				DefaultColor: ["#323232", "#252525", "Default", "Default"],
 				ParentGroup: null,
 				Layer: [
@@ -24494,7 +24745,7 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.HIDE,
 					BackElbowTouch: PoseType.HIDE,
 				},
-				Effect: ["Block", "Prone", "MergedFingers"],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
 			},
 		],
@@ -24975,7 +25226,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowActivity: ["RubItem"],
 				BuyGroup: "ShockCollar",
-				Effect: ["TriggerShock"],
+				Effect: [E.TriggerShock],
 				PoseMapping: {
 					Yoked: PoseType.HIDE,
 					OverTheHead: PoseType.HIDE,
@@ -25535,7 +25786,7 @@ var AssetFemale3DCG = [
 				OwnerOnly: true,
 				Effect: ["Lock"],
 				AllowBlock: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-				AllowEffect: ["GagNormal", "FixedHead"],
+				AllowEffect: [E.GagNormal, E.FixedHead],
 				AllowTypes: [
 					"SteelPosture",
 					"LeatherPosture",
@@ -25583,7 +25834,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "ShockCollar",
-				Effect: ["ReceiveShock", "UseRemote"],
+				Effect: [E.ReceiveShock, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				AlwaysExtend: true,
@@ -25601,7 +25852,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "ShockCollar",
-				Effect: ["ReceiveShock", "UseRemote"],
+				Effect: [E.ReceiveShock, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				AlwaysExtend: true,
@@ -25620,7 +25871,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				BuyGroup: "ShockCollar",
-				Effect: ["ReceiveShock", "UseRemote"],
+				Effect: [E.ReceiveShock, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				AlwaysExtend: true,
@@ -25646,7 +25897,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PostureCollar",
 				Fetish: ["Leather"],
-				Effect: ["FixedHead"],
+				Effect: [E.FixedHead],
 				DefaultColor: ["#000000", "Default", "Default", "Default"],
 				Value: 40,
 				Difficulty: 50,
@@ -25662,7 +25913,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SteelPostureCollar",
 				Fetish: ["Metal"],
-				Effect: ["FixedHead"],
+				Effect: [E.FixedHead],
 				Value: 60,
 				Difficulty: 50,
 				Time: 5,
@@ -25709,11 +25960,11 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Extended: true,
 				AllowEffect: [
-					"BlockRemotes",
-					"OpenPermission",
-					"OpenPermissionArm",
-					"OpenPermissionLeg",
-					"OpenPermissionChastity",
+					E.BlockRemotes,
+					E.OpenPermission,
+					E.OpenPermissionArm,
+					E.OpenPermissionLeg,
+					E.OpenPermissionChastity,
 				],
 				Layer: [
 					{ Name: "Display" },
@@ -25800,7 +26051,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPostureCollar",
-				Effect: ["FixedHead"],
+				Effect: [E.FixedHead],
 				Fetish: ["Leather"],
 				Priority: 38,
 				Value: 60,
@@ -25830,7 +26081,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "LeatherCorsetCollar",
-				Effect: ["GagNormal"],
+				Effect: [E.GagNormal],
 			},
 			{
 				Name: "LatexPostureCollar",
@@ -25844,7 +26095,7 @@ var AssetFemale3DCG = [
 				IsRestraint: true,
 				AllowLock: true,
 				BuyGroup: "LatexPostureCollar",
-				Effect: ["GagNormal", "FixedHead"],
+				Effect: [E.GagNormal, E.FixedHead],
 			},
 			{
 				Name: "HighSecurityCollar",
@@ -25953,7 +26204,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Difficulty: 50,
 				Time: 5,
-				Effect: ["FixedHead"],
+				Effect: [E.FixedHead],
 			},
 			{
 				Name: "LatexCollar2",
@@ -26070,7 +26321,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 150,
 				DefaultColor: ["#4D4848", "Default", "#7E7B77", "#FFFFFF", "#ACA1A1"],
-				Effect: ["BlockMouth", "GagMedium", "BlindNormal", "Prone"],
+				Effect: [E.BlockMouth, E.GagMedium, E.BlindNormal, E.BlockWardrobe],
 				Prerequisite: ["AccessMouth", "EyesEmpty", "HoodEmpty", "GagUnique"],
 				Block: ["ItemHead", "ItemMouth"],
 				AllowActivityOn: ["ItemHead"],
@@ -26098,7 +26349,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["#222222", "#888888", "#AA2121", "#AA2121", "#888888"],
-				Effect: ["FixedHead"],
+				Effect: [E.FixedHead],
 				Extended: true,
 				Layer: [
 					{ Name: "Base", HasType: false },
@@ -26225,7 +26476,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				BuyGroup: "ShockCollar",
 				Prerequisite: "Collared",
-				Effect: ["ReceiveShock", "UseRemote"],
+				Effect: [E.ReceiveShock, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				Extended: true,
 				AlwaysExtend: true,
@@ -26245,7 +26496,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ShockCollar",
 				Prerequisite: "Collared",
 				HasType: false,
-				Effect: ["ReceiveShock", "UseRemote"],
+				Effect: [E.ReceiveShock, E.UseRemote],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				Extended: true,
 				AlwaysExtend: true,
@@ -26465,7 +26716,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: ["Tethered", "IsChained"],
+				Effect: [E.Tethered, E.IsChained],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 			},
 			{
@@ -26485,7 +26736,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: ["Freeze", "IsChained"],
+				Effect: [E.Freeze, E.IsChained],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -26507,7 +26758,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: ["Freeze", "IsChained"],
+				Effect: [E.Freeze, E.IsChained],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -26535,8 +26786,8 @@ var AssetFemale3DCG = [
 				},
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DynamicBeforeDraw: true,
-				Effect: ["Leash"],
-				AllowEffect: ["Leash", "Block", "IsLeashed"],
+				Effect: [E.Leash],
+				AllowEffect: [E.Leash, E.Block, E.IsLeashed],
 				Layer: [{ Name: "Leash" }, { Name: "Handle" }, { Name: "Clip" }],
 			},
 			{
@@ -26555,8 +26806,8 @@ var AssetFemale3DCG = [
 				},
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DynamicBeforeDraw: true,
-				Effect: ["Leash"],
-				AllowEffect: ["Leash", "Block", "IsLeashed"],
+				Effect: [E.Leash],
+				AllowEffect: [E.Leash, E.Block, E.IsLeashed],
 				Layer: [{ Name: "Leash" }, { Name: "Handle" }, { Name: "Clip" }],
 			},
 			{
@@ -26576,7 +26827,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: ["Tethered", "IsChained"],
+				Effect: [E.Tethered, E.IsChained],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 			},
 			{
@@ -26595,7 +26846,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: ["Tethered", "IsChained"],
+				Effect: [E.Tethered, E.IsChained],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -26616,7 +26867,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: ["Freeze", "IsChained"],
+				Effect: [E.Freeze, E.IsChained],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -26637,7 +26888,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: ["Tethered", "IsChained"],
+				Effect: [E.Tethered, E.IsChained],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -26665,7 +26916,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: ["Collared", "NotSuspended", "NotMounted"],
 				PoseMapping: {},
-				Effect: ["IsChained", "Tethered"],
+				Effect: [E.IsChained, E.Tethered],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -26856,7 +27107,7 @@ var AssetFemale3DCG = [
 		IsRestraint: true,
 		Left: 150,
 		Top: 0,
-		Effect: ["BlockMouth", "GagNormal"],
+		Effect: [E.BlockMouth, E.GagNormal],
 		Zone: [[100, 130, 100, 70]],
 		RemoveItemOnRemove: [{ Group: "ItemMouth3", Name: "Kissmark" }],
 		Asset: [
@@ -26869,7 +27120,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#E0E0E0",
 				BuyGroup: "ClothGag",
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Audio: "ClothKnot",
 				Extended: true,
@@ -26885,7 +27136,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "WiffleGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagNormal"],
+				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["Default", "#FF6060"],
 				Extended: true,
@@ -26902,7 +27153,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessBallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["#FF6060", "Default"],
 				Extended: true,
@@ -26916,7 +27167,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 20 }],
 				DefaultColor: ["#E1D31C", "Default"],
 				Layer: [{ Name: "Base" }, { Name: "Stripes", HasType: false }],
@@ -26933,7 +27184,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPanelGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }, { Name: "Metal" }],
 			},
 			{
@@ -26948,7 +27199,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "RingGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth"],
+				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -26966,7 +27217,7 @@ var AssetFemale3DCG = [
 				Audio: "DuctTape",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -26978,7 +27229,7 @@ var AssetFemale3DCG = [
 				Time: 2,
 				Random: false,
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
@@ -26998,7 +27249,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPacifierGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -27023,7 +27274,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "DusterGag",
 				Bonus: "KidnapBruteForce",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				AllowActivity: ["TickleItem"],
 				Layer: [{ Name: "Duster" }, { Name: "Panel" }],
@@ -27043,7 +27294,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				AlwaysInteract: true,
-				Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagEasy, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				HasType: false,
 				Layer: [
@@ -27085,7 +27336,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#404040",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				HasType: false,
@@ -27102,7 +27353,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "KittyGag",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
 					{ Name: "Lines", AllowColorize: true, HasType: false },
@@ -27123,7 +27374,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
 					{ Name: "Panel", AllowColorize: true, HasType: false },
 					{ Name: "Straps", AllowColorize: true, HasType: false },
@@ -27165,7 +27416,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CarrotGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Carrot" }, { Name: "Straps" }],
 			},
@@ -27198,7 +27449,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth", "UseRemote"],
+				Effect: [E.BlockMouth, E.UseRemote],
 				HideItem: ["ItemNoseNoseRing"],
 				Extended: true,
 				DynamicScriptDraw: true,
@@ -27257,7 +27508,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth", "UseRemote"],
+				Effect: [E.BlockMouth, E.UseRemote],
 				HideItem: ["ItemNoseNoseRing"],
 				Extended: true,
 				DynamicScriptDraw: true,
@@ -27317,7 +27568,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth", "UseRemote"],
+				Effect: [E.BlockMouth, E.UseRemote],
 				Extended: true,
 				DynamicScriptDraw: true,
 				DynamicBeforeDraw: true,
@@ -27368,7 +27619,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				BuyGroup: "PantiesMask",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				HideItem: ["ItemNoseNoseRing"],
 				Layer: [{ Name: "DarkStripes" }, { Name: "LightStripes" }],
 			},
@@ -27412,7 +27663,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagUnique",
 				AllowActivity: ["PenetrateItem"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [{ Name: "Strap" }, { Name: "Dildo" }],
@@ -27428,7 +27679,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
 				Prerequisite: "GagUnique",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
 			},
@@ -27441,7 +27692,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagNormal", "ProtrudingMouth"],
+				Effect: [E.GagNormal, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Chopsticks", AllowColorize: true },
@@ -27457,7 +27708,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagNormal", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagNormal, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["Default", "#A07858"],
 				Layer: [{ Name: "Rod" }, { Name: "Rope" }],
@@ -27474,7 +27725,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Extended: true,
-				Effect: ["BlockMouth", "GagHeavy"],
+				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Ball" },
@@ -27494,7 +27745,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PumpkinGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Pumpkin" }, { Name: "Straps" }, { Name: "Rings" }],
 			},
@@ -27510,7 +27761,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LipGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagLight", "OpenMouth"],
+				Effect: [E.GagLight, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -27530,7 +27781,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "SpiderGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth"],
+				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -27543,7 +27794,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Cheeks", AllowColorize: false },
 					{ Name: "Cloth", AllowColorize: true },
@@ -27557,7 +27808,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#900000",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Lips", AllowColorize: false },
 					{ Name: "Cloth", AllowColorize: true },
@@ -27584,7 +27835,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				ExpressionTrigger: [
 					{ Name: "High", Group: "Blush", Timer: 20 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 180 },
@@ -27600,7 +27851,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Audio: "ClothKnot",
 				Extended: true,
 			},
@@ -27614,7 +27865,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -27632,7 +27883,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#404040",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagHeavy"],
+				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
 			},
 			{
@@ -27653,7 +27904,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexPostureCollar",
 				Fetish: ["Latex"],
-				Effect: ["FixedHead", "BlockMouth", "GagNormal"],
+				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: 80,
 				Difficulty: 50,
 				Time: 20,
@@ -27675,7 +27926,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "BitGag",
 				Prerequisite: "GagUnique",
-				Effect: ["BlockMouth", "GagNormal"],
+				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bit" }, { Name: "Straps" }],
 			},
@@ -27690,7 +27941,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "XLBoneGag",
 				Prerequisite: "GagUnique",
-				Effect: ["BlockMouth", "GagNormal"],
+				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
 			},
@@ -27706,7 +27957,7 @@ var AssetFemale3DCG = [
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Block: ["ItemMouth2", "ItemMouth3"],
-				Effect: ["BlockMouth", "GagNormal", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagNormal, E.ProtrudingMouth],
 			},
 			{
 				Name: "FoxyHarnessPanelGag",
@@ -27720,7 +27971,7 @@ var AssetFemale3DCG = [
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
@@ -27735,7 +27986,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Ball" }, { Name: "Strap", HasType: false }],
@@ -27749,7 +28000,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth", "ProtrudingMouth"],
+				Effect: [E.GagEasy, E.OpenMouth, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -27767,7 +28018,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGagMask",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Strap", HasType: false }, { Name: "Ball" }],
@@ -27781,7 +28032,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth"],
+				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -27833,7 +28084,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "StitchedMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 			},
 			{
 				Name: "LatexBallMuzzleGag",
@@ -27846,7 +28097,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LatexBallMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "SockStuffing",
@@ -27855,7 +28106,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#FFFFFF",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Lips", AllowColorize: false },
 					{ Name: "Cloth", AllowColorize: true },
@@ -27874,7 +28125,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [{ Name: "Mask" }, { Name: "Sides" }, { Name: "Highlights" }],
 			},
@@ -27892,7 +28143,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 			},
 			{
 				Name: "RopeGag",
@@ -27907,7 +28158,7 @@ var AssetFemale3DCG = [
 				Audio: "RopeShort",
 				Prerequisite: "GagUnique",
 				DefaultColor: "#956B1C",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "RopeBallGag",
@@ -27923,7 +28174,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				DefaultColor: "#956B1C",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -27939,7 +28190,7 @@ var AssetFemale3DCG = [
 				Left: 199,
 				Top: 0,
 				Prerequisite: "GagUnique",
-				Effect: ["GagVeryLight", "ProtrudingMouth"],
+				Effect: [E.GagVeryLight, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
@@ -27955,7 +28206,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				BuyGroup: "MedicalMask",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
 				Layer: [{ Name: "Inner" }, { Name: "Outer" }],
 			},
@@ -27970,7 +28221,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				BuyGroup: "RegressedMilk",
 				Block: [],
-				Effect: ["RegressedTalk"],
+				Effect: [E.RegressedTalk],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 			},
 			{
@@ -27998,7 +28249,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ShoeGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 25 },
@@ -28015,7 +28266,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagUnique",
 				Extended: true,
 				Hide: ["Mouth"],
-				Effect: ["GagMedium"],
+				Effect: [E.GagMedium],
 				Block: ["ItemMouth2", "ItemMouth3", "ItemHood"],
 				Layer: [
 					{ Name: "Straps", AllowColorize: true, HasType: false },
@@ -28035,7 +28286,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 25,
 				BuyGroup: "PlasticWrap",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "BigMouth",
@@ -28043,7 +28294,7 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Extended: true,
 				AllowTighten: true,
-				Effect: ["GagLight"],
+				Effect: [E.GagLight],
 				Hide: ["Mouth"],
 				Layer: [
 					{ Name: "Base", AllowColorize: false, Priority: 20 },
@@ -28062,7 +28313,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "FuturisticApply",
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -28096,7 +28347,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CageMuzzle",
 				Random: false,
 				AllowLock: true,
-				Effect: ["BlockMouth", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [{ Name: "Strap" }, { Name: "Muzzle" }],
 			},
@@ -28123,7 +28374,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				BuyGroup: "Ribbon",
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [
 					{ Name: "DroolSides", Group: "Fluids", Timer: 30 },
 					{ Name: "HalfOpen", Group: "Mouth", Timer: 60 },
@@ -28140,7 +28391,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "Crop",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagLight, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [
 					{ Name: "Crop", AllowColorize: true, Left: 100 },
@@ -28157,7 +28408,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "Cane",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagLight, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Layer: [
 					{ Name: "Cane", AllowColorize: true, Left: 80 },
@@ -28178,7 +28429,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -28196,7 +28447,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#9221ba",
 				Prerequisite: ["AccessMouth", "GagUnique"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Layer: [{ Name: "Base" }, { Name: "Shine", AllowColorize: false }],
 			},
 			{
@@ -28242,7 +28493,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				HasType: false,
 				Hide: ["Mouth"],
-				Effect: ["OpenMouth"],
+				Effect: [E.OpenMouth],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, AllowTypes: [""] },
@@ -28669,7 +28920,7 @@ var AssetFemale3DCG = [
 				Top: 22,
 				Time: 2,
 				RemoveTime: 2,
-				Effect: ["OpenMouth"],
+				Effect: [E.OpenMouth],
 				Extended: true,
 				AllowExpression: [
 					"Frown",
@@ -28706,7 +28957,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				Left: 200,
 				Top: 170,
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "FurScarf",
@@ -28717,7 +28968,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowTighten: true,
 				BuyGroup: "FurScarf",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "LatexMuzzleMask",
@@ -28784,7 +29035,7 @@ var AssetFemale3DCG = [
 		Left: 150,
 		Top: 0,
 		Block: ["ItemMouth"],
-		Effect: ["BlockMouth", "GagNormal"],
+		Effect: [E.BlockMouth, E.GagNormal],
 		Zone: [[200, 130, 100, 70]],
 		RemoveItemOnRemove: [{ Group: "ItemMouth3", Name: "Kissmark" }],
 		DynamicGroupName: "ItemMouth",
@@ -28800,7 +29051,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#E0E0E0",
 				BuyGroup: "ClothGag",
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Audio: "ClothKnot",
 				Extended: true,
@@ -28817,7 +29068,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "WiffleGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagNormal"],
+				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["Default", "#FF6060"],
 				Extended: true,
@@ -28835,7 +29086,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessBallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["#FF6060", "Default"],
 				Extended: true,
@@ -28854,7 +29105,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPanelGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }, { Name: "Metal" }],
 			},
 			{
@@ -28868,7 +29119,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "RingGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy"],
+				Effect: [E.GagEasy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -28887,7 +29138,7 @@ var AssetFemale3DCG = [
 				Audio: "DuctTape",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -28903,7 +29154,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPacifierGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -28927,7 +29178,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "DusterGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Block: ["ItemMouth", "ItemMouth3"],
 				AllowActivity: ["TickleItem"],
 				Layer: [{ Name: "Duster" }, { Name: "Panel" }],
@@ -28947,7 +29198,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				AlwaysInteract: true,
-				Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagEasy, E.ProtrudingMouth],
 				Block: ["ItemMouth", "ItemMouth3"],
 				HasType: false,
 				Layer: [
@@ -28987,7 +29238,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "KittyGag",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
 					{ Name: "Lines", AllowColorize: true, HasType: false },
@@ -29008,7 +29259,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
 					{ Name: "Panel", AllowColorize: true, HasType: false },
 					{ Name: "Straps", AllowColorize: true, HasType: false },
@@ -29050,7 +29301,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CarrotGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Carrot" }, { Name: "Straps" }],
 			},
@@ -29078,7 +29329,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PantiesMask",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				Layer: [{ Name: "DarkStripes" }, { Name: "LightStripes" }],
 			},
 			{
@@ -29095,7 +29346,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				AllowActivity: ["PenetrateItem"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Block: ["ItemMouth", "ItemMouth3"],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [{ Name: "Strap" }, { Name: "Dildo" }],
@@ -29111,7 +29362,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
 				Prerequisite: "GagUnique",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
 			},
@@ -29127,7 +29378,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Extended: true,
-				Effect: ["BlockMouth", "GagHeavy"],
+				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Ball" },
@@ -29147,7 +29398,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PumpkinGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Pumpkin" }, { Name: "Straps" }, { Name: "Rings" }],
 			},
@@ -29164,7 +29415,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LipGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagLight", "OpenMouth"],
+				Effect: [E.GagLight, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -29185,7 +29436,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "SpiderGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth"],
+				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -29201,7 +29452,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				ExpressionTrigger: [
 					{ Name: "High", Group: "Blush", Timer: 20 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 180 },
@@ -29218,7 +29469,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Audio: "ClothKnot",
 				Extended: true,
 			},
@@ -29232,7 +29483,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -29256,7 +29507,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexPostureCollar",
 				Fetish: ["Latex"],
-				Effect: ["FixedHead", "BlockMouth", "GagNormal"],
+				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: -1,
 				Difficulty: 50,
 				Time: 20,
@@ -29308,7 +29559,7 @@ var AssetFemale3DCG = [
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
@@ -29323,7 +29574,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Ball" }, { Name: "Strap", HasType: false }],
@@ -29339,7 +29590,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGagMask",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Strap", HasType: false }, { Name: "Ball" }],
@@ -29368,7 +29619,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "StitchedMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 			},
 			{
 				Name: "LatexBallMuzzleGag",
@@ -29381,7 +29632,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LatexBallMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "GasMaskGag",
@@ -29396,7 +29647,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth3"],
 				Layer: [{ Name: "Mask" }, { Name: "Sides" }, { Name: "Highlights" }],
@@ -29415,7 +29666,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "RopeGag",
@@ -29430,7 +29681,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "RopeBallGag",
@@ -29446,7 +29697,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -29456,7 +29707,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				BuyGroup: "MedicalMask",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
 				Layer: [{ Name: "Inner" }, { Name: "Outer" }],
 			},
@@ -29471,7 +29722,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				BuyGroup: "RegressedMilk",
 				Block: [],
-				Effect: ["RegressedTalk"],
+				Effect: [E.RegressedTalk],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 			},
 			{
@@ -29499,7 +29750,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ShoeGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Block: ["ItemMouth", "ItemMouth3"],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 25 },
@@ -29514,7 +29765,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 25,
 				BuyGroup: "PlasticWrap",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "FuturisticMuzzle",
@@ -29528,7 +29779,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "FuturisticApply",
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -29563,7 +29814,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CageMuzzle",
 				Random: false,
 				AllowLock: true,
-				Effect: ["BlockMouth", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.ProtrudingMouth],
 				Block: ["ItemMouth", "ItemMouth3"],
 				Layer: [{ Name: "Strap" }, { Name: "Muzzle" }],
 			},
@@ -29574,7 +29825,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				BuyGroup: "Ribbon",
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [
 					{ Name: "DroolSides", Group: "Fluids", Timer: 30 },
 					{ Name: "HalfOpen", Group: "Mouth", Timer: 60 },
@@ -29595,7 +29846,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -29613,7 +29864,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#9221ba",
 				Prerequisite: ["AccessMouth", "GagUnique"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Layer: [{ Name: "Base" }, { Name: "Shine", AllowColorize: false }],
 			},
 			{
@@ -30010,7 +30261,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				RemoveTime: 7,
 				HideItem: ["ItemMouthLatexSheathGag"],
-				Effect: ["GagVeryLight", "OpenMouth"],
+				Effect: [E.GagVeryLight, E.OpenMouth],
 				Extended: false,
 				AllowExpression: [
 					"Frown",
@@ -30062,7 +30313,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				Left: 200,
 				Top: 170,
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "FurScarf",
@@ -30073,7 +30324,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowTighten: true,
 				BuyGroup: "FurScarf",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "LatexMuzzleMask",
@@ -30141,7 +30392,7 @@ var AssetFemale3DCG = [
 		Left: 150,
 		Top: 0,
 		Block: ["ItemMouth", "ItemMouth2"],
-		Effect: ["BlockMouth", "GagNormal"],
+		Effect: [E.BlockMouth, E.GagNormal],
 		Zone: [[300, 130, 100, 70]],
 		DynamicGroupName: "ItemMouth",
 		MirrorActivitiesFrom: "ItemMouth",
@@ -30155,7 +30406,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#E0E0E0",
 				BuyGroup: "ClothGag",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Audio: "ClothKnot",
 				Extended: true,
@@ -30172,7 +30423,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "WiffleGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagNormal"],
+				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["Default", "#FF6060"],
 				Extended: true,
@@ -30190,7 +30441,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessBallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["#FF6060", "Default"],
 				Extended: true,
@@ -30208,7 +30459,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#404040",
 				BuyGroup: "HarnessPanelGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }, { Name: "Metal" }],
 			},
 			{
@@ -30224,7 +30475,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "RingGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy"],
+				Effect: [E.GagEasy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -30242,7 +30493,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "DuctTape",
 				Audio: "DuctTape",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -30258,7 +30509,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessPacifierGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -30282,7 +30533,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "DusterGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				AllowActivity: ["TickleItem"],
 				Layer: [{ Name: "Duster" }, { Name: "Panel" }],
 			},
@@ -30301,7 +30552,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				AlwaysInteract: true,
-				Effect: ["BlockMouth", "GagEasy", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagEasy, E.ProtrudingMouth],
 				HasType: false,
 				Layer: [
 					{ Name: "Gag", AllowTypes: ["", "Tip", "Cup"] },
@@ -30340,7 +30591,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "KittyGag",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
 					{ Name: "Lines", AllowColorize: true, HasType: false },
@@ -30361,7 +30612,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
 					{ Name: "Panel", AllowColorize: true, HasType: false },
 					{ Name: "Straps", AllowColorize: true, HasType: false },
@@ -30403,7 +30654,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CarrotGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Carrot" }, { Name: "Straps" }],
 			},
@@ -30430,7 +30681,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PantiesMask",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				Layer: [{ Name: "DarkStripes" }, { Name: "LightStripes" }],
 			},
 			{
@@ -30447,7 +30698,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				AllowActivity: ["PenetrateItem"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				DefaultColor: ["Default", "#404040"],
 				Layer: [{ Name: "Strap" }, { Name: "Dildo" }],
 			},
@@ -30462,7 +30713,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
 				Prerequisite: "GagUnique",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
 			},
@@ -30475,7 +30726,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HarnessBallGag1",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagHeavy"],
+				Effect: [E.BlockMouth, E.GagHeavy],
 				Extended: true,
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -30496,7 +30747,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PumpkinGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Pumpkin" }, { Name: "Straps" }, { Name: "Rings" }],
 			},
@@ -30513,7 +30764,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LipGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagLight", "OpenMouth"],
+				Effect: [E.GagLight, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -30534,7 +30785,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "SpiderGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["GagEasy", "OpenMouth"],
+				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
 					{ Name: "Mouth", Priority: 10, AllowColorize: false },
@@ -30550,7 +30801,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagVeryLight"],
+				Effect: [E.BlockMouth, E.GagVeryLight],
 				ExpressionTrigger: [
 					{ Name: "High", Group: "Blush", Timer: 20 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 180 },
@@ -30566,7 +30817,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ScarfGag",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Audio: "ClothKnot",
 				Extended: true,
 			},
@@ -30579,7 +30830,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LewdGag",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -30603,7 +30854,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexPostureCollar",
 				Fetish: ["Latex"],
-				Effect: ["FixedHead", "BlockMouth", "GagNormal"],
+				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: -1,
 				Difficulty: 50,
 				Time: 20,
@@ -30655,7 +30906,7 @@ var AssetFemale3DCG = [
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
@@ -30670,7 +30921,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGag",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Ball" }, { Name: "Strap", HasType: false }],
@@ -30686,7 +30937,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGagMask",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Extended: true,
 				Layer: [{ Name: "Strap", HasType: false }, { Name: "Ball" }],
@@ -30715,7 +30966,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "StitchedMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagEasy"],
+				Effect: [E.BlockMouth, E.GagEasy],
 			},
 			{
 				Name: "LatexBallMuzzleGag",
@@ -30728,7 +30979,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LatexBallMuzzleGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "GasMaskGag",
@@ -30743,7 +30994,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "GasMaskGag",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing", "ItemNosePigNose","ClownNose"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Block: ["ItemMouth", "ItemMouth2"],
 				Layer: [{ Name: "Mask" }, { Name: "Sides" }, { Name: "Highlights" }],
@@ -30762,7 +31013,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "RopeGag",
@@ -30777,7 +31028,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "RopeBallGag",
@@ -30793,7 +31044,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Extended: true,
 			},
 			{
@@ -30803,7 +31054,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				BuyGroup: "MedicalMask",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
 				Layer: [{ Name: "Inner" }, { Name: "Outer" }],
 			},
@@ -30818,7 +31069,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				BuyGroup: "RegressedMilk",
 				Block: [],
-				Effect: ["RegressedTalk"],
+				Effect: [E.RegressedTalk],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 			},
 			{
@@ -30846,7 +31097,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ShoeGag",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 25 },
 					{ Name: "Daydream", Group: "Eyes", Timer: 10 },
@@ -30866,7 +31117,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "FuturisticApply",
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -30901,7 +31152,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CageMuzzle",
 				Random: false,
 				AllowLock: true,
-				Effect: ["BlockMouth", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.ProtrudingMouth],
 				Layer: [{ Name: "Strap" }, { Name: "Muzzle" }],
 			},
 			{
@@ -30911,7 +31162,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 25,
 				BuyGroup: "PlasticWrap",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "Ribbons",
@@ -30920,7 +31171,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				BuyGroup: "Ribbon",
 				Prerequisite: "GagFlat",
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				ExpressionTrigger: [
 					{ Name: "DroolSides", Group: "Fluids", Timer: 30 },
 					{ Name: "HalfOpen", Group: "Mouth", Timer: 60 },
@@ -30941,7 +31192,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -30959,7 +31210,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#9221ba",
 				Prerequisite: ["AccessMouth", "GagUnique"],
-				Effect: ["BlockMouth", "GagMedium", "ProtrudingMouth"],
+				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
 				Layer: [{ Name: "Base" }, { Name: "Shine", AllowColorize: false }],
 			},
 			{
@@ -31365,7 +31616,7 @@ var AssetFemale3DCG = [
 					"ItemMouthSockStuffing",
 				],
 				Prerequisite: ["GagUnique"],
-				Effect: ["GagHeavy"],
+				Effect: [E.GagHeavy],
 				Extended: true,
 				AlwaysExtend: true,
 				AllowExpression: [
@@ -31436,7 +31687,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				Left: 200,
 				Top: 170,
-				Effect: ["BlockMouth", "GagMedium"],
+				Effect: [E.BlockMouth, E.GagMedium],
 			},
 			{
 				Name: "FurScarf",
@@ -31447,7 +31698,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowTighten: true,
 				BuyGroup: "FurScarf",
-				Effect: ["BlockMouth", "GagLight"],
+				Effect: [E.BlockMouth, E.GagLight],
 			},
 			{
 				Name: "LatexRespirator",
@@ -31578,7 +31829,7 @@ var AssetFemale3DCG = [
 				Top: 141,
 				DefaultColor: ["#EEEEEE", "#222222", "#FF59B5"],
 				Hide: ["ItemMouth", "ItemMouth2"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Layer: [
 					{ Name: "TrimThin", AllowModuleTypes: ["t0"] },
 					{
@@ -31672,7 +31923,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#A0A0A0",
 				Hide: ["Glasses"],
-				Effect: ["BlindLight", "Prone", "BlurLight"],
+				Effect: [E.BlindLight, E.BlockWardrobe, E.BlurLight],
 				Audio: "ClothKnot",
 				Tint: [{ Color: 0, Strength: 0.25 }],
 			},
@@ -31685,7 +31936,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ScarfGag",
 				Audio: "ClothKnot",
 				Hide: ["Glasses"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 			},
 			{
 				Name: "LeatherBlindfold",
@@ -31696,7 +31947,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				Hide: ["Glasses"],
-				Effect: ["BlindNormal", "Prone"],
+				Effect: [E.BlindNormal, E.BlockWardrobe],
 			},
 			{
 				Name: "PaddedBlindfold",
@@ -31707,7 +31958,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#545454", "#808080"],
 				Hide: ["Glasses"],
-				Effect: ["BlindHeavy", "Prone"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe],
 				Layer: [
 					{ Name: "Trim", HasType: false },
 					{ Name: "Base", HasType: false },
@@ -31728,7 +31979,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Audio: "FuturisticApply",
 				HideItem: ["ItemNoseNoseRing", "MaskFuturisticVisor"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				Tint: [{ Color: 0, Strength: 0.1 }],
 				DefaultTint: "#2d58bc",
 			},
@@ -31747,7 +31998,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				HideItem: ["ItemNoseNoseRing", "MaskFuturisticVisor"],
 				Attribute: ["FuturisticRecolor", "FuturisticRecolorDisplay"],
-				Effect: ["UseRemote", "BlockMouth"],
+				Effect: [E.UseRemote, E.BlockMouth],
 				Extended: true,
 				Audio: "FuturisticApply",
 				Block: [
@@ -31785,7 +32036,7 @@ var AssetFemale3DCG = [
 				Hide: ["Mask", "Glasses"],
 				HideItem: ["ItemNoseNoseRing"],
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["VR"],
+				Effect: [E.VR],
 				Extended: true,
 				AlwaysExtend: true,
 				Audio: "FuturisticApply",
@@ -31804,7 +32055,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#555555",
 				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
-				Effect: ["BlindHeavy", "Prone", "GagLight", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe, E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -31824,7 +32075,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#555555",
 				Hide: ["Glasses"],
 				HideItem: ["ItemNosePigNose","ClownNose"],
-				Effect: ["BlindHeavy", "Prone"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe],
 				Block: ["ItemEars", "ItemNose"],
 			},
 			{
@@ -31837,7 +32088,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#555555",
 				Hide: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-				Effect: ["GagLight", "BlockMouth"],
+				Effect: [E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -31857,7 +32108,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#FF4040",
 				Bonus: "KidnapSneakiness",
 				Hide: ["Glasses"],
-				Effect: ["BlindNormal", "Prone"],
+				Effect: [E.BlindNormal, E.BlockWardrobe],
 			},
 			{
 				Name: "KittyBlindfold",
@@ -31870,7 +32121,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#000000", "#E48FE9"],
 				Hide: ["Glasses"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Audio: "ClothSlip",
 				Layer: [
 					{ Name: "Base", AllowColorize: true, HasType: false },
@@ -31905,7 +32156,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				Hide: ["Glasses"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 			},
 			{
 				Name: "FullBlindfold",
@@ -31918,7 +32169,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#353535",
 				Hide: ["Glasses"],
-				Effect: ["BlindHeavy", "Prone"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe],
 			},
 			{
 				Name: "LewdBlindfold",
@@ -31929,7 +32180,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Audio: "ClothSlip",
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
@@ -31944,7 +32195,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindNormal", "Prone"],
+				Effect: [E.BlindNormal, E.BlockWardrobe],
 			},
 			{
 				Name: "FrilledSleepMask",
@@ -31952,7 +32203,7 @@ var AssetFemale3DCG = [
 				Value: 5,
 				Time: 5,
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Audio: "ClothSlip",
 				Layer: [{ Name: "Frills" }, { Name: "Mask" }],
 			},
@@ -31966,7 +32217,7 @@ var AssetFemale3DCG = [
 				OverrideBlinking: true,
 				Hide: ["Eyes", "Eyes2"],
 				Block: [],
-				Effect: ["BlindHeavy", "Prone"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe],
 				AllowExpression: ["Closed"],
 				Layer: [
 					{ Name: "Left", MirrorExpression: "Eyes" },
@@ -31982,7 +32233,7 @@ var AssetFemale3DCG = [
 				OverrideBlinking: true,
 				Hide: ["Eyes", "Eyes2"],
 				Block: [],
-				Effect: ["BlindLight"],
+				Effect: [E.BlindLight],
 				AllowExpression: ["Closed"],
 				DefaultColor: ["#98FFE6", "Default", "#98FFE6", "Default"],
 				Layer: [
@@ -32025,7 +32276,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				CraftGroup: "Web",
 				Hide: ["Glasses", "Mask"],
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				Extended: true,
 			},
 			{
@@ -32039,14 +32290,14 @@ var AssetFemale3DCG = [
 				CraftGroup: "HempRope",
 				Audio: "RopeShort",
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 			},
 			{
 				Name: "SleepMask",
 				Value: 5,
 				Time: 5,
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Audio: "ClothSlip",
 			},
 			{
@@ -32058,7 +32309,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "PrisonLockdownSuit",
 				DefaultColor: "#77511f",
 				Hide: ["Glasses"],
-				Effect: ["BlindNormal", "Prone"],
+				Effect: [E.BlindNormal, E.BlockWardrobe],
 			},
 			{
 				Name: "Pantyhose",
@@ -32074,7 +32325,7 @@ var AssetFemale3DCG = [
 					"HairAccessory3",
 				],
 				BuyGroup: "Pantyhose",
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				Audio: "ClothSlip",
 				Tint: [{ Color: 0, Strength: 0.2 }],
@@ -32106,7 +32357,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "Ribbon",
 				Hide: ["Glasses", "Mask"],
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				Extended: true,
 			},
 			{
@@ -32120,7 +32371,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#9221ba",
 				Hide: ["Glasses", "Mask"],
-				Effect: ["BlindNormal", "Prone"],
+				Effect: [E.BlindNormal, E.BlockWardrobe],
 				Layer: [{ Name: "Tentacles" }, { Name: "Shine", AllowColorize: false }],
 			},
 			{
@@ -32410,7 +32661,7 @@ var AssetFemale3DCG = [
 				Difficulty: 4,
 				Time: 15,
 				RemoveTime: 25,
-				Effect: ["BlindLight", "Prone", "BlurNormal"],
+				Effect: [E.BlindLight, E.BlockWardrobe, E.BlurNormal],
 				Tint: [{ Color: 0, Strength: 0.4 }],
 			},
 			{
@@ -32420,7 +32671,7 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Random: false,
 				AllowTighten: true,
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 			},
 			{
 				Name: "Stitches",
@@ -32861,7 +33112,7 @@ var AssetFemale3DCG = [
 					"Mask",
 					"ItemHead",
 				],
-				Effect: ["BlindHeavy", "Prone", "GagLight", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe, E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -32894,7 +33145,7 @@ var AssetFemale3DCG = [
 					"Mask",
 					"ItemHead",
 				],
-				Effect: ["BlindNormal", "Prone", "GagLight", "BlockMouth"],
+				Effect: [E.BlindNormal, E.BlockWardrobe, E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -32929,7 +33180,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatBand1", "HatBand2", "HatTiara1"],
-				Effect: ["BlindHeavy", "DeafLight", "Prone", "GagHeavy", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.GagHeavy, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -32966,7 +33217,7 @@ var AssetFemale3DCG = [
 					"ItemEars",
 					"ItemHead",
 				],
-				Effect: ["BlindHeavy", "DeafLight", "Prone", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33006,7 +33257,7 @@ var AssetFemale3DCG = [
 					"ItemEarsFuturisticEarphones",
 					"HatFurHeadband",
 				],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33284,7 +33535,7 @@ var AssetFemale3DCG = [
 					"ItemEars",
 					"ItemHead",
 				],
-				Effect: ["Prone", "BlindHeavy", "BlockMouth"],
+				Effect: [E.BlockWardrobe, E.BlindHeavy, E.BlockMouth],
 				Block: [
 					"ItemEars",
 					"ItemMouth",
@@ -33318,7 +33569,7 @@ var AssetFemale3DCG = [
 					"Mask",
 					"ItemHead",
 				],
-				Effect: ["BlindHeavy", "DeafHeavy", "Prone", "GagHeavy", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.DeafHeavy, E.BlockWardrobe, E.GagHeavy, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33390,7 +33641,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatFurHeadband"],
-				Effect: ["BlindHeavy", "DeafLight", "Prone", "GagNormal", "BlockMouth"],
+				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.GagNormal, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33434,7 +33685,7 @@ var AssetFemale3DCG = [
 					"HairAccessory2",
 					"HairAccessory3",
 				],
-				Effect: ["GagLight", "BlockMouth"],
+				Effect: [E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemHead",
 					"ItemNose",
@@ -33479,7 +33730,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatFurHeadband"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33520,7 +33771,7 @@ var AssetFemale3DCG = [
 					"HairAccessory3",
 					"Mask",
 				],
-				Effect: ["GagNormal", "BlockMouth"],
+				Effect: [E.GagNormal, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33547,7 +33798,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				AllowLock: true,
-				Effect: ["GagLight", "BlockMouth"],
+				Effect: [E.GagLight, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33590,7 +33841,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["ItemHeadSnorkel", "HatFurHeadband"],
-				Effect: ["BlindLight", "GagNormal", "BlockMouth"],
+				Effect: [E.BlindLight, E.GagNormal, E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33626,7 +33877,7 @@ var AssetFemale3DCG = [
 					"ItemEarsFuturisticEarphones",
 					"HatFurHeadband",
 				],
-				Effect: ["Prone", "BlindHeavy"],
+				Effect: [E.BlockWardrobe, E.BlindHeavy],
 				Block: ["ItemEars", "ItemHead", "ItemNose"],
 				Alpha: [
 					{
@@ -33661,7 +33912,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["HatFurHeadband"],
-				Effect: ["Prone", "BlindHeavy", "GagHeavy", "BlockMouth", "DeafLight"],
+				Effect: [E.BlockWardrobe, E.BlindHeavy, E.GagHeavy, E.BlockMouth, E.DeafLight],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -33695,7 +33946,7 @@ var AssetFemale3DCG = [
 					"ItemEarsFuturisticEarphones",
 					"HatFurHeadband",
 				],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Prerequisite: ["NotProtrudingFromMouth"],
 				Block: [
 					"ItemMouth",
@@ -33737,7 +33988,7 @@ var AssetFemale3DCG = [
 					"ItemEarsFuturisticEarphones",
 					"HatFurHeadband",
 				],
-				Effect: ["BlindLight", "Prone"],
+				Effect: [E.BlindLight, E.BlockWardrobe],
 				Prerequisite: ["NotProtrudingFromMouth"],
 				Block: [
 					"ItemMouth",
@@ -33785,7 +34036,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Alpha: [{ Group: ["HairFront"], Masks: [[206, 115, 88, 70]] }],
 				AllowLock: true,
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -34074,7 +34325,7 @@ var AssetFemale3DCG = [
 				Left: 135,
 				Priority: 57,
 				DefaultColor: ["Default", "#a13f75", "#ad4c81"],
-				Effect: ["BlindLight"],
+				Effect: [E.BlindLight],
 				Block: ["ItemHead"],
 				Hide: ["Hat"],
 				HideItem: [
@@ -34290,7 +34541,7 @@ var AssetFemale3DCG = [
 					"ItemHead",
 				],
 				HideItem: ["ItemHeadSnorkel", "HatFurHeadband"],
-				Effect: ["BlockMouth"],
+				Effect: [E.BlockMouth],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -34347,7 +34598,7 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
-				Effect: ["BlindHeavy"],
+				Effect: [E.BlindHeavy],
 				Layer: [
 					{ Name: "GlassInside", HasType: false },
 					{ Name: "LEDs", HasType: false, CopyLayerColor: "GlassInside" },
@@ -34366,12 +34617,12 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 25,
 				Effect: [
-					"BlindLight",
-					"Prone",
-					"DeafHeavy",
-					"BlockMouth",
-					"GagHeavy",
-					"BlurHeavy",
+					E.BlindLight,
+					E.BlockWardrobe,
+					E.DeafHeavy,
+					E.BlockMouth,
+					E.GagHeavy,
+					E.BlurHeavy,
 				],
 				Hide: [
 					"HairFront",
@@ -35718,7 +35969,7 @@ var AssetFemale3DCG = [
 					"HairAccessory3",
 					"Mask",
 				],
-				Effect: ["Prone", "GagHeavy", "BlockMouth", "DeafLight"],
+				Effect: [E.BlockWardrobe, E.GagHeavy, E.BlockMouth, E.DeafLight],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				DefaultColor: [],
 				Layer: [
@@ -35752,7 +36003,7 @@ var AssetFemale3DCG = [
 					"Hat",
 					"Mask",
 				],
-				Effect: ["Prone", "GagHeavy", "BlockMouth"],
+				Effect: [E.BlockWardrobe, E.GagHeavy, E.BlockMouth],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				DefaultColor: [],
 				Layer: [
@@ -35841,7 +36092,7 @@ var AssetFemale3DCG = [
 				Top: 22,
 				Left: 124,
 				AllowLock: true,
-				Effect: ["DeafTotal", "BlindHeavy", "BlockMouth", "GagVeryHeavy"],
+				Effect: [E.DeafTotal, E.BlindHeavy, E.BlockMouth, E.GagVeryHeavy],
 				DrawLocks: false,
 				Hide: [
 					"HairFront",
@@ -35868,7 +36119,7 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				Top: 32,
 				Left: 122,
-				Effect: ["BlockMouth", "GagVeryHeavy"],
+				Effect: [E.BlockMouth, E.GagVeryHeavy],
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -35940,7 +36191,7 @@ var AssetFemale3DCG = [
 				Difficulty: 50,
 				Time: 5,
 				Visible: false,
-				Effect: ["DeafLight"],
+				Effect: [E.DeafLight],
 			},
 			{
 				Name: "HeavyDutyEarPlugs",
@@ -35948,7 +36199,7 @@ var AssetFemale3DCG = [
 				Difficulty: 50,
 				Time: 5,
 				Visible: false,
-				Effect: ["DeafHeavy"],
+				Effect: [E.DeafHeavy],
 			},
 			{
 				Name: "HeadphoneEarPlugs",
@@ -35980,7 +36231,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Random: false,
 				Attribute: ["FuturisticRecolor"],
-				Effect: ["UseRemote"],
+				Effect: [E.UseRemote],
 				Extended: true,
 				HasType: false,
 				Layer: [
@@ -36216,54 +36467,53 @@ var AssetFemale3DCG = [
 				Name: "MetalPadlockKey",
 				Value: 10,
 				Wear: false,
-				Effect: ["Unlock-MetalPadlock"],
+				Effect: [E.UnlockMetalPadlock],
 			},
 			{
 				Name: "OwnerPadlockKey",
 				Value: 60,
 				Wear: false,
 				OwnerOnly: true,
-				Effect: ["Unlock-OwnerPadlock", "Unlock-OwnerTimerPadlock"],
+				Effect: [E.UnlockOwnerPadlock, E.UnlockOwnerTimerPadlock],
 			},
 			{
 				Name: "LoversPadlockKey",
 				Value: 40,
 				Wear: false,
 				LoverOnly: true,
-				Effect: ["Unlock-LoversPadlock", "Unlock-LoversTimerPadlock"],
+				Effect: [E.UnlockLoversPadlock, E.UnlockLoversTimerPadlock],
 			},
 			{
 				Name: "FamilyPadlockKey",
 				Value: 30,
 				Wear: false,
 				FamilyOnly: true,
-				Effect: ["Unlock-FamilyPadlock"],
+				Effect: [E.UnlockFamilyPadlock],
 			},
 			{
 				Name: "MistressPadlockKey",
 				Value: -1,
 				Wear: false,
-				Effect: ["Unlock-MistressPadlock", "Unlock-MistressTimerPadlock"],
+				Effect: [E.UnlockMistressPadlock, E.UnlockMistressTimerPadlock],
 			},
 			{
 				Name: "PandoraPadlockKey",
 				Value: -1,
 				Wear: false,
-				Effect: ["Unlock-PandoraPadlock"],
+				Effect: [E.UnlockPandoraPadlock],
 			},
 			{
 				Name: "MetalCuffsKey",
 				Value: 20,
 				Time: 5,
 				Wear: false,
-				Effect: ["Unlock-MetalCuffs", "Unlock-EscortAnkleCuffs"],
+				Effect: [E.UnlockMetalCuffs, E.UnlockEscortAnkleCuffs],
 			},
 			{
 				Name: "Lockpicks",
 				Value: 25,
 				Time: 5,
 				Wear: false,
-				Effect: ["Unlock-"],
 			},
 			{ Name: "WoodenMaidTray", Value: -1, Enable: false, RemoveAtLogin: true },
 			{
@@ -36746,7 +36996,7 @@ var AssetFemale3DCG = [
 				Opacity: 0,
 				FixedPosition: true,
 				Block: ["ItemAddon"],
-				Effect: ["Prone", "Enclose", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Panel", CopyLayerColor: "Back", HasType: false },
@@ -36783,7 +37033,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["Prone", "Enclose", "BlindNormal", "GagLight", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.BlindNormal, E.GagLight, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36806,7 +37056,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				SetPose: ["Kneel"],
-				Effect: ["BlindHeavy", "Prone", "Enclose", "GagHeavy", "Freeze"],
+				Effect: [E.BlindHeavy, E.BlockWardrobe, E.Enclose, E.GagHeavy, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				RemoveAtLogin: true,
 			},
@@ -36819,7 +37069,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 15,
 				SetPose: ["Suspension", "LegsClosed"],
-				Effect: ["Prone", "Enclose", "GagMedium", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.GagMedium, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemFeet"],
 				RemoveAtLogin: true,
@@ -36848,7 +37098,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "LockLarge",
 				RemoveAtLogin: true,
-				Effect: ["Prone", "Enclose", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
 				Alpha: [
@@ -36879,7 +37129,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: ["Prone", "Enclose", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -36900,7 +37150,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				AllowLock: true,
 				SetPose: ["LegsOpen"],
-				Effect: ["Prone", "Freeze", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Mounted],
 				Block: ["ItemPelvis"],
 				AllowActivityOn: ["ItemPelvis"],
 				Height: 30,
@@ -36940,7 +37190,7 @@ var AssetFemale3DCG = [
 					"RightHand",
 				],
 				SetPose: ["Kneel", "BackElbowTouch"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -37005,7 +37255,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["LegsClosed", "BackElbowTouch"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -37062,7 +37312,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["LegsClosed", "BackElbowTouch"],
-				Effect: ["Block", "Prone", "Freeze"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -37113,7 +37363,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				DrawLocks: false,
 				SetPose: ["LegsClosed"],
-				Effect: ["Mounted"],
+				Effect: [E.Mounted],
 				AllowLock: true,
 				AllowTighten: true,
 				Layer: [
@@ -37307,7 +37557,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["AccessVulva", "NotChaste", "HasVagina"],
 				SetPose: ["LegsOpen"],
-				Effect: ["FillVulva", "Prone", "Freeze", "Mounted", "VulvaShaft"],
+				Effect: [E.FillVulva, E.BlockWardrobe, E.Freeze, E.Mounted, E.VulvaShaft],
 				Block: ["ItemVulva"],
 				Layer: [
 					{ Name: "Bar", AllowColorize: true },
@@ -37329,7 +37579,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				Audio: "CageEquip",
 				Block: ["ItemAddon"],
-				Effect: ["Freeze"],
+				Effect: [E.Freeze],
 				SetPose: ["BaseLower"],
 				AllowActivePose: [...PoseAllStanding],
 				Layer: [
@@ -37353,7 +37603,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Prerequisite: ["DisplayFrame", "NotMasked"],
 				SetPose: ["LegsClosed", "BackElbowTouch"],
-				Effect: ["Prone", "Freeze", "Block", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted],
 				HideItem: ["ShoesFlippers"],
 				Block: [
 					"ItemArms",
@@ -37374,7 +37624,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "NotChaste"],
 				Hide: ["Shoes", "ItemBoots", "ItemLegs", "ItemVulva"],
 				SetPose: ["KneelingSpread"],
-				Effect: ["FillVulva", "Freeze", "Mounted"],
+				Effect: [E.FillVulva, E.Freeze, E.Mounted],
 				Block: ["ItemPelvis", "ItemButt", "ItemVulva"],
 				AllowActivityOn: ["ItemBoots", "ItemPelvis"],
 				RemoveAtLogin: true,
@@ -37420,7 +37670,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: true,
 				Audio: "LockLarge",
-				Effect: ["Prone", "Enclose", "DeafLight", "GagLight", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.DeafLight, E.GagLight, E.Freeze],
 				Block: ["ItemAddon"],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
@@ -37450,7 +37700,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
-				Effect: ["Prone", "Enclose", "DeafLight", "GagLight", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.DeafLight, E.GagLight, E.Freeze],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37480,7 +37730,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Prerequisite: ["NotSuspended", "NotLifted"],
 				LayerVisibility: true,
-				Effect: ["Tethered"],
+				Effect: [E.Tethered],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
 				ArousalZone: "ItemVulva",
@@ -37645,7 +37895,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Audio: "LockLarge",
-				Effect: ["Freeze", "Prone", "Enclose"],
+				Effect: [E.Freeze, E.BlockWardrobe, E.Enclose],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
 				DynamicAfterDraw: true,
@@ -37697,7 +37947,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "LockLarge",
 				Hide: ["Wings"],
-				Effect: ["Prone", "Freeze", "Block"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37743,7 +37993,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Hide: ["Wings"],
 				SetPose: ["Kneel"],
-				Effect: ["Prone", "Freeze", "Block"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37785,7 +38035,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Prerequisite: ["NoItemArms"],
 				SetPose: ["Yoked", "LegsOpen"],
-				Effect: ["Prone", "Freeze", "Block", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted],
 				Block: ["ItemArms", "ItemFeet"],
 				AllowActivityOn: ["ItemArms", "ItemFeet"],
 				RemoveAtLogin: true,
@@ -37819,7 +38069,7 @@ var AssetFemale3DCG = [
 					"Garters",
 				],
 				SetPose: ["Yoked", "BaseLower"],
-				Effect: ["Prone", "Freeze", "Block", "Mounted", "Chaste", "ButtChaste"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted, E.Chaste, E.ButtChaste],
 				HideItem: ["ShoesFlippers"],
 				Alpha: [
 					{
@@ -37958,7 +38208,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercings",
 				],
 				AllowActivityOn: ["ItemArms", "ItemFeet", "ItemLegs", "ItemBoots"],
-				Effect: ["Prone", "Freeze", "Block", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted],
 				AllowActivePose: [],
 				DrawLocks: false,
 				Layer: [
@@ -38033,7 +38283,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemMiscTeddyBear", "ItemMiscBunPlush", "ItemMiscFoxPlush"],
 				SetPose: ["Yoked", "BaseLower"],
-				Effect: ["Prone", "Freeze", "Block", "Mounted", "Chaste", "ButtChaste"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted, E.Chaste, E.ButtChaste],
 				Alpha: [
 					{
 						Masks: [
@@ -38096,7 +38346,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Left: -30,
 				Top: -235,
-				Effect: ["Freeze", "Leash", "OnBed"],
+				Effect: [E.Freeze, E.Leash, E.OnBed],
 				HideItem: ["ShoesFlippers"],
 				RemoveAtLogin: true,
 				Extended: true,
@@ -38151,7 +38401,7 @@ var AssetFemale3DCG = [
 					{ Group: "ItemFeet", Name: "HempRope", Type: "BedSpreadEagle" },
 					{ Group: "ItemFeet", Name: "MedicalBedRestraints" },
 				],
-				Effect: ["Mounted", "OnBed"],
+				Effect: [E.Mounted, E.OnBed],
 				Layer: [{ Name: "BedFrame" }, { Name: "Mattress" }, { Name: "Pillow" }],
 			},
 			{
@@ -38172,7 +38422,7 @@ var AssetFemale3DCG = [
 					"ShoesPonyBoots",
 					"ShoesThighHighLatexHeels",
 				],
-				Effect: ["Prone", "Freeze", "Block", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted],
 				Block: ["ItemArms", "ItemFeet"],
 				AllowActivityOn: ["ItemArms", "ItemFeet"],
 				OverrideHeight: { Height: -25, Priority: 10 },
@@ -38192,7 +38442,7 @@ var AssetFemale3DCG = [
 				AllowLock: false,
 				Left: -30,
 				Top: -235,
-				Effect: ["Freeze", "OnBed"],
+				Effect: [E.Freeze, E.OnBed],
 				RemoveAtLogin: true,
 				Layer: [{ Name: "Frame" }, { Name: "Table" }],
 			},
@@ -38213,7 +38463,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				Block: ["ItemAddon"],
 				Prerequisite: ["NotSuspended", "NotLifted"],
-				Effect: ["Prone", "Enclose", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Door", CopyLayerColor: "Back", HasType: false },
@@ -38258,7 +38508,7 @@ var AssetFemale3DCG = [
 				Opacity: 0,
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["Prone", "Enclose", "Freeze"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Door", CopyLayerColor: "Back", HasType: false },
@@ -38308,7 +38558,7 @@ var AssetFemale3DCG = [
 					"ClothLowerTutu",
 					"ClothJacket",
 				],
-				Effect: ["Prone"],
+				Effect: [E.BlockWardrobe],
 				Block: [
 					"ItemArms",
 					"ItemBreast",
@@ -38352,7 +38602,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#2E2E29", "#780E0E", "#2E2E29", "#2E2E29"],
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: ["Tethered"],
+				Effect: [E.Tethered],
 				Layer: [
 					{ Name: "Kennel", Priority: 1 },
 					{
@@ -38395,7 +38645,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 0,
 				Time: 5,
 				RemoveTime: 5,
-				Effect: ["Tethered"],
+				Effect: [E.Tethered],
 				RemoveAtLogin: true,
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
@@ -38460,7 +38710,7 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				FixedPosition: true,
 				Block: ["ItemAddon"],
-				Effect: ["Prone", "Enclose", "Freeze", "Leash"],
+				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze, E.Leash],
 				Layer: [
 					{ Name: "Back", Priority: 1, MinOpacity: 1, HasType: false },
 					{ Name: "Panel", CopyLayerColor: "Back", HasType: false },
@@ -38545,7 +38795,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemMiscTeddyBear", "ItemMiscBunPlush", "ItemMiscFoxPlush"],
 				SetPose: ["BaseUpper", "BaseLower"],
-				Effect: ["Prone", "Freeze", "Block"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Block],
 				Block: [
 					"ItemArms",
 					"ItemBoots",
@@ -38644,7 +38894,7 @@ var AssetFemale3DCG = [
 				Priority: 6,
 				RemoveAtLogin: true,
 				Prerequisite: ["AccessVulva", "NotChaste", "VulvaEmpty", "HasVagina"],
-				Effect: ["Mounted", "Freeze"],
+				Effect: [E.Mounted, E.Freeze],
 				Block: ["ItemVulva", "ItemPelvis", "ItemVulvaPiercings"],
 				DynamicBeforeDraw: true,
 				DynamicScriptDraw: true,
@@ -38679,7 +38929,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				SetPose: ["Kneel"],
-				Effect: ["Freeze", "Block", "Prone"],
+				Effect: [E.Freeze, E.Block, E.BlockWardrobe],
 				Extended: true,
 				Layer: [
 					{ Name: "Front" },
@@ -38717,7 +38967,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#666", "#974338"],
 				SetPose: ["BackBoxTie", "BaseLower"],
 				AllowActivePose: [...PoseAllStanding],
-				Effect: ["Freeze", "Block", "Prone", "KneelFreeze"],
+				Effect: [E.Freeze, E.Block, E.BlockWardrobe, E.KneelFreeze],
 				Hide: [
 					"BodyLower",
 					"Hands",
@@ -38803,7 +39053,7 @@ var AssetFemale3DCG = [
 					{ Group: "ItemFeet", Name: "HempRope", Type: "BedSpreadEagle" },
 					{ Group: "ItemFeet", Name: "MedicalBedRestraints" },
 				],
-				Effect: ["Freeze", "Mounted", "OnBed", "Leash"],
+				Effect: [E.Freeze, E.Mounted, E.OnBed, E.Leash],
 				AvailableLocations: ["Asylum"],
 				Layer: [{ Name: "BedFrame" }, { Name: "Mattress" }, { Name: "Pillow" }],
 			},
@@ -38831,7 +39081,7 @@ var AssetFemale3DCG = [
 				AlwaysExtend: true,
 				BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
-				Effect: ["Freeze", "Mounted", "OnBed"],
+				Effect: [E.Freeze, E.Mounted, E.OnBed],
 				Layer: [
 					{
 						Name: "Back",
@@ -38964,7 +39214,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: ["Prone", "Freeze", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Mounted],
 				OverrideHeight: { Height: -75, Priority: 21 },
 				Alpha: [{ Masks: [[160, 720, 200, 240]] }],
 				ExpressionTrigger: [
@@ -39138,7 +39388,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				SetPose: ["LegsOpen", "BackCuffs"],
 				PoseMapping: {},
-				Effect: ["Block", "Tethered", "Prone", "Freeze"],
+				Effect: [E.Block, E.Tethered, E.BlockWardrobe, E.Freeze],
 				Block: [
 					"ItemArms",
 					"ItemFeet",
@@ -39321,7 +39571,7 @@ var AssetFemale3DCG = [
 				AllowLock: false,
 				Extended: true,
 				FixedPosition: true,
-				Effect: ["Prone", "Freeze", "Leash", "Mounted"],
+				Effect: [E.BlockWardrobe, E.Freeze, E.Leash, E.Mounted],
 				Layer: [
 					{ Name: "Main", Priority: -5 },
 					{ Name: "Strap", CopyLayerColor: "Main", AllowTypes: ["Closed"] },
@@ -39442,7 +39692,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				HasType: false,
 				DefaultColor: "#956B1C",
-				Effect: ["Freeze"],
+				Effect: [E.Freeze],
 				Layer: [{ Name: "Ring", AllowColorize: false }, { Name: "Ropes" }],
 			},
 			{
@@ -39461,7 +39711,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Extended: true,
 				HasType: false,
-				Effect: ["Freeze"],
+				Effect: [E.Freeze],
 			},
 		],
 		Color: [
@@ -39650,7 +39900,7 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 			},
 			{
@@ -39665,7 +39915,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
@@ -39685,7 +39935,7 @@ var AssetFemale3DCG = [
 				Audio: "RopeShort",
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
@@ -39957,7 +40207,7 @@ var AssetFemale3DCG = [
 				Audio: "ZipTie",
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
@@ -40019,7 +40269,7 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				Effect: ["Freeze"],
+				Effect: [E.Freeze],
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
@@ -40042,7 +40292,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
 				},
-				Effect: ["Freeze", "Prone"],
+				Effect: [E.Freeze, E.BlockWardrobe],
 				Hide: ["Shoes", "ItemFeet"],
 				HideItem: [
 					"ClothLowerPajama1",
@@ -41045,12 +41295,12 @@ var ActivityFemale3DCG = [
 			"ItemTorso",
 			"ItemTorso2",
 			"ItemVulva",
-			],
+		],
 		ActivityExpression: [
 			{ Group: "Blush", Name: "Low", Timer: 10 },
 			{ Group: "Eyebrows", Name: "Soft", Timer: 10 },
 			{ Group: "Eyes", Name: "Daydream", Timer: 10 },
-			],		
+		],
 		TargetSelf: true,
 	},
 	{
@@ -41058,12 +41308,12 @@ var ActivityFemale3DCG = [
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-ThrowItem"],
 		Target: [
-					"ItemTorso",
-					"ItemMouth",
-					"ItemBreast",
-					"ItemFeet",
-					"ItemHead"
-				],
+			"ItemTorso",
+			"ItemMouth",
+			"ItemBreast",
+			"ItemFeet",
+			"ItemHead"
+		],
 		TargetSelf: true,
 	},
 
