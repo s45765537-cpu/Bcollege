@@ -2167,6 +2167,7 @@ var AssetFemale3DCGExtended = {
 					SelfBondageLevel: 10,
 					Property: {
 						SetPose: ["BackElbowTouch"],
+						AllowActivePose: ["AllFours"],
 						Block: ["ItemHands"],
 						HideItem: ["ClothAccessoryPoncho"],
 						Difficulty: 7,
@@ -7486,6 +7487,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 6,
 						SetPose: ["AllFours"],
+						AllowActivePose: ["Hogtied"],
 					},
 				},
 				{

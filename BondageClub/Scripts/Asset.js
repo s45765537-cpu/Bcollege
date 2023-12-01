@@ -296,7 +296,28 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 	if (SetPose == null) {
 		return {};
 	}
+
 	const allowActivePose = CommonArrayConcatDedupe([...SetPose], AllowActivePose || []);
+	const poseMapping = PoseToMapping.Array(allowActivePose);
+
+	// Automatically add support for `BodyFull` poses, which are a bit weird in the sense that
+	// they're sort of a combination of (hypothetical) `BodyUpper` and `BodyLower` poses
+	if (
+		(poseMapping.BodyUpper || poseMapping.BodyLower)
+		&& (!poseMapping.BodyUpper || poseMapping.BodyUpper.includes("BackElbowTouch"))
+		&& (!poseMapping.BodyLower || poseMapping.BodyLower.includes("Kneel"))
+	) {
+		// Add explicit Hogtied support if `Kneel` and/or `BackElbowTouch` are set
+		CommonArrayConcatDedupe(allowActivePose, ["Hogtied"]);
+	}
+	if (
+		!poseMapping.BodyUpper
+		&& poseMapping.BodyLower
+		&& poseMapping.BodyLower.includes("Kneel")
+	) {
+		// Add explicit AllFours support if `Kneel` is set and no `BodyUpper` poses are set
+		CommonArrayConcatDedupe(allowActivePose, ["AllFours"]);
+	}
 
 	/** @type {AssetPrerequisite[]} */
 	const posePrerequisite = SetPose.map(i => /** @type {const} */(`Can${i}`));
