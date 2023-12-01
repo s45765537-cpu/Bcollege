@@ -82,9 +82,6 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != n
 
 /**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
- * @param {boolean} NW - If North West is a wall
- * @param {boolean} NC - If North Center is a wall
- * @param {boolean} NE - If North East is a wall
  * @param {boolean} CW - If Center West is a wall
  * @param {boolean} CE - If Center East is a wall
  * @param {boolean} SW - If South West is a wall
@@ -92,69 +89,39 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != n
  * @param {boolean} SE - If South East is a wall
  * @returns {number} - a number linked on the image to use
  */
-function ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE) {
+function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) {
 
-	if (SC && NC && CE && CW && SE && NE && NW && SW) return 0;
-	if (!NC && !CW && !CE && !SC) return 1;
+	if (CW && CE && SW && SC && SE) return 0;
+	if (!CW && !CE && !SC) return 1;
+	if (!CW && CE && !SC) return 2;
+	if (CW && !CE && !SC) return 3;
+	if (CW && CE && !SC) return 4;
 
-	if (NC && !CW && !CE && !SC) return 2;
-	if (!NC && !CW && !CE && SC) return 3;
-	if (!NC && !CW && CE && !SC) return 4;
-	if (!NC && CW && !CE && !SC) return 5;
+	if (!CW && !CE && SW && SC && SE) return 5;
+	if (!CW && !CE && SW && SC && !SE) return 6;
+	if (!CW && !CE && !SW && SC && SE) return 7;
 
-	if (NC && !CW && !CE && SC) return 6;
-	if (!NC && CW && CE && !SC) return 7;
-	if (!NW && NC && !NE && CW && CE && !SW && SC && !SE) return 8;
+	if (CW && CE && !SW && SC && !SE) return 8;	
+	if (!CW && CE && !SW && SC && !SE) return 9;
+	if (CW && !CE && !SW && SC && !SE) return 10;
 
-	if (!NW && NC && !NE && CW && CE && !SC) return 9;
-	if (!NC && CW && CE && !SW && SC && !SE) return 10;
-	if (NC && !NE && !CW && CE && SC && !SE) return 11;
-	if (!NW && NC && CW && !CE && !SW && SC) return 12;
+	if (!CW && !CE && !SE && SC && !SW) return 11;
+	if (CW && !CE && !SE && SC && !SW) return 12;
+	if (!CW && CE && !SE && SC && !SW) return 13;
 
-	if (NC && !NE && !CW && CE && !SC) return 13;
-	if (!NC && !CW && CE && SC && !SE) return 14;
-	if (!NW && NC && CW && !CE && !SC) return 15;
-	if (!NC && CW && !CE && !SW && SC) return 16;
+	if (!CW && CE && SE && SC && SW) return 14;
+	if (CW && !CE && SE && SC && SW) return 15;
 
-	if (!NC && CW && CE && SW && SC && SE) return 17;
-	if (NW && NC && NE && CW && CE && !SC) return 18;
-	if (NW && NC && CW && !CE && SW && SC) return 19;
-	if (NC && NE && !CW && CE && SC && SE) return 20;
+	if (CW && !CE && SW && SC) return 16;
+	if (!CW && CE && SC && SE) return 17;
 
-	if (NC && NE && !CW && CE && !SC) return 21;
-	if (NW && NC && CW && !CE && !SC) return 22;
-	if (!NC && !CW && CE && SC && SE) return 23;
-	if (!NC && CW && !CE && SW && SC) return 24;
+	if (CW && CE && SW && SC && !SE) return 18;
+	if (CW && CE && !SW && SC && SE) return 19;
 
-	if (NW && NC && NE && CW && CE && !SW && SC && SE) return 25;
-	if (NW && NC && NE && CW && CE && SW && SC && !SE) return 26;
-	if (!NW && NC && NE && CW && CE && SW && SC && SE) return 27;
-	if (NW && NC && !NE && CW && CE && SW && SC && SE) return 28;
+	if (!CW && CE && SW && SC && !SE) return 20;
+	if (CW && !CE && !SW && SC && SE) return 21;
 
-	if (NW && NC && NE && CW && CE && !SW && SC && !SE) return 29;
-	if (!NW && NC && !NE && CW && CE && SW && SC && SE) return 30;
-	if (!NW && NC && NE && CW && CE && !SW && SC && SE) return 31;
-	if (NW && NC && !NE && CW && CE && SW && SC && !SE) return 32;
-
-	if (!NW && NC && NE && CW && CE && !SW && SC && !SE) return 33;
-	if (NW && NC && !NE && CW && CE && !SW && SC && !SE) return 34;
-	if (!NW && NC && !NE && CW && CE && !SW && SC && SE) return 35;
-	if (!NW && NC && !NE && CW && CE && SW && SC && !SE) return 36;
-
-	if (!NC && CW && CE && !SW && SC && SE) return 37;
-	if (!NC && CW && CE && SW && SC && !SE) return 38;
-	if (!NW && NC && NE && CW && CE && !SC) return 39;
-	if (NW && NC && !NE && CW && CE && !SC) return 40;
-
-	if (NC && NE && !CW && CE && SC && !SE) return 41;
-	if (NC && !NE && !CW && CE && SC && SE) return 42;
-	if (NW && NC && CW && !CE && !SW && SC) return 43;
-	if (!NW && NC && CW && !CE && SW && SC) return 44;
-
-	if (NW && NC && !NE && CW && CE && !SW && SC && SE) return 45;
-	if (!NW && NC && NE && CW && CE && SW && SC && !SE) return 46;
-
-	return 50;
+	return -1;
 
 }
 
@@ -183,16 +150,40 @@ function ChatRoomMapIsWall(X, Y) {
 function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
 	// Find all other walls around the current tile
-	let NW = ChatRoomMapIsWall(X - 1, Y - 1);
-	let NC = ChatRoomMapIsWall(X, Y - 1);
-	let NE = ChatRoomMapIsWall(X + 1, Y - 1);
 	let CW = ChatRoomMapIsWall(X - 1, Y);
 	let CE = ChatRoomMapIsWall(X + 1, Y);
 	let SW = ChatRoomMapIsWall(X - 1, Y + 1);
 	let SC = ChatRoomMapIsWall(X, Y + 1);
 	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
-	let Effect = ChatRoomMapFindWallEffectTile(NW, NC, NE, CW, CE, SW, SC, SE);
+
+	// Finds the proper effect and draws it
+	let Effect = ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE);
 	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
+
+}
+
+/**
+ * Apply a wall "3D" effect on the curent map
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {number} - The effect number
+ */
+function ChatRoomMapFloorWallEffect(X, Y) {
+
+	// No effect on the very last row
+	if (Y >= ChatRoomMapHeight - 1) return -1;
+
+	// Find the soutern wall positions
+	let SW = ChatRoomMapIsWall(X - 1, Y + 1);
+	let SC = ChatRoomMapIsWall(X, Y + 1);
+	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
+
+	// Find the "3D" wall effect and returns it
+	if (!SW && SC && !SE) return 50;
+	if (!SW && SC && SE) return 51;
+	if (SW && SC && !SE) return 52;
+	if (SW && SC && SE) return 53;
+	return -1;
 
 }
 
@@ -249,6 +240,9 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
 			let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
 
+			let FloorWallEffect = -1;
+			let DrawRect = false;
+
 			// Draws the tile and object image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
 				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
@@ -256,6 +250,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					if (Tile.ID == TileID) {
 						DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 						if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 						break;
 					}
 				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
@@ -267,7 +262,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 						}
 				if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
 					ChatRoomMapEditSelection.push(Pos);
-					DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
+					DrawRect = true;
 				}
 			}
 
@@ -278,6 +273,10 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95)))
 						ChatRoomMapFocusedCharacter = C;
 				}
+
+			// Draw the floor wall effect and rectancle if needed at the end
+			if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
+			if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
 		}
 
