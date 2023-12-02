@@ -716,8 +716,15 @@ function CraftingDecompressServerData(Data) {
 function CraftingLoadServer(Packet) {
 	Player.Crafting = [];
 	let Refresh = false;
+	/** @type {Record<number, unknown>} */
+	const CriticalErrors = {};
 	const data = CraftingDecompressServerData(Packet);
-	for (const item of data) {
+	for (const [i, item] of CommonEnumerate(data)) {
+		if (item == null) {
+			Player.Crafting.push(null);
+			continue;
+		}
+
 		// Make sure that the item is a valid craft
 		switch (CraftingValidate(item)) {
 			case CraftingStatusType.OK:
@@ -730,16 +737,22 @@ function CraftingLoadServer(Packet) {
 			case CraftingStatusType.CRITICAL_ERROR:
 				Player.Crafting.push(null);
 				Refresh = true;
+				CriticalErrors[i] = (item);
 				break;
 		}
 
 		// Too many items, skip the rest
 		if (Player.Crafting.length >= 80) break;
 	}
+
 	/**
 	 * One or more validation errors were encountered that were successfully resolved;
 	 * push the fixed items back to the server */
 	if (Refresh) {
+		const nCritical = Object.keys(CriticalErrors).length
+		if (nCritical > 0) {
+			console.warn(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
+		}
 		CraftingSaveServer();
 	}
 }
