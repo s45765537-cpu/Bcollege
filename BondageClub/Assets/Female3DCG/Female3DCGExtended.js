@@ -626,6 +626,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		FrilledShirt: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: "OpacityLabel",
+			},
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+			BaselineProperty: { Opacity: 1 },
+		}, // FrilledShirt
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -7822,10 +7835,10 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Opacity: 0 },
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: PropertyOpacityLoad,
 				Draw: PropertyOpacityDraw,
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 			DialogPrefix: {
 				Npc: (C, Option, PreviousOption) => `ItemDevicesLocker${Option.Name}`,
@@ -7867,10 +7880,10 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Opacity: 1 },
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: PropertyOpacityLoad,
 				Draw: InventoryItemDevicesVacBedDeluxeDrawHook,
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 		}, // VacBedDeluxe
 		WoodenBox: {
@@ -9328,10 +9341,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: (...args) => PropertyOpacityLoad(...args, "lightbulb"),
 				Draw: (...args) => PropertyOpacityDraw(...args, 0, -50, "Brightness"),
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 			BaselineProperty: { Opacity: 0 },
 		}, // Halo
@@ -13986,4 +13999,55 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // Smartphone
 	}, // ItemHandheld
+	EyeShadow: {
+		CatEye: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "Cloth", AssetName: "FrilledShirt" },
+			BaselineProperty: { Opacity: 0.8 },
+		}, // CatEye
+		CatEye2: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // CatEye2
+		LargeBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // LargeBlurred
+		LargeSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // LargeSolid
+		SmallBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SmallBlurred
+		SmallSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SmallSolid
+		SuperstarBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SuperstarBlurred
+		SuperstarSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SuperstarSolid
+		Tanuki: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // Tanuki
+		UndershadowedBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // UndershadowedBlurred
+		UndershadowedSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // UndershadowedSolid
+		Wings: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // Wings
+	}, //EyeShadow
 };
