@@ -16,6 +16,9 @@ var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
 var ChatRoomMapFocusedCharacter = null;
+// The base number of miliseconds required to reach a new tile
+var ChatRoomMapBaseMovementSpeed = 200;
+var ChatRoomMapMovement = null;
 
 var ChatRoomMapTileList = [
 
@@ -68,13 +71,13 @@ var ChatRoomMapObjectList = [
 	{ ID: 2030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 2040, Type: "WallDecoration", Style: "Whip" },
 
-	{ ID: 3000, Type: "WallPath", Style: "Blank" },
+/*	{ ID: 3000, Type: "WallPath", Style: "Blank" },
 	{ ID: 3010, Type: "WallPath", Style: "WoodDoor", Locked: false },
 	{ ID: 3011, Type: "WallPath", Style: "WoodDoor", Locked: true },
 	{ ID: 3020, Type: "WallPath", Style: "PaddedDoor", Locked: false },
 	{ ID: 3021, Type: "WallPath", Style: "PaddedDoor", Locked: true },
 	{ ID: 3030, Type: "WallPath", Style: "HiddenDoor", Locked: false },
-	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },
+	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },*/
 
 ];
 
@@ -403,12 +406,25 @@ function ChatRoomMapUpdatePlayerSync() {
 }
 
 /**
+ * Processes the character movement when the timer has expired
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapMovementProcess() {
+	if ((ChatRoomMapMovement == null) || (ChatRoomMapMovement.TimeEnd > CommonTime())) return;
+	Player.MapData.X = ChatRoomMapMovement.X;
+	Player.MapData.Y = ChatRoomMapMovement.Y;
+	ChatRoomMapUpdatePlayerFlag();
+	ChatRoomMapMovement = null;
+}
+
+/**
  * Draws the map, characters and buttons of the chat room map
  * @returns {void} - Nothing
  */
 function ChatRoomMapDraw() {
 
 	// Syncs the room map data with the server if needed
+	ChatRoomMapMovementProcess();
 	ChatRoomMapUpdateRoomSync();
 	ChatRoomMapUpdatePlayerSync();
 
@@ -416,10 +432,15 @@ function ChatRoomMapDraw() {
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
 
 	// Draw the movement buttons
-	DrawButton(860, 790, 60, 60, "", "White", "Icons/Small/North.png");
-	DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/West.png");
-	DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/East.png");
-	DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
+	if (ChatRoomMapMovement == null) {
+		DrawButton(860, 790, 60, 60, "", "White", "Icons/Small/North.png");
+		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/West.png");
+		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/East.png");
+		DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
+	} else {
+		let Progress = (CommonTime() - ChatRoomMapMovement.TimeStart) / (ChatRoomMapMovement.TimeEnd - ChatRoomMapMovement.TimeStart) * 100;
+		DrawProgressBar(790, 930, 200, 60, Progress);
+	}
 
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapEditMode == "") {
@@ -489,26 +510,47 @@ function ChatRoomMapDraw() {
 }
 
 /**
- * Check if a tile on the map can be entered by a player
+ * Check if a tile on the map can be entered by a player, and return the number of milliseconds required to reach it
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
- * @returns {boolean} - TRUE if the player can enter that tile
+ * @returns {number} - The number of milliseconds
  */
 function ChatRoomMapCanEnterTile(X, Y) {
 
 	// Out of map bound or walls cannot enter
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
-	if (ChatRoomMapIsWall(X, Y)) return false;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return 0;
+	if (ChatRoomMapIsWall(X, Y)) return 0;
 
 	// Floor obstacles from 1000 to 2000 cannot be crossed
-	let ID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
-	if ((ID >= 1000) && (ID < 2000)) return false;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	if ((ObjectID >= 1000) && (ObjectID < 2000)) return 0;
+
+	// Enclosed or suspended players cannot change tiles
+	if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
 
 	// Cannot enter a tile occupied by another player
 	for (let C of ChatRoomCharacter)
 		if (!C.IsPlayer() && (C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
-			return false;
-	return true;
+			return 0;
+
+	// Always full speed in water if wearing mermaid tail
+	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapBaseMovementSpeed;
+	
+	// Base movement speed first, water tiles are slower
+	let Speed = ChatRoomMapBaseMovementSpeed;
+	if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
+
+	// The hogtied/bound/slow/plugged modificator
+	if ((Player.Pose != null) && (Player.Pose.indexOf("Hogtied") >= 0)) Speed = Speed * 12;
+	else if (!Player.CanWalk()) Speed = Speed * 6;
+	else if (Player.IsKneeling()) Speed = Speed * 4;
+	else if (Player.IsSlow()) Speed = Speed * 2.5;
+	else if (!Player.CanKneel()) Speed = Speed * 1.5;
+	else if (!Player.IsPlugged) Speed = Speed * 1.2;
+
+	// Returns the final calculated speed
+	return Speed;
 
 }
 
@@ -522,12 +564,16 @@ function ChatRoomMapMove(D) {
 	// Gets the new position
 	let X = Player.MapData.X + ((D == "W") ? -1 : 0) + ((D == "E") ? 1 : 0);
 	let Y = Player.MapData.Y + ((D == "N") ? -1 : 0) + ((D == "S") ? 1 : 0);
+	let Time = ChatRoomMapCanEnterTile(X, Y);
 
 	// If we can enter the tile
-	if (ChatRoomMapCanEnterTile(X, Y)) {
-		Player.MapData.X = X;
-		Player.MapData.Y = Y;
-		ChatRoomMapUpdatePlayerFlag();
+	if (Time > 0) {
+		ChatRoomMapMovement = {
+			X: X,
+			Y: Y,
+			TimeStart: CommonTime(),
+			TimeEnd: CommonTime() + Time
+		};
 	}
 
 }
@@ -561,10 +607,12 @@ function ChatRoomMapMouseDown(Event) {
 
 	// The walk buttons
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (MouseIn(860, 790, 60, 60)) return ChatRoomMapMove("N");
-	if (MouseIn(790, 860, 60, 60)) return ChatRoomMapMove("W");
-	if (MouseIn(930, 860, 60, 60)) return ChatRoomMapMove("E");
-	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("S");
+	if (ChatRoomMapMovement == null) {
+		if (MouseIn(860, 790, 60, 60)) return ChatRoomMapMove("N");
+		if (MouseIn(790, 860, 60, 60)) return ChatRoomMapMove("W");
+		if (MouseIn(930, 860, 60, 60)) return ChatRoomMapMove("E");
+		if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("S");
+	}
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapEditMode == "") {
