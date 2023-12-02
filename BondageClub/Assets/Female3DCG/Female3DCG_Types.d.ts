@@ -766,7 +766,7 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	ShowForAttribute?: AssetAttribute[];
 }
 
-type ExtendedArchetype = "modular" | "typed" | "vibrating" | "variableheight" | "text";
+type ExtendedArchetype = "modular" | "typed" | "vibrating" | "variableheight" | "text" | "noarch";
 
 /**
  * An object containing extended item configurations keyed by group name.
@@ -780,10 +780,10 @@ type ExtendedItemMainConfig = Partial<Record<AssetGroupName, ExtendedItemGroupCo
 type ExtendedItemGroupConfig = Record<string, AssetArchetypeConfig>;
 
 /** A union of all (non-abstract) extended item configs */
-type AssetArchetypeConfig = TypedItemConfig | ModularItemConfig | VibratingItemConfig | VariableHeightConfig | TextItemConfig;
+type AssetArchetypeConfig = TypedItemConfig | ModularItemConfig | VibratingItemConfig | VariableHeightConfig | TextItemConfig | NoArchItemConfig;
 
 /** A union of all (non-abstract) extended item datas */
-type AssetArchetypeData = TypedItemData | ModularItemData | VibratingItemData | VariableHeightData | TextItemData;
+type AssetArchetypeData = TypedItemData | ModularItemData | VibratingItemData | VariableHeightData | TextItemData | NoArchItemData;
 
 interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	/** The archetype of the extended item config */
@@ -877,7 +877,15 @@ interface ExtendedItemOption extends Omit<ExtendedItemOptionConfig, "ArchetypeCo
 	 * If it's not, *e.g.* for a custom script hook button that does not alter the item's state,
 	 * then its value must be set `"ExtendedItemOption"`.
 	 */
-	OptionType: "ExtendedItemOption" | "TypedItemOption" | "VariableHeightOption" | "ModularItemOption" | "VibratingItemOption" | "TextItemOption";
+	OptionType: (
+		"ExtendedItemOption"
+		| "TypedItemOption"
+		| "VariableHeightOption"
+		| "ModularItemOption"
+		| "VibratingItemOption"
+		| "TextItemOption"
+		| "NoArchItemOption"
+	);
 	/** The extended item data associated with this option */
 	ParentData: ExtendedItemData<any>;
 	/** The extended item data of the subscreen associated with this option (if any) */
@@ -890,6 +898,7 @@ type ExtendedItemOptionUnion = (
 	| VibratingItemOption
 	| TextItemOption
 	| VariableHeightOption
+	| NoArchItemOption
 );
 
 /**
@@ -1242,7 +1251,27 @@ interface TextItemOption extends ExtendedItemOption {
 	ArchetypeData?: null;
 }
 
-//#endregion
+// #endregion
+
+// #region noarch
+
+interface NoArchItemConfig extends ExtendedItemConfig<NoArchItemOption> {
+	Archetype: "noarch";
+	DrawImages?: false;
+	ChatSetting?: "default";
+	ScriptHooks?: ExtendedItemCapsScriptHooksStruct<NoArchItemData, NoArchItemOption>;
+	DrawData?: NoArchConfigDrawData;
+	BaselineProperty?: ItemProperties;
+}
+
+/** Extended item option subtype for text-supporting items */
+interface NoArchItemOption extends ExtendedItemOption {
+	OptionType: "NoArchItemOption";
+	ParentData: NoArchItemData;
+	ArchetypeData?: null;
+}
+
+// #endregion
 
 // #region Testing
 

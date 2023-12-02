@@ -1699,6 +1699,7 @@ declare namespace ElementMetaData {
 	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: ThumbIcon }
+	type NoArch = ElementMetaData;
 }
 
 /** @see {@link ElementData} */
@@ -1728,6 +1729,11 @@ interface ExtendedItemConfigDrawData<MetaData extends ElementMetaData> {
 /** @see {@link ExtendedItemDrawData} */
 interface VariableHeightConfigDrawData extends ExtendedItemConfigDrawData<{}> {
 	elementData: { position: RectTuple, icon: ThumbIcon }[],
+}
+
+/** @see {@link ExtendedItemDrawData} */
+interface NoArchConfigDrawData extends ExtendedItemConfigDrawData<ElementMetaData> {
+	elementData?: ElementData<ElementMetaData>[],
 }
 
 /**
@@ -2148,6 +2154,7 @@ interface ExtendedDataLookupStruct {
 	[ExtendedArchetype.VIBRATING]: VibratingItemData;
 	[ExtendedArchetype.VARIABLEHEIGHT]: VariableHeightData;
 	[ExtendedArchetype.TEXT]: TextItemData;
+	[ExtendedArchetype.NOARCH]: NoArchItemData;
 }
 
 interface AssetOverrideHeight {
@@ -2878,6 +2885,26 @@ type TextItemEventListener = (
 	name: TextItemNames,
 	text: string,
 ) => void;
+
+// #endregion
+
+// #region noarch
+
+interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
+	archetype: "noarch";
+	scriptHooks: ExtendedItemScriptHookStruct<NoArchItemData, NoArchItemOption>;
+	chatSetting: "default";
+	baselineProperty: null | PropertiesNoArray.Item;
+	drawData: ExtendedItemDrawData<ElementMetaData.NoArch>;
+	dialogPrefix: {
+		/** The dialog key for the item's load text (usually a prompt to select the type) */
+		header: string;
+		/** The prefix used for dialog keys representing the display names of the item's types */
+		option?: string;
+		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
+		chat?: string | ExtendedItemChatCallback<NoArchItemOption>;
+	}
+}
 
 // #endregion
 

@@ -17,6 +17,7 @@ const NEEDED_FILES = [
 	"Scripts/VibratorMode.js",
 	"Scripts/Property.js",
 	"Scripts/TextItem.js",
+	"Scripts/NoArch.js",
 	"Screens/Inventory/Futuristic/Futuristic.js",
 	"Screens/Inventory/ItemTorso/FuturisticHarness/FuturisticHarness.js",
 	"Screens/Inventory/ItemNeckAccessories/CollarNameTag/CollarNameTag.js",

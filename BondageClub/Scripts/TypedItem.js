@@ -633,26 +633,14 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
  *     in the array should be the default option.
  * @returns {void} Nothing
  */
-function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, drawData, name }) {
-	// If an option's subscreen is open, it overrides the standard screen
-	if (ExtendedItemSubscreen && parentOption == null) {
-		CommonCallFunctionByNameWarn(`${functionPrefix}${ExtendedItemSubscreen}Draw`);
+function TypedItemDraw(data) {
+	const { options, name, drawData, dialogPrefix } = data;
+	NoArch.Draw(data);
+	if (ExtendedItemSubscreen && data.parentOption == null) {
 		return;
 	}
 
-	const Asset = DialogFocusItem.Asset;
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-
-	// If we have to paginate, draw the back/next button
-	if (drawData.paginate) {
-		const currPage = Math.ceil(ExtendedItemGetOffset() / drawData.itemsPerPage) + 1;
-		DrawBackNextButton(1675, 240, 300, 90, `${DialogFindPlayer("Page")} ${currPage} / ${drawData.pageCount}`, "White", "", () => "", () => "");
-	}
-
-	// Draw the header and item
-	ExtendedItemDrawHeader();
-	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
-
 	const CurrentOption = options[DialogFocusItem.Property.TypeRecord[name]] || options[0];
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
@@ -663,13 +651,15 @@ function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, dr
 	});
 
 	// Permission mode toggle
-	DrawButton(1775, 25, 90, 90, "", "White",
+	DrawButton(
+		1775, 25, 90, 90, "", "White",
 		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"));
+		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
+	);
 
 	// If the assets allows tightening / loosening
 	// TODO: Add crafting support
-	if (Asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && CurrentScreen !== "Crafting") {
+	if (data.asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && CurrentScreen !== "Crafting") {
 		let Difficulty = DialogFocusItem.Difficulty;
 		if (Difficulty == null) Difficulty = 0;
 		DrawText(DialogFindPlayer("Tightness") + " " + Difficulty.toString(), 1200, 140, "White", "Silver");
@@ -683,25 +673,10 @@ function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, dr
  * @returns {void} Nothing
  */
 function TypedItemClick(data) {
-	const C = CharacterGetCurrent();
-
-	// If an option's subscreen is open, pass the click into it
-	if (ExtendedItemSubscreen && data.parentOption == null) {
-		CommonCallFunctionByNameWarn(`${data.functionPrefix}${ExtendedItemSubscreen}Click`);
-		return;
-	}
-
-	const ItemOptionsOffset = ExtendedItemGetOffset();
-
-	// Exit button
-	if (MouseIn(1885, 25, 90, 90)) {
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") ChatRoomCharacterUpdate(Player);
-		if (ExtendedItemSubscreen) {
-			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen}Exit`);
-			ExtendedItemSubscreen = null;
-		} else {
-			DialogLeaveFocusItem();
-		}
+	if (
+		NoArch.Click(data)
+		|| (ExtendedItemSubscreen && data.parentOption == null)
+	) {
 		return;
 	}
 
@@ -712,16 +687,6 @@ function TypedItemClick(data) {
 			ExtendedItemRequirementCheckMessageMemo.clearCache();
 		}
 		ExtendedItemPermissionMode = !ExtendedItemPermissionMode;
-	}
-
-	// Pagination buttons
-	if (MouseIn(1675, 240, 150, 90) && data.drawData.paginate) {
-		if (ItemOptionsOffset - data.drawData.itemsPerPage < 0) ExtendedItemSetOffset(data.drawData.itemsPerPage * (data.drawData.pageCount - 1));
-		else ExtendedItemSetOffset(ItemOptionsOffset - data.drawData.itemsPerPage);
-	}
-	else if (MouseIn(1825, 240, 150, 90) && data.drawData.paginate) {
-		if (ItemOptionsOffset + data.drawData.itemsPerPage >= data.options.length) ExtendedItemSetOffset(0);
-		else ExtendedItemSetOffset(ItemOptionsOffset + data.drawData.itemsPerPage);
 	}
 
 	// If the assets allows tightening / loosening
@@ -737,6 +702,8 @@ function TypedItemClick(data) {
 	}
 
 	// Options
+	const C = CharacterGetCurrent();
+	const ItemOptionsOffset = ExtendedItemGetOffset();
 	const positions = data.drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + data.drawData.itemsPerPage);
 	positions.forEach(({ position, hidden }, i) => {
 		i += ItemOptionsOffset;

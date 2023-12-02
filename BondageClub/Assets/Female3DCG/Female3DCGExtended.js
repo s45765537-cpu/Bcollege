@@ -13,18 +13,16 @@
 
 /**
  * An enum encapsulating the available extended item archetypes
- * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {{MODULAR: "modular", TYPED: "typed", VIBRATING: "vibrating", VARIABLEHEIGHT: "variableheight", TEXT: "text"}}
- * @see {@link ModularItemConfig}
- * @see {@link TypedItemConfig}
+ * @satisfies {Record<Uppercase<ExtendedArchetype>, ExtendedArchetype>}
  */
-const ExtendedArchetype = {
+const ExtendedArchetype = /** @type {const} */ ({
 	MODULAR: "modular",
 	TYPED: "typed",
 	VIBRATING: "vibrating",
 	VARIABLEHEIGHT: "variableheight",
 	TEXT: "text",
-};
+	NOARCH: "noarch",
+});
 
 /**
  * An object containing all extended item configurations.
@@ -1311,7 +1309,7 @@ var AssetFemale3DCGExtended = {
 						MinHeight: -575,
 						DrawData: {
 							elementData: [
-								{ position: [1140, 465, 100, 675], icon: "player" },
+								{ position: [1140, 650, 100, 500], icon: "player" },
 							],
 						},
 						DialogPrefix: {
@@ -2825,7 +2823,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -250,
 						DrawData: {
-							elementData: [{ position: [1140, 375, 100, 400], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2850,7 +2848,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -575,
 						DrawData: {
-							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2875,7 +2873,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2900,7 +2898,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: -50,
 						MinHeight: -600,
 						DrawData: {
-							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2925,7 +2923,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",

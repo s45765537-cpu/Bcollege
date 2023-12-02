@@ -90,6 +90,7 @@ var TestingTypedItemDataLookup = TypedItemDataLookup;
 var TestingVibratingItemDataLookup = VibratorModeDataLookup;
 var TestingVariableHeightItemDataLookup = VariableHeightDataLookup;
 var TestingTextItemDataLookup = TextItemDataLookup;
+var TestingNoArchItemDataLookup = NoArchItemDataLookup;
 
 /** A record mapping pose categories to pose names */
 var TestingPoseMap = /** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */({});

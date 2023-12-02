@@ -686,9 +686,9 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 
 /**
  * Validate that all types referenced in {@link AssetLayer.AllowTypes} actually exist.
- * @param {Record<string, AssetArchetypeData>} dataRecord
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
  */
-function testAllowTypes(dataRecord) {
+function testAllowTypes(dataSuperRecord) {
 	/** @type {(data: AssetArchetypeData, typeSet: Set<PartialType>) => Set<PartialType>} */
 	function _dfs(data, typeSet) {
 		/** @type {AssetArchetypeData[]} */
@@ -721,24 +721,26 @@ function testAllowTypes(dataRecord) {
 		return typeSet;
 	}
 
-	for (const data of Object.values(dataRecord)) {
-		if (data.parentOption != null) {
-			continue;
-		}
-
-		const asset = data.asset;
-		const allowedTypes = _dfs(data, new Set());
-		for (const layer of asset.Layer) {
-			if (!layer.AllowTypes) {
+	for (const dataRecord of Object.values(dataSuperRecord)) {
+		for (const data of Object.values(dataRecord)) {
+			if (data.parentOption != null || data.archetype === "text") {
 				continue;
 			}
 
-			const invalid = keys(layer.AllowTypes.TypeToID).filter(k => !allowedTypes.has(k));
-			if (invalid.length > 0) {
-				error(
-					`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid types `
-					+ `in the AllowTypes array of layer ${layer.Name}: ${invalid}`
-				);
+			const asset = data.asset;
+			const allowedTypes = _dfs(data, new Set());
+			for (const layer of asset.Layer) {
+				if (!layer.AllowTypes) {
+					continue;
+				}
+
+				const invalid = keys(layer.AllowTypes.TypeToID).filter(k => !allowedTypes.has(k));
+				if (invalid.length > 0) {
+					error(
+						`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid types `
+						+ `in the AllowTypes array of layer ${layer.Name}: ${invalid}`
+					);
+				}
 			}
 		}
 	}
@@ -1230,9 +1232,11 @@ function sanitizeVMOutput(input) {
 	/** @type {Record<string, VibratingItemData>} */
 	const VibratingItemDataLookup = context.TestingVibratingItemDataLookup;
 	/** @type {Record<string, TextItemData>} */
-	const TextItemDataLookup = context.TestingVariableHeightItemDataLookup;
+	const TextItemDataLookup = context.TestingTextItemDataLookup;
 	/** @type {Record<string, VariableHeightData>} */
-	const VariableHeightItemDataLookup = context.TestingTextItemDataLookup;
+	const VariableHeightItemDataLookup = context.TestingVariableHeightItemDataLookup;
+	/** @type {Record<string, NoArchItemData>} */
+	const NoArchItemDataLookup = context.TestingNoArchItemDataLookup;
 	/** @type {Asset[]} */
 	const assetList = context.Asset;
 	/** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */
@@ -1240,6 +1244,15 @@ function sanitizeVMOutput(input) {
 	/** @type {Pose[]} */
 	const pose = context.PoseFemale3DCG;
 	const poseRecord = fromEntries(pose.map(p => [p.Name, p]));
+
+	const extendedItemSuperRecord = {
+		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
+		typed: TypedItemDataLookup,
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+		noarch: NoArchItemDataLookup,
+	};
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -1371,42 +1384,14 @@ function sanitizeVMOutput(input) {
 	testModuleOptionLength(AssetFemale3DCGExtended);
 	testDefaultColor(invalidColorDefaults);
 	testModularItemPropertyDisjoint(ModularItemDataLookup);
-	testExtendedItemButtonImage({
-		modular: ModularItemDataLookup,
-		text: TextItemDataLookup,
-		typed: TypedItemDataLookup,
-		variableheight: VariableHeightItemDataLookup,
-		vibrating: VibratingItemDataLookup,
-	});
+	testExtendedItemButtonImage(extendedItemSuperRecord);
 	testAssetLayerNames(assetList);
-	testAssetAndExtendedPropertyIsDisjoint({
-		modular: ModularItemDataLookup,
-		text: TextItemDataLookup,
-		typed: TypedItemDataLookup,
-		variableheight: VariableHeightItemDataLookup,
-		vibrating: VibratingItemDataLookup,
-	});
-	testAllowTypes({
-		...TypedItemDataLookup,
-		...ModularItemDataLookup,
-		...VibratingItemDataLookup,
-	});
+	testAssetAndExtendedPropertyIsDisjoint(extendedItemSuperRecord);
+	testAllowTypes(extendedItemSuperRecord);
 	testCopyLayerColor(assetList);
-	testExtendedPrerequisite({
-		modular: ModularItemDataLookup,
-		text: TextItemDataLookup,
-		typed: TypedItemDataLookup,
-		variableheight: VariableHeightItemDataLookup,
-		vibrating: VibratingItemDataLookup,
-	});
+	testExtendedPrerequisite(extendedItemSuperRecord);
 	testActivePose(assetList, poseMap);
 	testHasPreview(assetList);
-	testAssetHasPNG(assetList, {
-		modular: ModularItemDataLookup,
-		text: TextItemDataLookup,
-		typed: TypedItemDataLookup,
-		variableheight: VariableHeightItemDataLookup,
-		vibrating: VibratingItemDataLookup,
-	}, poseRecord);
+	testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
 	testSetPose(assetList, pose);
 })();

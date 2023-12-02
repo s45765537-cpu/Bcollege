@@ -238,7 +238,7 @@ function ExtendedItemLoad({ functionPrefix, dialogPrefix, parentOption }) {
 	}
 
 	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) ExtendedItemSetOffset(0);
-	DialogExtendedMessage = DialogFindPlayer(dialogPrefix.header);
+	DialogExtendedMessage = dialogPrefix.header ? DialogFindPlayer(dialogPrefix.header) : "";
 }
 
 /**
@@ -876,7 +876,7 @@ function ExtendedItemGetData(asset, Archetype, Type=null) {
 		return null;
 	}
 
-	/** @type {TypedItemData | ModularItemData | VibratingItemData | VariableHeightData | TextItemData} */
+	/** @type {AssetArchetypeData} */
 	let Data;
 	const Key = `${asset.Group.Name}${asset.Name}${Type == null ? "" : Type}`;
 	switch (Archetype) {
@@ -894,6 +894,9 @@ function ExtendedItemGetData(asset, Archetype, Type=null) {
 			break;
 		case ExtendedArchetype.TEXT:
 			Data = TextItemDataLookup[Key];
+			break;
+		case ExtendedArchetype.NOARCH:
+			Data = NoArchItemDataLookup[Key];
 			break;
 		default:
 			console.warn(`Unsupported archetype: "${Archetype}"`);
@@ -962,12 +965,10 @@ function ExtendedItemGatherSubscreenProperty(item, option) {
 			return TypedItemFindPreviousOption(data, item).Property;
 		case ExtendedArchetype.VARIABLEHEIGHT:
 			return { OverrideHeight: item.Property.OverrideHeight };
-		case ExtendedArchetype.TEXT: {
-			/** @type {TextItemRecord<string>} */
-			const ret = {};
-			data.textNames.forEach(i => ret[i] = item.Property[i]);
-			return ret;
-		}
+		case ExtendedArchetype.NOARCH:
+			return Object.fromEntries(CommonKeys(data.baselineProperty ?? {}).map(k => [k, item.Property[k]]));
+		case ExtendedArchetype.TEXT:
+			return Object.fromEntries(data.textNames.map(k => [k, item.Property[k]]));
 		default:
 			return {};
 	}
@@ -1224,6 +1225,15 @@ const ExtendedItemGatherOptions = (function () {
 		const newOptions = [];
 		const archetype = data.archetype;
 		switch (archetype) {
+			case ExtendedArchetype.NOARCH: {
+				newOptions.push({
+					Name: "NewOption",
+					OptionType: "NoArchItemOption",
+					ParentData: data,
+					Property: Object.fromEntries(CommonKeys(data.baselineProperty ?? {}).map(k => [k, item.Property[k]]))
+				});
+				break;
+			}
 			case ExtendedArchetype.TEXT:
 				newOptions.push(TextItemConstructOptions(data, item).newOption);
 				break;
@@ -1291,72 +1301,84 @@ function ExtendedItemParseOptions(option, asset) {
 }
 
 /**
- *
- * @param {Character} C
- * @param {AssetGroupName | Item} itemOrGroupName
- * @param {TypeRecord} typeRecord
+ * Set an extended items properties based on the passed type record
+ * @param {Character} C - The character in question
+ * @param {AssetGroupName | Item} itemOrGroupName - The item or the item's group
+ * @param {null | TypeRecord} typeRecord - The archetypical items type record. If `null` only apply `options.properties`
  * @param {Object} options
- * @param {boolean} [options.push]
- * @param {Character} [options.C_Source]
- * @param {boolean} [options.refresh]
- * @param {ItemProperties} [options.properties]
+ * @param {boolean} [options.push] - Whether to push the item changes to the server
+ * @param {Character} [options.C_Source] - The character updating the item (if any)
+ * @param {boolean} [options.refresh] - Whether to refresh the character after setting the item properties
+ * @param {ItemProperties} [options.properties] - Extra item properties to be set on the item, the allowed list of properties being defined by {@link ExtendedItemData.baselineProperty}
  * @returns {void}
  */
-function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=null) {
+function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, options=null) {
 	const { push, C_Source, refresh, properties } = options || {};
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
-	if (!item || !typeRecord) return;
-
-	const assetName = item.Asset.Name;
-	const groupName = item.Asset.Group.Name;
-	const previousOptions = ExtendedItemGatherOptions(item);
-	const newOptions = ExtendedItemGatherOptions({
-		...item,
-		Property: {
-			...(item.Property || {}),
-			TypeRecord: {
-				...((item.Property && item.Property.TypeRecord) || {}),
-				...typeRecord,
-			},
-		},
-	});
+	if (item?.Asset?.Archetype == null) return;
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
 	/** @type {Set<keyof ItemProperties>} */
 	const whiteListKeys = new Set(["OverridePriority"]);
-	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
-	for (const newOption of newOptions) {
-		/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
-		let previousOption;
-		switch (newOption.OptionType) {
-			case "ModularItemOption": {
-				const module = newOption.ParentData.modules.find(m => m.Name === newOption.ModuleName);
-				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
-				break;
+	const previousOptions = ExtendedItemGatherOptions(item);
+
+	if (typeRecord != null) {
+		const assetName = item.Asset.Name;
+		const groupName = item.Asset.Group.Name;
+		const newOptions = ExtendedItemGatherOptions({
+			...item,
+			Property: {
+				...(item.Property || {}),
+				TypeRecord: {
+					...((item.Property && item.Property.TypeRecord) || {}),
+					...typeRecord,
+				},
+			},
+		});
+
+		const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+		for (const newOption of newOptions) {
+			/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
+			let previousOption;
+			switch (newOption.OptionType) {
+				case "ModularItemOption": {
+					const module = newOption.ParentData.modules.find(m => m.Name === newOption.ModuleName);
+					previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
+					break;
+				}
+				case "TypedItemOption":
+				case "VibratingItemOption": {
+					const data = newOption.ParentData;
+					previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === data.name) || data.options[0];
+					break;
+				}
+				default:
+					continue;
+
 			}
-			case "TypedItemOption":
-			case "VibratingItemOption": {
-				const data = newOption.ParentData;
-				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === data.name) || data.options[0];
-				break;
+
+			const baseline = newOption.ParentData.baselineProperty;
+			if (baseline != null) {
+				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
 			}
-			default:
-				continue;
 
+			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
+			if (requirementMessage && newOption.Name !== previousOption.Name) {
+				console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+			} else {
+				ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
+			}
 		}
-
-		const baseline = newOption.ParentData.baselineProperty;
-		if (baseline != null) {
-			propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
-		}
-
-		const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
-		if (requirementMessage && newOption.Name !== previousOption.Name) {
-			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
-		} else {
-			ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
-		}
+	} else if (properties != null) {
+		previousOptions.forEach(option => {
+			const baseline = option.ParentData.baselineProperty;
+			if (baseline != null) {
+				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+			}
+		});
+	} else {
+		return;
 	}
 
 	if (properties != null) {

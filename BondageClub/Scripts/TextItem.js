@@ -22,7 +22,7 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 		/** @type {ExtendedItemCallbackStruct<TextItemOption>} */
 		const defaultCallbacks = {
 			load: () => TextItem.Load(data),
-			click: () => TextItem.Click(data),
+			click: () => NoArch.Click(data),
 			draw: () => TextItem.Draw(data),
 			publishAction: (...args) => TextItem.PublishAction(data, ...args),
 			init: (...args) => TextItem.Init(data, ...args),
@@ -235,29 +235,6 @@ const TextItem = {
 			const ID = PropertyGetID(name, item);
 			ElementPosition(ID, ...position);
 		});
-	},
-	/**
-	 * Click handler for extended item screens with text input fields.
-	 * @param {TextItemData} data - The items extended item data
-	 */
-	Click: function ({ functionPrefix, drawData }) {
-		if (MouseIn(1885, 25, 90, 90)) {
-			if (ExtendedItemSubscreen) {
-				CommonCallFunctionByName(`${functionPrefix}Exit`);
-				ExtendedItemSubscreen = null;
-			} else {
-				DialogLeaveFocusItem();
-			}
-		} else if (drawData.paginate) {
-			const currentPage = Math.floor(ExtendedItemGetOffset() / drawData.itemsPerPage);
-			if (MouseIn(1665, 240, 90, 90)) {
-				const newPage = (currentPage + drawData.pageCount - 1) % drawData.pageCount;
-				ExtendedItemSetOffset(drawData.itemsPerPage * newPage);
-			} else if (MouseIn(1775, 240, 90, 90)) {
-				const newPage = (currentPage + drawData.pageCount + 1) % drawData.pageCount;
-				ExtendedItemSetOffset(drawData.itemsPerPage * newPage);
-			}
-		}
 	},
 	/**
 	 * Exit function for items with text input fields.

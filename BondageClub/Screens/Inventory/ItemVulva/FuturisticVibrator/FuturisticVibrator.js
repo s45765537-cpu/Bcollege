@@ -36,6 +36,7 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 	if (!FuturisticAccessDraw()) {
 		return;
 	}
+	NoArch.Draw(data);
 
 	// Draw the preview & current mode
 	ExtendedItemDrawHeader();
@@ -56,10 +57,18 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || "")));
 }
 
+/**
+ * @param {ItemVulvaFuturisticVibratorAccessMode} current
+ * @returns {ItemVulvaFuturisticVibratorAccessMode}
+ */
 function InventoryItemVulvaFuturisticVibratorPreviousAccessMode(current) {
 	return ItemVulvaFuturisticVibratorAccessModes[(ItemVulvaFuturisticVibratorAccessModes.indexOf(current) + ItemVulvaFuturisticVibratorAccessModes.length - 1) % ItemVulvaFuturisticVibratorAccessModes.length];
 }
 
+/**
+ * @param {ItemVulvaFuturisticVibratorAccessMode} current
+ * @returns {ItemVulvaFuturisticVibratorAccessMode}
+ */
 function InventoryItemVulvaFuturisticVibratorNextAccessMode(current) {
 	return ItemVulvaFuturisticVibratorAccessModes[(ItemVulvaFuturisticVibratorAccessModes.indexOf(current) + 1) % ItemVulvaFuturisticVibratorAccessModes.length];
 }

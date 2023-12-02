@@ -134,8 +134,8 @@ function VariableHeightCreateData(asset,
  * @param {VariableHeightData} data - The variable height data for the asset
  */
 function VariableHeightLoad(data) {
-	const { maxHeight, minHeight, getHeight, setHeight, dialogPrefix, drawData } = data;
-	DialogExtendedMessage = DialogFindPlayer(dialogPrefix.header);
+	const { maxHeight, minHeight, getHeight, setHeight, drawData } = data;
+	ExtendedItemLoad(data);
 	DialogFocusItem.Property.Revert = true;
 
 	// Record the previously set properties, reverting back to them on exiting unless otherwise instructed
@@ -185,8 +185,7 @@ function VariableHeightLoad(data) {
  * @returns {void} - Nothing
  */
 function VariableHeightDraw(data) {
-	ExtendedItemDrawHeader();
-	DrawText(DialogExtendedMessage, 1500, 375, "white", "gray");
+	NoArch.Draw(data);
 
 	ElementPosition(VariableHeightSliderId, ...data.drawData.elementData[0].position);
 
@@ -196,7 +195,7 @@ function VariableHeightDraw(data) {
 	const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
 	ExtendedItemDrawButton(
 		newOption, previousOption, data.dialogPrefix.option,
-		{ position: [1350, 700, 225, 55] }, DialogFocusItem, false,
+		{ position: [1387, 700, 225, 55] }, DialogFocusItem, false,
 	);
 }
 
@@ -205,18 +204,10 @@ function VariableHeightDraw(data) {
  * @returns {void} - Nothing
  */
 function VariableHeightClick(data) {
-	// Exit the screen
-	if (MouseIn(1885, 25, 90, 90)) {
-		if (ExtendedItemSubscreen) {
-			CommonCallFunctionByName(`${data.functionPrefix}Exit`);
-			ExtendedItemSubscreen = null;
-		} else {
-			DialogLeaveFocusItem();
-		}
-	}
+	NoArch.Click(data);
 
 	// Confirm button
-	if (MouseIn(1350, 700, 300, 64)) {
+	if (MouseIn(1387, 700, 225, 55)) {
 		const C = CharacterGetCurrent();
 		const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
 		const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
