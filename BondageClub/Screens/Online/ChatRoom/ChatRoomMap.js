@@ -433,13 +433,18 @@ function ChatRoomMapDraw() {
 
 	// Draw the movement buttons
 	if (ChatRoomMapMovement == null) {
-		DrawButton(860, 790, 60, 60, "", "White", "Icons/Small/North.png");
-		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/West.png");
-		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/East.png");
+		DrawButton(860, 860, 60, 60, "", "White", "Icons/Small/North.png");
+		DrawButton(790, 930, 60, 60, "", "White", "Icons/Small/West.png");
 		DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
+		DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/East.png");
 	} else {
+		DrawButton(860, 860, 60, 60, "", (ChatRoomMapMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/Small/North.png");
+		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/Cancel.png");
+		DrawButton(790, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/Small/West.png");
+		DrawButton(860, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/Small/South.png");
+		DrawButton(930, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/Small/East.png");
 		let Progress = (CommonTime() - ChatRoomMapMovement.TimeStart) / (ChatRoomMapMovement.TimeEnd - ChatRoomMapMovement.TimeStart) * 100;
-		DrawProgressBar(790, 930, 200, 60, Progress);
+		DrawProgressBar(790, 992, 200, 8, Progress);
 	}
 
 	// Out of edit mode, we draws the basic buttons
@@ -547,7 +552,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	else if (Player.IsKneeling()) Speed = Speed * 4;
 	else if (Player.IsSlow()) Speed = Speed * 2.5;
 	else if (!Player.CanKneel()) Speed = Speed * 1.5;
-	else if (!Player.IsPlugged) Speed = Speed * 1.2;
+	else if (Player.IsPlugged()) Speed = Speed * 1.2;
 
 	// Returns the final calculated speed
 	return Speed;
@@ -556,14 +561,17 @@ function ChatRoomMapCanEnterTile(X, Y) {
 
 /**
  * Moves the player
- * @param {string} D - The X position on the screen
+ * @param {string} D - The direction being travelled (North, South, East, West)
  * @returns {void} - Nothing
  */
 function ChatRoomMapMove(D) {
 
+	// Nothing to do if that current move is in progress
+	if ((ChatRoomMapMovement != null) && (ChatRoomMapMovement.Direction === D)) return;
+
 	// Gets the new position
-	let X = Player.MapData.X + ((D == "W") ? -1 : 0) + ((D == "E") ? 1 : 0);
-	let Y = Player.MapData.Y + ((D == "N") ? -1 : 0) + ((D == "S") ? 1 : 0);
+	let X = Player.MapData.X + ((D == "West") ? -1 : 0) + ((D == "East") ? 1 : 0);
+	let Y = Player.MapData.Y + ((D == "North") ? -1 : 0) + ((D == "South") ? 1 : 0);
 	let Time = ChatRoomMapCanEnterTile(X, Y);
 
 	// If we can enter the tile
@@ -571,6 +579,7 @@ function ChatRoomMapMove(D) {
 		ChatRoomMapMovement = {
 			X: X,
 			Y: Y,
+			Direction: D,
 			TimeStart: CommonTime(),
 			TimeEnd: CommonTime() + Time
 		};
@@ -592,10 +601,10 @@ function ChatRoomMapKeyDown() {
 	if (((KeyPress == 45) || (KeyPress == 95)) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
 
 	// WASD to move
-	if ((KeyPress == 87) || (KeyPress == 119)) ChatRoomMapMove("N");
-	if ((KeyPress == 65) || (KeyPress == 97)) ChatRoomMapMove("W");
-	if ((KeyPress == 83) || (KeyPress == 115)) ChatRoomMapMove("S");
-	if ((KeyPress == 68) || (KeyPress == 100)) ChatRoomMapMove("E");
+	if ((KeyPress == 87) || (KeyPress == 119)) ChatRoomMapMove("North");
+	if ((KeyPress == 65) || (KeyPress == 97)) ChatRoomMapMove("West");
+	if ((KeyPress == 83) || (KeyPress == 115)) ChatRoomMapMove("South");
+	if ((KeyPress == 68) || (KeyPress == 100)) ChatRoomMapMove("East");
 
 }
 
@@ -607,12 +616,11 @@ function ChatRoomMapMouseDown(Event) {
 
 	// The walk buttons
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomMapMovement == null) {
-		if (MouseIn(860, 790, 60, 60)) return ChatRoomMapMove("N");
-		if (MouseIn(790, 860, 60, 60)) return ChatRoomMapMove("W");
-		if (MouseIn(930, 860, 60, 60)) return ChatRoomMapMove("E");
-		if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("S");
-	}
+	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
+	if ((ChatRoomMapMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapMovement = null;
+	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapMove("West");
+	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("South");
+	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapMove("East");
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapEditMode == "") {
