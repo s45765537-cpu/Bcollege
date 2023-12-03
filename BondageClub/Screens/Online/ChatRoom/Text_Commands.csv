@@ -37,3 +37,5 @@ release,[MemberNumber]: Release a submissive from your ownership
 customimage,[URL]: Set the http address of the background jpg/png image to use
 customfilter,[Color]: Set the color code of the background filter (ex: #0000FF40)
 custommusic,[URL]: Set the http address of the background mp3/mp4 music to use
+mapcopy,Copy the current map layout in your clipboard
+mappaste,[Map]: Paste your map string to load it as current.

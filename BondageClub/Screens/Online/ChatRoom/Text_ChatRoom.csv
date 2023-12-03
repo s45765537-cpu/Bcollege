@@ -33,3 +33,8 @@ OwnerPresenceBlockAccessSelf,Accessing yourself is forbidden when your owner is 
 OwnerPresenceBlockAccessOther,Accessing others is forbidden when your owner is present.
 SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.
 JoinedClubCardGame,PLAYERNAME has joined the Club Card game.
+MapCopyDone,The current map data has been copied to your clipboard.  Paste it somewhere else to save it.
+MapCopyError,There's no map data to copy.
+MapPasteDone,Your pasted map data is loaded.
+MapPasteError,Your pasted map data cannot be loaded.
+MapPasteAdmin,Only room administrators can paste the map.

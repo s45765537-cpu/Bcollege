@@ -606,5 +606,13 @@ const CommonCommands = [
 		Tag: "custommusic",
 		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
 	},
+	{
+		Tag: "mapcopy",
+		Action: () => { ChatRoomMapCopy(); },
+	},
+	{
+		Tag: "mappaste",
+		Action: (_, msg) => { ChatRoomMapPaste(msg); },
+	},
 
 ];

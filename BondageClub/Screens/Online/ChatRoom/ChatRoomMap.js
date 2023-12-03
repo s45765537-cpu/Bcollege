@@ -612,7 +612,7 @@ function ChatRoomMapKeyDown() {
  * Mouse down event is used to draw on screen and handle the tiles buttons
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseDown(Event) {
+function ChatRoomMapMouseDown() {
 
 	// The walk buttons
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
@@ -788,4 +788,79 @@ function ChatRoomMapMouseWheel(Event) {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
 	if ((MouseX <= 1000) && (Event.deltaY < 0) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
 	if ((MouseX <= 1000) && (Event.deltaY > 0) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
+}
+
+/**
+ * Copies the current map in the clipboard.  Called from the chat field command "mapcopy"
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapCopy() {
+
+	// Make sure there's a valid map to copy first
+	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Active === false)) {
+		ChatRoomSendLocal(TextGet("MapCopyError"));
+		return;
+	}
+
+	// Stringify and compress the map in a string
+	let S = JSON.stringify(ChatRoomData.MapData);
+	S = LZString.compressToBase64(S);
+	navigator.clipboard.writeText(S);
+	ChatRoomSendLocal(TextGet("MapCopyDone"));
+
+}
+
+/**
+ * Pastes the current map Param data to load it.  Called from the chat field command "mappaste"
+ * @param {string} Param - The parameter that comes with the command
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapPaste(Param) {
+
+	// Cuts the /mappaste characters
+	if ((Param == null) || (Param.length < 10)) {
+		ChatRoomSendLocal(TextGet("MapPasteError"));
+		return;
+	}
+	Param = Param.trim().substring(9).trim();
+
+	// Only admins can paste/edit the map
+	if (!ChatRoomPlayerIsAdmin()) {
+		ChatRoomSendLocal(TextGet("MapPasteAdmin"));
+		return;
+	}
+
+	// Try to decompress the data
+	let DecompressedData = null;
+	try {
+		DecompressedData = LZString.decompressFromBase64(Param);
+	} catch(err) {
+		DecompressedData = null;
+	}
+
+	// If we failed to decompress
+	if (DecompressedData == null) {
+		ChatRoomSendLocal(TextGet("MapPasteError"));
+		return;
+	}
+
+	// Tries to get the map data object
+	let MapData = null;
+	try {
+		MapData = JSON.parse(DecompressedData);
+	} catch(err) {
+		MapData = null;
+	}
+
+	// If the map data is invalid
+	if ((MapData == null) || (MapData.Tiles == null)) {
+		ChatRoomSendLocal(TextGet("MapPasteError"));
+		return;
+	}
+
+	// Loads the map and flags it to be refreshed
+	ChatRoomData.MapData = MapData;
+	ChatRoomMapUpdateFlag();
+	ChatRoomSendLocal(TextGet("MapPasteDone"));
+
 }
