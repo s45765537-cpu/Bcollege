@@ -300,6 +300,58 @@ function WardrobeFastSave(C, W, Push) {
 }
 
 /**
+ * Swap two slots in the wardrobe.  Will silently do nothing if either
+ * index is out of range.
+ *
+ * @param {number} a - Slot index
+ * @param {number} b - The other slot index
+ * @returns {void} - Nothing
+ */
+function WardrobeSwapSlots (a, b)
+{
+	if (a < 0  ||  b < 0) {
+		return;
+	}
+	if (a < Player.Wardrobe.length  &&  b < Player.Wardrobe.length)
+	{
+		// Swap item arrays
+		const tmp = Player.Wardrobe[a];
+		Player.Wardrobe[a] = Player.Wardrobe[b];
+		Player.Wardrobe[b] = tmp;
+	}
+	if (    a < Player.WardrobeCharacterNames.length
+	    &&  b < Player.WardrobeCharacterNames.length)
+	{
+		// Swap slot names
+		const tmp = Player.WardrobeCharacterNames[a];
+		Player.WardrobeCharacterNames[a] = Player.WardrobeCharacterNames[b];
+		Player.WardrobeCharacterNames[b] = tmp;
+	}
+	if (a < WardrobeCharacter.length  &&  b < WardrobeCharacter.length)
+	{
+		// Swap "character" entries.
+		const tmp = WardrobeCharacter[a];
+		WardrobeCharacter[a] = WardrobeCharacter[b];
+		WardrobeCharacter[b] = tmp;
+	}
+}
+
+/**
+ * Unconditionally pushes entire wardrobe to the server.  Used primarily after
+ * reordering the wardrobe slots.
+ *
+ * @returns {void} - Nothing
+ */
+function WardrobePushAll() {
+	if (Player.WardrobeCharacterNames != null) {
+		ServerAccountUpdate.QueueData ({ WardrobeCharacterNames: Player.WardrobeCharacterNames });
+	}
+	if (Player.Wardrobe != null) {
+		ServerAccountUpdate.QueueData ({ Wardrobe: CharacterCompressWardrobe(Player.Wardrobe) });
+	}
+}
+
+/**
  * Returns the expressions of character C as a single big object
  * @param {Character} C - The character whose expressions should be returned
  * @returns {Partial<Record<ExpressionGroupName, ExpressionName>>} Expression - The expresssion of a character

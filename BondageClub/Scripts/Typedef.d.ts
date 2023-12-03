@@ -58,6 +58,7 @@ interface HTMLImageElement {
 
 interface HTMLElement {
 	setAttribute(qualifiedName: string, value: any): void;
+	removeAttribute(qualifiedName: string): void;
 }
 
 interface RGBColor {
@@ -113,7 +114,7 @@ type DialogMenuButton = "Activity" |
 	"GGTSControl" |
 	"InspectLock" | "InspectLockDisabled" |
 	"Lock" | "LockDisabled" | "LockMenu" |
-	"Next" | "Prev" | `PickLock${PickLockAvailability}` |
+	"Swap" | "Next" | "Prev" | `PickLock${PickLockAvailability}` |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
 	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
 	// Wardrobe buttons
