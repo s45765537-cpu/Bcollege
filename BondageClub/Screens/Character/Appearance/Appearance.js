@@ -899,7 +899,7 @@ function AppearanceRun() {
 		// Draw 6 wardrobe options
 		for (let W = CharacterAppearanceWardrobeOffset;
 		     W < Player.Wardrobe.length  &&  W < CharacterAppearanceWardrobeOffset + CharacterAppearanceWardrobeNumPerPage;
-		     W++)
+		     ++W)
 		{
 			switch (AppearanceWardrobeReorderMode) {
 			case "Select":
@@ -1229,6 +1229,12 @@ function AppearanceWardrobeReorderModeSet (newmode=null)
 		}
 	}
 
+	if (newmode == "None") {
+		ElementRemoveAttribute ("InputWardrobeName", "disabled");
+	} else {
+		ElementSetAttribute ("InputWardrobeName", "disabled", "");
+	}
+
 	if (newmode == "None"  &&  AppearanceWardrobeReorderMode != "None") {
 		/*
 		* We may have been in the middle of reordering things.
@@ -1398,7 +1404,7 @@ function AppearanceClick() {
 				if ((MouseY >= 430 + (W - CharacterAppearanceWardrobeOffset) * 95) && (MouseY <= 495 + (W - CharacterAppearanceWardrobeOffset) * 95)) {
 					WardrobeFastSave(C, W);
 					var LS = /^[a-zA-Z0-9 ]+$/;
-					var Name = ElementValue("InputWardrobeName").trim();
+					var Name = ElementValue("InputWardrobeName");
 					if (Name.match(LS) || Name.length == 0) {
 						WardrobeSetCharacterName(W, Name);
 						CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
