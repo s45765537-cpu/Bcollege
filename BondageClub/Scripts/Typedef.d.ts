@@ -1498,18 +1498,8 @@ interface PlayerCharacter extends Character {
 		BlindAdjacent: boolean;
 		AllowTints: boolean;
 	};
-	LastChatRoom?: string;
-	LastChatRoomBG?: string;
-	LastChatRoomPrivate?: boolean;
-	LastChatRoomSize?: number;
-	LastChatRoomLanguage?: ServerChatRoomLanguage;
-	LastChatRoomDesc?: string;
-	LastChatRoomCustom?: ServerChatRoomData["Custom"];
-	LastChatRoomAdmin?: number[];
-	LastChatRoomBan?: number[];
-	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
-	LastChatRoomSpace?: ServerChatRoomSpace;
-	LastChatRoomMapData? : any;
+	/** The chat room we were previous in. Used for relog room re-creation */
+	LastChatRoom?: ChatRoom;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
 		SlowImmunity: boolean;

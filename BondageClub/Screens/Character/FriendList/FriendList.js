@@ -129,10 +129,11 @@ function FriendListBeepMenuSend() {
 			if (!FriendListBeepShowRoom) beep.IsSecret = true;
 			ServerSend("AccountBeep", beep);
 
+			const chatRoomName = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Name : null;
 			FriendListBeepLog.push({
 				MemberNumber: FriendListBeepTarget,
 				MemberName: Player.FriendNames.get(FriendListBeepTarget),
-				ChatRoomName: !FriendListBeepShowRoom ? null : (Player.LastChatRoom || null),
+				ChatRoomName: chatRoomName,
 				Sent: true,
 				Private: false,
 				Time: new Date(),

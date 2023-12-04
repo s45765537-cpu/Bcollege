@@ -682,20 +682,32 @@ function LoginResponse(C) {
 			if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 			// Load the last chat room
-			Player.LastChatRoom = C.LastChatRoom;
-			Player.LastChatRoomBG = C.LastChatRoomBG;
-			Player.LastChatRoomPrivate = C.LastChatRoomPrivate;
-			Player.LastChatRoomSize = C.LastChatRoomSize;
-			Player.LastChatRoomLanguage = C.LastChatRoomLanguage;
-			Player.LastChatRoomDesc = C.LastChatRoomDesc;
-			Player.LastChatRoomCustom = C.LastChatRoomCustom;
-			if (typeof C.LastChatRoomAdmin == "string")
-				Player.LastChatRoomAdmin = CommonConvertStringToArray(C.LastChatRoomAdmin);
-			if (typeof C.LastChatRoomBan == "string")
-				Player.LastChatRoomBan = CommonConvertStringToArray(C.LastChatRoomBan);
-			Player.LastChatRoomBlockCategory = C.LastChatRoomBlockCategory;
-			Player.LastChatRoomSpace = C.LastChatRoomSpace;
-			Player.LastChatRoomMapData = C.LastChatRoomMapData;
+			if (ChatRoomValidateProperties(C.LastChatRoom)) {
+				Player.LastChatRoom = C.LastChatRoom;
+			} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
+				// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
+				/** @type {ChatRoom} */
+				const room = {
+					Name: C.LastChatRoom,
+					Description: C.LastChatRoomDesc,
+					Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
+					Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
+					Background: C.LastChatRoomBG,
+					Limit: C.LastChatRoomSize,
+					Game: "",
+					Locked: false,
+					Private: C.LastChatRoomPrivate,
+					BlockCategory: C.LastChatRoomBlockCategory,
+					Space: C.LastChatRoomSpace,
+					Language: C.LastChatRoomLanguage,
+					Custom: C.LastChatRoomCustom,
+					MapData: C.LastChatRoomMapData,
+				};
+
+				if (ChatRoomValidateProperties(room)) {
+					Player.LastChatRoom = room;
+				}
+			}
 
 			// Loads the ownership data
 			Player.Ownership = C.Ownership;

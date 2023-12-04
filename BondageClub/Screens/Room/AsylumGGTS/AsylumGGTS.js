@@ -794,19 +794,7 @@ function AsylumGGTSAutomaticTask() {
 
 	// If we must lock or unlock the chat room, we send a server update room packet
 	if ((AsylumGGTSTask == "LockRoom") || (AsylumGGTSTask == "UnlockRoom")) {
-		var UpdatedRoom = {
-			Name: ChatRoomData.Name,
-			Language: ChatCreateLanguage,
-			Description: ChatRoomData.Description,
-			Background: ChatRoomData.Background,
-			Limit: ChatRoomData.Limit,
-			Admin: ChatRoomData.Admin,
-			Ban: ChatRoomData.Ban,
-			BlockCategory: ChatRoomData.BlockCategory,
-			Game: ChatRoomData.Game,
-			Private: ChatRoomData.Private,
-			Locked: (AsylumGGTSTask == "LockRoom")
-		};
+		const UpdatedRoom = Object.assign({}, ChatRoomData, { Locked: AsylumGGTSTask == "LockRoom" });
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 		return AsylumGGTSEndTaskSave();
 	}
