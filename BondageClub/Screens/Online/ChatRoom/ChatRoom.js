@@ -78,11 +78,6 @@ var ChatRoomCharacterDrawlist = [];
 var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 /**
- * Temporary variable to work-around the missing Space from the server's ChatRoomSync answer
- * @type {ServerChatRoomSpace}
- */
-var ChatRoomLastSpace = "";
-/**
  * The complete data to update a recreated room with once the creation is successful
  * @type {ChatRoom}
  * */
@@ -1437,12 +1432,9 @@ function ChatRoomSetLastChatRoom(room) {
 	if (room !== null && ChatRoomValidateProperties(room)) {
 		if (!ChatRoomNewRoomToUpdate) {
 			Player.LastChatRoom = room;
-			// Temporary until the server provides the data itself
-			ChatRoomLastSpace = room.Space;
 		}
 	} else {
 		Player.LastChatRoom = null;
-		ChatRoomLastSpace = ChatRoomSpace;
 	}
 
 	// Update the server data with our new last room
@@ -3517,10 +3509,6 @@ function ChatRoomSync(data) {
 	const senderNumber = data.SourceMemberNumber;
 	delete data.SourceMemberNumber;
 
-	// Required server change: The actual space isn't provided, so use the temporary variable for it
-	if (typeof data.Space === "undefined")
-		data.Space = ChatRoomLastSpace;
-
 	// Validate the actual chatroom properties
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
@@ -3670,10 +3658,6 @@ function ChatRoomSyncRoomProperties(data) {
 
 	// Split out the sender from the rest of the chatroom data
 	delete data.SourceMemberNumber;
-
-	// Required server change: The actual space isn't provided, so use the temporary variable for it
-	if (typeof data.Space === "undefined")
-		data.Space = ChatRoomLastSpace;
 
 	if(ChatRoomValidateProperties(data) == false) // If the room data we received is invalid...
 	{
