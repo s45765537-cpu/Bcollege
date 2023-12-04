@@ -64,7 +64,7 @@ var AppearanceUseCharacterInPreviewsSetting = false;
  */
 let AppearanceWardrobeReorderList = [];
 
-/** @type {AppearanceWardrobeReorderType} */
+/** @type {WardrobeReorderType} */
 let AppearanceWardrobeReorderMode = "None";
 
 const CanvasUpperOverflow = 700;
@@ -1197,10 +1197,10 @@ function CharacterAppearanceSetColorForGroup(C, Color, Group) {
 
 /**
  * Advance to the next reordering mode, or set the mode to the specified
- * value.  The reording mode cycles through the values:
+ * value.  The reordering mode cycles through the values:
  * "None" -> "Select" -> "Place"
  *
- * @param {AppearanceWardrobeReorderMode} newmode - The mode to set.  If null, advance to next mode.
+ * @param {WardrobeReorderType} newmode - The mode to set.  If null, advance to next mode.
  */
 function AppearanceWardrobeReorderModeSet (newmode=null)
 {

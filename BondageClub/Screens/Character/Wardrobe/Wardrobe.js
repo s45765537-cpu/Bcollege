@@ -5,6 +5,10 @@ var WardrobeCharacter = [];
 var WardrobeSelection = -1;
 var WardrobeOffset = 0;
 var WardrobeSize = 24;
+/** @type {WardrobeReorderType} */
+var WardrobeReorderMode = "None";
+/** @type {number[]} */
+var WardrobeReorderList = [];
 
 /**
  * Loads the player's wardrobe safe spots. If a spot is not named yet, initializes it with the player's name
@@ -104,17 +108,47 @@ function WardrobeRun() {
 	DrawButton(500, 25, 225, 60, TextGet("Load"), "White");
 	DrawButton(750, 25, 225, 60, TextGet("Save"), "White");
 	DrawButton(1000, 25, 60, 60, "", "White", "Icons/Small/Next.png");
-	DrawButton(1750, 25, 225, 60, TextGet("Return"), "White");
-	DrawText(TextGet("SelectAppareance"), 1405, 60, "White", "Gray");
-	for (let C = 0; C < 12; C++)
-		if (C < 6) {
-			DrawCharacter(WardrobeCharacter[C + WardrobeOffset], 500 + C * 250, 100, 0.45);
-			if (WardrobeSelection == C + WardrobeOffset) DrawEmptyRect(500 + C * 250, 105, 225, 440, "Cyan");
+	DrawButton (1790, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet ("ReorderSlots"));
+	DrawButton (1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet ("Return"));
+
+	var text;
+	switch (WardrobeReorderMode) {
+	case "None":
+		text = TextGet ("SelectAppareance");
+		break;
+
+	case "Select":
+		text = TextGet ("ReorderSelect");
+		break;
+
+	case "Place":
+		text = TextGet ("ReorderPlace");
+		break;
+	}
+	DrawText (text, 1405, 60, "White", "Gray");
+
+	for (let C = 0; C < 12; C++) {
+		const x = 500 + C % 6 * 250;
+		const y = C < 6  ? 100  : 550;
+
+		DrawCharacter (WardrobeCharacter[C + WardrobeOffset], x, y, 0.45);
+		switch (WardrobeReorderMode) {
+		case "None":
+			if (WardrobeSelection == C + WardrobeOffset)
+				DrawEmptyRect (x, y + 5, 225, 440, "Cyan");
+			break;
+
+		case "Select":
+			if (WardrobeReorderList.includes (C + WardrobeOffset))
+				DrawEmptyRect (x, y + 5, 225, 440, "Chartreuse", 8);
+			break;
+
+		case "Place":
+			if (WardrobeReorderList.includes (C + WardrobeOffset))
+				DrawEmptyRect (x, y + 5, 225, 440, "Green", 8);
+			break;
 		}
-		else {
-			DrawCharacter(WardrobeCharacter[C + WardrobeOffset], 500 + (C - 6) * 250, 550, 0.45);
-			if (WardrobeSelection == C + WardrobeOffset) DrawEmptyRect(500 + (C - 6) * 250, 555, 225, 440, "Cyan");
-		}
+	}
 }
 
 /**
@@ -122,10 +156,20 @@ function WardrobeRun() {
  * @returns {void} - Nothing
  */
 function WardrobeClick() {
+	// These top two buttons slightly overlap the wardrobe area, so we
+	// return early to prevent that slot from being selected as well.
 
 	// If we must go back to the room
-	if (MouseIn(1750, 25, 225, 60))
+	if (MouseIn (1895, 15, 90, 90)) {
 		WardrobeExit();
+		return;
+	}
+
+	// If we are asked to tidy our Wardrobe
+	if (MouseIn (1790, 15, 90, 90)) {
+		WardrobeReorderModeSet();
+		return;
+	}
 
 	// If we must move to the previous page
 	if (MouseIn(415, 25, 60, 60)) {
@@ -148,21 +192,94 @@ function WardrobeClick() {
 		WardrobeFastSave(Player, WardrobeSelection);
 
 	// If we must select a different wardrobe
-	if (MouseIn(500, 100, 1500, 900))
-		for (let C = 0; C < 12; C++)
-			if (C < 6) {
-				if (MouseIn(500 + C * 250, 100, 250, 450))
+	if (MouseIn(500, 100, 1500, 900)) {
+		for (let C = 0; C < 12; C++) {
+			const x = 500 + C % 6 * 250;
+			const y = C < 6  ? 100  : 550;
+			if (MouseIn (x, y, 250, 450)) {
+				switch (WardrobeReorderMode) {
+				case "None":
 					WardrobeSelection = C + WardrobeOffset;
+					break;
+
+				case "Select":
+					{
+						const idx = WardrobeReorderList.indexOf (C + WardrobeOffset);
+						if (idx >= 0) {
+							WardrobeReorderList.splice (idx, 1);
+						} else {
+							WardrobeReorderList.push (C + WardrobeOffset);
+						}
+					}
+					break;
+
+				case "Place":
+					WardrobeSwapSlots (WardrobeReorderList.shift(), C + WardrobeOffset);
+
+					if (WardrobeReorderList.length <= 0) {
+						WardrobeReorderModeSet ("None");
+					}
+					break;
+				}
 			}
-			else if (MouseIn(500 + (C - 6) * 250, 550, 250, 450))
-				WardrobeSelection = C + WardrobeOffset;
+		}
+	}
 }
+
+/**
+ * Advance to the next reordering mode, or set the mode to the specified
+ * value.  The reordering mode cycles through the values:
+ * "None" -> "Select" -> "Place"
+ *
+ * @param {WardrobeReorderType} newmode - The mode to set.  If null, advance to next mode.
+ */
+function WardrobeReorderModeSet (newmode=null)
+{
+	let pushoutfits = true;
+
+	if (newmode == null) {
+		switch (WardrobeReorderMode) {
+			case "None":
+				newmode = "Select";
+				break;
+
+			case "Select":
+				if (WardrobeReorderList.length <= 0) {
+					// If selection list is empty, flip back to
+					// "None"; skip unnecessary network traffic.
+					pushoutfits = false;
+					newmode = "None";
+				} else {
+					newmode = "Place";
+				}
+				break;
+
+			case "Place":
+				newmode = "None";
+				break;
+		}
+	}
+
+	if (newmode == "None"  &&  WardrobeReorderMode != "None") {
+		/*
+		 * We may have been in the middle of reordering things.
+		 * Commit the current state, and empty the list.
+		 */
+		if (pushoutfits) {
+			WardrobePushAll();
+		}
+		WardrobeReorderList = [];
+	}
+	WardrobeReorderMode = newmode;
+}
+
 
 /**
  * Exits the wardorbe screen and sends the player back to her private room
  * @returns {void} - Nothing
  */
 function WardrobeExit() {
+	WardrobeReorderModeSet ("None");
 	CommonSetScreen("Room", "Private");
 }
 
