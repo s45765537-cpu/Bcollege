@@ -14,8 +14,7 @@ let TempCanvas;
  * @type {CanvasRenderingContext2D}
  */
 let ColorCanvas;
-/** @type {CanvasRenderingContext2D} */
-let CharacterCanvas;
+
 var DialogLeaveDueToItem = false;
 
 var BlindFlash = false;
@@ -92,9 +91,6 @@ function DrawLoad() {
 	MainCanvas = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext("2d");
 	TempCanvas = document.createElement("canvas").getContext("2d");
 	ColorCanvas = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
-	CharacterCanvas = document.createElement("canvas").getContext("2d");
-	CharacterCanvas.canvas.width = CanvasDrawWidth;
-	CharacterCanvas.canvas.height = CanvasDrawHeight;
 
 	// Font is fixed for now, color can be set
 	MainCanvas.font = CommonGetFont(36);
@@ -321,25 +317,27 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// If we must dark the Canvas characters
 		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
+			TempCanvas.canvas.width = CanvasDrawWidth;
+		    TempCanvas.canvas.height = CanvasDrawHeight;
 
-			CharacterCanvas.globalCompositeOperation = "copy";
-			CharacterCanvas.drawImage(Canvas, 0, 0);
+			TempCanvas.globalCompositeOperation = "copy";
+			TempCanvas.drawImage(Canvas, 0, 0);
 			// Overlay black rectangle.
-			CharacterCanvas.globalCompositeOperation = "source-atop";
+			TempCanvas.globalCompositeOperation = "source-atop";
 
 			if (Player.IsBlind()) {
 				const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
-				CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
-				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+				TempCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
+				TempCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
 			}
 
 			const Tints = Player.GetTints();
 			for (const {r, g, b, a} of Tints) {
-				CharacterCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
-				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+				TempCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
+				TempCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
 			}
 
-			Canvas = CharacterCanvas.canvas;
+			Canvas = TempCanvas.canvas;
 		}
 
 		// If we must flip the canvas vertically
