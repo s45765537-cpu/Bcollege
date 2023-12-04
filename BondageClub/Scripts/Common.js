@@ -1328,3 +1328,19 @@ function CommonObjectIsSubset(subRec, superRec) {
 	const entries = Object.entries(subRec);
 	return entries.every(([k, v]) => superRec[k] === v);
 }
+
+/**
+ * Parse the passed stringified JSON data and catch any exceptions.
+ * Exceptions will cause the function to return `undefined`.
+ * @param {string} data
+ * @returns {any}
+ * @see {@link JSON.parse}
+ */
+function CommonJSONParse(data) {
+	try {
+		return JSON.parse(data);
+	} catch (error) {
+		console.error(error, data);
+		return undefined;
+	}
+}

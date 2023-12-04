@@ -66,6 +66,18 @@ let CraftingReorderMode = "None";
  */
 let CraftingLayerNames = null;
 
+/** The separator used between different crafted items when serializing them. */
+const CraftingSerializeItemSep = "§";
+
+/** The separator used between fields within a single crafted item when serializing them. */
+const CraftingSerializeFieldSep = "¶";
+
+/**
+ * Regexp pattern for sanitizing to-be serialized crafted item string data by finding all
+ * special separator characters (see {@link CraftingSerializeItemSep} and {@link CraftingSerializeFieldSep}).
+ */
+const CraftingSerializeSanitize = new RegExp(`${CraftingSerializeItemSep}|${CraftingSerializeFieldSep}`);
+
 /**
  * Map crafting properties to their respective validation function.
  * @type {Map<CraftingPropertyType, (asset: Asset) => boolean>}
@@ -627,40 +639,92 @@ function CraftingParsePriorityElement() {
 }
 
 /**
+ * Serialize a single crafted item into a string in order to prepare it for server saving
+ * @param {CraftingItem} craft The crafted item
+ * @returns {string} The serialized crafted item
+ * @see {@link CraftingSaveServer}
+ */
+function CraftingSerialize(craft) {
+	/** @type {string[]} */
+	const stringData = [
+		craft.Item,
+		(craft.Property == null) ? "" : craft.Property,
+		(craft.Lock == null) ? "" : craft.Lock,
+		(craft.Name == null) ? "" : craft.Name.substring(0, 30),
+		(craft.Description == null) ? "" : craft.Description.substring(0, 200),
+		(craft.Color == null) ? "" : craft.Color,
+		(craft.Private) ? "T" : "",
+		(craft.Type == null) ? "" : craft.Type,
+		"", // Old field as used by the deprecated `OverridePriority` crafted craft property, DO NOT REMOVE!
+		(craft.ItemProperty == null) ? "" : JSON.stringify(craft.ItemProperty),
+		(craft.TypeRecord == null) ? "" : JSON.stringify(craft.TypeRecord),
+	];
+	return stringData.map(i => i.replace(CraftingSerializeSanitize, "")).join(CraftingSerializeFieldSep);
+}
+
+/**
  * Prepares a compressed packet of the crafting data and sends it to the server
  * @returns {void} - Nothing
  */
 function CraftingSaveServer() {
 	if (Player.Crafting == null) return;
-	let P = "";
-	for (let C of Player.Crafting)
-		if ((C != null) && (C.Item != null) && (C.Item != "")) {
-			P = P + C.Item + "¶";
-			P = P + ((C.Property == null) ? "" : C.Property) + "¶";
-			P = P + ((C.Lock == null) ? "" : C.Lock) + "¶";
-			P = P + ((C.Name == null) ? "" : C.Name.substring(0, 30).replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + ((C.Description == null) ? "" : C.Description.substring(0, 200).replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + ((C.Color == null) ? "" : C.Color.replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + (((C.Private != null) && C.Private) ? "T" : "") + "¶";
-			// TODO: Replace the `Type` field with an empty field-separator once R99 is live
-			P = P + ((C.Type == null) ? "" : C.Type.replace("¶", " ").replace("§", " ")) + "¶";
-			P = P + "¶"; // Old field as used by the deprecated `OverridePriority` crafted item property, DO NOT REMOVE!
-			P = P + (C.ItemProperty == null ? "" : JSON.stringify(C.ItemProperty)) + "¶";
-			P = P + (C.TypeRecord == null ? "" : JSON.stringify(C.TypeRecord)) + "§";
-		} else P = P + "§";
-	while ((P.length >= 1) && (P.substring(P.length - 1) == "§"))
+	let P = Player.Crafting.map(C =>  (C == null) ? "" : CraftingSerialize(C)).join(CraftingSerializeItemSep);
+	while ((P.length >= 1) && (P.substring(P.length - 1) == CraftingSerializeItemSep))
 		P = P.substring(0, P.length - 1);
-	let Obj = { Crafting: LZString.compressToUTF16(P) };
+	const Obj = { Crafting: LZString.compressToUTF16(P) };
 	ServerAccountUpdate.QueueData(Obj, true);
+}
+
+
+/**
+ * Deserialize a single crafted item from a string in order to parse data received from the server.
+ * @param {string} craftString The serialized crafted item
+ * @returns {null | CraftingItem} The crafted item or `null` if either its {@link CraftingItem.Item} or {@link CraftingItem.Name} property is invalid
+ * @see {@link CraftingDecompressServerData}
+ */
+function CraftingDeserialize(craftString) {
+	const [
+		Item,
+		Property,
+		Lock,
+		Name,
+		Description,
+		Color,
+		Private,
+		Type,
+		ItemProperty,
+		OverridePriority,
+		TypeRecord,
+	] = craftString.split(CraftingSerializeFieldSep);
+
+	/** @type {CraftingItem} */
+	const craft = {
+		Item,
+		Name,
+		Description,
+		Color,
+		Property: /** @type {CraftingPropertyType} */(Property) || "Normal",
+		Lock: /** @type {AssetLockType} */(Lock),
+		Private: Private === "T",
+		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
+		Type: Type || null,
+		TypeRecord: TypeRecord ? CommonJSONParse(TypeRecord) : null,
+	};
+
+	const priority = Number.parseInt(OverridePriority);
+	if (!Number.isNaN(priority)) {
+		craft.ItemProperty.OverridePriority = priority;
+	}
+
+	return (craft.Item && craft.Name) ? craft : null;
 }
 
 /**
  * Deserialize and unpack the crafting data from the server.
- * @param {string|array} Data The serialized crafting data
- * @returns {CraftingItem[]}
+ * @param {string | (null | CraftingItem)[]} Data The serialized crafting data
+ * @returns {(null | CraftingItem)[]}
  */
 function CraftingDecompressServerData(Data) {
-
 	// Arrays are returned right away, only strings can be parsed
 	if (Array.isArray(Data)) return Data;
 	if (typeof Data !== "string") return [];
@@ -678,35 +742,7 @@ function CraftingDecompressServerData(Data) {
 	}
 
 	// Builds the craft array to assign to the player
-	/** @type {CraftingItem[]} */
-	const Crafts = [];
-	Data = DecompressedData.split("§");
-	for (let P = 0; P < Data.length; P++) {
-		const Element = Data[P].split("¶");
-		const Craft = {};
-		Craft.Item = (Element.length >= 1) ? Element[0] : "";
-		Craft.Property = (Element.length >= 2) ? Element[1] : "";
-		Craft.Lock = /** @type {AssetLockType} */((Element.length >= 3) ? Element[2] : "");
-		Craft.Name = (Element.length >= 4) ? Element[3] : "";
-		Craft.Description = (Element.length >= 5) ? Element[4] : "";
-		Craft.Color = (Element.length >= 6) ? Element[5] : "";
-		Craft.Private = ((Element.length >= 7) && (Element[6] == "T"));
-		if (Element.length >= 8 && Element[7]) {
-			Craft.Type = Element[7];
-		}
-		Craft.ItemProperty = /** @type {ItemProperties} */({});
-		if (Element.length >= 9 && Element[8] !== "") {
-			Craft.ItemProperty.OverridePriority = Number.parseInt(Element[8]);
-		}
-		if (Element.length >= 10 && Element[9] !== "") {
-			Object.assign(Craft.ItemProperty, JSON.parse(Element[9]));
-		}
-		Craft.TypeRecord = (Element.length >= 1 && Element[10]) ? Element[10] : null;
-		if (Craft.Item && Craft.Name && (Craft.Item != "") && (Craft.Name != "")) Crafts.push(Craft);
-		else Crafts.push(null);
-	}
-	return Crafts;
-
+	return DecompressedData.split(CraftingSerializeItemSep).map(CraftingDeserialize);
 }
 
 /**
@@ -750,7 +786,7 @@ function CraftingLoadServer(Packet) {
 	 * One or more validation errors were encountered that were successfully resolved;
 	 * push the fixed items back to the server */
 	if (Refresh) {
-		const nCritical = Object.keys(CriticalErrors).length
+		const nCritical = Object.keys(CriticalErrors).length;
 		if (nCritical > 0) {
 			console.warn(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
 		}
