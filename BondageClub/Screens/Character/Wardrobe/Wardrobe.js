@@ -113,17 +113,17 @@ function WardrobeRun() {
 
 	var text;
 	switch (WardrobeReorderMode) {
-	case "None":
-		text = TextGet ("SelectAppareance");
-		break;
+		case "None":
+			text = TextGet ("SelectAppareance");
+			break;
 
-	case "Select":
-		text = TextGet ("ReorderSelect");
-		break;
+		case "Select":
+			text = TextGet ("ReorderSelect");
+			break;
 
-	case "Place":
-		text = TextGet ("ReorderPlace");
-		break;
+		case "Place":
+			text = TextGet ("ReorderPlace");
+			break;
 	}
 	DrawText (text, 1405, 60, "White", "Gray");
 
@@ -133,20 +133,20 @@ function WardrobeRun() {
 
 		DrawCharacter (WardrobeCharacter[C + WardrobeOffset], x, y, 0.45);
 		switch (WardrobeReorderMode) {
-		case "None":
-			if (WardrobeSelection == C + WardrobeOffset)
-				DrawEmptyRect (x, y + 5, 225, 440, "Cyan");
-			break;
+			case "None":
+				if (WardrobeSelection == C + WardrobeOffset)
+					DrawEmptyRect (x, y + 5, 225, 440, "Cyan");
+				break;
 
-		case "Select":
-			if (WardrobeReorderList.includes (C + WardrobeOffset))
-				DrawEmptyRect (x, y + 5, 225, 440, "Chartreuse", 8);
-			break;
+			case "Select":
+				if (WardrobeReorderList.includes (C + WardrobeOffset))
+					DrawEmptyRect (x, y + 5, 225, 440, "Chartreuse", 8);
+				break;
 
-		case "Place":
-			if (WardrobeReorderList.includes (C + WardrobeOffset))
-				DrawEmptyRect (x, y + 5, 225, 440, "Green", 8);
-			break;
+			case "Place":
+				if (WardrobeReorderList.includes (C + WardrobeOffset))
+					DrawEmptyRect (x, y + 5, 225, 440, "Green", 8);
+				break;
 		}
 	}
 }
@@ -198,28 +198,28 @@ function WardrobeClick() {
 			const y = C < 6  ? 100  : 550;
 			if (MouseIn (x, y, 250, 450)) {
 				switch (WardrobeReorderMode) {
-				case "None":
-					WardrobeSelection = C + WardrobeOffset;
-					break;
+					case "None":
+						WardrobeSelection = C + WardrobeOffset;
+						break;
 
-				case "Select":
-					{
-						const idx = WardrobeReorderList.indexOf (C + WardrobeOffset);
-						if (idx >= 0) {
-							WardrobeReorderList.splice (idx, 1);
-						} else {
-							WardrobeReorderList.push (C + WardrobeOffset);
+					case "Select":
+						{
+							const idx = WardrobeReorderList.indexOf (C + WardrobeOffset);
+							if (idx >= 0) {
+								WardrobeReorderList.splice (idx, 1);
+							} else {
+								WardrobeReorderList.push (C + WardrobeOffset);
+							}
 						}
-					}
-					break;
+						break;
 
-				case "Place":
-					WardrobeSwapSlots (WardrobeReorderList.shift(), C + WardrobeOffset);
+					case "Place":
+						WardrobeSwapSlots (WardrobeReorderList.shift(), C + WardrobeOffset);
 
-					if (WardrobeReorderList.length <= 0) {
-						WardrobeReorderModeSet ("None");
-					}
-					break;
+						if (WardrobeReorderList.length <= 0) {
+							WardrobeReorderModeSet ("None");
+						}
+						break;
 				}
 			}
 		}

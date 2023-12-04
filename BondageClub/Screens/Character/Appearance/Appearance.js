@@ -879,21 +879,21 @@ function AppearanceRun() {
 	if (CharacterAppearanceMode == "Wardrobe") {
 		let BGColor;
 		switch (AppearanceWardrobeReorderMode) {
-		case "None":
+			case "None":
 			// Draw the wardrobe controls
-			DrawText(CharacterAppearanceWardrobeText, 1645, 220, "White", "Gray");
-			ElementPosition("InputWardrobeName", 1645, 315, 690);
+				DrawText(CharacterAppearanceWardrobeText, 1645, 220, "White", "Gray");
+				ElementPosition("InputWardrobeName", 1645, 315, 690);
 
-			BGColor = "White";
-			break;
+				BGColor = "White";
+				break;
 
-		case "Select":
-			BGColor = "Yellow";
-			break;
+			case "Select":
+				BGColor = "Yellow";
+				break;
 
-		case "Place":
-			BGColor = "Grey";
-			break;
+			case "Place":
+				BGColor = "Grey";
+				break;
 		}
 
 		// Draw 6 wardrobe options
@@ -902,14 +902,15 @@ function AppearanceRun() {
 		     ++W)
 		{
 			switch (AppearanceWardrobeReorderMode) {
-			case "Select":
-				BGColor = AppearanceWardrobeReorderList.includes (W) ? "Chartreuse" : "Yellow";
-				break;
+				case "Select":
+					BGColor = AppearanceWardrobeReorderList.includes (W) ? "Chartreuse" : "Yellow";
+					break;
 
-			case "Place":
-				BGColor = AppearanceWardrobeReorderList.includes (W) ? "Green" : "Grey";
-			default:
-				break;
+				case "Place":
+					BGColor = AppearanceWardrobeReorderList.includes (W) ? "Green" : "Grey";
+					// fallthrough
+				default:
+					break;
 			}
 
 			DrawButton(1300, 430 + (W - CharacterAppearanceWardrobeOffset) * 95, 500, 65, "", BGColor, "");
@@ -1208,24 +1209,24 @@ function AppearanceWardrobeReorderModeSet (newmode=null)
 
 	if (newmode == null) {
 		switch (AppearanceWardrobeReorderMode) {
-		case "None":
-			newmode = "Select";
-			break;
+			case "None":
+				newmode = "Select";
+				break;
 
-		case "Select":
-			if (AppearanceWardrobeReorderList.length <= 0) {
-				// If selection list is empty, flip back to
-				// "None"; skip unnecessary network traffic.
-				pushwardrobe = false;
+			case "Select":
+				if (AppearanceWardrobeReorderList.length <= 0) {
+					// If selection list is empty, flip back to
+					// "None"; skip unnecessary network traffic.
+					pushwardrobe = false;
+					newmode = "None";
+				} else {
+					newmode = "Place";
+				}
+				break;
+
+			case "Place":
 				newmode = "None";
-			} else {
-				newmode = "Place";
-			}
-			break;
-
-		case "Place":
-			newmode = "None";
-			break;
+				break;
 		}
 	}
 
@@ -1368,34 +1369,31 @@ function AppearanceClick() {
 				    &&  (MouseY <= 495 + (W - CharacterAppearanceWardrobeOffset) * 95))
 				{
 					switch (AppearanceWardrobeReorderMode) {
-					case "None":
-						WardrobeFastLoad(C, W, false);
-						ElementValue("InputWardrobeName", Player.WardrobeCharacterNames[W]);
-						break;
+						case "None":
+							WardrobeFastLoad(C, W, false);
+							ElementValue("InputWardrobeName", Player.WardrobeCharacterNames[W]);
+							break;
 
-					case "Select":
-						{
-							const idx = AppearanceWardrobeReorderList.indexOf (W);
-							if (idx >= 0) {
-								AppearanceWardrobeReorderList.splice (idx, 1);
-							} else {
-								AppearanceWardrobeReorderList.push (W);
+						case "Select":
+							{
+								const idx = AppearanceWardrobeReorderList.indexOf (W);
+								if (idx >= 0) {
+									AppearanceWardrobeReorderList.splice (idx, 1);
+								} else {
+									AppearanceWardrobeReorderList.push (W);
+								}
 							}
-						}
-						break;
+							break;
 
-					case "Place":
-						{
+						case "Place":
 							// Swap the slot clicked with the first item in the list.
-							const idx = AppearanceWardrobeReorderList.shift();
-							WardrobeSwapSlots (idx, W);
+							WardrobeSwapSlots (AppearanceWardrobeReorderList.shift(), W);
 
 							if (AppearanceWardrobeReorderList.length <= 0) {
 								// List exhausted; commit changes and end reorder mode.
 								AppearanceWardrobeReorderModeSet ("None");
 							}
-						}
-						break;
+							break;
 					}
 				}
 			}
