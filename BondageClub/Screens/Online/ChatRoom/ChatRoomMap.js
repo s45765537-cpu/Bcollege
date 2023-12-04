@@ -71,7 +71,7 @@ var ChatRoomMapObjectList = [
 	{ ID: 2030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 2040, Type: "WallDecoration", Style: "Whip" },
 
-/*	{ ID: 3000, Type: "WallPath", Style: "Blank" },
+	/*	{ ID: 3000, Type: "WallPath", Style: "Blank" },
 	{ ID: 3010, Type: "WallPath", Style: "WoodDoor", Locked: false },
 	{ ID: 3011, Type: "WallPath", Style: "WoodDoor", Locked: true },
 	{ ID: 3020, Type: "WallPath", Style: "PaddedDoor", Locked: false },
@@ -541,7 +541,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	// Always full speed in water if wearing mermaid tail
 	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
 	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapBaseMovementSpeed;
-	
+
 	// Base movement speed first, water tiles are slower
 	let Speed = ChatRoomMapBaseMovementSpeed;
 	if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
