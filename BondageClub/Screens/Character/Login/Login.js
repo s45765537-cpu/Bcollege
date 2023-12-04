@@ -614,6 +614,7 @@ function LoginQueue(Pos) {
  * @returns {void} Nothing
  */
 function LoginResponse(C) {
+	LoginCheckES2020();
 
 	// If the return package contains a name and a account name
 	if (typeof C === "object") {
@@ -878,12 +879,7 @@ function LoginResponse(C) {
 		}
 	} else LoginStatusReset(C);
 	LoginUpdateMessage();
-	LoginCheckES2020();
 }
-
-const ES2020_MESSAGE = `If you see this message, it means that your browser lacks ES2020 support and will not be working in the next Bondage Club version (R99).
-
-Please update your browser or contact the developer team on Discord before the next release so we can review the upcoming changes`;
 
 /** Check if the player's browser has ES2020 support */
 function LoginCheckES2020() {
@@ -892,17 +888,14 @@ function LoginCheckES2020() {
 		eval("({})?.foo");
 		// eslint-disable-next-line no-eval
 		eval("null ?? null");
-	} catch (error) {
-		if (error.name === "SyntaxError") {
-			ServerAccountBeep({
-				MemberNumber: Player.MemberNumber,
-				MemberName: "Bondage Club Dev Team",
-				ChatRoomName: "Outdated Browser Warning",
-				Private: true,
-				Message: ES2020_MESSAGE,
-				ChatRoomSpace: "",
-			});
+		// eslint-disable-next-line no-eval
+		eval("let a = null; a ??= 1;");
+		if (Array.prototype.flatMap === undefined) {
+			throw new Error("Array.prototype.flatMap is undefined");
 		}
+	} catch (error) {
+		console.error(error);
+		throw new Error(`Outdated browser error: If you see this message, it means that your browser lacks ES2020 support and will not be working in Bondage Club`);
 	}
 }
 
