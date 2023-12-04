@@ -1,6 +1,6 @@
 "use strict";
 var ChatSearchBackground = "Introduction";
-/** @type {{ Name: string, CreatorMemberNumber: number, MemberLimit: number, MemberCount: number, DisplayName: string, BlockCategory: ServerChatRoomBlockCategory[], Game: ServerChatRoomGame, Friends: { MemberName: string, MemberNumber: number, Type: string }[], Description: string, Creator: string, Order: number }[]} */
+/** @type {(ServerChatRoomSearchData & { DisplayName: string, Order: number })[]} */
 var ChatSearchResult = [];
 /** @type {typeof ChatSearchResult} */
 var ChatSearchHiddenResult = [];
