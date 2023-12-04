@@ -3385,6 +3385,109 @@ var AssetFemale3DCGExtended = {
 				PunishStruggle: false,
 			},
 		}, // PetSuitShockCollar
+		ExtendablePostureCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Style", Key: "s",
+					Options: [
+						{}, // s0 - Black
+						{}, // s1 - Micro
+					],
+				},
+				{
+					Name: "Hood", Key: "h",
+					DrawData: {
+						elementData: [
+							{ position: [1375, 450, 250, 58], },
+							{ position: [1248, 532, 250, 58], },
+							{ position: [1522, 532, 250, 58], },
+							{ position: [1248, 610, 250, 58], },
+							{ position: [1522, 610, 250, 58], },
+							{ position: [1248, 688, 250, 58], },
+							{ position: [1522, 688, 250, 58], },
+							{ position: [1248, 766, 250, 58], },
+							{ position: [1522, 766, 250, 58], },
+							{ position: [1248, 844, 250, 58], },
+							{ position: [1522, 844, 250, 58], },
+						],
+						itemsPerPage: 11,
+					},
+					Options: [
+						{}, // h0 - None
+						{}, // h1 - Normal
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+							},
+						}, // h2 - Normal (no hair)
+						{}, // h3 - Round
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+							},
+						}, // h4 - Round (no hair)
+						{}, // h5 - Small
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+							},
+						}, // h6 - Small (no hair)
+						{}, // h7 - Wide
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+							},
+						}, // h8 - Wide (no hair)
+						{
+							Property: {
+								Tint: [
+									{ Color: 0x000, Strength: 0.1, }
+								],
+							},
+						}, // h9 - Grided
+						{
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+								Tint: [
+									{ Color: 0x000, Strength: 0.1, }
+								],
+							},
+						}, // h10 - Grided (no hair)
+					],
+				},
+				{
+					Name: "Gag", Key: "g",
+					Options: [
+						{}, // g0 - None
+						{}, // g1 - Panel
+					]
+				},
+				{
+					Name: "Cover", Key: "c",
+					Options: [
+						{}, // c0 - None
+						{}, // c1 - Low
+						{
+							Property: {
+								Effect: ["BlindLight"],
+							},
+						}, // c2 - Med
+						{
+							Property: {
+								Effect: ["BlindHeavy"],
+							},
+						}, // c3 - High
+						{
+							Property: {
+								Effect: ["BlindTotal"],
+							},
+						}, // c4 - Full
+					],
+				},
+			]
+		},
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
