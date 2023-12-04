@@ -4,9 +4,15 @@
  * @type {CanvasRenderingContext2D}
  */
 let MainCanvas;
-/** @type {CanvasRenderingContext2D} */
+/**
+ * Temporary GPU-based canvas
+ * @type {CanvasRenderingContext2D}
+ */
 let TempCanvas;
-/** @type {CanvasRenderingContext2D} */
+/**
+ * Temporary CPU-based canvas (for colorization)
+ * @type {CanvasRenderingContext2D}
+ */
 let ColorCanvas;
 /** @type {CanvasRenderingContext2D} */
 let CharacterCanvas;
@@ -85,7 +91,7 @@ function DrawLoad() {
 	// Creates the objects used in the game
 	MainCanvas = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext("2d");
 	TempCanvas = document.createElement("canvas").getContext("2d");
-	ColorCanvas = document.createElement("canvas").getContext("2d");
+	ColorCanvas = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
 	CharacterCanvas = document.createElement("canvas").getContext("2d");
 	CharacterCanvas.canvas.width = CanvasDrawWidth;
 	CharacterCanvas.canvas.height = CanvasDrawHeight;
@@ -466,7 +472,7 @@ function DrawClearRect(Canvas, x, y, width, height) {
  * @param {CanvasRenderingContext2D} Canvas - The canvas on which to clear rect
  * @param {number} X - X offset of where the masking should be done
  * @param {number} Y - Y offset of where the masking should be done
- * @param {RectTuple[]} AlphaMasks - An array of alpha masks to apply
+ * @param {readonly RectTuple[]} AlphaMasks - An array of alpha masks to apply
  */
 function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
 	if (!Array.isArray(AlphaMasks)) return;
@@ -518,36 +524,91 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
+ * @param {number} [Zoom] - Zoom factor
+ * @param {string} [HexColor] - Color of the image to draw
+ * @param {boolean} [FullAlpha] - Whether or not it is drawn in full alpha mode
  * @param {readonly RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
  * @param {number} [Opacity=1] - The opacity at which to draw the image
  * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
  * @param {GlobalCompositeOperation} [BlendingMode="source-over"] - blending mode for drawing the image
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate, BlendingMode) {
+function DrawImageCanvas(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode) {
 	const Img = DrawGetImage(Source);
 	if (!Img.complete) return false;
 	if (!Img.naturalWidth) return true;
-	/** @type {CanvasImageSource} */
-	let SourceImage = Img;
-	if ((AlphaMasks && AlphaMasks.length) || Rotate) {
-		TempCanvas.canvas.width = Img.width;
-		TempCanvas.canvas.height = Img.height;
-		if (Rotate) {
-			TempCanvas.rotate(Math.PI);
-			TempCanvas.translate(-TempCanvas.canvas.width, -TempCanvas.canvas.height);
-			X = 500 - (X + TempCanvas.canvas.width);
-			Y -= TempCanvas.canvas.height;
-		}
-		TempCanvas.drawImage(Img, 0, 0);
-		DrawClearAlphaMasks(TempCanvas, X, Y, AlphaMasks);
-		SourceImage = TempCanvas.canvas;
+	if (typeof Zoom !== "number")
+		Zoom = 1.0;
+
+	if (typeof HexColor !== "string")
+		HexColor = null;
+
+	if (typeof Opacity !== "number")
+		Opacity = 1.0;
+	Opacity = Math.max(0, Math.min(1, Opacity));
+	if (Opacity === 0) return true;
+
+	// If we need to colorize, use the CPU canvas
+	// since we're gonna need .getImageData
+	const destCanvas = HexColor ? ColorCanvas : TempCanvas;
+
+	// Blit the image to the temporary canvas
+	destCanvas.canvas.width = Img.width;
+	destCanvas.canvas.height = Img.height;
+	destCanvas.globalCompositeOperation = "copy";
+	destCanvas.drawImage(Img, 0, 0);
+
+	// Apply masks
+	DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
+
+	if (Rotate) {
+		destCanvas.rotate(Math.PI);
+		destCanvas.translate(-destCanvas.canvas.width, -destCanvas.canvas.height);
+		X = 500 - (X + destCanvas.canvas.width);
+		Y -= destCanvas.canvas.height;
 	}
-	Opacity = typeof Opacity === "number" ? Opacity : 1;
+
+	if (HexColor) {
+		// We've been asked to colorize the image, fetch the pixel data
+		// and massage it
+		const imageData = destCanvas.getImageData(0, 0, destCanvas.canvas.width, destCanvas.canvas.height);
+		const data = imageData.data;
+
+		// Get the RGB color used to transform
+		const rgbColor = DrawHexToRGB(HexColor);
+
+		// We transform each non transparent pixel based on the RGG value
+		if (FullAlpha) {
+			for (let p = 0, len = data.length; p < len; p += 4) {
+				if (data[p + 3] == 0)
+					continue;
+				const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+				data[p + 0] = rgbColor.r * trans;
+				data[p + 1] = rgbColor.g * trans;
+				data[p + 2] = rgbColor.b * trans;
+			}
+		} else {
+			for (let p = 0, len = data.length; p < len; p += 4) {
+				const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+				if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
+					continue;
+				data[p + 0] = rgbColor.r * trans;
+				data[p + 1] = rgbColor.g * trans;
+				data[p + 2] = rgbColor.b * trans;
+			}
+		}
+
+		// Replace the source image with the modified canvas
+		destCanvas.putImageData(imageData, 0, 0);
+	}
+
+	// Blit the transformed image to the main canvas, applying opacity and zoom
 	Canvas.save();
 	Canvas.globalAlpha = Opacity;
 	Canvas.globalCompositeOperation = BlendingMode;
-	Canvas.drawImage(SourceImage, X, Y);
+	Canvas.drawImage(destCanvas.canvas,
+		0, 0, destCanvas.canvas.width, destCanvas.canvas.height,
+		X, Y, destCanvas.canvas.width * Zoom, destCanvas.canvas.height * Zoom);
 	Canvas.restore();
 	return true;
 }
@@ -613,87 +674,6 @@ function DrawImageZoomMirror(Source, X, Y, Width, Height) {
  */
 function DrawImage(Source, X, Y, Invert) {
 	return DrawImageEx(Source, X, Y, { Invert });
-}
-
-/**
- * Draws an image from a source to the specified canvas
- * @param {string} Source - URL of the image
- * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
- * @param {number} X - Position of the rectangle on the X axis
- * @param {number} Y - Position of the rectangle on the Y axis
- * @param {number} Zoom - Zoom factor
- * @param {string} HexColor - Color of the image to draw
- * @param {boolean} FullAlpha - Whether or not it is drawn in full alpha mode
- * @param {readonly RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
- * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
- * @param {GlobalCompositeOperation} [BlendingMode="source-over"] - blending mode for drawing the image
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageCanvasColorize(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode) {
-
-	// Make sure that the starting image is loaded
-	const Img = DrawGetImage(Source);
-	if (!Img.complete) return false;
-	if (!Img.naturalWidth) return true;
-
-	// Variable initialization
-	const width = Img.width;
-	const height = Img.height;
-
-	// Prepares a canvas to draw the colorized image
-	ColorCanvas.canvas.width = width;
-	ColorCanvas.canvas.height = height;
-	ColorCanvas.globalCompositeOperation = "copy";
-	ColorCanvas.drawImage(Img, 0, 0);
-
-	const imageData = ColorCanvas.getImageData(0, 0, width, height);
-	const data = imageData.data;
-
-	// Get the RGB color used to transform
-	const rgbColor = DrawHexToRGB(HexColor);
-
-	// We transform each non transparent pixel based on the RGG value
-	if (FullAlpha) {
-		for (let p = 0, len = data.length; p < len; p += 4) {
-			if (data[p + 3] == 0)
-				continue;
-			const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-			data[p + 0] = rgbColor.r * trans;
-			data[p + 1] = rgbColor.g * trans;
-			data[p + 2] = rgbColor.b * trans;
-		}
-	} else {
-		for (let p = 0, len = data.length; p < len; p += 4) {
-			const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-			if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
-				continue;
-			data[p + 0] = rgbColor.r * trans;
-			data[p + 1] = rgbColor.g * trans;
-			data[p + 2] = rgbColor.b * trans;
-		}
-	}
-
-	// Replace the source image with the modified canvas
-	ColorCanvas.putImageData(imageData, 0, 0);
-	DrawClearAlphaMasks(ColorCanvas, X, Y, AlphaMasks);
-
-	// Rotate the image 180 degrees
-	if (Rotate) {
-		ColorCanvas.rotate(Math.PI);
-		ColorCanvas.translate(-ColorCanvas.canvas.width, -ColorCanvas.canvas.height);
-		X = 500 - (X + ColorCanvas.canvas.width);
-		Y -= ColorCanvas.canvas.height;
-	}
-
-	Opacity = typeof Opacity === "number" ? Opacity : 1;
-	Canvas.save();
-	Canvas.globalAlpha = Opacity;
-	Canvas.globalCompositeOperation = BlendingMode;
-	Canvas.drawImage(ColorCanvas.canvas, 0, 0, Img.width, Img.height, X, Y, Img.width * Zoom, Img.height * Zoom);
-	Canvas.restore();
-
-	return true;
 }
 
 /**
