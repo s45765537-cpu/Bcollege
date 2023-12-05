@@ -307,9 +307,9 @@ function PortalLinkSyncCodeInputDraw(reciever) {
 
 	if (reciever) {
 		DrawButton(...PortalLinkRandomCodeButton, "", "white", "", "Generate random code");
-		DrawImageEx("Icons/Random.png", PortalLinkRandomCodeButton[0], PortalLinkRandomCodeButton[1], { Width: PortalLinkRandomCodeButton[2], Height: PortalLinkRandomCodeButton[3], });
+		DrawImageEx("Icons/Random.png", MainCanvas, PortalLinkRandomCodeButton[0], PortalLinkRandomCodeButton[1], { Width: PortalLinkRandomCodeButton[2], Height: PortalLinkRandomCodeButton[3], });
 		DrawButton(...PortalLinkCopyCodeButton, "", "white", "", "Copy code to clipboard", !PortalLinkCodeRegex.test(code));
-		DrawImageEx("Icons/Export.png", PortalLinkCopyCodeButton[0], PortalLinkCopyCodeButton[1], { Width: PortalLinkCopyCodeButton[2], Height: PortalLinkCopyCodeButton[3], });
+		DrawImageEx("Icons/Export.png", MainCanvas, PortalLinkCopyCodeButton[0], PortalLinkCopyCodeButton[1], { Width: PortalLinkCopyCodeButton[2], Height: PortalLinkCopyCodeButton[3], });
 
 		PortalLinkTransmitterStatus = PortalLinkCodeRegex.test(code) ? "PortalLinkValidCode" : "PortalLinkInvalidCode";
 
@@ -319,7 +319,7 @@ function PortalLinkSyncCodeInputDraw(reciever) {
 		MainCanvas.textAlign = "center";
 	} else {
 		DrawButton(...PortalLinkPasteCodeButton, "", "white", "", "Copy code from clipboard");
-		DrawImageEx("Icons/Import.png", PortalLinkPasteCodeButton[0], PortalLinkPasteCodeButton[1], { Width: PortalLinkPasteCodeButton[2], Height: PortalLinkPasteCodeButton[3], });
+		DrawImageEx("Icons/Import.png", MainCanvas, PortalLinkPasteCodeButton[0], PortalLinkPasteCodeButton[1], { Width: PortalLinkPasteCodeButton[2], Height: PortalLinkPasteCodeButton[3], });
 
 		MainCanvas.textAlign = "left";
 		DrawText(DialogFindPlayer(PortalLinkTransmitterStatus), 1342, 580, PortalLinkStatusColors[PortalLinkTransmitterStatus]);

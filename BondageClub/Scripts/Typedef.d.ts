@@ -2955,6 +2955,32 @@ interface AudioChatAction {
 
 // #region Character drawing
 
+/** Options available to most draw calls */
+type DrawOptions = {
+	/** Transparency between 0-1 */
+	Alpha?: number;
+	/** Area in original image to draw in format `[left, top, width, height]` */
+	SourcePos?: RectTuple;
+	/** Width of the drawn image, defaults to width of original image */
+	Width?: number;
+	/** Height of the drawn image, defaults to height of original image */
+	Height?: number;
+	/** If image should be flipped vertically */
+	Invert?: boolean;
+	/** If image should be flipped horizontally */
+	Mirror?: boolean;
+	/** Zoom factor */
+	Zoom?: number;
+	/* Color of the image to draw */
+	HexColor?: string;
+	/* Whether or not it is drawn in full alpha mode */
+	FullAlpha?: boolean;
+	/** A list of alpha masks to apply to the call */
+	readonly AlphaMasks?: readonly RectTuple[];
+	/** Blending mode for drawing the image */
+	BlendingMode?: GlobalCompositeOperation;
+}
+
 /**
  * A callback function used for clearing a rectangular area of a canvas
  * @param {number} x - The x coordinate of the left of the rectangle to clear
@@ -2991,10 +3017,7 @@ type DrawImageCallback = (
 	src: string,
 	x: number,
 	y: number,
-	alphasMasks: RectTuple[],
-	opacity?: number,
-	rotate?: boolean,
-	blendingMode?: GlobalCompositeOperation,
+	options?: DrawOptions
 ) => void;
 
 /**
@@ -3014,12 +3037,7 @@ type DrawImageColorizeCallback = (
 	src: string,
 	x: number,
 	y: number,
-	color: string,
-	fullAlpha: boolean,
-	alphaMasks?: RectTuple[],
-	opacity?: number,
-	rotate?: boolean,
-	blendingMode?: GlobalCompositeOperation,
+	options?: DrawOptions
 ) => void;
 
 interface CommonDrawCallbacks {

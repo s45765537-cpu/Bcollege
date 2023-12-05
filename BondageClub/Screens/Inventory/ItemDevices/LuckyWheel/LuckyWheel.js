@@ -242,13 +242,13 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 				return;
 
 			const image = "Assets/Female3DCG/ItemDevices/LuckyWheel_BlinkingLights_All.png";
-			DrawImageCanvas(image, ctx, 0, 0, AlphaMasks);
+			DrawImageCanvas(image, ctx, 0, 0, { AlphaMasks });
 		} else {
 			// Light trace
 			Data.LightStep = (++Data.LightStep) % 3;
 
 			const image = "Assets/Female3DCG/ItemDevices/LuckyWheel_BlinkingLights_" + (Data.LightStep + 1) + ".png";
-			DrawImageCanvas(image, ctx, 0, 0, AlphaMasks);
+			DrawImageCanvas(image, ctx, 0, 0, { AlphaMasks });
 		}
 
 		drawCanvas(tmpCanvas, X, Y, AlphaMasks);
@@ -302,8 +302,7 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 		for (let sectionID = 0; sectionID < SectionsPerNumTexts[nbTexts]; sectionID++) {
 			const image = "Assets/Female3DCG/ItemDevices/LuckyWheel_" + nbTexts + "_" + (sectionID + 1) + ".png";
 			const color = Item.Color[colorLayerID + sectionID] || "#888";
-			// DrawImageCanvas(image, ctx, 0, 0, AlphaMasks);
-			DrawImageCanvasColorize(image, ctx, 0, 0, 1, color, false, AlphaMasks);
+			DrawImageCanvas(image, ctx, 0, 0, { HexColor: color, AlphaMasks });
 		}
 
 

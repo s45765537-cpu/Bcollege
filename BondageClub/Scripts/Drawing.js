@@ -4,12 +4,17 @@
  * @type {CanvasRenderingContext2D}
  */
 let MainCanvas;
-/** @type {CanvasRenderingContext2D} */
+/**
+ * Temporary GPU-based canvas
+ * @type {CanvasRenderingContext2D}
+ */
 let TempCanvas;
-/** @type {CanvasRenderingContext2D} */
+/**
+ * Temporary CPU-based canvas (for colorization)
+ * @type {CanvasRenderingContext2D}
+ */
 let ColorCanvas;
-/** @type {CanvasRenderingContext2D} */
-let CharacterCanvas;
+
 var DialogLeaveDueToItem = false;
 
 var BlindFlash = false;
@@ -85,10 +90,7 @@ function DrawLoad() {
 	// Creates the objects used in the game
 	MainCanvas = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext("2d");
 	TempCanvas = document.createElement("canvas").getContext("2d");
-	ColorCanvas = document.createElement("canvas").getContext("2d");
-	CharacterCanvas = document.createElement("canvas").getContext("2d");
-	CharacterCanvas.canvas.width = CanvasDrawWidth;
-	CharacterCanvas.canvas.height = CanvasDrawHeight;
+	ColorCanvas = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
 
 	// Font is fixed for now, color can be set
 	MainCanvas.font = CommonGetFont(36);
@@ -315,25 +317,27 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// If we must dark the Canvas characters
 		if ((C.ID != 0) && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
+			TempCanvas.canvas.width = CanvasDrawWidth;
+		    TempCanvas.canvas.height = CanvasDrawHeight;
 
-			CharacterCanvas.globalCompositeOperation = "copy";
-			CharacterCanvas.drawImage(Canvas, 0, 0);
+			TempCanvas.globalCompositeOperation = "copy";
+			TempCanvas.drawImage(Canvas, 0, 0);
 			// Overlay black rectangle.
-			CharacterCanvas.globalCompositeOperation = "source-atop";
+			TempCanvas.globalCompositeOperation = "source-atop";
 
 			if (Player.IsBlind()) {
 				const DarkFactor = Math.min(CharacterGetDarkFactor(Player) * 2, 1);
-				CharacterCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
-				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+				TempCanvas.fillStyle = `rgba(0,0,0,${1.0 - DarkFactor})`;
+				TempCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
 			}
 
 			const Tints = Player.GetTints();
 			for (const {r, g, b, a} of Tints) {
-				CharacterCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
-				CharacterCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
+				TempCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
+				TempCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
 			}
 
-			Canvas = CharacterCanvas.canvas;
+			Canvas = TempCanvas.canvas;
 		}
 
 		// If we must flip the canvas vertically
@@ -356,8 +360,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			MainCanvas.filter = `blur(${BlurLevel}px)`;
 		}
 		// Draw the character
-		DrawImageEx(Canvas, X + XOffset * Zoom, Y + DestY * Zoom, {
-			Canvas: DrawCanvas,
+		DrawImageEx(Canvas, DrawCanvas, X + XOffset * Zoom, Y + DestY * Zoom, {
 			SourcePos: [0, YStart, Canvas.width, SourceHeight],
 			Width: 500 * HeightRatio * Zoom,
 			Height: (1000 - DestY) * Zoom,
@@ -449,6 +452,32 @@ function DrawAlpha(Canvas, Alpha) {
 }
 
 /**
+ * Clears a rectangle on a canvas
+ * @param {CanvasRenderingContext2D} Canvas - The canvas on which to clear rect
+ * @param {number} x - Position of the image on the X axis
+ * @param {number} y - Position of the image on the Y axis
+ * @param {number} width - Width of the rectangle to clear
+ * @param {number} height - Height of the rectangle to clear
+ * @returns {void} - Nothing
+ */
+function DrawClearRect(Canvas, x, y, width, height) {
+	Canvas.clearRect(x, y, width, height);
+}
+
+/**
+ * Clears alpha masks on a canvas
+ * @param {CanvasRenderingContext2D} Canvas - The canvas on which to clear rect
+ * @param {number} X - X offset of where the masking should be done
+ * @param {number} Y - Y offset of where the masking should be done
+ * @param {readonly RectTuple[]} AlphaMasks - An array of alpha masks to apply
+ */
+function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
+	if (!Array.isArray(AlphaMasks)) return;
+
+	AlphaMasks.forEach(([x, y, w, h]) => DrawClearRect(Canvas, x - X, y - Y, w, h));
+}
+
+/**
  * Draws a zoomed image from a source to a specific canvas
  * @param {string} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
@@ -464,8 +493,7 @@ function DrawAlpha(Canvas, Alpha) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Width, Height, Invert) {
-	return DrawImageEx(Source, X, Y, {
-		Canvas,
+	return DrawImageEx(Source, Canvas, X, Y, {
 		SourcePos: [SX, SY, SWidth, SHeight],
 		Width,
 		Height,
@@ -483,51 +511,21 @@ function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Widt
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageResize(Source, X, Y, Width, Height) {
-	return DrawImageEx(Source, X, Y, { Width, Height });
+	return DrawImageEx(Source, MainCanvas, X, Y, { Width, Height });
 }
 
 /**
  * Draws a zoomed image from a source to a specific canvas
- * @param {string} Source - URL of the image
+ * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {readonly RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
- * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
- * @param {GlobalCompositeOperation} [BlendingMode="source-over"] - blending mode for drawing the image
+ * @param {DrawOptions} [Options] Options to use when drawing
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate, BlendingMode) {
-	const Img = DrawGetImage(Source);
-	if (!Img.complete) return false;
-	if (!Img.naturalWidth) return true;
-	/** @type {CanvasImageSource} */
-	let SourceImage = Img;
-	if ((AlphaMasks && AlphaMasks.length) || Rotate) {
-		TempCanvas.canvas.width = Img.width;
-		TempCanvas.canvas.height = Img.height;
-		if (Rotate) {
-			TempCanvas.rotate(Math.PI);
-			TempCanvas.translate(-TempCanvas.canvas.width, -TempCanvas.canvas.height);
-			X = 500 - (X + TempCanvas.canvas.width);
-			Y -= TempCanvas.canvas.height;
-		}
-		TempCanvas.drawImage(Img, 0, 0);
-		if (AlphaMasks && AlphaMasks.length) {
-			AlphaMasks.forEach(([x, y, w, h]) => TempCanvas.clearRect(x - X, y - Y, w, h));
-		}
-		SourceImage = TempCanvas.canvas;
-	}
-	Opacity = typeof Opacity === "number" ? Opacity : 1;
-	Canvas.save();
-	Canvas.globalAlpha = Opacity;
-	Canvas.globalCompositeOperation = BlendingMode;
-	Canvas.drawImage(SourceImage, X, Y);
-	Canvas.restore();
-	return true;
+function DrawImageCanvas(Source, Canvas, X, Y, Options) {
+	return DrawImageEx(Source, Canvas, X, Y, Options);
 }
-
 
 /**
  * Draws a canvas to a specific canvas
@@ -539,44 +537,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, AlphaMasks, Opacity, Rotate, Blen
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
-	if (AlphaMasks && AlphaMasks.length) {
-		TempCanvas.canvas.width = Img.width;
-		TempCanvas.canvas.height = Img.height;
-		TempCanvas.drawImage(Img, 0, 0);
-		AlphaMasks.forEach(([x, y, w, h]) => TempCanvas.clearRect(x - X, y - Y, w, h));
-		Canvas.drawImage(TempCanvas.canvas, X, Y);
-	} else {
-		Canvas.drawImage(Img, X, Y);
-	}
-	return true;
-}
-
-/**
- * Draws a specific canvas with a zoom on the main canvas
- * @param {HTMLImageElement | HTMLCanvasElement} Canvas - Canvas to draw on the main canvas
- * @param {number} X - Position of the canvas on the X axis
- * @param {number} Y - Position of the canvas on the Y axis
- * @param {number} Zoom - Zoom factor
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawCanvasZoom(Canvas, X, Y, Zoom) {
-	return DrawImageEx(Canvas, X, Y, { Zoom });
-}
-
-/**
- * Draws a zoomed image from a source to the canvas and mirrors it from left to right
- * @param {string} Source - URL of the image
- * @param {number} X - Position of the image on the X axis
- * @param {number} Y - Position of the image on the Y axis
- * @param {number} Width - Width of the image
- * @param {number} Height - Height of the image
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageZoomMirror(Source, X, Y, Width, Height) {
-	return DrawImageEx(Source, X, Y, {
-		Width, Height,
-		Mirror: true
-	});
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks });
 }
 
 /**
@@ -588,166 +549,125 @@ function DrawImageZoomMirror(Source, X, Y, Width, Height) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImage(Source, X, Y, Invert) {
-	return DrawImageEx(Source, X, Y, { Invert });
-}
-
-/**
- * Draws an image from a source to the specified canvas
- * @param {string} Source - URL of the image
- * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
- * @param {number} X - Position of the rectangle on the X axis
- * @param {number} Y - Position of the rectangle on the Y axis
- * @param {number} Zoom - Zoom factor
- * @param {string} HexColor - Color of the image to draw
- * @param {boolean} FullAlpha - Whether or not it is drawn in full alpha mode
- * @param {readonly RectTuple[]} [AlphaMasks] - A list of alpha masks to apply to the asset
- * @param {number} [Opacity=1] - The opacity at which to draw the image
- * @param {boolean} [Rotate=false] - If the image should be rotated by 180 degrees
- * @param {GlobalCompositeOperation} [BlendingMode="source-over"] - blending mode for drawing the image
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageCanvasColorize(Source, Canvas, X, Y, Zoom, HexColor, FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode) {
-
-	// Make sure that the starting image is loaded
-	const Img = DrawGetImage(Source);
-	if (!Img.complete) return false;
-	if (!Img.naturalWidth) return true;
-
-	// Variable initialization
-	const width = Img.width;
-	const height = Img.height;
-
-	// Prepares a canvas to draw the colorized image
-	ColorCanvas.canvas.width = width;
-	ColorCanvas.canvas.height = height;
-	ColorCanvas.globalCompositeOperation = "copy";
-	ColorCanvas.drawImage(Img, 0, 0);
-
-	const imageData = ColorCanvas.getImageData(0, 0, width, height);
-	const data = imageData.data;
-
-	// Get the RGB color used to transform
-	const rgbColor = DrawHexToRGB(HexColor);
-
-	// We transform each non transparent pixel based on the RGG value
-	if (FullAlpha) {
-		for (let p = 0, len = data.length; p < len; p += 4) {
-			if (data[p + 3] == 0)
-				continue;
-			const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-			data[p + 0] = rgbColor.r * trans;
-			data[p + 1] = rgbColor.g * trans;
-			data[p + 2] = rgbColor.b * trans;
-		}
-	} else {
-		for (let p = 0, len = data.length; p < len; p += 4) {
-			const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-			if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
-				continue;
-			data[p + 0] = rgbColor.r * trans;
-			data[p + 1] = rgbColor.g * trans;
-			data[p + 2] = rgbColor.b * trans;
-		}
-	}
-
-	// Replace the source image with the modified canvas
-	ColorCanvas.putImageData(imageData, 0, 0);
-	if (AlphaMasks && AlphaMasks.length) {
-		AlphaMasks.forEach(([x, y, w, h]) => ColorCanvas.clearRect(x - X, y - Y, w, h));
-	}
-
-	// Rotate the image 180 degrees
-	if (Rotate) {
-		ColorCanvas.rotate(Math.PI);
-		ColorCanvas.translate(-ColorCanvas.canvas.width, -ColorCanvas.canvas.height);
-		X = 500 - (X + ColorCanvas.canvas.width);
-		Y -= ColorCanvas.canvas.height;
-	}
-
-	Opacity = typeof Opacity === "number" ? Opacity : 1;
-	Canvas.save();
-	Canvas.globalAlpha = Opacity;
-	Canvas.globalCompositeOperation = BlendingMode;
-	Canvas.drawImage(ColorCanvas.canvas, 0, 0, Img.width, Img.height, X, Y, Img.width * Zoom, Img.height * Zoom);
-	Canvas.restore();
-
-	return true;
-}
-
-/**
- * Draws the mirrored version of an image from a source on the canvas
- * @param {string} Source - URL of the image
- * @param {number} X - Position of the image on the X axis
- * @param {number} Y - Position of the image on the Y axis
- * @returns {boolean} - whether the image was complete or not
- */
-function DrawImageMirror(Source, X, Y) {
-	return DrawImageEx(Source, X, Y, { Mirror: true });
-}
-
-/**
- * Flips an image vertically
- * @param {HTMLImageElement} Img - The image to be inverted
- * @returns {HTMLCanvasElement} - Canvas with the inverted image
- */
-function DrawImageInvert(Img) {
-	TempCanvas.canvas.width = Img.width;
-	TempCanvas.canvas.height = Img.height;
-	TempCanvas.scale(1, -1);
-	TempCanvas.translate(0, -Img.height);
-	TempCanvas.drawImage(Img, 0, 0);
-	return TempCanvas.canvas;
+	return DrawImageEx(Source, MainCanvas, X, Y, { Invert });
 }
 
 /**
  * Draws an image on canvas, applying all options
  * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {object} [options] - any extra options, optional
- * @param {CanvasRenderingContext2D} [options.Canvas] - Canvas on which to draw the image, defaults to `MainCanvas`
- * @param {number} [options.Alpha] - transparency between 0-1
- * @param {readonly [number, number, number, number]} [options.SourcePos] - Area in original image to draw in format `[left, top, width, height]`
- * @param {number} [options.Width] - Width of the drawn image, defaults to width of original image
- * @param {number} [options.Height] - Height of the drawn image, defaults to height of original image
- * @param {boolean} [options.Invert=false] - If image should be flipped vertically
- * @param {boolean} [options.Mirror=false] - If image should be flipped horizontally
- * @param {number} [options.Zoom=1] - Zoom factor
+ * @param {DrawOptions} [Options = {}] - any extra options
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageEx(
 	Source,
+	Canvas,
 	X,
 	Y,
-	{
-		Canvas = MainCanvas,
-		Alpha = 1,
-		SourcePos,
-		Width,
-		Height,
-		Invert = false,
-		Mirror = false,
-		Zoom = 1
-	}
+	Options
 ) {
+	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos } = Options || {};
+
+	let Img;
+
 	if (typeof Source === "string") {
-		Source = DrawGetImage(Source);
-		if (!Source.complete) return false;
-		if (!Source.naturalWidth) return true;
+		Img = DrawGetImage(Source);
+	} else {
+		Img = Source;
+	}
+
+	if (Img instanceof HTMLImageElement) {
+		if (!Img.complete) return false;
+		if (!Img.naturalWidth) return true;
+	}
+
+	if (typeof Zoom !== "number")
+		Zoom = 1.0;
+
+	if (typeof HexColor !== "string")
+		HexColor = null;
+
+	if (typeof Alpha !== "number")
+		Alpha = 1.0;
+
+	Alpha = Math.max(0, Math.min(1, Alpha));
+	if (Alpha === 0) return true;
+
+	if (!BlendingMode) {
+		BlendingMode = "source-over";
 	}
 
 	const sizeChanged = Width != null || Height != null;
 	if (Width == null) {
-		Width = SourcePos ? SourcePos[2] : Source.width;
+		Width = SourcePos ? SourcePos[2] : Img.width;
 	}
 	if (Height == null) {
-		Height = SourcePos ? SourcePos[3] : Source.height;
+		Height = SourcePos ? SourcePos[3] : Img.height;
 	}
 
+	// If we need to colorize or mask, we need to copy the image to
+	// a temporary canvas. On top of that, colorizing uses .getImageData
+	// so we have to fallback to the CPU canvas
+	let destCanvas;
+	if (HexColor || AlphaMasks) {
+		destCanvas = HexColor ? ColorCanvas : TempCanvas;
+
+		destCanvas.canvas.width = Img.width;
+		destCanvas.canvas.height = Img.height;
+		destCanvas.globalCompositeOperation = "copy";
+		destCanvas.drawImage(Img, 0, 0);
+
+		if (AlphaMasks) {
+			// Apply masks
+			DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
+		}
+
+		if (HexColor) {
+			// We've been asked to colorize the image, fetch the pixel data
+			// and massage it
+			const imageData = destCanvas.getImageData(0, 0, destCanvas.canvas.width, destCanvas.canvas.height);
+			const data = imageData.data;
+
+			// Get the RGB color used to transform
+			const rgbColor = DrawHexToRGB(HexColor);
+
+			// We transform each non transparent pixel based on the RGG value
+			if (FullAlpha) {
+				for (let p = 0, len = data.length; p < len; p += 4) {
+					if (data[p + 3] == 0)
+						continue;
+					const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+					data[p + 0] = rgbColor.r * trans;
+					data[p + 1] = rgbColor.g * trans;
+					data[p + 2] = rgbColor.b * trans;
+				}
+			} else {
+				for (let p = 0, len = data.length; p < len; p += 4) {
+					const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+					if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
+						continue;
+					data[p + 0] = rgbColor.r * trans;
+					data[p + 1] = rgbColor.g * trans;
+					data[p + 2] = rgbColor.b * trans;
+				}
+			}
+
+			// Replace the source image with the modified canvas
+			destCanvas.putImageData(imageData, 0, 0);
+		}
+		destCanvas = destCanvas.canvas;
+	} else {
+		destCanvas = Img;
+	}
+
+	// Blit the transformed image to the main canvas, applying opacity and zoom
 	Canvas.save();
 
-	Canvas.globalCompositeOperation = "source-over";
+	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
+
 	Canvas.translate(X, Y);
 
 	if (Zoom != 1) {
@@ -763,11 +683,11 @@ function DrawImageEx(
 	}
 
 	if (SourcePos) {
-		Canvas.drawImage(Source, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
+		Canvas.drawImage(destCanvas, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
 	} else if (sizeChanged) {
-		Canvas.drawImage(Source, 0, 0, Width, Height);
+		Canvas.drawImage(destCanvas, 0, 0, Width, Height);
 	} else {
-		Canvas.drawImage(Source, 0, 0);
+		Canvas.drawImage(destCanvas, 0, 0);
 	}
 
 	Canvas.restore();
