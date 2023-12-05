@@ -3390,27 +3390,29 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Modules: [
 				{
-					Name: "Style", Key: "s",
+					Name: "Style",
+					Key: "s",
 					Options: [
 						{}, // s0 - Black
 						{}, // s1 - Micro
 					],
 				},
 				{
-					Name: "Hood", Key: "h",
+					Name: "Hood",
+					Key: "h",
 					DrawData: {
 						elementData: [
-							{ position: [1375, 450, 250, 58], },
-							{ position: [1248, 532, 250, 58], },
-							{ position: [1522, 532, 250, 58], },
-							{ position: [1248, 610, 250, 58], },
-							{ position: [1522, 610, 250, 58], },
-							{ position: [1248, 688, 250, 58], },
-							{ position: [1522, 688, 250, 58], },
-							{ position: [1248, 766, 250, 58], },
-							{ position: [1522, 766, 250, 58], },
-							{ position: [1248, 844, 250, 58], },
-							{ position: [1522, 844, 250, 58], },
+							{ position: [1375, 450, 250, 58] },
+							{ position: [1248, 532, 250, 58] },
+							{ position: [1522, 532, 250, 58] },
+							{ position: [1248, 610, 250, 58] },
+							{ position: [1522, 610, 250, 58] },
+							{ position: [1248, 688, 250, 58] },
+							{ position: [1522, 688, 250, 58] },
+							{ position: [1248, 766, 250, 58] },
+							{ position: [1522, 766, 250, 58] },
+							{ position: [1248, 844, 250, 58] },
+							{ position: [1522, 844, 250, 58] },
 						],
 						itemsPerPage: 11,
 					},
@@ -3442,30 +3444,28 @@ var AssetFemale3DCGExtended = {
 						}, // h8 - Wide (no hair)
 						{
 							Property: {
-								Tint: [
-									{ Color: 0x000, Strength: 0.1, }
-								],
+								Tint: [{ Color: 0x000, Strength: 0.1 }],
 							},
 						}, // h9 - Grided
 						{
 							Property: {
 								Hide: ["HairFront", "HairBack"],
-								Tint: [
-									{ Color: 0x000, Strength: 0.1, }
-								],
+								Tint: [{ Color: 0x000, Strength: 0.1 }],
 							},
 						}, // h10 - Grided (no hair)
 					],
 				},
 				{
-					Name: "Gag", Key: "g",
+					Name: "Gag",
+					Key: "g",
 					Options: [
 						{}, // g0 - None
 						{}, // g1 - Panel
-					]
+					],
 				},
 				{
-					Name: "Cover", Key: "c",
+					Name: "Cover",
+					Key: "c",
 					Options: [
 						{}, // c0 - None
 						{}, // c1 - Low
@@ -3486,7 +3486,7 @@ var AssetFemale3DCGExtended = {
 						}, // c4 - Full
 					],
 				},
-			]
+			],
 		},
 	}, // ItemNeck
 	ItemNeckAccessories: {
