@@ -27,12 +27,15 @@ function TightenLoosenItemDraw() {
 	DrawText(DialogFindPlayer("MinimumTightness") + " " + TightenLoosenItemMinimumDifficulty.toString(), 1660, 440, "White", "Silver");
 
 	// Draws the buttons
-	DrawButton(1150, 650, 300, 65, DialogFindPlayer("TightenLittle"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty));
-	DrawButton(1150, 800, 300, 65, DialogFindPlayer("TightenLot"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2));
-	DrawButton(1550, 650, 300, 65, DialogFindPlayer("LoosenLittle"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty));
-	DrawButton(1550, 800, 300, 65, DialogFindPlayer("LoosenLot"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2));
+	DrawText (DialogFindPlayer ("Loosen"), 1250, 600, "White", "Silver");
+	DrawText (DialogFindPlayer ("Tighten"), 1750, 600, "White", "Silver");
+	DrawButton(1040, 700, 180, 60, DialogFindPlayer("LoosenLot"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2));
+	DrawButton(1220, 700, 60, 60, null, "White", "Icons/Small/Prev.png", null, true);
+	DrawButton(1280, 700, 180, 60, DialogFindPlayer("LoosenLittle"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty));
+	DrawButton(1540, 700, 180, 60, DialogFindPlayer("TightenLittle"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty));
+	DrawButton(1720, 700, 60, 60, null, "White", "Icons/Small/Next.png", null, true);
+	DrawButton(1780, 700, 180, 60, DialogFindPlayer("TightenLot"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2));
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
-
 }
 
 /**
@@ -68,8 +71,24 @@ function TightenLoosenItemClick() {
 	let Action = "";
 	let Item = DialogTightenLoosenItem;
 
+	// Loosen a lot
+	if (MouseIn(1040, 700, 200, 60) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
+		Item.Difficulty = Item.Difficulty - 4;
+		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
+		TightenLoosenFacialExpression(C, "ShortBreath", "Closed", "Soft");
+		Action = "LoosenLot";
+	}
+
+	// Loosen a little
+	if (MouseIn(1280, 700, 200, 60) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
+		Item.Difficulty = Item.Difficulty - 2;
+		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
+		TightenLoosenFacialExpression(C, "", "Shy", "Lowered");
+		Action = "LoosenLittle";
+	}
+
 	// Tighten a little
-	if (MouseIn(1150, 650, 300, 65) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
+	if (MouseIn(1540, 700, 200, 60) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
 		Item.Difficulty = Item.Difficulty + 2;
 		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Low", "Angry", "Angry");
@@ -77,27 +96,11 @@ function TightenLoosenItemClick() {
 	}
 
 	// Tighten a lot
-	if (MouseIn(1150, 800, 300, 65) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
+	if (MouseIn(1780, 700, 200, 60) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
 		Item.Difficulty = Item.Difficulty + 4;
 		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Medium", "Surprised", "Harsh");
 		Action = "TightenLot";
-	}
-
-	// Loosen a little
-	if (MouseIn(1550, 650, 300, 65) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
-		Item.Difficulty = Item.Difficulty - 2;
-		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
-		TightenLoosenFacialExpression(C, "", "Shy", "Lowered");
-		Action = "LoosenLittle";
-	}
-
-	// Loosen a lot
-	if (MouseIn(1550, 800, 300, 65) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
-		Item.Difficulty = Item.Difficulty - 4;
-		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
-		TightenLoosenFacialExpression(C, "ShortBreath", "Closed", "Soft");
-		Action = "LoosenLot";
 	}
 
 	// If the difficulty changed and we must refresh, improves the skill a little if done in a multiplayer
