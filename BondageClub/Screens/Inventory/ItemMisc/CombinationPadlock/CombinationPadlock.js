@@ -5,13 +5,10 @@ let CombinationPadlockCombinationLastValue = "";
 let CombinationPadlockNewCombinationLastValue = "";
 let CombinationPadlockLoaded = false;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscCombinationPadlockInit(C, Item) {
-	return ExtendedItemInitNoArch(C, Item, { CombinationNumber: "0000" }, false, false);
-}
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemMiscCombinationPadlockLoadHook(data, originalFunction) {
+	originalFunction();
 
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscCombinationPadlockLoad() {
 	CombinationPadlockPlayerIsBlind = Player.IsBlind();
 	// Only update on initial load, not update loads
 	if (!CombinationPadlockLoaded) {
@@ -60,6 +57,9 @@ function InventoryItemMiscCombinationPadlockLoad() {
 	CombinationPadlockLoaded = true;
 }
 
+/**
+ * @param {Event & { target: { value: string }}} e
+ */
 function InventoryItemMiscCombinationPadlockModifyInput(e) {
 	const clumsiness = Player.GetClumsiness();
 
@@ -92,14 +92,14 @@ function InventoryItemMiscCombinationPadlockModifyInput(e) {
 	CombinationPadlockCombinationLastValue = e.target.value;
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscCombinationPadlockDraw() {
-	var C = CharacterGetCurrent();
-	DrawAssetPreview(1387, 25, DialogFocusItem.Asset);
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
+	originalFunction();
 
+	var C = CharacterGetCurrent();
 	const playerBlind = Player.IsBlind();
 	if (playerBlind !== CombinationPadlockPlayerIsBlind) {
-		InventoryItemMiscCombinationPadlockLoad();
+		InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction);
 	}
 
 	DrawText(
@@ -139,14 +139,10 @@ function InventoryItemMiscCombinationPadlockDraw() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscCombinationPadlockClick() {
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
+	originalFunction();
 	var C = CharacterGetCurrent();
-
-	// Exits the screen
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-	}
 
 	// If the zone is blocked, cannot interact with the lock
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
@@ -206,8 +202,9 @@ function InventoryItemMiscCombinationPadlockClick() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscCombinationPadlockExit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemMiscCombinationPadlockExitHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	CombinationPadlockLoaded = false;
 	ElementRemove("CombinationNumber");
 	ElementRemove("NewCombinationNumber");

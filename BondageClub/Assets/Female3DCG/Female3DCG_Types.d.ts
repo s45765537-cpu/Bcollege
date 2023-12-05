@@ -1261,8 +1261,8 @@ interface NoArchItemConfig extends ExtendedItemConfig<NoArchItemOption> {
 	ChatSetting?: "default";
 	ScriptHooks?: ExtendedItemCapsScriptHooksStruct<NoArchItemData, NoArchItemOption>;
 	DrawData?: NoArchConfigDrawData;
+	DialogPrefix?: ExtendedItemCapsDialog<NoArchItemData, NoArchItemOption>,
 	BaselineProperty?: ItemProperties;
-	DialogPrefix?: ExtendedItemCapsDialog<NoArchItemData, NoArchItemOption>;
 }
 
 /** Extended item option subtype for text-supporting items */

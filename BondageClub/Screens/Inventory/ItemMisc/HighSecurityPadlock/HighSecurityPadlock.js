@@ -5,14 +5,27 @@ var HighSecurityPadlockConfigOwner = true;
 var HighSecurityPadlockConfigLover = true;
 var HighSecurityPadlockConfigWhitelist = false;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscHighSecurityPadlockInit(C, Item) {
-	const MemberNumberListKeys = (Item.Property.LockMemberNumber) ? `${Item.Property.LockMemberNumber}` : "";
-	return ExtendedItemInitNoArch(C, Item, { MemberNumberListKeys: MemberNumberListKeys }, false, false);
+/** @type {ExtendedItemScriptHookCallbacks.Init<NoArchItemData>} */
+function InventoryItemMiscHighSecurityPadlockInitHook({ asset }, originalFunction, C, item, push, refresh) {
+	if (!CommonIsObject(item.Property)) {
+		item.Property = {};
+	}
+
+	if (item.Property.LockMemberNumber && !item.Property.MemberNumberListKeys) {
+		item.Property.MemberNumberListKeys = item.Property.LockMemberNumber.toString();
+	} else {
+		return (originalFunction == null) ? false : originalFunction(C, item, push, refresh);
+	}
+
+	originalFunction(C, item, false, false);
+	if (refresh) CharacterRefresh(C, push, false);
+	if (push) ChatRoomCharacterItemUpdate(C, asset.Group.Name);
+	return true;
 }
 
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscHighSecurityPadlockLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemMiscHighSecurityPadlockLoadHook(data, originalFunction) {
+	originalFunction();
 	var C = CharacterGetCurrent();
 	InventoryItemMiscHighSecurityPadlockPlayerCanUnlock = true;
 
@@ -34,6 +47,11 @@ function InventoryItemMiscHighSecurityPadlockLoad() {
 }
 
 // FIXME: should be merged into either DialogHasKey or DialogCanUnlock
+/**
+ * @param {Character} C
+ * @param {Item} Item
+ * @returns {boolean}
+ */
 function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
 	let UnlockName = "Unlock" + Item.Asset.Name;
@@ -51,11 +69,11 @@ function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 	return true;
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscHighSecurityPadlockDraw() {
-	var C = CharacterGetCurrent();
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscHighSecurityPadlockDrawHook(data, originalFunction) {
+	originalFunction();
 
-	DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
+	var C = CharacterGetCurrent();
 	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
 		DrawText(DialogFindPlayer("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
 
@@ -79,8 +97,9 @@ function InventoryItemMiscHighSecurityPadlockDraw() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscHighSecurityPadlockClick() {
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
+	originalFunction();
 	var C = CharacterGetCurrent();
 	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)&& (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0)))) {
 		if (MouseIn(1135, 920, 230, 64)) {
@@ -137,14 +156,10 @@ function InventoryItemMiscHighSecurityPadlockClick() {
 		if (MouseIn(1450, 780, 64, 64)) {HighSecurityPadlockConfigLover = !HighSecurityPadlockConfigLover; return;}
 		if (MouseIn(1450, 860, 64, 64)) {HighSecurityPadlockConfigWhitelist = !HighSecurityPadlockConfigWhitelist; return;}
 	}
-	if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) DialogLeaveFocusItem();
-
-
-
-
 }
 
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscHighSecurityPadlockExit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemMiscHighSecurityPadlockExitHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	ElementRemove("MemberNumberList");
 }

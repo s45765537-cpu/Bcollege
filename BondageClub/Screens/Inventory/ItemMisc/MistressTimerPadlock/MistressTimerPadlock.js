@@ -3,39 +3,21 @@
 const MistressTimerChooseList = [5, 10, 15, 30, 60, 120, 180, 240, -180, -120, -60, -30, -15];
 let MistressTimerChooseIndex = 0;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscMistressTimerPadlockInit(C, Item) {
-	const PropRecord = {
-		RemoveItem: false,
-		ShowTimer: true,
-		EnableRandomInput: false,
-		MemberNumberList: [],
-	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscMistressTimerPadlockLoad() {
-}
-
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscMistressTimerPadlockDraw() {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFunction) {
 	const property = DialogFocusSourceItem.Property;
 
 	if (!DialogFocusItem || property.RemoveTimer < CurrentTime) {
 		DialogLeaveFocusItem();
 		return;
 	}
-
-	const asset = DialogFocusItem.Asset;
+	originalFunction();
 
 	if (property.ShowTimer) {
-		DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 150, "white", "gray");
+		DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	} else {
-		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 150, "white", "gray");
+		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 500, "white", "gray");
 	}
-	DrawAssetPreview(1387, 225, asset);
-	DrawText(DialogFindPlayer(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
 
 	// Draw the settings
 	if (Player.CanInteract() && (Player.MemberNumber == property.LockMemberNumber)) {
@@ -68,13 +50,9 @@ function InventoryItemMiscMistressTimerPadlockDraw() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscMistressTimerPadlockClick() {
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-		return;
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) {
+	originalFunction();
 	if (!Player.CanInteract()) {
 		return;
 	}
@@ -120,7 +98,12 @@ function InventoryItemMiscMistressTimerPadlockClick() {
 }
 
 // When a value is added to the timer, can be a negative one
-function InventoryItemMiscMistressTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList) {
+/**
+ *
+ * @param {number} TimeToAdd
+ * @param {boolean} PlayerMemberNumberToList
+ */
+function InventoryItemMiscMistressTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -153,6 +136,3 @@ function InventoryItemMiscMistressTimerPadlockAdd(TimeToAdd, PlayerMemberNumberT
 		DialogLeaveFocusItem();
 	}
 }
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscMistressTimerPadlockExit() {}

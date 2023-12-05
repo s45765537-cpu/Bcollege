@@ -11820,6 +11820,178 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
 		}, // BunPlush
+		IntricatePadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscIntricatePadlockDrawHook,
+			},
+		}, // IntricatePadlock
+		HighSecurityPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Init: InventoryItemMiscHighSecurityPadlockInitHook,
+				Load: InventoryItemMiscHighSecurityPadlockLoadHook,
+				Draw: InventoryItemMiscHighSecurityPadlockDrawHook,
+				Click: InventoryItemMiscHighSecurityPadlockClickHook,
+				Exit: InventoryItemMiscHighSecurityPadlockExitHook,
+			},
+			BaselineProperty: {
+				MemberNumberListKeys: "",
+			},
+		}, // HighSecurityPadlock
+		SafewordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "PasswordPadlock" },
+			ScriptHooks: {
+				Load: InventoryItemMiscSafewordPadlockLoadHook,
+				Draw: InventoryItemMiscSafewordPadlockDrawHook,
+				Click: InventoryItemMiscSafewordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+		}, // SafewordPadlock
+		TimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscTimerPadlockDrawHook,
+				Click: InventoryItemMiscTimerPadlockClickHook,
+			},
+		}, // TimerPadlock
+		PasswordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: (data, C, item) => {
+					const lockmemberNumber = item.Property?.LockMemberNumber;
+					if (lockmemberNumber == null) {
+						return "";
+					}
+					return `${DialogFindPlayer("LockMemberNumber")} ${lockmemberNumber}`;
+				},
+			},
+			ScriptHooks: {
+				Load: InventoryItemMiscPasswordPadlockLoadHook,
+				Draw: InventoryItemMiscPasswordPadlockDrawHook,
+				Click: InventoryItemMiscPasswordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+			BaselineProperty: {
+				Password: "PASSWORD",
+				Hint: "Take a guess...",
+				LockSet: false,
+				RemoveOnUnlock: false,
+			},
+		}, // PasswordPadlock
+		MistressPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscMistressPadlockDrawHook,
+			},
+		}, // MistressPadlock
+		PandoraPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "MistressPadlock" },
+		}, // PandoraPadlock
+		OwnerTimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscOwnerTimerPadlockDrawHook,
+				Click: InventoryItemMiscOwnerTimerPadlockClickHook,
+			},
+			BaselineProperty: {
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // OwnerTimerPadlock
+		LoversTimerPadlock: {
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "OwnerTimerPadlock" },
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: (...args) =>
+					InventoryItemMiscOwnerTimerPadlockDrawHook(
+						...args,
+						InventoryItemMiscLoversTimerPadlockValidator,
+					),
+				Click: (...args) =>
+					InventoryItemMiscOwnerTimerPadlockClickHook(
+						...args,
+						InventoryItemMiscLoversTimerPadlockValidator,
+					),
+			},
+		}, // LoversTimerPadlock
+		OwnerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscOwnerPadlockDrawHook,
+			},
+		}, // OwnerPadlock
+		LoversPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "OwnerPadlock" },
+		}, // LoversPadlock
+		FamilyPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscFamilyPadlockDrawHook,
+			},
+		}, // FamilyPadlock
+		PortalLinkPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "ExclusivePadlock" },
+		}, // PortalLinkPadlock
+		MistressTimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscMistressTimerPadlockDrawHook,
+				Click: InventoryItemMiscMistressTimerPadlockClickHook,
+			},
+			BaselineProperty: {
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // MistressTimerPadlock
+		MetalPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "IntricatePadlock" },
+		}, // MetalPadlock
+		ExclusivePadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscExclusivePadlockDrawHook,
+			},
+		}, // ExclusivePadlock
+		CombinationPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemMiscCombinationPadlockLoadHook,
+				Draw: InventoryItemMiscCombinationPadlockDrawHook,
+				Click: InventoryItemMiscCombinationPadlockClickHook,
+				Exit: InventoryItemMiscCombinationPadlockExitHook,
+			},
+			BaselineProperty: {
+				CombinationNumber: "0000",
+			},
+		}, // ExclusivePadlock
+		TimerPasswordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemMiscTimerPasswordPadlockLoadHook,
+				Draw: InventoryItemMiscTimerPasswordPadlockDrawHook,
+				Click: InventoryItemMiscTimerPasswordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+			BaselineProperty: {
+				Password: "PASSWORD",
+				Hint: "Take a guess...",
+				LockSet: false,
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // TimerPasswordPadlock
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {

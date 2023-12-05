@@ -2902,7 +2902,7 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 	archetype: "noarch";
 	scriptHooks: ExtendedItemScriptHookStruct<NoArchItemData, NoArchItemOption>;
 	chatSetting: "default";
-	baselineProperty: null | PropertiesNoArray.Item;
+	baselineProperty: null | ItemProperties;
 	drawData: ExtendedItemDrawData<ElementMetaData.NoArch>;
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
