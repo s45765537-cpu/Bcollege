@@ -1201,6 +1201,7 @@ interface Character {
 	IsPlugged: () => boolean;
 	IsShackled: () => boolean;
 	IsSlow: () => boolean;
+	GetSlowLevel: () => number;
 	IsMouthBlocked: () => boolean;
 	IsMouthOpen: () => boolean;
 	IsVulvaFull: () => boolean;

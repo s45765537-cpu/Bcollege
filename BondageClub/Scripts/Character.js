@@ -153,7 +153,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return CharacterCanKneel(this);
 		},
 		CanInteract: function () {
-			return (this.Effect.indexOf("Block") < 0);
+			return !this.HasEffect("Block");
 		},
 		CanChangeOwnClothes: function () {
 			return this.CanChangeClothesOn(this);
@@ -181,9 +181,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		IsRestrained: function () {
 			return (
-				(this.Effect.indexOf("Freeze") >= 0) ||
-				(this.Effect.indexOf("Block") >= 0) ||
-				(this.Effect.indexOf("BlockWardrobe") >= 0)
+				this.HasEffect("Freeze") ||
+				this.HasEffect("Block") ||
+				this.HasEffect("BlockWardrobe")
 			);
 		},
 		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */
@@ -225,52 +225,67 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return blurLevel;
 		},
 		IsLocked: function () {
-			return this.Effect.indexOf("Lock") > 0;
+			return this.HasEffect("Lock");
 		},
 		IsBlind: function () {
 			return this.GetBlindLevel() > 0;
 		},
 		IsEnclose: function () {
-			return (this.Effect.indexOf("Enclose") >= 0 || (this.Effect.indexOf("OneWayEnclose") >= 0 && this.ID == 0));
+			return this.HasEffect("Enclose") || (this.HasEffect("OneWayEnclose") && this.IsPlayer());
 		},
 		IsMounted: function () {
-			return (this.Effect.indexOf("Mounted") >= 0);
+			return this.HasEffect("Mounted");
 		},
 		IsChaste: function () {
-			return ((this.Effect.indexOf("Chaste") >= 0) || (this.Effect.indexOf("BreastChaste") >= 0));
+			return this.HasEffect("Chaste") || this.HasEffect("BreastChaste");
 		},
 		IsVulvaChaste: function () {
-			return (this.Effect.indexOf("Chaste") >= 0);
+			return this.HasEffect("Chaste");
 		},
 		IsPlugged: function () {
-			return (this.Effect.indexOf("IsPlugged") >= 0);
+			return this.HasEffect("IsPlugged");
 		},
 		IsButtChaste: function () {
 			return this.Effect.includes("ButtChaste");
 		},
 		IsBreastChaste: function () {
-			return (this.Effect.indexOf("BreastChaste") >= 0);
+			return this.HasEffect("BreastChaste");
 		},
 		IsShackled: function () {
-			return (this.Effect.indexOf("Shackled") >= 0);
+			return this.HasEffect("Shackled");
 		},
 		IsSlow: function () {
-			return (
-				(this.Effect.includes("Slow") || this.PoseMapping.BodyLower === "Kneel") &&
-				((!this.IsPlayer()) || !this.RestrictionSettings.SlowImmunity)
-			);
+			return this.GetSlowLevel() > 0;
+		},
+		GetSlowLevel: function () {
+			// Respect immunity setting for the player
+			if (this.IsPlayer() && /** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
+				return 0;
+
+			let slowness = 0;
+			if (this.HasEffect("Slow")) slowness++;
+			if (this.PoseMapping.BodyFull === "AllFours") slowness += 2;
+			else if (this.PoseMapping.BodyLower === "Kneel") slowness += 1;
+
+			// Short-circuit to save on the following checks
+			if (slowness === 0) return 0;
+
+			const effects = CharacterGetEffects(this, null, true);
+			// Count all slow effects applied. Minus one for the one we've seen above
+			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - 1;
+			return slowness;
 		},
 		IsEgged: function () {
-			return (this.Effect.indexOf("Egged") >= 0);
+			return this.HasEffect("Egged");
 		},
 		IsMouthBlocked: function () {
-			return this.Effect.indexOf("BlockMouth") >= 0;
+			return this.HasEffect("BlockMouth");
 		},
 		IsMouthOpen: function () {
-			return this.Effect.indexOf("OpenMouth") >= 0;
+			return this.HasEffect("OpenMouth");
 		},
 		IsVulvaFull: function () {
-			return this.Effect.indexOf("FillVulva") >= 0;
+			return this.HasEffect("FillVulva");
 		},
 		IsAssFull: function () {
 			return this.Effect.includes("IsPlugged");
