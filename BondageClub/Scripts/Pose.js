@@ -263,6 +263,6 @@ function PoseRefresh(C) {
 
 	// The `TapedHands` pose acts like a drop-in replacement for the `BaseUpper` pose
 	if (C.PoseMapping.BodyHands) {
-		delete C.PoseMapping[C.PoseMapping.BodyUpper === "BaseUpper" ? "BaseUpper" : "BodyHands"];
+		delete C.PoseMapping[(!C.PoseMapping.BodyUpper || C.PoseMapping.BodyUpper === "BaseUpper") ? "BodyUpper" : "BodyHands"];
 	}
 }
