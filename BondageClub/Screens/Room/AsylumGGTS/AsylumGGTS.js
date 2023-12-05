@@ -253,11 +253,10 @@ function AsylumGGTSBuildPrivate() {
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
 		Ban: [],
-		Limit: "2",
+		Limit: 2,
 		BlockCategory: [],
 		Language: ChatCreateLanguage,
 	};
-	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	DialogLeave();
 }
