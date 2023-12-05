@@ -25,7 +25,7 @@ Options:
  */
 function sortCSV(filename) {
 	filename = fs.existsSync(filename) ? filename : path.join(BASE_PATH, filename);
-	const csv = parseCSV(fs.readFileSync(filename, { encoding: "utf8" }));
+	let csv = parseCSV(fs.readFileSync(filename, { encoding: "utf8" }));
 	csv.sort((iList, jList) => {
 		return zip(iList, jList).map(([i, j]) => {
 			const iInt = Number.parseInt(i);
@@ -36,6 +36,9 @@ function sortCSV(filename) {
 				return iInt - jInt;
 			}
 		}).find(i => i !== 0) ?? 0;
+	});
+	csv = csv.filter((value, index, array) => {
+		return array.findIndex((other) => zip(value, other).every(([a, b]) => a === b)) === index;
 	});
 
 	const writer = createArrayCsvWriter({ path: filename });
