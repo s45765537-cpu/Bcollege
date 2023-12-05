@@ -2354,7 +2354,7 @@ interface ItemPropertiesBase {
 	 * How the type-string translate to concrete properties depends on the Archetype in question.
 	 * @deprecated Superseded by {@link ItemPropertiesBase.TypeRecord}. Old type strings can be convert to records via {@link ExtendedItemTypeToRecord}.
 	 */
-	Type?: string;
+	Type?: null | string;
 	/** A record mapping screen names to option indices. */
 	TypeRecord?: TypeRecord;
 

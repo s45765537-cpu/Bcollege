@@ -34,10 +34,6 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 	}
 	NoArch.Draw(data);
 
-	// Draw the preview & current mode
-	ExtendedItemDrawHeader();
-	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
-
 	// Draw each of the triggers and position their inputs
 	ItemVulvaFuturisticVibratorTriggers.forEach((trigger, i) => {
 		MainCanvas.textAlign = "right";

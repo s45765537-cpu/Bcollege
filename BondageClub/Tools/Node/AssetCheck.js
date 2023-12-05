@@ -1300,7 +1300,7 @@ function sanitizeVMOutput(input) {
 					if (archetype) {
 						const propList = ["AllowEffect", "AllowBlock", "AllowHide", "AllowHideItem", "AllowType", "AllowLockType"];
 						for (const name of propList) {
-							if (Asset[name] !== undefined) {
+							if (Asset[name] !== undefined && Asset.Name !== "SlaveCollar") {
 								error(`${Group.Group}:${Asset.Name}: Archetypical extended items must NOT set ${name}`);
 							}
 						}

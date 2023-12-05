@@ -3474,6 +3474,45 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		FuturisticCollar: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemNeckFuturisticCollarLoadHook,
+				Draw: InventoryItemNeckFuturisticCollarDrawHook,
+				Click: InventoryItemNeckFuturisticCollarClickHook,
+				Exit: InventoryItemNeckFuturisticCollarExitHook,
+				Validate: FuturisticAccessValidate,
+			},
+			BaselineProperty: {
+				OpenPermission: false,
+				OpenPermissionChastity: false,
+				OpenPermissionArm: false,
+				OpenPermissionLeg: false,
+				BlockRemotes: false,
+			},
+			AllowEffect: [
+				E.BlockRemotes,
+				E.OpenPermission,
+				E.OpenPermissionArm,
+				E.OpenPermissionLeg,
+				E.OpenPermissionChastity,
+			],
+		}, // FuturisticCollar
+		SlaveCollar: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: "SlaveCollarSelectType",
+			},
+			ScriptHooks: {
+				Load: InventoryItemNeckSlaveCollarLoadHook,
+				Draw: InventoryItemNeckSlaveCollarDrawHook,
+				Click: InventoryItemNeckSlaveCollarClickHook,
+			},
+			BaselineProperty: {
+				TypeRecord: { noarch: 0 },
+			},
+			AllowEffect: [E.GagNormal, E.FixedHead],
+		}, // SlaveCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -8162,6 +8201,14 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			ChangeWhenLocked: false,
 		}, // Trolley
+		WheelFortune: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemDevicesWheelFortuneLoadHook,
+				Draw: CommonNoop,
+				Click: CommonNoop,
+			},
+		}, // WheelFortune
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -13998,6 +14045,16 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Smartphone
+		PortalTablet: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: PortalLinkTransmitterLoadHook,
+				Draw: PortalLinkTransmitterDrawHook,
+				Click: PortalLinkTransmitterClickHook,
+				Exit: PortalLinkTransmitterExitHook,
+			},
+			BaselineProperty: { PortalLinkCode: "" },
+		}, // PortalTablet
 	}, // ItemHandheld
 	EyeShadow: {
 		CatEye: {

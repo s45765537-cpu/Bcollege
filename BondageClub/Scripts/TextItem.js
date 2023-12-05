@@ -256,7 +256,7 @@ const TextItem = {
 				const args = [C, DialogFocusItem, newOption, previousOption];
 				CommonCallFunctionByNameWarn(`${data.functionPrefix}PublishAction`, ...args);
 				if (data.pushOnPublish) {
-					CharacterRefresh(C, false, false);
+					CharacterRefresh(C, true, false);
 					ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
 				}
 			}
