@@ -516,7 +516,7 @@ function DrawImageResize(Source, X, Y, Width, Height) {
 
 /**
  * Draws a zoomed image from a source to a specific canvas
- * @param {string} Source - URL of the image
+ * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
@@ -524,89 +524,8 @@ function DrawImageResize(Source, X, Y, Width, Height) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawImageCanvas(Source, Canvas, X, Y, Options) {
-	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode } = Options || {};
-	const Img = DrawGetImage(Source);
-	if (!Img.complete) return false;
-	if (!Img.naturalWidth) return true;
-	if (typeof Zoom !== "number")
-		Zoom = 1.0;
-
-	if (typeof HexColor !== "string")
-		HexColor = null;
-
-	if (typeof Alpha !== "number")
-		Alpha = 1.0;
-	Alpha = Math.max(0, Math.min(1, Alpha));
-	if (Alpha === 0) return true;
-
-	// If we need to colorize, use the CPU canvas
-	// since we're gonna need .getImageData
-	const destCanvas = HexColor ? ColorCanvas : TempCanvas;
-
-	// Blit the image to the temporary canvas
-	destCanvas.canvas.width = Img.width;
-	destCanvas.canvas.height = Img.height;
-	destCanvas.globalCompositeOperation = "copy";
-	destCanvas.drawImage(Img, 0, 0);
-
-	// Apply masks
-	DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
-
-	if (Invert) {
-		destCanvas.translate(0, -destCanvas.canvas.height);
-		Y -= destCanvas.canvas.height;
-	}
-
-	if (Mirror) {
-		destCanvas.translate(-destCanvas.canvas.width, 0);
-		X = 500 - (X + destCanvas.canvas.width);
-	}
-
-	if (HexColor) {
-		// We've been asked to colorize the image, fetch the pixel data
-		// and massage it
-		const imageData = destCanvas.getImageData(0, 0, destCanvas.canvas.width, destCanvas.canvas.height);
-		const data = imageData.data;
-
-		// Get the RGB color used to transform
-		const rgbColor = DrawHexToRGB(HexColor);
-
-		// We transform each non transparent pixel based on the RGG value
-		if (FullAlpha) {
-			for (let p = 0, len = data.length; p < len; p += 4) {
-				if (data[p + 3] == 0)
-					continue;
-				const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-				data[p + 0] = rgbColor.r * trans;
-				data[p + 1] = rgbColor.g * trans;
-				data[p + 2] = rgbColor.b * trans;
-			}
-		} else {
-			for (let p = 0, len = data.length; p < len; p += 4) {
-				const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
-				if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
-					continue;
-				data[p + 0] = rgbColor.r * trans;
-				data[p + 1] = rgbColor.g * trans;
-				data[p + 2] = rgbColor.b * trans;
-			}
-		}
-
-		// Replace the source image with the modified canvas
-		destCanvas.putImageData(imageData, 0, 0);
-	}
-
-	// Blit the transformed image to the main canvas, applying opacity and zoom
-	Canvas.save();
-	Canvas.globalAlpha = Alpha;
-	Canvas.globalCompositeOperation = BlendingMode;
-	Canvas.drawImage(destCanvas.canvas,
-		0, 0, destCanvas.canvas.width, destCanvas.canvas.height,
-		X, Y, destCanvas.canvas.width * Zoom, destCanvas.canvas.height * Zoom);
-	Canvas.restore();
-	return true;
+	return DrawImageEx(Source, Canvas, X, Y, Options);
 }
-
 
 /**
  * Draws a canvas to a specific canvas
@@ -618,16 +537,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
  * @returns {boolean} - whether the image was complete or not
  */
 function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
-	if (AlphaMasks && AlphaMasks.length) {
-		TempCanvas.canvas.width = Img.width;
-		TempCanvas.canvas.height = Img.height;
-		TempCanvas.drawImage(Img, 0, 0);
-		DrawClearAlphaMasks(TempCanvas, X, Y, AlphaMasks);
-		Canvas.drawImage(TempCanvas.canvas, X, Y);
-	} else {
-		Canvas.drawImage(Img, X, Y);
-	}
-	return true;
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks });
 }
 
 /**
@@ -658,29 +568,106 @@ function DrawImageEx(
 	Y,
 	Options
 ) {
-	let { Alpha, SourcePos, Width, Height, Invert, Mirror, Zoom } = Options;
+	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos } = Options || {};
 
-	if (!Alpha || Alpha < 0 || Alpha > 1) Alpha = 1;
-	if (!Zoom || Zoom < 0 || Zoom > 1) Zoom = 1;
+	let Img;
 
 	if (typeof Source === "string") {
-		Source = DrawGetImage(Source);
-		if (!Source.complete) return false;
-		if (!Source.naturalWidth) return true;
+		Img = DrawGetImage(Source);
+	} else {
+		Img = Source;
+	}
+
+	if (Img instanceof HTMLImageElement) {
+		if (!Img.complete) return false;
+		if (!Img.naturalWidth) return true;
+	}
+
+	if (typeof Zoom !== "number")
+		Zoom = 1.0;
+
+	if (typeof HexColor !== "string")
+		HexColor = null;
+
+	if (typeof Alpha !== "number")
+		Alpha = 1.0;
+
+	Alpha = Math.max(0, Math.min(1, Alpha));
+	if (Alpha === 0) return true;
+
+	if (!BlendingMode) {
+		BlendingMode = "source-over";
 	}
 
 	const sizeChanged = Width != null || Height != null;
 	if (Width == null) {
-		Width = SourcePos ? SourcePos[2] : Source.width;
+		Width = SourcePos ? SourcePos[2] : Img.width;
 	}
 	if (Height == null) {
-		Height = SourcePos ? SourcePos[3] : Source.height;
+		Height = SourcePos ? SourcePos[3] : Img.height;
 	}
 
+	// If we need to colorize or mask, we need to copy the image to
+	// a temporary canvas. On top of that, colorizing uses .getImageData
+	// so we have to fallback to the CPU canvas
+	let destCanvas;
+	if (HexColor || AlphaMasks) {
+		destCanvas = HexColor ? ColorCanvas : TempCanvas;
+
+		destCanvas.canvas.width = Img.width;
+		destCanvas.canvas.height = Img.height;
+		destCanvas.globalCompositeOperation = "copy";
+		destCanvas.drawImage(Img, 0, 0);
+
+		if (AlphaMasks) {
+			// Apply masks
+			DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
+		}
+
+		if (HexColor) {
+			// We've been asked to colorize the image, fetch the pixel data
+			// and massage it
+			const imageData = destCanvas.getImageData(0, 0, destCanvas.canvas.width, destCanvas.canvas.height);
+			const data = imageData.data;
+
+			// Get the RGB color used to transform
+			const rgbColor = DrawHexToRGB(HexColor);
+
+			// We transform each non transparent pixel based on the RGG value
+			if (FullAlpha) {
+				for (let p = 0, len = data.length; p < len; p += 4) {
+					if (data[p + 3] == 0)
+						continue;
+					const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+					data[p + 0] = rgbColor.r * trans;
+					data[p + 1] = rgbColor.g * trans;
+					data[p + 2] = rgbColor.b * trans;
+				}
+			} else {
+				for (let p = 0, len = data.length; p < len; p += 4) {
+					const trans = ((data[p] + data[p + 1] + data[p + 2]) / 383);
+					if ((data[p + 3] == 0) || (trans < 0.8) || (trans > 1.2))
+						continue;
+					data[p + 0] = rgbColor.r * trans;
+					data[p + 1] = rgbColor.g * trans;
+					data[p + 2] = rgbColor.b * trans;
+				}
+			}
+
+			// Replace the source image with the modified canvas
+			destCanvas.putImageData(imageData, 0, 0);
+		}
+		destCanvas = destCanvas.canvas;
+	} else {
+		destCanvas = Img;
+	}
+
+	// Blit the transformed image to the main canvas, applying opacity and zoom
 	Canvas.save();
 
-	Canvas.globalCompositeOperation = "source-over";
+	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
+
 	Canvas.translate(X, Y);
 
 	if (Zoom != 1) {
@@ -696,11 +683,11 @@ function DrawImageEx(
 	}
 
 	if (SourcePos) {
-		Canvas.drawImage(Source, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
+		Canvas.drawImage(destCanvas, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
 	} else if (sizeChanged) {
-		Canvas.drawImage(Source, 0, 0, Width, Height);
+		Canvas.drawImage(destCanvas, 0, 0, Width, Height);
 	} else {
-		Canvas.drawImage(Source, 0, 0);
+		Canvas.drawImage(destCanvas, 0, 0);
 	}
 
 	Canvas.restore();
