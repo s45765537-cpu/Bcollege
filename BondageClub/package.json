@@ -31,7 +31,7 @@
 	},
 	"homepage": "https://github.com/Ben987/Bondage-College#readme",
 	"browserslist": [
-		"since 2018 and > 0.5% and not dead"
+		"since 2020 and > 0.5% and not dead"
 	],
 	"devDependencies": {
 		"@types/css-font-loading-module": "^0.0.9",
