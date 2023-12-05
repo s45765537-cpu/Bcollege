@@ -404,6 +404,19 @@ function ElementSetAttribute(ID, Name, Value) {
 }
 
 /**
+ * Removes an attribute from a specified element.
+ * @param {string} ID - The id of the element from which to remove the attribute.
+ * @param {string} Name - Name of the attribute to remove.
+ * @returns {void} - Nothing
+ */
+function ElementRemoveAttribute(ID, Name) {
+	var element = document.getElementById(ID);
+	if (element != null) {
+		element.removeAttribute(Name);
+	}
+}
+
+/**
  * Scrolls to the end of a specified element
  * @param {string} ID - The id of the element to scroll down to the bottom of.
  * @returns {void} - Nothing
