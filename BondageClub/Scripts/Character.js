@@ -109,7 +109,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			if (typeof poses === "string") {
 				poses = [poses];
 			}
-			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.ActivePose");
+			this.ActivePoseMapping = PoseToMapping.Scalar(poses, "Character.ActivePose");
 		},
 
 		DrawPoseMapping: {},
