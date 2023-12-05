@@ -253,7 +253,12 @@ function CommonDrawAppearanceBuild(C, {
 		Y += CanvasUpperOverflow;
 		AlphaMasks = AlphaMasks.map(([x, y, w, h]) => [x, y + CanvasUpperOverflow + YFixedOffset, w, h]);
 
-		const Rotate = A.FixedPosition && C.IsInverted();
+		let Mirror = false;
+		let Invert = false;
+		if (A.FixedPosition && C.IsInverted()) {
+			Mirror = !Mirror;
+			Invert = !Invert;
+		}
 
 		const ItemLocked = !!(Property && Property.LockedBy);
 
@@ -290,12 +295,11 @@ function CommonDrawAppearanceBuild(C, {
 
 				drawImageColorize(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
-					Color,
-					A.FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
+					{ HexColor: Color, FullAlpha: A.FullAlpha, AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
 				);
 				drawImageColorizeBlink(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
-					Color, A.FullAlpha, AlphaMasks, Opacity, Rotate, BlendingMode
+					{ HexColor: Color, FullAlpha: A.FullAlpha, AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
 				);
 			} else {
 				let ColorName = (
@@ -313,12 +317,12 @@ function CommonDrawAppearanceBuild(C, {
 				drawImage(
 					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png",
 					X, Y,
-					AlphaMasks, Opacity, Rotate, BlendingMode
+					{ AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
 				);
 				drawImageBlink(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L +
-					".png",
-					X, Y, AlphaMasks, Opacity, Rotate, BlendingMode
+					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L + ".png",
+					X, Y,
+					{ AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
 				);
 			}
 		}

@@ -2972,7 +2972,7 @@ type DrawOptions = {
 	/* Whether or not it is drawn in full alpha mode */
 	FullAlpha?: boolean;
 	/** A list of alpha masks to apply to the call */
-	AlphaMasks?: readonly RectTuple[];
+	readonly AlphaMasks?: readonly RectTuple[];
 	/** Blending mode for drawing the image */
 	BlendingMode?: GlobalCompositeOperation;
 }
@@ -3013,10 +3013,7 @@ type DrawImageCallback = (
 	src: string,
 	x: number,
 	y: number,
-	alphasMasks: RectTuple[],
-	opacity?: number,
-	rotate?: boolean,
-	blendingMode?: GlobalCompositeOperation,
+	options?: DrawOptions
 ) => void;
 
 /**
@@ -3036,12 +3033,7 @@ type DrawImageColorizeCallback = (
 	src: string,
 	x: number,
 	y: number,
-	color: string,
-	fullAlpha: boolean,
-	alphaMasks?: RectTuple[],
-	opacity?: number,
-	rotate?: boolean,
-	blendingMode?: GlobalCompositeOperation,
+	options?: DrawOptions
 ) => void;
 
 interface CommonDrawCallbacks {
