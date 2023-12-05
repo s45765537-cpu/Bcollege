@@ -6,11 +6,12 @@ var ChatRoomMapHeight = 40;
 var ChatRoomMapViewRange = 4;
 var ChatRoomMapViewRangeMin = 1;
 var ChatRoomMapViewRangeMax = 7;
-var ChatRoomMapTileOffset = 100;
+var ChatRoomMapObjectStartID = 100;
+var ChatRoomMapObjectEntryID = 110;
 var ChatRoomMapEditMode = "";
 var ChatRoomMapEditSubMode = "";
 var ChatRoomMapEditStarted = false;
-var ChatRoomMapEditID = -1;
+var ChatRoomMapEditObject = null;
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
@@ -22,15 +23,15 @@ var ChatRoomMapMovement = null;
 
 var ChatRoomMapTileList = [
 
-	{ ID: 0, Type: "Floor", Style: "OakWood" },
-	{ ID: 10, Type: "Floor", Style: "Stone" },
-	{ ID: 20, Type: "Floor", Style: "Ceramic" },
-	{ ID: 30, Type: "Floor", Style: "Carpet" },
-	{ ID: 40, Type: "Floor", Style: "Padded" },
-	{ ID: 100, Type: "Floor", Style: "Dirt" },
-	{ ID: 110, Type: "Floor", Style: "Grass" },
-	{ ID: 120, Type: "Floor", Style: "Sand" },
-	{ ID: 130, Type: "Floor", Style: "Gravel" },
+	{ ID: 100, Type: "Floor", Style: "OakWood" },
+	{ ID: 110, Type: "Floor", Style: "Stone" },
+	{ ID: 120, Type: "Floor", Style: "Ceramic" },
+	{ ID: 130, Type: "Floor", Style: "Carpet" },
+	{ ID: 140, Type: "Floor", Style: "Padded" },
+	{ ID: 200, Type: "Floor", Style: "Dirt" },
+	{ ID: 210, Type: "Floor", Style: "Grass" },
+	{ ID: 220, Type: "Floor", Style: "Sand" },
+	{ ID: 230, Type: "Floor", Style: "Gravel" },
 
 	{ ID: 1000, Type: "Wall", Style: "Wood" },
 	{ ID: 1010, Type: "Wall", Style: "Log" },
@@ -50,13 +51,14 @@ var ChatRoomMapTileList = [
 
 var ChatRoomMapObjectList = [
 
-	{ ID: 0, Type: "FloorDecoration", Style: "Blank" },
-	{ ID: 10, Type: "FloorDecoration", Style: "Bed", Top: -0.25 },
-	{ ID: 20, Type: "FloorDecoration", Style: "Pillow" },
-	{ ID: 30, Type: "FloorDecoration", Style: "Kennel", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 40, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 50, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 60, Type: "FloorDecoration", Style: "Coffin", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
+	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.1, Unique: true },
+	{ ID: 120, Type: "FloorDecoration", Style: "Bed", Top: -0.25 },
+	{ ID: 130, Type: "FloorDecoration", Style: "Pillow" },
+	{ ID: 140, Type: "FloorDecoration", Style: "Kennel", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 150, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 160, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 170, Type: "FloorDecoration", Style: "Coffin", Top: -1, Height: 2, Speed: 0.5 },
 
 	{ ID: 1000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 1010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
@@ -142,7 +144,7 @@ function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) {
  */
 function ChatRoomMapIsWall(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
-	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
 	return ((ID >= 1000) && (ID < 2000));
 }
 
@@ -206,20 +208,23 @@ function ChatRoomMapFloorWallEffect(X, Y) {
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
-	// Make sure the player position on the grid is valid
-	if (Player.MapData == null) Player.MapData = {};
-	if ((Player.MapData.X == null) || (Player.MapData.X < 0) || (Player.MapData.X >= ChatRoomMapWidth)) {
-		Player.MapData.X = ChatRoomMapWidth / 2;
-		ChatRoomMapUpdatePlayerFlag();
-	}
-	if ((Player.MapData.Y == null) || (Player.MapData.Y < 0) || (Player.MapData.Y >= ChatRoomMapWidth)) {
-		Player.MapData.Y = ChatRoomMapWidth / 2;
-		ChatRoomMapUpdatePlayerFlag();
-	}
+	// Make sure the map tiles and objects are valid
+	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Objects = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
 
-	// Make sure the map grid is valid
-	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
-	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Objects = String.fromCharCode(ChatRoomMapTileOffset).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+	// Make sure the player position on the grid is valid, tries to start at the entry flag if possible
+	if (Player.MapData == null) Player.MapData = {};
+	if ((Player.MapData.X == null) || (Player.MapData.X < 0) || (Player.MapData.X >= ChatRoomMapWidth) || (Player.MapData.Y == null) || (Player.MapData.Y < 0) || (Player.MapData.Y >= ChatRoomMapWidth)) {
+		Player.MapData.X = ChatRoomMapWidth / 2;
+		Player.MapData.Y = ChatRoomMapWidth / 2;
+		for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
+			if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapObjectEntryID) {
+				Player.MapData.X = Pos % ChatRoomMapWidth;
+				Player.MapData.Y = Math.floor(Pos / ChatRoomMapWidth);
+				break;
+			}
+		ChatRoomMapUpdatePlayerFlag();
+	}
 
 	// Defines the width and height of the visible tile
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
@@ -254,7 +259,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 			// Draws the tile and object image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
-				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 				for (let Tile of ChatRoomMapTileList)
 					if (Tile.ID == TileID) {
 						DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
@@ -262,8 +267,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
 						break;
 					}
-				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
-				if (ObjectID > 0)
+				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
+				if (ObjectID > ChatRoomMapObjectStartID)
 					for (let Obj of ChatRoomMapObjectList)
 						if (Obj.ID == ObjectID) {
 							DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
@@ -306,7 +311,7 @@ function ChatRoomMapUpdateFlag() {
 	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
 
 		// If there's an object to check
-		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos) - ChatRoomMapTileOffset;
+		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
 		if (ObjectID >= 1) {
 
 			// Finds the object
@@ -325,7 +330,7 @@ function ChatRoomMapUpdateFlag() {
 			} else {
 
 				// Gets the tile for that object
-				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos) - ChatRoomMapTileOffset;
+				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 				let Tile = null;
 				for (let T of ChatRoomMapTileList)
 					if (T.ID == TileID) {
@@ -351,7 +356,7 @@ function ChatRoomMapUpdateFlag() {
 			}
 
 			// Clears the object if needed
-			if (ClearObject) ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapTileOffset) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+			if (ClearObject) ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
 
 		}
 
@@ -481,7 +486,7 @@ function ChatRoomMapDraw() {
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
-				if (Tile.ID == ChatRoomMapEditID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				if (Tile.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
@@ -509,7 +514,7 @@ function ChatRoomMapDraw() {
 			if (ChatRoomMapEditSubMode == Obj.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
-				if (Obj.ID == ChatRoomMapEditID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				if (Obj.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
 				DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
@@ -529,7 +534,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	if (ChatRoomMapIsWall(X, Y)) return 0;
 
 	// Floor obstacles from 1000 to 2000 cannot be crossed
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
 	if ((ObjectID >= 1000) && (ObjectID < 2000)) return 0;
 
 	// Enclosed or suspended players cannot change tiles
@@ -541,7 +546,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 			return 0;
 
 	// Always full speed in water if wearing mermaid tail
-	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth) - ChatRoomMapTileOffset;
+	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
 	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapBaseMovementSpeed;
 
 	// Base movement speed first, water tiles are slower
@@ -551,8 +556,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	// The hogtied/bound/slow/plugged modificator
 	if ((Player.Pose != null) && (Player.Pose.indexOf("Hogtied") >= 0)) Speed = Speed * 12;
 	else if (!Player.CanWalk()) Speed = Speed * 6;
-	else if (Player.IsKneeling()) Speed = Speed * 4;
-	else if (Player.IsSlow()) Speed = Speed * 2.5;
+	else if (Player.GetSlowLevel() > 0) Speed = Speed * Player.GetSlowLevel() * 2;
 	else if (!Player.CanKneel()) Speed = Speed * 1.5;
 	else if (Player.IsPlugged()) Speed = Speed * 1.2;
 
@@ -658,7 +662,7 @@ function ChatRoomMapMouseDown() {
 				if (MouseIn(10, Y, 60, 60)) {
 					ChatRoomMapEditMode = "Tile";
 					ChatRoomMapEditSubMode = Tile.Type;
-					ChatRoomMapEditID = Tile.ID;
+					ChatRoomMapEditObject = CommonCloneDeep(Tile);
 					return;
 				}
 			}
@@ -686,7 +690,7 @@ function ChatRoomMapMouseDown() {
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditID = Tile.ID;
+					ChatRoomMapEditObject = CommonCloneDeep(Tile);
 					return;
 				}
 			}
@@ -711,7 +715,7 @@ function ChatRoomMapMouseDown() {
 				if (MouseIn(10, Y, 60, 60)) {
 					ChatRoomMapEditMode = "Object";
 					ChatRoomMapEditSubMode = Obj.Type;
-					ChatRoomMapEditID = Obj.ID;
+					ChatRoomMapEditObject = CommonCloneDeep(Obj);
 					return;
 				}
 			}
@@ -739,7 +743,7 @@ function ChatRoomMapMouseDown() {
 			if (ChatRoomMapEditSubMode == Obj.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditID = Obj.ID;
+					ChatRoomMapEditObject = CommonCloneDeep(Obj);
 					return;
 				}
 			}
@@ -758,15 +762,27 @@ function ChatRoomMapMouseDown() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapMouseMove() {
+
+	// Only in edit mode
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditID >= 0)) {
+
+	// In tile edit mode
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditObject != null)) {
 		for (let Pos of ChatRoomMapEditSelection)
-			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
+			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditObject.ID) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
 		ChatRoomMapUpdateFlag();
 	}
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Object") && (ChatRoomMapEditID >= 0)) {
-		for (let Pos of ChatRoomMapEditSelection)
-			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditID + ChatRoomMapTileOffset) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+
+	// In object edit mode, make sure unique items are not duplicated
+	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Object") && (ChatRoomMapEditObject != null)) {
+		if (ChatRoomMapEditObject.Unique === true)
+			for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
+				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapEditObject.ID)
+					ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+		for (let Pos of ChatRoomMapEditSelection) {
+			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditObject.ID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+			if (ChatRoomMapEditObject.Unique === true) break;
+		}
 		ChatRoomMapUpdateFlag();
 	}
 }
