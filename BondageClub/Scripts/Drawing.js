@@ -394,11 +394,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && (C.ID != 0))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
 			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapVisible === false) || (CurrentCharacter != null))
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
-						DrawCanvas.font = CommonGetFont(30);
-						const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
-						DrawText(CharacterNickname(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
-						DrawCanvas.font = CommonGetFont(36);
-					}
+					DrawCanvas.font = CommonGetFont(30);
+					const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
+					DrawText(CharacterNickname(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
+					DrawCanvas.font = CommonGetFont(36);
+				}
 
 	}
 }
