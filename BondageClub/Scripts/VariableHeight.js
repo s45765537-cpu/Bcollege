@@ -268,10 +268,12 @@ const VariableHeightChange = CommonLimitFunction(
  * @returns {void} - Nothing
  */
 function VariableHeightExit() {
-	// Revert the changes
+	const C = CharacterGetCurrent();
 	if (DialogFocusItem.Property.Revert) {
-		const C = CharacterGetCurrent();
 		VariableHeightPropertyRevert(C, DialogFocusItem);
+	} else {
+		CharacterRefresh(C, true, false);
+		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 	}
 
 	// Cleanup
@@ -374,9 +376,11 @@ function VariableHeightInit(Data, C, Item, Push, Refresh) {
 	currentHeight = Data.getHeight(Item.Property);
 	Data.setHeight(Item.Property, currentHeight, Data.maxHeight, Data.minHeight);
 
+	if (Refresh) {
+		CharacterRefresh(C, Push, false);
+	}
 	if (Push) {
-		// Reload to see the change
-		CharacterRefresh(C, Data.parentOption == null, false);
+		ChatRoomCharacterItemUpdate(C, Data.asset.Group.Name);
 	}
 	return true;
 }
