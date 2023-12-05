@@ -71,13 +71,15 @@ var ChatRoomMapObjectList = [
 	{ ID: 2030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 2040, Type: "WallDecoration", Style: "Whip" },
 
-	/*	{ ID: 3000, Type: "WallPath", Style: "Blank" },
+	/*
+	{ ID: 3000, Type: "WallPath", Style: "Blank" },
 	{ ID: 3010, Type: "WallPath", Style: "WoodDoor", Locked: false },
 	{ ID: 3011, Type: "WallPath", Style: "WoodDoor", Locked: true },
 	{ ID: 3020, Type: "WallPath", Style: "PaddedDoor", Locked: false },
 	{ ID: 3021, Type: "WallPath", Style: "PaddedDoor", Locked: true },
 	{ ID: 3030, Type: "WallPath", Style: "HiddenDoor", Locked: false },
-	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },*/
+	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },
+*/
 
 ];
 
