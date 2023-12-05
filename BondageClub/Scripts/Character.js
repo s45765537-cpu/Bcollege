@@ -143,10 +143,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		CanWalk: function () {
 			return (
-				!this.HasEffect("Freeze") &&
-				!this.HasEffect("Tethered") &&
-				!this.HasEffect("Mounted") &&
-				(this.PoseMapping.BodyLower !== "Kneel" || !this.HasEffect("KneelFreeze"))
+				!this.HasEffect("Freeze")
+				&& !this.HasEffect("Tethered")
+				&& !this.HasEffect("Mounted")
 			);
 		},
 		CanKneel: function () {
