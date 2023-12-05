@@ -87,7 +87,8 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = null;
 
 	// Update the room's custom data
-	const UpdatedRoom = Object.assign({}, ChatRoomData, { Custom });
+	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
+	UpdatedRoom.Custom = Custom;
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 
 }

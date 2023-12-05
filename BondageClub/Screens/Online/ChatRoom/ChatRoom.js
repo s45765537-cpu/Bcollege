@@ -79,7 +79,7 @@ var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 /**
  * The complete data to update a recreated room with once the creation is successful
- * @type {ChatRoom}
+ * @type {ChatRoomSettings}
  * */
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
@@ -1431,7 +1431,7 @@ function ChatRoomTarget() {
 function ChatRoomSetLastChatRoom(room) {
 	if (room !== null && ChatRoomValidateProperties(room)) {
 		if (!ChatRoomNewRoomToUpdate) {
-			Player.LastChatRoom = room;
+			Player.LastChatRoom = ChatRoomGetSettings(room);
 		}
 	} else {
 		Player.LastChatRoom = null;
@@ -3473,11 +3473,12 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 
 /**
  * Handles the reception of the complete room data from the server.
- * @param {ServerChatRoomData} room - Room object containing the updated chatroom data.
+ * @param {unknown} obj - Room object containing the updated chatroom data.
  * @returns {chatRoomProperties is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
  */
-function ChatRoomValidateProperties(room)
+function ChatRoomValidateProperties(obj)
 {
+	const room = /** @type {ChatRoom} */ (obj);
 	return room != null && typeof room === "object"
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
@@ -5102,4 +5103,15 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 		repls.push([key + pronounType, CharacterPronoun(C, pronounType, hideIdentity), replacer]);
 	}
 	return repls;
+}
+
+/**
+ * Gets only the settings/configurable properties of a chat room.
+ * @param {ChatRoom} room
+ * @return {ChatRoomSettings}
+ */
+function ChatRoomGetSettings(room) {
+	/** @type {(keyof ChatRoomSettings)[]} */
+	const keys = ["Name", "Description", "Admin", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }

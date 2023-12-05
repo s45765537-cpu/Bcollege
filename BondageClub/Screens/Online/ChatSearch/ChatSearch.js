@@ -841,7 +841,7 @@ function ChatSearchAutoJoinRoom() {
 					ChatCreateMessage = "";
 					ChatSearchQuery();
 				} else {
-					/** @type {ChatRoom} */
+					/** @type {ChatRoomSettings} */
 					const NewRoom = {
 						Name: Player.LastChatRoom.Name.trim(),
 						Description: Player.LastChatRoom.Description.trim(),

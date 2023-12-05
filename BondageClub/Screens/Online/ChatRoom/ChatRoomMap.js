@@ -378,7 +378,7 @@ function ChatRoomMapUpdateRoomSync() {
 	if ((ChatRoomMapUpdateRoomNext == null) || (ChatRoomMapUpdateRoomNext > CommonTime())) return;
 	if (!ChatRoomPlayerIsAdmin()) return;
 	ChatRoomMapUpdateRoomNext = null;
-	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomData, Action: "Update" });
+	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
 }
 
 /**

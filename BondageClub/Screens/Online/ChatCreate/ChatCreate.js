@@ -239,7 +239,8 @@ function ChatCreateResponse(data) {
 function ChatCreateRoom() {
 	ServerAccountUpdate.QueueData({ RoomCreateLanguage: ChatCreateLanguage });
 	ChatRoomPlayerCanJoin = true;
-	var NewRoom = {
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatCreateLanguage,
 		Description: ElementValue("InputDescription").trim(),

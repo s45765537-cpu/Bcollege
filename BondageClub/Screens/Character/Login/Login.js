@@ -686,7 +686,7 @@ function LoginResponse(C) {
 				Player.LastChatRoom = C.LastChatRoom;
 			} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
 				// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
-				/** @type {ChatRoom} */
+				/** @type {ChatRoomSettings} */
 				const room = {
 					Name: C.LastChatRoom,
 					Description: C.LastChatRoomDesc,

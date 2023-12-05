@@ -242,7 +242,8 @@ function AsylumGGTSBuildPrivate() {
 	ChatSearchReturnToScreen = "AsylumGGTS";
 	ChatCreateLoad();
 	ChatRoomPlayerCanJoin = true;
-	var NewRoom = {
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
 		Description: "Private GGTS Room",
 		Background: "AsylumGGTSRoom",
@@ -794,7 +795,8 @@ function AsylumGGTSAutomaticTask() {
 
 	// If we must lock or unlock the chat room, we send a server update room packet
 	if ((AsylumGGTSTask == "LockRoom") || (AsylumGGTSTask == "UnlockRoom")) {
-		const UpdatedRoom = Object.assign({}, ChatRoomData, { Locked: AsylumGGTSTask == "LockRoom" });
+		const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
+		UpdatedRoom.Locked = AsylumGGTSTask == "LockRoom";
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 		return AsylumGGTSEndTaskSave();
 	}

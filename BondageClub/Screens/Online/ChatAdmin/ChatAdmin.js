@@ -249,7 +249,8 @@ function ChatAdminResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatAdminUpdateRoom() {
-	var UpdatedRoom = {
+	/** @type {ChatRoomSettings} */
+	const UpdatedRoom = {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatAdminLanguage,
 		Description: ElementValue("InputDescription").trim(),
