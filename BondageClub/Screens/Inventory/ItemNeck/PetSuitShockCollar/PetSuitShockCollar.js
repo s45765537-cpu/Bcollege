@@ -1,16 +1,9 @@
 "use strict";
 
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemNeckPetSuitShockCollars1DrawHook(data, originalFunction) {
+	originalFunction();
 
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemNeckPetSuitShockCollars1Load() {}
-
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemNeckPetSuitShockCollars1Draw() {
-	// Draw the header and item
-	ExtendedItemDrawHeader(1387, 125);
-
-	DrawText(DialogFindPlayer("ShockLevel"), 1500, 440, "White", "Gray");
 	ExtendedItemCustomDraw("Low", 1165, 470, null, DialogFocusItem.Property.ShockLevel === 0);
 	ExtendedItemCustomDraw("Medium", 1400, 470, null, DialogFocusItem.Property.ShockLevel === 1);
 	ExtendedItemCustomDraw("High", 1635, 470, null, DialogFocusItem.Property.ShockLevel === 2);
@@ -32,13 +25,9 @@ function InventoryItemNeckPetSuitShockCollars1Draw() {
 	MainCanvas.textAlign = "center";
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemNeckPetSuitShockCollars1Click() {
-	if (MouseIn(1885, 25, 90, 90)) {
-		InventoryItemNeckPetSuitShockCollars1Exit();
-		return;
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemNeckPetSuitShockCollars1ClickHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	const C = CurrentCharacter;
 
 	if (!DialogFocusItem) {
@@ -74,11 +63,6 @@ function InventoryItemNeckPetSuitShockCollars1Click() {
 		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 		return;
 	}
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemNeckPetSuitShockCollars1Exit() {
-	ExtendedItemSubscreen = null;
 }
 
 // Resets the trigger count

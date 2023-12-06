@@ -3351,7 +3351,19 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					Options: [
 						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Draw: InventoryItemNeckPetSuitShockCollars1DrawHook,
+									Click: InventoryItemNeckPetSuitShockCollars1ClickHook,
+								},
+								DialogPrefix: {
+									Header: "ShockLevel",
+								},
+							},
+						}, // 1 - enabled
 					],
 				},
 			],
@@ -7965,7 +7977,20 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Game",
 					Key: "g",
-					Options: [{ HasSubscreen: true }],
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Load: InventoryItemDevicesLuckyWheelg0LoadHook,
+									Draw: InventoryItemDevicesLuckyWheelg0DrawHook,
+									Click: InventoryItemDevicesLuckyWheelg0ClickHook,
+									Exit: InventoryItemDevicesLuckyWheelg0ExitHook,
+								},
+							},
+						},
+					],
 				},
 				{
 					Name: "Stand",
@@ -12288,7 +12313,16 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					Options: [
 						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Draw: InventoryItemPelvisObedienceBelts1DrawHook,
+									Click: InventoryItemPelvisObedienceBelts1ClickHook,
+								},
+							},
+						}, // 1 - enabled
 					],
 				},
 				{
@@ -12412,7 +12446,21 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Code",
 					Key: "o",
-					Options: [{ HasSubscreen: true, ChangeWhenLocked: false }],
+					Options: [
+						{
+							HasSubscreen: true,
+							ChangeWhenLocked: false,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Load: PortalLinkRecieverLoadHook,
+									Draw: PortalLinkRecieverDrawHook,
+									Click: PortalLinkRecieverClickHook,
+									Exit: PortalLinkRecieverExitHook,
+								},
+							},
+						},
+					],
 				},
 				{
 					Name: "CrotchShield",

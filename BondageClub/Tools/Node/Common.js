@@ -74,6 +74,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemMisc/FamilyPadlock/FamilyPadlock.js",
 	"Screens/Inventory/ItemMisc/MistressPadlock/MistressPadlock.js",
 	"Screens/Inventory/ItemMisc/ExclusivePadlock/ExclusivePadlock.js",
+	"Screens/Inventory/ItemNeck/PetSuitShockCollar/PetSuitShockCollar.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Scripts/Translation.js",
