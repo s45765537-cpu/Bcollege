@@ -588,7 +588,7 @@ function DialogEndKinkyDungeon() {
  * @returns {boolean} - Returns true, if the player can unlock the given item with a key, false otherwise
  */
 function DialogHasKey(C, Item) {
-	if (InventoryGetItemProperty(Item, "SelfUnlock") == false && (!Player.CanInteract() || C.ID == 0)) return false;
+	if (InventoryGetItemProperty(Item, "SelfUnlock") == false && (!Player.CanInteract() || C.IsPlayer())) return false;
 	if (C.IsOwnedByPlayer() && InventoryAvailable(Player, "OwnerPadlockKey", "ItemMisc") && Item.Asset.Enable) return true;
 	const lock = InventoryGetLock(Item);
 	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && LogQuery("BlockFamilyKey", "OwnerRule") && (Player.Ownership != null) && (Player.Ownership.Stage >= 1)) return false;
@@ -601,7 +601,7 @@ function DialogHasKey(C, Item) {
 		// Intricate, check that we added that lock
 		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
 	}
-	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (C.ID != 0) && !C.IsFamilyOfPlayer()) return false;
+	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return false;
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
@@ -623,8 +623,8 @@ function DialogHasKey(C, Item) {
  * @returns {boolean} - Returns true, if the player can unlock the given item, false otherwise
  */
 function DialogCanUnlock(C, Item) {
-	if ((C.ID != 0) && !Player.CanInteract()) return false;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy === "ExclusivePadlock")) return (C.ID != 0);
+	if ((!C.IsPlayer()) && !Player.CanInteract()) return false;
+	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy === "ExclusivePadlock")) return (!C.IsPlayer());
 	if (LogQuery("KeyDeposit", "Cell")) return false;
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.OwnerOnly == true)) return Item.Asset.Enable && C.IsOwnedByPlayer();
 	if ((Item != null) && (Item.Asset != null) && (Item.Asset.LoverOnly == true)) return Item.Asset.Enable && C.IsLoverOfPlayer();
@@ -918,18 +918,18 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 
 		// Make sure we do not add owner/lover/family only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (asset.OwnerOnly && !isWorn && !C.IsOwnedByPlayer())
-			if ((C.ID != 0) || ((C.Owner == "") && (C.Ownership == null)) || !asset.IsLock || ((C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
+			if ((!C.IsPlayer()) || ((C.Owner == "") && (C.Ownership == null)) || !asset.IsLock || ((C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return;
 		if (asset.LoverOnly && !isWorn && !C.IsLoverOfPlayer()) {
 			if (!asset.IsLock || C.GetLoversNumbers(true).length == 0) return;
-			if (C.ID == 0) {
+			if (C.IsPlayer()) {
 				if (LogQuery("BlockLoverLockSelf", "LoverRule")) return;
 			}
 			else if (!C.IsOwnedByPlayer() || LogQueryRemote(C, "BlockLoverLockOwner", "LoverRule")) return;
 		}
-		if (asset.FamilyOnly && asset.IsLock && !isWorn && (C.ID == 0) && LogQuery("BlockOwnerLockSelf", "OwnerRule")) return;
-		if (asset.FamilyOnly && (C.ID != 0) && !C.IsFamilyOfPlayer()) return;
-		if (asset.FamilyOnly && asset.IsLock && (C.ID != 0) && C.IsOwner()) return;
+		if (asset.FamilyOnly && asset.IsLock && !isWorn && (C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")) return;
+		if (asset.FamilyOnly && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return;
+		if (asset.FamilyOnly && asset.IsLock && (!C.IsPlayer()) && C.IsOwner()) return;
 
 		// Do not show keys if they are in the deposit
 		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(item)) return;
@@ -1021,7 +1021,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
  */
 function DialogGetFavoriteStateDetails(C, asset, type = null) {
 	const isTargetFavorite = InventoryIsFavorite(C, asset.Name, asset.Group.Name, type);
-	const isPlayerFavorite = C.ID !== 0 && InventoryIsFavorite(Player, asset.Name, asset.Group.Name, type);
+	const isPlayerFavorite = !C.IsPlayer() && InventoryIsFavorite(Player, asset.Name, asset.Group.Name, type);
 	return DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite);
 }
 
@@ -1176,7 +1176,7 @@ function DialogCanUseRemoteState(C, Item) {
 	// Can't use remotes if the player cannot interact with their hands
 	if (!Player.CanInteract()) return "CannotInteract";
 	// Can't use remotes on self if the player is owned and their remotes have been blocked by an owner rule
-	if (C.ID === 0 && Player.Ownership && Player.Ownership.Stage === 1 && LogQuery("BlockRemoteSelf", "OwnerRule")) return "RemotesBlocked";
+	if (C.IsPlayer() && Player.Ownership && Player.Ownership.Stage === 1 && LogQuery("BlockRemoteSelf", "OwnerRule")) return "RemotesBlocked";
 	if (Item.Asset.LoverOnly) {
 		if (!C.IsLoverOfPlayer()) {
 			return "NoAccess";
@@ -1322,7 +1322,7 @@ function DialogMenuButtonBuild(C) {
 			DialogMenuButton.push("Prev");
 		}
 
-		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && ((C.ID != 0) || Player.CanInteract()))
+		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && (!C.IsPlayer() || Player.CanInteract()))
 			DialogMenuButton.push("Remove");
 
 		if (!IsItemLocked && !IsGroupBlocked && (Item != null) && (Item.Asset != null) && Item.Asset.AllowTighten && Player.CanInteract())
@@ -1331,7 +1331,7 @@ function DialogMenuButtonBuild(C) {
 		if (DialogCanCheckLock(C, Item))
 			DialogMenuButton.push("LockMenu");
 
-		if ((Item != null) && (C.ID == 0) && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && !IsGroupBlocked)
+		if ((Item != null) && C.IsPlayer() && (!Player.CanInteract() || (IsItemLocked && !DialogCanUnlock(C, Item))) && (DialogMenuButton.indexOf("Unlock") < 0) && !IsGroupBlocked)
 			DialogMenuButton.push("Struggle");
 
 		if ((Item != null) && (Item.Craft != null))
@@ -1394,7 +1394,7 @@ function DialogMenuButtonBuild(C) {
 		if (DialogActivity.length > 0) DialogMenuButton.push("Activity");
 
 		// Item permission enter/exit
-		if (C.ID == 0) {
+		if (C.IsPlayer()) {
 			if (DialogMenuMode === "permissions")
 				DialogMenuButton.push("DialogNormalMode");
 			else
@@ -1525,7 +1525,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 				DialogInventoryAdd(C, I, false);
 
 		// Third, we add everything from the player inventory if the player isn't the victim
-		if (C.ID != 0)
+		if (!C.IsPlayer())
 			for (const I of Player.Inventory)
 				if ((I.Asset != null) && (I.Asset.Group.Name == C.FocusGroup.Name) && I.Asset.DynamicAllowInventoryAdd(C))
 					DialogInventoryAdd(C, I, false);
@@ -1851,7 +1851,7 @@ function DialogMenuButtonClick() {
 				ItemColorOnExit((save) => {
 					DialogChangeMode("items");
 					if (save && !CommonColorsEqual(originalColor, Item.Color)) {
-						if (C.ID == 0) ServerPlayerAppearanceSync();
+						if (C.IsPlayer()) ServerPlayerAppearanceSync();
 						ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: originalColor }), Item);
 					}
 				});
@@ -1963,7 +1963,7 @@ function DialogItemClick(ClickItem) {
 	if (AsylumGGTSControlItem(C, CurrentItem)) return;
 
 	// In permission mode, the player can allow or block items for herself
-	if ((C.ID == 0) && DialogMenuMode === "permissions") {
+	if ((C.IsPlayer()) && DialogMenuMode === "permissions") {
 		const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
 		DialogInventoryTogglePermission(ClickItem, worn);
 		return;
@@ -2003,7 +2003,7 @@ function DialogItemClick(ClickItem) {
 					if (ClickItem.Asset.Wear) {
 
 						// Check if selfbondage is allowed for the item if used on self
-						if ((ClickItem.Asset.SelfBondage <= 0) || (SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage) || (C.ID != 0) || DialogAlwaysAllowRestraint()) {
+						if ((ClickItem.Asset.SelfBondage <= 0) || (SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage) || (!C.IsPlayer()) || DialogAlwaysAllowRestraint()) {
 							/** @type {DialogStruggleActionType} */
 							let action;
 							if (CurrentItem && ClickItem) {
@@ -2221,7 +2221,7 @@ function DialogClick() {
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
-	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && ((CurrentCharacter.ID != 0) || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
+	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
 		C = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
@@ -2565,7 +2565,7 @@ function DialogChangeItemColor(C, Color) {
 
 	// Make sure the item is allowed, the group isn't blocked and it's not an enclosing item
 	if (!InventoryAllow(C, Item.Asset) || InventoryGroupIsBlocked(C)) return;
-	if (InventoryItemHasEffect(Item, "Enclose", true) && (C.ID == 0)) return;
+	if (InventoryItemHasEffect(Item, "Enclose", true) && (C.IsPlayer())) return;
 
 	// Apply the color & redraw the character after 100ms.  Prevent unnecessary redraws to reduce performance impact
 	Item.Color = Color;

@@ -23,7 +23,7 @@ function InventoryAdd(C, NewItemName, NewItemGroup, Push) {
 		C.Inventory.push(NewItem);
 
 		// Sends the new item to the server if it's for the current player
-		if ((C.ID == 0) && ((Push == null) || Push))
+		if ((C.IsPlayer()) && ((Push == null) || Push))
 			ServerPlayerInventorySync();
 	}
 }
@@ -65,7 +65,7 @@ function InventoryAddMany(C, NewItems, Push) {
 	}
 
 	// Sends the new item(s) to the server if it's for the current player and an item was added
-	if ((C.ID == 0) && ((Push == null) || Push) && ShouldSync) ServerPlayerInventorySync();
+	if ((C.IsPlayer()) && ((Push == null) || Push) && ShouldSync) ServerPlayerInventorySync();
 }
 
 /**
@@ -100,7 +100,7 @@ function InventoryDelete(C, DelItemName, DelItemGroup, Push) {
 		}
 
 	// Next, we call the player account service to remove the item
-	if ((C.ID == 0) && ((Push == null) || Push))
+	if ((C.IsPlayer()) && ((Push == null) || Push))
 		ServerPlayerInventorySync();
 
 	return item ? item[0] : null;
@@ -127,7 +127,7 @@ function InventoryDeleteGroup(C, group, push) {
 		I--;
 	}
 
-	if (deleted.length > 0 && (C.ID == 0) && ((push == null) || push))
+	if (deleted.length > 0 && (C.IsPlayer()) && ((push == null) || push))
 		ServerPlayerInventorySync();
 
 	return deleted;
@@ -315,7 +315,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NotMasked": return InventoryIsItemInList(C, "ItemHood", ["OldGasMask"]) ? "RemoveFaceMaskFirst" : "";
 
 		// Blocked remotes on self
-		case "RemotesAllowed": return LogQuery("BlockRemoteSelf", "OwnerRule") && C.ID === 0 ? "OwnerBlockedRemotes" : "";
+		case "RemotesAllowed": return LogQuery("BlockRemoteSelf", "OwnerRule") && C.IsPlayer() ? "OwnerBlockedRemotes" : "";
 
 		// Layered Gags, prevent gags from being equipped over other gags they are incompatible with
 		case "GagUnique": return InventoryPrerequisiteConflictingGags(C, ["GagFlat", "GagCorset", "GagUnique"]);
@@ -683,7 +683,7 @@ function InventorySetDifficulty(C, AssetGroup, Difficulty) {
 		for (let A = 0; A < C.Appearance.length; A++)
 			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Name == AssetGroup))
 				C.Appearance[A].Difficulty = Difficulty;
-	if ((CurrentModule != "Character") && (C.ID == 0)) ServerPlayerAppearanceSync();
+	if ((CurrentModule != "Character") && (C.IsPlayer())) ServerPlayerAppearanceSync();
 }
 
 /**
@@ -927,7 +927,7 @@ function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
 	}
 
 	// If another character is enclosed, items other than the enclosing one cannot be used
-	if ((C.ID != 0) && C.IsEnclose()) {
+	if ((!C.IsPlayer()) && C.IsEnclose()) {
 		for (let E = 0; E < C.Appearance.length; E++)
 			if ((C.Appearance[E].Asset.Group.Name == GroupName) && InventoryItemHasEffect(C.Appearance[E], "Enclose", true))
 				return false;
@@ -997,7 +997,7 @@ function InventoryGroupIsBlocked(C, GroupName, Activity) {
 	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) return true;
 
 	// If the player is enclosed, all groups for another character are blocked
-	if ((C.ID != 0) && Player.IsEnclose()) return true;
+	if ((!C.IsPlayer()) && Player.IsEnclose()) return true;
 
 	// Checks if there's an owner rule that blocks the group
 	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) return true;
@@ -1482,7 +1482,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
  */
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
 	if (!InventoryIsPermissionLimited(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType)) return true;
-	if ((C.ID == 0) || C.IsLoverOfPlayer() || C.IsOwnedByPlayer()) return true;
+	if ((C.IsPlayer()) || C.IsLoverOfPlayer() || C.IsOwnedByPlayer()) return true;
 	if ((C.ItemPermission < 3) && !(C.WhiteList.indexOf(Player.MemberNumber) < 0)) return true;
 	return false;
 }

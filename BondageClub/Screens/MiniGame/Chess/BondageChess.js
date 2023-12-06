@@ -80,5 +80,5 @@ function ChessClick() {
  * @returns {"w" | "b"} - "w" for white or "b" for black
  */
 function ChessPlayerColor() {
-	return ChessCharacterWhite.ID === 0 ? "w" : "b";
+	return ChessCharacterWhite.IsPlayer() ? "w" : "b";
 }

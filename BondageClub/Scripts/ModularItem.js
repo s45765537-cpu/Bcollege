@@ -427,7 +427,7 @@ function ModularItemCreateClickBaseFunction(data) {
 				const page = data.modules.slice(pageStart, pageStart + DrawData.itemsPerPage);
 				const module = page[i];
 				if (module) {
-					if (CharacterGetCurrent().ID === 0 && module.AllowSelfSelect === false) {
+					if (CharacterGetCurrent().IsPlayer() && module.AllowSelfSelect === false) {
 						DialogExtendedMessage = DialogFindPlayer("CannotSelfSelect");
 						return;
 					}

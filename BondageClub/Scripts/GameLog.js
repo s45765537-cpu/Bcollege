@@ -170,7 +170,7 @@ function LogLoad(NewLog) {
  * @returns {boolean} - Returns TRUE if there is an existing log matching the Name/Group with no value or a value above the current time in ms.
  */
 function LogQueryRemote(C, QueryLogName, QueryLogGroup) {
-	if (C.ID == 0) return LogQuery(QueryLogName, QueryLogGroup);
+	if (C.IsPlayer()) return LogQuery(QueryLogName, QueryLogGroup);
 	if (!C.Rule || !Array.isArray(C.Rule)) return false;
 	var R = C.Rule.find(r => r.Name == QueryLogName && r.Group == QueryLogGroup);
 	return (R != null) && ((R.Value == null) || (R.Value >= CurrentTime));

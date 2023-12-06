@@ -19,7 +19,7 @@ function InventoryItemArmsFullLatexSuitClickHook(Data, OriginalFunction) {
 	if (MouseIn(...ExtendedXY[6][4], 225, 275)) {
 		const C = CharacterGetCurrent();
 		const VulvaItem = InventoryGet(C, "ItemVulva");
-		const Worn = (C.ID === 0 && VulvaItem != null && VulvaItem.Asset.Name === "FullLatexSuitWand");
+		const Worn = (C.IsPlayer() && VulvaItem != null && VulvaItem.Asset.Name === "FullLatexSuitWand");
 		ExtendedItemCustomClick("Wand", () => InventoryItemArmsFullLatexSuitSetWand(Data, C), Worn);
 	}
 }

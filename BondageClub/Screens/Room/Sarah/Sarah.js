@@ -277,7 +277,7 @@ function SarahClick() {
 	for (let C = 0; C < SarahCharacter.length; C++)
 		if ((MouseX >= 1000 - (SarahCharacter.length * 250) + (C * 500)) && (MouseX < 1500 - (SarahCharacter.length * 250) + (C * 500)) && (MouseY >= 0) && (MouseY < 1000) && (MouseX < 1885)) {
 			if ((SarahCharacter[C].Name == "Mistress Sophie") || (SarahCharacter[C].Name == "Sophie")) SarahSophieSetPunishmentIntro(0);
-			if ((SarahCharacter[C].ID == 0) || (SarahCharacter[C].Name == "Mistress Sophie") || (SarahCharacter[C].Name == "Sophie") || !SophieInside || (Sophie == null) || ((Sophie.Stage != "200") && (Sophie.Stage != "201")))
+			if ((SarahCharacter[C].IsPlayer()) || (SarahCharacter[C].Name == "Mistress Sophie") || (SarahCharacter[C].Name == "Sophie") || !SophieInside || (Sophie == null) || ((Sophie.Stage != "200") && (Sophie.Stage != "201")))
 				CharacterSetCurrent(SarahCharacter[C]);
 		}
 }

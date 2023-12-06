@@ -334,7 +334,7 @@ function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (Cha
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
  */
-function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (CurrentCharacter.ID != 0) && Player.CanInteract() && (InventoryGet(CurrentCharacter, "ItemMisc") != null) && (InventoryGet(CurrentCharacter, "ItemMisc").Asset.Name == "WoodenMaidTrayFull")); }
+function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && !CurrentCharacter.IsPlayer() && Player.CanInteract() && (InventoryGet(CurrentCharacter, "ItemMisc") != null) && (InventoryGet(CurrentCharacter, "ItemMisc").Asset.Name == "WoodenMaidTrayFull")); }
 /**
  * Checks if the current character is owned by the player.
  * @returns {boolean} - TRUE if the current character is owned by the player.
@@ -934,7 +934,7 @@ function ChatRoomUpdateDisplay() {
 		let PlayerIndex = -1;
 		// First find the player index
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
-			if (ChatRoomCharacter[CC].ID == 0) {
+			if (ChatRoomCharacter[CC].IsPlayer()) {
 				PlayerIndex = CC;
 				break;
 			}
@@ -1037,7 +1037,7 @@ function ChatRoomLoopCharacters(callback) {
 		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
 		const CharX = ChatRoomCharacterX + (ChatRoomCharacterCount == 1 ? 0 : X + (C % 5) * Space);
 		const CharY = ChatRoomCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
-		if ((ChatRoomCharacterCount == 1) && ChatRoomCharacterDrawlist[C].ID !== 0) continue;
+		if ((ChatRoomCharacterCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
 
 		const res = callback(C, CharX, CharY, Space, Zoom);
 		if (res) break;
@@ -1242,7 +1242,7 @@ function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
 	if (ClickY > 900) {
 
 		// Clicking on self or current target removes whisper target
-		if (C.ID === 0 || ChatRoomTargetMemberNumber === C.MemberNumber) {
+		if (C.IsPlayer() || ChatRoomTargetMemberNumber === C.MemberNumber) {
 			ChatRoomSetTarget(null);
 			return;
 		}
@@ -1301,14 +1301,14 @@ function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
 	}
 
 	// Disable examining when blind setting. If both players are in the virtual realm, then they can examine each other.
-	if (Player.GameplaySettings.BlindDisableExamine && !(Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")) && C.ID !== 0 && Player.GetBlindLevel() >= 3) {
+	if (Player.GameplaySettings.BlindDisableExamine && !(Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")) && !C.IsPlayer() && Player.GetBlindLevel() >= 3) {
 		return;
 	}
 
 	// If the arousal meter is shown for that character, we can interact with it
 	if (PreferenceArousalAtLeast(C, "Manual")) {
-		let MeterShow = C.ID === 0;
-		if (C.ID !== 0 && Player.ArousalSettings.ShowOtherMeter && C.ArousalSettings) {
+		let MeterShow = C.IsPlayer();
+		if (!C.IsPlayer() && Player.ArousalSettings.ShowOtherMeter && C.ArousalSettings) {
 			if (C.ArousalSettings.Visible === "Access") {
 				MeterShow = C.AllowItem;
 			} else if (C.ArousalSettings.Visible === "All") {
@@ -1321,7 +1321,7 @@ function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
 			if (MouseIn(CharX + 50 * Zoom, CharY + 615 * Zoom, 100 * Zoom, 85 * Zoom) && C.ArousalZoom) { C.ArousalZoom = false; return; }
 
 			// If the player can manually control her arousal, we set the progress manual and change the facial expression, it can trigger an orgasm at 100%
-			if (C.ID === 0 && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && C.ArousalZoom) {
+			if (C.IsPlayer() && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && C.ArousalZoom) {
 				if (PreferenceArousalAtLeast(Player, "Manual") && !PreferenceArousalAtLeast(Player, "Automatic")) {
 					var Arousal = Math.round((CharY + 625 * Zoom - MouseY) / (4 * Zoom));
 					ActivitySetArousal(Player, Arousal);
@@ -1354,10 +1354,10 @@ function ChatRoomFocusCharacter(C) {
 	if (C == null) return;
 	ChatRoomHideElements();
 	ChatRoomBackground = ChatRoomData.Background;
-	C.AllowItem = C.ID === 0 || ServerChatRoomGetAllowItem(Player, C);
+	C.AllowItem = C.IsPlayer() || ServerChatRoomGetAllowItem(Player, C);
 	ChatRoomOwnershipOption = "";
 	ChatRoomLovershipOption = "";
-	if (C.ID !== 0) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
+	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
 	CharacterSetCurrent(C);
 }
@@ -1368,8 +1368,8 @@ function ChatRoomFocusCharacter(C) {
  */
 function ChatRoomCheckRelationships() {
 	var C = CharacterGetCurrent();
-	if (C.ID != 0) ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber });
-	if (C.ID != 0) ServerSend("AccountLovership", { MemberNumber: C.MemberNumber });
+	if (!C.IsPlayer()) ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber });
+	if (!C.IsPlayer()) ServerSend("AccountLovership", { MemberNumber: C.MemberNumber });
 }
 
 /**
@@ -2497,7 +2497,7 @@ function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
 function ChatRoomCharacterUpdate(C) {
 	if (ChatRoomAllowCharacterUpdate) {
 		var data = {
-			ID: (C.ID == 0) ? Player.OnlineID : C.AccountName.replace("Online-", ""),
+			ID: (C.IsPlayer()) ? Player.OnlineID : C.AccountName.replace("Online-", ""),
 			ActivePose: C.ActivePose,
 			Appearance: ServerAppearanceBundle(C.Appearance)
 		};
@@ -3588,7 +3588,7 @@ function ChatRoomSyncMemberJoin(data) {
 	if (Array.isArray(data.WhiteListedBy)) {
 		for (const MemberNumber of data.WhiteListedBy) {
 			for (const character of Character) {
-				if (character.MemberNumber === MemberNumber && Array.isArray(character.WhiteList) && character.ID != 0) {
+				if (character.MemberNumber === MemberNumber && Array.isArray(character.WhiteList) && !character.IsPlayer()) {
 					if (!character.WhiteList.includes(newCharacter.MemberNumber)) {
 						character.WhiteList.push(newCharacter.MemberNumber);
 						character.WhiteList.sort((a, b) => a - b);
@@ -3600,7 +3600,7 @@ function ChatRoomSyncMemberJoin(data) {
 	if (Array.isArray(data.BlackListedBy)) {
 		for (const MemberNumber of data.BlackListedBy) {
 			for (const character of Character) {
-				if (character.MemberNumber === MemberNumber && Array.isArray(character.BlackList) && character.ID != 0) {
+				if (character.MemberNumber === MemberNumber && Array.isArray(character.BlackList) && !character.IsPlayer()) {
 					if (!character.BlackList.includes(newCharacter.MemberNumber)) {
 						character.BlackList.push(newCharacter.MemberNumber);
 						character.BlackList.sort((a, b) => a - b);
@@ -3893,7 +3893,7 @@ function ChatRoomSyncItem(data) {
 			ChatRoomAllowCharacterUpdate = true;
 
 			// If the update was invalid, send a correction update
-			if (ChatRoomCharacter[C].ID === 0 && !valid) {
+			if (ChatRoomCharacter[C].IsPlayer() && !valid) {
 				console.warn(`Invalid appearance update to group ${data.Item.Group}. Updating with sanitized appearance.`);
 				ChatRoomCharacterUpdate(ChatRoomCharacter[C]);
 			} else {
@@ -4845,7 +4845,7 @@ function ChatRoomNotificationNewMessageVisible() {
  * @returns {void} - Nothing
  */
 function ChatRoomNotificationRaiseChatMessage(C, msg) {
-	if (C.ID !== 0
+	if (!C.IsPlayer()
 		&& Player.NotificationSettings.ChatMessage.AlertType !== NotificationAlertType.NONE
 		&& !ChatRoomNotificationNewMessageVisible())
 	{
@@ -4910,7 +4910,7 @@ function ChatRoomCheckForLastChatRoomUpdates() {
 	const Blacklist = Player.BlackList || [];
 	// Check whether the chatroom contains at least one "safe" character (a friend, owner, or non-blacklisted player)
 	const ContainsSafeCharacters = ChatRoomCharacter.length === 1 || ChatRoomCharacter.some((Char) => {
-		return Char.ID !== 0 && (
+		return !Char.IsPlayer() && (
 			Player.FriendList.includes(Char.MemberNumber) ||
 			Player.IsOwnedByMemberNumber(Char.MemberNumber) ||
 			!Blacklist.includes(Char.MemberNumber)

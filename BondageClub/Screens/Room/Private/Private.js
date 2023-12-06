@@ -773,8 +773,8 @@ function PrivateClickCharacter() {
 				}
 
 				// If the arousal meter is shown for that character, we can interact with it
-				if ((PrivateCharacter[C].ID == 0) || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter)
-					if ((PrivateCharacter[C].ID == 0) || ((PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.Visible != null) && (PrivateCharacter[C].ArousalSettings.Visible == "Access") && PrivateCharacter[C].AllowItem) || ((PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.Visible != null) && (PrivateCharacter[C].ArousalSettings.Visible == "All")))
+				if ((PrivateCharacter[C].IsPlayer()) || (Player.ArousalSettings.ShowOtherMeter == null) || Player.ArousalSettings.ShowOtherMeter)
+					if ((PrivateCharacter[C].IsPlayer()) || ((PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.Visible != null) && (PrivateCharacter[C].ArousalSettings.Visible == "Access") && PrivateCharacter[C].AllowItem) || ((PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.Visible != null) && (PrivateCharacter[C].ArousalSettings.Visible == "All")))
 						if ((PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.Active != null) && ((PrivateCharacter[C].ArousalSettings.Active == "Manual") || (PrivateCharacter[C].ArousalSettings.Active == "Hybrid") || (PrivateCharacter[C].ArousalSettings.Active == "Automatic"))) {
 
 							// The arousal meter can be maximized or minimized by clicking on it
@@ -782,7 +782,7 @@ function PrivateClickCharacter() {
 							if ((MouseX >= X + (C - PrivateCharacterOffset) * 470 + 50) && (MouseX <= X + (C - PrivateCharacterOffset) * 470 + 150) && (MouseY >= 615) && (MouseY <= 715) && PrivateCharacter[C].ArousalZoom) { PrivateCharacter[C].ArousalZoom = false; return; }
 
 							// If the player can manually control her arousal or wants to fight her desire
-							if ((PrivateCharacter[C].ID == 0) && (MouseX >= X + (C - PrivateCharacterOffset) * 470 + 50) && (MouseX <= X + (C - PrivateCharacterOffset) * 470 + 150) && (MouseY >= 200) && (MouseY <= 615) && PrivateCharacter[C].ArousalZoom)
+							if ((PrivateCharacter[C].IsPlayer()) && (MouseX >= X + (C - PrivateCharacterOffset) * 470 + 50) && (MouseX <= X + (C - PrivateCharacterOffset) * 470 + 150) && (MouseY >= 200) && (MouseY <= 615) && PrivateCharacter[C].ArousalZoom)
 								if ((Player.ArousalSettings != null) && (Player.ArousalSettings.Active != null) && (Player.ArousalSettings.Progress != null)) {
 									if ((Player.ArousalSettings.Active == "Manual") || (Player.ArousalSettings.Active == "Hybrid")) {
 										var Arousal = Math.round((625 - MouseY) / 4);
@@ -799,7 +799,7 @@ function PrivateClickCharacter() {
 						}
 
 				// Cannot click on a character that's having an orgasm
-				if ((PrivateCharacter[C].ID != 0) && (PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.OrgasmTimer != null) && (PrivateCharacter[C].ArousalSettings.OrgasmTimer > 0))
+				if (!PrivateCharacter[C].IsPlayer() && (PrivateCharacter[C].ArousalSettings != null) && (PrivateCharacter[C].ArousalSettings.OrgasmTimer != null) && (PrivateCharacter[C].ArousalSettings.OrgasmTimer > 0))
 					return;
 
 				// Make Sure the NPC owner has the "PlayerCollaring" event set
@@ -809,7 +809,7 @@ function PrivateClickCharacter() {
 				}
 
 				// Sets the new character (1000 if she's owner, 2000 if she's owned)
-				if (PrivateCharacter[C].ID != 0) {
+				if (!PrivateCharacter[C].IsPlayer()) {
 					PrivateCharacterToSave = C;
 					PrivateLoadCharacter(C);
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwner()) PrivateCharacter[C].Stage = "1000";
@@ -1344,7 +1344,7 @@ function PrivateCanRestrainOther() {
 	PrivateActivityTarget = null;
 	var List = [];
 	for (let C = 0; C < PrivateCharacter.length; C++)
-		if ((PrivateCharacter[C].ID != 0) && (PrivateCharacter[C].ID != CurrentCharacter.ID) && (NPCTraitGet(CurrentCharacter, "Dominant") > NPCTraitGet(PrivateCharacter[C], "Dominant")) && (InventoryGet(PrivateCharacter[C], "ItemArms") == null))
+		if (!PrivateCharacter[C].IsPlayer() && (PrivateCharacter[C].ID != CurrentCharacter.ID) && (NPCTraitGet(CurrentCharacter, "Dominant") > NPCTraitGet(PrivateCharacter[C], "Dominant")) && (InventoryGet(PrivateCharacter[C], "ItemArms") == null))
 			List.push(PrivateCharacter[C]);
 	if (List.length > 0)
 		PrivateActivityTarget = List[Math.floor(Math.random() * List.length)];

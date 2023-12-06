@@ -309,7 +309,7 @@ function IntroductionJobLockType() {
 function IntroductionJobProgress(JobName, Param, UniqueMember) {
 	if ((UniqueMember == true) && (CurrentScreen != "ChatRoom")) return;
 	if ((IntroductionJobCurrent == JobName) && (IntroductionJobParam == Param)) {
-		if ((UniqueMember == true) && ((CurrentCharacter == null) || (CurrentCharacter.ID == 0) || (CurrentCharacter.MemberNumber == null) || (CurrentCharacter.MemberNumber < 1) || (IntroductionJobMember.indexOf(CurrentCharacter.MemberNumber) >= 0))) return;
+		if ((UniqueMember == true) && ((CurrentCharacter == null) || (CurrentCharacter.IsPlayer()) || (CurrentCharacter.MemberNumber == null) || (CurrentCharacter.MemberNumber < 1) || (IntroductionJobMember.indexOf(CurrentCharacter.MemberNumber) >= 0))) return;
 		if (UniqueMember == true) IntroductionJobMember.push(CurrentCharacter.MemberNumber);
 		IntroductionJobCount--;
 	}

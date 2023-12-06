@@ -378,13 +378,13 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		},
 		IsInFamilyOfMemberNumber: function(MemberNum) {
 			if (ChatRoomCharacter == null) return false;
-			if (this.ID == 0)
+			if (this.IsPlayer())
 				for (let Char of ChatRoomCharacter)
 					if (Char.MemberNumber == MemberNum)
 						return Char.IsFamilyOfPlayer();
-			if ((this.ID != 0) && (MemberNum === Player.MemberNumber))
+			if ((!this.IsPlayer()) && (MemberNum === Player.MemberNumber))
 				return this.IsFamilyOfPlayer();
-			if ((this.ID != 0) && (MemberNum !== Player.MemberNumber))
+			if ((!this.IsPlayer()) && (MemberNum !== Player.MemberNumber))
 				for (let Char of ChatRoomCharacter)
 					if (Char.MemberNumber == MemberNum) {
 						if ((Char.Ownership != null) && (this.Ownership != null) && (Char.Ownership.MemberNumber === this.Ownership.MemberNumber)) return true;
@@ -777,19 +777,18 @@ function CharacterLoadSimple(AccName) {
  * @param {number} SourceMemberNumber - Source number of the refresh
  */
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Title == null))) Char.Title = data.Title;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Nickname == null))) Char.Nickname = data.Nickname;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Title == null))) Char.Title = data.Title;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Nickname == null))) Char.Nickname = data.Nickname;
 	// Validated in the `ActivePose` setter
 	Char.ActivePose = data.ActivePose || [];
 	Char.LabelColor = data.LabelColor;
 	Char.Creation = data.Creation;
 	Char.Description = data.Description;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ItemPermission == null))) Char.ItemPermission = data.ItemPermission;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ArousalSettings == null))) Char.ArousalSettings = data.ArousalSettings;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.OnlineSharedSettings == null))) Char.OnlineSharedSettings = data.OnlineSharedSettings;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Game == null))) Char.Game = data.Game;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.MapData == null))) Char.MapData = data.MapData;
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Crafting == null))) Char.Crafting = data.Crafting;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ItemPermission == null))) Char.ItemPermission = data.ItemPermission;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ArousalSettings == null))) Char.ArousalSettings = data.ArousalSettings;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.OnlineSharedSettings == null))) Char.OnlineSharedSettings = data.OnlineSharedSettings;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Game == null))) Char.Game = data.Game;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Crafting == null))) Char.Crafting = data.Crafting;
 	Char.Ownership = data.Ownership;
 	Char.Lovership = data.Lovership;
 	for (let L = Char.Lovership.length - 1; L >= 0; L--) {
@@ -801,8 +800,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.BlockItems = Array.isArray(data.BlockItems) ? data.BlockItems : [];
 	Char.LimitedItems = Array.isArray(data.LimitedItems) ? data.LimitedItems : [];
 	Char.FavoriteItems = Array.isArray(data.FavoriteItems) ? data.FavoriteItems : [];
-	if (Char.ID != 0 && Array.isArray(data.WhiteList)) Char.WhiteList = data.WhiteList;
-	if (Char.ID != 0 && Array.isArray(data.BlackList)) Char.BlackList = data.BlackList;
+	if (!Char.IsPlayer() && Array.isArray(data.WhiteList)) Char.WhiteList = data.WhiteList;
+	if (!Char.IsPlayer() && Array.isArray(data.BlackList)) Char.BlackList = data.BlackList;
 
 
 	const oldPronouns = Char.GetPronouns();
@@ -810,8 +809,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 
-	if (Char.ID == 0) LoginValidCollar();
-	if ((Char.ID != 0) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
+	if (Char.IsPlayer()) LoginValidCollar();
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
 
 	const newPronouns = Char.GetPronouns();
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
@@ -1119,7 +1118,7 @@ function CharacterRefresh(C, Push, RefreshDialog = true) {
 	C.RunScripts = (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
-	if ((C.ID == 0) && (C.OnlineID != null) && ((Push == null) || (Push == true))) {
+	if ((C.IsPlayer()) && (C.OnlineID != null) && ((Push == null) || (Push == true))) {
 		ChatRoomRefreshChatSettings();
 		ServerPlayerAppearanceSync();
 	}
@@ -1619,7 +1618,7 @@ function CharacterHasItemForActivity(C, Activity) {
  * @returns {boolean} - TRUE if the character is edged, FALSE otherwise
  */
 function CharacterIsEdged(C) {
-	if (C.ID !== 0 || !C.Effect.includes("Edged")) {
+	if (!C.IsPlayer() || !C.Effect.includes("Edged")) {
 		return false;
 	}
 
@@ -1870,7 +1869,7 @@ function CharacterHasArousalEnabled(C) {
 function CharacterClearOwnership(C) {
 	C.Owner = "";
 	C.Ownership = null;
-	if (C.ID == 0) {
+	if (C.IsPlayer()) {
 		LoginValidCollar();
 		LogDeleteGroup("OwnerRule");
 	}

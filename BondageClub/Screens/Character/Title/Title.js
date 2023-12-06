@@ -93,14 +93,14 @@ function TitleSet(NewTitle) {
 function TitleGet(C) {
 
 	// If we find a title that we must force, we set it and return it
-	if (C.ID == 0)
+	if (C.IsPlayer())
 		for (let T = 0; T < TitleList.length; T++)
 			if (TitleList[T].Requirement() && (TitleList[T].Force != null) && TitleList[T].Force)
 				return TitleSet(TitleList[T].Name);
 
 	// No title or other character titles aren't validated
 	if (!C.Title || (C.Title == "None")) return "None";
-	if (C.ID != 0) return C.Title;
+	if (!C.IsPlayer()) return C.Title;
 
 	// If we find a valid title, we return it
 	for (let T = 0; T < TitleList.length; T++)

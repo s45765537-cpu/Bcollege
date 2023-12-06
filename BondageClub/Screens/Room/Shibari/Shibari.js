@@ -87,7 +87,7 @@ function ShibariCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCh
 function ShibariRandomBondage(C, Level) {
 
 	// For NPCs, we give the items
-	if (C.ID != 0) {
+	if (!C.IsPlayer()) {
 		InventoryAdd(C, "HempRope", "ItemArms");
 		InventoryAdd(C, "HempRope", "ItemLegs");
 		InventoryAdd(C, "HempRope", "ItemFeet");

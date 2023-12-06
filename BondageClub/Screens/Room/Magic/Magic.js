@@ -479,5 +479,5 @@ function MagicRestrainCopyTransfer(FromC, ToC) {
 	// Refreshes the second character and saves it if it's the player
 	CharacterRefresh(ToC);
 	CharacterRefresh(FromC);
-	if (ToC.ID == 0) ServerPlayerAppearanceSync();
+	if (ToC.IsPlayer()) ServerPlayerAppearanceSync();
 }
