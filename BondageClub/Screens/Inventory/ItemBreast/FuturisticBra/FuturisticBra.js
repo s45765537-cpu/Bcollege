@@ -74,7 +74,10 @@ function AssetsItemBreastFuturisticBraBeforeDraw(data) {
 function AssetsItemBreastFuturisticBraAfterDraw({
 	C, A, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, G, Color
 }) {
-	if (L === "_Text" && Property && (Property.Type != "Solid" && Property.Type != "Solid2")) {
+	const typeRecord = (Property && Property.TypeRecord) || {};
+	const subType = typeRecord.typed || 0;
+
+	if (L === "_Text" && Property && (subType === 0 || subType === 2)) {
 
 		let offset = 0;
 		if (G == "_Large") offset = 4;
@@ -114,13 +117,16 @@ function AssetsItemBreastFuturisticBraScriptDraw(data) {
 	const persistentData = data.PersistentData();
 	/** @type {ItemProperties} */
 	const property = (data.Item.Property = data.Item.Property || {});
+	const typeRecord = (property && property.TypeRecord) || {};
+	const subType = typeRecord.typed || 0;
+
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.ShowHeart !== "boolean") persistentData.ShowHeart = false;
 
 	if (persistentData.UpdateTime < CommonTime()) {
 		const {bpm, breathing} = InventoryItemBreastFuturisticBraUpdate(data.C);
 		property.HeartRate = bpm;
-		if (property.Type === "Solid" || property.Type === "Solid2") {
+		if (subType === 1 || subType === 3) {
 			persistentData.ShowHeart = false;
 		} else {
 			persistentData.ShowHeart = (breathing === "Action" || breathing ===  "High");

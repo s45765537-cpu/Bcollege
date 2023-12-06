@@ -325,7 +325,7 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(data, C, Persis
 		PersistentData.DeviceVibeMode = VibeMode;
 
 		const newOption = data.options.find(o => o.Name === VibeMode);
-		const previousOption = TypedItemFindPreviousOption(Item, data.options, "Mode");
+		const previousOption = TypedItemFindPreviousOption(data, Item);
 		if (TypedItemValidateOption(data, C, Item, newOption, { ...previousOption, ChangeWhenLocked: true })) {
 			return;
 		}

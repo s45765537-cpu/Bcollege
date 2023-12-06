@@ -736,8 +736,18 @@ function SarahSlaveLockedCuffs(C) {
 		if ((InventoryGet(C, "ItemPelvis") == null) || (InventoryGet(C, "ItemPelvis").Asset.Name != "MetalChastityBelt")) return false;
 		if ((InventoryGet(C, "ItemBreast") == null) || (InventoryGet(C, "ItemBreast").Asset.Name != "MetalChastityBra")) return false;
 		if ((InventoryGet(C, "ItemArms") == null) || (InventoryGet(C, "ItemArms").Asset.Name != "LeatherCuffs")) return false;
-		if ((InventoryGet(C, "ItemArms").Property == null) || (InventoryGet(C, "ItemArms").Property.Type == null)) return false;
-		return true;
+		const armsItem = InventoryGet(C, "ItemArms");
+		if (
+			!armsItem
+			|| armsItem.Asset.Name !== "LeatherCuffs"
+			|| !armsItem.Property
+			|| !armsItem.Property.TypeRecord
+			|| !armsItem.Property.TypeRecord.typed
+		) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 

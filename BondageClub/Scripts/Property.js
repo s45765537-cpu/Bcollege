@@ -377,6 +377,12 @@ function PropertyUnion(output, ...args) {
 					output[key] = (output[key] || 0) + (value || 0);
 					break;
 				}
+				case "TypeRecord":
+					output[key] = {
+						...(output[key] || {}),
+						...value,
+					};
+					break;
 				default: {
 					if (Array.isArray(value)) {
 						const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
@@ -417,6 +423,9 @@ function PropertyDifference(output, ...args) {
 					output[key] = (output[key] || 0) - (value || 0);
 					break;
 				}
+				case "TypeRecord":
+					output[key] = CommonOmit(output[key] || {}, Object.keys(value));
+					break;
 				default: {
 					if (Array.isArray(value)) {
 						const previousValue = Array.isArray(output[key]) ? output[key] : [];
@@ -431,4 +440,13 @@ function PropertyDifference(output, ...args) {
 		}
 	}
 	return output;
+}
+
+/**
+ * Convert the passed type record into a list of stringified key/value pairs.
+ * @param {TypeRecord} typeRecord
+ * @returns {string[]}
+ */
+function PropertyTypeRecordToStrings(typeRecord) {
+	return Object.entries(typeRecord).map(([i, j]) => `${i}${j}`);
 }

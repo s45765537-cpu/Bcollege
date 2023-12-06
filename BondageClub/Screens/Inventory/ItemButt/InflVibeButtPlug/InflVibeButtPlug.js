@@ -5,7 +5,7 @@ function InventoryItemButtInflVibeButtPlugDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 
 	if (Data.currentModule === ModularItemBase) {
-		const [InflateLevel, Intensity] = ModularItemParseCurrent(Data);
+		const [InflateLevel, Intensity] = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord);
 
 		// Display option information
 		MainCanvas.textAlign = "right";

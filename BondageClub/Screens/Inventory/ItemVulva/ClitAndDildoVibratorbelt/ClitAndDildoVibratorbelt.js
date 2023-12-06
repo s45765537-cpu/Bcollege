@@ -4,7 +4,8 @@
 function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	if (Data.currentModule === ModularItemBase) {
-		const [DildoIntensity, EggIntensity] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
+		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const [DildoIntensity, EggIntensity] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 
 		// Display option information
 		MainCanvas.textAlign = "right";
@@ -21,7 +22,7 @@ function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFuncti
 function InventoryItemVulvaClitAndDildoVibratorbeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
 	// Ensure that the vibrator intensity is set to the maximum of the egg and dildo intensity
 	originalFunction(C, item, newOption, previousOption, false, false);
-	const CurrentModuleValues = ModularItemParseCurrent(data);
+	const CurrentModuleValues = ModularItemParseCurrent(data, item.Property.TypeRecord);
 	const Intensities = data.modules.map((m, i) => m.Options[CurrentModuleValues[i]].Property.Intensity);
 	item.Property.Intensity = /** @type {VibratorIntensity}*/(Math.max(...Intensities));
 	CharacterRefresh(C, push, false);

@@ -111,21 +111,14 @@ function CommonDrawAppearanceBuild(C, {
 		});
 
 		// Check if we need to draw a different variation (from type property)
-		const Type = (Property && Property.Type) || "";
-
+		const TypeRecord = (Property && Property.TypeRecord) || {};
 		let L = "";
-		let LayerType = Type;
-		if (Layer.Name) L = "_" + Layer.Name;
-		if (!Layer.HasType) LayerType = "";
-		if (Layer.ModuleType) {
-			const parsedTypes = Type.split(/([0-9]+)/);
-			LayerType = Layer.ModuleType.map(key => {
-				if (!Type) return key + "0";
-				const keyIndex = parsedTypes.indexOf(key);
-				const moduleOption = keyIndex === -1 ? "0" : parsedTypes[keyIndex + 1];
-				return Layer.ModuleType + moduleOption;
-			}).join("");
+		let LayerType = "";
+		if (Layer.CreateLayerTypes.length > 0) {
+			LayerType = "_" + Layer.CreateLayerTypes.map(k => `${k}${TypeRecord[k] || 0}`).join("");
 		}
+		if (Layer.Name) L = "_" + Layer.Name;
+
 		let Opacity = (Property && typeof Property.Opacity === "number") ? Property.Opacity : Layer.Opacity;
 		let BlendingMode = Layer.BlendingMode;
 		Opacity = Math.min(Layer.MaxOpacity, Math.max(Layer.MinOpacity, Opacity));

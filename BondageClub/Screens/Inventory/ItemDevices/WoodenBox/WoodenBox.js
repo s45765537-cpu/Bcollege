@@ -86,7 +86,9 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 
 		let from;
 		let to;
-		if (Property && Property.Type === "NWSE") {
+		const typeRecord = (Property && Property.TypeRecord) || {};
+		const subType = typeRecord.typed || 0;
+		if (subType === 1) {
 			from = [0, 0];
 			to = [width, height];
 		} else {

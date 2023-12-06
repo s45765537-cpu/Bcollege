@@ -16,7 +16,8 @@ const InventoryItemPelvisLoveChastityBeltCrotchShield = new Map([
 function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
 	OriginalFunction();
 	if (Data.currentModule === ModularItemBase) {
-		const [FrontShield, BackShield, Intensity, ShockLevel] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
+		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const [FrontShield, BackShield, Intensity, ShockLevel] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const CrotchShield = InventoryItemPelvisLoveChastityBeltCrotchShield.get(`${FrontShield}${BackShield}`);
 		const ShieldSuffix = (["f2", "f3"].includes(FrontShield)) ? "" : ` (${DialogFindPlayer(`${Data.dialogPrefix.option}${FrontShield}`)})`;
 
@@ -47,7 +48,7 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 	// Switch off the vibe module if the corresponding front shield is removed
 	if (previousOption.Name === "f2") { // 2 - close front & vibrator
 		ExtendedItemRequirementCheckMessageMemo.clearCache();
-		const previousModuleValues = ModularItemParseCurrent(data, item.Property.Type);
+		const previousModuleValues = ModularItemParseCurrent(data, item.Property.TypeRecord);
 		const vibePreviousOption = data.modules[2].Options[previousModuleValues[2]];
 		const vibeNewOption = data.modules[2].Options[0];
 		return originalFunction(C, item, vibeNewOption, vibePreviousOption, push, refresh);
@@ -60,7 +61,7 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, Item, Option, CurrentOption) {
 	const Prefix = `${Item.Asset.Group.Name}${Item.Asset.Name}`;
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
-	const FrontShield = ModularItemParseCurrent(Data)[0];
+	const FrontShield = ModularItemParseCurrent(Data, Item.Property.TypeRecord)[0];
 
 	if (!C.IsOwnedByPlayer()) {
 		return DialogFindPlayer("PreviewIconOwnerOnly");

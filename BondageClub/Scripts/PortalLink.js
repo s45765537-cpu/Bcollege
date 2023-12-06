@@ -547,22 +547,17 @@ function PortalLinkCycleChastityModule(sender, item) {
 	}
 
 	if (item.Asset.Archetype === "modular") {
-		// FIXME: Bleh. I want a better ModularItemSetOptionByName~
 		const modularData = ModularItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 		if (!modularData) return;
 
 		const shield = modularData.modules.find(m => m.Name === chastityTarget);
 		if (!shield) return;
 
-		const shieldType = ModularItemDeconstructType(item.Property.Type).find(t => t.startsWith(shield.Key));
-		if (!shieldType) return;
-
-		const shieldIndex = parseInt(shieldType.substring(shield.Key.length));
-		if (isNaN(shieldIndex)) return;
-
+		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
+		const shieldIndex = typeRecord[shield.Name] || 0;
 		const idx = (shieldIndex + 1) % shield.Options.length;
 
-		ModularItemSetOptionByName(Player, item, ModularItemConstructType(modularData.modules, [0, idx]), true, sender);
+		ExtendedItemSetOptionByRecord(Player, item, { [shield.Key]: idx }, { push: true, C_Source: sender });
 		ModularItemPublishAction(modularData, Player, item, shield.Options[idx], shield.Options[shieldIndex]);
 	}
 }

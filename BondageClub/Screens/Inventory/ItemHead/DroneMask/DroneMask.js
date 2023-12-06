@@ -4,10 +4,10 @@
 function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color,
 }) {
+	const propertyRecord = (Property && Property.TypeRecord) || {};
+	const subType = propertyRecord.p || 0;
 	if (L === "_Text"){
-		const Properties = Property || {};
-		const Type = Properties.Type || "p0";
-		if (!Type.includes("p5")) return;
+		if (subType !== 5) return;
 
 		// Canvas setup
 		let Height = 65;

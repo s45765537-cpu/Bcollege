@@ -9,8 +9,7 @@
 const TextItemDataLookup = {};
 
 /**
- * Registers a typed extended item. This automatically creates the item's load, draw and click functions. It will also
- * generate the asset's AllowType array.
+ * Registers a typed extended item. This automatically creates the item's load, draw and click functions.
  * @param {Asset} asset - The asset being registered
  * @param {TextItemConfig} config - The item's typed item configuration
  * @param {null | ExtendedItemOption} parentOption
@@ -79,31 +78,34 @@ function TextItemCreateTextItemData(asset, {
 	DrawData,
 	PushOnPublish,
 	AllowEffect,
+	Name,
 }, parentOption=null) {
 	// Gather the asset's relevant text property names
 	const textNames = CommonKeys(MaxLength);
 
 	// Specify an event listener for each text property
 	const eventListeners = EventListeners || {};
-	for (const name of textNames) {
-		if (typeof eventListeners[name] !== "function") {
-			eventListeners[name] = asset.DynamicAfterDraw ? TextItemChange : TextItemChangeNoCanvas;
+	for (const i of textNames) {
+		if (typeof eventListeners[i] !== "function") {
+			eventListeners[i] = asset.DynamicAfterDraw ? TextItemChange : TextItemChangeNoCanvas;
 		}
 	}
 
 	const baselineProperty = BaselineProperty || {};
-	for (const name of textNames) {
-		if (typeof baselineProperty[name] !== "string") {
-			baselineProperty[name] = "";
+	for (const i of textNames) {
+		if (typeof baselineProperty[i] !== "string") {
+			baselineProperty[i] = "";
 		}
 	}
 
 	DialogPrefix = DialogPrefix || {};
-	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : parentOption.Name}`;
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TEXT : parentOption.Name);
+	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	return TextItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TEXT,
 		asset,
 		key,
+		name,
 		maxLength: MaxLength,
 		font: typeof Font === "string" ? Font : null,
 		functionPrefix: `Inventory${key}`,

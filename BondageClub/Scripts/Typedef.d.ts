@@ -580,7 +580,7 @@ interface AssetGroup {
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
-	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; Type?: string }>[];
+	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
 	readonly DrawingPriority: number;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
@@ -648,12 +648,10 @@ interface AssetLayer {
 	readonly ColorGroup: string | null;
 	/** whether or not this layer can be colored in the coloring UI */
 	readonly HideColoring: boolean;
-	/** A list of allowed extended item types that this layer permits - the layer will only be drawn if
-	the item type matches one of these types. If null, the layer is considered to permit all extended types. */
-	readonly AllowTypes: readonly string[] | null;
-	/** whether or not the layer has separate assets per type. If not, the extended type will not be included in
-	the URL when fetching the layer's image */
-	readonly HasType: boolean;
+	/** A record mapping stringified {@link PartialType} values to a set of unique IDs. */
+	readonly AllowTypes: AllowTypes.Data | null;
+	/** @deprecated - superceded by {@link CreateLayerTypes} */
+	readonly HasType?: never;
 	/** The name of the parent group for this layer. If null, the layer has no parent group. If
 	undefined, the layer inherits its parent group from it's asset/group. */
 	readonly ParentGroupName: AssetGroupName | null;
@@ -682,14 +680,16 @@ interface AssetLayer {
 	readonly BlendingMode: GlobalCompositeOperation;
 	readonly LockLayer: boolean;
 	readonly MirrorExpression?: AssetGroupName;
-	readonly AllowModuleTypes?: readonly string[];
+	/** @deprecated */
+	readonly AllowModuleTypes?: never;
 	/** The coloring index for this layer */
 	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
 	readonly GroupAlpha?: readonly Alpha.Data[];
-	/** A module for which the layer can have types. */
-	readonly ModuleType: readonly string[] | null;
+	/** @deprecated - Superceded by {@link CreateLayerTypes} */
+	readonly ModuleType?: never;
+	readonly CreateLayerTypes: readonly string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	readonly HideForAttribute: readonly AssetAttribute[] | null;
 	/* Specifies that this layer should not be drawn unless the character is wearing an item with one of the given attributes */
@@ -793,12 +793,13 @@ interface Asset {
 	readonly LoverOnly: boolean;
 	readonly FamilyOnly: boolean;
 	readonly ExpressionTrigger?: readonly ExpressionTrigger[];
-	readonly RemoveItemOnRemove: readonly Readonly<{ Name: string; Group: AssetGroupName; Type?: string; }>[];
+	readonly RemoveItemOnRemove: readonly { Name: string; Group: AssetGroupName; TypeRecord?: TypeRecord; }[];
 	readonly AllowEffect?: readonly EffectName[];
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
 	readonly AllowHideItem?: readonly string[];
-	readonly AllowTypes?: readonly string[];
+	/** @deprecated */
+	readonly AllowTypes?: never;
 	readonly AllowTighten?: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of `"Default"` and/or valid color hex codes.
@@ -829,8 +830,15 @@ interface Asset {
 	readonly DynamicBeforeDraw: boolean;
 	readonly DynamicAfterDraw: boolean;
 	readonly DynamicScriptDraw: boolean;
-	readonly HasType: boolean;
-	readonly AllowLockType?: readonly string[];
+	/** @deprecated - superceded by {@link CreateLayerTypes} */
+	readonly HasType?: never;
+	/**
+	 * A module for which the layer can have types.
+	 * Allows one to define different module-specific assets for a single layer.
+	 */
+	readonly CreateLayerTypes: readonly string[];
+	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
+	readonly AllowLockType: null | Record<string, Set<number>>;
 	readonly AllowColorizeAll: boolean;
 	readonly AvailableLocations: readonly string[];
 	readonly OverrideHeight?: Readonly<AssetOverrideHeight>;
@@ -2062,6 +2070,14 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
 	 */
 	allowEffect: readonly EffectName[];
+	/**
+	 * The unique name for this (sub)-screen used for the automatic construction of {@link ItemProperties.TypeRecord} keys.
+	 * Names *should* be short.
+	 *
+	 * If not explicitly specified defaults to the name of {@link ExtendedItemData.parentOption}
+	 * for sub screens and the name of the archetype in case of the (outer-most) super screen.
+	 */
+	name: string;
 }
 
 /** A struct-type that maps archetypes to their respective extended item data.  */
@@ -2232,6 +2248,15 @@ interface AssetDefinitionProperties {
 	Fetish?: FetishName[];
 }
 
+/** A concatenation of a single {@link TypeRecord} key/value pair. */
+type PartialType = `${string}${number}`;
+
+/**
+ * A record mapping screen names to option indices.
+ * @see {@link PartialType} A concatenation of a single `TypeRecord` key/value pair.
+ */
+type TypeRecord = Record<string, number>;
+
 /**
  * Properties for Expression Queue item
  */
@@ -2248,8 +2273,13 @@ interface ExpressionQueueItem {
  * Those are the properties the main game code enforces.
  */
 interface ItemPropertiesBase {
-	/** A string (or `null`) denoting the state of an extended item. How the type-string translate to concrete properties depends on the Archetype in question. */
-	Type?: string | null;
+	/**
+	 * @deprecated
+	 * A string (or `null`) denoting the state of an extended item. How the type-string translate to concrete properties depends on the Archetype in question.
+	 */
+	Type?: string;
+	/** A record mapping screen names to option indices. */
+	TypeRecord?: TypeRecord;
 
 	/** A facial expression */
 	Expression?: ExpressionName;
@@ -3199,9 +3229,10 @@ interface CraftingItem {
 	Private: boolean;
 	/**
 	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
+	 * @deprecated - superseded by {@link CraftingItem.TypeRecord}
 	 * @see {@link ItemProperties.Type}
 	 */
-	Type: string | null;
+	Type?: string | null;
 	/**
 	 * An integer (or `null`) representing the item layering priority; see {@link ItemProperties.OverridePriority}.
 	 * @deprecated - superseded by {@link CraftingItem.ItemProperty}
@@ -3213,6 +3244,11 @@ interface CraftingItem {
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
 	ItemProperty: ItemProperties | null;
+	/**
+	 * A record for extended items mapping screen names to option indices.
+	 * @see {@link ItemProperties.TypeRecord}
+	 */
+	TypeRecord?: null | TypeRecord;
 }
 
 /**
@@ -3235,11 +3271,10 @@ interface CraftingItemSelected {
 	/** Whether the crafted item should be private or not. */
 	Private: boolean;
 	/**
-	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
-	 * Note that `null` values, which are legal for Typed extended items, *must* be converted to empty strings.
-	 * @see {@link ItemProperties.Type}
+	 * A record for extended items mapping screen names to option indices.
+	 * @see {@link ItemProperties.TypeRecord}
 	 */
-	Type: string;
+	TypeRecord: null | TypeRecord;
 	/**
 	 * A record with a select few (optional) extra item properties:
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.

@@ -1214,13 +1214,29 @@ function CommonGenerateGrid(items, offset, grid, callback) {
  * @template {keyof RecordType} KeyType
  * @template {{}} RecordType
  * @param {RecordType} object - The to-be copied record
- * @param {readonly KeyType[]} keys - The to-be removed keys from the record
+ * @param {Iterable<KeyType>} keys - The to-be removed keys from the record
  * @returns {Omit<RecordType, KeyType>}
  */
 function CommonOmit(object, keys) {
 	const ret = { ...object };
 	for (const k of keys) {
 		delete ret[k];
+	}
+	return ret;
+}
+
+/**
+ * Create a copy of the passed record with all specified keys removed
+ * @template {keyof RecordType} KeyType
+ * @template {{}} RecordType
+ * @param {RecordType} object - The to-be copied record
+ * @param {Iterable<KeyType>} keys - The to-be removed keys from the record
+ * @returns {Pick<RecordType, KeyType>}
+ */
+function CommonPick(object, keys) {
+	const ret = /** @type {Pick<RecordType, KeyType>} */({});
+	for (const k of keys) {
+		ret[k] = object[k];
 	}
 	return ret;
 }
@@ -1286,10 +1302,45 @@ function CommonURLHasExtension(TestURL, Extension) {
  * @returns {rec2 is T}
  */
 function CommonObjectEqual(rec1, rec2) {
+	if (!CommonIsObject(rec1) || !CommonIsObject(rec2)) {
+		return false;
+	}
+
 	const entries1 = Object.entries(rec1);
 	const keys2 = Object.keys(rec2);
 	if (entries1.length !== keys2.length) {
 		return false;
 	}
 	return entries1.every(([k, v]) => rec2[k] === v);
+}
+
+/**
+ * Return if the key/value pairs of `subRec` form a subset of `superRec`
+ * @template T
+ * @param {unknown} subRec
+ * @param {T} superRec
+ * @returns {subRec is Partial<T>}
+ */
+function CommonObjectIsSubset(subRec, superRec) {
+	if (!CommonIsObject(subRec) || !CommonIsObject(superRec)) {
+		return false;
+	}
+	const entries = Object.entries(subRec);
+	return entries.every(([k, v]) => superRec[k] === v);
+}
+
+/**
+ * Parse the passed stringified JSON data and catch any exceptions.
+ * Exceptions will cause the function to return `undefined`.
+ * @param {string} data
+ * @returns {any}
+ * @see {@link JSON.parse}
+ */
+function CommonJSONParse(data) {
+	try {
+		return JSON.parse(data);
+	} catch (error) {
+		console.error(error, data);
+		return undefined;
+	}
 }

@@ -56,7 +56,7 @@ function InventoryItemPelvisObedienceBelts1Exit() {
  * @param {Character} C
  */
 function InventoryObedienceBeltCheckPunish(Item, C) {
-	const { PunishOrgasm, PunishStandup, PunishStruggle } = Item.Property;
+	const { PunishOrgasm, PunishStruggle, PunishStandup } = Item.Property;
 	if (Item.Property.NextShockTime - CurrentTime <= 0 && PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1) {
 		// Punish the player if they orgasm
 		Item.Property.NextShockTime = CurrentTime + FuturisticChastityBeltShockCooldownOrgasm; // Difficult to have two orgasms in 10 seconds
@@ -117,8 +117,7 @@ function AssetsItemPelvisObedienceBeltScriptDraw(data) {
 	if (!data.Item.Property) data.Item.Property = {};
 	if (typeof data.Item.Property.NextShockTime !== "number") data.Item.Property.NextShockTime = 0;
 
-	const moduleTypes = ModularItemDeconstructType(data.Item.Property.Type) || [];
-	const canShock = moduleTypes.includes("s1");
+	const canShock = CommonIsObject(data.Item.Property.TypeRecord) ? data.Item.Property.TypeRecord.s === 1 : false;
 
 	// Trigger a check if a new message is detected
 	let lastMsgIndex = ChatRoomChatLog.length - 1;

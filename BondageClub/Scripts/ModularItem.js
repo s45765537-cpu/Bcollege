@@ -68,16 +68,8 @@ const ModularItemChatSetting = {
 	PER_MODULE: "perModule",
 };
 
-/** A regular expression that knows how to split modular types into [module key, option index] components */
-const ModularItemTypeSplitter = new RegExp(/([a-zA-Z]+\d+)/);
-/** A regular expression that knows how to split a [key, index] into its parts */
-const ModularItemSubtypeSplitter = new RegExp(/([a-zA-Z]+)(\d+)/);
-
 /**
- * Registers a modular extended item. This automatically creates the item's load, draw and click functions. It will
- * also generate the asset's AllowType array, as AllowType arrays on modular items can get long due to the
- * multiplicative nature of the item's types, and also converts the AllowModuleTypes property on any asset layers into
- * an AllowTypes property, if present.
+ * Registers a modular extended item. This automatically creates the item's load, draw and click functions.
  * @param {Asset} asset - The asset being registered
  * @param {ModularItemConfig} config - The item's modular item configuration
  * @returns {ModularItemData} - The generated extended item data for the asset
@@ -112,15 +104,26 @@ function ModularItemRegister(asset, config) {
  * @returns {boolean} Whether properties were initialized or not
  */
 function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
-	const AllowType = Data.asset.AllowTypes;
-	validateType: if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
+	if (!CommonIsObject(Item.Property)) {
+		Item.Property = { TypeRecord: {} };
+	} else if (!CommonIsObject(Item.Property.TypeRecord)) {
+		if (typeof Item.Property.Type === "string") {
+			Item.Property.TypeRecord = ExtendedItemTypeToRecord(Data.asset, Item.Property.Type);
+			// TODO: Uncomment once R99 is live
+			// delete Item.Property.Type;
+		} else {
+			Item.Property.TypeRecord = {};
+		}
+	}
+
+	validateType: if (Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;
 		}
 
 		// Check if all the expected properties are present; extra properties are ignored
-		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.Type);
+		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.TypeRecord);
 		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues);
 		delete newProps.OverridePriority;
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
@@ -204,7 +207,11 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 					OptionType: "ModularItemOption",
 					ModuleName: protoMod.Name,
 					Index: i,
-					ParentData: null, // Initialized later on in `ModularItemCreateModularData`
+					ParentData: null, // Initialized later on in `ModularItemCreateModularData`,
+					Property: {
+						...(protoOption.Property || {}),
+						TypeRecord: { [protoMod.Key]: i },
+					}
 				};
 
 				if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
@@ -224,6 +231,7 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
  * Generates an asset's modular item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {ModularItemConfig} config - The item's extended item configuration
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {ModularItemData} - The generated modular item data for the asset
  */
 function ModularItemCreateModularData(asset, {
@@ -235,10 +243,11 @@ function ModularItemCreateModularData(asset, {
 	ScriptHooks,
 	Dictionary,
 	DrawData,
+	BaselineProperty,
 	AllowEffect,
-	BaselineProperty=null,
-	DrawImages=null,
-}) {
+	DrawImages,
+	Name,
+}, parentOption=null) {
 	// Set the name of all modular item options
 	// Use an external function as typescript does not like the inplace updating of an object's type
 	const ModulesParsed = ModularItemBuildModules(asset, Modules, ChangeWhenLocked);
@@ -246,6 +255,7 @@ function ModularItemCreateModularData(asset, {
 	const BaseDrawImages = (typeof DrawImages !== "boolean") ? ModulesParsed.every((m) => m.DrawImages) : DrawImages;
 
 	const key = `${asset.Group.Name}${asset.Name}`;
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.MODULAR : parentOption.Name);
 	DialogPrefix = DialogPrefix || {};
 	/** @type {ModularItemData} */
 	const data = ModularItemDataLookup[key] = {
@@ -253,6 +263,7 @@ function ModularItemCreateModularData(asset, {
 		asset,
 		chatSetting: ChatSetting || ModularItemChatSetting.PER_OPTION,
 		key,
+		name,
 		typeCount: 1,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${key}`,
@@ -319,7 +330,7 @@ function ModularItemCreateDrawBaseFunction(data) {
 		/** @type {ModularItemButtonDefinition[]} */
 		const buttonDefinitions = data.modules
 			.map((module, i) => {
-				const currentValues = ModularItemParseCurrent(data);
+				const currentValues = ModularItemParseCurrent(data, DialogFocusItem.Property.TypeRecord);
 				const currentOption = module.Options[currentValues[i]];
 				return [module, currentOption, data.dialogPrefix.module];
 			});
@@ -391,7 +402,7 @@ function ModularItemDrawCommon(
  */
 function ModularItemDrawModule(module, data) {
 	const moduleIndex = data.modules.indexOf(module);
-	const currentValues = ModularItemParseCurrent(data);
+	const currentValues = ModularItemParseCurrent(data, DialogFocusItem.Property.TypeRecord);
 	const buttonDefinitions = module.Options.map(
 		(option) => ModularItemMapOptionToButtonDefinition(option, module, data, currentValues[moduleIndex]));
 	ModularItemDrawCommon(module.Name, buttonDefinitions, data, module.drawData);
@@ -444,11 +455,12 @@ function ModularItemClickModule(module, data) {
 			const pageStart = pageNumber * DrawData.itemsPerPage;
 			const page = module.Options.slice(pageStart, pageStart + DrawData.itemsPerPage);
 			const selected = page[i];
+			const optionIndex = i + (pageStart * DrawData.itemsPerPage);
 			if (selected) {
 				if (ExtendedItemPermissionMode) {
 					const C = CharacterGetCurrent();
-					const IsFirst = selected.Name.includes("0");
-					const Worn = C.ID == 0 && DialogFocusItem.Property.Type.includes(selected.Name);
+					const IsFirst = optionIndex === 0;
+					const Worn = C.IsPlayer() && DialogFocusItem.Property.TypeRecord[module.Key] === optionIndex;
 					InventoryTogglePermission(DialogFocusItem, selected.Name, IsFirst || Worn);
 				} else {
 					ModularItemSetType(module, pageStart + i, data);
@@ -527,24 +539,39 @@ function ModularItemModuleTransition(newModule, data) {
 /**
  * Parses the focus item's current type into an array representing the currently selected module options
  * @param {ModularItemData} data - The modular item's data
- * @param {string?} type - The type string for a modular item. If null, use a type string extracted from the selected module options
+ * @param {null | TypeRecord} typeRecord - The type string for a modular item. If null, use a type string extracted from the selected module options
  * @returns {number[]} - An array of numbers representing the currently selected options for each of the item's modules
  */
-function ModularItemParseCurrent({ asset, modules }, type=null) {
-	if (type == null) {
-		type = (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.Type) || ModularItemConstructType(modules);
+function ModularItemParseCurrent({ asset, modules }, typeRecord) {
+	if (!CommonIsObject(typeRecord)) {
+		return Array(modules.length).fill(0);
 	}
 	return modules.map(module => {
-		const index = type.indexOf(module.Key);
-		if (index !== -1) {
-			const match = type.substring(index + module.Key.length).match(/^\d+/);
-			if (match) {
-				return Number(match[0]);
-			}
+		const index = typeRecord[module.Key];
+		if (module.Options[index] === undefined) {
+			console.warn(`${asset.Group.Name}:${asset.Name}: invalid key for module "${module.Key}": ${index}`);
+			return 0;
+		} else {
+			return index;
 		}
-		console.warn(`[${asset.Group.Name}:${asset.Name}] Module ${module.Key} not found in type "${type}"`);
-		return 0;
 	});
+}
+
+/**
+ * Generates the type string for a modular item from its modules and their current values.
+ * @deprecated To-be removed in R99
+ * @param {ModularItemModule[]} modules - The modules array for the modular item
+ * @param {readonly number[]} [values] - The numeric values representing the current options for each module
+ * @returns {string} - A string type generated from the selected option values for each module
+ */
+function ModularItemConstructType(modules, values) {
+	values = values || [];
+	let type = "";
+	modules.forEach((module, i) => {
+		type += module.Key;
+		type += (values[i] || 0);
+	});
+	return type;
 }
 
 /**
@@ -556,8 +583,15 @@ function ModularItemParseCurrent({ asset, modules }, type=null) {
  */
 function ModularItemMergeModuleValues({ asset, modules }, moduleValues, BaselineProperty=null) {
 	const options = modules.map((module, i) => module.Options[moduleValues[i] || 0]);
-	 /** @type {ItemProperties} */
+	const typeRecord = options.reduce(
+		(rec, option) => Object.assign(rec, option.Property.TypeRecord),
+		/** @type {TypeRecord} */({}),
+	);
+
+	/** @type {ItemProperties} */
 	const BaseLineProperties = {
+		TypeRecord: typeRecord,
+		// TODO: Remove once R99 is live
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: 0,
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
@@ -658,35 +692,6 @@ function ModularItemMergeOverrideHeight(currentValue, newValue) {
 }
 
 /**
- * Generates the type string for a modular item from its modules and their current values.
- * @param {ModularItemModule[]} modules - The modules array for the modular item
- * @param {readonly number[]} [values] - The numeric values representing the current options for each module
- * @returns {string} - A string type generated from the selected option values for each module
- */
-function ModularItemConstructType(modules, values) {
-	values = values || [];
-	let type = "";
-	modules.forEach((module, i) => {
-		type += module.Key;
-		type += (values[i] || 0);
-	});
-	return type;
-}
-
-/**
- * Separate a modular item type string into a list with the types of each individual module.
- * @param {string} Type - The modular item type string
- * @returns {string[] | null} - A list with the options of each individual module or `null` if the input type wasn't a string
- */
-function ModularItemDeconstructType(Type) {
-	if (typeof Type !== "string") {
-		return null;
-	} else {
-		return Type.split(/([a-zA-Z]+\d+)/).filter(t => t);
-	}
-}
-
-/**
  * Sets a modular item's type based on a change in a module's option selection.
  * @param {ModularItemModule} module - The module that changed
  * @param {number} index - The index of the newly chosen option within the module
@@ -696,7 +701,7 @@ function ModularItemDeconstructType(Type) {
 function ModularItemSetType(module, index, data) {
 	const C = CharacterGetCurrent();
 	const newOption = module.Options[index];
-	const currentModuleValues = ModularItemParseCurrent(data);
+	const currentModuleValues = ModularItemParseCurrent(data, DialogFocusItem.Property.TypeRecord);
 	const moduleIndex = data.modules.indexOf(module);
 	const previousOption = module.Options[currentModuleValues[moduleIndex]];
 
@@ -722,7 +727,7 @@ function ModularItemSetType(module, index, data) {
 			const args = [C, DialogFocusItem, newOption, previousOption];
 			CommonCallFunctionByNameWarn(`${data.functionPrefix}PublishAction`, ...args);
 		} else if (!C.IsPlayer()) {
-			C.CurrentDialog = DialogFind(C, data.key + DialogFocusItem.Property.Type, groupName);
+			C.CurrentDialog = DialogFind(C, `${data.key}${module.Key}${index}`, groupName);
 		}
 	}
 
@@ -732,65 +737,6 @@ function ModularItemSetType(module, index, data) {
 		CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen}Load`);
 	} else {
 		ModularItemModuleTransition(ModularItemBase, data);
-	}
-}
-
-/**
- * Sets a modular item's type and properties to the option whose name matches the provided option name parameter.
- * @param {Character} C - The character on whom the item is equipped
- * @param {Item | AssetGroupName} itemOrGroupName - The item whose type to set, or the group name for the item
- * @param {string} optionNames - The name of the option to set
- * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
- * player) - defaults to false.
- * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
- * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
- * informing the player of the requirements that are not met.
- */
-function ModularItemSetOptionByName(C, itemOrGroupName, optionNames, push = false, C_Source=null, refresh=true) {
-	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
-	if (!item) return;
-
-	const assetName = item.Asset.Name;
-	const groupName = item.Asset.Group.Name;
-	const warningMessage = `Cannot set option for ${groupName}:${assetName} to ${optionNames}`;
-
-	if (item.Asset.Archetype !== ExtendedArchetype.MODULAR) {
-		const msg = `${warningMessage}: item does not use the modular archetype`;
-		console.warn(msg);
-		return msg;
-	}
-
-	if (!item.Asset.AllowTypes.includes(optionNames)) {
-		const msg = `${warningMessage}: option "${optionNames}" does not exist`;
-		console.warn(msg);
-		return msg;
-	}
-
-	const data = ModularItemDataLookup[`${groupName}${assetName}`];
-	const newModuleValues = ModularItemParseCurrent(data, optionNames);
-	const previousModuleValues = ModularItemParseCurrent(data, item.Property && item.Property.Type);
-
-	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
-	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
-	let i = -1;
-	for (const mod of data.modules) {
-		i += 1;
-		const newOption = mod.Options[newModuleValues[i]];
-		const previousOption = mod.Options[previousModuleValues[i]];
-		const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
-		if (requirementMessage && newOption.Name !== previousOption.Name) {
-			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
-		} else {
-			ExtendedItemSetOption(data, C, item, newOption, previousOption, false, false);
-		}
-	}
-
-	if (refresh) {
-		CharacterRefresh(C, push, false);
-	}
-	if (push) {
-		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 	}
 }
 
@@ -830,70 +776,27 @@ function ModularItemPublishAction(data, C, item, newOption, previousOption) {
 }
 
 /**
- * Generates an array of all types available for an asset based on its modular item data, filtered by the provided
- * predicate function, if needed.
- * @param {ModularItemData} data - The modular item's data
- * @param {(typeObject: Record<string, number>) => boolean} [predicate] - An optional predicate for filtering the
- * resulting types
- * @returns {string[]} - The generated array of types
- */
-function ModularItemGenerateTypeList({ modules }, predicate) {
-	let allowType = [{}];
-	modules.forEach((module) => {
-		let newCombinations = [];
-		module.Options.forEach((option, i) => {
-			const newTypes = allowType.map(moduleValues => Object.assign({}, moduleValues, { [module.Key]: i }));
-			newCombinations = newCombinations.concat(newTypes);
-		});
-		allowType = newCombinations;
-	});
-	if (predicate) allowType = allowType.filter(predicate);
-	return allowType.map(combination => {
-		return modules.map(module => `${module.Key}${combination[module.Key]}`).join("");
-	});
-}
-
-/**
  * Generates and sets the AllowLock and AllowLockType properties for an asset based on its modular item data. For types
  * where two independent options declare conflicting AllowLock properties (i.e. one option declares AllowLock: false and
  * another declares AllowLock: true), the resulting type will permit locking (i.e. true overrides false).
  * @param {ModularItemData} data - The modular item's data
  * @returns {void} - Nothing
  */
-function ModularItemGenerateAllowLockType(data) {
-	const {asset, modules, typeCount} = data;
-	/** @type {Record<string, boolean | null>} */
-	const optionAllowLockMap = {};
-	// Create a mapping of partial types (i.e. the "type" for a single module) to their AllowLock values. If the
-	// corresponding option doesn't explicitly set AllowLock, set the value to null to distinguish between explicit
-	// and inherited AllowLock (if present, explicit should override inherited)
+function ModularItemGenerateAllowLockType({ asset, modules }) {
+	const allowLockType = asset.AllowLockType || {};
+	let allowAll = true;
 	for (const module of modules) {
-		for (const [index, option] of Object.entries(module.Options)) {
-			optionAllowLockMap[`${module.Key}${index}`] = typeof option.AllowLock === "boolean" ? option.AllowLock : null;
-		}
-	}
-
-	const allowLockType = ModularItemGenerateTypeList(data, (combination) => {
-		const typeParts = Object.keys(combination).map((key) => `${key}${combination[key]}`);
-		// Fallback allowLock value for the type if no option explicitly sets it to true
-		let allowLock = asset.AllowLock;
-		for (const typePart of typeParts) {
-			const optionAllowLock = optionAllowLockMap[typePart];
-			if (optionAllowLock) {
-				// If one of the type's options explicitly sets AllowLock: true, the type permits locks
-				return true;
-			} else if (optionAllowLock === false) {
-				// If an option explicitly sets AllowLock: false, it overrides the asset-level AllowLock
-				allowLock = false;
+		allowLockType[module.Name] = new Set();
+		for (const [i, option] of CommonEnumerate(module.Options)) {
+			const allowLock = typeof option.AllowLock === "boolean" ? option.AllowLock : asset.AllowLock;
+			if (allowLock) {
+				allowLockType[module.Name].add(i);
+			} else {
+				allowAll = false;
 			}
 		}
-
-		// If no option set it to true, then return the fallback value (either the asset-level AllowLock, or false if an
-		// option explicitly overrode it
-		return allowLock;
-	});
-
-	TypedItemSetAllowLockType(asset, allowLockType, typeCount);
+	}
+	TypedItemSetAllowLockType(asset, allowLockType, allowAll);
 }
 
 /**
@@ -906,7 +809,6 @@ function ModularItemGenerateValidationProperties(data) {
 	const asset = /** @type {Mutable<Asset>} */(data.asset);
 	const { modules } = data;
 	asset.Extended = true;
-	asset.AllowTypes = ModularItemGenerateTypeList(data);
 	asset.AllowEffect = CommonIsArray(asset.AllowEffect) ? [...data.allowEffect, ...asset.AllowEffect] : [...data.allowEffect];
 	// @ts-ignore: ignore `readonly` while still building the asset
 	CommonArrayConcatDedupe(asset.AllowEffect, asset.Effect);

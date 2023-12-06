@@ -549,21 +549,26 @@ function AsylumGGTSConfigureGag(Group) {
 		return;
 	}
 
-	let Type = (Item.Property && Item.Property.Type) ? Item.Property.Type : "g0p0t0";
+	let TypeIndex = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.g) || 0;
 	if (Item.Asset.Name === "FuturisticHarnessBallGag"){
-		Type = CommonRandomItemFromList(Type, ["g0p0t0", "g1p0t0", "g2p0t0"]);
+		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2]);
 	} else if ((Item.Asset.Name === "FuturisticPanelGag") || (Item.Asset.Name === "FuturisticHarnessPanelGag")){
-		Type = CommonRandomItemFromList(Type, ["g0p0t0", "g1p0t0", "g2p0t0", "g3p0t0"]);
+		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2, 3]);
 	}
 
-	if (Type === "g0p0t0") {
-		Item.Color = ['#50913C', 'Default'];
-	} else if (Type === "g1p0t0") {
-		Item.Color = ['#80713C', 'Default'];
-	} else if (Type === "g2p0t0") {
-		Item.Color = ['#B0513C', 'Default'];
-	} else if (Type === "g3p0t0") {
-		Item.Color = ['#E0313C', 'Default'];
+	switch (TypeIndex) {
+		case 0:
+			Item.Color = ['#50913C', 'Default'];
+			break;
+		case 1:
+			Item.Color = ['#80713C', 'Default'];
+			break;
+		case 2:
+			Item.Color = ['#B0513C', 'Default'];
+			break;
+		case 3:
+			Item.Color = ['#E0313C', 'Default'];
+			break;
 	}
 }
 
@@ -577,31 +582,32 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemPose") {
 		let Item = InventoryGet(Player, "ItemArms");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticCuffs")) {
-			const typeOld = (Item.Property && Item.Property.Type) || "None";
-			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Wrist", "Elbow"]);
-			TypedItemSetOptionByName(Player, Item, typeNew);
+			const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			const typeNew = CommonRandomItemFromList(typeOld, [0, 1, 2]);
+			ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
 		}
 
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticStraitjacket")) {
-			if (Item.Property && Item.Property.Type === "cl0co0np0vp0a1") {
-				ModularItemSetOptionByName(Player, Item, "cl0co0np0vp0a0");
+			const typeRecord = Item.Property && Item.Property.TypeRecord;
+			if (typeRecord.a === 1) {
+				ExtendedItemSetOptionByRecord(Player, Item, { a: 0 });
 			} else {
-				ModularItemSetOptionByName(Player, Item, "cl0co0np0vp0a1");
+				ExtendedItemSetOptionByRecord(Player, Item, { a: 1 });
 			}
 		}
 
 		Item = InventoryGet(Player, "ItemFeet");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticAnkleCuffs")) {
-			const typeOld = (Item.Property && Item.Property.Type) || "None";
-			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Closed"]);
-			TypedItemSetOptionByName(Player, Item, typeNew);
+			const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			const typeNew = CommonRandomItemFromList(typeOld, [0, 1]);
+			ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
 		}
 
 		Item = InventoryGet(Player, "ItemLegs");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticLegCuffs")) {
-			const typeOld = (Item.Property && Item.Property.Type) || "None";
-			const typeNew = CommonRandomItemFromList(typeOld, ["None", "Closed"]);
-			TypedItemSetOptionByName(Player, Item, typeNew);
+			const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			const typeNew = CommonRandomItemFromList(typeOld, [0, 1]);
+			ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
 		}
 
 		CharacterRefresh(Player);
@@ -652,7 +658,7 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemChaste") {
 		let Item = InventoryGet(Player, "ItemPelvis");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticChastityBelt")) {
-			ModularItemSetOptionByName(Player, Item, "m0f1b1t0o0");
+			ExtendedItemSetOptionByRecord(Player, Item, { f: 1, b: 1 });
 			Item.Color = ["#D06060", "#803030", "Default", "Default", "Default", "Default", "#222222", "Default"];
 		}
 		CharacterRefresh(Player);
@@ -664,7 +670,7 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemUnchaste") {
 		let Item = InventoryGet(Player, "ItemPelvis");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticChastityBelt")) {
-			ModularItemSetOptionByName(Player, Item, "m0f0b0t0o0");
+			ExtendedItemSetOptionByRecord(Player, Item, { f: 0, b: 0 });
 			Item.Color = ["#93C48C", "#3B7F2C", "Default", "Default", "Default", "Default", "#222222", "Default"];
 		}
 		CharacterRefresh(Player);
@@ -694,13 +700,13 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemEarsDeaf") {
 		let Item = InventoryGet(Player, "ItemEars");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticEarphones")) {
-			let Type = (Item.Property && Item.Property.Type) ? Item.Property.Type : "Off";
-			Type = CommonRandomItemFromList(Type, ["Light", "Heavy", "NoiseCancelling", "Off"]);
-			TypedItemSetOptionByName(Player, Item, Type);
-			if (Type == "Off") Item.Color = ["Default", "#50913C", "Default"];
-			if (Type == "Light") Item.Color = ["Default", "#80713C", "Default"];
-			if (Type == "Heavy") Item.Color = ["Default", "#B0513C", "Default"];
-			if (Type == "NoiseCancelling") Item.Color = ["Default", "#E0313C", "Default"];
+			let Type = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			Type = CommonRandomItemFromList(Type, [0, 1, 2, 3]);
+			ExtendedItemSetOptionByRecord(Player, Item, { typed: 0 });
+			if (Type == 0) Item.Color = ["Default", "#50913C", "Default"];
+			if (Type == 1) Item.Color = ["Default", "#80713C", "Default"];
+			if (Type == 2) Item.Color = ["Default", "#B0513C", "Default"];
+			if (Type == 3) Item.Color = ["Default", "#E0313C", "Default"];
 		}
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);
@@ -711,9 +717,9 @@ function AsylumGGTSAutomaticTask() {
 	if (AsylumGGTSTask == "ItemMaskBlind") {
 		let Item = InventoryGet(Player, "ItemHead");
 		if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticMask")) {
-			let Type = (Item.Property && Item.Property.Type) ? Item.Property.Type : "Transparent";
-			Type = CommonRandomItemFromList(Type, ["LightTint", "HeavyTint", "Blind", "Transparent"]);
-			TypedItemSetOptionByName(Player, Item, Type);
+			let TypeIndex = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2, 3]);
+			ExtendedItemSetOptionByRecord(Player, Item, { typed: TypeIndex });
 		}
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);

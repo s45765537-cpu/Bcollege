@@ -45,8 +45,8 @@ const TypedItemChatSetting = {
 };
 
 /**
- * Registers a typed extended item. This automatically creates the item's load, draw and click functions. It will also
- * generate the asset's AllowType array.
+ * Registers a typed extended item.
+ * This automatically creates the item's archetype-specific functions (load, draw, etc.) and asset properties.
  * @param {Asset} asset - The asset being registered
  * @param {TypedItemConfig} config - The item's typed item configuration
  * @returns {TypedItemData} - The generated extended item data for the asset
@@ -69,7 +69,6 @@ function TypedItemRegister(asset, config) {
 		ExtendedItemCreateNpcDialogFunction(data.asset, data.functionPrefix, data.dialogPrefix.npc);
 	}
 
-	TypedItemGenerateAllowType(data);
 	TypedItemGenerateAllowEffect(data);
 	TypedItemGenerateAllowBlock(data);
 	TypedItemGenerateAllowHide(data);
@@ -85,10 +84,11 @@ function TypedItemRegister(asset, config) {
  * Parse and pre-process the passed item options.
  * @param {Asset} asset - The item options asset
  * @param {readonly TypedItemOptionConfig[]} protoOptions - The unparsed extended item options
- * @param {boolean} [changeWhenLocked] - See {@link TypedItemConfig.ChangeWhenLocked}
+ * @param {undefined | boolean} changeWhenLocked - See {@link TypedItemConfig.ChangeWhenLocked}
+ * @param {string} screenName
  * @returns {TypedItemOption[]} The newly generated extended item options
  */
-function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
+function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName) {
 	return protoOptions.map((_protoOption, i) => {
 		const protoOption = ExtendedItemParseOptions(_protoOption, asset);
 
@@ -98,7 +98,9 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked) {
 			OptionType: "TypedItemOption",
 			Property: {
 				...(protoOption.Property || {}),
-				Type: i === 0 ? null : protoOption.Name,
+				TypeRecord: { [screenName]: i },
+				// TODO: Remove `Type` once R99 is live
+				Type: (i === 0) ? null : _protoOption.Name,
 			},
 			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
 		};
@@ -165,6 +167,7 @@ function TypedItemGetDrawData(asset, drawData, options, overrideMetaData={}) {
  * Generates an asset's typed item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {TypedItemConfig} config - The item's extended item configuration
+ * @param {null | ExtendedItemOption} parentOption - The parent extended item option of the super screens (if any)
  * @returns {TypedItemData} - The generated typed item data for the asset
  */
 function TypedItemCreateTypedItemData(asset, {
@@ -178,17 +181,20 @@ function TypedItemCreateTypedItemData(asset, {
 	ScriptHooks,
 	DrawData,
 	AllowEffect,
-	BaselineProperty=null,
-}) {
-	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked);
-
-	DialogPrefix = DialogPrefix || {};
+	BaselineProperty,
+	Name,
+}, parentOption=null) {
+	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TYPED : parentOption.Name);
 	const key = `${asset.Group.Name}${asset.Name}`;
+	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked, name);
+	DialogPrefix = DialogPrefix || {};
+
 	const data = TypedItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TYPED,
 		asset,
 		options: optionsParsed,
 		key,
+		name,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${key}`,
 		dialogPrefix: {
@@ -247,18 +253,6 @@ function TypedItemPublishAction(data, C, item, newOption, previousOption) {
 
 	const dictionary = ExtendedItemBuildChatMessageDictionary(chatData, data, item);
 	ChatRoomPublishCustomAction(msg, false, dictionary.build());
-}
-
-/**
- * Generates an asset's AllowType property based on its typed item data.
- * @param {TypedItemData} data - The typed item's data
- * @returns {void} - Nothing
- */
-function TypedItemGenerateAllowType({ asset, options }) {
-	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
-	mutableAsset.AllowTypes = options
-		.map((option) => option.Property.Type)
-		.filter(Boolean);
 }
 
 /**
@@ -331,35 +325,37 @@ function TypedItemGenerateAllowTint({ asset, options }) {
  * @param {TypedItemData} data - The typed item's data
  * @returns {void} - Nothing
  */
-function TypedItemGenerateAllowLockType({asset, options}) {
-	const allowLockType = [];
-	for (const option of options) {
-		const type = option.Property && option.Property.Type;
+function TypedItemGenerateAllowLockType({ name, asset, options }) {
+	const allowLockType = asset.AllowLockType || {};
+	let allowAll = true;
+	allowLockType[name] = new Set();
+	for (const [i, option] of CommonEnumerate(options)) {
 		const allowLock = typeof option.AllowLock === "boolean" ? option.AllowLock : asset.AllowLock;
 		if (allowLock) {
-			// "" is used to represent the null type in AllowLockType arrays
-			allowLockType.push(type != null ? type : "");
+			allowLockType[name].add(i);
+		} else {
+			allowAll = false;
 		}
 	}
-	TypedItemSetAllowLockType(asset, allowLockType, options.length);
+	TypedItemSetAllowLockType(asset, allowLockType, allowAll);
 }
 
 /**
  * Sets the AllowLock and AllowLockType properties on an asset based on an AllowLockType array and the total number of
  * possible types.
  * @param {Mutable<Asset>} asset - The asset to set properties on
- * @param {readonly string[]} allowLockType - The AllowLockType array indicating which of the asset's types permit locks
- * @param {number} typeCount - The total number of types available on the asset
+ * @param {Record<string, Set<number>>} allowLockType - The AllowLockType record indicating which of the asset's types permit locks
+ * @param {boolean} allowAll
  * @returns {void} - Nothing
  */
-function TypedItemSetAllowLockType(asset, allowLockType, typeCount) {
-	if (allowLockType.length === 0) {
-		// If no types are allowed to lock, set AllowLock to false for quick checking
-		asset.AllowLock = false;
-		asset.AllowLockType = null;
-	} else if (allowLockType.length === typeCount) {
+function TypedItemSetAllowLockType(asset, allowLockType, allowAll=false) {
+	if (allowAll) {
 		// If all types are allowed to lock, set AllowLock to true for quick checking
 		asset.AllowLock = true;
+		asset.AllowLockType = null;
+	} else if (Object.values(allowLockType).every(set => set.size === 0)) {
+		// If no types are allowed to lock, set AllowLock to false for quick checking
+		asset.AllowLock = false;
 		asset.AllowLockType = null;
 	} else {
 		// If it's somewhere in between, set an explicit AllowLockType array
@@ -421,12 +417,12 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 	let PermissionFailure = false;
 	switch (option.OptionType) {
 		case "ModularItemOption":
-			PermissionFailure = !option.Name.includes("0") && InventoryBlockedOrLimited(C, item, option.Name);
-			break;
 		case "TypedItemOption":
-			PermissionFailure = option.Property && option.Property.Type && InventoryBlockedOrLimited(C, item, option.Property.Type);
+		case "VibratingItemOption": {
+			const optionIndex = option.Property.TypeRecord[data.name];
+			PermissionFailure = optionIndex !== 0 && InventoryBlockedOrLimited(C, item, `${data.name}${optionIndex}`);
 			break;
-		case "VibratingItemOption":
+		}
 		case "ExtendedItemOption":
 			PermissionFailure = InventoryBlockedOrLimited(C, item, option.Name);
 			break;
@@ -441,15 +437,17 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 		return DialogFindPlayer("ExtendedItemNoItemPermission");
 	}
 
-	const validationFunctionName = `${ExtendedItemFunctionPrefix(item)}${ExtendedItemSubscreen || ""}Validate`;
-	/** @type {Parameters<ExtendedItemCallbacks.Validate<T>>} */
-	const args = [C, item, option, previousOption, permitExisting];
-	const validationMessage = CommonCallFunctionByName(validationFunctionName, ...args);
-	if (typeof validationMessage === "string") {
-		return validationMessage;
-	} else {
-		return ExtendedItemValidate(data, C, item, option, previousOption, permitExisting);
+	// TODO: Remove this `if` check when all extended items have been made archetypical
+	if (option.OptionType !== "ExtendedItemOption") {
+		const validationFunctionName = `${data ? data.functionPrefix : ''}${ExtendedItemSubscreen || ""}Validate`;
+		/** @type {Parameters<ExtendedItemCallbacks.Validate<T>>} */
+		const args = [C, item, option, previousOption, permitExisting];
+		const validationMessage = CommonCallFunctionByName(validationFunctionName, ...args);
+		if (typeof validationMessage === "string") {
+			return validationMessage;
+		}
 	}
+	return ExtendedItemValidate(data, C, item, option, previousOption, permitExisting);
 }
 
 /**
@@ -460,12 +458,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
- * @param {null | [archetype: "typed" | "vibrating", screen: string]} [subscreen]
  * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, subscreen=null, refresh=true) {
+function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_Source=null, refresh=true) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item) return;
@@ -476,16 +473,12 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 
 	/** @type {TypedItemData | VibratingItemData} */
 	let data;
-	/** @type {"Type" | "Mode"} */
-	let typeField;
-	switch (subscreen ? subscreen[0] : item.Asset.Archetype) {
+	switch (item.Asset.Archetype) {
 		case ExtendedArchetype.TYPED:
-			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
-			typeField = "Type";
+			data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 			break;
 		case ExtendedArchetype.VIBRATING:
-			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}${subscreen ? subscreen[1] : ""}`];
-			typeField = "Mode";
+			data = VibratorModeDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 			break;
 		default: {
 			const msg = `${warningMessage}: item does not use the typed or vibrating archetype`;
@@ -494,43 +487,30 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 		}
 	}
 
-	/** @type {readonly (TypedItemOption | VibratingItemOption)[]} */
+	/** @type {(TypedItemOption | VibratingItemOption)[]} */
 	const options = data.options;
 	const newOption = options.find(o => o.Name === optionName);
-	const previousOption = TypedItemFindPreviousOption(item, options, typeField);
-
 	if (!newOption) {
 		const msg = `${warningMessage}: option "${optionName}" does not exist`;
 		console.warn(msg);
 		return msg;
 	}
 
-	// A number of validation checks assume that the option is applied by the player; skip them if this is not the case
-	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
-	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
-	if (requirementMessage) {
-		if (newOption.Name !== previousOption.Name) {
-			console.warn(`${warningMessage}: ${requirementMessage}`);
-		}
-		return requirementMessage;
-	} else {
-		ExtendedItemSetOption(data, C, item, newOption, previousOption, push, refresh);
-	}
+	ExtendedItemSetOptionByRecord(
+		C, item, newOption.Property.TypeRecord, { push, refresh, C_Source },
+	);
 }
 
 /**
  * Finds the currently set option on the given typed item
  * @template {TypedItemOption | VibratingItemOption} T
+ * @param {ExtendedItemData<T> & { options: T[] }} data
  * @param {Item} item - The equipped item
- * @param {readonly T[]} options - The list of available options for the item
- * @param {"Type" | "Mode"} typeField - The name of the item property field containing the item's type (or equivalent thereof)
  * @returns {T} - The option which is currently applied to the item, or the first item in the options
  * array if no type is set.
  */
-function TypedItemFindPreviousOption(item, options, typeField="Type") {
-	const previousProperty = item.Property || options[0].Property;
-	const previousType = previousProperty[typeField];
-	return options.find(o => o.Property[typeField] === previousType) || options[0];
+function TypedItemFindPreviousOption({ name, options }, item) {
+	return options[item.Property.TypeRecord[name]] || options[0];
 }
 
 /**
@@ -554,14 +534,18 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 	const data = TypedItemDataLookup[`${item.Asset.Group.Name}${item.Asset.Name}`];
 
 	// Avoid blocked & non-random options
-	const availableOptions = data.options
-		.filter(o => o.Random !== false && !InventoryBlockedOrLimited(C, item, o.Property.Type));
+	const availableOptions = data.options.filter(o => {
+		return (
+			o.Random !== false
+			&& !InventoryBlockedOrLimited(C, item, `${data.name}${o.Property.TypeRecord[data.name]}`)
+		);
+	});
 	if (availableOptions.length === 0) {
 		return;
 	}
 
 	const newOption = CommonRandomItemFromList(null, availableOptions);
-	const previousOption = TypedItemFindPreviousOption(item, data.options);
+	const previousOption = TypedItemFindPreviousOption(data, item);
 	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
 	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
 	if (requirementMessage) {
@@ -573,26 +557,44 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 
 /**
  * Initialize the typed item properties
- * @param {TypedItemData} Data - The item's extended item data
+ * @param {TypedItemData | VibratingItemData} Data - The item's extended item data
  * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
  * @param {boolean} Push - Whether to push to changes to the server
  * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
+ * @param {"Type" | "Mode"} field
  * @returns {boolean} Whether properties were initialized or not
  */
-function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
-	const AllowType = [null, ...Item.Asset.AllowTypes];
-	validateType: if (CommonIsObject(Item.Property) && CommonIncludes(AllowType, Item.Property.Type)) {
+function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push=true, Refresh=true, field="Type") {
+	if (!CommonIsObject(Item.Property)) {
+		Item.Property = { TypeRecord: {} };
+	} else if (!CommonIsObject(Item.Property.TypeRecord)) {
+		const type = Item.Property[field];
+		if (typeof type === "string") {
+			Item.Property.TypeRecord = ExtendedItemTypeToRecord(asset, type);
+			// TODO: Uncomment once R99 is live
+			// delete Item.Property.Type;
+		} else {
+			Item.Property.TypeRecord = {};
+		}
+	}
+
+	const optionIndex = Item.Property.TypeRecord[name];
+	validateType: if (options[optionIndex] !== undefined) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;
 		}
 
 		// Check if all the expected properties are present; extra properties are ignored
-		const option = Data.options.find((o, i) => (i === 0 ? null : o.Name) === Item.Property.Type);
+		const option = options[optionIndex];
 		const newProps = CommonCloneDeep(option.Property);
 		delete newProps.OverridePriority;
-		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
+		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
+			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
+			delete newProps.Intensity;
+		}
+		const baseLineProps = Object.entries(CommonCloneDeep(baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
 		});
@@ -612,18 +614,19 @@ function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}
 	} else {
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
-		const option = C.IsNpc() ? (Data.options.find(o => o.NPCDefault) || Data.options[0]) : Data.options[0];
-		Item.Property = {
-			...(Data.baselineProperty == null ? {} : CommonCloneDeep(Data.baselineProperty)),
-			...CommonCloneDeep(option.Property),
-		};
+		const option = C.IsNpc() ? (options.find(o => o.NPCDefault) || options[0]) : options[0];
+		Item.Property = Object.assign(
+			Item.Property || {},
+			CommonCloneDeep(baselineProperty || {}),
+			CommonCloneDeep(option.Property),
+		);
 	}
 
 	if (Refresh) {
 		CharacterRefresh(C, Push, false);
 	}
 	if (Push) {
-		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(C, asset.Group.Name);
 	}
 	return true;
 }
@@ -634,7 +637,7 @@ function TypedItemInit(Data, C, Item, Push=true, Refresh=true) {
  *     in the array should be the default option.
  * @returns {void} Nothing
  */
-function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, drawData, archetype }) {
+function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, drawData, name }) {
 	// If an option's subscreen is open, it overrides the standard screen
 	if (ExtendedItemSubscreen && parentOption == null) {
 		CommonCallFunctionByNameWarn(`${functionPrefix}${ExtendedItemSubscreen}Draw`);
@@ -654,9 +657,7 @@ function TypedItemDraw({ functionPrefix, options, parentOption, dialogPrefix, dr
 	ExtendedItemDrawHeader();
 	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 
-	const isVibe = archetype === ExtendedArchetype.VIBRATING;
-	const typeField = isVibe ? "Mode" : "Type";
-	const CurrentOption = /** @type {(VibratingItemOption | TypedItemOption)[]} */(options).find(O => (isVibe ? O.Name : O.Property[typeField]) === DialogFocusItem.Property[typeField]);
+	const CurrentOption = options[DialogFocusItem.Property.TypeRecord[name]] || options[0];
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
 	const elementData = drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + drawData.itemsPerPage);
@@ -759,19 +760,16 @@ function TypedItemClick(data) {
  * @returns {void} Nothing
  */
 function TypedItemHandleOptionClick(data, C, Option) {
-	const IsVibeArch = Option.OptionType === "VibratingItemOption";
-	const typeField = IsVibeArch ? "Mode" : "Type";
 	if (ExtendedItemPermissionMode) {
-		const IsFirst = IsVibeArch ? Option.Property.Mode == VibratorModeOff.Property.Mode : Option.Property.Type == null;
-		const Worn = C.IsPlayer() && DialogFocusItem.Property[typeField] == Option.Property[typeField];
-		InventoryTogglePermission(DialogFocusItem, Option.Property[typeField], Worn || IsFirst);
+		const IsFirst = Option.Property.TypeRecord[data.name] === 0;
+		const Worn = C.IsPlayer() && DialogFocusItem.Property.TypeRecord[data.name] == Option.Property.TypeRecord[data.name];
+		InventoryTogglePermission(DialogFocusItem, `${data.name}${Option.Property.TypeRecord[data.name]}`, Worn || IsFirst);
 	} else {
-		if (DialogFocusItem.Property[typeField] === Option.Property[typeField] && !Option.HasSubscreen) {
+		if (DialogFocusItem.Property.TypeRecord[data.name] === Option.Property.TypeRecord[data.name] && !Option.HasSubscreen) {
 			return;
 		}
 
-		const CurrentType = DialogFocusItem.Property[typeField] || (IsVibeArch ? VibratorModeOff.Property.Mode : null);
-		const CurrentOption = data.options.find(O => O.Property[typeField] === CurrentType);
+		const CurrentOption = data.options[DialogFocusItem.Property.TypeRecord[data.name]] || data.options[0];
 		// use the unmemoized function to ensure we make a final check to the requirements
 		const RequirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, Option, CurrentOption);
 		if (RequirementMessage) {
@@ -791,10 +789,9 @@ function TypedItemHandleOptionClick(data, C, Option) {
  * @returns {void} Nothing
  */
 function TypedItemSetType(data, C, newOption) {
-	const typeField = (newOption.OptionType === "VibratingItemOption") ? "Mode" : "Type";
 	const FunctionPrefix = `${data.functionPrefix}${ExtendedItemSubscreen || ""}`;
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
-	const previousOption = TypedItemFindPreviousOption(DialogFocusItem, data.options, typeField);
+	const previousOption = TypedItemFindPreviousOption(data, DialogFocusItem);
 
 	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
 	if (requirementMessage) {

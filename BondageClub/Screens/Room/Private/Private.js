@@ -1581,11 +1581,9 @@ function PrivateStartGirlfriend() {
  * @returns {void} - Nothing.
  */
 function PrivateWearRing(C, Color) {
-	InventoryWear(C, "Rings", "RightHand", Color);
-	let Item = InventoryGet(C, "RightHand");
-	if (Item == null) return;
-	ModularItemSetOptionByName(C, Item, "t0i0m0r2p0");
-	CharacterRefresh(C);
+	const item = InventoryWear(C, "Rings", "RightHand", Color);
+	if (item == null) return;
+	ExtendedItemSetOptionByRecord(C, item, { r: 2 });
 }
 
 /**

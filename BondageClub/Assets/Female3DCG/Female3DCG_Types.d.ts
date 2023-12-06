@@ -32,7 +32,7 @@ declare namespace Alpha {
 		 * A list of the extended types that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of the extended type.
 		 */
-		readonly Type?: readonly string[];
+		readonly AllowTypes: null | AllowTypes.Data;
 		/**
 		 * A record mapping pose categories to a list of the poses that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of character pose.
@@ -40,15 +40,50 @@ declare namespace Alpha {
 		readonly Pose: null | Readonly<Partial<Record<AssetPoseCategory, readonly AssetPoseName[]>>>;
 	}
 	/** The unparsed alpha masks. */
-	interface Definition extends Partial<Omit<Data, "Pose">> {
+	interface Definition extends Partial<Omit<Data, "Pose" | "AllowTypes">> {
 		Masks: RectTuple[];
 		Group?: AssetGroupName[];
-		Type?: string[];
+		/**
+		 * A list of the extended types that the given alpha masks should be applied to.
+		 * If empty or not present, the alpha masks will be applied regardless of the extended type.
+		 */
+		AllowTypes?: null | AllowTypes.Definition;
 		/**
 		 * A list of the poses that the given alpha masks should be applied to.
 		 * If empty or not present, the alpha masks will be applied regardless of character pose.
 		 */
 		Pose?: AssetPoseName[];
+	}
+}
+
+declare namespace AllowTypes {
+	/** @see {@link AllowTypes.Definition} */
+	type _DefinitionRecord = Record<string, number | readonly number[]>;
+	/**
+	 * A record (or list thereof) with required screen names + option indices.
+	 * If a list of indices is provided all combinations involving one of its indices is considered valid.
+	 *
+	 * For example `{"a": [0, 1], "b": [0, 1], "c": [0, 1]}`, with its 3 lists of length 2, will produce a total of 3*2 combinations.
+	 * @see {@link TypeRecord}
+	 */
+	type Definition = _DefinitionRecord | _DefinitionRecord[];
+	interface Data {
+		/**
+		 * A record mapping partial {@link TypeRecord} types to a set of IDs.
+		 * Each ID represents one or more unique type records for which a layer must be drawn.
+		 * It is possible that multiple partial types are required for a single ID (see {@link IDToTypeKey}).
+		 */
+		readonly TypeToID: Readonly<Record<PartialType, Readonly<Set<number>>>>;
+		/**
+		 * A record mapping IDs to a set of {@link TypeRecord} keys.
+		 * The key set represents *all* keys for a given ID that must be present for a layer to be drawn (an AND condition).
+		 */
+		readonly IDToTypeKey: Readonly<Record<number, readonly string[]>>;
+		/**
+		 * A record mapping type record key to a set of all values referenced in this `AllowTypes` instance.
+		 * Equivalent to all the (un-stringified) keys of {@link TypeToID}.
+		 */
+		readonly AllTypes: Readonly<Record<string, Readonly<Set<number>>>>;
 	}
 }
 
@@ -280,7 +315,7 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	 *
 	 * Used for things like auto-removing collar accessories if the collar is removed.
 	 */
-	RemoveItemOnRemove?: { Group: AssetGroupItemName, Name: string, Type?: string }[];
+	RemoveItemOnRemove?: { Group: AssetGroupItemName, Name: string, TypeRecord?: TypeRecord }[];
 
 	/**
 	 * Whether the group has a blinking variant
@@ -382,9 +417,6 @@ interface AssetCommonPropertiesAssetLayer {
 
 	/** Whether the asset is drawn at an absolute position. */
 	FixedPosition?: boolean;
-
-	HasType?: boolean;
-	AllowTypes?: string[];
 
 	Opacity?: number;
 	MinOpacity?: number;
@@ -532,13 +564,18 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	ExpressionTrigger?: ExpressionTrigger[];
 
 	/** A list of assets to also remove when the asset is taken off. */
-	RemoveItemOnRemove?: { Name: string, Group: AssetGroupItemName, Type?: string }[];
+	RemoveItemOnRemove?: { Name: string, Group: AssetGroupItemName, TypeRecord?: TypeRecord }[];
 
 	AllowEffect?: EffectName[];
 	AllowBlock?: AssetGroupItemName[];
 	AllowHide?: AssetGroupItemName[];
 	AllowHideItem?: string[];
-
+	/**
+	 * @deprecated
+	 * Only still used by the slave collar.
+	 */
+	AllowTypes?: string[];
+	CreateLayerTypes?: string[];
 	AllowTighten?: boolean;
 	DefaultColor?: ItemColor;
 	Audio?: string;
@@ -603,8 +640,6 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 
 	/** The list of layers for the asset. */
 	Layer?: AssetLayerDefinition[];
-
-	Archetype?: ExtendedArchetype;
 
 	/** A list of attributes the asset has */
 	Attribute?: AssetAttribute[];
@@ -673,6 +708,7 @@ type AssetDefinition = (
 	| AssetDefinition.Script
 );
 
+
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
 	/** The layer's name */
 	Name?: string;
@@ -685,6 +721,9 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 
 	/** Whether the layer is hidden in the Color Picker UI. Defaults to false. */
 	HideColoring?: boolean;
+
+	/** A record (or a list thereof) with all screen names + option indices that should make the layer visible */
+	AllowTypes?: AllowTypes.Definition;
 
 	/**
 	 * This can be used to make a layer invisible depending on certain conditions, provided the {@link AssetDefinition.LayerVisibility} is set correctly.
@@ -721,8 +760,7 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 
 	MirrorExpression?: AssetGroupName;
 	PoseMapping?: AssetPoseMapping;
-	AllowModuleTypes?: string[];
-	ModuleType?: string[];
+	CreateLayerTypes?: string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	HideForAttribute?: AssetAttribute[];
 	/* Specifies that this layer should not be drawn unless the character is wearing an item with one of the given attributes */
@@ -784,6 +822,14 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
 	 */
 	AllowEffect?: EffectName[];
+	/**
+	 * The unique name for this (sub)-screen used for the automatic construction of {@link ItemProperties.TypeRecord} keys.
+	 * Names *should* be short.
+	 *
+	 * If not explicitly specified defaults to the name of {@link ExtendedItemData.parentOption}
+	 * for sub screens and the name of the archetype in case of the (outer-most) super screen.
+	 */
+	Name?: string;
 }
 
 /** Defines a single (partially parsed) extended item option */
@@ -839,6 +885,14 @@ interface ExtendedItemOption extends Omit<ExtendedItemOptionConfig, "ArchetypeCo
 	ArchetypeData?: null | AssetArchetypeData;
 }
 
+type ExtendedItemOptionUnion = (
+	TypedItemOption
+	| ModularItemOption
+	| VibratingItemOption
+	| TextItemOption
+	| VariableHeightOption
+);
+
 /**
  * An object containing data about the type change that triggered the chat message
  * @param {Character} C - A reference to the character wearing the item
@@ -887,7 +941,7 @@ type ExtendedItemNPCCallback<OptionType extends ExtendedItemOption> = (
 
 /** Partially parsed extended item option subtype for typed items */
 interface TypedItemOptionConfig extends ExtendedItemOptionConfig {
-	Property?: Omit<ItemProperties, "Type">;
+	Property?: Omit<ItemProperties, "TypeRecord">;
 	/** Whether or not this option can be selected randomly */
 	Random?: boolean;
 	/** Whether this option should be picked as default for NPC's (rather than just going for the first option) */
@@ -897,7 +951,7 @@ interface TypedItemOptionConfig extends ExtendedItemOptionConfig {
 /** Extended item option subtype for typed items */
 interface TypedItemOption extends Omit<TypedItemOptionConfig, "ArchetypeConfig">, ExtendedItemOption {
 	OptionType: "TypedItemOption";
-	Property: ItemProperties & Pick<Required<ItemProperties>, "Type">;
+	Property: ItemProperties & Pick<Required<ItemProperties>, "TypeRecord">;
 	ParentData: TypedItemData;
 }
 
@@ -1049,13 +1103,13 @@ interface ModularItemOptionConfig extends Omit<ExtendedItemOptionConfig, "Name">
 	SetPose?: AssetPoseName;
 	/** A list of activities enabled by that module */
 	AllowActivity?: ActivityName[];
-	Property?: Omit<ItemProperties, "Type">;
+	Property?: Omit<ItemProperties, "TypeRecord">;
 }
 
 /** Extended item option subtype for modular items */
 interface ModularItemOption extends Omit<ModularItemOptionConfig, "ArchetypeConfig">, Omit<ExtendedItemOption, "Property"> {
 	/** The name of the option; automatically set to {@link ModularItemModule.Key} + the option's index */
-	Name: string;
+	Name: PartialType;
 	/** A unique (automatically assigned) identifier of the struct type */
 	OptionType: "ModularItemOption";
 	/** The option's (automatically assigned) parent module name */
@@ -1063,6 +1117,7 @@ interface ModularItemOption extends Omit<ModularItemOptionConfig, "ArchetypeConf
 	/** The option's (automatically assigned) index within the parent module */
 	Index: number;
 	ParentData: ModularItemData;
+	Property: ItemProperties & Pick<Required<ItemProperties>, "TypeRecord">;
 }
 
 //#endregion
@@ -1072,14 +1127,17 @@ interface ModularItemOption extends Omit<ModularItemOptionConfig, "ArchetypeConf
 /** Partially parsed extended item option subtype for vibrating items */
 interface VibratingItemOptionConfig extends ExtendedItemOptionConfig {
 	Name: VibratorMode;
-	Property: ItemProperties & Pick<Required<ItemProperties>, "Mode" | "Intensity" | "Effect">;
+	Property: ItemProperties & Pick<Required<ItemProperties>, "Intensity" | "Effect"> & Omit<ItemProperties, "TypeRecord">;
 	ArchetypeConfig?: null;
+	/** Whether this option should be picked as default for NPC's (rather than just going for the first option) */
+	NPCDefault?: boolean;
 }
 
 /** Extended item option subtype for vibrating items */
 interface VibratingItemOption extends Omit<VibratingItemOptionConfig, "ArchetypeConfig">, Omit<ExtendedItemOption, "Name" | "Property"> {
 	OptionType: "VibratingItemOption";
 	ParentData: VibratingItemData;
+	Property: ItemProperties & Pick<Required<ItemProperties>, "TypeRecord" | "Intensity" | "Effect">;
 	ArchetypeData?: null;
 }
 

@@ -354,28 +354,53 @@ function CharacterAppearanceStripLayer(C) {
 }
 
 /**
+ * Check whether a layer must be visible given a provided type record.
+ * @param {AllowTypes.Data} allowTypes - The layer's allowed types
+ * @param {TypeRecord} typeRecord - The type record in question.
+ * @returns {boolean} - Whether the layer should be visible
+ */
+function CharacterAppearanceAllowForTypes(allowTypes, typeRecord) {
+	if (!allowTypes || !typeRecord) {
+		return false;
+	}
+
+	/** @type {Set<number>} */
+	const idUnion = new Set();
+	/** @type {Set<string>} */
+	const typeKeys = new Set();
+	for (const [key, index] of Object.entries(typeRecord)) {
+		const idSet = allowTypes.TypeToID[`${key}${index}`];
+		if (idSet == null) {
+			continue;
+		}
+		typeKeys.add(key);
+		idSet.forEach(i => idUnion.add(i));
+	}
+
+	// Now verify whether the typerecord _fully_ intersects with any of the identified `AllowTypes` key/value groups.
+	// Only relevant when there is an AND condition involving multiple modules/subscreens.
+	for (const id of idUnion) {
+		if (allowTypes.IDToTypeKey[id] === undefined) {
+			console.error(id, allowTypes, typeRecord);
+		}
+		if (allowTypes.IDToTypeKey[id].every(i => typeKeys.has(i))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
  * Determines whether an asset layer should be rendered, assuming the asset itself is visible.
  * @param {Character} C - The character wearing the item
  * @param {AssetLayer} layer - The layer to check visibility for
  * @param {Asset} asset - The asset that the layer belongs to
- * @param {string} [type] - The item's type, if it has one
+ * @param {TypeRecord} [typeRecord] - The item's type, if it has one
  * @returns {boolean} - TRUE if the layer should be visible, FALSE otherwise
  */
-function CharacterAppearanceIsLayerVisible(C, layer, asset, type= "") {
-	if (layer.AllowModuleTypes) {
-		// Only happens for modular items' layers, do some splitting to check the layer visibility
-		const splitModuleTypes = layer.AllowModuleTypes.map(modType => modType.split(ModularItemTypeSplitter).filter(t => t));
-		const splitType = type.split(ModularItemTypeSplitter).filter(t => t);
-		if (type === "") {
-			// Special-case for the null type: we check if the layer allows option 0
-			if (!splitModuleTypes.some(subtypes => subtypes.every(subtype => subtype.split(ModularItemSubtypeSplitter).filter(t => t)[1] === "0")))
-				return false;
-		} else if (!splitModuleTypes.some(subtypes => subtypes.every(subtype => splitType.includes(subtype)))) {
-			return false;
-		}
-	} else if (layer.AllowTypes) {
-		// This has an AllowTypes property, use it
-		if (!layer.AllowTypes.includes(type)) return false;
+function CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord=null) {
+	if (layer.AllowTypes && !CharacterAppearanceAllowForTypes(layer.AllowTypes, typeRecord)) {
+		return false;
 	}
 
 	// Hide the layer if its HideAs proxy asset should be hidden
@@ -411,18 +436,18 @@ function CharacterAppearanceSortLayers(C) {
 		// Only include layers for visible assets
 		if (asset.Visible && CharacterAppearanceVisible(C, asset.Name, asset.Group.Name) && InventoryChatRoomAllow(asset.Category)) {
 			// Check if we need to draw a different variation (from type property)
-			const type = (item.Property && item.Property.Type) || "";
+			const typeRecord = item.Property && item.Property.TypeRecord;
 			const layersToDraw = asset.Layer
-				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, type))
+				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord))
 				.map(layer => {
 					/** @type {Mutable<AssetLayer>} */
 					const drawLayer = { ...layer };
 					// Store any group-level alpha mask definitions
 					drawLayer.Alpha.forEach(alpha => {
-						if (alpha.Group && (!alpha.Type || alpha.Type.includes(type))) {
+						if (alpha.Group && (!alpha.AllowTypes || !CharacterAppearanceAllowForTypes(alpha.AllowTypes, typeRecord))) {
 							alpha.Group.forEach(groupName => {
 								groupAlphas[groupName] = groupAlphas[groupName] || [];
-								groupAlphas[groupName].push({ Pose: alpha.Pose, Masks: alpha.Masks });
+								groupAlphas[groupName].push({ Pose: alpha.Pose, Masks: alpha.Masks, AllowTypes: null });
 							});
 						}
 					});

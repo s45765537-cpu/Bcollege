@@ -4,7 +4,8 @@
 function InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	if (Data.currentModule === ModularItemBase) {
-		const [ShockLevel, AutoPunish] = ModularItemDeconstructType(DialogFocusItem.Property.Type) || [];
+		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const [ShockLevel, AutoPunish] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 
 		// Display option information
 		MainCanvas.textAlign = "right";

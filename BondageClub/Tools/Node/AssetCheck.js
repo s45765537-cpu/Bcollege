@@ -3,7 +3,7 @@
 const vm = require("vm");
 const fs = require("fs");
 
-const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries } = require("./Common.js");
+const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys } = require("./Common.js");
 const common = require("./Common.js");
 
 /**
@@ -380,7 +380,7 @@ function testModularItemPropertyDisjoint(dataRecord) {
 	}
 
 	// Non-array item properties with special casing for dealing with inter-module intersections
-	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight"]);
+	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight", "TypeRecord"]);
 	const assetWhitelist = new Set([
 		// `Intensity` intersection explicitly handled by a `...SetOption` script hook
 		"ItemVulva:ClitAndDildoVibratorbelt",
@@ -685,50 +685,59 @@ function testAssetAndExtendedEffectIsDisjoint(options, asset) {
 }
 
 /**
- * @param {Record<string, TypedItemData | ModularItemData>} dataRecord
+ * Validate that all types referenced in {@link AssetLayer.AllowTypes} actually exist.
+ * @param {Record<string, AssetArchetypeData>} dataRecord
  */
 function testAllowTypes(dataRecord) {
+	/** @type {(data: AssetArchetypeData, typeSet: Set<PartialType>) => Set<PartialType>} */
+	function _dfs(data, typeSet) {
+		/** @type {AssetArchetypeData[]} */
+		const subscreenData = [];
+		switch (data.archetype) {
+			case "typed":
+			case "vibrating": {
+				/** @type {(VibratingItemOption | TypedItemOption)[]} */
+				const options = data.options;
+				for (const [i, option] of enumerate(options)) {
+					typeSet.add(`${data.name}${i}`);
+					if (option.ArchetypeData) {
+						subscreenData.push(option.ArchetypeData);
+					}
+				}
+				break;
+			}
+			case "modular": {
+				const options = data.modules.flatMap(m => m.Options);
+				for (const option of options) {
+					typeSet.add(option.Name);
+					if (option.ArchetypeData) {
+						subscreenData.push(option.ArchetypeData);
+					}
+				}
+				break;
+			}
+		}
+		subscreenData.forEach(d => _dfs(d, typeSet));
+		return typeSet;
+	}
+
 	for (const data of Object.values(dataRecord)) {
+		if (data.parentOption != null) {
+			continue;
+		}
+
 		const asset = data.asset;
-		const allowType = /** @type {readonly string[]} */(asset.AllowTypes);
+		const allowedTypes = _dfs(data, new Set());
 		for (const layer of asset.Layer) {
 			if (!layer.AllowTypes) {
 				continue;
 			}
-			const invalid = layer.AllowTypes.filter(t => t == "" ? false : !allowType.includes(t));
+
+			const invalid = keys(layer.AllowTypes.TypeToID).filter(k => !allowedTypes.has(k));
 			if (invalid.length > 0) {
 				error(
 					`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid types `
 					+ `in the AllowTypes array of layer ${layer.Name}: ${invalid}`
-				);
-			}
-		}
-	}
-}
-
-/**
- * @param {Record<string, ModularItemData>} dataRecord
- */
-function testAllowModuleTypes(dataRecord) {
-	for (const data of Object.values(dataRecord)) {
-		const asset = data.asset;
-		const optionNames = data.modules.map(m => m.Options.map(o => o.Name)).flat();
-		for (const layer of asset.Layer) {
-			if (!layer.AllowModuleTypes) {
-				continue;
-			}
-			const invalid = layer.AllowModuleTypes.filter(t => {
-				for (const subType of (t.match(/([a-zA-Z]+\d+)/g) || [])) {
-					if (!optionNames.includes(subType)) {
-						return true;
-					}
-				}
-				return false;
-			});
-			if (invalid.length > 0) {
-				error(
-					`${asset.Group.Name}:${asset.Name}: found ${invalid.length} invalid (sub-)types `
-					+ `in the AllowModuleTypes array of layer ${layer.Name}: ${invalid}`
 				);
 			}
 		}
@@ -898,19 +907,87 @@ function testHasPreview(assets) {
 }
 
 /**
+ *
+ * @param {Asset} asset
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} extendedDataRecords
+ * @returns {Record<string, ExtendedItemOptionUnion[]>}
+ */
+function getExtendedOptions(asset, extendedDataRecords) {
+	/** @type {(data: AssetArchetypeData, optionRecord: Record<string, ExtendedItemOptionUnion[]>) => void} */
+	function _dfs(data, optionRecord) {
+		/** @type {ExtendedItemOptionUnion[]} */
+		let options = [];
+		switch (data.archetype) {
+			case "typed":
+			case "vibrating":
+				options = data.options;
+				optionRecord[data.name] = data.options;
+				break;
+			case "modular":
+				options = data.modules.flatMap(m => m.Options);
+				data.modules.forEach(m => optionRecord[m.Key] = m.Options);
+				break;
+		}
+		for (const o of options) {
+			if (o.ArchetypeData) {
+				_dfs(o.ArchetypeData, optionRecord);
+			}
+		}
+	}
+
+	/** @type {Record<string, ExtendedItemOptionUnion[]>} */
+	const ret = {};
+	const rootData = extendedDataRecords[/** @type {ExtendedArchetype} */(asset.Archetype)]?.[`${asset.Group.Name}${asset.Name}`];
+	if (rootData) {
+		_dfs(rootData, ret);
+	}
+	return ret;
+}
+
+/**
+ * @param {AssetPoseMapping} poseMapping
+ * @param {Record<AssetPoseName, Pose>} poseRecord
+ * @returns {AssetPoseMapping}
+ */
+function padPoseMapping(poseMapping, poseRecord) {
+	const categories = new Set(keys(poseMapping).map(p => poseRecord[p].Category));
+	if (categories.has("BodyUpper") || categories.has("BodyLower")) {
+		categories.add("BodyFull");
+	}
+
+	return fromEntries(Array.from(categories).flatMap(c => {
+		return Object.values(poseRecord).filter(p => {
+			return p.Category === c;
+		}).map(p => {
+			return [p.Name, poseMapping[p.Name] ?? PoseType.DEFAULT];
+		});
+	}));
+}
+
+/**
  * Check that all assets have the expected .png images.
  * @param {readonly Asset[]} assets
- * @param {{ typed: Record<string, TypedItemData>, modular: Record<string, ModularItemData> }} extendedDataRecords
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} extendedDataRecords
+ * @param {Record<AssetPoseName, Pose>} poseRecord
  */
-function testAssetHasPNG(assets, extendedDataRecords) {
+function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
+	const expressionGroups = new Set(assets.filter(a => a.Group.AllowExpression).map(a => a.Group.Name));
 	const assetGroups = /** @type {Record<AssetGroupName, AssetGroup>} */({});
-	const assetGroupMap = /** @type {Record<AssetGroupName, { F: string[], M: string[], FM: string[] }>} */({});
+	const assetGroupMap = /** @type {Record<AssetGroupName, { F: Set<string>, M: Set<string>, FM: Set<string> }>} */({});
 	for (const asset of assets) {
 		const gender = asset.Gender ?? "FM";
 		if (!(asset.Group.Name in assetGroupMap)) {
-			assetGroupMap[asset.Group.Name] = { "F": [], "M": [], "FM": [] };
+			assetGroupMap[asset.Group.Name] = { "F": new Set(), "M": new Set(), "FM": new Set() };
 		}
-		assetGroupMap[asset.Group.Name][gender].push(asset.Name);
+
+		if (gender === "FM") {
+			assetGroupMap[asset.Group.Name].F.add(asset.Name);
+			assetGroupMap[asset.Group.Name].M.add(asset.Name);
+			assetGroupMap[asset.Group.Name].FM.add(asset.Name);
+		} else {
+			assetGroupMap[asset.Group.Name][gender].add(asset.Name);
+			assetGroupMap[asset.Group.Name].FM.add(asset.Name);
+		}
 		assetGroups[asset.Group.Name] = asset.Group;
 	}
 
@@ -925,82 +1002,56 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			}
 
 			// Combinations involving pose-specific directories
-			const poses = new Set(Object.values(layer.PoseMapping).filter(p => p !== "Hide"));
+			const poseMapping = asset.AllowActivePose ? layer.PoseMapping : padPoseMapping(layer.PoseMapping, poseRecord);
+			const poses = new Set(Object.values(poseMapping).filter(p => p !== PoseType.HIDE));
 			if (poses.size === 0) {
-				poses.add("");
+				poses.add(PoseType.DEFAULT);
 			}
 
-			// Combinations involving modular/typed item types
-			/** @type {{ type: string, option: ExtendedItemOption }[]} */
-			let layerOptions = [];
-			if (layer.HasType || layer.ModuleType) {
-				switch (asset.Archetype) {
-					case "typed": {
-						const data = extendedDataRecords.typed[`${asset.Group.Name}${asset.Name}`];
-						layerOptions = data.options.map((o, i) => {
-							const ret = { type: i === 0 ? "" : o.Name, option: o };
-							return (layer.AllowTypes?.includes(ret.type) ?? true) ? ret : /** @type {never} */(null);
-						}).filter(i => i != null);
-						break;
-					}
-					case "modular": {
-						if (!layer.ModuleType) {
-							break;
-						}
-
-						const data = extendedDataRecords.modular[`${asset.Group.Name}${asset.Name}`];
-						layerOptions = layer.ModuleType.flatMap(key => {
-							/** @type {null | string[]} */
-							let allowedTypes = layer.AllowModuleTypes?.filter(typ => key === typ.slice(0, key.length)) ?? [];
-							if (allowedTypes.length === 0) {
-								allowedTypes = null;
-							}
-							const module = data.modules.find(m => m.Key === key);
-							return (module?.Options ?? []).filter(o => allowedTypes?.includes(o.Name) ?? true).map(o => {
-								return { type: o.Name, option: o };
-							});
-						});
-						break;
-					}
-				}
-			}
-
-			// Extended item options can have a set of allowed poses distinct from their base asset
-			/** @type {[type: string | null, poses: Iterable<AssetPoseName | PoseType>][]} */
+			// Combinations involving archetypical items
+			/** @type {[type: PartialType | null, poses: Iterable<AssetPoseName | PoseType>][]} */
 			let layerTypes = [[null, poses]];
-			if (!layer.HasType && layer.AllowTypes && asset.Archetype === "typed") {
-				// We need special logic
-				const data = extendedDataRecords.typed[`${asset.Group.Name}${asset.Name}`];
-				/** @type {Set<AssetPoseName | PoseType>} */
-				const posesSubset = new Set();
-				layer.AllowTypes.forEach((name, i) => {
-					const option = i === 0 ? data.options[0] : data.options.find(o => o.Name === name);
-					for (const p of (option?.Property?.AllowActivePose ?? asset.AllowActivePose ?? [])) {
-						const mappedPose = layer.PoseMapping[p];
-						if (mappedPose && mappedPose !== "Hide") {
-							posesSubset.add(mappedPose);
-						}
-					}
-				});
-				if (posesSubset.size === 0) {
-					posesSubset.add("");
+			const optionsRecord = getExtendedOptions(asset, extendedDataRecords);
+			if (layer.CreateLayerTypes.length || layer.AllowTypes) {
+				/** @type {PartialType[]} */
+				const partialLayerTypes = [];
+				/** @type {ExtendedItemOption[]} */
+				let options = [];
+				if (layer.CreateLayerTypes.length) {
+					const allTypes = layer.AllowTypes?.AllTypes ?? {};
+					options = layer.CreateLayerTypes.flatMap(screenKey => {
+						return optionsRecord[screenKey].map((o, i) => {
+							if (allTypes[screenKey]?.has(i) ?? true) {
+								partialLayerTypes.push(`${screenKey}${i}`);
+								return o;
+							} else {
+								return /** @type {never} */(null);
+							}
+						}).filter(i => i != null);
+					});
+				} else if (layer.AllowTypes) {
+					options = Object.entries(layer.AllowTypes.AllTypes).flatMap(([screenKey, indexSet]) => {
+						return Array.from(indexSet).flatMap(i => {
+							partialLayerTypes.push(`${screenKey}${i}`);
+							return optionsRecord[screenKey][i];
+						});
+					});
 				}
-				layerTypes = [[null, posesSubset]];
-			} else if (layerOptions.length !== 0) {
-				layerTypes = layerOptions.map(({ type, option }) => {
-					if (option.Property?.AllowActivePose) {
-						const allowedPoses = /** @type {Set<AssetPoseName | PoseType>} */(new Set(option.Property.AllowActivePose.filter(p => {
-							const mappedPose = layer.PoseMapping[p];
-							return mappedPose && mappedPose !== "Hide";
-						}).map(p => layer.PoseMapping[p])));
-						if (allowedPoses.size === 0) {
-							allowedPoses.add("");
+
+				if (options.length > 0) {
+					layerTypes = options.map((o, i) => {
+						const optionPoses = o.Property?.AllowActivePose ?? asset.AllowActivePose ?? keys(poseMapping);
+						const mappedPoses = optionPoses.map(p => {
+							return poseMapping[p] ?? PoseType.DEFAULT;
+						}).filter(p => {
+							return p && p != PoseType.HIDE;
+						});
+						if (mappedPoses.length === 0) {
+							mappedPoses.push(PoseType.DEFAULT);
 						}
-						return [type, allowedPoses];
-					} else {
-						return [type, poses];
-					}
-				});
+						return [layer.CreateLayerTypes.length ? partialLayerTypes[i] : null, mappedPoses];
+					});
+				}
 			}
 
 			// Combinations involving non-hex based colors (white, black, asian, etc)
@@ -1020,13 +1071,22 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 			}
 
 			// Combinations involving parent group members
-			const parentNames = layer.ParentGroupName == null ? [null] : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
+			const parentNames = layer.ParentGroupName == null ? new Set([null]) : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
 
 			// Combinations involving expressions
 			/** @type {readonly (null | ExpressionName)[]} */
-			let expressions = layer.Asset.AllowExpression ?? [];
-			if (expressions.length === 0 || !layer.MirrorExpression) {
+			let expressions = [null, ...(layer.Asset.AllowExpression ?? layer.Asset.Group.AllowExpression ?? [])];
+			if (
+				!(expressionGroups.has(asset.Group.Name) || layer.MirrorExpression)
+				|| (asset.Group.Name === "Pussy" && asset.Name.startsWith("Pussy"))
+			) {
 				expressions = [null];
+			}
+
+			for (const iter of [parentNames, colors, expressions, layerTypes, ...layerTypes.map(i => i[1])]) {
+				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
+					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
+				}
 			}
 
 			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
@@ -1041,7 +1101,7 @@ function testAssetHasPNG(assets, extendedDataRecords) {
 									+ (expression ? `${expression}/` : "")
 									+ asset.Name
 									+ (parent ? `_${parent}` : "")
-									+ (type ?? "")
+									+ (type ? `_${type}` : "")
 									+ (color == null ? "" : `_${color}`)
 									+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
 								);
@@ -1174,6 +1234,7 @@ function sanitizeVMOutput(input) {
 	const poseMap = context.TestingPoseMap;
 	/** @type {Pose[]} */
 	const pose = context.PoseFemale3DCG;
+	const poseRecord = fromEntries(pose.map(p => [p.Name, p]));
 
 	if (!Array.isArray(AssetFemale3DCG)) {
 		error("AssetFemale3DCG not found");
@@ -1320,8 +1381,11 @@ function sanitizeVMOutput(input) {
 		variableheight: VariableHeightItemDataLookup,
 		vibrating: VibratingItemDataLookup,
 	});
-	testAllowTypes({ ...TypedItemDataLookup, ...ModularItemDataLookup });
-	testAllowModuleTypes(ModularItemDataLookup);
+	testAllowTypes({
+		...TypedItemDataLookup,
+		...ModularItemDataLookup,
+		...VibratingItemDataLookup,
+	});
 	testCopyLayerColor(assetList);
 	testExtendedPrerequisite({
 		modular: ModularItemDataLookup,
@@ -1334,7 +1398,10 @@ function sanitizeVMOutput(input) {
 	testHasPreview(assetList);
 	testAssetHasPNG(assetList, {
 		modular: ModularItemDataLookup,
+		text: TextItemDataLookup,
 		typed: TypedItemDataLookup,
-	});
+		variableheight: VariableHeightItemDataLookup,
+		vibrating: VibratingItemDataLookup,
+	}, poseRecord);
 	testSetPose(assetList, pose);
 })();

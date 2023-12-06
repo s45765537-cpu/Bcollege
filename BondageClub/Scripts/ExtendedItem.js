@@ -265,49 +265,45 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 	const Hover = MouseIn(...buttonData.position) && !CommonIsMobile;
 	let Effect = null;
 
-	switch (Option.OptionType) {
-		case "ModularItemModule": {
-			if (buttonData.imagePath != null) {
-				AssetSource = buttonData.imagePath;
-			} else {
-				// Grab the `imagePath` of the selected option
-				const optionIndex = Option.Options.findIndex(o => o.Name === CurrentOption.Name);
-				AssetSource = Option.drawData.elementData[optionIndex].imagePath;
-			}
-			IsSelected = (IsSelected == null) ? false : IsSelected;
-			break;
-		}
-		case "ModularItemOption":
-		case "VibratingItemOption":
-		case "TypedItemOption":
-		case "VariableHeightOption":
-		case "ExtendedItemOption": {
-			Type = (Option.OptionType === "TypedItemOption") ? (Option.Property && Option.Property.Type) || null : Option.Name;
-			Effect = Option.Property && Option.Property.Effect || null;
-			IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Type);
+	if (Option.OptionType === "ModularItemModule") {
+		if (buttonData.imagePath != null) {
 			AssetSource = buttonData.imagePath;
-			break;
+		} else {
+			// Grab the `imagePath` of the selected option
+			const optionIndex = Option.Options.findIndex(o => o.Name === CurrentOption.Name);
+			AssetSource = Option.drawData.elementData[optionIndex].imagePath;
 		}
-		default:
-			console.error(`Unsupported extended item option type: ${Option.OptionType}`);
-			return;
-	}
-
-	if (IsSelected == null) {
+		IsSelected = (IsSelected == null) ? false : IsSelected;
+	} else {
 		switch (Option.OptionType) {
 			case "ModularItemOption":
-				IsSelected = (ExtendedItemPermissionMode && Type.includes("0")) ? true : Item.Property.Type.includes(Type);
-				break;
 			case "VibratingItemOption":
-				IsSelected = (ExtendedItemPermissionMode && Type === VibratorModeOff.Name) ? true : Item.Property.Mode === Type;
+			case "TypedItemOption": {
+				const entries = Object.entries(Option.Property.TypeRecord);
+				Type = entries.map(([k, v]) => `${k}${v}`).join("");
+				if (IsSelected == null) {
+					if (ExtendedItemPermissionMode && entries.every(([k]) => Item.Property.TypeRecord[k] === 0)) {
+						IsSelected = true;
+					} else {
+						IsSelected = entries.every(([k, v]) => Item.Property.TypeRecord[k] === v);
+					}
+				}
 				break;
-			case "TypedItemOption":
-				IsSelected = (ExtendedItemPermissionMode && Type == null) ? true : Item.Property.Type === Type;
+			}
+			case "VariableHeightOption":
+			case "ExtendedItemOption":
+				Type = Option.Name;
 				break;
+			default:
+				console.error(`Unsupported extended item option type: ${Option.OptionType}`);
+				return;
 		}
+		Effect = Option.Property && Option.Property.Effect || null;
+		IsFavorite = InventoryIsFavorite(ExtendedItemPermissionMode ? Player : C, Asset.Name, Asset.Group.Name, Type);
+		AssetSource = buttonData.imagePath;
 	}
 
-	const ButtonColor = ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected, Item);
+	const ButtonColor = ExtendedItemGetButtonColor(CurrentOption.ParentData, C, Option, CurrentOption, Hover, IsSelected, Item);
 	DrawButton(...buttonData.position, "", ButtonColor, null, null, IsSelected);
 	if (buttonData.drawImage) {
 		let imageWidthHeight = Math.min(width - 4, height);
@@ -330,6 +326,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 
 /**
  * Determine the background color for the item option's button
+ * @param {ExtendedItemData<any>} data - The extended item data
  * @param {Character} C - The character wearing the item
  * @param {ExtendedItemOption | ModularItemModule} Option - A type for the extended item
  * @param {ExtendedItemOption} CurrentOption - The currently selected option for the item
@@ -338,7 +335,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
  * @param {Item} Item - The item in question; defaults to {@link DialogFocusItem}
  * @returns {string} The name or hex code of the color
  */
-function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected, Item=DialogFocusItem) {
+function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSelected, Item=DialogFocusItem) {
 	/** @type {[null | string, boolean, boolean, boolean]} */
 	let [Type, IsFirst, HasSubscreen, FailSkillCheck] = [null, false, false, false];
 
@@ -347,17 +344,13 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected,
 		case "ModularItemModule":
 			break;
 		case "ModularItemOption":
-			Type = Option.Name;
-			IsFirst = Type.includes("0");
-			break;
 		case "VibratingItemOption":
-			Type = Option.Name;
-			IsFirst = Option.Name === VibratorModeOff.Name;
+		case "TypedItemOption": {
+			const [key, value] = Object.entries(Option.Property.TypeRecord)[0];
+			Type = `${key}${value}`;
+			IsFirst = value === 0;
 			break;
-		case "TypedItemOption":
-			Type = (Option.Property && Option.Property.Type) || null;
-			IsFirst = Type == null;
-			break;
+		}
 		case "VariableHeightOption":
 		case "ExtendedItemOption":
 			Type = Option.Name;
@@ -368,7 +361,7 @@ function ExtendedItemGetButtonColor(C, Option, CurrentOption, Hover, IsSelected,
 	}
 	if (Option.OptionType !== "ModularItemModule") {
 		HasSubscreen = Option.HasSubscreen || false;
-		FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(null, C, Item, Option, CurrentOption);
+		FailSkillCheck = !!ExtendedItemRequirementCheckMessageMemo(data, C, Item, Option, CurrentOption);
 	}
 
 	let ButtonColor;
@@ -966,7 +959,7 @@ function ExtendedItemGatherSubscreenProperty(item, option) {
 
 	switch (data.archetype) {
 		case ExtendedArchetype.VIBRATING:
-			return TypedItemFindPreviousOption(item, data.options, "Mode").Property;
+			return TypedItemFindPreviousOption(data, item).Property;
 		case ExtendedArchetype.VARIABLEHEIGHT:
 			return { OverrideHeight: item.Property.OverrideHeight };
 		case ExtendedArchetype.TEXT: {
@@ -999,7 +992,7 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 	switch (newOption.OptionType) {
 		case "ModularItemOption": {
 			const moduleData = /** @type {ModularItemData} */(data);
-			const previousModuleValues = ModularItemParseCurrent(moduleData, item.Property.Type);
+			const previousModuleValues = ModularItemParseCurrent(moduleData, item.Property.TypeRecord);
 			const moduleIndex = moduleData.modules.findIndex(m => m.Name === newOption.ModuleName);
 			const newModuleValues = [...previousModuleValues];
 			newModuleValues[moduleIndex] = newOption.Index;
@@ -1207,9 +1200,9 @@ function ExtendedItemGetDrawData(drawData, defaults) {
  * @returns The list of active extended item options
  */
 const ExtendedItemGatherOptions = (function () {
-	/** @type {(item: Item) => ExtendedItemOption[]} */
+	/** @type {(item: Item) => ExtendedItemOptionUnion[]} */
 	function gatherOptions(item) {
-		/** @type {ExtendedItemOption[]} */
+		/** @type {ExtendedItemOptionUnion[]} */
 		const options = [];
 		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
 		if (data) {
@@ -1238,16 +1231,21 @@ const ExtendedItemGatherOptions = (function () {
 				newOptions.push(VariableHeightConstructOptions(data, item).newOption);
 				break;
 			case ExtendedArchetype.VIBRATING:
-				newOptions.push(data.options.find(o => o.Name === item.Property.Mode) || data.options[0]);
-				break;
 			case ExtendedArchetype.TYPED:
-				newOptions.push(data.options.find(o => o.Name === item.Property.Type) || data.options[0]);
+				for (const [name, index] of Object.entries(item.Property.TypeRecord)) {
+					if (data.name === name) {
+						newOptions.push(data.options[index] || data.options[0]);
+					}
+				}
 				break;
-			case ExtendedArchetype.MODULAR: {
-				const indices = ModularItemParseCurrent(data, item.Property.Type);
-				newOptions.push(...data.modules.map((mod, i) => mod.Options[indices[i]]));
+			case ExtendedArchetype.MODULAR:
+				for (const [name, index] of Object.entries(item.Property.TypeRecord)) {
+					const module = data.modules.find(mod => mod.Key === name);
+					if (module) {
+						newOptions.push(module.Options[index] || module.Options[0]);
+					}
+				}
 				break;
-			}
 			default:
 				console.warn(`Unsupported archetype: "${archetype}"`);
 				break;
@@ -1290,4 +1288,125 @@ function ExtendedItemParseOptions(option, asset) {
 		parsedOption.Property.AllowActivePose = AllowActivePose;
 	}
 	return parsedOption;
+}
+
+/**
+ *
+ * @param {Character} C
+ * @param {AssetGroupName | Item} itemOrGroupName
+ * @param {TypeRecord} typeRecord
+ * @param {Object} options
+ * @param {boolean} [options.push]
+ * @param {Character} [options.C_Source]
+ * @param {boolean} [options.refresh]
+ * @param {ItemProperties} [options.properties]
+ * @returns {void}
+ */
+function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=null) {
+	const { push, C_Source, refresh, properties } = options || {};
+	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
+	if (!item || !typeRecord) return;
+
+	const assetName = item.Asset.Name;
+	const groupName = item.Asset.Group.Name;
+	const previousOptions = ExtendedItemGatherOptions(item);
+	const newOptions = ExtendedItemGatherOptions({
+		...item,
+		Property: {
+			...(item.Property || {}),
+			TypeRecord: {
+				...((item.Property && item.Property.TypeRecord) || {}),
+				...typeRecord,
+			},
+		},
+	});
+
+	/** @type {Set<keyof ItemProperties>} */
+	const propertyKeys = new Set();
+	/** @type {Set<keyof ItemProperties>} */
+	const whiteListKeys = new Set(["OverridePriority"]);
+	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
+	for (const newOption of newOptions) {
+		/** @type {TypedItemOption | ModularItemOption | VibratingItemOption} */
+		let previousOption;
+		switch (newOption.OptionType) {
+			case "ModularItemOption": {
+				const module = newOption.ParentData.modules[newOption.Index];
+				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
+				break;
+			}
+			case "TypedItemOption":
+			case "VibratingItemOption": {
+				const data = newOption.ParentData;
+				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => o.ParentData.name === data.name) || data.options[0];
+				break;
+			}
+			default:
+				continue;
+
+		}
+
+		const baseline = newOption.ParentData.baselineProperty;
+		if (baseline != null) {
+			propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+		}
+
+		const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
+		if (requirementMessage && newOption.Name !== previousOption.Name) {
+			console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+		} else {
+			ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
+		}
+	}
+
+	if (properties != null) {
+		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i) && !whiteListKeys.has(i));
+		if (invalidProperties.length > 0) {
+			console.warn("");
+		}
+		Object.assign(item, CommonPick(properties, propertyKeys));
+	}
+
+	if (refresh || refresh == null) {
+		CharacterRefresh(C, push);
+	}
+	if (push) {
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+	}
+}
+
+/**
+ * Take an old {@link ItemProperties.Type} and convert it into a {@link ItemProperties.TypeRecord}.
+ * @param {Asset} asset - The asset in question
+ * @param {null | string} type - The to-be convert type string
+ * @returns {TypeRecord} The newly created type record
+ */
+function ExtendedItemTypeToRecord(asset, type) {
+	const data = ExtendedItemGetData(asset, asset.Archetype);
+	if (data == null || typeof type !== "string") {
+		return {};
+	}
+
+	switch (data.archetype) {
+		case ExtendedArchetype.TYPED:
+		case ExtendedArchetype.VIBRATING: {
+			const index = data.options.findIndex(o => o.Name === type) || 0;
+			return { [data.name]: index };
+		}
+		case ExtendedArchetype.MODULAR: {
+			/** @type {TypeRecord} */
+			const typeRecord = {};
+			const typeList = type.split(/([a-zA-Z]+\d+)/).filter(Boolean).map(i => i.split(/([a-zA-Z]+)(\d+)/));
+			for (const [_, k, i] of typeList) {
+				const module = data.modules.find(m => m.Key === k);
+				const index = module && module.Options[i] ? Number(i) : null;
+				if (index != null) {
+					typeRecord[k] = index;
+				}
+			}
+			return typeRecord;
+		}
+		default:
+			return {};
+	}
 }

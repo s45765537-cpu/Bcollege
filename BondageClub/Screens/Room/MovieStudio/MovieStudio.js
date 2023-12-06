@@ -1104,16 +1104,16 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Lewd", 8);
 	}
 	if (Activity == "OpenHouseGirlfriendInKennel") {
-		InventoryWear(MovieStudioActor1, "Kennel", "ItemDevices");
-		ModularItemSetOptionByName(MovieStudioActor1, InventoryGet(MovieStudioActor1, "ItemDevices"), "d1p0");
+		const item = InventoryWear(MovieStudioActor1, "Kennel", "ItemDevices");
+		ExtendedItemSetOptionByRecord(MovieStudioActor1, item, { d: 1 });
 		CharacterSetFacialExpression(MovieStudioActor1, "Blush", "ShortBreath", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Angry", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Angry", 8);
 	}
 	if (Activity == "OpenHouseGirlfriendOutKennel") InventoryRemove(MovieStudioActor1, "ItemDevices");
 	if (Activity == "OpenHouseClientInKennel") {
-		InventoryWear(MovieStudioActor2, "Kennel", "ItemDevices");
-		ModularItemSetOptionByName(MovieStudioActor2, InventoryGet(MovieStudioActor2, "ItemDevices"), "d1p0");
+		const item = InventoryWear(MovieStudioActor2, "Kennel", "ItemDevices");
+		ExtendedItemSetOptionByRecord(MovieStudioActor2, item, { d: 1 });
 		CharacterSetFacialExpression(MovieStudioActor2, "Blush", "ShortBreath", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Angry", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Angry", 8);

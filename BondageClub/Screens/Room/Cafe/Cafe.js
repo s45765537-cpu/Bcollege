@@ -443,7 +443,7 @@ function CafeGivenDildo() {
  */
 function CafeTurnDildoUp() {
 	const vibe = InventoryGet(Player, "ItemVulva");
-	ModularItemSetOptionByName(Player, vibe, "f0i2", true);
+	ExtendedItemSetOptionByRecord(Player, vibe, { i: 2 }, { push: true });
 	CafeVibeIncreased = true;
 }
 
