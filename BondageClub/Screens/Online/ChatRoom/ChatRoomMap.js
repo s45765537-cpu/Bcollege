@@ -383,23 +383,7 @@ function ChatRoomMapUpdateRoomSync() {
 	if ((ChatRoomMapUpdateRoomNext == null) || (ChatRoomMapUpdateRoomNext > CommonTime())) return;
 	if (!ChatRoomPlayerIsAdmin()) return;
 	ChatRoomMapUpdateRoomNext = null;
-	var UpdatedRoom = {
-		Name: ChatRoomData.Name,
-		Language: ChatRoomData.Language,
-		Description: ChatRoomData.Description,
-		Background: ChatRoomData.Background,
-		Limit: ChatRoomData.Limit.toString(),
-		Admin: ChatRoomData.Admin,
-		Ban: ChatRoomData.Ban,
-		BlockCategory: ChatRoomData.BlockCategory,
-		Game: ChatRoomData.Game,
-		Private: ChatRoomData.Private,
-		Locked: ChatRoomData.Locked,
-		MapData: ChatRoomData.MapData,
-		Custom: ChatRoomData.Custom,
-	};
-	// @ts-ignore
-	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
+	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
 }
 
 /**

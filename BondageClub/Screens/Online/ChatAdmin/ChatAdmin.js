@@ -48,7 +48,9 @@ function ChatAdminLoad() {
 	// Prepares the controls to edit a room
 	ElementCreateInput("InputName", "text", roomData.Name, "20");
 	document.getElementById("InputName").setAttribute("autocomplete", "off");
-	ElementCreateInput("InputSize", "text", roomData.Limit.toString(), "2");
+	ElementCreateInput("InputSize", "number", roomData.Limit.toString());
+	document.getElementById("InputSize").setAttribute("min", "2");
+	document.getElementById("InputSize").setAttribute("max", "10");
 	document.getElementById("InputSize").setAttribute("autocomplete", "off");
 	ElementCreateTextArea("InputDescription");
 	document.getElementById("InputDescription").setAttribute("maxLength", 100);
@@ -249,12 +251,13 @@ function ChatAdminResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatAdminUpdateRoom() {
-	var UpdatedRoom = {
+	/** @type {ChatRoomSettings} */
+	const UpdatedRoom = {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatAdminLanguage,
 		Description: ElementValue("InputDescription").trim(),
 		Background: ChatAdminBackgroundSelect,
-		Limit: parseInt(ElementValue("InputSize"), 10).toString(),
+		Limit: parseInt(ElementValue("InputSize"), 10),
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		BlockCategory: ChatAdminBlockCategory,
@@ -264,7 +267,6 @@ function ChatAdminUpdateRoom() {
 		MapData: ChatAdminMapData,
 		Custom: ChatAdminCustom
 	};
-	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 	ChatAdminMessage = "UpdatingRoom";
 }

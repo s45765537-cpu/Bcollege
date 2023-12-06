@@ -152,7 +152,7 @@ function MainHallLoad() {
 	MainHallBackground = Player.VisualSettings && Player.VisualSettings.MainHallBackground ? Player.VisualSettings.MainHallBackground : "MainHall";
 	MainHallStartEventTimer = null;
 	MainHallNextEventTimer = null;
-	if (!Player.ImmersionSettings.ReturnToChatRoom || (Player.LastChatRoom === "") || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
+	if (!Player.ImmersionSettings.ReturnToChatRoom || Player.LastChatRoom || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
 		MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
 	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
 	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
@@ -188,12 +188,12 @@ function MainHallRun() {
 	if (!MainHallBeingPunished) {
 
 		// We return to the last online chat room if possible
-		if (Player.ImmersionSettings && Player.LastChatRoom && (Player.LastChatRoom != "") && (AsylumGGTSGetLevel(Player) <= 5) && ((MainHallMaid === null) || (MainHallMaid.Stage === "0"))) {
+		if (Player.ImmersionSettings && Player.LastChatRoom && (AsylumGGTSGetLevel(Player) <= 5) && ((MainHallMaid === null) || (MainHallMaid.Stage === "0"))) {
 			if (MainHallFirstFrame) {
 				if (Player.ImmersionSettings.ReturnToChatRoom) {
-					ChatRoomStart(Player.LastChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList);
+					ChatRoomStart(Player.LastChatRoom.Space, "", null, null, "Introduction", BackgroundsTagList);
 					return;
-				} else ChatRoomSetLastChatRoom("");
+				} else ChatRoomSetLastChatRoom(null);
 			} else MainHallFirstFrame = true;
 		} else {
 
@@ -584,7 +584,7 @@ function MainHallPunishFromChatroomStartPunishment() {
  * @returns {void} - Nothing
  */
 function MainHallPunishFromListEnd() {
-	ChatRoomSetLastChatRoom("");
+	ChatRoomSetLastChatRoom(null);
 }
 
 /**
@@ -722,7 +722,7 @@ function MainHallPunishFromChatroomRest() {
 	CharacterRefresh(Player);
 
 	MainHallBeingPunished = false;
-	ChatRoomSetLastChatRoom("");
+	ChatRoomSetLastChatRoom(null);
 }
 
 

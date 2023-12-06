@@ -380,7 +380,8 @@ type ThumbIcon = "lock" | "blindfold" | "lightbulb" | "player" | "rope";
 type ChatRoomLovershipOption = "" | "CanOfferBeginWedding" | "CanBeginWedding";
 type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanEndTrial";
 
-interface ChatRoom extends ServerChatRoomData {}
+type ChatRoom = ServerChatRoomData;
+type ChatRoomSettings = ServerChatRoomSettings;
 
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 
@@ -1498,19 +1499,8 @@ interface PlayerCharacter extends Character {
 		BlindAdjacent: boolean;
 		AllowTints: boolean;
 	};
-	LastChatRoom?: string;
-	LastChatRoomBG?: string;
-	LastChatRoomPrivate?: boolean;
-	LastChatRoomSize?: number;
-	LastChatRoomLanguage?: ServerChatRoomLanguage;
-	LastChatRoomDesc?: string;
-	LastChatRoomCustom?: ServerChatRoomData["Custom"];
-	LastChatRoomAdmin?: number[];
-	LastChatRoomBan?: number[];
-	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
-	LastChatRoomTimer?: any;
-	LastChatRoomSpace?: ServerChatRoomSpace;
-	LastChatRoomMapData? : any;
+	/** The chat room we were previous in. Used for relog room re-creation */
+	LastChatRoom?: ChatRoomSettings;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
 		SlowImmunity: boolean;

@@ -48,7 +48,9 @@ function ChatCreateLoad() {
 		ElementCreateInput("InputName", "text", "", "20");
 		document.getElementById("InputName").setAttribute("autocomplete", "off");
 		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
-		ElementCreateInput("InputSize", "text", "10", "2");
+		ElementCreateInput("InputSize", "number", "10");
+		document.getElementById("InputSize").setAttribute("min", "2");
+		document.getElementById("InputSize").setAttribute("max", "10");
 		document.getElementById("InputSize").setAttribute("autocomplete", "off");
 		ElementCreateTextArea("InputDescription");
 		document.getElementById("InputDescription").setAttribute("maxLength", 100);
@@ -239,7 +241,8 @@ function ChatCreateResponse(data) {
 function ChatCreateRoom() {
 	ServerAccountUpdate.QueueData({ RoomCreateLanguage: ChatCreateLanguage });
 	ChatRoomPlayerCanJoin = true;
-	var NewRoom = {
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatCreateLanguage,
 		Description: ElementValue("InputDescription").trim(),
@@ -250,11 +253,10 @@ function ChatCreateRoom() {
 		Game: ChatCreateGame,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
-		Limit: ElementValue("InputSize"),
+		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatBlockItemCategory
 	};
 	if (ChatCreateUseMap) NewRoom.MapData = { Active: true };
-	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
 	ChatRoomPingLeashedPlayers();

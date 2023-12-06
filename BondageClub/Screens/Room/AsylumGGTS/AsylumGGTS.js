@@ -242,7 +242,8 @@ function AsylumGGTSBuildPrivate() {
 	ChatSearchReturnToScreen = "AsylumGGTS";
 	ChatCreateLoad();
 	ChatRoomPlayerCanJoin = true;
-	var NewRoom = {
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
 		Description: "Private GGTS Room",
 		Background: "AsylumGGTSRoom",
@@ -252,11 +253,10 @@ function AsylumGGTSBuildPrivate() {
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
 		Ban: [],
-		Limit: "2",
+		Limit: 2,
 		BlockCategory: [],
 		Language: ChatCreateLanguage,
 	};
-	// @ts-expect-error because of Limit being forced to a string above to please the server
 	ServerSend("ChatRoomCreate", NewRoom);
 	DialogLeave();
 }
@@ -794,19 +794,8 @@ function AsylumGGTSAutomaticTask() {
 
 	// If we must lock or unlock the chat room, we send a server update room packet
 	if ((AsylumGGTSTask == "LockRoom") || (AsylumGGTSTask == "UnlockRoom")) {
-		var UpdatedRoom = {
-			Name: ChatRoomData.Name,
-			Language: ChatCreateLanguage,
-			Description: ChatRoomData.Description,
-			Background: ChatRoomData.Background,
-			Limit: ChatRoomData.Limit,
-			Admin: ChatRoomData.Admin,
-			Ban: ChatRoomData.Ban,
-			BlockCategory: ChatRoomData.BlockCategory,
-			Game: ChatRoomData.Game,
-			Private: ChatRoomData.Private,
-			Locked: (AsylumGGTSTask == "LockRoom")
-		};
+		const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
+		UpdatedRoom.Locked = AsylumGGTSTask == "LockRoom";
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 		return AsylumGGTSEndTaskSave();
 	}

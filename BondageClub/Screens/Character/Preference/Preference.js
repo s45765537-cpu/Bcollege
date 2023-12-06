@@ -515,17 +515,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ImmersionSettings.AllowTints !== "boolean") C.ImmersionSettings.AllowTints = true;
 
 	// Misc
-	if (typeof C.LastChatRoom !== "string") C.LastChatRoom = "";
-	if (typeof C.LastChatRoomBG !== "string") C.LastChatRoomBG = "";
-	if (typeof C.LastChatRoomPrivate !== "boolean") C.LastChatRoomPrivate = false;
-	if (typeof C.LastChatRoomSize !== "number") C.LastChatRoomSize = 10;
-	if (typeof C.LastChatRoomLanguage !== "string") C.LastChatRoomLanguage = "EN";
-	if (typeof C.LastChatRoomDesc !== "string") C.LastChatRoomDesc = "";
-	if (!C.LastChatRoomAdmin) C.LastChatRoomAdmin = [];
-	if (!C.LastChatRoomBan) C.LastChatRoomBan = [];
-	if (!C.LastChatRoomBlockCategory) C.LastChatRoomBlockCategory = [];
-	if (typeof C.LastChatRoomSpace !== "string") C.LastChatRoomSpace = ChatRoomSpaceType.MIXED;
-	if (typeof C.LastChatRoomMapData !== "object") C.LastChatRoomMapData = null;
+	if (!ChatRoomValidateProperties(C.LastChatRoom)) C.LastChatRoom = null;
 
 	// Restriction settings
 	// @ts-ignore: Individual properties validated separately

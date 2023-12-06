@@ -77,24 +77,10 @@ var ChatRoomCharacterCount = 0;
 var ChatRoomCharacterDrawlist = [];
 var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
-var ChatRoomLastName = "";
-var ChatRoomLastBG = "";
-/** @type {null | {ImageURL?: string, ImageFilter?: string, MusicURL?: string }} */
-var ChatRoomLastCustom = null;
-var ChatRoomLastPrivate = false;
-var ChatRoomLastSize = 0;
-/** @type {ServerChatRoomLanguage} */
-var ChatRoomLastLanguage = "EN";
-var ChatRoomLastDesc = "";
-/** @type {number[]} */
-var ChatRoomLastAdmin = [];
-/** @type {number[]} */
-var ChatRoomLastBan = [];
-/** @type {string[]} */
-var ChatRoomLastBlockCategory = [];
-var ChatRoomLastSpace = "";
-var ChatRoomLastMapData = null;
-/** @type {ServerChatRoomData | null} */
+/**
+ * The complete data to update a recreated room with once the creation is successful
+ * @type {ChatRoomSettings}
+ * */
 var ChatRoomNewRoomToUpdate = null;
 var ChatRoomNewRoomToUpdateTimer = 0;
 /**
@@ -808,7 +794,7 @@ function ChatRoomLoad() {
 	ChatRoomCreateElement();
 	ChatRoomCharacterUpdate(Player);
 	ActivityChatRoomArousalSync(Player);
-	if (!ChatRoomData || ChatRoomData.Name !== Player.LastChatRoom) {
+	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
 		ChatRoomHideIconState = 0;
 	}
 	ChatRoomMenuBuild();
@@ -1439,79 +1425,20 @@ function ChatRoomTarget() {
 
 /**
  * Updates the account to set the last chat room
- * @param {string} room - room to set it to. "" to reset.
+ * @param {ChatRoom|null} room - room to set it to. null to reset.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLastChatRoom(room) {
-	if (room != "") {
+	if (room !== null && ChatRoomValidateProperties(room)) {
 		if (!ChatRoomNewRoomToUpdate) {
-			if (ChatRoomData && ChatRoomData.Background)
-				Player.LastChatRoomBG = ChatRoomData.Background;
-			if (ChatRoomData && ChatRoomData.Private != null) // false is valid
-				Player.LastChatRoomPrivate = ChatRoomData.Private;
-			if (ChatRoomData && ChatRoomData.Limit)
-				Player.LastChatRoomSize = ChatRoomData.Limit;
-			if (ChatRoomData && ChatRoomData.Language)
-				Player.LastChatRoomLanguage = ChatRoomData.Language;
-			if (ChatRoomData && ChatRoomData.Description != null) // empty string is valid
-				Player.LastChatRoomDesc = ChatRoomData.Description;
-			if (ChatRoomData)
-				Player.LastChatRoomCustom = ChatRoomData.Custom;
-			if (ChatRoomData && ChatRoomData.Admin)
-				Player.LastChatRoomAdmin = ChatRoomData.Admin;
-			if (ChatRoomData && ChatRoomData.Ban)
-				Player.LastChatRoomBan = ChatRoomData.Ban;
-			if (ChatRoomData && ChatRoomData.BlockCategory)
-				Player.LastChatRoomBlockCategory = [...ChatRoomData.BlockCategory];
-			if (ChatRoomData)
-				Player.LastChatRoomSpace = ChatRoomSpace;
-			if (ChatRoomData)
-				Player.LastChatRoomMapData = ChatRoomData.MapData;
-
-			ChatRoomLastName = ChatRoomData.Name;
-			ChatRoomLastBG = ChatRoomData.Background;
-			ChatRoomLastCustom = ChatRoomData.Custom;
-			ChatRoomLastSize = ChatRoomData.Limit;
-			ChatRoomLastLanguage = ChatRoomData.Language;
-			ChatRoomLastPrivate = ChatRoomData.Private;
-			ChatRoomLastDesc = ChatRoomData.Description;
-			ChatRoomLastAdmin = ChatRoomData.Admin;
-			ChatRoomLastBan = ChatRoomData.Ban;
-			ChatRoomLastBlockCategory = [...ChatRoomData.BlockCategory];
-			ChatRoomLastSpace = ChatRoomSpace;
-			ChatRoomLastMapData = ChatRoomData.MapData;
+			Player.LastChatRoom = ChatRoomGetSettings(room);
 		}
 	} else {
-		Player.LastChatRoomBG = "";
-		Player.LastChatRoomPrivate = false;
-		ChatRoomLastName = "";
-		ChatRoomLastBG = "";
-		ChatRoomLastCustom = null;
-		ChatRoomLastSize = 0;
-		ChatRoomLastPrivate = false;
-		ChatRoomLastDesc = "";
-		ChatRoomLastAdmin = [];
-		ChatRoomLastBan = [];
-		ChatRoomLastBlockCategory = [];
-		ChatRoomLastSpace = "";
-		ChatRoomLastMapData = null;
+		Player.LastChatRoom = null;
 	}
-	Player.LastChatRoom = room;
-	var P = {
-		LastChatRoom: Player.LastChatRoom,
-		LastChatRoomBG: Player.LastChatRoomBG,
-		LastChatRoomPrivate: Player.LastChatRoomPrivate,
-		LastChatRoomSize: Player.LastChatRoomSize,
-		LastChatRoomLanguage: Player.LastChatRoomLanguage,
-		LastChatRoomDesc: Player.LastChatRoomDesc,
-		LastChatRoomCustom: Player.LastChatRoomCustom,
-		LastChatRoomAdmin: Player.LastChatRoomAdmin.toString(),
-		LastChatRoomBan: Player.LastChatRoomBan.toString(),
-		LastChatRoomBlockCategory: [...Player.LastChatRoomBlockCategory],
-		LastChatRoomSpace: Player.LastChatRoomSpace,
-		LastChatRoomMapData: Player.LastChatRoomMapData
-	};
-	ServerAccountUpdate.QueueData(P);
+
+	// Update the server data with our new last room
+	ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 }
 
 /**
@@ -2344,7 +2271,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	DialogLentLockpicks = false;
 	ChatRoomLeashPlayer = null;
 	ChatRoomClearAllElements();
-	ChatRoomSetLastChatRoom("");
+	ChatRoomSetLastChatRoom(null);
 	ServerSend("ChatRoomLeave", "");
 	if (clearCharacters)
 		CharacterDeleteAllOnline();
@@ -3546,21 +3473,27 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 
 /**
  * Handles the reception of the complete room data from the server.
- * @param {ServerChatRoomData} chatRoomProperties - Room object containing the updated chatroom data.
+ * @param {unknown} obj - Room object containing the updated chatroom data.
  * @returns {chatRoomProperties is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
  */
-function ChatRoomValidateProperties(chatRoomProperties)
+function ChatRoomValidateProperties(obj)
 {
-	return chatRoomProperties != null && typeof chatRoomProperties === "object"
-		&& chatRoomProperties.Name != null && typeof chatRoomProperties.Name === "string"
-		&& chatRoomProperties.Description != null && typeof chatRoomProperties.Description === "string"
-		&& Array.isArray(chatRoomProperties.Admin)
-		&& Array.isArray(chatRoomProperties.Ban)
-		&& chatRoomProperties.Background != null && typeof chatRoomProperties.Background === "string"
-		&& chatRoomProperties.Limit != null && typeof chatRoomProperties.Limit === "number"
-		&& chatRoomProperties.Locked != null && typeof chatRoomProperties.Locked === "boolean"
-		&& chatRoomProperties.Private != null && typeof chatRoomProperties.Private === "boolean"
-		&& Array.isArray(chatRoomProperties.BlockCategory);
+	const room = /** @type {ChatRoom} */ (obj);
+	return room != null && typeof room === "object"
+		&& typeof room.Name === "string"
+		&& typeof room.Description === "string"
+		&& Array.isArray(room.Admin) && room.Admin.every(n => typeof n === "number")
+		&& Array.isArray(room.Ban) && room.Ban.every(n => typeof n === "number")
+		&& typeof room.Background === "string"
+		&& typeof room.Limit === "number"
+		&& typeof room.Game === "string"
+		&& typeof room.Locked === "boolean"
+		&& typeof room.Private === "boolean"
+		&& Array.isArray(room.BlockCategory) && room.BlockCategory.every(c => typeof c === "string")
+		&& (!room.Character || Array.isArray(room.Character) && room.Character.every(c => typeof c === "object"))
+		&& typeof room.Language === "string"
+		// Workaround as the server might not be providing that data yet
+		&& (!room.Space || typeof room.Space === "string");
 }
 
 /**
@@ -3569,12 +3502,16 @@ function ChatRoomValidateProperties(chatRoomProperties)
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (data == null || (typeof data !== "object") || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
-	if (!ChatRoomValidateProperties(data)) // If the room data we received is invalid...
-	{
+	// Split out the sender from the rest of the chatroom data
+	const senderNumber = data.SourceMemberNumber;
+	delete data.SourceMemberNumber;
+
+	// Validate the actual chatroom properties
+	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
@@ -3593,13 +3530,11 @@ function ChatRoomSync(data) {
 	// Update our chat room data with what the server sent us
 	ChatRoomData = data;
 
-	// Treat chatroom updates from ourselves as if the updated characters had sent them
-	const trustedUpdate = data.SourceMemberNumber === Player.MemberNumber;
-
 	// Load the characters
 	ChatRoomCharacter = [];
 	for (let C = 0; C < data.Character.length; C++) {
-		const sourceMemberNumber = trustedUpdate ? data.Character[C].MemberNumber : data.SourceMemberNumber;
+		// Treat chatroom updates from ourselves as if the updated characters had sent them
+		const sourceMemberNumber = senderNumber === Player.MemberNumber ? data.Character[C].MemberNumber : senderNumber;
 		const Char = CharacterLoadOnline(data.Character[C], sourceMemberNumber);
 		ChatRoomCharacter.push(Char);
 	}
@@ -3718,11 +3653,14 @@ function ChatRoomSyncMemberLeave(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
-	if (!ChatRoomValidateProperties(data)) // If the room data we received is invalid...
+	// Split out the sender from the rest of the chatroom data
+	delete data.SourceMemberNumber;
+
+	if(ChatRoomValidateProperties(data) == false) // If the room data we received is invalid...
 	{
 		ChatRoomLeave();
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
@@ -4953,30 +4891,13 @@ function ChatRoomNotificationRaiseChatJoin(C) {
  */
 function ChatRoomRecreate() {
 	if (CurrentTime > ChatRoomNewRoomToUpdateTimer && ChatRoomNewRoomToUpdate && Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoomAdmin &&
-		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoomAdmin) {
+		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom.Admin) {
 		// Add the player if they are not an admin
-		if (!Player.LastChatRoomAdmin.includes(Player.MemberNumber) && Player.LastChatRoomPrivate) {
-			Player.LastChatRoomAdmin.push(Player.MemberNumber);
+		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && Player.LastChatRoom.Private) {
+			Player.LastChatRoom.Admin.push(Player.MemberNumber);
 		}
-		var UpdatedRoom = {
-			Name: Player.LastChatRoom,
-			Description: Player.LastChatRoomDesc,
-			Custom: Player.LastChatRoomCustom,
-			Background: Player.LastChatRoomBG,
-			Limit: Player.LastChatRoomSize.toString(),
-			Language: Player.LastChatRoomLanguage,
-			Admin: Player.LastChatRoomAdmin,
-			Ban: Player.LastChatRoomBan,
-			BlockCategory: Player.LastChatRoomBlockCategory,
-			Game: ChatRoomData.Game,
-			Private: Player.LastChatRoomPrivate,
-			Locked: ChatRoomData.Locked,
-			MapData: ChatRoomData.MapData,
-			Space: Player.LastChatRoomSpace,
-		};
 
-		// @ts-expect-error because of Limit being forced to a string above to please the server
-		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
+		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: Player.LastChatRoom, Action: "Update" });
 		ChatRoomNewRoomToUpdate = null;
 	}
 }
@@ -4998,10 +4919,10 @@ function ChatRoomCheckForLastChatRoomUpdates() {
 
 	if (!ChatRoomData || !ContainsSafeCharacters) {
 		// If the room only contains blacklisted characters, do not save the room data
-		ChatRoomSetLastChatRoom("");
+		ChatRoomSetLastChatRoom(null);
 	} else if (Player.ImmersionSettings && ChatRoomDataChanged()) {
 		// Otherwise save the chatroom data if it has changed
-		ChatRoomSetLastChatRoom(ChatRoomData.Name);
+		ChatRoomSetLastChatRoom(ChatRoomData);
 	}
 }
 
@@ -5010,22 +4931,26 @@ function ChatRoomCheckForLastChatRoomUpdates() {
  * @returns {boolean} - TRUE if the stored chatroom data is different from the current chatroom data, FALSE otherwise
  */
 function ChatRoomDataChanged() {
-	if (typeof ChatRoomData.Custom != typeof ChatRoomLastCustom) return true;
-	if ((typeof ChatRoomData.Custom === "object") && (typeof ChatRoomLastCustom === "object")) {
-		if ((ChatRoomData.Custom == null) != (ChatRoomLastCustom == null)) return true;
-		if (JSON.stringify(ChatRoomData.Custom) !== JSON.stringify(ChatRoomLastCustom)) return true;
+	const prev = Player.LastChatRoom;
+	const curr = ChatRoomData;
+
+	if (typeof curr.Custom != typeof prev) return true;
+	if ((typeof curr.Custom === "object") && (typeof prev === "object")) {
+		if ((curr.Custom == null) != (prev == null)) return true;
+		if (JSON.stringify(curr.Custom) !== JSON.stringify(prev)) return true;
 	}
-	return ChatRoomLastName != ChatRoomData.Name ||
-		ChatRoomLastBG != ChatRoomData.Background ||
-		ChatRoomLastSize != ChatRoomData.Limit ||
-		ChatRoomLastLanguage != ChatRoomData.Language ||
-		ChatRoomLastPrivate != ChatRoomData.Private ||
-		ChatRoomLastDesc != ChatRoomData.Description ||
-		!CommonArraysEqual(ChatRoomLastAdmin, ChatRoomData.Admin) ||
-		!CommonArraysEqual(ChatRoomLastBan, ChatRoomData.Ban) ||
-		!CommonArraysEqual(ChatRoomLastBlockCategory, ChatRoomData.BlockCategory) ||
-		ChatRoomLastSpace != ChatRoomSpace ||
-		JSON.stringify(ChatRoomLastMapData) != JSON.stringify(ChatRoomData.MapData);
+
+	return prev !== curr || prev.Name !== curr.Name ||
+		prev.Background !== curr.Background ||
+		prev.Limit !== curr.Limit ||
+		prev.Language !== curr.Language ||
+		prev.Private !== curr.Private ||
+		prev.Description !== curr.Description ||
+		!CommonArraysEqual(prev.Admin, curr.Admin) ||
+		!CommonArraysEqual(prev.Ban, curr.Ban) ||
+		!CommonArraysEqual(prev.BlockCategory, curr.BlockCategory) ||
+		prev.Space !== curr.Space ||
+		JSON.stringify(prev.MapData) !== JSON.stringify(curr.MapData);
 }
 
 function ChatRoomRefreshFontSize() {
@@ -5178,4 +5103,15 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 		repls.push([key + pronounType, CharacterPronoun(C, pronounType, hideIdentity), replacer]);
 	}
 	return repls;
+}
+
+/**
+ * Gets only the settings/configurable properties of a chat room.
+ * @param {ChatRoom} room
+ * @return {ChatRoomSettings}
+ */
+function ChatRoomGetSettings(room) {
+	/** @type {(keyof ChatRoomSettings)[]} */
+	const keys = ["Name", "Description", "Admin", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }
