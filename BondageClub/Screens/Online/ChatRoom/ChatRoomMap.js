@@ -200,6 +200,61 @@ function ChatRoomMapFloorWallEffect(X, Y) {
 }
 
 /**
+ * Manages collisions, moves the player if she's on a tile that cannot be entered
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapCollision() {
+
+	// Exits right away if no player data or the tile is valid to stand there
+	if ((Player.MapData == null) || ((Player.MapData.X == null)) || ((Player.MapData.Y == null))) return;
+	if (ChatRoomMapCanEnterTile(Player.MapData.X, Player.MapData.Y) > 0) return;
+
+	// Since there's a collision, we try to find good spots to move the player
+	let Tiles = [];
+	if (ChatRoomMapCanEnterTile(Player.MapData.X - 1, Player.MapData.Y) > 0) Tiles.push({ X: Player.MapData.X - 1, Y: Player.MapData.Y });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X + 1, Player.MapData.Y) > 0) Tiles.push({ X: Player.MapData.X + 1, Y: Player.MapData.Y });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X, Player.MapData.Y - 1) > 0) Tiles.push({ X: Player.MapData.X, Y: Player.MapData.Y - 1 });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X, Player.MapData.Y + 1) > 0) Tiles.push({ X: Player.MapData.X, Y: Player.MapData.Y + 1 });
+
+	// If we found a tile next to the player
+	if (Tiles.length > 0) {
+		let Tile = CommonRandomItemFromList(null, Tiles);
+		Player.MapData.X = Tile.X;
+		Player.MapData.Y = Tile.Y;
+		return;
+	}
+
+	// Tries the current tile corners next
+	if (ChatRoomMapCanEnterTile(Player.MapData.X - 1, Player.MapData.Y - 1) > 0) Tiles.push({ X: Player.MapData.X - 1, Y: Player.MapData.Y - 1 });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X + 1, Player.MapData.Y - 1) > 0) Tiles.push({ X: Player.MapData.X + 1, Y: Player.MapData.Y - 1 });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X - 1, Player.MapData.Y + 1) > 0) Tiles.push({ X: Player.MapData.X - 1, Y: Player.MapData.Y + 1 });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X + 1, Player.MapData.Y + 1) > 0) Tiles.push({ X: Player.MapData.X + 1, Y: Player.MapData.Y + 1 });
+
+	// If we found a tile in the corner of the player
+	if (Tiles.length > 0) {
+		let Tile = CommonRandomItemFromList(null, Tiles);
+		Player.MapData.X = Tile.X;
+		Player.MapData.Y = Tile.Y;
+		return;
+	}
+
+	// Tries 2 tiles away next
+	if (ChatRoomMapCanEnterTile(Player.MapData.X - 2, Player.MapData.Y) > 0) Tiles.push({ X: Player.MapData.X - 2, Y: Player.MapData.Y });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X + 2, Player.MapData.Y) > 0) Tiles.push({ X: Player.MapData.X + 2, Y: Player.MapData.Y });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X, Player.MapData.Y - 2) > 0) Tiles.push({ X: Player.MapData.X, Y: Player.MapData.Y - 2 });
+	if (ChatRoomMapCanEnterTile(Player.MapData.X, Player.MapData.Y + 2) > 0) Tiles.push({ X: Player.MapData.X, Y: Player.MapData.Y + 2 });
+
+	// If we found a tile next to the player
+	if (Tiles.length > 0) {
+		let Tile = CommonRandomItemFromList(null, Tiles);
+		Player.MapData.X = Tile.X;
+		Player.MapData.Y = Tile.Y;
+		return;
+	}
+
+}
+
+/**
  * Draw the map grid and character on screen
  * @param {number} Left - The X position on the screen
  * @param {number} Top - The Y position on the screen
@@ -242,6 +297,9 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		ChatRoomMapUpdatePlayerFlag();
 
 	}
+
+	// Manages collisions, moves the player if she's on a tile that cannot be entered
+	ChatRoomMapCollision();
 
 	// Defines the width and height of the visible tile
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
