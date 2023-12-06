@@ -26369,6 +26369,7 @@ var AssetFemale3DCG = [
 				Effect: ["FixedHead"],
 				Top: 81,
 				Left: 190,
+				Value: 110,
 				Layer: [
 					{ Name: "Base" },
 					// Two empty layers for coloring purposes
