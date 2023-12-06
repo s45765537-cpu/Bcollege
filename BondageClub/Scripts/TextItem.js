@@ -219,7 +219,9 @@ const TextItem = {
 	 * Draw handler for extended item screens with text input fields.
 	 * @param {TextItemData} data - The items extended item data
 	 */
-	Draw: function ({ asset, drawData, textNames }) {
+	Draw: function (data) {
+		const { asset, drawData, textNames } = data;
+
 		ExtendedItemDrawHeader();
 		DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 		if (drawData.paginate) {
@@ -235,6 +237,7 @@ const TextItem = {
 			const ID = PropertyGetID(name, item);
 			ElementPosition(ID, ...position);
 		});
+		ExtendedItemTighten.Draw(data, item, [1050, 220, 300, 65]);
 	},
 	/**
 	 * Exit function for items with text input fields.

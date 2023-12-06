@@ -157,6 +157,9 @@ const NoArch = {
 			DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
 			true,
 		);
+
+		const item = (data.asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
+		ExtendedItemTighten.Draw(data, item, [1050, 220, 300, 65]);
 	},
 	/**
 	 * @param {ExtendedItemData<any>} data
@@ -167,6 +170,11 @@ const NoArch = {
 			// TODO: Returning `true` here is nonsense as there's zero guarantee that a button is actually clicked,
 			// but we do want other archetypes to abort at this point. Ideally all click handlers should return a boolean
 			CommonCallFunctionByNameWarn(`${data.functionPrefix}${ExtendedItemSubscreen}Click`);
+			return true;
+		}
+
+		const item = data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+		if (ExtendedItemTighten.Click(data, item, [1050, 220, 300, 65])) {
 			return true;
 		}
 

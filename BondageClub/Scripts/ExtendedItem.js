@@ -1439,3 +1439,42 @@ function ExtendedItemTypeToRecord(asset, type) {
 			return {};
 	}
 }
+
+// TODO: Add crafting support
+/**
+ * Namespace with extended item functions for accessing the tighten/loosen menu.
+ * @namespace
+ */
+const ExtendedItemTighten = {
+	/**
+	 * Draw function for tightening/loosening.
+	 * @param {ExtendedItemData<any>} data The extended item data
+	 * @param {Item} item The item in question
+	 * @param {RectTuple} buttonCoords A 4-tuple with the buttons coordinates
+	 */
+	Draw: function ({ asset }, item, buttonCoords) {
+		if (asset.AllowTighten && !InventoryItemHasEffect(item, "Lock") && CurrentScreen !== "Crafting") {
+			const Difficulty = item.Difficulty ?? 0;
+			DrawText(`${DialogFindPlayer("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
+			DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "White");
+		}
+	},
+
+	/**
+	 * Click function for tightening/loosening.
+	 * @param {ExtendedItemData<any>} data The extended item data
+	 * @param {Item} item The item in question
+	 * @param {RectTuple} buttonCoords A 4-tuple with the buttons coordinates
+	 * @returns {boolean} Whether the button was clicked or not
+	 */
+	Click: function ({ asset }, item, buttonCoords) {
+		if (!MouseIn(...buttonCoords)) {
+			return false;
+		}
+
+		if (asset.AllowTighten && !InventoryItemHasEffect(item, "Lock") && CurrentScreen !== "Crafting") {
+			DialogSetTightenLoosenItem(item);
+		}
+		return true;
+	},
+};

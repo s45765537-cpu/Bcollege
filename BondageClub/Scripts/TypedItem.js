@@ -656,15 +656,6 @@ function TypedItemDraw(data) {
 		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
 		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
 	);
-
-	// If the assets allows tightening / loosening
-	// TODO: Add crafting support
-	if (data.asset.AllowTighten && !InventoryItemHasEffect(DialogFocusItem, "Lock") && CurrentScreen !== "Crafting") {
-		let Difficulty = DialogFocusItem.Difficulty;
-		if (Difficulty == null) Difficulty = 0;
-		DrawText(DialogFindPlayer("Tightness") + " " + Difficulty.toString(), 1200, 140, "White", "Silver");
-		DrawButton(1050, 220, 300, 65, DialogFindPlayer("AdjustTightness"), "White");
-	}
 }
 
 /**
@@ -690,14 +681,7 @@ function TypedItemClick(data) {
 	}
 
 	// If the assets allows tightening / loosening
-	// TODO: Add crafting support
-	if (
-		MouseIn(1050, 220, 300, 65)
-		&& data.asset.AllowTighten
-		&& !InventoryItemHasEffect(DialogFocusItem, "Lock")
-		&& CurrentScreen !== "Crafting"
-	) {
-		DialogSetTightenLoosenItem(DialogFocusItem);
+	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
 		return;
 	}
 

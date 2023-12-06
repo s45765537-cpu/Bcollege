@@ -197,6 +197,8 @@ function VariableHeightDraw(data) {
 		newOption, previousOption, data.dialogPrefix.option,
 		{ position: [1387, 700, 225, 55] }, DialogFocusItem, false,
 	);
+
+	ExtendedItemTighten.Draw(data, DialogFocusItem, [1050, 220, 300, 65]);
 }
 
 /**
@@ -205,6 +207,11 @@ function VariableHeightDraw(data) {
  */
 function VariableHeightClick(data) {
 	NoArch.Click(data);
+
+	// If the assets allows tightening / loosening
+	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
+		return;
+	}
 
 	// Confirm button
 	if (MouseIn(1387, 700, 225, 55)) {
