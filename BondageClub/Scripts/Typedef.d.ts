@@ -1284,6 +1284,10 @@ interface Character {
 	Status?: string | null;
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
+	LastMapData? : {
+		X: number;
+		Y: number;
+	};
 }
 
 /**

@@ -682,6 +682,7 @@ function LoginResponse(C) {
 			if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 			// Load the last chat room
+			Player.LastMapData = C.LastMapData;
 			if (ChatRoomValidateProperties(C.LastChatRoom)) {
 				Player.LastChatRoom = C.LastChatRoom;
 			} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {

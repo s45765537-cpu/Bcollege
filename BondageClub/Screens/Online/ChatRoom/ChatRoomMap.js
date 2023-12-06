@@ -16,6 +16,7 @@ var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
 var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
+var ChatRoomMapUpdateLastMapDataNext = null;
 var ChatRoomMapFocusedCharacter = null;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapBaseMovementSpeed = 200;
@@ -212,18 +213,34 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
 	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Objects = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
 
-	// Make sure the player position on the grid is valid, tries to start at the entry flag if possible
+	// Make sure the player position on the grid is valid
 	if (Player.MapData == null) Player.MapData = {};
 	if ((Player.MapData.X == null) || (Player.MapData.X < 0) || (Player.MapData.X >= ChatRoomMapWidth) || (Player.MapData.Y == null) || (Player.MapData.Y < 0) || (Player.MapData.Y >= ChatRoomMapWidth)) {
-		Player.MapData.X = ChatRoomMapWidth / 2;
-		Player.MapData.Y = ChatRoomMapWidth / 2;
-		for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
-			if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapObjectEntryID) {
-				Player.MapData.X = Pos % ChatRoomMapWidth;
-				Player.MapData.Y = Math.floor(Pos / ChatRoomMapWidth);
-				break;
-			}
+
+		// Checks to see if we can load the previously saved position
+		if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (Player.LastChatRoom != null) && (Player.LastChatRoom.Name === ChatRoomData.Name) && (Player.LastMapData != null) && (Player.LastMapData.X != null) && (Player.LastMapData.Y != null)) {
+
+			// Restores the saved position
+			Player.MapData.X = Player.LastMapData.X;
+			Player.MapData.Y = Player.LastMapData.Y;
+
+		} else {
+
+			// Sets position in the middle of the scren by default, or at the entry flag if possible
+			Player.MapData.X = ChatRoomMapWidth / 2;
+			Player.MapData.Y = ChatRoomMapWidth / 2;
+			for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
+				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapObjectEntryID) {
+					Player.MapData.X = Pos % ChatRoomMapWidth;
+					Player.MapData.Y = Math.floor(Pos / ChatRoomMapWidth);
+					break;
+				}
+	
+		}
+
+		// Saves the new position
 		ChatRoomMapUpdatePlayerFlag();
+
 	}
 
 	// Defines the width and height of the visible tile
@@ -368,11 +385,14 @@ function ChatRoomMapUpdateFlag() {
 }
 
 /**
- * Sets the next update flag for the player if it's not already set, the delay is 1 seconds
+ * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
  * @returns {void} - Nothing
  */
 function ChatRoomMapUpdatePlayerFlag() {
-	if (ChatRoomMapUpdatePlayerNext == null) ChatRoomMapUpdatePlayerNext = CommonTime() + 1000;
+	if (ChatRoomMapUpdatePlayerNext == null)
+		ChatRoomMapUpdatePlayerNext = CommonTime() + 1000;
+	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapUpdateLastMapDataNext == null))
+		ChatRoomMapUpdateLastMapDataNext = CommonTime() + 10000;
 }
 
 /**
@@ -387,13 +407,23 @@ function ChatRoomMapUpdateRoomSync() {
 }
 
 /**
- * Updates the player data if needed
+ * Updates the player map data if needed
  * @returns {void} - Nothing
  */
 function ChatRoomMapUpdatePlayerSync() {
 	if ((ChatRoomMapUpdatePlayerNext == null) || (ChatRoomMapUpdatePlayerNext > CommonTime())) return;
 	ChatRoomMapUpdatePlayerNext = null;
 	ServerAccountUpdate.QueueData({ MapData: Player.MapData }, true);
+}
+
+/**
+ * Updates the player last map data if needed
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapUpdateLastMapDataSync() {
+	if ((ChatRoomMapUpdateLastMapDataNext == null) || (ChatRoomMapUpdateLastMapDataNext > CommonTime())) return;
+	ChatRoomMapUpdateLastMapDataNext = null;
+	ServerAccountUpdate.QueueData({ LastMapData: Player.MapData }, true);
 }
 
 /**
@@ -418,6 +448,7 @@ function ChatRoomMapDraw() {
 	ChatRoomMapMovementProcess();
 	ChatRoomMapUpdateRoomSync();
 	ChatRoomMapUpdatePlayerSync();
+	ChatRoomMapUpdateLastMapDataSync();
 
 	// Draw the full grid on the left side of the screen
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
