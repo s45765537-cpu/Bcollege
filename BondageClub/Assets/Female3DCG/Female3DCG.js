@@ -26187,6 +26187,34 @@ var AssetFemale3DCG = [
 							}
 				],
 			},
+			{
+				Name: "SpikedChoker",
+				Fetish: ["Leather"],
+				Value: 30,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#2E2E2E","#BABABA"],
+				Layer: [
+							{ 
+								Name: "Base",
+								AllowColorize: true,
+							}, 
+							{ 
+								Name: "Shine",
+								AllowColorize: true,
+							},
+							{
+								Name: "Spikes",
+								AllowColorize: true,
+							},
+							{
+								Name: "Ring",
+								AllowColorize: true,
+							}
+				],
+			},
 		],
 		Color: [
 			"Default",
