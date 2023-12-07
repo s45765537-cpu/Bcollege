@@ -1806,6 +1806,8 @@ ShoesSocialHeelsRear,Rear
 ShoesStilettoHeelsHeels, Heels
 ShoesStilettoHeelsSole, Sole
 ShoesStilettoHeelsTop, Base
+ShoesStilettoHeelsCenter,Center
+ShoesStilettoHeelsRounded,Round Base
 ShoesThighBootsBand, Band
 ShoesThighBootsBase, Boot
 ShoesThighBootsThigh, Sock
@@ -1922,3 +1924,12 @@ WingsSteampunkWingsBase,Base
 WingsSteampunkWingsGears,Gears
 WingsSteampunkWingsWingFrames,Frame
 WingsSteampunkWingsWings,Wings
+ItemNeckLatexRingCollarBase,Base
+ItemNeckLatexRingCollarTrim,Trim
+ItemNeckLatexRingCollarShine,Shine
+ItemNeckLatexRingCollarPatch,Patch
+ItemNeckLatexRingCollarRing,Ring
+ItemNeckSpikedChokerBase,Base
+ItemNeckSpikedChokerShine,Shine
+ItemNeckSpikedChokerSpikes,Spikes
+ItemNeckSpikedChokerRing,Ring

@@ -8114,6 +8114,7 @@ var AssetFemale3DCG = [
 				Name: "StilettoHeels",
 				Fetish: ["Leather"],
 				Value: 45,
+				Extended: true,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -8160,9 +8161,78 @@ var AssetFemale3DCG = [
 					{
 						Name: "Top",
 						AllowColorize: true,
+						AllowTypes: { t : 0 },
 					},
-					{ Name: "Heels", AllowColorize: true, Priority: 4 },
-					{ Name: "Sole", AllowColorize: true, Priority: 3 },
+					{
+						Name: "Rounded",
+						CopyLayerColor: "Top",
+						AllowTypes: { t : 1 },
+						Alpha: [
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Masks: [
+									[185, 890, 30, 100],
+									[292, 890, 30, 110],
+									[140, 925, 50, 50],
+									[275, 930, 100, 50],
+								],
+							},
+							{
+								Pose: ["Spread"],
+								Masks: [
+									[160, 890, 13, 100],
+									[333, 890, 13, 110],
+								],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"BodyUpper",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["Hogtied"],
+								Masks: [[0, 0, 500, 70]],
+							},
+						],
+		
+					},
+					{
+						Name: "Center",
+						CopyLayerColor: "Top",
+						Priority: 22,
+						AllowTypes: { c : 1},
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Heels", 
+						AllowColorize: true, 
+						Priority: 4,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							LegsClosed: PoseType.HIDE,
+						},
+					},
+					{ 
+						Name: "Sole", 
+						AllowColorize: true, 
+						Priority: 3 
+					},
 				],
 			},
 		],
@@ -26085,6 +26155,66 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "LatexRingCollar",
+				Fetish: ["Latex"],
+				Value: 35,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#2E2E2E","#2C208B","#141414","#B47E2C"],
+				Layer: [
+							{ 
+								Name: "Base",
+								AllowColorize: true,
+							}, 
+							{ 
+								Name: "Shine",
+								AllowColorize: true,
+							},
+							{
+								Name: "Trim",
+								AllowColorize: true,
+							},
+							{
+								Name: "Patch",
+								CopyLayerColor: "Base",
+							},
+							{
+								Name: "Ring",
+								AllowColorize: true,
+							}
+				],
+			},
+			{
+				Name: "SpikedChoker",
+				Fetish: ["Leather"],
+				Value: 30,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#2E2E2E","#BABABA"],
+				Layer: [
+							{ 
+								Name: "Base",
+								AllowColorize: true,
+							}, 
+							{ 
+								Name: "Shine",
+								AllowColorize: true,
+							},
+							{
+								Name: "Spikes",
+								AllowColorize: true,
+							},
+							{
+								Name: "Ring",
+								AllowColorize: true,
+							}
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -28645,7 +28775,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "BaseShine",
 						AllowColorize: true,
-						AllowTypes: { typed: [0, 1] },
+						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "BaseLoose",

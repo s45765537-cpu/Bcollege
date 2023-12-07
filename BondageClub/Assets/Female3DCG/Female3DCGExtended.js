@@ -9252,6 +9252,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Thighboots
+		StilettoHeels: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Layer",
+					Key: "t",
+					Options: [{}, {}], // Normal, Round
+				},
+				{
+					Name: "Center",
+					Key: "c",
+					Options: [{}, {}], // None, Center
+				},
+			],
+		}, // StilettoHeels
+
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
