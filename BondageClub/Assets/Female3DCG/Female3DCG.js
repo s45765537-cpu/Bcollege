@@ -26155,6 +26155,38 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "LatexRingCollar",
+				Fetish: ["Latex"],
+				Value: 35,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#2E2E2E","#2C208B","#141414","#B47E2C"],
+				Layer: [
+							{ 
+								Name: "Base",
+								AllowColorize: true,
+							}, 
+							{ 
+								Name: "Shine",
+								AllowColorize: true,
+							},
+							{
+								Name: "Trim",
+								AllowColorize: true,
+							},
+							{
+								Name: "Patch",
+								CopyLayerColor: "Base",
+							},
+							{
+								Name: "Ring",
+								AllowColorize: true,
+							}
+				],
+			},
 		],
 		Color: [
 			"Default",
