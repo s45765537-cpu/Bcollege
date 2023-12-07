@@ -2901,16 +2901,6 @@ var AssetFemale3DCG = [
 						Masks: [[193, 380, 110, 50]],
 					},
 				],
-				HideForPose: ["Hogtied"],
-				AllowPose: [
-					"TapedHands",
-					"BackBoxTie",
-					"BackCuffs",
-					"BackElbowTouch",
-					"Yoked",
-					"OverTheHead",
-					"AllFours",
-				],
 			},
 			{
 				Name: "BugLegs",
