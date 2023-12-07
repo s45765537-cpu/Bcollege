@@ -21,6 +21,7 @@ var ChatRoomMapFocusedCharacter = null;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapBaseMovementSpeed = 200;
 var ChatRoomMapMovement = null;
+var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 
 var ChatRoomMapTileList = [
 
@@ -90,7 +91,22 @@ var ChatRoomMapObjectList = [
  * Returns TRUE if the map button can be used
  * @returns {boolean} - TRUE if can be used
  */
-function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != null) && (ChatRoomData.MapData != null) && ChatRoomData.MapData.Active); }
+function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != null) && (ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type != "Never")); }
+
+/**
+ * Activates the chat room map and the required events
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapActivate() {
+	ChatRoomMapVisible = true;
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", ChatRoomMapMouseUp);
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("wheel", ChatRoomMapMouseWheel);
+	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", ChatRoomMapMouseDown);
+	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchmove", ChatRoomMapMouseMove);
+	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", ChatRoomMapMouseUp);
+}
 
 /**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
@@ -529,7 +545,7 @@ function ChatRoomMapDraw() {
 
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapEditMode == "") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowCharacter.png");
+		DrawButton(10, 10, 60, 60, "", ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ? "Pink" : "White", "Icons/Small/ShowCharacter.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Plus.png");
 		DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/Minus.png");
 		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
@@ -888,7 +904,7 @@ function ChatRoomMapMouseWheel(Event) {
 function ChatRoomMapCopy() {
 
 	// Make sure there's a valid map to copy first
-	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Active === false)) {
+	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) {
 		ChatRoomSendLocal(TextGet("MapCopyError"));
 		return;
 	}

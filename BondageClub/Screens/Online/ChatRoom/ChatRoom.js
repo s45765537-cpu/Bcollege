@@ -1873,19 +1873,18 @@ function ChatRoomRun() {
 	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
-	if (!ChatRoomMapVisible) {
-		ChatRoomDrawCharacter();
-	} else {
-		ChatRoomMapDraw();
-	}
 
+	// Draw the room characters or the map depending on the map type
+	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomMapVisible = false;
+	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomMapActivate();
+	if (!ChatRoomMapVisible) ChatRoomDrawCharacter();
+	else ChatRoomMapDraw();
+
+	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
 	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
-
-	if (CurrentTime > ChatRoomGetUpTimer) {
-		ChatRoomGetUpTimer = 0;
-	}
+	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
 
 	// Draw the buttons at the top-right
 	ChatRoomMenuDraw();
@@ -2012,14 +2011,7 @@ function ChatRoomClick() {
 			ChatRoomMapAllow = true;
 			return;
 		}
-		ChatRoomMapVisible = true;
-		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
-		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
-		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", ChatRoomMapMouseUp);
-		if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("wheel", ChatRoomMapMouseWheel);
-		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", ChatRoomMapMouseDown);
-		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchmove", ChatRoomMapMouseMove);
-		if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", ChatRoomMapMouseUp);
+		ChatRoomMapActivate();
 		return;
 	}
 

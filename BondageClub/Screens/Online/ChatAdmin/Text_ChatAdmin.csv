@@ -7,7 +7,6 @@ RoomPrivate,Private
 RoomLocked,Locked
 RoomSize,Size (2-10)
 UseMemberNumbers,"Use member numbers, separated by commas (ex: 3571,541,7001)"
-UseMap,Map
 QuickbanBlackList,Ban blacklist
 QuickbanGhostList,Ban ghostlist
 AddOwnerAdminList,Add Owner
@@ -22,7 +21,10 @@ ResponseRoomAlreadyExist,This room name is already taken
 ResponseAccountError,"Account error, please try to relog"
 ResponseInvalidRoomData,Invalid chat room data detected
 BlockCategory,Block Categories
-RoomCustomization,Room Customization
+RoomCustomization,Customization
+MapNever,Don't use maps
+MapHybrid,Allow on and off
+MapAlways,Only use maps
 Game,No Game
 GameClubCard,Club Card
 GameLARP,LARP

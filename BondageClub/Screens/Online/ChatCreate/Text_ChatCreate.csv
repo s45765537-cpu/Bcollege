@@ -8,7 +8,9 @@ RoomBanList,Ban List
 RoomAdminList,Administrator List
 RoomPrivate,Private (Need exact name to find it)
 RoomLocked,Locked (Only admins can leave or enter)
-UseMap,Map (Design & travel on a map grid)
+MapNever,Never use the map exploration
+MapHybrid,"Hybrid map, can go on and off"
+MapAlways,"Only use the map, no regular chat"
 RoomBackground,Select the background
 RoomSize,Size (2-10)
 Create,Create
