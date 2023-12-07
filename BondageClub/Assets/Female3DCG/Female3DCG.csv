@@ -168,6 +168,7 @@ ClothAccessory,StudentOutfit3Bow1,Student Bow 1
 ClothAccessory,StudentOutfit3Bow2,Student Bow 2
 ClothAccessory,StudentOutfit3Bow3,Student Bow 3
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
+ClothAccessory,ZipperBelt,Zipper Belt
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
@@ -1678,6 +1679,7 @@ Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,BalletHeels1,Ballet Hi-Shoes
 Shoes,BarefootSandals1,Barefoot Sandals
 Shoes,Boots1,Boots
+Shoes,Clogs,Platform Clogs
 Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,DutyShoes,Duty Shoes
 Shoes,Flippers,Flippers

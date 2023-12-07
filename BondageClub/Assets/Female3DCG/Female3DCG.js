@@ -2863,6 +2863,56 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "ZipperBelt",
+				Top: 368,
+				Fetish: ["Leather"],
+				ParentGroup: "BodyUpper",
+				Value: 18,
+				PoseMapping: {
+					BackBoxTie: "BackBoxTie",
+					BackCuffs: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					TapedHands: "TapedHands",
+					Yoked: "Yoked",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				Alpha: [
+					{
+						Pose: [
+						"BackCuffs",
+						"OverTheHead",
+						"BackBoxTie",
+						"BackElbowTouch",
+						"Yoked",
+						"AllFours",
+						"TapedHands"
+						],
+						Group: [
+						"Cloth",
+						"ClothLower",
+						"Suit",
+						"SuitLower",
+						"Corset",
+						"Bra",
+						"Panties"
+						],
+						Masks: [[193, 380, 110, 50]],
+					},
+				],
+				HideForPose: ["Hogtied"],
+				AllowPose: [
+					"TapedHands",
+					"BackBoxTie",
+					"BackCuffs",
+					"BackElbowTouch",
+					"Yoked",
+					"OverTheHead",
+					"AllFours",
+				],			
+			},
+			{
 				Name: "BugLegs",
 				Priority: 6,
 				Value: 40,
@@ -7954,6 +8004,55 @@ var AssetFemale3DCG = [
 					{ Name: "Main", Priority: 22, AllowColorize: true },
 					{ Name: "Rear", Priority: 6, CopyLayerColor: "Main" },
 				],
+			},
+			{
+				Name: "Clogs",
+				Height: 20,
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+				Layer: [
+					{ Name: "Main", Priority: 23, AllowColorize: true },
+					{ Name: "Sole", Priority: 24, AllowColorize: true },
+				],
+				Alpha: [
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+							Masks: [[45, 920, 350, 100]],
+					},
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+							Pose: ["LegsClosed"],
+							Masks: [[45, 955, 350, 100]],
+					},
+					{ 
+						Group: [
+							"BodyLower", 
+							"Socks", 
+							"SocksRight", 
+							"SocksLeft", 
+							"SuitLower",
+						], 
+							
+							Pose: ["Spread"], 
+							Masks: [[45, 901, 350, 100]
+						],
+					},
+				], 
 			},
 			{
 				Name: "StreetBoots",
