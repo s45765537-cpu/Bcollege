@@ -3474,7 +3474,7 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 /**
  * Handles the reception of the complete room data from the server.
  * @param {unknown} obj - Room object containing the updated chatroom data.
- * @returns {chatRoomProperties is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
+ * @returns {obj is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
  */
 function ChatRoomValidateProperties(obj)
 {
