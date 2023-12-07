@@ -109,6 +109,27 @@ function ChatRoomMapActivate() {
 }
 
 /**
+ * Returns the sight range for the current player, based on the blindness level
+ * @returns {number} - The number of visible tiles
+ */
+function ChatRoomMapGetSightRange() {
+	return ChatRoomMapViewRangeMax - Player.GetBlindLevel() * 2;
+}
+
+/**
+ * Returns TRUE if the player can see a character at her sight range
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if visible
+ */
+function ChatRoomMapCharacterIsVisible(C) {
+	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
+	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	let SightRange = ChatRoomMapGetSightRange();
+	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
+	return SightRange >= Distance;
+}
+
+/**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
  * @param {boolean} CW - If Center West is a wall
  * @param {boolean} CE - If Center East is a wall
@@ -237,6 +258,7 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
+		ChatRoomMapUpdatePlayerFlag();
 		return;
 	}
 
@@ -251,6 +273,7 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
+		ChatRoomMapUpdatePlayerFlag();
 		return;
 	}
 
@@ -265,6 +288,7 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
+		ChatRoomMapUpdatePlayerFlag();
 		return;
 	}
 
@@ -323,7 +347,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let Pos = 0;
 	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
-	let MaxVisibleRange = ChatRoomMapViewRangeMax - Player.GetBlindLevel() * 2;
+	let MaxVisibleRange = ChatRoomMapGetSightRange();
 	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
 
 	// Clears the tile and character selection
