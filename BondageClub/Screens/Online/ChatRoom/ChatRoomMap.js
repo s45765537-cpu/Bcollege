@@ -284,13 +284,13 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			// Sets position in the middle of the scren by default, or at the entry flag if possible
 			Player.MapData.X = ChatRoomMapWidth / 2;
 			Player.MapData.Y = ChatRoomMapWidth / 2;
-			for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
-				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapObjectEntryID) {
-					Player.MapData.X = Pos % ChatRoomMapWidth;
-					Player.MapData.Y = Math.floor(Pos / ChatRoomMapWidth);
+			for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
+				if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
+					Player.MapData.X = P % ChatRoomMapWidth;
+					Player.MapData.Y = Math.floor(P / ChatRoomMapWidth);
 					break;
 				}
-	
+
 		}
 
 		// Saves the new position

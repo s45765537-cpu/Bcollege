@@ -9268,7 +9268,6 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // StilettoHeels
-
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
