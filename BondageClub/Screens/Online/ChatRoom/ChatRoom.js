@@ -3350,8 +3350,9 @@ function ChatRoomMessage(data) {
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
-	// In map mode, we do not show actions that are out of the player sight
+	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
+	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter)) return;
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	msg = CommonCensor(msg);

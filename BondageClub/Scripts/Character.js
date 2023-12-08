@@ -920,6 +920,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		if (!Refresh && (JSON.stringify(Char.ArousalSettings) !== JSON.stringify(data.ArousalSettings))) Refresh = true;
 		if (!Refresh && (JSON.stringify(Char.OnlineSharedSettings) !== JSON.stringify(data.OnlineSharedSettings))) Refresh = true;
 		if (!Refresh && (JSON.stringify(Char.Game) !== JSON.stringify(data.Game))) Refresh = true;
+		if (!Refresh && (JSON.stringify(Char.MapData) !== JSON.stringify(data.MapData))) Refresh = true;
 		if (!Refresh && (JSON.stringify(Char.Crafting) !== JSON.stringify(data.Crafting))) Refresh = true;
 		if (!Refresh && Array.isArray(data.WhiteList) && (JSON.stringify(Char.WhiteList) !== JSON.stringify(data.WhiteList))) Refresh = true;
 		if (!Refresh && Array.isArray(data.BlackList) && (JSON.stringify(Char.BlackList) !== JSON.stringify(data.BlackList))) Refresh = true;

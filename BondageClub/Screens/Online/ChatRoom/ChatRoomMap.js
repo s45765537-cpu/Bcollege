@@ -117,6 +117,14 @@ function ChatRoomMapGetSightRange() {
 }
 
 /**
+ * Returns the hearing range for the current player, based on the deafness level
+ * @returns {number} - The number of tiles
+ */
+function ChatRoomMapGetHearingRange() {
+	return ChatRoomMapViewRangeMax - Player.GetDeafLevel();
+}
+
+/**
  * Returns TRUE if the player can see a character at her sight range
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE if visible
@@ -127,6 +135,19 @@ function ChatRoomMapCharacterIsVisible(C) {
 	let SightRange = ChatRoomMapGetSightRange();
 	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
 	return SightRange >= Distance;
+}
+
+/**
+ * Returns TRUE if the player can see hear a character at her hearing range
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if hearable
+ */
+function ChatRoomMapCharacterIsHearable(C) {
+	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
+	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	let HearingRange = ChatRoomMapGetHearingRange();
+	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
+	return HearingRange >= Distance;
 }
 
 /**
