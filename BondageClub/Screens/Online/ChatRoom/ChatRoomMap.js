@@ -55,25 +55,31 @@ var ChatRoomMapObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
 	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.1, Unique: true },
-	{ ID: 120, Type: "FloorDecoration", Style: "Bed", Top: -0.25 },
-	{ ID: 130, Type: "FloorDecoration", Style: "Pillow" },
-	{ ID: 140, Type: "FloorDecoration", Style: "Kennel", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 150, Type: "FloorDecoration", Style: "XCross", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 160, Type: "FloorDecoration", Style: "Locker", Top: -1, Height: 2, Speed: 0.5 },
-	{ ID: 170, Type: "FloorDecoration", Style: "Coffin", Top: -1, Height: 2, Speed: 0.5 },
+	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
+	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
+	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
+	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
 
-	{ ID: 1000, Type: "FloorObstacle", Style: "Blank" },
-	{ ID: 1010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
-	{ ID: 1020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
-	{ ID: 1030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
-	{ ID: 1040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
-	{ ID: 1050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
+	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
+	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
+	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
+	{ ID: 1030, Type: "FloorItem", Style: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
+	{ ID: 1040, Type: "FloorItem", Style: "Trolley", Top: -1, Height: 2, AssetName: "Trolley", AssetGroup: "ItemDevices" },
+	{ ID: 1050, Type: "FloorItem", Style: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
+	{ ID: 1060, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 
-	{ ID: 2000, Type: "WallDecoration", Style: "Blank" },
-	{ ID: 2010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 2020, Type: "WallDecoration", Style: "Mirror" },
-	{ ID: 2030, Type: "WallDecoration", Style: "Candelabra" },
-	{ ID: 2040, Type: "WallDecoration", Style: "Whip" },
+	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
+	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
+	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
+	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
+	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
+	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
+
+	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
+	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
+	{ ID: 3020, Type: "WallDecoration", Style: "Mirror" },
+	{ ID: 3030, Type: "WallDecoration", Style: "Candelabra" },
+	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 
 	/*
 	{ ID: 3000, Type: "WallPath", Style: "Blank" },
@@ -477,6 +483,7 @@ function ChatRoomMapUpdateFlag() {
 				// Invalid tiles and invalid objects for that tile must be cleared
 				if (Tile == null) ClearObject = true;
 				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
 				else if ((Obj.Type == "WallPath") && (Tile.Type != "Wall")) ClearObject = true;
@@ -620,7 +627,7 @@ function ChatRoomMapDraw() {
 			if (ChatRoomMapEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
-				if (Tile.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				if (Tile.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
@@ -647,8 +654,9 @@ function ChatRoomMapDraw() {
 		for (let Obj of ChatRoomMapObjectList)
 			if (ChatRoomMapEditSubMode == Obj.Type) {
 				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", "White");
-				if (Obj.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#FF0000");
+				// @ts-ignore
+				DrawButton(10, Y, 60, 60, "", ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup)) ? "White" : "Pink");
+				if (Obj.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
 				DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
@@ -667,9 +675,9 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return 0;
 	if (ChatRoomMapIsWall(X, Y)) return 0;
 
-	// Floor obstacles from 1000 to 2000 cannot be crossed
+	// Floor obstacles from 2000 to 3000 cannot be crossed
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
-	if ((ObjectID >= 1000) && (ObjectID < 2000)) return 0;
+	if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
 
 	// Enclosed or suspended players cannot change tiles
 	if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
@@ -877,7 +885,9 @@ function ChatRoomMapMouseDown() {
 			if (ChatRoomMapEditSubMode == Obj.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditObject = CommonCloneDeep(Obj);
+					// @ts-ignore
+					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
+						ChatRoomMapEditObject = CommonCloneDeep(Obj);
 					return;
 				}
 			}
