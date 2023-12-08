@@ -26215,6 +26215,46 @@ var AssetFemale3DCG = [
 							}
 				],
 			},
+			{
+				Name: "PaddedBeltCollar",
+				Fetish: ["Leather"],
+				Value: 40,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
+				Layer: [
+							{ 
+								Name: "Base",
+								AllowColorize: true,
+							}, 
+							{ 
+								Name: "Belt",
+								AllowColorize: true,
+							},
+							{
+								Name: "Metal",
+								Priority: 35,
+								AllowColorize: true,
+							},
+							{
+								Name: "Padding",
+								Priority: 35,
+								AllowColorize: true,
+							},
+							{
+								Name: "Trim",
+								Priority: 35,
+								AllowColorize: true,
+							},
+							{
+								Name: "Lock",
+								Priority: 35,
+								AllowColorize: true,
+								LockLayer: true,
+							}
+				],
+			},
 		],
 		Color: [
 			"Default",
