@@ -62,12 +62,14 @@ function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, 
 	const Prefix = `${Item.Asset.Group.Name}${Item.Asset.Name}`;
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
 	const FrontShield = ModularItemParseCurrent(Data, Item.Property.TypeRecord)[0];
+	/** @type {string} */
+	const optionName = Option.Name;
 
 	if (!C.IsOwnedByPlayer()) {
 		return DialogFindPlayer("PreviewIconOwnerOnly");
 	} else if (Module.Name === "Intensity" && Option.Name !== "i0" && FrontShield !== 2) {
 		return DialogFindPlayer(`${Prefix}ValidateIntensity`);
-	} else if (Option.Name === "TriggerShock" && FrontShield !== 3) {
+	} else if (optionName === "TriggerShock" && FrontShield !== 3) {
 		return DialogFindPlayer(`${Prefix}ValidateTriggerShock`);
 	} else {
 		return OriginalFunction(C, Item, Option, CurrentOption);

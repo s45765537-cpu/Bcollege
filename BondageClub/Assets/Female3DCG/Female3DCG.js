@@ -2881,36 +2881,26 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{
 						Pose: [
-						"BackCuffs",
-						"OverTheHead",
-						"BackBoxTie",
-						"BackElbowTouch",
-						"Yoked",
-						"AllFours",
-						"TapedHands"
+							"BackCuffs",
+							"OverTheHead",
+							"BackBoxTie",
+							"BackElbowTouch",
+							"Yoked",
+							"AllFours",
+							"TapedHands",
 						],
 						Group: [
-						"Cloth",
-						"ClothLower",
-						"Suit",
-						"SuitLower",
-						"Corset",
-						"Bra",
-						"Panties"
+							"Cloth",
+							"ClothLower",
+							"Suit",
+							"SuitLower",
+							"Corset",
+							"Bra",
+							"Panties",
 						],
 						Masks: [[193, 380, 110, 50]],
 					},
 				],
-				HideForPose: ["Hogtied"],
-				AllowPose: [
-					"TapedHands",
-					"BackBoxTie",
-					"BackCuffs",
-					"BackElbowTouch",
-					"Yoked",
-					"OverTheHead",
-					"AllFours",
-				],			
 			},
 			{
 				Name: "BugLegs",
@@ -8018,41 +8008,40 @@ var AssetFemale3DCG = [
 					{ Name: "Sole", Priority: 24, AllowColorize: true },
 				],
 				Alpha: [
-					{ 
+					{
 						Group: [
-							"BodyLower", 
-							"Socks", 
-							"SocksRight", 
-							"SocksLeft", 
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
 							"SuitLower",
-						], 
-							Masks: [[45, 920, 350, 100]],
-					},
-					{ 
-						Group: [
-							"BodyLower", 
-							"Socks", 
-							"SocksRight", 
-							"SocksLeft", 
-							"SuitLower",
-						], 
-							Pose: ["LegsClosed"],
-							Masks: [[45, 955, 350, 100]],
-					},
-					{ 
-						Group: [
-							"BodyLower", 
-							"Socks", 
-							"SocksRight", 
-							"SocksLeft", 
-							"SuitLower",
-						], 
-							
-							Pose: ["Spread"], 
-							Masks: [[45, 901, 350, 100]
 						],
+						Masks: [[45, 920, 350, 100]],
 					},
-				], 
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["LegsClosed"],
+						Masks: [[45, 955, 350, 100]],
+					},
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+
+						Pose: ["Spread"],
+						Masks: [[45, 901, 350, 100]],
+					},
+				],
 			},
 			{
 				Name: "StreetBoots",
@@ -8260,12 +8249,12 @@ var AssetFemale3DCG = [
 					{
 						Name: "Top",
 						AllowColorize: true,
-						AllowTypes: { t : 0 },
+						AllowTypes: { t: 0 },
 					},
 					{
 						Name: "Rounded",
 						CopyLayerColor: "Top",
-						AllowTypes: { t : 1 },
+						AllowTypes: { t: 1 },
 						Alpha: [
 							{
 								Group: [
@@ -8302,13 +8291,12 @@ var AssetFemale3DCG = [
 								Masks: [[0, 0, 500, 70]],
 							},
 						],
-		
 					},
 					{
 						Name: "Center",
 						CopyLayerColor: "Top",
 						Priority: 22,
-						AllowTypes: { c : 1},
+						AllowTypes: { c: 1 },
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							Kneel: PoseType.HIDE,
@@ -8317,8 +8305,8 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Heels", 
-						AllowColorize: true, 
+						Name: "Heels",
+						AllowColorize: true,
 						Priority: 4,
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -8327,10 +8315,10 @@ var AssetFemale3DCG = [
 							LegsClosed: PoseType.HIDE,
 						},
 					},
-					{ 
-						Name: "Sole", 
-						AllowColorize: true, 
-						Priority: 3 
+					{
+						Name: "Sole",
+						AllowColorize: true,
+						Priority: 3,
 					},
 				],
 			},
@@ -26262,28 +26250,28 @@ var AssetFemale3DCG = [
 				Time: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["#2E2E2E","#2C208B","#141414","#B47E2C"],
+				DefaultColor: ["#2E2E2E", "#2C208B", "#141414", "#B47E2C"],
 				Layer: [
-							{ 
-								Name: "Base",
-								AllowColorize: true,
-							}, 
-							{ 
-								Name: "Shine",
-								AllowColorize: true,
-							},
-							{
-								Name: "Trim",
-								AllowColorize: true,
-							},
-							{
-								Name: "Patch",
-								CopyLayerColor: "Base",
-							},
-							{
-								Name: "Ring",
-								AllowColorize: true,
-							}
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: true,
+					},
+					{
+						Name: "Trim",
+						AllowColorize: true,
+					},
+					{
+						Name: "Patch",
+						CopyLayerColor: "Base",
+					},
+					{
+						Name: "Ring",
+						AllowColorize: true,
+					},
 				],
 			},
 			{
@@ -26294,24 +26282,24 @@ var AssetFemale3DCG = [
 				Time: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["#2E2E2E","#BABABA"],
+				DefaultColor: ["#2E2E2E", "#BABABA"],
 				Layer: [
-							{ 
-								Name: "Base",
-								AllowColorize: true,
-							}, 
-							{ 
-								Name: "Shine",
-								AllowColorize: true,
-							},
-							{
-								Name: "Spikes",
-								AllowColorize: true,
-							},
-							{
-								Name: "Ring",
-								AllowColorize: true,
-							}
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: true,
+					},
+					{
+						Name: "Spikes",
+						AllowColorize: true,
+					},
+					{
+						Name: "Ring",
+						AllowColorize: true,
+					},
 				],
 			},
 		],
