@@ -131,6 +131,8 @@ const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityP
 const CraftingPropertyExclude = new Set([
 	"HeartRate",
 	"TriggerCount",
+	"OrgasmCount",
+	"RuinedOrgasmCount",
 	"BlinkState",
 	"AutoPunishUndoTime",
 	"NextShockTime",
