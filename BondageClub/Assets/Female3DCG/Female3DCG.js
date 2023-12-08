@@ -26443,9 +26443,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { s: 1, h: [5, 10] },
 						CopyLayerColor: "Hood",
 					},
-
 					{ Name: "EyeShade", AllowTypes: { h: [1, 2] } },
-
 					{
 						Name: "NoseStencil",
 						AllowTypes: { h: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
@@ -26522,11 +26520,11 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
 				Layer: [
-							{ 
+							{
 								Name: "Base",
 								AllowColorize: true,
-							}, 
-							{ 
+							},
+							{
 								Name: "Belt",
 								AllowColorize: true,
 							},
