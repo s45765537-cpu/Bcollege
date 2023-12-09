@@ -340,7 +340,7 @@ function StruggleMinigameWasInterrupted(C) {
 
 	// We were swapping items, and the current item isn't what we started with
 	if (NextItem != null && PrevItem != null
-			&& (CurrentItem.Asset.Name != PrevItem.Asset.Name || !CurrentItem))
+			&& (!CurrentItem || CurrentItem.Asset.Name != PrevItem.Asset.Name))
 		return true;
 
 	// A new item blocked access
