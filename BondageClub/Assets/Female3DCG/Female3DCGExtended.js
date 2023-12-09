@@ -10127,6 +10127,82 @@ var AssetFemale3DCGExtended = {
 				Chat: "LatexMuzzleMaskMouthSet",
 			},
 		}, // LatexMuzzleMask
+		ModularGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: 
+			[
+				{
+					Name: "Gag",
+					Key: "g",
+					DrawImages: true,
+					Options: [
+						{	// 0 - BallGag
+							Property: {
+								Fetish: ["Gagged"],
+								Effect: ["BlockMouth", "GagMedium"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						{},	// 1 - Detached
+						{	// 2 Dildo BallGag
+							Property: {
+								Fetish: ["Gagged"],
+								Effect: ["BlockMouth", "GagTotal"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						{	// 3 - RingGag
+							Property: {
+								Fetish: ["Gagged"],
+								Effect: ["OpenMouth", "GagMedium"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						{	// 4 - RingGag with Depressor
+							Property: {
+								Fetish: ["Gagged"],
+								Effect: ["OpenMouth", "GagHeavy"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						{	// 5 - BitGag
+							Property: {
+								Fetish: ["Gagged", "Pony", "Pet"],
+								Effect: ["BlockMouth", "GagMedium"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						{	// 6 - BitGagDepressor
+							Property: {
+								Fetish: ["Gagged", "Pony", "Pet"],
+								Effect: ["BlockMouth", "GagHeavy"],
+								Hide: ["Mouth"],
+							},
+						}, 
+						
+					],
+				},
+				{
+					Name: "Headress",
+					Key: "h",
+					DrawImages: true,
+					Options: [
+						{}, // 0 - Detached
+						{}, // 1 - Attached
+					],
+				},
+				{
+					Name: "ChinStrap",
+					Key: "c",
+					DrawImages: true,
+					Options: [
+						{}, // 0 - Detached
+						{}, // 1 - Attached
+					],
+				},
+			],
+		},//ModularGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10206,6 +10282,10 @@ var AssetFemale3DCGExtended = {
 		LatexMuzzleMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask" },
+		},
+		ModularGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
 	}, // ItemMouth2
 	ItemMouth3: {
@@ -10374,6 +10454,10 @@ var AssetFemale3DCGExtended = {
 		LatexMuzzleMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexMuzzleMask" },
+		},
+		ModularGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
 	}, // ItemMouth3
 	Mask: {
@@ -12329,6 +12413,168 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //HeavyDutyBelt
+		ModularChastityBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "BeltType",
+					Key: "a",
+					Options: [
+						{}, // 0 - Invisible
+						{}, // 1 - Standard
+					],
+				},
+				{
+					Name: "CrotchShield",
+					Key: "c",
+					DrawImages: false,
+					Options: [
+						{}, // 0 - open
+						{
+							// 1 - Close Front
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Effect: ["Chaste"],
+								Block: ["ItemVulva", "ItemVulvaPiercings"],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaChastityPouch",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+						{
+							// 2 - close back
+							Property: {
+								Effect: ["ButtChaste"],
+								Block: ["ItemButt"],
+							},
+						},
+						{
+							// 3 - Close both
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Effect: ["Chaste", "ButtChaste"],
+								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaChastityPouch",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Intensity",
+					Key: "i",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // i0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // i1 - Low
+						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // i2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // i3 - High
+						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // i4 - Maximum
+					],
+				},
+				{
+					Name: "ShockModule",
+					Key: "s",
+					DrawImages: false,
+					Options: [
+						{ Property: { ShockLevel: 0 } }, // s0 - Off
+						{ Property: { ShockLevel: 0 } }, // s1 - Level 1
+						{ Property: { ShockLevel: 1 } }, // s2 - Level 2
+						{ Property: { ShockLevel: 2 } }, // s3 - Level 3
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[8][0] },
+							{ position: ExtendedXYWithoutImages[8][1] },
+							{ position: ExtendedXYWithoutImages[8][2] },
+							{ position: ExtendedXYWithoutImages[8][3] },
+						],
+					},
+				},
+				{
+					Name: "VoiceControl",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{}, //v0 - Off
+						{}, //v1 - On
+					],
+				},
+				{
+					Name: "OrgasmLock",
+					Key: "o",
+					DrawImages: false,
+					Options: [
+						{}, // o0 - Normal
+						{ Property: { Effect: ["DenialMode"] } }, // o1 - Edge
+						{ Property: { Effect: ["DenialMode", "RuinOrgasms"] } }, // o2 - Deny
+					],
+				},
+			],
+			ScriptHooks: {
+				Click: InventoryItemPelvisModularChastityBeltClickHook,
+				Draw: InventoryItemPelvisModularChastityBeltDrawHook,
+				Exit: InventoryItemPelvisModularChastityBeltExitHook,
+				ScriptDraw: InventoryItemPelvisModularChastityBeltScriptDrawHook,
+			},
+			BaselineProperty: {
+				TriggerCount: 0,
+				OrgasmCount: 0,
+				RuinedOrgasmCount: 0,
+				ShowText: true,
+				ShockLevel: 0,
+				PunishOrgasm: false,
+				PunishStandup: false,
+				PunishStruggle: false,
+				PunishStruggleOther: false,
+				AccessMode: "",
+				TriggerValues: CommonConvertArrayToString(
+					InventoryItemPelvisModularChastityBeltVoiceTriggers,
+				),
+			},
+		}, // ModularChastityBelt
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {

@@ -18244,6 +18244,217 @@ var AssetFemale3DCG = [
 					}, //Shows only for Suitlower
 				],
 			},
+			{
+				Name: "ModularChastityBelt",
+				Attribute: ["GenitaliaCover"],
+				Fetish: ["Metal", "Chastity"],
+				Value: 150,
+				Difficulty: 30,
+				Time: 15,
+				RemoveTime: 10,
+				ArousalZone: "ItemVulva",
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: [
+					"Default", 	//Penis1
+					"Default", 	//Penis2
+					"#CC43C8", 	//Rubber
+					"#818181", 	//Metal
+					"#818181", 	//Metal Open
+					"#818181", 	//Metal Shield
+					"#A28A3C",	//Lock Body
+					"#BABABA", 	//Lock Shackle
+				],
+				Audio: "CuffsMetal",
+				Prerequisite: ["AccessCrotch"],
+				HideItem: [
+					"ItemVulvaVibratingLatexPanties",
+					"ItemVulvaInflatableVibratingPanties",
+				],
+				Effect: ["UseRemote"],
+				Block: [],
+				Extended: true,
+				DynamicScriptDraw: true,
+				Layer: [
+					//Penis
+					{
+						Name: "White_P", //Penis for custom Skin color, named in this way to not have to make one extra texture
+						ParentGroup: null,
+						HasType: false,
+						InheritColor: "Pussy",
+						HideColoring: true,
+						ShowForAttribute: ["PenisLayer"],
+					},
+					{
+						Name: "P", //Penis for White/Black/Asian Skin color
+						ParentGroup: null,
+						HasType: false,
+						InheritColor: "Pussy",
+						HideColoring: true,
+						ColorSuffix: { HEX_COLOR: "White" },
+						ShowForAttribute: ["PenisLayer"],
+					},
+
+					//Belt
+					{ 
+						Name: "InvisibleBeltRubber",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+					}, 
+					{ 
+						Name: "InvisibleBeltMetal",
+						ColorGroup: "Metal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+					},
+
+					{ 
+						Name: "ClassicBeltRubber",
+						CopyLayerColor: "InvisibleBeltRubber",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+					}, 
+					{ 
+						Name: "ClassicBeltMetal",
+						CopyLayerColor: "InvisibleBeltMetal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+					}, 
+
+					//Shield
+					{ 
+						Name: "InvisibleShieldOpenRubber",
+						CopyLayerColor: "InvisibleBeltRubber",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+					}, 
+					{ 
+						Name: "InvisibleShieldOpenMetal",
+						ColorGroup: "Metal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"]
+					},
+
+					{ 
+						Name: "ClassicShieldOpenVRubber",
+						CopyLayerColor: "InvisibleBeltRubber",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"]
+					}, 
+					{ 
+						Name: "ClassicShieldOpenVMetal",
+						CopyLayerColor: "InvisibleShieldOpenMetal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"]
+					}, 
+					{ 
+						Name: "ClassicShieldOpenPRubber",
+						CopyLayerColor: "InvisibleBeltRubber",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						ShowForAttribute: ["PenisLayer"]
+					}, 
+					{ 
+						Name: "ClassicShieldOpenPMetal",
+						CopyLayerColor: "InvisibleShieldOpenMetal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						ShowForAttribute: ["PenisLayer"]
+					}, 
+
+					{
+						Name: "InvisibleBeltShieldV",
+						ColorGroup: "Metal",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0c1", "a0c3"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"],
+					},
+					{
+						Name: "InvisibleBeltShieldP",
+						CopyLayerColor: "InvisibleBeltShieldV",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0c1", "a1c1", "a0c3", "a1c3"],
+						HasType: false,
+						ShowForAttribute: ["PenisLayer"],
+					},
+
+					{
+						Name: "ClassicBeltShieldV",
+						CopyLayerColor: "InvisibleBeltShieldV",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1c1", "a1c3"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"],
+					},
+
+					//Lock
+					{
+						Name: "InvisibleBeltLock",
+						ColorGroup: "Lock",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+						LockLayer: true
+					},
+					{
+						Name: "InvisibleBeltLockPipe",
+						ColorGroup: "Lock",
+						ParentGroup: null,
+						AllowModuleTypes: ["a0"],
+						HasType: false,
+						LockLayer: true
+					},
+
+					{
+						Name: "ClassicBeltLockUpper",
+						CopyLayerColor: "InvisibleBeltLock",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						LockLayer: true
+					},
+					{
+						Name: "ClassicBeltLockUpperPipe",
+						CopyLayerColor: "InvisibleBeltLockPipe",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1"],
+						HasType: false,
+						LockLayer: true
+					},
+					{
+						Name: "ClassicBeltLockLowerV",
+						CopyLayerColor: "InvisibleBeltLock",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1c1", "a1c3"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"],
+						LockLayer: true
+					},
+					{
+						Name: "ClassicBeltLockLowerVPipe",
+						CopyLayerColor: "InvisibleBeltLockPipe",
+						ParentGroup: null,
+						AllowModuleTypes: ["a1c1", "a1c3"],
+						HasType: false,
+						HideForAttribute: ["PenisLayer"],
+						LockLayer: true
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -26232,9 +26443,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { s: 1, h: [5, 10] },
 						CopyLayerColor: "Hood",
 					},
-
 					{ Name: "EyeShade", AllowTypes: { h: [1, 2] } },
-
 					{
 						Name: "NoseStencil",
 						AllowTypes: { h: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
@@ -26311,11 +26520,11 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
 				Layer: [
-							{ 
+							{
 								Name: "Base",
 								AllowColorize: true,
-							}, 
-							{ 
+							},
+							{
 								Name: "Belt",
 								AllowColorize: true,
 							},
@@ -28932,6 +29141,157 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ModularGag",
+				Fetish: ["Leather"],
+				Value: 50,
+				Difficulty: 6,
+				Time: 10,
+				AllowLock: true,
+				DrawLocks: false,
+				BuyGroup: "ModularGag",
+				Effect: [],
+				DefaultColor: [
+					"Default", //Lips Ball
+					"Default", //Lips Ring
+					"Default", //Lips Bit
+					"Default", //Metal
+					"#202020", //Straps
+					"#A51B1B", //BallGag
+					"Default", //RingGag
+					"Default", //BitGag
+					"Default", //Lock
+				],
+				Extended: true,
+				Layer: 
+				[
+					//Mouths
+					{ 
+						Name: "BallIn",
+						HasType: false,
+						AllowColorize: false,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+					{ 
+						Name: "BallLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+
+					{ 
+						Name: "RingIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+					{ 
+						Name: "RingLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+
+					{ 
+						Name: "BitIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+					{ 
+						Name: "BitLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+
+					//Metal
+					{
+						Name: "MBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "MUpper",
+						HasType: false,
+						CopyLayerColor: "MBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+
+					//Straps
+					{
+						Name: "SBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "SGag",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["g0", "g2", "g3", "g4"], //Always unless no gag or bit gag
+					},
+					{
+						Name: "SHeadL",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SHeadU",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						Priority: 7,
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SChin",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["c1"], //Only when Chin Strap
+					},
+
+					//Gags
+					{
+						Name: "GBall",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g0", "g2"], //For any Ballgag
+					},
+					{
+						Name: "GRing",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g3", "g4"], //For any Ringgag
+					},
+					{
+						Name: "GRingDepress",
+						HasType: false,
+						CopyLayerColor: "GRing",
+						HideColoring: true,
+						AllowModuleTypes: ["g4"], //Only for Ringgag with Depressor
+					},
+					{
+						Name: "GBit",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g5", "g6"], //For any Bitgag
+					},
+
+					//Locks
+					{
+						Name: "LClassic",
+						HasType: false,
+						ColorGroup: "Lock",
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+						LockLayer: true,
+					},
+				],
+			},	//ModularGag 1
 		],
 		Color: [
 			"Default",
@@ -30249,6 +30609,157 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ModularGag",
+				Fetish: ["Leather"],
+				Value: 50,
+				Difficulty: 6,
+				Time: 10,
+				AllowLock: true,
+				DrawLocks: false,
+				BuyGroup: "ModularGag",
+				Effect: [],
+				DefaultColor: [
+					"Default", //Lips Ball
+					"Default", //Lips Ring
+					"Default", //Lips Bit
+					"Default", //Metal
+					"#202020", //Straps
+					"#A51B1B", //BallGag
+					"Default", //RingGag
+					"Default", //BitGag
+					"Default", //Lock
+				],
+				Extended: true,
+				Layer: 
+				[
+					//Mouths
+					{ 
+						Name: "BallIn",
+						HasType: false,
+						AllowColorize: false,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+					{ 
+						Name: "BallLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+
+					{ 
+						Name: "RingIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+					{ 
+						Name: "RingLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+
+					{ 
+						Name: "BitIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+					{ 
+						Name: "BitLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+
+					//Metal
+					{
+						Name: "MBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "MUpper",
+						HasType: false,
+						CopyLayerColor: "MBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+
+					//Straps
+					{
+						Name: "SBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "SGag",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["g0", "g2", "g3", "g4"], //Always unless no gag or bit gag
+					},
+					{
+						Name: "SHeadL",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SHeadU",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						Priority: 7,
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SChin",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["c1"], //Only when Chin Strap
+					},
+
+					//Gags
+					{
+						Name: "GBall",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g0", "g2"], //For any Ballgag
+					},
+					{
+						Name: "GRing",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g3", "g4"], //For any Ringgag
+					},
+					{
+						Name: "GRingDepress",
+						HasType: false,
+						CopyLayerColor: "GRing",
+						HideColoring: true,
+						AllowModuleTypes: ["g4"], //Only for Ringgag with Depressor
+					},
+					{
+						Name: "GBit",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g5", "g6"], //For any Bitgag
+					},
+
+					//Locks
+					{
+						Name: "LClassic",
+						HasType: false,
+						ColorGroup: "Lock",
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+						LockLayer: true,
+					},
+				],
+			},	//ModularGag 2
 		],
 		Color: [
 			"Default",
@@ -31711,6 +32222,157 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ModularGag",
+				Fetish: ["Leather"],
+				Value: 50,
+				Difficulty: 6,
+				Time: 10,
+				AllowLock: true,
+				DrawLocks: false,
+				BuyGroup: "ModularGag",
+				Effect: [],
+				DefaultColor: [
+					"Default", //Lips Ball
+					"Default", //Lips Ring
+					"Default", //Lips Bit
+					"Default", //Metal
+					"#202020", //Straps
+					"#A51B1B", //BallGag
+					"Default", //RingGag
+					"Default", //BitGag
+					"Default", //Lock
+				],
+				Extended: true,
+				Layer: 
+				[
+					//Mouths
+					{ 
+						Name: "BallIn",
+						HasType: false,
+						AllowColorize: false,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+					{ 
+						Name: "BallLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
+					},
+
+					{ 
+						Name: "RingIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+					{ 
+						Name: "RingLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
+					},
+
+					{ 
+						Name: "BitIn",
+						HasType: false,
+						CopyLayerColor: "BallIn",
+						AllowColorize: false,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+					{ 
+						Name: "BitLips",
+						HasType: false,
+						InheritColor: "Mouth",
+						HideColoring: true,
+						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
+					},
+
+					//Metal
+					{
+						Name: "MBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "MUpper",
+						HasType: false,
+						CopyLayerColor: "MBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+
+					//Straps
+					{
+						Name: "SBase",
+						HasType: false,
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+					},
+					{
+						Name: "SGag",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["g0", "g2", "g3", "g4"], //Always unless no gag or bit gag
+					},
+					{
+						Name: "SHeadL",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SHeadU",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						Priority: 7,
+						AllowModuleTypes: ["h1"], //Only when Head Harness
+					},
+					{
+						Name: "SChin",
+						HasType: false,
+						CopyLayerColor: "SBase",
+						AllowModuleTypes: ["c1"], //Only when Chin Strap
+					},
+
+					//Gags
+					{
+						Name: "GBall",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g0", "g2"], //For any Ballgag
+					},
+					{
+						Name: "GRing",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g3", "g4"], //For any Ringgag
+					},
+					{
+						Name: "GRingDepress",
+						HasType: false,
+						CopyLayerColor: "GRing",
+						HideColoring: true,
+						AllowModuleTypes: ["g4"], //Only for Ringgag with Depressor
+					},
+					{
+						Name: "GBit",
+						HasType: false,
+						ColorGroup: "Gags",
+						AllowModuleTypes: ["g5", "g6"], //For any Bitgag
+					},
+
+					//Locks
+					{
+						Name: "LClassic",
+						HasType: false,
+						ColorGroup: "Lock",
+						AllowModuleTypes: ["g1h1", "g1c1", "g0", "g2", "g3", "g4", "g5", "g6"], //Always Unless no gag and no harness
+						LockLayer: true,
+					},
+				],
+			},	//ModularGag 3
 		],
 		Color: [
 			"Default",

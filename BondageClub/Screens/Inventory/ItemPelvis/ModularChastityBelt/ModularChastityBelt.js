@@ -1,0 +1,559 @@
+"use strict";
+
+var InventoryItemPelvisModularChastityBeltVoiceTriggers = ["Increase", "Decrease", "Disable", "Shock"];
+/** @type {string[]} */
+var InventoryItemPelvisModularChastityBeltVoiceTriggerValues = [];
+
+/** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
+function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) {
+	OriginalFunction();
+	//Base screen
+	if (data.currentModule === "Intensity") {
+		InventoryItemPelvisModularChastityBeltDrawIntensity(75);
+	}
+
+	if (data.currentModule === "ShockModule") {
+		InventoryItemPelvisModularChastityBeltDrawShockModule(0);
+	}
+
+	if (data.currentModule === "VoiceControl") {
+		InventoryItemPelvisModularChastityBeltDrawVoiceControl(0);
+	} else {
+		InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup()
+	}
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltDrawIntensity(_offset)
+{		
+	// Display option information
+	MainCanvas.textAlign = "right";
+	
+	DrawText(DialogFindPlayer("ModularChastityBeltOrgasmCount") + ":", 1680, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltDenyCount") + ":", 1680, 550 + 1*75 + _offset, "White", "Gray");
+
+	MainCanvas.textAlign = "left";
+	DrawText(`${DialogFocusItem.Property.OrgasmCount}`, 1690, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(`${DialogFocusItem.Property.RuinedOrgasmCount}`, 1690, 550 + 1*75 + _offset, "White", "Gray");
+		
+	MainCanvas.textAlign = "center";
+
+	// Display the ShowText checkbox
+		
+	// Display the manual button
+	ExtendedItemCustomDraw("ModularChastityBeltResetOrgasm", 1260, 550-27 + 0*75 + _offset, null, false, false);
+	ExtendedItemCustomDraw("ModularChastityBeltResetDeny", 1260, 550-27 + 1*75 + _offset, null, false, false);
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltDrawShockModule(_offset)
+{
+		
+	// Display option information
+	MainCanvas.textAlign = "right";
+	DrawText(DialogFindPlayer("ModularChastityBeltShockCount") + ":", 1650, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ShowMessageInChat") + ":", 1500, 550 + 1*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltPunishOrgasm") + ":", 1500, 550 + 2*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltPunishTamperSelf") + ":", 1500, 550 + 3*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltPunishTamperOther") + ":", 1500, 550 + 4*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltPunishStanding") + ":", 1500, 550 + 5*75 + _offset, "White", "Gray");
+
+	MainCanvas.textAlign = "left";
+	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1660, 550 + 0*75 + _offset, "White", "Gray");
+	MainCanvas.textAlign = "center";
+
+	// Display checkbox
+	ExtendedItemDrawCheckbox("ShowText", 1510, 520 + 1*75 + _offset, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
+	ExtendedItemDrawCheckbox("PunishOrgasm", 1510, 520 + 2*75 + _offset, DialogFocusItem.Property.PunishOrgasm, { changeWhenLocked: false });
+	ExtendedItemDrawCheckbox("PunishStruggle", 1510, 520 + 3*75 + _offset, DialogFocusItem.Property.PunishStruggle, { changeWhenLocked: false });
+	ExtendedItemDrawCheckbox("PunishStruggleOther", 1510, 520 + 4*75 + _offset, DialogFocusItem.Property.PunishStruggleOther, { changeWhenLocked: false });
+	ExtendedItemDrawCheckbox("PunishStandup", 1510, 520 + 5*75 + _offset, DialogFocusItem.Property.PunishStandup, { changeWhenLocked: false });
+
+	//Draw button
+	ExtendedItemCustomDraw("ModularChastityBeltTriggerShock", 1010, 550-27 + 0*75 + _offset, null, false, false);
+	ExtendedItemCustomDraw("ModularChastityBeltResetShock", 1260, 550-27 + 0*75 + _offset, null, false, false);
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
+{
+
+	const Item = DialogFocusItem;
+
+	// PAGE 1
+	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
+		MainCanvas.textAlign = "right";
+		DrawText(DialogFindPlayer("ModularChastityBelt" + trigger), 1480, 550 + i*60 + _offset, "white", "gray");
+		MainCanvas.textAlign = "center";
+		ElementPosition("ModularChastityBelt" + trigger, 1625, 550 + i*60 + _offset, 225, 50);
+	});
+
+	// Draw the save button
+	ExtendedItemCustomDraw("FuturisticVibratorSaveVoiceCommands", 1510, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, null, false, false);
+
+	// Draw the BackNext button
+	DrawBackNextButton(1260, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, 225, 50, DialogFindPlayer("FuturisticVibratorPermissions" + (Item.Property.AccessMode || "")), "White", "",
+		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
+		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
+	);
+	
+	//Create inputs
+	if (!DialogFocusItem.Property.TriggerValues) DialogFocusItem.Property.TriggerValues = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggers);
+	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
+	// Only create the inputs if the zone isn't blocked
+	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
+		const input = ElementCreateInput("ModularChastityBelt" + trigger, "text", "", "10");
+		if (input) input.setAttribute("placeholder", InventoryItemPelvisModularChastityBeltVoiceTriggerValues[i]);
+	});
+}
+
+function InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup() {
+	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach(i => ElementRemove(`ModularChastityBelt${i}`));
+}
+
+/** @type {ExtendedItemScriptHookCallbacks.Exit<ModularItemData>} */
+function InventoryItemPelvisModularChastityBeltExitHook(data, originalFunction) {
+	InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup();
+}
+
+/** 
+ * @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} 
+*/
+function InventoryItemPelvisModularChastityBeltClickHook(data, OriginalFunction) {
+
+	if (DialogFocusItem && data.currentModule === "Intensity") {
+		InventoryItemPelvisModularChastityBeltClickIntensity(75);
+	}
+
+	if (DialogFocusItem && data.currentModule === "ShockModule") {
+		InventoryItemPelvisModularChastityBeltClickShockModule(0);
+	}
+
+	if (data.currentModule === "VoiceControl") {
+		InventoryItemPelvisModularChastityBeltClickVoiceControl(0);
+	}
+
+	OriginalFunction();
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltClickIntensity(_offset){
+	//Click Orgasm Reset
+	if (MouseIn(1260, 550-27 + 0*75 + _offset, 225, 55)) {
+		ExtendedItemCustomClick("ModularChastityBeltResetOrgasm", InventoryItemPelvisModularChastityBeltResetOrgasm, false, false);
+		return;
+	}
+
+	//Click Deny Reset
+	if (MouseIn(1260, 550-27 + 1*75 + _offset, 225, 55)) {
+		ExtendedItemCustomClick("ModularChastityBeltResetDeny", InventoryItemPelvisModularChastityBeltResetDeny, false, false);
+		return;
+	}
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltClickVoiceControl(_offset){
+	//Click Save
+	if (MouseIn(1510, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, 225, 55)) {
+		ExtendedItemCustomClick("FuturisticVibratorSaveVoiceCommands", InventoryItemPelvisModularChastityBeltVoiceControlClickSet, false, false);
+		return;
+	}
+
+	//Click BackNext
+	if (MouseIn(1260, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, 225, 55)) {
+		if (MouseX < 1260 + (225 / 2)) {
+			ExtendedItemCustomClick("", InventoryItemPelvisModularChastityBeltVoicePrevious, false, false);
+		} else {
+			ExtendedItemCustomClick("", InventoryItemPelvisModularChastityBeltVoiceNext, false, false);
+		}
+	}
+}
+
+function InventoryItemPelvisModularChastityBeltVoicePrevious() {
+	InventoryItemVulvaFuturisticVibratorSetAccessMode(CharacterGetCurrent(), DialogFocusItem, InventoryItemVulvaFuturisticVibratorPreviousAccessMode(DialogFocusItem.Property.AccessMode || ""));
+}
+
+function InventoryItemPelvisModularChastityBeltVoiceNext() {
+	InventoryItemVulvaFuturisticVibratorSetAccessMode(CharacterGetCurrent(), DialogFocusItem, InventoryItemVulvaFuturisticVibratorNextAccessMode(DialogFocusItem.Property.AccessMode || ""));
+}
+
+function InventoryItemPelvisModularChastityBeltVoiceControlClickSet(){
+	if ((DialogFocusItem != null) && (DialogFocusItem.Property != null)) {
+		var InventoryItemPelvisModularChastityBeltVoiceTriggerValuesTemp = [];
+		for (let I = 0; I < InventoryItemPelvisModularChastityBeltVoiceTriggers.length; I++) {
+			InventoryItemPelvisModularChastityBeltVoiceTriggerValuesTemp.push((ElementValue("ModularChastityBelt" + InventoryItemPelvisModularChastityBeltVoiceTriggers[I]) != "") ? ElementValue("ModularChastityBelt" + InventoryItemPelvisModularChastityBeltVoiceTriggers[I])
+				: InventoryItemPelvisModularChastityBeltVoiceTriggerValues[I]);
+		}
+
+		InventoryItemPelvisModularChastityBeltVoiceTriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggerValuesTemp;
+
+		var temp = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggerValues);
+
+		if (temp != "" && typeof temp === "string") {
+			DialogFocusItem.Property.TriggerValues = temp;
+			if (CurrentScreen == "ChatRoom") {
+				const Dictionary = new DictionaryBuilder()
+					.sourceCharacter(Player)
+					.destinationCharacter(CurrentCharacter)
+					.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
+					.build();
+				ChatRoomPublishCustomAction("FuturisticVibratorSaveVoiceCommandsAction", true, Dictionary);
+			}
+			DialogLeave();
+		}
+	}
+}
+
+function InventoryItemPelvisModularChastityBeltResetOrgasm(){
+	// Gets the current item and character
+	DialogFocusItem.Property.OrgasmCount = 0;
+	const C = CharacterGetCurrent();
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.destinationCharacterName(C)
+		.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
+		.build();
+
+	if (DialogFocusItem.Property.ShowText) {
+		ChatRoomPublishCustomAction("OrgasmCountReset", false, Dictionary);
+	} else {
+		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+	}
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
+	}
+}
+
+function InventoryItemPelvisModularChastityBeltResetDeny(){
+	// Gets the current item and character
+	DialogFocusItem.Property.RuinedOrgasmCount = 0;
+	const C = CharacterGetCurrent();
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.destinationCharacterName(C)
+		.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
+		.build();
+
+	if (DialogFocusItem.Property.ShowText) {
+		ChatRoomPublishCustomAction("RuinCountReset", false, Dictionary);
+	} else {
+		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+	}
+	if (C.IsPlayer()) {
+		ServerPlayerAppearanceSync();
+	}
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
+function InventoryItemPelvisModularChastityBeltClickShockModule(_offset){
+	//Click Manual Shock
+	if (MouseIn(1010, 550-27 + 0*75 + _offset, 225, 55)) {
+		ExtendedItemCustomClick("ModularChastityBeltTriggerShock", PropertyShockPublishAction, false, false);
+		return;
+	}
+	//Click Shock Reset
+	if (MouseIn(1260, 550-27 + 0*75 + _offset, 225, 55)) {
+		ExtendedItemCustomClick("ModularChastityBeltResetShock", InventoryItemNeckAccessoriesCollarShockUnitResetCount, false, false);
+		return;
+	}
+
+	if (MouseIn(1510, 520 + 1*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "ShowText", () => DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText, false, false);
+		return;
+	} 
+	if (MouseIn(1510, 520 + 2*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishOrgasm", () => DialogFocusItem.Property.PunishOrgasm = !DialogFocusItem.Property.PunishOrgasm, false, false);
+		return;
+	} 
+	if (MouseIn(1510, 520 + 3*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStruggle", () => DialogFocusItem.Property.PunishStruggle = !DialogFocusItem.Property.PunishStruggle, false, false);
+		return;
+	} 
+	if (MouseIn(1510, 520 + 4*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStruggleOther", () => DialogFocusItem.Property.PunishStruggleOther = !DialogFocusItem.Property.PunishStruggleOther, false, false);
+		return;
+	} 
+	if (MouseIn(1510, 520 + 5*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStandup", () => DialogFocusItem.Property.PunishStandup = !DialogFocusItem.Property.PunishStandup, false, false);
+		return;
+	} 
+}
+
+/**
+ * @typedef {{Cooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean}} ModularChastityBeltPersistentData
+ */
+
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ModularItemData, ModularChastityBeltPersistentData>} */
+function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunction, drawData) {
+	// Only run updates on the player and NPCs
+	if (drawData.C.ID !== 0 && drawData.C.MemberNumber !== null) return;
+	
+	const persistentData = drawData.PersistentData();
+	if (typeof persistentData.Cooldown !== "number") persistentData.Cooldown = 0;
+	if (typeof persistentData.LastMessage !== "number") persistentData.LastMessage = CommonTime();
+	if (typeof persistentData.DenyDetected !== "boolean") persistentData.DenyDetected = false;
+	if (typeof persistentData.OrgasmDetected !== "boolean") persistentData.OrgasmDetected = false;
+	if (typeof persistentData.ChatroomCheck !== "boolean") persistentData.ChatroomCheck = false;
+
+	//Cooldown check
+	if (persistentData.Cooldown > CommonTime()) {
+		return; //If cooldown hasn't passed yet, do nothing
+	}
+
+	var isPlayerInChatRoom = ServerPlayerIsInChatRoom()
+
+	if (!persistentData.ChatroomCheck)
+	{
+		//Player freshly entered a room
+		persistentData.ChatroomCheck = isPlayerInChatRoom;
+		persistentData.Cooldown = CommonTime() + 3000;
+		return;
+	}
+	persistentData.ChatroomCheck = isPlayerInChatRoom;
+
+	persistentData.Cooldown = CommonTime() + 500;
+
+	const itemType = (ModularItemDeconstructType(drawData.Item.Property.Type) || []);
+	let Item = drawData.Item;
+	let C = drawData.C;
+
+	/** @type {ItemProperties} */
+	const property = (drawData.Item.Property = drawData.Item.Property || {});
+
+	//Shock check
+	if (!itemType.includes("s0")) {
+		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
+				
+		if (!Item.Property) 
+			return;
+
+		const punishment = InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, persistentData.OrgasmDetected, isPlayerInChatRoom);
+		if (punishment) {
+			PropertyShockPublishAction(C, Item, true);
+
+			switch (punishment) {
+				case "StruggleOther":
+				case "Struggle":
+					StruggleProgressStruggleCount = 0;
+					StruggleProgress = 0;
+					DialogLeaveDueToItem = true;
+					break;
+				case "StandUp":
+					InventoryItemPelvisModularChastityBeltForceKneel();
+					break;
+			}
+		}
+	}
+
+	//Orgasm check
+	if (C.ArousalSettings && C.ArousalSettings.OrgasmStage && C.ArousalSettings.OrgasmStage > 1)
+	{
+		//Player is having an orgasm
+		if (!persistentData.OrgasmDetected){
+			property.OrgasmCount += 1;
+			persistentData.OrgasmDetected = true;
+		}
+	} else {
+		persistentData.OrgasmDetected = false;
+	}
+	//Ruined orgasm check
+	if (C.ArousalSettings && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0) && C.HasEffect("DenialMode") && C.HasEffect("RuinOrgasms"))
+	{
+		//Player is being denied
+		if (!persistentData.DenyDetected){
+			property.RuinedOrgasmCount += 1;
+			persistentData.DenyDetected = true;
+		}
+	} else {
+		persistentData.DenyDetected = false;
+	}
+
+	//Voice control check
+	
+	let lastMsgIndex = ChatRoomChatLog.length - 1;
+	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.LastMessage) {
+		if (!itemType.includes("v0")) {
+			InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, persistentData.LastMessage, itemType);
+		}
+		persistentData.LastMessage = ChatRoomChatLog[lastMsgIndex].Time;
+	}
+}
+
+/**
+ * @param {ModularItemData} data
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {number} LastTime
+ * @param {string[]} ItemType
+ * @returns {boolean}
+ */
+function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTime, ItemType) { 
+	var result = false;
+	if (!Item) return result;
+	if (!Item.Property) {
+		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
+		const args = [C, Item, true, true];
+		CommonCallFunctionByNameWarn(`${data.functionPrefix}Init`, ...args);
+	}
+
+	var TriggerValues = Item.Property.TriggerValues && Item.Property.TriggerValues.split(',');
+	if (!TriggerValues) TriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggers;
+	
+	// Search from latest message backwards, allowing early exit
+	for (let CH = ChatRoomChatLog.length - 1; CH >= 0; CH--) {
+		const logEntry = ChatRoomChatLog[CH];
+
+		// Messages are in order, no need to keep looping
+		if (logEntry.Time <= LastTime) break;
+
+		// Skip messages from unauthorized users
+		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
+		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
+		
+		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
+		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
+		
+		var msg = InventoryItemPelvisModularChastityBeltDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
+		if (msg.length > 0) {
+			var triggers = [];
+			for (var i = 0; i<msg.length; i++)
+			{
+				triggers.push(InventoryItemPelvisModularChastityBeltVoiceTriggers[msg[i]]);
+			}
+			var newOption = null;
+
+			//vibrator modes, can only pick one
+			if (triggers.includes("Disable")) {
+				newOption = "i0";
+			} else if (triggers.includes("Increase")) {
+				newOption = "Increase";
+			} else if (triggers.includes("Decrease")) {
+				newOption = "Decrease";
+			}
+
+			if (newOption !== null) {
+				result = true;
+				var newItemType = "";
+				for (var i = 0; i<ItemType.length; i++) {
+					if (ItemType[i].includes("i")) {
+						if (newOption.includes("Increase")) {
+							var intensity = Number(ItemType[i][1]);
+							newOption = "i"+`${Math.min(4, intensity+1)}`;
+						} else if (newOption.includes("Decrease")) {
+							var intensity = Number(ItemType[i][1]);
+							newOption = "i"+`${Math.max(0, intensity-1)}`;
+						}
+						newItemType = newItemType.concat(newOption);
+					}
+					else newItemType = newItemType.concat(ItemType[i]);
+				}
+				ModularItemSetOptionByName(C, Item, newItemType);
+				const Dictionary = new DictionaryBuilder()
+					.sourceCharacter(Player)
+					.destinationCharacter(C)
+					.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+					.build();
+				ChatRoomPublishCustomAction("ItemPelvisModularChastityBeltSet"+newOption, true, Dictionary);
+			}
+
+			//triggered actions
+			if (triggers.includes("Shock")) PropertyShockPublishAction(C, Item, true);
+		}
+	}
+	return result;
+}
+
+/**
+ * @param {string} msg
+ * @param {readonly string[]} TriggerValues
+ * @returns {number[]}
+ */
+function InventoryItemPelvisModularChastityBeltDetectMsg(msg, TriggerValues) {
+	var commandsReceived = [];
+
+	// If the message is OOC, just return immediately
+	if (msg.indexOf('(') == 0) return commandsReceived;
+
+	for (let I = 0; I < TriggerValues.length; I++) {
+		// Don't execute arbitrary regex
+		let regexString = TriggerValues[I].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+		// Allow `*` wildcard, and normalize case
+		regexString = regexString.replace(/\*/g, ".*");//regexString.replaceAll("\\*", ".*")
+		regexString = regexString.toUpperCase();
+
+		const nonLatinCharRegex = new RegExp('^([^\\x20-\\x7F]|\\\\.\\*)+$');
+		let triggerRegex;
+
+		// In general, in most of the Asian language, the full sentence will be considered as one whole word
+		// Because how regex consider word boundaries to be position between \w -> [A-Za-z0-9_] and \W.
+
+		// So if commands are set to those languages, the command will never be triggered.
+		// Or if the command is not a word
+		// This enhancement should allow Asian language commands, and also emoji/special characters
+		// (e.g. A symbol such as ↑ or ↓, Languages in CJK group such as Chinese, Japanese, and Korean.)
+		// This should be a fun addition to boost the user's experience.
+		if (nonLatinCharRegex.test(regexString)) {
+			triggerRegex = new RegExp(regexString);
+		} else {
+			triggerRegex = new RegExp(`\\b${regexString}\\b`);
+		}
+		const success = triggerRegex.test(msg);
+
+		if (success) commandsReceived.push(I);
+	}
+	return commandsReceived;
+}
+
+/**
+ * @param {Item} Item
+ * @param {Character} C
+ * @param {boolean} OrgasmDetected
+ * @param {boolean} isPlayerInChatRoom
+ */
+function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetected, isPlayerInChatRoom) {
+	const { PunishOrgasm, PunishStruggle, PunishStruggleOther, PunishStandup } = Item.Property;
+	if (PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1 && !OrgasmDetected) {
+		// Punish the player if they orgasm
+		return "Orgasm";
+	} else if (PunishStruggleOther && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
+		// Punish the player if they Struggle with any item
+		return "StruggleOther";
+	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
+		for (var Z = 0; Z < InventoryItemPelvisFuturisticChastityBeltTamperZones.length; Z++)
+			if (C.FocusGroup.Name == InventoryItemPelvisFuturisticChastityBeltTamperZones[Z])
+				return "Struggle";
+	} else if (InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom)) {
+		// Punish the player if they stand up
+		FuturisticTrainingBeltStandUpFlag = false;
+		return "StandUp";
+	}
+	return null;
+}
+
+/**
+ * @param {boolean} PunishStandup
+ * @param {Character} C
+ * @param {boolean} isPlayerInChatRoom
+ * @returns {boolean}
+ */
+function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom) {
+	return PunishStandup && C.CanKneel() && !C.IsKneeling() && isPlayerInChatRoom;
+}
+
+function InventoryItemPelvisModularChastityBeltForceKneel() {
+	PoseSetActive(Player, "Kneel");
+	ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+}
