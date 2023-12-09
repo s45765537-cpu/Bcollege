@@ -296,6 +296,10 @@ var AudioActions = [
 		GetSoundEffect: AudioVibratorSounds
 	},
 	{
+		IsAction: (data) => data.Content.startsWith("ItemPelvisModularChastityBeltSeti") && !data.Content.endsWith("0"),
+		GetSoundEffect: AudioVibratorSounds
+	},
+	{
 		IsAction: (data) =>
 			data.Type == "Activity" && (data.Content.endsWith('-Slap') || data.Content.endsWith('-Spank')),
 		GetSoundEffect: () => "SpankSkin"

@@ -45,6 +45,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemMisc/WoodenSign/WoodenSign.js",
 	"Screens/Inventory/ItemHood/CanvasHood/CanvasHood.js",
 	"Screens/Inventory/ItemPelvis/ObedienceBelt/ObedienceBelt.js",
+	"Screens/Inventory/ItemPelvis/ModularChastityBelt/ModularChastityBelt.js",
 	"Screens/Inventory/ItemNeckAccessories/CustomCollarTag/CustomCollarTag.js",
 	"Screens/Inventory/ItemNeckAccessories/ElectronicTag/ElectronicTag.js",
 	"Screens/Inventory/ItemNeckRestraints/PetPost/PetPost.js",
