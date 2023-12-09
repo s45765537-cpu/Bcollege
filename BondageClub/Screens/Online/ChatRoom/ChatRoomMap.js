@@ -34,8 +34,10 @@ var ChatRoomMapTileList = [
 	{ ID: 210, Type: "Floor", Style: "Grass" },
 	{ ID: 220, Type: "Floor", Style: "Sand" },
 	{ ID: 230, Type: "Floor", Style: "Gravel" },
+	{ ID: 240, Type: "Floor", Style: "Snow" },
 
-	{ ID: 1000, Type: "Wall", Style: "Wood" },
+	{ ID: 1000, Type: "Wall", Style: "MixedWood" },
+	{ ID: 1001, Type: "Wall", Style: "CedarWood" },
 	{ ID: 1010, Type: "Wall", Style: "Log" },
 	{ ID: 1020, Type: "Wall", Style: "Japanese" },
 	{ ID: 1030, Type: "Wall", Style: "Stone" },
@@ -66,7 +68,8 @@ var ChatRoomMapObjectList = [
 	{ ID: 1030, Type: "FloorItem", Style: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
 	{ ID: 1040, Type: "FloorItem", Style: "Trolley", Top: -1, Height: 2, AssetName: "Trolley", AssetGroup: "ItemDevices" },
 	{ ID: 1050, Type: "FloorItem", Style: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
-	{ ID: 1060, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
+	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
+	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
