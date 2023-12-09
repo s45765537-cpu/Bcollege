@@ -11,9 +11,74 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-11-17
-* Last recorded PR: [#4595](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4595)
-* Last recorded commit hash: `690b5782f7e4567523a2a848b3b767e737602a79`
+* Changelog last updated: 2023-12-09
+* Last recorded PR: [#4650](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4650)
+* Last recorded commit hash: `452c167644ad0b0c37475fc7ef1ee737197b275f`
+
+## [R99]
+
+### [Added]
+* Mark - Added a male-compatible smartphone ([#4612](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4612))
+* KyraObscura - Added a new Trolley device ([#4613](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4613), [#4621](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4621)), with a few follow-up fixes from Estsanatlehi ([#4618](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4618)) & Rama ([#4619](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4619))
+* kastenbrotstueck - Added a few new assets: a popcorn bag, a clown nose, fingernails and claws assets ([#4622](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4622))
+* Haruhi - Added a Latex Muzzle Mask ([#4626](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4626))
+* ewhac - Added the ability to reorder saved outfits in the wardrobe ([#4627](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4627))
+* Estsanatlehi - Added a new Extendable Posture Collar from shion ([#4628](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4628), [#4644](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4644), [#4650](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4650))
+* Haruhi - Added a Latex Ring Collar & a Spiked Choker, as well as a new enclosed mode for the Stilleto Heels ([#4645](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4645))
+* Cleon - Added a Zipper Belt and Platform Clogs. ([#4646](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4646), [#4647](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4647))
+* Haruhi - Added a Padded Belt Collar ([#4648](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4648))
+* YuccaThePlant - Added a new Modular Chastity belt and Gag ([#4649](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4649))
+* Ben987 - Implemented a whole new map system inside chat rooms that can be edited by room admins
+
+### [Removed]
+* Nothing this release
+
+### [Changed]
+* Rama - Fixed a misalignment of the `ItemHandheld` bun plush variant ([#4599](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4599))
+* Cleon - Added Anime Lenses to the mask cloth group. ([#4580](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4580))
+* Estsanatlehi - Tweaked the message queue from last release to be manually pumped when sending ([#4568](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4568))
+* Estsanatlehi - Moved FullAlpha down at the asset level so that assets can be added to the group without messing with the colors ([#4572](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4572))
+* Rama - Made the auto-generated lock layer explicit if `DrawLocks` is specified ([#4584](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4584))
+* Estsanatlehi - Added AllFours pose support to the Latex Catsuit ([#4592](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4592))
+* Rama - Improved the color pickers support for `Asset.DefaultColor` ([#4601](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4601))
+* Rama - Cleaned up all bed-related pose properties ([#4600](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4600))
+* Rama - Enabled specifying `Top`/`Left` on a pose-by-pose basis ([#4602](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4602))
+* Rama - Removed the `BodyLower` pose-requirements for all bed-like restraints ([#4603](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4603))
+* Rama - Refactored the handling of poses as part of making the pose system more consistent ([#4606](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4606))
+* Rama - Changed the effect icons on items to take into account crafted properties ([#4611](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4611))
+* Estsanatlehi - Separated out ChatRoomDrawCharacter handling of both the draw and clicks ([#4614](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4614))
+* Rama - Changed the `Hogtied` and `AllFours` allowed active pose support to be automatic ([#4624](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4624))
+* Estsanatlehi - Refactored the room slow-leave feature so that it accounts for the pose & worn restraints ([#4631](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4631))
+* Estsanatlehi - Combined the last image drawing function of the canvas-based renderer and removed the need for some extra temporary canvas ([#4640](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4640))
+* ewhac - Improved the Tighten/Loosen UI to make it easier to navigate. ([#4641](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4641))
+* Rama - Enabled ES2020 support in the codebase, with the game showing an error on the login screen if the user's browser doesn't support it ([#4635](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4635))
+* Rama - Replaced `.Type` with `.TypeRecord` as the engine's way to track which state an extended item is in ([#4638](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4638))
+
+### [Fixed]
+* EllieThePink - Changed the username on login & password on relog screens to automatically get the focus ([#4566](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4566))
+* Rama - Fixed the futuristic gag auto inflation tripping up on the `Init` validation ([#4604](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4604))
+* Rama - Properly implemented Advanced vibrator mode support for the vibrating item `Init` validation ([#4605](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4605))
+* EllieThePink - Added missing text for club card kidnapping card prerequisite ([#4609](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4609))
+* Rama - Removed `InventoryAllow` checks from `DialogMenuButtonBuild()` so that the Remove button doesn't disappear on some conflicts ([#4610](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4610))
+* Estsanatlehi - Fixed a crash in `DialogCanUnlock` if there's no item initially ([#4615](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4615))
+* Estsanatlehi - Fixed a crash in `ExtendItemGetIcons` because of a missing constant ([#4616](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4616))
+* Estsanatlehi - Corrected click condition when swapping locked items we have the key for ([#4620](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4620))
+* Rama - Fixed the setting of `BodyHands` poses being broken ([#4637](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4637))
+* Rama - Fixed the Variable Height archetype not pushing any changes to the server ([#4639](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4639))
+* Rama - Fixed `Character.ActivePose` not updating ([#4642](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4642))
+
+### [Technical]
+* Rama - Added a script for dumping and comparing all asset layer pose mappings ([#4593](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4593))
+* Rama - Added a test to verify that `SetPose` contains only one pose per category ([#4607](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4607))
+* Rama - Reviewed allowed `BodyLower` poses and add aliases for all standing/kneeling pose names ([#4608](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4608))
+* Estsanatlehi - Silenced a warning for use of the server-enforced limit as-a-string ([#4617](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4617))
+* Estsanatlehi - Moved effect documentation to its own object and replaced uses across the definition file ([#4625](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4625))
+* Rama - Added a script for sorting .csv files ([#4623](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4623), [#4630](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4630))
+* Estsanatlehi - Added a couple GGTS helpers to cut down on the long conditions ([#4632](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4632))
+* Estsanatlehi - Split the self-menu Draw/Click handlers into their own functions ([#4633](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4633))
+* Rama - Removed the `KneelFreeze` effect ([#4636](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4636))
+* Estsanatlehi - Changed the last chatroom data to be an actual chatroom object and repacking it on login ([#4634](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4634))
+* Estsanatlehi - Globally replaced all the .ID == 0 checks to use the .IsPlayer() function ([#4643](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4643))
 
 ## [R98]
 
@@ -87,6 +152,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Made the petbed pose requirements less strict ([#4590](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4590))
 * Rama - Changed the unassisted kneeling check to account all standing poses ([#4595](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4595))
 
+### [Hotfixes]
+* Rama - Fixed a validation loop triggered by the love chastity belt ([#4597](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4597))
+* Rama - Fixed a missing glove asset and diaper pose restrictions ([#4598](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4598))
 
 ## [R97]
 
