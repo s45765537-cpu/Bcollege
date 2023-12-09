@@ -19,7 +19,7 @@ function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) 
 	if (data.currentModule === "VoiceControl") {
 		InventoryItemPelvisModularChastityBeltDrawVoiceControl(0);
 	} else {
-		InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup()
+		InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup();
 	}
 }
 
@@ -27,21 +27,21 @@ function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) 
  * @param {number} _offset //How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltDrawIntensity(_offset)
-{		
+{
 	// Display option information
 	MainCanvas.textAlign = "right";
-	
+
 	DrawText(DialogFindPlayer("ModularChastityBeltOrgasmCount") + ":", 1680, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(DialogFindPlayer("ModularChastityBeltDenyCount") + ":", 1680, 550 + 1*75 + _offset, "White", "Gray");
 
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.OrgasmCount}`, 1690, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(`${DialogFocusItem.Property.RuinedOrgasmCount}`, 1690, 550 + 1*75 + _offset, "White", "Gray");
-		
+
 	MainCanvas.textAlign = "center";
 
 	// Display the ShowText checkbox
-		
+
 	// Display the manual button
 	ExtendedItemCustomDraw("ModularChastityBeltResetOrgasm", 1260, 550-27 + 0*75 + _offset, null, false, false);
 	ExtendedItemCustomDraw("ModularChastityBeltResetDeny", 1260, 550-27 + 1*75 + _offset, null, false, false);
@@ -52,7 +52,7 @@ function InventoryItemPelvisModularChastityBeltDrawIntensity(_offset)
  */
 function InventoryItemPelvisModularChastityBeltDrawShockModule(_offset)
 {
-		
+
 	// Display option information
 	MainCanvas.textAlign = "right";
 	DrawText(DialogFindPlayer("ModularChastityBeltShockCount") + ":", 1650, 550 + 0*75 + _offset, "White", "Gray");
@@ -102,7 +102,7 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
 	);
-	
+
 	//Create inputs
 	if (!DialogFocusItem.Property.TriggerValues) DialogFocusItem.Property.TriggerValues = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggers);
 	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
@@ -122,8 +122,8 @@ function InventoryItemPelvisModularChastityBeltExitHook(data, originalFunction) 
 	InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup();
 }
 
-/** 
- * @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} 
+/**
+ * @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>}
 */
 function InventoryItemPelvisModularChastityBeltClickHook(data, OriginalFunction) {
 
@@ -269,26 +269,26 @@ function InventoryItemPelvisModularChastityBeltClickShockModule(_offset){
 		return;
 	}
 
-	if (MouseIn(1510, 520 + 1*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+	if (MouseIn(1510, 520 + 1*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {
 		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "ShowText", () => DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText, false, false);
 		return;
-	} 
-	if (MouseIn(1510, 520 + 2*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+	}
+	if (MouseIn(1510, 520 + 2*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {
 		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishOrgasm", () => DialogFocusItem.Property.PunishOrgasm = !DialogFocusItem.Property.PunishOrgasm, false, false);
 		return;
-	} 
-	if (MouseIn(1510, 520 + 3*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+	}
+	if (MouseIn(1510, 520 + 3*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {
 		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStruggle", () => DialogFocusItem.Property.PunishStruggle = !DialogFocusItem.Property.PunishStruggle, false, false);
 		return;
-	} 
-	if (MouseIn(1510, 520 + 4*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+	}
+	if (MouseIn(1510, 520 + 4*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {
 		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStruggleOther", () => DialogFocusItem.Property.PunishStruggleOther = !DialogFocusItem.Property.PunishStruggleOther, false, false);
 		return;
-	} 
-	if (MouseIn(1510, 520 + 5*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {	
+	}
+	if (MouseIn(1510, 520 + 5*75 + _offset, 64, 64) && !ExtendedItemPermissionMode) {
 		ExtendedItemCustomClickAndPush(CharacterGetCurrent(), DialogFocusItem, "PunishStandup", () => DialogFocusItem.Property.PunishStandup = !DialogFocusItem.Property.PunishStandup, false, false);
 		return;
-	} 
+	}
 }
 
 /**
@@ -299,7 +299,7 @@ function InventoryItemPelvisModularChastityBeltClickShockModule(_offset){
 function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunction, drawData) {
 	// Only run updates on the player and NPCs
 	if (drawData.C.ID !== 0 && drawData.C.MemberNumber !== null) return;
-	
+
 	const persistentData = drawData.PersistentData();
 	if (typeof persistentData.Cooldown !== "number") persistentData.Cooldown = 0;
 	if (typeof persistentData.LastMessage !== "number") persistentData.LastMessage = CommonTime();
@@ -312,7 +312,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 		return; //If cooldown hasn't passed yet, do nothing
 	}
 
-	var isPlayerInChatRoom = ServerPlayerIsInChatRoom()
+	var isPlayerInChatRoom = ServerPlayerIsInChatRoom();
 
 	if (!persistentData.ChatroomCheck)
 	{
@@ -335,8 +335,8 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	//Shock check
 	if (!itemType.includes("s0")) {
 		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
-				
-		if (!Item.Property) 
+
+		if (!Item.Property)
 			return;
 
 		const punishment = InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, persistentData.OrgasmDetected, isPlayerInChatRoom);
@@ -381,7 +381,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	}
 
 	//Voice control check
-	
+
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.LastMessage) {
 		if (!itemType.includes("v0")) {
@@ -399,7 +399,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
  * @param {string[]} ItemType
  * @returns {boolean}
  */
-function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTime, ItemType) { 
+function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTime, ItemType) {
 	var result = false;
 	if (!Item) return result;
 	if (!Item.Property) {
@@ -410,7 +410,7 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 
 	var TriggerValues = Item.Property.TriggerValues && Item.Property.TriggerValues.split(',');
 	if (!TriggerValues) TriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggers;
-	
+
 	// Search from latest message backwards, allowing early exit
 	for (let CH = ChatRoomChatLog.length - 1; CH >= 0; CH--) {
 		const logEntry = ChatRoomChatLog[CH];
@@ -421,10 +421,10 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 		// Skip messages from unauthorized users
 		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
 		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
-		
+
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
-		
+
 		var msg = InventoryItemPelvisModularChastityBeltDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
 		if (msg.length > 0) {
 			var triggers = [];

@@ -18296,13 +18296,13 @@ var AssetFemale3DCG = [
 					},
 
 					//Belt
-					{ 
+					{
 						Name: "InvisibleBeltRubber",
 						ParentGroup: null,
 						AllowModuleTypes: ["a0"],
 						HasType: false,
-					}, 
-					{ 
+					},
+					{
 						Name: "InvisibleBeltMetal",
 						ColorGroup: "Metal",
 						ParentGroup: null,
@@ -18310,30 +18310,30 @@ var AssetFemale3DCG = [
 						HasType: false,
 					},
 
-					{ 
+					{
 						Name: "ClassicBeltRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
-					}, 
-					{ 
+					},
+					{
 						Name: "ClassicBeltMetal",
 						CopyLayerColor: "InvisibleBeltMetal",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
-					}, 
+					},
 
 					//Shield
-					{ 
+					{
 						Name: "InvisibleShieldOpenRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						ParentGroup: null,
 						AllowModuleTypes: ["a0"],
 						HasType: false,
-					}, 
-					{ 
+					},
+					{
 						Name: "InvisibleShieldOpenMetal",
 						ColorGroup: "Metal",
 						ParentGroup: null,
@@ -18342,38 +18342,38 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["PenisLayer"]
 					},
 
-					{ 
+					{
 						Name: "ClassicShieldOpenVRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
 						HideForAttribute: ["PenisLayer"]
-					}, 
-					{ 
+					},
+					{
 						Name: "ClassicShieldOpenVMetal",
 						CopyLayerColor: "InvisibleShieldOpenMetal",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
 						HideForAttribute: ["PenisLayer"]
-					}, 
-					{ 
+					},
+					{
 						Name: "ClassicShieldOpenPRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
 						ShowForAttribute: ["PenisLayer"]
-					}, 
-					{ 
+					},
+					{
 						Name: "ClassicShieldOpenPMetal",
 						CopyLayerColor: "InvisibleShieldOpenMetal",
 						ParentGroup: null,
 						AllowModuleTypes: ["a1"],
 						HasType: false,
 						ShowForAttribute: ["PenisLayer"]
-					}, 
+					},
 
 					{
 						Name: "InvisibleBeltShieldV",
@@ -26520,35 +26520,35 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
 				Layer: [
-							{
-								Name: "Base",
-								AllowColorize: true,
-							},
-							{
-								Name: "Belt",
-								AllowColorize: true,
-							},
-							{
-								Name: "Metal",
-								Priority: 35,
-								AllowColorize: true,
-							},
-							{
-								Name: "Padding",
-								Priority: 35,
-								AllowColorize: true,
-							},
-							{
-								Name: "Trim",
-								Priority: 35,
-								AllowColorize: true,
-							},
-							{
-								Name: "Lock",
-								Priority: 35,
-								AllowColorize: true,
-								LockLayer: true,
-							}
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Belt",
+						AllowColorize: true,
+					},
+					{
+						Name: "Metal",
+						Priority: 35,
+						AllowColorize: true,
+					},
+					{
+						Name: "Padding",
+						Priority: 35,
+						AllowColorize: true,
+					},
+					{
+						Name: "Trim",
+						Priority: 35,
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						Priority: 35,
+						AllowColorize: true,
+						LockLayer: true,
+					}
 				],
 			},
 		],
@@ -29163,16 +29163,16 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer: 
+				Layer:
 				[
 					//Mouths
-					{ 
+					{
 						Name: "BallIn",
 						HasType: false,
 						AllowColorize: false,
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
-					{ 
+					{
 						Name: "BallLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -29180,14 +29180,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
 
-					{ 
+					{
 						Name: "RingIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
-					{ 
+					{
 						Name: "RingLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -29195,14 +29195,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
 
-					{ 
+					{
 						Name: "BitIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
 					},
-					{ 
+					{
 						Name: "BitLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -30631,16 +30631,16 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer: 
+				Layer:
 				[
 					//Mouths
-					{ 
+					{
 						Name: "BallIn",
 						HasType: false,
 						AllowColorize: false,
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
-					{ 
+					{
 						Name: "BallLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -30648,14 +30648,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
 
-					{ 
+					{
 						Name: "RingIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
-					{ 
+					{
 						Name: "RingLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -30663,14 +30663,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
 
-					{ 
+					{
 						Name: "BitIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
 					},
-					{ 
+					{
 						Name: "BitLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -32244,16 +32244,16 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer: 
+				Layer:
 				[
 					//Mouths
-					{ 
+					{
 						Name: "BallIn",
 						HasType: false,
 						AllowColorize: false,
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
-					{ 
+					{
 						Name: "BallLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -32261,14 +32261,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g0", "g2"], //Any Ballgag
 					},
 
-					{ 
+					{
 						Name: "RingIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
-					{ 
+					{
 						Name: "RingLips",
 						HasType: false,
 						InheritColor: "Mouth",
@@ -32276,14 +32276,14 @@ var AssetFemale3DCG = [
 						AllowModuleTypes: ["g3", "g4"], //Any Ringgag
 					},
 
-					{ 
+					{
 						Name: "BitIn",
 						HasType: false,
 						CopyLayerColor: "BallIn",
 						AllowColorize: false,
 						AllowModuleTypes: ["g5", "g6"], //Any Bitgag
 					},
-					{ 
+					{
 						Name: "BitLips",
 						HasType: false,
 						InheritColor: "Mouth",
