@@ -325,15 +325,15 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 
 	persistentData.Cooldown = CommonTime() + 500;
 
-	const itemType = (ModularItemDeconstructType(drawData.Item.Property.Type) || []);
-	let Item = drawData.Item;
-	let C = drawData.C;
+	const itemType = drawData.Item.Property.TypeRecord;
+	const Item = drawData.Item;
+	const C = drawData.C;
 
 	/** @type {ItemProperties} */
 	const property = (drawData.Item.Property = drawData.Item.Property || {});
 
 	//Shock check
-	if (!itemType.includes("s0")) {
+	if (itemType.s !== 0) {
 		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
 
 		if (!Item.Property)
@@ -384,7 +384,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.LastMessage) {
-		if (!itemType.includes("v0")) {
+		if (itemType.v !== 0) {
 			InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, persistentData.LastMessage, itemType);
 		}
 		persistentData.LastMessage = ChatRoomChatLog[lastMsgIndex].Time;
@@ -396,12 +396,10 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
  * @param {Character} C
  * @param {Item} Item
  * @param {number} LastTime
- * @param {string[]} ItemType
- * @returns {boolean}
+ * @param {TypeRecord} ItemType
  */
 function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTime, ItemType) {
-	var result = false;
-	if (!Item) return result;
+	if (!Item) return;
 	if (!Item.Property) {
 		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 		const args = [C, Item, true, true];
@@ -427,52 +425,41 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 
 		var msg = InventoryItemPelvisModularChastityBeltDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
 		if (msg.length > 0) {
-			var triggers = [];
-			for (var i = 0; i<msg.length; i++)
-			{
+			const triggers = [];
+			for (let i = 0; i < msg.length; i++) {
 				triggers.push(InventoryItemPelvisModularChastityBeltVoiceTriggers[msg[i]]);
 			}
-			var newOption = null;
 
+			let chatMessage;
 			//vibrator modes, can only pick one
-			if (triggers.includes("Disable")) {
-				newOption = "i0";
-			} else if (triggers.includes("Increase")) {
-				newOption = "Increase";
-			} else if (triggers.includes("Decrease")) {
-				newOption = "Decrease";
+			if (triggers.includes("Disable") && ItemType.i !== 0) {
+				ItemType.i = 0;
+				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
+			} else if (triggers.includes("Increase") && ItemType.i < 4) {
+				ItemType.i = ItemType.i + 1;
+				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
+			} else if (triggers.includes("Decrease") && ItemType.i > 0) {
+				ItemType.i = ItemType.i - 1;
+				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
 			}
 
-			if (newOption !== null) {
-				result = true;
-				var newItemType = "";
-				for (var i = 0; i<ItemType.length; i++) {
-					if (ItemType[i].includes("i")) {
-						if (newOption.includes("Increase")) {
-							var intensity = Number(ItemType[i][1]);
-							newOption = "i"+`${Math.min(4, intensity+1)}`;
-						} else if (newOption.includes("Decrease")) {
-							var intensity = Number(ItemType[i][1]);
-							newOption = "i"+`${Math.max(0, intensity-1)}`;
-						}
-						newItemType = newItemType.concat(newOption);
-					}
-					else newItemType = newItemType.concat(ItemType[i]);
-				}
-				ModularItemSetOptionByName(C, Item, newItemType);
+			if (chatMessage) {
+				// FIXME: this needs to cause an actual update of the item's effects
+				ExtendedItemSetOptionByRecord(C, Item, ItemType);
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(C)
 					.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
 					.build();
-				ChatRoomPublishCustomAction("ItemPelvisModularChastityBeltSet"+newOption, true, Dictionary);
+				ChatRoomPublishCustomAction(chatMessage, true, Dictionary);
 			}
 
 			//triggered actions
-			if (triggers.includes("Shock")) PropertyShockPublishAction(C, Item, true);
+			if (triggers.includes("Shock")) {
+				PropertyShockPublishAction(C, Item, true);
+			}
 		}
 	}
-	return result;
 }
 
 /**
