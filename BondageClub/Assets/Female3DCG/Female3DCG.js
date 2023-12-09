@@ -26518,6 +26518,7 @@ var AssetFemale3DCG = [
 				Difficulty: 50,
 				Time: 5,
 				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
 				Layer: [
 					{

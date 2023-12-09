@@ -3766,12 +3766,12 @@ ItemPelvisModularChastityBeltOptions2,,,Medium,,
 ItemPelvisModularChastityBeltOptions3,,,High,,
 ItemPelvisModularChastityBeltOptionv0,,,Off,,
 ItemPelvisModularChastityBeltOptionv1,,,On,,
-ItemPelvisModularChastityBeltSeta0,,,SourceCharacter changes design of DestinationCharacter AssetName to slim design.
-ItemPelvisModularChastityBeltSeta1,,,SourceCharacter changes design of DestinationCharacter AssetName to classic design.
-ItemPelvisModularChastityBeltSetc0,,,SourceCharacter opens up both shields on DestinationCharacter AssetName.
-ItemPelvisModularChastityBeltSetc1,,,SourceCharacter closes front shield on DestinationCharacter AssetName.
-ItemPelvisModularChastityBeltSetc2,,,SourceCharacter closes back shield on DestinationCharacter AssetName.
-ItemPelvisModularChastityBeltSetc3,,,SourceCharacter closes both shields on DestinationCharacter AssetName.
+ItemPelvisModularChastityBeltSeta0,,,SourceCharacter changes design of DestinationCharacter AssetName to slim design.,,
+ItemPelvisModularChastityBeltSeta1,,,SourceCharacter changes design of DestinationCharacter AssetName to classic design.,,
+ItemPelvisModularChastityBeltSetc0,,,SourceCharacter opens up both shields on DestinationCharacter AssetName.,,
+ItemPelvisModularChastityBeltSetc1,,,SourceCharacter closes front shield on DestinationCharacter AssetName.,,
+ItemPelvisModularChastityBeltSetc2,,,SourceCharacter closes back shield on DestinationCharacter AssetName.,,
+ItemPelvisModularChastityBeltSetc3,,,SourceCharacter closes both shields on DestinationCharacter AssetName.,,
 ItemPelvisModularChastityBeltSeti0,,,DestinationCharacterName AssetName stops vibrating.,,
 ItemPelvisModularChastityBeltSeti1,,,DestinationCharacterName AssetName teases lightly.,,
 ItemPelvisModularChastityBeltSeti2,,,DestinationCharacterName AssetName hums moderately.,,
