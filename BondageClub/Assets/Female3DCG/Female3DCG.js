@@ -13622,6 +13622,19 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes11", FullAlpha: false },
 			{ Name: "Eyes12", FullAlpha: false },
 			{ Name: "Eyes13", FullAlpha: false },
+			{
+				Name: "Eyes14",
+				 DefaultColor: ["Default", "Default", "#9A4394"],
+				 Layer: [
+					 { Name: "1", HasType: false, AllowColorize: true },
+					 { Name: "2", HasType: false, AllowColorize: true },
+					 { Name: "2i", HasType: false, AllowColorize: false },
+					 { Name: "3", HasType: false, AllowColorize: true },
+					 { Name: "4", HasType: false, AllowColorize: true },
+					 { Name: "5", HasType: false, AllowColorize: true },
+					 { Name: "6", HasType: false, AllowColorize: true },
+				 ],
+			 },
 		],
 		Color: [
 			"Default",
@@ -13802,6 +13815,19 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes11", ParentItem: "Eyes11", FullAlpha: false },
 			{ Name: "Eyes12", ParentItem: "Eyes12", FullAlpha: false },
 			{ Name: "Eyes13", ParentItem: "Eyes13", FullAlpha: false },
+			{
+				Name: "Eyes14", ParentItem: "Eyes14", 
+				 DefaultColor: ["Default", "Default", "#9A4394"],
+				 Layer: [
+					 { Name: "1", HasType: false, AllowColorize: true },
+					 { Name: "2", HasType: false, AllowColorize: true },
+					 { Name: "2i", HasType: false, AllowColorize: false },
+					 { Name: "3", HasType: false, AllowColorize: true },
+					 { Name: "4", HasType: false, AllowColorize: true },
+					 { Name: "5", HasType: false, AllowColorize: true },
+					 { Name: "6", HasType: false, AllowColorize: true },
+				 ],
+			 },
 		],
 		Color: [
 			"Default",
