@@ -38269,6 +38269,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				Extended: true,
 				FixedPosition: true,
+				Effect: [E.Mounted],
 			},
 			{
 				Name: "Cushion",
