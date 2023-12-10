@@ -18,6 +18,12 @@ Private (Need exact name to find it)
 私有 (需要名称完全正确才能搜索到)
 Locked (Only admins can leave or enter)
 锁定 (只有管理员能够进入或离开)
+Never use the map exploration
+永不使用地图探索
+Hybrid map, can go on and off
+混合地图，能够开关
+Only use the map, no regular chat
+只使用地图，没有常规聊天
 Select the background
 选择背景
 Size (2-10)

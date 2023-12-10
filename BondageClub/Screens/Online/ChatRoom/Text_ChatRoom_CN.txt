@@ -68,3 +68,13 @@ PLAYERNAME has been selected randomly to start the game.
 PLAYERNAME被随机选择开始游戏。
 PLAYERNAME has joined the Club Card game.
 PLAYERNAME加入了俱乐部卡牌游戏。
+The current map data has been copied to your clipboard.  Paste it somewhere else to save it.
+当前地图数据已经复制到了你的剪贴板中。粘贴到其他地方来保存。
+There's no map data to copy.
+没有可以复制的地图数据。
+Your pasted map data is loaded.
+你复制的地图数据已经加载。
+Your pasted map data cannot be loaded.
+你粘贴的地图数据无法加载
+Only room administrators can paste the map.
+只有房间管理员能够粘贴地图。

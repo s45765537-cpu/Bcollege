@@ -20,6 +20,8 @@ Show character in previews
 在预览中显示角色
 Strip item
 脱下物品
+Reorder Items
+排列物品
 Next
 下一页
 Previous
@@ -40,9 +42,9 @@ Unable to use due to player permissions
 因权限设定无法使用
 Select a color
 选择一种颜色
-Select colors
-选择颜色
 Unable to change color due to player permissions
 因权限设定无法修改颜色
+Select colors
+选择颜色
 blocked by owner
 被主人屏蔽
