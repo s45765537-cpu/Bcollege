@@ -1424,7 +1424,7 @@ interface Character {
 }
 
 interface ExtensionSettings {
-
+	[key: string]: any;
 }
 
 interface PlayerCharacter extends Character {
