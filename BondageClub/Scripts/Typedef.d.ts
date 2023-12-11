@@ -229,9 +229,7 @@ type AssetGroupItemName =
 	'ItemMouth3' | 'ItemNeck' | 'ItemNeckAccessories' | 'ItemNeckRestraints' |
 	'ItemNipples' | 'ItemNipplesPiercings' | 'ItemNose' | 'ItemPelvis' |
 	'ItemTorso' | 'ItemTorso2'| 'ItemVulva' | 'ItemVulvaPiercings' |
-	'ItemHandheld' |
-
-	'ItemHidden' /* TODO: investigate, not a real group */
+	'ItemHandheld'
 	;
 
 type AssetGroupScriptName = 'ItemScript';

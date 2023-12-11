@@ -617,7 +617,7 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 560]] },
 				],
-				Hide: ["ItemNeck", "ItemHidden"],
+				Hide: ["ItemNeck"],
 				HideItem: [
 					"ClothLowerLatexSkirt1",
 					"ClothLowerLatexSkirt2",
@@ -655,7 +655,6 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 560]] },
 				],
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",
@@ -682,7 +681,6 @@ var AssetFemale3DCG = [
 				Name: "StudentOutfit3",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -717,7 +715,7 @@ var AssetFemale3DCG = [
 				Name: "TeacherOutfit1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Hide: ["ItemNeck", "ItemHidden"],
+				Hide: ["ItemNeck"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",
@@ -837,7 +835,6 @@ var AssetFemale3DCG = [
 				Name: "TennisShirt1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -891,7 +888,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL"],
 				Value: 60,
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ClothLowerLatexSkirt1",
 					"ClothLowerLatexSkirt2",
@@ -1032,7 +1028,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 30,
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ClothLowerLatexSkirt1",
 					"ItemNipplesPiercingsRoundPiercing",
@@ -1247,7 +1242,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "SteampunkCorsetTop1",
 				Priority: 25,
 				Value: 70,
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ClothLowerTennisSkirt1",
 					"ItemNipplesPiercingsRoundPiercing",
@@ -1604,7 +1598,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 30,
-				Hide: ["ItemNeck", "ItemHidden"],
+				Hide: ["ItemNeck"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",
@@ -5533,7 +5527,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "SteampunkCorsetTop1",
 				Priority: 25,
 				Value: 70,
-				Hide: ["ItemHidden"],
 				HideItem: [
 					"ClothLowerTennisSkirt1",
 					"ItemNipplesPiercingsRoundPiercing",
@@ -37127,7 +37120,6 @@ var AssetFemale3DCG = [
 					"Socks",
 					"SocksRight",
 					"SocksLeft",
-					"ItemHidden",
 					"ItemNipplesPiercings",
 					"ItemTorso",
 					"ItemTorso2",
