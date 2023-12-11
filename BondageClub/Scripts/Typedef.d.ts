@@ -1512,6 +1512,9 @@ interface PlayerCharacter extends Character {
 		AllowTints: boolean;
 	};
 	/** The chat room we were previous in. Used for relog room re-creation */
+	// TODO: the fact that this is set *might* be used to also fold the "relog" enabled checks
+	// If we have a chatroom, then we relog to it. If we don't, then the player didn't have the
+	// setting enabled in the first place
 	LastChatRoom?: ChatRoomSettings;
 	RestrictionSettings?: {
 		BypassStruggle: boolean;
