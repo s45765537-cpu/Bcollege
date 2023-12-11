@@ -14,6 +14,7 @@ var ChatRoomMapEditStarted = false;
 var ChatRoomMapEditObject = null;
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
+var ChatRoomMapEditBackup = [];
 var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
 var ChatRoomMapUpdateLastMapDataNext = null;
@@ -77,6 +78,7 @@ var ChatRoomMapObjectList = [
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
 	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
 	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
+	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
@@ -447,7 +449,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 }
 
 /**
- * Sets the next update flag for the room if it's not already set, the delay is 3 seconds
+ * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
  */
 function ChatRoomMapUpdateFlag() {
@@ -509,7 +511,7 @@ function ChatRoomMapUpdateFlag() {
 	}
 
 	// Sets the flag
-	if (ChatRoomMapUpdateRoomNext == null) ChatRoomMapUpdateRoomNext = CommonTime() + 3000;
+	if (ChatRoomMapUpdateRoomNext == null) ChatRoomMapUpdateRoomNext = CommonTime() + 5000;
 
 }
 
@@ -603,8 +605,11 @@ function ChatRoomMapDraw() {
 		DrawButton(10, 10, 60, 60, "", ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ? "Pink" : "White", "Icons/Small/ShowCharacter.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Plus.png");
 		DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/Minus.png");
-		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
-		if (ChatRoomPlayerIsAdmin()) DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/EditObject.png");
+		if (ChatRoomPlayerIsAdmin()) {
+			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
+			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/EditObject.png");
+			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Undo.png");
+		}
 	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
@@ -739,10 +744,23 @@ function ChatRoomMapMove(D) {
 }
 
 /**
- * Handles keyboard keys in the chat room map screen
+ * Undoes the changes made to the map, from the latest backup in the stack
  * @returns {void} - Nothing
  */
-function ChatRoomMapKeyDown() {
+function ChatRoomMapUndo() {
+	if (ChatRoomMapEditBackup.length > 0) {
+		let LastMap = ChatRoomMapEditBackup.pop();
+		ChatRoomData.MapData = CommonCloneDeep(LastMap);
+		ChatRoomMapUpdateFlag();
+	}
+}
+
+/**
+ * Handles keyboard keys in the chat room map screen
+ * @param {KeyboardEvent} Event - The event that triggered this
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapKeyDown(Event) {
 
 	// ENTER to go back to the chat box
 	if (KeyPress == 13) ElementFocus("InputChat");
@@ -751,11 +769,14 @@ function ChatRoomMapKeyDown() {
 	if (((KeyPress == 43) || (KeyPress == 61)) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
 	if (((KeyPress == 45) || (KeyPress == 95)) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
 
-	// WASD to move
+	// WASD to move, Q is A for AWERTY keyboards
 	if ((KeyPress == 87) || (KeyPress == 119)) ChatRoomMapMove("North");
-	if ((KeyPress == 65) || (KeyPress == 97)) ChatRoomMapMove("West");
+	if ((KeyPress == 65) || (KeyPress == 97) || (KeyPress == 81) || (KeyPress == 113)) ChatRoomMapMove("West");
 	if ((KeyPress == 83) || (KeyPress == 115)) ChatRoomMapMove("South");
 	if ((KeyPress == 68) || (KeyPress == 100)) ChatRoomMapMove("East");
+
+	// Control+Z to undo map changes
+	if ((KeyPress == 26) && Event.ctrlKey && ChatRoomPlayerIsAdmin()) ChatRoomMapUndo();
 
 }
 
@@ -790,6 +811,10 @@ function ChatRoomMapMouseDown() {
 		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
 			ChatRoomMapEditMode = "ObjectType";
 			ChatRoomMapEditSubMode = "";
+			return;
+		}
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
+			ChatRoomMapUndo();
 			return;
 		}
 	}
@@ -912,6 +937,7 @@ function ChatRoomMapMouseMove() {
 
 	// Only in edit mode
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	let Backup = CommonCloneDeep(ChatRoomData.MapData);
 
 	// In tile edit mode
 	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditObject != null)) {
@@ -932,6 +958,13 @@ function ChatRoomMapMouseMove() {
 		}
 		ChatRoomMapUpdateFlag();
 	}
+
+	// If the map was modified, we keep the previous version as backup so we can undo the changes
+	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData.MapData)) {
+		if (ChatRoomMapEditBackup.length > 100) ChatRoomMapEditBackup = ChatRoomMapEditBackup.slice(-100);
+		ChatRoomMapEditBackup.push(Backup);
+	}
+
 }
 
 /**

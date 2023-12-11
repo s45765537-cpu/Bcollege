@@ -1432,13 +1432,13 @@ function ChatRoomSetLastChatRoom(room) {
 	if (room !== null && ChatRoomValidateProperties(room)) {
 		if (!ChatRoomNewRoomToUpdate) {
 			Player.LastChatRoom = ChatRoomGetSettings(room);
+			ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 		}
 	} else {
 		Player.LastChatRoom = null;
+		Player.LastMapData = null;
+		ServerAccountUpdate.QueueData({ LastChatRoom: null, LastMapData: null });
 	}
-
-	// Update the server data with our new last room
-	ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 }
 
 /**
@@ -2278,7 +2278,7 @@ function ChatRoomKeyDown(event) {
 
 	// If the input text is not focused and not on mobile, set the focus to it
 	if (document.activeElement.id != "InputChat") {
-		if (ChatRoomMapVisible) ChatRoomMapKeyDown();
+		if (ChatRoomMapVisible) ChatRoomMapKeyDown(event);
 		else ElementFocus("InputChat");
 	}
 
