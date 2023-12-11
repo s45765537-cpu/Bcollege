@@ -1331,7 +1331,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=n
 		let previousOption;
 		switch (newOption.OptionType) {
 			case "ModularItemOption": {
-				const module = newOption.ParentData.modules[newOption.Index];
+				const module = newOption.ParentData.modules.find(m => m.Name === newOption.ModuleName);
 				previousOption = /** @type {typeof previousOption[]} */(previousOptions).find(o => "ModuleName" in o && o.ModuleName === module.Name) || module.Options[0];
 				break;
 			}

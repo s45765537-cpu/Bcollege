@@ -1540,13 +1540,14 @@ function CharacterGetCurrent() {
 
 /**
  * Compresses a character wardrobe from an array to a LZ string to use less storage space
- * @param {Array.<Array.<*>>} Wardrobe - Uncompressed wardrobe
+ * @param {readonly ItemBundle[][]} Wardrobe - Uncompressed wardrobe
  * @returns {string} - The compressed wardrobe
  */
 function CharacterCompressWardrobe(Wardrobe) {
-	if (Array.isArray(Wardrobe) && (Wardrobe.length > 0)) {
+	if (CommonIsArray(Wardrobe) && (Wardrobe.length > 0)) {
 		var CompressedWardrobe = [];
 		for (let W = 0; W < Wardrobe.length; W++) {
+			/** @type {WardrobeItemBundle[]} */
 			var Arr = [];
 			if (Wardrobe[W] != null)
 				for (let A = 0; A < Wardrobe[W].length; A++)
@@ -1560,24 +1561,34 @@ function CharacterCompressWardrobe(Wardrobe) {
 /**
  * Decompresses a character wardrobe from a LZ String to an array if it was previously compressed (For backward compatibility with old
  * wardrobes)
- * @param {Array.<Array.<*>> | string} Wardrobe - The current wardrobe
- * @returns {Array.<Array.<*>>} - The array of wardrobe items decompressed
+ * @param {ItemBundle[][] | string} Wardrobe - The current wardrobe
+ * @returns {ItemBundle[][]} - The array of wardrobe items decompressed
  */
 function CharacterDecompressWardrobe(Wardrobe) {
-	if (typeof Wardrobe === "string") {
-		var CompressedWardrobe = JSON.parse(LZString.decompressFromUTF16(Wardrobe));
-		var DecompressedWardrobe = [];
-		if (CompressedWardrobe != null) {
-			for (let W = 0; W < CompressedWardrobe.length; W++) {
-				var Arr = [];
-				for (let A = 0; A < CompressedWardrobe[W].length; A++)
-					Arr.push({ Name: CompressedWardrobe[W][A][0], Group: CompressedWardrobe[W][A][1], Color: CompressedWardrobe[W][A][2], Property: CompressedWardrobe[W][A][3] });
-				DecompressedWardrobe.push(Arr);
-			}
-		}
-		return DecompressedWardrobe;
+	if (typeof Wardrobe !== "string") {
+		return Wardrobe;
 	}
-	return Wardrobe;
+
+	/** @type {null | WardrobeItemBundle[][]} */
+	let compressedWardrobe = null;
+	try {
+		compressedWardrobe = JSON.parse(LZString.decompressFromUTF16(Wardrobe));
+	} catch (error) {
+		console.error("Failed to decompress the passed wardrobe", error);
+	}
+	if (!Array.isArray(compressedWardrobe)) {
+		return [];
+	}
+
+	return compressedWardrobe.map(outfit => {
+		return outfit.map(([ Name, Group, Color, Property ]) => {
+			if (typeof Property?.Type === "string" && !CommonIsObject(Property?.TypeRecord)) {
+				const asset = AssetGet("Female3DCG", Group, Name);
+				Property.TypeRecord = ExtendedItemTypeToRecord(asset, Property.Type);
+			}
+			return { Name, Group, Color, Property };
+		});
+	});
 }
 
 /**

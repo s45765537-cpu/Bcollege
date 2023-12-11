@@ -869,6 +869,14 @@ interface Asset {
 
 type ItemBundle = ServerItemBundle;
 
+/** A tuple-based version of {@link ItemBundle} */
+type WardrobeItemBundle = [
+	Name: string,
+	Group: AssetGroupName,
+	Color?: ItemColor,
+	Property?: ItemProperties,
+];
+
 /** An AppearanceBundle is whole minified appearance of a character */
 type AppearanceBundle = ItemBundle[];
 
@@ -3283,6 +3291,8 @@ interface CraftingItemSelected {
 	Lock: Asset | null;
 	/** Whether the crafted item should be private or not. */
 	Private: boolean;
+	/** @deprectated superceded by {@link TypeRecord} */
+	Type: null | string;
 	/**
 	 * A record for extended items mapping screen names to option indices.
 	 * @see {@link ItemProperties.TypeRecord}
