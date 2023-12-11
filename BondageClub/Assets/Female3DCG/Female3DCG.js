@@ -25520,6 +25520,7 @@ var AssetFemale3DCG = [
 				Top: -30,
 				DynamicGroupName: "ItemMisc",
 				ParentGroup: null,
+				DefaultColor: ["#848484", "#C26969"],
 				Layer: [
 					{ Name: "Base1" },
 					{ Name: "Base2" },
