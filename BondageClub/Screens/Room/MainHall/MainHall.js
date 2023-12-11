@@ -26,6 +26,9 @@ var MainHallTipCycleDelay = 10000;
 var MainHallTipCycleTimer = null;
 var MainHallMaidWasCalledManually = false;
 var MainHallAsylumOpen = true;
+/**
+ * Whether the player just got safeworded out of a chatroom and needs punishment
+ */
 var MainHallBeingPunished = false;
 var MainHallFirstFrame = false;
 /** @type {AssetLockType[]} */
@@ -187,18 +190,24 @@ function MainHallRun() {
 	// Out of punishment mode
 	if (!MainHallBeingPunished) {
 
+		const maidIsReady = MainHallMaid && MainHallMaid.Dialog && MainHallMaid.Dialog.length > 0;
+
 		// We return to the last online chat room if possible
-		if (Player.ImmersionSettings && Player.LastChatRoom && (AsylumGGTSGetLevel(Player) <= 5) && ((MainHallMaid === null) || (MainHallMaid.Stage === "0"))) {
-			if (MainHallFirstFrame) {
-				if (Player.ImmersionSettings.ReturnToChatRoom) {
+		if (MainHallFirstFrame) {
+			if (Player.LastChatRoom && AsylumGGTSGetLevel(Player) <= 5 && (!MainHallMaid || MainHallMaid.Stage === "0")) {
+				if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom) {
 					ChatRoomStart(Player.LastChatRoom.Space, "", null, null, "Introduction", BackgroundsTagList);
 					return;
-				} else ChatRoomSetLastChatRoom(null);
-			} else MainHallFirstFrame = true;
-		} else {
+				} else {
+					ChatRoomSetLastChatRoom(null);
+				}
+			}
+			MainHallFirstFrame = true;
+		} else if (!CurrentCharacter && maidIsReady) {
+			// We're not talking to anyone, and the maid is here
 
 			// If the player logged into new version
-			if (CurrentCharacter == null && CommonVersionUpdated && MainHallMaid.Dialog != null && MainHallMaid.Dialog.length > 0) {
+			if (CommonVersionUpdated) {
 				CommonVersionUpdated = false;
 				CharacterSetCurrent(MainHallMaid);
 				MainHallMaid.Stage = "200";
@@ -207,7 +216,7 @@ function MainHallRun() {
 			}
 
 			// If the player is dressed up while being a club slave, the maid intercepts her
-			if ((CurrentCharacter == null) && ManagementIsClubSlave() && LogQuery("BlockChange", "Rule") && !Player.IsNaked() && (MainHallMaid.Dialog != null) && (MainHallMaid.Dialog.length > 0)) {
+			if (ManagementIsClubSlave() && LogQuery("BlockChange", "Rule") && !Player.IsNaked()) {
 				MainHallMaid.Stage = "50";
 				MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "ClubSlaveMustBeNaked");
 				CharacterRelease(MainHallMaid);
@@ -218,7 +227,7 @@ function MainHallRun() {
 			}
 
 			// If the player is a Mistress but her Dominant reputation has fallen & stage is not
-			if ((CurrentCharacter == null) && LogQuery("ClubMistress", "Management") && (ReputationGet("Dominant") < 50) && (CheatFactor("CantLoseMistress", 0) == 1) && Player.CanTalk() && (MainHallMaid.Dialog != null) && (MainHallMaid.Dialog.length > 0)) {
+			if (LogQuery("ClubMistress", "Management") && (ReputationGet("Dominant") < 50) && (CheatFactor("CantLoseMistress", 0) == 1) && Player.CanTalk()) {
 				CommonSetScreen("Room", "Management");
 				CharacterSetCurrent(MainHallMaid);
 				CurrentScreen = "MainHall";
