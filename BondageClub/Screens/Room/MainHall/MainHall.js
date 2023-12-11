@@ -200,12 +200,12 @@ function MainHallLoad() {
 		if (Player.Appearance[A].Asset.Name == "SlaveCollar")
 			if (Player.Appearance[A].Property)
 				MainHallHasSlaveCollar = true;
-	CommonReadCSV("NoArravVar", "Room", "Management", "Dialog_NPC_Management_RandomGirl");
-	CommonReadCSV("NoArravVar", "Room", "KidnapLeague", "Dialog_NPC_KidnapLeague_RandomKidnapper");
-	CommonReadCSV("NoArravVar", "Room", "Private", "Dialog_NPC_Private_Custom");
-	CommonReadCSV("NoArravVar", "Room", "AsylumEntrance", "Dialog_NPC_AsylumEntrance_KidnapNurse");
-	CommonReadCSV("NoArravVar", "Room", "AsylumEntrance", "Dialog_NPC_AsylumEntrance_EscapedPatient");
-	CommonReadCSV("NoArravVar", "Room", "Prison", "Dialog_NPC_Prison_Police");
+	CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
+	CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
+	CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
+	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_KidnapNurse", "Room", "AsylumEntrance"));
+	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_EscapedPatient", "Room", "AsylumEntrance"));
+	CommonReadCSV(ScreenFileGetDialog("NPC_Prison_Police", "Room", "Prison"));
 	TextPrefetch("Character", "Appearance");
 	TextPrefetch("Character", "InformationSheet");
 	TextPrefetch("Character", "Relog");

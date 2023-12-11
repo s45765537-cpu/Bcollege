@@ -142,7 +142,9 @@ function LoginLoad() {
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	if (!LoginCredits) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
+	if (LoginCredits == null) {
+		CommonReadCSV(ScreenFileGetPath("GameCredits.csv"), "LoginCredits");
+	}
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");
