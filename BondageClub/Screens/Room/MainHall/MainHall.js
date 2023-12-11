@@ -30,7 +30,7 @@ var MainHallAsylumOpen = true;
  * Whether the player just got safeworded out of a chatroom and needs punishment
  */
 var MainHallBeingPunished = false;
-var MainHallFirstFrame = false;
+var MainHallFirstFrame = true;
 /** @type {AssetLockType[]} */
 var MainHallStrongLocks = ["CombinationPadlock", "PasswordPadlock", "TimerPasswordPadlock", "HighSecurityPadlock"];
 
@@ -202,7 +202,7 @@ function MainHallRun() {
 					ChatRoomSetLastChatRoom(null);
 				}
 			}
-			MainHallFirstFrame = true;
+			MainHallFirstFrame = false;
 		} else if (!CurrentCharacter && maidIsReady) {
 			// We're not talking to anyone, and the maid is here
 
