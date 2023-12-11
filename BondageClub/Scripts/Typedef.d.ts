@@ -869,6 +869,14 @@ interface Asset {
 
 type ItemBundle = ServerItemBundle;
 
+/** A tuple-based version of {@link ItemBundle} */
+type WardrobeItemBundle = [
+	Name: string,
+	Group: AssetGroupName,
+	Color?: ItemColor,
+	Property?: ItemProperties,
+];
+
 /** An AppearanceBundle is whole minified appearance of a character */
 type AppearanceBundle = ItemBundle[];
 
