@@ -604,6 +604,8 @@ Remove any member from your opponent club.
 从你对手的俱乐部里移除任一会员。
 Select a member from your opponent club to remove.
 从你对手的俱乐部里选择一个会员移除。
+Select a member from your opponent's club to kidnap.
+从你对手的俱乐部里选择一个会员绑架。
 Virtual Meeting
 虚拟聚会
 Draw 2 cards

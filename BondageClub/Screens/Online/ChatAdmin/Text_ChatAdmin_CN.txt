@@ -46,6 +46,12 @@ Block Categories
 屏蔽性癖
 Customization
 房间自定义
+Don't use maps
+不使用地图
+Allow on and off
+允许开关
+Only use maps
+只使用地图
 No Game
 无游戏
 Club Card
