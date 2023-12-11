@@ -20679,7 +20679,7 @@ var AssetFemale3DCG = [
 						Priority: 31,
 						ParentGroup: null,
 						AllowTypes: { typed: 1 },
-						HideAs: { Group: "ItemHidden", Asset: "LeatherArmbinderStrap" },
+						HideAs: { Group: "ClothAccessory", Asset: "LeatherStraps" },
 					},
 					{
 						Name: "WrapStrap",
@@ -20687,7 +20687,7 @@ var AssetFemale3DCG = [
 						Priority: 31,
 						ParentGroup: null,
 						AllowTypes: { typed: 2 },
-						HideAs: { Group: "ItemHidden", Asset: "LeatherArmbinderWrapStrap" },
+						HideAs: { Group: "ClothAccessory", Asset: "LeatherStraps" },
 					},
 					{
 						Name: "Lock",
