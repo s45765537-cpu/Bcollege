@@ -1,159 +1,165 @@
-Dress
-裙子
-Buckle
-皮带扣
-Shirt
-衬衫
-Bow
-领结
-Trim
-装饰
-Sash
-腰带
-Fur
-绒毛
-Corset
-束腰
-Main
+Body
 主体
-Tie
-领带
-Pattern
-图案
-Jacket
-外套
-Chest
-胸部
-Buttons
-扣子
-Arm Puffs
-肩部蓬松
-Main Dress
-裙子主体
-Inside Skirt
-裙子内侧
-Dress Trim
-裙边
-Belts
-皮带
-Apron
-围裙
-Frills
-花边
-Print
-图案
+Bands
+束带
 Lace
 蕾丝
-Belt
-皮带
-Collar
-项圈
-Suit
-套装
-Gloves
-手套
-Top
-上部
-Design
-样式
-Upper Gradient
-上部渐变
-Lower Gradient
-下部渐变
-Inner Trim
-内侧边饰
-Text
-文字
-Text Inner
-内侧文字
-Text Outer
-外侧文字
-Holder
-包装
-Flowers
-花朵
-Front
-前部
-Back
-后部
-Bib
-围嘴
-Base
-打底
-Stains
-污渍
-Rope
-绳子
-Chains
-锁链
- Latex
-乳胶
- Frills
-花边
-Chain
-锁链
-Lock
-锁
-Key
-钥匙
-Lanyard
-挂带
-Card
-卡
-Necklace
-项链
-Jewels
-珠宝
-Center
-中部
-Petals
-花瓣
-Ball
-球
-Strap
-束带
-Choker
-颈环
-Metal
-金属
-Zip
-拉链
-Shine
-高光
-Label
-标签
-Catsuit
-紧身衣
-Fabric
-布料
-Straps
-束带
-Jewel
-珠宝
-Bra
-胸罩
+Spikes
+尖刺
+Main
+主体
+Sides
+两侧
 Leather
 皮革
 Buckles
 搭扣
+Bra
+胸罩
+Flowers
+花朵
+Shine
+高光
+Fabric
+布料
+Jewel
+珠宝
+Straps
+束带
+Frills
+花边
+Bib
+围嘴
+Pattern
+图案
+Text
+文字
+Trim
+装饰
+Holder
+包装
+Joints
+关节
+Legs
+腿
+Bow
+领结
+Collar
+项圈
+Cuffs
+锁铐
+Back
+后部
+Front
+前部
+Color One
+颜色1
+Color Two
+颜色2
+Belt
+皮带
+Jacket
+外套
+Shirt
+衬衫
+Dress
+裙子
+Sash
+腰带
+Lower Gradient
+下部渐变
+Buttons
+扣子
+Upper Gradient
+上部渐变
+Top
+上部
+Inner Trim
+内侧边饰
+Text Inner
+内侧文字
+Text Outer
+外侧文字
+Tie
+领带
+Corset
+束腰
+Design
+样式
+Fur
+绒毛
+Fishnet Top
+渔网上衣
+ Latex
+乳胶
+ Frills
+花边
+Inside Skirt
+裙子内侧
+Main Dress
+裙子主体
+Belts
+皮带
+Buckle
+皮带扣
+Dress Trim
+裙边
+Hood Inner
+兜帽内侧
+Hood Trim
+兜帽边缘
+Hood Outer
+兜帽外侧
+Laces
+系带
+Waist and Wrists
+腰和手腕
+ Tank Top
+坎肩
+ Collar
+领子
+ Loose Hood
+松垮头套
+ Pulled Hood
+拉起头套
+ Hoddie Up
+拉起兜帽
+ Hoodie Down
+放下兜帽
 Skirt
 裙子
+Frill
+褶边
+Base
+打底
+Crosses
+十字架
+Metal
+金属
+Panty
+内裤
+Panty Line
+内裤绳
+Veil
+面纱
+Leaves
+叶子
+Pollen
+花蕊
 Cloth
 布料
 Stripe
 条纹
+Waistband
+腕带
  Pants
 裤子
  Trim
 剪裁
-Panty
-内裤
-Veil
-面纱
-Panty Line
-内裤绳
-Waistband
-腕带
+Latex
+乳胶
+Boot
+靴
 Layer 1
 第1层
 Layer 2
@@ -162,84 +168,98 @@ Layer 3
 第2层
 Layer 4
 第4层
-Leaves
-叶子
-Pollen
-花蕊
-Frill
-褶边
-Lock Icon
-锁标志
-Catsuit Panties
-紧身衣内裤
-Diaper
-尿裤
-Plastic Cover
-塑料外层
-Tape
-胶带
-Crotch Padding
-跨部垫子
-Waist Band
-腰带
-Panties
-内裤
-Cock Sock
-鸡鸡袜
-Stripes
-条带
-Sock
-袜子
-Light Stripes
-亮条纹
-Dark Stripes
-暗条纹
-Bands
+Apron
+围裙
+Gloves
+手套
+Suit
+套装
+Stains
+污渍
+Chains
+锁链
+Rope
+绳子
+Chest
+胸部
+Arm Puffs
+肩部蓬松
+Print
+图案
+Piercings
+穿刺
+Eyebrow
+眉毛
+ Eyeliner
+眼线
+ Eyeshadow
+眼影
+Eyeball
+眼球
+Retina
+眼底
+Eyepupil
+眼瞳
+Shadow
+影子
+Eyelids
+眼睑
+Left
+左侧
+Right
+右侧
+Goggles
+护目镜
+Lenses
+镜片
+Strap
 束带
-Upper
-上半
-Lower
-下半
-Hat
-帽子
-Bonnet
-童帽
-Band
-束带
-Bandana
-大头巾
-Skull
-头骨
-Dots
-圆点
-Patterns
-样式
-Crown
-王冠
-Badge
-徽记
-Insignia
-徽章
-Brim
-帽檐
-Roses
-玫瑰
-Main Flowers
-主要花朵
-End Flowers
-边缘花朵
-Main Flower
-主要花朵
-Side Flowers
-两侧花朵
-Flower Center
-中央花朵
-Shoulders
-肩膀
-Shawl
-头巾
-Cowl
-面巾
+Frame
+框架
+Glass
+玻璃
+Glasses
+眼镜
+Hair
+头发
+Nose
+鼻子
+Glove
+手套
+Inner Ear
+耳朵内侧
+Line
+线条
+Outer Ear
+耳朵外侧
+Tuft
+耳心毛
+Inner
+内部
+Outer
+外部
+Bell
+铃铛
+Core
+核心
+Glow
+亮光
+Bun
+包子
+Tips
+顶端
+ Base
+基础
+ Fluff
+绒毛
+ Tip
+顶端
+Bangs
+刘海
+Fade
+变暗
+Tint
+色调
 Button
 扣子
 Panel
@@ -252,374 +272,238 @@ Right Panel
 右面板
 Visor
 面罩
-Cap
-柱子顶盖
+Bandana
+大头巾
+Patterns
+样式
+Bonnet
+童帽
+Brim
+帽檐
+Insignia
+徽章
+Band
+束带
+Hat
+帽子
+Crown
+王冠
+Jewels
+珠宝
+Main Flowers
+主要花朵
+Petals
+花瓣
+Shawl
+头巾
+Shoulders
+肩膀
+Cowl
+面巾
 Symbol
 徽记
-Outer Ear
-耳朵外侧
-Inner Ear
-耳朵内侧
-Bell
-铃铛
-Outer
-外部
-Inner
-内部
-Glow
-亮光
-Body
-主体
-Core
-核心
-Tuft
-耳心毛
-Line
-线条
- Fluff
-绒毛
- Base
-基础
- Tip
-顶端
-Bangs
-刘海
-Tips
-顶端
-Left
-左侧
-Right
-右侧
-Glove
-手套
-Thumb Ring
-大拇指戒指
-Index Ring
-食指戒指
-Middle Finger Ring
-中指戒指
-Ring Finger Ring
-无名指戒指
-Wedding Ring
-结婚戒指
-Pinkie Ring
-小拇指戒指
-Honor Ring
-荣誉戒指
-Honor Ring Jewels
-荣誉戒指珠宝
-String
-系绳
-Mask
-面罩
-Eyes
-眼睛
-Mouth
-嘴巴
-Harness
-束带
-Tail
-尾巴
-Ribbon
-丝带
-Tails
-尾巴
-Heart
-心
-Tip
-顶端
-Primary
-主要
-Secondary
-次要
-Suckers
-吸盘
-Cuffs
-锁铐
-Gems
-珠宝
-Frame
-框架
+Dots
+圆点
+Skull
+头骨
+Logo
+标志
+Feather Front
+羽毛前部
+Feather Back
+羽毛后部
+Badge
+徽记
+Flower Center
+中央花朵
+End Flowers
+边缘花朵
+Main Flower
+主要花朵
+Side Flowers
+两侧花朵
+Roses
+玫瑰
+Cap
+柱子顶盖
+Locks
+锁
+Zippers
+拉链
+Arm Strap
+手臂束带
+Crotch Straps
+胯部束带
+Chain
+锁链
+Suspension Chain
+悬挂锁链
+Binder
+束缚
 Display
 显示屏
+Lock
+锁
+Material
+材质
+Mesh
+色调
+Ropes
+绳子
+Inv. Suspension Rope
+反向悬挂绳
+Suspension Rope
+悬挂绳
+Crotch Panel
+胯部遮挡
+Crotch
+胯部
+Buckle Hole
+搭扣孔
 Rings
 环圈
 Edging
 边缘
 Bed Straps
 床束带
-Lower Belt
-下部皮带
-Upper Belt
-上部皮带
-Feet Belt
-脚部皮带
-Lower Rope
-下部绳子
-Upper Rope
-上部绳子
+Gems
+珠宝
+Wood
+木质
+Zipper
+拉链
+Stripes
+条带
 Color 1
 颜色1
 Color 2
 颜色2
-Binder
-束缚
-Details
-细节
-Locks
-锁
-Wand
-振动棒
-Remote
-遥控器
-Dildo
-假阳具
-End
-顶端
- Belt
-皮带
- Lock
-锁
- Valve
-阀门
- Butterfly Vibe
-蝴蝶振动器
-Thread
-线条
-Ring
-环圈
-Egg
-跳蛋
-Leash
-牵绳
-Weight
-配重
-Harem Chain
-后宫链
-Harem Veil
-后宫纱
-Studs
-嵌钉
-Crotch Plate
-胯部挡板
-Rivets
-铆钉
-Engraving
-刻字
-Crotch Shield
-胯部护盾
-Positive Wire
-阳极线
-Negative Wire
-阴极线
-Clamps
-夹子
-Left Vibe Egg
-左侧跳弹
-Right Vibe Egg
-右侧跳弹
-Left Tape Strip
-左侧胶带
-Right Tape Strip
-右侧胶带
-Piercings
-穿刺
-Weights
-配重
-Piercing
-穿刺
-Detail
-细节
+Slime Girl
+史莱姆女孩
+Shoulder Straps
+肩部束带
+Binder Straps
+束手束带
+Seams
+接缝
 Lower Half
 下半部
 Upper Half
 上半部
-Laces
-系带
-Buckle Hole
-搭扣孔
-Crotch Panel
-胯部遮挡
-Crotch
-胯部
-Bars
-杆子
-Wood
-木质
-Ropes
-绳子
-Suspension Rope
-悬挂绳
-Inv. Suspension Rope
-反向悬挂绳
-Suspension Chain
-悬挂锁链
-Mesh
-色调
-Material
-材质
-Sides
-两侧
-Waist Belt
-腰带
-Above Breast Belt
-胸上皮带
 Below Breast Belt
 胸下皮带
+Above Breast Belt
+胸上皮带
+Waist Belt
+腰带
+Suckers
+吸盘
 Shorts
 短裤
-Zippers
-拉链
-Slime Girl
-史莱姆女孩
-Seams
-接缝
-Binder Straps
-束手束带
-Shoulder Straps
-肩部束带
-Middle Ring
-中间环
-Left Ring
-左边环
-Right Ring
-右边环
-Brooch
-饰针
-Mesh (for copying to items)
-色调（用于复制到其他物品）
- Collar
-领子
- Buckles
-搭扣
-Ornaments
-饰物
-Side Plates
-两侧面板
-Leather Strap
-皮束带
-Heart Link
-心形环
-Tag
-标签
-Plate
-底板
-Post
-柱子
-Baseplate
-底板
-Pole
+Bars
 杆子
-Plaque
-标牌
-PlaqueBorder
-标牌边框
-Postit
-便条纸
-Sticker
-贴纸
-PlaqueBolts
-标牌螺栓
-Clip
-扣环
-Handle
-抓手
-Stripes Shine
-条带高光
-Sign
-牌子
-Pillow
-枕头
-Mattress
-床垫
+Heels
+鞋跟
+Mittens
+手套
+Boots
+靴子
+Vamp
+防水台
+Ankles
+膝盖
+Feet
+脚
+Toes
+指头
+Horseshoes
+马蹄铁
+Detail
+细节
+Bra Cup
+罩杯
+Lining
+边线
+Tickler
+挠痒器
+Wiring
+电线
+Tail
+尾巴
+Tip
+顶端
+Tails
+尾巴
+Heart
+心
+Ribbon
+丝带
 Headboard
 床头板
-Bed Frame
-床框架
+Mattress
+床垫
+Pillow
+枕头
 Bench
 长椅
+Tabletop
+桌面
+Lid (closed)
+盖子（关闭）
 Velvet
 绒垫
 Lid (open)
 盖子（打开）
-Lid (closed)
-盖子（关闭）
-Bottom
-底部
-Tint
-色调
-Padding
-垫子
-Tabletop
-桌面
+Cloak
+斗篷
 Pillow Trim
 枕头装饰
 Plushies
 毛绒玩具
-Cloak
-斗篷
-Kennel
-狗笼
-Front Frame
-前部框架
-Door
-门
-Bed
-床
-Bed Lining
-床内衬
-Blanket
-毛毯
-Blanket Lining
-毛毯内衬
-Wheel Holders
-轮子挡板
-Wheels
-轮子
-Bowl
-碗
-Sheet Back
-后部覆盖物
-Sheet Front
-前部覆盖物
-Sheet
-覆盖物
-Caps
-盖子
-Plastic
-塑料
-Net
-网子
-Arms
-手臂
-Wooden Stand
-木质支架
-MetalStand
-金属支架
-Metal Stand Frame
-金属支架边框
-Metal Stand Text
-金属支架文本
-Wheel Border
-轮盘边界
-Toys
-玩具
-Flogger
-鞭打
-Gag
-口塞
-Arrow
-箭头
-Rope Sections
-绳子分区
-Chain Sections
-锁链分区
-Gag Sections
-口塞分区
-Shadow
-影子
+Bottom
+底部
+Inside
+内部
+Outside
+外部
+Label
+标签
+Custom Text
+自定义文本
 Paper
 纸
+Caps
+盖子
+Dildo
+假阳具
+Plastic
+塑料
+Pole
+杆子
+Blanket
+毛毯
+Padding
+垫子
+Harness Clamps
+束带扣环
+Harness
+束带
+Actuator
+作动器
+Structure
+结构
+Screen
+屏幕
+Window
+窗户
+Lid
+盖子
+Restraint Frame
+束缚框架
+Restraint Padding
+束缚垫子
+Harness Straps
+束带带子
 Cum
 精液
 Portrait Frame
@@ -630,42 +514,262 @@ Background
 背景
 Foreground
 前景
-Hook
-钩子
-Nose
-鼻子
-Mug
-马克杯
+Door
+门
+Front Frame
+前部框架
+Kennel
+狗笼
+Arrow
+箭头
+Wheel Border
+轮盘边界
+Wooden Stand
+木质支架
+MetalStand
+金属支架
+Metal Stand Frame
+金属支架边框
+Metal Stand Text
+金属支架文本
+Toys
+玩具
+Flogger
+鞭打
+Gag
+口塞
+Rope Sections
+绳子分区
+Chain Sections
+锁链分区
+Gag Sections
+口塞分区
+Bed Frame
+床框架
+Net
+网子
+Weights
+配重
+Closed
+关闭
+Bed
+床
+Blanket Lining
+毛毯内衬
+Bed Lining
+床内衬
+Bowl
+碗
+Arms
+手臂
+Wheel Holders
+轮子挡板
+Wheels
+轮子
+Upper
+上半
+Lower
+下半
+Sheet
+覆盖物
+Sheet Back
+后部覆盖物
+Sheet Front
+前部覆盖物
+Sign
+牌子
+Feet Stocks
+脚枷
+Wooden Frame
+木质框架
+ Ropes
+绳子
+Arm Stocks
+手枷
+Dark
+深色
+Light
+亮色
+Lower Rope
+下部绳子
+Upper Rope
+上部绳子
+Feet Belt
+脚部皮带
+Lower Belt
+下部皮带
+Upper Belt
+上部皮带
+Accent
+风格
 Fluids
 液体
+Mug
+马克杯
+Bag
+袋子
+Corn
+爆米花
+Tablet
+平板电脑
 Belly
 腹部
 Eye
 眼睛
+Mouth
+嘴巴
 Teeth
 牙齿
-Hair
-头发
-Hood
-头套
-Snaps
-皮带扣
-Face
-面部
-Blush
-腮红
-Mouthpiece
-滤嘴
-Lens
-镜片
-Edges
-边缘
+Case
+壳
+Phone
+手机
+Paws
+爪子
+Left Eyelids
+左眼睑
+Left Lens
+左镜片
+Right Eyelids
+右眼睑
+Right Lens
+右镜片
+Mask
+面罩
+Eyes
+眼睛
+Lock Icon
+锁标志
+HUD
+显示器
+Ears
+耳朵
+Left Eye
+左眼
+Left Eye Sticker
+左眼贴
+Right Eye
+右眼
+Right Eye Sticker
+右眼贴
+Blindfold
+眼罩
+Thread Right
+右侧线条
+Thread Left
+左侧线条
 Canvas
 画布
+Hood
+头套
+ Lacing
+束带
+ Outline
+边缘
+Spots
+斑点
+Eye Fill Panels
+眼睛填充遮罩
+Mouth Fill Panel
+嘴部填充遮罩
+Hair Inside Hood
+头发在头套内
+Eye Lining
+眼睛线条
+Face Lining
+面部线条
+Mouth Lining
+嘴部线条
+Head
+头部
+Eye Panel
+眼睛遮罩
+Mouth Panel
+嘴部遮罩
+Highlights
+高光
+Cover Hood
+覆盖头套
+Edges
+边缘
+Rivets
+铆钉
+Markings
+标记
+ Fuzz
+绒毛
+ Face
+面部
+ Ear Canal
+耳道
+ Lenses
+镜片
+ Ear
+耳朵
+Frames
+框架
+Bolts
+螺丝
+Lables
+标签
+Lens
+镜片
+Mouthpiece
+滤嘴
+Blush
+腮红
+Face
+脸
+Drawings
+图画
+Linings
+内衬
+Openings
+开口
+Forehead Panel
+额头嵌板
+Interior
+内侧
+Exterior
+外部
+Switch
+开关
+ Hood
+头套
+ Inner Ear
+耳朵内侧
+ Mouth
+嘴
+ Nose
+鼻子
+ Outer Ear
+耳朵外侧
+Collar Band
+项圈带子
+Collar Link
+项圈链接
+ Lining
+线条
+ Holes
+洞
+ Muzzle
+口套
+Snaps
+皮带扣
 Blinding Lenses
 遮眼镜片
 Breathing Attachment
 呼吸附件
+Plug
+塞子
+ Pantyhose
+裤袜
+ Hair
+头发
+ Silencer
+隔音器
+ Lips
+嘴唇
 Chin Strap
 下巴束带
 Helmet
@@ -674,459 +778,401 @@ Side Pieces
 两侧组件
 Hypno Spiral Icon
 催眠旋涡标志
-Frames
-框架
-Bolts
-螺丝
-Lables
-标签
-Interior
-内侧
-Switch
-开关
-Exterior
-外部
-Spots
-斑点
-Inside
-内部
-Outside
-外部
-Linings
-内衬
-Forehead Panel
-额头嵌板
-Openings
-开口
-Blindfold
-眼罩
-Drawings
-图画
-Lenses
-镜片
-Plug
-塞子
-Collar Band
-项圈带子
-Collar Link
-项圈链接
- Hood
-头套
- Mouth
-嘴
- Lenses
-镜片
- Lining
-边线
- Holes
-洞
- Muzzle
-口套
- Nose
-鼻子
- Inner Ear
-耳朵内侧
- Outer Ear
-耳朵外侧
- Lens
-镜片
- Breathing Tube
-呼吸管
- Clip
-夹子
  Clipped Hose
+卡箍软管
+Clipped Hose
 卡箍软管
  Pump
 泵
+Pump
+泵
+ Lens
+镜片
+ Clip
+扣环
+Clip
+夹子
  Rebreather Bag
 循环呼吸袋
-Boots
-靴子
-Heels
-鞋跟
-Mittens
-手套
-Vamp
-防水台
-Shoes
-鞋
-Soles
-脚底
-Fins
-鳍
-Inner & Laces
-内侧和系带
- Shoe
-鞋
- Boot
-靴
- Sock
-袜
- Band
-带子
- Metal
-金属
- Straps
-束带
- Bobble
-小绒球
-Cup
-杯子
-Close
-关闭
-Rod
-杆
-Carrot
-萝卜
-Pumpkin
-南瓜
+Rebreather Bag
+循环呼吸袋
+ Breathing Tube
+呼吸管
+Breathing Tube
+呼吸管
+Details
+细节
+Sticker
+贴纸
+Plaque
+标牌
+PlaqueBolts
+标牌螺栓
+PlaqueBorder
+标牌边框
+Postit
+便条纸
+Refreshments
+物件
+Tray
+托盘
+Ball
+球
 Bit
 嚼子
 Bone
 骨头
-Harness Straps
-束带带子
-Metal Parts
-金属组件
-Pacifier
-奶嘴
-Pacifier Ring
-奶嘴环
-Duster
-掸子
-Shoe
-鞋
-Lips
-嘴唇
-Muzzle
-口套
-Icon
-标志
-Light
-亮色
-Highlights
-高光
 Cage
 笼子
+Carrot
+萝卜
+Cup
+杯子
+Duster
+掸子
+Icon
+标志
+Muzzle
+口套
+Metal Parts
+金属组件
+Pacifier Ring
+奶嘴环
+Pacifier
+奶嘴
+ Bobble
+小绒球
+ Metal
+金属
+ Straps
+束带
 Lines
 线条
-Rubber Bit
-橡胶嚼子
+Mask Loose
+面具松散
+Mask Shine
+面具高光
+Panel Shine
+嵌板高光
+Straps Buckles
+束带搭扣
+Lips
+嘴唇
+Mouth Shine
+嘴部高光
+Dark Stripes
+暗条纹
+Light Stripes
+亮条纹
 Ballgag
 口球
-Plume
-羽饰
+Rubber Bit
+橡胶嚼子
+Blinders
+视野遮蔽
+Flags
+旗帜
+Horn
+角
 ManeBase
 鬃毛基部
 Mane
 鬃毛
-Horn
-角
 Ornament
 装饰
+Plume
+羽饰
+Post
+柱子
 Reins
 系绳
-Flags
-旗帜
-Blinders
-视野遮蔽
-Mouth Shine
-嘴部高光
-Panel Shine
-嵌板高光
-Fixing
-固定圈
+Pumpkin
+南瓜
+Shoe
+鞋
+Ring
+环圈
 Tubes
 管子
+Fixing
+固定圈
+Thread
+线条
+Rod
+杆
+Default
+默认
+Grin
+咧嘴
+Open
+打开
+Serious
+严肃
+Close
+关闭
+Tag
+标签
+Stripes Shine
+条带高光
+Studs
+嵌钉
+Eye Shade
+眼罩
+Stencil
+图案
+Wires
+线路
+Mesh (for copying to items)
+色调（用于复制到其他物品）
+Ornaments
+饰物
+Heart Link
+心形环
+Leather Strap
+皮束带
+Brooch
+饰针
+ Buckles
+搭扣
+Middle Ring
+中间环
+Left Ring
+左边环
+Right Ring
+右边环
+Handle
+抓手
+Leash
+牵绳
+Plate
+底板
+Baseplate
+底板
+Side Plates
+两侧面板
+Clamps
+夹子
+Rubber Tips
+皮革顶端
+Piercing
+穿刺
+Left Vibe Egg
+左侧跳弹
+Right Vibe Egg
+右侧跳弹
+Left Tape Strip
+左侧胶带
+Right Tape Strip
+右侧胶带
+Hook
+钩子
+Diaper
+尿裤
+Crotch Padding
+跨部垫子
+Tape
+胶带
+Waist Band
+腰带
+Plug Cap
+塞子盖
+Shield
+挡板
+Brush sticks
+刷子棒
+Brushes
+刷子
+Spreader Clips
+开阴器架子
+Spreader Straps
+开阴器束带
+Transparent Shield
+透明挡板
+Crotch Plate
+胯部挡板
+Metal Band
+金属带
+Attachment
+附件
+Crotch Shield
+胯部挡板
+Negative Wire
+阴极线
+Positive Wire
+阳极线
+Engraving
+刻字
+LED
+发光二极管
+Hex
+六边形
+Portal Unit
+传送单元
+Panty Base
+内裤打底
+Clitoris Toy
+阴蒂玩具
+Pussy Toy
+阴部玩具
+Interface
+屏幕
+Rubber
+橡胶
+Big Shield
+大挡板
+Small Shield
+小挡板
+Shackle
+镣铐
+Module
+模块
+Clasps
+扣环
+Bar
+穿刺棒
+Cock Ring
+阴茎环
+Penis
+阴茎
+Pouch
+包囊
+Wand
+振动棒
+ Belt
+皮带
+ Lock
+锁
+ Valve
+阀门
+ Butterfly Vibe
+蝴蝶振动器
+Harem Chain
+后宫链
+Harem Veil
+后宫纱
+Weight
+配重
+Egg
+跳蛋
+Vibe Egg
+跳蛋
+End
+顶端
+Remote
+遥控器
+Color
+色彩
+Outline
+边缘
+Honor Ring
+荣誉戒指
+Honor Ring Jewels
+荣誉戒指珠宝
+Index Ring
+食指戒指
+Middle Finger Ring
+中指戒指
+Pinkie Ring
+小拇指戒指
+Ring Finger Ring
+无名指戒指
+Thumb Ring
+大拇指戒指
+Wedding Ring
+结婚戒指
+String
+系绳
 Cheeks
 面颊
 Nose Gloss
 鼻子光泽
 Whiskers
 胡子
-Color One
-颜色1
-Color Two
-颜色2
-Clasps
-扣环
-Module
-模块
-Screen
-屏幕
-Plug Cap
-塞子盖
-Interface
-屏幕
-Panty Base
-内裤打底
-Wires
-线路
-Metal Band
-金属带
-Pussy Toy
-阴部玩具
-Clitoris Toy
-阴蒂玩具
-Attachment
-附件
-Lid
-盖子
-Restraint Frame
-束缚框架
-Harness Clamps
-束带扣环
-Restraint Padding
-束缚垫子
-Actuator
-作动器
-Structure
-结构
-Window
-窗户
-Custom Text
-自定义文本
-Glass
-玻璃
-Wooden Frame
-木质框架
- Ropes
-绳子
-Arm Stocks
-手枷
-Feet Stocks
-脚枷
-Underlayment
-衬底层
-Feet
-脚
-Dark
-深色
-Paws
-爪子
-Left Lens
-左镜片
-Right Lens
-右镜片
-HUD
-显示器
-Thread Right
-右侧线条
-Thread Left
-左侧线条
-Legs
-腿
-Joints
-关节
-Ears
-耳朵
-Right Eye
-右眼
-Left Eye
-左眼
-Right Eye Sticker
-右眼贴
-Left Eye Sticker
-左眼贴
-Tray
-托盘
-Refreshments
-物件
-Spikes
-尖刺
-Gears
-齿轮
-Wings
-翅膀
-Veins
-脉络
-Shade
-阴影
-Glasses
-眼镜
-Goggles
-护目镜
-Bar
-穿刺棒
-Holemesh
-网格
+Choker
+颈环
+Necklace
+项链
+Center
+中部
+Card
+卡
+Lanyard
+挂带
+Key
+钥匙
+Cock Sock
+鸡鸡袜
+Plastic Cover
+塑料外层
+Panties
+内裤
 Bulge
 凸起
+Holemesh
+网格
 Side Straps
 侧边束带
-Cock Ring
-阴茎环
-Penis
-阴茎
-Rubber Tips
-皮革顶端
-Vibe Egg
-跳蛋
-Crotch Straps
-胯部束带
-Arm Strap
-手臂束带
-Pouch
-包囊
-Fade
-变暗
-Eyebrow
-眉毛
-Head
-头部
-Face Lining
-面部线条
-Eye Lining
-眼睛线条
-Mouth Lining
-嘴部线条
-Eye Panel
-眼睛遮罩
-Eye Fill Panels
-眼睛填充遮罩
-Mouth Panel
-嘴部遮罩
-Mouth Fill Panel
-嘴部填充遮罩
-Hair Inside Hood
-头发在头套内
-Cover Hood
-覆盖头套
-Zipper
-拉链
-Crosses
-十字架
-Hood Inner
-兜帽内侧
-Hood Outer
-兜帽外侧
-Hood Trim
-兜帽边缘
-Waist and Wrists
-腰和手腕
-Markings
-标记
-Bra Cup
-罩杯
-Lining
-线条
-Tickler
-挠痒器
-Wiring
-电线
- Ear Canal
-耳道
- Ear
-耳朵
- Fuzz
-绒毛
- Face
-脸
- Pantyhose
-裤袜
- Hair
-头发
- Tank Top
-坎肩
- Loose Hood
-松垮头套
- Pulled Hood
-拉起头套
- Hoddie Up
-拉起兜帽
- Hoodie Down
-放下兜帽
-Fishnet Top
-渔网上衣
-Breathing Tube
-呼吸管
-Clipped Hose
-卡箍软管
-Pump
-泵
-Rebreather Bag
-循环呼吸袋
-Latex
-乳胶
-Portal Unit
-传送单元
-Hex
-六边形
-LED
-发光二极管
-Tablet
-平板电脑
-Boot
-靴子
- Silencer
-隔音器
- Lips
-嘴唇
-Bun
-包子
-Spreader Straps
-开阴器束带
-Spreader Clips
-开阴器架子
-Brush sticks
-刷子棒
-Brushes
-刷子
-Transparent Shield
-透明挡板
-Shield
-挡板
- Lacing
-束带
- Outline
-边缘
- Eyeshadow
-眼影
- Eyeliner
-眼线
+Catsuit Panties
+紧身衣内裤
+Sole
+脚底
+Inner & Laces
+内侧和系带
 Rear
 后部
-Feather Back
-羽毛后部
-Feather Front
-羽毛前部
-Logo
-标志
+Fins
+鳍
+Shoes
+鞋
+Dai
+鞋底
+Hanao
+鞋带
+ Shoe
+鞋
+Soles
+脚底
+ Heels
+鞋跟
+ Sole
+脚底
+Round Base
+圆形底部
+ Band
+带子
+ Boot
+靴子
+ Sock
+袜子
 Guards
 护板
 Guard
 护板
-Toes
-指头
-Ankles
-膝盖
-Horseshoes
-马蹄铁
-Accent
-风格
-Closed
-关闭
-Default
-默认
-Grin
-咧嘴
-Serious
-严肃
-Open
-打开
-Left Eyelids
-左眼睑
-Right Eyelids
-右眼睑
-Right Sock
-右袜子
 Left Sock
 左袜子
-Hanao
-鞋带
-Dai
-鞋底
- Heels
-鞋跟
- Sole
-脚跟
+Sock
+袜
+Right Sock
+右袜子
+Zip
+拉链
+Catsuit
+紧身衣
+Underlayment
+衬底层
+Primary
+主要
+Secondary
+次要
+Veins
+脉络
+Wings
+翅膀
+Shade
+阴影
+Gears
+齿轮
+Patch
+补丁
+Padlock
+挂锁

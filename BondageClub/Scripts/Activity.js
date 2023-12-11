@@ -275,7 +275,7 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
 
 	let handled = false;
 	for (const item of items) {
-		const typeList = CommonIsObject(item.Property.TypeRecord) ? PropertyTypeRecordToStrings(item.Property.TypeRecord) : [null];
+		const typeList = CommonIsObject(item.Property?.TypeRecord) ? PropertyTypeRecordToStrings(item.Property.TypeRecord) : [null];
 
 		/** @type {ItemActivityRestriction} */
 		let blocked = null;
