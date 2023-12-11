@@ -219,6 +219,22 @@ function ChatRoomMapIsWall(X, Y) {
 }
 
 /**
+ * Returns the object located at a X and Y position on the map, or NULL if nothing
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {object} - The object at the position
+ */
+function ChatRoomMapGetObjectAtPos(X, Y) {
+	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) return null;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
+	for (let Obj of ChatRoomMapObjectList)
+		if (Obj.ID == ObjectID)
+			return CommonCloneDeep(Obj);
+	return null;
+}
+
+/**
  * Apply a wall "3D" effect on the curent map
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
@@ -327,6 +343,24 @@ function ChatRoomMapCollision() {
 }
 
 /**
+ * Returns TRUE if there's a character at an X and Y position that's wearing a specific asset name & group
+ * @param {number} X - The X position on the screen
+ * @param {number} Y - The Y position on the screen
+ * @param {string} AssetName - The width size of the drawn map
+ * @param {AssetGroupName} AssetGroup - The height size of the drawn map
+ * @returns {boolean} - TRUE if a character wearing this item is found
+ */
+function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
+	if ((AssetName == null) || (AssetGroup == null)) return false;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
+	for (let C of ChatRoomCharacter)
+		if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
+			if (InventoryIsWorn(C, AssetName, AssetGroup))
+				return true;
+	return false;
+}
+
+/**
  * Draw the map grid and character on screen
  * @param {number} Left - The X position on the screen
  * @param {number} Top - The Y position on the screen
@@ -406,6 +440,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 			// Draws the tile and object image and applies the visual effects if needed
 			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
+
+				// Draw the tile first
 				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 				for (let Tile of ChatRoomMapTileList)
 					if (Tile.ID == TileID) {
@@ -414,17 +450,25 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
 						break;
 					}
+
+				// Draw the non blank object next
 				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
 				if (ObjectID > ChatRoomMapObjectStartID)
 					for (let Obj of ChatRoomMapObjectList)
 						if (Obj.ID == ObjectID) {
+							if (Obj.Style === "Blank") break;
+							// @ts-ignore
+							if (ChatRoomMapCharAtPosIsWearing(X, Y, Obj.AssetName, Obj.AssetGroup)) break;
 							DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
 							break;
 						}
+
+				// Keeps the tile as selected if the mouse is within selection
 				if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
 					ChatRoomMapEditSelection.push(Pos);
 					DrawRect = true;
 				}
+
 			}
 
 			// Draws the characters on that tile

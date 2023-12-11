@@ -1562,6 +1562,15 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 					}
 		}
 
+		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
+		if ((CurrentScreen == "ChatRoom") && ChatRoomMapVisible && (ChatRoomData.MapData != null) && (ChatRoomData.MapData.Objects != null) && (Player.MapData != null) && (Player.MapData.X != null) && (Player.MapData.Y != null)) {
+			let Obj = ChatRoomMapGetObjectAtPos(Player.MapData.X, Player.MapData.Y);
+			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
+				for (const A of Asset)
+					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
+						DialogInventoryAdd(C, { Asset: A }, false);
+		}
+
 	}
 
 	DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));

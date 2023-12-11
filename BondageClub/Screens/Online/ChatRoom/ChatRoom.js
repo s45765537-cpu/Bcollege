@@ -721,7 +721,7 @@ function ChatRoomCreateElement() {
 	// Creates the chat box
 	if (document.getElementById("InputChat") == null) {
 		ElementCreateTextArea("InputChat");
-		document.getElementById("InputChat").setAttribute("maxLength", 1000);
+		document.getElementById("InputChat").setAttribute("maxLength", 10000);
 		document.getElementById("InputChat").setAttribute("autocomplete", "off");
 		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
 		ElementPosition("InputChat", ...ChatRoomChatInputRect);
