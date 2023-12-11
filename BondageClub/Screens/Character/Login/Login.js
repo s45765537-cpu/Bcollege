@@ -143,7 +143,7 @@ function LoginLoad() {
 	LoginDoNextThankYou();
 	LoginStatusReset();
 	if (LoginCredits == null) {
-		CommonReadCSV(ScreenFileGetPath("GameCredits.csv"), "LoginCredits");
+		LoginCredits = CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
 	}
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();

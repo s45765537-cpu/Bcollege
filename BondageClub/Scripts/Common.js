@@ -188,26 +188,24 @@ function CommonParseCSV(str) {
  *
  * If the file has been cached already it'll use that.
  *
+ * @warning Note that due to the way fetching is async, the
+ * array you'll get back won't be populated until the fetch completes
+ *
  * @param {string} url - URL to load
- * @param {string} [outObj] - The name of a global which the parsed contents will be assigned to
- * @returns {void}
+ * @returns {string[][]}
  */
-function CommonReadCSV(url, outObj) {
+function CommonReadCSV(url) {
 	if (CommonCSVCache[url]) {
-		if (outObj) {
-			window[outObj] = CommonCSVCache[url];
-		}
-		return;
+		return CommonCSVCache[url];
 	}
+
+	const temp = CommonCSVCache[url] = [];
 
 	// Opens the file, parse it and returns the result in an Object
 	CommonGet(url, function () {
 		if (this.status == 200) {
 			const parsed = CommonParseCSV(this.responseText);
-			CommonCSVCache[url] = parsed;
-			if (outObj) {
-				window[outObj] = CommonCSVCache[url];
-			}
+			temp.push(...parsed);
 		}
 	});
 
@@ -217,6 +215,8 @@ function CommonReadCSV(url, outObj) {
 		CommonGet(TranslationPath, function () {
 			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
 		});
+
+	return temp;
 }
 
 /**
