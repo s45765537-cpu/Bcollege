@@ -495,8 +495,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 				// Draw the water effect if character stands in water
 				if(TileImage != null && TileData != null && TileData.Type == "Water")
 				{
-					const transparency = (TileData.Transparency) ? TileData.Transparency : 1.0
-					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 0.0
+					const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0
+					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0
 					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]})
 				}
 			}
