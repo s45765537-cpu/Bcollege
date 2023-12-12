@@ -48,9 +48,9 @@ var ChatRoomMapTileList = [
 	{ ID: 1070, Type: "Wall", Style: "Steel" },
 	{ ID: 1080, Type: "Wall", Style: "Padded" },
 
-	{ ID: 2000, Type: "Water", Style: "Pool" },
-	{ ID: 2010, Type: "Water", Style: "Sea" },
-	{ ID: 2020, Type: "Water", Style: "Ocean" },
+	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
+	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
+	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 
 ];
 
@@ -410,7 +410,6 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	// Defines the width and height of the visible tile
 	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
 	let TileHeight = Height / ((ChatRoomMapViewRange * 2) + 1);
-	let Pos = 0;
 	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
 	let MaxVisibleRange = ChatRoomMapGetSightRange();
@@ -421,7 +420,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapFocusedCharacter = null;
 
 	// For each tiles in the grid
-	while (Pos < ChatRoomMapWidth * ChatRoomMapHeight) {
+	const mapArraySize = ChatRoomMapWidth * ChatRoomMapHeight
+	for (let Pos=0; Pos < mapArraySize; Pos++) {
 
 		// Find the X & Y position of the grid
 		let X = Pos % ChatRoomMapWidth;
@@ -429,64 +429,82 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		// Only process if the X & Y are within the visible sight range
 		let MaxRange = Math.max(Math.abs(X - Player.MapData.X), Math.abs(Y - Player.MapData.Y));
-		if (MaxRange <= MaxVisibleRange) {
-
-			// Defines the screen X and Y positions
-			let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
-			let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
-
-			let FloorWallEffect = -1;
-			let DrawRect = false;
-
-			// Draws the tile and object image and applies the visual effects if needed
-			if ((ScreenX >= 0) && (ScreenX < Width) && (ScreenY >= 0) && (ScreenY < Height)) {
-
-				// Draw the tile first
-				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
-				for (let Tile of ChatRoomMapTileList)
-					if (Tile.ID == TileID) {
-						DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
-						if (Tile.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
-						else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
-						break;
-					}
-
-				// Draw the non blank object next
-				let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
-				if (ObjectID > ChatRoomMapObjectStartID)
-					for (let Obj of ChatRoomMapObjectList)
-						if (Obj.ID == ObjectID) {
-							if (Obj.Style === "Blank") break;
-							// @ts-ignore
-							if (ChatRoomMapCharAtPosIsWearing(X, Y, Obj.AssetName, Obj.AssetGroup)) break;
-							DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
-							break;
-						}
-
-				// Keeps the tile as selected if the mouse is within selection
-				if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
-					ChatRoomMapEditSelection.push(Pos);
-					DrawRect = true;
-				}
-
-			}
-
-			// Draws the characters on that tile
-			for (let C of ChatRoomCharacter)
-				if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
-					DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
-					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95)))
-						ChatRoomMapFocusedCharacter = C;
-				}
-
-			// Draw the floor wall effect and rectancle if needed at the end
-			if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
-			if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
-
+		if (MaxRange > MaxVisibleRange) {
+			continue
 		}
 
-		// Jumps to the next grid position
-		Pos++;
+		// Defines the screen X and Y positions
+		let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
+		let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
+		const TileCanvasX = Left + ScreenX
+		const TileCanvasY = Top + ScreenY
+
+		let FloorWallEffect = -1;
+		let DrawRect = false;
+
+		// Draws the tile and object image and applies the visual effects if needed
+		if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) {
+			//If this tile's coordinates are out of the view range, we don't have to bother with it
+			continue
+		}
+
+		// Draw the tile first
+		let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
+		let TileData = null
+		let TileImage = null
+		for (let Tile of ChatRoomMapTileList)
+			if (Tile.ID == TileID) {
+				TileData = Tile
+				break;
+			}
+		if(TileData != null)
+		{
+			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png")
+			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, TileWidth, TileHeight);
+			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
+			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
+		}
+
+		// Draw the non blank object next
+		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
+		if (ObjectID > ChatRoomMapObjectStartID)
+			for (let Obj of ChatRoomMapObjectList)
+				if (Obj.ID == ObjectID) {
+					if (Obj.Style === "Blank") break;
+					// @ts-ignore
+					if (ChatRoomMapCharAtPosIsWearing(X, Y, Obj.AssetName, Obj.AssetGroup)) break;
+					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
+					break;
+				}
+
+		// Keeps the tile as selected if the mouse is within selection
+		if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+			ChatRoomMapEditSelection.push(Pos);
+			DrawRect = true;
+		}
+
+		// Draws the characters on that tile
+		for (let C of ChatRoomCharacter)
+		{
+			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
+				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
+				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95)))
+				{
+					ChatRoomMapFocusedCharacter = C;
+				}
+				// Draw the water effect if character stands in water
+				if(TileImage != null && TileData != null && TileData.Type == "Water")
+				{
+					const transparency = (TileData.Transparency) ? TileData.Transparency : 1.0
+					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 0.0
+					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]})
+				}
+			}
+		}
+
+		// Draw the floor wall effect and rectancle if needed at the end
+		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
+		if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
 	}
 
