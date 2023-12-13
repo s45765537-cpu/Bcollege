@@ -22,6 +22,7 @@ var ChatRoomMapFocusedCharacter = null;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapBaseMovementSpeed = 200;
 var ChatRoomMapMovement = null;
+var ChatRoomMapEventLoaded = false;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 
 var ChatRoomMapTileList = [
@@ -110,10 +111,14 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != n
  */
 function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
+	if (ChatRoomMapEventLoaded) return;
+	ChatRoomMapEventLoaded = true;
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
 	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
 	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
 	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", ChatRoomMapMouseUp);
 	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("wheel", ChatRoomMapMouseWheel);
+	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("keydown", ChatRoomMapKeyDown);
 	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", ChatRoomMapMouseDown);
 	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchmove", ChatRoomMapMouseMove);
 	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", ChatRoomMapMouseUp);
@@ -807,20 +812,20 @@ function ChatRoomMapUndo() {
 function ChatRoomMapKeyDown(Event) {
 
 	// ENTER to go back to the chat box
-	if (KeyPress == 13) ElementFocus("InputChat");
-
-	// + and - to change the view range / zoom
-	if (((KeyPress == 43) || (KeyPress == 61)) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
-	if (((KeyPress == 45) || (KeyPress == 95)) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
-
-	// WASD to move, Q is A for AWERTY keyboards
-	if ((KeyPress == 87) || (KeyPress == 119)) ChatRoomMapMove("North");
-	if ((KeyPress == 65) || (KeyPress == 97) || (KeyPress == 81) || (KeyPress == 113)) ChatRoomMapMove("West");
-	if ((KeyPress == 83) || (KeyPress == 115)) ChatRoomMapMove("South");
-	if ((KeyPress == 68) || (KeyPress == 100)) ChatRoomMapMove("East");
+	if (Event.code == "Enter") ElementFocus("InputChat");
 
 	// Control+Z to undo map changes
-	if ((KeyPress == 26) && Event.ctrlKey && ChatRoomPlayerIsAdmin()) ChatRoomMapUndo();
+	if (((Event.key == "Z") || (Event.key == "z")) && Event.ctrlKey && ChatRoomPlayerIsAdmin()) return ChatRoomMapUndo();
+
+	// + and - to change the view range / zoom
+	if ((Event.code == "Equal") && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
+	if ((Event.code == "Minus") && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
+
+	// WASD or arrows to move
+	if ((Event.code == "KeyW") || (Event.code == "ArrowUp")) ChatRoomMapMove("North");
+	if ((Event.code == "KeyA") || (Event.code == "ArrowLeft")) ChatRoomMapMove("West");
+	if ((Event.code == "KeyS") || (Event.code == "ArrowDown")) ChatRoomMapMove("South");
+	if ((Event.code == "KeyD") || (Event.code == "ArrowRight")) ChatRoomMapMove("East");
 
 }
 

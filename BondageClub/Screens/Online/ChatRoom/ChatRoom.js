@@ -2279,7 +2279,7 @@ function ChatRoomKeyDown(event) {
 
 	// If the input text is not focused and not on mobile, set the focus to it
 	if (document.activeElement.id != "InputChat") {
-		if (ChatRoomMapVisible) ChatRoomMapKeyDown(event);
+		if (ChatRoomMapVisible) return;
 		else ElementFocus("InputChat");
 	}
 
