@@ -808,27 +808,44 @@ function ChatRoomMapUndo() {
 
 /**
  * Handles keyboard keys in the chat room map screen
- * @param {KeyboardEvent} Event - The event that triggered this
- * @returns {void} - Nothing
+ * @param {KeyboardEvent} event - The event that triggered this
+ * @returns {boolean} - Nothing
  */
-function ChatRoomMapKeyDown(Event) {
+function ChatRoomMapKeyDown(event) {
 
 	// ENTER to go back to the chat box
-	if (Event.code == "Enter") ElementFocus("InputChat");
-
-	// Control+Z to undo map changes
-	if (((Event.key == "Z") || (Event.key == "z")) && Event.ctrlKey && ChatRoomPlayerIsAdmin()) return ChatRoomMapUndo();
-
-	// + and - to change the view range / zoom
-	if ((Event.code == "Equal") && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
-	if ((Event.code == "Minus") && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
-
-	// WASD or arrows to move
-	if ((Event.code == "KeyW") || (Event.code == "ArrowUp")) ChatRoomMapMove("North");
-	if ((Event.code == "KeyA") || (Event.code == "ArrowLeft")) ChatRoomMapMove("West");
-	if ((Event.code == "KeyS") || (Event.code == "ArrowDown")) ChatRoomMapMove("South");
-	if ((Event.code == "KeyD") || (Event.code == "ArrowRight")) ChatRoomMapMove("East");
-
+	if (event.key === "Enter") {
+		ElementFocus("InputChat");
+		return true;
+	} else if (event.key === "-") {
+		if (ChatRoomMapViewRange > ChatRoomMapViewRangeMin) {
+			ChatRoomMapViewRange--;
+		}
+		return true;
+	} else if (event.key === "+") {
+		if (ChatRoomMapViewRange < ChatRoomMapViewRangeMax) {
+			ChatRoomMapViewRange++;
+		}
+		return true;
+	} else if (CommonKeyMove(event) === "u") {
+		ChatRoomMapMove("North");
+		return true;
+	} else if (CommonKeyMove(event) === "l") {
+		ChatRoomMapMove("West");
+		return true;
+	} else if (CommonKeyMove(event) === "d") {
+		ChatRoomMapMove("South");
+		return true;
+	} else if (CommonKeyMove(event) === "r") {
+		ChatRoomMapMove("East");
+		return true;
+	} else if (event.key === "z" && event.ctrlKey) {
+		if (ChatRoomPlayerIsAdmin()) {
+			ChatRoomMapUndo();
+		}
+		return true;
+	}
+	return false;
 }
 
 /**

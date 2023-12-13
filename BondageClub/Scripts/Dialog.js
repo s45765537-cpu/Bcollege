@@ -3441,3 +3441,20 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		}
 	}
 }
+
+/**
+ * Keyboard handler for dialogs
+ *
+ * @type {KeyboardEventListener}
+ */
+function DialogKeyDown(event) {
+	if (CurrentCharacter) {
+		if (StruggleKeyDown(event)) {
+			return true;
+		} else if (event.code === "Escape") {
+			DialogMenuBack();
+			return true;
+		}
+	}
+	return false;
+}
