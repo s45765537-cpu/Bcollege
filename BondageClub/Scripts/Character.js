@@ -1584,10 +1584,14 @@ function CharacterDecompressWardrobe(Wardrobe) {
 		return outfit.map(([ Name, Group, Color, Property ]) => {
 			if (typeof Property?.Type === "string" && !CommonIsObject(Property?.TypeRecord)) {
 				const asset = AssetGet("Female3DCG", Group, Name);
-				Property.TypeRecord = ExtendedItemTypeToRecord(asset, Property.Type);
+				if (!asset) {
+					console.warn(`unable to find ${Group}/${Name}, ignoring`);
+				} else {
+					Property.TypeRecord = ExtendedItemTypeToRecord(asset, Property.Type);
+				}
 			}
 			return { Name, Group, Color, Property };
-		});
+		}).filter(o => o);
 	});
 }
 
