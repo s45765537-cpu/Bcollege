@@ -876,7 +876,7 @@ function CommonUnpackItemArray(arr) {
 function CommonCompareVersion(Current, Other) {
 	const CurrentMatch = GameVersionFormat.exec(Current);
 	const OtherMatch = GameVersionFormat.exec(Other);
-	if (CurrentMatch == null || OtherMatch == null || isNaN(CurrentMatch[1]) || isNaN(OtherMatch[1])) return -1;
+	if (!CurrentMatch || !OtherMatch) return -1;
 	const CurrentVer = [
 		Number.parseInt(CurrentMatch[1]),
 		CurrentMatch[2] === "Alpha" ? 1 : CurrentMatch[2] === "Beta" ? 2 : 3,
