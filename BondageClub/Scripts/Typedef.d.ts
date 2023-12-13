@@ -1729,6 +1729,8 @@ interface ChatSettingsType {
 	SearchShowsFullRooms?: any;
 	CensoredWordsList: string;
 	CensoredWordsLevel: number;
+	/** Whether to preserve the chat log when switching rooms */
+	PreserveChat: boolean;
 }
 
 interface GameplaySettingsType {

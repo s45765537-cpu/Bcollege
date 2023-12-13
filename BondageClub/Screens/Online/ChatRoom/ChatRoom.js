@@ -832,6 +832,8 @@ function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Pla
  * @returns {void} - Nothing.
  */
 function ChatRoomCreateElement() {
+	ChatRoomChatHidden = false;
+
 	// Creates the chat box
 	if (document.getElementById("InputChat") == null) {
 		ElementCreateTextArea("InputChat");
@@ -955,8 +957,12 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputMusicURL");
 
 	// Chatroom
-	ElementRemove("InputChat");
-	ElementRemove("TextAreaChatLog");
+	if (Player.ChatSettings?.PreserveChat ?? true) {
+		ChatRoomHideElements();
+	} else {
+		ElementRemove("InputChat");
+		ElementRemove("TextAreaChatLog");
+	}
 
 	// Preferences
 	ElementRemove("InputEmailOld");

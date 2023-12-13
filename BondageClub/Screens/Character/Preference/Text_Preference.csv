@@ -117,6 +117,9 @@ ShowAutomaticMessages,Show all automatic messages
 PreserveWhitespace,Preserve whitespace in messages
 ShowChatRoomHelp,Show help on first enter
 ShowBeepChat,Show beep notifications in chat
+PreserveChat,Preserve chat logs between rooms
+ChatSettingsPage0,Page 1/2
+ChatSettingsPage1,Page 2/2
 AudioVolume,Audio volume
 MusicVolume,Music volume
 AudioPlayBeeps,Audio alarm for beeps
@@ -354,8 +357,8 @@ ChatRoomMapLeaveOnExit,Can only leave a map near an entry or exit
 AllowBlur,Allow item blur effects (turn off if experiencing frame rate drops)
 GenderFemales,Females
 GenderMales,Males
-GenderAutoJoinSearch,Automatically enter the chatroom area for: 
-GenderHideShopItems,Hide shop items exclusively for: 
+GenderAutoJoinSearch,Automatically enter the chatroom area for:
+GenderHideShopItems,Hide shop items exclusively for:
 CensorExit,Apply the censoring
 CensorTitle,Select the censorship to apply and the words to censor in both the chat and room labels.
 CensorLevel,Censorship:
