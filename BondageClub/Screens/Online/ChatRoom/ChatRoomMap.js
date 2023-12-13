@@ -77,6 +77,7 @@ var ChatRoomMapObjectList = [
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
+	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2 },
 	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
 	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
 	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
@@ -86,6 +87,7 @@ var ChatRoomMapObjectList = [
 	{ ID: 3020, Type: "WallDecoration", Style: "Mirror" },
 	{ ID: 3030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
+	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
 
 	/*
 	{ ID: 3000, Type: "WallPath", Style: "Blank" },
