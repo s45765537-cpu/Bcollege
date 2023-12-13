@@ -15958,7 +15958,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Prerequisite: ["AccessVulva", "HasVagina"],
 				PoseMapping: {
-					Kneel: "Kneel",
+					...AssetPoseMapping.ItemVulva,
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
 				},
@@ -15997,7 +15997,10 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#624662"],
 				Effect: [E.FillVulva],
 				Prerequisite: ["AccessVulva", "HasVagina"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 20 }],
 				AllowActivity: ["PenetrateItem"],
 				CreateLayerTypes: ["typed"],
@@ -16018,6 +16021,8 @@ var AssetFemale3DCG = [
 				Effect: [E.Chaste],
 				DefaultColor: ["#3f3c3a"],
 				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
 					Spread: "Spread",
 				},
 				Extended: true,
@@ -16050,7 +16055,10 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis"],
 				AllowExpression: ["Hard"],
 				Priority: 24,
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				Layer: [{ Name: "CockRing", MirrorExpression: "Pussy" }],
 			},
 			{
@@ -16062,7 +16070,10 @@ var AssetFemale3DCG = [
 				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "Default", "#8D8D8D"],
@@ -16091,7 +16102,10 @@ var AssetFemale3DCG = [
 				Top: 410,
 				Priority: 24,
 				DefaultColor: ["#323232", "#EFB0F4"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				Layer: [
 					{ Name: "Strap", MirrorExpression: "Pussy" },
 					{ Name: "Egg", MirrorExpression: "Pussy" },
@@ -16106,7 +16120,10 @@ var AssetFemale3DCG = [
 				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CagePlastic2"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["Default", "#404040", "#404040", "#FFBC00"],
@@ -16134,7 +16151,10 @@ var AssetFemale3DCG = [
 				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["Default", "#555555", "#555555", "#FF0000"],
@@ -16162,7 +16182,10 @@ var AssetFemale3DCG = [
 				Effect: [E.Chaste],
 				Hide: ["Pussy"],
 				Attribute: ["CageFlat"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "Default"],
@@ -16187,7 +16210,10 @@ var AssetFemale3DCG = [
 				Difficulty: 50,
 				Effect: [E.Chaste],
 				Hide: ["Pussy"],
-				PoseMapping: {},
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
 				AllowLock: true,
 				Left: 200,
 				Top: 510,
@@ -17834,8 +17860,6 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 					Spread: "Spread",
-					AllFours: PoseType.HIDE,
-					Hogtied: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemButtAnalBeads2",
