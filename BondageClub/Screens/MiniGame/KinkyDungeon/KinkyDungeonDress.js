@@ -447,17 +447,17 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 			// Expressions for BC
 			let BlushCounter = 0;
 			/** @type {ExpressionName} */
-			let Blush = "";
+			let Blush = undefined;
 			/** @type {ExpressionName} */
-			let Eyes = "";
+			let Eyes = undefined;
 			/** @type {ExpressionName} */
-			let Eyes2 = "";
+			let Eyes2 = undefined;
 			/** @type {ExpressionName} */
-			let Eyebrows = "";
+			let Eyebrows = undefined;
 			/** @type {ExpressionName} */
-			let Mouth = "";
+			let Mouth = undefined;
 			/** @type {ExpressionName} */
-			let Fluids = "";
+			let Fluids = undefined;
 
 			if (KDToggles.Drool && !KinkyDungeonCanTalk()) {
 				if (KinkyDungeonGagTotal() > 0.9) Fluids = "DroolMessy";
@@ -465,7 +465,7 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 				else Fluids = "DroolLow";
 			}
 			if (KDToggles.Drool && KDGameData.KinkyDungeonLeashedPlayer > 0) {
-				if (Fluids.includes("Drool")) Fluids = Fluids.replace("Drool", "DroolTears");
+				if (Fluids.includes("Drool")) Fluids = /** @type {ExpressionName} */ (Fluids.replace("Drool", "DroolTears"));
 				else Fluids = "TearsHigh";
 			}
 
@@ -487,7 +487,7 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 
 			if (KDGameData.OrgasmTurns > 0) {
 				Eyebrows = "Soft";
-				Eyes2 = "";
+				Eyes2 = undefined;
 				Eyes = "LewdHeart";
 			} else if (KDGameData.OrgasmStamina > 0) {
 				Eyebrows = "Soft";
@@ -499,7 +499,7 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 
 			if (KinkyDungeonStatWill <= 2) {
 				Eyes = "Dazed";
-				Eyes2 = "";
+				Eyes2 = undefined;
 			}
 
 			if (KinkyDungeonStatDistraction > 0.01) BlushCounter += 1;
@@ -571,11 +571,11 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 
 	if (StandalonePatched && KDCurrentModels.get(Character)) {
 
-		if (!InventoryGet(Character, "Body")) KDInventoryWear("Body", "Body");
-		if (!InventoryGet(Character, "Eyes")) KDInventoryWear("KoiEyes", "Eyes");
-		if (!InventoryGet(Character, "Brows")) KDInventoryWear("KoiBrows", "Brows");
-		if (!InventoryGet(Character, "Mouth")) KDInventoryWear("KoiMouth", "Mouth");
-		if (!InventoryGet(Character, "Blush")) KDInventoryWear("KoiBlush", "Blush");
+		if (!KDInventoryGet(Character, "Body")) KDInventoryWear("Body", "Body");
+		if (!KDInventoryGet(Character, "Eyes")) KDInventoryWear("KoiEyes", "Eyes");
+		if (!KDInventoryGet(Character, "Brows")) KDInventoryWear("KoiBrows", "Brows");
+		if (!KDInventoryGet(Character, "Mouth")) KDInventoryWear("KoiMouth", "Mouth");
+		if (!KDInventoryGet(Character, "Blush")) KDInventoryWear("KoiBlush", "Blush");
 		//if (!InventoryGet(Character, "Hair")) KDInventoryWear("Braid", "Hair");
 
 
@@ -662,6 +662,14 @@ function KinkyDungeonGetOutfit(Name) {
 	return null;
 }
 
+/**
+ * @param {Character} C
+ * @param {KDAssetGroupName} group
+ * @returns
+ */
+function KDInventoryGet(C, group) {
+	return InventoryGet(C, /** @type {AssetGroupName} */ (group));
+}
 
 /**
  * Makes the KinkyDungeonPlayer wear an item on a body area

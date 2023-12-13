@@ -2349,6 +2349,10 @@ interface ItemPropertiesBase {
 	Intensity?: VibratorIntensity;
 	/** The vibrator's state; only relevant for advanced vibrator modes */
 	State?: VibratorModeState;
+
+	/** KD modules */
+	// FIXME: Note that, as far as I can see, it's only ever set, never read
+	Modules?: number[];
 }
 
 /**
