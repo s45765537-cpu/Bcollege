@@ -554,7 +554,7 @@ function PortalLinkCycleChastityModule(sender, item) {
 		if (!shield) return;
 
 		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
-		const shieldIndex = typeRecord[shield.Name] || 0;
+		const shieldIndex = typeRecord[shield.Key] || 0;
 		const idx = (shieldIndex + 1) % shield.Options.length;
 
 		ExtendedItemSetOptionByRecord(Player, item, { [shield.Key]: idx }, { push: true, C_Source: sender });
