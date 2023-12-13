@@ -3431,6 +3431,11 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // g0 - None
 						{}, // g1 - Panel
+						{
+							Property: {
+								Effect: [E.GagMedium],
+							}
+						}, // g2 - Ballgag
 					],
 				},
 				{

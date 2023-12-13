@@ -26438,25 +26438,25 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HoodMicroRound",
-						AllowTypes: { s: 1, h: [2, 4] },
+						AllowTypes: { s: 1, h: [3, 4] },
 						CopyLayerColor: "Hood",
 					},
 					{
 						Name: "HoodMicroSmall",
-						AllowTypes: { s: 1, h: [3, 6] },
+						AllowTypes: { s: 1, h: [5, 6] },
 						CopyLayerColor: "Hood",
 					},
 					{
 						Name: "HoodMicroWide",
-						AllowTypes: { s: 1, h: [4, 8] },
+						AllowTypes: { s: 1, h: [7, 8] },
 						CopyLayerColor: "Hood",
 					},
 					{
 						Name: "HoodMicroGrided",
-						AllowTypes: { s: 1, h: [5, 10] },
+						AllowTypes: { s: 1, h: [9, 10] },
 						CopyLayerColor: "Hood",
 					},
-					{ Name: "EyeShade", AllowTypes: { h: [1, 2] } },
+					{ Name: "EyeShade", AllowTypes: { s: 0, h: [1, 2] } },
 					{
 						Name: "NoseStencil",
 						AllowTypes: { h: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
