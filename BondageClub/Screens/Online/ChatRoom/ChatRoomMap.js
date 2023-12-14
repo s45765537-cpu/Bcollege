@@ -367,6 +367,10 @@ function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
 	return false;
 }
 
+/**
+ * Returns a object that contains the entry flag's position with x and y parameters or null if no entry flag is set
+ * @returns {{x: number, y: number}|null} - TRUE if a character wearing this item is found
+ */
 function ChatRoomMapGetEntryFlagPosition()
 {
 	for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
@@ -376,11 +380,6 @@ function ChatRoomMapGetEntryFlagPosition()
 		}
 	}
 	return null
-}
-
-function ChatRoomMapGetEntryPosition()
-{
-
 }
 
 /**
