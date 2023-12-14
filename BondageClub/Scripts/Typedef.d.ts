@@ -1512,6 +1512,7 @@ interface PlayerCharacter extends Character {
 		StimulationEvents: boolean;
 		ReturnToChatRoom: boolean;
 		ReturnToChatRoomAdmin: boolean;
+		ChatRoomMapOnlyExitOnEntry: boolean;
 		SenseDepMessages: boolean;
 		ChatRoomMuffle: boolean;
 		BlindAdjacent: boolean;
