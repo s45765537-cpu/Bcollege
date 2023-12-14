@@ -367,6 +367,22 @@ function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
 	return false;
 }
 
+function ChatRoomMapGetEntryFlagPosition()
+{
+	for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
+	{
+		if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
+			return { x: P % ChatRoomMapWidth, y: Math.floor(P / ChatRoomMapWidth) }
+		}
+	}
+	return null
+}
+
+function ChatRoomMapGetEntryPosition()
+{
+
+}
+
 /**
  * Draw the map grid and character on screen
  * @param {number} Left - The X position on the screen
@@ -387,22 +403,20 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		// Checks to see if we can load the previously saved position
 		if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (Player.LastChatRoom != null) && (Player.LastChatRoom.Name === ChatRoomData.Name) && (Player.LastMapData != null) && (Player.LastMapData.X != null) && (Player.LastMapData.Y != null)) {
-
 			// Restores the saved position
 			Player.MapData.X = Player.LastMapData.X;
 			Player.MapData.Y = Player.LastMapData.Y;
 
 		} else {
-
 			// Sets position in the middle of the scren by default, or at the entry flag if possible
-			Player.MapData.X = ChatRoomMapWidth / 2;
-			Player.MapData.Y = ChatRoomMapWidth / 2;
-			for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
-				if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
-					Player.MapData.X = P % ChatRoomMapWidth;
-					Player.MapData.Y = Math.floor(P / ChatRoomMapWidth);
-					break;
-				}
+			const entryPosition = ChatRoomMapGetEntryFlagPosition()
+			if(entryPosition == null) {
+				Player.MapData.X = ChatRoomMapWidth / 2
+				Player.MapData.Y = ChatRoomMapHeight / 2
+			} else {
+				Player.MapData.X = entryPosition.x
+				Player.MapData.Y = entryPosition.y
+			}
 
 		}
 
