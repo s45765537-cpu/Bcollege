@@ -7,11 +7,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Aiden", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter",
-	"Bryce", "Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak",
-	"Greendragon", "JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel",
-	"Mindtie", "Misa", "Nick", "Nightcore", "Qrroww", "Roxxy", "Soulcollar", "Tam",
-	"Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xbox", "Xepherio"
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Christian", 
+	"Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "GreenDragon", "JoeyDubDee", 
+	"John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie", "Misa", "Nick", 
+	"Nightcore", "Qrroww", "Roxxy", "Setsu", "SlitheryCandy", "SoulCollar", "Tam", "Tarram", 
+	"TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xbox", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
