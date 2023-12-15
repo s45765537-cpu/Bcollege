@@ -13668,7 +13668,7 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes13", FullAlpha: false },
 			{
 				Name: "Eyes14",
-				 DefaultColor: ["Default", "6B82A2", "Default", "Default", "Default", "#242424"],
+				 DefaultColor: ["Default", "#6B82A2", "Default", "Default", "Default", "#242424"],
 				 Layer: [
 					 { Name: "1", AllowColorize: true },
 					 { Name: "2", AllowColorize: true },
@@ -13861,8 +13861,8 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes13", ParentItem: "Eyes13", FullAlpha: false },
 			{
 				Name: "Eyes14", ParentItem: "Eyes14",
-				Left: 255, 
-                DefaultColor: ["Default", "6B82A2", "Default", "Default", "Default", "#242424"],
+				Left: 255,
+                DefaultColor: ["Default", "#6B82A2", "Default", "Default", "Default", "#242424"],
 				 Layer: [
 					 { Name: "1", AllowColorize: true },
 					 { Name: "2", AllowColorize: true },
