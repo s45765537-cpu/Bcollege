@@ -1097,6 +1097,7 @@ const DialogEffectIcons = /** @type {const} */({
 			const icon = (
 				DialogEffectIcons._GetGagIcon(effect, prop)
 				|| DialogEffectIcons._GetBlindIcon(effect, prop)
+				|| DialogEffectIcons._GetDeafIcon(effect)
 			);
 			if (icon) {
 				icons.push(icon);
@@ -1127,6 +1128,12 @@ const DialogEffectIcons = /** @type {const} */({
 			level += 2;
 		}
 		return DialogEffectIcons._BlindLevelToIcon(level);
+	},
+	/** @type {(effect: EffectName) => undefined | InventoryIcon} */
+	_GetDeafIcon(effect) {
+		/** @type {InventoryIcon[]} */
+		const keys = ["DeafLight", "DeafNormal", "DeafHeavy"];
+		return keys.find(k => DialogEffectIcons.Table[k].includes(effect));
 	},
 	/** @type {(level?: number) => null | InventoryIcon} */
 	_GagLevelToIcon: function (level) {
