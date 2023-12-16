@@ -1783,6 +1783,12 @@ type ExtendedItemScriptHookCallback<DataType extends ExtendedItemData<any>, T ex
 	...args: T,
 ) => RT;
 
+type ExtendedItemScriptHookCallbackNoNull<DataType extends ExtendedItemData<any>, T extends any[], RT=void> = (
+	data: DataType,
+	originalFunction: ((...args: T) => RT),
+	...args: T,
+) => RT;
+
 /** Basic callback for extended item functions */
 type ExtendedItemCallback<T extends any[], RT=void> = (
 	...args: T,
@@ -1793,13 +1799,13 @@ interface ExtendedItemScriptHookStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
-	load: null | ExtendedItemScriptHookCallbacks.Load<DataType>,
-	draw: null | ExtendedItemScriptHookCallbacks.Draw<DataType>,
-	click: null | ExtendedItemScriptHookCallbacks.Click<DataType>,
+	init: ExtendedItemScriptHookCallbacks.Init<DataType>,
+	load: ExtendedItemScriptHookCallbacks.Load<DataType>,
+	draw: ExtendedItemScriptHookCallbacks.Draw<DataType>,
+	click: ExtendedItemScriptHookCallbacks.Click<DataType>,
 	exit: null | ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	validate: null | ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	publishAction: null | ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
-	init: null | ExtendedItemScriptHookCallbacks.Init<DataType>,
 	setOption: null | ExtendedItemScriptHookCallbacks.SetOption<DataType, OptionType>,
 	beforeDraw: null | ExtendedItemScriptHookCallbacks.BeforeDraw<DataType>,
 	afterDraw: null | ExtendedItemScriptHookCallbacks.AfterDraw<DataType>,
@@ -1811,13 +1817,13 @@ interface ExtendedItemCapsScriptHooksStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
+	Init?: ExtendedItemScriptHookCallbacks.Init<DataType>,
 	Load?: ExtendedItemScriptHookCallbacks.Load<DataType>,
 	Draw?: ExtendedItemScriptHookCallbacks.Draw<DataType>,
 	Click?: ExtendedItemScriptHookCallbacks.Click<DataType>,
 	Exit?: ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	Validate?: ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	PublishAction?: ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
-	Init?: ExtendedItemScriptHookCallbacks.Init<DataType>,
 	SetOption?: ExtendedItemScriptHookCallbacks.SetOption<DataType, OptionType>,
 	BeforeDraw?: ExtendedItemScriptHookCallbacks.BeforeDraw<DataType>,
 	AfterDraw?: ExtendedItemScriptHookCallbacks.AfterDraw<DataType>,
@@ -1828,13 +1834,13 @@ interface ExtendedItemCapsScriptHooksStruct<
 interface ExtendedItemCallbackStruct<
 	OptionType extends ExtendedItemOption
 > {
-	load?: ExtendedItemCallbacks.Load,
-	draw?: ExtendedItemCallbacks.Draw,
-	click?: ExtendedItemCallbacks.Click,
+	init: ExtendedItemCallbacks.Init,
+	load: ExtendedItemCallbacks.Load,
+	draw: ExtendedItemCallbacks.Draw,
+	click: ExtendedItemCallbacks.Click,
 	exit?: ExtendedItemCallbacks.Exit,
 	validate?: ExtendedItemCallbacks.Validate<OptionType>,
 	publishAction?: ExtendedItemCallbacks.PublishAction<OptionType>,
-	init?: ExtendedItemCallbacks.Init,
 	setOption?: ExtendedItemCallbacks.SetOption<OptionType>,
 	beforeDraw?: ExtendedItemCallbacks.BeforeDraw,
 	afterDraw?: ExtendedItemCallbacks.AfterDraw,
@@ -1946,29 +1952,29 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 * Callback for extended item `Load` script hooks.
 	 * `Load` functions are responsible for setting up the UI when initially opening the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Load<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Draw` script hooks.
 	 * `Draw` functions are responsible for drawing any UI elements within the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Draw<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Click` script hooks.
 	 * `Click` functions are responsible for managing any mouse clicks within the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Click<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Exit` script hooks.
 	 * `Exit` functions are responsible for cleaning up any UI elements when closing the extended item menu.
@@ -2022,11 +2028,11 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type Init<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, [C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
 	/**
 	 * Callback for extended item `SetOption` functions.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 * @param C The character that has the item equiped
 	 * @param item The item in question
 	 * @param newOption The newly selected extended item option
