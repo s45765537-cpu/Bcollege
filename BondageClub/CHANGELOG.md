@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-12-09
-* Last recorded PR: [#4650](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4650)
-* Last recorded commit hash: `452c167644ad0b0c37475fc7ef1ee737197b275f`
+* Changelog last updated: 2023-12-15
+* Last recorded PR: [#4679](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4679)
+* Last recorded commit hash: `7d05b62960f71a24472f244b0a1470cb99747bd2`
 
 ## [R99]
 
@@ -79,6 +79,27 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Removed the `KneelFreeze` effect ([#4636](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4636))
 * Estsanatlehi - Changed the last chatroom data to be an actual chatroom object and repacking it on login ([#4634](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4634))
 * Estsanatlehi - Globally replaced all the .ID == 0 checks to use the .IsPlayer() function ([#4643](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4643))
+
+### [Beta changes]
+* Estsanatlehi - Updated the Modular Chastity Belt to the last type changes ([#4651](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4651))
+* Constantan4 - Added new eyes courtesy of Jimmy G ([#4653](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4653), [#4656](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4656), [#4668](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4668))
+* Estsanatlehi - Fixed a crash if you forcibly remove an item in the middle of struggling ([#4655](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4655))
+* Da'Inihlus - Updated the chinese translation ([#4658](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4658))
+* Estsanatlehi - Fixed a crash on entering because the Main Hall maid isn't there ([#4659](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4659))
+* Estsanatlehi - Restored Dialog_Player initial ordering to fix the dialog option order ([#4660](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4660))
+* Estsanatlehi - Removed the unnecessary `HasType`s on the new eyes ([#4661](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4661))
+* Rama - Updated various parts to handle the `TypeRecord` changes ([#4662](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4662))
+* Rama - Made sure that the lower body items are hidden by default for the hogtied/allfours poses ([#4663](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4663))
+* Rama - Fixed a missing `DefaultColor` entry for the handheld bun plush ([#4664](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4664))
+* Rama - Fixed the variable heights being caught by `Init` validation ([#4665](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4665))
+* Rama - Fixed the leather armbinder `HideAs` property reffering to the wrong asset ([#4666](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4666))
+* Estsanatlehi - Fixed the relogging not happening by making MainHallFirstFrame a latch ([#4667](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4667))
+* Estsanatlehi - Protected against missing assets when updating the wardrobe ([#4677](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4677))
+* Rama - Fixed the wooden box crashing when filtering null-valued effects ([#4676](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4676))
+* Estsanatlehi - Fixed a bug with the PortalLink chastity not cycling anymore ([#4675](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4675))
+* Estsanatlehi - Fixed a couple type mismatches in the Extendable Posture Collar ([#4673](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4673))
+* Rama - Hid the hogtied/allfours pose for more lower body items ([#4672](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4672))
+* Rama - Added an explicit mention of `ExtendedItemTypeToRecord()` in the old `.Type` docs ([#4679](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4679))
 
 ## [R98]
 

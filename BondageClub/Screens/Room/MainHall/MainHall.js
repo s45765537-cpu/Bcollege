@@ -155,7 +155,7 @@ function MainHallLoad() {
 	MainHallBackground = Player.VisualSettings && Player.VisualSettings.MainHallBackground ? Player.VisualSettings.MainHallBackground : "MainHall";
 	MainHallStartEventTimer = null;
 	MainHallNextEventTimer = null;
-	if (!Player.ImmersionSettings.ReturnToChatRoom || Player.LastChatRoom || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
+	if (!Player.ImmersionSettings.ReturnToChatRoom || !Player.LastChatRoom || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
 		MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
 	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
 	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
