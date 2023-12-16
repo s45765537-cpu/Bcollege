@@ -231,14 +231,21 @@ function ExtendedItemInitNoArch(C, Item, Properties, Push=true, Refresh=true) {
  * @param {ExtendedItemData<any>} data
  * @returns {void} Nothing
  */
-function ExtendedItemLoad({ functionPrefix, dialogPrefix, parentOption }) {
+function ExtendedItemLoad(data) {
+	const { functionPrefix, dialogPrefix, parentOption } = data;
 	if (ExtendedItemSubscreen && parentOption == null) {
 		CommonCallFunctionByNameWarn(`${functionPrefix}${ExtendedItemSubscreen}Load`);
 		return;
 	}
 
 	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) ExtendedItemSetOffset(0);
-	DialogExtendedMessage = dialogPrefix.header ? DialogFindPlayer(dialogPrefix.header) : "";
+	if (typeof dialogPrefix.header === "string") {
+		DialogExtendedMessage = DialogFindPlayer(dialogPrefix.header);
+	} else if (typeof dialogPrefix.header === "function") {
+		DialogExtendedMessage = dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
+	} else {
+		DialogExtendedMessage = "";
+	}
 }
 
 /**

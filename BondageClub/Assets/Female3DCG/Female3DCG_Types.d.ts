@@ -794,7 +794,7 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	 */
 	ChatSetting?: ExtendedItemChatSetting;
 	/** A record containing various dialog keys used by the extended item screen */
-	DialogPrefix?: ExtendedItemCapsDialog<OptionType>;
+	DialogPrefix?: ExtendedItemCapsDialog<any, OptionType>;
 	/**
 	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored.
@@ -973,7 +973,7 @@ interface TypedItemConfig extends ExtendedItemConfig<TypedItemOption> {
 	/** The optional text configuration for the item. Custom text keys can be configured within this object */
 	DialogPrefix?: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		Header?: string;
+		Header?: string | ExtendedItemHeaderCallback<TypedItemData>;
 		/** The dialogue prefix for the name of each option */
 		Option?: string;
 		/** The dialogue prefix that will be used for each of the item's chatroom messages */
@@ -1038,7 +1038,7 @@ interface ModularItemConfig extends ExtendedItemConfig<ModularItemOption> {
 	/** The optional text configuration for the item. Custom text keys can be configured within this object */
 	DialogPrefix?: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		Header?: string;
+		Header?: string | ExtendedItemHeaderCallback<ModularItemData>;
 		/** The dialogue prefix for the name of each module */
 		Module?: string;
 		/** The dialogue prefix for the name of each option */
@@ -1163,7 +1163,7 @@ interface VibratingItemConfig extends ExtendedItemConfig<VibratingItemOption> {
 	/** The optional text configuration for the item. Custom text keys can be configured within this object */
 	DialogPrefix?: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		Header?: string;
+		Header?: string | ExtendedItemHeaderCallback<VibratingItemData>;
 		/** The dialogue prefix for the name of each option */
 		Option?: string;
 		/** The dialogue prefix that will be used for each of the item's chatroom messages */
@@ -1198,7 +1198,7 @@ interface VariableHeightConfig extends ExtendedItemConfig<VariableHeightOption> 
 	/** A record containing various dialog keys used by the extended item screen */
 	DialogPrefix: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		Header?: string;
+		Header?: string | ExtendedItemHeaderCallback<VariableHeightData>;
 		/** The dialogue prefix that will be used for each of the item's chatroom messages */
 		Chat?: string | ExtendedItemChatCallback<VariableHeightOption>;
 		/** The dialogue prefix for the name of each option */
@@ -1225,7 +1225,7 @@ interface TextItemConfig extends ExtendedItemConfig<TextItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	DialogPrefix?: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		Header?: string;
+		Header?: string | ExtendedItemHeaderCallback<TextItemData>;
 		/** The dialogue prefix that will be used for each of the item's chatroom messages */
 		Chat?: string | ExtendedItemChatCallback<TextItemOption>;
 	};
@@ -1262,6 +1262,7 @@ interface NoArchItemConfig extends ExtendedItemConfig<NoArchItemOption> {
 	ScriptHooks?: ExtendedItemCapsScriptHooksStruct<NoArchItemData, NoArchItemOption>;
 	DrawData?: NoArchConfigDrawData;
 	BaselineProperty?: ItemProperties;
+	DialogPrefix?: ExtendedItemCapsDialog<NoArchItemData, NoArchItemOption>;
 }
 
 /** Extended item option subtype for text-supporting items */

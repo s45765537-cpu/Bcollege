@@ -8465,6 +8465,12 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
 			},
+			DialogPrefix: {
+				Header: (data, C, item) =>
+					`${DialogFindPlayer("CurrentMode")} ${DialogFindPlayer(
+						item.Property?.Mode ?? "Off",
+					)}`,
+			},
 			BaselineProperty: {
 				AccessMode: "",
 				TriggerValues: CommonConvertArrayToString(

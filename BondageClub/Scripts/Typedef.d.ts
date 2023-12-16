@@ -1749,12 +1749,19 @@ interface ExtendedItemDrawData<MetaData extends ElementMetaData> extends Require
 	paginate: boolean,
 }
 
+type ExtendedItemHeaderCallback<DataType extends ExtendedItemData<any>> = (
+	data: DataType,
+	C: Character,
+	item: Item,
+) => string;
+
 /** A record containing various dialog keys used by the extended item screen */
 interface ExtendedItemDialog<
-	OptionType extends ExtendedItemOption
+	DataType extends ExtendedItemData<any>,
+	OptionType extends ExtendedItemOption,
 > {
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-	header: string;
+	header: string | ExtendedItemHeaderCallback<DataType>;
 	/** The dialogue prefix for the name of each module */
 	module?: string;
 	/** The dialogue prefix for the name of each option */
@@ -1768,10 +1775,11 @@ interface ExtendedItemDialog<
 
 /** A record containing various dialog keys used by the extended item screen */
 interface ExtendedItemCapsDialog<
-	OptionType extends ExtendedItemOption
+	DataType extends ExtendedItemData<any>,
+	OptionType extends ExtendedItemOption,
 > {
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-	Header?: string;
+	Header?: string | ExtendedItemHeaderCallback<DataType>;
 	/** The dialogue prefix for the name of each module */
 	Module?: string;
 	/** The dialogue prefix for the name of each option */
@@ -2104,7 +2112,7 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	 */
 	chatSetting: ExtendedItemChatSetting;
 	/** A record containing various dialog keys used by the extended item screen */
-	dialogPrefix: ExtendedItemDialog<OptionType>;
+	dialogPrefix: ExtendedItemDialog<any, OptionType>;
 	/**
 	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored.
@@ -2604,7 +2612,7 @@ interface ModularItemData extends ExtendedItemData<ModularItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<ModularItemData>;
 		/** The dialogue prefix for the name of each module */
 		module: string;
 		/** The dialogue prefix for the name of each option */
@@ -2660,7 +2668,7 @@ interface TypedItemData extends ExtendedItemData<TypedItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<TypedItemData>;
 		/** The prefix used for dialog keys representing the display names of the item's types */
 		option: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
@@ -2765,7 +2773,7 @@ interface VibratingItemData extends ExtendedItemData<VibratingItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<VibratingItemData>;
 		/** The dialogue prefix for the name of each option */
 		option: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
@@ -2820,7 +2828,7 @@ interface VariableHeightData extends ExtendedItemData<VariableHeightOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string,
+		header: string | ExtendedItemHeaderCallback<VariableHeightData>,
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
 		chat: string | ExtendedItemChatCallback<VariableHeightOption>;
 		/** The dialogue prefix for the name of each option */
@@ -2846,7 +2854,7 @@ interface TextItemData extends ExtendedItemData<TextItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string,
+		header: string | ExtendedItemHeaderCallback<TextItemData>,
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
 		chat: string | ExtendedItemChatCallback<TextItemOption>;
 	};
@@ -2898,7 +2906,7 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 	drawData: ExtendedItemDrawData<ElementMetaData.NoArch>;
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<NoArchItemData>;
 		/** The prefix used for dialog keys representing the display names of the item's types */
 		option?: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */

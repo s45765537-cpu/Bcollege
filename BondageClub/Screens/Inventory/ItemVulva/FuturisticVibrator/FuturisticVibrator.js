@@ -14,16 +14,12 @@ const ItemVulvaFuturisticVibratorAccessModes = Object.values(ItemVulvaFuturistic
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<VibratingItemData>} */
 function InventoryItemVulvaFuturisticVibratorLoadHook(data, originalFunction) {
-	if (!FuturisticAccessLoad()) {
+	if (!FuturisticAccessLoad(data, originalFunction)) {
 		return;
 	}
 
-	const mode = DialogFindPlayer(DialogFocusItem.Property.Mode || "Off");
-	DialogExtendedMessage = `${DialogFindPlayer("CurrentMode")} ${mode}`;
-
-	ItemVulvaFuturisticVibratorTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
-
 	// Only create the inputs if the zone isn't blocked
+	ItemVulvaFuturisticVibratorTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
 	ItemVulvaFuturisticVibratorTriggers.forEach((trigger, i) => {
 		const input = ElementCreateInput("FuturisticVibe" + trigger, "text", "", "12");
 		if (input) input.setAttribute("placeholder", ItemVulvaFuturisticVibratorTriggerValues[i]);
