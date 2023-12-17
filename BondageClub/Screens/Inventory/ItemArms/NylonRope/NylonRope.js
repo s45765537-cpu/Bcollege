@@ -2,7 +2,8 @@
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
 function AssetsItemArmsNylonRopeBeforeDraw(data) {
-	if (data.LayerType === "BedSpreadEagle") {
+	const subType = data.Property?.TypeRecord?.typed ?? 0;
+	if (subType === 9) { // BedSpreadEagle
 		return {
 			X: data.X - 50,
 			Y: data.Y - 150,
