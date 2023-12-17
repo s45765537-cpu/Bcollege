@@ -285,6 +285,15 @@ function isAccentedOrLatinCharacter(character) {
 	return 'áàãâéèêíìîõóòôúùûñç'.includes(character);
 }
 
+/**
+ * Returns the index where the OOC part of a message starts as well as it's length
+ * @param {string} Message - The message to check
+ * @returns {{ start: number, length: number }}
+ */
+function SpeechGetOOCRange(Message) {
+	const startIndex = Message.indexOf("(")
+	return { start: startIndex, length: Message.length - startIndex }
+}
 
 /**
  * The core of the speech garble function, usable without being tied to a specific character
@@ -301,10 +310,12 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	if (CD == null) CD = "";
 	if (GagEffect === 0) return CD;
 
+	const oocRange = SpeechGetOOCRange(CD)
+
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
 		const H = CD.charAt(L).toLowerCase();
-		if ((H == "(" || H == '（') && !IgnoreOOC) Par = true;
+		Par = (L >= oocRange.start && L< oocRange.length);
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
@@ -580,11 +591,12 @@ function SpeechStutter(C, CD) {
 		var Par = false;
 		var CS = 1;
 		var Seed = CD.length;
+		const oocRange = SpeechGetOOCRange(CD)
 		for (let L = 0; L < CD.length; L++) {
 
 			// Do not stutter the letters between parentheses
 			var H = CD.charAt(L).toLowerCase();
-			if (H == "(") Par = true;
+			Par = (L >= oocRange.start && L< oocRange.length);
 
 			// If we are not between brackets and at the start of a word, there's a chance to stutter that word
 			if (!Par && CS >= 0 && (H.match(/[[a-zа-яё]/i))) {
@@ -624,9 +636,10 @@ function SpeechBabyTalk(C, CD) {
 	var NS = "";
 
 	if (C.Effect.indexOf("RegressedTalk") >= 0) {
+		const oocRange = SpeechGetOOCRange(CD)
 		for (let L = 0; L < CD.length; L++) {
 			var H = CD.charAt(L).toLowerCase();
-			if (H == "(") Par = true;
+			Par = (L >= oocRange.start && L< oocRange.length);
 			if (!Par) {
 				if ('kl'.includes(H)) NS += 'w';
 				else if (H == "s") NS += 'sh';
