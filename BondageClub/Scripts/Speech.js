@@ -316,7 +316,7 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
 		const H = CD.charAt(L).toLowerCase();
-		Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
+		Par =  (!IgnoreOOC && L >= oocRange.start && L< oocRange.start + oocRange.length);
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
