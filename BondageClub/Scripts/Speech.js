@@ -288,10 +288,11 @@ function isAccentedOrLatinCharacter(character) {
 /**
  * Returns the index where the OOC part of a message starts as well as it's length
  * @param {string} Message - The message to check
- * @returns {{ start: number, length: number }}
+ * @returns {{ start: number, length: number }} start - Contains the starting position of the OOC section of Message (Without OOC section, this references past the end of Message); length - contains the length of the OOC section of Message
  */
 function SpeechGetOOCRange(Message) {
-	const startIndex = Message.indexOf("(")
+	let startIndex = Message.indexOf("(")
+	if(startIndex < 0) { startIndex = Message.length }
 	return { start: startIndex, length: Message.length - startIndex }
 }
 
