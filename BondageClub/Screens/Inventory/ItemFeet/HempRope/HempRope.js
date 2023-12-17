@@ -2,7 +2,8 @@
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
 function AssetsItemFeetHempRopeBeforeDraw(data) {
-	if (data.LayerType === "BedSpreadEagle") {
+	const subType = data.Property?.TypeRecord?.typed ?? 0;
+	if (subType === 6) { // BedSpreadEagle
 		return {
 			X: data.X -125,
 			Y: data.Y -170,
