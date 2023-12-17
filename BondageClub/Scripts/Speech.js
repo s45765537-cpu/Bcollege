@@ -316,7 +316,7 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
 		const H = CD.charAt(L).toLowerCase();
-		Par = (L >= oocRange.start && L< oocRange.length);
+		Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
@@ -597,7 +597,7 @@ function SpeechStutter(C, CD) {
 
 			// Do not stutter the letters between parentheses
 			var H = CD.charAt(L).toLowerCase();
-			Par = (L >= oocRange.start && L< oocRange.length);
+			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
 
 			// If we are not between brackets and at the start of a word, there's a chance to stutter that word
 			if (!Par && CS >= 0 && (H.match(/[[a-zа-яё]/i))) {
@@ -640,7 +640,7 @@ function SpeechBabyTalk(C, CD) {
 		const oocRange = SpeechGetOOCRange(CD)
 		for (let L = 0; L < CD.length; L++) {
 			var H = CD.charAt(L).toLowerCase();
-			Par = (L >= oocRange.start && L< oocRange.length);
+			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
 			if (!Par) {
 				if ('kl'.includes(H)) NS += 'w';
 				else if (H == "s") NS += 'sh';
