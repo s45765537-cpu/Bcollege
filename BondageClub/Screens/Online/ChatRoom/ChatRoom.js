@@ -3353,7 +3353,17 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
-	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter)) return;
+	
+	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
+	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
+	{
+		// Get the OOC part range of the message
+		const oocRange = SpeechGetOOCRange(msg)
+		// If the message has no OOC part, don't send anyting
+		if(oocRange.start >= msg.length) { return; }
+		// If the message has a OOC part, set it as new message and send it normally
+		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length)
+	}
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	msg = CommonCensor(msg);
