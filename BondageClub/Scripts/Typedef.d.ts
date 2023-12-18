@@ -2584,12 +2584,6 @@ type ModularItemButtonDefinition = [ModularItemOption | ModularItemModule, Modul
 //#region Typed Items
 
 /**
- * Callback for custom functions used for setting the `DialogFocusItem.Type` attribute.
- * Relevant for typed items that lack an archetype.
- */
-type TypedItemSetTypeCallback = (NewType: string) => void;
-
-/**
  * An object containing typed item configuration for an asset. Contains all of the necessary information for the item's
  * load, draw & click handlers.
  */

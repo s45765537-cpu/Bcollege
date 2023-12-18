@@ -5,98 +5,98 @@ var InventoryItemNeckSlaveCollarColor = "Default";
 var InventoryItemNeckSlaveCollarOffset = 0;
 
 // Defines all the slave collar models
-/** @type {{ Name: string, Property: ItemProperties & { Type: null | string }, Image: string }[]} */
+/** @type {{ Name: string, Property: ItemProperties & { TypeRecord: TypeRecord }, Image: string }[]} */
 var InventoryItemNeckSlaveCollarTypes = [
 	{
 		Name: "",
 		Image: "SlaveCollar",
-		Property: { Type: null },
+		Property: { TypeRecord: { noarch: 0 } },
 	}, {
 		Name: "SteelPosture",
 		Image: "SteelPostureCollar",
-		Property: { Type: "SteelPosture", Effect: ["FixedHead"], Block: [] },
+		Property: { TypeRecord: { noarch: 1 }, Effect: ["FixedHead"], Block: [] },
 	}, {
 		Name: "LeatherPosture",
 		Image: "PostureCollar",
-		Property: { Type: "LeatherPosture", Effect: ["FixedHead"], Block: [] },
+		Property: { TypeRecord: { noarch: 2 }, Effect: ["FixedHead"], Block: [] },
 	},{
 		Name: "PetCollar",
 		Image: "PetCollar",
-		Property: { Type: "PetCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 3 }, Effect: [], Block: [] },
 	},{
 		Name: "HighCollar",
 		Image: "HighCollar",
-		Property: { Type: "HighCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 4 }, Effect: [], Block: [] },
 	},{
 		Name: "LeatherCollarBell",
 		Image: "LeatherCollarBell",
-		Property: { Type: "LeatherCollarBell", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 5 }, Effect: [], Block: [] },
 	},{
 		Name: "LeatherCollarBow",
 		Image: "LeatherCollarBow",
-		Property: { Type: "LeatherCollarBow", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 6 }, Effect: [], Block: [] },
 	},{
 		Name: "MaidCollar",
 		Image: "MaidCollar",
-		Property: { Type: "MaidCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 7 }, Effect: [], Block: [] },
 	},{
 		Name: "BatCollar",
 		Image: "BatCollar",
-		Property: { Type: "BatCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 8 }, Effect: [], Block: [] },
 	},{
 		Name: "HighSecurityCollar",
 		Image: "HighSecurityCollar",
-		Property: { Type: "HighSecurityCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 9 }, Effect: [], Block: [] },
 	},{
 		Name: "SpikeCollar",
 		Image: "SpikeCollar",
-		Property: { Type: "SpikeCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 10 }, Effect: [], Block: [] },
 	},{
 		Name: "BordelleCollar",
 		Image: "BordelleCollar",
-		Property: { Type: "BordelleCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 11 }, Effect: [], Block: [] },
 	},{
 		Name: "LeatherCorsetCollar",
 		Image: "LeatherCorsetCollar",
-		Property: { Type: "LeatherCorsetCollar", Effect: ["GagNormal"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"] },
+		Property: { TypeRecord: { noarch: 12 }, Effect: ["GagNormal"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"] },
 	},{
 		Name: "StrictPostureCollar",
 		Image: "StrictPostureCollar",
-		Property: { Type: "StrictPostureCollar", Effect: ["FixedHead"], Block: [] },
+		Property: { TypeRecord: { noarch: 13 }, Effect: ["FixedHead"], Block: [] },
 	},{
 		Name: "LatexPostureCollar",
 		Image: "LatexPostureCollar",
-		Property: { Type: "LatexPostureCollar", Effect: ["GagNormal", "FixedHead"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"] },
+		Property: { TypeRecord: { noarch: 14 }, Effect: ["GagNormal", "FixedHead"], Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"] },
 	},{
 		Name: "HeartCollar",
 		Image: "HeartCollar",
-		Property: { Type: "HeartCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 15 }, Effect: [], Block: [] },
 	},{
 		Name: "NobleCorsetCollar",
 		Image: "NobleCorsetCollar",
-		Property: { Type: "NobleCorsetCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 16 }, Effect: [], Block: [] },
 	},{
 		Name: "OrnateCollar",
 		Image: "OrnateCollar",
-		Property: { Type: "OrnateCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 17 }, Effect: [], Block: [] },
 	},{
 		Name: "SlenderSteelCollar",
 		Image: "SlenderSteelCollar",
-		Property: { Type: "SlenderSteelCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 18 }, Effect: [], Block: [] },
 	},{
 		Name: "ShinySteelCollar",
 		Image: "ShinySteelCollar",
-		Property: { Type: "ShinySteelCollar", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 19 }, Effect: [], Block: [] },
 	},{
 		Name: "HeartLinkChoker",
 		Image: "HeartLinkChoker",
-		Property: { Type: "HeartLinkChoker", Effect: [], Block: [] },
+		Property: { TypeRecord: { noarch: 20 }, Effect: [], Block: [] },
 	}
 ];
 
 /** @type {ExtendedItemCallbacks.Init} */
 function InventoryItemNeckSlaveCollarInit(C, Item, Push, Refresh) {
-	return ExtendedItemInitNoArch(C, Item, { Type: null, Effect: [], Block: [] }, Push, Refresh);
+	return ExtendedItemInitNoArch(C, Item, { TypeRecord: { noarch: 0 }, Effect: [], Block: [] }, Push, Refresh);
 }
 
 /** @type {ExtendedItemCallbacks.Load} */
@@ -108,7 +108,7 @@ function InventoryItemNeckSlaveCollarLoad() {
 		InventoryItemNeckSlaveCollarTypes.push({
 			Name: "LoveLeatherCollar",
 			Image: "LoveLeatherCollar",
-			Property: {Type: "LoveLeatherCollar", Effect: [], Block: []},
+			Property: {TypeRecord: { noarch: 21 }, Effect: [], Block: []},
 		});
 	}
 	else if (C && C.IsOwnedByPlayer && !C.IsLoverOfPlayer() && SC) { InventoryItemNeckSlaveCollarTypes.splice(InventoryItemNeckSlaveCollarTypes.indexOf(SC,1)); }
@@ -139,10 +139,10 @@ function InventoryItemNeckSlaveCollarDraw() {
 				const A = DialogFocusItem.Asset;
 				const Type = InventoryItemNeckSlaveCollarTypes[I];
 				const CollarTypeAsset = AssetGet(A.Group.Family, A.Group.Name, Type.Image);
-				const CurrentType = DialogFocusItem.Property && DialogFocusItem.Property.Type || "";
+				const subType = DialogFocusItem.Property?.TypeRecord?.noarch ?? 0;
 				const buttonX = 1000 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250;
 				const buttonY = 350 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300;
-				DrawPreviewBox(buttonX, buttonY, `${AssetGetPreviewPath(DialogFocusItem.Asset)}/${Type.Image}.png`, CollarTypeAsset.Description, {Hover: true, Disabled: CurrentType === Type.Name});
+				DrawPreviewBox(buttonX, buttonY, `${AssetGetPreviewPath(DialogFocusItem.Asset)}/${Type.Image}.png`, CollarTypeAsset.Description, {Hover: true, Disabled: subType === I});
 			}
 		}
 	}
@@ -202,9 +202,9 @@ function InventoryItemNeckSlaveCollarClick() {
 				ElementCreateInput("InputColor", "text", (DialogColorSelect != null) ? DialogColorSelect.toString() : "");
 			}
 			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
-				var Type = DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.Type || "";
-				if ((MouseX >= 1000 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseX <= 1225 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseY >= 350 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (MouseY <= 625 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (Type != InventoryItemNeckSlaveCollarTypes[I].Name))
-					InventoryItemNeckSlaveCollarSetType(InventoryItemNeckSlaveCollarTypes[I].Name);
+				var subType = DialogFocusItem?.Property?.TypeRecord?.noarch ?? 0;
+				if ((MouseX >= 1000 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseX <= 1225 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseY >= 350 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (MouseY <= 625 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (subType != I))
+					InventoryItemNeckSlaveCollarSetType(I);
 			}
 
 		}
@@ -214,11 +214,11 @@ function InventoryItemNeckSlaveCollarClick() {
 
 /**
  * Sets the slave collar model
- * @type {TypedItemSetTypeCallback}
+ * @param {number} NewType
  */
 function InventoryItemNeckSlaveCollarSetType(NewType) {
 	var C = CharacterGetCurrent();
-	var Type = InventoryItemNeckSlaveCollarTypes.find(Collar => Collar.Name == NewType) || InventoryItemNeckSlaveCollarTypes[0];
+	var Type = InventoryItemNeckSlaveCollarTypes[NewType] ?? InventoryItemNeckSlaveCollarTypes[0];
 	DialogFocusItem.Property = Type.Property;
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
