@@ -1012,7 +1012,12 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 			/** @type {[type: PartialType | null, poses: Iterable<AssetPoseName | PoseType>][]} */
 			let layerTypes = [[null, poses]];
 			const optionsRecord = getExtendedOptions(asset, extendedDataRecords);
-			if (layer.CreateLayerTypes.length || layer.AllowTypes) {
+			if (asset.Name === "SlaveCollar") {
+				layerTypes = [];
+				for (let i = 0; i <= 21; i++) {
+					layerTypes.push([`noarch${i}`, poses]);
+				}
+			} else if (layer.CreateLayerTypes.length || layer.AllowTypes) {
 				/** @type {PartialType[]} */
 				const partialLayerTypes = [];
 				/** @type {ExtendedItemOption[]} */
