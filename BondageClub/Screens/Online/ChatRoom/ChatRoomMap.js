@@ -774,6 +774,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 function ChatRoomMapMove(D) {
 
 	// Nothing to do if that current move is in progress
+	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return;
 	if ((ChatRoomMapMovement != null) && (ChatRoomMapMovement.Direction === D)) return;
 
 	// Gets the new position
