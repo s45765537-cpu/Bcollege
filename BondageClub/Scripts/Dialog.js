@@ -2546,6 +2546,7 @@ function DialogExtendItem(Item, SourceItem) {
 	DialogChangeMode("extended");
 	DialogFocusItem = Item;
 	DialogFocusSourceItem = SourceItem;
+	ExtendedItemInit(C, Item.Asset.IsLock ? SourceItem : Item, false, true);
 	CommonDynamicFunction("Inventory" + Item.Asset.Group.Name + Item.Asset.Name + "Load()");
 }
 
