@@ -116,7 +116,7 @@ function PoseAvailable(C, category, poseName) {
 		return false;
 	}
 	const poseList = C.AllowedActivePoseMapping[category];
-	return !poseList || poseList.includes(poseName);
+	return poseList?.includes(poseName) ?? true;
 }
 
 /**
@@ -146,7 +146,7 @@ function PoseSetByItems(C, category, poseName) {
 		return false;
 	}
 	const poseList = C.AllowedActivePoseMapping[category];
-	return poseList && poseList.includes(poseName);
+	return poseList?.includes(poseName) ?? false;
 }
 
 /**

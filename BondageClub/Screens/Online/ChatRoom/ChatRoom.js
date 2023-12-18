@@ -588,7 +588,12 @@ function DialogCanPerformCharacterAction() {
  * @returns {boolean} - Whether or not the target character can stand
  */
 function ChatRoomCanAssistStand() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && CurrentCharacter.IsKneeling();
+	return (
+		Player.CanInteract()
+		&& CurrentCharacter.AllowItem
+		&& PoseAllStanding.some(p => PoseAvailable(CurrentCharacter, "BodyLower", p))
+		&& CurrentCharacter.IsKneeling()
+	);
 }
 
 /**
@@ -599,7 +604,12 @@ function ChatRoomCanAssistStand() {
  */
 
 function ChatRoomCanAssistKneel() {
-	return Player.CanInteract() && CurrentCharacter.AllowItem && PoseSetByItems(CurrentCharacter, "BodyLower", "Kneel") && !CurrentCharacter.IsKneeling();
+	return (
+		Player.CanInteract()
+		&& CurrentCharacter.AllowItem
+		&& PoseAllKneeling.some(p => PoseAvailable(CurrentCharacter, "BodyLower", p))
+		&& !CurrentCharacter.IsKneeling()
+	);
 }
 
 /**
