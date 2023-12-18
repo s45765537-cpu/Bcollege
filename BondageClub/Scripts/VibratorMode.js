@@ -475,7 +475,7 @@ function VibratorModeUpdateStateBased(data, C, item, persistentData, transitions
 	if (Intensity !== -1) Effect.push("Vibrating");
 
 	const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
-	ExtendedItemSetProperty(C, item, option.Property, { Mode: persistentData.Mode, State, Intensity, Effect }, false);
+	ExtendedItemSetProperty(C, item, option.Property, { Mode: persistentData.Mode, TypeRecord: { ...option.Property.TypeRecord }, State, Intensity, Effect }, false);
 
 	Object.assign(persistentData, {
 		ChangeTime: CommonTime() + 5000,
@@ -508,7 +508,12 @@ const VibratorModeUpdate = {
 		const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 		ExtendedItemSetProperty(
 			C, item, option.Property,
-			{ Mode: persistentData.Mode, Intensity: newIntensity, Effect: effect },
+			{
+				Mode: persistentData.Mode,
+				TypeRecord: { ...option.Property.TypeRecord },
+				Intensity: newIntensity,
+				Effect: effect,
+			},
 		);
 
 		// Next update in 1-3 minutes
@@ -531,7 +536,12 @@ const VibratorModeUpdate = {
 		const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 		ExtendedItemSetProperty(
 			C, item, option.Property,
-			{ Mode: persistentData.Mode, Intensity: newIntensity, Effect: ["Egged", "Vibrating"] },
+			{
+				Mode: persistentData.Mode,
+				TypeRecord: { ...option.Property.TypeRecord },
+				Intensity: newIntensity,
+				Effect: ["Egged", "Vibrating"]
+			},
 		);
 
 		// As intensity increases, time between updates decreases
@@ -580,7 +590,12 @@ const VibratorModeUpdate = {
 		const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 		ExtendedItemSetProperty(
 			C, item, option.Property,
-			{ Mode: persistentData.Mode, Intensity: newIntensity, Effect: ["Egged", "Vibrating", "Edged"] },
+			{
+				Mode: persistentData.Mode,
+				TypeRecord: { ...option.Property.TypeRecord },
+				Intensity: newIntensity,
+				Effect: ["Egged", "Vibrating", "Edged"],
+			},
 		);
 
 		if (newIntensity === 3) {
