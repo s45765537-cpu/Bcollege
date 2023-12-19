@@ -1024,6 +1024,8 @@ function ChatRoomMapMouseMove() {
  */
 function ChatRoomMapMouseUp() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
+		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
 	ChatRoomMapEditStarted = false;
 }
 
