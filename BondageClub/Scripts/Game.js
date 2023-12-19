@@ -32,7 +32,8 @@ function GameStart() {
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
 
-	canvas.addEventListener("keypress", GameKeyDown);
+	canvas.addEventListener("keydown", GameKeyDown);
+	canvas.addEventListener("keyup", GameKeyUp);
 	
 	canvas.addEventListener("mousedown", GameMouseDown);
 	canvas.addEventListener("mouseup", GameMouseUp);
@@ -77,6 +78,10 @@ function GameKeyDown(event) {
 	if (event.repeat) return;
 	KeyPress = event.keyCode || event.which;
 	CommonKeyDown(event);
+}
+
+function GameKeyUp(event) {
+	CommonKeyUp(event);
 }
 
 /**

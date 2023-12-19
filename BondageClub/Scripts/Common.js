@@ -319,18 +319,27 @@ function CommonTouchActive(X, Y, W, H, TL) {
  * @returns {void} - Nothing
  */
 function CommonKeyDown(event) {
-	if (CurrentCharacter == null) {
-		if (CurrentScreenFunctions.KeyDown)
-			CurrentScreenFunctions.KeyDown(event);
-		if (ControllerIsActive()) {
-			ControllerSupportKeyDown();
-		}
-	}
-	else {
+	if(StruggleMinigameIsRunning()) {
 		StruggleKeyDown();
 		if (ControllerIsActive()) {
 			ControllerSupportKeyDown();
 		}
+		return;
+	}
+	if (CurrentScreenFunctions.KeyDown)
+	{
+		CurrentScreenFunctions.KeyDown(event);
+	}
+	if (ControllerIsActive()) {
+		ControllerSupportKeyDown();
+	}
+}
+
+function CommonKeyUp(event) {
+	if(StruggleMinigameIsRunning()) { return; }
+	if (CurrentScreenFunctions.KeyUp)
+	{
+		CurrentScreenFunctions.KeyUp(event);
 	}
 }
 
@@ -466,6 +475,7 @@ function CommonSetScreen(NewModule, NewScreen) {
 		Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
 		Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
 		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
+		KeyUp: typeof window[`${NewScreen}KeyUp`] === "function" ? window[`${NewScreen}KeyUp`] : undefined,
 		Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
 	};
 

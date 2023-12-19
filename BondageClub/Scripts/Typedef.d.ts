@@ -1010,24 +1010,24 @@ interface ScreenFunctions {
 	 * Called if the user presses the mouse button or touches the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseDown(event: MouseEvent | TouchEvent): void;
+	MouseDown?(event: MouseEvent | TouchEvent): void;
 		/**
 	 * Called if the user releases the mouse button or the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseUp(event: MouseEvent | TouchEvent): void;
+	MouseUp?(event: MouseEvent | TouchEvent): void;
 	/**
 	 * Called if the user moves the mouse cursor or the touch on the touchscreen over the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseMove(event: MouseEvent | TouchEvent): void;
+	MouseMove?(event: MouseEvent | TouchEvent): void;
 	/**
-	 * Called if user moves the mouse wheel on the canvas
+	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel(event: MouseEvent | TouchEvent): void;
+	MouseWheel?(event: MouseEvent | TouchEvent): void;
 	/**
-	 * Called when user clicks on the canvas
+	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
 	Click(event: MouseEvent | TouchEvent): void;
@@ -1043,10 +1043,15 @@ interface ScreenFunctions {
 	 */
 	Resize?(load: boolean): void;
 	/**
-	 * Called when user presses any key
+	 * Called if the the user presses any key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
 	KeyDown?(event: KeyboardEvent): void;
+	/**
+	 * Called if the user releases a pressed key
+	 * @param {KeyboardEvent} event - The event that triggered this
+	 */
+	KeyUp?(event: KeyboardEvent): void;
 	/** Called when user presses Esc */
 	Exit?(): void;
 }
