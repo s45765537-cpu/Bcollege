@@ -146,11 +146,11 @@ function ColorPickerGetCoordinates(Event) {
 	if (isTouchEvent(Event)) {
 		if (Event.changedTouches) {
 			// Mobile
-			TouchMove(Event);
+			GameTouchMove(Event, false);
 		}
 	} else {
 		// PC
-		MouseMove(Event);
+		GameMouseMove(Event, false);
 	}
 
 	return { X: MouseX, Y: MouseY };

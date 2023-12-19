@@ -1007,6 +1007,26 @@ interface ScreenFunctions {
 	 */
 	Run(time: number): void;
 	/**
+	 * Called if the user presses the mouse button or touches the touchscreen on the canvas
+	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 */
+	MouseDown(event: MouseEvent | TouchEvent): void;
+		/**
+	 * Called if the user releases the mouse button or the touchscreen on the canvas
+	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 */
+	MouseUp(event: MouseEvent | TouchEvent): void;
+	/**
+	 * Called if the user moves the mouse cursor or the touch on the touchscreen over the canvas
+	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 */
+	MouseMove(event: MouseEvent | TouchEvent): void;
+	/**
+	 * Called if user moves the mouse wheel on the canvas
+	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 */
+	MouseWheel(event: MouseEvent | TouchEvent): void;
+	/**
 	 * Called when user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
