@@ -108,22 +108,21 @@ var ChatRoomMapObjectList = [
 function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != null) && (ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type != "Never")); }
 
 /**
- * Activates the chat room map and the required events
+ * Activates the chat room map
  * @returns {void} - Nothing
  */
 function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
 	if (ChatRoomMapEventLoaded) return;
 	ChatRoomMapEventLoaded = true;
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", ChatRoomMapMouseDown);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousemove", ChatRoomMapMouseMove);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", ChatRoomMapMouseUp);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("wheel", ChatRoomMapMouseWheel);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("keydown", ChatRoomMapKeyDown);
-	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", ChatRoomMapMouseDown);
-	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchmove", ChatRoomMapMouseMove);
-	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", ChatRoomMapMouseUp);
+}
+
+/**
+ * Deactivates the chat room map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapDeactivate() {
+	ChatRoomMapVisible = false;
 }
 
 /**

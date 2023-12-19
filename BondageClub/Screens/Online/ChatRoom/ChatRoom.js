@@ -1885,7 +1885,7 @@ function ChatRoomRun() {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomMapVisible = false;
+	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomMapDeactivate();
 	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomMapActivate();
 	if (!ChatRoomMapVisible) ChatRoomDrawCharacter();
 	else ChatRoomMapDraw();
@@ -1987,6 +1987,34 @@ function ChatRoomMenuDraw() {
 			color = "White";
 		}
 		DrawButton(1005 + Space * Number(idx), 2, 120, 60, "", color, "Icons/Rectangle/" + name + suffix + ".png", TextGet("Menu" + name));
+	}
+}
+
+function ChatRoomMouseDown(event) {
+	if(ChatRoomMapVisible)
+	{
+		ChatRoomMapMouseDown()
+	}
+}
+
+function ChatRoomMouseUp(event) {
+	if(ChatRoomMapVisible)
+	{
+		ChatRoomMapMouseUp()
+	}
+}
+
+function ChatRoomMouseMove(event) {
+	if(ChatRoomMapVisible)
+	{
+		ChatRoomMapMouseMove()
+	}
+}
+
+function ChatRoomMouseWheel(event) {
+	if(ChatRoomMapVisible)
+	{
+		ChatRoomMapMouseWheel(event)
 	}
 }
 
@@ -2289,7 +2317,10 @@ function ChatRoomKeyDown(event) {
 
 	// If the input text is not focused and not on mobile, set the focus to it
 	if (document.activeElement.id != "InputChat") {
-		if (ChatRoomMapVisible) return;
+		if (ChatRoomMapVisible) {
+			ChatRoomMapKeyDown(event);
+			return;
+		}
 		else ElementFocus("InputChat");
 	}
 
