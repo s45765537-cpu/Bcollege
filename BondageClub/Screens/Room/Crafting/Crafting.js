@@ -694,8 +694,8 @@ function CraftingDeserialize(craftString) {
 		Color,
 		Private,
 		Type,
-		ItemProperty,
 		OverridePriority,
+		ItemProperty,
 		TypeRecord,
 	] = craftString.split(CraftingSerializeFieldSep);
 
