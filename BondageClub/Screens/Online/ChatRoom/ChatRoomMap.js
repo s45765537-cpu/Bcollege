@@ -540,7 +540,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	// If the user hovers the mouse over a tile occupied by a character
 	if(CharacterUnderCursor)
 	{
-		DrawText(`${CharacterNickname(CharacterUnderCursor.Character)}(${CharacterUnderCursor.Character.MemberNumber})`,
+		DrawText(CharacterNickname(CharacterUnderCursor.Character),
 		CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
 		ChatRoomDrawCharacterStatusIcons(CharacterUnderCursor.Character, CharacterUnderCursor.StatusBaseX - 125, CharacterUnderCursor.StatusBaseY - 40, 0.5)
 	}
