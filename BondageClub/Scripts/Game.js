@@ -27,12 +27,10 @@ function GameStart() {
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
-	document.addEventListener("keydown", DocumentKeyDown);
+	document.addEventListener("keydown", GameKeyDown);
 
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
-
-	canvas.addEventListener("keypress", GameKeyDown);
 
 	canvas.addEventListener("click", MouseClick);
 	canvas.addEventListener("mousemove", MouseMove);
@@ -72,28 +70,25 @@ function GameRun(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	if (event.repeat) return;
+	if (event.repeat) return false;
+	let handled = false;
 	KeyPress = event.keyCode || event.which;
-	CommonKeyDown(event);
-}
-
-/**
- * Handler for document-wide keydown event
- * @param {KeyboardEvent} event
- */
-function DocumentKeyDown(event) {
-	if (event.repeat) return;
-	if (event.key == "Escape") {
-		if (CurrentScreenFunctions.Exit) {
-			CurrentScreenFunctions.Exit();
-		} else if ((CurrentCharacter != null)) {
-			DialogMenuBack();
-		} else if ((CurrentCharacter == null) && (CurrentScreen == "ChatRoom") && (document.getElementById("TextAreaChatLog") != null)) {
-			ElementScrollToEnd("TextAreaChatLog");
-		}
-	} else if (event.key == "Tab") {
-		GameKeyDown(event);
+	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
+		handled = true;
+	} else if (event.key == "Escape" && CurrentScreenFunctions.Exit) {
+		CurrentScreenFunctions.Exit();
+		handled = true;
+	} else if (DialogKeyDown(event)) {
+		handled = true;
+	} else if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
+		handled = true;
 	}
+
+	if (handled) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
+	return handled;
 }
 
 /**

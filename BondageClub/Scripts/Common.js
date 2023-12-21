@@ -287,24 +287,11 @@ function CommonTouchActive(X, Y, W, H, TL) {
 
 /**
  * Catches key presses on the main screen and forwards it to the current screen key down function if it exists, otherwise it sends it to the dialog key down function
+ * @deprecated Use GameKeyDown instead
  * @param {KeyboardEvent} event - The event that triggered this
  * @returns {void} - Nothing
  */
-function CommonKeyDown(event) {
-	if (CurrentCharacter == null) {
-		if (CurrentScreenFunctions.KeyDown)
-			CurrentScreenFunctions.KeyDown(event);
-		if (ControllerIsActive()) {
-			ControllerSupportKeyDown();
-		}
-	}
-	else {
-		StruggleKeyDown();
-		if (ControllerIsActive()) {
-			ControllerSupportKeyDown();
-		}
-	}
-}
+function CommonKeyDown(event) {}
 
 /**
  * Calls a basic dynamic function if it exists, for complex functions, use: CommonDynamicFunctionParams
@@ -1343,4 +1330,25 @@ function CommonJSONParse(data) {
 		console.error(error, data);
 		return undefined;
 	}
+}
+
+/**
+ * Translates the current event into movement directions
+ *
+ * This returns a layout independent u/d/l/r string
+ *
+ * @param {KeyboardEvent} event
+ * @returns {"u"|"d"|"l"|"r"|undefined}
+ */
+function CommonKeyMove(event, allowArrowKeys = true) {
+	if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
+		return "u";
+	} else if (event.code === "KeyA" || allowArrowKeys && event.code === "ArrowLeft") {
+		return "l";
+	} else if (event.code === "KeyS" || allowArrowKeys && event.code === "ArrowDown") {
+		return "d";
+	} else if (event.code === "KeyD" || allowArrowKeys && event.code === "ArrowRight") {
+		return "r";
+	}
+	return undefined;
 }

@@ -318,6 +318,23 @@ type ArousalActiveName = "Inactive" | "NoMeter" | "Manual" | "Hybrid" | "Automat
 type ArousalVisibleName = "All" | "Access" | "Self";
 type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
 
+/**
+ * A listener for KeyboardEvents
+ *
+ * Cheat-sheet about how to do key checks with it:
+ * - {@link KeyboardEvent.code} is the layout-insensitive code
+ * for the key (so KeyA, Space, etc.) Use this if you want to
+ * keep the QWERTY location, like movement keys.
+ *
+ * {@link KeyboardEvent.key} is the layout-dependent string
+ * for the key (so "a" (or "q" on AZERTY), "A" (or "Q"), " ", etc.)
+ * Use this if you want the key to correspond to what's actually on
+ * the user's keyboard.
+ *
+ * @see {@link CommonKeyMove}
+ */
+type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
 type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
 type SettingsVFXVibratorName = "VFXVibratorInactive" | "VFXVibratorSolid" | "VFXVibratorAnimated";
@@ -1026,7 +1043,7 @@ interface ScreenFunctions {
 	 * Called when user presses any key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
-	KeyDown?(event: KeyboardEvent): void;
+	KeyDown?(event: KeyboardEvent): boolean;
 	/** Called when user presses Esc */
 	Exit?(): void;
 }
@@ -2842,7 +2859,7 @@ type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen
 interface StruggleMinigame {
 	Setup: (C: Character, PrevItem: Item, NextItem: Item) => void;
 	Draw: (C: Character) => void;
-	HandleEvent?: (EventType: "KeyDown"|"Click") => void;
+	HandleEvent?: (EventType: "KeyDown"|"Click", event: Event) => boolean;
 	DisablingCraftedProperty?: CraftingPropertyType;
 }
 

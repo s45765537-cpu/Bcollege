@@ -28,7 +28,7 @@ var StruggleProgressStruggleCount = 0;
 var StruggleProgressAuto = 0;
 var StruggleProgressOperation = "...";
 var StruggleProgressSkill = 0;
-var StruggleProgressLastKeyPress = 0;
+var StruggleProgressLastKeyPress = null;
 var StruggleProgressChallenge = 0;
 
 var StruggleLoosenSpeed = 400; // Higher number gives slower spin speed
@@ -240,14 +240,17 @@ function StruggleAllowLoosen() {
  * Only applicable for the Strength minigame.
  *
  * Increases or decreases the struggle mini-game, if a/A or s/S were pressed.
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function StruggleKeyDown() {
-	if (!StruggleMinigameIsRunning()) return;
+function StruggleKeyDown(event) {
+	if (event.repeat) return false;
 
-	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return;
+	if (!StruggleMinigameIsRunning()) return false;
 
-	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("KeyDown");
+	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return false;
+
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("KeyDown", event);
+	return true;
 }
 
 /**
@@ -260,7 +263,7 @@ function StruggleMinigameClick() {
 
 	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return false;
 
-	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("Click");
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("Click", null);
 	return true;
 }
 
@@ -598,17 +601,17 @@ function StruggleStrengthDraw(C) {
  * Handle events for the Strength minigame
  *
  * @param {"Click"|"KeyDown"} EventType
- * @returns {void}
+ * @returns {boolean}
  */
-function StruggleStrengthHandleEvent(EventType) {
+function StruggleStrengthHandleEvent(EventType, event) {
 
 	// Minigame is not running
 	if (StruggleProgress < 0) return;
 
 	if (EventType === "KeyDown") {
-		if ((KeyPress == 65) || (KeyPress == 83) || (KeyPress == 97) || (KeyPress == 115)) {
-			StruggleStrengthProcess((StruggleProgressLastKeyPress == KeyPress));
-			StruggleProgressLastKeyPress = KeyPress;
+		if (event.key === "a" || event.key === "s") {
+			StruggleStrengthProcess((StruggleProgressLastKeyPress == event.key));
+			StruggleProgressLastKeyPress = event.key;
 		}
 	} else if (EventType === "Click") {
 
@@ -744,12 +747,13 @@ function StruggleLoosenSetup() {
 /**
  * Handle events for the loosen minigame
  * @param {"Click"|"KeyDown"} EventType
- * @returns {void}
+ * @param {KeyboardEvent} event
+ * @returns {boolean}
  */
-function StruggleLoosenHandleEvent(EventType) {
+function StruggleLoosenHandleEvent(EventType, event) {
 
 	// When clicking in the mini-game, we check if it was close enough to the hole for a success
-	if ((EventType === "Click") || ((EventType === "KeyDown") && (KeyPress == 32))) {
+	if (EventType === "Click" || (EventType === "KeyDown" && event.code === "Space")) {
 		if (StruggleProgressStruggleCount > 0) {
 			let Diff = Math.abs(StruggleLoosenHoleAngle - StruggleLoosenAngle) % (Math.PI * 2);
 			if ((Diff > 0.26) && (Diff < (Math.PI * 2) - 0.26)) {
@@ -779,9 +783,8 @@ function StruggleLoosenHandleEvent(EventType) {
 				}
 			}
 		}
-
 	}
-
+	return true;
 }
 
 ////////////////////////////STRUGGLE MINIGAME: USE FLEXIBILITY//////////////////////////////
@@ -937,24 +940,26 @@ function StruggleFlexibilityCheck() {
  * Handle events for the Flexibility minigame
  *
  * @param {"Click"|"KeyDown"} EventType
- * @returns {void}
  */
-function StruggleFlexibilityHandleEvent(EventType) {
+function StruggleFlexibilityHandleEvent(EventType, event) {
 
 	// Minigame is not running
-	if (StruggleProgress < 0) return;
+	if (StruggleProgress < 0) {
+		return false;
+	}
 
 	// Click events
 	if (EventType === "Click") {
-
 		// Process the flex game
 		StruggleFlexibilityProcess();
 
 		// If we must enter the loosen mini-game
-		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) StruggleLoosenSetup();
-
+		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) {
+			StruggleLoosenSetup();
+			return true;
+		}
 	}
-
+	return false;
 }
 
 /**
@@ -1112,12 +1117,14 @@ function StruggleDexterityDraw(C) {
  * Handle events for the Flexibility minigame
  *
  * @param {"Click"|"KeyDown"} EventType
- * @returns {void}
+ * @returns {boolean}
  */
-function StruggleDexterityHandleEvent(EventType) {
+function StruggleDexterityHandleEvent(EventType, event) {
 
 	// Minigame is not running
-	if (StruggleProgress < 0) return;
+	if (StruggleProgress < 0) {
+		return false;
+	}
 
 	// Click events
 	if (EventType === "Click") {
@@ -1126,9 +1133,12 @@ function StruggleDexterityHandleEvent(EventType) {
 		StruggleDexterityProcess();
 
 		// If we must enter the loosen mini-game
-		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) StruggleLoosenSetup();
-
+		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) {
+			StruggleLoosenSetup();
+			return true;
+		}
 	}
+	return false;
 }
 
 /**
@@ -1169,12 +1179,14 @@ Only applies to locks at the moment
 /**
  * Handles events for the LockPicking minigame
  * @param {"Click"|"KeyDown"} EventType
- * @returns {void} - Nothing
+ * @returns {boolean} - Nothing
  */
-function StruggleLockPickHandleEvent(EventType) {
-	if (EventType !== "Click") return;
-
-	StruggleLockPickProcess();
+function StruggleLockPickHandleEvent(EventType, event) {
+	if (EventType === "Click") {
+		StruggleLockPickProcess();
+		return true;
+	}
+	return false;
 }
 
 /**
