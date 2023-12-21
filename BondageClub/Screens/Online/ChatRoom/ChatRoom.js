@@ -2170,10 +2170,10 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
-	const entryPosition = ChatRoomMapGetEntryFlagPosition()
-	if (ChatRoomData.MapData != null && ChatRoomData.MapData.Type != null && ChatRoomData.MapData.Type != "Never" &&
-		Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && entryPosition != null &&
-		Player.MapData != null && (Player.MapData.X != entryPosition.x || Player.MapData.Y != entryPosition.y) ) {
+	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition()
+	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile()
+	if (ChatRoomData.MapData && ChatRoomData.MapData.Type && ChatRoomData.MapData.Type != "Never" &&
+		entryFlagPosition && Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && !playerOnExitTile ) {
 			return false
 		}
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator

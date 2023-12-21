@@ -58,7 +58,8 @@ var ChatRoomMapTileList = [
 var ChatRoomMapObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
-	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.1, Unique: true },
+	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.1, Exit: true, Unique: true },
+	{ ID: 115, Type: "FloorDecoration", Style: "ExitSign", Exit: true },
 	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
@@ -380,6 +381,16 @@ function ChatRoomMapGetEntryFlagPosition()
 		}
 	}
 	return null
+}
+
+/**
+ * Returns true if the player is standing on a tile that allows them to exit (Exit == true)
+ * @returns {boolean} - true if the player stands on a tile with the "Exit" property set to "true"
+ */
+function ChatRoomMapIsPlayerOnExitTile()
+{
+	const playerPositionObject = ChatRoomMapGetObjectAtPos(Player.MapData?.X, Player.MapData?.Y)
+	return playerPositionObject.Exit != null ? playerPositionObject.Exit : false
 }
 
 /**
