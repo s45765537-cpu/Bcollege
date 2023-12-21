@@ -285,6 +285,17 @@ function isAccentedOrLatinCharacter(character) {
 	return 'áàãâéèêíìîõóòôúùûñç'.includes(character);
 }
 
+/**
+ * Returns the index where the OOC part of a message starts as well as it's length.
+ * Attention: Currently this function does not detect the end of OOC messages properly to mimic the old behaviour before it was introduced. So "length" ALWAYS ranges from the opening parenthesis to the end of the message!!!
+ * @param {string} Message - The message to check
+ * @returns {{ start: number, length: number }} start - Contains the starting position of the OOC section of Message (Without OOC section, this references past the end of Message); length - contains the length of the OOC section of Message
+ */
+function SpeechGetOOCRange(Message) {
+	let startIndex = Message.indexOf("(")
+	if(startIndex < 0) { startIndex = Message.length }
+	return { start: startIndex, length: Message.length - startIndex }
+}
 
 /**
  * The core of the speech garble function, usable without being tied to a specific character
@@ -301,10 +312,12 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	if (CD == null) CD = "";
 	if (GagEffect === 0) return CD;
 
+	const oocRange = SpeechGetOOCRange(CD)
+
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
 		const H = CD.charAt(L).toLowerCase();
-		if ((H == "(" || H == '（') && !IgnoreOOC) Par = true;
+		Par =  (!IgnoreOOC && L >= oocRange.start && L< oocRange.start + oocRange.length);
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
@@ -580,11 +593,12 @@ function SpeechStutter(C, CD) {
 		var Par = false;
 		var CS = 1;
 		var Seed = CD.length;
+		const oocRange = SpeechGetOOCRange(CD)
 		for (let L = 0; L < CD.length; L++) {
 
 			// Do not stutter the letters between parentheses
 			var H = CD.charAt(L).toLowerCase();
-			if (H == "(") Par = true;
+			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
 
 			// If we are not between brackets and at the start of a word, there's a chance to stutter that word
 			if (!Par && CS >= 0 && (H.match(/[[a-zа-яё]/i))) {
@@ -624,9 +638,10 @@ function SpeechBabyTalk(C, CD) {
 	var NS = "";
 
 	if (C.Effect.indexOf("RegressedTalk") >= 0) {
+		const oocRange = SpeechGetOOCRange(CD)
 		for (let L = 0; L < CD.length; L++) {
 			var H = CD.charAt(L).toLowerCase();
-			if (H == "(") Par = true;
+			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
 			if (!Par) {
 				if ('kl'.includes(H)) NS += 'w';
 				else if (H == "s") NS += 'sh';
