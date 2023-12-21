@@ -1362,7 +1362,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord, options=n
 	if (properties != null) {
 		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i) && !whiteListKeys.has(i));
 		if (invalidProperties.length > 0) {
-			console.warn("");
+			console.warn("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
 		}
 		Object.assign(item, CommonPick(properties, propertyKeys));
 	}

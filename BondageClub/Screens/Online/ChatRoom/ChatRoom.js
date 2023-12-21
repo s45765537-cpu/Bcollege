@@ -2198,6 +2198,12 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
+	const entryPosition = ChatRoomMapGetEntryFlagPosition()
+	if (ChatRoomData.MapData != null && ChatRoomData.MapData.Type != null && ChatRoomData.MapData.Type != "Never" &&
+		Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && entryPosition != null &&
+		Player.MapData != null && (Player.MapData.X != entryPosition.x || Player.MapData.Y != entryPosition.y) ) {
+			return false
+		}
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -2311,47 +2317,70 @@ function ChatRoomLeave(clearCharacters = false) {
 /**
  * Handles keyboard shortcuts in the chatroom screen.
  * @param {KeyboardEvent} event - The event that triggered this
- * @returns {void} - Nothing.
+ * @returns {boolean} - Nothing.
  */
 function ChatRoomKeyDown(event) {
+	const chatHasFocus = document.activeElement.id === "InputChat";
 
-	// If the input text is not focused and not on mobile, set the focus to it
-	if (document.activeElement.id != "InputChat") {
-		if (ChatRoomMapVisible) {
-			ChatRoomMapKeyDown(event);
-			return;
+	if (chatHasFocus) {
+		if (event.code === "Tab" && !event.shiftKey) {
+			// Autocomplete whatever the chat contains
+			CommandAutoComplete(ElementValue("InputChat"));
+			return true;
+		} else if (event.key === "Enter" && !event.shiftKey) {
+			// The ENTER key sends the chat.
+			ChatRoomSendChat();
+			return true;
+		} else if (event.key === "PageUp" || event.key === "PageDown") {
+			// On page up/down, we scroll through chat history
+			ChatRoomScrollHistory(event.key === "PageUp");
+			return true;
+		} else if (event.key === "Escape" && !event.shiftKey) {
+			// Escape toggles between main view and chat
+			ElementFocus("MainCanvas");
+			return true;
 		}
-		else ElementFocus("InputChat");
+	} else {
+		if (ChatRoomMapVisible && ChatRoomMapKeyDown(event)) {
+			return true;
+		} else if (event.key === "Escape" && !event.shiftKey) {
+			// Escape toggles between main view and chat
+			ElementScrollToEnd("TextAreaChatLog");
+			ElementFocus("InputChat");
+			return true;
+		}
 	}
 
-	if (KeyPress == 9 && !event.shiftKey) {
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		CommandAutoComplete(ElementValue("InputChat"));
+	if (event.key === "Escape" && event.shiftKey) {
+		// Try to leave the room on Shift-Escape
+		ChatRoomAttemptLeave();
 	}
 
-	// The ENTER key sends the chat.  The "preventDefault" is needed for <textarea>, otherwise it adds a new line after clearing the field
-	if (KeyPress == 13 && !event.shiftKey) {
-		event.preventDefault();
-		ChatRoomSendChat();
+	// Move focus to the chat
+	if (!chatHasFocus) {
+		ElementFocus("InputChat");
+		// We have to lie here so that the first keystroke without
+		// focus still goes through, but we want to eat Enter so
+		// that a newline doesn't get through
+		return event.key === "Enter";
 	}
 
-	// On page up, we show the previous chat typed
-	if (KeyPress == 33) {
-		if (ChatRoomLastMessageIndex > 0) ChatRoomLastMessageIndex--;
-		ElementValue("InputChat", ChatRoomLastMessage[ChatRoomLastMessageIndex]);
-	}
+	return false;
+}
 
-	// On page down, we show the next chat typed
-	if (KeyPress == 34) {
+/**
+ * Scroll through the chat history
+ *
+ * @param {boolean} up Whether to scroll up or down
+ * @returns {void}
+ */
+function ChatRoomScrollHistory(up) {
+	if (up && ChatRoomLastMessageIndex > 0) {
+		ChatRoomLastMessageIndex--;
+	} else if (!up && ChatRoomLastMessageIndex < ChatRoomLastMessage.length) {
 		ChatRoomLastMessageIndex++;
-		if (ChatRoomLastMessageIndex > ChatRoomLastMessage.length - 1) ChatRoomLastMessageIndex = ChatRoomLastMessage.length - 1;
-		ElementValue("InputChat", ChatRoomLastMessage[ChatRoomLastMessageIndex]);
 	}
-
-	// On escape, scroll to the bottom of the chat
-	if (KeyPress == 27) ElementScrollToEnd("TextAreaChatLog");
-
+	ElementValue("InputChat", ChatRoomLastMessage[ChatRoomLastMessageIndex]);
 }
 
 /**
@@ -3394,7 +3423,17 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
-	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter)) return;
+	
+	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
+	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
+	{
+		// Get the OOC part range of the message
+		const oocRange = SpeechGetOOCRange(msg)
+		// If the message has no OOC part, don't send anyting
+		if(oocRange.start >= msg.length) { return; }
+		// If the message has a OOC part, set it as new message and send it normally
+		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length)
+	}
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	msg = CommonCensor(msg);

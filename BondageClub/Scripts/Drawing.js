@@ -479,7 +479,7 @@ function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
 
 /**
  * Draws a zoomed image from a source to a specific canvas
- * @param {string} Source - URL of the image
+ * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} SX - The X coordinate where to start clipping
  * @param {number} SY - The Y coordinate where to start clipping
@@ -503,7 +503,7 @@ function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Widt
 
 /**
  * Draws a resized image from a source to the main canvas
- * @param {string} Source - URL of the image
+ * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {number} Width - Width of the image after being resized
@@ -542,7 +542,7 @@ function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
 
 /**
  * Draws an image from a source on the main canvas
- * @param {string} Source - URL of the image
+ * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {boolean} [Invert] - Flips the image vertically

@@ -75,7 +75,6 @@ function ElementCreateTextArea(ID, form) {
 	e.setAttribute("ID", ID);
 	e.setAttribute("screen-generated", CurrentScreen);
 	e.setAttribute("name", ID);
-	e.addEventListener("keydown", GameKeyDown);
 	e.className = "HideOnPopup";
 
 	if (form) {
@@ -108,7 +107,6 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 	e.setAttribute("screen-generated", CurrentScreen);
 	e.setAttribute("maxlength", MaxLength);
 	e.setAttribute("onfocus", "this.removeAttribute('readonly');");
-	e.addEventListener("keydown", GameKeyDown);
 	e.className = "HideOnPopup";
 
 	if (form) {
@@ -146,7 +144,6 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 		input.value = String(value);
 		if (thumbIcon) input.setAttribute("data-thumb", thumbIcon.toLowerCase());
 		input.setAttribute("onfocus", "this.removeAttribute('readonly');");
-		input.addEventListener("keydown", GameKeyDown);
 		input.classList.add("HideOnPopup");
 		if (vertical) input.classList.add("Vertical");
 		document.body.appendChild(input);
@@ -272,7 +269,6 @@ function ElementCreateDiv(ID) {
 		Div.setAttribute("ID", ID);
 		Div.setAttribute("name", ID);
 		Div.setAttribute("screen-generated", CurrentScreen);
-		Div.addEventListener("keydown", GameKeyDown);
 		Div.className = "HideOnPopup";
 		document.body.appendChild(Div);
 	}

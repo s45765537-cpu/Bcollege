@@ -109,8 +109,6 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 	} else if (!CommonIsObject(Item.Property.TypeRecord)) {
 		if (typeof Item.Property.Type === "string") {
 			Item.Property.TypeRecord = ExtendedItemTypeToRecord(Data.asset, Item.Property.Type);
-			// TODO: Uncomment once R99 is live
-			// delete Item.Property.Type;
 		} else {
 			Item.Property.TypeRecord = {};
 		}
@@ -558,23 +556,6 @@ function ModularItemParseCurrent({ asset, modules }, typeRecord) {
 }
 
 /**
- * Generates the type string for a modular item from its modules and their current values.
- * @deprecated To-be removed in R99
- * @param {ModularItemModule[]} modules - The modules array for the modular item
- * @param {readonly number[]} [values] - The numeric values representing the current options for each module
- * @returns {string} - A string type generated from the selected option values for each module
- */
-function ModularItemConstructType(modules, values) {
-	values = values || [];
-	let type = "";
-	modules.forEach((module, i) => {
-		type += module.Key;
-		type += (values[i] || 0);
-	});
-	return type;
-}
-
-/**
  * Merges all of the selected module options for a modular item into a single Property object to set on the item
  * @param {ModularItemData} data - The modular item's data
  * @param {readonly number[]} moduleValues - The numeric values representing the current options for each module
@@ -591,8 +572,6 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues, Baseline
 	/** @type {ItemProperties} */
 	const BaseLineProperties = {
 		TypeRecord: typeRecord,
-		// TODO: Remove once R99 is live
-		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: 0,
 		Block: Array.isArray(asset.Block) ? asset.Block.slice() : [],
 		Effect: Array.isArray(asset.Effect) ? asset.Effect.slice() : [],

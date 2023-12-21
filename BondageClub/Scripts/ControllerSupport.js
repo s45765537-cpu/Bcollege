@@ -338,13 +338,15 @@ function ControllerButton(buttons) {
 
 			if (buttons[ControllerX].pressed == true) {
 				KeyPress = 65;
-				StruggleKeyDown();
+				const fakeEvent = new KeyboardEvent("A", { code: "KeyA" });
+				StruggleKeyDown(fakeEvent);
 				ControllerButtonsRepeat = true;
 			}
 
 			if (buttons[ControllerY].pressed == true) {
 				KeyPress = 97;
-				StruggleKeyDown();
+				const fakeEvent = new KeyboardEvent("S", { code: "KeyS" });
+				StruggleKeyDown(fakeEvent);
 				ControllerButtonsRepeat = true;
 			}
 
@@ -524,14 +526,15 @@ function ControllerButton(buttons) {
 //uncomment to test it with keyboard
 /**
  * handles keyboard inputs in controller mode
- * @returns {void} Nothing
+ * @type {KeyboardEventListener}
  */
-function ControllerSupportKeyDown() {
+function ControllerSupportKeyDown(event) {
 	/*i*///    if (KeyPress == 105) ControllerMoveToActiveZone("Up");
 	/*k*///    if (KeyPress == 107) ControllerMoveToActiveZone("Down");
 	/*j*///    if (KeyPress == 106) ControllerMoveToActiveZone("Left");
 	/*l*///    if (KeyPress == 108) ControllerMoveToActiveZone("Right");
 	/*space*///if (KeyPress == 32) ControllerClick();
+	return false;
 }
 
 /**

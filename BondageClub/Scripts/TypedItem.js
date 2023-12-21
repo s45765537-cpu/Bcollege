@@ -99,8 +99,6 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
 			Property: {
 				...(protoOption.Property || {}),
 				TypeRecord: { [screenName]: i },
-				// TODO: Remove `Type` once R99 is live
-				Type: (i === 0) ? null : _protoOption.Name,
 			},
 			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
 		};
@@ -572,8 +570,6 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		const type = Item.Property[field];
 		if (typeof type === "string") {
 			Item.Property.TypeRecord = ExtendedItemTypeToRecord(asset, type);
-			// TODO: Uncomment once R99 is live
-			// delete Item.Property.Type;
 		} else {
 			Item.Property.TypeRecord = {};
 		}

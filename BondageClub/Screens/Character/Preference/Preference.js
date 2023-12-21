@@ -509,6 +509,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ImmersionSettings.StimulationEvents !== "boolean") C.ImmersionSettings.StimulationEvents = true;
 	if (typeof C.ImmersionSettings.ReturnToChatRoom !== "boolean") C.ImmersionSettings.ReturnToChatRoom = false;
 	if (typeof C.ImmersionSettings.ReturnToChatRoomAdmin !== "boolean") C.ImmersionSettings.ReturnToChatRoomAdmin = false;
+	if (typeof C.ImmersionSettings.ChatRoomMapOnlyExitOnEntry !== "boolean") C.ImmersionSettings.ChatRoomMapOnlyExitOnEntry = false;
 	if (typeof C.ImmersionSettings.SenseDepMessages !== "boolean") C.ImmersionSettings.SenseDepMessages = false;
 	if (typeof C.ImmersionSettings.ChatRoomMuffle !== "boolean") C.ImmersionSettings.ChatRoomMuffle = false;
 	if (typeof C.ImmersionSettings.BlindAdjacent !== "boolean") C.ImmersionSettings.BlindAdjacent = false;
@@ -658,6 +659,7 @@ function PreferenceInitPlayer() {
 		C.ImmersionSettings.StimulationEvents = true;
 		C.ImmersionSettings.ReturnToChatRoom = true;
 		C.ImmersionSettings.ReturnToChatRoomAdmin = true;
+		C.ImmersionSettings.ChatRoomMapOnlyExitOnEntry = true;
 		C.ImmersionSettings.SenseDepMessages = true;
 		C.ImmersionSettings.ChatRoomMuffle = true;
 		C.ImmersionSettings.BlindAdjacent = true;
@@ -1100,6 +1102,7 @@ function PreferenceSubscreenImmersionRun() {
 	else if (PreferencePageCurrent === 2) {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
+		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMapOnlyExitOnEntry"), Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry, disableButtons); CheckHeight += CheckSpacing;
 		MainCanvas.textAlign = "center";
 	}
 
@@ -1165,6 +1168,8 @@ function PreferenceSubscreenImmersionClick() {
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.StimulationEvents = !Player.ImmersionSettings.StimulationEvents;
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.AllowTints = !Player.ImmersionSettings.AllowTints;
+			CheckHeight += CheckSpacing;
+			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry = !Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry;
 			CheckHeight += CheckSpacing;
 		}
 	}
