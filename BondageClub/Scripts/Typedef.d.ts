@@ -3302,8 +3302,6 @@ interface CraftingItemSelected {
 	Lock: Asset | null;
 	/** Whether the crafted item should be private or not. */
 	Private: boolean;
-	/** @deprectated superceded by {@link CraftingItemSelected.TypeRecord}. Old type strings can be convert to records via {@link ExtendedItemTypeToRecord}. */
-	Type: null | string;
 	/**
 	 * A record for extended items mapping screen names to option indices.
 	 * @see {@link ItemProperties.TypeRecord}

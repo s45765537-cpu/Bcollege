@@ -656,7 +656,7 @@ function CraftingSerialize(craft) {
 		(craft.Description == null) ? "" : craft.Description.substring(0, 200),
 		(craft.Color == null) ? "" : craft.Color,
 		(craft.Private) ? "T" : "",
-		(craft.Type == null) ? "" : craft.Type,
+		"", // Old field as used by the deprecated `Type` crafted craft property, DO NOT REMOVE!
 		"", // Old field as used by the deprecated `OverridePriority` crafted craft property, DO NOT REMOVE!
 		(craft.ItemProperty == null) ? "" : JSON.stringify(craft.ItemProperty),
 		(craft.TypeRecord == null) ? "" : JSON.stringify(craft.TypeRecord),
@@ -694,8 +694,8 @@ function CraftingDeserialize(craftString) {
 		Color,
 		Private,
 		Type,
-		ItemProperty,
 		OverridePriority,
+		ItemProperty,
 		TypeRecord,
 	] = craftString.split(CraftingSerializeFieldSep);
 
@@ -926,7 +926,6 @@ function CraftingClick() {
 					Property: "Normal",
 					Lock: null,
 					Private: false,
-					Type: null,
 					TypeRecord: null,
 					ItemProperty: {},
 					get OverridePriority() {
@@ -1131,7 +1130,6 @@ function CraftingConvertSelectedToItem() {
 		Description: Description,
 		Color: Color,
 		Private: CraftingSelectedItem.Private,
-		Type: CraftingSelectedItem.Type || null,
 		TypeRecord: CraftingSelectedItem.TypeRecord || null,
 		ItemProperty: CraftingSelectedItem.ItemProperty,
 	};
@@ -1149,7 +1147,6 @@ function CraftingConvertItemToSelected(Craft) {
 		Description: Craft.Description,
 		Color: Craft.Color,
 		Private: Craft.Private,
-		Type: Craft.Type || null,
 		TypeRecord: Craft.TypeRecord || null,
 		Property: Craft.Property,
 		Asset: asset,
@@ -1481,8 +1478,6 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 
 	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string") {
 		Craft.TypeRecord = ExtendedItemTypeToRecord(asset, Craft.Type);
-		// TODO: Uncomment once R99 is live
-		// delete Craft.Type;
 	}
 
 	/**

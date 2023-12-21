@@ -3434,7 +3434,7 @@ var AssetFemale3DCGExtended = {
 						{
 							Property: {
 								Effect: [E.GagMedium],
-							}
+							},
 						}, // g2 - Ballgag
 					],
 				},
@@ -10105,14 +10105,14 @@ var AssetFemale3DCGExtended = {
 		ModularGag: {
 			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
-			Modules:
-			[
+			Modules: [
 				{
 					Name: "Gag",
 					Key: "g",
 					DrawImages: true,
 					Options: [
-						{ // 0 - BallGag
+						{
+							// 0 - BallGag
 							Property: {
 								Fetish: ["Gagged"],
 								Effect: ["BlockMouth", "GagMedium"],
@@ -10120,42 +10120,46 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{}, // 1 - Detached
-						{ // 2 Dildo BallGag
+						{
+							// 2 Dildo BallGag
 							Property: {
 								Fetish: ["Gagged"],
 								Effect: ["BlockMouth", "GagTotal"],
 								Hide: ["Mouth"],
 							},
 						},
-						{ // 3 - RingGag
+						{
+							// 3 - RingGag
 							Property: {
 								Fetish: ["Gagged"],
 								Effect: ["OpenMouth", "GagMedium"],
 								Hide: ["Mouth"],
 							},
 						},
-						{ // 4 - RingGag with Depressor
+						{
+							// 4 - RingGag with Depressor
 							Property: {
 								Fetish: ["Gagged"],
 								Effect: ["OpenMouth", "GagHeavy"],
 								Hide: ["Mouth"],
 							},
 						},
-						{ // 5 - BitGag
+						{
+							// 5 - BitGag
 							Property: {
 								Fetish: ["Gagged", "Pony", "Pet"],
 								Effect: ["BlockMouth", "GagMedium"],
 								Hide: ["Mouth"],
 							},
 						},
-						{ // 6 - BitGagDepressor
+						{
+							// 6 - BitGagDepressor
 							Property: {
 								Fetish: ["Gagged", "Pony", "Pet"],
 								Effect: ["BlockMouth", "GagHeavy"],
 								Hide: ["Mouth"],
 							},
 						},
-
 					],
 				},
 				{
@@ -10177,7 +10181,7 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		},//ModularGag
+		}, //ModularGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {

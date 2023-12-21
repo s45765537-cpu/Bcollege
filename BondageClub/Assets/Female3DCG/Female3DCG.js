@@ -13677,17 +13677,24 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes13", FullAlpha: false },
 			{
 				Name: "Eyes14",
-				 DefaultColor: ["Default", "#6B82A2", "Default", "Default", "Default", "#242424"],
-				 Layer: [
-					 { Name: "1", AllowColorize: true },
-					 { Name: "2", AllowColorize: true },
-					 { Name: "2i", AllowColorize: false },
-					 { Name: "3", AllowColorize: true },
-					 { Name: "4", AllowColorize: true },
-					 { Name: "5", AllowColorize: true },
-					 { Name: "6", AllowColorize: true },
-				 ],
-			 },
+				DefaultColor: [
+					"Default",
+					"#6B82A2",
+					"Default",
+					"Default",
+					"Default",
+					"#242424",
+				],
+				Layer: [
+					{ Name: "1", AllowColorize: true },
+					{ Name: "2", AllowColorize: true },
+					{ Name: "2i", AllowColorize: false },
+					{ Name: "3", AllowColorize: true },
+					{ Name: "4", AllowColorize: true },
+					{ Name: "5", AllowColorize: true },
+					{ Name: "6", AllowColorize: true },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -13869,19 +13876,27 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes12", ParentItem: "Eyes12", FullAlpha: false },
 			{ Name: "Eyes13", ParentItem: "Eyes13", FullAlpha: false },
 			{
-				Name: "Eyes14", ParentItem: "Eyes14",
+				Name: "Eyes14",
+				ParentItem: "Eyes14",
 				Left: 255,
-                DefaultColor: ["Default", "#6B82A2", "Default", "Default", "Default", "#242424"],
-				 Layer: [
-					 { Name: "1", AllowColorize: true },
-					 { Name: "2", AllowColorize: true },
-					 { Name: "2i", AllowColorize: false },
-					 { Name: "3", AllowColorize: true },
-					 { Name: "4", AllowColorize: true },
-					 { Name: "5", AllowColorize: true },
-					 { Name: "6", AllowColorize: true },
-				 ],
-			 },
+				DefaultColor: [
+					"Default",
+					"#6B82A2",
+					"Default",
+					"Default",
+					"Default",
+					"#242424",
+				],
+				Layer: [
+					{ Name: "1", AllowColorize: true },
+					{ Name: "2", AllowColorize: true },
+					{ Name: "2i", AllowColorize: false },
+					{ Name: "3", AllowColorize: true },
+					{ Name: "4", AllowColorize: true },
+					{ Name: "5", AllowColorize: true },
+					{ Name: "6", AllowColorize: true },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -18410,32 +18425,32 @@ var AssetFemale3DCG = [
 						Name: "InvisibleShieldOpenMetal",
 						ColorGroup: "Metal",
 						AllowTypes: { a: 0 },
-						HideForAttribute: ["PenisLayer"]
+						HideForAttribute: ["PenisLayer"],
 					},
 
 					{
 						Name: "ClassicShieldOpenVRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						AllowTypes: { a: 1 },
-						HideForAttribute: ["PenisLayer"]
+						HideForAttribute: ["PenisLayer"],
 					},
 					{
 						Name: "ClassicShieldOpenVMetal",
 						CopyLayerColor: "InvisibleShieldOpenMetal",
 						AllowTypes: { a: 1 },
-						HideForAttribute: ["PenisLayer"]
+						HideForAttribute: ["PenisLayer"],
 					},
 					{
 						Name: "ClassicShieldOpenPRubber",
 						CopyLayerColor: "InvisibleBeltRubber",
 						AllowTypes: { a: 1 },
-						ShowForAttribute: ["PenisLayer"]
+						ShowForAttribute: ["PenisLayer"],
 					},
 					{
 						Name: "ClassicShieldOpenPMetal",
 						CopyLayerColor: "InvisibleShieldOpenMetal",
 						AllowTypes: { a: 1 },
-						ShowForAttribute: ["PenisLayer"]
+						ShowForAttribute: ["PenisLayer"],
 					},
 
 					{
@@ -18463,42 +18478,42 @@ var AssetFemale3DCG = [
 						Name: "InvisibleBeltLock",
 						ColorGroup: "Lock",
 						AllowTypes: { a: 0 },
-						LockLayer: true
+						LockLayer: true,
 					},
 					{
 						Name: "InvisibleBeltLockPipe",
 						ColorGroup: "Lock",
 						AllowTypes: { a: 0 },
-						LockLayer: true
+						LockLayer: true,
 					},
 
 					{
 						Name: "ClassicBeltLockUpper",
 						CopyLayerColor: "InvisibleBeltLock",
 						AllowTypes: { a: 1 },
-						LockLayer: true
+						LockLayer: true,
 					},
 					{
 						Name: "ClassicBeltLockUpperPipe",
 						CopyLayerColor: "InvisibleBeltLockPipe",
 						AllowTypes: { a: 1 },
-						LockLayer: true
+						LockLayer: true,
 					},
 					{
 						Name: "ClassicBeltLockLowerV",
 						CopyLayerColor: "InvisibleBeltLock",
 						AllowTypes: { a: 1, c: [1, 3] },
 						HideForAttribute: ["PenisLayer"],
-						LockLayer: true
+						LockLayer: true,
 					},
 					{
 						Name: "ClassicBeltLockLowerVPipe",
 						CopyLayerColor: "InvisibleBeltLockPipe",
 						AllowTypes: { a: 1, c: [1, 3] },
 						HideForAttribute: ["PenisLayer"],
-						LockLayer: true
+						LockLayer: true,
 					},
-				]
+				],
 			},
 		],
 		Color: [
@@ -26305,7 +26320,14 @@ var AssetFemale3DCG = [
 				Time: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["#610C8D","#312C48","#B7B6B6","#0F0F0F","#710808","#C2A218"],
+				DefaultColor: [
+					"#610C8D",
+					"#312C48",
+					"#B7B6B6",
+					"#0F0F0F",
+					"#710808",
+					"#C2A218",
+				],
 				Layer: [
 					{
 						Name: "Base",
@@ -26335,7 +26357,7 @@ var AssetFemale3DCG = [
 						Priority: 35,
 						AllowColorize: true,
 						LockLayer: true,
-					}
+					},
 				],
 			},
 		],
@@ -28950,8 +28972,7 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer:
-				[
+				Layer: [
 					//Mouths
 					{
 						Name: "BallIn",
@@ -28994,7 +29015,11 @@ var AssetFemale3DCG = [
 					//Metal
 					{
 						Name: "MBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "MUpper",
@@ -29005,7 +29030,11 @@ var AssetFemale3DCG = [
 					//Straps
 					{
 						Name: "SBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "SGag",
@@ -29056,7 +29085,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "LClassic",
 						ColorGroup: "Lock",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 						LockLayer: true,
 					},
 				],
@@ -30400,8 +30433,7 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer:
-				[
+				Layer: [
 					//Mouths
 					{
 						Name: "BallIn",
@@ -30444,7 +30476,11 @@ var AssetFemale3DCG = [
 					//Metal
 					{
 						Name: "MBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "MUpper",
@@ -30455,7 +30491,11 @@ var AssetFemale3DCG = [
 					//Straps
 					{
 						Name: "SBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "SGag",
@@ -30506,7 +30546,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "LClassic",
 						ColorGroup: "Lock",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 						LockLayer: true,
 					},
 				],
@@ -31995,8 +32039,7 @@ var AssetFemale3DCG = [
 					"Default", //Lock
 				],
 				Extended: true,
-				Layer:
-				[
+				Layer: [
 					//Mouths
 					{
 						Name: "BallIn",
@@ -32039,7 +32082,11 @@ var AssetFemale3DCG = [
 					//Metal
 					{
 						Name: "MBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "MUpper",
@@ -32050,7 +32097,11 @@ var AssetFemale3DCG = [
 					//Straps
 					{
 						Name: "SBase",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 					},
 					{
 						Name: "SGag",
@@ -32101,7 +32152,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "LClassic",
 						ColorGroup: "Lock",
-						AllowTypes: [ { g: 1, h: 1}, { g: 1, c: 1}, {g: [0, 2, 3, 4, 5, 6] }], //Always Unless no gag and no harness
+						AllowTypes: [
+							{ g: 1, h: 1 },
+							{ g: 1, c: 1 },
+							{ g: [0, 2, 3, 4, 5, 6] },
+						], //Always Unless no gag and no harness
 						LockLayer: true,
 					},
 				],
