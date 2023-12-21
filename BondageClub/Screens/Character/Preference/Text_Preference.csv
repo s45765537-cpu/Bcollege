@@ -337,6 +337,7 @@ NotificationsTestReset,Clear raised notifications
 NotificationsTestMessage,Hello there!
 Page,Page
 AllowTints,Allow item tint effects
+ChatRoomMapOnlyExitOnEntry,Only can exit chat rooms with map when standing on entry flag
 AllowBlur,Allow item blur effects (turn off if experiencing frame rate drops)
 GenderFemales,Females
 GenderMales,Males
