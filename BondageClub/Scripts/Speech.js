@@ -292,9 +292,9 @@ function isAccentedOrLatinCharacter(character) {
  * @returns {{ start: number, length: number }} start - Contains the starting position of the OOC section of Message (Without OOC section, this references past the end of Message); length - contains the length of the OOC section of Message
  */
 function SpeechGetOOCRange(Message) {
-	let startIndex = Message.indexOf("(")
-	if(startIndex < 0) { startIndex = Message.length }
-	return { start: startIndex, length: Message.length - startIndex }
+	let startIndex = Message.indexOf("(");
+	if(startIndex < 0) { startIndex = Message.length; }
+	return { start: startIndex, length: Message.length - startIndex };
 }
 
 /**
@@ -312,7 +312,7 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	if (CD == null) CD = "";
 	if (GagEffect === 0) return CD;
 
-	const oocRange = SpeechGetOOCRange(CD)
+	const oocRange = SpeechGetOOCRange(CD);
 
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
@@ -593,7 +593,7 @@ function SpeechStutter(C, CD) {
 		var Par = false;
 		var CS = 1;
 		var Seed = CD.length;
-		const oocRange = SpeechGetOOCRange(CD)
+		const oocRange = SpeechGetOOCRange(CD);
 		for (let L = 0; L < CD.length; L++) {
 
 			// Do not stutter the letters between parentheses
@@ -638,7 +638,7 @@ function SpeechBabyTalk(C, CD) {
 	var NS = "";
 
 	if (C.Effect.indexOf("RegressedTalk") >= 0) {
-		const oocRange = SpeechGetOOCRange(CD)
+		const oocRange = SpeechGetOOCRange(CD);
 		for (let L = 0; L < CD.length; L++) {
 			var H = CD.charAt(L).toLowerCase();
 			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
