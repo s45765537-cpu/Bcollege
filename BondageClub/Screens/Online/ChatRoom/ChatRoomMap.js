@@ -24,6 +24,7 @@ var ChatRoomMapBaseMovementSpeed = 200;
 var ChatRoomMapMovement = null;
 var ChatRoomMapEventLoaded = false;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
+var ChatRoomMapUpdatePlayerTime = 1000;
 
 var ChatRoomMapTileList = [
 
@@ -325,7 +326,8 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
-		ChatRoomMapUpdatePlayerFlag();
+		// Update the change instantly so other players don't see this player in a wall
+		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 		return;
 	}
 
@@ -340,7 +342,8 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
-		ChatRoomMapUpdatePlayerFlag();
+		// Update the change instantly so other players don't see this player in a wall
+		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 		return;
 	}
 
@@ -355,7 +358,8 @@ function ChatRoomMapCollision() {
 		let Tile = CommonRandomItemFromList(null, Tiles);
 		Player.MapData.X = Tile.X;
 		Player.MapData.Y = Tile.Y;
-		ChatRoomMapUpdatePlayerFlag();
+		// Update the change instantly so other players don't see this player in a wall
+		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 		return;
 	}
 
@@ -441,8 +445,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		}
 
-		// Saves the new position
-		ChatRoomMapUpdatePlayerFlag();
+		// Update the change instantly so other players don't see this player on an invalid position
+		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 
 	}
 
@@ -638,11 +642,14 @@ function ChatRoomMapUpdateFlag() {
 
 /**
  * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
+ * @param {number} updateTimeOffset - A offset for the update time. This can be positive to increase the update time or negative to reduce it.
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdatePlayerFlag() {
+function ChatRoomMapUpdatePlayerFlag(updateTimeOffset = 0) {
 	if (ChatRoomMapUpdatePlayerNext == null)
-		ChatRoomMapUpdatePlayerNext = CommonTime() + 1000;
+	{
+		ChatRoomMapUpdatePlayerNext = CommonTime() + ChatRoomMapUpdatePlayerTime + updateTimeOffset;
+	}
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapUpdateLastMapDataNext == null))
 		ChatRoomMapUpdateLastMapDataNext = CommonTime() + 10000;
 }
@@ -686,7 +693,8 @@ function ChatRoomMapMovementProcess() {
 	if ((ChatRoomMapMovement == null) || (ChatRoomMapMovement.TimeEnd > CommonTime())) return;
 	Player.MapData.X = ChatRoomMapMovement.X;
 	Player.MapData.Y = ChatRoomMapMovement.Y;
-	ChatRoomMapUpdatePlayerFlag();
+	// Set the update flag and reduce the wait time by the time the player already waited
+	ChatRoomMapUpdatePlayerFlag(ChatRoomMapMovement.TimeStart - ChatRoomMapMovement.TimeEnd);
 	ChatRoomMapMovement = null;
 }
 
