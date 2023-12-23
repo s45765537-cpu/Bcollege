@@ -4844,6 +4844,7 @@ ServerMessageReleaseByOwner,,,Your owner has released you.  You're free from all
 ServerMessageReleaseFail,,,The member number is invalid or you do not own this submissive.,,
 ServerMessageReleaseSuccess,,,Your submissive is now fully released from your ownership.,,
 ServerMessageStartTrial,,,The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.,,
+ServerMessageWhisperOutOfRange,,,Whisper target is out of range.  Returning to normal chat.,,
 ServerMoveLeft,,,TargetCharacterName was moved to the left by SourceCharacter.,,
 ServerMoveRight,,,TargetCharacterName was moved to the right by SourceCharacter.,,
 ServerPromoteAdmin,,,TargetCharacterName was promoted to administrator by SourceCharacter.,,

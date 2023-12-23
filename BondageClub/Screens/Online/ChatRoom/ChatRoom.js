@@ -582,6 +582,45 @@ function DialogCanPerformCharacterAction() {
 }
 
 /**
+ * Returns TRUE if the player can enter in whisper mode with the currently focused character
+ * @returns {boolean} - TRUE is whipser can be started
+ */
+function ChatRoomCanStartWhisper() {
+	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
+	if (CurrentCharacter.MemberNumber === ChatRoomTargetMemberNumber) return false;
+	if (ChatRoomMapVisible && !ChatRoomMapCharacterOnWhisperRange(CurrentCharacter)) return false;
+	return true;
+}
+
+/**
+ * Enters whisper mode with the current character
+ * @returns {void} - Nothing
+ */
+function ChatRoomStartWhisper() {
+	if (CurrentCharacter == null) return; 
+	ChatRoomSetTarget(CurrentCharacter.MemberNumber);
+	DialogLeave();
+}
+
+/**
+ * Returns TRUE if the player can leave whisper mode with the currently focused character
+ * @returns {boolean} - TRUE is whipser can exited
+ */
+function ChatRoomCanStopWhisper() {
+	if (CurrentCharacter == null) return false;
+	return (CurrentCharacter.MemberNumber === ChatRoomTargetMemberNumber);
+}
+
+/**
+ * Leaves whisper mode
+ * @returns {void} - Nothing
+ */
+function ChatRoomStopWhisper() {
+	ChatRoomSetTarget(null);
+	DialogLeave();
+}
+
+/**
  * Checks if the target character can be helped back on her feet. This is different than CurrentCharacter.CanKneel()
  * because it listens for the current active pose and removes certain checks that are not required for someone else to
  * help a person kneel down.
@@ -1900,6 +1939,7 @@ function ChatRoomRun() {
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
+	ChatRoomMapWhisperValid();
 
 	// Draws the chat room controls
 	ChatRoomStatusCheckExpiration();

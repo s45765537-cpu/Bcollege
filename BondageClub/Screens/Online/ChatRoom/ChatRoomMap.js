@@ -169,6 +169,18 @@ function ChatRoomMapCharacterIsHearable(C) {
 }
 
 /**
+ * Returns TRUE if the player is on whisper range to another character (1 tile)
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if on whisper range
+ */
+function ChatRoomMapCharacterOnWhisperRange(C) {
+	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
+	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
+	return (Distance <= 1);
+}
+
+/**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
  * @param {boolean} CW - If Center West is a wall
  * @param {boolean} CE - If Center East is a wall
@@ -1184,4 +1196,17 @@ function ChatRoomMapPaste(Param) {
 	ChatRoomMapUpdateFlag();
 	ChatRoomSendLocal(TextGet("MapPasteDone"));
 
+}
+
+/**
+ * Make sure the whisper target is still valid on the map, and leave whipser mode if needed
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapWhisperValid() {
+	if (!ChatRoomMapVisible || (ChatRoomTargetMemberNumber == null)) return;
+	for (let C of ChatRoomCharacter)
+		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapCharacterOnWhisperRange(C))
+			return;
+	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
+	ChatRoomSetTarget(null);
 }
