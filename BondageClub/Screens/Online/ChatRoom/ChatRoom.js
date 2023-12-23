@@ -597,7 +597,7 @@ function ChatRoomCanStartWhisper() {
  * @returns {void} - Nothing
  */
 function ChatRoomStartWhisper() {
-	if (CurrentCharacter == null) return; 
+	if (CurrentCharacter == null) return;
 	ChatRoomSetTarget(CurrentCharacter.MemberNumber);
 	DialogLeave();
 }
@@ -1270,7 +1270,7 @@ function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
 
 	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons, etc. above the character
 	if (ChatRoomHideIconState == 0) {
-		ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
+		ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom);
 	}
 
 	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= 1) {
@@ -2059,28 +2059,28 @@ function ChatRoomMenuDraw() {
 function ChatRoomMouseDown(event) {
 	if(ChatRoomMapVisible)
 	{
-		ChatRoomMapMouseDown()
+		ChatRoomMapMouseDown();
 	}
 }
 
 function ChatRoomMouseUp(event) {
 	if(ChatRoomMapVisible)
 	{
-		ChatRoomMapMouseUp()
+		ChatRoomMapMouseUp();
 	}
 }
 
 function ChatRoomMouseMove(event) {
 	if(ChatRoomMapVisible)
 	{
-		ChatRoomMapMouseMove()
+		ChatRoomMapMouseMove();
 	}
 }
 
 function ChatRoomMouseWheel(event) {
 	if(ChatRoomMapVisible)
 	{
-		ChatRoomMapMouseWheel(event)
+		ChatRoomMapMouseWheel(event);
 	}
 }
 
