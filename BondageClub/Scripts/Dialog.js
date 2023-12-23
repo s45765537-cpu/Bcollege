@@ -1762,14 +1762,15 @@ function DialogMenuButtonClick() {
 	for (let I = 0; I < DialogMenuButton.length; I++) {
 		if (MouseIn(1885 - I * 110, 15, 90, 90)) {
 
+			const button = DialogMenuButton[I];
 			// Exit Icon - Go back one level in the menu
-			if (DialogMenuButton[I] == "Exit") {
+			if (button === "Exit") {
 				DialogMenuBack();
 				return true;
 			}
 
 			// Next Icon - Shows the next 12 items
-			else if (DialogMenuButton[I] == "Next") {
+			else if (button === "Next") {
 				let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
 				DialogInventoryOffset = DialogInventoryOffset + 12;
 				if (DialogInventoryOffset >= contents.length) DialogInventoryOffset = 0;
@@ -1777,7 +1778,7 @@ function DialogMenuButtonClick() {
 			}
 
 			// Prev Icon - Shows the previous 12 items
-			else if (DialogMenuButton[I] == "Prev") {
+			else if (button === "Prev") {
 				let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
 				DialogInventoryOffset = DialogInventoryOffset - 12;
 				if (DialogInventoryOffset < 0) { DialogInventoryOffset = contents.length - ((contents.length % 12) == 0 ? 12 : contents.length % 12); }
@@ -1785,19 +1786,19 @@ function DialogMenuButtonClick() {
 			}
 
 			// Use Icon - Pops the item extension for the focused item
-			else if ((DialogMenuButton[I] == "Use") && (Item != null)) {
+			else if (button === "Use" && Item) {
 				DialogExtendItem(Item);
 				return true;
 			}
 
 			// Remote Icon - Pops the item extension
-			else if ((DialogMenuButton[I] == "Remote") && DialogCanUseRemoteState(C, Item) === "Available") {
+			else if (button === "Remote" && DialogCanUseRemoteState(C, Item) === "Available") {
 				DialogExtendItem(Item);
 				return true;
 			}
 
 			// Lock Icon - Rebuilds the inventory list with locking items
-			else if (DialogMenuButton[I] == "Lock") {
+			else if (button === "Lock") {
 				if (Item && InventoryDoesItemAllowLock(Item)) {
 					DialogChangeMode("locking");
 				}
@@ -1805,7 +1806,7 @@ function DialogMenuButtonClick() {
 			}
 
 			// Unlock Icon - If the item is padlocked, we immediately unlock.  If not, we start the struggle progress.
-			else if ((DialogMenuButton[I] == "Unlock") && (Item != null)) {
+			else if (button === "Unlock" && Item) {
 				// Check that this is not one of the sticky-locked items
 				const isNotStickyLock = InventoryItemHasEffect(Item, "Lock", true) && !InventoryItemHasEffect(Item, "Lock", false);
 				if (C.FocusGroup.IsItem() && isNotStickyLock && (!C.IsPlayer() || C.CanInteract())) {
@@ -1821,25 +1822,28 @@ function DialogMenuButtonClick() {
 			}
 
 			// Tighten/Loosen Icon - Opens the sub menu
-			else if (((DialogMenuButton[I] == "TightenLoosen")) && (Item != null)) {
+			else if (button === "TightenLoosen" && Item) {
 				DialogSetTightenLoosenItem(Item);
 				return true;
 			}
 
 			// Remove/Struggle Icon - Starts the struggling mini-game (can be impossible to complete)
-			else if (["Remove", "Struggle", "Dismount", "Escape"].includes(DialogMenuButton[I]) && Item != null) {
+			else if (
+				(button === "Remove" || button === "Struggle" || button === "Dismount" || button === "Escape")
+				&& Item) {
 				/** @type {DialogStruggleActionType} */
 				let action = "ActionRemove";
-				if (InventoryItemHasEffect(Item, "Lock"))
+				if (InventoryItemHasEffect(Item, "Lock")) {
 					action = "ActionUnlockAndRemove";
-				else if (C.IsPlayer())
-					action = /** @type {DialogStruggleActionType} */("Action" + DialogMenuButton[I]);
+				} else if (C.IsPlayer()) {
+					action = `Action${button}`;
+				}
 				DialogStruggleStart(C, action, Item, null);
 				return true;
 			}
 
 			// PickLock Icon - Starts the lockpicking mini-game
-			else if (((DialogMenuButton[I] == "PickLock")) && (Item != null)) {
+			else if (button === "PickLock" && Item) {
 				StruggleMinigameStart(C, "LockPick", Item, null, DialogStruggleStop);
 				DialogChangeMode("struggle");
 				DialogMenuButtonBuild(C);
@@ -1847,20 +1851,20 @@ function DialogMenuButtonClick() {
 			}
 
 			// When the player inspects a lock
-			else if ((DialogMenuButton[I] == "InspectLock") && (Item != null)) {
-				var Lock = InventoryGetLock(Item);
+			else if (button === "InspectLock" && Item) {
+				const Lock = InventoryGetLock(Item);
 				if (Lock != null) DialogExtendItem(Lock, Item);
 				return true;
 			}
 
 			// Color picker Icon - Select a default color to batch-apply on items
-			else if (DialogMenuButton[I] == "ColorDefault") {
+			else if (button === "ColorDefault") {
 				DialogChangeMode("colorDefault");
 				ElementCreateInput("InputColor", "text", (DialogColorSelect != null) ? DialogColorSelect.toString() : "");
 				return true;
 
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
-			} else if (DialogMenuButton[I] === "ColorChange" && Item != null) {
+			} else if (button === "ColorChange" && Item != null) {
 				const originalColor = Item.Color;
 				DialogChangeMode("colorItem");
 				ItemColorLoad(C, Item, 1300, 25, 675, 950);
@@ -1875,7 +1879,7 @@ function DialogMenuButtonClick() {
 			}
 
 			// When the user selects a color, applies it to the item
-			else if (DialogMenuButton[I] == "ColorSelect" && CommonIsColor(ElementValue("InputColor"))) {
+			else if (button === "ColorSelect" && CommonIsColor(ElementValue("InputColor"))) {
 				DialogColorSelect = ElementValue("InputColor");
 				ColorPickerHide();
 				ElementRemove("InputColor");
@@ -1884,7 +1888,7 @@ function DialogMenuButtonClick() {
 			}
 
 			// When the user cancels out of color picking, we recall the original color
-			else if (DialogMenuButton[I] == "ColorCancel") {
+			else if (button === "ColorCancel") {
 				DialogColorSelect = null;
 				ColorPickerHide();
 				ElementRemove("InputColor");
@@ -1893,31 +1897,31 @@ function DialogMenuButtonClick() {
 			}
 
 			// When the user selects the lock menu, we enter
-			else if (Item && DialogMenuButton[I] == "LockMenu") {
+			else if (Item && button === "LockMenu") {
 				DialogChangeMode("locked");
 				return true;
 			}
 
 			// When the user selects the lock menu, we enter
-			else if (Item && DialogMenuButton[I] == "Crafting") {
+			else if (Item && button === "Crafting") {
 				DialogChangeMode("crafted");
 				return true;
 			}
 
 			// When the user wants to select a sexual activity to perform
-			else if (DialogMenuButton[I] == "Activity") {
+			else if (button === "Activity") {
 				DialogChangeMode("activities");
 				return true;
 			}
 
 			// When we enter item permission mode, we rebuild the inventory to set permissions
-			else if (DialogMenuButton[I] == "DialogPermissionMode") {
+			else if (button === "DialogPermissionMode") {
 				DialogChangeMode("permissions");
 				return true;
 			}
 
 			// When we leave item permission mode, we upload the changes for everyone in the room
-			else if (DialogMenuButton[I] == "DialogNormalMode") {
+			else if (button === "DialogNormalMode") {
 				DialogChangeMode("items");
 				return true;
 			}
