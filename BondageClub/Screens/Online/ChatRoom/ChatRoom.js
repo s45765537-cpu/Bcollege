@@ -2080,7 +2080,11 @@ function ChatRoomClick() {
 	}
 
 	// When the user chats or clicks on a character
-	if (!ChatRoomMapVisible && MouseIn(0, 0, 1000, 1000)) {
+	if(ChatRoomMapVisible)
+	{
+		return ChatRoomMapClick();
+	}
+	else if (MouseIn(0, 0, 1000, 1000)) {
 		// Intercepts the online game chat room clicks if we need to
 		if (OnlineGameClick()) return;
 

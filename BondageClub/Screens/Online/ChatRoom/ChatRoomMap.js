@@ -904,6 +904,17 @@ function ChatRoomMapKeyDown(event) {
 }
 
 /**
+ * Mouse click event is used to focus a character
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapClick() {
+	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
+	{
+		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
+	}
+}
+
+/**
  * Mouse down event is used to draw on screen and handle the tiles buttons
  * @returns {void} - Nothing
  */
@@ -1096,8 +1107,6 @@ function ChatRoomMapMouseMove() {
  */
 function ChatRoomMapMouseUp() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
-		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
 	ChatRoomMapEditStarted = false;
 }
 
