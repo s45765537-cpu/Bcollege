@@ -376,10 +376,10 @@ function ChatRoomMapGetEntryFlagPosition()
 	for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
 	{
 		if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
-			return { x: P % ChatRoomMapWidth, y: Math.floor(P / ChatRoomMapWidth) }
+			return { x: P % ChatRoomMapWidth, y: Math.floor(P / ChatRoomMapWidth) };
 		}
 	}
-	return null
+	return null;
 }
 
 /**
@@ -388,8 +388,8 @@ function ChatRoomMapGetEntryFlagPosition()
  */
 function ChatRoomMapIsPlayerOnExitTile()
 {
-	const playerPositionObject = ChatRoomMapGetObjectAtPos(Player.MapData?.X, Player.MapData?.Y)
-	return playerPositionObject.Exit != null ? playerPositionObject.Exit : false
+	const playerPositionObject = ChatRoomMapGetObjectAtPos(Player.MapData?.X, Player.MapData?.Y);
+	return playerPositionObject.Exit != null ? playerPositionObject.Exit : false;
 }
 
 /**
@@ -418,13 +418,13 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		} else {
 			// Sets position in the middle of the scren by default, or at the entry flag if possible
-			const entryPosition = ChatRoomMapGetEntryFlagPosition()
+			const entryPosition = ChatRoomMapGetEntryFlagPosition();
 			if(entryPosition == null) {
-				Player.MapData.X = ChatRoomMapWidth / 2
-				Player.MapData.Y = ChatRoomMapHeight / 2
+				Player.MapData.X = ChatRoomMapWidth / 2;
+				Player.MapData.Y = ChatRoomMapHeight / 2;
 			} else {
-				Player.MapData.X = entryPosition.x
-				Player.MapData.Y = entryPosition.y
+				Player.MapData.X = entryPosition.x;
+				Player.MapData.Y = entryPosition.y;
 			}
 
 		}
@@ -451,7 +451,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapFocusedCharacter = null;
 
 	// For each tiles in the grid
-	const mapArraySize = ChatRoomMapWidth * ChatRoomMapHeight
+	const mapArraySize = ChatRoomMapWidth * ChatRoomMapHeight;
 	for (let Pos=0; Pos < mapArraySize; Pos++) {
 
 		// Find the X & Y position of the grid
@@ -461,14 +461,14 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		// Only process if the X & Y are within the visible sight range
 		let MaxRange = Math.max(Math.abs(X - Player.MapData.X), Math.abs(Y - Player.MapData.Y));
 		if (MaxRange > MaxVisibleRange) {
-			continue
+			continue;
 		}
 
 		// Defines the screen X and Y positions
 		let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
 		let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
-		const TileCanvasX = Left + ScreenX
-		const TileCanvasY = Top + ScreenY
+		const TileCanvasX = Left + ScreenX;
+		const TileCanvasY = Top + ScreenY;
 
 		let FloorWallEffect = -1;
 		let DrawRect = false;
@@ -476,21 +476,21 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		// Draws the tile and object image and applies the visual effects if needed
 		if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) {
 			//If this tile's coordinates are out of the view range, we don't have to bother with it
-			continue
+			continue;
 		}
 
 		// Draw the tile first
 		let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
-		let TileData = null
-		let TileImage = null
+		let TileData = null;
+		let TileImage = null;
 		for (let Tile of ChatRoomMapTileList)
 			if (Tile.ID == TileID) {
-				TileData = Tile
+				TileData = Tile;
 				break;
 			}
 		if(TileData != null)
 		{
-			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png")
+			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
 			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, TileWidth, TileHeight);
 			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
 			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
@@ -528,9 +528,9 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 				// Draw the water effect if character stands in water
 				if(TileImage != null && TileData != null && TileData.Type == "Water")
 				{
-					const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0
-					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0
-					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]})
+					const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
+					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
+					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
 				}
 				// If the user hovers the mouse over a tile occupied by a character
 				if(mouseTileX == C.MapData.X && mouseTileY == C.MapData.Y)

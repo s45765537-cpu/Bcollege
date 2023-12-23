@@ -2224,12 +2224,12 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
-	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition()
-	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile()
+	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition();
+	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile();
 	if (ChatRoomData.MapData && ChatRoomData.MapData.Type && ChatRoomData.MapData.Type != "Never" &&
 		entryFlagPosition && Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && !playerOnExitTile ) {
-			return false
-		}
+		return false;
+	}
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -3449,16 +3449,16 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
-	
+
 	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
 	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
 	{
 		// Get the OOC part range of the message
-		const oocRange = SpeechGetOOCRange(msg)
+		const oocRange = SpeechGetOOCRange(msg);
 		// If the message has no OOC part, don't send anyting
 		if(oocRange.start >= msg.length) { return; }
 		// If the message has a OOC part, set it as new message and send it normally
-		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length)
+		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length);
 	}
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
