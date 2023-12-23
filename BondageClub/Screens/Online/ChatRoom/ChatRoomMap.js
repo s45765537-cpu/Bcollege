@@ -444,7 +444,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
 	let MaxVisibleRange = ChatRoomMapGetSightRange();
 	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
-	let CharacterUnderCursor = null
+	let CharacterUnderCursor = null;
 
 	// Clears the tile and character selection
 	ChatRoomMapEditSelection = [];
@@ -514,8 +514,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			DrawRect = true;
 		}
 
-		const mouseTileX = Math.floor(MouseX / TileWidth) + Math.floor(Player.MapData.X - ChatRoomMapViewRange)
-		const mouseTileY = Math.floor(MouseY / TileHeight) + Math.floor(Player.MapData.Y - ChatRoomMapViewRange)
+		const mouseTileX = Math.floor(MouseX / TileWidth) + Math.floor(Player.MapData.X - ChatRoomMapViewRange);
+		const mouseTileY = Math.floor(MouseY / TileHeight) + Math.floor(Player.MapData.Y - ChatRoomMapViewRange);
 		// Draws the characters on that tile
 		for (let C of ChatRoomCharacter)
 		{
@@ -551,8 +551,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	if(CharacterUnderCursor)
 	{
 		DrawText(CharacterNickname(CharacterUnderCursor.Character),
-		CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
-		ChatRoomDrawCharacterStatusIcons(CharacterUnderCursor.Character, CharacterUnderCursor.StatusBaseX - 125, CharacterUnderCursor.StatusBaseY - 40, 0.5)
+			CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
+		ChatRoomDrawCharacterStatusIcons(CharacterUnderCursor.Character, CharacterUnderCursor.StatusBaseX - 125, CharacterUnderCursor.StatusBaseY - 40, 0.5);
 	}
 
 }
