@@ -444,6 +444,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
 	let MaxVisibleRange = ChatRoomMapGetSightRange();
 	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
+	let CharacterUnderCursor = null
 
 	// Clears the tile and character selection
 	ChatRoomMapEditSelection = [];
@@ -513,6 +514,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			DrawRect = true;
 		}
 
+		const mouseTileX = Math.floor(MouseX / TileWidth) + Math.floor(Player.MapData.X - ChatRoomMapViewRange)
+		const mouseTileY = Math.floor(MouseY / TileHeight) + Math.floor(Player.MapData.Y - ChatRoomMapViewRange)
 		// Draws the characters on that tile
 		for (let C of ChatRoomCharacter)
 		{
@@ -529,6 +532,12 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0
 					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]})
 				}
+				// If the user hovers the mouse over a tile occupied by a character
+				if(mouseTileX == C.MapData.X && mouseTileY == C.MapData.Y)
+				{
+					// Save the character to draw additional information about them after all tiles are drawn
+					CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
+				}
 			}
 		}
 
@@ -536,6 +545,14 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
 		if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
+	}
+
+	// If the user hovers the mouse over a tile occupied by a character
+	if(CharacterUnderCursor)
+	{
+		DrawText(CharacterNickname(CharacterUnderCursor.Character),
+		CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
+		ChatRoomDrawCharacterStatusIcons(CharacterUnderCursor.Character, CharacterUnderCursor.StatusBaseX - 125, CharacterUnderCursor.StatusBaseY - 40, 0.5)
 	}
 
 }
