@@ -876,15 +876,16 @@ function ChatRoomMapKeyDown(event) {
 	if (event.key === "Enter") {
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.key === "-") {
-		if (ChatRoomMapViewRange > ChatRoomMapViewRangeMin) {
-			ChatRoomMapViewRange--;
-		}
+	} else if (event.key !== "z" && event.ctrlKey) {
 		return true;
-	} else if (event.key === "+") {
-		if (ChatRoomMapViewRange < ChatRoomMapViewRangeMax) {
-			ChatRoomMapViewRange++;
-		}
+	} else if (event.key === "z" && event.ctrlKey) {
+		if (ChatRoomPlayerIsAdmin()) ChatRoomMapUndo();
+		return true;
+	} else if ((event.key === "-") || (event.key === "_")) {
+		if (ChatRoomMapViewRange > ChatRoomMapViewRangeMin) ChatRoomMapViewRange--;
+		return true;
+	} else if ((event.key === "+") || (event.key === "=")) {
+		if (ChatRoomMapViewRange < ChatRoomMapViewRangeMax) ChatRoomMapViewRange++;
 		return true;
 	} else if (CommonKeyMove(event) === "u") {
 		ChatRoomMapMove("North");
@@ -897,11 +898,6 @@ function ChatRoomMapKeyDown(event) {
 		return true;
 	} else if (CommonKeyMove(event) === "r") {
 		ChatRoomMapMove("East");
-		return true;
-	} else if (event.key === "z" && event.ctrlKey) {
-		if (ChatRoomPlayerIsAdmin()) {
-			ChatRoomMapUndo();
-		}
 		return true;
 	}
 	return false;
