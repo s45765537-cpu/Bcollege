@@ -32,13 +32,18 @@ function GameStart() {
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
 
-	canvas.addEventListener("click", MouseClick);
-	canvas.addEventListener("mousemove", MouseMove);
-	canvas.addEventListener("mouseleave", MouseLeave);
+	canvas.addEventListener("keydown", GameKeyDown);
+	canvas.addEventListener("keyup", GameKeyUp);
+	
+	canvas.addEventListener("mousedown", GameMouseDown);
+	canvas.addEventListener("mouseup", GameMouseUp);
+	canvas.addEventListener("mousemove", GameMouseMove);
+	canvas.addEventListener("wheel", GameMouseWheel);
+	canvas.addEventListener("mouseleave", GameMouseLeave);
 
-	canvas.addEventListener("touchstart", TouchStart);
-	canvas.addEventListener("touchmove", TouchMove);
-	canvas.addEventListener("touchend", TouchEnd);
+	canvas.addEventListener("touchstart", GameTouchStart);
+	canvas.addEventListener("touchmove", GameTouchMove);
+	canvas.addEventListener("touchend", GameTouchEnd);
 
 	requestAnimationFrame(GameRun);
 }
@@ -91,55 +96,101 @@ function GameKeyDown(event) {
 	return handled;
 }
 
+function GameKeyUp(event) {
+	if(StruggleMinigameIsRunning()) { return; }
+	if (CurrentScreenFunctions.KeyUp)
+	{
+		CurrentScreenFunctions.KeyUp(event);
+	}
+}
+
+var GameMouseIsDown = false
 /**
- * When mouse move, we keep the mouse position for other scripts
+ * If the user presses the mouse button, we fire the mousedown event for other screens
  * @param {MouseEvent} event
  */
-function MouseMove(event) {
-	MouseX = Math.round(event.offsetX * 2000 / MainCanvas.canvas.clientWidth);
-	MouseY = Math.round(event.offsetY * 1000 / MainCanvas.canvas.clientHeight);
+function GameMouseDown(event) {
+	if (CommonIsMobile) { return }
+	if (GameMouseIsDown) { return }
+	CommonMouseDown(event);
+	GameMouseIsDown = true
 }
 
 /**
- * When the user clicks, we fire the click event for other screens
+ * If the user releases the mouse button, we fire the mouseup and click events for other screens
  * @param {MouseEvent} event
  */
-function MouseClick(event) {
-	if (!CommonIsMobile) {
-		MouseMove(event);
-		CommonClick(event);
+function GameMouseUp(event) {
+	if (CommonIsMobile) { return }
+	if (!GameMouseIsDown) { return }
+	GameMouseMove(event, false);
+	CommonMouseUp(event);
+	CommonClick(event);
+	GameMouseIsDown = false
+}
+
+/**
+ * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
+ * @param {MouseEvent} event
+ */
+function GameMouseWheel(event) {
+	if (CommonIsMobile) { return }
+	CommonMouseWheel(event);
+	CommonClick(event);
+}
+
+/**
+ * If the user moves the mouse mouse, we keep the mouse position for other scripts and fire the mousemove event for other screens
+ * @param {MouseEvent} event
+ */
+function GameMouseMove(event, forwardToScreens = true) {
+	MouseX = Math.round(event.offsetX * 2000 / MainCanvas.canvas.clientWidth);
+	MouseY = Math.round(event.offsetY * 1000 / MainCanvas.canvas.clientHeight);
+	if(forwardToScreens)
+	{
+		CommonMouseMove(event);
 	}
 }
 
 /**
- * When the user touches the screen (mobile only), we fire the click event for other screens
+ * If the user starts touching the screen (mobile only), we fire the mousedown and click events for other screens
  * @param {TouchEvent} event
  */
-function TouchStart(event) {
-	if (!CommonIsMobile) return;
-	TouchMove(event);
+function GameTouchStart(event) {
+	if (!CommonIsMobile) { return; }
+	if (GameMouseIsDown) { return }
+	GameTouchMove(event, false);
+	CommonMouseDown(event);
 	CommonClick(event);
+	GameMouseIsDown = true
 	CommonTouchList = event.touches;
 }
 
 /**
- * When the user touches the screen (mobile only), we fire the click event for other screens
+ * If the user stops touching the screen (mobile only), we fire the mouseup event for other screens
  * @param {TouchEvent} event
  */
-function TouchEnd(event) {
-	if (!CommonIsMobile) return;
+function GameTouchEnd(event) {
+	if (!CommonIsMobile) { return; }
+	if (!GameMouseIsDown) { return }
+	CommonMouseUp(event);
+	GameMouseIsDown = false
 	CommonTouchList = event.touches;
 }
 
 /**
- * When touch moves, we keep it's position for other scripts
+ * if the user moves the touch, we keep the mouse position for other scripts and fire the mousemove event for other screens
  * @param {TouchEvent} event
  */
-function TouchMove(event) {
-	if (!CommonIsMobile) return;
+function GameTouchMove(event, forwardToScreens = true) {
+	if (!CommonIsMobile) { return; }
 	const touch = event.changedTouches[0];
 	MouseX = Math.round((touch.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
 	MouseY = Math.round((touch.clientY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
+	if(forwardToScreens)
+	{
+		CommonMouseMove(event);
+	}
 }
 
 /**
@@ -147,7 +198,7 @@ function TouchMove(event) {
  * we also check for false positives with "relatedTarget"
  * @param {MouseEvent} event
  */
-function MouseLeave(event) {
+function GameMouseLeave(event) {
 	if (event.relatedTarget) {
 		MouseX = -1;
 		MouseY = -1;
@@ -159,6 +210,6 @@ function KeyDown(event) { GameKeyDown(event); }
 /** @deprecated */
 function MainRun(Timestamp) { GameRun(Timestamp); }
 /** @deprecated */
-function Click(event) { MouseClick(event); }
+function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
 /** @deprecated */
-function LoseFocus(event) { MouseLeave(event); }
+function LoseFocus(event) { GameMouseLeave(event); }

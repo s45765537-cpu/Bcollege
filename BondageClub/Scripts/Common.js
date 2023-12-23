@@ -250,6 +250,34 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 	}
 }
 
+function CommonMouseDown(event) {
+	if (CurrentScreenFunctions.MouseDown)
+	{
+		CurrentScreenFunctions.MouseDown(event);
+	}
+}
+
+function CommonMouseUp(event) {
+	if (CurrentScreenFunctions.MouseUp)
+	{
+		CurrentScreenFunctions.MouseUp(event);
+	}
+}
+
+function CommonMouseMove(event) {
+	if (CurrentScreenFunctions.MouseMove)
+	{
+		CurrentScreenFunctions.MouseMove(event);
+	}
+}
+
+function CommonMouseWheel(event) {
+	if (CurrentScreenFunctions.MouseWheel)
+	{
+		CurrentScreenFunctions.MouseWheel(event);
+	}
+}
+
 /**
  * Catches the clicks on the main screen and forwards it to the current screen click function if it exists, otherwise it sends it to the dialog click function
  * @param {MouseEvent | TouchEvent} event - The event that triggered this
@@ -417,10 +445,15 @@ function CommonSetScreen(NewModule, NewScreen) {
 	CurrentScreenFunctions = {
 		Run: window[`${NewScreen}Run`],
 		Click: window[`${NewScreen}Click`],
+		MouseDown: typeof window[`${NewScreen}MouseDown`] === "function" ? window[`${NewScreen}MouseDown`] : undefined,
+		MouseUp: typeof window[`${NewScreen}MouseUp`] === "function" ? window[`${NewScreen}MouseUp`] : undefined,
+		MouseMove: typeof window[`${NewScreen}MouseMove`] === "function" ? window[`${NewScreen}MouseMove`] : undefined,
+		MouseWheel: typeof window[`${NewScreen}MouseWheel`] === "function" ? window[`${NewScreen}MouseWheel`] : undefined,
 		Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
 		Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
 		Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
 		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
+		KeyUp: typeof window[`${NewScreen}KeyUp`] === "function" ? window[`${NewScreen}KeyUp`] : undefined,
 		Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
 	};
 
