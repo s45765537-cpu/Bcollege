@@ -151,7 +151,7 @@ function CharacterAppearanceSetDefault(C) {
 	if (CharacterAppearanceAssets.length == 0) CharacterAppearanceBuildAssets(C);
 
 	// For each items in the character appearance assets
-	for (let I = 0; I < CharacterAppearanceAssets.length; I++)
+	for (let I = 0; I < CharacterAppearanceAssets.length; I++) {
 		if (CharacterAppearanceAssets[I].Group.IsDefault) {
 
 			// If there's no item in a slot, the first one becomes the default
@@ -162,18 +162,21 @@ function CharacterAppearanceSetDefault(C) {
 
 			// No item, we wear it with the default color
 			if (MustWear) {
-				var NA = {
-					Asset: CharacterAppearanceAssets[I],
-					Color: CharacterAppearanceAssets[I].Group.ColorSchema[0]
-				};
-				C.Appearance.push(NA);
+				CharacterAppearanceSetItem(
+					C,
+					CharacterAppearanceAssets[I].Group.Name,
+					CharacterAppearanceAssets[I],
+					undefined,
+					undefined,
+					undefined,
+					false,
+				);
 			}
-
 		}
+	}
 
-	// Loads the new character canvas
-	CharacterLoadCanvas(C);
-
+	// Loads the new character canvas and just refresh the entire thing
+	CharacterRefresh(C, false, false);
 }
 
 /**
