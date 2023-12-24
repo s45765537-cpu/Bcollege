@@ -26,6 +26,7 @@ var ChatRoomMapEventLoaded = false;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 1000;
 
+/** @type {ChatRoomMapTile[]} */
 var ChatRoomMapTileList = [
 
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
@@ -56,6 +57,7 @@ var ChatRoomMapTileList = [
 
 ];
 
+/** @type {ChatRoomMapObject[]} */
 var ChatRoomMapObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },

@@ -3716,6 +3716,34 @@ interface PreviewDrawOptions {
 
 // #end region
 
+
+// #region Chat Room Maps
+
+interface ChatRoomMapDoodad {
+	ID: number;
+	Style: string;
+}
+
+interface ChatRoomMapTile extends ChatRoomMapDoodad {
+	Type: "Floor" | "Wall" | "Water";
+	Transparency?: number;
+	TransparencyCutoutHeight?: number;
+}
+
+interface ChatRoomMapObject extends ChatRoomMapDoodad {
+	Type: "FloorDecoration" | "FloorItem" | "FloorObstacle" | "WallDecoration" | "WallPath";
+	Top?: number;
+	Left?: number;
+	Width?: number;
+	Height?: number;
+	Exit?: boolean;
+	Unique?: boolean;
+	AssetGroup?: AssetGroupItemName;
+	AssetName?: string;
+}
+
+// #endregion
+
 // #region deprecation
 
 /** @deprecated superseded by {@link PoseAvailable} */
