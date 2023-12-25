@@ -118,10 +118,10 @@ type ServerChatRoomData = {
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData: {
-		Type?: string;
-		Tiles?: string;
-		Objects?: string;
+	MapData?: {
+		Type: string;
+		Tiles: string;
+		Objects: string;
 	};
 	Custom: {
 		ImageURL?: string;

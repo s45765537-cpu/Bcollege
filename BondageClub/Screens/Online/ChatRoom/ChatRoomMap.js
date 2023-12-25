@@ -23,6 +23,7 @@ var ChatRoomMapFocusedCharacter = null;
 var ChatRoomMapBaseMovementSpeed = 200;
 var ChatRoomMapMovement = null;
 var ChatRoomMapEventLoaded = false;
+/** @type {ChatRoomMapType[]} */
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 1000;
 
@@ -109,7 +110,21 @@ var ChatRoomMapObjectList = [
  * Returns TRUE if the map button can be used
  * @returns {boolean} - TRUE if can be used
  */
-function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != null) && (ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type != "Never")); }
+function ChatRoomMapButton() { return (!ChatRoomMapVisible && ChatRoomData?.MapData?.Type != "Never"); }
+
+/**
+ * Initializes the map to its default blank state
+ * @param {ChatRoomMapType} mode
+ * @returns {ChatRoom["MapData"]}
+ */
+function ChatRoomMapInitialize(mode) {
+	const defaultMap = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+	return {
+		Type: mode,
+		Tiles: defaultMap,
+		Objects: defaultMap,
+	};
+}
 
 /**
  * Activates the chat room map
@@ -118,6 +133,11 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && (ChatRoomData != n
 function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
 	if (ChatRoomMapEventLoaded) return;
+
+	// Make sure the map tiles and objects are valid
+	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight) {
+		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
+	}
 	ChatRoomMapEventLoaded = true;
 }
 
@@ -151,8 +171,8 @@ function ChatRoomMapGetHearingRange() {
  * @returns {boolean} - TRUE if visible
  */
 function ChatRoomMapCharacterIsVisible(C) {
-	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
-	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	if (!C?.MapData) return false;
+	if (!Player?.MapData) return false;
 	let SightRange = ChatRoomMapGetSightRange();
 	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
 	return SightRange >= Distance;
@@ -164,8 +184,8 @@ function ChatRoomMapCharacterIsVisible(C) {
  * @returns {boolean} - TRUE if hearable
  */
 function ChatRoomMapCharacterIsHearable(C) {
-	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
-	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	if (!C?.MapData) return false;
+	if (!Player?.MapData) return false;
 	let HearingRange = ChatRoomMapGetHearingRange();
 	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
 	return HearingRange >= Distance;
@@ -177,8 +197,8 @@ function ChatRoomMapCharacterIsHearable(C) {
  * @returns {boolean} - TRUE if on whisper range
  */
 function ChatRoomMapCharacterOnWhisperRange(C) {
-	if ((C == null) || (C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return false;
-	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return false;
+	if (!C?.MapData) return false;
+	if (!Player?.MapData) return false;
 	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
 	return (Distance <= 1);
 }
@@ -244,17 +264,13 @@ function ChatRoomMapIsWall(X, Y) {
  * Returns the object located at a X and Y position on the map, or NULL if nothing
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
- * @returns {{ ID: number }} - The object at the position. If there is no object on this position, the returned object will have -1 as ID
+ * @returns {ChatRoomMapObject | null} - The object at the position
  */
 function ChatRoomMapGetObjectAtPos(X, Y) {
-	const errorObject = { ID: -1 };
-	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) { return errorObject; }
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) { return errorObject; }
+	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
-	for (let Obj of ChatRoomMapObjectList)
-		if (Obj.ID == ObjectID)
-			return CommonCloneDeep(Obj);
-	return errorObject;
+	return CommonCloneDeep(ChatRoomMapObjectList.find(o => o.ID === ObjectID));
 }
 
 /**
@@ -388,19 +404,19 @@ function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
 
 /**
  * Returns a object that contains the entry flag's position with x and y parameters or null if no entry flag is set
- * @returns {{x: number, y: number}|null} - TRUE if a character wearing this item is found
+ * @returns {ChatRoomMapPos|null} - TRUE if a character wearing this item is found
  */
 function ChatRoomMapGetEntryFlagPosition()
 {
-	if(!ChatRoomData.MapData) { return null; }
-	if(!ChatRoomData.MapData.Objects) { return null; }
-	for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
-	{
-		if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
-			return { x: P % ChatRoomMapWidth, y: Math.floor(P / ChatRoomMapWidth) };
-		}
-	}
-	return null;
+	if (!ChatRoomData.MapData?.Objects) return null;
+
+	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapObjectEntryID));
+	if (idx < 0) return null;
+
+	return {
+		X: idx % ChatRoomMapWidth,
+		Y: Math.floor(idx / ChatRoomMapWidth)
+	};
 }
 
 /**
@@ -410,7 +426,22 @@ function ChatRoomMapGetEntryFlagPosition()
 function ChatRoomMapIsPlayerOnExitTile()
 {
 	const playerPositionObject = ChatRoomMapGetObjectAtPos(Player.MapData?.X, Player.MapData?.Y);
-	return playerPositionObject.Exit != null ? playerPositionObject.Exit : false;
+	return playerPositionObject?.Exit != null ? playerPositionObject.Exit : false;
+}
+
+/**
+ * Helper function to check if the chat room map allows exiting it freely or not
+ *
+ * @returns {boolean}
+ */
+function ChatRoomMapCanLeave() {
+	if (!ChatRoomData.MapData || ChatRoomData.MapData.Type === "Never") return true;
+
+	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition();
+	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile();
+	if (entryFlagPosition && Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && !playerOnExitTile ) {
+		return false;
+	}
 }
 
 /**
@@ -422,32 +453,23 @@ function ChatRoomMapIsPlayerOnExitTile()
  * @returns {void} - Nothing
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
-
-	// Make sure the map tiles and objects are valid
-	if ((ChatRoomData.MapData.Tiles == null) || (ChatRoomData.MapData.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Tiles = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
-	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) ChatRoomData.MapData.Objects = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
-
 	// Make sure the player position on the grid is valid
-	if (Player.MapData == null) Player.MapData = {};
-	if ((Player.MapData.X == null) || (Player.MapData.X < 0) || (Player.MapData.X >= ChatRoomMapWidth) || (Player.MapData.Y == null) || (Player.MapData.Y < 0) || (Player.MapData.Y >= ChatRoomMapWidth)) {
+	if (!Player.MapData || Player.MapData.X < 0 || Player.MapData.X >= ChatRoomMapWidth || Player.MapData.Y < 0 || Player.MapData.Y >= ChatRoomMapWidth) {
 
 		// Checks to see if we can load the previously saved position
-		if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (Player.LastChatRoom != null) && (Player.LastChatRoom.Name === ChatRoomData.Name) && (Player.LastMapData != null) && (Player.LastMapData.X != null) && (Player.LastMapData.Y != null)) {
+		if (Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 			// Restores the saved position
-			Player.MapData.X = Player.LastMapData.X;
-			Player.MapData.Y = Player.LastMapData.Y;
-
+			Player.MapData = Object.assign({}, Player.LastMapData);
 		} else {
 			// Sets position in the middle of the scren by default, or at the entry flag if possible
-			const entryPosition = ChatRoomMapGetEntryFlagPosition();
-			if(entryPosition == null) {
-				Player.MapData.X = ChatRoomMapWidth / 2;
-				Player.MapData.Y = ChatRoomMapHeight / 2;
-			} else {
-				Player.MapData.X = entryPosition.x;
-				Player.MapData.Y = entryPosition.y;
+			let entryPosition = ChatRoomMapGetEntryFlagPosition();
+			if (entryPosition == null) {
+				entryPosition = {
+					X: ChatRoomMapWidth / 2,
+					Y: ChatRoomMapHeight / 2,
+				};
 			}
-
+			Player.MapData = entryPosition;
 		}
 
 		// Update the change instantly so other players don't see this player on an invalid position

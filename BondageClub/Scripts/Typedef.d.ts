@@ -1314,10 +1314,7 @@ interface Character {
 		Poker?: GamePokerParameters,
 		ClubCard?: GameClubCardParameters,
 	};
-	MapData?: {
-		X?: number;
-		Y?: number;
-	};
+	MapData?: ChatRoomMapPos;
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -1332,10 +1329,7 @@ interface Character {
 	Status?: string | null;
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
-	LastMapData? : {
-		X: number;
-		Y: number;
-	};
+	LastMapData?: ChatRoomMapPos;
 }
 
 /**
@@ -3718,6 +3712,13 @@ interface PreviewDrawOptions {
 
 
 // #region Chat Room Maps
+
+type ChatRoomMapType = "Always" | "Hybrid" | "Never";
+
+type ChatRoomMapPos = {
+	X: number;
+	Y: number;
+}
 
 interface ChatRoomMapDoodad {
 	ID: number;
