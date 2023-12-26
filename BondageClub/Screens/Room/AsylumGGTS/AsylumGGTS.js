@@ -396,7 +396,7 @@ function AsylumGGTSTaskDone(C, T) {
 	if ((T == "PoseOverHead") && ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)) return true;
 	if ((T == "PoseBehindBack") && ["BlackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) return true;
 	if ((T == "PoseLegsClosed") && C.PoseMapping.BodyLower === "LegsClosed") return true;
-	if ((T == "PoseLegsOpen") && C.PoseMapping.BodyLower === "LegsOpen") return true;
+	if ((T == "PoseLegsOpen") && (!C.PoseMapping.BodyLower || C.PoseMapping.BodyLower === "LegsOpen")) return true;
 	return false;
 }
 
@@ -468,8 +468,8 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	) return false; // Must be wearing a harness or panel gag
 	if ((T == "PoseOverHead") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseBehindBack") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
-	if ((T == "PoseLegsClosed") && (C.IsKneeling() || (InventoryGet(C, "ItemLegs") != null) || (InventoryGet(C, "ItemFeet") != null))) return false; // Close legs only without restraints and not kneeling
-	if ((T == "PoseLegsOpen") && (C.IsKneeling() || (InventoryGet(C, "ItemLegs") != null) || (InventoryGet(C, "ItemFeet") != null))) return false; // Open legs only without restraints and not kneeling
+	if ((T == "PoseLegsClosed") && (C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
+	if ((T == "PoseLegsOpen") && (C.IsKneeling() || !C.CanChangeToPose("LegsOpen"))) return false; // Open legs only if standing and able to do so
 	if ((T == "LockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == true)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "UnlockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == false)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
@@ -877,6 +877,7 @@ function AsylumGGTSNewTask() {
 			TaskList.push(AsylumGGTSTaskList[L][T]);
 	if (TaskList.length == 0) return;
 	let Count = 0;
+	if (!AsylumGGTSTaskCanBeDone(Player, AsylumGGTSLastTask)) AsylumGGTSLastTask = null;
 	while ((AsylumGGTSTask == null) && (Count < 50)) {
 		AsylumGGTSTask = CommonRandomItemFromList(AsylumGGTSLastTask, TaskList);
 		if (!AsylumGGTSTaskCanBeDone(Player, AsylumGGTSTask)) AsylumGGTSTask = null;
