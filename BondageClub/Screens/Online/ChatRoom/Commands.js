@@ -121,7 +121,7 @@ function CommandHelp(low, timeout) {
 /**
  * Prints out the help for commands
  * @param {Optional<ICommand, 'Action'>[]} CommandList - list of commands
- * @param {number} Timeout - total time to display the help message in ms
+ * @param {number} [Timeout] - total time to display the help message in ms
  */
 function CommandPrintHelpFor(CommandList, Timeout) {
 	CommandList
