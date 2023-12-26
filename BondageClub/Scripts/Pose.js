@@ -181,8 +181,13 @@ function PoseSetActive(C, poseName, ForceChange = false) {
 	}
 
 	// If we reset to base, we remove the poses
-	if (C.ActivePoseMapping.BodyUpper === "BaseUpper") delete C.ActivePoseMapping.BodyUpper;
-	if (C.ActivePoseMapping.BodyLower === "BaseLower") delete C.ActivePoseMapping.BodyLower;
+	if (C.ActivePoseMapping.BodyFull) {
+		delete C.ActivePoseMapping.BodyUpper;
+		delete C.ActivePoseMapping.BodyLower;
+	} else {
+	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
+	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
+	}
 	CharacterRefresh(C, false);
 }
 
@@ -255,10 +260,13 @@ function PoseRefresh(C) {
 	}
 
 	// Make the (somewhat arbitrary?) decision to have `BodyFull` take priority over `BodyUpper/Lower`
-	// Only relevant in rare/hypothetical cases wherein both are elligble
+	// Only relevant in rare/hypothetical cases wherein both are eligible
 	if (C.PoseMapping.BodyFull) {
 		delete C.PoseMapping.BodyUpper;
 		delete C.PoseMapping.BodyLower;
+	} else {
+	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
+	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
 	}
 
 	// The `TapedHands` pose acts like a drop-in replacement for the `BaseUpper` pose
