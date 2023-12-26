@@ -597,7 +597,7 @@ function ChatRoomCanStartWhisper() {
  * @returns {void} - Nothing
  */
 function ChatRoomStartWhisper() {
-	if (CurrentCharacter == null) return; 
+	if (CurrentCharacter == null) return;
 	ChatRoomSetTarget(CurrentCharacter.MemberNumber);
 	DialogLeave();
 }

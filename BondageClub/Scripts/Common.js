@@ -303,13 +303,14 @@ function CommonClick(event) {
 function CommonTouchActive(X, Y, W, H, TL) {
 	if (!CommonIsMobile) return false;
 	if (TL == null) TL = CommonTouchList;
-	if (TL != null)
-		for (let Touch of TL) {
-			let TouchX = Math.round((Touch.pageX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
-			let TouchY = Math.round((Touch.pageY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
-			if ((TouchX >= X) && (TouchX <= X + W) && (TouchY >= Y) && (TouchY <= Y + H))
-				return true;
-		}
+	if (TL == null) return;
+	for (let index = 0; index < TL.length; index++) {
+		const Touch = TL[index];
+		let TouchX = Math.round((Touch.pageX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
+		let TouchY = Math.round((Touch.pageY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
+		if ((TouchX >= X) && (TouchX <= X + W) && (TouchY >= Y) && (TouchY <= Y + H))
+			return true;
+	}
 	return false;
 }
 
@@ -876,7 +877,7 @@ function CommonUnpackItemArray(arr) {
 function CommonCompareVersion(Current, Other) {
 	const CurrentMatch = GameVersionFormat.exec(Current);
 	const OtherMatch = GameVersionFormat.exec(Other);
-	if (CurrentMatch == null || OtherMatch == null || isNaN(CurrentMatch[1]) || isNaN(OtherMatch[1])) return -1;
+	if (!CurrentMatch || !OtherMatch) return -1;
 	const CurrentVer = [
 		Number.parseInt(CurrentMatch[1]),
 		CurrentMatch[2] === "Alpha" ? 1 : CurrentMatch[2] === "Beta" ? 2 : 3,

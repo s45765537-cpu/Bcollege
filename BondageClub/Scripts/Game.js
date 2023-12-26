@@ -34,7 +34,7 @@ function GameStart() {
 
 	canvas.addEventListener("keydown", GameKeyDown);
 	canvas.addEventListener("keyup", GameKeyUp);
-	
+
 	canvas.addEventListener("mousedown", GameMouseDown);
 	canvas.addEventListener("mouseup", GameMouseUp);
 	canvas.addEventListener("mousemove", GameMouseMove);
@@ -104,16 +104,16 @@ function GameKeyUp(event) {
 	}
 }
 
-var GameMouseIsDown = false
+var GameMouseIsDown = false;
 /**
  * If the user presses the mouse button, we fire the mousedown event for other screens
  * @param {MouseEvent} event
  */
 function GameMouseDown(event) {
-	if (CommonIsMobile) { return }
-	if (GameMouseIsDown) { return }
+	if (CommonIsMobile) { return; }
+	if (GameMouseIsDown) { return; }
 	CommonMouseDown(event);
-	GameMouseIsDown = true
+	GameMouseIsDown = true;
 }
 
 /**
@@ -121,12 +121,12 @@ function GameMouseDown(event) {
  * @param {MouseEvent} event
  */
 function GameMouseUp(event) {
-	if (CommonIsMobile) { return }
-	if (!GameMouseIsDown) { return }
+	if (CommonIsMobile) { return; }
+	if (!GameMouseIsDown) { return; }
 	GameMouseMove(event, false);
 	CommonMouseUp(event);
 	CommonClick(event);
-	GameMouseIsDown = false
+	GameMouseIsDown = false;
 }
 
 /**
@@ -134,7 +134,7 @@ function GameMouseUp(event) {
  * @param {MouseEvent} event
  */
 function GameMouseWheel(event) {
-	if (CommonIsMobile) { return }
+	if (CommonIsMobile) { return; }
 	CommonMouseWheel(event);
 	CommonClick(event);
 }
@@ -158,11 +158,11 @@ function GameMouseMove(event, forwardToScreens = true) {
  */
 function GameTouchStart(event) {
 	if (!CommonIsMobile) { return; }
-	if (GameMouseIsDown) { return }
+	if (GameMouseIsDown) { return; }
 	GameTouchMove(event, false);
 	CommonMouseDown(event);
 	CommonClick(event);
-	GameMouseIsDown = true
+	GameMouseIsDown = true;
 	CommonTouchList = event.touches;
 }
 
@@ -172,9 +172,9 @@ function GameTouchStart(event) {
  */
 function GameTouchEnd(event) {
 	if (!CommonIsMobile) { return; }
-	if (!GameMouseIsDown) { return }
+	if (!GameMouseIsDown) { return; }
 	CommonMouseUp(event);
-	GameMouseIsDown = false
+	GameMouseIsDown = false;
 	CommonTouchList = event.touches;
 }
 

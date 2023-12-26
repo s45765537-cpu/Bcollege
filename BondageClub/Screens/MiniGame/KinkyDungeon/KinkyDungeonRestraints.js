@@ -563,9 +563,10 @@ function KinkyDungeonLock(item, lock) {
 		}
 	} else {
 		item.lock = lock;
-		InventoryUnlock(KinkyDungeonPlayer,  KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group);
-		if (!KinkyDungeonRestraintsLocked.includes( KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group))
-			InventoryUnlock(Player, KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group);
+		const group = /** @type {AssetGroupItemName} */ (KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group);
+		InventoryUnlock(KinkyDungeonPlayer, group);
+		if (!KinkyDungeonRestraintsLocked.includes(group))
+			InventoryUnlock(Player, group);
 	}
 
 }
@@ -3044,7 +3045,8 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass, Lock, Keep, Link
 					const asset = AssetGet(Player.AssetFamily, AssetGroup, restraint.Asset);
 					if (asset) {
 						placedOnPlayer = true;
-						CharacterAppearanceSetItem(Player, AssetGroup, asset, color || asset.DefaultColor, 0, null, false);
+						const newColor = [...(color || asset.DefaultColor)];
+						CharacterAppearanceSetItem(Player, AssetGroup, asset, newColor, 0, null, false);
 						KinkyDungeonPlayerNeedsRefresh = true;
 					}
 				}
