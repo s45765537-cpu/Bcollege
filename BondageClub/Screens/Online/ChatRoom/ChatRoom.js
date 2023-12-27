@@ -2120,7 +2120,6 @@ function ChatRoomClick() {
 	}
 
 	if (MouseIn(0, 0, 1000, 1000)) {
-		console.log("Inside: 1");
 		// When the user chats or clicks on a character
 		if(ChatRoomMapVisible)
 		{

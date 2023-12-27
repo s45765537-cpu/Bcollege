@@ -242,7 +242,7 @@ function ChatRoomMapIsWall(X, Y) {
  * Returns the object located at a X and Y position on the map, or NULL if nothing
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
- * @returns {object} - The object at the position. If there is no object on this position, the returned object will have -1 as ID
+ * @returns {{ ID: number }} - The object at the position. If there is no object on this position, the returned object will have -1 as ID
  */
 function ChatRoomMapGetObjectAtPos(X, Y) {
 	const errorObject = { ID: -1 };
