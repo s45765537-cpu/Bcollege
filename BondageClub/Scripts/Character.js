@@ -773,7 +773,7 @@ function CharacterLoadSimple(AccName) {
 /**
  * Sets up an online character
  * @param {Character} Char - Online character to set up
- * @param {object} data - Character data received
+ * @param {ServerAccountDataSynced} data - Character data received
  * @param {number} SourceMemberNumber - Source number of the refresh
  */
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
@@ -825,7 +825,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 
 /**
  * Loads an online character and flags it for a refresh if any data was changed
- * @param {object} data - Character data received
+ * @param {ServerAccountDataSynced} data - Character data received
  * @param {number} SourceMemberNumber - Source number of the load trigger
  * @returns {Character} - The reloaded character
  */
