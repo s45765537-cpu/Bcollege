@@ -3635,8 +3635,7 @@ function ChatRoomValidateProperties(obj)
 		&& Array.isArray(room.BlockCategory) && room.BlockCategory.every(c => typeof c === "string")
 		&& (!room.Character || Array.isArray(room.Character) && room.Character.every(c => typeof c === "object"))
 		&& typeof room.Language === "string"
-		// Workaround as the server might not be providing that data yet
-		&& (!room.Space || typeof room.Space === "string");
+		&& typeof room.Space === "string";
 }
 
 /**
