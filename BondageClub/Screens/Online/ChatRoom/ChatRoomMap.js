@@ -242,16 +242,17 @@ function ChatRoomMapIsWall(X, Y) {
  * Returns the object located at a X and Y position on the map, or NULL if nothing
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
- * @returns {object} - The object at the position
+ * @returns {object} - The object at the position. If there is no object on this position, the returned object will have -1 as ID
  */
 function ChatRoomMapGetObjectAtPos(X, Y) {
-	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) return null;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
+	const errorObject = { ID: -1 };
+	if ((ChatRoomData.MapData.Objects == null) || (ChatRoomData.MapData.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)) { return errorObject; }
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) { return errorObject; }
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
 	for (let Obj of ChatRoomMapObjectList)
 		if (Obj.ID == ObjectID)
 			return CommonCloneDeep(Obj);
-	return null;
+	return errorObject;
 }
 
 /**
@@ -389,6 +390,8 @@ function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
  */
 function ChatRoomMapGetEntryFlagPosition()
 {
+	if(!ChatRoomData.MapData) { return null; }
+	if(!ChatRoomData.MapData.Objects) { return null; }
 	for (let P = 0; P < ChatRoomData.MapData.Objects.length; P++)
 	{
 		if (ChatRoomData.MapData.Objects.charCodeAt(P) === ChatRoomMapObjectEntryID) {
