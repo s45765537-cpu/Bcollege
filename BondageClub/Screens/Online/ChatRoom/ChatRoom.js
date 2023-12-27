@@ -3491,12 +3491,23 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
 
 	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
-	if (((data.Type === "Chat") || (data.Type === "Whisper")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
+	if ((data.Type === "Chat") && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
 	{
 		// Get the OOC part range of the message
 		const oocRange = SpeechGetOOCRange(msg);
 		// If the message has no OOC part, don't send anyting
-		if(oocRange.start >= msg.length) { return; }
+		if(oocRange.start >= msg.length) return;
+		// If the message has a OOC part, set it as new message and send it normally
+		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length);
+	}
+
+	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
+	if ((data.Type === "Whisper") && ChatRoomMapVisible && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter))
+	{
+		// Get the OOC part range of the message
+		const oocRange = SpeechGetOOCRange(msg);
+		// If the message has no OOC part, don't send anyting
+		if(oocRange.start >= msg.length) return;
 		// If the message has a OOC part, set it as new message and send it normally
 		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length);
 	}

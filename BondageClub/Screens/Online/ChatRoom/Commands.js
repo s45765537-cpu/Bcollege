@@ -616,5 +616,17 @@ const CommonCommands = [
 		Tag: "mappaste",
 		Action: (_, msg) => { ChatRoomMapPaste(msg); },
 	},
+	{
+		Tag: "whisper",
+		Action: args => {
+			if (args.trim() == "") return ChatRoomSetTarget(null);
+			if (CommonIsNumeric(args)) {
+				let Member = parseInt(args);
+				for (let C of ChatRoomCharacter)
+					if ((C.MemberNumber == Member) && !C.IsPlayer())
+						return ChatRoomSetTarget(Member);
+			}
+		},
+	},
 
 ];
