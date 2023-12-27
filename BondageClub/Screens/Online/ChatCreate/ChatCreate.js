@@ -6,6 +6,7 @@ var ChatCreateMessage = "";
 var ChatCreatePrivate = null;
 /** @type {null | boolean} */
 var ChatCreateLocked = null;
+/** @type {ChatRoomMapType} */
 var ChatCreateMap = "Never";
 /** @type {ServerChatRoomGame} */
 var ChatCreateGame = "";
@@ -262,7 +263,7 @@ function ChatCreateRoom() {
 		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatBlockItemCategory
 	};
-	if (ChatCreateMap != null) NewRoom.MapData = { Type: ChatCreateMap };
+	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapInitialize(ChatCreateMap);
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
 	ChatRoomPingLeashedPlayers();

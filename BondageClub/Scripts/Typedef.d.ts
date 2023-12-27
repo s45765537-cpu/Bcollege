@@ -1314,10 +1314,7 @@ interface Character {
 		Poker?: GamePokerParameters,
 		ClubCard?: GameClubCardParameters,
 	};
-	MapData?: {
-		X?: number;
-		Y?: number;
-	};
+	MapData?: ChatRoomMapPos;
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -1332,10 +1329,7 @@ interface Character {
 	Status?: string | null;
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
-	LastMapData? : {
-		X: number;
-		Y: number;
-	};
+	LastMapData?: ChatRoomMapPos;
 }
 
 /**
@@ -3715,6 +3709,41 @@ interface PreviewDrawOptions {
 }
 
 // #end region
+
+
+// #region Chat Room Maps
+
+type ChatRoomMapType = "Always" | "Hybrid" | "Never";
+
+type ChatRoomMapPos = {
+	X: number;
+	Y: number;
+}
+
+interface ChatRoomMapDoodad {
+	ID: number;
+	Style: string;
+}
+
+interface ChatRoomMapTile extends ChatRoomMapDoodad {
+	Type: "Floor" | "Wall" | "Water";
+	Transparency?: number;
+	TransparencyCutoutHeight?: number;
+}
+
+interface ChatRoomMapObject extends ChatRoomMapDoodad {
+	Type: "FloorDecoration" | "FloorItem" | "FloorObstacle" | "WallDecoration" | "WallPath";
+	Top?: number;
+	Left?: number;
+	Width?: number;
+	Height?: number;
+	Exit?: boolean;
+	Unique?: boolean;
+	AssetGroup?: AssetGroupItemName;
+	AssetName?: string;
+}
+
+// #endregion
 
 // #region deprecation
 

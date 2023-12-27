@@ -10,7 +10,7 @@ interface ServerAccountImmutableData {
 	Creation: number;
 	Ownership?: ServerOwnership;
 	Lovership?: ServerLovership[];
-	ActivePose?: string[];
+	readonly ActivePose?: string[];
 	Pose?: any;
 }
 
@@ -54,6 +54,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	SavedColors?: object[]; /* HSVColor[] */
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: number; LastChange: number };
+	MapData?: { X: number, Y: number };
 }
 
 type ServerAccountDataSynced = Omit<ServerAccountData, "Money" | "FriendList">;
@@ -118,10 +119,10 @@ type ServerChatRoomData = {
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData: {
-		Type?: string;
-		Tiles?: string;
-		Objects?: string;
+	MapData?: {
+		Type: string;
+		Tiles: string;
+		Objects: string;
 	};
 	Custom: {
 		ImageURL?: string;

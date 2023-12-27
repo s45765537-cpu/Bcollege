@@ -2269,12 +2269,7 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
-	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition();
-	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile();
-	if (ChatRoomData.MapData && ChatRoomData.MapData.Type && ChatRoomData.MapData.Type != "Never" &&
-		entryFlagPosition && Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && !playerOnExitTile ) {
-		return false;
-	}
+	if (!ChatRoomMapCanLeave()) return false;
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -3640,8 +3635,7 @@ function ChatRoomValidateProperties(obj)
 		&& Array.isArray(room.BlockCategory) && room.BlockCategory.every(c => typeof c === "string")
 		&& (!room.Character || Array.isArray(room.Character) && room.Character.every(c => typeof c === "object"))
 		&& typeof room.Language === "string"
-		// Workaround as the server might not be providing that data yet
-		&& (!room.Space || typeof room.Space === "string");
+		&& typeof room.Space === "string";
 }
 
 /**
