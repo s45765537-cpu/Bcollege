@@ -136,7 +136,6 @@ function GameMouseUp(event) {
 function GameMouseWheel(event) {
 	if (CommonIsMobile) { return; }
 	CommonMouseWheel(event);
-	CommonClick(event);
 }
 
 /**
