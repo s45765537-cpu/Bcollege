@@ -19,6 +19,7 @@ var ChatRoomMapUpdateRoomNext = null;
 var ChatRoomMapUpdatePlayerNext = null;
 var ChatRoomMapUpdateLastMapDataNext = null;
 var ChatRoomMapFocusedCharacter = null;
+var ChatRoomMapSuperPowersActive = false;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapBaseMovementSpeed = 200;
 var ChatRoomMapMovement = null;
@@ -748,6 +749,10 @@ function ChatRoomMapDraw() {
 	// Draw the full grid on the left side of the screen
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
 
+	// Admins can grant themselves super powers (teleport, far hearing, etc.)
+	if (ChatRoomPlayerIsAdmin())
+		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/" + ((ChatRoomMapSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
+
 	// Draw the movement buttons
 	if (ChatRoomMapMovement == null) {
 		DrawButton(860, 860, 60, 60, "", "White", "Icons/Small/North.png");
@@ -964,9 +969,7 @@ function ChatRoomMapKeyDown(event) {
  */
 function ChatRoomMapClick() {
 	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
-	{
 		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
-	}
 }
 
 /**
@@ -975,10 +978,11 @@ function ChatRoomMapClick() {
  */
 function ChatRoomMapMouseDown() {
 
-	// The walk buttons
+	// The walk buttons in the bottom right of the map
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
+	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
 	if ((ChatRoomMapMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapMovement = null;
+	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
 	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapMove("West");
 	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("South");
 	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapMove("East");
