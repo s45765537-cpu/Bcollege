@@ -504,8 +504,15 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 
 	// Creates the inventory and default appearance
 	if (CharacterID == 0) {
-		Player = /** @type {PlayerCharacter} */ (NewCharacter);
-		CharacterAppearanceSetDefault(NewCharacter);
+		Player = {
+			...NewCharacter,
+			GenderSettings: {
+				HideShopItems: PreferenceInitGenderSetting(),
+				AutoJoinSearch: PreferenceInitGenderSetting(),
+			},
+			ExtensionSettings: {},
+		};
+		CharacterAppearanceSetDefault(Player);
 	}
 
 	// Load the character image

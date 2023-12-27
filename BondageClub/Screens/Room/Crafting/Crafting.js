@@ -171,6 +171,7 @@ function CraftingShowScreen(FromChatRoom) {
  * @returns {void} - Nothing
  */
 function CraftingLoad() {
+	Player.Crafting ??= [];
 	CraftingModeSet("Slot");
 	CraftingOffset = 0;
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
