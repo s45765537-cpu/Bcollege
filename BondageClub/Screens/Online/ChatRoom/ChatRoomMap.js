@@ -25,7 +25,7 @@ var ChatRoomMapMovement = null;
 var ChatRoomMapEventLoaded = false;
 /** @type {ChatRoomMapType[]} */
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
-var ChatRoomMapUpdatePlayerTime = 1000;
+var ChatRoomMapUpdatePlayerTime = 500;
 
 /** @type {ChatRoomMapTile[]} */
 var ChatRoomMapTileList = [
@@ -658,14 +658,12 @@ function ChatRoomMapUpdateFlag() {
 
 /**
  * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
- * @param {number} updateTimeOffset - A offset for the update time. This can be positive to increase the update time or negative to reduce it.
+ * @param {number} UpdateTimeOffset - A offset for the update time. This can be positive to increase the update time or negative to reduce it.
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdatePlayerFlag(updateTimeOffset = 0) {
-	if (ChatRoomMapUpdatePlayerNext == null)
-	{
-		ChatRoomMapUpdatePlayerNext = CommonTime() + ChatRoomMapUpdatePlayerTime + updateTimeOffset;
-	}
+function ChatRoomMapUpdatePlayerFlag(UpdateTimeOffset = 0) {
+	if (ChatRoomMapUpdatePlayerNext == null) 
+		ChatRoomMapUpdatePlayerNext = CommonTime() + ChatRoomMapUpdatePlayerTime + UpdateTimeOffset;
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapUpdateLastMapDataNext == null))
 		ChatRoomMapUpdateLastMapDataNext = CommonTime() + 10000;
 }
@@ -688,8 +686,29 @@ function ChatRoomMapUpdateRoomSync() {
 function ChatRoomMapUpdatePlayerSync() {
 	if ((ChatRoomMapUpdatePlayerNext == null) || (ChatRoomMapUpdatePlayerNext > CommonTime())) return;
 	ChatRoomMapUpdatePlayerNext = null;
-	ServerAccountUpdate.QueueData({ MapData: Player.MapData }, true);
+	ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData);
 }
+
+/**
+ * Updates a single character's expression in the chatroom.
+ * @param {ServerCharacterExpressionResponse} data - Data object containing the new character expression data.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomSyncMapData(data) {
+
+	// Exits if the packet is invalid
+	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
+	if (!CommonIsObject(data.MapData) || (data.MapData.X == null) || (typeof data.MapData.X != "number") || (data.MapData.Y == null) || (typeof data.MapData.Y != "number")) return;
+
+	// Assigns the MapData to the chatroom character
+	for (let C of ChatRoomCharacter)
+		if ((C.MemberNumber == data.MemberNumber) && !C.IsPlayer()) {
+			C.MapData = { X: data.MapData.X, Y: data.MapData.Y };
+			break;
+		}
+
+}
+
 
 /**
  * Updates the player last map data if needed
