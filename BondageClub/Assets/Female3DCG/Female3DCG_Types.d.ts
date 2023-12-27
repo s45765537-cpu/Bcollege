@@ -650,7 +650,9 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 */
 	PreviewIcons?: InventoryIcon[];
 
+	/** Applies screen tints when the asset is worn */
 	Tint?: TintDefinition[];
+	/** The default tint color (unless overriden by {@link TintDefinition.DefaultColor} */
 	DefaultTint?: string;
 	Gender?: AssetGender;
 

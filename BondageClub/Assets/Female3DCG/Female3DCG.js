@@ -37543,6 +37543,8 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
+				Tint: [{ Color: 0, Strength: 0.1 }],
+				DefaultTint: "#000044",
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
 				AllowActivePose: ["LegsOpen", "LegsClosed"],
@@ -37572,6 +37574,8 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
+				Tint: [{ Color: 0, Strength: 0.1 }],
+				DefaultTint: "#000044",
 				RemoveAtLogin: true,
 			},
 			{
