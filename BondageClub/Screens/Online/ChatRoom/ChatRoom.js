@@ -2119,12 +2119,13 @@ function ChatRoomClick() {
 		return;
 	}
 
-	// When the user chats or clicks on a character
-	if(ChatRoomMapVisible)
-	{
-		return ChatRoomMapClick();
-	}
-	else if (MouseIn(0, 0, 1000, 1000)) {
+	if (MouseIn(0, 0, 1000, 1000)) {
+		// When the user chats or clicks on a character
+		if(ChatRoomMapVisible)
+		{
+			return ChatRoomMapClick();
+		}
+
 		// Intercepts the online game chat room clicks if we need to
 		if (OnlineGameClick()) return;
 
