@@ -453,6 +453,7 @@ function ChatRoomMapCanLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
+
 	// Make sure the player position on the grid is valid
 	if (!Player.MapData || Player.MapData.X < 0 || Player.MapData.X >= ChatRoomMapWidth || Player.MapData.Y < 0 || Player.MapData.Y >= ChatRoomMapWidth) {
 
@@ -494,8 +495,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapFocusedCharacter = null;
 
 	// For each tiles in the grid
-	const mapArraySize = ChatRoomMapWidth * ChatRoomMapHeight;
-	for (let Pos=0; Pos < mapArraySize; Pos++) {
+	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
 
 		// Find the X & Y position of the grid
 		let X = Pos % ChatRoomMapWidth;
@@ -503,36 +503,33 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		// Only process if the X & Y are within the visible sight range
 		let MaxRange = Math.max(Math.abs(X - Player.MapData.X), Math.abs(Y - Player.MapData.Y));
-		if (MaxRange > MaxVisibleRange) {
-			continue;
-		}
+		if (MaxRange > MaxVisibleRange) continue;
 
 		// Defines the screen X and Y positions
 		let ScreenX = (X - Player.MapData.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
 		let ScreenY = (Y - Player.MapData.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
+
+		// If this tile's coordinates are out of the view range, we don't have to bother with it
+		if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) continue;
+
+		// Drawing variables
 		const TileCanvasX = Left + ScreenX;
 		const TileCanvasY = Top + ScreenY;
-
 		let FloorWallEffect = -1;
 		let DrawRect = false;
-
-		// Draws the tile and object image and applies the visual effects if needed
-		if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) {
-			//If this tile's coordinates are out of the view range, we don't have to bother with it
-			continue;
-		}
-
-		// Draw the tile first
 		let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 		let TileData = null;
 		let TileImage = null;
+
+		// Finds the tile to draw and keeps it
 		for (let Tile of ChatRoomMapTileList)
 			if (Tile.ID == TileID) {
 				TileData = Tile;
 				break;
 			}
-		if(TileData != null)
-		{
+
+		// Draw the tile on the grid
+		if (TileData != null) {
 			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
 			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, TileWidth, TileHeight);
 			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth, TileHeight);
@@ -545,7 +542,6 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			for (let Obj of ChatRoomMapObjectList)
 				if (Obj.ID == ObjectID) {
 					if (Obj.Style === "Blank") break;
-					// @ts-ignore
 					if (ChatRoomMapCharAtPosIsWearing(X, Y, Obj.AssetName, Obj.AssetGroup)) break;
 					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
 					break;
@@ -557,32 +553,27 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			DrawRect = true;
 		}
 
-		const mouseTileX = Math.floor(MouseX / TileWidth) + Math.floor(Player.MapData.X - ChatRoomMapViewRange);
-		const mouseTileY = Math.floor(MouseY / TileHeight) + Math.floor(Player.MapData.Y - ChatRoomMapViewRange);
-		// Draws the characters on that tile
+		// For each characters in the chat room
 		for (let C of ChatRoomCharacter)
-		{
 			if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y)) {
+
+				// Draws the character on the grid
 				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
-				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95)))
-				{
+
+				// Keeps the character under the cursor
+				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
 					ChatRoomMapFocusedCharacter = C;
+					CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
 				}
+
 				// Draw the water effect if character stands in water
-				if(TileImage != null && TileData != null && TileData.Type == "Water")
-				{
+				if (TileImage != null && TileData != null && TileData.Type == "Water") {
 					const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
 					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
 					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
 				}
-				// If the user hovers the mouse over a tile occupied by a character
-				if(mouseTileX == C.MapData.X && mouseTileY == C.MapData.Y)
-				{
-					// Save the character to draw additional information about them after all tiles are drawn
-					CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
-				}
+
 			}
-		}
 
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX, ScreenY, TileWidth, TileHeight);
@@ -591,10 +582,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 	}
 
 	// If the user hovers the mouse over a tile occupied by a character
-	if(CharacterUnderCursor)
-	{
-		DrawText(CharacterNickname(CharacterUnderCursor.Character),
-			CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
+	if (CharacterUnderCursor) {
+		DrawText(CharacterNickname(CharacterUnderCursor.Character), CharacterUnderCursor.StatusBaseX, CharacterUnderCursor.StatusBaseY, (CommonIsColor(CharacterUnderCursor.Character.LabelColor)) ? CharacterUnderCursor.Character.LabelColor : "White", "Black");
 		ChatRoomDrawCharacterStatusIcons(CharacterUnderCursor.Character, CharacterUnderCursor.StatusBaseX - 125, CharacterUnderCursor.StatusBaseY - 40, 0.5);
 	}
 
