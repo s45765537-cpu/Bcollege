@@ -114,6 +114,12 @@ var ChatRoomMapObjectList = [
 function ChatRoomMapButton() { return (!ChatRoomMapVisible && ChatRoomData?.MapData?.Type != "Never"); }
 
 /**
+ * Returns TRUE if the player is an admin and activated her super powers on the map
+ * @returns {boolean} - TRUE if super powers are active
+ */
+function ChatRoomMapHasSuperPowers() { return ChatRoomMapSuperPowersActive && ChatRoomPlayerIsAdmin(); };
+
+/**
  * Initializes the map to its default blank state
  * @param {ChatRoomMapType} mode
  * @returns {ChatRoom["MapData"]}
@@ -155,6 +161,7 @@ function ChatRoomMapDeactivate() {
  * @returns {number} - The number of visible tiles
  */
 function ChatRoomMapGetSightRange() {
+	if (ChatRoomMapHasSuperPowers()) return ChatRoomMapViewRangeMax;
 	return ChatRoomMapViewRangeMax - Player.GetBlindLevel() * 2;
 }
 
@@ -848,8 +855,9 @@ function ChatRoomMapDraw() {
  */
 function ChatRoomMapCanEnterTile(X, Y) {
 
-	// Out of map bound or walls cannot enter
+	// Out of map bound or walls cannot enter, super powers skip everything
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return 0;
+	if (ChatRoomMapHasSuperPowers()) return ChatRoomMapBaseMovementSpeed / 10;
 	if (ChatRoomMapIsWall(X, Y)) return 0;
 
 	// Floor obstacles from 2000 to 3000 cannot be crossed

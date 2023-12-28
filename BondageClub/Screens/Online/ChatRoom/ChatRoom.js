@@ -3488,10 +3488,10 @@ function ChatRoomMessage(data) {
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
-	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
+	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
 
 	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
-	if ((data.Type === "Chat") && ChatRoomMapVisible && !ChatRoomMapCharacterIsHearable(SenderCharacter))
+	if ((data.Type === "Chat") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsHearable(SenderCharacter))
 	{
 		// Get the OOC part range of the message
 		const oocRange = SpeechGetOOCRange(msg);
@@ -3502,7 +3502,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	}
 
 	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
-	if ((data.Type === "Whisper") && ChatRoomMapVisible && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter))
+	if ((data.Type === "Whisper") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter))
 	{
 		// Get the OOC part range of the message
 		const oocRange = SpeechGetOOCRange(msg);
