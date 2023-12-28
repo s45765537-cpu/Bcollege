@@ -38,6 +38,8 @@ const PoseType = /** @type {const} */({
  */
 function AssetGroupAdd(Family, GroupDef) {
 	const AllowNone = typeof GroupDef.AllowNone === "boolean" ? GroupDef.AllowNone : true;
+	const ColorSchema = (GroupDef.Color == null) ? ["Default"] : GroupDef.Color;
+
 	/** @type {AssetGroup} */
 	var A = {
 		Family: Family,
@@ -52,7 +54,8 @@ function AssetGroupAdd(Family, GroupDef) {
 		AllowColorize: (GroupDef.AllowColorize == null) ? true : GroupDef.AllowColorize,
 		AllowCustomize: (GroupDef.AllowCustomize == null) ? true : GroupDef.AllowCustomize,
 		Random: (GroupDef.Random == null) ? true : GroupDef.Random,
-		ColorSchema: (GroupDef.Color == null) ? ["Default"] : GroupDef.Color,
+		ColorSchema,
+		DefaultColor: ColorSchema[0],
 		ParentSize: (GroupDef.ParentSize == null) ? "" : GroupDef.ParentSize,
 		ParentColor: (GroupDef.ParentColor == null) ? "" : GroupDef.ParentColor,
 		Clothing: (GroupDef.Clothing == null) ? false : GroupDef.Clothing,
@@ -269,7 +272,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
 
 	AssetAssignColorIndices(A);
-	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, AssetDef.DefaultColor);
+	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, Group.DefaultColor, AssetDef.DefaultColor);
 
 	// Unwearable assets are not visible but can be overwritten
 	if (!A.Wear && AssetDef.Visible != true) A.Visible = false;
@@ -837,12 +840,13 @@ function AssetLayerSort(layers) {
 /**
  * Convert {@link AssetDefinition} default color into a {@link Asset} default color list
  * @param {number} colorableLayerCount The number of colorable layers
+ * @param {string} fillValue The default color. Usually `"Default"` though skin colors can also be supplied on occasion.
  * @param {string | readonly string[]} [color] See {@link AssetDefinition.DefaultColor}
  * @returns {string[]} See {@link Asset.DefaultColor}
  */
-function AssetParseDefaultColor(colorableLayerCount, color) {
+function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 	/** @type {string[]} */
-	const defaultColor = Array(colorableLayerCount).fill("Default");
+	const defaultColor = Array(colorableLayerCount).fill(fillValue);
 	if (typeof color === "string") {
 		defaultColor.fill(color);
 	} else if (CommonIsArray(color)) {

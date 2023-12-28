@@ -12425,7 +12425,7 @@ var AssetFemale3DCG = [
 		PoseMapping: { ...AssetPoseMapping.BodyUpper },
 		PreviewZone: [0, 150, 500, 500],
 		Color: ["White", "Asian", "Black"],
-		ColorSuffix: { HEX_COLOR: "White" },
+		ColorSuffix: { HEX_COLOR: "White", Default: "White" },
 		Asset: [
 			{
 				Name: "Small",

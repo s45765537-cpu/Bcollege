@@ -68,10 +68,12 @@ function TestingGetMissingColorLayersGroups() {
  * @returns {TestingStruct<string[]>[]}
  */
 function TestingValidateDefaultColor() {
+	const validColorNonhex = new Set(["Default", "White", "Black", "Asian"]);
+
 	/** @type {TestingStruct<string[]>[]} */
 	const ret = [];
 	for (const asset of Asset) {
-		const invalid = asset.DefaultColor.filter(i => !(i === "Default" || CommonIsColor(i)));
+		const invalid = asset.DefaultColor.filter(i => !(validColorNonhex.has(i) || CommonIsColor(i)));
 		if (invalid.length) {
 			ret.push({ Group: asset.Group.Name, Name: asset.Name, Invalid: invalid });
 		}
