@@ -63,8 +63,8 @@ var ChatRoomMapTileList = [
 var ChatRoomMapObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
-	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.1, Exit: true, Unique: true },
-	{ ID: 115, Type: "FloorDecoration", Style: "ExitSign", Exit: true },
+	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
+	{ ID: 115, Type: "FloorDecoration", Style: "ExitFlag", Top: -0.125, Exit: true },
 	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
@@ -140,11 +140,8 @@ function ChatRoomMapInitialize(mode) {
 function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
 	if (ChatRoomMapEventLoaded) return;
-
-	// Make sure the map tiles and objects are valid
-	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight) {
+	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)
 		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
-	}
 	ChatRoomMapEventLoaded = true;
 }
 
@@ -428,28 +425,26 @@ function ChatRoomMapGetEntryFlagPosition()
 }
 
 /**
- * Returns true if the player is standing on a tile that allows them to exit (Exit == true)
- * @returns {boolean} - true if the player stands on a tile with the "Exit" property set to "true"
- */
-function ChatRoomMapIsPlayerOnExitTile()
-{
-	const playerPositionObject = ChatRoomMapGetObjectAtPos(Player.MapData?.X, Player.MapData?.Y);
-	return playerPositionObject?.Exit != null ? playerPositionObject.Exit : false;
-}
-
-/**
- * Helper function to check if the chat room map allows exiting it freely or not
- *
- * @returns {boolean}
+ * Returns TRUE if the player can leave from the map, called from ChatRoomCanLeave()
+ * @returns {boolean} - True if the player can leave
  */
 function ChatRoomMapCanLeave() {
-	if (!ChatRoomData.MapData || ChatRoomData.MapData.Type === "Never") return true;
 
-	const entryFlagPosition = ChatRoomMapGetEntryFlagPosition();
-	const playerOnExitTile = ChatRoomMapIsPlayerOnExitTile();
-	if (entryFlagPosition && Player.ImmersionSettings.ChatRoomMapOnlyExitOnEntry && !playerOnExitTile ) {
-		return false;
-	}
+	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
+	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type === "Never") || !ChatRoomMapVisible) return true;
+	if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return true;
+	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
+
+	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
+	for (let X = Player.MapData.X - 2; X <= Player.MapData.X + 2; X++)
+		for (let Y = Player.MapData.Y - 2; Y <= Player.MapData.Y + 2; Y++) {
+			let Obj = ChatRoomMapGetObjectAtPos(X, Y);
+			if (Obj.Exit) return true;
+		}
+
+	// If nothing allows leaving
+	return false;
+
 }
 
 /**
@@ -716,7 +711,6 @@ function ChatRoomSyncMapData(data) {
 		}
 
 }
-
 
 /**
  * Updates the player last map data if needed
