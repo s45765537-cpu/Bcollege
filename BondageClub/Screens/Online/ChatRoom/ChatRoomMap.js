@@ -439,7 +439,7 @@ function ChatRoomMapCanLeave() {
 	for (let X = Player.MapData.X - 2; X <= Player.MapData.X + 2; X++)
 		for (let Y = Player.MapData.Y - 2; Y <= Player.MapData.Y + 2; Y++) {
 			let Obj = ChatRoomMapGetObjectAtPos(X, Y);
-			if (Obj.Exit) return true;
+			if ((Obj != null) && Obj.Exit) return true;
 		}
 
 	// If nothing allows leaving
@@ -736,6 +736,71 @@ function ChatRoomMapMovementProcess() {
 }
 
 /**
+ * Checks if the player is leashed and if she should follow the leash holder
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapLeash() {
+
+	// Finds the leash holder character
+	if (ChatRoomLeashPlayer == null) return;
+	for (let C of ChatRoomCharacter)
+		if ((C.MemberNumber == ChatRoomLeashPlayer) && !C.IsPlayer()) {
+
+			// Validates the data first
+			if ((Player.MapData == null) || (Player.MapData.X == null) || (Player.MapData.Y == null)) return;
+			if ((C.MapData == null) || (C.MapData.X == null) || (C.MapData.Y == null)) return;
+
+			// Leash range is 2 tiles
+			let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
+			if (Distance <= 2) return;
+
+			// The X and Y variance tells us where to pull the character
+			let VarX = Player.MapData.X - C.MapData.X;
+			let VarY = Player.MapData.Y - C.MapData.Y;
+			let TargetX = Player.MapData.X;
+			let TargetY = Player.MapData.Y;
+			if (VarX > 2) TargetX = C.MapData.X + 2;
+			if (VarX < -2) TargetX = C.MapData.X - 2;
+			if (VarY > 2) TargetY = C.MapData.Y + 2;
+			if (VarY < -2) TargetY = C.MapData.Y - 2;
+
+			// If the new target tile cannot be entered, we try another one nearby
+			if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) {
+
+				// Tries to bring the character one extra tile toward the leash holder on the invert axis (X instead of Y or vice versa)
+				if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY > 0)) TargetY--;
+				if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY < 0)) TargetY++;
+				if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX > 0)) TargetX--;
+				if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX < 0)) TargetX++;
+
+				// If we still cannot move there
+				if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) {
+
+					// Bring the character 1 tile near the leash holder
+					if (VarX > 1) TargetX = C.MapData.X + 1;
+					if (VarX < -1) TargetX = C.MapData.X - 1;
+					if (VarY > 1) TargetY = C.MapData.Y + 1;
+					if (VarY < -1) TargetY = C.MapData.Y - 1;
+
+					// If it still doesn't work, we give up
+					if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) return;
+		
+				}
+
+			}
+
+			// Sends the movement packet
+			Player.MapData.X = TargetX;
+			Player.MapData.Y = TargetY;
+			ChatRoomMapUpdatePlayerFlag();
+			return;
+
+		}
+
+}
+
+
+/**
  * Draws the map, characters and buttons of the chat room map
  * @returns {void} - Nothing
  */
@@ -743,6 +808,7 @@ function ChatRoomMapDraw() {
 
 	// Syncs the room map data with the server if needed
 	ChatRoomMapMovementProcess();
+	ChatRoomMapLeash();
 	ChatRoomMapUpdateRoomSync();
 	ChatRoomMapUpdatePlayerSync();
 	ChatRoomMapUpdateLastMapDataSync();
