@@ -13736,6 +13736,23 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "PaddedMittens" },
 		}, // PawMittens
+		PonyMittensBinder: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Unchained",
+				},
+				{
+					Name: "Chained",
+					Prerequisite: ["NeedsHarness", "NoItemArms"],
+					Property: {
+						SetPose: ["BackElbowTouch"],
+						Block: ["ItemTorso", "ItemTorso2", "ItemArms"],
+						Difficulty: 10,
+					},
+				},
+			],
+		}, // PonyMittensBinder
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {
