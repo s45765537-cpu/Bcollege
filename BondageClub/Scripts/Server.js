@@ -567,7 +567,7 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 
 		// If the item still hasn't been filled, use the first item from the group's asset list
 		if (!diff[0]) {
-			diff[0] = { Asset: group.Asset[0], Color: group.ColorSchema[0] };
+			diff[0] = { Asset: group.Asset[0], Color: group.DefaultColor };
 		}
 	});
 }

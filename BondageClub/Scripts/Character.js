@@ -1758,7 +1758,7 @@ function CharacterGetTints(C) {
 			}
 		}
 		if (Color === "Default") {
-			if (!Item.Asset.DefaultColor.every(i => i === "Default")) {
+			if (!Item.Asset.DefaultColor.every(i => i === Item.Asset.Group.DefaultColor)) {
 				Color = Item.Asset.DefaultColor[colorIndex];
 			} else if (typeof DefaultColor === "string") {
 				Color = DefaultColor;

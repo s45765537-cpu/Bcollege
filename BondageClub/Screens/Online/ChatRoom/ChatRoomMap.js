@@ -117,7 +117,7 @@ function ChatRoomMapButton() { return (!ChatRoomMapVisible && ChatRoomData?.MapD
  * Returns TRUE if the player is an admin and activated her super powers on the map
  * @returns {boolean} - TRUE if super powers are active
  */
-function ChatRoomMapHasSuperPowers() { return ChatRoomMapSuperPowersActive && ChatRoomPlayerIsAdmin(); };
+function ChatRoomMapHasSuperPowers() { return ChatRoomMapSuperPowersActive && ChatRoomPlayerIsAdmin(); }
 
 /**
  * Initializes the map to its default blank state
@@ -665,7 +665,7 @@ function ChatRoomMapUpdateFlag() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapUpdatePlayerFlag(UpdateTimeOffset = 0) {
-	if (ChatRoomMapUpdatePlayerNext == null) 
+	if (ChatRoomMapUpdatePlayerNext == null)
 		ChatRoomMapUpdatePlayerNext = CommonTime() + ChatRoomMapUpdatePlayerTime + UpdateTimeOffset;
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapUpdateLastMapDataNext == null))
 		ChatRoomMapUpdateLastMapDataNext = CommonTime() + 10000;

@@ -124,7 +124,7 @@ function CharacterAppearanceValidate(C) {
 		if (!AssetGroup[A].AllowNone && (CharacterAppearanceGetCurrentValue(C, AssetGroup[A].Name, "Name") == "None"))
 			for (let B = 0; B < Asset.length; B++)
 				if (Asset[B].Group.Name == AssetGroup[A].Name) {
-					CharacterAppearanceSetItem(C, Asset[B].Group.Name, Asset[B], Asset[B].Group.ColorSchema[0], null, null, false);
+					CharacterAppearanceSetItem(C, Asset[B].Group.Name, Asset[B], Asset[B].Group.DefaultColor, null, null, false);
 					Refresh = true;
 					break;
 				}
@@ -256,7 +256,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 					continue;
 				/** @type {string|string[]} */
 				var SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
-				if ((SelectedAsset.Group.ColorSchema[0] == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
+				if ((SelectedAsset.Group.DefaultColor == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
 				if (SelectedAsset.Group.InheritColor != null) SelectedColor = "Default";
 				else if (SelectedAsset.Group.ParentColor != "")
 					if (CharacterAppearanceGetCurrentValue(C, SelectedAsset.Group.ParentColor, "Color") != "None")
@@ -634,17 +634,18 @@ function CharacterAppearanceBuildCanvas(C) {
 function CharacterAppearanceGetCurrentValue(C, Group, Type) {
 
 	// Finds the value
-	for (let A = 0; A < C.Appearance.length; A++)
-		if ((C.Appearance[A].Asset.Group.Family == C.AssetFamily) && (C.Appearance[A].Asset.Group.Name == Group)) {
-			if (Type == "Name") return C.Appearance[A].Asset.Name;
-			if (Type == "Description") return C.Appearance[A].Asset.Description;
-			if (Type == "Color") return CommonColorsEqual(C.Appearance[A].Color, C.Appearance[A].Asset.DefaultColor) ? "Default" : C.Appearance[A].Color;
-			if (Type == "ID") return A;
-			if (Type == "Effect") return C.Appearance[A].Asset.Effect;
-			if (Type == "Asset") return C.Appearance[A].Asset;
-			if (Type == "Full") return C.Appearance[A];
-			if (Type == "Zoom") return ((C.Appearance[A].Asset.ZoomModifier == null) || (C.Appearance[A].Asset.ZoomModifier > 1) || (C.Appearance[A].Asset.ZoomModifier < 0.9)) ? 1 : C.Appearance[A].Asset.ZoomModifier;
+	for (const [i, item] of CommonEnumerate(C.Appearance)) {
+		if ((item.Asset.Group.Family == C.AssetFamily) && (item.Asset.Group.Name == Group)) {
+			if (Type == "Name") return item.Asset.Name;
+			if (Type == "Description") return item.Asset.Description;
+			if (Type == "Color") return CommonColorsEqual(item.Color, item.Asset.DefaultColor) ? item.Asset.Group.DefaultColor : item.Color;
+			if (Type == "ID") return i;
+			if (Type == "Effect") return item.Asset.Effect;
+			if (Type == "Asset") return item.Asset;
+			if (Type == "Full") return item;
+			if (Type == "Zoom") return ((item.Asset.ZoomModifier == null) || (item.Asset.ZoomModifier > 1) || (item.Asset.ZoomModifier < 0.9)) ? 1 : item.Asset.ZoomModifier;
 		}
+	}
 	return "None";
 
 }
@@ -1109,7 +1110,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 			if ((ItemColor == null || ItemColor == "Default" || ItemColor == "None") && ItemAsset != null && ItemAsset.DefaultColor != null) ItemColor = ItemAsset.DefaultColor;
 		}
 		C.Appearance.splice(ID, 1);
-	} else if (ItemAsset != null) ItemColor = ItemAsset.DefaultColor ? ItemAsset.DefaultColor : ItemAsset.Group.ColorSchema[0];
+	} else if (ItemAsset != null) ItemColor = ItemAsset.DefaultColor ? ItemAsset.DefaultColor : ItemAsset.Group.DefaultColor;
 
 	// Add the new item to the character appearance
 	/** @type {null | Item} */

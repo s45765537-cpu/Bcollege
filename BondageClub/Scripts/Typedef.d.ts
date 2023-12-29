@@ -580,6 +580,11 @@ interface AssetGroup {
 	readonly AllowCustomize: boolean;
 	readonly Random?: boolean;
 	readonly ColorSchema: readonly string[];
+	/**
+	 * The first color in the groups {@link ColorSchema}.
+	 * The value is used for padding the {@link Asset.DefaultColor} array if required.
+	 */
+	readonly DefaultColor: string;
 	readonly ParentSize: AssetGroupName | "";
 	readonly ParentColor: AssetGroupName | "";
 	readonly Clothing: boolean;
@@ -817,7 +822,7 @@ interface Asset {
 	readonly AllowTypes?: never;
 	readonly AllowTighten?: boolean;
 	/**
-	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of `"Default"` and/or valid color hex codes.
+	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
 	readonly DefaultColor: readonly string[];
 	readonly Opacity: number;

@@ -26,10 +26,11 @@ function DisclaimerRun() {
 function DisclaimerClick() {
 	if (MouseIn(700, 840, 250, 60)) DisclaimerExit();
 	if (MouseIn(1050, 840, 250, 60)) {
-		CharacterAppearanceSetDefault(Player);
 		InventoryRemove(Player, "ItemFeet");
 		InventoryRemove(Player, "ItemLegs");
 		InventoryRemove(Player, "ItemArms");
+		CharacterAppearanceSetDefault(Player);
+
 		// Redirect the player to the login screen after they have their character created
 		CharacterAppearanceLoadCharacter(Player, (result) => {
 			if (result)
