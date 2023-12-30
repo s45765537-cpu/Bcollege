@@ -96,9 +96,11 @@ var ChatRoomMapObjectList = [
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
-	{ ID: 4010, Type: "WallPath", Style: "OpenWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return true; } },
-	{ ID: 4020, Type: "WallPath", Style: "ClosedWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract(); } },
-	{ ID: 4030, Type: "WallPath", Style: "LockedWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
+	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2 , CanEnter: function() { return true; } },
+	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract(); } },
+	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
+	{ ID: 4020, Type: "WallPath", Style: "MetalUp", Top: -1, Height: 2 , CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
+	{ ID: 4021, Type: "WallPath", Style: "MetalDown", Top: -1, Height: 2 , CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
 
 ];
 
@@ -286,7 +288,12 @@ function ChatRoomMapCanEnterWall(X, Y) {
 	for (let O of ChatRoomMapObjectList)
 		if (O.ID === ObjectID) {
 			if (O.CanEnter == null) return false;
-			return O.CanEnter();
+			let Direction = "";
+			if (Player.MapData.X < X) Direction = "R";
+			else if (Player.MapData.X > X) Direction = "L";
+			else if (Player.MapData.Y < Y) Direction = "D";
+			else if (Player.MapData.Y > Y) Direction = "U";
+			return O.CanEnter(Direction);
 		}
 	return false;
 }
