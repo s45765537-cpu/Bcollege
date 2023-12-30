@@ -3728,6 +3728,7 @@ type ChatRoomMapPos = {
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
+	CanEnter?: function;
 }
 
 interface ChatRoomMapTile extends ChatRoomMapDoodad {

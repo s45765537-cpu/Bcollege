@@ -95,15 +95,10 @@ var ChatRoomMapObjectList = [
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
 
-	/*
-	{ ID: 3000, Type: "WallPath", Style: "Blank" },
-	{ ID: 3010, Type: "WallPath", Style: "WoodDoor", Locked: false },
-	{ ID: 3011, Type: "WallPath", Style: "WoodDoor", Locked: true },
-	{ ID: 3020, Type: "WallPath", Style: "PaddedDoor", Locked: false },
-	{ ID: 3021, Type: "WallPath", Style: "PaddedDoor", Locked: true },
-	{ ID: 3030, Type: "WallPath", Style: "HiddenDoor", Locked: false },
-	{ ID: 3031, Type: "WallPath", Style: "HiddenDoor", Locked: true },
-*/
+	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
+	{ ID: 4010, Type: "WallPath", Style: "OpenWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return true; } },
+	{ ID: 4020, Type: "WallPath", Style: "ClosedWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract(); } },
+	{ ID: 4030, Type: "WallPath", Style: "LockedWoodDoor", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
 
 ];
 
@@ -276,6 +271,24 @@ function ChatRoomMapGetObjectAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
 	return CommonCloneDeep(ChatRoomMapObjectList.find(o => o.ID === ObjectID));
+}
+
+/**
+ * Returns TRUE if there's a wall path on the X, Y position that the player can enter
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {boolean} - TRUE if we can enter
+ */
+function ChatRoomMapCanEnterWall(X, Y) {
+	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return false;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
+	for (let O of ChatRoomMapObjectList)
+		if (O.ID === ObjectID) {
+			if (O.CanEnter == null) return false;
+			return O.CanEnter();
+		}
+	return false;
 }
 
 /**
@@ -918,7 +931,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 	// Out of map bound or walls cannot enter, super powers skip everything
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return 0;
 	if (ChatRoomMapHasSuperPowers()) return ChatRoomMapBaseMovementSpeed / 10;
-	if (ChatRoomMapIsWall(X, Y)) return 0;
+	if (ChatRoomMapIsWall(X, Y) && !ChatRoomMapCanEnterWall(X, Y)) return 0;
 
 	// Floor obstacles from 2000 to 3000 cannot be crossed
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
