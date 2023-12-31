@@ -3728,6 +3728,7 @@ type ChatRoomMapPos = {
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
+	OccupiedStyle?: string;
 	CanEnter?: function;
 }
 

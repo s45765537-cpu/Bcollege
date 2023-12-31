@@ -96,11 +96,12 @@ var ChatRoomMapObjectList = [
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
-	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2 , CanEnter: function() { return true; } },
-	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract(); } },
-	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", Top: -1, Height: 2 , CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
-	{ ID: 4020, Type: "WallPath", Style: "MetalUp", Top: -1, Height: 2 , CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
-	{ ID: 4021, Type: "WallPath", Style: "MetalDown", Top: -1, Height: 2 , CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
+	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
+	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
+	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
+	{ ID: 4020, Type: "WallPath", Style: "Metal", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
+	{ ID: 4021, Type: "WallPath", Style: "MetalUp", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
+	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
 
 ];
 
@@ -413,18 +414,14 @@ function ChatRoomMapCollision() {
  * Returns TRUE if there's a character at an X and Y position that's wearing a specific asset name & group
  * @param {number} X - The X position on the screen
  * @param {number} Y - The Y position on the screen
- * @param {string} AssetName - The width size of the drawn map
- * @param {AssetGroupName} AssetGroup - The height size of the drawn map
- * @returns {boolean} - TRUE if a character wearing this item is found
+ * @returns {Character} - TRUE if a character wearing this item is found
  */
-function ChatRoomMapCharAtPosIsWearing(X, Y, AssetName, AssetGroup) {
-	if ((AssetName == null) || (AssetGroup == null)) return false;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
+function ChatRoomMapGetCharacterAtPos(X, Y) {
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
 	for (let C of ChatRoomCharacter)
 		if ((C.MapData != null) && (C.MapData.X === X) && (C.MapData.Y === Y))
-			if (InventoryIsWorn(C, AssetName, AssetGroup))
-				return true;
-	return false;
+			return C;
+	return null;
 }
 
 /**
@@ -565,8 +562,13 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			for (let Obj of ChatRoomMapObjectList)
 				if (Obj.ID == ObjectID) {
 					if (Obj.Style === "Blank") break;
-					if (ChatRoomMapCharAtPosIsWearing(X, Y, Obj.AssetName, Obj.AssetGroup)) break;
-					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
+					let ImageName = Obj.Style;
+					if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
+						let Char = ChatRoomMapGetCharacterAtPos(X, Y);
+						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
+						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
+					}
+					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
 					break;
 				}
 
