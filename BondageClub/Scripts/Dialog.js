@@ -1769,19 +1769,15 @@ function DialogMenuButtonClick() {
 				return true;
 			}
 
-			// Next Icon - Shows the next 12 items
-			else if (button === "Next") {
-				let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
-				DialogInventoryOffset = DialogInventoryOffset + 12;
-				if (DialogInventoryOffset >= contents.length) DialogInventoryOffset = 0;
+			// Prev Icon - Shows the previous 12 items
+			else if (button === "Prev") {
+				DialogMenuPrev();
 				return true;
 			}
 
-			// Prev Icon - Shows the previous 12 items
-			else if (button === "Prev") {
-				let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
-				DialogInventoryOffset = DialogInventoryOffset - 12;
-				if (DialogInventoryOffset < 0) { DialogInventoryOffset = contents.length - ((contents.length % 12) == 0 ? 12 : contents.length % 12); }
+			// Next Icon - Shows the next 12 items
+			else if (button === "Next") {
+				DialogMenuNext();
 				return true;
 			}
 
@@ -2991,6 +2987,45 @@ function DialogDraw() {
 		else
 			DialogDrawItemMenu(C);
 	}
+}
+
+/**
+ * Handles mouse wheel scrolling while in DialogMode
+ * @param {WheelEvent} Event
+ */
+function DialogMouseWheel(Event) {
+	if (!DialogModeShowsInventory()) return false;
+	if (!MouseIn(DialogInventoryGrid.x, DialogInventoryGrid.y, DialogInventoryGrid.width, DialogInventoryGrid.height)) return false;
+
+	if ((Event.deltaY > 0)) {
+		DialogMenuPrev();
+		return true;
+	}
+
+	if ((Event.deltaY < 0)) {
+		DialogMenuNext();
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Changes to previous dialog page
+ */
+function DialogMenuPrev() {
+	let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
+	DialogInventoryOffset = DialogInventoryOffset - 12;
+	if (DialogInventoryOffset < 0) { DialogInventoryOffset = contents.length - ((contents.length % 12) == 0 ? 12 : contents.length % 12); }
+}
+
+/**
+ * Changes to next dialog page
+ */
+function DialogMenuNext() {
+	let contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
+	DialogInventoryOffset = DialogInventoryOffset + 12;
+	if (DialogInventoryOffset >= contents.length) DialogInventoryOffset = 0;
 }
 
 /**
