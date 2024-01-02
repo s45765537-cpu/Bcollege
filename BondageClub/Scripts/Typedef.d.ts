@@ -1012,13 +1012,13 @@ interface Ownership {
 
 interface Lovership {
 	Name: string;
-	MemberNumber?: number;
-	Stage?: 0 | 1 | 2;
-	Start?: number;
+	MemberNumber: number;
+	Stage: 0 | 1 | 2;
+	Start: number;
 	// Bad data sometimes received from server
-	BeginDatingOfferedByMemberNumber?: unknown;
-	BeginEngagementOfferedByMemberNumber?: unknown;
-	BeginWeddingOfferedByMemberNumber?: unknown;
+	BeginDatingOfferedByMemberNumber?: never;
+	BeginEngagementOfferedByMemberNumber?: never;
+	BeginWeddingOfferedByMemberNumber?: never;
 }
 
 interface ScreenFunctions {
@@ -1080,7 +1080,10 @@ interface ScreenFunctions {
 
 //#region Characters
 
-/** A struct for representing an item with special permissions (limited, favorited, etc). */
+/**
+ * A struct for representing an item with special permissions (limited, favorited, etc).
+ * @see {@link PermissionsPacked}
+ */
 interface ItemPermissions {
 	/** The {@link Asset.Name} of the item */
 	Name: string;
@@ -1092,6 +1095,9 @@ interface ItemPermissions {
 	 */
 	Type?: string | null;
 }
+
+/** A packed record-based version of {@link ItemPermissions}. */
+type ItemPermissionsPacked = Partial<Record<AssetGroupName, Record<string, (undefined | null | string)[]>>>;
 
 interface ScriptPermission {
 	permission: number;
@@ -3614,7 +3620,7 @@ interface ArousalSettingsType {
 	VFXFilter: SettingsVFXFilterName;
 	Progress: number;
 	ProgressTimer: number;
-	VibratorLevel: number;
+	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
 	Activity: ActivityEnjoyment[];
 	Zone: ArousalZone[];

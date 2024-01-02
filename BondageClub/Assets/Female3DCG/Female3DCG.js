@@ -41759,3 +41759,8 @@ var FetishFemale3DCG = [
 		},
 	},
 ];
+
+/**
+ * A set with all available fetish names.
+ */
+const FetishFemale3DCGNames = new Set(FetishFemale3DCG.map((f) => f.Name));

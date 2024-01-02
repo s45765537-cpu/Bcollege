@@ -840,5 +840,249 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 
 	// No valid combo, we don't allow the item
 	return false;
-
 }
+
+/**
+ * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
+ * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>) => Character[k] }}
+ * @namespace
+ */
+var ServerAccountDataSyncedValidate = {
+	Title: (arg, C) => {
+		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+	},
+	Nickname: (arg, C) => {
+		return typeof arg === "string" ? arg : undefined;
+	},
+	ItemPermission: (arg, C) => {
+		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
+	},
+	ArousalSettings: (arg) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		return {
+			Active: CommonIncludes(PreferenceArousalActiveList, arg.Active) ? arg.Active : "Hybrid",
+			Visible: CommonIncludes(PreferenceArousalVisibleList, arg.Visible) ? arg.Visible : "Access",
+			ShowOtherMeter: typeof arg.ShowOtherMeter === "boolean" ? arg.ShowOtherMeter : true,
+			AffectExpression: typeof arg.AffectExpression === "boolean" ? arg.AffectExpression : true,
+			AffectStutter: CommonIncludes(PreferenceArousalAffectStutterList, arg.AffectStutter) ? arg.AffectStutter : "All",
+			VFX: CommonIncludes(PreferenceSettingsVFXList, arg.VFX) ? arg.VFX : "VFXAnimatedTemp",
+			VFXVibrator: CommonIncludes(PreferenceSettingsVFXVibratorList, arg.VFXVibrator) ? arg.VFXVibrator : "VFXVibratorAnimated",
+			VFXFilter: CommonIncludes(PreferenceSettingsVFXFilterList, arg.VFXFilter) ? arg.VFXFilter : "VFXFilterLight",
+			Progress: CommonIsInteger(arg.Progress, 0, 100) ? arg.Progress : 0,
+			ProgressTimer: CommonIsInteger(arg.ProgressTimer, 0, 100) ? arg.ProgressTimer : 0,
+			VibratorLevel: CommonIsInteger(arg.VibratorLevel, 0, 4) ? /** @type {0 | 1 | 2 | 3 | 4} */(arg.VibratorLevel) : 0,
+			ChangeTime: CommonIsInteger(arg.ChangeTime, 0, CommonTime()) ? arg.ChangeTime : CommonTime(),
+			Activity: (CommonIsArray(arg.Activity) ? arg.Activity : []).map(activity => {
+				if (!CommonIsObject(activity)) {
+					return undefined;
+				}
+
+				const { Name, Self, Other } = activity;
+				if (!CommonIncludes(ActivityFemale3DCGOrdering, Name)) {
+					return undefined;
+				}
+
+				return {
+					Name,
+					Self: CommonIsInteger(Self, 0, 4) ? /** @type {ArousalFactor} */(activity.Self) : 2,
+					Other: CommonIsInteger(Other, 0, 4) ? /** @type {ArousalFactor} */(activity.Other) : 2,
+				};
+			}).filter(Boolean),
+			Zone: (CommonIsArray(arg.Zone) ? arg.Zone : []).map(zone => {
+				if (!CommonIsObject(zone)) {
+					return undefined;
+				}
+
+				const { Name, Factor, Orgasm } = zone;
+				if (!CommonHas(AssetGroupMap, Name)) {
+					return undefined;
+				}
+
+				return {
+					Name,
+					Factor: CommonIsInteger(Factor, 0, 4) ? /** @type {ArousalFactor} */(Factor) : 2,
+					Orgasm: typeof Orgasm === "boolean" ? Orgasm : false,
+				};
+			}).filter(Boolean),
+			Fetish: (CommonIsArray(arg.Fetish) ? arg.Fetish : []).map(fetish => {
+				if (!CommonIsObject(fetish)) {
+					return undefined;
+				}
+
+				const { Name, Factor } = fetish;
+				if (!CommonHas(FetishFemale3DCGNames, Name)) {
+					return undefined;
+				}
+
+				return {
+					Name,
+					Factor: CommonIsInteger(Factor, 0, 4) ? /** @type {ArousalFactor} */(Factor) : 2,
+				};
+			}).filter(Boolean),
+			DisableAdvancedVibes: typeof arg.DisableAdvancedVibes === "boolean" ? arg.DisableAdvancedVibes : false,
+		};
+	},
+	OnlineSharedSettings: (arg) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		/** @type {Partial<ScriptPermissions>} */
+		const scriptPermissions = CommonIsObject(arg.ScriptPermissions) ? arg.ScriptPermissions : {};
+
+		// Use the spread operator to allow for extra (addon-based) keys
+		return {
+			...arg,
+			AllowFullWardrobeAccess: typeof arg.AllowFullWardrobeAccess === "boolean" ? arg.AllowFullWardrobeAccess : false,
+			BlockBodyCosplay: typeof arg.BlockBodyCosplay === "boolean" ? arg.BlockBodyCosplay : false,
+			AllowPlayerLeashing: typeof arg.AllowPlayerLeashing === "boolean" ? arg.AllowPlayerLeashing : true,
+			DisablePickingLocksOnSelf: typeof arg.DisablePickingLocksOnSelf === "boolean" ? arg.DisablePickingLocksOnSelf : false,
+			GameVersion: typeof arg.GameVersion === "string" ? arg.GameVersion : undefined,
+			ItemsAffectExpressions: typeof arg.ItemsAffectExpressions === "boolean" ? arg.ItemsAffectExpressions : true,
+			WheelFortune: typeof arg.WheelFortune === "string" ? arg.WheelFortune : WheelFortuneDefault,
+			ScriptPermissions: {
+				Hide: {
+					permission: CommonIsInteger(scriptPermissions.Hide?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(scriptPermissions.Hide.permission) : 0,
+				},
+				Block: {
+					permission: CommonIsInteger(scriptPermissions.Block?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(scriptPermissions.Block.permission) : 0,
+				},
+			},
+		};
+	},
+	MapData: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		return {
+			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
+			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
+		};
+	},
+	Crafting: (arg, C) => {
+		return CraftingDecompressServerData(arg);
+	},
+	Game: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		// TODO: Validate individual game settings
+		return {
+			LARP: CommonIsObject(arg.LARP) ? arg.LARP : undefined,
+			MagicBattle: CommonIsObject(arg.MagicBattle) ? arg.MagicBattle : undefined,
+			GGTS: CommonIsObject(arg.GGTS) ? arg.GGTS : undefined,
+			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
+			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
+		};
+	},
+	LabelColor: (arg, C) => {
+		return CommonIsColor(arg) ? arg : "#ffffff";
+	},
+	Creation: (arg, C) => {
+		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : undefined;
+	},
+	Description: (arg, C) => {
+		return typeof arg === "string" ? arg : undefined;
+	},
+	Ownership: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			return undefined;
+		}
+
+		const { Name, MemberNumber, Stage, Start } = arg;
+		if (
+			typeof Name === "string"
+			&& CommonIsInteger(MemberNumber, 0)
+			&& (Stage === 0 || Stage === 1)
+			&& CommonIsInteger(Start, 0, CommonTime())
+		) {
+			return { Name, MemberNumber, Stage, Start };
+		} else {
+			return undefined;
+		}
+	},
+	Lovership: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return [];
+		}
+
+		/** @type {Lovership[]} */
+		const ret = [];
+		for (const lovership of arg) {
+			if (!CommonIsObject(lovership) || lovership.BeginDatingOfferedByMemberNumber) {
+				continue;
+			}
+
+			const { Name, MemberNumber, Stage, Start } = lovership;
+			if (
+				typeof Name === "string"
+				&& CommonIsInteger(MemberNumber, 0)
+				&& (Stage === 0 || Stage === 1 || Stage === 2)
+				&& CommonIsInteger(Start, 0, CommonTime())
+			) {
+				ret.push({ Name, MemberNumber, Stage, Start });
+			}
+		}
+		return ret;
+	},
+	Reputation: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return [];
+		}
+
+		/** @type {Reputation[]} */
+		const ret = [];
+		for (const reputation of arg) {
+			if (!CommonIsObject(reputation)) {
+				continue;
+			}
+
+			const { Type, Value } = reputation;
+			if (
+				CommonIncludes(ReputationValidReputations, Type)
+				&& CommonIsInteger(Value, -100, 100)
+			) {
+				ret.push({ Type, Value });
+			}
+		}
+		return ret;
+	},
+	BlockItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	LimitedItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	FavoriteItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	WhiteList: (arg, C) => {
+		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+	},
+	BlackList: (arg, C) => {
+		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+	},
+};

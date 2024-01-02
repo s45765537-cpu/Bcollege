@@ -831,11 +831,11 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 
 /**
  * Takes an array of items and converts it to record format
- * @param { { Group: string; Name: string; Type?: string|null }[] } arr The array of items
- * @returns { { [group: string]: { [name: string]: string[] } } } Output in object foramat
+ * @param {readonly ItemPermissions[]} arr The array of items
+ * @returns {ItemPermissionsPacked} Output in object foramat
  */
 function CommonPackItemArray(arr) {
-	/** @type { Record<string, Record<string, string[]>> } */
+	/** @type {ItemPermissionsPacked} */
 	const res = {};
 	for (const I of arr) {
 		let G = res[I.Group];
@@ -855,16 +855,22 @@ function CommonPackItemArray(arr) {
 }
 
 /**
- * Takes an record format of items and converts it to array
- * @param { { [group: string]: { [name: string]: string[] } } } arr Object defining items
- * @return { { Group: string; Name: string; Type?: string }[] } The array of items
+ * Takes an record format of items and converts it to array.
+ * @note This function *must* be able to handle unsantized data as received from the server
+ * @param {ItemPermissionsPacked} rec Object defining items
+ * @return {ItemPermissions[]} The array of items
  */
-function CommonUnpackItemArray(arr) {
+function CommonUnpackItemArray(rec) {
+	/** @type {ItemPermissions[]} */
 	const res = [];
-	for (const G of Object.keys(arr)) {
-		for (const A of Object.keys(arr[G])) {
-			for (const T of arr[G][A]) {
-				res.push({ Group: G, Name: A, Type: T ? T : undefined });
+	for (const [Group, assetRecord] of CommonEntries(rec ?? {})) {
+		for (const [Name, typeList] of CommonEntries(assetRecord ?? {})) {
+			if (!AssetMap.has(`${Group}/${Name}`) || !CommonIsArray(typeList)) {
+				continue;
+			}
+			for (let Type of typeList) {
+				Type ||= undefined;
+				res.push({ Group, Name, Type });
 			}
 		}
 	}
@@ -1421,4 +1427,15 @@ function CommonKeyMove(event, allowArrowKeys = true) {
 		return "r";
 	}
 	return undefined;
+}
+
+/**
+ * A {@link Set.has}/{@link Map.has} version annotated to return a type guard.
+ * @template T
+ * @param {{ has: (key: T) => boolean }} obj The set or map in question
+ * @param {unknown} key The key to search for
+ * @returns {key is T} Whether the object contains the passed key
+ */
+function CommonHas(obj, key) {
+	return obj.has(/** @type {T} */(key));
 }
