@@ -272,10 +272,13 @@ function CommonMouseMove(event) {
 }
 
 function CommonMouseWheel(event) {
-	if (CurrentScreenFunctions.MouseWheel)
-	{
-		CurrentScreenFunctions.MouseWheel(event);
-	}
+    if (CurrentCharacter == null) {
+        if (CurrentScreenFunctions.MouseWheel) {
+            CurrentScreenFunctions.MouseWheel(event);
+        }
+    } else {
+        DialogMouseWheel(event);
+    }
 }
 
 /**
