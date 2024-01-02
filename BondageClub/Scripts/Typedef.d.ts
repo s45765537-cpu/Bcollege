@@ -1346,7 +1346,7 @@ interface CharacterOnlineSharedSettings {
 	BlockBodyCosplay: boolean;
 	AllowPlayerLeashing: boolean;
 	DisablePickingLocksOnSelf: boolean;
-	GameVersion: string;
+	GameVersion?: string;
 	ItemsAffectExpressions: boolean;
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
