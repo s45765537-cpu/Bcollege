@@ -8,20 +8,30 @@ var ChatRoomMapViewRangeMin = 1;
 var ChatRoomMapViewRangeMax = 7;
 var ChatRoomMapObjectStartID = 100;
 var ChatRoomMapObjectEntryID = 110;
+/** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType"} */
 var ChatRoomMapEditMode = "";
+/** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
 var ChatRoomMapEditSubMode = "";
 var ChatRoomMapEditStarted = false;
+/** @type {null | ChatRoomMapDoodad} */
 var ChatRoomMapEditObject = null;
+/** @type {number[]} */
 var ChatRoomMapEditSelection = [];
 var ChatRoomMapEditRange = 1;
+/** @type {ServerChatRoomMapData[]} */
 var ChatRoomMapEditBackup = [];
+/** @type {null | number} */
 var ChatRoomMapUpdateRoomNext = null;
+/** @type {null | number} */
 var ChatRoomMapUpdatePlayerNext = null;
+/** @type {null | number} */
 var ChatRoomMapUpdateLastMapDataNext = null;
+/** @type {null | Character} */
 var ChatRoomMapFocusedCharacter = null;
 var ChatRoomMapSuperPowersActive = false;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapBaseMovementSpeed = 200;
+/** @type {null | ChatRoomMapMovement} */
 var ChatRoomMapMovement = null;
 var ChatRoomMapEventLoaded = false;
 /** @type {ChatRoomMapType[]} */
@@ -123,7 +133,7 @@ function ChatRoomMapHasSuperPowers() { return ChatRoomMapSuperPowersActive && Ch
 /**
  * Initializes the map to its default blank state
  * @param {ChatRoomMapType} mode
- * @returns {ChatRoom["MapData"]}
+ * @returns {ServerChatRoomMapData}
  */
 function ChatRoomMapInitialize(mode) {
 	const defaultMap = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
@@ -292,6 +302,7 @@ function ChatRoomMapCanEnterWall(X, Y) {
 	for (let O of ChatRoomMapObjectList)
 		if (O.ID === ObjectID) {
 			if (O.CanEnter == null) return false;
+			/** @type {ChatRoomMapDirection} */
 			let Direction = "";
 			if (Player.MapData.X < X) Direction = "R";
 			else if (Player.MapData.X > X) Direction = "L";
@@ -414,10 +425,10 @@ function ChatRoomMapCollision() {
 }
 
 /**
- * Returns TRUE if there's a character at an X and Y position that's wearing a specific asset name & group
+ * Find the first {@link ChatRoomCharacter} members at the specified X & Y position
  * @param {number} X - The X position on the screen
  * @param {number} Y - The Y position on the screen
- * @returns {Character} - TRUE if a character wearing this item is found
+ * @returns {null | Character} A character at the specified X & Y position or, if none can be found, `null`
  */
 function ChatRoomMapGetCharacterAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
@@ -429,7 +440,7 @@ function ChatRoomMapGetCharacterAtPos(X, Y) {
 
 /**
  * Returns a object that contains the entry flag's position with x and y parameters or null if no entry flag is set
- * @returns {ChatRoomMapPos|null} - TRUE if a character wearing this item is found
+ * @returns {ChatRoomMapPos|null}
  */
 function ChatRoomMapGetEntryFlagPosition()
 {
@@ -719,7 +730,7 @@ function ChatRoomMapUpdatePlayerSync() {
 
 /**
  * Updates a single character's expression in the chatroom.
- * @param {ServerCharacterExpressionResponse} data - Data object containing the new character expression data.
+ * @param {ServerMapDataResponse} data - Data object containing the new character expression data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncMapData(data) {
@@ -809,7 +820,7 @@ function ChatRoomMapLeash() {
 
 					// If it still doesn't work, we give up
 					if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) return;
-		
+
 				}
 
 			}
@@ -979,7 +990,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 
 /**
  * Moves the player
- * @param {string} D - The direction being travelled (North, South, East, West)
+ * @param {"West" | "East" | "North" | "South"} D - The direction being travelled (North, South, East, West)
  * @returns {void} - Nothing
  */
 function ChatRoomMapMove(D) {
@@ -1234,13 +1245,13 @@ function ChatRoomMapMouseMove() {
 
 	// In object edit mode, make sure unique items are not duplicated
 	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Object") && (ChatRoomMapEditObject != null)) {
-		if (ChatRoomMapEditObject.Unique === true)
+		if ("Unique" in ChatRoomMapEditObject && ChatRoomMapEditObject.Unique === true)
 			for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
 				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapEditObject.ID)
 					ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
 		for (let Pos of ChatRoomMapEditSelection) {
 			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditObject.ID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
-			if (ChatRoomMapEditObject.Unique === true) break;
+			if ("Unique" in ChatRoomMapEditObject && ChatRoomMapEditObject.Unique === true) break;
 		}
 		ChatRoomMapUpdateFlag();
 	}
