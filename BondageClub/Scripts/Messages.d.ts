@@ -37,7 +37,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	GameplaySettings?: any;
 	ArousalSettings?: any;
 	OnlineSharedSettings?: any;
-	Game?: ServerChatRoomGame;
+	Game?: CharacterGameParameters;
 	LabelColor?: string;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;

@@ -1318,13 +1318,7 @@ interface Character {
 	Creation?: number;
 	Description?: string;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;
-	Game?: {
-		LARP?: GameLARPParameters,
-		MagicBattle?: GameMagicBattleParameters,
-		GGTS?: GameGGTSParameters,
-		Poker?: GamePokerParameters,
-		ClubCard?: GameClubCardParameters,
-	};
+	Game?: CharacterGameParameters;
 	MapData?: ChatRoomMapPos;
 	BlackList: number[];
 	RunScripts?: boolean;
@@ -1341,6 +1335,14 @@ interface Character {
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
 	LastMapData?: ChatRoomMapPos;
+}
+
+interface CharacterGameParameters {
+	LARP?: GameLARPParameters,
+	MagicBattle?: GameMagicBattleParameters,
+	GGTS?: GameGGTSParameters,
+	Poker?: GamePokerParameters,
+	ClubCard?: GameClubCardParameters,
 }
 
 /**
