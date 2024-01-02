@@ -1139,9 +1139,42 @@ function CommonCloneDeep(obj) {
  * Type guard which checks that a value is a non-negative (i.e. positive or zero) integer
  * @param {unknown} value - The value to test
  * @returns {value is number}
+ * @see {@link CommonIsInteger}
  */
 function CommonIsNonNegativeInteger(value) {
-	return typeof value === "number" && Number.isInteger(value) && value >= 0;
+	return CommonIsInteger(value, 0);
+}
+
+/**
+ * Type guard which checks that a value is an integer that, optionally, falls within the specified range
+ * @param {unknown} value - The value to test
+ * @param {number} min - The minimum allowed value
+ * @param {number} max - The maximum allowed value
+ * @returns {value is number}
+ */
+function CommonIsInteger(value, min=-Infinity, max=Infinity) {
+	return (
+		typeof value === "number"
+		&& Number.isInteger(value)
+		&& value >= min
+		&& value <= max
+	);
+}
+
+/**
+ * Type guard which checks that a value is a finite number that, optionally, falls within the specified range
+ * @param {unknown} value - The value to test
+ * @param {number} min - The minimum allowed value
+ * @param {number} max - The maximum allowed value
+ * @returns {value is number}
+ */
+function CommonIsFinite(value, min=-Infinity, max=Infinity) {
+	return (
+		typeof value === "number"
+		&& Number.isFinite(value)
+		&& value >= min
+		&& value <= max
+	);
 }
 
 /**
