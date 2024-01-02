@@ -69,6 +69,8 @@ var ChatRoomMapObjectList = [
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
 	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
+	{ ID: 200, Type: "FloorDecoration", Style: "TeacherDesk", Top: -0.25 },
+	{ ID: 210, Type: "FloorDecoration", Style: "StudentDesk", Top: -0.1 },
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -94,6 +96,7 @@ var ChatRoomMapObjectList = [
 	{ ID: 3030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
+	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
