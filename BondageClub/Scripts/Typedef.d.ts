@@ -3725,21 +3725,33 @@ type ChatRoomMapPos = {
 	Y: number;
 }
 
+type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
+
+type ChatRoomMapObjectType = (
+	"FloorDecoration"
+	| "FloorItem"
+	| "FloorObstacle"
+	| "WallDecoration"
+	| "WallPath"
+);
+
+type ChatRoomMapTileType = "Floor" | "Wall" | "Water";
+
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
-	OccupiedStyle?: string;
-	CanEnter?: function;
+	OccupiedStyle?: "WoodOpen" | "MetalOpen";
+	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
 }
 
 interface ChatRoomMapTile extends ChatRoomMapDoodad {
-	Type: "Floor" | "Wall" | "Water";
+	Type: ChatRoomMapTileType;
 	Transparency?: number;
 	TransparencyCutoutHeight?: number;
 }
 
 interface ChatRoomMapObject extends ChatRoomMapDoodad {
-	Type: "FloorDecoration" | "FloorItem" | "FloorObstacle" | "WallDecoration" | "WallPath";
+	Type: ChatRoomMapObjectType;
 	Top?: number;
 	Left?: number;
 	Width?: number;
@@ -3748,6 +3760,14 @@ interface ChatRoomMapObject extends ChatRoomMapDoodad {
 	Unique?: boolean;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: string;
+}
+
+interface ChatRoomMapMovement {
+	X: number;
+	Y: number;
+	Direction: "West" | "East" | "North" | "South";
+	TimeStart: number;
+	TimeEnd: number;
 }
 
 // #endregion

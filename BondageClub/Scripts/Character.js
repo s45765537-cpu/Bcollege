@@ -504,14 +504,16 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 
 	// Creates the inventory and default appearance
 	if (CharacterID == 0) {
-		Player = {
-			...NewCharacter,
-			GenderSettings: {
-				HideShopItems: PreferenceInitGenderSetting(),
-				AutoJoinSearch: PreferenceInitGenderSetting(),
+		Player = Object.assign(
+			NewCharacter,
+			{
+				GenderSettings: {
+					HideShopItems: PreferenceInitGenderSetting(),
+					AutoJoinSearch: PreferenceInitGenderSetting(),
+				},
+				ExtensionSettings: {},
 			},
-			ExtensionSettings: {},
-		};
+		);
 		CharacterAppearanceSetDefault(Player);
 	}
 

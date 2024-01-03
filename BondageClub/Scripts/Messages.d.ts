@@ -10,7 +10,7 @@ interface ServerAccountImmutableData {
 	Creation: number;
 	Ownership?: ServerOwnership;
 	Lovership?: ServerLovership[];
-	readonly ActivePose?: string[];
+	ActivePose?: readonly string[];
 	Pose?: any;
 }
 
@@ -55,6 +55,11 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: number; LastChange: number };
 	MapData?: { X: number, Y: number };
+}
+
+interface ServerMapDataResponse {
+	MemberNumber: number;
+	MapData: { X: number, Y: number };
 }
 
 type ServerAccountDataSynced = Omit<ServerAccountData, "Money" | "FriendList">;
@@ -119,17 +124,19 @@ type ServerChatRoomData = {
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData?: {
-		Type: string;
-		Tiles: string;
-		Objects: string;
-	};
+	MapData?: ServerChatRoomMapData;
 	Custom: {
 		ImageURL?: string;
 		ImageFilter?: string;
 		MusicURL?: string;
 	};
 	Character: ServerAccountDataSynced[];
+}
+
+interface ServerChatRoomMapData {
+	Type: string;
+	Tiles: string;
+	Objects: string;
 }
 
 /**
@@ -830,6 +837,7 @@ interface ServerToClientEvents {
 	ChatRoomSyncPose: (data: ServerCharacterPoseResponse) => void;
 	ChatRoomSyncArousal: (data: ServerCharacterArousalResponse) => void;
 	ChatRoomSyncItem: (data: ServerChatRoomSyncItemResponse) => void;
+	ChatRoomSyncMapData: (data: ServerMapDataResponse) => void;
 
 	ChatRoomUpdateResponse: (data: ServerChatRoomUpdateResponse) => void;
 
@@ -864,6 +872,7 @@ interface ClientToServerEvents {
 	ChatRoomCharacterPoseUpdate: (data: ServerCharacterPoseUpdate) => void;
 	ChatRoomCharacterArousalUpdate: (data: ServerCharacterArousalUpdate) => void;
 	ChatRoomCharacterItemUpdate: (data: ServerCharacterItemUpdate) => void;
+	ChatRoomCharacterMapDataUpdate: (data: ChatRoomMapPos) => void;
 
 	ChatRoomAdmin: (data: ServerChatRoomAdminRequest) => void;
 	ChatRoomAllowItem: (data: ServerChatRoomAllowItemRequest) => void;
