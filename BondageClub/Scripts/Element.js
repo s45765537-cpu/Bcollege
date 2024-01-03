@@ -332,6 +332,47 @@ function ElementPosition(ElementID, X, Y, W, H) {
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
+ * Not same as ElementPositionFix. Calculates Font size itself.
+ * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {number} X - Starting point of the element on the X axis.
+ * @param {number} Y - Starting point of the element on the Y axis.
+ * @param {number} W - Width of the element.
+ * @param {number} [H] - Height of the element.
+ * @returns {void} - Nothing
+ */
+function ElementPositionFixed(ElementID, X, Y, W, H) {
+	var E = document.getElementById(ElementID);
+	// Verify the element exists
+	if (!E) {
+		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		return;
+	}
+
+	// Different positions based on the width/height ratio
+	const HRatio = MainCanvas.canvas.clientHeight / 1000;
+	const WRatio = MainCanvas.canvas.clientWidth / 2000;
+	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
+	const Top = MainCanvas.canvas.offsetTop + Y * HRatio;
+	const Height = H ? H * HRatio : Font * 1.15;
+	const Left = MainCanvas.canvas.offsetLeft + X * WRatio;
+	const Width = W * WRatio;
+
+	// Sets the element style
+	Object.assign(E.style, {
+		fontSize: Font + "px",
+		fontFamily: CommonGetFontName(),
+		position: "fixed",
+		left: Left + "px",
+		top: Top + "px",
+		width: Width + "px",
+		height: Height + "px",
+		display: "inline"
+	});
+
+}
+
+/**
+ * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * @param {string} ElementID - The id of the input tag to (re-)position.
  * @param {number} Font - The size of the font to use.
  * @param {number} X - Starting point of the element on the X axis.

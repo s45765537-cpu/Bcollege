@@ -9,7 +9,9 @@ var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
 var ChatSearchResultOffset = 0;
-var ChatSearchRoomsPerPage = 24;
+var ChatSearchRoomsPerPage = 21;
+var ChatSearchPageX = 25;
+var ChatSearchPageY = 135;
 var ChatSearchMessage = "";
 var ChatSearchLeaveRoom = "MainHall";
 /** @type {ModuleType} */
@@ -37,6 +39,10 @@ var ChatSearchLanguage = "";
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguageTemp = "";
 var ChatSearchFilterTermsTemp = "";
+
+const ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY", "ASYLUM"];
+let ChatSearchCurrentRoomSpaceIndex = 0;
+
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
@@ -90,42 +96,52 @@ function ChatSearchRun() {
 	// Draw list of rooms depending on the current view
 	if (ChatSearchMode == "") {
 		ChatSearchNormalDraw();
-		if ((ChatSearchMessage == "" || ChatSearchMessage == "FilterExcludeTerms")) ChatSearchMessage = "EnterName";
+		ElementSetAttribute("InputSearch", "placeholder", TextGet("EnterName"));
 	}
 	else if (ChatSearchMode == "Filter") {
 		ChatSearchPermissionDraw();
-		ChatSearchMessage = "FilterExcludeTerms";
+		ElementSetAttribute("InputSearch", "placeholder", TextGet("FilterExcludeTerms"));
 	}
 
-	// Draw the next button if it is needed
-	if ((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length > ChatSearchRoomsPerPage) DrawButton(1485, 885, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
+	// Draw the back/next buttons if it is needed
+	if ((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length > ChatSearchRoomsPerPage) {
+		DrawButton(1035, 25, 90, 90, "", "White", "Icons/Prev.png", TextGet("Prev"));
+		DrawButton(1225, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
+	}
 
 	// Hidden rooms view only shows a back button
 	if (ChatSearchShowHiddenRoomsActive) {
-		DrawButton(1885, 885, 90, 90, "", "White", "Icons/DialogNormalMode.png", TextGet("NormalFilterMode"));
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/DialogNormalMode.png", TextGet("NormalFilterMode"));
 		return;
 	}
 
-	// Draw the bottom bar for the normal mode and the filter mode when not in the hidden rooms view
-	DrawTextFit(TextGet(ChatSearchMessage), 255, 935, 490, "White", "Gray");
-	ElementPosition("InputSearch",  700, 926, 390);
-	DrawButton(1585, 885, 90, 90, "", "White", ChatSearchMode != "Filter" ? "Icons/Private.png" : "Icons/DialogNormalMode.png", TextGet(ChatSearchMode != "Filter" ?  "FilterMode" : "NormalMode"));
+	// Draw the bars for the normal mode and the filter mode when not in the hidden rooms view
+	ElementPositionFixed("InputSearch", 25, 45, 620);
+
+	DrawTextFit(ChatSearchMessage != "" ? TextGet(ChatSearchMessage) : "", 1000, 935, 490, "White", "Gray");
+
+	let ChatSearchPageCount = Math.floor((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length / ChatSearchRoomsPerPage + 1).toString();
+	let ChatSearchCurrentPage = (ChatSearchResultOffset / ChatSearchRoomsPerPage + 1).toString();
+	DrawTextFit(`${ChatSearchCurrentPage}/${ChatSearchPageCount}`, 1175, 75, 90, "White", "Gray");
+
+	DrawButton(905, 25, 90, 90, "", ChatSearchMode != "Filter" ? "White" : "Lime", "Icons/Private.png", TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"));
+
+	DrawButton(200, 898, 280, 64, TextGet("Language" + ChatSearchLanguageTemp), "White");
+	DrawButton(685, 25, 90, 90, "", "White", "Icons/Accept.png", ChatSearchMode == "" ? TextGet("SearchRoom") : TextGet("ApplyFilter"));
+	DrawButton(795, 25, 90, 90, "", "White", "Icons/Cancel.png", ChatSearchMode == "" ? TextGet("ClearFilter") : TextGet("LoadFilter"));
+
 	if (ChatSearchMode == "") {
-		DrawButton(900, 885, 90, 90, "", "White", "Icons/Accept.png", TextGet("SearchRoom"));
-		DrawButton(1685, 885, 90, 90, "", "White", "Icons/Plus.png", TextGet("CreateRoom"));
-		DrawButton(1785, 885, 90, 90, "", "White", "Icons/FriendList.png", TextGet("FriendList"));
-		DrawButton(1885, 885, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
+		DrawButton(1665, 25, 90, 90, "", "White", "Icons/Plus.png", TextGet("CreateRoom"));
+		DrawButton(1775, 25, 90, 90, "", "White", "Icons/FriendList.png", TextGet("FriendList"));
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	} else {
-		DrawButton(895, 898, 280, 64, TextGet("Language" + ChatSearchLanguageTemp), "White");
-		if (ChatSearchChangedLanguageOrFilterTerms()) {
-			DrawButton(1185, 885, 90, 90, "", "White", "Icons/Accept.png");
-			DrawButton(1285, 885, 90, 90, "", "White", "Icons/Cancel.png");
-		}
-		DrawButton(1385, 885, 90, 90, "", "White", "Icons/Question.png", TextGet("Help"));
-		DrawButton(1685, 885, 90, 90, "", !ChatSearchGhostPlayerOnClickActive ? "Lime" : "White", "Icons/Trash.png", TextGet("TempHideOnClick"));
-		DrawButton(1785, 885, 90, 90, "", ChatSearchGhostPlayerOnClickActive ? "Lime" : "White", "Icons/GhostList.png", TextGet("GhostPlayerOnClick"));
-		DrawButton(1885, 885, 90, 90, "", "White", "Icons/InspectLock.png", TextGet("ShowHiddenRooms"));
+		DrawButton(1555, 25, 90, 90, "", !ChatSearchGhostPlayerOnClickActive ? "Lime" : "White", "Icons/Trash.png", TextGet("TempHideOnClick"));
+		DrawButton(1665, 25, 90, 90, "", ChatSearchGhostPlayerOnClickActive ? "Lime" : "White", "Icons/GhostList.png", TextGet("GhostPlayerOnClick"));
+		DrawButton(1775, 25, 90, 90, "", "White", "Icons/InspectLock.png", TextGet("ShowHiddenRooms"));
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Question.png", TextGet("Help"));
 	}
+
+	ChatSearchRoomSpaceSelectDraw();
 }
 
 /**
@@ -133,11 +149,6 @@ function ChatSearchRun() {
  * @returns {void} - Nothing
  */
 function ChatSearchClick() {
-	// Handle special screens
-	if (ChatSearchFilterHelpActive) {
-		if (MouseIn(1385, 885, 90, 90)) ChatSearchToggleHelpMode();
-		return;
-	}
 	if (ChatSearchFilterUnhideConfirm) {
 		if (MouseIn(620, 898, 280, 64)) {
 			ChatSearchFilterUnhideConfirm = null;
@@ -150,57 +161,180 @@ function ChatSearchClick() {
 	}
 
 	// Handle clicks on the room list
-	if ((MouseX >= 25) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 875)) {
+	if ((MouseX >= ChatSearchPageX) &&
+		(MouseX < 1975) &&
+		(MouseY >= ChatSearchPageY) &&
+		(MouseY < 875)) {
 		if (ChatSearchMode == "Filter") ChatSearchClickPermission();
 		if (ChatSearchMode == "") ChatSearchJoin();
 	}
 
+	// Handle the back button
+	if (MouseIn(1035, 25, 90, 90)) {
+		ChatSearchResultOffset -= ChatSearchRoomsPerPage;
+		if (ChatSearchResultOffset < 0)
+			ChatSearchResultOffset = Math.floor((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length / ChatSearchRoomsPerPage) * ChatSearchRoomsPerPage;
+	}
+
 	// Handle the next button
-	if (MouseIn(1485, 885, 90, 90)) {
+	if (MouseIn(1225, 25, 90, 90)) {
 		ChatSearchResultOffset += ChatSearchRoomsPerPage;
-		if (ChatSearchResultOffset >= (ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length) ChatSearchResultOffset = 0;
+		if (ChatSearchResultOffset >= (ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length)
+			ChatSearchResultOffset = 0;
 	}
 
 	// Handle back button for hidden rooms view
 	if (ChatSearchShowHiddenRoomsActive) {
-		if (MouseIn(1885, 885, 90, 90)) ChatSearchToggleHiddenMode();
+		if (MouseIn(1885, 25, 90, 90)) ChatSearchToggleHiddenMode();
 		return;
 	}
 
-	// Handle the bottom bar for the normal mode and the filter mode when not in the hidden rooms view
-	if (MouseIn(1585, 885, 90, 90)) {
+	// Handle the bars for the normal mode and the filter mode when not in the hidden rooms view
+	if (MouseIn(905, 25, 90, 90)) {
 		ChatSearchToggleSearchMode();
 		ChatSearchQuery();
 	}
+
+	if (MouseIn(200, 898, 280, 64)) {
+		let Pos = !ChatSearchLanguageTemp ? 0 : ChatCreateLanguageList.indexOf(ChatSearchLanguageTemp) + 1;
+		if (Pos >= ChatCreateLanguageList.length) {
+			ChatSearchLanguageTemp = "";
+		}
+		else {
+			ChatSearchLanguageTemp = ChatCreateLanguageList[Pos];
+		}
+
+		ChatSearchSaveLanguageFiltering();
+		ChatSearchQuery();
+	}
+
+
+
 	if (ChatSearchMode == "") {
-		if (MouseIn(900, 885, 90, 90)) ChatSearchQuery();
-		if (MouseIn(1685, 885, 90, 90)) {
+		if (MouseIn(685, 25, 90, 90)) {
+			ChatSearchQuery();
+		}
+
+		if (MouseIn(795, 25, 90, 90)) {
+			ElementValue("InputSearch", "");
+			ChatSearchQuery();
+		}
+
+		if (MouseIn(1665, 25, 90, 90)) {
 			ChatBlockItemCategory = [];
 			CommonSetScreen("Online", "ChatCreate");
 		}
-		if (MouseIn(1785, 885, 90, 90)) {
+
+		if (MouseIn(1775, 25, 90, 90)) {
 			ElementRemove("InputSearch");
-			FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule };
+			FriendListReturn = { Screen: CurrentScreen, Module: CurrentModule };
 			CommonSetScreen("Character", "FriendList");
 		}
-		if (MouseIn(1885, 885, 90, 90)) ChatSearchExit();
+
+		if (MouseIn(1885, 25, 90, 90)) {
+			ChatSearchExit();
+		}
 	} else {
-		if (MouseIn(895, 898, 280, 64)) {
-			let Pos = !ChatSearchLanguageTemp ? 0 : ChatCreateLanguageList.indexOf(ChatSearchLanguageTemp) + 1;
-			if (Pos >= ChatCreateLanguageList.length)
-				ChatSearchLanguageTemp = "";
-			else
-				ChatSearchLanguageTemp = ChatCreateLanguageList[Pos];
-		}
-		if (ChatSearchChangedLanguageOrFilterTerms()) {
-			if (MouseIn(1185, 885, 90, 90)) ChatSearchSaveLanguageAndFilterTerms();
-			if (MouseIn(1285, 885, 90, 90)) ChatSearchLoadLanguageAndFilterTerms();
-		}
-		if (MouseIn(1385, 885, 90, 90)) ChatSearchToggleHelpMode();
-		if (MouseIn(1685, 885, 90, 90)) ChatSearchGhostPlayerOnClickActive = false;
-		if (MouseIn(1785, 885, 90, 90)) ChatSearchGhostPlayerOnClickActive = true;
-		if (MouseIn(1885, 885, 90, 90)) ChatSearchToggleHiddenMode();
+		if (MouseIn(685, 25, 90, 90)) ChatSearchSaveLanguageAndFilterTerms();
+		if (MouseIn(795, 25, 90, 90)) ChatSearchLoadLanguageAndFilterTerms();
+
+		if (MouseIn(1555, 25, 90, 90)) ChatSearchGhostPlayerOnClickActive = false;
+		if (MouseIn(1665, 25, 90, 90)) ChatSearchGhostPlayerOnClickActive = true;
+		if (MouseIn(1775, 25, 90, 90)) ChatSearchToggleHiddenMode();
+		if (MouseIn(1885, 25, 90, 90)) ChatSearchToggleHelpMode();
 	}
+
+	ChatSearchRoomSpaceSelectClick();
+}
+
+/**
+ * Draws buttons and text for selection of room space.
+ * @returns {void} - Nothing
+ */
+function ChatSearchRoomSpaceSelectDraw() {
+	const Asylumed = ChatRoomSpace == "Asylum" && (LogQuery("Committed", "Asylum") || LogQuery("ForceGGTS", "Asylum"));
+
+	let CurrentLobby = undefined;
+	switch (ChatRoomSpace) {
+		case "X":
+			CurrentLobby = "Mixed";
+			break;
+
+		case "M":
+			CurrentLobby = "Male";
+			break;
+
+		case "Asylum":
+			CurrentLobby = "Asylum";
+			break;
+
+		default:
+			CurrentLobby = "Female";
+			break;
+	}
+
+	DrawTextWrap(TextGet("Lobby") + " " + TextGet(CurrentLobby), 1495, 885, 330, 100, "#FFFFFF");
+	DrawButton(1405, 885, 90, 90, "", "White", "Icons/Prev.png", "", Asylumed);
+	DrawButton(1825, 885, 90, 90, "", "White", "Icons/Next.png", "", Asylumed);
+}
+
+/**
+ * Handles clicks on selection of room space.
+ * @returns {void} - Nothing
+ */
+function ChatSearchRoomSpaceSelectClick() {
+	const Genders = Player.GetGenders();
+	let TempRoomSpaces = ChatSearchRoomSpaces;
+	const Asylumed = ChatRoomSpace == "Asylum" && (LogQuery("Committed", "Asylum") || LogQuery("ForceGGTS", "Asylum"));
+
+	if (Asylumed) TempRoomSpaces = TempRoomSpaces.filter(space => space == "ASYLUM");
+	if (Genders.includes("M")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "FEMALE_ONLY");
+	if (Genders.includes("F")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "MALE_ONLY");
+
+	let CurrentRoomSpace = Object.keys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
+
+	ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.indexOf(CurrentRoomSpace);
+
+	if (MouseIn(1405, 885, 90, 90) && !Asylumed) {
+		ChatSearchCurrentRoomSpaceIndex--;
+		if (ChatSearchCurrentRoomSpaceIndex < 0) {
+			ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.length - 1;
+		}
+
+		return ChatSelectStartSearch(ChatRoomSpaceType[TempRoomSpaces[ChatSearchCurrentRoomSpaceIndex]]);
+	}
+
+	if (MouseIn(1825, 885, 90, 90) && !Asylumed) {
+		ChatSearchCurrentRoomSpaceIndex++;
+		if (ChatSearchCurrentRoomSpaceIndex >= TempRoomSpaces.length) {
+			ChatSearchCurrentRoomSpaceIndex = 0;
+		}
+
+		return ChatSelectStartSearch(ChatRoomSpaceType[TempRoomSpaces[ChatSearchCurrentRoomSpaceIndex]]);
+	}
+}
+
+/**
+ * While in normal view, called when player clicks apply or presses enter.
+ * Saves the "temp" options into their normal variables, and sends them to the server.
+ * @returns {void} - Nothing
+ */
+function ChatSearchSaveLanguageFiltering() {
+	// Save Language option
+	if (ChatSearchLanguage != ChatSearchLanguageTemp) {
+		ChatSearchLanguage = ChatSearchLanguageTemp;
+		ServerAccountUpdate.QueueData({ RoomSearchLanguage: ChatSearchLanguage });
+	}
+}
+
+/**
+ * While in normal view, calls when player clicks revert.
+ * Loads the "temp" options from their normal variables.
+ * @returns {void} - Nothing
+ */
+function ChatSearchLoadLanguageFiltering() {
+	// Load options from the saved vars into the temp ones
+	ChatSearchLanguageTemp = ChatSearchLanguage;
 }
 
 /**
@@ -289,11 +423,12 @@ function ChatSearchExit() {
  * @returns {void} - Nothing
  */
 function ChatSearchFilterHelpDraw() {
-	DrawRect(50, 50, 1900, 800, "White");
-	DrawEmptyRect(50, 50, 1900, 800, "Black");
+	DrawButton(1885, 25, 90, 90, "", "White", "Icons/DialogNormalMode.png", TextGet("CloseHelp"));
+
+	DrawRect(50, 135, 1900, 800, "White");
+	DrawEmptyRect(50, 135, 1900, 800, "Black");
 	for (let i = 0; i < 7; i++)
-		DrawTextWrap(TextGet("HelpText"+(i+1)), 70, 50+i*100, 1860, 70, "Black", undefined, 2);
-	DrawButton(1385, 885, 90, 90, "", "White", "Icons/DialogNormalMode.png", TextGet("CloseHelp"));
+		DrawTextWrap(TextGet("HelpText" + (i + 1)), 70, 135 + i * 100, 1860, 70, "Black", undefined, 2);
 }
 
 /**
@@ -330,8 +465,8 @@ function ChatSearchNormalDraw() {
 	if ((ChatSearchResult.length >= 1)) {
 
 		// Show up to 24 results
-		var X = 25;
-		var Y = 25;
+		var X = ChatSearchPageX;
+		var Y = ChatSearchPageY;
 		for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
 
 			// Draw the room rectangle
@@ -362,8 +497,8 @@ function ChatSearchNormalDraw() {
 		if (!CommonIsMobile && MouseIn(25, 25, 1950, 850)) {
 
 			// Finds the room where the mouse is hovering
-			X = 25;
-			Y = 25;
+			X = ChatSearchPageX;
+			Y = ChatSearchPageY;
 			for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
 
 				// Determine the hover text starting position to ensure there's enough room
@@ -438,12 +573,11 @@ function ChatSearchPermissionDraw() {
 		return;
 	}
 
-	let X = 25;
-	let Y = 25;
+	let X = ChatSearchPageX;
+	let Y = ChatSearchPageY;
 	let ShownRooms = 0;
 
-	if (!ChatSearchShowHiddenRoomsActive)
-	{
+	if (!ChatSearchShowHiddenRoomsActive) {
 		// Show currently visible rooms
 
 		for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && ShownRooms < ChatSearchRoomsPerPage; C++) {
@@ -484,8 +618,8 @@ function ChatSearchPermissionDraw() {
 		// Draws the hovering text of why the room is hidden
 		if (!CommonIsMobile && MouseIn(25, 25, 1950, 850)) {
 			// Finds the room where the mouse is hovering
-			X = 25;
-			Y = 25;
+			X = ChatSearchPageX;
+			Y = ChatSearchPageY;
 			for (let C = ChatSearchResultOffset; C < ChatSearchHiddenResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
 				const Reasons = ChatSearchGetFilterReasons(ChatSearchHiddenResult[C]);
 
@@ -522,8 +656,8 @@ function ChatSearchPermissionDraw() {
 function ChatSearchJoin() {
 
 	// Scans results
-	var X = 25;
-	var Y = 25;
+	var X = ChatSearchPageX;
+	var Y = ChatSearchPageY;
 	for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
 
 		// If the player clicked on a valid room
@@ -632,8 +766,8 @@ function ChatSearchClickPermission() {
 	const Result = (ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult);
 
 	// Scans results + hidden rooms
-	var X = 25;
-	var Y = 25;
+	var X = ChatSearchPageX;
+	var Y = ChatSearchPageY;
 	var ShownRooms = 0;
 	for (let C = ChatSearchResultOffset; C < Result.length && ShownRooms < ChatSearchRoomsPerPage; C++) {
 
@@ -917,8 +1051,6 @@ function ChatSearchQuery() {
 		ChatSearchResult = [];
 		ServerSend("ChatRoomSearch", SearchData);
 	}
-
-	ChatSearchMessage = "EnterName";
 }
 
 /**
@@ -940,8 +1072,8 @@ function ChatSearchQuerySort() {
  * @returns {void} - Nothing
  */
 function ChatSearchApplyFilterTerms() {
-	ChatSearchHiddenResult = ChatSearchResult.filter(room => {return ChatSearchGetFilterReasons(room).length != 0;});
-	ChatSearchResult = ChatSearchResult.filter(room => {return ChatSearchGetFilterReasons(room).length == 0;});
+	ChatSearchHiddenResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length != 0; });
+	ChatSearchResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length == 0; });
 }
 
 /**

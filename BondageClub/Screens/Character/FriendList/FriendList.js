@@ -49,7 +49,8 @@ function FriendListRun() {
 	if (FriendListBeepTarget !== null) {
 		ElementPositionFix("FriendListBeep", 36, 5, 75, 1985, 890);
 	}
-	DrawButton(1795, 5, 60, 60, "", "White", "Icons/Small/Reset.png", TextGet("Refresh"));
+	DrawButton(1725, 5, 60, 60, "", "White", "Icons/Small/Reset.png", TextGet("Refresh"));
+	DrawButton(1795, 5, 60, 60, "", "White", "Icons/Small/Prev.png");
 	DrawButton(1865, 5, 60, 60, "", "White", "Icons/Small/Next.png");
 	DrawButton(1935, 5, 60, 60, "", "White", "Icons/Small/Exit.png");
 }
@@ -160,16 +161,25 @@ function FriendListShowBeep(i) {
  * @returns {void} - Nothing
  */
 function FriendListClick() {
-	if (MouseIn(1795, 5, 60, 60)) {
+	if (MouseIn(1725, 5, 60, 60)) {
 		ElementContent("FriendList", "");
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
+	
+	if (MouseIn(1795, 5, 60, 60)) {
+		ElementContent("FriendList", "");
+		FriendListModeIndex--;
+		if (FriendListModeIndex < 0) FriendListModeIndex = FriendListMode.length - 1;
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	}
+
 	if (MouseIn(1865, 5, 60, 60)) {
 		ElementContent("FriendList", "");
 		FriendListModeIndex++;
 		if (FriendListModeIndex >= FriendListMode.length) FriendListModeIndex = 0;
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
+
 	if (MouseIn(1935, 5, 60, 60)) FriendListExit();
 }
 
