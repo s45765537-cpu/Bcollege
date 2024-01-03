@@ -2993,7 +2993,7 @@ function DialogDraw() {
  * Handles mouse wheel scrolling while in DialogMode
  * @param {WheelEvent} Event
  */
-function DialogMouseWheel(Event) {
+const DialogMouseWheel = CommonLimitFunction((Event) => {
 	if (!DialogModeShowsInventory()) return false;
 	if (!MouseIn(DialogInventoryGrid.x, DialogInventoryGrid.y, DialogInventoryGrid.width, DialogInventoryGrid.height)) return false;
 
@@ -3008,7 +3008,7 @@ function DialogMouseWheel(Event) {
 	}
 
 	return false;
-}
+}, 100, 100);
 
 /**
  * Changes to previous dialog page
