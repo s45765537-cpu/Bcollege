@@ -334,7 +334,7 @@ function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
 	// Finds the proper effect and draws it
 	let Effect = ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE);
-	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", ScreenX - 1, ScreenY - 1, TileWidth + 1, TileHeight + 1);
+	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 
 }
 
@@ -565,8 +565,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		// Draw the tile on the grid
 		if (TileData != null) {
 			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
-			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, TileWidth + 1, TileHeight + 1);
-			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, TileWidth + 1, TileHeight + 1);
+			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, Math.ceil(TileWidth), Math.ceil(TileHeight));
+			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
 		}
 
@@ -615,7 +615,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			}
 
 		// Draw the floor wall effect and rectancle if needed at the end
-		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", ScreenX - 1, ScreenY - 1, TileWidth + 1, TileHeight + 1);
+		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
 	}
