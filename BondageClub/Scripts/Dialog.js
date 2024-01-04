@@ -2997,12 +2997,12 @@ const DialogMouseWheel = CommonLimitFunction((Event) => {
 	if (!DialogModeShowsInventory()) return false;
 	if (!MouseIn(DialogInventoryGrid.x, DialogInventoryGrid.y, DialogInventoryGrid.width, DialogInventoryGrid.height)) return false;
 
-	if ((Event.deltaY > 0)) {
+	if ((Event.deltaY < 0)) {
 		DialogMenuPrev();
 		return true;
 	}
 
-	if ((Event.deltaY < 0)) {
+	if ((Event.deltaY > 0)) {
 		DialogMenuNext();
 		return true;
 	}
