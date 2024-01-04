@@ -311,6 +311,7 @@ function DialogCanChangeClothes() {
 		["ChatRoom", "MainHall", "Private", "Photographic"].includes(CurrentScreen)
 		&& CurrentCharacter != null
 		&& Player.CanChangeClothesOn(CurrentCharacter)
+		&& !DialogDontAllowItemDistance()
 	);
 }
 /**
@@ -572,6 +573,7 @@ function ChatRoomCanAssistStruggle() { return CurrentCharacter.AllowItem && !Cur
  * @returns {boolean} - Whether or not the player can interact with the target character
  */
 function DialogCanPerformCharacterAction() {
+	if (DialogDontAllowItemDistance()) return false;
 	return (
 		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
 		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||
@@ -2056,32 +2058,36 @@ function ChatRoomMenuDraw() {
 	}
 }
 
+/**
+ * Redirects the Mouse Down event to the map if needed
+ * @returns {void} - Nothing
+ */
 function ChatRoomMouseDown(event) {
-	if(ChatRoomMapVisible)
-	{
-		ChatRoomMapMouseDown();
-	}
+	if (ChatRoomMapVisible) ChatRoomMapMouseDown();
 }
 
+/**
+ * Redirects the Mouse Up event to the map if needed
+ * @returns {void} - Nothing
+ */
 function ChatRoomMouseUp(event) {
-	if(ChatRoomMapVisible)
-	{
-		ChatRoomMapMouseUp();
-	}
+	if (ChatRoomMapVisible) ChatRoomMapMouseUp();
 }
 
+/**
+ * Redirects the Mouse Move event to the map if needed
+ * @returns {void} - Nothing
+ */
 function ChatRoomMouseMove(event) {
-	if(ChatRoomMapVisible)
-	{
-		ChatRoomMapMouseMove();
-	}
+	if (ChatRoomMapVisible) ChatRoomMapMouseMove();
 }
 
+/**
+ * Redirects the Mouse Wheel event to the map if needed
+ * @returns {void} - Nothing
+ */
 function ChatRoomMouseWheel(event) {
-	if(ChatRoomMapVisible)
-	{
-		ChatRoomMapMouseWheel(event);
-	}
+	if (ChatRoomMapVisible) ChatRoomMapMouseWheel(event);
 }
 
 /**
@@ -2119,12 +2125,11 @@ function ChatRoomClick() {
 		return;
 	}
 
+	// In the left part of the screen
 	if (MouseIn(0, 0, 1000, 1000)) {
-		// When the user chats or clicks on a character
-		if(ChatRoomMapVisible)
-		{
-			return ChatRoomMapClick();
-		}
+
+		// When the user chats or clicks on a character in the map
+		if (ChatRoomMapVisible) return ChatRoomMapClick();
 
 		// Intercepts the online game chat room clicks if we need to
 		if (OnlineGameClick()) return;
@@ -2134,6 +2139,7 @@ function ChatRoomClick() {
 				return ChatRoomClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom, charIdx);
 			}
 		});
+
 	}
 
 	// When the user clicks a menu button in the top-right

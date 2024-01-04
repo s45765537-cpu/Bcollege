@@ -1036,6 +1036,9 @@ function ChatRoomMapUndo() {
  */
 function ChatRoomMapKeyDown(event) {
 
+	// Nothing to do if a character dialog is open
+	if (CurrentCharacter != null) return false;
+
 	// ENTER to go back to the chat box
 	if (event.key === "Enter") {
 		ElementFocus("InputChat");

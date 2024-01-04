@@ -1,7 +1,9 @@
 PlayerGagged,,,(You can use or remove items by selecting specific body regions.),,DialogDoAllowItem(CurrentCharacter)
-PlayerGagged,,,(You don't have access to use or remove items on DialogCharacterObject.),,!DialogDoAllowItem(CurrentCharacter)
+PlayerGagged,,,(You're too far to reach DialogCharacterObject body and items.),,DialogDontAllowItemDistance()
+PlayerGagged,,,(You don't have access to use or remove items on DialogCharacterObject.),,DialogDontAllowItemPermission()
 0,,,(You can use or remove items by selecting specific body regions.),,DialogDoAllowItem(CurrentCharacter)
-0,,,(You don't have access to use or remove items on DialogCharacterObject.),,!DialogDoAllowItem(CurrentCharacter)
+0,,,(You're too far to reach DialogCharacterObject body and items.),,DialogDontAllowItemDistance()
+0,,,(You don't have access to use or remove items on DialogCharacterObject.),,DialogDontAllowItemPermission()
 0,,(View DialogCharacterPossessive profile.),,DialogViewProfile(),
 0,,(Change DialogCharacterPossessive clothes.),,DialogChangeClothes(),DialogCanChangeClothes()
 0,10,(Manage your relationship.),"(You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)",,
