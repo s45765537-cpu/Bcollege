@@ -9212,6 +9212,53 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Shiny" }, { Name: "Matte" }],
 		}, // FuturisticHeels2
+		TallerBoots: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Legs",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Short Boots
+							Property: { Effect: [] },
+						},
+						{
+							// l1 - High Boots
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// b0 - No Belt
+							Property: { Effect: [] },
+						},
+						{
+							// b1 - Belt
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Metal",
+					Key: "m",
+					Options: [
+						{
+							// m0 - No Details
+							Property: { Effect: [] },
+						},
+						{
+							// m1 - Metal Details
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // TallerBoots
 		ThighBoots: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [

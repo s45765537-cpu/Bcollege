@@ -8205,6 +8205,36 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "TallerBoots",
+				Fetish: ["Leather"],
+				Value: 65,
+				Height: 22,
+				Extended: true,
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+				},	
+				Top: 385,
+				Left: 105,
+				Layer: [
+					{ Name: "Boots", Priority: 23, AllowColorize: true },
+					{ Name: "Legs", AllowTypes: { l: 1 }, Priority: 23, CopyLayerColor: "Boots" },
+					{ Name: "Belt", AllowTypes: { b: 1 }, Priority: 26, AllowColorize: true },
+					{ Name: "Metal", AllowTypes: { m: 1 }, Priority: 26, AllowColorize: true },
+			    ],
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[75, 855, 350, 200]],
+					},
+				],
+			},
+			{
 				Name: "ThighBoots",
 				Fetish: ["Latex"],
 				Value: 50,
@@ -39945,8 +39975,9 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
-					Spread: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,
+					Spread: "Spread",
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,					
 				},
 				Alpha: [
 					{
@@ -39979,7 +40010,60 @@ var AssetFemale3DCG = [
 							"SuitLower",
 						],
 						Pose: ["Spread"],
-						Masks: [[45, 918, 350, 100]],
+						Masks: [[45, 913, 350, 100]],
+					},
+				],
+			},
+			{
+				Name: "MetalBallet",
+				Fetish: ["Metal"],
+				Height: 27,
+				Value: 60,
+				Difficulty: 6,
+				Time: 10,
+				RemoveTime: 15,
+				Effect: [E.Slow],
+				AllowLock: true,
+				AllowTighten: true,
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,					
+				},
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[45, 900, 350, 100]],
+					},
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["LegsClosed"],
+						Masks: [[45, 905, 350, 100]],
+					},
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["Spread"],
+						Masks: [[45, 885, 350, 100]],
 					},
 				],
 			},
