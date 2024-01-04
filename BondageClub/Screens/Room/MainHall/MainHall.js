@@ -146,6 +146,7 @@ function MainHallAllow(ID) {
 function MainHallLoad() {
 
 	// Loads the variables and dialog
+	ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 	ChatSearchSafewordAppearance = null;
 	PoseSetActive(Player, null);
 	if (ChatSearchPreviousActivePose != null) {
@@ -176,6 +177,7 @@ function MainHallLoad() {
 	TextPrefetch("Character", "InformationSheet");
 	TextPrefetch("Character", "Text_Relog");
 	TextPrefetch("Online", "ChatSearch");
+
 }
 
 /**

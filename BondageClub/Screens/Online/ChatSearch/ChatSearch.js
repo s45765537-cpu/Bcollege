@@ -39,9 +39,8 @@ var ChatSearchLanguage = "";
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguageTemp = "";
 var ChatSearchFilterTermsTemp = "";
-
-const ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY", "ASYLUM"];
-let ChatSearchCurrentRoomSpaceIndex = 0;
+var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
+var ChatSearchCurrentRoomSpaceIndex = 0;
 
 
 /**
@@ -126,7 +125,7 @@ function ChatSearchRun() {
 
 	DrawButton(905, 25, 90, 90, "", ChatSearchMode != "Filter" ? "White" : "Lime", "Icons/Private.png", TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"));
 
-	DrawButton(200, 898, 280, 64, TextGet("Language" + ChatSearchLanguageTemp), "White");
+	DrawButton(25, 898, 350, 64, TextGet("Language" + ChatSearchLanguageTemp), "White");
 	DrawButton(685, 25, 90, 90, "", "White", "Icons/Accept.png", ChatSearchMode == "" ? TextGet("SearchRoom") : TextGet("ApplyFilter"));
 	DrawButton(795, 25, 90, 90, "", "White", "Icons/Cancel.png", ChatSearchMode == "" ? TextGet("ClearFilter") : TextGet("LoadFilter"));
 
@@ -195,7 +194,7 @@ function ChatSearchClick() {
 		ChatSearchQuery();
 	}
 
-	if (MouseIn(200, 898, 280, 64)) {
+	if (MouseIn(25, 898, 350, 64)) {
 		let Pos = !ChatSearchLanguageTemp ? 0 : ChatCreateLanguageList.indexOf(ChatSearchLanguageTemp) + 1;
 		if (Pos >= ChatCreateLanguageList.length) {
 			ChatSearchLanguageTemp = "";
@@ -252,7 +251,6 @@ function ChatSearchClick() {
  * @returns {void} - Nothing
  */
 function ChatSearchRoomSpaceSelectDraw() {
-	const Asylumed = ChatRoomSpace == "Asylum" && (LogQuery("Committed", "Asylum") || LogQuery("ForceGGTS", "Asylum"));
 
 	let CurrentLobby = undefined;
 	switch (ChatRoomSpace) {
@@ -273,9 +271,13 @@ function ChatSearchRoomSpaceSelectDraw() {
 			break;
 	}
 
-	DrawTextWrap(TextGet("Lobby") + " " + TextGet(CurrentLobby), 1495, 885, 330, 100, "#FFFFFF");
-	DrawButton(1405, 885, 90, 90, "", "White", "Icons/Prev.png", "", Asylumed);
-	DrawButton(1825, 885, 90, 90, "", "White", "Icons/Next.png", "", Asylumed);
+	DrawTextWrap(TextGet("Lobby") + " " + TextGet(CurrentLobby), 1495, 885, 390, 100, "#FFFFFF");
+
+	if ((ChatSearchRoomSpaces != null) && (ChatSearchRoomSpaces.length >= 2)) {
+		DrawButton(1405, 885, 90, 90, "", "White", "Icons/Prev.png", "");
+		DrawButton(1885, 885, 90, 90, "", "White", "Icons/Next.png", "");
+	}
+
 }
 
 /**
@@ -285,9 +287,7 @@ function ChatSearchRoomSpaceSelectDraw() {
 function ChatSearchRoomSpaceSelectClick() {
 	const Genders = Player.GetGenders();
 	let TempRoomSpaces = ChatSearchRoomSpaces;
-	const Asylumed = ChatRoomSpace == "Asylum" && (LogQuery("Committed", "Asylum") || LogQuery("ForceGGTS", "Asylum"));
 
-	if (Asylumed) TempRoomSpaces = TempRoomSpaces.filter(space => space == "ASYLUM");
 	if (Genders.includes("M")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "FEMALE_ONLY");
 	if (Genders.includes("F")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "MALE_ONLY");
 
@@ -295,7 +295,7 @@ function ChatSearchRoomSpaceSelectClick() {
 
 	ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.indexOf(CurrentRoomSpace);
 
-	if (MouseIn(1405, 885, 90, 90) && !Asylumed) {
+	if ((ChatSearchRoomSpaces != null) && (ChatSearchRoomSpaces.length >= 2) && MouseIn(1405, 885, 90, 90)) {
 		ChatSearchCurrentRoomSpaceIndex--;
 		if (ChatSearchCurrentRoomSpaceIndex < 0) {
 			ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.length - 1;
@@ -304,7 +304,7 @@ function ChatSearchRoomSpaceSelectClick() {
 		return ChatSelectStartSearch(ChatRoomSpaceType[TempRoomSpaces[ChatSearchCurrentRoomSpaceIndex]]);
 	}
 
-	if (MouseIn(1825, 885, 90, 90) && !Asylumed) {
+	if ((ChatSearchRoomSpaces != null) && (ChatSearchRoomSpaces.length >= 2) && MouseIn(1885, 885, 90, 90)) {
 		ChatSearchCurrentRoomSpaceIndex++;
 		if (ChatSearchCurrentRoomSpaceIndex >= TempRoomSpaces.length) {
 			ChatSearchCurrentRoomSpaceIndex = 0;

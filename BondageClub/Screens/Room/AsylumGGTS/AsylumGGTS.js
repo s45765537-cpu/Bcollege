@@ -123,6 +123,7 @@ function AsylumGGTSComputerImage(Level) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSLoad() {
+	ChatSearchRoomSpaces = ["ASYLUM"];
 	AsylumGGTSIntroDone = false;
 	AsylumGGTSTask = null;
 	if (AsylumGGTSComputer == null) {

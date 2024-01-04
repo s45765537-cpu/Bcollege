@@ -45,6 +45,7 @@ function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !Cu
  * @returns {void} - Nothing
  */
 function AsylumEntranceLoad() {
+	ChatSearchRoomSpaces = ["ASYLUM"];
 	AsylumEntranceBackground = "AsylumEntrance";
 	if (AsylumEntranceNurse == null) {
 		AsylumEntranceNurse = CharacterLoadNPC("NPC_AsylumEntrance_Nurse");
