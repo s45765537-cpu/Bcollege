@@ -818,35 +818,35 @@ function KDApplyItemLegacy(inv, tags) {
 		}
 
 		if (placed) {
-			let type = restraint.Type;
-			if (restraint.changeRenderType && Object.keys(restraint.changeRenderType).some((k) => {return tags.has(k);})) {
+			/** @type {TypeRecord} */
+			let typeRecord = {};
+
+			// Convert old-style `Type` into `TypeRecord`
+			if (restraint.Modules) {
+				const data = ExtendedItemGetData(placed.Asset, ExtendedArchetype.MODULAR);
+				if (data) {
+					typeRecord = Object.fromEntries(data.modules.map((mod, i) => [mod.Key, restraint.Modules[i]]));
+				}
+			} else if (restraint.changeRenderType && Object.keys(restraint.changeRenderType).some((k) => {return tags.has(k);})) {
 				let key = Object.keys(restraint.changeRenderType).filter((k) => {return tags.has(k);})[0];
 				if (key) {
-					type = restraint.changeRenderType[key];
+					typeRecord = ExtendedItemTypeToRecord(placed.Asset, restraint.changeRenderType[key]);
 				}
+			} else if (restraint.Type) {
+				typeRecord = ExtendedItemTypeToRecord(placed.Asset, restraint.Type);
 			}
-			placed.Property = {Type: type, Difficulty: restraint.power, LockedBy: inv.lock ? "MetalPadlock" : undefined};
 
-			/*if ((!already) && type) {
-				KinkyDungeonPlayer.FocusGroup = AssetGroupGet("Female3DCG", AssetGroup);
-				let options = window["Inventory" + ((AssetGroup.includes("ItemMouth")) ? "ItemMouth" : AssetGroup) + restraint.Asset + "Options"];
-				if (!options) options = TypedItemDataLookup[`${AssetGroup}${restraint.Asset}`].options; // Try again
-				const option = options.find(o => o.Name === type);
-				ExtendedItemSetType(KinkyDungeonPlayer, options, option);
-				KinkyDungeonPlayer.FocusGroup = null;
-			}*/
+			ExtendedItemInit(KinkyDungeonPlayer, placed, false, false);
+			if (Object.keys(typeRecord).length) {
+				ExtendedItemSetOptionByRecord(KinkyDungeonPlayer, placed, typeRecord, { push: false, refresh: false });
+			}
 
-			if (restraint.Modules) {
-				let data = ModularItemDataLookup[AssetGroup + restraint.Asset];
-				let asset = data.asset;
-				let modules = data.modules;
-				// @ts-expect-error
-				placed.Property = ModularItemMergeModuleValues({ asset, modules }, restraint.Modules);
-				placed.Property.LockedBy = inv.lock ? "MetalPadlock" : undefined;
-			} else if (type) TypedItemSetOptionByName(KinkyDungeonPlayer, placed, type, false);
+			placed.Property.LockedBy = inv.lock ? "MetalPadlock" : undefined;
+			placed.Property.Difficulty = restraint.power;
 			if (restraint.OverridePriority) {
 				placed.Property.OverridePriority = restraint.OverridePriority;
 			}
+			CharacterRefresh(KinkyDungeonPlayer, false, false);
 		}
 	} finally {
 		// @ts-expect-error
