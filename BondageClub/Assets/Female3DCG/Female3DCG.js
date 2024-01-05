@@ -8212,15 +8212,30 @@ var AssetFemale3DCG = [
 				Extended: true,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
-				},	
+				},
 				Top: 385,
 				Left: 105,
 				Layer: [
 					{ Name: "Boots", Priority: 23, AllowColorize: true },
-					{ Name: "Legs", AllowTypes: { l: 1 }, Priority: 23, CopyLayerColor: "Boots" },
-					{ Name: "Belt", AllowTypes: { b: 1 }, Priority: 26, AllowColorize: true },
-					{ Name: "Metal", AllowTypes: { m: 1 }, Priority: 26, AllowColorize: true },
-			    ],
+					{
+						Name: "Legs",
+						AllowTypes: { l: 1 },
+						Priority: 23,
+						CopyLayerColor: "Boots",
+					},
+					{
+						Name: "Belt",
+						AllowTypes: { b: 1 },
+						Priority: 26,
+						AllowColorize: true,
+					},
+					{
+						Name: "Metal",
+						AllowTypes: { m: 1 },
+						Priority: 26,
+						AllowColorize: true,
+					},
+				],
 				Alpha: [
 					{
 						Group: [
@@ -39977,7 +39992,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 					Kneel: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,					
+					KneelingSpread: PoseType.HIDE,
 				},
 				Alpha: [
 					{
@@ -40030,7 +40045,7 @@ var AssetFemale3DCG = [
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 					Kneel: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,					
+					KneelingSpread: PoseType.HIDE,
 				},
 				Alpha: [
 					{

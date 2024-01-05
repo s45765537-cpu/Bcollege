@@ -165,7 +165,7 @@ function FriendListClick() {
 		ElementContent("FriendList", "");
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
-	
+
 	if (MouseIn(1795, 5, 60, 60)) {
 		ElementContent("FriendList", "");
 		FriendListModeIndex--;
