@@ -161,6 +161,10 @@ textarea {
 	white-space: pre-wrap;
     overflow-wrap: break-word;
 }
+a.ReplyButton {
+	text-decoration: none;
+	font-style: normal;
+}
 #FriendList {
 	border: 2px solid white;
 	overflow: auto;

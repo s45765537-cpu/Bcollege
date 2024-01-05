@@ -3531,6 +3531,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += ';">';
 			senderTag += metadata.senderName;
 			senderTag += ':</span> ';
+			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + " " + senderTag
 
 			msg = senderTag + ChatRoomHTMLEntities(msg);
 		}
@@ -3575,6 +3576,20 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
 		div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
 	div.innerHTML = msg;
+
+	// Add reply button if we're getting whisper
+	if (data.Type === "Whisper") {
+		let repl = document.createElement("a");
+		repl.href = "#";
+		repl.onclick = (e) => {
+			e.preventDefault();
+			ElementValue("InputChat", `/w ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+			ElementFocus("InputChat");
+		};
+		repl.classList.add("ReplyButton");
+		repl.textContent = '\u21a9\ufe0f';
+		div.prepend(repl);
+	}
 
 	if (typeof data.Timeout === 'number' && data.Timeout > 0) setTimeout(() => div.remove(), data.Timeout);
 

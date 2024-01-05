@@ -1,6 +1,7 @@
 ActionGrabbedToServeDrinksIntro,(Two maids grab you and escort you to their quarters.  Another maid addresses you.)  Your owner sent you here to work.
 PublicChat,Talk to everyone
 WhisperTo,Whisper to
+WhisperFrom,Whisper from
 MenuCut,Keep only 20 messages
 MenuProfile,Your character profile
 MenuAdmin,Room administration
@@ -24,6 +25,9 @@ CommandFriendlist,Friendlist:
 CommandGhostlist,Ghostlist:
 CommandWhitelist,Whitelist:
 CommandBlacklist,Blacklist:
+CommandNoWhisperTarget,Whisper target not found
+CommandNoMessage,No message provided.
+CommandMultipleWhisperTargets,Multiple whisper targets were found: $TargetsYou can still whisper the player by clicking their name or by using their member number.
 GGTSIntro,(Two nurses wearing futuristic gear grab you and carry you to the Asylum.  Another nurse is waiting for you there.)  Welcome.  Don't be scared.
 OwnerPresenceBlockTalk,Talking is forbidden when your owner is present.
 OwnerPresenceBlockEmote,Emoting is forbidden when your owner is present.
