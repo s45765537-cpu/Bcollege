@@ -1,5 +1,5 @@
 /,[Message]: Send a message starting with /. Example: //message will send /message
-action,[Message]: Display the message as an action,without including your name. **[Message] does the same
+action,"[Message]: Display the message as an action, without including your name. **[Message] does the same"
 afk,: Toggle AFK emote
 ban,[MemberNumber]: Ban the player from the room
 beep,[MemberNumber]: Send a beep to the player
@@ -40,3 +40,4 @@ custommusic,[URL]: Set the http address of the background mp3/mp4 music to use
 mapcopy,Copy the current map layout in your clipboard
 mappaste,[Map]: Paste your map string to load it as current.
 whisper,[MemberNumber]: Begin whispering to player.  Leave blank to stop whispering.
+w,[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.

@@ -62,8 +62,11 @@ function CommandCombine(add) {
  * @param {string} msg - Input string, cannot be empty
  */
 function CommandParse(msg) {
-	if (msg.startsWith(CommandsKey + CommandsKey)) {
-		msg = msg.substr(1);
+	// We want to escape message with "\", so we need to escape it first.
+	if (msg.startsWith("\\")) {
+		msg = msg.replaceAt(0, "\u200b");
+	} else if (msg.startsWith(CommandsKey + CommandsKey)) {
+		msg = msg.substring(1);
 	} else if (msg.startsWith(CommandsKey)) {
 		CommandExecute(msg);
 		return;
@@ -88,13 +91,24 @@ function CommandParse(msg) {
 
 			// The whispers get sent to the server and shown on the client directly
 			ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
-			const TargetName = WhisperTarget ? WhisperTarget.Name : "";
 
 			const div = document.createElement("div");
 			div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 			div.setAttribute('data-time', ChatRoomCurrentTime());
 			div.setAttribute('data-sender', Player.MemberNumber.toString());
-			div.textContent = TextGet("WhisperTo") + " " + TargetName + ": " + msg;
+			div.innerHTML = `${TextGet("WhisperTo")} <span style="color: ${(WhisperTarget.LabelColor || 'gray')};">${CharacterNickname(WhisperTarget)}:</span> ${ChatRoomHTMLEntities(msg)}`;
+
+			// Add reply button, that will reply to player we're whispering.
+			let repl = document.createElement("a");
+			repl.href = "#";
+			repl.onclick = (e) => {
+				e.preventDefault();
+				ElementValue("InputChat", `/w ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+				ElementFocus("InputChat");
+			};
+			repl.classList.add("ReplyButton");
+			repl.textContent = '\u21a9\ufe0f';
+			div.prepend(repl);
 
 			ChatRoomAppendChat(div);
 		}
@@ -628,5 +642,46 @@ const CommonCommands = [
 			}
 		},
 	},
+	{
+		Tag: "w",
+		Action: (_, command, args) => {
+			const [, initialTarget, ...message] = command.split(" ");
+			const target = initialTarget.toLowerCase();
+			const msg = message?.join(" ");
+			/** @type {Character[]} */
+			const targetMembers = ChatRoomCharacter.filter((C) => {
+				const memberNumber = parseInt(target);
 
+				return C.MemberNumber == memberNumber || C.Nickname.toLowerCase() == target || C.Name.toLowerCase() == target;
+			})
+
+			if (!target || !targetMembers || !targetMembers.length) {
+				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")}${initialTarget ? ": " + initialTarget : "."}`, 10_000);
+			} else if (targetMembers.length > 1) {
+				const Targets = "<br>" + targetMembers
+					.map((c) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("w ${c.MemberNumber}")'>${c.Nickname ? c.Nickname + " [" + c.Name + "]" : c.Name} (${c.MemberNumber})</strong>`)
+					.join(",<br>") + ".<br>";
+
+				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 15_000)
+			} else if (!msg) {
+				ChatRoomSendLocal(`${TextGet("CommandNoMessage")}`, 10_000);
+			} else {
+				const targetMemberNumber = targetMembers[0].MemberNumber;
+				const originalTarget = ChatRoomTargetMemberNumber;
+				ChatRoomTargetMemberNumber = targetMemberNumber;
+
+				ElementValue(
+					"InputChat",
+					msg
+				);
+				ChatRoomSendChat();
+
+				// Erase duplicate from history to prevent things like automatic shock collars listening to the history from triggering
+				ChatRoomLastMessage.pop();
+				ChatRoomLastMessageIndex--;
+
+				ChatRoomTargetMemberNumber = originalTarget;
+			}
+		},
+	}
 ];
