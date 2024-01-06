@@ -79,8 +79,13 @@ var ChatRoomMapObjectList = [
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
 	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
-	{ ID: 200, Type: "FloorDecoration", Style: "TeacherDesk", Top: -0.25 },
-	{ ID: 210, Type: "FloorDecoration", Style: "StudentDesk", Top: -0.1 },
+
+	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
+	{ ID: 210, Type: "FloorDecorationThemed", Style: "TeacherDesk", Top: -0.25 },
+	{ ID: 220, Type: "FloorDecorationThemed", Style: "StudentDesk", Top: -0.1 },
+	{ ID: 250, Type: "FloorDecorationThemed", Style: "SinkDishes", Top: -0.35 },
+	{ ID: 260, Type: "FloorDecorationThemed", Style: "LaundryMachine", Top: -0.55, Height: 1.25 },
+	{ ID: 270, Type: "FloorDecorationThemed", Style: "IroningBoard", Top: -0.35 },
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -286,7 +291,9 @@ function ChatRoomMapGetObjectAtPos(X, Y) {
 	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
-	return CommonCloneDeep(ChatRoomMapObjectList.find(o => o.ID === ObjectID));
+	let Obj = ChatRoomMapObjectList.find(o => o.ID === ObjectID);
+	if (Obj == null) return null;
+	return CommonCloneDeep(Obj);
 }
 
 /**
@@ -668,6 +675,7 @@ function ChatRoomMapUpdateFlag() {
 				// Invalid tiles and invalid objects for that tile must be cleared
 				if (Tile == null) ClearObject = true;
 				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationThemed") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
