@@ -3748,6 +3748,8 @@ interface ChatRoomMapTile extends ChatRoomMapDoodad {
 	Type: ChatRoomMapTileType;
 	Transparency?: number;
 	TransparencyCutoutHeight?: number;
+	BlockVision?: boolean;
+	BlockHearing?: boolean;
 }
 
 interface ChatRoomMapObject extends ChatRoomMapDoodad {
@@ -3760,6 +3762,8 @@ interface ChatRoomMapObject extends ChatRoomMapDoodad {
 	Unique?: boolean;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: string;
+	BlockVision?: boolean;
+	BlockHearing?: boolean;
 }
 
 interface ChatRoomMapMovement {

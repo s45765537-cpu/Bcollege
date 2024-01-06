@@ -38,6 +38,11 @@ var ChatRoomMapEventLoaded = false;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 500;
 
+/** @type {boolean[]} */
+var ChatRoomMapVisibilityMask = [];
+/** @type {boolean[]} */
+var ChatRoomMapAudibilityMask = [];
+
 /** @type {ChatRoomMapTile[]} */
 var ChatRoomMapTileList = [
 
@@ -164,6 +169,57 @@ function ChatRoomMapDeactivate() {
 	ChatRoomMapVisible = false;
 }
 
+function ChatRoomMapIndexToCoordinates(index)
+{
+	return { x: index % ChatRoomMapWidth, y: Math.floor(index / ChatRoomMapWidth) };
+}
+
+function ChatRoomMapCoordinatesToIndex(x, y)
+{
+	return (y * ChatRoomMapWidth) + x;
+}
+
+function ChatRoomMapCalculatePerceptionMasks()
+{
+	const mapLength = ChatRoomMapWidth * ChatRoomMapHeight;
+	for(let i=0; i<mapLength; i++)
+	{
+		ChatRoomMapVisibilityMask[i] = false;
+		const pos = ChatRoomMapIndexToCoordinates(i);
+		const slope = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
+		const yIntercept = Player.MapData.Y - (slope * Player.MapData.X);
+		let step = 1;
+		if(Player.MapData.X > pos.x)
+		{
+			step = -step;
+		}
+
+		ChatRoomMapVisibilityMask[i] = true;
+		ChatRoomMapAudibilityMask[i] = true;
+		for(let x=Player.MapData.X; x!=pos.x; x+=step)
+		{
+			const y = Math.round(slope * x + yIntercept);
+			let tileData = ChatRoomMapGetTileAtPos(x, y);
+			let objectData = ChatRoomMapGetObjectAtPos(x, y);
+			if(tileData != null)
+			{
+				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+			}
+			if(objectData != null)
+			{
+				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+			}
+			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
+			{
+				break;
+			}
+
+		}
+	}
+}
+
 /**
  * Returns the sight range for the current player, based on the blindness level
  * @returns {number} - The number of visible tiles
@@ -274,6 +330,19 @@ function ChatRoomMapIsWall(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
 	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
 	return ((ID >= 1000) && (ID < 2000));
+}
+
+/**
+ * Returns the object located at a X and Y position on the map, or NULL if nothing
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {ChatRoomMapTile | null} - The object at the position
+ */
+function ChatRoomMapGetTileAtPos(X, Y) {
+	if (ChatRoomData.MapData?.Tiles.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
+	let ObjectID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
+	return CommonCloneDeep(ChatRoomMapTileList.find(o => o.ID === ObjectID));
 }
 
 /**
@@ -766,6 +835,8 @@ function ChatRoomMapMovementProcess() {
 	if ((ChatRoomMapMovement == null) || (ChatRoomMapMovement.TimeEnd > CommonTime())) return;
 	Player.MapData.X = ChatRoomMapMovement.X;
 	Player.MapData.Y = ChatRoomMapMovement.Y;
+	// After we moved, calculate the new perception masks
+	ChatRoomMapCalculatePerceptionMasks();
 	// Set the update flag and reduce the wait time by the time the player already waited
 	ChatRoomMapUpdatePlayerFlag(ChatRoomMapMovement.TimeStart - ChatRoomMapMovement.TimeEnd);
 	ChatRoomMapMovement = null;
