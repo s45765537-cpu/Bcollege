@@ -57,16 +57,16 @@ var ChatRoomMapTileList = [
 	{ ID: 230, Type: "Floor", Style: "Gravel" },
 	{ ID: 240, Type: "Floor", Style: "Snow" },
 
-	{ ID: 1000, Type: "Wall", Style: "MixedWood" },
-	{ ID: 1001, Type: "Wall", Style: "CedarWood" },
-	{ ID: 1010, Type: "Wall", Style: "Log" },
-	{ ID: 1020, Type: "Wall", Style: "Japanese" },
-	{ ID: 1030, Type: "Wall", Style: "Stone" },
-	{ ID: 1040, Type: "Wall", Style: "Brick" },
-	{ ID: 1050, Type: "Wall", Style: "Dungeon" },
-	{ ID: 1060, Type: "Wall", Style: "Square" },
-	{ ID: 1070, Type: "Wall", Style: "Steel" },
-	{ ID: 1080, Type: "Wall", Style: "Padded" },
+	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
+	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
+	{ ID: 1010, Type: "Wall", Style: "Log", BlockVision: true },
+	{ ID: 1020, Type: "Wall", Style: "Japanese", BlockVision: true },
+	{ ID: 1030, Type: "Wall", Style: "Stone", BlockVision: true },
+	{ ID: 1040, Type: "Wall", Style: "Brick", BlockVision: true },
+	{ ID: 1050, Type: "Wall", Style: "Dungeon", BlockVision: true },
+	{ ID: 1060, Type: "Wall", Style: "Square", BlockVision: true, BlockHearing: true },
+	{ ID: 1070, Type: "Wall", Style: "Steel", BlockVision: true, BlockHearing: true },
+	{ ID: 1080, Type: "Wall", Style: "Padded", BlockVision: true, BlockHearing: true },
 
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
@@ -150,14 +150,48 @@ function ChatRoomMapInitialize(mode) {
 }
 
 /**
+ * Initializes the player map data to its default blank state
+ * @returns {ChatRoomMapPos}
+ */
+function ChatRoomMapInitializeCharacter()
+{
+	let MapData = null;
+	// Checks to see if we can load the previously saved position
+	if (Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
+		// Restores the saved position
+		MapData = Object.assign({}, Player.LastMapData);
+	} else {
+		// Sets position in the middle of the scren by default, or at the entry flag if possible
+		let entryPosition = ChatRoomMapGetEntryFlagPosition();
+		if (entryPosition == null) {
+			entryPosition = {
+				X: ChatRoomMapWidth / 2,
+				Y: ChatRoomMapHeight / 2,
+			};
+		}
+		MapData = entryPosition;
+	}
+	return MapData;
+}
+
+/**
  * Activates the chat room map
  * @returns {void} - Nothing
  */
 function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
 	if (ChatRoomMapEventLoaded) return;
-	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight)
+	// Make sure the player position is valid
+	if (!Player.MapData || !Player.MapData.X || Player.MapData.X < 0 || Player.MapData.X >= ChatRoomMapWidth || !Player.MapData.Y || Player.MapData.Y < 0 || Player.MapData.Y >= ChatRoomMapWidth) {
+		Player.MapData = ChatRoomMapInitializeCharacter();
+		// Update the change instantly so other players don't see this player on an invalid position
+		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
+
+	}
+	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight) {
 		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
+	}
+	ChatRoomMapCalculatePerceptionMasks();
 	ChatRoomMapEventLoaded = true;
 }
 
@@ -186,7 +220,6 @@ function ChatRoomMapCalculatePerceptionMasks()
 	const hearingRange = ChatRoomMapGetHearingRange();
 	for(let i=0; i<mapLength; i++)
 	{
-		ChatRoomMapVisibilityMask[i] = false;
 		const pos = ChatRoomMapIndexToCoordinates(i);
 		const slope = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
 		const yIntercept = Player.MapData.Y - (slope * Player.MapData.X);
@@ -559,31 +592,6 @@ function ChatRoomMapCanLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
-
-	// Make sure the player position on the grid is valid
-	if (!Player.MapData || Player.MapData.X < 0 || Player.MapData.X >= ChatRoomMapWidth || Player.MapData.Y < 0 || Player.MapData.Y >= ChatRoomMapWidth) {
-
-		// Checks to see if we can load the previously saved position
-		if (Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
-			// Restores the saved position
-			Player.MapData = Object.assign({}, Player.LastMapData);
-		} else {
-			// Sets position in the middle of the scren by default, or at the entry flag if possible
-			let entryPosition = ChatRoomMapGetEntryFlagPosition();
-			if (entryPosition == null) {
-				entryPosition = {
-					X: ChatRoomMapWidth / 2,
-					Y: ChatRoomMapHeight / 2,
-				};
-			}
-			Player.MapData = entryPosition;
-		}
-
-		// Update the change instantly so other players don't see this player on an invalid position
-		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
-
-	}
-
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapCollision();
 
