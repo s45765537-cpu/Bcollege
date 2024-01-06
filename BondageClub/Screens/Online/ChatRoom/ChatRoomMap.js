@@ -1136,6 +1136,7 @@ function ChatRoomMapUndo() {
 		let LastMap = ChatRoomMapEditBackup.pop();
 		ChatRoomData.MapData = CommonCloneDeep(LastMap);
 		ChatRoomMapUpdateFlag();
+		ChatRoomMapCalculatePerceptionMasks();
 	}
 }
 
@@ -1376,6 +1377,8 @@ function ChatRoomMapMouseMove() {
 	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData.MapData)) {
 		if (ChatRoomMapEditBackup.length > 100) ChatRoomMapEditBackup = ChatRoomMapEditBackup.slice(-100);
 		ChatRoomMapEditBackup.push(Backup);
+		// Update perception map after a change
+		ChatRoomMapCalculatePerceptionMasks();
 	}
 
 }
@@ -1470,6 +1473,7 @@ function ChatRoomMapPaste(Param) {
 	// Loads the map and flags it to be refreshed
 	ChatRoomData.MapData = MapData;
 	ChatRoomMapUpdateFlag();
+	ChatRoomMapCalculatePerceptionMasks();
 	ChatRoomSendLocal(TextGet("MapPasteDone"));
 
 }
