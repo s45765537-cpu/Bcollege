@@ -221,25 +221,58 @@ function ChatRoomMapCalculatePerceptionMasks()
 	for(let i=0; i<mapLength; i++)
 	{
 		const pos = ChatRoomMapIndexToCoordinates(i);
-		const slope = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
-		const yIntercept = Player.MapData.Y - (slope * Player.MapData.X);
-		let step = 1;
+		const slopeX = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
+		const slopeY = (pos.x - Player.MapData.X) / (pos.y - Player.MapData.Y);
+		const yIntercept = Player.MapData.Y - (slopeX * Player.MapData.X);
+		const xIntercept = Player.MapData.X - (slopeY * Player.MapData.Y);
+		let stepX = 1;
+		let stepY = 1;
 		if(Player.MapData.X > pos.x)
 		{
-			step = -step;
+			stepX = -stepX;
+		}
+		if(Player.MapData.Y > pos.y)
+		{
+			stepY = -stepY;
 		}
 
 		const Distance = Math.max(Math.abs(Player.MapData.X - pos.x), Math.abs(Player.MapData.Y - pos.y));
 		ChatRoomMapVisibilityMask[i] = sightRange >= Distance;
 		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
-		for(let x=Player.MapData.X; x!=pos.x; x+=step)
+
+		// Calculate obstacles in horizontality
+		for(let x=Player.MapData.X; x!=pos.x; x+=stepX)
 		{
 			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
 			{
 				break;
 			}
 
-			const y = Math.round(slope * x + yIntercept);
+			const y = Math.round(slopeX * x + yIntercept);
+			let tileData = ChatRoomMapGetTileAtPos(x, y);
+			let objectData = ChatRoomMapGetObjectAtPos(x, y);
+			if(tileData != null)
+			{
+				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+			}
+			if(objectData != null)
+			{
+				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+			}
+
+		}
+
+		// Calculate obstacles in verticality
+		for(let y=Player.MapData.Y; y!=pos.y; y+=stepY)
+		{
+			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
+			{
+				break;
+			}
+
+			const x = Math.round(slopeY * y + xIntercept);
 			let tileData = ChatRoomMapGetTileAtPos(x, y);
 			let objectData = ChatRoomMapGetObjectAtPos(x, y);
 			if(tileData != null)
