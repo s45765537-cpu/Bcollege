@@ -464,11 +464,11 @@ function ChatRoomMapCanEnterWall(X, Y) {
 function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
 	// Find all other walls around the current tile
-	let CW = ChatRoomMapIsWall(X - 1, Y);
-	let CE = ChatRoomMapIsWall(X + 1, Y);
-	let SW = ChatRoomMapIsWall(X - 1, Y + 1);
-	let SC = ChatRoomMapIsWall(X, Y + 1);
-	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
+	let CW = ChatRoomMapIsWall(X - 1, Y) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X - 1, Y)];
+	let CE = ChatRoomMapIsWall(X + 1, Y) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X + 1, Y)];
+	let SW = ChatRoomMapIsWall(X - 1, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X - 1, Y + 1)];
+	let SC = ChatRoomMapIsWall(X, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X, Y + 1)];
+	let SE = ChatRoomMapIsWall(X + 1, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X + 1, Y + 1)];
 
 	// Finds the proper effect and draws it
 	let Effect = ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE);
@@ -681,6 +681,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 			DrawImageResize(TileImage, Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
+
 		}
 
 		// Draw the non blank object next
