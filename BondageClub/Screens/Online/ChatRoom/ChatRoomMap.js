@@ -215,11 +215,16 @@ function ChatRoomMapCoordinatesToIndex(x, y)
 
 function ChatRoomMapCalculatePerceptionMasks()
 {
+	if(ChatRoomMapEditMode != "" || ChatRoomMapHasSuperPowers()) {
+		// When in edit mode or with active super powers, always show everything
+		ChatRoomMapVisibilityMask.fill(true);
+		ChatRoomMapAudibilityMask.fill(true);
+		return;
+	}
 	const mapLength = ChatRoomMapWidth * ChatRoomMapHeight;
 	const sightRange = ChatRoomMapGetSightRange();
 	const hearingRange = ChatRoomMapGetHearingRange();
-	for(let i=0; i<mapLength; i++)
-	{
+	for(let i=0; i<mapLength; i++) {
 		const pos = ChatRoomMapIndexToCoordinates(i);
 		const slopeX = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
 		const slopeY = (pos.x - Player.MapData.X) / (pos.y - Player.MapData.Y);
@@ -227,12 +232,10 @@ function ChatRoomMapCalculatePerceptionMasks()
 		const xIntercept = Player.MapData.X - (slopeY * Player.MapData.Y);
 		let stepX = 1;
 		let stepY = 1;
-		if(Player.MapData.X > pos.x)
-		{
+		if(Player.MapData.X > pos.x) {
 			stepX = -stepX;
 		}
-		if(Player.MapData.Y > pos.y)
-		{
+		if(Player.MapData.Y > pos.y) {
 			stepY = -stepY;
 		}
 
@@ -241,23 +244,19 @@ function ChatRoomMapCalculatePerceptionMasks()
 		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
 
 		// Calculate obstacles in horizontality
-		for(let x=Player.MapData.X; x!=pos.x; x+=stepX)
-		{
-			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
-			{
+		for(let x=Player.MapData.X; x!=pos.x; x+=stepX) {
+			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 				break;
 			}
 
 			const y = Math.round(slopeX * x + yIntercept);
 			let tileData = ChatRoomMapGetTileAtPos(x, y);
 			let objectData = ChatRoomMapGetObjectAtPos(x, y);
-			if(tileData != null)
-			{
+			if(tileData != null) {
 				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
 				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 			}
-			if(objectData != null)
-			{
+			if(objectData != null) {
 				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
 				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
 			}
@@ -265,23 +264,19 @@ function ChatRoomMapCalculatePerceptionMasks()
 		}
 
 		// Calculate obstacles in verticality
-		for(let y=Player.MapData.Y; y!=pos.y; y+=stepY)
-		{
-			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
-			{
+		for(let y=Player.MapData.Y; y!=pos.y; y+=stepY) {
+			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 				break;
 			}
 
 			const x = Math.round(slopeY * y + xIntercept);
 			let tileData = ChatRoomMapGetTileAtPos(x, y);
 			let objectData = ChatRoomMapGetObjectAtPos(x, y);
-			if(tileData != null)
-			{
+			if(tileData != null) {
 				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
 				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 			}
-			if(objectData != null)
-			{
+			if(objectData != null) {
 				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
 				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
 			}
@@ -1203,7 +1198,10 @@ function ChatRoomMapMouseDown() {
 
 	// The walk buttons in the bottom right of the map
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
+	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
+		ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
+		ChatRoomMapCalculatePerceptionMasks();
+	}
 	if ((ChatRoomMapMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapMovement = null;
 	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
 	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapMove("West");
