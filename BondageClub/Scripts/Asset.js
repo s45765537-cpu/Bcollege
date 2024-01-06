@@ -694,6 +694,14 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
+	PreferenceArousalSettingsDefault.Zone = AssetGroup.map((group) => {
+		return {
+			...PreferenceArousalZoneDefault,
+			Name: /** @type {AssetGroupItemName} */(PreferenceArousalZoneValidate.Name(group.Name, Player)),
+			Orgasm: (group.Name === "ItemVulva"),
+		};
+	}).filter(({ Name }) => Name !== undefined);
+
 	// TODO: Figure out how to get the .csv loading to work in Node.js, which we use for the test suite
 	if (IsBrowser()) {
 		// Loads the description of the assets in a specific language

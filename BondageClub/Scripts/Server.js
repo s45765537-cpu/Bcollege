@@ -844,7 +844,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
- * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>) => Character[k] }}
+ * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => Character[k] }}
  * @namespace
  */
 var ServerAccountDataSyncedValidate = {
@@ -857,73 +857,8 @@ var ServerAccountDataSyncedValidate = {
 	ItemPermission: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
 	},
-	ArousalSettings: (arg) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		return {
-			Active: CommonIncludes(PreferenceArousalActiveList, arg.Active) ? arg.Active : "Hybrid",
-			Visible: CommonIncludes(PreferenceArousalVisibleList, arg.Visible) ? arg.Visible : "Access",
-			ShowOtherMeter: typeof arg.ShowOtherMeter === "boolean" ? arg.ShowOtherMeter : true,
-			AffectExpression: typeof arg.AffectExpression === "boolean" ? arg.AffectExpression : true,
-			AffectStutter: CommonIncludes(PreferenceArousalAffectStutterList, arg.AffectStutter) ? arg.AffectStutter : "All",
-			VFX: CommonIncludes(PreferenceSettingsVFXList, arg.VFX) ? arg.VFX : "VFXAnimatedTemp",
-			VFXVibrator: CommonIncludes(PreferenceSettingsVFXVibratorList, arg.VFXVibrator) ? arg.VFXVibrator : "VFXVibratorAnimated",
-			VFXFilter: CommonIncludes(PreferenceSettingsVFXFilterList, arg.VFXFilter) ? arg.VFXFilter : "VFXFilterLight",
-			Progress: CommonIsInteger(arg.Progress, 0, 100) ? arg.Progress : 0,
-			ProgressTimer: CommonIsInteger(arg.ProgressTimer, 0, 100) ? arg.ProgressTimer : 0,
-			VibratorLevel: CommonIsInteger(arg.VibratorLevel, 0, 4) ? /** @type {0 | 1 | 2 | 3 | 4} */(arg.VibratorLevel) : 0,
-			ChangeTime: CommonIsInteger(arg.ChangeTime, 0, CommonTime()) ? arg.ChangeTime : CommonTime(),
-			Activity: (CommonIsArray(arg.Activity) ? arg.Activity : []).map(activity => {
-				if (!CommonIsObject(activity)) {
-					return undefined;
-				}
-
-				const { Name, Self, Other } = activity;
-				if (!CommonIncludes(ActivityFemale3DCGOrdering, Name)) {
-					return undefined;
-				}
-
-				return {
-					Name,
-					Self: CommonIsInteger(Self, 0, 4) ? /** @type {ArousalFactor} */(activity.Self) : 2,
-					Other: CommonIsInteger(Other, 0, 4) ? /** @type {ArousalFactor} */(activity.Other) : 2,
-				};
-			}).filter(Boolean),
-			Zone: (CommonIsArray(arg.Zone) ? arg.Zone : []).map(zone => {
-				if (!CommonIsObject(zone)) {
-					return undefined;
-				}
-
-				const { Name, Factor, Orgasm } = zone;
-				if (!CommonHas(AssetGroupMap, Name)) {
-					return undefined;
-				}
-
-				return {
-					Name,
-					Factor: CommonIsInteger(Factor, 0, 4) ? /** @type {ArousalFactor} */(Factor) : 2,
-					Orgasm: typeof Orgasm === "boolean" ? Orgasm : false,
-				};
-			}).filter(Boolean),
-			Fetish: (CommonIsArray(arg.Fetish) ? arg.Fetish : []).map(fetish => {
-				if (!CommonIsObject(fetish)) {
-					return undefined;
-				}
-
-				const { Name, Factor } = fetish;
-				if (!CommonHas(FetishFemale3DCGNames, Name)) {
-					return undefined;
-				}
-
-				return {
-					Name,
-					Factor: CommonIsInteger(Factor, 0, 4) ? /** @type {ArousalFactor} */(Factor) : 2,
-				};
-			}).filter(Boolean),
-			DisableAdvancedVibes: typeof arg.DisableAdvancedVibes === "boolean" ? arg.DisableAdvancedVibes : false,
-		};
+	ArousalSettings: (arg, C) => {
+		return ValdiationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
 	},
 	OnlineSharedSettings: (arg) => {
 		if (!CommonIsObject(arg)) {

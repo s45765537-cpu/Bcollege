@@ -20,7 +20,9 @@ var WheelFortuneList = "";
 var WheelFortuneEncaseList = ["Coffin", "VacBedDeluxe", "CryoCapsule", "DisplayCase", "DollBox", "WoodenBox", "SmallWoodenBox", "Locker", "SmallLocker", "Cage", "LowCage", "TransportWoodenBox", "TheDisplayFrame"];
 var WheelFortuneEncaseClosedList = ["Coffin", "CryoCapsule"];
 var WheelFortunePasswordChar = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
 var WheelFortuneDefault = "ABCFGHKLMNPQRSUVWabcfgj$!-()0123456";
+PreferenceOnlineSharedSettingsDefault.WheelFortune = WheelFortuneDefault;
 
 /** @type {WheelFortuneOptionType[]} */
 var WheelFortuneOption = [

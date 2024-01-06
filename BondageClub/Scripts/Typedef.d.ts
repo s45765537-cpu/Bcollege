@@ -3628,7 +3628,7 @@ interface ArousalSettingsType {
 	Zone: ArousalZone[];
 	Fetish: ArousalFetish[];
 	OrgasmTimer?: number;
-	OrgasmStage?: number;
+	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;
 	DisableAdvancedVibes: boolean;
 }

@@ -1251,3 +1251,22 @@ function ValidationHasScriptPermission(character, property, permissionLevel) {
 function ValidationHasSomeScriptPermission(character, property, permissionLevels) {
 	return permissionLevels.some((permissionLevel) => ValidationHasScriptPermission(character, property, permissionLevel));
 }
+
+/**
+ * @template {{ [key: string]: (arg: any, C: Character) => any }} T
+ * @param {unknown} arg The to-be validated record
+ * @param {Character} C The character in question
+ * @param {T} validators A record of validation functions; one for each property in `arg`
+ * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
+ */
+function ValdiationApplyRecord(arg, C, validators) {
+	if (!CommonIsObject(arg)) {
+		arg = {};
+	}
+
+	return /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(CommonEntries(validators).map(([name, validate]) => {
+		/** @type {any} */
+		const value = validate(arg[name], C);
+		return [name, value];
+	})));
+}

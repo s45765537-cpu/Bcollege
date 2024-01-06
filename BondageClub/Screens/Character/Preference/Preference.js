@@ -159,14 +159,13 @@ function PreferenceArousalAtLeast(C, Level) {
  * @returns {ArousalFactor} - Returns the love factor of the activity for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetActivityFactor(C, Type, Self) {
-	/** @type {ArousalFactor} */
-	var Factor = 2;
-	if ((C.ArousalSettings != null) && (C.ArousalSettings.Activity != null))
-		for (let P = 0; P < C.ArousalSettings.Activity.length; P++)
-			if (C.ArousalSettings.Activity[P].Name == Type)
-				Factor = (Self) ? C.ArousalSettings.Activity[P].Self : C.ArousalSettings.Activity[P].Other;
-	if ((Factor == null) || (typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) Factor = 2;
-	return Factor;
+	const fieldName = Self ? "Self" : "Other";
+	const activity = C.ArousalSettings?.Activity?.find(({ Name }) => Name === Type);
+	if (activity != null) {
+		return PreferenceActivityEnjoymentValidate[fieldName](activity[fieldName]);
+	} else {
+		return PreferenceActivityEnjoymentDefault[fieldName];
+	}
 }
 
 /**
@@ -176,14 +175,8 @@ function PreferenceGetActivityFactor(C, Type, Self) {
  * @returns {ArousalFactor} - Returns the love factor of the fetish for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetFetishFactor(C, Type) {
-	/** @type {ArousalFactor} */
-	var Factor = 2;
-	if ((C.ArousalSettings != null) && (C.ArousalSettings.Fetish != null))
-		for (let F = 0; F < C.ArousalSettings.Fetish.length; F++)
-			if (C.ArousalSettings.Fetish[F].Name == Type)
-				Factor = C.ArousalSettings.Fetish[F].Factor;
-	if ((Factor == null) || (typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) Factor = 2;
-	return Factor;
+	const factor = C.ArousalSettings?.Fetish?.find(({ Name }) => Name === Type)?.Factor;
+	return PreferenceArousalZoneValidate.Factor(factor);
 }
 
 /**
@@ -194,11 +187,11 @@ function PreferenceGetFetishFactor(C, Type) {
  * @param {ArousalFactor} Factor - The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceSetActivityFactor(C, Type, Self, Factor) {
-	if ((C.ArousalSettings != null) && (C.ArousalSettings.Activity != null))
-		for (let P = 0; P < C.ArousalSettings.Activity.length; P++)
-			if (C.ArousalSettings.Activity[P].Name == Type)
-				if (Self) C.ArousalSettings.Activity[P].Self = Factor;
-				else C.ArousalSettings.Activity[P].Other = Factor;
+	const fieldName = Self ? "Self" : "Other";
+	const activity = C.ArousalSettings?.Activity?.find(({ Name }) => Name === Type);
+	if (activity != null) {
+		activity[fieldName] = Factor;
+	}
 }
 
 /**
@@ -322,65 +315,7 @@ function PreferenceLoadFetishFactor() {
  * @returns {void} - Nothing
  */
 function PreferenceInit(C) {
-	// Arousal settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.ArousalSettings) C.ArousalSettings = {};
-	if (typeof C.ArousalSettings.Active !== "string") C.ArousalSettings.Active = "Hybrid";
-	if (typeof C.ArousalSettings.Visible !== "string") C.ArousalSettings.Visible = "Access";
-	if (typeof C.ArousalSettings.ShowOtherMeter !== "boolean") C.ArousalSettings.ShowOtherMeter = true;
-	if (typeof C.ArousalSettings.DisableAdvancedVibes !== "boolean") C.ArousalSettings.DisableAdvancedVibes = false;
-	if (typeof C.ArousalSettings.AffectExpression !== "boolean") C.ArousalSettings.AffectExpression = true;
-	if (typeof C.ArousalSettings.AffectStutter !== "string") C.ArousalSettings.AffectStutter = "All";
-	if (typeof C.ArousalSettings.VFX !== "string") C.ArousalSettings.VFX = "VFXAnimatedTemp";
-	if (typeof C.ArousalSettings.VFXVibrator !== "string") C.ArousalSettings.VFXVibrator = "VFXVibratorAnimated";
-	if (typeof C.ArousalSettings.Progress !== "number" || isNaN(C.ArousalSettings.Progress)) C.ArousalSettings.Progress = 0;
-	if (typeof C.ArousalSettings.ProgressTimer !== "number" || isNaN(C.ArousalSettings.ProgressTimer)) C.ArousalSettings.ProgressTimer = 0;
-	if (typeof C.ArousalSettings.VibratorLevel !== "number" || isNaN(C.ArousalSettings.VibratorLevel)) C.ArousalSettings.VibratorLevel = 0;
-	if (typeof C.ArousalSettings.ChangeTime !== "number" || isNaN(C.ArousalSettings.ChangeTime)) C.ArousalSettings.ChangeTime = CommonTime();
-	if (!Array.isArray(C.ArousalSettings.Activity)) C.ArousalSettings.Activity = [];
-	if (!Array.isArray(C.ArousalSettings.Zone)) C.ArousalSettings.Zone = [];
-	if (!Array.isArray(C.ArousalSettings.Fetish)) C.ArousalSettings.Fetish = [];
-
-	// Validates the player preference, they must match with the assets activities & zones, default factor is 2 (normal love)
-	if (Player.AssetFamily == "Female3DCG") {
-
-		// Validates the activities
-		for (let A = 0; A < ActivityFemale3DCG.length; A++) {
-			let Found = false;
-			for (let P = 0; P < C.ArousalSettings.Activity.length; P++)
-				if ((C.ArousalSettings.Activity[P] != null) && (C.ArousalSettings.Activity[P].Name != null) && (ActivityFemale3DCG[A].Name == C.ArousalSettings.Activity[P].Name)) {
-					Found = true;
-					if ((C.ArousalSettings.Activity[P].Self == null) || (typeof C.ArousalSettings.Activity[P].Self !== "number") || (C.ArousalSettings.Activity[P].Self < 0) || (C.ArousalSettings.Activity[P].Self > 4)) C.ArousalSettings.Activity[P].Self = 2;
-					if ((C.ArousalSettings.Activity[P].Other == null) || (typeof C.ArousalSettings.Activity[P].Other !== "number") || (C.ArousalSettings.Activity[P].Other < 0) || (C.ArousalSettings.Activity[P].Other > 4)) C.ArousalSettings.Activity[P].Other = 2;
-				}
-			if (!Found) C.ArousalSettings.Activity.push({ Name: ActivityFemale3DCG[A].Name, Self: 2, Other: 2 });
-		}
-
-		// Validates the fetishes
-		for (let A = 0; A < FetishFemale3DCG.length; A++) {
-			let Found = false;
-			for (let F = 0; F < C.ArousalSettings.Fetish.length; F++)
-				if ((C.ArousalSettings.Fetish[F] != null) && (C.ArousalSettings.Fetish[F].Name != null) && (FetishFemale3DCG[A].Name == C.ArousalSettings.Fetish[F].Name)) {
-					Found = true;
-					if ((C.ArousalSettings.Fetish[F].Factor == null) || (typeof C.ArousalSettings.Fetish[F].Factor !== "number") || (C.ArousalSettings.Fetish[F].Factor < 0) || (C.ArousalSettings.Fetish[F].Factor > 4)) C.ArousalSettings.Fetish[F].Factor = 2;
-				}
-			if (!Found) C.ArousalSettings.Fetish.push({ Name: FetishFemale3DCG[A].Name, Factor: 2 });
-		}
-
-		// Validates the zones
-		for (let Group of AssetGroup) {
-			if (Group.IsItem() && AssetActivitiesForGroup(Player.AssetFamily, Group.Name, "any").length) {
-				let Zone = PreferenceGetArousalZone(C, Group.Name);
-				if (!Zone) {
-					Zone = { Name: Group.Name, Factor: 2, Orgasm: false };
-					if (Group.Name == "ItemVulva") Zone.Orgasm = true;
-					C.ArousalSettings.Zone.push(Zone);
-				} else if (Zone.Factor < 0 || Zone.Factor > 4) {
-					Zone.Factor = 2;
-				}
-			}
-		}
-	}
+	C.ArousalSettings = ValdiationApplyRecord(C.ArousalSettings, C, PreferenceArousalSettingsValidate);
 }
 
 /**
@@ -2866,3 +2801,320 @@ function PreferenceGetPreviousIndex(List, Index) {
 function PreferenceGetNextIndex(List, Index) {
 	return (Index + 1) % List.length;
 }
+
+/**
+ * Namespace with default values for {@link ActivityEnjoyment} properties.
+ * @satisfies {ActivityEnjoyment}
+ * @namespace
+ */
+var PreferenceActivityEnjoymentDefault = {
+	/** @type {ActivityName | undefined} */
+	Name: undefined,
+	/** @type {ArousalFactor} */
+	Self: 2,
+	/** @type {ArousalFactor} */
+	Other: 2,
+};
+
+/**
+ * Namespace with default values for {@link ActivityEnjoyment} properties.
+ * @satisfies {{ [k in keyof ActivityEnjoyment]: (arg: ActivityEnjoyment[k], C: Character) => ActivityEnjoyment[k] }}
+ * @namespace
+ */
+var PreferenceActivityEnjoymentValidate = {
+	/** @type {(arg: ActivityName, C: Character) => undefined | ActivityName} */
+	Name: (arg, C) => {
+		if (C.IsPlayer()) {
+			return typeof arg === "string" ? /** @type {ActivityName} */(arg) : PreferenceActivityEnjoymentDefault.Name;
+		} else {
+			return CommonIncludes(ActivityFemale3DCGOrdering, arg) ? arg : PreferenceActivityEnjoymentDefault.Name;
+		}
+	},
+	Self: (arg, C) => {
+		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceActivityEnjoymentDefault.Self;
+	},
+	Other: (arg, C) => {
+		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceActivityEnjoymentDefault.Other;
+	},
+};
+
+/**
+ * Namespace with default values for {@link ArousalFetish} properties.
+ * @satisfies {ArousalFetish}
+ * @namespace
+ */
+var PreferenceArousalFetishDefault = {
+	/** @type {FetishName | undefined} */
+	Name: undefined,
+	/** @type {ArousalFactor} */
+	Factor: 2,
+};
+
+/**
+ * Namespace with default values for {@link ArousalFetish} properties.
+ * @type {{ [k in keyof ArousalFetish]: (arg: ArousalFetish[k], C: Character) => ArousalFetish[k] }}
+ * @namespace
+ */
+var PreferenceArousalFetishValidate = {
+	Name: (arg, C) => {
+		return CommonHas(FetishFemale3DCGNames, arg) ? arg : PreferenceArousalFetishDefault.Name;
+	},
+	Factor: (arg, C) => {
+		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceArousalFetishDefault.Factor;
+	},
+};
+
+/**
+ * Namespace with default values for {@link ArousalZone} properties.
+ * @satisfies {ArousalZone}
+ * @namespace
+ */
+var PreferenceArousalZoneDefault = {
+	/** @type {AssetGroupItemName | undefined} */
+	Name: undefined,
+	/** @type {ArousalFactor} */
+	Factor: 2,
+	/** @type {boolean} */
+	Orgasm: false,
+};
+
+/**
+ * Namespace with default values for {@link ArousalZone} properties.
+ * @satisfies {{ [k in keyof ArousalZone]: (arg: ArousalZone[k], C: Character) => ArousalZone[k] }}
+ * @namespace
+ */
+var PreferenceArousalZoneValidate = {
+	/** @type {(arg: AssetGroupName, C: Character) => undefined | AssetGroupItemName} */
+	Name: (arg, C) => {
+		const group = AssetGroup.find(i => i.Name === arg);
+		if (
+			group?.IsItem()
+			&& AssetActivitiesForGroup("Female3DCG", arg, "any").length
+		) {
+			return group.Name;
+		} else {
+			return PreferenceArousalZoneDefault.Name;
+		}
+	},
+	Factor: (arg, C) => {
+		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceArousalZoneDefault.Factor;
+	},
+	Orgasm: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceArousalZoneDefault.Orgasm;
+	},
+};
+
+/**
+ * Namespace with default values for {@link ArousalSettingsType} properties.
+ * @type {Required<ArousalSettingsType>}
+ * @namespace
+ */
+var PreferenceArousalSettingsDefault = {
+	Active: "Hybrid",
+	Visible: "Access",
+	ShowOtherMeter: true,
+	AffectExpression: true,
+	AffectStutter: "All",
+	VFX: "VFXAnimatedTemp",
+	VFXVibrator: "VFXVibratorAnimated",
+	VFXFilter: "VFXFilterLight",
+	Progress: 0,
+	ProgressTimer: 100,
+	VibratorLevel: 0,
+	ChangeTime: 0,
+	Activity: ActivityFemale3DCG.map(({ Name }) => {
+		return { ...PreferenceActivityEnjoymentDefault, Name };
+	}),
+	Zone: [], // Initialized in `AssetLoad`
+	Fetish: FetishFemale3DCG.map(({ Name }) => {
+		return { ...PreferenceArousalFetishDefault, Name };
+	}),
+	OrgasmTimer: 0,
+	OrgasmStage: 0,
+	OrgasmCount: 0,
+	DisableAdvancedVibes: false,
+};
+
+/**
+ * Namespace with functions for validating {@link ArousalSettingsType} properties
+ * @type {{ [k in keyof Required<ArousalSettingsType>]: (arg: ArousalSettingsType[k], C: Character) => ArousalSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceArousalSettingsValidate = {
+	Active: (arg, C) => {
+		return CommonIncludes(PreferenceArousalActiveList, arg) ? arg : PreferenceArousalSettingsDefault.Active;
+	},
+	Visible: (arg, C) => {
+		return CommonIncludes(PreferenceArousalVisibleList, arg) ? arg : PreferenceArousalSettingsDefault.Visible;
+	},
+	ShowOtherMeter: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceArousalSettingsDefault.ShowOtherMeter;
+	},
+	AffectExpression: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceArousalSettingsDefault.AffectExpression;
+	},
+	AffectStutter: (arg, C) => {
+		return CommonIncludes(PreferenceArousalAffectStutterList, arg) ? arg : PreferenceArousalSettingsDefault.AffectStutter;
+	},
+	VFX: (arg, C) => {
+		return CommonIncludes(PreferenceSettingsVFXList, arg) ? arg : PreferenceArousalSettingsDefault.VFX;
+	},
+	VFXVibrator: (arg, C) => {
+		return CommonIncludes(PreferenceSettingsVFXVibratorList, arg) ? arg : PreferenceArousalSettingsDefault.VFXVibrator;
+	},
+	VFXFilter: (arg, C) => {
+		return CommonIncludes(PreferenceSettingsVFXFilterList, arg) ? arg : PreferenceArousalSettingsDefault.VFXFilter;
+	},
+	Progress: (arg, C) => {
+		return CommonIsInteger(arg, 0, 100) ? arg : PreferenceArousalSettingsDefault.Progress;
+	},
+	ProgressTimer: (arg, C) => {
+		return CommonIsInteger(arg, 0, 100) ? arg : PreferenceArousalSettingsDefault.ProgressTimer;
+	},
+	VibratorLevel: (arg, C) => {
+		return CommonIsInteger(arg, 0, 4) ? /** @type {0 | 1 | 2 | 3 | 4} */(arg) : PreferenceArousalSettingsDefault.VibratorLevel;
+	},
+	ChangeTime: (arg, C) => {
+		return CommonIsInteger(arg, 0, CommonTime()) ? arg : PreferenceArousalSettingsDefault.ChangeTime;
+	},
+	Activity: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return CommonCloneDeep(PreferenceArousalSettingsDefault.Activity);
+		}
+
+		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Activity.map(({ Name }) => Name));
+		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceActivityEnjoymentValidate)).filter(activity => {
+			if (activity.Name !== undefined) {
+				expectedKeys.delete(activity.Name);
+				return true;
+			} else {
+				return false;
+			}
+		});
+
+		if (expectedKeys.size > 0) {
+			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
+		}
+		return ret;
+	},
+	Zone: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return CommonCloneDeep(PreferenceArousalSettingsDefault.Zone);
+		}
+
+		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Zone.map(({ Name }) => Name));
+		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceArousalZoneValidate)).filter(zone => {
+			if (zone.Name !== undefined) {
+				expectedKeys.delete(zone.Name);
+				return true;
+			} else {
+				return false;
+			}
+		});
+
+		if (expectedKeys.size > 0) {
+			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
+		}
+		return ret;
+	},
+	Fetish: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return CommonCloneDeep(PreferenceArousalSettingsDefault.Fetish);
+		}
+
+		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Fetish.map(({ Name }) => Name));
+		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceArousalFetishValidate)).filter(fetish => {
+			if (fetish.Name !== undefined) {
+				expectedKeys.delete(fetish.Name);
+				return true;
+			} else {
+				return false;
+			}
+		});
+
+		if (expectedKeys.size > 0) {
+			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
+		}
+		return ret;
+	},
+	OrgasmTimer: (arg, C) => {
+		return CommonIsFinite(arg, 0) ? arg : PreferenceArousalSettingsDefault.OrgasmTimer;
+	},
+	OrgasmStage: (arg, C) => {
+		return CommonIsInteger(arg, 0, 2) ? /** @type {0 | 1 | 2} */(arg) : PreferenceArousalSettingsDefault.OrgasmStage;
+	},
+	OrgasmCount: (arg, C) => {
+		return CommonIsInteger(arg, 0) ? arg : PreferenceArousalSettingsDefault.OrgasmCount;
+	},
+	DisableAdvancedVibes: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceArousalSettingsDefault.DisableAdvancedVibes;
+	},
+};
+
+/**
+ * Namespace with default values for {@link CharacterOnlineSharedSettings} properties.
+ * @type {CharacterOnlineSharedSettings}
+ * @namespace
+ */
+const PreferenceOnlineSharedSettingsDefault = {
+	GameVersion: undefined,
+	AllowFullWardrobeAccess: false,
+	BlockBodyCosplay: false,
+	AllowPlayerLeashing: true,
+	DisablePickingLocksOnSelf: false,
+	ItemsAffectExpressions: true,
+	WheelFortune: "", // Initialized in `WheelFortune.js`
+	ScriptPermissions: {
+		Hide: { permission: 0 },
+		Block: { permission: 0 },
+	},
+};
+
+/**
+ * Namespace with default values for {@link CharacterOnlineSharedSettings} properties.
+ * @type {{ [k in keyof Required<CharacterOnlineSharedSettings>]: (arg: CharacterOnlineSharedSettings[k], C: Character) => CharacterOnlineSharedSettings[k] }}
+ * @namespace
+ */
+const PreferenceOnlineSharedSettingsValidate = {
+	GameVersion: (arg, C) => {
+		const version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
+		if (C.IsPlayer() && CommonCompareVersion(GameVersion, C.OnlineSharedSettings.GameVersion) < 0) {
+			CommonVersionUpdated = true;
+		}
+		return version;
+	},
+	AllowFullWardrobeAccess: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowFullWardrobeAccess;
+	},
+
+	BlockBodyCosplay: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.BlockBodyCosplay;
+	},
+	AllowPlayerLeashing: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowPlayerLeashing;
+	},
+	DisablePickingLocksOnSelf: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.DisablePickingLocksOnSelf;
+	},
+	ItemsAffectExpressions: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.ItemsAffectExpressions;
+	},
+	WheelFortune: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.WheelFortune;
+	},
+
+	ScriptPermissions: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			return CommonCloneDeep(PreferenceOnlineSharedSettingsDefault.ScriptPermissions);
+		}
+
+		return {
+			Hide: {
+				permission: CommonIsInteger(arg.Hide?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg.Hide.permission) : PreferenceOnlineSharedSettingsDefault.ScriptPermissions.Hide.permission,
+			},
+			Block: {
+				permission: CommonIsInteger(arg.Block?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg.Block.permission) : PreferenceOnlineSharedSettingsDefault.ScriptPermissions.Block.permission,
+			},
+		};
+	},
+};
