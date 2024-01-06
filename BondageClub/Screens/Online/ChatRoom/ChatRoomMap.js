@@ -310,9 +310,8 @@ function ChatRoomMapGetHearingRange() {
 function ChatRoomMapCharacterIsVisible(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData) return false;
-	let SightRange = ChatRoomMapGetSightRange();
-	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
-	return SightRange >= Distance;
+	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.X, C.MapData.Y);
+	return ChatRoomMapVisibilityMask[PlayerTileId];
 }
 
 /**
@@ -323,7 +322,7 @@ function ChatRoomMapCharacterIsVisible(C) {
 function ChatRoomMapCharacterIsHearable(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData) return false;
-	const PlayerTileId = ChatRoomMapCoordinatesToIndex(Player.MapData.X, Player.MapData.Y);
+	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.X, C.MapData.Y);
 	return ChatRoomMapAudibilityMask[PlayerTileId];
 }
 
