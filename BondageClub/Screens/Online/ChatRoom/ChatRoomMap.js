@@ -215,7 +215,7 @@ function ChatRoomMapCoordinatesToIndex(x, y)
 
 function ChatRoomMapCalculatePerceptionMasks()
 {
-	if(ChatRoomMapEditMode != "" || ChatRoomMapHasSuperPowers()) {
+	if(ChatRoomMapHasSuperPowers()) {
 		// When in edit mode or with active super powers, always show everything
 		ChatRoomMapVisibilityMask.fill(true);
 		ChatRoomMapAudibilityMask.fill(true);
