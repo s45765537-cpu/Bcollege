@@ -565,7 +565,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		// Draw the tile on the grid
 		if (TileData != null) {
 			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
-			DrawImageResize(TileImage, TileCanvasX, TileCanvasY, Math.ceil(TileWidth), Math.ceil(TileHeight));
+			DrawImageResize(TileImage, Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
 		}
@@ -582,7 +582,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
 						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
 					}
-					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left), Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top), TileWidth * ((Obj.Width == null) ? 1 : Obj.Width), TileHeight * ((Obj.Height == null) ? 1 : Obj.Height));
+					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
 					break;
 				}
 
