@@ -1,4 +1,3 @@
-/,[Message]: Send a message starting with /. Example: //message will send /message
 action,"[Message]: Display the message as an action, without including your name. **[Message] does the same"
 afk,: Toggle AFK emote
 ban,[MemberNumber]: Ban the player from the room
@@ -18,7 +17,6 @@ friendlistremove,[MemberNumber]: Remove the player from your friendlist
 ghostadd,[MemberNumber]: Add the player to your ghostlist
 ghostremove,[MemberNumber]: Remove the player from your ghostlist
 help,[Keyword]: Display help for the command with prefix Keyword. Exclude [Keyword] to view all valid commands
-invalid,do nothing
 kick,[MemberNumber]: Kick the player out of the room
 me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
 promote,[MemberNumber]: Promote the user to room administrator
@@ -39,5 +37,4 @@ customfilter,[Color]: Set the color code of the background filter (ex: #0000FF40
 custommusic,[URL]: Set the http address of the background mp3/mp4 music to use
 mapcopy,Copy the current map layout in your clipboard
 mappaste,[Map]: Paste your map string to load it as current.
-whisper,[MemberNumber]: Begin whispering to player.  Leave blank to stop whispering.
-w,[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
+whisper,[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.

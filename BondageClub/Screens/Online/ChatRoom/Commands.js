@@ -96,14 +96,14 @@ function CommandParse(msg) {
 			div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 			div.setAttribute('data-time', ChatRoomCurrentTime());
 			div.setAttribute('data-sender', Player.MemberNumber.toString());
-			div.innerHTML = `${TextGet("WhisperTo")} <span style="color: ${(WhisperTarget.LabelColor || 'gray')};">${CharacterNickname(WhisperTarget)}:</span> ${ChatRoomHTMLEntities(msg)}`;
+			div.innerHTML = `<span>${TextGet("WhisperTo")} <span class="ChatMessageName"; style="color: ${(WhisperTarget.LabelColor || 'gray')};">${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}</span>`;
 
 			// Add reply button, that will reply to player we're whispering.
 			let repl = document.createElement("a");
 			repl.href = "#";
 			repl.onclick = (e) => {
 				e.preventDefault();
-				ElementValue("InputChat", `/w ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+				ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
 				ElementFocus("InputChat");
 			};
 			repl.classList.add("ReplyButton");
@@ -122,28 +122,35 @@ function CommandParse(msg) {
 }
 
 /**
- * Prints out the help for commands with tags that include low
+ * Prints out the help for commands with tags that include `low`
  * @param {string} low - lower case search keyword for tags
  * @param {number} [timeout] - total time to display the help message in ms
  * @returns {void} - Nothing
  */
 function CommandHelp(low, timeout) {
 	ChatRoomSendLocal(TextGet("CommandHelp").replace('KeyWord', low), timeout);
-	CommandPrintHelpFor(GetCommands().filter(C => !low || C.Tag.includes(low)), timeout);
+	CommandPrintHelpFor(GetCommands().filter(C => !low || C.Tag.includes(low)), timeout, !low);
 }
 
 /**
  * Prints out the help for commands
  * @param {Optional<ICommand, 'Action'>[]} CommandList - list of commands
  * @param {number} [Timeout] - total time to display the help message in ms
+ * @param {boolean} [DoShowEscapeHint] - if message about message escaping should be shown
  */
-function CommandPrintHelpFor(CommandList, Timeout) {
+function CommandPrintHelpFor(CommandList, Timeout, DoShowEscapeHint) {
+	let HelpList = DoShowEscapeHint ? `${TextGet("CommandHelpEscape")}<br><br>` : ``;
 	CommandList
 		.filter(C => !C.Prerequisite || C.Prerequisite.call(C))
 		.forEach(C => {
 			const Help = CommandText.cache[C.Tag] || C.Description || TextGet("CommandHelpMissing");
-			ChatRoomSendLocal(`<strong onclick='window.CommandSet("${C.Tag}")'>${CommandsKey}${C.Tag}</strong> ${Help}`, Timeout);
+			HelpList += `<strong style="cursor: pointer;" onclick='window.CommandSet("${C.Tag}")'>${CommandsKey}${C.Tag}</strong> ${Help}<br>`;
 		});
+		if (HelpList) {
+			ChatRoomSendLocal(HelpList, Timeout);
+		} else {
+			ChatRoomSendLocal(TextGet("CommandNoSuchCommand"), Timeout);
+		}
 }
 
 /**
@@ -160,11 +167,13 @@ function CommandExecute(msg) {
 	if (flt.length > 1) C = null;
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
-		ElementValue("InputChat", CommandsKey + "invalid " + TextGet("CommandNoSuchCommand"));
+		ElementValue("InputChat", "");
+		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandNoSuchCommand")}`)
 		return;
 	}
 	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
-		ElementValue("InputChat", CommandsKey + "invalid " + TextGet("CommandPrerequisiteFailed"));
+		ElementValue("InputChat", "");
+		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandPrerequisiteFailed")}`)
 		return;
 	}
 	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
@@ -181,7 +190,7 @@ function CommandExecute(msg) {
 function CommandAutoComplete(msg) {
 	const low = msg.toLowerCase();
 	if (!low || !low.startsWith(CommandsKey) || low.length <= CommandsKey.length) return;
-	if (low.substr(CommandsKey.length).startsWith(CommandsKey)) return;
+	if (low.substring(CommandsKey.length).startsWith(CommandsKey)) return;
 
 	const [key, ...forward] = low.replace(/\s{2,}/g, ' ').split(' ');
 	const CS = GetCommands().filter(C => (CommandsKey + C.Tag).indexOf(key) == 0);
@@ -279,10 +288,6 @@ const CommonCommands = [
 		}
 	},
 	{
-		Tag: '/',
-		Action: () => { /* This Action will never be called */ }
-	},
-	{
 		Tag: 'safeword',
 		Action: () => ChatRoomSafewordChatCommand(),
 	},
@@ -374,10 +379,6 @@ const CommonCommands = [
 	{
 		Tag: 'action',
 		Action: (_, msg) => ChatRoomSendEmote(msg),
-	},
-	{
-		Tag: 'invalid',
-		Action: () => { },
 	},
 	{
 		Tag: 'help',
@@ -632,19 +633,18 @@ const CommonCommands = [
 	},
 	{
 		Tag: "whisper",
-		Action: args => {
-			if (args.trim() == "") return ChatRoomSetTarget(null);
-			if (CommonIsNumeric(args)) {
-				let Member = parseInt(args);
-				for (let C of ChatRoomCharacter)
-					if ((C.MemberNumber == Member) && !C.IsPlayer())
-						return ChatRoomSetTarget(Member);
+		Action: (args, command, parsed) => {
+			if (args == "") {
+				if (ChatRoomTargetMemberNumber != null) {
+					ChatRoomSetTarget(null);
+					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 10_000);
+				} else {
+					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 10_000);
+				}
+
+				return;
 			}
-		},
-	},
-	{
-		Tag: "w",
-		Action: (_, command, args) => {
+			
 			const [, initialTarget, ...message] = command.split(" ");
 			const target = initialTarget.toLowerCase();
 			const msg = message?.join(" ");
@@ -652,17 +652,20 @@ const CommonCommands = [
 			const targetMembers = ChatRoomCharacter.filter((C) => {
 				const memberNumber = parseInt(target);
 
-				return C.MemberNumber == memberNumber || C.Nickname.toLowerCase() == target || C.Name.toLowerCase() == target;
-			})
+				return (C.MemberNumber == memberNumber || C.Nickname.toLowerCase() == target || C.Name.toLowerCase() == target);
+			});
 
-			if (!target || !targetMembers || !targetMembers.length) {
-				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")}${initialTarget ? ": " + initialTarget : "."}`, 10_000);
+			if (!targetMembers || !targetMembers.length) {
+				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")}: ${initialTarget}.`, 10_000);
 			} else if (targetMembers.length > 1) {
 				const Targets = "<br>" + targetMembers
-					.map((c) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("w ${c.MemberNumber}")'>${c.Nickname ? c.Nickname + " [" + c.Name + "]" : c.Name} (${c.MemberNumber})</strong>`)
+					.map((c) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${c.MemberNumber}")'>${c.Nickname ? c.Nickname + " [" + c.Name + "]" : c.Name} (${c.MemberNumber})</strong>`)
 					.join(",<br>") + ".<br>";
 
-				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 15_000)
+				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
+			} else if (targetMembers.length == 1 && !msg) {
+				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${targetMembers[0].Nickname ? targetMembers[0].Nickname + " [" + targetMembers[0].Name + "]" : targetMembers[0].Name} (${targetMembers[0].MemberNumber})`, 15_000);
+				ChatRoomSetTarget(targetMembers[0].MemberNumber);
 			} else if (!msg) {
 				ChatRoomSendLocal(`${TextGet("CommandNoMessage")}`, 10_000);
 			} else {

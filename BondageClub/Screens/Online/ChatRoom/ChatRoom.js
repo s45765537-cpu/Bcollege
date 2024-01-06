@@ -1492,12 +1492,11 @@ function ChatRoomTarget() {
 	}
 	let placeholder;
 	if (ChatRoomTargetMemberNumber != null) {
-		placeholder = TextGet("WhisperTo");
-		placeholder += " " + TargetName;
+		placeholder = `${TextGet("WhisperTo")} ${TargetName}`;
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
-	document.getElementById("InputChat").setAttribute("placeholder", placeholder);
+	ElementSetAttribute("InputChat", "placeholder", placeholder)
 }
 
 /**
@@ -3492,6 +3491,10 @@ function ChatRoomMessage(data) {
  * @returns {void}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
+	// Ability to whisper for ourself is nice, for noting or testing.
+	// But we don't want to see two whisper messages, therefore, don't show it, if we're senging it to us.
+	if (data.Type === "Whisper" && SenderCharacter === Player) return;
+	
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
@@ -3533,7 +3536,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += ':</span> ';
 			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + " " + senderTag
 
-			msg = senderTag + ChatRoomHTMLEntities(msg);
+			msg = `<span>${senderTag} ${ChatRoomHTMLEntities(msg)}</span>`;
 		}
 			break;
 
@@ -3583,7 +3586,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		repl.href = "#";
 		repl.onclick = (e) => {
 			e.preventDefault();
-			ElementValue("InputChat", `/w ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+			ElementValue("InputChat", `/whisper ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
 			ElementFocus("InputChat");
 		};
 		repl.classList.add("ReplyButton");
