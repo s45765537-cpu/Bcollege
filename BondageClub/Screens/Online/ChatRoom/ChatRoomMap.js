@@ -244,7 +244,7 @@ function ChatRoomMapCalculatePerceptionMasks()
 		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
 
 		// Calculate obstacles in horizontality
-		for(let x=Player.MapData.X; x!=pos.x; x+=stepX) {
+		for(let x=Player.MapData.X+stepX; x!=pos.x && x!=pos.x+stepX; x+=stepX) {
 			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 				break;
 			}
@@ -264,7 +264,7 @@ function ChatRoomMapCalculatePerceptionMasks()
 		}
 
 		// Calculate obstacles in verticality
-		for(let y=Player.MapData.Y; y!=pos.y; y+=stepY) {
+		for(let y=Player.MapData.Y+stepY; y!=pos.y && y!=pos.y+stepY; y+=stepY) {
 			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 				break;
 			}
