@@ -25,12 +25,12 @@ CommandFriendlist,Friendlist:
 CommandGhostlist,Ghostlist:
 CommandWhitelist,Whitelist:
 CommandBlacklist,Blacklist:
-CommandNoWhisperTarget,Whisper target not found
+CommandNoWhisperTarget,Whisper target was not found:
 CommandNoMessage,No message provided.
-CommandMultipleWhisperTargets,Multiple whisper targets were found: $TargetsYou can still whisper the player by clicking their name or by using their member number.
-CommandWhisperTargetSuccess,Whisper target successfully set to:
-CommandWhisperStopSuccess,Successfully stopped whispering.
-CommandNoWhisperTargetSelected,Whisper target wasn't selected. Abort.
+CommandMultipleWhisperTargets,You can whisper to: $TargetsClick on the name or use the member number.
+CommandWhisperTargetSuccess,Whispering to
+CommandWhisperStopSuccess,You're no longer whispering.
+CommandNoWhisperTargetSelected,Specify the member number or name to whisper to.
 CommandHelpEscape,Send a message starting with \ and it will escape any message. Example: \/message will send /message. \*emote will send *emote.
 GGTSIntro,(Two nurses wearing futuristic gear grab you and carry you to the Asylum.  Another nurse is waiting for you there.)  Welcome.  Don't be scared.
 OwnerPresenceBlockTalk,Talking is forbidden when your owner is present.

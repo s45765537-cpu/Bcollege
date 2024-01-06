@@ -633,13 +633,13 @@ const CommonCommands = [
 	},
 	{
 		Tag: "whisper",
-		Action: (args, command, parsed) => {
+		Action: (args, command) => {
 			if (args == "") {
 				if (ChatRoomTargetMemberNumber != null) {
 					ChatRoomSetTarget(null);
-					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 10_000);
+					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30_000);
 				} else {
-					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 10_000);
+					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30_000);
 				}
 
 				return;
@@ -651,23 +651,21 @@ const CommonCommands = [
 			/** @type {Character[]} */
 			const targetMembers = ChatRoomCharacter.filter((C) => {
 				const memberNumber = parseInt(target);
-
-				return (C.MemberNumber == memberNumber || C.Nickname.toLowerCase() == target || C.Name.toLowerCase() == target);
+				return (!C.IsPlayer() && (C.MemberNumber == memberNumber || CharacterNickname(C).toLowerCase() == target || C.Name.toLowerCase() == target));
 			});
 
 			if (!targetMembers || !targetMembers.length) {
-				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")}: ${initialTarget}.`, 10_000);
+				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")} ${initialTarget}.`, 30_000);
 			} else if (targetMembers.length > 1) {
 				const Targets = "<br>" + targetMembers
-					.map((c) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${c.MemberNumber}")'>${c.Nickname ? c.Nickname + " [" + c.Name + "]" : c.Name} (${c.MemberNumber})</strong>`)
+					.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
 					.join(",<br>") + ".<br>";
-
 				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
 			} else if (targetMembers.length == 1 && !msg) {
-				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${targetMembers[0].Nickname ? targetMembers[0].Nickname + " [" + targetMembers[0].Name + "]" : targetMembers[0].Name} (${targetMembers[0].MemberNumber})`, 15_000);
+				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${CharacterNickname(targetMembers[0])} (${targetMembers[0].MemberNumber})`, 30_000);
 				ChatRoomSetTarget(targetMembers[0].MemberNumber);
 			} else if (!msg) {
-				ChatRoomSendLocal(`${TextGet("CommandNoMessage")}`, 10_000);
+				ChatRoomSendLocal(`${TextGet("CommandNoMessage")}`, 30_000);
 			} else {
 				const targetMemberNumber = targetMembers[0].MemberNumber;
 				const originalTarget = ChatRoomTargetMemberNumber;
