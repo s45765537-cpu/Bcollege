@@ -182,6 +182,8 @@ function ChatRoomMapCoordinatesToIndex(x, y)
 function ChatRoomMapCalculatePerceptionMasks()
 {
 	const mapLength = ChatRoomMapWidth * ChatRoomMapHeight;
+	const sightRange = ChatRoomMapGetSightRange();
+	const hearingRange = ChatRoomMapGetHearingRange();
 	for(let i=0; i<mapLength; i++)
 	{
 		ChatRoomMapVisibilityMask[i] = false;
@@ -194,10 +196,16 @@ function ChatRoomMapCalculatePerceptionMasks()
 			step = -step;
 		}
 
-		ChatRoomMapVisibilityMask[i] = true;
-		ChatRoomMapAudibilityMask[i] = true;
+		const Distance = Math.max(Math.abs(Player.MapData.X - pos.x), Math.abs(Player.MapData.Y - pos.y));
+		ChatRoomMapVisibilityMask[i] = sightRange >= Distance;
+		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
 		for(let x=Player.MapData.X; x!=pos.x; x+=step)
 		{
+			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
+			{
+				break;
+			}
+
 			const y = Math.round(slope * x + yIntercept);
 			let tileData = ChatRoomMapGetTileAtPos(x, y);
 			let objectData = ChatRoomMapGetObjectAtPos(x, y);
@@ -210,10 +218,6 @@ function ChatRoomMapCalculatePerceptionMasks()
 			{
 				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
 				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
-			}
-			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false)
-			{
-				break;
 			}
 
 		}
@@ -258,9 +262,8 @@ function ChatRoomMapCharacterIsVisible(C) {
 function ChatRoomMapCharacterIsHearable(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData) return false;
-	let HearingRange = ChatRoomMapGetHearingRange();
-	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
-	return HearingRange >= Distance;
+	const PlayerTileId = ChatRoomMapCoordinatesToIndex(Player.MapData.X, Player.MapData.Y);
+	return ChatRoomMapAudibilityMask[PlayerTileId];
 }
 
 /**
@@ -271,8 +274,8 @@ function ChatRoomMapCharacterIsHearable(C) {
 function ChatRoomMapCharacterOnWhisperRange(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData) return false;
-	let Distance = Math.max(Math.abs(Player.MapData.X - C.MapData.X), Math.abs(Player.MapData.Y - C.MapData.Y));
-	return (Distance <= 1);
+	const PlayerTileId = ChatRoomMapCoordinatesToIndex(Player.MapData.X, Player.MapData.Y);
+	return ChatRoomMapVisibilityMask[PlayerTileId];
 }
 
 /**
@@ -599,7 +602,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 	// For each tiles in the grid
 	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
-
+		if(!ChatRoomMapVisibilityMask[Pos]) { continue; }
 		// Find the X & Y position of the grid
 		let X = Pos % ChatRoomMapWidth;
 		let Y = Math.floor(Pos / ChatRoomMapWidth);
