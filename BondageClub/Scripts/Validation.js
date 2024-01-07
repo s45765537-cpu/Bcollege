@@ -1257,16 +1257,24 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
  * @param {unknown} arg The to-be validated record
  * @param {Character} C The character in question
  * @param {T} validators A record of validation functions; one for each property in `arg`
+ * @param {boolean} allowExtraKeys whether to allow extra key/value pairs in `arg` (absent from the `validators` record) to-be returned
  * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
  */
-function ValdiationApplyRecord(arg, C, validators) {
+function ValdiationApplyRecord(arg, C, validators, allowExtraKeys=false) {
 	if (!CommonIsObject(arg)) {
 		arg = {};
 	}
 
-	return /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(CommonEntries(validators).map(([name, validate]) => {
+	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(CommonEntries(validators).map(([name, validate]) => {
 		/** @type {any} */
 		const value = validate(arg[name], C);
 		return [name, value];
 	})));
+
+	if (allowExtraKeys) {
+		const extraKeys = CommonKeys(arg).filter(i => !(i in ret));
+		return Object.assign(ret, CommonPick(arg, extraKeys));
+	} else {
+		return ret;
+	}
 }

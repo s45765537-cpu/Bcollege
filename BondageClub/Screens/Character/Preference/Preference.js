@@ -482,33 +482,8 @@ function PreferenceInitPlayer() {
 	delete C.OnlineSettings.EnableWardrobeIcon;
 
 	// Onilne shared settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.OnlineSharedSettings) C.OnlineSharedSettings = {};
-	if (typeof C.OnlineSharedSettings.AllowFullWardrobeAccess !== "boolean") C.OnlineSharedSettings.AllowFullWardrobeAccess = false;
-	if (typeof C.OnlineSharedSettings.BlockBodyCosplay !== "boolean") C.OnlineSharedSettings.BlockBodyCosplay = false;
-	if (typeof C.OnlineSharedSettings.AllowPlayerLeashing !== "boolean") C.OnlineSharedSettings.AllowPlayerLeashing = true;
-	if (typeof C.OnlineSharedSettings.DisablePickingLocksOnSelf !== "boolean") C.OnlineSharedSettings.DisablePickingLocksOnSelf = false;
-	if (C.OnlineSharedSettings.GameVersion !== GameVersion) {
-		if (CommonCompareVersion(GameVersion, C.OnlineSharedSettings.GameVersion) < 0) {
-			CommonVersionUpdated = true;
-		}
-		C.OnlineSharedSettings.GameVersion = GameVersion;
-	}
-	if (typeof C.OnlineSharedSettings.ItemsAffectExpressions !== "boolean") C.OnlineSharedSettings.ItemsAffectExpressions = true;
+	C.OnlineSharedSettings = ValdiationApplyRecord(C.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
 
-	// Set up script permissions for asset properties
-	if (!C.OnlineSharedSettings.ScriptPermissions || typeof C.OnlineSharedSettings.ScriptPermissions !== "object") C.OnlineSharedSettings.ScriptPermissions = {
-		Hide: {permission: 0},
-		Block: {permission: 0},
-	};
-	const ScriptPermissions = C.OnlineSharedSettings.ScriptPermissions;
-	for (const property of PreferenceScriptPermissionProperties) {
-		// @ts-ignore About to be initialized
-		if (!ScriptPermissions[property] || typeof ScriptPermissions[property] !== "object") ScriptPermissions[property] = {};
-		if (typeof ScriptPermissions[property].permission !== "number" || ScriptPermissions[property].permission < 0 || ScriptPermissions[property].permission > maxScriptPermission) {
-			ScriptPermissions[property].permission = 0;
-		}
-	}
 	if (typeof C.OnlineSettings.ShowRoomCustomization !== "number") C.OnlineSettings.ShowRoomCustomization = 1;
 
 	// Graphical settings
@@ -3056,7 +3031,7 @@ var PreferenceArousalSettingsValidate = {
  * @type {CharacterOnlineSharedSettings}
  * @namespace
  */
-const PreferenceOnlineSharedSettingsDefault = {
+var PreferenceOnlineSharedSettingsDefault = {
 	GameVersion: undefined,
 	AllowFullWardrobeAccess: false,
 	BlockBodyCosplay: false,
@@ -3075,7 +3050,7 @@ const PreferenceOnlineSharedSettingsDefault = {
  * @type {{ [k in keyof Required<CharacterOnlineSharedSettings>]: (arg: CharacterOnlineSharedSettings[k], C: Character) => CharacterOnlineSharedSettings[k] }}
  * @namespace
  */
-const PreferenceOnlineSharedSettingsValidate = {
+var PreferenceOnlineSharedSettingsValidate = {
 	GameVersion: (arg, C) => {
 		const version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
 		if (C.IsPlayer() && CommonCompareVersion(GameVersion, C.OnlineSharedSettings.GameVersion) < 0) {
@@ -3086,7 +3061,6 @@ const PreferenceOnlineSharedSettingsValidate = {
 	AllowFullWardrobeAccess: (arg, C) => {
 		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowFullWardrobeAccess;
 	},
-
 	BlockBodyCosplay: (arg, C) => {
 		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.BlockBodyCosplay;
 	},
@@ -3102,7 +3076,6 @@ const PreferenceOnlineSharedSettingsValidate = {
 	WheelFortune: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.WheelFortune;
 	},
-
 	ScriptPermissions: (arg, C) => {
 		if (!CommonIsObject(arg)) {
 			return CommonCloneDeep(PreferenceOnlineSharedSettingsDefault.ScriptPermissions);
@@ -3110,10 +3083,10 @@ const PreferenceOnlineSharedSettingsValidate = {
 
 		return {
 			Hide: {
-				permission: CommonIsInteger(arg.Hide?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg.Hide.permission) : PreferenceOnlineSharedSettingsDefault.ScriptPermissions.Hide.permission,
+				permission: CommonIsInteger(arg.Hide?.permission, 0, maxScriptPermission) ? arg.Hide.permission : 0,
 			},
 			Block: {
-				permission: CommonIsInteger(arg.Block?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg.Block.permission) : PreferenceOnlineSharedSettingsDefault.ScriptPermissions.Block.permission,
+				permission: CommonIsInteger(arg.Block?.permission, 0, maxScriptPermission) ? arg.Block.permission : 0,
 			},
 		};
 	},

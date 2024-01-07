@@ -860,33 +860,8 @@ var ServerAccountDataSyncedValidate = {
 	ArousalSettings: (arg, C) => {
 		return ValdiationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
 	},
-	OnlineSharedSettings: (arg) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		/** @type {Partial<ScriptPermissions>} */
-		const scriptPermissions = CommonIsObject(arg.ScriptPermissions) ? arg.ScriptPermissions : {};
-
-		// Use the spread operator to allow for extra (addon-based) keys
-		return {
-			...arg,
-			AllowFullWardrobeAccess: typeof arg.AllowFullWardrobeAccess === "boolean" ? arg.AllowFullWardrobeAccess : false,
-			BlockBodyCosplay: typeof arg.BlockBodyCosplay === "boolean" ? arg.BlockBodyCosplay : false,
-			AllowPlayerLeashing: typeof arg.AllowPlayerLeashing === "boolean" ? arg.AllowPlayerLeashing : true,
-			DisablePickingLocksOnSelf: typeof arg.DisablePickingLocksOnSelf === "boolean" ? arg.DisablePickingLocksOnSelf : false,
-			GameVersion: typeof arg.GameVersion === "string" ? arg.GameVersion : undefined,
-			ItemsAffectExpressions: typeof arg.ItemsAffectExpressions === "boolean" ? arg.ItemsAffectExpressions : true,
-			WheelFortune: typeof arg.WheelFortune === "string" ? arg.WheelFortune : WheelFortuneDefault,
-			ScriptPermissions: {
-				Hide: {
-					permission: CommonIsInteger(scriptPermissions.Hide?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(scriptPermissions.Hide.permission) : 0,
-				},
-				Block: {
-					permission: CommonIsInteger(scriptPermissions.Block?.permission, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(scriptPermissions.Block.permission) : 0,
-				},
-			},
-		};
+	OnlineSharedSettings: (arg, C) => {
+		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
 	},
 	MapData: (arg, C) => {
 		if (!CommonIsObject(arg)) {
