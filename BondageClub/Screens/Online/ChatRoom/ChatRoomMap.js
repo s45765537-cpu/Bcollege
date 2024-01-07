@@ -203,16 +203,31 @@ function ChatRoomMapDeactivate() {
 	ChatRoomMapVisible = false;
 }
 
+/**
+ * Gets a index number for the tile and obejct lists and returns the corrosponting coordinates in X and Y
+ * @param {number} index - Index number for the tile and object lists
+ * @returns {{x: number, y: number}} - Object containing the resulting x and y coordinates.
+ */
 function ChatRoomMapIndexToCoordinates(index)
 {
 	return { x: index % ChatRoomMapWidth, y: Math.floor(index / ChatRoomMapWidth) };
 }
 
+/**
+ * Gets coordinates in X and Y and returns the corrosponding index number for the tile and object list
+ * @param {number} x - X-coordinate to be translated
+ * @param {number} y - Y-coordinate to be translated
+ * @returns {number} - Index number for the tile and object lists
+ */
 function ChatRoomMapCoordinatesToIndex(x, y)
 {
 	return (y * ChatRoomMapWidth) + x;
 }
 
+/**
+ * Calculates the visibility mask and audibility mask for the map
+ * @returns {void} - Nothing
+ */
 function ChatRoomMapCalculatePerceptionMasks()
 {
 	if(ChatRoomMapHasSuperPowers()) {
@@ -243,45 +258,51 @@ function ChatRoomMapCalculatePerceptionMasks()
 		ChatRoomMapVisibilityMask[i] = sightRange >= Distance;
 		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
 
-		// Calculate obstacles in horizontality
-		for(let x=Player.MapData.X+stepX; x!=pos.x && x!=pos.x+stepX; x+=stepX) {
-			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
-				break;
-			}
+		// Calculate obstacles in horizontality if horizontal slope is not too steep
+		if(slopeX != Infinity)
+		{
+			for(let x=Player.MapData.X+stepX; x!=pos.x && x!=pos.x+stepX; x+=stepX) {
+				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
+					break;
+				}
 
-			const y = Math.round(slopeX * x + yIntercept);
-			let tileData = ChatRoomMapGetTileAtPos(x, y);
-			let objectData = ChatRoomMapGetObjectAtPos(x, y);
-			if(tileData != null) {
-				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
-			}
-			if(objectData != null) {
-				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
-			}
+				const y = Math.round(slopeX * x + yIntercept);
+				let tileData = ChatRoomMapGetTileAtPos(x, y);
+				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				if(tileData != null) {
+					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+				}
+				if(objectData != null) {
+					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+				}
 
+			}
+		}
+		// Calculate obstacles in verticality if vertical slope is not too steep
+		if(slopeY != Infinity)
+		{
+			for(let y=Player.MapData.Y+stepY; y!=pos.y && y!=pos.y+stepY; y+=stepY) {
+				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
+					break;
+				}
+
+				const x = Math.round(slopeY * y + xIntercept);
+				let tileData = ChatRoomMapGetTileAtPos(x, y);
+				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				if(tileData != null) {
+					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+				}
+				if(objectData != null) {
+					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+				}
+
+			}
 		}
 
-		// Calculate obstacles in verticality
-		for(let y=Player.MapData.Y+stepY; y!=pos.y && y!=pos.y+stepY; y+=stepY) {
-			if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
-				break;
-			}
-
-			const x = Math.round(slopeY * y + xIntercept);
-			let tileData = ChatRoomMapGetTileAtPos(x, y);
-			let objectData = ChatRoomMapGetObjectAtPos(x, y);
-			if(tileData != null) {
-				ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-				ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
-			}
-			if(objectData != null) {
-				ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-				ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
-			}
-
-		}
 	}
 }
 
