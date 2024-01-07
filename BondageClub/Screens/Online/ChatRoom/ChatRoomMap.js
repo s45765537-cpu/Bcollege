@@ -236,43 +236,50 @@ function ChatRoomMapCalculatePerceptionMasks()
 		ChatRoomMapAudibilityMask.fill(true);
 		return;
 	}
+
 	const mapLength = ChatRoomMapWidth * ChatRoomMapHeight;
 	const sightRange = ChatRoomMapGetSightRange();
 	const hearingRange = ChatRoomMapGetHearingRange();
+
 	for(let i=0; i<mapLength; i++) {
 		const pos = ChatRoomMapIndexToCoordinates(i);
+		// Calculate the view line between player as f(x) = slopeX * x + yIntercept and f(y) = slopeY * y + xIntercept
 		const slopeX = (pos.y - Player.MapData.Y) / (pos.x - Player.MapData.X);
 		const slopeY = (pos.x - Player.MapData.X) / (pos.y - Player.MapData.Y);
 		const yIntercept = Player.MapData.Y - (slopeX * Player.MapData.X);
 		const xIntercept = Player.MapData.X - (slopeY * Player.MapData.Y);
-		let stepX = 1;
-		let stepY = 1;
-		if(Player.MapData.X > pos.x) {
-			stepX = -stepX;
-		}
-		if(Player.MapData.Y > pos.y) {
-			stepY = -stepY;
-		}
 
-		const Distance = Math.max(Math.abs(Player.MapData.X - pos.x), Math.abs(Player.MapData.Y - pos.y));
-		ChatRoomMapVisibilityMask[i] = sightRange >= Distance;
-		ChatRoomMapAudibilityMask[i] = hearingRange >= Distance;
+		// Initialize this entry of visibility and audibility map with sight and hearing range
+		const distance = Math.max(Math.abs(Player.MapData.X - pos.x), Math.abs(Player.MapData.Y - pos.y));
+		ChatRoomMapVisibilityMask[i] = sightRange >= distance;
+		ChatRoomMapAudibilityMask[i] = hearingRange >= distance;
 
 		// Calculate obstacles in horizontality if horizontal slope is not too steep
 		if(slopeX != Infinity)
 		{
+			// Calculate the step with to plot of f(x) which is 1 if the tile is left of the player and -1 otherwise
+			let stepX = 1;
+			if(Player.MapData.X > pos.x) {
+				stepX = -stepX;
+			}
+
+			// Iterate over every x-position between player and target tile
 			for(let x=Player.MapData.X+stepX; x!=pos.x && x!=pos.x+stepX; x+=stepX) {
+				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
 				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 					break;
 				}
 
-				const y = Math.round(slopeX * x + yIntercept);
+				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
+				const y = Math.floor(slopeX * x + yIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
 					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
 					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 				}
+				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(objectData != null) {
 					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
 					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
@@ -283,18 +290,29 @@ function ChatRoomMapCalculatePerceptionMasks()
 		// Calculate obstacles in verticality if vertical slope is not too steep
 		if(slopeY != Infinity)
 		{
+			// Calculate the step with to plot of f(y) which is 1 if the tile is left of the player and -1 otherwise
+			let stepY = 1;
+			if(Player.MapData.Y > pos.y) {
+				stepY = -stepY;
+			}
+
+			// Iterate over every y-position between player and target tile
 			for(let y=Player.MapData.Y+stepY; y!=pos.y && y!=pos.y+stepY; y+=stepY) {
+				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
 				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 					break;
 				}
 
-				const x = Math.round(slopeY * y + xIntercept);
+				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
+				const x = Math.floor(slopeY * y + xIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
 					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
 					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 				}
+				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(objectData != null) {
 					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
 					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
