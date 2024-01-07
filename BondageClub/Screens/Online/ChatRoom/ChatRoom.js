@@ -1496,7 +1496,7 @@ function ChatRoomTarget() {
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
-	ElementSetAttribute("InputChat", "placeholder", placeholder)
+	ElementSetAttribute("InputChat", "placeholder", placeholder);
 }
 
 /**
@@ -3494,7 +3494,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Ability to whisper for ourself is nice, for noting or testing.
 	// But we don't want to see two whisper messages, therefore, don't show it, if we're senging it to us.
 	if (data.Type === "Whisper" && SenderCharacter === Player) return;
-	
+
 
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
@@ -3534,7 +3534,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += ';">';
 			senderTag += metadata.senderName;
 			senderTag += ':</span> ';
-			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + " " + senderTag
+			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + " " + senderTag;
 
 			msg = `<span>${senderTag} ${ChatRoomHTMLEntities(msg)}</span>`;
 		}
