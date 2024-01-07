@@ -8,6 +8,11 @@ var InventoryItemPelvisModularChastityBeltVoiceTriggerValues = [];
 function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) {
 	OriginalFunction();
 	//Base screen
+	if (data.currentModule === ModularItemBase)
+	{
+		InventoryItemPelvisModularChastityBeltDrawBase(75);
+	}
+
 	if (data.currentModule === "Intensity") {
 		InventoryItemPelvisModularChastityBeltDrawIntensity(75);
 	}
@@ -26,15 +31,30 @@ function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) 
 /**
  * @param {number} _offset //How many pixels down will the UI be shifted
  */
+function InventoryItemPelvisModularChastityBeltDrawBase(_offset)
+{
+	MainCanvas.textAlign = "left";
+
+	DrawText(DialogFindPlayer("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
+
+	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeWorn)/86400000)}`, 1655, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm)/86400000)}`, 1655, 550 + 1*75 + _offset, "White", "Gray");
+
+	MainCanvas.textAlign = "center";
+}
+
+/**
+ * @param {number} _offset //How many pixels down will the UI be shifted
+ */
 function InventoryItemPelvisModularChastityBeltDrawIntensity(_offset)
 {
 	// Display option information
-	MainCanvas.textAlign = "right";
-
-	DrawText(DialogFindPlayer("ModularChastityBeltOrgasmCount") + ":", 1680, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltDenyCount") + ":", 1680, 550 + 1*75 + _offset, "White", "Gray");
-
 	MainCanvas.textAlign = "left";
+
+	DrawText(DialogFindPlayer("ModularChastityBeltOrgasmCount") + ":", 1515, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(DialogFindPlayer("ModularChastityBeltDenyCount") + ":", 1515, 550 + 1*75 + _offset, "White", "Gray");
+
 	DrawText(`${DialogFocusItem.Property.OrgasmCount}`, 1690, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(`${DialogFocusItem.Property.RuinedOrgasmCount}`, 1690, 550 + 1*75 + _offset, "White", "Gray");
 
@@ -87,6 +107,15 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 	const Item = DialogFocusItem;
 
 	// PAGE 1
+	//Create inputs
+	if (!DialogFocusItem.Property.TriggerValues) DialogFocusItem.Property.TriggerValues = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggers);
+	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
+	// Only create the inputs if the zone isn't blocked
+	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
+		const input = ElementCreateInput("ModularChastityBelt" + trigger, "text", "", "10");
+		if (input) input.setAttribute("placeholder", InventoryItemPelvisModularChastityBeltVoiceTriggerValues[i]);
+	});
+
 	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
 		MainCanvas.textAlign = "right";
 		DrawText(DialogFindPlayer("ModularChastityBelt" + trigger), 1480, 550 + i*60 + _offset, "white", "gray");
@@ -103,14 +132,7 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
 	);
 
-	//Create inputs
-	if (!DialogFocusItem.Property.TriggerValues) DialogFocusItem.Property.TriggerValues = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggers);
-	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
-	// Only create the inputs if the zone isn't blocked
-	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
-		const input = ElementCreateInput("ModularChastityBelt" + trigger, "text", "", "10");
-		if (input) input.setAttribute("placeholder", InventoryItemPelvisModularChastityBeltVoiceTriggerValues[i]);
-	});
+	
 }
 
 function InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup() {
@@ -292,7 +314,7 @@ function InventoryItemPelvisModularChastityBeltClickShockModule(_offset){
 }
 
 /**
- * @typedef {{Cooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean}} ModularChastityBeltPersistentData
+ * @typedef {{Cooldown?: number, ShockCooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean}} ModularChastityBeltPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ModularItemData, ModularChastityBeltPersistentData>} */
@@ -302,6 +324,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 
 	const persistentData = drawData.PersistentData();
 	if (typeof persistentData.Cooldown !== "number") persistentData.Cooldown = 0;
+	if (typeof persistentData.ShockCooldown !== "number") persistentData.ShockCooldown = 0;
 	if (typeof persistentData.LastMessage !== "number") persistentData.LastMessage = CommonTime();
 	if (typeof persistentData.DenyDetected !== "boolean") persistentData.DenyDetected = false;
 	if (typeof persistentData.OrgasmDetected !== "boolean") persistentData.OrgasmDetected = false;
@@ -317,13 +340,10 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	if (!persistentData.ChatroomCheck)
 	{
 		//Player freshly entered a room
-		persistentData.ChatroomCheck = isPlayerInChatRoom;
-		persistentData.Cooldown = CommonTime() + 3000;
-		return;
+		persistentData.ShockCooldown = CommonTime() + 5000;
 	}
-	persistentData.ChatroomCheck = isPlayerInChatRoom;
-
 	persistentData.Cooldown = CommonTime() + 500;
+	persistentData.ChatroomCheck = isPlayerInChatRoom;
 
 	const itemType = drawData.Item.Property.TypeRecord;
 	const Item = drawData.Item;
@@ -332,42 +352,20 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	/** @type {ItemProperties} */
 	const property = (drawData.Item.Property = drawData.Item.Property || {});
 
-	//Shock check
-	if (itemType.s !== 0) {
-		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
-
-		if (!Item.Property)
-			return;
-
-		const punishment = InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, persistentData.OrgasmDetected, isPlayerInChatRoom);
-		if (punishment) {
-			PropertyShockPublishAction(C, Item, true);
-
-			switch (punishment) {
-				case "StruggleOther":
-				case "Struggle":
-					StruggleProgressStruggleCount = 0;
-					StruggleProgress = 0;
-					DialogLeaveDueToItem = true;
-					break;
-				case "StandUp":
-					InventoryItemPelvisModularChastityBeltForceKneel();
-					break;
-			}
-		}
-	}
-
 	//Orgasm check
 	if (C.ArousalSettings && C.ArousalSettings.OrgasmStage && C.ArousalSettings.OrgasmStage > 1)
 	{
 		//Player is having an orgasm
 		if (!persistentData.OrgasmDetected){
 			property.OrgasmCount += 1;
+			property.RuinedOrgasmCount = 0;
+			property.TimeSinceLastOrgasm = CommonTime();
 			persistentData.OrgasmDetected = true;
 		}
 	} else {
 		persistentData.OrgasmDetected = false;
 	}
+	
 	//Ruined orgasm check
 	if (C.ArousalSettings && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0) && C.HasEffect("DenialMode") && C.HasEffect("RuinOrgasms"))
 	{
@@ -381,13 +379,40 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	}
 
 	//Voice control check
-
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.LastMessage) {
 		if (itemType.v !== 0) {
 			InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, persistentData.LastMessage, itemType);
 		}
 		persistentData.LastMessage = ChatRoomChatLog[lastMsgIndex].Time;
+	}
+
+	//Shock check
+	if (itemType.s !== 0) {
+		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
+
+		if (!Item.Property)
+			return;
+
+		const punishment = InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, persistentData.OrgasmDetected, isPlayerInChatRoom, persistentData.ShockCooldown);
+		if (punishment) {
+			switch (punishment) {
+				case "Orgasm":
+					PropertyShockPublishAction(C, Item, true);
+					break;
+				case "StruggleOther":
+				case "Struggle":
+					PropertyShockPublishAction(C, Item, true);
+					StruggleProgressStruggleCount = 0;
+					StruggleProgress = 0;
+					DialogLeaveDueToItem = true;
+					break;
+				case "StandUp":
+					PropertyShockPublishAction(C, Item, true);
+					InventoryItemPelvisModularChastityBeltForceKneel();
+					break;
+			}
+		}
 	}
 }
 
@@ -444,8 +469,19 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 			}
 
 			if (chatMessage) {
+				// WORKAROUND: This will remove "Vibrating" effect from the item if vibrator is supposed to be off
+				// Should be harmless even after the FIXME is resolved.
+				if (ItemType.i === 0)
+				{
+					let index = Item.Property.Effect.indexOf("Vibrating");
+					if (index !== -1) {
+						Item.Property.Effect.splice(index, 1);
+					}
+				}
+				
 				// FIXME: this needs to cause an actual update of the item's effects
 				ExtendedItemSetOptionByRecord(C, Item, ItemType);
+
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(C)
@@ -509,8 +545,9 @@ function InventoryItemPelvisModularChastityBeltDetectMsg(msg, TriggerValues) {
  * @param {Character} C
  * @param {boolean} OrgasmDetected
  * @param {boolean} isPlayerInChatRoom
+ * @param {number} ShockCooldown
  */
-function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetected, isPlayerInChatRoom) {
+function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetected, isPlayerInChatRoom, ShockCooldown) {
 	const { PunishOrgasm, PunishStruggle, PunishStruggleOther, PunishStandup } = Item.Property;
 	if (PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1 && !OrgasmDetected) {
 		// Punish the player if they orgasm
@@ -522,7 +559,7 @@ function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetect
 		for (var Z = 0; Z < InventoryItemPelvisFuturisticChastityBeltTamperZones.length; Z++)
 			if (C.FocusGroup.Name == InventoryItemPelvisFuturisticChastityBeltTamperZones[Z])
 				return "Struggle";
-	} else if (InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom)) {
+	} else if (InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown)) {
 		// Punish the player if they stand up
 		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
@@ -534,10 +571,11 @@ function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetect
  * @param {boolean} PunishStandup
  * @param {Character} C
  * @param {boolean} isPlayerInChatRoom
+ * @param {number} ShockCooldown
  * @returns {boolean}
  */
-function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom) {
-	return PunishStandup && C.CanKneel() && !C.IsKneeling() && isPlayerInChatRoom;
+function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown) {
+	return PunishStandup && C.CanKneel() && !C.IsKneeling() && isPlayerInChatRoom && ShockCooldown < CommonTime();
 }
 
 function InventoryItemPelvisModularChastityBeltForceKneel() {

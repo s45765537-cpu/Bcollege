@@ -133,6 +133,8 @@ const CraftingPropertyExclude = new Set([
 	"TriggerCount",
 	"OrgasmCount",
 	"RuinedOrgasmCount",
+	"TimeWorn",
+	"TimeSinceLastOrgasm",
 	"BlinkState",
 	"AutoPunishUndoTime",
 	"NextShockTime",

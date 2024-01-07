@@ -18428,10 +18428,7 @@ var AssetFemale3DCG = [
 				],
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch"],
-				HideItem: [
-					"ItemVulvaVibratingLatexPanties",
-					"ItemVulvaInflatableVibratingPanties",
-				],
+				HideItem: [],
 				Effect: ["UseRemote"],
 				Block: [],
 				Extended: true,
@@ -29274,47 +29271,35 @@ var AssetFemale3DCG = [
 				BuyGroup: "ModularGag",
 				Effect: [],
 				DefaultColor: [
-					"Default", //Lips Ball
 					"Default", //Lips Ring
 					"Default", //Lips Bit
 					"Default", //Metal
-					"#202020", //Straps
-					"#A51B1B", //BallGag
+					"#404040", //Straps
+					"#A00000", //BallGag
 					"Default", //RingGag
 					"Default", //BitGag
 					"Default", //Lock
 				],
 				Extended: true,
+				AlwaysExtend: true,
 				Layer: [
 					//Mouths
 					{
-						Name: "BallIn",
-						AllowColorize: false,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-					{
-						Name: "BallLips",
-						InheritColor: "Mouth",
-						HideColoring: true,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-
-					{
 						Name: "RingIn",
-						CopyLayerColor: "BallIn",
 						AllowColorize: false,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 					{
 						Name: "RingLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						Priority: 11,
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 
 					{
 						Name: "BitIn",
-						CopyLayerColor: "BallIn",
+						CopyLayerColor: "RingIn",
 						AllowColorize: false,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
@@ -29322,6 +29307,7 @@ var AssetFemale3DCG = [
 						Name: "BitLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
+						Priority: 11,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
 
@@ -30727,7 +30713,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ModularGag",
 				Fetish: ["Leather"],
-				Value: -1,
+				Value: 50,
 				Difficulty: 6,
 				Time: 10,
 				AllowLock: true,
@@ -30735,47 +30721,35 @@ var AssetFemale3DCG = [
 				BuyGroup: "ModularGag",
 				Effect: [],
 				DefaultColor: [
-					"Default", //Lips Ball
 					"Default", //Lips Ring
 					"Default", //Lips Bit
 					"Default", //Metal
-					"#202020", //Straps
-					"#A51B1B", //BallGag
+					"#404040", //Straps
+					"#A00000", //BallGag
 					"Default", //RingGag
 					"Default", //BitGag
 					"Default", //Lock
 				],
 				Extended: true,
+				AlwaysExtend: true,
 				Layer: [
 					//Mouths
 					{
-						Name: "BallIn",
-						AllowColorize: false,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-					{
-						Name: "BallLips",
-						InheritColor: "Mouth",
-						HideColoring: true,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-
-					{
 						Name: "RingIn",
-						CopyLayerColor: "BallIn",
 						AllowColorize: false,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 					{
 						Name: "RingLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						Priority: 11,
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 
 					{
 						Name: "BitIn",
-						CopyLayerColor: "BallIn",
+						CopyLayerColor: "RingIn",
 						AllowColorize: false,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
@@ -30783,6 +30757,7 @@ var AssetFemale3DCG = [
 						Name: "BitLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
+						Priority: 11,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
 
@@ -32333,7 +32308,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ModularGag",
 				Fetish: ["Leather"],
-				Value: -1,
+				Value: 50,
 				Difficulty: 6,
 				Time: 10,
 				AllowLock: true,
@@ -32341,47 +32316,35 @@ var AssetFemale3DCG = [
 				BuyGroup: "ModularGag",
 				Effect: [],
 				DefaultColor: [
-					"Default", //Lips Ball
 					"Default", //Lips Ring
 					"Default", //Lips Bit
 					"Default", //Metal
-					"#202020", //Straps
-					"#A51B1B", //BallGag
+					"#404040", //Straps
+					"#A00000", //BallGag
 					"Default", //RingGag
 					"Default", //BitGag
 					"Default", //Lock
 				],
 				Extended: true,
+				AlwaysExtend: true,
 				Layer: [
 					//Mouths
 					{
-						Name: "BallIn",
-						AllowColorize: false,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-					{
-						Name: "BallLips",
-						InheritColor: "Mouth",
-						HideColoring: true,
-						AllowTypes: { g: [0, 2] }, //Any Ballgag
-					},
-
-					{
 						Name: "RingIn",
-						CopyLayerColor: "BallIn",
 						AllowColorize: false,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 					{
 						Name: "RingLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
-						AllowTypes: { g: [3, 4] }, //Any Ringgag
+						Priority: 11,
+						AllowTypes: { g: [0, 2, 3, 4] }, //Any Ballgag or Ringgag
 					},
 
 					{
 						Name: "BitIn",
-						CopyLayerColor: "BallIn",
+						CopyLayerColor: "RingIn",
 						AllowColorize: false,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
@@ -32389,6 +32352,7 @@ var AssetFemale3DCG = [
 						Name: "BitLips",
 						InheritColor: "Mouth",
 						HideColoring: true,
+						Priority: 11,
 						AllowTypes: { g: [5, 6] }, //Any Bitgag
 					},
 
