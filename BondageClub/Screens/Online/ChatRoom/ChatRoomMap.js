@@ -1254,6 +1254,7 @@ function ChatRoomMapMouseDown() {
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
 		ChatRoomMapCalculatePerceptionMasks();
+		return;
 	}
 	if ((ChatRoomMapMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapMovement = null;
 	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
