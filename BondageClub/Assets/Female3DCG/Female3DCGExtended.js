@@ -10123,21 +10123,21 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 					Property: {
-						Effect: ["GagNormal"],
+						Effect: [E.GagLight],
 						Difficulty: 4,
 					},
 				},
 				{
 					Name: "Loose",
 					Property: {
-						Effect: ["GagEasy"],
+						Effect: [E.GagVeryLight],
 						Difficulty: 3,
 					},
 				},
 				{
 					Name: "Panel",
 					Property: {
-						Effect: ["GagHeavy"],
+						Effect: [E.GagHeavy],
 						Difficulty: 6,
 					},
 					ChangeWhenLocked: false,
@@ -10229,6 +10229,54 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //ModularGag
+		TonguePiercingGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Hook",
+					Property: {},
+				},
+				{
+					Name: "Ring",
+					Property: {},
+				},
+				{
+					Name: "Bells",
+					Property: {},
+				},
+				{
+					Name: "Chain",
+					Property: {},
+					Prerequisite: ["Collared"],
+				},
+				{
+					Name: "Nail",
+					Property: {},
+				},
+				{
+					Name: "Padlock",
+					Property: {},
+				},
+				{
+					Name: "Peg",
+					Property: {},
+				},
+				{
+					Name: "BitGag1",
+					Property: {},
+				},
+				{
+					Name: "BitGag2",
+					Property: {},
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "TonguePiercingGagMouthType",
+				Chat: "TonguePiercingGagMouthSet",
+			},
+		}
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
