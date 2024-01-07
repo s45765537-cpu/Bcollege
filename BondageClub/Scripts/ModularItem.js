@@ -638,6 +638,8 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	if (typeof Property.TriggerCount === "number") mergedProperty.TriggerCount = Property.TriggerCount;
 	if (typeof Property.OrgasmCount === "number") mergedProperty.OrgasmCount = Property.OrgasmCount;
 	if (typeof Property.RuinedOrgasmCount === "number") mergedProperty.RuinedOrgasmCount = Property.RuinedOrgasmCount;
+	if (typeof Property.TimeWorn === "number") mergedProperty.TimeWorn = Property.TimeWorn;
+	if (typeof Property.TimeSinceLastOrgasm === "number") mergedProperty.TimeSinceLastOrgasm = Property.TimeSinceLastOrgasm;
 	if (typeof Property.ShowText === "boolean") mergedProperty.ShowText = Property.ShowText;
 	if (typeof Property.InflateLevel === "number") mergedProperty.InflateLevel = Property.InflateLevel;
 	if (typeof Property.Intensity === "number") mergedProperty.Intensity = Property.Intensity;

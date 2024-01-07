@@ -2500,11 +2500,17 @@ interface ItemPropertiesCustom {
 	/** Number of times the item was triggered; often used by shock collars */
 	TriggerCount?: number;
 
-	/** Number of times the wearer had orgasm;*/
+	/** Modular Belt: Number of times the wearer had orgasm;*/
 	OrgasmCount?: number;
 
-	/** Number of times the wearer had ruined orgasm;*/
+	/** Modular Belt: Number of times the wearer had ruined orgasm;*/
 	RuinedOrgasmCount?: number;
+
+	/** Modular Belt: Amount of time since the item is being worn;*/
+	TimeWorn?: number;
+
+	/** Modular Belt: Amount of time since last detected orgasm;*/
+	TimeSinceLastOrgasm?: number;
 
 	/** Number of times the suitcase got cracked */
 	Iterations?: number;
