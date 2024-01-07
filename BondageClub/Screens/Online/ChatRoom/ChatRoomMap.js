@@ -270,8 +270,10 @@ function ChatRoomMapCalculatePerceptionMasks()
 					break;
 				}
 
+				// Adjust X with a very small number to ensure equal rounding in positive and negative direction
+				const xAdjusted = x + (0.00000001 * stepX);
 				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
-				const y = Math.floor(slopeX * x + yIntercept);
+				const y = Math.round(slopeX * xAdjusted + yIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
@@ -303,8 +305,10 @@ function ChatRoomMapCalculatePerceptionMasks()
 					break;
 				}
 
+				// Adjust Y with a very small number to ensure equal rounding in positive and negative direction
+				const yAdjusted = y + (0.00000001 * stepY);
 				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
-				const x = Math.floor(slopeY * y + xIntercept);
+				const x = Math.round(slopeY * yAdjusted + xIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
