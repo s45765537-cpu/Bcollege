@@ -3860,6 +3860,12 @@ function ChatRoomSyncRoomProperties(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
+	// If the chat room map is visible, we need to update the perception map
+	if(ChatRoomMapVisible)
+	{
+		ChatRoomMapCalculatePerceptionMasks();
+	}
+
 	// Update our leash state
 	CharacterRefreshLeash(Player);
 }
