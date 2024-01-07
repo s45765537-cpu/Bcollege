@@ -10276,7 +10276,7 @@ var AssetFemale3DCGExtended = {
 				Option: "TonguePiercingGagMouthType",
 				Chat: "TonguePiercingGagMouthSet",
 			},
-		}
+		},
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {

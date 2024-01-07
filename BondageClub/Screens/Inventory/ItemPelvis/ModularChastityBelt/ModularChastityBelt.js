@@ -132,7 +132,7 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
 	);
 
-	
+
 }
 
 function InventoryItemPelvisModularChastityBeltDrawVoiceControlCleanup() {
@@ -365,7 +365,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	} else {
 		persistentData.OrgasmDetected = false;
 	}
-	
+
 	//Ruined orgasm check
 	if (C.ArousalSettings && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0) && C.HasEffect("DenialMode") && C.HasEffect("RuinOrgasms"))
 	{
@@ -478,7 +478,7 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 						Item.Property.Effect.splice(index, 1);
 					}
 				}
-				
+
 				// FIXME: this needs to cause an actual update of the item's effects
 				ExtendedItemSetOptionByRecord(C, Item, ItemType);
 
