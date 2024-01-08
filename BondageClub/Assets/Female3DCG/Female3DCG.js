@@ -15151,6 +15151,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.ItemLegs,
 					LegsClosed: "LegsClosed",
+					KneelingSpread: PoseType.HIDE,
 				},
 				Effect: [E.CuffedLegs],
 				Extended: true,
