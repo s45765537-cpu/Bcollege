@@ -972,7 +972,7 @@ function ChatRoomMapLeash() {
 
 			// Validates the data first
 			if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return;
-			if ((C.MapData == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return;
+			if ((C.MapData?.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return;
 
 			// Leash range is 2 tiles
 			let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
