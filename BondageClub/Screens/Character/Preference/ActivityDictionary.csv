@@ -51,14 +51,17 @@ ActivityGagKiss,Kiss on Gag
 ActivityWiggle,Wiggle
 ActivityNod,Nod
 ActivitySit,Sit
-ActivityStruggleArms,Struggle
-ActivityStruggleLegs,Struggle
+ActivityStruggleArms,Struggle (arms)
+ActivityStruggleLegs,Struggle (legs)
 ActivityStep,Step
 ActivityKick,Kick
 ActivitySistersHug,Sisters Hug
 ActivityBrothersHandshake,Brothers Handshake
 ActivitySiblingsCheekKiss,Siblings Cheek Kiss
 ActivitySipItem,Sip
+ActivityEatItem,Eat
+ActivityScratch,Scratch
+ActivityThrowItem,Throw Item
 OrgasmFailResist0,"SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool."
 OrgasmFailResist1,"SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself."
 OrgasmFailResist2,SourceCharacter resists the stimulation until it finally cuts off abruptly.
