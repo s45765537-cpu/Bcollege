@@ -3772,6 +3772,7 @@ interface ChatRoomMapObject extends ChatRoomMapDoodad {
 	AssetName?: string;
 	BlockVision?: boolean;
 	BlockHearing?: boolean;
+	IsVisible?: () => boolean;
 }
 
 interface ChatRoomMapMovement {
