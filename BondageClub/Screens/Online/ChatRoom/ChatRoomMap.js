@@ -750,7 +750,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		if (ObjectID > ChatRoomMapObjectStartID)
 			for (let Obj of ChatRoomMapObjectList)
 				if (Obj.ID == ObjectID) {
-					if(Obj.IsVisible && !Obj.IsVisible()) break;
+					if(Obj.IsVisible && !ChatRoomMapHasSuperPowers() && !Obj.IsVisible()) break;
 					if (Obj.Style === "Blank") break;
 					// Hide a wall decoration object if the tile before it is not visible
 					if (Obj.Type == "WallDecoration" && !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X, Y+1)]) break;
