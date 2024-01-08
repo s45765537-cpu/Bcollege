@@ -797,7 +797,11 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ArousalSettings == null))) Char.ArousalSettings = data.ArousalSettings;
 	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.OnlineSharedSettings == null))) Char.OnlineSharedSettings = data.OnlineSharedSettings;
 	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Game == null))) Char.Game = data.Game;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.MapData == null))) Char.MapData = data.MapData;
+	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.MapData == null)))
+	{
+		Char.MapData = ChatRoomMapInitializeCharacter(Char);
+		Char.MapData.Pos = data.MapData;
+	}
 	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Crafting == null))) Char.Crafting = data.Crafting;
 	Char.Ownership = data.Ownership;
 	Char.Lovership = data.Lovership;

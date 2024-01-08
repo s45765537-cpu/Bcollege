@@ -1319,7 +1319,7 @@ interface Character {
 		Poker?: GamePokerParameters,
 		ClubCard?: GameClubCardParameters,
 	};
-	MapData?: ChatRoomMapPos;
+	MapData?: ChatRoomMapData;
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
@@ -1334,7 +1334,7 @@ interface Character {
 	Status?: string | null;
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
-	LastMapData?: ChatRoomMapPos;
+	LastMapData?: ChatRoomMapData;
 }
 
 /**
@@ -3729,6 +3729,11 @@ type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 type ChatRoomMapPos = {
 	X: number;
 	Y: number;
+}
+
+type ChatRoomMapData = {
+	Pos: ChatRoomMapPos
+	PrivateState: Record<string, Object>
 }
 
 type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
