@@ -166,7 +166,7 @@ function ChatRoomMapInitialize(mode) {
  */
 function ChatRoomMapInitializeCharacter(C)
 {
-	let MapData = null;
+	let MapData = C.MapData ? C.MapData : null;
 	// Checks to see if we can load the previously saved position
 	if (C === Player && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 		// Restores the saved position
@@ -194,6 +194,7 @@ function ChatRoomMapInitializeCharacter(C)
  */
 function ChatRoomMapLeave() {
 	ChatRoomMapDeactivate();
+	Player.MapData = null;
 }
 
 /**
@@ -222,7 +223,6 @@ function ChatRoomMapActivate() {
  */
 function ChatRoomMapDeactivate() {
 	ChatRoomMapVisible = false;
-	Player.MapData = null;
 }
 
 /**
@@ -374,7 +374,7 @@ function ChatRoomMapGetHearingRange() {
  */
 function ChatRoomMapCharacterIsVisible(C) {
 	if (!C?.MapData) return false;
-	if (!Player?.MapData) return false;
+	if (!Player?.MapData?.Pos) return false;
 	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
 	return ChatRoomMapVisibilityMask[PlayerTileId];
 }
@@ -386,7 +386,7 @@ function ChatRoomMapCharacterIsVisible(C) {
  */
 function ChatRoomMapCharacterIsHearable(C) {
 	if (!C?.MapData) return false;
-	if (!Player?.MapData) return false;
+	if (!Player?.MapData?.Pos) return false;
 	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
 	return ChatRoomMapAudibilityMask[PlayerTileId];
 }
@@ -632,7 +632,7 @@ function ChatRoomMapCollision() {
 function ChatRoomMapGetCharacterAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
 	for (let C of ChatRoomCharacter)
-		if ((C.MapData != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
+		if ((C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
 			return C;
 	return null;
 }
@@ -772,7 +772,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 		// For each characters in the chat room
 		for (let C of ChatRoomCharacter)
-			if ((C.MapData != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
+			if ((C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
 
 				// Draws the character on the grid
 				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
@@ -1152,7 +1152,7 @@ function ChatRoomMapCanEnterTile(X, Y) {
 
 	// Cannot enter a tile occupied by another player
 	for (let C of ChatRoomCharacter)
-		if (!C.IsPlayer() && (C.MapData != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
+		if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
 			return 0;
 
 	// Always full speed in water if wearing mermaid tail
