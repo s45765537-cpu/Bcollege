@@ -87,9 +87,9 @@ const ChatRoomMapObjectList = [
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
 	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
-	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyBronze = true; } },
-	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeySilver = true; } },
-	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyGold = true; }},
+	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyBronze = true; }, IsVisible: function(){ return !ChatRoomMapTemporaryStorage.HasKeyBronze; } },
+	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeySilver = true; }, IsVisible: function(){ return !ChatRoomMapTemporaryStorage.HasKeySilver; } },
+	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyGold = true; }, IsVisible: function(){ return !ChatRoomMapTemporaryStorage.HasKeyGold; } },
 
 	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
 	{ ID: 210, Type: "FloorDecorationThemed", Style: "TeacherDesk", Top: -0.25 },
