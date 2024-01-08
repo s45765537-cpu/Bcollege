@@ -38,6 +38,9 @@ var ChatRoomMapEventLoaded = false;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 500;
 
+/** @type {Record<string, object>} */
+var ChatRoomMapTemporaryStorage = {};
+
 /** @type {boolean[]} */
 var ChatRoomMapVisibilityMask = [];
 /** @type {boolean[]} */
@@ -189,6 +192,8 @@ function ChatRoomMapActivate() {
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.X || Player.MapData.X < 0 || Player.MapData.X >= ChatRoomMapWidth || !Player.MapData.Y || Player.MapData.Y < 0 || Player.MapData.Y >= ChatRoomMapWidth) {
 		Player.MapData = ChatRoomMapInitializeCharacter();
+		// Reset temporary storage
+		ChatRoomMapTemporaryStorage = {};
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 
