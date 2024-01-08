@@ -47,7 +47,7 @@ var ChatRoomMapVisibilityMask = [];
 var ChatRoomMapAudibilityMask = [];
 
 /** @type {ChatRoomMapTile[]} */
-var ChatRoomMapTileList = [
+const ChatRoomMapTileList = [
 
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
 	{ ID: 110, Type: "Floor", Style: "Stone" },
@@ -78,7 +78,7 @@ var ChatRoomMapTileList = [
 ];
 
 /** @type {ChatRoomMapObject[]} */
-var ChatRoomMapObjectList = [
+const ChatRoomMapObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
 	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
@@ -87,6 +87,9 @@ var ChatRoomMapObjectList = [
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
 	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
+	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyBronze = true; } },
+	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeySilver = true; } },
+	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ ChatRoomMapTemporaryStorage.HasKeyGold = true; }},
 
 	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
 	{ ID: 210, Type: "FloorDecorationThemed", Style: "TeacherDesk", Top: -0.25 },
@@ -125,6 +128,9 @@ var ChatRoomMapObjectList = [
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
 	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
+	{ ID: 4013, Type: "WallPath", Style: "WoodLockedBronze", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return ChatRoomMapTemporaryStorage.HasKeyBronze == true; } },
+	{ ID: 4014, Type: "WallPath", Style: "WoodLockedSilver", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return ChatRoomMapTemporaryStorage.HasKeySilver == true; } },
+	{ ID: 4015, Type: "WallPath", Style: "WoodLockedGold", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return ChatRoomMapTemporaryStorage.HasKeyGold == true; } },
 	{ ID: 4020, Type: "WallPath", Style: "Metal", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4021, Type: "WallPath", Style: "MetalUp", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
 	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
@@ -457,8 +463,9 @@ function ChatRoomMapIsWall(X, Y) {
 function ChatRoomMapGetTileAtPos(X, Y) {
 	if (ChatRoomData.MapData?.Tiles.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
-	let ObjectID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
-	return CommonCloneDeep(ChatRoomMapTileList.find(o => o.ID === ObjectID));
+	let ObjectID = ChatRoomData.MapData.Tiles.charCodeAt(ChatRoomMapCoordinatesToIndex(X, Y));
+	const tile = ChatRoomMapTileList.find(o => o.ID === ObjectID);
+	return tile;
 }
 
 /**
@@ -470,10 +477,9 @@ function ChatRoomMapGetTileAtPos(X, Y) {
 function ChatRoomMapGetObjectAtPos(X, Y) {
 	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
-	let Obj = ChatRoomMapObjectList.find(o => o.ID === ObjectID);
-	if (Obj == null) return null;
-	return CommonCloneDeep(Obj);
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(ChatRoomMapCoordinatesToIndex(X, Y));
+	const Obj = ChatRoomMapObjectList.find(o => o.ID === ObjectID);
+	return Obj;
 }
 
 /**
@@ -942,7 +948,7 @@ function ChatRoomMapMovementProcess() {
 	const newObject = ChatRoomMapGetObjectAtPos(Player.MapData.X, Player.MapData.Y);
 	// If the current tile or object have OnEnter functions, execute them
 	if(newTile && newTile.OnEnter) newTile.OnEnter();
-	if(newObject && newObject.OnEnter) newTile.OnEnter();
+	if(newObject && newObject.OnEnter) newObject.OnEnter();
 }
 
 /**
