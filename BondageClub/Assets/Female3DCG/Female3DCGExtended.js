@@ -11145,6 +11145,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Chained",
 					Property: {
 						Effect: [E.Slow],
+						AllowActivePose: ["Kneel", ...PoseAllStanding],
 					},
 				},
 			],
