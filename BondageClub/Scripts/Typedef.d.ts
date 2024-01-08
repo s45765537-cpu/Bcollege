@@ -3749,6 +3749,7 @@ interface ChatRoomMapDoodad {
 	Style: string;
 	OccupiedStyle?: "WoodOpen" | "MetalOpen";
 	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
+	OnEnter?: () => boolean;
 }
 
 interface ChatRoomMapTile extends ChatRoomMapDoodad {

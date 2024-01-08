@@ -927,11 +927,17 @@ function ChatRoomMapMovementProcess() {
 	if ((ChatRoomMapMovement == null) || (ChatRoomMapMovement.TimeEnd > CommonTime())) return;
 	Player.MapData.X = ChatRoomMapMovement.X;
 	Player.MapData.Y = ChatRoomMapMovement.Y;
-	// After we moved, calculate the new perception masks
-	ChatRoomMapCalculatePerceptionMasks();
 	// Set the update flag and reduce the wait time by the time the player already waited
 	ChatRoomMapUpdatePlayerFlag(ChatRoomMapMovement.TimeStart - ChatRoomMapMovement.TimeEnd);
 	ChatRoomMapMovement = null;
+	// After we moved, calculate the new perception masks
+	ChatRoomMapCalculatePerceptionMasks();
+	// Get the tile and object we entered
+	const newTile = ChatRoomMapGetTileAtPos(Player.MapData.X, Player.MapData.Y);
+	const newObject = ChatRoomMapGetObjectAtPos(Player.MapData.X, Player.MapData.Y);
+	// If the current tile or object have OnEnter functions, execute them
+	if(newTile && newTile.OnEnter) newTile.OnEnter();
+	if(newObject && newObject.OnEnter) newTile.OnEnter();
 }
 
 /**
