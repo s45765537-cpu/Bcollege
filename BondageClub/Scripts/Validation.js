@@ -918,9 +918,9 @@ function ValidationSanitizeLock(C, item) {
  * "allow" array for that item.
  * @param {Character} C - The character on whom the item is equipped
  * @param {Item} item - The item whose property should be sanitized
- * @param {keyof ItemProperties & keyof Asset} propertyName - The name of the property
- * @param {keyof Asset} allowPropertyName - The name of the property corresponding to the list of allowed property
- * values on the asset
+ * @param {keyof (PropertiesArray.Asset | PropertiesArray.Item)} propertyName - The name of the property
+ * @param {keyof PropertiesArray.Asset} allowPropertyName - The name of the property corresponding to the list of allowed property
+ * values on the asset (e.g. `AllowHide` or `AllowEffect`)
  * @returns {boolean} - TRUE if the item's property was modified as part of the sanitization process
  * (indicating it was not a valid string array, or that invalid entries were present), FALSE otherwise
  */
@@ -929,18 +929,22 @@ function ValidationSanitizeAllowedPropertyArray(C, item, propertyName, allowProp
 	let changed = ValidationSanitizeStringArray(property, propertyName);
 
 	// If there is no property array, no further sanitization is needed
-	if (!Array.isArray(property[propertyName])) return changed;
+	const propertyValue = property[propertyName];
+	if (!Array.isArray(propertyValue)) return changed;
 
-	const assetProperty = item.Asset[property] || [];
+	/** @type {readonly unknown[]} */
+	const assetProperty = item.Asset[propertyName] || [];
+	/** @type {readonly unknown[]} */
 	const allowProperty = item.Asset[allowPropertyName] || [];
+
 	// Any entry must be included in the allow list to be permitted
-	property[propertyName] = property[propertyName].filter((propertyValue) => {
-		if (!assetProperty.includes(propertyValue) && !allowProperty.includes(propertyValue)) {
+	property[propertyName] = /** @type {never} */(propertyValue.filter((i) => {
+		if (!assetProperty.includes(i) && !allowProperty.includes(i)) {
 			console.warn(`Filtering out invalid ${propertyName} entry on ${item.Asset.Name}:`, propertyValue);
 			changed = true;
 			return false;
 		} else return true;
-	});
+	}));
 	return changed;
 }
 
