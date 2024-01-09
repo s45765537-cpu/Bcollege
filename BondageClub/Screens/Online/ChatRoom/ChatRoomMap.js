@@ -168,7 +168,7 @@ function ChatRoomMapInitializeCharacter(C)
 {
 	let MapData = C.MapData ? C.MapData : null;
 	// Checks to see if we can load the previously saved position
-	if (C === Player && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
+	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 		// Restores the saved position
 		MapData = Object.assign({}, Player.LastMapData);
 	}
