@@ -631,7 +631,7 @@ function InventoryWearCraft(Item, C, Craft) {
 	if ((Item == null) || (Item.Asset == null) || (Craft == null)) return;
 	Item.Craft = Craft;
 
-	if (Craft.TypeRecord) {
+	if (Item.Asset.Archetype != null) {
 		ExtendedItemSetOptionByRecord(
 			C, Item, Craft.TypeRecord,
 			{ push: false, C_Source: Player, properties: Craft.ItemProperty },

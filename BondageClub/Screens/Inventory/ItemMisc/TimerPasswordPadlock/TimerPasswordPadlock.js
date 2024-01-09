@@ -3,23 +3,10 @@
 const PasswordTimerChooseList = [5, 10, 15, 30, 60, 120, 180, 240, -180, -120, -60, -30, -15];
 let PasswordTimerChooseIndex = 0;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscTimerPasswordPadlockInit(C, Item) {
-	const Property = {
-		Password: "PASSWORD",
-		Hint: "Take a guess...",
-		LockSet: false,
-		RemoveItem: false,
-		ShowTimer: true,
-		EnableRandomInput: false,
-		MemberNumberList: [],
-	};
-	return ExtendedItemInitNoArch(C, Item, Property, false, false);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscTimerPasswordPadlockLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemMiscTimerPasswordPadlockLoadHook(data, originalFunction) {
 	if (!DialogFocusSourceItem) return;
+	originalFunction();
 
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
@@ -49,8 +36,8 @@ function InventoryItemMiscTimerPasswordPadlockLoad() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscTimerPasswordPadlockDraw() {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 	if (
 		!DialogFocusItem ||
 		!DialogFocusSourceItem ||
@@ -60,17 +47,16 @@ function InventoryItemMiscTimerPasswordPadlockDraw() {
 		return DialogLeaveFocusItem();
 	}
 
+	originalFunction();
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
 	if (Property && Property.ShowTimer) {
 		DrawText(DialogFindPlayer("TimerLeft") + " " +
-			TimerToString(Property.RemoveTimer - CurrentTime), 1500, 100, "white", "gray");
+			TimerToString(Property.RemoveTimer - CurrentTime), 1500, 400, "white", "gray");
 	} else {
-		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 150, "white", "gray");
+		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 400, "white", "gray");
 	}
-
-	DrawAssetPreview(1387, 175, DialogFocusItem.Asset);
 
 	if (Property && Property.LockMemberNumber != null) {
 		const Text = DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber;
@@ -143,13 +129,9 @@ function InventoryItemMiscTimerPasswordPadlockDraw() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscTimerPasswordPadlockClick() {
-	// Exits the screen
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) {
+	originalFunction();
 	if (!DialogFocusSourceItem) return;
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
@@ -210,7 +192,11 @@ function InventoryItemMiscTimerPasswordPadlockClick() {
 }
 
 // When a value is added to the timer, can be a negative one
-function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, PlayerMemberNumberToList) {
+/**
+ * @param {number} TimeToAdd
+ * @param {boolean} PlayerMemberNumberToList
+ */
+function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
@@ -252,9 +238,4 @@ function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, PlayerMemberNumberT
 	}
 
 	DialogLeaveFocusItem();
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscTimerPasswordPadlockExit() {
-	InventoryItemMiscPasswordPadlockExit();
 }

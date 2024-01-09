@@ -375,5 +375,12 @@ function CommonDrawFindPose(C, AllowedPoses) {
 function CommonDrawResolveAssetPose(C, Layer) {
 	const poseEntries = CommonEntries(Layer.PoseMapping);
 	const poses = poseEntries.filter(ij => ij[1] !== PoseType.DEFAULT).map(i => i[0]);
+
+	// FIXME: Hack to ensure that `Suspension` poses take priority over `BodyUpper`
+	const suspensionIndex = poses.indexOf("Suspension");
+	if (suspensionIndex !== -1) {
+		poses.splice(suspensionIndex, 1);
+		poses.splice(0, 0, "Suspension");
+	}
 	return CommonDrawFindPose(C, PoseToMapping.Array(poses, "Layer.PoseMapping"));
 }

@@ -1012,13 +1012,13 @@ interface Ownership {
 
 interface Lovership {
 	Name: string;
-	MemberNumber?: number;
-	Stage?: 0 | 1 | 2;
-	Start?: number;
+	MemberNumber: number;
+	Stage: 0 | 1 | 2;
+	Start: number;
 	// Bad data sometimes received from server
-	BeginDatingOfferedByMemberNumber?: unknown;
-	BeginEngagementOfferedByMemberNumber?: unknown;
-	BeginWeddingOfferedByMemberNumber?: unknown;
+	BeginDatingOfferedByMemberNumber?: never;
+	BeginEngagementOfferedByMemberNumber?: never;
+	BeginWeddingOfferedByMemberNumber?: never;
 }
 
 interface ScreenFunctions {
@@ -1080,7 +1080,10 @@ interface ScreenFunctions {
 
 //#region Characters
 
-/** A struct for representing an item with special permissions (limited, favorited, etc). */
+/**
+ * A struct for representing an item with special permissions (limited, favorited, etc).
+ * @see {@link PermissionsPacked}
+ */
 interface ItemPermissions {
 	/** The {@link Asset.Name} of the item */
 	Name: string;
@@ -1092,6 +1095,9 @@ interface ItemPermissions {
 	 */
 	Type?: string | null;
 }
+
+/** A packed record-based version of {@link ItemPermissions}. */
+type ItemPermissionsPacked = Partial<Record<AssetGroupName, Record<string, (undefined | null | string)[]>>>;
 
 interface ScriptPermission {
 	permission: number;
@@ -1312,13 +1318,7 @@ interface Character {
 	Creation?: number;
 	Description?: string;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;
-	Game?: {
-		LARP?: GameLARPParameters,
-		MagicBattle?: GameMagicBattleParameters,
-		GGTS?: GameGGTSParameters,
-		Poker?: GamePokerParameters,
-		ClubCard?: GameClubCardParameters,
-	};
+	Game?: CharacterGameParameters;
 	MapData?: ChatRoomMapData;
 	BlackList: number[];
 	RunScripts?: boolean;
@@ -1337,6 +1337,14 @@ interface Character {
 	LastMapData?: ChatRoomMapData;
 }
 
+interface CharacterGameParameters {
+	LARP?: GameLARPParameters,
+	MagicBattle?: GameMagicBattleParameters,
+	GGTS?: GameGGTSParameters,
+	Poker?: GamePokerParameters,
+	ClubCard?: GameClubCardParameters,
+}
+
 /**
  * The characters online shared settings.
  * @see {@link Character.OnlineSharedSettings}
@@ -1346,7 +1354,7 @@ interface CharacterOnlineSharedSettings {
 	BlockBodyCosplay: boolean;
 	AllowPlayerLeashing: boolean;
 	DisablePickingLocksOnSelf: boolean;
-	GameVersion: string;
+	GameVersion?: string;
 	ItemsAffectExpressions: boolean;
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
@@ -1699,6 +1707,7 @@ declare namespace ElementMetaData {
 	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: ThumbIcon }
+	type NoArch = ElementMetaData;
 }
 
 /** @see {@link ElementData} */
@@ -1730,6 +1739,11 @@ interface VariableHeightConfigDrawData extends ExtendedItemConfigDrawData<{}> {
 	elementData: { position: RectTuple, icon: ThumbIcon }[],
 }
 
+/** @see {@link ExtendedItemDrawData} */
+interface NoArchConfigDrawData extends ExtendedItemConfigDrawData<ElementMetaData> {
+	elementData?: ElementData<ElementMetaData>[],
+}
+
 /**
  * An interface with element-specific drawing data for a given screen.
  * @template MetaData A record with (archetype-specific) additional element metadata
@@ -1743,12 +1757,19 @@ interface ExtendedItemDrawData<MetaData extends ElementMetaData> extends Require
 	paginate: boolean,
 }
 
+type ExtendedItemHeaderCallback<DataType extends ExtendedItemData<any>> = (
+	data: DataType,
+	C: Character,
+	item: Item,
+) => string;
+
 /** A record containing various dialog keys used by the extended item screen */
 interface ExtendedItemDialog<
-	OptionType extends ExtendedItemOption
+	DataType extends ExtendedItemData<any>,
+	OptionType extends ExtendedItemOption,
 > {
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-	header: string;
+	header: string | ExtendedItemHeaderCallback<DataType>;
 	/** The dialogue prefix for the name of each module */
 	module?: string;
 	/** The dialogue prefix for the name of each option */
@@ -1762,10 +1783,11 @@ interface ExtendedItemDialog<
 
 /** A record containing various dialog keys used by the extended item screen */
 interface ExtendedItemCapsDialog<
-	OptionType extends ExtendedItemOption
+	DataType extends ExtendedItemData<any>,
+	OptionType extends ExtendedItemOption,
 > {
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-	Header?: string;
+	Header?: string | ExtendedItemHeaderCallback<DataType>;
 	/** The dialogue prefix for the name of each module */
 	Module?: string;
 	/** The dialogue prefix for the name of each option */
@@ -1783,6 +1805,12 @@ type ExtendedItemScriptHookCallback<DataType extends ExtendedItemData<any>, T ex
 	...args: T,
 ) => RT;
 
+type ExtendedItemScriptHookCallbackNoNull<DataType extends ExtendedItemData<any>, T extends any[], RT=void> = (
+	data: DataType,
+	originalFunction: ((...args: T) => RT),
+	...args: T,
+) => RT;
+
 /** Basic callback for extended item functions */
 type ExtendedItemCallback<T extends any[], RT=void> = (
 	...args: T,
@@ -1793,13 +1821,13 @@ interface ExtendedItemScriptHookStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
-	load: null | ExtendedItemScriptHookCallbacks.Load<DataType>,
-	draw: null | ExtendedItemScriptHookCallbacks.Draw<DataType>,
-	click: null | ExtendedItemScriptHookCallbacks.Click<DataType>,
+	init: ExtendedItemScriptHookCallbacks.Init<DataType>,
+	load: ExtendedItemScriptHookCallbacks.Load<DataType>,
+	draw: ExtendedItemScriptHookCallbacks.Draw<DataType>,
+	click: ExtendedItemScriptHookCallbacks.Click<DataType>,
 	exit: null | ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	validate: null | ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	publishAction: null | ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
-	init: null | ExtendedItemScriptHookCallbacks.Init<DataType>,
 	setOption: null | ExtendedItemScriptHookCallbacks.SetOption<DataType, OptionType>,
 	beforeDraw: null | ExtendedItemScriptHookCallbacks.BeforeDraw<DataType>,
 	afterDraw: null | ExtendedItemScriptHookCallbacks.AfterDraw<DataType>,
@@ -1811,13 +1839,13 @@ interface ExtendedItemCapsScriptHooksStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
+	Init?: ExtendedItemScriptHookCallbacks.Init<DataType>,
 	Load?: ExtendedItemScriptHookCallbacks.Load<DataType>,
 	Draw?: ExtendedItemScriptHookCallbacks.Draw<DataType>,
 	Click?: ExtendedItemScriptHookCallbacks.Click<DataType>,
 	Exit?: ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	Validate?: ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	PublishAction?: ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
-	Init?: ExtendedItemScriptHookCallbacks.Init<DataType>,
 	SetOption?: ExtendedItemScriptHookCallbacks.SetOption<DataType, OptionType>,
 	BeforeDraw?: ExtendedItemScriptHookCallbacks.BeforeDraw<DataType>,
 	AfterDraw?: ExtendedItemScriptHookCallbacks.AfterDraw<DataType>,
@@ -1828,13 +1856,13 @@ interface ExtendedItemCapsScriptHooksStruct<
 interface ExtendedItemCallbackStruct<
 	OptionType extends ExtendedItemOption
 > {
-	load?: ExtendedItemCallbacks.Load,
-	draw?: ExtendedItemCallbacks.Draw,
-	click?: ExtendedItemCallbacks.Click,
+	init: ExtendedItemCallbacks.Init,
+	load: ExtendedItemCallbacks.Load,
+	draw: ExtendedItemCallbacks.Draw,
+	click: ExtendedItemCallbacks.Click,
 	exit?: ExtendedItemCallbacks.Exit,
 	validate?: ExtendedItemCallbacks.Validate<OptionType>,
 	publishAction?: ExtendedItemCallbacks.PublishAction<OptionType>,
-	init?: ExtendedItemCallbacks.Init,
 	setOption?: ExtendedItemCallbacks.SetOption<OptionType>,
 	beforeDraw?: ExtendedItemCallbacks.BeforeDraw,
 	afterDraw?: ExtendedItemCallbacks.AfterDraw,
@@ -1946,29 +1974,29 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 * Callback for extended item `Load` script hooks.
 	 * `Load` functions are responsible for setting up the UI when initially opening the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Load<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Draw` script hooks.
 	 * `Draw` functions are responsible for drawing any UI elements within the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Draw<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Click` script hooks.
 	 * `Click` functions are responsible for managing any mouse clicks within the extended item menu.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 */
 	type Click<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, []>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, []>;
 	/**
 	 * Callback for extended item `Exit` script hooks.
 	 * `Exit` functions are responsible for cleaning up any UI elements when closing the extended item menu.
@@ -2022,11 +2050,11 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type Init<
 		DataType extends ExtendedItemData<any>
-	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
+	> = ExtendedItemScriptHookCallbackNoNull<DataType, [C: Character, item: Item, push: boolean, refresh: boolean], boolean>;
 	/**
 	 * Callback for extended item `SetOption` functions.
 	 * @param data The items extended item data
-	 * @param originalFunction The function (if any) that is normally called when an archetypical item reaches this point
+	 * @param originalFunction The function that is normally called when an archetypical item reaches this point
 	 * @param C The character that has the item equiped
 	 * @param item The item in question
 	 * @param newOption The newly selected extended item option
@@ -2092,7 +2120,7 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	 */
 	chatSetting: ExtendedItemChatSetting;
 	/** A record containing various dialog keys used by the extended item screen */
-	dialogPrefix: ExtendedItemDialog<OptionType>;
+	dialogPrefix: ExtendedItemDialog<any, OptionType>;
 	/**
 	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored.
@@ -2142,6 +2170,7 @@ interface ExtendedDataLookupStruct {
 	[ExtendedArchetype.VIBRATING]: VibratingItemData;
 	[ExtendedArchetype.VARIABLEHEIGHT]: VariableHeightData;
 	[ExtendedArchetype.TEXT]: TextItemData;
+	[ExtendedArchetype.NOARCH]: NoArchItemData;
 }
 
 interface AssetOverrideHeight {
@@ -2333,7 +2362,7 @@ interface ItemPropertiesBase {
 	 * How the type-string translate to concrete properties depends on the Archetype in question.
 	 * @deprecated Superseded by {@link ItemPropertiesBase.TypeRecord}. Old type strings can be convert to records via {@link ExtendedItemTypeToRecord}.
 	 */
-	Type?: string;
+	Type?: null | string;
 	/** A record mapping screen names to option indices. */
 	TypeRecord?: TypeRecord;
 
@@ -2591,7 +2620,7 @@ interface ModularItemData extends ExtendedItemData<ModularItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<ModularItemData>;
 		/** The dialogue prefix for the name of each module */
 		module: string;
 		/** The dialogue prefix for the name of each option */
@@ -2647,7 +2676,7 @@ interface TypedItemData extends ExtendedItemData<TypedItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<TypedItemData>;
 		/** The prefix used for dialog keys representing the display names of the item's types */
 		option: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
@@ -2752,7 +2781,7 @@ interface VibratingItemData extends ExtendedItemData<VibratingItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string;
+		header: string | ExtendedItemHeaderCallback<VibratingItemData>;
 		/** The dialogue prefix for the name of each option */
 		option: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
@@ -2807,7 +2836,7 @@ interface VariableHeightData extends ExtendedItemData<VariableHeightOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string,
+		header: string | ExtendedItemHeaderCallback<VariableHeightData>,
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
 		chat: string | ExtendedItemChatCallback<VariableHeightOption>;
 		/** The dialogue prefix for the name of each option */
@@ -2833,7 +2862,7 @@ interface TextItemData extends ExtendedItemData<TextItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string,
+		header: string | ExtendedItemHeaderCallback<TextItemData>,
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
 		chat: string | ExtendedItemChatCallback<TextItemOption>;
 	};
@@ -2872,6 +2901,26 @@ type TextItemEventListener = (
 	name: TextItemNames,
 	text: string,
 ) => void;
+
+// #endregion
+
+// #region noarch
+
+interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
+	archetype: "noarch";
+	scriptHooks: ExtendedItemScriptHookStruct<NoArchItemData, NoArchItemOption>;
+	chatSetting: "default";
+	baselineProperty: null | ItemProperties;
+	drawData: ExtendedItemDrawData<ElementMetaData.NoArch>;
+	dialogPrefix: {
+		/** The dialog key for the item's load text (usually a prompt to select the type) */
+		header: string | ExtendedItemHeaderCallback<NoArchItemData>;
+		/** The prefix used for dialog keys representing the display names of the item's types */
+		option?: string;
+		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
+		chat?: string | ExtendedItemChatCallback<NoArchItemOption>;
+	}
+}
 
 // #endregion
 
@@ -3614,13 +3663,13 @@ interface ArousalSettingsType {
 	VFXFilter: SettingsVFXFilterName;
 	Progress: number;
 	ProgressTimer: number;
-	VibratorLevel: number;
+	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
 	Activity: ActivityEnjoyment[];
 	Zone: ArousalZone[];
 	Fetish: ArousalFetish[];
 	OrgasmTimer?: number;
-	OrgasmStage?: number;
+	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;
 	DisableAdvancedVibes: boolean;
 }

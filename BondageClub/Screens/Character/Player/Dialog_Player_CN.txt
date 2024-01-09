@@ -1,32 +1,16 @@
 ###_NPC
-'s
-的
 (You can use or remove items by selecting specific body regions on yourself.)
 (你可以选择身体的特定部位来使用或移除物品)
 ###_PLAYER
-(Change your clothes.)
-(更换你的衣服)
-(Leave this menu.)
-(离开此菜单。)
 (View your profile.)
 (查看你的资料)
-(View your current rules.)
-(查看你目前的规则)
-###_NPC
-(Here are your currently active rules.)
-(这些是现在生效中的规则)
-###_PLAYER
+(Change your clothes.)
+(更换你的衣服)
 (Room administrator action.)
 (房间管理员动作)
 ###_NPC
 (As a room administrator, you can take these actions.)
 (作为房间管理员，你可以做以下动作)
-###_PLAYER
-(Spend GGTS minutes.)
-(花费GGTS分钟)
-###_NPC
-(Select how to spend your minutes.)
-(选择如何花费你的分钟)
 ###_PLAYER
 (Character actions.)
 (角色动作)
@@ -34,67 +18,61 @@
 (Possible character actions.)
 (可选的角色动作)
 ###_PLAYER
-(Back to main menu.)
-(回到主菜单.)
+(Spend GGTS minutes.)
+(花费GGTS分钟)
+###_NPC
+(Select how to spend your minutes.)
+(选择如何花费你的分钟)
+###_PLAYER
+(View your current rules.)
+(查看你目前的规则)
+###_NPC
+(Here are your currently active rules.)
+(这些是现在生效中的规则)
+###_PLAYER
+(Leave this menu.)
+(离开此菜单。)
 (Move Character.)
 (移动角色)
 ###_NPC
 (Move started.)
 (开始移动)
 ###_PLAYER
-(Spend 120 minutes to get $100.)
-(花费120分钟，获得$100)
+(Back to main menu.)
+(回到主菜单.)
+(Spend 15 minutes for a bondage position change.)
+(花费15分钟，改变束缚姿势)
 ###_NPC
-(GGTS gives you $100 and substracts 120 minutes to your total.)
-(GGTS给了你$100，并从你的总分钟中减少了120分钟)
 (You don't have enough minutes available.)
 (你没有足够的可花费分钟)
 ###_PLAYER
-(Spend 15 minutes for a bondage position change.)
-(花费15分钟，改变束缚姿势)
 (Spend 15 minutes for a new blindness level.)
 (花费15分钟，改变遮眼等级)
 (Spend 15 minutes for a new deafness level.)
 (花费15分钟，改变塞耳等级)
+(Spend 15 minutes for an sexual intensity change.)
+(花费15分钟，改变性刺激强度)
 (Spend 15 minutes for a sexual intensity change.)
 (花费15分钟，改变性刺激强度)
-(Spend 200 minutes to get your own GGTS helmet.)
-(花费200分钟，得到你自己的GGTS头盔)
-###_NPC
-(You don't have enough minutes available or you already have the helmet in your inventory.)
-（你没有足够的GGTS分钟或你已经拥有GGTS头盔了）
-(You get a GGTS helmet and the AI substracts 200 minutes from your total.)
-（你获得了一个GGTS头盔，AI从你的GGTS分钟代币中减去了200分钟）
-###_PLAYER
 (Spend 30 minutes to unlock the door.)
 (花费30分钟，解锁房间)
 ###_NPC
 (You must have 30 minutes and be the admistrator of the locked room.)
 (你必须有30分钟，并且需要是被锁住房间的管理员。)
 ###_PLAYER
-(Spend 15 minutes for an sexual intensity change.)
-(花费15分钟，改变性刺激强度)
-(Boot Kinky Dungeon)
-(启动淫靡地城)
+(Spend 120 minutes to get $100.)
+(花费120分钟，获得$100)
 ###_NPC
-(The helmet chimes as Kinky Dungeon starts up)
-(淫靡地城启动的时候，头盔轻轻嗡鸣)
+(GGTS gives you $100 and substracts 120 minutes to your total.)
+(GGTS给了你$100，并从你的总分钟中减少了120分钟)
 ###_PLAYER
-(Craft an item.)
-(制作一件物品。)
-(Play Kinky Dungeon)
-(玩淫靡地城)
-(Take a photo of yourself.)
-(给自己拍张照片。)
+(Spend 200 minutes to get your own GGTS helmet.)
+(花费200分钟，得到你自己的GGTS头盔)
 ###_NPC
-(Main menu.)
-(主菜单)
-###_PLAYER
-(Call the maids for help)
-(呼叫女仆帮助)
-###_NPC
-(The maids will be here shortly...)
-(女仆们马上就到...)
+(You get a GGTS helmet and the AI substracts 200 minutes from your total.)
+（你获得了一个GGTS头盔，AI从你的GGTS分钟代币中减去了200分钟）
+(You don't have enough minutes available or you already have the helmet in your inventory.)
+（你没有足够的GGTS分钟或你已经拥有GGTS头盔了）
 ###_PLAYER
 (Adjust your bondage skill.)
 (调整你的束缚技能)
@@ -107,8 +85,14 @@
 ###_NPC
 (By default, you struggle using your full evasion skill.  You can use less of your skill and make it harder for you to struggle free.)
 (默认状况下,你会使用你所有的逃脱技能. 你可以选择使用更少技能来让自己更难逃脱.)
+###_PLAYER
+(Call the maids for help)
+(呼叫女仆帮助)
+###_NPC
 (The maids are not supposed to take room calls. This will result in punishment and public humiliation. Are you sure?)
 (女仆们一般不接受聊天室呼叫，这会让你陷入惩罚和公开羞辱。你确定吗？)
+(The maids will be here shortly...)
+(女仆们马上就到...)
 ###_PLAYER
 (Use your safeword.)
 (使用安全词)
@@ -116,31 +100,21 @@
 (A safeword is serious and should not be used to cheat.  It can revert your clothes and restraints to when you entered the lobby, or release you completely.)
 (安全词应该是严肃的且不应被用于作弊，它可以将你的服装和束缚恢复到登录时的状态，或是完全解放你)
 ###_PLAYER
-(Don't change your skill.)
-(不改变你的技能.)
-(Use half of your bondage skill.  50%)
-(使用你大约一般的束缚技能.  50%)
+(Take a photo of yourself.)
+(给自己拍张照片。)
+(Craft an item.)
+(制作一件物品。)
+(Boot Kinky Dungeon)
+(启动淫靡地城)
 ###_NPC
-(You will now use half of your bondage skill when using a restraint.  50%)
-(你会在束缚他人时放亿点点水 50%)
+(The helmet chimes as Kinky Dungeon starts up)
+(淫靡地城启动的时候，头盔轻轻嗡鸣)
 ###_PLAYER
-(Use most of your bondage skill.  75%)
-(使用你大部分的束缚技能.  75%)
+(Play Kinky Dungeon)
+(玩淫靡地城)
 ###_NPC
-(You will now use most of your bondage skill when using a restraint.  75%)
-(你会在束缚他人时稍稍留些余地 75%)
-###_PLAYER
-(Use none of your bondage skill.  0%)
-(完全不使用束缚技能.  0%)
-###_NPC
-(You will now use none of your bondage skill when using a restraint.  0%)
-(我觉得你就是想被绑 0%)
-###_PLAYER
-(Use very little of your bondage skill.  25%)
-(使用一点点你的束缚技能.  25%)
-###_NPC
-(You will now use very little of your bondage skill when using a restraint.  25%)
-(你会在束缚他人时心不在焉 25%)
+(Main menu.)
+(主菜单)
 ###_PLAYER
 (Use your full bondage skill.  100%)
 (使用你所有的束缚技能.  100%)
@@ -148,11 +122,37 @@
 (You will now use your full bondage skill when using a restraint.  100%)
 (你会在束缚他人时使出你的浑身解数 100%)
 ###_PLAYER
-(Use half of your evasion skill.  50%)
-(使用你大约一半的逃脱技能.  50%)
+(Use most of your bondage skill.  75%)
+(使用你大部分的束缚技能.  75%)
 ###_NPC
-(You will now use half of your evasion skill when trying to struggle free.  50%)
-(你会在试图逃脱时放亿点点水 50%)
+(You will now use most of your bondage skill when using a restraint.  75%)
+(你会在束缚他人时稍稍留些余地 75%)
+###_PLAYER
+(Use half of your bondage skill.  50%)
+(使用你大约一般的束缚技能.  50%)
+###_NPC
+(You will now use half of your bondage skill when using a restraint.  50%)
+(你会在束缚他人时放亿点点水 50%)
+###_PLAYER
+(Use very little of your bondage skill.  25%)
+(使用一点点你的束缚技能.  25%)
+###_NPC
+(You will now use very little of your bondage skill when using a restraint.  25%)
+(你会在束缚他人时心不在焉 25%)
+###_PLAYER
+(Use none of your bondage skill.  0%)
+(完全不使用束缚技能.  0%)
+###_NPC
+(You will now use none of your bondage skill when using a restraint.  0%)
+(我觉得你就是想被绑 0%)
+###_PLAYER
+(Don't change your skill.)
+(不改变你的技能.)
+(Use your full evasion skill.  100%)
+(使用你所有的逃脱技能.  100%)
+###_NPC
+(You will now use your full evasion skill when trying to struggle free.  100%)
+(你会在试图逃脱时使出你的浑身解数 100%)
 ###_PLAYER
 (Use most of your evasion skill.  75%)
 (使用你大部分的逃脱技能.  75%)
@@ -160,11 +160,11 @@
 (You will now use most of your evasion skill when trying to struggle free.  75%)
 (你会在试图逃脱时放一点水 75%)
 ###_PLAYER
-(Use none of your evasion skill.  0%)
-(完全不使用逃脱技能 0%)
+(Use half of your evasion skill.  50%)
+(使用你大约一半的逃脱技能.  50%)
 ###_NPC
-(You will now use none of your evasion skill when trying to struggle free.  0%)
-(你大概是想被这么绑着一辈子吧 0%)
+(You will now use half of your evasion skill when trying to struggle free.  50%)
+(你会在试图逃脱时放亿点点水 50%)
 ###_PLAYER
 (Use very little of your evasion skill.  25%)
 (使用一点点你的逃脱技能.  25%)
@@ -172,18 +172,16 @@
 (You will now use very little of your evasion skill when trying to struggle free.  25%)
 (你会在试图逃脱时心不在焉 25%)
 ###_PLAYER
-(Use your full evasion skill.  100%)
-(使用你所有的逃脱技能.  100%)
+(Use none of your evasion skill.  0%)
+(完全不使用逃脱技能 0%)
 ###_NPC
-(You will now use your full evasion skill when trying to struggle free.  100%)
-(你会在试图逃脱时使出你的浑身解数 100%)
+(You will now use none of your evasion skill when trying to struggle free.  0%)
+(你大概是想被这么绑着一辈子吧 0%)
 ###_PLAYER
-(No, don't call the maids.)
-(不，不要呼叫女仆)
 (Yes! Get me out of this room!)
 (是的！把我从这弄出去！)
-(Don't use Safeword.)
-(不要使用安全词)
+(No, don't call the maids.)
+(不，不要呼叫女仆)
 (Revert Character.)
 (恢复角色)
 ###_NPC
@@ -196,15 +194,19 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (这会立即解开你身上的所有束缚并把你送回大厅。请仅在被困在束缚中，且没有人能够帮助的情况下使用它。你确定要使用吗？)
 ###_PLAYER
-(No, don't revert Character.)
-(不，不要恢复)
+(Don't use Safeword.)
+(不要使用安全词)
 (Yes, revert Character.)
 (是的，恢复角色)
-(No, don't release me.)
-(不，不要解开)
+(No, don't revert Character.)
+(不，不要恢复)
 (Yes, I want to be released.)
 (是的，我想要被解开)
+(No, don't release me.)
+(不，不要解开)
 ###_NPC
+'s
+的
 Abandoned Building
 废弃建筑
 Abandoned Side Room
@@ -3671,6 +3673,14 @@ SourceCharacter chains DestinationCharacter paw mittens to the harness.
 SourceCharacter用锁链把DestinationCharacter猫爪无指手套连接到束带。
 SourceCharacter detaches DestinationCharacter paw mittens from the harness.
 SourceCharacter解开了DestinationCharacter猫爪无指手套和束带的连接。
+Binder
+束手
+SourceCharacter attaches DestinationCharacter pony mittens to the binder.
+SourceCharacter将DestinationCharacter小马无指手套连接到束手上。
+SourceCharacter detaches DestinationCharacter pony mittens from the binder.
+SourceCharacter将DestinationCharacter小马无指手套从束手上解开。
+Free Limbs
+自由肢体
 Eyes
 眼睛
 Glow
@@ -4681,8 +4691,8 @@ SourceCharacter clips a ring gag with tongue depressor on DestinationCharacter m
 SourceCharacter将一个有舌头抑制器的口塞环扣在DestinationCharacter模块化束带上。
 SourceCharacter clips a bit gag on DestinationCharacter modular strap.
 SourceCharacter将一个嚼子口塞扣在DestinationCharacter模块化束带上。
-SourceCharacter clips a ball gag with tongue depressor on DestinationCharacter modular strap.
-SourceCharacter将一个有舌头抑制器的口球扣在DestinationCharacter模块化束带上。
+SourceCharacter clips a bit gag with tongue depressor on DestinationCharacter modular strap.
+SourceCharacter将一个有舌头抑制器的口衔扣在DestinationCharacter模块化束带上。
 SourceCharacter detaches a head harness on DestinationCharacter modular strap.
 SourceCharacter从DestinationCharacter模块化束带解开了头部束带。
 SourceCharacter attaches a head harness on DestinationCharacter modular strap.
@@ -5259,6 +5269,8 @@ SourceCharacter frees DestinationCharacter mouth from PronounPossesive extendabl
 SourceCharacter将DestinationCharacter的嘴从TargetPronounObject的可扩展姿势项圈中解开。
 SourceCharacter adds a panel gag to DestinationCharacter extendable posture collar.
 SourceCharacter在DestinationCharacter可扩展姿势项圈添加了平板口塞。
+SourceCharacter adds a ballgag to DestinationCharacter extendable posture collar.
+SourceCharacter在DestinationCharacter可扩展姿势项圈添加了口塞。
 SourceCharacter removes the hood of DestinationCharacter extendable posture collar.
 SourceCharacter从DestinationCharacter可扩展姿势项圈移除了头套。
 SourceCharacter picks a hood with normal openings for DestinationCharacter posture collar.
@@ -5725,6 +5737,10 @@ Orgasms
 高潮
 Denials
 拒绝
+Days worn
+穿戴日数
+Days since orgasm
+距离上次高潮日数
 Trigger shock
 触发电击
 Reset shocks
@@ -6572,7 +6588,7 @@ SourceCharacter通过AssetName的传送门舔弄RecieverCharacterFocusAssetGroup
 SourceCharacter slaps RecieverCharacter FocusAssetGroup through the AssetName portal.
 SourceCharacter通过AssetName的传送门拍打RecieverCharacterFocusAssetGroup。
 Slap
-拍打
+扇
 Cycle chastity
 循环贞操锁设置
 DestinationCharacterName AssetName get locked remotely.
@@ -7187,6 +7203,8 @@ Your submissive is now fully released from your ownership.
 你的顺从者已经完全从你的拥有中得到释放。
 The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
 束缚俱乐部很荣幸的宣布SourceCharacter开始了从仆试任期，试任至少7天后才能转正。
+Whisper target is out of range.  Returning to normal chat.
+悄悄话目标超出范围。返回普通聊天。
 TargetCharacterName was moved to the left by SourceCharacter.
 TargetCharacterName被SourceCharacter移到了左边.
 TargetCharacterName was moved to the right by SourceCharacter.
@@ -7215,6 +7233,32 @@ SourceCharacter resets DestinationCharacter AssetName trigger count.
 SourceCharacter重置了DestinationCharacterAssetName的触发计数。
 Shock level:
 电击强度：
+Build your footwear:
+配置你的鞋：
+Boots Height
+靴子高度
+Belt Accessory
+皮带附件
+Chains Details
+链条细节
+Boots Height:
+靴子高度：
+Short Boots
+短靴
+High Knee Boots
+大腿靴
+Belt Option:
+腰带选项：
+No belt
+没有腰带
+Belt added
+添加腰带
+Chains Option:
+链条选项
+No chains
+没有链条
+Chains added
+添加链条
 Bands
 带子
 Boot with Sock
@@ -7585,3 +7629,33 @@ Center
 中心
 Center Options
 中心选项
+Hook
+钩子
+Bells
+铃铛
+Nail
+钉子
+Padlock
+挂锁
+Peg
+木夹
+Bitgag 1
+口衔1
+Bitgag 2
+口衔2
+SourceCharacter attaches a hook on DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺上添加了一个钩子。
+SourceCharacter attaches a ring on DestinationCharacter tongue piercing hole.
+SourceCharacter在DestinationCharacter舌穿刺的孔上添加了一个环。
+SourceCharacter attaches a pair of bells on DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺上添加了一对铃铛。
+SourceCharacter connects the tongue peircing on DestinationCharacter to their collar.
+SourceCharacter将DestinationCharacter舌穿刺连接到项圈。
+SourceCharacter attaches a nail on DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺上添加了一根钉子。
+SourceCharacter attaches a padlock on DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺上添加了一个挂锁。
+SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺上添加了一个晾衣夹。
+SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.
+SourceCharacter在DestinationCharacter舌穿刺后面使用了一个夹具。

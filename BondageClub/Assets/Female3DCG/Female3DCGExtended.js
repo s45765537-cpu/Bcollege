@@ -13,18 +13,16 @@
 
 /**
  * An enum encapsulating the available extended item archetypes
- * MODULAR - Indicates that this item is modular, with several independently configurable modules
- * @type {{MODULAR: "modular", TYPED: "typed", VIBRATING: "vibrating", VARIABLEHEIGHT: "variableheight", TEXT: "text"}}
- * @see {@link ModularItemConfig}
- * @see {@link TypedItemConfig}
+ * @satisfies {Record<Uppercase<ExtendedArchetype>, ExtendedArchetype>}
  */
-const ExtendedArchetype = {
+const ExtendedArchetype = /** @type {const} */ ({
 	MODULAR: "modular",
 	TYPED: "typed",
 	VIBRATING: "vibrating",
 	VARIABLEHEIGHT: "variableheight",
 	TEXT: "text",
-};
+	NOARCH: "noarch",
+});
 
 /**
  * An object containing all extended item configurations.
@@ -628,6 +626,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		FrilledShirt: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: "OpacityLabel",
+			},
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+			BaselineProperty: { Opacity: 1 },
+		}, // FrilledShirt
 	}, // Cloth
 	ClothAccessory: {
 		LeatherStraps: {
@@ -1311,7 +1322,7 @@ var AssetFemale3DCGExtended = {
 						MinHeight: -575,
 						DrawData: {
 							elementData: [
-								{ position: [1140, 465, 100, 675], icon: "player" },
+								{ position: [1140, 650, 100, 500], icon: "player" },
 							],
 						},
 						DialogPrefix: {
@@ -2825,7 +2836,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -250,
 						DrawData: {
-							elementData: [{ position: [1140, 375, 100, 400], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2850,7 +2861,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -575,
 						DrawData: {
-							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2875,7 +2886,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [{ position: [1140, 465, 100, 675], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2900,7 +2911,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: -50,
 						MinHeight: -600,
 						DrawData: {
-							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -2925,7 +2936,7 @@ var AssetFemale3DCGExtended = {
 						MaxHeight: 0,
 						MinHeight: -560,
 						DrawData: {
-							elementData: [{ position: [1140, 450, 100, 700], icon: "rope" }],
+							elementData: [{ position: [1140, 650, 100, 500], icon: "rope" }],
 						},
 						DialogPrefix: {
 							Chat: "SuspensionChange",
@@ -3340,7 +3351,19 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					Options: [
 						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Draw: InventoryItemNeckPetSuitShockCollars1DrawHook,
+									Click: InventoryItemNeckPetSuitShockCollars1ClickHook,
+								},
+								DialogPrefix: {
+									Header: "ShockLevel",
+								},
+							},
+						}, // 1 - enabled
 					],
 				},
 			],
@@ -3463,6 +3486,45 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		FuturisticCollar: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemNeckFuturisticCollarLoadHook,
+				Draw: InventoryItemNeckFuturisticCollarDrawHook,
+				Click: InventoryItemNeckFuturisticCollarClickHook,
+				Exit: InventoryItemNeckFuturisticCollarExitHook,
+				Validate: FuturisticAccessValidate,
+			},
+			BaselineProperty: {
+				OpenPermission: false,
+				OpenPermissionChastity: false,
+				OpenPermissionArm: false,
+				OpenPermissionLeg: false,
+				BlockRemotes: false,
+			},
+			AllowEffect: [
+				E.BlockRemotes,
+				E.OpenPermission,
+				E.OpenPermissionArm,
+				E.OpenPermissionLeg,
+				E.OpenPermissionChastity,
+			],
+		}, // FuturisticCollar
+		SlaveCollar: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: "SlaveCollarSelectType",
+			},
+			ScriptHooks: {
+				Load: InventoryItemNeckSlaveCollarLoadHook,
+				Draw: InventoryItemNeckSlaveCollarDrawHook,
+				Click: InventoryItemNeckSlaveCollarClickHook,
+			},
+			BaselineProperty: {
+				TypeRecord: { noarch: 0 },
+			},
+			AllowEffect: [E.GagNormal, E.FixedHead],
+		}, // SlaveCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -4447,6 +4509,41 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DroneMask
+		SpaceMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "One",
+					Property: {
+						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+					},
+				},
+				{
+					Name: "Two",
+					Property: {
+						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+					},
+				},
+				{
+					Name: "Three",
+					Property: {
+						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+					},
+				},
+				{
+					Name: "Four",
+					Property: {
+						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SpaceMask
 		CustomLatexHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -7824,10 +7921,10 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Opacity: 0 },
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: PropertyOpacityLoad,
 				Draw: PropertyOpacityDraw,
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 			DialogPrefix: {
 				Npc: (C, Option, PreviousOption) => `ItemDevicesLocker${Option.Name}`,
@@ -7869,10 +7966,10 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Opacity: 1 },
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: PropertyOpacityLoad,
 				Draw: InventoryItemDevicesVacBedDeluxeDrawHook,
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 		}, // VacBedDeluxe
 		WoodenBox: {
@@ -7915,7 +8012,20 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Game",
 					Key: "g",
-					Options: [{ HasSubscreen: true }],
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Load: InventoryItemDevicesLuckyWheelg0LoadHook,
+									Draw: InventoryItemDevicesLuckyWheelg0DrawHook,
+									Click: InventoryItemDevicesLuckyWheelg0ClickHook,
+									Exit: InventoryItemDevicesLuckyWheelg0ExitHook,
+								},
+							},
+						},
+					],
 				},
 				{
 					Name: "Stand",
@@ -8151,6 +8261,14 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			ChangeWhenLocked: false,
 		}, // Trolley
+		WheelFortune: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemDevicesWheelFortuneLoadHook,
+				Draw: CommonNoop,
+				Click: CommonNoop,
+			},
+		}, // WheelFortune
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -8466,6 +8584,12 @@ var AssetFemale3DCGExtended = {
 				Exit: InventoryItemVulvaFuturisticVibratorExitHook,
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
+			},
+			DialogPrefix: {
+				Header: (data, C, item) =>
+					`${DialogFindPlayer("CurrentMode")} ${DialogFindPlayer(
+						item.Property?.Mode ?? "Off",
+					)}`,
 			},
 			BaselineProperty: {
 				AccessMode: "",
@@ -9324,10 +9448,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ScriptHooks: {
+				Init: PropertyOpacityInit,
 				Load: (...args) => PropertyOpacityLoad(...args, "lightbulb"),
 				Draw: (...args) => PropertyOpacityDraw(...args, 0, -50, "Brightness"),
 				Exit: PropertyOpacityExit,
-				Validate: PropertyOpacityValidate,
 			},
 			BaselineProperty: { Opacity: 0 },
 		}, // Halo
@@ -10276,7 +10400,7 @@ var AssetFemale3DCGExtended = {
 				Option: "TonguePiercingGagMouthType",
 				Chat: "TonguePiercingGagMouthSet",
 			},
-		}
+		},
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -11145,6 +11269,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Chained",
 					Property: {
 						Effect: [E.Slow],
+						AllowActivePose: ["Kneel", ...PoseAllStanding],
 					},
 				},
 			],
@@ -11756,6 +11881,178 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMisc", AssetName: "PetPotato" },
 		}, // BunPlush
+		IntricatePadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscIntricatePadlockDrawHook,
+			},
+		}, // IntricatePadlock
+		HighSecurityPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Init: InventoryItemMiscHighSecurityPadlockInitHook,
+				Load: InventoryItemMiscHighSecurityPadlockLoadHook,
+				Draw: InventoryItemMiscHighSecurityPadlockDrawHook,
+				Click: InventoryItemMiscHighSecurityPadlockClickHook,
+				Exit: InventoryItemMiscHighSecurityPadlockExitHook,
+			},
+			BaselineProperty: {
+				MemberNumberListKeys: "",
+			},
+		}, // HighSecurityPadlock
+		SafewordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "PasswordPadlock" },
+			ScriptHooks: {
+				Load: InventoryItemMiscSafewordPadlockLoadHook,
+				Draw: InventoryItemMiscSafewordPadlockDrawHook,
+				Click: InventoryItemMiscSafewordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+		}, // SafewordPadlock
+		TimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscTimerPadlockDrawHook,
+				Click: InventoryItemMiscTimerPadlockClickHook,
+			},
+		}, // TimerPadlock
+		PasswordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			DialogPrefix: {
+				Header: (data, C, item) => {
+					const lockmemberNumber = item.Property?.LockMemberNumber;
+					if (lockmemberNumber == null) {
+						return "";
+					}
+					return `${DialogFindPlayer("LockMemberNumber")} ${lockmemberNumber}`;
+				},
+			},
+			ScriptHooks: {
+				Load: InventoryItemMiscPasswordPadlockLoadHook,
+				Draw: InventoryItemMiscPasswordPadlockDrawHook,
+				Click: InventoryItemMiscPasswordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+			BaselineProperty: {
+				Password: "PASSWORD",
+				Hint: "Take a guess...",
+				LockSet: false,
+				RemoveOnUnlock: false,
+			},
+		}, // PasswordPadlock
+		MistressPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscMistressPadlockDrawHook,
+			},
+		}, // MistressPadlock
+		PandoraPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "MistressPadlock" },
+		}, // PandoraPadlock
+		OwnerTimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscOwnerTimerPadlockDrawHook,
+				Click: InventoryItemMiscOwnerTimerPadlockClickHook,
+			},
+			BaselineProperty: {
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // OwnerTimerPadlock
+		LoversTimerPadlock: {
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "OwnerTimerPadlock" },
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: (...args) =>
+					InventoryItemMiscOwnerTimerPadlockDrawHook(
+						...args,
+						InventoryItemMiscLoversTimerPadlockValidator,
+					),
+				Click: (...args) =>
+					InventoryItemMiscOwnerTimerPadlockClickHook(
+						...args,
+						InventoryItemMiscLoversTimerPadlockValidator,
+					),
+			},
+		}, // LoversTimerPadlock
+		OwnerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscOwnerPadlockDrawHook,
+			},
+		}, // OwnerPadlock
+		LoversPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "OwnerPadlock" },
+		}, // LoversPadlock
+		FamilyPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscFamilyPadlockDrawHook,
+			},
+		}, // FamilyPadlock
+		PortalLinkPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "ExclusivePadlock" },
+		}, // PortalLinkPadlock
+		MistressTimerPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscMistressTimerPadlockDrawHook,
+				Click: InventoryItemMiscMistressTimerPadlockClickHook,
+			},
+			BaselineProperty: {
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // MistressTimerPadlock
+		MetalPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "ItemMisc", AssetName: "IntricatePadlock" },
+		}, // MetalPadlock
+		ExclusivePadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Draw: InventoryItemMiscExclusivePadlockDrawHook,
+			},
+		}, // ExclusivePadlock
+		CombinationPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemMiscCombinationPadlockLoadHook,
+				Draw: InventoryItemMiscCombinationPadlockDrawHook,
+				Click: InventoryItemMiscCombinationPadlockClickHook,
+				Exit: InventoryItemMiscCombinationPadlockExitHook,
+			},
+			BaselineProperty: {
+				CombinationNumber: "0000",
+			},
+		}, // ExclusivePadlock
+		TimerPasswordPadlock: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: InventoryItemMiscTimerPasswordPadlockLoadHook,
+				Draw: InventoryItemMiscTimerPasswordPadlockDrawHook,
+				Click: InventoryItemMiscTimerPasswordPadlockClickHook,
+				Exit: InventoryItemMiscPasswordPadlockExitHook,
+			},
+			BaselineProperty: {
+				Password: "PASSWORD",
+				Hint: "Take a guess...",
+				LockSet: false,
+				RemoveItem: false,
+				ShowTimer: true,
+				EnableRandomInput: false,
+				MemberNumberList: [],
+			},
+		}, // TimerPasswordPadlock
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -12052,7 +12349,16 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					Options: [
 						{}, // 0 - disabled
-						{ HasSubscreen: true }, // 1 - enabled
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Draw: InventoryItemPelvisObedienceBelts1DrawHook,
+									Click: InventoryItemPelvisObedienceBelts1ClickHook,
+								},
+							},
+						}, // 1 - enabled
 					],
 				},
 				{
@@ -12176,7 +12482,21 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Code",
 					Key: "o",
-					Options: [{ HasSubscreen: true, ChangeWhenLocked: false }],
+					Options: [
+						{
+							HasSubscreen: true,
+							ChangeWhenLocked: false,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.NOARCH,
+								ScriptHooks: {
+									Load: PortalLinkRecieverLoadHook,
+									Draw: PortalLinkRecieverDrawHook,
+									Click: PortalLinkRecieverClickHook,
+									Exit: PortalLinkRecieverExitHook,
+								},
+							},
+						},
+					],
 				},
 				{
 					Name: "CrotchShield",
@@ -12922,6 +13242,22 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // GradientSunglasses
+		StreetEyewear: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+				},
+				{
+					Name: "Half",
+				},
+			],
+			DialogPrefix: {
+				Header: "StreetEyewearSelectType",
+				Option: "StreetEyewearType",
+			},
+			DrawImages: false,
+		}, // StreetEyewear
 	}, // Glasses
 	Bracelet: {
 		Band1: {
@@ -13981,5 +14317,66 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Smartphone
+		PortalTablet: {
+			Archetype: ExtendedArchetype.NOARCH,
+			ScriptHooks: {
+				Load: PortalLinkTransmitterLoadHook,
+				Draw: PortalLinkTransmitterDrawHook,
+				Click: PortalLinkTransmitterClickHook,
+				Exit: PortalLinkTransmitterExitHook,
+			},
+			BaselineProperty: { PortalLinkCode: "" },
+		}, // PortalTablet
 	}, // ItemHandheld
+	EyeShadow: {
+		CatEye: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "Cloth", AssetName: "FrilledShirt" },
+			BaselineProperty: { Opacity: 0.8 },
+		}, // CatEye
+		CatEye2: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // CatEye2
+		LargeBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // LargeBlurred
+		LargeSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // LargeSolid
+		SmallBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SmallBlurred
+		SmallSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SmallSolid
+		SuperstarBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SuperstarBlurred
+		SuperstarSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // SuperstarSolid
+		Tanuki: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // Tanuki
+		UndershadowedBlurred: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // UndershadowedBlurred
+		UndershadowedSolid: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // UndershadowedSolid
+		Wings: {
+			Archetype: ExtendedArchetype.NOARCH,
+			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
+		}, // Wings
+	}, //EyeShadow
 };

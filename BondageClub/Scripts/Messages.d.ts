@@ -37,7 +37,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	GameplaySettings?: any;
 	ArousalSettings?: any;
 	OnlineSharedSettings?: any;
-	Game?: ServerChatRoomGame;
+	Game?: CharacterGameParameters;
 	LabelColor?: string;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;
@@ -560,6 +560,15 @@ interface ShockEventDictionaryEntry {
 }
 
 /**
+ * A metadata dictionary entry sent with a shock event message including a shock intensity representing the strength
+ * of the shock. This is used to determine the severity of any visual or gameplay effects the shock may have.
+ */
+interface SuctionEventDictionaryEntry {
+	/** The intensity of the suction - must be a non-negative number */
+	SuctionLevel: number;
+}
+
+/**
  * A metadata dictionary entry indicating that the message has been generated due to an automated event. Can be used
  * to filter out what might otherwise be spammy chat messages (these include things like automatic vibrator intensity
  * changes and events & messages triggered by some futuristic items).
@@ -609,6 +618,7 @@ type ChatMessageDictionaryEntry =
 	| AssetReferenceDictionaryEntry
 	| ActivityAssetReferenceDictionaryEntry
 	| ShockEventDictionaryEntry
+	| SuctionEventDictionaryEntry
 	| AutomaticEventDictionaryEntry
 	| ActivityCounterDictionaryEntry
 	| AssetGroupNameDictionaryEntry

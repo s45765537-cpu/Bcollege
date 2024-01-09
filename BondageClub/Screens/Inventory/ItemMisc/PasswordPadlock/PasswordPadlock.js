@@ -2,20 +2,10 @@
 
 const InventoryItemMiscPasswordPadlockPasswordRegex = /^[A-Z]+$/;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscPasswordPadlockInit(C, Item) {
-	const PropRecord = {
-		Password: "PASSWORD",
-		Hint: "Take a guess...",
-		LockSet: false,
-		RemoveOnUnlock: false,
-	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscPasswordPadlockLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemMiscPasswordPadlockLoadHook(data, originalFunction) {
 	if (!DialogFocusSourceItem) return;
+	originalFunction();
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
@@ -43,21 +33,12 @@ function InventoryItemMiscPasswordPadlockLoad() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscPasswordPadlockDraw() {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscPasswordPadlockDrawHook(data, originalFunction) {
 	if (!DialogFocusItem || !DialogFocusSourceItem) return DialogLeaveFocusItem();
-	const Property = DialogFocusSourceItem.Property;
+	originalFunction();
+
 	const C = CharacterGetCurrent();
-
-	DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
-
-	if (Property && Property.LockMemberNumber != null) {
-		DrawText(
-			DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber.toString(),
-			1500, 600, "white", "gray",
-		);
-	}
-
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
 		DrawText(DialogFindPlayer("LockZoneBlocked"), 1500, 800, "white", "gray");
@@ -97,16 +78,12 @@ function InventoryItemMiscPasswordPadlockDrawControls() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscPasswordPadlockClick() {
-	// Exits the screen
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-	}
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscPasswordPadlockClickHook(data, originalFunction) {
+	originalFunction();
 
 	const C = CharacterGetCurrent();
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
-
 	InventoryItemMiscPasswordPadlockControlsClick();
 }
 
@@ -181,8 +158,9 @@ function InventoryItemMiscPasswordPadlockHandleFirstSet() {
 	} else { DialogExtendedMessage = "PasswordPadlockErrorInput"; }
 }
 
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscPasswordPadlockExit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemMiscPasswordPadlockExitHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	ElementRemove("Password");
 	ElementRemove("SetPassword");
 	ElementRemove("SetHint");

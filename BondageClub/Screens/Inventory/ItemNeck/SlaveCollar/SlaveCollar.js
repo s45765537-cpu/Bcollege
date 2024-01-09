@@ -94,13 +94,10 @@ var InventoryItemNeckSlaveCollarTypes = [
 	}
 ];
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemNeckSlaveCollarInit(C, Item, Push, Refresh) {
-	return ExtendedItemInitNoArch(C, Item, { TypeRecord: { noarch: 0 }, Effect: [], Block: [] }, Push, Refresh);
-}
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemNeckSlaveCollarLoadHook(data, originalFunction) {
+	originalFunction();
 
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemNeckSlaveCollarLoad() {
 	InventoryItemNeckSlaveCollarColorMode = false;
 	var C = CharacterGetCurrent();
 	var SC = InventoryItemNeckSlaveCollarTypes.find(element => (element.Name == "LoveLeatherCollar"));
@@ -114,9 +111,8 @@ function InventoryItemNeckSlaveCollarLoad() {
 	else if (C && C.IsOwnedByPlayer && !C.IsLoverOfPlayer() && SC) { InventoryItemNeckSlaveCollarTypes.splice(InventoryItemNeckSlaveCollarTypes.indexOf(SC,1)); }
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemNeckSlaveCollarDraw() {
-
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 	// Only the character owner can use the controls in that screen
 	var C = CharacterGetCurrent();
 	if (C && C.IsOwnedByPlayer()) {
@@ -129,10 +125,9 @@ function InventoryItemNeckSlaveCollarDraw() {
 			DrawButton(1775, 25, 90, 90, "", "White", "Icons/ColorCancel.png");
 
 		} else {
-
 			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
+			originalFunction();
 			ColorPickerHide();
-			DrawText(DialogFindPlayer("SlaveCollarSelectType"), 1500, 250, "white", "gray");
 			DrawButton(1665, 25, 90, 90, "", "White", "Icons/Next.png");
 			DrawButton(1775, 25, 90, 90, "", (DialogFocusItem.Color != null && DialogFocusItem.Color != "Default" && DialogFocusItem.Color != "None") ? DialogFocusItem.Color.toString() : "White", "Icons/ColorChange.png");
 			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
@@ -140,17 +135,15 @@ function InventoryItemNeckSlaveCollarDraw() {
 				const Type = InventoryItemNeckSlaveCollarTypes[I];
 				const CollarTypeAsset = AssetGet(A.Group.Family, A.Group.Name, Type.Image);
 				const subType = DialogFocusItem.Property?.TypeRecord?.noarch ?? 0;
-				const buttonX = 1000 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250;
-				const buttonY = 350 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300;
+				const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
 				DrawPreviewBox(buttonX, buttonY, `${AssetGetPreviewPath(DialogFocusItem.Asset)}/${Type.Image}.png`, CollarTypeAsset.Description, {Hover: true, Disabled: subType === I});
 			}
 		}
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemNeckSlaveCollarClick() {
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 	// When the user exits the screen
 	if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) {
 		ElementRemove("InputColor");
@@ -190,6 +183,7 @@ function InventoryItemNeckSlaveCollarClick() {
 			}
 
 		} else {
+			originalFunction();
 
 			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
 			if ((MouseX >= 1665) && (MouseX <= 1755) && (MouseY >= 25) && (MouseY <= 110)) {
@@ -203,7 +197,8 @@ function InventoryItemNeckSlaveCollarClick() {
 			}
 			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
 				var subType = DialogFocusItem?.Property?.TypeRecord?.noarch ?? 0;
-				if ((MouseX >= 1000 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseX <= 1225 + ((I - InventoryItemNeckSlaveCollarOffset) % 4) * 250) && (MouseY >= 350 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (MouseY <= 625 + Math.floor((I - InventoryItemNeckSlaveCollarOffset) / 4) * 300) && (subType != I))
+				const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
+				if (MouseIn(buttonX, buttonY, 225, 225) && subType != I)
 					InventoryItemNeckSlaveCollarSetType(I);
 			}
 

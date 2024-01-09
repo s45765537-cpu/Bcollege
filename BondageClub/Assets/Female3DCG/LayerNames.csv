@@ -218,6 +218,8 @@ GlassesGradientSunglassesGlass,Glass
 GlassesJokeGlassesGlasses,Glasses
 GlassesJokeGlassesHair,Hair
 GlassesJokeGlassesNose,Nose
+GlassesStreetEyewearFrame,Frame
+GlassesStreetEyewearLenses,Lenses
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
 GlovesBikerGlovesHands,Gloves
@@ -838,6 +840,9 @@ ItemHeadDroneMaskBase,Mask
 ItemHeadDroneMaskEyeRegular,Eyes
 ItemHeadDroneMaskMouthOnahole,Mouth
 ItemHeadDroneMaskShine,Shine
+ItemHeadSpaceMaskGlass,Glass
+ItemHeadSpaceMaskHelm,Helmet
+ItemHeadSpaceMaskDetail,Details
 ItemHeadFrilledSleepMaskFrills,Frills
 ItemHeadFrilledSleepMaskMask,Mask
 ItemHeadFuturisticMaskDisplay,Tint

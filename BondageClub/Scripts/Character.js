@@ -786,37 +786,37 @@ function CharacterLoadSimple(AccName) {
  * @param {number} SourceMemberNumber - Source number of the refresh
  */
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Title == null))) Char.Title = data.Title;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Nickname == null))) Char.Nickname = data.Nickname;
-	// Validated in the `ActivePose` setter
-	Char.ActivePose = data.ActivePose || [];
-	Char.LabelColor = data.LabelColor;
-	Char.Creation = data.Creation;
-	Char.Description = data.Description;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ItemPermission == null))) Char.ItemPermission = data.ItemPermission;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.ArousalSettings == null))) Char.ArousalSettings = data.ArousalSettings;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.OnlineSharedSettings == null))) Char.OnlineSharedSettings = data.OnlineSharedSettings;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Game == null))) Char.Game = data.Game;
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.MapData == null)))
-	{
-		Char.MapData = ChatRoomMapInitializeCharacter(Char);
-		Char.MapData.Pos = data.MapData;
+	if (!Char.IsPlayer() && Char.MemberNumber == SourceMemberNumber) {
+		Char.Title ??= ServerAccountDataSyncedValidate.Title(data.Title, Char);
+		Char.Nickname ??= ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
+		Char.ItemPermission ??= ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
+		Char.ArousalSettings ??= ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
+		Char.OnlineSharedSettings ??= ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
+		Char.Game ??= ServerAccountDataSyncedValidate.Game(data.Game, Char);
+		if(!Char.MapData)
+		{
+			Char.MapData = ChatRoomMapInitializeCharacter(Char);
+			Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
+		}
+		Char.Crafting ??= ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Crafting == null))) Char.Crafting = data.Crafting;
-	Char.Ownership = data.Ownership;
-	Char.Lovership = data.Lovership;
-	for (let L = Char.Lovership.length - 1; L >= 0; L--) {
-		delete Char.Lovership[L].BeginEngagementOfferedByMemberNumber;
-		delete Char.Lovership[L].BeginWeddingOfferedByMemberNumber;
-		if (Char.Lovership[L].BeginDatingOfferedByMemberNumber) Char.Lovership.splice(L, 1);
-	}
-	Char.Reputation = (data.Reputation != null) ? data.Reputation : [];
-	Char.BlockItems = Array.isArray(data.BlockItems) ? data.BlockItems : [];
-	Char.LimitedItems = Array.isArray(data.LimitedItems) ? data.LimitedItems : [];
-	Char.FavoriteItems = Array.isArray(data.FavoriteItems) ? data.FavoriteItems : [];
-	if (!Char.IsPlayer() && Array.isArray(data.WhiteList)) Char.WhiteList = data.WhiteList;
-	if (!Char.IsPlayer() && Array.isArray(data.BlackList)) Char.BlackList = data.BlackList;
 
+	// Fully validated in the `ActivePose` setter
+	Char.ActivePose = /** @type {readonly AssetPoseName[]} */(data.ActivePose ?? []);
+
+	Char.LabelColor = ServerAccountDataSyncedValidate.LabelColor(data.LabelColor, Char);
+	Char.Creation = ServerAccountDataSyncedValidate.Creation(data.Creation, Char);
+	Char.Description = ServerAccountDataSyncedValidate.Description(data.Description, Char);
+	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
+	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
+	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);
+	Char.BlockItems = ServerAccountDataSyncedValidate.BlockItems(data.BlockItems, Char);
+	Char.LimitedItems = ServerAccountDataSyncedValidate.LimitedItems(data.LimitedItems, Char);
+	Char.FavoriteItems = ServerAccountDataSyncedValidate.FavoriteItems(data.FavoriteItems, Char);
+	if (!Char.IsPlayer()) {
+		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
+		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
+	}
 
 	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
@@ -888,7 +888,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.Name = data.Name;
 		Char.Lover = (data.Lover != null) ? data.Lover : "";
 		Char.Owner = (data.Owner != null) ? data.Owner : "";
-		Char.Title = data.Title;
+		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title);
 		Char.Nickname = data.Nickname;
 		Char.AccountName = "Online-" + data.ID.toString();
 		Char.MemberNumber = data.MemberNumber;

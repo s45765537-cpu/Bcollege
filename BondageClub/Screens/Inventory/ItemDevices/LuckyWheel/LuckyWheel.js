@@ -46,8 +46,9 @@ function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, characte
 	return ret;
 }
 
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemDevicesLuckyWheelg0Load() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemDevicesLuckyWheelg0LoadHook(data, originalFunction) {
+	originalFunction();
 	for (let num = 0; num < DialogFocusItem.Property.Texts.length; num++) {
 		const input = ElementCreateInput(`LuckyWheelText${num}`, "input", DialogFocusItem.Property.Texts[num] || "", ItemDevicesLuckyWheelMaxTextLength);
 		if (input) {
@@ -63,10 +64,9 @@ var ItemDevicesLuckyWheelRowLeft = 1380;
 var ItemDevicesLuckyWheelRowHeight = 60;
 var ItemDevicesLuckyWheelRowLength = 350;
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemDevicesLuckyWheelg0Draw() {
-	// Draw the header and item
-	DrawAssetPreview(1387, 125, DialogFocusItem.Asset);
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemDevicesLuckyWheelg0DrawHook(data, originalFunction) {
+	originalFunction();
 
 	// Section labels & remove buttons grid
 	let top = ItemDevicesLuckyWheelRowTop;
@@ -85,13 +85,9 @@ function InventoryItemDevicesLuckyWheelg0Draw() {
 
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemDevicesLuckyWheelg0Click() {
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-		return;
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemDevicesLuckyWheelg0ClickHook(data, originalFunction) {
+	originalFunction();
 	if (MouseIn(1360, 720, 120, 48)) {
 		if (DialogFocusItem.Property.Texts.length >= ItemDevicesLuckyWheelMaxTexts) return;
 
@@ -118,8 +114,8 @@ function InventoryItemDevicesLuckyWheelg0Click() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemDevicesLuckyWheelg0Exit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemDevicesLuckyWheelg0ExitHook(data, originalFunction) {
 	if (!DialogFocusItem) return;
 
 	for (let num = 0; num < ItemDevicesLuckyWheelMaxTexts; num++) {
@@ -138,6 +134,7 @@ function InventoryItemDevicesLuckyWheelg0Exit() {
 	CharacterRefresh(C, true, false);
 
 	ExtendedItemSubscreen = null;
+	if (originalFunction) originalFunction();
 }
 
 function InventoryItemDevicesLuckyWheelUpdate() {
@@ -157,6 +154,11 @@ function InventoryItemDevicesLuckyWheelTrigger() {
 	ChatRoomPublishCustomAction("LuckyWheelStartTurning", true, Dictionary);
 }
 
+/**
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {number} Angle
+ */
 function InventoryItemDevicesLuckyWheelStoppedTurning(C, Item, Angle) {
 	if (!C.IsPlayer() || Item.Asset.Name !== "LuckyWheel") return;
 

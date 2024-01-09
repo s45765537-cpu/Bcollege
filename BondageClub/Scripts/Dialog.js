@@ -329,11 +329,9 @@ function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toU
 
 /**
  * Returns the value of the AllowItem flag of a given character
- * @param {string | Character} C - The character whose flag should be returned.
- * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C) && !DialogDontAllowItemDistance(C); }
+function DialogDoAllowItem() { return !DialogDontAllowItemPermission() && !DialogDontAllowItemDistance(); }
 
 /**
  * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character

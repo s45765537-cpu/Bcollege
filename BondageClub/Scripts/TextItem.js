@@ -22,7 +22,7 @@ function TextItemRegister(asset, config, parentOption=null, createCallbacks=true
 		/** @type {ExtendedItemCallbackStruct<TextItemOption>} */
 		const defaultCallbacks = {
 			load: () => TextItem.Load(data),
-			click: () => TextItem.Click(data),
+			click: () => NoArch.Click(data),
 			draw: () => TextItem.Draw(data),
 			publishAction: (...args) => TextItem.PublishAction(data, ...args),
 			init: (...args) => TextItem.Init(data, ...args),
@@ -219,7 +219,9 @@ const TextItem = {
 	 * Draw handler for extended item screens with text input fields.
 	 * @param {TextItemData} data - The items extended item data
 	 */
-	Draw: function ({ asset, drawData, textNames }) {
+	Draw: function (data) {
+		const { asset, drawData, textNames } = data;
+
 		ExtendedItemDrawHeader();
 		DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 		if (drawData.paginate) {
@@ -235,29 +237,7 @@ const TextItem = {
 			const ID = PropertyGetID(name, item);
 			ElementPosition(ID, ...position);
 		});
-	},
-	/**
-	 * Click handler for extended item screens with text input fields.
-	 * @param {TextItemData} data - The items extended item data
-	 */
-	Click: function ({ functionPrefix, drawData }) {
-		if (MouseIn(1885, 25, 90, 90)) {
-			if (ExtendedItemSubscreen) {
-				CommonCallFunctionByName(`${functionPrefix}Exit`);
-				ExtendedItemSubscreen = null;
-			} else {
-				DialogLeaveFocusItem();
-			}
-		} else if (drawData.paginate) {
-			const currentPage = Math.floor(ExtendedItemGetOffset() / drawData.itemsPerPage);
-			if (MouseIn(1665, 240, 90, 90)) {
-				const newPage = (currentPage + drawData.pageCount - 1) % drawData.pageCount;
-				ExtendedItemSetOffset(drawData.itemsPerPage * newPage);
-			} else if (MouseIn(1775, 240, 90, 90)) {
-				const newPage = (currentPage + drawData.pageCount + 1) % drawData.pageCount;
-				ExtendedItemSetOffset(drawData.itemsPerPage * newPage);
-			}
-		}
+		ExtendedItemTighten.Draw(data, item, [1050, 220, 300, 65]);
 	},
 	/**
 	 * Exit function for items with text input fields.
@@ -276,7 +256,7 @@ const TextItem = {
 				const args = [C, DialogFocusItem, newOption, previousOption];
 				CommonCallFunctionByNameWarn(`${data.functionPrefix}PublishAction`, ...args);
 				if (data.pushOnPublish) {
-					CharacterRefresh(C, false, false);
+					CharacterRefresh(C, true, false);
 					ChatRoomCharacterItemUpdate(C, data.asset.Group.Name);
 				}
 			}

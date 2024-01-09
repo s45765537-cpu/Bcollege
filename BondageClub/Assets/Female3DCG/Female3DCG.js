@@ -2101,7 +2101,10 @@ var AssetFemale3DCG = [
 				Value: 5,
 				BuyGroup: "SlaveRags",
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.Cloth },
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					Suspension: "Suspension",
+				},
 				DefaultColor: ["#886D5D", "#886D58", "#8B6945", "Default"],
 				Layer: [
 					{ Name: "Base", AllowTypes: { c: [0, 1] } },
@@ -7829,6 +7832,7 @@ var AssetFemale3DCG = [
 				Effect: [],
 				Attribute: ["FuturisticRecolor"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -8275,6 +8279,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				Extended: true,
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
@@ -10867,6 +10872,22 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
+				Name: "CatsuitGloves",
+				Fetish: ["Nylon"],
+				Value: -1,
+				BuyGroup: "Catsuit",
+				Priority: 27,
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					...AssetPoseMapping.LeftHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				DefaultColor: ["#992F7D"],
+			},
+			{
 				/*
 				To allow rings to have more diversity, they have been built as a modular item.
 				If you wish to add more rings, add the corresponding layers to the left and right hand groups and
@@ -10967,6 +10988,22 @@ var AssetFemale3DCG = [
 					BackCuffs: PoseType.HIDE,
 				},
 				Layer: [{ Name: "Color" }, { Name: "Outline" }],
+			},
+			{
+				Name: "CatsuitGloves",
+				Fetish: ["Nylon"],
+				Value: -1,
+				BuyGroup: "Catsuit",
+				Priority: 27,
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					...AssetPoseMapping.RightHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				DefaultColor: ["#992F7D"],
 			},
 			{
 				/*
@@ -11213,6 +11250,15 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
+			},
+			{ 
+				Name: "StreetEyewear",
+				Value: 21, 
+				Left: 182,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+				DefaultColor: ["#303030", "#808080"],
+				Layer: [{ Name: "Frame" }, { Name: "Lenses" }],
 			},
 		],
 		Color: [
@@ -12072,6 +12118,27 @@ var AssetFemale3DCG = [
 						AllowTypes: { m: 6 },
 						CopyLayerColor: "MouthOnahole",
 					},
+				],
+			},
+			{
+				Name: "SpaceMask", Category: ["SciFi"], Fetish: ["Latex"], Value: 1, Difficulty: 5, Time: 10, AllowLock: true, DrawLocks: false, Extended: true, DynamicAfterDraw: true,
+				Block:["ItemNose"],
+				Hide: ["Glasses", "Blush"],
+				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
+				Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
+				Layer: [ 
+					{ Name: "OneGlass", HasType: false, AllowTypes: [""], },
+					{ Name: "TwoGlass", HasType: false, AllowTypes: ["Two"], CopyLayerColor: "OneGlass", },
+					{ Name: "ThreeGlass", HasType: false, AllowTypes: ["Three"], CopyLayerColor: "OneGlass", },
+					{ Name: "FourGlass", HasType: false, AllowTypes: ["Four"], CopyLayerColor: "OneGlass", },
+					{ Name: "OneHelm", HasType: false, AllowTypes: [""], },
+					{ Name: "TwoHelm", HasType: false, AllowTypes: ["Two"], CopyLayerColor: "OneHelm", },
+					{ Name: "ThreeHelm", HasType: false, AllowTypes: ["Three"], CopyLayerColor: "OneHelm", },
+					{ Name: "FourHelm", HasType: false, AllowTypes: ["Four"], CopyLayerColor: "OneHelm", },
+					{ Name: "OneDetail", HasType: false, AllowTypes: [""], },
+					{ Name: "TwoDetail", HasType: false, AllowTypes: ["Two"], CopyLayerColor: "OneDetail", },
+					{ Name: "ThreeDetail", HasType: false, AllowTypes: ["Three"], CopyLayerColor: "OneDetail", },
+					{ Name: "FourDetail", HasType: false, AllowTypes: ["Four"], CopyLayerColor: "OneDetail", },
 				],
 			},
 			{
@@ -15149,6 +15216,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.ItemLegs,
 					LegsClosed: "LegsClosed",
+					KneelingSpread: PoseType.HIDE,
 				},
 				Effect: [E.CuffedLegs],
 				Extended: true,
@@ -20053,6 +20121,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Extended: true,
 				AlwaysExtend: true,
+				DynamicScriptDraw: true,
 				DynamicBeforeDraw: true,
 				Prerequisite: ["AccessBreast", "CannotBeSuited"],
 				PoseMapping: {
@@ -25895,7 +25964,6 @@ var AssetFemale3DCG = [
 				OwnerOnly: true,
 				Effect: ["Lock"],
 				AllowBlock: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-				AllowEffect: [E.GagNormal, E.FixedHead],
 				Extended: true,
 				CreateLayerTypes: ["noarch"],
 			},
@@ -26040,13 +26108,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				AllowEffect: [
-					E.BlockRemotes,
-					E.OpenPermission,
-					E.OpenPermissionArm,
-					E.OpenPermissionLeg,
-					E.OpenPermissionChastity,
-				],
 				Layer: [
 					{ Name: "Display" },
 					{ Name: "Band" },
@@ -29416,7 +29477,7 @@ var AssetFemale3DCG = [
 					"#A2A2A2",
 					"#BBA34E",
 					"#DBCE5C",
-					"#8F8F8F"
+					"#8F8F8F",
 				],
 				Extended: true,
 				Layer: [
@@ -29425,7 +29486,7 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 					},
 					{
-						Name: "Strap", 
+						Name: "Strap",
 						AllowColorize: true,
 					},
 					{
@@ -29436,55 +29497,55 @@ var AssetFemale3DCG = [
 						Name: "MouthRing",
 						AllowColorize: true,
 					},
-					{ 
+					{
 						Name: "Teeth",
 						AllowColorize: false,
 					},
 					{
-						Name: "Hook", 
+						Name: "Hook",
 						AllowColorize: true,
-						AllowTypes: { typed: [0, 7, 8]},
+						AllowTypes: { typed: [0, 7, 8] },
 					},
 					{
 						Name: "GagRing",
 						AllowColorize: true,
-						AllowTypes: { typed: [1, 2, 3]}
+						AllowTypes: { typed: [1, 2, 3] },
 					},
 					{
 						Name: "GagRingBells",
 						AllowColorize: true,
-						AllowTypes: { typed: 2}
+						AllowTypes: { typed: 2 },
 					},
 					{
 						Name: "GagRingChain",
 						AllowColorize: true,
-						AllowTypes: { typed: 3}
+						AllowTypes: { typed: 3 },
 					},
 					{
 						Name: "Nail",
 						AllowColorize: true,
-						AllowTypes: { typed: 4}
+						AllowTypes: { typed: 4 },
 					},
 					{
 						Name: "PadlockGag",
 						AllowColorize: true,
-						AllowTypes: { typed: 5}
+						AllowTypes: { typed: 5 },
 					},
 					{
 						Name: "ClothesPeg",
 						AllowColorize: true,
-						AllowTypes: { typed: 6}
+						AllowTypes: { typed: 6 },
 					},
 					{
 						Name: "BitGag",
 						AllowColorize: true,
-						AllowTypes: { typed: 7}
+						AllowTypes: { typed: 7 },
 					},
 					{
 						Name: "BitGag2",
 						AllowColorize: true,
 						CopyLayerColor: "BitGag",
-						AllowTypes: { typed: 8}
+						AllowTypes: { typed: 8 },
 					},
 				],
 			},
@@ -40047,6 +40108,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -40100,6 +40162,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -40182,6 +40245,7 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40203,6 +40267,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40223,6 +40288,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40380,6 +40446,7 @@ var AssetFemale3DCG = [
 				Attribute: ["FuturisticRecolor"],
 				Effect: [],
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
@@ -40555,6 +40622,7 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Kneel"],
 				Effect: [E.Freeze],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
@@ -40574,7 +40642,9 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
 				Effect: [E.Freeze, E.BlockWardrobe],
 				Hide: ["Shoes", "ItemFeet"],
@@ -40635,6 +40705,7 @@ var AssetFemale3DCG = [
 				],
 				Height: 35,
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -41759,3 +41830,8 @@ var FetishFemale3DCG = [
 		},
 	},
 ];
+
+/**
+ * A set with all available fetish names.
+ */
+const FetishFemale3DCGNames = new Set(FetishFemale3DCG.map((f) => f.Name));

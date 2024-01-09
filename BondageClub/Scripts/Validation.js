@@ -918,9 +918,9 @@ function ValidationSanitizeLock(C, item) {
  * "allow" array for that item.
  * @param {Character} C - The character on whom the item is equipped
  * @param {Item} item - The item whose property should be sanitized
- * @param {keyof ItemProperties & keyof Asset} propertyName - The name of the property
- * @param {keyof Asset} allowPropertyName - The name of the property corresponding to the list of allowed property
- * values on the asset
+ * @param {keyof (PropertiesArray.Asset | PropertiesArray.Item)} propertyName - The name of the property
+ * @param {keyof PropertiesArray.Asset} allowPropertyName - The name of the property corresponding to the list of allowed property
+ * values on the asset (e.g. `AllowHide` or `AllowEffect`)
  * @returns {boolean} - TRUE if the item's property was modified as part of the sanitization process
  * (indicating it was not a valid string array, or that invalid entries were present), FALSE otherwise
  */
@@ -929,18 +929,22 @@ function ValidationSanitizeAllowedPropertyArray(C, item, propertyName, allowProp
 	let changed = ValidationSanitizeStringArray(property, propertyName);
 
 	// If there is no property array, no further sanitization is needed
-	if (!Array.isArray(property[propertyName])) return changed;
+	const propertyValue = property[propertyName];
+	if (!Array.isArray(propertyValue)) return changed;
 
-	const assetProperty = item.Asset[property] || [];
+	/** @type {readonly unknown[]} */
+	const assetProperty = item.Asset[propertyName] || [];
+	/** @type {readonly unknown[]} */
 	const allowProperty = item.Asset[allowPropertyName] || [];
+
 	// Any entry must be included in the allow list to be permitted
-	property[propertyName] = property[propertyName].filter((propertyValue) => {
-		if (!assetProperty.includes(propertyValue) && !allowProperty.includes(propertyValue)) {
+	property[propertyName] = /** @type {never} */(propertyValue.filter((i) => {
+		if (!assetProperty.includes(i) && !allowProperty.includes(i)) {
 			console.warn(`Filtering out invalid ${propertyName} entry on ${item.Asset.Name}:`, propertyValue);
 			changed = true;
 			return false;
 		} else return true;
-	});
+	}));
 	return changed;
 }
 
@@ -1250,4 +1254,31 @@ function ValidationHasScriptPermission(character, property, permissionLevel) {
  */
 function ValidationHasSomeScriptPermission(character, property, permissionLevels) {
 	return permissionLevels.some((permissionLevel) => ValidationHasScriptPermission(character, property, permissionLevel));
+}
+
+/**
+ * @template {{ [key: string]: (arg: any, C: Character) => any }} T
+ * @param {unknown} arg The to-be validated record
+ * @param {Character} C The character in question
+ * @param {T} validators A record of validation functions; one for each property in `arg`
+ * @param {boolean} allowExtraKeys whether to allow extra key/value pairs in `arg` (absent from the `validators` record) to-be returned
+ * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
+ */
+function ValdiationApplyRecord(arg, C, validators, allowExtraKeys=false) {
+	if (!CommonIsObject(arg)) {
+		arg = {};
+	}
+
+	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(CommonEntries(validators).map(([name, validate]) => {
+		/** @type {any} */
+		const value = validate(arg[name], C);
+		return [name, value];
+	})));
+
+	if (allowExtraKeys) {
+		const extraKeys = CommonKeys(arg).filter(i => !(i in ret));
+		return Object.assign(ret, CommonPick(arg, extraKeys));
+	} else {
+		return ret;
+	}
 }

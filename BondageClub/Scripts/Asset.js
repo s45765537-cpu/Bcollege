@@ -5,7 +5,7 @@
 var Asset = [];
 /** @type {AssetGroup[]} */
 var AssetGroup = [];
-/** @type {Map<string, Asset>} */
+/** @type {Map<`${AssetGroupName}/${string}`, Asset>} */
 var AssetMap = new Map();
 /** @type {Map<AssetGroupName, AssetGroup>} */
 var AssetGroupMap = new Map();
@@ -277,7 +277,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	// Unwearable assets are not visible but can be overwritten
 	if (!A.Wear && AssetDef.Visible != true) A.Visible = false;
 	/** @type {Asset[]} */(Group.Asset).push(A);
-	AssetMap.set(Group.Name + "/" + A.Name, A);
+	AssetMap.set(`${Group.Name}/${A.Name}`, A);
 	Asset.push(A);
 
 	// Initialize the extended item data of archetypical items
@@ -408,6 +408,9 @@ function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, cr
 			break;
 		case ExtendedArchetype.TEXT:
 			data = TextItemRegister(A, config, parentOption, createCallbacks);
+			break;
+		case ExtendedArchetype.NOARCH:
+			data = NoArchItemRegister(A, config, parentOption);
 			break;
 	}
 
@@ -694,6 +697,14 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
+	PreferenceArousalSettingsDefault.Zone = AssetGroup.map((group) => {
+		return {
+			...PreferenceArousalZoneDefault,
+			Name: /** @type {AssetGroupItemName} */(PreferenceArousalZoneValidate.Name(group.Name, Player)),
+			Orgasm: (group.Name === "ItemVulva"),
+		};
+	}).filter(({ Name }) => Name !== undefined);
+
 	// TODO: Figure out how to get the .csv loading to work in Node.js, which we use for the test suite
 	if (IsBrowser()) {
 		// Loads the description of the assets in a specific language
@@ -717,10 +728,10 @@ function AssetLoadAll() {
  * @param {IAssetFamily} Family - The family to search in (Ignored until other family is added)
  * @param {AssetGroupName} Group - Name of the group of the searched asset
  * @param {string} Name - Name of the searched asset
- * @returns {Asset|null}
+ * @returns {Asset | null}
  */
 function AssetGet(Family, Group, Name) {
-	return AssetMap.get(Group + "/" + Name) || null;
+	return AssetMap.get(`${Group}/${Name}`) ?? null;
 }
 
 /**

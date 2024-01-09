@@ -19,7 +19,7 @@ var ServerAccountNameRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
-var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]+$/u;
+var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -840,5 +840,159 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 
 	// No valid combo, we don't allow the item
 	return false;
-
 }
+
+/**
+ * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
+ * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => Character[k] }}
+ * @namespace
+ */
+var ServerAccountDataSyncedValidate = {
+	Title: (arg, C) => {
+		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+	},
+	Nickname: (arg, C) => {
+		return typeof arg === "string" ? arg : undefined;
+	},
+	ItemPermission: (arg, C) => {
+		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
+	},
+	ArousalSettings: (arg, C) => {
+		return ValdiationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
+	},
+	OnlineSharedSettings: (arg, C) => {
+		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
+	},
+	MapData: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		return {
+			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
+			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
+		};
+	},
+	Crafting: (arg, C) => {
+		return CraftingDecompressServerData(arg);
+	},
+	Game: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			arg = {};
+		}
+
+		// TODO: Validate individual game settings
+		return {
+			LARP: CommonIsObject(arg.LARP) ? arg.LARP : undefined,
+			MagicBattle: CommonIsObject(arg.MagicBattle) ? arg.MagicBattle : undefined,
+			GGTS: CommonIsObject(arg.GGTS) ? arg.GGTS : undefined,
+			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
+			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
+		};
+	},
+	LabelColor: (arg, C) => {
+		return CommonIsColor(arg) ? arg : "#ffffff";
+	},
+	Creation: (arg, C) => {
+		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : undefined;
+	},
+	Description: (arg, C) => {
+		return typeof arg === "string" ? arg : undefined;
+	},
+	Ownership: (arg, C) => {
+		if (!CommonIsObject(arg)) {
+			return undefined;
+		}
+
+		const { Name, MemberNumber, Stage, Start } = arg;
+		if (
+			typeof Name === "string"
+			&& CommonIsInteger(MemberNumber, 0)
+			&& (Stage === 0 || Stage === 1)
+			&& CommonIsInteger(Start, 0, CommonTime())
+		) {
+			return { Name, MemberNumber, Stage, Start };
+		} else {
+			return undefined;
+		}
+	},
+	Lovership: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return [];
+		}
+
+		/** @type {Lovership[]} */
+		const ret = [];
+		for (const lovership of arg) {
+			if (!CommonIsObject(lovership) || lovership.BeginDatingOfferedByMemberNumber) {
+				continue;
+			}
+
+			const { Name, MemberNumber, Stage, Start } = lovership;
+			if (
+				typeof Name === "string"
+				&& CommonIsInteger(MemberNumber, 0)
+				&& (Stage === 0 || Stage === 1 || Stage === 2)
+				&& CommonIsInteger(Start, 0, CommonTime())
+			) {
+				ret.push({ Name, MemberNumber, Stage, Start });
+			}
+		}
+		return ret;
+	},
+	Reputation: (arg, C) => {
+		if (!CommonIsArray(arg)) {
+			return [];
+		}
+
+		/** @type {Reputation[]} */
+		const ret = [];
+		for (const reputation of arg) {
+			if (!CommonIsObject(reputation)) {
+				continue;
+			}
+
+			const { Type, Value } = reputation;
+			if (
+				CommonIncludes(ReputationValidReputations, Type)
+				&& CommonIsInteger(Value, -100, 100)
+			) {
+				ret.push({ Type, Value });
+			}
+		}
+		return ret;
+	},
+	BlockItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	LimitedItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	FavoriteItems: (arg, C) => {
+		if (CommonIsArray(arg)) {
+			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+		} else if (CommonIsObject(arg)) {
+			return CommonUnpackItemArray(arg);
+		} else {
+			return [];
+		}
+	},
+	WhiteList: (arg, C) => {
+		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+	},
+	BlackList: (arg, C) => {
+		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+	},
+};

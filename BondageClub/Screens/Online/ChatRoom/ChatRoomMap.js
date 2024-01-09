@@ -672,6 +672,13 @@ function ChatRoomMapCanLeave() {
 			if ((Obj != null) && Obj.Exit) return true;
 		}
 
+	// If there's no exit at all, we always allow leaving
+	let ExitCount = 0;
+	for (let Obj of ChatRoomMapObjectList)
+		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
+			ExitCount++;
+	if (ExitCount == 0) return true;
+
 	// If nothing allows leaving
 	return false;
 
@@ -686,6 +693,10 @@ function ChatRoomMapCanLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
+
+	// Make sure the player MapData is valid
+	if (Player.MapData == null) Player.MapData = ChatRoomMapInitializeCharacter(Player);
+
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapCollision();
 
