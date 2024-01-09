@@ -655,6 +655,13 @@ function ChatRoomMapCanLeave() {
 			if ((Obj != null) && Obj.Exit) return true;
 		}
 
+	// If there's no exit at all, we always allow leaving
+	let ExitCount = 0;
+	for (let Obj of ChatRoomMapObjectList)
+		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
+			ExitCount++;
+	if (ExitCount == 0) return true;
+
 	// If nothing allows leaving
 	return false;
 
