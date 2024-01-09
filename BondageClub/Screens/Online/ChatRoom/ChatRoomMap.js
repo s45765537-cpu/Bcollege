@@ -669,6 +669,10 @@ function ChatRoomMapCanLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
+
+	// Make sure the player MapData is valid
+	if (Player.MapData == null) Player.MapData = ChatRoomMapInitializeCharacter();
+
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapCollision();
 
