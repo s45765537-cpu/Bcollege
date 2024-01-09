@@ -57,6 +57,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/Suit/LatexCatsuit/LatexCatsuit.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
+	"Screens/Character/Preference/Preference.js",
 	"Scripts/Translation.js",
 	"Scripts/Text.js",
 	"Screens/Character/ItemColor/ItemColor.js",

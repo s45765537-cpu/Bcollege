@@ -146,11 +146,11 @@ function CommandPrintHelpFor(CommandList, Timeout, DoShowEscapeHint) {
 			const Help = CommandText.cache[C.Tag] || C.Description || TextGet("CommandHelpMissing");
 			HelpList += `<strong style="cursor: pointer;" onclick='window.CommandSet("${C.Tag}")'>${CommandsKey}${C.Tag}</strong> ${Help}<br>`;
 		});
-		if (HelpList) {
-			ChatRoomSendLocal(HelpList, Timeout);
-		} else {
-			ChatRoomSendLocal(TextGet("CommandNoSuchCommand"), Timeout);
-		}
+	if (HelpList) {
+		ChatRoomSendLocal(HelpList, Timeout);
+	} else {
+		ChatRoomSendLocal(TextGet("CommandNoSuchCommand"), Timeout);
+	}
 }
 
 /**
@@ -168,12 +168,12 @@ function CommandExecute(msg) {
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
 		ElementValue("InputChat", "");
-		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandNoSuchCommand")}`)
+		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandNoSuchCommand")}`);
 		return;
 	}
 	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
 		ElementValue("InputChat", "");
-		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandPrerequisiteFailed")}`)
+		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandPrerequisiteFailed")}`);
 		return;
 	}
 	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
@@ -644,7 +644,7 @@ const CommonCommands = [
 
 				return;
 			}
-			
+
 			const [, initialTarget, ...message] = command.split(" ");
 			const target = initialTarget.toLowerCase();
 			const msg = message?.join(" ");

@@ -831,11 +831,11 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 
 /**
  * Takes an array of items and converts it to record format
- * @param { { Group: string; Name: string; Type?: string|null }[] } arr The array of items
- * @returns { { [group: string]: { [name: string]: string[] } } } Output in object foramat
+ * @param {readonly ItemPermissions[]} arr The array of items
+ * @returns {ItemPermissionsPacked} Output in object foramat
  */
 function CommonPackItemArray(arr) {
-	/** @type { Record<string, Record<string, string[]>> } */
+	/** @type {ItemPermissionsPacked} */
 	const res = {};
 	for (const I of arr) {
 		let G = res[I.Group];
@@ -855,16 +855,22 @@ function CommonPackItemArray(arr) {
 }
 
 /**
- * Takes an record format of items and converts it to array
- * @param { { [group: string]: { [name: string]: string[] } } } arr Object defining items
- * @return { { Group: string; Name: string; Type?: string }[] } The array of items
+ * Takes an record format of items and converts it to array.
+ * @note This function *must* be able to handle unsantized data as received from the server
+ * @param {ItemPermissionsPacked} rec Object defining items
+ * @return {ItemPermissions[]} The array of items
  */
-function CommonUnpackItemArray(arr) {
+function CommonUnpackItemArray(rec) {
+	/** @type {ItemPermissions[]} */
 	const res = [];
-	for (const G of Object.keys(arr)) {
-		for (const A of Object.keys(arr[G])) {
-			for (const T of arr[G][A]) {
-				res.push({ Group: G, Name: A, Type: T ? T : undefined });
+	for (const [Group, assetRecord] of CommonEntries(rec ?? {})) {
+		for (const [Name, typeList] of CommonEntries(assetRecord ?? {})) {
+			if (!AssetMap.has(`${Group}/${Name}`) || !CommonIsArray(typeList)) {
+				continue;
+			}
+			for (let Type of typeList) {
+				Type ||= undefined;
+				res.push({ Group, Name, Type });
 			}
 		}
 	}
@@ -1139,9 +1145,42 @@ function CommonCloneDeep(obj) {
  * Type guard which checks that a value is a non-negative (i.e. positive or zero) integer
  * @param {unknown} value - The value to test
  * @returns {value is number}
+ * @see {@link CommonIsInteger}
  */
 function CommonIsNonNegativeInteger(value) {
-	return typeof value === "number" && Number.isInteger(value) && value >= 0;
+	return CommonIsInteger(value, 0);
+}
+
+/**
+ * Type guard which checks that a value is an integer that, optionally, falls within the specified range
+ * @param {unknown} value - The value to test
+ * @param {number} min - The minimum allowed value
+ * @param {number} max - The maximum allowed value
+ * @returns {value is number}
+ */
+function CommonIsInteger(value, min=-Infinity, max=Infinity) {
+	return (
+		typeof value === "number"
+		&& Number.isInteger(value)
+		&& value >= min
+		&& value <= max
+	);
+}
+
+/**
+ * Type guard which checks that a value is a finite number that, optionally, falls within the specified range
+ * @param {unknown} value - The value to test
+ * @param {number} min - The minimum allowed value
+ * @param {number} max - The maximum allowed value
+ * @returns {value is number}
+ */
+function CommonIsFinite(value, min=-Infinity, max=Infinity) {
+	return (
+		typeof value === "number"
+		&& Number.isFinite(value)
+		&& value >= min
+		&& value <= max
+	);
 }
 
 /**
@@ -1192,6 +1231,18 @@ function CommonEntries(record) {
  */
 function CommonIncludes(array, searchElement, fromIndex) {
 	return array.includes(/** @type {T} */(searchElement), fromIndex);
+}
+
+/**
+ * A {@link Object.fromEntries} variant annotated to return respect literal key types.
+ * @note The returned record is typed as being non-{@link Partial}, an assumption that may not hold in practice
+ * @template {string} KT
+ * @template VT
+ * @param {Iterable<[key: KT, value: VT]>} iterable An iterable object that contains key-value entries for properties and methods
+ * @returns {Record<KT, VT>} A record created from the passed key/value pairs
+ */
+function CommonFromEntries(iterable) {
+	return /** @type {Record<KT, VT>} */(Object.fromEntries(iterable));
 }
 
 /**
@@ -1389,3 +1440,15 @@ function CommonKeyMove(event, allowArrowKeys = true) {
 	}
 	return undefined;
 }
+
+/**
+ * A {@link Set.has}/{@link Map.has} version annotated to return a type guard.
+ * @template T
+ * @param {{ has: (key: T) => boolean }} obj The set or map in question
+ * @param {unknown} key The key to search for
+ * @returns {key is T} Whether the object contains the passed key
+ */
+function CommonHas(obj, key) {
+	return obj.has(/** @type {T} */(key));
+}
+

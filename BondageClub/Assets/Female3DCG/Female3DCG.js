@@ -29416,7 +29416,7 @@ var AssetFemale3DCG = [
 					"#A2A2A2",
 					"#BBA34E",
 					"#DBCE5C",
-					"#8F8F8F"
+					"#8F8F8F",
 				],
 				Extended: true,
 				Layer: [
@@ -29425,7 +29425,7 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 					},
 					{
-						Name: "Strap", 
+						Name: "Strap",
 						AllowColorize: true,
 					},
 					{
@@ -29436,55 +29436,55 @@ var AssetFemale3DCG = [
 						Name: "MouthRing",
 						AllowColorize: true,
 					},
-					{ 
+					{
 						Name: "Teeth",
 						AllowColorize: false,
 					},
 					{
-						Name: "Hook", 
+						Name: "Hook",
 						AllowColorize: true,
-						AllowTypes: { typed: [0, 7, 8]},
+						AllowTypes: { typed: [0, 7, 8] },
 					},
 					{
 						Name: "GagRing",
 						AllowColorize: true,
-						AllowTypes: { typed: [1, 2, 3]}
+						AllowTypes: { typed: [1, 2, 3] },
 					},
 					{
 						Name: "GagRingBells",
 						AllowColorize: true,
-						AllowTypes: { typed: 2}
+						AllowTypes: { typed: 2 },
 					},
 					{
 						Name: "GagRingChain",
 						AllowColorize: true,
-						AllowTypes: { typed: 3}
+						AllowTypes: { typed: 3 },
 					},
 					{
 						Name: "Nail",
 						AllowColorize: true,
-						AllowTypes: { typed: 4}
+						AllowTypes: { typed: 4 },
 					},
 					{
 						Name: "PadlockGag",
 						AllowColorize: true,
-						AllowTypes: { typed: 5}
+						AllowTypes: { typed: 5 },
 					},
 					{
 						Name: "ClothesPeg",
 						AllowColorize: true,
-						AllowTypes: { typed: 6}
+						AllowTypes: { typed: 6 },
 					},
 					{
 						Name: "BitGag",
 						AllowColorize: true,
-						AllowTypes: { typed: 7}
+						AllowTypes: { typed: 7 },
 					},
 					{
 						Name: "BitGag2",
 						AllowColorize: true,
 						CopyLayerColor: "BitGag",
-						AllowTypes: { typed: 8}
+						AllowTypes: { typed: 8 },
 					},
 				],
 			},
@@ -41759,3 +41759,8 @@ var FetishFemale3DCG = [
 		},
 	},
 ];
+
+/**
+ * A set with all available fetish names.
+ */
+const FetishFemale3DCGNames = new Set(FetishFemale3DCG.map((f) => f.Name));
