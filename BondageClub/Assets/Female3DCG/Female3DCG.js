@@ -20053,6 +20053,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Extended: true,
 				AlwaysExtend: true,
+				DynamicScriptDraw: true,
 				DynamicBeforeDraw: true,
 				Prerequisite: ["AccessBreast", "CannotBeSuited"],
 				PoseMapping: {

@@ -176,12 +176,24 @@ class DictionaryBuilder {
 	}
 
 	/**
+	 * Add a suction intensity entry
+	 * @param {number} intensity - The intensity of the suction applied
+	 * @returns {this}
+	 */
+	suctionLevel(intensity) {
+		if (this._condition && typeof intensity === "number" && !isNaN(intensity) && intensity > 0) {
+			this._addEntry({ SuctionLevel: intensity });
+		}
+		return this;
+	}
+
+	/**
 	 * Adds a shock intensity entry.
 	 * @param {number} intensity - The intensity of the shock applied
 	 * @returns {this}
 	 */
 	shockIntensity(intensity) {
-		if (this._condition && typeof intensity === "number" && !isNaN(intensity)) {
+		if (this._condition && typeof intensity === "number" && !isNaN(intensity) && intensity > 0) {
 			this._addEntry({ ShockIntensity: intensity });
 		}
 		return this;
@@ -194,6 +206,25 @@ class DictionaryBuilder {
 	 */
 	markAutomatic() {
 		this._addEntry({ Automatic: true });
+		return this;
+	}
+
+	/**
+	 * Adds an activity entry to the dictionary.
+	 * @param {ActivityName} name - The activity performed
+	 * @param {AssetGroup} group - The group the activity is being performed on
+	 * @param {Item} [item] - The item used to perform the activity
+	 * @param {number} [count] - The number of times the activity is done
+	 * @returns
+	 */
+	performActivity(name, group, item = null, count = 1) {
+		this._addEntry({ ActivityName: name });
+		this.focusGroup(group.Name);
+		if (item) {
+			this.asset(item.Asset, "UsedAsset", item.Craft && item.Craft.Name);
+		}
+		if (count > 1)
+			this._addEntry({ ActivityCounter: count });
 		return this;
 	}
 

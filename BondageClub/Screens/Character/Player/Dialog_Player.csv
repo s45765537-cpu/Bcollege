@@ -4009,6 +4009,7 @@ LactationPumpPowertightensToLowSuction,,,SourceCharacter turns DestinationCharac
 LactationPumpPowertightensToMaximumSuction,,,SourceCharacter turns DestinationCharacter lactation pump to maximum suction.,,
 LactationPumpPowertightensToMediumSuction,,,SourceCharacter turns DestinationCharacter lactation pump to normal suction.,,
 LactationPumpSelectSetting,,,Select lactation pump setting,,
+LactationPumpSuctionEvent,,,The UsedAsset on TargetCharacterName hums as it starts to express some milk.,,
 LargeBeltStyleFit,,,Fit,,
 LargeBeltStyleLoose,,,Loose,,
 LARPChangeTeamClass,,,SourceCharacter selects PronounPossessive team and class.,,
