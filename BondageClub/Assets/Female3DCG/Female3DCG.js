@@ -2101,7 +2101,10 @@ var AssetFemale3DCG = [
 				Value: 5,
 				BuyGroup: "SlaveRags",
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.Cloth },
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					Suspension: "Suspension",
+				},
 				DefaultColor: ["#886D5D", "#886D58", "#8B6945", "Default"],
 				Layer: [
 					{ Name: "Base", AllowTypes: { c: [0, 1] } },
