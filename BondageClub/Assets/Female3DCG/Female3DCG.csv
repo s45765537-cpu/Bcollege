@@ -305,6 +305,7 @@ Glasses,Glasses6,Style 6
 Glasses,Goggles,Goggles
 Glasses,GradientSunglasses,Gradient Sunglasses
 Glasses,JokeGlasses,Inconspicious Glasses
+Glasses,StreetEyewear,Street Eyewear
 Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
@@ -1562,6 +1563,7 @@ LeftAnklet,BandAnklet,Band Anklet
 LeftAnklet,Ribbon,Ribbon
 LeftAnklet,Ribbon1,Ribbon Bow
 LeftHand,,Left Hand
+LeftHand,CatsuitGloves,Catsuit Gloves
 LeftHand,Claws,Claws
 LeftHand,Fingernails,Fingernails
 LeftHand,Rings,Rings
@@ -1682,6 +1684,7 @@ RightAnklet,BandAnklet,Band Anklet
 RightAnklet,Ribbon,Ribbon
 RightAnklet,Ribbon1,Ribbon Bow
 RightHand,,Right Hand
+RightHand,CatsuitGloves,Catsuit Gloves
 RightHand,Claws,Claws
 RightHand,Fingernails,Fingernails
 RightHand,Rings,Rings

@@ -13207,6 +13207,22 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // GradientSunglasses
+		StreetEyewear: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+				},
+				{
+					Name: "Half",
+				},
+			],
+			DialogPrefix: {
+				Header: "StreetEyewearSelectType",
+				Option: "StreetEyewearType",
+			},
+			DrawImages: false,
+		}, // StreetEyewear
 	}, // Glasses
 	Bracelet: {
 		Band1: {

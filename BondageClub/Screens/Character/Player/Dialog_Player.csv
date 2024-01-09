@@ -5150,3 +5150,6 @@ TonguePiercingGagMouthSetPadlock,,,SourceCharacter attaches a padlock on Destina
 TonguePiercingGagMouthSetPeg,,,SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.,,
 TonguePiercingGagMouthSetBitGag1,,,SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.,,
 TonguePiercingGagMouthSetBitGag2,,,SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.,,
+StreetEyewearSelectType,,,Select a style.,,
+StreetEyewearTypeNormal,,,Normal Frame,,
+StreetEyewearTypeHalf,,,Half-Frame,,

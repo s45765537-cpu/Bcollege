@@ -10872,6 +10872,22 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Color" }, { Name: "Outline" }],
 			},
 			{
+				Name: "CatsuitGloves",
+				Fetish: ["Nylon"],
+				Value: -1,
+				BuyGroup: "Catsuit",
+				Priority: 27,
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					...AssetPoseMapping.LeftHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				DefaultColor: ["#992F7D"],
+			},
+			{
 				/*
 				To allow rings to have more diversity, they have been built as a modular item.
 				If you wish to add more rings, add the corresponding layers to the left and right hand groups and
@@ -10972,6 +10988,22 @@ var AssetFemale3DCG = [
 					BackCuffs: PoseType.HIDE,
 				},
 				Layer: [{ Name: "Color" }, { Name: "Outline" }],
+			},
+			{
+				Name: "CatsuitGloves",
+				Fetish: ["Nylon"],
+				Value: -1,
+				BuyGroup: "Catsuit",
+				Priority: 27,
+				IsRestraint: false,
+				Random: false,
+				PoseMapping: {
+					...AssetPoseMapping.RightHand,
+					BackElbowTouch: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+					BackBoxTie: PoseType.HIDE,
+				},
+				DefaultColor: ["#992F7D"],
 			},
 			{
 				/*
@@ -11218,6 +11250,15 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
+			},
+			{ 
+				Name: "StreetEyewear",
+				Value: 21, 
+				Left: 182,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+				DefaultColor: ["#303030", "#808080"],
+				Layer: [{ Name: "Frame" }, { Name: "Lenses" }],
 			},
 		],
 		Color: [
