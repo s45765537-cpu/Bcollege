@@ -10181,9 +10181,18 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 					Options: [
 						{}, // g0 - Padded
-						{ Property: { Effect: [E.GagVeryLight] } }, // g1 - LightBall
-						{ Property: { Effect: [E.GagMedium] } }, // g2 - Ball
-						{ Property: { Effect: [E.GagTotal] } }, // g3 - Plug
+						{
+							Property: { Effect: [E.GagVeryLight] },
+							Prerequisite: ["GagUnique"],
+						}, // g1 - LightBall
+						{
+							Property: { Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g2 - Ball
+						{
+							Property: { Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g3 - Plug
 					],
 				},
 				{
@@ -10247,8 +10256,14 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 					Options: [
 						{ Property: { OriginalSetting: 0, Effect: [E.GagLight] } }, // g0 - LightBall
-						{ Property: { OriginalSetting: 1, Effect: [E.GagMedium] } }, // g1 - Ball
-						{ Property: { OriginalSetting: 2, Effect: [E.GagTotal] } }, // g2 - Plug
+						{
+							Property: { OriginalSetting: 1, Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth"],
+						}, // g1 - Ball
+						{
+							Property: { OriginalSetting: 2, Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth"],
+						}, // g2 - Plug
 					],
 				},
 				{
