@@ -48,8 +48,9 @@ var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "It
  * @returns {boolean} - Whether the validation was successful or not.
  */
 function FuturisticAccess(OriginalFunction, DeniedFunction) {
-	var C = CharacterGetCurrent();
+	const C = CharacterGetCurrent();
 	if (InventoryItemFuturisticValidate(C) !== "") {
+		DialogExtendedMessage = "FuturisticItemLoginScreen";
 		DeniedFunction();
 		return false;
 	} else {
@@ -118,10 +119,6 @@ function InventoryItemFuturisticLoadAccessDenied() {
 
 // Draw the futuristic item ACCESS DENIED screen
 function InventoryItemFuturisticDrawAccessDenied() {
-	ExtendedItemDrawHeader(1387, 225);
-
-	DrawText(DialogFindPlayer("FuturisticItemLoginScreen"), 1500, 600, "White", "Gray");
-
 	ElementPosition("PasswordField", 1505, 750, 350);
 	DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
 	DrawButton(1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"), "White", "");

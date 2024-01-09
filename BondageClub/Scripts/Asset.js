@@ -409,6 +409,9 @@ function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, cr
 		case ExtendedArchetype.TEXT:
 			data = TextItemRegister(A, config, parentOption, createCallbacks);
 			break;
+		case ExtendedArchetype.NOARCH:
+			data = NoArchItemRegister(A, config, parentOption);
+			break;
 	}
 
 	if (!A.Archetype && parentOption == null) {

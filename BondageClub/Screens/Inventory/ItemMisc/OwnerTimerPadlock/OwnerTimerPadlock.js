@@ -3,21 +3,6 @@
 const OwnerTimerChooseList = [1, 2, 4, 8, 16, 24, 48, 72, 96, 120, 144, 168, -144, -72, -48, -24, -8, -4];
 let OwnerTimerChooseIndex = 0;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscOwnerTimerPadlockInit(C, Item, Push, Refresh) {
-	const PropRecord = {
-		RemoveItem: false,
-		ShowTimer: true,
-		EnableRandomInput: false,
-		MemberNumberList: [],
-	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscOwnerTimerPadlockLoad() {
-}
-
 /**
  * @param {Character} C
  * @returns {boolean} - Whether the passed character is elligble for full control over the lock
@@ -27,9 +12,12 @@ function InventoryItemMiscOwnerTimerPadlockValidator(C) {
 }
 
 /**
+ * @param {NoArchItemData} data
+ * @param {null | (() => void)} originalFunction
  * @param {(C: Character) => boolean} validator
+ * @satisfies {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>}
  */
-function InventoryItemMiscOwnerTimerPadlockDraw(validator=InventoryItemMiscOwnerTimerPadlockValidator) {
+function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction, validator=InventoryItemMiscOwnerTimerPadlockValidator) {
 	const property = DialogFocusSourceItem.Property;
 
 	if (!DialogFocusItem || property.RemoveTimer < CurrentTime) {
@@ -37,15 +25,14 @@ function InventoryItemMiscOwnerTimerPadlockDraw(validator=InventoryItemMiscOwner
 		return;
 	}
 
+	originalFunction();
 	const C = CharacterGetCurrent();
-	const asset = DialogFocusItem.Asset;
 
 	if (property.ShowTimer) {
-		DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 150, "white", "gray");
+		DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	} else {
-		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 150, "white", "gray");
+		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 500, "white", "gray");
 	}
-	DrawAssetPreview(1387, 225, asset);
 	DrawText(DialogFindPlayer(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
 
 	// Draw the settings
@@ -86,13 +73,13 @@ function InventoryItemMiscOwnerTimerPadlockDraw(validator=InventoryItemMiscOwner
 }
 
 /**
+ * @param {NoArchItemData} data
+ * @param {null | (() => void)} originalFunction
  * @param {(C: Character) => boolean} validator
+ * @satisfies {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>}
  */
-function InventoryItemMiscOwnerTimerPadlockClick(validator=InventoryItemMiscOwnerTimerPadlockValidator) {
-	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
-		return;
-	}
+function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, validator=InventoryItemMiscOwnerTimerPadlockValidator) {
+	originalFunction();
 
 	if (!Player.CanInteract()) {
 		return;
@@ -131,7 +118,11 @@ function InventoryItemMiscOwnerTimerPadlockClick(validator=InventoryItemMiscOwne
 }
 
 // When a value is added to the timer, can be a negative one
-function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList) {
+/**
+ * @param {number} TimeToAdd
+ * @param {boolean} PlayerMemberNumberToList
+ */
+function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -164,6 +155,3 @@ function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToLi
 		DialogLeaveFocusItem();
 	}
 }
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscOwnerTimerPadlockExit() {}

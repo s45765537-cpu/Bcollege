@@ -8,7 +8,7 @@ function InventoryItemDevicesWoodenBoxLoadHook(Data, OriginalFunction) {
 	}
 
 	TextItem.Load(textData);
-	PropertyOpacityLoad();
+	PropertyOpacityLoad(Data, OriginalFunction);
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
@@ -23,14 +23,14 @@ function InventoryItemDevicesWoodenBoxDrawHook(Data, OriginalFunction) {
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<TypedItemData>} */
-function InventoryItemDevicesWoodenBoxExitHook() {
+function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
 
 	TextItem.Exit(textData);
-	PropertyOpacityExit(null, null, false);
+	PropertyOpacityExit(data, originalFunction, false);
 
 	// Apply extra opacity-specific effects
 	const Property = DialogFocusItem.Property;

@@ -25902,7 +25902,6 @@ var AssetFemale3DCG = [
 				OwnerOnly: true,
 				Effect: ["Lock"],
 				AllowBlock: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
-				AllowEffect: [E.GagNormal, E.FixedHead],
 				Extended: true,
 				CreateLayerTypes: ["noarch"],
 			},
@@ -26047,13 +26046,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				AllowEffect: [
-					E.BlockRemotes,
-					E.OpenPermission,
-					E.OpenPermissionArm,
-					E.OpenPermissionLeg,
-					E.OpenPermissionChastity,
-				],
 				Layer: [
 					{ Name: "Display" },
 					{ Name: "Band" },

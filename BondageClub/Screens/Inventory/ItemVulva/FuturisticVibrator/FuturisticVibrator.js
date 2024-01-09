@@ -14,16 +14,12 @@ const ItemVulvaFuturisticVibratorAccessModes = Object.values(ItemVulvaFuturistic
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<VibratingItemData>} */
 function InventoryItemVulvaFuturisticVibratorLoadHook(data, originalFunction) {
-	if (!FuturisticAccessLoad()) {
+	if (!FuturisticAccessLoad(data, originalFunction)) {
 		return;
 	}
 
-	const mode = DialogFindPlayer(DialogFocusItem.Property.Mode || "Off");
-	DialogExtendedMessage = `${DialogFindPlayer("CurrentMode")} ${mode}`;
-
-	ItemVulvaFuturisticVibratorTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
-
 	// Only create the inputs if the zone isn't blocked
+	ItemVulvaFuturisticVibratorTriggerValues = DialogFocusItem.Property.TriggerValues.split(',');
 	ItemVulvaFuturisticVibratorTriggers.forEach((trigger, i) => {
 		const input = ElementCreateInput("FuturisticVibe" + trigger, "text", "", "12");
 		if (input) input.setAttribute("placeholder", ItemVulvaFuturisticVibratorTriggerValues[i]);
@@ -36,10 +32,7 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 	if (!FuturisticAccessDraw()) {
 		return;
 	}
-
-	// Draw the preview & current mode
-	ExtendedItemDrawHeader();
-	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
+	NoArch.Draw(data);
 
 	// Draw each of the triggers and position their inputs
 	ItemVulvaFuturisticVibratorTriggers.forEach((trigger, i) => {
@@ -56,10 +49,18 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || "")));
 }
 
+/**
+ * @param {ItemVulvaFuturisticVibratorAccessMode} current
+ * @returns {ItemVulvaFuturisticVibratorAccessMode}
+ */
 function InventoryItemVulvaFuturisticVibratorPreviousAccessMode(current) {
 	return ItemVulvaFuturisticVibratorAccessModes[(ItemVulvaFuturisticVibratorAccessModes.indexOf(current) + ItemVulvaFuturisticVibratorAccessModes.length - 1) % ItemVulvaFuturisticVibratorAccessModes.length];
 }
 
+/**
+ * @param {ItemVulvaFuturisticVibratorAccessMode} current
+ * @returns {ItemVulvaFuturisticVibratorAccessMode}
+ */
 function InventoryItemVulvaFuturisticVibratorNextAccessMode(current) {
 	return ItemVulvaFuturisticVibratorAccessModes[(ItemVulvaFuturisticVibratorAccessModes.indexOf(current) + 1) % ItemVulvaFuturisticVibratorAccessModes.length];
 }

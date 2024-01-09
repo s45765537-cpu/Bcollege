@@ -390,6 +390,9 @@ function ModularItemDrawCommon(
 		DrawButton(1665, 240, 90, 90, "", "White", "Icons/Prev.png");
 		DrawButton(1775, 240, 90, 90, "", "White", "Icons/Next.png");
 	}
+
+	// If the assets allows tightening / loosening
+	ExtendedItemTighten.Draw(data, DialogFocusItem, [1050, 220, 300, 65]);
 }
 
 /**
@@ -415,6 +418,7 @@ function ModularItemCreateClickBaseFunction(data) {
 	const DrawData = data.drawData;
 	return () => {
 		ModularItemClickCommon(
+			data,
 			DrawData,
 			() => {
 				DialogLeaveFocusItem();
@@ -446,6 +450,7 @@ function ModularItemCreateClickBaseFunction(data) {
 function ModularItemClickModule(module, data) {
 	const DrawData = module.drawData;
 	ModularItemClickCommon(
+		data,
 		DrawData,
 		() => ModularItemModuleTransition(ModularItemBase, data),
 		i => {
@@ -472,13 +477,14 @@ function ModularItemClickModule(module, data) {
 /**
  * A common click handler for modular item screens. Note that pagination is not currently handled, but will be added
  * in the future.
+ * @param {ModularItemData} data
  * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @param {function(): void} exitCallback - A callback to be called when the exit button has been clicked
  * @param {function(number): void} itemCallback - A callback to be called when an item has been clicked
  * @param {function(number): void} paginateCallback - A callback to be called when a pagination button has been clicked
  * @returns {void} - Nothing
  */
-function ModularItemClickCommon({ paginate, elementData }, exitCallback, itemCallback, paginateCallback) {
+function ModularItemClickCommon(data, { paginate, elementData }, exitCallback, itemCallback, paginateCallback) {
 	if (ExtendedItemSubscreen) {
 		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
 		return;
@@ -508,6 +514,11 @@ function ModularItemClickCommon({ paginate, elementData }, exitCallback, itemCal
 			return true;
 		}
 	});
+
+	// If the assets allows tightening / loosening
+	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
+		return;
+	}
 }
 
 /**

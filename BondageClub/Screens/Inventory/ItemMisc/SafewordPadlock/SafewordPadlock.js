@@ -1,19 +1,9 @@
 "use strict";
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemMiscSafewordPadlockInit(C, Item) {
-	const PropRecord = {
-		Password: "PLEASE",
-		Hint: "Say the magic word...",
-		LockSet: false,
-		RemoveOnUnlock: false,
-	};
-	return ExtendedItemInitNoArch(C, Item, PropRecord, false, false);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemMiscSafewordPadlockLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemMiscSafewordPadlockLoadHook(data, originalFunction) {
 	if (!DialogFocusItem || !DialogFocusSourceItem) return DialogLeaveFocusItem();
+	originalFunction();
 	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
@@ -40,34 +30,23 @@ function InventoryItemMiscSafewordPadlockLoad() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemMiscSafewordPadlockDraw() {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemMiscSafewordPadlockDrawHook(data, originalFunction) {
 	if (!DialogFocusSourceItem) return;
 	const Property = DialogFocusSourceItem.Property;
-
-	DrawAssetPreview(1387, 225, DialogFocusItem.Asset);
-
-	if (Property && Property.LockMemberNumber != null) {
+	if (Property?.LockMemberNumber != null) {
 		DrawText(
 			DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber.toString(),
 			1500, 600, "white", "gray",
 		);
 	}
 
+	originalFunction();
 	InventoryItemMiscPasswordPadlockDrawControls();
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemMiscSafewordPadlockClick() {
-	// Exits the screen
-	if (MouseIn(1885, 25, 90, 90)) {
-		return DialogLeaveFocusItem();
-	}
-
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemMiscSafewordPadlockClickHook(data, originalFunction) {
+	originalFunction();
 	InventoryItemMiscPasswordPadlockControlsClick();
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemMiscSafewordPadlockExit() {
-	InventoryItemMiscPasswordPadlockExit();
 }

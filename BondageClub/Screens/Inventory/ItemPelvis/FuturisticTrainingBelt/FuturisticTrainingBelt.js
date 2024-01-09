@@ -56,8 +56,7 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 	if (!FuturisticAccessDraw()) {
 		// Fallthrough as there's the mode change controls
 	} else if (DialogFocusItem && DialogFocusItem.Property) {
-		ExtendedItemDrawHeader();
-
+		NoArch.Draw(data);
 		if (FuturisticTrainingBeltPage == 0) {
 			MainCanvas.textAlign = "left";
 			DrawCheckbox(1100, 450, 64, 64, DialogFindPlayer("FuturisticChastityBeltPunishChatMessage"), DialogFocusItem.Property.ShowText, false, "White");

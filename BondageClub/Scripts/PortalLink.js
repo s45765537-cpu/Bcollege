@@ -4,7 +4,7 @@
  * This file contains everything needed to add remote-style functions
  * (a.k.a PortalLink compatibility) to an asset, both as a transmitter
  * or a reciever item.
- * For transmitters, you'll need to call the following {@link ExtendedItemCallbacks}
+ * For transmitters, you'll need to call the following {@link ExtendedItemScriptHookCallbacks}
  * callbacks:
  * - {@link PortalLinkTransmitterInit}
  * - {@link PortalLinkTransmitterLoad}
@@ -83,16 +83,9 @@ const PortalLinkFunctionGrid = {
 
 //#region PortalLink reciever
 
-/** @type {ExtendedItemCallbacks.Init} */
-function PortalLinkRecieverInit(C, Item, Push, Refresh) {
-	const props = {
-		PortalLinkCode: "",
-	};
-	return ExtendedItemInitNoArch(C, Item, props, Push, Refresh);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function PortalLinkRecieverLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<ExtendedItemData<any>>} */
+function PortalLinkRecieverLoadHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	const item = DialogFocusItem;
 	const code = item.Property.PortalLinkCode;
 	const input = ElementCreateInput(PortalLinkCodeInputID, "text", code, PortalLinkCodeLength);
@@ -104,26 +97,25 @@ function PortalLinkRecieverLoad() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function PortalLinkRecieverDraw() {
-	// Draw the header and item
-	ExtendedItemDrawHeader(1387, 125);
-	DrawText(DialogFindPlayer("PortalLinkScreenLabel"), 1500, 440, "white");
-
+/** @type {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData<any>>} */
+function PortalLinkRecieverDrawHook(data, originalFunction) {
+	originalFunction();
 	PortalLinkSyncCodeInputDraw(true);
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function PortalLinkRecieverClick() {
+/** @type {ExtendedItemScriptHookCallbacks.Click<ExtendedItemData<any>>} */
+function PortalLinkRecieverClickHook(data, originalFunction) {
+	originalFunction();
 	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
 		return;
 	}
 
 	PortalLinkSyncCodeInputClick(true);
 }
 
-function PortalLinkRecieverExit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<ExtendedItemData<any>>} */
+function PortalLinkRecieverExitHook(data, originalFunction) {
+	if (originalFunction) originalFunction();
 	const C = CharacterGetCurrent();
 	const Item = DialogFocusItem;
 	const code = ElementValue(PortalLinkCodeInputID);
@@ -144,18 +136,13 @@ let PortalLinkTransmitterStatus = "PortalLinkInvalidCode";
 /** @type {number | null} */
 let PortalLinkTransmitterLastLinkCheck = null;
 
-/** @type {ExtendedItemCallbacks.Init} */
-function PortalLinkTransmitterInit(C, Item, Push, Refresh) {
-	const baselineProperties = {
-		PortalLinkCode: "",
-	};
-	return ExtendedItemInitNoArch(C, Item, baselineProperties, Push, Refresh);
-}
+/** @type {ExtendedItemScriptHookCallbacks.Load<ExtendedItemData<any>>} */
+function PortalLinkTransmitterLoadHook(data, originalFunction) {
+	originalFunction();
 
-/** @type {ExtendedItemCallbacks.Load} */
-function PortalLinkTransmitterLoad() {
 	const item = DialogFocusItem;
 	const C = CharacterGetCurrent();
+	DialogExtendedMessage = DialogFindPlayer((!C.IsPlayer() || !C.CanInteract()) ? "PortalLinkInaccessibleLabel" : "PortalLinkScreenLabel");
 
 	const code = item.Property.PortalLinkCode;
 	const assets = PortalLinkGetItemsWithCode(code);
@@ -175,23 +162,19 @@ function PortalLinkTransmitterLoad() {
 	}
 }
 
-/** @type {ExtendedItemCallbacks.Draw} */
-function PortalLinkTransmitterDraw() {
+/** @type {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData<any>>} */
+function PortalLinkTransmitterDrawHook(data, originalFunction) {
+	originalFunction();
 
 	const C = CharacterGetCurrent();
 	// Check the link status each frame
 	PortalLinkTransmitterCheckLinkStatus(C);
 
 	// Draw the header and item
-	ExtendedItemDrawHeader(1387, 125);
 	if (!C.IsPlayer() || !C.CanInteract()) {
 		// Only if we're the tablet wearer and we can interact with it
-		DrawText(DialogFindPlayer("PortalLinkInaccessibleLabel"), 1500, 440, "white");
 		return;
 	}
-
-	DrawText(DialogFindPlayer("PortalLinkScreenLabel"), 1500, 440, "white");
-
 
 	PortalLinkSyncCodeInputDraw(false);
 
@@ -221,15 +204,14 @@ function PortalLinkTransmitterDraw() {
 	});
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function PortalLinkTransmitterClick() {
+/** @type {ExtendedItemScriptHookCallbacks.Click<ExtendedItemData<any>>} */
+function PortalLinkTransmitterClickHook(data, originalFunction) {
+	originalFunction();
 	if (MouseIn(1885, 25, 90, 90)) {
-		DialogLeaveFocusItem();
 		return;
 	}
 
 	const C = CharacterGetCurrent();
-
 	if (!C.IsPlayer() || !C.CanInteract()) {
 		// Only if we're the tablet wearer and we can interact with it
 		return;
@@ -259,9 +241,10 @@ function PortalLinkTransmitterClick() {
 	});
 }
 
-/** @type {ExtendedItemCallbacks.Exit} */
-function PortalLinkTransmitterExit() {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<ExtendedItemData<any>>} */
+function PortalLinkTransmitterExitHook(data, originalFunction) {
 	ElementRemove(PortalLinkCodeInputID);
+	if (originalFunction) originalFunction();
 }
 
 //#endregion

@@ -1,12 +1,7 @@
 "use strict";
 
-/** @type {ExtendedItemCallbacks.Init} */
-function InventoryItemDevicesWheelFortuneInit(C, item, push, refresh) {
-	return ExtendedItemInitNoArch(C, item, {}, push, refresh);
-}
-
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemDevicesWheelFortuneLoad() {
+/** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
+function InventoryItemDevicesWheelFortuneLoadHook() {
 	WheelFortuneEntryModule = CurrentModule;
 	WheelFortuneEntryScreen = CurrentScreen;
 	WheelFortuneBackground = "MainHall";
@@ -14,16 +9,4 @@ function InventoryItemDevicesWheelFortuneLoad() {
 	WheelFortuneCharacter = CurrentCharacter;
 	DialogLeave();
 	CommonSetScreen("MiniGame", "WheelFortune");
-}
-
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemDevicesWheelFortuneDraw() {
-}
-
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemDevicesWheelFortuneClick() {
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemDevicesWheelFortuneExit() {
 }

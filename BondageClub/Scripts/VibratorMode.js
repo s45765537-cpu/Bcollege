@@ -162,7 +162,7 @@ function VibratorModeRegister(asset, config, parentOption=null) {
 	if (IsBrowser()) {
 		/** @type {ExtendedItemCallbackStruct<VibratingItemOption>} */
 		const defaultCallbacks = {
-			load: () => VibratorModeLoad(data),
+			load: () => ExtendedItemLoad(data),
 			click: () => TypedItemClick(data),
 			draw: () => TypedItemDraw(data),
 			validate: (...args) => VibratorModeValidate(data, ...args),
@@ -276,7 +276,7 @@ function VibratorModeCreateData(
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		dialogPrefix: {
-			header: DialogPrefix.Header || "Intensity",
+			header: DialogPrefix.Header || VibratorModeDialogPrefix,
 			chat: DialogPrefix.Chat || "VibeMode",
 			option: DialogPrefix.Option || "",
 		},
@@ -293,6 +293,11 @@ function VibratorModeCreateData(
 	};
 	data.options = VibratorModeGetOptions(data, modeSet);
 	return data;
+}
+
+/** @type {ExtendedItemHeaderCallback<VibratingItemData>} */
+function VibratorModeDialogPrefix(data, C, item) {
+	return DialogFindPlayer(`Intensity${item.Property.Intensity}`);
 }
 
 /**
@@ -321,18 +326,6 @@ function VibratorModeGetOptions(data, modeSet) {
 		}
 	}
 	return options;
-}
-
-/**
- * Loads the vibrating item's extended item menu.
- * @param {VibratingItemData} data
- */
-function VibratorModeLoad({ dialogPrefix: { header } }) {
-	const intensity = DialogFocusItem.Property.Intensity;
-	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) {
-		ExtendedItemSetOffset(0);
-	}
-	DialogExtendedMessage = DialogFindPlayer(`${header}${intensity}`);
 }
 
 /**

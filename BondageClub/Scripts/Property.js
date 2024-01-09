@@ -36,19 +36,34 @@ const PropertyOpacityChange = CommonLimitFunction((C, Item, Opacity) => {
 	CharacterLoadCanvas(C);
 });
 
+/** @type {ExtendedItemScriptHookCallbacks.Init<ExtendedItemData<any>>} */
+function PropertyOpacityInit({ asset }, originalFunction, C, item, push=true, refresh=true) {
+	if (!CommonIsObject(item.Property)) {
+		item.Property = {};
+	}
+
+	if (item.Property.Opacity >= asset.MinOpacity && item.Property.Opacity <= asset.MaxOpacity) {
+		return (originalFunction == null) ? false : originalFunction(C, item, push, refresh);
+	}
+	item.Property.Opacity = asset.Opacity;
+
+	if (originalFunction) originalFunction(C, item, false, false);
+	if (refresh) CharacterRefresh(C, push, false);
+	if (push) ChatRoomCharacterItemUpdate(C, asset.Group.Name);
+	return true;
+}
+
 /**
  * Load function for items with opacity sliders. Constructs the opacity slider.
- * @param {null | ExtendedItemData<any>} Data - The items extended item data
- * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
+ * @param {ExtendedItemData<any>} Data - The items extended item data
+ * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {ThumbIcon} thumbIcon The icon to use for the range input's "thumb" (handle).
  * @returns {HTMLInputElement} - The new or pre-existing range input element of the opacity slider
+ * @satisfies {ExtendedItemScriptHookCallbacks.Load<any>}
  */
-function PropertyOpacityLoad(Data=null, OriginalFunction=null, thumbIcon="blindfold") {
-	if (OriginalFunction != null) {
-		OriginalFunction();
-	}
+function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIcon="blindfold") {
+	OriginalFunction();
 	const ID = PropertyGetID("Opacity");
-	const Asset = DialogFocusItem.Asset;
 
 	if (!PropertyOriginalValue.has(ID)) {
 		PropertyOriginalValue.set(ID, DialogFocusItem.Property.Opacity);
@@ -57,8 +72,8 @@ function PropertyOpacityLoad(Data=null, OriginalFunction=null, thumbIcon="blindf
 	const opacitySlider = ElementCreateRangeInput(
 		ID,
 		DialogFocusItem.Property.Opacity,
-		Asset.MinOpacity,
-		Asset.MaxOpacity,
+		asset.MinOpacity,
+		asset.MaxOpacity,
 		0.01,
 		thumbIcon,
 	);
@@ -74,17 +89,16 @@ function PropertyOpacityLoad(Data=null, OriginalFunction=null, thumbIcon="blindf
 
 /**
  * Draw function for items with opacity sliders. Draws the opacity slider and further opacity-related information.
- * @param {null | ExtendedItemData<any>} Data - The items extended item data
- * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
+ * @param {ExtendedItemData<any>} Data - The items extended item data
+ * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {number} XOffset - An offset for all text and slider X coordinates
  * @param {number} YOffset - An offset for all text and slider Y coordinates
  * @param {string} LabelKeyword - The keyword of the opacity label
  * @returns {void} Nothing
+ * @satisfies {ExtendedItemScriptHookCallbacks.Draw<any>}
  */
-function PropertyOpacityDraw(Data=null, OriginalFunction=null, XOffset=0, YOffset=0, LabelKeyword="OpacityLabel") {
-	if (OriginalFunction != null) {
-		OriginalFunction();
-	}
+function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, LabelKeyword="OpacityLabel") {
+	OriginalFunction();
 	const ID = PropertyGetID("Opacity");
 
 	MainCanvas.textAlign = "right";
@@ -102,19 +116,23 @@ function PropertyOpacityDraw(Data=null, OriginalFunction=null, XOffset=0, YOffse
 
 /**
  * Exit function for items with opacity sliders. Updates the items opacity, deletes the slider and (optionally) refreshes the character and item.
- * @param {null | ExtendedItemData<any>} Data - The items extended item data
+ * @param {ExtendedItemData<any>} Data - The items extended item data
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {boolean} Refresh - Whether character parameters and the respective item should be refreshed or not
  * @returns {boolean} Whether the opacity was updated or not
+ * @satisfies {ExtendedItemScriptHookCallbacks.Exit<any>}
  */
-function PropertyOpacityExit(Data=null, OriginalFunction=null, Refresh=true) {
-	const Asset = DialogFocusItem.Asset;
+function PropertyOpacityExit({ asset }, OriginalFunction, Refresh=true) {
+	if (OriginalFunction != null) {
+		OriginalFunction();
+	}
+
 	const ID = PropertyGetID("Opacity");
 	const C = CharacterGetCurrent();
 	const Opacity = Number(ElementValue(ID));
 
 	// Restore the original opacity if the new opacity is invalid
-	if (!(Opacity <= Asset.MaxOpacity && Opacity >= Asset.MinOpacity)) {
+	if (!(Opacity <= asset.MaxOpacity && Opacity >= asset.MinOpacity)) {
 		DialogFocusItem.Property.Opacity = PropertyOriginalValue.get(ID);
 		ElementRemove(ID);
 		PropertyOriginalValue.delete(ID);
@@ -125,25 +143,11 @@ function PropertyOpacityExit(Data=null, OriginalFunction=null, Refresh=true) {
 	// The latter will call `Load`, which would otherwise restore the slider again
 	if (Refresh) {
 		CharacterRefresh(C, true, false);
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(C, asset.Group.Name);
 	}
 	ElementRemove(ID);
 	PropertyOriginalValue.delete(ID);
 	return true;
-}
-
-/**
- * Validation function for items with opacity sliders.
- * @type {ExtendedItemScriptHookCallbacks.Validate<ExtendedItemData<any>, any>}
- */
-function PropertyOpacityValidate(Data, OriginalFunction, C, Item, Option, CurrentOption) {
-	if (Item && Item.Property) {
-		const Asset = Item.Asset;
-		if (!(Item.Property.Opacity <= Asset.MaxOpacity && Item.Property.Opacity >= Asset.MinOpacity)) {
-			Item.Property.Opacity = Asset.Opacity;
-		}
-	}
-	return OriginalFunction(C, Item, Option, CurrentOption);
 }
 
 /**

@@ -1,13 +1,8 @@
 "use strict";
 
-/** @type {ExtendedItemCallbacks.Load} */
-function InventoryItemPelvisObedienceBelts1Load() {
-}
-
-/** @type {ExtendedItemCallbacks.Draw} */
-function InventoryItemPelvisObedienceBelts1Draw() {
-	// Draw the header and item
-	ExtendedItemDrawHeader(1387, 125);
+/** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
+function InventoryItemPelvisObedienceBelts1DrawHook(data, originalFunction) {
+	originalFunction();
 
 	MainCanvas.textAlign = "left";
 	ExtendedItemDrawCheckbox(
@@ -26,12 +21,9 @@ function InventoryItemPelvisObedienceBelts1Draw() {
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625, null, false, false);
 }
 
-/** @type {ExtendedItemCallbacks.Click} */
-function InventoryItemPelvisObedienceBelts1Click() {
-	if (MouseIn(1885, 25, 90, 90)) {
-		InventoryItemPelvisObedienceBelts1Exit();
-		return;
-	}
+/** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
+function InventoryItemPelvisObedienceBelts1ClickHook(data, originalFunction) {
+	originalFunction();
 
 	const C = CharacterGetCurrent();
 	const property = DialogFocusItem.Property;
@@ -44,11 +36,6 @@ function InventoryItemPelvisObedienceBelts1Click() {
 	} else if (MouseIn(1387, 800, 225, 55)) {
 		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
 	}
-}
-
-/** @type {ExtendedItemCallbacks.Exit} */
-function InventoryItemPelvisObedienceBelts1Exit() {
-	ExtendedItemSubscreen = null;
 }
 
 /**
