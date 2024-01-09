@@ -838,6 +838,9 @@ ItemHeadDroneMaskBase,Mask
 ItemHeadDroneMaskEyeRegular,Eyes
 ItemHeadDroneMaskMouthOnahole,Mouth
 ItemHeadDroneMaskShine,Shine
+ItemHeadSpaceMaskGlass,Glass
+ItemHeadSpaceMaskHelm,Helmet
+ItemHeadSpaceMaskDetail,Details
 ItemHeadFrilledSleepMaskFrills,Frills
 ItemHeadFrilledSleepMaskMask,Mask
 ItemHeadFuturisticMaskDisplay,Tint
