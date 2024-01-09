@@ -2101,7 +2101,10 @@ var AssetFemale3DCG = [
 				Value: 5,
 				BuyGroup: "SlaveRags",
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.Cloth },
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					Suspension: "Suspension",
+				},
 				DefaultColor: ["#886D5D", "#886D58", "#8B6945", "Default"],
 				Layer: [
 					{ Name: "Base", AllowTypes: { c: [0, 1] } },
@@ -7829,6 +7832,7 @@ var AssetFemale3DCG = [
 				Effect: [],
 				Attribute: ["FuturisticRecolor"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -8275,6 +8279,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				Extended: true,
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
@@ -15149,6 +15154,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.ItemLegs,
 					LegsClosed: "LegsClosed",
+					KneelingSpread: PoseType.HIDE,
 				},
 				Effect: [E.CuffedLegs],
 				Extended: true,
@@ -40048,6 +40054,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -40101,6 +40108,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
@@ -40183,6 +40191,7 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40204,6 +40213,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40224,6 +40234,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
@@ -40381,6 +40392,7 @@ var AssetFemale3DCG = [
 				Attribute: ["FuturisticRecolor"],
 				Effect: [],
 				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
@@ -40556,6 +40568,7 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Kneel"],
 				Effect: [E.Freeze],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
@@ -40575,7 +40588,9 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Kneel: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
 				},
 				Effect: [E.Freeze, E.BlockWardrobe],
 				Hide: ["Shoes", "ItemFeet"],
@@ -40636,6 +40651,7 @@ var AssetFemale3DCG = [
 				],
 				Height: 35,
 				PoseMapping: {
+					AllFours: PoseType.HIDE,
 					Hogtied: "Hogtied",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
