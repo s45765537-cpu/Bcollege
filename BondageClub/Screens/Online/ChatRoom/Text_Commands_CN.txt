@@ -1,7 +1,5 @@
-[Message]: Send a message starting with /. Example: //message will send /message
-[Message]: 发送一条包含/的消息. 如: //message会发送 /message
-[Message]: Display the message as an action
-[Message]: 以动作来表现跟随的信息
+[Message]: Display the message as an action, without including your name. **[Message] does the same
+[Message]: 将消息显示为动作，不包含你的名字。**[Message]效果相同
 : Toggle AFK emote
 :切换AFK表情
 [MemberNumber]: Ban the player from the room
@@ -38,8 +36,6 @@
 [MemberNumber]:将玩家从忽视列表移除
 [Keyword]: Display help for the command with prefix Keyword. Exclude [Keyword] to view all valid commands
 [Keyword]:显示符合本关键字前缀的命令,不输入关键词可查看所有命令
-do nothing
-什么都不做
 [MemberNumber]: Kick the player out of the room
 [MemberNumber]:将玩家踢出房间
 [Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
@@ -80,3 +76,5 @@ Copy the current map layout in your clipboard
 将当前地图布局复制到你的剪贴板中
 [Map]: Paste your map string to load it as current.
 [Map]: 将你的地图字符串粘贴并加载为当前状态。
+[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
+[MemberNumber|Name|Nickname]: 开始与玩家说悄悄话。留空停止悄悄话。<br>[MemberNumber|Name|Nickname] [Message]: 向目标玩家发送悄悄话。

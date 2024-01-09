@@ -1150,6 +1150,8 @@ Locking Strap Shoes
 可上锁绑带鞋
 Locking Full Shoes
 可上锁鞋
+Metal Ballet Heels
+金属芭蕾高跟鞋
 Monoheel
 单跟靴
 Pony Boots
@@ -1566,6 +1568,8 @@ Polished Steel Mittens
 抛光不锈钢无指手套
 Short Smooth Leather Mittens
 短平滑皮革无指手套
+Pony Mittens Binder
+小马无指手套束手
 Eyes
 眼睛
 Anime Lenses
@@ -1958,6 +1962,8 @@ XL Bone Gag
 超大号骨头口塞
 Modular Gag
 模块化口塞
+Piercing Gag
+穿刺口塞
  Mouthfeature Gag
 嘴内特征口塞
 Latex Respirator
@@ -2596,6 +2602,8 @@ Stiletto Heels
 细高跟鞋
 Street Boots
 街头靴
+Combo Boots
+组合靴
  Latex ThighBoots
 乳胶大腿靴
 Western Boots

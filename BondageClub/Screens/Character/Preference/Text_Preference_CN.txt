@@ -648,6 +648,8 @@ Page
 页
 Allow item tint effects
 启用物品染色效果
+Can only leave a map near an entry or exit
+只能在入口或出口附近离开地图
 Allow item blur effects (turn off if experiencing frame rate drops)
 启用物品模糊效果（如果遇到帧率降低，请关闭）
 Females

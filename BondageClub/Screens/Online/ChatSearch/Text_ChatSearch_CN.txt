@@ -1,11 +1,17 @@
 No chat room found.  You can create a new one.
 没有找到聊天室，你可以新建一个
-Search for a room by name:
-按照以下名称搜索:
+Search for a room by name
+通过名称搜索一个房间
 Search for a room
 搜索房间
+Clear filter
+清除过滤器
 Create your room
 创建房间
+Apply filter
+应用过滤器
+ Load filtering
+加载过滤
 Friends in room:
 在房内的好友:
 This room is already full
@@ -46,8 +52,8 @@ Temp Hidden
 临时隐藏
 Creator on ghostlist
 幽灵名单上的创造者
-Filter out terms (comma-separated):
-过滤条件(以逗号分隔):
+Filter out terms (comma-separated)
+排除词条（逗号分隔）
 Help
 帮助
 Close help
@@ -86,6 +92,18 @@ Friends
 好友
 Next page
 下一页
+Previous page
+上一页
+Lobby:
+大厅：
+Mixed
+混合
+Female
+女性
+Male
+男性
+Asylum
+收容所
 Block:
 屏蔽:
 ABDL

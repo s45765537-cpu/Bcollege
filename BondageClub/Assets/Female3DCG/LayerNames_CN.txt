@@ -626,6 +626,10 @@ Phone
 手机
 Paws
 爪子
+Cuff Rings
+手铐环
+Harness Ring
+束带环
 Left Eyelids
 左眼睑
 Left Lens
@@ -910,6 +914,28 @@ Serious
 严肃
 Close
 关闭
+Tongue
+舌头
+Mouth Ring
+口环
+Hook
+钩子
+Tongue ring
+舌环
+Bells
+铃铛
+Collar Chain
+项圈锁链
+Nail
+钉子
+Padlock
+挂锁
+Clothes Peg
+晾衣夹
+ BitGag
+口衔
+ BitGag 2
+口衔2
 Tag
 标签
 Stripes Shine
@@ -964,8 +990,6 @@ Left Tape Strip
 左侧胶带
 Right Tape Strip
 右侧胶带
-Hook
-钩子
 Diaper
 尿裤
 Crotch Padding
@@ -1138,6 +1162,12 @@ Soles
 脚底
 Round Base
 圆形底部
+Leather Boots
+皮革靴
+Leather Belt
+皮革腰带
+Chains Details
+锁链细节
  Band
 带子
  Boot
@@ -1174,5 +1204,3 @@ Gears
 齿轮
 Patch
 补丁
-Padlock
-挂锁

@@ -4,6 +4,8 @@ Talk to everyone
 和所有人说话
 Whisper to
 悄悄话
+Whisper from
+悄悄话来自
 Keep only 20 messages
 只保留最后20条消息
 Your character profile
@@ -50,6 +52,20 @@ Whitelist:
 白名单:
 Blacklist:
 黑名单:
+Whisper target was not found:
+找不到悄悄话目标：
+No message provided.
+没有提供信息。
+You can whisper to: $TargetsClick on the name or use the member number.
+你可以和$Targets说悄悄话。点击名字或者使用用户编号。
+Whispering to
+说悄悄话
+You're no longer whispering.
+你停止说悄悄话
+Specify the member number or name to whisper to.
+指定你要说悄悄话的用户编号或者名字。
+Send a message starting with \ and it will escape any message. Example: \/message will send /message. \*emote will send *emote.
+发送以\开始的消息，会转义消息。例如：\/message会发送/message。\*emote会发送*emote。
 (Two nurses wearing futuristic gear grab you and carry you to the Asylum.  Another nurse is waiting for you there.)  Welcome.  Don't be scared.
 （两个穿着未来装备的护士抓住你，把你带到收容所。另一名护士在那里等着你）欢迎，不要害怕
 Talking is forbidden when your owner is present.
