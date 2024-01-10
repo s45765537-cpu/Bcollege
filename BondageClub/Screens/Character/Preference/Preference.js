@@ -3052,9 +3052,12 @@ var PreferenceOnlineSharedSettingsDefault = {
  */
 var PreferenceOnlineSharedSettingsValidate = {
 	GameVersion: (arg, C) => {
-		const version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
-		if (C.IsPlayer() && CommonCompareVersion(GameVersion, C.OnlineSharedSettings.GameVersion) < 0) {
-			CommonVersionUpdated = true;
+		let version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
+		if (C.IsPlayer()) {
+			if (CommonCompareVersion(GameVersion, version ?? "R0") < 0) {
+				CommonVersionUpdated = true;
+			}
+			version = GameVersion;
 		}
 		return version;
 	},
