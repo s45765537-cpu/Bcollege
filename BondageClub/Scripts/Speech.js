@@ -289,12 +289,44 @@ function isAccentedOrLatinCharacter(character) {
  * Returns the index where the OOC part of a message starts as well as it's length.
  * Attention: Currently this function does not detect the end of OOC messages properly to mimic the old behaviour before it was introduced. So "length" ALWAYS ranges from the opening parenthesis to the end of the message!!!
  * @param {string} Message - The message to check
- * @returns {{ start: number, length: number }} start - Contains the starting position of the OOC section of Message (Without OOC section, this references past the end of Message); length - contains the length of the OOC section of Message
+ * @returns {{ start: number, length: number }[]} Contains the starting position of each detected OOC section of Message (Without OOC section, this references past the end of Message); length - contains the length of the OOC section of Message
  */
-function SpeechGetOOCRange(Message) {
-	let startIndex = Message.indexOf("(");
-	if(startIndex < 0) { startIndex = Message.length; }
-	return { start: startIndex, length: Message.length - startIndex };
+function SpeechGetOOCRanges(Message) {
+	let ranges = [];
+	let startIndex = 0;
+	let endIndex = -1;
+	do
+	{
+		startIndex = Message.indexOf("(", endIndex+1);
+		endIndex = Message.indexOf(")", startIndex);
+		let sectionLength = endIndex - startIndex;
+		if(endIndex < 0) {
+			sectionLength = Message.length - startIndex;
+		}
+		if(startIndex < 0 || startIndex >= Message.length)
+		{
+			break;
+		}
+		ranges.push({ start: startIndex, length: sectionLength+1 });
+	}while(1);
+
+	return ranges;
+}
+
+/**
+ * Convenience function to check weither a character of a message is within the passed OOC range.
+ * Attention: Currently this function does not detect the end of OOC messages properly to mimic the old behaviour before it was introduced. So "length" ALWAYS ranges from the opening parenthesis to the end of the message!!!
+ * @param {number} index - The index of the character to check
+ * @param {{ start: number, length: number }[]} oocRanges - The OOC Ranges to check
+ * @returns {boolean} Returns true if the position passed in index is within a entry in oocRange
+ */
+function SpeechIndexInOocRange(index, oocRanges)
+{
+	for(let range of oocRanges)
+	{
+		if(index >= range.start && index < range.start + range.length) { return true; }
+	}
+	return false;
 }
 
 /**
@@ -312,12 +344,12 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 	if (CD == null) CD = "";
 	if (GagEffect === 0) return CD;
 
-	const oocRange = SpeechGetOOCRange(CD);
+	const oocRanges = SpeechGetOOCRanges(CD);
 
 	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 	for (let L = 0; L < CD.length; L++) {
 		const H = CD.charAt(L).toLowerCase();
-		Par =  (!IgnoreOOC && L >= oocRange.start && L< oocRange.start + oocRange.length);
+		Par =  (!IgnoreOOC && SpeechIndexInOocRange(L, oocRanges));
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
@@ -551,8 +583,6 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 
 			} else NS += CD.charAt(L);
 		}
-
-		if (H == ")" || H == "）") Par = false;
 	}
 
 	return NS;
@@ -593,12 +623,12 @@ function SpeechStutter(C, CD) {
 		var Par = false;
 		var CS = 1;
 		var Seed = CD.length;
-		const oocRange = SpeechGetOOCRange(CD);
+		const oocRanges = SpeechGetOOCRanges(CD);
 		for (let L = 0; L < CD.length; L++) {
 
 			// Do not stutter the letters between parentheses
 			var H = CD.charAt(L).toLowerCase();
-			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
+			Par = SpeechIndexInOocRange(L, oocRanges);
 
 			// If we are not between brackets and at the start of a word, there's a chance to stutter that word
 			if (!Par && CS >= 0 && (H.match(/[[a-zа-яё]/i))) {
@@ -638,10 +668,10 @@ function SpeechBabyTalk(C, CD) {
 	var NS = "";
 
 	if (C.Effect.indexOf("RegressedTalk") >= 0) {
-		const oocRange = SpeechGetOOCRange(CD);
+		const oocRanges = SpeechGetOOCRanges(CD);
 		for (let L = 0; L < CD.length; L++) {
 			var H = CD.charAt(L).toLowerCase();
-			Par = (L >= oocRange.start && L< oocRange.start + oocRange.length);
+			Par = SpeechIndexInOocRange(L, oocRanges);
 			if (!Par) {
 				if ('kl'.includes(H)) NS += 'w';
 				else if (H == "s") NS += 'sh';
