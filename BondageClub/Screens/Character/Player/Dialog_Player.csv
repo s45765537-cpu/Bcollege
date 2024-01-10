@@ -5162,3 +5162,6 @@ TonguePiercingGagMouthSetBitGag2,,,SourceCharacter uses a clamp behind Destinati
 StreetEyewearSelectType,,,Select a style.,,
 StreetEyewearTypeNormal,,,Normal Frame,,
 StreetEyewearTypeHalf,,,Half-Frame,,
+LatexApronSelectType,,,Choose your apron model:,,
+LatexApronTypeFull,,,Normal apron,,
+LatexApronTypeBottom,,,Bottom only,,
