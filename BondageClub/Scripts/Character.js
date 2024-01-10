@@ -2075,11 +2075,13 @@ function CharacterScriptRemove(C) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [forceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
  * @returns {void} - Nothing
  * @deprecated - Deprecated alias for {@link PoseSetActive}
  */
-var CharacterSetActivePose = PoseSetActive;
+function CharacterSetActivePose(C, poseName, forceChange=false) {
+	return PoseSetActive(C, poseName, forceChange);
+}
 
 /**
  * Checks whether the given character can change to the named pose (without aid by default).
@@ -2089,4 +2091,6 @@ var CharacterSetActivePose = PoseSetActive;
  * the provided pose
  * @deprecated Superseded by {@link PoseCanChangeUnaided}
  */
-var CharacterCanChangeToPose = PoseCanChangeUnaided;
+function CharacterCanChangeToPose(C, poseName) {
+	return PoseCanChangeUnaided(C, poseName);
+}
