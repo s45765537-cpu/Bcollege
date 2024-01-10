@@ -4509,41 +4509,6 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DroneMask
-		SpaceMask: {
-			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-			Options: [
-				{
-					Name: "One",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Two",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Three",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Four",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-			],
-			ChangeWhenLocked: false,
-		}, // SpaceMask
 		CustomLatexHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -6880,6 +6845,69 @@ var AssetFemale3DCGExtended = {
 				AfterDraw: AssetsItemHoodCanvasHoodAfterDrawHook,
 			},
 		}, // CanvasHood
+		SpaceMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "One",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Two",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Three",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Four",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SpaceMask
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
