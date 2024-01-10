@@ -793,7 +793,11 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 		Char.ArousalSettings ??= ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
 		Char.OnlineSharedSettings ??= ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
 		Char.Game ??= ServerAccountDataSyncedValidate.Game(data.Game, Char);
-		Char.MapData ??= ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
+		if(!Char.MapData)
+		{
+			Char.MapData = ChatRoomMapInitializeCharacter(Char);
+			Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
+		}
 		Char.Crafting ??= ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
 
