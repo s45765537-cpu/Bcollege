@@ -3503,22 +3503,32 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if ((data.Type === "Chat") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsHearable(SenderCharacter))
 	{
 		// Get the OOC part range of the message
-		const oocRange = SpeechGetOOCRange(msg);
+		const oocRanges = SpeechGetOOCRanges(msg);
 		// If the message has no OOC part, don't send anyting
-		if(oocRange.start >= msg.length) return;
+		if(oocRanges.length <= 0) return;
 		// If the message has a OOC part, set it as new message and send it normally
-		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length);
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += msg.substring(range.start, range.start+range.length);
+		}
+		msg = newMessage;
 	}
 
 	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
 	if ((data.Type === "Whisper") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter))
 	{
 		// Get the OOC part range of the message
-		const oocRange = SpeechGetOOCRange(msg);
+		const oocRanges = SpeechGetOOCRanges(msg);
 		// If the message has no OOC part, don't send anyting
-		if(oocRange.start >= msg.length) return;
+		if(oocRanges.length <= 0) return;
 		// If the message has a OOC part, set it as new message and send it normally
-		msg = msg.substring(oocRange.start, oocRange.start+oocRange.length);
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += msg.substring(range.start, range.start+range.length);
+		}
+		msg = newMessage;
 	}
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
