@@ -3635,7 +3635,7 @@ interface ActivityEnjoyment {
 
 interface ArousalZone {
 	/** The relevant zone */
-	Name: AssetGroupName,
+	Name: AssetGroupItemName,
 	/** The arousal factor associated with the zone */
 	Factor: ArousalFactor,
 	/** Whether one can orgasm from stimulating the zone */

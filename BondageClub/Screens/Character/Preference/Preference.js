@@ -2968,7 +2968,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
@@ -2988,7 +2988,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
@@ -3008,7 +3008,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
