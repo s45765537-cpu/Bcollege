@@ -2657,7 +2657,6 @@ var AssetFemale3DCGExtended = {
 						AllowActivityOn: ["ItemHands", "ItemLegs", "ItemFeet", "ItemBoots"],
 						SetPose: ["Kneel", "BackElbowTouch"],
 						Difficulty: 3,
-						SetPose: ["Kneel"],
 						AllowActivePose: [...PoseAllKneeling],
 					},
 					Expression: [{ Group: "Blush", Name: "Medium", Timer: 10 }],
@@ -8283,7 +8282,7 @@ var AssetFemale3DCGExtended = {
 					AllowLock: true,
 					Property: {
 						Difficulty: 5,
-						SetPose: ["BaseUpper"],
+						SetPose: ["BaseLower"],
 						AllowActivePose: [...PoseAllStanding],
 					},
 				},
