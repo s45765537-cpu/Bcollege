@@ -751,7 +751,13 @@ function TypedItemSetType(data, C, newOption) {
 	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth, true];
 	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 	if (data.archetype === ExtendedArchetype.VIBRATING) {
-		DialogExtendedMessage = DialogFindPlayer(`${data.dialogPrefix.header}${DialogFocusItem.Property.Intensity}`);
+		if (typeof data.dialogPrefix.header === "string") {
+			DialogExtendedMessage = DialogFindPlayer(data.dialogPrefix.header);
+		} else if (typeof data.dialogPrefix.header === "function") {
+			DialogExtendedMessage = data.dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
+		} else {
+			DialogExtendedMessage = "";
+		}
 	}
 
 	// For a restraint, we might publish an action, change the expression or change the dialog of a NPC
