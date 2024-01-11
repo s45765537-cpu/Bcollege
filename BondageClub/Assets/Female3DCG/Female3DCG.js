@@ -36400,7 +36400,7 @@ var AssetFemale3DCG = [
 				Name: "SpaceMask",
 				Category: ["SciFi"],
 				Fetish: ["Latex"],
-				Value: 1,
+				Value: 90,
 				Difficulty: 5,
 				Time: 10,
 				AllowLock: true,
@@ -36410,22 +36410,36 @@ var AssetFemale3DCG = [
 				Block: ["ItemNose"],
 				Hide: ["Glasses", "Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
-				Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
 				Layer: [
 					{ Name: "OneGlass", AllowTypes: { typed: 0 } },
 					{
 						Name: "TwoGlass",
 						AllowTypes: { typed: 1 },
+						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
 						CopyLayerColor: "OneGlass",
 					},
 					{
 						Name: "ThreeGlass",
 						AllowTypes: { typed: 2 },
+						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
 						CopyLayerColor: "OneGlass",
 					},
 					{
 						Name: "FourGlass",
 						AllowTypes: { typed: 3 },
+						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
+						CopyLayerColor: "OneGlass",
+					},
+					{
+						Name: "FiveGlass",
+						AllowTypes: { typed: 4 },
+						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
+						CopyLayerColor: "OneGlass",
+					},
+					{
+						Name: "SixGlass",
+						AllowTypes: { typed: 5 },
+						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
 						CopyLayerColor: "OneGlass",
 					},
 					{ Name: "OneHelm", AllowTypes: { typed: 0 } },
@@ -36444,6 +36458,16 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 3 },
 						CopyLayerColor: "OneHelm",
 					},
+					{
+						Name: "FiveHelm",
+						AllowTypes: { typed: 4 },
+						CopyLayerColor: "OneHelm",
+					},
+					{
+						Name: "SixHelm",
+						AllowTypes: { typed: 5 },
+						CopyLayerColor: "OneHelm",
+					},
 					{ Name: "OneDetail", AllowTypes: { typed: 0 } },
 					{
 						Name: "TwoDetail",
@@ -36458,6 +36482,16 @@ var AssetFemale3DCG = [
 					{
 						Name: "FourDetail",
 						AllowTypes: { typed: 3 },
+						CopyLayerColor: "OneDetail",
+					},
+					{
+						Name: "FiveDetail",
+						AllowTypes: { typed: 4 },
+						CopyLayerColor: "OneDetail",
+					},
+					{
+						Name: "SixDetail",
+						AllowTypes: { typed: 5 },
 						CopyLayerColor: "OneDetail",
 					},
 				],
