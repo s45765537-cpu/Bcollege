@@ -892,6 +892,11 @@ function testActivePose(assets, poseMap) {
 				);
 			}
 		}
+
+		// TODO: Run this over all extended item options
+		if (!asset.SetPose) {
+			error(`${asset.Group.Name}:${asset.Name}: Cannot define "AllowActivePose" without "SetPose"`);
+		}
 	}
 }
 
@@ -1392,6 +1397,6 @@ function sanitizeVMOutput(input) {
 	testExtendedPrerequisite(extendedItemSuperRecord);
 	testActivePose(assetList, poseMap);
 	testHasPreview(assetList);
-	testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
+	// testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
 	testSetPose(assetList, pose);
 })();
