@@ -214,7 +214,7 @@ function ChatRoomMapActivate() {
 		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
 
 	}
-	if (ChatRoomData.MapData?.Tiles.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects.length != ChatRoomMapWidth * ChatRoomMapHeight) {
+	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapWidth * ChatRoomMapHeight) {
 		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
 	}
 	ChatRoomMapCalculatePerceptionMasks();
