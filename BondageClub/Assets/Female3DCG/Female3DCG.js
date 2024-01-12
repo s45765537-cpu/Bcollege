@@ -36442,6 +36442,32 @@ var AssetFemale3DCG = [
 						Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head"] }],
 						CopyLayerColor: "OneGlass",
 					},
+					{ Name: "OneShine", AllowTypes: { typed: 0 } },
+					{
+						Name: "TwoShine",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "OneShine",
+					},
+					{
+						Name: "ThreeShine",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "OneShine",
+					},
+					{
+						Name: "FourShine",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "OneShine",
+					},
+					{
+						Name: "FiveShine",
+						AllowTypes: { typed: 4 },
+						CopyLayerColor: "OneShine",
+					},
+					{
+						Name: "SixShine",
+						AllowTypes: { typed: 5 },
+						CopyLayerColor: "OneShine",
+					},
 					{ Name: "OneHelm", AllowTypes: { typed: 0 } },
 					{
 						Name: "TwoHelm",
