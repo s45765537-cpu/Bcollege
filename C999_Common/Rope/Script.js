@@ -17,7 +17,7 @@ function C999_Common_Rope_Load() {
 	C999_Common_Rope_HasLooseRope = PlayerHasInventory("Rope");
 
 	// If the player is in Chapter 12 and Level 2 or more Rope Mastery
-	C999_Common_Rope_IsRopeMasterTwo = ((CurrentChapter == "C012_AfterClass") && (PlayerGetSkillLevel("RopeMastery") >= 2));
+	C999_Common_Rope_IsRopeMasterTwo = ((CurrentTime >= 60300000) && (PlayerGetSkillLevel("RopeMastery") >= 2));
 }
 
 // Chapter Common - Rope Run, we draw the regular player image if the item is on
