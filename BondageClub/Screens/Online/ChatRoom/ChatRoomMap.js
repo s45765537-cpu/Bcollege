@@ -393,11 +393,12 @@ function ChatRoomMapCharacterIsHearable(C) {
  * @returns {boolean} - TRUE if on whisper range
  */
 function ChatRoomMapCharacterOnWhisperRange(C) {
-	if (!C?.MapData) return false;
-	if (!Player?.MapData) return false;
-	const PlayerTileId = ChatRoomMapCoordinatesToIndex(Player.MapData.Pos.X, Player.MapData.Pos.Y);
-	return ChatRoomMapVisibilityMask[PlayerTileId];
+	if ((C == null) || (C.MapData == null) || (C.MapData.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return false;
+	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return false;
+	let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
+	return (Distance <= 1);
 }
+
 
 /**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
