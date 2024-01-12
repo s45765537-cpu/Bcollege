@@ -36,6 +36,7 @@ var ChatRoomMapMovement = null;
 /** @type {ChatRoomMapType[]} */
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 500;
+const ChatRoomMapPerceptionRaycastOffset = 0.4999;
 
 /** @type {boolean[]} */
 var ChatRoomMapVisibilityMask = [];
@@ -267,38 +268,38 @@ function ChatRoomMapCalculatePerceptionMasks()
 	const hearingRange = ChatRoomMapGetHearingRange();
 
 	for(let i=0; i<mapLength; i++) {
-		const pos = ChatRoomMapIndexToCoordinates(i);
+		const posTile = ChatRoomMapIndexToCoordinates(i);
 		// Calculate the view line between player as f(x) = slopeX * x + yIntercept and f(y) = slopeY * y + xIntercept
-		const slopeX = (pos.y - Player.MapData.Pos.Y) / (pos.x - Player.MapData.Pos.X);
-		const slopeY = (pos.x - Player.MapData.Pos.X) / (pos.y - Player.MapData.Pos.Y);
+		let dirX = 0;
+		if(Player.MapData.Pos.X < posTile.x) { dirX = 1; }
+		else if(Player.MapData.Pos.X > posTile.x) { dirX = -1; }
+		let dirY = 0;
+		if(Player.MapData.Pos.Y < posTile.y) { dirY = 1; }
+		else if(Player.MapData.Pos.Y > posTile.y) { dirY = -1; }
+
+		const posTileCorner = { x: posTile.x + (dirX * ChatRoomMapPerceptionRaycastOffset), y: posTile.y - (dirY * ChatRoomMapPerceptionRaycastOffset) };
+		const slopeX = (posTileCorner.y - Player.MapData.Pos.Y) / (posTileCorner.x - Player.MapData.Pos.X);
+		const slopeY = (posTileCorner.x - Player.MapData.Pos.X) / (posTileCorner.y - Player.MapData.Pos.Y);
 		const yIntercept = Player.MapData.Pos.Y - (slopeX * Player.MapData.Pos.X);
 		const xIntercept = Player.MapData.Pos.X - (slopeY * Player.MapData.Pos.Y);
 
 		// Initialize this entry of visibility and audibility map with sight and hearing range
-		const distance = Math.max(Math.abs(Player.MapData.Pos.X - pos.x), Math.abs(Player.MapData.Pos.Y - pos.y));
+		const distance = Math.max(Math.abs(Player.MapData.Pos.X - posTile.x), Math.abs(Player.MapData.Pos.Y - posTile.y));
 		ChatRoomMapVisibilityMask[i] = sightRange >= distance;
 		ChatRoomMapAudibilityMask[i] = hearingRange >= distance;
 
 		// Calculate obstacles in horizontality if horizontal slope is not too steep
-		if(slopeX != Infinity)
+		if(slopeX != Infinity && dirX != 0)
 		{
-			// Calculate the step with to plot of f(x) which is 1 if the tile is left of the player and -1 otherwise
-			let stepX = 1;
-			if(Player.MapData.Pos.X > pos.x) {
-				stepX = -stepX;
-			}
-
 			// Iterate over every x-position between player and target tile
-			for(let x=Player.MapData.Pos.X+stepX; x!=pos.x && x!=pos.x+stepX; x+=stepX) {
+			for(let x=Player.MapData.Pos.X+dirX; x!=posTile.x && x!=posTile.x+dirX; x+=dirX) {
 				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
 				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 					break;
 				}
 
-				// Adjust X with a very small number to ensure equal rounding in positive and negative direction
-				const xAdjusted = x + (0.00000001 * stepX);
 				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
-				const y = Math.round(slopeX * xAdjusted + yIntercept);
+				const y = Math.round(slopeX * x + yIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
@@ -315,25 +316,17 @@ function ChatRoomMapCalculatePerceptionMasks()
 			}
 		}
 		// Calculate obstacles in verticality if vertical slope is not too steep
-		if(slopeY != Infinity)
+		if(slopeY != Infinity && dirY != 0)
 		{
-			// Calculate the step with to plot of f(y) which is 1 if the tile is left of the player and -1 otherwise
-			let stepY = 1;
-			if(Player.MapData.Pos.Y > pos.y) {
-				stepY = -stepY;
-			}
-
 			// Iterate over every y-position between player and target tile
-			for(let y=Player.MapData.Pos.Y+stepY; y!=pos.y && y!=pos.y+stepY; y+=stepY) {
+			for(let y=Player.MapData.Pos.Y+dirY; y!=posTile.y && y!=posTile.y+dirY; y+=dirY) {
 				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
 				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
 					break;
 				}
 
-				// Adjust Y with a very small number to ensure equal rounding in positive and negative direction
-				const yAdjusted = y + (0.00000001 * stepY);
 				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
-				const x = Math.round(slopeY * yAdjusted + xIntercept);
+				const x = Math.round(slopeY * y + xIntercept);
 				let tileData = ChatRoomMapGetTileAtPos(x, y);
 				let objectData = ChatRoomMapGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
