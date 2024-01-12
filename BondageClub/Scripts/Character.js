@@ -1464,7 +1464,7 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
  * @param {ExpressionGroupName | "Eyes1"} AssetGroup - Asset group for the expression
  * @param {ExpressionName} Expression - Name of the expression to use
  * @param {number} [Timer] - Optional: time the expression will last
- * @param {string|string[]} [Color] - Optional: color of the expression to set
+ * @param {ItemColor} [Color] - Optional: color of the expression to set
  * @param {boolean} [fromQueue] - Internal: used to skip queuing the expression change if it comes from the queued expressions
  * @returns {void} - Nothing
  */
@@ -1517,7 +1517,9 @@ function CharacterResetFacialExpression(C) {
 	for (const item of C.Appearance) {
 		const group = item.Asset.Group;
 		if (group.IsAppearance() && group.AllowExpression) {
-			CharacterSetFacialExpression(C, /** @type {ExpressionGroupName} - group.Name filtered by expression unique group.AllowExpression */ (group.Name), null);
+			const name = /** @type {ExpressionGroupName} */ (group.Name);
+			const color = item.Color;
+			CharacterSetFacialExpression(C, name, null, null, color);
 		}
 	}
 }

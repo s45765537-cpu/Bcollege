@@ -3128,10 +3128,12 @@ function DialogGetCurrentExpressionPage(item) {
  */
 function DialogClickExpressionMenu() {
 	if (MouseIn(20, 50, 90, 90)) {
+		CharacterResetFacialExpression(Player);
 		DialogFacialExpressions.forEach(FE => {
-			let Color = null;
-			if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
-			CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
+			// Reset the fluids' custom color
+			if (FE.Group === "Fluids") {
+				FE.Appearance.Color = "Default";
+			}
 			FE.CurrentExpression = null;
 		});
 		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
