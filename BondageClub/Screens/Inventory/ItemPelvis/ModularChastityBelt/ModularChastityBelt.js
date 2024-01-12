@@ -352,6 +352,18 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	/** @type {ItemProperties} */
 	const property = (drawData.Item.Property = drawData.Item.Property || {});
 
+	//Orgasm is comming check
+	if (C.ArousalSettings && C.ArousalSettings.OrgasmTimer && C.ArousalSettings.OrgasmTimer > 0)
+	{
+		//Player has orgasm imminent
+		if (!persistentData.DenyDetected){
+			property.RuinedOrgasmCount += 1;
+			persistentData.DenyDetected = true;
+		}
+	} else {
+		persistentData.DenyDetected = false;
+	}
+
 	//Orgasm check
 	if (C.ArousalSettings && C.ArousalSettings.OrgasmStage && C.ArousalSettings.OrgasmStage > 1)
 	{
@@ -364,18 +376,6 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 		}
 	} else {
 		persistentData.OrgasmDetected = false;
-	}
-
-	//Ruined orgasm check
-	if (C.ArousalSettings && !isNaN(C.ArousalSettings.OrgasmTimer) && (C.ArousalSettings.OrgasmTimer > 0) && C.HasEffect("DenialMode") && C.HasEffect("RuinOrgasms"))
-	{
-		//Player is being denied
-		if (!persistentData.DenyDetected){
-			property.RuinedOrgasmCount += 1;
-			persistentData.DenyDetected = true;
-		}
-	} else {
-		persistentData.DenyDetected = false;
 	}
 
 	//Voice control check

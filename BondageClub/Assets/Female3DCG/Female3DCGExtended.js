@@ -14216,10 +14216,10 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Chained",
-					Prerequisite: ["NeedsHarness", "NoItemArms"],
+					Prerequisite: ["NoItemArms"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemTorso", "ItemTorso2", "ItemArms"],
+						Block: ["ItemArms"],
 						Difficulty: 10,
 					},
 				},
