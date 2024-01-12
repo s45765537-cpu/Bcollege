@@ -517,12 +517,7 @@ function StruggleMinigameStop() {
 		delete Player.ExpressionQueue;
 
 		// Reset player expressions to default
-		for (const [_, FE] of DialogFacialExpressions.entries()) {
-			let Color = null;
-			if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
-			CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
-			FE.CurrentExpression = null;
-		}
+		CharacterResetFacialExpression(Player);
 
 		// Set player expressions to store
 		for (const [group, name] of CommonEntries(StruggleExpressionStore)) {
