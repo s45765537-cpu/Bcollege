@@ -1397,6 +1397,6 @@ function sanitizeVMOutput(input) {
 	testExtendedPrerequisite(extendedItemSuperRecord);
 	testActivePose(assetList, poseMap);
 	testHasPreview(assetList);
-	// testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
+	testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
 	testSetPose(assetList, pose);
 })();
