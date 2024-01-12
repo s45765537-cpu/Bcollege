@@ -300,7 +300,7 @@ function SpeechGetOOCRanges(Message) {
 		// Find the next opening bracket after the last closing bracket
 		startIndex = Message.indexOf("(", endIndex+1);
 		// If no opening bracket was found, there is no more OOC section and we stop
-		if(startIndex < 0 || startIndex >= Message.length) { break; }
+		if(startIndex < 0) { break; }
 
 		// Find the next closing bracket after the last opening bracket
 		endIndex = Message.indexOf(")", startIndex);
