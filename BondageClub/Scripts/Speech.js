@@ -297,17 +297,18 @@ function SpeechGetOOCRanges(Message) {
 	let endIndex = -1;
 	do
 	{
+		// Find the next opening bracket after the last closing bracket
 		startIndex = Message.indexOf("(", endIndex+1);
+		// If no opening bracket was found, there is no more OOC section and we stop
+		if(startIndex < 0 || startIndex >= Message.length) { break; }
+
+		// Find the next closing bracket after the last opening bracket
 		endIndex = Message.indexOf(")", startIndex);
-		let sectionLength = endIndex - startIndex;
-		if(endIndex < 0) {
-			sectionLength = Message.length - startIndex;
-		}
-		if(startIndex < 0 || startIndex >= Message.length)
-		{
-			break;
-		}
-		ranges.push({ start: startIndex, length: sectionLength+1 });
+		// If no closing bracket was found, we use the last character of the string as end index
+		if(endIndex < 0) { endIndex = Message.length - 1; }
+
+		// Add the OOC range with start postition and length to the ranges list
+		ranges.push({ start: startIndex, length: (endIndex - startIndex + 1) });
 	}while(1);
 
 	return ranges;
