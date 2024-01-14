@@ -311,7 +311,7 @@ function DialogCanChangeClothes() {
 		["ChatRoom", "MainHall", "Private", "Photographic"].includes(CurrentScreen)
 		&& CurrentCharacter != null
 		&& Player.CanChangeClothesOn(CurrentCharacter)
-		&& !DialogDontAllowItemDistance()
+		&& !InventoryIsBlockedByDistance(CurrentCharacter)
 	);
 }
 /**
@@ -573,7 +573,7 @@ function ChatRoomCanAssistStruggle() { return CurrentCharacter.AllowItem && !Cur
  * @returns {boolean} - Whether or not the player can interact with the target character
  */
 function DialogCanPerformCharacterAction() {
-	if (DialogDontAllowItemDistance()) return false;
+	if (InventoryIsBlockedByDistance(CurrentCharacter)) return false;
 	return (
 		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
 		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||

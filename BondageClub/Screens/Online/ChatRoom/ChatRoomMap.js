@@ -37,6 +37,9 @@ var ChatRoomMapMovement = null;
 var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapUpdatePlayerTime = 500;
 const ChatRoomMapPerceptionRaycastOffset = 0.4999;
+const ChatRoomMapWhisperRange = 1;
+const ChatRoomMapInteractionRange = 1;
+const ChatRoomMapRemoteRange = ChatRoomMapViewRangeMax;
 
 /** @type {boolean[]} */
 var ChatRoomMapVisibilityMask = [];
@@ -396,9 +399,20 @@ function ChatRoomMapCharacterOnWhisperRange(C) {
 	if ((C == null) || (C.MapData == null) || (C.MapData.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return false;
 	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return false;
 	let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
-	return (Distance <= 1);
+	return (Distance <= ChatRoomMapWhisperRange);
 }
 
+/**
+ * Returns TRUE if the player is within interaction range of another character
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if on interaction range
+ */
+function ChatRoomMapCharacterOnInteractionRange(C) {
+	if ((C == null) || (C.MapData == null) || (C.MapData.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return false;
+	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return false;
+	let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
+	return (Distance <= ChatRoomMapInteractionRange);
+}
 
 /**
  * Sets the correct wall tile based on it's surrounding (North-West, North-Center, etc.)
