@@ -312,7 +312,7 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
  */
 function ActivityAllowedForGroup(character, groupname) {
 	// If we are not within interaction range, don't allow any activities
-	if(!ChatRoomMapCharacterOnInteractionRange(character)) return [];
+	if(InventoryIsBlockedByDistance(character)) return [];
 
 	// Get the group and all possible activities
 	let activities = AssetAllActivities(character.AssetFamily);
