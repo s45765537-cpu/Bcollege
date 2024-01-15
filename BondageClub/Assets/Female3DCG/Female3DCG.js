@@ -23703,7 +23703,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictLeatherPetCrawler",
-				Gender: "F",
 				ParentGroup: null,
 				Fetish: ["Leather", "Pet"],
 				Value: 150,
@@ -23715,7 +23714,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
-				Prerequisite: ["HasBreasts"],
 				Hide: [
 					"Cloth",
 					"ClothLower",
