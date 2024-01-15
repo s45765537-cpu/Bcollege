@@ -72,11 +72,11 @@ function CommandParse(msg) {
 		return;
 	}
 
-	if (msg.length >= 1000) {
+	if (msg.length > ServerChatMessageMaxLength) {
 		return;
 	}
 
-	msg = msg.substring(0, 1000);
+	msg = msg.substring(0, ServerChatMessageMaxLength);
 
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
 		ChatRoomSendEmote(msg);

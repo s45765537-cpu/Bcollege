@@ -161,6 +161,9 @@ textarea {
 	white-space: pre-wrap;
     overflow-wrap: break-word;
 }
+#InputChatLength.invalid {
+	color: #FF0000;
+}
 div.ReplyButton {
 	text-decoration: none;
 	font-style: normal;
