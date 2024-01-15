@@ -71,7 +71,13 @@ function CommandParse(msg) {
 		CommandExecute(msg);
 		return;
 	}
+
+	if (msg.length >= 1000) {
+		return;
+	}
+
 	msg = msg.substring(0, 1000);
+
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
 		ChatRoomSendEmote(msg);
 		ElementValue("InputChat", "");

@@ -2462,14 +2462,15 @@ function ChatRoomSendChat() {
 
 	// If there's a message to send
 	const msg = ElementValue("InputChat").trim();
-	if (msg != "") {
-
-		// Keeps the chat log in memory so it can be accessed with pageup/pagedown
-		ChatRoomLastMessage.push(msg);
-		ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
-
-		CommandParse(msg);
+	if (!msg.length) {
+		return;
 	}
+
+	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
+	ChatRoomLastMessage.push(msg);
+	ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
+
+	CommandParse(msg);
 }
 
 /**
