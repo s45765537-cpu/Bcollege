@@ -3542,11 +3542,12 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			let senderTag = '<span class="ChatMessageName" style="color:' + (SenderCharacter.LabelColor || 'gray');
 			if (data.Type == "Whisper") senderTag += '; font-style: italic';
 			senderTag += ';">';
+			if (data.Type == "Whisper") senderTag += ' ';
 			senderTag += metadata.senderName;
 			senderTag += ':</span> ';
-			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + " " + senderTag;
+			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
 
-			msg = `<span>${senderTag} ${ChatRoomHTMLEntities(msg)}</span>`;
+			msg = `${senderTag} ${ChatRoomHTMLEntities(msg)}`;
 		}
 			break;
 
@@ -3592,16 +3593,14 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// Add reply button if we're getting whisper
 	if (data.Type === "Whisper") {
-		let repl = document.createElement("a");
-		repl.href = "#";
-		repl.onclick = (e) => {
-			e.preventDefault();
-			ElementValue("InputChat", `/whisper ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+		let replayButton = document.createElement("div");
+		replayButton.onclick = (e) => {
+			ElementValue("InputChat", `/whisper ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
 			ElementFocus("InputChat");
 		};
-		repl.classList.add("ReplyButton");
-		repl.textContent = '\u21a9\ufe0f';
-		div.prepend(repl);
+		replayButton.classList.add("ReplyButton");
+		replayButton.textContent = '\u21a9\ufe0f';
+		div.prepend(replayButton);
 	}
 
 	if (typeof data.Timeout === 'number' && data.Timeout > 0) setTimeout(() => div.remove(), data.Timeout);
