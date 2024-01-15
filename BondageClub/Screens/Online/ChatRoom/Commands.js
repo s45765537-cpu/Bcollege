@@ -96,19 +96,17 @@ function CommandParse(msg) {
 			div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 			div.setAttribute('data-time', ChatRoomCurrentTime());
 			div.setAttribute('data-sender', Player.MemberNumber.toString());
-			div.innerHTML = `<span>${TextGet("WhisperTo")} <span class="ChatMessageName"; style="color: ${(WhisperTarget.LabelColor || 'gray')};">${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}</span>`;
+			div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}:</span>${ChatRoomHTMLEntities(msg)}`;
 
 			// Add reply button, that will reply to player we're whispering.
-			let repl = document.createElement("a");
-			repl.href = "#";
-			repl.onclick = (e) => {
-				e.preventDefault();
-				ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/w\s*\d+ ?/u, '')}`);
+			let replayButton = document.createElement("div");
+			replayButton.onclick = (e) => {
+				ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
 				ElementFocus("InputChat");
 			};
-			repl.classList.add("ReplyButton");
-			repl.textContent = '\u21a9\ufe0f';
-			div.prepend(repl);
+			replayButton.classList.add("ReplyButton");
+			replayButton.textContent = '\u21a9\ufe0f';
+			div.prepend(replayButton);
 
 			ChatRoomAppendChat(div);
 		}
@@ -167,13 +165,11 @@ function CommandExecute(msg) {
 	if (flt.length > 1) C = null;
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
-		ElementValue("InputChat", "");
-		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandNoSuchCommand")}`);
+		ChatRoomSendLocal(`${msg} ${TextGet("CommandNoSuchCommand")}`, 10_000)
 		return;
 	}
 	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
-		ElementValue("InputChat", "");
-		ElementSetAttribute("InputChat", "placeholder", `${msg} ${TextGet("CommandPrerequisiteFailed")}`);
+		ChatRoomSendLocal(`${msg} ${TextGet("CommandPrerequisiteFailed")}`, 10_000)
 		return;
 	}
 	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
@@ -634,54 +630,68 @@ const CommonCommands = [
 	{
 		Tag: "whisper",
 		Action: (args, command) => {
-			if (args == "") {
-				if (ChatRoomTargetMemberNumber != null) {
+			const [, ...parts] = command.split(" ");
+			const target = parts?.shift();
+			const message = parts?.join(" ");
+
+			// Logic for handling empty command or missing target
+			if (!target) {
+				if (ChatRoomTargetMemberNumber !== null) {
 					ChatRoomSetTarget(null);
-					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30_000);
+					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30000);
 				} else {
-					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30_000);
+					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30000);
 				}
 
 				return;
 			}
 
-			const [, initialTarget, ...message] = command.split(" ");
-			const target = initialTarget.toLowerCase();
-			const msg = message?.join(" ");
-			/** @type {Character[]} */
-			const targetMembers = ChatRoomCharacter.filter((C) => {
+			// Getting all members that fit our request
+			const matchingMembers = ChatRoomCharacter.filter((C) => {
 				const memberNumber = parseInt(target);
-				return (!C.IsPlayer() && (C.MemberNumber == memberNumber || CharacterNickname(C).toLowerCase() == target || C.Name.toLowerCase() == target));
+				
+				return (
+					//!C.IsPlayer() &&
+					(
+						C.MemberNumber == memberNumber ||
+						C.Nickname?.toLowerCase() == target.toLowerCase() ||
+						C.Name.toLowerCase() == target.toLowerCase()
+					)
+				);
 			});
 
-			if (!targetMembers || !targetMembers.length) {
-				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")} ${initialTarget}.`, 30_000);
-			} else if (targetMembers.length > 1) {
-				const Targets = "<br>" + targetMembers
-					.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
-					.join(",<br>") + ".<br>";
-				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
-			} else if (targetMembers.length == 1 && !msg) {
-				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${CharacterNickname(targetMembers[0])} (${targetMembers[0].MemberNumber})`, 30_000);
-				ChatRoomSetTarget(targetMembers[0].MemberNumber);
-			} else if (!msg) {
-				ChatRoomSendLocal(`${TextGet("CommandNoMessage")}`, 30_000);
-			} else {
-				const targetMemberNumber = targetMembers[0].MemberNumber;
-				const originalTarget = ChatRoomTargetMemberNumber;
-				ChatRoomTargetMemberNumber = targetMemberNumber;
+			// Handling scenarios based on the matching members
+			// If there's no matches
+			if (!matchingMembers.length) {
+				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")} ${target}.`, 30_000);
+			// If there's multiple matches
+			} else if (matchingMembers.length > 1) {
+				const mappedMembers = matchingMembers
+				.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${C.Nickname ? C.Nickname + " [" + C.Name + "]" : C.Name} (${C.MemberNumber})</strong>`)
+				.join(",<br>") + ".<br>";
+				const Targets = `<br>${mappedMembers}`;
 
-				ElementValue(
-					"InputChat",
-					msg
-				);
+				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
+			// If we have ONE match, but no message
+			} else if (matchingMembers.length == 1 && !message) {
+				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${matchingMembers[0].Nickname ? matchingMembers[0].Nickname + " [" + matchingMembers[0].Name + "] " : matchingMembers[0].Name}(${matchingMembers[0].MemberNumber})`, 15_000);
+				ChatRoomSetTarget(matchingMembers[0].MemberNumber);
+			// If there's ONE match and there's message we want to send
+			} else {
+				const targetMember = matchingMembers[0];
+				const previousTarget = ChatRoomTargetMemberNumber;
+
+				// Set whisper target and send message
+				ChatRoomTargetMemberNumber = targetMember.MemberNumber;
+				ElementValue("InputChat", message);
 				ChatRoomSendChat();
 
-				// Erase duplicate from history to prevent things like automatic shock collars listening to the history from triggering
+				// Remove dupped message from history
 				ChatRoomLastMessage.pop();
 				ChatRoomLastMessageIndex--;
 
-				ChatRoomTargetMemberNumber = originalTarget;
+				// Set previous target as whisper target if any
+				ChatRoomTargetMemberNumber = previousTarget;
 			}
 		},
 	}
