@@ -40180,6 +40180,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 10,
 				RemoveTime: 15,
+				Left: 75,
 				AllowLock: true,
 				AllowTighten: true,
 				Alpha: [
@@ -40197,7 +40198,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
-					Spread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
 			},
@@ -40316,6 +40317,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 10,
 				RemoveTime: 15,
+				Left: 75,
 				AllowLock: true,
 				AllowTighten: true,
 				Alpha: [
