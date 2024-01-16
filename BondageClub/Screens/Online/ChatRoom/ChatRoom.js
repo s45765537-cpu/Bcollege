@@ -3544,7 +3544,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += ';">';
 			if (data.Type == "Whisper") senderTag += ' ';
 			senderTag += metadata.senderName;
-			senderTag += ':</span> ';
+			senderTag += ':</span>';
 			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
 
 			msg = `${senderTag} ${ChatRoomHTMLEntities(msg)}`;

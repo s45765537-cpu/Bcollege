@@ -96,7 +96,7 @@ function CommandParse(msg) {
 			div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 			div.setAttribute('data-time', ChatRoomCurrentTime());
 			div.setAttribute('data-sender', Player.MemberNumber.toString());
-			div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}:</span>${ChatRoomHTMLEntities(msg)}`;
+			div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}`;
 
 			// Add reply button, that will reply to player we're whispering.
 			let replayButton = document.createElement("div");
@@ -651,7 +651,7 @@ const CommonCommands = [
 				const memberNumber = parseInt(target);
 				
 				return (
-					//!C.IsPlayer() &&
+					!C.IsPlayer() &&
 					(
 						C.MemberNumber == memberNumber ||
 						C.Nickname?.toLowerCase() == target.toLowerCase() ||
@@ -667,14 +667,14 @@ const CommonCommands = [
 			// If there's multiple matches
 			} else if (matchingMembers.length > 1) {
 				const mappedMembers = matchingMembers
-				.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${C.Nickname ? C.Nickname + " [" + C.Name + "]" : C.Name} (${C.MemberNumber})</strong>`)
-				.join(",<br>") + ".<br>";
+				.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
+				.join("<br>") + "<br>";
 				const Targets = `<br>${mappedMembers}`;
 
 				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
 			// If we have ONE match, but no message
 			} else if (matchingMembers.length == 1 && !message) {
-				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${matchingMembers[0].Nickname ? matchingMembers[0].Nickname + " [" + matchingMembers[0].Name + "] " : matchingMembers[0].Name}(${matchingMembers[0].MemberNumber})`, 15_000);
+				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${CharacterNickname(matchingMembers[0])} (${matchingMembers[0].MemberNumber})`, 30_000);
 				ChatRoomSetTarget(matchingMembers[0].MemberNumber);
 			// If there's ONE match and there's message we want to send
 			} else {
