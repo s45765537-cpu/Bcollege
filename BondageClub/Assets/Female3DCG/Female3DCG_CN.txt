@@ -542,6 +542,8 @@ Gradient Sunglasses
 渐变太阳镜
 Inconspicious Glasses
 吹胡子瞪眼
+Street Eyewear
+街头眼镜
 Sunglasses 1
 太阳镜 1
 Sunglasses 2
@@ -1712,6 +1714,8 @@ Sack Hood
 麻袋头罩
 Sensory Hood
 感官封闭头套
+Space-Style Mask
+太空面罩
 Techno Helmet
 高科技头盔
  Vac Hood
