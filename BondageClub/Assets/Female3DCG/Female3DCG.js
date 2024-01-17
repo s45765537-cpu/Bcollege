@@ -4329,7 +4329,11 @@ var AssetFemale3DCG = [
 					{ Name: "Frill" },
 					{ Name: "Straps", PoseMapping: {} },
 				],
-				PoseMapping: { Kneel: "Kneel" },
+				PoseMapping: {
+					Kneel: "Kneel",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 				Alpha: [{ Group: ["ItemBoots", "Shoes"], Masks: [[75, 0, 350, 800]] }],
 			},
 			{
