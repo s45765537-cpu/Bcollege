@@ -190,8 +190,6 @@ House Amplector:
 安派托怀围社：
 House Corporis:
 科泼里躯形社：
-difficulty for NumberOfDays day(s)
-难度已游玩NumberOfDays天
 Roleplay
 角色扮演
 Regular

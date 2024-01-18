@@ -101,7 +101,8 @@ ReputationHouseMaiestasPositive,House Maiestas:
 ReputationHouseVinculaPositive,House Vincula:
 ReputationHouseAmplectorPositive,House Amplector:
 ReputationHouseCorporisPositive,House Corporis:
-DifficultyTitle,difficulty for NumberOfDays day(s)
+DifficultyTitle,difficulty
+DifficultyDaysTillCanChange, - Can change again in NumberOfDays day(s)
 DifficultyLevel0,Roleplay
 DifficultyLevel1,Regular
 DifficultyLevel2,Hardcore
