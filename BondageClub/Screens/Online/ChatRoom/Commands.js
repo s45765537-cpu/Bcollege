@@ -165,11 +165,11 @@ function CommandExecute(msg) {
 	if (flt.length > 1) C = null;
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
-		ChatRoomSendLocal(`${msg} ${TextGet("CommandNoSuchCommand")}`, 10_000)
+		ChatRoomSendLocal(`${msg} ${TextGet("CommandNoSuchCommand")}`, 10_000);
 		return;
 	}
 	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
-		ChatRoomSendLocal(`${msg} ${TextGet("CommandPrerequisiteFailed")}`, 10_000)
+		ChatRoomSendLocal(`${msg} ${TextGet("CommandPrerequisiteFailed")}`, 10_000);
 		return;
 	}
 	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
@@ -649,7 +649,7 @@ const CommonCommands = [
 			// Getting all members that fit our request
 			const matchingMembers = ChatRoomCharacter.filter((C) => {
 				const memberNumber = parseInt(target);
-				
+
 				return (
 					!C.IsPlayer() &&
 					(
@@ -667,8 +667,8 @@ const CommonCommands = [
 			// If there's multiple matches
 			} else if (matchingMembers.length > 1) {
 				const mappedMembers = matchingMembers
-				.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
-				.join("<br>") + "<br>";
+					.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
+					.join("<br>") + "<br>";
 				const Targets = `<br>${mappedMembers}`;
 
 				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
