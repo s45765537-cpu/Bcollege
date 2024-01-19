@@ -36408,7 +36408,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				DynamicAfterDraw: true,
 				Block: ["ItemNose"],
 				Hide: ["Glasses", "Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
