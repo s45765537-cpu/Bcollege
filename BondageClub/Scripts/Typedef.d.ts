@@ -1252,6 +1252,7 @@ interface Character {
 	IsOwnedByPlayer: () => boolean;
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;
+	IsStanding: () => boolean;
 	IsNaked: () => boolean;
 	IsDeaf: () => boolean;
 	IsGagged: () => boolean;
