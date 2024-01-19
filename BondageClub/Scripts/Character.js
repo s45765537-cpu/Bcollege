@@ -790,18 +790,15 @@ function CharacterLoadSimple(AccName) {
  */
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (!Char.IsPlayer() && Char.MemberNumber == SourceMemberNumber) {
-		Char.Title ??= ServerAccountDataSyncedValidate.Title(data.Title, Char);
-		Char.Nickname ??= ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
-		Char.ItemPermission ??= ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
-		Char.ArousalSettings ??= ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
-		Char.OnlineSharedSettings ??= ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
-		Char.Game ??= ServerAccountDataSyncedValidate.Game(data.Game, Char);
-		if(!Char.MapData)
-		{
-			Char.MapData = ChatRoomMapInitializeCharacter(Char);
-			Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
-		}
-		Char.Crafting ??= ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
+		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
+		Char.Nickname = ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
+		Char.ItemPermission = ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
+		Char.ArousalSettings = ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
+		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
+		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
+		Char.MapData = ChatRoomMapInitializeCharacter(Char);
+		Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
+		Char.Crafting = ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
 
 	// Fully validated in the `ActivePose` setter
