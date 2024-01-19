@@ -40200,6 +40200,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
@@ -40337,6 +40338,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
