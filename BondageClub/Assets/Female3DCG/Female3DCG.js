@@ -36408,7 +36408,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				DynamicAfterDraw: true,
 				Block: ["ItemNose"],
 				Hide: ["Glasses", "Blush"],
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
@@ -40200,6 +40199,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
@@ -40337,6 +40337,7 @@ var AssetFemale3DCG = [
 				Height: 35,
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
