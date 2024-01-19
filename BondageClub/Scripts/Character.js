@@ -345,6 +345,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
 		},
+		IsStanding: function () {
+			return CommonIncludes(PoseAllStanding, this.PoseMapping.BodyLower);
+		},
 		IsNaked: function () {
 			return CharacterIsNaked(this);
 		},
