@@ -111,7 +111,7 @@ var VibratorModeOptions = {
 			Property: {
 				Mode: VibratorMode.TEASE,
 				Intensity: 0,
-				Effect: ["Egged", "Vibrating"],
+				Effect: ["Egged"],
 			},
 		},
 		{
@@ -119,7 +119,7 @@ var VibratorModeOptions = {
 			Property: {
 				Mode: VibratorMode.DENY,
 				Intensity: 0,
-				Effect: ["Egged", "Vibrating", "Edged"],
+				Effect: ["Egged", "Edged"],
 			},
 		},
 		{
@@ -128,7 +128,6 @@ var VibratorModeOptions = {
 				Mode: VibratorMode.EDGE,
 				Intensity: 0,
 				Effect: ["Egged", "Vibrating", "Edged"],
-
 			},
 		},
 	],
@@ -200,6 +199,7 @@ function VibratorModeSetOption(data, C, item, newOption, previousOption, push=fa
 		case "Tease":
 		case "Deny":
 			item.Property.Intensity = CommonRandomItemFromList(null, [0, 1, 2, 3]);
+			item.Property.Effect = CommonArrayConcatDedupe(item.Property.Effect, ["Vibrating"]);
 			break;
 		case "Edge":
 			item.Property.Intensity = CommonRandomItemFromList(null, [0, 1]);
