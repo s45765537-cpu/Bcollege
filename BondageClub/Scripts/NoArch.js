@@ -17,16 +17,14 @@ const NoArchItemDataLookup = {};
  */
 function NoArchItemRegister(asset, config, parentOption=null) {
 	const data = NoArchCreateNoArchItemData(asset, config, parentOption);
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<NoArchItemOption>} */
-		const defaultCallbacks = {
-			init: (...args) => NoArch.Init(data, ...args),
-			load: (...args) => ExtendedItemLoad(data, ...args),
-			draw: (...args) => NoArch.Draw(data, ...args),
-			click: (...args) => NoArch.Click(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-	}
+	/** @type {ExtendedItemCallbackStruct<NoArchItemOption>} */
+	const defaultCallbacks = {
+		init: (...args) => NoArch.Init(data, ...args),
+		load: (...args) => ExtendedItemLoad(data, ...args),
+		draw: (...args) => NoArch.Draw(data, ...args),
+		click: (...args) => NoArch.Click(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
 
 	const mutableAsset = /** @type {Mutable<Asset>} */(data.asset);
 	if (data.allowEffect.length) {

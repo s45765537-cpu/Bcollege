@@ -54,20 +54,18 @@ const TypedItemChatSetting = {
 function TypedItemRegister(asset, config) {
 	const data = TypedItemCreateTypedItemData(asset, config);
 
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<TypedItemOption>} */
-		const defaultCallbacks = {
-			load: () => ExtendedItemLoad(data),
-			click: () => TypedItemClick(data),
-			draw: () => TypedItemDraw(data),
-			validate: (...args) => ExtendedItemValidate(data, ...args),
-			publishAction: (...args) => TypedItemPublishAction(data, ...args),
-			init: (...args) => TypedItemInit(data, ...args),
-			setOption: (...args) => ExtendedItemSetOption(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-		ExtendedItemCreateNpcDialogFunction(data.asset, data.functionPrefix, data.dialogPrefix.npc);
-	}
+	/** @type {ExtendedItemCallbackStruct<TypedItemOption>} */
+	const defaultCallbacks = {
+		load: () => ExtendedItemLoad(data),
+		click: () => TypedItemClick(data),
+		draw: () => TypedItemDraw(data),
+		validate: (...args) => ExtendedItemValidate(data, ...args),
+		publishAction: (...args) => TypedItemPublishAction(data, ...args),
+		init: (...args) => TypedItemInit(data, ...args),
+		setOption: (...args) => ExtendedItemSetOption(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
+	ExtendedItemCreateNpcDialogFunction(data.asset, data.functionPrefix, data.dialogPrefix.npc);
 
 	TypedItemGenerateAllowEffect(data);
 	TypedItemGenerateAllowBlock(data);

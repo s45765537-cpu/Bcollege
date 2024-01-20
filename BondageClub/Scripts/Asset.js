@@ -707,11 +707,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		};
 	}).filter(({ Name }) => Name !== undefined);
 
-	// TODO: Figure out how to get the .csv loading to work in Node.js, which we use for the test suite
-	if (IsBrowser()) {
-		// Loads the description of the assets in a specific language
-		AssetLoadDescription(Family);
-	}
+	AssetLoadDescription(Family);
 }
 
 // Reset and load all the assets

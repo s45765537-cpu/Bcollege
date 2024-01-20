@@ -114,9 +114,9 @@ function ExtendedItemCreateCallback(data, name, originalFunction) {
 	const scriptHook = /** @type {ExtendedItemScriptHookCallback<any, T, RT>} */(data.scriptHooks[name]);
 	if (scriptHook != null) {
 		/** @type {ExtendedItemCallback<T, RT>} */
-		window[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
+		globalThis[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
 	} else if (originalFunction != null) {
-		window[funcName] = originalFunction;
+		globalThis[funcName] = originalFunction;
 	}
 }
 
@@ -700,12 +700,12 @@ function ExtendItemGetIcons(C, Asset, Type=null, Effects=null) {
 function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
 	const npcDialogFunctionName = `${FunctionPrefix}NpcDialog`;
 	if (typeof NpcPrefix === "function") {
-		window[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			const Prefix = NpcPrefix(C, Option, PreviousOption);
 			C.CurrentDialog = DialogFind(C, Prefix, Asset.Group.Name);
 		};
 	} else {
-		window[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			C.CurrentDialog = DialogFind(C, `${NpcPrefix}${Option.Name}`, Asset.Group.Name);
 		};
 	}

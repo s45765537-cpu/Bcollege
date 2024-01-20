@@ -1184,14 +1184,6 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 }
 
 /**
- * Return whether BC is running in a browser environment (as opposed to Node.js as used for the test suite).
- * @returns {boolean}
- */
-function IsBrowser() {
-	return typeof window !== "undefined" && typeof window.document !== "undefined";
-}
-
-/**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
  * @param {unknown} arg - The to-be validated object
  * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array

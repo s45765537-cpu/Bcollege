@@ -29,19 +29,17 @@ const VariableHeightDataLookup = {};
 function VariableHeightRegister(asset, config, parentOption=null) {
 	const data = VariableHeightCreateData(asset, config, parentOption);
 
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<VariableHeightOption>} */
-		const defaultCallbacks = {
-			load: () => VariableHeightLoad(data),
-			click: () => VariableHeightClick(data),
-			draw: () => VariableHeightDraw(data),
-			exit: VariableHeightExit,
-			publishAction: (...args) => VariableHeightPublishAction(data, ...args),
-			init: (...args) => VariableHeightInit(data, ...args),
-			validate: (...args) => ExtendedItemValidate(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-	}
+	/** @type {ExtendedItemCallbackStruct<VariableHeightOption>} */
+	const defaultCallbacks = {
+		load: () => VariableHeightLoad(data),
+		click: () => VariableHeightClick(data),
+		draw: () => VariableHeightDraw(data),
+		exit: VariableHeightExit,
+		publishAction: (...args) => VariableHeightPublishAction(data, ...args),
+		init: (...args) => VariableHeightInit(data, ...args),
+		validate: (...args) => ExtendedItemValidate(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
 
 	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
 	mutableAsset.Extended = true;
