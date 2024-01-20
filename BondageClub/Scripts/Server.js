@@ -863,16 +863,6 @@ var ServerAccountDataSyncedValidate = {
 	OnlineSharedSettings: (arg, C) => {
 		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
 	},
-	MapData: (arg, C) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		return {
-			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
-			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
-		};
-	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);
 	},
