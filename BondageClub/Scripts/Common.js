@@ -1444,3 +1444,12 @@ function CommonHas(obj, key) {
 	return obj.has(/** @type {T} */(key));
 }
 
+/**
+ * Capitalize the first character of the passed string.
+ * @template {string} T
+ * @param {T} string
+ * @returns {Capitalize<T>}
+ */
+function CommonCapitalize(string) {
+	return /** @type {Capitalize<T>} */(string ? `${string[0].toUpperCase()}${string.slice(1)}` : "");
+}
