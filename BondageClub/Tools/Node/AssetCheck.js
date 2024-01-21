@@ -3,7 +3,7 @@
 const vm = require("vm");
 const fs = require("fs");
 
-const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys } = require("./Common.js");
+const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries } = require("./Common.js");
 const common = require("./Common.js");
 
 /**
@@ -1178,6 +1178,32 @@ function testSetPose(assets, poses) {
 }
 
 /**
+ * Check that asset groups referenced in `AssetFemale3DCGExtended` match those in `AssetFemale3DCG`.
+ * @param {ExtendedItemMainConfig} extendedItemRecords
+ * @param {readonly Asset[]} assets
+ */
+function testExtendedItemGroupName(extendedItemRecords, assets) {
+	/** @type {Record<string, AssetGroupName[]>} */
+	const assetMapping = {};
+	for (const asset of assets) {
+		assetMapping[asset.Name] ??= [];
+		assetMapping[asset.Name].push(asset.Group.Name);
+	}
+
+	for (const [group, groupConfig] of entries(extendedItemRecords)) {
+		for (const asset of keys(groupConfig)) {
+			const validGroups = assetMapping[asset];
+			if (!validGroups.includes(group)) {
+				error(
+					`${asset}: Extended asset declares an invalid group ("${group}") in AssetFemale3DCGExtended; `
+					+ `valid available groups: ${validGroups.sort()}`
+				);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1382,6 +1408,7 @@ function sanitizeVMOutput(input) {
 		error(`Unused Asset/Group description: ${desc.join(",")}`);
 	}
 
+	testExtendedItemGroupName(AssetFemale3DCGExtended, assetList);
 	testDynamicGroupName(AssetFemale3DCG);
 	testExtendedItemDialog(AssetFemale3DCGExtended, dialogArray);
 	testColorGroups(missingColorGroups);
