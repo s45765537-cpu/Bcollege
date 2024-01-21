@@ -275,7 +275,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
-		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapVisible === true) && (CurrentCharacter == null)
+		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
 	if ((C != null) && ((C.IsPlayer()) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
@@ -395,7 +395,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// Draw the character name below herself
 		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
-			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapVisible === false) || (CurrentCharacter != null))
+			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapViewIsActive() === false) || (CurrentCharacter != null))
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);
 					const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;

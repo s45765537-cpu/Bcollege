@@ -104,6 +104,39 @@ var ChatRoomCustomBackground = "";
 var ChatRoomCustomFilter = "";
 
 /**
+ * The list of chat room views
+ * @type {Record<string, ChatRoomView>}
+ */
+var ChatRoomViews = {
+	Character: {
+		Run: ChatRoomCharacterViewRun,
+		DisplayMessage: ChatRoomCharacterViewDisplayMessage,
+		Click: ChatRoomCharacterViewClick,
+		KeyDown: ChatRoomCharacterViewKeyDown,
+		CanLeave: ChatRoomCharacterViewCanLeave
+	},
+	Map: {
+		Activate: ChatRoomMapActivate,
+		Run: ChatRoomMapViewRun,
+		DisplayMessage: ChatRoomMapViewDisplayMessage,
+		Click: ChatRoomMapViewClick,
+		MouseDown: ChatRoomMapMouseDown,
+		MouseUp: ChatRoomMapMouseUp,
+		MouseMove: ChatRoomMapMouseMove,
+		MouseWheel: ChatRoomMapMouseWheel,
+		KeyDown: ChatRoomMapKeyDown,
+		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
+		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
+		CanLeave: ChatRoomMapViewCanLeave
+	}
+};
+/**
+ * The active chat room view
+ * @type {ChatRoomView}
+ */
+var ChatRoomActiveView = ChatRoomViews[ChatRoomCharacterViewName];
+
+/**
  * Chances of a chat message popping up reminding you of some stimulation.
  *
  * @type {Record<StimulationAction, StimulationEvent>}
@@ -189,12 +222,6 @@ const ChatRoomFontSizes = {
 	Large: 44,
 };
 
-var ChatRoomCharacterX_Upper = 0;
-var ChatRoomCharacterX_Lower = 0;
-var ChatRoomCharacterZoom = 1;
-var ChatRoomSlideWeight = 9;
-var ChatRoomCharacterInitialize = true;
-
 /** Sets whether an add/remove for one list automatically triggers an add/remove for another list */
 const ChatRoomListOperationTriggers = () => [
 	{
@@ -261,6 +288,29 @@ let ChatRoomResizeManager = {
 	},
 };
 
+/**
+ * Activates the chat room view with the passed name
+ * @param {string} viewName - The name of the view to activate
+ * @returns {void}
+ */
+function ChatRoomActivateView(viewName)
+{
+	if(!(viewName in ChatRoomViews)) { throw Error(`Tried to change to not existing view ${viewName}`); }
+	if(ChatRoomActiveView.Deactivate) ChatRoomActiveView.Deactivate();
+	ChatRoomActiveView = ChatRoomViews[viewName];
+	if(ChatRoomActiveView.Activate) ChatRoomActiveView.Activate();
+}
+
+/**
+ * Indicates if the chat room view with the passed name is active or not
+ * @param {string} viewName - The name of the view to check
+ * @returns {boolean} - TRUE if the chat room character view is active, false if not
+ */
+function ChatRoomIsViewActive(viewName)
+{
+	if(!(viewName in ChatRoomViews)) { return false; }
+	return ChatRoomActiveView === ChatRoomViews[viewName];
+}
 
 /**
  * Checks if the player can add the current character to her whitelist.
@@ -590,7 +640,7 @@ function DialogCanPerformCharacterAction() {
 function ChatRoomCanStartWhisper() {
 	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
 	if (CurrentCharacter.MemberNumber === ChatRoomTargetMemberNumber) return false;
-	if (ChatRoomMapVisible && !ChatRoomMapCharacterOnWhisperRange(CurrentCharacter)) return false;
+	if(ChatRoomActiveView.CanStartWhisper) return ChatRoomActiveView.CanStartWhisper(CurrentCharacter);
 	return true;
 }
 
@@ -853,7 +903,7 @@ function ChatRoomLoad() {
 		ChatRoomHideIconState = 0;
 	}
 	ChatRoomMenuBuild();
-	ChatRoomCharacterInitialize = true;
+	ChatRoomCharacterViewInitialize = true;
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
 }
@@ -1030,192 +1080,6 @@ function DrawStatus(C, X, Y, Zoom) {
 }
 
 /**
- * Iterate over a room's characters
- *
- * This function takes a callback it will call for each character in turn after having
- * calculated their respective drawing parameters (location), accounting for the smooth zoom effect
- * @param {(charIdx: number, charX: number, charY: number, space: number, zoom: number) => boolean | void} callback
- */
-function ChatRoomLoopCharacters(callback) {
-
-	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
-
-	// Gradually slide the characters around to make room
-	let weight = ChatRoomSlideWeight;
-	// Calculate a multiplier based on current framerate to keep the speed of the animation consistent across different framerates
-	let frametimeAdjustment = TimerRunInterval / (1000 / 30);
-	if (ChatRoomCharacterInitialize || !(Player.GraphicsSettings && Player.GraphicsSettings.SmoothZoom)) {
-		ChatRoomCharacterInitialize = false;
-		weight = 0;
-	}
-
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
-
-	for (let i = 0; i < frametimeAdjustment; i++) {
-		const nextZoom = zoomFrameStep(ChatRoomCharacterZoom);
-		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterX_Upper);
-		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterX_Lower);
-
-		if (weight === 0) {
-			// skip unnecessary calculations
-			ChatRoomCharacterZoom = nextZoom;
-			ChatRoomCharacterX_Upper = nextUpperX;
-			ChatRoomCharacterX_Lower = nextLowerX;
-			break;
-		}
-
-		const frametimeRemainder = frametimeAdjustment - i;
-		if (frametimeRemainder >= 1) {
-			ChatRoomCharacterZoom = nextZoom;
-			ChatRoomCharacterX_Upper = nextUpperX;
-			ChatRoomCharacterX_Lower = nextLowerX;
-		} else {
-			ChatRoomCharacterZoom += (nextZoom - ChatRoomCharacterZoom) * frametimeRemainder;
-			ChatRoomCharacterX_Upper += (nextUpperX - ChatRoomCharacterX_Upper) * frametimeRemainder;
-			ChatRoomCharacterX_Lower += (nextLowerX - ChatRoomCharacterX_Lower) * frametimeRemainder;
-		}
-	}
-
-	// The more players, the higher the zoom, also changes the drawing coordinates
-	const Zoom = ChatRoomCharacterZoom;
-	const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-
-	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
-	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
-
-		// Finds the X and Y position of the character based on it's room position
-		let ChatRoomCharacterX = C >= 5 ? ChatRoomCharacterX_Lower : ChatRoomCharacterX_Upper;
-		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
-		const CharX = ChatRoomCharacterX + (ChatRoomCharacterCount == 1 ? 0 : X + (C % 5) * Space);
-		const CharY = ChatRoomCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
-		if ((ChatRoomCharacterCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
-
-		const res = callback(C, CharX, CharY, Space, Zoom);
-		if (res) break;
-	}
-}
-
-/**
- * Draws the chatroom characters.
- * @returns {void} - Nothing.
- */
-function ChatRoomDrawCharacter() {
-
-	// The darkness factors varies with blindness level (1 is bright, 0 is pitch black)
-	let DarkFactor = CharacterGetDarkFactor(Player);
-
-	// Check if we should use a custom background
-	const CustomBG = DrawGetCustomBackground();
-	const Background = CustomBG || ChatRoomData.Background;
-	if (CustomBG && (DarkFactor === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) DarkFactor = CharacterGetDarkFactor(Player, true);
-
-	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
-
-	// Gradually slide the characters around to make room
-	let weight = ChatRoomSlideWeight;
-	// Calculate a multiplier based on current framerate to keep the speed of the animation consistent across different framerates
-	let frametimeAdjustment = TimerRunInterval / (1000 / 30);
-	if (ChatRoomCharacterInitialize || !(Player.GraphicsSettings && Player.GraphicsSettings.SmoothZoom)) {
-		ChatRoomCharacterInitialize = false;
-		weight = 0;
-	}
-
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
-
-	for (let i = 0; i < frametimeAdjustment; i++) {
-		const nextZoom = zoomFrameStep(ChatRoomCharacterZoom);
-		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterX_Upper);
-		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterX_Lower);
-
-		if (weight === 0) {
-			// skip unnecessary calculations
-			ChatRoomCharacterZoom = nextZoom;
-			ChatRoomCharacterX_Upper = nextUpperX;
-			ChatRoomCharacterX_Lower = nextLowerX;
-			break;
-		}
-
-		const frametimeRemainder = frametimeAdjustment - i;
-		if (frametimeRemainder >= 1) {
-			ChatRoomCharacterZoom = nextZoom;
-			ChatRoomCharacterX_Upper = nextUpperX;
-			ChatRoomCharacterX_Lower = nextLowerX;
-		} else {
-			ChatRoomCharacterZoom += (nextZoom - ChatRoomCharacterZoom) * frametimeRemainder;
-			ChatRoomCharacterX_Upper += (nextUpperX - ChatRoomCharacterX_Upper) * frametimeRemainder;
-			ChatRoomCharacterX_Lower += (nextLowerX - ChatRoomCharacterX_Lower) * frametimeRemainder;
-		}
-	}
-
-	// The more players, the higher the zoom, also changes the drawing coordinates
-	const Zoom = ChatRoomCharacterZoom;
-	// const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-
-	// Draw the background
-	ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom);
-
-	// Loop over the room's characters to draw each of them
-	ChatRoomLoopCharacters((charIdx, charX, charY, _space, zoom) => {
-		// Draw the background a second time for characters 6 to 10 (we do it here to correct clipping errors from the first part)
-		if (charIdx === 5) ChatRoomDrawBackground(Background, 500, zoom, DarkFactor, InvertRoom);
-
-		// Draw the character, it's status bubble and it's overlay
-		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
-		DrawStatus(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
-		if (ChatRoomCharacterDrawlist[charIdx].MemberNumber != null) {
-			ChatRoomDrawCharacterOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, charIdx);
-		}
-	});
-}
-
-/**
- * Draw the background of a chat room
- * @param {string} Background - The name of the background image file
- * @param {number} Y - The starting Y co-ordinate of the image
- * @param {number} Zoom - The zoom factor based on the number of characters
- * @param {number} DarkFactor - The value (0 = fully visible, 1 = black) to tint the background
- * @param {boolean} InvertRoom - Whether the background image should be inverted
- * @returns {void} - Nothing
- */
-function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
-	if (DarkFactor > 0) {
-
-		// Sets the blur level
-		const BlurLevel = Player.GetBlurLevel();
-		if (BlurLevel > 0) MainCanvas.filter = `blur(${BlurLevel}px)`;
-
-		// Draw the zoomed or custom background
-		if (ChatRoomCustomized && (ChatRoomCustomBackground != null) && (ChatRoomCustomBackground != ""))
-			DrawImageResize(ChatRoomCustomBackground, 0, Y, 1000, 1000 * Zoom);
-		else
-			DrawImageZoomCanvas("Backgrounds/" + Background + ".jpg", MainCanvas, 500 * (2 - 1 / Zoom), 0, 1000 / Zoom, 1000, 0, Y, 1000, 1000 * Zoom, InvertRoom);
-
-		// Draw the custom filter
-		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != ""))
-			DrawRect(0, Y, 1000, 1000 * Zoom, ChatRoomCustomFilter);
-		MainCanvas.filter = 'none';
-
-		// Draw an overlay if the character is partially blinded
-		if (DarkFactor < 1.0)
-			DrawRect(0, Y, 1000, 1000 - Y, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
-
-	}
-	const Tints = Player.GetTints();
-	for (const {r, g, b, a} of Tints) {
-		DrawRect(0, Y, 1000, 1000 - Y, `rgba(${r},${g},${b},${a})`);
-	}
-}
-
-/**
  * Draws the status icons of a character
  * @param {Character} C The target character
  * @param {number} CharX Character's X position on canvas
@@ -1262,166 +1126,6 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 	{
 		DrawImageResize("Icons/Small/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
-}
-
-/**
- * Draws any overlays on top of character
- * @param {Character} C The target character
- * @param {number} CharX Character's X position on canvas
- * @param {number} CharY Character's Y position on canvas
- * @param {number} Zoom Room zoom
- * @param {number} Pos Index of target character
- */
-function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
-
-	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons, etc. above the character
-	if (ChatRoomHideIconState == 0) {
-		ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom);
-	}
-
-	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= 1) {
-		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
-	}
-
-	if (ChatRoomMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomMoveTarget);
-		if (MoveTargetPos < 0) {
-			ChatRoomMoveTarget = null;
-		} else {
-			if (ChatRoomMoveTarget === C.MemberNumber) {
-				DrawButton(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
-				DrawImageResize("Icons/Remove.png", CharX + 202 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
-			} else {
-				if (Pos < MoveTargetPos) {
-					DrawButton(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
-					DrawImageResize("Icons/Here.png", CharX + 102 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
-				}
-				DrawButton(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
-				DrawImageResize("Icons/Swap.png", CharX + 202 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
-				if (Pos > MoveTargetPos) {
-					DrawButton(CharX + 300 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
-					DrawImageResize("Icons/Here.png", CharX + 302 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
-				}
-			}
-		}
-	}
-}
-
-/**
- * Called when character is clicked
- * @param {Character} C The target character
- * @param {number} CharX Character's X position on canvas
- * @param {number} CharY Character's Y position on canvas
- * @param {number} Zoom Room zoom
- * @param {number} ClickX Click X postion relative to character, without zoom
- * @param {number} ClickY Click Y postion relative to character, without zoom
- * @param {number} Pos Index of target character
- */
-function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
-
-	// Click on name
-	if (ClickY > 900) {
-
-		// Clicking on self or current target removes whisper target
-		if (C.IsPlayer() || ChatRoomTargetMemberNumber === C.MemberNumber) {
-			ChatRoomSetTarget(null);
-			return;
-		}
-
-		// BlockWhisper rule, if owner is in chatroom
-		if (ChatRoomOwnerPresenceRule("BlockWhisper", C)) return;
-
-		// Sensory deprivation setting: Total (no whispers) blocks whispers while blind unless both players are in the virtual realm. Then they can text each other.
-		if (Player.GameplaySettings.SensDepChatLog === "SensDepExtreme" && Player.GetBlindLevel() >= 3 && !(Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars"))) return;
-
-		// Sets the target
-		ChatRoomSetTarget(C.MemberNumber);
-		return;
-	}
-
-	// Moving character inside room
-	if (ChatRoomMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomMoveTarget);
-		if (MoveTargetPos < 0) {
-			ChatRoomMoveTarget = null;
-		} else {
-			if (Pos < MoveTargetPos && MouseIn(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
-				// Move left
-				for (let i = 0; i < MoveTargetPos - Pos; i++) {
-					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomMoveTarget,
-						Action: "MoveLeft",
-						Publish: i === 0
-					});
-				}
-				ChatRoomMoveTarget = null;
-			} else if (MouseIn(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
-				// Swap or cancel
-				if (ChatRoomMoveTarget !== C.MemberNumber) {
-					ServerSend("ChatRoomAdmin", {
-						MemberNumber: Player.ID,
-						TargetMemberNumber: ChatRoomMoveTarget,
-						DestinationMemberNumber: C.MemberNumber,
-						Action: "Swap"
-					});
-				}
-				ChatRoomMoveTarget = null;
-			} else if ( Pos > MoveTargetPos && MouseIn(CharX + 300 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
-				// Move right
-				for (let i = 0; i < Pos - MoveTargetPos; i++) {
-					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomMoveTarget,
-						Action: "MoveRight",
-						Publish: i === 0
-					});
-				}
-				ChatRoomMoveTarget = null;
-			}
-			return;
-		}
-	}
-
-	// Disable examining when blind setting. If both players are in the virtual realm, then they can examine each other.
-	if (Player.GameplaySettings.BlindDisableExamine && !(Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")) && !C.IsPlayer() && Player.GetBlindLevel() >= 3) {
-		return;
-	}
-
-	// If the arousal meter is shown for that character, we can interact with it
-	if (PreferenceArousalAtLeast(C, "Manual")) {
-		let MeterShow = C.IsPlayer();
-		if (!C.IsPlayer() && Player.ArousalSettings.ShowOtherMeter && C.ArousalSettings) {
-			if (C.ArousalSettings.Visible === "Access") {
-				MeterShow = C.AllowItem;
-			} else if (C.ArousalSettings.Visible === "All") {
-				MeterShow = true;
-			}
-		}
-		if (MeterShow) {
-			// The arousal meter can be maximized or minimized by clicking on it
-			if (MouseIn(CharX + 60 * Zoom, CharY + 400 * Zoom, 80 * Zoom, 100 * Zoom) && !C.ArousalZoom) { C.ArousalZoom = true; return; }
-			if (MouseIn(CharX + 50 * Zoom, CharY + 615 * Zoom, 100 * Zoom, 85 * Zoom) && C.ArousalZoom) { C.ArousalZoom = false; return; }
-
-			// If the player can manually control her arousal, we set the progress manual and change the facial expression, it can trigger an orgasm at 100%
-			if (C.IsPlayer() && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && C.ArousalZoom) {
-				if (PreferenceArousalAtLeast(Player, "Manual") && !PreferenceArousalAtLeast(Player, "Automatic")) {
-					var Arousal = Math.round((CharY + 625 * Zoom - MouseY) / (4 * Zoom));
-					ActivitySetArousal(Player, Arousal);
-					if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
-					if (Player.ArousalSettings.Progress == 100) ActivityOrgasmPrepare(Player);
-				}
-				return;
-			}
-
-			// Don't do anything if the thermometer is clicked without access to it
-			if (MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 415 * Zoom) && C.ArousalZoom) return;
-		}
-	}
-
-	// Intercepts the online game character clicks if we need to
-	if (OnlineGameClickCharacter(C)) return;
-
-	// Gives focus to the character
-	ChatRoomFocusCharacter(C);
 }
 
 /**
@@ -1956,10 +1660,9 @@ function ChatRoomRun() {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomMapDeactivate();
-	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomMapActivate();
-	if (!ChatRoomMapVisible) ChatRoomDrawCharacter();
-	else ChatRoomMapDraw();
+	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
+	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
+	ChatRoomActiveView.Run();
 
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
@@ -2066,7 +1769,7 @@ function ChatRoomMenuDraw() {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseDown(event) {
-	if (ChatRoomMapVisible) ChatRoomMapMouseDown();
+	if (ChatRoomActiveView.MouseDown) return ChatRoomActiveView.MouseDown(event);
 }
 
 /**
@@ -2074,7 +1777,7 @@ function ChatRoomMouseDown(event) {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseUp(event) {
-	if (ChatRoomMapVisible) ChatRoomMapMouseUp();
+	if (ChatRoomActiveView.MouseUp) return ChatRoomActiveView.MouseUp(event);
 }
 
 /**
@@ -2082,7 +1785,7 @@ function ChatRoomMouseUp(event) {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseMove(event) {
-	if (ChatRoomMapVisible) ChatRoomMapMouseMove();
+	if (ChatRoomActiveView.MouseMove) return ChatRoomActiveView.MouseMove(event);
 }
 
 /**
@@ -2090,7 +1793,7 @@ function ChatRoomMouseMove(event) {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseWheel(event) {
-	if (ChatRoomMapVisible) ChatRoomMapMouseWheel(event);
+	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
 }
 
 /**
@@ -2124,24 +1827,14 @@ function ChatRoomClick() {
 			ChatRoomMapAllow = true;
 			return;
 		}
-		ChatRoomMapActivate();
+		ChatRoomActivateView(ChatRoomMapViewName);
 		return;
 	}
 
 	// In the left part of the screen
 	if (MouseIn(0, 0, 1000, 1000)) {
 
-		// When the user chats or clicks on a character in the map
-		if (ChatRoomMapVisible) return ChatRoomMapClick();
-
-		// Intercepts the online game chat room clicks if we need to
-		if (OnlineGameClick()) return;
-
-		ChatRoomLoopCharacters((charIdx, charX, charY, space, zoom) => {
-			if (MouseIn(charX, charY, space, 1000 * zoom)) {
-				return ChatRoomClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom, charIdx);
-			}
-		});
+		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click();
 
 	}
 
@@ -2278,7 +1971,7 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
-	if (!ChatRoomMapCanLeave()) return false;
+	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
@@ -2416,12 +2109,8 @@ function ChatRoomKeyDown(event) {
 			return true;
 		}
 	} else {
-		if (ChatRoomMapVisible && ChatRoomMapKeyDown(event)) {
-			return true;
-		} else if (event.key === "Escape" && !event.shiftKey) {
-			// Escape toggles between main view and chat
-			ElementScrollToEnd("TextAreaChatLog");
-			ElementFocus("InputChat");
+		if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event) == true)
+		{
 			return true;
 		}
 	}
@@ -3500,44 +3189,12 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if (data.Type === "Whisper" && SenderCharacter === Player) return;
 
 
-	// In map mode, we do not show messages that are out of the player sight or hearing range
-	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsVisible(SenderCharacter)) return;
-
-	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
-	if ((data.Type === "Chat") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsHearable(SenderCharacter))
-	{
-		// Get the OOC part range of the message
-		const oocRanges = SpeechGetOOCRanges(msg);
-		// If the message has no OOC part, don't send anyting
-		if(oocRanges.length <= 0) return;
-		// If the message has a OOC part, set it as new message and send it normally
-		let newMessage = "";
-		for(let range of oocRanges)
-		{
-			newMessage += msg.substring(range.start, range.start+range.length);
-		}
-		msg = newMessage;
-	}
-
-	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
-	if ((data.Type === "Whisper") && ChatRoomMapVisible && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter))
-	{
-		// Get the OOC part range of the message
-		const oocRanges = SpeechGetOOCRanges(msg);
-		// If the message has no OOC part, don't send anyting
-		if(oocRanges.length <= 0) return;
-		// If the message has a OOC part, set it as new message and send it normally
-		let newMessage = "";
-		for(let range of oocRanges)
-		{
-			newMessage += msg.substring(range.start, range.start+range.length);
-		}
-		msg = newMessage;
-	}
+	let displayMessage = ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata);
+	if(displayMessage == null) return;
 
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
-	msg = CommonCensor(msg);
-	if (msg == "¶¶¶") return;
+	displayMessage = CommonCensor(displayMessage);
+	if (displayMessage == "¶¶¶") return;
 
 	// Prepares the HTML tags
 	switch (data.Type) {
@@ -3551,26 +3208,26 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += ':</span>';
 			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
 
-			msg = `${senderTag} ${ChatRoomHTMLEntities(msg)}`;
+			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
 		}
 			break;
 
 		case "Action":
 		case "Activity":
-			msg = "(" + ChatRoomHTMLEntities(msg) + ")";
+			displayMessage = "(" + ChatRoomHTMLEntities(displayMessage) + ")";
 			break;
 
 		case "ServerMessage":
-			msg = "<b>" + ChatRoomHTMLEntities(msg) + "</b>";
+			displayMessage = "<b>" + ChatRoomHTMLEntities(displayMessage) + "</b>";
 			break;
 
 		case "LocalMessage":
 			// Local messages can have HTML embedded in them
-			msg = data.Content;
+			displayMessage = data.Content;
 			break;
 
 		case "Emote":
-			msg = "*" + ChatRoomHTMLEntities(msg) + "*";
+			displayMessage = "*" + ChatRoomHTMLEntities(displayMessage) + "*";
 			break;
 
 		default:
@@ -3593,7 +3250,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	div.setAttribute('data-sender', data.Sender);
 	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
 		div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
-	div.innerHTML = msg;
+	div.innerHTML = displayMessage;
 
 	// Add reply button if we're getting whisper
 	if (data.Type === "Whisper") {
@@ -3873,11 +3530,7 @@ function ChatRoomSyncRoomProperties(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	// If the chat room map is visible, we need to update the perception map
-	if(ChatRoomMapVisible)
-	{
-		ChatRoomMapCalculatePerceptionMasks();
-	}
+	if(ChatRoomActiveView.SyncRoomProperties) ChatRoomActiveView.SyncRoomProperties(data);
 
 	// Update our leash state
 	CharacterRefreshLeash(Player);

@@ -1,5 +1,5 @@
 "use strict";
-var ChatRoomMapVisible = false;
+const ChatRoomMapViewName = "Map";
 var ChatRoomMapAllow = true;
 var ChatRoomMapWidth = 40;
 var ChatRoomMapHeight = 40;
@@ -141,7 +141,7 @@ const ChatRoomMapObjectList = [
  * Returns TRUE if the map button can be used
  * @returns {boolean} - TRUE if can be used
  */
-function ChatRoomMapButton() { return (!ChatRoomMapVisible && ChatRoomData?.MapData?.Type != "Never"); }
+function ChatRoomMapButton() { return (!ChatRoomMapViewIsActive() && ChatRoomData?.MapData?.Type != "Never"); }
 
 /**
  * Returns TRUE if the player is an admin and activated her super powers on the map
@@ -197,7 +197,7 @@ function ChatRoomMapInitializeCharacter(C)
  * @returns {void} - Nothing
  */
 function ChatRoomMapLeave() {
-	ChatRoomMapDeactivate();
+	ChatRoomActivateView(ChatRoomCharacterViewName);
 	Player.MapData = null;
 }
 
@@ -206,8 +206,6 @@ function ChatRoomMapLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapActivate() {
-	ChatRoomMapVisible = true;
-
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| !Player.MapData.Pos.X || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || !Player.MapData.Pos.Y || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
 		Player.MapData = ChatRoomMapInitializeCharacter(Player);
@@ -222,11 +220,113 @@ function ChatRoomMapActivate() {
 }
 
 /**
- * Deactivates the chat room map
- * @returns {void} - Nothing
+ * Indicates if the chat room map view is active or not
+ * @returns {boolean} - TRUE if the chat room character view is active, false if not
  */
-function ChatRoomMapDeactivate() {
-	ChatRoomMapVisible = false;
+function ChatRoomMapViewIsActive()
+{
+	return ChatRoomIsViewActive(ChatRoomMapViewName);
+}
+
+function ChatRoomMapViewRun()
+{
+	ChatRoomMapDraw();
+}
+
+/**
+ * Alter the received message to what will be displayed in the chat log
+ *
+ * @param {ServerChatRoomMessage} data
+ * @param {string} msg
+ * @param {Character} SenderCharacter
+ * @param {IChatRoomMessageMetadata} metadata
+ * @returns {string|null} - The string to display or null if the message should be hidden
+ */
+function ChatRoomMapViewDisplayMessage(data, msg, SenderCharacter, metadata)
+{
+	let shownMessage = msg;
+	// In map mode, we do not show messages that are out of the player sight or hearing range
+	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsVisible(SenderCharacter)) {
+		return null;
+	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
+	} else if ((data.Type === "Chat") && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterIsHearable(SenderCharacter)) {
+		// Get the OOC part range of the message
+		const oocRanges = SpeechGetOOCRanges(shownMessage);
+		// If the message has no OOC part, don't send anyting
+		if(oocRanges.length <= 0) return null;
+		// If the message has a OOC part, set it as new message and send it normally
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += shownMessage.substring(range.start, range.start+range.length);
+		}
+		shownMessage = newMessage;
+	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
+	} else if ((data.Type === "Whisper") && !ChatRoomMapHasSuperPowers() && !ChatRoomMapCharacterOnWhisperRange(SenderCharacter)) {
+		// Get the OOC part range of the message
+		const oocRanges = SpeechGetOOCRanges(shownMessage);
+		// If the message has no OOC part, don't send anyting
+		if(oocRanges.length <= 0) return null;
+		// If the message has a OOC part, set it as new message and send it normally
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += shownMessage.substring(range.start, range.start+range.length);
+		}
+		shownMessage = newMessage;
+	}
+	return shownMessage;
+}
+
+/**
+ * Returns TRUE if the player can leave from the map
+ * @returns {boolean} - True if the player can leave
+ */
+function ChatRoomMapViewCanLeave() {
+
+	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
+	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type === "Never") || !ChatRoomMapViewIsActive()) return true;
+	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return true;
+	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
+
+	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
+	for (let X = Player.MapData.Pos.X - 2; X <= Player.MapData.Pos.X + 2; X++)
+		for (let Y = Player.MapData.Pos.Y - 2; Y <= Player.MapData.Pos.Y + 2; Y++) {
+			let Obj = ChatRoomMapGetObjectAtPos(X, Y);
+			if ((Obj != null) && Obj.Exit) return true;
+		}
+
+	// If there's no exit at all, we always allow leaving
+	let ExitCount = 0;
+	for (let Obj of ChatRoomMapObjectList)
+		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
+			ExitCount++;
+	if (ExitCount == 0) return true;
+
+	// If nothing allows leaving
+	return false;
+
+}
+
+/**
+ * Returns TRUE if the player can enter in whisper mode on the current view with the currently focused character
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE is whipser can be started
+ */
+function ChatRoomMapViewCanStartWhisper(C)
+{
+	return ChatRoomMapCharacterOnWhisperRange(C);
+}
+
+/**
+ * Handles the reception of the room properties from the server.
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomMapViewSyncRoomProperties(data)
+{
+	// If the chat room map is visible, we need to update the perception map
+	ChatRoomMapCalculatePerceptionMasks();
 }
 
 /**
@@ -649,36 +749,6 @@ function ChatRoomMapGetEntryFlagPosition()
 		X: idx % ChatRoomMapWidth,
 		Y: Math.floor(idx / ChatRoomMapWidth)
 	};
-}
-
-/**
- * Returns TRUE if the player can leave from the map, called from ChatRoomCanLeave()
- * @returns {boolean} - True if the player can leave
- */
-function ChatRoomMapCanLeave() {
-
-	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
-	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type === "Never") || !ChatRoomMapVisible) return true;
-	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return true;
-	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
-
-	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
-	for (let X = Player.MapData.Pos.X - 2; X <= Player.MapData.Pos.X + 2; X++)
-		for (let Y = Player.MapData.Pos.Y - 2; Y <= Player.MapData.Pos.Y + 2; Y++) {
-			let Obj = ChatRoomMapGetObjectAtPos(X, Y);
-			if ((Obj != null) && Obj.Exit) return true;
-		}
-
-	// If there's no exit at all, we always allow leaving
-	let ExitCount = 0;
-	for (let Obj of ChatRoomMapObjectList)
-		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
-			ExitCount++;
-	if (ExitCount == 0) return true;
-
-	// If nothing allows leaving
-	return false;
-
 }
 
 /**
@@ -1270,7 +1340,7 @@ function ChatRoomMapKeyDown(event) {
  * Mouse click event is used to focus a character
  * @returns {void} - Nothing
  */
-function ChatRoomMapClick() {
+function ChatRoomMapViewClick() {
 	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
 		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
 }
@@ -1282,7 +1352,7 @@ function ChatRoomMapClick() {
 function ChatRoomMapMouseDown() {
 
 	// The walk buttons in the bottom right of the map
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
 		ChatRoomMapCalculatePerceptionMasks();
@@ -1297,7 +1367,7 @@ function ChatRoomMapMouseDown() {
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapEditMode == "") {
 		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomMapDeactivate();
+			ChatRoomActivateView(ChatRoomCharacterViewName);
 			ChatRoomMapAllow = false;
 			return;
 		}
@@ -1436,7 +1506,7 @@ function ChatRoomMapMouseDown() {
 function ChatRoomMapMouseMove() {
 
 	// Only in edit mode
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	let Backup = CommonCloneDeep(ChatRoomData.MapData);
 
 	// In tile edit mode
@@ -1474,7 +1544,7 @@ function ChatRoomMapMouseMove() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapMouseUp() {
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	ChatRoomMapEditStarted = false;
 }
 
@@ -1483,7 +1553,7 @@ function ChatRoomMapMouseUp() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapMouseWheel(Event) {
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	if ((MouseX <= 1000) && (Event.deltaY < 0) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
 	if ((MouseX <= 1000) && (Event.deltaY > 0) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
 }
@@ -1569,10 +1639,30 @@ function ChatRoomMapPaste(Param) {
  * @returns {void} - Nothing
  */
 function ChatRoomMapWhisperValid() {
-	if (!ChatRoomMapVisible || (ChatRoomTargetMemberNumber == null)) return;
+	if (!ChatRoomMapViewIsActive() || (ChatRoomTargetMemberNumber == null)) return;
 	for (let C of ChatRoomCharacter)
 		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapCharacterOnWhisperRange(C))
 			return;
 	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
 	ChatRoomSetTarget(null);
 }
+
+/** Deprecated names for compatibility */
+
+/**
+ * Mouse click event is used to focus a character
+ * !Deprecated! - Use ChatRoomMapViewClick() instead!
+ * @returns {void} - Nothing
+ */
+// function ChatRoomMapClick() {
+// 	return ChatRoomMapViewClick();
+// }
+
+/**
+ * Returns TRUE if the player can leave from the map, called from ChatRoomCanLeave()
+ * !Deprecated! - Use ChatRoomMapViewCanLeave() instead!
+ * @returns {boolean} - True if the player can leave
+ */
+// function ChatRoomMapCanLeave() {
+// 	return ChatRoomMapViewCanLeave();
+// }

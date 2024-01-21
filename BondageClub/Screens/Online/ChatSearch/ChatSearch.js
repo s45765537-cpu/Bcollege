@@ -49,7 +49,7 @@ var ChatSearchCurrentRoomSpaceIndex = 0;
  */
 function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
-	ChatRoomMapVisible = false;
+	ChatRoomActivateView(ChatRoomCharacterViewName);
 	ChatRoomMapEditMode = "";
 	ChatRoomMapEditBackup = [];
 	delete Player.MapData;

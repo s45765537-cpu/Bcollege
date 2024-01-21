@@ -3774,6 +3774,22 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
+interface ChatRoomView {
+	Activate?: () => void;
+	Deactivate?: () => void;
+	Run: () => void;
+	DisplayMessage: (data, msg, SenderCharacter, metadata) => string|null;
+	Click?: () => void;
+	MouseDown?: (event) => void;
+	MouseUp?: (event) => void;
+	MouseMove?: (event) => void;
+	MouseWheel?: (event) => void;
+	KeyDown?: (event) => boolean;
+	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
+	CanStartWhisper?: (C: Character) => boolean;
+	CanLeave?: () => boolean;
+}
+
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 
 type ChatRoomMapPos = {
