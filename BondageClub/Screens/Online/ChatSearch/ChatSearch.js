@@ -50,8 +50,8 @@ var ChatSearchCurrentRoomSpaceIndex = 0;
 function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
 	ChatRoomActivateView(ChatRoomCharacterViewName);
-	ChatRoomMapEditMode = "";
-	ChatRoomMapEditBackup = [];
+	ChatRoomMapViewEditMode = "";
+	ChatRoomMapViewEditBackup = [];
 	delete Player.MapData;
 	if (ChatSearchReturnToScreen != null) {
 		CommonSetScreen("Room", ChatSearchReturnToScreen);

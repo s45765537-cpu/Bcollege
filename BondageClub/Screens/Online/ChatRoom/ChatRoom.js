@@ -121,18 +121,18 @@ var ChatRoomViews = {
 		Screenshot: ChatRoomCharacterViewScreenshot
 	},
 	Map: {
-		Activate: ChatRoomMapActivate,
-		Deactivate: ChatRoomMapDeactivate,
+		Activate: ChatRoomMapViewActivate,
+		Deactivate: ChatRoomMapViewDeactivate,
 		Run: ChatRoomMapViewRun,
 		Draw: ChatRoomMapViewDraw,
 		DrawUi: ChatRoomMapViewDrawUi,
 		DisplayMessage: ChatRoomMapViewDisplayMessage,
 		Click: ChatRoomMapViewClick,
-		MouseDown: ChatRoomMapMouseDown,
-		MouseUp: ChatRoomMapMouseUp,
-		MouseMove: ChatRoomMapMouseMove,
-		MouseWheel: ChatRoomMapMouseWheel,
-		KeyDown: ChatRoomMapKeyDown,
+		MouseDown: ChatRoomMapViewMouseDown,
+		MouseUp: ChatRoomMapViewMouseUp,
+		MouseMove: ChatRoomMapViewMouseMove,
+		MouseWheel: ChatRoomMapViewMouseWheel,
+		KeyDown: ChatRoomMapViewKeyDown,
 		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
@@ -1687,7 +1687,7 @@ function ChatRoomRun() {
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
-	ChatRoomMapWhisperValid();
+	ChatRoomMapViewWhisperValid();
 
 	// Draws the chat room controls
 	ChatRoomStatusCheckExpiration();

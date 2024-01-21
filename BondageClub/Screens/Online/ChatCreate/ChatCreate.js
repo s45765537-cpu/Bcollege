@@ -172,11 +172,11 @@ function ChatCreateClick() {
 
 	// When we select a new map type
 	if (MouseIn(1300, 610, 600, 64)) {
-		let Index = ChatRoomMapTypeList.indexOf(ChatCreateMap);
+		let Index = ChatRoomMapViewTypeList.indexOf(ChatCreateMap);
 		Index = Index + ((MouseX < 1600) ? -1 : 1);
-		if (Index < 0) Index = ChatRoomMapTypeList.length - 1;
-		if (Index >= ChatRoomMapTypeList.length) Index = 0;
-		ChatCreateMap = ChatRoomMapTypeList[Index];
+		if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
+		if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
+		ChatCreateMap = ChatRoomMapViewTypeList[Index];
 	}
 
 	// Item block button
@@ -263,7 +263,7 @@ function ChatCreateRoom() {
 		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatBlockItemCategory
 	};
-	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapInitialize(ChatCreateMap);
+	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapViewInitialize(ChatCreateMap);
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
 	ChatRoomPingLeashedPlayers();
