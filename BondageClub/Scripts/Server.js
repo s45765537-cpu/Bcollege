@@ -20,6 +20,7 @@ var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
+var ServerChatMessageMaxLength = 1000;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -862,16 +863,6 @@ var ServerAccountDataSyncedValidate = {
 	},
 	OnlineSharedSettings: (arg, C) => {
 		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
-	},
-	MapData: (arg, C) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		return {
-			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
-			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
-		};
 	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);

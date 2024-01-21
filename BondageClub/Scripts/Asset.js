@@ -369,8 +369,10 @@ function AssetBuildConfig(A, config, extendedConfig) {
 			return null;
 		}
 
-		config = Object.assign({}, superConfig, config);
-		delete config.CopyConfig;
+		config = /** @type {AssetArchetypeConfig} */({
+			...superConfig,
+			...CommonOmit(config, ["CopyConfig"]),
+		});
 	}
 	return config;
 }

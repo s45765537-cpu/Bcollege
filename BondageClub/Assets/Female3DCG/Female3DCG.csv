@@ -162,6 +162,7 @@ ClothAccessory,Kissmark,Lipstick Marks
 ClothAccessory,KissmarkDummy,Smoochy Lipstick
 ClothAccessory,LargeBelt,Large Belt
 ClothAccessory,LeatherStraps,Leather Straps
+ClothAccessory,LatexApron,Latex Apron
 ClothAccessory,Poncho,Poncho
 ClothAccessory,Scarf,Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
@@ -1205,7 +1206,10 @@ ItemMouth2,DuctTape,Duct Tape
 ItemMouth2,DusterGag,Duster Gag
 ItemMouth2,FoxyHarnessPanelGag,Foxy Harness Gag
 ItemMouth2,FurScarf,Fur Scarf
+ItemMouth2,FuturisticHarnessBallGag,Futuristic Ball Gag
+ItemMouth2,FuturisticHarnessPanelGag,Futuristic Harness Panel Gag
 ItemMouth2,FuturisticMuzzle,Futuristic Muzzle
+ItemMouth2,FuturisticPanelGag,Futuristic Panel Gag
 ItemMouth2,GasMaskGag,Respirator Mask
 ItemMouth2,HarnessBallGag,Harness Ball Gag
 ItemMouth2,HarnessBallGag1,Harness Ball Gag XL
@@ -1261,7 +1265,10 @@ ItemMouth3,DuctTape,Duct Tape
 ItemMouth3,DusterGag,Duster Gag
 ItemMouth3,FoxyHarnessPanelGag,Foxy Harness Gag
 ItemMouth3,FurScarf,Fur Scarf
+ItemMouth3,FuturisticHarnessBallGag,Futuristic Ball Gag
+ItemMouth3,FuturisticHarnessPanelGag,Futuristic Harness Panel Gag
 ItemMouth3,FuturisticMuzzle,Futuristic Muzzle
+ItemMouth3,FuturisticPanelGag,Futuristic Panel Gag
 ItemMouth3,GasMaskGag,Respirator Mask
 ItemMouth3,HarnessBallGag,Harness Ball Gag
 ItemMouth3,HarnessBallGag1,Harness Ball Gag XL

@@ -311,6 +311,9 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
  * @return {ItemActivity[]} - The list of allowed activities
  */
 function ActivityAllowedForGroup(character, groupname) {
+	// If we are not within interaction range, don't allow any activities
+	if(InventoryIsBlockedByDistance(character)) return [];
+
 	// Get the group and all possible activities
 	let activities = AssetAllActivities(character.AssetFamily);
 	let group = ActivityGetGroupOrMirror(character.AssetFamily, groupname);

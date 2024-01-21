@@ -65,6 +65,11 @@ var ChatRoomChatLogRect = [1005, 66, 988, 835];
  * @type {RectTuple}
  */
 var ChatRoomChatInputRect = [1456, 950, 900, 82];
+/**
+ * Default position of the chat input length label
+ * @type {RectTuple}
+ */
+var ChatRoomChatLengthLabelRect = [1764, 970, 120, 82];
 var ChatRoomChatHidden = false;
 /**
  * The chatroom characters that were drawn in the last frame.
@@ -365,7 +370,7 @@ function DialogCanChangeClothes() {
 		["ChatRoom", "MainHall", "Private", "Photographic"].includes(CurrentScreen)
 		&& CurrentCharacter != null
 		&& Player.CanChangeClothesOn(CurrentCharacter)
-		&& !DialogDontAllowItemDistance()
+		&& !InventoryIsBlockedByDistance(CurrentCharacter)
 	);
 }
 /**
@@ -627,7 +632,7 @@ function ChatRoomCanAssistStruggle() { return CurrentCharacter.AllowItem && !Cur
  * @returns {boolean} - Whether or not the player can interact with the target character
  */
 function DialogCanPerformCharacterAction() {
-	if (DialogDontAllowItemDistance()) return false;
+	if (InventoryIsBlockedByDistance(CurrentCharacter)) return false;
 	return (
 		ChatRoomCanAssistStand() || ChatRoomCanAssistKneel() || ChatRoomCanAssistStruggle() ||
 		ChatRoomCanHoldLeash() || ChatRoomCanStopHoldLeash() ||
@@ -832,6 +837,7 @@ function ChatRoomCreateElement() {
 		ElementCreateTextArea("InputChat");
 		document.getElementById("InputChat").setAttribute("maxLength", 10000);
 		document.getElementById("InputChat").setAttribute("autocomplete", "off");
+		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
 		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
 		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 		ElementFocus("InputChat");
@@ -862,12 +868,20 @@ function ChatRoomCreateElement() {
 		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
 		ChatRoomRefreshChatSettings();
 	}
+	if (document.getElementById("InputChatLength") == null) {
+		const label = document.createElement("span");
+		label.id = "InputChatLength";
+		document.body.appendChild(label);
+		ElementPositionFix("InputChatLength", 20, ...ChatRoomChatLengthLabelRect);
+		label.style.textAlign = "right";
+	}
 }
 
 /** Hide the UI elements of the chatroom screen */
 function ChatRoomShowElements() {
 	document.getElementById("InputChat").style.display = "";
 	document.getElementById("TextAreaChatLog").style.display = "";
+	document.getElementById("InputChatLength").style.display = "";
 	ChatRoomChatHidden = false;
 }
 
@@ -875,6 +889,7 @@ function ChatRoomShowElements() {
 function ChatRoomHideElements() {
 	document.getElementById("InputChat").style.display = "none";
 	document.getElementById("TextAreaChatLog").style.display = "none";
+	document.getElementById("InputChatLength").style.display = "none";
 	ChatRoomChatHidden = true;
 }
 
@@ -1601,6 +1616,27 @@ function ChatRoomStatusUpdateTalk(Key) {
 }
 
 /**
+ * Handler called when the chat input field changes
+ * @param {Event} event
+ */
+function ChatRoomChatInputChangeHandler(event) {
+	const field = /** @type {HTMLInputElement} */(document.getElementById("InputChat"));
+	const label = document.getElementById("InputChatLength");
+	if (!field || !label) return;
+	const length = field.value.length;
+	if (length <= ServerChatMessageMaxLength - 100) {
+		label.textContent = "";
+	} else {
+		label.textContent = `${ServerChatMessageMaxLength - length}`;
+		if (length > ServerChatMessageMaxLength) {
+			label.classList.add("invalid");
+		} else {
+			label.classList.remove("invalid");
+		}
+	}
+}
+
+/**
  * Checks if status has expired or is otherwise no longer valid and resets status if so
  * @returns {void} - Nothing.
  */
@@ -2156,14 +2192,15 @@ function ChatRoomSendChat() {
 
 	// If there's a message to send
 	const msg = ElementValue("InputChat").trim();
-	if (msg != "") {
-
-		// Keeps the chat log in memory so it can be accessed with pageup/pagedown
-		ChatRoomLastMessage.push(msg);
-		ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
-
-		CommandParse(msg);
+	if (!msg.length) {
+		return;
 	}
+
+	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
+	ChatRoomLastMessage.push(msg);
+	ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
+
+	CommandParse(msg);
 }
 
 /**
