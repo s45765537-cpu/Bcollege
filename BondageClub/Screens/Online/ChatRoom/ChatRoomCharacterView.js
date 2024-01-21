@@ -6,6 +6,7 @@ var ChatRoomCharacterViewX_Upper = 0;
 var ChatRoomCharacterViewX_Lower = 0;
 var ChatRoomCharacterViewZoom = 1;
 var ChatRoomCharacterViewCharacterCount = 0;
+/** @type {null | number} */
 var ChatRoomCaracterViewMoveTarget = null;
 
 /**

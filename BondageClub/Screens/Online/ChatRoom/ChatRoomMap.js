@@ -199,6 +199,8 @@ function ChatRoomMapLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapActivate() {
+	// ChatRoomMapVisible is deprecated. This variable only is set for addon compatibility!
+	ChatRoomMapVisible = true;
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| !Player.MapData.Pos.X || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || !Player.MapData.Pos.Y || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
 		Player.MapData = ChatRoomMapInitializeCharacter(Player);
@@ -210,6 +212,15 @@ function ChatRoomMapActivate() {
 		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
 	}
 	ChatRoomMapCalculatePerceptionMasks();
+}
+
+/**
+ * Deactivates the chat room map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapDeactivate() {
+	// ChatRoomMapVisible is deprecated. This variable only is set for addon compatibility!
+	ChatRoomMapVisible = false;
 }
 
 /**
@@ -1683,6 +1694,8 @@ function ChatRoomMapWhisperValid() {
 
 /** Deprecated names for compatibility */
 
+/** !Deprecated! - Use ChatRoomIsViewActive() and ChatRoomActivateView(viewName) instead! */
+var ChatRoomMapVisible = false;
 /**
  * Draws the map and characters of the chat room map
  * !Deprecated! - Use ChatRoomMapViewDraw() instead!

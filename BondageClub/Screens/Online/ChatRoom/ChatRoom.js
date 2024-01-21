@@ -41,7 +41,6 @@ var ChatRoomQuestGiven = [];
 var ChatRoomSpace = ChatRoomSpaceType.MIXED;
 /** @type {ServerChatRoomGame} */
 var ChatRoomGame = "";
-/** @type {null | number} */
 var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
@@ -118,6 +117,7 @@ var ChatRoomViews = {
 	},
 	Map: {
 		Activate: ChatRoomMapActivate,
+		Deactivate: ChatRoomMapDeactivate,
 		Run: ChatRoomMapViewRun,
 		Draw: ChatRoomMapViewDraw,
 		DrawUi: ChatRoomMapViewDrawUi,
