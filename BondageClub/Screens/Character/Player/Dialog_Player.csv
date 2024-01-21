@@ -5132,6 +5132,7 @@ ZipFeetSetZipFeetLight,,,SourceCharacter uses the zipties on TargetCharacter to 
 ZipFeetSetZipFeetMedium,,,SourceCharacter uses the zipties on TargetCharacter to half bind TargetPronounPossessive feet.,,
 ZoneBlocked,,,This zone is out of reach from another item,,
 ZoneBlockedOwner,,,Your owner doesn't allow you to access that zone,,
+ZoneBlockedRange,,,You're too far to reach DialogCharacterObject body and items.,,
 ShoesStilettoHeelsSelectBase,,,Choose Design,,
 ShoesStilettoHeelsModuleLayer,,,Style,,
 ShoesStilettoHeelsSelectLayer,,,Style Options,,

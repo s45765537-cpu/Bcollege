@@ -329,26 +329,18 @@ function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toU
 
 /**
  * Returns the value of the AllowItem flag of a given character
+ * @param {string | Character} C - The character whose flag should be returned.
+ * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem() { return !DialogDontAllowItemPermission() && !DialogDontAllowItemDistance(); }
+function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
+
 
 /**
  * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
  * @returns {boolean} - The reversed value of the given character's AllowItem flag
  */
-function DialogDontAllowItemPermission() { return !DialogGetCharacter(CurrentCharacter).AllowItem; }
-
-/**
- * Returns TRUE if no item can be used by the player on the current character because of the map distance
- * @returns {boolean} - TRUE if distance is too far (more than 1 tile)
- */
-function DialogDontAllowItemDistance() {
-	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
-	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapVisible) return false;
-	if (ChatRoomMapHasSuperPowers() || ChatRoomMapCharacterOnWhisperRange(CurrentCharacter)) return false;
-	return true;
-}
+function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C ? C : CurrentCharacter).AllowItem; }
 
 /**
  * Determines if the given character is kneeling
@@ -2252,7 +2244,7 @@ function DialogClick() {
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
-	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException() && !DialogDontAllowItemDistance()) {
+	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
 		C = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
@@ -2303,9 +2295,6 @@ function DialogClick() {
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
 	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
-
-	// Block out clicking in map mode when the character is too far
-	if (DialogDontAllowItemDistance()) return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -2996,6 +2985,8 @@ function DialogDraw() {
 
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedOwner"), FocusItem);
+		else if (InventoryIsBlockedByDistance(C))
+			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedRange"), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())
