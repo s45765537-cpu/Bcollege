@@ -798,6 +798,21 @@ var AssetFemale3DCGExtended = {
 				Option: "LargeBeltStyle",
 			},
 		}, // LargeBelt
+		LatexApron: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Full",
+				},
+				{
+					Name: "Bottom",
+				},
+			],
+			DialogPrefix: {
+				Header: "LatexApronSelectType",
+				Option: "LatexApronType",
+			},
+		}, // LatexApron
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
