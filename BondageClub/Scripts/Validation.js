@@ -175,7 +175,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 		} else {
 			// Otherwise if there were unpermitted property modifications, revert them
 			for (const propertyName of unpermittedPropertyModifications) {
-				sanitizedProperty[propertyName] = previousProperty[propertyName];
+				sanitizedProperty[propertyName] = /** @type {never} */(previousProperty[propertyName]);
 			}
 			item = Object.assign(InventoryItemCreate(C, "ItemScript", "Script"), {Property: sanitizedProperty});
 		}

@@ -797,7 +797,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
 		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
 		Char.MapData = ChatRoomMapInitializeCharacter(Char);
-		Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
+		Char.MapData.Pos = ChatRoomMapValidatePos(data.MapData);
 		Char.Crafting = ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
 

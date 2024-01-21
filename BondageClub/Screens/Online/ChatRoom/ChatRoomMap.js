@@ -196,6 +196,19 @@ function ChatRoomMapInitializeCharacter(C)
 }
 
 /**
+ * Validate the passed chat room map positions.
+ * @param {unknown} pos
+ * @returns {ChatRoomMapPos}
+ */
+function ChatRoomMapValidatePos(pos) {
+	const ret = CommonIsObject(pos) ? pos : {};
+	return {
+		X: CommonIsInteger(ret.X, 0, ChatRoomMapWidth) ? ret.X : ChatRoomMapWidth / 2,
+		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapHeight) ? ret.Y : ChatRoomMapHeight / 2,
+	};
+}
+
+/**
  * Performs cleanup when leaving the chat room map
  * @returns {void} - Nothing
  */
