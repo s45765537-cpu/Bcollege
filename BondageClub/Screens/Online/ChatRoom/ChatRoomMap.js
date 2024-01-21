@@ -1688,24 +1688,24 @@ function ChatRoomMapWhisperValid() {
  * !Deprecated! - Use ChatRoomMapViewDraw() instead!
  * @returns {void} - Nothing
  */
-// function ChatRoomMapDraw() {
-// 	return ChatRoomMapViewDraw();
-// }
+function ChatRoomMapDraw() {
+	return ChatRoomMapViewDraw();
+}
 
 /**
  * Mouse click event is used to focus a character
  * !Deprecated! - Use ChatRoomMapViewClick() instead!
  * @returns {void} - Nothing
  */
-// function ChatRoomMapClick() {
-// 	return ChatRoomMapViewClick();
-// }
+function ChatRoomMapClick() {
+	return ChatRoomMapViewClick();
+}
 
 /**
  * Returns TRUE if the player can leave from the map, called from ChatRoomCanLeave()
  * !Deprecated! - Use ChatRoomMapViewCanLeave() instead!
  * @returns {boolean} - True if the player can leave
  */
-// function ChatRoomMapCanLeave() {
-// 	return ChatRoomMapViewCanLeave();
-// }
+function ChatRoomMapCanLeave() {
+	return ChatRoomMapViewCanLeave();
+}

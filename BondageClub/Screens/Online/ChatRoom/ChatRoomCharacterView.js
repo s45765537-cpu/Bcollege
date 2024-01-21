@@ -462,31 +462,38 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 
 /** Deprecated names for compatibility */
 
-//var ChatRoomCharacterInitialize = ChatRoomCharacterViewInitialize;
-//var ChatRoomCharacterX_Upper = ChatRoomCharacterViewX_Upper;
-//var ChatRoomCharacterX_Lower = ChatRoomCharacterViewX_Lower;
-//var ChatRoomCharacterZoom = ChatRoomCharacterViewZoom;
-//var ChatRoomSlideWeight = ChatRoomCharacterViewSlideWeight;
-//var ChatRoomCharacterCount = ChatRoomCharacterViewCharacterCount;
-//var ChatRoomMoveTarget = ChatRoomCaracterViewMoveTarget;
+/** !Deprecated! - Use ChatRoomCharacterViewInitialize() instead! */
+var ChatRoomCharacterInitialize = ChatRoomCharacterViewInitialize;
+/** !Deprecated! - Use ChatRoomCharacterViewX_Upper() instead! */
+var ChatRoomCharacterX_Upper = ChatRoomCharacterViewX_Upper;
+/** !Deprecated! - Use ChatRoomCharacterViewX_Lower() instead! */
+var ChatRoomCharacterX_Lower = ChatRoomCharacterViewX_Lower;
+/** !Deprecated! - Use ChatRoomCharacterViewZoom() instead! */
+var ChatRoomCharacterZoom = ChatRoomCharacterViewZoom;
+/** !Deprecated! - Use ChatRoomCharacterViewSlideWeight() instead! */
+var ChatRoomSlideWeight = ChatRoomCharacterViewSlideWeight;
+/** !Deprecated! - Use ChatRoomCharacterViewCharacterCount() instead! */
+var ChatRoomCharacterCount = ChatRoomCharacterViewCharacterCount;
+/** !Deprecated! - Use ChatRoomCaracterViewMoveTarget() instead! */
+var ChatRoomMoveTarget = ChatRoomCaracterViewMoveTarget;
 
 /**
  * Returns TRUE if the map button can be used
  * !Deprecated! - Use ChatRoomCharacterViewShowMapButton() instead!
  * @returns {boolean} - TRUE if can be used
  */
-// function ChatRoomMapButton() {
-// 	return ChatRoomCharacterViewShowMapButton();
-// }
+function ChatRoomMapButton() {
+	return ChatRoomCharacterViewShowMapButton();
+}
 
 /**
  * Draws the chatroom characters.
  * !Deprecated! - Use ChatRoomCharacterViewDraw() instead!
  * @returns {void} - Nothing.
  */
-//function ChatRoomDrawCharacter() {
-//	return ChatRoomCharacterViewDraw();
-//}
+function ChatRoomDrawCharacter() {
+	return ChatRoomCharacterViewDraw();
+}
 
 /**
  * Draw the background of a chat room
@@ -498,10 +505,10 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
  * @param {boolean} InvertRoom - Whether the background image should be inverted
  * @returns {void} - Nothing
  */
-// function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
-// {
-// 	return ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
-// }
+function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
+{
+	return ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
+}
 
 /**
  * Iterate over a room's characters
@@ -511,9 +518,9 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
  * !Deprecated! - Use ChatRoomCharacterViewLoopCharacters() instead!
  * @param {(charIdx: number, charX: number, charY: number, space: number, zoom: number) => boolean | void} callback
  */
-// function ChatRoomLoopCharacters(callback) {
-// 	return ChatRoomCharacterViewLoopCharacters(callback);
-// }
+function ChatRoomLoopCharacters(callback) {
+	return ChatRoomCharacterViewLoopCharacters(callback);
+}
 
 /**
  * Draws any overlays on top of character
@@ -524,9 +531,9 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
  * @param {number} Zoom Room zoom
  * @param {number} Pos Index of target character
  */
-// function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
-// 	return ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos);
-// }
+function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
+	return ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos);
+}
 
 /**
  * Called when character is clicked
@@ -539,6 +546,6 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
  * @param {number} ClickY Click Y postion relative to character, without zoom
  * @param {number} Pos Index of target character
  */
-// function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
-// 	return ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos);
-// }
+function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
+	return ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos);
+}
