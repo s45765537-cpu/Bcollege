@@ -42,7 +42,6 @@ var ChatRoomSpace = ChatRoomSpaceType.MIXED;
 /** @type {ServerChatRoomGame} */
 var ChatRoomGame = "";
 /** @type {null | number} */
-var ChatRoomMoveTarget = null;
 var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
@@ -68,7 +67,6 @@ var ChatRoomChatLogRect = [1005, 66, 988, 835];
  */
 var ChatRoomChatInputRect = [1456, 950, 900, 82];
 var ChatRoomChatHidden = false;
-var ChatRoomCharacterCount = 0;
 /**
  * The chatroom characters that were drawn in the last frame.
  * Used for limiting the "fov". Characters come from {@link ChatRoomCharacter}
@@ -110,14 +108,19 @@ var ChatRoomCustomFilter = "";
 var ChatRoomViews = {
 	Character: {
 		Run: ChatRoomCharacterViewRun,
+		Draw: ChatRoomCharacterViewDraw,
+		DrawUi: ChatRoomCharacterViewDrawUi,
 		DisplayMessage: ChatRoomCharacterViewDisplayMessage,
 		Click: ChatRoomCharacterViewClick,
 		KeyDown: ChatRoomCharacterViewKeyDown,
-		CanLeave: ChatRoomCharacterViewCanLeave
+		CanLeave: ChatRoomCharacterViewCanLeave,
+		Screenshot: ChatRoomCharacterViewScreenshot
 	},
 	Map: {
 		Activate: ChatRoomMapActivate,
 		Run: ChatRoomMapViewRun,
+		Draw: ChatRoomMapViewDraw,
+		DrawUi: ChatRoomMapViewDrawUi,
 		DisplayMessage: ChatRoomMapViewDisplayMessage,
 		Click: ChatRoomMapViewClick,
 		MouseDown: ChatRoomMapMouseDown,
@@ -127,7 +130,8 @@ var ChatRoomViews = {
 		KeyDown: ChatRoomMapKeyDown,
 		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
-		CanLeave: ChatRoomMapViewCanLeave
+		CanLeave: ChatRoomMapViewCanLeave,
+		Screenshot: ChatRoomMapViewScreenshot
 	}
 };
 /**
@@ -1013,7 +1017,6 @@ function ChatRoomOwnerInside() {
 	return false;
 }
 
-
 /**
  * Updates the temporary drawing arrays for characters, to handle things that are dependent on the drawn chat room
  * characters rather than the ones actually present
@@ -1052,7 +1055,7 @@ function ChatRoomUpdateDisplay() {
 		}
 	}
 
-	ChatRoomCharacterCount = RenderSingle ? 1 : ChatRoomCharacterDrawlist.length;
+	ChatRoomCharacterViewCharacterCount = RenderSingle ? 1 : ChatRoomCharacterDrawlist.length;
 }
 
 /**
@@ -1663,6 +1666,12 @@ function ChatRoomRun() {
 	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
 	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
 	ChatRoomActiveView.Run();
+	ChatRoomActiveView.Draw();
+	if(!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
+
+	// Draw the customization button in the lower left if the room allows it
+	if (ChatRoomCustomizationButton())
+		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
 
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
@@ -1673,6 +1682,26 @@ function ChatRoomRun() {
 	// Draw the buttons at the top-right
 	ChatRoomMenuDraw();
 
+	// Process attempts at leaving slowly
+	ChatRoomProcessSlowLeave();
+
+	// Runs any needed online game script
+	OnlineGameRun();
+
+	// Clear notifications if needed
+	ChatRoomNotificationReset();
+
+	// Recreates the chatroom with the stored chatroom data if necessary
+	ChatRoomRecreate();
+}
+
+/**
+ * Runs the arousal overlay.
+ * @returns {boolean} - Returns true if the orgasm overlay is active and false otherwise.
+ */
+function ChatRoomDrawArousalOverlay()
+{
+	let orgasmScreen = false;
 	// In orgasm mode, we add a pink filter and different controls depending on the stage.  The pink filter shows a little above 90
 	if ((Player.ArousalSettings != null) && (Player.ArousalSettings.Active != null) && (Player.ArousalSettings.Active != "Inactive") && (Player.ArousalSettings.Active != "NoMeter")) {
 		if ((Player.ArousalSettings.OrgasmTimer != null) && (typeof Player.ArousalSettings.OrgasmTimer === "number") && !isNaN(Player.ArousalSettings.OrgasmTimer) && (Player.ArousalSettings.OrgasmTimer > 0)) {
@@ -1687,14 +1716,15 @@ function ChatRoomRun() {
 			if (Player.ArousalSettings.OrgasmStage == 1) DrawButton(ActivityOrgasmGameButtonX, ActivityOrgasmGameButtonY, 250, 64, ActivityOrgasmResistLabel, "White");
 			if (ActivityOrgasmRuined) ActivityOrgasmControl();
 			if (Player.ArousalSettings.OrgasmStage == 2) DrawText(TextGet("OrgasmRecovering"), 500, 500, "White", "Black");
+			orgasmScreen = true;
 			ActivityOrgasmProgressBar(50, 970);
 		} else if ((Player.ArousalSettings.Progress != null) && (Player.ArousalSettings.Progress >= 1) && (Player.ArousalSettings.Progress <= 99) && !CommonPhotoMode) {
 			let y1 = 0;
 			let h = 1000;
 
-			if (ChatRoomCharacterCount == 3) {y1 = 50; h = 900;}
-			else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
-			else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
+			if (ChatRoomCharacterViewCharacterCount == 3) {y1 = 50; h = 900;}
+			else if (ChatRoomCharacterViewCharacterCount == 4) {y1 = 150; h = 700;}
+			else if (ChatRoomCharacterViewCharacterCount == 5) {y1 = 250; h = 500;}
 
 			ChatRoomDrawArousalScreenFilter(y1, h, 1003, Player.ArousalSettings.Progress);
 		}
@@ -1704,31 +1734,14 @@ function ChatRoomRun() {
 		let y1 = 0;
 		let h = 1000;
 
-		if (ChatRoomCharacterCount == 3) {y1 = 50; h = 900;}
-		else if (ChatRoomCharacterCount == 4) {y1 = 150; h = 700;}
-		else if (ChatRoomCharacterCount == 5) {y1 = 250; h = 500;}
+		if (ChatRoomCharacterViewCharacterCount == 3) {y1 = 50; h = 900;}
+		else if (ChatRoomCharacterViewCharacterCount == 4) {y1 = 150; h = 700;}
+		else if (ChatRoomCharacterViewCharacterCount == 5) {y1 = 250; h = 500;}
 
 		ChatRoomVibrationScreenFilter(y1, h, 1003, Player);
 	}
 
-	// Draw the customization button in the lower left if the room allows it
-	if (ChatRoomCustomizationButton())
-		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
-
-	// Draw the map button in the upper left if the room allows it
-	if (ChatRoomMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
-
-	// Process attempts at leaving slowly
-	ChatRoomProcessSlowLeave();
-
-	// Runs any needed online game script
-	OnlineGameRun();
-
-	// Clear notifications if needed
-	ChatRoomNotificationReset();
-
-	// Recreates the chatroom with the stored chatroom data if necessary
-	ChatRoomRecreate();
+	return orgasmScreen;
 }
 
 /**
@@ -1816,26 +1829,14 @@ function ChatRoomClick() {
 
 	// If the allow customization button is toggled, always stops the music from here
 	if (ChatRoomCustomizationButton() && MouseIn(10, 930, 60, 60)) {
-		 ChatRoomCustomized = !ChatRoomCustomized;
-		 ChatRoomCustomizationClear();
-		 return;
-	}
-
-	// Go from character view to map view
-	if (ChatRoomMapButton() && MouseIn(10, 10, 60, 60)) {
-		if (ChatRoomMapAllow == false) {
-			ChatRoomMapAllow = true;
-			return;
-		}
-		ChatRoomActivateView(ChatRoomMapViewName);
+		ChatRoomCustomized = !ChatRoomCustomized;
+		ChatRoomCustomizationClear();
 		return;
 	}
 
 	// In the left part of the screen
 	if (MouseIn(0, 0, 1000, 1000)) {
-
 		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click();
-
 	}
 
 	// When the user clicks a menu button in the top-right
@@ -3978,7 +3979,7 @@ function ChatRoomStopLeave() {
 function ChatRoomAdminAction(ActionType, Publish) {
 	if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && ChatRoomPlayerIsAdmin()) {
 		if (ActionType == "Move") {
-			ChatRoomMoveTarget = CurrentCharacter.MemberNumber;
+			ChatRoomCaracterViewMoveTarget = CurrentCharacter.MemberNumber;
 		} else {
 			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: (Publish !== false && Publish !== "false") });
 		}
@@ -4619,15 +4620,7 @@ function ChatRoomSetLoadRules(C, Rule) {
  * @returns {void} - Nothing
  */
 function ChatRoomPhotoFullRoom() {
-	// Get the room dimensions
-	let Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
-	let Zoom = ChatRoomCharacterCount >= 3 && ChatRoomCharacterCount < 6 ? Space / 400 : 1;
-	let Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-	let X = ChatRoomCharacterCount === 1 ? 250 : 0;
-	let Width = ChatRoomCharacterCount === 1 ? 500 : 1000;
-
-	// Take the photo
-	ChatRoomPhoto(X, Y, Width, 1000 * Zoom, ChatRoomCharacter);
+	ChatRoomActiveView.Screenshot();
 }
 
 /**

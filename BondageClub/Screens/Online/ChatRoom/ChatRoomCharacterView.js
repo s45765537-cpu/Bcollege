@@ -5,6 +5,8 @@ var ChatRoomCharacterViewSlideWeight = 9;
 var ChatRoomCharacterViewX_Upper = 0;
 var ChatRoomCharacterViewX_Lower = 0;
 var ChatRoomCharacterViewZoom = 1;
+var ChatRoomCharacterViewCharacterCount = 0;
+var ChatRoomCaracterViewMoveTarget = null;
 
 /**
  * The name of the chat room character view.
@@ -40,8 +42,18 @@ function ChatRoomCharacterViewDisplayMessage(data, msg, SenderCharacter, metadat
 	return msg;
 }
 
+/**
+ * Handles clicks the chatroom screen view.
+ * @returns {void} - Nothing.
+ */
 function ChatRoomCharacterViewClick(event)
 {
+	// Go from character view to map view
+	if (ChatRoomCharacterViewShowMapButton() && MouseIn(10, 10, 60, 60)) {
+	   ChatRoomActivateView(ChatRoomMapViewName);
+	   return;
+	}
+
 	// Intercepts the online game chat room clicks if we need to
 	if (OnlineGameClick()) return;
 
@@ -64,12 +76,36 @@ function ChatRoomCharacterViewKeyDown(event)
 }
 
 /**
- * Returns TRUE if the player can leave from the map
+ * Returns TRUE if the player can leave
  * @returns {boolean} - True if the player can leave
  */
 function ChatRoomCharacterViewCanLeave() {
 	return true;
 
+}
+
+/**
+ * Take a screenshot of all characters in the chatroom
+ * @returns {void} - Nothing
+ */
+function ChatRoomCharacterViewScreenshot() {
+	// Get the room dimensions
+	let Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
+	let Zoom = ChatRoomCharacterViewCharacterCount >= 3 && ChatRoomCharacterViewCharacterCount < 6 ? Space / 400 : 1;
+	let Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	let X = ChatRoomCharacterViewCharacterCount === 1 ? 250 : 0;
+	let Width = ChatRoomCharacterViewCharacterCount === 1 ? 500 : 1000;
+
+	// Take the photo
+	ChatRoomPhoto(X, Y, Width, 1000 * Zoom, ChatRoomCharacter);
+}
+
+/**
+ * Returns TRUE if the map button can be used
+ * @returns {boolean} - TRUE if can be used
+ */
+function ChatRoomCharacterViewShowMapButton() {
+	return (!ChatRoomIsViewActive(ChatRoomMapViewName) && ChatRoomData?.MapData?.Type != "Never");
 }
 
 /**
@@ -105,42 +141,42 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
 	}
 
 	// Moving character inside room
-	if (ChatRoomMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomMoveTarget);
+	if (ChatRoomCaracterViewMoveTarget !== null) {
+		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCaracterViewMoveTarget);
 		if (MoveTargetPos < 0) {
-			ChatRoomMoveTarget = null;
+			ChatRoomCaracterViewMoveTarget = null;
 		} else {
 			if (Pos < MoveTargetPos && MouseIn(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Move left
 				for (let i = 0; i < MoveTargetPos - Pos; i++) {
 					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomMoveTarget,
+						MemberNumber: ChatRoomCaracterViewMoveTarget,
 						Action: "MoveLeft",
 						Publish: i === 0
 					});
 				}
-				ChatRoomMoveTarget = null;
+				ChatRoomCaracterViewMoveTarget = null;
 			} else if (MouseIn(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Swap or cancel
-				if (ChatRoomMoveTarget !== C.MemberNumber) {
+				if (ChatRoomCaracterViewMoveTarget !== C.MemberNumber) {
 					ServerSend("ChatRoomAdmin", {
 						MemberNumber: Player.ID,
-						TargetMemberNumber: ChatRoomMoveTarget,
+						TargetMemberNumber: ChatRoomCaracterViewMoveTarget,
 						DestinationMemberNumber: C.MemberNumber,
 						Action: "Swap"
 					});
 				}
-				ChatRoomMoveTarget = null;
+				ChatRoomCaracterViewMoveTarget = null;
 			} else if ( Pos > MoveTargetPos && MouseIn(CharX + 300 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Move right
 				for (let i = 0; i < Pos - MoveTargetPos; i++) {
 					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomMoveTarget,
+						MemberNumber: ChatRoomCaracterViewMoveTarget,
 						Action: "MoveRight",
 						Publish: i === 0
 					});
 				}
-				ChatRoomMoveTarget = null;
+				ChatRoomCaracterViewMoveTarget = null;
 			}
 			return;
 		}
@@ -204,7 +240,7 @@ function ChatRoomCharacterViewDraw() {
 	if (CustomBG && (DarkFactor === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) DarkFactor = CharacterGetDarkFactor(Player, true);
 
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
+	const Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
 
 	// Gradually slide the characters around to make room
 	let weight = ChatRoomCharacterViewSlideWeight;
@@ -215,9 +251,9 @@ function ChatRoomCharacterViewDraw() {
 		weight = 0;
 	}
 
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
+	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterViewCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterViewCharacterCount, 5))/(weight + 1);
+	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterViewCharacterCount - 5))/(weight + 1);
 
 	for (let i = 0; i < frametimeAdjustment; i++) {
 		const nextZoom = zoomFrameStep(ChatRoomCharacterViewZoom);
@@ -247,7 +283,7 @@ function ChatRoomCharacterViewDraw() {
 	// The more players, the higher the zoom, also changes the drawing coordinates
 	const Zoom = ChatRoomCharacterViewZoom;
 	// const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	const Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
 	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
 
 	// Draw the background
@@ -265,6 +301,12 @@ function ChatRoomCharacterViewDraw() {
 			ChatRoomCharacterViewDrawOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, charIdx);
 		}
 	});
+
+}
+
+function ChatRoomCharacterViewDrawUi() {
+	// Draw the map button in the upper left if the room allows it
+	if (ChatRoomCharacterViewShowMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 }
 
 /**
@@ -315,7 +357,7 @@ function ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, In
 function ChatRoomCharacterViewLoopCharacters(callback) {
 
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterCount, 5) : 500;
+	const Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
 
 	// Gradually slide the characters around to make room
 	let weight = ChatRoomCharacterViewSlideWeight;
@@ -326,9 +368,9 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 		weight = 0;
 	}
 
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterCount - 5))/(weight + 1);
+	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterViewCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterViewCharacterCount, 5))/(weight + 1);
+	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterViewCharacterCount - 5))/(weight + 1);
 
 	for (let i = 0; i < frametimeAdjustment; i++) {
 		const nextZoom = zoomFrameStep(ChatRoomCharacterViewZoom);
@@ -357,8 +399,8 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 
 	// The more players, the higher the zoom, also changes the drawing coordinates
 	const Zoom = ChatRoomCharacterViewZoom;
-	const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	const X = ChatRoomCharacterViewCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
+	const Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
 
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
@@ -366,9 +408,9 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 		// Finds the X and Y position of the character based on it's room position
 		let ChatRoomCharacterX = C >= 5 ? ChatRoomCharacterViewX_Lower : ChatRoomCharacterViewX_Upper;
 		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
-		const CharX = ChatRoomCharacterX + (ChatRoomCharacterCount == 1 ? 0 : X + (C % 5) * Space);
-		const CharY = ChatRoomCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
-		if ((ChatRoomCharacterCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
+		const CharX = ChatRoomCharacterX + (ChatRoomCharacterViewCharacterCount == 1 ? 0 : X + (C % 5) * Space);
+		const CharY = ChatRoomCharacterViewCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
+		if ((ChatRoomCharacterViewCharacterCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
 
 		const res = callback(C, CharX, CharY, Space, Zoom);
 		if (res) break;
@@ -394,12 +436,12 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
 	}
 
-	if (ChatRoomMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomMoveTarget);
+	if (ChatRoomCaracterViewMoveTarget !== null) {
+		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCaracterViewMoveTarget);
 		if (MoveTargetPos < 0) {
-			ChatRoomMoveTarget = null;
+			ChatRoomCaracterViewMoveTarget = null;
 		} else {
-			if (ChatRoomMoveTarget === C.MemberNumber) {
+			if (ChatRoomCaracterViewMoveTarget === C.MemberNumber) {
 				DrawButton(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
 				DrawImageResize("Icons/Remove.png", CharX + 202 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
 			} else {
@@ -425,6 +467,17 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 //var ChatRoomCharacterX_Lower = ChatRoomCharacterViewX_Lower;
 //var ChatRoomCharacterZoom = ChatRoomCharacterViewZoom;
 //var ChatRoomSlideWeight = ChatRoomCharacterViewSlideWeight;
+//var ChatRoomCharacterCount = ChatRoomCharacterViewCharacterCount;
+//var ChatRoomMoveTarget = ChatRoomCaracterViewMoveTarget;
+
+/**
+ * Returns TRUE if the map button can be used
+ * !Deprecated! - Use ChatRoomCharacterViewShowMapButton() instead!
+ * @returns {boolean} - TRUE if can be used
+ */
+// function ChatRoomMapButton() {
+// 	return ChatRoomCharacterViewShowMapButton();
+// }
 
 /**
  * Draws the chatroom characters.

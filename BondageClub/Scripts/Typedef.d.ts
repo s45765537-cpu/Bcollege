@@ -3778,6 +3778,8 @@ interface ChatRoomView {
 	Activate?: () => void;
 	Deactivate?: () => void;
 	Run: () => void;
+	Draw: () => void;
+	DrawUi: () => void;
 	DisplayMessage: (data, msg, SenderCharacter, metadata) => string|null;
 	Click?: () => void;
 	MouseDown?: (event) => void;
@@ -3788,6 +3790,7 @@ interface ChatRoomView {
 	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;
+	Screenshot: () => void;
 }
 
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";

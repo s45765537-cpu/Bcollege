@@ -1,6 +1,5 @@
 "use strict";
 const ChatRoomMapViewName = "Map";
-var ChatRoomMapAllow = true;
 var ChatRoomMapWidth = 40;
 var ChatRoomMapHeight = 40;
 var ChatRoomMapViewRange = 4;
@@ -138,12 +137,6 @@ const ChatRoomMapObjectList = [
 ];
 
 /**
- * Returns TRUE if the map button can be used
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomMapButton() { return (!ChatRoomMapViewIsActive() && ChatRoomData?.MapData?.Type != "Never"); }
-
-/**
  * Returns TRUE if the player is an admin and activated her super powers on the map
  * @returns {boolean} - TRUE if super powers are active
  */
@@ -230,7 +223,12 @@ function ChatRoomMapViewIsActive()
 
 function ChatRoomMapViewRun()
 {
-	ChatRoomMapDraw();
+	// Syncs the room map data with the server if needed
+	ChatRoomMapMovementProcess();
+	ChatRoomMapLeash();
+	ChatRoomMapUpdateRoomSync();
+	ChatRoomMapUpdatePlayerSync();
+	ChatRoomMapUpdateLastMapDataSync();
 }
 
 /**
@@ -306,6 +304,15 @@ function ChatRoomMapViewCanLeave() {
 	// If nothing allows leaving
 	return false;
 
+}
+
+/**
+ * Take a screenshot of the current section of the map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewScreenshot() {
+	// Take the photo
+	ChatRoomPhoto(0, 0, 1000, 1000, ChatRoomCharacter);
 }
 
 /**
@@ -1103,20 +1110,21 @@ function ChatRoomMapLeash() {
 
 
 /**
- * Draws the map, characters and buttons of the chat room map
+ * Draws the map and characters of the chat room map
  * @returns {void} - Nothing
  */
-function ChatRoomMapDraw() {
-
-	// Syncs the room map data with the server if needed
-	ChatRoomMapMovementProcess();
-	ChatRoomMapLeash();
-	ChatRoomMapUpdateRoomSync();
-	ChatRoomMapUpdatePlayerSync();
-	ChatRoomMapUpdateLastMapDataSync();
+function ChatRoomMapViewDraw() {
 
 	// Draw the full grid on the left side of the screen
 	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
+
+}
+
+/**
+ * Draws the buttons of the chat room map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewDrawUi() {
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
@@ -1205,7 +1213,6 @@ function ChatRoomMapDraw() {
 				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
-
 }
 
 /**
@@ -1337,22 +1344,15 @@ function ChatRoomMapKeyDown(event) {
 }
 
 /**
- * Mouse click event is used to focus a character
- * @returns {void} - Nothing
+ * Handles clicks the chatroom screen view.
+ * @returns {void} - Nothing.
  */
 function ChatRoomMapViewClick() {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+
 	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
 		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
-}
 
-/**
- * Mouse down event is used to draw on screen and handle the tiles buttons
- * @returns {void} - Nothing
- */
-function ChatRoomMapMouseDown() {
-
-	// The walk buttons in the bottom right of the map
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
 		ChatRoomMapCalculatePerceptionMasks();
@@ -1368,7 +1368,6 @@ function ChatRoomMapMouseDown() {
 	if (ChatRoomMapEditMode == "") {
 		if (MouseIn(10, 10, 60, 60)) {
 			ChatRoomActivateView(ChatRoomCharacterViewName);
-			ChatRoomMapAllow = false;
 			return;
 		}
 		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) { ChatRoomMapViewRange--; return; }
@@ -1387,10 +1386,9 @@ function ChatRoomMapMouseDown() {
 			ChatRoomMapUndo();
 			return;
 		}
-	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
-	if (ChatRoomMapEditMode == "TileType") {
+	} else if (ChatRoomMapEditMode == "TileType") {
 		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
 		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "ObjectType"; return; }
 		let Y = 80;
@@ -1406,11 +1404,9 @@ function ChatRoomMapMouseDown() {
 					return;
 				}
 			}
-	}
 
 	// In tile edit mode
-	if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
-
+	} else if ((ChatRoomMapEditMode == "Tile")) {
 		// The first button returns to type selection
 		if (MouseIn(10, 10, 60, 60)) {
 			ChatRoomMapEditMode = "TileType";
@@ -1435,15 +1431,8 @@ function ChatRoomMapMouseDown() {
 				}
 			}
 
-		// Enter the drawing mode
-		ChatRoomMapEditStarted = true;
-		ChatRoomMapMouseMove();
-		return;
-
-	}
-
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
-	if (ChatRoomMapEditMode == "ObjectType") {
+	} else if (ChatRoomMapEditMode == "ObjectType") {
 		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
 		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "TileType"; return; }
 		let Y = 80;
@@ -1459,11 +1448,9 @@ function ChatRoomMapMouseDown() {
 					return;
 				}
 			}
-	}
 
 	// In object edit mode
-	if ((ChatRoomMapEditMode == "Object") && MouseIn(0, 0, 1000, 1000)) {
-
+	} else if ((ChatRoomMapEditMode == "Object")) {
 		// The first button returns to type selection
 		if (MouseIn(10, 10, 60, 60)) {
 			ChatRoomMapEditMode = "ObjectType";
@@ -1486,6 +1473,53 @@ function ChatRoomMapMouseDown() {
 					// @ts-ignore
 					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
 						ChatRoomMapEditObject = CommonCloneDeep(Obj);
+					return;
+				}
+			}
+
+	}
+}
+
+/**
+ * Mouse down event is used to draw on screen and handle the tiles buttons
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapMouseDown() {
+
+	// The walk buttons in the bottom right of the map
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+
+	// In tile edit mode
+	else if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
+		for (let Tile of ChatRoomMapTileList)
+			if (ChatRoomMapEditSubMode == Tile.Type) {
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					return;
+				}
+			}
+
+		// Enter the drawing mode
+		ChatRoomMapEditStarted = true;
+		ChatRoomMapMouseMove();
+		return;
+
+	// In object edit mode
+	} else if ((ChatRoomMapEditMode == "Object") && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
+		for (let Obj of ChatRoomMapObjectList)
+			if (ChatRoomMapEditSubMode == Obj.Type) {
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
 					return;
 				}
 			}
@@ -1648,6 +1682,15 @@ function ChatRoomMapWhisperValid() {
 }
 
 /** Deprecated names for compatibility */
+
+/**
+ * Draws the map and characters of the chat room map
+ * !Deprecated! - Use ChatRoomMapViewDraw() instead!
+ * @returns {void} - Nothing
+ */
+// function ChatRoomMapDraw() {
+// 	return ChatRoomMapViewDraw();
+// }
 
 /**
  * Mouse click event is used to focus a character
