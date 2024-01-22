@@ -4016,7 +4016,7 @@ function ChatRoomStopLeave() {
 function ChatRoomAdminAction(ActionType, Publish) {
 	if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && ChatRoomPlayerIsAdmin()) {
 		if (ActionType == "Move") {
-			ChatRoomCaracterViewMoveTarget = CurrentCharacter.MemberNumber;
+			ChatRoomCharacterViewMoveTarget = CurrentCharacter.MemberNumber;
 		} else {
 			ServerSend("ChatRoomAdmin", { MemberNumber: CurrentCharacter.MemberNumber, Action: ActionType, Publish: (Publish !== false && Publish !== "false") });
 		}

@@ -1721,174 +1721,91 @@ function ChatRoomMapViewWhisperValid() {
 
 /** Deprecated names for compatibility */
 
-//---Deprecated Variables---
-/** @deprecated - Use {@link ChatRoomIsViewActive} and {@link ChatRoomActivateView} instead! */
-var ChatRoomMapVisible = false;
-/** @deprecated - Use {@link ChatRoomMapViewWidth} instead! */
-var ChatRoomMapWidth = ChatRoomMapViewWidth;
-/** @deprecated - Use {@link ChatRoomMapViewWidth} instead! */
-var ChatRoomMapHeight = ChatRoomMapViewHeight;
-/** @deprecated - Use {@link ChatRoomMapViewPerceptionRange} instead! */
-var ChatRoomMapViewRange = ChatRoomMapViewPerceptionRange;
-/** @deprecated - Use {@link ChatRoomMapViewPerceptionRangeMin} instead! */
-var ChatRoomMapViewRangeMin = ChatRoomMapViewPerceptionRangeMin;
-/** @deprecated - Use {@link ChatRoomMapViewPerceptionRangeMax} instead! */
-var ChatRoomMapViewRangeMax = ChatRoomMapViewPerceptionRangeMax;
-/** @deprecated - Use {@link ChatRoomMapViewObjectStartID} instead! */
-var ChatRoomMapObjectStartID = ChatRoomMapViewObjectStartID;
-/** @deprecated - Use {@link ChatRoomMapViewObjectEntryID} instead! */
-var ChatRoomMapObjectEntryID = ChatRoomMapViewObjectEntryID;
-/** @deprecated - Use {@link ChatRoomMapViewEditMode} instead! */
-var ChatRoomMapEditMode = ChatRoomMapViewEditMode;
-/** @deprecated - Use {@link ChatRoomMapViewEditSubMode} instead! */
-var ChatRoomMapEditSubMode = ChatRoomMapViewEditSubMode;
-/** @deprecated - Use {@link ChatRoomMapViewEditStarted} instead! */
-var ChatRoomMapEditStarted = ChatRoomMapViewEditStarted;
-/** @deprecated - Use {@link ChatRoomMapViewEditObject} instead! */
-var ChatRoomMapEditObject = ChatRoomMapViewEditObject;
-/** @deprecated - Use {@link ChatRoomMapViewEditSelection} instead! */
-var ChatRoomMapEditSelection = ChatRoomMapViewEditSelection;
-/** @deprecated - Use {@link ChatRoomMapViewEditRange} instead! */
-var ChatRoomMapEditRange = ChatRoomMapViewEditRange;
-/** @deprecated - Use {@link ChatRoomMapViewEditBackup} instead! */
-var ChatRoomMapEditBackup = ChatRoomMapViewEditBackup;
-/** @deprecated - Use {@link ChatRoomMapViewUpdateRoomNext} instead! */
-var ChatRoomMapUpdateRoomNext = ChatRoomMapViewUpdateRoomNext;
-/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerNext} instead! */
-var ChatRoomMapUpdatePlayerNext = ChatRoomMapViewUpdatePlayerNext;
-/** @deprecated - Use {@link ChatRoomMapViewUpdateLastMapDataNext} instead! */
-var ChatRoomMapUpdateLastMapDataNext = ChatRoomMapViewUpdateLastMapDataNext;
-/** @deprecated - Use {@link ChatRoomMapViewFocusedCharacter} instead! */
-var ChatRoomMapFocusedCharacter = ChatRoomMapViewFocusedCharacter;
-/** @deprecated - Use {@link ChatRoomMapViewSuperPowersActive} instead! */
-var ChatRoomMapSuperPowersActive = ChatRoomMapViewSuperPowersActive;
-/** @deprecated - Use {@link ChatRoomMapViewBaseMovementSpeed} instead! */
-var ChatRoomMapBaseMovementSpeed = ChatRoomMapViewBaseMovementSpeed;
-/** @deprecated - Use {@link ChatRoomMapViewMovement} instead! */
-var ChatRoomMapMovement = ChatRoomMapViewMovement;
-/** @deprecated - Use {@link ChatRoomMapViewTypeList} instead! */
-var ChatRoomMapTypeList = ChatRoomMapViewTypeList;
-/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerTime} instead! */
-var ChatRoomMapUpdatePlayerTime = ChatRoomMapViewUpdatePlayerTime;
-/** @deprecated - Use {@link ChatRoomMapViewPerceptionRaycastOffset} instead! */
-const ChatRoomMapPerceptionRaycastOffset = ChatRoomMapViewPerceptionRaycastOffset;
-/** @deprecated - Use {@link ChatRoomMapViewWhisperRange} instead! */
-const ChatRoomMapWhisperRange = ChatRoomMapViewWhisperRange;
-/** @deprecated - Use {@link ChatRoomMapViewInteractionRange} instead! */
-const ChatRoomMapInteractionRange = ChatRoomMapViewInteractionRange;
-/** @deprecated - Use {@link ChatRoomMapViewRemoteRange} instead! */
-const ChatRoomMapRemoteRange = ChatRoomMapViewRemoteRange;
-/** @deprecated - Use {@link ChatRoomMapViewVisibilityMask} instead! */
-var ChatRoomMapVisibilityMask = ChatRoomMapViewVisibilityMask;
-/** @deprecated - Use {@link ChatRoomMapViewAudibilityMask} instead! */
-var ChatRoomMapAudibilityMask = ChatRoomMapViewAudibilityMask;
-/** @deprecated - Use {@link ChatRoomMapViewTileList} instead! */
-const ChatRoomMapTileList = ChatRoomMapViewTileList;
-/** @deprecated - Use {@link ChatRoomMapViewObjectList} instead! */
-const ChatRoomMapObjectList = ChatRoomMapViewObjectList;
+//---Deprecated Variables of R101---
+CommonProperty("ChatRoomMapVisible", () => ChatRoomIsViewActive(ChatRoomMapViewName), function (value) { if (value) { ChatRoomIsViewActive(ChatRoomMapViewName)}else{ChatRoomIsViewActive(ChatRoomCharacterViewName); } });
+CommonProperty("ChatRoomMapWidth", () => ChatRoomMapViewWidth, (value) => ChatRoomMapViewWidth = value);
+CommonProperty("ChatRoomMapHeight", () => ChatRoomMapViewHeight, (value) => ChatRoomMapViewHeight = value);
+CommonProperty("ChatRoomMapViewRange", () => ChatRoomMapViewPerceptionRange, (value) => ChatRoomMapViewPerceptionRange = value);
+CommonProperty("ChatRoomMapViewRangeMin", () => ChatRoomMapViewPerceptionRangeMin, (value) => ChatRoomMapViewPerceptionRangeMin = value);
+CommonProperty("ChatRoomMapViewRangeMax", () => ChatRoomMapViewPerceptionRangeMax, (value) => ChatRoomMapViewPerceptionRangeMax = value);
+CommonProperty("ChatRoomMapObjectStartID", () => ChatRoomMapViewObjectStartID, (value) => ChatRoomMapViewObjectStartID = value);
+CommonProperty("ChatRoomMapObjectEntryID", () => ChatRoomMapViewObjectEntryID, (value) => ChatRoomMapViewObjectEntryID = value);
+CommonProperty("ChatRoomMapEditMode", () => ChatRoomMapViewEditMode, (value) => ChatRoomMapViewEditMode = value);
+CommonProperty("ChatRoomMapEditSubMode", () => ChatRoomMapViewEditSubMode, (value) => ChatRoomMapViewEditSubMode = value);
+CommonProperty("ChatRoomMapEditStarted", () => ChatRoomMapViewEditStarted, (value) => ChatRoomMapViewEditStarted = value);
+CommonProperty("ChatRoomMapEditObject", () => ChatRoomMapViewEditObject, (value) => ChatRoomMapViewEditObject = value);
+CommonProperty("ChatRoomMapEditSelection", () => ChatRoomMapViewEditSelection, (value) => ChatRoomMapViewEditSelection = value);
+CommonProperty("ChatRoomMapEditRange", () => ChatRoomMapViewEditRange, (value) => ChatRoomMapViewEditRange = value);
+CommonProperty("ChatRoomMapEditBackup", () => ChatRoomMapViewEditBackup, (value) => ChatRoomMapViewEditBackup = value);
+CommonProperty("ChatRoomMapUpdateRoomNext", () => ChatRoomMapViewUpdateRoomNext, (value) => ChatRoomMapViewUpdateRoomNext = value);
+CommonProperty("ChatRoomMapUpdatePlayerNext", () => ChatRoomMapViewUpdatePlayerNext, (value) => ChatRoomMapViewUpdatePlayerNext = value);
+CommonProperty("ChatRoomMapUpdateLastMapDataNext", () => ChatRoomMapViewUpdateLastMapDataNext, (value) => ChatRoomMapViewUpdateLastMapDataNext = value);
+CommonProperty("ChatRoomMapFocusedCharacter", () => ChatRoomMapViewFocusedCharacter, (value) => ChatRoomMapViewFocusedCharacter = value);
+CommonProperty("ChatRoomMapSuperPowersActive", () => ChatRoomMapViewSuperPowersActive, (value) => ChatRoomMapViewSuperPowersActive = value);
+CommonProperty("ChatRoomMapBaseMovementSpeed", () => ChatRoomMapViewBaseMovementSpeed, (value) => ChatRoomMapViewBaseMovementSpeed = value);
+CommonProperty("ChatRoomMapMovement", () => ChatRoomMapViewMovement, (value) => ChatRoomMapViewMovement = value);
+CommonProperty("ChatRoomMapTypeList", () => ChatRoomMapViewTypeList, (value) => ChatRoomMapViewTypeList = value);
+CommonProperty("ChatRoomMapUpdatePlayerTime", () => ChatRoomMapViewUpdatePlayerTime, (value) => ChatRoomMapViewUpdatePlayerTime = value);
+CommonProperty("ChatRoomMapPerceptionRaycastOffset", () => ChatRoomMapViewPerceptionRaycastOffset);
+CommonProperty("ChatRoomMapWhisperRange", () => ChatRoomMapViewWhisperRange);
+CommonProperty("ChatRoomMapInteractionRange", () => ChatRoomMapViewInteractionRange);
+CommonProperty("ChatRoomMapRemoteRange", () => ChatRoomMapViewRemoteRange);
+CommonProperty("ChatRoomMapVisibilityMask", () => ChatRoomMapViewVisibilityMask, (value) => ChatRoomMapViewVisibilityMask = value);
+CommonProperty("ChatRoomMapAudibilityMask", () => ChatRoomMapViewAudibilityMask, (value) => ChatRoomMapViewAudibilityMask = value);
+CommonProperty("ChatRoomMapTileList", () => ChatRoomMapViewTileList);
+CommonProperty("ChatRoomMapObjectList", () => ChatRoomMapViewObjectList);
 
-//---Deprecated Functions---
-/** @deprecated - Use {@link ChatRoomMapViewHasSuperPowers} instead! */
-function ChatRoomMapHasSuperPowers() { return ChatRoomMapViewHasSuperPowers(); }
-/** @deprecated - Use {@link ChatRoomMapViewInitialize} instead! */
-function ChatRoomMapInitialize(mode) { return ChatRoomMapViewInitialize(mode); }
-/** @deprecated - Use {@link ChatRoomMapViewInitializeCharacter} instead! */
-function ChatRoomMapInitializeCharacter(C){ return ChatRoomMapViewInitializeCharacter(C); }
-/** @deprecated - Use {@link ChatRoomMapViewValidatePos} instead! */
-function ChatRoomMapValidatePos(pos) { return ChatRoomMapViewValidatePos(pos); }
-/** @deprecated - Use {@link ChatRoomMapViewLeave} instead! */
-function ChatRoomMapLeave() { return ChatRoomMapViewLeave(); }
-/** @deprecated - Use {@link ChatRoomMapViewActivate} instead! */
-function ChatRoomMapActivate() { return ChatRoomMapViewActivate(); }
-/** @deprecated - Use {@link ChatRoomMapViewDeactivate} instead! */
-function ChatRoomMapDeactivate() { return ChatRoomMapViewDeactivate(); }
-/** @deprecated - Use {@link ChatRoomMapViewIsActive} instead! */
-function ChatRoomMapIsActive(){ return ChatRoomMapViewIsActive(); }
-/** @deprecated - Use {@link ChatRoomMapViewRun} instead! */
-function ChatRoomMapRun(){ return ChatRoomMapViewRun(); }
-/** @deprecated - Use {@link ChatRoomMapViewCanLeave} instead! */
-function ChatRoomMapCanLeave() { return ChatRoomMapViewCanLeave(); }
-/** @deprecated - Use {@link ChatRoomMapViewSyncRoomProperties} instead! */
-function ChatRoomMapSyncRoomProperties(data) { return ChatRoomMapViewSyncRoomProperties(data); }
-/** @deprecated - Use {@link ChatRoomMapViewIndexToCoordinates} instead! */
-function ChatRoomMapIndexToCoordinates(index) { return ChatRoomMapViewIndexToCoordinates(index); }
-/** @deprecated - Use {@link ChatRoomMapViewCoordinatesToIndex} instead! */
-function ChatRoomMapCoordinatesToIndex(x, y) { return ChatRoomMapViewCoordinatesToIndex(x, y); }
-/** @deprecated - Use {@link ChatRoomMapViewCalculatePerceptionMasks} instead! */
-function ChatRoomMapCalculatePerceptionMasks(){ return ChatRoomMapViewCalculatePerceptionMasks(); }
-/** @deprecated - Use {@link ChatRoomMapViewGetSightRange} instead! */
-function ChatRoomMapGetSightRange() { return ChatRoomMapViewGetSightRange(); }
-/** @deprecated - Use {@link ChatRoomMapViewGetHearingRange} instead! */
-function ChatRoomMapGetHearingRange() { return ChatRoomMapViewGetHearingRange(); }
-/** @deprecated - Use {@link ChatRoomMapViewCharacterIsVisible} instead! */
-function ChatRoomMapCharacterIsVisible(C) { return ChatRoomMapViewCharacterIsVisible(C); }
-/** @deprecated - Use {@link ChatRoomMapViewCharacterIsHearable} instead! */
-function ChatRoomMapCharacterIsHearable(C) { return ChatRoomMapViewCharacterIsHearable(C); }
-/** @deprecated - Use {@link ChatRoomMapViewCharacterOnWhisperRange} instead! */
-function ChatRoomMapCharacterOnWhisperRange(C) { return ChatRoomMapViewCharacterOnWhisperRange(C); }
-/** @deprecated - Use {@link ChatRoomMapViewCharacterOnInteractionRange} instead! */
-function ChatRoomMapCharacterOnInteractionRange(C) { return ChatRoomMapViewCharacterOnInteractionRange(C); }
-/** @deprecated - Use {@link ChatRoomMapViewFindWallEffectTile} instead! */
-function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) { return ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE); }
-/** @deprecated - Use {@link ChatRoomMapViewIsWall} instead! */
-function ChatRoomMapIsWall(X, Y) { return ChatRoomMapViewIsWall(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewGetTileAtPos} instead! */
-function ChatRoomMapGetTileAtPos(X, Y) { return ChatRoomMapViewGetTileAtPos(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewGetObjectAtPos} instead! */
-function ChatRoomMapGetObjectAtPos(X, Y) { return ChatRoomMapViewGetObjectAtPos(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewCanEnterWall} instead! */
-function ChatRoomMapCanEnterWall(X, Y) { return ChatRoomMapViewCanEnterWall(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewWallEffect} instead! */
-function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) { return ChatRoomMapViewWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight); }
-/** @deprecated - Use {@link ChatRoomMapViewFloorWallEffect} instead! */
-function ChatRoomMapFloorWallEffect(X, Y) { return ChatRoomMapViewFloorWallEffect(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewCollision} instead! */
-function ChatRoomMapCollision() { return ChatRoomMapViewCollision(); }
-/** @deprecated - Use {@link ChatRoomMapViewGetCharacterAtPos} instead! */
-function ChatRoomMapGetCharacterAtPos(X, Y) { return ChatRoomMapViewGetCharacterAtPos(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewGetEntryFlagPosition} instead! */
-function ChatRoomMapGetEntryFlagPosition() { return ChatRoomMapViewGetEntryFlagPosition(); }
-/** @deprecated - Use {@link ChatRoomMapViewDrawGrid} instead! */
-function ChatRoomMapDrawGrid(Left, Top, Width, Height) { return ChatRoomMapViewDrawGrid(Left, Top, Width, Height); }
-/** @deprecated - Use {@link ChatRoomMapViewUpdateFlag} instead! */
-function ChatRoomMapUpdateFlag() { return ChatRoomMapViewUpdateFlag(); }
-/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerFlag} instead! */
-function ChatRoomMapUpdatePlayerFlag(UpdateTimeOffset = 0) { return ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset); }
-/** @deprecated - Use {@link ChatRoomMapViewUpdateRoomSync} instead! */
-function ChatRoomMapUpdateRoomSync() { return ChatRoomMapViewUpdateRoomSync(); }
-/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerSync} instead! */
-function ChatRoomMapUpdatePlayerSync() { return ChatRoomMapViewUpdatePlayerSync(); }
-/** @deprecated - Use {@link ChatRoomMapViewSyncMapData} instead! */
-function ChatRoomSyncMapData(data) { return ChatRoomMapViewSyncMapData(data); }
-/** @deprecated - Use {@link ChatRoomMapViewUpdateLastMapDataSync} instead! */
-function ChatRoomMapUpdateLastMapDataSync() { return ChatRoomMapViewUpdateLastMapDataSync(); }
-/** @deprecated - Use {@link ChatRoomMapViewMovementProcess} instead! */
-function ChatRoomMapMovementProcess() { return ChatRoomMapViewMovementProcess(); }
-/** @deprecated - Use {@link ChatRoomMapViewLeash} instead! */
-function ChatRoomMapLeash() { return ChatRoomMapViewLeash(); }
-/** @deprecated - Use {@link ChatRoomMapViewDraw} instead! */
-function ChatRoomMapDraw() { return ChatRoomMapViewDraw(); }
-/** @deprecated - Use {@link ChatRoomMapViewCanEnterTile} instead! */
-function ChatRoomMapCanEnterTile(X, Y) { return ChatRoomMapViewCanEnterTile(X, Y); }
-/** @deprecated - Use {@link ChatRoomMapViewMove} instead! */
-function ChatRoomMapMove(D) { return ChatRoomMapViewMove(D); }
-/** @deprecated - Use {@link ChatRoomMapViewUndo} instead! */
-function ChatRoomMapUndo() { return ChatRoomMapViewUndo(); }
-/** @deprecated - Use {@link ChatRoomMapViewKeyDown} instead! */
-function ChatRoomMapKeyDown(event) { return ChatRoomMapViewKeyDown(event); }
-/** @deprecated - Use {@link ChatRoomMapViewClick} instead! */
-function ChatRoomMapClick() { return ChatRoomMapViewClick(); }
-/** @deprecated - Use {@link ChatRoomMapViewMouseDown} instead! */
-function ChatRoomMapMouseDown() { return ChatRoomMapViewMouseDown(); }
-/** @deprecated - Use {@link ChatRoomMapViewMouseMove} instead! */
-function ChatRoomMapMouseMove() { return ChatRoomMapViewMouseMove(); }
-/** @deprecated - Use {@link ChatRoomMapViewMouseUp} instead! */
-function ChatRoomMapMouseUp() { return ChatRoomMapViewMouseUp(); }
-/** @deprecated - Use {@link ChatRoomMapViewMouseWheel} instead! */
-function ChatRoomMapMouseWheel(Event) { ChatRoomMapViewMouseWheel(Event); }
-/** @deprecated - Use {@link ChatRoomMapVirewCopy} instead! */
-function ChatRoomMapCopy() {return ChatRoomMapViewCopy(); }
-/** @deprecated - Use {@link ChatRoomMapViewPaste} instead! */
-function ChatRoomMapPaste(Param) { return ChatRoomMapViewPaste(Param); }
-/** @deprecated - Use {@link ChatRoomMapViewWhisperValid} instead! */
-function ChatRoomMapWhisperValid() { return ChatRoomMapViewWhisperValid(); }
+//---Deprecated Functions of R101---
+CommonDeprecateFunction("ChatRoomMapHasSuperPowers", ChatRoomMapViewHasSuperPowers);
+CommonDeprecateFunction("ChatRoomMapInitialize", ChatRoomMapViewInitialize);
+CommonDeprecateFunction("ChatRoomMapInitializeCharacter", ChatRoomMapViewInitializeCharacter);
+CommonDeprecateFunction("ChatRoomMapValidatePos", ChatRoomMapViewValidatePos);
+CommonDeprecateFunction("ChatRoomMapLeave", ChatRoomMapViewLeave);
+CommonDeprecateFunction("ChatRoomMapActivate", ChatRoomMapViewActivate);
+CommonDeprecateFunction("ChatRoomMapDeactivate", ChatRoomMapViewDeactivate);
+CommonDeprecateFunction("ChatRoomMapIsActive", ChatRoomMapViewIsActive);
+CommonDeprecateFunction("ChatRoomMapRun", ChatRoomMapViewRun);
+CommonDeprecateFunction("ChatRoomMapCanLeave", ChatRoomMapViewCanLeave);
+CommonDeprecateFunction("ChatRoomMapSyncRoomProperties", ChatRoomMapViewSyncRoomProperties);
+CommonDeprecateFunction("ChatRoomMapIndexToCoordinates", ChatRoomMapViewIndexToCoordinates);
+CommonDeprecateFunction("ChatRoomMapCoordinatesToIndex", ChatRoomMapViewCoordinatesToIndex);
+CommonDeprecateFunction("ChatRoomMapCalculatePerceptionMasks", ChatRoomMapViewCalculatePerceptionMasks);
+CommonDeprecateFunction("ChatRoomMapGetSightRange", ChatRoomMapViewGetSightRange);
+CommonDeprecateFunction("ChatRoomMapGetHearingRange", ChatRoomMapViewGetHearingRange);
+CommonDeprecateFunction("ChatRoomMapCharacterIsVisible", ChatRoomMapViewCharacterIsVisible);
+CommonDeprecateFunction("ChatRoomMapCharacterIsHearable", ChatRoomMapViewCharacterIsHearable);
+CommonDeprecateFunction("ChatRoomMapCharacterOnWhisperRange", ChatRoomMapViewCharacterOnWhisperRange);
+CommonDeprecateFunction("ChatRoomMapCharacterOnInteractionRange", ChatRoomMapViewCharacterOnInteractionRange);
+CommonDeprecateFunction("ChatRoomMapFindWallEffectTile", ChatRoomMapViewFindWallEffectTile);
+CommonDeprecateFunction("ChatRoomMapIsWall", ChatRoomMapViewIsWall);
+CommonDeprecateFunction("ChatRoomMapGetTileAtPos", ChatRoomMapViewGetTileAtPos);
+CommonDeprecateFunction("ChatRoomMapGetObjectAtPos", ChatRoomMapViewGetObjectAtPos);
+CommonDeprecateFunction("ChatRoomMapCanEnterWall", ChatRoomMapViewCanEnterWall);
+CommonDeprecateFunction("ChatRoomMapWallEffect", ChatRoomMapViewFloorWallEffect);
+CommonDeprecateFunction("ChatRoomMapCollision", ChatRoomMapViewCollision);
+CommonDeprecateFunction("ChatRoomMapGetCharacterAtPos", ChatRoomMapViewGetCharacterAtPos);
+CommonDeprecateFunction("ChatRoomMapGetEntryFlagPosition", ChatRoomMapViewGetEntryFlagPosition);
+CommonDeprecateFunction("ChatRoomMapDrawGrid", ChatRoomMapViewDrawGrid);
+CommonDeprecateFunction("ChatRoomMapUpdateFlag", ChatRoomMapViewUpdateFlag);
+CommonDeprecateFunction("ChatRoomMapUpdatePlayerFlag", ChatRoomMapViewUpdatePlayerFlag);
+CommonDeprecateFunction("ChatRoomMapUpdateRoomSync", ChatRoomMapViewUpdateRoomSync);
+CommonDeprecateFunction("ChatRoomMapUpdatePlayerSync", ChatRoomMapViewUpdatePlayerSync);
+CommonDeprecateFunction("ChatRoomSyncMapData", ChatRoomMapViewSyncMapData);
+CommonDeprecateFunction("ChatRoomMapUpdateLastMapDataSync", ChatRoomMapViewUpdateLastMapDataSync);
+CommonDeprecateFunction("ChatRoomMapMovementProcess", ChatRoomMapViewMovementProcess);
+CommonDeprecateFunction("ChatRoomMapLeash", ChatRoomMapViewLeash);
+CommonDeprecateFunction("ChatRoomMapDraw", ChatRoomMapViewDraw);
+CommonDeprecateFunction("ChatRoomMapCanEnterTile", ChatRoomMapViewCanEnterTile);
+CommonDeprecateFunction("ChatRoomMapMove", ChatRoomMapViewMove);
+
+
+CommonDeprecateFunction("ChatRoomMapUndo", ChatRoomMapViewUndo);
+CommonDeprecateFunction("ChatRoomMapKeyDown", ChatRoomMapViewKeyDown);
+CommonDeprecateFunction("ChatRoomMapClick", ChatRoomMapViewClick);
+CommonDeprecateFunction("ChatRoomMapMouseDown", ChatRoomMapViewMouseDown);
+CommonDeprecateFunction("ChatRoomMapMouseMove", ChatRoomMapViewMouseMove);
+CommonDeprecateFunction("ChatRoomMapMouseUp", ChatRoomMapViewMouseUp);
+CommonDeprecateFunction("ChatRoomMapMouseWheel", ChatRoomMapViewMouseWheel);
+CommonDeprecateFunction("ChatRoomMapCopy", ChatRoomMapViewCopy);
+CommonDeprecateFunction("ChatRoomMapPaste", ChatRoomMapViewPaste);
+CommonDeprecateFunction("ChatRoomMapWhisperValid", ChatRoomMapViewWhisperValid);

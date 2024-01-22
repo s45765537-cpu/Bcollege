@@ -7,7 +7,7 @@ var ChatRoomCharacterViewX_Lower = 0;
 var ChatRoomCharacterViewZoom = 1;
 var ChatRoomCharacterViewCharacterCount = 0;
 /** @type {null | number} */
-var ChatRoomCaracterViewMoveTarget = null;
+var ChatRoomCharacterViewMoveTarget = null;
 
 /**
  * The name of the chat room character view.
@@ -142,42 +142,42 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
 	}
 
 	// Moving character inside room
-	if (ChatRoomCaracterViewMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCaracterViewMoveTarget);
+	if (ChatRoomCharacterViewMoveTarget !== null) {
+		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCharacterViewMoveTarget);
 		if (MoveTargetPos < 0) {
-			ChatRoomCaracterViewMoveTarget = null;
+			ChatRoomCharacterViewMoveTarget = null;
 		} else {
 			if (Pos < MoveTargetPos && MouseIn(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Move left
 				for (let i = 0; i < MoveTargetPos - Pos; i++) {
 					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomCaracterViewMoveTarget,
+						MemberNumber: ChatRoomCharacterViewMoveTarget,
 						Action: "MoveLeft",
 						Publish: i === 0
 					});
 				}
-				ChatRoomCaracterViewMoveTarget = null;
+				ChatRoomCharacterViewMoveTarget = null;
 			} else if (MouseIn(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Swap or cancel
-				if (ChatRoomCaracterViewMoveTarget !== C.MemberNumber) {
+				if (ChatRoomCharacterViewMoveTarget !== C.MemberNumber) {
 					ServerSend("ChatRoomAdmin", {
 						MemberNumber: Player.ID,
-						TargetMemberNumber: ChatRoomCaracterViewMoveTarget,
+						TargetMemberNumber: ChatRoomCharacterViewMoveTarget,
 						DestinationMemberNumber: C.MemberNumber,
 						Action: "Swap"
 					});
 				}
-				ChatRoomCaracterViewMoveTarget = null;
+				ChatRoomCharacterViewMoveTarget = null;
 			} else if ( Pos > MoveTargetPos && MouseIn(CharX + 300 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Move right
 				for (let i = 0; i < Pos - MoveTargetPos; i++) {
 					ServerSend("ChatRoomAdmin", {
-						MemberNumber: ChatRoomCaracterViewMoveTarget,
+						MemberNumber: ChatRoomCharacterViewMoveTarget,
 						Action: "MoveRight",
 						Publish: i === 0
 					});
 				}
-				ChatRoomCaracterViewMoveTarget = null;
+				ChatRoomCharacterViewMoveTarget = null;
 			}
 			return;
 		}
@@ -437,12 +437,12 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
 	}
 
-	if (ChatRoomCaracterViewMoveTarget !== null) {
-		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCaracterViewMoveTarget);
+	if (ChatRoomCharacterViewMoveTarget !== null) {
+		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCharacterViewMoveTarget);
 		if (MoveTargetPos < 0) {
-			ChatRoomCaracterViewMoveTarget = null;
+			ChatRoomCharacterViewMoveTarget = null;
 		} else {
-			if (ChatRoomCaracterViewMoveTarget === C.MemberNumber) {
+			if (ChatRoomCharacterViewMoveTarget === C.MemberNumber) {
 				DrawButton(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
 				DrawImageResize("Icons/Remove.png", CharX + 202 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
 			} else {
@@ -463,90 +463,19 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 
 /** Deprecated names for compatibility */
 
-/** @deprecated - Use {@link ChatRoomCharacterViewInitialize} instead! */
-var ChatRoomCharacterInitialize = ChatRoomCharacterViewInitialize;
-/** @deprecated - Use {@link ChatRoomCharacterViewX_Upper} instead! */
-var ChatRoomCharacterX_Upper = ChatRoomCharacterViewX_Upper;
-/** @deprecated - Use {@link ChatRoomCharacterViewX_Lower} instead! */
-var ChatRoomCharacterX_Lower = ChatRoomCharacterViewX_Lower;
-/** @deprecated - Use {@link ChatRoomCharacterViewZoom} instead! */
-var ChatRoomCharacterZoom = ChatRoomCharacterViewZoom;
-/** @deprecated - Use {@link ChatRoomCharacterViewSlideWeight} instead! */
-var ChatRoomSlideWeight = ChatRoomCharacterViewSlideWeight;
-/** @deprecated - Use {@link ChatRoomCharacterViewCharacterCount} instead! */
-var ChatRoomCharacterCount = ChatRoomCharacterViewCharacterCount;
-/** @deprecated - Use {@link ChatRoomCaracterViewMoveTarget} instead! */
-var ChatRoomMoveTarget = ChatRoomCaracterViewMoveTarget;
+//---Deprecated Variables of R101---
+CommonProperty("ChatRoomCharacterInitialize", () => ChatRoomCharacterViewInitialize, (value) => ChatRoomCharacterViewInitialize = value);
+CommonProperty("ChatRoomCharacterX_Upper", () => ChatRoomCharacterViewX_Upper, (value) => ChatRoomCharacterViewX_Upper = value);
+CommonProperty("ChatRoomCharacterX_Lower", () => ChatRoomCharacterViewX_Lower, (value) => ChatRoomCharacterViewX_Lower = value);
+CommonProperty("ChatRoomCharacterZoom", () => ChatRoomCharacterViewZoom, (value) => ChatRoomCharacterViewZoom = value);
+CommonProperty("ChatRoomSlideWeight", () => ChatRoomCharacterViewSlideWeight, (value) => ChatRoomCharacterViewSlideWeight = value);
+CommonProperty("ChatRoomCharacterCount", () => ChatRoomCharacterViewCharacterCount, (value) => ChatRoomCharacterViewCharacterCount = value);
+CommonProperty("ChatRoomMoveTarget", () => ChatRoomCharacterViewMoveTarget, (value) => ChatRoomCharacterViewMoveTarget = value);
 
-/**
- * Returns TRUE if the map button can be used
- * @deprecated - Use {@link ChatRoomCharacterViewShowMapButton} instead!
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomMapButton() {
-	return ChatRoomCharacterViewShowMapButton();
-}
-
-/**
- * Draws the chatroom characters.
- * @deprecated - Use {@link ChatRoomCharacterViewDraw} instead!
- * @returns {void} - Nothing.
- */
-function ChatRoomDrawCharacter() {
-	return ChatRoomCharacterViewDraw();
-}
-
-/**
- * Draw the background of a chat room
- * @deprecated - Use {@link ChatRoomCharacterViewDrawBackground} instead!
- * @param {string} Background - The name of the background image file
- * @param {number} Y - The starting Y co-ordinate of the image
- * @param {number} Zoom - The zoom factor based on the number of characters
- * @param {number} DarkFactor - The value (0 = fully visible, 1 = black) to tint the background
- * @param {boolean} InvertRoom - Whether the background image should be inverted
- * @returns {void} - Nothing
- */
-function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
-{
-	return ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
-}
-
-/**
- * Iterate over a room's characters
- *
- * This function takes a callback it will call for each character in turn after having
- * calculated their respective drawing parameters (location), accounting for the smooth zoom effect
- * @deprecated - Use {@link ChatRoomCharacterViewLoopCharacters} instead!
- * @param {(charIdx: number, charX: number, charY: number, space: number, zoom: number) => boolean | void} callback
- */
-function ChatRoomLoopCharacters(callback) {
-	return ChatRoomCharacterViewLoopCharacters(callback);
-}
-
-/**
- * Draws any overlays on top of character
- * @deprecated - Use {@link ChatRoomCharacterViewDrawOverlay} instead!
- * @param {Character} C The target character
- * @param {number} CharX Character's X position on canvas
- * @param {number} CharY Character's Y position on canvas
- * @param {number} Zoom Room zoom
- * @param {number} Pos Index of target character
- */
-function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
-	return ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos);
-}
-
-/**
- * Called when character is clicked
- * @deprecated - Use {@link ChatRoomCharacterViewClickCharacter} instead!
- * @param {Character} C The target character
- * @param {number} CharX Character's X position on canvas
- * @param {number} CharY Character's Y position on canvas
- * @param {number} Zoom Room zoom
- * @param {number} ClickX Click X postion relative to character, without zoom
- * @param {number} ClickY Click Y postion relative to character, without zoom
- * @param {number} Pos Index of target character
- */
-function ChatRoomClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
-	return ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos);
-}
+//---Deprecated Functions of R101---
+CommonDeprecateFunction("ChatRoomMapButton", ChatRoomCharacterViewShowMapButton);
+CommonDeprecateFunction("ChatRoomDrawCharacter", ChatRoomCharacterViewDraw);
+CommonDeprecateFunction("ChatRoomDrawBackground", ChatRoomCharacterViewDrawBackground);
+CommonDeprecateFunction("ChatRoomLoopCharacters", ChatRoomCharacterViewLoopCharacters);
+CommonDeprecateFunction("ChatRoomDrawCharacterOverlay", ChatRoomCharacterViewDrawOverlay);
+CommonDeprecateFunction("ChatRoomClickCharacter", ChatRoomCharacterViewClickCharacter);
