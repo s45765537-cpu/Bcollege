@@ -4101,3 +4101,7 @@ declare const CharacterLoadPose: never;
 declare const AssetPoseToMapping: never;
 /** @deprecated superseded by {@link InventoryPrerequisiteConflicts.GagPrerequisite} */
 declare const InventoryPrerequisiteConflictingGags: never;
+/** @deprecated the chat log is now hidden via {@link ChatRoomHideElements}; use {@link ChatRoomShowElements} to unhide it */
+declare const RelogChatLog: never;
+/** @deprecated the chat log is now hidden via {@link ChatRoomHideElements}; use {@link ChatRoomShowElements} to unhide it */
+declare const RelogInputText: never;

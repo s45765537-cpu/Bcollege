@@ -853,15 +853,7 @@ function ChatRoomCreateElement() {
 		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
-
-		// If we relog, we reload the previous chat log
-		if (RelogChatLog != null) {
-			while (RelogChatLog.children.length > 0)
-				document.getElementById("TextAreaChatLog").appendChild(RelogChatLog.children[0]);
-			ElementValue("InputChat", RelogInputText);
-			RelogChatLog = null;
-			RelogInputText = "";
-		} else ElementContent("TextAreaChatLog", "");
+		ElementContent("TextAreaChatLog", "");
 
 		// Creates listener for resize events.
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);

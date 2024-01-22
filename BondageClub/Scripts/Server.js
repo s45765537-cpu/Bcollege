@@ -212,17 +212,10 @@ function ServerDisconnect(data, close = false) {
 
 			// Exits out of the chat room or a sub screen of the chatroom, so we'll be able to get in again when we log back
 			if (ServerPlayerIsInChatRoom()) {
-				RelogChatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog").cloneNode(true));
-				RelogChatLog.id = "RelogChatLog";
-				RelogInputText = ElementValue("InputChat").trim();
-				ElementRemove("InputChat");
-				ElementRemove("TextAreaChatLog");
+				ChatRoomHideElements();
 				CurrentScreen = "ChatSearch";
 				CurrentModule = "Online";
 				CurrentCharacter = null;
-			} else {
-				RelogChatLog = null;
-				RelogInputText = "";
 			}
 
 			// Keeps the relog data
