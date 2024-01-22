@@ -72,7 +72,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
-		 * @type {Map<string, object>}
+		 * @type {Map<keyof ServerAccountUpdateRequest, any>}
 		 */
 		this.Queue = new Map;
 		/**
@@ -104,11 +104,11 @@ var ServerAccountUpdate = new class AccountUpdater {
 
 	/**
 	 * Queues a data to be synced at a later time
-	 * @param {object} Data
-	 * @param {true} [Force] - force immediate sync to server
+	 * @param {ServerAccountUpdateRequest} Data
+	 * @param {boolean} [Force] - force immediate sync to server
 	 */
-	QueueData(Data, Force) {
-		for (const [key, value] of Object.entries(Data)) {
+	QueueData(Data, Force=true) {
+		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
 
@@ -320,6 +320,7 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
+	/** @type {Partial<Record<AssetGroupName, string[]>>} */
 	const Inv = {};
 	for (let I = 0; I < Player.Inventory.length; I++) {
 		if (Player.Inventory[I].Asset != null) {
