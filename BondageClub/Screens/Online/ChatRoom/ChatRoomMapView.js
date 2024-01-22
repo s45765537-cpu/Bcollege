@@ -1722,173 +1722,173 @@ function ChatRoomMapViewWhisperValid() {
 /** Deprecated names for compatibility */
 
 //---Deprecated Variables---
-/** !Deprecated! - Use ChatRoomIsViewActive() and ChatRoomActivateView(viewName) instead! */
+/** @deprecated - Use {@link ChatRoomIsViewActive} and {@link ChatRoomActivateView} instead! */
 var ChatRoomMapVisible = false;
-/** !Deprecated! - Use ChatRoomMapViewWidth instead! */
+/** @deprecated - Use {@link ChatRoomMapViewWidth} instead! */
 var ChatRoomMapWidth = ChatRoomMapViewWidth;
-/** !Deprecated! - Use ChatRoomMapViewWidth instead! */
+/** @deprecated - Use {@link ChatRoomMapViewWidth} instead! */
 var ChatRoomMapHeight = ChatRoomMapViewHeight;
-/** !Deprecated! - Use ChatRoomMapViewPerceptionRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewPerceptionRange} instead! */
 var ChatRoomMapViewRange = ChatRoomMapViewPerceptionRange;
-/** !Deprecated! - Use ChatRoomMapViewPerceptionRangeMin instead! */
+/** @deprecated - Use {@link ChatRoomMapViewPerceptionRangeMin} instead! */
 var ChatRoomMapViewRangeMin = ChatRoomMapViewPerceptionRangeMin;
-/** !Deprecated! - Use ChatRoomMapViewPerceptionRangeMax instead! */
+/** @deprecated - Use {@link ChatRoomMapViewPerceptionRangeMax} instead! */
 var ChatRoomMapViewRangeMax = ChatRoomMapViewPerceptionRangeMax;
-/** !Deprecated! - Use ChatRoomMapViewObjectStartID instead! */
+/** @deprecated - Use {@link ChatRoomMapViewObjectStartID} instead! */
 var ChatRoomMapObjectStartID = ChatRoomMapViewObjectStartID;
-/** !Deprecated! - Use ChatRoomMapViewObjectEntryID instead! */
+/** @deprecated - Use {@link ChatRoomMapViewObjectEntryID} instead! */
 var ChatRoomMapObjectEntryID = ChatRoomMapViewObjectEntryID;
-/** !Deprecated! - Use ChatRoomMapViewEditMode instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditMode} instead! */
 var ChatRoomMapEditMode = ChatRoomMapViewEditMode;
-/** !Deprecated! - Use ChatRoomMapViewEditSubMode instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditSubMode} instead! */
 var ChatRoomMapEditSubMode = ChatRoomMapViewEditSubMode;
-/** !Deprecated! - Use ChatRoomMapViewEditStarted instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditStarted} instead! */
 var ChatRoomMapEditStarted = ChatRoomMapViewEditStarted;
-/** !Deprecated! - Use ChatRoomMapViewEditObject instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditObject} instead! */
 var ChatRoomMapEditObject = ChatRoomMapViewEditObject;
-/** !Deprecated! - Use ChatRoomMapViewEditSelection instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditSelection} instead! */
 var ChatRoomMapEditSelection = ChatRoomMapViewEditSelection;
-/** !Deprecated! - Use ChatRoomMapViewEditRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditRange} instead! */
 var ChatRoomMapEditRange = ChatRoomMapViewEditRange;
-/** !Deprecated! - Use ChatRoomMapViewEditBackup instead! */
+/** @deprecated - Use {@link ChatRoomMapViewEditBackup} instead! */
 var ChatRoomMapEditBackup = ChatRoomMapViewEditBackup;
-/** !Deprecated! - Use ChatRoomMapViewUpdateRoomNext instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdateRoomNext} instead! */
 var ChatRoomMapUpdateRoomNext = ChatRoomMapViewUpdateRoomNext;
-/** !Deprecated! - Use ChatRoomMapViewUpdatePlayerNext instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerNext} instead! */
 var ChatRoomMapUpdatePlayerNext = ChatRoomMapViewUpdatePlayerNext;
-/** !Deprecated! - Use ChatRoomMapViewUpdateLastMapDataNext instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdateLastMapDataNext} instead! */
 var ChatRoomMapUpdateLastMapDataNext = ChatRoomMapViewUpdateLastMapDataNext;
-/** !Deprecated! - Use ChatRoomMapViewFocusedCharacter instead! */
+/** @deprecated - Use {@link ChatRoomMapViewFocusedCharacter} instead! */
 var ChatRoomMapFocusedCharacter = ChatRoomMapViewFocusedCharacter;
-/** !Deprecated! - Use ChatRoomMapViewSuperPowersActive instead! */
+/** @deprecated - Use {@link ChatRoomMapViewSuperPowersActive} instead! */
 var ChatRoomMapSuperPowersActive = ChatRoomMapViewSuperPowersActive;
-/** !Deprecated! - Use ChatRoomMapViewBaseMovementSpeed instead! */
+/** @deprecated - Use {@link ChatRoomMapViewBaseMovementSpeed} instead! */
 var ChatRoomMapBaseMovementSpeed = ChatRoomMapViewBaseMovementSpeed;
-/** !Deprecated! - Use ChatRoomMapViewMovement instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMovement} instead! */
 var ChatRoomMapMovement = ChatRoomMapViewMovement;
-/** !Deprecated! - Use ChatRoomMapViewTypeList instead! */
+/** @deprecated - Use {@link ChatRoomMapViewTypeList} instead! */
 var ChatRoomMapTypeList = ChatRoomMapViewTypeList;
-/** !Deprecated! - Use ChatRoomMapViewUpdatePlayerTime instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerTime} instead! */
 var ChatRoomMapUpdatePlayerTime = ChatRoomMapViewUpdatePlayerTime;
-/** !Deprecated! - Use ChatRoomMapViewPerceptionRaycastOffset instead! */
+/** @deprecated - Use {@link ChatRoomMapViewPerceptionRaycastOffset} instead! */
 const ChatRoomMapPerceptionRaycastOffset = ChatRoomMapViewPerceptionRaycastOffset;
-/** !Deprecated! - Use ChatRoomMapViewWhisperRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewWhisperRange} instead! */
 const ChatRoomMapWhisperRange = ChatRoomMapViewWhisperRange;
-/** !Deprecated! - Use ChatRoomMapViewInteractionRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewInteractionRange} instead! */
 const ChatRoomMapInteractionRange = ChatRoomMapViewInteractionRange;
-/** !Deprecated! - Use ChatRoomMapViewRemoteRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewRemoteRange} instead! */
 const ChatRoomMapRemoteRange = ChatRoomMapViewRemoteRange;
-/** !Deprecated! - Use ChatRoomMapViewVisibilityMask instead! */
+/** @deprecated - Use {@link ChatRoomMapViewVisibilityMask} instead! */
 var ChatRoomMapVisibilityMask = ChatRoomMapViewVisibilityMask;
-/** !Deprecated! - Use ChatRoomMapViewAudibilityMask instead! */
+/** @deprecated - Use {@link ChatRoomMapViewAudibilityMask} instead! */
 var ChatRoomMapAudibilityMask = ChatRoomMapViewAudibilityMask;
-/** !Deprecated! - Use ChatRoomMapViewTileList instead! */
+/** @deprecated - Use {@link ChatRoomMapViewTileList} instead! */
 const ChatRoomMapTileList = ChatRoomMapViewTileList;
-/** !Deprecated! - Use ChatRoomMapViewObjectList instead! */
+/** @deprecated - Use {@link ChatRoomMapViewObjectList} instead! */
 const ChatRoomMapObjectList = ChatRoomMapViewObjectList;
 
 //---Deprecated Functions---
-// /** !Deprecated! - Use ChatRoomMapViewHasSuperPowers instead! */
+/** @deprecated - Use {@link ChatRoomMapViewHasSuperPowers} instead! */
 function ChatRoomMapHasSuperPowers() { return ChatRoomMapViewHasSuperPowers(); }
-// /** !Deprecated! - Use ChatRoomMapViewInitialize instead! */
+/** @deprecated - Use {@link ChatRoomMapViewInitialize} instead! */
 function ChatRoomMapInitialize(mode) { return ChatRoomMapViewInitialize(mode); }
-// /** !Deprecated! - Use ChatRoomMapViewInitializeCharacter instead! */
+/** @deprecated - Use {@link ChatRoomMapViewInitializeCharacter} instead! */
 function ChatRoomMapInitializeCharacter(C){ return ChatRoomMapViewInitializeCharacter(C); }
-// /** !Deprecated! - Use ChatRoomMapViewValidatePos instead! */
+/** @deprecated - Use {@link ChatRoomMapViewValidatePos} instead! */
 function ChatRoomMapValidatePos(pos) { return ChatRoomMapViewValidatePos(pos); }
-// /** !Deprecated! - Use ChatRoomMapViewLeave instead! */
+/** @deprecated - Use {@link ChatRoomMapViewLeave} instead! */
 function ChatRoomMapLeave() { return ChatRoomMapViewLeave(); }
-// /** !Deprecated! - Use ChatRoomMapViewActivate instead! */
+/** @deprecated - Use {@link ChatRoomMapViewActivate} instead! */
 function ChatRoomMapActivate() { return ChatRoomMapViewActivate(); }
-// /** !Deprecated! - Use ChatRoomMapViewDeactivate instead! */
+/** @deprecated - Use {@link ChatRoomMapViewDeactivate} instead! */
 function ChatRoomMapDeactivate() { return ChatRoomMapViewDeactivate(); }
-// /** !Deprecated! - Use ChatRoomMapViewIsActive instead! */
+/** @deprecated - Use {@link ChatRoomMapViewIsActive} instead! */
 function ChatRoomMapIsActive(){ return ChatRoomMapViewIsActive(); }
-// /** !Deprecated! - Use ChatRoomMapViewRun instead! */
+/** @deprecated - Use {@link ChatRoomMapViewRun} instead! */
 function ChatRoomMapRun(){ return ChatRoomMapViewRun(); }
-// /** !Deprecated! - Use ChatRoomMapViewCanLeave instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCanLeave} instead! */
 function ChatRoomMapCanLeave() { return ChatRoomMapViewCanLeave(); }
-// /** !Deprecated! - Use ChatRoomMapViewSyncRoomProperties instead! */
+/** @deprecated - Use {@link ChatRoomMapViewSyncRoomProperties} instead! */
 function ChatRoomMapSyncRoomProperties(data) { return ChatRoomMapViewSyncRoomProperties(data); }
-// /** !Deprecated! - Use ChatRoomMapViewIndexToCoordinates instead! */
+/** @deprecated - Use {@link ChatRoomMapViewIndexToCoordinates} instead! */
 function ChatRoomMapIndexToCoordinates(index) { return ChatRoomMapViewIndexToCoordinates(index); }
-// /** !Deprecated! - Use ChatRoomMapViewCoordinatesToIndex instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCoordinatesToIndex} instead! */
 function ChatRoomMapCoordinatesToIndex(x, y) { return ChatRoomMapViewCoordinatesToIndex(x, y); }
-// /** !Deprecated! - Use ChatRoomMapViewCalculatePerceptionMasks instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCalculatePerceptionMasks} instead! */
 function ChatRoomMapCalculatePerceptionMasks(){ return ChatRoomMapViewCalculatePerceptionMasks(); }
-// /** !Deprecated! - Use ChatRoomMapViewGetSightRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetSightRange} instead! */
 function ChatRoomMapGetSightRange() { return ChatRoomMapViewGetSightRange(); }
-// /** !Deprecated! - Use ChatRoomMapViewGetHearingRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetHearingRange} instead! */
 function ChatRoomMapGetHearingRange() { return ChatRoomMapViewGetHearingRange(); }
-// /** !Deprecated! - Use ChatRoomMapViewCharacterIsVisible instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCharacterIsVisible} instead! */
 function ChatRoomMapCharacterIsVisible(C) { return ChatRoomMapViewCharacterIsVisible(C); }
-// /** !Deprecated! - Use ChatRoomMapViewCharacterIsHearable instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCharacterIsHearable} instead! */
 function ChatRoomMapCharacterIsHearable(C) { return ChatRoomMapViewCharacterIsHearable(C); }
-// /** !Deprecated! - Use ChatRoomMapViewCharacterOnWhisperRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCharacterOnWhisperRange} instead! */
 function ChatRoomMapCharacterOnWhisperRange(C) { return ChatRoomMapViewCharacterOnWhisperRange(C); }
-// /** !Deprecated! - Use ChatRoomMapViewCharacterOnInteractionRange instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCharacterOnInteractionRange} instead! */
 function ChatRoomMapCharacterOnInteractionRange(C) { return ChatRoomMapViewCharacterOnInteractionRange(C); }
-// /** !Deprecated! - Use ChatRoomMapViewFindWallEffectTile instead! */
+/** @deprecated - Use {@link ChatRoomMapViewFindWallEffectTile} instead! */
 function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) { return ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE); }
-// /** !Deprecated! - Use ChatRoomMapViewIsWall instead! */
+/** @deprecated - Use {@link ChatRoomMapViewIsWall} instead! */
 function ChatRoomMapIsWall(X, Y) { return ChatRoomMapViewIsWall(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewGetTileAtPos instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetTileAtPos} instead! */
 function ChatRoomMapGetTileAtPos(X, Y) { return ChatRoomMapViewGetTileAtPos(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewGetObjectAtPos instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetObjectAtPos} instead! */
 function ChatRoomMapGetObjectAtPos(X, Y) { return ChatRoomMapViewGetObjectAtPos(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewCanEnterWall instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCanEnterWall} instead! */
 function ChatRoomMapCanEnterWall(X, Y) { return ChatRoomMapViewCanEnterWall(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewWallEffect instead! */
+/** @deprecated - Use {@link ChatRoomMapViewWallEffect} instead! */
 function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) { return ChatRoomMapViewWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight); }
-// /** !Deprecated! - Use ChatRoomMapViewFloorWallEffect instead! */
+/** @deprecated - Use {@link ChatRoomMapViewFloorWallEffect} instead! */
 function ChatRoomMapFloorWallEffect(X, Y) { return ChatRoomMapViewFloorWallEffect(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewCollision instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCollision} instead! */
 function ChatRoomMapCollision() { return ChatRoomMapViewCollision(); }
-// /** !Deprecated! - Use ChatRoomMapViewGetCharacterAtPos instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetCharacterAtPos} instead! */
 function ChatRoomMapGetCharacterAtPos(X, Y) { return ChatRoomMapViewGetCharacterAtPos(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewGetEntryFlagPosition instead! */
+/** @deprecated - Use {@link ChatRoomMapViewGetEntryFlagPosition} instead! */
 function ChatRoomMapGetEntryFlagPosition() { return ChatRoomMapViewGetEntryFlagPosition(); }
-// /** !Deprecated! - Use ChatRoomMapViewDrawGrid instead! */
+/** @deprecated - Use {@link ChatRoomMapViewDrawGrid} instead! */
 function ChatRoomMapDrawGrid(Left, Top, Width, Height) { return ChatRoomMapViewDrawGrid(Left, Top, Width, Height); }
-// /** !Deprecated! - Use ChatRoomMapViewUpdateFlag instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdateFlag} instead! */
 function ChatRoomMapUpdateFlag() { return ChatRoomMapViewUpdateFlag(); }
-// /** !Deprecated! - Use ChatRoomMapViewUpdatePlayerFlag instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerFlag} instead! */
 function ChatRoomMapUpdatePlayerFlag(UpdateTimeOffset = 0) { return ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset); }
-// /** !Deprecated! - Use ChatRoomMapViewUpdateRoomSync instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdateRoomSync} instead! */
 function ChatRoomMapUpdateRoomSync() { return ChatRoomMapViewUpdateRoomSync(); }
-// /** !Deprecated! - Use ChatRoomMapViewUpdatePlayerSync instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdatePlayerSync} instead! */
 function ChatRoomMapUpdatePlayerSync() { return ChatRoomMapViewUpdatePlayerSync(); }
-// /** !Deprecated! - Use ChatRoomMapViewSyncMapData instead! */
+/** @deprecated - Use {@link ChatRoomMapViewSyncMapData} instead! */
 function ChatRoomSyncMapData(data) { return ChatRoomMapViewSyncMapData(data); }
-// /** !Deprecated! - Use ChatRoomMapViewUpdateLastMapDataSync instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUpdateLastMapDataSync} instead! */
 function ChatRoomMapUpdateLastMapDataSync() { return ChatRoomMapViewUpdateLastMapDataSync(); }
-// /** !Deprecated! - Use ChatRoomMapViewMovementProcess instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMovementProcess} instead! */
 function ChatRoomMapMovementProcess() { return ChatRoomMapViewMovementProcess(); }
-// /** !Deprecated! - Use ChatRoomMapViewLeash instead! */
+/** @deprecated - Use {@link ChatRoomMapViewLeash} instead! */
 function ChatRoomMapLeash() { return ChatRoomMapViewLeash(); }
-// /** !Deprecated! - Use ChatRoomMapViewDraw instead! */
+/** @deprecated - Use {@link ChatRoomMapViewDraw} instead! */
 function ChatRoomMapDraw() { return ChatRoomMapViewDraw(); }
-// /** !Deprecated! - Use ChatRoomMapViewCanEnterTile instead! */
+/** @deprecated - Use {@link ChatRoomMapViewCanEnterTile} instead! */
 function ChatRoomMapCanEnterTile(X, Y) { return ChatRoomMapViewCanEnterTile(X, Y); }
-// /** !Deprecated! - Use ChatRoomMapViewMove instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMove} instead! */
 function ChatRoomMapMove(D) { return ChatRoomMapViewMove(D); }
-// /** !Deprecated! - Use ChatRoomMapViewUndo instead! */
+/** @deprecated - Use {@link ChatRoomMapViewUndo} instead! */
 function ChatRoomMapUndo() { return ChatRoomMapViewUndo(); }
-// /** !Deprecated! - Use ChatRoomMapViewKeyDown instead! */
+/** @deprecated - Use {@link ChatRoomMapViewKeyDown} instead! */
 function ChatRoomMapKeyDown(event) { return ChatRoomMapViewKeyDown(event); }
-// /** !Deprecated! - Use ChatRoomMapViewClick instead! */
+/** @deprecated - Use {@link ChatRoomMapViewClick} instead! */
 function ChatRoomMapClick() { return ChatRoomMapViewClick(); }
-// /** !Deprecated! - Use ChatRoomMapViewMouseDown instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMouseDown} instead! */
 function ChatRoomMapMouseDown() { return ChatRoomMapViewMouseDown(); }
-// /** !Deprecated! - Use ChatRoomMapViewMouseMove instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMouseMove} instead! */
 function ChatRoomMapMouseMove() { return ChatRoomMapViewMouseMove(); }
-// /** !Deprecated! - Use ChatRoomMapViewMouseUp instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMouseUp} instead! */
 function ChatRoomMapMouseUp() { return ChatRoomMapViewMouseUp(); }
-// /** !Deprecated! - Use ChatRoomMapViewMouseWheel instead! */
+/** @deprecated - Use {@link ChatRoomMapViewMouseWheel} instead! */
 function ChatRoomMapMouseWheel(Event) { ChatRoomMapViewMouseWheel(Event); }
-// /** !Deprecated! - Use ChatRoomMapVirewCopy instead! */
+/** @deprecated - Use {@link ChatRoomMapVirewCopy} instead! */
 function ChatRoomMapCopy() {return ChatRoomMapViewCopy(); }
-// /** !Deprecated! - Use ChatRoomMapViewPaste instead! */
+/** @deprecated - Use {@link ChatRoomMapViewPaste} instead! */
 function ChatRoomMapPaste(Param) { return ChatRoomMapViewPaste(Param); }
-// /** !Deprecated! - Use ChatRoomMapViewWhisperValid instead! */
+/** @deprecated - Use {@link ChatRoomMapViewWhisperValid} instead! */
 function ChatRoomMapWhisperValid() { return ChatRoomMapViewWhisperValid(); }

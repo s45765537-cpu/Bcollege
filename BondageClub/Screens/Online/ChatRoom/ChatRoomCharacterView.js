@@ -463,24 +463,24 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 
 /** Deprecated names for compatibility */
 
-/** !Deprecated! - Use ChatRoomCharacterViewInitialize() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewInitialize} instead! */
 var ChatRoomCharacterInitialize = ChatRoomCharacterViewInitialize;
-/** !Deprecated! - Use ChatRoomCharacterViewX_Upper() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewX_Upper} instead! */
 var ChatRoomCharacterX_Upper = ChatRoomCharacterViewX_Upper;
-/** !Deprecated! - Use ChatRoomCharacterViewX_Lower() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewX_Lower} instead! */
 var ChatRoomCharacterX_Lower = ChatRoomCharacterViewX_Lower;
-/** !Deprecated! - Use ChatRoomCharacterViewZoom() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewZoom} instead! */
 var ChatRoomCharacterZoom = ChatRoomCharacterViewZoom;
-/** !Deprecated! - Use ChatRoomCharacterViewSlideWeight() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewSlideWeight} instead! */
 var ChatRoomSlideWeight = ChatRoomCharacterViewSlideWeight;
-/** !Deprecated! - Use ChatRoomCharacterViewCharacterCount() instead! */
+/** @deprecated - Use {@link ChatRoomCharacterViewCharacterCount} instead! */
 var ChatRoomCharacterCount = ChatRoomCharacterViewCharacterCount;
-/** !Deprecated! - Use ChatRoomCaracterViewMoveTarget() instead! */
+/** @deprecated - Use {@link ChatRoomCaracterViewMoveTarget} instead! */
 var ChatRoomMoveTarget = ChatRoomCaracterViewMoveTarget;
 
 /**
  * Returns TRUE if the map button can be used
- * !Deprecated! - Use ChatRoomCharacterViewShowMapButton() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewShowMapButton} instead!
  * @returns {boolean} - TRUE if can be used
  */
 function ChatRoomMapButton() {
@@ -489,7 +489,7 @@ function ChatRoomMapButton() {
 
 /**
  * Draws the chatroom characters.
- * !Deprecated! - Use ChatRoomCharacterViewDraw() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewDraw} instead!
  * @returns {void} - Nothing.
  */
 function ChatRoomDrawCharacter() {
@@ -498,7 +498,7 @@ function ChatRoomDrawCharacter() {
 
 /**
  * Draw the background of a chat room
- * !Deprecated! - Use ChatRoomCharacterViewDrawBackground() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewDrawBackground} instead!
  * @param {string} Background - The name of the background image file
  * @param {number} Y - The starting Y co-ordinate of the image
  * @param {number} Zoom - The zoom factor based on the number of characters
@@ -516,7 +516,7 @@ function ChatRoomDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom)
  *
  * This function takes a callback it will call for each character in turn after having
  * calculated their respective drawing parameters (location), accounting for the smooth zoom effect
- * !Deprecated! - Use ChatRoomCharacterViewLoopCharacters() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewLoopCharacters} instead!
  * @param {(charIdx: number, charX: number, charY: number, space: number, zoom: number) => boolean | void} callback
  */
 function ChatRoomLoopCharacters(callback) {
@@ -525,7 +525,7 @@ function ChatRoomLoopCharacters(callback) {
 
 /**
  * Draws any overlays on top of character
- * !Deprecated! - Use ChatRoomCharacterViewDrawOverlay() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewDrawOverlay} instead!
  * @param {Character} C The target character
  * @param {number} CharX Character's X position on canvas
  * @param {number} CharY Character's Y position on canvas
@@ -538,7 +538,7 @@ function ChatRoomDrawCharacterOverlay(C, CharX, CharY, Zoom, Pos) {
 
 /**
  * Called when character is clicked
- * !Deprecated! - Use ChatRoomCharacterViewClickCharacter() instead!
+ * @deprecated - Use {@link ChatRoomCharacterViewClickCharacter} instead!
  * @param {Character} C The target character
  * @param {number} CharX Character's X position on canvas
  * @param {number} CharY Character's Y position on canvas
