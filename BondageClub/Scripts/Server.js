@@ -613,8 +613,8 @@ function ServerPlayerAppearanceSync() {
  */
 function ServerPrivateCharacterSync() {
 	if (PrivateVendor != null) {
-		var D = {};
-		D.PrivateCharacter = [];
+		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+		const D = { PrivateCharacter: [] };
 		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
 			var C = {
 				Name: PrivateCharacter[ID].Name,

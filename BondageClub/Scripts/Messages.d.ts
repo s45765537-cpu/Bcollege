@@ -55,6 +55,13 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: number; LastChange: number };
 	MapData?: ChatRoomMapData;
+	PrivateCharacter?: ServerPrivateCharacterData[];
+	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
+	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
+	RoomCreateLanguage?: ServerChatRoomLanguage;
+	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
+	LastMapData?: null | ChatRoomMapData;
+	LastChatRoom?: null | ServerChatRoomSettings;
 }
 
 interface ServerMapDataResponse {
@@ -91,6 +98,22 @@ interface ServerItemBundle {
 	Color?: ItemColor;
 	Property?: ItemProperties;
 	Craft?: CraftingItem;
+}
+
+interface ServerPrivateCharacterData {
+	Name: string;
+	Love: number;
+	Title: TitleName;
+	Trait: NPCTrait[];
+	Cage: boolean;
+	Owner: string;
+	Lover: string;
+	AssetFamily: "Female3DCG";
+	Appearance: ServerAppearanceBundle;
+	AppearanceFull: ServerAppearanceBundle;
+	ArousalSettings: ArousalSettingsType;
+	Event: NPCTrait[];
+	FromPandora?: boolean;
 }
 
 /** An AppearanceBundle is whole minified appearance of a character */
