@@ -937,9 +937,9 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		if (!Refresh && (JSON.stringify(Char.Crafting) !== JSON.stringify(data.Crafting))) Refresh = true;
 		if (!Refresh && Array.isArray(data.WhiteList) && (JSON.stringify(Char.WhiteList) !== JSON.stringify(data.WhiteList))) Refresh = true;
 		if (!Refresh && Array.isArray(data.BlackList) && (JSON.stringify(Char.BlackList) !== JSON.stringify(data.BlackList))) Refresh = true;
-		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != data.BlockItems.length)) Refresh = true;
-		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != data.LimitedItems.length)) Refresh = true;
-		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != data.FavoriteItems.length)) Refresh = true;
+		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != /** @type {ItemPermissions[]} */(data.BlockItems).length)) Refresh = true;
+		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != /** @type {ItemPermissions[]} */(data.LimitedItems).length)) Refresh = true;
+		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != /** @type {ItemPermissions[]} */(data.FavoriteItems).length)) Refresh = true;
 
 		// If we must refresh
 		if (Refresh) CharacterOnlineRefresh(Char, data, SourceMemberNumber);
