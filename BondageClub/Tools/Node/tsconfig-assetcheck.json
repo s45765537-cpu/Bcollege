@@ -16,6 +16,7 @@
 	],
 	"exclude": [
 		"../../Scripts/lib/**/*.js",
-		"../../Screens/MiniGame/KinkyDungeon/*"
+		"../../Screens/MiniGame/KinkyDungeon/*",
+		"../../Scripts/MessagesPatch.d.ts"
 	]
 }
