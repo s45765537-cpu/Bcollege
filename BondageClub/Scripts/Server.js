@@ -851,7 +851,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
  */
 var ServerAccountDataSyncedValidate = {
 	Title: (arg, C) => {
-		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
@@ -956,7 +956,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	BlockItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -965,7 +965,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	LimitedItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -974,7 +974,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	FavoriteItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {

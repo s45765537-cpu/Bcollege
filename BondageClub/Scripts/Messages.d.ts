@@ -10,8 +10,8 @@ interface ServerAccountImmutableData {
 	Creation: number;
 	Ownership?: ServerOwnership;
 	Lovership?: ServerLovership[];
-	ActivePose?: readonly string[];
-	Pose?: any;
+	ActivePose?: readonly AssetPoseName[];
+	Pose?: readonly AssetPoseName[];
 }
 
 interface ServerAccountData extends ServerAccountImmutableData {
@@ -21,37 +21,37 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	 */
 	Lover?: string;
 	Money: number;
-	Log?: any;
+	Log?: LogRecord[];
 	GhostList?: MemberNumber[];
 	BlackList: MemberNumber[];
 	FriendList: MemberNumber[];
 	WhiteList: MemberNumber[];
 	ItemPermission: number;
-	Skill?: any;
+	Skill?: Skill[];
 	Reputation?: { Type: string, Value: number }[];
-	Wardrobe?: any;
-	WardrobeCharacterNames?: any;
-	ChatSettings?: any;
-	VisualSettings?: any;
-	AudioSettings?: any;
-	GameplaySettings?: any;
-	ArousalSettings?: any;
-	OnlineSharedSettings?: any;
+	Wardrobe?: string;
+	WardrobeCharacterNames?: string[];
+	ChatSettings?: ChatSettingsType;
+	VisualSettings?: VisualSettingsType;
+	AudioSettings?: AudioSettingsType;
+	GameplaySettings?: GameplaySettingsType;
+	ArousalSettings?: ArousalSettingsType;
+	OnlineSharedSettings?: CharacterOnlineSharedSettings;
 	Game?: CharacterGameParameters;
 	LabelColor?: string;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;
-	BlockItems?: any[];
-	LimitedItems?: any[];
-	FavoriteItems?: any[];
-	HiddenItems?: any;
-	Title?: string;
+	BlockItems?: ItemPermissionsPacked | ItemPermissions[];
+	LimitedItems?: ItemPermissionsPacked | ItemPermissions[];
+	FavoriteItems?: ItemPermissionsPacked | ItemPermissions[];
+	HiddenItems?: ItemPermissions[];
+	Title?: TitleName;
 	Nickname?: string;
 	Crafting?: string;
-	Inventory?: string;
+	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
 	AssetFamily?: "Female3DCG";
-	Infiltration?: object; /* PlayerCharacter.Infiltration */
-	SavedColors?: object[]; /* HSVColor[] */
+	Infiltration?: InfiltrationType;
+	SavedColors?: HSVColor[];
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: number; LastChange: number };
 	MapData?: ChatRoomMapData;
