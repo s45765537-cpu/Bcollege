@@ -1204,6 +1204,34 @@ function testExtendedItemGroupName(extendedItemRecords, assets) {
 }
 
 /**
+ * Test that appropriate callbacks exist for:
+ * * {@link Asset.DynamicAfterDraw}
+ * * {@link Asset.DynamicBeforeDraw}
+ * * {@link Asset.DynamicScriptDraw}
+ * @param {readonly Asset[]} assets
+ * @param {Record<string, unknown>} window
+ */
+function testDrawCallbacks(assets, window) {
+	const propertyNames = /** @type {const} */({
+		AfterDraw: "DynamicAfterDraw",
+		BeforeDraw: "DynamicBeforeDraw",
+		ScriptDraw: "DynamicScriptDraw",
+	});
+
+	for (const asset of assets) {
+		for (const [funcSuffix, fieldName] of Object.entries(propertyNames)) {
+			const funcName = `Assets${asset.Group.Name}${asset.Name}${funcSuffix}`;
+			const func = window[funcName];
+			if (!asset[fieldName] && func !== undefined) {
+				error(`${asset.Group.Name}:${asset.Name}: cannot define "${funcName}" without specifying "Asset.${fieldName}"`);
+			} else if (asset[fieldName] && typeof func !== "function") {
+				error(`${asset.Group.Name}:${asset.Name}: cannot specify "Asset.${fieldName}" without defining "${funcName}"`);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1409,6 +1437,7 @@ function sanitizeVMOutput(input) {
 	}
 
 	testExtendedItemGroupName(AssetFemale3DCGExtended, assetList);
+	testDrawCallbacks(assetList, context);
 	testDynamicGroupName(AssetFemale3DCG);
 	testExtendedItemDialog(AssetFemale3DCGExtended, dialogArray);
 	testColorGroups(missingColorGroups);

@@ -108,25 +108,27 @@ var ExtendedItemSubscreen = null;
  * @param {null | ExtendedItemCallback<T, RT>} originalFunction
  */
 function ExtendedItemCreateCallback(data, name, originalFunction) {
-	const suffix = `${name[0].toUpperCase()}${name.slice(1)}`;
+	const suffix = CommonCapitalize(name);
 	const prefix = ["afterDraw", "beforeDraw", "scriptDraw"].includes(name) ? data.dynamicAssetsFunctionPrefix : data.functionPrefix;
 	const funcName = `${prefix}${suffix}`;
 	const scriptHook = /** @type {ExtendedItemScriptHookCallback<any, T, RT>} */(data.scriptHooks[name]);
 	if (scriptHook != null) {
 		/** @type {ExtendedItemCallback<T, RT>} */
-		window[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
+		globalThis[funcName] = (...args) => scriptHook(data, originalFunction, ...args);
 	} else if (originalFunction != null) {
-		window[funcName] = originalFunction;
+		globalThis[funcName] = originalFunction;
 	}
 }
 
 /**
  * Construct the extended item's archetypical callbacks and place them in the main namespace.
+ * Also sets {@link Asset.DynamicAfterDraw}, {@link Asset.DynamicScriptDraw} and/or {@link Asset.DynamicAfterDraw} if the appropriate callback is passed.
  * @template {ExtendedItemOption} T
  * @param {ExtendedItemData<T>} data - The extended item data
  * @param {ExtendedItemCallbackStruct<T>} defaults - The default archetypical callbacks
  */
 function ExtendedItemCreateCallbacks(data, defaults) {
+	const dynamicDrawNames = /** @type {const} */(["beforeDraw", "afterDraw", "scriptDraw"]);
 	/** @type {(keyof ExtendedItemCallbackStruct<T>)[]} */
 	const ExtendedItemCreate = [
 		"load",
@@ -137,9 +139,7 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 		"publishAction",
 		"init",
 		"setOption",
-		"beforeDraw",
-		"afterDraw",
-		"scriptDraw",
+		...dynamicDrawNames,
 	];
 
 	const extraKeys = CommonKeys(defaults).filter(i => !ExtendedItemCreate.includes(i));
@@ -148,6 +148,12 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 	}
 
 	ExtendedItemCreate.forEach(k => ExtendedItemCreateCallback(data, k, /** @type {ExtendedItemCallback<any[], any>} */(defaults[k])));
+	for (const name of dynamicDrawNames) {
+		if (data.scriptHooks[name] || defaults[name]) {
+			const asset = /** @type {Mutable<Asset>} */(data.asset);
+			asset[`Dynamic${CommonCapitalize(name)}`] = true;
+		}
+	}
 }
 
 /**
@@ -700,12 +706,12 @@ function ExtendItemGetIcons(C, Asset, Type=null, Effects=null) {
 function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
 	const npcDialogFunctionName = `${FunctionPrefix}NpcDialog`;
 	if (typeof NpcPrefix === "function") {
-		window[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			const Prefix = NpcPrefix(C, Option, PreviousOption);
 			C.CurrentDialog = DialogFind(C, Prefix, Asset.Group.Name);
 		};
 	} else {
-		window[npcDialogFunctionName] = function (C, Option, PreviousOption) {
+		globalThis[npcDialogFunctionName] = function (C, Option, PreviousOption) {
 			C.CurrentDialog = DialogFind(C, `${NpcPrefix}${Option.Name}`, Asset.Group.Name);
 		};
 	}

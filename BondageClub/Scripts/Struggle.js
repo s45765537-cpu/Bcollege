@@ -393,9 +393,9 @@ function StruggleMinigameHandleExpression(Decrease) {
 			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
 		}
 
-		// Each click accelerates ExpressionQueue timers 1 second. 
+		// Each click accelerates ExpressionQueue timers 1 second.
 		for (var i in Player.ExpressionQueue) {
-			Player.ExpressionQueue[i].Time += -1000
+			Player.ExpressionQueue[i].Time += -1000;
 		}
 	}
 }

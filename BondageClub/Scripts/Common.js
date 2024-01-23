@@ -1184,14 +1184,6 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 }
 
 /**
- * Return whether BC is running in a browser environment (as opposed to Node.js as used for the test suite).
- * @returns {boolean}
- */
-function IsBrowser() {
-	return typeof window !== "undefined" && typeof window.document !== "undefined";
-}
-
-/**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
  * @param {unknown} arg - The to-be validated object
  * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array
@@ -1523,4 +1515,14 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
 		},
 		set: function(val) { namespace[privateName] = val; },
 	});
+}
+
+/**
+ * Capitalize the first character of the passed string.
+ * @template {string} T
+ * @param {T} string
+ * @returns {Capitalize<T>}
+ */
+function CommonCapitalize(string) {
+	return /** @type {Capitalize<T>} */(string ? `${string[0].toUpperCase()}${string.slice(1)}` : "");
 }
