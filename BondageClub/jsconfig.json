@@ -7,5 +7,5 @@
 		"types": [],
 	},
 	"include": ["Scripts/**/*", "Screens/**/*", "Assets/**/*", "Backgrounds/**/*.js"],
-	"exclude": ["Scripts/lib/**/*.js"]
+	"exclude": ["Scripts/lib/**/*.js", "Scripts/MessagesPatch.d.ts"]
 }

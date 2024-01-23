@@ -1485,52 +1485,9 @@ interface ExtensionSettings {
 
 interface PlayerCharacter extends Character {
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
-	ChatSettings?: {
-		ColorActions: boolean;
-		ColorActivities: boolean;
-		ColorEmotes: boolean;
-		ColorNames: boolean;
-		ColorTheme: ChatColorThemeType;
-		DisplayTimestamps: boolean;
-		EnterLeave: ChatEnterLeaveType;
-		FontSize: ChatFontSizeType;
-		MemberNumbers: ChatMemberNumbersType;
-		MuStylePoses: boolean;
-		ShowActivities: boolean;
-		ShowAutomaticMessages: boolean;
-		ShowBeepChat: boolean;
-		ShowChatHelp: boolean;
-		ShrinkNonDialogue: boolean;
-		WhiteSpace: "" | "Preserve";
-		/** @deprecated */
-		AutoBanBlackList?: any;
-		/** @deprecated */
-		AutoBanGhostList?: any;
-		/** @deprecated */
-		SearchFriendsFirst?: any;
-		/** @deprecated */
-		DisableAnimations?: any;
-		/** @deprecated */
-		SearchShowsFullRooms?: any;
-		CensoredWordsList: string;
-		CensoredWordsLevel: number;
-	};
-	VisualSettings?: {
-		ForceFullHeight?: boolean;
-		UseCharacterInPreviews?: boolean;
-		MainHallBackground?: string;
-		PrivateRoomBackground?: string;
-	};
-	AudioSettings?: {
-		Volume: number;
-		MusicVolume: number;
-		PlayBeeps: boolean;
-		/** Play items sounds in chatrooms */
-		PlayItem: boolean;
-		/** Play sounds only if the player is involved */
-		PlayItemPlayerOnly: boolean;
-		Notifications: boolean;
-	};
+	ChatSettings?: ChatSettingsType;
+	VisualSettings?: VisualSettingsType;
+	AudioSettings?: AudioSettingsType;
 	ControllerSettings?: {
 		ControllerSensitivity: number;
 		ControllerDeadZone: number;
@@ -1548,15 +1505,7 @@ interface PlayerCharacter extends Character {
 		ControllerDPadRight: number;
 		ControllerActive: boolean;
 	};
-	GameplaySettings?: {
-		SensDepChatLog: SettingsSensDepName;
-		BlindDisableExamine: boolean;
-		DisableAutoRemoveLogin: boolean;
-		ImmersionLockSetting: boolean;
-		EnableSafeword: boolean;
-		DisableAutoMaid: boolean;
-		OfflineLockedRestrained: boolean;
-	};
+	GameplaySettings?: GameplaySettingsType;
 	ImmersionSettings?: {
 		BlockGaggedOOC: boolean;
 		StimulationEvents: boolean;
@@ -1636,6 +1585,65 @@ interface PlayerCharacter extends Character {
 	ExtensionSettings: ExtensionSettings;
 }
 
+interface ChatSettingsType {
+	ColorActions: boolean;
+	ColorActivities: boolean;
+	ColorEmotes: boolean;
+	ColorNames: boolean;
+	ColorTheme: ChatColorThemeType;
+	DisplayTimestamps: boolean;
+	EnterLeave: ChatEnterLeaveType;
+	FontSize: ChatFontSizeType;
+	MemberNumbers: ChatMemberNumbersType;
+	MuStylePoses: boolean;
+	ShowActivities: boolean;
+	ShowAutomaticMessages: boolean;
+	ShowBeepChat: boolean;
+	ShowChatHelp: boolean;
+	ShrinkNonDialogue: boolean;
+	WhiteSpace: "" | "Preserve";
+	/** @deprecated */
+	AutoBanBlackList?: any;
+	/** @deprecated */
+	AutoBanGhostList?: any;
+	/** @deprecated */
+	SearchFriendsFirst?: any;
+	/** @deprecated */
+	DisableAnimations?: any;
+	/** @deprecated */
+	SearchShowsFullRooms?: any;
+	CensoredWordsList: string;
+	CensoredWordsLevel: number;
+}
+
+interface GameplaySettingsType {
+	SensDepChatLog: SettingsSensDepName;
+	BlindDisableExamine: boolean;
+	DisableAutoRemoveLogin: boolean;
+	ImmersionLockSetting: boolean;
+	EnableSafeword: boolean;
+	DisableAutoMaid: boolean;
+	OfflineLockedRestrained: boolean;
+}
+
+interface AudioSettingsType {
+	Volume: number;
+	MusicVolume: number;
+	PlayBeeps: boolean;
+	/** Play items sounds in chatrooms */
+	PlayItem: boolean;
+	/** Play sounds only if the player is involved */
+	PlayItemPlayerOnly: boolean;
+	Notifications: boolean;
+}
+
+interface VisualSettingsType {
+	ForceFullHeight?: boolean;
+	UseCharacterInPreviews?: boolean;
+	MainHallBackground?: string;
+	PrivateRoomBackground?: string;
+}
+
 /**
  * The player's online settings.
  * @see {@link Player.OnlineSettings}
@@ -1654,16 +1662,18 @@ interface PlayerOnlineSettings {
 
 /** Pandora Player extension */
 interface PlayerCharacter {
-	Infiltration?: {
-		Punishment?: {
-			Minutes: number;
-			Timer?: number;
-			Background: string;
-			Difficulty: number;
-			FightDone?: boolean;
-		}
-		Perks?: string;
+	Infiltration?: InfiltrationType;
+}
+
+interface InfiltrationType {
+	Punishment?: {
+		Minutes: number;
+		Timer?: number;
+		Background: string;
+		Difficulty: number;
+		FightDone?: boolean;
 	}
+	Perks?: string;
 }
 
 /** Kinky Dungeon Player extension */

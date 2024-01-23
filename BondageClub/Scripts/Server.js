@@ -72,7 +72,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
-		 * @type {Map<string, object>}
+		 * @type {Map<keyof ServerAccountUpdateRequest, any>}
 		 */
 		this.Queue = new Map;
 		/**
@@ -104,11 +104,11 @@ var ServerAccountUpdate = new class AccountUpdater {
 
 	/**
 	 * Queues a data to be synced at a later time
-	 * @param {object} Data
-	 * @param {true} [Force] - force immediate sync to server
+	 * @param {ServerAccountUpdateRequest} Data
+	 * @param {boolean} [Force] - force immediate sync to server
 	 */
-	QueueData(Data, Force) {
-		for (const [key, value] of Object.entries(Data)) {
+	QueueData(Data, Force=true) {
+		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
 
@@ -320,6 +320,7 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
+	/** @type {Partial<Record<AssetGroupName, string[]>>} */
 	const Inv = {};
 	for (let I = 0; I < Player.Inventory.length; I++) {
 		if (Player.Inventory[I].Asset != null) {
@@ -612,8 +613,8 @@ function ServerPlayerAppearanceSync() {
  */
 function ServerPrivateCharacterSync() {
 	if (PrivateVendor != null) {
-		var D = {};
-		D.PrivateCharacter = [];
+		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+		const D = { PrivateCharacter: [] };
 		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
 			var C = {
 				Name: PrivateCharacter[ID].Name,
@@ -850,7 +851,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
  */
 var ServerAccountDataSyncedValidate = {
 	Title: (arg, C) => {
-		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
@@ -955,7 +956,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	BlockItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -964,7 +965,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	LimitedItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -973,7 +974,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	FavoriteItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
