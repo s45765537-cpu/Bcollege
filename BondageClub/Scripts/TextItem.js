@@ -18,7 +18,7 @@ const TextItemDataLookup = {};
  */
 function TextItemRegister(asset, config, parentOption=null, createCallbacks=true) {
 	const data = TextItemCreateTextItemData(asset, config, parentOption);
-	if (IsBrowser() && createCallbacks) {
+	if (createCallbacks) {
 		/** @type {ExtendedItemCallbackStruct<TextItemOption>} */
 		const defaultCallbacks = {
 			load: () => TextItem.Load(data),

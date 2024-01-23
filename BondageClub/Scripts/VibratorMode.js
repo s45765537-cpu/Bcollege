@@ -158,20 +158,18 @@ const VibratorModeDataLookup = {};
 function VibratorModeRegister(asset, config, parentOption=null) {
 	const data = VibratorModeCreateData(asset, config, parentOption);
 
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<VibratingItemOption>} */
-		const defaultCallbacks = {
-			load: () => ExtendedItemLoad(data),
-			click: () => TypedItemClick(data),
-			draw: () => TypedItemDraw(data),
-			validate: (...args) => VibratorModeValidate(data, ...args),
-			publishAction: (...args) => VibratorModePublishAction(data, ...args),
-			init: (...args) => VibratorModeInit(data, ...args),
-			scriptDraw: (...args) => VibratorModeScriptDraw(data, ...args),
-			setOption: (...args) => ExtendedItemSetOption(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-	}
+	/** @type {ExtendedItemCallbackStruct<VibratingItemOption>} */
+	const defaultCallbacks = {
+		load: () => ExtendedItemLoad(data),
+		click: () => TypedItemClick(data),
+		draw: () => TypedItemDraw(data),
+		validate: (...args) => VibratorModeValidate(data, ...args),
+		publishAction: (...args) => VibratorModePublishAction(data, ...args),
+		init: (...args) => VibratorModeInit(data, ...args),
+		scriptDraw: (...args) => VibratorModeScriptDraw(data, ...args),
+		setOption: (...args) => ExtendedItemSetOption(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	VibratorModeSetAssetProperties(data);
 	return data;
 }
@@ -392,7 +390,6 @@ function VibratorModePublishAction(data, C, item, newOption, previousOption) {
  */
 function VibratorModeSetAssetProperties(data) {
 	const asset = /** @type {Mutable<Asset>} */(data.asset);
-	asset.DynamicScriptDraw = true;
 	asset.Extended = true;
 	TypedItemGenerateAllowEffect(data);
 }
