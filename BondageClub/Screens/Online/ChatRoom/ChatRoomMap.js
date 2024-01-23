@@ -86,6 +86,7 @@ const ChatRoomMapObjectList = [
 	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
+	{ ID: 151, Type: "FloorDecoration", Style: "ChairWood", Top: -0.5, Height: 1.5 },
 	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
 	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ Player.MapData.PrivateState.HasKeyBronze = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyBronze; } },
 	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ Player.MapData.PrivateState.HasKeySilver = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeySilver; } },
@@ -109,6 +110,7 @@ const ChatRoomMapObjectList = [
 	{ ID: 1050, Type: "FloorItem", Style: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
 	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
 	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
+	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
@@ -125,6 +127,8 @@ const ChatRoomMapObjectList = [
 	{ ID: 3030, Type: "WallDecoration", Style: "Candelabra" },
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
+	{ ID: 3100, Type: "WallDecoration", Style: "SilverShield" },
+	{ ID: 3110, Type: "WallDecoration", Style: "CrossedSabers" },
 	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
