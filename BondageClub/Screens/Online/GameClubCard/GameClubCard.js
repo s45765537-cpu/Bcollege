@@ -16,19 +16,24 @@ function GameClubCardGetStatus() {
 
 /**
  * Set the current state of online Club Card.
- * @param {OnlineGameStatus} s
+ * @param {OnlineGameStatus} NewStatus
  * @returns {void}
  */
-function GameClubCardSetStatus(s) {
-	if (!["", "Running"].includes(s))
-		return;
+function GameClubCardSetStatus(NewStatus) {
+	
+	if (!["", "Running"].includes(NewStatus)) return;
 
-	if (Player.Game == null || Player.Game.ClubCard == null)
+	let ForceUpdate = false;
+	if (Player.Game == null || Player.Game.ClubCard == null) {
+		ForceUpdate = true;
 		ClubCardCommonLoad();
+	}
 
-	/* @ts-ignore */
-	Player.Game.ClubCard.Status = s;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
+		Player.Game.ClubCard.Status = NewStatus;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+
 }
 
 /**
