@@ -18,7 +18,7 @@ var ClubCardPopup = null;
 var ClubCardSelection = null;
 var ClubCardPending = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
-var ClubCardLevelCost = [0, 0, 10, 20, 35, 50];
+var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 /** @type {ClubCardPlayer[]} */
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
