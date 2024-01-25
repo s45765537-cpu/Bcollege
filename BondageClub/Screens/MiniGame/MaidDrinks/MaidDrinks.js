@@ -268,13 +268,13 @@ function MaidDrinksDoMove(MoveType) {
 
 /**
  * Handles key presses during the maid drinks mini game. (Both keyboard and mobile)
- * @returns {void} - Nothing
+ * @returns {boolean} - TRUE if the key is handled by the key down event
  */
 function MaidDrinksKeyDown() {
 
 	// If the game has started, we check the key pressed and send it as a move
 	if ((MiniGameTimer > 5000) && (MiniGameProgress != -1) && !MiniGameEnded) {
-		var MoveType = -1;
+		var MoveType = -1
 		if ((KeyPress == MaidDrinksKeyUpper[0]) || (KeyPress == MaidDrinksKeyLower[0])) MoveType = 0;
 		if ((KeyPress == MaidDrinksKeyUpper[1]) || (KeyPress == MaidDrinksKeyLower[1])) MoveType = 1;
 		if ((KeyPress == MaidDrinksKeyUpper[2]) || (KeyPress == MaidDrinksKeyLower[2])) MoveType = 2;
@@ -284,7 +284,8 @@ function MaidDrinksKeyDown() {
 			MiniGameProgress = MiniGameProgress + 15;
 			if (MiniGameProgress >= 100) MiniGameProgress = 99;
 		}
-	}
+		return true;
+	} else return false;
 
 }
 
