@@ -340,10 +340,10 @@ Title Pandora Box,Pandora's Box
 Text Pandora Box,All players discard their current hand and draw 5 new cards.
 Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
 Title Toy Box,Toy Box
-Text Toy Box,You and your opponent cannot play event cards for three turns. Any events on the field are cancelled.
+Text Toy Box,+2 Fame and draw a card.
 Title Restrain,Restrain
-Text Restrain,Gain 2 Fame and Draw a card.
+Text Restrain,For 3 turns, you nor your opponent can play Events. Cancels all Events.
 Title Detective,Detective
-Text Detective,For each card your opponent draws, gain 1 money. Gain 1 money and 1 fame instead if you have no liabilities in your club.
+Text Detective,For each card your opponent draws, gain 1 Money. If no Liability are present, gain 1 Fame and 1 Money instead.
 Title Launder,Launder
-Text Launder,Must have a criminal in your club and positive money. Lose all money, gain 1 fame for each 3 money lost this way.
+Text Launder,If a Criminal is present, Lose all your Money. +1 Fame for every 3 Money lost.
