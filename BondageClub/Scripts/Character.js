@@ -1517,7 +1517,11 @@ function CharacterResetFacialExpression(C) {
 	for (const item of C.Appearance) {
 		const group = item.Asset.Group;
 		if (group.IsAppearance() && group.AllowExpression) {
-			const name = /** @type {ExpressionGroupName} */ (group.Name);
+			let name = /** @type {ExpressionGroupName | "Eyes1"} */ (group.Name);
+			if (name === "Eyes") {
+				// Set group name for CharacterSetFacialExpression to avoid overwriting right eye colour
+				name = "Eyes1";
+			}
 			const color = item.Color;
 			CharacterSetFacialExpression(C, name, null, null, color);
 		}
