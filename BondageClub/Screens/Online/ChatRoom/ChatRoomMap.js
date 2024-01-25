@@ -229,7 +229,7 @@ function ChatRoomMapActivate() {
 	ChatRoomMapVisible = true;
 
 	// Make sure the player position is valid
-	if (!Player.MapData || !Player.MapData.Pos|| !Player.MapData.Pos.X || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || !Player.MapData.Pos.Y || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
+	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
 		Player.MapData = ChatRoomMapInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
