@@ -339,3 +339,11 @@ Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for
 Title Pandora Box,Pandora's Box
 Text Pandora Box,All players discard their current hand and draw 5 new cards.
 Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
+Title Toy Box,Toy Box
+Text Toy Box,You and your opponent cannot play event cards for three turns. Any events on the field are cancelled.
+Title Restrain,Restrain
+Text Restrain,Gain 2 Fame and Draw a card.
+Title Detective,Detective
+Text Detective,For each card your opponent draws, gain 1 money. Gain 1 money and 1 fame instead if you have no liabilities in your club.
+Title Launder,Launder
+Text Launder,Must have a criminal in your club and positive money. Lose all money, gain 1 fame for each 3 money lost this way.
