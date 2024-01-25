@@ -70,19 +70,24 @@ function GameLARPGetStatus() {
 
 /**
  * Set the current state of LARP.
- * @param {OnlineGameStatus} s
+ * @param {OnlineGameStatus} NewStatus
  * @returns {void}
  */
-function GameLARPSetStatus(s) {
-	if (!["", "Running"].includes(s))
-		return;
+function GameLARPSetStatus(NewStatus) {
 
-	if (Player.Game == null || Player.Game.LARP == null)
+	if (!["", "Running"].includes(NewStatus)) return;
+
+	let ForceUpdate = false;
+	if (Player.Game == null || Player.Game.LARP == null) {
+		ForceUpdate = true;
 		GameLARPLoad();
+	}
 
-	/* @ts-ignore */
-	Player.Game.LARP.Status = s;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (ForceUpdate || (NewStatus !== Player.Game.LARP.Status)) {
+		Player.Game.LARP.Status = NewStatus;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+
 }
 
 /**

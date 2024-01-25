@@ -219,10 +219,8 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
-	// ChatRoomMapVisible is deprecated. This variable only is set for addon compatibility!
-	ChatRoomMapVisible = true;
 	// Make sure the player position is valid
-	if (!Player.MapData || !Player.MapData.Pos|| !Player.MapData.Pos.X || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || !Player.MapData.Pos.Y || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
+	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
 		Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
@@ -239,8 +237,7 @@ function ChatRoomMapViewActivate() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDeactivate() {
-	// ChatRoomMapVisible is deprecated. This variable only is set for addon compatibility!
-	ChatRoomMapVisible = false;
+
 }
 
 /**
@@ -1726,7 +1723,7 @@ function ChatRoomMapViewWhisperValid() {
 /** Deprecated names for compatibility */
 
 //---Deprecated Variables of R101---
-CommonProperty("ChatRoomMapVisible", () => ChatRoomIsViewActive(ChatRoomMapViewName), function (value) { if (value) { ChatRoomIsViewActive(ChatRoomMapViewName)}else{ChatRoomIsViewActive(ChatRoomCharacterViewName); } });
+CommonProperty("ChatRoomMapVisible", () => ChatRoomIsViewActive(ChatRoomMapViewName), function (value) { if (value) { ChatRoomIsViewActive(ChatRoomMapViewName); } else {ChatRoomIsViewActive(ChatRoomCharacterViewName); } });
 CommonProperty("ChatRoomMapWidth", () => ChatRoomMapViewWidth, (value) => ChatRoomMapViewWidth = value);
 CommonProperty("ChatRoomMapHeight", () => ChatRoomMapViewHeight, (value) => ChatRoomMapViewHeight = value);
 CommonProperty("ChatRoomMapViewRange", () => ChatRoomMapViewPerceptionRange, (value) => ChatRoomMapViewPerceptionRange = value);
