@@ -726,6 +726,21 @@ var ClubCardList = [
 			return ClubCardGroupIsOnBoard(CCPlayer, "ABDLBaby");
 		}
 	},
+	{
+		ID: 10006,
+		Name: "Big Baby",
+		Group: ["ABDLBaby"],
+		RequiredLevel: 2,
+		MoneyPerTurn: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 1);
+		},
+		OnTurnEnd: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
+		}
+	},
+
 
 	// 11000 - College Members (Mostly gives Fame, give bonuses/maluses between each other)
 	{
@@ -1195,7 +1210,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 3);
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 4);
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
@@ -1268,8 +1283,6 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 2);
 			ClubCardLogPublish("GainMoney", CCPlayer, 2);
-			ClubCardPlayerAddFame(CCPlayer, 2);
-			ClubCardLogPublish("GainFame", CCPlayer, 2);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 		},
 		CanPlay: function(CCPlayer) {
@@ -1672,7 +1685,7 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
  * @param {String[]} ListOfCardNames - The names of the cards to remove
  */
 function ClubCardRemoveCardsFromEventByName(CCPlayer, ListOfCardNames) {
-	ListOfCardNames.forEach(cardName => ClubCardRemoveFromEventByName(cardName));
+	ListOfCardNames.forEach(cardName => ClubCardRemoveFromEventByName(CCPlayer, cardName));
 }
 
 /**
@@ -1760,11 +1773,11 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			CCPlayer.Deck.splice(0, 1);
 		}
 		Amount--;
-		if(ClubCardNameIsOnBoard(ClubCardgetOpponent(CCPlayer), "Detective")){
-			ClubCardPlayerAddMoney(ClubCardgetOpponent(CCPlayer),1);
+		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
+			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer),1);
 		}
-		if(ClubCardNameIsOnBoard(ClubCardgetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardgetOpponent(CCPlayer),"Liability")){
-			ClubCardPlayerAddFame(ClubCardgetOpponent(CCPlayer),1);
+		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer),"Liability")){
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer),1);
 		}
 	}
 

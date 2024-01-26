@@ -347,3 +347,5 @@ Title Detective,Detective
 Text Detective,For each card your opponent draws, gain 1 Money. If no Liability are present, gain 1 Fame and 1 Money instead.
 Title Launder,Launder
 Text Launder,If a Criminal is present, Lose all your Money. +1 Fame for every 3 Money lost.
+Title Big Baby,Big Baby
+Text Big Baby,+1 Money if opponent has more cards in hand than you. Opponent draws a card when she enters your club.
