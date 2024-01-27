@@ -3801,6 +3801,7 @@ type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
 type ChatRoomMapObjectType = (
 	"FloorDecoration"
 	| "FloorDecorationThemed"
+	| "FloorDecorationParty"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
