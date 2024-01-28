@@ -274,7 +274,7 @@ function MaidDrinksKeyDown() {
 
 	// If the game has started, we check the key pressed and send it as a move
 	if ((MiniGameTimer > 5000) && (MiniGameProgress != -1) && !MiniGameEnded) {
-		var MoveType = -1
+		var MoveType = -1;
 		if ((KeyPress == MaidDrinksKeyUpper[0]) || (KeyPress == MaidDrinksKeyLower[0])) MoveType = 0;
 		if ((KeyPress == MaidDrinksKeyUpper[1]) || (KeyPress == MaidDrinksKeyLower[1])) MoveType = 1;
 		if ((KeyPress == MaidDrinksKeyUpper[2]) || (KeyPress == MaidDrinksKeyLower[2])) MoveType = 2;

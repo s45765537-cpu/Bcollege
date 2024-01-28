@@ -3153,7 +3153,7 @@ function PlatformCastHeal(C) {
  * Handles the keys pressed to move, attack or jump
  * @param {string} Code - The key code pressed
  * @returns {void} - Nothing
- */ 
+ */
 function PlatformEventKeyDown(Code) {
 	PlatformPlayer.Run = ((Code == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && (["KeyA", "KeyD"].indexOf(Code) >= 0) && (PlatformKeys.indexOf(Code) < 0)) || ((Code == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(Code) >= 0));
 	if (PlatformPlayer.Health <= 0) return;
