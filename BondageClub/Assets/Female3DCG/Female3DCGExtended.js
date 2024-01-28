@@ -9184,6 +9184,10 @@ var AssetFemale3DCGExtended = {
 				Chat: "LatexCorset1Set",
 			},
 		}, // LatexCorset1
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "CorsetDress" },
+		}, // CorsetDress
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
