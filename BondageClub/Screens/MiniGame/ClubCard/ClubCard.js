@@ -1281,8 +1281,8 @@ var ClubCardList = [
 		Name: "Toy Box",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, 2);
-			ClubCardLogPublish("GainFame", CCPlayer, 2);
+			ClubCardPlayerAddMoney(CCPlayer, 3);
+			ClubCardLogPublish("GainMoney", CCPlayer, 3);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 		},
 		CanPlay: function(CCPlayer) {
