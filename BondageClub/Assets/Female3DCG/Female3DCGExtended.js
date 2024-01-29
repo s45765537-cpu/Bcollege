@@ -10270,13 +10270,13 @@ var AssetFemale3DCGExtended = {
 					Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0, Effect: [E.GagLight] } }, // g0 - LightBall
+						{ Property: { Effect: [E.GagLight] } }, // g0 - LightBall
 						{
-							Property: { OriginalSetting: 1, Effect: [E.GagMedium] },
+							Property: { Effect: [E.GagMedium] },
 							Prerequisite: ["AccessMouth"],
 						}, // g1 - Ball
 						{
-							Property: { OriginalSetting: 2, Effect: [E.GagTotal] },
+							Property: { Effect: [E.GagTotal] },
 							Prerequisite: ["AccessMouth"],
 						}, // g2 - Plug
 					],
