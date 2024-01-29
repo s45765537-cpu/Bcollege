@@ -1299,11 +1299,11 @@ var ClubCardList = [
 		Time: 3,
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			const CardsToRemove = ["Bad Press", "Clever Marketing", "Repay Loan", "Teamwork", "Overtime", "Porn Convention"];
+			const Opponent = ClubCardGetOpponent(CCPlayer);
+			ClubCardRemoveCardsFromEventByName(Opponent, Opponent.Event.map(c => c.Name));
 
-			//Dont know if Restrain is first added or removed from own active events, so we only want to remove it from opponents active events
-			ClubCardRemoveCardsFromEventByName(ClubCardGetOpponent(CCPlayer), [...CardsToRemove, "Restrain"]);
-			ClubCardRemoveCardsFromEventByName(CCPlayer, CardsToRemove);
+			const PlayerEventNames = CCPlayer.Event.map(c => c.Name);
+			ClubCardRemoveCardsFromEventByName(CCPlayer, PlayerEventNames.filter(n => n !== "Restrain"));
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
