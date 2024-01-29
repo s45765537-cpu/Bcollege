@@ -1499,6 +1499,8 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
 	const privateName = `_${newName}`;
 	namespace[privateName] = callback;
 
+	delete namespace[newName];
+
 	Object.defineProperty(window, newName, {
 		enumerable: true,
 		configurable: true,
