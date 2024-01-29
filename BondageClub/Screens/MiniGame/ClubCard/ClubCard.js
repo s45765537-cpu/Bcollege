@@ -1290,26 +1290,26 @@ var ClubCardList = [
 			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			return true;
 		}
-		
+
 	},
 	{
-    	ID: 30024,
- 		Name: "Restrain",
-  		Type: "Event",
+		ID: 30024,
+		Name: "Restrain",
+		Type: "Event",
 		Time: 3,
- 		RequiredLevel: 2,
- 	   	OnPlay: function(CCPlayer) {
-        	const CardsToRemove = ["Bad Press", "Clever Marketing", "Repay Loan", "Teamwork", "Overtime", "Porn Convention"]
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			const CardsToRemove = ["Bad Press", "Clever Marketing", "Repay Loan", "Teamwork", "Overtime", "Porn Convention"];
 
 			//Dont know if Restrain is first added or removed from own active events, so we only want to remove it from opponents active events
-        	ClubCardRemoveCardsFromEventByName(ClubCardGetOpponent(CCPlayer), [...CardsToRemove, "Restrain"])
-        	ClubCardRemoveCardsFromEventByName(CCPlayer, CardsToRemove)
-    	},
-    	CanPlay: function(CCPlayer) {
+			ClubCardRemoveCardsFromEventByName(ClubCardGetOpponent(CCPlayer), [...CardsToRemove, "Restrain"]);
+			ClubCardRemoveCardsFromEventByName(CCPlayer, CardsToRemove);
+		},
+		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
 			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
-        	return true;
-    	}
+			return true;
+		}
 	},
 	{
 		ID: 30025,
@@ -1329,7 +1329,7 @@ var ClubCardList = [
 			if(ClubCardGroupIsOnBoard(CCPlayer, "Criminal")&&CCPlayer.Money>=3) return true;
 			return false;
 		}
-		
+
 	},
 	{
 		ID: 31000,
@@ -1622,11 +1622,11 @@ function ClubCardUpgradeLevel(CCPlayer) {
  * @returns {boolean} - TRUE if at least one card with that name is present
  */
 function ClubCardEventNameIsInEvents(CCPlayer, CardName) {
-    if ((CCPlayer == null) || (CCPlayer.Event == null) || (CardName == null)) return false;
-    for (let Card of CCPlayer.Event)
-        if (Card.Name === CardName)
-            return true;
-    return false;
+	if ((CCPlayer == null) || (CCPlayer.Event == null) || (CardName == null)) return false;
+	for (let Card of CCPlayer.Event)
+		if (Card.Name === CardName)
+			return true;
+	return false;
 }
 
 /**
