@@ -1300,10 +1300,10 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			const Opponent = ClubCardGetOpponent(CCPlayer);
-        	ClubCardRemoveCardsFromEventByName(Opponent, Opponent.Event.map(c => c.Name));
+			ClubCardRemoveCardsFromEventByName(Opponent, Opponent.Event.map(c => c.Name));
 
 			const PlayerEventNames = CCPlayer.Event.map(c => c.Name);
-        	ClubCardRemoveCardsFromEventByName(CCPlayer, PlayerEventNames.filter(n => n !== "Restrain"));
+			ClubCardRemoveCardsFromEventByName(CCPlayer, PlayerEventNames.filter(n => n !== "Restrain"));
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
