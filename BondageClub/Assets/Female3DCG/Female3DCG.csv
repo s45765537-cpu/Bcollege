@@ -92,6 +92,7 @@ Cloth,ChineseDress1,Chinese Dress
 Cloth,ChineseDress2,Chinese Long
 Cloth,CollegeOutfit1,College
 Cloth,ComfyTop,Sleep Top
+Cloth,CorsetDress,Corset Dress
 Cloth,CorsetShirt,Corset Shirt
 Cloth,CropTop,Crop Top
 Cloth,Dress2,Nomadic Dress
@@ -118,6 +119,7 @@ Cloth,LeatherCorsetTop1,Leather Corset Top
 Cloth,LeatherCropTop, Leather Crop Top
 Cloth,MaidApron1,Maid Apron
 Cloth,MaidApron2,Exposed Maid Apron
+Cloth,MaidLatex,Maid Latex Uniform
 Cloth,MaidOutfit1,Maid
 Cloth,MaidOutfit2,Maid Exposed
 Cloth,MaleTankTop1,Male Cloth Tank-Top
@@ -225,6 +227,7 @@ Corset,Corset3,Half Cup Corset
 Corset,Corset4,Under Bust Corset
 Corset,Corset5,Floral Corset
 Corset,Corset6,Noble Corset
+Corset,CorsetDress,Corset Dress
 Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
@@ -398,6 +401,7 @@ HairAccessory3,GiantBow1,Giant Bow 1
 HairAccessory3,HairFeathers1,Feathers
 HairAccessory3,HairFlower1,Flower
 HairAccessory3,Halo,Halo
+HairAccessory3,Headset1,Headset
 HairAccessory3,Ribbons1,Hair Ribbon 1
 HairAccessory3,Ribbons2,Hair Ribbon 2
 HairAccessory3,Ribbons3,Hair Ribbon 3
@@ -597,6 +601,7 @@ Hat,FurHeadband,Fur Headband
 Hat,HeadTowel1,Towel
 Hat,LatexHabit,Latex Habit
 Hat,MaidHairband1,Maid Hairband
+Hat,MaidLatexHairband,Maid Latex Hairband
 Hat,NunHabit,Nun Habit
 Hat,NurseCap,Nurse Cap
 Hat,PirateBandana1,Pirate Bandana
