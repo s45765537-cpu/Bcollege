@@ -208,11 +208,11 @@ function ChatAdminClick() {
 
 		// When we select a new map type
 		if (MouseIn(1625, 640, 275, 60)) {
-			let Index = ChatRoomMapTypeList.indexOf(ChatAdminMapData.Type);
+			let Index = ChatRoomMapViewTypeList.indexOf(ChatAdminMapData.Type);
 			Index = Index + ((MouseX < 1763) ? -1 : 1);
-			if (Index < 0) Index = ChatRoomMapTypeList.length - 1;
-			if (Index >= ChatRoomMapTypeList.length) Index = 0;
-			ChatAdminMapData.Type = ChatRoomMapTypeList[Index];
+			if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
+			if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
+			ChatAdminMapData.Type = ChatRoomMapViewTypeList[Index];
 		}
 
 		// Flips from one language to another

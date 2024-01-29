@@ -52,7 +52,7 @@ function ServerInit() {
 	ServerSocket.on("ChatRoomSyncReorderPlayers", function (data) { ChatRoomSyncReorderPlayers(data); });
 	ServerSocket.on("ChatRoomSyncSingle", function (data) { ChatRoomSyncSingle(data); });
 	ServerSocket.on("ChatRoomSyncExpression", function (data) { ChatRoomSyncExpression(data); });
-	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomSyncMapData(data); });
+	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomMapViewSyncMapData(data); });
 	ServerSocket.on("ChatRoomSyncPose", function (data) { ChatRoomSyncPose(data); });
 	ServerSocket.on("ChatRoomSyncArousal", function (data) { ChatRoomSyncArousal(data); });
 	ServerSocket.on("ChatRoomSyncItem", function (data) { ChatRoomSyncItem(data); });

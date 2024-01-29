@@ -1,53 +1,52 @@
 "use strict";
-var ChatRoomMapVisible = false;
-var ChatRoomMapAllow = true;
-var ChatRoomMapWidth = 40;
-var ChatRoomMapHeight = 40;
-var ChatRoomMapViewRange = 4;
-var ChatRoomMapViewRangeMin = 1;
-var ChatRoomMapViewRangeMax = 7;
-var ChatRoomMapObjectStartID = 100;
-var ChatRoomMapObjectEntryID = 110;
+const ChatRoomMapViewName = "Map";
+var ChatRoomMapViewWidth = 40;
+var ChatRoomMapViewHeight = 40;
+var ChatRoomMapViewPerceptionRange = 4;
+var ChatRoomMapViewPerceptionRangeMin = 1;
+var ChatRoomMapViewPerceptionRangeMax = 7;
+var ChatRoomMapViewObjectStartID = 100;
+var ChatRoomMapViewObjectEntryID = 110;
 /** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType"} */
-var ChatRoomMapEditMode = "";
+var ChatRoomMapViewEditMode = "";
 /** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
-var ChatRoomMapEditSubMode = "";
-var ChatRoomMapEditStarted = false;
+var ChatRoomMapViewEditSubMode = "";
+var ChatRoomMapViewEditStarted = false;
 /** @type {null | ChatRoomMapDoodad} */
-var ChatRoomMapEditObject = null;
+var ChatRoomMapViewEditObject = null;
 /** @type {number[]} */
-var ChatRoomMapEditSelection = [];
-var ChatRoomMapEditRange = 1;
+var ChatRoomMapViewEditSelection = [];
+var ChatRoomMapViewEditRange = 1;
 /** @type {ServerChatRoomMapData[]} */
-var ChatRoomMapEditBackup = [];
+var ChatRoomMapViewEditBackup = [];
 /** @type {null | number} */
-var ChatRoomMapUpdateRoomNext = null;
+var ChatRoomMapViewUpdateRoomNext = null;
 /** @type {null | number} */
-var ChatRoomMapUpdatePlayerNext = null;
+var ChatRoomMapViewUpdatePlayerNext = null;
 /** @type {null | number} */
-var ChatRoomMapUpdateLastMapDataNext = null;
+var ChatRoomMapViewUpdateLastMapDataNext = null;
 /** @type {null | Character} */
-var ChatRoomMapFocusedCharacter = null;
-var ChatRoomMapSuperPowersActive = false;
+var ChatRoomMapViewFocusedCharacter = null;
+var ChatRoomMapViewSuperPowersActive = false;
 // The base number of miliseconds required to reach a new tile
-var ChatRoomMapBaseMovementSpeed = 200;
+var ChatRoomMapViewBaseMovementSpeed = 200;
 /** @type {null | ChatRoomMapMovement} */
-var ChatRoomMapMovement = null;
+var ChatRoomMapViewMovement = null;
 /** @type {ChatRoomMapType[]} */
-var ChatRoomMapTypeList = ["Never", "Hybrid", "Always"];
-var ChatRoomMapUpdatePlayerTime = 500;
-const ChatRoomMapPerceptionRaycastOffset = 0.4999;
-const ChatRoomMapWhisperRange = 1;
-const ChatRoomMapInteractionRange = 1;
-const ChatRoomMapRemoteRange = ChatRoomMapViewRangeMax;
+var ChatRoomMapViewTypeList = ["Never", "Hybrid", "Always"];
+var ChatRoomMapViewUpdatePlayerTime = 500;
+const ChatRoomMapViewPerceptionRaycastOffset = 0.4999;
+const ChatRoomMapViewWhisperRange = 1;
+const ChatRoomMapViewInteractionRange = 1;
+const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 
 /** @type {boolean[]} */
-var ChatRoomMapVisibilityMask = [];
+var ChatRoomMapViewVisibilityMask = [];
 /** @type {boolean[]} */
-var ChatRoomMapAudibilityMask = [];
+var ChatRoomMapViewAudibilityMask = [];
 
 /** @type {ChatRoomMapTile[]} */
-const ChatRoomMapTileList = [
+const ChatRoomMapViewTileList = [
 
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
 	{ ID: 110, Type: "Floor", Style: "Stone" },
@@ -78,7 +77,7 @@ const ChatRoomMapTileList = [
 ];
 
 /** @type {ChatRoomMapObject[]} */
-const ChatRoomMapObjectList = [
+const ChatRoomMapViewObjectList = [
 
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
 	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
@@ -152,24 +151,18 @@ const ChatRoomMapObjectList = [
 ];
 
 /**
- * Returns TRUE if the map button can be used
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomMapButton() { return (!ChatRoomMapVisible && ChatRoomData?.MapData?.Type != "Never"); }
-
-/**
  * Returns TRUE if the player is an admin and activated her super powers on the map
  * @returns {boolean} - TRUE if super powers are active
  */
-function ChatRoomMapHasSuperPowers() { return ChatRoomMapSuperPowersActive && ChatRoomPlayerIsAdmin(); }
+function ChatRoomMapViewHasSuperPowers() { return ChatRoomMapViewSuperPowersActive && ChatRoomPlayerIsAdmin(); }
 
 /**
  * Initializes the map to its default blank state
  * @param {ChatRoomMapType} mode
  * @returns {ServerChatRoomMapData}
  */
-function ChatRoomMapInitialize(mode) {
-	const defaultMap = String.fromCharCode(ChatRoomMapObjectStartID).repeat(ChatRoomMapWidth * ChatRoomMapHeight);
+function ChatRoomMapViewInitialize(mode) {
+	const defaultMap = String.fromCharCode(ChatRoomMapViewObjectStartID).repeat(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
 	return {
 		Type: mode,
 		Tiles: defaultMap,
@@ -182,7 +175,7 @@ function ChatRoomMapInitialize(mode) {
  * @param {Character} C - The character to be initialized
  * @returns {ChatRoomMapData}
  */
-function ChatRoomMapInitializeCharacter(C)
+function ChatRoomMapViewInitializeCharacter(C)
 {
 	let MapData = C.MapData ? C.MapData : null;
 	// Checks to see if we can load the previously saved position
@@ -192,11 +185,11 @@ function ChatRoomMapInitializeCharacter(C)
 	}
 	if(!MapData || !MapData.Pos || !MapData.PrivateState){
 		// Sets position in the middle of the scren by default, or at the entry flag if possible
-		let entryPosition = ChatRoomMapGetEntryFlagPosition();
+		let entryPosition = ChatRoomMapViewGetEntryFlagPosition();
 		if (entryPosition == null) {
 			entryPosition = {
-				X: ChatRoomMapWidth / 2,
-				Y: ChatRoomMapHeight / 2,
+				X: ChatRoomMapViewWidth / 2,
+				Y: ChatRoomMapViewHeight / 2,
 			};
 		}
 
@@ -211,11 +204,11 @@ function ChatRoomMapInitializeCharacter(C)
  * @param {unknown} pos
  * @returns {ChatRoomMapPos}
  */
-function ChatRoomMapValidatePos(pos) {
+function ChatRoomMapViewValidatePos(pos) {
 	const ret = CommonIsObject(pos) ? pos : {};
 	return {
-		X: CommonIsInteger(ret.X, 0, ChatRoomMapWidth) ? ret.X : ChatRoomMapWidth / 2,
-		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapHeight) ? ret.Y : ChatRoomMapHeight / 2,
+		X: CommonIsInteger(ret.X, 0, ChatRoomMapViewWidth) ? ret.X : ChatRoomMapViewWidth / 2,
+		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapViewHeight) ? ret.Y : ChatRoomMapViewHeight / 2,
 	};
 }
 
@@ -223,8 +216,8 @@ function ChatRoomMapValidatePos(pos) {
  * Performs cleanup when leaving the chat room map
  * @returns {void} - Nothing
  */
-function ChatRoomMapLeave() {
-	ChatRoomMapDeactivate();
+function ChatRoomMapViewLeave() {
+	ChatRoomActivateView(ChatRoomCharacterViewName);
 	Player.MapData = null;
 }
 
@@ -232,28 +225,150 @@ function ChatRoomMapLeave() {
  * Activates the chat room map
  * @returns {void} - Nothing
  */
-function ChatRoomMapActivate() {
-	ChatRoomMapVisible = true;
-
+function ChatRoomMapViewActivate() {
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
-		Player.MapData = ChatRoomMapInitializeCharacter(Player);
+		Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
-		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
+		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 
 	}
-	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapWidth * ChatRoomMapHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapWidth * ChatRoomMapHeight) {
-		ChatRoomData.MapData = ChatRoomMapInitialize("Never");
+	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
+		ChatRoomData.MapData = ChatRoomMapViewInitialize("Never");
 	}
-	ChatRoomMapCalculatePerceptionMasks();
+	ChatRoomMapViewCalculatePerceptionMasks();
 }
 
 /**
  * Deactivates the chat room map
  * @returns {void} - Nothing
  */
-function ChatRoomMapDeactivate() {
-	ChatRoomMapVisible = false;
+function ChatRoomMapViewDeactivate() {
+
+}
+
+/**
+ * Indicates if the chat room map view is active or not
+ * @returns {boolean} - TRUE if the chat room character view is active, false if not
+ */
+function ChatRoomMapViewIsActive()
+{
+	return ChatRoomIsViewActive(ChatRoomMapViewName);
+}
+
+function ChatRoomMapViewRun()
+{
+	// Syncs the room map data with the server if needed
+	ChatRoomMapViewMovementProcess();
+	ChatRoomMapViewLeash();
+	ChatRoomMapViewUpdateRoomSync();
+	ChatRoomMapViewUpdatePlayerSync();
+	ChatRoomMapViewUpdateLastMapDataSync();
+}
+
+/**
+ * Alter the received message to what will be displayed in the chat log
+ *
+ * @param {ServerChatRoomMessage} data
+ * @param {string} msg
+ * @param {Character} SenderCharacter
+ * @param {IChatRoomMessageMetadata} metadata
+ * @returns {string|null} - The string to display or null if the message should be hidden
+ */
+function ChatRoomMapViewDisplayMessage(data, msg, SenderCharacter, metadata)
+{
+	let shownMessage = msg;
+	// In map mode, we do not show messages that are out of the player sight or hearing range
+	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterIsVisible(SenderCharacter)) {
+		return null;
+	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
+	} else if ((data.Type === "Chat") && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterIsHearable(SenderCharacter)) {
+		// Get the OOC part range of the message
+		const oocRanges = SpeechGetOOCRanges(shownMessage);
+		// If the message has no OOC part, don't send anyting
+		if(oocRanges.length <= 0) return null;
+		// If the message has a OOC part, set it as new message and send it normally
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += shownMessage.substring(range.start, range.start+range.length);
+		}
+		shownMessage = newMessage;
+	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
+	} else if ((data.Type === "Whisper") && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterOnWhisperRange(SenderCharacter)) {
+		// Get the OOC part range of the message
+		const oocRanges = SpeechGetOOCRanges(shownMessage);
+		// If the message has no OOC part, don't send anyting
+		if(oocRanges.length <= 0) return null;
+		// If the message has a OOC part, set it as new message and send it normally
+		let newMessage = "";
+		for(let range of oocRanges)
+		{
+			newMessage += shownMessage.substring(range.start, range.start+range.length);
+		}
+		shownMessage = newMessage;
+	}
+	return shownMessage;
+}
+
+/**
+ * Returns TRUE if the player can leave from the map
+ * @returns {boolean} - True if the player can leave
+ */
+function ChatRoomMapViewCanLeave() {
+
+	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
+	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type === "Never") || !ChatRoomMapViewIsActive()) return true;
+	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return true;
+	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
+
+	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
+	for (let X = Player.MapData.Pos.X - 2; X <= Player.MapData.Pos.X + 2; X++)
+		for (let Y = Player.MapData.Pos.Y - 2; Y <= Player.MapData.Pos.Y + 2; Y++) {
+			let Obj = ChatRoomMapViewGetObjectAtPos(X, Y);
+			if ((Obj != null) && Obj.Exit) return true;
+		}
+
+	// If there's no exit at all, we always allow leaving
+	let ExitCount = 0;
+	for (let Obj of ChatRoomMapViewObjectList)
+		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
+			ExitCount++;
+	if (ExitCount == 0) return true;
+
+	// If nothing allows leaving
+	return false;
+
+}
+
+/**
+ * Take a screenshot of the current section of the map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewScreenshot() {
+	// Take the photo
+	ChatRoomPhoto(0, 0, 1000, 1000, ChatRoomCharacter);
+}
+
+/**
+ * Returns TRUE if the player can enter in whisper mode on the current view with the currently focused character
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE is whipser can be started
+ */
+function ChatRoomMapViewCanStartWhisper(C)
+{
+	return ChatRoomMapViewCharacterOnWhisperRange(C);
+}
+
+/**
+ * Handles the reception of the room properties from the server.
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
+ * @returns {void} - Nothing.
+ */
+function ChatRoomMapViewSyncRoomProperties(data)
+{
+	// If the chat room map is visible, we need to update the perception map
+	ChatRoomMapViewCalculatePerceptionMasks();
 }
 
 /**
@@ -261,9 +376,9 @@ function ChatRoomMapDeactivate() {
  * @param {number} index - Index number for the tile and object lists
  * @returns {{x: number, y: number}} - Object containing the resulting x and y coordinates.
  */
-function ChatRoomMapIndexToCoordinates(index)
+function ChatRoomMapViewIndexToCoordinates(index)
 {
-	return { x: index % ChatRoomMapWidth, y: Math.floor(index / ChatRoomMapWidth) };
+	return { x: index % ChatRoomMapViewWidth, y: Math.floor(index / ChatRoomMapViewWidth) };
 }
 
 /**
@@ -272,30 +387,30 @@ function ChatRoomMapIndexToCoordinates(index)
  * @param {number} y - Y-coordinate to be translated
  * @returns {number} - Index number for the tile and object lists
  */
-function ChatRoomMapCoordinatesToIndex(x, y)
+function ChatRoomMapViewCoordinatesToIndex(x, y)
 {
-	return (y * ChatRoomMapWidth) + x;
+	return (y * ChatRoomMapViewWidth) + x;
 }
 
 /**
  * Calculates the visibility mask and audibility mask for the map
  * @returns {void} - Nothing
  */
-function ChatRoomMapCalculatePerceptionMasks()
+function ChatRoomMapViewCalculatePerceptionMasks()
 {
-	if(ChatRoomMapHasSuperPowers()) {
+	if(ChatRoomMapViewHasSuperPowers()) {
 		// When in edit mode or with active super powers, always show everything
-		ChatRoomMapVisibilityMask.fill(true);
-		ChatRoomMapAudibilityMask.fill(true);
+		ChatRoomMapViewVisibilityMask.fill(true);
+		ChatRoomMapViewAudibilityMask.fill(true);
 		return;
 	}
 
-	const mapLength = ChatRoomMapWidth * ChatRoomMapHeight;
-	const sightRange = ChatRoomMapGetSightRange();
-	const hearingRange = ChatRoomMapGetHearingRange();
+	const mapLength = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
+	const sightRange = ChatRoomMapViewGetSightRange();
+	const hearingRange = ChatRoomMapViewGetHearingRange();
 
 	for(let i=0; i<mapLength; i++) {
-		const posTile = ChatRoomMapIndexToCoordinates(i);
+		const posTile = ChatRoomMapViewIndexToCoordinates(i);
 		// Calculate the view line between player as f(x) = slopeX * x + yIntercept and f(y) = slopeY * y + xIntercept
 		let dirX = 0;
 		if(Player.MapData.Pos.X < posTile.x) { dirX = 1; }
@@ -304,7 +419,7 @@ function ChatRoomMapCalculatePerceptionMasks()
 		if(Player.MapData.Pos.Y < posTile.y) { dirY = 1; }
 		else if(Player.MapData.Pos.Y > posTile.y) { dirY = -1; }
 
-		const posTileCorner = { x: posTile.x + (dirX * ChatRoomMapPerceptionRaycastOffset), y: posTile.y - (dirY * ChatRoomMapPerceptionRaycastOffset) };
+		const posTileCorner = { x: posTile.x + (dirX * ChatRoomMapViewPerceptionRaycastOffset), y: posTile.y - (dirY * ChatRoomMapViewPerceptionRaycastOffset) };
 		const slopeX = (posTileCorner.y - Player.MapData.Pos.Y) / (posTileCorner.x - Player.MapData.Pos.X);
 		const slopeY = (posTileCorner.x - Player.MapData.Pos.X) / (posTileCorner.y - Player.MapData.Pos.Y);
 		const yIntercept = Player.MapData.Pos.Y - (slopeX * Player.MapData.Pos.X);
@@ -312,8 +427,8 @@ function ChatRoomMapCalculatePerceptionMasks()
 
 		// Initialize this entry of visibility and audibility map with sight and hearing range
 		const distance = Math.max(Math.abs(Player.MapData.Pos.X - posTile.x), Math.abs(Player.MapData.Pos.Y - posTile.y));
-		ChatRoomMapVisibilityMask[i] = sightRange >= distance;
-		ChatRoomMapAudibilityMask[i] = hearingRange >= distance;
+		ChatRoomMapViewVisibilityMask[i] = sightRange >= distance;
+		ChatRoomMapViewAudibilityMask[i] = hearingRange >= distance;
 
 		// Calculate obstacles in horizontality if horizontal slope is not too steep
 		if(slopeX != Infinity && dirX != 0)
@@ -321,23 +436,23 @@ function ChatRoomMapCalculatePerceptionMasks()
 			// Iterate over every x-position between player and target tile
 			for(let x=Player.MapData.Pos.X+dirX; x!=posTile.x && x!=posTile.x+dirX; x+=dirX) {
 				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
-				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
+				if(ChatRoomMapViewVisibilityMask[i] == false && ChatRoomMapViewAudibilityMask[i] == false) {
 					break;
 				}
 
 				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
 				const y = Math.round(slopeX * x + yIntercept);
-				let tileData = ChatRoomMapGetTileAtPos(x, y);
-				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				let tileData = ChatRoomMapViewGetTileAtPos(x, y);
+				let objectData = ChatRoomMapViewGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
-					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+					ChatRoomMapViewAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 				}
 				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(objectData != null) {
-					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+					ChatRoomMapViewVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+					ChatRoomMapViewAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
 				}
 
 			}
@@ -348,23 +463,23 @@ function ChatRoomMapCalculatePerceptionMasks()
 			// Iterate over every y-position between player and target tile
 			for(let y=Player.MapData.Pos.Y+dirY; y!=posTile.y && y!=posTile.y+dirY; y+=dirY) {
 				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
-				if(ChatRoomMapVisibilityMask[i] == false && ChatRoomMapAudibilityMask[i] == false) {
+				if(ChatRoomMapViewVisibilityMask[i] == false && ChatRoomMapViewAudibilityMask[i] == false) {
 					break;
 				}
 
 				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
 				const x = Math.round(slopeY * y + xIntercept);
-				let tileData = ChatRoomMapGetTileAtPos(x, y);
-				let objectData = ChatRoomMapGetObjectAtPos(x, y);
+				let tileData = ChatRoomMapViewGetTileAtPos(x, y);
+				let objectData = ChatRoomMapViewGetObjectAtPos(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
-					ChatRoomMapVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-					ChatRoomMapAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
+					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
+					ChatRoomMapViewAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
 				}
 				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(objectData != null) {
-					ChatRoomMapVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-					ChatRoomMapAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
+					ChatRoomMapViewVisibilityMask[i] &&= objectData.BlockVision ? false : true;
+					ChatRoomMapViewAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
 				}
 
 			}
@@ -377,17 +492,17 @@ function ChatRoomMapCalculatePerceptionMasks()
  * Returns the sight range for the current player, based on the blindness level
  * @returns {number} - The number of visible tiles
  */
-function ChatRoomMapGetSightRange() {
-	if (ChatRoomMapHasSuperPowers()) return ChatRoomMapViewRangeMax;
-	return ChatRoomMapViewRangeMax - Player.GetBlindLevel() * 2;
+function ChatRoomMapViewGetSightRange() {
+	if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewPerceptionRangeMax;
+	return ChatRoomMapViewPerceptionRangeMax - Player.GetBlindLevel() * 2;
 }
 
 /**
  * Returns the hearing range for the current player, based on the deafness level
  * @returns {number} - The number of tiles
  */
-function ChatRoomMapGetHearingRange() {
-	return ChatRoomMapViewRangeMax - Player.GetDeafLevel();
+function ChatRoomMapViewGetHearingRange() {
+	return ChatRoomMapViewPerceptionRangeMax - Player.GetDeafLevel();
 }
 
 /**
@@ -395,11 +510,11 @@ function ChatRoomMapGetHearingRange() {
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE if visible
  */
-function ChatRoomMapCharacterIsVisible(C) {
+function ChatRoomMapViewCharacterIsVisible(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData?.Pos) return false;
-	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
-	return ChatRoomMapVisibilityMask[PlayerTileId];
+	const PlayerTileId = ChatRoomMapViewCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
+	return ChatRoomMapViewVisibilityMask[PlayerTileId];
 }
 
 /**
@@ -407,11 +522,11 @@ function ChatRoomMapCharacterIsVisible(C) {
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE if hearable
  */
-function ChatRoomMapCharacterIsHearable(C) {
+function ChatRoomMapViewCharacterIsHearable(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData?.Pos) return false;
-	const PlayerTileId = ChatRoomMapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
-	return ChatRoomMapAudibilityMask[PlayerTileId];
+	const PlayerTileId = ChatRoomMapViewCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
+	return ChatRoomMapViewAudibilityMask[PlayerTileId];
 }
 
 /**
@@ -419,11 +534,11 @@ function ChatRoomMapCharacterIsHearable(C) {
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE if on whisper range
  */
-function ChatRoomMapCharacterOnWhisperRange(C) {
+function ChatRoomMapViewCharacterOnWhisperRange(C) {
 	if ((C == null) || (C.MapData == null) || (C.MapData.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return false;
 	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return false;
 	let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
-	return (Distance <= ChatRoomMapWhisperRange);
+	return (Distance <= ChatRoomMapViewWhisperRange);
 }
 
 /**
@@ -431,11 +546,11 @@ function ChatRoomMapCharacterOnWhisperRange(C) {
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE if on interaction range
  */
-function ChatRoomMapCharacterOnInteractionRange(C) {
+function ChatRoomMapViewCharacterOnInteractionRange(C) {
 	if ((C == null) || (C.MapData == null) || (C.MapData.Pos == null) || (C.MapData.Pos.X == null) || (C.MapData.Pos.Y == null)) return false;
 	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return false;
 	let Distance = Math.max(Math.abs(Player.MapData.Pos.X - C.MapData.Pos.X), Math.abs(Player.MapData.Pos.Y - C.MapData.Pos.Y));
-	return (Distance <= ChatRoomMapInteractionRange);
+	return (Distance <= ChatRoomMapViewInteractionRange);
 }
 
 /**
@@ -447,7 +562,7 @@ function ChatRoomMapCharacterOnInteractionRange(C) {
  * @param {boolean} SE - If South East is a wall
  * @returns {number} - a number linked on the image to use
  */
-function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) {
+function ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE) {
 
 	if (CW && CE && SW && SC && SE) return 0;
 	if (!CW && !CE && !SC) return 1;
@@ -489,9 +604,9 @@ function ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE) {
  * @param {number} Y - The Y position on the map
  * @returns {boolean} - TRUE if it's a wall
  */
-function ChatRoomMapIsWall(X, Y) {
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return true;
-	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
+function ChatRoomMapViewIsWall(X, Y) {
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return true;
+	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
 	return ((ID >= 1000) && (ID < 2000));
 }
 
@@ -501,11 +616,11 @@ function ChatRoomMapIsWall(X, Y) {
  * @param {number} Y - The Y position on the map
  * @returns {ChatRoomMapTile | null} - The object at the position
  */
-function ChatRoomMapGetTileAtPos(X, Y) {
-	if (ChatRoomData.MapData?.Tiles.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
-	let ObjectID = ChatRoomData.MapData.Tiles.charCodeAt(ChatRoomMapCoordinatesToIndex(X, Y));
-	const tile = ChatRoomMapTileList.find(o => o.ID === ObjectID);
+function ChatRoomMapViewGetTileAtPos(X, Y) {
+	if (ChatRoomData.MapData?.Tiles.length !== ChatRoomMapViewWidth * ChatRoomMapViewHeight) return null;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
+	let ObjectID = ChatRoomData.MapData.Tiles.charCodeAt(ChatRoomMapViewCoordinatesToIndex(X, Y));
+	const tile = ChatRoomMapViewTileList.find(o => o.ID === ObjectID);
 	return tile;
 }
 
@@ -515,11 +630,11 @@ function ChatRoomMapGetTileAtPos(X, Y) {
  * @param {number} Y - The Y position on the map
  * @returns {ChatRoomMapObject | null} - The object at the position
  */
-function ChatRoomMapGetObjectAtPos(X, Y) {
-	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return null;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(ChatRoomMapCoordinatesToIndex(X, Y));
-	const Obj = ChatRoomMapObjectList.find(o => o.ID === ObjectID);
+function ChatRoomMapViewGetObjectAtPos(X, Y) {
+	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapViewWidth * ChatRoomMapViewHeight) return null;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(ChatRoomMapViewCoordinatesToIndex(X, Y));
+	const Obj = ChatRoomMapViewObjectList.find(o => o.ID === ObjectID);
 	return Obj;
 }
 
@@ -529,11 +644,11 @@ function ChatRoomMapGetObjectAtPos(X, Y) {
  * @param {number} Y - The Y position on the map
  * @returns {boolean} - TRUE if we can enter
  */
-function ChatRoomMapCanEnterWall(X, Y) {
-	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapWidth * ChatRoomMapHeight) return false;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return false;
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
-	for (let O of ChatRoomMapObjectList)
+function ChatRoomMapViewCanEnterWall(X, Y) {
+	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapViewWidth * ChatRoomMapViewHeight) return false;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return false;
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
+	for (let O of ChatRoomMapViewObjectList)
 		if (O.ID === ObjectID) {
 			if (O.CanEnter == null) return false;
 			/** @type {ChatRoomMapDirection} */
@@ -557,17 +672,17 @@ function ChatRoomMapCanEnterWall(X, Y) {
  * @param {number} TileHeight - The visible height of a tile
  * @returns {void} - Nothing
  */
-function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
+function ChatRoomMapViewWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
 	// Find all other walls around the current tile
-	let CW = ChatRoomMapIsWall(X - 1, Y) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X - 1, Y)];
-	let CE = ChatRoomMapIsWall(X + 1, Y) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X + 1, Y)];
-	let SW = ChatRoomMapIsWall(X - 1, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X - 1, Y + 1)];
-	let SC = ChatRoomMapIsWall(X, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X, Y + 1)];
-	let SE = ChatRoomMapIsWall(X + 1, Y + 1) || !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X + 1, Y + 1)];
+	let CW = ChatRoomMapViewIsWall(X - 1, Y) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X - 1, Y)];
+	let CE = ChatRoomMapViewIsWall(X + 1, Y) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X + 1, Y)];
+	let SW = ChatRoomMapViewIsWall(X - 1, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X - 1, Y + 1)];
+	let SC = ChatRoomMapViewIsWall(X, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X, Y + 1)];
+	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X + 1, Y + 1)];
 
 	// Finds the proper effect and draws it
-	let Effect = ChatRoomMapFindWallEffectTile(CW, CE, SW, SC, SE);
+	let Effect = ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE);
 	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 
 }
@@ -578,15 +693,15 @@ function ChatRoomMapWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
  * @param {number} Y - The Y position on the map
  * @returns {number} - The effect number
  */
-function ChatRoomMapFloorWallEffect(X, Y) {
+function ChatRoomMapViewFloorWallEffect(X, Y) {
 
 	// No effect on the very last row
-	if (Y >= ChatRoomMapHeight - 1) return -1;
+	if (Y >= ChatRoomMapViewHeight - 1) return -1;
 
 	// Find the soutern wall positions
-	let SW = ChatRoomMapIsWall(X - 1, Y + 1);
-	let SC = ChatRoomMapIsWall(X, Y + 1);
-	let SE = ChatRoomMapIsWall(X + 1, Y + 1);
+	let SW = ChatRoomMapViewIsWall(X - 1, Y + 1);
+	let SC = ChatRoomMapViewIsWall(X, Y + 1);
+	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1);
 
 	// Find the "3D" wall effect and returns it
 	if (!SW && SC && !SE) return 50;
@@ -601,18 +716,18 @@ function ChatRoomMapFloorWallEffect(X, Y) {
  * Manages collisions, moves the player if she's on a tile that cannot be entered
  * @returns {void} - Nothing
  */
-function ChatRoomMapCollision() {
+function ChatRoomMapViewCollision() {
 
 	// Exits right away if no player data or the tile is valid to stand there
 	if ((Player.MapData == null) || ((Player.MapData.Pos.X == null)) || ((Player.MapData.Pos.Y == null))) return;
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y) > 0) return;
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y) > 0) return;
 
 	// Since there's a collision, we try to find good spots to move the player
 	let Tiles = [];
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y - 1 });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y + 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y - 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y + 1 });
 
 	// If we found a tile next to the player
 	if (Tiles.length > 0) {
@@ -620,15 +735,15 @@ function ChatRoomMapCollision() {
 		Player.MapData.Pos.X = Tile.X;
 		Player.MapData.Pos.Y = Tile.Y;
 		// Update the change instantly so other players don't see this player in a wall
-		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
+		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 		return;
 	}
 
 	// Tries the current tile corners next
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y - 1 });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y - 1 });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y + 1 });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y + 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y - 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y - 1) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y - 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X - 1, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X - 1, Y: Player.MapData.Pos.Y + 1 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X + 1, Player.MapData.Pos.Y + 1) > 0) Tiles.push({ X: Player.MapData.Pos.X + 1, Y: Player.MapData.Pos.Y + 1 });
 
 	// If we found a tile in the corner of the player
 	if (Tiles.length > 0) {
@@ -636,15 +751,15 @@ function ChatRoomMapCollision() {
 		Player.MapData.Pos.X = Tile.X;
 		Player.MapData.Pos.Y = Tile.Y;
 		// Update the change instantly so other players don't see this player in a wall
-		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
+		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 		return;
 	}
 
 	// Tries 2 tiles away next
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X - 2, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X - 2, Y: Player.MapData.Pos.Y });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X + 2, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X + 2, Y: Player.MapData.Pos.Y });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y - 2) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y - 2 });
-	if (ChatRoomMapCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y + 2) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y + 2 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X - 2, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X - 2, Y: Player.MapData.Pos.Y });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X + 2, Player.MapData.Pos.Y) > 0) Tiles.push({ X: Player.MapData.Pos.X + 2, Y: Player.MapData.Pos.Y });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y - 2) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y - 2 });
+	if (ChatRoomMapViewCanEnterTile(Player.MapData.Pos.X, Player.MapData.Pos.Y + 2) > 0) Tiles.push({ X: Player.MapData.Pos.X, Y: Player.MapData.Pos.Y + 2 });
 
 	// If we found a tile next to the player
 	if (Tiles.length > 0) {
@@ -652,7 +767,7 @@ function ChatRoomMapCollision() {
 		Player.MapData.Pos.X = Tile.X;
 		Player.MapData.Pos.Y = Tile.Y;
 		// Update the change instantly so other players don't see this player in a wall
-		ChatRoomMapUpdatePlayerFlag(-ChatRoomMapUpdatePlayerTime);
+		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 		return;
 	}
 
@@ -664,8 +779,8 @@ function ChatRoomMapCollision() {
  * @param {number} Y - The Y position on the screen
  * @returns {null | Character} A character at the specified X & Y position or, if none can be found, `null`
  */
-function ChatRoomMapGetCharacterAtPos(X, Y) {
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return null;
+function ChatRoomMapViewGetCharacterAtPos(X, Y) {
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
 	for (let C of ChatRoomCharacter)
 		if ((C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
 			return C;
@@ -676,47 +791,17 @@ function ChatRoomMapGetCharacterAtPos(X, Y) {
  * Returns a object that contains the entry flag's position with x and y parameters or null if no entry flag is set
  * @returns {ChatRoomMapPos|null}
  */
-function ChatRoomMapGetEntryFlagPosition()
+function ChatRoomMapViewGetEntryFlagPosition()
 {
 	if (!ChatRoomData.MapData?.Objects) return null;
 
-	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapObjectEntryID));
+	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
 	if (idx < 0) return null;
 
 	return {
-		X: idx % ChatRoomMapWidth,
-		Y: Math.floor(idx / ChatRoomMapWidth)
+		X: idx % ChatRoomMapViewWidth,
+		Y: Math.floor(idx / ChatRoomMapViewWidth)
 	};
-}
-
-/**
- * Returns TRUE if the player can leave from the map, called from ChatRoomCanLeave()
- * @returns {boolean} - True if the player can leave
- */
-function ChatRoomMapCanLeave() {
-
-	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
-	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type === "Never") || !ChatRoomMapVisible) return true;
-	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return true;
-	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
-
-	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
-	for (let X = Player.MapData.Pos.X - 2; X <= Player.MapData.Pos.X + 2; X++)
-		for (let Y = Player.MapData.Pos.Y - 2; Y <= Player.MapData.Pos.Y + 2; Y++) {
-			let Obj = ChatRoomMapGetObjectAtPos(X, Y);
-			if ((Obj != null) && Obj.Exit) return true;
-		}
-
-	// If there's no exit at all, we always allow leaving
-	let ExitCount = 0;
-	for (let Obj of ChatRoomMapObjectList)
-		if ((Obj.Exit === true) && (ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(Obj.ID)) >= 0))
-			ExitCount++;
-	if (ExitCount == 0) return true;
-
-	// If nothing allows leaving
-	return false;
-
 }
 
 /**
@@ -727,41 +812,41 @@ function ChatRoomMapCanLeave() {
  * @param {number} Height - The height size of the drawn map
  * @returns {void} - Nothing
  */
-function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
+function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	// Make sure the player MapData is valid
-	if (Player.MapData == null) Player.MapData = ChatRoomMapInitializeCharacter(Player);
+	if (Player.MapData == null) Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
-	ChatRoomMapCollision();
+	ChatRoomMapViewCollision();
 
 	// Defines the width and height of the visible tile
-	let TileWidth = Width / ((ChatRoomMapViewRange * 2) + 1);
-	let TileHeight = Height / ((ChatRoomMapViewRange * 2) + 1);
-	let EditWidth = (ChatRoomMapEditRange - 1) * TileWidth;
-	let EditHeight = (ChatRoomMapEditRange - 1) * TileHeight;
-	let MaxVisibleRange = ChatRoomMapGetSightRange();
+	let TileWidth = Width / ((ChatRoomMapViewPerceptionRange * 2) + 1);
+	let TileHeight = Height / ((ChatRoomMapViewPerceptionRange * 2) + 1);
+	let EditWidth = (ChatRoomMapViewEditRange - 1) * TileWidth;
+	let EditHeight = (ChatRoomMapViewEditRange - 1) * TileHeight;
+	let MaxVisibleRange = ChatRoomMapViewGetSightRange();
 	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
 	let CharacterUnderCursor = null;
 
 	// Clears the tile and character selection
-	ChatRoomMapEditSelection = [];
-	ChatRoomMapFocusedCharacter = null;
+	ChatRoomMapViewEditSelection = [];
+	ChatRoomMapViewFocusedCharacter = null;
 
 	// For each tiles in the grid
-	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
-		if(!ChatRoomMapVisibilityMask[Pos]) { continue; }
+	for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
+		if(!ChatRoomMapViewVisibilityMask[Pos]) { continue; }
 		// Find the X & Y position of the grid
-		let X = Pos % ChatRoomMapWidth;
-		let Y = Math.floor(Pos / ChatRoomMapWidth);
+		let X = Pos % ChatRoomMapViewWidth;
+		let Y = Math.floor(Pos / ChatRoomMapViewWidth);
 
 		// Only process if the X & Y are within the visible sight range
 		let MaxRange = Math.max(Math.abs(X - Player.MapData.Pos.X), Math.abs(Y - Player.MapData.Pos.Y));
 		if (MaxRange > MaxVisibleRange) continue;
 
 		// Defines the screen X and Y positions
-		let ScreenX = (X - Player.MapData.Pos.X) * TileWidth + ChatRoomMapViewRange * TileWidth;
-		let ScreenY = (Y - Player.MapData.Pos.Y) * TileHeight + ChatRoomMapViewRange * TileWidth;
+		let ScreenX = (X - Player.MapData.Pos.X) * TileWidth + ChatRoomMapViewPerceptionRange * TileWidth;
+		let ScreenY = (Y - Player.MapData.Pos.Y) * TileHeight + ChatRoomMapViewPerceptionRange * TileWidth;
 
 		// If this tile's coordinates are out of the view range, we don't have to bother with it
 		if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) continue;
@@ -776,7 +861,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		let TileImage = null;
 
 		// Finds the tile to draw and keeps it
-		for (let Tile of ChatRoomMapTileList)
+		for (let Tile of ChatRoomMapViewTileList)
 			if (Tile.ID == TileID) {
 				TileData = Tile;
 				break;
@@ -786,23 +871,23 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 		if (TileData != null) {
 			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
 			DrawImageResize(TileImage, Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
-			if (TileData.Type == "Wall") ChatRoomMapWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
-			else FloorWallEffect = ChatRoomMapFloorWallEffect(X, Y);
+			if (TileData.Type == "Wall") ChatRoomMapViewWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
+			else FloorWallEffect = ChatRoomMapViewFloorWallEffect(X, Y);
 
 		}
 
 		// Draw the non blank object next
 		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
-		if (ObjectID > ChatRoomMapObjectStartID)
-			for (let Obj of ChatRoomMapObjectList)
+		if (ObjectID > ChatRoomMapViewObjectStartID)
+			for (let Obj of ChatRoomMapViewObjectList)
 				if (Obj.ID == ObjectID) {
-					if(Obj.IsVisible && !ChatRoomMapHasSuperPowers() && !Obj.IsVisible()) break;
+					if(Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) break;
 					if (Obj.Style === "Blank") break;
 					// Hide a wall decoration object if the tile before it is not visible
-					if (Obj.Type == "WallDecoration" && !ChatRoomMapVisibilityMask[ChatRoomMapCoordinatesToIndex(X, Y+1)]) break;
+					if (Obj.Type == "WallDecoration" && !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X, Y+1)]) break;
 					let ImageName = Obj.Style;
 					if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
-						let Char = ChatRoomMapGetCharacterAtPos(X, Y);
+						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
 						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
 					}
@@ -811,8 +896,8 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 				}
 
 		// Keeps the tile as selected if the mouse is within selection
-		if (((ChatRoomMapEditMode == "Tile") || (ChatRoomMapEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
-			ChatRoomMapEditSelection.push(Pos);
+		if (((ChatRoomMapViewEditMode == "Tile") || (ChatRoomMapViewEditMode == "Object")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+			ChatRoomMapViewEditSelection.push(Pos);
 			DrawRect = true;
 		}
 
@@ -825,7 +910,7 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
 
 				// Keeps the character under the cursor
 				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
-					ChatRoomMapFocusedCharacter = C;
+					ChatRoomMapViewFocusedCharacter = C;
 					CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
 				}
 
@@ -856,10 +941,10 @@ function ChatRoomMapDrawGrid(Left, Top, Width, Height) {
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdateFlag() {
+function ChatRoomMapViewUpdateFlag() {
 
 	// Clears the wrong objects on the map
-	for (let Pos = 0; Pos < ChatRoomMapWidth * ChatRoomMapHeight; Pos++) {
+	for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
 
 		// If there's an object to check
 		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
@@ -869,7 +954,7 @@ function ChatRoomMapUpdateFlag() {
 			//debugger;
 			let ClearObject = false;
 			let Obj = null;
-			for (let O of ChatRoomMapObjectList)
+			for (let O of ChatRoomMapViewObjectList)
 				if (O.ID == ObjectID) {
 					Obj = O;
 					break;
@@ -883,7 +968,7 @@ function ChatRoomMapUpdateFlag() {
 				// Gets the tile for that object
 				let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 				let Tile = null;
-				for (let T of ChatRoomMapTileList)
+				for (let T of ChatRoomMapViewTileList)
 					if (T.ID == TileID) {
 						Tile = T;
 						break;
@@ -900,23 +985,23 @@ function ChatRoomMapUpdateFlag() {
 				else if (Tile.Type == "Wall") {
 
 					// If the current tile and the one below is a wall, we clear the object
-					let X = Pos % ChatRoomMapWidth;
-					let Y = Math.floor(Pos / ChatRoomMapWidth);
-					if (ChatRoomMapIsWall(X, Y + 1)) ClearObject = true;
+					let X = Pos % ChatRoomMapViewWidth;
+					let Y = Math.floor(Pos / ChatRoomMapViewWidth);
+					if (ChatRoomMapViewIsWall(X, Y + 1)) ClearObject = true;
 
 				}
 
 			}
 
 			// Clears the object if needed
-			if (ClearObject) ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+			if (ClearObject) ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapViewObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
 
 		}
 
 	}
 
 	// Sets the flag
-	if (ChatRoomMapUpdateRoomNext == null) ChatRoomMapUpdateRoomNext = CommonTime() + 5000;
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
 
 }
 
@@ -925,21 +1010,21 @@ function ChatRoomMapUpdateFlag() {
  * @param {number} UpdateTimeOffset - A offset for the update time. This can be positive to increase the update time or negative to reduce it.
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdatePlayerFlag(UpdateTimeOffset = 0) {
-	if (ChatRoomMapUpdatePlayerNext == null)
-		ChatRoomMapUpdatePlayerNext = CommonTime() + ChatRoomMapUpdatePlayerTime + UpdateTimeOffset;
-	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapUpdateLastMapDataNext == null))
-		ChatRoomMapUpdateLastMapDataNext = CommonTime() + 10000;
+function ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset = 0) {
+	if (ChatRoomMapViewUpdatePlayerNext == null)
+		ChatRoomMapViewUpdatePlayerNext = CommonTime() + ChatRoomMapViewUpdatePlayerTime + UpdateTimeOffset;
+	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapViewUpdateLastMapDataNext == null))
+		ChatRoomMapViewUpdateLastMapDataNext = CommonTime() + 10000;
 }
 
 /**
  * Updates the room data if needed
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdateRoomSync() {
-	if ((ChatRoomMapUpdateRoomNext == null) || (ChatRoomMapUpdateRoomNext > CommonTime())) return;
+function ChatRoomMapViewUpdateRoomSync() {
+	if ((ChatRoomMapViewUpdateRoomNext == null) || (ChatRoomMapViewUpdateRoomNext > CommonTime())) return;
 	if (!ChatRoomPlayerIsAdmin()) return;
-	ChatRoomMapUpdateRoomNext = null;
+	ChatRoomMapViewUpdateRoomNext = null;
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: ChatRoomGetSettings(ChatRoomData), Action: "Update" });
 }
 
@@ -947,9 +1032,9 @@ function ChatRoomMapUpdateRoomSync() {
  * Updates the player map data if needed
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdatePlayerSync() {
-	if ((ChatRoomMapUpdatePlayerNext == null) || (ChatRoomMapUpdatePlayerNext > CommonTime())) return;
-	ChatRoomMapUpdatePlayerNext = null;
+function ChatRoomMapViewUpdatePlayerSync() {
+	if ((ChatRoomMapViewUpdatePlayerNext == null) || (ChatRoomMapViewUpdatePlayerNext > CommonTime())) return;
+	ChatRoomMapViewUpdatePlayerNext = null;
 	ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData.Pos);
 }
 
@@ -958,7 +1043,7 @@ function ChatRoomMapUpdatePlayerSync() {
  * @param {ServerMapDataResponse} data - Data object containing the new character expression data.
  * @returns {void} - Nothing.
  */
-function ChatRoomSyncMapData(data) {
+function ChatRoomMapViewSyncMapData(data) {
 
 	// Exits if the packet is invalid
 	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
@@ -967,7 +1052,7 @@ function ChatRoomSyncMapData(data) {
 	// Assigns the MapData to the chatroom character
 	for (let C of ChatRoomCharacter)
 		if ((C.MemberNumber == data.MemberNumber) && !C.IsPlayer()) {
-			C.MapData = ChatRoomMapInitializeCharacter(C);
+			C.MapData = ChatRoomMapViewInitializeCharacter(C);
 			C.MapData.Pos = { X: data.MapData.X, Y: data.MapData.Y };
 			break;
 		}
@@ -978,9 +1063,9 @@ function ChatRoomSyncMapData(data) {
  * Updates the player last map data if needed
  * @returns {void} - Nothing
  */
-function ChatRoomMapUpdateLastMapDataSync() {
-	if ((ChatRoomMapUpdateLastMapDataNext == null) || (ChatRoomMapUpdateLastMapDataNext > CommonTime())) return;
-	ChatRoomMapUpdateLastMapDataNext = null;
+function ChatRoomMapViewUpdateLastMapDataSync() {
+	if ((ChatRoomMapViewUpdateLastMapDataNext == null) || (ChatRoomMapViewUpdateLastMapDataNext > CommonTime())) return;
+	ChatRoomMapViewUpdateLastMapDataNext = null;
 	ServerAccountUpdate.QueueData({ LastMapData: Player.MapData }, true);
 }
 
@@ -988,18 +1073,18 @@ function ChatRoomMapUpdateLastMapDataSync() {
  * Processes the character movement when the timer has expired
  * @returns {void} - Nothing
  */
-function ChatRoomMapMovementProcess() {
-	if ((ChatRoomMapMovement == null) || (ChatRoomMapMovement.TimeEnd > CommonTime())) return;
-	Player.MapData.Pos.X = ChatRoomMapMovement.X;
-	Player.MapData.Pos.Y = ChatRoomMapMovement.Y;
+function ChatRoomMapViewMovementProcess() {
+	if ((ChatRoomMapViewMovement == null) || (ChatRoomMapViewMovement.TimeEnd > CommonTime())) return;
+	Player.MapData.Pos.X = ChatRoomMapViewMovement.X;
+	Player.MapData.Pos.Y = ChatRoomMapViewMovement.Y;
 	// Set the update flag and reduce the wait time by the time the player already waited
-	ChatRoomMapUpdatePlayerFlag(ChatRoomMapMovement.TimeStart - ChatRoomMapMovement.TimeEnd);
-	ChatRoomMapMovement = null;
+	ChatRoomMapViewUpdatePlayerFlag(ChatRoomMapViewMovement.TimeStart - ChatRoomMapViewMovement.TimeEnd);
+	ChatRoomMapViewMovement = null;
 	// After we moved, calculate the new perception masks
-	ChatRoomMapCalculatePerceptionMasks();
+	ChatRoomMapViewCalculatePerceptionMasks();
 	// Get the tile and object we entered
-	const newTile = ChatRoomMapGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
-	const newObject = ChatRoomMapGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+	const newTile = ChatRoomMapViewGetTileAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+	const newObject = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 	// If the current tile or object have OnEnter functions, execute them
 	if(newTile && newTile.OnEnter) newTile.OnEnter();
 	if(newObject && newObject.OnEnter) newObject.OnEnter();
@@ -1009,7 +1094,7 @@ function ChatRoomMapMovementProcess() {
  * Checks if the player is leashed and if she should follow the leash holder
  * @returns {void} - Nothing
  */
-function ChatRoomMapLeash() {
+function ChatRoomMapViewLeash() {
 
 	// Finds the leash holder character
 	if (ChatRoomLeashPlayer == null) return;
@@ -1035,7 +1120,7 @@ function ChatRoomMapLeash() {
 			if (VarY < -2) TargetY = C.MapData.Pos.Y - 2;
 
 			// If the new target tile cannot be entered, we try another one nearby
-			if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) {
+			if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
 
 				// Tries to bring the character one extra tile toward the leash holder on the invert axis (X instead of Y or vice versa)
 				if ((Math.abs(VarX) > 2) && (Math.abs(VarX) > Math.abs(VarY)) && (VarY > 0)) TargetY--;
@@ -1044,7 +1129,7 @@ function ChatRoomMapLeash() {
 				if ((Math.abs(VarY) > 2) && (Math.abs(VarX) < Math.abs(VarY)) && (VarX < 0)) TargetX++;
 
 				// If we still cannot move there
-				if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) {
+				if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) {
 
 					// Bring the character 1 tile near the leash holder
 					if (VarX > 1) TargetX = C.MapData.Pos.X + 1;
@@ -1053,7 +1138,7 @@ function ChatRoomMapLeash() {
 					if (VarY < -1) TargetY = C.MapData.Pos.Y - 1;
 
 					// If it still doesn't work, we give up
-					if (ChatRoomMapCanEnterTile(TargetX, TargetY) <= 0) return;
+					if (ChatRoomMapViewCanEnterTile(TargetX, TargetY) <= 0) return;
 
 				}
 
@@ -1062,7 +1147,7 @@ function ChatRoomMapLeash() {
 			// Sends the movement packet
 			Player.MapData.Pos.X = TargetX;
 			Player.MapData.Pos.Y = TargetY;
-			ChatRoomMapUpdatePlayerFlag();
+			ChatRoomMapViewUpdatePlayerFlag();
 			return;
 
 		}
@@ -1071,43 +1156,44 @@ function ChatRoomMapLeash() {
 
 
 /**
- * Draws the map, characters and buttons of the chat room map
+ * Draws the map and characters of the chat room map
  * @returns {void} - Nothing
  */
-function ChatRoomMapDraw() {
-
-	// Syncs the room map data with the server if needed
-	ChatRoomMapMovementProcess();
-	ChatRoomMapLeash();
-	ChatRoomMapUpdateRoomSync();
-	ChatRoomMapUpdatePlayerSync();
-	ChatRoomMapUpdateLastMapDataSync();
+function ChatRoomMapViewDraw() {
 
 	// Draw the full grid on the left side of the screen
-	ChatRoomMapDrawGrid(0, 0, 1000, 1000);
+	ChatRoomMapViewDrawGrid(0, 0, 1000, 1000);
+
+}
+
+/**
+ * Draws the buttons of the chat room map
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewDrawUi() {
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
-		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/" + ((ChatRoomMapSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
+		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/" + ((ChatRoomMapViewSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
 
 	// Draw the movement buttons
-	if (ChatRoomMapMovement == null) {
+	if (ChatRoomMapViewMovement == null) {
 		DrawButton(860, 860, 60, 60, "", "White", "Icons/Small/North.png");
 		DrawButton(790, 930, 60, 60, "", "White", "Icons/Small/West.png");
 		DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
 		DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/East.png");
 	} else {
-		DrawButton(860, 860, 60, 60, "", (ChatRoomMapMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/Small/North.png");
+		DrawButton(860, 860, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/Small/North.png");
 		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/Cancel.png");
-		DrawButton(790, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/Small/West.png");
-		DrawButton(860, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/Small/South.png");
-		DrawButton(930, 930, 60, 60, "", (ChatRoomMapMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/Small/East.png");
-		let Progress = (CommonTime() - ChatRoomMapMovement.TimeStart) / (ChatRoomMapMovement.TimeEnd - ChatRoomMapMovement.TimeStart) * 100;
+		DrawButton(790, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/Small/West.png");
+		DrawButton(860, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/Small/South.png");
+		DrawButton(930, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/Small/East.png");
+		let Progress = (CommonTime() - ChatRoomMapViewMovement.TimeStart) / (ChatRoomMapViewMovement.TimeEnd - ChatRoomMapViewMovement.TimeStart) * 100;
 		DrawProgressBar(790, 992, 200, 8, Progress);
 	}
 
 	// Out of edit mode, we draws the basic buttons
-	if (ChatRoomMapEditMode == "") {
+	if (ChatRoomMapViewEditMode == "") {
 		DrawButton(10, 10, 60, 60, "", ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ? "Pink" : "White", "Icons/Small/ShowCharacter.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Plus.png");
 		DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/Minus.png");
@@ -1119,12 +1205,12 @@ function ChatRoomMapDraw() {
 	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
-	if (ChatRoomMapEditMode == "TileType") {
+	if (ChatRoomMapViewEditMode == "TileType") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
 		let Y = 80;
 		let Type = "";
-		for (let Tile of ChatRoomMapTileList)
+		for (let Tile of ChatRoomMapViewTileList)
 			if (Type != Tile.Type) {
 				Type = Tile.Type;
 				Y = Y + 70;
@@ -1133,26 +1219,26 @@ function ChatRoomMapDraw() {
 	}
 
 	// In tile edit mode, we show all tiles of a spectific tyle
-	if (ChatRoomMapEditMode == "Tile") {
+	if (ChatRoomMapViewEditMode == "Tile") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapEditRange.toString() + ".png");
+		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let Y = 80;
-		for (let Tile of ChatRoomMapTileList)
-			if (ChatRoomMapEditSubMode == Tile.Type) {
+		for (let Tile of ChatRoomMapViewTileList)
+			if (ChatRoomMapViewEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
-				if (Tile.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
+				if (Tile.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
-	if (ChatRoomMapEditMode == "ObjectType") {
+	if (ChatRoomMapViewEditMode == "ObjectType") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
 		let Y = 80;
 		let Type = "";
-		for (let Obj of ChatRoomMapObjectList)
+		for (let Obj of ChatRoomMapViewObjectList)
 			if (Type != Obj.Type) {
 				Type = Obj.Type;
 				Y = Y + 70;
@@ -1161,19 +1247,18 @@ function ChatRoomMapDraw() {
 	}
 
 	// In object edit mode, we show all objects of a spectific tyle
-	if (ChatRoomMapEditMode == "Object") {
+	if (ChatRoomMapViewEditMode == "Object") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapEditRange.toString() + ".png");
+		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let Y = 80;
-		for (let Obj of ChatRoomMapObjectList)
-			if (ChatRoomMapEditSubMode == Obj.Type) {
+		for (let Obj of ChatRoomMapViewObjectList)
+			if (ChatRoomMapViewEditSubMode == Obj.Type) {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup)) ? "White" : "Pink");
-				if (Obj.ID == ChatRoomMapEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
+				if (Obj.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
 				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
-
 }
 
 /**
@@ -1182,15 +1267,15 @@ function ChatRoomMapDraw() {
  * @param {number} Y - The Y position on the map
  * @returns {number} - The number of milliseconds
  */
-function ChatRoomMapCanEnterTile(X, Y) {
+function ChatRoomMapViewCanEnterTile(X, Y) {
 
 	// Out of map bound or walls cannot enter, super powers skip everything
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapWidth) || (Y >= ChatRoomMapHeight)) return 0;
-	if (ChatRoomMapHasSuperPowers()) return ChatRoomMapBaseMovementSpeed / 10;
-	if (ChatRoomMapIsWall(X, Y) && !ChatRoomMapCanEnterWall(X, Y)) return 0;
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return 0;
+	if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewBaseMovementSpeed / 10;
+	if (ChatRoomMapViewIsWall(X, Y) && !ChatRoomMapViewCanEnterWall(X, Y)) return 0;
 
 	// Floor obstacles from 2000 to 3000 cannot be crossed
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapWidth);
+	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
 	if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
 
 	// Enclosed or suspended players cannot change tiles
@@ -1202,11 +1287,11 @@ function ChatRoomMapCanEnterTile(X, Y) {
 			return 0;
 
 	// Always full speed in water if wearing mermaid tail
-	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapWidth);
-	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapBaseMovementSpeed;
+	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
+	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapViewBaseMovementSpeed;
 
 	// Base movement speed first, water tiles are slower
-	let Speed = ChatRoomMapBaseMovementSpeed;
+	let Speed = ChatRoomMapViewBaseMovementSpeed;
 	if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
 
 	// The hogtied/bound/slow/plugged modificator
@@ -1226,20 +1311,20 @@ function ChatRoomMapCanEnterTile(X, Y) {
  * @param {"West" | "East" | "North" | "South"} D - The direction being travelled (North, South, East, West)
  * @returns {void} - Nothing
  */
-function ChatRoomMapMove(D) {
+function ChatRoomMapViewMove(D) {
 
 	// Nothing to do if that current move is in progress
 	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return;
-	if ((ChatRoomMapMovement != null) && (ChatRoomMapMovement.Direction === D)) return;
+	if ((ChatRoomMapViewMovement != null) && (ChatRoomMapViewMovement.Direction === D)) return;
 
 	// Gets the new position
 	let X = Player.MapData.Pos.X + ((D == "West") ? -1 : 0) + ((D == "East") ? 1 : 0);
 	let Y = Player.MapData.Pos.Y + ((D == "North") ? -1 : 0) + ((D == "South") ? 1 : 0);
-	let Time = ChatRoomMapCanEnterTile(X, Y);
+	let Time = ChatRoomMapViewCanEnterTile(X, Y);
 
 	// If we can enter the tile
 	if (Time > 0) {
-		ChatRoomMapMovement = {
+		ChatRoomMapViewMovement = {
 			X: X,
 			Y: Y,
 			Direction: D,
@@ -1254,12 +1339,12 @@ function ChatRoomMapMove(D) {
  * Undoes the changes made to the map, from the latest backup in the stack
  * @returns {void} - Nothing
  */
-function ChatRoomMapUndo() {
-	if (ChatRoomMapEditBackup.length > 0) {
-		let LastMap = ChatRoomMapEditBackup.pop();
+function ChatRoomMapViewUndo() {
+	if (ChatRoomMapViewEditBackup.length > 0) {
+		let LastMap = ChatRoomMapViewEditBackup.pop();
 		ChatRoomData.MapData = CommonCloneDeep(LastMap);
-		ChatRoomMapUpdateFlag();
-		ChatRoomMapCalculatePerceptionMasks();
+		ChatRoomMapViewUpdateFlag();
+		ChatRoomMapViewCalculatePerceptionMasks();
 	}
 }
 
@@ -1268,7 +1353,7 @@ function ChatRoomMapUndo() {
  * @param {KeyboardEvent} event - The event that triggered this
  * @returns {boolean} - Nothing
  */
-function ChatRoomMapKeyDown(event) {
+function ChatRoomMapViewKeyDown(event) {
 
 	// Nothing to do if a character dialog is open
 	if (CurrentCharacter != null) return false;
@@ -1280,187 +1365,214 @@ function ChatRoomMapKeyDown(event) {
 	} else if (event.key !== "z" && event.ctrlKey) {
 		return true;
 	} else if (event.key === "z" && event.ctrlKey) {
-		if (ChatRoomPlayerIsAdmin()) ChatRoomMapUndo();
+		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
 		return true;
 	} else if ((event.key === "-") || (event.key === "_")) {
-		if (ChatRoomMapViewRange > ChatRoomMapViewRangeMin) ChatRoomMapViewRange--;
+		if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
 		return true;
 	} else if ((event.key === "+") || (event.key === "=")) {
-		if (ChatRoomMapViewRange < ChatRoomMapViewRangeMax) ChatRoomMapViewRange++;
+		if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
 		return true;
 	} else if (CommonKeyMove(event) === "u") {
-		ChatRoomMapMove("North");
+		ChatRoomMapViewMove("North");
 		return true;
 	} else if (CommonKeyMove(event) === "l") {
-		ChatRoomMapMove("West");
+		ChatRoomMapViewMove("West");
 		return true;
 	} else if (CommonKeyMove(event) === "d") {
-		ChatRoomMapMove("South");
+		ChatRoomMapViewMove("South");
 		return true;
 	} else if (CommonKeyMove(event) === "r") {
-		ChatRoomMapMove("East");
+		ChatRoomMapViewMove("East");
 		return true;
 	}
 	return false;
 }
 
 /**
- * Mouse click event is used to focus a character
- * @returns {void} - Nothing
+ * Handles clicks the chatroom screen view.
+ * @returns {void} - Nothing.
  */
-function ChatRoomMapClick() {
-	if ((MouseX <= 1000) && (ChatRoomMapFocusedCharacter != null) && (ChatRoomMapEditMode != "Tile") && (ChatRoomMapEditMode != "Object") && !ChatRoomMapEditStarted)
-		ChatRoomFocusCharacter(ChatRoomMapFocusedCharacter);
+function ChatRoomMapViewClick() {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+
+	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted)
+		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
+
+	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
+		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
+		ChatRoomMapViewCalculatePerceptionMasks();
+		return;
+	}
+	if ((ChatRoomMapViewMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapViewMovement = null;
+	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapViewMove("North");
+	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapViewMove("West");
+	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapViewMove("South");
+	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapViewMove("East");
+
+	// Out of edit mode, we allow the basic buttons
+	if (ChatRoomMapViewEditMode == "") {
+		if (MouseIn(10, 10, 60, 60)) {
+			ChatRoomActivateView(ChatRoomCharacterViewName);
+			return;
+		}
+		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin)) { ChatRoomMapViewPerceptionRange--; return; }
+		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax)) { ChatRoomMapViewPerceptionRange++; return; }
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
+			ChatRoomMapViewEditMode = "TileType";
+			ChatRoomMapViewEditSubMode = "";
+			return;
+		}
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
+			ChatRoomMapViewEditMode = "ObjectType";
+			ChatRoomMapViewEditSubMode = "";
+			return;
+		}
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
+			ChatRoomMapViewUndo();
+			return;
+		}
+
+	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
+	} else if (ChatRoomMapViewEditMode == "TileType") {
+		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapViewEditMode = ""; return; }
+		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapViewEditMode = "ObjectType"; return; }
+		let Y = 80;
+		let Type = "";
+		for (let Tile of ChatRoomMapViewTileList)
+			if (Type != Tile.Type) {
+				Type = Tile.Type;
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					ChatRoomMapViewEditMode = "Tile";
+					ChatRoomMapViewEditSubMode = Tile.Type;
+					ChatRoomMapViewEditObject = CommonCloneDeep(Tile);
+					return;
+				}
+			}
+
+	// In tile edit mode
+	} else if ((ChatRoomMapViewEditMode == "Tile")) {
+		// The first button returns to type selection
+		if (MouseIn(10, 10, 60, 60)) {
+			ChatRoomMapViewEditMode = "TileType";
+			return;
+		}
+
+		// The second button allows changing the edit size from 1 to 5
+		if (MouseIn(10, 80, 60, 60)) {
+			ChatRoomMapViewEditRange++;
+			if (ChatRoomMapViewEditRange > 5) ChatRoomMapViewEditRange = 1;
+			return;
+		}
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
+		for (let Tile of ChatRoomMapViewTileList)
+			if (ChatRoomMapViewEditSubMode == Tile.Type) {
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					ChatRoomMapViewEditObject = CommonCloneDeep(Tile);
+					return;
+				}
+			}
+
+	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
+	} else if (ChatRoomMapViewEditMode == "ObjectType") {
+		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapViewEditMode = ""; return; }
+		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapViewEditMode = "TileType"; return; }
+		let Y = 80;
+		let Type = "";
+		for (let Obj of ChatRoomMapViewObjectList)
+			if (Type != Obj.Type) {
+				Type = Obj.Type;
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					ChatRoomMapViewEditMode = "Object";
+					ChatRoomMapViewEditSubMode = Obj.Type;
+					ChatRoomMapViewEditObject = CommonCloneDeep(Obj);
+					return;
+				}
+			}
+
+	// In object edit mode
+	} else if ((ChatRoomMapViewEditMode == "Object")) {
+		// The first button returns to type selection
+		if (MouseIn(10, 10, 60, 60)) {
+			ChatRoomMapViewEditMode = "ObjectType";
+			return;
+		}
+
+		// The second button allows changing the edit size from 1 to 5
+		if (MouseIn(10, 80, 60, 60)) {
+			ChatRoomMapViewEditRange++;
+			if (ChatRoomMapViewEditRange > 5) ChatRoomMapViewEditRange = 1;
+			return;
+		}
+
+		// The other buttons allows changing the edit tile
+		let Y = 80;
+		for (let Obj of ChatRoomMapViewObjectList)
+			if (ChatRoomMapViewEditSubMode == Obj.Type) {
+				Y = Y + 70;
+				if (MouseIn(10, Y, 60, 60)) {
+					// @ts-ignore
+					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
+						ChatRoomMapViewEditObject = CommonCloneDeep(Obj);
+					return;
+				}
+			}
+
+	}
 }
 
 /**
  * Mouse down event is used to draw on screen and handle the tiles buttons
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseDown() {
+function ChatRoomMapViewMouseDown() {
 
 	// The walk buttons in the bottom right of the map
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
-		ChatRoomMapSuperPowersActive = !ChatRoomMapSuperPowersActive;
-		ChatRoomMapCalculatePerceptionMasks();
-		return;
-	}
-	if ((ChatRoomMapMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapMovement = null;
-	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapMove("North");
-	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapMove("West");
-	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapMove("South");
-	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapMove("East");
-
-	// Out of edit mode, we allow the basic buttons
-	if (ChatRoomMapEditMode == "") {
-		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomMapDeactivate();
-			ChatRoomMapAllow = false;
-			return;
-		}
-		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) { ChatRoomMapViewRange--; return; }
-		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) { ChatRoomMapViewRange++; return; }
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
-			ChatRoomMapEditMode = "TileType";
-			ChatRoomMapEditSubMode = "";
-			return;
-		}
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
-			ChatRoomMapEditMode = "ObjectType";
-			ChatRoomMapEditSubMode = "";
-			return;
-		}
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
-			ChatRoomMapUndo();
-			return;
-		}
-	}
-
-	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
-	if (ChatRoomMapEditMode == "TileType") {
-		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
-		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "ObjectType"; return; }
-		let Y = 80;
-		let Type = "";
-		for (let Tile of ChatRoomMapTileList)
-			if (Type != Tile.Type) {
-				Type = Tile.Type;
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditMode = "Tile";
-					ChatRoomMapEditSubMode = Tile.Type;
-					ChatRoomMapEditObject = CommonCloneDeep(Tile);
-					return;
-				}
-			}
-	}
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
 	// In tile edit mode
-	if ((ChatRoomMapEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
-
-		// The first button returns to type selection
-		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomMapEditMode = "TileType";
-			return;
-		}
-
-		// The second button allows changing the edit size from 1 to 5
-		if (MouseIn(10, 80, 60, 60)) {
-			ChatRoomMapEditRange++;
-			if (ChatRoomMapEditRange > 5) ChatRoomMapEditRange = 1;
-			return;
-		}
+	else if ((ChatRoomMapViewEditMode == "Tile") && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
 
 		// The other buttons allows changing the edit tile
 		let Y = 80;
-		for (let Tile of ChatRoomMapTileList)
-			if (ChatRoomMapEditSubMode == Tile.Type) {
+		for (let Tile of ChatRoomMapViewTileList)
+			if (ChatRoomMapViewEditSubMode == Tile.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditObject = CommonCloneDeep(Tile);
 					return;
 				}
 			}
 
 		// Enter the drawing mode
-		ChatRoomMapEditStarted = true;
-		ChatRoomMapMouseMove();
+		ChatRoomMapViewEditStarted = true;
+		ChatRoomMapViewMouseMove();
 		return;
 
-	}
-
-	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
-	if (ChatRoomMapEditMode == "ObjectType") {
-		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapEditMode = ""; return; }
-		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapEditMode = "TileType"; return; }
-		let Y = 80;
-		let Type = "";
-		for (let Obj of ChatRoomMapObjectList)
-			if (Type != Obj.Type) {
-				Type = Obj.Type;
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
-					ChatRoomMapEditMode = "Object";
-					ChatRoomMapEditSubMode = Obj.Type;
-					ChatRoomMapEditObject = CommonCloneDeep(Obj);
-					return;
-				}
-			}
-	}
-
 	// In object edit mode
-	if ((ChatRoomMapEditMode == "Object") && MouseIn(0, 0, 1000, 1000)) {
-
-		// The first button returns to type selection
-		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomMapEditMode = "ObjectType";
-			return;
-		}
-
-		// The second button allows changing the edit size from 1 to 5
-		if (MouseIn(10, 80, 60, 60)) {
-			ChatRoomMapEditRange++;
-			if (ChatRoomMapEditRange > 5) ChatRoomMapEditRange = 1;
-			return;
-		}
+	} else if ((ChatRoomMapViewEditMode == "Object") && MouseIn(0, 0, 1000, 1000)) {
+		if (MouseIn(10, 10, 60, 60)) { return; }
+		if (MouseIn(10, 80, 60, 60)) { return; }
 
 		// The other buttons allows changing the edit tile
 		let Y = 80;
-		for (let Obj of ChatRoomMapObjectList)
-			if (ChatRoomMapEditSubMode == Obj.Type) {
+		for (let Obj of ChatRoomMapViewObjectList)
+			if (ChatRoomMapViewEditSubMode == Obj.Type) {
 				Y = Y + 70;
 				if (MouseIn(10, Y, 60, 60)) {
-					// @ts-ignore
-					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
-						ChatRoomMapEditObject = CommonCloneDeep(Obj);
 					return;
 				}
 			}
 
 		// Enter the drawing mode
-		ChatRoomMapEditStarted = true;
-		ChatRoomMapMouseMove();
+		ChatRoomMapViewEditStarted = true;
+		ChatRoomMapViewMouseMove();
 		return;
 
 	}
@@ -1471,38 +1583,38 @@ function ChatRoomMapMouseDown() {
  * Mouse move event is used to draw on screen
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseMove() {
+function ChatRoomMapViewMouseMove() {
 
 	// Only in edit mode
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 	let Backup = CommonCloneDeep(ChatRoomData.MapData);
 
 	// In tile edit mode
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Tile") && (ChatRoomMapEditObject != null)) {
-		for (let Pos of ChatRoomMapEditSelection)
-			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditObject.ID) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
-		ChatRoomMapUpdateFlag();
+	if (ChatRoomMapViewEditStarted && (ChatRoomMapViewEditMode == "Tile") && (ChatRoomMapViewEditObject != null)) {
+		for (let Pos of ChatRoomMapViewEditSelection)
+			ChatRoomData.MapData.Tiles = ChatRoomData.MapData.Tiles.substring(0, Pos) + String.fromCharCode(ChatRoomMapViewEditObject.ID) + ChatRoomData.MapData.Tiles.substring(Pos + 1);
+		ChatRoomMapViewUpdateFlag();
 	}
 
 	// In object edit mode, make sure unique items are not duplicated
-	if (ChatRoomMapEditStarted && (ChatRoomMapEditMode == "Object") && (ChatRoomMapEditObject != null)) {
-		if ("Unique" in ChatRoomMapEditObject && ChatRoomMapEditObject.Unique === true)
+	if (ChatRoomMapViewEditStarted && (ChatRoomMapViewEditMode == "Object") && (ChatRoomMapViewEditObject != null)) {
+		if ("Unique" in ChatRoomMapViewEditObject && ChatRoomMapViewEditObject.Unique === true)
 			for (let Pos = 0; Pos < ChatRoomData.MapData.Objects.length; Pos++)
-				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapEditObject.ID)
-					ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
-		for (let Pos of ChatRoomMapEditSelection) {
-			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapEditObject.ID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
-			if ("Unique" in ChatRoomMapEditObject && ChatRoomMapEditObject.Unique === true) break;
+				if (ChatRoomData.MapData.Objects.charCodeAt(Pos) === ChatRoomMapViewEditObject.ID)
+					ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapViewObjectStartID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+		for (let Pos of ChatRoomMapViewEditSelection) {
+			ChatRoomData.MapData.Objects = ChatRoomData.MapData.Objects.substring(0, Pos) + String.fromCharCode(ChatRoomMapViewEditObject.ID) + ChatRoomData.MapData.Objects.substring(Pos + 1);
+			if ("Unique" in ChatRoomMapViewEditObject && ChatRoomMapViewEditObject.Unique === true) break;
 		}
-		ChatRoomMapUpdateFlag();
+		ChatRoomMapViewUpdateFlag();
 	}
 
 	// If the map was modified, we keep the previous version as backup so we can undo the changes
 	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData.MapData)) {
-		if (ChatRoomMapEditBackup.length > 100) ChatRoomMapEditBackup = ChatRoomMapEditBackup.slice(-100);
-		ChatRoomMapEditBackup.push(Backup);
+		if (ChatRoomMapViewEditBackup.length > 100) ChatRoomMapViewEditBackup = ChatRoomMapViewEditBackup.slice(-100);
+		ChatRoomMapViewEditBackup.push(Backup);
 		// Update perception map after a change
-		ChatRoomMapCalculatePerceptionMasks();
+		ChatRoomMapViewCalculatePerceptionMasks();
 	}
 
 }
@@ -1511,26 +1623,26 @@ function ChatRoomMapMouseMove() {
  * Mouse up event is used to stop drawing
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseUp() {
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	ChatRoomMapEditStarted = false;
+function ChatRoomMapViewMouseUp() {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+	ChatRoomMapViewEditStarted = false;
 }
 
 /**
  * Mouse wheel event is used to zoom the map
  * @returns {void} - Nothing
  */
-function ChatRoomMapMouseWheel(Event) {
-	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapVisible) return;
-	if ((MouseX <= 1000) && (Event.deltaY < 0) && (ChatRoomMapViewRange > ChatRoomMapViewRangeMin)) ChatRoomMapViewRange--;
-	if ((MouseX <= 1000) && (Event.deltaY > 0) && (ChatRoomMapViewRange < ChatRoomMapViewRangeMax)) ChatRoomMapViewRange++;
+function ChatRoomMapViewMouseWheel(Event) {
+	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
+	if ((MouseX <= 1000) && (Event.deltaY < 0) && (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin)) ChatRoomMapViewPerceptionRange--;
+	if ((MouseX <= 1000) && (Event.deltaY > 0) && (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax)) ChatRoomMapViewPerceptionRange++;
 }
 
 /**
  * Copies the current map in the clipboard.  Called from the chat field command "mapcopy"
  * @returns {void} - Nothing
  */
-function ChatRoomMapCopy() {
+function ChatRoomMapViewCopy() {
 
 	// Make sure there's a valid map to copy first
 	if ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) {
@@ -1551,7 +1663,7 @@ function ChatRoomMapCopy() {
  * @param {string} Param - The parameter that comes with the command
  * @returns {void} - Nothing
  */
-function ChatRoomMapPaste(Param) {
+function ChatRoomMapViewPaste(Param) {
 
 	// Cuts the /mappaste characters
 	if ((Param == null) || (Param.length < 10)) {
@@ -1596,8 +1708,8 @@ function ChatRoomMapPaste(Param) {
 
 	// Loads the map and flags it to be refreshed
 	ChatRoomData.MapData = MapData;
-	ChatRoomMapUpdateFlag();
-	ChatRoomMapCalculatePerceptionMasks();
+	ChatRoomMapViewUpdateFlag();
+	ChatRoomMapViewCalculatePerceptionMasks();
 	ChatRoomSendLocal(TextGet("MapPasteDone"));
 
 }
@@ -1606,11 +1718,102 @@ function ChatRoomMapPaste(Param) {
  * Make sure the whisper target is still valid on the map, and leave whipser mode if needed
  * @returns {void} - Nothing
  */
-function ChatRoomMapWhisperValid() {
-	if (!ChatRoomMapVisible || (ChatRoomTargetMemberNumber == null)) return;
+function ChatRoomMapViewWhisperValid() {
+	if (!ChatRoomMapViewIsActive() || (ChatRoomTargetMemberNumber == null)) return;
 	for (let C of ChatRoomCharacter)
-		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapCharacterOnWhisperRange(C))
+		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapViewCharacterOnWhisperRange(C))
 			return;
 	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
 	ChatRoomSetTarget(null);
 }
+
+/** Deprecated names for compatibility */
+
+//---Deprecated Variables of R101---
+CommonProperty("ChatRoomMapVisible", () => ChatRoomIsViewActive(ChatRoomMapViewName), function (value) { if (value) { ChatRoomIsViewActive(ChatRoomMapViewName); } else {ChatRoomIsViewActive(ChatRoomCharacterViewName); } });
+CommonProperty("ChatRoomMapWidth", () => ChatRoomMapViewWidth, (value) => ChatRoomMapViewWidth = value);
+CommonProperty("ChatRoomMapHeight", () => ChatRoomMapViewHeight, (value) => ChatRoomMapViewHeight = value);
+CommonProperty("ChatRoomMapViewRange", () => ChatRoomMapViewPerceptionRange, (value) => ChatRoomMapViewPerceptionRange = value);
+CommonProperty("ChatRoomMapViewRangeMin", () => ChatRoomMapViewPerceptionRangeMin, (value) => ChatRoomMapViewPerceptionRangeMin = value);
+CommonProperty("ChatRoomMapViewRangeMax", () => ChatRoomMapViewPerceptionRangeMax, (value) => ChatRoomMapViewPerceptionRangeMax = value);
+CommonProperty("ChatRoomMapObjectStartID", () => ChatRoomMapViewObjectStartID, (value) => ChatRoomMapViewObjectStartID = value);
+CommonProperty("ChatRoomMapObjectEntryID", () => ChatRoomMapViewObjectEntryID, (value) => ChatRoomMapViewObjectEntryID = value);
+CommonProperty("ChatRoomMapEditMode", () => ChatRoomMapViewEditMode, (value) => ChatRoomMapViewEditMode = value);
+CommonProperty("ChatRoomMapEditSubMode", () => ChatRoomMapViewEditSubMode, (value) => ChatRoomMapViewEditSubMode = value);
+CommonProperty("ChatRoomMapEditStarted", () => ChatRoomMapViewEditStarted, (value) => ChatRoomMapViewEditStarted = value);
+CommonProperty("ChatRoomMapEditObject", () => ChatRoomMapViewEditObject, (value) => ChatRoomMapViewEditObject = value);
+CommonProperty("ChatRoomMapEditSelection", () => ChatRoomMapViewEditSelection, (value) => ChatRoomMapViewEditSelection = value);
+CommonProperty("ChatRoomMapEditRange", () => ChatRoomMapViewEditRange, (value) => ChatRoomMapViewEditRange = value);
+CommonProperty("ChatRoomMapEditBackup", () => ChatRoomMapViewEditBackup, (value) => ChatRoomMapViewEditBackup = value);
+CommonProperty("ChatRoomMapUpdateRoomNext", () => ChatRoomMapViewUpdateRoomNext, (value) => ChatRoomMapViewUpdateRoomNext = value);
+CommonProperty("ChatRoomMapUpdatePlayerNext", () => ChatRoomMapViewUpdatePlayerNext, (value) => ChatRoomMapViewUpdatePlayerNext = value);
+CommonProperty("ChatRoomMapUpdateLastMapDataNext", () => ChatRoomMapViewUpdateLastMapDataNext, (value) => ChatRoomMapViewUpdateLastMapDataNext = value);
+CommonProperty("ChatRoomMapFocusedCharacter", () => ChatRoomMapViewFocusedCharacter, (value) => ChatRoomMapViewFocusedCharacter = value);
+CommonProperty("ChatRoomMapSuperPowersActive", () => ChatRoomMapViewSuperPowersActive, (value) => ChatRoomMapViewSuperPowersActive = value);
+CommonProperty("ChatRoomMapBaseMovementSpeed", () => ChatRoomMapViewBaseMovementSpeed, (value) => ChatRoomMapViewBaseMovementSpeed = value);
+CommonProperty("ChatRoomMapMovement", () => ChatRoomMapViewMovement, (value) => ChatRoomMapViewMovement = value);
+CommonProperty("ChatRoomMapTypeList", () => ChatRoomMapViewTypeList, (value) => ChatRoomMapViewTypeList = value);
+CommonProperty("ChatRoomMapUpdatePlayerTime", () => ChatRoomMapViewUpdatePlayerTime, (value) => ChatRoomMapViewUpdatePlayerTime = value);
+CommonProperty("ChatRoomMapPerceptionRaycastOffset", () => ChatRoomMapViewPerceptionRaycastOffset);
+CommonProperty("ChatRoomMapWhisperRange", () => ChatRoomMapViewWhisperRange);
+CommonProperty("ChatRoomMapInteractionRange", () => ChatRoomMapViewInteractionRange);
+CommonProperty("ChatRoomMapRemoteRange", () => ChatRoomMapViewRemoteRange);
+CommonProperty("ChatRoomMapVisibilityMask", () => ChatRoomMapViewVisibilityMask, (value) => ChatRoomMapViewVisibilityMask = value);
+CommonProperty("ChatRoomMapAudibilityMask", () => ChatRoomMapViewAudibilityMask, (value) => ChatRoomMapViewAudibilityMask = value);
+CommonProperty("ChatRoomMapTileList", () => ChatRoomMapViewTileList);
+CommonProperty("ChatRoomMapObjectList", () => ChatRoomMapViewObjectList);
+
+//---Deprecated Functions of R101---
+CommonDeprecateFunction("ChatRoomMapHasSuperPowers", ChatRoomMapViewHasSuperPowers);
+CommonDeprecateFunction("ChatRoomMapInitialize", ChatRoomMapViewInitialize);
+CommonDeprecateFunction("ChatRoomMapInitializeCharacter", ChatRoomMapViewInitializeCharacter);
+CommonDeprecateFunction("ChatRoomMapValidatePos", ChatRoomMapViewValidatePos);
+CommonDeprecateFunction("ChatRoomMapLeave", ChatRoomMapViewLeave);
+CommonDeprecateFunction("ChatRoomMapActivate", ChatRoomMapViewActivate);
+CommonDeprecateFunction("ChatRoomMapDeactivate", ChatRoomMapViewDeactivate);
+CommonDeprecateFunction("ChatRoomMapIsActive", ChatRoomMapViewIsActive);
+CommonDeprecateFunction("ChatRoomMapRun", ChatRoomMapViewRun);
+CommonDeprecateFunction("ChatRoomMapCanLeave", ChatRoomMapViewCanLeave);
+CommonDeprecateFunction("ChatRoomMapSyncRoomProperties", ChatRoomMapViewSyncRoomProperties);
+CommonDeprecateFunction("ChatRoomMapIndexToCoordinates", ChatRoomMapViewIndexToCoordinates);
+CommonDeprecateFunction("ChatRoomMapCoordinatesToIndex", ChatRoomMapViewCoordinatesToIndex);
+CommonDeprecateFunction("ChatRoomMapCalculatePerceptionMasks", ChatRoomMapViewCalculatePerceptionMasks);
+CommonDeprecateFunction("ChatRoomMapGetSightRange", ChatRoomMapViewGetSightRange);
+CommonDeprecateFunction("ChatRoomMapGetHearingRange", ChatRoomMapViewGetHearingRange);
+CommonDeprecateFunction("ChatRoomMapCharacterIsVisible", ChatRoomMapViewCharacterIsVisible);
+CommonDeprecateFunction("ChatRoomMapCharacterIsHearable", ChatRoomMapViewCharacterIsHearable);
+CommonDeprecateFunction("ChatRoomMapCharacterOnWhisperRange", ChatRoomMapViewCharacterOnWhisperRange);
+CommonDeprecateFunction("ChatRoomMapCharacterOnInteractionRange", ChatRoomMapViewCharacterOnInteractionRange);
+CommonDeprecateFunction("ChatRoomMapFindWallEffectTile", ChatRoomMapViewFindWallEffectTile);
+CommonDeprecateFunction("ChatRoomMapIsWall", ChatRoomMapViewIsWall);
+CommonDeprecateFunction("ChatRoomMapGetTileAtPos", ChatRoomMapViewGetTileAtPos);
+CommonDeprecateFunction("ChatRoomMapGetObjectAtPos", ChatRoomMapViewGetObjectAtPos);
+CommonDeprecateFunction("ChatRoomMapCanEnterWall", ChatRoomMapViewCanEnterWall);
+CommonDeprecateFunction("ChatRoomMapWallEffect", ChatRoomMapViewFloorWallEffect);
+CommonDeprecateFunction("ChatRoomMapCollision", ChatRoomMapViewCollision);
+CommonDeprecateFunction("ChatRoomMapGetCharacterAtPos", ChatRoomMapViewGetCharacterAtPos);
+CommonDeprecateFunction("ChatRoomMapGetEntryFlagPosition", ChatRoomMapViewGetEntryFlagPosition);
+CommonDeprecateFunction("ChatRoomMapDrawGrid", ChatRoomMapViewDrawGrid);
+CommonDeprecateFunction("ChatRoomMapUpdateFlag", ChatRoomMapViewUpdateFlag);
+CommonDeprecateFunction("ChatRoomMapUpdatePlayerFlag", ChatRoomMapViewUpdatePlayerFlag);
+CommonDeprecateFunction("ChatRoomMapUpdateRoomSync", ChatRoomMapViewUpdateRoomSync);
+CommonDeprecateFunction("ChatRoomMapUpdatePlayerSync", ChatRoomMapViewUpdatePlayerSync);
+CommonDeprecateFunction("ChatRoomSyncMapData", ChatRoomMapViewSyncMapData);
+CommonDeprecateFunction("ChatRoomMapUpdateLastMapDataSync", ChatRoomMapViewUpdateLastMapDataSync);
+CommonDeprecateFunction("ChatRoomMapMovementProcess", ChatRoomMapViewMovementProcess);
+CommonDeprecateFunction("ChatRoomMapLeash", ChatRoomMapViewLeash);
+CommonDeprecateFunction("ChatRoomMapDraw", ChatRoomMapViewDraw);
+CommonDeprecateFunction("ChatRoomMapCanEnterTile", ChatRoomMapViewCanEnterTile);
+CommonDeprecateFunction("ChatRoomMapMove", ChatRoomMapViewMove);
+
+
+CommonDeprecateFunction("ChatRoomMapUndo", ChatRoomMapViewUndo);
+CommonDeprecateFunction("ChatRoomMapKeyDown", ChatRoomMapViewKeyDown);
+CommonDeprecateFunction("ChatRoomMapClick", ChatRoomMapViewClick);
+CommonDeprecateFunction("ChatRoomMapMouseDown", ChatRoomMapViewMouseDown);
+CommonDeprecateFunction("ChatRoomMapMouseMove", ChatRoomMapViewMouseMove);
+CommonDeprecateFunction("ChatRoomMapMouseUp", ChatRoomMapViewMouseUp);
+CommonDeprecateFunction("ChatRoomMapMouseWheel", ChatRoomMapViewMouseWheel);
+CommonDeprecateFunction("ChatRoomMapCopy", ChatRoomMapViewCopy);
+CommonDeprecateFunction("ChatRoomMapPaste", ChatRoomMapViewPaste);
+CommonDeprecateFunction("ChatRoomMapWhisperValid", ChatRoomMapViewWhisperValid);
