@@ -44,6 +44,8 @@ const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 var ChatRoomMapViewVisibilityMask = [];
 /** @type {boolean[]} */
 var ChatRoomMapViewAudibilityMask = [];
+var ChatRoomMapViewTileFog = "";
+var ChatRoomMapViewObjectFog = "";
 
 /** @type {ChatRoomMapTile[]} */
 const ChatRoomMapViewTileList = [
@@ -663,6 +665,16 @@ function ChatRoomMapViewCanEnterWall(X, Y) {
 }
 
 /**
+ * Returns TRUE if a tile is fully hidden from hide
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @returns {boolean} - TRUE if the tile is hidden
+ */
+function ChatRoomMapViewTileIsHidden(X, Y) {
+	return !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X, Y)] && (ChatRoomMapViewTileFog.charCodeAt(X + Y * ChatRoomMapViewWidth) == 0);
+}
+
+/**
  * Apply a wall "3D" effect on the curent map
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
@@ -675,11 +687,11 @@ function ChatRoomMapViewCanEnterWall(X, Y) {
 function ChatRoomMapViewWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight) {
 
 	// Find all other walls around the current tile
-	let CW = ChatRoomMapViewIsWall(X - 1, Y) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X - 1, Y)];
-	let CE = ChatRoomMapViewIsWall(X + 1, Y) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X + 1, Y)];
-	let SW = ChatRoomMapViewIsWall(X - 1, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X - 1, Y + 1)];
-	let SC = ChatRoomMapViewIsWall(X, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X, Y + 1)];
-	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1) || !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X + 1, Y + 1)];
+	let CW = ChatRoomMapViewIsWall(X - 1, Y) || ChatRoomMapViewTileIsHidden(X - 1, Y);
+	let CE = ChatRoomMapViewIsWall(X + 1, Y) || ChatRoomMapViewTileIsHidden(X + 1, Y);
+	let SW = ChatRoomMapViewIsWall(X - 1, Y + 1) || ChatRoomMapViewTileIsHidden(X - 1, Y + 1);
+	let SC = ChatRoomMapViewIsWall(X, Y + 1) || ChatRoomMapViewTileIsHidden(X, Y + 1);
+	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1) || ChatRoomMapViewTileIsHidden(X + 1, Y + 1);
 
 	// Finds the proper effect and draws it
 	let Effect = ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE);
@@ -833,9 +845,13 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapViewEditSelection = [];
 	ChatRoomMapViewFocusedCharacter = null;
 
+	// Prepares the fog if needed
+	if (ChatRoomMapViewTileFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) ChatRoomMapViewTileFog = String.fromCharCode(0).repeat(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
+	if (ChatRoomMapViewObjectFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) ChatRoomMapViewObjectFog = String.fromCharCode(0).repeat(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
+
 	// For each tiles in the grid
 	for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
-		if(!ChatRoomMapViewVisibilityMask[Pos]) { continue; }
+
 		// Find the X & Y position of the grid
 		let X = Pos % ChatRoomMapViewWidth;
 		let Y = Math.floor(Pos / ChatRoomMapViewWidth);
@@ -860,6 +876,17 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		let TileData = null;
 		let TileImage = null;
 
+		// Out of sight, we draw the fog
+		let Fog = false;
+		if (!ChatRoomMapViewVisibilityMask[Pos]) {
+			if (ChatRoomMapViewTileFog.charCodeAt(Pos) == 0) {
+				DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Full.png", Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+				continue;
+			}
+			TileID = ChatRoomMapViewTileFog.charCodeAt(Pos);
+			Fog = true;
+		}
+
 		// Finds the tile to draw and keeps it
 		for (let Tile of ChatRoomMapViewTileList)
 			if (Tile.ID == TileID) {
@@ -873,18 +900,20 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			DrawImageResize(TileImage, Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 			if (TileData.Type == "Wall") ChatRoomMapViewWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapViewFloorWallEffect(X, Y);
-
 		}
 
+		// Finds the object and updates the fog data
+		let ObjectID = Fog ? ChatRoomMapViewObjectFog.charCodeAt(Pos) : ChatRoomData.MapData.Objects.charCodeAt(Pos);
+		ChatRoomMapViewTileFog = ChatRoomMapViewTileFog.substring(0, Pos) + String.fromCharCode(TileID) + ChatRoomMapViewTileFog.substring(Pos + 1);
+		ChatRoomMapViewObjectFog = ChatRoomMapViewObjectFog.substring(0, Pos) + String.fromCharCode(ObjectID) + ChatRoomMapViewObjectFog.substring(Pos + 1);
+
 		// Draw the non blank object next
-		let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(Pos);
 		if (ObjectID > ChatRoomMapViewObjectStartID)
 			for (let Obj of ChatRoomMapViewObjectList)
 				if (Obj.ID == ObjectID) {
-					if(Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) break;
+					if (Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) break;
 					if (Obj.Style === "Blank") break;
-					// Hide a wall decoration object if the tile before it is not visible
-					if (Obj.Type == "WallDecoration" && !ChatRoomMapViewVisibilityMask[ChatRoomMapViewCoordinatesToIndex(X, Y+1)]) break;
+					if (Obj.Type == "WallDecoration" && ChatRoomMapViewTileIsHidden(X, Y + 1)) break;
 					let ImageName = Obj.Style;
 					if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
 						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
@@ -901,33 +930,61 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			DrawRect = true;
 		}
 
-		// For each characters in the chat room
-		for (let C of ChatRoomCharacter)
-			if ((C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
+		// For each characters in the chat room (don't draw when there's fog)
+		if (!Fog)
+			for (let C of ChatRoomCharacter)
+				if ((C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y)) {
 
-				// Draws the character on the grid
-				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
+					// Draws the character on the grid
+					DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
 
-				// Keeps the character under the cursor
-				if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
-					ChatRoomMapViewFocusedCharacter = C;
-					CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
+					// Keeps the character under the cursor
+					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
+						ChatRoomMapViewFocusedCharacter = C;
+						CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
+					}
+
+					// Draw the water effect if character stands in water
+					if (TileImage != null && TileData != null && TileData.Type == "Water") {
+						const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
+						const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
+						DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
+					}
+
 				}
-
-				// Draw the water effect if character stands in water
-				if (TileImage != null && TileData != null && TileData.Type == "Water") {
-					const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
-					const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
-					DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
-				}
-
-			}
 
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		if (DrawRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
 	}
+
+	// For each tiles in the grid, we draw the fog
+	if (!ChatRoomMapViewHasSuperPowers())
+		for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
+
+			// Find the X & Y position of the grid
+			let X = Pos % ChatRoomMapViewWidth;
+			let Y = Math.floor(Pos / ChatRoomMapViewWidth);
+
+			// Only process if the X & Y are within the visible sight range
+			let MaxRange = Math.max(Math.abs(X - Player.MapData.Pos.X), Math.abs(Y - Player.MapData.Pos.Y));
+			if (MaxRange > MaxVisibleRange) continue;
+
+			// Defines the screen X and Y positions
+			let ScreenX = (X - Player.MapData.Pos.X) * TileWidth + ChatRoomMapViewPerceptionRange * TileWidth;
+			let ScreenY = (Y - Player.MapData.Pos.Y) * TileHeight + ChatRoomMapViewPerceptionRange * TileWidth;
+
+			// If this tile's coordinates are out of the view range, we don't have to bother with it
+			if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) continue;
+
+			// Out of sight and with known data, we draw the half fog effect
+			if (!ChatRoomMapViewVisibilityMask[Pos])
+				if (ChatRoomMapViewTileFog.charCodeAt(Pos) > 0)
+					DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Half.png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+
+		}
+
 
 	// If the user hovers the mouse over a tile occupied by a character
 	if (CharacterUnderCursor) {
