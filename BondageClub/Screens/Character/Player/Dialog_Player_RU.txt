@@ -401,6 +401,10 @@ Minimum:
 Минимум:
 Tighten / Loosen
 Затянуть / ослабить
+Loosen...
+Ослабьте...
+Tighten...
+Затяните...
 You can tighten or loosen this item
 Вы можете затянуть или ослабить этот элемент
 Tighten a little
@@ -7560,3 +7564,415 @@ SourceCharacter sets DestinationCharacter AssetName to close rear crotch shield.
 SourceCharacter выбирает на DestinationCharacter AssetName закрыть задний щиток.
 SourceCharacter sets DestinationCharacter AssetName to close all crotch shields.
 SourceCharacter выбирает на DestinationCharacter AssetName закрыть все щитки.
+Select AssetName Options
+Выберите параметры AssetName
+Select Sleeves
+Настройте рукава
+No Sleeves
+Без рукавов
+Select Top
+Настройте верх
+Full Top
+Полный верх
+Crop Top
+Укороченный верх
+SourceCharacter attaches sleeves to DestinationCharacterName AssetName.
+SourceCharacter прикрепляет рукава к  AssetName DestinationCharacterName.
+SourceCharacter detaches the sleeves of DestinationCharacterName AssetName.
+SourceCharacter отстегивает рукава от AssetName DestinationCharacterName AssetName.
+SourceCharacter switches to DestinationCharacterName AssetName to a full shirt.
+SourceCharacter меняет  AssetName DestinationCharacterName на полный топ.
+SourceCharacter switches to DestinationCharacterName AssetName to a crop top.
+SourceCharacter меняет  AssetName DestinationCharacterName AssetName на укороченный топ.
+Select the suit's type
+Выберите тип костюма
+Standard Suit
+Стандартный костюм
+Prisoner Suit
+Костюм заключенного
+Transparent Suit
+Прозрачный костюм
+Prisoner Transparent Suit
+Прозрачный костюм заключенного
+Barcode:
+Штрих-код:
+Text:
+Текст:
+Label:
+Ярлык:
+Build your footwear:
+Создайте свою обувь:
+Boots Height
+Высота сапог
+Belt Accessory
+Ремень Аксессуар
+Chains Details
+Детали цепочек
+Boots Height:
+Высота сапог:
+Short Boots
+Короткие сапоги
+High Knee Boots
+Высокие сапоги до колена
+Belt Option:
+Вариант пояса:
+No belt
+Нет ремня
+Belt added
+Ремень добавлен
+Chains Option:
+Вариант цепочки:
+No chains
+Никаких цепей
+Chains added
+Добавлены цепочки
+Center
+Центр
+Pointed
+Заостренный
+Round
+Круглый
+Center Options
+Настройте центр
+SourceCharacter changes DestinationCharacter heels.
+SourceCharacter изменяет каблуки DestinationCharacter.
+Bandana
+Бандана
+Logo
+Логотип
+Skull and Bones
+Череп и кости
+Choose Bandana Style
+Выберите стиль банданы
+Choose Logo Style
+Выберите стиль логотипа
+Choose Feathers
+Выберите перья
+SourceCharacter adds a bandana to DestinationCharacter AssetName.
+SourceCharacter добавляет бандану к  AssetName DestinationCharacter.
+SourceCharacter removes the bandana from DestinationCharacter AssetName.
+SourceCharacter снимает бандану с AssetName DestinationCharacter AssetName.
+SourceCharacter adds a feather to DestinationCharacter AssetName.
+SourceCharacter добавляет перо к AssetName DestinationCharacter.
+SourceCharacter removes a feather from DestinationCharacter AssetName.
+SourceCharacter вынимает перо из AssetName DestinationCharacter.
+SourceCharacter adds a skull and bones logo to DestinationCharacter AssetName.
+SourceCharacter добавляет логотип черепа и костей на AssetName DestinationCharacter.
+SourceCharacter adds a kinky logo to DestinationCharacter AssetName.
+SourceCharacter добавляет извращенный логотип на AssetName DestinationCharacter.
+SourceCharacter removes the logo from DestinationCharacter AssetName.
+SourceCharacter удаляет логотип с AssetName DestinationCharacter.
+Normal Frame
+Обычная оправа
+Half-Frame
+Полуоправа
+Belt type
+Тип пояса
+Select belt type
+Выберите тип пояса
+Slim
+Тонкий
+SourceCharacter changes design of DestinationCharacter AssetName to slim design.
+SourceCharacter меняет дизайн DestinationCharacter AssetName на тонкий.
+SourceCharacter changes design of DestinationCharacter AssetName to classic design.
+SourceCharacter меняет дизайн DestinationCharacter AssetName на классический.
+Shields
+Щитки
+Select shields
+Настройте щитки
+Closed front
+Закройте передний
+Closed back
+Закройте задний
+Closed both
+Закройте оба
+SourceCharacter opens up both shields on DestinationCharacter AssetName.
+SourceCharacter открывает оба щитка на DestinationCharacter AssetName.
+SourceCharacter closes front shield on DestinationCharacter AssetName.
+SourceCharacter закрывает передний щиток DestinationCharacter AssetName.
+SourceCharacter closes back shield on DestinationCharacter AssetName.
+SourceCharacter закрывает задний щиток DestinationCharacter AssetName.
+SourceCharacter closes both shields on DestinationCharacter AssetName.
+SourceCharacter закрывает оба щитка DestinationCharacter AssetName.
+Pleasure module
+Модуль удовольствия
+Select pleasure intensity
+Выберите интенсивность удовольствия
+Reset orgasms
+Сбросить оргазмы
+Orgasms:
+Оргазмы:
+Reset denials
+Сбросить отказы
+Denials:
+Отказы:
+DestinationCharacterName AssetName teases lightly.
+DestinationCharacterName AssetName слегка дразнит.
+DestinationCharacterName AssetName hums moderately.
+DestinationCharacterName AssetName гудит умеренно.
+DestinationCharacterName AssetName buzzes strongly.
+DestinationCharacterName AssetName сильно жужжит.
+DestinationCharacterName AssetName vibrates at maximum speed.
+DestinationCharacterName AssetName вибрирует на максимальной скорости.
+SourceCharacter resets DestinationCharacter AssetName orgasms count.
+SourceCharacter сбрасывает счетчик оргазмов с DestinationCharacter AssetName.
+SourceCharacter resets DestinationCharacter AssetName denials count.
+SourceCharacter сбрасывает счетчик отказов с DestinationCharacter AssetName.
+Shock module
+Шокирующий модуль
+Set up shock module
+Установить шоковый модуль
+Trigger shock
+Триггерный шок
+Reset shocks
+Сбросить шоки
+Shocks:
+Шоки:
+Punish orgasm
+Наказать за оргазм
+Punish belt tampering
+Наказать за попытку вскрытия
+Punish any tampering
+Наказать за вмешательство
+SourceCharacter sets DestinationCharacter AssetName shock module to level 1 and turns off automatic shocks.
+SourceCharacter устанавливает шоковый модуль DestinationCharacter AssetName на уровень 1 и отключает автоматические удары.
+SourceCharacter sets DestinationCharacter AssetName shock module to level 1.
+SourceCharacter устанавливает шоковый модуль DestinationCharacter AssetName на уровень 1.
+SourceCharacter sets DestinationCharacter AssetName shock module to level 2.
+SourceCharacter устанавливает шоковый модуль DestinationCharacter AssetName на уровень 2.
+SourceCharacter sets DestinationCharacter AssetName shock module to level 3.
+SourceCharacter устанавливает шоковый модуль DestinationCharacter AssetName на уровень  3.
+Voice module
+Голосовой модуль
+Set up voice module
+Настройка голосового модуля
+Vibe Off
+Виброо выкл
+SourceCharacter turns off voice module of DestinationCharacter AssetName.
+SourceCharacter отключает голосовой модуль DestinationCharacter AssetName.
+SourceCharacter turns on voice module of DestinationCharacter AssetName.
+SourceCharacter включает голосовой модуль DestinationCharacter AssetName.
+Orgasm lock
+Запрет оргазма
+Allow
+Разрешено
+SourceCharacter deactivates orgasm prevention system on DestinationCharacter AssetName.
+SourceCharacter деактивирует систему предотвращения оргазма DestinationCharacter AssetName.
+SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to edging mode.
+SourceCharacter включает систему предотвращения оргазма DestinationCharacter AssetName в режим удержания на краю.
+SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to denial mode.
+ourceCharacter включает систему предотвращения оргазма DestinationCharacter AssetName в режим отказа.
+Days worn
+Дни ношения
+Days since orgasm
+Дней после оргазма
+Free Limbs
+Свободные конечности
+Binder
+Ярмо
+SourceCharacter attaches DestinationCharacter pony mittens to the binder.
+SourceCharacter прикрепляет варежки-пони DestinationCharacter к ярму.
+SourceCharacter detaches DestinationCharacter pony mittens from the binder.
+SourceCharacter отсоединяет варежки-пони DestinationCharacter от ярма.
+Select Phone Option
+Выберите вариант телефона
+Cases
+Корпус
+Choose Your Case
+Выберите свой корпус
+No Case
+Без корпуса
+SourceCharacter changes the case on DestinationCharacterName phone.
+SourceCharacter меняет корпус на телефоне DestinationCharacterName.
+Select collar configuration:
+Выберите конфигурацию ошейника:
+Select style:
+Выберите стиль:
+Micro
+Микро
+SourceCharacter sets DestinationCharacter extendable posture collar style to black.
+SourceCharacter устанавливает стиль DestinationCharacter ошейника  на черный цвет.
+SourceCharacter sets DestinationCharacter extendable posture collar style to micro.
+SourceCharacter устанавливает стиль DestinationCharacter ошейника на микро.
+Select hood style:
+Выберите стиль капюшона:
+Normal (no hair)
+Обычный (без волос)
+Round (no hair)
+Круглый (без волос)
+Small (no hair)
+Маленький (без волос)
+Wide (no hair)
+Широко (без волос)
+Grided
+Сетка
+Grided (no hair)
+Сетка (без волос)
+SourceCharacter removes the hood of DestinationCharacter extendable posture collar.
+SourceCharacter снимает капюшон с DestinationCharacter ошейника.
+Select gag style:
+Выберите стиль кляпа:
+SourceCharacter frees DestinationCharacter mouth from PronounPossesive extendable posture collar.
+SourceCharacter освобождает рот от DestinationCharacter ошейника.
+SourceCharacter adds a panel gag to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет панельный кляп к DestinationCharacter ошейнику.
+SourceCharacter adds a ballgag to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет кляп-шар к DestinationCharacter ошенику.
+Eye cover
+Покрытие для глаз
+Select cover position:
+Выберите положение покрытия:
+No cover
+Без покрытия
+Low cover
+Легкое покрытие
+Medium cover
+Средние покрытие
+High cover
+Высокое покрытие
+Full cover
+Полное покрытие
+SourceCharacter removes the cover from DestinationCharacter extendable posture collar.
+SourceCharacter убирает покрытие глаз с DestinationCharacter ошейника.
+SourceCharacter adds a thin cover to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет тонкое покрытие глаз к DestinationCharacter ошейнику.
+SourceCharacter adds a medium cover to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет средние покрытие глаз к DestinationCharacter ошейнику.
+SourceCharacter adds a thick cover to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет толстое покрытие глаз к DestinationCharacter ошейнику.
+SourceCharacter adds a complete cover to DestinationCharacter extendable posture collar.
+SourceCharacter добавляет полное покрытие глаз к DestinationCharacter ошейнику.
+Pick a latex lip type:
+Выберите тип латексных губ:
+Default lips
+Губы по умолчанию
+Grin lips
+Улыбающиеся губы
+Open mouth lips
+Рот с окрытыми губами
+Serious lips
+Серьезные губы
+SourceCharacter puts a default lips in DestinationCharacterName mouth.
+SourceCharacter помещает губы по умолчанию в DestinationCharacterName рот.
+SourceCharacter puts a grin lips in DestinationCharacterName mouth.
+SourceCharacter помещает улыбающиеся губы в DestinationCharacterName рот.
+SourceCharacter puts a wide open lips in DestinationCharacterName mouth.
+SourceCharacter помещает открытые губы в DestinationCharacterName рот.
+SourceCharacter puts a serious lips in DestinationCharacterName mouth.
+SourceCharacter помещает серьезные губы в DestinationCharacterName рот.
+SourceCharacter loosens DestinationCharacter mask
+SourceCharacter ослабляет DestinationCharacter маску
+SourceCharacter turns DestinationCharacter mask back to normal.
+SourceCharacter возвращает DestinationCharacter маску в нормальное состояние.
+SourceCharacter closes a panel around DestinationCharacter mask.
+SourceCharacter закрывает панель вокруг DestinationCharacter маски.
+Select Modular Gag Accessories
+Выберите аксессуары для модульного кляпа
+Select Gag
+Выберите кляп
+Dildo Ball
+Дилдо-шар
+Tongue Depressor Ring
+Кольцо для фиксации языка
+Bit
+Мунштук
+Tongue Depressor Bit
+Мунштук с фиксатором языка
+SourceCharacter clips a ball gag on DestinationCharacter modular strap.
+SourceCharacter прикрепляет кляп-шар к DestinationCharacter модульному ремню.
+SourceCharacter unclips DestinationCharacter gag from her modular strap.
+SourceCharacter отстегивает кляп DestinationCharacter от модульного ремня.
+SourceCharacter slips a dildo ball gag in DestinationCharacter mouth and clips it on modular strap.
+SourceCharacter вставляет в  DestinationCharacter рот кляп с шариком-дилдо и пристегивает его к модульному ремню.
+SourceCharacter clips a ring gag on DestinationCharacter modular strap.
+SourceCharacter пристегивает кольцевой кляп к DestinationCharacter модульному ремню.
+SourceCharacter clips a ring gag with tongue depressor on DestinationCharacter modular strap.
+SourceCharacter пристегивает кольцевой кляп с фиксатором языка к DestinationCharacter модульному ремню.
+SourceCharacter clips a bit gag on DestinationCharacter modular strap.
+SourceCharacter пристегивает кляп-мунштук к DestinationCharacter модульному ремню.
+SourceCharacter clips a bit gag with tongue depressor on DestinationCharacter modular strap.
+SourceCharacter пристегивает кляп-муштук с фиксатором языка к DestinationCharacter модульному ремню.
+Headress
+Головной ремень
+Select Headress
+Выберите головной ремень
+SourceCharacter detaches a head harness on DestinationCharacter modular strap.
+SourceCharacter отстегивает головной ремень от DestinationCharacter модульного ремня.
+SourceCharacter attaches a head harness on DestinationCharacter modular strap.
+SourceCharacter прикрепляет головной ремень к DestinationCharacter модульному ремню.
+Select Chin Strap
+Выберите подбородочный ремень
+SourceCharacter detaches a chin strap on DestinationCharacter modular strap.
+SourceCharacter отсоединяет ремешок для подбородка от DestinationCharacter модульного ремня.
+SourceCharacter attaches a chin strap on DestinationCharacter modular strap.
+SourceCharacter прикрепляет ремешок для подбородка к DestinationCharacter модульному ремню.
+Hook
+Скоба
+Bells
+Колокольчик
+Nail
+Гвоздь
+Padlock
+Замок
+Peg
+Прищепка
+Bitgag 1
+Кляп-мунштук 1
+Bitgag 2
+Кляп-мунштук 2
+SourceCharacter attaches a hook on DestinationCharacter tongue piercing.
+SourceCharacter прикрепляет скобу ка DestinationCharacter пирсингу языка.
+SourceCharacter attaches a ring on DestinationCharacter tongue piercing hole.
+SourceCharacter прикрепляет кольцо к DestinationCharacter пирсингу языка.
+SourceCharacter attaches a pair of bells on DestinationCharacter tongue piercing.
+SourceCharacter прикрепляет пару колокольчиков к DestinationCharacter пирсингу языка.
+SourceCharacter connects the tongue peircing on DestinationCharacter to their collar.
+SourceCharacter соединяет DestinationCharacter пирсинг языка с ошейником.
+SourceCharacter attaches a nail on DestinationCharacter tongue piercing.
+SourceCharacter прикрепляет гвоздь в DestinationCharacter пирсинг языка.
+SourceCharacter attaches a padlock on DestinationCharacter tongue piercing.
+SourceCharacter прикрепляет замок к DestinationCharacter пирсингу языка.
+SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.
+SourceCharacter прикрепляет прищепку к DestinationCharacter пирсингу языка.
+SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.
+SourceCharacter использует муштук с DestinationCharacter пирсингом языка.
+Customize the look of the mask
+Настройте внешний вид маски
+Five
+Пять
+Six
+Шесть
+SourceCharacter chose first type DestinationCharacter mask.
+SourceCharacter выбрал маску первого типа.
+SourceCharacter chose  second type DestinationCharacter mask.
+SourceCharacter выбрал маску второго типа.
+SourceCharacter chose third type DestinationCharacter mask.
+SourceCharacter выбрал маску третьего типа.
+SourceCharacter chose fourth type DestinationCharacter mask.
+SourceCharacter выбрал маску четвертого типа.
+SourceCharacter chose fifth type DestinationCharacter mask.
+SourceCharacter выбрал маску пятого типа.
+SourceCharacter chose sixth type DestinationCharacter mask.
+SourceCharacter выбрал маску шестого типа.
+Choose how to wear left socks:
+Выберите, как носить левые носки:
+Choose how to wear right socks:
+Выбирайте, как носить правые носки:
+Flat style
+Скучный стиль
+Loose style
+Свободный стиль
+SourceCharacter closes the straps on DestinationCharacter trolley.
+SourceCharacter застегивает ремни на DestinationCharacter тележке.
+SourceCharacter opens the straps on DestinationCharacter trolley.
+SourceCharacter расстегивает ремни на DestinationCharacter тележке.
+Use the lever to:
+Используйте рычаг, чтобы:
+Go down
+Опустить
+Go up
+Поднять
+SourceCharacter returns DestinationCharacterName to the floor.
+SourceCharacter возвращает DestinationCharacterName на пол.
+SourceCharacter pulls the level and DestinationCharacterName is lifted.
+SourceCharacter поднимает  DestinationCharacterName над полом.
