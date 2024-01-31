@@ -2440,7 +2440,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MaidLatex",
 				Fetish: ["Latex"],
-				Value: 42,
+				Value: -1,
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -9429,7 +9429,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MaidLatexHairband",
 				Fetish: ["Latex"],
-				BuyGroup: "MaidLatex",
+				Value: -1,
 				Layer: [
 					{ Name: "Main", HideForAttribute: ["ShortHair"], Top: 15, },
 					{ Name: "Detail", HideForAttribute: ["ShortHair"], Top: 15, },
