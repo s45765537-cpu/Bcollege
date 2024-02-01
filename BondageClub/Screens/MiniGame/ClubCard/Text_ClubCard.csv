@@ -342,7 +342,7 @@ Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their 
 Title Toy Box,Toy Box
 Text Toy Box,+3 Money and draw a card.
 Title Restrain,Restrain
-Text Restrain,For 3 turns, you nor your opponent can play Events. Cancels all Events.
+Text Restrain,"For 3 turns, you nor your opponent can play Events. Cancels all Events."
 Title Detective,Detective
 Text Detective,For each card your opponent draws gain 1 Money. If no Liability are present gain 1 Fame and 1 Money instead.
 Title Launder,Launder
