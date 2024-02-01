@@ -20,7 +20,7 @@ function GameClubCardGetStatus() {
  * @returns {void}
  */
 function GameClubCardSetStatus(NewStatus) {
-	
+
 	if (!["", "Running"].includes(NewStatus)) return;
 
 	let ForceUpdate = false;

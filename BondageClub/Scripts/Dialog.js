@@ -343,6 +343,17 @@ function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
 function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C ? C : CurrentCharacter).AllowItem; }
 
 /**
+ * Returns TRUE if no item can be used by the player on the current character because of the map distance
+ * @returns {boolean} - TRUE if distance is too far (more than 1 tile)
+ */
+function DialogDontAllowItemDistance() {
+	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapViewIsActive()) return false;
+	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnWhisperRange(CurrentCharacter)) return false;
+	return true;
+}
+
+/**
  * Determines if the given character is kneeling
  * @param {string | Character} C - The character to check
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
@@ -1577,8 +1588,8 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
-		if ((CurrentScreen == "ChatRoom") && ChatRoomMapVisible && Player.MapData) {
-			let Obj = ChatRoomMapGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+		if ((CurrentScreen == "ChatRoom") && ChatRoomMapViewIsActive() && Player.MapData) {
+			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))

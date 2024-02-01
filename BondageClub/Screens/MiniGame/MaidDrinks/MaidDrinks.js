@@ -268,7 +268,7 @@ function MaidDrinksDoMove(MoveType) {
 
 /**
  * Handles key presses during the maid drinks mini game. (Both keyboard and mobile)
- * @returns {void} - Nothing
+ * @returns {boolean} - TRUE if the key is handled by the key down event
  */
 function MaidDrinksKeyDown() {
 
@@ -284,7 +284,8 @@ function MaidDrinksKeyDown() {
 			MiniGameProgress = MiniGameProgress + 15;
 			if (MiniGameProgress >= 100) MiniGameProgress = 99;
 		}
-	}
+		return true;
+	} else return false;
 
 }
 

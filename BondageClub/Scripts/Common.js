@@ -1445,6 +1445,75 @@ function CommonHas(obj, key) {
 }
 
 /**
+ * Defines a property with the given name and the passed setter and getter
+ * @example
+ * CommonDeprecate(
+ * 	"OldFunc",
+ * 	function NewFunc (a, b) { return a + b; },
+ * );
+ * @template {any} T
+ * @param {string} propertyName - The name for the new property
+ * @param {()=>T} getter - The getter function for the property
+ * @param {(T)=>void} setter - The setter function for the property
+ */
+function CommonProperty(propertyName, getter = undefined, setter = undefined) {
+	if(window[propertyName] !== undefined)
+	{
+		throw new Error(`The name ${setter} already exists.`);
+	}
+
+	getter ??= function(){ throw Error(`Property "${propertyName}" has no getter defined`); };
+	setter ??= function(){ throw Error(`Property "${propertyName}" has no setter defined`); };
+
+	Object.defineProperty(window, propertyName, {
+		enumerable: true,
+		configurable: true,
+		get: function() {
+			return getter();
+		},
+		set: function(val) { setter(val); },
+	});
+}
+
+/**
+ * Assign a function to the passed namespace, creating a deprecated and non-deprecated symbol. 
+ * Both symbols will are in fact get/set wrappers around the same object, enforcing that `namespace[oldName] === namespace[callback.name]` *always* holds.
+ * @example
+ * CommonDeprecateFunction(
+ * 	"OldFunc",
+ * 	function NewFunc (a, b) { return a + b; },
+ * );
+ * @template {(...any) => any} T
+ * @param {string} oldName - The old (deprecated) name of the symbol
+ * @param {T} callback - The function with its new name
+ * @param {Record<string, any>} namespace - The namespace wherein the new and old names will be stored
+ */
+function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
+	const newName = callback.name;
+	if (!newName) {
+		throw new Error("Passed function lacks a name");
+	} else if (newName === oldName) {
+		throw new Error(`Callback name (${newName}) and oldName (${oldName}) must not be equivalent`);
+	}
+
+	const privateName = `_${newName}`;
+	namespace[privateName] = callback;
+
+	window[newName].get = function() { return namespace[privateName]; };
+	window[newName].set = function(val) { namespace[privateName] = val; };
+
+	Object.defineProperty(window, oldName, {
+		enumerable: true,
+		configurable: true,
+		get: function() {
+			console.warn(`"${oldName}" is deprecated, use "${newName}" instead`);
+			return namespace[privateName];
+		},
+		set: function(val) { namespace[privateName] = val; },
+	});
+}
+
+/**
  * Capitalize the first character of the passed string.
  * @template {string} T
  * @param {T} string

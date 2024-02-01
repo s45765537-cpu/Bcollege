@@ -841,6 +841,7 @@ function KDApplyItemLegacy(inv, tags) {
 				ExtendedItemSetOptionByRecord(KinkyDungeonPlayer, placed, typeRecord, { push: false, refresh: false });
 			}
 
+			placed.Property ??= {};
 			placed.Property.LockedBy = inv.lock ? "MetalPadlock" : undefined;
 			placed.Property.Difficulty = restraint.power;
 			if (restraint.OverridePriority) {

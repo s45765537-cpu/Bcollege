@@ -627,11 +627,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: "mapcopy",
-		Action: () => { ChatRoomMapCopy(); },
+		Action: () => { ChatRoomMapViewCopy(); },
 	},
 	{
 		Tag: "mappaste",
-		Action: (_, msg) => { ChatRoomMapPaste(msg); },
+		Action: (_, msg) => { ChatRoomMapViewPaste(msg); },
 	},
 	{
 		Tag: "whisper",
