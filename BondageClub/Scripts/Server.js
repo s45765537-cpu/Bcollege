@@ -20,6 +20,7 @@ var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
+var ServerChatMessageMaxLength = 1000;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -51,7 +52,7 @@ function ServerInit() {
 	ServerSocket.on("ChatRoomSyncReorderPlayers", function (data) { ChatRoomSyncReorderPlayers(data); });
 	ServerSocket.on("ChatRoomSyncSingle", function (data) { ChatRoomSyncSingle(data); });
 	ServerSocket.on("ChatRoomSyncExpression", function (data) { ChatRoomSyncExpression(data); });
-	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomSyncMapData(data); });
+	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomMapViewSyncMapData(data); });
 	ServerSocket.on("ChatRoomSyncPose", function (data) { ChatRoomSyncPose(data); });
 	ServerSocket.on("ChatRoomSyncArousal", function (data) { ChatRoomSyncArousal(data); });
 	ServerSocket.on("ChatRoomSyncItem", function (data) { ChatRoomSyncItem(data); });
@@ -71,7 +72,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
-		 * @type {Map<string, object>}
+		 * @type {Map<keyof ServerAccountUpdateRequest, any>}
 		 */
 		this.Queue = new Map;
 		/**
@@ -103,11 +104,11 @@ var ServerAccountUpdate = new class AccountUpdater {
 
 	/**
 	 * Queues a data to be synced at a later time
-	 * @param {object} Data
-	 * @param {true} [Force] - force immediate sync to server
+	 * @param {ServerAccountUpdateRequest} Data
+	 * @param {boolean} [Force] - force immediate sync to server
 	 */
-	QueueData(Data, Force) {
-		for (const [key, value] of Object.entries(Data)) {
+	QueueData(Data, Force=true) {
+		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
 
@@ -319,6 +320,7 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
+	/** @type {Partial<Record<AssetGroupName, string[]>>} */
 	const Inv = {};
 	for (let I = 0; I < Player.Inventory.length; I++) {
 		if (Player.Inventory[I].Asset != null) {
@@ -611,8 +613,8 @@ function ServerPlayerAppearanceSync() {
  */
 function ServerPrivateCharacterSync() {
 	if (PrivateVendor != null) {
-		var D = {};
-		D.PrivateCharacter = [];
+		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+		const D = { PrivateCharacter: [] };
 		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
 			var C = {
 				Name: PrivateCharacter[ID].Name,
@@ -849,7 +851,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
  */
 var ServerAccountDataSyncedValidate = {
 	Title: (arg, C) => {
-		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
@@ -862,16 +864,6 @@ var ServerAccountDataSyncedValidate = {
 	},
 	OnlineSharedSettings: (arg, C) => {
 		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
-	},
-	MapData: (arg, C) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		return {
-			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
-			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
-		};
 	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);
@@ -964,7 +956,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	BlockItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -973,7 +965,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	LimitedItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -982,7 +974,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	FavoriteItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {

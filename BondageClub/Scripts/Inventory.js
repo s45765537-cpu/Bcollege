@@ -137,7 +137,7 @@ function InventoryDeleteGroup(C, group, push) {
 * Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using
 * LZString
 * @param {Character} C - The character on which we should load the inventory
-* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly AssetGroupName[]>>} Inventory - An array of Name / Group of items to load
+* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
 */
 function InventoryLoad(C, Inventory) {
 	if (Inventory == null) return;
@@ -938,6 +938,18 @@ function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
 }
 
 /**
+ * Returns TRUE if no item can be used by the player on the character because of the map distance
+ * @param {Character} C - The character on which we validate the distance
+ * @returns {boolean} - TRUE if distance is too far
+ */
+function InventoryIsBlockedByDistance(C) {
+	if ((C == null) || C.IsPlayer()) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapVisible) return false;
+	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnInteractionRange(C)) return false;
+	return true;
+}
+
+/**
 * Returns TRUE if the body area is blocked by an owner rule
 * @param {Character} C - The character on which we validate the group
 * @param {AssetGroupName} [GroupName] - The name of the asset group (body area)
@@ -995,6 +1007,9 @@ function InventoryGroupIsBlocked(C, GroupName, Activity) {
 
 	// Checks for regular blocks
 	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) return true;
+
+	// Check for map range
+	if (InventoryIsBlockedByDistance(C)) return true;
 
 	// If the player is enclosed, all groups for another character are blocked
 	if ((!C.IsPlayer()) && Player.IsEnclose()) return true;

@@ -100,8 +100,10 @@ Nod
 点头
 Sit
 坐
-Struggle
-挣扎
+Struggle (arms)
+挣扎（手臂）
+Struggle (legs)
+挣扎（大腿）
 Step
 踩
 Kick
@@ -114,6 +116,12 @@ Siblings Cheek Kiss
 兄弟姐妹般地亲吻脸颊
 Sip
 喝一口
+Eat
+吃
+Scratch
+抓挠
+Throw Item
+扔物品
 SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool.
 SourceCharacter在欲望和快感的交替中,苦苦保持着自己为数不多的清明和理智.
 SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself.
@@ -198,8 +206,6 @@ Roll over Arm
 在手臂滚动
 Rub on Arm
 在手臂摩擦
-Scratch
-抓挠
 Shock Arm
 电击手臂
 Spank Arm
@@ -498,8 +504,6 @@ Bite Lips
 咬嘴唇
 Clean Mouth
 清洗嘴巴
-Eat
-吃
 Gag Kiss on Cheek
 带着口塞亲吻脸颊
 Clamp Hand over Mouth

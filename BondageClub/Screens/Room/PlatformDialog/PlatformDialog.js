@@ -4073,8 +4073,6 @@ function PlatformDialogStart(DialogName) {
 			PlatformDialog = Dialog;
 	if (PlatformDialog == null) return;
 	PlatformDialogLoadPosition(0);
-	window.removeEventListener("keydown", PlatformEventKeyDown);
-	window.removeEventListener("keyup", PlatformEventKeyUp);
 	CommonSetScreen("Room", "PlatformDialog");
 }
 
@@ -4287,21 +4285,22 @@ function PlatformDialogProcess() {
 
 /**
  * When the user presses keys in the dialog screen
- * @param {object | number} Key - The key or keyCode pressed
- * @returns {void} - Nothing
+ * @param {object | string} Key - The key or keyCode pressed
+ * @returns {boolean} - Always TRUE to let the engine know the key press was handled
  */
 function PlatformDialogKeyDown(Key) {
-	if (typeof Key === "object") Key = Key.keyCode;
-	if (Key == null) Key = KeyPress;
-	if ((Key == 32) || (Key == 13) || (Key == 74) || (Key == 75) || (Key == 76) || (Key == 106) || (Key == 107) || (Key == 108)) PlatformDialogProcess();
-	if ((Key == 87) || (Key == 119) || (Key == 90) || (Key == 122)) {
+	if (typeof Key === "object") Key = Key.code;
+	if (Key == null) return;
+	if ((Key == "Space") || (Key == "Enter") || (Key == "KeyJ") || (Key == "KeyK") || (Key == "KeyL")) PlatformDialogProcess();
+	if (Key == "KeyW") {
 		PlatformDialogAnswerPosition--;
 		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
 	}
-	if ((Key == 83) || (Key == 115)) {
+	if (Key == "KeyS") {
 		PlatformDialogAnswerPosition++;
 		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswer.length)) PlatformDialogAnswerPosition = 0;
 	}
+	return ((Key.substring(0, 3) == "Key") || (Key.substring(0, 5) == "Arrow") || (Key.substring(0, 5) == "Digit") || (Key == "Space") || (Key == "Enter"));
 }
 
 /**
@@ -4345,8 +4344,8 @@ function PlatformDialogController(Buttons) {
 	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformDialogProcess();
 	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) PlatformDialogProcess();
 	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformDialogKeyDown(90);
-	else if ((Buttons[ControllerDPadDown].pressed == true) && (ControllerGameActiveButttons.DOWN == false)) PlatformDialogKeyDown(83);
+	else if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformDialogKeyDown("KeyW");
+	else if ((Buttons[ControllerDPadDown].pressed == true) && (ControllerGameActiveButttons.DOWN == false)) PlatformDialogKeyDown("KeyS");
 	return true;
 }
 

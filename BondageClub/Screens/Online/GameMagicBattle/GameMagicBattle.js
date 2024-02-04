@@ -26,19 +26,25 @@ function GameMagicBattleGetStatus() {
 
 /**
  * Set the current state of LARP.
- * @param {OnlineGameStatus} s
+ * @param {OnlineGameStatus} NewStatus
  * @returns {void}
  */
-function GameMagicBattleSetStatus(s) {
-	if (!["", "Running"].includes(s))
+function GameMagicBattleSetStatus(NewStatus) {
+
+	if (!["", "Running"].includes(NewStatus))
 		return;
 
-	if (Player.Game == null || Player.Game.MagicBattle == null)
+	let ForceUpdate = false;
+	if (Player.Game == null || Player.Game.MagicBattle == null) {
+		ForceUpdate = true;
 		GameMagicBattleLoad();
+	}
 
-	// @ts-ignore
-	Player.Game.MagicBattle.Status = s;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (ForceUpdate || (NewStatus !== Player.Game.MagicBattle.Status)) {
+		Player.Game.MagicBattle.Status = NewStatus;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+
 }
 
 /**

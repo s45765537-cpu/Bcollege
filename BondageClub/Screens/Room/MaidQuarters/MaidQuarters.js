@@ -48,35 +48,36 @@ function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreat
  * @returns {boolean} - Returns true if the player wears a maid dress and a maid hair band, false otherwise
  */
 function MaidQuartersPlayerInMaidUniform() {
-	const clothes = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
+	const Cloth = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
+	const Hat = CharacterAppearanceGetCurrentValue(Player, "Hat", "Name");
 	var NakedOrWithApron =
 		(CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "None"
 		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron1"
 		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron2");
 	return (
-		// Wearing maid headdress
-		(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")
+		// Wearing regular maid hairhand  or latex hairhand
+		(Hat == "MaidHairband1" || Hat == "MaidLatexHairband")
 		&& (
-		// Either regular maid outfits
-			(clothes == "MaidOutfit1" || clothes == "MaidOutfit2")
-		// Or mostly naked
-		|| (NakedOrWithApron
-		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Garters", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Shoes", "Name") == "None")
-		// Or in maid underwears
-		|| (NakedOrWithApron
-		&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1"
-		&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
-		&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2")
+			// Either regular maid outfits or latex outfit
+			(Cloth == "MaidOutfit1" || Cloth == "MaidOutfit2" || Cloth == "MaidLatex")
+			// Or mostly naked
+			|| (NakedOrWithApron
+			&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Garters", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Shoes", "Name") == "None")
+			// Or in maid underwears
+			|| (NakedOrWithApron
+			&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1"
+			&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
+			&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2")
 		)
 	);
 }
@@ -383,15 +384,34 @@ function MaidQuartersMiniGameStart(GameType, Difficulty) {
  * @returns {void} - Nothing
  */
 function MaidQuartersMiniGameEnd() {
+
+	// Goes back to the quest maid
 	CommonSetScreen("Room", "MaidQuarters");
 	CharacterSetCurrent(MaidQuartersMaid);
-	if (MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "281";
-	if (!MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "282";
-	if (MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "481";
-	if (!MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "482";
-	if (MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "590";
-	if (!MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "591";
-	MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, MiniGameType + (MiniGameVictory ? "Victory" : "Defeat"));
+
+	// The latex maid outfit can be rewarded to sorority maid players that scored a perfect run in the maid drinks game
+	if (MiniGameVictory && MiniGamePerfect && (MiniGameType == "MaidDrinks") && LogQuery("JoinedSorority", "Maid") && (!InventoryAvailable(Player, "MaidLatex", "Cloth") || !InventoryAvailable(Player, "MaidLatexHairband", "Hat"))) {
+		MaidQuartersMaid.Stage = "LatexMaid0";
+		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "LatexMaidIntro");
+	} else {
+		if (MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "281";
+		if (!MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "282";
+		if (MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "481";
+		if (!MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "482";
+		if (MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "590";
+		if (!MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "591";
+		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, MiniGameType + (MiniGameVictory ? "Victory" : "Defeat"));
+	}
+
+}
+
+/**
+ * Rewards the player with the latex maid outfit
+ * @returns {void} - Nothing
+ */
+function MaidQuartersGetLatexMaid() {
+	InventoryAdd(Player, "MaidLatex", "Cloth");
+	InventoryAdd(Player, "MaidLatexHairband", "Hat");
 }
 
 /**

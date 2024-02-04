@@ -980,10 +980,12 @@ function PrivateLoadCharacter(C) {
 		if (PrivateCharacter[C].Title != null) N.Title = PrivateCharacter[C].Title;
 		if (PrivateCharacter[C].AssetFamily != null) N.AssetFamily = PrivateCharacter[C].AssetFamily;
 		if (PrivateCharacter[C].Appearance != null) {
+			// @ts-expect-error: `LoginResponse` directly assigns an `ItemBundle[]` here rather than an `Item[]`... because "reasons"
 			const updateValid = ServerAppearanceLoadFromBundle(N, PrivateCharacter[C].AssetFamily, PrivateCharacter[C].Appearance);
 			updateRequired = updateRequired || !updateValid;
 		}
 		if (PrivateCharacter[C].AppearanceFull != null) {
+			// @ts-expect-error: `LoginResponse` directly assigns an `ItemBundle[]` here rather than an `Item[]`... because "reasons"
 			const updateValid = ServerAppearanceLoadFromBundle(N, PrivateCharacter[C].AssetFamily, PrivateCharacter[C].AppearanceFull, null, true);
 			updateRequired = updateRequired || !updateValid;
 		}

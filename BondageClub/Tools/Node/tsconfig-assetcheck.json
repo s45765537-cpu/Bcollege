@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"noEmit": true,
 		"module": "commonjs",
-		"target": "ES2020",
-		"lib": ["es2020", "dom"],
+		"target": "ES2021",
+		"lib": ["es2021", "dom"],
 		"allowJs": true,
 		"strict": true,
 		"noImplicitAny": true
@@ -16,6 +16,7 @@
 	],
 	"exclude": [
 		"../../Scripts/lib/**/*.js",
-		"../../Screens/MiniGame/KinkyDungeon/*"
+		"../../Screens/MiniGame/KinkyDungeon/*",
+		"../../Scripts/MessagesPatch.d.ts"
 	]
 }

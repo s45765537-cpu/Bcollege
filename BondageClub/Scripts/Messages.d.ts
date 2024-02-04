@@ -10,8 +10,8 @@ interface ServerAccountImmutableData {
 	Creation: number;
 	Ownership?: ServerOwnership;
 	Lovership?: ServerLovership[];
-	ActivePose?: readonly string[];
-	Pose?: any;
+	ActivePose?: readonly AssetPoseName[];
+	Pose?: readonly AssetPoseName[];
 }
 
 interface ServerAccountData extends ServerAccountImmutableData {
@@ -21,40 +21,47 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	 */
 	Lover?: string;
 	Money: number;
-	Log?: any;
+	Log?: LogRecord[];
 	GhostList?: MemberNumber[];
 	BlackList: MemberNumber[];
 	FriendList: MemberNumber[];
 	WhiteList: MemberNumber[];
 	ItemPermission: number;
-	Skill?: any;
+	Skill?: Skill[];
 	Reputation?: { Type: string, Value: number }[];
-	Wardrobe?: any;
-	WardrobeCharacterNames?: any;
-	ChatSettings?: any;
-	VisualSettings?: any;
-	AudioSettings?: any;
-	GameplaySettings?: any;
-	ArousalSettings?: any;
-	OnlineSharedSettings?: any;
+	Wardrobe?: string;
+	WardrobeCharacterNames?: string[];
+	ChatSettings?: ChatSettingsType;
+	VisualSettings?: VisualSettingsType;
+	AudioSettings?: AudioSettingsType;
+	GameplaySettings?: GameplaySettingsType;
+	ArousalSettings?: ArousalSettingsType;
+	OnlineSharedSettings?: CharacterOnlineSharedSettings;
 	Game?: CharacterGameParameters;
 	LabelColor?: string;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;
-	BlockItems?: any[];
-	LimitedItems?: any[];
-	FavoriteItems?: any[];
-	HiddenItems?: any;
-	Title?: string;
+	BlockItems?: ItemPermissionsPacked | ItemPermissions[];
+	LimitedItems?: ItemPermissionsPacked | ItemPermissions[];
+	FavoriteItems?: ItemPermissionsPacked | ItemPermissions[];
+	HiddenItems?: ItemPermissions[];
+	Title?: TitleName;
 	Nickname?: string;
 	Crafting?: string;
-	Inventory?: string;
+	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
 	AssetFamily?: "Female3DCG";
-	Infiltration?: object; /* PlayerCharacter.Infiltration */
-	SavedColors?: object[]; /* HSVColor[] */
+	Infiltration?: InfiltrationType;
+	SavedColors?: HSVColor[];
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: number; LastChange: number };
 	MapData?: ChatRoomMapData;
+	PrivateCharacter?: ServerPrivateCharacterData[];
+	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
+	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
+	RoomCreateLanguage?: ServerChatRoomLanguage;
+	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
+	LastMapData?: null | ChatRoomMapData;
+	LastChatRoom?: null | ServerChatRoomSettings;
 }
 
 interface ServerMapDataResponse {
@@ -91,6 +98,22 @@ interface ServerItemBundle {
 	Color?: ItemColor;
 	Property?: ItemProperties;
 	Craft?: CraftingItem;
+}
+
+interface ServerPrivateCharacterData {
+	Name: string;
+	Love: number;
+	Title: TitleName;
+	Trait: NPCTrait[];
+	Cage: boolean;
+	Owner: string;
+	Lover: string;
+	AssetFamily: "Female3DCG";
+	Appearance: ServerAppearanceBundle;
+	AppearanceFull: ServerAppearanceBundle;
+	ArousalSettings: ArousalSettingsType;
+	Event: NPCTrait[];
+	FromPandora?: boolean;
 }
 
 /** An AppearanceBundle is whole minified appearance of a character */
@@ -311,7 +334,7 @@ type ServerAccountBeepResponse = {
 interface ServerChatRoomSearchRequest {
     Query: string;
     Space?: ServerChatRoomSpace[] | ServerChatRoomSpace;
-    Game?: string;
+    Game?: ServerChatRoomGame;
     FullRooms?: boolean;
     Ignore?: string[];
     Language: string;
@@ -326,7 +349,7 @@ interface ServerChatRoomSearchData {
     MemberLimit: number;
     Description: string;
     BlockCategory: string[];
-    Game: string;
+    Game: ServerChatRoomGame;
     Friends: ServerFriendInfo[];
     Space: ServerChatRoomSpace;
 	MapType?: string;
@@ -373,6 +396,11 @@ interface ServerChatRoomJoinRequest {
 }
 
 interface ServerChatRoomSyncMessage extends ServerChatRoomData {
+	Character: ServerAccountDataSynced[];
+	SourceMemberNumber: number;
+}
+
+interface ServerChatRoomSyncPropertiesMessage extends ServerChatRoomData {
 	SourceMemberNumber: number;
 }
 
@@ -766,7 +794,7 @@ interface ServerCharacterPoseUpdate {
 
 interface ServerCharacterPoseResponse {
     MemberNumber: number;
-    Pose: string[];
+    Pose: readonly string[];
 }
 
 interface ServerCharacterArousalUpdate {
@@ -816,6 +844,7 @@ interface ServerChatRoomAllowItemResponse {
 
 interface ServerToClientEvents {
 	ServerInfo: (data: ServerInfoMessage) => void;
+	ServerMessage: (data: string) => void;
 	ForceDisconnect: (data: ServerForceDisconnectMessage) => void;
 
 	CreationResponse: (data: ServerAccountCreateResponse) => void;
@@ -840,7 +869,7 @@ interface ServerToClientEvents {
 	ChatRoomSyncCharacter: (data: ServerChatRoomSyncCharacterResponse) => void;
 	ChatRoomSyncMemberJoin: (data: ServerChatRoomSyncMemberJoinResponse) => void;
 	ChatRoomSyncMemberLeave: (data: ServerChatRoomLeaveResponse) => void;
-	ChatRoomSyncRoomProperties: (data: ServerChatRoomSyncMessage) => void;
+	ChatRoomSyncRoomProperties: (data: ServerChatRoomSyncPropertiesMessage) => void;
 	ChatRoomSyncReorderPlayers: (data: ServerChatRoomReorderResponse) => void;
 	ChatRoomSyncSingle: (data: ServerChatRoomSyncCharacterResponse) => void;
 	ChatRoomSyncExpression: (data: ServerCharacterExpressionResponse) => void;

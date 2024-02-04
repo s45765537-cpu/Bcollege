@@ -77,19 +77,17 @@ const ModularItemChatSetting = {
 function ModularItemRegister(asset, config) {
 	const data = ModularItemCreateModularData(asset, config);
 
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<ModularItemOption>} */
-		const defaultCallbacks = {
-			load: () => ModularItemLoad(data),
-			click: () => ModularItemClick(data),
-			draw: () => ModularItemDraw(data),
-			validate: (...args) => ExtendedItemValidate(data, ...args),
-			publishAction: (...args) => ModularItemPublishAction(data, ...args),
-			init: (...args) => ModularItemInit(data, ...args),
-			setOption: (...args) => ExtendedItemSetOption(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-	}
+	/** @type {ExtendedItemCallbackStruct<ModularItemOption>} */
+	const defaultCallbacks = {
+		load: () => ModularItemLoad(data),
+		click: () => ModularItemClick(data),
+		draw: () => ModularItemDraw(data),
+		validate: (...args) => ExtendedItemValidate(data, ...args),
+		publishAction: (...args) => ModularItemPublishAction(data, ...args),
+		init: (...args) => ModularItemInit(data, ...args),
+		setOption: (...args) => ExtendedItemSetOption(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	ModularItemGenerateValidationProperties(data);
 	return data;
 }

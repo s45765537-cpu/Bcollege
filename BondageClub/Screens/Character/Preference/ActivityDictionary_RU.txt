@@ -108,6 +108,10 @@ Sit
 Сесть кому-то на колени
 Struggle
 Бороться
+Struggle (arms)
+Бороться (руки)
+Struggle (legs)
+Бороться (ноги)
 Step
 Наступить ногой
 Kick
@@ -120,6 +124,14 @@ Siblings Cheek Kiss
 Родственный поцелуй в щеку
 Sip
 Глоток
+Eat
+Укусить
+Scratch
+Царапать
+Throw Item
+Накинуть предмет
+Throw
+Накинуть
 SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool.
 SourceCharacter мучается от вибраций, пытаясь сохранить себя хладнокровной/ым.
 SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself.
@@ -552,6 +564,8 @@ Pour on Back
 Капать на спину
 Tickle Back
 Щекотать спину
+Throw on Back
+Накинуть на спину
 Caress Back
 Ласкать спину
 Foot Massage Back
@@ -876,6 +890,8 @@ SourceCharacter wiggles PronounPossessive feet.
 SourceCharacter шевелит своими ступнями.
 SourceCharacter rubs PronounPossessive own feet with PronounPossessive ActivityAsset.
 SourceCharacter трет свою ступню с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive foot.
+SourceCharacter царапает свою ступню.
 SourceCharacter tickles PronounPossessive own feet with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свою ступню с помощью ActivityAsset.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own feet.
@@ -918,6 +934,8 @@ SourceCharacter tickles TargetCharacter's feet with PronounPossessive ActivityAs
 SourceCharacter щекочет ступню TargetCharacter's с помощью ActivityAsset.
 SourceCharacter rubs TargetCharacter's feet with PronounPossessive ActivityAsset.
 SourceCharacter трет ступню TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's feet.
+SourceCharacter царапает ступню TargetCharacter's.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's feet.
 SourceCharacter катает ActivityAsset по ступне TargetCharacter's .
 SourceCharacter pours ActivityAsset onto TargetCharacter's feet.
@@ -942,10 +960,14 @@ SourceCharacter injects PronounPossessive leg.
 SourceCharacter вводит в свою лодыжку инъекцию.
 SourceCharacter rubs PronounPossessive own leg with PronounPossessive ActivityAsset.
 SourceCharacter трет свою лодыжку с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive leg.
+SourceCharacter царапает свою лодыжку.
 SourceCharacter masturbates PronounPossessive own leg with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свою лодыжку с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own leg with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свою лодыжку с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset at PronounPossessive own feet.
+SourceCharacter накидывает ActivityAsset на свои ступни.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own leg.
 SourceCharacter катает ActivityAsset по своей лодыжке.
 SourceCharacter pours ActivityAsset onto PronounPossessive own leg.
@@ -982,10 +1004,14 @@ SourceCharacter touches PronounPossessive gag to TargetCharacter's leg.
 SourceCharacter касается своим кляпом лодыжки TargetCharacter's .
 SourceCharacter rubs TargetCharacter's leg with PronounPossessive ActivityAsset.
 SourceCharacter трет лодыжку TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's leg.
+SourceCharacter царапает лодыжку TargetCharacter's.
 SourceCharacter masturbates TargetCharacter's leg with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует лодыжку TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's leg with PronounPossessive ActivityAsset.
 SourceCharacter щекочет лодыжку TargetCharacter's с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset at TargetCharacter's feet.
+SourceCharacter накидывает ActivityAsset на лодыжку TargetCharacter's.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's leg.
 SourceCharacter катает ActivityAsset по лодыжке TargetCharacter's .
 SourceCharacter pours ActivityAsset onto TargetCharacter's leg.
@@ -1012,6 +1038,8 @@ SourceCharacter injects PronounPossessive thigh.
 SourceCharacter вводит себе в бедро инъекцию.
 SourceCharacter rubs PronounPossessive own thigh with PronounPossessive ActivityAsset.
 SourceCharacter трет свои бедра с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive legs.
+SourceCharacter царапает свои ноги.
 SourceCharacter masturbates PronounPossessive own thigh with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свои бедра с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own thigh with PronounPossessive ActivityAsset.
@@ -1056,6 +1084,8 @@ SourceCharacter rubs PronounPossessive gag on TargetCharacter's thigh.
 SourceCharacter трется своим кляпом о бедро TargetCharacter's .
 SourceCharacter rubs TargetCharacter's thigh with PronounPossessive ActivityAsset.
 SourceCharacter трет бедро TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's thigh.
+SourceCharacter царапает бедро TargetCharacter's.
 SourceCharacter masturbates TargetCharacter's thigh with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует бедро TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's thigh with PronounPossessive ActivityAsset.
@@ -1078,6 +1108,7 @@ SourceCharacter slaps PronounPossessive pussy.
 SourceCharacter шлепает по своей киске.
 SourceCharacter rubs PronounPossessive own vulva with PronounPossessive ActivityAsset.
 SourceCharacter трет свою вульву с помощью ActivityAsset.
+SourceCharacter царапает свою вульву.
 SourceCharacter masturbates PronounPossessive own vulva with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свою киску с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own vulva with PronounPossessive ActivityAsset.
@@ -1110,6 +1141,8 @@ SourceCharacter nibbles TargetCharacter's pussy lips.
 SourceCharacter покусывает губы киски TargetCharacter's .
 SourceCharacter rubs TargetCharacter's vulva with PronounPossessive ActivityAsset.
 SourceCharacter трет вульву TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's vulva.
+SourceCharacter царапает вульву TargetCharacter's.
 SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's pussy lips.
 SourceCharacter использует ActivityAsset для мастурбации на половых губах TargetCharacter's .
 SourceCharacter slowly penetrates TargetCharacter's vagina with PronounPossessive ActivityAsset.
@@ -1190,6 +1223,8 @@ SourceCharacter wiggles PronounPossessive butt.
 SourceCharacter покачивает своей задницей.
 SourceCharacter rubs PronounPossessive own butt with PronounPossessive ActivityAsset.
 SourceCharacter трет свою задницу с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive butt.
+SourceCharacter царапает свою задницу.
 SourceCharacter masturbates PronounPossessive own butt with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свою задницу с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own butt with PronounPossessive ActivityAsset.
@@ -1230,6 +1265,8 @@ SourceCharacter presses PronounPossessive foot into TargetCharacter's ass.
 SourceCharacter надавливает своей ногой на задницу TargetCharacter's .
 SourceCharacter rubs TargetCharacter's butt with PronounPossessive ActivityAsset.
 SourceCharacter трет задницу TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's butt.
+SourceCharacter царапает задницу TargetCharacter's.
 SourceCharacter masturbates TargetCharacter's butt with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует задницу TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's butt with PronounPossessive ActivityAsset.
@@ -1264,6 +1301,8 @@ SourceCharacter wiggles PronounPossessive hips.
 SourceCharacter покачивает своими бедрами.
 SourceCharacter rubs PronounPossessive own tummy with PronounPossessive ActivityAsset.
 SourceCharacter трет свой живот с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive pelvis.
+SourceCharacter царапает свой таз
 SourceCharacter masturbates PronounPossessive own tummy with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свой живот с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own tummy with PronounPossessive ActivityAsset.
@@ -1302,6 +1341,8 @@ SourceCharacter masturbates TargetCharacter's tummy with PronounPossessive Activ
 SourceCharacter маструбирует животик TargetCharacter's с помощью ActivityAsset.
 SourceCharacter rubs TargetCharacter's tummy with PronounPossessive ActivityAsset.
 SourceCharacter трет животик TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's pelvis.
+SourceCharacter царапает животик TargetCharacter's.
 SourceCharacter tickles TargetCharacter's tummy with PronounPossessive ActivityAsset.
 SourceCharacter щекочет животик TargetCharacter's с помощью ActivityAsset.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's tummy.
@@ -1322,8 +1363,12 @@ SourceCharacter massages PronounPossessive back.
 SourceCharacter массирует свою спину.
 SourceCharacter wiggles PronounPossessive body.
 SourceCharacter покачивает своим телом.
+SourceCharacter throws ActivityAsset on PronounPossessive back.
+SourceCharacter накидывает ActivityAsset на свою спину.
 SourceCharacter rubs PronounPossessive own back with PronounPossessive ActivityAsset.
 SourceCharacter трет свою спину с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive back.
+SourceCharacter царапает свою спину.
 SourceCharacter tickles PronounPossessive own back with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свою спину с помощью ActivityAsset.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own back.
@@ -1360,8 +1405,11 @@ SourceCharacter rests PronounPossessive feet on TargetCharacter's back.
 SourceCharacter кладет свои ноги на спину TargetCharacter's .
 SourceCharacter rubs TargetCharacter's back with PronounPossessive ActivityAsset.
 SourceCharacter трет спину TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's back.
+SourceCharacter царапает спину TargetCharacter's.
 SourceCharacter tickles TargetCharacter's back with PronounPossessive ActivityAsset.
 SourceCharacter щекочет спину TargetCharacter's с помощью ActivityAsset.
+SourceCharacter накидывает ActivityAsset на спину TargetCharacter's.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's back.
 SourceCharacter катает ActivityAsset по спине TargetCharacter's .
 SourceCharacter pours ActivityAsset onto TargetCharacter's back.
@@ -1386,6 +1434,8 @@ SourceCharacter pulls PronounPossessive nipples.
 SourceCharacter оттягивает свой сосок.
 SourceCharacter rubs PronounPossessive own nipple with PronounPossessive ActivityAsset.
 SourceCharacter трет свой сосок с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive nipples.
+SourceCharacter царапает свои соски.
 SourceCharacter masturbates PronounPossessive own nipple with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует свой сосок с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own nipple with PronounPossessive ActivityAsset.
@@ -1418,6 +1468,8 @@ SourceCharacter caresses TargetCharacter's nipples.
 SourceCharacter ласкает соски TargetCharacter's .
 SourceCharacter rubs TargetCharacter's nipple with PronounPossessive ActivityAsset.
 SourceCharacter трет сосок TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's nipples.
+SourceCharacter царапает соски TargetCharacter's.
 SourceCharacter masturbates TargetCharacter's nipple with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует сосок TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's nipple with PronounPossessive ActivityAsset.
@@ -1450,8 +1502,12 @@ SourceCharacter masturbates PronounPossessive own breast with PronounPossessive 
 SourceCharacter маструбирует свою грудь с помощью ActivityAsset.
 SourceCharacter tickles PronounPossessive own breast with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свою грудь с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset on PronounPossessive own breast.
+SourceCharacter накидывает ActivityAsset на свою грудь.
 SourceCharacter rubs PronounPossessive own breast with PronounPossessive ActivityAsset.
 SourceCharacter трет свою грудь с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive breast.
+SourceCharacter царапает свою грудь
 SourceCharacter rolls a ActivityAsset over PronounPossessive own breast.
 SourceCharacter катает ActivityAsset по своей груди.
 SourceCharacter pours ActivityAsset onto PronounPossessive own breast.
@@ -1486,10 +1542,14 @@ SourceCharacter rests PronounPossessive head on TargetCharacter's breasts.
 SourceCharacter кладет свою голову на грудь TargetCharacter's .
 SourceCharacter rubs TargetCharacter's breast with PronounPossessive ActivityAsset.
 SourceCharacter трет грудь TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's breast.
+SourceCharacter царапает грудь TargetCharacter's.
 SourceCharacter masturbates TargetCharacter's breast with PronounPossessive ActivityAsset.
 SourceCharacter маструбирует грудь TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's breast with PronounPossessive ActivityAsset.
 SourceCharacter щекочет грудь TargetCharacter's с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset on TargetCharacter's breasts.
+SourceCharacter накидывает ActivityAsset на грудь TargetCharacter's.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's breast.
 SourceCharacter катает ActivityAsset по груди TargetCharacter's .
 SourceCharacter pours ActivityAsset onto TargetCharacter's breast.
@@ -1524,6 +1584,8 @@ SourceCharacter struggles against PronounPossessive bindings.
 SourceCharacter борется со своими путами.
 SourceCharacter rubs PronounPossessive own arm with PronounPossessive ActivityAsset.
 SourceCharacter трет свое предплечье с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive arm.
+SourceCharacter царапает свое предплечье.
 SourceCharacter tickles PronounPossessive own arm with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свое предплечье с помощью ActivityAsset.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own arm.
@@ -1568,6 +1630,8 @@ SourceCharacter rolls a ActivityAsset over TargetCharacter's arm.
 SourceCharacter катает ActivityAsset по предплечью TargetCharacter's .
 SourceCharacter rubs TargetCharacter's arm with PronounPossessive ActivityAsset.
 SourceCharacter трет предплечье TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's arm.
+SourceCharacter царапает руку TargetCharacter's.
 SourceCharacter shocks TargetCharacter's arm with PronounPossessive ActivityAsset.
 SourceCharacter шокирует предплечье TargetCharacter's с помощью ActivityAsset.
 SourceCharacter hits TargetCharacter's arm with PronounPossessive ActivityAsset.
@@ -1586,6 +1650,8 @@ SourceCharacter bites PronounPossessive hand.
 SourceCharacter кусает свою кисть
 SourceCharacter gives a small kiss on PronounPossessive hand.
 SourceCharacter легонько целует свою кисть.
+SourceCharacter scratches PronounPossessive hand.
+SourceCharacter царапает свою кисть.
 SourceCharacter spanks PronounPossessive first hand with the second one.
 SourceCharacter шлепает свою кисть другой ладонью.
 SourceCharacter rubs PronounPossessive hands together.
@@ -1604,6 +1670,8 @@ SourceCharacter touches PronounPossessive gag to TargetCharacter's hand.
 SourceCharacter прикасается своим кляпом к кисти TargetCharacter's .
 SourceCharacter politely kisses TargetCharacter's hand.
 SourceCharacter вежливо целует кисть TargetCharacter's .
+SourceCharacter scratches over TargetCharacter's hands.
+SourceCharacter царапает кисть TargetCharacter's.
 SourceCharacter licks TargetCharacter's hand.
 SourceCharacter лижет кисть TargetCharacter's .
 SourceCharacter sucks on TargetCharacter's fingers.
@@ -1626,6 +1694,8 @@ SourceCharacter tickles PronounPossessive neck.
 SourceCharacter щекочет себе шею.
 SourceCharacter rubs PronounPossessive own neck with PronounPossessive ActivityAsset.
 SourceCharacter трет свою шею с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive neck.
+SourceCharacter царапает свою шею.
 SourceCharacter tickles PronounPossessive own neck with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свою шею с помощью ActivityAsset.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own neck.
@@ -1652,6 +1722,8 @@ SourceCharacter chokes TargetCharacter's neck.
 SourceCharacter душит TargetCharacter's за шею.
 SourceCharacter rubs TargetCharacter's neck with PronounPossessive ActivityAsset.
 SourceCharacter трет шею TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's neck.
+SourceCharacter царапает шею TargetCharacter's.
 SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
 SourceCharacter щекочет шею TargetCharacter's с помощью ActivityAsset.
 SourceCharacter shocks TargetCharacter's neck with PronounPossessive ActivityAsset.
@@ -1671,6 +1743,8 @@ SourceCharacter nibbles PronounPossessive lips.
 SourceCharacter прикусывает свои губы.
 SourceCharacter caresses and wipes PronounPossessive mouth clean.
 SourceCharacter ласкает и вытирает свой рот.
+SourceCharacter eats some ActivityAsset.
+SourceCharacter накидывает на рот ActivityAsset.
 SourceCharacter bites PronounPossessive lips.
 SourceCharacter кусает свои губы.
 SourceCharacter clamps PronounPossessive hand over PronounPossessive mouth.
@@ -1689,10 +1763,14 @@ SourceCharacter mumbles incoherently into PronounPossessive gag.
 SourceCharacter бессвязно бормочет сквозь кляп.
 SourceCharacter rubs PronounPossessive own mouth with PronounPossessive ActivityAsset.
 SourceCharacter трет свой рот с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive mouth.
+SourceCharacter царапает свой рот.
 SourceCharacter takes a sip from PronounPossessive ActivityAsset.
 SourceCharacter делает глоток из своей ActivityAsset.
 SourceCharacter tickles PronounPossessive own mouth with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свой  рот с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset into PronounPossessive own mouth.
+SourceCharacter накидывает ActivityAsset iна свой рот.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own mouth.
 SourceCharacter катает ActivityAsset по PronounPossessive губам.
 SourceCharacter gives TargetCharacter a kiss on her gag.
@@ -1713,10 +1791,14 @@ SourceCharacter nibbles TargetCharacter's lips.
 SourceCharacter покусывает губы TargetCharacter's .
 SourceCharacter caresses and cleans TargetCharacter's mouth.
 SourceCharacter ласкает и очищает рот TargetCharacter's .
+SourceCharacter puts some ActivityAsset into TargetCharacter's mouth.
+SourceCharacter помещает ActivityAsset в рот TargetCharacter.
 SourceCharacter clamps PronounPossessive hand over TargetCharacter's mouth.
 SourceCharacter зажимает рукой рот TargetCharacter's .
 SourceCharacter rubs TargetCharacter's mouth with PronounPossessive ActivityAsset.
 SourceCharacter трет рот TargetCharacter с помощью ActivityAsset.
+SourceCharacter scratches over TargetCharacter's lips.
+SourceCharacter царапает губы TargetCharacter's.
 SourceCharacter gives TargetCharacter a sip from PronounPossessive ActivityAsset.
 SourceCharacter поит TargetCharacter из своей ActivityAsset.
 SourceCharacter трет рот TargetCharacter's  с помощью ActivityAsset.
@@ -1726,6 +1808,8 @@ SourceCharacter roughly penetrates TargetCharacter's mouth with PronounPossessiv
 SourceCharacter грубо проникает в рот TargetCharacter's помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's mouth with PronounPossessive ActivityAsset.
 SourceCharacter щекочет губы TargetCharacter's с помощью ActivityAsset.
+SourceCharacter throws ActivityAsset into TargetCharacter's mouth.
+SourceCharacter накидывает ActivityAsset на рот TargetCharacter's.
 SourceCharacter rolls a ActivityAsset over TargetCharacter's mouth.
 SourceCharacter катает ActivityAsset по губам TargetCharacter's .
 SourceCharacter gives TargetCharacter a kiss on TargetPronounPossessive gag.
@@ -1736,8 +1820,12 @@ SourceCharacter caresses PronounPossessive face.
 SourceCharacter ласкает свое лицо.
 SourceCharacter brushes PronounPossessive hair.
 SourceCharacter расчесывает свои волосы.
+SourceCharacter throws ActivityAsset on PronounPossessive own head.
+SourceCharacter накидывает ActivityAsset на свою голову.
 SourceCharacter pulls on PronounPossessive own hair.
 SourceCharacter тянет себя за волосы.
+SourceCharacter scratches PronounPossessive head.
+SourceCharacter царапает свою голову.
 SourceCharacter pets herself on the head.
 SourceCharacter гладит себя по голове.
 SourceCharacter rubs PronounPossessive own head with PronounPossessive ActivityAsset.
@@ -1758,6 +1846,8 @@ SourceCharacter caresses TargetCharacter's face.
 SourceCharacter ласкает лицо TargetCharacter's .
 SourceCharacter brushes TargetCharacter's hair.
 SourceCharacter расчесывает волосы TargetCharacter's .
+SourceCharacter throws ActivityAsset on TargetCharacter's face.
+SourceCharacter накидывает ActivityAsset на лицо TargetCharacter's.
 SourceCharacter rubs TargetCharacter's head with PronounPossessive ActivityAsset.
 SourceCharacter трет голову TargetCharacter's с помощью ActivityAsset.
 SourceCharacter tickles TargetCharacter's head with PronounPossessive ActivityAsset.
@@ -1768,6 +1858,8 @@ SourceCharacter gently pets TargetCharacter's head.
 SourceCharacter нежно гладит голову TargetCharacter's .
 SourceCharacter rubs PronounPossessive breast against TargetCharacter's face.
 SourceCharacter трется грудью о лицо TargetCharacter's .
+SourceCharacter scratches over TargetCharacter's head.
+SourceCharacter царапает голову TargetCharacter's.
 SourceCharacter bites TargetCharacter's hair.
 SourceCharacter кусает волосы TargetCharacter's .
 SourceCharacter rubs PronounPossessive foot on TargetCharacter's face.
@@ -1802,6 +1894,8 @@ SourceCharacter tickles TargetCharacter's nose with PronounPossessive ActivityAs
 SourceCharacter щекочет нос TargetCharacter's с помощью ActivityAsset.
 SourceCharacter rubs TargetCharacter's nose with PronounPossessive ActivityAsset.
 SourceCharacter трет нос TargetCharacter's с помощью ActivityAsset.
+SourceCharacter scratches TargetCharacter's nose.
+SourceCharacter царапает нос TargetCharacter's.
 SourceCharacter pinches PronounPossessive nose.
 SourceCharacter щипает себя за нос.
 SourceCharacter caresses PronounPossessive nose.
@@ -1818,6 +1912,8 @@ SourceCharacter wiggles PronounPossessive nose.
 SourceCharacter шевелит носом.
 SourceCharacter rubs PronounPossessive own nose with PronounPossessive ActivityAsset.
 SourceCharacter трет свой нос с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive nose.
+SourceCharacter царапает свой нос.
 SourceCharacter tickles PronounPossessive own nose with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свой нос с помощью ActivityAsset.
 SourceCharacter pinches PronounPossessive ear.
@@ -1828,12 +1924,16 @@ SourceCharacter wiggles PronounPossessive ears.
 SourceCharacter шевелит своими ушами.
 SourceCharacter rubs PronounPossessive own ear with PronounPossessive ActivityAsset.
 SourceCharacter трет свое ухо с помощью ActivityAsset.
+SourceCharacter scratches PronounPossessive ear.
+SourceCharacter царапает свое ухо.
 SourceCharacter rolls a ActivityAsset over PronounPossessive own ear.
 SourceCharacter катает ActivityAsset по своему уху.
 SourceCharacter tickles PronounPossessive own ear with PronounPossessive ActivityAsset.
 SourceCharacter щекочет свое ухо с помощью ActivityAsset.
 SourceCharacter rubs TargetCharacter's ear with PronounPossessive ActivityAsset.
-SourceCharacter трет ухо TargetCharacter's  с помощью ActivityAsset
+SourceCharacter трет ухо TargetCharacter's  с помощью ActivityAsset.
+SourceCharacter scratches TargetCharacter's ears.
+SourceCharacter царапает ухо TargetCharacter's.
 SourceCharacter bites TargetCharacter's ear.
 SourceCharacter кусает TargetCharacter's за ухо.
 SourceCharacter kisses TargetCharacter's ear.

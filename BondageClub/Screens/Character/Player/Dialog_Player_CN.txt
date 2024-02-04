@@ -3759,6 +3759,32 @@ SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 SourceCharacter改变了DestinationCharacter平滑乳胶面具上的图案。
 SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
 SourceCharacter改变了DestinationCharacter平滑乳胶面具的内侧衬垫。
+Customize the look of the mask
+自定义面罩外观
+One
+一
+Two
+二
+Three
+三
+Four
+四
+Five
+五
+Six
+六
+SourceCharacter chose first type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式一。
+SourceCharacter chose  second type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式二。
+SourceCharacter chose third type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式三。
+SourceCharacter chose fourth type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式四。
+SourceCharacter chose fifth type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式五。
+SourceCharacter chose sixth type DestinationCharacter mask.
+SourceCharacter为DestinationCharacter的面罩选择了样式六。
 Double
 双层
 Open Mummy
@@ -5955,6 +5981,8 @@ SourceCharacter turns DestinationCharacter lactation pump to normal suction.
 SourceCharacter调整DestinationCharacter哺乳泵到普通吸力。
 Select lactation pump setting
 选择哺乳泵设置
+The UsedAsset on TargetCharacterName hums as it starts to express some milk.
+TargetCharacterName身上的UsedAsset嗡嗡作响，开始排出一些奶水。
 SourceCharacter selects PronounPossessive team and class.
 SourceCharacter选择了PronounObject的队伍和职业。
 SourceCharacter has started the LARP game.
@@ -7375,14 +7403,6 @@ SourceCharacter tries to help TargetCharacter to struggle free.
 SourceCharacter 试图帮助 TargetCharacter 摆脱束缚。
 Struggling...
 挣扎中…
-Four
-四根
-One
-一根
-Three
-三根
-Two
-两根
 SourceCharacter restrains TargetCharacter with four sturdy leather belts.
 SourceCharacter只用四根厚实的皮带束缚住TargetCharacter。
 SourceCharacter restrains TargetCharacter with only one sturdy leather belt.
@@ -7659,3 +7679,7 @@ SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.
 SourceCharacter在DestinationCharacter舌穿刺上添加了一个晾衣夹。
 SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.
 SourceCharacter在DestinationCharacter舌穿刺后面使用了一个夹具。
+Normal Frame
+通常框架
+Half-Frame
+半框架

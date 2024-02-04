@@ -345,6 +345,9 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
 		},
+		IsStanding: function () {
+			return CommonIncludes(PoseAllStanding, this.PoseMapping.BodyLower);
+		},
 		IsNaked: function () {
 			return CharacterIsNaked(this);
 		},
@@ -677,10 +680,21 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 	// Maid archetype
 	if (Archetype == "Maid") {
 		InventoryAdd(C, "MaidOutfit1", "Cloth", false);
-		InventoryWear(C, "MaidOutfit1", "Cloth");
-		InventoryAdd(C, "MaidHairband1", "Hat", false);
-		InventoryWear(C, "MaidHairband1", "Hat");
 		InventoryAdd(C, "MaidOutfit2", "Cloth", false);
+		InventoryAdd(C, "MaidHairband1", "Hat", false);
+		InventoryAdd(C, "MaidLatex", "Cloth", false);
+		InventoryAdd(C, "MaidLatexHairband", "Hat", false);
+		if (Math.random() > 0.85) {
+			InventoryWear(C, "MaidOutfit2", "Cloth");
+			InventoryWear(C, "MaidHairband1", "Hat");
+		} else if (Math.random() > 0.75) {
+			InventoryWear(C, "MaidLatex", "Cloth");
+			InventoryGet(C, "Cloth").Color = ['#202020', '#B0B0B0', 'Default'];
+			InventoryWear(C, "MaidLatexHairband", "Hat");
+		} else {
+			InventoryWear(C, "MaidOutfit1", "Cloth");
+			InventoryWear(C, "MaidHairband1", "Hat");
+		}
 		if (InventoryGet(C, "Socks") == null) InventoryWear(C, "Socks4", "Socks", "#AAAAAA");
 		if (InventoryGet(C, "Shoes") == null) InventoryWear(C, "Shoes2", "Shoes", "#222222");
 		if ((InventoryGet(C, "Gloves") == null) && (Math.random() > 0.5)) InventoryWear(C, "Gloves1", "Gloves", "#AAAAAA");
@@ -787,18 +801,15 @@ function CharacterLoadSimple(AccName) {
  */
 function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (!Char.IsPlayer() && Char.MemberNumber == SourceMemberNumber) {
-		Char.Title ??= ServerAccountDataSyncedValidate.Title(data.Title, Char);
-		Char.Nickname ??= ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
-		Char.ItemPermission ??= ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
-		Char.ArousalSettings ??= ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
-		Char.OnlineSharedSettings ??= ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
-		Char.Game ??= ServerAccountDataSyncedValidate.Game(data.Game, Char);
-		if(!Char.MapData)
-		{
-			Char.MapData = ChatRoomMapInitializeCharacter(Char);
-			Char.MapData.Pos = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
-		}
-		Char.Crafting ??= ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
+		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
+		Char.Nickname = ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
+		Char.ItemPermission = ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
+		Char.ArousalSettings = ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
+		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
+		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
+		Char.MapData = ChatRoomMapViewInitializeCharacter(Char);
+		Char.MapData.Pos = ChatRoomMapViewValidatePos(data.MapData);
+		Char.Crafting = ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
 
 	// Fully validated in the `ActivePose` setter
@@ -937,9 +948,9 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		if (!Refresh && (JSON.stringify(Char.Crafting) !== JSON.stringify(data.Crafting))) Refresh = true;
 		if (!Refresh && Array.isArray(data.WhiteList) && (JSON.stringify(Char.WhiteList) !== JSON.stringify(data.WhiteList))) Refresh = true;
 		if (!Refresh && Array.isArray(data.BlackList) && (JSON.stringify(Char.BlackList) !== JSON.stringify(data.BlackList))) Refresh = true;
-		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != data.BlockItems.length)) Refresh = true;
-		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != data.LimitedItems.length)) Refresh = true;
-		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != data.FavoriteItems.length)) Refresh = true;
+		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != /** @type {ItemPermissions[]} */(data.BlockItems).length)) Refresh = true;
+		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != /** @type {ItemPermissions[]} */(data.LimitedItems).length)) Refresh = true;
+		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != /** @type {ItemPermissions[]} */(data.FavoriteItems).length)) Refresh = true;
 
 		// If we must refresh
 		if (Refresh) CharacterOnlineRefresh(Char, data, SourceMemberNumber);
@@ -1463,8 +1474,8 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
  * @param {Character} C - Character for which to set the expression of
  * @param {ExpressionGroupName | "Eyes1"} AssetGroup - Asset group for the expression
  * @param {ExpressionName} Expression - Name of the expression to use
- * @param {number} [Timer] - Optional: time the expression will last
- * @param {string|string[]} [Color] - Optional: color of the expression to set
+ * @param {number} [Timer] - Optional: time the expression will last. Will send a null expression to expression queue. If expression to set is null, this is ignored.
+ * @param {ItemColor} [Color] - Optional: color of the expression to set
  * @param {boolean} [fromQueue] - Internal: used to skip queuing the expression change if it comes from the queued expressions
  * @returns {void} - Nothing
  */
@@ -1487,9 +1498,9 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	if (!fromQueue && C.ExpressionQueue) {
 		C.ExpressionQueue = C.ExpressionQueue.filter(({ Group }) => Group !== AssetGroup);
 	}
-	// We can't have timers on the null/default expression.
+	// We should not have timers to null a null expression
 	if (Timer != null && Expression != null) {
-		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), Expression);
+		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), null);
 	}
 
 	// The usual weird sync-dance: if we're in a chat room, then C isn't an NPC and we can skip doing a
@@ -1517,7 +1528,13 @@ function CharacterResetFacialExpression(C) {
 	for (const item of C.Appearance) {
 		const group = item.Asset.Group;
 		if (group.IsAppearance() && group.AllowExpression) {
-			CharacterSetFacialExpression(C, /** @type {ExpressionGroupName} - group.Name filtered by expression unique group.AllowExpression */ (group.Name), null);
+			let name = /** @type {ExpressionGroupName | "Eyes1"} */ (group.Name);
+			if (name === "Eyes") {
+				// Set group name for CharacterSetFacialExpression to avoid overwriting right eye colour
+				name = "Eyes1";
+			}
+			const color = item.Color;
+			CharacterSetFacialExpression(C, name, null, null, color);
 		}
 	}
 }
@@ -2075,11 +2092,13 @@ function CharacterScriptRemove(C) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [forceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
  * @returns {void} - Nothing
  * @deprecated - Deprecated alias for {@link PoseSetActive}
  */
-var CharacterSetActivePose = PoseSetActive;
+function CharacterSetActivePose(C, poseName, forceChange=false) {
+	return PoseSetActive(C, poseName, forceChange);
+}
 
 /**
  * Checks whether the given character can change to the named pose (without aid by default).
@@ -2089,4 +2108,6 @@ var CharacterSetActivePose = PoseSetActive;
  * the provided pose
  * @deprecated Superseded by {@link PoseCanChangeUnaided}
  */
-var CharacterCanChangeToPose = PoseCanChangeUnaided;
+function CharacterCanChangeToPose(C, poseName) {
+	return PoseCanChangeUnaided(C, poseName);
+}

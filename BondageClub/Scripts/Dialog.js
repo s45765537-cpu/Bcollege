@@ -329,15 +329,18 @@ function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toU
 
 /**
  * Returns the value of the AllowItem flag of a given character
+ * @param {string | Character} C - The character whose flag should be returned.
+ * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem() { return !DialogDontAllowItemPermission() && !DialogDontAllowItemDistance(); }
+function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
+
 
 /**
  * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
  * @returns {boolean} - The reversed value of the given character's AllowItem flag
  */
-function DialogDontAllowItemPermission() { return !DialogGetCharacter(CurrentCharacter).AllowItem; }
+function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C ? C : CurrentCharacter).AllowItem; }
 
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
@@ -345,8 +348,8 @@ function DialogDontAllowItemPermission() { return !DialogGetCharacter(CurrentCha
  */
 function DialogDontAllowItemDistance() {
 	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
-	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapVisible) return false;
-	if (ChatRoomMapHasSuperPowers() || ChatRoomMapCharacterOnWhisperRange(CurrentCharacter)) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapViewIsActive()) return false;
+	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnWhisperRange(CurrentCharacter)) return false;
 	return true;
 }
 
@@ -1585,8 +1588,8 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
-		if ((CurrentScreen == "ChatRoom") && ChatRoomMapVisible && Player.MapData) {
-			let Obj = ChatRoomMapGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+		if ((CurrentScreen == "ChatRoom") && ChatRoomMapViewIsActive() && Player.MapData) {
+			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
@@ -2252,7 +2255,7 @@ function DialogClick() {
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
-	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException() && !DialogDontAllowItemDistance()) {
+	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
 		C = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
@@ -2303,9 +2306,6 @@ function DialogClick() {
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
 	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
-
-	// Block out clicking in map mode when the character is too far
-	if (DialogDontAllowItemDistance()) return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -2996,6 +2996,8 @@ function DialogDraw() {
 
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedOwner"), FocusItem);
+		else if (InventoryIsBlockedByDistance(C))
+			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedRange"), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())
@@ -3128,10 +3130,12 @@ function DialogGetCurrentExpressionPage(item) {
  */
 function DialogClickExpressionMenu() {
 	if (MouseIn(20, 50, 90, 90)) {
+		CharacterResetFacialExpression(Player);
 		DialogFacialExpressions.forEach(FE => {
-			let Color = null;
-			if (FE.Appearance.Asset.Group.AllowColorize && FE.Group !== "Eyes" && FE.Group !== "Mouth") Color = "Default";
-			CharacterSetFacialExpression(Player, FE.Group, null, null, Color);
+			// Reset the fluids' custom color
+			if (FE.Group === "Fluids") {
+				FE.Appearance.Color = "Default";
+			}
 			FE.CurrentExpression = null;
 		});
 		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();

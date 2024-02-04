@@ -2968,7 +2968,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
@@ -2988,7 +2988,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
@@ -3008,7 +3008,7 @@ var PreferenceArousalSettingsValidate = {
 		});
 
 		if (expectedKeys.size > 0) {
-			ret.push(...cloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
+			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;
 	},
@@ -3052,9 +3052,12 @@ var PreferenceOnlineSharedSettingsDefault = {
  */
 var PreferenceOnlineSharedSettingsValidate = {
 	GameVersion: (arg, C) => {
-		const version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
-		if (C.IsPlayer() && CommonCompareVersion(GameVersion, C.OnlineSharedSettings.GameVersion) < 0) {
-			CommonVersionUpdated = true;
+		let version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
+		if (C.IsPlayer()) {
+			if (CommonCompareVersion(GameVersion, version ?? "R0") < 0) {
+				CommonVersionUpdated = true;
+			}
+			version = GameVersion;
 		}
 		return version;
 	},

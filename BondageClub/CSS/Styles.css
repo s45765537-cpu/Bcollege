@@ -161,9 +161,14 @@ textarea {
 	white-space: pre-wrap;
     overflow-wrap: break-word;
 }
-a.ReplyButton {
+#InputChatLength.invalid {
+	color: #FF0000;
+}
+div.ReplyButton {
 	text-decoration: none;
 	font-style: normal;
+	display: inline;
+	cursor: pointer;
 }
 #FriendList {
 	border: 2px solid white;

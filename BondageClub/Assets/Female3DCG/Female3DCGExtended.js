@@ -798,6 +798,21 @@ var AssetFemale3DCGExtended = {
 				Option: "LargeBeltStyle",
 			},
 		}, // LargeBelt
+		LatexApron: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Full",
+				},
+				{
+					Name: "Bottom",
+				},
+			],
+			DialogPrefix: {
+				Header: "LatexApronSelectType",
+				Option: "LatexApronType",
+			},
+		}, // LatexApron
 		WombTattoos: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -4662,41 +4677,6 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DroneMask
-		SpaceMask: {
-			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-			Options: [
-				{
-					Name: "One",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Two",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Three",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-				{
-					Name: "Four",
-					Property: {
-						Hide: ["HairFront", "HairBack", "Hat", "HairAccessory1", "HairAccessory2", "HairAccessory3"],
-						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask",],
-					},
-				},
-			],
-			ChangeWhenLocked: false,
-		}, // SpaceMask
 		CustomLatexHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -7033,6 +7013,103 @@ var AssetFemale3DCGExtended = {
 				AfterDraw: AssetsItemHoodCanvasHoodAfterDrawHook,
 			},
 		}, // CanvasHood
+		SpaceMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "One",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Two",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Three",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Four",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Five",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+				{
+					Name: "Six",
+					Property: {
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"Hat",
+							"HairAccessory1",
+							"HairAccessory2",
+							"HairAccessory3",
+							"ItemEars",
+						],
+						HideItem: ["MaskFuturisticVisor", "MaskShinobiMask"],
+					},
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SpaceMask
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -8407,6 +8484,7 @@ var AssetFemale3DCGExtended = {
 					AllowLock: true,
 					Property: {
 						Difficulty: 5,
+						SetPose: ["BaseLower"],
 						AllowActivePose: [...PoseAllStanding],
 					},
 				},
@@ -9259,6 +9337,10 @@ var AssetFemale3DCGExtended = {
 				Chat: "LatexCorset1Set",
 			},
 		}, // LatexCorset1
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "CorsetDress" },
+		}, // CorsetDress
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
@@ -10271,9 +10353,18 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 					Options: [
 						{}, // g0 - Padded
-						{ Property: { Effect: [E.GagVeryLight] } }, // g1 - LightBall
-						{ Property: { Effect: [E.GagMedium] } }, // g2 - Ball
-						{ Property: { Effect: [E.GagTotal] } }, // g3 - Plug
+						{
+							Property: { Effect: [E.GagVeryLight] },
+							Prerequisite: ["GagUnique"],
+						}, // g1 - LightBall
+						{
+							Property: { Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g2 - Ball
+						{
+							Property: { Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g3 - Plug
 					],
 				},
 				{
@@ -10336,9 +10427,15 @@ var AssetFemale3DCGExtended = {
 					Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0, Effect: [E.GagLight] } }, // g0 - LightBall
-						{ Property: { OriginalSetting: 1, Effect: [E.GagMedium] } }, // g1 - Ball
-						{ Property: { OriginalSetting: 2, Effect: [E.GagTotal] } }, // g2 - Plug
+						{ Property: { Effect: [E.GagLight] } }, // g0 - LightBall
+						{
+							Property: { Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth"],
+						}, // g1 - Ball
+						{
+							Property: { Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth"],
+						}, // g2 - Plug
 					],
 				},
 				{
@@ -11422,6 +11519,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Chained",
 					Property: {
 						Effect: [E.Slow],
+						SetPose: ["BaseLower"],
 						AllowActivePose: ["Kneel", ...PoseAllStanding],
 					},
 				},
@@ -14338,10 +14436,10 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Chained",
-					Prerequisite: ["NeedsHarness", "NoItemArms"],
+					Prerequisite: ["NoItemArms"],
 					Property: {
 						SetPose: ["BackElbowTouch"],
-						Block: ["ItemTorso", "ItemTorso2", "ItemArms"],
+						Block: ["ItemArms"],
 						Difficulty: 10,
 					},
 				},

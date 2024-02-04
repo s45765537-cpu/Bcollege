@@ -11,9 +11,64 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2023-12-15
-* Last recorded PR: [#4679](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4679)
-* Last recorded commit hash: `7d05b62960f71a24472f244b0a1470cb99747bd2`
+* Changelog last updated: 2024-01-17
+* Last recorded PR: [#4763](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4763)
+* Last recorded commit hash: `bbc6674575d0a963e0bbcd54450c7947dcef7c1c`
+
+## [R100]
+
+### [Added]
+* Constantan - Added `Spread`-pose support for ballet heels and Wedges ([#4759](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4759))
+* Arius - Made the Strict Leather Pet Crawler available for use on males ([#4760](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4760))
+* Constantan - Added the spacemask item ([#4734](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4734), [#4744](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4744), [#4746](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4746))
+* Cleon - Added the street eyewear and catsuit gloves for the left and right hand zones ([#4733](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4733))
+* Haruhi - Added the tongue piercing gag ([#4726](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4726))
+* Estsanatlehi - Added an arousal event for the lactation pump ([#4727](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4727))
+* Cleon - Added the metal ballet heels and combo boots ([#4719](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4719), [#4722](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4722))
+* YuccaThePlant - Added the pony mittens ([#4708](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4708), [#4749](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4749))
+* Estsanatlehi - ed a tint to the Display Frames ([#4705](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4705))
+* Kalina - Added an optional requirement to stand on entry tiles in order to leave chat rooms with a map ([#4680](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4680), [#4694](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4694))
+* Kalina - Added a transparency effect to chat room map water tiles ([#4670](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4670))
+* dDeepLb - Added the ability to scroll through the inventory ([#4712](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4712), [#4715](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4715), [#4720](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4720))
+* dDeepLb - Added the new `/w` command and reply buttons ([#4716](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4716), [#4723](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4723), [#4745](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4745))
+* Kalina - Allowed walls and opaque objects to block sight on chat room maps ([#4725](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4725), [#4748](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4748), [#4747](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4747))
+* Kalina - Display names and icons of characters on chat room maps ([#4695](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4695))
+* Kalina - Added keyed doors to chat room maps ([#4731](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4731))
+* Ben987 - Added chat room map admin super powers
+* Ben987 - Added new chat room tiles
+
+### [Removed]
+* Rama - Wrapped up the `Type` -> `TypeRecord` switch ([#4693](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4693))
+
+### [Changed]
+* Rama - Ensured that an assets default color respects the group-level `ColorSchema` ([#4709](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4709))
+* Estsanatlehi - Made `CharacterResetFacialExpression` the one canonical function for resetting facial expressions ([#4755](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4755))
+* Change `CharacterSetActivePose` and `CharacterCanChangeToPose` into proper wrappers, rather than `var`ed aliases ([#4735](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4735))
+* Da'Inihlus - Updated CN translations ([#4729](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4729), [#4763](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4763))
+* dDeepLb - Overhauled the chat room selection UI ([#4702](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4702))
+* Kalina - Made OOC messages map-global in chat rooms with map ([#4684](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4684), [#4742](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4742), [#4751](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4751), [#4753](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4753))
+* Kalina - Made the position update behavior in chat room maps smoother ([#4698](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4698))
+
+### [Fixed]
+* kotax - Fixed a Bondage College rope 2 mastery check ([#4754](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4754))
+* YuccaThePlant - Fixed various modular chastity belt and modular gag issues ([#4724](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4724))
+* Estsanatlehi - Fixed GGTS legs pose task by checking for pose availability ([#4704](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4704))
+* Rama - Ensured that all player properties are properly initialized for new characters ([#4700](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4700), [#4713](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4713))
+* Verity - Fixed for the grid artifacting in Map Rooms at certain zoom levels ([#4710](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4710))
+* Rama - Fixed a Kinky Dungeon crash due to a failed `Type` -> `TypeRecord` conversion ([#4721](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4721))
+* Rama - Fixed various pose-related issues ([#4730](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4730), [#4743](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4743), [#4750](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4750))
+* Rama - Fixed a broken property lookup in `ValidationSanitizeAllowedPropertyArray` ([#4728](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4728))
+* Estsanatlehi - Corrected the optionality of ChatRoom/Player.MapData ([#4701](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4701))
+* Estsanatlehi - Fixed the chatroom keydown handler moving focus to the chat for modifier events ([#4714](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4714))
+* Kalina - Fixed a chat room map interaction bug when clicking on a character in map mode ([#4697](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4697))
+* Kalina - Fixed crashes in hybrid mode and chat room buttons in map view ([#4707](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4707))
+
+### [Technical]
+* Estsanatlehi - Made the `ChatRoom` keydown listener report whether it handled the event ([#4669](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4669))
+* Estsanatlehi - Implemented various linting & TS fixes ([#4696](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4696), [#4699](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4699), [#4757](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4757), [#4703](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4703))
+* Rama - Added a new `NoArch` archetype for all (currently-)unarchetypical extended items ([#4732](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4732), [#4752](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4752))
+* Rama - Made the validation of online characters stricter ([#4717](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4717), [#4740](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4740), [#4741](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4741))
+* Kalina - Adjusted the chat room map event logic and add new screen function handlers: `MouseDown`, `MouseUp`, `MouseMove` and `MouseWheel` ([#4692](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4692), [#4706](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4706))
 
 ## [R99]
 

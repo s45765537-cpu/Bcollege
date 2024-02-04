@@ -139,6 +139,7 @@ function AssetActivityMirrorGroupSet(group) {
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
+	const difficulty = AssetDef.Difficulty ?? 0;
 
 	/** @type {Mutable<Asset>} */
 	var A = {
@@ -170,7 +171,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
-		Difficulty: (AssetDef.Difficulty == null) ? 0 : AssetDef.Difficulty,
+		Difficulty: difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
 		SelfUnlock: (AssetDef.SelfUnlock == null) ? true : AssetDef.SelfUnlock,
 		ExclusiveUnlock: (AssetDef.ExclusiveUnlock == null) ? false : AssetDef.ExclusiveUnlock,
@@ -202,7 +203,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		RemoveItemOnRemove: (AssetDef.RemoveItemOnRemove == null) ? Group.RemoveItemOnRemove : Group.RemoveItemOnRemove.concat(AssetDef.RemoveItemOnRemove),
 		AllowEffect: AssetDef.AllowEffect,
 		AllowBlock: AssetDef.AllowBlock,
-		AllowTighten: AssetDef.AllowTighten,
+		AllowTighten: AssetDef.AllowTighten ?? (AssetDef.IsRestraint || difficulty > 0),
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
@@ -369,8 +370,10 @@ function AssetBuildConfig(A, config, extendedConfig) {
 			return null;
 		}
 
-		config = Object.assign({}, superConfig, config);
-		delete config.CopyConfig;
+		config = /** @type {AssetArchetypeConfig} */({
+			...superConfig,
+			...CommonOmit(config, ["CopyConfig"]),
+		});
 	}
 	return config;
 }
@@ -705,11 +708,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		};
 	}).filter(({ Name }) => Name !== undefined);
 
-	// TODO: Figure out how to get the .csv loading to work in Node.js, which we use for the test suite
-	if (IsBrowser()) {
-		// Loads the description of the assets in a specific language
-		AssetLoadDescription(Family);
-	}
+	AssetLoadDescription(Family);
 }
 
 // Reset and load all the assets
