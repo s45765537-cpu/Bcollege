@@ -147,6 +147,8 @@ Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
 Cloth,Yukata1,Yukata
+BodyMarkings,,Body Markings
+BodyMarkings,WombTattoos,Womb Tattoos
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -172,6 +174,7 @@ ClothAccessory,StudentOutfit3Bow2,Student Bow 2
 ClothAccessory,StudentOutfit3Bow3,Student Bow 3
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,ZipperBelt,Zipper Belt
+ClothAccessory,WombTattoos,Womb Tattoos
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt

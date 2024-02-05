@@ -640,6 +640,161 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { Opacity: 1 },
 		}, // FrilledShirt
 	}, // Cloth
+	BodyMarkings: {
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Zoom",
+					Key: "z",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Big",
+					Key: "b",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Bloom",
+					Key: "c",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"BottomSpike",
+					Key: "d",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Flash",
+					Key: "e",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Fly",
+					Key: "f",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Grass",
+					Key: "g",
+					Options: [{},{}], // n,y
+				},
+
+				{
+					Name:"Grow",
+					Key: "h",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"GrowHollow",
+					Key: "i",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"HeartSmallOutline",
+					Key: "j",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Heartline",
+					Key: "k",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"HeartSmall",
+					Key: "l",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"HeartSolid",
+					Key: "m",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"HeartWings",
+					Key: "n",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"In",
+					Key: "o",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Leaves",
+					Key: "p",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"MidSpike",
+					Key: "q",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Ribow",
+					Key: "r",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Sense",
+					Key: "s",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Shake",
+					Key: "t",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"SideHearts",
+					Key: "u",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Swim",
+					Key: "v",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Thorn",
+					Key: "w",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"ThornOut",
+					Key: "x",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"TopSpike",
+					Key: "y",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Venom",
+					Key: "za",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Viper",
+					Key: "zb",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"Waves",
+					Key: "zc",
+					Options: [{},{}], // n,y
+				},
+				{
+					Name:"WingSmall",
+					Key: "zd",
+					Options: [{},{}], // n,y
+				},
+			]
+		},
+	},
 	ClothAccessory: {
 		LeatherStraps: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -813,6 +968,12 @@ var AssetFemale3DCGExtended = {
 				Option: "LatexApronType",
 			},
 		}, // LatexApron
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: {GroupName: "BodyMarkings", AssetName: "WombTattoos"},
+		},//WombTattoos
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
