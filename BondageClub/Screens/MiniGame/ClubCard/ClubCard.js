@@ -2329,8 +2329,11 @@ function ClubCardEndGame(Victory) {
 	MiniGameEnded = true;
 	if (Victory != null) MiniGameVictory = Victory;
 	ClubCardOpponentDeck = [];
-	MiniGameEnd();
+	// We must reset the status of our game first. When we end the minigame, it will
+	// send a status update to the room, so we want this to reflect that we're no longer
+	// running the game.
 	GameClubCardReset();
+	MiniGameEnd();
 }
 
 function ClubCardTextGet(Text) {
