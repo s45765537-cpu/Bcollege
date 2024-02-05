@@ -1874,7 +1874,9 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	} else ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 
 	// Syncs online data
-	GameClubCardSyncOnlineData();
+	// Only send our own data when we select a deck, otherwise we could overwrite the other
+	// player's deck selection if they both select at the same time.
+	GameClubCardSyncOnlineData("Action", true);
 
 	// If a card can be won against the NPC
 	ClubCardReward = null;
