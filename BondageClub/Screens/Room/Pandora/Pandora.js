@@ -310,21 +310,39 @@ function PandoraClick() {
 
 /**
  * Handles the key pressed in Pandora's Box, allow WASD to move around
- * @param {KeyboardEvent} Event - The event that triggered this
- * @returns {boolean} - TRUE if the keyevent was handled
+ * @param {KeyboardEvent} event - Key event
+ * @returns {boolean} - Whether the supplied event was understood/used.
  */
-function PandoraKeyDown(Event) {
-	let AllowMove = true;
-	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
-			AllowMove = false;
-	if (AllowMove && (PandoraMode == "") && (Event != null) && (Event.code != null) && ((Event.code === "KeyW") || (Event.code === "KeyA") || (Event.code === "KeyS") || (Event.code === "KeyD"))) {
-		if ((Event.code === "KeyW") && PandoraDirectionAvailable("North")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		else if ((Event.code === "KeyA") && PandoraDirectionAvailable("West")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		else if ((Event.code === "KeyS") && PandoraDirectionAvailable("South")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		else if ((Event.code === "KeyD") && PandoraDirectionAvailable("East")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
-		return true;
+function PandoraKeyDown (event) {
+	/** @type {"North" | "South" | "East" | "West" | undefined} */
+	let dir;
+	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove);
+	if (movingAllowed  &&  PandoraMode == "") {
+		switch (CommonKeyMove (event, true)) {
+			case 'u':
+				dir = "North";
+				break;
+
+			case 'l':
+				dir = "West";
+				break;
+
+			case 'd':
+				dir = "South";
+				break;
+
+			case 'r':
+				dir = "East";
+				// fallthrough
+			default:
+				break;
+		}
+
+		if (dir !== undefined  &&  PandoraDirectionAvailable (dir)) {
+			PandoraEnterRoom (PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf (dir)], dir);
+		}
 	}
+	return dir !== undefined;
 }
 
 /**
