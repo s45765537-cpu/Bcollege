@@ -310,18 +310,20 @@ function PandoraClick() {
 
 /**
  * Handles the key pressed in Pandora's Box, allow WASD to move around
- * @returns {void} - Nothing
+ * @param {KeyboardEvent} Event - The event that triggered this
+ * @returns {boolean} - TRUE if the keyevent was handled
  */
-function PandoraKeyDown() {
+function PandoraKeyDown(Event) {
 	let AllowMove = true;
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
 		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
 			AllowMove = false;
-	if (AllowMove && (PandoraMode == "")) {
-		if (((KeyPress == 87) || (KeyPress == 119)) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		if (((KeyPress == 65) || (KeyPress == 97)) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		if (((KeyPress == 83) || (KeyPress == 115)) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		if (((KeyPress == 68) || (KeyPress == 100)) && (PandoraDirectionAvailable("East"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+	if (AllowMove && (PandoraMode == "") && (Event != null) && (Event.code != null) && ((Event.code === "KeyW") || (Event.code === "KeyA") || (Event.code === "KeyS") || (Event.code === "KeyD"))) {
+		if ((Event.code === "KeyW") && PandoraDirectionAvailable("North")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
+		else if ((Event.code === "KeyA") && PandoraDirectionAvailable("West")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
+		else if ((Event.code === "KeyS") && PandoraDirectionAvailable("South")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
+		else if ((Event.code === "KeyD") && PandoraDirectionAvailable("East")) PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+		return true;
 	}
 }
 
