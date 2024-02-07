@@ -665,6 +665,14 @@ function ChatRoomMapViewCanEnterWall(X, Y) {
 }
 
 /**
+ * Returns TRUE if the fog of war feature is currently activated on the map
+ * @returns {boolean} - TRUE if fog of war is active
+ */
+function ChatRoomMapFogIsActive() {
+	return ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Fog == null) || (ChatRoomData.MapData.Fog !== false));
+}
+
+/**
  * Returns TRUE if a tile is fully hidden from hide
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
@@ -840,6 +848,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	let MaxVisibleRange = ChatRoomMapViewGetSightRange();
 	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
 	let CharacterUnderCursor = null;
+	let FogActive = ChatRoomMapFogIsActive();
 
 	// Clears the tile and character selection
 	ChatRoomMapViewEditSelection = [];
@@ -878,7 +887,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 		// Out of sight, we draw the fog
 		let Fog = false;
-		if (!ChatRoomMapViewVisibilityMask[Pos]) {
+		if (FogActive && !ChatRoomMapViewVisibilityMask[Pos]) {
 			if (ChatRoomMapViewTileFog.charCodeAt(Pos) == 0) {
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Full.png", Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 				continue;
@@ -960,7 +969,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	}
 
 	// For each tiles in the grid, we draw the fog
-	if (!ChatRoomMapViewHasSuperPowers())
+	if (FogActive && !ChatRoomMapViewHasSuperPowers())
 		for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
 
 			// Find the X & Y position of the grid
@@ -1258,6 +1267,7 @@ function ChatRoomMapViewDrawUi() {
 			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
 			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/EditObject.png");
 			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Undo.png");
+			DrawButton(10, 430, 60, 60, "", "White", "Icons/Small/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
 		}
 	}
 
@@ -1487,6 +1497,12 @@ function ChatRoomMapViewClick() {
 		}
 		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
 			ChatRoomMapViewUndo();
+			return;
+		}
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 430, 60, 60)) {
+			if (ChatRoomMapFogIsActive()) ChatRoomData.MapData.Fog = false;
+			else delete ChatRoomData.MapData.Fog;
+			ChatRoomMapViewUpdateFlag();
 			return;
 		}
 
