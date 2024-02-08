@@ -65,6 +65,8 @@ const E = /** @type {const} */ ({
 	Tethered: "Tethered",
 	/** Indicates the character cannot be interacted with and can't interact back. */
 	Enclose: "Enclose",
+	/** If set, this effect will make a player immobile on the map. */
+	MapImmobile: "MapImmobile",
 	/** Indicates the character can be interacted with but can't interact back. */
 	OneWayEnclose: "OneWayEnclose",
 	/** Enable items that have the OnBed prerequisite to be applied. */
@@ -27521,7 +27523,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: [E.Tethered, E.IsChained],
+				Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 			},
 			{
@@ -27541,7 +27543,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: [E.Freeze, E.IsChained],
+				Effect: [E.Freeze, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -27563,7 +27565,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: [E.Freeze, E.IsChained],
+				Effect: [E.Freeze, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -27632,7 +27634,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: [E.Tethered, E.IsChained],
+				Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 			},
 			{
@@ -27651,7 +27653,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: [E.Tethered, E.IsChained],
+				Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -27672,7 +27674,7 @@ var AssetFemale3DCG = [
 				},
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling],
-				Effect: [E.Freeze, E.IsChained],
+				Effect: [E.Freeze, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -27693,7 +27695,7 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Effect: [E.Tethered, E.IsChained],
+				Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
 				DrawLocks: false,
 				Layer: [{ Name: "Rope" }, { Name: "Plate", AllowColorize: false }],
@@ -27721,7 +27723,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Prerequisite: ["Collared", "NotSuspended", "NotMounted"],
 				PoseMapping: {},
-				Effect: [E.IsChained, E.Tethered],
+				Effect: [E.IsChained, E.Tethered, E.MapImmobile],
 				ExpressionTrigger: [
 					{ Name: "Medium", Group: "Blush", Timer: 15 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
@@ -38932,7 +38934,7 @@ var AssetFemale3DCG = [
 				Audio: "LockLarge",
 				Prerequisite: ["NotSuspended", "NotLifted"],
 				LayerVisibility: true,
-				Effect: [E.Tethered],
+				Effect: [E.Tethered, E.MapImmobile],
 				HideItem: ["ShoesFlippers"],
 				Block: ["ItemAddon"],
 				ArousalZone: "ItemVulva",
@@ -39802,7 +39804,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#2E2E29", "#780E0E", "#2E2E29", "#2E2E29"],
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
-				Effect: [E.Tethered],
+				Effect: [E.Tethered, E.MapImmobile],
 				Layer: [
 					{ Name: "Kennel", Priority: 1 },
 					{
@@ -39842,7 +39844,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 0,
 				Time: 5,
 				RemoveTime: 5,
-				Effect: [E.Tethered],
+				Effect: [E.Tethered, E.MapImmobile],
 				RemoveAtLogin: true,
 				SetPose: ["Kneel"],
 				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
@@ -40586,7 +40588,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				SetPose: ["LegsOpen", "BackCuffs"],
 				PoseMapping: {},
-				Effect: [E.Block, E.Tethered, E.BlockWardrobe, E.Freeze],
+				Effect: [E.Block, E.Tethered, E.BlockWardrobe, E.Freeze, E.MapImmobile],
 				Block: [
 					"ItemArms",
 					"ItemFeet",

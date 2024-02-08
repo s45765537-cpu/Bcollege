@@ -1348,6 +1348,9 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	// Enclosed or suspended players cannot change tiles
 	if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
 
+	// The MapImmobile effect prevents players from moving
+	if (Player.HasEffect("MapImmobile")) return 0;
+
 	// Cannot enter a tile occupied by another player
 	for (let C of ChatRoomCharacter)
 		if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
