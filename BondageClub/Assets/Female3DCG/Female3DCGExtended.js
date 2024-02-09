@@ -6896,6 +6896,36 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //Inflatable Gag Mask
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Empty",
+					Property: { Effect: [] }, 
+				},
+				{ Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }]
+					},
+				},
+				{ Name: "Mesh",
+					Property: {
+						Effect: [
+							E.BlindNormal,
+							E.BlockWardrobe,
+						],
+					},
+				},
+				{ Name: "Slim",
+					Property: {
+						Effect: [
+							E.BlindHeavy,
+							E.BlockWardrobe,
+						],
+					}, 
+				},
+			],
+		}, //BigMouthHood
 		OpenMouthPlugHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -14121,6 +14151,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //MedicalPatch
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "BigMouthHood" },
+			Options: [
+				{ Name: "Empty",
+					Property: { Effect: [] }, 
+				},
+				{ Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }]
+					},
+				},
+				{ Name: "Mesh",
+					Property: {
+						Effect: [
+							E.BlindNormal,
+							E.BlockWardrobe,
+						],
+					},
+				},
+				{ Name: "Slim",
+					Property: {
+						Effect: [
+							E.BlindHeavy,
+							E.BlockWardrobe,
+						],
+					}, 
+				},
+			],
+		}, //BigMouthHood
 		DroneMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
