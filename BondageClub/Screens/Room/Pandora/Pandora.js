@@ -316,7 +316,7 @@ function PandoraClick() {
 function PandoraKeyDown (event) {
 	/** @type {"North" | "South" | "East" | "West" | undefined} */
 	let dir;
-	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove);
+	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove == null  ||  i.AllowMove);
 	if (movingAllowed  &&  PandoraMode == "") {
 		switch (CommonKeyMove (event, true)) {
 			case 'u':
