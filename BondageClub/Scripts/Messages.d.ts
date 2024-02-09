@@ -62,6 +62,14 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
 	LastMapData?: null | ChatRoomMapData;
 	LastChatRoom?: null | ServerChatRoomSettings;
+	ControllerSettings?: ControllerSettingsType;
+	ImmersionSettings?: ImmersionSettingsType;
+	RestrictionSettings?: RestrictionSettingsType;
+	OnlineSettings?: PlayerOnlineSettings;
+	GraphicsSettings?: GraphicsSettingsType;
+	NotificationSettings?: NotificationSettingsType;
+	GenderSettings?: GenderSettingsType;
+	ExtensionSettings?: ExtensionSettings;
 }
 
 interface ServerMapDataResponse {

@@ -317,7 +317,10 @@ function PreferenceInit(C) {
 function PreferenceInitPlayer() {
 	const C = Player;
 
-	// Save settings for comparison
+	/**
+	 * Save settings for comparison
+	 * @satisfies {Partial<Record<keyof ServerAccountData, string>>}
+	 */
 	const PrefBefore = {
 		ArousalSettings: JSON.stringify(C.ArousalSettings) || "",
 		ChatSettings: JSON.stringify(C.ChatSettings) || "",
@@ -590,6 +593,7 @@ function PreferenceInitPlayer() {
 	AfkTimerSetEnabled(C.OnlineSettings.EnableAfkTimer);
 
 	// Sync settings if anything changed
+	/** @type {{ [k in keyof typeof PrefBefore]?: PlayerCharacter[k] }} */
 	const toUpdate = {};
 
 	for (const prop of Object.keys(PrefBefore))

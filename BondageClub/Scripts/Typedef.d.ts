@@ -1552,75 +1552,18 @@ interface PlayerCharacter extends Character {
 	ChatSettings?: ChatSettingsType;
 	VisualSettings?: VisualSettingsType;
 	AudioSettings?: AudioSettingsType;
-	ControllerSettings?: {
-		ControllerActive: boolean;
-		ControllerSensitivity: number;
-		ControllerDeadZone: number;
-		Buttons: any;
-		Axis: any;
-	};
+	ControllerSettings?: ControllerSettingsType;
 	GameplaySettings?: GameplaySettingsType;
-	ImmersionSettings?: {
-		BlockGaggedOOC: boolean;
-		StimulationEvents: boolean;
-		ReturnToChatRoom: boolean;
-		ReturnToChatRoomAdmin: boolean;
-		ChatRoomMapLeaveOnExit: boolean;
-		SenseDepMessages: boolean;
-		ChatRoomMuffle: boolean;
-		BlindAdjacent: boolean;
-		AllowTints: boolean;
-	};
+	ImmersionSettings?: ImmersionSettingsType;
 	/** The chat room we were previous in. Used for relog room re-creation */
 	// TODO: the fact that this is set *might* be used to also fold the "relog" enabled checks
 	// If we have a chatroom, then we relog to it. If we don't, then the player didn't have the
 	// setting enabled in the first place
 	LastChatRoom?: ChatRoomSettings;
-	RestrictionSettings?: {
-		BypassStruggle: boolean;
-		SlowImmunity: boolean;
-		BypassNPCPunishments: boolean;
-	};
+	RestrictionSettings?: RestrictionSettingsType;
 	OnlineSettings?: PlayerOnlineSettings;
-	GraphicsSettings?: {
-		Font: GraphicsFontName;
-		InvertRoom: boolean;
-		StimulationFlashes: boolean;
-		DoBlindFlash: boolean;
-		AnimationQuality: number;
-		StimulationFlash: boolean;
-		SmoothZoom: boolean;
-		CenterChatrooms: boolean;
-		AllowBlur: boolean;
-	}
-	NotificationSettings?: {
-		/** @deprecated */
-		Audio?: boolean;
-		Beeps: NotificationSetting;
-		/** @deprecated */
-		Chat?: any;
-		ChatMessage: NotificationSetting & {
-			/** @deprecated */
-			IncludeActions?: any;
-			Mention?: boolean;
-			Normal?: boolean;
-			Whisper?: boolean;
-			Activity?: boolean;
-		};
-		/** @deprecated */
-		ChatActions?: any;
-		ChatJoin: NotificationSetting & {
-			/** @deprecated */
-			Enabled?: any;
-			Owner?: boolean;
-			Lovers?: boolean;
-			Friendlist?: boolean;
-			Subs?: boolean;
-		};
-		Disconnect: NotificationSetting;
-		Larp: NotificationSetting;
-		Test: NotificationSetting;
-	};
+	GraphicsSettings?: GraphicsSettingsType;
+	NotificationSettings?: NotificationSettingsType;
 	GhostList?: number[];
 	Wardrobe?: ItemBundle[][];
 	WardrobeCharacterNames?: string[];
@@ -1630,10 +1573,7 @@ interface PlayerCharacter extends Character {
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
 	ChatSearchFilterTerms?: string;
-	GenderSettings: {
-		HideShopItems: GenderSetting;
-		AutoJoinSearch: GenderSetting;
-	};
+	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
@@ -1645,6 +1585,78 @@ interface GenderSetting {
 	Female: boolean;
 	/** Whether the setting is active for male cases */
 	Male: boolean;
+}
+
+interface GenderSettingsType {
+	HideShopItems: GenderSetting;
+	AutoJoinSearch: GenderSetting;
+}
+
+interface NotificationSettingsType {
+	/** @deprecated */
+	Audio?: boolean;
+	Beeps: NotificationSetting;
+	/** @deprecated */
+	Chat?: any;
+	ChatMessage: NotificationSetting & {
+		/** @deprecated */
+		IncludeActions?: any;
+		Mention?: boolean;
+		Normal?: boolean;
+		Whisper?: boolean;
+		Activity?: boolean;
+	};
+	/** @deprecated */
+	ChatActions?: any;
+	ChatJoin: NotificationSetting & {
+		/** @deprecated */
+		Enabled?: any;
+		Owner?: boolean;
+		Lovers?: boolean;
+		Friendlist?: boolean;
+		Subs?: boolean;
+	};
+	Disconnect: NotificationSetting;
+	Larp: NotificationSetting;
+	Test: NotificationSetting;
+}
+
+interface GraphicsSettingsType {
+	Font: GraphicsFontName;
+	InvertRoom: boolean;
+	StimulationFlashes: boolean;
+	DoBlindFlash: boolean;
+	AnimationQuality: number;
+	StimulationFlash: boolean;
+	SmoothZoom: boolean;
+	CenterChatrooms: boolean;
+	AllowBlur: boolean;
+}
+
+interface RestrictionSettingsType {
+	BypassStruggle: boolean;
+	SlowImmunity: boolean;
+	BypassNPCPunishments: boolean;
+}
+
+interface ImmersionSettingsType {
+	BlockGaggedOOC: boolean;
+	StimulationEvents: boolean;
+	ReturnToChatRoom: boolean;
+	ReturnToChatRoomAdmin: boolean;
+	ChatRoomMapLeaveOnExit: boolean;
+	SenseDepMessages: boolean;
+	ChatRoomMuffle: boolean;
+	BlindAdjacent: boolean;
+	AllowTints: boolean;
+}
+
+interface ControllerSettingsType {
+	ControllerActive: boolean;
+	ControllerSensitivity: number;
+	ControllerDeadZone: number;
+	Buttons: any;
+	Axis: any;
 }
 
 interface ChatSettingsType {
