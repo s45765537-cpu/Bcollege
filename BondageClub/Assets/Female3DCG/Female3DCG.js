@@ -38815,7 +38815,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 			},
 			{
-				Name: "TheTheHangingFrame",
+				Name: "TheHangingFrame",
 				Fetish: ["Metal"],
 				Value: 50,
 				Difficulty: 50,
