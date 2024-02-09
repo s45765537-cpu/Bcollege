@@ -968,6 +968,7 @@ ItemHands,SmoothLeatherMittens1,Short Smooth Leather Mittens
 ItemHands,PonyMittensBinder,Pony Mittens Binder
 ItemHead,,Eyes
 ItemHead,AnimeLenses,Anime Lenses
+ItemHead,BigMouthHood,Big Mouth Hood
 ItemHead,BlackoutLenses,Blackout Lenses
 ItemHead,ClothBlindfold,Cloth Blindfold
 ItemHead,DroneMask,Smooth Latex Mask
@@ -1002,6 +1003,7 @@ ItemHead,Tentacles,Tentacles
 ItemHead,WebBlindfold,Web
 ItemHood,,Head
 ItemHood,AccentHood,Accent Hood
+ItemHood,BigMouthHood,Big Mouth Hood
 ItemHood,BlanketHood,Blanket Hood
 ItemHood,CanvasHood,Canvas Hood
 ItemHood,CollarHood,Collar Hood
