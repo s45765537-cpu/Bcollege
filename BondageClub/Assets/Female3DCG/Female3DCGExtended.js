@@ -626,6 +626,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
+		}, // CorsetDress
 		FrilledShirt: {
 			Archetype: ExtendedArchetype.NOARCH,
 			DialogPrefix: {
