@@ -678,3 +678,23 @@ All players discard their current hand and draw 5 new cards.
 所有玩家弃掉当前的手牌，抽5张新的卡牌。
 SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
 SOURCEPLAYER打开了潘多拉魔盒。所有玩家弃掉手牌，并抽五张新的卡牌。
+Toy Box
+玩具箱
++3 Money and draw a card.
++3金钱并抽1张牌。
+Restrain
+束缚
+For 3 turns, you nor your opponent can play Events. Cancels all Events.
+在3回合内，你和你的对手都不能打出事件。取消所有事件。
+Detective
+侦探
+For each card your opponent draws gain 1 Money. If no Liability are present gain 1 Fame and 1 Money instead.
+你的对手每抽一张牌，获得1金钱。如果没有闹事者在场，改为获得1声望和1金钱。
+Launder
+跑分佬
+A Criminal must be present. Lose all your Money. +1 Fame for every 3 Money lost.
+必须有一个罪犯在场。失去你所有的金钱。每失去3金钱+1声望。
+Big Baby
+大宝贝
++1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
+如果对手的手牌中卡牌更多，+1金钱。当她进入你的俱乐部时，对手抽一张牌。
