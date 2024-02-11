@@ -39013,10 +39013,15 @@ var AssetFemale3DCG = [
 					"ItemNeckAccessories",
 				],
 				Layer: [
-					{ Name: "Frame" },
-					{ Name: "Belts" },
-					{ Name: "Rings" },
+					{ Name: "Frame", AllowTypes: { typed: 0 } },
+					{ Name: "Frame2", AllowTypes: { typed: 1 }, CopyLayerColor: "Frame" },
+					{ Name: "Floatbag", AllowTypes: { typed: 1 } },
+					{ Name: "Belts", AllowTypes: { typed: 0 } },
+					{ Name: "Belts2", AllowTypes: { typed: 1 }, CopyLayerColor: "Belts" },
+					{ Name: "Rings", AllowTypes: { typed: 0 } },
+					{ Name: "Rings2", AllowTypes: { typed: 1 }, CopyLayerColor: "Rings" },
 				],
+				Extended: true,
 				RemoveAtLogin: true,
 			},
 			{
