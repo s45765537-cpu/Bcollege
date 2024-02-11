@@ -4141,7 +4141,7 @@ function PlatformDialogDraw() {
 			for (let Answer of PlatformDialogAnswer)
 				if ((Answer.Perk == null) || ((Answer.Perk == true) && PlatformDialogLeaderHasPerk("Manipulation")) || ((Answer.Perk == false) && !PlatformDialogLeaderHasPerk("Manipulation"))) {
 					DrawText(Answer.Text, 1500, 725 + (Pos * 70), "#fe92cf", "Black");
-					if (Pos == PlatformDialogAnswerPosition) DrawEmptyRect(1050, 693 + (Pos * 70), 900, 63, "#fe92cf", 4);
+					if (CommonIsMobile || (Pos == PlatformDialogAnswerPosition)) DrawEmptyRect(1050, 693 + (Pos * 70), 900, 63, "#fe92cf", 4);
 					Pos++;
 				}
 		}
@@ -4317,8 +4317,10 @@ function PlatformDialogLeave() {
  * @returns {void} - Nothing
  */
 function PlatformDialogClick() {
-	if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null) || MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
+	if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null) || MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70)) {
+		if (CommonIsMobile) PlatformDialogAnswerPosition = Math.floor((MouseY - 695) / 70);
 		PlatformDialogProcess();
+	}
 }
 
 /**
