@@ -7818,6 +7818,22 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // InflatableBodyBag
+		TheHangingFrame: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Normal",					
+				},
+				{
+					Name: "Inflated",
+					Block: [						
+						"ItemLegs",
+					],
+				},
+			],
+			DrawImages: false,
+		}, // TheHangingFrame
 		FurBlanketWrap: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
