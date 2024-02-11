@@ -55,6 +55,9 @@ ClothBabydollDress1Trim,Trim
 ClothBodice1Base,Main
 ClothBodice1Pattern,Pattern
 ClothBodice1Trim,Trim
+ClothBusinessSuitSuit,Jacket
+ClothBusinessSuitShirt,Shirt
+ClothBusinessSuitTie,Tie
 ClothButtonShirtBottom,Lower Gradient
 ClothButtonShirtButtons,Buttons
 ClothButtonShirtTop,Upper Gradient
