@@ -46,13 +46,13 @@ Your opponent has this card you can win:
 你得队友拥有这张你可以赢得的卡牌：
 You've reached 100 Fame and won this card:
 你到达了100声望并赢得了这张卡牌：
-PLAYERNAME deck isn't valid.  Using the default deck instead.
+PLAYERNAME's deck isn't valid.  Using the default deck instead.
 PLAYERNAME的牌组不合规则。改为使用默认牌组。
 Select the deck to play with.
 选择要游玩的套牌。
 Waiting for deck selection.
 等待选择牌组。
-PLAYERNAME deck is selected.
+PLAYERNAME's deck is selected.
 PLAYERNAME选择了牌组。
 Go bankrupt and start a fresh new club?
 宣布破产并重新开始一个新的俱乐部？
@@ -76,7 +76,7 @@ Watching the game...
 观战游戏中……
 PLAYERNAME plays CARDNAME.
 PLAYERNAME打出了CARDNAME。
-PLAYERNAME plays CARDNAME on the opponent board.
+PLAYERNAME plays CARDNAME on the opponent's board.
 PLAYERNAME将CARDNAME打出到了对手的区域。
 PLAYERNAME can play another card.  The turn continues.
 PLAYERNAME可以打出另一张卡牌。回合继续。
@@ -88,7 +88,7 @@ PLAYERNAME has been selected to start.  Both players must pick a deck.
 PLAYERNAME选择了开始。每位玩家必须选择一个牌组。
 SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
 SOURCEPLAYER FAMEMONEY。现在是OPPONENTPLAYER的回合。
-SOURCEPLAYER draw a card.  FAMEMONEY.  It's OPPONENTPLAYER turn.
+SOURCEPLAYER draws a card.  FAMEMONEY.  It's OPPONENTPLAYER's turn.
 SOURCEPLAYER抽了一张牌。FAMEMONEY。现在是OPPONENTPLAYER的回合。
 Get Cottage (MONEY)
 获得小屋(MONEY)
@@ -118,7 +118,7 @@ SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT声望。
 SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT金钱。
-CARDTITLE leaves SOURCEPLAYER club.
+CARDTITLE leaves SOURCEPLAYER's club.
 CARDTITLE离开了SOURCEPLAYER俱乐部。
 CARDTITLE event is removed.
 CARDTITLE事件被移除。
