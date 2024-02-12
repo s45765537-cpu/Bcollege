@@ -102,6 +102,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 300, Type: "FloorDecorationThemed", Style: "ShibariFrame", Top: -1, Height: 2 },
 	{ ID: 310, Type: "FloorDecorationThemed", Style: "JapaneseTable", Top: -0.1 },
 	{ ID: 320, Type: "FloorDecorationThemed", Style: "BanzaiTree", Top: -0.1 },
+	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
 
 	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
 	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
@@ -138,6 +139,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 3100, Type: "WallDecoration", Style: "SilverShield" },
 	{ ID: 3110, Type: "WallDecoration", Style: "CrossedSabers" },
 	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
+	{ ID: 3250, Type: "WallDecoration", Style: "FirstAidKit" },
+	{ ID: 3260, Type: "WallDecoration", Style: "EyeTest" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },

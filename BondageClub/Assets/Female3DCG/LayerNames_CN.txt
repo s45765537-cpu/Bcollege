@@ -66,6 +66,8 @@ Dress
 裙子
 Sash
 腰带
+Tie
+领带
 Lower Gradient
 下部渐变
 Buttons
@@ -80,8 +82,6 @@ Text Inner
 内侧文字
 Text Outer
 外侧文字
-Tie
-领带
 Corset
 束腰
 Design
@@ -642,6 +642,10 @@ Mask
 面罩
 Eyes
 眼睛
+Helmet
+头盔
+Details
+细节
 Lock Icon
 锁标志
 HUD
@@ -776,8 +780,6 @@ Plug
 嘴唇
 Chin Strap
 下巴束带
-Helmet
-头盔
 Side Pieces
 两侧组件
 Hypno Spiral Icon
@@ -804,8 +806,6 @@ Rebreather Bag
 呼吸管
 Breathing Tube
 呼吸管
-Details
-细节
 Sticker
 贴纸
 Plaque
@@ -1204,3 +1204,9 @@ Gears
 齿轮
 Patch
 补丁
+Headset
+头戴耳机
+Stem
+连杆
+Mic
+话筒

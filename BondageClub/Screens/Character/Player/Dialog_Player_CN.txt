@@ -7641,6 +7641,8 @@ This zone is out of reach from another item
 这个区域目前因其他物品影响无法触及
 Your owner doesn't allow you to access that zone
 你的主人不允许你接触该区域
+You're too far to reach DialogCharacterObject body and items.
+你距离太远，无法触及DialogCharacterObject的身体和物品。
 Pointed
 尖头
 SourceCharacter changes DestinationCharacter heels.
@@ -7679,7 +7681,93 @@ SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.
 SourceCharacter在DestinationCharacter舌穿刺上添加了一个晾衣夹。
 SourceCharacter uses a clamp behind DestinationCharacter tongue piercing.
 SourceCharacter在DestinationCharacter舌穿刺后面使用了一个夹具。
+Select Tattoos
+选择纹身
+Apply
+应用
+Zoom
+膨胀
+Big
+大
+Bloom
+开花
+BottomSpike
+底部尖刺
+Flash
+爆炸
+Fly
+飞
+Grass
+花托
+Grow
+卵巢
+GrowHollow
+卵巢（空心）
+HeartSmallOutline
+心（小边缘）
+Heartline
+心边线
+HeartSmall
+心（小）
+HeartSolid
+心（实心）
+HeartWings
+心（翅膀）
+In
+阴道
+Leaves
+叶子
+MidSpike
+中间尖刺
+Ribow
+心（丝带）
+Sense
+Sense
+Shake
+摇晃
+SideHearts
+两侧心
+Swim
+精子
+Thorn
+荆棘
+ThornOut
+荆棘（两侧）
+TopSpike
+顶部尖刺
+Venom
+毒液
+Viper
+毒蛇
+Waves
+波浪
+WingSmall
+小翅膀
 Normal Frame
 通常框架
 Half-Frame
 半框架
+Choose your apron model:
+选择你的围裙样式：
+Normal apron
+普通围裙
+Bottom only
+只有下面
+Choose your corset dress style:
+选择你的束腰礼服样式
+Corset plus skirt
+束腰和裙子
+Only corset
+只有束腰
+Choose blinders type:
+选择遮眼类型
+Mesh
+网格
+SourceCharacter removes DestinationCharacter hood's blindfold.
+SourceCharacter移除了DestinationCharacter头套的眼罩。
+SourceCharacter put a pair of lenses on DestinationCharacter hood.
+SourceCharacter在DestinationCharacter头套上添加了一对镜片。
+SourceCharacter put a mesh on DestinationCharacter hood.
+SourceCharacter在DestinationCharacter的头套上添加了一个网格。
+SourceCharacter blinds DestinationCharacter completely.
+SourceCharacter让DestinationCharacter完全看不见。
