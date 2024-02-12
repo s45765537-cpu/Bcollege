@@ -825,9 +825,9 @@ function ValidationSanitizeLock(C, item) {
 	if (lock.Asset.FamilyOnly) {
 		const familyLocksBlocked = C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule");
 		if (lockedBySelf && familyLocksBlocked) {
-				console.warn(`Removing invalid family-only lock with member number: ${lockNumber}`);
-				return ValidationDeleteLock(property);
-			}
+			console.warn(`Removing invalid family-only lock with member number: ${lockNumber}`);
+			return ValidationDeleteLock(property);
+		}
 	}
 
 	// Ensure the lock & its member number is valid on lover-only locks
