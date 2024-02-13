@@ -39016,6 +39016,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 5,
 				Time: 10,
 				AllowLock: true,
+				DrawLocks: false,
 				Audio: "LockLarge",
 				SetPose: ["LegsClosed", "BackElbowTouch"],
 				Effect: [E.BlockWardrobe, E.Freeze, E.Block, E.Mounted],
