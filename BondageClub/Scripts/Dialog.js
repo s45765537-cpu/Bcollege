@@ -619,7 +619,6 @@ function DialogHasKey(C, Item) {
 		// Intricate, check that we added that lock
 		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
 	}
-	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return false;
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
@@ -628,6 +627,7 @@ function DialogHasKey(C, Item) {
 			if (lock != null) {
 				if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
 				if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+				if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
 				return true;
 			} else return true;
 		}
