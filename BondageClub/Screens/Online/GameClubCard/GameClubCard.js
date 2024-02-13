@@ -378,6 +378,9 @@ function GameClubCardLoadData(Packet) {
 	}
 	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
 
+	// Check the focused card is still in the player's hand
+	ClubCardDefocusCardIfDiscarded();
+
 	// Check if either player has now won
 	ClubCardCheckVictory(ClubCardPlayer[0]);
 	ClubCardCheckVictory(ClubCardPlayer[1]);

@@ -1811,6 +1811,8 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
 		CCPlayer.Hand.splice(Pos, 1);
 		Amount--;
 	}
+
+	if (CCPlayer.Control === 'Player') ClubCardDefocusCardIfDiscarded();
 }
 
 /**
@@ -2026,6 +2028,15 @@ function ClubCardEndTurn(Draw = false) {
 	// Syncs online data
 	GameClubCardSyncOnlineData();
 
+}
+
+/**
+ * Checks that the focused card is still in the Player's hand
+ * and defocuses it if not.
+ */
+function ClubCardDefocusCardIfDiscarded() {
+	if (ClubCardFocus === null) return;
+	if (!ClubCardPlayer[ClubCardGetPlayerIndex()].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
 }
 
 function ClubCardCheckVictory(CCPlayer) {
