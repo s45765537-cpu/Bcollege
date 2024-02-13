@@ -1315,7 +1315,7 @@ var ClubCardList = [
 		ID: 30025,
 		Name: "Launder",
 		Type: "Event",
-		RequiredLevel: 4,
+		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
 			let Money = CCPlayer.Money;
 			ClubCardPlayerAddMoney(CCPlayer, Money*-1);
@@ -1336,7 +1336,7 @@ var ClubCardList = [
 		Name: "Bad Press",
 		Type: "Event",
 		Time: 3,
-		RequiredLevel: 2,
+		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Clever Marketing");
 		},
@@ -1359,7 +1359,7 @@ var ClubCardList = [
 		Name: "Clever Marketing",
 		Type: "Event",
 		Time: 3,
-		RequiredLevel: 2,
+		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Bad Press");
 		},
