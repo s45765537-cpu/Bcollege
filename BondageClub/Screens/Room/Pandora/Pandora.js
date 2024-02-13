@@ -310,19 +310,39 @@ function PandoraClick() {
 
 /**
  * Handles the key pressed in Pandora's Box, allow WASD to move around
- * @returns {void} - Nothing
+ * @param {KeyboardEvent} event - Key event
+ * @returns {boolean} - Whether the supplied event was understood/used.
  */
-function PandoraKeyDown() {
-	let AllowMove = true;
-	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
-			AllowMove = false;
-	if (AllowMove && (PandoraMode == "")) {
-		if (((KeyPress == 87) || (KeyPress == 119)) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		if (((KeyPress == 65) || (KeyPress == 97)) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		if (((KeyPress == 83) || (KeyPress == 115)) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		if (((KeyPress == 68) || (KeyPress == 100)) && (PandoraDirectionAvailable("East"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+function PandoraKeyDown (event) {
+	/** @type {"North" | "South" | "East" | "West" | undefined} */
+	let dir;
+	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove == null  ||  i.AllowMove);
+	if (movingAllowed  &&  PandoraMode == "") {
+		switch (CommonKeyMove (event, true)) {
+			case 'u':
+				dir = "North";
+				break;
+
+			case 'l':
+				dir = "West";
+				break;
+
+			case 'd':
+				dir = "South";
+				break;
+
+			case 'r':
+				dir = "East";
+				// fallthrough
+			default:
+				break;
+		}
+
+		if (dir !== undefined  &&  PandoraDirectionAvailable (dir)) {
+			PandoraEnterRoom (PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf (dir)], dir);
+		}
 	}
+	return dir !== undefined;
 }
 
 /**

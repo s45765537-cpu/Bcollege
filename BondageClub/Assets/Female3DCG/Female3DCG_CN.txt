@@ -164,6 +164,8 @@ Bondage Dress Style 2
 捆绑礼服 2
 Bridesmaid Dress
 伴娘礼服
+Business Suit
+商务套装
 Button Shirt
 纽扣衬衫
 Cheerleader Top
@@ -176,6 +178,8 @@ College
 学院
 Sleep Top
 睡衣上衣
+Corset Dress
+束腰礼服
 Corset Shirt
 紧身胸衣
 Crop Top
@@ -228,6 +232,8 @@ Maid Apron
 女仆围裙
 Exposed Maid Apron
 暴露女仆围裙
+Maid Latex Uniform
+乳胶女仆制服
 Maid
 女仆装
 Maid Exposed
@@ -282,6 +288,10 @@ Shoulderless Wedding Dress
 无肩婚纱礼服
 Yukata
 浴衣
+Body Markings
+身体涂画
+Womb Tattoos
+子宫纹身
 Cloth Accessory
 服装配饰
 Bib
@@ -316,6 +326,8 @@ Large Belt
 大腰带
 Leather Straps
 皮革束带
+Latex Apron
+乳胶围裙
 Poncho
 庞乔斗篷
 Scarf
@@ -340,6 +352,8 @@ Bondage Skirt
 束缚裙
 Business Skirt
 商务裙
+Business Trousers
+商务长裤
 Cheerleader Skirt
 啦啦队短裙
 Chinese Skirt
@@ -668,6 +682,8 @@ Hair Accessory
 发饰
 Flower
 花
+Headset
+头戴耳机
 Back Hair
 后发
 Style 10b
@@ -900,6 +916,8 @@ Latex Habit
 乳胶修女罩袍
 Maid Hairband
 女仆发箍
+Maid Latex Hairband
+乳胶女仆头带
 Nun Habit
 修女罩袍
 Nurse Cap
@@ -1350,6 +1368,8 @@ Sybian
 鞍式振动器
 Display Frame
 展示架
+Hanging Frame
+悬挂框
 Transport Box
 运输箱
 Trolley
@@ -1576,6 +1596,8 @@ Eyes
 眼睛
 Anime Lenses
 动漫美瞳
+Big Mouth Hood
+大嘴头套
 Blackout Lenses
 不透光美瞳
 Cloth Blindfold

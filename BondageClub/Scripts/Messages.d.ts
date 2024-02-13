@@ -158,6 +158,7 @@ type ServerChatRoomData = {
 
 interface ServerChatRoomMapData {
 	Type: string;
+	Fog?: boolean;
 	Tiles: string;
 	Objects: string;
 }

@@ -18,7 +18,7 @@ var ClubCardPopup = null;
 var ClubCardSelection = null;
 var ClubCardPending = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
-var ClubCardLevelCost = [0, 0, 10, 20, 35, 50];
+var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 /** @type {ClubCardPlayer[]} */
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
@@ -302,6 +302,13 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 2);
 		}
+	},
+	{
+		ID: 3009,
+		Name: "Detective",
+		Group: ["Police"],
+		MoneyPerTurn: 1,
+		RequiredLevel: 2,
 	},
 
 	// 4000 - Fetishists (Synergies with other groups)
@@ -719,6 +726,21 @@ var ClubCardList = [
 			return ClubCardGroupIsOnBoard(CCPlayer, "ABDLBaby");
 		}
 	},
+	{
+		ID: 10006,
+		Name: "Big Baby",
+		Group: ["ABDLBaby"],
+		RequiredLevel: 2,
+		MoneyPerTurn: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 1);
+		},
+		OnTurnEnd: function(CCPlayer) {
+			let Opponent = ClubCardGetOpponent(CCPlayer);
+			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
+		}
+	},
+
 
 	// 11000 - College Members (Mostly gives Fame, give bonuses/maluses between each other)
 	{
@@ -861,6 +883,11 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 7);
 			ClubCardLogPublish("GainMoney", CCPlayer, 7);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -871,6 +898,11 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 12);
 			ClubCardLogPublish("GainMoney", CCPlayer, 12);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -881,6 +913,11 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 20);
 			ClubCardLogPublish("GainMoney", CCPlayer, 30);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -891,6 +928,11 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 30);
 			ClubCardLogPublish("GainMoney", CCPlayer, 30);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -910,6 +952,8 @@ var ClubCardList = [
 		},
 		CanPlay: function(CCPlayer) {
 			let Opponent = ClubCardGetOpponent(CCPlayer);
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return false;
 			if (Opponent.Money <= 0) return false;
 			return true;
@@ -933,6 +977,8 @@ var ClubCardList = [
 		},
 		CanPlay: function(CCPlayer) {
 			let Opponent = ClubCardGetOpponent(CCPlayer);
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return false;
 			if (Opponent.Money <= 0) return false;
 			return true;
@@ -950,6 +996,11 @@ var ClubCardList = [
 					Fame++;
 			ClubCardPlayerAddFame(CCPlayer, Fame);
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -965,6 +1016,11 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, Fame);
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
 		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		}
 	},
 	{
 		ID: 30008,
@@ -976,6 +1032,8 @@ var ClubCardList = [
 			ClubCardLogPublish("GainMoney", CCPlayer, Money);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Money = (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") + ClubCardGroupOnBoardCount(CCPlayer, "AsylumNurse")) * 4;
 			return (Money > 0);
 		}
@@ -992,6 +1050,11 @@ var ClubCardList = [
 			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection);
 			ClubCardPlayerAddFame(CCPlayer, Fame);
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1006,6 +1069,11 @@ var ClubCardList = [
 			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection);
 			ClubCardPlayerAddMoney(CCPlayer, Money);
 			ClubCardLogPublish("GainMoney", CCPlayer, Money);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1020,6 +1088,11 @@ var ClubCardList = [
 				ClubCardPlayerAddFame(CCPlayer, Fame);
 				ClubCardLogPublish("GainFame", CCPlayer, Fame);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1035,6 +1108,8 @@ var ClubCardList = [
 			}
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return !ClubCardNameIsOnBoard(Opponent, "Amanda") && !ClubCardNameIsOnBoard(Opponent, "Jennifer");
 		}
@@ -1052,6 +1127,8 @@ var ClubCardList = [
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			return ((CCPlayer.Board != null) && (CCPlayer.Board.length > 0));
 		}
 	},
@@ -1065,6 +1142,8 @@ var ClubCardList = [
 			ClubCardRemoveFromBoard(ClubCardGetOpponent(CCPlayer), ClubCardSelection);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Board != null) && (Opponent.Board.length > 0));
 		}
@@ -1075,6 +1154,11 @@ var ClubCardList = [
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 2);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1084,6 +1168,11 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 3);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1093,6 +1182,11 @@ var ClubCardList = [
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 5);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1104,6 +1198,8 @@ var ClubCardList = [
 			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 2);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
 		}
@@ -1114,9 +1210,11 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 3);
+			ClubCardPlayerDiscardCard(ClubCardGetOpponent(CCPlayer), 4);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Hand != null) && (Opponent.Hand.length > 0));
 		}
@@ -1132,6 +1230,8 @@ var ClubCardList = [
 			ClubCardLogPublish("GainMoney", CCPlayer, Money);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
 			return (Money > 0);
 		}
@@ -1151,6 +1251,8 @@ var ClubCardList = [
 			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
 		},
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			return ((Opponent.Board != null) && (Opponent.Board.length > 0));
 		}
@@ -1167,7 +1269,67 @@ var ClubCardList = [
 			ClubCardPlayerDrawCard(CCPlayer, 5);
 			ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 5);
 			ClubCardLogPublish("Effect Pandora Box", CCPlayer);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
+	},
+	{
+		ID: 30023,
+		Name: "Toy Box",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, 3);
+			ClubCardLogPublish("GainMoney", CCPlayer, 3);
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		}
+
+	},
+	{
+		ID: 30024,
+		Name: "Restrain",
+		Type: "Event",
+		Time: 3,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			const Opponent = ClubCardGetOpponent(CCPlayer);
+			ClubCardRemoveCardsFromEventByName(Opponent, Opponent.Event.map(c => c.Name));
+
+			const PlayerEventNames = CCPlayer.Event.map(c => c.Name);
+			ClubCardRemoveCardsFromEventByName(CCPlayer, PlayerEventNames.filter(n => n !== "Restrain"));
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		}
+	},
+	{
+		ID: 30025,
+		Name: "Launder",
+		Type: "Event",
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			let Money = CCPlayer.Money;
+			ClubCardPlayerAddMoney(CCPlayer, Money*-1);
+			let Fame = Math.floor(Money/3);
+			ClubCardPlayerAddFame(CCPlayer, Fame);
+			ClubCardLogPublish("GainFame", CCPlayer, Fame);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			if(ClubCardGroupIsOnBoard(CCPlayer, "Criminal")&&CCPlayer.Money>=3) return true;
+			return false;
+		}
+
 	},
 	{
 		ID: 31000,
@@ -1185,6 +1347,11 @@ var ClubCardList = [
 				CCPlayer.LastFamePerTurn = 0;
 				ClubCardLogPublish("Effect Bad Press", CCPlayer);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1203,6 +1370,11 @@ var ClubCardList = [
 				CCPlayer.LastFamePerTurn = Fame * 2;
 				ClubCardLogPublish("Effect Clever Marketing", CCPlayer);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1220,6 +1392,11 @@ var ClubCardList = [
 				CCPlayer.LastMoneyPerTurn = 0;
 				ClubCardLogPublish("Effect Repay Loan", CCPlayer);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1237,6 +1414,11 @@ var ClubCardList = [
 				CCPlayer.LastMoneyPerTurn = Money * 2;
 				ClubCardLogPublish("Effect Bank Loan", CCPlayer);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1244,14 +1426,24 @@ var ClubCardList = [
 		Name: "Teamwork",
 		Type: "Event",
 		Time: 4,
-		ExtraDraw: 1
+		ExtraDraw: 1,
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		}
 	},
 	{
 		ID: 31005,
 		Name: "Overtime",
 		Type: "Event",
 		Time: 3,
-		ExtraPlay: 1
+		ExtraPlay: 1,
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		}
 	},
 	{
 		ID: 31006,
@@ -1274,6 +1466,11 @@ var ClubCardList = [
 				ClubCardPlayerAddFame(CCPlayer, Fame);
 				ClubCardLogPublish("Effect Porn Convention", CCPlayer, Fame);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	}
 
@@ -1424,6 +1621,20 @@ function ClubCardUpgradeLevel(CCPlayer) {
  * @param {string} CardName - The name of the card
  * @returns {boolean} - TRUE if at least one card with that name is present
  */
+function ClubCardEventNameIsInEvents(CCPlayer, CardName) {
+	if ((CCPlayer == null) || (CCPlayer.Event == null) || (CardName == null)) return false;
+	for (let Card of CCPlayer.Event)
+		if (Card.Name === CardName)
+			return true;
+	return false;
+}
+
+/**
+ * Returns TRUE if a card (by name) is currently present on a board
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {string} CardName - The name of the card
+ * @returns {boolean} - TRUE if at least one card with that name is present
+ */
 function ClubCardNameIsOnBoard(CCPlayer, CardName) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null) || (CardName == null)) return false;
 	for (let Card of CCPlayer.Board)
@@ -1481,6 +1692,15 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 		}
 		Pos++;
 	}
+}
+
+/**
+ * Removes several cards from player time events
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {String[]} ListOfCardNames - The names of the cards to remove
+ */
+function ClubCardRemoveCardsFromEventByName(CCPlayer, ListOfCardNames) {
+	ListOfCardNames.forEach(cardName => ClubCardRemoveFromEventByName(CCPlayer, cardName));
 }
 
 /**
@@ -1568,7 +1788,14 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			CCPlayer.Deck.splice(0, 1);
 		}
 		Amount--;
+		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
+			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer),1);
+		}
+		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer),"Liability")){
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer),1);
+		}
 	}
+
 }
 
 /**
@@ -1647,7 +1874,9 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	} else ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 
 	// Syncs online data
-	GameClubCardSyncOnlineData();
+	// Only send our own data when we select a deck, otherwise we could overwrite the other
+	// player's deck selection if they both select at the same time.
+	GameClubCardSyncOnlineData("Action", true);
 
 	// If a card can be won against the NPC
 	ClubCardReward = null;
@@ -2100,8 +2329,11 @@ function ClubCardEndGame(Victory) {
 	MiniGameEnded = true;
 	if (Victory != null) MiniGameVictory = Victory;
 	ClubCardOpponentDeck = [];
-	MiniGameEnd();
+	// We must reset the status of our game first. When we end the minigame, it will
+	// send a status update to the room, so we want this to reflect that we're no longer
+	// running the game.
 	GameClubCardReset();
+	MiniGameEnd();
 }
 
 function ClubCardTextGet(Text) {

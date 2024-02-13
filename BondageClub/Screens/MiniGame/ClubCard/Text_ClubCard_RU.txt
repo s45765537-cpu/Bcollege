@@ -52,7 +52,7 @@ Your opponent is playing...
 Ваш оппонент играет...
 PLAYERNAME plays CARDNAME.
 PLAYERNAME играет с CARDNAME.
-PLAYERNAME plays CARDNAME on the opponent board.
+PLAYERNAME plays CARDNAME on the opponent's board.
 PLAYERNAME играет с CARDNAME на столе противника.
 PLAYER can play another card.  The turn continues.
 PLAYER может сыграть другую карту. Ход продолжается.

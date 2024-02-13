@@ -22,10 +22,10 @@ DeckNumber,Deck #
 Play,Play
 CanWinNewCard,Your opponent has this card you can win:
 WonNewCard,You've reached 100 Fame and won this card:
-NoValidDeckFound,PLAYERNAME deck isn't valid.  Using the default deck instead.
+NoValidDeckFound,PLAYERNAME's deck isn't valid.  Using the default deck instead.
 SelectDeck,Select the deck to play with.
 WaitingSelectDeck,Waiting for deck selection.
-UsingDeck,PLAYERNAME deck is selected.
+UsingDeck,PLAYERNAME's deck is selected.
 ConfirmBankrupt,Go bankrupt and start a fresh new club?
 ConfirmConcede,Do you really want to concede this game?
 ConfirmExit,Do you want to stop watching this game?
@@ -37,13 +37,13 @@ Return,End the game
 OpponentPlaying,Your opponent is playing...
 WatchingGame,Watching the game...
 PlayACard,PLAYERNAME plays CARDNAME.
-PlayACardOpponentBoard,PLAYERNAME plays CARDNAME on the opponent board.
+PlayACardOpponentBoard,PLAYERNAME plays CARDNAME on the opponent's board.
 PlayAnotherCard,PLAYERNAME can play another card.  The turn continues.
 StartPlayer,You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
 EndTurnPlayer,SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
-EndDrawPlayer,SOURCEPLAYER draw a card.  FAMEMONEY.  It's OPPONENTPLAYER turn.
+EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.  It's OPPONENTPLAYER's turn.
 UpgradeToLevel2,Get Cottage (MONEY)
 UpgradeToLevel3,Get House (MONEY)
 UpgradeToLevel4,Get Mansion (MONEY)
@@ -58,7 +58,7 @@ LoseFame,SOURCEPLAYER lost AMOUNT Fame.
 LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER club.
+MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER's club.
 EventRemoved,CARDTITLE event is removed.
 EventExpired,CARDTITLE event has expired.
 ChatHere,Chat here...
@@ -339,3 +339,13 @@ Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for
 Title Pandora Box,Pandora's Box
 Text Pandora Box,All players discard their current hand and draw 5 new cards.
 Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
+Title Toy Box,Toy Box
+Text Toy Box,+3 Money and draw a card.
+Title Restrain,Restrain
+Text Restrain,"For 3 turns, you nor your opponent can play Events. Cancels all Events."
+Title Detective,Detective
+Text Detective,For each card your opponent draws gain 1 Money. If no Liability are present gain 1 Fame and 1 Money instead.
+Title Launder,Launder
+Text Launder,A Criminal must be present. Lose all your Money. +1 Fame for every 3 Money lost.
+Title Big Baby,Big Baby
+Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.

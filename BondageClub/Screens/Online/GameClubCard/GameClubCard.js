@@ -427,12 +427,14 @@ function GameClubCardProcess(Packet) {
 /**
  * Syncs the online data with all players
  * @param {string} Progress - The progress status to push (default to action)
+ * @param {boolean} LocalPlayerOnly - If true, send only the local player. Otherwise, send both.
  * @returns {void} - Nothing
  */
-function GameClubCardSyncOnlineData(Progress = "Action") {
+function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false) {
 	if (!ClubCardIsOnline()) return;
 	let Packet = [];
-	for (let CCPlayer of ClubCardPlayer)
+	for (let CCPlayer of ClubCardPlayer) {
+		if (LocalPlayerOnly && CCPlayer.Character.MemberNumber !== Player.MemberNumber) continue;
 		Packet.push({
 			MemberNumber: CCPlayer.Character.MemberNumber,
 			Playing: (CCPlayer.Index == ClubCardTurnIndex),
@@ -447,6 +449,7 @@ function GameClubCardSyncOnlineData(Progress = "Action") {
 			Board: GameClubCardDoBundle(CCPlayer.Board),
 			Event: GameClubCardDoBundle(CCPlayer.Event, true)
 		});
+	}
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });
 	if (Progress == "Query") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet, Player1: ClubCardOnlinePlayerMemberNumber1, Player2: ClubCardOnlinePlayerMemberNumber2 });
 }

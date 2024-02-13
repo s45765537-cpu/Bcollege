@@ -55,6 +55,9 @@ ClothBabydollDress1Trim,Trim
 ClothBodice1Base,Main
 ClothBodice1Pattern,Pattern
 ClothBodice1Trim,Trim
+ClothBusinessSuitSuit,Jacket
+ClothBusinessSuitShirt,Shirt
+ClothBusinessSuitTie,Tie
 ClothButtonShirtBottom,Lower Gradient
 ClothButtonShirtButtons,Buttons
 ClothButtonShirtTop,Upper Gradient
@@ -709,6 +712,10 @@ ItemDevicesPetBowlBowl,Bowl
 ItemDevicesPetBowlText,Text
 ItemDevicesSnowmanButtons,Buttons
 ItemDevicesSnowmanStickHands,Arms
+ItemDevicesTheHangingFrameFrame,Frame
+ItemDevicesTheHangingFrameFloatbag,Float bag
+ItemDevicesTheHangingFrameBelts,Belts
+ItemDevicesTheHangingFrameRings,Rings
 ItemDevicesTransportWoodenBoxBack,Wood
 ItemDevicesTransportWoodenBoxText,Text
 ItemDevicesTransportWoodenBoxWheelholders,Wheel Holders
@@ -2056,3 +2063,13 @@ HairAccessory3Headset1Stem,Stem
 HairAccessory3Headset1Mic,Mic
 HatMaidLatexHairbandMain,Main
 HatMaidLatexHairbandDetail,Detail
+ItemHoodBigMouthHoodMain,Head
+ItemHoodBigMouthHoodMouth,Mouth
+ItemHoodBigMouthHoodEyes,Eyes
+ItemHoodBigMouthHoodCollar,Collar
+ItemHoodBigMouthHoodDetail,Detail
+ItemHeadBigMouthHoodMain,Head
+ItemHeadBigMouthHoodMouth,Mouth
+ItemHeadBigMouthHoodEyes,Eyes
+ItemHeadBigMouthHoodCollar,Collar
+ItemHeadBigMouthHoodDetail,Detail

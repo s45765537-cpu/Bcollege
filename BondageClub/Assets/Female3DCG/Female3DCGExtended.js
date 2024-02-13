@@ -626,6 +626,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
+		}, // CorsetDress
 		FrilledShirt: {
 			Archetype: ExtendedArchetype.NOARCH,
 			DialogPrefix: {
@@ -6896,6 +6900,36 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //Inflatable Gag Mask
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Empty",
+					Property: { Effect: [] }, 
+				},
+				{ Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }]
+					},
+				},
+				{ Name: "Mesh",
+					Property: {
+						Effect: [
+							E.BlindNormal,
+							E.BlockWardrobe,
+						],
+					},
+				},
+				{ Name: "Slim",
+					Property: {
+						Effect: [
+							E.BlindHeavy,
+							E.BlockWardrobe,
+						],
+					}, 
+				},
+			],
+		}, //BigMouthHood
 		OpenMouthPlugHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -7784,6 +7818,22 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // InflatableBodyBag
+		TheHangingFrame: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Normal",					
+				},
+				{
+					Name: "Inflated",
+					Block: [						
+						"ItemLegs",
+					],
+				},
+			],
+			DrawImages: false,
+		}, // TheHangingFrame
 		FurBlanketWrap: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
@@ -14121,6 +14171,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //MedicalPatch
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "BigMouthHood" },
+			Options: [
+				{ Name: "Empty",
+					Property: { Effect: [] }, 
+				},
+				{ Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }]
+					},
+				},
+				{ Name: "Mesh",
+					Property: {
+						Effect: [
+							E.BlindNormal,
+							E.BlockWardrobe,
+						],
+					},
+				},
+				{ Name: "Slim",
+					Property: {
+						Effect: [
+							E.BlindHeavy,
+							E.BlockWardrobe,
+						],
+					}, 
+				},
+			],
+		}, //BigMouthHood
 		DroneMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
