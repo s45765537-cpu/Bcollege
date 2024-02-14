@@ -16,8 +16,8 @@
 (You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)
 (你可以将DialogCharacterObject添加到你的黑名单或白名单来让DialogCharacterObject获得更少或更多你的物品权限)
 ###_PLAYER
-(Check DialogCharacterObject drink tray.)
-(检查DialogCharacterObject的饮料托盘)
+(Check DialogCharacterPossessive drink tray.)
+(检查DialogCharacterPossessive的饮料托盘)
 ###_NPC
 (There's a variety of drinks.  Some are offered by the club and some are more expensive.)
 (这里有许多饮料，部分由俱乐部免费提供，还有一些较为昂贵)

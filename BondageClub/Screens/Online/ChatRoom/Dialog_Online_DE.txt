@@ -48,7 +48,7 @@ kauft einen Cappuccino von DialogCharacterName Servierplatte.
 (You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)
 (Nimm sie in deine Whitelist auf, um ihr Zugriff auf deine Fesseln zu gewähren, oder verwende die Blacklist, um Kontrolle zu entziehen.)
 ###_PLAYER
-(Check DialogCharacterObject drink tray.)
+(Check DialogCharacterPossessive drink tray.)
 (Ihr Getränketablett ansehen.)
 ###_NPC
 (There's a variety of drinks.  Some are offered by the club and some are more expensive.)

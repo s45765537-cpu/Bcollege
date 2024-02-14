@@ -32,7 +32,7 @@ achète une carafe de bière de DialogCharacterName.
 (La jeter en dehors de la pièce.)
 (Ban DialogCharacterObject from the room.)
 (La bannir de la pièce.)
-(Check DialogCharacterObject drink tray.)
+(Check DialogCharacterPossessive drink tray.)
 (Voir les brevages offerts.)
 ###_NPC
 (There's a variety of drinks.  Some are offered by the club and some are more expensive.)
