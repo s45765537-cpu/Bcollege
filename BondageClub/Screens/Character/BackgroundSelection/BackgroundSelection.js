@@ -43,7 +43,7 @@ function BackgroundSelectionMake(List, Idx, Callback) {
  * @param {string} b.Description - The description of object b. Is used for comparision
  * @returns {number} - Returns -1 if the description of object a is less then that of b, 1 otherwise
  */
-function BackGroundSelectionSort(a, b) {
+function BackgroundSelectionSort(a, b) {
 	return (a.Description <= b.Description) ? -1: 1;
 }
 
@@ -56,7 +56,7 @@ function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
 	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
 	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] || "Introduction";
-	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackGroundSelectionSort);
+	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackgroundSelectionSort);
 	TextPrefetchFile(BackgroundsStringsPath);
 	ElementCreateInput("InputBackground", "text", "", "30");
 	document.getElementById("InputBackground").oninput = BackgroundSelectionInputChanged;
@@ -78,7 +78,7 @@ function BackgroundSelectionInputChanged() {
 		BackgroundSelectionView = BackgroundSelectionAll.filter(B => B.Low.includes(Input));
 		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 	}
-	BackgroundSelectionView.sort(BackGroundSelectionSort);
+	BackgroundSelectionView.sort(BackgroundSelectionSort);
 }
 
 /**
@@ -89,7 +89,7 @@ function BackgroundSelectionTagChanged() {
 	const DD = /** @type {HTMLSelectElement} */(document.getElementById("TagDropDown-select"));
 	if (DD == null) return;
 	BackgroundSelectionList = BackgroundsGenerateList((DD.selectedIndex == 0) ? BackgroundSelectionTagList : [/** @type {BackgroundTag} */(DD.options[DD.selectedIndex].text)]);
-	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackGroundSelectionSort);
+	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackgroundSelectionSort);
 	BackgroundSelectionInputChanged();
 	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 }
