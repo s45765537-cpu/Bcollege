@@ -1815,6 +1815,7 @@ function ChatRoomMenuDraw() {
 
 /**
  * Redirects the Mouse Down event to the map if needed
+ * @param {MouseEvent | TouchEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseDown(event) {
@@ -1823,6 +1824,7 @@ function ChatRoomMouseDown(event) {
 
 /**
  * Redirects the Mouse Up event to the map if needed
+ * @param {MouseEvent | TouchEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseUp(event) {
@@ -1831,6 +1833,7 @@ function ChatRoomMouseUp(event) {
 
 /**
  * Redirects the Mouse Move event to the map if needed
+ * @param {MouseEvent | TouchEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseMove(event) {
@@ -1839,6 +1842,7 @@ function ChatRoomMouseMove(event) {
 
 /**
  * Redirects the Mouse Wheel event to the map if needed
+ * @param {MouseEvent | TouchEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseWheel(event) {
@@ -1847,9 +1851,10 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
+ * @param {MouseEvent | TouchEvent} event
  * @returns {void} - Nothing.
  */
-function ChatRoomClick() {
+function ChatRoomClick(event) {
 
 	// In orgasm mode, we do not allow any clicks expect the chat
 	if (MouseIn(1905, 910, 90, 90)) ChatRoomSendChat();
@@ -1872,7 +1877,7 @@ function ChatRoomClick() {
 
 	// In the left part of the screen
 	if (MouseIn(0, 0, 1000, 1000)) {
-		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click();
+		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click(event);
 	}
 
 	// When the user clicks a menu button in the top-right
