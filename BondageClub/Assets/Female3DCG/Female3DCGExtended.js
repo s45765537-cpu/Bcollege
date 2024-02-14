@@ -7830,6 +7830,14 @@ var AssetFemale3DCGExtended = {
 					Block: [						
 						"ItemLegs",
 					],
+					Hide: [
+						"HairFront",
+						"HairBack",
+						"HairAccessory1",
+						"Cloth",
+						"ClothLower",
+						"Hat",
+					],
 				},
 			],
 			DrawImages: false,
