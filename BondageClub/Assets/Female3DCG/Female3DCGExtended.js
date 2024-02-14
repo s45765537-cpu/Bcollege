@@ -7827,17 +7827,20 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Inflated",
-					Block: [						
-						"ItemLegs",
-					],
-					Hide: [
-						"HairFront",
-						"HairBack",
-						"HairAccessory1",
-						"Cloth",
-						"ClothLower",
-						"Hat",
-					],
+                    Property: {
+						Block: [						
+							"ItemLegs",
+						],
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"HairAccessory1",
+							"Cloth",
+							"ClothLower",
+							"Hat",
+						],
+					},
+
 				},
 			],
 			DrawImages: false,
