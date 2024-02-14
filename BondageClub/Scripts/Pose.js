@@ -100,8 +100,16 @@ function PoseCanChangeUnaided(C, poseName) {
 		return false;
 	}
 
-	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support
-	return !PoseAllStanding.some(p => PoseSetByItems(C, pose.Category, p));
+	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support.
+	if (PoseAllStanding.some(p => PoseSetByItems(C, pose.Category, p))) {
+		// Only allow standing -> standing transitions unaided
+		return CommonIncludes(PoseAllStanding, poseName);
+	} else if (PoseAllKneeling.some(p => PoseSetByItems(C, pose.Category, p))) {
+		// Only allow kneeling -> kneeling transitions unaided
+		return CommonIncludes(PoseAllKneeling, poseName);
+	} else {
+		return true;
+	}
 }
 
 /**
