@@ -117,9 +117,9 @@ function ChatCreateRun() {
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatCreateBackgroundSelect + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, DialogFindPlayer(ChatCreateBackgroundSelect), "White", null,
-		() => DialogFindPlayer((ChatCreateBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatCreateBackgroundIndex - 1]),
-		() => DialogFindPlayer((ChatCreateBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatCreateBackgroundIndex + 1]));
+	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatCreateBackgroundSelect), "White", null,
+		() => BackgroundsTextGet((ChatCreateBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatCreateBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatCreateBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatCreateBackgroundIndex + 1]));
 	DrawButton(1840, 450, 60, 60, "", "White", "Icons/Small/Preference.png", null);
 	DrawButton(1300, 530, 275, 60, TextGet("BlockCategory"), "White");
 	DrawBackNextButton(1625, 530, 275, 60, TextGet("Game" + ChatCreateGame), "White",  null, () => "", () => "");

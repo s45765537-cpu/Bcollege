@@ -7,7 +7,6 @@ var BackgroundSelectionList = [];
 var BackgroundSelectionTagList = [];
 var BackgroundSelectionIndex = 0;
 var BackgroundSelectionSelect = "";
-var BackgroundSelectionSelectName = "";
 var BackgroundSelectionSize = 12;
 var BackgroundSelectionOffset = 0;
 /** @type {null | ((selection: string) => void)} */
@@ -55,10 +54,10 @@ function BackGroundSelectionSort(a, b) {
  */
 function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
-	BackgroundSelectionSelectName = DialogFindPlayer(BackgroundSelectionSelect);
 	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
 	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] || "Introduction";
 	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackGroundSelectionSort);
+	TextPrefetchFile(BackgroundsStringsPath);
 	ElementCreateInput("InputBackground", "text", "", "30");
 	document.getElementById("InputBackground").oninput = BackgroundSelectionInputChanged;
 	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, function() { BackgroundSelectionTagChanged(); });
@@ -104,7 +103,7 @@ function BackgroundSelectionTagChanged() {
  */
 function BackgroundSelectionRun() {
 
-	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundSelectionSelectName), 300, 65, "White", "Black");
+	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundsTextGet(BackgroundSelectionSelect)), 300, 65, "White", "Black");
 	if (BackgroundSelectionTagList.length >= 2) ElementPositionFix("TagDropDown", 36, 550, 35, 300, 65);
 	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionAll.length.toString());
 	DrawText(text, 1000, 65, "White", "Black");
@@ -174,7 +173,7 @@ function BackgroundSelectionClick() {
 			if (BackgroundSelectionIndex >= BackgroundSelectionView.length) BackgroundSelectionIndex = 0;
 			if (BackgroundSelectionIndex < 0) BackgroundSelectionIndex = BackgroundSelectionView.length - 1;
 			BackgroundSelectionSelect = BackgroundSelectionView[BackgroundSelectionIndex].Name;
-			BackgroundSelectionSelectName = DialogFindPlayer(BackgroundSelectionSelect);
+			// This sets the screen's background
 			BackgroundSelectionBackground = BackgroundSelectionSelect;
 		}
 		X += 450 + 35;
