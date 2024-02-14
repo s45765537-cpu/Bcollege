@@ -838,8 +838,8 @@ function WheelFortuneRun() {
 	DrawRect(0, 0, 2000, 1000, "#00000080");
 	DrawCharacter(Player, 100, 0, 1, true);
 	let BackColor = (WheelFortuneVelocity == 0) ? "White" : "Silver";
-	DrawButton(1885, 25, 90, 90, "", (WheelFortuneForced ? "Pink" : BackColor), "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1770, 25, 90, 90, "", BackColor, "Icons/Random.png", TextGet("Random"));
+	DrawButton(1830, 60, 90, 90, "", (WheelFortuneForced ? "Pink" : BackColor), "Icons/Exit.png", TextGet("Exit"));
+	DrawButton(1720, 60, 90, 90, "", BackColor, "Icons/Random.png", TextGet("Random"));
 	WheelFortuneDraw(WheelFortuneList, WheelFortunePos, WheelFortunePosMax, 750, 0, 1);
 	DrawTextWrap(TextGet((WheelFortuneVelocity == 0) ? (WheelFortuneForced ? "Forced" : "Title") : "Wait"), 1375, 200, 550, 200, "White");
 	if (Player.GetDifficulty() <= 1) {
@@ -861,10 +861,10 @@ function WheelFortuneClick() {
 	if (WheelFortuneVelocity != 0) return;
 
 	// When the user wishes to exit
-	if (MouseIn(1885, 25, 90, 90) && !WheelFortuneForced) WheelFortuneExit();
+	if (MouseIn(1830, 60, 90, 90) && !WheelFortuneForced) WheelFortuneExit();
 
 	// When the user wishes to do a random spin
-	if (MouseIn(1770, 25, 90, 90)) {
+	if (MouseIn(1720, 60, 90, 90)) {
 		WheelFortuneForced = false;
 		WheelFortuneVelocity = WheelFortuneVelocity + 3000 + (Math.random() * 3000);
 		WheelFortuneVelocityTime = CommonTime();
