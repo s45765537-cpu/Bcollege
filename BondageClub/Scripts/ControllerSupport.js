@@ -12,20 +12,20 @@ var ControllerDetectedCount = 0;
 
 var ControllerButtonsRepeat = true;
 
-var ControllerA = 1;
-var ControllerB = 0;
-var ControllerX = 3;
-var ControllerY = 2;
-var ControllerTriggerRight = 6;
-var ControllerTriggerLeft = 7;
+var ControllerA = 0;
+var ControllerB = 1;
+var ControllerX = 2;
+var ControllerY = 3;
+var ControllerTriggerLeft = 6;
+var ControllerTriggerRight = 7;
 var ControllerStickUpDown = 1;
 var ControllerStickLeftRight = 0;
 var ControllerStickRight = 1;
 var ControllerStickDown = 1;
-var ControllerDPadUp = 4;
-var ControllerDPadDown = 5;
-var ControllerDPadLeft = 6;
-var ControllerDPadRight = 7;
+var ControllerDPadUp = 12;
+var ControllerDPadDown = 13;
+var ControllerDPadLeft = 14;
+var ControllerDPadRight = 15;
 
 var Calibrating = false;
 var ControllerStick = false;
@@ -243,6 +243,8 @@ function ControllerManagedByGame(Buttons) {
 	if (ControllerGameActiveButttons.B == null) ControllerGameActiveButttons.B = false;
 	if (ControllerGameActiveButttons.X == null) ControllerGameActiveButttons.X = false;
 	if (ControllerGameActiveButttons.Y == null) ControllerGameActiveButttons.Y = false;
+	if (ControllerGameActiveButttons.TLEFT == null) ControllerGameActiveButttons.TLEFT = false;
+	if (ControllerGameActiveButttons.TRIGHT == null) ControllerGameActiveButttons.TRIGHT = false;
 	if (ControllerGameActiveButttons.DOWN == null) ControllerGameActiveButttons.DOWN = false;
 	if (ControllerGameActiveButttons.UP == null) ControllerGameActiveButttons.UP = false;
 	if (ControllerGameActiveButttons.LEFT == null) ControllerGameActiveButttons.LEFT = false;
@@ -279,16 +281,16 @@ function ControllerManagedByGame(Buttons) {
 function ControllerButton(buttons) {
 	//makes sure that no value is undefined
 	if (buttons[ControllerA] == undefined) {
-		ControllerA = 1;
+		ControllerA = 0;
 	}
 	if (buttons[ControllerB] == undefined) {
-		ControllerB = 0;
+		ControllerB = 1;
 	}
 	if (buttons[ControllerX] == undefined) {
-		ControllerX = 3;
+		ControllerX = 2;
 	}
 	if (buttons[ControllerY] == undefined) {
-		ControllerY = 2;
+		ControllerY = 3;
 	}
 	if (buttons[ControllerStickUpDown] == undefined) {
 		ControllerStickUpDown = 1;
@@ -303,16 +305,16 @@ function ControllerButton(buttons) {
 		ControllerStickDown = 1;
 	}
 	if (buttons[ControllerDPadUp] == undefined) {
-		ControllerDPadUp = 4;
+		ControllerDPadUp = 12;
 	}
 	if (buttons[ControllerDPadDown] == undefined) {
-		ControllerDPadDown = 5;
+		ControllerDPadDown = 13;
 	}
 	if (buttons[ControllerDPadLeft] == undefined) {
-		ControllerDPadLeft = 6;
+		ControllerDPadLeft = 14;
 	}
 	if (buttons[ControllerDPadRight] == undefined) {
-		ControllerDPadRight = 7;
+		ControllerDPadRight = 15;
 	}
 
 	// If a game intercepts the controller inputs
@@ -557,18 +559,18 @@ function ControllerClick() {
  * @param {"Up"|"Down"|"Left"|"Right"} direction
  */
 function ControllerFindClosestPoint(point, points, direction) {
-	console.log("finding point: ", point, "closest to", ...points.map(([x, y]) => `(${x}, ${y})`));
+	//console.log("finding point: ", point, "closest to", ...points.map(([x, y]) => `(${x}, ${y})`));
 	const [X, Y] = point;
 
 	// Filter points in the opposite direction we're searching, then map the remainder in 2d-space using good old Pythagoras
 	points = points.filter(([x, y]) => direction === "Up" && y < Y || direction === "Down" && y > Y || direction === "Left" && x < X || direction === "Right" && x > X);
-	console.log("filtered: ", ...points.map(([x, y]) => `(${x}, ${y})`));
+	//console.log("filtered: ", ...points.map(([x, y]) => `(${x}, ${y})`));
 
 	let candidates = points.map(([x, y]) => [x, y, Math.sqrt((x - X) ** 2 + (y - Y) ** 2)]); // XXX: not enough. Might need a bit of trig too to find the closest, most in-line point
-	console.log("candidates: ", ...candidates.map(([x, y, dist]) => `(${x}, ${y}, ${dist})`));
+	//console.log("candidates: ", ...candidates.map(([x, y, dist]) => `(${x}, ${y}, ${dist})`));
 
 	candidates = candidates.sort(([ax, ay, adist], [bx, by, bdist]) => adist - bdist);
-	console.log("sorted: ", ...candidates.map(([x, y, dist]) => `(${x}, ${y}, ${dist})`));
+	//console.log("sorted: ", ...candidates.map(([x, y, dist]) => `(${x}, ${y}, ${dist})`));
 
 	if (!candidates[0]) return null;
 
@@ -586,7 +588,7 @@ function ControllerMoveToActiveZone(direction) {
 
 	// Filter out our current location so we don't jump to it
 	const points = ControllerActiveAreas.filter(([x, y]) => !(x === MouseX && y === MouseY));
-	console.log("filtered areas: ", points.map(([x, y]) => `(${x}, ${y})`).join(", "));
+	//console.log("filtered areas: ", points.map(([x, y]) => `(${x}, ${y})`).join(", "));
 
 	const dest = ControllerFindClosestPoint([MouseX, MouseY], points, direction);
 	if (!dest) return;

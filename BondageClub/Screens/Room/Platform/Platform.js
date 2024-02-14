@@ -1849,6 +1849,7 @@ function PlatformPartyLoad() {
 function PlatformPartyNext() {
 	if (PlatformParty.length <= 1) return;
 	PlatformPartySave();
+	PlatformKeys = [];
 	let Pos = 0;
 	for (let P = 0; P < PlatformParty.length - 1; P++)
 		if (PlatformParty[P].Character == PlatformPlayer.Name)
@@ -2401,7 +2402,7 @@ function PlatformMoveActive(Move) {
 	// Blocking can be done using P, but you need to get the perk first
 	if ((Move == "Block") && (PlatformPlayer.ForceX == 0) && PlatformHasPerk(PlatformPlayer, "Block")) {
 		if (!CommonIsMobile && (PlatformKeys.indexOf("KeyP") >= 0)) return true;
-		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerTriggerLeft].pressed) return true;
+		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerTriggerRight].pressed) return true;
 		if (CommonTouchActive(1825, 700, 125, 125)) return true;
 	}
 
@@ -3190,11 +3191,13 @@ function PlatformEventKeyDown(Code) {
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Teleport")) return PlatformCastTeleport(PlatformPlayer);
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Backflip")) return PlatformAttack(PlatformPlayer, "Backflip");
 	if ((Code == "KeyP") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Heal")) return PlatformCastHeal(PlatformPlayer);
+	if (Code == "KeyP") return;
 	if ((Code == "KeyL") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackFast")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
 	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
-	if ((Code == "KeyK")  && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
+	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
-	if (Code == "KeyO") return PlatformBindStart(PlatformPlayer);
+	if ((Code == "KeyO") && (PlatformHeal != null)) return PlatformPartyNext();
+	if ((Code == "KeyO") && (PlatformHeal == null)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (Code >= "Digit0") && (Code <= "Digit9")) return PlatformSaveGame(parseInt(Code.substring(5)));
 	if (PlatformKeys.indexOf(Code) < 0) PlatformKeys.push(Code);
 	PlatformLastKeyCode = Code;
@@ -3229,7 +3232,7 @@ function PlatformController(Buttons) {
 
 	// Stops any binding if buttons have changed
 	if (PlatformActionIs(PlatformPlayer, "Bind"))
-		if ((Buttons[ControllerX].pressed == true) || (Buttons[ControllerA].pressed == true) || (Buttons[ControllerB].pressed == true) || (Buttons[ControllerDPadLeft].pressed == true) || (Buttons[ControllerDPadRight].pressed == true) || (Buttons[ControllerTriggerRight].pressed == true) || (Buttons[ControllerTriggerLeft].pressed == true))
+		if ((Buttons[ControllerX].pressed == true) || (Buttons[ControllerY].pressed == true) || (Buttons[ControllerA].pressed == true) || (Buttons[ControllerB].pressed == true) || (Buttons[ControllerDPadLeft].pressed == true) || (Buttons[ControllerDPadRight].pressed == true) || (Buttons[ControllerTriggerRight].pressed == true))
 			PlatformPlayer.Action = null;
 
 	// Double-tap management to run left
@@ -3259,10 +3262,10 @@ function PlatformController(Buttons) {
 	// On a new A, X, Y or UP button, we activate the keyboard equivalent
 	if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformEventKeyDown("KeyL");
 	if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false) && (PlatformPlayer.Name != "Edlaran")) PlatformEventKeyDown("KeyK");
-	if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformEventKeyDown("KeyO");
-	if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformEventKeyDown("KeyZ");
-	if ((Buttons[ControllerTriggerRight].pressed == true) && (ControllerGameActiveButttons.TRIGHT == false)) PlatformEventKeyDown("KeyI");
-	if ((Buttons[ControllerTriggerLeft].pressed == true) && (ControllerGameActiveButttons.TLEFT == false)) PlatformEventKeyDown("KeyP");
+	if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformEventKeyDown("KeyI");
+	if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformEventKeyDown("KeyW");
+	if ((Buttons[ControllerTriggerLeft].pressed == true) && (ControllerGameActiveButttons.TLEFT == false)) PlatformEventKeyDown("KeyO");
+	if ((Buttons[ControllerTriggerRight].pressed == true) && (ControllerGameActiveButttons.TRIGHT == false) && (PlatformPlayer.Name != "Melody")) PlatformEventKeyDown("KeyP");
 	PlatformButtons = Buttons;
 	return true;
 

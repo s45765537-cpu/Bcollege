@@ -63,6 +63,7 @@ function GameRun(Timestamp) {
 	CurrentTime = CurrentTime + TimerRunInterval;
 
 	DrawProcess(Timestamp);
+	ControllerProcess();
 	TimerProcess();
 
 	ServerSendQueueProcess();

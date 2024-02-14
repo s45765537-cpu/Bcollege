@@ -4,6 +4,7 @@ var PlatformDialogBackground = null;
 var PlatformDialogText = null;
 var PlatformDialogAnswer = null;
 var PlatformDialogAnswerPosition = 0;
+var PlatformDialogAnswerLength = 0;
 var PlatformDialogReply = null;
 var PlatformDialogGoto = null;
 var PlatformDialogCharacterDisplay = null;
@@ -4051,6 +4052,11 @@ function PlatformDialogLoadPosition(Position) {
 	if (PlatformDialog.Dialog[Position].TextScript != null) PlatformDialogText = PlatformDialog.Dialog[Position].TextScript();
 	PlatformDialogAnswer = PlatformDialog.Dialog[Position].Answer;
 	PlatformDialogAnswerPosition = 0;
+	PlatformDialogAnswerLength = (PlatformDialogAnswer == null) ? 0 : PlatformDialogAnswer.length;
+	if (PlatformDialogAnswerLength > 0)
+		for (let Answer of PlatformDialogAnswer)
+			if ((Answer.Perk === true) && !PlatformDialogLeaderHasPerk("Manipulation"))
+				PlatformDialogAnswerLength--;
 	PlatformDialogReply = null;
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
@@ -4294,11 +4300,11 @@ function PlatformDialogKeyDown(Key) {
 	if ((Key == "Space") || (Key == "Enter") || (Key == "KeyJ") || (Key == "KeyK") || (Key == "KeyL")) PlatformDialogProcess();
 	if (Key == "KeyW") {
 		PlatformDialogAnswerPosition--;
-		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
+		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswerLength - 1 : 0;
 	}
 	if (Key == "KeyS") {
 		PlatformDialogAnswerPosition++;
-		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswer.length)) PlatformDialogAnswerPosition = 0;
+		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswerLength)) PlatformDialogAnswerPosition = 0;
 	}
 	return ((Key.substring(0, 3) == "Key") || (Key.substring(0, 5) == "Arrow") || (Key.substring(0, 5) == "Digit") || (Key == "Space") || (Key == "Enter"));
 }
@@ -4342,10 +4348,10 @@ function PlatformDialogGetCharacter(Name) {
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
 function PlatformDialogController(Buttons) {
-	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformDialogProcess();
+	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) { ControllerGameActiveButttons.A = true; PlatformDialogProcess() }
+	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) { ControllerGameActiveButttons.B = true; PlatformDialogProcess(); }
+	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) { ControllerGameActiveButttons.X = true; PlatformDialogProcess(); }
+	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) { ControllerGameActiveButttons.Y = true; PlatformDialogProcess(); }
 	else if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformDialogKeyDown("KeyW");
 	else if ((Buttons[ControllerDPadDown].pressed == true) && (ControllerGameActiveButttons.DOWN == false)) PlatformDialogKeyDown("KeyS");
 	return true;
