@@ -2544,183 +2544,6 @@ var AssetFemale3DCG = [
 		],
 	},
 	{
-		Group: "BodyMarkings",
-		Priority: 8,
-		Clothing:true,
-		Default: false,
-		Random: false,
-		Asset: [
-			{
-				Name: "WombTattoos",
-				Priority: 10,
-				Value: 20,
-				Top: 300,
-				Left: 73,
-				BuyGroup: "WombTattoos",
-				PoseMapping: {
-					BackBoxTie: PoseType.DEFAULT,
-					BackCuffs: PoseType.DEFAULT,
-					BackElbowTouch: PoseType.DEFAULT,
-					OverTheHead: PoseType.DEFAULT,
-					TapedHands: PoseType.DEFAULT,
-					Yoked: PoseType.DEFAULT,
-					AllFours: PoseType.HIDE,
-					Hogtied: PoseType.HIDE,
-				},
-				Extended: true,
-				BodyCosplay: true,
-				Layer: [
-					{
-						Name: "Zoom",
-						AllowTypes: { z: 1},
-					},
-					{
-						Name:"Big",
-						AllowTypes: { b: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Bloom",
-						AllowTypes: { c: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"BottomSpike",
-						AllowTypes: { d: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Flash",
-						AllowTypes: { e: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Fly",
-						AllowTypes: { f: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Grass",
-						AllowTypes: { g: 1},
-						CopyLayerColor: "Zoom",
-					},
-
-					{
-						Name:"Grow",
-						AllowTypes: { h: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"GrowHollow",
-						AllowTypes: { i: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"HeartSmallOutline",
-						AllowTypes: { j: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Heartline",
-						AllowTypes: { k: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"HeartSmall",
-						AllowTypes: { l: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"HeartSolid",
-						AllowTypes: { m: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"HeartWings",
-						AllowTypes: { n: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"In",
-						AllowTypes: { o: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Leaves",
-						AllowTypes: { p: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"MidSpike",
-						AllowTypes: { q: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Ribow",
-						AllowTypes: { r: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Sense",
-						AllowTypes: { s: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Shake",
-						AllowTypes: { t: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"SideHearts",
-						AllowTypes: { u: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Swim",
-						AllowTypes: { v: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Thorn",
-						AllowTypes: { w: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"ThornOut",
-						AllowTypes: { x: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"TopSpike",
-						AllowTypes: { y: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Venom",
-						AllowTypes: { za: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Viper",
-						AllowTypes: { zb: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"Waves",
-						AllowTypes: { zc: 1},
-						CopyLayerColor: "Zoom",
-					},
-					{
-						Name:"WingSmall",
-						AllowTypes: { zd: 1},
-						CopyLayerColor: "Zoom",
-					},
-				]
-			},
-		],
-	},
-
-	{
 		Group: "ClothAccessory",
 		Priority: 32,
 		Default: false,
@@ -13006,6 +12829,204 @@ var AssetFemale3DCG = [
 				Value: 50,
 				DefaultColor: ["#0e70b4", "#086cb2"],
 				Layer: [{ Name: "Wings" }, { Name: "Veins" }],
+			},
+		],
+		Color: [
+			"Default",
+			"#cccccc",
+			"#aaaaaa",
+			"#888888",
+			"#666666",
+			"#444444",
+			"#222222",
+			"#aa8080",
+			"#80aa80",
+			"#8080aa",
+			"#aaaa80",
+			"#80aaaa",
+			"#aa80aa",
+			"#cc3333",
+			"#33cc33",
+			"#3333cc",
+			"#cccc33",
+			"#33cccc",
+			"#cc33cc",
+		],
+	},
+
+	{
+		Group: "BodyMarkings",
+		Priority: 8,
+		Clothing:true,
+		Default: false,
+		Random: false,
+		Asset: [
+			{
+				Name: "WombTattoos",
+				Priority: 10,
+				Value: 20,
+				Top: 300,
+				Left: 73,
+				BuyGroup: "WombTattoos",
+				PoseMapping: {
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Yoked: PoseType.DEFAULT,
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				Extended: true,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "Zoom",
+						AllowTypes: { z: 1},
+					},
+					{
+						Name:"Big",
+						AllowTypes: { b: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Bloom",
+						AllowTypes: { c: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"BottomSpike",
+						AllowTypes: { d: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Flash",
+						AllowTypes: { e: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Fly",
+						AllowTypes: { f: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Grass",
+						AllowTypes: { g: 1},
+						CopyLayerColor: "Zoom",
+					},
+
+					{
+						Name:"Grow",
+						AllowTypes: { h: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"GrowHollow",
+						AllowTypes: { i: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"HeartSmallOutline",
+						AllowTypes: { j: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Heartline",
+						AllowTypes: { k: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"HeartSmall",
+						AllowTypes: { l: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"HeartSolid",
+						AllowTypes: { m: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"HeartWings",
+						AllowTypes: { n: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"In",
+						AllowTypes: { o: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Leaves",
+						AllowTypes: { p: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"MidSpike",
+						AllowTypes: { q: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Ribow",
+						AllowTypes: { r: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Sense",
+						AllowTypes: { s: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Shake",
+						AllowTypes: { t: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"SideHearts",
+						AllowTypes: { u: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Swim",
+						AllowTypes: { v: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Thorn",
+						AllowTypes: { w: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"ThornOut",
+						AllowTypes: { x: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"TopSpike",
+						AllowTypes: { y: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Venom",
+						AllowTypes: { za: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Viper",
+						AllowTypes: { zb: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"Waves",
+						AllowTypes: { zc: 1},
+						CopyLayerColor: "Zoom",
+					},
+					{
+						Name:"WingSmall",
+						AllowTypes: { zd: 1},
+						CopyLayerColor: "Zoom",
+					},
+				]
 			},
 		],
 		Color: [
