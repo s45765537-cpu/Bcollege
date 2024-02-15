@@ -3183,7 +3183,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WombTattoos",
 				Priority: 10,
-				Value: 20,
+				Value: -1,
 				Top: 300,
 				Left: 73,
 				BuyGroup: "WombTattoos",
