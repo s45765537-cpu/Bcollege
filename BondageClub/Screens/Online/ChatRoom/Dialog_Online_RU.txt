@@ -14,8 +14,8 @@
 (You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)
 (Ты можешь дать больше доступа к твоим предметам, поместив DialogCharacterObject в свой белый список, или меньше, поместив DialogCharacterObject в свой черный список.)
 ###_PLAYER
-(Check DialogCharacterObject drink tray.)
-(Проверь DialogCharacterObject поднос с напитками.)
+(Check DialogCharacterPossessive drink tray.)
+(Проверь DialogCharacterPossessive поднос с напитками.)
 ###_NPC
 (There's a variety of drinks.  Some are offered by the club and some are more expensive.)
 (Там есть множество напитков. Некоторые из них предлагаются клубом, а некоторые стоят дороже.)
