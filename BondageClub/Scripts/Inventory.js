@@ -208,7 +208,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
 		case "NotKneeling": {
 			return (
-				C.PoseMapping.BodyLower === "Kneel"
+				PoseAllKneeling.some(p => C.PoseMapping.BodyLower === p)
 				&& !PoseAllStanding.some(p => PoseAvailable(C, "BodyLower", p))
 			 ) ? "MustStandUpFirst" : "";
 		}
