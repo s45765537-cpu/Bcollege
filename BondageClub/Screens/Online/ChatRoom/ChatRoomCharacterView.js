@@ -243,74 +243,32 @@ function ChatRoomCharacterViewDraw() {
 		backgroundURL = `Backgrounds/${ChatRoomData.Background}.jpg`;
 	}
 
-	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
-
-	// Gradually slide the characters around to make room
-	let weight = ChatRoomCharacterViewSlideWeight;
-	// Calculate a multiplier based on current framerate to keep the speed of the animation consistent across different framerates
-	let frametimeAdjustment = TimerRunInterval / (1000 / 30);
-	if (ChatRoomCharacterViewInitialize || !(Player.GraphicsSettings && Player.GraphicsSettings.SmoothZoom)) {
-		ChatRoomCharacterViewInitialize = false;
-		weight = 0;
-	}
-
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterViewCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterViewCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterViewCharacterCount - 5))/(weight + 1);
-
-	for (let i = 0; i < frametimeAdjustment; i++) {
-		const nextZoom = zoomFrameStep(ChatRoomCharacterViewZoom);
-		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterViewX_Upper);
-		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterViewX_Lower);
-
-		if (weight === 0) {
-			// skip unnecessary calculations
-			ChatRoomCharacterViewZoom = nextZoom;
-			ChatRoomCharacterViewX_Upper = nextUpperX;
-			ChatRoomCharacterViewX_Lower = nextLowerX;
-			break;
-		}
-
-		const frametimeRemainder = frametimeAdjustment - i;
-		if (frametimeRemainder >= 1) {
-			ChatRoomCharacterViewZoom = nextZoom;
-			ChatRoomCharacterViewX_Upper = nextUpperX;
-			ChatRoomCharacterViewX_Lower = nextLowerX;
-		} else {
-			ChatRoomCharacterViewZoom += (nextZoom - ChatRoomCharacterViewZoom) * frametimeRemainder;
-			ChatRoomCharacterViewX_Upper += (nextUpperX - ChatRoomCharacterViewX_Upper) * frametimeRemainder;
-			ChatRoomCharacterViewX_Lower += (nextLowerX - ChatRoomCharacterViewX_Lower) * frametimeRemainder;
-		}
-	}
-
-	// The more players, the higher the zoom, also changes the drawing coordinates
-	const Zoom = ChatRoomCharacterViewZoom;
-	// const X = ChatRoomCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-
-	// Draw the background
-	const bgRect = RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight);
+	const charCount = ChatRoomCharacterViewCharacterCount;
 	const opts = {
-		zoom: Zoom,
-		inverted: InvertRoom,
+		zoom: 1.0,
+		inverted: Player.GraphicsSettings.InvertRoom && Player.IsInverted(),
 		blur: Player.GetBlurLevel(),
 		darken: DrawGetDarkFactor(),
 		tints: Player.GetTints(),
 	};
-	DrawRoomBackground(backgroundURL, bgRect, opts);
 
 	// Loop over the room's characters to draw each of them
-	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, zoom) => {
-		// Draw the background a second time for characters 6 to 10 (we do it here to correct clipping errors from the first part)
-		if (charIdx === 5) DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, 500), opts);
+	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, roomZoom) => {
+		if (charIdx % 5 === 0) {
+			// Draw the background every five characters
+			// This will also "fix" clipping errors from the previous row
+			const Y = charCount <= 5 ? 1000 * (1 - roomZoom) / 2 : 0;
+			const bgRect = RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight);
+			opts.zoom = roomZoom;
+			DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, charIdx * 100), opts);
+			// if (charIdx === 5) DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, 500), opts);
+		}
 
 		// Draw the character, it's status bubble and it's overlay
-		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
-		DrawStatus(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
+		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom);
+		DrawStatus(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom);
 		if (ChatRoomCharacterDrawlist[charIdx].MemberNumber != null) {
-			ChatRoomCharacterViewDrawOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, charIdx);
+			ChatRoomCharacterViewDrawOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom, charIdx);
 		}
 	});
 
@@ -345,8 +303,9 @@ function ChatRoomCharacterViewDrawBackground(Background, Y, zoom, darken, invert
  */
 function ChatRoomCharacterViewLoopCharacters(callback) {
 
+	const charCount = ChatRoomCharacterViewCharacterCount;
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
+	const Space = charCount >= 2 ? 1000 / Math.min(charCount, 5) : 500;
 
 	// Gradually slide the characters around to make room
 	let weight = ChatRoomCharacterViewSlideWeight;
@@ -357,49 +316,56 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 		weight = 0;
 	}
 
-	const zoomFrameStep = (current) => (current * weight + ((ChatRoomCharacterViewCharacterCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(ChatRoomCharacterViewCharacterCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, ChatRoomCharacterViewCharacterCount - 5))/(weight + 1);
+	const zoomFrameStep = (current) => (current * weight + ((charCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(charCount, 5))/(weight + 1);
+	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, charCount - 5))/(weight + 1);
 
+	let zoom = ChatRoomCharacterViewZoom;
+	let upperX = ChatRoomCharacterViewX_Upper;
+	let lowerX = ChatRoomCharacterViewX_Lower;
 	for (let i = 0; i < frametimeAdjustment; i++) {
-		const nextZoom = zoomFrameStep(ChatRoomCharacterViewZoom);
-		const nextUpperX = slideUpperFrameStep(ChatRoomCharacterViewX_Upper);
-		const nextLowerX = slideLowerFrameStep(ChatRoomCharacterViewX_Lower);
+		const nextZoom = zoomFrameStep(zoom);
+		const nextUpperX = slideUpperFrameStep(upperX);
+		const nextLowerX = slideLowerFrameStep(lowerX);
 
 		if (weight === 0) {
 			// skip unnecessary calculations
-			ChatRoomCharacterViewZoom = nextZoom;
-			ChatRoomCharacterViewX_Upper = nextUpperX;
-			ChatRoomCharacterViewX_Lower = nextLowerX;
+			zoom = nextZoom;
+			upperX = nextUpperX;
+			lowerX = nextLowerX;
 			break;
 		}
 
 		const frametimeRemainder = frametimeAdjustment - i;
 		if (frametimeRemainder >= 1) {
-			ChatRoomCharacterViewZoom = nextZoom;
-			ChatRoomCharacterViewX_Upper = nextUpperX;
-			ChatRoomCharacterViewX_Lower = nextLowerX;
+			zoom = nextZoom;
+			upperX = nextUpperX;
+			lowerX = nextLowerX;
 		} else {
-			ChatRoomCharacterViewZoom += (nextZoom - ChatRoomCharacterViewZoom) * frametimeRemainder;
-			ChatRoomCharacterViewX_Upper += (nextUpperX - ChatRoomCharacterViewX_Upper) * frametimeRemainder;
-			ChatRoomCharacterViewX_Lower += (nextLowerX - ChatRoomCharacterViewX_Lower) * frametimeRemainder;
+			zoom += (nextZoom - zoom) * frametimeRemainder;
+			upperX += (nextUpperX - upperX) * frametimeRemainder;
+			lowerX += (nextLowerX - lowerX) * frametimeRemainder;
 		}
 	}
 
+	ChatRoomCharacterViewZoom = zoom;
+	ChatRoomCharacterViewX_Upper = upperX;
+	ChatRoomCharacterViewX_Lower = lowerX;
+
 	// The more players, the higher the zoom, also changes the drawing coordinates
-	const Zoom = ChatRoomCharacterViewZoom;
-	const X = ChatRoomCharacterViewCharacterCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	const Zoom = zoom;
+	const X = charCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
+	const Y = charCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
 
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
 
 		// Finds the X and Y position of the character based on it's room position
-		let ChatRoomCharacterX = C >= 5 ? ChatRoomCharacterViewX_Lower : ChatRoomCharacterViewX_Upper;
-		if (!(Player.GraphicsSettings && Player.GraphicsSettings.CenterChatrooms)) ChatRoomCharacterX = 0;
-		const CharX = ChatRoomCharacterX + (ChatRoomCharacterViewCharacterCount == 1 ? 0 : X + (C % 5) * Space);
-		const CharY = ChatRoomCharacterViewCharacterCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
-		if ((ChatRoomCharacterViewCharacterCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
+		let offsetX = C >= 5 ? lowerX : upperX;
+		if (!(Player.GraphicsSettings && Player.GraphicsSettings?.CenterChatrooms)) offsetX = 0;
+		const CharX = offsetX + (charCount == 1 ? 0 : X + (C % 5) * Space);
+		const CharY = charCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
+		if ((charCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
 
 		const res = callback(C, CharX, CharY, Space, Zoom);
 		if (res) break;
