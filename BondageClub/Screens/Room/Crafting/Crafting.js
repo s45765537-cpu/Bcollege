@@ -1501,8 +1501,13 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 		}
 	}
 
-	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable
-	if ((asset != null) && (StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR)) {
+	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
+	// though the player should actually own the item
+	if (
+		asset != null
+		&& StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR
+		&& Player.Inventory.some((i) => i.Name === asset.Name)
+	) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
 		Craft.Item = asset.Name;
 	}
