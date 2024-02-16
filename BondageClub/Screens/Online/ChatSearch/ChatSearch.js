@@ -873,11 +873,11 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
- * @param {string} data - Response from the server
+ * @param {ServerChatRoomSearchResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatSearchResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != "")) {
+	if (typeof data === "string" && data) {
 		if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
 			ChatRoomClearAllElements();
 			CommonSetScreen("Online", "ChatSearch");
@@ -908,7 +908,7 @@ function ChatSearchCensor() {
 
 /**
  * Handles the reception of the server data when it responds to the search query
- * @param {any[]} data - Response from the server, contains the room list matching the query
+ * @param {ServerChatRoomSearchResultResponse} data - Response from the server, contains the room list matching the query
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {

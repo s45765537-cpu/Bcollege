@@ -57,7 +57,7 @@ function PasswordResetRun() {
 
 /**
  * Handles a password reset response
- * @param {string} msg - The password reset response message to be displayed to the player
+ * @param {ServerPasswordResetResponse} msg - The password reset response message to be displayed to the player
  * @returns {void} Nothing
  */
 function PasswordResetResponse(msg) {

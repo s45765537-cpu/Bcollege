@@ -7,6 +7,7 @@ interface ServerAccountImmutableData {
 	ID: string;
 	MemberNumber: MemberNumber;
 	Name: string;
+	AccountName: string;
 	Creation: number;
 	Ownership?: ServerOwnership;
 	Lovership?: ServerLovership[];
@@ -26,9 +27,9 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	BlackList: MemberNumber[];
 	FriendList: MemberNumber[];
 	WhiteList: MemberNumber[];
-	ItemPermission: number;
+	ItemPermission: 0 | 1 | 2 | 3 | 4 | 5;
 	Skill?: Skill[];
-	Reputation?: { Type: string, Value: number }[];
+	Reputation?: { Type: ReputationType, Value: number }[];
 	Wardrobe?: string;
 	WardrobeCharacterNames?: string[];
 	ChatSettings?: ChatSettingsType;
@@ -61,7 +62,31 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	RoomCreateLanguage?: ServerChatRoomLanguage;
 	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
 	LastMapData?: null | ChatRoomMapData;
-	LastChatRoom?: null | ServerChatRoomSettings;
+	// Unfortunately can't @deprecated individual union members
+	/** String-based values have been deprecated and are superseded by {@link ServerChatRoomSettings} objects */
+	LastChatRoom?: null | ServerChatRoomSettings | string;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomDesc?: string;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomAdmin?: string;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomBan?: string;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomBG?: string;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomSize?: number;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomPrivate?: boolean;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomBlockCategory?: ServerChatRoomBlockCategory[];
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomSpace?: ServerChatRoomSpace;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomLanguage?: ServerChatRoomLanguage;
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomCustom?: ServerChatRoomData["Custom"];
+	/** @deprecated superseded by the {@link ServerAccountData.LastChatRoom} object */
+	LastChatRoomMapData?: ServerChatRoomMapData;
 	ControllerSettings?: ControllerSettingsType;
 	ImmersionSettings?: ImmersionSettingsType;
 	RestrictionSettings?: RestrictionSettingsType;
@@ -70,6 +95,9 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	NotificationSettings?: NotificationSettingsType;
 	GenderSettings?: GenderSettingsType;
 	ExtensionSettings?: ExtensionSettings;
+	FriendNames?: string;
+	SubmissivesList?: string;
+	KinkyDungeonExploredLore?: unknown[];
 }
 
 interface ServerMapDataResponse {

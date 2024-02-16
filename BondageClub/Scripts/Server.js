@@ -185,7 +185,7 @@ function ServerInfo(data) {
 /**
  * Callback used when we are disconnected from the server, try to enter the reconnection mode (relog screen) if the
  * user was logged in
- * @param {*} data - Error to log
+ * @param {ServerForceDisconnectMessage} [data] - Error to log
  * @param {boolean} [close=false] - close the transport
  * @returns {void} - Nothing
  */
@@ -376,6 +376,7 @@ function ServerPlayerSkillSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerRelationsSync() {
+	/** @type {ServerAccountUpdateRequest} */
 	const D = {};
 	D.FriendList = Player.FriendList;
 	D.GhostList = Player.GhostList;
@@ -599,6 +600,7 @@ function ServerPlayerAppearanceSync() {
 
 	// Creates a big parameter string of every appearance items and sends it to the server
 	if (Player.AccountName != "") {
+		/** @type {ServerAccountUpdateRequest} */
 		var D = {};
 		D.AssetFamily = Player.AssetFamily;
 		D.Appearance = ServerAppearanceBundle(Player.Appearance);
@@ -656,7 +658,7 @@ function ServerAccountQueryResult(data) {
 
 /**
  * Callback used to parse received information related to a beep from another account
- * @param {object} data - Data object containing the beep object which contain at the very least a name and a member
+ * @param {ServerAccountBeepResponse} data - Data object containing the beep object which contain at the very least a name and a member
  *     number
  * @returns {void} - Nothing
  */
