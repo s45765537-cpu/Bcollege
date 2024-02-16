@@ -9,6 +9,10 @@ var ChatRoomCharacterViewCharacterCount = 0;
 /** @type {null | number} */
 var ChatRoomCharacterViewMoveTarget = null;
 
+const ChatRoomCharacterViewWidth = MainCanvasWidth / 2;
+const ChatRoomCharacterViewHeight = MainCanvasHeight;
+const ChatRoomCharacterViewCharactersPerRow = 5;
+
 /**
  * The name of the chat room character view.
  * @type {string}
@@ -91,14 +95,18 @@ function ChatRoomCharacterViewCanLeave() {
  */
 function ChatRoomCharacterViewScreenshot() {
 	// Get the room dimensions
-	let Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
-	let Zoom = ChatRoomCharacterViewCharacterCount >= 3 && ChatRoomCharacterViewCharacterCount < 6 ? Space / 400 : 1;
-	let Y = ChatRoomCharacterViewCharacterCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-	let X = ChatRoomCharacterViewCharacterCount === 1 ? 250 : 0;
-	let Width = ChatRoomCharacterViewCharacterCount === 1 ? 500 : 1000;
+	const charCount = ChatRoomCharacterViewCharacterCount;
+	const charsPerRow = ChatRoomCharacterViewCharactersPerRow;
+	const viewWidth = ChatRoomCharacterViewWidth;
+	const viewHeight = ChatRoomCharacterViewHeight;
+	let Space = charCount >= 2 ? viewWidth / Math.min(charCount, charsPerRow) : viewWidth / 2;
+	let Zoom = charCount >= 3 && charCount <= charsPerRow ? Space / 400 : 1;
+	let X = charCount === 1 ? 250 : 0;
+	let Y = charCount <= charsPerRow ? viewWidth * (1 - Zoom) / 2 : 0;
+	let Width = charCount === 1 ? viewWidth / 2 : viewWidth;
 
 	// Take the photo
-	ChatRoomPhoto(X, Y, Width, 1000 * Zoom, ChatRoomCharacter);
+	ChatRoomPhoto(X, Y, Width, viewHeight * Zoom, ChatRoomCharacter);
 }
 
 /**
@@ -244,6 +252,9 @@ function ChatRoomCharacterViewDraw() {
 	}
 
 	const charCount = ChatRoomCharacterViewCharacterCount;
+	const charsPerRow = ChatRoomCharacterViewCharactersPerRow;
+	const viewWidth = ChatRoomCharacterViewWidth;
+	const viewHeight = ChatRoomCharacterViewHeight;
 	const opts = {
 		zoom: 1.0,
 		inverted: Player.GraphicsSettings.InvertRoom && Player.IsInverted(),
@@ -254,11 +265,11 @@ function ChatRoomCharacterViewDraw() {
 
 	// Loop over the room's characters to draw each of them
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, roomZoom) => {
-		if (charIdx % 5 === 0) {
+		if (charIdx % charsPerRow === 0) {
 			// Draw the background every five characters
 			// This will also "fix" clipping errors from the previous row
-			const Y = charCount <= 5 ? 1000 * (1 - roomZoom) / 2 : 0;
-			const bgRect = RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight);
+			const Y = charCount <= charsPerRow ? viewHeight * (1 - roomZoom) / 2 : 0;
+			const bgRect = RectMakeRect(0, Y, viewWidth, viewHeight);
 			opts.zoom = roomZoom;
 			DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, charIdx * 100), opts);
 			// if (charIdx === 5) DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, 500), opts);
@@ -291,7 +302,8 @@ function ChatRoomCharacterViewDrawUi() {
  */
 function ChatRoomCharacterViewDrawBackground(Background, Y, zoom, darken, inverted) {
 	console.warn(`ChatRoomCharacterViewDrawBackground is deprecated, use DrawRoomBackground instead`);
-	DrawRoomBackground(Background, RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight), { zoom, inverted, darken });
+	const bgRect = RectMakeRect(0, Y, ChatRoomCharacterViewWidth, ChatRoomCharacterViewHeight);
+	DrawRoomBackground(Background, bgRect, { zoom, inverted, darken });
 }
 
 /**
@@ -304,8 +316,12 @@ function ChatRoomCharacterViewDrawBackground(Background, Y, zoom, darken, invert
 function ChatRoomCharacterViewLoopCharacters(callback) {
 
 	const charCount = ChatRoomCharacterViewCharacterCount;
+	const charsPerRow = ChatRoomCharacterViewCharactersPerRow;
+	const viewWidth = ChatRoomCharacterViewWidth;
+	const viewHeight = ChatRoomCharacterViewHeight;
+
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-	const Space = charCount >= 2 ? 1000 / Math.min(charCount, 5) : 500;
+	const Space = charCount >= 2 ? viewWidth / Math.min(charCount, 5) : viewWidth / 2;
 
 	// Gradually slide the characters around to make room
 	let weight = ChatRoomCharacterViewSlideWeight;
@@ -317,8 +333,8 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 	}
 
 	const zoomFrameStep = (current) => (current * weight + ((charCount >= 3 ? Space / 400 : 1))) / (weight + 1);
-	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(charCount, 5))/(weight + 1);
-	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, charCount - 5))/(weight + 1);
+	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(charCount, charsPerRow))/(weight + 1);
+	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, charCount - charsPerRow))/(weight + 1);
 
 	let zoom = ChatRoomCharacterViewZoom;
 	let upperX = ChatRoomCharacterViewX_Upper;
@@ -354,17 +370,17 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 
 	// The more players, the higher the zoom, also changes the drawing coordinates
 	const Zoom = zoom;
-	const X = charCount >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-	const Y = charCount <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+	const X = charCount >= 3 ? (Space - viewWidth / 2 * Zoom) / 2 : 0;
+	const Y = charCount <= 5 ? viewHeight * (1 - Zoom) / 2 : 0;
 
 	// Draw the characters (in click mode, we can open the character menu or start whispering to them)
 	for (let C = 0; C < ChatRoomCharacterDrawlist.length; C++) {
 
 		// Finds the X and Y position of the character based on it's room position
-		let offsetX = C >= 5 ? lowerX : upperX;
-		if (!(Player.GraphicsSettings && Player.GraphicsSettings?.CenterChatrooms)) offsetX = 0;
-		const CharX = offsetX + (charCount == 1 ? 0 : X + (C % 5) * Space);
-		const CharY = charCount == 1 ? 0 : Y + Math.floor(C / 5) * 500;
+		let offsetX = 0;
+		if (Player.GraphicsSettings?.CenterChatrooms) offsetX = C >= charsPerRow ? lowerX : upperX;
+		const CharX = offsetX + (charCount == 1 ? 0 : X + (C % charsPerRow) * Space);
+		const CharY = charCount == 1 ? 0 : Y + Math.floor(C / charsPerRow) * CanvasDrawWidth;
 		if ((charCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
 
 		const res = callback(C, CharX, CharY, Space, Zoom);
