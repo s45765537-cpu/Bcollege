@@ -232,13 +232,16 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
  */
 function ChatRoomCharacterViewDraw() {
 
-	// The darkness factors varies with blindness level (1 is bright, 0 is pitch black)
-	let DarkFactor = CharacterGetDarkFactor(Player);
-
 	// Check if we should use a custom background
-	const CustomBG = DrawGetCustomBackground();
-	const Background = CustomBG || ChatRoomData.Background;
-	if (CustomBG && (DarkFactor === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) DarkFactor = CharacterGetDarkFactor(Player, true);
+	let backgroundURL;
+	const itemBackground = DrawGetCustomBackground();
+	if (itemBackground) {
+		backgroundURL = `Backgrounds/${itemBackground}.jpg`;
+	} else if (ChatRoomCustomized && ChatRoomCustomBackground) {
+		backgroundURL = ChatRoomCustomBackground;
+	} else {
+		backgroundURL = `Backgrounds/${ChatRoomData.Background}.jpg`;
+	}
 
 	// Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
 	const Space = ChatRoomCharacterViewCharacterCount >= 2 ? 1000 / Math.min(ChatRoomCharacterViewCharacterCount, 5) : 500;
@@ -288,12 +291,20 @@ function ChatRoomCharacterViewDraw() {
 	const InvertRoom = Player.GraphicsSettings.InvertRoom && Player.IsInverted();
 
 	// Draw the background
-	ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom);
+	const bgRect = RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight);
+	const opts = {
+		zoom: Zoom,
+		inverted: InvertRoom,
+		blur: Player.GetBlurLevel(),
+		darken: DrawGetDarkFactor(),
+		tints: Player.GetTints(),
+	};
+	DrawRoomBackground(backgroundURL, bgRect, opts);
 
 	// Loop over the room's characters to draw each of them
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, zoom) => {
 		// Draw the background a second time for characters 6 to 10 (we do it here to correct clipping errors from the first part)
-		if (charIdx === 5) ChatRoomCharacterViewDrawBackground(Background, 500, zoom, DarkFactor, InvertRoom);
+		if (charIdx === 5) DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, 500), opts);
 
 		// Draw the character, it's status bubble and it's overlay
 		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom);
@@ -314,38 +325,15 @@ function ChatRoomCharacterViewDrawUi() {
  * Draw the background of a chat room
  * @param {string} Background - The name of the background image file
  * @param {number} Y - The starting Y co-ordinate of the image
- * @param {number} Zoom - The zoom factor based on the number of characters
- * @param {number} DarkFactor - The value (0 = fully visible, 1 = black) to tint the background
- * @param {boolean} InvertRoom - Whether the background image should be inverted
+ * @param {number} zoom - The zoom factor based on the number of characters
+ * @param {number} darken - The value (0 = fully visible, 1 = black) to tint the background
+ * @param {boolean} inverted - Whether the background image should be inverted
+ * @deprecated Use {@link DrawRoomBackground} instead
  * @returns {void} - Nothing
  */
-function ChatRoomCharacterViewDrawBackground(Background, Y, Zoom, DarkFactor, InvertRoom) {
-	if (DarkFactor > 0) {
-
-		// Sets the blur level
-		const BlurLevel = Player.GetBlurLevel();
-		if (BlurLevel > 0) MainCanvas.filter = `blur(${BlurLevel}px)`;
-
-		// Draw the zoomed or custom background
-		if (ChatRoomCustomized && (ChatRoomCustomBackground != null) && (ChatRoomCustomBackground != ""))
-			DrawImageResize(ChatRoomCustomBackground, 0, Y, 1000, 1000 * Zoom);
-		else
-			DrawImageZoomCanvas("Backgrounds/" + Background + ".jpg", MainCanvas, 500 * (2 - 1 / Zoom), 0, 1000 / Zoom, 1000, 0, Y, 1000, 1000 * Zoom, InvertRoom);
-
-		// Draw the custom filter
-		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != ""))
-			DrawRect(0, Y, 1000, 1000 * Zoom, ChatRoomCustomFilter);
-		MainCanvas.filter = 'none';
-
-		// Draw an overlay if the character is partially blinded
-		if (DarkFactor < 1.0)
-			DrawRect(0, Y, 1000, 1000 - Y, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
-
-	}
-	const Tints = Player.GetTints();
-	for (const {r, g, b, a} of Tints) {
-		DrawRect(0, Y, 1000, 1000 - Y, `rgba(${r},${g},${b},${a})`);
-	}
+function ChatRoomCharacterViewDrawBackground(Background, Y, zoom, darken, inverted) {
+	console.warn(`ChatRoomCharacterViewDrawBackground is deprecated, use DrawRoomBackground instead`);
+	DrawRoomBackground(Background, RectMakeRect(0, Y, MainCanvasWidth / 2, MainCanvasHeight), { zoom, inverted, darken });
 }
 
 /**

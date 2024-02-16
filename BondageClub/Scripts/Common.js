@@ -13,7 +13,11 @@ var CurrentScreenFunctions;
 /** @type {Character|NPCCharacter|null} */
 var CurrentCharacter = null;
 var CurrentOnlinePlayers = 0;
-/** A per-screen ratio of how darkened the background must be */
+/**
+ * A per-screen ratio of how darkened the background must be
+ *
+ * 1 is bright, 0 is pitch black
+ */
 var CurrentDarkFactor = 1.0;
 var CommonIsMobile = false;
 /** @type {Record<string, string[][]>} */

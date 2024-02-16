@@ -71,6 +71,8 @@ interface RGBAColor extends RGBColor {
 	a: number;
 }
 
+type Rect = { x: number, y: number, w: number, h: number };
+
 /** A 4-tuple with X & Y coordinates, width and height */
 type RectTuple = [X: number, Y: number, W: number, H: number];
 
