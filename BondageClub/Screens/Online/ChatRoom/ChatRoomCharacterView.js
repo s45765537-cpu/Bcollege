@@ -242,7 +242,7 @@ function ChatRoomCharacterViewDraw() {
 
 	// Check if we should use a custom background
 	let backgroundURL;
-	const itemBackground = DrawGetCustomBackground();
+	const itemBackground = DrawGetCustomBackground(Player);
 	if (itemBackground) {
 		backgroundURL = `Backgrounds/${itemBackground}.jpg`;
 	} else if (ChatRoomCustomized && ChatRoomCustomBackground) {

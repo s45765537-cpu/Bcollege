@@ -1203,21 +1203,13 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
 }
 
 /**
- * Gets the player's custom background based on type
- * @returns {string} - Custom background if applicable, otherwise ""
+ * Gets a character's custom background from the assets it wears
+ *
+ * @param {Character} C - The character to get the background for
+ * @returns {string | undefined} - Path to the custom background, or undefined if none
  */
-function DrawGetCustomBackground() {
-	const blindfold = InventoryGet(Player, "ItemHead");
-	const hood = InventoryGet(Player, "ItemHood");
-	let customBG = "";
-
-	if (blindfold && blindfold.Property && blindfold.Property.CustomBlindBackground) {
-		customBG = blindfold.Property.CustomBlindBackground;
-	} else if (hood && hood.Property && hood.Property.CustomBlindBackground) {
-		customBG = hood.Property.CustomBlindBackground;
-	}
-
-	return customBG;
+function DrawGetCustomBackground(C) {
+	return C.CustomBackground;
 }
 
 /**
@@ -1323,7 +1315,7 @@ function DrawGetDarkFactor() {
 	let darken = CharacterGetDarkFactor(Player);
 	if (darken == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) darken = 0.5;
 
-	const isItemBG = !!DrawGetCustomBackground();
+	const isItemBG = !!DrawGetCustomBackground(Player);
 	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 		darken = CharacterGetDarkFactor(Player, true);
 	}
@@ -1353,7 +1345,7 @@ function DrawProcess(time) {
 		const skipVFX = !(CurrentModule !== "Character" && bgName !== "Sheet" && CurrentScreen !== "Crafting");
 
 		let backgroundURL = "";
-		const itemBackground = DrawGetCustomBackground();
+		const itemBackground = DrawGetCustomBackground(Player);
 		if (!skipVFX && itemBackground) {
 			backgroundURL = `Backgrounds/${itemBackground}.jpg`;
 		} else if (bgName) {

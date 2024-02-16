@@ -1338,6 +1338,11 @@ interface Character {
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
 	LastMapData?: ChatRoomMapData;
+	/**
+	 * The custom background to use for the current room
+	 * Only valid on {@link Player}
+	 */
+	CustomBackground?: string;
 }
 
 interface CharacterGameParameters {

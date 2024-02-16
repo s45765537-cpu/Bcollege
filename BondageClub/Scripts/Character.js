@@ -1144,6 +1144,12 @@ function CharacterRefresh(C, Push, RefreshDialog = true) {
 	C.RunScripts = (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
+	if (C.IsPlayer()) {
+		// Grab the first custom background that we can find
+		const customBGItem = C.Appearance.find(item => item.Property?.CustomBlindBackground);
+		C.CustomBackground = customBGItem ? customBGItem.Property.CustomBlindBackground : undefined;
+	}
+
 	if ((C.IsPlayer()) && (C.OnlineID != null) && ((Push == null) || (Push == true))) {
 		ChatRoomRefreshChatSettings();
 		ServerPlayerAppearanceSync();
