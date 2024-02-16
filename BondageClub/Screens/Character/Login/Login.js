@@ -792,15 +792,14 @@ function LoginResponse(C) {
 			LoginDifficulty(false);
 
 			// Loads the player character model and data
-			C.Crafting = CraftingDecompressServerData(C.Crafting);
-			LoginPerformInventoryFixups(C.Inventory, C.Appearance, C.Crafting);
+			const craftingDecompressed = CraftingDecompressServerData(C.Crafting);
+			LoginPerformInventoryFixups(C.Inventory, C.Appearance, craftingDecompressed);
 			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 			InventoryLoad(Player, C.Inventory);
 			LogLoad(C.Log);
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
-			CraftingLoadServer(C.Crafting);
-			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
+			CraftingLoadServer(craftingDecompressed);
 			Player.ConfiscatedItems = C.ConfiscatedItems;
 			Player.ExtensionSettings = (C.ExtensionSettings || {});
 
