@@ -2452,8 +2452,8 @@ var AssetFemale3DCG = [
 					"ClothLowerTutu",
 				],
 				Layer: [
-					{ Name: "Dress", Priority: 30 }, 
-					{ Name: "Tie", Priority: 30 }, 
+					{ Name: "Dress", Priority: 30 },
+					{ Name: "Tie", Priority: 30 },
 					{ Name: "Apron", Priority: 29 },
 					{ Name: "Collar", CopyLayerColor: "Apron", Priority: 32 },
 				],
@@ -34348,7 +34348,7 @@ var AssetFemale3DCG = [
 						Priority: 33,
 						Alpha: [{ Masks: [[0, 160, 400, 200]], Group: ["Head"] }],
 					},
-					{ 
+					{
 						Name: "Mouth",
 						AllowColorize: true,
 						Priority: 34,
@@ -37508,7 +37508,7 @@ var AssetFemale3DCG = [
 						Priority: 33,
 						Alpha: [{ Masks: [[0, 160, 400, 200]], Group: ["Head"] }],
 					},
-					{ 
+					{
 						Name: "Mouth",
 						AllowColorize: true,
 						Priority: 34,

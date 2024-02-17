@@ -6904,7 +6904,7 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
 				{ Name: "Empty",
-					Property: { Effect: [] }, 
+					Property: { Effect: [] },
 				},
 				{ Name: "Lenses",
 					Property: {
@@ -6926,7 +6926,7 @@ var AssetFemale3DCGExtended = {
 							E.BlindHeavy,
 							E.BlockWardrobe,
 						],
-					}, 
+					},
 				},
 			],
 		}, //BigMouthHood
@@ -7823,12 +7823,12 @@ var AssetFemale3DCGExtended = {
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
 			Options: [
 				{
-					Name: "Normal",					
+					Name: "Normal",
 				},
 				{
 					Name: "Inflated",
-                    Property: {
-						Block: [						
+					Property: {
+						Block: [
 							"ItemLegs",
 						],
 						Hide: [
@@ -14187,7 +14187,7 @@ var AssetFemale3DCGExtended = {
 			CopyConfig: { GroupName: "ItemHood", AssetName: "BigMouthHood" },
 			Options: [
 				{ Name: "Empty",
-					Property: { Effect: [] }, 
+					Property: { Effect: [] },
 				},
 				{ Name: "Lenses",
 					Property: {
@@ -14209,7 +14209,7 @@ var AssetFemale3DCGExtended = {
 							E.BlindHeavy,
 							E.BlockWardrobe,
 						],
-					}, 
+					},
 				},
 			],
 		}, //BigMouthHood

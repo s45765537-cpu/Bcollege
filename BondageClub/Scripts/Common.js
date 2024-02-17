@@ -1448,8 +1448,8 @@ function CommonHas(obj, key) {
  * Defines a property with the given name and the passed setter and getter
  * @example
  * CommonDeprecate(
- * 	"OldFunc",
- * 	function NewFunc (a, b) { return a + b; },
+ *  "OldFunc",
+ *  function NewFunc (a, b) { return a + b; },
  * );
  * @template {any} T
  * @param {string} propertyName - The name for the new property
@@ -1476,12 +1476,12 @@ function CommonProperty(propertyName, getter = undefined, setter = undefined) {
 }
 
 /**
- * Assign a function to the passed namespace, creating a deprecated and non-deprecated symbol. 
+ * Assign a function to the passed namespace, creating a deprecated and non-deprecated symbol.
  * Both symbols will are in fact get/set wrappers around the same object, enforcing that `namespace[oldName] === namespace[callback.name]` *always* holds.
  * @example
  * CommonDeprecateFunction(
- * 	"OldFunc",
- * 	function NewFunc (a, b) { return a + b; },
+ *  "OldFunc",
+ *  function NewFunc (a, b) { return a + b; },
  * );
  * @template {(...any) => any} T
  * @param {string} oldName - The old (deprecated) name of the symbol
