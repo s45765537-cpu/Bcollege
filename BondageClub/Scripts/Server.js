@@ -107,7 +107,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {ServerAccountUpdateRequest} Data
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
-	QueueData(Data, Force=true) {
+	QueueData(Data, Force=false) {
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
