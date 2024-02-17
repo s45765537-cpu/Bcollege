@@ -305,16 +305,16 @@ function ControllerButton(buttons) {
 		ControllerStickDown = 1;
 	}
 	if (buttons[ControllerDPadUp] == undefined) {
-		ControllerDPadUp = 12;
+		ControllerDPadUp = (buttons.length >= 16) ? 12 : 4;
 	}
 	if (buttons[ControllerDPadDown] == undefined) {
-		ControllerDPadDown = 13;
+		ControllerDPadDown = (buttons.length >= 16) ? 13 : 5;
 	}
 	if (buttons[ControllerDPadLeft] == undefined) {
-		ControllerDPadLeft = 14;
+		ControllerDPadLeft = (buttons.length >= 16) ? 14 : 6;
 	}
 	if (buttons[ControllerDPadRight] == undefined) {
-		ControllerDPadRight = 15;
+		ControllerDPadRight = (buttons.length >= 16) ? 15 : 7;
 	}
 
 	// If a game intercepts the controller inputs
@@ -352,22 +352,22 @@ function ControllerButton(buttons) {
 				ControllerButtonsRepeat = true;
 			}
 
-			if (buttons[ControllerDPadUp].pressed == true) {
+			if ((ControllerDPadUp >= 0) && (ControllerDPadUp < buttons.length) && (buttons[ControllerDPadUp].pressed == true)) {
 				ControllerStick = true;
 				ControllerMoveToActiveZone("Up");
 				ControllerButtonsRepeat = true;
 			}
-			if (buttons[ControllerDPadDown].pressed == true) {
+			if ((ControllerDPadDown >= 0) && (ControllerDPadDown < buttons.length) && (buttons[ControllerDPadDown].pressed == true)) {
 				ControllerStick = true;
 				ControllerMoveToActiveZone("Down");
 				ControllerButtonsRepeat = true;
 			}
-			if (buttons[ControllerDPadLeft].pressed == true) {
+			if ((ControllerDPadLeft >= 0) && (ControllerDPadLeft < buttons.length) && (buttons[ControllerDPadLeft].pressed == true)) {
 				ControllerStick = true;
 				ControllerMoveToActiveZone("Left");
 				ControllerButtonsRepeat = true;
 			}
-			if (buttons[ControllerDPadRight].pressed == true) {
+			if ((ControllerDPadRight >= 0) && (ControllerDPadRight < buttons.length) && (buttons[ControllerDPadRight].pressed == true)) {
 				ControllerStick = true;
 				ControllerMoveToActiveZone("Right");
 				ControllerButtonsRepeat = true;
