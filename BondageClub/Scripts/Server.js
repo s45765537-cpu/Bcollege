@@ -921,7 +921,13 @@ var ServerAccountDataSyncedValidate = {
 			}
 
 			const { Name, MemberNumber, Stage, Start } = lovership;
-			if (
+			if (typeof Name !== "string") {
+				continue;
+			}
+			if (Name.startsWith("NPC-")) {
+				// @ts-expect-error NPC lovers only have the name; the rest is in their .Event and/or the player's Log
+				ret.push({ Name });
+			} else if (
 				typeof Name === "string"
 				&& CommonIsInteger(MemberNumber, 0)
 				&& (Stage === 0 || Stage === 1 || Stage === 2)
