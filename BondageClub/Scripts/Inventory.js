@@ -176,12 +176,13 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 }
 
 /**
-* Returns an error message if a prerequisite clashes with the character's items and clothes
-* @param {Character} C - The character on which we check for prerequisites
-* @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
-* @returns {string} - The error tag, can be converted to an error message
-*/
-function InventoryPrerequisiteMessage(C, Prerequisite) {
+ * Returns an error message if a prerequisite clashes with the character's items and clothes
+ * @param {Character} C - The character on which we check for prerequisites
+ * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
+ * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
+ * @returns {string} - The error tag, can be converted to an error message
+ */
+function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
 		// Basic pose prerequisites
 		case "CanBaseUpper": return !PoseAvailable(C, "BodyUpper", "BaseUpper") ? "CannotBaseUpper" : "";
@@ -469,7 +470,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 
 	let Msg = "";
 	if (!asset.SetPose) {
-		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq)));
+		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
 		const poseMapping = PoseToMapping.Array(asset.AllowActivePose, "Assset.AllowActivePose");
@@ -478,12 +479,12 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
 				const allowedActivePoses = [...(poseMapping[setPose.Category] || [setPose.Name]), ...(poseMapping.BodyFull || [])];
-				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
+				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`, asset));
 				if (messages.every(Boolean)) {
 					Msg = messages[0];
 				}
 			} else {
-				Msg = InventoryPrerequisiteMessage(checkCharacter, prereq);
+				Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset);
 			}
 			if (Msg) {
 				break;
