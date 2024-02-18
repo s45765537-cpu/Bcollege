@@ -291,8 +291,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 			return C.HasEffect("VulvaShaft") ? "CantCloseOnShaft" : "";
 
 		// Items that require access to a certain character's zone
-		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
-		case "BlockedMouth": return !C.IsMouthBlocked() ? "MustBeUsedOverGag" : "";
+		case "AccessMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["BlockMouth"], asset);
+		case "BlockedMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["BlockMouth"], asset, { errMessage: "MustBeUsedOverGag", invert: true });
 		case "HoodEmpty": return InventoryGet(C, "ItemHood") ? "CannotBeUsedOverMask" : "";
 		case "EyesEmpty": return InventoryGet(C, "ItemHead") ? "CannotBeUsedOverHood" : "";
 
@@ -319,11 +319,11 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "RemotesAllowed": return LogQuery("BlockRemoteSelf", "OwnerRule") && C.IsPlayer() ? "OwnerBlockedRemotes" : "";
 
 		// Layered Gags, prevent gags from being equipped over other gags they are incompatible with
-		case "GagUnique": return InventoryPrerequisiteConflictingGags(C, ["GagFlat", "GagCorset", "GagUnique"]);
-		case "GagCorset": return InventoryPrerequisiteConflictingGags(C, ["GagCorset"]);
+		case "GagUnique": return InventoryPrerequisiteConflicts.GagPrerequisite(C, ["GagFlat", "GagCorset", "GagUnique"], asset);
+		case "GagCorset": return InventoryPrerequisiteConflicts.GagPrerequisite(C, ["GagCorset"], asset);
 
 		// There's something in the mouth that's too large to allow that item on
-		case "NotProtrudingFromMouth": return C.Effect.includes("ProtrudingMouth") ? "CannotBeUsedOverGag" : "";
+		case "NotProtrudingFromMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["ProtrudingMouth"], asset, { errMessage: "CannotBeUsedOverGag" });
 
 		case "NeedsNippleRings": return !InventoryIsItemInList(C, "ItemNipplesPiercings", ["RoundPiercing"]) ? "NeedsNippleRings" : "";
 		case "NeedsHarness": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "NeedsHarness" : "";
