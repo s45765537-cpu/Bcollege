@@ -29,6 +29,13 @@ var MaidQuartersOnlineDrinkCustomer = [];
 var MaidQuartersOnlineDrinkFromOwner = false;
 
 /**
+ * Returns TRUE if the player is head maid and can receive the latex uniform
+ * @returns {boolean} - TRUE if she can receive it
+ */
+function MaidQuartersHeadMaidCanGetLatex() {
+	return (LogQuery("LeadSorority", "Maid") && (!InventoryAvailable(Player, "MaidLatex", "Cloth") || !InventoryAvailable(Player, "MaidLatexHairband", "Hat")));
+}
+/**
  * Checks if the player is helpless (maids disabled) or not.
  * @returns {boolean} - Returns true if the player still has time remaining after asking the maids to stop helping
  */
