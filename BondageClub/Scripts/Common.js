@@ -1397,6 +1397,17 @@ function CommonObjectIsSubset(subRec, superRec) {
 }
 
 /**
+ * Returns the object with keys and values reversed
+ * @param {object} obj
+ */
+function CommonObjectFlip(obj) {
+	return Object.keys(obj).reduce((ret, key) => {
+		ret[obj[key]] = key;
+		return ret;
+	  }, {});
+}
+
+/**
  * Parse the passed stringified JSON data and catch any exceptions.
  * Exceptions will cause the function to return `undefined`.
  * @param {string} data

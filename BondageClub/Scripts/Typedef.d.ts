@@ -61,6 +61,11 @@ interface HTMLElement {
 	removeAttribute(qualifiedName: string): void;
 }
 
+interface GamepadButton {
+	/** Whether the button was pressed the last input event */
+	repeat: boolean;
+}
+
 interface RGBColor {
 	r: number;
 	g: number;
@@ -1483,27 +1488,32 @@ interface ExtensionSettings {
 	[key: string]: any;
 }
 
+interface ControllerSettingsOld {
+	ControllerA: number;
+	ControllerB: number;
+	ControllerX: number;
+	ControllerY: number;
+	ControllerStickUpDown: number;
+	ControllerStickLeftRight: number;
+	ControllerStickRight: number;
+	ControllerStickDown: number;
+	ControllerDPadUp: number;
+	ControllerDPadDown: number;
+	ControllerDPadLeft: number;
+	ControllerDPadRight: number;
+}
+
 interface PlayerCharacter extends Character {
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
 	ChatSettings?: ChatSettingsType;
 	VisualSettings?: VisualSettingsType;
 	AudioSettings?: AudioSettingsType;
 	ControllerSettings?: {
+		ControllerActive: boolean;
 		ControllerSensitivity: number;
 		ControllerDeadZone: number;
-		ControllerA: number;
-		ControllerB: number;
-		ControllerX: number;
-		ControllerY: number;
-		ControllerStickUpDown: number;
-		ControllerStickLeftRight: number;
-		ControllerStickRight: number;
-		ControllerStickDown: number;
-		ControllerDPadUp: number;
-		ControllerDPadDown: number;
-		ControllerDPadLeft: number;
-		ControllerDPadRight: number;
-		ControllerActive: boolean;
+		Buttons: any;
+		Axis: any;
 	};
 	GameplaySettings?: GameplaySettingsType;
 	ImmersionSettings?: {
