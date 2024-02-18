@@ -408,38 +408,90 @@ function InventoryHasItemInAnyGroup(C, GroupList) {
 	return GroupList.some(GroupName => !!InventoryGet(C, GroupName));
 }
 
+// FIXME: The `asset` parameters should not accept `null`, but we cannot easily guarantee that it isn't due to
+// `InventoryPrerequisiteMessage` not always having access to the asset (e.g. when checking action
+// prerequisites, for which there really *is* no relevant asset)
 /**
- * Check if there are any gags with prerequisites that block the new gag from being applied
- * @param {Character} C - The character on which we check for prerequisites
- * @param {readonly string[]} BlockingPrereqs - The prerequisites we check for on lower gags
- * @returns {string} - Returns the prerequisite message if the gag is blocked, or an empty string if not
+ * Namespace with functions for identifying asset prerequisite conflicts.
+ * @namespace
  */
-function InventoryPrerequisiteConflictingGags(C, BlockingPrereqs) {
-	// Index of the gag we're trying to add (1-indexed)
-	let GagIndex = 4; // By default, assume no gag slots are allowed to conflict
-	if (C.FocusGroup && C.FocusGroup.Name.startsWith("ItemMouth")) {
-		// If there's a focus group, calculate the gag index
-		GagIndex = Number(C.FocusGroup.Name.replace("ItemMouth", "") || 1);
-	}
-	const MouthItems = [InventoryGet(C, "ItemMouth"), InventoryGet(C, "ItemMouth2"), InventoryGet(C, "ItemMouth3")];
+var InventoryPrerequisiteConflicts = {
+	/**
+	 * The effective "layering" priorities of gags and (potentially) gag-like objects.
+	 * Used for prerequisite checks that only apply to lower gags.
+	 * @type {Partial<Record<AssetGroupName, number>>}
+	 */
+	GagPriorities: {
+		ItemNeck: 0,
+		ItemMouth: 1,
+		ItemMouth2: 2,
+		ItemMouth3: 3,
+		ItemHead: 4,
+		Mask: 5,
+		ItemHood: 6,
+	},
 
-	// If first gag slot is unoccupied, check instead with collar slot
-	// Adds support for collars that include gag to only use first slot
-	const NeckItem = InventoryGet(C, "ItemNeck");
-	if (!MouthItems[0] && NeckItem) MouthItems[0] = NeckItem;
+	/**
+	 * @private
+	 * @template {keyof PropertiesArray} T
+	 * @param {T} fieldName
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options=null) {
+		/** @type {readonly unknown[]} */
+		const blockingPrereqsUnknown = blockingPrereqs;
+		const errMessage = options?.errMessage ?? "CannotBeUsedOverGag";
+		const invert = options?.invert ?? false;
 
-	let MinBlockingIndex = 0;
-	for (let i = 0; i < MouthItems.length && !MinBlockingIndex; i++) {
-		// Find the lowest indexed slot in which there is a gag with a prerequisite that blocks the new gag
-		const AssetPrerequisites = MouthItems[i] && MouthItems[i].Asset.Prerequisite;
-		if ((AssetPrerequisites != null) && AssetPrerequisites.some((Prerequisite) => BlockingPrereqs.includes(Prerequisite))) {
-			MinBlockingIndex = i + 1;
-		}
-	}
-	// Not allowed to add the new gag if there is a blocking gag anywhere below it
-	if (MinBlockingIndex && GagIndex > MinBlockingIndex) return "CannotBeUsedOverGag";
-	else return "";
-}
+		/** @type {number | undefined} */
+		const gagPriority = InventoryPrerequisiteConflicts.GagPriorities[asset?.Group?.Name];
+		const gagItems = CommonKeys(InventoryPrerequisiteConflicts.GagPriorities).map(group => InventoryGet(C, group));
+
+		// Find all lower gags in which there is a prerequisite that blocks the new gag
+		const prereqConflicts = gagItems.slice(0, gagPriority).filter(item => {
+			/** @type {readonly unknown[]} */
+			const prereqs = InventoryGetItemProperty(item, fieldName);
+			return prereqs.some((p) => blockingPrereqsUnknown.includes(p));
+		}).filter((item) => item != null);
+
+		const hasConflict = invert ? prereqConflicts.length === 0 : prereqConflicts.length > 0;
+		return hasConflict ? errMessage : "";
+	},
+
+	/**
+	 * Check if there are any lower gags with prerequisites that block the new gag from being applied
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options=null) {
+		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
+	},
+
+	/**
+	 * Check if there are any lower gags with effects that block the new gag from being applied
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	GagEffect: function GagEffect(C, blockingEffects, asset=null, options=null) {
+		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
+	},
+};
 
 /**
  * Returns TRUE if we can add the item, no other items must block that prerequisite
