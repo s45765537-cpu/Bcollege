@@ -3886,6 +3886,8 @@ declare const CharacterItemsHavePoseType: never;
 declare const CharacterLoadPose: never;
 /** @deprecated superseded by {@link PoseToMapping} */
 declare const AssetPoseToMapping: never;
+/** @deprecated superseded by {@link InventoryPrerequisiteConflicts.GagPrerequisite} */
+declare const InventoryPrerequisiteConflictingGags: never;
 
 // ChatRoom variables deprecated in R101
 /** @deprecated - Use {@link ChatRoomCharacterViewInitialize} instead! */

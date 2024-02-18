@@ -1552,7 +1552,7 @@ function CharacterIsExpressionAllowed(C, Item, Expression) {
 	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
 	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
 
-	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre) === ""));
+	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre, Item.Asset) === ""));
 }
 
 /**
