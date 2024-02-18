@@ -186,6 +186,20 @@ async function fetchMergeRequests(page) {
 	return [];
 }
 
+async function getCommits() {
+	/** @type {simpleGit.SimpleGit} */
+	// @ts-expect-error
+	const git = simpleGit(bcRoot);
+
+	const remoteName = await git.revparse(['--abbrev-ref', "--symbolic-full-name", "@{u}"]);
+	if (!remoteName) {
+		console.error(`Unable to get remote name for current branch!`);
+		process.exit(-1);
+	}
+
+	return (await git.log([remoteName])).all;
+}
+
 async function prepareChangelog(release = "") {
 	let mergeRequestPage = 1;
 	const mergeRequests = await fetchMergeRequests(mergeRequestPage);
@@ -224,11 +238,7 @@ async function prepareChangelog(release = "") {
 	const lastCommit = lastCommitRegexResult[1];
 	console.log(`Last recorded commit: ${lastCommit}`);
 
-	/** @type {simpleGit.SimpleGit} */
-	// @ts-ignore
-	const git = simpleGit(bcRoot);
-
-	const commits = (await git.log(['origin/master'])).all;
+	const commits = await getCommits();
 
 	const lastPos = commits.findIndex(c => c.hash === lastCommit);
 
