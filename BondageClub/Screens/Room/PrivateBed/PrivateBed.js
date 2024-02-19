@@ -296,7 +296,7 @@ function PrivateBedNPCActivity(Source) {
 			if ((A.Name == "Sit") && !Source.IsOwned()) continue; // Only unowned NPCs will sit
 			if ((A.Name == "StruggleArms") && (NPCTraitGet(Source, "Submissive") < 0)) continue; // Only submissives will struggle
 			if ((A.Name == "StruggleLegs") && (NPCTraitGet(Source, "Submissive") < 0)) continue; // Only submissives will struggle
-			if ((A.Name == "Nod") && (NPCTraitGet(Source, "Dump") <= 0)) continue; // Only dumb NPCs will nod
+			if ((A.Name == "Nod") && (NPCTraitGet(Source, "Dumb") <= 0)) continue; // Only dumb NPCs will nod
 			if ((A.Name == "Wiggle") && (NPCTraitGet(Source, "Playful") < 0)) continue; // Only playful NPCs will wiggle
 			ActivityList.push(A.Name);
 		}

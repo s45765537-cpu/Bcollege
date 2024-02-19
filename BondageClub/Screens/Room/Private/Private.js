@@ -18,7 +18,8 @@ var PrivatePunishment = "";
 var PrivatePunishmentList = ["Cage", "Bound", "BoundPet", "ChastityBelt", "ChastityBra", "ForceNaked", "ConfiscateKey", "ConfiscateCrop", "ConfiscateWhip", "SleepCage", "LockOut", "Cell", "OwnerLocks", "Asylum"];
 /** @type {null | NPCCharacter} */
 var PrivateCharacterNewClothes = null;
-var PrivateSlaveImproveType = "";
+/** @type {NPCTraitType | null} */
+var PrivateSlaveImproveType = null;
 var PrivateNextLoveYou = 0;
 var PrivateLoverActivity = "";
 var PrivateLoverActivityList = ["Skip1", "Skip2", "Kiss", "FrenchKiss", "Caress", "Rub", "MasturbateHand", "MasturbateTongue", "MasturbatePlayer", "MasturbateSelf", "Underwear", "Naked", "EggInsert", "LockBelt", "UnlockBelt", "EggSpeedUp", "EggSpeedDown", "Bed", "LoverLock", "LoverUnlock"];
@@ -1808,7 +1809,7 @@ function PrivateSlaveMarketStart(AuctionType) {
 
 /**
  * Triggered when the player selects how to improve her slave.
- * @param {string} Type - Trait to improve.
+ * @param {NPCTraitType} Type - Trait to improve.
  * @returns {void} - Nothing.
  */
 function PrivateSlaveImproveSelect(Type) {
