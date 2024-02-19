@@ -1916,17 +1916,17 @@ function PlatformLoad() {
 	// In mobile mode, we try to remove all events that could alter the experience
 	if (CommonIsMobile) {
 		let CV = document.getElementById("MainCanvas");
-		CV.onselectstart = function (e) { e.preventDefault(); return false; }
-		CV.oncontextmenu = function(e) { e.preventDefault(); return false; }
-		CV.ondragstart  = function(e) { e.preventDefault(); return false; }
-		CV.ondrop  = function(e) { e.preventDefault(); return false; }
-		CV.ondblclick = function(e) { e.preventDefault(); return false; }
+		CV.onselectstart = function (e) { e.preventDefault(); return false; };
+		CV.oncontextmenu = function(e) { e.preventDefault(); return false; };
+		CV.ondragstart  = function(e) { e.preventDefault(); return false; };
+		CV.ondrop  = function(e) { e.preventDefault(); return false; };
+		CV.ondblclick = function(e) { e.preventDefault(); return false; };
 		CV.classList.add("NoSelect");
-		document.body.onselectstart = function (e) { e.preventDefault(); return false; }
-		document.body.oncontextmenu = function(e) { e.preventDefault(); return false; }
-		document.body.ondragstart  = function(e) { e.preventDefault(); return false; }
-		document.body.ondrop  = function(e) { e.preventDefault(); return false; }
-		document.body.ondblclick = function(e) { e.preventDefault(); return false; }
+		document.body.onselectstart = function (e) { e.preventDefault(); return false; };
+		document.body.oncontextmenu = function(e) { e.preventDefault(); return false; };
+		document.body.ondragstart  = function(e) { e.preventDefault(); return false; };
+		document.body.ondrop  = function(e) { e.preventDefault(); return false; };
+		document.body.ondblclick = function(e) { e.preventDefault(); return false; };
 		document.body.classList.add("NoSelect");
 	}
 

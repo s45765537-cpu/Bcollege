@@ -4348,7 +4348,7 @@ function PlatformDialogGetCharacter(Name) {
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
 function PlatformDialogController(Buttons) {
-	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) { ControllerGameActiveButttons.A = true; PlatformDialogProcess() }
+	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) { ControllerGameActiveButttons.A = true; PlatformDialogProcess(); }
 	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) { ControllerGameActiveButttons.B = true; PlatformDialogProcess(); }
 	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) { ControllerGameActiveButttons.X = true; PlatformDialogProcess(); }
 	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) { ControllerGameActiveButttons.Y = true; PlatformDialogProcess(); }
