@@ -3011,7 +3011,7 @@ function PlatformEnterRoom(FromType) {
  */
 function PlatformBindStart(Source) {
 	if (PlatformActionIs(Source, "Any")) return;
-	if (PlatformKeys.length > 0) return;
+	if (!CommonIsMobile && (PlatformKeys.length > 0)) return;
 	for (let C of PlatformChar)
 		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
 			C.RiseTime = CommonTime() + 10000;
