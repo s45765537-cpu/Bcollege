@@ -165,6 +165,10 @@ ClothMaidOutfit1Frills,Frills
 ClothMaidOutfit2Apron,Apron
 ClothMaidOutfit2Dress,Dress
 ClothMaidOutfit2Frills,Frills
+ClothNurseUniformBase,Main
+ClothNurseUniformTrim,Detail Trim
+ClothNurseUniformTrim2,Edge Trim
+ClothNurseUniformButtons,Buttons
 ClothRetroGirdleBase,Dress
 ClothRetroGirdleDesign,Design
 ClothRetroGirdleLace,Lace

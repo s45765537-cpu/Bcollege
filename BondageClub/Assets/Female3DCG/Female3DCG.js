@@ -1034,6 +1034,19 @@ var AssetFemale3DCG = [
 					"ClothAccessoryPoncho",
 					"ItemArmsBondageBra",
 				],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Trim" },
+					{
+						Name: "Trim2",
+						PoseMapping: {
+							...AssetPoseMapping.Cloth,
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{ Name: "Buttons" },
+				],
 			},
 			{
 				Name: "Robe1",
