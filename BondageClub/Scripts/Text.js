@@ -26,11 +26,8 @@ function TextLoad(TextGroup) {
 	if ((TextGroup == null) || (TextGroup == "")) TextGroup = CurrentScreen;
 	const FullPath = "Screens/" + CurrentModule + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
 
+	TextPrefetchFile(FullPath);
 	TextScreenCache = TextAllScreenCache.get(FullPath);
-	if (!TextScreenCache) {
-		TextScreenCache = new TextCache(FullPath, "MISSING VALUE FOR TAG: ");
-		TextAllScreenCache.set(FullPath, TextScreenCache);
-	}
 }
 
 /**
@@ -39,9 +36,17 @@ function TextLoad(TextGroup) {
  * @param {string} TextGroup
  */
 function TextPrefetch(Module, TextGroup) {
-	const FullPath = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
-	if (TextAllScreenCache.has(FullPath)) {
-		TextAllScreenCache.set(FullPath, new TextCache(FullPath, "MISSING VALUE FOR TAG: "));
+	const file = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
+	TextPrefetchFile(file);
+}
+
+/**
+ * Trigger the caching of a specific file into the text cache
+ * @param {string} file
+ */
+function TextPrefetchFile(file) {
+	if (!TextAllScreenCache.has(file)) {
+		TextAllScreenCache.set(file, new TextCache(file, "MISSING VALUE FOR TAG: "));
 	}
 }
 
