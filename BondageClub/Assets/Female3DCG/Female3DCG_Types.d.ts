@@ -1,3 +1,9 @@
+/** The definition of a fetish */
+interface Fetish {
+	Name: FetishName;
+	GetFactor(C: Character): number;
+}
+
 /** Types for representing the left/top coordinate of a target draw rect. */
 declare namespace TopLeft {
 	/**

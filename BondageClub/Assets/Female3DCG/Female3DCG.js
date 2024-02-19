@@ -42880,7 +42880,7 @@ let ActivityFemale3DCGOrdering = ActivityFemale3DCG.map((a) => a.Name);
 
 /**
  * 3D Custom Girl based fetishes
- * @type {{Name: FetishName; GetFactor(C: Character): number; }[]}
+ * @type {Fetish[]}
  */
 var FetishFemale3DCG = [
 	{
