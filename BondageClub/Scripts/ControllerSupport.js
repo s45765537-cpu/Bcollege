@@ -38,6 +38,9 @@ const ControllerButton = {
 	BumperR: 5,
 	TriggerL: 6,
 	TriggerR: 7,
+	/**
+	 * Select triggers Launchpad on macOS
+	 */
 	Select: 8,
 	Start: 9,
 	StickL: 10,
@@ -46,6 +49,9 @@ const ControllerButton = {
 	DPadD: 13,
 	DPadL: 14,
 	DPadR: 15,
+	/**
+	 * Home triggers Chrome's screen sharing feature on macOS
+	 */
 	Home: 16,
 };
 
@@ -369,18 +375,15 @@ function ControllerProcessButton(buttons) {
 		if (ControllerButtonsWaitRelease) return;
 		const padBtnId = ControllerButtonMapping[btnId];
 		if (padBtnId === -1 && !ControllerMissingButtonWarning.has(btnId)) {
-			console.warn(`gamepad button handler: ${btnId} has no mapping`);
 			ControllerMissingButtonWarning.add(btnId);
 			return;
 		}
 		if (!buttons[padBtnId] && !ControllerMissingButtonWarning.has(btnId)) {
-			console.warn(`gamepad button handler requested a missing button: ${btnId} (${padBtnId})`);
 			ControllerMissingButtonWarning.add(btnId);
 			return;
 		}
 		const isPressed = buttons[padBtnId]?.pressed;
 		if (isPressed) {
-			console.log(`gamepad button event: game id: ${btnId}, pad id: ${padBtnId}, pressed: ${isPressed}`);
 			handler();
 			ControllerButtonsWaitRelease = true;
 		}
@@ -596,7 +599,6 @@ function ControllerCalibrateButtons(buttons) {
 
 	for (const btnIdx of Object.values(ControllerButton)) {
 		if (btnIdx != ControllerCalibrationStage) continue;
-		console.log(`checking ${btnIdx}`);
 		// We got a button press this event loop, don't process until it's released
 		if (ControllerButtonsWaitRelease) continue;
 		if (buttons.filter(b => b.pressed).length > 1) continue;
@@ -604,7 +606,6 @@ function ControllerCalibrateButtons(buttons) {
 		const pressedIdx = buttons.findIndex(b => b.pressed);
 		if (pressedIdx === -1) continue;
 		ControllerButtonMapping[btnIdx] = pressedIdx;
-		console.log(`got button ${pressedIdx} for ${btnIdx}, advancing stage`);
 		ControllerCalibrationNextStage();
 		ControllerButtonsWaitRelease = true;
 		break;
@@ -612,9 +613,7 @@ function ControllerCalibrateButtons(buttons) {
 
 	// Don't process more buttons until they all got released
 	if (ControllerButtonsWaitRelease) {
-		console.log(`waiting for all buttons to be released`);
 		if (buttons.every(b => !b.pressed)) {
-			console.log(`all buttons released, moving on`);
 			ControllerButtonsWaitRelease = false;
 		}
 	}
