@@ -3231,6 +3231,13 @@ function PlatformKeyUp(e) {
  */
 function PlatformController(buttons) {
 
+	// If we just came back for the dialog screen, we skip the controller inputs
+	if (PlatformDialogControllerHandle) {
+		PlatformButtons = buttons;
+		PlatformDialogControllerHandle = false;
+		return;
+	}
+
 	// Stops any binding if buttons have changed
 	if (PlatformActionIs(PlatformPlayer, "Bind")) {
 		if (buttons[ControllerButton.X]?.pressed

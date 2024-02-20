@@ -11,6 +11,7 @@ var PlatformDialogCharacterDisplay = null;
 var PlatformDialogPosition = 0;
 var PlatformDialogCharacter = null;
 var PlatformDialogAudio = null;
+var PlatformDialogControllerHandle = false;
 var PlatformDialogAudioStyle = ["", "angry", "calm", "chat", "cheerful", "friendly", "sad", "serious", "shouting", "terrified", "unfriendly", "whispering"];
 var PlatformDialogCharacterTemplate = [
 	{
@@ -4045,6 +4046,7 @@ function PlatformDialogLoadPosition(Position) {
 	if (Position >= PlatformDialog.Dialog.length) {
 		if (PlatformDialog.Exit != null) PlatformDialog.Exit();
 		PlatformDialogLeave();
+		PlatformDialogControllerHandle = true;
 		return;
 	}
 	if ((PlatformDialog.Dialog[Position].Prerequisite != null) && !PlatformDialog.Dialog[Position].Prerequisite()) return PlatformDialogLoadPosition(PlatformDialogPosition + 1);
@@ -4348,12 +4350,12 @@ function PlatformDialogGetCharacter(Name) {
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
 function PlatformDialogController(buttons) {
-	if (buttons[ControllerButton.A].pressed && !buttons[ControllerButton.A].repeat) { PlatformDialogProcess(); }
-	else if (buttons[ControllerButton.B].pressed && !buttons[ControllerButton.B].repeat) { PlatformDialogProcess(); }
-	else if (buttons[ControllerButton.X].pressed && !buttons[ControllerButton.X].repeat) { PlatformDialogProcess(); }
-	else if (buttons[ControllerButton.Y].pressed && !buttons[ControllerButton.Y].repeat) { PlatformDialogProcess(); }
-	else if (buttons[ControllerButton.DPadU].pressed && !buttons[ControllerButton.DPadU].repeat) PlatformDialogKeyDown("KeyW");
-	else if (buttons[ControllerButton.DPadD].pressed && !buttons[ControllerButton.DPadD].repeat) PlatformDialogKeyDown("KeyS");
+	if (buttons[ControllerButton.A]?.pressed && !buttons[ControllerButton.A]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.B]?.pressed && !buttons[ControllerButton.B]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.X]?.pressed && !buttons[ControllerButton.X]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.Y]?.pressed && !buttons[ControllerButton.Y]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.DPadU]?.pressed && !buttons[ControllerButton.DPadU]?.repeat) PlatformDialogKeyDown("KeyW");
+	else if (buttons[ControllerButton.DPadD]?.pressed && !buttons[ControllerButton.DPadD]?.repeat) PlatformDialogKeyDown("KeyS");
 	return true;
 }
 
