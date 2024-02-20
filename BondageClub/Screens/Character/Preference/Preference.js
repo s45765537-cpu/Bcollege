@@ -429,7 +429,7 @@ function PreferenceInitPlayer() {
 			"ControllerDPadRight",
 		];
 		for (const old of oldKeys) {
-			// delete C.ControllerSettings[old];
+			delete C.ControllerSettings[old];
 		}
 	} else if (typeof C.ControllerSettings.Buttons === "object") {
 		ControllerLoadMapping(C.ControllerSettings.Buttons, C.ControllerSettings.Axis);
