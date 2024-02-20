@@ -19,6 +19,7 @@ var PlatformMessage = null;
 var PlatformHeal = null;
 var PlatformEvent = [];
 var PlatformDrawUpArrow = [null, null];
+/** @type {readonly GamepadButton[]} */
 var PlatformButtons = null;
 var PlatformRunDirection = "";
 var PlatformRunTime = 0;
@@ -2374,35 +2375,35 @@ function PlatformMoveActive(Move) {
 
 	// Crouching can be done by down on the joystick DPAD or S on the keyboard
 	if ((Move == "Crouch") && (PlatformKeys.indexOf("KeyS") >= 0)) return true;
-	if ((Move == "Crouch") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadDown].pressed) return true;
+	if ((Move == "Crouch") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadD].pressed) return true;
 	if ((Move == "Crouch") && CommonTouchActive(75, 875, 200, 100)) return true;
 
 	// Moving left can be done with jostick DPAD or A or Z on the keyboard
 	if ((Move == "Left") && (PlatformKeys.indexOf("KeyA") >= 0)) return true;
-	if ((Move == "Left") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadLeft].pressed) return true;
+	if ((Move == "Left") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadL].pressed) return true;
 	if ((Move == "Left") && CommonTouchActive(25, 725, 150, 150)) return true;
 
 	// Moving right can be done with jostick DPAD or D on the keyboard
 	if ((Move == "Right") && (PlatformKeys.indexOf("KeyD") >= 0)) return true;
-	if ((Move == "Right") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadRight].pressed) return true;
+	if ((Move == "Right") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadR].pressed) return true;
 	if ((Move == "Right") && CommonTouchActive(175, 725, 150, 150)) return true;
 
 	// Jumping can be done by B on the joystick DPAD or spacebar on the keyboard
 	if ((Move == "Jump") && (PlatformKeys.indexOf("Space") >= 0)) return true;
-	if ((Move == "Jump") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerA].pressed) return true;
+	if ((Move == "Jump") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.A].pressed) return true;
 	if ((Move == "Jump") && CommonTouchActive(1800, 850, 125, 125)) return true;
 
 	// Aiming requires holding the K key for a set time, only for Edlaran if she has arrows left
 	if ((Move == "Aim") && (PlatformPlayer.ForceX == 0) && (PlatformPlayer.ForceY == 0) && (PlatformPlayer.Name == "Edlaran") && (PlatformPlayer.Projectile != null) && (PlatformPlayer.Projectile > 0)) {
 		if (!CommonIsMobile && PlatformKeys.indexOf("KeyK") >= 0) return true;
-		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerX].pressed) return true;
+		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.X].pressed) return true;
 		if (CommonTouchActive(1675, 700, 125, 125)) return true;
 	}
 
 	// Blocking can be done using P, but you need to get the perk first
 	if ((Move == "Block") && (PlatformPlayer.ForceX == 0) && PlatformHasPerk(PlatformPlayer, "Block")) {
 		if (!CommonIsMobile && (PlatformKeys.indexOf("KeyP") >= 0)) return true;
-		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerTriggerRight].pressed) return true;
+		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.TriggerR].pressed) return true;
 		if (CommonTouchActive(1825, 700, 125, 125)) return true;
 	}
 
@@ -3225,18 +3226,25 @@ function PlatformKeyUp(e) {
 
 /**
  * Handles the controller inputs
- * @param {Object} Buttons - The buttons pressed on the controller
+ * @param {readonly GamepadButton[]} buttons - The buttons pressed on the controller
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
-function PlatformController(Buttons) {
+function PlatformController(buttons) {
 
 	// Stops any binding if buttons have changed
-	if (PlatformActionIs(PlatformPlayer, "Bind"))
-		if ((Buttons[ControllerX].pressed == true) || (Buttons[ControllerY].pressed == true) || (Buttons[ControllerA].pressed == true) || (Buttons[ControllerB].pressed == true) || (Buttons[ControllerDPadLeft].pressed == true) || (Buttons[ControllerDPadRight].pressed == true) || (Buttons[ControllerTriggerRight].pressed == true))
+	if (PlatformActionIs(PlatformPlayer, "Bind")) {
+		if (buttons[ControllerButton.X].pressed
+			|| buttons[ControllerButton.Y].pressed
+			|| buttons[ControllerButton.A].pressed
+			|| buttons[ControllerButton.B].pressed
+			|| buttons[ControllerButton.DPadL].pressed
+			|| buttons[ControllerButton.DPadR].pressed
+			|| buttons[ControllerButton.TriggerR].pressed)
 			PlatformPlayer.Action = null;
+	}
 
 	// Double-tap management to run left
-	if ((Buttons[ControllerDPadLeft].pressed == true) && (ControllerGameActiveButttons.LEFT == false)) {
+	if (buttons[ControllerButton.DPadL].pressed && !buttons[ControllerButton.DPadL].repeat) {
 		PlatformPlayer.Run = false;
 		if (PlatformRunDirection != "LEFT") {
 			PlatformRunDirection = "LEFT";
@@ -3248,7 +3256,7 @@ function PlatformController(Buttons) {
 	}
 
 	// Double-tap management to run right
-	if ((Buttons[ControllerDPadRight].pressed == true) && (ControllerGameActiveButttons.RIGHT == false)) {
+	if (buttons[ControllerButton.DPadR].pressed && !buttons[ControllerButton.DPadR].repeat) {
 		PlatformPlayer.Run = false;
 		if (PlatformRunDirection != "RIGHT") {
 			PlatformRunDirection = "RIGHT";
@@ -3260,15 +3268,14 @@ function PlatformController(Buttons) {
 	}
 
 	// On a new A, X, Y or UP button, we activate the keyboard equivalent
-	if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformEventKeyDown("KeyL");
-	if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false) && (PlatformPlayer.Name != "Edlaran")) PlatformEventKeyDown("KeyK");
-	if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformEventKeyDown("KeyI");
-	if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformEventKeyDown("KeyW");
-	if ((Buttons[ControllerTriggerLeft].pressed == true) && (ControllerGameActiveButttons.TLEFT == false)) PlatformEventKeyDown("KeyO");
-	if ((Buttons[ControllerTriggerRight].pressed == true) && (ControllerGameActiveButttons.TRIGHT == false) && (PlatformPlayer.Name != "Melody")) PlatformEventKeyDown("KeyP");
-	PlatformButtons = Buttons;
+	if (buttons[ControllerButton.B].pressed && !buttons[ControllerButton.B].repeat) PlatformEventKeyDown("KeyL");
+	if (buttons[ControllerButton.X].pressed && !buttons[ControllerButton.X].repeat && (PlatformPlayer.Name != "Edlaran")) PlatformEventKeyDown("KeyK");
+	if (buttons[ControllerButton.Y].pressed && !buttons[ControllerButton.Y].repeat) PlatformEventKeyDown("KeyI");
+	if (buttons[ControllerButton.DPadU].pressed && !buttons[ControllerButton.DPadU].repeat) PlatformEventKeyDown("KeyW");
+	if (buttons[ControllerButton.TriggerL].pressed && !buttons[ControllerButton.TriggerL].repeat) PlatformEventKeyDown("KeyO");
+	if (buttons[ControllerButton.TriggerR].pressed && !buttons[ControllerButton.TriggerR].repeat && PlatformPlayer.Name != "Melody") PlatformEventKeyDown("KeyP");
+	PlatformButtons = buttons;
 	return true;
-
 }
 
 /**

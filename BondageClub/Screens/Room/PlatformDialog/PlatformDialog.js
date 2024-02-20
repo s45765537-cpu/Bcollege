@@ -4344,16 +4344,16 @@ function PlatformDialogGetCharacter(Name) {
 
 /**
  * Handles the controller inputs
- * @param {Object} Buttons - The buttons pressed on the controller
+ * @param {readonly GamepadButton[]} buttons - The buttons pressed on the controller
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
-function PlatformDialogController(Buttons) {
-	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) { ControllerGameActiveButttons.A = true; PlatformDialogProcess(); }
-	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) { ControllerGameActiveButttons.B = true; PlatformDialogProcess(); }
-	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) { ControllerGameActiveButttons.X = true; PlatformDialogProcess(); }
-	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) { ControllerGameActiveButttons.Y = true; PlatformDialogProcess(); }
-	else if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformDialogKeyDown("KeyW");
-	else if ((Buttons[ControllerDPadDown].pressed == true) && (ControllerGameActiveButttons.DOWN == false)) PlatformDialogKeyDown("KeyS");
+function PlatformDialogController(buttons) {
+	if (buttons[ControllerButton.A].pressed && !buttons[ControllerButton.A].repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.B].pressed && !buttons[ControllerButton.B].repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.X].pressed && !buttons[ControllerButton.X].repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.Y].pressed && !buttons[ControllerButton.Y].repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.DPadU].pressed && !buttons[ControllerButton.DPadU].repeat) PlatformDialogKeyDown("KeyW");
+	else if (buttons[ControllerButton.DPadD].pressed && !buttons[ControllerButton.DPadD].repeat) PlatformDialogKeyDown("KeyS");
 	return true;
 }
 

@@ -91,7 +91,6 @@ var PreferenceGraphicsPowerModeIndex = null;
 /** @type {null | WebGLContextAttributes} */
 var PreferenceGraphicsWebGLOptions = null;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
-var PreferenceCalibrationStage = 0;
 /** @type {string[]} */
 var PreferenceCensoredWordsList = [];
 var PreferenceCensoredWordsOffset = 0;
@@ -391,38 +390,55 @@ function PreferenceInitPlayer() {
 	// Controller settings
 	// @ts-ignore: Individual properties validated separately
 	if (!C.ControllerSettings) C.ControllerSettings = {};
+	if (typeof C.ControllerSettings.ControllerActive !== "boolean") C.ControllerSettings.ControllerActive = false;
 	if (typeof C.ControllerSettings.ControllerSensitivity !== "number") C.ControllerSettings.ControllerSensitivity = 5;
 	if (typeof C.ControllerSettings.ControllerDeadZone !== "number") C.ControllerSettings.ControllerDeadZone = 0.01;
-	if (typeof C.ControllerSettings.ControllerA !== "number") C.ControllerSettings.ControllerA = 0;
-	if (typeof C.ControllerSettings.ControllerB !== "number") C.ControllerSettings.ControllerB = 1;
-	if (typeof C.ControllerSettings.ControllerX !== "number") C.ControllerSettings.ControllerX = 2;
-	if (typeof C.ControllerSettings.ControllerY !== "number") C.ControllerSettings.ControllerY = 3;
-	if (typeof C.ControllerSettings.ControllerStickUpDown !== "number") C.ControllerSettings.ControllerStickUpDown = 1;
-	if (typeof C.ControllerSettings.ControllerStickLeftRight !== "number") C.ControllerSettings.ControllerStickLeftRight = 0;
-	if (typeof C.ControllerSettings.ControllerStickRight !== "number") C.ControllerSettings.ControllerStickRight = 1;
-	if (typeof C.ControllerSettings.ControllerStickDown !== "number") C.ControllerSettings.ControllerStickDown = 1;
-	if (typeof C.ControllerSettings.ControllerDPadUp !== "number") C.ControllerSettings.ControllerDPadUp = 12;
-	if (typeof C.ControllerSettings.ControllerDPadDown !== "number") C.ControllerSettings.ControllerDPadDown = 13;
-	if (typeof C.ControllerSettings.ControllerDPadLeft !== "number") C.ControllerSettings.ControllerDPadLeft = 14;
-	if (typeof C.ControllerSettings.ControllerDPadRight !== "number") C.ControllerSettings.ControllerDPadRight = 15;
-	if (typeof C.ControllerSettings.ControllerActive !== "boolean") C.ControllerSettings.ControllerActive = false;
+
+	// @ts-expect-error: checking for old-style mapping
+	if (typeof C.ControllerSettings.ControllerA === "number") {
+		// Port over to new mapping
+		const s = /** @type {ControllerSettingsOld} */(/** @type {unknown} */(C.ControllerSettings));
+		const buttonsMapping = {
+			[ControllerButton.A]: s.ControllerA,
+			[ControllerButton.B]: s.ControllerB,
+			[ControllerButton.X]: s.ControllerX,
+			[ControllerButton.Y]: s.ControllerY,
+			[ControllerButton.DPadU]: s.ControllerDPadUp,
+			[ControllerButton.DPadD]: s.ControllerDPadDown,
+			[ControllerButton.DPadL]: s.ControllerDPadLeft,
+			[ControllerButton.DPadR]: s.ControllerDPadRight,
+		};
+		const axisMapping = {
+			[ControllerAxis.StickLV]: s.ControllerStickUpDown,
+			[ControllerAxis.StickLH]: s.ControllerStickLeftRight,
+		};
+		ControllerLoadMapping(buttonsMapping, axisMapping);
+		// Delete the old mapping
+		const oldKeys = [
+			"ControllerA",
+			"ControllerB",
+			"ControllerX",
+			"ControllerY",
+			"ControllerStickUpDown",
+			"ControllerStickLeftRight",
+			"ControllerStickRight",
+			"ControllerStickDown",
+			"ControllerDPadUp",
+			"ControllerDPadDown",
+			"ControllerDPadLeft",
+			"ControllerDPadRight",
+		];
+		for (const old of oldKeys) {
+			// delete C.ControllerSettings[old];
+		}
+	} else if (typeof C.ControllerSettings.Buttons === "object") {
+		ControllerLoadMapping(C.ControllerSettings.Buttons, C.ControllerSettings.Axis);
+	}
 
 	ControllerSensitivity = C.ControllerSettings.ControllerSensitivity;
 	ControllerDeadZone = C.ControllerSettings.ControllerDeadZone;
 	PreferenceSettingsSensitivityIndex = PreferenceSettingsSensitivityList.indexOf(Player.ControllerSettings.ControllerSensitivity);
 	PreferenceSettingsDeadZoneIndex = PreferenceSettingsDeadZoneList.indexOf(Player.ControllerSettings.ControllerDeadZone);
-	ControllerA = C.ControllerSettings.ControllerA;
-	ControllerB = C.ControllerSettings.ControllerB;
-	ControllerX = C.ControllerSettings.ControllerX;
-	ControllerY = C.ControllerSettings.ControllerY;
-	ControllerStickUpDown = C.ControllerSettings.ControllerStickUpDown;
-	ControllerStickLeftRight = C.ControllerSettings.ControllerStickLeftRight;
-	ControllerStickRight = C.ControllerSettings.ControllerStickRight;
-	ControllerStickDown = C.ControllerSettings.ControllerStickDown;
-	ControllerDPadUp = C.ControllerSettings.ControllerDPadUp;
-	ControllerDPadDown = C.ControllerSettings.ControllerDPadDown;
-	ControllerDPadLeft = C.ControllerSettings.ControllerDPadLeft;
-	ControllerDPadRight = C.ControllerSettings.ControllerDPadRight;
 
 	ControllerStart();
 
@@ -1160,7 +1176,8 @@ function PreferenceSubscreenAudioRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerRun() {
-	if (PreferenceCalibrationStage == 0) {
+	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+	if (!ControllerIsCalibrating()) {
 		DrawCharacter(Player, 50, 50, 0.9);
 		MainCanvas.textAlign = "left";
 		DrawText(TextGet("ControllerPreferences"), 500, 125, "Black", "Gray");
@@ -1182,49 +1199,13 @@ function PreferenceSubscreenControllerRun() {
 		DrawBackNextButton(500, 593, 250, 64, Player.ControllerSettings.ControllerDeadZone.toString(), "White", "",
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + PreferenceSettingsDeadZoneList.length - 1) % PreferenceSettingsDeadZoneList.length].toString(),
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + 1) % PreferenceSettingsDeadZoneList.length].toString() );
-	}
-	if (PreferenceCalibrationStage == 101) {
+	} else {
+		DrawButton(1815, 178, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Skip"));
+		const label = ControllerCalibrationStageLabel();
 		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("MoveLeftStickUp"), 590, 425, 310, "Black");
+		DrawTextFit(label, 590, 425, 310, "Black");
+		MainCanvas.textAlign = "center";
 	}
-	if (PreferenceCalibrationStage == 102) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("MoveLeftStickRight"), 590, 425, 310, "Black");
-	}
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (PreferenceCalibrationStage == 1) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressA"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 2) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressB"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 3) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressX"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 4) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressY"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 5) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressUpOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 6) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressDownOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 7) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressLeftOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 8) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressRightOnDpad"), 590, 425, 310, "Black");
-	}
-	MainCanvas.textAlign = "center";
 }
 
 /**
@@ -1783,8 +1764,9 @@ function PreferenceSubscreenAudioExit() {
  */
 function PreferenceSubscreenControllerClick() {
 	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenControllerExit();
+	if (MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
 
-	if (PreferenceCalibrationStage == 0) {
+	if (!ControllerIsCalibrating()) {
 
 		if (MouseIn(500, 193, 250, 64)) {
 			if (MouseX <= 625) PreferenceSettingsSensitivityIndex = (PreferenceSettingsSensitivityList.length + PreferenceSettingsSensitivityIndex - 1) % PreferenceSettingsSensitivityList.length;
@@ -1800,13 +1782,11 @@ function PreferenceSubscreenControllerClick() {
 		}
 
 		if (MouseIn(590, 400, 310, 90)) {
-			PreferenceCalibrationStage = 1;
-			Calibrating = true;
+			ControllerStartCalibration("buttons");
 		}
 
 		if (MouseIn(590, 500, 310, 90)) {
-			PreferenceCalibrationStage = 101;
-			Calibrating = true;
+			ControllerStartCalibration("axis");
 		}
 
 		if (MouseIn(500, 272, 64, 64)) {
@@ -2660,8 +2640,7 @@ function PreferenceSubscreenNotificationsExit() {
  */
 function PreferenceSubscreenControllerExit() {
 	PreferenceSubscreen = "";
-	PreferenceCalibrationStage = 0;
-	Calibrating = false;
+	ControllerStopCalibration(false);
 }
 
 /**

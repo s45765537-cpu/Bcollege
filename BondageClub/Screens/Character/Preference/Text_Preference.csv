@@ -300,16 +300,27 @@ Sensitivity,Sensitivity
 ControllerActive,Controller Active
 MapButtons,Map Buttons
 MapSticks,Map Sticks
-MoveLeftStickUp,move left stick up
-MoveLeftStickRight,move left stick right
-PressA,Press A
-PressB,Press B
-PressX,Press X
-PressY,Press Y
+MoveLeftStickUp,Move left stick up
+MoveLeftStickRight,Move left stick right
+MoveRightStickUp,Move right stick up
+MoveRightStickRight,Move right stick right
+PressA,Press A button
+PressB,Press B button
+PressX,Press X button
+PressY,Press Y button
+PressLeftBumper,Press left bumper
+PressRightBumper,Press right bumper
+PressLeftTrigger,Press left trigger
+PressRightTrigger,Press right trigger
+PressSelect,Press Select button
+PressStart,Press Start button
+PressLeftStick,Press left stick button
+PressRightStick,Press right stick button
 PressUpOnDpad,Press Up on Dpad
 PressDownOnDpad,Press Down on Dpad
 PressLeftOnDpad,Press Left on Dpad
 PressRightOnDpad,Press Right on Dpad
+PressHome,Press Home button
 DeadZone,Dead Zone
 NotificationsAlertType0,Off
 NotificationsAlertType1,(1) in title
