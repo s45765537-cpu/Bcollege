@@ -49,6 +49,8 @@ const ControllerButton = {
 	Home: 16,
 };
 
+const MAX_KNOWN_BUTTONS = 17;
+
 /** Gamepad-agnostic constants for the axes */
 const ControllerAxis = {
 	StickLV: 0,
@@ -56,6 +58,8 @@ const ControllerAxis = {
 	StickRV: 2,
 	StickRH: 3,
 };
+
+const MAX_KNOWN_AXIS = 4;
 
 /**
  * Default button name to gamepad button index mapping
@@ -188,6 +192,15 @@ function ControllerIsActive() {
  * @param {object} axisMapping
  */
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
+	if (ControllerIsActive()) {
+		for (const gamepad of navigator.getGamepads()) {
+			if (gamepad.buttons.length < MAX_KNOWN_BUTTONS || gamepad.axes.length < MAX_KNOWN_AXIS) {
+				console.warn(`Detected gamepad ${gamepad.index} doesn't have the minimum supported buttons/axis. Make sure to calibrate it properly in Preferences!`);
+			} else if (Object.keys(buttonsMapping).length !== gamepad.buttons.length || Object.keys(axisMapping).length !== gamepad.axes.length) {
+				console.warn(`Loaded controller mapping doesn't match gamepad ${gamepad.index} layout. Make sure to calibrate it properly in Preferences!`);
+			}
+		}
+	}
 	for (const btnIdx of Object.keys(ControllerButtonMapping)) {
 		ControllerButtonMapping[btnIdx] = buttonsMapping[btnIdx] ?? -1;
 	}
