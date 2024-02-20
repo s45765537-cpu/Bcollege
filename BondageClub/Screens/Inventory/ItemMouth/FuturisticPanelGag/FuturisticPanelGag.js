@@ -137,7 +137,13 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
 		GagIndex = Math.min(GagIndexMax, GagIndex + 1);
 		while (GagIndex <= GagIndexMax) {
 			if (TypedItemValidateOption(data, C, Item, module.Options[GagIndex], module.Options[OriginalSetting], true)) {
-				GagIndex = (GagIndex === GagIndexMax) ? previousOption.Index : 1 + GagIndex;
+				if (GagIndex === GagIndexMax) {
+					// All higher inflation modes are blocked; just stuck with the original and abort
+					GagIndex = previousOption.Index;
+					break;
+				} else {
+					GagIndex += 1;
+				}
 			} else {
 				break;
 			}
