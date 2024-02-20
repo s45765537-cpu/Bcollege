@@ -460,9 +460,9 @@ function ControllerCalibrationNextStage(skip = false) {
 
 	// Doing a >= here because we've just incremented the stage but not that cached value
 	if (!isAxis && stage >= ControllerButton.Home) {
-		ControllerStopCalibration(true);
+		ControllerStopCalibration();
 	} else if (isAxis && stage >= ControllerAxis.StickRH) {
-		ControllerStopCalibration(true);
+		ControllerStopCalibration();
 	}
 }
 
@@ -473,7 +473,7 @@ function ControllerCalibrationNextStage(skip = false) {
  * @param {boolean} commit - Whether to save the changes made to the mappings or not
  *
  */
-function ControllerStopCalibration(commit) {
+function ControllerStopCalibration(commit = false) {
 	if (commit) {
 		Player.ControllerSettings.Buttons = ControllerButtonMapping;
 		Player.ControllerSettings.Axis = ControllerAxisMapping;

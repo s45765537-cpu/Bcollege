@@ -2640,7 +2640,7 @@ function PreferenceSubscreenNotificationsExit() {
  */
 function PreferenceSubscreenControllerExit() {
 	PreferenceSubscreen = "";
-	ControllerStopCalibration(false);
+	ControllerStopCalibration(true);
 }
 
 /**
