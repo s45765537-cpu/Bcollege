@@ -69,7 +69,9 @@ let AppearanceWardrobeReorderMode = "None";
 
 const CanvasUpperOverflow = 700;
 const CanvasLowerOverflow = 150;
+/** The draw width of the character canvas */
 const CanvasDrawWidth = 500;
+/** The draw height of the character canvas */
 const CanvasDrawHeight = 1000 + CanvasUpperOverflow + CanvasLowerOverflow;
 
 const AppearancePermissionColors = {

@@ -71,6 +71,8 @@ interface RGBAColor extends RGBColor {
 	a: number;
 }
 
+type Rect = { x: number, y: number, w: number, h: number };
+
 /** A 4-tuple with X & Y coordinates, width and height */
 type RectTuple = [X: number, Y: number, W: number, H: number];
 
@@ -1336,6 +1338,11 @@ interface Character {
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
 	LastMapData?: ChatRoomMapData;
+	/**
+	 * The custom background to use for the current room
+	 * Only valid on {@link Player}
+	 */
+	CustomBackground?: string;
 }
 
 interface CharacterGameParameters {

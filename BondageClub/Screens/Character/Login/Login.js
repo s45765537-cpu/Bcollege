@@ -120,6 +120,7 @@ function LoginLoad() {
 	pass.setAttribute("autocomplete", "current-password");
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetch("Room", "Mainhall");
+	DrawGetImage("Backgrounds/MainHall.jpg");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
 
 }
