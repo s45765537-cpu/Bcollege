@@ -5,7 +5,7 @@ check:
   stage: build
   only:
     - merge_requests
-  image: node:16
+  image: node:21
   script:
     - npm --prefix $NPM_PREFIX ci
     - npm --prefix $NPM_PREFIX run checks

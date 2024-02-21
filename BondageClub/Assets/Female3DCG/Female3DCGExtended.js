@@ -653,150 +653,150 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Zoom",
 					Key: "z",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Big",
+					Name: "Big",
 					Key: "b",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Bloom",
+					Name: "Bloom",
 					Key: "c",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"BottomSpike",
+					Name: "BottomSpike",
 					Key: "d",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Flash",
+					Name: "Flash",
 					Key: "e",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Fly",
+					Name: "Fly",
 					Key: "f",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Grass",
+					Name: "Grass",
 					Key: "g",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 
 				{
-					Name:"Grow",
+					Name: "Grow",
 					Key: "h",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"GrowHollow",
+					Name: "GrowHollow",
 					Key: "i",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"HeartSmallOutline",
+					Name: "HeartSmallOutline",
 					Key: "j",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Heartline",
+					Name: "Heartline",
 					Key: "k",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"HeartSmall",
+					Name: "HeartSmall",
 					Key: "l",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"HeartSolid",
+					Name: "HeartSolid",
 					Key: "m",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"HeartWings",
+					Name: "HeartWings",
 					Key: "n",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"In",
+					Name: "In",
 					Key: "o",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Leaves",
+					Name: "Leaves",
 					Key: "p",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"MidSpike",
+					Name: "MidSpike",
 					Key: "q",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Ribow",
+					Name: "Ribow",
 					Key: "r",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Sense",
+					Name: "Sense",
 					Key: "s",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Shake",
+					Name: "Shake",
 					Key: "t",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"SideHearts",
+					Name: "SideHearts",
 					Key: "u",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Swim",
+					Name: "Swim",
 					Key: "v",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Thorn",
+					Name: "Thorn",
 					Key: "w",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"ThornOut",
+					Name: "ThornOut",
 					Key: "x",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"TopSpike",
+					Name: "TopSpike",
 					Key: "y",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Venom",
+					Name: "Venom",
 					Key: "za",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Viper",
+					Name: "Viper",
 					Key: "zb",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"Waves",
+					Name: "Waves",
 					Key: "zc",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
 				{
-					Name:"WingSmall",
+					Name: "WingSmall",
 					Key: "zd",
-					Options: [{},{}], // n,y
+					Options: [{}, {}], // n,y
 				},
-			]
+			],
 		},
 	},
 	ClothAccessory: {
@@ -976,8 +976,8 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			DrawImages: false,
-			CopyConfig: {GroupName: "BodyMarkings", AssetName: "WombTattoos"},
-		},//WombTattoos
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "WombTattoos" },
+		}, //WombTattoos
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -6903,29 +6903,24 @@ var AssetFemale3DCGExtended = {
 		BigMouthHood: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
-				{ Name: "Empty",
-					Property: { Effect: [] },
-				},
-				{ Name: "Lenses",
+				{ Name: "Empty", Property: { Effect: [] } },
+				{
+					Name: "Lenses",
 					Property: {
 						Effect: [E.BlindLight],
-						Tint: [{ Color: 2, Strength: 0.2 }]
+						Tint: [{ Color: 2, Strength: 0.2 }],
 					},
 				},
-				{ Name: "Mesh",
+				{
+					Name: "Mesh",
 					Property: {
-						Effect: [
-							E.BlindNormal,
-							E.BlockWardrobe,
-						],
+						Effect: [E.BlindNormal, E.BlockWardrobe],
 					},
 				},
-				{ Name: "Slim",
+				{
+					Name: "Slim",
 					Property: {
-						Effect: [
-							E.BlindHeavy,
-							E.BlockWardrobe,
-						],
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
 					},
 				},
 			],
@@ -7828,9 +7823,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Inflated",
 					Property: {
-						Block: [
-							"ItemLegs",
-						],
+						Block: ["ItemLegs"],
 						Hide: [
 							"HairFront",
 							"HairBack",
@@ -7840,7 +7833,6 @@ var AssetFemale3DCGExtended = {
 							"Hat",
 						],
 					},
-
 				},
 			],
 			DrawImages: false,
@@ -14186,29 +14178,24 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemHood", AssetName: "BigMouthHood" },
 			Options: [
-				{ Name: "Empty",
-					Property: { Effect: [] },
-				},
-				{ Name: "Lenses",
+				{ Name: "Empty", Property: { Effect: [] } },
+				{
+					Name: "Lenses",
 					Property: {
 						Effect: [E.BlindLight],
-						Tint: [{ Color: 2, Strength: 0.2 }]
+						Tint: [{ Color: 2, Strength: 0.2 }],
 					},
 				},
-				{ Name: "Mesh",
+				{
+					Name: "Mesh",
 					Property: {
-						Effect: [
-							E.BlindNormal,
-							E.BlockWardrobe,
-						],
+						Effect: [E.BlindNormal, E.BlockWardrobe],
 					},
 				},
-				{ Name: "Slim",
+				{
+					Name: "Slim",
 					Property: {
-						Effect: [
-							E.BlindHeavy,
-							E.BlockWardrobe,
-						],
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
 					},
 				},
 			],
