@@ -127,7 +127,10 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
 	if (Deflate) {
 		GagIndex = Math.max(OriginalSetting, GagIndex - 1);
 		while (GagIndex > OriginalSetting) {
-			if (TypedItemValidateOption(data, C, Item, module.Options[GagIndex], module.Options[OriginalSetting], true)) {
+			if (
+				InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)
+				|| !InventoryAllow(C, Item.Asset, module.Options[GagIndex].Prerequisite ?? [], false)
+			) {
 				GagIndex -= 1;
 			} else {
 				break;
@@ -136,8 +139,17 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
 	} else {
 		GagIndex = Math.min(GagIndexMax, GagIndex + 1);
 		while (GagIndex <= GagIndexMax) {
-			if (TypedItemValidateOption(data, C, Item, module.Options[GagIndex], module.Options[OriginalSetting], true)) {
-				GagIndex = (GagIndex === GagIndexMax) ? previousOption.Index : 1 + GagIndex;
+			if (
+				InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)
+				|| !InventoryAllow(C, Item.Asset, module.Options[GagIndex].Prerequisite ?? [], false)
+			) {
+				if (GagIndex === GagIndexMax) {
+					// All higher inflation modes are blocked; just stuck with the original and abort
+					GagIndex = previousOption.Index;
+					break;
+				} else {
+					GagIndex += 1;
+				}
 			} else {
 				break;
 			}
