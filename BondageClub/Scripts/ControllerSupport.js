@@ -38,6 +38,9 @@ const ControllerButton = {
 	BumperR: 5,
 	TriggerL: 6,
 	TriggerR: 7,
+	/**
+	 * Select triggers Launchpad on macOS
+	 */
 	Select: 8,
 	Start: 9,
 	StickL: 10,
@@ -46,8 +49,13 @@ const ControllerButton = {
 	DPadD: 13,
 	DPadL: 14,
 	DPadR: 15,
+	/**
+	 * Home triggers Chrome's screen sharing feature on macOS
+	 */
 	Home: 16,
 };
+
+const MAX_KNOWN_BUTTONS = 17;
 
 /** Gamepad-agnostic constants for the axes */
 const ControllerAxis = {
@@ -56,6 +64,8 @@ const ControllerAxis = {
 	StickRV: 2,
 	StickRH: 3,
 };
+
+const MAX_KNOWN_AXIS = 4;
 
 /**
  * Default button name to gamepad button index mapping
@@ -188,6 +198,15 @@ function ControllerIsActive() {
  * @param {object} axisMapping
  */
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
+	if (ControllerIsActive()) {
+		for (const gamepad of navigator.getGamepads()) {
+			if (gamepad.buttons.length < MAX_KNOWN_BUTTONS || gamepad.axes.length < MAX_KNOWN_AXIS) {
+				console.warn(`Detected gamepad ${gamepad.index} doesn't have the minimum supported buttons/axis. Make sure to calibrate it properly in Preferences!`);
+			} else if (Object.keys(buttonsMapping).length !== gamepad.buttons.length || Object.keys(axisMapping).length !== gamepad.axes.length) {
+				console.warn(`Loaded controller mapping doesn't match gamepad ${gamepad.index} layout. Make sure to calibrate it properly in Preferences!`);
+			}
+		}
+	}
 	for (const btnIdx of Object.keys(ControllerButtonMapping)) {
 		ControllerButtonMapping[btnIdx] = buttonsMapping[btnIdx] ?? -1;
 	}
@@ -356,18 +375,15 @@ function ControllerProcessButton(buttons) {
 		if (ControllerButtonsWaitRelease) return;
 		const padBtnId = ControllerButtonMapping[btnId];
 		if (padBtnId === -1 && !ControllerMissingButtonWarning.has(btnId)) {
-			console.warn(`gamepad button handler: ${btnId} has no mapping`);
 			ControllerMissingButtonWarning.add(btnId);
 			return;
 		}
 		if (!buttons[padBtnId] && !ControllerMissingButtonWarning.has(btnId)) {
-			console.warn(`gamepad button handler requested a missing button: ${btnId} (${padBtnId})`);
 			ControllerMissingButtonWarning.add(btnId);
 			return;
 		}
 		const isPressed = buttons[padBtnId]?.pressed;
 		if (isPressed) {
-			console.log(`gamepad button event: game id: ${btnId}, pad id: ${padBtnId}, pressed: ${isPressed}`);
 			handler();
 			ControllerButtonsWaitRelease = true;
 		}
@@ -460,9 +476,9 @@ function ControllerCalibrationNextStage(skip = false) {
 
 	// Doing a >= here because we've just incremented the stage but not that cached value
 	if (!isAxis && stage >= ControllerButton.Home) {
-		ControllerStopCalibration(true);
+		ControllerStopCalibration();
 	} else if (isAxis && stage >= ControllerAxis.StickRH) {
-		ControllerStopCalibration(true);
+		ControllerStopCalibration();
 	}
 }
 
@@ -473,7 +489,7 @@ function ControllerCalibrationNextStage(skip = false) {
  * @param {boolean} commit - Whether to save the changes made to the mappings or not
  *
  */
-function ControllerStopCalibration(commit) {
+function ControllerStopCalibration(commit = false) {
 	if (commit) {
 		Player.ControllerSettings.Buttons = ControllerButtonMapping;
 		Player.ControllerSettings.Axis = ControllerAxisMapping;
@@ -583,7 +599,6 @@ function ControllerCalibrateButtons(buttons) {
 
 	for (const btnIdx of Object.values(ControllerButton)) {
 		if (btnIdx != ControllerCalibrationStage) continue;
-		console.log(`checking ${btnIdx}`);
 		// We got a button press this event loop, don't process until it's released
 		if (ControllerButtonsWaitRelease) continue;
 		if (buttons.filter(b => b.pressed).length > 1) continue;
@@ -591,7 +606,6 @@ function ControllerCalibrateButtons(buttons) {
 		const pressedIdx = buttons.findIndex(b => b.pressed);
 		if (pressedIdx === -1) continue;
 		ControllerButtonMapping[btnIdx] = pressedIdx;
-		console.log(`got button ${pressedIdx} for ${btnIdx}, advancing stage`);
 		ControllerCalibrationNextStage();
 		ControllerButtonsWaitRelease = true;
 		break;
@@ -599,9 +613,7 @@ function ControllerCalibrateButtons(buttons) {
 
 	// Don't process more buttons until they all got released
 	if (ControllerButtonsWaitRelease) {
-		console.log(`waiting for all buttons to be released`);
 		if (buttons.every(b => !b.pressed)) {
-			console.log(`all buttons released, moving on`);
 			ControllerButtonsWaitRelease = false;
 		}
 	}
