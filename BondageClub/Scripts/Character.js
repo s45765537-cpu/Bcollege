@@ -44,21 +44,23 @@ var CharacterType = {
 
 /**
  * Loads a character into the buffer, creates it if it does not exist
- * @param {number} CharacterID - ID of the character
  * @param {IAssetFamily} CharacterAssetFamily - Name of the asset family of the character
- * @param {CharacterType} [Type=CharacterType.ONLINE] - The character type
+ * @param {CharacterType} Type - The character type
+ * @param {string} CharacterID - An unique identifier for the character
  * @returns {Character} - The newly loaded character
  */
-function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.ONLINE) {
+function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
+	const id = CharacterNextId++;
 	// Prepares the character sheet
 	/** @type {Character} */
-	var NewCharacter = {
-		ID: CharacterID,
+	const NewCharacter = {
+		ID: id,
+		CharacterID: CharacterID,
+		AssetFamily: CharacterAssetFamily,
+		AccountName: "",
 		Hooks: null,
 		Name: "",
 		Type,
-		AssetFamily: CharacterAssetFamily,
-		AccountName: "",
 		Owner: "",
 		Lover: "",
 		Money: 0,
@@ -401,7 +403,7 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 			return this.Type === CharacterType.ONLINE;
 		},
 		IsNpc: function () {
-			return (this.Type !== CharacterType.ONLINE) && (this.Type !== CharacterType.SIMPLE);
+			return this.Type === CharacterType.NPC;
 		},
 		IsSimple: function () {
 			return this.Type === CharacterType.SIMPLE;
@@ -498,15 +500,11 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 		}
 	};
 
-	// If the character doesn't exist, we create it
-	var CharacterIndex = Character.findIndex(c => c.ID == CharacterID);
-	if (CharacterIndex == -1)
-		Character.push(NewCharacter);
-	else
-		Character[CharacterIndex] = NewCharacter;
+	// Add the character to the cache
+	Character.push(NewCharacter);
 
 	// Creates the inventory and default appearance
-	if (CharacterID == 0) {
+	if (id === 0) {
 		Player = Object.assign(
 			NewCharacter,
 			{
@@ -528,29 +526,20 @@ function CharacterReset(CharacterID, CharacterAssetFamily, Type = CharacterType.
 
 /**
  * Attributes a random name for the character, does not select a name in use
- * @param {Character} C - Character for which to attribute a name
- * @returns {void} - Nothing
+ * @returns {string} - Nothing
  */
-function CharacterRandomName(C) {
+function CharacterGenerateRandomName() {
 
-	// Generates a name from the name bank
-	var NewName = CharacterName[Math.floor(Math.random() * CharacterName.length)];
-	C.Name = NewName;
+	// Get the list of all currently known names
+	const CurrentNames = [];
+	CurrentNames.push(...Character.map(c => c.Name));
+	CurrentNames.push(...PrivateCharacter.map(c => c.Name));
 
-	// If the name is already taken, we generate a new one
-	for (let CN = 0; CN < Character.length; CN++)
-		if ((Character[CN].Name == NewName) && (Character[CN].ID != C.ID)) {
-			CharacterRandomName(C);
-			return;
-		}
+	// Filter those names out of our name bank
+	const PossibleNames = [...CharacterName].filter(n => !CurrentNames.includes(n));
 
-	// If the name is already taken by a private room character
-	for (let P = 0; P < PrivateCharacter.length; P++)
-		if ((PrivateCharacter[P].Name == NewName) && ((PrivateCharacter[P].ID == null) || (PrivateCharacter[P].ID != C.ID))) {
-			CharacterRandomName(C);
-			return;
-		}
-
+	// Pick one of the remaining names
+	return CommonRandomItemFromList("", PossibleNames);
 }
 
 /**
@@ -747,21 +736,22 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 
 /**
  * Loads an NPC into the character array. The appearance is randomized, and a type can be provided to dress them in a given style.
- * @param {string} NPCType - Archetype of the NPC
+ * @param {string} CharacterID - The unique identifier for the NPC
+ * @param {string} [NPCType] - The dialog used by the NPC.  Defaults to CharacterID if not specified.
  * @returns {NPCCharacter} - The randomly generated NPC
  */
-function CharacterLoadNPC(NPCType) {
+function CharacterLoadNPC(CharacterID, NPCType, module = CurrentModule, screen = CurrentScreen) {
+	if (!NPCType) NPCType = CharacterID;
 
 	// Checks if the NPC already exists and returns it if it's the case
-	const duplicate = Character.find(c => c.AccountName === NPCType);
+	const duplicate = Character.find(c => c.CharacterID === CharacterID);
 	if (duplicate) return duplicate;
 
 	// Randomize the new character
-	CharacterReset(CharacterNextId++, "Female3DCG", CharacterType.NPC);
-	let C = Character[Character.length - 1];
+	const C = CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID);
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C, { module: CurrentModule, screen: CurrentScreen, name: NPCType });
-	CharacterRandomName(C);
+	CharacterLoadCSVDialog(C, { module: module, screen: screen, name: NPCType });
+	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
 
@@ -777,17 +767,16 @@ function CharacterLoadNPC(NPCType) {
 
 /**
  * Create a minimal character object
- * @param {string} AccName - The account name to give to the character
+ * @param {string} CharacterID - The account name to give to the character
  * @returns {Character} - The created character
  */
-function CharacterLoadSimple(AccName) {
+function CharacterLoadSimple(CharacterID) {
 	// Checks if the character already exists and returns it if it's the case
-	const duplicate = Character.find(c => c.AccountName === AccName);
+	const duplicate = Character.find(c => c.CharacterID === CharacterID);
 	if (duplicate) return duplicate;
 
 	// Create the new character
-	const C = CharacterReset(CharacterNextId++, "Female3DCG", CharacterType.SIMPLE);
-	C.AccountName = AccName;
+	const C = CharacterCreate("Female3DCG", CharacterType.SIMPLE, CharacterID);
 
 	// Returns the new character
 	return C;
@@ -855,14 +844,14 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
  */
 function CharacterLoadOnline(data, SourceMemberNumber) {
 
-	// Checks if the character already exists and returns it if it's the case
-	var Char = null;
-	if (data.ID.toString() == Player.OnlineID)
+	/** @type {Character} */
+	let Char = null;
+	// Check if the character already exists to reuse it
+	if (data.ID.toString() == Player.CharacterID) {
 		Char = Player;
-	else
-		for (let C = 0; C < Character.length; C++)
-			if (Character[C].AccountName == "Online-" + data.ID.toString())
-				Char = Character[C];
+	} else {
+		Char = Character.find(c => c.CharacterID === data.ID);
+	}
 
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
@@ -887,15 +876,13 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	// If the character isn't found
 	if (Char == null) {
 		// We delete the duplicate character if the person relogged.
-		for (let C = 0; C < Character.length; C++)
-			if (Character[C].MemberNumber == data.MemberNumber) {
-				CharacterDelete(Character[C].AccountName);
-				break;
-			}
+		const duplicate = Character.find(c => c.MemberNumber === data.MemberNumber);
+		if (duplicate) {
+			CharacterDelete(duplicate);
+		}
 
 		// Creates the new character from the online template
-		CharacterReset(CharacterNextId++, "Female3DCG");
-		Char = Character[Character.length - 1];
+		Char = CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID);
 		Char.Name = data.Name;
 		Char.Lover = (data.Lover != null) ? data.Lover : "";
 		Char.Owner = (data.Owner != null) ? data.Owner : "";
@@ -963,17 +950,25 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 }
 
 /**
- * Deletes an NPC from the buffer
- * @param {string} NPCType - Account name of the npc to delete
+ * Deletes a character from the cached list of characters
+ * @param {Character} C - The character to remove from the character cache
  * @returns {void} - Nothing
  */
-function CharacterDelete(NPCType) {
-	for (let C = 0; C < Character.length; C++)
-		if (Character[C].AccountName == NPCType) {
-			AnimationPurge(Character[C], true);
-			Character.splice(C, 1);
-			return;
-		}
+function CharacterDelete(C) {
+	if (!C) return;
+
+	const idx = Character.findIndex(c => c.ID === C.ID);
+	if (idx < 0) return;
+
+	// Delete the cached dialog for that NPC.
+	// Note that this requires `CharacterDelete` to be called with the screen that created the NPC up.
+	// It's also debatable whether this does anything but always busting the cache, which is supposedly
+	// static and customized by `CharacterLoadCSVDialog`.
+	const FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName + ".csv";
+	delete CommonCSVCache[FullPath];
+
+	AnimationPurge(Character[idx], true);
+	Character.splice(idx, 1);
 }
 
 /**
@@ -981,9 +976,10 @@ function CharacterDelete(NPCType) {
  * @returns {void} - Nothing
  */
 function CharacterDeleteAllOnline() {
-	for (let C = Character.length - 1; C >= 0; C--)
-		if (Character[C].AccountName.startsWith("Online-"))
-			CharacterDelete(Character[C].AccountName);
+	const onlines = Character.filter(c => c.AccountName.startsWith("Online-"));
+	for (const online of onlines) {
+		CharacterDelete(online);
+	}
 }
 
 /**
@@ -1135,13 +1131,13 @@ function CharacterChangeMoney(C, Value) {
  * @param {boolean} [RefreshDialog=true] - Refreshes the character dialog
  * @returns {void} - Nothing
  */
-function CharacterRefresh(C, Push, RefreshDialog = true) {
+function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	AnimationPurge(C, false);
 	CharacterLoadEffect(C);
 	PoseRefresh(C);
 	CharacterLoadCanvas(C);
 	// Label often looped through checks:
-	C.RunScripts = (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
+	C.RunScripts = (!C.IsOnline() || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
 	if (C.IsPlayer()) {
@@ -1150,13 +1146,13 @@ function CharacterRefresh(C, Push, RefreshDialog = true) {
 		C.CustomBackground = customBGItem ? customBGItem.Property.CustomBlindBackground : undefined;
 	}
 
-	if ((C.IsPlayer()) && (C.OnlineID != null) && ((Push == null) || (Push == true))) {
+	if (C.IsPlayer() && Push) {
 		ChatRoomRefreshChatSettings();
 		ServerPlayerAppearanceSync();
 	}
 	// Also refresh the current dialog menu if the refreshed character is the current character.
-	var Current = CharacterGetCurrent();
-	if (Current && C.ID == Current.ID && RefreshDialog) {
+	const Current = CharacterGetCurrent();
+	if (Current && C.ID === Current.ID && RefreshDialog) {
 		CharacterRefreshDialog(C);
 	}
 }

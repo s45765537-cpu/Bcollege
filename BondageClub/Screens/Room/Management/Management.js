@@ -260,7 +260,7 @@ function ManagementWearingSlaveCollar() { return ((InventoryGet(Player, "ItemNec
  * Checks if a NPC can be transfered to the player's private room.
  * @returns {boolean} - TRUE if the player owns a private room, has space for an extra NPC and is not locked out of her room.
  */
-function ManagementCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function ManagementCanTransferToRoom() { return PrivateHasEmptySlot(); }
 /**
  * Checks if the mistress is not willing to visit the player's room.
  * @returns {boolean} - TRUE if the mistress could transfer to the player's room, but is not willing to.
@@ -635,8 +635,8 @@ function ManagementClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	ManagementRandomGirl = null;
-	CharacterDelete("NPC_Management_RandomGirl");
+	CharacterDelete(ManagementRandomGirl);
+
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	CharacterSetCurrent(ManagementRandomGirl);
 	ManagementRandomGirl.AllowItem = false;
@@ -668,8 +668,8 @@ function ManagementFindClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	ManagementRandomGirl = null;
-	CharacterDelete("NPC_Management_RandomGirl");
+	CharacterDelete(ManagementRandomGirl);
+
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	ManagementRandomGirl.AllowItem = !ManagementIsClubSlave();
 	CharacterNaked(ManagementRandomGirl);

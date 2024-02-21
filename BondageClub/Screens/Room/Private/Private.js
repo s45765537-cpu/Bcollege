@@ -5,7 +5,7 @@ var PrivateVendor = null;
 /** @type {NPCCharacter[]} */
 var PrivateCharacter = [];
 var PrivateCharacterOffset = 0;
-var PrivateCharacterToSave = 0;
+var PrivateCharacterShouldSync = false;
 var PrivateCharacterMax = 4;
 var PrivateReleaseTimer = 0;
 var PrivateActivity = "";
@@ -438,16 +438,12 @@ function PrivateLoad() {
 	// Loads the vendor and NPCs, also check for relationship decay
 	PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
 	PrivateVendor.AllowItem = false;
-	Player.ArousalSettings.OrgasmCount = 0;
 	NPCTraitDialog(PrivateVendor);
+
+	Player.ArousalSettings.OrgasmCount = 0;
+
 	let MustSync = false;
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		let FromPandora = PrivateCharacter[C].FromPandora;
-		let UpdateRequired = PrivateLoadCharacter(C);
-		if (FromPandora != null) PrivateCharacter[C].FromPandora = FromPandora;
-		MustSync = (MustSync || UpdateRequired);
-	}
-	MustSync = (MustSync || PrivateRelationDecay());
+	MustSync = PrivateRelationDecay();
 	if (PrivateEntryEvent) MustSync = (MustSync || PrivateRansomStart());
 	if (MustSync) ServerPrivateCharacterSync();
 
@@ -698,9 +694,9 @@ function PrivateRun() {
 		ChatRoomVibrationScreenFilter(0, 1000, 2000, Player);
 
 	// If we must save a character status after a dialog
-	if (PrivateCharacterToSave > 0) {
+	if (PrivateCharacterShouldSync) {
 		ServerPrivateCharacterSync();
-		PrivateCharacterToSave = 0;
+		PrivateCharacterShouldSync = false;
 	}
 
 }
@@ -810,8 +806,7 @@ function PrivateClickCharacter() {
 
 				// Sets the new character (1000 if she's owner, 2000 if she's owned)
 				if (!PrivateCharacter[C].IsPlayer()) {
-					PrivateCharacterToSave = C;
-					PrivateLoadCharacter(C);
+					PrivateCharacterShouldSync = true;
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwner()) PrivateCharacter[C].Stage = "1000";
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwnedByPlayer()) PrivateCharacter[C].Stage = "2000";
 					NPCTraitDialog(PrivateCharacter[C]);
@@ -965,52 +960,53 @@ function PrivateCancelSecurity() {
 
 /**
  * Loads a given private room character.
- * @param {number} C - Index of the private character to load.
+ * @param {PrivateCharacterData} data - The packed character data recieved from the server
  * @returns {boolean} - Update required.
  */
-function PrivateLoadCharacter(C) {
+function PrivateLoadCharacter(data) {
 	let updateRequired = false;
 
-	// If there's no account, we build the full character from the server template
-	if ((PrivateCharacter[C].AccountName == null) && (PrivateCharacter[C].Name != null)) {
-		const N = CharacterLoadNPC("NPC_Private_Custom");
-		N.Name = PrivateCharacter[C].Name;
-		PrivateCharacter[C].AccountName = "NPC_Private_Custom" + N.ID.toString();
-		N.AccountName = "NPC_Private_Custom" + N.ID.toString();
-		if (PrivateCharacter[C].Title != null) N.Title = PrivateCharacter[C].Title;
-		if (PrivateCharacter[C].AssetFamily != null) N.AssetFamily = PrivateCharacter[C].AssetFamily;
-		if (PrivateCharacter[C].Appearance != null) {
-			// @ts-expect-error: `LoginResponse` directly assigns an `ItemBundle[]` here rather than an `Item[]`... because "reasons"
-			const updateValid = ServerAppearanceLoadFromBundle(N, PrivateCharacter[C].AssetFamily, PrivateCharacter[C].Appearance);
-			updateRequired = updateRequired || !updateValid;
-		}
-		if (PrivateCharacter[C].AppearanceFull != null) {
-			// @ts-expect-error: `LoginResponse` directly assigns an `ItemBundle[]` here rather than an `Item[]`... because "reasons"
-			const updateValid = ServerAppearanceLoadFromBundle(N, PrivateCharacter[C].AssetFamily, PrivateCharacter[C].AppearanceFull, null, true);
-			updateRequired = updateRequired || !updateValid;
-		}
-		if (PrivateCharacter[C].Trait != null) N.Trait = PrivateCharacter[C].Trait.slice();
-		if (PrivateCharacter[C].Cage != null) N.Cage = PrivateCharacter[C].Cage;
-		if (PrivateCharacter[C].Event != null) N.Event = PrivateCharacter[C].Event;
-		if (PrivateCharacter[C].Lover != null) N.Lover = PrivateCharacter[C].Lover;
-		if (PrivateCharacter[C].Owner != null) N.Owner = PrivateCharacter[C].Owner;
-		if (PrivateCharacter[C].ArousalSettings != null) N.ArousalSettings = PrivateCharacter[C].ArousalSettings;
-		N.Love = (PrivateCharacter[C].Love == null) ? 0 : parseInt(PrivateCharacter[C].Love);
-		NPCTraitDialog(N);
-		NPCArousal(N);
-		ActivityTimerProgress(N, 0);
-		CharacterLoadCSVDialog(N, { module: CurrentModule, screen: CurrentScreen, name: "NPC_Private_Custom" });
-		CharacterRefresh(N);
-		if (NPCEventGet(N, "PrivateRoomEntry") == 0) NPCEventAdd(N, "PrivateRoomEntry", CurrentTime);
-		PrivateCharacter[C] = N;
-		if (PrivateCharacter[C].CanKneel() && PrivateCharacter[C].IsOwnedByPlayer()) PoseSetActive(PrivateCharacter[C], "Kneel", true);
+	if (!data.Name) return updateRequired;
+
+	const charID = "NPC_Private_Custom_" + PrivateCharacter.length;
+
+	const C = CharacterLoadNPC(charID, "NPC_Private_Custom", "Room", "Private");
+
+	C.Name = data.Name;
+	if (data.Title != null) C.Title = data.Title;
+	if (data.AssetFamily != null) C.AssetFamily = data.AssetFamily;
+	if (data.Appearance != null) {
+		const updateValid = ServerAppearanceLoadFromBundle(C, data.AssetFamily, data.Appearance);
+		updateRequired = updateRequired || !updateValid;
 	}
+	if (data.AppearanceFull != null) {
+		const updateValid = ServerAppearanceLoadFromBundle(C, data.AssetFamily, data.AppearanceFull, null, true);
+		updateRequired = updateRequired || !updateValid;
+	}
+	if (data.Trait != null) C.Trait = data.Trait.slice();
+	if (data.Cage != null) C.Cage = data.Cage;
+	if (data.Event != null) C.Event = data.Event;
+	if (data.Lover != null) C.Lover = data.Lover;
+	if (data.Owner != null) C.Owner = data.Owner;
+	if (data.ArousalSettings != null) C.ArousalSettings = data.ArousalSettings;
+	if (data.FromPandora != null) C.FromPandora = data.FromPandora;
+	C.Love = (data.Love == null) ? 0 : parseInt(data.Love);
+
+	NPCTraitDialog(C);
+	NPCArousal(C);
+	ActivityTimerProgress(C, 0);
+	CharacterRefresh(C);
+
+	if (NPCEventGet(C, "PrivateRoomEntry") == 0) NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
+	if (C.CanKneel() && C.IsOwnedByPlayer()) PoseSetActive(C, "Kneel", true);
 
 	// We allow items on NPC if 25+ dominant reputation, not owner or restrained
-	if (PrivateCharacter[C].ArousalSettings == null) NPCArousal(PrivateCharacter[C]);
-	PrivateCharacter[C].ArousalSettings.Active = "Automatic";
-	PrivateCharacter[C].ArousalSettings.Visible = "All";
-	PrivateCharacter[C].AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(PrivateCharacter[C], "Dominant")) && !PrivateCharacter[C].IsOwner()) || PrivateCharacter[C].IsOwnedByPlayer() || PrivateCharacter[C].IsRestrained() || !PrivateCharacter[C].CanTalk());
+	if (C.ArousalSettings == null) NPCArousal(C);
+	C.ArousalSettings.Active = "Automatic";
+	C.ArousalSettings.Visible = "All";
+	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsOwnedByPlayer() || C.IsRestrained() || !C.CanTalk());
+
+	PrivateCharacter.push(C);
 
 	return updateRequired;
 }
@@ -1023,9 +1019,8 @@ function PrivateLoadCharacter(C) {
  * @returns {NPCCharacter} - The new private room character.
  */
 function PrivateAddCharacter(Template, Archetype, CustomData) {
-	var C = CharacterLoadNPC("NPC_Private_Custom");
+	var C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom");
 	C.Name = Template.Name;
-	C.AccountName = "NPC_Private_Custom" + PrivateCharacter.length.toString();
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
 	C.Love = 0;
@@ -1055,17 +1050,26 @@ function PrivateGetCurrentID() {
 }
 
 /**
- * Triggered when the player kicks out a character.
+ * Triggered when the player kicks out a character from the dialog
  * @returns {void} - Nothing.
  */
 function PrivateKickOut() {
-	var ID = PrivateGetCurrentID();
-	PrivateCharacter[ID] = null;
-	PrivateCharacter.splice(ID, 1);
+	PrivateKickCharacterOut(CurrentCharacter);
+	DialogLeave();
+}
+
+/**
+ * Triggered when the player kicks out a character.
+ * @param {Character} C
+ * @returns {void} - Nothing.
+ */
+function PrivateKickCharacterOut(C) {
+	const charIdx = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	if (charIdx < 0) return;
+
+	CharacterDelete(C);
+	PrivateCharacter.splice(charIdx, 1);
 	ServerPrivateCharacterSync();
-	for (let P = 1; P < PrivateCharacter.length; P++)
-		if (PrivateCharacter[P] != null)
-			PrivateCharacter[P].AccountName = "NPC_Private_Custom" + P.toString();
 	DialogLeave();
 }
 
@@ -1105,10 +1109,9 @@ function PrivateChange(NewCloth) {
  * @returns {boolean} - Returns TRUE if the player's owner is inside her private room.
  */
 function PrivateOwnerInRoom() {
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		if ((PrivateCharacter[C].AccountName == null) && (PrivateCharacter[C].Name != null) && (PrivateCharacter[C].Name == Player.Owner.replace("NPC-", ""))) return true;
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsOwner() && (CurrentCharacter != null) && (PrivateCharacter[C].ID != CurrentCharacter.ID)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsOwner() && (CurrentCharacter == null)) return true;
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		if (character.IsOwner()) return true;
 	}
 	return false;
 }
@@ -1119,10 +1122,10 @@ function PrivateOwnerInRoom() {
  * @returns {boolean} - Returns TRUE if the player's lover is inside her private room.
  */
 function PrivateLoverInRoom(L) {
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		if ((PrivateCharacter[C].AccountName == null) && (PrivateCharacter[C].Name != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name) && (CurrentCharacter != null) && (PrivateCharacter[C].ID != CurrentCharacter.ID)) return true;
-		if ((PrivateCharacter[C].AccountName != null) && (Player.GetLoversNumbers()[L] == "NPC-" + PrivateCharacter[C].Name) && (CurrentCharacter == null)) return true;
+	const loverInfo = Player.GetLoversNumbers()[L];
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		if ("NPC-" + character.Name === loverInfo) return true;
 	}
 	return false;
 }
@@ -1142,19 +1145,19 @@ function PrivateRestrainPlayer() {
  * @returns {boolean} - Whether or not any private characters require updating.
  */
 function PrivateRelationDecay() {
-	var MustSave = false;
-	for (let C = 1; C < PrivateCharacter.length; C++) {
-		var LastDecay = NPCEventGet(PrivateCharacter[C], "LastDecay");
+	let MustSave = false;
+	for (const character of PrivateCharacter) {
+		if (character.IsPlayer()) continue;
+		const LastDecay = NPCEventGet(character, "LastDecay");
 		if (LastDecay * CheatFactor("NoLoveDecay", 0) == 0) {
-			NPCEventAdd(PrivateCharacter[C], "LastDecay", CurrentTime);
+			NPCEventAdd(character, "LastDecay", CurrentTime);
 		} else if (LastDecay <= CurrentTime - 7200000) {
-			var Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
-			NPCEventAdd(PrivateCharacter[C], "LastDecay", LastDecay + (Decay * 7200000));
-			NPCLoveChange(PrivateCharacter[C], Decay * -1);
+			const Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
+			NPCEventAdd(character, "LastDecay", LastDecay + (Decay * 7200000));
+			NPCLoveChange(character, Decay * -1);
 			MustSave = true;
-			if ((PrivateCharacter[C].Love <= -100) && (!PrivateCharacter[C].Cage)) {
-				CurrentCharacter = PrivateCharacter[C];
-				PrivateKickOut();
+			if ((character.Love <= -100) && (!character.Cage)) {
+				PrivateKickCharacterOut(character);
 			}
 		}
 	}
@@ -2157,4 +2160,11 @@ function PrivateClubCardKinkyConsequence(Eyes, Strip) {
 	CharacterSetFacialExpression(Player, "Blush", "Medium", 5);
 	CharacterSetFacialExpression(Player, "Eyes", Eyes, 5);
 	CharacterSetFacialExpression(Player, "Eyes2", Eyes, 5);
+}
+
+/**
+ * Checks if the player owns a private room, there's a spot left and they're not locked out of it.
+ */
+function PrivateHasEmptySlot() {
+	return LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule");
 }

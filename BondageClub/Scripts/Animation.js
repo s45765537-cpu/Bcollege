@@ -29,7 +29,7 @@ var AnimationDataTypes = {
  * @returns {string} - Contains the name of the persistent data key.
  */
 function AnimationGetDynamicDataName(C, Type, Asset) {
-	return (Type ? Type + "__" : "") + C.AccountName + (Asset ? "__" + Asset.Group.Name + "__" + Asset.Name : "");
+	return (Type ? Type + "__" : "") + C.CharacterID + (Asset ? "__" + Asset.Group.Name + "__" + Asset.Name : "");
 }
 
 /**
@@ -149,7 +149,7 @@ function AnimationPurge(C, IncludeAll) {
 
 	// Clear no longer needed data (Clear the subscription, then clear the asset data)
 	for (const key in AnimationPersistentStorage) {
-		const isCharDataKey = key.startsWith(AnimationDataTypes.PersistentData + "__" + C.AccountName + "__");
+		const isCharDataKey = key.startsWith(AnimationDataTypes.PersistentData + "__" + C.CharacterID + "__");
 		if (isCharDataKey && !PossibleData.includes(key)) {
 			const Group = AnimationPersistentStorage[key].Group;
 			if (Group && Array.isArray(Group.Subscriptions)) {
@@ -161,7 +161,7 @@ function AnimationPurge(C, IncludeAll) {
 
 	// Clear no longer needed cached canvases
 	GLDrawImageCache.forEach((img, key) => {
-		if (key.startsWith(AnimationDataTypes.Canvas + "__" + + C.AccountName + "__") && !PossibleCanvas.includes(key)) {
+		if (key.startsWith(AnimationDataTypes.Canvas + "__" + + C.CharacterID + "__") && !PossibleCanvas.includes(key)) {
 			GLDrawImageCache.delete(key);
 		}
 	});

@@ -1173,7 +1173,8 @@ function CraftingConvertItemToSelected(Craft) {
  * @returns {void} - Nothing
  */
 function CraftingExit() {
-	CharacterDelete(CraftingPreview.AccountName);
+	CharacterDelete(CraftingPreview);
+	CraftingPreview = null;
 	CraftingReorderModeSet("None");
 	CraftingModeSet("Slot");
 	if (CraftingReturnToChatroom)

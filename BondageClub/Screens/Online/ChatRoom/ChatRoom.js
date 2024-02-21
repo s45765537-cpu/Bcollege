@@ -2368,8 +2368,8 @@ function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
  */
 function ChatRoomCharacterUpdate(C) {
 	if (ChatRoomAllowCharacterUpdate) {
-		var data = {
-			ID: (C.IsPlayer()) ? Player.OnlineID : C.AccountName.replace("Online-", ""),
+		const data = {
+			ID: C.CharacterID,
 			ActivePose: C.ActivePose,
 			Appearance: ServerAppearanceBundle(C.Appearance)
 		};

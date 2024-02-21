@@ -63,7 +63,7 @@ function KidnapLeagueBountyWasDefeat() { return ((ReputationGet("Kidnap") > 0) &
  * Checks if a NPC can be transfered to the player's private room.
  * @returns {boolean} - Returns TRUE if the player has an accessible private room and a free spot for a NPC.
  */
-function KidnapLeagueCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function KidnapLeagueCanTransferToRoom() { return PrivateHasEmptySlot(); }
 /**
  * Checks if the NPC will not visit the player's private room.
  * @returns {boolean} - Returns TRUE if the NPC won't come to the private room even if it's possible
@@ -209,8 +209,8 @@ function KidnapLeagueClick() {
  */
 function KidnapLeagueTakeBounty(Difficulty) {
 	KidnapLeagueBountyDifficulty = parseInt(Difficulty) + Math.floor(Math.random() * 4);
-	KidnapLeagueBounty = null;
-	CharacterDelete("NPC_KidnapLeague_RandomKidnapper");
+	CharacterDelete(KidnapLeagueBounty);
+
 	KidnapLeagueBounty = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
 	KidnapLeagueBountyLocation = CommonRandomItemFromList(KidnapLeagueBountyLocation, KidnapLeagueBountyLocationList);
 	KidnapLeagueArchetype = (KidnapLeagueBountyLocation == "MaidQuarters") ? "Maid" : null;
@@ -341,8 +341,8 @@ function KidnapLeagueRandomIntro() {
 	// Sets the kidnapping scene
 	CommonSetScreen("Room", "KidnapLeague");
 	KidnapLeagueBackground = "MainHall";
-	KidnapLeagueRandomKidnapper = null;
-	CharacterDelete("NPC_KidnapLeague_RandomKidnapper");
+	CharacterDelete(KidnapLeagueRandomKidnapper);
+
 	KidnapLeagueRandomKidnapper = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
 

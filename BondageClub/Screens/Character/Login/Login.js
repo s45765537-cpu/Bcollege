@@ -19,6 +19,7 @@ var LoginThankYouNext = 0;
 var LoginSubmitted = false;
 var LoginIsRelog = false;
 var LoginErrorMessage = "";
+/** @type {NPCCharacter} */
 var LoginCharacter = null;
 let LoginTextCacheUnsubscribeCallback;
 
@@ -102,8 +103,10 @@ function LoginLoad() {
 
 	// Resets the player and other characters
 	Character = [];
-	CharacterNextId = 1;
-	CharacterReset(0, "Female3DCG");
+	CharacterNextId = 0;
+	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, ""));
+	CharacterAppearanceSetDefault(Player);
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
@@ -625,6 +628,7 @@ function LoginResponse(C) {
 		if (RelogData != null) {
 			LoginUpdateMessage();
 			ElementRemove("InputPassword");
+			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			CurrentCharacter = RelogData.Character;
 			CommonSetScreen(RelogData.Module, RelogData.Screen);
@@ -662,6 +666,7 @@ function LoginResponse(C) {
 			Player.Creation = C.Creation;
 			Player.Wardrobe = CharacterDecompressWardrobe(C.Wardrobe);
 			WardrobeFixLength();
+			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
 			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
@@ -814,6 +819,7 @@ function LoginResponse(C) {
 			ElementRemove("InputName");
 			ElementRemove("InputPassword");
 			CharacterDelete(LoginCharacter);
+			LoginCharacter = null;
 			if (ManagementIsClubSlave()) CharacterNaked(Player);
 
 			// Starts the game in the main hall while loading characters in the private room
@@ -821,7 +827,7 @@ function LoginResponse(C) {
 			PrivateCharacter.push(Player);
 			if (C.PrivateCharacter != null)
 				for (let P = 0; P < C.PrivateCharacter.length; P++)
-					PrivateCharacter.push(C.PrivateCharacter[P]);
+					PrivateCharacterShouldSync = PrivateLoadCharacter(C.PrivateCharacter[P]) || PrivateCharacterShouldSync;
 			SarahSetStatus();
 
 			// Fixes a few items

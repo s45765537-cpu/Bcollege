@@ -249,11 +249,8 @@ function MagicSchoolLaboratoryBuildSister() {
 	if (ReputationGet("HouseVincula") > 0) NPCHouse = "Vincula";
 	if (ReputationGet("HouseAmplector") > 0) NPCHouse = "Amplector";
 	if (ReputationGet("HouseCorporis") > 0) NPCHouse = "Corporis";
-	CharacterDelete("NPC_MagicSchoolLaboratory_Sister");
-	if (MagicSchoolLaboratoryStudent != null) {
-		delete CommonCSVCache["Screens/Room/MagicSchoolLaboratory/Dialog_NPC_MagicSchoolLaboratory_Sister.csv"];
-		CharacterRandomName(MagicSchoolLaboratoryStudent);
-	}
+	CharacterDelete(MagicSchoolLaboratoryStudent);
+
 	MagicSchoolLaboratoryStudent = CharacterLoadNPC("NPC_MagicSchoolLaboratory_Sister");
 	CharacterRelease(MagicSchoolLaboratoryStudent);
 	MagicSchoolLaboratoryPrepareNPC(MagicSchoolLaboratoryStudent, NPCHouse);
@@ -305,11 +302,9 @@ function MagicSchoolLaboratoryFindStudent() {
 	/** @type {MagicSchoolHouse} */
 	let NPCHouse = CommonRandomItemFromList(null, Houses);
 	let NPCType = (ReputationGet(`House${NPCHouse}`) >= 100) ? "Master" : "Student";
-	CharacterDelete("NPC_MagicSchoolLaboratory_" + NPCType);
-	if (MagicSchoolLaboratoryStudent != null) {
-		delete CommonCSVCache["Screens/Room/MagicSchoolLaboratory/Dialog_NPC_MagicSchoolLaboratory_" + NPCType + ".csv"];
-		CharacterRandomName(MagicSchoolLaboratoryStudent);
-	}
+
+	CharacterDelete(MagicSchoolLaboratoryStudent);
+
 	MagicSchoolLaboratoryStudent = CharacterLoadNPC("NPC_MagicSchoolLaboratory_" + NPCType);
 	CharacterRelease(MagicSchoolLaboratoryStudent);
 	MagicSchoolLaboratoryPrepareNPC(MagicSchoolLaboratoryStudent, NPCHouse);
@@ -399,9 +394,7 @@ function MagicSchoolLaboratoryStudentEmote(Blush, Eyes) {
  * Checks, if the player can bring the student to her private room
  * @returns {boolean} - Returns true, if the player can
  */
-function MagicSchoolLaboratoryCanTransferToRoom() {
-	return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule"));
-}
+function MagicSchoolLaboratoryCanTransferToRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Triggered when the player transfers the student to her private room

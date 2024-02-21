@@ -1133,19 +1133,61 @@ interface DialogInfo {
 	name: string;
 }
 
+/** The packed representation of a Private Room NPC */
+interface PrivateCharacterData {
+	Name: string;
+	Love: number;
+	Title: TitleName;
+	Trait: NPCTrait[];
+	Cage: boolean;
+	Owner: string;
+	Lover: string;
+	AssetFamily: "Female3DCG";
+	Appearance: AppearanceBundle,
+	AppearanceFull: AppearanceBundle,
+	ArousalSettings: Character["ArousalSettings"];
+	Event: NPCTrait[];
+	FromPandora?: boolean;
+}
+
 interface Character {
+	/**
+	 * The character's cache slot ID in the Character array
+	 *
+	 * Usually meaningless, except that ID 0 is always the player,
+	 * but please use `IsPlayer()` instead of checking that.
+	 */
 	ID: number;
-	/** Only on `Player` */
-	OnlineID?: string;
+	/**
+	 * The unique identifier for the character
+	 *
+	 * A value of `""` indicates the player before the login happens
+	 */
+	CharacterID: string;
+	/** The type of character: online, npc, or simple */
 	Type: CharacterType;
+	/**
+	 * The character's account name
+	 *
+	 * Note that it's only meaningful for the logged in player as the server never provides account names.
+	 * Online characters will use `"Online-"` plus their character ID, NPCs will have their dialog identifier,
+	 * and simple characters set it to CharacterID.
+	 */
+	AccountName: string;
 	/**
 	 * The character's loaded dialog info
 	 */
 	DialogInfo?: DialogInfo;
+	/**
+	 * A deprecated identifier for online characters
+	 * Only exists on the player, has the same value as their character ID.
+	 * @deprecated
+	 */
+	OnlineID?: string;
+	/** The asset family used by the character */
+	AssetFamily: IAssetFamily;
 	Name: string;
 	Nickname?: string;
-	AssetFamily: IAssetFamily;
-	AccountName: string;
 	Owner: string;
 	Lover: string;
 	Money: number;

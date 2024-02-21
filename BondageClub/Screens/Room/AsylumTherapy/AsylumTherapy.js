@@ -278,6 +278,5 @@ function AsylumTherapyPatientNew() {
 	CharacterAppearanceFullRandom(AsylumTherapyPatient);
 	AsylumEntranceWearPatientClothes(AsylumTherapyPatient);
 	AsylumTherapyPatient.AllowItem = false;
-	CharacterRandomName(AsylumTherapyPatient);
 	if (CurrentCharacter != null) DialogLeave();
 }

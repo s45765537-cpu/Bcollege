@@ -18,7 +18,7 @@ function AsylumEntranceCanWander() { return (Player.CanWalk() && ((LogValue("Com
  * Checks, if the player can bring the nurse to her private room
  * @returns {boolean} - Returns true, if the player can drag the nurse to her private roo, false otherwise
  */
-function AsylumEntranceCanTransferToRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function AsylumEntranceCanTransferToRoom() { return PrivateHasEmptySlot(); }
 /**
  * CHecks if the player can kiss the nurse
  * @returns {boolean} - Returns true, if the player can kiss the nurse, false otherwise
@@ -346,8 +346,8 @@ function AsylumEntranceRecommit() {
 function AsylumEntranceNurseCatchEscapedPlayer() {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	AsylumEntranceKidnapNurse = null;
-	CharacterDelete("NPC_AsylumEntrance_KidnapNurse");
+	CharacterDelete(AsylumEntranceKidnapNurse);
+
 	AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
 	AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
 	AsylumEntranceKidnapNurse.Stage = "0";
@@ -447,8 +447,8 @@ function AsylumEntranceBackAsPatient() {
 function AsylumEntranceEscapedPatientMeet() {
 	CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceBackground = "MainHall";
-	AsylumEntranceEscapedPatient = null;
-	CharacterDelete("NPC_AsylumEntrance_EscapedPatient");
+	CharacterDelete(AsylumEntranceEscapedPatient);
+
 	AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
 	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
 	AsylumEntranceEscapedPatient.Stage = "0";
