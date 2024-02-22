@@ -435,6 +435,12 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	Name: string,
 
 	/**
+	 * The group name and asset name of a configuration to copy.
+	 * Useful if multiple items share the same config.
+	 */
+	CopyConfig?: { GroupName?: AssetGroupName, AssetName: string };
+
+	/**
 	 * Link an asset to another.
 	 *
 	 * Used for the random appearance generator, to ensure combined assets match.
