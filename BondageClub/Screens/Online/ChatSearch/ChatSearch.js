@@ -1,8 +1,14 @@
 "use strict";
+
+/**
+ * @file This file handles the chat lobby search & filter screen
+ */
+
+/** Background image */
 var ChatSearchBackground = "Introduction";
-/** @type {(ServerChatRoomSearchData & { DisplayName: string, Order: number })[]} */
+/** @type {ChatRoomSearchResult[]} */
 var ChatSearchResult = [];
-/** @type {typeof ChatSearchResult} */
+/** @type {ChatRoomSearchResult[]} */
 var ChatSearchHiddenResult = [];
 /** @type {null | { Query: string, Language: "" | ServerChatRoomLanguage, Space: ServerChatRoomSpace, Game: ServerChatRoomGame, FullRooms: boolean }} */
 var ChatSearchLastSearchDataJSON = null;
@@ -10,9 +16,25 @@ var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
 var ChatSearchResultOffset = 0;
-var ChatSearchRoomsPerPage = 21;
+/** The room grid's left offset */
 var ChatSearchPageX = 25;
+/** The room grid's top offset */
 var ChatSearchPageY = 135;
+/**
+ * Layout parameters for the room grid
+ * @type {CommonGenerateGridParameters}
+ */
+var ChatSearchListParams = {
+	x: ChatSearchPageX,
+	y: ChatSearchPageY,
+	width: MainCanvasWidth - 2 * ChatSearchPageX,
+	height: 679,
+	itemWidth: 630,
+	itemHeight: 85,
+	minMarginY: 24,
+};
+/** Pre-calculated. Must be updated if you change the grid parameters */
+var ChatSearchRoomsPerPage = 21;
 var ChatSearchMessage = "";
 var ChatSearchLeaveRoom = "MainHall";
 /** @type {ModuleType} */
@@ -480,89 +502,82 @@ function ChatSearchFilterUnhideConfirmDraw() {
 function ChatSearchNormalDraw() {
 
 	// If we can show the chat room search result in normal mode
-	if ((ChatSearchResult.length >= 1)) {
+	if (ChatSearchResult.length === 0) {
+		DrawText(TextGet("NoChatRoomFound"), 1000, 450, "White", "Gray");
+		return;
+	}
 
-		// Show up to 24 results
-		var X = ChatSearchPageX;
-		var Y = ChatSearchPageY;
-		for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
+	CommonGenerateGrid(ChatSearchResult, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
+		const hasFriends = room.Friends.length > 0;
+		const isFull = room.MemberCount >= room.MemberLimit;
+		const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
+		const hasMap = room.MapType === "Always" || room.MapType === "Hybrid";
 
-			// Draw the room rectangle
-			var HasFriends = ChatSearchResult[C].Friends != null && ChatSearchResult[C].Friends.length > 0;
-			var IsFull = ChatSearchResult[C].MemberCount >= ChatSearchResult[C].MemberLimit;
-			var HasBlock = CharacterHasBlockedItem(Player, ChatSearchResult[C].BlockCategory);
-			DrawButton(X, Y, 630, 85, "", (HasBlock && IsFull ? "#884444" : HasBlock ? "#FF9999" : HasFriends && IsFull ? "#448855" : HasFriends ? "#CFFFCF" : IsFull ? "#666" : "White"), null, null, IsFull);
+		let bgColor;
+		if (isBlocked) {
+			bgColor = isFull ? "#884444" : "#FF9999";
+		} else if (hasFriends) {
+			bgColor = isFull ? "#448855" : "#CFFFCF";
+		} else {
+			bgColor = isFull ? "#666" : "White";
+		}
 
-			// Draws a map icon if a map is present
-			if ((ChatSearchResult[C].MapType === "Always") || (ChatSearchResult[C].MapType === "Hybrid")) {
-				DrawImage("Icons/MapType" + ChatSearchResult[C].MapType + ".png", X + 2, Y + 2);
-				DrawTextFit((ChatSearchResult[C].Friends != null && ChatSearchResult[C].Friends.length > 0 ? "(" + ChatSearchResult[C].Friends.length + ") " : "") + ChatSearchMuffle(ChatSearchResult[C].DisplayName) + " - " + ChatSearchMuffle(ChatSearchResult[C].Creator) + " " + ChatSearchResult[C].MemberCount + "/" + ChatSearchResult[C].MemberLimit + "", X + 355, Y + 25, 540, "black");
-				DrawTextFit(ChatSearchMuffle(ChatSearchResult[C].Description), X + 355, Y + 62, 540, "black");
-			} else {
-				DrawTextFit((ChatSearchResult[C].Friends != null && ChatSearchResult[C].Friends.length > 0 ? "(" + ChatSearchResult[C].Friends.length + ") " : "") + ChatSearchMuffle(ChatSearchResult[C].DisplayName) + " - " + ChatSearchMuffle(ChatSearchResult[C].Creator) + " " + ChatSearchResult[C].MemberCount + "/" + ChatSearchResult[C].MemberLimit + "", X + 315, Y + 25, 540, "black");
-				DrawTextFit(ChatSearchMuffle(ChatSearchResult[C].Description), X + 315, Y + 62, 620, "black");
+		DrawButton(x, y, width, height, "", bgColor, null, null, isFull);
+
+		let descOffsetX = 315;
+		let descWidth = 620;
+		if (hasMap) {
+			DrawImage("Icons/MapType" + room.MapType + ".png", x + 2, y + 2);
+			descOffsetX += 40;
+			descWidth -= 2 * 40; // centered
+		}
+		const label = `${(hasFriends ? "(" + room.Friends.length + ") " : "")}${ChatSearchMuffle(room.DisplayName)} - ${ChatSearchMuffle(room.Creator)} ${room.MemberCount}/${room.MemberLimit}`;
+
+		DrawTextFit(label, x + descOffsetX, y + 25, descWidth, "black");
+		DrawTextFit(ChatSearchMuffle(room.Description), x + descOffsetX, y + 62, descWidth, "black");
+
+		if (!CommonIsMobile && MouseIn(x, y, width, height)) {
+			// Builds the friend list as hover text
+			/** @type {{ text: string; color: string}[]} */
+			let blocksText = [];
+			if (room.Friends.length > 0) {
+				let friendsText = TextGet("FriendsInRoom") + " ";
+				friendsText += room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ");
+				blocksText.push({ text: friendsText, color: "#FFFF88"});
 			}
 
-			// Moves the next window position
-			X = X + 660;
-			if (X > 1500) {
-				X = 25;
-				Y = Y + 109;
+			// Builds the blocked categories list below it
+			if (room.BlockCategory.length > 0) {
+				let blockedText = TextGet("Block") + " ";
+				blockedText += room.BlockCategory.map(c => TextGet(c)).join(", ");
+				blocksText.push({ text: blockedText, color: "#FF9999" });
+			}
+
+			// Builds the game box below it
+			if (room.Game != "") {
+				const gameText = TextGet("GameLabel") + " " + TextGet("Game" + room.Game);
+				blocksText.push({ text: gameText, color: "#9999FF"});
+			}
+
+			// Determine the hover text starting position to ensure there's enough room
+			const hoverHeight = 58;
+			const hoverPadding = 4;
+			let hoverY = y + ChatSearchListParams.itemHeight + 8;
+
+			if (hoverY + (blocksText.length + 1) * (hoverHeight + hoverPadding) > MainCanvasHeight) {
+				// Place the hover group over the item to stop it from going outside the canvas
+				hoverY = y - blocksText.length * (hoverHeight + hoverPadding);
+			}
+
+			for (const { text, color } of blocksText) {
+				const itemY = hoverY; // Copy here to "fix" the value inside the callback
+				DrawHoverElements.push(() => DrawTextWrap(text, x, itemY, width, hoverHeight, "Black", color, 1));
+				hoverY += hoverHeight + hoverPadding;
 			}
 		}
 
-		// Draws the hovering text of friends in the current room
-		if (!CommonIsMobile && MouseIn(25, 25, 1950, 850)) {
-
-			// Finds the room where the mouse is hovering
-			X = ChatSearchPageX;
-			Y = ChatSearchPageY;
-			for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
-
-				// Determine the hover text starting position to ensure there's enough room
-				let Height = 58;
-				let ListHeight = Height * (
-					(ChatSearchResult[C].Friends.length > 0 ? 1 : 0) + ChatSearchResult[C].Friends.length
-					+ (ChatSearchResult[C].BlockCategory.length > 0 ? 1 : 0)
-					+ (ChatSearchResult[C].Game != "" ? 1 : 0));
-				let ListY = Math.min(Y, 872 - ListHeight);
-
-				// Builds the friend list as hover text
-				if (MouseIn(X, Y, 630, 85) && ChatSearchResult[C].Friends != null && ChatSearchResult[C].Friends.length > 0) {
-					DrawTextWrap(TextGet("FriendsInRoom") + " " + ChatSearchMuffle(ChatSearchResult[C].DisplayName), (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#FFFF88", 1);
-					ListY += Height;
-					for (let F = 0; F < ChatSearchResult[C].Friends.length; F++) {
-						DrawTextWrap(ChatSearchMuffle(ChatSearchResult[C].Friends[F].MemberName + " (" + ChatSearchResult[C].Friends[F].MemberNumber + ")"), (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#FFFF88", 1);
-						ListY += Height;
-					}
-				}
-
-				// Builds the blocked categories list below it
-				if (MouseIn(X, Y, 630, 85) && (ChatSearchResult[C].BlockCategory != null) && (ChatSearchResult[C].BlockCategory.length > 0)) {
-					let Block = TextGet("Block");
-					for (let B = 0; B < ChatSearchResult[C].BlockCategory.length; B++)
-						Block = Block + ((B > 0) ? ", " : " ") + TextGet(ChatSearchResult[C].BlockCategory[B]);
-					DrawTextWrap(Block, (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#FF9999", 1);
-					ListY += Height;
-				}
-
-				// Builds the game box below it
-				if (MouseIn(X, Y, 630, 85) && (ChatSearchResult[C].Game != null) && (ChatSearchResult[C].Game != "")) {
-					DrawTextWrap(TextGet("GameLabel") + " " + TextGet("Game" + ChatSearchResult[C].Game), (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#9999FF", 1);
-					ListY += Height;
-				}
-
-				// Moves the next window position
-				X = X + 660;
-				if (X > 1500) {
-					X = 25;
-					Y = Y + 109;
-				}
-			}
-
-		}
-
-	} else DrawText(TextGet("NoChatRoomFound"), 1000, 450, "White", "Gray");
+		return false;
+	});
 }
 
 /**
@@ -591,80 +606,43 @@ function ChatSearchPermissionDraw() {
 		return;
 	}
 
-	let X = ChatSearchPageX;
-	let Y = ChatSearchPageY;
-	let ShownRooms = 0;
+	const roomList = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 
-	if (!ChatSearchShowHiddenRoomsActive) {
-		// Show currently visible rooms
-
-		for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && ShownRooms < ChatSearchRoomsPerPage; C++) {
-			let Hover = (MouseX >= X) && (MouseX <= X + 630) && (MouseY >= Y) && (MouseY <= Y + 85) && !CommonIsMobile;
-			// Draw the room rectangle
-			DrawRect(X, Y, 630, 85, Hover ? "green" : "lime");
-			DrawTextFit(ChatSearchMuffle(ChatSearchResult[C].DisplayName) + " - " + ChatSearchMuffle(ChatSearchResult[C].Creator) + " (" + ChatSearchResult[C].CreatorMemberNumber + ")", X + 315, Y + 25, 620, "black");
-			DrawTextFit(ChatSearchMuffle(ChatSearchResult[C].Description), X + 315, Y + 62, 620, "black");
-
-			// Moves the next window position
-			X = X + 660;
-			if (X > 1500) {
-				X = 25;
-				Y = Y + 109;
-			}
-			ShownRooms++;
+	CommonGenerateGrid(roomList, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
+		const Hover = MouseIn(x, y, width, height) && !CommonIsMobile;
+		let bgColor;
+		if (ChatSearchShowHiddenRoomsActive) {
+			bgColor = Hover ? "red" : "pink";
+		} else {
+			bgColor = Hover ? "green" : "lime";
 		}
-	} else {
-		// Show hidden rooms
+		// Draw the room rectangle
+		DrawRect(x, y, 630, 85, bgColor);
+		const label = `${ChatSearchMuffle(room.DisplayName)} - ${ChatSearchMuffle(room.Creator)} (${room.CreatorMemberNumber})`;
+		DrawTextFit(label, x + 315, y + 25, 620, "black");
+		DrawTextFit(ChatSearchMuffle(room.Description), x + 315, y + 62, 620, "black");
 
-		for (let C = ChatSearchResultOffset; C < ChatSearchHiddenResult.length && ShownRooms < ChatSearchRoomsPerPage; C++) {
-			let Hover = (MouseX >= X) && (MouseX <= X + 630) && (MouseY >= Y) && (MouseY <= Y + 85) && !CommonIsMobile;
+		if (ChatSearchShowHiddenRoomsActive && MouseIn(x, y, width, height)) {
+			const filterReasons = ChatSearchGetFilterReasons(room);
 
-			// Draw the room rectangle
-			DrawRect(X, Y, 630, 85, Hover ? "red" : "pink");
-			DrawTextFit(ChatSearchMuffle(ChatSearchHiddenResult[C].DisplayName) + " - " + ChatSearchMuffle(ChatSearchHiddenResult[C].Creator) + " (" + ChatSearchHiddenResult[C].CreatorMemberNumber + ")", X + 315, Y + 25, 620, "black");
-			DrawTextFit(ChatSearchMuffle(ChatSearchHiddenResult[C].Description), X + 315, Y + 62, 620, "black");
+			// Determine the hover text starting position to ensure there's enough room
+			let hoverHeight = 58;
+			let hoverY = y + ChatSearchListParams.itemHeight + 8;
 
-			// Moves the next window position
-			X = X + 660;
-			if (X > 1500) {
-				X = 25;
-				Y = Y + 109;
+			let reasons = "";
+			if (filterReasons.length > 0) {
+				reasons += TextGet("FilteredBecause") + " ";
+				reasons += filterReasons.map(r => TextGet(`FilterReason${r}`));
 			}
-			ShownRooms++;
-		}
 
-		// Draws the hovering text of why the room is hidden
-		if (!CommonIsMobile && MouseIn(25, 25, 1950, 850)) {
-			// Finds the room where the mouse is hovering
-			X = ChatSearchPageX;
-			Y = ChatSearchPageY;
-			for (let C = ChatSearchResultOffset; C < ChatSearchHiddenResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
-				const Reasons = ChatSearchGetFilterReasons(ChatSearchHiddenResult[C]);
-
-				// Determine the hover text starting position to ensure there's enough room
-				let Height = 58;
-				let ListHeight = Height * ((Reasons.length > 0 ? 1 : 0) + Reasons.length);
-				let ListY = Math.min(Y, 872 - ListHeight);
-
-				// Builds the reason list as hover text
-				if (MouseIn(X, Y, 630, 85) && Reasons.length > 0) {
-					DrawTextWrap(TextGet("FilteredBecause"), (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#FFFF88", 1);
-					ListY += Height;
-					for (let F = 0; F < Reasons.length; F++) {
-						DrawTextWrap(TextGet("FilterReason" + Reasons[F]), (X > 1000) ? 685 : X + 660, ListY, 630, Height, "black", "#FFFF88", 1);
-						ListY += Height;
-					}
-				}
-
-				// Moves the next window position
-				X = X + 660;
-				if (X > 1500) {
-					X = 25;
-					Y = Y + 109;
-				}
+			if (reasons !== "") {
+				DrawTextWrap(reasons, x, hoverY, width, hoverHeight, "black", "#FFFF88", 1);
+				hoverY += hoverHeight;
 			}
 		}
-	}
+
+		return false;
+	});
 }
 
 /**
@@ -672,31 +650,18 @@ function ChatSearchPermissionDraw() {
  * @returns {void} - Nothing
  */
 function ChatSearchJoin() {
-
 	// Scans results
-	var X = ChatSearchPageX;
-	var Y = ChatSearchPageY;
-	for (let C = ChatSearchResultOffset; C < ChatSearchResult.length && C < (ChatSearchResultOffset + ChatSearchRoomsPerPage); C++) {
-
-		// If the player clicked on a valid room
-		if ((MouseX >= X) && (MouseX <= X + 630) && (MouseY >= Y) && (MouseY <= Y + 85)) {
-			var RoomName = ChatSearchResult[C].Name;
-			if (ChatSearchLastQueryJoin != RoomName || (ChatSearchLastQueryJoin == RoomName && ChatSearchLastQueryJoinTime + 1000 < CommonTime())) {
-				ChatSearchLastQueryJoinTime = CommonTime();
-				ChatSearchLastQueryJoin = RoomName;
-				ServerSend("ChatRoomJoin", { Name: RoomName });
-				ChatRoomPingLeashedPlayers();
-			}
-
+	CommonGenerateGrid(ChatSearchResult, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
+		if (!MouseIn(x, y, width, height)) return false;
+		const RoomName = room.Name;
+		if (ChatSearchLastQueryJoin != RoomName || (ChatSearchLastQueryJoin == RoomName && ChatSearchLastQueryJoinTime + 1000 < CommonTime())) {
+			ChatSearchLastQueryJoinTime = CommonTime();
+			ChatSearchLastQueryJoin = RoomName;
+			ServerSend("ChatRoomJoin", { Name: RoomName });
+			ChatRoomPingLeashedPlayers();
 		}
-
-		// Moves the next window position
-		X = X + 660;
-		if (X > 1500) {
-			X = 25;
-			Y = Y + 109;
-		}
-	}
+		return true;
+	});
 }
 
 /**
@@ -786,44 +751,32 @@ function ChatSearchFilterChangeHandler() {
  * @returns {void} - Nothing
  */
 function ChatSearchClickPermission() {
-	const Result = (ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult);
-
 	// Scans results + hidden rooms
-	var X = ChatSearchPageX;
-	var Y = ChatSearchPageY;
-	var ShownRooms = 0;
-	for (let C = ChatSearchResultOffset; C < Result.length && ShownRooms < ChatSearchRoomsPerPage; C++) {
+	const roomList = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 
-		// If the player clicked on an existing room
-		if ((MouseX >= X) && (MouseX <= X + 630) && (MouseY >= Y) && (MouseY <= Y + 85)) {
-			if (ChatSearchShowHiddenRoomsActive) {
-				ChatSearchClickUnhideRoom(C, false);
+	CommonGenerateGrid(roomList, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
+		if (!MouseIn(x, y, width, height)) return false;
+		// The player clicked on an existing room
+		if (ChatSearchShowHiddenRoomsActive) {
+			ChatSearchClickUnhideRoom(room, false);
+		} else {
+			// Do what player has chosen to do when clicking a room to hide it
+			if (ChatSearchGhostPlayerOnClickActive) {
+				// Add the room's creator to ghostlist
+				ChatRoomListManipulation(Player.GhostList, true, "" + room.CreatorMemberNumber);
 			} else {
-				// Do what player has chosen to do when clicking a room to hide it
-				const Room = ChatSearchResult[C];
-				if (ChatSearchGhostPlayerOnClickActive) {
-					// Add the room's creator to ghostlist
-					ChatRoomListManipulation(Player.GhostList, true, "" + Room.CreatorMemberNumber);
-				} else {
-					// Just temp hide the room
-					ChatSearchTempHiddenRooms.push(Room.CreatorMemberNumber);
-				}
-				// Move the room from the normal result to the hidden result
-				ChatSearchHiddenResult.push(Room);
-				ChatSearchResult.splice(C, 1);
+				// Just temp hide the room
+				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
 			}
-			// Return early because we changed the list so it's no longer valid
-			return;
+			// Move the room from the normal result to the hidden result
+			ChatSearchHiddenResult.push(room);
+			const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
+			if (roomIdx >= 0) {
+				ChatSearchResult.splice(roomIdx, 1);
+			}
 		}
-
-		// Moves the next window position
-		X = X + 660;
-		if (X > 1500) {
-			X = 25;
-			Y = Y + 109;
-		}
-		ShownRooms++;
-	}
+		return true;
+	});
 }
 
 /**
@@ -831,11 +784,15 @@ function ChatSearchClickPermission() {
  * Shows a confirmation screen first, unless the only reason is "TempHidden".
  * This is called when clicking a room in the list and also, if a confirmation is shown, called again when the confirm button is clicked.
  *
- * @param {number} C - Index of the room within ChatSearchHiddenResult
+ * @param {ChatRoomSearchResult | number} C - Index of the room within ChatSearchHiddenResult
  * @param {boolean} Confirmed - False when clicking on room list, true when clicking Confirm button
  */
 function ChatSearchClickUnhideRoom(C, Confirmed) {
-	const Room = ChatSearchHiddenResult[C];
+	/** @type {ChatRoomSearchResult} */
+	const Room = typeof C === "number" ? ChatSearchHiddenResult[C] : C;
+	const roomIdx = ChatSearchHiddenResult.findIndex(r => r.Name === Room.Name);
+	if (roomIdx === -1) return false;
+
 	const Reasons = ChatSearchGetFilterReasons(Room);
 	const ReasonsHasWord = (Reasons.indexOf("Word") != -1);
 	const ReasonsHasTempHidden = (Reasons.indexOf("TempHidden") != -1);
@@ -857,10 +814,10 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 	// If not confirmed, store data for later and show confirm screen
 	if (!Confirmed) {
-		const MemberLabel = ChatSearchMuffle(ChatSearchHiddenResult[C].Creator) + " (" + ChatSearchHiddenResult[C].CreatorMemberNumber + ")";
+		const MemberLabel = ChatSearchMuffle(Room.Creator) + " (" + Room.CreatorMemberNumber + ")";
 		let UnhideConfirm = {
-			Index: C,
-			RoomLabel: ChatSearchMuffle(ChatSearchHiddenResult[C].DisplayName) + " - " + MemberLabel,
+			Index: roomIdx,
+			RoomLabel: ChatSearchMuffle(Room.DisplayName) + " - " + MemberLabel,
 			MemberLabel: "",
 			WordsLabel: "",
 		};
@@ -891,7 +848,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 	// Move the room from the hidden result to the normal result
 	ChatSearchResult.push(Room);
-	ChatSearchHiddenResult.splice(C, 1);
+	ChatSearchHiddenResult.splice(roomIdx, 1);
 }
 
 /**
@@ -1132,7 +1089,7 @@ function ChatSearchApplyFilterTerms() {
  * @returns {string[]} - list of reasons
  */
 function ChatSearchGetFilterReasons(Room) {
-	var Reasons = [];
+	const Reasons = [];
 
 	// for an exact room name match, ignore filters
 	if (ChatSearchMode == "" && Room.Name.toUpperCase() == ElementValue("InputSearch").toUpperCase().trim())

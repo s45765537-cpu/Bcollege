@@ -190,6 +190,8 @@ interface CommonGenerateGridParameters {
 	 * @default "horizontal"
 	 */
 	direction?: "horizontal" | "vertical";
+	minMarginX?: number;
+	minMarginY?: number;
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
@@ -574,6 +576,9 @@ type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanE
 
 type ChatRoom = ServerChatRoomData;
 type ChatRoomSettings = ServerChatRoomSettings;
+
+/** ChatRoom results once received by the client */
+type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
 
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 

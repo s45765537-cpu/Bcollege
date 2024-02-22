@@ -1209,10 +1209,12 @@ function CommonFromEntries(iterable) {
  */
 function CommonGenerateGridCoords(nItems, grid) {
 	// Calculate horizontal & vertical margins
+	const minMarginX = grid.minMarginX ?? 0;
+	const minMarginY = grid.minMarginY ?? 0;
 	const itemCountX = Math.floor(grid.width / grid.itemWidth);
-	const marginX = grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
+	const marginX = Math.max(minMarginX, grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1));
 	const itemCountY = Math.floor(grid.height / grid.itemHeight);
-	const marginY = grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const marginY = Math.max(minMarginY, grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1));
 	const direction = grid.direction ?? "horizontal";
 
 	/** @type {RectTuple[]} */
