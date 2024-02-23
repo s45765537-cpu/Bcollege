@@ -49,6 +49,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	Title?: TitleName;
 	Nickname?: string;
 	Crafting?: string;
+	/** String-based values have been deprecated as of BondageProjects/Bondage-College#2138 */
 	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
 	AssetFamily?: "Female3DCG";
 	Infiltration?: InfiltrationType;
@@ -121,7 +122,11 @@ type ServerAccountDataDeprecations = (
  *
  * Use of this type over {@link ServerAccountData} is recommended when sending data *to* the server.
  */
-type ServerAccountDataNoDeprecated = ServerAccountData & { [k in ServerAccountDataDeprecations]?: never };
+type ServerAccountDataNoDeprecated = ServerAccountData & { [k in ServerAccountDataDeprecations]?: never } & {
+	// Fields with one or more deprecated union members removed
+	LastChatRoom?: null | ServerChatRoomSettings;
+	Inventory?: Partial<Record<AssetGroupName, string[]>>;
+};
 
 interface ServerMapDataResponse {
 	MemberNumber: number;

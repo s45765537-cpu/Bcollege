@@ -793,9 +793,22 @@ function LoginResponse(C) {
 
 			// Loads the player character model and data
 			const craftingDecompressed = CraftingDecompressServerData(C.Crafting);
-			LoginPerformInventoryFixups(C.Inventory, C.Appearance, craftingDecompressed);
+
+			/** @type {Partial<Record<AssetGroupName, string[]>>} */
+			let inventory = {};
+			if (typeof C.Inventory === "string") {
+				try {
+					inventory = JSON.parse(LZString.decompressFromUTF16(C.Inventory));
+				} catch(err) {
+					console.warn("Error while loading compressed inventory, no inventory loaded.", err);
+				}
+			} else {
+				inventory = C.Inventory;
+			}
+
+			LoginPerformInventoryFixups(inventory, C.Appearance, craftingDecompressed);
 			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-			InventoryLoad(Player, C.Inventory);
+			InventoryLoad(Player, inventory);
 			LogLoad(C.Log);
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
