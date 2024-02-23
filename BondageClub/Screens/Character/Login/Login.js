@@ -724,6 +724,7 @@ function LoginResponse(C) {
 				Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
 			}
 
+			// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
 			// Ensures lovership data is compatible and converts lovers to lovership
 			Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
 			if ((C.Lover != null) && (C.Lover != "undefined") && C.Lover.startsWith("NPC-")) {
