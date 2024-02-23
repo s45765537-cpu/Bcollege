@@ -1639,6 +1639,14 @@ interface PlayerCharacter extends Character {
 	ExtensionSettings: ExtensionSettings;
 }
 
+/** A type defining which genders a setting is active for */
+interface GenderSetting {
+	/** Whether the setting is active for female cases */
+	Female: boolean;
+	/** Whether the setting is active for male cases */
+	Male: boolean;
+}
+
 interface ChatSettingsType {
 	ColorActions: boolean;
 	ColorActivities: boolean;
