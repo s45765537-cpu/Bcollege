@@ -1651,12 +1651,15 @@ interface ImmersionSettingsType {
 	AllowTints: boolean;
 }
 
+type ControllerButton = typeof ControllerButton[keyof typeof ControllerButton];
+type ControllerAxis = typeof ControllerAxis[keyof typeof ControllerAxis];
+
 interface ControllerSettingsType {
 	ControllerActive: boolean;
 	ControllerSensitivity: number;
 	ControllerDeadZone: number;
-	Buttons: any;
-	Axis: any;
+	Buttons: Record<ControllerButton, number>;
+	Axis: Record<ControllerAxis, number>;
 }
 
 interface ChatSettingsType {
