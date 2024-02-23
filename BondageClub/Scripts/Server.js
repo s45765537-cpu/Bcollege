@@ -765,6 +765,7 @@ function ServerOpenFriendList() {
 	CommonSetScreen("Character", "FriendList");
 }
 
+// TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
 /**
  * Callback used to parse received information related to the player ownership data
  * @param {object} data - Data object containing the Owner name and Ownership object
@@ -791,6 +792,7 @@ function ServerAccountOwnership(data) {
 
 }
 
+// TODO: `data: object` -> `data: ServerAccountLovershipResponse`
 /**
  * Callback used to parse received information related to the player lovership data
  * @param {object} data - Data object containing the Lovership array
