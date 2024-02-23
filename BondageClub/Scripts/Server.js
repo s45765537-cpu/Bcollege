@@ -311,6 +311,7 @@ function ServerSendQueueProcess() {
  * @returns {void} - Nothing
  */
 function ServerPlayerSync() {
+	// TODO: `Lover` has been deprecated, do we still need to pass it along here?
 	ServerAccountUpdate.QueueData({ Money: Player.Money, Owner: Player.Owner, Lover: Player.Lover });
 	delete Player.Lover;
 }

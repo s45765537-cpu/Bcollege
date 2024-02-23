@@ -100,6 +100,29 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	KinkyDungeonExploredLore?: unknown[];
 }
 
+// TODO: Add `Lover` after figuring out why {@link ServerPlayerSync} still passes this field to the server
+/** A union of all deprecated {@link ServerAccountData} fields */
+type ServerAccountDataDeprecations = (
+	"LastChatRoomDesc"
+	| "LastChatRoomAdmin"
+	| "LastChatRoomBan"
+	| "LastChatRoomBG"
+	| "LastChatRoomSize"
+	| "LastChatRoomPrivate"
+	| "LastChatRoomBlockCategory"
+	| "LastChatRoomSpace"
+	| "LastChatRoomLanguage"
+	| "LastChatRoomCustom"
+	| "LastChatRoomMapData"
+);
+
+/**
+ * A {@link ServerAccountData} variant with all deprecated members set to `never`.
+ *
+ * Use of this type over {@link ServerAccountData} is recommended when sending data *to* the server.
+ */
+type ServerAccountDataNoDeprecated = ServerAccountData & { [k in ServerAccountDataDeprecations]?: never };
+
 interface ServerMapDataResponse {
 	MemberNumber: number;
 	MapData: ChatRoomMapPos;
@@ -254,7 +277,7 @@ interface ServerInfoMessage {
 
 type ServerForceDisconnectMessage = "ErrorRateLimited" | "ErrorDuplicatedLogin";
 
-interface ServerAccountUpdateRequest extends Partial<ServerAccountData> {}
+interface ServerAccountUpdateRequest extends Partial<ServerAccountDataNoDeprecated> {}
 
 interface ServerAccountUpdateEmailRequest {
 	EmailOld: string;
