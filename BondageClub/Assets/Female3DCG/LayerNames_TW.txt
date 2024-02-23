@@ -638,6 +638,8 @@ Mittens
 手套
 Vamp
 防水台
+Silk
+絲綢
 Shoes
 鞋
 Soles
