@@ -76,6 +76,16 @@ function TextPrefetchFile(file) {
 	}
 }
 
+const InterfaceStringsPath = "Screens/Interface.csv";
+
+function InterfaceTextGet(msg) {
+	const stringsFile = TextAllScreenCache.get(InterfaceStringsPath);
+	if (!stringsFile) return `MISSING INTERFACE TEXT: ${msg}`;
+	const text = stringsFile.get(msg);
+	if (!text) return `MISSING INTERFACE TEXT: ${msg}`;
+	return text;
+}
+
 /**
  * A class that can be used to cache a simple key/value CSV file for easy text lookups. Text lookups will be automatically translated to
  * the game's current language, if a translation is available.
