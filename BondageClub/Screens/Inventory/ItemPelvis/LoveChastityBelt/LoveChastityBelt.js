@@ -19,22 +19,22 @@ function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
 		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
 		const [FrontShield, BackShield, Intensity, ShockLevel] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const CrotchShield = InventoryItemPelvisLoveChastityBeltCrotchShield.get(`${FrontShield}${BackShield}`);
-		const ShieldSuffix = (["f2", "f3"].includes(FrontShield)) ? "" : ` (${DialogFindPlayer(`${Data.dialogPrefix.option}${FrontShield}`)})`;
+		const ShieldSuffix = (["f2", "f3"].includes(FrontShield)) ? "" : ` (${AssetTextGet(`${Data.dialogPrefix.option}${FrontShield}`)})`;
 
 		// Display option information
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("CrotchShield"), 1500, 625, "White", "Gray");
-		DrawText(DialogFindPlayer("Intensity"), 1500, 700, "White", "Gray");
-		DrawText(DialogFindPlayer("ShockLevel"), 1500, 775, "White", "Gray");
+		DrawText(AssetTextGet("CrotchShield"), 1500, 625, "White", "Gray");
+		DrawText(AssetTextGet("Intensity"), 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet("ShockLevel"), 1500, 775, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`ItemPelvisSciFiPleasurePantiesOption${CrotchShield}`) + ShieldSuffix, 1510, 625, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${Intensity}`), 1510, 700, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 775, "White", "Gray");
+		DrawText(AssetTextGet(`ItemPelvisSciFiPleasurePantiesOption${CrotchShield}`) + ShieldSuffix, 1510, 625, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${Intensity}`), 1510, 700, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 775, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox
 		ExtendedItemDrawCheckbox("ShowText", 1175, 818, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
-		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 848, "White", "Gray");
+		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
 		ExtendedItemCustomDraw("TriggerShock", 1637, 825);
@@ -66,11 +66,11 @@ function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, 
 	const optionName = Option.Name;
 
 	if (!C.IsOwnedByPlayer()) {
-		return DialogFindPlayer("PreviewIconOwnerOnly");
+		return AssetTextGet("PreviewIconOwnerOnly");
 	} else if (Module.Name === "Intensity" && Option.Name !== "i0" && FrontShield !== 2) {
-		return DialogFindPlayer(`${Prefix}ValidateIntensity`);
+		return AssetTextGet(`${Prefix}ValidateIntensity`);
 	} else if (optionName === "TriggerShock" && FrontShield !== 3) {
-		return DialogFindPlayer(`${Prefix}ValidateTriggerShock`);
+		return AssetTextGet(`${Prefix}ValidateTriggerShock`);
 	} else {
 		return OriginalFunction(C, Item, Option, CurrentOption);
 	}

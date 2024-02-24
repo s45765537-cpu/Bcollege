@@ -43,18 +43,18 @@ function InventoryItemBreastFuturisticBraDrawHook(Data, OriginalFunction) {
 	const C = CharacterGetCurrent();
 	const {bpm, breathing, temp} = InventoryItemBreastFuturisticBraUpdate(C);
 
-	DrawText(`${DialogFindPlayer(`${Prefix}Desc`)} ${C.MemberNumber}`, 1500, 625, "White", "Gray");
+	DrawText(`${AssetTextGet(`${Prefix}Desc`)} ${C.MemberNumber}`, 1500, 625, "White", "Gray");
 
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer(`${Prefix}HeartRate`), 1500, 700, "White", "Gray");
-	DrawText(DialogFindPlayer(`${Prefix}Temp`), 1500, 750, "White", "Gray");
-	DrawText(DialogFindPlayer(`${Prefix}Breathing`), 1500, 800, "White", "Gray");
-	DrawText(DialogFindPlayer(`${Prefix}Tracking`), 1500, 850, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}HeartRate`), 1500, 700, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}Temp`), 1500, 750, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}Breathing`), 1500, 800, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}Tracking`), 1500, 850, "White", "Gray");
 	MainCanvas.textAlign = "left";
-	DrawText(`${bpm} ${DialogFindPlayer(`${Prefix}HeartRateBPM`)}`, 1510, 700, "White", "Gray");
-	DrawText(`${temp} ${DialogFindPlayer(`${Prefix}TempC`)}`, 1510, 750, "White", "Gray");
-	DrawText(DialogFindPlayer(`${Prefix}Breathing${breathing}`), 1510, 800, "White", "Gray");
-	DrawText(DialogFindPlayer(`${Prefix}TrackingGood`), 1510, 850, "White", "Gray");
+	DrawText(`${bpm} ${AssetTextGet(`${Prefix}HeartRateBPM`)}`, 1510, 700, "White", "Gray");
+	DrawText(`${temp} ${AssetTextGet(`${Prefix}TempC`)}`, 1510, 750, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}Breathing${breathing}`), 1510, 800, "White", "Gray");
+	DrawText(AssetTextGet(`${Prefix}TrackingGood`), 1510, 850, "White", "Gray");
 	MainCanvas.textAlign = "center";
 }
 

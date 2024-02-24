@@ -80,25 +80,25 @@ function InventoryItemMiscHighSecurityPadlockDrawHook(data, originalFunction) {
 
 	var C = CharacterGetCurrent();
 	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
-		DrawText(DialogFindPlayer("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
+		DrawText(AssetTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
 
 	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)&& (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0)))) {
-		DrawText(DialogFindPlayer("HighSecuritySaveIntro"), 1500, 600, "white", "gray");
+		DrawText(AssetTextGet("HighSecuritySaveIntro"), 1500, 600, "white", "gray");
 		ElementPosition("MemberNumberList", 1260, 780, 300, 170);
-		DrawButton(1135, 920, 230, 64, DialogFindPlayer("HighSecuritySave"), "White", "");
+		DrawButton(1135, 920, 230, 64, AssetTextGet("HighSecuritySave"), "White", "");
 
 		MainCanvas.textAlign = "left";
-		DrawCheckbox(1450, 700, 64, 64, DialogFindPlayer("HighSecurityAppendOwner"), HighSecurityPadlockConfigOwner, false, "White");
-		DrawCheckbox(1450, 780, 64, 64, DialogFindPlayer("HighSecurityAppendLover"), HighSecurityPadlockConfigLover, false, "White");
-		DrawCheckbox(1450, 860, 64, 64, DialogFindPlayer("HighSecurityAppendWhitelist"), HighSecurityPadlockConfigWhitelist, false, "White");
+		DrawCheckbox(1450, 700, 64, 64, AssetTextGet("HighSecurityAppendOwner"), HighSecurityPadlockConfigOwner, false, "White");
+		DrawCheckbox(1450, 780, 64, 64, AssetTextGet("HighSecurityAppendLover"), HighSecurityPadlockConfigLover, false, "White");
+		DrawCheckbox(1450, 860, 64, 64, AssetTextGet("HighSecurityAppendWhitelist"), HighSecurityPadlockConfigWhitelist, false, "White");
 		MainCanvas.textAlign = "center";
 
 
 		if (!InventoryItemMiscHighSecurityPadlockPlayerCanUnlock) {
-			DrawText(DialogFindPlayer("HighSecurityWarning"), 1500, 550, "red", "gray");
+			DrawText(AssetTextGet("HighSecurityWarning"), 1500, 550, "red", "gray");
 		}
 	} else {
-		DrawText(DialogFindPlayer(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
+		DrawText(AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
 	}
 }
 

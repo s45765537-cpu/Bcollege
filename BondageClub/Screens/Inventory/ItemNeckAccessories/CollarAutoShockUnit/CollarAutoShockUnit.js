@@ -9,18 +9,18 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook(Data, OriginalF
 
 		// Display option information
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("ShockLevel"), 1500, 550, "White", "Gray");
-		DrawText(DialogFindPlayer("AutoPunish"), 1500, 625, "White", "Gray");
-		DrawText(DialogFindPlayer("ShockCount"), 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet("ShockLevel"), 1500, 550, "White", "Gray");
+		DrawText(AssetTextGet("AutoPunish"), 1500, 625, "White", "Gray");
+		DrawText(AssetTextGet("ShockCount"), 1500, 700, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 550, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunish}`), 1510, 625, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 550, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${AutoPunish}`), 1510, 625, "White", "Gray");
 		DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 700, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox and reset/trigger buttons
 		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
-		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 773, "White", "Gray");
+		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 773, "White", "Gray");
 		ExtendedItemCustomDraw("ResetShockCount", 1635, 675);
 		ExtendedItemCustomDraw("TriggerShock", 1635, 750);
 	}

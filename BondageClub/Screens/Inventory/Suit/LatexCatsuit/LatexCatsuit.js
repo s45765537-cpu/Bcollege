@@ -27,9 +27,9 @@ function InventorySuitLatexCatsuitDrawHook(Data, OriginalFunction) {
 
 	MainCanvas.textAlign = "right";
 	const Prefix = Data.dialogPrefix.option;
-	DrawTextFit(DialogFindPlayer(`${Prefix}TitleLabel`), 1290, 760, 400, "#fff", "#000");
-	DrawTextFit(DialogFindPlayer(`${Prefix}BarcodeLabel`), 1290, 810, 400, "#fff", "#000");
-	DrawTextFit(DialogFindPlayer(`${Prefix}TextLabel`), 1290, 860, 400, "#fff", "#000");
+	DrawTextFit(AssetTextGet(`${Prefix}TitleLabel`), 1290, 760, 400, "#fff", "#000");
+	DrawTextFit(AssetTextGet(`${Prefix}BarcodeLabel`), 1290, 810, 400, "#fff", "#000");
+	DrawTextFit(AssetTextGet(`${Prefix}TextLabel`), 1290, 860, 400, "#fff", "#000");
 	MainCanvas.textAlign = "center";
 }
 

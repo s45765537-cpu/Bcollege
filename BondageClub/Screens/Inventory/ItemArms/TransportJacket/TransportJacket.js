@@ -24,7 +24,7 @@ function InventoryItemArmsTransportJacketDrawHook(Data, OriginalFunction) {
 
 	MainCanvas.textAlign = "right";
 	const Prefix = Data.dialogPrefix.option;
-	DrawTextFit(DialogFindPlayer(`${Prefix}TextLabel`), 1475, 860, 400, "#fff", "#000");
+	DrawTextFit(AssetTextGet(`${Prefix}TextLabel`), 1475, 860, 400, "#fff", "#000");
 	MainCanvas.textAlign = "center";
 }
 

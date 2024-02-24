@@ -14,39 +14,39 @@ function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFuncti
 	originalFunction();
 
 	if (property.ShowTimer) {
-		DrawText(DialogFindPlayer("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
+		DrawText(AssetTextGet("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	} else {
-		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 500, "white", "gray");
+		DrawText(AssetTextGet("TimerUnknown"), 1500, 500, "white", "gray");
 	}
 
 	// Draw the settings
 	if (Player.CanInteract() && (Player.MemberNumber == property.LockMemberNumber)) {
 		MainCanvas.textAlign = "left";
 		DrawButton(1100, 666, 64, 64, "", "White", (property.RemoveItem) ? "Icons/Checked.png" : "");
-		DrawText(DialogFindPlayer("RemoveItemWithTimer"), 1200, 698, "white", "gray");
+		DrawText(AssetTextGet("RemoveItemWithTimer"), 1200, 698, "white", "gray");
 		DrawButton(1100, 746, 64, 64, "", "White", (property.ShowTimer) ? "Icons/Checked.png" : "");
-		DrawText(DialogFindPlayer("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
+		DrawText(AssetTextGet("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
 		DrawButton(1100, 828, 64, 64, "", "White", (property.EnableRandomInput) ? "Icons/Checked.png" : "");
-		DrawText(DialogFindPlayer("EnableRandomInput"), 1200, 858, "white", "gray");
+		DrawText(AssetTextGet("EnableRandomInput"), 1200, 858, "white", "gray");
 		MainCanvas.textAlign = "center";
 	} else {
 		if (property.LockMemberNumber != null) {
-			DrawText(DialogFindPlayer("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
+			DrawText(AssetTextGet("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
 		}
-		DrawText(DialogFindPlayer((property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
+		DrawText(AssetTextGet((property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
 	}
 
 	// Draw buttons to add/remove time if available
 	if (Player.CanInteract() && (LogQuery("ClubMistress", "Management") || Player.MemberNumber === property.LockMemberNumber)) {
-		DrawButton(1100, 910, 250, 70, DialogFindPlayer("AddTimerTime"), "White");
-		DrawBackNextButton(1400, 910, 250, 70, MistressTimerChooseList[MistressTimerChooseIndex] + " " + DialogFindPlayer("Minutes"), "White", "",
-			() => MistressTimerChooseList[(MistressTimerChooseList.length + MistressTimerChooseIndex - 1) % MistressTimerChooseList.length] + " " + DialogFindPlayer("Minutes"),
-			() => MistressTimerChooseList[(MistressTimerChooseIndex + 1) % MistressTimerChooseList.length] + " " + DialogFindPlayer("Minutes")
+		DrawButton(1100, 910, 250, 70, AssetTextGet("AddTimerTime"), "White");
+		DrawBackNextButton(1400, 910, 250, 70, MistressTimerChooseList[MistressTimerChooseIndex] + " " + AssetTextGet("Minutes"), "White", "",
+			() => MistressTimerChooseList[(MistressTimerChooseList.length + MistressTimerChooseIndex - 1) % MistressTimerChooseList.length] + " " + AssetTextGet("Minutes"),
+			() => MistressTimerChooseList[(MistressTimerChooseIndex + 1) % MistressTimerChooseList.length] + " " + AssetTextGet("Minutes")
 		);
 	} else if (Player.CanInteract() && property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
-		DrawButton(1100, 910, 250, 70, "- " + asset.RemoveTimer * 3 / 60 + " " + DialogFindPlayer("Minutes"), "White");
-		DrawButton(1400, 910, 250, 70, DialogFindPlayer("Random"), "White");
-		DrawButton(1700, 910, 250, 70, "+ " + asset.RemoveTimer * 3 / 60 + " " + DialogFindPlayer("Minutes"), "White");
+		DrawButton(1100, 910, 250, 70, "- " + asset.RemoveTimer * 3 / 60 + " " + AssetTextGet("Minutes"), "White");
+		DrawButton(1400, 910, 250, 70, AssetTextGet("Random"), "White");
+		DrawButton(1700, 910, 250, 70, "+ " + asset.RemoveTimer * 3 / 60 + " " + AssetTextGet("Minutes"), "White");
 	}
 }
 
