@@ -555,7 +555,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	}
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (Msg && setDialog) DialogSetStatus(DialogFindPlayer(Msg), DialogTextDefaultDuration);
+	if (Msg && setDialog) DialogSetStatus(InterfaceTextGet(Msg), DialogTextDefaultDuration);
 	return !Msg;
 }
 

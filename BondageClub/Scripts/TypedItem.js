@@ -430,7 +430,7 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 			return "";
 	}
 	if (PermissionFailure) {
-		return DialogFindPlayer("ExtendedItemNoItemPermission");
+		return InterfaceTextGet("ExtendedItemNoItemPermission");
 	}
 
 	// TODO: Remove this `if` check when all extended items have been made archetypical
@@ -656,7 +656,7 @@ function TypedItemDraw(data) {
 	DrawButton(
 		1775, 25, 90, 90, "", "White",
 		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
+		InterfaceTextGet(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
 	);
 }
 
@@ -754,7 +754,7 @@ function TypedItemSetType(data, C, newOption) {
 	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 	if (data.archetype === ExtendedArchetype.VIBRATING) {
 		if (typeof data.dialogPrefix.header === "string") {
-			DialogExtendedMessage = DialogFindPlayer(data.dialogPrefix.header);
+			DialogExtendedMessage = AssetTextGet(data.dialogPrefix.header);
 		} else if (typeof data.dialogPrefix.header === "function") {
 			DialogExtendedMessage = data.dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
 		} else {

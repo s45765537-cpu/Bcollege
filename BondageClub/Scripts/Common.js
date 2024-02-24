@@ -1085,8 +1085,8 @@ function CommonStringSubstitute(msg, substitutions) {
  */
 function CommonArrayJoinPretty(strings) {
 	const last = strings.pop();
-	let pretty = strings.join(DialogFindPlayer("PrettyArrayJoin"));
-	pretty += DialogFindPlayer("PrettyArrayJoinFinal") + last;
+	let pretty = strings.join(InterfaceTextGet("PrettyArrayJoin"));
+	pretty += InterfaceTextGet("PrettyArrayJoinFinal") + last;
 	return pretty;
 }
 

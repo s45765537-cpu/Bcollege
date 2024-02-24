@@ -26,7 +26,7 @@ function WheelFortuneCustomizeRun() {
 	if (isDisabled) {
 		titleText = TextGet("TitleView").replace(
 			"DestinationCharacter",
-			`${CharacterNickname(WheelFortuneCharacter)}${DialogFindPlayer("'s")}`,
+			`${CharacterNickname(WheelFortuneCharacter)}${InterfaceTextGet("'s")}`,
 		);
 	} else {
 		titleText = TextGet("Title");

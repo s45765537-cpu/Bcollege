@@ -9051,10 +9051,11 @@ var AssetFemale3DCGExtended = {
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
 			},
 			DialogPrefix: {
-				Header: (data, C, item) =>
-					`${DialogFindPlayer("CurrentMode")} ${DialogFindPlayer(
-						item.Property?.Mode ?? "Off",
-					)}`,
+				Header: (data, C, item) => {
+					const label = InterfaceTextGet("VibratorModeLabel");
+					const mode = InterfaceTextGet(`VibratorMode${item.Property?.Mode ?? "Off"}`);
+					return `${label} ${mode}`;
+				}
 			},
 			BaselineProperty: {
 				AccessMode: "",
@@ -12634,7 +12635,7 @@ var AssetFemale3DCGExtended = {
 					if (lockmemberNumber == null) {
 						return "";
 					}
-					return `${DialogFindPlayer("LockMemberNumber")} ${lockmemberNumber}`;
+					return `${InterfaceTextGet("LockMemberNumber")} ${lockmemberNumber}`;
 				},
 			},
 			ScriptHooks: {

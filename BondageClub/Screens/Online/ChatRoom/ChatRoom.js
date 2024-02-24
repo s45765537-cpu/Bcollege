@@ -2680,7 +2680,7 @@ var ChatRoomMessageHandlers = [
 			// Emotes parsing - Player is under sensory-dep, replace every character name from the message with the placeholder
 			if (data.Type == "Emote") {
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
-					metadata.senderName = DialogFindPlayer("Someone");
+					metadata.senderName = InterfaceTextGet("Someone");
 					msg = SpeechAnonymize(msg, ChatRoomCharacter);
 				}
 			}
@@ -2689,7 +2689,7 @@ var ChatRoomMessageHandlers = [
 			if (data.Type == "Chat") {
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
-						metadata.senderName = DialogFindPlayer("Someone");
+						metadata.senderName = InterfaceTextGet("Someone");
 					else
 						metadata.senderName = SpeechGarble(sender, metadata.senderName, true);
 				}
@@ -3076,7 +3076,14 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			}
 			substitutions.push([Tag, Text.toString()]);
 		} else if (IsTextLookupDictionaryEntry(entry)) {
-			substitutions.push([entry.Tag, DialogFindPlayer(entry.TextToLookUp).toLowerCase()]);
+			let text = AssetTextGet(entry.TextToLookUp);
+			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+				text = InterfaceTextGet(entry.TextToLookUp);
+			} else {
+				// We lower-case here to blend in asset names in messages
+				text = text.toLowerCase();
+			}
+			substitutions.push([entry.Tag, text]);
 		}
 	}
 
@@ -3161,7 +3168,7 @@ function ChatRoomGetSourceCharacterSubstitutions(data, character) {
 		}
 		substitutions.push(["SourceCharacter", name]);
 	} else if (hideIdentity) {
-		name = DialogFindPlayer("Someone");
+		name = InterfaceTextGet("Someone");
 	}
 
 	substitutions.push(["SourceCharacter", name]);
@@ -3191,14 +3198,14 @@ function ChatRoomGetTargetCharacterSubstitutions(character, isSelf, index) {
 	let targetCharacter;
 	let targetCharacterName;
 	if (hideIdentity) {
-		const someone = DialogFindPlayer("Someone").toLowerCase();
+		const someone = InterfaceTextGet("Someone").toLowerCase();
 		destinationCharacter = isSelf ? pronounPossessive : someone;
 		destinationCharacterName = someone;
 		targetCharacter = isSelf ? pronounSelf : someone;
 		targetCharacterName = someone;
 	} else {
 		const name = CharacterNickname(character);
-		destinationCharacterName = `${name}${DialogFindPlayer("'s")}`;
+		destinationCharacterName = `${name}${InterfaceTextGet("'s")}`;
 		destinationCharacter = isSelf ? pronounPossessive : destinationCharacterName;
 		targetCharacter = isSelf ? pronounSelf : name;
 		targetCharacterName = name;
@@ -3345,11 +3352,17 @@ function ChatRoomMessage(data) {
 	// Substitute actions and server messages for their fulltext version
 	switch (data.Type) {
 		case "Action":
-			msg = DialogFindPlayer(msg);
+			{
+				let text = AssetTextGet(msg);
+				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+					text = InterfaceTextGet(msg);
+				}
+				msg = text;
+			}
 			break;
 
 		case "ServerMessage":
-			msg = DialogFindPlayer("ServerMessage" + msg);
+			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
 		case "Activity":

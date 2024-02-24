@@ -1745,21 +1745,21 @@ function DialogBuildSavedExpressionsMenu() {
  * @returns {void} - Nothing
  */
 function DialogDrawSavedExpressionsMenu() {
-	DrawText(DialogFindPlayer("SavedExpressions"), 210, 90, "White", "Black");
+	DrawText(InterfaceTextGet("SavedExpressions"), 210, 90, "White", "Black");
 
 	if ((!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length) && Player.SavedExpressions.some(expression => expression != null))
 		DialogBuildSavedExpressionsMenu();
 
 	for (let x = 0; x < 5; x++) {
 		if (Player.SavedExpressions[x] == null) {
-			DrawText(DialogFindPlayer("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
+			DrawText(InterfaceTextGet("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
 		} else {
 			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 30, 300, 220);
 			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 175), 260, 190);
 		}
 
-		DrawButton(290, 160 + (x * 170), 120, 50, DialogFindPlayer("SavedExpressionsSave"), "White");
-		DrawButton(290, 220 + (x * 170), 120, 50, DialogFindPlayer("SavedExpressionsLoad"), "White");
+		DrawButton(290, 160 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsSave"), "White");
+		DrawButton(290, 220 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsLoad"), "White");
 	}
 }
 
@@ -2071,7 +2071,7 @@ function DialogItemClick(ClickItem) {
 
 				// If the room allows the item
 				if (!InventoryChatRoomAllow(ClickItem.Asset.Category)) {
-					DialogSetStatus(DialogFindPlayer("BlockedByRoom"), DialogTextDefaultDuration);
+					DialogSetStatus(InterfaceTextGet("BlockedByRoom"), DialogTextDefaultDuration);
 					return;
 				}
 
@@ -2092,9 +2092,9 @@ function DialogItemClick(ClickItem) {
 							}
 							DialogStruggleStart(C, action, CurrentItem, ClickItem);
 						} else if (ClickItem.Asset.SelfBondage <= 10)
-							DialogSetStatus(DialogFindPlayer("RequireSelfBondage" + ClickItem.Asset.SelfBondage), DialogTextDefaultDuration);
+							DialogSetStatus(InterfaceTextGet("RequireSelfBondage" + ClickItem.Asset.SelfBondage), DialogTextDefaultDuration);
 						else
-							DialogSetStatus(DialogFindPlayer("CannotUseOnSelf"), DialogTextDefaultDuration);
+							DialogSetStatus(InterfaceTextGet("CannotUseOnSelf"), DialogTextDefaultDuration);
 
 					} else {
 
@@ -2205,23 +2205,23 @@ function DialogChangeMode(mode, reset=false) {
 	if (!C.FocusGroup) {
 		// Ignore setting a message if we have no focused group
 	} else if (DialogMenuMode === "items") {
-		DialogSetStatus(DialogFindPlayer("SelectItemGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectItemGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "permissions") {
 		DialogSetStatus(DialogFind(Player, "DialogPermissionMode"));
 	} else if (DialogMenuMode === "activities") {
 		if (DialogActivity.length > 0)
-			DialogSetStatus(DialogFindPlayer("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 		else
-			DialogSetStatus(DialogFindPlayer("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "locking") {
-		DialogSetStatus(DialogFindPlayer("SelectLock").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectLock").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
 	} else if (DialogMenuMode === "locked") {
 		const item = InventoryGet(C, C.FocusGroup.Name);
 		const lock = InventoryGetLock(item);
 		if (!lock || !DialogCanInspectLock(item))
-			DialogSetStatus(DialogFindPlayer("SelectLockedUnknown"));
+			DialogSetStatus(InterfaceTextGet("SelectLockedUnknown"));
 		else
-			DialogSetStatus(DialogFindPlayer("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(C).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(C).toLowerCase()));
 	} else {
 		DialogSetStatus("");
 	}
@@ -2832,7 +2832,7 @@ function DialogDrawRepositionButton() {
 		drawButton = CurrentCharacter.IsInverted() ? "Icons/Up.png" : "Icons/Down.png";
 	}
 	if (drawButton)
-		DrawButton(510, 50, 90, 90, "", "White", drawButton, DialogFindPlayer("ShowAllZones"));
+		DrawButton(510, 50, 90, 90, "", "White", drawButton, InterfaceTextGet("ShowAllZones"));
 }
 
 /**
@@ -2849,7 +2849,7 @@ function DialogDrawTopMenu(C) {
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);
 		const ButtonImage = DialogGetMenuButtonImage(DialogMenuButton[I], FocusItem);
-		const ButtonHoverText = DialogFindPlayer(DialogMenuButton[I]);
+		const ButtonHoverText = InterfaceTextGet(DialogMenuButton[I]);
 		const ButtonDisabled = DialogIsMenuButtonDisabled(DialogMenuButton[I]);
 		DrawButton(1885 - I * 110, 15, 90, 90, "", ButtonColor, "Icons/" + ButtonImage + ".png", ButtonHoverText, ButtonDisabled);
 	}
@@ -2863,7 +2863,7 @@ function DialogSelfMenuDraw(C) {
 	if (!C.IsPlayer()) return;
 
 	if (DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1 && !CommonPhotoMode)
-		DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", DialogFindPlayer("NextPage"));
+		DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", InterfaceTextGet("NextPage"));
 
 	if (!DialogSelfMenuSelected)
 		DialogDrawExpressionMenu();
@@ -2975,7 +2975,7 @@ function DialogDraw() {
 			}
 
 			// Draw UI to select struggling minigame
-			DrawText(DialogFindPlayer("ChooseStruggleMethod"), 1500, 550, "White", "Black");
+			DrawText(InterfaceTextGet("ChooseStruggleMethod"), 1500, 550, "White", "Black");
 
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
 				const offset = 300 * idx;
@@ -2984,7 +2984,7 @@ function DialogDraw() {
 				const bgColor = disabled ? "Gray" : (hover ? "aqua" : "white");
 				DrawRect(1087 + offset, 600, 225, 275, bgColor);
 				DrawImageResize("Icons/Struggle/" + game + ".png", 1089 + offset, 602, 221, 221);
-				DrawTextFit(DialogFindPlayer(game), 1200 + offset, 850, 221, "black");
+				DrawTextFit(InterfaceTextGet(game), 1200 + offset, 850, 221, "black");
 			}
 		}
 		return;
@@ -3040,15 +3040,15 @@ function DialogDraw() {
 		}
 
 		if (InventoryGroupIsBlockedByOwnerRule(C))
-			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedOwner"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedOwner"), FocusItem);
 		else if (InventoryIsBlockedByDistance(C))
-			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedRange"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange"), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
-			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlocked"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())
-			DialogDrawItemMessage(C, DialogFindPlayer("AccessBlocked"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("AccessBlocked"), FocusItem);
 		else if (DialogInventory.length === 0)
-			DialogDrawItemMessage(C, DialogFindPlayer("NoItems"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("NoItems"), FocusItem);
 		else
 			DialogDrawItemMenu(C);
 	}
@@ -3116,11 +3116,11 @@ function DialogDrawItemMessage(C, msg, item) {
 function DialogDrawExpressionMenu() {
 
 	// Draw the expression groups
-	DrawText(DialogFindPlayer("FacialExpression"), 165, 25, "White", "Black");
+	DrawText(InterfaceTextGet("FacialExpression"), 165, 25, "White", "Black");
 	if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", DialogFindPlayer("ColorChange"));
+		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", InterfaceTextGet("ColorChange"));
 	}
-	DrawButton(220, 50, 90, 90, "", "White", "Icons/BlindToggle" + DialogFacialExpressionsSelectedBlindnessLevel + ".png", DialogFindPlayer("BlindToggleFacialExpressions"));
+	DrawButton(220, 50, 90, 90, "", "White", "Icons/BlindToggle" + DialogFacialExpressionsSelectedBlindnessLevel + ".png", InterfaceTextGet("BlindToggleFacialExpressions"));
 	const Expression = WardrobeGetExpression(Player);
 	const Eye1Closed = Expression.Eyes === "Closed";
 	const Eye2Closed = Expression.Eyes2 === "Closed";
@@ -3128,8 +3128,8 @@ function DialogDrawExpressionMenu() {
 	if (Eye1Closed && Eye2Closed) WinkIcon = "WinkBoth";
 	else if (Eye1Closed) WinkIcon = "WinkR";
 	else if (Eye2Closed) WinkIcon = "WinkL";
-	DrawButton(120, 50, 90, 90, "", "White", `Icons/${WinkIcon}.png`, DialogFindPlayer("WinkFacialExpressions"));
-	DrawButton(20, 50, 90, 90, "", "White", "Icons/Reset.png", DialogFindPlayer("ClearFacialExpressions"));
+	DrawButton(120, 50, 90, 90, "", "White", `Icons/${WinkIcon}.png`, InterfaceTextGet("WinkFacialExpressions"));
+	DrawButton(20, 50, 90, 90, "", "White", "Icons/Reset.png", InterfaceTextGet("ClearFacialExpressions"));
 	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
 
 	for (const [i, FE] of DialogFacialExpressions.entries()) {
@@ -3140,8 +3140,8 @@ function DialogDrawExpressionMenu() {
 		if (i == DialogFacialExpressionsSelected) {
 			const nPages = Math.ceil(FE.ExpressionList.length / DialogFacialExpressionsPerPage);
 			if (nPages > 1) {
-				DrawButton(155, 785, 90, 90, "", "White", `Icons/Prev.png`, DialogFindPlayer("PrevExpressions"));
-				DrawButton(255, 785, 90, 90, "", "White", `Icons/Next.png`, DialogFindPlayer("NextExpressions"));
+				DrawButton(155, 785, 90, 90, "", "White", `Icons/Prev.png`, InterfaceTextGet("PrevExpressions"));
+				DrawButton(255, 785, 90, 90, "", "White", `Icons/Next.png`, InterfaceTextGet("NextExpressions"));
 			}
 			const expressionSubset = FE.ExpressionList.slice(
 				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage,
@@ -3261,7 +3261,7 @@ function DialogClickExpressionMenu() {
  */
 function DialogDrawPoseMenu() {
 	// Draw the pose groups
-	DrawText(DialogFindPlayer("PoseMenu"), 250, 100, "White", "Black");
+	DrawText(InterfaceTextGet("PoseMenu"), 250, 100, "White", "Black");
 
 	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
 		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
@@ -3313,7 +3313,7 @@ function DialogViewOwnerRules() {
  */
 function DialogDrawOwnerRulesMenu() {
 	// Draw the pose groups
-	DrawText(DialogFindPlayer("RulesMenu"), 230, 100, "White", "Black");
+	DrawText(InterfaceTextGet("RulesMenu"), 230, 100, "White", "Black");
 
 	/** @type {{Tag: string, Value?: number}[]} */
 	const ToDisplay = [];
@@ -3333,7 +3333,7 @@ function DialogDrawOwnerRulesMenu() {
 
 	for (const [i, { Tag, Value }] of ToDisplay.entries()) {
 		const Y = 180 + 110 * i;
-		const TextToDraw = DialogFindPlayer(`RulesMenu${Tag}`) + (Value ? ` ${TimerToString(Value - CurrentTime)}` : "");
+		const TextToDraw = InterfaceTextGet(`RulesMenu${Tag}`) + (Value ? ` ${TimerToString(Value - CurrentTime)}` : "");
 		DrawTextWrap(TextToDraw, 25, Y, 485, 95, "#fff", undefined, 2);
 	}
 }
@@ -3395,7 +3395,7 @@ function DialogCanCraft() {
 function DialogActualNameForGroup(C, G) {
 	let repl = G.Description;
 	if (C && C.HasPenis() && ["ItemVulva", "ItemVulvaPiercings"].includes(G.Name)) {
-		repl = G.Name === "ItemVulva" ? DialogFindPlayer("ItemPenis") : DialogFindPlayer("ItemGlans");
+		repl = G.Name === "ItemVulva" ? InterfaceTextGet("ItemPenis") : InterfaceTextGet("ItemGlans");
 	}
 	return repl;
 }

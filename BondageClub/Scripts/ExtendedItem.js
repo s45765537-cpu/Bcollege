@@ -247,7 +247,7 @@ function ExtendedItemLoad(data) {
 
 	if (ExtendedItemOffsets[ExtendedItemOffsetKey()] == null) ExtendedItemSetOffset(0);
 	if (typeof dialogPrefix.header === "string") {
-		DialogExtendedMessage = DialogFindPlayer(dialogPrefix.header);
+		DialogExtendedMessage = AssetTextGet(dialogPrefix.header);
 	} else if (typeof dialogPrefix.header === "function") {
 		DialogExtendedMessage = dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
 	} else {
@@ -329,7 +329,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 		}
 	}
 	DrawTextFit(
-		(IsFavorite && !buttonData.drawImage ? "★ " : "") + DialogFindPlayer(DialogPrefix + Option.Name),
+		(IsFavorite && !buttonData.drawImage ? "★ " : "") + AssetTextGet(DialogPrefix + Option.Name),
 		x + width / 2,
 		y + height - 25,
 		width, "black",
@@ -514,7 +514,7 @@ function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOptio
  */
 function ExtendedItemCheckSelfSelect(C, Option) {
 	if (C.IsPlayer() && Option.AllowSelfSelect === false) {
-		return DialogFindPlayer("CannotSelfSelect");
+		return InterfaceTextGet("CannotSelfSelect");
 	}
 }
 
@@ -532,12 +532,12 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 		let RequiredLevel = Option.SelfBondageLevel;
 		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
-			return DialogFindPlayer("RequireSelfBondage" + RequiredLevel);
+			return InterfaceTextGet("RequireSelfBondage" + RequiredLevel);
 		}
 	} else {
 		let RequiredLevel = Option.BondageLevel || 0;
 		if (SkillGetLevelReal(Player, "Bondage") < RequiredLevel) {
-			return DialogFindPlayer("RequireBondageLevel").replace("ReqLevel", `${RequiredLevel}`);
+			return InterfaceTextGet("RequireBondageLevel").replace("ReqLevel", `${RequiredLevel}`);
 		}
 	}
 }
@@ -551,7 +551,7 @@ function ExtendedItemCheckBuyGroups(Option) {
 	if (Option.PrerequisiteBuyGroup) {
 		const requiredAsset = Asset.find(A => A.BuyGroup && A.BuyGroup === Option.PrerequisiteBuyGroup);
 		if (requiredAsset && !InventoryAvailable(Player, requiredAsset.Name, requiredAsset.Group.Name)) {
-			return DialogFindPlayer("OptionNeedsToBeBought");
+			return InterfaceTextGet("OptionNeedsToBeBought");
 		}
 	}
 }
@@ -582,19 +582,19 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 	const isPreviewChar = C.IsSimple();
 
 	if (newOption.Name === previousOption.Name && !permitExisting) {
-		return newOption.HasSubscreen ? "" : DialogFindPlayer("AlreadySet");
+		return newOption.HasSubscreen ? "" : InterfaceTextGet("AlreadySet");
 	} else if (!isPreviewChar && !canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)
-		return DialogFindPlayer("CantChangeWhileLocked");
+		return InterfaceTextGet("CantChangeWhileLocked");
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
 		return DialogText;
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
-		return DialogFindPlayer("ExtendedItemUnlockBeforeChange");
+		return InterfaceTextGet("ExtendedItemUnlockBeforeChange");
 	} else if (newOption.OptionType === "ExtendedItemOption" && isPreviewChar) {
 		// Disable things like the shock button while modifying the crafting preview character
-		return DialogFindPlayer("ExtendedItemNoCraftingScreen");
+		return InterfaceTextGet("ExtendedItemNoCraftingScreen");
 	}
 
 	return "";
@@ -1462,11 +1462,11 @@ const ExtendedItemTighten = {
 	Draw: function ({ asset }, item, buttonCoords) {
 		if (asset.AllowTighten && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
 			const Difficulty = item.Difficulty ?? 0;
-			DrawText(`${DialogFindPlayer("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
+			DrawText(`${InterfaceTextGet("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
 			if (Player.CanInteract() && !InventoryItemHasEffect(item, "Lock")) {
-				DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "White");
+				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "White");
 			} else {
-				DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "Gray", undefined, undefined, true);
+				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "Gray", undefined, undefined, true);
 			}
 		}
 	},

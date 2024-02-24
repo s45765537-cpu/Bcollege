@@ -281,9 +281,9 @@ var Shop2 = {
 				case "ItemVulva":
 				case "ItemVulvaPiercings":
 					if (Player.GenderSettings.HideShopItems.Female === Player.GenderSettings.HideShopItems.Male) {
-						description += ` & ${DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans")}`;
+						description += ` & ${InterfaceTextGet(group.Name === "ItemVulva" ? "DialogGroupNameItemPenis" : "DialogGroupNameItemGlans")}`;
 					} else if (Player.GenderSettings.HideShopItems.Female) {
-						description = DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans");
+						description = InterfaceTextGet(group.Name === "ItemVulva" ? "DialogGroupNameItemPenis" : "DialogGroupNameItemGlans");
 					}
 					break;
 			}

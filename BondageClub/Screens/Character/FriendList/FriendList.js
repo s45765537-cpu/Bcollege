@@ -234,14 +234,14 @@ function FriendListChatSearch(room) {
  */
 function FriendListLoadFriendList(data) {
 	// Loads the header caption
-	const BeepCaption = DialogFindPlayer("Beep");
-	const DeleteCaption = DialogFindPlayer("Delete");
-	const ConfirmDeleteCaption = DialogFindPlayer("ConfirmDelete");
-	const PrivateRoomCaption = DialogFindPlayer("PrivateRoom");
-	const SentCaption = DialogFindPlayer("SentBeep");
-	const ReceivedCaption = DialogFindPlayer("ReceivedBeep");
-	const MailCaption = DialogFindPlayer("BeepWithMail");
-	const SpaceAsylumCaption = DialogFindPlayer("ChatRoomSpaceAsylum");
+	const BeepCaption = InterfaceTextGet("Beep");
+	const DeleteCaption = InterfaceTextGet("Delete");
+	const ConfirmDeleteCaption = InterfaceTextGet("ConfirmDelete");
+	const PrivateRoomCaption = InterfaceTextGet("PrivateRoom");
+	const SentCaption = InterfaceTextGet("SentBeep");
+	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
+	const MailCaption = InterfaceTextGet("BeepWithMail");
+	const SpaceAsylumCaption = InterfaceTextGet("ChatRoomSpaceAsylum");
 	const FriendTypeCaption = {
 		Owner: TextGet("TypeOwner"),
 		Lover: TextGet("TypeLover"),

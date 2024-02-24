@@ -94,10 +94,10 @@ class NotificationEventHandler {
 		if (C && 'icon' in Notification.prototype) icon = DrawCharacterSegment(C, 168, 50, 164, 164).toDataURL("image/png");
 		if (data.characterName) titleStart = data.characterName + " - ";
 		else if (C) titleStart = C.Name + " - ";
-		if (data.chatRoomName) titleEnd = DialogFindPlayer("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
+		if (data.chatRoomName) titleEnd = InterfaceTextGet("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
 
 		// Define the (supported) options of the popup and create it
-		let title = titleStart + DialogFindPlayer("NotificationTitle" + this.eventType) + titleEnd;
+		let title = titleStart + InterfaceTextGet("NotificationTitle" + this.eventType) + titleEnd;
 		let options = {};
 		if ('silent' in Notification.prototype) options.silent = true;
 		if ('body' in Notification.prototype && data.body) options.body = data.body;

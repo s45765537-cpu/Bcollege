@@ -1595,10 +1595,10 @@ function DrawPreviewIcons(icons, X, Y) {
 			const iconX = X + (iconSize + 5) * Math.floor(index / iconsPerCol);
 			const iconY = Y + (iconSize + 5) * (index % iconsPerCol);
 			let path = `Icons/Previews/${icon}.png`;
-			let text = DialogFindPlayer("PreviewIcon" + icon);
+			let text = InterfaceTextGet("PreviewIcon" + icon);
 			if (icon.endsWith("Padlock")) {
 				path = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-				text = DialogFindPlayer("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon).Description);
+				text = InterfaceTextGet("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon).Description);
 			}
 			DrawImageResize(path, iconX, iconY, iconSize, iconSize);
 			if (MouseIn(iconX, iconY, iconSize * 0.9, iconSize * 0.9)) {

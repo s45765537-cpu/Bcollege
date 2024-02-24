@@ -160,7 +160,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
  * @param {ModularItemData} data
  */
 function ModularItemLoad(data) {
-	DialogExtendedMessage = DialogFindPlayer(`${data.dialogPrefix.header}${data.currentModule}`);
+	DialogExtendedMessage = AssetTextGet(`${data.dialogPrefix.header}${data.currentModule}`);
 }
 
 /**
@@ -376,7 +376,7 @@ function ModularItemDrawCommon(
 	DrawButton(
 		1775, 25, 90, 90, "", "White",
 		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-		DialogFindPlayer(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
+		InterfaceTextGet(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
 	);
 
 	const pageNumber = Math.min(pageCount - 1, data.pages[moduleName] || 0);
@@ -431,7 +431,7 @@ function ModularItemCreateClickBaseFunction(data) {
 				const module = page[i];
 				if (module) {
 					if (CharacterGetCurrent().IsPlayer() && module.AllowSelfSelect === false) {
-						DialogExtendedMessage = DialogFindPlayer("CannotSelfSelect");
+						DialogExtendedMessage = InterfaceTextGet("CannotSelfSelect");
 						return;
 					}
 					ModularItemModuleTransition(module.Name, data);
@@ -543,7 +543,7 @@ function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
  */
 function ModularItemModuleTransition(newModule, data) {
 	data.currentModule = newModule;
-	DialogExtendedMessage = DialogFindPlayer(data.dialogPrefix.header + newModule);
+	DialogExtendedMessage = AssetTextGet(data.dialogPrefix.header + newModule);
 }
 
 /**
