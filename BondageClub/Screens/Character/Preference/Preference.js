@@ -3091,7 +3091,7 @@ var PreferenceOnlineSharedSettingsValidate = {
  * @returns {void} - Nothing
  */
 function PreferenceRegisterExtensionSetting(Setting) {
-	if((typeof Setting.Name !== "string" || Setting.Name.length < 1)
+	if((typeof Setting.Identifier !== "string" || Setting.Identifier.length < 1)
 	|| typeof Setting.click !== "function"
 	|| (typeof Setting.ButtonText !== "string" && typeof Setting.ButtonText !== "function")
 	|| (typeof Setting.Image !== "string" && typeof Setting.Image !== "function" && typeof Setting.Image !== "undefined")) {
@@ -3099,9 +3099,9 @@ function PreferenceRegisterExtensionSetting(Setting) {
 		return;
 	}
 	// Setting Names must be unique
-	const exsited = PreferenceExtensionsSettings.find(s => s.Name === Setting.Name);
-	if(exsited) {
-		console.error(`Extension setting "${exsited.Name}" already exists`);
+	const existing = PreferenceExtensionsSettings.find(s => s.Identifier === Setting.Identifier);
+	if(existing) {
+		console.error(`Extension setting "${existing.Identifier}" already exists`);
 		return;
 	}
 	PreferenceExtensionsSettings.push(Setting);

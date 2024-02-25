@@ -3742,10 +3742,10 @@ interface ArousalSettingsType {
 /** Preference Menu info for extensions settings*/
 interface PreferenceExtensionsSettingItem {
 	/** 
-	 * The name of the extension.
+	 * The identifier of the extension.
 	 * This is used to identify the extension and should be unique. 
 	 */
-	Name: string;
+	Identifier: string;
 
 	/** 
 	 * The button text for the button of extension.
