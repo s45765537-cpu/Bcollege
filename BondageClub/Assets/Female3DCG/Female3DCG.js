@@ -27069,14 +27069,18 @@ var AssetFemale3DCG = [
 					{ Name: "ButtonOff", AllowColorize: false },
 					{ Name: "ButtonOn", LockLayer: true, AllowColorize: false },
 
-					{ Name: "Gag", AllowTypes: { g: 1 } },
-					{ Name: "GagWires", AllowTypes: { g: 1 } },
+					{ Name: "Gag", AllowTypes: { g: [1, 2] } },
+					{ Name: "GagWires", AllowTypes: { g: [1, 2] } },
 					{
 						Name: "GagStencil",
-						AllowTypes: { g: 1 },
+						AllowTypes: { g: [1, 2] },
 						CopyLayerColor: "Stencil",
 					},
-					{ Name: "EarCover", AllowTypes: { g: 1 }, CopyLayerColor: "Gag" },
+					{
+						Name: "EarCover",
+						AllowTypes: { g: [1, 2] },
+						CopyLayerColor: "Gag",
+					},
 
 					{
 						Name: "EyeBlackLow",
