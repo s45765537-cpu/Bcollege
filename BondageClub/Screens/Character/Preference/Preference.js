@@ -3092,6 +3092,8 @@ var PreferenceOnlineSharedSettingsValidate = {
  */
 function PreferenceRegisterExtensionSetting(Setting) {
 	if((typeof Setting.Identifier !== "string" || Setting.Identifier.length < 1)
+	|| typeof Setting.load !== "function"
+	|| typeof Setting.run !== "function"
 	|| typeof Setting.click !== "function"
 	|| (typeof Setting.ButtonText !== "string" && typeof Setting.ButtonText !== "function")
 	|| (typeof Setting.Image !== "string" && typeof Setting.Image !== "function" && typeof Setting.Image !== "undefined")) {
