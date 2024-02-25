@@ -355,7 +355,7 @@ type GraphicsFontName =
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts"
+	"Gender" | "Scripts" | "Extensions"
 	;
 
 type FetishName =
@@ -3737,6 +3737,49 @@ interface ArousalSettingsType {
 	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;
 	DisableAdvancedVibes: boolean;
+}
+
+/** Preference Menu info for extensions settings*/
+interface PreferenceExtensionsSettingItem {
+	/** 
+	 * The name of the extension.
+	 * This is used to identify the extension and should be unique. 
+	 */
+	Name: string;
+
+	/** 
+	 * The button text for the button of extension.
+	 * If it's a Function, it will be called once when entering
+	 * the extension setting menu. Use the return value as button text. 
+	 */
+	ButtonText: string | (()=>string);
+
+	/** 
+	 * The image path of the extension, and is passed 
+	 * into {@link DrawButton} for creating the HTMLImageElement 
+	 * that is needed for drawing the Button image.
+	 * If it's a Function, it will be called once when entering 
+	 * the extension setting menu. Use the return value as image 
+	 * path. 
+	 * If it's undefined, there will be no image for the button 
+	 */
+	Image?: string | (()=>string);
+
+	/** Handles loading on entering the extension setting */
+	load: () => void;
+
+	/** Handles the clicks of the extension setting */
+	click: () => void;
+
+	/** Handles the run and draws of the extension setting */
+	run: () => void;
+}
+
+/** Preference Menu info for extensions settings*/
+type PreferenceExtensionsMenuButtonInfo = {
+	Button: string;
+	Image?: string;
+	click: () => void;
 }
 
 // #end region

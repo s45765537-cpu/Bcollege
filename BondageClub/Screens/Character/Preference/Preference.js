@@ -103,6 +103,13 @@ let PreferenceScriptTimeoutHandle = null;
 /** @type {null | number} */
 let PreferenceScriptTimer = null;
 let PreferenceScriptWarningAccepted = false;
+/** @type {PreferenceExtensionsSettingItem[]} */
+let PreferenceExtensionsSettings = [];
+/** @type {PreferenceExtensionsMenuButtonInfo[]} */
+let PreferenceExtensionsDisplay = [];
+/** @type {PreferenceExtensionsSettingItem | null}*/
+let PreferenceExtensionsCurrent = null;
+
 
 const ScriptPermissionLevel = Object.freeze({
 	SELF: "Self",
@@ -728,12 +735,14 @@ function PreferenceRun() {
 	DrawText(TextGet("Preferences"), 500, 125, "Black", "Gray");
 	MainCanvas.textAlign = "center";
 
-	// Draw all the buttons to access the submenus
-	for (let A = 0; A < PreferenceSubscreenList.length; A++) {
-		DrawButton(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90, "", "White", "Icons/" + PreferenceSubscreenList[A] + ".png");
-		DrawTextFit(TextGet("Homepage" + PreferenceSubscreenList[A]), 745 + 420 * Math.floor(A / 7), 205 + 110 * (A % 7), 310, "Black");
-	}
+	// Only show the Extension settings if there are any registered
+	const adjustedSubscreenList = PreferenceExtensionsSettings.length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
+	// Draw all the buttons to access the submenus
+	for (let A = 0; A < adjustedSubscreenList.length; A++) {
+		DrawButton(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90, "", "White", "Icons/" + adjustedSubscreenList[A] + ".png");
+		DrawTextFit(TextGet("Homepage" + adjustedSubscreenList[A]), 745 + 420 * Math.floor(A / 7), 205 + 110 * (A % 7), 310, "Black");
+	}
 }
 
 /**
@@ -866,14 +875,16 @@ function PreferenceClick() {
 	// Exit button
 	if (MouseIn(1815, 75, 90, 90)) PreferenceExit();
 
+	const adjustedSubscreenList = PreferenceExtensionsSettings.length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
+
 	// Open the selected subscreen
-	for (let A = 0; A < PreferenceSubscreenList.length; A++)
+	for (let A = 0; A < adjustedSubscreenList.length; A++)
 		if (MouseIn(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90)) {
-			if (typeof window["PreferenceSubscreen" + PreferenceSubscreenList[A] + "Load"] === "function")
-				CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreenList[A] + "Load()");
-			PreferenceSubscreen = PreferenceSubscreenList[A];
+			if (typeof window["PreferenceSubscreen" + adjustedSubscreenList[A] + "Load"] === "function")
+				CommonDynamicFunction("PreferenceSubscreen" + adjustedSubscreenList[A] + "Load()");
+			PreferenceSubscreen = adjustedSubscreenList[A];
 			PreferencePageCurrent = 1;
-			if (PreferenceSubscreenList[A] === "Scripts") {
+			if (adjustedSubscreenList[A] === "Scripts") {
 				PreferenceScriptTimer = Date.now() + 5000;
 				PreferenceScriptTimeoutHandle = setTimeout(() => {
 					PreferenceScriptTimer = null;
@@ -3073,3 +3084,97 @@ var PreferenceOnlineSharedSettingsValidate = {
 		};
 	},
 };
+
+/**
+ * Registers a new extension setting to the preference screen
+ * @param {PreferenceExtensionsSettingItem} Setting - The extension setting to register
+ * @returns {void} - Nothing
+ */
+function PreferenceRegisterExtensionSetting(Setting) {
+	if((typeof Setting.Name !== "string" || Setting.Name.length < 1)
+	|| typeof Setting.click !== "function"
+	|| (typeof Setting.ButtonText !== "string" && typeof Setting.ButtonText !== "function")
+	|| (typeof Setting.Image !== "string" && typeof Setting.Image !== "function" && typeof Setting.Image !== "undefined")) {
+		console.error("Invalid extension setting");
+		return;
+	}
+	// Setting Names must be unique
+	const exsited = PreferenceExtensionsSettings.find(s => s.Name === Setting.Name);
+	if(exsited) {
+		console.error(`Extension setting "${exsited.Name}" already exists`);
+		return;
+	}
+	PreferenceExtensionsSettings.push(Setting);
+}
+
+/**
+ * Handles the loading of the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsLoad() {
+	PreferenceExtensionsDisplay = PreferenceExtensionsSettings.map(s => {
+		return {
+			Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
+			Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
+			click: () => {
+				PreferenceExtensionsCurrent = s;
+				if(typeof s.load === "function") {
+					s.load();
+				}
+			}
+		};
+	});
+}
+
+/**
+ * Runs and draws the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsRun() {
+	if(PreferenceExtensionsCurrent === null) {
+		DrawCharacter(Player, 50, 50, 0.9);
+
+		MainCanvas.textAlign = "left";
+		DrawText(TextGet("ExtensionsPreferences"), 500, 125, "Black", "Gray");
+
+		MainCanvas.textAlign = "center";
+		PreferenceExtensionsDisplay.forEach((s, i) => {
+			const X = 500 + Math.floor(i / 7) * 420;
+			const Y = 160 + (i % 7) * 110;
+			DrawButton(X, Y, 400, 90, "", "White", s.Image || null);
+			DrawTextFit(s.Button, X + 245, Y + 45, 310, "Black");
+		});
+
+		DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+	} else {
+		PreferenceExtensionsCurrent.run();
+	}
+}
+
+/**
+ * Handles clicks in the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsClick() {
+	if(PreferenceExtensionsCurrent === null) {
+		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreen = "";
+		PreferenceExtensionsDisplay.forEach((s, i) => {
+			const X = 500 + Math.floor(i / 7) * 420;
+			const Y = 160 + (i % 7) * 110;
+			if (MouseIn(X, Y, 400, 90)) s.click();
+		});
+	} else {
+		PreferenceExtensionsCurrent.click();
+	}
+}
+
+/**
+ * Exit the preference subscreen for extensions, should be called when leaving custom menu of extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsClear() {
+	if(PreferenceSubscreen !== "Extensions" || PreferenceExtensionsCurrent === null) return;
+	PreferenceExtensionsCurrent = null;
+	// Reload the extension settings
+	PreferenceSubscreenExtensionsLoad();
+}
