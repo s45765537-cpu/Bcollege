@@ -3766,13 +3766,37 @@ interface PreferenceExtensionsSettingItem {
 	Image?: string | (()=>string);
 
 	/** Handles loading on entering the extension setting */
-	load: () => void;
+	load?: () => void;
 
 	/** Handles the clicks of the extension setting */
 	click: () => void;
 
 	/** Handles the run and draws of the extension setting */
 	run: () => void;
+
+	/** 
+	 * Handles the unloading of the extension setting, typically
+	 * from {@link CommonSetScreen}, when the player is disconnected.
+	 * If it's undefined, there will be no unloading for the extension 
+	 * setting.
+	 * Remind to check those HTML elements that are created in the
+	 * extension setting, and hide/remove them from the DOM.
+	 * Note that HTML elements with `HideOnPopup` class will be hidden
+	 * automatically when a popup is shown.
+	 */
+	unload?: () => void;
+
+	/**
+	 * Handles the exits of the extension setting, typically when
+	 * user press `Esc` key. 
+	 * If a extension wants to exit the menu by itself 
+	 * (clicking `exit` button, etc.), the extension should call
+	 * `PreferenceSubscreenExtensionsClear`.
+	 * @returns If it returns `true`, the extension setting will be unload. 
+	 * And `unload` will be called once if it's defined and then main extension 
+	 * setting page is shown.
+	 */
+	exit: () => boolean | void;
 }
 
 /** Preference Menu info for extensions settings*/

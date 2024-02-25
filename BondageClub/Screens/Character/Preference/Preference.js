@@ -103,8 +103,8 @@ let PreferenceScriptTimeoutHandle = null;
 /** @type {null | number} */
 let PreferenceScriptTimer = null;
 let PreferenceScriptWarningAccepted = false;
-/** @type {PreferenceExtensionsSettingItem[]} */
-let PreferenceExtensionsSettings = [];
+/** @type {Record<string,PreferenceExtensionsSettingItem>} */
+let PreferenceExtensionsSettings = {};
 /** @type {PreferenceExtensionsMenuButtonInfo[]} */
 let PreferenceExtensionsDisplay = [];
 /** @type {PreferenceExtensionsSettingItem | null}*/
@@ -736,7 +736,7 @@ function PreferenceRun() {
 	MainCanvas.textAlign = "center";
 
 	// Only show the Extension settings if there are any registered
-	const adjustedSubscreenList = PreferenceExtensionsSettings.length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
+	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Draw all the buttons to access the submenus
 	for (let A = 0; A < adjustedSubscreenList.length; A++) {
@@ -875,7 +875,7 @@ function PreferenceClick() {
 	// Exit button
 	if (MouseIn(1815, 75, 90, 90)) PreferenceExit();
 
-	const adjustedSubscreenList = PreferenceExtensionsSettings.length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
+	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Open the selected subscreen
 	for (let A = 0; A < adjustedSubscreenList.length; A++)
@@ -3101,12 +3101,12 @@ function PreferenceRegisterExtensionSetting(Setting) {
 		return;
 	}
 	// Setting Names must be unique
-	const existing = PreferenceExtensionsSettings.find(s => s.Identifier === Setting.Identifier);
+	const existing = PreferenceExtensionsSettings[Setting.Identifier];
 	if(existing) {
 		console.error(`Extension setting "${existing.Identifier}" already exists`);
 		return;
 	}
-	PreferenceExtensionsSettings.push(Setting);
+	PreferenceExtensionsSettings[Setting.Identifier] = Setting;
 }
 
 /**
@@ -3114,18 +3114,16 @@ function PreferenceRegisterExtensionSetting(Setting) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenExtensionsLoad() {
-	PreferenceExtensionsDisplay = PreferenceExtensionsSettings.map(s => {
-		return {
-			Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
-			Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
-			click: () => {
-				PreferenceExtensionsCurrent = s;
-				if(typeof s.load === "function") {
-					s.load();
+	PreferenceExtensionsDisplay = Object.keys(PreferenceExtensionsSettings).map(
+		k => (
+			s=>({
+				Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
+				Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
+				click: () => {
+					PreferenceExtensionsCurrent = s;
+					s?.load();
 				}
-			}
-		};
-	});
+			}))(PreferenceExtensionsSettings[k]));
 }
 
 /**
@@ -3159,7 +3157,7 @@ function PreferenceSubscreenExtensionsRun() {
  */
 function PreferenceSubscreenExtensionsClick() {
 	if(PreferenceExtensionsCurrent === null) {
-		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreen = "";
+		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExtensionsExit();
 		PreferenceExtensionsDisplay.forEach((s, i) => {
 			const X = 500 + Math.floor(i / 7) * 420;
 			const Y = 160 + (i % 7) * 110;
@@ -3170,12 +3168,26 @@ function PreferenceSubscreenExtensionsClick() {
 	}
 }
 
+function PreferenceSubscreenExtensionsUnload() {
+	PreferenceExtensionsCurrent?.unload?.();
+}
+
+function PreferenceSubscreenExtensionsExit() {
+	if(PreferenceExtensionsCurrent === null) {
+		PreferenceSubscreen = "";
+	} else if(PreferenceExtensionsCurrent.exit()) {
+		PreferenceSubscreenExtensionsClear();
+	}
+}
+
 /**
- * Exit the preference subscreen for extensions, should be called when leaving custom menu of extensions
+ * Exit the preference subscreen for extensions, should be called when
+ * leaving custom menu of extensions if the extension exits the menu from itself.
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenExtensionsClear() {
 	if(PreferenceSubscreen !== "Extensions" || PreferenceExtensionsCurrent === null) return;
+	PreferenceExtensionsCurrent.unload();
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
 	PreferenceSubscreenExtensionsLoad();
