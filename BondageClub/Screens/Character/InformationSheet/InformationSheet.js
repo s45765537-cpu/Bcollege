@@ -216,7 +216,7 @@ function InformationSheetSecondScreenRun() {
 
 		// Draw the skill section
 		DrawText(TextGet("Skill"), 1425, 125, "Black", "Gray");
-		if (C.IsOnline()) {
+		if (!C.IsPlayer()) {
 			DrawText(TextGet("Unknown"), 1425, 200, "Black", "Gray");
 		} else {
 			let skillLine = 0;
