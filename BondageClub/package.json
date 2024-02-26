@@ -2,8 +2,8 @@
 	"name": "bondage-college",
 	"version": "1.0.0",
 	"description": "Welcome to the Bondage College!",
-	"engines" : {
-		"node" : ">= 21"
+	"engines": {
+		"node": ">= 21"
 	},
 	"scripts": {
 		"changelog:generate": "cd Tools/Node && node GenerateChangelog generate",
