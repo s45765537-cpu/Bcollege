@@ -76,7 +76,6 @@ function GameRun(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	if (event.repeat) return false;
 	let handled = false;
 	KeyPress = event.keyCode || event.which;
 	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {

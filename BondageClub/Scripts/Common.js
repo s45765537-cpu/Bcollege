@@ -2,7 +2,10 @@
 "use strict";
 /** @type {PlayerCharacter} */
 var Player;
-/** @type {number|string} */
+/**
+ * @type {number|string}
+ * @deprecated Use the keyboard handler's `event` parameter instead
+ */
 var KeyPress = "";
 /** @type {ModuleType} */
 var CurrentModule;

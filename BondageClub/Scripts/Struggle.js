@@ -609,7 +609,7 @@ function StruggleStrengthHandleEvent(EventType, event) {
 	if (StruggleProgress < 0) return;
 
 	if (EventType === "KeyDown") {
-		if (event.key === "a" || event.key === "s") {
+		if (CommonKeyMove(event) === "l" || CommonKeyMove(event) === "r") {
 			StruggleStrengthProcess((StruggleProgressLastKeyPress == event.key));
 			StruggleProgressLastKeyPress = event.key;
 		}

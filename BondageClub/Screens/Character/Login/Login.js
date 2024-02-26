@@ -961,10 +961,14 @@ function LoginClick() {
 
 /**
  * Handles player keyboard events on the character login screen, "enter" will login
- * @returns {void} Nothing
+ * @type {KeyboardEventListener}
  */
-function LoginKeyDown() {
-	if (KeyPress == 13) LoginDoLogin();
+function LoginKeyDown(event) {
+	if (event.key === "Enter") {
+		LoginDoLogin();
+		return true;
+	}
+	return false;
 }
 
 /**

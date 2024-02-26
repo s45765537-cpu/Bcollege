@@ -93,8 +93,12 @@ function ChestLockpickClick() {
 
 /**
  * Handles the key press in the mini game, the C cheat key removes a pick lock requirement
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function ChestLockpickKeyDown() {
-	if (MiniGameCheatKeyDown() && (ChestLockpickCount >= 2)) ChestLockpickCount--;
+function ChestLockpickKeyDown(event) {
+	if (MiniGameCheatKeyDown(event) && (ChestLockpickCount >= 2)) {
+		ChestLockpickCount--;
+		return true;
+	}
+	return false;
 }
