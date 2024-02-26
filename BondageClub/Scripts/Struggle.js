@@ -541,7 +541,7 @@ Featuring:
 -Smooth gameplay!
 -Innovative strategies!
 
-Game description: Mash A and S until you get out
+Game description: Mash A and D until you get out
 */
 
 /**
