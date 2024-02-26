@@ -22053,7 +22053,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					AllFours: "AllFours",
-					BackElbowTouch: "Kneel",
 					Kneel: "Kneel",
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
@@ -22153,7 +22152,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					AllFours: "AllFours",
-					BackElbowTouch: "Kneel",
 					Kneel: "Kneel",
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
