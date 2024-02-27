@@ -28,9 +28,11 @@ function ChatRoomCharacterViewIsActive()
 	return ChatRoomIsViewActive(ChatRoomCharacterViewName);
 }
 
-function ChatRoomCharacterViewRun()
-{
-	ChatRoomCharacterViewDraw();
+/**
+ * Run handler for the chat room character view
+ */
+function ChatRoomCharacterViewRun() {
+
 }
 
 /**
