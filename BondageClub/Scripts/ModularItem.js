@@ -112,7 +112,10 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}
 	}
 
-	validateType: if (Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)) {
+	validateType: if (
+		Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)
+		&& !Data.modules.some(m => InventoryIsPermissionBlocked(C, Item.Asset.Name, Item.Asset.Group.Name, `${m.Key}${Item.Property.TypeRecord[m.Key]}`))
+	) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;
