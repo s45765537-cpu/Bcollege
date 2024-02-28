@@ -32,7 +32,7 @@ What happened to your tray, girl?  The club members are thirsty! Here, have anot
 (DialogCharacterName gets you back to the maid quarters and frowns.)  You failed to clean up in time.
 (DialogCharacterName皱着眉头带着你回到了女仆宿舍)你完全没有打扫干净欸
 (DialogCharacterName hugs you and gropes your red butt.)  You're now a full maid my sister.
-（DialogCharacterName抱着你，揉着你红肿的屁股）姐妹，你现在就是一个真正的女仆了！
+（DialogCharacterName抱着你，揉着你红肿的屁股）妹妹，你现在就是一个真正的女仆了！
 I'm sorry Miss.  I cannot help you.
 对不起，小姐。我们不能帮你。
 (She first shakes her head to avoid the gag, but finally surrenders as you silence her.)
@@ -68,7 +68,7 @@ I'm sorry Miss.  I cannot help you.
 (You unlock the belt from her waist, and she smiles.)  Thanks a lot Miss DialogPlayerName.
 (你从她的腰上去除皮带之后，她笑了起来)谢谢你，DialogPlayerName小姐~
 (You strap the device on her head as she nods slowly.)  This will not make my job easier Miss.
-（你在她点头时在她头上装上了一个装置)这可不能提高我的工作效率，小姐。
+（你在她点头时在她头上装上了一个装置（这可不能提高我的工作效率，小姐。
 (You remove the device and she nods rapidly.)  Thanks a million, this is much better.
 （你去下了她头上的装置，接着她快速的点起了头）超谢谢你！这下子好多了~
 (She jumps from the searing pain on her breast.)  Ouch!  Miss Head Maid!
@@ -102,7 +102,7 @@ Welcome to the Maid Quarters.  How can I help you?
 You've done a lot for the maid sorority.  You should apply to become a full sister.
 你已经为女仆联谊会做了很多了，有考虑成为一名全职女仆吗？
 It's great to see you sister!  How can I help you?
-欢迎回来！姐妹！需要什么帮忙吗？
+欢迎回来！妹妹！需要什么帮忙吗？
 ###_PLAYER
 (Present the tray)
 （出示托盘）
@@ -114,7 +114,7 @@ Aww, sweetie, I'll miss tying you up if you do it all by yourself.  Come on!  Ou
 （用头挥动连接着口塞的掸子）
 ###_NPC
 Aww, so pretty. You tied yourself for the cleaning chore.  I'll drag you to your workspace.
-好耶！你已经为了清理工作把自己绑好了。现在我带你去工作的地方。
+好耶！你已经为了家务把自己绑好了。现在我带你去工作的地方。
 ###_PLAYER
 (Nod yes.)
 （点头）
@@ -236,7 +236,7 @@ I'll need to dress like you?
 我需要穿的和你一样吗？
 ###_NPC
 Only when you're doing a chore.  After lots of work for us, you can earn a permanent uniform that you can keep.
-只有当你在工作时需要。等你帮我们干了足够的活之后，你会能收到自己专属的制服啦！
+只有当你在做家务时需要。等你帮我们干了足够的活之后，你会能收到自己专属的制服啦！
 ###_PLAYER
 I'm not afraid of work.
 那些工作对我来说算不了什么
@@ -418,7 +418,7 @@ Hey!  I can't talk during my own initiation?
 （脸红，看向地面）
 ###_NPC
 My sisters!  It's time to show your strength!  Bring the paddle!
-是时候展现你的强大了，姐妹。（向别的女仆说）把拍子拿过来吧
+是时候展现你们的力量了，我的姐妹们！把拍子拿过来吧！
 ###_PLAYER
 (Look at them and wait.)
 （看着他们，等待）
@@ -485,7 +485,7 @@ Of course.  How can I help you?
 当然了。我该这么帮你？
 ###_PLAYER
 How does it work?
-这是如何工作的？
+这要怎么办呢？
 ###_NPC
 Nothing special Miss.  All you need to do is sign a contract with the club.
 没什么特殊的。你只需要与俱乐部签署一份合同就行了。
@@ -520,7 +520,7 @@ I will rule with an iron first.
 Excellent Miss.  Is there anything else I can do for you?
 那太棒了。还有什么我能帮你的吗？
 (She shows you a list of chores.)  What kind of job are you looking for?
-（她向你展示了一长串的工作）有什么你想做的吗？
+（她向你展示了一长串的家务工作）有什么你想做的吗？
 ###_PLAYER
 Can you please release me so I can take a job?
 在我挑选工作前，你可以先放开我吗？
@@ -726,13 +726,13 @@ Excellent!  Here's your salary.  (She gives you $REPLACEMONEY.)
 Excellent!  Go see your owner and give her this.  (She gives you a sealed envelope with $REPLACEMONEY for your owner.)
 好棒！现在拿着这个去见你主人吧(她给了你一个交给你主人的装着$REPLACEMONEY的信封)
 (She releases you and helps you to get dressed.)  All set!  Are you ready for more chores?
-（她放开了你并帮你穿上了衣服）完~工~！你还想做更多的工作吗？
+（她放开了你并帮你穿上了衣服）完~工~！你还想做更多的家务吗？
 ###_PLAYER
 Thanks a lot!
 谢谢！
 ###_NPC
 (She nods.)  Are you ready for more chores?
-（她点了点头）准备好做更多工作了吗？
+（她点了点头）准备好做更多家务了吗？
 You'll have to patrol around the club and release members that are stuck.  I'll give you a specific location to monitor.
 你需要在俱乐部的附近巡逻，并释放受困的成员。我会给你指定一个位置去监视。
 ###_PLAYER
@@ -792,19 +792,25 @@ Everyone will be safe as long as I'm in control.
 只要有我在，一切尽在掌握之中
 ###_NPC
 That's very comforting to hear.  Are you ready for more chores?
-那太好了。你打算继续做些工作吗？
+那太好了。你打算继续做些家务吗？
 ###_PLAYER
 I'm happy I could serve the sorority Miss.
 为联谊会工作是我的荣幸，小姐
 ###_NPC
 You're such a sweet servant.  Are you ready for more chores?
-你真是个可爱的仆人。准备好迎接更多工作了吗？
+你真是个可爱的仆人。准备好迎接更多家务了吗？
 ###_PLAYER
 Don't mention it.
 别提了。
 ###_NPC
 Excellent!  Are you ready for more chores?
-好耶！准备好迎接更多工作了吗？
+好耶！准备好迎接更多家务了吗？
+###_PLAYER
+I want a latex uniform for my hard labor.
+我想要在我努力工作的时候穿乳胶制服。
+###_NPC
+I'm surprised you don't have one Miss.  I will solve this problem right now (she gives you a latex uniform and headband).  Are you ready for more chores?
+我很惊讶你自己竟然没有，女士。我现在就解决这个问题（她给你一套乳胶制服和头带）。你准备好做更多的家务了吗？
 ###_PLAYER
 I didn't have the proper tools or techniques.
 我没有适合的工具或者技巧欸。
@@ -816,13 +822,13 @@ I'm sorry, I don't have any excuses.
 没什么好说的。。。抱歉
 ###_NPC
 It's alright girl, don't worry.  I can give you another chore if you're up for it.
-没关系的孩子，如果你愿意的话，这里还有一份工作。
+没关系的孩子，如果你愿意的话，这里还有一份家务工作。
 ###_PLAYER
 The rescue was already done.
 救援任务已经完成了。
 ###_NPC
 Very well, it happens from time to time.  I can give you another chore if you're up for it.
-好棒！这种情况每时每刻都会发生。你如果愿意的话我现在还能再给你一份工作。
+好棒！这种情况每时每刻都会发生。你如果愿意的话我现在还能再给你一份家务工作。
 ###_PLAYER
 Is my outfit suitable to clean?
 我的衣服适合打扫工作吗？
@@ -1087,3 +1093,41 @@ Yes.  I want to be a helpless slave.
 ###_NPC
 (She nods.)  Very well.  Your fate is now sealed, girl.
 （点头）很好，你的命运已经注定了，孩子。
+(You come back to DialogCharacterName with a sparkling platter.)  Congratulations on your perfect work sister!
+（你带着闪闪发光的盘子回到DialogCharacterName。）恭喜，妹妹的工作真完美！
+###_PLAYER
+(Nod proudly.)
+（骄傲地点头。）
+###_NPC
+(She releases you and helps you to get dressed.)  Since you're such an awesome maid, I have a gift for you.
+（她放开你，帮你穿好衣服。）既然你是一个很棒的女仆，我有一份礼物送给你。
+###_PLAYER
+(Catch your breath.)
+（屏住呼吸。）
+What is the gift Miss?
+是什么礼物，女士？
+###_NPC
+(She hands you a latex maid outfit.)  Wear it proudly and serve the Bondage Club sister.
+（她递给你一套乳胶女仆装。）自豪地穿上它，为束缚俱乐部服务，妹妹。
+###_PLAYER
+Thanks sister.
+谢谢姐姐。
+(Make a curious look.)
+（做出好奇的表情。）
+That's very generous.
+非常感谢。
+###_NPC
+Don't mention it.  Are you ready for more chores?
+别提了。你准备好做更多的家务了吗？
+###_PLAYER
+The sorority will be proud of my work.
+联谊会将为我的工作感到自豪。
+###_NPC
+I'm sure we will.  Are you ready for more chores?
+我相信我们会的。你准备好做更多的家务了吗？
+###_PLAYER
+(Take the latex maid outfit.)
+（拿走乳胶女仆装。）
+###_NPC
+Are you ready for more chores?
+你准备好做更多的家务了吗？
