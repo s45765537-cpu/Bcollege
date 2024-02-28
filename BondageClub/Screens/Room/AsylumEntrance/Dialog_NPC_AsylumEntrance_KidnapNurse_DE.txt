@@ -184,15 +184,3 @@ Bye-bye nurse.
 Tschüss, Schwester.
 (Leave her.)
 (Dialog beenden.)
-
-########################
-### DEPRECATED LINES ###
-########################
-I'll give you 10$.
-Ich gebe dir 10$.
-I'll give you 25$.
-Ich gebe dir 25$.
-I'll give you 50$.
-Ich gebe dir 50$.
-I'll give you 100$.
-Ich gebe dir 100$.
