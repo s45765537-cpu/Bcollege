@@ -58,6 +58,22 @@ Was ist es für ein Test?
 ###_PLAYER
 I heard something about a gang of bad girls?
 Ich habe etwas von einer Bande böser Mädchen gehört?
+###_NPC
+The gang includes the troublemakers, all of whom should be put in a prison cell.
+Zur Bande gehören die Problemmacherinnen, die alle in eine Gefängniszelle sollten.
+###_PLAYER
+I don't want to be a part of the Bad Girls Gang anymore.
+Ich will nicht mehr zu der Bande böser Mädchen gehören.
+###_NPC
+Well, if you promise to be good, we'll leave you alone.
+Gut wenn du versprichst brav zu sein, lassen wir dich in Ruhe.
+###_PLAYER
+(Return the dice)
+(Die Würfel zurückgeben)
+###_NPC
+Thanks.
+Danke.
+###_PLAYER
 Okay. Bye! (Leave her.)
 Okay. Tschüss! (Dialog beenden.)
 ###_NPC
@@ -99,8 +115,6 @@ Ende gut, alles gut.
 (Continues)
 (Weiter)
 ###_NPC
-The gang includes the troublemakers, all of whom should be put in a prison cell.
-Zur Bande gehören die Problemmacherinnen, die alle in eine Gefängniszelle sollten.
 The bad girls always steal the special Dices in the Gambling hall for fun.
 Die bösen Mädchen klauen aus Spaß immer die Spezialwürfel in der Spielhalle.
 Therefore the guards must check them regularly.
@@ -112,31 +126,31 @@ Du bist doch nicht etwa aus so ein böses Mädchen?
 ###_PLAYER
 I would never do that.
 Ich würde das doch niemals machen.
-On the contrary, I want to help catch them.
-Im Gegenteil, ich möchte Helfen sie einzufangen.
-Sure, that sounds like fun.
-Sicher doch, das hört sich lustig an.
 ###_NPC
 You'd better not.
 Das will ich dir auch geraten haben.
+###_PLAYER
+On the contrary, I want to help catch them.
+Im Gegenteil, ich möchte Helfen sie einzufangen.
+###_NPC
 (This feature will be available in a future version.)
 (Diese Option wird in einer zukünftigen Version verfügbar sein.)
+###_PLAYER
+Sure, that sounds like fun.
+Sicher doch, das hört sich lustig an.
+###_NPC
 I'll be keeping an eye on you from now on. Just don't get caught.
 Dann habe ich dich ab jetzt im Auge, lass dich bloß nicht erwischen.
 ###_PLAYER
-I don't want to be a part of the Bad Girls Gang anymore.
-Ich will nicht mehr zu der Bande böser Mädchen gehören.
-###_NPC
-Well, if you promise to be good, we'll leave you alone.
-Gut wenn du versprichst brav zu sein, lassen wir dich in Ruhe.
-###_PLAYER
 I swear it.
 Ich schwöre es.
-Ha ha, I'm just kidding.
-Haha, das war nur Spaß.
 ###_NPC
 Then keep it.
 Dann halte dich auch daran.
+###_PLAYER
+Ha ha, I'm just kidding.
+Haha, das war nur Spaß.
+###_NPC
 You'll see what you get out of it.
 Du wirst schon sehen was du davon hast.
 ###_PLAYER

@@ -97,7 +97,7 @@ Ich bin bereit für den nächsten Trick.
 I did it and I want to stop.
 Ich bin fertig und möchte aufhören.
 ###_NPC
-(She gives you the income of REPLACEMONEY$.)
+(She gives you the income of $REPLACEMONEY.)
 (Sie gibt dir den Lohn von REPLACEMONEY $.)
 ###_PLAYER
 Goodbye. (Leave.)
@@ -233,7 +233,7 @@ Applaus für diesen Ausbruch.
 I escaped and am happy to finish the show.
 Ich bin entkommen und würde gern aufhören.
 ###_NPC
-(She gives you the income of REPLACEMONEY$.) Will you come back?
+(She gives you the income of $REPLACEMONEY.) Will you come back?
 (Sie gibt dir den Lohn von REPLACEMONEY $.) Kommst du wieder?
 ###_PLAYER
 (Knock for help.)
@@ -245,8 +245,8 @@ Sie beschwört ein paar Münzen aus dem Nichts und hält sie dir entgegen.
 (Take them.)
 (Sie nehmen.)
 ###_NPC
-(You get REPLACEMONEY$.)
-Du erhältst REPLACEMONEY $.
+(You get $REPLACEMONEY.)
+(Du erhältst REPLACEMONEY $.)
 ###_PLAYER
 (Give them back.)
 (Sie ihr zurückgeben.)
@@ -271,7 +271,7 @@ Ein Jubeln für diese Leistung, bitte.
 I need a break and get out of the show.
 Ich brauche eine Pause von dieser Show.
 ###_NPC
-(She gives you the income of REPLACEMONEY$.) Thank you so much.
+(She gives you the income of $REPLACEMONEY.) Thank you so much.
 (Sie gibt dir den Lohn von REPLACEMONEY $.) Vielen Dank.
 Now the classic. Despite being handcuffed, will she be able to escape from a water-filled milk can?
 Jetzt kommt der Klassiker. Kann sie sich trotz ihrer Handschellen aus einer mit Wasser gefüllten Milchkanne befreien?
@@ -287,7 +287,7 @@ Ich bin Houdinis wahre Erbin.
 (Catch your breath.) I've had enough.
 (Aufatmen.) Ich hab genug.
 ###_NPC
-(She gives you the income of REPLACEMONEY$.) Thanks for the show.
+(She gives you the income of $REPLACEMONEY.) Thanks for the show.
 (Sie gibt dir den Lohn von REPLACEMONEY $.) Danke für die Show.
 Your task: escape from the incredible water torture cell.
 Deine Aufgabe: Entkomme aus der unglaublichen Wasserfolterkammer.

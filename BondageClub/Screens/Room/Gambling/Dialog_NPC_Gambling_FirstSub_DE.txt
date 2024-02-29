@@ -91,6 +91,8 @@ Alles klar, viel Glück!
 ###_NPC
 Are you having fun?
 Hast du Spaß?
+(She checks your locks.)  I'm sorry, there's not much I can do.
+(Sie prüft die Schlösser.)  Tut mit leid, da kann ich nichts machen.
 ###_PLAYER
 (Play by your own rules.)
 (Nach deinen eigenen Regeln spielen.)
@@ -238,12 +240,12 @@ Mal sehen, was die Würfel dazu sagen...
 ###_PLAYER
 (Whimper and make pleading eyes.)
 (Wimmern und flehende Augen machen.)
-(Whimper and squirm.)
-(Wimmern und winden.)
 ###_NPC
 Do you need help?
 Brauchst du Hilfe?
 ###_PLAYER
+(Whimper and squirm.)
+(Wimmern und winden.)
 (Nod yes.)
 (Nicken.)
 ###_NPC
@@ -547,9 +549,17 @@ Das bekommst du zurück!
 ###_NPC
 (She releases you and sighs.)  Enjoy the freedom while you have it.
 (Sie befreit dich und seufzt.) Genieße deine Freiheit, solange du sie hast.
+(She slaps your butt and giggles)  I'll let you sort out your own problems...
+(She schlägt auf deinen Arsch und kichert)  Ich lasse dich deine eigenen Probleme lösen...
 ###_PLAYER
 Take care.
 Mach's gut.
+###_NPC
+Welcome to the Gambling Hall.  Shall we play a game?
+Willkommen in der Spielhalle.  Sollen wir ein Spiel wagen?
+###_PLAYER
+I'll get you next time.
+Das nächste mal bist du dran.
 Thanks!  That was fun.
 Danke! Das hat Spaß gemacht.
 (Leave her.)
