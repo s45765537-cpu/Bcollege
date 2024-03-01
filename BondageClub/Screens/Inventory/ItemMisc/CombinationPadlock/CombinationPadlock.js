@@ -142,6 +142,12 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 	originalFunction();
+	if (DialogFocusSourceItem == null) {
+		// TODO: Let the click handlers return a boolean flag indicating whether a button has been clicked or not.
+		// As a stop-gap measure simply check whether `DialogFocusSourceItem` has been de-initialized
+		return;
+	}
+
 	var C = CharacterGetCurrent();
 
 	// If the zone is blocked, cannot interact with the lock
