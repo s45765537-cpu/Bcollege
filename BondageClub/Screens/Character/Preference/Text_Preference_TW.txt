@@ -30,6 +30,8 @@
 - 性別設置 -
 - Script Permission Preferences -
 - 腳本權限設定 -
+- Extensions Preferences -
+- 擴充組件設定 - 
 General
 通用
 Difficulty
@@ -62,6 +64,8 @@ Gender
 性別
 Scripts
 腳本
+Extensions
+擴充組件
 The difficulty mode enforces BDSM restrictions in multi-player only.  Click for details.
 難度模式僅在多人遊戲中使BDSM限制強制生效。點擊以了解更多
 Roleplay
