@@ -914,8 +914,9 @@ function DialogLeaveItemMenu() {
 }
 
 /**
- * Leaves the item menu of the focused item. Constructs a function name from the
- * item's asset group name and the item's name and tries to call that.
+ * Leaves the item menu of the focused item (be it the extended item- or tighten/loosen menu) and
+ * perform any screen-specific setup for {@link CurrentScreen}.
+ * @see {@link DialogLeaveFocusItemHandlers} Namespace with helper functions for setting up new screens
  */
 function DialogLeaveFocusItem() {
 	if (DialogTightenLoosenItem != null) {
