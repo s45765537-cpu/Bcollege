@@ -873,11 +873,11 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
- * @param {string} data - Response from the server
+ * @param {ServerChatRoomSearchResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatSearchResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != "")) {
+	if (typeof data === "string" && data) {
 		if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
 			ChatRoomClearAllElements();
 			CommonSetScreen("Online", "ChatSearch");
@@ -890,31 +890,52 @@ function ChatSearchResponse(data) {
 
 /**
  * Censors the chat search result name and description based on the player preference
- * @returns {void} - Nothing
+ * @param {ServerChatRoomSearchData} searchData - The (potentially) to-be censored search result
+ * @returns {null | { DisplayName: string, Description: string }} - The censored name and description or, if fully censored, return `null` instead
  */
-function ChatSearchCensor() {
-	for (let R = 0; R < ChatSearchResult.length; R++) {
-		let Name = CommonCensor(ChatSearchResult[R].Name);
-		let Description = CommonCensor(ChatSearchResult[R].Description);
-		if ((Name == "¶¶¶") || (Description == "¶¶¶")) {
-			ChatSearchResult.splice(R, 1);
-			R = R - 1;
-		} else {
-			ChatSearchResult[R].DisplayName = Name;
-			ChatSearchResult[R].Description = Description;
-		}
+function ChatSearchCensor(searchData) {
+	const DisplayName = CommonCensor(searchData.Name);
+	const Description = CommonCensor(searchData.Description);
+	if (DisplayName === "¶¶¶" || Description === "¶¶¶") {
+		return null;
+	} else {
+		return { DisplayName, Description };
 	}
 }
 
 /**
+ * Parse the passed server search data, ensuring that all required fields are present.
+ * @param {ServerChatRoomSearchResultResponse} searchResults - The unparsed search data as received from the server
+ * @returns {(ServerChatRoomSearchData & { DisplayName: string, Order: number })[]} - The fully parsed room search data
+ */
+function ChatSearchParseResponse(searchResults) {
+	if (!CommonIsArray(searchResults)) {
+		return [];
+	}
+
+	/** @type {(ServerChatRoomSearchData & { DisplayName: string, Order: number })[]} */
+	const ret = [];
+	let i = 0;
+	for (const result of searchResults) {
+		const censoredData = ChatSearchCensor(result);
+		if (censoredData === null) {
+			continue;
+		}
+
+		ret.push({ ...result, ...censoredData, Order: i });
+		i++;
+	}
+	return ret;
+}
+
+/**
  * Handles the reception of the server data when it responds to the search query
- * @param {any[]} data - Response from the server, contains the room list matching the query
+ * @param {ServerChatRoomSearchResultResponse} data - Response from the server, contains the room list matching the query
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {
-	ChatSearchResult = Array.isArray(data) ? data : [];
+	ChatSearchResult = ChatSearchParseResponse(data ?? []);
 	ChatSearchResultOffset = 0;
-	ChatSearchCensor();
 	ChatSearchQuerySort();
 	ChatSearchApplyFilterTerms();
 	ChatSearchAutoJoinRoom();
@@ -1059,7 +1080,6 @@ function ChatSearchQuery() {
  */
 function ChatSearchQuerySort() {
 	// Send full rooms to the back of the list and save the order of creation.
-	ChatSearchResult = ChatSearchResult.map((Room, Idx) => { Room.Order = Idx; return Room; });
 	ChatSearchResult.sort((R1, R2) => R1.MemberCount >= R1.MemberLimit ? 1 : (R2.MemberCount >= R2.MemberLimit ? -1 : (R1.Order - R2.Order)));
 
 	// Friendlist option overrides basic order, but keeps full rooms at the back for each number of each different total of friends.

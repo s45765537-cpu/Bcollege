@@ -185,7 +185,7 @@ function ServerInfo(data) {
 /**
  * Callback used when we are disconnected from the server, try to enter the reconnection mode (relog screen) if the
  * user was logged in
- * @param {*} data - Error to log
+ * @param {ServerForceDisconnectMessage} [data] - Error to log
  * @param {boolean} [close=false] - close the transport
  * @returns {void} - Nothing
  */
@@ -311,6 +311,7 @@ function ServerSendQueueProcess() {
  * @returns {void} - Nothing
  */
 function ServerPlayerSync() {
+	// TODO: `Lover` has been deprecated, do we still need to pass it along here?
 	ServerAccountUpdate.QueueData({ Money: Player.Money, Owner: Player.Owner, Lover: Player.Lover });
 	delete Player.Lover;
 }
@@ -376,6 +377,7 @@ function ServerPlayerSkillSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerRelationsSync() {
+	/** @type {ServerAccountUpdateRequest} */
 	const D = {};
 	D.FriendList = Player.FriendList;
 	D.GhostList = Player.GhostList;
@@ -599,6 +601,7 @@ function ServerPlayerAppearanceSync() {
 
 	// Creates a big parameter string of every appearance items and sends it to the server
 	if (Player.AccountName != "") {
+		/** @type {ServerAccountUpdateRequest} */
 		var D = {};
 		D.AssetFamily = Player.AssetFamily;
 		D.Appearance = ServerAppearanceBundle(Player.Appearance);
@@ -656,7 +659,7 @@ function ServerAccountQueryResult(data) {
 
 /**
  * Callback used to parse received information related to a beep from another account
- * @param {object} data - Data object containing the beep object which contain at the very least a name and a member
+ * @param {ServerAccountBeepResponse} data - Data object containing the beep object which contain at the very least a name and a member
  *     number
  * @returns {void} - Nothing
  */
@@ -762,6 +765,7 @@ function ServerOpenFriendList() {
 	CommonSetScreen("Character", "FriendList");
 }
 
+// TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
 /**
  * Callback used to parse received information related to the player ownership data
  * @param {object} data - Data object containing the Owner name and Ownership object
@@ -788,6 +792,7 @@ function ServerAccountOwnership(data) {
 
 }
 
+// TODO: `data: object` -> `data: ServerAccountLovershipResponse`
 /**
  * Callback used to parse received information related to the player lovership data
  * @param {object} data - Data object containing the Lovership array

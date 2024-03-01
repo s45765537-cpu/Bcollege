@@ -126,13 +126,6 @@ const maxScriptPermission = Object.values(ScriptPermissionBits)
 	.reduce((sum, bit) => sum | bit, 0);
 
 /**
- * An object defining which genders a setting is active for
- * @typedef {object} GenderSetting
- * @property {boolean} Female - Whether the setting is active for female cases
- * @property {boolean} Male - Whether the setting is active for male cases
- */
-
-/**
  * Compares the arousal preference level and returns TRUE if that level is met, or an higher level is met
  * @param {Character} C - The player who performs the sexual activity
  * @param {ArousalActiveName} Level - The name of the level ("Inactive", "NoMeter", "Manual", "Hybrid", "Automatic")
@@ -324,7 +317,10 @@ function PreferenceInit(C) {
 function PreferenceInitPlayer() {
 	const C = Player;
 
-	// Save settings for comparison
+	/**
+	 * Save settings for comparison
+	 * @satisfies {Partial<Record<keyof ServerAccountData, string>>}
+	 */
 	const PrefBefore = {
 		ArousalSettings: JSON.stringify(C.ArousalSettings) || "",
 		ChatSettings: JSON.stringify(C.ChatSettings) || "",
@@ -597,6 +593,7 @@ function PreferenceInitPlayer() {
 	AfkTimerSetEnabled(C.OnlineSettings.EnableAfkTimer);
 
 	// Sync settings if anything changed
+	/** @type {{ [k in keyof typeof PrefBefore]?: PlayerCharacter[k] }} */
 	const toUpdate = {};
 
 	for (const prop of Object.keys(PrefBefore))

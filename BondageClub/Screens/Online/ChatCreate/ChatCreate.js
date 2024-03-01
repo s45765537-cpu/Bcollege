@@ -233,11 +233,11 @@ function ChatCreateExit() {
 
 /**
  * Handles the reception of the server response after attempting to create a chatroom: shows the error message, if applicable
- * @param {string} data - Response from the server
+ * @param {ServerChatRoomCreateResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatCreateResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != ""))
+	if (typeof data === "string" && data)
 		ChatCreateMessage = "Response" + data;
 }
 

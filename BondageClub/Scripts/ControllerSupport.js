@@ -29,7 +29,7 @@ var ControllerDetectedCount = 0;
  *
  * Those values come from the order https://hardwaretester.com/gamepad shows them in
  */
-const ControllerButton = {
+const ControllerButton = /** @type {const} */({
 	A: 0,
 	B: 1,
 	X: 2,
@@ -53,17 +53,17 @@ const ControllerButton = {
 	 * Home triggers Chrome's screen sharing feature on macOS
 	 */
 	Home: 16,
-};
+});
 
 const MAX_KNOWN_BUTTONS = 17;
 
 /** Gamepad-agnostic constants for the axes */
-const ControllerAxis = {
+const ControllerAxis = /** @type {const} */({
 	StickLV: 0,
 	StickLH: 1,
 	StickRV: 2,
 	StickRH: 3,
-};
+});
 
 const MAX_KNOWN_AXIS = 4;
 
@@ -194,8 +194,8 @@ function ControllerIsActive() {
 
 /**
  * Load a gamepad mapping
- * @param {object} buttonsMapping
- * @param {object} axisMapping
+ * @param {Partial<Record<ControllerButton, number>>} buttonsMapping
+ * @param {Partial<Record<ControllerAxis, number>>} axisMapping
  */
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
 	if (ControllerIsActive()) {
