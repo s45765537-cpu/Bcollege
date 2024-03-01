@@ -53,7 +53,7 @@ function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFuncti
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) {
 	originalFunction();
-	if (!Player.CanInteract()) {
+	if (!Player.CanInteract() || DialogFocusSourceItem == null) {
 		return;
 	}
 
