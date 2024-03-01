@@ -438,7 +438,14 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * The group name and asset name of a configuration to copy.
 	 * Useful if multiple items share the same config.
 	 */
-	CopyConfig?: { GroupName?: AssetGroupName, AssetName: string };
+	CopyConfig?: {
+		/** The name of the group */
+		GroupName: AssetGroupName,
+		/** The name of the asset */
+		AssetName: string,
+		/** Whether to automatically assign a {@link AssetDefinition.BuyGroup} to the config and, if required, to set it for all `CopyConfig`-referenced super configs */
+		BuyGroup?: boolean,
+	};
 
 	/**
 	 * Link an asset to another.

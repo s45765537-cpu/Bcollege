@@ -354,28 +354,61 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
  */
 var AssetResolveCopyConfig = {
 	/**
+	 * Take an (ordered) list of `CopyConfig`-referenced configs and group them all together in a `BuyGroup`.
+	 * The buygroup's name will either be extracted from the configs if present, or alternatively use the `Name` of the top-most config.
+	 * @param {readonly { BuyGroup?: string, Value?: number, Name?: string }[]} configList
+	 */
+	_AssignBuyGroup: function _AssignBuyGroup(configList) {
+		const topIndex = configList.length - 1;
+		const topConfig = configList[topIndex];
+
+		// Check if a buygroup is already present in one of the super configs
+		/** @type {number | undefined} */
+		let stop = undefined;
+		const buyGroup = configList.find((cfg, i) => {
+			if (cfg.BuyGroup) {
+				stop = i;
+				return true;
+			} else {
+				return false;
+			}
+		})?.BuyGroup ?? topConfig.Name;
+		if (buyGroup == null) {
+			// Only relevant if an extended config (instead of a normal one) somehow gets passed
+			return;
+		}
+
+		configList.slice(0, stop).forEach((cfg, i) => {
+			cfg.BuyGroup = buyGroup;
+			if (i !== topIndex) {
+				cfg.Value = -1;
+			}
+		});
+	},
+
+	/**
 	 * Merge the passed config with all it's to-be copied super configs (per its `CopyConfig` settings)
-	 * @template {{ CopyConfig?: { GroupName?: AssetGroupName, AssetName: string } }} T
+	 * @template {{ CopyConfig?: { GroupName?: AssetGroupName, AssetName: string }, BuyGroup?: string, Value?: number, Name?: string }} T
 	 * @param {T} config - The (extended) asset config
 	 * @param {string} assetName - The name of the corresponding asset
 	 * @param {AssetGroupName} groupName - The name of the corresponding asset group
 	 * @param {Partial<Record<AssetGroupName, Record<string, T>>>} configRecord - A (nested) record containing the configs of all assets
 	 * @param {string} configType - The name of the config type. Used for error reporting
 	 * @param {null | AssetCopyConfigValidator<T>} configValidator - An optional validator for comparing the config with its to-be copied counterpart(s)
+	 * @param {boolean} setBuyGroup - Whether to automatically assign a buygroup to the config and, if required, all `CopyConfig`-referenced super configs
 	 * @returns {null | T} - The original config merged with its to-be copied super configs. Returns `null` if an error is encountered.
 	 */
-	_Resolve: function _Resolve(config, assetName, groupName, configRecord, configType, configValidator=null) {
+	_Resolve: function _Resolve(config, assetName, groupName, configRecord, configType, configValidator=null, setBuyGroup=false) {
 		const key = `${groupName}:${assetName}`;
-		const visited = new Set([key]);
+		const visitedKeys = new Set([key]);
+		const visitedConfigs = [config];
 		while (config.CopyConfig) {
 			const { GroupName, AssetName } = config.CopyConfig;
 			const superKey = `${GroupName ?? groupName}:${AssetName}`;
 
-			if (visited.has(superKey)) {
-				console.error(`Found cyclic ${configType} CopyConfig reference ${superKey} in ${key}:`, visited);
+			if (visitedKeys.has(superKey)) {
+				console.error(`Found cyclic ${configType} CopyConfig reference ${superKey} in ${key}:`, visitedKeys);
 				return null;
-			} else {
-				visited.add(superKey);
 			}
 
 			const superConfig = configRecord[GroupName ?? groupName]?.[AssetName];
@@ -384,6 +417,9 @@ var AssetResolveCopyConfig = {
 				return null;
 			} else if (configValidator?.(config, superConfig, key, superKey)) {
 				return null;
+			} else {
+				visitedKeys.add(superKey);
+				visitedConfigs.push(superConfig);
 			}
 
 			config = {
@@ -391,6 +427,12 @@ var AssetResolveCopyConfig = {
 				...CommonOmit(config, ["CopyConfig"]),
 			};
 		}
+
+		if (setBuyGroup) {
+			visitedConfigs[0] = config;
+			AssetResolveCopyConfig._AssignBuyGroup(visitedConfigs);
+		}
+
 		return config;
 	},
 
@@ -416,7 +458,10 @@ var AssetResolveCopyConfig = {
 	 * Returns `null` insstead if an error was encountered.
 	 */
 	Female3DCG: function Female3DCG(assetDef, groupName, assetRecord) {
-		return AssetResolveCopyConfig._Resolve(assetDef, assetDef.Name, groupName, assetRecord, "Female3DCG");
+		return AssetResolveCopyConfig._Resolve(
+			assetDef, assetDef.Name, groupName, assetRecord,
+			"Female3DCG", undefined, assetDef.CopyConfig?.BuyGroup,
+		);
 	},
 
 	/**
