@@ -147,11 +147,11 @@ Dessous Geschäft
 Locker Room
 Umkleideraum
 Lost Wages Casino
-Lost Wages Casino
+Casino
 Maid Café
-Maid Café
+Personalcafé
 Maid Quarters
-Maid Quarters
+Personalzimmer
 Main Hall
 Haupthalle
 Club Management
@@ -163,7 +163,7 @@ Kleinstadtschule
 Movie Studio
 Movie Studio
 Nightclub
-Nightclub
+Nachtclub
 Nursery
 Kinderzimmer
 Luxury Office
@@ -173,23 +173,23 @@ Offenes Büro
 Old Farm
 Alter Bauernhof
 Onsen
-Onsen
+Heiße Quelle
 Outdoor Pool
 Outdoor Pool
 Luxury Pool
 Luxus Pool
 Outside Cells
-Outside Cells
+Gefängnisflur
 Padded Cell
-Padded Cell
+Gummizelle
 Padded Cell 2
-Padded Cell 2
+Gummizelle 2
 Park Day
 Park Tag
 Park Night
 Park Nacht
 Park Winter
-Park Winter
+Winterlicher Park
 Party Basement
 Partykeller
 Pirate Island
@@ -197,130 +197,130 @@ Pirateninsel
 Pirate Island Night
 Nächtliche Pirateninsel
 Pool Bottom
-Pool Bottom
+Schwimmbad
 Prison Hall
 Gefängnishalle
 Private Room
 Privat Zimmer
 Public Bath
-Public Bath
+Öffentliches Bad
 Rainy Forest Path Day
-Rainy Forest Path Day
+Waldpfad, regnerisch, Tag
 Rainy Forest Path Night
-Rainy Forest Path Night
+Waldpfad, regnerisch, Nacht
 Rainy Street Day
-Rainy Street Day
+Straße, regnerisch, Tag
 Rainy Street Night
-Rainy Street Night
+Straße, regnerisch, Nacht
 Ranch
-Ranch
+Bauernhof
 Research Lab
-Research Lab
+Forschungslabor
 Restaurant 1
 Restaurant 1
 Restaurant 2
 Restaurant 2
 Rooftop Party
-Rooftop Party
+Dachparty
 Rusty Saloon
-Rusty Saloon
+Western Saloon
 School Hallway
-School Hallway
+Schulflur
 School Hospital
-School Hospital
+Schulkrankenzimmer
 Abandoned School
-Abandoned School
+Verlasene Schule
 Sci Fi Cell
-Sci Fi Cell
+Sci-Fi Zelle
 Sci Fi Outdoors
-Sci Fi Outdoors
+Sci-Fi Landschaft
 Red Sci-Fi Room
-Red Sci-Fi Room
+Roter Sci-Fi Raum
 Secret Chamber
-Secret Chamber
+Geheimzimmer
 Sheikh Private Room
-Sheikh Private Room
+Scheichs Privatraum
 Sheikh Tent
-Sheikh Tent
+Scheichs Zelt
 Shibari Dojo
 Shibari Dojo
 Ship's Deck
-Ship's Deck
+Schiffsdeck
 Ship Wreck
-Ship Wreck
+Schiffswrack
 Slippery Classroom
-Slippery Classroom
+Rutschiges Klassenzimmer
 Slum Apartment
 Slum Apartment
 Slum Cellar
-Slum Cellar
+Slum Keller
 Slum Ruins
-Slum Ruins
+Slum Ruinen
 Snowy Chalet Day
-Snowy Chalet Day
+Chalet, Winter, Tag
 Snowy Chalet Night
-Snowy Chalet Night
+Chalet, Winter Nacht
 Snowy Deep Forest
-Snowy Deep Forest
+Dunkler winterlicher Wald
 Snowy Forest Path Day
-Snowy Forest Path Day
+Verschneiter Waldweg, Tag
 Snowy Forest Path Night
-Snowy Forest Path Night
+Verschneiter Waldweg, Nacht
 Snowy Lake Night
-Snowy Lake Night
+Winterlicher See, Nacht
 Snowy Street
-Snowy Street
+Winterliche Straße
 Snowy Street Day 1
-Snowy Street Day 1
+Winterliche Straße, Tag 1
 Snowy Street Day 2
-Snowy Street Day 2
+Winterliche Straße, Tag 2
 Snowy Street Night
-Snowy Street Night
+Winterliche Straße, Nacht 
 Snowy Town 1
-Snowy Town 1
+Winterlicher Ort 1
 Snowy Town 2
-Snowy Town 2
+Winterlicher Ort 2
 Space Station Captain Bedroom
-Space Station Captain Bedroom
+Space Station Kapitän Schlafzimmer
 Spooky Forest
-Spooky Forest
+Spukwald
 Street Night
-Street Night
+Nächtliche Straße
 Sun Temple
-Sun Temple
+Sonnentempel
 Virtual World
-Virtual World
+Virtuale Welt
 Throne Room
-Throne Room
+Thronsaal
 Tiled Bathroom
-Tiled Bathroom
+Gefliestes Badezimmer
 Underwater One
-Underwater One
+Unterwasserwelt
 Vault Corridor
-Vault Corridor
+Stahlgewölbe
 Wagon Circle
-Wagon Circle
+Wagenburg
 Wedding Arch
-Wedding Arch
+Hochzeitsbogen
 Wedding Beach
-Wedding Beach
+Hochzeitsstrand
 Wedding Room
-Wedding Room
+Hochzeitszimmer
 Western Street
-Western Street
+Western Straße
 Witch Wood
-Witch Wood
+Hexenwald
 Wooden Cabin
-Wooden Cabin
+Blockhaus
 Ring
 Ring
 Christmas Day Lounge
-Christmas Day Lounge
+Weihnachtslounge, Tag
 Christmas Eve Lounge
-Christmas Eve Lounge
+Weihnachtslounge, NAcht
 Yatch Chill Room
-Yatch Chill Room
+Yatch, Ruheraum
 Yatch Main Hall
-Yatch Main Hall
+Yatch, Haupthalle
 Yatch Deck
-Yatch Deck
+Yatch, Deck

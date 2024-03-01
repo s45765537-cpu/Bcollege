@@ -1,12 +1,30 @@
 Online friends
 Freunde online
+All friends
+Alle Freunde
+Beep history
+Biep-Verlauf
 Member number
 Mitgliedsnummer
 Chat room
 Chatraum
+Friend type
+Freund Typ
 Send a beep
 Biep senden
-Beep history
-Biep-Verlauf
 Delete a friend
 Freund entfernen
+Refresh
+Akualisieren
+Room name: included
+Raumname: anzeigen
+Room name: excluded
+Raumname: ausblenden
+Owner
+Eigentümer
+Lover
+Liebhaber
+Submissive
+Sub
+Friend
+Freund
