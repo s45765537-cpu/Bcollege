@@ -457,10 +457,10 @@ var AssetResolveCopyConfig = {
 	 * @returns {null | AssetDefinition} - The oiginally passed base item configuration.
 	 * Returns `null` insstead if an error was encountered.
 	 */
-	Female3DCG: function Female3DCG(assetDef, groupName, assetRecord) {
+	AssetDefinition: function AssetDefinition(assetDef, groupName, assetRecord) {
 		return AssetResolveCopyConfig._Resolve(
 			assetDef, assetDef.Name, groupName, assetRecord,
-			"Female3DCG", undefined, assetDef.CopyConfig?.BuyGroup,
+			"AssetDefinition", undefined, assetDef.CopyConfig?.BuyGroup,
 		);
 	},
 
@@ -472,9 +472,9 @@ var AssetResolveCopyConfig = {
 	 * @returns {null | AssetArchetypeConfig} - The oiginally passed base item configuration.
 	 * Returns `null` instead if an error was encountered.
 	 */
-	Female3DCGExtended: function Female3DCGExtended(asset, config, extendedConfig) {
+	ExtendedItemConfig: function ExtendedItemConfig(asset, config, extendedConfig) {
 		return AssetResolveCopyConfig._Resolve(
-			config, asset.Name, asset.Group.Name, extendedConfig, "Female3DCGExtended",
+			config, asset.Name, asset.Group.Name, extendedConfig, "ExtendedItemConfig",
 			AssetResolveCopyConfig._ExtendedValidator,
 		);
 	},
@@ -491,7 +491,7 @@ var AssetResolveCopyConfig = {
  * @returns {null | AssetArchetypeData} - The extended itemdata or `null` if an error was encoutered
  */
 function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, createCallbacks=true) {
-	const config = AssetResolveCopyConfig.Female3DCGExtended(A, baseConfig, extendedConfig);
+	const config = AssetResolveCopyConfig.ExtendedItemConfig(A, baseConfig, extendedConfig);
 	if (config === null) {
 		return null;
 	}
@@ -810,7 +810,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 
 		// Add each assets in the group 1 by 1
 		for (const asset of Object.values(assetDefsParsed[G.Name])) {
-			const assetParsed = AssetResolveCopyConfig.Female3DCG(asset, group.Group, assetDefsParsed);
+			const assetParsed = AssetResolveCopyConfig.AssetDefinition(asset, group.Group, assetDefsParsed);
 			if (assetParsed) {
 				AssetAdd(G, assetParsed, ExtendedConfig);
 			}
