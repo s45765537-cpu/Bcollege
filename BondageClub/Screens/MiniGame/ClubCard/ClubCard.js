@@ -2036,7 +2036,9 @@ function ClubCardEndTurn(Draw = false) {
  */
 function ClubCardDefocusCardIfDiscarded() {
 	if (ClubCardFocus === null) return;
-	if (!ClubCardPlayer[ClubCardGetPlayerIndex()].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
+	const playerIndex = ClubCardGetPlayerIndex();
+	if (playerIndex === -1) return;
+	if (!ClubCardPlayer[playerIndex].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
 }
 
 function ClubCardCheckVictory(CCPlayer) {
