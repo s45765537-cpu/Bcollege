@@ -410,6 +410,8 @@ Boots
 靴子
 Vamp
 防水台
+Silk
+丝绸
 Ankles
 膝盖
 Feet
