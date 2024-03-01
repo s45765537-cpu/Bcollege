@@ -13,6 +13,24 @@ var AssetGroupMap = new Map();
 var Pose = [];
 /** A record mapping pose names to their respective {@link Pose}. */
 const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
+/**
+ * A record mapping pose categories to sorting priorities.
+ *
+ * Used for prioritising certain poses over others in {@link CommonDrawResolveAssetPose},
+ * a process required due to BC's lack of pose combinatorics support.
+ * @satisfies {Record<AssetPoseCategory, number>}
+ */
+const PoseCategoryPriority = {
+	// FIXME: Hack to ensure that `Suspension` poses take priority over `BodyUpper`
+	BodyAddon: 2,
+	// FIXME: Hack to ensure that `BodyLower` poses take priority over `BodyUpper` if both are specified.
+	// BC simply doesn't support the required combinatorics, so just stick to the (completely aribtrary) historical
+	// precedent of prioritizing the lower body (a precedent used most notably by the wedding dress and teachers outfit)
+	BodyLower: 2,
+	BodyFull: 1,
+	BodyHands: 1,
+	BodyUpper: 1,
+};
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
