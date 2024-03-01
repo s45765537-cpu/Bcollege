@@ -143,11 +143,13 @@ function TherapyClick() {
 
 /**
  * Handles the key press in the therapy mini game, the C cheat key reduces the patient stress
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function TherapyKeyDown() {
-	if (MiniGameCheatKeyDown()) {
+function TherapyKeyDown(event) {
+	if (MiniGameCheatKeyDown(event)) {
 		TherapyStress = TherapyStress - 4;
 		if (TherapyStress < 0) TherapyStress = 0;
+		return true;
 	}
+	return false;
 }

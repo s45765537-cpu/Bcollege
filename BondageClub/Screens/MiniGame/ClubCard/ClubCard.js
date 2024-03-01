@@ -2759,14 +2759,20 @@ function ClubCardClick() {
 
 }
 
-// The enter key sends a chat
+/**
+ * Keyboard event handler for the Club Card game chat
+ * @type {KeyboardEventListener}
+ */
 function ClubCardKeyDown(event) {
-	if ((document.activeElement.id == "CCChat") && (KeyPress == 13)) {
+	if (document.activeElement.id !== "CCChat") return false;
+
+	if (event.key === "Enter") {
 		let Value = ElementValue("CCChat").trim();
 		if (Value != "") {
-			event.preventDefault();
 			ClubCardLogAdd(CharacterNickname(Player) + ": " + Value);
 			ElementValue("CCChat", "");
+			return true;
 		}
 	}
+	return false;
 }

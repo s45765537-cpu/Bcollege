@@ -333,7 +333,7 @@ function ControllerProcessAxis(axes) {
 
 /**
  * Returns TRUE if current screen is a game that handles the controller, sends the input to that screen
- * @param {any} buttons - The raw button data
+ * @param {readonly GamepadButton[]} buttons - The raw button data
  * @return {boolean}
  */
 function ControllerManagedByGame(buttons) {
@@ -399,12 +399,10 @@ function ControllerProcessButton(buttons) {
 		GameKeyDown(fakeEvent);
 	});
 	handleButton(ControllerButton.X, () => {
-		KeyPress = 65;
 		const fakeEvent = new KeyboardEvent("A", { code: "KeyA" });
 		StruggleKeyDown(fakeEvent);
 	});
 	handleButton(ControllerButton.Y, () => {
-		KeyPress = 97;
 		const fakeEvent = new KeyboardEvent("S", { code: "KeyS" });
 		StruggleKeyDown(fakeEvent);
 	});
@@ -625,11 +623,22 @@ function ControllerCalibrateButtons(buttons) {
  * @type {KeyboardEventListener}
  */
 function ControllerSupportKeyDown(event) {
-	/*i*///    if (KeyPress == 105) ControllerMoveToActiveZone("Up");
-	/*k*///    if (KeyPress == 107) ControllerMoveToActiveZone("Down");
-	/*j*///    if (KeyPress == 106) ControllerMoveToActiveZone("Left");
-	/*l*///    if (KeyPress == 108) ControllerMoveToActiveZone("Right");
-	/*space*///if (KeyPress == 32) ControllerClick();
+	// if (event.code === "KeyI") {
+	//  ControllerUp();
+	//  return true;
+	// } else if (event.code === "KeyK") {
+	//  ControllerDown();
+	//  return true;
+	// } else if (event.code === "KeyJ") {
+	//  ControllerLeft();
+	//  return true;
+	// } else if (event.code === "KeyL") {
+	//  ControllerRight();
+	//  return true;
+	// } else if (event.code === "Space") {
+	//  ControllerClick();
+	//  return true;
+	// }
 	return false;
 }
 

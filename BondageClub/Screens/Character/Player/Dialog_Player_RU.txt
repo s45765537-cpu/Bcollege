@@ -557,10 +557,10 @@ Click the ropes before they hit the ground to progress
 Нажмите на веревки, прежде чем они упадут на землю, чтобы прогрессировать
 Click here to speed up the progress
 Нажмите здесь, чтобы ускорить процесс
-Alternate keys A and S to speed up
-Чередуйте клавиши A и S для ускорения
-Alternate keys A and S or X and Y on a Controller to speed up
-Чередуйте клавиши A и S или X и Y на контроллере для ускорения
+Alternate keys A and D to speed up
+Чередуйте клавиши A и D для ускорения
+Alternate keys A and D or X and Y on a Controller to speed up
+Чередуйте клавиши A и D или X и Y на контроллере для ускорения
 Select inflation level
 Выберите уровень вздутия
 Select hood style

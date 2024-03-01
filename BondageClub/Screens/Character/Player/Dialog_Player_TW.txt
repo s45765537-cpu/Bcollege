@@ -507,10 +507,10 @@ Click the ropes before they hit the ground to progress
 在繩索落到地面前點擊以獲得進度
 Click here to speed up the progress
 點擊這裡來加速
-Alternate keys A and S to speed up
-反覆點按A和S鍵加速
-Alternate keys A and S or X and Y on a Controller to speed up
-反覆點按A和S鍵或手把上的X和Y來加速
+Alternate keys A and D to speed up
+反覆點按A和D鍵加速
+Alternate keys A and D or X and Y on a Controller to speed up
+反覆點按A和D鍵或手把上的X和Y來加速
 Select inflation level
 選擇充氣程度
 Select hood style

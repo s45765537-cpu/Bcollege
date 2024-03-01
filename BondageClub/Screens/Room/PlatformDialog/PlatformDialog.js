@@ -4293,22 +4293,22 @@ function PlatformDialogProcess() {
 
 /**
  * When the user presses keys in the dialog screen
- * @param {object | string} Key - The key or keyCode pressed
- * @returns {boolean} - Always TRUE to let the engine know the key press was handled
+ * @type {KeyboardEventListener}
  */
-function PlatformDialogKeyDown(Key) {
-	if (typeof Key === "object") Key = Key.code;
-	if (Key == null) return;
-	if ((Key == "Space") || (Key == "Enter") || (Key == "KeyJ") || (Key == "KeyK") || (Key == "KeyL")) PlatformDialogProcess();
-	if (Key == "KeyW") {
+function PlatformDialogKeyDown(event) {
+	if (event.code === "Space" || event.code === "Enter" || event.code === "KeyJ" || event.code === "KeyK" || event.code === "KeyL") {
+		PlatformDialogProcess();
+		return true;
+	} else if (CommonKeyMove(event) === "u") {
 		PlatformDialogAnswerPosition--;
-		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswerLength - 1 : 0;
-	}
-	if (Key == "KeyS") {
+		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
+		return true;
+	} else if (CommonKeyMove(event) === "d") {
 		PlatformDialogAnswerPosition++;
-		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswerLength)) PlatformDialogAnswerPosition = 0;
+		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswer.length)) PlatformDialogAnswerPosition = 0;
+		return true;
 	}
-	return ((Key.substring(0, 3) == "Key") || (Key.substring(0, 5) == "Arrow") || (Key.substring(0, 5) == "Digit") || (Key == "Space") || (Key == "Enter"));
+	return false;
 }
 
 /**
@@ -4354,8 +4354,14 @@ function PlatformDialogController(buttons) {
 	else if (buttons[ControllerButton.B]?.pressed && !buttons[ControllerButton.B]?.repeat) { PlatformDialogProcess(); }
 	else if (buttons[ControllerButton.X]?.pressed && !buttons[ControllerButton.X]?.repeat) { PlatformDialogProcess(); }
 	else if (buttons[ControllerButton.Y]?.pressed && !buttons[ControllerButton.Y]?.repeat) { PlatformDialogProcess(); }
-	else if (buttons[ControllerButton.DPadU]?.pressed && !buttons[ControllerButton.DPadU]?.repeat) PlatformDialogKeyDown("KeyW");
-	else if (buttons[ControllerButton.DPadD]?.pressed && !buttons[ControllerButton.DPadD]?.repeat) PlatformDialogKeyDown("KeyS");
+	else if (buttons[ControllerButton.DPadU]?.pressed && !buttons[ControllerButton.DPadU]?.repeat) {
+		const event = new KeyboardEvent("W", { code: "KeyW" });
+		PlatformDialogKeyDown(event);
+	}
+	else if (buttons[ControllerButton.DPadD]?.pressed && !buttons[ControllerButton.DPadD]?.repeat) {
+		const event = new KeyboardEvent("W", { code: "KeyS" });
+		PlatformDialogKeyDown(event);
+	}
 	return true;
 }
 

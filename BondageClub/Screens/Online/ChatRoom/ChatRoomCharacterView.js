@@ -71,12 +71,6 @@ function ChatRoomCharacterViewClick(event)
 
 function ChatRoomCharacterViewKeyDown(event)
 {
-	if (event.key === "Escape" && !event.shiftKey) {
-		// Escape toggles between main view and chat
-		ElementScrollToEnd("TextAreaChatLog");
-		ElementFocus("InputChat");
-		return true;
-	}
 	return false;
 }
 

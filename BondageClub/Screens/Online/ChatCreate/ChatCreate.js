@@ -213,10 +213,16 @@ function ChatCreateClick() {
 
 /**
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function ChatCreateKeyDown() {
-	if (KeyPress == 13) ChatCreateRoom();
+function ChatCreateKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (event.key === "Enter") {
+		ChatCreateRoom();
+		return true;
+	}
+	return false;
 }
 
 /**

@@ -392,15 +392,20 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 /**
  * Handles the key presses while in the chat search screen.
  * When the user presses enter, we launch the search query or save the temp options.
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function ChatSearchKeyDown() {
-	if (KeyPress == 13) {
-		if (ChatSearchMode == "")
+function ChatSearchKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (event.key === "Enter") {
+		if (ChatSearchMode == "") {
 			ChatSearchQuery();
-		else
+		} else {
 			ChatSearchSaveLanguageAndFilterTerms();
+		}
+		return true;
 	}
+	return false;
 }
 
 /**

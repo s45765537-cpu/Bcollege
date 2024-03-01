@@ -188,10 +188,14 @@ function BackgroundSelectionClick() {
 /**
  * Handles key events in the background selection screen:
  * - When the user presses "enter", we exit
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function BackgroundSelectionKeyDown() {
-	if (KeyPress == 13) BackgroundSelectionExit(true);
+function BackgroundSelectionKeyDown(event) {
+	if (event.key === "Enter") {
+		BackgroundSelectionExit(true);
+		return true;
+	}
+	return false;
 }
 
 /**

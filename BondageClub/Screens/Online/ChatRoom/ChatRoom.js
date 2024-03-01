@@ -1885,6 +1885,74 @@ function ChatRoomClick(event) {
 }
 
 /**
+ * The handler for the "Kneel" top menu button
+ */
+function ChatRoomToggleKneel() {
+	if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) return;
+	if (Player.CanKneel()) {
+		const PlayerIsKneeling = Player.IsKneeling();
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(Player)
+			.build();
+		ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
+		FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
+		PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+		ChatRoomStimulationMessage("Kneel");
+		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+	} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
+		// If the player can theoretically get up, we start a minigame!
+		var diff = 0;
+		if (Player.IsBlind()) diff += 1;
+		if (Player.IsKneeling()) diff += 2;
+		if (Player.IsDeaf()) diff += 1;
+		if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
+		if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
+		if (InventoryGet(Player, "ItemArms")) diff += 1;
+		if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
+		if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
+		if (InventoryGet(Player, "ItemBoots")) diff += 2;
+
+		MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+	}
+}
+
+/**
+ * The handler for the "Wardrobe" button
+ */
+function ChatRoomOpenWardrobeScreen() {
+	if (Player.CanChangeOwnClothes()) {
+		ChatRoomAppearanceLoadCharacter(Player);
+	}
+}
+
+/**
+ * The handler for the "Profile" button
+ */
+function ChatRoomOpenInformationScreen() {
+	ChatRoomHideElements();
+	ChatRoomStatusUpdate("Preference");
+	InformationSheetLoadCharacter(Player);
+}
+
+/**
+ * The handler for the "Admin" button
+ */
+function ChatRoomOpenAdminScreen() {
+	if ((ChatRoomData != null) && ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) {
+		AsylumGGTSMessage("NoAdminPrivate");
+		return;
+	}
+	if ((ChatRoomData != null) && ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) {
+		AsylumGGTSMessage("NoAdminLocked");
+		return;
+	}
+
+	ChatRoomHideElements();
+	ChatRoomStatusUpdate("Preference");
+	CommonSetScreen("Online", "ChatAdmin");
+}
+
+/**
  * Process chat room menu button clicks
  * @returns {void} - Nothing
  */
@@ -1910,32 +1978,7 @@ function ChatRoomMenuClick() {
 					CommonSetScreen("Online", "Game" + ChatRoomGame);
 					break;
 				case "Kneel":
-					// When the user character kneels
-					if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) return;
-					if (Player.CanKneel()) {
-						const PlayerIsKneeling = Player.IsKneeling();
-						const Dictionary = new DictionaryBuilder()
-							.sourceCharacter(Player)
-							.build();
-						ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
-						FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-						PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
-						ChatRoomStimulationMessage("Kneel");
-						ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-					} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) { // If the player can theoretically get up, we start a minigame!
-						var diff = 0;
-						if (Player.IsBlind()) diff += 1;
-						if (Player.IsKneeling()) diff += 2;
-						if (Player.IsDeaf()) diff += 1;
-						if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
-						if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
-						if (InventoryGet(Player, "ItemArms")) diff += 1;
-						if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
-						if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
-						if (InventoryGet(Player, "ItemBoots")) diff += 2;
-
-						MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
-					}
+					ChatRoomToggleKneel();
 					break;
 				case "Icons":
 					// When the user toggles icon visibility
@@ -1947,24 +1990,13 @@ function ChatRoomMenuClick() {
 					ChatRoomPhotoFullRoom();
 					break;
 				case "Dress":
-					// When the user wants to change clothes
-					if (Player.CanChangeOwnClothes()) {
-						ChatRoomAppearanceLoadCharacter(Player);
-					}
+					ChatRoomOpenWardrobeScreen();
 					break;
 				case "Profile":
-					// When the user checks her profile
-					ChatRoomHideElements();
-					ChatRoomStatusUpdate("Preference");
-					InformationSheetLoadCharacter(Player);
+					ChatRoomOpenInformationScreen();
 					break;
 				case "Admin":
-					// When the user enters the room administration screen
-					if ((ChatRoomData != null) && ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) return AsylumGGTSMessage("NoAdminPrivate");
-					if ((ChatRoomData != null) && ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return AsylumGGTSMessage("NoAdminLocked");
-					ChatRoomHideElements();
-					ChatRoomStatusUpdate("Preference");
-					CommonSetScreen("Online", "ChatAdmin");
+					ChatRoomOpenAdminScreen();
 					break;
 			}
 		}
@@ -2127,6 +2159,32 @@ function ChatRoomLeave(clearCharacters = false) {
 }
 
 /**
+ * Keyboard handler for keys common to all subviews
+ * @type {KeyboardEventListener}
+ */
+function ChatRoomCommonKeyDown(event) {
+	if (event.key === "Escape" && !event.shiftKey) {
+		// Escape toggles between main view and chat
+		ElementScrollToEnd("TextAreaChatLog");
+		ElementFocus("InputChat");
+		return true;
+	} else if (event.key === "k") {
+		ChatRoomToggleKneel();
+		return true;
+	} else if (event.key === "i") {
+		ChatRoomOpenInformationScreen();
+		return true;
+	} else if (event.key === "b") {
+		ChatRoomOpenWardrobeScreen();
+		return true;
+	} else if (event.key === "h") {
+		ChatRoomOpenAdminScreen();
+		return true;
+	}
+	return false;
+}
+
+/**
  * Handles keyboard shortcuts in the chatroom screen.
  * @param {KeyboardEvent} event - The event that triggered this
  * @returns {boolean} - Nothing.
@@ -2152,11 +2210,10 @@ function ChatRoomKeyDown(event) {
 			ElementFocus("MainCanvas");
 			return true;
 		}
-	} else {
-		if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event) == true)
-		{
-			return true;
-		}
+	} else if (ChatRoomCommonKeyDown(event)) {
+		return true;
+	} else if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event)) {
+		return true;
 	}
 
 	if (event.key === "Escape" && event.shiftKey) {

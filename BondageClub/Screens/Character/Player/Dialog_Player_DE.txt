@@ -101,8 +101,8 @@ You cannot access your items
 Du kommst nicht an deine Items
 Click here to speed up the progress
 Klicke hier zum Beschleunigen
-Alternate keys A and S to speed up
-Abwechselnd A und S zum Beschleunigen drücken
+Alternate keys A and D to speed up
+Abwechselnd A und D zum Beschleunigen drücken
 Pump gag level: Empty
 Pumpknebel: Leer
 Pump gag level: Light

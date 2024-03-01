@@ -73,8 +73,8 @@ You cannot access your items
 Vous ne pouvez accéder à vos objets
 Click here to speed up the progress
 Appuyez ici pour augmenter la vitesse
-Alternate keys A and S to speed up
-Alternez entre les clés A et S pour augmenter la vitesse
+Alternate keys A and D to speed up
+Alternez entre les touches A et D pour augmenter la vitesse
 Pump gag level: Empty
 Niveau de gonflage: Vide
 Pump gag level: Light

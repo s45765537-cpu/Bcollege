@@ -247,8 +247,8 @@ function MagicBattleSpellEnd() {
 
 /**
  * Handles the key press in the game, the C key for cheats
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function MagicBattleKeyDown() {
-	//if (MiniGameCheatKeyDown())
+function MagicBattleKeyDown(_event) {
+	return false;
 }
