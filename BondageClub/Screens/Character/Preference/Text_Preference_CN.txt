@@ -574,18 +574,38 @@ Map Buttons
 设置按钮
 Map Sticks
 设置摇杆
-move left stick up
+Move left stick up
 上移左摇杆
-move left stick right
+Move left stick right
 右移左摇杆
-Press A
-按下A
-Press B
-按下B
-Press X
-按下X
-Press Y
-按下Y
+Move right stick up
+上移右摇杆
+Move right stick right
+右移右摇杆
+Press A button
+按下A按钮
+Press B button
+按下B按钮
+Press X button
+按下X按钮
+Press Y button
+按下Y按钮
+Press left bumper
+按下左肩键
+Press right bumper
+按下右肩键
+Press left trigger
+按下左扳机
+Press right trigger
+按下右肩键
+Press Select button
+按下选择键
+Press Start button
+按下开始键
+Press left stick button
+按下左摇杆键
+Press right stick button
+按下右摇杆键
 Press Up on Dpad
 按下上方向键
 Press Down on Dpad
@@ -594,6 +614,8 @@ Press Left on Dpad
 按下左方向键
 Press Right on Dpad
 按下右方向键
+Press Home button
+按下Home键
 Dead Zone
 死区
 Off
