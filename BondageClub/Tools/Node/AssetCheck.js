@@ -1215,8 +1215,8 @@ function testConsoleLog(logOutput) {
 	if (logs.length > 0) {
 		const stringLogs = logs.map(([source, ...args]) => {
 			return source ? `${source}: ${args.join(", ")}` : args.join(", ");
-		}).join("\n\t")
-		error(`Found ${logs.length} unexpected console warnings:\n\t${stringLogs}`)
+		}).join("\n\t");
+		error(`Found ${logs.length} unexpected console warnings:\n\t${stringLogs}`);
 	}
 }
 
@@ -1285,6 +1285,7 @@ function sanitizeVMOutput(input) {
 				const source = trace ? trace.split("\n")[2].trim() : "";
 				logOutput.warn.push([source, ...args]);
 			},
+			// eslint-disable-next-line no-shadow
 			error: function error(...args) {
 				const trace = (new Error()).stack;
 				const source = trace ? trace.split("\n")[2].trim() : "";
