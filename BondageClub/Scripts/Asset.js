@@ -760,6 +760,7 @@ function AssetBuildDescription(Family, CSV) {
 		const res = map.get(`${G.Name}:`);
 		/** @type {Mutable<AssetGroup>} */(G).Description = (res !== undefined) ? res : `MISSING ASSETGROUP DESCRIPTION: ${G.Name}`;
 	}
+	Shop2._PopulateGroupDescriptions();
 
 	// For each asset in the family
 	for (const A of Asset) {
@@ -855,6 +856,7 @@ function AssetLoadAll() {
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
 	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
+	Shop2._PopulateBuyGroups();
 }
 
 /**

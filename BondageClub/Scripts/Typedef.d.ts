@@ -122,7 +122,7 @@ type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: numb
 /**
  * An object for holding arbitrary values with a mechanism to reset them to a default
  */
-type VariableContainer<T1, T2={}> = T1 & T2 & {
+type VariableContainer<T1, T2> = T1 & T2 & {
 	/** Default values that should be restored to the container upon calling {@link Reset} */
 	readonly Defaults: Readonly<T1>,
 	/** Restore the container to its default state */
@@ -1007,7 +1007,20 @@ interface Item {
 
 type FavoriteIcon = "Favorite" | "FavoriteBoth" | "FavoritePlayer";
 type ItemEffectIcon = "BlindLight" | "BlindNormal" | "BlindHeavy" | "DeafLight" | "DeafNormal" | "DeafHeavy" | "GagLight" | "GagNormal" | "GagHeavy" | "GagTotal";
-type InventoryIcon = FavoriteIcon | ItemEffectIcon | "AllowedLimited" | "Handheld" | "Locked" | "LoverOnly" | "FamilyOnly" | "OwnerOnly" | "Unlocked" | AssetLockType;
+type ShopIcon = "Extended" | "BuyGroup";
+type InventoryIcon = (
+	FavoriteIcon
+	| ItemEffectIcon
+	| "AllowedLimited"
+	| "Handheld"
+	| "Locked"
+	| "LoverOnly"
+	| "FamilyOnly"
+	| "OwnerOnly"
+	| "Unlocked"
+	| AssetLockType
+	| ShopIcon
+);
 
 interface InventoryItem {
 	Group: AssetGroupName;
@@ -4035,6 +4048,35 @@ interface ChatRoomMapMovement {
 	Direction: "West" | "East" | "North" | "South";
 	TimeStart: number;
 	TimeEnd: number;
+}
+
+// #endregion
+
+// #region shop
+
+/** The current shop mode */
+type ShopMode = "Buy" | "Sell" | "Preview" | "Color" | "Extended";
+
+/** The current dressing state of the preview character */
+type ShopClothesMode = "Clothes" | "Underwear" | "Cosplay" | "Nude";
+
+interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Run"> {
+	Run(time: number, ...coords: RectTuple): void,
+	/** Coordinates associated with a particular to-be drawn/clicked element */
+	Coords: RectTuple,
+	/** A set of shop modes for which the screen functions must be active */
+	Mode: Set<ShopMode>,
+}
+
+interface ShopItem {
+	/** The underlying asset */
+	readonly Asset: Asset,
+	/** The assets sorting priority within the asset list; lower values take priority */
+	readonly SortPriority: number,
+	/** Whether the asset is available with the current {@link Shop2InitVars.Filters} settings */
+	Filter: boolean,
+	/** Whether the asset can be bought; `false` implies that it can be sold */
+	Buy: boolean,
 }
 
 // #endregion

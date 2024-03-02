@@ -86,6 +86,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/ItemDevices/Kennel/Kennel.js",
 	"Assets/Female3DCG/Female3DCG.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
+	"Screens/Room/Shop2/Shop2.js",
 	"Screens/Character/Preference/Preference.js",
 	"Scripts/Translation.js",
 	"Scripts/Text.js",

@@ -449,6 +449,65 @@ input[type=range][data-thumb=rope]::-moz-range-thumb {
 	height: 1.2em;
 }
 
+/** The shop */
+
+input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	margin: 0;
+	font: inherit;
+	color: black;
+	width: 6vh;
+	height: 6vh;
+	border: 0.25vh solid black;
+	display: grid;
+	place-content: center;
+}
+
+input[type="checkbox"]:hover {
+	background-color:cyan;
+}
+
+input[type="checkbox"]::before {
+	content: "";
+	width: 4.5vh;
+	height: 4.5vh;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	transform: scale(0);
+	background-color: black;
+}
+
+input[type="checkbox"]:checked::before {
+	transform: scale(1);
+}
+
+#Shop2GroupSelect {
+	overflow: scroll;
+	word-wrap: break-word;
+	background-color: rgba(0, 0, 0, 0.35);
+}
+
+.Shop2CheckboxGrid {
+	color: white;
+	font-size: 3vh;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	overflow: scroll;
+	user-select: none;
+}
+
+.Shop2Checkbox {
+	display: grid;
+	grid-template-columns: 25% 75%;
+	height: 7vh;
+	align-items: center;
+}
+
+.Shop2Checkbox:hover {
+	color: yellow;
+}
+
 /* Custom fonts */
 @font-face {
     font-family: 'Calligraffitti';

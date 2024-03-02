@@ -229,6 +229,10 @@ var DialogLeaveFocusItemHandlers = {
 			CraftingUpdateFromItem(item);
 			CraftingModeSet("Name");
 		},
+		Shop2: () => {
+			Shop2Vars.Mode = "Preview";
+			Shop2Load();
+		},
 	},
 };
 

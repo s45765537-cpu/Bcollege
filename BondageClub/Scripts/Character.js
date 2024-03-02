@@ -1566,6 +1566,8 @@ function CharacterGetCurrent() {
 		return CharacterAppearanceSelection;
 	} else if (CurrentScreen == "Crafting") {
 		return CraftingPreview;
+	} else if (CurrentScreen == "Shop2") {
+		return Shop2InitVars.Preview;
 	} else {
 		return (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	}
