@@ -89,7 +89,7 @@ Vielen Dank!
 (Sing "Bad Girl".)
 ("Bad Girl" singen.)
 ###_NPC
-(Some spectators give you money. You get REPLACEMONEY$.)
+(Some spectators give you money. You get $REPLACEMONEY.)
 (Ein paar der Zuschauer geben euch Geld. Du erhältst REPLACEMONEY$.)
 ###_PLAYER
 I should tie you up.
@@ -102,7 +102,7 @@ Ich kann nicht, ich bin gefesselt. Bitte befreie mich.
 ###_PLAYER
 Goodbye.  (Leave her.)
 Wiedersehen. (Dialog beenden.)
-Can we continue the show?
+Can we continue the show? 
 Können wir mit der Show weitermachen?
 ###_NPC
 (She nods in agreement.) Yes, please.

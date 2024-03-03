@@ -8,14 +8,14 @@ Password
 Passwort
 Login
 Anmelden
-Language
-Sprache
 Or create a new character
 Oder erstelle einen neuen Charakter
 New Character
 Neuer Charakter
 Connecting to server...
 Verbindung zum Server...
+Waiting in queue on position: QUEUE_POS
+Warten in der Queue on Position: QUEUE_POS
 Error loading character data
 Fehler beim Laden der Charakter-Daten
 Disconnected from server. Retrying...
@@ -24,10 +24,10 @@ Disconnected for duplicated login
 Verbindung für Doppel-Login abgebrochen
 Unable to connect to server. Retrying...
 Verbindung zum Server konnte nicht hergestellt werden.
+Connection rejected: your connection has been rate limited.
+Verbindung abgelehnt: Die Anzahl deiner Verbindungen wurde begrenzt.
 Validating name and password...
 Name und Passwort werden überprüft...
-Incorrect name or password
-Name oder Passwort fehlerhaft
 Error:
 Fehler:
 Invalid name or password

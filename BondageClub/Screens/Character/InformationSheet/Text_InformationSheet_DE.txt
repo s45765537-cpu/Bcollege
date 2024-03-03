@@ -1,11 +1,15 @@
 Name:
 Name:
+Nickname:
+Nickname:
 Title:
 Titel:
 None
 Nichts
 Mistress
 Herrin
+Dominatrix
+Dominatrix
 Club Slave
 Clubsklavin
 Head Maid
@@ -28,8 +32,16 @@ Nurse
 Krankenschwester
 Doctor
 Doktor
+Lady Luck
+Lady Luck
+Patron
+Patron
 College Student
 College-Studentin
+Nawashi
+Nawashi
+Houdini
+Houdini
 Foal
 Fohlen
 Farm Horse
@@ -43,17 +55,49 @@ Heißblutpferd
 Wild Mustang
 Wilder Mustang
 Shining Unicorn
-Glänzendes Einhorn
+Strahlendes Einhorn
 Flying Pegasus
 Fliegender Pegasus
 Majestic Alicorn
 Majestätischer Alicorn
+Mole
+Mole
+Infiltrator
+Infiltrator
+Agent
+Agent
+Operative
+Geheimagent
+Superspy
+Superspion
+Wizard
+Zauberer
+Magus
+Magus
+Magician
+Magier
+Sorcerer
+Hexer
+Sage
+Weiser
+Oracle
+Orakel
+Witch
+Hexe
+Warlock
+Hexenmeister
 Little One
 Kleine
+Baby
+Baby
 Diaper Lover
 Windel Liebhaber
+Bondage Baby
+Bondage Baby
 Duchess
 Herzogin
+Switch
+Wechsler
 Kitten
 Kätzchen
 Puppy
@@ -68,30 +112,58 @@ Demon
 Dämonin
 Angel
 Engel
+Succubus
+Succubus
+Good Girl
+Good Girl
+Good Slave Girl
+Good Slave Girl
+Good Slave
+Good Slave
+Drone
+Drohne
+Pronouns:
+Pronomen:
 Member Number:
 Mitgliedsnummer:
 -
 -
+- Relationships -
+- Beziehungen -
 Lover:
 Liebhaberin:
 Owner:
 Besitzerin:
+GGTS
+GGTS
 Money:
 Geld:
 Member for
 Mitglied seit
+Bondage Club Birthday! 
+Bondage Club Geburtstag! 
 Friends for
 Freunde seit
 On trial for
 Auf Probezeit seit
 Collared for
 Trägt Halsband seit
+Lover for
+Liebhaber seit
+Dating for
+Dating seit
+Engaged for
+Verlobt seit
+Married for
+Verheiratet seit
 day(s)
 Tag(en)
 Unknown
 Unbekannt
 - Reputation -
 - Rang -
+Dungeoneer:
+Dungeoneer:
 Dominant:
 Dominant:
 Submissive:
@@ -104,22 +176,48 @@ Asylum Nurse:
 Anstalts-Schwester:
 Asylum Patient:
 Anstalts-Patientin:
+LARP Battles:
+LARP Kämpfe:
 Gambling Hall:
 Spielhalle:
 ABDL:
 ABDL:
+House Maiestas:
+Haus Maiestas:
+House Vincula:
+Haus Vincula:
+House Amplector:
+Haus Amplector:
+House Corporis:
+Haus Corporis:
+difficulty for NumberOfDays day(s)
+Schwierigkeitsgrad seit NumberOfDays day(s)
+Roleplay
+Rollenspiel
+Regular
+Regulär
+Hardcore
+Hardcore
+Extreme
+Extreme
 - Skills -
-- Skills -
+- Fähigkeiten -
 Bondage:
 Bondage:
+Self-bondage:
+Selbstbondage:
+Lockpicking:
+Schlösserknacken:
 Evasion:
 Entfesselung:
 Willpower:
 Willenskraft:
+Infiltration:
+Infiltration:
 Dressage:
 Dressur:
-Global modifier:
-Globaler Modifikator:
+ABSVAL for DURATION
+ABSVAL for DURATION
 - Traits -
 - Merkmale -
 Spend more time with her to know her traits
@@ -164,15 +262,17 @@ Beziehung:
 (Schrecklich)
 (Atrocious)
 (Entsetzlich)
-Item permission:
-Item-Berechtigung:
+Permission:
+Genehmigung:
 Everyone, no exceptions
 Alle, ohne Ausnahme
 Everyone, except blacklist
 Alle, außer Blacklist
-Owner, Lover, whitelist & Dominants
-Besitzer, Whitelist & Dominante
-Owner, Lover and whitelist only
-Nur Besitzer und Whitelist
+Owner, Lovers, whitelist & Dominants
+Besitzer, Liebhaber, Whitelist & Dominante
+Owner, Lovers and whitelist only
+Nur Besitzer, Liebhaber und Whitelist
+Owner and Lovers only
+Nur Besitzer und Liebhaber
 Owner only
 Nur Besitzer

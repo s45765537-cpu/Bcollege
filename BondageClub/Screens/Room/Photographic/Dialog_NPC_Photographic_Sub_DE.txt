@@ -117,14 +117,18 @@ Womit soll ich anfangen?
 Please change your pose.
 Bitte wechsele deine Pose.
 ###_NPC
-Alright, how is this?
-Also gut, wie wär's hiermit?
+Alright, what pose would you like?
+Alles klar, welche Pose soll es sein?
 ###_PLAYER
 (Nod for help.)
 (Für Hilfe nicken.)
 ###_NPC
-I'll help you right away.
-Ich helfe dir sofort.
+I'll help you right away.  (She releases you.)
+Ich helfe dir.  (Sie befreit dich.)
+(She checks your locks.)  I'm sorry, you'll need to get a maid for that.
+(Sie prüft deine Schlösser.)  Entschuldigung, da musst du ein Hausmädchen fragen.
+I'm sorry, the maids told me not to help you.
+Entschuldigung, die Hausmädchen haben mir verboten, dir zu helfen.
 ###_PLAYER
 Goodbye. (Leave her.)
 Auf Wiedersehen. (Dialog beenden.)
@@ -258,6 +262,74 @@ Na gut, wenn du meinst.
 (She shows you a bright smile.)
 Sie schenkt dir ein breites Lächeln.
 ###_PLAYER
+Move your arms
+Bewege deine Arme
+###_NPC
+How should I move them?
+Wie soll ich sie bewegen?
+###_PLAYER
+Move your legs
+Bewege deine Beine
+###_NPC
+How should I stand?
+Wie soll ich stehen?
+###_PLAYER
+Relax your arms.
+Entspanne deine Arme.
+###_NPC
+(She holds her arms casually in front.)
+(Sie verschränkt ihre Arme vor dem Bauch.)
+###_PLAYER
+Hold your arms up.
+Halte deine Arme hoch.
+###_NPC
+(She lifts her arms up.)
+(Sie hebt ihre Arme.)
+###_PLAYER
+Raise your arms high.
+Hebe deine Arme Hoch.
+###_NPC
+(She reaches above her head.)
+(Sie hebt die Arme über ihren Kopf.)
+###_PLAYER
+Hold your hands together behind your back.
+Halte deine Arme hinter dem Rücken zusammen.
+###_NPC
+(She moves her hands behind her.)
+(Sie bewegt die Arme hinter ihrem Rücken.)
+###_PLAYER
+Show me your hands together behind you.
+Zeige mir deine Hände zusammen hinter deinem Rücken.
+###_NPC
+(She moves her hands out to the side.)
+(Sie bewegt ihre Hände zur Seite.)
+###_PLAYER
+Touch your elbows together behind your back.
+Bringe deine Elenbogen hinter deinem Rücken zusammen.
+###_NPC
+(She touches her wrists and elbows together behind herself.)
+(Sie bringt die Handgelenke und Ellenbogen zusammen.)
+Would you like any other pose?
+Möchtest du eine andere Pose einnehmen?
+###_PLAYER
+Relax your legs.
+Entspanne deine Beine.
+###_NPC
+(She stands upright.)
+(Sie steht aufrecht.)
+###_PLAYER
+Close your legs.
+Schließe deine Beine.
+###_NPC
+(She stands with her legs together.)
+(Sie steht still mit geschlossenen Beinen.)
+###_PLAYER
+Kneel down.
+Knie dich hin.
+###_NPC
+(She kneels on the ground.)
+(Sie kniet sich auf den Boden.)
+###_PLAYER
 What's going on here?
 Was geht hier vor sich?
 ###_NPC
@@ -294,4 +366,4 @@ Ich habe keine weiteren Fragen.
 Well then, show me your best pose.
 Na dann, zeig mir deine beste Pose.
 (She shows you her restraints.) I would like to, but...
-(Sie zeigt dir ihre Fesseln.) Ich würde ja gern, aber...
+(Sie deutet auf ihre Fesseln.) Ich würde ja gern, aber...

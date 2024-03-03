@@ -1,6 +1,6 @@
 ###_NPC
 Blessed those who have nothing to say and yet remain silent. 
-Gesegnet sei, wer nichts zu sagen hat und daher schweigt.
+Selig, wer nichts zu sagen hat und trotzdem schweigt.
 (She shakes her head but you're able to gag and silence her.)
 (Sie schüttelt den Kopf, aber du schaffst es, sie mit einem Knebel zum Schweigen zu bringen.)
 (You remove her gag and she stretches her mouth.)  Thanks, that was getting uncomfortable.
@@ -147,7 +147,7 @@ Alles klar. Ein Spiel gefällig?
 What are the rules of Catch the Fox?
 Was sind die Regeln für Fang den Fuchs?
 ###_NPC
-One player is the fox, the other is the hunter. The hunter pays a hunting lease of 5$.
+One player is the fox, the other is the hunter. The hunter pays a hunting lease of $5.
 Ein Spieler ist der Fuchs, der andere ist der Jäger. Der Jäger zahlt eine Jagdgebühr von 5$.
 ###_PLAYER
 What are the rules of Street to Roissy?
@@ -177,7 +177,7 @@ The fox gets a dice lead and needs to reach a total of 30 to escape the hunter.
 Der Fuchs bekommt einen Vorsprung von einem Würfel und muss eine Summe von 30 erreichen, um dem Jäger zu entkommen.
 If the hunter's score is equal to or as high as the fox's score, they catch the fox and get the lease back.
 Wenn die Punktzahl des Jägers größer oder gleich der des Fuchses ist, hat er den Fuchs gefangen und bekommt die Gebühr zurück.
-If a player rolls the wrong number, they pay 1$ and roll again.
+If a player rolls the wrong number, they pay $1 and roll again.
 Wer nicht die richtige Zahl würfelt, muss 1$ zahlen und erneut würfeln.
 If a player rolls the correct number, the opponent takes a step towards Roissy and either remove clothes or add restraints.
 Wenn ein Spieler richtig würfelt, bewegt sich sein Gegner auf Roissy zu und legt Kleidung ab oder bekommt Fesseln dazu.
@@ -229,7 +229,7 @@ Wer zuerst 6 Runden verliert, ist der Verlierer des ganzen Spiels.
 (Nod yes.)
 (Nicken.)
 ###_NPC
-Are you ready to pay 25$?
+Are you ready to pay $25?
 Bist du bereit, 25$ dafür zu zahlen?
 ###_PLAYER
 Yes, can you release me?
@@ -247,10 +247,10 @@ Fair enough, but I'm not letting you out.
 In Ordnung, aber ich lasse dich nicht frei.
 (She release you and takes the money.)
 (Sie befreit dich und nimmt das Geld.)
-###_PLAYER
-Yes, you can have the money.
-Ja, das Geld kannst du haben.
-###_NPC
+You don't have enough money girl.  Get a job.
+Mädchen, du hast nicht genug Geld. Geh arbeiten.
+(She checks your items and shakes her head no.)  Sorry, I cannot unlock that.
+(Sie prüft deine Fesselung.)  Tut mir leid, ich kann das nicht aufschließen.
 Up to you.
 Wie du willst.
 ###_PLAYER
@@ -277,7 +277,7 @@ Okay.
 The fox has escaped! (Take the win.)
 Der Fuchs ist entkommen! (Deinen Gewinn kassieren.)
 ###_NPC
-(She gives you the profit of REPLACEMONEY$.)
+(She gives you the profit of $REPLACEMONEY.)
 (Sie gibt dir den Gewinn von REPLACEMONEY$.)
 ###_PLAYER
 Congratulations! (Give her the win.)
@@ -295,7 +295,7 @@ Oh-oh, du hast mich erwischt!
 Ahah! You can't escape me!
 Ahah! Du kommst mir nicht davon!
 ###_NPC
-(She gives you the REPLACEMONEY$ back.)
+(She gives you the $REPLACEMONEY back.)
 (Sie gibt dir die REPLACEMONEY$ zurück.)
 ###_PLAYER
 (Roll the dice.)
@@ -403,7 +403,7 @@ Nur noch ein kleines Stückchen...
 Oh, I lost. (Try to resist her putting the gag in.)
 Oh, verloren. (Dich gegen den Knebel wehren.)
 ###_NPC
-Oh no you don't!  (She forces the gag into your mouth and takes the REPLACEMONEY$ winnings.)
+Oh no you don't!  (She forces the gag into your mouth and takes the $REPLACEMONEY winnings.)
 Das kannst du dir abschminken! (Sie zwingt dir den Knebel auf und nimmt den Gewinn von REPLACEMONEY$.)
 ###_PLAYER
 I win. Take off your accessories.
@@ -439,7 +439,7 @@ Gewonnen. Du brauchst deine Arme nicht zum Würfeln.
 I win. Time for the final touch!
 Gewonnen. Zeit, das Werk zu vollenden!
 ###_NPC
-(She mumbles as you gag her, and then you take the REPLACEMONEY$ winnings.)
+(She mumbles as you gag her, and then you take the $REPLACEMONEY winnings.)
 (Sie murmelt, als du sie knebelst, und dann nimmst du den Gewinn von REPLACEMONEY$ an dich.)
 ###_PLAYER
 I want to add a die.
@@ -467,7 +467,7 @@ Hey, das steht dir wirklich super...
 Oh, I lost. (Open your mouth.)
 Oh, verloren. (Deinen Mund aufmachen.)
 ###_NPC
-This gag is perfect for you. (She takes the REPLACEMONEY$ winnings.)
+This gag is perfect for you. (She takes the $REPLACEMONEY winnings.)
 Dieser Knebel ist perfekt für dich. (Sie nimmt den Gewinn von REPLACEMONEY$.)
 ###_PLAYER
 I win. Take off those accessories.
@@ -503,8 +503,8 @@ Gewonnen. Diese Arme sind nur im Weg.
 I win. Open wide!
 Gewonnen. Mund auf!
 ###_NPC
-(She opens her mouth slowly and you gag her, and then take the REPLACEMONEY$ winnings.)
-(Sie macht langsam ihren Mund auf, du knebelst sie und nimmst den Gewinn von REPLACEMONEY$ an dich.)
+(She opens her mouth slowly and you gag her, and then take the $REPLACEMONEY winnings.)
+(Sie macht langsam ihren Mund auf, du knebelst sie und nimmst dir den Gewinn von REPLACEMONEY$.)
 ###_PLAYER
 (Mumble into the gag.)
 (In den Knebel murmeln.)

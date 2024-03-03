@@ -3,7 +3,7 @@ Remove that gag or get lost.  I run the market and I don't have time for mumblin
 Nimm den Knebel ab oder verschwinde. Ich leite diesen Markt und habe keine Zeit für Gemurmel.
 Too bad it didn't work for you, but a new girl is coming up right now if you want to check her.
 Schade, dass es für dich nichts geworden ist, aber gleich kommt das nächste Mädchen, falls du Interesse hast.
-Well done!  I think this slave has learned a lot in your hands.  Here's your salary.  (She gives you MoneyAmount$)
+Well done!  I think this slave has learned a lot in your hands.  Here's your salary.  (She gives you $MoneyAmount)
 Gute Arbeit! Ich glaube, diese Sklavin hat dank dir eine Menge gelernt. Hier ist dein Lohn. (Sie gibt dir MoneyAmount$)
 You've failed your training.  Thanks for your time but I cannot pay you.
 Dein Training war nicht erfolgreich. Danke für deine Mühe, aber ich kann dich dafür nicht bezahlen.
@@ -66,14 +66,14 @@ Kann ich meine Sklavinnen hier verkaufen?
 Yes, but only if your slave is fully collared.  You can sell her permanently or rent her for a day.  Go get her first.
 Ja, aber nur, wenn deine Sklavin ihr Halsband endgültig akzeptiert hat. Du kannst sie dauerhaft verkaufen oder einen Tag lang verleihen. Sprich vorher mit ihr.
 ###_PLAYER
-Can I sell myself?
-Kann ich mich selbt verkaufen?
+Can I be auctioned as a slave?
+Can I be auctioned as a slave?
 ###_NPC
-Not yet, we cannot take you at the moment.  (This feature will be available in a future version.)
-Noch nicht, wir können dich im Moment nicht aufnehmen. (Diese Option wird in einer zukünftigen Version verfügbar sein.)
+You could, but you need to understand the rules first.
+Ja, aber du musst erst die Regeln verstehen.
+No, to be auctioned you need to be a submissive, be unowned, be unrestrained, have space in your room and not have been auctioned in the last seven days.
+Nein, dazu musst du unterwürfig sein, ohne Besitzer, ungefesselt, benötigst Platz in deinem Zimmer und wurdest in den letzten sieben Tagen nicht versteigert.
 ###_PLAYER
-Can my owner sell me?
-Kann meine Besitzerin mich verkaufen?
 It's consensual?
 Ist das einvernehmlich?
 ###_NPC
@@ -126,7 +126,7 @@ What's the price?
 Wie viel kostet sie?
 ###_NPC
 It's an auction.  You bet against other Dominants and the highest bet gets the girl.  Bring lots of money, you never know.
-Es ist eine Auktion. Du wettest gegen andere Dominante, und die Höchstbietende bekommt das Mädchen. Bring genug Geld mit, man weiß nie.
+Es ist eine Auktion. Du bietest gegen andere Dominante, und die Höchstbietende bekommt das Mädchen. Bring genug Geld mit, man weiß nie.
 ###_PLAYER
 I want to participate in the auction.
 Ich will an der Auktion teilnehmen.
@@ -231,3 +231,83 @@ Diese Sklavin war ein Weichei.
 ###_NPC
 Maybe, but you still need to focus on your wimp needs.  Do you want anything else?
 Mag sein, aber du musst dich dennoch auf die Bedürfnisse deines Weicheis konzentrieren. Brauchst du sonst noch etwas?
+###_PLAYER
+Please tell me the rules.
+Please tell me the rules.
+###_NPC
+As a slave on auction, you will be naked and chained for Dominants to examine and question you.
+Als eine Sklavin in der Auktion wirst du nackt und gefesselt sein, damit die Dominaten dich inspizieren können.
+###_PLAYER
+(Listen quietly.)
+(Lausche still.)
+Alright.
+Alles klar.
+###_NPC
+After the exam, the bidding will start.  Each buyer will bid until no one wants to bid anymore.  The last bid wins you.
+Nach der Inspektion, startet die Versteigerung.  Jeder bietet so lange, bis niemand mehr bieten möchte. Der letzte Bietende gewinnt dich.
+###_PLAYER
+Das ist so Pervers!
+This is kinky!
+Very well.
+Sehr gut.
+###_NPC
+I don't know the price you will raise, but the more submissive you are, the higher it usualy gets.
+Ich weiß nicht wohin der Preis steigt, aber je unterwürfiger du bist, desto höher wird er.
+###_PLAYER
+I know how auction works.  Get to the point.
+Ich weis wie eine Auktion läuft.  Komm zur Sache.
+###_NPC
+If you're not going to take this seriously, I cannot allow you to be auctioned.  Get lost girl.
+Wenn du das hier nicht ernst nimmst, kann ich nicht erlauben dich zu versteigern. Hau einfach ab.
+###_PLAYER
+(Listen carefully.)
+(Höre sorgfältig zu.)
+###_NPC
+You will get about half the money and Bondage Club gets the rest of it.
+Du bekommst eine Hälfte der Bondage Club die andere.
+###_PLAYER
+I hope it pays well.
+Ich hoffe es wird gut bezahlt.
+This is robbery!
+Das ist Raub!
+###_NPC
+If you cannot accept our terms, I cannot allow you to be auctioned.  Get lost girl.
+Wenn du die Bedingungen nicht akzeptierst,  kann ich nicht erlauben dich zu versteigern. Hau einfach ab.
+###_PLAYER
+This is fair.
+Das ist fair.
+###_NPC
+Once the transaction is done, your owner will go to your room, having started a regular trial period with her.
+Nachdem die Transaktion erfolgte, bringt dich dein Besitzer in dein Zimmer. Dort startet die Probezeit.
+###_PLAYER
+(Nod slowly.)
+(Nicke schnell.)
+I understand.
+Ich verstehe.
+###_NPC
+Good girl.  So are you ready to be auctioned?  You first need to get naked and chained.
+Gutes Mädchen. Bist du bereit für die Versteigerung? Dann ziehe dich aus, damit ich dich fesseln kann.
+###_PLAYER
+It sounds good.
+Es hört sich so gut an.
+Yes, I'm ready to be auctioned.
+Ja, ich bin bereit für die Auktion.
+###_NPC
+Very good.  (She grins and gets you naked and chained, so buyers can come to check on you.)
+Sehr gut. (Sie grinst, zieht dich aus und fesselt dich, damit die Käufer dich inspizieren können)
+Don't waste my time then.  This is a place of business.
+Verschwende nicht meine Zeit. Da ist ein Ort für Geschäfte.
+###_PLAYER
+(Let the buyers examine you.)
+(Lass die Käufer die inspizieren .)
+###_NPC
+(A few Dominants seem to be interested in buying you.  They ask you about your fetishes, sexual preferences and limits.)
+(Einige Dominante sind intersession dich zu kaufen. Sie fragen nach deinen Fetischen, sexuellen Vorlieben und Grenzen.)
+(Lots of Dominants seem to be very interested in buying you.  They ask you about your fetishes, sexual preferences and limits.)
+(Viele Dominante sind sehr intersession dich zu kaufen. Sie fragen nach deinen Fetischen, sexuellen Vorlieben und Grenzen.)
+###_PLAYER
+(Answer the questions.)
+(Beantworte die Fragen.)
+###_NPC
+(After many interviews and physcial examinations, the auctioneer comes in so you can be sold.)
+(Nach vielen Interviews und körperlichen Prüfungen, kommt die Auktionatorin und startet deinen Verkauf.)

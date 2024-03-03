@@ -23,16 +23,16 @@ Ich warte auf meinen Bus.
 I'm a student here.
 Ich bin hier eine Schülerin.
 ###_NPC
-You should wear your uniform then.  They won't let you in without it.
-Dann solltest du deine Uniform anziehen. Sonst lassen die dich nicht rein.
+You should wear your uniform then.  They won't let you in without it, some shoes and socks.
+Dann solltest du deine Uniform anziehen. Ohne Socken und Schuhe lassen sie dich nicht rein.
 ###_PLAYER
 Can I go inside?
 Kann ich reingehen?
 ###_NPC
 Absolutely.  Just beep security, they will open the gate for you.
 Natürlich. Ruf einfach den Sicherheitsdienst, der macht das Tor für dich auf.
-I don't think they will let you in dressed like that.
-Ich glaube, du wirst nicht reinkommen, so wie du angezogen bist.
+I don't think they will let you in dressed like that.  Get your school uniform, some shoes and socks.
+Ich glaube, du wirst nicht reinkommen, so wie du angezogen bist. Ziehe deine Uniform sowie Socken und Schuhe an.
 ###_PLAYER
 Can I use the tennis court?
 Kann ich den Tennisplatz benutzen?
@@ -62,7 +62,7 @@ Wer lernt hier denn so?
 It's a girl only college.  There's only women, both students and teachers.
 Es ist ein reines Mädchencollege. Es gibt hier nur Frauen, sowohl unter den Lehrern als auch in der Schülerschaft.
 ###_PLAYER
-Is it expansive?
+Is it expensive?
 Ist es teuer?
 ###_NPC
 My family is paying so I'm not sure.  I've heard that it's pretty expensive.
