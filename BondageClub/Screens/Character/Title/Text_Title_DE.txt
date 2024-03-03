@@ -1,5 +1,15 @@
-Select your displayed title
-Wähle deinen Anzeige-Titel
+Select your displayed name and title
+Wähle deinen Namen und Titel aus
+Current title: TITLE
+Aktueller Titel: TITLE
+Nickname (letters and spaces)
+Nickname (Buchstaben und Leerzeichen)
+Nickname locked by your owner
+Nickname gesperrt durch deinen Besitzer
+Nickname is too long (max. 20 characters)
+Nickname ist zu lang (max. 20 Zeichen)
+Nickname contains invalid characters
+Nickname enthält ungültige Zeichen
 None
 Nichts
 Mistress
@@ -26,8 +36,16 @@ Nurse
 Krankenschwester
 Doctor
 Doktor
+Lady Luck
+Lady Luck
+Patron
+Patron
 College Student
 College-Studentin
+Nawashi
+Nawashi
+Houdini
+Houdini
 Foal
 Fohlen
 Farm Horse
@@ -46,12 +64,44 @@ Flying Pegasus
 Fliegender Pegasus
 Majestic Alicorn
 Majestätischer Alicorn
+Mole
+Mole
+Infiltrator
+Infiltrator
+Agent
+Agent
+Operative
+Geheimagent
+Superspy
+Superspion
+Wizard
+Zauberer
+Magus
+Magus
+Magician
+Magier
+Sorcerer
+Hexer
+Sage
+Weiser
+Oracle
+Orakel
+Witch
+Hexe
+Warlock
+Hexenmeister
 Little One
 Kleine
+Baby
+Baby
 Diaper Lover
 Windel Liebhaber
+Bondage Baby
+Bondage Baby
 Duchess
 Herzogin
+Switch
+Wechsler
 Kitten
 Kätzchen
 Puppy
@@ -66,3 +116,13 @@ Demon
 dämonin
 Angel
 Engel
+Succubus
+Succubus
+Good Girl
+Good Girl
+Good Slave Girl
+Good Slave Girl
+Good Slave
+Good Slave
+Drone
+Drohne

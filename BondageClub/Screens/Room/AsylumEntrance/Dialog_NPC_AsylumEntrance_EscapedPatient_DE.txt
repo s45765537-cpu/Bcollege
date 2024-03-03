@@ -65,7 +65,7 @@ Gib mir Geld und ich lasse dich gehen.
 ###_NPC
 Forget it, you won't get any money from me.
 Vergiss es, von mir bekommst du kein Geld.
-You're so corrupted.  Take these 5$ and leave me alone.
+You're so corrupted.  Take these $5 and leave me alone.
 Du bist so korrupt. Nimm diese 5$ und lass mich in Ruhe.
 ###_PLAYER
 Come to my room, you can hide there.
@@ -117,7 +117,7 @@ Wirklich? Wow, vielen Dank! Du bist die Beste.
 (Take her back to the asylum.)
 (Sie in die Anstalt zurückbringen.)
 ###_NPC
-(You bring her back to asylum where she gets fully restrained.  They congratulate you and pay you 15$ for your work.)
+(You bring her back to asylum where she gets fully restrained.  They congratulate you and pay you $15 for your work.)
 (Du bringst sie in die Anstalt zurück, wo man sie in sichere Fessseln packt. Dir wird gratuliert und du erhältst 15$ für deine Arbeit.)
 ###_PLAYER
 Welcome home girl.

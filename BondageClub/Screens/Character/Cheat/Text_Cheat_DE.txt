@@ -14,3 +14,17 @@ Automatically show NPC traits
 NPC-Merkmale automatisch anzeigen
 No love decay for NPC over time
 NPC-Zuneigung nicht verfallen lassen
+Cannot lose Mistress status
+Mistress Status kann nicht verloren gehen
+Get college outfit for free
+Bekomme das College Outfit
+Hit "C" in mini-games for bonus
+Drücke "C" in Minigames für den Bonus
+Free NPC dress up
+NPC Kleidung umsonst ändern
+Change Domme/sub NPC trait
+Ändere die Domme/sub NPC Eigenschaft
+Double GGTS time progress
+Doppelter GGTS Zeitfortschritt
+Double Bondage Brawl Experience
+Doppelte Bondage Brawl Erfahrung

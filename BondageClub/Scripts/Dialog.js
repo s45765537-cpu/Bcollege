@@ -209,6 +209,30 @@ var DialogSelfMenuOptions = [
 ];
 
 /**
+ * Namespace with {@link DialogLeaveFocusItem} helpers for setting up new screens.
+ * @namespace
+ */
+var DialogLeaveFocusItemHandlers = {
+	/**
+	 * Screen setup callbacks for after exiting the tighten/loosen menu; screen names are used as keys.
+	 * @type {Record<string, (item: Item) => void>}
+	 */
+	DialogTightenLoosenItem: {},
+
+	/**
+	 * Screen setup callbacks for after exiting the extended item menu; screen names are used as keys.
+	 * @type {Record<string, (item: Item) => void>}
+	 */
+	DialogFocusItem: {
+		Appearance: () => DialogLeave(),
+		Crafting: (item) => {
+			CraftingUpdateFromItem(item);
+			CraftingModeSet("Name");
+		},
+	},
+};
+
+/**
  * Returns character based on argument
  * @param {Character | string} C - The characer to get; can be `"Player"` to get player or empty to get current
  * @returns {Character} - The actual character
@@ -890,31 +914,37 @@ function DialogLeaveItemMenu() {
 }
 
 /**
- * Leaves the item menu of the focused item. Constructs a function name from the
- * item's asset group name and the item's name and tries to call that.
+ * Leaves the item menu of the focused item (be it the extended item- or tighten/loosen menu) and
+ * perform any screen-specific setup for {@link CurrentScreen}.
+ * @see {@link DialogLeaveFocusItemHandlers} Namespace with helper functions for setting up new screens
  */
 function DialogLeaveFocusItem() {
 	if (DialogTightenLoosenItem != null) {
+		const item = DialogTightenLoosenItem;
 		TightenLoosenItemExit();
+
 		// If we still have a focused item, then we entered tightening through its extended screen
-		if (DialogFocusItem)
+		const screenCallback = DialogLeaveFocusItemHandlers.DialogTightenLoosenItem[CurrentScreen];
+		if (DialogFocusItem) {
 			DialogChangeMode("extended");
-		else
+		} else if (screenCallback) {
+			screenCallback(item);
+		} else {
 			DialogChangeMode("items");
+		}
 	} else if (DialogFocusItem != null) {
 		const item = DialogFocusItem;
 		ExtendedItemExit();
-		switch (CurrentScreen) {
-			case "Appearance":
-				// Special-case for when extended screens are used from the wardrobe, as FocusGroup doesn't make sense there
-				return DialogLeave();
-			case "Crafting":
-				CraftingUpdateFromItem(item);
-				return CraftingModeSet("Name");
-			default:
-				if (!DialogFocusItem)
-					DialogChangeMode("items");
-				return;
+		if (DialogFocusItem) {
+			// We're only exiting an extended subscreen
+			return;
+		}
+
+		const screenCallback = DialogLeaveFocusItemHandlers.DialogFocusItem[CurrentScreen];
+		if (screenCallback) {
+			screenCallback(item);
+		} else {
+			DialogChangeMode("items");
 		}
 	}
 }

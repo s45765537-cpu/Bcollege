@@ -267,13 +267,19 @@ function DrawArousalMeter(C, X, Y, Zoom) {
  */
 /* eslint-disable-next-line */
 function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
+	// There's a few screens that call us with an invalid character, mainly because screen loading doesn't track when
+	// it actually completes; for example, the Management screen crashes in here, because it can't initialize its NPCs
+	// before the text file for it has been loaded and translated.
+	if (!C) return;
+
 	// Record that the character was drawn this frame
 	DrawLastCharacters.push(C);
 
-	// FIXME: that whole parameter is dangerous, as there's a bunch of calls in here that blindly draw directly onto MainCanvas
+	// FIXME: that whole parameter is dangerous, as there's a bunch of calls in here that blindly draw directly onto MainCanvas.
+	// Since it's only ever used by KD, please keep it that way ❤️
 	if (!DrawCanvas) DrawCanvas = MainCanvas;
 
-	var OverrideDark = (
+	const OverrideDark = (
 		CurrentModule == "MiniGame"
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
@@ -281,7 +287,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
-	if ((C != null) && ((C.IsPlayer()) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
+	if (C.IsPlayer() || OverrideDark || Player.GetBlindLevel() < 3) {
 
 		CharacterCheckHooks(C, CurrentCharacter != null);
 

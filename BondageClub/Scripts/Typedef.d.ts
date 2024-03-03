@@ -100,6 +100,21 @@ interface CommonGenerateGridParameters {
 	itemWidth: number,
 	/** Height of one grid item */
 	itemHeight: number,
+	/**
+	 * Margin of one grid item in the X direction.
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginX?: number;
+	/**
+	 * Margin of one grid item in the Y direction
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginY?: number;
+	/**
+	 * The direction the items are layed out
+	 * @default "horizontal"
+	 */
+	direction?: "horizontal" | "vertical";
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
@@ -3764,27 +3779,27 @@ interface ArousalSettingsType {
 
 /** Preference Menu info for extensions settings*/
 interface PreferenceExtensionsSettingItem {
-	/** 
+	/**
 	 * The identifier of the extension.
-	 * This is used to identify the extension and should be unique. 
+	 * This is used to identify the extension and should be unique.
 	 */
 	Identifier: string;
 
-	/** 
+	/**
 	 * The button text for the button of extension.
 	 * If it's a Function, it will be called once when entering
-	 * the extension setting menu. Use the return value as button text. 
+	 * the extension setting menu. Use the return value as button text.
 	 */
 	ButtonText: string | (()=>string);
 
-	/** 
-	 * The image path of the extension, and is passed 
-	 * into {@link DrawButton} for creating the HTMLImageElement 
+	/**
+	 * The image path of the extension, and is passed
+	 * into {@link DrawButton} for creating the HTMLImageElement
 	 * that is needed for drawing the Button image.
-	 * If it's a Function, it will be called once when entering 
-	 * the extension setting menu. Use the return value as image 
-	 * path. 
-	 * If it's undefined, there will be no image for the button 
+	 * If it's a Function, it will be called once when entering
+	 * the extension setting menu. Use the return value as image
+	 * path.
+	 * If it's undefined, there will be no image for the button
 	 */
 	Image?: string | (()=>string);
 
@@ -3797,10 +3812,10 @@ interface PreferenceExtensionsSettingItem {
 	/** Handles the run and draws of the extension setting */
 	run: () => void;
 
-	/** 
+	/**
 	 * Handles the unloading of the extension setting, typically
 	 * from {@link CommonSetScreen}, when the player is disconnected.
-	 * If it's undefined, there will be no unloading for the extension 
+	 * If it's undefined, there will be no unloading for the extension
 	 * setting.
 	 * Remind to check those HTML elements that are created in the
 	 * extension setting, and hide/remove them from the DOM.
@@ -3811,12 +3826,12 @@ interface PreferenceExtensionsSettingItem {
 
 	/**
 	 * Handles the exits of the extension setting, typically when
-	 * user press `Esc` key. 
-	 * If a extension wants to exit the menu by itself 
+	 * user press `Esc` key.
+	 * If a extension wants to exit the menu by itself
 	 * (clicking `exit` button, etc.), the extension should call
 	 * `PreferenceSubscreenExtensionsClear`.
-	 * @returns If it returns `true`, the extension setting will be unload. 
-	 * And `unload` will be called once if it's defined and then main extension 
+	 * @returns If it returns `true`, the extension setting will be unload.
+	 * And `unload` will be called once if it's defined and then main extension
 	 * setting page is shown.
 	 */
 	exit: () => boolean | void;
