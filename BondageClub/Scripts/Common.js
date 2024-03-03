@@ -1254,21 +1254,33 @@ function CommonFromEntries(iterable) {
 function CommonGenerateGridCoords(nItems, grid) {
 	// Calculate horizontal & vertical margins
 	const itemCountX = Math.floor(grid.width / grid.itemWidth);
-	const marginX = (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
+	const marginX = grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
 	const itemCountY = Math.floor(grid.height / grid.itemHeight);
-	const marginY = (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const marginY = grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const direction = grid.direction ?? "horizontal";
 
 	/** @type {RectTuple[]} */
 	const gridList = [];
 	let i = 0;
 	let x = grid.x;
 	let y = grid.y;
-	for (i; i < nItems && y <= grid.y + grid.height; i++) {
-		gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
-		x += grid.itemWidth + marginX;
-		if (x - grid.x >= grid.width) {
-			x = grid.x;
+	if (direction === "horizontal") {
+		for (i; i < nItems && y <= grid.y + grid.height; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
+			x += grid.itemWidth + marginX;
+			if (x - grid.x >= grid.width) {
+				x = grid.x;
+				y += grid.itemHeight + marginY;
+			}
+		}
+	} else {
+		for (i; i < nItems && x <= grid.x + grid.width; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
 			y += grid.itemHeight + marginY;
+			if (y - grid.y >= grid.height) {
+				y = grid.y;
+				x += grid.itemWidth + marginX;
+			}
 		}
 	}
 	return gridList;

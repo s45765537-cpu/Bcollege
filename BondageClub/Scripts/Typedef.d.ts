@@ -100,6 +100,21 @@ interface CommonGenerateGridParameters {
 	itemWidth: number,
 	/** Height of one grid item */
 	itemHeight: number,
+	/**
+	 * Margin of one grid item in the X direction.
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginX?: number;
+	/**
+	 * Margin of one grid item in the Y direction
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginY?: number;
+	/**
+	 * The direction the items are layed out
+	 * @default "horizontal"
+	 */
+	direction?: "horizontal" | "vertical";
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
