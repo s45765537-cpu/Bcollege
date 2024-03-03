@@ -261,17 +261,19 @@ function ElementCloseAllSelect(elmnt) {
 /**
  * Creates a new div element in the main document. Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the div tag to create.
- * @returns {void} - Nothing
+ * @returns {HTMLElement} - The created (or pre-existing) div element
  */
 function ElementCreateDiv(ID) {
-	if (document.getElementById(ID) == null) {
-		var Div = document.createElement("div");
+	let Div = document.getElementById(ID);
+	if (Div == null) {
+		Div = document.createElement("div");
 		Div.setAttribute("ID", ID);
 		Div.setAttribute("name", ID);
 		Div.setAttribute("screen-generated", CurrentScreen);
 		Div.className = "HideOnPopup";
 		document.body.appendChild(Div);
 	}
+	return Div;
 }
 
 /**
